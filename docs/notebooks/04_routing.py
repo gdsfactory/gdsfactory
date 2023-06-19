@@ -15,7 +15,7 @@
 # ---
 
 # %% [markdown]
-# # Routing
+#
 #
 # Optical and high speed RF ports have an orientation that routes need to follow to avoid sharp turns that produce reflections.
 #
@@ -30,7 +30,7 @@
 #     - `get_bundle_from_steps`
 #
 #
-# The most useful function is `get_bundle` which supports both single and groups of routes, and can also do path length matching.
+# The most useful function is `get_bundle` which supports both single and groups of routes, and can also route with length matching, which ensures that all routes have the same length.
 #
 # The biggest limitation is that it requires to have all the ports with the same orientation, for that you can use `gf.routing.route_ports_to_side`
 
@@ -96,73 +96,7 @@ c
 # %% [markdown]
 # **Solutions:**
 #
-# - specify the route waypoints
 # - specify the route steps
-
-# %%
-c = gf.Component("sample_avoid_obstacle")
-mmi1 = c << gf.components.mmi1x2()
-mmi2 = c << gf.components.mmi1x2()
-mmi2.move((110, 50))
-x = c << gf.components.cross(length=20)
-x.move((135, 20))
-
-x0 = mmi1.ports["o3"].x
-y0 = mmi1.ports["o3"].y
-
-
-x2 = mmi2.ports["o3"].x
-y2 = mmi2.ports["o3"].y
-
-route = gf.routing.get_route_from_waypoints(
-    [(x0, y0), (x2 + 40, y0), (x2 + 40, y2), (x2, y2)]
-)
-c.add(route.references)
-c
-
-# %%
-route.length
-
-# %%
-route.ports
-
-# %%
-route.references
-
-# %% [markdown]
-# Lets say that we want to extrude the waveguide using a different waveguide crosssection, for example using a different layer
-
-# %%
-c = gf.Component("sample_connect_metal")
-mmi1 = c << gf.components.mmi1x2()
-mmi2 = c << gf.components.mmi1x2()
-mmi2.move((100, 50))
-route = gf.routing.get_route(
-    mmi1.ports["o3"], mmi2.ports["o1"], cross_section=gf.cross_section.metal1, radius=10
-)
-c.add(route.references)
-c
-
-# %% [markdown]
-# To reduce loss and phase errors you can also auto-widen waveguide routes straight sections that are longer than a certain length.
-
-# %%
-c = gf.Component("sample_connect_auto_widen")
-mmi1 = c << gf.components.mmi1x2()
-mmi2 = c << gf.components.mmi1x2()
-mmi2.move((200, 50))
-
-route = gf.routing.get_route(
-    mmi1.ports["o3"],
-    mmi2.ports["o1"],
-    cross_section=gf.cross_section.strip,
-    auto_widen=True,
-    width_wide=2,
-    auto_widen_minimum_length=100,
-)
-c.add(route.references)
-c
-
 # %% [markdown]
 # ## get_route_from_steps
 #
@@ -378,54 +312,6 @@ c
 #
 # At the moment it works only when each group of ports have the same orientation.
 #
-#
-# **Problem**
-#
-# See the route collisions When connecting groups of ports using `get_route` manhattan single-route router
-
-# %%
-xs_top = [0, 10, 20, 40, 50, 80]
-pitch = 127
-N = len(xs_top)
-xs_bottom = [(i - N / 2) * pitch for i in range(N)]
-layer = (1, 0)
-
-top_ports = [
-    gf.Port(f"top_{i}", center=(xs_top[i], 0), width=0.5, orientation=270, layer=layer)
-    for i in range(N)
-]
-
-bottom_ports = [
-    gf.Port(
-        f"bottom_{i}",
-        center=(xs_bottom[i], -100),
-        width=0.5,
-        orientation=90,
-        layer=layer,
-    )
-    for i in range(N)
-]
-
-c = gf.Component(name="connect_bundle_problem_touching")
-
-for p1, p2 in zip(top_ports, bottom_ports):
-    route = gf.routing.get_route(p1, p2)
-    c.add(route.references)
-
-c
-
-# %% [markdown]
-# **solution**
-#
-# `get_bundle` provides you with river routing capabilities, that you can use to route bundles of ports without collisions
-
-# %%
-c = gf.Component(name="connect_bundle_solution")
-routes = gf.routing.get_bundle(top_ports, bottom_ports)
-for route in routes:
-    c.add(route.references)
-
-c
 
 # %%
 ys_right = [0, 10, 20, 40, 50, 80]
@@ -1067,121 +953,6 @@ c
 
 
 # %% [markdown]
-# ## get_bundle_from_waypoints
-#
-# While `get_bundle` routes bundles of ports automatically, you can also use `get_bundle_from_waypoints` to manually specify the route waypoints.
-#
-# You can think of `get_bundle_from_waypoints` as a manual version of `get_bundle`
-
-
-# %%
-@gf.cell
-def test_connect_bundle_waypoints(layer=(1, 0)):
-    """Connect bundle of ports with bundle of routes following a list of waypoints."""
-    ys1 = np.array([0, 5, 10, 15, 30, 40, 50, 60]) + 0.0
-    ys2 = np.array([0, 10, 20, 30, 70, 90, 110, 120]) + 500.0
-    N = ys1.size
-
-    ports1 = [
-        gf.Port(
-            name=f"A_{i}", center=(0, ys1[i]), width=0.5, orientation=0, layer=layer
-        )
-        for i in range(N)
-    ]
-    ports2 = [
-        gf.Port(
-            name=f"B_{i}",
-            center=(500, ys2[i]),
-            width=0.5,
-            orientation=180,
-            layer=layer,
-        )
-        for i in range(N)
-    ]
-
-    p0 = ports1[0].center
-
-    c = gf.Component()
-    c.add_ports(ports1)
-    c.add_ports(ports2)
-    waypoints = [
-        p0 + (200, 0),
-        p0 + (200, -200),
-        p0 + (400, -200),
-        (p0[0] + 400, ports2[0].y),
-    ]
-
-    routes = gf.routing.get_bundle_from_waypoints(ports1, ports2, waypoints)
-    lengths = {}
-    for i, route in enumerate(routes):
-        c.add(route.references)
-        lengths[i] = route.length
-
-    return c
-
-
-cell = test_connect_bundle_waypoints()
-cell
-
-# %%
-c = gf.Component("demo_get_bundle")
-r = c << gf.components.array(
-    component=gf.components.straight, rows=2, columns=1, spacing=(0, 20)
-)
-
-r.movex(60)
-r.movey(40)
-
-lt = c << gf.components.straight(length=15)
-lb = c << gf.components.straight(length=5)
-lt.movey(5)
-
-ports1 = lt.get_ports_list(orientation=0) + lb.get_ports_list(orientation=0)
-ports2 = r.get_ports_list(orientation=180)
-
-
-dx = 20
-p0 = ports1[0].center + (dx, 0)
-p1 = (ports1[0].center[0] + dx, ports2[0].center[1])
-waypoints = (p0, p1)
-
-routes = gf.routing.get_bundle_from_waypoints(ports1, ports2, waypoints=waypoints)
-for route in routes:
-    c.add(route.references)
-c
-
-# %% [markdown]
-# ## get_bundle_from_steps
-#
-# This is a manual version of `get_bundle` that is more convenient than defining the waypoints.
-
-# %%
-c = gf.Component("get_route_from_steps_sample")
-w = gf.components.array(
-    partial(gf.components.straight, layer=(2, 0)),
-    rows=3,
-    columns=1,
-    spacing=(0, 50),
-)
-
-left = c << w
-right = c << w
-right.move((200, 100))
-p1 = left.get_ports_list(orientation=0)
-p2 = right.get_ports_list(orientation=180)
-
-routes = gf.routing.get_bundle_from_steps(
-    p1,
-    p2,
-    steps=[{"x": 150}],
-)
-
-for route in routes:
-    c.add(route.references)
-
-c
-
-# %% [markdown]
 # ### get_bundle with path_length_match
 #
 # Sometimes you need to route two groups of ports keeping the same route lengths.
@@ -1395,6 +1166,37 @@ for route in routes:
 
 c.plot_klayout()
 c.show()
+
+# %% [markdown]
+# ## get_bundle_from_steps
+#
+# This is a manual version of `get_bundle` that is more convenient than defining the waypoints.
+
+# %%
+c = gf.Component("get_route_from_steps_sample")
+w = gf.components.array(
+    partial(gf.components.straight, layer=(2, 0)),
+    rows=3,
+    columns=1,
+    spacing=(0, 50),
+)
+
+left = c << w
+right = c << w
+right.move((200, 100))
+p1 = left.get_ports_list(orientation=0)
+p2 = right.get_ports_list(orientation=180)
+
+routes = gf.routing.get_bundle_from_steps(
+    p1,
+    p2,
+    steps=[{"x": 150}],
+)
+
+for route in routes:
+    c.add(route.references)
+
+c
 
 # %% [markdown]
 # ## Route to IO (Pads, grating couplers ...)
