@@ -1,8 +1,4 @@
 """Lets pack a doe and export it with metadata.
-
-by Jan-David Fischbach
-email: jan-david.fischbach@blacksemicon.de
-date: 26.06.22
 """
 from __future__ import annotations
 
@@ -15,4 +11,4 @@ if __name__ == "__main__":
         function="add_fiber_array",
     )
     doe.show()
-    doe.write_gds_with_metadata(f"{__file__[:-3]}/test.gds")
+    doe.write_gds(f"{__file__[:-3]}/test.gds", with_metadata=True)

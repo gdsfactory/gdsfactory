@@ -1,6 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_filter: -all
 #     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
@@ -8,7 +9,7 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.11.2
 #   kernelspec:
-#     display_name: Python 3 (ipykernel)
+#     display_name: base
 #     language: python
 #     name: python3
 # ---
@@ -20,6 +21,8 @@
 #
 # To run, you need to [create an account](https://simulation.cloud/) and add credits. The number of credits that each simulation takes depends on the simulation computation time.
 #
+# We have commented the `write_sparameters` functions to save on credits when running these simulations.
+#
 # ![cloud_model](https://i.imgur.com/5VTCPLR.png)
 #
 # ## Materials
@@ -27,14 +30,15 @@
 # Tidy3d provides you with a material database of dispersive materials.
 
 # %%
+import matplotlib.pyplot as plt
+import numpy as np
 from gdsfactory.components.taper import taper_sc_nc
 import gdsfactory.simulation as sim
 import gdsfactory.simulation.gtidy3d as gt
 import gdsfactory as gf
+from gdsfactory.config import PATH
 from tidy3d import web
 import tidy3d as td
-import matplotlib.pyplot as plt
-import numpy as np
 
 gf.config.rich_output()
 PDK = gf.generic_tech.get_generic_pdk()
@@ -220,7 +224,10 @@ fig = gt.plot_simulation(s)
 # We call this `1x1` port symmetry
 
 # %%
-sp = gt.write_sparameters_1x1(c)
+# sp = gt.write_sparameters_1x1(c)
+sp = np.load(
+    PATH.sparameters_repo / "bend_circular_radius2_9d7742b34c224827aeae808dc986308e.npz"
+)
 sim.plot.plot_sparameters(sp)
 
 # %%
@@ -235,10 +242,10 @@ fig = gt.plot_simulation(s, y=0)  # see input
 fig = gt.plot_simulation(s, y=0.63)  # see output
 
 # %%
-# sp = gt.write_sparameters(c, wavelength_start=1.5, wavelength_stop=1.6, grid_spec=td.GridSpec.uniform(dl=50*nm))
-# sp = gt.write_sparameters(c, wavelength_start=1.520, wavelength_stop=1.580, port_margin=0.6, ymargin=2)
-# sp = gt.write_sparameters(c, wavelength_start=1.520, wavelength_stop=1.580, port_margin=0.9)
-sp = gt.write_sparameters(c)
+# sp = gt.write_sparameters(c)
+
+# %%
+sp = np.load(PATH.sparameters_repo / "mmi1x2_507de731d50770de9096ac9f23321daa.npz")
 
 # %%
 sim.plot.plot_sparameters(sp)
@@ -260,7 +267,8 @@ c
 sp = gt.write_sparameters(c, run=False)
 
 # %%
-sp = gt.write_sparameters(c)
+# sp = gt.write_sparameters(c, filepath=PATH.sparameters_repo / 'mmi2x2_without_sbend.npz')
+sp = np.load(PATH.sparameters_repo / "mmi2x2_without_sbend.npz")
 sim.plot.plot_loss2x2(sp)
 
 # %%
@@ -270,15 +278,18 @@ sim.plot.plot_imbalance2x2(sp)
 # ## write_sparameters_batch
 #
 # You can also send a batch of component simulations in parallel to the tidy3d server.
-
-# %%
-jobs = [dict(component=gf.c.straight(length=1.11 + i)) for i in [1, 2]]
-sps = gt.write_sparameters_batch_1x1(jobs)
-
-# %%
-sp0 = sps[0]
-sp = sp0.result()
-sim.plot.plot_sparameters(sp)
+#
+#
+# ```python
+#
+# jobs = [dict(component=gf.c.straight(length=1.11 + i)) for i in [1, 2]]
+# sps = gt.write_sparameters_batch_1x1(jobs)
+#
+# sp0 = sps[0]
+# sp = sp0.result()
+# sim.plot.plot_sparameters(sp)
+#
+# ```
 
 # %% [markdown]
 # ## get_simulation_grating_coupler
@@ -337,6 +348,7 @@ dfs = [
         is_3d=False,
         fiber_angle_deg=fiber_angle_deg,
         fiber_xoffset=fiber_xoffset,
+        filepath=PATH.sparameters_repo / f"gc_offset{fiber_xoffset}",
     )
     for fiber_xoffset in offsets
 ]
@@ -354,6 +366,7 @@ for offset in offsets:
         is_3d=False,
         fiber_angle_deg=fiber_angle_deg,
         fiber_xoffset=offset,
+        filepath=PATH.sparameters_repo / f"gc_offset{offset}",
     )
     plt.plot(
         sp["wavelengths"], 20 * np.log10(np.abs(sp["o2@0,o1@0"])), label=str(offset)
@@ -371,7 +384,10 @@ sp.keys()
 fiber_angles = [3, 5, 7]
 dfs = [
     gt.write_sparameters_grating_coupler(
-        component=c, is_3d=False, fiber_angle_deg=fiber_angle_deg
+        component=c,
+        is_3d=False,
+        fiber_angle_deg=fiber_angle_deg,
+        filepath=PATH.sparameters_repo / f"gc_angle{fiber_angle_deg}",
     )
     for fiber_angle_deg in fiber_angles
 ]
@@ -379,7 +395,10 @@ dfs = [
 # %%
 for fiber_angle_deg in fiber_angles:
     sp = gt.write_sparameters_grating_coupler(
-        c, is_3d=False, fiber_angle_deg=fiber_angle_deg
+        c,
+        is_3d=False,
+        fiber_angle_deg=fiber_angle_deg,
+        filepath=PATH.sparameters_repo / f"gc_angle{fiber_angle_deg}",
     )
     plt.plot(
         sp["wavelengths"],
@@ -416,6 +435,7 @@ dfs = [
         is_3d=False,
         fiber_angle_deg=fiber_angle_deg,
         fiber_xoffset=fiber_xoffset,
+        filepath=PATH.sparameters_repo / f"gc_offset{offset}",
     )
     for fiber_xoffset in offsets
 ]
@@ -425,7 +445,11 @@ port_name = c.get_ports_list()[1].name
 
 for offset in offsets:
     sp = gt.write_sparameters_grating_coupler(
-        c, is_3d=False, fiber_angle_deg=fiber_angle_deg, fiber_xoffset=offset
+        c,
+        is_3d=False,
+        fiber_angle_deg=fiber_angle_deg,
+        fiber_xoffset=offset,
+        filepath=PATH.sparameters_repo / f"gc_offset{offset}",
     )
     plt.plot(
         sp["wavelengths"],
@@ -449,7 +473,12 @@ plt.legend()
 c = gf.components.grating_coupler_elliptical_lumerical()
 fiber_angles = [3, 5, 7]
 jobs = [
-    dict(component=c, is_3d=False, fiber_angle_deg=fiber_angle_deg)
+    dict(
+        component=c,
+        is_3d=False,
+        fiber_angle_deg=fiber_angle_deg,
+        filepath=PATH.sparameters_repo / f"gc_angle{fiber_angle_deg}",
+    )
     for fiber_angle_deg in fiber_angles
 ]
 sps = gt.write_sparameters_grating_coupler_batch(jobs)
@@ -471,7 +500,11 @@ plt.legend()
 # %%
 bend_radius = [1, 2]
 jobs = [
-    dict(component=gf.components.bend_circular(radius=radius)) for radius in bend_radius
+    dict(
+        component=gf.components.bend_circular(radius=radius),
+        filepath=PATH.sparameters_repo / f"bend_r{radius}",
+    )
+    for radius in bend_radius
 ]
 sps = gt.write_sparameters_batch(jobs)
 
@@ -488,5 +521,3 @@ plt.xlabel("wavelength (um")
 plt.ylabel("Transmission (dB)")
 plt.title("transmission vs bend radius (um)")
 plt.legend()
-
-# %%

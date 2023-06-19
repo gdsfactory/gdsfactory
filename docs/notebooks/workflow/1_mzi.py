@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -33,6 +33,8 @@ from gdsfactory.generic_tech import get_generic_pdk
 gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
+
+# %%
 
 
 def mzi(
@@ -175,8 +177,8 @@ ng
 import gdsfactory.simulation as sim
 import gdsfactory as gf
 import gdsfactory.simulation.gtidy3d as gt
-
 import gdsfactory.components as pdk
+from gdsfactory.config import PATH
 
 
 # %%
@@ -184,7 +186,10 @@ c = pdk.mmi1x2()
 c
 
 # %%
-sp = gt.write_sparameters(c)
+# sp = gt.write_sparameters(c)
+
+# %%
+sp = np.load(PATH.sparameters_repo / "mmi1x2_507de731d50770de9096ac9f23321daa.npz")
 
 # %%
 sim.plot.plot_sparameters(sp)
@@ -209,7 +214,7 @@ sim.plot.plot_loss1x2(sp)
 #
 # ```
 # set PIP_FIND_LINKS="https://whls.blob.core.windows.net/unstable/index.html"
-# pip install sax jax sklearn
+# pip install sax jax
 # pip install "jaxlib[cuda111]" -f https://whls.blob.core.windows.net/unstable/index.html --use-deprecated legacy-resolver
 # pip install "gdsfactory[tidy3d,sax]"
 # ```
@@ -281,5 +286,3 @@ plt.xlabel("λ [nm]")
 plt.ylabel("T")
 plt.grid(True)
 plt.show()
-
-# %%

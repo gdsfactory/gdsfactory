@@ -1,6 +1,4 @@
 """You can remove a list of layers from a component."""
-
-
 from __future__ import annotations
 
 import gdsfactory as gf
@@ -8,7 +6,7 @@ from gdsfactory.component import Component
 
 
 @gf.cell
-def test_remove_layers() -> Component:
+def remove_layers() -> Component:
     c = gf.Component("test_remove_layers")
 
     c.add_ref(gf.components.rectangle(size=(10, 1), layer=gf.LAYER.WG))
@@ -24,5 +22,5 @@ def test_remove_layers() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_remove_layers()
+    c = remove_layers()
     c.show(show_ports=True)
