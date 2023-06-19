@@ -149,7 +149,7 @@ def cell_without_validator(func: _F) -> _F:
                 or "{" in named_args_module_string
                 else named_args_module_string
             )
-            name_signature = clean_name(f"{prefix}_{named_args_string}")
+            name_signature = clean_name(f"{prefix}_{named_args_module_string}")
         else:
             name_signature = prefix
 
