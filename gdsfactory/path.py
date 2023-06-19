@@ -378,12 +378,13 @@ class Path(_GeometryHelper):
         magic_offset = 0.17048614
 
         final_hash = hashlib.sha1()
-        p = np.ascontiguousarray(
-            (self.points / precision) + magic_offset, dtype=np.int64
-        )
-        final_hash.update(p)
-        p = np.ascontiguousarray((self.start_angle, self.end_angle), dtype=np.float64)
-        final_hash.update(p)
+        points = np.ascontiguousarray(
+            (self.points / precision) + magic_offset, dtype=np.float64
+        ).round().astype(np.int64)
+        final_hash.update(points)
+        angles = (np.ascontiguousarray((self.start_angle, self.end_angle), dtype=np.float64) / precision
+                  ).round().astype(np.int64)
+        final_hash.update(angles)
         return final_hash.hexdigest()
 
     @classmethod
