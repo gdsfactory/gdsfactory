@@ -1,3 +1,19 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Routing
 #
@@ -12,7 +28,11 @@
 # - group of routes between 2 groups of ports using a river/bundle/bus router. At the moment it works only when all ports on each group have the same orientation.
 #     - `get_bundle`
 #     - `get_bundle_from_steps`
-#     - `get_bundle_path_length_match`
+#
+#
+# The most useful function is `get_bundle` which supports both single and groups of routes, and can also do path length matching.
+#
+# The biggest limitation is that it requires to have all the ports with the same orientation, for that you can use `gf.routing.route_ports_to_side`
 
 # %%
 from functools import partial
@@ -146,7 +166,7 @@ c
 # %% [markdown]
 # ## get_route_from_steps
 #
-# `get_route_from_steps` is a manual version of `get_route` supports defining only the new steps `x` or `y` together with increments `dx` or `dy`
+# `get_route_from_steps` is a manual version of `get_route` where you can define only the new steps `x` or `y` together with increments `dx` or `dy`
 
 # %%
 c = gf.Component("get_route_from_steps")
@@ -209,7 +229,10 @@ c
 # %% [markdown]
 # ## get_route_astar
 #
-# A* is a routing algorithm that avoid obstacles. See [wikipedia](https://en.wikipedia.org/wiki/A*_search_algorithm) and [animation](https://github.com/zhm-real/PathPlanning)
+# A* is a routing algorithm to avoid obstacles.
+# See [wikipedia](https://en.wikipedia.org/wiki/A*_search_algorithm) and [animation](https://github.com/zhm-real/PathPlanning)
+#
+# The main issue is that it only works for a single route.
 
 # %%
 c = gf.Component("get_route_astar")
@@ -1129,6 +1152,8 @@ c
 
 # %% [markdown]
 # ## get_bundle_from_steps
+#
+# This is a manual version of `get_bundle` that is more convenient than defining the waypoints.
 
 # %%
 c = gf.Component("get_route_from_steps_sample")
@@ -1157,12 +1182,12 @@ for route in routes:
 c
 
 # %% [markdown]
-# ## get_bundle_path_length_match
+# ### get_bundle with path_length_match
 #
-# Sometimes you need to set up a route a bundle of ports that need to keep the same lengths
+# Sometimes you need to route two groups of ports keeping the same route lengths.
 
 # %%
-c = gf.Component("path_length_match_sample")
+c = gf.Component("path_length_match_routing")
 dy = 2000.0
 xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
 
@@ -1183,20 +1208,27 @@ ports2 = [
     for i in range(N)
 ]
 
-routes = gf.routing.get_bundle_path_length_match(ports1, ports2)
+routes = gf.routing.get_bundle(
+    ports1,
+    ports2,
+    path_length_match_loops=1,
+    path_length_match_modify_segment_i=-2,
+    end_straight_length=800,
+)
 
 for route in routes:
     c.add(route.references)
     print(route.length)
-c
+c.plot_klayout()
+c.show()
 
 # %% [markdown]
-# ### Add extra length
+# ### path_length_match with extra length
 #
 # You can also add some extra length to all the routes
 
 # %%
-c = gf.Component("path_length_match_sample_extra_length")
+c = gf.Component("get_bundle_path_length_match_extra_length")
 
 dy = 2000.0
 xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -1218,19 +1250,25 @@ ports2 = [
     for i in range(N)
 ]
 
-routes = gf.routing.get_bundle_path_length_match(ports1, ports2, extra_length=44)
+routes = gf.routing.get_bundle(
+    ports1,
+    ports2,
+    path_length_match_extra_length=44,
+    path_length_match_loops=2,
+    end_straight_length=800,
+)
 for route in routes:
     c.add(route.references)
     print(route.length)
 c
 
 # %% [markdown]
-# ### increase number of loops
+# ### path length match with extra loops
 #
 # You can also increase the number of loops
 
 # %%
-c = gf.Component("path_length_match_sample_nb_loops")
+c = gf.Component("get_route_path_length_match_nb_loops")
 
 dy = 2000.0
 xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -1252,8 +1290,13 @@ ports2 = [
     for i in range(N)
 ]
 
-routes = gf.routing.get_bundle_path_length_match(
-    ports1, ports2, nb_loops=2, auto_widen=False
+routes = gf.routing.get_bundle(
+    ports1,
+    ports2,
+    path_length_match_loops=2,
+    auto_widen=False,
+    end_straight_length=800,
+    separation=30,
 )
 for route in routes:
     c.add(route.references)
@@ -1281,8 +1324,11 @@ for route in routes:
     c.add(route.references)
 c
 
+# %% [markdown]
+# Sometimes you need to modify `separation` to ensure waveguides don't overlap.
+
 # %%
-c = gf.Component("demo_solution_path_lenght_match")
+c = gf.Component("problem_path_length_match")
 c1 = c << gf.components.straight_array(spacing=90)
 c2 = c << gf.components.straight_array(spacing=5)
 c2.movex(200)
@@ -1294,13 +1340,61 @@ routes = gf.routing.get_bundle_path_length_match(
     c2.get_ports_list(orientation=180),
     end_straight_length=0,
     start_straight_length=0,
-    separation=80,  # increased
+    separation=30,  # not enough
     radius=5,
 )
 
 for route in routes:
     c.add(route.references)
 c
+
+# %%
+c = gf.Component("solution_path_length_match")
+c1 = c << gf.components.straight_array(spacing=90)
+c2 = c << gf.components.straight_array(spacing=5)
+c2.movex(200)
+c1.y = 0
+c2.y = 0
+
+routes = gf.routing.get_bundle(
+    c1.get_ports_list(orientation=0),
+    c2.get_ports_list(orientation=180),
+    end_straight_length=0,
+    start_straight_length=0,
+    separation=80,  # increased
+    path_length_match_loops=1,
+    radius=5,
+)
+
+for route in routes:
+    c.add(route.references)
+c
+
+# %% [markdown]
+# ### get bundle with different orientation ports
+#
+# When trying to route ports with different orientations you need to bring them to a common `x` or `y`
+
+# %%
+from gdsfactory.samples.big_device import big_device
+
+c = gf.Component("sample_route")
+c1 = c << big_device()
+c2 = c << gf.components.grating_coupler_array(n=len(c1.ports), rotation=-90)
+
+routes, ports = gf.routing.route_ports_to_side(c1.ports, side="south")
+for route in routes:
+    c.add(route.references)
+
+c2.ymin = -600
+c2.x = 0
+
+routes = gf.routing.get_bundle(ports, c2.ports)
+for route in routes:
+    c.add(route.references)
+
+c.plot_klayout()
+c.show()
 
 # %% [markdown]
 # ## Route to IO (Pads, grating couplers ...)
