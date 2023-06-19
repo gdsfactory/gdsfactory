@@ -2,6 +2,11 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
+## [6.107.3](https://github.com/gdsfactory/gdsfactory/compare/v6.107.3...v6.107.2)
+
+- pin meow [PR](https://github.com/gdsfactory/gdsfactory/pull/1786)
+- upgrade tidy3d to 2.2.3 [PR](https://github.com/gdsfactory/gdsfactory/pull/1784)
+
 ## [6.107.2](https://github.com/gdsfactory/gdsfactory/compare/v6.107.2...v6.107.1)
 
 - fix extrude serialization [PR](https://github.com/gdsfactory/gdsfactory/pull/1781)
