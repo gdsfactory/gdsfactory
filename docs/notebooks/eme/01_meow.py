@@ -1,17 +1,19 @@
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
+# %% [markdown]
 # # EME with MEOW
 #
 # Some components are more efficiently modeled with Eigenmode Expansion.
@@ -20,7 +22,7 @@
 #
 # Currently the component needs to specifically have a single "o1" port facing west, and a single "o2" port facing east, like this taper:
 
-# +
+# %%
 import matplotlib.pyplot as plt
 from gdsfactory.simulation.eme import MEOW
 import numpy as np
@@ -33,11 +35,11 @@ PDK.activate()
 
 c = gf.components.taper_cross_section_sine()
 c
-# -
 
+# %% [markdown]
 # You also need to explicitly provide a LayerStack to define cross-sections, for instance the generic one:
 
-# +
+# %%
 layerstack = gf.generic_tech.LAYER_STACK
 
 filtered_layerstack = gf.technology.LayerStack(
@@ -51,46 +53,62 @@ filtered_layerstack = gf.technology.LayerStack(
         )
     }
 )
-# -
 
+# %% [markdown]
 # Since you need to make sure that your entire LayerStack has e.g. material information for all present layers, it is safer to only keep the layers that you need for your simulation:
 
+# %% [markdown]
 # The EME simulator can be instantiated with only these two elements, alongside parameters:
 
+# %%
 eme = MEOW(component=c, layerstack=filtered_layerstack, wavelength=1.55)
 
+# %% [markdown]
 # Plotting functions allow you to check your simulation:
 
+# %%
 eme.plot_structure()
 
+# %% [markdown]
 # The cross-section themselves:
 
+# %%
 eme.plot_cross_section(xs_num=0)
 
+# %%
 eme.plot_cross_section(xs_num=-1)
 
+# %% [markdown]
 # And the modes (after calculating them):
 
+# %%
 eme.plot_mode(xs_num=0, mode_num=0)
 
+# %%
 eme.plot_mode(xs_num=-1, mode_num=0)
 
+# %% [markdown]
 # The S-parameters can be calculated, and are returned in the same format as for the FDTD solvers (the original MEOW S-parameter results S and port_names are saved as attributes):
 
+# %%
 sp = eme.compute_sparameters()
 
+# %%
 print(np.abs(sp["o1@0,o2@0"]) ** 2)
 
+# %%
 print(eme.port_map)
 eme.plot_Sparams()
 
+# %% [markdown]
 # As you can see most light stays on the fundamental TE mode
 
+# %% [markdown]
 # ## Sweep EME length
 #
 # Lets sweep the length of the taper.
 
-# +
+# %%
 layerstack = gf.generic_tech.LAYER_STACK
 
 filtered_layerstack = gf.technology.LayerStack(
@@ -107,10 +125,11 @@ filtered_layerstack = gf.technology.LayerStack(
 
 c = gf.components.taper(width2=2)
 c
-# -
 
+# %% [markdown]
 # Lets do a convergence tests on the `cell_length` parameter. This depends a lot on the structure.
 
+# %% [markdown]
 # ```python
 #
 # import matplotlib.pyplot as plt
@@ -142,42 +161,60 @@ c
 #
 # ![](https://i.imgur.com/70dU6fo.png)
 
+# %%
 eme = MEOW(component=c, layerstack=filtered_layerstack, wavelength=1.55)
 
+# %%
 eme.plot_cross_section(xs_num=0)
 
+# %%
 eme.plot_mode(xs_num=0, mode_num=0)
 
+# %%
 eme.plot_cross_section(xs_num=-1)
 
+# %%
 eme.plot_mode(xs_num=-1, mode_num=0)
 
+# %%
 sp = eme.compute_sparameters()
 
+# %%
 print(eme.port_map)
 eme.plot_Sparams()
 
+# %%
 T = np.abs(sp["o1@0,o2@0"]) ** 2
 T
 
+# %%
 np.abs(sp["o1@0,o2@2"]) ** 2
 
-lengths = np.array([1, 5, 10])
+# %%
+lengths = np.array([1, 2, 3])
 T = np.zeros_like(lengths, dtype=float)
 
+# %%
 for length in lengths:
     c = gf.components.taper(width2=2, length=length)
     c.plot()
 
+# %%
 for i, length in enumerate(lengths):
     c = gf.components.taper(width2=10, length=length)
-    eme = MEOW(component=c, layerstack=filtered_layerstack, wavelength=1.55)
+    eme = MEOW(
+        component=c, layerstack=filtered_layerstack, wavelength=1.55, cell_length=0.4
+    )
     sp = eme.compute_sparameters()
     T[i] = np.abs(sp["o1@0,o2@0"]) ** 2
 
+# %%
 plt.plot(lengths, T, ".")
 plt.title("Fundamental mode transmission")
 plt.ylabel("Transmission")
 plt.xlabel("taper length (um)")
 
+# %%
 T
+
+# %%
