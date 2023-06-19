@@ -2,6 +2,10 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
+## [6.107.2](https://github.com/gdsfactory/gdsfactory/compare/v6.107.2...v6.107.1)
+
+- fix extrude serialization [PR](https://github.com/gdsfactory/gdsfactory/pull/1781)
+
 ## [6.107.1](https://github.com/gdsfactory/gdsfactory/compare/v6.107.1...v6.107.0)
 
 - fix transitions [PR](https://github.com/gdsfactory/gdsfactory/pull/1777)
