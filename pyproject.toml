@@ -54,6 +54,7 @@ cad = [
   "ipympl",
   "ipywidgets==7.7.3",
   "ipyevents",
+  "ipykernel",
   "mapbox_earcut",
   "natsort",
   "networkx",
