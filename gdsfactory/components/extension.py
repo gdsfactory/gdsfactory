@@ -41,9 +41,7 @@ def line(
 
 
 def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray:
-    """Returns the points of a position (pos) with angle, by shifted by certain.
-
-    length.
+    """Returns the points of a position (pos) with angle, shifted by length.
 
     Args:
         pos: position.
