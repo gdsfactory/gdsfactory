@@ -139,22 +139,27 @@ gf.config.print_version()
 
 ### Plugins
 
-You need to install each plugin separately or install most plugins with:
+You can install all plugins with:
 
 ```
 pip install "gdsfactory[full]" --upgrade
 ```
 
-Install only the group plugins you need `pip install gdsfactory[cad,tidy3d]` or each plugin individually:
+Or Install only the plugins you need `pip install gdsfactory[plugin1,plugin2]` from the available plugins:
 
-- `pip install "gdsfactory[cad]"` 3D rendering.
-- `pip install "gdsfactory[tidy3d]"` FDTD simulations on the cloud.
-- `pip install "gdsfactory[gmsh]"` mesh plugins.
-- `pip install "gdsfactory[devsim]"` TCAD.
-- `pip install "gdsfactory[meow]"` EME (Eigen Mode Expansion).
-- `pip install "gdsfactory[femwell]"` Finite Element Method Solver (heaters, modes, TCAD, RF waveguides).
-- `pip install "gdsfactory[sax]"` Sparameter circuit solver.
-- `mamba install pymeep=*=mpi_mpich_* -y` for open source FDTD MEEP. Notice that it works for MacOS and Linux, so for Windows you need to use the [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install).
+- `cad` 3D rendering, 3D meshing, klayout.
+- `database` for simulation and measurement database.
+- `devsim` TCAD device simulator.
+- `femwell` Finite Element Method Solver (heaters, modes, TCAD, RF waveguides).
+- `gmsh` mesh structures.
+- `kfactory` for fill, dataprep and testing.
+- `meow` Eigen Mode Expansion (EME).
+- `ray` for distributed computing and optimization.
+- `sax` Sparameter circuit solver.
+- `tidy3d` Finite Difference Time Domain (FDTD) simulations on the cloud using GPU.
+
+To install open source FDTD Meep you need to use `conda` or `mamba` on MacOS or Linux, so for Windows you need to use the [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install).
+- `conda install pymeep=*=mpi_mpich_* -y`
 
 * [Optimization](https://gdsfactory.github.io/gdsfactory/plugins_optimization.html)
   - [Ray Tune Generic Black-Box Optimiser](https://gdsfactory.github.io/gdsfactory/notebooks/ray/optimiser.html)
