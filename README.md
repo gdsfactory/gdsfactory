@@ -137,6 +137,16 @@ import gdsfactory as gf
 gf.config.print_version()
 ```
 
+### Docker container
+
+Alternatively, one may use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with:
+
+```bash
+docker build -t joamatab/gdsfactory .
+```
+For example, VS Code supports development inside a container, see [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
+
+
 ### Plugins
 
 You can install all plugins with:
@@ -160,6 +170,8 @@ Or Install only the plugins you need `pip install gdsfactory[plugin1,plugin2]` f
 
 To install open source FDTD Meep you need to use `conda` or `mamba` on MacOS or Linux, so for Windows you need to use the [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install).
 - `conda install pymeep=*=mpi_mpich_* -y`
+
+## Plugins
 
 * [Optimization](https://gdsfactory.github.io/gdsfactory/plugins_optimization.html)
   - [Ray Tune Generic Black-Box Optimiser](https://gdsfactory.github.io/gdsfactory/notebooks/ray/optimiser.html)
@@ -185,15 +197,6 @@ To install open source FDTD Meep you need to use `conda` or `mamba` on MacOS or 
   - [SAX](https://gdsfactory.github.io/gdsfactory/notebooks/sax/sax.html)
   - [Ansys Lumerical INTERCONNECT](https://gdsfactory.github.io/gdsfactory/notebooks/lumerical/2_interconnect.html)
 * [Database](https://gdsfactory.github.io/gdsfactory/notebooks/12_database.html)
-
-### Docker container
-
-Alternatively, one may use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with:
-
-```bash
-docker build -t joamatab/gdsfactory .
-```
-For example, VS Code supports development inside a container, see [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
 
 ## Getting started
 
