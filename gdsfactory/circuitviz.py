@@ -272,7 +272,7 @@ def viz_bk(
     )
     fig.on_event(be.DoubleTap, cp_double_tap)
 
-    fig.add_glyph(
+    inst_glyph = fig.add_glyph(
         data["dss"]["Rect"],
         bm.Rect(
             x="x",
@@ -291,8 +291,9 @@ def viz_bk(
                 xs="xs", ys="ys", fill_color="fill_color", fill_alpha="fill_alpha"
             ),
         )
+    net_glyph = None
     if "MultiLine" in data["dss"]:
-        fig.add_glyph(
+        net_glyph = fig.add_glyph(
             data["dss"]["MultiLine"],
             bm.MultiLine(xs="x", ys="y"),
             name="nets",
@@ -306,15 +307,16 @@ def viz_bk(
         empty_value="black",
     )
     hover_tool = bm.HoverTool(
-        names=["instances"],
+        renderers=[inst_glyph],
         tooltips=[("Instance", "@tag")],
     )
-    hover_tool_nets = bm.HoverTool(
-        names=["nets"],
-        tooltips=[("Net", "@name")],
-        show_arrow=True,
-        line_policy="interp",
-    )
+    if net_glyph:
+        hover_tool_nets = bm.HoverTool(
+            renderers=[net_glyph],
+            tooltips=[("Net", "@name")],
+            show_arrow=True,
+            line_policy="interp",
+        )
     # pan_tool = bm.PanTool()
     tap_tool = bm.TapTool()
     zoom = bm.WheelZoomTool()
