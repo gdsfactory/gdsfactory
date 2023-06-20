@@ -2,6 +2,11 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
+## [6.107.4](https://github.com/gdsfactory/gdsfactory/compare/v6.107.4...v6.107.3)
+
+- fix SDL notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/1788)
+- improve difftest [PR](https://github.com/gdsfactory/gdsfactory/pull/1787)
+
 ## [6.107.3](https://github.com/gdsfactory/gdsfactory/compare/v6.107.3...v6.107.2)
 
 - pin meow [PR](https://github.com/gdsfactory/gdsfactory/pull/1786)
