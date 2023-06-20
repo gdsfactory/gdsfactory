@@ -16,7 +16,7 @@ gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
 
-# %env BOKEH_ALLOW_WS_ORIGIN=127.0.0.1:8888
+# %env BOKEH_ALLOW_WS_ORIGIN=127.0.0.1:8888,localhost:8888
 
 output_notebook()
 rich_output()

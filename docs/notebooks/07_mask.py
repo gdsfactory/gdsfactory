@@ -1,3 +1,19 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Die assembly
 #
@@ -456,7 +472,7 @@ def wg():
 
 c = wg()
 c.pprint()
-gdspath = c.write_gds_with_metadata("demo.gds")
+gdspath = c.write_gds("demo.gds", with_metadata=True)
 
 
 # %%
@@ -517,7 +533,7 @@ df = pd.read_csv(csvpath)
 c
 
 # %%
-gdspath = c.write_gds_with_metadata(gdsdir="extra")
+gdspath = c.write_gds(gdsdir="extra", with_metadata=True)
 
 # %%
 yaml_path = gdspath.with_suffix(".yml")
@@ -557,3 +573,5 @@ spiral_lengths = [
     test_metadata[spiral_name].info.length for spiral_name in spiral_names
 ]
 spiral_lengths
+
+# %%

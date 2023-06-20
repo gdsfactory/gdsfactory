@@ -1,4 +1,4 @@
-name: mzi_6cace905
+name: mzi_a2d8b7af
 ports:
   o1:
     center:
@@ -32,6 +32,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox: null
             add_pins:
               function: add_pins
             bbox_layers:
@@ -48,6 +49,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
         bbox_layers:
@@ -66,6 +68,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox: null
             add_pins:
               function: add_pins
             bbox_layers:
@@ -86,6 +89,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox: null
             add_pins:
               function: add_pins
             bbox_layers:
@@ -132,6 +136,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox: null
             add_pins:
               function: add_pins
             bbox_layers:
@@ -149,6 +154,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
         bbox_layers:
@@ -178,6 +184,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox: null
             add_pins:
               function: add_pins
             bbox_layers:
@@ -198,6 +205,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox: null
             add_pins:
               function: add_pins
             bbox_layers:
@@ -219,4 +227,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_6cace905
+  name: mzi_a2d8b7af

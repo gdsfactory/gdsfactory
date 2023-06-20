@@ -2,7 +2,34 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
-## [6.106.0](https://github.com/gdsfactory/gdsfactory/compare/v6.105.3...v6.103.3)
+## [6.107.4](https://github.com/gdsfactory/gdsfactory/compare/v6.107.4...v6.107.3)
+
+- fix SDL notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/1788)
+- improve difftest [PR](https://github.com/gdsfactory/gdsfactory/pull/1787)
+
+## [6.107.3](https://github.com/gdsfactory/gdsfactory/compare/v6.107.3...v6.107.2)
+
+- pin meow [PR](https://github.com/gdsfactory/gdsfactory/pull/1786)
+- upgrade tidy3d to 2.2.3 [PR](https://github.com/gdsfactory/gdsfactory/pull/1784)
+
+## [6.107.2](https://github.com/gdsfactory/gdsfactory/compare/v6.107.2...v6.107.1)
+
+- fix extrude serialization [PR](https://github.com/gdsfactory/gdsfactory/pull/1781)
+
+## [6.107.1](https://github.com/gdsfactory/gdsfactory/compare/v6.107.1...v6.107.0)
+
+- fix transitions [PR](https://github.com/gdsfactory/gdsfactory/pull/1777)
+- improve docs and fix tidy3d local cache [PR](https://github.com/gdsfactory/gdsfactory/pull/1776)
+
+## [6.107.0](https://github.com/gdsfactory/gdsfactory/compare/v6.107.0...v6.106.0)
+
+- check for component overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1730)
+- add wire corner with sections [PR](https://github.com/gdsfactory/gdsfactory/pull/1766)
+- update femwell to 0.1.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1775)
+- enable kweb on GitHub codespaces [PR](https://github.com/gdsfactory/gdsfactory/pull/1774)
+- active PDK does not clear cache [PR](https://github.com/gdsfactory/gdsfactory/pull/1773)
+
+## [6.106.0](https://github.com/gdsfactory/gdsfactory/compare/v6.106.0...v6.105.0)
 
 - add `fraction_te` to tidy3d mode solver.
 

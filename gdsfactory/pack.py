@@ -243,7 +243,7 @@ def pack(
     return components_packed_list
 
 
-def test_pack() -> Component:
+def test_pack() -> None:
     """Test packing function."""
     component_list = [
         gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(2)
@@ -262,10 +262,10 @@ def test_pack() -> Component:
     )
     c = components_packed_list[0]  # Only one bin was created, so we plot that
     assert len(c.get_dependencies()) == 4
-    return c
+    assert c
 
 
-def test_pack_with_settings() -> Component:
+def test_pack_with_settings() -> None:
     """Test packing function with custom settings."""
     component_list = [
         gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)
@@ -284,7 +284,7 @@ def test_pack_with_settings() -> Component:
         sort_by_area=True,  # Pre-sorts the shapes by area
         precision=1e-3,
     )
-    return components_packed_list[0]
+    assert components_packed_list[0]
 
 
 if __name__ == "__main__":
@@ -294,7 +294,7 @@ if __name__ == "__main__":
     # c = test_pack()
     # c.show(show_ports=True)
     # c.pprint()
-    # c.write_gds_with_metadata("mask.gds")
+    # c.("mask.gds")
 
     p = pack(
         [gf.components.straight(length=i) for i in [1, 1]],

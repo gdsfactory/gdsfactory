@@ -10,9 +10,7 @@ from gdsfactory.difftest import difftest
 from gdsfactory.routing.get_bundle import get_bundle
 
 
-def test_get_bundle(
-    data_regression: DataRegressionFixture, check: bool = True
-) -> Component:
+def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True) -> None:
     xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
     pitch = 127.0
     layer = (1, 0)
@@ -48,13 +46,12 @@ def test_get_bundle(
     if check:
         data_regression.check(lengths)
         difftest(c)
-    return c
 
 
 @pytest.mark.parametrize("config", ["A", "C"])
 def test_connect_corner(
     config: str, data_regression: DataRegressionFixture, check: bool = True, N=6
-) -> Component:
+) -> None:
     d = 10.0
     sep = 5.0
     layer = (1, 0)
@@ -268,12 +265,11 @@ def test_connect_corner(
     if check:
         data_regression.check(lengths)
         difftest(c)
-    return c
 
 
 def test_get_bundle_udirect(
     data_regression: DataRegressionFixture, check: bool = True, dy=200, angle=270
-) -> Component:
+) -> None:
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
     axis = "X" if angle in [0, 180] else "Y"
 
@@ -339,13 +335,11 @@ def test_get_bundle_udirect(
         data_regression.check(lengths)
         difftest(c)
 
-    return c
-
 
 @pytest.mark.parametrize("angle", [0, 90, 180, 270])
 def test_get_bundle_u_indirect(
     data_regression: DataRegressionFixture, angle: int, check: bool = True, dy=-200
-) -> Component:
+) -> None:
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
 
     axis = "X" if angle in {0, 180} else "Y"
@@ -409,13 +403,11 @@ def test_get_bundle_u_indirect(
         data_regression.check(lengths)
         difftest(c)
 
-    return c
-
 
 def test_facing_ports(
     data_regression: DataRegressionFixture,
     check: bool = True,
-) -> Component:
+) -> None:
     dy = 200.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
 
@@ -448,14 +440,73 @@ def test_facing_ports(
         data_regression.check(lengths)
         difftest(c)
 
-    return c
-
 
 if __name__ == "__main__":
-    # c = test_get_bundle(None, check=False)
-    c = test_connect_corner(config="A", data_regression=None, check=False)
-    # c = test_get_bundle_udirect(None, check=False)
-    # c = test_get_bundle_u_indirect(None, check=False, angle=90)
-    # c = test_get_bundle_u_indirect(None, angle=0, check=False)
-    # c = test_facing_ports(None, check=False)
+    # test_get_bundle(None, check=False)
+    # test_connect_corner(config="A", data_regression=None, check=False)
+    # test_get_bundle_udirect(None, check=False)
+    # test_get_bundle_u_indirect(None, check=False, angle=90)
+    # test_get_bundle_u_indirect(None, angle=0, check=False)
+    # test_facing_ports(None, check=False)
+
+    angle = 90
+    dy = -200
+
+    xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
+    axis = "X" if angle in {0, 180} else "Y"
+
+    layer = (1, 0)
+    pitch = 10.0
+    N = len(xs1)
+    xs2 = [50 + i * pitch for i in range(N)]
+
+    a1 = angle
+    a2 = a1 + 180
+
+    if axis == "X":
+        ports1 = [
+            Port(f"top_{i}", center=(0, xs1[i]), width=0.5, orientation=a1, layer=layer)
+            for i in range(N)
+        ]
+        ports2 = [
+            Port(
+                f"bot_{i}",
+                center=(dy, xs2[i]),
+                width=0.5,
+                orientation=a2,
+                layer=layer,
+            )
+            for i in range(N)
+        ]
+
+    else:
+        ports1 = [
+            Port(f"top_{i}", center=(xs1[i], 0), width=0.5, orientation=a1, layer=layer)
+            for i in range(N)
+        ]
+        ports2 = [
+            Port(
+                f"bot_{i}",
+                center=(xs2[i], dy),
+                width=0.5,
+                orientation=a2,
+                layer=layer,
+            )
+            for i in range(N)
+        ]
+
+    c = gf.Component(f"test_get_bundle_u_indirect_{angle}_{dy}")
+
+    routes = get_bundle(
+        ports1,
+        ports2,
+        bend=gf.components.bend_circular,
+        end_straight_length=15,
+        start_straight_length=5,
+        radius=5,
+    )
+    lengths = {}
+    for i, route in enumerate(routes):
+        c.add(route.references)
+        lengths[i] = route.length
     c.show(show_ports=True)

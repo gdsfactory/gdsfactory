@@ -64,6 +64,7 @@ settings:
     input_straight_cross_section:
       function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -76,6 +77,7 @@ settings:
     output_straight_cross_section:
       function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -92,6 +94,7 @@ settings:
     ring_cross_sections:
     - function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -103,6 +106,7 @@ settings:
         name: strip
     - function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -114,6 +118,7 @@ settings:
         name: strip
     - function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -136,6 +141,7 @@ settings:
     input_straight_cross_section:
       function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -148,6 +154,7 @@ settings:
     output_straight_cross_section:
       function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -164,6 +171,7 @@ settings:
     ring_cross_sections:
     - function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -175,6 +183,7 @@ settings:
         name: strip
     - function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -186,6 +195,7 @@ settings:
         name: strip
     - function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:

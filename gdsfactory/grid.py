@@ -240,7 +240,7 @@ def grid_with_text(
     return c
 
 
-def test_grid() -> Component:
+def test_grid() -> None:
     import gdsfactory as gf
 
     c = [gf.components.straight(length=i) for i in [1, 1, 2]]
@@ -253,7 +253,7 @@ def test_grid() -> Component:
         spacing=(10, 10),
     )
     # assert np.isclose(c.ports["1_1_o1"].center[0], 13.0), c.ports["1_1_o1"].center[0]
-    return c
+    assert c
 
 
 if __name__ == "__main__":

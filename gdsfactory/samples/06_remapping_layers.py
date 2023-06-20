@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-def test_remap_layers() -> Component:
+def remap_layers() -> Component:
     c = gf.Component("test_remap_layers_sample_device")
     straight = partial(
         gf.components.straight,
@@ -32,5 +32,5 @@ def test_remap_layers() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_remap_layers()
+    c = remap_layers()
     c.show(show_ports=True)

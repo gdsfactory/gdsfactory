@@ -1,4 +1,4 @@
-# gdsfactory 6.106.0
+# gdsfactory 6.107.4
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -19,11 +19,11 @@
 
 ![logo](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory: An open source platform for end to-end photonic chip design and validation.
+gdsfactory: An open source platform for end to-end chip design and validation.
 
 gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...), objects for 3D printing or PCBs.
 
-You can describe your hardware in code (python or YAML), verify them (DRC, simulation, extraction) and validate them (to make sure they meet the specifications after fabrication).
+You can describe your hardware in code (python or YAML), verify it (DRC, simulation, extraction) and validate it (to make sure it meets your specifications after fabrication).
 
 ![workflow](https://i.imgur.com/abvxJJw.png)
 
@@ -76,9 +76,10 @@ You can also access:
 
 ## Installation
 
-We recommend using python3.10 or python3.11
+Use python3.10 or python3.11, as some tools like kfactory are not available for older versions of python. We recommend [VSCode](https://code.visualstudio.com/) as an IDE.
 
 You have 2 options to install gdsfactory:
+
 
 ### 1. Installation for new users
 
@@ -99,26 +100,25 @@ Once you have python installed, open Anaconda Prompt and then install the latest
 ![anaconda prompt](https://i.imgur.com/Fyal5sT.png)
 
 ```
-mamba install gdstk -y
+conda install gdstk -y
 pip install "gdsfactory[full]" --upgrade
-gf install klayout-genericpdk
 ```
 
-Then you can install Klayout-live `klive` integration in the klayout GUI `Tools --> Manage Packages --> Install New Packages --> Klive` and restart klayout.
+Then you can install Klayout-live `klive` integration in the klayout GUI `Tools --> Manage Packages --> Install New Packages --> Klive` as well as the genericpdk layermap `Tools --> Manage Packages --> Install New Packages --> gdsfactory` and restart klayout.
 
 ### 2. Installation for developers
 
-For developers you need to fork the GitHub repository, git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
+As a developer, if you are on windows you need to download [Git](https://git-scm.com/download/win) and optionally [GitHub Desktop](https://desktop.github.com/).
+
+Then you need to fork the [GitHub repository](https://github.com/gdsfactory/gdsfactory), git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
 For that you can install gdsfactory locally on your computer in `-e` edit mode.
 
 ```
 git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
 mamba install gdstk -y
-pip install -e . pre-commit
-pip install -e .[full] # Install most plugins
+pip install -e .[full] pre-commit
 pre-commit install
-gf install klayout-genericpdk
 ```
 
 ### Update gdsfactory
@@ -137,22 +137,41 @@ import gdsfactory as gf
 gf.config.print_version()
 ```
 
+### Docker container
+
+Alternatively, one may use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with:
+
+```bash
+docker build -t joamatab/gdsfactory .
+```
+For example, VS Code supports development inside a container, see [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
+
+
 ### Plugins
 
-You need to install each plugin separately or install most plugins with:
+You can install all plugins with:
 
 ```
 pip install "gdsfactory[full]" --upgrade
 ```
 
-- `pip install "gdsfactory[cad]"` 3D rendering.
-- `pip install "gdsfactory[tidy3d]"` FDTD simulations on the cloud.
-- `pip install "gdsfactory[gmsh]"` mesh plugins.
-- `pip install "gdsfactory[devsim]"` TCAD.
-- `pip install "gdsfactory[meow]"` EME (Eigen Mode Expansion).
-- `pip install "gdsfactory[femwell]"` Finite Element Method Solver (heaters, modes, TCAD, RF waveguides).
-- `pip install "gdsfactory[sax]"` Sparameter circuit solver.
-- `mamba install pymeep=*=mpi_mpich_* -y` for open source FDTD MEEP. Notice that it works for MacOS and Linux, so for Windows you need to use the [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install).
+Or Install only the plugins you need `pip install gdsfactory[plugin1,plugin2]` from the available plugins:
+
+- `cad` 3D rendering, 3D meshing, klayout.
+- `database` for simulation and measurement database.
+- `devsim` TCAD device simulator.
+- `femwell` Finite Element Method Solver (heaters, modes, TCAD, RF waveguides).
+- `gmsh` mesh structures.
+- `kfactory` for fill, dataprep and testing.
+- `meow` Eigen Mode Expansion (EME).
+- `ray` for distributed computing and optimization.
+- `sax` Sparameter circuit solver.
+- `tidy3d` Finite Difference Time Domain (FDTD) simulations on the cloud using GPU.
+
+To install open source FDTD Meep you need to use `conda` or `mamba` on MacOS or Linux, so for Windows you need to use the [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install).
+- `conda install pymeep=*=mpi_mpich_* -y`
+
+## Plugins
 
 * [Optimization](https://gdsfactory.github.io/gdsfactory/plugins_optimization.html)
   - [Ray Tune Generic Black-Box Optimiser](https://gdsfactory.github.io/gdsfactory/notebooks/ray/optimiser.html)
@@ -178,15 +197,6 @@ pip install "gdsfactory[full]" --upgrade
   - [SAX](https://gdsfactory.github.io/gdsfactory/notebooks/sax/sax.html)
   - [Ansys Lumerical INTERCONNECT](https://gdsfactory.github.io/gdsfactory/notebooks/lumerical/2_interconnect.html)
 * [Database](https://gdsfactory.github.io/gdsfactory/notebooks/12_database.html)
-
-### Docker container
-
-Alternatively, one may use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with:
-
-```bash
-docker build -t joamatab/gdsfactory .
-```
-For example, VS Code supports development inside a container, see [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
 
 ## Getting started
 

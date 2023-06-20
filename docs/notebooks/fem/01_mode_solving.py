@@ -1,17 +1,20 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
+# %% [markdown]
 # # Finite-element mode solver
 #
 # You can mesh any component cross-section and solve the PDEs thanks to [femwell](https://helgegehring.github.io/femwell) mode - solver.
@@ -22,16 +25,22 @@
 #
 # You can also downsample layers from the LayerStack, and modify both the cross-section and LayerStack  prior to simulation to change the geometry. You can also define refractive indices on the active PDK.
 
-# +
+# %%
 import matplotlib.pyplot as plt
 import gdsfactory as gf
 from tqdm.auto import tqdm
 import numpy as np
-from femwell import mode_solver
+
 from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes
 from gdsfactory.technology import LayerStack
 from gdsfactory.cross_section import rib
 from gdsfactory.generic_tech import LAYER_STACK
+
+from skfem.io.meshio import from_meshio
+
+from femwell.maxwell.waveguide import compute_modes
+from femwell.mesh import mesh_from_OrderedDict
+from femwell.visualization import plot_domains
 
 import sys
 import logging
@@ -47,7 +56,7 @@ logger = logging.getLogger()
 logger.removeHandler(sys.stderr)
 logging.basicConfig(level="WARNING", datefmt="[%X]", handlers=[RichHandler()])
 
-# +
+# %%
 filtered_layerstack = LayerStack(
     layers={
         k: LAYER_STACK.layers[k]
@@ -74,58 +83,60 @@ resolutions = {
     "box": {"resolution": 0.2, "distance": 1},
     "slab90": {"resolution": 0.05, "distance": 1},
 }
-lams, basis, xs = compute_cross_section_modes(
+
+# %%
+modes = compute_cross_section_modes(
     cross_section=rib(width=0.6),
     layerstack=filtered_layerstack,
     wavelength=1.55,
     num_modes=4,
     resolutions=resolutions,
 )
-# -
 
-# The solver returns the effective indices (lams), FEM basis functions (basis) and eigenvectors (xs):
+# %% [markdown]
+# The solver returns the list of modes
 
-lams, basis, xs
+# %%
+mode = modes[0]
+mode.show(mode.E.real, colorbar=True, direction="x")
 
+
+# %% [markdown]
 # You can use them as inputs to other [femwell mode solver functions](https://github.com/HelgeGehring/femwell/blob/main/femwell/mode_solver.py) to inspect or analyze the modes:
 
-fig = mode_solver.plot_mode(
-    basis, np.real(xs[0]), plot_vectors=False, colorbar=True, title="E", direction="y"
-)
+# %%
+print(modes[0].te_fraction)
 
-fig[0]
-
-te_frac = mode_solver.calculate_te_frac(basis, xs[0])
-te_frac
-
+# %% [markdown]
 # ## Sweep waveguide width
 
-# +
-widths = np.linspace(0.2, 2, 20)
+# %%
+widths = np.linspace(0.2, 2, 10)
 num_modes = 4
-all_lams = np.zeros((widths.shape[0], num_modes))
+all_neffs = np.zeros((widths.shape[0], num_modes))
 all_te_fracs = np.zeros((widths.shape[0], num_modes))
 
+
 for i, width in enumerate(tqdm(widths)):
-    lams, basis, xs = compute_cross_section_modes(
+    modes = compute_cross_section_modes(
         cross_section=gf.cross_section.strip(width=width),
         layerstack=filtered_layerstack,
         wavelength=1.55,
         num_modes=num_modes,
         resolutions=resolutions,
         wafer_padding=2,
+        solver="scipy",
     )
-    all_lams[i] = lams
-    all_te_fracs[i, :] = [
-        mode_solver.calculate_te_frac(basis, xs[idx]) for idx in range(num_modes)
-    ]
+    all_neffs[i] = np.real([mode.n_eff for mode in modes])
+    all_te_fracs[i, :] = [mode.te_fraction for mode in modes]
 
-# +
-all_lams = np.real(all_lams)
-plt.xlabel("waveguide Width [µm]")
+
+# %%
+all_neffs = np.real(all_neffs)
+plt.xlabel("Width of waveguide  µm")
 plt.ylabel("Effective refractive index")
-plt.ylim(1.444, np.max(all_lams) + 0.1 * (np.max(all_lams) - 1.444))
-
-for lams, te_fracs in zip(all_lams.T, all_te_fracs.T):
-    plt.plot(widths, lams)
+plt.ylim(1.444, np.max(all_neffs) + 0.1 * (np.max(all_neffs) - 1.444))
+for lams, te_fracs in zip(all_neffs.T, all_te_fracs.T):
+    plt.plot(widths, lams, c="k")
     plt.scatter(widths, lams, c=te_fracs, cmap="cool")
+plt.colorbar().set_label("TE fraction")

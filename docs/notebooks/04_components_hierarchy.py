@@ -185,7 +185,7 @@ b3
 pad_custom_layer = partial(gf.components.pad, layer=(41, 0))
 
 # %%
-c = pad_layer()
+c = pad_custom_layer()
 c
 
 # %% [markdown]

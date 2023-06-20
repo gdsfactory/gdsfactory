@@ -2,7 +2,7 @@ from typing import Iterable, Optional
 
 try:
     import kfactory as kf
-    from kfactory import KCell, KCLayout, LayerEnum, kdb
+    from kfactory import KCell, kcl, LayerEnum, kdb
     from kfactory.conf import logger
 except ImportError as e:
     print(
@@ -15,7 +15,7 @@ except ImportError as e:
 class FillOperator(kdb.TileOutputReceiver):
     def __init__(
         self,
-        kcl: KCLayout,
+        kcl: kcl,
         top_cell: KCell,
         fill_cell_index: int,
         fc_bbox: kdb.Box,

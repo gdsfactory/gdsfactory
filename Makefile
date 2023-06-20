@@ -23,15 +23,12 @@ mamba:
 
 patch:
 	bumpversion patch
-	python docs/write_components_doc.py
 
 minor:
 	bumpversion minor
-	python docs/write_components_doc.py
 
 major:
 	bumpversion major
-	python docs/write_components_doc.py
 
 plugins:
 	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
@@ -86,7 +83,9 @@ test-data:
 
 data-download: test-data
 	echo 'Make sure you git pull inside test-data folder'
-	# aws s3 sync s3://gdslib data --no-sign-request
+
+data-download-old:
+	aws s3 sync s3://gdslib data --no-sign-request
 	# gh release download v6.90.3 -D data/gds/*.gds --clobber
 	# gh release download v6.90.3 data/sp/*.npz --clobber
 	# gh release download v6.90.3 data/sp/*.yml --clobber
@@ -206,7 +205,7 @@ codestyle:
 	pycodestyle --max-line-length=88
 
 doc:
-	python docs/write_components_doc.py
+	python .github/write_components_doc.py
 
 docs:
 	jb build docs

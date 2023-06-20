@@ -1,4 +1,4 @@
-name: grating_coupler_ellipti_9a60b03b
+name: grating_coupler_ellipti_5dd568f3
 ports:
   o1:
     center:
@@ -29,6 +29,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
         bbox_layers:
@@ -65,6 +66,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
         bbox_layers:
@@ -96,4 +98,4 @@ settings:
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_9a60b03b
+  name: grating_coupler_ellipti_5dd568f3

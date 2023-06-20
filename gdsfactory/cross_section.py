@@ -15,7 +15,6 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, TypeVar, Union
 
 from pydantic import BaseModel, Field, validate_arguments
 from typing_extensions import Literal
-
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 
 nm = 1e-3
@@ -73,7 +72,7 @@ class Section(BaseModel):
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
     insets: Optional[tuple] = None
-    layer: Optional[LayerSpec] = None
+    layer: Optional[Union[LayerSpec, LayerSpecs]] = None
     port_names: Tuple[Optional[str], Optional[str]] = (None, None)
     port_types: Tuple[str, str] = ("optical", "optical")
     name: Optional[str] = None
@@ -252,6 +251,20 @@ class CrossSection(BaseModel):
             for layer, points in zip(x.bbox_layers, padding):
                 c.add_polygon(points, layer=layer)
         return c
+
+    def get_xmin_xmax(self):
+        """Returns the min and max extent of the cross_section across all sections."""
+        main_width = self.width
+        main_offset = self.offset
+        xmin = main_offset - main_width / 2
+        xmax = main_offset + main_width / 2
+        for section in self.sections:
+            width = section.width
+            offset = section.offset
+            xmin = min(xmin, offset - width / 2)
+            xmax = max(xmax, offset + width / 2)
+
+        return xmin, xmax
 
 
 CrossSectionSpec = Union[CrossSection, Callable, Dict[str, Any]]
@@ -490,7 +503,9 @@ radius_rib = 20
 
 
 # strip = cross_section
-strip_pins = partial(cross_section, add_pins=add_pins_inside1nm, name="strip")
+strip_pins = partial(
+    cross_section, add_pins=add_pins_inside1nm, name="strip", add_bbox=None
+)
 strip = strip_pins
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 strip_no_pins = partial(
@@ -773,6 +788,17 @@ heater_metal = partial(
 metal3_with_bend = partial(metal1, layer="M3", radius=10)
 metal_routing = metal3
 npp = partial(metal1, layer="NPP", width=0.5)
+
+metal_slotted = partial(
+    cross_section,
+    width=10,
+    offset=0,
+    layer="M3",
+    sections=[
+        Section(width=10, layer="M3", offset=11),
+        Section(width=10, layer="M3", offset=-11),
+    ],
+)
 
 
 @xsection

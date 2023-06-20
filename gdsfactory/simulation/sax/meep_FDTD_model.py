@@ -87,7 +87,7 @@ class MeepFDTDModel(Model):
         value_str = [str(value) for value in values]
         current_file = self.temp_dir / "_".join(list(value_str))
         input_component_file = current_file.with_suffix(".gds")
-        input_component.write_gds_with_metadata(input_component_file)
+        input_component.write_gds(input_component_file, with_metadata=True)
 
         # Define function input given parameter values and transformed layerstack/component
         function_input = dict(
