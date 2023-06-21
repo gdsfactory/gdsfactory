@@ -140,7 +140,6 @@ full = [
   "natsort",
   "networkx",
   "pyglet<2",
-  "pygmsh",
   "scikit-fem",
   "scikit-image",
   "scikit-learn",
