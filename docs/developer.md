@@ -43,7 +43,11 @@ pre-commit run --all-files
 
 ## Tests
 
-`pytest` runs 3 types of tests:
+gdsfactory tests are written with [pytest](https://docs.pytest.org/en/latest/contents.html). You can run them, from the root of the repository, like this
+
+```shell
+pytest -s
+```
 
 You can run tests with `pytest`. This will run 3 types of tests:
 
