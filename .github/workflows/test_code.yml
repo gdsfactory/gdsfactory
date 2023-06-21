@@ -48,9 +48,15 @@ jobs:
         run: |
           make install
           make data-download
+          pip freeze > requirements.txt
+          pip freeze
       - name: Test with pytest
         run: |
           pytest
+      - uses: actions/upload-artifact@v3
+        with:
+          name: requirements
+          path: requirements.txt
   test_code_coverage:
     runs-on: ubuntu-latest
 
@@ -117,11 +123,11 @@ jobs:
           python -m pip install --upgrade pip
           make data-download plugins-debian
           make install
-          conda list > requirements.txt
+          pip freeze > requirements_plugins.txt
       - uses: actions/upload-artifact@v3
         with:
           name: requirements
-          path: requirements.txt
+          path: requirements_plugins.txt
       - name: Test with pytest
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
