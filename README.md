@@ -90,9 +90,9 @@ You can also install python with mamba package manager (faster than conda):
 | Windows | x86_64                | [Windows-x86_64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-Windows-x86_64.exe) |
 
 
-Once you have python installed, open Anaconda Prompt and then install the latest gdsfactory using pip.
+Once you have python installed, open Anaconda Prompt as Administrator and then install the latest gdsfactory using pip.
 
-![anaconda prompt](https://i.imgur.com/Fyal5sT.png)
+![anaconda prompt](https://i.imgur.com/eKk2bbs.png)
 
 ```
 conda install gdstk -y
