@@ -188,7 +188,7 @@ np.abs(sp["o1@0,o2@2"]) ** 2
 ```
 
 ```python
-lengths = np.array([1, 2, 3])
+lengths = np.array([1, 2, 3, 5, 10, 20])
 T = np.zeros_like(lengths, dtype=float)
 ```
 
@@ -202,7 +202,7 @@ for length in lengths:
 for i, length in enumerate(lengths):
     c = gf.components.taper(width2=10, length=length)
     eme = MEOW(
-        component=c, layerstack=filtered_layerstack, wavelength=1.55, cell_length=0.4
+        component=c, layerstack=filtered_layerstack, wavelength=1.55, cell_length=float(length/20.5)
     )
     sp = eme.compute_sparameters()
     T[i] = np.abs(sp["o1@0,o2@0"]) ** 2
@@ -217,8 +217,4 @@ plt.xlabel("taper length (um)")
 
 ```python
 T
-```
-
-```python
-
 ```
