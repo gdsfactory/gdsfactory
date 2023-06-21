@@ -59,6 +59,7 @@ def test_transition_cross_section() -> None:
     transition = gf.path.transition(cs1, cs2, port_names=(None, None))
 
     c = gf.components.straight(length=length, cross_section=transition)
+    c.show()
     assert c.ports["o1"].width == w1
     assert c.ports["o2"].width == w2
 
@@ -125,4 +126,4 @@ def test_diagonal_extrude_consistent_naming():
 
 
 if __name__ == "__main__":
-    test_transition_cross_section()
+    test_transition_cross_section_different_layers()
