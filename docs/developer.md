@@ -3,16 +3,24 @@
 As a contributor, if you are on windows you need to download [Git](https://git-scm.com/download/win) and optionally [GitHub Desktop](https://desktop.github.com/).
 
 Then you need to fork the [GitHub repository](https://github.com/gdsfactory/gdsfactory), git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
-For that you can install gdsfactory locally on your computer in `-e` edit mode.
+
+The following lines will:
+
+- clone your gdsfactory fork (make sure you change `YourUserName` with your GitHub user name)
+- download the GDS golden data for running GDS regressions from a separate [repo](https://github.com/gdsfactory/gdsfactory-test-data/tree/test-data)
+- install gdsfactory locally on your computer in `-e` edit mode.
+- install pre-commit hooks for making sure your code syntax and style matches some basic rules.
+
 
 ```
 git clone git@github.com:YourUserName/gdsfactory.git
 cd gdsfactory
 git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
 mamba install gdstk -y
-pip install -e .[full] pre-commit
+pip install -e .[full,dev]
 pre-commit install
 ```
+
 
 ## Style
 
@@ -118,5 +126,5 @@ def test_assert_ports_on_grid(component: Component):
 
 ```
 
-- For questions you can join the chat[![Join the chat at https://gitter.im/gdsfactory-dev/community](https://badges.gitter.im/gdsfactory-dev/community.svg)](https://gitter.im/gdsfactory-dev/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) with [element.io](https://element.io/download) or any matrix client.
-- Also create GitHub issues or use GitHub discussions.
+- For questions join the chat[![Join the chat at https://gitter.im/gdsfactory-dev/community](https://badges.gitter.im/gdsfactory-dev/community.svg)](https://gitter.im/gdsfactory-dev/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) with [element.io](https://element.io/download) or any matrix client.
+- Or use GitHub issues or discussions.
