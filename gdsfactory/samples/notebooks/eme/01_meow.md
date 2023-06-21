@@ -18,7 +18,7 @@ PDK = get_generic_pdk()
 PDK.activate()
 
 c = gf.components.taper_cross_section_sine()
-c
+c.plot()
 ```
 
 You also need to explicitly provide a LayerStack to define cross-sections, for instance the generic one:
@@ -112,7 +112,7 @@ filtered_layerstack = gf.technology.LayerStack(
 )
 
 c = gf.components.taper(width2=2)
-c
+c.plot()
 ```
 
 Lets do a convergence tests on the `cell_length` parameter. This depends a lot on the structure.

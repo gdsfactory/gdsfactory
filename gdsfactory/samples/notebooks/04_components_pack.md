@@ -26,7 +26,7 @@ c = gf.grid(
     edge_x="x",
     edge_y="ymax",
 )
-c
+c.plot()
 ```
 
 <!-- #region -->
@@ -104,7 +104,7 @@ c = gf.Component("rectangles")
     ).move([n, n * 4])
     for n in [0, 2, 3, 1, 2]
 ]
-c
+c.plot()
 ```
 
 Oftentimes, we want to guarantee some distance between the objects.  By setting ``separation = True`` we move each object such that there is ``spacing`` distance between them:

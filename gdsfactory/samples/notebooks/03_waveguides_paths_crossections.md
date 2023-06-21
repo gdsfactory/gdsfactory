@@ -100,7 +100,7 @@ The simplest option is to just set the cross-section to be a constant width by p
 ```python
 # Extrude the Path and the CrossSection
 c = gf.path.extrude(P, layer=(1, 0), width=1.5)
-c
+c.plot()
 ```
 
 ### Option 2: Linearly-varying width
@@ -110,7 +110,7 @@ A slightly more advanced version is to make the cross-section width vary linearl
 ```python
 # Extrude the Path and the CrossSection
 c = gf.path.extrude(P, layer=(1, 0), widths=(1, 3))
-c
+c.plot()
 ```
 
 ### Option 3: Arbitrary Cross-section
@@ -135,7 +135,7 @@ x = gf.CrossSection(
 )
 
 c = gf.path.extrude(p, cross_section=x)
-c
+c.plot()
 ```
 
 ```python
@@ -327,7 +327,7 @@ X = gf.CrossSection(
 )
 
 c = gf.path.extrude(P, X)
-c
+c.plot()
 ```
 
 You can create Paths from any array of points -- just be sure that they form
@@ -359,7 +359,7 @@ this corresponds to 1 nanometer resolution):
 ```python
 # The remaining points form a identical line to within `1e-3` from the original
 c = gf.path.extrude(p=P, cross_section=X, simplify=1e-3)
-c
+c.plot()
 ```
 
 Let's say we need fewer points.  We can increase the simplify tolerance by
@@ -368,7 +368,7 @@ form a line that is identical to within `1e-1` distance from the original:
 
 ```python
 c = gf.path.extrude(P, cross_section=X, simplify=1e-1)
-c
+c.plot()
 ```
 
 Taken to absurdity, what happens if we set `simplify = 0.3`?  Once again, the
@@ -377,7 +377,7 @@ Taken to absurdity, what happens if we set `simplify = 0.3`?  Once again, the
 
 ```python
 c = gf.path.extrude(P, cross_section=X, simplify=0.3)
-c
+c.plot()
 ```
 
 ## Curvature calculation
@@ -520,7 +520,7 @@ wg1ref = c << wg1
 wg2ref = c << wg2
 wg2ref.movex(7.5)
 
-c
+c.plot()
 ```
 
 Now let's create the transitional CrossSection by calling `transition()` with
@@ -559,7 +559,7 @@ wg2ref = c << wg2
 wgtref.connect("o1", wg1ref.ports["o2"])
 wg2ref.connect("o1", wgtref.ports["o2"])
 
-c
+c.plot()
 ```
 
 Note that since `transition()` outputs a `CrossSection`, we can make the
@@ -578,7 +578,7 @@ wgt_ref = c << wg_trans
 wgt_ref.connect("o1", wg1_ref.ports["o2"])
 wg2_ref.connect("o1", wgt_ref.ports["o2"])
 
-c
+c.plot()
 ```
 
 
@@ -610,7 +610,7 @@ X = gf.CrossSection(width=3, offset=-6, layer=(2, 0), sections=[s])
 
 # Extrude the Path to create the Component
 c = gf.path.extrude(P, cross_section=X)
-c
+c.plot()
 ```
 
 
@@ -636,7 +636,7 @@ X = gf.CrossSection(width=1, offset=0, layer=(1, 0), sections=[s])
 
 # Extrude the Path to create the Component
 c = gf.path.extrude(P, cross_section=X)
-c
+c.plot()
 ```
 
 
@@ -694,7 +694,7 @@ X = gf.CrossSection(
 
 
 c = gf.path.extrude(P, X)
-c
+c.plot()
 ```
 
 In case we want to change any of the CrossSection elements, we simply access the
@@ -746,7 +746,7 @@ wgt_ref = c << wg_trans
 wgt_ref.connect("o1", wg1_ref.ports["o2"])
 wg2_ref.connect("o1", wgt_ref.ports["o2"])
 
-c
+c.plot()
 ```
 
 ```python
@@ -776,13 +776,13 @@ f = P.plot()
 ```python
 X1 = gf.CrossSection(width=1, offset=0, layer=(2, 0))
 c = gf.path.extrude(P, X1)
-c
+c.plot()
 ```
 
 ```python
 X2 = gf.CrossSection(width=2, offset=0, layer=(2, 0))
 c = gf.path.extrude(P, X2)
-c
+c.plot()
 ```
 
 For example this will give you an error
@@ -805,7 +805,7 @@ X1 = gf.CrossSection(
     sections=[s],
 )
 c = gf.path.extrude(P, X1)
-c
+c.plot()
 ```
 
 ```python
@@ -827,7 +827,7 @@ c4 = gf.Component("demo_transition2")
 ```
 
 ```python
-start_ref = c4 << c
+start_ref = c4 << c.plot()
 trans_ref = c4 << c3
 end_ref = c4 << c2
 
@@ -865,7 +865,7 @@ pin = partial(
 
 ```python
 c = gf.components.straight(cross_section=pin)
-c
+c.plot()
 ```
 
 ```python
@@ -943,14 +943,14 @@ X1 = gf.CrossSection(
     sections=[s],
 )
 c = gf.path.extrude(P, X1, shear_angle_start=10, shear_angle_end=45)
-c
+c.plot()
 ```
 
 By default, the shear angle parameters are `None`, in which case shearing will not be applied to the face.
 
 ```python
 c = gf.path.extrude(P, X1, shear_angle_start=None, shear_angle_end=10)
-c
+c.plot()
 ```
 
 Shearing should work on paths of arbitrary orientation, as long as their end segments are sufficiently long.
@@ -959,7 +959,7 @@ Shearing should work on paths of arbitrary orientation, as long as their end seg
 angle = 45
 P = gf.path.straight(length=10).rotate(angle)
 c = gf.path.extrude(P, X1, shear_angle_start=angle, shear_angle_end=angle)
-c
+c.plot()
 ```
 
 For a non-linear path or width profile, the algorithm will intersect the path when sheared inwards and extrapolate linearly going outwards.
@@ -968,7 +968,7 @@ For a non-linear path or width profile, the algorithm will intersect the path wh
 angle = 15
 P = gf.path.euler()
 c = gf.path.extrude(P, X1, shear_angle_start=angle, shear_angle_end=angle)
-c
+c.plot()
 ```
 
 The port location, width and orientation remains the same for a sheared component. However, an additional property, `shear_angle` is set to the value of the shear angle. In general, shear ports can be safely connected together.
@@ -991,9 +991,9 @@ c = gf.path.extrude(P, X1, shear_angle_start=45, shear_angle_end=45)
 c_skinny = gf.path.extrude(P_skinny, X1, shear_angle_start=45, shear_angle_end=45)
 
 circuit = gf.Component("shear_sample")
-c1 = circuit << c
+c1 = circuit << c.plot()
 c2 = circuit << c_skinny
-c3 = circuit << c
+c3 = circuit << c.plot()
 
 c1.connect(port="o1", destination=c2.ports["o1"])
 c3.connect(port="o1", destination=c2.ports["o2"])
@@ -1029,7 +1029,7 @@ X2 = gf.CrossSection(
 )
 t = gf.path.transition(X1, X2, width_type="linear")
 c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
-c
+c.plot()
 ```
 
 This will also work with curves and non-linear width profiles. Keep in mind that points outside the original geometry will be extrapolated linearly.
@@ -1038,7 +1038,7 @@ This will also work with curves and non-linear width profiles. Keep in mind that
 angle = 15
 P = gf.path.euler()
 c = gf.path.extrude(P, t, shear_angle_start=angle, shear_angle_end=angle)
-c
+c.plot()
 ```
 
 ## bbox_layers vs cladding_layers
@@ -1085,7 +1085,7 @@ def xs_waveguide_heater():
 
 
 c = gf.components.straight(cross_section=xs_waveguide_heater)
-c
+c.plot()
 ```
 
 ```python
@@ -1108,7 +1108,7 @@ def xs_waveguide_heater_with_ports():
 
 
 c = gf.components.straight(cross_section=xs_waveguide_heater_with_ports)
-c
+c.plot()
 ```
 
 ```python

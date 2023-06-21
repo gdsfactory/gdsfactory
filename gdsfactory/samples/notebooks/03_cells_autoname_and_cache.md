@@ -64,14 +64,14 @@ def mzi_with_bend(radius: float = 10.0) -> gf.Component:
 
 c = mzi_with_bend()
 print(f"this cell {c.name!r} does NOT get automatic name")
-c
+c.plot()
 ```
 
 ```python
 mzi_with_bend_decorated = gf.cell(mzi_with_bend)
 c = mzi_with_bend_decorated(radius=10)
 print(f"this cell {c.name!r} gets automatic name thanks to the `cell` decorator")
-c
+c.plot()
 ```
 
 ```python
@@ -85,7 +85,7 @@ def mzi_with_bend(radius: float = 10.0) -> gf.Component:
 
 
 print(f"this cell {c.name!r} gets automatic name thanks to the `cell` decorator")
-c
+c.plot()
 ```
 
 

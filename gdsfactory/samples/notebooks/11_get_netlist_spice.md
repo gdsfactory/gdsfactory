@@ -37,7 +37,7 @@ def pads_with_routes(radius: float = 10):
 ```python
 c = pads_with_routes(radius=100)
 gdspath = c.write_gds()
-c
+c.plot()
 ```
 
 
@@ -91,7 +91,7 @@ def pads_with_routes_shorted(radius: float = 10):
 
 c = pads_with_routes_shorted(cache=False)
 gdspath = c.write_gds()
-c
+c.plot()
 ```
 
 

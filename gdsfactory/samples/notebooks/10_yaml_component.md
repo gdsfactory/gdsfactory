@@ -664,7 +664,7 @@ display(x, out)
 
 ```python
 c = gf.components.mzi()
-c
+c.plot()
 ```
 
 ```python

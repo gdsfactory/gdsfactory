@@ -62,7 +62,7 @@ poly3 = c.add_polygon(
 )
 c.add_port(name="o1", center=(0, 1), width=1, orientation=0, layer=1)
 c.add_port(name="o2", center=(3, -2), width=1, orientation=90, layer=1)
-c
+c.plot()
 ```
 
 ### Dilation and erosion
@@ -166,7 +166,7 @@ def trainable_coupler(parameters):
 
 
 c = trainable_coupler({})
-c
+c.plot()
 ```
 
 When defining the model, we add the LithoParameter `erosion_magnitude`. For all models, a `TransformParameter` which if set, will offset the provided component prior to simulation, emulating erosion (when <1), nominal behaviour (when 1) and dilation (when >1). This morphological transformation is currently global; more advanced spatially-correlated filters are an obvious next step.

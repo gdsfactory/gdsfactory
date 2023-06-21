@@ -44,7 +44,7 @@ In this new Component you *reference* our Component `p` which contains our polyg
 ```python
 c = gf.Component("Component_with_references")  # Create a new blank Component
 poly_ref = c.add_ref(p)  # Reference the Component "p" that has the polygon in it
-c
+c.plot()
 ```
 
 you just made a copy of your polygon -- but remember, you didn't actually
@@ -54,7 +54,7 @@ polygon.  Let's add two more references to `c`:
 ```python
 poly_ref2 = c.add_ref(p)  # Reference the Component "p" that has the polygon in it
 poly_ref3 = c.add_ref(p)  # Reference the Component "p" that has the polygon in it
-c
+c.plot()
 ```
 
 Now you have 3x polygons all on top of each other.  Again, this would appear
@@ -66,7 +66,7 @@ reposition the references.
 ```python
 poly_ref2.rotate(15)  # Rotate the 2nd reference we made 15 degrees
 poly_ref3.rotate(30)  # Rotate the 3rd reference we made 30 degrees
-c
+c.plot()
 ```
 
 Now you're getting somewhere! You've only had to make the polygon once, but you're
@@ -93,7 +93,7 @@ three references.  Keep in mind that you have not modified `c` or executed any
 functions/operations on `c` -- all you have done is modify `p`.
 
 ```python
-c
+c.plot()
 ```
 
  **When you modify the original geometry, all of the
@@ -108,8 +108,8 @@ exactly equivalent to using `add_ref()`
 ```python
 c2 = gf.Component("array_sample")  # Create a new blank Component
 d_ref1 = c2.add_ref(c)  # Reference the Component "c" that 3 references in it
-d_ref2 = c2 << c  # Use the "<<" operator to create a 2nd reference to c
-d_ref3 = c2 << c  # Use the "<<" operator to create a 3rd reference to c
+d_ref2 = c2 << c  # Use the "<<" operator to create a 2nd reference to c.plot()
+d_ref3 = c2 << c  # Use the "<<" operator to create a 3rd reference to c.plot()
 
 d_ref1.move([20, 0])
 d_ref2.move([40, 0])
@@ -126,7 +126,7 @@ c = gf.Component("reference_sample")
 w = gf.components.straight(width=0.6)
 wr = w.ref()
 c.add(wr)
-c
+c.plot()
 ```
 
 2. or do it in a single line
@@ -134,7 +134,7 @@ c
 ```python
 c = gf.Component("reference_sample_shorter_syntax")
 wr = c << gf.components.straight(width=0.6)
-c
+c.plot()
 ```
 
 in both cases you can move the reference `wr` after created
@@ -163,7 +163,7 @@ c.ports
 ```
 
 ```python
-c
+c.plot()
 ```
 
 ## Arrays of references
@@ -259,7 +259,7 @@ b.connect("o1", destination=mmi.ports["o2"])
 c.add_port("o1", port=mmi.ports["o1"])
 c.add_port("o2", port=b.ports["o2"])
 c.add_port("o3", port=mmi.ports["o3"])
-c
+c.plot()
 ```
 
 You can also access the ports directly from the references
@@ -274,7 +274,7 @@ b.connect("o1", destination=mmi["o2"])
 c.add_port("o1", port=mmi["o1"])
 c.add_port("o2", port=b["o2"])
 c.add_port("o3", port=mmi["o3"])
-c
+c.plot()
 ```
 
 Notice that `connect` mates two ports together and does not imply that ports will remain connected.
@@ -299,12 +299,12 @@ The port naming comes in most cases from the `gdsfactory.cross_section`. For exa
 ```python
 size = 4
 c = gf.components.nxn(west=2, south=2, north=2, east=2, xsize=size, ysize=size)
-c
+c.plot()
 ```
 
 ```python
 c = gf.components.straight_heater_metal(length=30)
-c
+c.plot()
 ```
 
 ```python
@@ -368,7 +368,7 @@ c = gf.Component("demo_ports")
 nxn = gf.components.nxn(west=2, north=2, east=2, south=2, xsize=4, ysize=4)
 ref = c.add_ref(nxn)
 c.add_ports(ref.ports)
-c
+c.plot()
 ```
 
 ```python
@@ -377,7 +377,7 @@ ref.get_ports_list()  # by default returns ports clockwise starting from bottom 
 
 ```python
 c.auto_rename_ports()
-c
+c.plot()
 ```
 
 You can also get the ports counter-clockwise
@@ -395,7 +395,7 @@ You can also get the ports counter-clockwise
 
 ```python
 c.auto_rename_ports_counter_clockwise()
-c
+c.plot()
 ```
 
 ```python
@@ -423,7 +423,7 @@ nxn = gf.components.nxn(
     west=2, north=2, east=2, south=2, xsize=4, ysize=4, cross_section=cross_section
 )
 c = gf.components.extension.extend_ports(component=nxn, orientation=0)
-c
+c.plot()
 ```
 
 ```python

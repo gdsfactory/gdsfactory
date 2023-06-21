@@ -124,7 +124,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 import gdsfactory as gf
 
 c = gf.components.ring_single_heater(gap=0.2, radius=10, length_x=4)
-c
+c.plot()
 ```
 
 ```python

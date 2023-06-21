@@ -105,7 +105,7 @@ c2 = gf.geometry.offset(c1, distance=+d, layer=(2, 0))
 c3 = gf.geometry.offset(c2, distance=-d, layer=(2, 0))
 c << c1
 c << c3
-c
+c.plot()
 ```
 
 
@@ -127,7 +127,7 @@ O = gf.geometry.outline(X, distance=1.5, precision=1e-6, layer=(3, 0))
 c = gf.Component("outline_compare")
 c.add_ref(X)
 c.add_ref(O).movex(30)
-c
+c.plot()
 ```
 
 The ``open_ports`` argument opens holes in the outlined geometry at each Port location.
@@ -251,7 +251,7 @@ Useful when resizing an existing component for simulations
 
 ```python
 c = gf.components.straight_pin(length=10, taper=None)
-c
+c.plot()
 ```
 
 ```python
@@ -285,7 +285,7 @@ import gdsfactory as gf
 
 X = gf.components.ellipse(layer=(2, 0))
 c = X.copy()
-c
+c.plot()
 ```
 
 ```python
@@ -322,7 +322,7 @@ c << gf.fill_rectangle(
 )
 
 c << mzi
-c
+c.plot()
 ```
 
 For large fill regions you can use klayout.
@@ -347,7 +347,7 @@ def cell_with_pad():
 
 c = cell_with_pad()
 gdspath = c.write_gds("mzi_fill.gds")
-c
+c.plot()
 ```
 
 ```python
@@ -437,5 +437,5 @@ fill.fill_tiled(
 gdspath = "mzi_fill.gds"
 c.write(gdspath)
 c = gf.import_gds(gdspath)
-c
+c.plot()
 ```

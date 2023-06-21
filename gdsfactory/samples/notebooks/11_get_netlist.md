@@ -19,7 +19,7 @@ PDK.activate()
 
 ```python
 c = gf.components.mzi()
-c
+c.plot()
 ```
 
 ```python
@@ -28,7 +28,7 @@ c.plot_netlist()
 
 ```python
 c = gf.components.ring_single()
-c
+c.plot()
 ```
 
 ```python
@@ -96,7 +96,7 @@ c.plot_netlist()
 
 ```python
 c = gf.components.mzi()
-c
+c.plot()
 ```
 
 ```python
@@ -130,7 +130,7 @@ def mmi_with_bend():
 
 
 c = mmi_with_bend()
-c
+c.plot()
 ```
 
 ```python
@@ -155,7 +155,7 @@ For example, a ring has a ring_coupler. If you want to dig deeper, the connectio
 
 ```python
 c = gf.components.ring_single()
-c
+c.plot()
 ```
 
 ```python
@@ -164,7 +164,7 @@ c.plot_netlist()
 
 ```python
 c = gf.components.ring_double()
-c
+c.plot()
 ```
 
 ```python
@@ -173,7 +173,7 @@ c.plot_netlist()
 
 ```python
 c = gf.components.mzit()
-c
+c.plot()
 ```
 
 ```python
@@ -190,7 +190,7 @@ c = gf.components.mzi_lattice(
     coupler_gaps=coupler_gaps,
     delta_lengths=delta_lengths,
 )
-c
+c.plot()
 ```
 
 ```python
@@ -207,7 +207,7 @@ c = gf.components.mzi_lattice(
     coupler_gaps=coupler_gaps,
     delta_lengths=delta_lengths,
 )
-c
+c.plot()
 ```
 
 ```python

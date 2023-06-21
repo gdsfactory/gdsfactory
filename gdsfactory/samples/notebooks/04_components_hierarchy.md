@@ -60,7 +60,7 @@ def bend_with_straight_with_too_many_input_parameters(
 
 
 c = bend_with_straight_with_too_many_input_parameters()
-c
+c.plot()
 ```
 
 
@@ -102,7 +102,7 @@ def bend_with_straight(
 
 
 c = bend_with_straight()
-c
+c.plot()
 ```
 
 ### 1. string
@@ -111,7 +111,7 @@ You can use any string registered in the `Pdk`. Go to the PDK tutorial to learn 
 
 ```python
 c = bend_with_straight(bend="bend_circular")
-c
+c.plot()
 ```
 
 ### 2. dict
@@ -120,7 +120,7 @@ You can pass a dict of settings.
 
 ```python
 c = bend_with_straight(bend=dict(component="bend_circular", settings=dict(radius=20)))
-c
+c.plot()
 ```
 
 ### 3. function
@@ -131,7 +131,7 @@ Partial lets you define different default parameters for a function, so you can 
 
 ```python
 c = bend_with_straight(bend=partial(gf.components.bend_circular, radius=30))
-c
+c.plot()
 ```
 
 ```python
@@ -176,7 +176,7 @@ pad_custom_layer = partial(gf.components.pad, layer=(41, 0))
 
 ```python
 c = pad_custom_layer()
-c
+c.plot()
 ```
 
 ## Composing functions

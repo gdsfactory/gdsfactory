@@ -166,7 +166,7 @@ strip2 = partial(gf.cross_section.strip, layer=(2, 0))
 
 ```python
 c = gf.components.straight(cross_section=strip2)
-c
+c.plot()
 ```
 
 ```python
@@ -178,7 +178,7 @@ pin = partial(
     ),
 )
 c = gf.components.straight(cross_section=pin)
-c
+c.plot()
 ```
 
 ```python

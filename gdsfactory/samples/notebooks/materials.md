@@ -76,7 +76,7 @@ strip.plot_index()
 
 ```python
 c = taper_sc_nc(length=10)
-c
+c.plot()
 ```
 
 ```python

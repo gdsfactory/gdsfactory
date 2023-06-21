@@ -267,7 +267,7 @@ sim.plot.plot_imbalance1x2(sp)
 
 ```python
 c = gf.components.mmi2x2_with_sbend(with_sbend=False)
-c
+c.plot()
 ```
 
 ```python

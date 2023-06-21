@@ -32,7 +32,7 @@ c = gf.components.coupler_ring(
     cladding_layers=((2, 0),),
     cladding_offsets=(0.2,),
 )
-c
+c.plot()
 ```
 
 
@@ -48,7 +48,7 @@ c = gf.components.coupler_ring(
     cladding_offsets=(0.2,),
     decorator=over_under_slab,
 )
-c
+c.plot()
 ```
 
 ### Get polygons
@@ -67,7 +67,7 @@ ref = c << gf.components.coupler_ring(
 )
 polygons = get_polygons_over_under_slab(ref)
 c.add(polygons)
-c
+c.plot()
 ```
 
 
@@ -78,25 +78,25 @@ We have some useful functions to invert the tone.
 
 ```python
 c = gf.components.add_trenches(component=gf.components.coupler)
-c
+c.plot()
 ```
 
 ```python
 c = gf.components.add_trenches(component=gf.components.ring_single)
-c
+c.plot()
 ```
 
 ```python
 c = gf.components.add_trenches(
     component=gf.components.grating_coupler_elliptical_lumerical(layer_slab=None)
 )
-c
+c.plot()
 ```
 
 
 ```python
 c = gf.components.add_trenches90(component=gf.components.bend_euler(radius=20))
-c
+c.plot()
 ```
 
 ## Flatten top level
@@ -117,7 +117,7 @@ c = gf.Component()
 device = c << gf.components.coupler_ring()
 floorplan = c << gf.components.bbox(device.bbox, layer=l.FLOORPLAN)
 c.write_gds("src.gds")
-c
+c.plot()
 ```
 
 ```python
@@ -128,7 +128,7 @@ d.SLAB150 = d.WG.copy()  # copy layer
 d.SLAB150 += 4  # size layer by 4 um
 d.SLAB150 -= 2  # size layer by 2 um
 c = d.write("dst.gds")
-c
+c.plot()
 ```
 
 ### Booleans
@@ -142,7 +142,7 @@ d.SLAB150 = d.WG.copy()
 d.SLAB150 += 3  # size layer by 3 um
 d.SHALLOW_ETCH = d.SLAB150 - d.WG
 c = d.write("dst.gds")
-c
+c.plot()
 ```
 
 
@@ -173,7 +173,7 @@ d = dp.RegionCollection(filepath="src.gds", layermap=dict(l))
 d.SLAB150 = d.WG.copy()
 d.SLAB150.round_corners(1 * 1e3, 1 * 1e3, 100)  # round corners by 1um
 c = d.write("dst.gds")
-c
+c.plot()
 ```
 
 ```python

@@ -167,7 +167,7 @@ from gdsfactory.config import PATH
 
 ```python
 c = pdk.mmi1x2()
-c
+c.plot()
 ```
 
 ```python

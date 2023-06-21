@@ -24,7 +24,7 @@ ellipse = c << E
 rect1 = c << R
 rect2 = c << R
 
-c
+c.plot()
 ```
 
 ```python
@@ -32,7 +32,7 @@ c = gf.Component("move_one_ellipse")
 e1 = c << gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e2 = c << gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e1.movex(10)
-c
+c.plot()
 ```
 
 ```python
@@ -40,7 +40,7 @@ c = gf.Component("move_one_ellipse_xmin")
 e1 = c << gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e2 = c << gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e2.xmin = e1.xmax
-c
+c.plot()
 ```
 
 Now you can practice move and rotate the objects.
@@ -50,7 +50,7 @@ c = gf.Component("two_ellipses_on_top_of_each_other")
 E = gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e1 = c << E
 e2 = c << E
-c
+c.plot()
 ```
 
 ```python
@@ -59,7 +59,7 @@ e = gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e1 = c << e
 e2 = c << e
 e2.move(origin=[5, 5], destination=[10, 10])  # Translate by dx = 5, dy = 5
-c
+c.plot()
 ```
 
 ```python
@@ -68,7 +68,7 @@ e = gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e1 = c << e
 e2 = c << e
 e2.move([5, 5])  # Translate by dx = 5, dy = 5
-c
+c.plot()
 ```
 
 ```python
@@ -81,20 +81,20 @@ rect1.rotate(45)  # Rotate the first straight by 45 degrees around (0,0)
 rect2.rotate(
     -30, center=[1, 1]
 )  # Rotate the second straight by -30 degrees around (1,1)
-c
+c.plot()
 ```
 
 ```python
 c = gf.Component("mirror_demo")
 text = c << gf.components.text("hello")
 text.mirror(p1=[1, 1], p2=[1, 3])  # Reflects across the line formed by p1 and p2
-c
+c.plot()
 ```
 
 ```python
 c = gf.Component("hello")
 text = c << gf.components.text("hello")
-c
+c.plot()
 ```
 
 Each Component and ComponentReference object has several properties which can be
@@ -140,7 +140,7 @@ rect1 = c << R
 rect2 = c << R
 ellipse = c << E
 
-c
+c.plot()
 ```
 
 ```python
@@ -164,7 +164,7 @@ rect2.xmax = 0
 rect1.ymin = ellipse.ymax + 5
 rect2.ymax = ellipse.ymin - 5
 
-c
+c.plot()
 ```
 
 In addition to working with the properties of the references inside the
@@ -186,7 +186,7 @@ c = gf.Component("hi_bbox")
 text = c << gf.components.text("hi")
 bbox = text.bbox
 c << gf.components.bbox(bbox=bbox, layer=(2, 0))
-c
+c.plot()
 ```
 
 ```python
@@ -195,7 +195,7 @@ c = gf.Component("sample_padding")
 text = c << gf.components.text("bye")
 device_bbox = text.bbox
 c.add_polygon(gf.get_padding_points(text, default=1), layer=(2, 0))
-c
+c.plot()
 ```
 
 When we query the properties of D, they will be calculated with respect to this

@@ -36,7 +36,7 @@ mzi = c << gf.components.mzi()  # equivalent to mzi = c.add_ref(gf.components.mz
 bend = (
     c << gf.components.bend_circular()
 )  # equivalent to bend = c.add_ref(gf.components.bend_circular())
-c
+c.plot()
 ```
 
 You can connect the bend `o1` port to the mzi `o2` port.
@@ -48,7 +48,7 @@ bend = (
     c << gf.components.bend_circular()
 )  # equivalent to bend = c.add_ref(gf.components.bend_circular())
 bend.connect("o1", mzi.ports["o2"])
-c
+c.plot()
 ```
 
 
@@ -68,7 +68,7 @@ def mzi_with_bend(radius: float = 10):
 
 
 c = mzi_with_bend(radius=20)
-c
+c.plot()
 ```
 
 Now to connect your component to other components you need to add ports.
@@ -94,7 +94,7 @@ def mzi_with_bend(radius: float = 10):
 c = mzi_with_bend(
     radius=20, cache=False
 )  # as we changed the code inside the function you need to clear the cache from the cell decorator.
-c
+c.plot()
 ```
 
 ```python

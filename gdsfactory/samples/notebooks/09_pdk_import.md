@@ -36,7 +36,7 @@ PDK = get_generic_pdk()
 PDK.activate()
 
 c = gf.components.mzi()
-c
+c.plot()
 ```
 
 You can write **GDS** files only
@@ -68,7 +68,7 @@ You can read GDS files into gdsfactory thanks to the `import_gds` function
 gf.clear_cache()
 
 c = gf.import_gds(gdspath, read_metadata=True)
-c
+c.plot()
 ```
 
 ```python
@@ -114,7 +114,7 @@ Lets add pins, save a GDS and then import it back.
 c = gf.components.straight(
     decorator=gf.add_pins.add_pins
 )  # add pins inside the component
-c
+c.plot()
 ```
 
 ```python

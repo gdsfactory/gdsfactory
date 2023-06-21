@@ -34,7 +34,7 @@ arc = c << gf.components.bend_circular(radius=10, width=0.5, angle=90, layer=(1,
 arc.rotate(90)
 # Draw a rectangle around the arc we created by using the arc's bounding box
 rect = c << gf.components.bbox(bbox=arc.bbox, layer=(0, 0))
-c
+c.plot()
 ```
 
 ### Cross
@@ -237,17 +237,17 @@ f = P.plot()
 
 ```python
 c = gf.components.spiral_double()
-c
+c.plot()
 ```
 
 ```python
 c = gf.components.spiral_inner_io()
-c
+c.plot()
 ```
 
 ```python
 c = gf.components.spiral_external_io()
-c
+c.plot()
 ```
 
 ## Useful contact pads / connectors
@@ -256,22 +256,22 @@ These functions are common shapes with ports, often used to make contact pads
 
 ```python
 c = gf.components.compass(size=(4, 2), layer=(1, 0))
-c
+c.plot()
 ```
 
 ```python
 c = gf.components.nxn(north=3, south=4, east=0, west=0)
-c
+c.plot()
 ```
 
 ```python
 c = gf.components.pad()
-c
+c.plot()
 ```
 
 ```python
 c = gf.components.pad_array90(columns=3)
-c
+c.plot()
 ```
 
 ## Chip / die template
@@ -303,7 +303,7 @@ import gdsfactory as gf
 c = gf.components.optimal_hairpin(
     width=0.2, pitch=0.6, length=10, turn_ratio=4, num_pts=50, layer=(2, 0)
 )
-c
+c.plot()
 ```
 
 ```python
@@ -316,12 +316,12 @@ c = gf.c.optimal_step(
     symmetric=False,
     layer=(2, 0),
 )
-c
+c.plot()
 ```
 
 ```python
 c = gf.c.optimal_90deg(width=100.0, num_pts=15, length_adjust=1, layer=(2, 0))
-c
+c.plot()
 ```
 
 ```python
@@ -334,5 +334,5 @@ c = gf.c.snspd(
     terminals_same_side=False,
     layer=(2, 0),
 )
-c
+c.plot()
 ```

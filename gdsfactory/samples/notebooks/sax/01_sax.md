@@ -183,7 +183,7 @@ gs.plot_model(straight_sc, phase=True)
 
 ```python
 c = gf.components.coupler(length=10, gap=0.2)
-c
+c.plot()
 ```
 
 ```python
@@ -1172,7 +1172,7 @@ GDSFactory autonames component names for GDS and for netlists uses an incrementa
 ```python
 netlist = mzi_component.get_netlist()
 c = gf.read.from_yaml(netlist)
-c
+c.plot()
 ```
 
 From this we see that we will need to change `syl` and `straight_9`.

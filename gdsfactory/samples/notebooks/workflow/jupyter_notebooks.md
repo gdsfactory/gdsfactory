@@ -35,7 +35,7 @@ c.plot_jupyter()
 ```
 
 ```python
-c
+c.plot()
 ```
 
 ```python

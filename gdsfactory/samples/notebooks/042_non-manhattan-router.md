@@ -403,7 +403,7 @@ routes = gf.routing.get_bundle_all_angle(
 )
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -423,7 +423,7 @@ routes = gf.routing.get_bundle_all_angle(
 )
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -479,5 +479,5 @@ def chip():
 
 gf.get_active_pdk().register_cross_sections(strip=gf.cross_section.strip)
 c = chip()
-c
+c.plot()
 ```

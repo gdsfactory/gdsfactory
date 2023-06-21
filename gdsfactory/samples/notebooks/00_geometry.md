@@ -30,7 +30,7 @@ poly1 = c.add_polygon(
 )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
 
 # show it in matplotlib and KLayout (you need to have KLayout open and install gdsfactory from the git repo with make install)
-c
+c.plot()
 ```
 
 **Exercise** :
@@ -57,7 +57,7 @@ r.movex(-15)
 r.movex(-15)
 
 print(c)
-c
+c.plot()
 ```
 
 You define polygons both from `gdstk` or `Shapely`
@@ -76,7 +76,7 @@ c.add_polygon(p1, layer=1)
 c.add_polygon(p2, layer=2)
 
 c.add_polygon([(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=3)
-c
+c.plot()
 ```
 
 ```python
@@ -96,7 +96,7 @@ pnot
 ```python
 c = gf.Component("exterior")
 c.add_polygon(pnot, layer=3)
-c
+c.plot()
 ```
 
 ```python
@@ -112,7 +112,7 @@ p_or
 ```python
 c = gf.Component("p_or")
 c.add_polygon(p_or, layer=1)
-c
+c.plot()
 ```
 
 ```python
@@ -130,13 +130,13 @@ p6
 ```python
 c = gf.Component("p6")
 c.add_polygon(p6, layer=1)
-c
+c.plot()
 ```
 
 ```python
 c = gf.Component("demo_multilayer")
 p0 = c.add_polygon(p0, layer={2, 3})
-c
+c.plot()
 ```
 
 ```python
@@ -144,7 +144,7 @@ c = gf.Component("demo_mirror")
 p0 = c.add_polygon(p0, layer=1)
 p9 = c.add_polygon(p0, layer=2)
 p9.mirror()
-c
+c.plot()
 ```
 
 ```python
@@ -153,13 +153,13 @@ p0 = c.add_polygon(p0, layer=1)
 p9 = c.add_polygon(p0, layer=2)
 p9.mirror()
 p9.xmin = p0.xmax
-c
+c.plot()
 ```
 
 ```python
 c = gf.Component("enclosure1")
 r = c << gf.components.ring_single()
-c
+c.plot()
 ```
 
 
@@ -168,7 +168,7 @@ c = gf.Component("enclosure2")
 r = c << gf.components.ring_single()
 p = c.get_polygon_bbox()
 c.add_polygon(p, layer=(2, 0))
-c
+c.plot()
 ```
 
 ```python
@@ -176,7 +176,7 @@ c = gf.Component("enclosure3")
 r = c << gf.components.ring_single()
 p = c.get_polygon_bbox(top=3, bottom=3)
 c.add_polygon(p, layer=(2, 0))
-c
+c.plot()
 ```
 
 ```python
@@ -184,7 +184,7 @@ c = gf.Component("enclosure3")
 r = c << gf.components.ring_single()
 p = c.get_polygon_enclosure()
 c.add_polygon(p, layer=(2, 0))
-c
+c.plot()
 ```
 
 ```python
@@ -193,7 +193,7 @@ r = c << gf.components.ring_single()
 p = c.get_polygon_enclosure()
 p2 = p.buffer(3)
 c.add_polygon(p2, layer=(2, 0))
-c
+c.plot()
 ```
 
 ## Connect **ports**
@@ -227,7 +227,7 @@ wg3 = c << straight(length=15, width=2.5, layer=3)
 wg2.movey(10).rotate(10)
 wg3.movey(20).rotate(15)
 
-c
+c.plot()
 ```
 
 Now we can connect everything together using the ports:
@@ -242,7 +242,7 @@ wg2.connect("o1", wg1.ports["o2"])
 # Next, on wg3 let's grab the "o1" port and connect it to the "o2" on wg2:
 wg3.connect("o1", wg2.ports["o2"])
 
-c
+c.plot()
 ```
 
 Ports can be added by copying existing ports. In the example below, ports are added at the component-level on c from the existing ports of children wg1 and wg3
@@ -251,7 +251,7 @@ Ports can be added by copying existing ports. In the example below, ports are ad
 ```python
 c.add_port("o1", port=wg1.ports["o1"])
 c.add_port("o2", port=wg3.ports["o2"])
-c
+c.plot()
 ```
 
 ## Move and rotate references
@@ -285,7 +285,7 @@ wg3.move([1, 1], [5, 5], axis="y")
 # Then, move again the third straight "from" x=0 "to" x=10 (dx=10)
 wg3.movex(0, 10)
 
-c
+c.plot()
 ```
 
 ## Ports
@@ -353,7 +353,7 @@ c.add_label(
     position=(0, 0),
     layer=(1, 0),
 )
-c
+c.plot()
 ```
 
 <!-- #region -->
@@ -373,7 +373,7 @@ c = gf.Component("boolean_demo")
 e1 = c.add_ref(gf.components.ellipse(layer=(2, 0)))
 e2 = c.add_ref(gf.components.ellipse(radii=(10, 6), layer=(2, 0))).movex(2)
 e3 = c.add_ref(gf.components.ellipse(radii=(10, 4), layer=(2, 0))).movex(5)
-c
+c.plot()
 ```
 
 ```python
@@ -387,12 +387,12 @@ c2
 c = gf.Component("ref_port_sample")
 mmi = c.add_ref(gf.components.mmi1x2())
 bend = c.add_ref(gf.components.bend_circular(layer=(2, 0)))
-c
+c.plot()
 ```
 
 ```python
 bend.connect("o1", mmi.ports["o2"])  # connects follow Source, destination syntax
-c
+c.plot()
 ```
 
 ## Mirror reference
@@ -403,23 +403,23 @@ By default the mirror works along the y-axis.
 c = gf.Component("ref_mirror")
 mmi = c.add_ref(gf.components.mmi1x2())
 bend = c.add_ref(gf.components.bend_circular(layer=(2, 0)))
-c
+c.plot()
 ```
 
 ```python
 mmi.mirror()
-c
+c.plot()
 ```
 
 
 ```python
 mmi.mirror_y()
-c
+c.plot()
 ```
 
 ```python
 mmi.mirror_x()
-c
+c.plot()
 ```
 
 ## Write
@@ -435,7 +435,7 @@ import gdsfactory as gf
 
 c = gf.components.cross()
 c.write_gds("demo.gds")
-c
+c.plot()
 ```
 
 You can see the GDS file in Klayout viewer.

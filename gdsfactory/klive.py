@@ -45,7 +45,9 @@ def show(
         conn.sendall(enc_data)
         conn.settimeout(5)
     except OSError:
-        config.logger.warning("Could not connect to klive server")
+        config.logger.warning(
+            "Could not connect to klive server. Is klayout open and klive plugin installed?"
+        )
     else:
         msg = ""
         try:

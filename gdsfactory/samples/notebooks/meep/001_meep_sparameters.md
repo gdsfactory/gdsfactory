@@ -118,7 +118,7 @@ PDK.activate()
 
 ```python
 c = gf.components.straight(length=2)
-c
+c.plot()
 ```
 
 `run=False` only plots the simulations for you to review that is set up **correctly**
@@ -144,7 +144,7 @@ Because components with `left-right` ports are very common `write_sparameters_me
 
 ```python
 c = gf.components.taper(length=2.0, width1=0.5, width2=1)
-c
+c.plot()
 ```
 
 ```python
@@ -192,7 +192,7 @@ If the device looks the same going from in -> out as out -> in, we just need to 
 
 ```python
 c = gf.components.bend_euler(radius=3)
-c
+c.plot()
 ```
 
 ```python
@@ -221,7 +221,7 @@ gf.simulation.plot.plot_sparameters(sp, keys=("o2@0,o1@0",))
 
 ```python
 c = gf.components.crossing()
-c
+c.plot()
 ```
 
 <!-- #region -->
@@ -290,7 +290,7 @@ help(gf.components.coupler)
 
 ```python
 c = gf.components.coupler(length=8, gap=0.13)
-c
+c.plot()
 ```
 
 ```python
@@ -358,7 +358,7 @@ gf.simulation.plot.plot_sparameters(sp)
 
 ```python
 c = gf.components.coupler_ring()
-c
+c.plot()
 ```
 
 ```python
@@ -409,7 +409,7 @@ gm.plot.plot_sparameters(sp, keys=["s41"], with_simpler_input_keys=True)
 ```python
 c = gf.components.mmi1x2()
 c = add_simulation_markers(c)
-c
+c.plot()
 ```
 
 ```python
@@ -479,7 +479,7 @@ c.add_port("o1", port=straight1.ports["o1"])
 c.add_port("o2", port=straight2.ports["o2"])
 c.add_port("o3", port=straight3.ports["o2"])
 
-c
+c.plot()
 ```
 
 

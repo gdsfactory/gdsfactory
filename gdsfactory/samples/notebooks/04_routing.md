@@ -41,7 +41,7 @@ c = gf.Component("sample_no_routes")
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
 mmi2.move((100, 50))
-c
+c.plot()
 ```
 
 ## get_route
@@ -59,7 +59,7 @@ mmi2 = c << gf.components.mmi1x2()
 mmi2.move((100, 50))
 route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o1"])
 c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -79,7 +79,7 @@ x = c << gf.components.cross(length=20)
 x.move((135, 20))
 route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o2"])
 c.add(route.references)
-c
+c.plot()
 ```
 
 **Solutions:**
@@ -117,7 +117,7 @@ routes = gf.routing.get_route_from_steps(
     ],
 )
 c.add(routes.references)
-c
+c.plot()
 ```
 
 ```python
@@ -147,7 +147,7 @@ routes = gf.routing.get_route_from_steps(
     ],
 )
 c.add(routes.references)
-c
+c.plot()
 ```
 
 ## get_route_astar
@@ -185,7 +185,7 @@ routes = gf.routing.get_route_astar(
 )
 
 c.add(routes.references)
-c
+c.plot()
 ```
 
 By default it avoids all obstacles on every layer, but you can explicitly define the layers to avoid using `avoid_layers`.
@@ -219,7 +219,7 @@ routes = gf.routing.get_route_astar(
 )
 
 c.add(routes.references)
-c
+c.plot()
 ```
 
 ```python
@@ -240,7 +240,7 @@ c.add_ports([port1, port2])
 route = gf.routing.get_route_astar(c, port1, port2, radius=0.5, width=0.5, distance=0.5)
 c.add(route.references)
 
-c
+c.plot()
 ```
 
 ```python
@@ -262,7 +262,7 @@ route = gf.routing.get_route_astar(
     c, port1, port2, radius=0.5, width=0.5, avoid_layers=[(1, 0)]
 )
 c.add(route.references)
-c
+c.plot()
 ```
 
 The resolution decides how many "leaps/hops" the algorithm has to do. For a layout like this, where the default resolution (1 micron) is much smaller than the distance between the obstacles (~15+ microns), it has to step through too many points and that takes a long time. Increasing the resolution to about 5 microns fixes it (for this layout).
@@ -292,7 +292,7 @@ route = gf.routing.get_route_astar(
     radius=5,
 )
 c.add(route.references)
-c
+c.plot()
 ```
 
 ## get_bundle
@@ -329,7 +329,7 @@ routes = gf.routing.get_bundle(
 )
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -362,7 +362,7 @@ routes = gf.routing.get_bundle(
 for route in routes:
     c.add(route.references)
 
-c
+c.plot()
 ```
 
 `get_bundle` can also route bundles through corners
@@ -580,12 +580,12 @@ def test_connect_corner(N=6, config="A"):
 
 
 c = test_connect_corner(config="A")
-c
+c.plot()
 ```
 
 ```python
 c = test_connect_corner(config="C")
-c
+c.plot()
 ```
 
 ```python
@@ -652,7 +652,7 @@ def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
 
 
 c = test_connect_bundle_udirect()
-c
+c.plot()
 ```
 
 ```python
@@ -715,7 +715,7 @@ def test_connect_bundle_u_indirect(dy=-200, orientation=180, layer=(1, 0)):
 
 
 c = test_connect_bundle_u_indirect(orientation=0)
-c
+c.plot()
 ```
 
 ```python
@@ -751,7 +751,7 @@ def test_north_to_south(layer=(1, 0)):
 
 
 c = test_north_to_south()
-c
+c.plot()
 ```
 
 ```python
@@ -782,7 +782,7 @@ def demo_connect_bundle():
 
 
 c = demo_connect_bundle()
-c
+c.plot()
 ```
 
 ```python
@@ -796,7 +796,7 @@ routes = gf.routing.get_bundle(
 )
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -809,7 +809,7 @@ routes = gf.routing.get_bundle(
 )
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -836,7 +836,7 @@ routes = gf.routing.get_bundle(
 )
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -863,7 +863,7 @@ routes = gf.routing.get_bundle(
 )
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 **Problem**
@@ -875,7 +875,7 @@ c = gf.Component("route_fail_1")
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.move((80, 0))
-c
+c.plot()
 ```
 
 ```python
@@ -890,7 +890,7 @@ routes = gf.routing.get_bundle(
 )
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -914,7 +914,7 @@ routes = gf.routing.get_bundle(right_ports, left_ports, radius=5)
 
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 **Solution**
@@ -931,7 +931,7 @@ routes = gf.routing.get_bundle_sbend(
 )
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 You can also `get_bundle` adding `with_sbend=True`
@@ -948,7 +948,7 @@ routes = gf.routing.get_bundle(
 )
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 
@@ -1030,7 +1030,7 @@ routes = gf.routing.get_bundle(
 for route in routes:
     c.add(route.references)
     print(route.length)
-c
+c.plot()
 ```
 
 ### path length match with extra loops
@@ -1071,7 +1071,7 @@ routes = gf.routing.get_bundle(
 for route in routes:
     c.add(route.references)
     print(route.length)
-c
+c.plot()
 ```
 
 ```python
@@ -1093,7 +1093,7 @@ routes = gf.routing.get_bundle_path_length_match(
 
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 Sometimes you need to modify `separation` to ensure waveguides don't overlap.
@@ -1117,7 +1117,7 @@ routes = gf.routing.get_bundle_path_length_match(
 
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -1140,7 +1140,7 @@ routes = gf.routing.get_bundle(
 
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 ### get bundle with different orientation ports
@@ -1197,5 +1197,5 @@ routes = gf.routing.get_bundle_from_steps(
 for route in routes:
     c.add(route.references)
 
-c
+c.plot()
 ```

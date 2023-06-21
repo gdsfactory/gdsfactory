@@ -134,7 +134,7 @@ PDK.activate()
 
 LAYER_VIEWS = PDK.layer_views
 c = LAYER_VIEWS.preview_layerset()
-c
+c.plot()
 ```
 
 ```python
@@ -157,7 +157,7 @@ You can remap (change the polygons from one layer to another layer) using the `r
 
 ```python
 c = gf.components.straight(layer=(2, 0))
-c
+c.plot()
 ```
 
 ```python
@@ -217,7 +217,7 @@ You can preview all the layers defined in your `LayerViews`
 
 ```python
 c = LAYER_VIEWS.preview_layerset()
-c
+c.plot()
 ```
 
 By default the generic PDK has some layers that are not visible and therefore are not shown.
@@ -471,7 +471,7 @@ layer_stack220 = LAYER_STACK
 import gdsfactory as gf
 
 c = gf.components.straight_heater_doped_rib(length=100)
-c
+c.plot()
 ```
 
 ```python
@@ -483,7 +483,7 @@ scene.show()
 import gdsfactory as gf
 
 c = gf.components.straight_heater_metal(length=40)
-c
+c.plot()
 ```
 
 ```python
@@ -495,7 +495,7 @@ scene.show()
 import gdsfactory as gf
 
 c = gf.components.taper_strip_to_ridge_trenches()
-c
+c.plot()
 ```
 
 ```python
@@ -514,7 +514,7 @@ scene.show()
 import gdsfactory as gf
 
 c = gf.components.grating_coupler_elliptical_trenches()
-c
+c.plot()
 ```
 
 ```python

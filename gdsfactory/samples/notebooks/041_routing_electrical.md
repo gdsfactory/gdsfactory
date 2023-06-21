@@ -28,7 +28,7 @@ c = gf.Component("pads")
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((70, 200))
-c
+c.plot()
 ```
 
 ```python
@@ -40,7 +40,7 @@ route = gf.routing.get_route_electrical(
     pt.ports["e11"], pb.ports["e11"], bend="bend_euler", radius=30
 )
 c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -52,7 +52,7 @@ route = gf.routing.get_route_electrical(
     pt.ports["e11"], pb.ports["e11"], bend="wire_corner"
 )
 c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -64,7 +64,7 @@ route = gf.routing.get_route_electrical(
     pt.ports["e11"], pb.ports["e11"], bend="wire_corner"
 )
 c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -81,7 +81,7 @@ route = gf.routing.get_route_electrical_multilayer(
     end_straight_length=100,
 )
 c.add(route.references)
-c
+c.plot()
 ```
 
 There is also `bend = wire_corner45` for 45deg bend corner with parametrizable "radius":
@@ -95,7 +95,7 @@ route = gf.routing.get_route_electrical(
     pt.ports["e11"], pb.ports["e11"], bend="wire_corner45", radius=30
 )
 c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -107,7 +107,7 @@ route = gf.routing.get_route_electrical(
     pt.ports["e11"], pb.ports["e11"], bend="wire_corner45", radius=100
 )
 c.add(route.references)
-c
+c.plot()
 ```
 
 ### route_quad
@@ -118,7 +118,7 @@ pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((100, 200))
 route = c << gf.routing.route_quad(pt.ports["e11"], pb.ports["e11"], layer=(49, 0))
-c
+c.plot()
 ```
 
 ### get_route_from_steps
@@ -138,7 +138,7 @@ route = gf.routing.get_route_from_steps(
     bend=gf.components.wire_corner,
 )
 c.add(route.references)
-c
+c.plot()
 ```
 
 ```python
@@ -156,7 +156,7 @@ route = gf.routing.get_route_from_steps(
     bend=gf.components.wire_corner,
 )
 c.add(route.references)
-c
+c.plot()
 ```
 
 ### get_bundle_electrical
@@ -175,7 +175,7 @@ routes = gf.routing.get_bundle_electrical(
 
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 ### get_bundle_from_steps_electrical
@@ -198,7 +198,7 @@ routes = gf.routing.get_bundle_from_steps_electrical(
 for route in routes:
     c.add(route.references)
 
-c
+c.plot()
 ```
 
 ### get_bundle_electrical_multilayer
@@ -218,7 +218,7 @@ routes = gf.routing.get_bundle_electrical_multilayer(
 )
 for route in routes:
     c.add(route.references)
-c
+c.plot()
 ```
 
 ## Routing to pads
@@ -257,7 +257,7 @@ c = gf.components.nxn(
     port_type="electrical",
     wg_width=10,
 )
-c
+c.plot()
 ```
 
 ```python
@@ -274,7 +274,7 @@ You can route to a fiber array.
 ```python
 component = big_device(nports=10)
 c = gf.routing.add_fiber_array(component=component, radius=10.0, fanout_length=60.0)
-c
+c.plot()
 ```
 
 You can also mix and match TE and TM grating couplers. Notice that the `TM` polarization grating coupler is bigger.

@@ -134,7 +134,7 @@ Lets start with a resistance sweep, where you change the resistance width to mea
 sweep = [gf.components.resistance_sheet(width=width) for width in [1, 10, 100]]
 m = gf.pack(sweep)
 c = m[0]
-c
+c.plot()
 ```
 
 Then we add spirals with different lengths to measure waveguide propagation loss.
@@ -159,7 +159,7 @@ spiral_te = gf.compose(
     gf.components.spiral_inner_io_fiber_single,
 )
 c = spiral_te(length=10e3)
-c
+c.plot()
 ```
 
 ```python
@@ -178,7 +178,7 @@ spiral_te = gf.compose(
 sweep = [spiral_te(length=length) for length in [10e3, 20e3, 30e3]]
 m = gf.pack(sweep)
 c = m[0]
-c
+c.plot()
 ```
 
 Together with GDS labels that are not fabricated, you can also add some physical labels that will be fabricated.
@@ -190,7 +190,7 @@ text_metal3 = partial(gf.components.text_rectangular_multi_layer, layers=(gf.LAY
 
 m = gf.pack(sweep, text=text_metal3, text_anchors=("nc",), text_prefix="s")
 c = m[0]
-c
+c.plot()
 ```
 
 ```python
@@ -198,7 +198,7 @@ text_metal2 = partial(gf.components.text, layer=gf.LAYER.M2)
 
 m = gf.pack(sweep, text=text_metal2, text_anchors=("nc",), text_prefix="s")
 c = m[0]
-c
+c.plot()
 ```
 
 ## Grid
@@ -317,7 +317,7 @@ def mask():
 
 
 c = mask(cache=False)
-c
+c.plot()
 ```
 
 ## 2. Component in YAML
@@ -500,7 +500,7 @@ def mzi_te(**kwargs) -> gf.Component:
 
 
 c = mzi_te()
-c
+c.plot()
 ```
 
 ```python
@@ -514,7 +514,7 @@ gdspath = c.write_gds()
 csvpath = gf.labels.write_labels.write_labels_gdstk(gdspath, debug=True)
 
 df = pd.read_csv(csvpath)
-c
+c.plot()
 ```
 
 ```python
@@ -537,7 +537,7 @@ c = gf.add_labels.add_labels_to_ports(c)
 gdspath = c.write_gds()
 csvpath = gf.labels.write_labels.write_labels_gdstk(gdspath, debug=True)
 df = pd.read_csv(csvpath)
-c
+c.plot()
 ```
 
 ```python

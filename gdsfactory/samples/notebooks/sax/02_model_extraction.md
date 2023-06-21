@@ -36,7 +36,7 @@ c = gf.components.straight(
     cross_section=rib(width=2),
     length=10,
 )
-c
+c.plot()
 ```
 
 ```python
