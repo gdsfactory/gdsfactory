@@ -103,8 +103,7 @@ Then you can install Klayout-live `klive` integration in the klayout GUI `Tools 
 
 ### Update gdsfactory
 
-- You can `pip install gdsfactory --upgrade`
-- Developers can `git pull` the GitHub repository you downloaded and installed on your computer.
+You can `pip install gdsfactory --upgrade`
 
 Notice that some PDKs may only work for a specific version of gdsfactory, so make sure you install the correct gdsfactory version specified in the `pyproject.toml` file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example `pip install gf180` will install the latest gdsfactory version that has been tested for the GlobalFoundries180 PDK.
 
