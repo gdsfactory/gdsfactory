@@ -90,39 +90,42 @@ What do we test?
 
 
 ```python
-import pathlib
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
-from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
-from ubcpdk import cells
+from gdsfactory.samples.pdk.fab_c import cells
 
-
-skip_test = { }
-cell_names = set(cells.keys()) - set(skip_test)
-dirpath_ref = pathlib.Path(__file__).absolute().parent / "ref"
+cell_names = list(cells.keys())
 
 
 @pytest.fixture(params=cell_names, scope="function")
-def component(request) -> Component:
-    return cells[request.param]()
+def component_name(request) -> str:
+    return request.param
 
 
-def test_pdk_gds(component: Component) -> None:
-    """Avoid regressions in GDS geometry, cell names and layers."""
-    difftest(component, dirpath=dirpath_ref)
+def test_gds(component_name: str) -> None:
+    """Avoid regressions in GDS names, shapes and layers.
+
+    Runs XOR and computes the area.
+
+    """
+    component = cells[component_name]()
+    test_name = f"fabc_{component_name}"
+    difftest(component, test_name=test_name)
 
 
-def test_pdk_settings(
-    component: Component, data_regression: DataRegressionFixture
-) -> None:
-    """Avoid regressions when exporting settings."""
+def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
+    """Avoid regressions in component settings and ports."""
+    component = cells[component_name]()
     data_regression.check(component.to_dict())
 
 
-def test_assert_ports_on_grid(component: Component):
+def test_assert_ports_on_grid(component_name: str) -> None:
+    """Ensures all ports are on grid to avoid 1nm gaps."""
+    component = cells[component_name]()
     component.assert_ports_on_grid()
+
 
 ```
 
