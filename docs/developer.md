@@ -128,3 +128,14 @@ def test_assert_ports_on_grid(component: Component):
 
 - For questions join the chat[![Join the chat at https://gitter.im/gdsfactory-dev/community](https://badges.gitter.im/gdsfactory-dev/community.svg)](https://gitter.im/gdsfactory-dev/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) with [element.io](https://element.io/download) or any matrix client.
 - Or use GitHub issues or discussions.
+
+## Running notebooks
+
+We have jupyter notebooks in `gdsfactory/samples/notebooks`
+
+You can open the tutorial notebooks with [jupytext](https://jupytext.readthedocs.io/en/latest/).
+Jupytext is a python package to open and edit jupyter notebooks as python or markdown files, so they are easier to read and version control with GIT.
+
+You can use [VSCode Jupytext extension](https://marketplace.visualstudio.com/items?itemName=congyiwu.vscode-jupytext) to open the notebooks from the markdown files.
+
+<img src=https://raw.githubusercontent.com/notebookPowerTools/vscode-jupytext/main/images/main.gif>
