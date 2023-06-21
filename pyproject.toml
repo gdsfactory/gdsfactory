@@ -44,7 +44,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "6.107.4"
+version = "6.107.5"
 
 [project.optional-dependencies]
 cad = [
@@ -54,6 +54,7 @@ cad = [
   "ipympl",
   "ipywidgets==7.7.3",
   "ipyevents",
+  "ipykernel",
   "mapbox_earcut",
   "natsort",
   "networkx",

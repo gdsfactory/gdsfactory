@@ -12,12 +12,6 @@ repos:
     hooks:
       - id: black
 
-  - repo: https://github.com/asottile/blacken-docs
-    rev: 7b71075ceb458be255e24da587c0275818b51faa
-    hooks:
-      - id: blacken-docs
-        additional_dependencies: [black==23.3.0]
-
   - repo: https://github.com/codespell-project/codespell
     rev: ad3ff374e97e29ca87c94b5dc7eccdd29adc6296
     hooks:

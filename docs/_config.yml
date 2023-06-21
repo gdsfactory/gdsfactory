@@ -79,6 +79,6 @@ sphinx:
       - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
     nb_execution_raise_on_error: true
     nb_custom_formats:
-        .py:
+        .md:
             - jupytext.reads
-            - fmt: py
+            - fmt: md
