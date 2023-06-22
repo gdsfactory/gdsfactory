@@ -9,8 +9,8 @@ python:
 	jupytext **/*.ipynb --to py
 
 notebooks:
-	jupytext *.py --to ipynb
-	jupytext **/*.py --to ipynb
+	jupytext *.md --to ipynb
+	jupytext **/*.md --to ipynb
 
 markdown:
 	jupytext *.py --to md
@@ -22,5 +22,9 @@ clean:
 	nbstripout --drop-empty-cells **/*.ipynb
 
 rm:
-	rm *.py
-	rm **/*.py
+	rm *.ipynb
+	rm **/*.ipynb
+
+
+set:
+	jupytext --set-formats md,ipynb **/*.md

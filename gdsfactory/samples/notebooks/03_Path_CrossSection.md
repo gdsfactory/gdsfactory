@@ -143,7 +143,7 @@ p = gf.path.arc()
 
 # Combine the Path and the CrossSection
 b = gf.path.extrude(p, cross_section=x)
-b
+b.plot()
 ```
 
 ## Building Paths quickly
@@ -283,7 +283,7 @@ s1 = gf.Section(width=1.5, offset=2.5, layer=(2, 0))
 s2 = gf.Section(width=1.5, offset=-2.5, layer=(3, 0))
 X = gf.CrossSection(width=1, offset=0, layer=(1, 0), sections=[s1, s2])
 component = gf.path.extrude(P, X)
-component
+component.plot()
 ```
 
 
@@ -535,15 +535,15 @@ Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="si
 P3 = gf.path.straight(length=15, npoints=100)
 # Use the transitional CrossSection to create a Component
 straight_transition = gf.path.extrude(P3, Xtrans)
-straight_transition
+straight_transition.plot()
 ```
 
 ```python
-wg1
+wg1.plot()
 ```
 
 ```python
-wg2
+wg2.plot()
 ```
 
 Now that we have all of our components, let's `connect()` everything and see
@@ -813,13 +813,13 @@ X2 = gf.CrossSection(
     width=3, offset=0, layer=gf.LAYER.WG, name="core", port_names=("o1", "o2")
 )
 c2 = gf.path.extrude(P, X2)
-c2
+c2.plot()
 ```
 
 ```python
 T = gf.path.transition(X1, X2)
 c3 = gf.path.extrude(P, T)
-c3
+c3.plot()
 ```
 
 ```python
@@ -827,7 +827,8 @@ c4 = gf.Component("demo_transition2")
 ```
 
 ```python
-start_ref = c4 << c.plot()
+start_ref = c4 << c
+
 trans_ref = c4 << c3
 end_ref = c4 << c2
 
@@ -836,7 +837,7 @@ end_ref.connect("o1", trans_ref.ports["o2"])
 ```
 
 ```python
-c4
+c4.plot()
 ```
 
 ## cross-section
@@ -870,7 +871,7 @@ c.plot()
 
 ```python
 pin5 = gf.components.straight(cross_section=pin, length=5)
-pin5
+pin5.plot()
 ```
 
 finally, you can also pass most components Dict that define the cross-section
@@ -919,7 +920,7 @@ Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="li
 P3 = gf.path.straight(length=15, npoints=100)
 # Use the transitional CrossSection to create a Component
 straight_transition = gf.path.extrude(P3, Xtrans)
-straight_transition
+straight_transition.plot()
 ```
 
 ```python
@@ -974,11 +975,11 @@ c.plot()
 The port location, width and orientation remains the same for a sheared component. However, an additional property, `shear_angle` is set to the value of the shear angle. In general, shear ports can be safely connected together.
 
 ```python
-P = gf.path.straight(length=10)
-P_skinny = gf.path.straight(length=0.5)
+p1 = gf.path.straight(length=10)
+p2 = gf.path.straight(length=0.5)
 
 s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
-X1 = gf.CrossSection(
+xs = gf.CrossSection(
     width=1,
     offset=0,
     layer=gf.LAYER.WG,
@@ -987,19 +988,18 @@ X1 = gf.CrossSection(
     sections=[s],
 )
 
-c = gf.path.extrude(P, X1, shear_angle_start=45, shear_angle_end=45)
-c_skinny = gf.path.extrude(P_skinny, X1, shear_angle_start=45, shear_angle_end=45)
+c1 = gf.path.extrude(p1, xs, shear_angle_start=45, shear_angle_end=45)
+c2 = gf.path.extrude(p2, xs, shear_angle_start=45, shear_angle_end=45)
 
-circuit = gf.Component("shear_sample")
-c1 = circuit << c.plot()
-c2 = circuit << c_skinny
-c3 = circuit << c.plot()
+c = gf.Component("shear_sample")
+ref1 = c << c1
+ref2 = c << c2
+ref3 = c << c1
 
-c1.connect(port="o1", destination=c2.ports["o1"])
-c3.connect(port="o1", destination=c2.ports["o2"])
-print(c1.ports["o1"].to_dict())
-print(c3.ports["o2"].to_dict())
-circuit
+
+ref1.connect(port="o1", destination=ref2.ports["o1"])
+ref3.connect(port="o1", destination=ref2.ports["o2"])
+c.plot()
 ```
 
 ### Transitions with Shear faces
@@ -1109,8 +1109,4 @@ def xs_waveguide_heater_with_ports():
 
 c = gf.components.straight(cross_section=xs_waveguide_heater_with_ports)
 c.plot()
-```
-
-```python
-
 ```

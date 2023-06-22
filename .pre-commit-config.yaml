@@ -30,3 +30,9 @@ repos:
     hooks:
       - id: pretty-format-toml
         args: [--autofix]
+
+  - repo: https://github.com/mwouts/jupytext
+    rev: v1.14.0  # CURRENT_TAG/COMMIT_HASH
+    hooks:
+    - id: jupytext
+      args: [--sync]

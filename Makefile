@@ -220,6 +220,9 @@ constructor:
 	conda install constructor -y
 	constructor conda
 
+notebooks:
+	jupytext gdsfactory/samples/notebooks/*.md --to ipynb notebooks/
+
 nbqa:
 	nbqa blacken-docs docs/notebooks/**/*.ipynb --nbqa-md
 	nbqa blacken-docs docs/notebooks/*.ipynb --nbqa-md

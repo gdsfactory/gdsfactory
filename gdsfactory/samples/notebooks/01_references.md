@@ -32,7 +32,7 @@ ypts = [0, 1, 1, 2, 2, 0]
 p.add_polygon([xpts, ypts], layer=(2, 0))
 
 # plot the Component with the polygon in it
-p
+p.plot()
 ```
 
 Now, you want to reuse this polygon repeatedly without creating multiple copies of it.

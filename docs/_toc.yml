@@ -30,7 +30,7 @@ parts:
         - file: notebooks/01_references
         - file: notebooks/02_movement
         - file: notebooks/03_cells_autoname_and_cache
-        - file: notebooks/03_waveguides_paths_crossections
+        - file: notebooks/03_Path_CrossSection
         - file: notebooks/04_components_shapes
         - file: notebooks/04_components_geometry
         - file: notebooks/04_components_pack
