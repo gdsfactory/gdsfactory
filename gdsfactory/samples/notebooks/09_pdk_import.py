@@ -1,3 +1,16 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+# ---
+
+# %% [markdown]
 # # Import PDK
 #
 # ## Import PDK from GDS files
@@ -21,7 +34,7 @@
 # - `Component.write_gds()` saves GDS
 # - `Component.write_gds_metadata()` save GDS + YAML metadata
 
-# +
+# %%
 from typing import Dict, Tuple
 
 # Lets generate the script that we need to have to each GDS cell into gdsfactory
@@ -37,46 +50,57 @@ PDK.activate()
 
 c = gf.components.mzi()
 c.plot()
-# -
 
+# %% [markdown]
 # You can write **GDS** files only
 
+# %%
 gdspath = c.write_gds("extra/mzi.gds")
 
+# %% [markdown]
 # Or **GDS** with **YAML** metadata information (ports, settings, cells ...)
 
+# %%
 gdspath = c.write_gds("extra/mzi.gds", with_metadata=True)
 
+# %% [markdown]
 # This created a `mzi.yml` file that contains:
 # - ports
 # - cells (flat list of cells)
 # - info (function name, module, changed settings, full settings, default settings)
 
+# %%
 c.metadata.keys()
 
+# %% [markdown]
 # You can read GDS files into gdsfactory thanks to the `import_gds` function
 #
 # `import_gds` reads the same GDS file from disk without losing any information
 
-# +
+# %%
 gf.clear_cache()
 
 c = gf.import_gds(gdspath, read_metadata=True)
 c.plot()
-# -
 
+# %%
 c2 = gf.import_gds(gdspath, name="mzi_sample", read_metadata=True)
-c2
+c2.plot()
 
+# %%
 c2.name
 
+# %%
 c3 = gf.routing.add_fiber_single(c2)
 c3
 
+# %%
 gdspath = c3.write_gds("extra/pdk.gds", with_metadata=True)
 
+# %%
 gf.labels.write_labels.write_labels_klayout(gdspath, layer_label=gf.LAYER.LABEL)
 
+# %% [markdown]
 # ### add ports from pins
 #
 # Sometimes the GDS does not have YAML metadata, therefore you need to figure out the port locations, widths and orientations.
@@ -92,24 +116,31 @@ gf.labels.write_labels.write_labels_klayout(gdspath, layer_label=gf.LAYER.LABEL)
 #
 # Lets add pins, save a GDS and then import it back.
 
+# %%
 c = gf.components.straight(
     decorator=gf.add_pins.add_pins
 )  # add pins inside the component
 c.plot()
 
+# %%
 gdspath = c.write_gds("extra/wg.gds")
 
+# %%
 gf.clear_cache()
 c2 = gf.import_gds(gdspath)
 c2
 
+# %%
 c2.ports  # import_gds does not automatically add the pins
 
+# %%
 c3 = gf.import_gds(gdspath, decorator=gf.add_ports.add_ports_from_markers_inside)
 c3
 
+# %%
 c3.ports
 
+# %% [markdown]
 # Foundries provide PDKs in different formats and commercial tools.
 #
 # The easiest way to import a PDK into gdsfactory is to:
@@ -145,9 +176,10 @@ c3.ports
 #
 # Then you can add the information about the GDS files and the Layers inside that package
 
+# %%
 print(lyp_to_dataclass(PATH.klayout_lyp))
 
-# +
+# %%
 # lets create a sample PDK (for demo purposes only) using GDSfactory
 # if the PDK is in a commercial tool you can also do this. Make sure you save a single pdk.gds
 
@@ -160,22 +192,27 @@ sample_pdk_cells = gf.grid(
 )
 sample_pdk_cells.write_gds("extra/pdk.gds")
 sample_pdk_cells
-# -
 
+# %%
 sample_pdk_cells.get_dependencies()
 
+# %%
 # we write the sample PDK into a single GDS file
 gf.clear_cache()
 gf.write_cells.write_cells(
     gdspath="extra/pdk.gds", dirpath="extra/gds", recursively=True
 )
 
+# %%
 print(gf.write_cells.get_import_gds_script("extra/gds"))
 
+# %% [markdown]
 # You can also include the code to plot each fix cell in the docstring.
 
+# %%
 print(gf.write_cells.get_import_gds_script("extra/gds", module="samplepdk.components"))
 
+# %% [markdown]
 # ## Import PDK from other python packages
 #
 # You can Write the cells to GDS and use the
@@ -192,6 +229,7 @@ print(gf.write_cells.get_import_gds_script("extra/gds", module="samplepdk.compon
 # - review your code with your colleagues and other gdsfactory developers to get feedback. This is key to get better at coding gdsfactory.
 # - get rid of any warnings you see.
 
+# %% [markdown]
 # ## Build your own PDK
 #
 # You can create a PDK as a python library using a cookiecutter template. For example, you can use this one.

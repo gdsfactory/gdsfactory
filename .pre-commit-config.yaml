@@ -34,4 +34,4 @@ repos:
     rev: v1.14.0
     hooks:
     - id: jupytext
-      args: [--pipe, black, gdsfactory/samples/notebooks/]
+      args: [--from, gdsfactory/samples/notebooks/*.py, --to, "py:percent"]
