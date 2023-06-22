@@ -78,17 +78,7 @@ You can also access:
 
 Use python3.10 or python3.11, as some tools like kfactory are not available for older versions of python. We recommend [VSCode](https://code.visualstudio.com/) as an IDE.
 
-If you don't have python installed on your system you can [download the gdsfactory installer](https://github.com/gdsfactory/gdsfactory/releases) that includes python3, miniconda and gdsfactory.
-
-You can also install python with mamba package manager (faster than conda):
-
-| OS      | Architecture          | Download  |
-| --------|-----------------------|-----------|
-| Linux   | x86_64 (amd64)        | [Linux-x86_64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-Linux-x86_64.sh) |
-| OS X    | x86_64                | [MacOSX-x86_64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-MacOSX-x86_64.sh) |
-| OS X    | arm64 (Apple Silicon) | [MacOSX-arm64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-MacOSX-arm64.sh) |
-| Windows | x86_64                | [Windows-x86_64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-Windows-x86_64.exe) |
-
+If you don't have python installed on your system you can [download anaconda](https://www.anaconda.com/download/)
 
 Once you have python installed, open Anaconda Prompt as Administrator and then install the latest gdsfactory using pip.
 
