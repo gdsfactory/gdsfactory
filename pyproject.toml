@@ -343,7 +343,3 @@ mypkg = [
 
 [tool.setuptools.packages]
 find = {}
-
-[tools.jupytext.formats]
-"gdsfactory/samples/notebooks/" = "markdown"
-"notebooks/" = "ipynb"

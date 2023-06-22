@@ -10,7 +10,6 @@ python:
 
 notebooks:
 	jupytext *.md --to ipynb
-	jupytext **/*.md --to ipynb
 
 markdown:
 	jupytext *.py --to md
@@ -25,6 +24,5 @@ rm:
 	rm *.ipynb
 	rm **/*.ipynb
 
-
 set:
-	jupytext --set-formats md,ipynb **/*.md
+	jupytext --set-formats md,ipynb *.md

@@ -240,7 +240,6 @@ jupytext-clean:
 	jupytext docs/**/*.py --to py
 
 notebooks:
-	jupytext docs/notebooks/**/*.py --to ipynb
 	jupytext docs/notebooks/*.py --to ipynb
 
 .PHONY: gdsdiff build conda gdslib docs doc
