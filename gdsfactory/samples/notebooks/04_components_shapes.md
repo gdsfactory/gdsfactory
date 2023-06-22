@@ -165,7 +165,7 @@ The `gf.components.litho_steps()` function creates lithographic test structure t
 D = gf.components.litho_steps(
     line_widths=[1, 2, 4, 8, 16], line_spacing=10, height=100, layer=(1, 0)
 )
-D
+D.plot()
 ```
 
 ### Calipers (inter-layer alignment)
@@ -183,7 +183,7 @@ D = gf.components.litho_calipers(
     layer1=(1, 0),
     layer2=(2, 0),
 )
-D
+D.plot()
 ```
 
 ## Paths

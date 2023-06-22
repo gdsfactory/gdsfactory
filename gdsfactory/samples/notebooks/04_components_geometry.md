@@ -56,13 +56,13 @@ c2 = gf.components.ellipse(radii=r2, layer=(1, 0), angle_resolution=angle_resolu
 c3 = gf.geometry.boolean_klayout(
     c1, c2, operation=operation, layer1=(1, 0), layer2=(1, 0), layer3=(1, 0)
 )  # KLayout booleans
-c3
+c3.plot()
 ```
 
 ```python
 %time
 c4 = gf.geometry.boolean(c1, c2, operation=operation)
-c4
+c4.plot()
 ```
 
 ### Offset
@@ -173,7 +173,7 @@ import gdsfactory as gf
 
 E = gf.components.ellipse(radii=(10, 5))
 D = gf.geometry.invert(E, border=0.5, precision=1e-6, layer=(2, 0))
-D
+D.plot()
 ```
 
 ### Union
@@ -197,7 +197,7 @@ e3.rotate(15 * 3)
 e4.rotate(15 * 4)
 e5.rotate(15 * 5)
 
-D
+D.plot()
 ```
 
 ```python
@@ -238,7 +238,7 @@ D.add_ref(B).move([15, 25])
 D.add_ref(A).movex(-15)
 D.add_ref(B).movex(-15)
 D.add_ref(X).movex(15)
-D
+D.plot()
 ```
 
 ## Trim
@@ -256,7 +256,7 @@ c.plot()
 
 ```python
 trimmed_c = gf.geometry.trim(component=c, domain=[[0, -5], [0, 5], [5, 5], [5, -5]])
-trimmed_c
+trimmed_c.plot()
 ```
 
 ## Importing GDS files
@@ -268,7 +268,7 @@ trimmed_c
 D = gf.components.ellipse()
 D.write_gds("myoutput.gds")
 D2 = gf.import_gds(gdspath="myoutput.gds", cellname=None, flatten=False)
-D2
+D2.plot()
 ```
 
 ## Copying and extracting geometry
@@ -277,7 +277,7 @@ D2
 E = gf.Component()
 E.add_ref(gf.components.ellipse(layer=(1, 0)))
 D = E.extract(layers=[(1, 0)])
-D
+D.plot()
 ```
 
 ```python
@@ -366,7 +366,7 @@ fill(
 )
 
 c_fill = gf.import_gds(gdspath)
-c_fill
+c_fill.plot()
 ```
 
 ### Fill cell (by layer)
@@ -394,7 +394,7 @@ fill(
 )
 
 c_fill = gf.import_gds(gdspath)
-c_fill
+c_fill.plot()
 ```
 
 ### Tiling processor

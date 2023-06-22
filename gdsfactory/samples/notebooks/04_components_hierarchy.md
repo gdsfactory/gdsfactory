@@ -137,7 +137,7 @@ c.plot()
 ```python
 bend20 = partial(gf.components.bend_circular, radius=20)
 b = bend20()
-b
+b.plot()
 ```
 
 ```python
@@ -155,13 +155,13 @@ bend20.keywords
 ```python
 b = bend_with_straight(bend=bend20)
 print(b.metadata["info"]["length"])
-b
+b.plot()
 ```
 
 ```python
 # You can still modify the bend to have any bend radius
 b3 = bend20(radius=10)
-b3
+b3.plot()
 ```
 
 ## PDK custom fab
@@ -187,23 +187,23 @@ Lets say that we want to add tapers and grating couplers to a wide waveguide.
 
 ```python
 c1 = gf.components.straight()
-c1
+c1.plot()
 ```
 
 ```python
 straight_wide = partial(gf.components.straight, width=3)
 c3 = straight_wide()
-c3
+c3.plot()
 ```
 
 ```python
 c1 = gf.components.straight(width=3)
-c1
+c1.plot()
 ```
 
 ```python
 c2 = gf.add_tapers(c1)
-c2
+c2.plot()
 ```
 
 ```python
@@ -212,7 +212,7 @@ c2.metadata_child["changed"]  # You can still access the child metadata
 
 ```python
 c3 = gf.routing.add_fiber_array(c2, with_loopback=False)
-c3
+c3.plot()
 ```
 
 ```python
@@ -237,14 +237,14 @@ For example:
 ```python
 add_tapers_fiber_array = toolz.compose_left(add_tapers, add_fiber_array)
 c4 = add_tapers_fiber_array(c1)
-c4
+c4.plot()
 ```
 
 is equivalent to
 
 ```python
 c5 = add_fiber_array(add_tapers(c1))
-c5
+c5.plot()
 ```
 
 as well as equivalent to
@@ -252,14 +252,14 @@ as well as equivalent to
 ```python
 add_tapers_fiber_array = toolz.compose(add_fiber_array, add_tapers)
 c6 = add_tapers_fiber_array(c1)
-c6
+c6.plot()
 ```
 
 or
 
 ```python
 c7 = toolz.pipe(c1, add_tapers, add_fiber_array)
-c7
+c7.plot()
 ```
 
 ```python

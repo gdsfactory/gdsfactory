@@ -275,7 +275,7 @@ gratings_loss_sweep = [
 gratings = grid(
     gratings_loss_sweep, shape=(1, len(gratings_loss_sweep)), spacing=(40, 0)
 )
-gratings
+gratings.plot()
 ```
 
 ```python
@@ -283,7 +283,7 @@ sweep_resistance = [
     gf.components.resistance_sheet(width=width) for width in [1, 10, 100]
 ]
 resistance = gf.pack(sweep_resistance)[0]
-resistance
+resistance.plot()
 ```
 
 ```python
@@ -294,12 +294,12 @@ spiral_te = gf.compose(
 )
 sweep_spirals = [spiral_te(length=length) for length in [10e3, 20e3, 30e3]]
 spirals = gf.pack(sweep_spirals)[0]
-spirals
+spirals.plot()
 ```
 
 ```python
 mask = gf.pack([spirals, resistance, gratings])[0]
-mask
+mask.plot()
 ```
 
 As you can see you can define your mask in a single line.
@@ -587,8 +587,4 @@ spiral_lengths = [
     test_metadata[spiral_name].info.length for spiral_name in spiral_names
 ]
 spiral_lengths
-```
-
-```python
-
 ```

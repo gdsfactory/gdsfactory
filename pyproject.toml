@@ -274,6 +274,7 @@ skip = "gdsfactory/__init__.py"
 
 [tool.jupytext]
 cell_metadata_filter = "-all"
+formats = "ipynb,markdown"
 notebook_metadata_filter = "-all"
 
 [tool.mypy]

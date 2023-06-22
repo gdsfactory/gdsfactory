@@ -176,7 +176,7 @@ whole Component `D`:
 print(c.xmax)  # Prints out '10.0'
 
 c2 = c.mirror((0, 1))  # Mirror across line made by (0,0) and (0,1)
-c2
+c2.plot()
 ```
 
 A bounding box is the smallest enclosing box which contains all points of the geometry.
@@ -213,7 +213,7 @@ print(c.xmax)
 D = gf.Component("rect")
 R = gf.components.rectangle(size=(10, 3), layer=(2, 0))
 rect1 = D << R
-D
+D.plot()
 ```
 
 You can chain many of the movement/manipulation functions because they all return the object they manipulate.
@@ -223,7 +223,7 @@ For instance you can combine two expressions:
 ```python
 rect1.rotate(angle=37)
 rect1.move([10, 20])
-D
+D.plot()
 ```
 
 ...into this single-line expression
@@ -233,5 +233,5 @@ D = gf.Component("single_expression")
 R = gf.components.rectangle(size=(10, 3), layer=(2, 0))
 rect1 = D << R
 rect1.rotate(angle=37).move([10, 20])
-D
+D.plot()
 ```

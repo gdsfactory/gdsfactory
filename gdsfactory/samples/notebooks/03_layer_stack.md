@@ -531,7 +531,7 @@ To render components in 3D you will need to define two things:
 
 ```python
 heater = gf.components.straight_heater_metal(length=50)
-heater
+heater.plot()
 ```
 
 ```python
