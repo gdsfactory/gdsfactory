@@ -23,6 +23,6 @@ def _server_is_running() -> bool:
 
 
 def start() -> None:
-    """Start a jupyter_server if it's nor already started."""
+    """Start a jupyter_server if it's not already started."""
     if not _server_is_running():
         _run()

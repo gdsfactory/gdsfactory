@@ -191,7 +191,7 @@ class MEOW:
             nr = np.real(ns)
             ni = np.imag(ns)
         df = pd.DataFrame({"wl": wavelengths, "nr": nr, "ni": ni})
-        return mw.Material.from_df(
+        return mw.SampledMaterial.from_df(
             material_name,
             df,
             meta={"color": color},

@@ -8,6 +8,7 @@ parts:
   chapters:
     - file: getting_started
       sections:
+        - file: developer
         - file: notebooks/_2_klayout
         - file: notebooks/_3_vscode
         - file: notebooks/_0_python

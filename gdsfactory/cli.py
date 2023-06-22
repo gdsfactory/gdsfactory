@@ -22,7 +22,7 @@ try:
 except ImportError:
     import click
 
-VERSION = "6.107.2"
+VERSION = "6.107.7"
 LAYER_LABEL = LAYER.LABEL
 
 
@@ -156,6 +156,21 @@ def watch(path=cwd) -> None:
     watch(str(path))
 
 
+# INIT
+@click.group()
+def init() -> None:
+    """Commands for initializing projects."""
+    pass
+
+
+@click.command()
+def notebooks() -> None:
+    """Convert notebooks to ipynb."""
+    from gdsfactory.install import convert_markdown_to_ipynb
+
+    convert_markdown_to_ipynb()
+
+
 # EXTRA
 @click.command()
 @click.argument("filename")
@@ -208,7 +223,7 @@ def pdks() -> None:
     is_eager=True,
     help="Show the version number.",
 )
-def cli(name="gf") -> None:
+def cli() -> None:
     """`gf` is the gdsfactory command line tool."""
 
 
@@ -224,6 +239,8 @@ install.add_command(git_diff)
 version.add_command(raw)
 version.add_command(pdks)
 
+init.add_command(notebooks)
+
 cli.add_command(web)
 # watch.add_command(watch_yaml)
 
@@ -231,6 +248,7 @@ cli.add_command(gds)
 cli.add_command(install)
 cli.add_command(watch)
 cli.add_command(version)
+cli.add_command(init)
 
 
 if __name__ == "__main__":

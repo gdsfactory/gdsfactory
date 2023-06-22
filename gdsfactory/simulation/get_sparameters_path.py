@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import hashlib
-import os
 import pathlib
 import tempfile
 from copy import deepcopy
@@ -27,10 +26,11 @@ def get_kwargs_hash(**kwargs) -> str:
 
 def get_component_hash(component: gf.Component) -> str:
     with tempfile.NamedTemporaryFile() as file:
-        path = os.path.abspath(file.name)
+        path = Path(file.name)
+        dirpath = path.parent
+        dirpath.mkdir(exist_ok=True, parents=True)
         component.write_gds(path)
-        hash = hashlib.md5(file.read()).hexdigest()
-        return hash
+        return hashlib.md5(file.read()).hexdigest()
 
 
 def _get_sparameters_path(

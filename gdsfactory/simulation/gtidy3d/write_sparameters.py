@@ -168,6 +168,8 @@ def write_sparameters(
     )
     filepath = pathlib.Path(filepath).with_suffix(".npz")
     filepath_sim_settings = filepath.with_suffix(".yml")
+    dirpath = filepath.parent
+    dirpath.mkdir(exist_ok=True, parents=True)
     if filepath.exists() and not overwrite and run:
         logger.info(f"Simulation loaded from {filepath!r}")
         return dict(np.load(filepath))
