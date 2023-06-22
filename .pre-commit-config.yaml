@@ -11,7 +11,7 @@ repos:
     rev: d1248ca9beaf0ba526d265f4108836d89cf551b7
     hooks:
       - id: black
-        exclude: '^gdsfactory/samples/notebooks/|^docs/notebooks/'
+        # exclude: '^gdsfactory/samples/notebooks/|^docs/notebooks/'
 
   - repo: https://github.com/codespell-project/codespell
     rev: af69927c7d3965d3fe8f68007e12cd971847573f
@@ -31,8 +31,3 @@ repos:
     hooks:
       - id: pretty-format-toml
         args: [--autofix]
-  - repo: https://github.com/mwouts/jupytext
-    rev: v1.14.0
-    hooks:
-    - id: jupytext
-      args: [--sync]

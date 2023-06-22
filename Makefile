@@ -224,6 +224,8 @@ jupytext-clean:
 	jupytext docs/**/*.py --to py
 
 notebooks:
-	jupytext docs/notebooks/*.py --to py
+	# jupytext docs/notebooks/*.py --to ipynb
+	# jupytext docs/notebooks/*.ipynb --to to
+	jupytext --pipe black docs/notebooks/*.py
 
 .PHONY: gdsdiff build conda gdslib docs doc
