@@ -1,3 +1,4 @@
+# %% [markdown]
 # # Klayout Design Rule Checking (DRC)
 #
 # Your device can be fabricated correctly when it meets the Design Rule Checks (DRC) from the foundry, you can write DRC rules from gdsfactory and customize the shortcut to run the checks in Klayout.
@@ -6,6 +7,7 @@
 #
 # ![rules1](https://i.imgur.com/gNP5Npn.png)
 
+# %%
 import gdsfactory as gf
 from gdsfactory.geometry.write_drc import (
     rule_area,
@@ -17,9 +19,10 @@ from gdsfactory.geometry.write_drc import (
     write_drc_deck_macro,
 )
 
+# %%
 help(write_drc_deck_macro)
 
-# +
+# %%
 rules = [
     rule_width(layer="WG", value=0.2),
     rule_space(layer="WG", value=0.2),
@@ -39,11 +42,11 @@ drc_rule_deck = write_drc_deck_macro(
     layers=gf.LAYER,
     shortcut="Ctrl+Shift+D",
 )
-# -
 
+# %% [markdown]
 # Lets create some DRC errors and check them on klayout.
 
-# +
+# %%
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import Float2, Layer
@@ -120,10 +123,10 @@ def errors() -> Component:
 
 
 c = errors()
-c.show()
+c.show()  # show in klayout
 c.plot()
-# -
 
+# %% [markdown]
 # # Klayout connectivity checks
 #
 # You can you can to check for component overlap and unconnected pins using klayout DRC.
@@ -132,7 +135,7 @@ c.plot()
 # The easiest way is to write all the pins on the same layer and define the allowed pin widths.
 # This will check for disconnected pins or ports with width mismatch.
 
-# +
+# %%
 from gdsfactory.generic_tech import LAYER
 import gdsfactory.geometry.write_connectivity as wc
 
@@ -142,11 +145,12 @@ rules = [
     wc.write_connectivity_checks(pin_widths=[0.5, 0.9, 0.45], pin_layer=LAYER.PORT)
 ]
 script = wc.write_drc_deck_macro(rules=rules, layers=None)
-# -
 
 
+# %% [markdown]
 # You can also define the connectivity checks per section
 
+# %%
 connectivity_checks = [
     wc.ConnectivyCheck(cross_section="strip", pin_length=1 * nm, pin_layer=(1, 10)),
     wc.ConnectivyCheck(

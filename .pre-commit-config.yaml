@@ -30,3 +30,8 @@ repos:
     hooks:
       - id: pretty-format-toml
         args: [--autofix]
+  - repo: https://github.com/mwouts/jupytext
+    rev: v1.14.0
+    hooks:
+    - id: jupytext
+      args: [--pipe, black, gdsfactory/samples/notebooks/]
