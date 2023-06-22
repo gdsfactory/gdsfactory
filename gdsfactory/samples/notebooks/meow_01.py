@@ -1,7 +1,5 @@
 # # EME with MEOW
 #
-# ![36553b70-1b4d-4f79-a983-2faac5d80a4f.png](attachment:20f50eeb-9b3f-4dec-a154-a2492ecf5299.png)
-#
 # Some components are more efficiently modeled with Eigenmode Expansion.
 #
 # Gdsfactory provides a plugin for MEOW to efficiently extract component S-parameters through EME.
@@ -46,9 +44,9 @@ filtered_layerstack = gf.technology.LayerStack(
 
 # The EME simulator can be instantiated with only these two elements, alongside parameters:
 
-eme = MEOW(component=c, layerstack=filtered_layerstack, wavelength=1.55, overwrite=True)
-
-eme.z_min
+eme = MEOW(
+    component=c, layerstack=filtered_layerstack, wavelength=1.55, overwrite=False
+)
 
 # Plotting functions allow you to check your simulation:
 
@@ -113,7 +111,7 @@ for cell_length in cells_lengths:
         component=c,
         layerstack=filtered_layerstack,
         wavelength=1.55,
-        overwrite=True,
+        overwrite=False,
         spacing_y=-3,
         cell_length=cell_length,
     )
@@ -131,14 +129,12 @@ eme = MEOW(
     component=c,
     layerstack=filtered_layerstack,
     wavelength=1.55,
-    overwrite=True,
+    overwrite=False,
     spacing_y=-3,
     cell_length=0.25,
 )
 
 eme.plot_cross_section(xs_num=0)
-
-# <h1><span style="color: red;">Where is the Oxide in this CrossSection? Did Something go wrong during extrusion?</span><h1>
 
 eme.plot_mode(xs_num=0, mode_num=0)
 
@@ -170,7 +166,7 @@ for i, length in enumerate(lengths):
         component=c,
         layerstack=filtered_layerstack,
         wavelength=1.55,
-        overwrite=True,
+        overwrite=False,
         spacing_y=-3,
         cell_length=0.25,
     )
