@@ -225,7 +225,7 @@ m1.plot_e()
 #
 # ### Strip
 
-df = gm.find_neff_vs_width(filepath="neff_vs_width.csv")
+df = gm.find_neff_vs_width(filepath="data/mpb_neff_vs_width.csv")
 df
 
 gm.plot_neff_vs_width(df)
@@ -256,7 +256,9 @@ m1.neff
 m2.plot_e()
 m2.neff
 
-df = gm.find_neff_vs_width(slab_thickness=90e-3, filepath="neff_vs_width_rib.csv")
+df = gm.find_neff_vs_width(
+    slab_thickness=90e-3, filepath="data/mpb_neff_vs_width_rib.csv"
+)
 gm.plot_neff_vs_width(df)
 
 # ### Nitride
@@ -292,7 +294,7 @@ df = gm.find_neff_vs_width(
     core_material=2.0,
     sy=10.0,
     resolution=15,
-    filepath="neff_vs_width_nitride.csv",
+    filepath="data/mpb_neff_vs_width_nitride.csv",
 )
 gm.plot_neff_vs_width(df)
 
@@ -447,7 +449,7 @@ df = gm.coupler.find_coupling_vs_gap(
     steps=12,
     nmodes=4,
     wavelength=1.55,
-    filepath="find_coupling_vs_gap_strip.csv",
+    filepath="data/mpb_find_coupling_vs_gap_strip.csv",
 )
 
 plt.title("strip 500x200 coupling")
@@ -455,7 +457,7 @@ gm.plot_coupling_vs_gap(df)
 
 # +
 df = gm.coupler.find_coupling_vs_gap_nitride(
-    filepath="find_coupling_vs_gap_nitride.csv"
+    filepath="data/mpb_find_coupling_vs_gap_nitride.csv"
 )
 
 plt.title("nitride 1000x400 nitride")
@@ -528,7 +530,7 @@ dn_dt_sio2 = 8.5e-6
 core_width = np.arange(0.4, 1.3, 0.2)
 core_width
 
-filepath = pathlib.Path("neff_vs_temperature.csv")
+filepath = pathlib.Path("data/mpb_neff_vs_temperature.csv")
 
 # +
 if filepath.exists:
