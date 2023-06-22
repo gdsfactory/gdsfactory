@@ -1,3 +1,20 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
+# %% [markdown]
 # # Common mistakes
 #
 # ## 1. Creating cells without `cell` decorator
@@ -34,7 +51,7 @@
 #
 # **Solution**: Use the `gf.cell` decorator for automatic naming your components.
 
-# +
+# %%
 import gdsfactory as gf
 
 gf.config.rich_output()
@@ -49,8 +66,8 @@ def wg(length: float = 3):
 
 print(wg(length=5))
 print(wg(length=50))
-# -
 
+# %% [markdown]
 # ### 1.2 Not naming components with a unique and deterministic name
 #
 # In the case of not wrapping the function with `cell` you will get unique names thanks to the unique identifier `uuid`.
@@ -59,26 +76,28 @@ print(wg(length=50))
 #
 # However it will be hard for you to know where that cell came from.
 
-# +
+# %%
 c1 = gf.Component()
 c2 = gf.Component()
 
 print(c1.name)
 print(c2.name)
-# -
 
+# %% [markdown]
 # Notice how gdsfactory raises a Warning when you save this `Unnamed` Components
 
+# %%
 c1.write_gds()
 
 
+# %% [markdown]
 # ### 1.3 Intermediate Unnamed cells
 #
 # While creating a cell, you should not create intermediate cells, because they won't be Cached and you can end up with duplicated cell names or name conflicts, where one of the cells that has the same name as the other will be replaced.
 #
 
 
-# +
+# %%
 @gf.cell
 def die_bad():
     """c1 is an intermediate Unnamed cell"""
@@ -90,13 +109,13 @@ def die_bad():
 c = die_bad(cache=False)
 print(c.references)
 c.plot()
-# -
 
+# %% [markdown]
 # **Solution1** Don't use intermediate cells
 #
 
 
-# +
+# %%
 @gf.cell
 def die_good():
     c = gf.Component()
@@ -108,13 +127,13 @@ def die_good():
 c = die_good(cache=False)
 print(c.references)
 c.plot()
-# -
 
+# %% [markdown]
 # **Solution2** You can flatten the cell, but you will lose the memory savings from cell references. Solution1 is more elegant.
 #
 
 
-# +
+# %%
 @gf.cell
 def die_flat():
     """c will be an intermediate unnamed cell"""
@@ -129,7 +148,7 @@ c = die_flat(cache=False)
 print(c.references)
 c.plot()
 
-# +
+# %%
 import gdsfactory as gf
 
 
@@ -162,12 +181,14 @@ def using_dangerous_intermediate_cells():
 
 
 c = using_dangerous_intermediate_cells()
-c.plot()
-# -
+c.plot_klayout()
 
+# %%
 for component in c.get_dependencies(recursive=True):
     if not component._locked:
         print(
             f"Component {component.name!r} was NOT properly locked. "
             "You need to write it into a function that has the @cell decorator."
         )
+
+# %%
