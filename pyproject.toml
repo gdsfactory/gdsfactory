@@ -295,7 +295,7 @@ strict = true
 # addopts = --tb=no
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
 norecursedirs = [
-  "gdsfactory/samples/notebooks/",
+  "gdsfactory/samples/notebooks",
   "gdsfactory/plugins",
   "gdsfactory/simulation",
   "gdsfactory/geometry",
