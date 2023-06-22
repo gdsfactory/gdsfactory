@@ -1,5 +1,7 @@
 # # EME with MEOW
 #
+# ![36553b70-1b4d-4f79-a983-2faac5d80a4f.png](attachment:20f50eeb-9b3f-4dec-a154-a2492ecf5299.png)
+#
 # Some components are more efficiently modeled with Eigenmode Expansion.
 #
 # Gdsfactory provides a plugin for MEOW to efficiently extract component S-parameters through EME.
@@ -7,11 +9,12 @@
 # Currently the component needs to specifically have a single "o1" port facing west, and a single "o2" port facing east, like this taper:
 
 # +
-import matplotlib.pyplot as plt
-from gdsfactory.simulation.eme import MEOW
-import numpy as np
 import gdsfactory as gf
+import matplotlib.pyplot as plt
+import meow as mw
+import numpy as np
 from gdsfactory.generic_tech import get_generic_pdk
+from gdsfactory.simulation.eme import MEOW
 
 gf.config.rich_output()
 PDK = get_generic_pdk()
@@ -43,7 +46,9 @@ filtered_layerstack = gf.technology.LayerStack(
 
 # The EME simulator can be instantiated with only these two elements, alongside parameters:
 
-eme = MEOW(component=c, layerstack=filtered_layerstack, wavelength=1.55)
+eme = MEOW(component=c, layerstack=filtered_layerstack, wavelength=1.55, overwrite=True)
+
+eme.z_min
 
 # Plotting functions allow you to check your simulation:
 
@@ -68,7 +73,7 @@ sp = eme.compute_sparameters()
 print(np.abs(sp["o1@0,o2@0"]) ** 2)
 
 print(eme.port_map)
-eme.plot_Sparams()
+eme.plot_s_params()
 
 # As you can see most light stays on the fundamental TE mode
 
@@ -91,45 +96,49 @@ filtered_layerstack = gf.technology.LayerStack(
     }
 )
 
-c = gf.components.taper(width2=2)
+c = gf.components.taper(width1=0.5, width2=2, length=10.0)
 c.plot()
 # -
 
 # Lets do a convergence tests on the `cell_length` parameter. This depends a lot on the structure.
 
-# ```python
-# import matplotlib.pyplot as plt
-#
-# trans = []
-# cells_lengths = [0.1, 0.25, 0.5, 0.75, 1]
-#
-# for cell_length in cells_lengths:
-#     m = MEOW(
-#         component=c,
-#         layerstack=filtered_layerstack,
-#         wavelength=1.55,
-#         resolution_x=100,
-#         resolution_y=100,
-#         spacing_x=1,
-#         spacing_y=-3,
-#         num_modes=4,
-#         cell_length=cell_length,
-#     )
-#     sp = m.compute_sparameters()
-#     te0_trans = np.abs(sp["o1@0,o2@0"]) ** 2
-#     trans.append(te0_trans)
-#
-# plt.plot(cells_lengths, trans, ".-")
-# plt.title("10um taper, resx = resy = 100, num_modes = 4")
-# plt.xlabel("Cell length (um)")
-# plt.ylabel("TE0 transmission")
-# ```
-#
-# ![](https://i.imgur.com/70dU6fo.png)
+# +
+import matplotlib.pyplot as plt
 
-eme = MEOW(component=c, layerstack=filtered_layerstack, wavelength=1.55)
+trans = []
+cells_lengths = [0.1, 0.25, 0.5, 0.75, 1]
+
+for cell_length in cells_lengths:
+    m = MEOW(
+        component=c,
+        layerstack=filtered_layerstack,
+        wavelength=1.55,
+        overwrite=True,
+        spacing_y=-3,
+        cell_length=cell_length,
+    )
+    sp = m.compute_sparameters()
+    te0_trans = np.abs(sp["o1@0,o2@0"]) ** 2
+    trans.append(te0_trans)
+
+plt.plot(cells_lengths, trans, ".-")
+plt.title("10um taper, resx = resy = 100, num_modes = 4")
+plt.xlabel("Cell length (um)")
+plt.ylabel("TE0 transmission")
+# -
+
+eme = MEOW(
+    component=c,
+    layerstack=filtered_layerstack,
+    wavelength=1.55,
+    overwrite=True,
+    spacing_y=-3,
+    cell_length=0.25,
+)
 
 eme.plot_cross_section(xs_num=0)
+
+# <h1><span style="color: red;">Where is the Oxide in this CrossSection? Did Something go wrong during extrusion?</span><h1>
 
 eme.plot_mode(xs_num=0, mode_num=0)
 
@@ -140,7 +149,7 @@ eme.plot_mode(xs_num=-1, mode_num=0)
 sp = eme.compute_sparameters()
 
 print(eme.port_map)
-eme.plot_Sparams()
+eme.plot_s_params()
 
 T = np.abs(sp["o1@0,o2@0"]) ** 2
 T
@@ -151,23 +160,29 @@ lengths = np.array([1, 2, 3, 5, 10, 20])
 T = np.zeros_like(lengths, dtype=float)
 
 for length in lengths:
-    c = gf.components.taper(width2=2, length=length)
+    c = gf.components.taper(width1=0.5, width2=2, length=length)
     c.plot()
 
 for i, length in enumerate(lengths):
-    c = gf.components.taper(width2=10, length=length)
+    print(f"{length=}")
+    c = gf.components.taper(width1=0.5, width2=2, length=length)
     eme = MEOW(
         component=c,
         layerstack=filtered_layerstack,
         wavelength=1.55,
-        cell_length=float(length / 20.5),
+        overwrite=True,
+        spacing_y=-3,
+        cell_length=0.25,
     )
     sp = eme.compute_sparameters()
     T[i] = np.abs(sp["o1@0,o2@0"]) ** 2
 
-plt.plot(lengths, T, ".")
+plt.plot(lengths, T, marker="o")
+plt.ylim(0.6, 1.0)
 plt.title("Fundamental mode transmission")
 plt.ylabel("Transmission")
 plt.xlabel("taper length (um)")
+plt.grid(True)
+plt.show()
 
-T
+eme.plot_s_params()

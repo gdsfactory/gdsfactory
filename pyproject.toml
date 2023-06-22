@@ -165,7 +165,7 @@ full = [
   "shapely",
   # kfactory
   "kfactory[git,ipy]==0.7.5",
-  "meow-sim==0.6.5",
+  "meow-sim>=0.6.7",
   # ray
   "ray[tune,air]",
   "hyperopt",
