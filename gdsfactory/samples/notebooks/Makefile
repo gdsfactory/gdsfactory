@@ -5,8 +5,8 @@ format:
 sync:
 	jupytext --sync *.ipynb
 
-python:
-	jupytext **/*.ipynb --to py
+md_to_py:
+	jupytext *.md --to py
 
 notebooks:
 	jupytext *.md --to ipynb
@@ -20,7 +20,7 @@ clean:
 	nbstripout --drop-empty-cells *.ipynb
 	nbstripout --drop-empty-cells **/*.ipynb
 
-rm:
+rm_ipynb:
 	rm *.ipynb
 	rm **/*.ipynb
 

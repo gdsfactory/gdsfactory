@@ -311,7 +311,7 @@ python_files = ["gdsfactory/*.py", "tests/*.py"]
 testpaths = ["gdsfactory/", "tests"]
 
 [tool.ruff]
-extend-exclude = ["docs/notebooks"]
+extend-exclude = ["docs/notebooks", "gdsfactory/samples/notebooks"]
 ignore = [
   "E501",  # line too long, handled by black
   "B008",  # do not perform function calls in argument defaults
