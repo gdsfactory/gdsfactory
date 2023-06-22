@@ -11,7 +11,6 @@ The following lines will:
 - install gdsfactory locally on your computer in `-e` edit mode.
 - install pre-commit hooks for making sure your code syntax and style matches some basic rules.
 
-
 ```
 git clone git@github.com:YourUserName/gdsfactory.git
 cd gdsfactory
@@ -20,7 +19,6 @@ mamba install gdstk -y
 pip install -e .[full,dev]
 pre-commit install
 ```
-
 
 ## Style
 
@@ -62,11 +60,22 @@ You can run tests with `pytest`. This will run 3 types of tests:
     - when running the test it will do a boolean of the `run_layout` and the `ref_layout` and raise an error for any significant differences.
     - you can check out any changes in your library with `gf gds diff ref_layouts/bbox.gds run_layouts/bbox.gds`
 
-If test failed because you modified the geometry you can regenerate the regression tests with:
+In addition to unit tests run against the library, gdsfactory has a suite of regression tests which ensure that Components are never unintentionally modified between revisions. These regression tests include
+| Test Type | Path | Format | Purpose |
+|------|------|---------|--|
+| GDS | `tests/components/test_components.py:test_gds` | GDS | Tests that GDS files have not changed either structurally (cell names and hierarchy) or geometrically (XOR). |
+| Settings | `tests/components/test_components.py:test_settings` | YAML | Tests that component settings have not changed. |
+| Netlist | `tests/test_netlists.py` | YAML | Tests that extracted netlist yaml contents have not changed. |
+| Ports | `tests/components/test_ports.py` | CSV | Tests that port locations have not changed |
+| Containers | `tests/test_containers.py` | YAML | Tests that container settings have not changed |
 
-```
+To regenerate regression reference files, you can run
+
+```shell
 pytest --force-regen -s
 ```
+
+Note that the `--force-regen` flag will regenerate textual reference files, via [pytest-regressions](https://pytest-regressions.readthedocs.io/en/latest/overview.html). When GDS file regressions are found, the `-s` flag will cause pytest to step through the failures one-by-one, so you can inspect the XOR result in Klayout (automatically loaded via klive) and debug messages in the terminal. You will be prompted if you would like to accept or reject the set of changes for each file.
 
 ## Build your own Reticles/projects/PDKs
 
@@ -91,7 +100,6 @@ What do we test?
 - Geometry polygons, layers and cell names.
 - Component Settings.
 - Port positions and ensure they are on grid.
-
 
 ```python
 import pytest

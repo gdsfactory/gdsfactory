@@ -1,0 +1,531 @@
+resolution: 30
+port_symmetries:
+  o2@0,o1@0:
+  - o1@0,o2@0
+wavelength_start: 1.5
+wavelength_stop: 1.6
+wavelength_points: 50
+port_margin: 2
+port_monitor_offset: -0.1
+port_source_offset: -0.1
+dispersive: false
+ymargin_top: 0.0
+ymargin_bot: 3.0
+xmargin_left: 0
+xmargin_right: 3.0
+is_3d: false
+layer_stack:
+  substrate:
+    layer:
+    - 99999
+    - 0
+    thickness: 10.0
+    thickness_tolerance: null
+    zmin: -13.0
+    zmin_tolerance: null
+    material: si
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 99
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  box:
+    layer:
+    - 99999
+    - 0
+    thickness: 3.0
+    thickness_tolerance: null
+    zmin: -3.0
+    zmin_tolerance: null
+    material: sio2
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 99
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  core:
+    layer:
+    - 1
+    - 0
+    thickness: 0.22
+    thickness_tolerance: null
+    zmin: 0.0
+    zmin_tolerance: null
+    material: si
+    sidewall_angle: 10.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.5
+    z_to_bias: null
+    mesh_order: 2
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  shallow_etch:
+    layer:
+    - 2
+    - 6
+    thickness: 0.07
+    thickness_tolerance: null
+    zmin: 0.0
+    zmin_tolerance: null
+    material: si
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 1
+    layer_type: etch
+    mode: null
+    into:
+    - core
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer:
+    - 2
+    - 0
+    info: {}
+  deep_etch:
+    layer:
+    - 3
+    - 6
+    thickness: 0.13
+    thickness_tolerance: null
+    zmin: 0.0
+    zmin_tolerance: null
+    material: si
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 1
+    layer_type: etch
+    mode: null
+    into:
+    - core
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer:
+    - 3
+    - 0
+    info: {}
+  clad:
+    layer:
+    - 99999
+    - 0
+    thickness: 3.0
+    thickness_tolerance: null
+    zmin: 0.0
+    zmin_tolerance: null
+    material: sio2
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 10
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  slab150:
+    layer:
+    - 2
+    - 0
+    thickness: 0.15
+    thickness_tolerance: null
+    zmin: 0.0
+    zmin_tolerance: null
+    material: si
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 3
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  slab90:
+    layer:
+    - 3
+    - 0
+    thickness: 0.09
+    thickness_tolerance: null
+    zmin: 0.0
+    zmin_tolerance: null
+    material: si
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 2
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  nitride:
+    layer:
+    - 34
+    - 0
+    thickness: 0.35000000000000003
+    thickness_tolerance: null
+    zmin: 0.32
+    zmin_tolerance: null
+    material: sin
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 2
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  ge:
+    layer:
+    - 5
+    - 0
+    thickness: 0.5
+    thickness_tolerance: null
+    zmin: 0.22
+    zmin_tolerance: null
+    material: ge
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 1
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  undercut:
+    layer:
+    - 6
+    - 0
+    thickness: -5.0
+    thickness_tolerance: null
+    zmin: -3.0
+    zmin_tolerance: null
+    material: air
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias:
+    - - 0.0
+      - 0.3
+      - 0.6
+      - 0.8
+      - 0.9
+      - 1.0
+    - - 0.0
+      - -0.5
+      - -1.0
+      - -1.5
+      - -2.0
+      - -2.5
+    mesh_order: 1
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  via_contact:
+    layer:
+    - 40
+    - 0
+    thickness: 1.01
+    thickness_tolerance: null
+    zmin: 0.09
+    zmin_tolerance: null
+    material: Aluminum
+    sidewall_angle: -10.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 1
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  metal1:
+    layer:
+    - 41
+    - 0
+    thickness: 0.7000000000000001
+    thickness_tolerance: null
+    zmin: 1.1
+    zmin_tolerance: null
+    material: Aluminum
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 2
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  heater:
+    layer:
+    - 47
+    - 0
+    thickness: 0.75
+    thickness_tolerance: null
+    zmin: 1.1
+    zmin_tolerance: null
+    material: TiN
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 1
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  via1:
+    layer:
+    - 44
+    - 0
+    thickness: 0.49999999999999956
+    thickness_tolerance: null
+    zmin: 1.8000000000000003
+    zmin_tolerance: null
+    material: Aluminum
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 2
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  metal2:
+    layer:
+    - 45
+    - 0
+    thickness: 0.7000000000000001
+    thickness_tolerance: null
+    zmin: 2.3
+    zmin_tolerance: null
+    material: Aluminum
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 2
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  via2:
+    layer:
+    - 43
+    - 0
+    thickness: 0.20000000000000018
+    thickness_tolerance: null
+    zmin: 3.0
+    zmin_tolerance: null
+    material: Aluminum
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 1
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+  metal3:
+    layer:
+    - 49
+    - 0
+    thickness: 2.0
+    thickness_tolerance: null
+    zmin: 3.2
+    zmin_tolerance: null
+    material: Aluminum
+    sidewall_angle: 0.0
+    sidewall_angle_tolerance: null
+    width_to_z: 0.0
+    z_to_bias: null
+    mesh_order: 2
+    layer_type: grow
+    mode: null
+    into: null
+    doping_concentration: null
+    resistivity: null
+    bias: null
+    derived_layer: null
+    info: {}
+component:
+  ports:
+    o1:
+      name: o1
+      width: 0.5
+      center:
+      - 0.0
+      - 0.0
+      orientation: 180
+      layer:
+      - 1
+      - 0
+      port_type: optical
+      shear_angle: null
+    o2:
+      name: o2
+      width: 0.5
+      center:
+      - 3.0
+      - 3.0
+      orientation: 90
+      layer:
+      - 1
+      - 0
+      port_type: optical
+      shear_angle: null
+  name: bend_euler_radius3
+  settings:
+    name: bend_euler_radius3
+    module: gdsfactory.components.bend_euler
+    function_name: bend_euler
+    info:
+      length: 4.99
+      dy: 3.0
+      radius_min: 2.118
+      radius: 3.0
+      width: 0.5
+      settings:
+        width: 0.5
+        offset: 0
+        layer: WG
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
+        radius: 3
+        sections: null
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        gap: 3.0
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        cladding_simplify: null
+        info: null
+        decorator: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                pin_length: 0.001
+                layer_label: null
+        add_bbox: null
+        mirror: false
+        name: strip
+      function_name: cross_section
+    info_version: 2
+    full:
+      angle: 90.0
+      p: 0.5
+      with_arc_floorplan: true
+      npoints: null
+      direction: ccw
+      with_bbox: true
+      cross_section: strip
+      radius: 3
+    changed:
+      radius: 3
+    default:
+      angle: 90.0
+      p: 0.5
+      with_arc_floorplan: true
+      npoints: null
+      direction: ccw
+      with_bbox: true
+      cross_section: strip
+    child: null
+compute_time_seconds: 25.49888777732849
+compute_time_minutes: 0.42498146295547484
