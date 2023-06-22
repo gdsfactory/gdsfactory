@@ -26,7 +26,7 @@ D = gf.Component("bool")
 D.add_ref(E)
 D.add_ref(R).movey(-1.5)
 D.add_ref(C).movex(30)
-D
+D.plot()
 ```
 
 To learn how booleans work you can try all the different operations `not`, `and`, `or`, `xor`
