@@ -483,6 +483,7 @@ for gap in gaps:
 
 # -
 
+
 def coupling_length(
     neff1: float,
     neff2: float,
