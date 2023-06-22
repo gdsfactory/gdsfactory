@@ -391,8 +391,6 @@ c.add_port("o2", port=straight2.ports["o2"])
 c.add_port("o3", port=straight3.ports["o2"])
 
 c.plot()
-
-
 # -
 
 

@@ -526,8 +526,6 @@ wgt_ref.connect("o1", wg1_ref.ports["o2"])
 wg2_ref.connect("o1", wgt_ref.ports["o2"])
 
 c.plot()
-
-
 # -
 
 
@@ -561,8 +559,6 @@ X = gf.CrossSection(width=3, offset=-6, layer=(2, 0), sections=[s])
 # Extrude the Path to create the Component
 c = gf.path.extrude(P, cross_section=X)
 c.plot()
-
-
 # -
 
 
@@ -590,8 +586,6 @@ X = gf.CrossSection(width=1, offset=0, layer=(1, 0), sections=[s])
 # Extrude the Path to create the Component
 c = gf.path.extrude(P, cross_section=X)
 c.plot()
-
-
 # -
 
 

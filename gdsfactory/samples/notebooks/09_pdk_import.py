@@ -1,15 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     cell_metadata_filter: -all
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.11.2
-# ---
-
 # %% [markdown]
 # # Import PDK
 #
@@ -92,7 +80,7 @@ c2.name
 
 # %%
 c3 = gf.routing.add_fiber_single(c2)
-c3
+c3.plot()
 
 # %%
 gdspath = c3.write_gds("extra/pdk.gds", with_metadata=True)

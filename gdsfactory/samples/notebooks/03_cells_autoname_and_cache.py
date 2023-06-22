@@ -87,7 +87,6 @@ c.plot()
 
 # -
 
-
 @gf.cell
 def wg(length=10, width=1, layer=(1, 0)):
     print("BUILDING waveguide")

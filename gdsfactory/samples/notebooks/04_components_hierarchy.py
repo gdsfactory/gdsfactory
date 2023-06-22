@@ -16,8 +16,6 @@ from gdsfactory.generic_tech import get_generic_pdk
 gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
-
-
 # -
 
 
@@ -64,8 +62,6 @@ def bend_with_straight_with_too_many_input_parameters(
 
 c = bend_with_straight_with_too_many_input_parameters()
 c.plot()
-
-
 # -
 
 

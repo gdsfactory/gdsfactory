@@ -41,8 +41,6 @@ PDK.activate()
 
 tmp = PATH.optimiser
 tmp.mkdir(exist_ok=True)
-
-
 # -
 
 # ## Loss function $\mathcal{L}$
@@ -95,8 +93,6 @@ tune_config = tune.TuneConfig(
     time_budget_s=60
     * 20,  # time after which optimisation is stopped. May be useful along with ``num_samples=-1``.
 )
-
-
 # -
 
 # ## Implement a *trainable* function

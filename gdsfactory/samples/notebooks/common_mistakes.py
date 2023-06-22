@@ -90,8 +90,6 @@ def die_bad():
 c = die_bad(cache=False)
 print(c.references)
 c.plot()
-
-
 # -
 
 # **Solution1** Don't use intermediate cells
@@ -110,8 +108,6 @@ def die_good():
 c = die_good(cache=False)
 print(c.references)
 c.plot()
-
-
 # -
 
 # **Solution2** You can flatten the cell, but you will lose the memory savings from cell references. Solution1 is more elegant.

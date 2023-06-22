@@ -19,7 +19,6 @@ import sax
 import gdsfactory as gf
 import gdsfactory.simulation.gtidy3d as gt
 from gdsfactory.config import PATH
-
 # -
 
 
@@ -47,8 +46,6 @@ print(
 - {core.material} clad with {core.thickness}µm
 - {box.material} clad with {box.thickness}µm"""
 )
-
-
 # -
 
 # The first component we need to design is the DC.  We model the coupling reagion first:
@@ -78,8 +75,6 @@ def coupler_straight(
 
 
 coupler_straight(gap, 2.0, cross_section=cross_section)
-
-
 # -
 
 # Next, we design the waveguide separating region using S bends.
@@ -121,8 +116,6 @@ bend_factor = 4.0
 coupler_splitter(
     gap, separation=separation, bend_factor=bend_factor, cross_section=cross_section
 )
-
-
 # -
 
 # To complete the DC, we join the previous designs in a full component.
@@ -254,8 +247,6 @@ ax[1, 1].set_xlabel("λ (µm)")
 ax[1, 1].set_ylabel("Loss")
 ax[0, 0].legend()
 fig.tight_layout()
-
-
 # -
 
 # Now we crete a fitting function to calculate the DC length for a given power ratio.
@@ -348,8 +339,6 @@ ax[1].legend()
 fig.tight_layout()
 
 print(errors)
-
-
 # -
 
 # Now we have to design the arms of each MZI.  The most important parameter here is their free spectral range (FSR), which comes from the path length difference and the group index of the waveguide at the central wavelength:
@@ -400,8 +389,6 @@ mzi_deltas = [
     -2 * length_delta,
 ]
 print(f"Path difference (ΔL = {length_delta}, Lπ = {length_pi}):", mzi_deltas)
-
-
 # -
 
 # Next we create a helper function that returns the MZI arms for a given length difference, respecting the bend radius defined in our PDK.
@@ -477,8 +464,6 @@ def mzi_arms(
 
 
 mzi_arms(mzi_deltas[0], separation=separation, cross_section=cross_section)
-
-
 # -
 
 # Now we can put all pieces together to layout the complete cascaded MZI filter:
@@ -588,8 +573,6 @@ def straight_model(wl=1.55, length: float = 1.0):
 
 
 straight_model()
-
-
 # -
 
 # For the bends, we want to include the full S matrix, because we are not using a circular shape, so simple modal decomposition becomes less accurate.  Similarly, we want to use the full simulated S matrix from the DCs in our model, instead of analytical approximations.
@@ -700,8 +683,6 @@ coupler_model(
     bend_factor=bend_factor,
     cross_section=cross_section,
 )()
-
-
 # -
 
 # We must take care of using one model for each DC based on its length, so we use another helper function that iterates over the netlist instances and generates the appropriate model for each one:

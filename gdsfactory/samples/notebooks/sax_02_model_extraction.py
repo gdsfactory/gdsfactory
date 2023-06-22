@@ -52,8 +52,6 @@ filtered_layerstack = LayerStack(
         )
     }
 )
-
-
 # -
 
 # We first wrap this component into a function taking for argument only a dictionary, the keys of which are used to parametrize the Component arguments we are interested in varying. Below, for instance, we force the component straight to have a `rib` cross-section, whose width can be varied.

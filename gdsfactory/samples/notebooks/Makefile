@@ -1,6 +1,8 @@
 format:
-	jupytext --pipe black *.ipynb
-	jupytext --pipe black **/*.ipynb
+	jupytext --pipe black *.py
+
+clear:
+	jupytext --clear-metadata *.py
 
 sync:
 	jupytext --sync *.ipynb

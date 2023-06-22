@@ -384,8 +384,6 @@ routes:
 """
 
 display(x, out)
-
-
 # -
 
 # You can also add custom component_factories to `gf.read.from_yaml`

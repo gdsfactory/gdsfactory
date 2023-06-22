@@ -95,8 +95,6 @@ coupler_dict = sax.reciprocal(
 )
 
 coupler_dict
-
-
 # -
 
 # ## Parametrized Models
@@ -123,7 +121,6 @@ coupler(coupling=0.3)
 
 
 # -
-
 
 def waveguide(wl=1.55, wl0=1.55, neff=2.34, ng=3.4, length=10.0, loss=0.0) -> sax.SDict:
     dwl = wl - wl0
@@ -325,7 +322,6 @@ plt.show()
 
 # -
 
-
 def fs(x):
     return fsm(x) * jnp.exp(1j * fsp(x))
 
@@ -373,7 +369,6 @@ plt.show()
 
 # -
 
-
 def fa(x):
     return fam(x) * jnp.exp(1j * fap(x))
 
@@ -398,7 +393,6 @@ plt.ylabel("Coupling")
 
 
 # -
-
 
 @jax.jit
 def coupler(wl=1.5):
@@ -730,7 +724,6 @@ for i, wmap in enumerate(wmaps):
 
 # -
 
-
 def widths(xw, yw, wmaps, x, y):
     _wmap_grid = [xw, yw]
     params = jnp.stack(jnp.broadcast_arrays(jnp.asarray(x), jnp.asarray(y)), 0)
@@ -832,8 +825,6 @@ rmse = jnp.mean(
 )
 plt.title(f"{rmse=}")
 plt.show()
-
-
 # -
 
 # ### Compact MZI
@@ -1051,8 +1042,6 @@ for voltage in voltages:
 
 plt.title("MZI vs voltage")
 plt.legend()
-
-
 # -
 
 # ## Optimization

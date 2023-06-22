@@ -49,8 +49,6 @@ def double(x):
 x = 1.5
 y = double(x)
 print(y)
-
-
 # -
 
 # It's also nice to add `type annotations` to your functions to clearly define what are the input/output types (string, int, float ...)
@@ -105,8 +103,6 @@ def double(x: float) -> float:
 x = 1.5
 y = double(x)
 print(y)
-
-
 # -
 
 # The validator decorator is equivalent to running
@@ -192,8 +188,6 @@ def ring_sc(gap=0.3, **kwargs):
 
 
 ring_sc = partial(gf.components.ring_single, gap=0.3)
-
-
 # -
 
 # As you customize more parameters, it's more obvious that the second one is easier to maintain

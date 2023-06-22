@@ -204,8 +204,6 @@ def coupler_ring(
 
 coupler = coupler_ring()
 coupler
-
-
 # -
 
 # Lets define a ring function that also accepts other component specs for the subcomponents (straight, coupler, bend)

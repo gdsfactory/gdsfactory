@@ -347,8 +347,6 @@ for route in routes:
     c.add(route.references)
 
 c.plot()
-
-
 # -
 
 # `get_bundle` can also route bundles through corners

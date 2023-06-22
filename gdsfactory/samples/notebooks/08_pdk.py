@@ -452,8 +452,6 @@ def litho_ruler(
 
 c = litho_ruler()
 c.plot()
-
-
 # -
 
 # Lets assume that later on you change the code inside the PCell and want to keep a changelog.
@@ -497,4 +495,3 @@ def litho_ruler(
 
 c = litho_ruler(cache=False)
 c.plot()
-# -

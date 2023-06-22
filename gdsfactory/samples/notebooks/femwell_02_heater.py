@@ -213,4 +213,3 @@ plt.xlabel("Current / mA")
 plt.ylabel("Effective refractive index $n_{eff}$")
 plt.plot(currents * 1e3, neffs)
 plt.show()
-# -
