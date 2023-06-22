@@ -18,18 +18,6 @@ dev: full
 	pre-commit install
 	gf install klayout-genericpdk
 
-mamba:
-	bash conda/mamba.sh
-
-patch:
-	bumpversion patch
-
-minor:
-	bumpversion minor
-
-major:
-	bumpversion major
-
 plugins:
 	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	conda install -c conda-forge slepc4py=*=complex* -y
@@ -73,10 +61,6 @@ data-upload:
 	echo 'no need to upload'
 	# aws s3 sync data s3://gdslib
 	# gh release upload v6.90.3 data/gds/*.gds --clobber
-	# gh release upload v6.90.3 data/sp/*.npz --clobber
-	# gh release upload v6.90.3 data/sp/*.yml --clobber
-	# gh release upload v6.90.3 data/modes/*.msh --clobber
-	# gh release upload v6.90.3 data/modes/*.npz --clobber
 
 test-data:
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
@@ -240,6 +224,6 @@ jupytext-clean:
 	jupytext docs/**/*.py --to py
 
 notebooks:
-	jupytext docs/notebooks/*.py --to ipynb
+	jupytext docs/notebooks/*.py --to py
 
 .PHONY: gdsdiff build conda gdslib docs doc

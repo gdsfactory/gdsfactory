@@ -1,12 +1,14 @@
+# %% [markdown]
 # # Non manhattan routing
 #
 # gdsfactory provides functions to connect and route components ports that are off-grid or have non manhattan orientations (0, 90, 180, 270 degrees)
 #
 # ## Fix Non manhattan connections
 
+# %% [markdown]
 # The GDS format often has issues with non-manhattan shapes, due to the rounding of vertices to a unit grid and to downstream tools (i.e. DRC) which often tend to assume cell references only have rotations at 90 degree intervals. For example:
 
-# +
+# %%
 from gdsfactory.decorators import has_valid_transformations
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
@@ -27,38 +29,46 @@ def demo_non_manhattan():
 
 c1 = demo_non_manhattan()
 print(has_valid_transformations(c1))
-c1
-# -
+c1.plot()
 
+# %% [markdown]
 # if you zoom in between the bends you will see a notch between waveguides due to non-manhattan connection between the bends.
 #
 # ![gap](https://i.imgur.com/jBEwy9T.png)
 #
 # You an fix it with the `flatten_invalid_refs` flag when you call `Component.write_gds()`.
 
+# %%
 help(c1.write_gds)
 
+# %%
 gdspath = c1.write_gds(flatten_invalid_refs=True)
 c2 = gf.import_gds(gdspath)
 has_valid_transformations(c1)  # has gap issues
 
+# %%
 has_valid_transformations(c2)  # works perfect
 
+# %% [markdown]
 # If you zoom in the connection the decorator you can see it fixed the issue in `c` that we fixed in `c2` thanks to the `flatten_invalid_refs` flag.
 #
 # ![no gap](https://i.imgur.com/VbSgIjP.png)
 
+# %% [markdown]
 # ### Default PDK `GdsWriteSettings`
 # If you are frequently (or even sometimes!) creating geometries like this, with non-manhattan ports and/or references with non-90-degree rotations, I highly recommend that you set `flatten_invalid_refs=True` in your PDK's `GdsWriteSettings`. If you are the PDK author, you can do this in the definition of the pdk. Or, you can modify the PDK at runtime like.
 
+# %%
 pdk = gf.get_active_pdk()
 pdk.gds_write_settings.flatten_invalid_refs = True
 
 
+# %% [markdown]
 # With this flag set, invalid references will be flattened by default, preventing gaps and errors in downstream tools which may not support cell references with arbitrary rotation, without needing to specify this on each GDS write.
 #
 # You should note, however, that this will *not* fix all gaps between faces of unequal length, as it is *impossible* to guarantee this for diagonal line segments of unequal lengths constrained to end on integer grid values.
 
+# %% [markdown]
 # ## Avoid Non manhattan connections
 #
 # ### Extrude at the end (ideal)
@@ -69,7 +79,7 @@ pdk.gds_write_settings.flatten_invalid_refs = True
 #
 
 
-# +
+# %%
 @gf.cell
 def demo_non_manhattan_extrude_fix():
     c = gf.Component("bend")
@@ -82,13 +92,13 @@ def demo_non_manhattan_extrude_fix():
 
 c1 = demo_non_manhattan_extrude_fix()
 c1
-# -
 
+# %% [markdown]
 # ### Fix polygons
 #
 # You can also fix polygons by merge
 
-# +
+# %%
 import gdsfactory as gf
 
 c = gf.Component("bend")
@@ -100,7 +110,7 @@ c2 = gf.Component("bend_fixed")
 c2.add_polygon(p, layer=(1, 0))
 c2
 
-# +
+# %%
 import gdsfactory as gf
 
 c = gf.Component("bend")
@@ -113,12 +123,12 @@ p = p.snap(nm=5)
 c2 = gf.Component("bend_fixed")
 c2.add_polygon(p, layer=(1, 0))
 c2
-# -
 
+# %%
 p_shapely
 
 
-# +
+# %%
 @gf.cell
 def demo_non_manhattan_merge_polygons():
     c = gf.Component("bend")
@@ -138,8 +148,8 @@ def demo_non_manhattan_merge_polygons():
 
 c1 = demo_non_manhattan_merge_polygons(cache=False)
 c1
-# -
 
+# %% [markdown]
 # ## Non-manhattan router
 # <div class="alert alert-block alert-warning">
 # <b>Warning:</b> It is highly advised that you follow the above instructions and set your PDK to <b>flatten invalid refs on GDS write by default</b> if you intend to use the non-manhattan router.
@@ -156,7 +166,7 @@ c1
 # Let's start with a simple route between two non-orthogonal ports.
 # Consider the yaml-based pic below.
 
-# +
+# %%
 from gdsfactory.read import cell_from_yaml_template
 from IPython.display import Code
 from pathlib import Path
@@ -178,10 +188,11 @@ sample_dir = Path("yaml_pics")
 
 basic_sample_fn = sample_dir / "aar_simple.pic.yml"
 show_yaml_pic(basic_sample_fn)
-# -
 
+# %% [markdown]
 # You can see that even though one of the ports was non-orthogonal, the route was completed, using non-90-degree bends. The logic of how this works is explained further in the next section
 
+# %% [markdown]
 # ### Bends and connectors
 # Let's first consider the "simple" case, as shown above, where the vectors of the two ports to route between intersect at a point. The logic for how to build the route is as follows:
 #
@@ -199,7 +210,7 @@ show_yaml_pic(basic_sample_fn)
 #
 # You can also define your own connector, as a function of the two ports which should be connected and the (suggested) cross-section. See the example below, which implements a very custom connector, composed of two sine bends and a physical label.
 
-# +
+# %%
 import gdsfactory.routing.all_angle as aar
 import numpy as np
 
@@ -248,63 +259,82 @@ aar.CONNECTORS["wonky"] = wonky_connector
 
 wonky_fn = sample_dir / "aar_wonky_connector.pic.yml"
 show_yaml_pic(wonky_fn)
-# -
 
+# %% [markdown]
 # ### Indirect routes
 # Indirect routes are those in which the port vectors do not intersect. In this case, you will see that an S-like bend is created.
 
+# %%
 indirect_fn = sample_dir / "aar_indirect.pic.yml"
 show_yaml_pic(indirect_fn)
 
+# %% [markdown]
 # This is also capable of looping around, i.e. for ~180 degree connections.
 
+# %%
 show_yaml_pic(sample_dir / "aar_around_the_back.pic.yml")
 
+# %% [markdown]
 # We can fine-tune how this looks by adjusting the `start_angle` and `end_angle` of the route, which will abut a bend to the start/end ports such that they exit at the angle specified.
 
+# %%
 show_yaml_pic(sample_dir / "aar_around_the_back2.pic.yml")
 
+# %% [markdown]
 # You may also want to further customize the bend used in the route, as shown below.
 
+# %%
 show_yaml_pic(sample_dir / "aar_around_the_back3.pic.yml")
 
+# %% [markdown]
 # ### Steps
 # For more complex routes, i.e. when weaving around obstacles, you may want to fine-tune the path that the route traverses. We can do this by defining `steps`.
 
+# %%
 show_yaml_pic(sample_dir / "aar_steps01.pic.yml")
 
+# %% [markdown]
 # There are many different parameters you can put in the step directives. To make a complex route like this, a great way is to first sketch it out with the klayout ruler, then convert it to a set of `ds` and `exit_angle` step directives. Combine this with `gf watch` for live file-watching, and you can quickly iterate to achieve your desired route.
 #
 #
 # For example, consider the following circuit. Let's start with the same two MMIs and obstacle as in the previous example.
 
+# %%
 show_yaml_pic(sample_dir / "aar_steps02_initial.pic.yml")
 
+# %% [markdown]
 # Then, translate the steps you took with the ruler into a set of steps directives.
 
+# %%
 show_yaml_pic(sample_dir / "aar_steps02_final.pic.yml")
 
+# %% [markdown]
 # Perfect! Just like we sketched it!
 #
 # You can also start to customize cross-sections and connectors of individual segments, as shown below.
 
+# %%
 show_yaml_pic(sample_dir / "aar_steps03.pic.yml")
 
+# %% [markdown]
 # ### Bundles
 # You can also create all-angle bundles.
 
+# %%
 show_yaml_pic(sample_dir / "aar_bundles01.pic.yml")
 
+# %% [markdown]
 # In addition to the parameters that can be customized for each step of a *single* route, *bundles* also let you customize the separation value step-by-step. For example, let's space out the routes of that top, horizontal segment of the bundle.
 
+# %%
 show_yaml_pic(sample_dir / "aar_bundles02.pic.yml")
 
-# + language="html"
+# %% language="html"
 # <style>
 #   table {margin-left: 0 !important;}
 # </style>
-# -
 
+# %% [markdown]
 # ### Summary of available parameters
 # We went through many examples above. Here is a quick recap of the parameters we used for the all-angle router.
 #
@@ -345,10 +375,11 @@ show_yaml_pic(sample_dir / "aar_bundles02.pic.yml")
 # | connector | Use this connector for this segment |
 # | separation | (bundles only) The separation to use between routes of this segment |
 
+# %% [markdown]
 # ### Python-based examples
 # Most of the above examples were done in yaml syntax. Here are some additional examples creating the routes in pure python.
 
-# +
+# %%
 import gdsfactory as gf
 
 c = gf.Component("demo")
@@ -369,7 +400,7 @@ for route in routes:
     c.add(route.references)
 c.plot()
 
-# +
+# %%
 c = gf.Component("demo")
 
 mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)
@@ -388,7 +419,7 @@ for route in routes:
     c.add(route.references)
 c.plot()
 
-# +
+# %%
 import gdsfactory as gf
 from gdsfactory.routing.all_angle import get_bundle_all_angle
 
