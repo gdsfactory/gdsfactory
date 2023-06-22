@@ -92,7 +92,7 @@ def f(change, out=out):
     try:
         c = gf.read.from_yaml(change["new"])
         # clear_output()
-        fig = c.plot()
+        c.plot()
         c.show(show_ports=True)
         out.clear_output()
     except Exception as e:

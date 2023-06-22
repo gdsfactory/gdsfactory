@@ -95,12 +95,9 @@ from meep.adjoint import (
     get_conic_radius_from_eta_e,
     tanh_projection,
 )
-import meep.adjoint as mpa
 from meep import MaterialGrid, Medium, Vector3, Volume
 import meep as mp
 from gdsfactory.simulation.add_simulation_markers import add_simulation_markers
-import time
-import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import gdsfactory.simulation.gmeep as gm

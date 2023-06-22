@@ -30,8 +30,7 @@ from functools import partial
 from IPython.display import display
 from omegaconf import OmegaConf
 
-from gdsfactory.labels import add_label_ehva, add_label_yaml
-from gdsfactory.read.labels import add_port_markers
+from gdsfactory.labels import add_label_ehva
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 
@@ -353,7 +352,7 @@ def f(change, out=out):
     try:
         c = gf.read.from_yaml(change["new"])
         # clear_output()
-        fig = c.plot()
+        c.plot()
         c.show(show_ports=True)
         out.clear_output()
     except Exception as e:

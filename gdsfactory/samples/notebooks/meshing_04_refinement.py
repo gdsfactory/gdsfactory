@@ -14,7 +14,7 @@ from itertools import product
 import numpy as np
 import gdsfactory as gf
 from gdsfactory.simulation.gmsh.mesh import create_physical_mesh
-from gdsfactory.technology import LayerStack, LayerLevel
+from gdsfactory.technology import LayerStack
 from gdsfactory.pdk import get_layer_stack
 
 import meshio

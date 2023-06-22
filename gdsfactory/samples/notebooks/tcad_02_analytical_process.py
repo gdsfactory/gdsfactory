@@ -15,6 +15,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from gdsfactory.simulation.process.implant_tables import *
+
 # -
 
 
@@ -104,7 +105,6 @@ plt.legend(title="Energy (keV)")
 # Thermal treatment of the wafer to anneal implantation defects and activate the dopants results in rearrangement of the doping ions, and hence a change in doping profile. This is governed by the diffusivity of the species in the crystal:
 
 from gdsfactory.simulation.process.diffusion import *
-from gdsfactory.simulation.process.silicon import ni
 
 # +
 Ts = np.linspace(800, 1100, 100)

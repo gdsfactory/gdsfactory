@@ -4,7 +4,7 @@
 
 # +
 from gdsfactory.pdk import get_layer_stack
-from gdsfactory.technology import LayerStack, LayerLevel
+from gdsfactory.technology import LayerStack
 import gdsfactory as gf
 from gdsfactory.simulation.gmsh.mesh import create_physical_mesh
 import meshio

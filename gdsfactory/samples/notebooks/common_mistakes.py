@@ -174,7 +174,7 @@ def using_dangerous_intermediate_cells():
     they end up with two duplicated cells and a name collision on the intermediate cell
     """
     c = gf.Component()
-    r2 = c << dangerous_intermediate_cells(width=0.5)
+    c << dangerous_intermediate_cells(width=0.5)
     r3 = c << dangerous_intermediate_cells(width=2)
     r3.movey(5)
     return c

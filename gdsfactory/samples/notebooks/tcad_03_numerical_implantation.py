@@ -11,19 +11,9 @@
 # You can install the Windows executable yourself (using Wine on MacOS/Linux), or use a Docker image.
 # [The issues contain good information if you run into problems.](https://gitlab.com/costrouc/pysrim/-/issues/7)
 
-from scipy.stats import kurtosis, skew
-from statistics import mean, stdev
-from itertools import count
 from shutil import rmtree
 from pathlib import Path
-from srim.output import Results
-from srim import TRIM, SR, Ion, Layer, Target
-import matplotlib.pyplot as plt
-import numpy as np
-from IPython.display import Image
-from pprint import pprint
-import os
-import pprint
+from srim import Ion, Layer, Target
 
 # [The following example follows the tutorial from PySRIM](https://gitlab.com/costrouc/pysrim/-/blob/master/examples/notebooks/Analysis.ipynb), adapted for silicon photonic applications.
 #

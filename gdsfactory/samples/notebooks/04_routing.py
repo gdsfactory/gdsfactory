@@ -19,9 +19,7 @@
 
 # +
 from functools import partial
-import numpy as np
 
-from gdsfactory import LAYER
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port

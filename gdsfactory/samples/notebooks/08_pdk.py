@@ -37,24 +37,19 @@
 
 # +
 import pathlib
-from typing import Callable, Tuple
+from typing import Tuple
 from functools import partial
 
 import pytest
 from pydantic import BaseModel
 from pytest_regressions.data_regression import DataRegressionFixture
 
-from gdsfactory.add_pins import add_pin_rectangle_inside
 from gdsfactory.component import Component
 from gdsfactory.config import PATH
-from gdsfactory.cross_section import cross_section
-from gdsfactory.decorators import flatten_invalid_refs, has_valid_transformations
+from gdsfactory.decorators import has_valid_transformations
 from gdsfactory.difftest import difftest
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.technology import (
-    LayerLevel,
-    LayerStack,
-    LayerView,
     LayerViews,
     lyp_to_dataclass,
 )

@@ -19,11 +19,6 @@ from gdsfactory.technology import LayerStack
 from gdsfactory.cross_section import rib
 from gdsfactory.generic_tech import LAYER_STACK
 
-from skfem.io.meshio import from_meshio
-
-from femwell.maxwell.waveguide import compute_modes
-from femwell.mesh import mesh_from_OrderedDict
-from femwell.visualization import plot_domains
 
 import sys
 import logging

@@ -33,8 +33,6 @@
 # ```
 
 # +
-import matplotlib.pyplot as plt
-import numpy as np
 import gdsfactory.simulation.gmeep as gm
 import gdsfactory.simulation as sim
 import gdsfactory as gf

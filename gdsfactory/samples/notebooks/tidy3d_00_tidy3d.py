@@ -20,7 +20,6 @@ import gdsfactory.simulation as sim
 import gdsfactory.simulation.gtidy3d as gt
 import gdsfactory as gf
 from gdsfactory.config import PATH
-from tidy3d import web
 import tidy3d as td
 
 gf.config.rich_output()

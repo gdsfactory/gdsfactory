@@ -23,10 +23,8 @@
 # - `Component.write_gds_metadata()` save GDS + YAML metadata
 
 # %%
-from typing import Dict, Tuple
 
 # Lets generate the script that we need to have to each GDS cell into gdsfactory
-from gdsfactory.component import Component
 from gdsfactory.config import PATH
 from gdsfactory.technology import lyp_to_dataclass
 import gdsfactory as gf

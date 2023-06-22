@@ -12,15 +12,13 @@
 
 # +
 from tqdm import trange
-from tqdm.notebook import tqdm, trange
+from tqdm.notebook import trange
 
 from numpy.fft import fft2, fftfreq, fftshift, ifft2
 from typing import List
 from functools import partial
 import sys
-import itertools
 from pprint import pprint
-from omegaconf import OmegaConf
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from scipy import constants
@@ -29,10 +27,8 @@ import jax.numpy as jnp
 import jax
 
 import gdsfactory.simulation.gtidy3d as gt
-from gdsfactory.simulation.get_sparameters_path import get_sparameters_path_lumerical
 import gdsfactory as gf
 import gdsfactory.simulation.sax as gs
-from gdsfactory.get_netlist import get_netlist as _get_netlist
 
 import matplotlib.pyplot as plt
 import sax
@@ -121,6 +117,7 @@ coupler(coupling=0.3)
 
 
 # -
+
 
 def waveguide(wl=1.55, wl0=1.55, neff=2.34, ng=3.4, length=10.0, loss=0.0) -> sax.SDict:
     dwl = wl - wl0
@@ -322,6 +319,7 @@ plt.show()
 
 # -
 
+
 def fs(x):
     return fsm(x) * jnp.exp(1j * fsp(x))
 
@@ -369,6 +367,7 @@ plt.show()
 
 # -
 
+
 def fa(x):
     return fam(x) * jnp.exp(1j * fap(x))
 
@@ -393,6 +392,7 @@ plt.ylabel("Coupling")
 
 
 # -
+
 
 @jax.jit
 def coupler(wl=1.5):
@@ -473,7 +473,6 @@ pprint(netlist["connections"])
 
 # +
 def straight(wl=1.5, length=10.0, neff=2.4) -> sax.SDict:
-    wl0 = 1.5  # center wavelength for which the waveguide model is defined
     return sax.reciprocal({("o1", "o2"): jnp.exp(2j * jnp.pi * neff * length / wl)})
 
 
@@ -724,6 +723,7 @@ for i, wmap in enumerate(wmaps):
 
 # -
 
+
 def widths(xw, yw, wmaps, x, y):
     _wmap_grid = [xw, yw]
     params = jnp.stack(jnp.broadcast_arrays(jnp.asarray(x), jnp.asarray(y)), 0)
@@ -941,7 +941,6 @@ mzi_component
 
 # +
 def straight(wl=1.5, length=10.0, neff=2.4) -> sax.SDict:
-    wl0 = 1.5  # center wavelength for which the waveguide model is defined
     return sax.reciprocal({("o1", "o2"): jnp.exp(2j * jnp.pi * neff * length / wl)})
 
 
@@ -1054,7 +1053,6 @@ plt.legend()
 
 # +
 def straight(wl=1.5, length=10.0, neff=2.4) -> sax.SDict:
-    wl0 = 1.5  # center wavelength for which the waveguide model is defined
     return sax.reciprocal({("o1", "o2"): jnp.exp(2j * jnp.pi * neff * length / wl)})
 
 

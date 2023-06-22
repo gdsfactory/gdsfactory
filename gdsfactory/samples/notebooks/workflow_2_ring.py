@@ -105,21 +105,10 @@ if __name__ == "__main__":
 # Lets add two references in a component.
 
 # +
-from typing import Optional
 
 import toolz
 from omegaconf import OmegaConf
 
-from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.coupler90 import coupler90 as coupler90function
-from gdsfactory.components.coupler_straight import (
-    coupler_straight as coupler_straight_function,
-)
-from gdsfactory.components.straight import straight
-from gdsfactory.cross_section import strip
-from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 import gdsfactory as gf
 

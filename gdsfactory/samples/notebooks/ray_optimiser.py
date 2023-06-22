@@ -14,17 +14,9 @@
 # You can optimise a `mmi1x2` component for a transmission of $|S_{21}|^2 = 0.5$ (50% power) for a given wavelength using MEEP.
 
 # +
-import re
-import json
-import shutil
-import subprocess
-import importlib
-import tempfile
-from pathlib import Path
 from functools import partial
 
 import numpy as np
-import pandas as pd
 import ray
 import ray.air
 import ray.air.session

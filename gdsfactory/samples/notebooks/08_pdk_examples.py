@@ -7,29 +7,22 @@
 # Notice that some PDKs may have require different gdsfactory versions.
 
 # +
-import pathlib
 from functools import partial
-from typing import Callable, Tuple
+from typing import Callable
 
-import pytest
 from pydantic import BaseModel
-from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.add_pins import add_pin_rectangle_inside
 from gdsfactory.component import Component
-from gdsfactory.config import PATH, CONF
+from gdsfactory.config import CONF
 from gdsfactory.cross_section import cross_section
-from gdsfactory.decorators import flatten_invalid_refs, has_valid_transformations
-from gdsfactory.difftest import difftest
-from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.technology import (
     LayerLevel,
     LayerStack,
     LayerView,
     LayerViews,
-    lyp_to_dataclass,
 )
-from gdsfactory.typings import Layer, LayerSpec
+from gdsfactory.typings import Layer
 import gdsfactory as gf
 
 gf.config.rich_output()

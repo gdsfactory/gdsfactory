@@ -140,7 +140,7 @@ def demo_non_manhattan_merge_polygons():
     p.simplify(tolerance=0.1)
 
     c2 = gf.Component()
-    p3 = c2.add_polygon(p)
+    c2.add_polygon(p)
     c2.add_port("o1", port=b["o1"])
     c2.add_port("o2", port=s["o2"])
     return c2

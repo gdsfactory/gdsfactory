@@ -94,7 +94,9 @@ if __name__ == "__main__":
             -1.12666286e00,
         ]
     )
-    neff_w = lambda w: np.poly1d(polyfit_TE1550SOI_220nm)(w)
+
+    def neff_w(w):
+        return np.poly1d(polyfit_TE1550SOI_220nm)(w)
 
     w0 = 450 * nm
     dn1 = neff_w(w0 + 1 * nm / 2) - neff_w(w0 - 1 * nm / 2)
@@ -201,7 +203,6 @@ mzi10
 import matplotlib.pyplot as plt
 import numpy as np
 import jax.numpy as jnp
-from omegaconf import OmegaConf
 import sax
 
 import gdsfactory as gf
@@ -210,7 +211,6 @@ import gdsfactory.simulation.sax as gsax
 
 # +
 def straight(wl=1.5, length=10.0, neff=2.4) -> sax.SDict:
-    wl0 = 1.5  # center wavelength for which the waveguide model is defined
     return sax.reciprocal({("o1", "o2"): jnp.exp(2j * jnp.pi * neff * length / wl)})
 
 

@@ -17,7 +17,6 @@ from gdsfactory.simulation.lumerical.interconnect import run_wavelength_sweep
 from gdsfactory.get_netlist import get_instance_name_from_alias as get_instance_name
 from gdsfactory.routing import get_route
 import gdsfactory as gf
-from gdsfactory.generic_tech import get_generic_pdk
 
 import ubcpdk.components as pdk
 
