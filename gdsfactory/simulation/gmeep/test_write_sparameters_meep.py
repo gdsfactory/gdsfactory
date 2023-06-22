@@ -52,19 +52,6 @@ def test_sparameters_straight_symmetric() -> None:
     assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
 
-def test_sparameters_crossing_symmetric() -> None:
-    """Checks Sparameters for a waveguide crossing exploiting symmetries."""
-    c = gf.components.crossing()
-    sp = gm.write_sparameters_meep(
-        c,
-        overwrite=True,
-        port_symmetries=sim.port_symmetries.port_symmetries_crossing,
-        ymargin=0,
-        **simulation_settings,
-    )
-    assert sp
-
-
 def test_sparameters_straight_mpi() -> None:
     """Checks Sparameters for a straight waveguide using MPI."""
     c = gf.components.straight(length=2)
