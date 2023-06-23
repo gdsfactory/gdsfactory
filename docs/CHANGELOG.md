@@ -2,6 +2,10 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
+## [6.108.1](https://github.com/gdsfactory/gdsfactory/compare/v6.108.1...v6.108.0)
+
+- add module info to cell decorator [PR](https://github.com/gdsfactory/gdsfactory/pull/1805)
+
 ## [6.108.0](https://github.com/gdsfactory/gdsfactory/compare/v6.108.0...v6.107.4)
 
 - add handshake for klive [PR](https://github.com/gdsfactory/gdsfactory/pull/1796)
