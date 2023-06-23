@@ -1527,7 +1527,7 @@ class Component(_GeometryHelper):
             )
             component.plot(plotter="matplotlib")
 
-    def plot_jupyter(self):
+    def plot_kweb(self):
         """Shows current gds in klayout.
 
         Uses Kweb if installed, otherwise displays Klayout image.
@@ -1619,7 +1619,7 @@ class Component(_GeometryHelper):
             self.plot_klayout()
             return
         elif plotter == "kweb":
-            return self.plot_jupyter()
+            return self.plot_kweb()
         elif plotter == "widget":
             self.plot_widget()
             return

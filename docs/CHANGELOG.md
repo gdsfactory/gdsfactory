@@ -5,7 +5,7 @@
 ## [6.108.0](https://github.com/gdsfactory/gdsfactory/compare/v6.108.0...v6.107.4)
 
 - add handshake for klive [PR](https://github.com/gdsfactory/gdsfactory/pull/1796)
-- make `plot_jupyter` the default [PR](https://github.com/gdsfactory/gdsfactory/pull/1802)
+- make `plot_kweb` the default [PR](https://github.com/gdsfactory/gdsfactory/pull/1802)
 - update to latest MEOW [PR](https://github.com/gdsfactory/gdsfactory/pull/1799)
 
 ## [6.107.4](https://github.com/gdsfactory/gdsfactory/compare/v6.107.4...v6.107.3)
