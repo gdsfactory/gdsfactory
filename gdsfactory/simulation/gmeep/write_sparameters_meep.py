@@ -143,18 +143,20 @@ def write_sparameters_meep(
     plot_args: Optional[Dict] = None,
     only_return_filepath_sim_settings=False,
     **settings,
-) -> Dict:
+) -> Dict[str, np.ndarray]:
     r"""Returns Sparameters and writes them to npz filepath.
 
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
 
-    port_symmetries_crossing = {
-        "o1@0,o1@0": ["o2@0,o2@0", "o3@0,o3@0", "o4@0,o4@0"],
-        "o2@0,o1@0": ["o1@0,o2@0", "o3@0,o4@0", "o4@0,o3@0"],
-        "o3@0,o1@0": ["o1@0,o3@0", "o2@0,o4@0", "o4@0,o2@0"],
-        "o4@0,o1@0": ["o1@0,o4@0", "o2@0,o3@0", "o3@0,o2@0"],
-    }
+    .. code::
+
+        port_symmetries_crossing = {
+            "o1@0,o1@0": ["o2@0,o2@0", "o3@0,o3@0", "o4@0,o4@0"],
+            "o2@0,o1@0": ["o1@0,o2@0", "o3@0,o4@0", "o4@0,o3@0"],
+            "o3@0,o1@0": ["o1@0,o3@0", "o2@0,o4@0", "o4@0,o2@0"],
+            "o4@0,o1@0": ["o1@0,o4@0", "o2@0,o3@0", "o3@0,o2@0"],
+        }
 
     - Only simulations using the outer key port names will be run
     - The associated value is another dict whose keys are the S-parameters computed
