@@ -32,16 +32,11 @@ def define_prisms(layer_polygons_dict, layerstack, model):
 
         buffer_dict = dict(zip(zs, buffers))
 
-        prisms_dict[layername] = [
-            (
-                3,
-                Prism(
-                    polygons=layer_polygons_dict[layername],
-                    buffers=buffer_dict,
-                    model=model,
-                ),
-            )
-        ]
+        prisms_dict[layername] = Prism(
+            polygons=layer_polygons_dict[layername],
+            buffers=buffer_dict,
+            model=model,
+        )
 
     return prisms_dict
 
@@ -50,11 +45,9 @@ def xyz_mesh(
     component: ComponentOrReference,
     layerstack: LayerStack,
     resolutions: Optional[Dict] = None,
-    default_resolution_min: float = 0.01,
-    default_resolution_max: float = 0.5,
+    default_characteristic_length: float = 0.5,
     filename: Optional[str] = None,
-    verbosity: Optional[bool] = False,
-    override_volumes: Optional[Dict] = None,
+    verbosity: Optional[int] = 0,
     round_tol: int = 3,
     simplify_tol: float = 1e-3,
 ) -> bool:
@@ -67,9 +60,9 @@ def xyz_mesh(
         default_resolution_min (float): gmsh minimal edge length
         default_resolution_max (float): gmsh maximal edge length
         filename (str, path): where to save the .msh file
-        override_volumes: Dict of {physical: [volume_ids]}. If not None, will manually assign physicals to the volume IDs (after performing coherence), deleting extra volumes
         round_tol: during gds --> mesh conversion cleanup, number of decimal points at which to round the gdsfactory/shapely points before introducing to gmsh
         simplify_tol: during gds --> mesh conversion cleanup, shapely "simplify" tolerance (make it so all points are at least separated by this amount)
+
     """
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_polygons_dict = cleanup_component(
@@ -82,7 +75,7 @@ def xyz_mesh(
 
     # Mesh
     mesh_out = model.mesh(
-        dimtags_dict=prisms_dict,
+        entities_dict=prisms_dict,
         resolutions=resolutions,
         default_characteristic_length=0.5,
         filename=filename,
@@ -95,17 +88,21 @@ def xyz_mesh(
 if __name__ == "__main__":
     import gdsfactory as gf
 
+    from gdsfactory.pdk import get_layer_stack
+    from gdsfactory.generic_tech import LAYER
+
     c = gf.component.Component()
     waveguide = c << gf.get_component(
         gf.components.straight(length=5, cross_section="rib")
     )
+    # Add wafer information
+    wafer = c << gf.components.bbox(bbox=waveguide.bbox, layer=LAYER.WAFER)
+
     # ring = c << gf.get_component(gf.components.ring_crow)
     # c << gf.components.spiral_racetrack(cross_section = "strip",
     #                                         cross_section_s = "strip",)
     # c << gf.components.coupler_straight()
     c.show()
-
-    from gdsfactory.pdk import get_layer_stack
 
     filtered_layerstack = LayerStack(
         layers={
@@ -115,9 +112,9 @@ if __name__ == "__main__":
                 "core",
                 # "via_contact",
                 # "undercut",
-                # "box",
+                "box",
                 # "substrate",
-                # "clad",
+                "clad",
                 # "metal1",
             )
         }
@@ -136,5 +133,5 @@ if __name__ == "__main__":
         layerstack=filtered_layerstack,
         resolutions=resolutions,
         filename="mesh.msh",
-        verbosity=True,
+        verbosity=99,
     )

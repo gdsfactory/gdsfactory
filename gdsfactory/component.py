@@ -51,6 +51,8 @@ from gdsfactory.port import (
 from gdsfactory.serialization import clean_dict
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
+import importlib.util
+
 valid_plotters = [
     "holoviews",
     "matplotlib",
@@ -2488,6 +2490,12 @@ class Component(_GeometryHelper):
                 padded_component, xsection_bounds, layer_stack, **kwargs
             )
         elif type == "3D":
+            spec = importlib.util.find_spec("meshwell")
+            if spec is None:
+                print(
+                    "3D meshing requires meshwell, which can be experimentally installed from https://github.com/simbilod/meshwell."
+                )
+
             from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
 
             return xyz_mesh(padded_component, layer_stack, **kwargs)
@@ -2850,6 +2858,18 @@ def test_bbox_reference() -> None:
     assert c2.xsize == 1.5e-3
 
 
+def test_remap_layers() -> None:
+    import gdsfactory as gf
+
+    c = gf.components.straight(layer=(2, 0))
+    remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
+    hash_geometry = "32cd14ea7ce13cf1f430277b45054a0a7909a3c4"
+
+    assert (
+        remap.hash_geometry() == hash_geometry
+    ), f"hash_geometry = {remap.hash_geometry()!r}"
+
+
 def test_remove_labels() -> None:
     import gdsfactory as gf
 
@@ -2870,10 +2890,27 @@ def test_import_gds_settings() -> None:
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
-    c = gf.Component()
-    p = c.add_polygon(
-        [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
-    )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
-    c.show()
+    test_remap_layers()
+    # c = gf.Component()
+    # p = c.add_polygon(
+    #     [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
+    # )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
+
+    # c2 = gf.Component()
+    # c = gf.components.mzi()
+    # print(c.get_layer_names())
+    # c = gf.components.mzi()
+    # print(c.get_layer_names())
+    # r = c.ref()
+    # c2.copy_child_info(c.named_references["sxt"])
+    # test_remap_layers()
+    # c = test_get_layers()
+    # c.plot_qt()
+    # c.ploth()
+    # c = test_extract()
+    # gdspath = c.write_gds()
+    # gf.show(gdspath)
+    # c.show(show_ports=True)
+    # c.show()
