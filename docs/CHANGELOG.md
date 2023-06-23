@@ -8,6 +8,7 @@
 - make `plot_kweb` the default [PR](https://github.com/gdsfactory/gdsfactory/pull/1802)
 - update to latest MEOW [PR](https://github.com/gdsfactory/gdsfactory/pull/1799)
 - add `gf.components.rectangular_ring` [PR](https://github.com/gdsfactory/gdsfactory/pull/1803)
+- fix `get_bundle` regressions [PR](https://github.com/gdsfactory/gdsfactory/pull/1801)
 
 ## [6.107.4](https://github.com/gdsfactory/gdsfactory/compare/v6.107.4...v6.107.3)
 
