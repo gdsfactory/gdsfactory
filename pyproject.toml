@@ -44,7 +44,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "6.107.4"
+version = "6.107.7"
 
 [project.optional-dependencies]
 cad = [
@@ -54,6 +54,7 @@ cad = [
   "ipympl",
   "ipywidgets==7.7.3",
   "ipyevents",
+  "ipykernel",
   "mapbox_earcut",
   "natsort",
   "networkx",
@@ -139,7 +140,6 @@ full = [
   "natsort",
   "networkx",
   "pyglet<2",
-  "pygmsh",
   "scikit-fem",
   "scikit-image",
   "scikit-learn",
@@ -274,7 +274,6 @@ skip = "gdsfactory/__init__.py"
 
 [tool.jupytext]
 cell_metadata_filter = "-all"
-formats = "docs"
 notebook_metadata_filter = "-all"
 
 [tool.mypy]
@@ -296,6 +295,7 @@ strict = true
 # addopts = --tb=no
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
 norecursedirs = [
+  "gdsfactory/samples/notebooks",
   "gdsfactory/plugins",
   "gdsfactory/simulation",
   "gdsfactory/geometry",
@@ -311,7 +311,7 @@ python_files = ["gdsfactory/*.py", "tests/*.py"]
 testpaths = ["gdsfactory/", "tests"]
 
 [tool.ruff]
-extend-exclude = ["docs/notebooks"]
+extend-exclude = ["docs/notebooks", "gdsfactory/samples/notebooks"]
 ignore = [
   "E501",  # line too long, handled by black
   "B008",  # do not perform function calls in argument defaults

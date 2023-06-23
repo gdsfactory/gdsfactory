@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: ca84e500209b3757213759d4d522f8ed307cd638
+    rev: f8d8c45220230434bd7440d85a7f64c67bcdb952
     hooks:
       - id: check-yaml
         exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|conda/construct.yaml|.*\.pic\.yml|conda/constructor/Miniforge3/construct.yaml)
@@ -8,18 +8,13 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: d1248ca9beaf0ba526d265f4108836d89cf551b7
     hooks:
       - id: black
-
-  - repo: https://github.com/asottile/blacken-docs
-    rev: 7b71075ceb458be255e24da587c0275818b51faa
-    hooks:
-      - id: blacken-docs
-        additional_dependencies: [black==23.3.0]
+        # exclude: '^gdsfactory/samples/notebooks/|^docs/notebooks/'
 
   - repo: https://github.com/codespell-project/codespell
-    rev: ad3ff374e97e29ca87c94b5dc7eccdd29adc6296
+    rev: af69927c7d3965d3fe8f68007e12cd971847573f
     hooks:
       - id: codespell
         args: ["-L TE,TE/TM,te,ba,FPR,fpr_spacing,ro,nd,donot,schem"]
@@ -27,7 +22,7 @@ repos:
           - tomli
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "7c149cf0b9d2c4f7558de1ea5d2c137ca074d9d0"
+    rev: "770e3ceae230e989c8337eb434b7707d5f796e3d"
     hooks:
       - id: ruff
 

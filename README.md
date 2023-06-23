@@ -1,4 +1,4 @@
-# gdsfactory 6.107.4
+# gdsfactory 6.107.7
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -17,7 +17,7 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
 [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/gdsfactory/gdsfactory)
 
-![logo](https://i.imgur.com/v4wpHpg.png)
+![logo](https://i.imgur.com/cN1ZWq8.png)
 
 gdsfactory: An open source platform for end to-end chip design and validation.
 
@@ -78,26 +78,11 @@ You can also access:
 
 Use python3.10 or python3.11, as some tools like kfactory are not available for older versions of python. We recommend [VSCode](https://code.visualstudio.com/) as an IDE.
 
-You have 2 options to install gdsfactory:
+If you don't have python installed on your system you can [download anaconda](https://www.anaconda.com/download/)
 
+Once you have python installed, open Anaconda Prompt as Administrator and then install the latest gdsfactory using pip.
 
-### 1. Installation for new users
-
-If you don't have python installed on your system you can [download the gdsfactory installer](https://github.com/gdsfactory/gdsfactory/releases) that includes python3, miniconda and gdsfactory.
-
-You can also install python with mamba package manager (faster than conda):
-
-| OS      | Architecture          | Download  |
-| --------|-----------------------|-----------|
-| Linux   | x86_64 (amd64)        | [Linux-x86_64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-Linux-x86_64.sh) |
-| OS X    | x86_64                | [MacOSX-x86_64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-MacOSX-x86_64.sh) |
-| OS X    | arm64 (Apple Silicon) | [MacOSX-arm64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-MacOSX-arm64.sh) |
-| Windows | x86_64                | [Windows-x86_64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-Windows-x86_64.exe) |
-
-
-Once you have python installed, open Anaconda Prompt and then install the latest gdsfactory using pip.
-
-![anaconda prompt](https://i.imgur.com/Fyal5sT.png)
+![anaconda prompt](https://i.imgur.com/eKk2bbs.png)
 
 ```
 conda install gdstk -y
@@ -106,28 +91,11 @@ pip install "gdsfactory[full]" --upgrade
 
 Then you can install Klayout-live `klive` integration in the klayout GUI `Tools --> Manage Packages --> Install New Packages --> Klive` as well as the genericpdk layermap `Tools --> Manage Packages --> Install New Packages --> gdsfactory` and restart klayout.
 
-### 2. Installation for developers
-
-As a developer, if you are on windows you need to download [Git](https://git-scm.com/download/win) and optionally [GitHub Desktop](https://desktop.github.com/).
-
-Then you need to fork the [GitHub repository](https://github.com/gdsfactory/gdsfactory), git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
-For that you can install gdsfactory locally on your computer in `-e` edit mode.
-
-```
-git clone https://github.com/gdsfactory/gdsfactory.git
-cd gdsfactory
-mamba install gdstk -y
-pip install -e .[full] pre-commit
-pre-commit install
-```
-
 ### Update gdsfactory
 
-- Users can `pip install gdsfactory --upgrade`
-- Developers can `git pull` the GitHub repository you downloaded and installed on your computer.
+You can `pip install gdsfactory --upgrade`
 
-Some PDKs may require a specific versions of gdsfactory, so make sure you install the correct gdsfactory version specified in the `pyproject.toml` file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example `pip install gf180` will install the latest gdsfactory version that has been tested for the GlobalFoundries180 PDK.
-
+Notice that some PDKs may only work for a specific version of gdsfactory, so make sure you install the correct gdsfactory version specified in the `pyproject.toml` file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example `pip install gf180` will install the latest gdsfactory version that has been tested for the GlobalFoundries180 PDK.
 
 This code will tell you which gdsfactory you are using:
 

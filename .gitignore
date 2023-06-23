@@ -70,7 +70,6 @@ cml/
 mzi.yml
 *.out
 mpb-sim/
-data/
 extrakdown-parser/
 
 # Installer logs

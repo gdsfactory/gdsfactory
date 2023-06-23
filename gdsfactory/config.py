@@ -30,7 +30,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     from loguru import Logger
 
-__version__ = "6.107.4"
+__version__ = "6.107.7"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -244,7 +244,7 @@ class Paths:
     sparameters = gdslib / "sp"
     interconnect = gdslib / "interconnect"
     optimiser = repo_path / "tune"
-    notebooks = repo_path / "docs" / "notebooks"
+    notebooks = module_path / "samples" / "notebooks"
     plugins = module / "plugins"
     web = plugins / "web"
     test_data = repo / "test-data"
