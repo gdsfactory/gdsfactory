@@ -194,7 +194,7 @@ class Settings(BaseSettings):
     n_threads: int = get_number_of_cores()
     logger: ClassVar[Logger] = logger
     logfilter: LogFilter = Field(default_factory=LogFilter)
-    display_type: Literal["widget", "klayout", "docs"] = "widget"
+    display_type: Literal["widget", "klayout", "docs", "kweb"] = "widget"
 
     def __init__(self, **data: Any):
         """Set log filter and run pydantic."""

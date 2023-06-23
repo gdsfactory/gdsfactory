@@ -57,7 +57,8 @@ valid_plotters = [
     "widget",
     "klayout",
     "qt",
-]  # qt and holoviews
+    "kweb",
+]  # qt and holoviews are deprecated
 Axis = Literal["x", "y"]
 
 
@@ -1550,10 +1551,19 @@ class Component(_GeometryHelper):
             layer_props = get_layer_views()
             layer_props.to_lyp(filepath=lyp_path)
 
-            port = kj.port if hasattr(kj, "port") else 8000
-
+            port = kj.port if hasattr(kj, "port") and kj.port else 8000
             src = f"http://127.0.0.1:{port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
-            logger.debug(src)
+
+            os.environ["KWEB_PORT"] = str(os.getenv("KWEB_PORT", port))
+
+            if not kj.jupyter_server and not os.environ.get("DOCS", False):
+                port = int(os.getenv("KWEB_PORT"))
+                while kj.is_port_in_use(port):
+                    port += 1
+                    os.environ["KWEB_PORT"] = str(port)
+
+                logger.debug(src)
+                kj.start()
 
             if kj.jupyter_server and not os.environ.get("DOCS", False):
                 return IFrame(
@@ -1607,6 +1617,9 @@ class Component(_GeometryHelper):
 
         if plotter == "klayout":
             self.plot_klayout()
+            return
+        elif plotter == "kweb":
+            self.plot_jupyter()
             return
         elif plotter == "widget":
             self.plot_widget()
