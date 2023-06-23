@@ -2,6 +2,11 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
+## [6.108.0](https://github.com/gdsfactory/gdsfactory/compare/v6.108.0...v6.107.4)
+
+- add handshake for klive [PR](https://github.com/gdsfactory/gdsfactory/pull/1796)
+- make `plot_jupyter` the default
+
 ## [6.107.4](https://github.com/gdsfactory/gdsfactory/compare/v6.107.4...v6.107.3)
 
 - fix SDL notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/1788)

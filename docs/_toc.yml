@@ -46,7 +46,6 @@ parts:
         - file: notebooks/21_drc
     - file: workflow
       sections:
-        - file: notebooks/workflow_jupyter_notebooks
         - file: notebooks/workflow_0_layout_summary
         - file: notebooks/workflow_1_mzi
         - file: notebooks/workflow_2_ring
@@ -78,8 +77,8 @@ parts:
     - file: plugins_fdtd
       sections:
         - file: notebooks/tidy3d_00_tidy3d
-        - file: notebooks/meep_001_meep_sparameters
-        - file: notebooks/meep_002_gratings
+        - file: notebooks/meep_01_sparameters
+        - file: notebooks/meep_02_gratings
         - file: notebooks/lumerical_1_fdtd_sparameters
     - file: plugins_circuits
       sections:
