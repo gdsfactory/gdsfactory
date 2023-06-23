@@ -28,11 +28,13 @@ gf.config.rich_output()
 PDK = gf.get_generic_pdk()
 PDK.activate()
 
+gf.CONF.display_type = "kweb"
+
 # %%
 c = gf.components.mzi()
 
 # %%
-c.plot_jupyter()
+c.plot()
 
 # %%
 c = gf.components.bend_circular()
@@ -40,7 +42,7 @@ c.plot_jupyter()
 
 # %%
 c = gf.components.straight_heater_meander()
-c.plot_jupyter()
+c.plot()
 
 # %%
 c.plot()

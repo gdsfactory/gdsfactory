@@ -1528,9 +1528,9 @@ class Component(_GeometryHelper):
             component.plot(plotter="matplotlib")
 
     def plot_jupyter(self):
-        """Shows current gds in klayout. Uses Kweb if server running.
+        """Shows current gds in klayout.
 
-        if not tries using Klayout widget and finally defaults to matplotlib.
+        Uses Kweb if installed, otherwise displays Klayout image.
         """
         try:
             import os
@@ -1541,42 +1541,42 @@ class Component(_GeometryHelper):
 
             from gdsfactory.config import PATH
             from gdsfactory.pdk import get_layer_views
-
-            gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
-
-            dirpath = GDSDIR_TEMP
-            dirpath.mkdir(exist_ok=True, parents=True)
-            lyp_path = dirpath / "layers.lyp"
-
-            layer_props = get_layer_views()
-            layer_props.to_lyp(filepath=lyp_path)
-
-            port = kj.port if hasattr(kj, "port") and kj.port else 8000
-            src = f"http://127.0.0.1:{port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
-
-            os.environ["KWEB_PORT"] = str(os.getenv("KWEB_PORT", port))
-
-            if not kj.jupyter_server and not os.environ.get("DOCS", False):
-                port = int(os.getenv("KWEB_PORT"))
-                while kj.is_port_in_use(port):
-                    port += 1
-                    os.environ["KWEB_PORT"] = str(port)
-
-                logger.debug(src)
-                kj.start()
-
-            if kj.jupyter_server and not os.environ.get("DOCS", False):
-                return IFrame(
-                    src=src,
-                    width=1400,
-                    height=600,
-                )
-            else:
-                return self.plot_klayout()
         except ImportError:
             print(
-                "You can install `pip install gdsfactory[full]` for better visualization"
+                "You can install `pip install gdsfactory[cad]` for better visualization"
             )
+            return self.plot_klayout()
+
+        gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
+
+        dirpath = GDSDIR_TEMP
+        dirpath.mkdir(exist_ok=True, parents=True)
+        lyp_path = dirpath / "layers.lyp"
+
+        layer_props = get_layer_views()
+        layer_props.to_lyp(filepath=lyp_path)
+
+        port = kj.port if hasattr(kj, "port") and kj.port else 8000
+        src = f"http://127.0.0.1:{port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
+
+        os.environ["KWEB_PORT"] = str(os.getenv("KWEB_PORT", port))
+
+        if not kj.jupyter_server:
+            port = int(os.getenv("KWEB_PORT"))
+            while kj.is_port_in_use(port):
+                port += 1
+
+            os.environ["KWEB_PORT"] = str(port)
+            logger.debug(src)
+            kj.start()
+
+        if kj.jupyter_server:
+            return IFrame(
+                src=src,
+                width=1400,
+                height=600,
+            )
+        else:
             return self.plot_klayout()
 
     def plot_matplotlib(self, **kwargs) -> None:
@@ -1608,7 +1608,7 @@ class Component(_GeometryHelper):
         We recommend using klayout.
 
         Args:
-            plotter: plot backend ('matplotlib', 'widget', 'klayout').
+            plotter: plot backend ('matplotlib', 'widget', 'klayout', 'kweb').
         """
         plotter = plotter or CONF.display_type
 
@@ -1619,8 +1619,7 @@ class Component(_GeometryHelper):
             self.plot_klayout()
             return
         elif plotter == "kweb":
-            self.plot_jupyter()
-            return
+            return self.plot_jupyter()
         elif plotter == "widget":
             self.plot_widget()
             return
