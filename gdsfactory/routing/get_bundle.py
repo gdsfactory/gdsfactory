@@ -77,7 +77,7 @@ def get_bundle(
         start_straight_length: straight length at the beginning of the route. If None, uses default value for the routing CrossSection.
         end_straight_length: end length at the beginning of the route. If None, uses default value for the routing CrossSection.
         path_length_match_loops: Integer number of loops to add to bundle
-            for path length matching. Pathlength matching won't be attempted if None).
+            for path length matching. Path-length matching won't be attempted if this is set to None.
         path_length_match_extra_length: Extra length to add
             to path length matching loops (requires path_length_match_loops != None).
         path_length_match_modify_segment_i: Index of straight segment to add path
