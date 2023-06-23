@@ -44,7 +44,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "6.107.7"
+version = "6.108.0"
 
 [project.optional-dependencies]
 cad = [
@@ -69,7 +69,7 @@ cad = [
   "ipytree",
   "rich-click",
   "ipycytoscape",
-  "kweb>=0.0.11,<0.1",
+  "kweb==0.1.1",
   "jinja2",
   "python-multipart",
   "fastapi",
@@ -149,7 +149,7 @@ full = [
   "ipytree",
   "rich-click",
   "ipycytoscape",
-  "kweb>=0.0.11,<0.2",
+  "kweb==0.1.1",
   "jinja2",
   "python-multipart",
   "fastapi",
@@ -165,12 +165,14 @@ full = [
   "shapely",
   # kfactory
   "kfactory[git,ipy]==0.7.5",
-  "meow-sim==0.6.5",
+  "meow-sim==0.6.7",
   # ray
   "ray[tune,air]",
   "hyperopt",
   # sax
-  "sax[nojax]==0.8.7",
+  "sax==0.8.7",
+  "jaxlib",
+  "jax",
   "tidy3d==2.2.3"
 ]
 gmsh = [
@@ -187,14 +189,14 @@ kfactory = [
   "kfactory[git,ipy]==0.7.5"
 ]
 meow = [
-  "meow-sim==0.6.5"
+  "meow-sim==0.6.7"
 ]
 ray = [
   "ray[tune,air]",
   "hyperopt"
 ]
 sax = [
-  "sax>=0.8.6",
+  "sax==0.8.7",
   "jaxlib",
   "jax"
 ]
