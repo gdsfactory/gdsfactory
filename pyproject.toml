@@ -189,7 +189,7 @@ kfactory = [
   "kfactory[git,ipy]==0.7.5"
 ]
 meow = [
-  "meow-sim==0.6.7"
+  "meow-sim>=0.6.8"
 ]
 ray = [
   "ray[tune,air]",
