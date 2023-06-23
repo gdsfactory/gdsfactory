@@ -2493,7 +2493,7 @@ class Component(_GeometryHelper):
             spec = importlib.util.find_spec("meshwell")
             if spec is None:
                 print(
-                    "3D meshing requires meshwell, which can be experimentally installed from https://github.com/simbilod/meshwell."
+                    "3D meshing requires meshwell, see https://github.com/simbilod/meshwell or run pip install meshwell."
                 )
 
             from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
