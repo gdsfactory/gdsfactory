@@ -22,15 +22,9 @@ pre-commit install
 
 ## Style
 
-- Follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html) and take a look at existing gdsfactory code.
+- Follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html) and existing code.
 - Make sure tests pass on GitHub.
 - Install pre-commit to get the pre-commit checks passing (autoformat the code, run linter ...).
-
-```
-cd gdsfactory
-pip install -e . pre-commit
-pre-commit install
-```
 
 Pre-commit makes sure your code is formatted following black and checks syntax.
 If you forgot to `pre-commit install` you can fix pre-commit issues by running
@@ -38,6 +32,8 @@ If you forgot to `pre-commit install` you can fix pre-commit issues by running
 ```
 pre-commit run --all-files
 ```
+
+until you fix all the issues that the pre-commit check complaints about.
 
 ## Tests
 
@@ -84,12 +80,13 @@ We recommend creating a separate python project for each mask and PDK.
 ```
 pip install cookiecutter
 cookiecutter https://github.com/joamatab/cookiecutter-pypackage-minimal
-
 ```
+
+Make sure you pin the version of gdsfactory that you are using in your `pyproject.toml`
 
 ## Test own Reticles/projects/PDKs
 
-You can take a look at other open source PDKs tests code.
+You can take a look at the tests of other open source PDKs.
 
 - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
 - [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
@@ -141,14 +138,11 @@ def test_assert_ports_on_grid(component_name: str) -> None:
 
 ```
 
-- For questions join the chat[![Join the chat at https://gitter.im/gdsfactory-dev/community](https://badges.gitter.im/gdsfactory-dev/community.svg)](https://gitter.im/gdsfactory-dev/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) with [element.io](https://element.io/download) or any matrix client.
-- Or use GitHub issues or discussions.
+For questions join the [![Join the chat at https://gitter.im/gdsfactory-dev/community](https://badges.gitter.im/gdsfactory-dev/community.svg)](https://gitter.im/gdsfactory-dev/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) with [element.io](https://element.io/download) or use GitHub issues or discussions.
 
 ## Running notebooks
 
-We have jupyter notebooks in `gdsfactory/samples/notebooks`
-
-You can open the tutorial notebooks with [jupytext](https://jupytext.readthedocs.io/en/latest/).
+You can find the tutorial jupyter notebooks in `gdsfactory/samples/notebooks` and open them with [jupytext](https://jupytext.readthedocs.io/en/latest/).
 Jupytext is a python package to open and edit jupyter notebooks as python or markdown files, so they are easier to read and version control with GIT.
 
 You can use [VSCode Jupytext extension](https://marketplace.visualstudio.com/items?itemName=congyiwu.vscode-jupytext) to open the notebooks from the markdown files.

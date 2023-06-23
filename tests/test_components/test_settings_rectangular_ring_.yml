@@ -1,0 +1,24 @@
+name: rectangular_ring
+ports: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    centered: false
+    enclosed_size:
+    - 4.0
+    - 2.0
+    layer: WG
+    width: 0.5
+  full:
+    centered: false
+    enclosed_size:
+    - 4.0
+    - 2.0
+    layer: WG
+    width: 0.5
+  function_name: rectangular_ring
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.rectangular_ring
+  name: rectangular_ring
