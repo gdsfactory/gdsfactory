@@ -10,3 +10,6 @@ You can use 3 open source mode solvers:
 
 The tidy3d mode solver is also used by the MEOW plugin to get the Sparameters of components via Eigenmode Expansion.
 Notice that the tidy3d FDTD solver is not open source as it runs on the cloud server, but the mode solver is open source and runs locally on your computer.
+
+```{tableofcontents}
+```

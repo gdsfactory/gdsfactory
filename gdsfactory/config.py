@@ -30,7 +30,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     from loguru import Logger
 
-__version__ = "6.106.0"
+__version__ = "6.108.1"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -194,7 +194,7 @@ class Settings(BaseSettings):
     n_threads: int = get_number_of_cores()
     logger: ClassVar[Logger] = logger
     logfilter: LogFilter = Field(default_factory=LogFilter)
-    display_type: Literal["widget", "klayout", "docs"] = "widget"
+    display_type: Literal["widget", "klayout", "docs", "kweb"] = "kweb"
 
     def __init__(self, **data: Any):
         """Set log filter and run pydantic."""
@@ -244,7 +244,7 @@ class Paths:
     sparameters = gdslib / "sp"
     interconnect = gdslib / "interconnect"
     optimiser = repo_path / "tune"
-    notebooks = repo_path / "docs" / "notebooks"
+    notebooks = module_path / "samples" / "notebooks"
     plugins = module / "plugins"
     web = plugins / "web"
     test_data = repo / "test-data"
@@ -252,6 +252,7 @@ class Paths:
     gds_run = GDSDIR_TEMP / "gds_run"
     gds_diff = GDSDIR_TEMP / "gds_diff"
     cwd = cwd
+    sparameters_repo = test_data / "sp"
 
 
 CONF = Settings()

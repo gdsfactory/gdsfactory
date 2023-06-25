@@ -52,6 +52,11 @@ def get_bundle(
     with_sbend: bool = False,
     sort_ports: bool = True,
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
+    start_straight_length: Optional[float] = None,
+    end_straight_length: Optional[float] = None,
+    path_length_match_loops: Optional[int] = None,
+    path_length_match_extra_length: float = 0.0,
+    path_length_match_modify_segment_i: int = -2,
     **kwargs,
 ) -> List[Route]:
     """Returns list of routes to connect two groups of ports.
@@ -69,6 +74,14 @@ def get_bundle(
         with_sbend: use s_bend routing when there is no space for manhattan routing.
         sort_ports: sort port coordinates.
         cross_section: CrossSection or function that returns a cross_section.
+        start_straight_length: straight length at the beginning of the route. If None, uses default value for the routing CrossSection.
+        end_straight_length: end length at the beginning of the route. If None, uses default value for the routing CrossSection.
+        path_length_match_loops: Integer number of loops to add to bundle
+            for path length matching. Path-length matching won't be attempted if this is set to None.
+        path_length_match_extra_length: Extra length to add
+            to path length matching loops (requires path_length_match_loops != None).
+        path_length_match_modify_segment_i: Index of straight segment to add path
+            length matching loops to (requires path_length_match_loops != None).
 
     Keyword Args:
         width: main layer waveguide width (um).
@@ -86,17 +99,9 @@ def get_bundle(
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
         min_length: defaults to 1nm = 10e-3um for routing.
-        start_straight_length: straight length at the beginning of the route.
-        end_straight_length: end length at the beginning of the route.
         snap_to_grid: can snap points to grid when extruding the path.
         steps: specify waypoint steps to route using get_bundle_from_steps.
         waypoints: specify waypoints to route using get_bundle_from_steps.
-        path_length_match_loops: Integer number of loops to add to bundle
-            for path length matching (won't try to match if None).
-        path_length_match_extra_length: Extra length to add
-            to path length matching loops (requires path_length_match_loops != None).
-        path_length_match_modify_segment_i: Index of straight segment to add path
-            length matching loops to (requires path_length_match_loops != None).
 
     .. plot::
         :include-source:
@@ -174,6 +179,11 @@ def get_bundle(
     if len(start_port_angles) > 1:
         raise ValueError(f"All start port angles {start_port_angles} must be equal")
 
+    path_length_match_params = {
+        "path_length_match_loops": path_length_match_loops,
+        "path_length_match_extra_length": path_length_match_extra_length,
+        "path_length_match_modify_segment_i": path_length_match_modify_segment_i,
+    }
     params = {
         "ports1": ports1,
         "ports2": ports2,
@@ -182,6 +192,12 @@ def get_bundle(
         "straight": straight,
         "cross_section": cross_section,
     }
+    if path_length_match_loops is not None:
+        params.update(path_length_match_params)
+    if end_straight_length is not None:
+        params["end_straight_length"] = end_straight_length
+    if start_straight_length is not None:
+        params["start_straight_length"] = start_straight_length
     params.update(**kwargs)
 
     start_angle = ports1[0].orientation
@@ -229,7 +245,12 @@ def get_bundle(
 
     elif end_angle == (start_angle + 180) % 360:
         # print("get_bundle_uindirect")
-        return get_bundle_uindirect(extension_length=extension_length, **params)
+        params_without_pathlength = {
+            k: v for k, v in params.items() if k not in path_length_match_params
+        }
+        return get_bundle_uindirect(
+            extension_length=extension_length, **params_without_pathlength
+        )
     else:
         raise NotImplementedError("This should never happen")
 

@@ -66,7 +66,7 @@ component_factory = dict(
 def write_library(component_factory, dirpath) -> None:
     for function in component_factory.values():
         component = function()
-        component.write_gds_with_metadata(gdsdir=dirpath)
+        component.write_gds(gdsdir=dirpath, with_metadata=True)
 
 
 if __name__ == "__main__":

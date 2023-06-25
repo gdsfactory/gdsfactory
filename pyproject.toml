@@ -44,7 +44,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "6.106.0"
+version = "6.108.1"
 
 [project.optional-dependencies]
 cad = [
@@ -54,6 +54,7 @@ cad = [
   "ipympl",
   "ipywidgets==7.7.3",
   "ipyevents",
+  "ipykernel",
   "mapbox_earcut",
   "natsort",
   "networkx",
@@ -68,7 +69,7 @@ cad = [
   "ipytree",
   "rich-click",
   "ipycytoscape",
-  "kweb>=0.0.11,<0.1",
+  "kweb==0.1.1",
   "jinja2",
   "python-multipart",
   "fastapi",
@@ -112,7 +113,7 @@ docs = [
   "plotly"
 ]
 femwell = [
-  "femwell==0.0.18"
+  "femwell==0.1.2"
 ]
 full = [
   "sqlalchemy",
@@ -127,7 +128,7 @@ full = [
   "pyvista",
   # docs
   "jupytext",
-  "femwell==0.0.18",
+  "femwell==0.1.2",
   # cad
   "autograd",
   "bokeh",
@@ -139,7 +140,6 @@ full = [
   "natsort",
   "networkx",
   "pyglet<2",
-  "pygmsh",
   "scikit-fem",
   "scikit-image",
   "scikit-learn",
@@ -149,7 +149,7 @@ full = [
   "ipytree",
   "rich-click",
   "ipycytoscape",
-  "kweb>=0.0.11,<0.1",
+  "kweb==0.1.1",
   "jinja2",
   "python-multipart",
   "fastapi",
@@ -165,13 +165,15 @@ full = [
   "shapely",
   # kfactory
   "kfactory[git,ipy]==0.7.5",
-  "meow-sim",
+  "meow-sim==0.6.7",
   # ray
   "ray[tune,air]",
   "hyperopt",
   # sax
-  "sax[nojax]==0.8.7",
-  "tidy3d==2.2.2"
+  "sax==0.8.7",
+  "jaxlib",
+  "jax",
+  "tidy3d==2.2.3"
 ]
 gmsh = [
   "gmsh",
@@ -187,19 +189,19 @@ kfactory = [
   "kfactory[git,ipy]==0.7.5"
 ]
 meow = [
-  "meow-sim"
+  "meow-sim==0.6.7"
 ]
 ray = [
   "ray[tune,air]",
   "hyperopt"
 ]
 sax = [
-  "sax>=0.8.6",
+  "sax==0.8.7",
   "jaxlib",
   "jax"
 ]
 tidy3d = [
-  "tidy3d==2.2.2"
+  "tidy3d==2.2.3"
 ]
 
 [project.scripts]
@@ -274,7 +276,6 @@ skip = "gdsfactory/__init__.py"
 
 [tool.jupytext]
 cell_metadata_filter = "-all"
-formats = "docs"
 notebook_metadata_filter = "-all"
 
 [tool.mypy]
@@ -296,6 +297,7 @@ strict = true
 # addopts = --tb=no
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
 norecursedirs = [
+  "gdsfactory/samples/notebooks",
   "gdsfactory/plugins",
   "gdsfactory/simulation",
   "gdsfactory/geometry",
@@ -311,7 +313,7 @@ python_files = ["gdsfactory/*.py", "tests/*.py"]
 testpaths = ["gdsfactory/", "tests"]
 
 [tool.ruff]
-extend-exclude = ["docs/notebooks"]
+extend-exclude = ["docs/notebooks", "gdsfactory/samples/notebooks"]
 ignore = [
   "E501",  # line too long, handled by black
   "B008",  # do not perform function calls in argument defaults

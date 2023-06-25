@@ -13,6 +13,7 @@ import warnings
 from collections.abc import Iterable
 from typing import Callable, Optional, Union
 
+import math
 import numpy as np
 from numpy import mod, pi
 
@@ -378,12 +379,25 @@ class Path(_GeometryHelper):
         magic_offset = 0.17048614
 
         final_hash = hashlib.sha1()
-        p = np.ascontiguousarray(
-            (self.points / precision) + magic_offset, dtype=np.int64
+        points = (
+            np.ascontiguousarray(
+                (self.points / precision) + magic_offset, dtype=np.float64
+            )
+            .round()
+            .astype(np.int64)
         )
-        final_hash.update(p)
-        p = np.ascontiguousarray((self.start_angle, self.end_angle), dtype=np.float64)
-        final_hash.update(p)
+        final_hash.update(points)
+        angles = (
+            (
+                np.ascontiguousarray(
+                    (self.start_angle, self.end_angle), dtype=np.float64
+                )
+                / precision
+            )
+            .round()
+            .astype(np.int64)
+        )
+        final_hash.update(angles)
         return final_hash.hexdigest()
 
     @classmethod
@@ -1137,8 +1151,8 @@ def _fresnel(R0, s, num_pts, n_iter=8):
     y = np.zeros(num_pts)
 
     for n in range(n_iter):
-        x += (-1) ** n * t ** (4 * n + 1) / (np.math.factorial(2 * n) * (4 * n + 1))
-        y += (-1) ** n * t ** (4 * n + 3) / (np.math.factorial(2 * n + 1) * (4 * n + 3))
+        x += (-1) ** n * t ** (4 * n + 1) / (math.factorial(2 * n) * (4 * n + 1))
+        y += (-1) ** n * t ** (4 * n + 3) / (math.factorial(2 * n + 1) * (4 * n + 3))
 
     return np.array([np.sqrt(2) * R0 * x, np.sqrt(2) * R0 * y])
 

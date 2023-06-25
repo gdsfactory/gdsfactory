@@ -18,21 +18,6 @@ dev: full
 	pre-commit install
 	gf install klayout-genericpdk
 
-mamba:
-	bash conda/mamba.sh
-
-patch:
-	bumpversion patch
-	python docs/write_components_doc.py
-
-minor:
-	bumpversion minor
-	python docs/write_components_doc.py
-
-major:
-	bumpversion major
-	python docs/write_components_doc.py
-
 plugins:
 	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	conda install -c conda-forge slepc4py=*=complex* -y
@@ -76,17 +61,15 @@ data-upload:
 	echo 'no need to upload'
 	# aws s3 sync data s3://gdslib
 	# gh release upload v6.90.3 data/gds/*.gds --clobber
-	# gh release upload v6.90.3 data/sp/*.npz --clobber
-	# gh release upload v6.90.3 data/sp/*.yml --clobber
-	# gh release upload v6.90.3 data/modes/*.msh --clobber
-	# gh release upload v6.90.3 data/modes/*.npz --clobber
 
 test-data:
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
 
 data-download: test-data
 	echo 'Make sure you git pull inside test-data folder'
-	# aws s3 sync s3://gdslib data --no-sign-request
+
+data-download-old:
+	aws s3 sync s3://gdslib data --no-sign-request
 	# gh release download v6.90.3 -D data/gds/*.gds --clobber
 	# gh release download v6.90.3 data/sp/*.npz --clobber
 	# gh release download v6.90.3 data/sp/*.yml --clobber
@@ -206,7 +189,7 @@ codestyle:
 	pycodestyle --max-line-length=88
 
 doc:
-	python docs/write_components_doc.py
+	python .github/write_components_doc.py
 
 docs:
 	jb build docs
@@ -220,6 +203,9 @@ link:
 constructor:
 	conda install constructor -y
 	constructor conda
+
+notebooks:
+	jupytext gdsfactory/samples/notebooks/*.md --to ipynb notebooks/
 
 nbqa:
 	nbqa blacken-docs docs/notebooks/**/*.ipynb --nbqa-md
@@ -238,7 +224,8 @@ jupytext-clean:
 	jupytext docs/**/*.py --to py
 
 notebooks:
-	jupytext docs/notebooks/**/*.py --to ipynb
-	jupytext docs/notebooks/*.py --to ipynb
+	# jupytext docs/notebooks/*.py --to ipynb
+	# jupytext docs/notebooks/*.ipynb --to to
+	jupytext --pipe black docs/notebooks/*.py
 
 .PHONY: gdsdiff build conda gdslib docs doc
