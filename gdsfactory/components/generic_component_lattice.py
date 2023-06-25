@@ -50,13 +50,46 @@ def generic_component_lattice(physical_network: list) -> Component:
             [mzi2x2_2x2(), 0, mzi2x2_2x2()],
         ]
         c = gf.components.generic_component_lattice(example_component_lattice)
+
+
+    Another example that demonstrates the generic-nature of this component lattice algorithm can be with an mixed set of actively driven and passiver interferometers.
+    The placement matrix is in this form:
+    .. math::
+
+        M = Y & 0 & X
+            0 & X & 0
+            X & 0 & Y
+
+    :include-source:
+        import gdsfactory as gf
+        from gdsfactory.components import mzi2x2_2x2_phase_shifter, mzi2x2_2x2
+
+        example_mixed_component_lattice = [
+            [mzi2x2_2x2_phase_shifter(), 0, mzi2x2_2x2()],
+            [0, mzi2x2_2x2(), 0],
+            [mzi2x2_2x2(), 0, mzi2x2_2x2_phase_shifter()],
+        ]
+        c = gf.components.generic_component_lattice(
+            physical_network=example_mixed_component_lattice
+        )
+
+    # TODO balanced waveguide paths function per stage
+    # TODO autoroute electrical ports
+
+    Args:
+        physical_network: A list of lists of components that are to be placed in the lattice.
+
+    Returns:
+        Component: A component lattice that implements the physical network.
     """
     element_references = list()
     physical_network = np.array(physical_network)
     # Check number of dimensions is 2
     if physical_network.ndim != 2:
         # Get the length and then width of the array
-        raise AttributeError("Physical network dimensions don't work")
+        raise AttributeError(
+            "Physical network dimensions don't work. Check the dimensional structure of your physical_network matrix."
+        )
 
     C = Component()
     # Estimate the size of the network fabric
@@ -231,10 +264,10 @@ if __name__ == "__main__":
     c = generic_component_lattice(example_component_lattice)
     c.show(show_ports=True)
 
-    example_component_lattice_mixed = [
+    example_mixed_component_lattice = [
         [mzi2x2_2x2_phase_shifter(), 0, mzi2x2_2x2()],
         [0, mzi2x2_2x2(), 0],
         [mzi2x2_2x2(), 0, mzi2x2_2x2_phase_shifter()],
     ]
-    c_mixed = generic_component_lattice(example_component_lattice_mixed)
+    c_mixed = generic_component_lattice(example_mixed_component_lattice)
     c_mixed.show(show_ports=True)
