@@ -221,6 +221,7 @@ __all__ = [
 
 if __name__ == "__main__":
     from gdsfactory.components.mzi import mzi2x2_2x2
+    from gdsfactory.components.mzi_phase_shifter import mzi2x2_2x2_phase_shifter
 
     example_component_lattice = [
         [mzi2x2_2x2(), 0, mzi2x2_2x2()],
@@ -229,3 +230,11 @@ if __name__ == "__main__":
     ]
     c = generic_component_lattice(example_component_lattice)
     c.show(show_ports=True)
+
+    example_component_lattice_mixed = [
+        [mzi2x2_2x2_phase_shifter(), 0, mzi2x2_2x2()],
+        [0, mzi2x2_2x2(), 0],
+        [mzi2x2_2x2(), 0, mzi2x2_2x2_phase_shifter()],
+    ]
+    c_mixed = generic_component_lattice(example_component_lattice_mixed)
+    c_mixed.show(show_ports=True)
