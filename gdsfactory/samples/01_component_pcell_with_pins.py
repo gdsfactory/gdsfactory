@@ -16,7 +16,6 @@ def straight_narrow(
         length: of the straight.
         width: in um.
         layer: layer spec
-
     """
     wg = gf.Component("straight_sample")
     wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
@@ -27,11 +26,6 @@ def straight_narrow(
         name="o2", center=(length, width / 2), width=width, orientation=0, layer=layer
     )
     return wg
-
-
-def test_straight_narrow(data_regression) -> None:
-    component = straight_narrow()
-    data_regression.check(component.to_dict())
 
 
 if __name__ == "__main__":

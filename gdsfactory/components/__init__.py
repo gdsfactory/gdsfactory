@@ -206,6 +206,7 @@ from gdsfactory.components.polarization_splitter_rotator import (
 from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import marker_te, marker_tm, rectangle
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
+from gdsfactory.components.rectangular_ring import rectangular_ring
 from gdsfactory.components.regular_polygon import regular_polygon
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
@@ -529,6 +530,7 @@ __all__ = [
     "qrcode",
     "ramp",
     "rectangle",
+    "rectangular_ring",
     "regular_polygon",
     "rectangle_with_slits",
     "resistance_meander",

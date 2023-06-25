@@ -107,16 +107,24 @@ def diff(
                     region_diff = region_run - region_ref
 
                     if not region_diff.is_empty():
+                        layer_id = c.layer(layer)
                         region_xor = region_ref ^ region_run
-                        diff.shapes(layer_ref).insert(region_xor)
+                        diff.shapes(layer_id).insert(region_xor)
+                        is_sliver = region_xor.sized(-1).is_empty()
+                        message = f"{test_name}: XOR difference on layer {layer}"
+                        if is_sliver:
+                            message += " (sliver)"
+                        print(message)
                 elif layer in run.kcl.layer_infos():
                     layer = run.layer(layer)
                     region = kdb.Region(run.begin_shapes_rec(layer))
                     diff.shapes(layer).insert(region)
-                else:
+                    print(f"{test_name}: layer {layer} only exists in updated cell")
+                elif layer in ref.kcl.layer_infos():
                     layer = ref.layer(layer)
                     region = kdb.Region(ref.begin_shapes_rec(layer))
                     diff.shapes(layer).insert(region)
+                    print(f"{test_name}: layer {layer} missing from updated cell")
 
             c << diff
 

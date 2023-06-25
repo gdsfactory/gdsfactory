@@ -28,3 +28,6 @@ For building large components can use a file-watcher and see your updates in KLa
 ## 3. Jupyter Notebook based flow
 
 ![notebooks](https://i.imgur.com/jORMG3V.png)
+
+```{tableofcontents}
+```

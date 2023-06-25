@@ -1,7 +1,6 @@
 """Sample DRC deck for the generic PDK."""
 from __future__ import annotations
 
-import pathlib
 
 import gdsfactory as gf
 from gdsfactory.geometry.write_drc import (
@@ -15,8 +14,6 @@ from gdsfactory.geometry.write_drc import (
 )
 
 if __name__ == "__main__":
-    filepath = pathlib.Path(__file__).parent.absolute() / "generic.lydrc"
-
     rules = [
         rule_width(layer="WG", value=0.2),
         rule_space(layer="WG", value=0.2),
@@ -32,6 +29,8 @@ if __name__ == "__main__":
     ]
 
     drc_rule_deck = write_drc_deck_macro(
-        rules=rules, layers=gf.LAYER, shortcut="Ctrl+Shift+D", filepath=filepath
+        rules=rules,
+        layers=gf.LAYER,
+        shortcut="Ctrl+Shift+D",
     )
     print(drc_rule_deck)

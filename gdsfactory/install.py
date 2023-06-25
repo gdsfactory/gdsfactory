@@ -7,6 +7,7 @@ import pathlib
 import shutil
 import sys
 from typing import Optional
+from gdsfactory.config import PATH
 
 home = pathlib.Path.home()
 
@@ -147,11 +148,27 @@ def install_klayout_technology(
     )
 
 
+py_files = PATH.notebooks.glob("**/*.py")
+
+
+def convert_py_to_ipynb(files=py_files, output_folder=PATH.cwd / "notebooks") -> None:
+    """Convert notebooks from markdown to ipynb."""
+    import jupytext
+
+    output_folder.mkdir(exist_ok=True, parents=True)
+
+    for file in files:
+        notebook_file = f"{output_folder}/{file.stem}.ipynb"
+        nb = jupytext.read(file)
+        jupytext.write(nb, notebook_file)
+
+
 if __name__ == "__main__":
-    cwd = pathlib.Path(__file__).resolve().parent
-    home = pathlib.Path.home()
-    src = cwd / "generic_tech" / "klayout" / "tech"
+    # cwd = pathlib.Path(__file__).resolve().parent
+    # home = pathlib.Path.home()
+    # src = cwd / "generic_tech" / "klayout" / "tech"
 
     # write_git_attributes()
     # install_gdsdiff()
-    install_klayout_package()
+    # install_klayout_package()
+    convert_py_to_ipynb()
