@@ -5,6 +5,7 @@ import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.port import select_ports_electrical
 
 # from gdsfactory.components.array_component import array
 from gdsfactory.components.straight import straight
@@ -24,9 +25,11 @@ def find_largest_component(component_list: list) -> Component:
 
 
 @cell
-def generic_component_lattice(physical_network: list) -> Component:
+def generic_component_lattice(
+    physical_network: list,
+) -> Component:
     """
-    The shape of the component network matrix determines the physical interconnection.
+    The shape of the `physical_network` matrix determines the physical interconnection.
     Note that there should be at least S+1=N modes based on this formalism of interconnection,
     and the position of the component implements a connectivity in between the modes, and assumes a 2x2 network encoding.
     One nice functionality by this component is that it can generate a component lattice for generic variable components with different x and y pitches.
@@ -36,7 +39,7 @@ def generic_component_lattice(physical_network: list) -> Component:
     .. math::
 
         M = X & 0 & X
-            0 & X & 0
+            0 & P & 0
             X & 0 & X
 
 
@@ -46,7 +49,7 @@ def generic_component_lattice(physical_network: list) -> Component:
 
         example_component_lattice = [
             [mzi2x2_2x2(), 0, mzi2x2_2x2()],
-            [0, mzi2x2_2x2(), 0],
+            [0, mzi2x2_2x2(delta_length=30.0), 0],
             [mzi2x2_2x2(), 0, mzi2x2_2x2()],
         ]
         c = gf.components.generic_component_lattice(example_component_lattice)
@@ -56,25 +59,26 @@ def generic_component_lattice(physical_network: list) -> Component:
     The placement matrix is in this form:
     .. math::
 
-        M = Y & 0 & X
-            0 & X & 0
-            X & 0 & Y
+        M = Y & 0 & A
+            0 & B & 0
+            C & 0 & Y
 
     :include-source:
         import gdsfactory as gf
         from gdsfactory.components import mzi2x2_2x2_phase_shifter, mzi2x2_2x2
 
         example_mixed_component_lattice = [
-            [mzi2x2_2x2_phase_shifter(), 0, mzi2x2_2x2()],
-            [0, mzi2x2_2x2(), 0],
-            [mzi2x2_2x2(), 0, mzi2x2_2x2_phase_shifter()],
+            [mzi2x2_2x2_phase_shifter(), 0, mzi2x2_2x2(delta_length=20.0)],
+            [0, mzi2x2_2x2(delta_length=30.0), 0],
+            [mzi2x2_2x2(delta_length=15.0), 0, mzi2x2_2x2_phase_shifter()],
         ]
         c = gf.components.generic_component_lattice(
             physical_network=example_mixed_component_lattice
         )
 
-    # TODO balanced waveguide paths function per stage
-    # TODO autoroute electrical ports
+    # TODO implement balanced waveguide paths function per stage
+    # TODO automatic electrical fanout?
+    # TODO multiple placement optimization algorithms.
 
     Args:
         physical_network: A list of lists of components that are to be placed in the lattice.
@@ -113,6 +117,8 @@ def generic_component_lattice(physical_network: list) -> Component:
     y_component_pitch = y_length / mode_amount
     x_mode_pitch = x_length / mode_amount
     y_mode_pitch = y_length / mode_amount
+    # For code-maintenance, each distinct operation on the network is a separate iteration for-loop so new
+    # functionality can be extended and easily identified.
 
     # Create all the waveguides inputs and outputs
     # Originally implemented in gdsfactory array but got netlist errors
@@ -244,6 +250,29 @@ def generic_component_lattice(physical_network: list) -> Component:
                     pass
             i += 1
         j += 1
+
+    # Append electrical ports to component to total connectivity can be constructed.
+    j = 0
+    k = 0
+    for column_j in physical_network:
+        i = 0
+        for element_i in column_j:
+            # Check if element is nonzero
+            if element_i != 0:
+                electrical_ports_list_i = select_ports_electrical(
+                    element_references[k].ports
+                ).items()
+                if len(electrical_ports_list_i) > 0:
+                    # Electrical ports exist in component
+                    for electrical_port_i in electrical_ports_list_i:
+                        C.add_port(
+                            port=electrical_port_i[1],
+                            name=electrical_port_i[0] + "_" + str(i) + "_" + str(j),
+                        )
+                        # Row column notation
+                k += 1
+            i += 1
+        j += 1
     return C
 
 
@@ -265,9 +294,9 @@ if __name__ == "__main__":
     c.show(show_ports=True)
 
     example_mixed_component_lattice = [
-        [mzi2x2_2x2_phase_shifter(), 0, mzi2x2_2x2()],
-        [0, mzi2x2_2x2(), 0],
-        [mzi2x2_2x2(), 0, mzi2x2_2x2_phase_shifter()],
+        [mzi2x2_2x2_phase_shifter(), 0, mzi2x2_2x2(delta_length=20.0)],
+        [0, mzi2x2_2x2(delta_length=50.0), 0],
+        [mzi2x2_2x2(delta_length=100.0), 0, mzi2x2_2x2_phase_shifter()],
     ]
     c_mixed = generic_component_lattice(example_mixed_component_lattice)
     c_mixed.show(show_ports=True)
