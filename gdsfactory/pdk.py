@@ -481,6 +481,7 @@ class Pdk(BaseModel):
 
             cell_name = component.get("component", None)
             cell_name = cell_name or component.get("function")
+            cell_name = cell_name.split(".")[-1]
             if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
                 cells = list(cells.keys())
                 containers = list(containers.keys())
