@@ -77,9 +77,9 @@ settings:
   child: null
   default:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     coupler_ring:
-      function: coupler_ring
+      function: gdsfactory.components.coupler_ring.coupler_ring
     cross_section: strip
     cross_section_heater: heater_metal
     cross_section_waveguide_heater: strip_heater_metal
@@ -89,9 +89,9 @@ settings:
     port_orientation: 90
     radius: 10.0
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     via_stack:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - HEATER
@@ -102,11 +102,11 @@ settings:
         - 4
         vias:
         - null
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             enclosure: 2
             layer: VIA1
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIA2
     via_stack_offset:
@@ -114,9 +114,9 @@ settings:
     - 0
   full:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     coupler_ring:
-      function: coupler_ring
+      function: gdsfactory.components.coupler_ring.coupler_ring
     cross_section: strip
     cross_section_heater: heater_metal
     cross_section_waveguide_heater: strip_heater_metal
@@ -126,9 +126,9 @@ settings:
     port_orientation: 90
     radius: 10.0
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     via_stack:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - HEATER
@@ -139,18 +139,17 @@ settings:
         - 4
         vias:
         - null
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             enclosure: 2
             layer: VIA1
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIA2
     via_stack_offset:
     - 0
     - 0
-  function_name: ring_double_heater
+  function_name: gdsfactory.components.ring_double_heater.ring_double_heater
   info: {}
   info_version: 2
-  module: gdsfactory.components.ring_double_heater
   name: ring_double_heater

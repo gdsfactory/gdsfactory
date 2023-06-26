@@ -27,9 +27,9 @@ settings:
   child: null
   default:
     bend_factory:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     bend_s_factory:
-      function: bend_s
+      function: gdsfactory.components.bend_s.bend_s
     cross_section: strip
     cross_section_s: null
     in_out_port_spacing: 150
@@ -39,13 +39,13 @@ settings:
     n_bend_points: null
     n_straight_sections: 8
     straight_factory:
-      function: straight
+      function: gdsfactory.components.straight.straight
     with_inner_ports: false
   full:
     bend_factory:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     bend_s_factory:
-      function: bend_s
+      function: gdsfactory.components.bend_s.bend_s
     cross_section: strip
     cross_section_s: null
     in_out_port_spacing: 150
@@ -55,9 +55,9 @@ settings:
     n_bend_points: null
     n_straight_sections: 8
     straight_factory:
-      function: straight
+      function: gdsfactory.components.straight.straight
     with_inner_ports: false
-  function_name: spiral_racetrack_fixed_length
+  function_name: gdsfactory.components.spiral_heater.spiral_racetrack_fixed_length
   info:
     length: 1000.001
     spiral_center:
@@ -65,5 +65,4 @@ settings:
     - -2.5
     straight_length: 65.462
   info_version: 2
-  module: gdsfactory.components.spiral_heater
   name: spiral_racetrack_fixed_length

@@ -85,8 +85,7 @@ settings:
     - 0.8
     taper_length: 10
     via_stack: via_stack_heater_mtop
-  function_name: straight_heater_meander
+  function_name: gdsfactory.components.straight_heater_meander.straight_heater_meander
   info: {}
   info_version: 2
-  module: gdsfactory.components.straight_heater_meander
   name: straight_heater_meander

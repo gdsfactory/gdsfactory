@@ -92,11 +92,10 @@ settings:
     spacing:
     - 150.0
     - 150.0
-  function_name: pad_array
+  function_name: gdsfactory.components.pad.pad_array
   info:
     size:
     - 100.0
     - 100.0
   info_version: 2
-  module: gdsfactory.components.pad
   name: pad_array_orientation90

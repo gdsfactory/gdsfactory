@@ -1,4 +1,4 @@
-name: bend_euler_add_trenches_cb24b746
+name: bend_euler_add_trenches_76bb7c29
 ports:
   o1:
     center:
@@ -27,7 +27,7 @@ ports:
 settings:
   changed:
     component:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     right: true
     top: false
   child:
@@ -49,20 +49,20 @@ settings:
       p: 0.5
       with_arc_floorplan: true
       with_bbox: true
-    function_name: bend_euler
+    function_name: gdsfactory.components.bend_euler.bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -97,12 +97,11 @@ settings:
         width_wide: null
       width: 0.5
     info_version: 2
-    module: gdsfactory.components.bend_euler
     name: bend_euler
   default:
     bot: true
     component:
-      function: coupler
+      function: gdsfactory.components.coupler.coupler
     cross_section: rib_with_trenches
     left: false
     right: false
@@ -110,25 +109,25 @@ settings:
   full:
     bot: true
     component:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     cross_section: rib_with_trenches
     left: false
     right: true
     top: false
-  function_name: add_trenches
+  function_name: gdsfactory.components.add_trenches.add_trenches
   info:
     dy: 10.0
-    function_name: cross_section
+    function_name: gdsfactory.cross_section.cross_section
     length: 16.637
     radius: 10.0
     radius_min: 7.061
     settings:
       add_bbox: null
       add_pins:
-        function: add_pins
+        function: gdsfactory.add_pins.add_pins
         settings:
           function:
-            function: add_pin_rectangle_inside
+            function: gdsfactory.add_pins.add_pin_rectangle_inside
             settings:
               layer_label: null
               pin_length: 0.001
@@ -163,5 +162,4 @@ settings:
       width_wide: null
     width: 0.5
   info_version: 2
-  module: gdsfactory.components.add_trenches
-  name: bend_euler_add_trenches_cb24b746
+  name: bend_euler_add_trenches_76bb7c29

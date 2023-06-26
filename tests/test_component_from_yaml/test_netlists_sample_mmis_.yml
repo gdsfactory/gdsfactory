@@ -1,26 +1,26 @@
 connections:
-  bend_euler_1,o1: straight_1,o2
-  bend_euler_1,o2: straight_2,o1
-  bend_euler_2,o1: straight_2,o2
-  bend_euler_2,o2: straight_3,o1
-  mmi_long,o1: straight_3,o2
-  mmi_short,o2: straight_1,o1
+  gdsfactory.components.bend_euler.bend_euler_1,o1: gdsfactory.components.straight.straight_1,o2
+  gdsfactory.components.bend_euler.bend_euler_1,o2: gdsfactory.components.straight.straight_2,o1
+  gdsfactory.components.bend_euler.bend_euler_2,o1: gdsfactory.components.straight.straight_2,o2
+  gdsfactory.components.bend_euler.bend_euler_2,o2: gdsfactory.components.straight.straight_3,o1
+  gdsfactory.components.straight.straight_1,o1: mmi_short,o2
+  gdsfactory.components.straight.straight_3,o2: mmi_long,o1
 instances:
-  bend_euler_1:
-    component: bend_euler
+  gdsfactory.components.bend_euler.bend_euler_1:
+    component: gdsfactory.components.bend_euler.bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -55,21 +55,21 @@ instances:
         width_wide: null
       width: 0.5
     settings: {}
-  bend_euler_2:
-    component: bend_euler
+  gdsfactory.components.bend_euler.bend_euler_2:
+    component: gdsfactory.components.bend_euler.bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -104,172 +104,187 @@ instances:
         width_wide: null
       width: 0.5
     settings: {}
+  gdsfactory.components.straight.straight_1:
+    component: gdsfactory.components.straight.straight
+    info:
+      cross_section: strip
+      function_name: gdsfactory.cross_section.cross_section
+      length: 95.02
+      settings:
+        add_bbox: null
+        add_pins:
+          function: gdsfactory.add_pins.add_pins
+          settings:
+            function:
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        cladding_simplify: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: strip
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
+      width: 0.5
+    settings:
+      length: 95.02
+  gdsfactory.components.straight.straight_2:
+    component: gdsfactory.components.straight.straight
+    info:
+      cross_section: strip
+      function_name: gdsfactory.cross_section.cross_section
+      length: 79.375
+      settings:
+        add_bbox: null
+        add_pins:
+          function: gdsfactory.add_pins.add_pins
+          settings:
+            function:
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        cladding_simplify: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: strip
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
+      width: 0.5
+    settings:
+      length: 79.375
+  gdsfactory.components.straight.straight_3:
+    component: gdsfactory.components.straight.straight
+    info:
+      cross_section: strip
+      function_name: gdsfactory.cross_section.cross_section
+      length: 0.02
+      settings:
+        add_bbox: null
+        add_pins:
+          function: gdsfactory.add_pins.add_pins
+          settings:
+            function:
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        cladding_simplify: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: strip
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
+      width: 0.5
+    settings:
+      length: 0.02
   mmi_long:
-    component: mmi1x2
+    component: gdsfactory.components.mmi1x2.mmi1x2
     settings:
       length_mmi: 10
       width_mmi: 4.5
   mmi_short:
-    component: mmi1x2
+    component: gdsfactory.components.mmi1x2.mmi1x2
     settings:
       length_mmi: 5
       width_mmi: 4.5
-  straight_1:
-    component: straight
-    info:
-      cross_section: strip
-      function_name: cross_section
-      length: 95.02
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info: null
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        snap_to_grid: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
-      width: 0.5
-    settings:
-      length: 95.02
-  straight_2:
-    component: straight
-    info:
-      cross_section: strip
-      function_name: cross_section
-      length: 79.375
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info: null
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        snap_to_grid: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
-      width: 0.5
-    settings:
-      length: 79.375
-  straight_3:
-    component: straight
-    info:
-      cross_section: strip
-      function_name: cross_section
-      length: 0.02
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info: null
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        snap_to_grid: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
-      width: 0.5
-    settings:
-      length: 0.02
-name: sample_mmis_6fafede2
+name: sample_mmis_32e4ba6c
 placements:
-  bend_euler_1:
+  gdsfactory.components.bend_euler.bend_euler_1:
     mirror: 0
     rotation: 0
     x: 110.02
     y: 0.625
-  bend_euler_2:
+  gdsfactory.components.bend_euler.bend_euler_2:
     mirror: 0
     rotation: 90
     x: 120.02
     y: 90.0
+  gdsfactory.components.straight.straight_1:
+    mirror: 0
+    rotation: 0
+    x: 15.0
+    y: 0.625
+  gdsfactory.components.straight.straight_2:
+    mirror: 0
+    rotation: 90
+    x: 120.02
+    y: 10.625
+  gdsfactory.components.straight.straight_3:
+    mirror: 0
+    rotation: 180
+    x: 110.02
+    y: 100.0
   mmi_long:
     mirror: 0
     rotation: 180
@@ -280,21 +295,6 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_1:
-    mirror: 0
-    rotation: 0
-    x: 15.0
-    y: 0.625
-  straight_2:
-    mirror: 0
-    rotation: 90
-    x: 120.02
-    y: 10.625
-  straight_3:
-    mirror: 0
-    rotation: 180
-    x: 110.02
-    y: 100.0
 ports:
   o1: mmi_short,o1
   o2: mmi_long,o2

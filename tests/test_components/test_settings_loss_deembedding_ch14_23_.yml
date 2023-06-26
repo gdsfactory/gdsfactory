@@ -6,9 +6,9 @@ settings:
   default:
     cross_section: strip
     get_input_label:
-      function: get_input_label
+      function: gdsfactory.add_labels.get_input_label
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      function: gdsfactory.components.grating_coupler_elliptical_trenches.grating_coupler_elliptical_trenches
       settings:
         polarization: te
         taper_angle: 35
@@ -20,9 +20,9 @@ settings:
   full:
     cross_section: strip
     get_input_label:
-      function: get_input_label
+      function: gdsfactory.add_labels.get_input_label
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      function: gdsfactory.components.grating_coupler_elliptical_trenches.grating_coupler_elliptical_trenches
       settings:
         polarization: te
         taper_angle: 35
@@ -31,8 +31,7 @@ settings:
     - 1
     pitch: 127.0
     port_name: o1
-  function_name: loss_deembedding_ch14_23
+  function_name: gdsfactory.components.grating_coupler_loss.loss_deembedding_ch14_23
   info: {}
   info_version: 2
-  module: gdsfactory.components.grating_coupler_loss
   name: loss_deembedding_ch14_23

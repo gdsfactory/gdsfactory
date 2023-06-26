@@ -38,18 +38,18 @@ settings:
       N: 6
       asymmetric_cross_section: false
       bend180:
-        function: bend_euler
+        function: gdsfactory.components.bend_euler.bend_euler
         settings:
           angle: 180
       bend90:
-        function: bend_euler
+        function: gdsfactory.components.bend_euler.bend_euler
       cross_section: strip
       cross_section_bend: null
       cross_section_bend180: null
       grating_spacing: 127.0
       length: null
       straight:
-        function: straight
+        function: gdsfactory.components.straight.straight
       waveguide_spacing: 3.0
       x_straight_inner_left: 50.0
       x_straight_inner_right: 150.0
@@ -59,28 +59,27 @@ settings:
       N: 6
       asymmetric_cross_section: false
       bend180:
-        function: bend_euler
+        function: gdsfactory.components.bend_euler.bend_euler
         settings:
           angle: 180
       bend90:
-        function: bend_euler
+        function: gdsfactory.components.bend_euler.bend_euler
       cross_section: strip
       cross_section_bend: null
       cross_section_bend180: null
       grating_spacing: 200.0
       length: null
       straight:
-        function: straight
+        function: gdsfactory.components.straight.straight
       waveguide_spacing: 3.0
       x_straight_inner_left: 75.0
       x_straight_inner_right: 40.0
       y_straight_inner_bottom: 0.0
       y_straight_inner_top: 10.0
-    function_name: spiral_inner_io
+    function_name: gdsfactory.components.spiral_inner_io.spiral_inner_io
     info:
       length: 9973.393
     info_version: 2
-    module: gdsfactory.components.spiral_inner_io
     name: spiral_inner_io_2a92e51b
   default:
     cross_section: strip
@@ -100,9 +99,8 @@ settings:
     x_straight_inner_right: 40.0
     y_straight_inner_bottom: 0.0
     y_straight_inner_top: 10.0
-  function_name: spiral_inner_io_fiber_single
+  function_name: gdsfactory.components.spiral_inner_io.spiral_inner_io_fiber_single
   info:
     length: 9973.393
   info_version: 2
-  module: gdsfactory.components.spiral_inner_io
   name: spiral_inner_io_2a92e51_825ccbf1

@@ -19,8 +19,7 @@ settings:
     - 0
     size: 10.0
     text: abcd
-  function_name: text
+  function_name: gdsfactory.components.text.text
   info: {}
   info_version: 2
-  module: gdsfactory.components.text
   name: text

@@ -113,8 +113,7 @@ settings:
     layer_core: WG
     n: 8
     pitch: 127.0
-  function_name: fiber_array
+  function_name: gdsfactory.components.fiber_array.fiber_array
   info: {}
   info_version: 2
-  module: gdsfactory.components.fiber_array
   name: fiber_array

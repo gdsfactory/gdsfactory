@@ -15,8 +15,7 @@ settings:
     xtop: 0
     y: 20
     ybot: 0
-  function_name: triangle
+  function_name: gdsfactory.components.triangles.triangle
   info: {}
   info_version: 2
-  module: gdsfactory.components.triangles
   name: triangle

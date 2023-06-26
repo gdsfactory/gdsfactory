@@ -41,8 +41,7 @@ settings:
     r1: 3.0
     r2: 1.1
     w: 1.2
-  function_name: crossing_arm
+  function_name: gdsfactory.components.crossing_waveguide.crossing_arm
   info: {}
   info_version: 2
-  module: gdsfactory.components.crossing_waveguide
   name: crossing_arm

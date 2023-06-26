@@ -80,7 +80,7 @@ settings:
     port_inclusion: 0
     port_orientation: null
     size: pad_size
-  function_name: pad
+  function_name: gdsfactory.components.pad.pad
   info:
     layer:
     - 49
@@ -89,5 +89,4 @@ settings:
     - 80.0
     - 80.0
   info_version: 2
-  module: gdsfactory.components.pad
   name: pad_sizepad_size

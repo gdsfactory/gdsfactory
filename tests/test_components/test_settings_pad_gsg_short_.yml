@@ -7,32 +7,31 @@ settings:
     layer_metal: M3
     metal_spacing: 5.0
     pad:
-      function: pad
+      function: gdsfactory.components.pad.pad
     pad_spacing: 150
     short: true
     size:
     - 22
     - 7
     via_stack:
-      function: rectangle
+      function: gdsfactory.components.rectangle.rectangle
       settings:
         layer: M3
   full:
     layer_metal: M3
     metal_spacing: 5.0
     pad:
-      function: pad
+      function: gdsfactory.components.pad.pad
     pad_spacing: 150
     short: true
     size:
     - 22
     - 7
     via_stack:
-      function: rectangle
+      function: gdsfactory.components.rectangle.rectangle
       settings:
         layer: M3
-  function_name: pad_gsg_short
+  function_name: gdsfactory.components.pad_gsg.pad_gsg_short
   info: {}
   info_version: 2
-  module: gdsfactory.components.pad_gsg
   name: pad_gsg_short

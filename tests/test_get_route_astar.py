@@ -1,12 +1,9 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
-from gdsfactory.component import Component
 
 
-@cell
-def test_astar_pass() -> Component:
+def test_astar_pass() -> None:
     c = gf.Component("get_route_astar")
     w = gf.components.straight()
     left = c << w
@@ -33,7 +30,6 @@ def test_astar_pass() -> Component:
     c.add(route.references)
     route_length = 179.908
     assert route.length == route_length, print(f"route_length = {route.length}")
-    return c
 
 
 # @cell

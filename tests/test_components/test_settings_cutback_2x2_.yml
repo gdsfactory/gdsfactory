@@ -59,9 +59,9 @@ settings:
       length_mmi: 5.5
       length_taper: 10.0
       straight:
-        function: straight
+        function: gdsfactory.components.straight.straight
       taper:
-        function: taper
+        function: gdsfactory.components.taper.taper
       width: null
       width_mmi: 2.5
       width_taper: 1.0
@@ -72,26 +72,25 @@ settings:
       length_mmi: 5.5
       length_taper: 10.0
       straight:
-        function: straight
+        function: gdsfactory.components.straight.straight
       taper:
-        function: taper
+        function: gdsfactory.components.taper.taper
       width: null
       width_mmi: 2.5
       width_taper: 1.0
       with_bbox: true
-    function_name: mmi2x2
+    function_name: gdsfactory.components.mmi2x2.mmi2x2
     info: {}
     info_version: 2
-    module: gdsfactory.components.mmi2x2
     name: mmi2x2
   default:
     bend180:
-      function: bend_circular
+      function: gdsfactory.components.bend_circular.bend_circular
       settings:
         angle: 180
     cols: 4
     component:
-      function: mmi2x2
+      function: gdsfactory.components.mmi2x2.mmi2x2
     cross_section: strip
     mirror: false
     port1: o1
@@ -102,12 +101,12 @@ settings:
     straight_length: null
   full:
     bend180:
-      function: bend_circular
+      function: gdsfactory.components.bend_circular.bend_circular
       settings:
         angle: 180
     cols: 4
     component:
-      function: mmi2x2
+      function: gdsfactory.components.mmi2x2.mmi2x2
     cross_section: strip
     mirror: false
     port1: o1
@@ -116,9 +115,8 @@ settings:
     port4: o4
     rows: 5
     straight_length: null
-  function_name: cutback_2x2
+  function_name: gdsfactory.components.cutback_2x2.cutback_2x2
   info:
     components: 80
   info_version: 2
-  module: gdsfactory.components.cutback_2x2
   name: mmi2x2_cutback_2x2

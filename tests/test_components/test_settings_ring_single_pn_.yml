@@ -29,14 +29,14 @@ settings:
   child: null
   default:
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -63,7 +63,7 @@ settings:
     doping_angle: 250
     gap: 0.3
     heater_vias:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - M1
@@ -72,7 +72,7 @@ settings:
         - 0.5
         - 0.5
         vias:
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             enclosure: 0.1
             layer: VIAC
@@ -82,7 +82,7 @@ settings:
             spacing:
             - 0.2
             - 0.2
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             enclosure: 0.1
             layer: VIA1
@@ -93,7 +93,7 @@ settings:
             - 0.2
             - 0.2
     pn_cross_section:
-      function: pn
+      function: gdsfactory.cross_section.pn
       settings:
         layer_metal: M1
         layer_via: VIAC
@@ -104,14 +104,14 @@ settings:
     radius: 5.0
   full:
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -138,7 +138,7 @@ settings:
     doping_angle: 250
     gap: 0.3
     heater_vias:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - M1
@@ -147,7 +147,7 @@ settings:
         - 0.5
         - 0.5
         vias:
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             enclosure: 0.1
             layer: VIAC
@@ -157,7 +157,7 @@ settings:
             spacing:
             - 0.2
             - 0.2
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             enclosure: 0.1
             layer: VIA1
@@ -168,7 +168,7 @@ settings:
             - 0.2
             - 0.2
     pn_cross_section:
-      function: pn
+      function: gdsfactory.cross_section.pn
       settings:
         layer_metal: M1
         layer_via: VIAC
@@ -177,8 +177,7 @@ settings:
         width_slab: 4.85
         width_via: 0.5
     radius: 5.0
-  function_name: ring_single_pn
+  function_name: gdsfactory.components.ring_single_pn.ring_single_pn
   info: {}
   info_version: 2
-  module: gdsfactory.components.ring_single_pn
   name: ring_single_pn

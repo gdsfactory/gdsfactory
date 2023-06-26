@@ -53,11 +53,11 @@ settings:
   child: null
   default:
     bend90:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     coupler1:
-      function: coupler
+      function: gdsfactory.components.coupler.coupler
     coupler2:
-      function: coupler
+      function: gdsfactory.components.coupler.coupler
     coupler_gap1: 0.2
     coupler_gap2: 0.3
     coupler_length1: 5.0
@@ -66,20 +66,20 @@ settings:
     dy: 2.0
     length: 1.0
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     taper:
-      function: taper
+      function: gdsfactory.components.taper.taper
     taper_length: 5.0
     w0: 0.5
     w1: 0.45
     w2: 0.55
   full:
     bend90:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     coupler1:
-      function: coupler
+      function: gdsfactory.components.coupler.coupler
     coupler2:
-      function: coupler
+      function: gdsfactory.components.coupler.coupler
     coupler_gap1: 0.2
     coupler_gap2: 0.3
     coupler_length1: 5.0
@@ -88,15 +88,14 @@ settings:
     dy: 2.0
     length: 1.0
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     taper:
-      function: taper
+      function: gdsfactory.components.taper.taper
     taper_length: 5.0
     w0: 0.5
     w1: 0.45
     w2: 0.55
-  function_name: mzit
+  function_name: gdsfactory.components.mzit.mzit
   info: {}
   info_version: 2
-  module: gdsfactory.components.mzit
   name: mzit

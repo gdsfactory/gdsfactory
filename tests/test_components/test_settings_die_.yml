@@ -15,7 +15,7 @@ settings:
     street_length: 1000.0
     street_width: 100.0
     text_component:
-      function: text
+      function: gdsfactory.components.text.text
     text_location: SW
     text_size: 100.0
   full:
@@ -30,11 +30,10 @@ settings:
     street_length: 1000.0
     street_width: 100.0
     text_component:
-      function: text
+      function: gdsfactory.components.text.text
     text_location: SW
     text_size: 100.0
-  function_name: die
+  function_name: gdsfactory.components.die.die
   info: {}
   info_version: 2
-  module: gdsfactory.components.die
   name: die

@@ -1,9 +1,9 @@
-name: text_rectangular_layerM_02fd6d01
+name: text_rectangular_layerM_e11710dd
 ports: {}
 settings:
   changed:
     factory:
-      function: text_rectangular
+      function: gdsfactory.components.text_rectangular.text_rectangular
       settings:
         text: abcd
     layers:
@@ -17,7 +17,7 @@ settings:
     child: null
     default:
       font:
-        function: rectangular_font
+        function: gdsfactory.components.text_rectangular_font.rectangular_font
       justify: left
       layer: WG
       position:
@@ -27,7 +27,7 @@ settings:
       text: abcd
     full:
       font:
-        function: rectangular_font
+        function: gdsfactory.components.text_rectangular_font.rectangular_font
       justify: left
       layer: M3
       position:
@@ -35,14 +35,13 @@ settings:
       - 0.0
       size: 10.0
       text: abcd
-    function_name: text_rectangular
+    function_name: gdsfactory.components.text_rectangular.text_rectangular
     info: {}
     info_version: 2
-    module: gdsfactory.components.text_rectangular
     name: text_rectangular_layerM3
   default:
     factory:
-      function: cross
+      function: gdsfactory.components.cross.cross
     layers:
     - - 1
       - 0
@@ -50,7 +49,7 @@ settings:
       - 0
   full:
     factory:
-      function: text_rectangular
+      function: gdsfactory.components.text_rectangular.text_rectangular
       settings:
         text: abcd
     layers:
@@ -58,8 +57,7 @@ settings:
     - M1
     - M2
     - M3
-  function_name: copy_layers
+  function_name: gdsfactory.components.copy_layers.copy_layers
   info: {}
   info_version: 2
-  module: gdsfactory.components.copy_layers
-  name: text_rectangular_layerM_02fd6d01
+  name: text_rectangular_layerM_e11710dd

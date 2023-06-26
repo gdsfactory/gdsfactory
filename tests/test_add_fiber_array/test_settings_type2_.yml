@@ -1,4 +1,4 @@
-name: coupler_gap0p244_length_10b57faa
+name: coupler_gap0p244_length_ffd11b31
 ports:
   opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback0:
     center:
@@ -75,7 +75,7 @@ ports:
 settings:
   changed:
     component:
-      component: coupler
+      component: gdsfactory.components.coupler.coupler
       settings:
         gap: 0.244
         length: 5.67
@@ -87,9 +87,9 @@ settings:
     child: null
     default:
       coupler_straight:
-        function: coupler_straight
+        function: gdsfactory.components.coupler_straight.coupler_straight
       coupler_symmetric:
-        function: coupler_symmetric
+        function: gdsfactory.components.coupler_symmetric.coupler_symmetric
       cross_section: strip
       dx: 10.0
       dy: 4.0
@@ -97,46 +97,45 @@ settings:
       length: 20.0
     full:
       coupler_straight:
-        function: coupler_straight
+        function: gdsfactory.components.coupler_straight.coupler_straight
       coupler_symmetric:
-        function: coupler_symmetric
+        function: gdsfactory.components.coupler_symmetric.coupler_symmetric
       cross_section: strip
       dx: 10.0
       dy: 4.0
       gap: 0.244
       length: 5.67
-    function_name: coupler
+    function_name: gdsfactory.components.coupler.coupler
     info:
       length: 10.185
       min_bend_radius: 11.883
     info_version: 2
-    module: gdsfactory.components.coupler
     name: coupler_gap0p244_length5p67
   default:
     component:
-      function: straight
+      function: gdsfactory.components.straight.straight
     component_name: null
     cross_section: strip
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
-      function: get_input_labels
+      function: gdsfactory.routing.get_input_labels.get_input_labels
       settings:
         get_input_label_text_function:
-          function: get_input_label_text_dash
+          function: gdsfactory.add_labels.get_input_label_text_dash
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      function: gdsfactory.components.grating_coupler_elliptical_trenches.grating_coupler_elliptical_trenches
       settings:
         polarization: te
         taper_angle: 35
     layer_label: TEXT
     select_ports:
-      function: select_ports
+      function: gdsfactory.port.select_ports
       settings:
         port_type: optical
   full:
     component:
-      component: coupler
+      component: gdsfactory.components.coupler.coupler
       settings:
         gap: 0.244
         length: 5.67
@@ -145,22 +144,22 @@ settings:
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
-      function: get_input_labels
+      function: gdsfactory.routing.get_input_labels.get_input_labels
       settings:
         get_input_label_text_function:
-          function: get_input_label_text_dash
+          function: gdsfactory.add_labels.get_input_label_text_dash
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      function: gdsfactory.components.grating_coupler_elliptical_trenches.grating_coupler_elliptical_trenches
       settings:
         polarization: te
         taper_angle: 35
     layer_label: TEXT
     optical_routing_type: 2
     select_ports:
-      function: select_ports
+      function: gdsfactory.port.select_ports
       settings:
         port_type: optical
-  function_name: add_fiber_array
+  function_name: gdsfactory.routing.add_fiber_array.add_fiber_array
   info:
     grating_coupler:
       period: 0.676
@@ -169,5 +168,4 @@ settings:
     length: 10.185
     min_bend_radius: 11.883
   info_version: 2
-  module: gdsfactory.routing.add_fiber_array
-  name: coupler_gap0p244_length_10b57faa
+  name: coupler_gap0p244_length_ffd11b31

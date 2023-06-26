@@ -38,11 +38,10 @@ settings:
     cross_section: strip
     npoints: null
     with_bbox: true
-  function_name: bend_circular
+  function_name: gdsfactory.components.bend_circular.bend_circular
   info:
     dy: 0.0
     length: 31.415
     radius: 10.0
   info_version: 2
-  module: gdsfactory.components.bend_circular
   name: bend_circular_angle180

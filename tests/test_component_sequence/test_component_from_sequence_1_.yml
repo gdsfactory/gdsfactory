@@ -1,4 +1,4 @@
-name: component_sequence_ae8efed6
+name: component_sequence_4f765c08
 ports:
   o1:
     center:
@@ -29,24 +29,24 @@ settings:
     sequence: '!HH'
     symbol_to_component:
       '-':
-      - component: straight
+      - component: gdsfactory.components.straight.straight
         settings: {}
       - o1
       - o2
       A:
-      - component: bend_circular
+      - component: gdsfactory.components.bend_circular.bend_circular
         settings:
           angle: 180
       - o1
       - o2
       B:
-      - component: bend_circular
+      - component: gdsfactory.components.bend_circular.bend_circular
         settings:
           angle: 180
       - o2
       - o1
       H:
-      - component: straight_pin
+      - component: gdsfactory.components.straight_pin.straight_pin
         settings:
           length: 40
       - o1
@@ -65,30 +65,29 @@ settings:
     start_orientation: 0.0
     symbol_to_component:
       '-':
-      - component: straight
+      - component: gdsfactory.components.straight.straight
         settings: {}
       - o1
       - o2
       A:
-      - component: bend_circular
+      - component: gdsfactory.components.bend_circular.bend_circular
         settings:
           angle: 180
       - o1
       - o2
       B:
-      - component: bend_circular
+      - component: gdsfactory.components.bend_circular.bend_circular
         settings:
           angle: 180
       - o2
       - o1
       H:
-      - component: straight_pin
+      - component: gdsfactory.components.straight_pin.straight_pin
         settings:
           length: 40
       - o1
       - o2
-  function_name: component_sequence
+  function_name: gdsfactory.components.component_sequence.component_sequence
   info: {}
   info_version: 2
-  module: gdsfactory.components.component_sequence
-  name: component_sequence_ae8efed6
+  name: component_sequence_4f765c08

@@ -16,6 +16,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, TypeVar, Union
 from pydantic import BaseModel, Field, validate_arguments
 from typing_extensions import Literal
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
+from gdsfactory.serialization import clean_dict
 
 nm = 1e-3
 
@@ -351,6 +352,7 @@ def _xsection_without_validator(func):
         # Update with args and kwargs, overriding defaults
         settings.update(args_as_kwargs)
         settings.update(kwargs)
+        settings = clean_dict(settings)
 
         if not isinstance(xs, CrossSection):
             raise ValueError(
@@ -358,7 +360,8 @@ def _xsection_without_validator(func):
                 "make sure that functions with @xsection decorator return a CrossSection",
             )
 
-        xs.info.update(settings=settings, function_name=func.__name__)
+        function_name = f"{func.__module__}.{func.__name__}"
+        xs.info.update(settings=settings, function_name=function_name)
         return xs
 
     return _xsection

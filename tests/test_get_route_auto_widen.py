@@ -34,7 +34,7 @@ def taper_pin(length: float = 5, **kwargs) -> gf.Component:
     return gf.path.extrude(path, cross_section=trans)
 
 
-def test_get_route_auto_widen() -> gf.Component:
+def test_get_route_auto_widen() -> None:
     c = gf.Component("test_get_route_auto_widen")
     route = gf.routing.get_route_from_waypoints(
         [(0, 0), (300, 0), (300, 300), (-600, 300), (-600, -300)],
@@ -45,7 +45,6 @@ def test_get_route_auto_widen() -> gf.Component:
     )
     c.add(route.references)
     difftest(c)
-    return c
 
 
 if __name__ == "__main__":

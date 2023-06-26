@@ -221,7 +221,7 @@ settings:
   child: null
   default:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     combiner: mmi1x2
     cross_section: strip
     delta_length: 0.0
@@ -230,18 +230,18 @@ settings:
     mirror_bot: false
     nbends: 2
     phase_shifter:
-      function: straight_pin
+      function: gdsfactory.components.straight_pin.straight_pin
     port_e0_combiner: o3
     port_e0_splitter: o3
     port_e1_combiner: o2
     port_e1_splitter: o2
     splitter: mmi1x2
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     with_splitter: true
   full:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     combiner: mmi1x2
     cross_section: strip
     delta_length: 0.0
@@ -250,17 +250,16 @@ settings:
     mirror_bot: false
     nbends: 2
     phase_shifter:
-      function: straight_pin
+      function: gdsfactory.components.straight_pin.straight_pin
     port_e0_combiner: o3
     port_e0_splitter: o3
     port_e1_combiner: o2
     port_e1_splitter: o2
     splitter: mmi1x2
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     with_splitter: true
-  function_name: mzm
+  function_name: gdsfactory.components.mzm.mzm
   info: {}
   info_version: 2
-  module: gdsfactory.components.mzm
   name: mzm

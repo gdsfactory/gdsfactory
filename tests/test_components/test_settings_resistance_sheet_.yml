@@ -36,7 +36,7 @@ settings:
     - NPP
     ohms_per_square: null
     pad:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - SLAB90
@@ -48,7 +48,7 @@ settings:
         vias:
         - null
         - null
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIAC
     pad_pitch: 100.0
@@ -64,7 +64,7 @@ settings:
     - NPP
     ohms_per_square: null
     pad:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - SLAB90
@@ -76,16 +76,15 @@ settings:
         vias:
         - null
         - null
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIAC
     pad_pitch: 100.0
     port_orientation1: 180
     port_orientation2: 0
     width: 10
-  function_name: resistance_sheet
+  function_name: gdsfactory.components.resistance_sheet.resistance_sheet
   info:
     resistance: null
   info_version: 2
-  module: gdsfactory.components.resistance_sheet
   name: resistance_sheet

@@ -1,18 +1,18 @@
 connections: {}
 instances:
   r1:
-    component: rectangle
+    component: gdsfactory.components.rectangle.rectangle
     settings:
       size:
       - 4
       - 2
   r2:
-    component: rectangle
+    component: gdsfactory.components.rectangle.rectangle
     settings:
       size:
       - 2
       - 4
-name: sample_rotation_0aef407a
+name: sample_rotation_29e7daa7
 placements:
   r1:
     mirror: 0

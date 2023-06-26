@@ -15,8 +15,7 @@ settings:
     layer: WG
     radius: 10.0
     width: 0.5
-  function_name: ring
+  function_name: gdsfactory.components.ring.ring
   info: {}
   info_version: 2
-  module: gdsfactory.components.ring
   name: ring

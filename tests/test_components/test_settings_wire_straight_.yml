@@ -38,10 +38,10 @@ settings:
     length: 10.0
     npoints: 2
     with_bbox: true
-  function_name: straight
+  function_name: gdsfactory.components.straight.straight
   info:
     cross_section: metal_routing
-    function_name: cross_section
+    function_name: gdsfactory.cross_section.cross_section
     length: 10.0
     settings:
       add_bbox: null
@@ -77,5 +77,4 @@ settings:
       width_wide: null
     width: 10.0
   info_version: 2
-  module: gdsfactory.components.straight
   name: straight_cross_sectionm_56ce1600

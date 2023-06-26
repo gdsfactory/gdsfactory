@@ -6,7 +6,7 @@ settings:
   default:
     layer_dicing: DICING
     marker:
-      function: triangle
+      function: gdsfactory.components.triangles.triangle
       settings:
         layer: M3
         xtop: 2
@@ -16,15 +16,14 @@ settings:
   full:
     layer_dicing: DICING
     marker:
-      function: triangle
+      function: gdsfactory.components.triangles.triangle
       settings:
         layer: M3
         xtop: 2
     size:
     - 50
     - 300
-  function_name: dicing_lane
+  function_name: gdsfactory.components.dicing_lane.dicing_lane
   info: {}
   info_version: 2
-  module: gdsfactory.components.dicing_lane
   name: dicing_lane

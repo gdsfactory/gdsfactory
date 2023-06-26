@@ -125,14 +125,14 @@ settings:
   child: null
   default:
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -153,15 +153,15 @@ settings:
           simplify: null
           width: 0.2
     cross_section_heater:
-      function: rib_heater_doped
+      function: gdsfactory.cross_section.rib_heater_doped
     heater_gap: 0.8
     heater_width: 2.0
     length: 320.0
     nsections: 3
     taper:
-      function: taper_cross_section
+      function: gdsfactory.components.taper_cross_section.taper_cross_section
     via_stack:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - SLAB90
@@ -170,23 +170,23 @@ settings:
         vias:
         - null
         - null
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIAC
     via_stack_gap: 0.0
     via_stack_metal:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - M1
         - M2
         - M3
         vias:
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             enclosure: 2
             layer: VIA1
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIA2
         - null
@@ -203,14 +203,14 @@ settings:
     xoffset_tip2: 0.4
   full:
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -231,15 +231,15 @@ settings:
           simplify: null
           width: 0.2
     cross_section_heater:
-      function: rib_heater_doped
+      function: gdsfactory.cross_section.rib_heater_doped
     heater_gap: 0.8
     heater_width: 2.0
     length: 320.0
     nsections: 3
     taper:
-      function: taper_cross_section
+      function: gdsfactory.components.taper_cross_section.taper_cross_section
     via_stack:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - SLAB90
@@ -248,23 +248,23 @@ settings:
         vias:
         - null
         - null
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIAC
     via_stack_gap: 0.0
     via_stack_metal:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - M1
         - M2
         - M3
         vias:
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             enclosure: 2
             layer: VIA1
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIA2
         - null
@@ -279,8 +279,7 @@ settings:
     with_taper2: true
     xoffset_tip1: 0.2
     xoffset_tip2: 0.4
-  function_name: straight_heater_doped_rib
+  function_name: gdsfactory.components.straight_heater_doped_rib.straight_heater_doped_rib
   info: {}
   info_version: 2
-  module: gdsfactory.components.straight_heater_doped_rib
   name: straight_heater_doped_rib

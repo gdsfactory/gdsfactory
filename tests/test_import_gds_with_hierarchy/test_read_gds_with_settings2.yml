@@ -1,4 +1,4 @@
-name: mzi_6f76ede3
+name: mzi_2a038134
 ports:
   o1:
     center:
@@ -27,17 +27,17 @@ ports:
 settings:
   changed:
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
     splitter:
-      component: mmi1x2
+      component: gdsfactory.components.mmi1x2.mmi1x2
       settings:
         cross_section:
-          function: cross_section
+          function: gdsfactory.cross_section.cross_section
   child: null
   default:
     add_optical_ports_arms: false
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     combiner: null
     cross_section: strip
     cross_section_x_bot: null
@@ -53,7 +53,7 @@ settings:
     port_e1_splitter: o2
     splitter: mmi1x2
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
@@ -61,10 +61,10 @@ settings:
   full:
     add_optical_ports_arms: false
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     combiner: null
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10.0
@@ -77,18 +77,17 @@ settings:
     port_e1_combiner: o2
     port_e1_splitter: o2
     splitter:
-      component: mmi1x2
+      component: gdsfactory.components.mmi1x2.mmi1x2
       settings:
         cross_section:
-          function: cross_section
+          function: gdsfactory.cross_section.cross_section
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
     with_splitter: true
-  function_name: mzi
+  function_name: gdsfactory.components.mzi.mzi
   info: {}
   info_version: 2
-  module: gdsfactory.components.mzi
-  name: mzi_6f76ede3
+  name: mzi_2a038134

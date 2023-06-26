@@ -30,7 +30,7 @@ settings:
   default:
     N: 6
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     cross_section: strip
     inner_loop_spacing_offset: 0.0
     length: null
@@ -44,7 +44,7 @@ settings:
   full:
     N: 6
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     cross_section: strip
     inner_loop_spacing_offset: 0.0
     length: null
@@ -55,9 +55,8 @@ settings:
     y_straight_inner_top: 0.0
     y_straight_outer_offset: 0.0
     yspacing: 3.0
-  function_name: spiral_external_io
+  function_name: gdsfactory.components.spiral_external_io.spiral_external_io
   info:
     length: 9003.302
   info_version: 2
-  module: gdsfactory.components.spiral_external_io
   name: spiral_external_io

@@ -56,7 +56,7 @@ settings:
   default:
     add_optical_ports_arms: false
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     combiner: null
     cross_section: strip
     cross_section_x_bot: null
@@ -72,7 +72,7 @@ settings:
     port_e1_splitter: o2
     splitter: mmi1x2
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
@@ -80,7 +80,7 @@ settings:
   full:
     add_optical_ports_arms: false
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     combiner: null
     cross_section: strip
     cross_section_x_bot: null
@@ -96,13 +96,12 @@ settings:
     port_e1_splitter: o2
     splitter: mmi1x2
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     straight_x_bot: null
     straight_x_top: straight_heater_metal
     straight_y: null
     with_splitter: true
-  function_name: mzi
+  function_name: gdsfactory.components.mzi.mzi
   info: {}
   info_version: 2
-  module: gdsfactory.components.mzi
   name: mzi_7a18d033

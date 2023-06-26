@@ -31,14 +31,14 @@ settings:
   child: null
   default:
     cross_section1:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -59,14 +59,14 @@ settings:
           simplify: null
           width: 0.2
     cross_section2:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -92,14 +92,14 @@ settings:
     width_type: sine
   full:
     cross_section1:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -120,14 +120,14 @@ settings:
           simplify: null
           width: 0.2
     cross_section2:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -151,8 +151,7 @@ settings:
     linear: true
     npoints: 2
     width_type: sine
-  function_name: taper_cross_section
+  function_name: gdsfactory.components.taper_cross_section.taper_cross_section
   info: {}
   info_version: 2
-  module: gdsfactory.components.taper_cross_section
   name: taper_cross_section_lin_fb44ec23

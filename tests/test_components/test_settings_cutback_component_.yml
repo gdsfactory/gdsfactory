@@ -35,19 +35,18 @@ settings:
     full:
       cross_section: strip
       filepath: taper_strip_0p5_3_36
-    function_name: taper_from_csv
+    function_name: gdsfactory.components.taper_from_csv.taper_from_csv
     info: {}
     info_version: 2
-    module: gdsfactory.components.taper_from_csv
     name: taper_from_csv
   default:
     bend180:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
       settings:
         angle: 180
     cols: 4
     component:
-      function: taper_from_csv
+      function: gdsfactory.components.taper_from_csv.taper_from_csv
       settings:
         filepath: taper_strip_0p5_3_36
     cross_section: strip
@@ -61,12 +60,12 @@ settings:
     straight_length_pair: null
   full:
     bend180:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
       settings:
         angle: 180
     cols: 4
     component:
-      function: taper_from_csv
+      function: gdsfactory.components.taper_from_csv.taper_from_csv
       settings:
         filepath: taper_strip_0p5_3_36
     cross_section: strip
@@ -78,9 +77,8 @@ settings:
     rows: 5
     straight_length: null
     straight_length_pair: null
-  function_name: cutback_component
+  function_name: gdsfactory.components.cutback_component.cutback_component
   info:
     components: 80
   info_version: 2
-  module: gdsfactory.components.cutback_component
   name: taper_from_csv_cutback_component

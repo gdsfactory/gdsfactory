@@ -45,7 +45,7 @@ settings:
     length_mmi: 5.5
     length_taper: 10.0
     taper:
-      function: taper
+      function: gdsfactory.components.taper.taper
     width: null
     width_mmi: 2.5
     width_taper: 1.0
@@ -56,13 +56,12 @@ settings:
     length_mmi: 5.5
     length_taper: 10.0
     taper:
-      function: taper
+      function: gdsfactory.components.taper.taper
     width: null
     width_mmi: 2.5
     width_taper: 1.0
     with_bbox: true
-  function_name: mmi1x2
+  function_name: gdsfactory.components.mmi1x2.mmi1x2
   info: {}
   info_version: 2
-  module: gdsfactory.components.mmi1x2
   name: mmi1x2

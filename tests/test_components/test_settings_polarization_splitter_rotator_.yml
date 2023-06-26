@@ -73,10 +73,9 @@ settings:
     - 0.54
     - 0.69
     - 0.83
-  function_name: polarization_splitter_rotator
+  function_name: gdsfactory.components.polarization_splitter_rotator.polarization_splitter_rotator
   info:
     length: 15.484
     min_bend_radius: 9.391
   info_version: 2
-  module: gdsfactory.components.polarization_splitter_rotator
   name: polarization_splitter_rotator

@@ -35,7 +35,7 @@ settings:
       length_mmi: 5.5
       length_taper: 10.0
       taper:
-        function: taper
+        function: gdsfactory.components.taper.taper
       width: null
       width_mmi: 2.5
       width_taper: 1.0
@@ -46,24 +46,23 @@ settings:
       length_mmi: 5.5
       length_taper: 10.0
       taper:
-        function: taper
+        function: gdsfactory.components.taper.taper
       width: null
       width_mmi: 2.5
       width_taper: 1.0
       with_bbox: true
-    function_name: mmi1x2
+    function_name: gdsfactory.components.mmi1x2.mmi1x2
     info: {}
     info_version: 2
-    module: gdsfactory.components.mmi1x2
     name: mmi1x2
   default:
     bend180:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
       settings:
         angle: 180
     cols: 4
     component:
-      function: mmi1x2
+      function: gdsfactory.components.mmi1x2.mmi1x2
     cross_section: strip
     mirror: false
     port1: o1
@@ -73,12 +72,12 @@ settings:
     straight_length: null
   full:
     bend180:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
       settings:
         angle: 180
     cols: 4
     component:
-      function: mmi1x2
+      function: gdsfactory.components.mmi1x2.mmi1x2
     cross_section: strip
     mirror: false
     port1: o1
@@ -86,9 +85,8 @@ settings:
     port3: o3
     rows: 5
     straight_length: null
-  function_name: cutback_splitter
+  function_name: gdsfactory.components.cutback_splitter.cutback_splitter
   info:
     components: 88
   info_version: 2
-  module: gdsfactory.components.cutback_splitter
   name: mmi1x2_cutback_splitter

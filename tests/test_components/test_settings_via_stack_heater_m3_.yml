@@ -1,4 +1,4 @@
-name: via_stack_13a1ac5c
+name: via_stack_a7aa7fcb
 ports:
   e1:
     center:
@@ -56,11 +56,11 @@ settings:
     - M3
     vias:
     - null
-    - function: via
+    - function: gdsfactory.components.via.via
       settings:
         enclosure: 2
         layer: VIA1
-    - function: via
+    - function: gdsfactory.components.via.via
       settings:
         layer: VIA2
   child: null
@@ -76,11 +76,11 @@ settings:
     - 11.0
     - 11.0
     vias:
-    - function: via
+    - function: gdsfactory.components.via.via
       settings:
         enclosure: 2
         layer: VIA1
-    - function: via
+    - function: gdsfactory.components.via.via
       settings:
         layer: VIA2
     - null
@@ -97,19 +97,18 @@ settings:
     - 11.0
     vias:
     - null
-    - function: via
+    - function: gdsfactory.components.via.via
       settings:
         enclosure: 2
         layer: VIA1
-    - function: via
+    - function: gdsfactory.components.via.via
       settings:
         layer: VIA2
-  function_name: via_stack
+  function_name: gdsfactory.components.via_stack.via_stack
   info:
     layer: M3
     size:
     - 11.0
     - 11.0
   info_version: 2
-  module: gdsfactory.components.via_stack
-  name: via_stack_13a1ac5c
+  name: via_stack_a7aa7fcb

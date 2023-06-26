@@ -5,7 +5,7 @@ settings:
   child: null
   default: {}
   full: {}
-  function_name: aar_implicit_final_angle
+  function_name: yaml_jinja.aar_implicit_final_angle
   info:
     instances:
     - wg_c1
@@ -15,5 +15,4 @@ settings:
     - wg_a1
     - wg_a2
   info_version: 2
-  module: yaml_jinja
   name: aar_implicit_final_angle

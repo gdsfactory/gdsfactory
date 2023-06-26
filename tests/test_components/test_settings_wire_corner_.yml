@@ -31,10 +31,9 @@ settings:
     cross_section: metal_routing
   full:
     cross_section: metal_routing
-  function_name: wire_corner
+  function_name: gdsfactory.components.wire.wire_corner
   info:
     dy: 10.0
     length: 10.0
   info_version: 2
-  module: gdsfactory.components.wire
   name: wire_corner

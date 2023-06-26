@@ -81,9 +81,9 @@ settings:
     length_mmi: 175.0
     length_taper: 40.0
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     taper:
-      function: taper
+      function: gdsfactory.components.taper.taper
     width: 0.5
     width_mmi: 10.0
     width_taper: 1.7
@@ -94,15 +94,14 @@ settings:
     length_mmi: 175.0
     length_taper: 40.0
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     taper:
-      function: taper
+      function: gdsfactory.components.taper.taper
     width: 0.5
     width_mmi: 10.0
     width_taper: 1.7
     with_bbox: true
-  function_name: mmi_90degree_hybrid
+  function_name: gdsfactory.components.mmi_90degree_hybrid.mmi_90degree_hybrid
   info: {}
   info_version: 2
-  module: gdsfactory.components.mmi_90degree_hybrid
   name: mmi_90degree_hybrid

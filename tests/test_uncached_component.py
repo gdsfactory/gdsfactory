@@ -37,16 +37,15 @@ def using_dangerous_intermediate_cells() -> Component:
     return c
 
 
-def test_uncached_component_warning() -> Component:
+def test_uncached_component_warning() -> None:
     """Ensures that an UncachedComponentWarning is raised by default when a GDS with uncached cells is written"""
     c = using_dangerous_intermediate_cells()
 
     with pytest.warns(UncachedComponentWarning):
         c.write_gds(on_uncached_component="warn")
-    return c
 
 
-def test_uncached_component_ignore() -> Component:
+def test_uncached_component_ignore() -> None:
     """Ensures that no warnings are raised when a GDS with uncached cells is written and on_uncached_component="ignore"."""
     c = using_dangerous_intermediate_cells()
 
@@ -54,29 +53,25 @@ def test_uncached_component_ignore() -> Component:
         # throw an error and fail the test of an UncachedComponentWarning is thrown
         warnings.filterwarnings("error", category=UncachedComponentWarning)
         c.write_gds(on_uncached_component="ignore")
-    return c
 
 
-def test_show_does_not_warn() -> Component:
+def test_show_does_not_warn() -> None:
     """Ensures that no warnings are raised when a GDS with uncached cells is written and on_uncached_component="ignore"."""
-    c = using_dangerous_intermediate_cells()
+    using_dangerous_intermediate_cells()
 
     with warnings.catch_warnings():
         # throw an error and fail the test of an UncachedComponentWarning is thrown
         warnings.filterwarnings("error", category=UncachedComponentWarning)
-    return c
 
 
-def test_uncached_component_error() -> Component:
+def test_uncached_component_error() -> None:
     """Ensures that an UncachedComponentError is raised when a GDS with uncached cells is written and on_uncached_component="error"."""
     c = using_dangerous_intermediate_cells()
 
     with pytest.raises(UncachedComponentError):
         c.write_gds(on_uncached_component="error")
-    return c
 
 
 if __name__ == "__main__":
-    c = test_uncached_component_warning()
-    # c = test_uncached_component_error()
-    c.show(show_ports=True)
+    test_uncached_component_warning()
+    # test_uncached_component_error()

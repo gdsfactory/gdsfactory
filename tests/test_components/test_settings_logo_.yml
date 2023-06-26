@@ -7,8 +7,7 @@ settings:
     text: GDSFACTORY
   full:
     text: GDSFACTORY
-  function_name: logo
+  function_name: gdsfactory.components.logo.logo
   info: {}
   info_version: 2
-  module: gdsfactory.components.logo
   name: logo

@@ -1,25 +1,25 @@
-name: mzi_2e88f57c_add_electr_becb9632
+name: mzi_f48b098b_add_electr_0dd314f3
 ports:
-  elec-mzi_2e88f57c-1:
+  elec-mzi_f48b098b-1:
     center:
     - 128.56
     - 178.125
     layer:
     - 49
     - 0
-    name: elec-mzi_2e88f57c-1
+    name: elec-mzi_f48b098b-1
     orientation: 270
     port_type: electrical
     shear_angle: null
     width: 100.0
-  elec-mzi_2e88f57c-2:
+  elec-mzi_f48b098b-2:
     center:
     - -21.44
     - 178.125
     layer:
     - 49
     - 0
-    name: elec-mzi_2e88f57c-2
+    name: elec-mzi_f48b098b-2
     orientation: 270
     port_type: electrical
     shear_angle: null
@@ -75,33 +75,33 @@ ports:
 settings:
   changed:
     component:
-      component: mzi
+      component: gdsfactory.components.mzi.mzi
       settings:
         combiner:
-          function: mmi2x2
+          function: gdsfactory.components.mmi2x2.mmi2x2
         port_e0_combiner: o4
         port_e0_splitter: o4
         port_e1_combiner: o3
         port_e1_splitter: o3
         splitter:
-          function: mmi2x2
+          function: gdsfactory.components.mmi2x2.mmi2x2
         straight_x_top: straight_heater_metal
   child:
     changed:
       combiner:
-        function: mmi2x2
+        function: gdsfactory.components.mmi2x2.mmi2x2
       port_e0_combiner: o4
       port_e0_splitter: o4
       port_e1_combiner: o3
       port_e1_splitter: o3
       splitter:
-        function: mmi2x2
+        function: gdsfactory.components.mmi2x2.mmi2x2
       straight_x_top: straight_heater_metal
     child: null
     default:
       add_optical_ports_arms: false
       bend:
-        function: bend_euler
+        function: gdsfactory.components.bend_euler.bend_euler
       combiner: null
       cross_section: strip
       cross_section_x_bot: null
@@ -117,7 +117,7 @@ settings:
       port_e1_splitter: o2
       splitter: mmi1x2
       straight:
-        function: straight
+        function: gdsfactory.components.straight.straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -125,9 +125,9 @@ settings:
     full:
       add_optical_ports_arms: false
       bend:
-        function: bend_euler
+        function: gdsfactory.components.bend_euler.bend_euler
       combiner:
-        function: mmi2x2
+        function: gdsfactory.components.mmi2x2.mmi2x2
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
@@ -141,28 +141,27 @@ settings:
       port_e1_combiner: o3
       port_e1_splitter: o3
       splitter:
-        function: mmi2x2
+        function: gdsfactory.components.mmi2x2.mmi2x2
       straight:
-        function: straight
+        function: gdsfactory.components.straight.straight
       straight_x_bot: null
       straight_x_top: straight_heater_metal
       straight_y: null
       with_splitter: true
-    function_name: mzi
+    function_name: gdsfactory.components.mzi.mzi
     info: {}
     info_version: 2
-    module: gdsfactory.components.mzi
-    name: mzi_2e88f57c
+    name: mzi_f48b098b
   default:
     component:
-      function: straight
+      function: gdsfactory.components.straight.straight
     direction: top
     layer: MTOP
     pad_array:
-      function: pad_array
+      function: gdsfactory.components.pad.pad_array
     port_names: null
     select_ports:
-      function: select_ports
+      function: gdsfactory.port.select_ports
       settings:
         port_type: electrical
     spacing:
@@ -170,31 +169,30 @@ settings:
     - 100.0
   full:
     component:
-      component: mzi
+      component: gdsfactory.components.mzi.mzi
       settings:
         combiner:
-          function: mmi2x2
+          function: gdsfactory.components.mmi2x2.mmi2x2
         port_e0_combiner: o4
         port_e0_splitter: o4
         port_e1_combiner: o3
         port_e1_splitter: o3
         splitter:
-          function: mmi2x2
+          function: gdsfactory.components.mmi2x2.mmi2x2
         straight_x_top: straight_heater_metal
     direction: top
     layer: MTOP
     pad_array:
-      function: pad_array
+      function: gdsfactory.components.pad.pad_array
     port_names: null
     select_ports:
-      function: select_ports
+      function: gdsfactory.port.select_ports
       settings:
         port_type: electrical
     spacing:
     - 0.0
     - 100.0
-  function_name: add_electrical_pads_top
+  function_name: gdsfactory.routing.add_electrical_pads_top.add_electrical_pads_top
   info: {}
   info_version: 2
-  module: gdsfactory.routing.add_electrical_pads_top
-  name: mzi_2e88f57c_add_electr_becb9632
+  name: mzi_f48b098b_add_electr_0dd314f3

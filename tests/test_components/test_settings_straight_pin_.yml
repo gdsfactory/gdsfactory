@@ -125,12 +125,12 @@ settings:
   child: null
   default:
     cross_section:
-      function: pin
+      function: gdsfactory.cross_section.pin
     length: 500.0
     taper:
-      function: taper_strip_to_ridge
+      function: gdsfactory.components.taper.taper_strip_to_ridge
     via_stack:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - SLAB90
@@ -138,14 +138,14 @@ settings:
         - M2
         - M3
         vias:
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIAC
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             enclosure: 2
             layer: VIA1
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIA2
         - null
@@ -153,12 +153,12 @@ settings:
     via_stack_width: 10.0
   full:
     cross_section:
-      function: pin
+      function: gdsfactory.cross_section.pin
     length: 500.0
     taper:
-      function: taper_strip_to_ridge
+      function: gdsfactory.components.taper.taper_strip_to_ridge
     via_stack:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - SLAB90
@@ -166,21 +166,20 @@ settings:
         - M2
         - M3
         vias:
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIAC
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             enclosure: 2
             layer: VIA1
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIA2
         - null
     via_stack_spacing: 2
     via_stack_width: 10.0
-  function_name: straight_pin
+  function_name: gdsfactory.components.straight_pin.straight_pin
   info: {}
   info_version: 2
-  module: gdsfactory.components.straight_pin
   name: straight_pin
