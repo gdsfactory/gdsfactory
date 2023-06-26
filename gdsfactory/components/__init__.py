@@ -109,7 +109,7 @@ from gdsfactory.components.fiducial_squares import fiducial_squares
 from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,
 )
-from gdsfactory.components.generic_component_lattice import generic_component_lattice
+from gdsfactory.components.component_lattice_generic import component_lattice_generic
 from gdsfactory.components.grating_coupler_array import grating_coupler_array
 from gdsfactory.components.grating_coupler_dual_pol import grating_coupler_dual_pol
 from gdsfactory.components.grating_coupler_elliptical import (
@@ -451,7 +451,7 @@ __all__ = [
     "text_lines",
     "ge_detector_straight_si_contacts",
     "generate_doe",
-    "generic_component_lattice",
+    "component_lattice_generic",
     "grating_coupler_array",
     "grating_coupler_elliptical",
     "grating_coupler_elliptical_arbitrary",

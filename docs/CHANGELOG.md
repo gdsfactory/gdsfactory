@@ -2,6 +2,13 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
+## [6.109.0](https://github.com/gdsfactory/gdsfactory/compare/v6.109.0...v6.108.1)
+
+- add module to `function_name` [PR](https://github.com/gdsfactory/gdsfactory/pull/1808)
+- minor updates to MEOW [PR](https://github.com/gdsfactory/gdsfactory/pull/1806)
+- use meshwell for 3D meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1800)
+- add component meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1807)
+
 ## [6.108.1](https://github.com/gdsfactory/gdsfactory/compare/v6.108.1...v6.108.0)
 
 - add module info to cell decorator [PR](https://github.com/gdsfactory/gdsfactory/pull/1805)

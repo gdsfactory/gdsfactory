@@ -523,6 +523,7 @@ class Pdk(BaseModel):
             cross_section_factory_name = (
                 cross_section_factory_name or cross_section.get("function")
             )
+            cross_section_factory_name = cross_section_factory_name.split(".")[-1]
             if (
                 not isinstance(cross_section_factory_name, str)
                 or cross_section_factory_name not in self.cross_sections
