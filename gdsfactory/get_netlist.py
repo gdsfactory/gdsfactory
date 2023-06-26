@@ -367,6 +367,7 @@ def _extract_connections_two_sweep(
                 raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
 
             else:
+                # Iterates over the list of multiple ports to create related two-port connectivity
                 num_ports = len(ports_at_xy)
                 for portindex1, portindex2 in zip(
                     range(-1, num_ports - 1), range(num_ports)

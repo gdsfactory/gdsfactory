@@ -109,6 +109,7 @@ from gdsfactory.components.fiducial_squares import fiducial_squares
 from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,
 )
+from gdsfactory.components.generic_component_lattice import generic_component_lattice
 from gdsfactory.components.grating_coupler_array import grating_coupler_array
 from gdsfactory.components.grating_coupler_dual_pol import grating_coupler_dual_pol
 from gdsfactory.components.grating_coupler_elliptical import (
@@ -177,6 +178,7 @@ from gdsfactory.components.mzi_lattice import mzi_lattice, mzi_lattice_mmi
 from gdsfactory.components.mzi_pads_center import mzi_pads_center
 from gdsfactory.components.mzi_phase_shifter import (
     mzi_phase_shifter,
+    mzi2x2_2x2_phase_shifter,
     mzi_phase_shifter_top_heater_metal,
 )
 from gdsfactory.components.mzit import mzit
@@ -449,6 +451,7 @@ __all__ = [
     "text_lines",
     "ge_detector_straight_si_contacts",
     "generate_doe",
+    "generic_component_lattice",
     "grating_coupler_array",
     "grating_coupler_elliptical",
     "grating_coupler_elliptical_arbitrary",
@@ -495,6 +498,7 @@ __all__ = [
     "mzi_pads_center",
     "mzi1x2_2x2",
     "mzi2x2_2x2",
+    "mzi2x2_2x2_phase_shifter",
     "mzi_coupler",
     "mzi_arm",
     "mzi_lattice",

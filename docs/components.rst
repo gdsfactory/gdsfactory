@@ -1386,6 +1386,27 @@ ge_detector_straight_si_contacts
   c.plot_matplotlib()
 
 
+generic_component_lattice
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.generic_component_lattice
+
+.. plot::
+  :include-source:
+
+  from gdsfactory.components.generic_component_lattice import generic_component_lattice
+  from gdsfactory.components.mzi import mzi2x2_2x2
+  from gdsfactory.components.mzi_phase_shifter import mzi2x2_2x2_phase_shifter
+
+
+  example_mixed_component_lattice = [
+    [mzi2x2_2x2_phase_shifter(), 0, mzi2x2_2x2(delta_length=20.0)],
+    [0, mzi2x2_2x2(delta_length=50.0), 0],
+    [mzi2x2_2x2(delta_length=100.0), 0, mzi2x2_2x2_phase_shifter()],
+  ]
+  c = generic_component_lattice(example_mixed_component_lattice)
+  c.plot_matplotlib()
+
 
 grating_coupler_array
 ----------------------------------------------------
