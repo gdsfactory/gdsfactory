@@ -1,15 +1,17 @@
 """
 In a multiple-topology Clements Scheme we can implement any universal photonic function.
 """
+from __future__ import annotations
 import numpy as np
 
+from typing import List, Optional
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import select_ports_electrical
 
-# from gdsfactory.components.array_component import array
 from gdsfactory.components.straight import straight
 from gdsfactory.routing import get_route
+from gdsfactory.components.mzi import mzi2x2_2x2
 
 
 def find_largest_component(component_list: list) -> Component:
@@ -25,11 +27,11 @@ def find_largest_component(component_list: list) -> Component:
 
 
 @cell
-def generic_component_lattice(
-    physical_network: list,
+def component_lattice_generic(
+    network: Optional[List[Component]] = None,
 ) -> Component:
     """
-    The shape of the `physical_network` matrix determines the physical interconnection.
+    The shape of the `network` matrix determines the physical interconnection.
     Note that there should be at least S+1=N modes based on this formalism of interconnection,
     and the position of the component implements a connectivity in between the modes, and assumes a 2x2 network encoding.
     One nice functionality by this component is that it can generate a component lattice for generic variable components with different x and y pitches.
@@ -52,11 +54,12 @@ def generic_component_lattice(
             [0, mzi2x2_2x2(delta_length=30.0), 0],
             [mzi2x2_2x2(), 0, mzi2x2_2x2()],
         ]
-        c = gf.components.generic_component_lattice(example_component_lattice)
+        c = gf.components.component_lattice_generic(example_component_lattice)
 
 
     Another example that demonstrates the generic-nature of this component lattice algorithm can be with an mixed set of actively driven and passiver interferometers.
     The placement matrix is in this form:
+
     .. math::
 
         M = Y & 0 & A
@@ -72,8 +75,8 @@ def generic_component_lattice(
             [0, mzi2x2_2x2(delta_length=30.0), 0],
             [mzi2x2_2x2(delta_length=15.0), 0, mzi2x2_2x2_phase_shifter()],
         ]
-        c = gf.components.generic_component_lattice(
-            physical_network=example_mixed_component_lattice
+        c = gf.components.component_lattice_generic(
+            network=example_mixed_component_lattice
         )
 
     # TODO implement balanced waveguide paths function per stage
@@ -81,27 +84,32 @@ def generic_component_lattice(
     # TODO multiple placement optimization algorithms.
 
     Args:
-        physical_network: A list of lists of components that are to be placed in the lattice.
+        network: A list of lists of components that are to be placed in the lattice.
 
     Returns:
         Component: A component lattice that implements the physical network.
     """
+
+    network = network or [
+        [mzi2x2_2x2(), 0, mzi2x2_2x2()],
+        [0, mzi2x2_2x2(delta_length=30.0), 0],
+        [mzi2x2_2x2(), 0, mzi2x2_2x2()],
+    ]
+
     element_references = list()
-    physical_network = np.array(physical_network)
+    network = np.array(network)
     # Check number of dimensions is 2
-    if physical_network.ndim != 2:
+    if network.ndim != 2:
         # Get the length and then width of the array
         raise AttributeError(
-            "Physical network dimensions don't work. Check the dimensional structure of your physical_network matrix."
+            "Physical network dimensions don't work. Check the dimensional structure of your network matrix."
         )
 
     C = Component()
     # Estimate the size of the network fabric
-    elements_list = np.vstack(
-        [np.nonzero(physical_network), physical_network[np.nonzero(physical_network)]]
-    )
+    elements_list = np.vstack([np.nonzero(network), network[np.nonzero(network)]])
     largest_component = find_largest_component(elements_list[2])  # List of elements
-    component_column_amount = len(physical_network[0])
+    component_column_amount = len(network[0])
     mode_amount = component_column_amount + 1
     inter_stage_clearance_x_offset = 40
     inter_stage_clearance_y_offset = 40
@@ -148,7 +156,7 @@ def generic_component_lattice(
     # Place the components in between the corresponding waveguide modes
     j = 0
     k = 0
-    for column_j in physical_network:
+    for column_j in network:
         i = 0
         for element_i in column_j:
             # Check if element is nonzero
@@ -170,7 +178,7 @@ def generic_component_lattice(
     # Go position by position to place and connect everything, column by column
     j = 0
     k = 0
-    for column_j in physical_network:
+    for column_j in network:
         i = 0
         # Connect the modes together
         for element_i in column_j:
@@ -254,7 +262,7 @@ def generic_component_lattice(
     # Append electrical ports to component to total connectivity can be constructed.
     j = 0
     k = 0
-    for column_j in physical_network:
+    for column_j in network:
         i = 0
         for element_i in column_j:
             # Check if element is nonzero
@@ -276,27 +284,24 @@ def generic_component_lattice(
     return C
 
 
-__all__ = [
-    "generic_component_lattice",
-    "example_component_lattice",
-]
-
 if __name__ == "__main__":
-    from gdsfactory.components.mzi import mzi2x2_2x2
-    from gdsfactory.components.mzi_phase_shifter import mzi2x2_2x2_phase_shifter
+    # from gdsfactory.components.mzi import mzi2x2_2x2
+    # from gdsfactory.components.mzi_phase_shifter import mzi2x2_2x2_phase_shifter
 
-    example_component_lattice = [
-        [mzi2x2_2x2(), 0, mzi2x2_2x2()],
-        [0, mzi2x2_2x2(), 0],
-        [mzi2x2_2x2(), 0, mzi2x2_2x2()],
-    ]
-    c = generic_component_lattice(example_component_lattice)
-    c.show(show_ports=True)
+    # example_component_lattice = [
+    #     [mzi2x2_2x2(), 0, mzi2x2_2x2()],
+    #     [0, mzi2x2_2x2(), 0],
+    #     [mzi2x2_2x2(), 0, mzi2x2_2x2()],
+    # ]
+    # c = component_lattice_generic(example_component_lattice)
+    # c.show(show_ports=True)
 
-    example_mixed_component_lattice = [
-        [mzi2x2_2x2_phase_shifter(), 0, mzi2x2_2x2(delta_length=20.0)],
-        [0, mzi2x2_2x2(delta_length=50.0), 0],
-        [mzi2x2_2x2(delta_length=100.0), 0, mzi2x2_2x2_phase_shifter()],
-    ]
-    c_mixed = generic_component_lattice(example_mixed_component_lattice)
-    c_mixed.show(show_ports=True)
+    # example_mixed_component_lattice = [
+    #     [mzi2x2_2x2_phase_shifter(), 0, mzi2x2_2x2(delta_length=20.0)],
+    #     [0, mzi2x2_2x2(delta_length=50.0), 0],
+    #     [mzi2x2_2x2(delta_length=100.0), 0, mzi2x2_2x2_phase_shifter()],
+    # ]
+    # c_mixed = component_lattice_generic(example_mixed_component_lattice)
+    # c_mixed.show(show_ports=True)
+    c = component_lattice_generic()
+    c.show()
