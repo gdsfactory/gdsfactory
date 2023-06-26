@@ -191,6 +191,9 @@ kfactory = [
 meow = [
   "meow-sim>=0.6.8"
 ]
+meshwell = [
+  "meshwell==0.0.2"
+]
 ray = [
   "ray[tune,air]",
   "hyperopt"

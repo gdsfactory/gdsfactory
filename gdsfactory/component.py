@@ -51,6 +51,8 @@ from gdsfactory.port import (
 from gdsfactory.serialization import clean_dict
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
+import importlib.util
+
 valid_plotters = [
     "holoviews",
     "matplotlib",
@@ -2500,6 +2502,12 @@ class Component(_GeometryHelper):
                 padded_component, xsection_bounds, layer_stack, **kwargs
             )
         elif type == "3D":
+            spec = importlib.util.find_spec("meshwell")
+            if spec is None:
+                print(
+                    "3D meshing requires meshwell, see https://github.com/simbilod/meshwell or run pip install meshwell."
+                )
+
             from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
 
             return xyz_mesh(padded_component, layer_stack, **kwargs)
