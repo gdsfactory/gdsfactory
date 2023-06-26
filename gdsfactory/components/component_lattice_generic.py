@@ -28,7 +28,7 @@ def find_largest_component(component_list: list) -> Component:
 
 @cell
 def component_lattice_generic(
-    network: Optional[List[Component]] = None,
+    network: Optional[List[List]] = None,
 ) -> Component:
     """
     The shape of the `network` matrix determines the physical interconnection.
