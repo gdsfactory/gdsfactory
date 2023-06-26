@@ -30,14 +30,14 @@ settings:
   default:
     angle: 90
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -50,14 +50,14 @@ settings:
   full:
     angle: 90
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -67,8 +67,7 @@ settings:
     p: 0.5
     straight_length: 10.0
     with_arc_floorplan: true
-  function_name: bend_straight_bend
+  function_name: gdsfactory.components.bend_euler.bend_straight_bend
   info: {}
   info_version: 2
-  module: gdsfactory.components.bend_euler
   name: bend_straight_bend

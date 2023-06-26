@@ -20,14 +20,13 @@ settings:
       length: 10.0
       port_type: null
       width: 3.0
-    function_name: cross
+    function_name: gdsfactory.components.cross.cross
     info: {}
     info_version: 2
-    module: gdsfactory.components.cross
     name: cross_layer2__0
   default:
     factory:
-      function: cross
+      function: gdsfactory.components.cross.cross
     layers:
     - - 1
       - 0
@@ -35,14 +34,13 @@ settings:
       - 0
   full:
     factory:
-      function: cross
+      function: gdsfactory.components.cross.cross
     layers:
     - - 1
       - 0
     - - 2
       - 0
-  function_name: copy_layers
+  function_name: gdsfactory.components.copy_layers.copy_layers
   info: {}
   info_version: 2
-  module: gdsfactory.components.copy_layers
   name: cross_layer2__0_copy_layers

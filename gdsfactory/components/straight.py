@@ -69,9 +69,9 @@ if __name__ == "__main__":
 
     nm = 1e-3
     xs = gf.cross_section.strip()
-    print(dict(xs))
-    c = straight(cross_section=xs)
-    print(c.name)
+    c = straight()
+    # print(c.settings)
+    print(c.settings.info["settings"]["add_pins"])
 
     # strip2 = gf.get_cross_section("strip", layer=(2, 0))
     # settings = dict(width=2)

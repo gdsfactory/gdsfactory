@@ -1,44 +1,44 @@
 connections:
-  bend_euler_1,o1: straight_1,o2
-  bend_euler_1,o2: straight_2,o1
-  bend_euler_2,o1: straight_2,o2
-  bend_euler_2,o2: straight_3,o1
-  bend_euler_3,o1: straight_3,o2
-  bend_euler_3,o2: straight_4,o1
-  bend_euler_4,o1: straight_4,o2
-  bend_euler_4,o2: straight_5,o1
-  bend_euler_5,o1: straight_6,o2
-  bend_euler_5,o2: straight_7,o1
-  bend_euler_6,o1: straight_7,o2
-  bend_euler_6,o2: straight_8,o1
-  bend_euler_7,o1: straight_8,o2
-  bend_euler_7,o2: straight_9,o1
-  bend_euler_8,o1: straight_9,o2
-  bend_euler_8,o2: straight_10,o1
+  gdsfactory.components.bend_euler.bend_euler_1,o1: gdsfactory.components.straight.straight_1,o2
+  gdsfactory.components.bend_euler.bend_euler_1,o2: gdsfactory.components.straight.straight_2,o1
+  gdsfactory.components.bend_euler.bend_euler_2,o1: gdsfactory.components.straight.straight_2,o2
+  gdsfactory.components.bend_euler.bend_euler_2,o2: gdsfactory.components.straight.straight_3,o1
+  gdsfactory.components.bend_euler.bend_euler_3,o1: gdsfactory.components.straight.straight_3,o2
+  gdsfactory.components.bend_euler.bend_euler_3,o2: gdsfactory.components.straight.straight_4,o1
+  gdsfactory.components.bend_euler.bend_euler_4,o1: gdsfactory.components.straight.straight_4,o2
+  gdsfactory.components.bend_euler.bend_euler_4,o2: gdsfactory.components.straight.straight_5,o1
+  gdsfactory.components.bend_euler.bend_euler_5,o1: gdsfactory.components.straight.straight_6,o2
+  gdsfactory.components.bend_euler.bend_euler_5,o2: gdsfactory.components.straight.straight_7,o1
+  gdsfactory.components.bend_euler.bend_euler_6,o1: gdsfactory.components.straight.straight_7,o2
+  gdsfactory.components.bend_euler.bend_euler_6,o2: gdsfactory.components.straight.straight_8,o1
+  gdsfactory.components.bend_euler.bend_euler_7,o1: gdsfactory.components.straight.straight_8,o2
+  gdsfactory.components.bend_euler.bend_euler_7,o2: gdsfactory.components.straight.straight_9,o1
+  gdsfactory.components.bend_euler.bend_euler_8,o1: gdsfactory.components.straight.straight_9,o2
+  gdsfactory.components.bend_euler.bend_euler_8,o2: gdsfactory.components.straight.straight_10,o1
 instances:
   b:
-    component: pad_array
+    component: gdsfactory.components.pad.pad_array
     info:
       size:
       - 100.0
       - 100.0
     settings:
       orientation: 90
-  bend_euler_1:
-    component: bend_euler
+  gdsfactory.components.bend_euler.bend_euler_1:
+    component: gdsfactory.components.bend_euler.bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -75,33 +75,33 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-  bend_euler_2:
-    component: bend_euler
+  gdsfactory.components.bend_euler.bend_euler_2:
+    component: gdsfactory.components.bend_euler.bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -138,33 +138,33 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-  bend_euler_3:
-    component: bend_euler
+  gdsfactory.components.bend_euler.bend_euler_3:
+    component: gdsfactory.components.bend_euler.bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -201,33 +201,33 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-  bend_euler_4:
-    component: bend_euler
+  gdsfactory.components.bend_euler.bend_euler_4:
+    component: gdsfactory.components.bend_euler.bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -264,33 +264,33 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-  bend_euler_5:
-    component: bend_euler
+  gdsfactory.components.bend_euler.bend_euler_5:
+    component: gdsfactory.components.bend_euler.bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -327,33 +327,33 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-  bend_euler_6:
-    component: bend_euler
+  gdsfactory.components.bend_euler.bend_euler_6:
+    component: gdsfactory.components.bend_euler.bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -390,33 +390,33 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-  bend_euler_7:
-    component: bend_euler
+  gdsfactory.components.bend_euler.bend_euler_7:
+    component: gdsfactory.components.bend_euler.bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -453,33 +453,33 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-  bend_euler_8:
-    component: bend_euler
+  gdsfactory.components.bend_euler.bend_euler_8:
+    component: gdsfactory.components.bend_euler.bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -516,43 +516,43 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-  straight_1:
-    component: straight
+  gdsfactory.components.straight.straight_1:
+    component: gdsfactory.components.straight.straight
     info:
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 290.0
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -589,44 +589,44 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
       length: 290.0
-  straight_10:
-    component: straight
+  gdsfactory.components.straight.straight_10:
+    component: gdsfactory.components.straight.straight
     info:
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 440.0
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -663,44 +663,44 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
       length: 440.0
-  straight_2:
-    component: straight
+  gdsfactory.components.straight.straight_2:
+    component: gdsfactory.components.straight.straight
     info:
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 380.0
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -737,44 +737,44 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
       length: 380.0
-  straight_3:
-    component: straight
+  gdsfactory.components.straight.straight_3:
+    component: gdsfactory.components.straight.straight
     info:
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 80.0
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -811,44 +811,44 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
       length: 80.0
-  straight_4:
-    component: straight
+  gdsfactory.components.straight.straight_4:
+    component: gdsfactory.components.straight.straight
     info:
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 630.0
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -885,44 +885,44 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
       length: 630.0
-  straight_5:
-    component: straight
+  gdsfactory.components.straight.straight_5:
+    component: gdsfactory.components.straight.straight
     info:
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 590.0
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -959,44 +959,44 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
       length: 590.0
-  straight_6:
-    component: straight
+  gdsfactory.components.straight.straight_6:
+    component: gdsfactory.components.straight.straight
     info:
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 140.0
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -1033,44 +1033,44 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
       length: 140.0
-  straight_7:
-    component: straight
+  gdsfactory.components.straight.straight_7:
+    component: gdsfactory.components.straight.straight
     info:
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 380.0
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -1107,44 +1107,44 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
       length: 380.0
-  straight_8:
-    component: straight
+  gdsfactory.components.straight.straight_8:
+    component: gdsfactory.components.straight.straight
     info:
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 380.0
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -1181,44 +1181,44 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
       length: 380.0
-  straight_9:
-    component: straight
+  gdsfactory.components.straight.straight_9:
+    component: gdsfactory.components.straight.straight
     info:
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 630.0
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -1255,119 +1255,119 @@ instances:
     settings:
       auto_widen: false
       cross_section:
-        function: cross_section
+        function: gdsfactory.cross_section.cross_section
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
           name: strip
       length: 630.0
   t:
-    component: pad_array
+    component: gdsfactory.components.pad.pad_array
     info:
       size:
       - 100.0
       - 100.0
     settings: {}
-name: sample_waypoints_dac9e992
+name: sample_waypoints_d75e5197
 placements:
   b:
     mirror: 0
     rotation: 0
     x: 0.0
     y: 0.0
-  bend_euler_1:
+  gdsfactory.components.bend_euler.bend_euler_1:
     mirror: true
     rotation: 90
     x: 0.0
     y: 290.0
-  bend_euler_2:
+  gdsfactory.components.bend_euler.bend_euler_2:
     mirror: 0
     rotation: 0
     x: 390.0
     y: 300.0
-  bend_euler_3:
+  gdsfactory.components.bend_euler.bend_euler_3:
     mirror: 0
     rotation: 90
     x: 400.0
     y: 390.0
-  bend_euler_4:
+  gdsfactory.components.bend_euler.bend_euler_4:
     mirror: true
     rotation: 180
     x: -240.0
     y: 400.0
-  bend_euler_5:
+  gdsfactory.components.bend_euler.bend_euler_5:
     mirror: true
     rotation: 90
     x: 150.0
     y: 140.0
-  bend_euler_6:
+  gdsfactory.components.bend_euler.bend_euler_6:
     mirror: 0
     rotation: 0
     x: 540.0
     y: 150.0
-  bend_euler_7:
+  gdsfactory.components.bend_euler.bend_euler_7:
     mirror: 0
     rotation: 90
     x: 550.0
     y: 540.0
-  bend_euler_8:
+  gdsfactory.components.bend_euler.bend_euler_8:
     mirror: true
     rotation: 180
     x: -90.0
     y: 550.0
-  straight_1:
+  gdsfactory.components.straight.straight_1:
     mirror: 0
     rotation: 90
     x: 0.0
     y: 0.0
-  straight_10:
+  gdsfactory.components.straight.straight_10:
     mirror: 0
     rotation: 90
     x: -100.0
     y: 560.0
-  straight_2:
+  gdsfactory.components.straight.straight_2:
     mirror: 0
     rotation: 0
     x: 10.0
     y: 300.0
-  straight_3:
+  gdsfactory.components.straight.straight_3:
     mirror: 0
     rotation: 90
     x: 400.0
     y: 310.0
-  straight_4:
+  gdsfactory.components.straight.straight_4:
     mirror: 0
     rotation: 180
     x: 390.0
     y: 400.0
-  straight_5:
+  gdsfactory.components.straight.straight_5:
     mirror: 0
     rotation: 90
     x: -250.0
     y: 410.0
-  straight_6:
+  gdsfactory.components.straight.straight_6:
     mirror: 0
     rotation: 90
     x: 150.0
     y: 0.0
-  straight_7:
+  gdsfactory.components.straight.straight_7:
     mirror: 0
     rotation: 0
     x: 160.0
     y: 150.0
-  straight_8:
+  gdsfactory.components.straight.straight_8:
     mirror: 0
     rotation: 90
     x: 550.0
     y: 160.0
-  straight_9:
+  gdsfactory.components.straight.straight_9:
     mirror: 0
     rotation: 180
     x: 540.0
@@ -1424,10 +1424,10 @@ warnings:
     unconnected_ports:
     - message: 4 unconnected optical ports!
       ports:
-      - straight_1,o1
-      - straight_5,o2
-      - straight_6,o1
-      - straight_10,o2
+      - gdsfactory.components.straight.straight_1,o1
+      - gdsfactory.components.straight.straight_5,o2
+      - gdsfactory.components.straight.straight_6,o1
+      - gdsfactory.components.straight.straight_10,o2
       values:
       - - 0.0
         - 0.0

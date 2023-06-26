@@ -25,8 +25,7 @@ settings:
     core_diameter: 10
     layer_cladding: WGCLAD
     layer_core: WG
-  function_name: fiber
+  function_name: gdsfactory.components.fiber.fiber
   info: {}
   info_version: 2
-  module: gdsfactory.components.fiber
   name: fiber

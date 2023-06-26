@@ -44,11 +44,10 @@ settings:
     width2: 3
     with_bbox: true
     with_two_ports: true
-  function_name: taper
+  function_name: gdsfactory.components.taper.taper
   info:
     length: 10.0
     width1: 0.5
     width2: 3.0
   info_version: 2
-  module: gdsfactory.components.taper
   name: taper_width23

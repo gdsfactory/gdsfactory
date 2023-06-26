@@ -65,10 +65,10 @@ settings:
   child: null
   default:
     bend_s:
-      function: bend_s
+      function: gdsfactory.components.bend_s.bend_s
     bend_s_xsize: null
     coupler:
-      function: mmi1x2
+      function: gdsfactory.components.mmi1x2.mmi1x2
     cross_section: strip
     noutputs: 4
     spacing:
@@ -76,16 +76,16 @@ settings:
     - 50.0
   full:
     bend_s:
-      function: bend_s
+      function: gdsfactory.components.bend_s.bend_s
     bend_s_xsize: null
     coupler:
-      function: mmi1x2
+      function: gdsfactory.components.mmi1x2.mmi1x2
     cross_section: strip
     noutputs: 4
     spacing:
     - 90.0
     - 50.0
-  function_name: splitter_tree
+  function_name: gdsfactory.components.splitter_tree.splitter_tree
   info:
     bend_s:
       end_angle: 0
@@ -93,5 +93,4 @@ settings:
       min_bend_radius: 129.147
       start_angle: 0
   info_version: 2
-  module: gdsfactory.components.splitter_tree
   name: splitter_tree

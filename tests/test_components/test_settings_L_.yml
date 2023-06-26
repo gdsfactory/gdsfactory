@@ -41,8 +41,7 @@ settings:
     - 10
     - 20
     width: 1
-  function_name: L
+  function_name: gdsfactory.components.L.L
   info: {}
   info_version: 2
-  module: gdsfactory.components.L
   name: L

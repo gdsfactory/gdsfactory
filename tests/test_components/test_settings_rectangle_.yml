@@ -75,8 +75,7 @@ settings:
     size:
     - 4.0
     - 2.0
-  function_name: rectangle
+  function_name: gdsfactory.components.rectangle.rectangle
   info: {}
   info_version: 2
-  module: gdsfactory.components.rectangle
   name: rectangle

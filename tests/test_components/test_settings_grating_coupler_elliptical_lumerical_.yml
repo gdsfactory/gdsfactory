@@ -145,11 +145,10 @@ settings:
     - 0.274
     taper_angle: 55
     taper_length: 12.6
-  function_name: grating_coupler_elliptical_lumerical
+  function_name: gdsfactory.components.grating_coupler_elliptical_lumerical.grating_coupler_elliptical_lumerical
   info:
     polarization: te
     wavelength: 1.554
     xinput: -2.43
   info_version: 2
-  module: gdsfactory.components.grating_coupler_elliptical_lumerical
   name: grating_coupler_ellipti_9d85a0c6

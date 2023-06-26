@@ -5,28 +5,28 @@ settings:
   child: null
   default:
     greek_cross_component:
-      function: greek_cross
+      function: gdsfactory.components.greek_cross.greek_cross
     pad:
-      function: pad
+      function: gdsfactory.components.pad.pad
     pad_spacing: 150.0
     pad_via:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - M1
         - M2
         - M3
         vias:
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             enclosure: 2
             layer: VIA1
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIA2
         - null
     xs_metal:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         gap: 5
         layer: M1
@@ -41,28 +41,28 @@ settings:
         width: 10.0
   full:
     greek_cross_component:
-      function: greek_cross
+      function: gdsfactory.components.greek_cross.greek_cross
     pad:
-      function: pad
+      function: gdsfactory.components.pad.pad
     pad_spacing: 150.0
     pad_via:
-      function: via_stack
+      function: gdsfactory.components.via_stack.via_stack
       settings:
         layers:
         - M1
         - M2
         - M3
         vias:
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             enclosure: 2
             layer: VIA1
-        - function: via
+        - function: gdsfactory.components.via.via
           settings:
             layer: VIA2
         - null
     xs_metal:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         gap: 5
         layer: M1
@@ -75,8 +75,7 @@ settings:
         - electrical
         radius: null
         width: 10.0
-  function_name: greek_cross_with_pads
+  function_name: gdsfactory.components.greek_cross.greek_cross_with_pads
   info: {}
   info_version: 2
-  module: gdsfactory.components.greek_cross
   name: greek_cross_with_pads

@@ -29,38 +29,37 @@ settings:
   child: null
   default:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     combiner: null
     delta_length: 10.0
     delta_yright: 0
     length_x: 0.1
     length_y: 0.8
     splitter:
-      function: mmi1x2
+      function: gdsfactory.components.mmi1x2.mmi1x2
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
     with_splitter: true
   full:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     combiner: null
     delta_length: 10.0
     delta_yright: 0
     length_x: 0.1
     length_y: 0.8
     splitter:
-      function: mmi1x2
+      function: gdsfactory.components.mmi1x2.mmi1x2
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
     with_splitter: true
-  function_name: mzi_arms
+  function_name: gdsfactory.components.mzi_arms.mzi_arms
   info: {}
   info_version: 2
-  module: gdsfactory.components.mzi_arms
   name: mzi_arms

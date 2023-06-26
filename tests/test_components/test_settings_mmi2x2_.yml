@@ -57,9 +57,9 @@ settings:
     length_mmi: 5.5
     length_taper: 10.0
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     taper:
-      function: taper
+      function: gdsfactory.components.taper.taper
     width: null
     width_mmi: 2.5
     width_taper: 1.0
@@ -70,15 +70,14 @@ settings:
     length_mmi: 5.5
     length_taper: 10.0
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     taper:
-      function: taper
+      function: gdsfactory.components.taper.taper
     width: null
     width_mmi: 2.5
     width_taper: 1.0
     with_bbox: true
-  function_name: mmi2x2
+  function_name: gdsfactory.components.mmi2x2.mmi2x2
   info: {}
   info_version: 2
-  module: gdsfactory.components.mmi2x2
   name: mmi2x2

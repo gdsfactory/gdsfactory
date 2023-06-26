@@ -29,29 +29,28 @@ settings:
   child: null
   default:
     bend180:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
       settings:
         angle: 180
     columns: 6
     rows: 6
     spacing: 3
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     straight_length: 5.0
   full:
     bend180:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
       settings:
         angle: 180
     columns: 6
     rows: 6
     spacing: 3
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     straight_length: 5.0
-  function_name: cutback_bend180
+  function_name: gdsfactory.components.cutback_bend.cutback_bend180
   info:
     n_bends: 82
   info_version: 2
-  module: gdsfactory.components.cutback_bend
   name: cutback_bend180

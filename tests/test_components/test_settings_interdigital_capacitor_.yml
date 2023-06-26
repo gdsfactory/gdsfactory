@@ -39,8 +39,7 @@ settings:
     fingers: 4
     layer: WG
     thickness: 5.0
-  function_name: interdigital_capacitor
+  function_name: gdsfactory.components.interdigital_capacitor.interdigital_capacitor
   info: {}
   info_version: 2
-  module: gdsfactory.components.interdigital_capacitor
   name: interdigital_capacitor

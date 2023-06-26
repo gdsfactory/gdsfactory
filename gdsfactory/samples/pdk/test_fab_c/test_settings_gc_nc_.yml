@@ -1,4 +1,4 @@
-name: grating_coupler_ellipti_5dd568f3
+name: grating_coupler_ellipti_10f19353
 ports:
   o1:
     center:
@@ -27,11 +27,11 @@ ports:
 settings:
   changed:
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.samples.pdk.fab_c.add_pins
         bbox_layers:
         - - 36
           - 0
@@ -64,11 +64,11 @@ settings:
   full:
     big_last_tooth: false
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.samples.pdk.fab_c.add_pins
         bbox_layers:
         - - 36
           - 0
@@ -92,10 +92,9 @@ settings:
     taper_angle: 40.0
     taper_length: 16.6
     wavelength: 1.554
-  function_name: grating_coupler_elliptical
+  function_name: gdsfactory.components.grating_coupler_elliptical.grating_coupler_elliptical
   info:
     polarization: te
     wavelength: 1.554
   info_version: 2
-  module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_5dd568f3
+  name: grating_coupler_ellipti_10f19353

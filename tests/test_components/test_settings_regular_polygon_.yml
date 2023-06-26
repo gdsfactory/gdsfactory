@@ -85,8 +85,7 @@ settings:
     port_type: placement
     side_length: 10
     sides: 6
-  function_name: regular_polygon
+  function_name: gdsfactory.components.regular_polygon.regular_polygon
   info: {}
   info_version: 2
-  module: gdsfactory.components.regular_polygon
   name: regular_polygon

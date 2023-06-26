@@ -30,22 +30,22 @@ settings:
   default:
     cross_section: strip
     crossing:
-      function: crossing
+      function: gdsfactory.components.crossing_waveguide.crossing
     crossing45:
-      function: crossing45
+      function: gdsfactory.components.crossing_waveguide.crossing45
       settings:
         cross_section: strip
     direction: top
   full:
     cross_section: strip
     crossing:
-      function: crossing
+      function: gdsfactory.components.crossing_waveguide.crossing
     crossing45:
-      function: crossing45
+      function: gdsfactory.components.crossing_waveguide.crossing45
       settings:
         cross_section: strip
     direction: top
-  function_name: compensation_path
+  function_name: gdsfactory.components.crossing_waveguide.compensation_path
   info:
     min_bend_radius: 18.226
     sbend:
@@ -54,5 +54,4 @@ settings:
       min_bend_radius: 18.226
       start_angle: 0
   info_version: 2
-  module: gdsfactory.components.crossing_waveguide
   name: compensation_path

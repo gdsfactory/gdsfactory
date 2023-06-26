@@ -37,18 +37,18 @@ settings:
     length: 10.0
     npoints: 2
     with_bbox: true
-  function_name: straight
+  function_name: gdsfactory.components.straight.straight
   info:
     cross_section: strip
-    function_name: cross_section
+    function_name: gdsfactory.cross_section.cross_section
     length: 10.0
     settings:
       add_bbox: null
       add_pins:
-        function: add_pins
+        function: gdsfactory.add_pins.add_pins
         settings:
           function:
-            function: add_pin_rectangle_inside
+            function: gdsfactory.add_pins.add_pin_rectangle_inside
             settings:
               layer_label: null
               pin_length: 0.001
@@ -83,5 +83,4 @@ settings:
       width_wide: null
     width: 0.5
   info_version: 2
-  module: gdsfactory.components.straight
   name: straight

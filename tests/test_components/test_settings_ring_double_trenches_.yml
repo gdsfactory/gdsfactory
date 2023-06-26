@@ -1,4 +1,4 @@
-name: ring_double_add_trenche_eecddedf
+name: ring_double_add_trenche_3a977e54
 ports:
   o1:
     center:
@@ -51,15 +51,15 @@ ports:
 settings:
   changed:
     component:
-      function: ring_double
+      function: gdsfactory.components.ring_double.ring_double
   child:
     changed: {}
     child: null
     default:
       bend:
-        function: bend_euler
+        function: gdsfactory.components.bend_euler.bend_euler
       coupler_ring:
-        function: coupler_ring
+        function: gdsfactory.components.coupler_ring.coupler_ring
       cross_section: strip
       gap: 0.2
       length_x: 0.01
@@ -67,23 +67,22 @@ settings:
       radius: 10.0
     full:
       bend:
-        function: bend_euler
+        function: gdsfactory.components.bend_euler.bend_euler
       coupler_ring:
-        function: coupler_ring
+        function: gdsfactory.components.coupler_ring.coupler_ring
       cross_section: strip
       gap: 0.2
       length_x: 0.01
       length_y: 0.01
       radius: 10.0
-    function_name: ring_double
+    function_name: gdsfactory.components.ring_double.ring_double
     info: {}
     info_version: 2
-    module: gdsfactory.components.ring_double
     name: ring_double
   default:
     bot: true
     component:
-      function: coupler
+      function: gdsfactory.components.coupler.coupler
     cross_section: rib_with_trenches
     left: false
     right: false
@@ -91,13 +90,12 @@ settings:
   full:
     bot: true
     component:
-      function: ring_double
+      function: gdsfactory.components.ring_double.ring_double
     cross_section: rib_with_trenches
     left: false
     right: false
     top: true
-  function_name: add_trenches
+  function_name: gdsfactory.components.add_trenches.add_trenches
   info: {}
   info_version: 2
-  module: gdsfactory.components.add_trenches
-  name: ring_double_add_trenche_eecddedf
+  name: ring_double_add_trenche_3a977e54

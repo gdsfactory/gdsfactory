@@ -4,7 +4,6 @@ import numpy as np
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 
@@ -12,7 +11,7 @@ from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoin
 def test_get_bundle_from_waypointsB(
     data_regression: DataRegressionFixture,
     check: bool = True,
-) -> Component:
+) -> None:
     ys1 = np.array([0, 5, 10, 15, 30, 40, 50, 60]) + 0.0
     ys2 = np.array([0, 10, 20, 30, 70, 90, 110, 120]) + 500.0
     N = ys1.size
@@ -53,13 +52,12 @@ def test_get_bundle_from_waypointsB(
 
     if check:
         data_regression.check(lengths)
-    return c
 
 
 def test_get_bundle_from_waypointsC(
     data_regression: DataRegressionFixture,
     check: bool = True,
-) -> Component:
+) -> None:
     ys1 = np.array([0, 5, 10, 15, 20, 60, 70, 80, 120, 125])
     ys2 = np.array([0, 5, 10, 20, 25, 30, 40, 55, 60, 65]) - 500.0
     N = ys1.size
@@ -100,13 +98,11 @@ def test_get_bundle_from_waypointsC(
     if check:
         data_regression.check(lengths)
 
-    return c
-
 
 def test_get_bundle_from_waypoints_staggered(
     data_regression: DataRegressionFixture,
     check: bool = True,
-) -> Component:
+) -> None:
     c = gf.Component()
     r = c << gf.components.array(
         component=gf.components.straight, rows=2, columns=1, spacing=(0, 20)
@@ -135,11 +131,8 @@ def test_get_bundle_from_waypoints_staggered(
     if check:
         data_regression.check(lengths)
 
-    return c
-
 
 if __name__ == "__main__":
-    # c = test_get_bundle_from_waypointsC(None, check=False)
-    # c = test_get_bundle_from_waypointsB(None, check=False)
-    c = test_get_bundle_from_waypoints_staggered(None, check=False)
-    c.show(show_ports=True)
+    # test_get_bundle_from_waypointsC(None, check=False)
+    # test_get_bundle_from_waypointsB(None, check=False)
+    test_get_bundle_from_waypoints_staggered(None, check=False)

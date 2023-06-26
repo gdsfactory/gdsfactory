@@ -7,7 +7,7 @@ from gdsfactory.decorators import flatten_invalid_refs
 from gdsfactory.get_netlist import get_netlist_recursive
 
 
-def test_get_netlist_cell_array() -> gf.Component:
+def test_get_netlist_cell_array() -> None:
     c = gf.components.array(
         gf.components.straight(length=10), spacing=(0, 100), columns=1, rows=5
     )
@@ -16,10 +16,9 @@ def test_get_netlist_cell_array() -> gf.Component:
     assert not n["connections"]
     assert len(n["ports"]) == 10
     assert len(n["instances"]) == 5
-    return c
 
 
-def test_get_netlist_cell_array_connecting() -> gf.Component:
+def test_get_netlist_cell_array_connecting() -> None:
     c = gf.components.array(
         gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
     )
@@ -28,11 +27,8 @@ def test_get_netlist_cell_array_connecting() -> gf.Component:
         # we expect a ValueError to be thrown where the serendipitous connections are
         c.get_netlist()
 
-    return c
 
-
-@gf.cell
-def test_get_netlist_simple() -> gf.Component:
+def test_get_netlist_simple() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
@@ -51,11 +47,9 @@ def test_get_netlist_simple() -> gf.Component:
     ]
     assert len(unconnected_optical_port_warnings) == 1
     assert len(unconnected_optical_port_warnings[0]["ports"]) == 4
-    return c
 
 
-@gf.cell
-def test_get_netlist_promoted() -> gf.Component:
+def test_get_netlist_promoted() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
@@ -78,11 +72,9 @@ def test_get_netlist_promoted() -> gf.Component:
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
     assert "warnings" not in netlist
-    return c
 
 
-@gf.cell
-def test_get_netlist_close_enough() -> gf.Component:
+def test_get_netlist_close_enough() -> None:
     """Move connection 1nm inwards."""
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
@@ -96,11 +88,9 @@ def test_get_netlist_close_enough() -> gf.Component:
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
-    return c
 
 
-@gf.cell
-def test_get_netlist_close_enough_fails() -> gf.Component:
+def test_get_netlist_close_enough_fails() -> None:
     """Move connection 1nm outwards."""
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
@@ -110,11 +100,9 @@ def test_get_netlist_close_enough_fails() -> gf.Component:
     netlist = c.get_netlist(tolerance=1)
     connections = netlist["connections"]
     assert len(connections) == 0
-    return c
 
 
-@gf.cell
-def test_get_netlist_close_enough_orthogonal() -> gf.Component:
+def test_get_netlist_close_enough_orthogonal() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
@@ -127,11 +115,9 @@ def test_get_netlist_close_enough_orthogonal() -> gf.Component:
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
-    return c
 
 
-@gf.cell
-def test_get_netlist_close_enough_orthogonal_fails() -> gf.Component:
+def test_get_netlist_close_enough_orthogonal_fails() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
@@ -140,11 +126,9 @@ def test_get_netlist_close_enough_orthogonal_fails() -> gf.Component:
     netlist = c.get_netlist(tolerance=1)
     connections = netlist["connections"]
     assert len(connections) == 0
-    return c
 
 
-@gf.cell
-def test_get_netlist_close_enough_both() -> gf.Component:
+def test_get_netlist_close_enough_both() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
@@ -157,11 +141,9 @@ def test_get_netlist_close_enough_both() -> gf.Component:
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
-    return c
 
 
-@gf.cell
-def test_get_netlist_close_enough_rotated() -> gf.Component:
+def test_get_netlist_close_enough_rotated() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
@@ -174,11 +156,9 @@ def test_get_netlist_close_enough_rotated() -> gf.Component:
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
-    return c
 
 
-@gf.cell
-def test_get_netlist_throws_error_bad_rotation() -> gf.Component:
+def test_get_netlist_throws_error_bad_rotation() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
@@ -187,11 +167,8 @@ def test_get_netlist_throws_error_bad_rotation() -> gf.Component:
     with pytest.raises(ValueError):
         c.get_netlist(tolerance=2)
 
-    return c
 
-
-@gf.cell
-def test_get_netlist_tiny() -> gf.Component:
+def test_get_netlist_tiny() -> None:
     c = gf.Component()
     cc = gf.components.straight(length=0.002)
     i1 = c.add_ref(cc, "i1")
@@ -210,11 +187,9 @@ def test_get_netlist_tiny() -> gf.Component:
     # extracted_port_pair = set(cpairs[0])
     # expected_port_pair = {'i2,o2', 'i1,o1'}
     # assert extracted_port_pair == expected_port_pair
-    return c
 
 
-@gf.cell
-def test_get_netlist_rotated() -> gf.Component:
+def test_get_netlist_rotated() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
@@ -228,11 +203,9 @@ def test_get_netlist_rotated() -> gf.Component:
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
-    return c
 
 
-@gf.cell
-def test_get_netlist_electrical_simple() -> gf.Component:
+def test_get_netlist_electrical_simple() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.wire_straight(), "i1")
     i2 = c.add_ref(gf.components.wire_straight(), "i2")
@@ -246,11 +219,9 @@ def test_get_netlist_electrical_simple() -> gf.Component:
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,e2", "i1,e1"}
     assert extracted_port_pair == expected_port_pair
-    return c
 
 
-@gf.cell
-def test_get_netlist_electrical_rotated_joint() -> gf.Component:
+def test_get_netlist_electrical_rotated_joint() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.wire_straight(), "i1")
     i2 = c.add_ref(gf.components.wire_straight(), "i2")
@@ -263,11 +234,9 @@ def test_get_netlist_electrical_rotated_joint() -> gf.Component:
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,e2", "i1,e1"}
     assert extracted_port_pair == expected_port_pair
-    return c
 
 
-@gf.cell
-def test_get_netlist_electrical_allowable_offset() -> gf.Component:
+def test_get_netlist_electrical_allowable_offset() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.wire_straight(), "i1")
     i2 = c.add_ref(gf.components.wire_straight(), "i2")
@@ -280,11 +249,9 @@ def test_get_netlist_electrical_allowable_offset() -> gf.Component:
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,e2", "i1,e1"}
     assert extracted_port_pair == expected_port_pair
-    return c
 
 
-@gf.cell
-def test_get_netlist_electrical_different_widths() -> gf.Component:
+def test_get_netlist_electrical_different_widths() -> None:
     """Move connection 1nm inwards."""
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(width=1, cross_section="metal1"), "i1")
@@ -298,10 +265,9 @@ def test_get_netlist_electrical_different_widths() -> gf.Component:
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,e2", "i1,e1"}
     assert extracted_port_pair == expected_port_pair
-    return c
 
 
-def test_get_netlist_transformed():
+def test_get_netlist_transformed() -> None:
     rotation_value = 35
     cname = "test_get_netlist_transformed"
     c = gf.Component(cname)

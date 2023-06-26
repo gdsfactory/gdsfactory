@@ -1,4 +1,4 @@
-name: mzi_a2d8b7af
+name: mzi_3b2ec39f
 ports:
   o1:
     center:
@@ -27,14 +27,14 @@ ports:
 settings:
   changed:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
       settings:
         cross_section:
-          function: cross_section
+          function: gdsfactory.cross_section.cross_section
           settings:
             add_bbox: null
             add_pins:
-              function: add_pins
+              function: gdsfactory.samples.pdk.fab_c.add_pins
             bbox_layers:
             - - 36
               - 0
@@ -47,11 +47,11 @@ settings:
             width: 1.0
         with_bbox: true
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.samples.pdk.fab_c.add_pins
         bbox_layers:
         - - 36
           - 0
@@ -63,14 +63,14 @@ settings:
         name: strip
         width: 1.0
     splitter:
-      function: mmi1x2
+      function: gdsfactory.components.mmi1x2.mmi1x2
       settings:
         cross_section:
-          function: cross_section
+          function: gdsfactory.cross_section.cross_section
           settings:
             add_bbox: null
             add_pins:
-              function: add_pins
+              function: gdsfactory.samples.pdk.fab_c.add_pins
             bbox_layers:
             - - 36
               - 0
@@ -84,14 +84,14 @@ settings:
         width: 1.0
         width_mmi: 3
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
       settings:
         cross_section:
-          function: cross_section
+          function: gdsfactory.cross_section.cross_section
           settings:
             add_bbox: null
             add_pins:
-              function: add_pins
+              function: gdsfactory.samples.pdk.fab_c.add_pins
             bbox_layers:
             - - 36
               - 0
@@ -107,7 +107,7 @@ settings:
   default:
     add_optical_ports_arms: false
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     combiner: null
     cross_section: strip
     cross_section_x_bot: null
@@ -123,7 +123,7 @@ settings:
     port_e1_splitter: o2
     splitter: mmi1x2
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
@@ -131,14 +131,14 @@ settings:
   full:
     add_optical_ports_arms: false
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
       settings:
         cross_section:
-          function: cross_section
+          function: gdsfactory.cross_section.cross_section
           settings:
             add_bbox: null
             add_pins:
-              function: add_pins
+              function: gdsfactory.samples.pdk.fab_c.add_pins
             bbox_layers:
             - - 36
               - 0
@@ -152,11 +152,11 @@ settings:
         with_bbox: true
     combiner: null
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.samples.pdk.fab_c.add_pins
         bbox_layers:
         - - 36
           - 0
@@ -179,14 +179,14 @@ settings:
     port_e1_combiner: o2
     port_e1_splitter: o2
     splitter:
-      function: mmi1x2
+      function: gdsfactory.components.mmi1x2.mmi1x2
       settings:
         cross_section:
-          function: cross_section
+          function: gdsfactory.cross_section.cross_section
           settings:
             add_bbox: null
             add_pins:
-              function: add_pins
+              function: gdsfactory.samples.pdk.fab_c.add_pins
             bbox_layers:
             - - 36
               - 0
@@ -200,14 +200,14 @@ settings:
         width: 1.0
         width_mmi: 3
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
       settings:
         cross_section:
-          function: cross_section
+          function: gdsfactory.cross_section.cross_section
           settings:
             add_bbox: null
             add_pins:
-              function: add_pins
+              function: gdsfactory.samples.pdk.fab_c.add_pins
             bbox_layers:
             - - 36
               - 0
@@ -223,8 +223,7 @@ settings:
     straight_x_top: null
     straight_y: null
     with_splitter: true
-  function_name: mzi
+  function_name: gdsfactory.components.mzi.mzi
   info: {}
   info_version: 2
-  module: gdsfactory.components.mzi
-  name: mzi_a2d8b7af
+  name: mzi_3b2ec39f

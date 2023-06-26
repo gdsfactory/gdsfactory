@@ -1,4 +1,4 @@
-name: straight_heater_metal_u_5bdea33f
+name: straight_heater_metal_u_bff61c75
 ports:
   e1:
     center:
@@ -63,7 +63,7 @@ ports:
 settings:
   changed:
     component:
-      component: straight_heater_metal_undercut
+      component: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
       settings:
         length: 100.0
         with_undercut: false
@@ -72,7 +72,7 @@ settings:
   child:
     changed:
       component:
-        component: straight_heater_metal_undercut
+        component: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
         settings:
           length: 100.0
           with_undercut: false
@@ -113,16 +113,15 @@ settings:
         port_orientation2: 0
         via_stack: via_stack_heater_mtop
         with_undercut: false
-      function_name: straight_heater_metal_undercut
+      function_name: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
       info:
         resistance: null
       info_version: 2
-      module: gdsfactory.components.straight_heater_metal
       name: straight_heater_metal_u_b4c23abf
     default:
       bend: wire_corner
       component:
-        function: straight_heater_metal_undercut
+        function: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
         settings:
           with_undercut: false
       component_name: null
@@ -130,7 +129,7 @@ settings:
       get_input_labels_function: null
       layer_label: TEXT
       pad:
-        function: pad
+        function: gdsfactory.components.pad.pad
         settings:
           size: pad_size
       pad_port_labels: null
@@ -138,14 +137,14 @@ settings:
       pad_spacing: pad_spacing
       port_names: null
       select_ports:
-        function: select_ports
+        function: gdsfactory.port.select_ports
         settings:
           port_type: electrical
       straight_separation: null
     full:
       bend: wire_corner
       component:
-        component: straight_heater_metal_undercut
+        component: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
         settings:
           length: 100.0
           with_undercut: false
@@ -154,7 +153,7 @@ settings:
       get_input_labels_function: null
       layer_label: TEXT
       pad:
-        function: pad
+        function: gdsfactory.components.pad.pad
         settings:
           size: pad_size
       pad_port_labels: null
@@ -163,32 +162,30 @@ settings:
       port_names:
       - e1
       select_ports:
-        function: select_ports
+        function: gdsfactory.port.select_ports
         settings:
           port_type: electrical
       straight_separation: null
-    function_name: add_pads_bot
+    function_name: gdsfactory.routing.add_pads.add_pads_bot
     info:
       resistance: null
     info_version: 2
-    module: gdsfactory.routing.add_pads
-    name: straight_heater_metal_u_9190deb4
+    name: straight_heater_metal_u_bd79d305
   default:
     component:
-      function: straight_heater_metal_undercut
+      function: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
       settings:
         with_undercut: false
   full:
     component:
-      component: straight_heater_metal_undercut
+      component: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
       settings:
         length: 100.0
         with_undercut: false
     port_names:
     - e1
-  function_name: add_pads_top
+  function_name: gdsfactory.routing.add_pads.add_pads_top
   info:
     resistance: null
   info_version: 2
-  module: gdsfactory.routing.add_pads
-  name: straight_heater_metal_u_5bdea33f
+  name: straight_heater_metal_u_bff61c75

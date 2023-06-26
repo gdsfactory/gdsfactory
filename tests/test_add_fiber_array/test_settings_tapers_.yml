@@ -1,4 +1,4 @@
-name: straight_length20_width_85caa607
+name: straight_length20_width_f50308e4
 ports:
   opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-loopback0:
     center:
@@ -51,10 +51,10 @@ ports:
 settings:
   changed:
     component:
-      component: add_tapers
+      component: gdsfactory.add_tapers.add_tapers
       settings:
         component:
-          component: straight
+          component: gdsfactory.components.straight.straight
           settings:
             length: 20
             width: 2
@@ -62,7 +62,7 @@ settings:
   child:
     changed:
       component:
-        component: straight
+        component: gdsfactory.components.straight.straight
         settings:
           length: 20
           width: 2
@@ -82,18 +82,18 @@ settings:
         npoints: 2
         width: 2
         with_bbox: true
-      function_name: straight
+      function_name: gdsfactory.components.straight.straight
       info:
         cross_section: strip
-        function_name: cross_section
+        function_name: gdsfactory.cross_section.cross_section
         length: 20.0
         settings:
           add_bbox: null
           add_pins:
-            function: add_pins
+            function: gdsfactory.add_pins.add_pins
             settings:
               function:
-                function: add_pin_rectangle_inside
+                function: gdsfactory.add_pins.add_pin_rectangle_inside
                 settings:
                   layer_label: null
                   pin_length: 0.001
@@ -128,43 +128,42 @@ settings:
           width_wide: null
         width: 2.0
       info_version: 2
-      module: gdsfactory.components.straight
       name: straight_length20_width2
     default:
       select_ports:
-        function: select_ports
+        function: gdsfactory.port.select_ports
         settings:
           port_type: optical
       taper:
-        function: taper
+        function: gdsfactory.components.taper.taper
       taper_port_name1: o1
       taper_port_name2: o2
     full:
       component:
-        component: straight
+        component: gdsfactory.components.straight.straight
         settings:
           length: 20
           width: 2
       select_ports:
-        function: select_ports
+        function: gdsfactory.port.select_ports
         settings:
           port_type: optical
       taper:
-        function: taper
+        function: gdsfactory.components.taper.taper
       taper_port_name1: o1
       taper_port_name2: o2
-    function_name: add_tapers
+    function_name: gdsfactory.add_tapers.add_tapers
     info:
       cross_section: strip
-      function_name: cross_section
+      function_name: gdsfactory.cross_section.cross_section
       length: 20.0
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -199,36 +198,35 @@ settings:
         width_wide: null
       width: 2.0
     info_version: 2
-    module: gdsfactory.add_tapers
-    name: straight_length20_width_13f2a4af
+    name: straight_length20_width_cbeccc72
   default:
     component:
-      function: straight
+      function: gdsfactory.components.straight.straight
     component_name: null
     cross_section: strip
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
-      function: get_input_labels
+      function: gdsfactory.routing.get_input_labels.get_input_labels
       settings:
         get_input_label_text_function:
-          function: get_input_label_text_dash
+          function: gdsfactory.add_labels.get_input_label_text_dash
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      function: gdsfactory.components.grating_coupler_elliptical_trenches.grating_coupler_elliptical_trenches
       settings:
         polarization: te
         taper_angle: 35
     layer_label: TEXT
     select_ports:
-      function: select_ports
+      function: gdsfactory.port.select_ports
       settings:
         port_type: optical
   full:
     component:
-      component: add_tapers
+      component: gdsfactory.add_tapers.add_tapers
       settings:
         component:
-          component: straight
+          component: gdsfactory.components.straight.straight
           settings:
             length: 20
             width: 2
@@ -237,25 +235,25 @@ settings:
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
-      function: get_input_labels
+      function: gdsfactory.routing.get_input_labels.get_input_labels
       settings:
         get_input_label_text_function:
-          function: get_input_label_text_dash
+          function: gdsfactory.add_labels.get_input_label_text_dash
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      function: gdsfactory.components.grating_coupler_elliptical_trenches.grating_coupler_elliptical_trenches
       settings:
         polarization: te
         taper_angle: 35
     layer_label: TEXT
     optical_routing_type: 0
     select_ports:
-      function: select_ports
+      function: gdsfactory.port.select_ports
       settings:
         port_type: optical
-  function_name: add_fiber_array
+  function_name: gdsfactory.routing.add_fiber_array.add_fiber_array
   info:
     cross_section: strip
-    function_name: cross_section
+    function_name: gdsfactory.cross_section.cross_section
     grating_coupler:
       period: 0.676
       polarization: te
@@ -264,10 +262,10 @@ settings:
     settings:
       add_bbox: null
       add_pins:
-        function: add_pins
+        function: gdsfactory.add_pins.add_pins
         settings:
           function:
-            function: add_pin_rectangle_inside
+            function: gdsfactory.add_pins.add_pin_rectangle_inside
             settings:
               layer_label: null
               pin_length: 0.001
@@ -302,5 +300,4 @@ settings:
       width_wide: null
     width: 2.0
   info_version: 2
-  module: gdsfactory.routing.add_fiber_array
-  name: straight_length20_width_85caa607
+  name: straight_length20_width_f50308e4

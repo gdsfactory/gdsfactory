@@ -29,7 +29,7 @@ settings:
     spacing:
     - 2.0
     - 2.0
-  function_name: via
+  function_name: gdsfactory.components.via.via
   info:
     enclosure: 2.0
     size:
@@ -39,5 +39,4 @@ settings:
     - 2.0
     - 2.0
   info_version: 2
-  module: gdsfactory.components.via
   name: via_enclosure2_layerVIA1

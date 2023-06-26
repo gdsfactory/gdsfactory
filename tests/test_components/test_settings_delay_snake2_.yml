@@ -41,8 +41,7 @@ settings:
     length0: 0.0
     length2: 0.0
     n: 2
-  function_name: delay_snake2
+  function_name: gdsfactory.components.delay_snake2.delay_snake2
   info: {}
   info_version: 2
-  module: gdsfactory.components.delay_snake2
   name: delay_snake2

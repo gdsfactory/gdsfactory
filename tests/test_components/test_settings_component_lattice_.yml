@@ -107,8 +107,7 @@ settings:
     grid_per_unit: 1000
     lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
     symbol_to_component: null
-  function_name: component_lattice
+  function_name: gdsfactory.components.component_lattice.component_lattice
   info: {}
   info_version: 2
-  module: gdsfactory.components.component_lattice
   name: component_lattice

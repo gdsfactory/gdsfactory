@@ -42,15 +42,14 @@ settings:
   default:
     cross_section: strip
     s_bend:
-      function: bend_s
+      function: gdsfactory.components.bend_s.bend_s
     with_sbend: true
   full:
     cross_section: strip
     s_bend:
-      function: bend_s
+      function: gdsfactory.components.bend_s.bend_s
     with_sbend: true
-  function_name: mmi1x2_with_sbend
+  function_name: gdsfactory.components.mmi1x2_with_sbend.mmi1x2_with_sbend
   info: {}
   info_version: 2
-  module: gdsfactory.components.mmi1x2_with_sbend
   name: mmi1x2_with_sbend

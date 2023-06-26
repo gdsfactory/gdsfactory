@@ -76,24 +76,24 @@ settings:
     delta_lengths:
     - 10.0
     mzi:
-      function: mzi
+      function: gdsfactory.components.mzi.mzi
       settings:
         combiner:
-          function: mmi2x2
+          function: gdsfactory.components.mmi2x2.mmi2x2
         port_e0_combiner: o4
         port_e0_splitter: o4
         port_e1_combiner: o3
         port_e1_splitter: o3
         splitter:
-          function: mmi2x2
+          function: gdsfactory.components.mmi2x2.mmi2x2
     splitter:
-      function: mmi2x2
+      function: gdsfactory.components.mmi2x2.mmi2x2
     straight_functions_mmis:
-    - function: straight
-    - function: straight
+    - function: gdsfactory.components.straight.straight
+    - function: gdsfactory.components.straight.straight
     taper_functions_mmis:
-    - function: taper
-    - function: taper
+    - function: gdsfactory.components.taper.taper
+    - function: gdsfactory.components.taper.taper
   full:
     coupler_gaps_mmis:
     - 0.25
@@ -119,26 +119,25 @@ settings:
     delta_lengths:
     - 10.0
     mzi:
-      function: mzi
+      function: gdsfactory.components.mzi.mzi
       settings:
         combiner:
-          function: mmi2x2
+          function: gdsfactory.components.mmi2x2.mmi2x2
         port_e0_combiner: o4
         port_e0_splitter: o4
         port_e1_combiner: o3
         port_e1_splitter: o3
         splitter:
-          function: mmi2x2
+          function: gdsfactory.components.mmi2x2.mmi2x2
     splitter:
-      function: mmi2x2
+      function: gdsfactory.components.mmi2x2.mmi2x2
     straight_functions_mmis:
-    - function: straight
-    - function: straight
+    - function: gdsfactory.components.straight.straight
+    - function: gdsfactory.components.straight.straight
     taper_functions_mmis:
-    - function: taper
-    - function: taper
-  function_name: mzi_lattice_mmi
+    - function: gdsfactory.components.taper.taper
+    - function: gdsfactory.components.taper.taper
+  function_name: gdsfactory.components.mzi_lattice.mzi_lattice_mmi
   info: {}
   info_version: 2
-  module: gdsfactory.components.mzi_lattice
   name: mzi_lattice_mmi

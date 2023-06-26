@@ -61,18 +61,18 @@ settings:
     delta_lengths:
     - 10.0
     mzi:
-      function: mzi
+      function: gdsfactory.components.mzi.mzi
       settings:
         combiner:
-          function: coupler
+          function: gdsfactory.components.coupler.coupler
         port_e0_combiner: o4
         port_e0_splitter: o4
         port_e1_combiner: o3
         port_e1_splitter: o3
         splitter:
-          function: coupler
+          function: gdsfactory.components.coupler.coupler
     splitter:
-      function: coupler
+      function: gdsfactory.components.coupler.coupler
   full:
     coupler_gaps:
     - 0.2
@@ -83,20 +83,19 @@ settings:
     delta_lengths:
     - 10.0
     mzi:
-      function: mzi
+      function: gdsfactory.components.mzi.mzi
       settings:
         combiner:
-          function: coupler
+          function: gdsfactory.components.coupler.coupler
         port_e0_combiner: o4
         port_e0_splitter: o4
         port_e1_combiner: o3
         port_e1_splitter: o3
         splitter:
-          function: coupler
+          function: gdsfactory.components.coupler.coupler
     splitter:
-      function: coupler
-  function_name: mzi_lattice
+      function: gdsfactory.components.coupler.coupler
+  function_name: gdsfactory.components.mzi_lattice.mzi_lattice
   info: {}
   info_version: 2
-  module: gdsfactory.components.mzi_lattice
   name: mzi_lattice

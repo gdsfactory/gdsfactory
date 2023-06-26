@@ -61,7 +61,7 @@ settings:
     delta_lengths:
     - 10.0
     mzi:
-      function: mzit
+      function: gdsfactory.components.mzit.mzit
   full:
     coupler_gaps:
     - 0.2
@@ -72,9 +72,8 @@ settings:
     delta_lengths:
     - 10.0
     mzi:
-      function: mzit
-  function_name: mzit_lattice
+      function: gdsfactory.components.mzit.mzit
+  function_name: gdsfactory.components.mzit_lattice.mzit_lattice
   info: {}
   info_version: 2
-  module: gdsfactory.components.mzit_lattice
   name: mzit_lattice

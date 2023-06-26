@@ -32,7 +32,7 @@ settings:
     cross_section: strip
     length: 0
     neff_w:
-      function: <lambda>
+      function: gdsfactory.components.taper_adiabatic.<lambda>
     npoints: 200
     wavelength: 1.55
     width1: 0.5
@@ -42,13 +42,12 @@ settings:
     cross_section: strip
     length: 0
     neff_w:
-      function: <lambda>
+      function: gdsfactory.components.taper_adiabatic.<lambda>
     npoints: 200
     wavelength: 1.55
     width1: 0.5
     width2: 5.0
-  function_name: taper_adiabatic
+  function_name: gdsfactory.components.taper_adiabatic.taper_adiabatic
   info: {}
   info_version: 2
-  module: gdsfactory.components.taper_adiabatic
   name: taper_adiabatic

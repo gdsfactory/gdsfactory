@@ -1,4 +1,4 @@
-name: mzi_99ca1007
+name: mzi_afe43968
 ports:
   o1:
     center:
@@ -52,14 +52,14 @@ settings:
   changed:
     length_x: 200
     straight_x_top:
-      function: straight_heater_metal_undercut
+      function: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
       settings:
         with_undercut: false
   child: null
   default:
     add_optical_ports_arms: false
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     combiner: null
     cross_section: strip
     cross_section_x_bot: null
@@ -75,7 +75,7 @@ settings:
     port_e1_splitter: o2
     splitter: mmi1x2
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
@@ -83,7 +83,7 @@ settings:
   full:
     add_optical_ports_arms: false
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     combiner: null
     cross_section: strip
     cross_section_x_bot: null
@@ -99,16 +99,15 @@ settings:
     port_e1_splitter: o2
     splitter: mmi1x2
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
     straight_x_bot: null
     straight_x_top:
-      function: straight_heater_metal_undercut
+      function: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
       settings:
         with_undercut: false
     straight_y: null
     with_splitter: true
-  function_name: mzi
+  function_name: gdsfactory.components.mzi.mzi
   info: {}
   info_version: 2
-  module: gdsfactory.components.mzi
-  name: mzi_99ca1007
+  name: mzi_afe43968

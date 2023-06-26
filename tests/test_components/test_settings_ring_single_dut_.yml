@@ -29,13 +29,13 @@ settings:
   child: null
   default:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     component:
-      function: taper
+      function: gdsfactory.components.taper.taper
       settings:
         width2: 3
     coupler:
-      function: coupler_ring
+      function: gdsfactory.components.coupler_ring.coupler_ring
     gap: 0.2
     length_x: 4
     length_y: 0
@@ -44,25 +44,24 @@ settings:
     with_component: true
   full:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     component:
-      function: taper
+      function: gdsfactory.components.taper.taper
       settings:
         width2: 3
     coupler:
-      function: coupler_ring
+      function: gdsfactory.components.coupler_ring.coupler_ring
     gap: 0.2
     length_x: 4
     length_y: 0
     port_name: o1
     radius: 5.0
     with_component: true
-  function_name: ring_single_dut
+  function_name: gdsfactory.components.ring_single_dut.ring_single_dut
   info:
     component:
       length: 10.0
       width1: 0.5
       width2: 3.0
   info_version: 2
-  module: gdsfactory.components.ring_single_dut
   name: ring_single_dut

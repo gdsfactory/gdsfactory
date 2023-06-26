@@ -103,14 +103,13 @@ settings:
     n: 4
     spacing: 4.0
     straight:
-      function: straight
+      function: gdsfactory.components.straight.straight
   full:
     n: 4
     spacing: 4.0
     straight:
-      function: straight
-  function_name: straight_array
+      function: gdsfactory.components.straight.straight
+  function_name: gdsfactory.components.straight_array.straight_array
   info: {}
   info_version: 2
-  module: gdsfactory.components.straight_array
   name: straight_array

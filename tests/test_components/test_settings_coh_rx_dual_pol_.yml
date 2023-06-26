@@ -5,7 +5,7 @@ settings:
   child: null
   default:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     cross_section: strip
     lo_input_coupler: null
     lo_splitter: mmi1x2
@@ -14,10 +14,10 @@ settings:
     single_pol_rx_spacing: 50.0
     splitter_coh_rx_spacing: 40.0
     spol_coh_rx:
-      function: coh_rx_single_pol
+      function: gdsfactory.components.coh_rx_single_pol.coh_rx_single_pol
   full:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     cross_section: strip
     lo_input_coupler: null
     lo_splitter: mmi1x2
@@ -26,9 +26,8 @@ settings:
     single_pol_rx_spacing: 50.0
     splitter_coh_rx_spacing: 40.0
     spol_coh_rx:
-      function: coh_rx_single_pol
-  function_name: coh_rx_dual_pol
+      function: gdsfactory.components.coh_rx_single_pol.coh_rx_single_pol
+  function_name: gdsfactory.components.coh_rx_dual_pol.coh_rx_dual_pol
   info: {}
   info_version: 2
-  module: gdsfactory.components.coh_rx_dual_pol
   name: coh_rx_dual_pol

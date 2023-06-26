@@ -5,7 +5,7 @@ settings:
   child: null
   default: {}
   full: {}
-  function_name: all_angle_routes
+  function_name: yaml_jinja.all_angle_routes
   info:
     instances:
     - wg_ra0
@@ -38,5 +38,4 @@ settings:
     - wg_d1
     - wg_d2
   info_version: 2
-  module: yaml_jinja
   name: all_angle_routes

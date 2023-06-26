@@ -53,9 +53,9 @@ settings:
   child: null
   default:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     coupler_ring:
-      function: coupler_ring
+      function: gdsfactory.components.coupler_ring.coupler_ring
     cross_section: strip
     gap: 0.2
     length_x: 0.01
@@ -63,16 +63,15 @@ settings:
     radius: 10.0
   full:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     coupler_ring:
-      function: coupler_ring
+      function: gdsfactory.components.coupler_ring.coupler_ring
     cross_section: strip
     gap: 0.2
     length_x: 0.01
     length_y: 0.01
     radius: 10.0
-  function_name: ring_double
+  function_name: gdsfactory.components.ring_double.ring_double
   info: {}
   info_version: 2
-  module: gdsfactory.components.ring_double
   name: ring_double

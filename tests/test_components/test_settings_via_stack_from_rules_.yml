@@ -75,11 +75,11 @@ settings:
     - - 0.2
       - 0.2
     vias:
-    - function: via
+    - function: gdsfactory.components.via.via
       settings:
         enclosure: 2
         layer: VIA1
-    - function: via
+    - function: gdsfactory.components.via.via
       settings:
         layer: VIA2
   full:
@@ -106,14 +106,14 @@ settings:
     - - 0.2
       - 0.2
     vias:
-    - function: via
+    - function: gdsfactory.components.via.via
       settings:
         enclosure: 2
         layer: VIA1
-    - function: via
+    - function: gdsfactory.components.via.via
       settings:
         layer: VIA2
-  function_name: via_stack_from_rules
+  function_name: gdsfactory.components.via_stack.via_stack_from_rules
   info:
     layer: M3
     size:
@@ -135,5 +135,4 @@ settings:
       - 0.4
       - 0.4
   info_version: 2
-  module: gdsfactory.components.via_stack
   name: via_stack_from_rules

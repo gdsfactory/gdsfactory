@@ -63,7 +63,7 @@ settings:
     sizes: null
     vias:
     - null
-    - function: via
+    - function: gdsfactory.components.via.via
       settings:
         layer: VIAC
   full:
@@ -78,11 +78,10 @@ settings:
     sizes: null
     vias:
     - null
-    - function: via
+    - function: gdsfactory.components.via.via
       settings:
         layer: VIAC
-  function_name: via_stack_with_offset
+  function_name: gdsfactory.components.via_stack_with_offset.via_stack_with_offset
   info: {}
   info_version: 2
-  module: gdsfactory.components.via_stack_with_offset
   name: via_stack_with_offset

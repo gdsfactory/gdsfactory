@@ -9,18 +9,18 @@ settings:
       N: 6
       asymmetric_cross_section: false
       bend180:
-        function: bend_euler
+        function: gdsfactory.components.bend_euler.bend_euler
         settings:
           angle: 180
       bend90:
-        function: bend_euler
+        function: gdsfactory.components.bend_euler.bend_euler
       cross_section: strip
       cross_section_bend: null
       cross_section_bend180: null
       grating_spacing: 127.0
       length: null
       straight:
-        function: straight
+        function: gdsfactory.components.straight.straight
       waveguide_spacing: 3.0
       x_straight_inner_left: 50.0
       x_straight_inner_right: 150.0
@@ -30,45 +30,44 @@ settings:
       N: 6
       asymmetric_cross_section: false
       bend180:
-        function: bend_euler
+        function: gdsfactory.components.bend_euler.bend_euler
         settings:
           angle: 180
       bend90:
-        function: bend_euler
+        function: gdsfactory.components.bend_euler.bend_euler
       cross_section: strip
       cross_section_bend: null
       cross_section_bend180: null
       grating_spacing: 127.0
       length: null
       straight:
-        function: straight
+        function: gdsfactory.components.straight.straight
       waveguide_spacing: 3.0
       x_straight_inner_left: 50.0
       x_straight_inner_right: 150.0
       y_straight_inner_bottom: 10.0
       y_straight_inner_top: 50.0
-    function_name: spiral_inner_io
+    function_name: gdsfactory.components.spiral_inner_io.spiral_inner_io
     info:
       length: 11584.393
     info_version: 2
-    module: gdsfactory.components.spiral_inner_io
     name: spiral_inner_io
   default:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     bend_radius_loopback: null
     component:
-      function: spiral_inner_io
+      function: gdsfactory.components.spiral_inner_io.spiral_inner_io
     component_name: null
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -77,9 +76,9 @@ settings:
     gc_port_name: o1
     gc_rotation: -90
     get_input_labels_function:
-      function: get_input_labels
+      function: gdsfactory.routing.get_input_labels.get_input_labels
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      function: gdsfactory.components.grating_coupler_elliptical_trenches.grating_coupler_elliptical_trenches
       settings:
         polarization: te
         taper_angle: 35
@@ -91,27 +90,27 @@ settings:
     loopback_yspacing: 4.0
     nlabels_loopback: 2
     select_ports:
-      function: select_ports
+      function: gdsfactory.port.select_ports
       settings:
         port_type: optical
     straight_separation: 5.0
     with_loopback: false
   full:
     bend:
-      function: bend_euler
+      function: gdsfactory.components.bend_euler.bend_euler
     bend_radius_loopback: null
     component:
-      function: spiral_inner_io
+      function: gdsfactory.components.spiral_inner_io.spiral_inner_io
     component_name: null
     cross_section:
-      function: cross_section
+      function: gdsfactory.cross_section.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: add_pins
+          function: gdsfactory.add_pins.add_pins
           settings:
             function:
-              function: add_pin_rectangle_inside
+              function: gdsfactory.add_pins.add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -120,9 +119,9 @@ settings:
     gc_port_name: o1
     gc_rotation: -90
     get_input_labels_function:
-      function: get_input_labels
+      function: gdsfactory.routing.get_input_labels.get_input_labels
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      function: gdsfactory.components.grating_coupler_elliptical_trenches.grating_coupler_elliptical_trenches
       settings:
         polarization: te
         taper_angle: 35
@@ -134,16 +133,15 @@ settings:
     loopback_yspacing: 4.0
     nlabels_loopback: 2
     select_ports:
-      function: select_ports
+      function: gdsfactory.port.select_ports
       settings:
         port_type: optical
     straight_separation: 5.0
     with_loopback: false
-  function_name: add_grating_couplers_with_loopback_fiber_array
+  function_name: gdsfactory.components.add_grating_couplers.add_grating_couplers_with_loopback_fiber_array
   info:
     length: 11584.393
     polarization: te
     wavelength: 1.53
   info_version: 2
-  module: gdsfactory.components.add_grating_couplers
   name: spiral_inner_io_add_gra_f2760628

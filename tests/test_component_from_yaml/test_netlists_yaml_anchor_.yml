@@ -1,16 +1,16 @@
 connections: {}
 instances:
   mmi_long:
-    component: mmi1x2
+    component: gdsfactory.components.mmi1x2.mmi1x2
     settings:
       length_mmi: 10
       width_mmi: 4.5
   mmi_short:
-    component: mmi1x2
+    component: gdsfactory.components.mmi1x2.mmi1x2
     settings:
       length_mmi: 5
       width_mmi: 4.5
-name: yaml_anchor_14cbc915
+name: yaml_anchor_07e1af6d
 placements:
   mmi_long:
     mirror: 0

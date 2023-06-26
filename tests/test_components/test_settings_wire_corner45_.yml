@@ -33,9 +33,8 @@ settings:
   full:
     cross_section: metal_routing
     radius: 10
-  function_name: wire_corner45
+  function_name: gdsfactory.components.wire.wire_corner45
   info:
     length: 14.142
   info_version: 2
-  module: gdsfactory.components.wire
   name: wire_corner45
