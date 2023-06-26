@@ -32,10 +32,20 @@ def component_lattice_generic(
 ) -> Component:
     """
     The shape of the `network` matrix determines the physical interconnection.
-    Note that there should be at least S+1=N modes based on this formalism of interconnection,
-    and the position of the component implements a connectivity in between the modes, and assumes a 2x2 network encoding.
-    One nice functionality by this component is that it can generate a component lattice for generic variable components with different x and y pitches.
-    Initially this will maximise the surface area required but different placement algorithms can compact the size.
+    Note that there should be at least S+1=N modes
+    based on this formalism of interconnection,
+    and the position of the component implements a connectivity in between the modes,
+    and assumes a 2x2 network encoding.
+    One nice functionality by this component is that it can generate a
+    component lattice for generic variable components with different x and y pitches.
+    Initially this will maximise the surface area required
+    but different placement algorithms can compact the size.
+
+    Args:
+        network: A list of lists of components that are to be placed in the lattice.
+
+    Returns:
+        Component: A component lattice that implements the physical network.
 
     The placement matrix is in this form:
     .. math::
@@ -57,7 +67,8 @@ def component_lattice_generic(
         c = gf.components.component_lattice_generic(example_component_lattice)
 
 
-    Another example that demonstrates the generic-nature of this component lattice algorithm can be with an mixed set of actively driven and passiver interferometers.
+    Another example that demonstrates the generic-nature of this component lattice
+    algorithm can be with an mixed set of actively driven and passiver interferometers.
     The placement matrix is in this form:
 
     .. math::
@@ -82,12 +93,6 @@ def component_lattice_generic(
     # TODO implement balanced waveguide paths function per stage
     # TODO automatic electrical fanout?
     # TODO multiple placement optimization algorithms.
-
-    Args:
-        network: A list of lists of components that are to be placed in the lattice.
-
-    Returns:
-        Component: A component lattice that implements the physical network.
     """
 
     network = network or [
@@ -102,7 +107,8 @@ def component_lattice_generic(
     if network.ndim != 2:
         # Get the length and then width of the array
         raise AttributeError(
-            "Physical network dimensions don't work. Check the dimensional structure of your network matrix."
+            "Physical network dimensions don't work."
+            "Check the dimensional structure of your network matrix."
         )
 
     C = Component()
@@ -125,7 +131,7 @@ def component_lattice_generic(
     y_component_pitch = y_length / mode_amount
     x_mode_pitch = x_length / mode_amount
     y_mode_pitch = y_length / mode_amount
-    # For code-maintenance, each distinct operation on the network is a separate iteration for-loop so new
+    # each distinct operation on the network is a separate iteration for-loop so new
     # functionality can be extended and easily identified.
 
     # Create all the waveguides inputs and outputs
