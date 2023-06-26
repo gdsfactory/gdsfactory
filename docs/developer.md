@@ -106,7 +106,7 @@ from gdsfactory.difftest import difftest
 from gdsfactory.samples.pdk.fab_c import cells
 
 cell_names = list(cells.keys())
-
+dirpath = pathlib.Path(__file__).absolute().with_suffix(".gds")
 
 @pytest.fixture(params=cell_names, scope="function")
 def component_name(request) -> str:
@@ -121,7 +121,7 @@ def test_gds(component_name: str) -> None:
     """
     component = cells[component_name]()
     test_name = f"fabc_{component_name}"
-    difftest(component, test_name=test_name)
+    difftest(component, test_name=test_name, dirpath=dirpath)
 
 
 def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
