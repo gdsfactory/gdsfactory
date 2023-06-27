@@ -18,7 +18,6 @@ cells:
       cross_section: strip
       function_name: cross_section
       length: 1.234
-      module: gdsfactory.cross_section
       settings:
         add_bbox: null
         add_pins:
@@ -107,7 +106,6 @@ settings:
     cross_section: strip
     function_name: cross_section
     length: 1.234
-    module: gdsfactory.cross_section
     settings:
       add_bbox: null
       add_pins:

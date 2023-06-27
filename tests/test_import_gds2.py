@@ -58,7 +58,7 @@ def _write() -> None:
 
 
 if __name__ == "__main__":
-    # _write()  # run this in case you want to regenerate the tests
+    _write()  # run this in case you want to regenerate the tests
 
     # test_mix_cells_from_gds_and_from_function()
     test_read_gds_equivalent()
