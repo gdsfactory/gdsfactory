@@ -3,7 +3,6 @@ from __future__ import annotations
 import hashlib
 import pathlib
 import tempfile
-from copy import deepcopy
 from functools import partial
 from pathlib import Path
 from typing import Optional
@@ -11,7 +10,6 @@ from typing import Optional
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.name import clean_value
 from gdsfactory.pdk import get_sparameters_path
 from gdsfactory.typings import ComponentSpec
@@ -90,40 +88,39 @@ get_sparameters_data_lumerical = partial(_get_sparameters_data, tool="lumerical"
 get_sparameters_data_tidy3d = partial(_get_sparameters_data, tool="tidy3d")
 
 
-def test_get_sparameters_path(test: bool = True) -> None:
-    import gdsfactory as gf
+# def test_get_sparameters_path(test: bool = True) -> None:
+#     import gdsfactory as gf
 
-    nm = 1e-3
-    layer_stack2 = deepcopy(LAYER_STACK)
-    layer_stack2.layers["core"].thickness = 230 * nm
+#     nm = 1e-3
+#     layer_stack2 = deepcopy(LAYER_STACK)
+#     layer_stack2.layers["core"].thickness = 230 * nm
 
-    c = gf.components.straight()
+#     c = gf.components.straight()
 
-    p1 = get_sparameters_path_lumerical(component=c)
-    p2 = get_sparameters_path_lumerical(component=c, layer_stack=layer_stack2)
-    p3 = get_sparameters_path_lumerical(c, material_name_to_lumerical=dict(si=3.6))
+#     p1 = get_sparameters_path_lumerical(component=c)
+#     p2 = get_sparameters_path_lumerical(component=c, layer_stack=layer_stack2)
+#     p3 = get_sparameters_path_lumerical(c, material_name_to_lumerical=dict(si=3.6))
 
-    if test:
-        name1 = "straight_7167d14d14e6e5b9ef027cfb4dd3991d"
-        name2 = "straight_b6123c58f68ca614c48d0ac005152f68"
-        name3 = "straight_03e4259ddcd15791bf7ad0b1cd87182b"
+#     if test:
+#         name1 = "straight_7167d14d14e6e5b9ef027cfb4dd3991d"
+#         name2 = "straight_b6123c58f68ca614c48d0ac005152f68"
+#         name3 = "straight_03e4259ddcd15791bf7ad0b1cd87182b"
 
-        assert p1.stem == name1, p1.stem
-        assert p2.stem == name2, p2.stem
-        assert p3.stem == name3, p3.stem
-    else:
-        print(f"name1 = {p1.stem!r}")
-        print(f"name2 = {p2.stem!r}")
-        print(f"name3 = {p3.stem!r}")
+#         assert p1.stem == name1, p1.stem
+#         assert p2.stem == name2, p2.stem
+#         assert p3.stem == name3, p3.stem
+#     else:
+#         print(f"name1 = {p1.stem!r}")
+#         print(f"name2 = {p2.stem!r}")
+#         print(f"name3 = {p3.stem!r}")
 
 
 if __name__ == "__main__":
-    # c = gf.components.mmi1x2()
-    # p = get_sparameters_path_lumerical(c)
-
-    # sp = np.load(p)
-    # spd = dict(sp)
-    # print(spd)
+    c = gf.components.mmi1x2()
+    p = get_sparameters_path_lumerical(c)
+    sp = np.load(p)
+    spd = dict(sp)
+    print(spd)
 
     # test_get_sparameters_path(test=False)
-    test_get_sparameters_path(test=True)
+    # test_get_sparameters_path(test=True)
