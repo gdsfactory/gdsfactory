@@ -104,9 +104,9 @@ def test_get_sparameters_path(test: bool = True) -> None:
     p3 = get_sparameters_path_lumerical(c, material_name_to_lumerical=dict(si=3.6))
 
     if test:
-        name1 = "straight_1f90b7ca"
-        name2 = "straight_9b7c7e58"
-        name3 = "straight_c752dd0a"
+        name1 = "straight_7167d14d14e6e5b9ef027cfb4dd3991d"
+        name2 = "straight_b6123c58f68ca614c48d0ac005152f68"
+        name3 = "straight_03e4259ddcd15791bf7ad0b1cd87182b"
 
         assert p1.stem == name1, p1.stem
         assert p2.stem == name2, p2.stem
@@ -118,12 +118,12 @@ def test_get_sparameters_path(test: bool = True) -> None:
 
 
 if __name__ == "__main__":
-    c = gf.components.mmi1x2()
-    p = get_sparameters_path_lumerical(c)
+    # c = gf.components.mmi1x2()
+    # p = get_sparameters_path_lumerical(c)
 
-    sp = np.load(p)
-    spd = dict(sp)
-    print(spd)
+    # sp = np.load(p)
+    # spd = dict(sp)
+    # print(spd)
 
-    # test_get_sparameters_path(test=False)
+    test_get_sparameters_path(test=False)
     # test_get_sparameters_path(test=True)

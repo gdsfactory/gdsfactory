@@ -4,7 +4,6 @@ from itertools import count, repeat
 from pathlib import Path
 
 import pandas as pd
-from srim import TRIM
 
 
 def fragment(step, total):
@@ -44,6 +43,12 @@ def run_fragmented_calculation(
         trim_settings: dict of SRIM simulation settings
         step: number of simulations per batch. Default 1000.
     """
+    try:
+        from srim import TRIM
+    except ImportError as e:
+        print("To install srim plugin `pip install pysrim`")
+        raise e
+
     for i, num_ions in enumerate(fragment(step, number_ions)):
         print(
             "total ions completed: {:06d}\tion: {}\tions in step: {:06d}".format(

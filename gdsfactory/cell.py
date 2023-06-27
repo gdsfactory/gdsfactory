@@ -52,6 +52,7 @@ def get_source_code(func: Callable) -> str:
 class Settings(BaseModel):
     name: str
     function_name: str
+    module: str
 
     info: Dict[str, Any]  # derived properties (length, resistance)
     info_version: int = INFO_VERSION
@@ -218,7 +219,8 @@ def cell_without_validator(func: _F) -> _F:
         if not hasattr(component, "imported_gds"):
             component.settings = Settings(
                 name=component_name,
-                function_name=f"{func.__module__}.{func.__name__}",
+                function_name=func.__name__,
+                module=func.__module__,
                 changed=clean_dict(changed),
                 default=clean_dict(default),
                 full=clean_dict(full),

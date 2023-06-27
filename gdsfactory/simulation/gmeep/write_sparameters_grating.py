@@ -19,7 +19,7 @@ from typing import Dict, Optional, Tuple
 import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
-import omegaconf
+import yaml
 
 from gdsfactory.config import logger, sparameters_path
 from gdsfactory.serialization import clean_value_json, clean_value_name
@@ -226,7 +226,7 @@ def write_sparameters_grating(
         compute_time_seconds=end - start,
         compute_time_minutes=(end - start) / 60,
     )
-    filepath.write_text(omegaconf.OmegaConf.to_yaml(simulation))
+    filepath.write_text(yaml.dump(simulation))
 
     sp = {
         "o1@0,o1@0": s11,

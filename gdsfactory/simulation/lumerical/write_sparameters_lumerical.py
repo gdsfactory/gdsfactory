@@ -6,7 +6,7 @@ import time
 from typing import Dict, Optional
 
 import numpy as np
-import omegaconf
+import yaml
 
 import gdsfactory as gf
 from gdsfactory.config import __version__, logger
@@ -302,7 +302,7 @@ def write_sparameters_lumerical(
     )
 
     # from pprint import pprint
-    # filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
+    # filepath_sim_settings.write_text(yaml.dump(sim_settings))
     # print(filepath_sim_settings)
     # pprint(sim_settings)
     # return
@@ -476,7 +476,7 @@ def write_sparameters_lumerical(
         end = time.time()
         sim_settings.update(compute_time_seconds=end - start)
         sim_settings.update(compute_time_minutes=(end - start) / 60)
-        filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
+        filepath_sim_settings.write_text(yaml.dump(sim_settings))
         if delete_fsp_files and fspdir.exists():
             shutil.rmtree(fspdir)
             logger.info(
@@ -486,7 +486,7 @@ def write_sparameters_lumerical(
 
         return sp
 
-    filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
+    filepath_sim_settings.write_text(yaml.dump(sim_settings))
     return s
 
 

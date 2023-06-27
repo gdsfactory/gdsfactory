@@ -50,14 +50,14 @@ models = {
 
 
 def module(S) -> List[float]:
+    """rounds to 3 decimals and converts numpy to lists for serialization."""
     for k, v in S.items():
-        S[k] = list(np.round(np.abs(v) ** 2), 3)
+        S[k] = [float(i) for i in np.round(np.abs(v) ** 2, 3)]
     return S
 
 
 def test_mzi_lattice(data_regression, check: bool = True) -> None:
     c = mzis()
-    # netlist = c.get_netlist()
     netlist = c.get_netlist_recursive()
     circuit, _ = sax.circuit(netlist=netlist, models=models)
     c.show(show_ports=True)
@@ -81,6 +81,7 @@ if __name__ == "__main__":
     d = dict(S21=S["o1", "o2"], S11=S["o1", "o1"])
 
     # import matplotlib.pyplot as plt
+
     # plt.figure(figsize=(14, 4))
     # plt.title("MZI")
     # plt.plot(1e3 * wl, jnp.abs(S["o1", "o2"]) ** 2)

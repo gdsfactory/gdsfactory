@@ -7,8 +7,8 @@ import meow as mw
 from meow.base_model import _array as mw_array
 import numpy as np
 import pandas as pd
-from omegaconf import OmegaConf
 from tqdm.auto import tqdm
+import yaml
 
 import gdsfactory as gf
 from gdsfactory.config import logger
@@ -421,7 +421,7 @@ class MEOW:
         self.sim_settings.update(compute_time_seconds=end - start)
         self.sim_settings.update(compute_time_minutes=(end - start) / 60)
         logger.info(f"Write simulation results to {self.filepath!r}")
-        self.filepath_sim_settings.write_text(OmegaConf.to_yaml(self.sim_settings))
+        self.filepath_sim_settings.write_text(yaml.dump(self.sim_settings))
         logger.info(f"Write simulation settings to {self.filepath_sim_settings!r}")
 
         return sp

@@ -6,7 +6,7 @@ import pathlib
 
 import numpy as np
 import tidy3d as td
-from omegaconf import OmegaConf
+import yaml
 
 import gdsfactory as gf
 from gdsfactory.config import logger
@@ -173,7 +173,7 @@ def write_sparameters_grating_coupler(
     kwargs.update(compute_time_seconds=end - start)
     kwargs.update(compute_time_minutes=(end - start) / 60)
 
-    filepath_sim_settings.write_text(OmegaConf.to_yaml(clean_value_json(kwargs)))
+    filepath_sim_settings.write_text(yaml.dump(clean_value_json(kwargs)))
     logger.info(f"Write simulation results to {str(filepath)!r}")
     logger.info(f"Write simulation settings to {str(filepath_sim_settings)!r}")
     return sp
