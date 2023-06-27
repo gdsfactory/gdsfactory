@@ -125,5 +125,5 @@ if __name__ == "__main__":
     # spd = dict(sp)
     # print(spd)
 
-    test_get_sparameters_path(test=False)
-    # test_get_sparameters_path(test=True)
+    # test_get_sparameters_path(test=False)
+    test_get_sparameters_path(test=True)
