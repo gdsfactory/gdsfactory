@@ -18,7 +18,7 @@ def _union_polygons(polygons, precision: float = 1e-4):
         max_points : int
             The maximum number of vertices within the resulting polygon.
 
-    Returns
+    Returns:
         unioned: polygon The result of the union of all the polygons
             within the input PolygonSet.
     """
@@ -56,7 +56,7 @@ def union(
       :include-source:
 
       import gdsfactory as gf
-      c = Component()
+      c = gf.Component()
       c << gf.components.ellipse(radii=(6, 6))
       c << gf.components.ellipse(radii=(10, 4))
       c2 = gf.geometry.union(c, join_first=False)

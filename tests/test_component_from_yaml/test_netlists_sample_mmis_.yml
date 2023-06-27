@@ -12,7 +12,6 @@ instances:
       dy: 10.0
       function_name: cross_section
       length: 16.637
-      module: gdsfactory.cross_section
       radius: 10.0
       radius_min: 7.061
       settings:
@@ -62,7 +61,6 @@ instances:
       dy: 10.0
       function_name: cross_section
       length: 16.637
-      module: gdsfactory.cross_section
       radius: 10.0
       radius_min: 7.061
       settings:
@@ -122,7 +120,6 @@ instances:
       cross_section: strip
       function_name: cross_section
       length: 95.02
-      module: gdsfactory.cross_section
       settings:
         add_bbox: null
         add_pins:
@@ -171,7 +168,6 @@ instances:
       cross_section: strip
       function_name: cross_section
       length: 79.375
-      module: gdsfactory.cross_section
       settings:
         add_bbox: null
         add_pins:
@@ -220,7 +216,6 @@ instances:
       cross_section: strip
       function_name: cross_section
       length: 0.02
-      module: gdsfactory.cross_section
       settings:
         add_bbox: null
         add_pins:

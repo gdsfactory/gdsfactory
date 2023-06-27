@@ -88,7 +88,6 @@ settings:
         width: 1.0
     function_name: cross_section
     length: 10.0
-    module: gdsfactory.cross_section
     settings:
       add_bbox: null
       add_pins:

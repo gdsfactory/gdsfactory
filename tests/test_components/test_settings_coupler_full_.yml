@@ -68,7 +68,6 @@ settings:
   function_name: coupler_full
   info:
     function_name: cross_section
-    module: gdsfactory.cross_section
     settings:
       add_bbox: null
       add_pins:

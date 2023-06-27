@@ -361,8 +361,7 @@ def _xsection_without_validator(func):
             )
 
         function_name = func.__name__
-        module = func.__module__
-        xs.info.update(settings=settings, function_name=function_name, module=module)
+        xs.info.update(settings=settings, function_name=function_name)
         return xs
 
     return _xsection

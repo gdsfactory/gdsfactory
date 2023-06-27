@@ -49,7 +49,6 @@ settings:
     dy: 0.0
     function_name: cross_section
     length: 42.817
-    module: gdsfactory.cross_section
     radius: 10.0
     radius_min: 9.086
     settings:

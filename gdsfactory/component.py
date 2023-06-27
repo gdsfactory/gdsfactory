@@ -1411,11 +1411,7 @@ class Component(_GeometryHelper):
     def _ipython_display_(self) -> None:
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
         self.show(show_ports=True)  # show in klayout
-        if CONF.display_type == "klayout":
-            self.plot_klayout()
-        else:
-            self.plot_jupyter()
-        print(self)
+        return self.plot()
 
     def add_pins_triangle(
         self,

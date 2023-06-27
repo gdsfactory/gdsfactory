@@ -20,7 +20,6 @@ instances:
       cross_section: strip
       function_name: cross_section
       length: 0.01
-      module: gdsfactory.cross_section
       settings:
         add_bbox: null
         add_pins:
@@ -69,7 +68,6 @@ instances:
       cross_section: strip
       function_name: cross_section
       length: 0.01
-      module: gdsfactory.cross_section
       settings:
         add_bbox: null
         add_pins:
