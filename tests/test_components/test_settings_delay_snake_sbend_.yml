@@ -47,9 +47,10 @@ settings:
     sbend: bend_s
     sbend_xsize: 100.0
     waveguide_spacing: 5.0
-  function_name: gdsfactory.components.delay_snake_sbend.delay_snake_sbend
+  function_name: delay_snake_sbend
   info:
     bend180_radius: 5.0
     min_bend_radius: 364.774
   info_version: 2
+  module: gdsfactory.components.delay_snake_sbend
   name: delay_snake_sbend

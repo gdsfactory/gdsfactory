@@ -84,17 +84,18 @@ settings:
       port_orientation2: 0
       via_stack: via_stack_heater_mtop
       with_undercut: false
-    function_name: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
+    function_name: straight_heater_metal_undercut
     info:
       resistance: null
     info_version: 2
+    module: gdsfactory.components.straight_heater_metal
     name: straight_heater_metal_u_5d466884
   default:
     angle: 180
     bend:
-      function: gdsfactory.components.bend_circular.bend_circular
+      function: bend_circular
     component:
-      function: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
+      function: straight_heater_metal_undercut
       settings:
         with_undercut: false
     cross_section: metal3_with_bend
@@ -106,9 +107,9 @@ settings:
   full:
     angle: 180
     bend:
-      function: gdsfactory.components.bend_circular.bend_circular
+      function: bend_circular
     component:
-      function: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
+      function: straight_heater_metal_undercut
       settings:
         with_undercut: false
     cross_section: metal3_with_bend
@@ -117,8 +118,9 @@ settings:
     port_name1_bend: null
     port_name2: e2
     port_name2_bend: null
-  function_name: gdsfactory.components.bend_port.bend_port
+  function_name: bend_port
   info:
     resistance: null
   info_version: 2
+  module: gdsfactory.components.bend_port
   name: straight_heater_metal_u_b8c91210

@@ -41,7 +41,8 @@ settings:
     n: 10
     w1: 0.475
     w2: 0.525
-  function_name: gdsfactory.components.dbr.dbr
+  function_name: dbr
   info: {}
   info_version: 2
+  module: gdsfactory.components.dbr
   name: dbr

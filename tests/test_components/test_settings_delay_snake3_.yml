@@ -29,7 +29,7 @@ settings:
   child: null
   default:
     bend180:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
       settings:
         angle: 180
     cross_section: strip
@@ -39,7 +39,7 @@ settings:
     n: 2
   full:
     bend180:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
       settings:
         angle: 180
     cross_section: strip
@@ -47,7 +47,8 @@ settings:
     length0: 0.0
     length2: 0.0
     n: 2
-  function_name: gdsfactory.components.delay_snake3.delay_snake3
+  function_name: delay_snake3
   info: {}
   info_version: 2
+  module: gdsfactory.components.delay_snake3
   name: delay_snake3

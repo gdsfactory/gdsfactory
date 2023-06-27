@@ -77,31 +77,32 @@ settings:
   child: null
   default:
     bend_factory:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
     bend_s_factory:
-      function: gdsfactory.components.bend_s.bend_s
+      function: bend_s
     heater_cross_section: npp
     min_radius: null
     num: 8
     spacing: 2
     straight_factory:
-      function: gdsfactory.components.straight.straight
+      function: straight
     straight_length: 30
     waveguide_cross_section: strip
   full:
     bend_factory:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
     bend_s_factory:
-      function: gdsfactory.components.bend_s.bend_s
+      function: bend_s
     heater_cross_section: npp
     min_radius: null
     num: 8
     spacing: 2
     straight_factory:
-      function: gdsfactory.components.straight.straight
+      function: straight
     straight_length: 30
     waveguide_cross_section: strip
-  function_name: gdsfactory.components.spiral_heater.spiral_racetrack_heater_doped
+  function_name: spiral_racetrack_heater_doped
   info: {}
   info_version: 2
+  module: gdsfactory.components.spiral_heater
   name: spiral_racetrack_heater_doped

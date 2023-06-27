@@ -53,14 +53,14 @@ settings:
   child: null
   default:
     cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -79,14 +79,14 @@ settings:
     width_top: 2.0
   full:
     cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -103,7 +103,8 @@ settings:
     period: 0.22
     width_bot: 0.75
     width_top: 2.0
-  function_name: gdsfactory.components.cdc.cdc
+  function_name: cdc
   info: {}
   info_version: 2
+  module: gdsfactory.components.cdc
   name: cdc

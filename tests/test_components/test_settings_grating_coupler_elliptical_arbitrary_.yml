@@ -97,9 +97,10 @@ settings:
     - 0.5
     - 0.5
     - 0.5
-  function_name: gdsfactory.components.grating_coupler_elliptical_arbitrary.grating_coupler_elliptical_arbitrary
+  function_name: grating_coupler_elliptical_arbitrary
   info:
     polarization: te
     wavelength: 1.554
   info_version: 2
+  module: gdsfactory.components.grating_coupler_elliptical_arbitrary
   name: grating_coupler_ellipti_4a0b5da2

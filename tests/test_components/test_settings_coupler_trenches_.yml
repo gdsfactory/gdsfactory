@@ -55,9 +55,9 @@ settings:
     child: null
     default:
       coupler_straight:
-        function: gdsfactory.components.coupler_straight.coupler_straight
+        function: coupler_straight
       coupler_symmetric:
-        function: gdsfactory.components.coupler_symmetric.coupler_symmetric
+        function: coupler_symmetric
       cross_section: strip
       dx: 10.0
       dy: 4.0
@@ -65,24 +65,25 @@ settings:
       length: 20.0
     full:
       coupler_straight:
-        function: gdsfactory.components.coupler_straight.coupler_straight
+        function: coupler_straight
       coupler_symmetric:
-        function: gdsfactory.components.coupler_symmetric.coupler_symmetric
+        function: coupler_symmetric
       cross_section: strip
       dx: 10.0
       dy: 4.0
       gap: 0.236
       length: 20.0
-    function_name: gdsfactory.components.coupler.coupler
+    function_name: coupler
     info:
       length: 10.186
       min_bend_radius: 11.857
     info_version: 2
+    module: gdsfactory.components.coupler
     name: coupler
   default:
     bot: true
     component:
-      function: gdsfactory.components.coupler.coupler
+      function: coupler
     cross_section: rib_with_trenches
     left: false
     right: false
@@ -90,14 +91,15 @@ settings:
   full:
     bot: true
     component:
-      function: gdsfactory.components.coupler.coupler
+      function: coupler
     cross_section: rib_with_trenches
     left: false
     right: false
     top: true
-  function_name: gdsfactory.components.add_trenches.add_trenches
+  function_name: add_trenches
   info:
     length: 10.186
     min_bend_radius: 11.857
   info_version: 2
+  module: gdsfactory.components.add_trenches
   name: coupler_add_trenches

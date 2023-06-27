@@ -1,4 +1,4 @@
-name: mirror_port_9758d496
+name: mirror_port_76e6504a
 ports:
   o1:
     center:
@@ -58,33 +58,33 @@ settings:
         o3: mmi_long,o1
     routing_strategy:
       get_bundle:
-        function: gdsfactory.routing.get_bundle.get_bundle
+        function: get_bundle
       get_bundle_all_angle:
-        function: gdsfactory.routing.all_angle.get_bundle_all_angle
+        function: get_bundle_all_angle
       get_bundle_electrical:
-        function: gdsfactory.routing.get_bundle.get_bundle
+        function: get_bundle
         settings:
           bend:
-            function: gdsfactory.components.wire.wire_corner
+            function: wire_corner
           cross_section: metal_routing
       get_bundle_from_steps:
-        function: gdsfactory.routing.get_bundle_from_steps.get_bundle_from_steps
+        function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
-        function: gdsfactory.routing.get_bundle_from_steps.get_bundle_from_steps
+        function: get_bundle_from_steps
         settings:
           bend:
-            function: gdsfactory.components.wire.wire_corner
+            function: wire_corner
           cross_section: metal_routing
       get_bundle_from_waypoints:
-        function: gdsfactory.routing.get_bundle_from_waypoints.get_bundle_from_waypoints
+        function: get_bundle_from_waypoints
       get_bundle_path_length_match:
-        function: gdsfactory.routing.get_bundle_path_length_match.get_bundle_path_length_match
+        function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
-        function: gdsfactory.routing.get_bundle.get_bundle_same_axis_no_grouping
+        function: get_bundle_same_axis_no_grouping
   child: null
   default:
     label_instance_function:
-      function: gdsfactory.add_pins.add_instance_label
+      function: add_instance_label
     mode: layout
   full:
     conf:
@@ -106,36 +106,37 @@ settings:
         o2: mmi_long,o2
         o3: mmi_long,o1
     label_instance_function:
-      function: gdsfactory.add_pins.add_instance_label
+      function: add_instance_label
     mode: layout
     routing_strategy:
       get_bundle:
-        function: gdsfactory.routing.get_bundle.get_bundle
+        function: get_bundle
       get_bundle_all_angle:
-        function: gdsfactory.routing.all_angle.get_bundle_all_angle
+        function: get_bundle_all_angle
       get_bundle_electrical:
-        function: gdsfactory.routing.get_bundle.get_bundle
+        function: get_bundle
         settings:
           bend:
-            function: gdsfactory.components.wire.wire_corner
+            function: wire_corner
           cross_section: metal_routing
       get_bundle_from_steps:
-        function: gdsfactory.routing.get_bundle_from_steps.get_bundle_from_steps
+        function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
-        function: gdsfactory.routing.get_bundle_from_steps.get_bundle_from_steps
+        function: get_bundle_from_steps
         settings:
           bend:
-            function: gdsfactory.components.wire.wire_corner
+            function: wire_corner
           cross_section: metal_routing
       get_bundle_from_waypoints:
-        function: gdsfactory.routing.get_bundle_from_waypoints.get_bundle_from_waypoints
+        function: get_bundle_from_waypoints
       get_bundle_path_length_match:
-        function: gdsfactory.routing.get_bundle_path_length_match.get_bundle_path_length_match
+        function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
-        function: gdsfactory.routing.get_bundle.get_bundle_same_axis_no_grouping
-  function_name: gdsfactory.read.from_yaml._from_yaml
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
   info:
     instances:
     - mmi_long
   info_version: 2
-  name: mirror_port_9758d496
+  module: gdsfactory.read.from_yaml
+  name: mirror_port_76e6504a

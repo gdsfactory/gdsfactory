@@ -29,7 +29,8 @@ settings:
     - NPP
     length: 50
     tapered_width: 0.2
-  function_name: gdsfactory.components.terminator.terminator
+  function_name: terminator
   info: {}
   info_version: 2
+  module: gdsfactory.components.terminator
   name: terminator

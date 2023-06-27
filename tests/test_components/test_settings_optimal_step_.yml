@@ -47,8 +47,9 @@ settings:
     start_width: 10
     symmetric: false
     width_tol: 0.001
-  function_name: gdsfactory.components.optimal_step.optimal_step
+  function_name: optimal_step
   info:
     num_squares: 7.986
   info_version: 2
+  module: gdsfactory.components.optimal_step
   name: optimal_step

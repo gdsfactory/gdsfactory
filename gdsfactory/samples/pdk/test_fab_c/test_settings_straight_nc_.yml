@@ -1,4 +1,4 @@
-name: straight_e66da8fd
+name: straight_df3841b1
 ports:
   o1:
     center:
@@ -27,11 +27,11 @@ ports:
 settings:
   changed:
     cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.samples.pdk.fab_c.add_pins
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
@@ -50,11 +50,11 @@ settings:
     with_bbox: true
   full:
     cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.samples.pdk.fab_c.add_pins
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
@@ -68,14 +68,14 @@ settings:
     length: 10.0
     npoints: 2
     with_bbox: true
-  function_name: gdsfactory.components.straight.straight
+  function_name: straight
   info:
     cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.samples.pdk.fab_c.add_pins
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
@@ -86,12 +86,13 @@ settings:
         - 0
         name: strip
         width: 1.0
-    function_name: gdsfactory.cross_section.cross_section
+    function_name: cross_section
     length: 10.0
+    module: gdsfactory.cross_section
     settings:
       add_bbox: null
       add_pins:
-        function: gdsfactory.samples.pdk.fab_c.add_pins
+        function: add_pins
       auto_widen: false
       auto_widen_minimum_length: 200.0
       bbox_layers:
@@ -128,4 +129,5 @@ settings:
       width_wide: null
     width: 1.0
   info_version: 2
-  name: straight_e66da8fd
+  module: gdsfactory.components.straight
+  name: straight_df3841b1

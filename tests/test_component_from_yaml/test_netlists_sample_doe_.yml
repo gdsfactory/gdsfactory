@@ -1,7 +1,7 @@
 connections: {}
 instances:
   mmi1x2_sweep:
-    component: gdsfactory.components.pack_doe.pack_doe
+    component: pack_doe
     info:
       components:
         mmi1x2_length_mmi100_width_mmi10:
@@ -15,7 +15,7 @@ instances:
             length_mmi: 5.5
             length_taper: 10.0
             taper:
-              function: gdsfactory.components.taper.taper
+              function: taper
             width: null
             width_mmi: 2.5
             width_taper: 1.0
@@ -26,14 +26,15 @@ instances:
             length_mmi: 100
             length_taper: 10.0
             taper:
-              function: gdsfactory.components.taper.taper
+              function: taper
             width: null
             width_mmi: 10
             width_taper: 1.0
             with_bbox: true
-          function_name: gdsfactory.components.mmi1x2.mmi1x2
+          function_name: mmi1x2
           info: {}
           info_version: 2
+          module: gdsfactory.components.mmi1x2
           name: mmi1x2_length_mmi100_width_mmi10
         mmi1x2_length_mmi100_width_mmi4:
           changed:
@@ -46,7 +47,7 @@ instances:
             length_mmi: 5.5
             length_taper: 10.0
             taper:
-              function: gdsfactory.components.taper.taper
+              function: taper
             width: null
             width_mmi: 2.5
             width_taper: 1.0
@@ -57,14 +58,15 @@ instances:
             length_mmi: 100
             length_taper: 10.0
             taper:
-              function: gdsfactory.components.taper.taper
+              function: taper
             width: null
             width_mmi: 4
             width_taper: 1.0
             with_bbox: true
-          function_name: gdsfactory.components.mmi1x2.mmi1x2
+          function_name: mmi1x2
           info: {}
           info_version: 2
+          module: gdsfactory.components.mmi1x2
           name: mmi1x2_length_mmi100_width_mmi4
         mmi1x2_length_mmi2_width_mmi10:
           changed:
@@ -77,7 +79,7 @@ instances:
             length_mmi: 5.5
             length_taper: 10.0
             taper:
-              function: gdsfactory.components.taper.taper
+              function: taper
             width: null
             width_mmi: 2.5
             width_taper: 1.0
@@ -88,14 +90,15 @@ instances:
             length_mmi: 2
             length_taper: 10.0
             taper:
-              function: gdsfactory.components.taper.taper
+              function: taper
             width: null
             width_mmi: 10
             width_taper: 1.0
             with_bbox: true
-          function_name: gdsfactory.components.mmi1x2.mmi1x2
+          function_name: mmi1x2
           info: {}
           info_version: 2
+          module: gdsfactory.components.mmi1x2
           name: mmi1x2_length_mmi2_width_mmi10
         mmi1x2_length_mmi2_width_mmi4:
           changed:
@@ -108,7 +111,7 @@ instances:
             length_mmi: 5.5
             length_taper: 10.0
             taper:
-              function: gdsfactory.components.taper.taper
+              function: taper
             width: null
             width_mmi: 2.5
             width_taper: 1.0
@@ -119,14 +122,15 @@ instances:
             length_mmi: 2
             length_taper: 10.0
             taper:
-              function: gdsfactory.components.taper.taper
+              function: taper
             width: null
             width_mmi: 4
             width_taper: 1.0
             with_bbox: true
-          function_name: gdsfactory.components.mmi1x2.mmi1x2
+          function_name: mmi1x2
           info: {}
           info_version: 2
+          module: gdsfactory.components.mmi1x2
           name: mmi1x2_length_mmi2_width_mmi4
     settings:
       do_permutations: true
@@ -138,7 +142,7 @@ instances:
         - 4
         - 10
       spacing: 100
-name: mask_5c5e977e
+name: mask_8d17f522
 placements:
   mmi1x2_sweep:
     mirror: 0

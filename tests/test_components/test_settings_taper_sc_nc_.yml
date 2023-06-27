@@ -53,8 +53,9 @@ settings:
     w_slab2: 1.0
     width1: 0.5
     width2: 0.15
-  function_name: gdsfactory.components.taper.taper_strip_to_ridge
+  function_name: taper_strip_to_ridge
   info:
     length: 20.0
   info_version: 2
+  module: gdsfactory.components.taper
   name: taper_strip_to_ridge_daef8427

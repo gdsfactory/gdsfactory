@@ -65,7 +65,7 @@ settings:
   child: null
   default:
     edge_coupler:
-      function: gdsfactory.components.taper.taper
+      function: taper
       settings:
         length: 100
         width2: 0.2
@@ -73,7 +73,7 @@ settings:
     n: 5
     pitch: 127.0
     text:
-      function: gdsfactory.components.text_rectangular.text_rectangular
+      function: text_rectangular
     text_offset:
     - 10
     - 20
@@ -81,7 +81,7 @@ settings:
     x_reflection: false
   full:
     edge_coupler:
-      function: gdsfactory.components.taper.taper
+      function: taper
       settings:
         length: 100
         width2: 0.2
@@ -89,13 +89,14 @@ settings:
     n: 5
     pitch: 127.0
     text:
-      function: gdsfactory.components.text_rectangular.text_rectangular
+      function: text_rectangular
     text_offset:
     - 10
     - 20
     text_rotation: 0
     x_reflection: false
-  function_name: gdsfactory.components.edge_coupler_array.edge_coupler_array
+  function_name: edge_coupler_array
   info: {}
   info_version: 2
+  module: gdsfactory.components.edge_coupler_array
   name: edge_coupler_array

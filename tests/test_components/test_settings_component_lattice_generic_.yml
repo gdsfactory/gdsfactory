@@ -103,7 +103,8 @@ settings:
     network: null
   full:
     network: null
-  function_name: gdsfactory.components.component_lattice_generic.component_lattice_generic
+  function_name: component_lattice_generic
   info: {}
   info_version: 2
+  module: gdsfactory.components.component_lattice_generic
   name: component_lattice_generic

@@ -82,13 +82,13 @@ settings:
     length_x: 500
     length_y: 40
     mzi:
-      function: gdsfactory.components.mzi.mzi
+      function: mzi
     mzi_gnd_bot: bot_e2
     mzi_gnd_top: top_e1
     mzi_sig_bot: bot_e1
     mzi_sig_top: top_e2
     pad:
-      function: gdsfactory.components.pad.pad
+      function: pad
       settings:
         size:
         - 80
@@ -99,11 +99,11 @@ settings:
     pad_sig_top: e3_1_3
     pad_spacing: pad_spacing
     ps_bot:
-      function: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
+      function: straight_heater_metal_undercut
       settings:
         with_undercut: false
     ps_top:
-      function: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
+      function: straight_heater_metal_undercut
       settings:
         with_undercut: false
   full:
@@ -113,13 +113,13 @@ settings:
     length_x: 500
     length_y: 40
     mzi:
-      function: gdsfactory.components.mzi.mzi
+      function: mzi
     mzi_gnd_bot: bot_e2
     mzi_gnd_top: top_e1
     mzi_sig_bot: bot_e1
     mzi_sig_top: top_e2
     pad:
-      function: gdsfactory.components.pad.pad
+      function: pad
       settings:
         size:
         - 80
@@ -130,14 +130,15 @@ settings:
     pad_sig_top: e3_1_3
     pad_spacing: pad_spacing
     ps_bot:
-      function: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
+      function: straight_heater_metal_undercut
       settings:
         with_undercut: false
     ps_top:
-      function: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
+      function: straight_heater_metal_undercut
       settings:
         with_undercut: false
-  function_name: gdsfactory.components.mzi_pads_center.mzi_pads_center
+  function_name: mzi_pads_center
   info: {}
   info_version: 2
+  module: gdsfactory.components.mzi_pads_center
   name: mzi_pads_center

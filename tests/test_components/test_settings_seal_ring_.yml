@@ -11,7 +11,7 @@ settings:
       - 4.0
     padding: 10.0
     seal:
-      function: gdsfactory.components.via_stack.via_stack
+      function: via_stack
     width: 10
     with_east: true
     with_north: true
@@ -25,13 +25,14 @@ settings:
       - 4.0
     padding: 10.0
     seal:
-      function: gdsfactory.components.via_stack.via_stack
+      function: via_stack
     width: 10
     with_east: true
     with_north: true
     with_south: true
     with_west: true
-  function_name: gdsfactory.components.seal_ring.seal_ring
+  function_name: seal_ring
   info: {}
   info_version: 2
+  module: gdsfactory.components.seal_ring
   name: seal_ring

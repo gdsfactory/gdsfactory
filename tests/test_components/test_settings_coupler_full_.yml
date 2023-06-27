@@ -65,16 +65,17 @@ settings:
     dx: 10.0
     dy: 5.0
     gap: 0.5
-  function_name: gdsfactory.components.coupler_full.coupler_full
+  function_name: coupler_full
   info:
-    function_name: gdsfactory.cross_section.cross_section
+    function_name: cross_section
+    module: gdsfactory.cross_section
     settings:
       add_bbox: null
       add_pins:
-        function: gdsfactory.add_pins.add_pins
+        function: add_pins
         settings:
           function:
-            function: gdsfactory.add_pins.add_pin_rectangle_inside
+            function: add_pin_rectangle_inside
             settings:
               layer_label: null
               pin_length: 0.001
@@ -108,4 +109,5 @@ settings:
       width: 0.5
       width_wide: null
   info_version: 2
+  module: gdsfactory.components.coupler_full
   name: coupler_full

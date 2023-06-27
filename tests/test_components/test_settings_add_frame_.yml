@@ -5,17 +5,18 @@ settings:
   child: null
   default:
     component:
-      function: gdsfactory.components.rectangle.rectangle
+      function: rectangle
     layer: WG
     spacing: 10.0
     width: 10.0
   full:
     component:
-      function: gdsfactory.components.rectangle.rectangle
+      function: rectangle
     layer: WG
     spacing: 10.0
     width: 10.0
-  function_name: gdsfactory.components.align.add_frame
+  function_name: add_frame
   info: {}
   info_version: 2
+  module: gdsfactory.components.align
   name: add_frame

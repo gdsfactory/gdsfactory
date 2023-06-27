@@ -45,8 +45,9 @@ settings:
     npoints: null
     radius: 10
     with_bbox: true
-  function_name: gdsfactory.components.bend_circular_heater.bend_circular_heater
+  function_name: bend_circular_heater
   info:
     length: 15.708
   info_version: 2
+  module: gdsfactory.components.bend_circular_heater
   name: bend_circular_heater

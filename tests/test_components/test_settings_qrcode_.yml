@@ -11,7 +11,8 @@ settings:
     data: mask01
     layer: WG
     psize: 1
-  function_name: gdsfactory.components.version_stamp.qrcode
+  function_name: qrcode
   info: {}
   info_version: 2
+  module: gdsfactory.components.version_stamp
   name: qrcode

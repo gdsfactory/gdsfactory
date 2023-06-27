@@ -43,23 +43,25 @@ settings:
       n: 10
       w1: 0.475
       w2: 0.525
-    function_name: gdsfactory.components.dbr.dbr
+    function_name: dbr
     info: {}
     info_version: 2
+    module: gdsfactory.components.dbr
     name: dbr
   default:
     component:
-      function: gdsfactory.components.dbr.dbr
+      function: dbr
     coupler: coupler
     gap: 0.2
     length: 0.1
   full:
     component:
-      function: gdsfactory.components.dbr.dbr
+      function: dbr
     coupler: coupler
     gap: 0.2
     length: 0.1
-  function_name: gdsfactory.components.cavity.cavity
+  function_name: cavity
   info: {}
   info_version: 2
+  module: gdsfactory.components.cavity
   name: dbr_cavity

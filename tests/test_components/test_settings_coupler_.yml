@@ -53,9 +53,9 @@ settings:
   child: null
   default:
     coupler_straight:
-      function: gdsfactory.components.coupler_straight.coupler_straight
+      function: coupler_straight
     coupler_symmetric:
-      function: gdsfactory.components.coupler_symmetric.coupler_symmetric
+      function: coupler_symmetric
     cross_section: strip
     dx: 10.0
     dy: 4.0
@@ -63,17 +63,18 @@ settings:
     length: 20.0
   full:
     coupler_straight:
-      function: gdsfactory.components.coupler_straight.coupler_straight
+      function: coupler_straight
     coupler_symmetric:
-      function: gdsfactory.components.coupler_symmetric.coupler_symmetric
+      function: coupler_symmetric
     cross_section: strip
     dx: 10.0
     dy: 4.0
     gap: 0.236
     length: 20.0
-  function_name: gdsfactory.components.coupler.coupler
+  function_name: coupler
   info:
     length: 10.186
     min_bend_radius: 11.857
   info_version: 2
+  module: gdsfactory.components.coupler
   name: coupler

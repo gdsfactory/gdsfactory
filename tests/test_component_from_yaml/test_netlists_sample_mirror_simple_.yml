@@ -2,25 +2,26 @@ connections:
   b,o1: s,o2
 instances:
   b:
-    component: gdsfactory.components.bend_circular.bend_circular
+    component: bend_circular
     info:
       dy: 10.0
       length: 15.708
       radius: 10.0
     settings: {}
   s:
-    component: gdsfactory.components.straight.straight
+    component: straight
     info:
       cross_section: strip
-      function_name: gdsfactory.cross_section.cross_section
+      function_name: cross_section
       length: 10.0
+      module: gdsfactory.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -55,7 +56,7 @@ instances:
         width_wide: null
       width: 0.5
     settings: {}
-name: sample_mirror_simple_21089c8e
+name: sample_mirror_simple_f31e619a
 placements:
   b:
     mirror: true

@@ -322,7 +322,7 @@ class Component(_GeometryHelper):
             else {"component": self.name, "settings": {}}
         )
 
-    def __getitem__(self, key):
+    def __getitem__(self, key) -> Port:
         """Access reference ports."""
         if key not in self.ports:
             ports = list(self.ports.keys())
@@ -330,7 +330,7 @@ class Component(_GeometryHelper):
 
         return self.ports[key]
 
-    def __lshift__(self, element):
+    def __lshift__(self, element) -> ComponentReference:
         """Convenience operator equivalent to add_ref()."""
         return self.add_ref(element)
 
@@ -1414,13 +1414,13 @@ class Component(_GeometryHelper):
         if CONF.display_type == "klayout":
             self.plot_klayout()
         else:
-            self.plot_widget()
+            self.plot_jupyter()
         print(self)
 
     def add_pins_triangle(
         self,
         port_marker_layer: Layer = (1, 10),
-    ):
+    ) -> Component:
         """Returns component with triangular pins."""
         from gdsfactory.add_pins import add_pins_triangle
 

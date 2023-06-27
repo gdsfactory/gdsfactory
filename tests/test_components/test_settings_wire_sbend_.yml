@@ -33,7 +33,8 @@ settings:
   full:
     dx: 20.0
     dy: 10.0
-  function_name: gdsfactory.components.wire_sbend.wire_sbend
+  function_name: wire_sbend
   info: {}
   info_version: 2
+  module: gdsfactory.components.wire_sbend
   name: wire_sbend

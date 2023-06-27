@@ -33,7 +33,8 @@ settings:
     cross_struct_length: 30.0
     cross_struct_width: 1.0
     pad_width: 50
-  function_name: gdsfactory.components.greek_cross.greek_cross_offset_pads
+  function_name: greek_cross_offset_pads
   info: {}
   info_version: 2
+  module: gdsfactory.components.greek_cross
   name: greek_cross_offset_pads

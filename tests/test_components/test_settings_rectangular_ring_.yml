@@ -17,7 +17,8 @@ settings:
     - 2.0
     layer: WG
     width: 0.5
-  function_name: gdsfactory.components.rectangular_ring.rectangular_ring
+  function_name: rectangular_ring
   info: {}
   info_version: 2
+  module: gdsfactory.components.rectangular_ring
   name: rectangular_ring

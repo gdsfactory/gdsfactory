@@ -32,13 +32,14 @@ settings:
       size:
       - 1300
       - 2600
-    function_name: gdsfactory.components.rectangle.rectangle
+    function_name: rectangle
     info: {}
     info_version: 2
+    module: gdsfactory.components.rectangle
     name: rectangle_size1300__2600
   default:
     component:
-      function: gdsfactory.components.rectangle.rectangle
+      function: rectangle
       settings:
         size:
         - 1300
@@ -52,7 +53,7 @@ settings:
     text_size: 100.0
   full:
     component:
-      function: gdsfactory.components.rectangle.rectangle
+      function: rectangle
       settings:
         size:
         - 1300
@@ -64,7 +65,8 @@ settings:
     street_width: 100.0
     text_anchor: sw
     text_size: 100.0
-  function_name: gdsfactory.components.die_bbox.die_bbox
+  function_name: die_bbox
   info: {}
   info_version: 2
+  module: gdsfactory.components.die_bbox
   name: rectangle_size1300__260_516de578

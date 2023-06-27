@@ -151,7 +151,7 @@ settings:
     add_ports: true
     columns: 6
     component:
-      function: gdsfactory.components.straight.straight
+      function: straight
     rows: 1
     size: null
     spacing:
@@ -161,13 +161,14 @@ settings:
     add_ports: true
     columns: 6
     component:
-      function: gdsfactory.components.straight.straight
+      function: straight
     rows: 1
     size: null
     spacing:
     - 150.0
     - 150.0
-  function_name: gdsfactory.components.array_component.array
+  function_name: array
   info: {}
   info_version: 2
+  module: gdsfactory.components.array_component
   name: array

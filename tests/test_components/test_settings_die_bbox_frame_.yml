@@ -29,7 +29,8 @@ settings:
     street_width: 100.0
     text_anchor: sw
     text_size: 100.0
-  function_name: gdsfactory.components.die_bbox_frame.die_bbox_frame
+  function_name: die_bbox_frame
   info: {}
   info_version: 2
+  module: gdsfactory.components.die_bbox_frame
   name: die_bbox_frame

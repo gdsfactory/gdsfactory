@@ -1,4 +1,4 @@
-name: ring_single_dut_c1f2782d
+name: ring_single_dut_564dd830
 ports:
   o1:
     center:
@@ -27,27 +27,27 @@ ports:
 settings:
   changed:
     component:
-      component: gdsfactory.components.mzi.mzi
+      component: mzi
       settings:
         combiner:
-          function: gdsfactory.components.mmi2x2.mmi2x2
+          function: mmi2x2
         port_e0_combiner: o4
         port_e0_splitter: o4
         port_e1_combiner: o3
         port_e1_splitter: o3
         splitter:
-          function: gdsfactory.components.mmi2x2.mmi2x2
+          function: mmi2x2
         straight_x_top: straight_heater_metal
   child: null
   default:
     bend:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
     component:
-      function: gdsfactory.components.taper.taper
+      function: taper
       settings:
         width2: 3
     coupler:
-      function: gdsfactory.components.coupler_ring.coupler_ring
+      function: coupler_ring
     gap: 0.2
     length_x: 4
     length_y: 0
@@ -56,29 +56,30 @@ settings:
     with_component: true
   full:
     bend:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
     component:
-      component: gdsfactory.components.mzi.mzi
+      component: mzi
       settings:
         combiner:
-          function: gdsfactory.components.mmi2x2.mmi2x2
+          function: mmi2x2
         port_e0_combiner: o4
         port_e0_splitter: o4
         port_e1_combiner: o3
         port_e1_splitter: o3
         splitter:
-          function: gdsfactory.components.mmi2x2.mmi2x2
+          function: mmi2x2
         straight_x_top: straight_heater_metal
     coupler:
-      function: gdsfactory.components.coupler_ring.coupler_ring
+      function: coupler_ring
     gap: 0.2
     length_x: 4
     length_y: 0
     port_name: o1
     radius: 5.0
     with_component: true
-  function_name: gdsfactory.components.ring_single_dut.ring_single_dut
+  function_name: ring_single_dut
   info:
     component: {}
   info_version: 2
-  name: ring_single_dut_c1f2782d
+  module: gdsfactory.components.ring_single_dut
+  name: ring_single_dut_564dd830

@@ -57,7 +57,8 @@ settings:
   full:
     gap: 0.27
     length: 10.0
-  function_name: gdsfactory.components.coupler_straight.coupler_straight
+  function_name: coupler_straight
   info: {}
   info_version: 2
+  module: gdsfactory.components.coupler_straight
   name: coupler_straight

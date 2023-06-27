@@ -23,7 +23,8 @@ settings:
     - 0.4
     - 0.5
     xsize: 100
-  function_name: gdsfactory.components.verniers.verniers
+  function_name: verniers
   info: {}
   info_version: 2
+  module: gdsfactory.components.verniers
   name: verniers

@@ -75,7 +75,8 @@ settings:
     size:
     - 4.0
     - 2.0
-  function_name: gdsfactory.components.compass.compass
+  function_name: compass
   info: {}
   info_version: 2
+  module: gdsfactory.components.compass
   name: compass

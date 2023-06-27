@@ -67,7 +67,8 @@ settings:
     r2: 1.1
     w: 1.2
     width: 0.5
-  function_name: gdsfactory.components.crossing_waveguide.crossing_etched
+  function_name: crossing_etched
   info: {}
   info_version: 2
+  module: gdsfactory.components.crossing_waveguide
   name: crossing_etched

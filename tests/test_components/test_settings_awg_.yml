@@ -55,19 +55,20 @@ settings:
     arms: 10
     fpr_spacing: 50.0
     free_propagation_region_input_function:
-      function: gdsfactory.components.awg.free_propagation_region_input
+      function: free_propagation_region_input
     free_propagation_region_output_function:
-      function: gdsfactory.components.awg.free_propagation_region_output
+      function: free_propagation_region_output
     outputs: 3
   full:
     arms: 10
     fpr_spacing: 50.0
     free_propagation_region_input_function:
-      function: gdsfactory.components.awg.free_propagation_region_input
+      function: free_propagation_region_input
     free_propagation_region_output_function:
-      function: gdsfactory.components.awg.free_propagation_region_output
+      function: free_propagation_region_output
     outputs: 3
-  function_name: gdsfactory.components.awg.awg
+  function_name: awg
   info: {}
   info_version: 2
+  module: gdsfactory.components.awg
   name: awg

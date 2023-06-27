@@ -9,7 +9,8 @@ settings:
   full:
     layer: WG
     size: 1.0
-  function_name: gdsfactory.components.version_stamp.pixel
+  function_name: pixel
   info: {}
   info_version: 2
+  module: gdsfactory.components.version_stamp
   name: pixel

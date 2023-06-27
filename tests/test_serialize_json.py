@@ -41,7 +41,7 @@ def test_clean_value_json_callable() -> None:
         return a + b
 
     partial_func = functools.partial(func, b=2)
-    expected = {"function": "test_serialize_json.func", "settings": {"b": 2}}
+    expected = {"function": "func", "settings": {"b": 2}}
     assert clean_value_json(partial_func) == expected, clean_value_json(partial_func)
 
 

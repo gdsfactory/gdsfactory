@@ -53,11 +53,12 @@ settings:
   child: null
   default:
     taper:
-      function: gdsfactory.components.crossing_waveguide.<lambda>
+      function: <lambda>
   full:
     taper:
-      function: gdsfactory.components.crossing_waveguide.<lambda>
-  function_name: gdsfactory.components.crossing_waveguide.crossing_from_taper
+      function: <lambda>
+  function_name: crossing_from_taper
   info: {}
   info_version: 2
+  module: gdsfactory.components.crossing_waveguide
   name: crossing_from_taper

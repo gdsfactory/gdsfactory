@@ -82,8 +82,9 @@ settings:
     port_orientation2: 0
     via_stack: via_stack_heater_mtop
     with_undercut: false
-  function_name: gdsfactory.components.straight_heater_metal.straight_heater_metal_undercut
+  function_name: straight_heater_metal_undercut
   info:
     resistance: null
   info_version: 2
+  module: gdsfactory.components.straight_heater_metal
   name: straight_heater_metal_u_5d466884

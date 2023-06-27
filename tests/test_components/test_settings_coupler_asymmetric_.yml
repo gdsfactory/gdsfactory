@@ -39,19 +39,20 @@ settings:
   child: null
   default:
     bend:
-      function: gdsfactory.components.bend_s.bend_s
+      function: bend_s
     cross_section: strip
     dx: 10.0
     dy: 5.0
     gap: 0.234
   full:
     bend:
-      function: gdsfactory.components.bend_s.bend_s
+      function: bend_s
     cross_section: strip
     dx: 10.0
     dy: 5.0
     gap: 0.234
-  function_name: gdsfactory.components.coupler_asymmetric.coupler_asymmetric
+  function_name: coupler_asymmetric
   info: {}
   info_version: 2
+  module: gdsfactory.components.coupler_asymmetric
   name: coupler_asymmetric

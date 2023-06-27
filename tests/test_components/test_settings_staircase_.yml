@@ -29,22 +29,23 @@ settings:
   child: null
   default:
     bend90:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
     length_h: 5.0
     length_v: 5.0
     rows: 4
     straight:
-      function: gdsfactory.components.straight.straight
+      function: straight
   full:
     bend90:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
     length_h: 5.0
     length_v: 5.0
     rows: 4
     straight:
-      function: gdsfactory.components.straight.straight
-  function_name: gdsfactory.components.cutback_bend.staircase
+      function: straight
+  function_name: staircase
   info:
     n_bends: 8
   info_version: 2
+  module: gdsfactory.components.cutback_bend
   name: staircase

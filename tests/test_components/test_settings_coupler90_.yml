@@ -53,23 +53,24 @@ settings:
   child: null
   default:
     bend:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
     bend_cross_section: null
     cross_section: strip
     gap: 0.2
     radius: 10.0
     straight:
-      function: gdsfactory.components.straight.straight
+      function: straight
   full:
     bend:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
     bend_cross_section: null
     cross_section: strip
     gap: 0.2
     radius: 10.0
     straight:
-      function: gdsfactory.components.straight.straight
-  function_name: gdsfactory.components.coupler90.coupler90
+      function: straight
+  function_name: coupler90
   info: {}
   info_version: 2
+  module: gdsfactory.components.coupler90
   name: coupler90

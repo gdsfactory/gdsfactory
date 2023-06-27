@@ -51,7 +51,8 @@ settings:
     taper_length: 20.0
     w1: 0.4
     w2: 1.0
-  function_name: gdsfactory.components.dbr_tapered.dbr_tapered
+  function_name: dbr_tapered
   info: {}
   info_version: 2
+  module: gdsfactory.components.dbr_tapered
   name: dbr_tapered

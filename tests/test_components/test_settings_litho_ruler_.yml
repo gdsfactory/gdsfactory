@@ -37,7 +37,8 @@ settings:
     - 1
     spacing: 2.0
     width: 0.5
-  function_name: gdsfactory.components.litho_ruler.litho_ruler
+  function_name: litho_ruler
   info: {}
   info_version: 2
+  module: gdsfactory.components.litho_ruler
   name: litho_ruler

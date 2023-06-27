@@ -39,7 +39,8 @@ settings:
     - 10.0
     - 20.0
     width: 1.0
-  function_name: gdsfactory.components.C.C
+  function_name: C
   info: {}
   info_version: 2
+  module: gdsfactory.components.C
   name: C

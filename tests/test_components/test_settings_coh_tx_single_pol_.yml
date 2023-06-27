@@ -357,7 +357,8 @@ settings:
     splitter: mmi1x2
     with_pads: false
     xspacing: 40.0
-  function_name: gdsfactory.components.coh_tx_single_pol.coh_tx_single_pol
+  function_name: coh_tx_single_pol
   info: {}
   info_version: 2
+  module: gdsfactory.components.coh_tx_single_pol
   name: coh_tx_single_pol

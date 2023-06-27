@@ -1,4 +1,4 @@
-name: mzi_e2e484fc
+name: mzi_1fc24805
 ports:
   o1:
     center:
@@ -51,18 +51,18 @@ ports:
 settings:
   changed:
     combiner:
-      function: gdsfactory.components.coupler.coupler
+      function: coupler
     port_e0_combiner: o4
     port_e0_splitter: o4
     port_e1_combiner: o3
     port_e1_splitter: o3
     splitter:
-      function: gdsfactory.components.coupler.coupler
+      function: coupler
   child: null
   default:
     add_optical_ports_arms: false
     bend:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
     combiner: null
     cross_section: strip
     cross_section_x_bot: null
@@ -78,7 +78,7 @@ settings:
     port_e1_splitter: o2
     splitter: mmi1x2
     straight:
-      function: gdsfactory.components.straight.straight
+      function: straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
@@ -86,9 +86,9 @@ settings:
   full:
     add_optical_ports_arms: false
     bend:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
     combiner:
-      function: gdsfactory.components.coupler.coupler
+      function: coupler
     cross_section: strip
     cross_section_x_bot: null
     cross_section_x_top: null
@@ -102,14 +102,15 @@ settings:
     port_e1_combiner: o3
     port_e1_splitter: o3
     splitter:
-      function: gdsfactory.components.coupler.coupler
+      function: coupler
     straight:
-      function: gdsfactory.components.straight.straight
+      function: straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
     with_splitter: true
-  function_name: gdsfactory.components.mzi.mzi
+  function_name: mzi
   info: {}
   info_version: 2
-  name: mzi_e2e484fc
+  module: gdsfactory.components.mzi
+  name: mzi_1fc24805

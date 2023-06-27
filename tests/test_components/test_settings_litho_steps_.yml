@@ -23,7 +23,8 @@ settings:
     - 4.0
     - 8.0
     - 16.0
-  function_name: gdsfactory.components.litho_steps.litho_steps
+  function_name: litho_steps
   info: {}
   info_version: 2
+  module: gdsfactory.components.litho_steps
   name: litho_steps

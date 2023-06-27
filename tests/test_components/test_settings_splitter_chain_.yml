@@ -71,7 +71,7 @@ settings:
       length_mmi: 5.5
       length_taper: 10.0
       taper:
-        function: gdsfactory.components.taper.taper
+        function: taper
       width: null
       width_mmi: 2.5
       width_taper: 1.0
@@ -82,28 +82,30 @@ settings:
       length_mmi: 5.5
       length_taper: 10.0
       taper:
-        function: gdsfactory.components.taper.taper
+        function: taper
       width: null
       width_mmi: 2.5
       width_taper: 1.0
       with_bbox: true
-    function_name: gdsfactory.components.mmi1x2.mmi1x2
+    function_name: mmi1x2
     info: {}
     info_version: 2
+    module: gdsfactory.components.mmi1x2
     name: mmi1x2
   default:
     bend:
-      function: gdsfactory.components.bend_s.bend_s
+      function: bend_s
     columns: 3
     splitter:
-      function: gdsfactory.components.mmi1x2.mmi1x2
+      function: mmi1x2
   full:
     bend:
-      function: gdsfactory.components.bend_s.bend_s
+      function: bend_s
     columns: 3
     splitter:
-      function: gdsfactory.components.mmi1x2.mmi1x2
-  function_name: gdsfactory.components.splitter_chain.splitter_chain
+      function: mmi1x2
+  function_name: splitter_chain
   info: {}
   info_version: 2
+  module: gdsfactory.components.splitter_chain
   name: mmi1x2_splitter_chain
