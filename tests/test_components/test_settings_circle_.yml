@@ -11,7 +11,8 @@ settings:
     angle_resolution: 2.5
     layer: WG
     radius: 10.0
-  function_name: gdsfactory.components.circle.circle
+  function_name: circle
   info: {}
   info_version: 2
+  module: gdsfactory.components.circle
   name: circle

@@ -69,7 +69,8 @@ settings:
     length3: 30.0
     output_wg_sep: 3.0
     wg_sep: 1.0
-  function_name: gdsfactory.components.coupler_adiabatic.coupler_adiabatic
+  function_name: coupler_adiabatic
   info: {}
   info_version: 2
+  module: gdsfactory.components.coupler_adiabatic
   name: coupler_adiabatic

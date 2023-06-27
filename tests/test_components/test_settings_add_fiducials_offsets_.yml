@@ -93,16 +93,17 @@ settings:
       spacing:
       - 150.0
       - 150.0
-    function_name: gdsfactory.components.pad.pad_array
+    function_name: pad_array
     info:
       size:
       - 100.0
       - 100.0
     info_version: 2
+    module: gdsfactory.components.pad
     name: pad_array
   default:
     component:
-      function: gdsfactory.components.pad.pad_array
+      function: pad_array
     fiducial: cross
     offsets:
     - - 0
@@ -111,17 +112,18 @@ settings:
       - -100
   full:
     component:
-      function: gdsfactory.components.pad.pad_array
+      function: pad_array
     fiducial: cross
     offsets:
     - - 0
       - 100
     - - 0
       - -100
-  function_name: gdsfactory.components.add_fiducials.add_fiducials_offsets
+  function_name: add_fiducials_offsets
   info:
     size:
     - 100.0
     - 100.0
   info_version: 2
+  module: gdsfactory.components.add_fiducials
   name: pad_array_add_fiducials_offsets

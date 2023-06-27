@@ -1,4 +1,4 @@
-name: sample_connections_db2e8d6e
+name: sample_connections_65d4d507
 ports: {}
 settings:
   changed:
@@ -17,33 +17,33 @@ settings:
       name: sample_connections
     routing_strategy:
       get_bundle:
-        function: gdsfactory.routing.get_bundle.get_bundle
+        function: get_bundle
       get_bundle_all_angle:
-        function: gdsfactory.routing.all_angle.get_bundle_all_angle
+        function: get_bundle_all_angle
       get_bundle_electrical:
-        function: gdsfactory.routing.get_bundle.get_bundle
+        function: get_bundle
         settings:
           bend:
-            function: gdsfactory.components.wire.wire_corner
+            function: wire_corner
           cross_section: metal_routing
       get_bundle_from_steps:
-        function: gdsfactory.routing.get_bundle_from_steps.get_bundle_from_steps
+        function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
-        function: gdsfactory.routing.get_bundle_from_steps.get_bundle_from_steps
+        function: get_bundle_from_steps
         settings:
           bend:
-            function: gdsfactory.components.wire.wire_corner
+            function: wire_corner
           cross_section: metal_routing
       get_bundle_from_waypoints:
-        function: gdsfactory.routing.get_bundle_from_waypoints.get_bundle_from_waypoints
+        function: get_bundle_from_waypoints
       get_bundle_path_length_match:
-        function: gdsfactory.routing.get_bundle_path_length_match.get_bundle_path_length_match
+        function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
-        function: gdsfactory.routing.get_bundle.get_bundle_same_axis_no_grouping
+        function: get_bundle_same_axis_no_grouping
   child: null
   default:
     label_instance_function:
-      function: gdsfactory.add_pins.add_instance_label
+      function: add_instance_label
     mode: layout
   full:
     conf:
@@ -60,37 +60,38 @@ settings:
             length: 1
       name: sample_connections
     label_instance_function:
-      function: gdsfactory.add_pins.add_instance_label
+      function: add_instance_label
     mode: layout
     routing_strategy:
       get_bundle:
-        function: gdsfactory.routing.get_bundle.get_bundle
+        function: get_bundle
       get_bundle_all_angle:
-        function: gdsfactory.routing.all_angle.get_bundle_all_angle
+        function: get_bundle_all_angle
       get_bundle_electrical:
-        function: gdsfactory.routing.get_bundle.get_bundle
+        function: get_bundle
         settings:
           bend:
-            function: gdsfactory.components.wire.wire_corner
+            function: wire_corner
           cross_section: metal_routing
       get_bundle_from_steps:
-        function: gdsfactory.routing.get_bundle_from_steps.get_bundle_from_steps
+        function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
-        function: gdsfactory.routing.get_bundle_from_steps.get_bundle_from_steps
+        function: get_bundle_from_steps
         settings:
           bend:
-            function: gdsfactory.components.wire.wire_corner
+            function: wire_corner
           cross_section: metal_routing
       get_bundle_from_waypoints:
-        function: gdsfactory.routing.get_bundle_from_waypoints.get_bundle_from_waypoints
+        function: get_bundle_from_waypoints
       get_bundle_path_length_match:
-        function: gdsfactory.routing.get_bundle_path_length_match.get_bundle_path_length_match
+        function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
-        function: gdsfactory.routing.get_bundle.get_bundle_same_axis_no_grouping
-  function_name: gdsfactory.read.from_yaml._from_yaml
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
   info:
     instances:
     - wgw
     - wgn
   info_version: 2
-  name: sample_connections_db2e8d6e
+  module: gdsfactory.read.from_yaml
+  name: sample_connections_65d4d507

@@ -53,36 +53,36 @@ settings:
   child: null
   default:
     bends:
-    - function: gdsfactory.components.bend_circular.bend_circular
-    - function: gdsfactory.components.bend_circular.bend_circular
-    - function: gdsfactory.components.bend_circular.bend_circular
+    - function: bend_circular
+    - function: bend_circular
+    - function: bend_circular
     gaps:
     - 0.2
     - 0.2
     - 0.2
     - 0.2
     input_straight_cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
     output_straight_cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -92,74 +92,74 @@ settings:
     - 10.0
     - 10.0
     ring_cross_sections:
-    - function: gdsfactory.cross_section.cross_section
+    - function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
-    - function: gdsfactory.cross_section.cross_section
+    - function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
-    - function: gdsfactory.cross_section.cross_section
+    - function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
   full:
     bends:
-    - function: gdsfactory.components.bend_circular.bend_circular
-    - function: gdsfactory.components.bend_circular.bend_circular
-    - function: gdsfactory.components.bend_circular.bend_circular
+    - function: bend_circular
+    - function: bend_circular
+    - function: bend_circular
     gaps:
     - 0.2
     - 0.2
     - 0.2
     - 0.2
     input_straight_cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
     output_straight_cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -169,43 +169,44 @@ settings:
     - 10.0
     - 10.0
     ring_cross_sections:
-    - function: gdsfactory.cross_section.cross_section
+    - function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
-    - function: gdsfactory.cross_section.cross_section
+    - function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
-    - function: gdsfactory.cross_section.cross_section
+    - function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
-  function_name: gdsfactory.components.ring_crow.ring_crow
+  function_name: ring_crow
   info: {}
   info_version: 2
+  module: gdsfactory.components.ring_crow
   name: ring_crow

@@ -5,7 +5,7 @@ settings:
   child: null
   default: {}
   full: {}
-  function_name: yaml_jinja.aar_tricky_connections
+  function_name: aar_tricky_connections
   info:
     instances:
     - wg_a1
@@ -27,4 +27,5 @@ settings:
     - wg_i1
     - wg_i2
   info_version: 2
+  module: yaml_jinja
   name: aar_tricky_connections

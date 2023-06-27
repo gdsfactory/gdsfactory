@@ -43,7 +43,8 @@ settings:
     trench_offset: 0.1
     trench_width: 2.0
     width: 0.5
-  function_name: gdsfactory.components.taper.taper_strip_to_ridge_trenches
+  function_name: taper_strip_to_ridge_trenches
   info: {}
   info_version: 2
+  module: gdsfactory.components.taper
   name: taper_strip_to_ridge_trenches

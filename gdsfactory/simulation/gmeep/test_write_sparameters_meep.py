@@ -140,9 +140,10 @@ def write_sp(c, arg1):
 
 
 if __name__ == "__main__":
+    test_sparameters_straight()
     # test_sparameters_crossing_symmetric(False)
     # test_sparameters_lazy_parallelism()
-    test_sparameters_straight_symmetric()
+    # test_sparameters_straight_symmetric()
     # test_sparameters_straight_batch()
     # test_sparameters_crossing_symmetric()
 

@@ -66,7 +66,7 @@ settings:
     - 11.0
     - 11.0
     via:
-      function: gdsfactory.components.via.via
+      function: via
       settings:
         enclosure: 2
         layer: VIA1
@@ -87,16 +87,17 @@ settings:
     - 11.0
     - 11.0
     via:
-      function: gdsfactory.components.via.via
+      function: via
       settings:
         enclosure: 2
         layer: VIA1
     ysize: 0.5
     yspacing: 2.0
-  function_name: gdsfactory.components.via_stack_slot.via_stack_slot
+  function_name: via_stack_slot
   info:
     size:
     - 11.0
     - 11.0
   info_version: 2
+  module: gdsfactory.components.via_stack_slot
   name: via_stack_slot

@@ -65,7 +65,8 @@ settings:
     radius: 5.0
     start_straight_length: 5.0
     waveguide_pitch: 10.0
-  function_name: gdsfactory.components.array_with_fanout.array_with_fanout
+  function_name: array_with_fanout
   info: {}
   info_version: 2
+  module: gdsfactory.components.array_with_fanout
   name: array_with_fanout

@@ -1,4 +1,4 @@
-name: mzi_f48b098b_fanout2x2_c1f2782d
+name: mzi_2e88f57c_fanout2x2_564dd830
 ports:
   o1:
     center:
@@ -75,33 +75,33 @@ ports:
 settings:
   changed:
     component:
-      component: gdsfactory.components.mzi.mzi
+      component: mzi
       settings:
         combiner:
-          function: gdsfactory.components.mmi2x2.mmi2x2
+          function: mmi2x2
         port_e0_combiner: o4
         port_e0_splitter: o4
         port_e1_combiner: o3
         port_e1_splitter: o3
         splitter:
-          function: gdsfactory.components.mmi2x2.mmi2x2
+          function: mmi2x2
         straight_x_top: straight_heater_metal
   child:
     changed:
       combiner:
-        function: gdsfactory.components.mmi2x2.mmi2x2
+        function: mmi2x2
       port_e0_combiner: o4
       port_e0_splitter: o4
       port_e1_combiner: o3
       port_e1_splitter: o3
       splitter:
-        function: gdsfactory.components.mmi2x2.mmi2x2
+        function: mmi2x2
       straight_x_top: straight_heater_metal
     child: null
     default:
       add_optical_ports_arms: false
       bend:
-        function: gdsfactory.components.bend_euler.bend_euler
+        function: bend_euler
       combiner: null
       cross_section: strip
       cross_section_x_bot: null
@@ -117,7 +117,7 @@ settings:
       port_e1_splitter: o2
       splitter: mmi1x2
       straight:
-        function: gdsfactory.components.straight.straight
+        function: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -125,9 +125,9 @@ settings:
     full:
       add_optical_ports_arms: false
       bend:
-        function: gdsfactory.components.bend_euler.bend_euler
+        function: bend_euler
       combiner:
-        function: gdsfactory.components.mmi2x2.mmi2x2
+        function: mmi2x2
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
@@ -141,50 +141,52 @@ settings:
       port_e1_combiner: o3
       port_e1_splitter: o3
       splitter:
-        function: gdsfactory.components.mmi2x2.mmi2x2
+        function: mmi2x2
       straight:
-        function: gdsfactory.components.straight.straight
+        function: straight
       straight_x_bot: null
       straight_x_top: straight_heater_metal
       straight_y: null
       with_splitter: true
-    function_name: gdsfactory.components.mzi.mzi
+    function_name: mzi
     info: {}
     info_version: 2
-    name: mzi_f48b098b
+    module: gdsfactory.components.mzi
+    name: mzi_2e88f57c
   default:
     bend_length: null
     component:
-      function: gdsfactory.components.straight.straight
+      function: straight
     cross_section: strip
     npoints: 101
     port_spacing: 20.0
     select_ports:
-      function: gdsfactory.port.select_ports
+      function: select_ports
       settings:
         port_type: optical
   full:
     bend_length: null
     component:
-      component: gdsfactory.components.mzi.mzi
+      component: mzi
       settings:
         combiner:
-          function: gdsfactory.components.mmi2x2.mmi2x2
+          function: mmi2x2
         port_e0_combiner: o4
         port_e0_splitter: o4
         port_e1_combiner: o3
         port_e1_splitter: o3
         splitter:
-          function: gdsfactory.components.mmi2x2.mmi2x2
+          function: mmi2x2
         straight_x_top: straight_heater_metal
     cross_section: strip
     npoints: 101
     port_spacing: 20.0
     select_ports:
-      function: gdsfactory.port.select_ports
+      function: select_ports
       settings:
         port_type: optical
-  function_name: gdsfactory.routing.fanout2x2.fanout2x2
+  function_name: fanout2x2
   info: {}
   info_version: 2
-  name: mzi_f48b098b_fanout2x2_c1f2782d
+  module: gdsfactory.routing.fanout2x2
+  name: mzi_2e88f57c_fanout2x2_564dd830

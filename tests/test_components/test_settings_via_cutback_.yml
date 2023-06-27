@@ -9,7 +9,7 @@ settings:
     min_pad_spacing: 0.0
     num_vias: 100.0
     pad:
-      function: gdsfactory.components.via_stack.via_stack
+      function: via_stack
       settings:
         layers:
         - HEATER
@@ -17,11 +17,11 @@ settings:
         - M3
         vias:
         - null
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             enclosure: 2
             layer: VIA1
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             layer: VIA2
     pad_size:
@@ -38,7 +38,7 @@ settings:
     min_pad_spacing: 0.0
     num_vias: 100.0
     pad:
-      function: gdsfactory.components.via_stack.via_stack
+      function: via_stack
       settings:
         layers:
         - HEATER
@@ -46,11 +46,11 @@ settings:
         - M3
         vias:
         - null
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             enclosure: 2
             layer: VIA1
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             layer: VIA2
     pad_size:
@@ -61,7 +61,8 @@ settings:
     via_width: 5.0
     wire_pad_inclusion: 12.0
     wire_width: 10.0
-  function_name: gdsfactory.components.via_cutback.via_cutback
+  function_name: via_cutback
   info: {}
   info_version: 2
+  module: gdsfactory.components.via_cutback
   name: via_cutback

@@ -17,7 +17,8 @@ settings:
     spacing: 10.0
     square_corner: bottom_left
     width: 10.0
-  function_name: gdsfactory.components.align.align_wafer
+  function_name: align_wafer
   info: {}
   info_version: 2
+  module: gdsfactory.components.align
   name: align_wafer

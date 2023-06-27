@@ -42,9 +42,9 @@ settings:
   default:
     columns: 3
     component:
-      function: gdsfactory.components.pad.pad
+      function: pad
     cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         gap: 5
         layer: M2
@@ -63,14 +63,14 @@ settings:
     straight_length: 60.0
     via_spacing: 10.0
     via_stack:
-      function: gdsfactory.components.via_stack.via_stack
+      function: via_stack
     via_stack_dy: 0
   full:
     columns: 3
     component:
-      function: gdsfactory.components.pad.pad
+      function: pad
     cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         gap: 5
         layer: M2
@@ -89,9 +89,10 @@ settings:
     straight_length: 60.0
     via_spacing: 10.0
     via_stack:
-      function: gdsfactory.components.via_stack.via_stack
+      function: via_stack
     via_stack_dy: 0
-  function_name: gdsfactory.components.array_with_via.array_with_via
+  function_name: array_with_via
   info: {}
   info_version: 2
+  module: gdsfactory.components.array_with_via
   name: array_with_via

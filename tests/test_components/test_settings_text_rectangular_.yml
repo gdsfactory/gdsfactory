@@ -5,7 +5,7 @@ settings:
   child: null
   default:
     font:
-      function: gdsfactory.components.text_rectangular_font.rectangular_font
+      function: rectangular_font
     justify: left
     layer: WG
     position:
@@ -15,7 +15,7 @@ settings:
     text: abcd
   full:
     font:
-      function: gdsfactory.components.text_rectangular_font.rectangular_font
+      function: rectangular_font
     justify: left
     layer: WG
     position:
@@ -23,7 +23,8 @@ settings:
     - 0.0
     size: 10.0
     text: abcd
-  function_name: gdsfactory.components.text_rectangular.text_rectangular
+  function_name: text_rectangular
   info: {}
   info_version: 2
+  module: gdsfactory.components.text_rectangular
   name: text_rectangular

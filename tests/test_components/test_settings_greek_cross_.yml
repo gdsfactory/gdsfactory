@@ -58,7 +58,7 @@ settings:
     length: 30
     offsets: null
     via_stack:
-      function: gdsfactory.components.via_stack.via_stack
+      function: via_stack
       settings:
         layers:
         - WG
@@ -67,7 +67,7 @@ settings:
         vias:
         - null
         - null
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             layer: VIAC
     widths:
@@ -80,7 +80,7 @@ settings:
     length: 30
     offsets: null
     via_stack:
-      function: gdsfactory.components.via_stack.via_stack
+      function: via_stack
       settings:
         layers:
         - WG
@@ -89,13 +89,14 @@ settings:
         vias:
         - null
         - null
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             layer: VIAC
     widths:
     - 2.0
     - 3.0
-  function_name: gdsfactory.components.greek_cross.greek_cross
+  function_name: greek_cross
   info: {}
   info_version: 2
+  module: gdsfactory.components.greek_cross
   name: greek_cross

@@ -125,33 +125,33 @@ settings:
   child: null
   default:
     cross_section:
-      function: gdsfactory.cross_section.pin
+      function: pin
     length: 500.0
     taper:
-      function: gdsfactory.components.taper.taper_strip_to_ridge
+      function: taper_strip_to_ridge
     via_stack:
-      function: gdsfactory.components.via_stack.via_stack
+      function: via_stack
       settings:
         layers:
         - M1
         - M2
         - M3
         vias:
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             enclosure: 2
             layer: VIA1
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             layer: VIA2
         - null
     via_stack_slab:
-      function: gdsfactory.components.via_stack_slot.via_stack_slot
+      function: via_stack_slot
       settings:
         layers:
         - M1
         via:
-          function: gdsfactory.components.via.via
+          function: via
           settings:
             layer: VIAC
     via_stack_slab_bot: null
@@ -162,33 +162,33 @@ settings:
     via_stack_width: 10.0
   full:
     cross_section:
-      function: gdsfactory.cross_section.pin
+      function: pin
     length: 500.0
     taper:
-      function: gdsfactory.components.taper.taper_strip_to_ridge
+      function: taper_strip_to_ridge
     via_stack:
-      function: gdsfactory.components.via_stack.via_stack
+      function: via_stack
       settings:
         layers:
         - M1
         - M2
         - M3
         vias:
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             enclosure: 2
             layer: VIA1
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             layer: VIA2
         - null
     via_stack_slab:
-      function: gdsfactory.components.via_stack_slot.via_stack_slot
+      function: via_stack_slot
       settings:
         layers:
         - M1
         via:
-          function: gdsfactory.components.via.via
+          function: via
           settings:
             layer: VIAC
     via_stack_slab_bot: null
@@ -197,7 +197,8 @@ settings:
     via_stack_slab_width: null
     via_stack_spacing: 3.0
     via_stack_width: 10.0
-  function_name: gdsfactory.components.straight_pin_slot.straight_pin_slot
+  function_name: straight_pin_slot
   info: {}
   info_version: 2
+  module: gdsfactory.components.straight_pin_slot
   name: straight_pin_slot

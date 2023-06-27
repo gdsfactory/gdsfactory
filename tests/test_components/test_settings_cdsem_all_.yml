@@ -15,7 +15,7 @@ settings:
     dense_lines_width_difference: 0.02
     straight: straight
     text:
-      function: gdsfactory.components.text_rectangular.text_rectangular
+      function: text_rectangular
       settings:
         size: 1
     widths:
@@ -37,7 +37,7 @@ settings:
     dense_lines_width_difference: 0.02
     straight: straight
     text:
-      function: gdsfactory.components.text_rectangular.text_rectangular
+      function: text_rectangular
       settings:
         size: 1
     widths:
@@ -47,7 +47,8 @@ settings:
     - 0.6
     - 0.8
     - 1.0
-  function_name: gdsfactory.components.cdsem_all.cdsem_all
+  function_name: cdsem_all
   info: {}
   info_version: 2
+  module: gdsfactory.components.cdsem_all
   name: cdsem_all

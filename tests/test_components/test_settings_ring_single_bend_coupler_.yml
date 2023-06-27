@@ -29,7 +29,7 @@ settings:
   child: null
   default:
     bend:
-      function: gdsfactory.components.bend_circular.bend_circular
+      function: bend_circular
     coupling_angle_coverage: 180.0
     cross_section_inner: strip
     cross_section_outer: strip
@@ -39,7 +39,7 @@ settings:
     radius: 5.0
   full:
     bend:
-      function: gdsfactory.components.bend_circular.bend_circular
+      function: bend_circular
     coupling_angle_coverage: 180.0
     cross_section_inner: strip
     cross_section_outer: strip
@@ -47,7 +47,8 @@ settings:
     length_x: 0.6
     length_y: 0.6
     radius: 5.0
-  function_name: gdsfactory.components.ring_single_bend_coupler.ring_single_bend_coupler
+  function_name: ring_single_bend_coupler
   info: {}
   info_version: 2
+  module: gdsfactory.components.ring_single_bend_coupler
   name: ring_single_bend_coupler

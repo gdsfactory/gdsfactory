@@ -33,7 +33,8 @@ settings:
     slit_spacing:
     - 20
     - 20
-  function_name: gdsfactory.components.rectangle_with_slits.rectangle_with_slits
+  function_name: rectangle_with_slits
   info: {}
   info_version: 2
+  module: gdsfactory.components.rectangle_with_slits
   name: rectangle_with_slits

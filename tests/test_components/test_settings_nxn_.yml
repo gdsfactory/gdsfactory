@@ -83,7 +83,8 @@ settings:
     wg_width: 0.5
     xsize: 8.0
     ysize: 8.0
-  function_name: gdsfactory.components.nxn.nxn
+  function_name: nxn
   info: {}
   info_version: 2
+  module: gdsfactory.components.nxn
   name: nxn

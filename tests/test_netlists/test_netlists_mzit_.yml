@@ -1,37 +1,38 @@
 connections:
-  gdsfactory.components.bend_euler.bend_euler_1,o1: gdsfactory.components.bend_euler.bend_euler_2,o2
-  gdsfactory.components.bend_euler.bend_euler_1,o2: gdsfactory.components.taper.taper_2,o1
-  gdsfactory.components.bend_euler.bend_euler_2,o1: gdsfactory.components.taper.taper_1,o2
-  gdsfactory.components.bend_euler.bend_euler_3,o1: gdsfactory.components.straight.straight_3,o2
-  gdsfactory.components.bend_euler.bend_euler_3,o2: gdsfactory.components.straight.straight_4,o1
-  gdsfactory.components.bend_euler.bend_euler_4,o1: gdsfactory.components.straight.straight_2,o2
-  gdsfactory.components.bend_euler.bend_euler_4,o2: gdsfactory.components.straight.straight_3,o1
-  gdsfactory.components.coupler.coupler_1,o3: gdsfactory.components.taper.taper_1,o1
-  gdsfactory.components.coupler.coupler_1,o4: gdsfactory.components.taper.taper_4,o1
-  gdsfactory.components.coupler.coupler_2,o3: gdsfactory.components.taper.taper_6,o2
-  gdsfactory.components.coupler.coupler_2,o4: gdsfactory.components.taper.taper_3,o2
-  gdsfactory.components.straight.straight_1,o1: gdsfactory.components.taper.taper_2,o2
-  gdsfactory.components.straight.straight_1,o2: gdsfactory.components.taper.taper_3,o1
-  gdsfactory.components.straight.straight_2,o1: gdsfactory.components.taper.taper_4,o2
-  gdsfactory.components.straight.straight_4,o2: gdsfactory.components.taper.taper_5,o1
-  gdsfactory.components.straight.straight_5,o1: gdsfactory.components.taper.taper_5,o2
-  gdsfactory.components.straight.straight_5,o2: gdsfactory.components.taper.taper_6,o1
+  bend_euler_1,o1: bend_euler_2,o2
+  bend_euler_1,o2: taper_2,o1
+  bend_euler_2,o1: taper_1,o2
+  bend_euler_3,o1: straight_3,o2
+  bend_euler_3,o2: straight_4,o1
+  bend_euler_4,o1: straight_2,o2
+  bend_euler_4,o2: straight_3,o1
+  coupler_1,o3: taper_1,o1
+  coupler_1,o4: taper_4,o1
+  coupler_2,o3: taper_6,o2
+  coupler_2,o4: taper_3,o2
+  straight_1,o1: taper_2,o2
+  straight_1,o2: taper_3,o1
+  straight_2,o1: taper_4,o2
+  straight_4,o2: taper_5,o1
+  straight_5,o1: taper_5,o2
+  straight_5,o2: taper_6,o1
 instances:
-  gdsfactory.components.bend_euler.bend_euler_1:
-    component: gdsfactory.components.bend_euler.bend_euler
+  bend_euler_1:
+    component: bend_euler
     info:
       dy: 10.0
-      function_name: gdsfactory.cross_section.cross_section
+      function_name: cross_section
       length: 16.637
+      module: gdsfactory.cross_section
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -67,21 +68,22 @@ instances:
       width: 0.45
     settings:
       width: 0.45
-  gdsfactory.components.bend_euler.bend_euler_2:
-    component: gdsfactory.components.bend_euler.bend_euler
+  bend_euler_2:
+    component: bend_euler
     info:
       dy: 10.0
-      function_name: gdsfactory.cross_section.cross_section
+      function_name: cross_section
       length: 16.637
+      module: gdsfactory.cross_section
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -117,21 +119,22 @@ instances:
       width: 0.45
     settings:
       width: 0.45
-  gdsfactory.components.bend_euler.bend_euler_3:
-    component: gdsfactory.components.bend_euler.bend_euler
+  bend_euler_3:
+    component: bend_euler
     info:
       dy: 10.0
-      function_name: gdsfactory.cross_section.cross_section
+      function_name: cross_section
       length: 16.637
+      module: gdsfactory.cross_section
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -167,21 +170,22 @@ instances:
       width: 0.55
     settings:
       width: 0.55
-  gdsfactory.components.bend_euler.bend_euler_4:
-    component: gdsfactory.components.bend_euler.bend_euler
+  bend_euler_4:
+    component: bend_euler
     info:
       dy: 10.0
-      function_name: gdsfactory.cross_section.cross_section
+      function_name: cross_section
       length: 16.637
+      module: gdsfactory.cross_section
       radius: 10.0
       radius_min: 7.061
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -217,8 +221,8 @@ instances:
       width: 0.55
     settings:
       width: 0.55
-  gdsfactory.components.coupler.coupler_1:
-    component: gdsfactory.components.coupler.coupler
+  coupler_1:
+    component: coupler
     info:
       length: 10.026
       min_bend_radius: 30.486
@@ -226,8 +230,8 @@ instances:
       dy: 2.0
       gap: 0.3
       length: 10.0
-  gdsfactory.components.coupler.coupler_2:
-    component: gdsfactory.components.coupler.coupler
+  coupler_2:
+    component: coupler
     info:
       length: 10.03
       min_bend_radius: 28.187
@@ -235,19 +239,20 @@ instances:
       dy: 2.0
       gap: 0.2
       length: 5.0
-  gdsfactory.components.straight.straight_1:
-    component: gdsfactory.components.straight.straight
+  straight_1:
+    component: straight
     info:
       cross_section: strip
-      function_name: gdsfactory.cross_section.cross_section
+      function_name: cross_section
       length: 1.0
+      module: gdsfactory.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -284,19 +289,20 @@ instances:
     settings:
       length: 1.0
       width: 0.55
-  gdsfactory.components.straight.straight_2:
-    component: gdsfactory.components.straight.straight
+  straight_2:
+    component: straight
     info:
       cross_section: strip
-      function_name: gdsfactory.cross_section.cross_section
+      function_name: cross_section
       length: 3.0
+      module: gdsfactory.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -333,19 +339,20 @@ instances:
     settings:
       length: 3.0
       width: 0.55
-  gdsfactory.components.straight.straight_3:
-    component: gdsfactory.components.straight.straight
+  straight_3:
+    component: straight
     info:
       cross_section: strip
-      function_name: gdsfactory.cross_section.cross_section
+      function_name: cross_section
       length: 4.0
+      module: gdsfactory.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -382,19 +389,20 @@ instances:
     settings:
       length: 4.0
       width: 0.55
-  gdsfactory.components.straight.straight_4:
-    component: gdsfactory.components.straight.straight
+  straight_4:
+    component: straight
     info:
       cross_section: strip
-      function_name: gdsfactory.cross_section.cross_section
+      function_name: cross_section
       length: 3.0
+      module: gdsfactory.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -431,19 +439,20 @@ instances:
     settings:
       length: 3.0
       width: 0.55
-  gdsfactory.components.straight.straight_5:
-    component: gdsfactory.components.straight.straight
+  straight_5:
+    component: straight
     info:
       cross_section: strip
-      function_name: gdsfactory.cross_section.cross_section
+      function_name: cross_section
       length: 1.0
+      module: gdsfactory.cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -480,8 +489,8 @@ instances:
     settings:
       length: 1.0
       width: 0.45
-  gdsfactory.components.taper.taper_1:
-    component: gdsfactory.components.taper.taper
+  taper_1:
+    component: taper
     info:
       length: 5.0
       width1: 0.5
@@ -489,8 +498,8 @@ instances:
     settings:
       length: 5.0
       width2: 0.45
-  gdsfactory.components.taper.taper_2:
-    component: gdsfactory.components.taper.taper
+  taper_2:
+    component: taper
     info:
       length: 5.0
       width1: 0.45
@@ -499,8 +508,8 @@ instances:
       length: 5.0
       width1: 0.45
       width2: 0.55
-  gdsfactory.components.taper.taper_3:
-    component: gdsfactory.components.taper.taper
+  taper_3:
+    component: taper
     info:
       length: 5.0
       width1: 0.55
@@ -509,8 +518,8 @@ instances:
       length: 5.0
       width1: 0.55
       width2: 0.5
-  gdsfactory.components.taper.taper_4:
-    component: gdsfactory.components.taper.taper
+  taper_4:
+    component: taper
     info:
       length: 5.0
       width1: 0.5
@@ -518,8 +527,8 @@ instances:
     settings:
       length: 5.0
       width2: 0.55
-  gdsfactory.components.taper.taper_5:
-    component: gdsfactory.components.taper.taper
+  taper_5:
+    component: taper
     info:
       length: 5.0
       width1: 0.55
@@ -528,8 +537,8 @@ instances:
       length: 5.0
       width1: 0.55
       width2: 0.45
-  gdsfactory.components.taper.taper_6:
-    component: gdsfactory.components.taper.taper
+  taper_6:
+    component: taper
     info:
       length: 5.0
       width1: 0.45
@@ -540,93 +549,93 @@ instances:
       width2: 0.5
 name: mzit
 placements:
-  gdsfactory.components.bend_euler.bend_euler_1:
+  bend_euler_1:
     mirror: 0
     rotation: 90
     x: 35.0
     y: 11.4
-  gdsfactory.components.bend_euler.bend_euler_2:
+  bend_euler_2:
     mirror: 0
     rotation: 0
     x: 25.0
     y: 1.4
-  gdsfactory.components.bend_euler.bend_euler_3:
+  bend_euler_3:
     mirror: 0
     rotation: 90
     x: 38.0
     y: 13.4
-  gdsfactory.components.bend_euler.bend_euler_4:
+  bend_euler_4:
     mirror: 0
     rotation: 0
     x: 28.0
     y: -0.6
-  gdsfactory.components.coupler.coupler_1:
+  coupler_1:
     mirror: 0
     rotation: 0
     x: 0.0
     y: 0.0
-  gdsfactory.components.coupler.coupler_2:
+  coupler_2:
     mirror: 0
     rotation: 0
     x: -1.0
     y: 22.05
-  gdsfactory.components.straight.straight_1:
+  straight_1:
     mirror: 0
     rotation: 180
     x: 20.0
     y: 21.4
-  gdsfactory.components.straight.straight_2:
+  straight_2:
     mirror: 0
     rotation: 0
     x: 25.0
     y: -0.6
-  gdsfactory.components.straight.straight_3:
+  straight_3:
     mirror: 0
     rotation: 90
     x: 38.0
     y: 9.4
-  gdsfactory.components.straight.straight_4:
+  straight_4:
     mirror: 0
     rotation: 180
     x: 28.0
     y: 23.4
-  gdsfactory.components.straight.straight_5:
+  straight_5:
     mirror: 0
     rotation: 180
     x: 20.0
     y: 23.4
-  gdsfactory.components.taper.taper_1:
+  taper_1:
     mirror: 0
     rotation: 0
     x: 20.0
     y: 1.4
-  gdsfactory.components.taper.taper_2:
+  taper_2:
     mirror: 0
     rotation: 180
     x: 25.0
     y: 21.4
-  gdsfactory.components.taper.taper_3:
+  taper_3:
     mirror: 0
     rotation: 180
     x: 19.0
     y: 21.4
-  gdsfactory.components.taper.taper_4:
+  taper_4:
     mirror: 0
     rotation: 0
     x: 20.0
     y: -0.6
-  gdsfactory.components.taper.taper_5:
+  taper_5:
     mirror: 0
     rotation: 180
     x: 25.0
     y: 23.4
-  gdsfactory.components.taper.taper_6:
+  taper_6:
     mirror: 0
     rotation: 180
     x: 19.0
     y: 23.4
 ports:
-  o1: gdsfactory.components.coupler.coupler_1,o1
-  o2: gdsfactory.components.coupler.coupler_1,o2
-  o3: gdsfactory.components.coupler.coupler_2,o1
-  o4: gdsfactory.components.coupler.coupler_2,o2
+  o1: coupler_1,o1
+  o2: coupler_1,o2
+  o3: coupler_2,o1
+  o4: coupler_2,o2

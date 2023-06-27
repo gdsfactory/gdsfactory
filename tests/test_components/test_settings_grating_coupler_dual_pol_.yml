@@ -47,9 +47,9 @@ settings:
     period_y: 0.58
     polarization: dual
     taper:
-      function: gdsfactory.components.taper.taper
+      function: taper
     unit_cell:
-      function: gdsfactory.components.rectangle.rectangle
+      function: rectangle
       settings:
         centered: true
         layer: SLAB150
@@ -69,9 +69,9 @@ settings:
     period_y: 0.58
     polarization: dual
     taper:
-      function: gdsfactory.components.taper.taper
+      function: taper
     unit_cell:
-      function: gdsfactory.components.rectangle.rectangle
+      function: rectangle
       settings:
         centered: true
         layer: SLAB150
@@ -83,9 +83,10 @@ settings:
     width_taper: 10.0
     x_span: 11
     y_span: 11
-  function_name: gdsfactory.components.grating_coupler_dual_pol.grating_coupler_dual_pol
+  function_name: grating_coupler_dual_pol
   info:
     polarization: dual
     wavelength: 1.55
   info_version: 2
+  module: gdsfactory.components.grating_coupler_dual_pol
   name: grating_coupler_dual_pol

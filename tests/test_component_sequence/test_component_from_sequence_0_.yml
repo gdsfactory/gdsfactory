@@ -1,4 +1,4 @@
-name: component_sequence_aa8c0e14
+name: component_sequence_b024f52e
 ports:
   o1:
     center:
@@ -29,24 +29,24 @@ settings:
     sequence: ABHBA
     symbol_to_component:
       '-':
-      - component: gdsfactory.components.straight.straight
+      - component: straight
         settings: {}
       - o1
       - o2
       A:
-      - component: gdsfactory.components.bend_circular.bend_circular
+      - component: bend_circular
         settings:
           angle: 180
       - o1
       - o2
       B:
-      - component: gdsfactory.components.bend_circular.bend_circular
+      - component: bend_circular
         settings:
           angle: 180
       - o2
       - o1
       H:
-      - component: gdsfactory.components.straight_pin.straight_pin
+      - component: straight_pin
         settings:
           length: 40
       - o1
@@ -65,29 +65,30 @@ settings:
     start_orientation: 0.0
     symbol_to_component:
       '-':
-      - component: gdsfactory.components.straight.straight
+      - component: straight
         settings: {}
       - o1
       - o2
       A:
-      - component: gdsfactory.components.bend_circular.bend_circular
+      - component: bend_circular
         settings:
           angle: 180
       - o1
       - o2
       B:
-      - component: gdsfactory.components.bend_circular.bend_circular
+      - component: bend_circular
         settings:
           angle: 180
       - o2
       - o1
       H:
-      - component: gdsfactory.components.straight_pin.straight_pin
+      - component: straight_pin
         settings:
           length: 40
       - o1
       - o2
-  function_name: gdsfactory.components.component_sequence.component_sequence
+  function_name: component_sequence
   info: {}
   info_version: 2
-  name: component_sequence_aa8c0e14
+  module: gdsfactory.components.component_sequence
+  name: component_sequence_b024f52e

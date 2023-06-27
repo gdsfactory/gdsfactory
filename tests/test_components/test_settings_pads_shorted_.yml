@@ -8,16 +8,17 @@ settings:
     layer_metal: M3
     metal_width: 10
     pad:
-      function: gdsfactory.components.pad.pad
+      function: pad
     pad_spacing: 150.0
   full:
     columns: 8
     layer_metal: M3
     metal_width: 10
     pad:
-      function: gdsfactory.components.pad.pad
+      function: pad
     pad_spacing: 150.0
-  function_name: gdsfactory.components.pads_shorted.pads_shorted
+  function_name: pads_shorted
   info: {}
   info_version: 2
+  module: gdsfactory.components.pads_shorted
   name: pads_shorted

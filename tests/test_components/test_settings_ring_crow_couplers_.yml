@@ -53,107 +53,108 @@ settings:
   child: null
   default:
     bends:
-    - function: gdsfactory.components.bend_circular.bend_circular
-    - function: gdsfactory.components.bend_circular.bend_circular
-    - function: gdsfactory.components.bend_circular.bend_circular
+    - function: bend_circular
+    - function: bend_circular
+    - function: bend_circular
     couplers:
-    - function: gdsfactory.components.coupler_full.coupler_full
-    - function: gdsfactory.components.coupler_full.coupler_full
-    - function: gdsfactory.components.coupler_full.coupler_full
-    - function: gdsfactory.components.coupler_full.coupler_full
+    - function: coupler_full
+    - function: coupler_full
+    - function: coupler_full
+    - function: coupler_full
     radius:
     - 10.0
     - 10.0
     - 10.0
     ring_cross_sections:
-    - function: gdsfactory.cross_section.cross_section
+    - function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
-    - function: gdsfactory.cross_section.cross_section
+    - function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
-    - function: gdsfactory.cross_section.cross_section
+    - function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
   full:
     bends:
-    - function: gdsfactory.components.bend_circular.bend_circular
-    - function: gdsfactory.components.bend_circular.bend_circular
-    - function: gdsfactory.components.bend_circular.bend_circular
+    - function: bend_circular
+    - function: bend_circular
+    - function: bend_circular
     couplers:
-    - function: gdsfactory.components.coupler_full.coupler_full
-    - function: gdsfactory.components.coupler_full.coupler_full
-    - function: gdsfactory.components.coupler_full.coupler_full
-    - function: gdsfactory.components.coupler_full.coupler_full
+    - function: coupler_full
+    - function: coupler_full
+    - function: coupler_full
+    - function: coupler_full
     radius:
     - 10.0
     - 10.0
     - 10.0
     ring_cross_sections:
-    - function: gdsfactory.cross_section.cross_section
+    - function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
-    - function: gdsfactory.cross_section.cross_section
+    - function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
-    - function: gdsfactory.cross_section.cross_section
+    - function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
         name: strip
-  function_name: gdsfactory.components.ring_crow_couplers.ring_crow_couplers
+  function_name: ring_crow_couplers
   info: {}
   info_version: 2
+  module: gdsfactory.components.ring_crow_couplers
   name: ring_crow_couplers

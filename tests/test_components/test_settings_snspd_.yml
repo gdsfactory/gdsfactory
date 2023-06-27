@@ -51,7 +51,7 @@ settings:
     turn_ratio: 4
     wire_pitch: 0.6
     wire_width: 0.2
-  function_name: gdsfactory.components.snspd.snspd
+  function_name: snspd
   info:
     area: 80
     num_squares: 750.0
@@ -59,4 +59,5 @@ settings:
     - 10
     - 8
   info_version: 2
+  module: gdsfactory.components.snspd
   name: snspd

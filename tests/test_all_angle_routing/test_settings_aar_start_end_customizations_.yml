@@ -5,7 +5,7 @@ settings:
   child: null
   default: {}
   full: {}
-  function_name: yaml_jinja.aar_start_end_customizations
+  function_name: aar_start_end_customizations
   info:
     instances:
     - wg_a1
@@ -21,4 +21,5 @@ settings:
     - wg_f1
     - wg_f2
   info_version: 2
+  module: yaml_jinja
   name: aar_start_end_customizations

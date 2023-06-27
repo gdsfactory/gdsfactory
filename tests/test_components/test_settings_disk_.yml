@@ -39,7 +39,8 @@ settings:
     parity: 1
     radius: 10.0
     wrap_angle_deg: 180.0
-  function_name: gdsfactory.components.disk.disk
+  function_name: disk
   info: {}
   info_version: 2
+  module: gdsfactory.components.disk
   name: disk

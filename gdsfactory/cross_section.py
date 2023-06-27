@@ -360,8 +360,9 @@ def _xsection_without_validator(func):
                 "make sure that functions with @xsection decorator return a CrossSection",
             )
 
-        function_name = f"{func.__module__}.{func.__name__}"
-        xs.info.update(settings=settings, function_name=function_name)
+        function_name = func.__name__
+        module = func.__module__
+        xs.info.update(settings=settings, function_name=function_name, module=module)
         return xs
 
     return _xsection

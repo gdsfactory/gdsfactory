@@ -13,7 +13,8 @@ settings:
     length: 10.0
     port_type: null
     width: 3.0
-  function_name: gdsfactory.components.cross.cross
+  function_name: cross
   info: {}
   info_version: 2
+  module: gdsfactory.components.cross
   name: cross

@@ -29,22 +29,23 @@ settings:
   child: null
   default:
     bend90:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
     columns: 5
     rows: 6
     straight:
-      function: gdsfactory.components.straight.straight
+      function: straight
     straight_length: 5.0
   full:
     bend90:
-      function: gdsfactory.components.bend_euler.bend_euler
+      function: bend_euler
     columns: 5
     rows: 6
     straight:
-      function: gdsfactory.components.straight.straight
+      function: straight
     straight_length: 5.0
-  function_name: gdsfactory.components.cutback_bend.cutback_bend
+  function_name: cutback_bend
   info:
     n_bends: 68
   info_version: 2
+  module: gdsfactory.components.cutback_bend
   name: cutback_bend

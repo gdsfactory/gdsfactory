@@ -70,7 +70,7 @@ settings:
     - 0.8
     taper_length: 10
     via_stack:
-      function: gdsfactory.components.via_stack.via_stack
+      function: via_stack
       settings:
         layers:
         - M1
@@ -79,7 +79,7 @@ settings:
         - 1.5
         - 1.5
         vias:
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             enclosure: 0.1
             layer: VIAC
@@ -89,7 +89,7 @@ settings:
             spacing:
             - 0.2
             - 0.2
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             enclosure: 0.1
             layer: VIA1
@@ -118,7 +118,7 @@ settings:
     - 0.8
     taper_length: 10
     via_stack:
-      function: gdsfactory.components.via_stack.via_stack
+      function: via_stack
       settings:
         layers:
         - M1
@@ -127,7 +127,7 @@ settings:
         - 1.5
         - 1.5
         vias:
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             enclosure: 0.1
             layer: VIAC
@@ -137,7 +137,7 @@ settings:
             spacing:
             - 0.2
             - 0.2
-        - function: gdsfactory.components.via.via
+        - function: via
           settings:
             enclosure: 0.1
             layer: VIA1
@@ -147,7 +147,8 @@ settings:
             spacing:
             - 0.2
             - 0.2
-  function_name: gdsfactory.components.straight_heater_meander_doped.straight_heater_meander_doped
+  function_name: straight_heater_meander_doped
   info: {}
   info_version: 2
+  module: gdsfactory.components.straight_heater_meander_doped
   name: straight_heater_meander_doped

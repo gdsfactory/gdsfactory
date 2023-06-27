@@ -23,7 +23,8 @@ settings:
     num_notches: 11
     offset_per_notch: 0.1
     row_spacing: 0.0
-  function_name: gdsfactory.components.litho_calipers.litho_calipers
+  function_name: litho_calipers
   info: {}
   info_version: 2
+  module: gdsfactory.components.litho_calipers
   name: litho_calipers

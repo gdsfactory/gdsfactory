@@ -46,7 +46,7 @@ settings:
     polarization: te
     slab_offset: 2.0
     taper:
-      function: gdsfactory.components.taper.taper_strip_to_ridge
+      function: taper_strip_to_ridge
       settings:
         layer_slab: SLAB150
     wavelength: 1.55
@@ -81,7 +81,7 @@ settings:
     polarization: te
     slab_offset: 2.0
     taper:
-      function: gdsfactory.components.taper.taper_strip_to_ridge
+      function: taper_strip_to_ridge
       settings:
         layer_slab: SLAB150
     wavelength: 1.55
@@ -97,9 +97,10 @@ settings:
     - 0.5
     - 0.5
     - 0.5
-  function_name: gdsfactory.components.grating_coupler_rectangular_arbitrary_slab.grating_coupler_rectangular_arbitrary_slab
+  function_name: grating_coupler_rectangular_arbitrary_slab
   info:
     polarization: te
     wavelength: 1.55
   info_version: 2
+  module: gdsfactory.components.grating_coupler_rectangular_arbitrary_slab
   name: grating_coupler_rectang_c148e9a3

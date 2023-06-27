@@ -13,7 +13,7 @@ from typing import Any, Dict, List, Optional
 import meep as mp
 import numpy as np
 import pydantic
-from omegaconf import OmegaConf
+import yaml
 from tqdm.auto import tqdm
 
 import gdsfactory as gf
@@ -499,9 +499,7 @@ def write_sparameters_meep(
             )
             np.savez_compressed(filepath, **sp)
             logger.info(f"Write simulation results to {filepath!r}")
-            filepath_sim_settings.write_text(
-                OmegaConf.to_yaml(clean_value_json(sim_settings))
-            )
+            filepath_sim_settings.write_text(yaml.dump(clean_value_json(sim_settings)))
             logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
             return sp
         else:
@@ -531,7 +529,7 @@ def write_sparameters_meep(
         sim_settings.update(compute_time_seconds=end - start)
         sim_settings.update(compute_time_minutes=(end - start) / 60)
         logger.info(f"Write simulation results to {filepath!r}")
-        filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
+        filepath_sim_settings.write_text(yaml.dump(sim_settings))
         logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
         return sp
 

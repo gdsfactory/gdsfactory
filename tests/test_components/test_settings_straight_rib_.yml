@@ -1,4 +1,4 @@
-name: straight_972c52ad
+name: straight_1dc14831
 ports:
   o1:
     center:
@@ -27,14 +27,14 @@ ports:
 settings:
   changed:
     cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -52,14 +52,14 @@ settings:
     with_bbox: true
   full:
     cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -72,17 +72,17 @@ settings:
     length: 10.0
     npoints: 2
     with_bbox: true
-  function_name: gdsfactory.components.straight.straight
+  function_name: straight
   info:
     cross_section:
-      function: gdsfactory.cross_section.cross_section
+      function: cross_section
       settings:
         add_bbox: null
         add_pins:
-          function: gdsfactory.add_pins.add_pins
+          function: add_pins
           settings:
             function:
-              function: gdsfactory.add_pins.add_pin_rectangle_inside
+              function: add_pin_rectangle_inside
               settings:
                 layer_label: null
                 pin_length: 0.001
@@ -92,15 +92,16 @@ settings:
         - 3
         name: strip
         radius: 20
-    function_name: gdsfactory.cross_section.cross_section
+    function_name: cross_section
     length: 10.0
+    module: gdsfactory.cross_section
     settings:
       add_bbox: null
       add_pins:
-        function: gdsfactory.add_pins.add_pins
+        function: add_pins
         settings:
           function:
-            function: gdsfactory.add_pins.add_pin_rectangle_inside
+            function: add_pin_rectangle_inside
             settings:
               layer_label: null
               pin_length: 0.001
@@ -137,4 +138,5 @@ settings:
       width_wide: null
     width: 0.5
   info_version: 2
-  name: straight_972c52ad
+  module: gdsfactory.components.straight
+  name: straight_1dc14831

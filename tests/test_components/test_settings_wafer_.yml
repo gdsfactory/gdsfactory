@@ -29,7 +29,8 @@ settings:
     reticle: die
     xspacing: null
     yspacing: null
-  function_name: gdsfactory.components.wafer.wafer
+  function_name: wafer
   info: {}
   info_version: 2
+  module: gdsfactory.components.wafer
   name: wafer

@@ -39,7 +39,7 @@ settings:
     slab_offset: 1.0
     slab_xmin: -1.0
     taper:
-      function: gdsfactory.components.taper.taper
+      function: taper
     wavelength: 1.55
     width_grating: 11.0
   full:
@@ -54,12 +54,13 @@ settings:
     slab_offset: 1.0
     slab_xmin: -1.0
     taper:
-      function: gdsfactory.components.taper.taper
+      function: taper
     wavelength: 1.55
     width_grating: 11.0
-  function_name: gdsfactory.components.grating_coupler_rectangular.grating_coupler_rectangular
+  function_name: grating_coupler_rectangular
   info:
     polarization: te
     wavelength: 1.55
   info_version: 2
+  module: gdsfactory.components.grating_coupler_rectangular
   name: grating_coupler_rectangular

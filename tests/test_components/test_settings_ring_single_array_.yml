@@ -31,15 +31,16 @@ settings:
     cross_section: strip
     list_of_dicts: null
     ring:
-      function: gdsfactory.components.ring_single.ring_single
+      function: ring_single
     spacing: 5.0
   full:
     cross_section: strip
     list_of_dicts: null
     ring:
-      function: gdsfactory.components.ring_single.ring_single
+      function: ring_single
     spacing: 5.0
-  function_name: gdsfactory.components.ring_single_array.ring_single_array
+  function_name: ring_single_array
   info: {}
   info_version: 2
+  module: gdsfactory.components.ring_single_array
   name: ring_single_array

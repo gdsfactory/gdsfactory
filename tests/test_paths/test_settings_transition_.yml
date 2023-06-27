@@ -5,7 +5,8 @@ settings:
   child: null
   default: {}
   full: {}
-  function_name: test_paths.transition
+  function_name: transition
   info: {}
   info_version: 2
+  module: test_paths
   name: transition
