@@ -30,7 +30,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     from loguru import Logger
 
-__version__ = "6.108.1"
+__version__ = "6.109.0"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()

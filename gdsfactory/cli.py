@@ -22,7 +22,7 @@ try:
 except ImportError:
     import click
 
-VERSION = "6.108.1"
+VERSION = "6.109.0"
 LAYER_LABEL = LAYER.LABEL
 
 
