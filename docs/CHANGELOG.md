@@ -8,6 +8,7 @@
 - minor updates to MEOW [PR](https://github.com/gdsfactory/gdsfactory/pull/1806)
 - use meshwell for 3D meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1800)
 - add component meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1807)
+- fix plugins tests and remove module from function name [PR](https://github.com/gdsfactory/gdsfactory/pull/1813)
 
 ## [6.108.1](https://github.com/gdsfactory/gdsfactory/compare/v6.108.1...v6.108.0)
 
