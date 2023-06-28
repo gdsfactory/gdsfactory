@@ -1,0 +1,55 @@
+default_settings:
+  n_bundle:
+    value: 3
+    description: "The number of routes in the bundle"
+
+instances:
+{% for i in range(n_bundle) %}
+    wg_start_{{ i }}:
+      component: straight
+    wg_end_{{ i }}:
+      component: straight
+{% endfor %}
+
+placements:
+{% for i in range(n_bundle) %}
+    wg_end_{{ i }}:
+        rotation: 180
+        y: {{ i * 4 }}
+    wg_start_{{ i }}:
+        port: o1
+        rotation: {{ 20 - i * 5 }}  # ports need not be aligned
+        x: wg_end_0,o1
+        y: wg_end_0,o1
+        dx: 120
+        dy: {{ 80 + i * 4 }}
+{% endfor %}
+
+routes:
+    optical:
+        routing_strategy: get_bundle_all_angle
+        settings:
+          steps:
+            - ds: 65
+              exit_angle: 90
+            - ds: 110
+              exit_angle: 0
+            - ds: 81.5
+              exit_angle: -65
+            - ds: 52
+              exit_angle: -158
+              cross_section: strip  # explicitly using strip routing
+            - ds: 47.5
+              exit_angle: 140
+              cross_section:  # explicitly using strip routing with custom width
+                cross_section: strip
+                settings:
+                  width: 1.2
+        links:
+{% for i in [2, 1, 0] %}
+            wg_end_{{ i }},o1: wg_start_{{ i }},o1
+{% endfor %}
+
+ports:
+    o1: wg_start_0,o2
+    o2: wg_end_0,o2
