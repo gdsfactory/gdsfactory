@@ -16,7 +16,7 @@ def show(
     keep_position: bool = True,
     technology: Optional[str] = None,
     port: int = 8082,
-    delete: bool = True,
+    delete: bool = False,
 ) -> None:
     """Show GDS in klayout.
 
@@ -39,7 +39,7 @@ def show(
     }
     data_string = json.dumps(data)
     try:
-        conn = socket.create_connection(("127.0.0.1", 8082), timeout=0.5)
+        conn = socket.create_connection(("127.0.0.1", port), timeout=0.5)
         data = data_string + "\n"
         enc_data = data.encode()
         conn.sendall(enc_data)
