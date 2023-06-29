@@ -69,6 +69,9 @@ def grating_coupler_array(
         )
         c.add(route.references)
 
+        c.ports.pop("o0")
+        c.ports.pop(f"o{n-1}")
+
     return c
 
 
