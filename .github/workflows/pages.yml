@@ -43,6 +43,7 @@ jobs:
           AWS_DEFAULT_REGION: us-west-2
         shell: bash -l {0}
         run: |
+          sudo apt update
           sudo apt install libglu1-mesa
           mkdir -p $HOME/.tidy3d
           make data-download plugins-debian full
