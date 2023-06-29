@@ -40,14 +40,14 @@ def wire_corner(
     if with_bbox:
         bbox_layers = x.bbox_layers
         bbox_offsets = x.bbox_offsets
-        for layer, offset in zip(bbox_layers, bbox_offsets):
+        for bbox_layer, bbox_offset in zip(bbox_layers, bbox_offsets):
             c << gf.components.bbox(
                 corner_bbox,
-                layer=layer,
-                top=offset,
-                bottom=offset,
-                left=offset,
-                right=offset,
+                layer=bbox_layer,
+                top=bbox_offset,
+                bottom=bbox_offset,
+                left=bbox_offset,
+                right=bbox_offset,
             )
 
     c.add_port(
@@ -107,14 +107,14 @@ def wire_corner45(
     if with_bbox:
         bbox_layers = x.bbox_layers
         bbox_offsets = x.bbox_offsets
-        for layer, offset in zip(bbox_layers, bbox_offsets):
+        for bbox_layer, bbox_offset in zip(bbox_layers, bbox_offsets):
             c << gf.components.bbox(
                 corner_bbox,
-                layer=layer,
-                top=offset,
-                bottom=offset,
-                left=offset,
-                right=offset,
+                layer=bbox_layer,
+                top=bbox_offset,
+                bottom=bbox_offset,
+                left=bbox_offset,
+                right=bbox_offset,
             )
 
     c.add_port(
@@ -189,14 +189,14 @@ def wire_corner_sections(
     if with_bbox:
         bbox_layers = x.bbox_layers
         bbox_offsets = x.bbox_offsets
-        for layer, offset in zip(bbox_layers, bbox_offsets):
+        for bbox_layer, bbox_offset in zip(bbox_layers, bbox_offsets):
             c << gf.components.bbox(
                 corner_bbox,
-                layer=layer,
-                top=offset,
-                bottom=offset,
-                left=offset,
-                right=offset,
+                layer=bbox_layer,
+                top=bbox_offset,
+                bottom=bbox_offset,
+                left=bbox_offset,
+                right=bbox_offset,
             )
 
     c.add_port(
