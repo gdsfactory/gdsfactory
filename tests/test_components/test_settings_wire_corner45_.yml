@@ -30,9 +30,11 @@ settings:
   default:
     cross_section: metal_routing
     radius: 10
+    with_bbox: false
   full:
     cross_section: metal_routing
     radius: 10
+    with_bbox: false
   function_name: wire_corner45
   info:
     length: 14.142
