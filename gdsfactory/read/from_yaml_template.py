@@ -1,7 +1,8 @@
 import pathlib
 from inspect import Parameter, Signature, signature
 from io import IOBase
-from typing import IO, Any, Callable, Dict, Iterable, Optional, Tuple, Union, Component
+from typing import IO, Any, Callable, Dict, Iterable, Optional, Tuple, Union
+from gdsfactory.component import Component
 
 import jinja2
 import yaml
