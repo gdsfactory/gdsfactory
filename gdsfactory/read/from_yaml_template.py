@@ -2,6 +2,7 @@ import pathlib
 from inspect import Parameter, Signature, signature
 from io import IOBase
 from typing import IO, Any, Callable, Dict, Iterable, Optional, Tuple, Union
+from gdsfactory.component import Component
 
 import jinja2
 import yaml
@@ -14,10 +15,10 @@ def split_default_settings_from_yaml(yaml_lines: Iterable[str]) -> Tuple[str, st
     Note: 'default settings' MUST be at the TOP of the file.
 
     Args:
-        yaml_lines: the lines of text in the yaml file
+        yaml_lines: the lines of text in the yaml file.
 
     Returns:
-        a tuple of (main file contents), (setting block), both as multi-line strings
+        a tuple of (main file contents), (setting block), both as multi-line strings.
     """
     settings_lines = []
     other_lines = []
@@ -66,11 +67,12 @@ def cell_from_yaml_template(
     """Gets a PIC factory function from a yaml definition, which can optionally be a jinja template.
 
     Args:
-        filename: the filepath of the pic yaml template
-        name: the name of the component to create
-        routing_strategy: a dictionary of routing functions
+        filename: the filepath of the pic yaml template.
+        name: the name of the component to create.
+        routing_strategy: a dictionary of routing functions.
+
     Returns:
-         a factory function for the component
+         a factory function for the component.
     """
     from gdsfactory.pdk import get_routing_strategies
 
@@ -97,15 +99,16 @@ def get_default_settings_dict(default_settings):
     return settings
 
 
-def yaml_cell(yaml_definition, name, routing_strategy):
+def yaml_cell(yaml_definition, name: str, routing_strategy) -> Callable[..., Component]:
     """The "cell" decorator equivalent for yaml files. Generates a proper cell function for yaml-defined circuits.
 
     Args:
-        yaml_definition: the filename to the pic yaml definition
-        name: the name of the pic to create
-        routing_strategy: a dictionary of routing strategies to use for pic generation
+        yaml_definition: the filename to the pic yaml definition.
+        name: the name of the pic to create.
+        routing_strategy: a dictionary of routing strategies to use for pic generation.
+
     Returns:
-        a dynamically-generated function for the yaml file
+        a dynamically-generated function for the yaml file.
     """
     from gdsfactory.cell import cell_without_validator
 
@@ -151,13 +154,16 @@ def _evaluate_yaml_template(main_file, default_settings, settings):
     return template.render(**complete_settings)
 
 
-def _pic_from_templated_yaml(evaluated_text, name, routing_strategy):
-    """Creates a component from a  *.pic.yml file. This is a lower-level function. See from_yaml_template() for more common usage.
+def _pic_from_templated_yaml(evaluated_text, name, routing_strategy) -> Component:
+    """Creates a component from a  *.pic.yml file.
+
+    This is a lower-level function. See from_yaml_template() for more common usage.
 
     Args:
-        name: the pic name
-        routing_strategy: a dictionary of route factories
-    Returns: the component
+        name: the pic name.
+        routing_strategy: a dictionary of route factories.
+
+    Returns: the component.
     """
     from gdsfactory.read.from_yaml import from_yaml
 

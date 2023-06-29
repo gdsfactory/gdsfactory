@@ -1124,6 +1124,10 @@ c.plot()
 # ### get bundle with different orientation ports
 #
 # When trying to route ports with different orientations you need to bring them to a common `x` or `y`
+#
+#
+# 1. Use `route_ports_to_side` to bring all the ports to a common angle orientation and x or y.
+# 2. Use `get_bundle` to connect to the other group of ports.
 
 # %%
 from gdsfactory.samples.big_device import big_device

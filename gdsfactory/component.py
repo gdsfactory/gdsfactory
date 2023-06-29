@@ -1601,7 +1601,7 @@ class Component(_GeometryHelper):
 
         quickplot(self, **kwargs)
 
-    def plot(self, plotter: str | None = None, **kwargs) -> None:
+    def plot(self, plotter: str | None = None, **kwargs):
         """Returns component plot using klayout, matplotlib, holoviews or qt.
 
         We recommend using klayout.

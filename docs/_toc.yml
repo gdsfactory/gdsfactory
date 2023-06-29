@@ -39,6 +39,7 @@ parts:
         - file: notebooks/04_routing
         - file: notebooks/041_routing_electrical
         - file: notebooks/042_non-manhattan-router
+        - file: notebooks/rib_strip_autotransition
         - file: notebooks/common_mistakes
         - file: notebooks/dataprep
     - file: verification
