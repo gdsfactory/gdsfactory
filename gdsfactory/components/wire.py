@@ -265,7 +265,7 @@ if __name__ == "__main__":
     route = gf.routing.get_route_electrical(
         input_port=port1,
         output_port=port2,
-        bend=wire_corner_sections(cross_section=metal_slotted_bbox, with_bbox=False),
+        bend=wire_corner_sections(cross_section=metal_slotted_bbox, with_bbox=True),
         cross_section=metal_slotted_bbox,
     )
     c.add(route.references)
