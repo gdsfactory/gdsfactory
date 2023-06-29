@@ -1,12 +1,29 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
 # %% [markdown]
-# # Platforms with Multiple Waveguide Cross-Sections
+# # Routing with different CrossSections
 #
-# When working in a platform with multiple waveguide cross-sections, it is useful to differentiate intent layers for the different waveguide types
+# When working in a technologies with multiple waveguide cross-sections, it is useful to differentiate intent layers for the different waveguide types
 # and assign default transitions between those layers. In this way, you can easily autotransition between the different cross-section types.
 #
 # ## Setting up your PDK
 #
-# Let's first set up a sample PDK with the following key features
+# Let's first set up a sample PDK with the following key features:
+#
 # 1. Rib and strip cross-sections with differentiated intent layers.
 # 2. Default transitions for each individual cross-section type (width tapers), and also a rib-to-strip transition component to switch between them.
 # 3. Preferred routing cross-sections defined for the all-angle router.
@@ -19,10 +36,12 @@ from functools import partial
 from gdsfactory.cross_section import strip, rib_conformal
 from gdsfactory.typings import CrossSectionSpec
 from gdsfactory.routing import all_angle
+from gdsfactory.read import cell_from_yaml_template
 
 gf.clear_cache()
 gf.config.rich_output()
 generic_pdk = get_generic_pdk()
+generic_pdk.circuit_yaml_parser = cell_from_yaml_template
 
 # define our rib and strip waveguide intent layers
 RIB_INTENT_LAYER = (2000, 11)
@@ -134,7 +153,7 @@ rib_wg = c << gf.c.straight(cross_section="rib", width=rib_width)
 taper = c << strip_to_rib(width1=strip_width, width2=rib_width)
 taper.connect("o1", strip_wg.ports["o2"])
 rib_wg.connect("o1", taper.ports["o2"])
-c
+c.plot()
 
 # %% [markdown]
 # ## Autotransitioning with the All-Angle Router
@@ -168,12 +187,22 @@ basic_sample_fn = sample_dir / "aar_indirect.pic.yml"
 show_yaml_pic(basic_sample_fn)
 
 
+# %%
+c = gf.read.from_yaml(yaml_str=basic_sample_fn.read_text())
+c.plot()
+
 # %% [markdown]
 # You can see that since `gap` is defined in our cross-sections, the bundle router also intelligently picks the appropriate bundle spacing for the cross section used.
 #
 # Notice how the strip waveguide bundles are much more tightly packed than the rib waveguide bundles in the example below.
 
 # %%
-show_yaml_pic(sample_dir / "aar_bundles03.pic.yml")
+basic_sample_fn2 = sample_dir / "aar_bundles03.pic.yml"
+show_yaml_pic(basic_sample_fn2)
+
+# %%
+f = cell_from_yaml_template(basic_sample_fn2, name="sample_transition")
+c = f()
+c.plot()
 
 # %%
