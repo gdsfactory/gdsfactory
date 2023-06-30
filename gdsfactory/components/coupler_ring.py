@@ -108,9 +108,10 @@ def coupler_ring(
 
 @gf.cell
 def coupler_ring_point(
-    coupler_ring: ComponentSpec,
+    coupler_ring: ComponentSpec = coupler_ring,
     open_layers: LayerSpecs = None,
     open_sizes: Coordinates = None,
+    **kwargs,
 ):
     """Coupler ring, where some layers are removed at the coupling region to allow for very short interaction lengths (point couplers).
 
@@ -121,17 +122,21 @@ def coupler_ring_point(
     """
     c = gf.Component()
 
+    coupler_ring_component = coupler_ring(**kwargs)
+
     open_layers_tuples = [gf.get_layer(open_layer) for open_layer in open_layers]
-    untouched_layers = list(set(coupler_ring.get_layers()) - set(open_layers_tuples))
+    untouched_layers = list(
+        set(coupler_ring_component.get_layers()) - set(open_layers_tuples)
+    )
 
     for layer, size in zip(open_layers, open_sizes):
-        subcomponent = coupler_ring.extract(layers=[layer])
+        subcomponent = coupler_ring_component.extract(layers=[layer])
         rectangle = gf.components.rectangle(size=size, layer=layer, centered=True)
         c << gf.geometry.boolean(subcomponent, rectangle, "A-B", layer=layer)
 
-    coupler_ref = c << coupler_ring.extract(layers=untouched_layers)
+    coupler_ref = c << coupler_ring_component.extract(layers=untouched_layers)
 
-    c.add_ports(coupler_ring.get_ports_list())
+    c.add_ports(coupler_ring_component.get_ports_list())
     c.absorb(coupler_ref)
 
     return c
@@ -154,4 +159,4 @@ if __name__ == "__main__":
     # c3 = gf.geometry.offset(c2, distance=-d, layer=(111, 0))
     # c << c1
     # c << c3
-    d.show(show_ports=True)
+    c.show(show_ports=True)
