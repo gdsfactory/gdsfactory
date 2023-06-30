@@ -1,6 +1,6 @@
 # # Thermal
 #
-# gdsfactory has an FEM [femwell](https://gdsfactory.github.io/gdsfactory/notebooks/fem/01_mode_solving.html) plugin that you can use for thermal simulations.
+# You can use our FEM [femwell plugin](https://helgegehring.github.io/femwell/) for thermal simulations.
 # You can simulate directly the component layout and include important effects such as metal dummy fill.
 #
 
@@ -21,7 +21,7 @@ gf.generic_tech.LAYER_STACK.layers["heater"].thickness = 0.13
 gf.generic_tech.LAYER_STACK.layers["heater"].zmin = 2.2
 
 heater = gf.components.straight_heater_metal(length=50, heater_width=2)
-heater
+heater.plot()
 # -
 
 print(gf.generic_tech.LAYER_STACK.layers.keys())
