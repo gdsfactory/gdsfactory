@@ -311,7 +311,7 @@ def ring_single(
 
 
 ring = ring_single()
-ring
+ring.plot()
 
 # %% [markdown]
 # How do you customize components?
@@ -406,16 +406,15 @@ mzi.plot()
 ring_te = toolz.compose(gf.routing.add_fiber_array, gf.components.ring_single)
 rings = gf.grid([ring_te(radius=r) for r in [10, 20, 50]])
 
+mzi_te = toolz.compose(gf.routing.add_fiber_single, gf.components.mzi)
+mzis = gf.pack([mzi_te(delta_length=d) for d in [10, 100]])[0]
+
 
 @gf.cell
 def reticle(size=(1000, 1000)):
     c = gf.Component()
     r = c << rings
-    m = c << gf.components.pack_doe(
-        gf.components.mzi,
-        settings=dict(delta_length=[100, 200]),
-        function=gf.routing.add_fiber_single,
-    )
+    m = c << mzis
     m.xmin = r.xmax + 10
     m.ymin = r.ymin
     c << gf.components.seal_ring(c.bbox)
@@ -435,14 +434,14 @@ gdspath = m.write_gds(gdspath="mask.gds", with_metadata=True)
 # You can also save the labels for automatic testing.
 
 # %%
-labels_path = gdspath.with_suffix(".csv")
-gf.labels.write_labels.write_labels_klayout(gdspath=gdspath, layer_label=(66, 0))
+gf.labels.write_labels.write_labels_klayout(
+    gdspath=gdspath, layer_label="LABEL", prefix="grating"
+)
 
 # %%
 mask_metadata = OmegaConf.load(gdspath.with_suffix(".yml"))
+labels_path = gdspath.with_suffix(".csv")
 tm = gf.labels.merge_test_metadata(mask_metadata=mask_metadata, labels_path=labels_path)
 
 # %%
 tm.keys()
-
-# %%
