@@ -1,3 +1,20 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
+# %% [markdown]
 # # Layout summary
 #
 # ## Layout
@@ -8,7 +25,7 @@
 #
 # Lets add two references in a component.
 
-# +
+# %%
 from typing import Optional
 
 from functools import partial
@@ -37,10 +54,11 @@ bend = (
     c << gf.components.bend_circular()
 )  # equivalent to bend = c.add_ref(gf.components.bend_circular())
 c.plot()
-# -
 
+# %% [markdown]
 # You can connect the bend `o1` port to the mzi `o2` port.
 
+# %%
 c = gf.Component()
 mzi = c << gf.components.mzi()  # equivalent to mzi = c.add_ref(gf.components.mzi())
 bend = (
@@ -50,11 +68,12 @@ bend.connect("o1", mzi.ports["o2"])
 c.plot()
 
 
+# %% [markdown]
 # You can also define a `cell` function that returns a parametric Component depending on the arguments you pass and gets automatic name.
 #
 
 
-# +
+# %%
 @gf.cell
 def mzi_with_bend(radius: float = 10):
     c = gf.Component()
@@ -68,14 +87,15 @@ def mzi_with_bend(radius: float = 10):
 
 c = mzi_with_bend(radius=20)
 c.plot()
-# -
 
+# %% [markdown]
 # Now to connect your component to other components you need to add ports.
 
+# %%
 c.ports
 
 
-# +
+# %%
 @gf.cell
 def mzi_with_bend(radius: float = 10):
     c = gf.Component()
@@ -93,22 +113,27 @@ c = mzi_with_bend(
     radius=20, cache=False
 )  # as we changed the code inside the function you need to clear the cache from the cell decorator.
 c.plot()
-# -
 
+# %%
 c.ports
 
+# %% [markdown]
 # Once you have ports you can route it to fiber couplers.
 
+# %%
 c_fiber_single = gf.routing.add_fiber_single(c)
-c_fiber_single
+c_fiber_single.plot()
 
+# %%
 c_fiber_array = gf.routing.add_fiber_array(c, with_loopback=False)
-c_fiber_array
+c_fiber_array.plot()
 
+# %%
 scene = c_fiber_array.to_3d()
 scene.show()
 
 
+# %% [markdown]
 # For a component it's important that you spend some time early to parametrize it correctly. Don't be afraid to spend some time using pen and paper and choosing easy to understand names.
 #
 # Lets for example define a ring resonator, which is already a circuit made of waveguides, bends and couplers.
@@ -123,7 +148,7 @@ scene.show()
 #
 
 
-# +
+# %%
 @gf.cell
 def coupler_ring(
     gap: float = 0.2,
@@ -203,14 +228,14 @@ def coupler_ring(
 
 
 coupler = coupler_ring()
-coupler
-# -
+coupler.plot()
 
+# %% [markdown]
 # Lets define a ring function that also accepts other component specs for the subcomponents (straight, coupler, bend)
 #
 
 
-# +
+# %%
 @gf.cell
 def ring_single(
     gap: float = 0.2,
@@ -287,23 +312,28 @@ def ring_single(
 
 ring = ring_single()
 ring
-# -
 
+# %% [markdown]
 # How do you customize components?
 #
 # You can use `functools.partial` to customize the default settings from any component
 
+# %%
 ring_single3 = partial(ring_single, radius=3)
-ring_single3()
+c = ring_single3()
+c.plot()
 
+# %%
 ring_array = gf.components.ring_single_array(
     list_of_dicts=[dict(radius=i) for i in [5, 6, 7]]
 )
-ring_array
+ring_array.plot()
 
+# %%
 ring_with_grating_couplers = gf.routing.add_fiber_array(ring_array)
-ring_with_grating_couplers
+ring_with_grating_couplers.plot()
 
+# %% [markdown]
 # ## Netlist driven flow
 #
 # You can define components as a Place and Route netlist.
@@ -312,7 +342,7 @@ ring_with_grating_couplers
 # - placements
 # - routes
 
-# +
+# %%
 yaml = """
 name: sample_different_factory
 
@@ -358,9 +388,9 @@ routes:
 """
 
 mzi = gf.read.from_yaml(yaml)
-mzi
-# -
+mzi.plot()
 
+# %% [markdown]
 # ## Top reticle assembly
 #
 # Once you have your components and circuits defined, you can add them into a top reticle Component for fabrication.
@@ -372,7 +402,7 @@ mzi
 # - make sure you will be able to test te devices after fabrication. Obey DFT (design for testing) rules. For example, if your test setup works only for fiber array, what is the fiber array spacing (127 or 250um?)
 # - if you plan to package your device, make sure you follow your packaging guidelines from your packaging house (min pad size, min pad pitch, max number of rows for wire bonding ...)
 
-# +
+# %%
 ring_te = toolz.compose(gf.routing.add_fiber_array, gf.components.ring_single)
 rings = gf.grid([ring_te(radius=r) for r in [10, 20, 50]])
 
@@ -393,19 +423,26 @@ def reticle(size=(1000, 1000)):
 
 
 m = reticle(cache=False)
-m
-# -
+m.show()
+m.plot()
 
+# %%
 gdspath = m.write_gds(gdspath="mask.gds", with_metadata=True)
 
+# %% [markdown]
 # Make sure you save the GDS with metadata so when the chip comes back you remember what you have on it.
 #
 # You can also save the labels for automatic testing.
 
+# %%
 labels_path = gdspath.with_suffix(".csv")
 gf.labels.write_labels.write_labels_klayout(gdspath=gdspath, layer_label=(66, 0))
 
+# %%
 mask_metadata = OmegaConf.load(gdspath.with_suffix(".yml"))
 tm = gf.labels.merge_test_metadata(mask_metadata=mask_metadata, labels_path=labels_path)
 
+# %%
 tm.keys()
+
+# %%
