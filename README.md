@@ -137,7 +137,7 @@ Or Install only the plugins you need `pip install gdsfactory[plugin1,plugin2]` f
 - `tidy3d` Finite Difference Time Domain (FDTD) simulations on the cloud using GPU.
 
 To install open source FDTD Meep you need to use `conda` or `mamba` on MacOS or Linux, so for Windows you need to use the [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install).
-- `conda install pymeep=*=mpi_mpich_* -y`
+- `conda install pymeep=*=mpi_mpich_* -c conda-forge -y`
 
 ## Plugins
 

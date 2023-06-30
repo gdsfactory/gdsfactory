@@ -2,6 +2,11 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.110.0...main)
 
+## [6.112.0](https://github.com/gdsfactory/gdsfactory/compare/v6.112.0...v6.111.0)
+
+- add loopback to grating coupler array [PR](https://github.com/gdsfactory/gdsfactory/pull/1819)
+- add offset to terminator [PR](https://github.com/gdsfactory/gdsfactory/pull/1822)
+
 ## [6.111.0](https://github.com/gdsfactory/gdsfactory/compare/v6.111.0...v6.109.0)
 
 - add rib-strip routing example notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/1808)
