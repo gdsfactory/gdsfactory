@@ -101,8 +101,18 @@ def ring_double_heater(
     c2.xmin = +length_x / 2 + cb.x + via_stack_offset[0]
     c1.movey(via_stack_offset[1])
     c2.movey(via_stack_offset[1])
-    c.add_ports(c1.get_ports_list(orientation=port_orientation), prefix="e1")
-    c.add_ports(c2.get_ports_list(orientation=port_orientation), prefix="e2")
+
+    p1 = c1.get_ports_list(orientation=port_orientation)
+    p2 = c2.get_ports_list(orientation=port_orientation)
+    valid_orientations = {p.orientation for p in via.ports.values()}
+
+    if not p1:
+        raise ValueError(
+            f"No ports found for port_orientation {port_orientation} in {valid_orientations}"
+        )
+
+    c.add_ports(p1, prefix="e1")
+    c.add_ports(p2, prefix="e2")
 
     heater_top = c << gf.get_component(
         straight,
@@ -117,6 +127,6 @@ def ring_double_heater(
 
 if __name__ == "__main__":
     # c = ring_double_heater(width=1, layer=(2, 0), length_y=3)
-    c = ring_double_heater(length_x=5)
+    c = ring_double_heater(length_x=5, port_orientation=-90)
     c.show(show_ports=True)
     # c.pprint()
