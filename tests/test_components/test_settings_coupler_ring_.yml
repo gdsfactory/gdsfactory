@@ -61,11 +61,9 @@ settings:
       function: coupler_straight
     cross_section: strip
     gap: 0.2
-    layers_open: null
     length_extension: 3
     length_x: 4.0
     radius: 5.0
-    sizes_open: null
   full:
     bend:
       function: bend_euler
@@ -76,11 +74,9 @@ settings:
       function: coupler_straight
     cross_section: strip
     gap: 0.2
-    layers_open: null
     length_extension: 3
     length_x: 4.0
     radius: 5.0
-    sizes_open: null
   function_name: coupler_ring
   info: {}
   info_version: 2
