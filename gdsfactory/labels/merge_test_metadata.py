@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Callable
 
 from omegaconf import DictConfig, OmegaConf
 
@@ -43,25 +43,27 @@ def get_cell_from_label_brackets(label: str) -> str:
     return cell_name
 
 
-def get_cell_from_label(label: str) -> str:
-    """Returns label, assuming opt-GratingName-ComponentName-PortName"""
+def component_name_from_string_with_dashes(label: str) -> str:
+    """Returns cell_name assuming opt-GratingName-ComponentName-PortName"""
 
     if label.startswith("elec"):
         if not label.split("-"):
-            raise ValueError(f"{label!r} needs to follow elec-ComponentName-PortName")
+            raise ValueError(
+                f"{label!r} needs to follow GratingName-ComponentName-PortName"
+            )
         return label.split("-")[1]
 
     if len(label.split("-")) < 2:
         raise ValueError(
-            f"{label!r} needs to follow opt-GratingName-ComponentName-PortName"
+            f"{label!r} needs to follow GratingName-ComponentName-PortName"
         )
-    return label.split("-")[2]
+    return label.split("-")[1]
 
 
 def merge_test_metadata(
     labels_path: PathType,
     mask_metadata: Dict[str, Any],
-    get_cell_from_string=get_cell_from_label,
+    component_name_from_string: Callable = component_name_from_string_with_dashes,
     filepath: Optional[PathType] = None,
 ) -> DictConfig:
     """Returns a test metadata dict config of labeled cells by merging GDS \
@@ -70,7 +72,7 @@ def merge_test_metadata(
     Args:
         labels_path: for test labels in CSV.
         mask_metadata: dict with test metadata.
-        get_cell_from_string: returns label string.
+        component_name_from_string: returns label string.
         filepath: Optional path to write test metadata.
 
     .. code::
@@ -87,20 +89,20 @@ def merge_test_metadata(
         raise FileNotFoundError(f"missing CSV labels {labels_path!r}")
 
     labels_list = parse_csv_data(labels_path)
-    cells_metadata = mask_metadata.get("cells", {})
+    metadata = mask_metadata.get("cells", {})
 
     test_metadata = DictConfig({})
 
     for label, x, y, angle in labels_list[1:]:
-        cell = get_cell_from_string(label)
+        name = component_name_from_string(label)
 
-        if cell in cells_metadata:
-            test_metadata[cell] = cells_metadata[cell]
-            test_metadata[cell].label = dict(
+        if name in metadata:
+            test_metadata[name] = metadata[name]
+            test_metadata[name].label = dict(
                 x=float(x), y=float(y), text=label, angle=angle
             )
         else:
-            logger.warning(f"missing cell metadata for {cell!r}")
+            logger.warning(f"missing component metadata for {name!r}")
 
     if filepath:
         filepath = Path(filepath)
@@ -110,13 +112,10 @@ def merge_test_metadata(
 
 
 if __name__ == "__main__":
-    # from gdsfactory import PATH
+    from gdsfactory.config import PATH
 
-    # labels_path = (
-    #    PATH.samples_path / "mask_pack" / "build" / "mask" / "sample_mask.csv"
-    # )
-    # mask_metadata_path = labels_path.with_suffix(".yml")
-    # mask_metadata = OmegaConf.load(mask_metadata_path)
-    # d = merge_test_metadata(labels_path=labels_path, mask_metadata=mask_metadata)
-    # print(d)
-    print(get_cell_from_label("opt_te1550_demo"))
+    labels_path = PATH.notebooks / "mask.csv"
+    mask_metadata_path = labels_path.with_suffix(".yml")
+    mask_metadata = OmegaConf.load(mask_metadata_path)
+    d = merge_test_metadata(labels_path=labels_path, mask_metadata=mask_metadata)
+    print(d)

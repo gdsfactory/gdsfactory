@@ -6,6 +6,7 @@
 
 - add loopback to grating coupler array [PR](https://github.com/gdsfactory/gdsfactory/pull/1819)
 - add offset to terminator [PR](https://github.com/gdsfactory/gdsfactory/pull/1822)
+- fix test metadata [PR](https://github.com/gdsfactory/gdsfactory/pull/1824)
 
 ## [6.111.0](https://github.com/gdsfactory/gdsfactory/compare/v6.111.0...v6.109.0)
 
