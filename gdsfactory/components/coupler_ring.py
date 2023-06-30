@@ -27,8 +27,6 @@ def coupler_ring(
     cross_section: CrossSectionSpec = "strip",
     bend_cross_section: Optional[CrossSectionSpec] = None,
     length_extension: float = 3,
-    layers_open: LayerSpecs = None,
-    sizes_open: Coordinates = None,
     **kwargs,
 ) -> Component:
     r"""Coupler for ring.
