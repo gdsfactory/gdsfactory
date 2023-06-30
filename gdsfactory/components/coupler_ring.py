@@ -8,7 +8,12 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler90 import coupler90
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import (
+    ComponentSpec,
+    CrossSectionSpec,
+    LayerSpecs,
+    Coordinates,
+)
 
 
 @gf.cell
@@ -22,6 +27,8 @@ def coupler_ring(
     cross_section: CrossSectionSpec = "strip",
     bend_cross_section: Optional[CrossSectionSpec] = None,
     length_extension: float = 3,
+    layers_open: LayerSpecs = None,
+    sizes_open: Coordinates = None,
     **kwargs,
 ) -> Component:
     r"""Coupler for ring.
@@ -99,10 +106,46 @@ def coupler_ring(
     return c
 
 
+@gf.cell
+def coupler_ring_point(
+    coupler_ring: ComponentSpec,
+    open_layers: LayerSpecs = None,
+    open_sizes: Coordinates = None,
+):
+    """Coupler ring, where some layers are removed at the coupling region to allow for very short interaction lengths (point couplers).
+
+    Arguments:
+        coupler_ring: coupler_ring component to process
+        open_layers: layers to perform the boolean operations on
+        open_sizes: sizes of the boxes to use to remove layers, centered at bus center
+    """
+    c = gf.Component()
+
+    open_layers_tuples = [gf.get_layer(open_layer) for open_layer in open_layers]
+    untouched_layers = list(set(coupler_ring.get_layers()) - set(open_layers_tuples))
+
+    for layer, size in zip(open_layers, open_sizes):
+        subcomponent = coupler_ring.extract(layers=[layer])
+        rectangle = gf.components.rectangle(size=size, layer=layer, centered=True)
+        c << gf.geometry.boolean(subcomponent, rectangle, "A-B", layer=layer)
+
+    coupler_ref = c << coupler_ring.extract(layers=untouched_layers)
+
+    c.add_ports(coupler_ring.get_ports_list())
+    c.absorb(coupler_ref)
+
+    return c
+
+
 if __name__ == "__main__":
-    c = coupler_ring()
+    # c = coupler_ring()
     # c = coupler_ring(width=1, layer=(2, 0), length_x=20)
-    # c = coupler_ring(cross_section="strip_heater_metal", length_x=20)
+    c = coupler_ring(
+        cross_section="strip_heater_metal",
+        length_x=0,
+        bend=gf.components.bend_circular,
+    )
+    d = coupler_ring_point(c, open_layers=("HEATER",), open_sizes=((5, 7),))
 
     # c = gf.Component()
     # c1 = coupler_ring(cladding_layers=[(111, 0)], cladding_offsets=[0.5])
@@ -111,4 +154,4 @@ if __name__ == "__main__":
     # c3 = gf.geometry.offset(c2, distance=-d, layer=(111, 0))
     # c << c1
     # c << c3
-    c.show(show_ports=True)
+    d.show(show_ports=True)
