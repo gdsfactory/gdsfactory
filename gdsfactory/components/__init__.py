@@ -55,7 +55,7 @@ from gdsfactory.components.coupler90bend import coupler90bend
 from gdsfactory.components.coupler_adiabatic import coupler_adiabatic
 from gdsfactory.components.coupler_asymmetric import coupler_asymmetric
 from gdsfactory.components.coupler_full import coupler_full
-from gdsfactory.components.coupler_ring import coupler_ring
+from gdsfactory.components.coupler_ring import coupler_ring, coupler_ring_point
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.coupler_straight_asymmetric import (
     coupler_straight_asymmetric,
@@ -328,6 +328,7 @@ _factory_passives = dict(
     coupler_asymmetric=coupler_asymmetric,
     coupler_full=coupler_full,
     coupler_ring=coupler_ring,
+    coupler_ring_point=coupler_ring_point,
     coupler_symmetric=coupler_symmetric,
     crossing=crossing,
     crossing45=crossing45,
@@ -410,6 +411,7 @@ __all__ = [
     "coupler_asymmetric",
     "coupler_full",
     "coupler_ring",
+    "coupler_ring_point",
     "coupler_straight",
     "coupler_straight_asymmetric",
     "coupler_symmetric",
