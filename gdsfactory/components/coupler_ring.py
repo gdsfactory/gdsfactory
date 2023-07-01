@@ -108,15 +108,17 @@ def coupler_ring(
 def coupler_ring_point(
     coupler_ring: ComponentSpec = coupler_ring,
     open_layers: LayerSpecs = None,
-    open_sizes: Coordinates = None,
+    open_sizes: Optional[Coordinates] = None,
     **kwargs,
-):
-    """Coupler ring, where some layers are removed at the coupling region to allow for very short interaction lengths (point couplers).
+) -> Component:
+    """Coupler ring, that removes some layers at the coupling region.
 
-    Arguments:
-        coupler_ring: coupler_ring component to process
-        open_layers: layers to perform the boolean operations on
-        open_sizes: sizes of the boxes to use to remove layers, centered at bus center
+    This allows short interaction lengths (point couplers).
+
+    Args:
+        coupler_ring: coupler_ring component to process.
+        open_layers: layers to perform the boolean operations on.
+        open_sizes: sizes of the boxes to use to remove layers, centered at bus center.
     """
     c = gf.Component()
 
@@ -143,12 +145,18 @@ def coupler_ring_point(
 if __name__ == "__main__":
     # c = coupler_ring()
     # c = coupler_ring(width=1, layer=(2, 0), length_x=20)
-    c = coupler_ring(
+    # c = coupler_ring(
+    #     cross_section="strip_heater_metal",
+    #     length_x=0,
+    #     bend=gf.components.bend_circular,
+    # )
+    from functools import partial 
+    c = partial(coupler_ring,
         cross_section="strip_heater_metal",
         length_x=0,
         bend=gf.components.bend_circular,
     )
-    d = coupler_ring_point(c, open_layers=("HEATER",), open_sizes=((5, 7),))
+    c = coupler_ring_point(c, open_layers=("HEATER",), open_sizes=((5, 7),))
 
     # c = gf.Component()
     # c1 = coupler_ring(cladding_layers=[(111, 0)], cladding_offsets=[0.5])
