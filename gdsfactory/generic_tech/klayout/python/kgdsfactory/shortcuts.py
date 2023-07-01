@@ -71,7 +71,7 @@ def set_shortcuts() -> None:
     pya.Application.instance().set_config("edit-inst-angle", "0")
     # pya.Application.instance().set_config("edit-move-angle-mode", "diagonal")
     pya.Application.instance().set_config("edit-snap-to-objects", "true")
-    pya.Application.instance().set_config("grid-micron", "0.01")
+    pya.Application.instance().set_config("grid-micron", "0.001")
     pya.Application.instance().set_config("edit-top-level-selection", "true")
     pya.Application.instance().set_config("inst-color", "#ffcdcd")
     pya.Application.instance().set_config("text-font", "3")
