@@ -14,16 +14,6 @@ parts:
         - file: notebooks/_0_python
         - file: notebooks/_1_git
         - file: notebooks/_4_gdsfactory
-    - file: pdk
-      sections:
-        - file: notebooks/08_pdk
-        - file: notebooks/03_layer_stack
-        - file: notebooks/08_pdk_examples
-        - file: notebooks/09_pdk_import
-        - file: notebooks/20_schematic_driven_layout
-        - file: notebooks/10_yaml_component
-        - file: notebooks/11_get_netlist
-        - file: notebooks/11_get_netlist_spice
     - file: layout
       sections:
         - file: notebooks/00_geometry
@@ -42,6 +32,16 @@ parts:
         - file: notebooks/rib_strip_autotransition
         - file: notebooks/common_mistakes
         - file: notebooks/dataprep
+    - file: pdk
+      sections:
+        - file: notebooks/08_pdk
+        - file: notebooks/03_layer_stack
+        - file: notebooks/08_pdk_examples
+        - file: notebooks/09_pdk_import
+        - file: notebooks/20_schematic_driven_layout
+        - file: notebooks/10_yaml_component
+        - file: notebooks/11_get_netlist
+        - file: notebooks/11_get_netlist_spice
     - file: verification
       sections:
         - file: notebooks/21_drc
