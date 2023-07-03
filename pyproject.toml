@@ -25,7 +25,7 @@ dependencies = [
   "omegaconf",
   "orjson",
   "pandas",
-  "pydantic<2.0",
+  "pydantic<3.0",
   "pyyaml",
   "qrcode",
   "rectpack",
