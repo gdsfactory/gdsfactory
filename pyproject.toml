@@ -171,7 +171,7 @@ full = [
   "ray[tune,air]",
   "hyperopt",
   # sax
-  "sax==0.8.7",
+  "sax==0.8.8",
   "jaxlib",
   "jax",
   "tidy3d==2.2.3"
@@ -200,7 +200,7 @@ ray = [
   "hyperopt"
 ]
 sax = [
-  "sax==0.8.7",
+  "sax==0.8.8",
   "jaxlib",
   "jax"
 ]
