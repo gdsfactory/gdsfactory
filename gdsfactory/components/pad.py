@@ -42,6 +42,7 @@ def pad(
     c.add_ports(c_ref.ports)
     c.info["size"] = (float(size[0]), float(size[1]))
     c.info["layer"] = layer
+    c.absorb(c_ref)
 
     if bbox_layers and bbox_offsets:
         sizes = []
@@ -50,12 +51,13 @@ def pad(
             sizes.append(size)
 
         for layer, size in zip(bbox_layers, sizes):
-            c.add_ref(
+            ref = c.add_ref(
                 compass(
                     size=size,
                     layer=layer,
                 )
             )
+            c.absorb(ref)
 
     width = size[1] if port_orientation in [0, 180] else size[0]
 
@@ -120,14 +122,14 @@ pad_array180 = partial(pad_array, orientation=180, columns=1, rows=3)
 
 
 if __name__ == "__main__":
-    c = pad_rectangular()
+    # c = pad_rectangular()
     # c = pad()
     # c = pad(layer_to_inclusion={(3, 0): 10})
     # print(c.ports)
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
     # c = pad_array90()
-    # c = pad_array0()
+    c = pad_array0()
     # c = pad_array270()
     # c.pprint_ports()
     # c = pad_array_2d(cols=2, rows=3, port_names=("e2",))

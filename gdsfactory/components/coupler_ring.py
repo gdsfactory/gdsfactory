@@ -13,6 +13,7 @@ from gdsfactory.typings import (
     CrossSectionSpec,
     LayerSpecs,
     Coordinates,
+    ComponentFactory,
 )
 
 
@@ -106,12 +107,12 @@ def coupler_ring(
 
 @gf.cell
 def coupler_ring_point(
-    coupler_ring: ComponentSpec = coupler_ring,
+    coupler_ring: ComponentFactory = coupler_ring,
     open_layers: LayerSpecs = None,
     open_sizes: Optional[Coordinates] = None,
     **kwargs,
 ) -> Component:
-    """Coupler ring, that removes some layers at the coupling region.
+    """Coupler ring that removes some layers at the coupling region.
 
     This allows short interaction lengths (point couplers).
 
@@ -119,10 +120,24 @@ def coupler_ring_point(
         coupler_ring: coupler_ring component to process.
         open_layers: layers to perform the boolean operations on.
         open_sizes: sizes of the boxes to use to remove layers, centered at bus center.
+
+    Keyword Args:
+        gap: spacing between parallel coupled straight waveguides.
+        radius: of the bends.
+        length_x: length of the parallel coupled straight waveguides.
+        coupler90: straight coupled to a 90deg bend.
+        bend: bend spec.
+        coupler_straight: two parallel coupled straight waveguides.
+        cross_section: cross_section spec.
+        bend_cross_section: optional bend cross_section spec.
+        length_extension: for the ports.
+        kwargs: cross_section settings for bend and coupler.
     """
     c = gf.Component()
 
     coupler_ring_component = coupler_ring(**kwargs)
+    open_layers = open_layers or []
+    open_sizes = open_sizes or []
 
     open_layers_tuples = [gf.get_layer(open_layer) for open_layer in open_layers]
     untouched_layers = list(
@@ -150,13 +165,17 @@ if __name__ == "__main__":
     #     length_x=0,
     #     bend=gf.components.bend_circular,
     # )
-    from functools import partial 
-    c = partial(coupler_ring,
-        cross_section="strip_heater_metal",
-        length_x=0,
-        bend=gf.components.bend_circular,
-    )
-    c = coupler_ring_point(c, open_layers=("HEATER",), open_sizes=((5, 7),))
+    # from functools import partial
+
+    # c = partial(
+    #     coupler_ring,
+    #     cross_section="strip_heater_metal",
+    #     length_x=0,
+    #     bend=gf.components.bend_circular,
+    # )
+    # c = coupler_ring_point(c, open_layers=("HEATER",), open_sizes=((5, 7),))
+
+    c = coupler_ring_point()
 
     # c = gf.Component()
     # c1 = coupler_ring(cladding_layers=[(111, 0)], cladding_offsets=[0.5])
