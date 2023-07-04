@@ -113,7 +113,7 @@ docs = [
   "plotly"
 ]
 femwell = [
-  "femwell==0.1.2"
+  "femwell==0.1.3"
 ]
 full = [
   "sqlalchemy",
@@ -128,7 +128,7 @@ full = [
   "pyvista",
   # docs
   "jupytext",
-  "femwell==0.1.2",
+  "femwell==0.1.3",
   # cad
   "autograd",
   "bokeh",
@@ -166,12 +166,12 @@ full = [
   "meshwell==0.0.2",
   # kfactory
   "kfactory[git,ipy]==0.7.5",
-  "meow-sim==0.6.8",
+  "meow-sim==0.6.9",
   # ray
   "ray[tune,air]",
   "hyperopt",
   # sax
-  "sax==0.8.7",
+  "sax==0.8.8",
   "jaxlib",
   "jax",
   "tidy3d==2.2.3"
@@ -190,7 +190,7 @@ kfactory = [
   "kfactory[git,ipy]==0.7.5"
 ]
 meow = [
-  "meow-sim>=0.6.8"
+  "meow-sim>=0.6.9"
 ]
 meshwell = [
   "meshwell==0.0.2"
@@ -200,7 +200,7 @@ ray = [
   "hyperopt"
 ]
 sax = [
-  "sax==0.8.7",
+  "sax==0.8.8",
   "jaxlib",
   "jax"
 ]

@@ -90,7 +90,8 @@ def big_device(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf 
+    import gdsfactory as gf
+
     pdk = gf.pdk.get_active_pdk()
     pdk.gds_write_settings.flatten_invalid_refs = False
     c = big_device()
