@@ -22,7 +22,7 @@ try:
 except ImportError:
     import click
 
-VERSION = "6.107.5"
+VERSION = "6.112.0"
 LAYER_LABEL = LAYER.LABEL
 
 
@@ -165,10 +165,10 @@ def init() -> None:
 
 @click.command()
 def notebooks() -> None:
-    """Convert notebooks to ipynb."""
-    from gdsfactory.install import convert_markdown_to_ipynb
+    """Convert notebooks in py to ipynb."""
+    from gdsfactory.install import convert_py_to_ipynb
 
-    convert_markdown_to_ipynb()
+    convert_py_to_ipynb()
 
 
 # EXTRA

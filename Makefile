@@ -18,33 +18,21 @@ dev: full
 	pre-commit install
 	gf install klayout-genericpdk
 
-mamba:
-	bash conda/mamba.sh
-
-patch:
-	bumpversion patch
-
-minor:
-	bumpversion minor
-
-major:
-	bumpversion major
-
 plugins:
 	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	conda install -c conda-forge slepc4py=*=complex* -y
-	pip install -e .[tidy3d,ray,sax,devsim,meow,database,femwell]
+	pip install -e .[tidy3d,ray,sax,devsim,meow,database,femwell,meshwell]
 
 plugins-conda:
 	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	conda install -c conda-forge slepc4py=*=complex* -y
-	pip install jax jaxlib numpy femwell --upgrade
+	pip install jax jaxlib numpy femwell meshwell --upgrade
 	pip install -e .[tidy3d,ray,sax,devsim,meow,database]
 
 plugins-mamba:
 	mamba install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	mamba install -c conda-forge slepc4py=*=complex* -y
-	pip install jax jaxlib numpy femwell --upgrade
+	pip install jax jaxlib numpy femwell meshwell --upgrade
 	pip install -e .[tidy3d,ray,sax,devsim,meow]
 
 plugins-debian: plugins
@@ -73,10 +61,6 @@ data-upload:
 	echo 'no need to upload'
 	# aws s3 sync data s3://gdslib
 	# gh release upload v6.90.3 data/gds/*.gds --clobber
-	# gh release upload v6.90.3 data/sp/*.npz --clobber
-	# gh release upload v6.90.3 data/sp/*.yml --clobber
-	# gh release upload v6.90.3 data/modes/*.msh --clobber
-	# gh release upload v6.90.3 data/modes/*.npz --clobber
 
 test-data:
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
@@ -117,10 +101,17 @@ test-femwell:
 	pytest gdsfactory/simulation/fem
 
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gmsh tests/test_klayout gdsfactory/simulation/fem
+	pytest gdsfactory/simulation \
+		--ignore=gdsfactory/simulation/sipann/ \
+		--ignore=gdsfactory/simulation/devsim \
+		--ignore=gdsfactory/simulation/simphony
 
 test-plugins-no-tidy3d:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gmsh tests/test_klayout gdsfactory/simulation/fem
+	pytest gdsfactory/simulation \
+		--ignore=gdsfactory/simulation/sipann/ \
+		--ignore=gdsfactory/simulation/simphony \
+		--ignore=gdsfactory/simulation/devsim \
+		--ignore=gdsfactory/simulation/gtidy3d
 
 test-notebooks:
 	py.test --nbval notebooks
@@ -220,6 +211,9 @@ constructor:
 	conda install constructor -y
 	constructor conda
 
+notebooks:
+	jupytext gdsfactory/samples/notebooks/*.md --to ipynb notebooks/
+
 nbqa:
 	nbqa blacken-docs docs/notebooks/**/*.ipynb --nbqa-md
 	nbqa blacken-docs docs/notebooks/*.ipynb --nbqa-md
@@ -237,7 +231,8 @@ jupytext-clean:
 	jupytext docs/**/*.py --to py
 
 notebooks:
-	jupytext docs/notebooks/**/*.py --to ipynb
-	jupytext docs/notebooks/*.py --to ipynb
+	# jupytext docs/notebooks/*.py --to ipynb
+	# jupytext docs/notebooks/*.ipynb --to to
+	jupytext --pipe black docs/notebooks/*.py
 
 .PHONY: gdsdiff build conda gdslib docs doc

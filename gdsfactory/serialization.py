@@ -42,6 +42,11 @@ def clean_value_json(value: Any) -> Any:
     """Return JSON serializable object."""
     from gdsfactory.path import Path
 
+    from gdsfactory.pdk import get_active_pdk
+
+    active_pdk = get_active_pdk()
+    include_module = active_pdk.cell_decorator_settings.include_module
+
     if isinstance(value, pydantic.BaseModel):
         return clean_dict(value.dict())
 
@@ -70,7 +75,13 @@ def clean_value_json(value: Any) -> Any:
         func = value.func
         while hasattr(func, "func"):
             func = func.func
-        return {"function": func.__name__, "settings": args_as_kwargs}
+        v = {
+            "function": func.__name__,
+            "settings": args_as_kwargs,
+        }
+        if include_module:
+            v.update(module=func.__module__)
+        return v
 
     elif hasattr(value, "to_dict"):
         # print(type(value))
@@ -80,7 +91,11 @@ def clean_value_json(value: Any) -> Any:
             clean_value_json(func) for func in value.funcs
         ]
     elif callable(value) and hasattr(value, "__name__"):
-        value = {"function": value.__name__}
+        value = (
+            {"function": value.__name__, "module": value.__module__}
+            if include_module
+            else {"function": value.__name__}
+        )
     elif isinstance(value, Path):
         value = value.hash_geometry()
     elif isinstance(value, pathlib.Path):

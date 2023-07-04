@@ -293,16 +293,17 @@ def route_sharp(
         layer: Layer to put route on.
         kwargs: Keyword arguments passed to the waypoint path function.
 
-        Method of waypoint path creation. Should be one of
-        - manhattan: automatic manhattan routing (see path_manhattan() ).
-        - L: L-shaped path for orthogonal ports that can be directly connected.
-        - U: U-shaped path for parallel or facing ports.
-        - J: J-shaped path for orthogonal ports that cannot be directly connected.
-        - C: C-shaped path for ports that face away from each other.
-        - Z: Z-shaped path with three segments for ports at any angles.
-        - V: V-shaped path with two segments for ports at any angles.
-        - straight: straight path for ports that face each other.
-        - manual: use an explicit waypoint path provided in manual_path.
+    Method of waypoint path creation. Should be one of:
+
+     - manhattan: automatic manhattan routing (see path_manhattan() ).
+     - L: L-shaped path for orthogonal ports that can be directly connected.
+     - U: U-shaped path for parallel or facing ports.
+     - J: J-shaped path for orthogonal ports that cannot be directly connected.
+     - C: C-shaped path for ports that face away from each other.
+     - Z: Z-shaped path with three segments for ports at any angles.
+     - V: V-shaped path with two segments for ports at any angles.
+     - straight: straight path for ports that face each other.
+     - manual: use an explicit waypoint path provided in manual_path.
 
     .. plot::
         :include-source:

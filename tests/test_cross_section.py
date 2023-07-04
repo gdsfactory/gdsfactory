@@ -12,7 +12,7 @@ def test_settings_different() -> None:
     strip1 = gf.cross_section.strip()
     strip2 = gf.cross_section.strip(layer=(2, 0))
     assert strip1.info["settings"]["layer"] == "WG"
-    assert strip2.info["settings"]["layer"] == (2, 0)
+    assert strip2.info["settings"]["layer"] == [2, 0]
 
 
 if __name__ == "__main__":

@@ -18,11 +18,11 @@ execute:
     - "*01_pin_waveguide*"
     - "*1_fdtd_sparameters*"
     - "*2_interconnect*"
-    - "*optimiser*"
+    - "*ray_optimiser*"
     - "*03_numerical_implantation*"
     - "*02_model_extraction*"
-    - "*001_meep_sparameters*"
-    - "*20_schematic_driven_layout*"
+    # - "*20_schematic_driven_layout*"
+    # - "*001_meep_sparameters*"
     # - "*00_tidy3d.ipynb"
     # - "*03_cascaded_mzi*"
     # - "*jupyter_notebooks*"
@@ -79,6 +79,6 @@ sphinx:
       - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
     nb_execution_raise_on_error: true
     nb_custom_formats:
-        .md:
+        .py:
             - jupytext.reads
-            - fmt: md
+            - fmt: py

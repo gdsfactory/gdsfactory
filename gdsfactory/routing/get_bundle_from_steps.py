@@ -62,6 +62,7 @@ def get_bundle_from_steps(
     .. plot::
         :include-source:
 
+        from functools import partial
         import gdsfactory as gf
 
         c = gf.Component("get_route_from_steps_sample")

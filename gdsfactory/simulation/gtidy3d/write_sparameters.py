@@ -7,7 +7,7 @@ import pathlib
 
 import numpy as np
 import tidy3d as td
-from omegaconf import OmegaConf
+import yaml
 
 import gdsfactory as gf
 from gdsfactory.config import logger
@@ -168,6 +168,8 @@ def write_sparameters(
     )
     filepath = pathlib.Path(filepath).with_suffix(".npz")
     filepath_sim_settings = filepath.with_suffix(".yml")
+    dirpath = filepath.parent
+    dirpath.mkdir(exist_ok=True, parents=True)
     if filepath.exists() and not overwrite and run:
         logger.info(f"Simulation loaded from {filepath!r}")
         return dict(np.load(filepath))
@@ -247,7 +249,7 @@ def write_sparameters(
     np.savez_compressed(filepath, **sp)
     kwargs.update(compute_time_seconds=end - start)
     kwargs.update(compute_time_minutes=(end - start) / 60)
-    filepath_sim_settings.write_text(OmegaConf.to_yaml(clean_value_json(kwargs)))
+    filepath_sim_settings.write_text(yaml.dump(clean_value_json(kwargs)))
     logger.info(f"Write simulation results to {str(filepath)!r}")
     logger.info(f"Write simulation settings to {str(filepath_sim_settings)!r}")
     return sp

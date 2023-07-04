@@ -601,6 +601,21 @@ component_lattice
 
 
 
+component_lattice_generic
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.component_lattice_generic
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.component_lattice_generic()
+  c.plot_matplotlib()
+
+
+
 component_sequence
 ----------------------------------------------------
 
@@ -2017,6 +2032,21 @@ mzi2x2_2x2
 
 
 
+mzi2x2_2x2_phase_shifter
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.mzi2x2_2x2_phase_shifter
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.mzi2x2_2x2_phase_shifter(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal', with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False)
+  c.plot_matplotlib()
+
+
+
 mzi_arm
 ----------------------------------------------------
 
@@ -2087,7 +2117,7 @@ mzi_lattice_mmi
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_lattice_mmi(coupler_widths=[None, None], coupler_widths_tapers=[1.0, 1.0], coupler_lengths_tapers=[10.0, 10.0], coupler_lengths_mmis=[5.5, 5.5], coupler_widths_mmis=[2.5, 2.5], coupler_gaps_mmis=[0.25, 0.25], taper_functions_mmis=[{'function': 'taper'}, {'function': 'taper'}], straight_functions_mmis=[{'function': 'straight'}, {'function': 'straight'}], cross_sections_mmis=['strip', 'strip'], delta_lengths=[10.0])
+  c = gf.components.mzi_lattice_mmi(coupler_widths=[None, None], coupler_widths_tapers=[1.0, 1.0], coupler_lengths_tapers=[10.0, 10.0], coupler_lengths_mmis=[5.5, 5.5], coupler_widths_mmis=[2.5, 2.5], coupler_gaps_mmis=[0.25, 0.25], taper_functions_mmis=[{'function': 'gdsfactory.components.taper.taper'}, {'function': 'gdsfactory.components.taper.taper'}], straight_functions_mmis=[{'function': 'gdsfactory.components.straight.straight'}, {'function': 'gdsfactory.components.straight.straight'}], cross_sections_mmis=['strip', 'strip'], delta_lengths=[10.0])
   c.plot_matplotlib()
 
 
@@ -2508,6 +2538,21 @@ rectangle_with_slits
   import gdsfactory as gf
 
   c = gf.components.rectangle_with_slits(size=[100.0, 200.0], layer='WG', layer_slit='SLAB150', centered=False, slit_size=[1.0, 1.0], slit_spacing=[20, 20], slit_enclosure=10)
+  c.plot_matplotlib()
+
+
+
+rectangular_ring
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.rectangular_ring
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.rectangular_ring(enclosed_size=[4.0, 2.0], width=0.5, layer='WG', centered=False)
   c.plot_matplotlib()
 
 
@@ -3662,7 +3707,7 @@ via_corner
 
   import gdsfactory as gf
 
-  c = gf.components.via_corner(cross_section=[[{'function': 'cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [0, 180]], [{'function': 'cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [90, 270]]], layers_labels=['m2', 'm3'])
+  c = gf.components.via_corner(cross_section=[[{'function': 'gdsfactory.cross_section.cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [0, 180]], [{'function': 'gdsfactory.cross_section.cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [90, 270]]], layers_labels=['m2', 'm3'])
   c.plot_matplotlib()
 
 

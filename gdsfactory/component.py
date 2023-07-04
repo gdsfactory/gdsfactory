@@ -21,7 +21,7 @@ import gdstk
 import numpy as np
 import shapely
 import yaml
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig
 from typing_extensions import Literal
 
 from gdsfactory.polygon import Polygon
@@ -51,13 +51,16 @@ from gdsfactory.port import (
 from gdsfactory.serialization import clean_dict
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
+import importlib.util
+
 valid_plotters = [
     "holoviews",
     "matplotlib",
     "widget",
     "klayout",
     "qt",
-]  # qt and holoviews
+    "kweb",
+]  # qt and holoviews are deprecated
 Axis = Literal["x", "y"]
 
 
@@ -319,7 +322,7 @@ class Component(_GeometryHelper):
             else {"component": self.name, "settings": {}}
         )
 
-    def __getitem__(self, key):
+    def __getitem__(self, key) -> Port:
         """Access reference ports."""
         if key not in self.ports:
             ports = list(self.ports.keys())
@@ -327,7 +330,7 @@ class Component(_GeometryHelper):
 
         return self.ports[key]
 
-    def __lshift__(self, element):
+    def __lshift__(self, element) -> ComponentReference:
         """Convenience operator equivalent to add_ref()."""
         return self.add_ref(element)
 
@@ -569,7 +572,8 @@ class Component(_GeometryHelper):
         """Write netlist in YAML."""
         netlist = self.get_netlist()
         netlist = clean_dict(netlist)
-        OmegaConf.save(netlist, filepath)
+        filepath = pathlib.Path(filepath)
+        filepath.write_text(yaml.dump(netlist))
 
     def write_netlist_dot(self, filepath: Optional[str] = None) -> None:
         """Write netlist graph in DOT format."""
@@ -1407,16 +1411,12 @@ class Component(_GeometryHelper):
     def _ipython_display_(self) -> None:
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
         self.show(show_ports=True)  # show in klayout
-        if CONF.display_type == "klayout":
-            self.plot_klayout()
-        else:
-            self.plot_widget()
-        print(self)
+        return self.plot()
 
     def add_pins_triangle(
         self,
         port_marker_layer: Layer = (1, 10),
-    ):
+    ) -> Component:
         """Returns component with triangular pins."""
         from gdsfactory.add_pins import add_pins_triangle
 
@@ -1526,10 +1526,10 @@ class Component(_GeometryHelper):
             )
             component.plot(plotter="matplotlib")
 
-    def plot_jupyter(self):
-        """Shows current gds in klayout. Uses Kweb if server running.
+    def plot_kweb(self):
+        """Shows current gds in klayout.
 
-        if not tries using Klayout widget and finally defaults to matplotlib.
+        Uses Kweb if installed, otherwise displays Klayout image.
         """
         try:
             import os
@@ -1540,33 +1540,42 @@ class Component(_GeometryHelper):
 
             from gdsfactory.config import PATH
             from gdsfactory.pdk import get_layer_views
-
-            gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
-
-            dirpath = GDSDIR_TEMP
-            dirpath.mkdir(exist_ok=True, parents=True)
-            lyp_path = dirpath / "layers.lyp"
-
-            layer_props = get_layer_views()
-            layer_props.to_lyp(filepath=lyp_path)
-
-            port = kj.port if hasattr(kj, "port") else 8000
-
-            src = f"http://127.0.0.1:{port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
-            logger.debug(src)
-
-            if kj.jupyter_server and not os.environ.get("DOCS", False):
-                return IFrame(
-                    src=src,
-                    width=1400,
-                    height=600,
-                )
-            else:
-                return self.plot_klayout()
         except ImportError:
             print(
-                "You can install `pip install gdsfactory[full]` for better visualization"
+                "You can install `pip install gdsfactory[cad]` for better visualization"
             )
+            return self.plot_klayout()
+
+        gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
+
+        dirpath = GDSDIR_TEMP
+        dirpath.mkdir(exist_ok=True, parents=True)
+        lyp_path = dirpath / "layers.lyp"
+
+        layer_props = get_layer_views()
+        layer_props.to_lyp(filepath=lyp_path)
+
+        port = kj.port if hasattr(kj, "port") and kj.port else 8000
+        src = f"http://127.0.0.1:{port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
+
+        os.environ["KWEB_PORT"] = str(os.getenv("KWEB_PORT", port))
+
+        if not kj.jupyter_server:
+            port = int(os.getenv("KWEB_PORT"))
+            while kj.is_port_in_use(port):
+                port += 1
+
+            os.environ["KWEB_PORT"] = str(port)
+            logger.debug(src)
+            kj.start()
+
+        if kj.jupyter_server:
+            return IFrame(
+                src=src,
+                width=1400,
+                height=600,
+            )
+        else:
             return self.plot_klayout()
 
     def plot_matplotlib(self, **kwargs) -> None:
@@ -1592,13 +1601,13 @@ class Component(_GeometryHelper):
 
         quickplot(self, **kwargs)
 
-    def plot(self, plotter: str | None = None, **kwargs) -> None:
+    def plot(self, plotter: str | None = None, **kwargs):
         """Returns component plot using klayout, matplotlib, holoviews or qt.
 
         We recommend using klayout.
 
         Args:
-            plotter: plot backend ('matplotlib', 'widget', 'klayout').
+            plotter: plot backend ('matplotlib', 'widget', 'klayout', 'kweb').
         """
         plotter = plotter or CONF.display_type
 
@@ -1608,6 +1617,8 @@ class Component(_GeometryHelper):
         if plotter == "klayout":
             self.plot_klayout()
             return
+        elif plotter == "kweb":
+            return self.plot_kweb()
         elif plotter == "widget":
             self.plot_widget()
             return
@@ -2063,7 +2074,7 @@ class Component(_GeometryHelper):
             with_cells: write cells recursively.
             with_ports: write port information.
         """
-        return OmegaConf.to_yaml(clean_dict(self.to_dict(**kwargs)))
+        return yaml.dump(clean_dict(self.to_dict(**kwargs)))
 
     def auto_rename_ports(self, **kwargs) -> None:
         """Rename ports by orientation NSEW (north, south, east, west).
@@ -2488,6 +2499,12 @@ class Component(_GeometryHelper):
                 padded_component, xsection_bounds, layer_stack, **kwargs
             )
         elif type == "3D":
+            spec = importlib.util.find_spec("meshwell")
+            if spec is None:
+                print(
+                    "3D meshing requires meshwell, see https://github.com/simbilod/meshwell or run pip install meshwell."
+                )
+
             from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
 
             return xyz_mesh(padded_component, layer_stack, **kwargs)

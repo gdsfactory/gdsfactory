@@ -13,6 +13,7 @@ import warnings
 from collections.abc import Iterable
 from typing import Callable, Optional, Union
 
+import math
 import numpy as np
 from numpy import mod, pi
 
@@ -1150,8 +1151,8 @@ def _fresnel(R0, s, num_pts, n_iter=8):
     y = np.zeros(num_pts)
 
     for n in range(n_iter):
-        x += (-1) ** n * t ** (4 * n + 1) / (np.math.factorial(2 * n) * (4 * n + 1))
-        y += (-1) ** n * t ** (4 * n + 3) / (np.math.factorial(2 * n + 1) * (4 * n + 3))
+        x += (-1) ** n * t ** (4 * n + 1) / (math.factorial(2 * n) * (4 * n + 1))
+        y += (-1) ** n * t ** (4 * n + 3) / (math.factorial(2 * n + 1) * (4 * n + 3))
 
     return np.array([np.sqrt(2) * R0 * x, np.sqrt(2) * R0 * y])
 

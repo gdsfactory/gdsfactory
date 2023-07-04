@@ -1,6 +1,38 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.110.0...main)
+
+## [6.112.0](https://github.com/gdsfactory/gdsfactory/compare/v6.112.0...v6.111.0)
+
+- add loopback to grating coupler array [PR](https://github.com/gdsfactory/gdsfactory/pull/1819)
+- add offset to terminator [PR](https://github.com/gdsfactory/gdsfactory/pull/1822)
+- fix test metadata [PR](https://github.com/gdsfactory/gdsfactory/pull/1824)
+- add `coupler_ring_point` [PR](https://github.com/gdsfactory/gdsfactory/pull/1825)
+
+## [6.111.0](https://github.com/gdsfactory/gdsfactory/compare/v6.111.0...v6.109.0)
+
+- add rib-strip routing example notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/1808)
+- fix wire components with bbox [PR](https://github.com/gdsfactory/gdsfactory/pull/1808)
+
+## [6.109.0](https://github.com/gdsfactory/gdsfactory/compare/v6.109.0...v6.108.1)
+
+- add module to `function_name` [PR](https://github.com/gdsfactory/gdsfactory/pull/1808)
+- minor updates to MEOW [PR](https://github.com/gdsfactory/gdsfactory/pull/1806)
+- use meshwell for 3D meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1800)
+- add component meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1807)
+- fix plugins tests and remove module from function name [PR](https://github.com/gdsfactory/gdsfactory/pull/1813)
+
+## [6.108.1](https://github.com/gdsfactory/gdsfactory/compare/v6.108.1...v6.108.0)
+
+- add module info to cell decorator [PR](https://github.com/gdsfactory/gdsfactory/pull/1805)
+
+## [6.108.0](https://github.com/gdsfactory/gdsfactory/compare/v6.108.0...v6.107.4)
+
+- add handshake for klive [PR](https://github.com/gdsfactory/gdsfactory/pull/1796)
+- make `plot_kweb` the default [PR](https://github.com/gdsfactory/gdsfactory/pull/1802)
+- update to latest MEOW [PR](https://github.com/gdsfactory/gdsfactory/pull/1799)
+- add `gf.components.rectangular_ring` [PR](https://github.com/gdsfactory/gdsfactory/pull/1803)
+- fix `get_bundle` regressions [PR](https://github.com/gdsfactory/gdsfactory/pull/1801)
 
 ## [6.107.4](https://github.com/gdsfactory/gdsfactory/compare/v6.107.4...v6.107.3)
 

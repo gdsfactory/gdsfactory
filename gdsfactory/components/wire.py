@@ -16,12 +16,13 @@ wire_straight = partial(straight, cross_section="metal_routing")
 
 @gf.cell
 def wire_corner(
-    cross_section: CrossSectionSpec = "metal_routing", **kwargs
+    cross_section: CrossSectionSpec = "metal_routing", with_bbox: bool = False, **kwargs
 ) -> Component:
     """Returns 45 degrees electrical corner wire.
 
     Args:
         cross_section: spec.
+        with_bbox: if True, includes the bbox layer and bbox offsets of the cross_section
         kwargs: cross_section settings.
     """
     x = gf.get_cross_section(cross_section, **kwargs)
@@ -34,6 +35,21 @@ def wire_corner(
     ypts = [-a, -a, a, a]
 
     c.add_polygon([xpts, ypts], layer=layer)
+
+    corner_bbox = c.bbox
+    if with_bbox:
+        bbox_layers = x.bbox_layers
+        bbox_offsets = x.bbox_offsets
+        for bbox_layer, bbox_offset in zip(bbox_layers, bbox_offsets):
+            c << gf.components.bbox(
+                corner_bbox,
+                layer=bbox_layer,
+                top=bbox_offset,
+                bottom=bbox_offset,
+                left=bbox_offset,
+                right=bbox_offset,
+            )
+
     c.add_port(
         name="e1",
         center=(-a, 0),
@@ -57,12 +73,16 @@ def wire_corner(
 
 @gf.cell
 def wire_corner45(
-    cross_section: CrossSectionSpec = "metal_routing", radius: float = 10, **kwargs
+    cross_section: CrossSectionSpec = "metal_routing",
+    radius: float = 10,
+    with_bbox: bool = False,
+    **kwargs,
 ) -> Component:
     """Returns 90 degrees electrical corner wire.
 
     Args:
         cross_section: spec.
+        with_bbox: if True, includes the bbox layer and bbox offsets of the cross_section
         kwargs: cross_section settings.
     """
     x = gf.get_cross_section(cross_section, **kwargs)
@@ -82,6 +102,21 @@ def wire_corner45(
     ypts = [-a, radius, radius + np.sqrt(2) * width, -a]
 
     c.add_polygon([xpts, ypts], layer=layer)
+
+    corner_bbox = c.bbox
+    if with_bbox:
+        bbox_layers = x.bbox_layers
+        bbox_offsets = x.bbox_offsets
+        for bbox_layer, bbox_offset in zip(bbox_layers, bbox_offsets):
+            c << gf.components.bbox(
+                corner_bbox,
+                layer=bbox_layer,
+                top=bbox_offset,
+                bottom=bbox_offset,
+                left=bbox_offset,
+                right=bbox_offset,
+            )
+
     c.add_port(
         name="e1",
         center=(0, 0),
@@ -105,6 +140,7 @@ def wire_corner45(
 @gf.cell
 def wire_corner_sections(
     cross_section: CrossSectionSpec = "metal_routing",
+    with_bbox: bool = False,
     **kwargs,
 ) -> Component:
     """Returns 90 degrees electrical corner wire, where all cross_section sections properly represented.
@@ -113,6 +149,7 @@ def wire_corner_sections(
 
     Args:
         cross_section: spec.
+        with_bbox: if True, includes the bbox layer and bbox offsets of the cross_section
         kwargs: cross_section settings.
     """
     x = gf.get_cross_section(cross_section, **kwargs)
@@ -148,6 +185,20 @@ def wire_corner_sections(
 
         c.add_polygon([xpts, ypts], layer=layer)
 
+    corner_bbox = c.bbox
+    if with_bbox:
+        bbox_layers = x.bbox_layers
+        bbox_offsets = x.bbox_offsets
+        for bbox_layer, bbox_offset in zip(bbox_layers, bbox_offsets):
+            c << gf.components.bbox(
+                corner_bbox,
+                layer=bbox_layer,
+                top=bbox_offset,
+                bottom=bbox_offset,
+                left=bbox_offset,
+                right=bbox_offset,
+            )
+
     c.add_port(
         name="e1",
         center=(xmin, -(xmin + ymax) / 2),
@@ -169,32 +220,55 @@ def wire_corner_sections(
 
 if __name__ == "__main__":
     # c = wire_straight()
-    # c = wire_corner()
-    section1 = gf.cross_section.Section(width=0.4, layer="M1", offset=0.5)
-    section2 = gf.cross_section.Section(width=0.4, layer="M1", offset=-0.5)
-    xsection = gf.cross_section.cross_section(
-        width=0.4, offset=0, layer="M1", sections=[section1, section2]
-    )
+
+    # xsection = gf.cross_section.cross_section(
+    #     width=1,
+    #     offset=0,
+    #     layer="M3",
+    #     bbox_layers = ("M1", "M2"),
+    #     bbox_offsets = (1, 2),
+    # )
+
+    # c = wire_corner(cross_section=xsection, with_bbox=True)
+    # c.show(show_ports=True)
+    # section1 = gf.cross_section.Section(width=0.4, layer="M1", offset=0.5)
+    # section2 = gf.cross_section.Section(width=0.4, layer="M1", offset=-0.5)
+    # xsection = gf.cross_section.cross_section(
+    #     width=0.4, offset=0, layer="M1", sections=[section1, section2]
+    # )
     from gdsfactory.cross_section import metal_slotted
 
-    c = wire_corner_sections(cross_section=metal_slotted)
-    c.show(show_ports=True)
-    # c.pprint_ports()
-    # c.pprint()
+    # # c = wire_corner_sections(cross_section=metal_slotted)
+    # # c.show(show_ports=True)
+    # # c.pprint_ports()
+    # # c.pprint()
 
-    # port1 = gf.Port(name="init", orientation=270, center=(0, 0), cross_section=metal_slotted)
-    # port2 = gf.Port(
-    #     name="final", orientation=0, center=(-20, -20), cross_section=metal_slotted
-    # )
+    metal_slotted_bbox = metal_slotted(
+        bbox_layers=("M1", "M2"),
+        bbox_offsets=(2, 4),
+    )
 
-    # c = gf.Component()
-    # route = gf.routing.get_route_electrical(
-    #     input_port=port1,
-    #     output_port=port2,
-    #     bend=wire_corner_sections(cross_section=xsection),
-    #     cross_section=xsection,
-    # )
-    # c.add(route.references)
-    # c.show()
+    port1 = gf.Port(
+        name="init",
+        orientation=270,
+        center=(0, 0),
+        cross_section=gf.get_cross_section(metal_slotted),
+    )
+    port2 = gf.Port(
+        name="final",
+        orientation=0,
+        center=(-100, -100),
+        cross_section=gf.get_cross_section(metal_slotted),
+    )
+
+    c = gf.Component()
+    route = gf.routing.get_route_electrical(
+        input_port=port1,
+        output_port=port2,
+        bend=wire_corner_sections(cross_section=metal_slotted_bbox, with_bbox=True),
+        cross_section=metal_slotted_bbox,
+    )
+    c.add(route.references)
+    c.show()
 
     # print(yaml.dump(c.to_dict()))

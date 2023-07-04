@@ -77,6 +77,7 @@ class Waveguide(pydantic.BaseModel):
         overwrite: overwrite cache.
 
     ::
+
         ________________________________________________
                                                 ^
                                                 ¦
@@ -467,6 +468,7 @@ class WaveguideCoupler(Waveguide):
         cache: controls the use of cached results.
 
     ::
+
         _____________________________________________________________
 
                 ._________________.       ._________________.

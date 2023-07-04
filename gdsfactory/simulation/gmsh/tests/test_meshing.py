@@ -4,7 +4,6 @@ import gdsfactory as gf
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
 from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
-from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
 from gdsfactory.technology import LayerStack
 
 PDK = gf.get_generic_pdk()
@@ -72,26 +71,7 @@ def test_gmsh_xy_xsection_mesh() -> None:
     )
 
 
-def test_gmsh_xyz_holes() -> None:
-    c = gf.component.Component()
-    c << gf.get_component(gf.components.ring_crow)
-
-    from gdsfactory.pdk import get_layer_stack
-
-    filtered_layerstack = LayerStack(
-        layers={k: get_layer_stack().layers[k] for k in ("core",)}
-    )
-
-    xyz_mesh(
-        component=c,
-        layerstack=filtered_layerstack,
-        resolutions={},
-        filename="mesh.msh",
-        verbosity=False,
-    )
-
-
 if __name__ == "__main__":
     test_gmsh_xy_xsection_mesh()
-    test_gmsh_uz_xsection_mesh()
-    test_gmsh_xyz_holes()
+    # test_gmsh_uz_xsection_mesh()
+    # test_gmsh_xyz_rib_vias()

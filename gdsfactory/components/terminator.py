@@ -16,6 +16,7 @@ def terminator(
     cross_section_tip: Optional[CrossSectionSpec] = None,
     tapered_width: float = 0.2,
     doping_layers: LayerSpecs = ("NPP",),
+    doping_offset: float = 1,
 ) -> gf.Component:
     """Returns doped taper to terminate waveguides.
 
@@ -26,6 +27,7 @@ def terminator(
         tapered_width: width of the default cross-section at the end of the termination.
             Only used if cross_section_tip is not None.
         doping_layers: doping layers to superimpose on the taper. Default N++.
+        doping_offset: offset of the doping layer beyond the bbox
     """
     c = Component()
 
@@ -41,7 +43,9 @@ def terminator(
     )
 
     for layer in doping_layers:
-        c << gf.components.bbox(bbox=taper.bbox, layer=layer)
+        c << gf.components.bbox(
+            bbox=taper.bbox, layer=layer, top=doping_offset, bottom=doping_offset
+        )
 
     c.add_port(name="o1", port=taper.ports["o1"])
     return c

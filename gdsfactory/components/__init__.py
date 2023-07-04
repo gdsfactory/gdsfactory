@@ -55,7 +55,7 @@ from gdsfactory.components.coupler90bend import coupler90bend
 from gdsfactory.components.coupler_adiabatic import coupler_adiabatic
 from gdsfactory.components.coupler_asymmetric import coupler_asymmetric
 from gdsfactory.components.coupler_full import coupler_full
-from gdsfactory.components.coupler_ring import coupler_ring
+from gdsfactory.components.coupler_ring import coupler_ring, coupler_ring_point
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.coupler_straight_asymmetric import (
     coupler_straight_asymmetric,
@@ -109,6 +109,7 @@ from gdsfactory.components.fiducial_squares import fiducial_squares
 from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,
 )
+from gdsfactory.components.component_lattice_generic import component_lattice_generic
 from gdsfactory.components.grating_coupler_array import grating_coupler_array
 from gdsfactory.components.grating_coupler_dual_pol import grating_coupler_dual_pol
 from gdsfactory.components.grating_coupler_elliptical import (
@@ -177,6 +178,7 @@ from gdsfactory.components.mzi_lattice import mzi_lattice, mzi_lattice_mmi
 from gdsfactory.components.mzi_pads_center import mzi_pads_center
 from gdsfactory.components.mzi_phase_shifter import (
     mzi_phase_shifter,
+    mzi2x2_2x2_phase_shifter,
     mzi_phase_shifter_top_heater_metal,
 )
 from gdsfactory.components.mzit import mzit
@@ -204,6 +206,7 @@ from gdsfactory.components.polarization_splitter_rotator import (
 from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import marker_te, marker_tm, rectangle
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
+from gdsfactory.components.rectangular_ring import rectangular_ring
 from gdsfactory.components.regular_polygon import regular_polygon
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
@@ -325,6 +328,7 @@ _factory_passives = dict(
     coupler_asymmetric=coupler_asymmetric,
     coupler_full=coupler_full,
     coupler_ring=coupler_ring,
+    coupler_ring_point=coupler_ring_point,
     coupler_symmetric=coupler_symmetric,
     crossing=crossing,
     crossing45=crossing45,
@@ -407,6 +411,7 @@ __all__ = [
     "coupler_asymmetric",
     "coupler_full",
     "coupler_ring",
+    "coupler_ring_point",
     "coupler_straight",
     "coupler_straight_asymmetric",
     "coupler_symmetric",
@@ -448,6 +453,7 @@ __all__ = [
     "text_lines",
     "ge_detector_straight_si_contacts",
     "generate_doe",
+    "component_lattice_generic",
     "grating_coupler_array",
     "grating_coupler_elliptical",
     "grating_coupler_elliptical_arbitrary",
@@ -494,6 +500,7 @@ __all__ = [
     "mzi_pads_center",
     "mzi1x2_2x2",
     "mzi2x2_2x2",
+    "mzi2x2_2x2_phase_shifter",
     "mzi_coupler",
     "mzi_arm",
     "mzi_lattice",
@@ -525,6 +532,7 @@ __all__ = [
     "qrcode",
     "ramp",
     "rectangle",
+    "rectangular_ring",
     "regular_polygon",
     "rectangle_with_slits",
     "resistance_meander",

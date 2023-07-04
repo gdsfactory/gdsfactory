@@ -65,8 +65,8 @@ def plot_sparameters(
             plt.ylabel("S (deg)")
         else:
             y = 20 * np.log10(np.abs(y)) if logscale else np.abs(y) ** 2
-            plt.plot(w, y, label=alias)
             plt.ylabel("|S| (dB)") if logscale else plt.ylabel("$|S|^2$")
+        plt.plot(w, y, label=alias)
     plt.legend()
     plt.xlabel("wavelength (nm)")
     plt.show()

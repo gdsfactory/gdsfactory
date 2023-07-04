@@ -20,6 +20,7 @@ settings:
     cross_section_tip: null
     doping_layers:
     - NPP
+    doping_offset: 1
     length: 50
     tapered_width: 0.2
   full:
@@ -27,6 +28,7 @@ settings:
     cross_section_tip: null
     doping_layers:
     - NPP
+    doping_offset: 1
     length: 50
     tapered_width: 0.2
   function_name: terminator

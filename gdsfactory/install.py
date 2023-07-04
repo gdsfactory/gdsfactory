@@ -148,20 +148,18 @@ def install_klayout_technology(
     )
 
 
-markdown_files = PATH.notebooks.glob("**/*.md")
+py_files = PATH.notebooks.glob("**/*.py")
 
 
-def convert_markdown_to_ipynb(
-    markdown_files=markdown_files, output_folder=PATH.cwd / "notebooks"
-) -> None:
+def convert_py_to_ipynb(files=py_files, output_folder=PATH.cwd / "notebooks") -> None:
     """Convert notebooks from markdown to ipynb."""
     import jupytext
 
     output_folder.mkdir(exist_ok=True, parents=True)
 
-    for markdown_file in markdown_files:
-        notebook_file = f"{output_folder}/{markdown_file.stem}.ipynb"
-        nb = jupytext.read(markdown_file)
+    for file in files:
+        notebook_file = f"{output_folder}/{file.stem}.ipynb"
+        nb = jupytext.read(file)
         jupytext.write(nb, notebook_file)
 
 
@@ -173,4 +171,4 @@ if __name__ == "__main__":
     # write_git_attributes()
     # install_gdsdiff()
     # install_klayout_package()
-    convert_markdown_to_ipynb()
+    convert_py_to_ipynb()

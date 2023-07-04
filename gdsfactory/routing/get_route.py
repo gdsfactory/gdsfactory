@@ -183,12 +183,12 @@ def get_route_from_waypoints(
     gf.routing.
 
     Args:
-        waypoints: Coordinates that define the route
-        bend: function that returns bends
-        straight: function that returns straight waveguides
-        taper: function that returns tapers
-        cross_section:
-        kwargs: cross_section settings
+        waypoints: Coordinates that define the route.
+        bend: function that returns bends.
+        straight: function that returns straight waveguides.
+        taper: function that returns tapers.
+        cross_section: spec.
+        kwargs: cross_section settings.
 
     .. plot::
         :include-source:

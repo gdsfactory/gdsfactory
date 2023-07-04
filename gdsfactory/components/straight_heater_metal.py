@@ -96,7 +96,7 @@ def straight_heater_metal_undercut(
 
     if via_stack:
         refs = list(sequence.named_references.keys())
-        via_stackw = via_stacke = gf.get_component(via_stack)
+        via = via_stackw = via_stacke = gf.get_component(via_stack)
         via_stack_west_center = sequence.named_references[refs[0]].size_info.cw
         via_stack_east_center = sequence.named_references[refs[-1]].size_info.ce
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
@@ -105,12 +105,22 @@ def straight_heater_metal_undercut(
         via_stack_east = c << via_stacke
         via_stack_west.move(via_stack_west_center - (dx, 0))
         via_stack_east.move(via_stack_east_center + (dx, 0))
-        c.add_port(
-            "e1", port=via_stack_west.get_ports_list(orientation=port_orientation1)[0]
-        )
-        c.add_port(
-            "e2", port=via_stack_east.get_ports_list(orientation=port_orientation2)[0]
-        )
+
+        valid_orientations = {p.orientation for p in via.ports.values()}
+        p1 = via_stack_west.get_ports_list(orientation=port_orientation1)
+        p2 = via_stack_east.get_ports_list(orientation=port_orientation2)
+
+        if not p1:
+            raise ValueError(
+                f"No ports for port_orientation1 {port_orientation1} in {valid_orientations}"
+            )
+        if not p2:
+            raise ValueError(
+                f"No ports for port_orientation2 {port_orientation2} in {valid_orientations}"
+            )
+
+        c.add_port("e1", port=p1[0])
+        c.add_port("e2", port=p2[0])
         if heater_taper_length:
             x = gf.get_cross_section(cross_section_heater, width=heater_width)
             taper = gf.components.taper(
@@ -161,7 +171,7 @@ if __name__ == "__main__":
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)
 
-    c = straight_heater_metal(length=40)
+    c = straight_heater_metal(length=40, port_orientation1=-90)
     # n = c.get_netlist()
     c.show(show_ports=True)
     # scene = c.to_3d()

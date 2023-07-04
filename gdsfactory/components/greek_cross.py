@@ -49,6 +49,7 @@ def greek_cross(
 
 
     References:
+
     - Walton, Anthony J.. “MICROELECTRONIC TEST STRUCTURES.” (1999).
     - W. Versnel, Analysis of the Greek cross, a Van der Pauw structure with finite
         contacts, Solid-State Electronics, Volume 22, Issue 11, 1979, Pages 911-914,
@@ -58,6 +59,7 @@ def greek_cross(
         Semiconductor Manufacturing, vol. 19, no. 1, pp. 2-9, Feb. 2006,
         doi: 10.1109/TSM.2005.863248.
     - https://download.tek.com/document/S530_VanDerPauwSheetRstnce.pdf
+
     """
     c = gf.Component()
 

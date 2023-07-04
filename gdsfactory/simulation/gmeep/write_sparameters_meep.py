@@ -13,7 +13,7 @@ from typing import Any, Dict, List, Optional
 import meep as mp
 import numpy as np
 import pydantic
-from omegaconf import OmegaConf
+import yaml
 from tqdm.auto import tqdm
 
 import gdsfactory as gf
@@ -143,18 +143,20 @@ def write_sparameters_meep(
     plot_args: Optional[Dict] = None,
     only_return_filepath_sim_settings=False,
     **settings,
-) -> Dict:
+) -> Dict[str, np.ndarray]:
     r"""Returns Sparameters and writes them to npz filepath.
 
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
 
-    port_symmetries_crossing = {
-        "o1@0,o1@0": ["o2@0,o2@0", "o3@0,o3@0", "o4@0,o4@0"],
-        "o2@0,o1@0": ["o1@0,o2@0", "o3@0,o4@0", "o4@0,o3@0"],
-        "o3@0,o1@0": ["o1@0,o3@0", "o2@0,o4@0", "o4@0,o2@0"],
-        "o4@0,o1@0": ["o1@0,o4@0", "o2@0,o3@0", "o3@0,o2@0"],
-    }
+    .. code::
+
+        port_symmetries_crossing = {
+            "o1@0,o1@0": ["o2@0,o2@0", "o3@0,o3@0", "o4@0,o4@0"],
+            "o2@0,o1@0": ["o1@0,o2@0", "o3@0,o4@0", "o4@0,o3@0"],
+            "o3@0,o1@0": ["o1@0,o3@0", "o2@0,o4@0", "o4@0,o2@0"],
+            "o4@0,o1@0": ["o1@0,o4@0", "o2@0,o3@0", "o3@0,o2@0"],
+        }
 
     - Only simulations using the outer key port names will be run
     - The associated value is another dict whose keys are the S-parameters computed
@@ -497,9 +499,7 @@ def write_sparameters_meep(
             )
             np.savez_compressed(filepath, **sp)
             logger.info(f"Write simulation results to {filepath!r}")
-            filepath_sim_settings.write_text(
-                OmegaConf.to_yaml(clean_value_json(sim_settings))
-            )
+            filepath_sim_settings.write_text(yaml.dump(clean_value_json(sim_settings)))
             logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
             return sp
         else:
@@ -529,7 +529,7 @@ def write_sparameters_meep(
         sim_settings.update(compute_time_seconds=end - start)
         sim_settings.update(compute_time_minutes=(end - start) / 60)
         logger.info(f"Write simulation results to {filepath!r}")
-        filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
+        filepath_sim_settings.write_text(yaml.dump(sim_settings))
         logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
         return sp
 

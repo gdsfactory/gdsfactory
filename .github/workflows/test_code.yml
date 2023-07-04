@@ -140,7 +140,7 @@ jobs:
           mkdir -p $HOME/.tidy3d
           if [ -n "${{ secrets.SIMCLOUD_APIKEY }}" ]; then
             echo "tidy3d credentials Variable is set. testing tidy3d..."
-            make test-plugins
+            make test-plugins-no-tidy3d
           else
             echo "tidy3d credentials Variable is not set. Skipping tidy3 tests..."
             make test-plugins-no-tidy3d

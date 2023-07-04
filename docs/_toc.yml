@@ -8,11 +8,30 @@ parts:
   chapters:
     - file: getting_started
       sections:
+        - file: developer
         - file: notebooks/_2_klayout
         - file: notebooks/_3_vscode
         - file: notebooks/_0_python
         - file: notebooks/_1_git
         - file: notebooks/_4_gdsfactory
+    - file: layout
+      sections:
+        - file: notebooks/00_geometry
+        - file: notebooks/01_references
+        - file: notebooks/02_movement
+        - file: notebooks/03_cells_autoname_and_cache
+        - file: notebooks/03_Path_CrossSection
+        - file: notebooks/04_components_shapes
+        - file: notebooks/04_components_geometry
+        - file: notebooks/04_components_pack
+        - file: notebooks/04_components_hierarchy
+        - file: notebooks/07_mask
+        - file: notebooks/04_routing
+        - file: notebooks/041_routing_electrical
+        - file: notebooks/042_non-manhattan-router
+        - file: notebooks/rib_strip_autotransition
+        - file: notebooks/common_mistakes
+        - file: notebooks/dataprep
     - file: pdk
       sections:
         - file: notebooks/08_pdk
@@ -23,69 +42,51 @@ parts:
         - file: notebooks/10_yaml_component
         - file: notebooks/11_get_netlist
         - file: notebooks/11_get_netlist_spice
-    - file: layout
-      sections:
-        - file: notebooks/00_geometry
-        - file: notebooks/01_references
-        - file: notebooks/02_movement
-        - file: notebooks/03_cells_autoname_and_cache
-        - file: notebooks/03_waveguides_paths_crossections
-        - file: notebooks/04_components_shapes
-        - file: notebooks/04_components_geometry
-        - file: notebooks/04_components_pack
-        - file: notebooks/04_components_hierarchy
-        - file: notebooks/07_mask
-        - file: notebooks/04_routing
-        - file: notebooks/041_routing_electrical
-        - file: notebooks/042_non-manhattan-router
-        - file: notebooks/common_mistakes
-        - file: notebooks/dataprep
     - file: verification
       sections:
         - file: notebooks/21_drc
     - file: workflow
       sections:
-        - file: notebooks/workflow/jupyter_notebooks
-        - file: notebooks/workflow/0_layout_summary
-        - file: notebooks/workflow/1_mzi
-        - file: notebooks/workflow/2_ring
-        - file: notebooks/workflow/3_cascaded_mzi
+        - file: notebooks/workflow_0_layout_summary
+        - file: notebooks/workflow_1_mzi
+        - file: notebooks/workflow_2_ring
+        - file: notebooks/workflow_3_cascaded_mzi
 - caption: Plugins
   chapters:
     - file: plugins_optimization
       sections:
-        - file: notebooks/ray/optimiser
+        - file: notebooks/ray_optimiser
     - file: plugins_mesh
       sections:
         - file: notebooks/materials
-        - file: notebooks/meshing/01_intro
-        - file: notebooks/meshing/02_2D_xy_mesh
-        - file: notebooks/meshing/03_2D_uz_mesh
-        - file: notebooks/meshing/04_refinement
+        - file: notebooks/meshing_01_intro
+        - file: notebooks/meshing_02_2D_xy_mesh
+        - file: notebooks/meshing_03_2D_uz_mesh
+        - file: notebooks/meshing_04_refinement
     - file: plugins_process
       sections:
-        - file: notebooks/thermal/thermal
-        - file: notebooks/devsim/01_pin_waveguide
-        - file: notebooks/tcad/02_analytical_process
-        - file: notebooks/tcad/03_numerical_implantation
+        - file: notebooks/femwell_02_heater
+        - file: notebooks/devsim_01_pin_waveguide
+        - file: notebooks/tcad_02_analytical_process
+        - file: notebooks/tcad_03_numerical_implantation
     - file: plugins_mode_solver
       sections:
-        - file: notebooks/fem/01_mode_solving
-        - file: notebooks/tidy3d/01_tidy3d_modes
-        - file: notebooks/mpb/001_mpb_waveguide
-        - file: notebooks/eme/01_meow
+        - file: notebooks/femwell_01_modes
+        - file: notebooks/tidy3d_01_tidy3d_modes
+        - file: notebooks/mpb_001_mpb_waveguide
+        - file: notebooks/meow_01
     - file: plugins_fdtd
       sections:
-        - file: notebooks/tidy3d/00_tidy3d
-        - file: notebooks/meep/001_meep_sparameters
-        - file: notebooks/meep/002_gratings
-        - file: notebooks/lumerical/1_fdtd_sparameters
+        - file: notebooks/tidy3d_00_tidy3d
+        - file: notebooks/meep_01_sparameters
+        - file: notebooks/meep_02_gratings
+        - file: notebooks/lumerical_1_fdtd_sparameters
     - file: plugins_circuits
       sections:
-        - file: notebooks/sax/01_sax
-        - file: notebooks/sax/02_model_extraction
-        - file: notebooks/sax/03_variability_analysis
-        - file: notebooks/lumerical/2_interconnect
+        - file: notebooks/sax_01_sax
+        - file: notebooks/sax_02_model_extraction
+        - file: notebooks/sax_03_variability_analysis
+        - file: notebooks/lumerical_2_interconnect
     - file: notebooks/12_database
 - caption: Reference
   chapters:

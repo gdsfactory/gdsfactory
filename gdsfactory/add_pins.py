@@ -182,7 +182,7 @@ def add_pin_rectangle_inside(
     d = p.width / 2
 
     dbot = np.array([0, -d])
-    dtop = np.array([0, d])
+    dtop = np.array([0, +d])
     dbotin = np.array([-pin_length, -d])
     dtopin = np.array([-pin_length, +d])
 

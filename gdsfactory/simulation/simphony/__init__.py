@@ -4,13 +4,13 @@ from __future__ import annotations
 try:
     from simphony.tools import freq2wl, wl2freq
 except ImportError as e:
-    print("To install simphony plugin make sure you `pip install gdsfactory[full]`")
+    print("To install simphony plugin make sure you `pip install simphony`")
     raise e
 
 try:
     import SiPANN as _SIPANN
 except ImportError as e:
-    print("To install sipann plugin make sure you `pip install gdsfactory[sipann]`")
+    print("To install sipann plugin make sure you `pip install SiPANN`")
     raise e
 
 from gdsfactory.simulation.simphony import components

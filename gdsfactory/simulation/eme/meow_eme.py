@@ -1,13 +1,14 @@
 import pathlib
 import time
-from itertools import permutations
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Literal
 
+import sax
 import meow as mw
+from meow.base_model import _array as mw_array
 import numpy as np
 import pandas as pd
-from omegaconf import OmegaConf
 from tqdm.auto import tqdm
+import yaml
 
 import gdsfactory as gf
 from gdsfactory.config import logger
@@ -19,6 +20,10 @@ from gdsfactory.simulation.get_sparameters_path import (
 from gdsfactory.simulation.gmsh.parse_layerstack import list_unique_layerstack_z
 from gdsfactory.technology import LayerStack
 from gdsfactory.typings import PathType
+
+from gdsfactory.pdk import get_layer_stack
+import pprint
+
 
 ColorRGB = Tuple[float, float, float]
 
@@ -39,10 +44,10 @@ class MEOW:
         num_modes: int = 4,
         cell_length: float = 0.5,
         spacing_x: float = 2.0,
-        center_x: float = 0,
+        center_x: Optional[float] = None,
         resolution_x: int = 100,
         spacing_y: float = 2.0,
-        center_y: float = 0,
+        center_y: Optional[float] = None,
         resolution_y: int = 100,
         material_to_color: Dict[str, ColorRGB] = material_to_color_default,
         dirpath: Optional[PathType] = None,
@@ -127,20 +132,34 @@ class MEOW:
         self.material_to_color = material_to_color
 
         # Process simulation bounds
-        self.span_x = np.diff(component.bbox[:, 1])[0] + spacing_x
-        self.num_cells = int(self.span_x / cell_length)
-        zs = list_unique_layerstack_z(layerstack)
-        self.span_y = np.max(zs) - np.min(zs) + spacing_y
-        self.center_x = center_x
+        z_min, x_min, z_max, x_max = component.bbox.ravel()
+        z_min, z_max = min(z_min, z_max) + 1e-10, max(z_min, z_max) - 1e-10
+        x_min, x_max = min(x_min, x_max) + 1e-10, max(x_min, x_max) - 1e-10
+        ys = list_unique_layerstack_z(layerstack)
+        y_min, y_max = np.min(ys) + 1e-10, np.max(ys) - 1e-10
+
+        self.span_x = x_max - x_min + spacing_x
+        self.center_x = center_x if center_x is not None else 0.5 * (x_max + x_min)
         self.resolution_x = resolution_x
-        self.center_y = center_y
+
+        self.span_y = y_max - y_min + spacing_y
+        self.center_y = center_y if center_y is not None else 0.5 * (y_max + y_min)
         self.resolution_y = resolution_y
+
+        self.z_min = z_min
+        self.z_max = z_max
+        self.span_z = z_max - z_min
+
+        self.cell_length = cell_length
+
+        # you need two extra cells without length at beginning and end.
+        self.num_cells = max(int(self.span_z / cell_length) + 2, 4)
 
         # Setup simulation
         self.component, self.layerstack = self.add_global_layers(component, layerstack)
         self.extrusion_rules = self.layerstack_to_extrusion()
         self.structs = mw.extrude_gds(self.component, self.extrusion_rules)
-        self.cells = self.create_cells(cell_length=cell_length)
+        self.cells = self.create_cells()
         self.env = mw.Environment(wl=self.wavelength, T=self.temperature)
         self.css = [mw.CrossSection(cell=cell, env=self.env) for cell in self.cells]
         self.modes_per_cell = [None] * self.num_cells
@@ -255,34 +274,41 @@ class MEOW:
             )
         return extrusions
 
-    def create_cells(self, cell_length: float = 1.0) -> List[mw.Cell]:
+    def create_cells(self) -> List[mw.Cell]:
         """Get meow cells from extruded component.
 
         Args:
             cell_length: in um.
         """
-        self.cell_length = cell_length
-        length = self.component.xsize  # in the propagation direction
+        zs = np.linspace(self.z_min, self.z_max, self.num_cells - 1)
 
-        self.num_cells = int(length / cell_length)
-        Ls = np.array([length / self.num_cells for _ in range(self.num_cells)])
+        # add two cells without length:
+        zs = np.concatenate([[self.z_min], zs, [self.z_max]])
 
-        return mw.create_cells(
-            structures=self.structs,
-            mesh=mw.Mesh2d(
-                x=np.linspace(
-                    self.center_x - self.span_x / 2,
-                    self.center_x + self.span_x / 2,
-                    self.resolution_x,
-                ),
-                y=np.linspace(
-                    self.center_y - self.span_y / 2,
-                    self.center_y + self.span_y / 2,
-                    self.resolution_y,
-                ),
+        mesh = mw.Mesh2d(
+            x=np.linspace(
+                self.center_x - self.span_x / 2,
+                self.center_x + self.span_x / 2,
+                self.resolution_x,
             ),
-            Ls=Ls,
+            y=np.linspace(
+                self.center_y - self.span_y / 2,
+                self.center_y + self.span_y / 2,
+                self.resolution_y,
+            ),
         )
+        cells = []
+        for z_min, z_max in zip(zs[:-1], zs[1:]):
+            cell = mw.Cell(
+                structures=self.structs,
+                mesh=mesh,
+                z_min=z_min,
+                z_max=z_max,
+                ez_interfaces=True,
+            )
+            cells.append(cell)
+
+        return cells
 
     def plot_structure(self, scale=(1, 1, 0.2)):
         return mw.visualize(self.structs, scale=scale)
@@ -302,10 +328,32 @@ class MEOW:
             self.compute_sparameters()
         return self.port_map
 
-    def plot_Sparams(self):
+    def plot_s_params(
+        self, fmt: Literal["abs", "phase", "real-imag", "real", "imag"] = "abs"
+    ):
+        fmt_str = str(fmt).lower()
+        supported_fmts = ["abs", "phase", "real-imag", "real", "imag"]
+        if fmt_str not in supported_fmts:
+            raise ValueError(
+                f"EME Plot format '{fmt_str}' not in supported formats: {supported_fmts}."
+            )
+
         if self.S is None:
             self.compute_sparameters()
-        return mw.visualize(self.S)
+
+        S = self.S
+        kwargs = {}
+        assert S is not None  # make type checker happy
+        if fmt_str == "abs":
+            S = abs(S)
+        elif fmt_str == "real":
+            S = np.real(S)
+        elif fmt_str == "imag":
+            S = np.imag(S)
+        elif fmt_str == "phase":
+            kwargs["phase"] = True
+
+        return mw.visualize((S, self.port_map), **kwargs)
 
     def validate_component(self, component):
         optical_ports = [
@@ -336,7 +384,18 @@ class MEOW:
         if self.filepath.exists():
             if not self.overwrite:
                 logger.info(f"Simulation loaded from {self.filepath!r}")
-                return dict(np.load(self.filepath))
+                sp = dict(np.load(self.filepath))
+
+                def rename(p):
+                    return p.replace("o1", "left").replace("o2", "right")
+
+                sdict = {
+                    tuple(rename(p) for p in k.split(",")): np.asarray(v)
+                    for k, v in sp.items()
+                }
+                S, self.port_map = sax.sdense(sdict)
+                self.S = np.asarray(S).view(mw_array)
+                return sp
             else:
                 self.filepath.unlink()
 
@@ -344,24 +403,16 @@ class MEOW:
 
         self.compute_all_modes()
 
-        if self.S is None or self.port_map is None:
-            self.S, self.port_map = mw.compute_s_matrix(self.modes_per_cell)
+        self.S, self.port_map = mw.compute_s_matrix(self.modes_per_cell)
 
-        # Convert coefficients to existing format
-        meow_to_gf_keys = {
-            "left": "o1",
-            "right": "o2",
+        sdict = sax.sdict((self.S, self.port_map))
+
+        def rename(p):
+            return p.replace("left", "o1").replace("right", "o2")
+
+        sp = {
+            f"{rename(p1)},{rename(p2)}": np.asarray(v) for (p1, p2), v in sdict.items()
         }
-        sp = {}
-        for port1, port2 in permutations(self.port_map.values(), 2):
-            value = self.S[port1, port2]
-            meow_key1 = [k for k, v in self.port_map.items() if v == port1][0]
-            meow_port1, meow_mode1 = meow_key1.split("@")
-            meow_key2 = [k for k, v in self.port_map.items() if v == port2][0]
-            meow_port2, meow_mode2 = meow_key2.split("@")
-            sp[
-                f"{meow_to_gf_keys[meow_port1]}@{meow_mode1},{meow_to_gf_keys[meow_port2]}@{meow_mode2}"
-            ] = value
 
         np.savez_compressed(self.filepath, **sp)
 
@@ -370,7 +421,7 @@ class MEOW:
         self.sim_settings.update(compute_time_seconds=end - start)
         self.sim_settings.update(compute_time_minutes=(end - start) / 60)
         logger.info(f"Write simulation results to {self.filepath!r}")
-        self.filepath_sim_settings.write_text(OmegaConf.to_yaml(self.sim_settings))
+        self.filepath_sim_settings.write_text(yaml.dump(self.sim_settings))
         logger.info(f"Write simulation settings to {self.filepath_sim_settings!r}")
 
         return sp
@@ -379,8 +430,6 @@ class MEOW:
 if __name__ == "__main__":
     c = gf.components.taper(length=10, width2=2)
     c.show()
-
-    from gdsfactory.pdk import get_layer_stack
 
     filtered_layerstack = LayerStack(
         layers={
@@ -397,7 +446,5 @@ if __name__ == "__main__":
         component=c, layerstack=filtered_layerstack, wavelength=1.55, overwrite=False
     )
     print(len(m.cells))
-
-    import pprint
 
     pprint.pprint(m.compute_sparameters())

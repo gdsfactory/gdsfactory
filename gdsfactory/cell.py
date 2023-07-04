@@ -51,8 +51,8 @@ def get_source_code(func: Callable) -> str:
 
 class Settings(BaseModel):
     name: str
-    module: str
     function_name: str
+    module: str
 
     info: Dict[str, Any]  # derived properties (length, resistance)
     info_version: int = INFO_VERSION
@@ -94,6 +94,9 @@ def cell_without_validator(func: _F) -> _F:
         max_name_length = kwargs.pop(
             "max_name_length", cell_decorator_settings.max_name_length
         )
+        include_module = kwargs.pop(
+            "include_module", cell_decorator_settings.include_module
+        )
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -130,16 +133,23 @@ def cell_without_validator(func: _F) -> _F:
         named_args_string = "_".join(changed_arg_list)
         # print(named_args_string)
 
-        if changed_arg_list:
-            named_args_string = (
-                hashlib.md5(named_args_string.encode()).hexdigest()[:8]
+        if changed_arg_list or include_module:
+            if include_module and changed_arg_list:
+                named_args_module_string = f"{named_args_string}_{func.__module__}"
+            elif include_module:
+                named_args_module_string = func.__module__
+            elif changed_arg_list:
+                named_args_module_string = named_args_string
+
+            named_args_module_string = (
+                hashlib.md5(named_args_module_string.encode()).hexdigest()[:8]
                 if with_hash
-                or len(named_args_string) > 28
-                or "'" in named_args_string
-                or "{" in named_args_string
-                else named_args_string
+                or len(named_args_module_string) > 28
+                or "'" in named_args_module_string
+                or "{" in named_args_module_string
+                else named_args_module_string
             )
-            name_signature = clean_name(f"{prefix}_{named_args_string}")
+            name_signature = clean_name(f"{prefix}_{named_args_module_string}")
         else:
             name_signature = prefix
 
@@ -209,8 +219,8 @@ def cell_without_validator(func: _F) -> _F:
         if not hasattr(component, "imported_gds"):
             component.settings = Settings(
                 name=component_name,
-                module=func.__module__,
                 function_name=func.__name__,
+                module=func.__module__,
                 changed=clean_dict(changed),
                 default=clean_dict(default),
                 full=clean_dict(full),
