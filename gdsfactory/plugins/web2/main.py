@@ -33,6 +33,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
         # Do something with the data
         # For instance, start a file watcher on the received path
         # Send back a message to the client
+        print(data)
         await websocket.send_text(f"Monitoring folder: {data}")
 
 

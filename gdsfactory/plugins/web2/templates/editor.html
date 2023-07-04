@@ -12,11 +12,12 @@
         require(['vs/editor/editor.main'], function() {
             var editor = monaco.editor.create(document.getElementById('editor'), {
                 value: [
-                    'function x() {',
-                    '\tconsole.log("Hello world!");',
-                    '}'
+                    'import gdsfactory as gf',
+                    '',
+                    'c = gf.components.mzi()',
+                    'c.plot()'
                 ].join('\n'),
-                language: 'javascript'
+                language: 'python'
             });
         });
     </script>
