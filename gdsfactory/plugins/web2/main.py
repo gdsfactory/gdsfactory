@@ -3,6 +3,8 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, Request, WebSocket
 
+from gdsfactory.watch import watch
+
 
 app = FastAPI()
 
@@ -29,12 +31,12 @@ async def editor_view(request: Request):
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
     await websocket.accept()
     while True:
-        data = await websocket.receive_text()
+        dirpath = await websocket.receive_text()
         # Do something with the data
         # For instance, start a file watcher on the received path
         # Send back a message to the client
-        print(data)
-        await websocket.send_text(f"Monitoring folder: {data}")
+        await websocket.send_text(f"Monitoring folder: {dirpath}")
+        watch(str(dirpath))
 
 
 @app.get("/filewatcher", response_class=HTMLResponse)

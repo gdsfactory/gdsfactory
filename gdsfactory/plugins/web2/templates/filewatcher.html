@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Folder Selector</title>
+    <!-- Add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- ...existing <head> content... -->
+<nav>
+    <ul>
+        <li><a href="/"><i class="fas fa-home"></i></a></li>
+        <li><a href="/graph"><i class="fas fa-chart-bar"></i></a></li>
+        <li><a href="/editor"><i class="fas fa-code"></i></a></li>
+        <li><a href="/filewatcher"><i class="fas fa-folder-open"></i></a></li>
+    <title>Folder to watch</title>
     <script>
         function connect(client_id) {
             var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);
@@ -23,9 +32,11 @@
     </script>
 </head>
 <body>
-    <h1>Folder Selector</h1>
+    <h1>Folder to watch</h1>
     <input type="file" id="folder_selector" webkitdirectory>
     <button onclick="monitorFolder()">Monitor folder</button>
+    <button onclick="stop()">Stop</button>
+    <button onclick="clear_cache()">Clear cache</button>
     <pre id="messages"></pre>
 </body>
 </html>
