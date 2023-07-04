@@ -77,7 +77,7 @@ def xyz_mesh(
     mesh_out = model.mesh(
         entities_dict=prisms_dict,
         resolutions=resolutions,
-        default_characteristic_length=0.5,
+        default_characteristic_length=default_characteristic_length,
         filename=filename,
         verbosity=verbosity,
     )
