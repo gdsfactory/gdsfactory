@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Folder Selector</title>
+    <script>
+        function connect(client_id) {
+            var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);
+            ws.onmessage = function(event) {
+                var messages = document.getElementById('messages')
+                messages.textContent += event.data + '\n';
+            };
+            return ws;
+        }
+
+        function monitorFolder() {
+            var client_id = 'unique_client_id'; // you should generate a unique client id for each client
+            var ws = connect(client_id);
+            var folder_path = document.getElementById('folder_selector').value;
+            ws.onopen = function (event) {
+                ws.send(folder_path);
+            };
+        }
+    </script>
+</head>
+<body>
+    <h1>Folder Selector</h1>
+    <input type="file" id="folder_selector" webkitdirectory>
+    <button onclick="monitorFolder()">Monitor folder</button>
+    <pre id="messages"></pre>
+</body>
+</html>
