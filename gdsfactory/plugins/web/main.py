@@ -100,27 +100,6 @@ async def gds_current(request: Request):
         )
 
 
-@app.get("/gds", response_class=HTMLResponse)
-async def gds_view(request: Request, gds_file: str, layer_props: Optional[str] = None):
-    url = str(
-        request.url.scheme
-        + "://"
-        + (request.url.hostname or "localhost")
-        + ":"
-        + str(request.url.port)
-        + "/gds"
-    )
-    return templates.TemplateResponse(
-        "client.html",
-        {
-            "request": request,
-            "url": url,
-            "gds_file": gds_file,
-            "layer_props": layer_props,
-        },
-    )
-
-
 @app.get("/pdk", response_class=HTMLResponse)
 async def pdk(request: Request):
     if "preview.app.github" in str(request.url):
