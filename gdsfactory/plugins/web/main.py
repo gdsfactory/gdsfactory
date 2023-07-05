@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 from typing import Optional
 
+from glob import glob
 import orjson
 from fastapi import FastAPI, Form, Request, status
 from gdsfactory.plugins.web.middleware import ProxiedHeadersMiddleware
@@ -14,7 +15,7 @@ from loguru import logger
 from starlette.routing import WebSocketRoute
 
 import gdsfactory as gf
-from gdsfactory.config import PATH
+from gdsfactory.config import PATH, GDSDIR_TEMP, CONF
 from gdsfactory.plugins.web.server import LayoutViewServerEndpoint, get_layout_view
 
 module_path = Path(__file__).parent.absolute()
@@ -46,7 +47,7 @@ def load_pdk() -> gf.Pdk:
 def get_url(request: Request) -> str:
     port_mod = ""
     if request.url.port is not None and len(str(request.url).split(".")) < 3:
-        port_mod = ":" + str(request.url.port)
+        port_mod = f":{str(request.url.port)}"
 
     hostname = request.url.hostname
 
@@ -66,13 +67,69 @@ def get_url(request: Request) -> str:
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.get("/gds_list", response_class=HTMLResponse)
+async def gds_list(request: Request):
+    files_root = GDSDIR_TEMP
+    paths_list = glob(str(files_root / "*.gds"))
+    files_list = sorted(Path(gdsfile).name for gdsfile in paths_list)
+    files_metadata = [
+        {"name": file_name, "url": f"view/{file_name}"} for file_name in files_list
+    ]
+    return templates.TemplateResponse(
+        "file_browser.html",
+        {
+            "request": request,
+            "message": f"GDS files in {str(files_root)!r}",
+            "files_root": files_root,
+            "files_metadata": files_metadata,
+        },
+    )
+
+
+@app.get("/gds_current", response_class=HTMLResponse)
+async def gds_current(request: Request):
+    if CONF.last_saved_files:
+        return RedirectResponse(f"/view/{CONF.last_saved_files[-1].stem}.gds")
+    else:
+        return RedirectResponse(
+            "/",
+            status_code=status.HTTP_302_FOUND,
+        )
+
+
+@app.get("/gds", response_class=HTMLResponse)
+async def gds_view(request: Request, gds_file: str, layer_props: Optional[str] = None):
+    url = str(
+        request.url.scheme
+        + "://"
+        + (request.url.hostname or "localhost")
+        + ":"
+        + str(request.url.port)
+        + "/gds"
+    )
+    return templates.TemplateResponse(
+        "client.html",
+        {
+            "request": request,
+            "url": url,
+            "gds_file": gds_file,
+            "layer_props": layer_props,
+        },
+    )
+
+
+@app.get("/pdk", response_class=HTMLResponse)
+async def pdk(request: Request):
     if "preview.app.github" in str(request.url):
         return RedirectResponse(str(request.url).replace(".preview", ""))
     active_pdk = load_pdk()
     pdk_name = active_pdk.name
     components = list(active_pdk.cells.keys())
     return templates.TemplateResponse(
-        "index.html",
+        "pdk.html",
         {
             "request": request,
             "title": "Main",
@@ -87,11 +144,19 @@ LOADED_COMPONENTS = {}
 
 @app.get("/view/{cell_name}", response_class=HTMLResponse)
 async def view_cell(request: Request, cell_name: str, variant: Optional[str] = None):
+    gds_files = GDSDIR_TEMP.glob("*.gds")
+    gds_names = [f"{gdspath.stem}.gds" for gdspath in gds_files]
+
     if "preview.app.github" in str(request.url):
         return RedirectResponse(str(request.url).replace(".preview", ""))
 
     if variant in LOADED_COMPONENTS:
         component = LOADED_COMPONENTS[variant]
+    elif cell_name in gds_names:
+        gdspath = GDSDIR_TEMP / cell_name
+        component = gf.import_gds(gdspath=gdspath)
+        component.settings["default"] = component.settings.get("default", {})
+        component.settings["changed"] = component.settings.get("changed", {})
     else:
         component = gf.get_component(cell_name)
     layout_view = get_layout_view(component)
@@ -126,6 +191,11 @@ def _parse_value(value: str):
 async def update_cell(request: Request, cell_name: str):
     data = await request.form()
     changed_settings = {k: _parse_value(v) for k, v in data.items() if v != ""}
+    if not changed_settings:
+        return RedirectResponse(
+            f"/view/{cell_name}",
+            status_code=status.HTTP_302_FOUND,
+        )
     new_component = gf.get_component(
         {"component": cell_name, "settings": changed_settings}
     )
@@ -146,7 +216,3 @@ async def search(name: str = Form(...)):
         return RedirectResponse("/", status_code=status.HTTP_404_NOT_FOUND)
     logger.info(f"Successfully found {name}! Redirecting...")
     return RedirectResponse(f"/view/{name}", status_code=status.HTTP_302_FOUND)
-
-
-if __name__ == "__main__":
-    pdk = load_pdk()
