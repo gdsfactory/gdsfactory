@@ -12,13 +12,10 @@
 
 from functools import partial
 import numpy as np
-import ray
-import ray.air
-import ray.air.session
 
 # ## Import PySwarms
 import pyswarms as ps
-from pyswarms.utils.plotters import (plot_cost_history, plot_contour, plot_surface)
+from pyswarms.utils.plotters import plot_cost_history
 import matplotlib.pyplot as plt
 
 import gdsfactory as gf
@@ -62,8 +59,8 @@ def trainable_simulations(x, loss=lambda x: x):
             # wavelength_stop=1.6,
             wavelength_points=1,
         )
-
-        if use_mpi := True:  # change this to false if no MPI support
+        use_mpi = True
+        if use_mpi == True:  # change this to false if no MPI support
             s_params = gm.write_sparameters_meep_mpi(
                 cores=2, **meep_params  # set this to be the same as in `tune.Tuner`
             )
@@ -107,3 +104,4 @@ cost, pos = optimizer.optimize(func, iters=1000)
 
 plot_cost_history(cost_history=optimizer.cost_history)
 plt.show()
+
