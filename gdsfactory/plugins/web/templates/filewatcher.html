@@ -4,15 +4,19 @@
 <head>
     <title>Folder Watcher</title>
 </head>
+<style>
+h2 {
+    margin-top: 10px; /* Adjust the size as required */
+}
+</style>
 <body>
-    <h1>Define a Folder Path to Watch</h1>
+    <h1>Folder to watch for changing files</h1>
     <form action="/filewatcher_start" method="post">
         <input type="text" name="folder_path" placeholder="Enter folder path" required>
         <input type="submit" value="Watch Folder">
         <button type="button" onclick="stopWatcher()">Stop Watcher</button>
     </form>
 
-    <h1>Output</h1>
     <div id="output">
         <pre>{{ output }}</pre>
     </div>
