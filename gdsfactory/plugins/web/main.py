@@ -74,7 +74,7 @@ async def root(request: Request):
 async def gds_list(request: Request):
     files_root = GDSDIR_TEMP
     paths_list = glob(str(files_root / "*.gds"))
-    files_list = sorted(Path(gdsfile).name for gdsfile in paths_list)
+    files_list = sorted(Path(gdsfile).stem for gdsfile in paths_list)
     files_metadata = [
         {"name": file_name, "url": f"view/{file_name}"} for file_name in files_list
     ]
@@ -92,7 +92,7 @@ async def gds_list(request: Request):
 @app.get("/gds_current", response_class=HTMLResponse)
 async def gds_current(request: Request):
     if CONF.last_saved_files:
-        return RedirectResponse(f"/view/{CONF.last_saved_files[-1].stem}.gds")
+        return RedirectResponse(f"/view/{CONF.last_saved_files[-1].stem}")
     else:
         return RedirectResponse(
             "/",
@@ -124,7 +124,7 @@ LOADED_COMPONENTS = {}
 @app.get("/view/{cell_name}", response_class=HTMLResponse)
 async def view_cell(request: Request, cell_name: str, variant: Optional[str] = None):
     gds_files = GDSDIR_TEMP.glob("*.gds")
-    gds_names = [f"{gdspath.stem}.gds" for gdspath in gds_files]
+    gds_names = [gdspath.stem for gdspath in gds_files]
 
     if "preview.app.github" in str(request.url):
         return RedirectResponse(str(request.url).replace(".preview", ""))
@@ -133,7 +133,7 @@ async def view_cell(request: Request, cell_name: str, variant: Optional[str] = N
         component = LOADED_COMPONENTS[variant]
     elif cell_name in gds_names:
         gdspath = GDSDIR_TEMP / cell_name
-        component = gf.import_gds(gdspath=gdspath)
+        component = gf.import_gds(gdspath=gdspath.with_suffix(".gds"))
         component.settings["default"] = component.settings.get("default", {})
         component.settings["changed"] = component.settings.get("changed", {})
     else:
