@@ -210,7 +210,7 @@ async def search(name: str = Form(...)):
 #######################
 
 watched_folder = None
-watcher = True
+watcher = None
 output = ""
 
 
@@ -222,7 +222,7 @@ async def filewatcher(request: Request):
 
 
 @app.post("/filewatcher_start")
-async def watch_folder(request: Request, folder_path: str = Form(...)) -> str:
+async def watch_folder(request: Request, folder_path: str = Form(...)):
     global output
     global watched_folder
     global watcher
@@ -236,6 +236,7 @@ async def watch_folder(request: Request, folder_path: str = Form(...)) -> str:
     watched_folder = pathlib.Path(folder_path)
     watcher = FileWatcher(path=folder_path)
     watcher.start()
+    output += f"watching {watched_folder}\n"
 
     return templates.TemplateResponse(
         "filewatcher.html", {"request": request, "output": output}
@@ -243,12 +244,15 @@ async def watch_folder(request: Request, folder_path: str = Form(...)) -> str:
 
 
 @app.get("/filewatcher_stop")
-def stop_watcher() -> str:
+def stop_watcher(request: Request) -> str:
     """Stops filewacher."""
     global watcher
     global watched_folder
+    global output
 
     if watcher:
         watcher.stop()
 
-    return f"stopped watching {watched_folder}"
+    message = f"stopped watching {watched_folder}\n"
+    output += message
+    return message
