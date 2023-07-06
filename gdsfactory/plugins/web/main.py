@@ -6,17 +6,21 @@ from typing import Optional
 
 from glob import glob
 import orjson
+
 from fastapi import FastAPI, Form, Request, status
-from gdsfactory.plugins.web.middleware import ProxiedHeadersMiddleware
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi import WebSocket
+
 from loguru import logger
 from starlette.routing import WebSocketRoute
 
 import gdsfactory as gf
+from gdsfactory.plugins.web.middleware import ProxiedHeadersMiddleware
 from gdsfactory.config import PATH, GDSDIR_TEMP, CONF
 from gdsfactory.plugins.web.server import LayoutViewServerEndpoint, get_layout_view
+from gdsfactory.watch import watch
 
 module_path = Path(__file__).parent.absolute()
 
@@ -98,6 +102,23 @@ async def gds_current(request: Request):
             "/",
             status_code=status.HTTP_302_FOUND,
         )
+
+
+@app.websocket("/ws/{client_id}")
+async def websocket_endpoint(websocket: WebSocket, client_id: str):
+    await websocket.accept()
+    while True:
+        dirpath = await websocket.receive_text()
+        # Do something with the data
+        # For instance, start a file watcher on the received path
+        # Send back a message to the client
+        await websocket.send_text(f"Monitoring folder: {dirpath}")
+        watch(str(dirpath))
+
+
+@app.get("/filewatcher", response_class=HTMLResponse)
+async def filewatcher(request: Request):
+    return templates.TemplateResponse("filewatcher.html", {"request": request})
 
 
 @app.get("/pdk", response_class=HTMLResponse)
