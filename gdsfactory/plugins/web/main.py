@@ -80,6 +80,7 @@ async def root(request: Request):
 
 @app.get("/gds_list", response_class=HTMLResponse)
 async def gds_list(request: Request):
+    """List all saved GDS files."""
     files_root = GDSDIR_TEMP
     paths_list = glob(str(files_root / "*.gds"))
     files_list = sorted(Path(gdsfile).stem for gdsfile in paths_list)
@@ -98,7 +99,8 @@ async def gds_list(request: Request):
 
 
 @app.get("/gds_current", response_class=HTMLResponse)
-async def gds_current(request: Request):
+async def gds_current(request: Request) -> RedirectResponse:
+    """List all saved GDS files."""
     if CONF.last_saved_files:
         return RedirectResponse(f"/view/{CONF.last_saved_files[-1].stem}")
     else:
@@ -221,7 +223,7 @@ async def filewatcher(request: Request):
     )
 
 
-@app.post("/watch")
+@app.post("/filewatcher_start")
 async def watch_folder(request: Request, folder_path: str = Form(...)) -> str:
     global output
     global watched_folder
@@ -239,8 +241,9 @@ async def watch_folder(request: Request, folder_path: str = Form(...)) -> str:
     )
 
 
-@app.get("/stop")
+@app.get("/filewatcher_stop")
 def stop_watcher() -> str:
+    """Stops filewacher."""
     global watcher_working
     global watched_folder
     print(f"stopped watching {watched_folder}")

@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Define a Folder Path to Watch</h1>
-    <form action="/watch" method="post">
+    <form action="/filewatcher_start" method="post">
         <input type="text" name="folder_path" placeholder="Enter folder path" required>
         <input type="submit" value="Watch Folder">
         <button type="button" onclick="stopWatcher()">Stop Watcher</button>
@@ -19,7 +19,7 @@
 
     <script>
         function stopWatcher() {
-            fetch('/stop')
+            fetch('/filewatcher_stop')
                 .then(response => response.text())
                 .then(data => {
                     alert(data);
