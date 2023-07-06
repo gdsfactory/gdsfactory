@@ -2,16 +2,17 @@ import base64
 import importlib
 import os
 from pathlib import Path
+import pathlib
 from typing import Optional
 
 from glob import glob
 import orjson
 
-from fastapi import FastAPI, Form, Request, status
+from fastapi import Form, HTTPException
+from fastapi import FastAPI, Request, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi import WebSocket
 
 from loguru import logger
 from starlette.routing import WebSocketRoute
@@ -20,7 +21,10 @@ import gdsfactory as gf
 from gdsfactory.plugins.web.middleware import ProxiedHeadersMiddleware
 from gdsfactory.config import PATH, GDSDIR_TEMP, CONF
 from gdsfactory.plugins.web.server import LayoutViewServerEndpoint, get_layout_view
-from gdsfactory.watch import watch
+
+from gdsfactory.config import cwd
+from gdsfactory.watch import YamlEventHandler, Observer, logging
+import time
 
 module_path = Path(__file__).parent.absolute()
 
@@ -102,23 +106,6 @@ async def gds_current(request: Request):
             "/",
             status_code=status.HTTP_302_FOUND,
         )
-
-
-@app.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: str):
-    await websocket.accept()
-    while True:
-        dirpath = await websocket.receive_text()
-        # Do something with the data
-        # For instance, start a file watcher on the received path
-        # Send back a message to the client
-        await websocket.send_text(f"Monitoring folder: {dirpath}")
-        watch(str(dirpath))
-
-
-@app.get("/filewatcher", response_class=HTMLResponse)
-async def filewatcher(request: Request):
-    return templates.TemplateResponse("filewatcher.html", {"request": request})
 
 
 @app.get("/pdk", response_class=HTMLResponse)
@@ -216,3 +203,74 @@ async def search(name: str = Form(...)):
         return RedirectResponse("/", status_code=status.HTTP_404_NOT_FOUND)
     logger.info(f"Successfully found {name}! Redirecting...")
     return RedirectResponse(f"/view/{name}", status_code=status.HTTP_302_FOUND)
+
+
+#########################
+# filewatcher
+#######################
+
+watched_folder = None
+watcher_working = True
+output = ""
+
+
+@app.get("/filewatcher", response_class=HTMLResponse)
+async def filewatcher(request: Request):
+    return templates.TemplateResponse(
+        "filewatcher.html", {"request": request, "output": output}
+    )
+
+
+@app.post("/watch")
+async def watch_folder(request: Request, folder_path: str = Form(...)) -> str:
+    global output
+    global watched_folder
+
+    if folder_path is None or not folder_path.strip():
+        raise HTTPException(status_code=400, detail="Folder path is required.")
+    if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
+        raise HTTPException(status_code=400, detail="Folder does not exist.")
+    watched_folder = folder_path
+
+    watched_folder = pathlib.Path(folder_path)
+    start_watcher(watched_folder)
+    return templates.TemplateResponse(
+        "filewatcher.html", {"request": request, "output": output}
+    )
+
+
+@app.get("/stop")
+def stop_watcher() -> str:
+    global watcher_working
+    global watched_folder
+    print(f"stopped watching {watched_folder}")
+
+    watcher_working = False
+    return f"stopped watching {watched_folder}"
+
+
+def start_watcher(path=cwd, pdk=None) -> None:
+    global output
+    global watcher_working
+
+    output += f"Watcher started for folder: {path}\n"
+    path = str(path)
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+    if pdk:
+        pdk_module = importlib.import_module(pdk)
+        pdk_module.PDK.activate()
+    event_handler = YamlEventHandler(path=path)
+    observer = Observer()
+    observer.schedule(event_handler, path, recursive=True)
+    observer.start()
+    logging.info(f"Observing {path!r}")
+    try:
+        while watcher_working:
+            time.sleep(1)
+    finally:
+        observer.stop()
+        observer.join()

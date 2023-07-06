@@ -1,34 +1,31 @@
 {% include 'header.html' %}
 {% include 'navbar.html' %}
 <html>
-    <ul>
-    <title>Folder to watch</title>
-    <script>
-        function connect(client_id) {
-            var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);
-            ws.onmessage = function(event) {
-                var messages = document.getElementById('messages')
-                messages.textContent += event.data + '\n';
-            };
-            return ws;
-        }
-
-        function monitorFolder() {
-            var client_id = 'unique_client_id'; // you should generate a unique client id for each client
-            var ws = connect(client_id);
-            var folder_path = document.getElementById('folder_selector').value;
-            ws.onopen = function (event) {
-                ws.send(folder_path);
-            };
-        }
-    </script>
+<head>
+    <title>Folder Watcher</title>
 </head>
 <body>
-    <h1>Folder to watch</h1>
-    <input type="file" id="folder_selector" webkitdirectory>
-    <button onclick="monitorFolder()">Monitor folder</button>
-    <button onclick="stop()">Stop</button>
-    <button onclick="clear_cache()">Clear cache</button>
-    <pre id="messages"></pre>
+    <h1>Define a Folder Path to Watch</h1>
+    <form action="/watch" method="post">
+        <input type="text" name="folder_path" placeholder="Enter folder path" required>
+        <input type="submit" value="Watch Folder">
+        <button type="button" onclick="stopWatcher()">Stop Watcher</button>
+    </form>
+
+    <h1>Output</h1>
+    <div id="output">
+        <pre>{{ output }}</pre>
+    </div>
+
+    <script>
+        function stopWatcher() {
+            fetch('/stop')
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                });
+        }
+    </script>
+
 </body>
 </html>
