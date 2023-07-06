@@ -46,6 +46,7 @@ def xyz_mesh(
     layerstack: LayerStack,
     resolutions: Optional[Dict] = None,
     default_characteristic_length: float = 0.5,
+    global_scaling: float = 1,
     filename: Optional[str] = None,
     verbosity: Optional[int] = 0,
     round_tol: int = 3,
@@ -57,8 +58,8 @@ def xyz_mesh(
         component (Component): gdsfactory component to mesh
         layerstack (LayerStack): gdsfactory LayerStack to parse
         resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}} to roughly control mesh refinement
-        default_resolution_min (float): gmsh minimal edge length
-        default_resolution_max (float): gmsh maximal edge length
+        default_characteristic_length (float): gmsh maximum edge length
+        global_scaling: factor to scale all mesh coordinates by (e.g. 1E-6 to go from um to m)
         filename (str, path): where to save the .msh file
         round_tol: during gds --> mesh conversion cleanup, number of decimal points at which to round the gdsfactory/shapely points before introducing to gmsh
         simplify_tol: during gds --> mesh conversion cleanup, shapely "simplify" tolerance (make it so all points are at least separated by this amount)
@@ -77,7 +78,8 @@ def xyz_mesh(
     mesh_out = model.mesh(
         entities_dict=prisms_dict,
         resolutions=resolutions,
-        default_characteristic_length=0.5,
+        default_characteristic_length=default_characteristic_length,
+        global_scaling=global_scaling,
         filename=filename,
         verbosity=verbosity,
     )
