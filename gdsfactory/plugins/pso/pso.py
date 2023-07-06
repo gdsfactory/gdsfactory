@@ -60,7 +60,7 @@ def trainable_simulations(x, loss=lambda x: x):
             wavelength_points=1,
         )
         use_mpi = True
-        if use_mpi == True:  # change this to false if no MPI support
+        if use_mpi is True:  # change this to false if no MPI support
             s_params = gm.write_sparameters_meep_mpi(
                 cores=2, **meep_params  # set this to be the same as in `tune.Tuner`
             )
