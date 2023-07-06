@@ -7,7 +7,6 @@ from typing import Optional
 
 from glob import glob
 import orjson
-from threading import Thread
 
 from fastapi import Form, HTTPException
 from fastapi import FastAPI, Request, status
@@ -23,7 +22,7 @@ from gdsfactory.plugins.web.middleware import ProxiedHeadersMiddleware
 from gdsfactory.config import PATH, GDSDIR_TEMP, CONF
 from gdsfactory.plugins.web.server import LayoutViewServerEndpoint, get_layout_view
 
-from gdsfactory.watch import watch
+from gdsfactory.watch import FileWatcher
 
 module_path = Path(__file__).parent.absolute()
 
@@ -211,7 +210,7 @@ async def search(name: str = Form(...)):
 #######################
 
 watched_folder = None
-thread = None
+watcher = True
 output = ""
 
 
@@ -226,16 +225,18 @@ async def filewatcher(request: Request):
 async def watch_folder(request: Request, folder_path: str = Form(...)) -> str:
     global output
     global watched_folder
-    global thread
+    global watcher
 
     if folder_path is None or not folder_path.strip():
         raise HTTPException(status_code=400, detail="Folder path is required.")
     if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
         raise HTTPException(status_code=400, detail="Folder does not exist.")
+
     watched_folder = folder_path
     watched_folder = pathlib.Path(folder_path)
-    thread = Thread(target=watch, args=(watched_folder, None))
-    thread.start()
+    watcher = FileWatcher(path=folder_path)
+    watcher.start()
+
     return templates.TemplateResponse(
         "filewatcher.html", {"request": request, "output": output}
     )
@@ -244,9 +245,10 @@ async def watch_folder(request: Request, folder_path: str = Form(...)) -> str:
 @app.get("/filewatcher_stop")
 def stop_watcher() -> str:
     """Stops filewacher."""
-    global watcher_working
+    global watcher
     global watched_folder
-    global thread
 
-    thread.join()
+    if watcher:
+        watcher.stop()
+
     return f"stopped watching {watched_folder}"
