@@ -212,17 +212,42 @@ async def search(name: str = Form(...)):
 watched_folder = None
 watcher = None
 output = ""
+component = None
 
 
 @app.get("/filewatcher", response_class=HTMLResponse)
 async def filewatcher(request: Request):
+    global component
+
+    if CONF.last_saved_files:
+        component = gf.import_gds(gf.CONF.last_saved_files[-1])
+    else:
+        component = gf.components.straight()
+    component.settings["default"] = component.settings.get("default", {})
+    component.settings["changed"] = component.settings.get("changed", {})
+
+    layout_view = get_layout_view(component)
+    pixel_data = layout_view.get_pixels_with_options(800, 400).to_png_data()
+    b64_data = base64.b64encode(pixel_data).decode("utf-8")
+
     return templates.TemplateResponse(
-        "filewatcher.html", {"request": request, "output": output}
+        "filewatcher.html",
+        {
+            "request": request,
+            "output": output,
+            "cell_name": str(component.name),
+            "variant": None,
+            "title": "Viewer",
+            "initial_view": b64_data,
+            "component": component,
+            "url": get_url(request),
+        },
     )
 
 
 @app.post("/filewatcher_start")
 async def watch_folder(request: Request, folder_path: str = Form(...)):
+    global component
     global output
     global watched_folder
     global watcher
@@ -238,8 +263,26 @@ async def watch_folder(request: Request, folder_path: str = Form(...)):
     watcher.start()
     output += f"watching {watched_folder}\n"
 
+    component = component or gf.components.straight()
+    component.settings["default"] = component.settings.get("default", {})
+    component.settings["changed"] = component.settings.get("changed", {})
+
+    layout_view = get_layout_view(component)
+    pixel_data = layout_view.get_pixels_with_options(800, 400).to_png_data()
+    b64_data = base64.b64encode(pixel_data).decode("utf-8")
+
     return templates.TemplateResponse(
-        "filewatcher.html", {"request": request, "output": output}
+        "filewatcher.html",
+        {
+            "request": request,
+            "output": output,
+            "cell_name": str(component.name),
+            "variant": None,
+            "title": "Viewer",
+            "initial_view": b64_data,
+            "component": component,
+            "url": get_url(request),
+        },
     )
 
 
