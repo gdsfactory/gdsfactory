@@ -217,7 +217,7 @@ def cell_without_validator(func: _F) -> _F:
         component.info.update(**info)
 
         if not hasattr(component, "imported_gds"):
-            component.settings = dict(
+            component.settings = Settings(
                 name=component_name,
                 function_name=func.__name__,
                 module=func.__module__,
