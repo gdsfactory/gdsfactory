@@ -7,6 +7,7 @@ from typing import Optional
 
 from glob import glob
 import orjson
+from threading import Thread
 
 from fastapi import Form, HTTPException
 from fastapi import FastAPI, Request, status
@@ -22,9 +23,7 @@ from gdsfactory.plugins.web.middleware import ProxiedHeadersMiddleware
 from gdsfactory.config import PATH, GDSDIR_TEMP, CONF
 from gdsfactory.plugins.web.server import LayoutViewServerEndpoint, get_layout_view
 
-from gdsfactory.config import cwd
-from gdsfactory.watch import YamlEventHandler, Observer, logging
-import time
+from gdsfactory.watch import watch
 
 module_path = Path(__file__).parent.absolute()
 
@@ -212,7 +211,7 @@ async def search(name: str = Form(...)):
 #######################
 
 watched_folder = None
-watcher_working = True
+thread = None
 output = ""
 
 
@@ -227,15 +226,16 @@ async def filewatcher(request: Request):
 async def watch_folder(request: Request, folder_path: str = Form(...)) -> str:
     global output
     global watched_folder
+    global thread
 
     if folder_path is None or not folder_path.strip():
         raise HTTPException(status_code=400, detail="Folder path is required.")
     if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
         raise HTTPException(status_code=400, detail="Folder does not exist.")
     watched_folder = folder_path
-
     watched_folder = pathlib.Path(folder_path)
-    start_watcher(watched_folder)
+    thread = Thread(target=watch, args=(watched_folder, None))
+    thread.start()
     return templates.TemplateResponse(
         "filewatcher.html", {"request": request, "output": output}
     )
@@ -246,34 +246,7 @@ def stop_watcher() -> str:
     """Stops filewacher."""
     global watcher_working
     global watched_folder
-    print(f"stopped watching {watched_folder}")
+    global thread
 
-    watcher_working = False
+    thread.join()
     return f"stopped watching {watched_folder}"
-
-
-def start_watcher(path=cwd, pdk=None) -> None:
-    global output
-    global watcher_working
-
-    output += f"Watcher started for folder: {path}\n"
-    path = str(path)
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-    )
-    if pdk:
-        pdk_module = importlib.import_module(pdk)
-        pdk_module.PDK.activate()
-    event_handler = YamlEventHandler(path=path)
-    observer = Observer()
-    observer.schedule(event_handler, path, recursive=True)
-    observer.start()
-    logging.info(f"Observing {path!r}")
-    try:
-        while watcher_working:
-            time.sleep(1)
-    finally:
-        observer.stop()
-        observer.join()

@@ -17,8 +17,8 @@ from gdsfactory.config import cwd
 from gdsfactory.pdk import get_active_pdk
 
 
-class YamlEventHandler(FileSystemEventHandler):
-    """Captures pic.yml file change events."""
+class FileWatcher(FileSystemEventHandler):
+    """Captures *.py or *.pic.yml file change events."""
 
     def __init__(self, logger=None, path: Optional[str] = None) -> None:
         """Initialize the YAML event handler."""
@@ -128,15 +128,16 @@ def watch(path=cwd, pdk=None) -> None:
     if pdk:
         pdk_module = importlib.import_module(pdk)
         pdk_module.PDK.activate()
-    event_handler = YamlEventHandler(path=path)
+    event_handler = FileWatcher(path=path)
     observer = Observer()
     observer.schedule(event_handler, path, recursive=True)
     observer.start()
     logging.info(f"Observing {path!r}")
+
     try:
         while True:
             time.sleep(1)
-    finally:
+    except KeyboardInterrupt:
         observer.stop()
         observer.join()
 
