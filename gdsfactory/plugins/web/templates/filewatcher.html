@@ -50,8 +50,7 @@ h2 {
             </div>
         </div>
     </div>
-    <h2>Parameters</h2>
-    <form action="/update/{{cell_name}}" method="POST">
+    <form action="/filewatcher" method="GET">
     <button type="submit" class="btn btn-primary">Update</button>
     {% for setting_name, setting_value in component.settings.default.items()%}
         <div class="mb-3">
