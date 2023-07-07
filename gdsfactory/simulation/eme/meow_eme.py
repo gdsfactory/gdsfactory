@@ -298,6 +298,7 @@ class MEOW:
                 self.center_y + self.span_y / 2,
                 self.resolution_y,
             ),
+            ez_interfaces=True,
         )
         cells = []
         for z_min, z_max in zip(zs[:-1], zs[1:]):
@@ -306,7 +307,6 @@ class MEOW:
                 mesh=mesh,
                 z_min=z_min,
                 z_max=z_max,
-                ez_interfaces=True,
             )
             cells.append(cell)
 
