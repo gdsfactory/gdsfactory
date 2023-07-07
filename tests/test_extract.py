@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.add_pins import add_pins_siepic
 
 
-def test_extract():
+def test_extract() -> None:
     c = gf.components.straight(
         length=11.124,
         width=0.5,
@@ -24,7 +24,6 @@ def test_extract():
     assert len(c2.paths) == 2, len(c2.paths)
     assert gf.LAYER.WGCLAD in c.layers
     assert gf.LAYER.PORT in c2.layers
-    return c2
 
 
 if __name__ == "__main__":
