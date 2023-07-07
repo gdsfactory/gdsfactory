@@ -175,10 +175,10 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
             for layer in self.layout_view.each_layer():
                 layer.visible = vis
         elif msg == "layer-v":
-            id = js["id"]
+            layer_id = js["id"]
             vis = js["value"]
             for layer in self.layout_view.each_layer():
-                if layer.id() == id:
+                if layer.id() == layer_id:
                     layer.visible = vis
         elif msg == "initialize":
             self.layout_view.resize(js["width"], js["height"])
@@ -207,7 +207,8 @@ def get_layer_properties() -> str:
     return str(lyp_path)
 
 
-def get_layout_view(component: gf.Component):
+def get_layout_view(component: gf.Component) -> lay.LayoutView:
+    """Returns klayout layout view for a gdsfactory Component."""
     gds_path = GDSDIR_TEMP / f"{component.name}.gds"
     component.write_gds(gdspath=str(gds_path))
     layout_view = lay.LayoutView()
