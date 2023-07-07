@@ -89,9 +89,12 @@ class FileWatcher(FileSystemEventHandler):
         super().on_created(event)
 
         what = "directory" if event.is_directory else "file"
-        if what == "file" and event.src_path.endswith(".pic.yml"):
+        if (
+            what == "file"
+            and event.src_path.endswith(".pic.yml")
+            or event.src_path.endswith(".py")
+        ):
             self.logger.info("Created %s: %s", what, event.src_path)
-            self.update_cell(event.src_path)
             self.get_component(event.src_path)
 
     def on_deleted(self, event) -> None:
@@ -118,7 +121,11 @@ class FileWatcher(FileSystemEventHandler):
             self.logger.info("Modified %s: %s", what, event.src_path)
             self.get_component(event.src_path)
 
+    def update(self) -> None:
+        pass
+
     def get_component(self, filepath):
+        self.update()
         try:
             filepath = pathlib.Path(filepath)
             if filepath.exists():

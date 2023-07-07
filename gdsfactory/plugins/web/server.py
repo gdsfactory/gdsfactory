@@ -40,11 +40,10 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
         # path_params = args[0]['path_params']
         # cell_name = path_params["cell_name"]
         cell_name = params["variant"]
-        self.url = str(GDSDIR_TEMP / f"{cell_name}.gds")
         # c = gf.get_component(cell_name)
         gds_path = GDSDIR_TEMP / f"{cell_name}.gds"
         # c.write_gds(gds_path)
-        self.gds_path = str(gds_path)
+        self.url = self.gds_path = str(gds_path)
 
     async def on_connect(self, websocket) -> None:
         await websocket.accept()
@@ -95,7 +94,8 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
         self, websocket: WebSocket, path: Optional[str] = None
     ) -> None:
         self.layout_view = lay.LayoutView()
-        self.layout_view.load_layout(self.url)
+        url = self.url
+        self.layout_view.load_layout(url)
         if self.layer_props is not None:
             self.layout_view.load_layer_props(str(self.layer_props))
         self.layout_view.max_hier()

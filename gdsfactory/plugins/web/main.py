@@ -23,6 +23,7 @@ from gdsfactory.config import PATH, GDSDIR_TEMP, CONF
 from gdsfactory.plugins.web.server import LayoutViewServerEndpoint, get_layout_view
 
 from gdsfactory.watch import FileWatcher
+from gdsfactory.cell import Settings
 
 module_path = Path(__file__).parent.absolute()
 
@@ -67,7 +68,6 @@ def get_url(request: Request) -> str:
         + port_mod
         + request.url.path
     )
-
     return url
 
 
@@ -147,8 +147,7 @@ async def view_cell(request: Request, cell_name: str, variant: Optional[str] = N
 
         gdspath = GDSDIR_TEMP / cell_name
         component = gf.import_gds(gdspath=gdspath.with_suffix(".gds"))
-        component.settings["default"] = component.settings.get("default", {})
-        component.settings["changed"] = component.settings.get("changed", {})
+        component.settings = Settings(name=component.name)
     layout_view = get_layout_view(component)
     pixel_data = layout_view.get_pixels_with_options(800, 400).to_png_data()
     b64_data = base64.b64encode(pixel_data).decode("utf-8")
@@ -185,15 +184,31 @@ async def update_cell(request: Request, cell_name: str):
             f"/view/{cell_name}",
             status_code=status.HTTP_302_FOUND,
         )
-    new_component = gf.get_component(
-        {"component": cell_name, "settings": changed_settings}
-    )
-    LOADED_COMPONENTS[new_component.name] = new_component
+    component = gf.get_component({"component": cell_name, "settings": changed_settings})
+    variant = component.name
+
+    LOADED_COMPONENTS[component.name] = component
     logger.info(data)
+    logger.info(f"update {cell_name} {variant}")
     return RedirectResponse(
-        f"/view/{cell_name}?variant={new_component.name}",
+        f"/view/{cell_name}?variant={variant}",
         status_code=status.HTTP_302_FOUND,
     )
+    # layout_view = get_layout_view(component)
+    # pixel_data = layout_view.get_pixels_with_options(800, 400).to_png_data()
+    # b64_data = base64.b64encode(pixel_data).decode("utf-8")
+    # return templates.TemplateResponse(
+    #     "viewer.html",
+    #     {
+    #         "request": request,
+    #         "cell_name": str(cell_name),
+    #         "variant": variant,
+    #         "title": "Viewer",
+    #         "initial_view": b64_data,
+    #         "component": component,
+    #         "url": get_url(request),
+    #     },
+    # )
 
 
 @app.post("/search", response_class=RedirectResponse)
@@ -223,10 +238,9 @@ async def filewatcher(request: Request):
 
     if CONF.last_saved_files:
         component = gf.import_gds(gf.CONF.last_saved_files[-1])
+        component.settings = Settings(name=component.name)
     else:
         component = gf.components.straight()
-    component.settings["default"] = component.settings.get("default", {})
-    component.settings["changed"] = component.settings.get("changed", {})
 
     layout_view = get_layout_view(component)
     pixel_data = layout_view.get_pixels_with_options(800, 400).to_png_data()
@@ -266,9 +280,6 @@ async def watch_folder(request: Request, folder_path: str = Form(...)):
     output += f"watching {watched_folder}\n"
 
     component = component or gf.components.straight()
-    component.settings["default"] = component.settings.get("default", {})
-    component.settings["changed"] = component.settings.get("changed", {})
-
     layout_view = get_layout_view(component)
     pixel_data = layout_view.get_pixels_with_options(800, 400).to_png_data()
     b64_data = base64.b64encode(pixel_data).decode("utf-8")
