@@ -167,13 +167,12 @@ async def view_cell(request: Request, cell_name: str, variant: Optional[str] = N
 
 
 def _parse_value(value: str):
-    if value.startswith("{") or value.startswith("["):
-        try:
-            return orjson.loads(value.replace("'", '"'))
-        except orjson.JSONDecodeError as e:
-            raise ValueError(f"Unable to decode parameter value, {value}: {e.msg}")
-    else:
+    if not value.startswith("{") and not value.startswith("["):
         return value
+    try:
+        return orjson.loads(value.replace("'", '"'))
+    except orjson.JSONDecodeError as e:
+        raise ValueError(f"Unable to decode parameter value, {value}: {e.msg}") from e
 
 
 @app.post("/update/{cell_name}")
@@ -195,21 +194,6 @@ async def update_cell(request: Request, cell_name: str):
         f"/view/{cell_name}?variant={variant}",
         status_code=status.HTTP_302_FOUND,
     )
-    # layout_view = get_layout_view(component)
-    # pixel_data = layout_view.get_pixels_with_options(800, 400).to_png_data()
-    # b64_data = base64.b64encode(pixel_data).decode("utf-8")
-    # return templates.TemplateResponse(
-    #     "viewer.html",
-    #     {
-    #         "request": request,
-    #         "cell_name": str(cell_name),
-    #         "variant": variant,
-    #         "title": "Viewer",
-    #         "initial_view": b64_data,
-    #         "component": component,
-    #         "url": get_url(request),
-    #     },
-    # )
 
 
 @app.post("/search", response_class=RedirectResponse)
@@ -279,24 +263,9 @@ async def watch_folder(request: Request, folder_path: str = Form(...)):
     watcher = FileWatcher(path=folder_path)
     watcher.start()
     output += f"watching {watched_folder}\n"
-
-    component = component or gf.components.straight()
-    layout_view = get_layout_view(component)
-    pixel_data = layout_view.get_pixels_with_options(800, 400).to_png_data()
-    b64_data = base64.b64encode(pixel_data).decode("utf-8")
-
-    return templates.TemplateResponse(
-        "filewatcher.html",
-        {
-            "request": request,
-            "output": output,
-            "cell_name": str(component.name),
-            "variant": None,
-            "title": "Viewer",
-            "initial_view": b64_data,
-            "component": component,
-            "url": get_url(request),
-        },
+    return RedirectResponse(
+        "/filewatcher",
+        status_code=status.HTTP_302_FOUND,
     )
 
 

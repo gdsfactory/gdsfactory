@@ -121,7 +121,7 @@ class FileWatcher(FileSystemEventHandler):
             self.logger.info("Modified %s: %s", what, event.src_path)
             self.get_component(event.src_path)
 
-    def update(self) -> None:
+    def update(self):
         pass
 
     def get_component(self, filepath):
