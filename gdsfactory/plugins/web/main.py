@@ -139,15 +139,16 @@ async def view_cell(request: Request, cell_name: str, variant: Optional[str] = N
 
     if variant in LOADED_COMPONENTS:
         component = LOADED_COMPONENTS[variant]
-    try:
-        component = gf.get_component(cell_name)
-    except Exception as e:
-        if cell_name not in gds_names:
-            raise HTTPException(status_code=400, detail=f"Component not found. {e}")
+    else:
+        try:
+            component = gf.get_component(cell_name)
+        except Exception as e:
+            if cell_name not in gds_names:
+                raise HTTPException(status_code=400, detail=f"Component not found. {e}")
 
-        gdspath = GDSDIR_TEMP / cell_name
-        component = gf.import_gds(gdspath=gdspath.with_suffix(".gds"))
-        component.settings = Settings(name=component.name)
+            gdspath = GDSDIR_TEMP / cell_name
+            component = gf.import_gds(gdspath=gdspath.with_suffix(".gds"))
+            component.settings = Settings(name=component.name)
     layout_view = get_layout_view(component)
     pixel_data = layout_view.get_pixels_with_options(800, 400).to_png_data()
     b64_data = base64.b64encode(pixel_data).decode("utf-8")
