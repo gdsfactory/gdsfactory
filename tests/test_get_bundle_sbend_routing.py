@@ -3,12 +3,11 @@ from __future__ import annotations
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 
 
 def demo_get_bundle_sbend_routing(
     data_regression: DataRegressionFixture, check: bool = True
-) -> Component:
+) -> None:
     """FIXME."""
 
     lengths = {}
@@ -36,9 +35,7 @@ def demo_get_bundle_sbend_routing(
 
     if check:
         data_regression.check(lengths)
-    return c
 
 
 if __name__ == "__main__":
-    c = demo_get_bundle_sbend_routing(None, check=False)
-    c.show(show_ports=True)
+    demo_get_bundle_sbend_routing(None, check=False)

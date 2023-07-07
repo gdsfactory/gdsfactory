@@ -3,12 +3,11 @@ from __future__ import annotations
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 
 
 def test_get_bundle_electrical_multilayer(
     data_regression: DataRegressionFixture, check: bool = True
-) -> Component:
+) -> None:
     lengths = {}
     c = gf.Component("multi-layer")
     columns = 2
@@ -27,9 +26,7 @@ def test_get_bundle_electrical_multilayer(
 
     if check:
         data_regression.check(lengths)
-    return c
 
 
 if __name__ == "__main__":
-    c = test_get_bundle_electrical_multilayer(None, check=False)
-    c.show(show_ports=True)
+    test_get_bundle_electrical_multilayer(None, check=False)

@@ -4,12 +4,11 @@ from functools import partial
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 
 
 def test_get_bundle_udirect(
     data_regression: DataRegressionFixture, check: bool = True
-) -> Component:
+) -> None:
     c = gf.Component("test_get_bundle_udirect")
 
     pad = partial(gf.components.pad, size=(10, 10))
@@ -34,9 +33,7 @@ def test_get_bundle_udirect(
 
     if check:
         data_regression.check(lengths)
-    return c
 
 
 if __name__ == "__main__":
-    c = test_get_bundle_udirect(None, check=False)
-    c.show(show_ports=True)
+    test_get_bundle_udirect(None, check=False)

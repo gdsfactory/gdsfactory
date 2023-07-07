@@ -4,13 +4,12 @@ from functools import partial
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 from gdsfactory.port import port_array
 
 
 def test_get_bundle_west_to_north(
     data_regression: DataRegressionFixture, check: bool = True
-) -> Component:
+) -> None:
     lengths = {}
 
     c = gf.Component("test_get_bundle_west_to_north")
@@ -40,12 +39,11 @@ def test_get_bundle_west_to_north(
 
     if check:
         data_regression.check(lengths)
-    return c
 
 
 def test_get_bundle_west_to_north2(
     data_regression: DataRegressionFixture, check: bool = True
-) -> Component:
+) -> None:
     layer = (1, 0)
 
     lengths = {}
@@ -69,10 +67,8 @@ def test_get_bundle_west_to_north2(
 
     if check:
         data_regression.check(lengths)
-    return c
 
 
 if __name__ == "__main__":
-    # c = test_get_bundle_west_to_north(None, check=False)
-    c = test_get_bundle_west_to_north2(None, check=False)
-    c.show(show_ports=True)
+    test_get_bundle_west_to_north(None, check=False)
+    # test_get_bundle_west_to_north2(None, check=False)

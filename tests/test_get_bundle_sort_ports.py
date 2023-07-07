@@ -3,12 +3,11 @@ from __future__ import annotations
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 
 
 def test_get_bundle_sort_ports(
     data_regression: DataRegressionFixture, check: bool = True
-) -> Component:
+) -> None:
     lengths = {}
     c = gf.Component("test_get_bundle_sort_ports")
     ys_right = [0, 10, 20, 40, 50, 80]
@@ -38,9 +37,7 @@ def test_get_bundle_sort_ports(
 
     if check:
         data_regression.check(lengths)
-    return c
 
 
 if __name__ == "__main__":
-    c = test_get_bundle_sort_ports(None, check=False)
-    c.show(show_ports=True)
+    test_get_bundle_sort_ports(None, check=False)

@@ -3,18 +3,12 @@ from __future__ import annotations
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 
 
 def test_get_bundle_u_direct_different_x(
     data_regression: DataRegressionFixture, check: bool = True
-) -> Component:
-    """.. code::
-
-    4----5              ________ 3----6     4|        |            3|
-    nxn   | 2----7     2|        |            1|________| 1----8
-
-    """
+) -> None:
+    """ """
 
     c = gf.Component("test_get_bundle_u_direct_different_x")
     w = c << gf.components.straight_array(n=4, spacing=200)
@@ -43,9 +37,7 @@ def test_get_bundle_u_direct_different_x(
 
     if check:
         data_regression.check(lengths)
-    return c
 
 
 if __name__ == "__main__":
-    c = test_get_bundle_u_direct_different_x(None, check=False)
-    c.show(show_ports=True)
+    test_get_bundle_u_direct_different_x(None, check=False)

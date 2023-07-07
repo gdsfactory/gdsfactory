@@ -3,13 +3,12 @@ from __future__ import annotations
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 from gdsfactory.routing.get_bundle import get_bundle_same_axis_no_grouping
 
 
 def test_link_optical_ports_no_grouping(
     data_regression: DataRegressionFixture, check: bool = True
-) -> Component:
+) -> None:
     c = gf.Component("test_link_optical_ports_no_grouping")
     w = c << gf.components.straight_array(n=4, spacing=200)
     d = c << gf.components.nxn(west=4, east=1)
@@ -35,9 +34,7 @@ def test_link_optical_ports_no_grouping(
 
     if check:
         data_regression.check(lengths)
-    return c
 
 
 if __name__ == "__main__":
-    c = test_link_optical_ports_no_grouping(None, check=False)
-    c.show(show_ports=True)
+    test_link_optical_ports_no_grouping(None, check=False)

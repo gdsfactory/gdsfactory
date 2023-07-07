@@ -4,13 +4,12 @@ from functools import partial
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 
 
 def test_get_bundle_electrical(
     data_regression: DataRegressionFixture, check: bool = True
-) -> Component:
+) -> None:
     lengths = {}
 
     c = gf.Component("test_get_bundle")
@@ -43,12 +42,11 @@ def test_get_bundle_electrical(
 
     if check:
         data_regression.check(lengths)
-    return c
 
 
 def test_get_bundle_electrical2(
     data_regression: DataRegressionFixture, check: bool = True
-) -> Component:
+) -> None:
     lengths = {}
 
     c = gf.Component("pads_bundle_steps")
@@ -76,10 +74,8 @@ def test_get_bundle_electrical2(
     if check:
         data_regression.check(lengths)
         difftest(c)
-    return c
 
 
 if __name__ == "__main__":
-    # c = test_get_bundle_electrical(None, check=False)
-    c = test_get_bundle_electrical2(None, check=False)
-    c.show(show_ports=True)
+    # test_get_bundle_electrical(None, check=False)
+    test_get_bundle_electrical2(None, check=False)
