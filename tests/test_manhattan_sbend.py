@@ -4,8 +4,6 @@ import numpy as np
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
-from gdsfactory.component import Component
 from gdsfactory.routing.manhattan import RouteWarning, route_manhattan
 
 TOLERANCE = 0.001
@@ -15,9 +13,8 @@ RAD2DEG = 1 / DEG2RAD
 O2D = {0: "East", 180: "West", 90: "North", 270: "South"}
 
 
-@cell
-def test_manhattan_sbend_pass() -> Component:
-    c = gf.Component("demo_sbend")
+def test_manhattan_sbend_pass() -> None:
+    c = gf.Component()
     length = 10
     c1 = c << gf.components.straight(length=length)
     c2 = c << gf.components.straight(length=length)
@@ -36,13 +33,11 @@ def test_manhattan_sbend_pass() -> Component:
     c.add(route.references)
     if route.labels:
         c.add(route.labels)
-    return c
 
 
-@cell
-def test_manhattan_sbend_fail() -> Component:
+def test_manhattan_sbend_fail() -> None:
     with pytest.warns(RouteWarning):
-        c = gf.Component("demo_sbend")
+        c = gf.Component()
         length = 10
         c1 = c << gf.components.straight(length=length)
         c2 = c << gf.components.straight(length=length)
@@ -61,13 +56,11 @@ def test_manhattan_sbend_fail() -> Component:
         c.add(route.references)
         if route.labels:
             c.add(route.labels)
-        return c
 
 
 if __name__ == "__main__":
-    c = test_manhattan_sbend_pass()
-    # c = test_manhattan_sbend_fail()
-    c.show(show_ports=True)
+    test_manhattan_sbend_pass()
+    # test_manhattan_sbend_fail()
 
     # c = gf.Component("demo_sbend")
     # length = 10

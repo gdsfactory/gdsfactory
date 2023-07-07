@@ -5,7 +5,7 @@ from gdsfactory import CrossSection
 from gdsfactory import path as pa
 
 
-def test_no_ports() -> gf.Component:
+def test_no_ports() -> None:
     c = gf.Component()
     w = h = 1
     layer = (1, 0)
@@ -16,10 +16,9 @@ def test_no_ports() -> gf.Component:
         [w / 2, -h / 2.0],
     ]
     c.add_polygon(points, layer=layer)
-    return c
 
 
-def test_path() -> gf.Component:
+def test_path() -> None:
     s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
     X1 = CrossSection(
@@ -61,10 +60,8 @@ def test_path() -> gf.Component:
     wgt.connect("in2", wg1.ports["out1"])
     wg2.connect("in2", wgt.ports["out1"])
     assert len(c.references) == 3
-    return c
 
 
 if __name__ == "__main__":
-    # c = test_no_ports()
-    c = test_path()
-    c.show(show_ports=True)
+    test_no_ports()
+    # test_path()

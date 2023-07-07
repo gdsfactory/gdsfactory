@@ -5,13 +5,12 @@ from typing import Tuple
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, Float2, Optional
 
 
 @cell
 def array(
-    component: ComponentSpec = straight,
+    component: ComponentSpec = "pad",
     spacing: Tuple[float, float] = (150.0, 150.0),
     columns: int = 6,
     rows: int = 1,

@@ -1,457 +1,372 @@
-name: array_564dd830
+name: array
 ports:
-  o1_1_1:
+  e1_1_1:
     center:
-    - -10.0
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o1_1_1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o1_1_2:
-    center:
-    - 140.0
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o1_1_2
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o1_1_3:
-    center:
-    - 290.0
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o1_1_3
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o1_1_4:
-    center:
-    - 440.0
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o1_1_4
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o1_1_5:
-    center:
-    - 590.0
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o1_1_5
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o1_1_6:
-    center:
-    - 740.0
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o1_1_6
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2_1_1:
-    center:
-    - -10.0
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o2_1_1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2_1_2:
-    center:
-    - 140.0
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o2_1_2
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2_1_3:
-    center:
-    - 290.0
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o2_1_3
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2_1_4:
-    center:
-    - 440.0
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o2_1_4
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2_1_5:
-    center:
-    - 590.0
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o2_1_5
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2_1_6:
-    center:
-    - 740.0
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o2_1_6
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3_1_1:
-    center:
-    - 117.12
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o3_1_1
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3_1_2:
-    center:
-    - 267.12
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o3_1_2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3_1_3:
-    center:
-    - 417.12
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o3_1_3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3_1_4:
-    center:
-    - 567.12
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o3_1_4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3_1_5:
-    center:
-    - 717.12
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o3_1_5
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3_1_6:
-    center:
-    - 867.12
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o3_1_6
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4_1_1:
-    center:
-    - 117.12
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o4_1_1
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4_1_2:
-    center:
-    - 267.12
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o4_1_2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4_1_3:
-    center:
-    - 417.12
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o4_1_3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4_1_4:
-    center:
-    - 567.12
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o4_1_4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4_1_5:
-    center:
-    - 717.12
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o4_1_5
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4_1_6:
-    center:
-    - 867.12
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o4_1_6
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  top_e1_1_1:
-    center:
-    - 19.5
-    - 22.625
+    - -50.0
+    - 0.0
     layer:
     - 49
     - 0
-    name: top_e1_1_1
+    name: e1_1_1
     orientation: 180
-    port_type: electrical
+    port_type: placement
     shear_angle: null
-    width: 11.0
-  top_e1_1_2:
+    width: 100.0
+  e1_1_2:
     center:
-    - 169.5
-    - 22.625
+    - 100.0
+    - 0.0
     layer:
     - 49
     - 0
-    name: top_e1_1_2
+    name: e1_1_2
     orientation: 180
-    port_type: electrical
+    port_type: placement
     shear_angle: null
-    width: 11.0
-  top_e1_1_3:
+    width: 100.0
+  e1_1_3:
     center:
-    - 319.5
-    - 22.625
+    - 250.0
+    - 0.0
     layer:
     - 49
     - 0
-    name: top_e1_1_3
+    name: e1_1_3
     orientation: 180
-    port_type: electrical
+    port_type: placement
     shear_angle: null
-    width: 11.0
-  top_e1_1_4:
+    width: 100.0
+  e1_1_4:
     center:
-    - 469.5
-    - 22.625
+    - 400.0
+    - 0.0
     layer:
     - 49
     - 0
-    name: top_e1_1_4
+    name: e1_1_4
     orientation: 180
-    port_type: electrical
+    port_type: placement
     shear_angle: null
-    width: 11.0
-  top_e1_1_5:
+    width: 100.0
+  e1_1_5:
     center:
-    - 619.5
-    - 22.625
+    - 550.0
+    - 0.0
     layer:
     - 49
     - 0
-    name: top_e1_1_5
+    name: e1_1_5
     orientation: 180
-    port_type: electrical
+    port_type: placement
     shear_angle: null
-    width: 11.0
-  top_e1_1_6:
+    width: 100.0
+  e1_1_6:
     center:
-    - 769.5
-    - 22.625
+    - 700.0
+    - 0.0
     layer:
     - 49
     - 0
-    name: top_e1_1_6
+    name: e1_1_6
     orientation: 180
-    port_type: electrical
+    port_type: placement
     shear_angle: null
-    width: 11.0
-  top_e2_1_1:
+    width: 100.0
+  e2_1_1:
     center:
-    - 87.6
-    - 22.625
+    - 0.0
+    - 50.0
     layer:
     - 49
     - 0
-    name: top_e2_1_1
-    orientation: 0.0
-    port_type: electrical
+    name: e2_1_1
+    orientation: 90
+    port_type: placement
     shear_angle: null
-    width: 11.0
-  top_e2_1_2:
+    width: 100.0
+  e2_1_2:
     center:
-    - 237.6
-    - 22.625
+    - 150.0
+    - 50.0
     layer:
     - 49
     - 0
-    name: top_e2_1_2
-    orientation: 0.0
-    port_type: electrical
+    name: e2_1_2
+    orientation: 90
+    port_type: placement
     shear_angle: null
-    width: 11.0
-  top_e2_1_3:
+    width: 100.0
+  e2_1_3:
     center:
-    - 387.6
-    - 22.625
+    - 300.0
+    - 50.0
     layer:
     - 49
     - 0
-    name: top_e2_1_3
-    orientation: 0.0
-    port_type: electrical
+    name: e2_1_3
+    orientation: 90
+    port_type: placement
     shear_angle: null
-    width: 11.0
-  top_e2_1_4:
+    width: 100.0
+  e2_1_4:
     center:
-    - 537.6
-    - 22.625
+    - 450.0
+    - 50.0
     layer:
     - 49
     - 0
-    name: top_e2_1_4
-    orientation: 0.0
-    port_type: electrical
+    name: e2_1_4
+    orientation: 90
+    port_type: placement
     shear_angle: null
-    width: 11.0
-  top_e2_1_5:
+    width: 100.0
+  e2_1_5:
     center:
-    - 687.6
-    - 22.625
+    - 600.0
+    - 50.0
     layer:
     - 49
     - 0
-    name: top_e2_1_5
-    orientation: 0.0
-    port_type: electrical
+    name: e2_1_5
+    orientation: 90
+    port_type: placement
     shear_angle: null
-    width: 11.0
-  top_e2_1_6:
+    width: 100.0
+  e2_1_6:
     center:
-    - 837.6
-    - 22.625
+    - 750.0
+    - 50.0
     layer:
     - 49
     - 0
-    name: top_e2_1_6
-    orientation: 0.0
-    port_type: electrical
+    name: e2_1_6
+    orientation: 90
+    port_type: placement
     shear_angle: null
-    width: 11.0
+    width: 100.0
+  e3_1_1:
+    center:
+    - 50.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3_1_1
+    orientation: 0.0
+    port_type: placement
+    shear_angle: null
+    width: 100.0
+  e3_1_2:
+    center:
+    - 200.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3_1_2
+    orientation: 0.0
+    port_type: placement
+    shear_angle: null
+    width: 100.0
+  e3_1_3:
+    center:
+    - 350.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3_1_3
+    orientation: 0.0
+    port_type: placement
+    shear_angle: null
+    width: 100.0
+  e3_1_4:
+    center:
+    - 500.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3_1_4
+    orientation: 0.0
+    port_type: placement
+    shear_angle: null
+    width: 100.0
+  e3_1_5:
+    center:
+    - 650.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3_1_5
+    orientation: 0.0
+    port_type: placement
+    shear_angle: null
+    width: 100.0
+  e3_1_6:
+    center:
+    - 800.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3_1_6
+    orientation: 0.0
+    port_type: placement
+    shear_angle: null
+    width: 100.0
+  e4_1_1:
+    center:
+    - 0.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4_1_1
+    orientation: 270
+    port_type: placement
+    shear_angle: null
+    width: 100.0
+  e4_1_2:
+    center:
+    - 150.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4_1_2
+    orientation: 270
+    port_type: placement
+    shear_angle: null
+    width: 100.0
+  e4_1_3:
+    center:
+    - 300.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4_1_3
+    orientation: 270
+    port_type: placement
+    shear_angle: null
+    width: 100.0
+  e4_1_4:
+    center:
+    - 450.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4_1_4
+    orientation: 270
+    port_type: placement
+    shear_angle: null
+    width: 100.0
+  e4_1_5:
+    center:
+    - 600.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4_1_5
+    orientation: 270
+    port_type: placement
+    shear_angle: null
+    width: 100.0
+  e4_1_6:
+    center:
+    - 750.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4_1_6
+    orientation: 270
+    port_type: placement
+    shear_angle: null
+    width: 100.0
+  pad_1_1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad_1_1
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
+  pad_1_2:
+    center:
+    - 150.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad_1_2
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
+  pad_1_3:
+    center:
+    - 300.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad_1_3
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
+  pad_1_4:
+    center:
+    - 450.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad_1_4
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
+  pad_1_5:
+    center:
+    - 600.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad_1_5
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
+  pad_1_6:
+    center:
+    - 750.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad_1_6
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
 settings:
-  changed:
-    component:
-      component: mzi
-      settings:
-        combiner:
-          function: mmi2x2
-        port_e0_combiner: o4
-        port_e0_splitter: o4
-        port_e1_combiner: o3
-        port_e1_splitter: o3
-        splitter:
-          function: mmi2x2
-        straight_x_top: straight_heater_metal
+  changed: {}
   child: null
   default:
     add_ports: true
     columns: 6
-    component:
-      function: straight
+    component: pad
     rows: 1
     size: null
     spacing:
@@ -460,18 +375,7 @@ settings:
   full:
     add_ports: true
     columns: 6
-    component:
-      component: mzi
-      settings:
-        combiner:
-          function: mmi2x2
-        port_e0_combiner: o4
-        port_e0_splitter: o4
-        port_e1_combiner: o3
-        port_e1_splitter: o3
-        splitter:
-          function: mmi2x2
-        straight_x_top: straight_heater_metal
+    component: pad
     rows: 1
     size: null
     spacing:
@@ -481,4 +385,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.array_component
-  name: array_564dd830
+  name: array

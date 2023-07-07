@@ -1,86 +1,68 @@
-name: mzi_2e88f57c_add_gratin_dd3bd915
+name: straight_add_grating_couplers
 ports: {}
 settings:
-  changed:
-    component:
-      component: mzi
-      settings:
-        combiner:
-          function: mmi2x2
-        port_e0_combiner: o4
-        port_e0_splitter: o4
-        port_e1_combiner: o3
-        port_e1_splitter: o3
-        splitter:
-          function: mmi2x2
-        straight_x_top: straight_heater_metal
+  changed: {}
   child:
-    changed:
-      combiner:
-        function: mmi2x2
-      port_e0_combiner: o4
-      port_e0_splitter: o4
-      port_e1_combiner: o3
-      port_e1_splitter: o3
-      splitter:
-        function: mmi2x2
-      straight_x_top: straight_heater_metal
+    changed: {}
     child: null
     default:
-      add_optical_ports_arms: false
-      bend:
-        function: bend_euler
-      combiner: null
       cross_section: strip
-      cross_section_x_bot: null
-      cross_section_x_top: null
-      delta_length: 10.0
-      length_x: 0.1
-      length_y: 2.0
-      mirror_bot: false
-      nbends: 2
-      port_e0_combiner: o3
-      port_e0_splitter: o3
-      port_e1_combiner: o2
-      port_e1_splitter: o2
-      splitter: mmi1x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
+      length: 10.0
+      npoints: 2
+      with_bbox: true
     full:
-      add_optical_ports_arms: false
-      bend:
-        function: bend_euler
-      combiner:
-        function: mmi2x2
       cross_section: strip
-      cross_section_x_bot: null
-      cross_section_x_top: null
-      delta_length: 10.0
-      length_x: 0.1
-      length_y: 2.0
-      mirror_bot: false
-      nbends: 2
-      port_e0_combiner: o4
-      port_e0_splitter: o4
-      port_e1_combiner: o3
-      port_e1_splitter: o3
-      splitter:
-        function: mmi2x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: straight_heater_metal
-      straight_y: null
-      with_splitter: true
-    function_name: mzi
-    info: {}
+      length: 10.0
+      npoints: 2
+      with_bbox: true
+    function_name: straight
+    info:
+      cross_section: strip
+      function_name: cross_section
+      length: 10.0
+      settings:
+        add_bbox: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        cladding_simplify: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: strip
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
+      width: 0.5
     info_version: 2
-    module: gdsfactory.components.mzi
-    name: mzi_2e88f57c
+    module: gdsfactory.components.straight
+    name: straight
   default:
     component:
       function: straight
@@ -102,17 +84,7 @@ settings:
         port_type: optical
   full:
     component:
-      component: mzi
-      settings:
-        combiner:
-          function: mmi2x2
-        port_e0_combiner: o4
-        port_e0_splitter: o4
-        port_e1_combiner: o3
-        port_e1_splitter: o3
-        splitter:
-          function: mmi2x2
-        straight_x_top: straight_heater_metal
+      function: straight
     component_name: null
     gc_port_name: o1
     get_input_labels_function:
@@ -131,8 +103,51 @@ settings:
         port_type: optical
   function_name: add_grating_couplers
   info:
+    cross_section: strip
+    function_name: cross_section
+    length: 10.0
     polarization: te
+    settings:
+      add_bbox: null
+      add_pins:
+        function: add_pins
+        settings:
+          function:
+            function: add_pin_rectangle_inside
+            settings:
+              layer_label: null
+              pin_length: 0.001
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      bbox_layers: null
+      bbox_offsets: null
+      cladding_layers: null
+      cladding_offsets: null
+      cladding_simplify: null
+      decorator: null
+      end_straight_length: 0.01
+      gap: 3.0
+      info: null
+      layer: WG
+      min_length: 0.01
+      mirror: false
+      name: strip
+      offset: 0
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      radius: 10.0
+      sections: null
+      snap_to_grid: null
+      start_straight_length: 0.01
+      taper_length: 10.0
+      width: 0.5
+      width_wide: null
     wavelength: 1.53
+    width: 0.5
   info_version: 2
   module: gdsfactory.components.add_grating_couplers
-  name: mzi_2e88f57c_add_gratin_dd3bd915
+  name: straight_add_grating_couplers

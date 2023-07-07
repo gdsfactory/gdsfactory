@@ -1,9 +1,9 @@
-name: mzi_2e88f57c_extend_por_d00b135f
+name: mmi1x2_extend_ports
 ports:
   o1:
     center:
     - -15.0
-    - -0.625
+    - 0.0
     layer:
     - 1
     - 0
@@ -14,20 +14,20 @@ ports:
     width: 0.5
   o2:
     center:
-    - -15.0
+    - 20.5
     - 0.625
     layer:
     - 1
     - 0
     name: o2
-    orientation: 180
+    orientation: 0.0
     port_type: optical
     shear_angle: null
     width: 0.5
   o3:
     center:
-    - 122.12
-    - 0.625
+    - 20.5
+    - -0.625
     layer:
     - 1
     - 0
@@ -36,123 +36,38 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
-  o4:
-    center:
-    - 122.12
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  top_e1:
-    center:
-    - 19.5
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: top_e1
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  top_e2:
-    center:
-    - 87.6
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: top_e2
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
 settings:
-  changed:
-    component:
-      component: mzi
-      settings:
-        combiner:
-          function: mmi2x2
-        port_e0_combiner: o4
-        port_e0_splitter: o4
-        port_e1_combiner: o3
-        port_e1_splitter: o3
-        splitter:
-          function: mmi2x2
-        straight_x_top: straight_heater_metal
+  changed: {}
   child:
-    changed:
-      combiner:
-        function: mmi2x2
-      port_e0_combiner: o4
-      port_e0_splitter: o4
-      port_e1_combiner: o3
-      port_e1_splitter: o3
-      splitter:
-        function: mmi2x2
-      straight_x_top: straight_heater_metal
+    changed: {}
     child: null
     default:
-      add_optical_ports_arms: false
-      bend:
-        function: bend_euler
-      combiner: null
       cross_section: strip
-      cross_section_x_bot: null
-      cross_section_x_top: null
-      delta_length: 10.0
-      length_x: 0.1
-      length_y: 2.0
-      mirror_bot: false
-      nbends: 2
-      port_e0_combiner: o3
-      port_e0_splitter: o3
-      port_e1_combiner: o2
-      port_e1_splitter: o2
-      splitter: mmi1x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10.0
+      taper:
+        function: taper
+      width: null
+      width_mmi: 2.5
+      width_taper: 1.0
+      with_bbox: true
     full:
-      add_optical_ports_arms: false
-      bend:
-        function: bend_euler
-      combiner:
-        function: mmi2x2
       cross_section: strip
-      cross_section_x_bot: null
-      cross_section_x_top: null
-      delta_length: 10.0
-      length_x: 0.1
-      length_y: 2.0
-      mirror_bot: false
-      nbends: 2
-      port_e0_combiner: o4
-      port_e0_splitter: o4
-      port_e1_combiner: o3
-      port_e1_splitter: o3
-      splitter:
-        function: mmi2x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: straight_heater_metal
-      straight_y: null
-      with_splitter: true
-    function_name: mzi
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10.0
+      taper:
+        function: taper
+      width: null
+      width_mmi: 2.5
+      width_taper: 1.0
+      with_bbox: true
+    function_name: mmi1x2
     info: {}
     info_version: 2
-    module: gdsfactory.components.mzi
-    name: mzi_2e88f57c
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2
   default:
     centered: false
     component:
@@ -168,17 +83,7 @@ settings:
   full:
     centered: false
     component:
-      component: mzi
-      settings:
-        combiner:
-          function: mmi2x2
-        port_e0_combiner: o4
-        port_e0_splitter: o4
-        port_e1_combiner: o3
-        port_e1_splitter: o3
-        splitter:
-          function: mmi2x2
-        straight_x_top: straight_heater_metal
+      function: mmi1x2
     cross_section: null
     extension: null
     extension_port_names: null
@@ -191,4 +96,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.extension
-  name: mzi_2e88f57c_extend_por_d00b135f
+  name: mmi1x2_extend_ports

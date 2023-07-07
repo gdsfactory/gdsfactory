@@ -1,9 +1,9 @@
-name: mzi_2e88f57c_add_gratin_8f3eef46
+name: spiral_inner_io_2a92e51_16913f51
 ports:
   loopback1:
     center:
-    - 175.423
-    - -0.624
+    - 67.473
+    - -10.0
     layer:
     - 1
     - 0
@@ -14,8 +14,8 @@ ports:
     width: 0.5
   loopback2:
     center:
-    - 175.423
-    - -0.624
+    - 67.473
+    - 210.0
     layer:
     - 1
     - 0
@@ -26,133 +26,112 @@ ports:
     width: 0.5
   o1:
     center:
+    - 0.0
     - -10.0
-    - -0.625
     layer:
     - 1
     - 0
     name: o1
-    orientation: 180
+    orientation: 270
     port_type: optical
     shear_angle: null
     width: 0.5
   o2:
     center:
-    - -10.0
-    - 0.625
+    - 0.0
+    - 210.0
     layer:
     - 1
     - 0
     name: o2
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 117.12
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4:
-    center:
-    - 117.12
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
+    orientation: 90
     port_type: optical
     shear_angle: null
     width: 0.5
 settings:
-  changed:
-    component:
-      component: mzi
-      settings:
-        combiner:
-          function: mmi2x2
-        port_e0_combiner: o4
-        port_e0_splitter: o4
-        port_e1_combiner: o3
-        port_e1_splitter: o3
-        splitter:
-          function: mmi2x2
-        straight_x_top: straight_heater_metal
+  changed: {}
   child:
-    changed:
-      combiner:
-        function: mmi2x2
-      port_e0_combiner: o4
-      port_e0_splitter: o4
-      port_e1_combiner: o3
-      port_e1_splitter: o3
-      splitter:
-        function: mmi2x2
-      straight_x_top: straight_heater_metal
-    child: null
+    changed: {}
+    child:
+      changed:
+        grating_spacing: 200.0
+        x_straight_inner_left: 75.0
+        x_straight_inner_right: 40.0
+        y_straight_inner_bottom: 0.0
+        y_straight_inner_top: 10.0
+      child: null
+      default:
+        N: 6
+        asymmetric_cross_section: false
+        bend180:
+          function: bend_euler
+          settings:
+            angle: 180
+        bend90:
+          function: bend_euler
+        cross_section: strip
+        cross_section_bend: null
+        cross_section_bend180: null
+        grating_spacing: 127.0
+        length: null
+        straight:
+          function: straight
+        waveguide_spacing: 3.0
+        x_straight_inner_left: 50.0
+        x_straight_inner_right: 150.0
+        y_straight_inner_bottom: 10.0
+        y_straight_inner_top: 50.0
+      full:
+        N: 6
+        asymmetric_cross_section: false
+        bend180:
+          function: bend_euler
+          settings:
+            angle: 180
+        bend90:
+          function: bend_euler
+        cross_section: strip
+        cross_section_bend: null
+        cross_section_bend180: null
+        grating_spacing: 200.0
+        length: null
+        straight:
+          function: straight
+        waveguide_spacing: 3.0
+        x_straight_inner_left: 75.0
+        x_straight_inner_right: 40.0
+        y_straight_inner_bottom: 0.0
+        y_straight_inner_top: 10.0
+      function_name: spiral_inner_io
+      info:
+        length: 9973.393
+      info_version: 2
+      module: gdsfactory.components.spiral_inner_io
+      name: spiral_inner_io_2a92e51b
     default:
-      add_optical_ports_arms: false
-      bend:
-        function: bend_euler
-      combiner: null
       cross_section: strip
-      cross_section_x_bot: null
-      cross_section_x_top: null
-      delta_length: 10.0
-      length_x: 0.1
-      length_y: 2.0
-      mirror_bot: false
-      nbends: 2
-      port_e0_combiner: o3
-      port_e0_splitter: o3
-      port_e1_combiner: o2
-      port_e1_splitter: o2
-      splitter: mmi1x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
+      cross_section_bend: null
+      cross_section_ports: null
+      grating_spacing: 200.0
+      x_straight_inner_left: 75.0
+      x_straight_inner_right: 40.0
+      y_straight_inner_bottom: 0.0
+      y_straight_inner_top: 10.0
     full:
-      add_optical_ports_arms: false
-      bend:
-        function: bend_euler
-      combiner:
-        function: mmi2x2
       cross_section: strip
-      cross_section_x_bot: null
-      cross_section_x_top: null
-      delta_length: 10.0
-      length_x: 0.1
-      length_y: 2.0
-      mirror_bot: false
-      nbends: 2
-      port_e0_combiner: o4
-      port_e0_splitter: o4
-      port_e1_combiner: o3
-      port_e1_splitter: o3
-      splitter:
-        function: mmi2x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: straight_heater_metal
-      straight_y: null
-      with_splitter: true
-    function_name: mzi
-    info: {}
+      cross_section_bend: null
+      cross_section_ports: null
+      grating_spacing: 200.0
+      x_straight_inner_left: 75.0
+      x_straight_inner_right: 40.0
+      y_straight_inner_bottom: 0.0
+      y_straight_inner_top: 10.0
+    function_name: spiral_inner_io_fiber_single
+    info:
+      length: 9973.393
     info_version: 2
-    module: gdsfactory.components.mzi
-    name: mzi_2e88f57c
+    module: gdsfactory.components.spiral_inner_io
+    name: spiral_inner_io_2a92e51_825ccbf1
   default:
     component:
       function: spiral_inner_io_fiber_single
@@ -194,17 +173,7 @@ settings:
     with_loopback: true
   full:
     component:
-      component: mzi
-      settings:
-        combiner:
-          function: mmi2x2
-        port_e0_combiner: o4
-        port_e0_splitter: o4
-        port_e1_combiner: o3
-        port_e1_splitter: o3
-        splitter:
-          function: mmi2x2
-        straight_x_top: straight_heater_metal
+      function: spiral_inner_io_fiber_single
     component_name: null
     cross_section:
       function: cross_section
@@ -243,8 +212,9 @@ settings:
     with_loopback: true
   function_name: add_grating_couplers_with_loopback_fiber_single
   info:
+    length: 9973.393
     polarization: te
     wavelength: 1.53
   info_version: 2
   module: gdsfactory.components.add_grating_couplers
-  name: mzi_2e88f57c_add_gratin_8f3eef46
+  name: spiral_inner_io_2a92e51_16913f51

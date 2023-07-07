@@ -6,10 +6,10 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 
 
-def test_get_bundle_udirect(
+def test_get_bundle_udirect_pads(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    c = gf.Component("test_get_bundle_udirect")
+    c = gf.Component("test_get_bundle_udirect_pads")
 
     pad = partial(gf.components.pad, size=(10, 10))
     pad_south = gf.components.pad_array(orientation=270, spacing=(15.0, 0), pad=pad)
@@ -36,4 +36,4 @@ def test_get_bundle_udirect(
 
 
 if __name__ == "__main__":
-    test_get_bundle_udirect(None, check=False)
+    test_get_bundle_udirect_pads(None, check=False)

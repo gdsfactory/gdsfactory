@@ -127,7 +127,6 @@ def extend_ports(
     c = gf.Component()
     component = gf.get_component(component)
     cref = c << component
-    c.component = component
 
     if centered:
         cref.x = 0
@@ -176,7 +175,7 @@ def extend_ports(
             c.add_port(port_name, port=extension_ref.ports[port2])
             extension_port_names = extension_port_names or []
             [
-                c.add_port(name, port=extension_ref.ports[name], prefix=port_name)
+                c.add_port(name, port=extension_ref.ports[name])
                 for name in extension_port_names
             ]
         else:
@@ -186,7 +185,7 @@ def extend_ports(
     return c
 
 
-def test_extend_ports() -> Component:
+def test_extend_ports() -> None:
     import gdsfactory.components as pc
 
     width = 0.5
@@ -222,8 +221,6 @@ def test_extend_ports() -> Component:
     p = len(c4.polygons)
     assert p == 0, p
     assert len(c4.references) == 1, len(c4.references)
-
-    return c4
 
 
 __all__ = ["extend_ports", "extend_port"]
