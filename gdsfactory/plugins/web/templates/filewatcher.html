@@ -52,16 +52,6 @@ h2 {
     </div>
     <form action="/filewatcher" method="GET">
     <button type="submit" class="btn btn-primary">Update</button>
-    {% for setting_name, setting_value in component.settings.default.items()%}
-        <div class="mb-3">
-            <label for="{{setting_name}}" class="form-label">{{setting_name}}</label>
-            {% if setting_name in component.settings.changed %}
-            <input type="text" class="form-control" id="{{setting_name}}" name="{{setting_name}}" value="{{component.settings.changed[setting_name]}}"">
-            {% else %}
-            <input type="text" class="form-control" id="{{setting_name}}" name="{{setting_name}}" placeholder="{{setting_value}}">
-            {% endif %}
-        </div>
-    {% endfor %}
     </form>
 </div>
 <script>
@@ -73,3 +63,4 @@ h2 {
 
 </body>
 </html>
+{% include 'footer.html' %}

@@ -144,7 +144,9 @@ async def view_cell(request: Request, cell_name: str, variant: Optional[str] = N
             component = gf.get_component(cell_name)
         except Exception as e:
             if cell_name not in gds_names:
-                raise HTTPException(status_code=400, detail=f"Component not found. {e}")
+                raise HTTPException(
+                    status_code=400, detail=f"Component not found. {e}"
+                ) from e
 
             gdspath = GDSDIR_TEMP / cell_name
             component = gf.import_gds(gdspath=gdspath.with_suffix(".gds"))
@@ -156,7 +158,7 @@ async def view_cell(request: Request, cell_name: str, variant: Optional[str] = N
         "viewer.html",
         {
             "request": request,
-            "cell_name": str(cell_name),
+            "cell_name": cell_name,
             "variant": variant,
             "title": "Viewer",
             "initial_view": b64_data,
