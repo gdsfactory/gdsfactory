@@ -163,7 +163,7 @@ full = [
   "pyvista",
   "trimesh",
   "shapely",
-  "meshwell==0.0.2",
+  "meshwell==0.0.3",
   # kfactory
   "kfactory[git,ipy]==0.7.5",
   "meow-sim==0.6.9",
@@ -193,7 +193,7 @@ meow = [
   "meow-sim>=0.6.9"
 ]
 meshwell = [
-  "meshwell==0.0.2"
+  "meshwell==0.0.3"
 ]
 ray = [
   "ray[tune,air]",
