@@ -51,15 +51,15 @@ def get_source_code(func: Callable) -> str:
 
 class Settings(BaseModel):
     name: str
-    function_name: str
-    module: str
+    function_name: Optional[str] = None
+    module: Optional[str] = None
 
-    info: Dict[str, Any]  # derived properties (length, resistance)
+    info: Dict[str, Any] = {}  # derived properties (length, resistance)
     info_version: int = INFO_VERSION
 
-    full: Dict[str, Any]
-    changed: Dict[str, Any]
-    default: Dict[str, Any]
+    full: Dict[str, Any] = {}
+    changed: Dict[str, Any] = {}
+    default: Dict[str, Any] = {}
 
     child: Optional[Dict[str, Any]] = None
 

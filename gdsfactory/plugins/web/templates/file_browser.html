@@ -1,0 +1,27 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+<html>
+<head>
+  <title>KWeb GDS File Browser</title>
+  <link rel="stylesheet" href={{ url_for("static", path="client.css") }}></link>
+</head>
+<body>
+
+<div id="message">
+<p>
+{{ message }}
+</p>
+</div>
+
+<main>
+<p>Files available:</p>
+<ul>
+{% for file in files_metadata %}
+    <li><a href="{{file['url']}}">{{ file['name'] }}</a></li>
+{% endfor %}
+</ul>
+<p>File root: <i>{{ files_root }}</i></p>
+</main>
+
+</body>
+</html>

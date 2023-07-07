@@ -1,10 +1,14 @@
 {% include 'header.html' %}
 {% include 'navbar.html' %}
-<h1>Welcome to the {{pdk_name}} pdk</h1>
-<p>
-{% for component in components %}
-<a class="component-link" href="/view/{{component}}">{{component}}</a>
-{% endfor %}
-</p>
-
-{% include 'footer.html' %}
+<html>
+<head>
+    <title>Homepage</title>
+</head>
+<body>
+    <h1>gdsfactory webapp</h1>
+    <p><a href="/pdk">Pdk explorer</a></p>
+    <p><a href="/gds_current">Last Component.show()</a></p>
+    <p><a href="/gds_list">Component.show() list</a></p>
+    <p><a href="/filewatcher">filewatcher</a></p>
+</body>
+</html>

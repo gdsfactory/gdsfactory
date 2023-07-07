@@ -1948,6 +1948,7 @@ class Component(_GeometryHelper):
             metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
             logger.info(f"Write YAML metadata to {str(metadata)!r}")
 
+        CONF.last_saved_files.append(gdspath)
         return gdspath
 
     def write_gds(
@@ -2893,4 +2894,6 @@ if __name__ == "__main__":
     p = c.add_polygon(
         [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
     )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
+    c.write_gds("hi.gds")
     c.show()
+    print(CONF.last_saved_files)
