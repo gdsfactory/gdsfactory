@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# type: ignore
 
 import asyncio
 import json
@@ -158,45 +159,45 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
     async def reader(self, websocket, data: str) -> None:
         js = json.loads(data)
         msg = js["msg"]
-        if msg == "quit":
-            return
-        elif msg == "resize":
-            self.layout_view.resize(js["width"], js["height"])
-        elif msg == "clear-annotations":
+        if msg == "clear-annotations":
             self.layout_view.clear_annotations()
-        elif msg == "select-ruler":
-            ruler = js["value"]
-            self.layout_view.set_config("current-ruler-template", str(ruler))
-        elif msg == "select-mode":
-            mode = js["value"]
-            self.layout_view.switch_mode(mode)
-        elif msg == "layer-v-all":
-            vis = js["value"]
-            for layer in self.layout_view.each_layer():
-                layer.visible = vis
+        elif msg == "initialize":
+            self.layout_view.resize(js["width"], js["height"])
+            await websocket.send_text(json.dumps({"msg": "initialized"}))
         elif msg == "layer-v":
             layer_id = js["id"]
             vis = js["value"]
             for layer in self.layout_view.each_layer():
                 if layer.id() == layer_id:
                     layer.visible = vis
-        elif msg == "initialize":
-            self.layout_view.resize(js["width"], js["height"])
-            await websocket.send_text(json.dumps({"msg": "initialized"}))
+        elif msg == "layer-v-all":
+            vis = js["value"]
+            for layer in self.layout_view.each_layer():
+                layer.visible = vis
         elif msg == "mode_select":
             self.layout_view.switch_mode(js["mode"])
+        elif msg == "mouse_dblclick":
+            self.mouse_event(self.layout_view.send_mouse_double_clicked_event, js)
+        elif msg == "mouse_enter":
+            self.layout_view.send_enter_event()
+        elif msg == "mouse_leave":
+            self.layout_view.send_leave_event()
         elif msg == "mouse_move":
             self.mouse_event(self.layout_view.send_mouse_move_event, js)
         elif msg == "mouse_pressed":
             self.mouse_event(self.layout_view.send_mouse_press_event, js)
         elif msg == "mouse_released":
             self.mouse_event(self.layout_view.send_mouse_release_event, js)
-        elif msg == "mouse_enter":
-            self.layout_view.send_enter_event()
-        elif msg == "mouse_leave":
-            self.layout_view.send_leave_event()
-        elif msg == "mouse_dblclick":
-            self.mouse_event(self.layout_view.send_mouse_double_clicked_event, js)
+        elif msg == "quit":
+            return
+        elif msg == "resize":
+            self.layout_view.resize(js["width"], js["height"])
+        elif msg == "select-mode":
+            mode = js["value"]
+            self.layout_view.switch_mode(mode)
+        elif msg == "select-ruler":
+            ruler = js["value"]
+            self.layout_view.set_config("current-ruler-template", str(ruler))
         elif msg == "wheel":
             self.wheel_event(self.layout_view.send_wheel_event, js)
 
