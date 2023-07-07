@@ -45,7 +45,7 @@ def ring_single_dut(
         kwargs: cross_section settings.
 
     Args:
-        with_component: if False changes component for just a straight
+        with_component: if False changes component for just a straight.
 
     .. code::
 

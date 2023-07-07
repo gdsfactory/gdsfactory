@@ -163,7 +163,7 @@ full = [
   "pyvista",
   "trimesh",
   "shapely",
-  "meshwell==0.0.2",
+  "meshwell==0.0.3",
   # kfactory
   "kfactory[git,ipy]==0.7.5",
   "meow-sim==0.6.9",
@@ -193,7 +193,7 @@ meow = [
   "meow-sim>=0.6.9"
 ]
 meshwell = [
-  "meshwell==0.0.2"
+  "meshwell==0.0.3"
 ]
 ray = [
   "ray[tune,air]",
@@ -300,6 +300,7 @@ strict = true
 [tool.pytest.ini_options]
 # addopts = --tb=no
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
+datadir = "test-data-regression"
 norecursedirs = [
   "gdsfactory/samples/notebooks",
   "gdsfactory/plugins",
