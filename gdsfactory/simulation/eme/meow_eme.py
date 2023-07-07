@@ -161,7 +161,9 @@ class MEOW:
         self.structs = mw.extrude_gds(self.component, self.extrusion_rules)
         self.cells = self.create_cells()
         self.env = mw.Environment(wl=self.wavelength, T=self.temperature)
-        self.css = [mw.CrossSection(cell=cell, env=self.env) for cell in self.cells]
+        self.css = [
+            mw.CrossSection.from_cell(cell=cell, env=self.env) for cell in self.cells
+        ]
         self.modes_per_cell = [None] * self.num_cells
         self.S = None
         self.port_map = None
@@ -315,7 +317,7 @@ class MEOW:
 
     def plot_cross_section(self, xs_num):
         env = mw.Environment(wl=self.wavelength, T=self.temperature)
-        css = [mw.CrossSection(cell=cell, env=env) for cell in self.cells]
+        css = [mw.CrossSection.from_cell(cell=cell, env=env) for cell in self.cells]
         return mw.visualize(css[xs_num])
 
     def plot_mode(self, xs_num, mode_num):
@@ -403,7 +405,7 @@ class MEOW:
 
         self.compute_all_modes()
 
-        self.S, self.port_map = mw.compute_s_matrix(self.modes_per_cell)
+        self.S, self.port_map = mw.compute_s_matrix(self.modes_per_cell, self.cells)
 
         sdict = sax.sdict((self.S, self.port_map))
 
