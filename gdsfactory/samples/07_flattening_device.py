@@ -17,7 +17,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-def test_flatten_device() -> Component:
+@gf.cell
+def flatten_device() -> Component:
     c = gf.Component("test_remap_layers")
 
     c.add_ref(gf.components.rectangle(size=(10, 1), layer=gf.LAYER.WG))
@@ -32,5 +33,5 @@ def test_flatten_device() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_flatten_device()
+    c = flatten_device()
     c.show(show_ports=True)

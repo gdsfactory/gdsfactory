@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 
 
 @gf.cell
-def test_netlist_yaml() -> Component:
+def netlist_yaml() -> Component:
     """Test netlist yaml.
 
     .. code::
@@ -51,6 +51,10 @@ def test_netlist_yaml() -> Component:
     return gf.read.from_yaml(yaml)
 
 
+def test_netlist_yaml_sample() -> None:
+    assert netlist_yaml()
+
+
 if __name__ == "__main__":
-    c = test_netlist_yaml()
+    c = netlist_yaml()
     c.show(show_ports=True)

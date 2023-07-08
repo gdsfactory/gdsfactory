@@ -5,10 +5,10 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.coupler_ring import coupler_ring, coupler_ring_point
+from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack_heater_m3
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2, Optional
 
 via_stack_heater_m3_mini = partial(via_stack_heater_m3, size=(4, 4))
 
@@ -27,7 +27,7 @@ def ring_double_heater(
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section: CrossSectionSpec = "strip",
     via_stack: gf.typings.ComponentSpec = via_stack_heater_m3_mini,
-    port_orientation: float = 90,
+    port_orientation: Optional[float] = None,
     via_stack_offset: Float2 = (0, 0),
     **kwargs,
 ) -> Component:
@@ -125,8 +125,8 @@ def ring_double_heater(
             f"No ports found for port_orientation {port_orientation} in {valid_orientations}"
         )
 
-    c.add_ports(p1, prefix="e1")
-    c.add_ports(p2, prefix="e2")
+    c.add_ports(p1, prefix="l_")
+    c.add_ports(p2, prefix="r_")
 
     heater_top = c << gf.get_component(
         straight,
@@ -135,24 +135,28 @@ def ring_double_heater(
     )
     heater_top.connect("e1", ct.ports["e1"])
 
-    c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
+    c1 = ring_double_heater(via_stack="via_stack")
+    c1.pprint_ports()
+
+    c2 = ring_double_heater(via_stack="via_stack_slot")
+    c2.pprint_ports()
     # c = ring_double_heater(width=1, layer=(2, 0), length_y=3)
-    c = ring_double_heater(
-        length_x=0,
-        port_orientation=90,
-        bend=gf.components.bend_circular,
-        via_stack_offset=(2, 0),
-        coupler_ring_top=coupler_ring,
-        coupler_ring=gf.partial(
-            coupler_ring_point,
-            coupler_ring=coupler_ring,
-            open_layers=("HEATER",),
-            open_sizes=((5, 7),),
-        ),
-    )
-    c.show(show_ports=True)
+    # c = ring_double_heater(
+    #     length_x=0,
+    #     port_orientation=90,
+    #     bend=gf.components.bend_circular,
+    #     via_stack_offset=(2, 0),
+    #     coupler_ring_top=coupler_ring,
+    #     coupler_ring=gf.partial(
+    #         coupler_ring_point,
+    #         coupler_ring=coupler_ring,
+    #         open_layers=("HEATER",),
+    #         open_sizes=((5, 7),),
+    #     ),
+    # )
+    c2.show(show_ports=True)
     # c.pprint()

@@ -1690,6 +1690,59 @@ placements:
     y: 600.0
 ports: {}
 warnings:
+  electrical:
+    unconnected_ports:
+    - message: 16 unconnected electrical ports!
+      ports:
+      - bl,e1
+      - bl,e2
+      - bl,e3
+      - bl,e4
+      - tl,e1
+      - tl,e2
+      - tl,e3
+      - tl,e4
+      - br,e1
+      - br,e2
+      - br,e3
+      - br,e4
+      - tr,e1
+      - tr,e2
+      - tr,e3
+      - tr,e4
+      values:
+      - - -50.0
+        - 0.0
+      - - 0.0
+        - 50.0
+      - - 50.0
+        - 0.0
+      - - 0.0
+        - -50.0
+      - - -50.0
+        - 200.0
+      - - 0.0
+        - 250.0
+      - - 50.0
+        - 200.0
+      - - 0.0
+        - 150.0
+      - - 850.0
+        - 400.0
+      - - 900.0
+        - 450.0
+      - - 950.0
+        - 400.0
+      - - 900.0
+        - 350.0
+      - - 850.0
+        - 600.0
+      - - 900.0
+        - 650.0
+      - - 950.0
+        - 600.0
+      - - 900.0
+        - 550.0
   optical:
     unconnected_ports:
     - message: 4 unconnected optical ports!

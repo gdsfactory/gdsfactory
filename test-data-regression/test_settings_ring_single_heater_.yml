@@ -1,26 +1,50 @@
 name: ring_single_heater
 ports:
-  e1:
+  l_e1:
+    center:
+    - -8.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: l_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  l_e2:
     center:
     - -6.0
     - 2.0
     layer:
     - 49
     - 0
-    name: e1
+    name: l_e2
     orientation: 90
     port_type: electrical
     shear_angle: null
     width: 4
-  e2:
+  l_e3:
     center:
-    - 2.0
-    - 2.0
+    - -4.0
+    - 0.0
     layer:
     - 49
     - 0
-    name: e2
-    orientation: 90
+    name: l_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  l_e4:
+    center:
+    - -6.0
+    - -2.0
+    layer:
+    - 49
+    - 0
+    name: l_e4
+    orientation: 270
     port_type: electrical
     shear_angle: null
     width: 4
@@ -48,6 +72,54 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
+  r_e1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: r_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  r_e2:
+    center:
+    - 2.0
+    - 2.0
+    layer:
+    - 49
+    - 0
+    name: r_e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  r_e3:
+    center:
+    - 4.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: r_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  r_e4:
+    center:
+    - 2.0
+    - -2.0
+    layer:
+    - 49
+    - 0
+    name: r_e4
+    orientation: 270
+    port_type: electrical
+    shear_angle: null
+    width: 4
 settings:
   changed: {}
   child: null
@@ -61,7 +133,7 @@ settings:
     gap: 0.2
     length_x: 4.0
     length_y: 0.6
-    port_orientation: 90
+    port_orientation: null
     radius: 10.0
     via_stack:
       function: via_stack
@@ -95,7 +167,7 @@ settings:
     gap: 0.2
     length_x: 4.0
     length_y: 0.6
-    port_orientation: 90
+    port_orientation: null
     radius: 10.0
     via_stack:
       function: via_stack

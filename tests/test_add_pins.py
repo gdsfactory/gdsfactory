@@ -28,7 +28,7 @@ PDK.register_cross_sections(strip_siepic=strip_siepic)
 
 
 @pytest.mark.parametrize("optical_routing_type", [0, 1])
-def test_add_pins_with_routes(optical_routing_type) -> gf.Component:
+def test_add_pins_with_routes(optical_routing_type) -> None:
     """Add pins to a straight ensure that all the routes have pins."""
     cross_section = "strip_siepic"
     c = gf.components.straight(length=1.0, cross_section=cross_section)
@@ -41,19 +41,16 @@ def test_add_pins_with_routes(optical_routing_type) -> gf.Component:
     )
     pins_component = cc.extract(layers=(LAYER.PORT,))
     assert len(pins_component.paths) == 12, len(pins_component.paths)
-    return cc
 
 
-def test_add_pins() -> gf.Component:
+def test_add_pins() -> None:
     """Ensure that all the waveguide has 2 pins."""
     cross_section = "strip_siepic"
     c = gf.components.straight(length=1.0, cross_section=cross_section)
     pins_component = c.extract(layers=(LAYER.PORT,))
     assert len(pins_component.paths) == 2, len(pins_component.paths)
-    return c
 
 
 if __name__ == "__main__":
-    # c = test_add_pins()
-    c = test_add_pins_with_routes(0)
-    c.show(show_ports=False)
+    test_add_pins()
+    # test_add_pins_with_routes(0)

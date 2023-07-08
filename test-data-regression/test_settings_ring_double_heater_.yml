@@ -1,26 +1,50 @@
 name: ring_double_heater
 ports:
-  e1:
+  l_e1:
+    center:
+    - -4.01
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: l_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  l_e2:
     center:
     - -2.01
     - 2.0
     layer:
     - 49
     - 0
-    name: e1
+    name: l_e2
     orientation: 90
     port_type: electrical
     shear_angle: null
     width: 4
-  e2:
+  l_e3:
     center:
-    - 2.0
-    - 2.0
+    - -0.01
+    - 0.0
     layer:
     - 49
     - 0
-    name: e2
-    orientation: 90
+    name: l_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  l_e4:
+    center:
+    - -2.01
+    - -2.0
+    layer:
+    - 49
+    - 0
+    name: l_e4
+    orientation: 270
     port_type: electrical
     shear_angle: null
     width: 4
@@ -38,32 +62,32 @@ ports:
     width: 0.5
   o2:
     center:
-    - -13.01
-    - 21.41
+    - 13.0
+    - 0.0
     layer:
     - 1
     - 0
     name: o2
-    orientation: 180
+    orientation: 0.0
     port_type: optical
     shear_angle: null
     width: 0.5
   o3:
     center:
-    - 13.0
+    - -13.01
     - 21.41
     layer:
     - 1
     - 0
     name: o3
-    orientation: 0.0
+    orientation: 180
     port_type: optical
     shear_angle: null
     width: 0.5
   o4:
     center:
     - 13.0
-    - 0.0
+    - 21.41
     layer:
     - 1
     - 0
@@ -72,6 +96,54 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
+  r_e1:
+    center:
+    - -0.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: r_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  r_e2:
+    center:
+    - 2.0
+    - 2.0
+    layer:
+    - 49
+    - 0
+    name: r_e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  r_e3:
+    center:
+    - 4.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: r_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  r_e4:
+    center:
+    - 2.0
+    - -2.0
+    layer:
+    - 49
+    - 0
+    name: r_e4
+    orientation: 270
+    port_type: electrical
+    shear_angle: null
+    width: 4
 settings:
   changed: {}
   child: null
@@ -87,7 +159,7 @@ settings:
     gap: 0.2
     length_x: 0.01
     length_y: 0.01
-    port_orientation: 90
+    port_orientation: null
     radius: 10.0
     straight:
       function: straight
@@ -125,7 +197,7 @@ settings:
     gap: 0.2
     length_x: 0.01
     length_y: 0.01
-    port_orientation: 90
+    port_orientation: null
     radius: 10.0
     straight:
       function: straight

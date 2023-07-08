@@ -6,7 +6,7 @@ import gdsfactory as gf
 
 
 @gf.cell
-def rectangles3():
+def rectangles3() -> gf.Component:
     c = gf.Component()
     c << gf.c.rectangle(size=(4, 4), layer=(1, 0))
     c << gf.c.rectangle(size=(4, 4), layer=(2, 0))
@@ -14,7 +14,7 @@ def rectangles3():
     return c
 
 
-def test_remove_layers():
+def test_remove_layers() -> None:
     c0 = rectangles3()
     assert np.isclose(c0.area(), 16.0 * 2)
 

@@ -22,14 +22,14 @@ def test_add_ports_list() -> None:
     assert len(c.ports) == 2, len(c.ports)
 
 
-def test_add_ports_from_pins(data_regression):
+def test_add_ports_from_pins(data_regression) -> None:
     c = gf.components.straight(decorator=add_pins)
     gdspath = c.write_gds()
     c2 = gf.import_gds(gdspath, decorator=add_ports_from_markers_inside)
     data_regression.check(c2.to_dict(with_ports=True))
 
 
-def test_add_ports_from_pins_siepic(data_regression):
+def test_add_ports_from_pins_siepic(data_regression) -> None:
     c = gf.components.straight(decorator=add_pins_siepic)
     gdspath = c.write_gds()
     c2 = gf.import_gds(gdspath, decorator=add_ports_from_siepic_pins)

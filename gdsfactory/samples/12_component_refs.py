@@ -14,7 +14,7 @@ from gdsfactory.typings import Layer
 
 
 @gf.cell
-def test_crossing_arm(
+def crossing_arm(
     wg_width: float = 0.5,
     r1: float = 3.0,
     r2: float = 1.1,
@@ -53,9 +53,9 @@ def test_crossing_arm(
 
 
 @gf.cell  # This decorator will generate a good name for the component
-def test_crossing() -> Component:
+def crossing() -> Component:
     c = gf.Component()
-    arm = test_crossing_arm()
+    arm = crossing_arm()
 
     # Create two arm references. One has a 90Deg rotation
     arm_h = arm.ref(position=(0, 0))
@@ -77,5 +77,5 @@ def test_crossing() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_crossing()
+    c = crossing()
     c.show(show_ports=True)

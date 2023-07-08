@@ -7,8 +7,9 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 
 
+@gf.cell
 def remap_layers() -> Component:
-    c = gf.Component("test_remap_layers_sample_device")
+    c = gf.Component()
     straight = partial(
         gf.components.straight,
         with_bbox=True,

@@ -5,21 +5,21 @@ import pytest
 import gdsfactory as gf
 
 
-def test_named_references():
+def test_named_references() -> None:
     c = gf.Component("component_with_fill")
     c.add_ref(gf.components.straight(), alias="straight_1")
     c.add_ref(gf.components.straight())
     assert len(c.named_references) == 2
 
 
-def test_named_references_with_alias():
+def test_named_references_with_alias() -> None:
     c = gf.Component("component_with_fill")
     c.add_ref(gf.components.straight(), alias="straight_1")
     with pytest.raises(ValueError):
         c.add_ref(gf.components.straight(), alias="straight_1")
 
 
-def test_fail_when_alias_exists():
+def test_fail_when_alias_exists() -> None:
     c = gf.Component("component_with_fill")
     ref1 = c.add_ref(gf.components.straight())
     ref1.name = "straight_1"

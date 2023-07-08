@@ -17,8 +17,8 @@ def straight_heater_meander(
     layer_heater: LayerSpec = "HEATER",
     radius: float = 5.0,
     via_stack: Optional[ComponentSpec] = "via_stack_heater_mtop",
-    port_orientation1: int = 180,
-    port_orientation2: int = 0,
+    port_orientation1: Optional[int] = None,
+    port_orientation2: Optional[int] = None,
     heater_taper_length: Optional[float] = 10.0,
     straight_widths: Floats = (0.8, 0.9, 0.8),
     taper_length: float = 10,
@@ -39,8 +39,8 @@ def straight_heater_meander(
         layer_heater: for top heater, if None, it does not add a heater.
         radius: for the meander bends.
         via_stack: for the heater to via_stack metal.
-        port_orientation1: in degrees.
-        port_orientation2: in degrees.
+        port_orientation1: in degrees. None adds all orientations.
+        port_orientation2: in degrees. None adds all orientations.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         straight_width: width of the straight section.
         taper_length: from the cross_section.
@@ -179,8 +179,8 @@ def straight_heater_meander(
                 f"No ports for port_orientation2 {port_orientation2} in {valid_orientations}"
             )
 
-        c.add_port("e1", port=p1[0])
-        c.add_port("e2", port=p2[0])
+        c.add_ports(p1, prefix="l_")
+        c.add_ports(p2, prefix="r_")
 
         if heater_taper_length:
             taper = gf.c.taper(
@@ -231,7 +231,7 @@ if __name__ == "__main__":
         taper_length=10,
         # taper_length=10,
         length=1000,
-        port_orientation1=0
+        # port_orientation1=0
         # cross_section=partial(gf.cross_section.strip, width=0.8),
     )
     c.show(show_ports=True)
