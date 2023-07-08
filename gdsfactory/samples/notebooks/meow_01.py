@@ -44,9 +44,7 @@ filtered_layerstack = gf.technology.LayerStack(
 
 # The EME simulator can be instantiated with only these two elements, alongside parameters:
 
-eme = MEOW(
-    component=c, layerstack=filtered_layerstack, wavelength=1.55, overwrite=False
-)
+eme = MEOW(component=c, layerstack=filtered_layerstack, wavelength=1.55, overwrite=True)
 
 # Plotting functions allow you to check your simulation:
 
@@ -111,7 +109,7 @@ for cell_length in cells_lengths:
         component=c,
         layerstack=filtered_layerstack,
         wavelength=1.55,
-        overwrite=False,
+        overwrite=True,
         spacing_y=-3,
         cell_length=cell_length,
     )
@@ -129,7 +127,7 @@ eme = MEOW(
     component=c,
     layerstack=filtered_layerstack,
     wavelength=1.55,
-    overwrite=False,
+    overwrite=True,
     spacing_y=-3,
     cell_length=0.25,
 )
@@ -166,7 +164,7 @@ for i, length in enumerate(lengths):
         component=c,
         layerstack=filtered_layerstack,
         wavelength=1.55,
-        overwrite=False,
+        overwrite=True,
         spacing_y=-3,
         cell_length=0.25,
     )
