@@ -24,7 +24,7 @@ def ring_single_heater(
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section: CrossSectionSpec = "strip",
     via_stack: ComponentSpec = via_stack_heater_mtop_mini,
-    port_orientation: Optional[float] = 90,
+    port_orientation: Optional[float] = None,
     via_stack_offset: Float2 = (0, 0),
     **kwargs,
 ) -> gf.Component:
@@ -122,10 +122,8 @@ def ring_single_heater(
             f"No ports found for port_orientation {port_orientation} in {valid_orientations}"
         )
 
-    c.add_ports(p1, prefix="e1")
-    c.add_ports(p2, prefix="e2")
-
-    c.auto_rename_ports()
+    c.add_ports(p1, prefix="l_")
+    c.add_ports(p2, prefix="r_")
     return c
 
 

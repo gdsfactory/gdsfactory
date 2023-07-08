@@ -1,0 +1,66 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+<html>
+<head>
+    <title>Folder Watcher</title>
+</head>
+<style>
+h2 {
+    margin-top: 10px; /* Adjust the size as required */
+}
+</style>
+<body>
+    <h1>Folder to watch for changing files</h1>
+    <form action="/filewatcher_start" method="post">
+        <input type="text" name="folder_path" placeholder="Enter folder path" required>
+        <input type="submit" value="Watch Folder">
+        <button type="button" onclick="stopWatcher()">Stop Watcher</button>
+    </form>
+
+    <div id="output">
+        <pre>{{ output }}</pre>
+    </div>
+
+    <script>
+        function stopWatcher() {
+            fetch('/filewatcher_stop')
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                });
+        }
+    </script>
+<div class="container" style="margin-top: 1em;">
+    <h1>{{cell_name}}</h1>
+    {% if variant %}
+    <h2>({{variant}})</h2>
+    {% endif %}
+
+    <div class="viewer-panel">
+        <div class="viewer-panel-sub">
+            <div class="viewer-frame-cell">
+                <div class="menu-left-frame" id="modes"></div>
+                <div class="menu-right-frame" id="menu"></div>
+                <div class="viewer-frame" id="layout-view">
+                    <canvas id="layout_canvas" width="1000" height="800"></canvas>
+                </div>
+            </div>
+            <div class="viewer-layers-cell">
+                <div class="viewer-layers" id="layers"></div>
+            </div>
+        </div>
+    </div>
+    <form action="/filewatcher" method="GET">
+    <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+<script>
+    var current_url="{{ url }}";
+    var cell_variant = "{{ variant or cell_name }}";
+    var initial_image_data = "data:image/jpeg;base64,{{ initial_view | safe }}";
+</script>
+<script src="{{url_for('static', path='/client.js')}}"></script>
+
+</body>
+</html>
+{% include 'footer.html' %}

@@ -86,12 +86,11 @@ def delay_snake(
     return c
 
 
-def test_delay_snake_length():
+def test_delay_snake_length() -> None:
     length = 200.0
     c = delay_snake(n=1, length=length, cross_section="strip_no_pins")
     length_computed = c.area() / 0.5
     np.isclose(length, length_computed)
-    return c
 
 
 if __name__ == "__main__":

@@ -1948,6 +1948,7 @@ class Component(_GeometryHelper):
             metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
             logger.info(f"Write YAML metadata to {str(metadata)!r}")
 
+        CONF.last_saved_files.append(gdspath)
         return gdspath
 
     def write_gds(
@@ -2624,7 +2625,7 @@ def copy_reference(
     )
 
 
-def test_get_layers() -> Component:
+def test_get_layers() -> None:
     import gdsfactory as gf
 
     c1 = gf.components.straight(
@@ -2642,7 +2643,6 @@ def test_get_layers() -> Component:
     # return c1
     c2 = c1.remove_layers([(111, 0)])
     assert c2.get_layers() == {(2, 0)}, c2.get_layers()
-    return c2
 
 
 def _filter_polys(polygons, layers_excl):
@@ -2829,7 +2829,7 @@ def test_netlist_complex() -> None:
     assert len(netlist["instances"]) == 4, len(netlist["instances"])
 
 
-def test_extract() -> Component:
+def test_extract() -> None:
     import gdsfactory as gf
 
     c = gf.components.straight(
@@ -2847,7 +2847,6 @@ def test_extract() -> Component:
     assert len(c.polygons) == 2, len(c.polygons)
     assert len(c2.polygons) == 1, len(c2.polygons)
     assert gf.LAYER.WGCLAD in c2.layers
-    return c2
 
 
 def hash_file(filepath):
@@ -2893,4 +2892,6 @@ if __name__ == "__main__":
     p = c.add_polygon(
         [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
     )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
+    c.write_gds("hi.gds")
     c.show()
+    print(CONF.last_saved_files)

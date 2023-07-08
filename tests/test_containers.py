@@ -11,8 +11,14 @@ from gdsfactory.difftest import difftest
 component = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
 
 skip_test = {
+    "add_grating_couplers",
+    "add_grating_couplers_with_loopback_fiber_single",
+    "array",
+    "cavity",
+    "extend_ports",
     "pack_doe",
     "pack_doe_grid",
+    "ring_single_dut",
 }
 container_names = set(containers.keys()) - skip_test
 

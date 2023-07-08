@@ -97,7 +97,9 @@ def via_stack_slot(
 
     for layer, offsetx, offsety in zip(layers, layer_offsetsx, layer_offsetsy):
         ref = c << compass(
-            size=(size[0] + 2 * offsetx, size[1] + 2 * offsety), layer=layer
+            size=(size[0] + 2 * offsetx, size[1] + 2 * offsety),
+            layer=layer,
+            port_type="electrical",
         )
 
         if layer == layer_port:
@@ -119,7 +121,8 @@ via_stack_slot_slab_m1 = partial(via_stack_slot, layers=("M1",), via=viac)
 
 
 if __name__ == "__main__":
+    c = via_stack_slot()
     # c = via_stack_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=1, size=(3, 3))
     # c = via_stack_slot_m1_m2()
-    c = via_stack_slot_slab_m1()
+    # c = via_stack_slot_slab_m1()
     c.show(show_ports=True)

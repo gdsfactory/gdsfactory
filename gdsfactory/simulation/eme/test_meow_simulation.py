@@ -65,6 +65,5 @@ def test_cells() -> None:
 
 
 if __name__ == "__main__":
-    test_cells()
-
-    # test_meow_defaults()
+    # test_cells()
+    test_meow_defaults()

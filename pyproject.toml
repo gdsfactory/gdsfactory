@@ -44,7 +44,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "6.112.0"
+version = "6.113.0"
 
 [project.optional-dependencies]
 cad = [
@@ -163,10 +163,10 @@ full = [
   "pyvista",
   "trimesh",
   "shapely",
-  "meshwell==0.0.2",
+  "meshwell==0.0.3",
   # kfactory
   "kfactory[git,ipy]==0.7.5",
-  "meow-sim==0.6.9",
+  "meow-sim==0.7.0",
   # ray
   "ray[tune,air]",
   "hyperopt",
@@ -190,10 +190,10 @@ kfactory = [
   "kfactory[git,ipy]==0.7.5"
 ]
 meow = [
-  "meow-sim>=0.6.9"
+  "meow-sim==0.7.0"
 ]
 meshwell = [
-  "meshwell==0.0.2"
+  "meshwell==0.0.3"
 ]
 ray = [
   "ray[tune,air]",
@@ -300,6 +300,7 @@ strict = true
 [tool.pytest.ini_options]
 # addopts = --tb=no
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
+datadir = "test-data-regression"
 norecursedirs = [
   "gdsfactory/samples/notebooks",
   "gdsfactory/plugins",

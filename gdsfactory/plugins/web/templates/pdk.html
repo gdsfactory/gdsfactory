@@ -1,0 +1,10 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+<h1> {{pdk_name}} PDK explorer</h1>
+<p>
+{% for component in components %}
+<li><a class="component-link" href="/view/{{component}}">{{component}}</a></li>
+{% endfor %}
+</p>
+
+{% include 'footer.html' %}

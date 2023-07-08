@@ -5,7 +5,6 @@
 let ws_url = current_url.replace("http://", "ws://");
 ws_url = ws_url.replace("https://", "wss://");
 ws_url += '/ws?' + "variant=" + cell_variant;
-//ws_url = 'ws://127.0.0.1/view:8080';
 let url = ws_url;
 console.log(url);
 

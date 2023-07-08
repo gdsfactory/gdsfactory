@@ -204,7 +204,7 @@ def test_straight_heater_doped_rib_ports() -> Component:
 
 
 if __name__ == "__main__":
-    c = straight_heater_doped_rib(xoffset_tip1=10, via_stack=None)
+    c = straight_heater_doped_rib(xoffset_tip1=10)
     # c = straight_heater_doped_rib(with_taper1=False)
     # c = straight_heater_doped_rib(length=500)
     c.show(show_ports=True)

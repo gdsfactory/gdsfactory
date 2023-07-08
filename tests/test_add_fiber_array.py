@@ -9,7 +9,7 @@ from gdsfactory.difftest import difftest
 
 
 def type0() -> Component:
-    component = gf.components.coupler(gap=0.244, length=5.67)
+    component = gf.components.coupler(gap=0.2, length=5.99)
     return gf.routing.add_fiber_array(component=component, optical_routing_type=0)
 
 

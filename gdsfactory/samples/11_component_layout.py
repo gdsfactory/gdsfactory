@@ -18,7 +18,7 @@ from gdsfactory.component import Component
 
 
 @gf.cell
-def test_crossing_arm(
+def crossing_arm(
     wg_width: float = 0.5,
     r1: float = 3.0,
     r2: float = 1.1,
@@ -64,5 +64,5 @@ def test_crossing_arm(
 
 
 if __name__ == "__main__":
-    c = test_crossing_arm()
+    c = crossing_arm()
     c.show(show_ports=True)

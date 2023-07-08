@@ -19,7 +19,7 @@ from gdsfactory.components.straight_pin import straight_pn
 
 
 @gf.cell
-def test_cutback_pn() -> Component:
+def cutback_pn() -> Component:
     # Define subcomponents
     bend_radius = 10.0
     bend180 = bend_circular(radius=bend_radius, angle=180)
@@ -44,6 +44,10 @@ def test_cutback_pn() -> Component:
     )
 
 
+def test_cutback_pn() -> None:
+    assert cutback_pn()
+
+
 if __name__ == "__main__":
-    c = test_cutback_pn()
+    c = cutback_pn()
     c.show(show_ports=True)

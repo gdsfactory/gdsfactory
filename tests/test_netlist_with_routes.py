@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 
 
-@gf.cell
-def test_netlist_with_routes() -> Component:
-    """"""
+def test_netlist_with_routes() -> None:
+    """Tests netlist with routes."""
     c = gf.Component()
     w = c << gf.components.straight(length=3)
     b = c << gf.components.bend_circular()
@@ -26,7 +24,6 @@ def test_netlist_with_routes() -> Component:
 
     assert len(c.get_dependencies()) == 3
     assert len(connections) == 2  # 2 components + 1 flat netlist
-    return c
 
 
 if __name__ == "__main__":

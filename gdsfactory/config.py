@@ -19,7 +19,7 @@ import warnings
 from pathlib import Path
 from pprint import pprint
 from typing_extensions import Literal
-from typing import Any, Optional, Union, ClassVar, TYPE_CHECKING
+from typing import Any, Optional, Union, ClassVar, TYPE_CHECKING, List
 
 import loguru
 from loguru import logger as logger
@@ -30,7 +30,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     from loguru import Logger
 
-__version__ = "6.112.0"
+__version__ = "6.113.0"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -195,6 +195,7 @@ class Settings(BaseSettings):
     logger: ClassVar[Logger] = logger
     logfilter: LogFilter = Field(default_factory=LogFilter)
     display_type: Literal["widget", "klayout", "docs", "kweb"] = "kweb"
+    last_saved_files: List[PathType] = []
 
     def __init__(self, **data: Any):
         """Set log filter and run pydantic."""

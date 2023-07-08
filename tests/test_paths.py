@@ -131,7 +131,7 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
     data_regression.check(component.to_dict())
 
 
-def test_layers1():
+def test_layers1() -> None:
     P = gf.path.straight(length=10.001)
     X = gf.CrossSection(
         width=0.5, offset=0, layer=gf.LAYER.SLAB90, port_names=("in", "out")
@@ -139,16 +139,14 @@ def test_layers1():
     c = gf.path.extrude(P, X, simplify=5e-3)
     assert c.ports["in"].layer == gf.LAYER.SLAB90
     assert c.ports["out"].center[0] == 10.001, c.ports["out"].center[0]
-    return c
 
 
-def test_layers2():
+def test_layers2() -> None:
     P = gf.path.straight(length=10.001)
     X = gf.cross_section.strip(snap_to_grid=5e-3)
     c = gf.path.extrude(P, X, simplify=5e-3)
     assert c.ports["o1"].layer == (1, 0)
     assert c.ports["o2"].center[0] == 10.0, c.ports["o2"].center[0]
-    return c
 
 
 def test_copy() -> None:

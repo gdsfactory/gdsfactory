@@ -14,7 +14,7 @@ def rectangle(
     size=(4.0, 2.0),
     layer: LayerSpec = "WG",
     centered: bool = False,
-    port_type: Optional[str] = "placement",
+    port_type: Optional[str] = "electrical",
     port_orientations: Optional[Ints] = (180, 90, 0, -90),
 ) -> Component:
     """Returns a rectangle.

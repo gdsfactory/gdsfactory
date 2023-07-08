@@ -72,7 +72,7 @@ def via_stack(
             ref = c << compass(size=size_m, layer=layer, port_type="electrical")
             c.add_ports(ref.ports)
         else:
-            ref = c << compass(size=size_m, layer=layer, port_type="placement")
+            ref = c << compass(size=size_m, layer=layer, port_type="electrical")
 
     vias = vias or []
     for via, offset in zip(vias, layer_offsets):
@@ -323,7 +323,7 @@ def via_stack_from_rules(
             ref = c << compass(size=size, layer=layer, port_type="electrical")
             c.add_ports(ref.ports)
         else:
-            ref = c << compass(size=size, layer=layer, port_type="placement")
+            ref = c << compass(size=size, layer=layer, port_type="electrical")
 
     vias = vias or []
     c.info["vias"] = []
@@ -457,14 +457,15 @@ via_stack_heater_mtop = via_stack_heater_m3 = partial(
 
 
 if __name__ == "__main__":
-    # c = via_stack_slab_m3()
+    c = via_stack()
+    c.show()
     # c = gf.pack([via_stack_slab_m3, via_stack_heater_mtop])[0]
 
-    c = gf.Component("offgrid_demo")
-    v1 = c << via_stack_slab_m3()
-    v2 = c << via_stack_slab_m3()
-    v2.x = 20.0005
-    c.show()
+    # c = gf.Component("offgrid_demo")
+    # v1 = c << via_stack_slab_m3()
+    # v2 = c << via_stack_slab_m3()
+    # v2.x = 20.0005
+    # c.show()
 
     # c2 = gf.Component()
     # c21 = c2 << c
