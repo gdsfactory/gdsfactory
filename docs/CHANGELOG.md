@@ -6,6 +6,7 @@
 
 - improve webapp [PR](https://github.com/gdsfactory/gdsfactory/pull/1833)
 - fix `via_stack` ports orientation [PR](https://github.com/gdsfactory/gdsfactory/pull/1844)
+- update meow to 0.7.0
 
 ## [6.112.0](https://github.com/gdsfactory/gdsfactory/compare/v6.112.0...v6.111.0)
 
