@@ -1,7 +1,7 @@
 from gdsfactory.generic_tech import LAYER_STACK
 
 
-def test_layerstack():
+def test_layerstack() -> None:
     assert LAYER_STACK.get_klayout_3d_script()
 
 

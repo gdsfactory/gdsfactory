@@ -574,6 +574,7 @@ def select_ports(
 
 select_ports_optical = partial(select_ports, port_type="optical")
 select_ports_electrical = partial(select_ports, port_type="electrical")
+select_ports_placement = partial(select_ports, port_type="placement")
 
 
 def select_ports_list(**kwargs) -> List[Port]:
@@ -799,9 +800,11 @@ def auto_rename_ports(
     function=_rename_ports_clockwise,
     select_ports_optical: Optional[Callable] = select_ports_optical,
     select_ports_electrical: Optional[Callable] = select_ports_electrical,
+    select_ports_placement: Optional[Callable] = select_ports_placement,
     prefix: str = "",
     prefix_optical: str = "o",
     prefix_electrical: str = "e",
+    prefix_placement: str = "p",
     port_type: Optional[str] = None,
     **kwargs,
 ) -> Component:
@@ -812,8 +815,10 @@ def auto_rename_ports(
         function: to rename ports.
         select_ports_optical: to select optical ports.
         select_ports_electrical: to select electrical ports.
+        select_ports_placement: to select placement ports.
         prefix_optical: prefix of optical ports.
         prefix_electrical: prefix of electrical ports.
+        prefix_placement: prefix of electrical ports.
         port_type: select ports with port type (optical, electrical, vertical_te).
 
     Keyword Args:
@@ -839,6 +844,14 @@ def auto_rename_ports(
                 component=component,
                 select_ports=select_ports_electrical,
                 prefix=prefix_electrical,
+                function=function,
+                **kwargs,
+            )
+        if select_ports_placement:
+            rename_ports_by_orientation(
+                component=component,
+                select_ports=select_ports_placement,
+                prefix=prefix_placement,
                 function=function,
                 **kwargs,
             )

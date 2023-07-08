@@ -11,8 +11,8 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @gf.cell
 def bend_port(
     component: ComponentSpec = straight_heater_metal,
-    port_name: str = "e1",
-    port_name2: str = "e2",
+    port_name: str = "l_e1",
+    port_name2: str = "r_e1",
     port_name1_bend: Optional[str] = None,
     port_name2_bend: Optional[str] = None,
     cross_section: CrossSectionSpec = "metal3_with_bend",
@@ -25,8 +25,8 @@ def bend_port(
 
     Args:
         component: to bend.
-        port_name: of the component.
-        port_name2: of the component, to extend to.
+        port_name: of the component port origin.
+        port_name2: of the component port destination.
         port_name1_bend: for bend port.
         port_name2_bend: for bend port.
         cross_section: for the bend.
@@ -77,7 +77,6 @@ if __name__ == "__main__":
     # c = gf.components.straight_heater_metal()
     # c = bend_port(component=c, port_name="e1")
     # c = bend_port(component=gf.components.mzi_phase_shifter)
-
-    c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    c = bend_port(c)
+    # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
+    c = bend_port()
     c.show(show_ports=True)

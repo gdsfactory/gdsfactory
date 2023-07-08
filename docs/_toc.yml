@@ -27,8 +27,8 @@ parts:
         - file: notebooks/04_components_hierarchy
         - file: notebooks/07_mask
         - file: notebooks/04_routing
-        - file: notebooks/041_routing_electrical
-        - file: notebooks/042_non-manhattan-router
+        - file: notebooks/04_routing_electrical
+        - file: notebooks/04_routing_non_manhattan
         - file: notebooks/rib_strip_autotransition
         - file: notebooks/common_mistakes
         - file: notebooks/dataprep

@@ -21,8 +21,8 @@ def straight_heater_metal_undercut(
     cross_section_heater_undercut: CrossSectionSpec = "strip_heater_metal_undercut",
     with_undercut: bool = True,
     via_stack: Optional[ComponentSpec] = "via_stack_heater_mtop",
-    port_orientation1: int = 180,
-    port_orientation2: int = 0,
+    port_orientation1: Optional[int] = None,
+    port_orientation2: Optional[int] = None,
     heater_taper_length: Optional[float] = 5.0,
     ohms_per_square: Optional[float] = None,
     **kwargs,
@@ -119,8 +119,8 @@ def straight_heater_metal_undercut(
                 f"No ports for port_orientation2 {port_orientation2} in {valid_orientations}"
             )
 
-        c.add_port("e1", port=p1[0])
-        c.add_port("e2", port=p2[0])
+        c.add_ports(p1, prefix="l_")
+        c.add_ports(p2, prefix="r_")
         if heater_taper_length:
             x = gf.get_cross_section(cross_section_heater, width=heater_width)
             taper = gf.components.taper(
@@ -171,7 +171,7 @@ if __name__ == "__main__":
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)
 
-    c = straight_heater_metal(length=40, port_orientation1=-90)
+    c = straight_heater_metal(length=40)
     # n = c.get_netlist()
     c.show(show_ports=True)
     # scene = c.to_3d()

@@ -1,73 +1,73 @@
-name: coupler_gap0p244_length_0ee3ac51
+name: coupler_gap0p2_length5p_6a5f6ddb
 ports:
-  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback0:
+  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-loopback0:
     center:
-    - -314.7
-    - -55.3
+    - -314.5
+    - -55.4
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback0
+    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-loopback0
     orientation: 90
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback1:
+  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-loopback1:
     center:
-    - 320.3
-    - -55.3
+    - 320.5
+    - -55.4
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback1
+    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-loopback1
     orientation: 90
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o1:
+  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-o1:
     center:
-    - -187.7
-    - -55.3
+    - -187.5
+    - -55.4
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o1
+    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-o1
     orientation: 90
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o2:
+  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-o2:
     center:
-    - -60.7
-    - -55.3
+    - -60.5
+    - -55.4
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o2
+    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-o2
     orientation: 90
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o3:
+  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-o3:
     center:
-    - 66.3
-    - -55.3
+    - 66.5
+    - -55.4
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o3
+    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-o3
     orientation: 90
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o4:
+  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-o4:
     center:
-    - 193.3
-    - -55.3
+    - 193.5
+    - -55.4
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o4
+    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-o4
     orientation: 90
     port_type: optical
     shear_angle: null
@@ -77,13 +77,13 @@ settings:
     component:
       component: coupler
       settings:
-        gap: 0.244
-        length: 5.67
+        gap: 0.2
+        length: 5.99
     optical_routing_type: 0
   child:
     changed:
-      gap: 0.244
-      length: 5.67
+      gap: 0.2
+      length: 5.99
     child: null
     default:
       coupler_straight:
@@ -103,15 +103,15 @@ settings:
       cross_section: strip
       dx: 10.0
       dy: 4.0
-      gap: 0.244
-      length: 5.67
+      gap: 0.2
+      length: 5.99
     function_name: coupler
     info:
-      length: 10.185
-      min_bend_radius: 11.883
+      length: 10.19
+      min_bend_radius: 11.744
     info_version: 2
     module: gdsfactory.components.coupler
-    name: coupler_gap0p244_length5p67
+    name: coupler_gap0p2_length5p99
   default:
     component:
       function: straight
@@ -138,8 +138,8 @@ settings:
     component:
       component: coupler
       settings:
-        gap: 0.244
-        length: 5.67
+        gap: 0.2
+        length: 5.99
     component_name: null
     cross_section: strip
     gc_port_labels: null
@@ -166,8 +166,8 @@ settings:
       period: 0.676
       polarization: te
       wavelength: 1.53
-    length: 10.185
-    min_bend_radius: 11.883
+    length: 10.19
+    min_bend_radius: 11.744
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: coupler_gap0p244_length_0ee3ac51
+  name: coupler_gap0p2_length5p_6a5f6ddb

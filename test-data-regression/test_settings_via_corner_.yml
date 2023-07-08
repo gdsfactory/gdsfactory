@@ -9,7 +9,7 @@ ports:
     - 0
     name: m2_e1
     orientation: 180
-    port_type: placement
+    port_type: electrical
     shear_angle: null
     width: 10.0
   m3_e2:
@@ -21,7 +21,7 @@ ports:
     - 0
     name: m3_e2
     orientation: 90
-    port_type: placement
+    port_type: electrical
     shear_angle: null
     width: 10.0
 settings:

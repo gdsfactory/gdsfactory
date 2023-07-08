@@ -1,3 +1,20 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
+# %% [markdown]
 # # Routing to IO
 #
 # ## Routing electrical
@@ -5,6 +22,7 @@
 #
 # You can also define `port.orientation = None` to ignore the port orientation for low speed DC ports.
 
+# %% [markdown]
 # For single route between ports you can use `get_route_electrical`
 #
 # ### get_route_electrical
@@ -12,7 +30,7 @@
 #
 # `get_route_electrical` has `bend = wire_corner` with a 90deg bend corner.
 
-# +
+# %%
 from functools import partial
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
@@ -27,8 +45,8 @@ pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((70, 200))
 c.plot()
-# -
 
+# %%
 c = gf.Component("pads_with_routes_with_bends")
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
@@ -39,6 +57,7 @@ route = gf.routing.get_route_electrical(
 c.add(route.references)
 c.plot()
 
+# %%
 c = gf.Component("pads_with_routes_with_wire_corners")
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
@@ -49,6 +68,7 @@ route = gf.routing.get_route_electrical(
 c.add(route.references)
 c.plot()
 
+# %%
 c = gf.Component("pads_with_routes_with_wire_corners_no_orientation")
 pt = c << gf.components.pad_array(orientation=None, columns=3)
 pb = c << gf.components.pad_array(orientation=None, columns=3)
@@ -59,7 +79,7 @@ route = gf.routing.get_route_electrical(
 c.add(route.references)
 c.plot()
 
-# +
+# %%
 c = gf.Component("multi-layer")
 columns = 2
 ptop = c << gf.components.pad_array(columns=columns)
@@ -74,10 +94,11 @@ route = gf.routing.get_route_electrical_multilayer(
 )
 c.add(route.references)
 c.plot()
-# -
 
+# %% [markdown]
 # There is also `bend = wire_corner45` for 45deg bend corner with parametrizable "radius":
 
+# %%
 c = gf.Component("pads_with_routes_with_wire_corner45")
 pt = c << gf.components.pad_array(orientation=270, columns=1)
 pb = c << gf.components.pad_array(orientation=90, columns=1)
@@ -88,6 +109,7 @@ route = gf.routing.get_route_electrical(
 c.add(route.references)
 c.plot()
 
+# %%
 c = gf.Component("pads_with_routes_with_wire_corner45")
 pt = c << gf.components.pad_array(orientation=270, columns=1)
 pb = c << gf.components.pad_array(orientation=90, columns=1)
@@ -98,8 +120,10 @@ route = gf.routing.get_route_electrical(
 c.add(route.references)
 c.plot()
 
+# %% [markdown]
 # ### route_quad
 
+# %%
 c = gf.Component("pads_route_quad")
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
@@ -107,8 +131,10 @@ pt.move((100, 200))
 route = c << gf.routing.route_quad(pt.ports["e11"], pb.ports["e11"], layer=(49, 0))
 c.plot()
 
+# %% [markdown]
 # ### get_route_from_steps
 
+# %%
 c = gf.Component("pads_route_from_steps")
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
@@ -125,6 +151,7 @@ route = gf.routing.get_route_from_steps(
 c.add(route.references)
 c.plot()
 
+# %%
 c = gf.Component("pads_route_from_steps_None_orientation")
 pt = c << gf.components.pad_array(orientation=None, columns=3)
 pb = c << gf.components.pad_array(orientation=None, columns=3)
@@ -141,11 +168,12 @@ route = gf.routing.get_route_from_steps(
 c.add(route.references)
 c.plot()
 
+# %% [markdown]
 # ### get_bundle_electrical
 #
 # For routing groups of ports you can use `get_bundle` that returns a bundle of routes using a bundle router (also known as bus or river router)
 
-# +
+# %%
 c = gf.Component("pads_bundle")
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
@@ -158,11 +186,11 @@ routes = gf.routing.get_bundle_electrical(
 for route in routes:
     c.add(route.references)
 c.plot()
-# -
 
+# %% [markdown]
 # ### get_bundle_from_steps_electrical
 
-# +
+# %%
 c = gf.Component("pads_bundle_steps")
 pt = c << gf.components.pad_array(
     partial(gf.components.pad, size=(30, 30)),
@@ -181,13 +209,13 @@ for route in routes:
     c.add(route.references)
 
 c.plot()
-# -
 
+# %% [markdown]
 # ### get_bundle_electrical_multilayer
 #
 # To avoid metal crossings you can use one metal layer.
 
-# +
+# %%
 c = gf.Component("get_bundle_multi_layer")
 columns = 2
 ptop = c << gf.components.pad_array(columns=columns)
@@ -201,25 +229,29 @@ routes = gf.routing.get_bundle_electrical_multilayer(
 for route in routes:
     c.add(route.references)
 c.plot()
-# -
 
+# %% [markdown]
 # ## Routing to pads
 #
 # You can also route to electrical pads.
 
-c = gf.components.pad()
-cc = gf.routing.add_pads_bot(component=c, port_names=("e1", "e4"), fanout_length=50)
-cc
+# %%
+c = gf.components.straight_heater_metal(length=100.0)
+cc = gf.routing.add_pads_bot(component=c, port_names=("l_e4", "r_e4"), fanout_length=50)
+cc.plot()
 
+# %%
 c = gf.components.straight_heater_metal(length=100.0)
 cc = gf.routing.add_pads_top(component=c)
-cc
+cc.plot()
 
 
+# %%
 c = gf.components.straight_heater_metal(length=100.0)
-cc = gf.routing.add_pads_top(component=c, port_names=("e1",))
-cc
+cc = gf.routing.add_pads_top(component=c, port_names=("l_e2", "r_e2"))
+cc.plot()
 
+# %%
 n = west = north = south = east = 10
 spacing = 20
 c = gf.components.nxn(
@@ -234,22 +266,26 @@ c = gf.components.nxn(
 )
 c.plot()
 
+# %%
 cc = gf.routing.add_pads_top(component=c)
-cc
+cc.plot()
 
+# %% [markdown]
 # ## Routing to optical terminations
 #
 # ### Route to Fiber Array
 #
 # You can route to a fiber array.
 
+# %%
 component = big_device(nports=10)
 c = gf.routing.add_fiber_array(component=component, radius=10.0, fanout_length=60.0)
 c.plot()
 
+# %% [markdown]
 # You can also mix and match TE and TM grating couplers. Notice that the `TM` polarization grating coupler is bigger.
 
-# +
+# %%
 import gdsfactory as gf
 
 c = gf.components.mzi_phase_shifter()
@@ -264,13 +300,16 @@ cc = gf.routing.add_fiber_array(
     ],
     radius=20,
 )
-cc
-# -
+cc.plot()
 
+# %% [markdown]
 # ### Route to Single fibers
 #
 # You can route to a single fiber input and single fiber output.
 
+# %%
 c = gf.components.ring_single()
 cc = gf.routing.add_fiber_single(component=c)
-cc
+cc.plot()
+
+# %%

@@ -1,25 +1,13 @@
 name: straight_heater_metal_u_e2b56ba0
 ports:
-  e1:
+  l_e2:
     center:
     - -10.5
     - 5.5
     layer:
     - 49
     - 0
-    name: e1
-    orientation: 90
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2:
-    center:
-    - 330.5
-    - 5.5
-    layer:
-    - 49
-    - 0
-    name: e2
+    name: l_e2
     orientation: 90
     port_type: electrical
     shear_angle: null
@@ -48,6 +36,18 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
+  r_e2:
+    center:
+    - 330.5
+    - 5.5
+    layer:
+    - 49
+    - 0
+    name: r_e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
 settings:
   changed:
     port_orientation1: 90
@@ -65,8 +65,8 @@ settings:
     length_undercut: 30.0
     length_undercut_spacing: 6.0
     ohms_per_square: null
-    port_orientation1: 180
-    port_orientation2: 0
+    port_orientation1: null
+    port_orientation2: null
     via_stack: via_stack_heater_mtop
     with_undercut: true
   full:

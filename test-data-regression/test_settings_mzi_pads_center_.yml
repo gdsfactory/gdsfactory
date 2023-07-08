@@ -1,26 +1,98 @@
 name: mzi_pads_center
 ports:
-  bot_e1:
+  bot_l_e1:
     center:
     - 19.5
     - -80.625
     layer:
     - 49
     - 0
-    name: bot_e1
+    name: bot_l_e1
     orientation: 180
     port_type: electrical
     shear_angle: null
     width: 11.0
-  bot_e2:
+  bot_l_e2:
+    center:
+    - 25.0
+    - -75.125
+    layer:
+    - 49
+    - 0
+    name: bot_l_e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  bot_l_e3:
+    center:
+    - 30.5
+    - -80.625
+    layer:
+    - 49
+    - 0
+    name: bot_l_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  bot_l_e4:
+    center:
+    - 25.0
+    - -86.125
+    layer:
+    - 49
+    - 0
+    name: bot_l_e4
+    orientation: 270
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  bot_r_e1:
+    center:
+    - 540.5
+    - -80.625
+    layer:
+    - 49
+    - 0
+    name: bot_r_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  bot_r_e2:
+    center:
+    - 546.0
+    - -75.125
+    layer:
+    - 49
+    - 0
+    name: bot_r_e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  bot_r_e3:
     center:
     - 551.5
     - -80.625
     layer:
     - 49
     - 0
-    name: bot_e2
+    name: bot_r_e3
     orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  bot_r_e4:
+    center:
+    - 546.0
+    - -86.125
+    layer:
+    - 49
+    - 0
+    name: bot_r_e4
+    orientation: 270
     port_type: electrical
     shear_angle: null
     width: 11.0
@@ -48,27 +120,99 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
-  top_e1:
+  top_l_e1:
     center:
     - 19.5
     - 60.625
     layer:
     - 49
     - 0
-    name: top_e1
+    name: top_l_e1
     orientation: 180
     port_type: electrical
     shear_angle: null
     width: 11.0
-  top_e2:
+  top_l_e2:
+    center:
+    - 25.0
+    - 66.125
+    layer:
+    - 49
+    - 0
+    name: top_l_e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e3:
+    center:
+    - 30.5
+    - 60.625
+    layer:
+    - 49
+    - 0
+    name: top_l_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e4:
+    center:
+    - 25.0
+    - 55.125
+    layer:
+    - 49
+    - 0
+    name: top_l_e4
+    orientation: 270
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e1:
+    center:
+    - 540.5
+    - 60.625
+    layer:
+    - 49
+    - 0
+    name: top_r_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e2:
+    center:
+    - 546.0
+    - 66.125
+    layer:
+    - 49
+    - 0
+    name: top_r_e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e3:
     center:
     - 551.5
     - 60.625
     layer:
     - 49
     - 0
-    name: top_e2
+    name: top_r_e3
     orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e4:
+    center:
+    - 546.0
+    - 55.125
+    layer:
+    - 49
+    - 0
+    name: top_r_e4
+    orientation: 270
     port_type: electrical
     shear_angle: null
     width: 11.0
@@ -83,10 +227,10 @@ settings:
     length_y: 40
     mzi:
       function: mzi
-    mzi_gnd_bot: bot_e2
-    mzi_gnd_top: top_e1
-    mzi_sig_bot: bot_e1
-    mzi_sig_top: top_e2
+    mzi_gnd_bot: bot_r_e2
+    mzi_gnd_top: top_l_e2
+    mzi_sig_bot: bot_l_e2
+    mzi_sig_top: top_r_e2
     pad:
       function: pad
       settings:
@@ -114,10 +258,10 @@ settings:
     length_y: 40
     mzi:
       function: mzi
-    mzi_gnd_bot: bot_e2
-    mzi_gnd_top: top_e1
-    mzi_sig_bot: bot_e1
-    mzi_sig_top: top_e2
+    mzi_gnd_bot: bot_r_e2
+    mzi_gnd_top: top_l_e2
+    mzi_sig_bot: bot_l_e2
+    mzi_sig_top: top_r_e2
     pad:
       function: pad
       settings:

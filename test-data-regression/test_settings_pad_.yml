@@ -9,7 +9,7 @@ ports:
     - 0
     name: e1
     orientation: 180
-    port_type: placement
+    port_type: electrical
     shear_angle: null
     width: 100.0
   e2:
@@ -21,7 +21,7 @@ ports:
     - 0
     name: e2
     orientation: 90
-    port_type: placement
+    port_type: electrical
     shear_angle: null
     width: 100.0
   e3:
@@ -33,7 +33,7 @@ ports:
     - 0
     name: e3
     orientation: 0.0
-    port_type: placement
+    port_type: electrical
     shear_angle: null
     width: 100.0
   e4:
@@ -45,7 +45,7 @@ ports:
     - 0
     name: e4
     orientation: 270
-    port_type: placement
+    port_type: electrical
     shear_angle: null
     width: 100.0
   pad:

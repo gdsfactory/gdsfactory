@@ -7,12 +7,12 @@ def test_get_ports() -> None:
     c = gf.components.mzi_phase_shifter_top_heater_metal(length_x=123)
 
     p = c.get_ports_dict()
-    assert len(p) == 4, len(p)
+    assert len(p) == 10, len(p)
 
-    p_dc = c.get_ports_dict(width=11.0)
-    p_dc_layer = c.get_ports_dict(layer=(49, 0))
-    assert len(p_dc) == 2, f"{len(p_dc)}"
-    assert len(p_dc_layer) == 2, f"{len(p_dc_layer)}"
+    p_electrical = c.get_ports_dict(width=11.0)
+    p_electrical_layer = c.get_ports_dict(layer=(49, 0))
+    assert len(p_electrical) == 8, f"{len(p_electrical)}"
+    assert len(p_electrical_layer) == 8, f"{len(p_electrical_layer)}"
 
     p_optical = c.get_ports_dict(width=0.5)
     assert len(p_optical) == 2, f"{len(p_optical)}"
@@ -31,10 +31,10 @@ if __name__ == "__main__":
     # p = c.get_ports_dict()
     # assert len(p) == 4, len(p)
 
-    # p_dc = c.get_ports_dict(width=11.)
-    # p_dc_layer = c.get_ports_dict(layer=(49, 0))
-    # assert len(p_dc) == 2, f"{len(p_dc)}"
-    # assert len(p_dc_layer) == 2, f"{len(p_dc_layer)}"
+    # p_electrical = c.get_ports_dict(width=11.)
+    # p_electrical_layer = c.get_ports_dict(layer=(49, 0))
+    # assert len(p_electrical) == 2, f"{len(p_electrical)}"
+    # assert len(p_electrical_layer) == 2, f"{len(p_electrical_layer)}"
 
     # p_optical = c.get_ports_dict(width=0.5)
     # assert len(p_optical) == 2, f"{len(p_optical)}"

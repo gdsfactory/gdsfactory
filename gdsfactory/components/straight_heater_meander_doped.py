@@ -1,14 +1,13 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import List
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.via import via
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.cross_section import Section
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, Optional
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Optional
 
 via_stack = partial(
     via_stack,
@@ -40,11 +39,11 @@ def straight_heater_meander_doped(
     cross_section: gf.typings.CrossSectionSpec = "strip",
     heater_width: float = 1.5,
     extension_length: float = 15.0,
-    layers_doping: List[LayerSpec] = ("P", "PP", "PPP"),
+    layers_doping: LayerSpecs = ("P", "PP", "PPP"),
     radius: float = 5.0,
     via_stack: Optional[ComponentSpec] = via_stack,
-    port_orientation1: int = 180,
-    port_orientation2: int = 0,
+    port_orientation1: Optional[int] = None,
+    port_orientation2: Optional[int] = None,
     straight_widths: Floats = (0.8, 0.9, 0.8),
     taper_length: float = 10,
 ) -> Component:
@@ -64,8 +63,8 @@ def straight_heater_meander_doped(
         layers_doping: doping layers to be used for heater.
         radius: for the meander bends.
         via_stack: for the heater to via_stack metal.
-        port_orientation1: in degrees.
-        port_orientation2: in degrees.
+        port_orientation1: in degrees. None adds all orientations.
+        port_orientation2: in degrees. None adds all orientations.
         straight_width: width of the straight section.
         taper_length: from the cross_section.
     """
@@ -188,7 +187,7 @@ def straight_heater_meander_doped(
         heater.movey(spacing * (rows // 2))
 
     if layers_doping and via_stack:
-        via_stacke = via_stackw = gf.get_component(via_stack)
+        via = via_stacke = via_stackw = gf.get_component(via_stack)
         dx = via_stackw.get_ports_xsize() / 2 or 0
         via_stack_west_center = heater.size_info.cw + (dx, 0)
         via_stack_east_center = heater.size_info.ce - (dx, 0)
@@ -200,12 +199,22 @@ def straight_heater_meander_doped(
         via_stack_east = c << via_stacke
         via_stack_west.move(via_stack_west_center)
         via_stack_east.move(via_stack_east_center)
-        c.add_port(
-            "e1", port=via_stack_west.get_ports_list(orientation=port_orientation1)[0]
-        )
-        c.add_port(
-            "e2", port=via_stack_east.get_ports_list(orientation=port_orientation2)[0]
-        )
+
+        valid_orientations = {p.orientation for p in via.ports.values()}
+        p1 = via_stack_west.get_ports_list(orientation=port_orientation1)
+        p2 = via_stack_east.get_ports_list(orientation=port_orientation2)
+
+        if not p1:
+            raise ValueError(
+                f"No ports for port_orientation1 {port_orientation1} in {valid_orientations}"
+            )
+        if not p2:
+            raise ValueError(
+                f"No ports for port_orientation2 {port_orientation2} in {valid_orientations}"
+            )
+
+        c.add_ports(p1, prefix="l_")
+        c.add_ports(p2, prefix="r_")
     return c
 
 

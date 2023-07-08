@@ -34,9 +34,7 @@ def pad(
     layer = gf.get_layer(layer)
     size = gf.get_constant(size)
     rect = compass(
-        size=size,
-        layer=layer,
-        port_inclusion=port_inclusion,  # port_type="electrical"
+        size=size, layer=layer, port_inclusion=port_inclusion, port_type="electrical"
     )
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
