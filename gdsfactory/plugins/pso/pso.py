@@ -31,7 +31,7 @@ PDK.activate()
 
 # ## Create a working directory for the PSO optimization
 
-wrk_dir = PATH.plugins / 'pso' / 'wrk_dir'
+wrk_dir = PATH.plugins / "pso" / "wrk_dir"
 wrk_dir.mkdir(exist_ok=True)
 
 
@@ -46,7 +46,6 @@ def trainable_simulations(x, loss=lambda x: x):
     """Training step, or `trainable`, function for Ray Tune to run simulations and return results."""
     loss_arr = []
     for xi in x:
-
         # Component to optimize
         component = gf.components.mmi1x2(length_mmi=xi[0], width_mmi=xi[1])
 
@@ -64,7 +63,9 @@ def trainable_simulations(x, loss=lambda x: x):
             s_params = gm.write_sparameters_meep_mpi(
                 cores=2, **meep_params  # set this to be the same as in `tune.Tuner`
             )
-            s_params = np.load(s_params)  # parallel version returns the filepath to npz instead
+            s_params = np.load(
+                s_params
+            )  # parallel version returns the filepath to npz instead
         else:
             s_params = gm.write_sparameters_meep(**meep_params)
 
@@ -93,10 +94,12 @@ min_bound = np.array([2, 2])
 bounds = (min_bound, max_bound)
 
 # Set options for the PSO optimizer
-options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
+options = {"c1": 0.5, "c2": 0.3, "w": 0.9}
 
 # Create an instance of the PSO optimizer
-optimizer = ps.single.GlobalBestPSO(n_particles=10, dimensions=2, options=options, bounds=bounds)
+optimizer = ps.single.GlobalBestPSO(
+    n_particles=10, dimensions=2, options=options, bounds=bounds
+)
 
 # Perform the optimization
 cost, pos = optimizer.optimize(func, iters=1000)
@@ -104,4 +107,3 @@ cost, pos = optimizer.optimize(func, iters=1000)
 
 plot_cost_history(cost_history=optimizer.cost_history)
 plt.show()
-
