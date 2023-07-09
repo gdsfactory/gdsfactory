@@ -307,3 +307,4 @@ gdsfactory/generic_tech/klayout/tech/layers.py
 # Optimiser output
 tune/
 gdsfactory/generic_tech/xsection_planarized.pyxs
+gdsfactory/plugins/pso/wrk_dir/
