@@ -1,19 +1,41 @@
-# # Example of particle swarm implementation based on PySwarms.
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
+# %% [markdown]
+# # Particle Swarm optimization
+#
+# Example of particle swarm implementation based on PySwarms.
 # This code demonstrates how to use the Particle Swarm Optimization (PSO) algorithm
 # from the PySwarms library to optimize a function.
 # The objective function used in this example is taken from the Ray Tune generic black-box optimizer.
 
+# %% [markdown]
 # PySwarms: https://pyswarms.readthedocs.io/en/latest/
+# To install PySwarms, use the following command from console:
+#
+# ```console
+# pip install pyswarms
+# ```
+#
+# You can optimise a `mmi1x2` component for a transmission of $|S_{21}|^2 = 0.5$ (50% power) for a given wavelength using MEEP.
 
-# To install PySwarms, use the following command from console: pip install pyswarms
-
-
-# ## Import required libraries
-
+# %%
 from functools import partial
 import numpy as np
 
-# ## Import PySwarms
 import pyswarms as ps
 from pyswarms.utils.plotters import plot_cost_history
 import matplotlib.pyplot as plt
@@ -28,10 +50,8 @@ gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
 
-
-# ## Create a working directory for the PSO optimization
-
-wrk_dir = PATH.plugins / "pso" / "wrk_dir"
+# Create a working directory for the PSO optimization
+wrk_dir = PATH.cwd / "extra"
 wrk_dir.mkdir(exist_ok=True)
 
 
@@ -45,6 +65,8 @@ def loss_S21_L1(x, target):
 def trainable_simulations(x, loss=lambda x: x):
     """Training step, or `trainable`, function for Ray Tune to run simulations and return results."""
     loss_arr = []
+    use_mpi = False
+
     for xi in x:
         # Component to optimize
         component = gf.components.mmi1x2(length_mmi=xi[0], width_mmi=xi[1])
@@ -55,11 +77,10 @@ def trainable_simulations(x, loss=lambda x: x):
             run=True,
             dirpath=wrk_dir,
             wavelength_start=1.5,
-            # wavelength_stop=1.6,
             wavelength_points=1,
+            is_3d=False,
         )
-        use_mpi = True
-        if use_mpi is True:  # change this to false if no MPI support
+        if use_mpi:  # change this to false if no MPI support
             s_params = gm.write_sparameters_meep_mpi(
                 cores=2, **meep_params  # set this to be the same as in `tune.Tuner`
             )
@@ -80,13 +101,9 @@ def trainable_simulations(x, loss=lambda x: x):
     return np.asarray(loss_arr)
 
 
-# ## Define the target value for the loss function
-
+# Define the target value for the loss function
 loss = partial(loss_S21_L1, target=0.5)
 func = partial(trainable_simulations, loss=loss)
-
-
-# ## Run the optimizer
 
 # Create bounds for the optimization
 max_bound = np.array([0.05, 0.05])
@@ -101,9 +118,9 @@ optimizer = ps.single.GlobalBestPSO(
     n_particles=10, dimensions=2, options=options, bounds=bounds
 )
 
-# Perform the optimization
-cost, pos = optimizer.optimize(func, iters=1000)
 
-
-plot_cost_history(cost_history=optimizer.cost_history)
-plt.show()
+# %%
+# Perform the optimization. We run only comment these lines for demo purposes
+# cost, pos = optimizer.optimize(func, iters=100)
+# plot_cost_history(cost_history=optimizer.cost_history)
+# plt.show()

@@ -174,7 +174,9 @@ full = [
   "sax==0.8.8",
   "jaxlib",
   "jax",
-  "tidy3d==2.2.3"
+  "tidy3d==2.2.3",
+  # particle swarm implementation
+  "pyswarms"
 ]
 gmsh = [
   "gmsh",

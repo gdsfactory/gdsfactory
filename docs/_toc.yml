@@ -56,6 +56,7 @@ parts:
     - file: plugins_optimization
       sections:
         - file: notebooks/ray_optimiser
+        - file: notebooks/pso
     - file: plugins_mesh
       sections:
         - file: notebooks/materials
