@@ -51,7 +51,7 @@ filename = "mesh"
 
 def mesh_with_physicals(mesh, filename):
     mesh_from_file = meshio.read(f"{filename}.msh")
-    return create_physical_mesh(mesh_from_file, "triangle", prune_z=True)
+    return create_physical_mesh(mesh_from_file, "triangle")
 
 
 # -

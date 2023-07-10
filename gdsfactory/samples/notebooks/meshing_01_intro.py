@@ -86,7 +86,7 @@ filename = "mesh"
 
 def mesh_with_physicals(mesh, filename):
     mesh_from_file = meshio.read(f"{filename}.msh")
-    return create_physical_mesh(mesh_from_file, "triangle", prune_z=True)
+    return create_physical_mesh(mesh_from_file, "triangle")
 
 
 # -
@@ -115,7 +115,7 @@ mesh.draw().plot()
 # +
 mesh_from_file = meshio.read("mesh.msh")
 
-triangle_mesh = create_physical_mesh(mesh_from_file, "triangle", prune_z=True)
+triangle_mesh = create_physical_mesh(mesh_from_file, "triangle")
 meshio.write("mesh.xdmf", triangle_mesh)
 
 mesh = mesh_with_physicals(triangle_mesh, filename)
@@ -128,7 +128,7 @@ mesh.draw().plot()
 # ![](https://imgur.com/zBn5596.png)
 
 # +
-line_mesh = create_physical_mesh(mesh_from_file, "line", prune_z=True)
+line_mesh = create_physical_mesh(mesh_from_file, "line")
 meshio.write("facet_mesh.xdmf", line_mesh)
 
 mesh = mesh_with_physicals(line_mesh, filename)
