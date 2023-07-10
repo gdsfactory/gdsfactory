@@ -174,7 +174,7 @@ full = [
   "sax==0.8.8",
   "jaxlib",
   "jax",
-  "tidy3d==2.2.3",
+  "tidy3d==2.3.0",
   # particle swarm implementation
   "pyswarms"
 ]
@@ -207,7 +207,7 @@ sax = [
   "jax"
 ]
 tidy3d = [
-  "tidy3d==2.2.3"
+  "tidy3d==2.3.0"
 ]
 
 [project.scripts]
