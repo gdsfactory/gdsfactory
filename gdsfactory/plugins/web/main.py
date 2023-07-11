@@ -179,19 +179,18 @@ def _parse_value(value: str):
 
 @app.post("/update/{cell_name}")
 async def update_cell(request: Request, cell_name: str):
+    """Cell name is the name of the PCell function."""
     data = await request.form()
-    changed_settings = {k: _parse_value(v) for k, v in data.items() if v != ""}
-    if not changed_settings:
+    settings = {k: _parse_value(v) for k, v in data.items() if v != ""}
+    if not settings:
         return RedirectResponse(
             f"/view/{cell_name}",
             status_code=status.HTTP_302_FOUND,
         )
-    component = gf.get_component({"component": cell_name, "settings": changed_settings})
+    component = gf.get_component({"component": cell_name, "settings": settings})
     variant = component.name
 
     LOADED_COMPONENTS[component.name] = component
-    logger.info(data)
-    logger.info(f"update {cell_name} {variant}")
     return RedirectResponse(
         f"/view/{cell_name}?variant={variant}",
         status_code=status.HTTP_302_FOUND,

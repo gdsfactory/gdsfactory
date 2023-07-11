@@ -270,6 +270,7 @@ from gdsfactory.components.taper import (
 )
 from gdsfactory.components.taper_adiabatic import taper_adiabatic
 from gdsfactory.components.taper_cross_section import (
+    taper_cross_section,
     taper_cross_section_linear,
     taper_cross_section_parabolic,
     taper_cross_section_sine,
@@ -584,6 +585,7 @@ __all__ = [
     "taper_adiabatic",
     "taper2",
     "taper_0p5_to_3_l36",
+    "taper_cross_section",
     "taper_from_csv",
     "taper_parabolic",
     "taper_strip_to_ridge",
