@@ -166,7 +166,7 @@ full = [
   "meshwell==0.0.3",
   # kfactory
   "kfactory[git,ipy]==0.7.5",
-  "meow-sim==0.7.0",
+  "meow-sim==0.7.1",
   # ray
   "ray[tune,air]",
   "hyperopt",
@@ -192,7 +192,7 @@ kfactory = [
   "kfactory[git,ipy]==0.7.5"
 ]
 meow = [
-  "meow-sim==0.7.0"
+  "meow-sim==0.7.1"
 ]
 meshwell = [
   "meshwell==0.0.3"
