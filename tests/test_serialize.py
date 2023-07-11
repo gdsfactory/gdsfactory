@@ -44,8 +44,12 @@ def test_serialize_polygons() -> None:
 
 
 if __name__ == "__main__":
+    c1 = gf.components.mmi1x2()
+    settings = c1.settings.full
+    cell_name = c1.settings.function_name
+    c2 = gf.get_component({"component": cell_name, "settings": settings})
     # c = demo_cross_section_setting()
     # d = c.to_dict()
     # c.show(show_ports=True)
     # test_settings(None)
-    test_serialize_polygons()
+    # test_serialize_polygons()
