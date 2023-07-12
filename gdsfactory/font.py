@@ -98,7 +98,7 @@ def _get_glyph(font, letter):  # noqa: C901
 
         # Build up the letter as a curve
         cpoint = start
-        curve = gdstk.Curve(points[0], tolerance=0.001)
+        curve = gdstk.Curve(points[cpoint], tolerance=0.001)
         while cpoint <= end:
             # Figure out what sort of point we are looking at
             if tags[cpoint] & 1:
