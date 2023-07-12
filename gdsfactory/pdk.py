@@ -15,7 +15,7 @@ from typing_extensions import Literal
 from gdsfactory.config import PATH, logger
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.events import Event
-from gdsfactory.materials import MaterialSpec
+from gdsfactory.typings import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
 from gdsfactory.name import MAX_NAME_LENGTH
 from gdsfactory.read import cell_from_yaml

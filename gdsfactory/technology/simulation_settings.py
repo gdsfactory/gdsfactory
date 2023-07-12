@@ -2,7 +2,7 @@ from typing import Dict
 
 from pydantic import BaseModel
 
-from gdsfactory.materials import MaterialSpec
+from gdsfactory.typings import MaterialSpec
 from gdsfactory.materials import (
     material_name_to_lumerical as material_name_to_lumerical_default,
 )

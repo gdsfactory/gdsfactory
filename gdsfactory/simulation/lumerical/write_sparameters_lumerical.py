@@ -10,7 +10,7 @@ import yaml
 
 import gdsfactory as gf
 from gdsfactory.config import __version__, logger
-from gdsfactory.materials import MaterialSpec
+from gdsfactory.typings import MaterialSpec
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_lumerical as get_sparameters_path,
