@@ -199,8 +199,7 @@ class LayerStack(BaseModel):
         net_component = component.copy()
 
         # For each port to consider, convert relevant polygons
-        i = 0
-        for portname in portnames:
+        for i, portname in enumerate(portnames):
             port = component.ports[portname]
             # Get original port layer polygons, and modify a new component without that layer
             polygons = net_component.extract(layers=[port.layer]).get_polygons()
@@ -216,7 +215,6 @@ class LayerStack(BaseModel):
                 # Otherwise put the polygon back on the same layer
                 else:
                     net_component.add_polygon(polygon, layer=port.layer)
-            i += 1
 
         net_component.name = f"{component.name}_net_layers"
 
@@ -440,7 +438,6 @@ class LayerStack(BaseModel):
             for layer in layerspecs
             if layer in layers_to_layername
         ]
-        print("iside ", layers)
         return self.filtered(layers)
 
 
@@ -455,10 +452,11 @@ if __name__ == "__main__":
 
     layer_stack = LAYER_STACK
 
+    # c = gf.components.straight_heater_metal()
+
     c = layer_stack.get_component_with_net_layers(
         gf.components.straight_heater_metal(), portnames=["r_e2", "l_e4"]
     )
-
     print(layer_stack.layers.keys())
 
     c.show()

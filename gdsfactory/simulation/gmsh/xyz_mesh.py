@@ -66,9 +66,6 @@ def xyz_mesh(
 
     """
     # Fuse and cleanup polygons of same layer in case user overlapped them
-    print(layerstack)
-    print(component.get_layer_names())
-
     layer_polygons_dict = cleanup_component(
         component, layerstack, round_tol, simplify_tol
     )
@@ -106,20 +103,29 @@ if __name__ == "__main__":
 
     # Generate a new component and layerstack with new logical layers
     layerstack = get_layer_stack()
-
-    print("init ", layerstack.layers.keys())
-
     c = layerstack.get_component_with_net_layers(
         c,
         portnames=["r_e2", "l_e4"],
         delimiter="#",
     )
 
-    print("net ", layerstack.layers.keys())
-
-    filtered_layerstack = layerstack.filtered_from_layerspec(layerspecs=c.get_layers())
-
-    print("filtered ", filtered_layerstack.layers.keys())
+    # FIXME: .filtered returns all layers
+    # filtered_layerstack = layerstack.filtered_from_layerspec(layerspecs=c.get_layers())
+    filtered_layerstack = LayerStack(
+        layers={
+            k: layerstack.layers[k]
+            for k in (
+                "via1",
+                "clad",
+                "metal2",
+                "metal3#l_e4",
+                "heater",
+                "via2",
+                "core",
+                "metal3#r_e2",
+            )
+        }
+    )
 
     resolutions = {
         "core": {"resolution": 0.1},
