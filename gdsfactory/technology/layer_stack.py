@@ -199,22 +199,24 @@ class LayerStack(BaseModel):
         net_component = component.copy()
 
         # For each port to consider, convert relevant polygons
-        for i, (portname, port) in enumerate(component.get_ports_dict().items()):
-            if portname in portnames:
-                # Get original port layer polygons, and modify a new component without that layer
-                polygons = component.extract(layers=[port.layer]).get_polygons()
-                net_component = net_component.remove_layers(layers=[port.layer])
-                for polygon in polygons:
-                    # If polygon belongs to port, create a unique new layer, and add the polygon to it
-                    if gdstk.inside([port.center], gdstk.Polygon(polygon))[0]:
-                        old_layername = self.get_layer_to_layername()[port.layer]
-                        new_layer = copy.deepcopy(self.layers[old_layername])
-                        new_layer.layer = (new_layers_init[0], new_layers_init[1] + i)
-                        self.layers[f"{old_layername}{delimiter}{portname}"] = new_layer
-                        net_component.add_polygon(polygon, layer=new_layer.layer)
-                    # Otherwise put the polygon back on the same layer
-                    else:
-                        net_component.add_polygon(polygon, layer=port.layer)
+        i = 0
+        for portname in portnames:
+            port = component.ports[portname]
+            # Get original port layer polygons, and modify a new component without that layer
+            polygons = net_component.extract(layers=[port.layer]).get_polygons()
+            net_component = net_component.remove_layers(layers=[port.layer])
+            for polygon in polygons:
+                # If polygon belongs to port, create a unique new layer, and add the polygon to it
+                if gdstk.inside([port.center], gdstk.Polygon(polygon))[0]:
+                    old_layername = self.get_layer_to_layername()[port.layer]
+                    new_layer = copy.deepcopy(self.layers[old_layername])
+                    new_layer.layer = (new_layers_init[0], new_layers_init[1] + i)
+                    self.layers[f"{old_layername}{delimiter}{portname}"] = new_layer
+                    net_component.add_polygon(polygon, layer=new_layer.layer)
+                # Otherwise put the polygon back on the same layer
+                else:
+                    net_component.add_polygon(polygon, layer=port.layer)
+            i += 1
 
         net_component.name = f"{component.name}_net_layers"
 
@@ -438,6 +440,7 @@ class LayerStack(BaseModel):
             for layer in layerspecs
             if layer in layers_to_layername
         ]
+        print("iside ", layers)
         return self.filtered(layers)
 
 
