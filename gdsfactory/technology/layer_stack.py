@@ -195,12 +195,13 @@ class LayerStack(BaseModel):
         """
         import gdstk
 
+        # Initialize returned component
+        net_component = component.copy()
+
+        # For each port to consider, convert relevant polygons
         for i, (portname, port) in enumerate(component.get_ports_dict().items()):
-            # Initialize if needed
-            if i == 0:
-                net_component = component
             if portname in portnames:
-                # Get port layer polygons, and modify a new component without that layer
+                # Get original port layer polygons, and modify a new component without that layer
                 polygons = component.extract(layers=[port.layer]).get_polygons()
                 net_component = net_component.remove_layers(layers=[port.layer])
                 for polygon in polygons:
@@ -214,6 +215,8 @@ class LayerStack(BaseModel):
                     # Otherwise put the polygon back on the same layer
                     else:
                         net_component.add_polygon(polygon, layer=port.layer)
+
+        net_component.name = f"{component.name}_net_layers"
 
         return net_component
 
@@ -426,6 +429,16 @@ class LayerStack(BaseModel):
 
     def filtered(self, layers):
         return type(self)(layers={k: self.layers[k] for k in layers})
+
+    def filtered_from_layerspec(self, layerspecs):
+        """Filtered layerstack, given LayerSpec input."""
+        layers_to_layername = self.get_layer_to_layername()
+        layers = [
+            layers_to_layername[layer]
+            for layer in layerspecs
+            if layer in layers_to_layername
+        ]
+        return self.filtered(layers)
 
 
 if __name__ == "__main__":
