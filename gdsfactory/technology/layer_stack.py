@@ -201,6 +201,10 @@ class LayerStack(BaseModel):
         """Returns layer tuple to info dict."""
         return {level.layer: level.info for level in self.layers.values()}
 
+    def get_layer_to_layername(self) -> Dict[Tuple[int, int], str]:
+        """Returns layer tuple to layername."""
+        return {level.layer: level_name for level_name, level in self.layers.items()}
+
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 
