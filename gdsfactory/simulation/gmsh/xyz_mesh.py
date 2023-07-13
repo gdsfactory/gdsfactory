@@ -66,6 +66,9 @@ def xyz_mesh(
 
     """
     # Fuse and cleanup polygons of same layer in case user overlapped them
+    print(layerstack)
+    print(component.get_layer_names())
+
     layer_polygons_dict = cleanup_component(
         component, layerstack, round_tol, simplify_tol
     )
@@ -93,39 +96,38 @@ if __name__ == "__main__":
     from gdsfactory.pdk import get_layer_stack
     from gdsfactory.generic_tech import LAYER
 
+    # Choose some component
     c = gf.component.Component()
+    waveguide = c << gf.get_component(gf.components.straight_heater_metal(length=40))
+    c.add_ports(waveguide.get_ports_list())
 
-    waveguide = c << gf.get_component(gf.components.straight_pin(length=5, taper=None))
+    # Add wafer / vacuum (could be automated)
     wafer = c << gf.components.bbox(bbox=waveguide.bbox, layer=LAYER.WAFER)
 
-    filtered_layerstack = LayerStack(
-        layers={
-            k: get_layer_stack().layers[k]
-            for k in (
-                "slab90",
-                "core",
-                "via_contact",
-                "box",
-                "clad",
-            )
-        }
+    # Generate a new component and layerstack with new logical layers
+    layerstack = get_layer_stack()
+
+    print("init ", layerstack.layers.keys())
+
+    c = layerstack.get_component_with_net_layers(
+        c,
+        portnames=["r_e2", "l_e4"],
+        delimiter="#",
     )
 
-    filtered_layerstack.layers["core"].info["mesh_order"] = 1
-    filtered_layerstack.layers["slab90"].info["mesh_order"] = 2
-    filtered_layerstack.layers["via_contact"].info["mesh_order"] = 3
-    filtered_layerstack.layers["box"].info["mesh_order"] = 4
-    filtered_layerstack.layers["clad"].info["mesh_order"] = 5
+    print("net ", layerstack.layers.keys())
+
+    filtered_layerstack = layerstack.filtered_from_layerspec(layerspecs=c.get_layers())
+
+    print("filtered ", filtered_layerstack.layers.keys())
 
     resolutions = {
         "core": {"resolution": 0.1},
-        "slab90": {"resolution": 0.4},
-        "via_contact": {"resolution": 0.4},
     }
     geometry = xyz_mesh(
         component=c,
         layerstack=filtered_layerstack,
         resolutions=resolutions,
         filename="mesh.msh",
-        verbosity=0,
+        verbosity=5,
     )
