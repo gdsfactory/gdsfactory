@@ -12,7 +12,7 @@ From Chrostowski, L., & Hochberg, M. (2015). Silicon Photonics Design: From Devi
 from __future__ import annotations
 
 import warnings
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 import devsim
 import matplotlib.pyplot as plt
@@ -26,7 +26,9 @@ from scipy.interpolate import griddata
 from gdsfactory.simulation.disable_print import disable_print, enable_print
 from gdsfactory.simulation.gtidy3d.materials import get_nk
 from gdsfactory.simulation.gtidy3d.modes import Precision, Waveguide
-from gdsfactory.typings import MaterialSpec
+
+if TYPE_CHECKING:
+    from gdsfactory.typings import MaterialSpec
 
 nm = 1e-9
 um = 1e-6

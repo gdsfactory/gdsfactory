@@ -15,13 +15,13 @@ from typing_extensions import Literal
 from gdsfactory.config import PATH, logger
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.events import Event
-from gdsfactory.typings import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
 from gdsfactory.name import MAX_NAME_LENGTH
 from gdsfactory.read import cell_from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews
+
 from gdsfactory.typings import (
     CellSpec,
     Component,
@@ -35,6 +35,7 @@ from gdsfactory.typings import (
     LayerSpec,
     PathType,
     Transition,
+    MaterialSpec,
 )
 
 component_settings = ["function", "component", "settings"]
