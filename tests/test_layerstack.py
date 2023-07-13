@@ -22,8 +22,8 @@ def test_component_with_net_layers():
     # Check we have two new layers in the LayerStack
     assert len(layernames_after - layernames_before) == 2
 
-    # Check we have two new layers in Component
-    assert len(net_component.get_layers()) == len(net_component.get_layers()) + 2
+    # Check we have one new layer in Component (all metal3 is removed by these operations)
+    assert len(net_component.get_layers()) == len(original_component.get_layers()) + 1
 
     # Check new layer is the same as old layer, apart from layer number and name
     old_layer = LAYER_STACK.layers["metal3"]
