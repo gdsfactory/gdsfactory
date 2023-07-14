@@ -22,7 +22,7 @@ def from_updk(
 
     Args:
         filepath: uPDK filepath definition.
-        filepath_out: optional file to save.
+        filepath_out: optional filepath to save script.
     """
 
     if isinstance(filepath, (str, pathlib.Path, IO)):

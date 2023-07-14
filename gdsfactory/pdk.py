@@ -8,6 +8,7 @@ from functools import partial
 from typing import Any, Callable, Optional, Tuple, Union, List
 
 import numpy as np
+import omegaconf
 from omegaconf import DictConfig
 from pydantic import BaseModel, Field, validator
 from typing_extensions import Literal
@@ -591,6 +592,63 @@ class Pdk(BaseModel):
         material = self.materials_index[key]
         return material(*args, **kwargs) if callable(material) else material
 
+    def to_updk(self) -> str:
+        """Export to uPDK YAML definition."""
+        from gdsfactory.components.bbox import bbox_to_points
+
+        d = {}
+        blocks = {cell_name: cell() for cell_name, cell in self.cells.items()}
+        blocks = {
+            name: dict(
+                bbox=bbox_to_points(c.bbox),
+                doc=c.settings.doc.split("\n")[0],
+                parameters={
+                    sname: {
+                        "value": svalue,
+                        "type": str(svalue.__class__.__name__),
+                        "doc": None,
+                        "min": None,
+                        "max": None,
+                        "unit": None,
+                    }
+                    for sname, svalue in c.settings.full.items()
+                    if isinstance(svalue, (str, float, int))
+                },
+                pins={
+                    port_name: {
+                        "width": port.width,
+                        "xsection": port.cross_section.name
+                        if port.cross_section
+                        else None,
+                        "xya": [
+                            float(port.center[0]),
+                            float(port.center[1]),
+                            float(port.orientation),
+                        ],
+                        "alias": port.info.get("alias"),
+                        "doc": port.info.get("doc"),
+                    }
+                    for port_name, port in c.ports.items()
+                },
+            )
+            for name, c in blocks.items()
+        }
+        xsections = {
+            xs_name: self.get_cross_section(xs_name)
+            for xs_name in self.cross_sections.keys()
+        }
+        xsections = {
+            xs_name: dict(width=xsection.width)
+            for xs_name, xsection in xsections.items()
+        }
+
+        header = dict(description=self.name)
+
+        d["blocks"] = blocks
+        d["xsections"] = xsections
+        d["header"] = header
+        return omegaconf.OmegaConf.to_yaml(d)
+
     # _on_cell_registered = Event()
     # _on_container_registered: Event = Event()
     # _on_yaml_cell_registered: Event = Event()
@@ -720,14 +778,23 @@ on_yaml_cell_modified.add_handler(show)
 
 
 if __name__ == "__main__":
-    from gdsfactory.components import cells
-    from gdsfactory.cross_section import cross_sections
+    from gdsfactory.samples.pdk.fab_c import pdk
+    from gdsfactory.read.from_updk import from_updk
 
-    c = Pdk(
-        name="demo",
-        cells=cells,
-        cross_sections=cross_sections,
-        # layers=dict(DEVREC=(3, 0), PORTE=(3, 5)),
-        sparameters_path="/home",
-    )
-    print(c.json())
+    yaml_pdk_decription = pdk.to_updk()
+    gdsfactory_script = from_updk(yaml_pdk_decription)
+    print(gdsfactory_script)
+    # print(yaml_pdk_decription)
+
+    # from gdsfactory.components import cells
+    # from gdsfactory.cross_section import cross_sections
+
+    # pdk = Pdk(
+    #     name="demo",
+    #     cells=cells,
+    #     cross_sections=cross_sections,
+    # layers=dict(DEVREC=(3, 0), PORTE=(3, 5)),
+    # sparameters_path="/home",
+    # )
+    # print(pdk.json())
+    print(pdk.to_updk())

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Tuple, Union
+from typing import Tuple, Union, List
 
 from numpy import array
 
@@ -8,6 +8,26 @@ import gdsfactory as gf
 
 Float2 = Tuple[float, float]
 Coordinate = Union[Tuple[Float2, Float2], array]
+
+
+def bbox_to_points(
+    bbox,
+    top: float = 0,
+    bottom: float = 0,
+    left: float = 0,
+    right: float = 0,
+) -> List[List[float]]:
+    (xmin, ymin), (xmax, ymax) = bbox
+    xmin = float(xmin)
+    xmax = float(xmax)
+    ymin = float(ymin)
+    ymax = float(ymax)
+    return [
+        [xmin - left, ymin - bottom],
+        [xmax + right, ymin - bottom],
+        [xmax + right, ymax + top],
+        [xmin - left, ymax + top],
+    ]
 
 
 @gf.cell_without_validator
