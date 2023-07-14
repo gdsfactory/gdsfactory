@@ -20,7 +20,7 @@ def mmi1x2(
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
-    r"""Returns 1x2 MultiMode Interferometer (MMI).
+    r"""1x2 MultiMode Interferometer (MMI).
 
     Args:
         width: input and output straight width.

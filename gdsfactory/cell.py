@@ -227,6 +227,7 @@ def cell_without_validator(func: _F) -> _F:
                 info=component.info,
                 child=metadata_child,
             )
+            component.__doc__ = func.__doc__
 
         if decorator:
             if not callable(decorator):

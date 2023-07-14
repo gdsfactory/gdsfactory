@@ -1,3 +1,19 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Import PDK
 #
@@ -214,6 +230,40 @@ print(gf.write_cells.get_import_gds_script("extra/gds", module="samplepdk.compon
 # - use GIT to track changes.
 # - review your code with your colleagues and other gdsfactory developers to get feedback. This is key to get better at coding gdsfactory.
 # - get rid of any warnings you see.
+
+# %% [markdown]
+# ## Import PDK from YAML uPDK
+#
+# gdsfactory supports read and write to [uPDK YAML definition](https://openepda.org/index.html)
+#
+# Lets write a PDK into uPDK YAML definition and then convert it back to a gdsfactory script.
+#
+# the uPDK extracts the code from the docstrings.
+#
+# ```python
+#
+# def evanescent_coupler_sample() -> None:
+#     """Evanescent coupler example.
+#
+#     Args:
+#       coupler_length: length of coupling (min: 0.0, max: 200.0, um).
+#     """
+#     pass
+#
+# ```
+
+# %%
+from gdsfactory.samples.pdk.fab_c import pdk
+
+yaml_pdk_decription = pdk.to_updk()
+print(yaml_pdk_decription)
+
+
+# %%
+from gdsfactory.read.from_updk import from_updk
+
+gdsfactory_script = from_updk(yaml_pdk_decription)
+print(gdsfactory_script)
 
 # %% [markdown]
 # ## Build your own PDK

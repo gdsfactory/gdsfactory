@@ -98,6 +98,8 @@ xs_no = partial(
     add_pins=add_pins,
 )
 
+cross_sections = dict(xs_nc=xs_nc, xs_no=xs_no)
+
 
 # LEAF COMPONENTS have pins
 bend_euler_nc = partial(gf.components.bend_euler, cross_section=xs_nc, with_bbox=True)
@@ -156,6 +158,8 @@ cells = dict(
 
 LAYER_STACK = get_layer_stack_fab_c()
 SPARAMETERS_PATH = pathlib.Path.home() / "fabc"
+
+pdk = gf.Pdk(name="fab_c_demopdk", cells=cells, cross_sections=cross_sections)
 
 
 if __name__ == "__main__":
