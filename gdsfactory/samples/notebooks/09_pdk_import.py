@@ -237,6 +237,20 @@ print(gf.write_cells.get_import_gds_script("extra/gds", module="samplepdk.compon
 # gdsfactory supports read and write to [uPDK YAML definition](https://openepda.org/index.html)
 #
 # Lets write a PDK into uPDK YAML definition and then convert it back to a gdsfactory script.
+#
+# the uPDK extracts the code from the docstrings.
+#
+# ```python
+#
+# def evanescent_coupler_sample() -> None:
+#     """Evanescent coupler example.
+#
+#     Args:
+#       coupler_length: length of coupling (min: 0.0, max: 200.0, um).
+#     """
+#     pass
+#
+# ```
 
 # %%
 from gdsfactory.samples.pdk.fab_c import pdk

@@ -52,7 +52,6 @@ def get_source_code(func: Callable) -> str:
 class Settings(BaseModel):
     name: str
     function_name: Optional[str] = None
-    doc: Optional[str] = None
     module: Optional[str] = None
 
     info: Dict[str, Any] = {}  # derived properties (length, resistance)
@@ -222,13 +221,13 @@ def cell_without_validator(func: _F) -> _F:
                 name=component_name,
                 function_name=func.__name__,
                 module=func.__module__,
-                doc=func.__doc__,
                 changed=clean_dict(changed),
                 default=clean_dict(default),
                 full=clean_dict(full),
                 info=component.info,
                 child=metadata_child,
             )
+            component.__doc__ = func.__doc__
 
         if decorator:
             if not callable(decorator):

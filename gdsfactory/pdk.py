@@ -54,6 +54,61 @@ constants = {
 nm = 1e-3
 
 
+def evanescent_coupler_sample() -> None:
+    """Evanescent coupler example.
+
+    Args:
+      coupler_length: length of coupling (min: 0.0, max: 200.0, um).
+    """
+    pass
+
+
+def extract_args_from_docstring(docstring: str) -> Optional[Dict[str, Any]]:
+    """
+    This function extracts settings from a function's docstring for uPDK format.
+
+    Args:
+        docstring: The function from which to extract YAML in the docstring.
+
+    Returns:
+        settings (dict): The extracted YAML data as a dictionary.
+    """
+    args_dict = {}
+
+    docstring_lines = docstring.split("\n")
+    for line in docstring_lines:
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith("Args:"):
+            continue
+        if len(line.split(":")) != 2:
+            continue
+        name, description = line.split(":")
+        name = name.strip()
+        description_parts = description.split("(")
+        doc = description_parts[0].strip()
+        try:
+            min_max_unit = description_parts[1].strip(")").split(",")
+            min_val = float(min_max_unit[0].split(":")[1].strip())
+            max_val = float(min_max_unit[1].split(":")[1].strip())
+            unit = min_max_unit[2].strip()
+        except IndexError:
+            min_val = max_val = 0
+            unit = None
+
+        args_dict[name] = {
+            "doc": doc,
+            "min": min_val,
+            "max": max_val,
+            "type": "float",
+            "unit": unit,
+            "value": (min_val + max_val) / 2,  # setting default value as the midpoint
+        }
+
+    return args_dict
+
+
 class GdsWriteSettings(BaseModel):
     """Settings to use when writing to GDS."""
 
@@ -601,15 +656,24 @@ class Pdk(BaseModel):
         blocks = {
             name: dict(
                 bbox=bbox_to_points(c.bbox),
-                doc=c.settings.doc.split("\n")[0],
+                doc=c.__doc__.split("\n")[0],
+                settings=extract_args_from_docstring(c.__doc__),
                 parameters={
                     sname: {
                         "value": svalue,
                         "type": str(svalue.__class__.__name__),
-                        "doc": None,
-                        "min": None,
-                        "max": None,
-                        "unit": None,
+                        "doc": extract_args_from_docstring(c.__doc__)
+                        .get(sname, {})
+                        .get("doc", None),
+                        "min": extract_args_from_docstring(c.__doc__)
+                        .get(sname, {})
+                        .get("min", 0),
+                        "max": extract_args_from_docstring(c.__doc__)
+                        .get(sname, {})
+                        .get("max", 0),
+                        "unit": extract_args_from_docstring(c.__doc__)
+                        .get(sname, {})
+                        .get("unit", None),
                     }
                     for sname, svalue in c.settings.full.items()
                     if isinstance(svalue, (str, float, int))

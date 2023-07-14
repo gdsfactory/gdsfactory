@@ -106,5 +106,4 @@ if __name__ == "__main__":
     if filepath_out:
         filepath_out = pathlib.Path(filepath_out)
         filepath_out.write_text(script)
-
-    print(script)
+    return script
