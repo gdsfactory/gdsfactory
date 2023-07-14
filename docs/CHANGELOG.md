@@ -1,6 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.113.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.114.0...main)
+
+## [6.114.0](https://github.com/gdsfactory/gdsfactory/compare/v6.114.0...v6.113.0)
+
+- add uPDK support [PR](https://github.com/gdsfactory/gdsfactory/pull/1862)
+- fix font [PR](https://github.com/gdsfactory/gdsfactory/pull/1854)
+- update meow and tidy3d
 
 ## [6.113.0](https://github.com/gdsfactory/gdsfactory/compare/v6.113.0...v6.112.0)
 
