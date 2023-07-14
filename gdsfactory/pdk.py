@@ -28,7 +28,7 @@ from gdsfactory.typings import (
     ComponentFactory,
     ComponentSpec,
     CrossSection,
-    CrossSectionFactory,
+    CrossSectionOrFactory,
     CrossSectionSpec,
     Dict,
     Layer,
@@ -193,7 +193,7 @@ class Pdk(BaseModel):
     """
 
     name: str
-    cross_sections: Dict[str, CrossSectionFactory] = Field(default_factory=dict)
+    cross_sections: Dict[str, CrossSectionOrFactory] = Field(default_factory=dict)
     cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
     symbols: Dict[str, ComponentFactory] = Field(default_factory=dict)
     default_symbol_factory: Callable = floorplan_with_block_letters
@@ -513,8 +513,8 @@ class Pdk(BaseModel):
             if cross_section not in self.cross_sections:
                 cross_sections = list(self.cross_sections.keys())
                 raise ValueError(f"{cross_section!r} not in {cross_sections}")
-            cross_section_factory = self.cross_sections[cross_section]
-            return cross_section_factory(**kwargs)
+            xs = self.cross_sections[cross_section]
+            return xs(**kwargs) if callable(xs) else xs
         elif isinstance(cross_section, (dict, DictConfig)):
             for key in cross_section.keys():
                 if key not in cross_section_settings:

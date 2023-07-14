@@ -1416,13 +1416,16 @@ class Component(_GeometryHelper):
     def add_pins_triangle(
         self,
         port_marker_layer: Layer = (1, 10),
+        layer_label: Layer = (1, 10),
     ) -> Component:
         """Returns component with triangular pins."""
         from gdsfactory.add_pins import add_pins_triangle
 
         component = self.copy()
         component.name = self.name
-        add_pins_triangle(component=component, layer=port_marker_layer)
+        add_pins_triangle(
+            component=component, layer=port_marker_layer, layer_label=layer_label
+        )
         return component
 
     def plot_widget(
@@ -1779,7 +1782,9 @@ class Component(_GeometryHelper):
         from gdsfactory.show import show
 
         component = (
-            self.add_pins_triangle(port_marker_layer=port_marker_layer)
+            self.add_pins_triangle(
+                port_marker_layer=port_marker_layer, layer_label=port_marker_layer
+            )
             if show_ports
             else self
         )
@@ -1793,6 +1798,7 @@ class Component(_GeometryHelper):
                         component=component,
                         reference=reference,
                         layer=port_marker_layer,
+                        layer_label=port_marker_layer,
                     )
 
         show(component, **kwargs)
