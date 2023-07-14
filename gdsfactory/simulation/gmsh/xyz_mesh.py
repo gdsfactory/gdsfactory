@@ -1,13 +1,18 @@
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict, Optional, Sequence
 
 import numpy as np
+from shapely.geometry import Polygon
+from shapely.ops import unary_union
 
 from gdsfactory.simulation.gmsh.parse_component import bufferize
 from gdsfactory.simulation.gmsh.parse_gds import cleanup_component
-from gdsfactory.simulation.gmsh.parse_layerstack import order_layerstack
-from gdsfactory.technology import LayerStack
+from gdsfactory.simulation.gmsh.parse_layerstack import (
+    order_layerstack,
+    list_unique_layerstack_z,
+)
+from gdsfactory.technology import LayerStack, LayerLevel
 from gdsfactory.typings import ComponentOrReference
 
 from meshwell.prism import Prism
@@ -46,6 +51,8 @@ def xyz_mesh(
     layerstack: LayerStack,
     resolutions: Optional[Dict] = None,
     default_characteristic_length: float = 0.5,
+    background_tag: Optional[str] = None,
+    background_padding: Sequence[float, float, float, float, float, float] = (2.0,) * 6,
     global_scaling: float = 1,
     global_2D_algorithm: int = 6,
     global_3D_algorithm: int = 1,
@@ -57,22 +64,55 @@ def xyz_mesh(
     """Full 3D mesh of component.
 
     Args:
-        component (Component): gdsfactory component to mesh
-        layerstack (LayerStack): gdsfactory LayerStack to parse
-        resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}} to roughly control mesh refinement
-        default_characteristic_length (float): gmsh maximum edge length
+        component: gdsfactory component to mesh
+        layerstack: gdsfactory LayerStack to parse
+        resolutions: Pairs {"layername": {"resolution": float, "distance": "float}} to roughly control mesh refinement
+        default_characteristic_length: gmsh maximum edge length
+        background_tag: name of the background layer to add (default: no background added). This will be used as the material as well.
+        background_padding: [-x, -y, -z, +x, +y, +z] distances to add to the components and to fill with ``background_tag``
         global_scaling: factor to scale all mesh coordinates by (e.g. 1E-6 to go from um to m)
         global_2D_algorithm: gmsh surface default meshing algorithm, see https://gmsh.info/doc/texinfo/gmsh.html#Mesh-options
         global_3D_algorithm: gmsh volume default meshing algorithm, see https://gmsh.info/doc/texinfo/gmsh.html#Mesh-options
-        filename (str, path): where to save the .msh file
+        filename: where to save the .msh file
         round_tol: during gds --> mesh conversion cleanup, number of decimal points at which to round the gdsfactory/shapely points before introducing to gmsh
         simplify_tol: during gds --> mesh conversion cleanup, shapely "simplify" tolerance (make it so all points are at least separated by this amount)
-
     """
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_polygons_dict = cleanup_component(
         component, layerstack, round_tol, simplify_tol
     )
+
+    # Add background polygon
+    if background_tag is not None:
+        bbox = unary_union(list(layer_polygons_dict.values()))
+        bounds = bbox.bounds
+
+        # get min and max z values in LayerStack
+        zs = list_unique_layerstack_z(layerstack)
+        zmin, zmax = np.min(zs), np.max(zs)
+
+        # create Polygon encompassing simulation environment
+        layer_polygons_dict[background_tag] = Polygon(
+            [
+                [bounds[0] - background_padding[0], bounds[1] - background_padding[1]],
+                [bounds[0] - background_padding[0], bounds[3] + background_padding[4]],
+                [bounds[2] + background_padding[3], bounds[3] + background_padding[4]],
+                [bounds[2] + background_padding[3], bounds[1] - background_padding[1]],
+            ]
+        )
+        layerstack = LayerStack(
+            layers=layerstack.layers
+            | {
+                background_tag: LayerLevel(
+                    layer=(99, 99),  # TODO something like LAYERS.BACKGROUND?
+                    thickness=(zmax + background_padding[5])
+                    - (zmin - background_padding[2]),
+                    zmin=zmin - background_padding[2],
+                    material=background_tag,
+                    mesh_order=2**63 - 1,
+                )
+            }
+        )
 
     # Meshwell Prisms from gdsfactory polygons and layerstack
     model = Model()
