@@ -1672,7 +1672,7 @@ class Component(_GeometryHelper):
             Holoviews Overlay to display all polygons.
         """
         from gdsfactory.add_pins import get_pin_triangle_polygon_tip
-        from gdsfactory.generic_tech import LAYER_VIEWS
+        from gdsfactory.pdk import get_layer_views
 
         warnings.warn(
             "holoviews plotter is deprecated. "
@@ -1681,7 +1681,7 @@ class Component(_GeometryHelper):
         )
 
         if layer_views is None:
-            layer_views = LAYER_VIEWS
+            layer_views = get_layer_views()
 
         try:
             import holoviews as hv
