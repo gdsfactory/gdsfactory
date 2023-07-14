@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 from gdsfactory.technology.layer_views import LayerViews
+import copy
 
 
 class LayerLevel(BaseModel):
@@ -173,6 +174,50 @@ class LayerStack(BaseModel):
         component_derived.name = f"{component.name}_derived_layers"
         return component_derived
 
+    def get_component_with_net_layers(
+        self,
+        component,
+        portnames: List[str],
+        delimiter: str = "#",
+        new_layers_init: Tuple[int, int] = (10000, 10),
+    ):
+        """Returns component with new layers that combine port names and original layers, and modifies the layerstack accordingly.
+
+        Uses port's "layer" attribute to decide which polygons need to be renamed. New layers are named "layername{delimiter}portname".
+
+        Arguments
+            component: to process
+            portnames: list of portnames to process into new layers.
+            delimiter: the new layer created is called "layername{delimiter}portname"
+            new_layers_init: layer numbers for the temporary new layers. Purpose is incremented.
+        """
+        import gdstk
+
+        # Initialize returned component
+        net_component = component.copy()
+
+        # For each port to consider, convert relevant polygons
+        for i, portname in enumerate(portnames):
+            port = component.ports[portname]
+            # Get original port layer polygons, and modify a new component without that layer
+            polygons = net_component.extract(layers=[port.layer]).get_polygons()
+            net_component = net_component.remove_layers(layers=[port.layer])
+            for polygon in polygons:
+                # If polygon belongs to port, create a unique new layer, and add the polygon to it
+                if gdstk.inside([port.center], gdstk.Polygon(polygon))[0]:
+                    old_layername = self.get_layer_to_layername()[port.layer]
+                    new_layer = copy.deepcopy(self.layers[old_layername])
+                    new_layer.layer = (new_layers_init[0], new_layers_init[1] + i)
+                    self.layers[f"{old_layername}{delimiter}{portname}"] = new_layer
+                    net_component.add_polygon(polygon, layer=new_layer.layer)
+                # Otherwise put the polygon back on the same layer
+                else:
+                    net_component.add_polygon(polygon, layer=port.layer)
+
+        net_component.name = f"{component.name}_net_layers"
+
+        return net_component
+
     def get_layer_to_zmin(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to z min position (um)."""
         return {
@@ -198,6 +243,10 @@ class LayerStack(BaseModel):
     def get_layer_to_info(self) -> Dict[Tuple[int, int], Dict]:
         """Returns layer tuple to info dict."""
         return {level.layer: level.info for level in self.layers.values()}
+
+    def get_layer_to_layername(self) -> Dict[Tuple[int, int], str]:
+        """Returns layer tuple to layername."""
+        return {level.layer: level_name for level_name, level in self.layers.items()}
 
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
@@ -379,9 +428,36 @@ class LayerStack(BaseModel):
     def filtered(self, layers):
         return type(self)(layers={k: self.layers[k] for k in layers})
 
+    def filtered_from_layerspec(self, layerspecs):
+        """Filtered layerstack, given LayerSpec input."""
+        layers_to_layername = self.get_layer_to_layername()
+        layers = [
+            layers_to_layername[layer]
+            for layer in layerspecs
+            if layer in layers_to_layername
+        ]
+        return self.filtered(layers)
+
 
 if __name__ == "__main__":
-    from gdsfactory.config import PATH
+    import gdsfactory as gf
+    from gdsfactory.generic_tech import get_generic_pdk
+
+    PDK = get_generic_pdk()
+    PDK.activate()
+
+    from gdsfactory.generic_tech import LAYER_STACK
+
+    layer_stack = LAYER_STACK
+
+    # c = gf.components.straight_heater_metal()
+
+    c = layer_stack.get_component_with_net_layers(
+        gf.components.straight_heater_metal(), portnames=["r_e2", "l_e4"]
+    )
+    print(layer_stack.layers.keys())
+
+    c.show()
 
     # import gdsfactory as gf
     # from gdsfactory.generic_tech import LAYER_STACK
@@ -399,22 +475,22 @@ if __name__ == "__main__":
     # )
     # ls_json = filepath.read_bytes()
     # ls2 = LayerStack.parse_raw(ls_json)
-    from gdsfactory.generic_tech import LAYER_STACK
-    from gdsfactory.technology.klayout_tech import KLayoutTechnology
+    # from gdsfactory.generic_tech import LAYER_STACK
+    # from gdsfactory.technology.klayout_tech import KLayoutTechnology
 
-    lyp = LayerViews.from_lyp(str(PATH.klayout_lyp))
+    # lyp = LayerViews.from_lyp(str(PATH.klayout_lyp))
 
-    # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
-    # new_tech = db.Technology.technology_from_xml(str_xml)
-    # generic_tech = KLayoutTechnology(layer_views=lyp)
-    connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
+    # # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
+    # # new_tech = db.Technology.technology_from_xml(str_xml)
+    # # generic_tech = KLayoutTechnology(layer_views=lyp)
+    # connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
 
-    c = generic_tech = KLayoutTechnology(
-        name="generic_tech", layer_views=lyp, connectivity=connectivity
-    )
-    tech_dir = PATH.klayout_tech
-    # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
-    tech_dir.mkdir(exist_ok=True, parents=True)
-    generic_tech.write_tech(tech_dir=tech_dir, layer_stack=LAYER_STACK)
+    # c = generic_tech = KLayoutTechnology(
+    #     name="generic_tech", layer_views=lyp, connectivity=connectivity
+    # )
+    # tech_dir = PATH.klayout_tech
+    # # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
+    # tech_dir.mkdir(exist_ok=True, parents=True)
+    # generic_tech.write_tech(tech_dir=tech_dir, layer_stack=LAYER_STACK)
 
     # yaml_test()
