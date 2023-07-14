@@ -4,6 +4,7 @@ from typing import Dict, Optional
 
 import numpy as np
 
+from gdsfactory.config import get_number_of_cores
 from gdsfactory.simulation.gmsh.parse_component import bufferize
 from gdsfactory.simulation.gmsh.parse_gds import cleanup_component
 from gdsfactory.simulation.gmsh.parse_layerstack import order_layerstack
@@ -53,6 +54,7 @@ def xyz_mesh(
     verbosity: Optional[int] = 0,
     round_tol: int = 3,
     simplify_tol: float = 1e-3,
+    n_threads: int = get_number_of_cores(),
 ) -> bool:
     """Full 3D mesh of component.
 
@@ -75,7 +77,7 @@ def xyz_mesh(
     )
 
     # Meshwell Prisms from gdsfactory polygons and layerstack
-    model = Model()
+    model = Model(n_threads=n_threads)
     prisms_dict = define_prisms(layer_polygons_dict, layerstack, model)
 
     # Mesh
