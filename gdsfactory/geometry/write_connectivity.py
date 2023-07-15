@@ -26,7 +26,7 @@ def write_connectivity_checks(
     pin_layer: Layer,
     pin_length: float = 1 * nm,
     device_layer: LayerSpec = "DEVREC",
-):
+) -> str:
     """Return script for port connectivity check.
     Assumes the port pins are inside the Component.
 
