@@ -810,7 +810,7 @@ def round_corners(
         )
 
     # ensure bend connectivity
-    for i, point in enumerate(points[:-1]):
+    for i, point in enumerate(points[: len(points) // 2 - 1]):
         print(bend_points[2 * i + 1])
         sx = np.sign(points[i + 1][0] - point[0])
         sy = np.sign(points[i + 1][1] - point[1])
