@@ -2915,7 +2915,7 @@ def test_import_gds_settings() -> None:
     import gdsfactory as gf
 
     c = gf.components.mzi()
-    gdspath = c.write_gds_with_metadata()
+    gdspath = c.write_gds(with_metadata=True)
     c2 = gf.import_gds(gdspath, name="mzi_sample", read_metadata=True)
     c3 = gf.routing.add_fiber_single(c2)
     assert c3

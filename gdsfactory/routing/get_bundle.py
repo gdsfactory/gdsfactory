@@ -709,7 +709,6 @@ get_bundle_electrical_multilayer = partial(
 )
 
 
-@gf.cell
 def test_get_bundle_small() -> None:
     c = gf.Component()
     c1 = c << gf.components.mmi2x2()
