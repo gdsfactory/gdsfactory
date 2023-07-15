@@ -20,9 +20,6 @@ def get_layer_stack() -> LayerStack:
     return GenericLayerStack()
 
 
-LAYER_STACK = get_layer_stack()
-
-
 def test_valid_component() -> None:
     c = gf.components.rectangle()
     scene = to_3d(c)
