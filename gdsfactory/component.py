@@ -408,7 +408,9 @@ class Component(kf.KCell):
         c._locked = False
         return c
 
-    def create_inst(self, cell: kf.KCell, trans: kdb.Trans = kdb.Trans()) -> Instance:
+    def create_inst(  # type: ignore[override]
+        self, cell: kf.KCell | Route, trans: kdb.Trans = kdb.Trans()
+    ) -> Instance:
         """Add an instance of another KCell.
 
         Args:
@@ -420,24 +422,34 @@ class Component(kf.KCell):
         """
         from gdsfactory.pdk import get_layer
 
-        ca = (
-            self.insert(kdb.CellInstArray(cell._kdb_cell, trans))
-            if not isinstance(cell, Label)
-            else kf.Instance(
-                self.kcl,
-                self.kcl.insert(
-                    self._kdb_cell.cell_index(),
-                    self.kcl.layer(get_layer("TEXT")[0], get_layer("TEXT")[1]),
-                    kdb.Texts([cell.to_Text()]),
-                ),
+        if isinstance(cell, kf.KCell):
+            ca = (
+                self.insert(kdb.CellInstArray(cell._kdb_cell, trans))
+                if not isinstance(cell, Label)
+                else kf.Instance(
+                    self.kcl,
+                    self.kcl.insert(
+                        self._kdb_cell.cell_index(),
+                        self.kcl.layer(get_layer("TEXT")[0], get_layer("TEXT")[1]),
+                        kdb.Texts([cell.to_Text()]),
+                    ),
+                )
             )
-        )
-        kcl = cell.kcl if not isinstance(cell, Label) else self.kcl
-        inst = Instance(kcl, ca)
-        self.insts.append(inst)
+            kcl = cell.kcl if not isinstance(cell, Label) else self.kcl
+            inst = Instance(kcl, ca)
+            self.insts.append(inst)
+        else:
+            # parent = cell.references[0].cell()
+            # self.
+            assert self.layout() == cell.references[0].cell.layout()
+            breakpoint()
+            for inst in cell.references:
+                ca = self._kdb_cell.insert(inst.cell_inst)
+                inst = Instance(self.kcl, ca)
+                self.insts.append(inst)
         return inst
 
-    def __lshift__(self, cell: kf.KCell) -> Instance:
+    def __lshift__(self, cell: kf.KCell | list[kf.KCell]) -> Instance:
         """Convenience function for :py:attr:"~create_inst(cell)`.
 
         Args:
