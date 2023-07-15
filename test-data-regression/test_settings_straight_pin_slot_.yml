@@ -148,6 +148,8 @@ settings:
     via_stack_slab:
       function: via_stack_slot
       settings:
+        layer_offsets:
+        - 0
         layers:
         - M1
         via:
@@ -185,6 +187,8 @@ settings:
     via_stack_slab:
       function: via_stack_slot
       settings:
+        layer_offsets:
+        - 0
         layers:
         - M1
         via:
