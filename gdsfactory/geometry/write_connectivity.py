@@ -37,6 +37,7 @@ def write_connectivity_checks(
         device_layer: device recognizion layer.
     """
     device_layer = gf.get_layer(device_layer)
+    pin_layer = gf.get_layer(pin_layer)
 
     script = f"""pin = input{pin_layer}
 pin = pin.merged\n
