@@ -318,7 +318,7 @@ def fill_rectangle_custom(
     return F
 
 
-def test_fill():
+def test_fill() -> None:
     import gdsfactory as gf
     from gdsfactory.difftest import difftest
 
@@ -335,7 +335,6 @@ def test_fill():
     )
     c << fill
     difftest(c, test_name="fill")
-    return c
 
 
 if __name__ == "__main__":

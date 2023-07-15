@@ -15,8 +15,7 @@ RAD2DEG = 1 / DEG2RAD
 O2D = {0: "East", 180: "West", 90: "North", 270: "South"}
 
 
-@cell
-def test_manhattan() -> Component:
+def test_manhattan() -> None:
     top_cell = Component()
     layer = (1, 0)
 
@@ -57,11 +56,9 @@ def test_manhattan() -> Component:
 
         top_cell.add(route.references)
         assert np.isclose(route.length, length), route.length
-    return top_cell
 
 
-@cell
-def test_manhattan_pass() -> Component:
+def test_manhattan_pass() -> None:
     waypoints = [
         [10.0, 0.0],
         [20.0, 0.0],
@@ -73,11 +70,9 @@ def test_manhattan_pass() -> Component:
     route = round_corners(waypoints, radius=5)
     c = Component()
     c.add(route.references)
-    return c
 
 
-@cell
-def test_manhattan_fail() -> Component:
+def test_manhattan_fail() -> None:
     waypoints = [
         [10.0, 0.0],
         [20.0, 0.0],
@@ -90,7 +85,6 @@ def test_manhattan_fail() -> Component:
         route = round_corners(waypoints, radius=10.0, with_point_markers=False)
     c = Component()
     c.add(route.references)
-    return c
 
 
 @cell
@@ -110,12 +104,9 @@ def _demo_manhattan_fail() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_manhattan_fail()
-    # c = test_manhattan_pass()
-    # c = _demo_manhattan_fail()
-    # c = gf.components.straight()
-    # c = gf.routing.add_fiber_array(c)
-    # c = gf.components.delay_snake()
+    # test_manhattan_fail()
+    # test_manhattan_pass()
+    c = _demo_manhattan_fail()
     c.show(show_ports=True)
 
     # c = gf.Component("pads_route_from_steps")

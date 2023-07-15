@@ -6,7 +6,7 @@ ports:
     - 50.0
     layer: WG
     name: o1
-    orientation: 270
+    orientation: 270.0
     port_type: optical
     shear_angle: null
     width: 0.5
@@ -16,7 +16,7 @@ ports:
     - 50.0
     layer: WG
     name: o2
-    orientation: 270
+    orientation: 270.0
     port_type: optical
     shear_angle: null
     width: 0.5

@@ -458,14 +458,13 @@ def spiral_racetrack_heater_doped(
     return c
 
 
-def test_length_spiral_racetrack():
+def test_length_spiral_racetrack() -> None:
     import numpy as np
 
     length = 1000
     c = spiral_racetrack_fixed_length(length=length, cross_section="strip_no_pins")
     length_computed = c.area() / 0.5
     np.isclose(length, length_computed)
-    return c
 
 
 @gf.cell
