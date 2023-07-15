@@ -5,7 +5,7 @@ https://openepda.org/index.html
 
 from __future__ import annotations
 
-from typing import IO, Tuple, Optional
+from typing import IO, Tuple, Optional, List
 import io
 import pathlib
 from omegaconf import OmegaConf
@@ -17,13 +17,21 @@ def from_updk(
     filepath: PathType,
     filepath_out: Optional[PathType] = None,
     layer_bbox: Tuple[int, int] = (68, 0),
+    optical_xsections: Optional[List[str]] = None,
+    electrical_xsections: Optional[List[str]] = None,
 ) -> str:
     """Read uPDK definition and returns a gdsfactory script.
 
     Args:
         filepath: uPDK filepath definition.
-        filepath_out: optional filepath to save script.
+        filepath_out: optional filepath to save script. if None only returns script and does not save it.
+        layer_bbox: layer to draw bounding boxes.
+        optical_xsections: Optional list of names of xsections that will add optical ports.
+        electrical_xsections: Optional list of names of xsections that will add electrical ports.
     """
+
+    optical_xsections = optical_xsections or []
+    electrical_xsections = electrical_xsections or []
 
     if isinstance(filepath, (str, pathlib.Path, IO)):
         filepath = (
@@ -87,8 +95,11 @@ def {block_name}({parameters_string})->gf.Component:
 """
 
         for port_name, port in block.pins.items():
+            port_type = (
+                "electrical" if port.xsection in electrical_xsections else "optical"
+            )
             script += f"""
-    c.add_port(name={port_name!r}, width={port.width}, cross_section={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]})"""
+    c.add_port(name={port_name!r}, width={port.width}, cross_section={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})"""
 
         script += """
     return c
