@@ -35,7 +35,6 @@ from gdsfactory.component_layout import (
 )
 from gdsfactory.component_reference import ComponentReference, SizeInfo
 from gdsfactory.config import CONF, GDSDIR_TEMP, logger
-from gdsfactory.cross_section import CrossSection
 from gdsfactory.generic_tech import LAYER
 from gdsfactory.port import (
     Port,
@@ -61,6 +60,7 @@ if TYPE_CHECKING:
         Layers,
         LayerSpec,
         Coordinate,
+        CrossSectionSpec,
     )
 
 valid_plotters = [
@@ -865,7 +865,7 @@ class Component(_GeometryHelper):
         port: Optional[Port] = None,
         layer: Optional[LayerSpec] = None,
         port_type: Optional[str] = None,
-        cross_section: Optional[CrossSection] = None,
+        cross_section: Optional[CrossSectionSpec] = None,
     ) -> Port:
         """Add port to component.
 
