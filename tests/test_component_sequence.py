@@ -12,7 +12,7 @@ sequences = ["ABHBA", "!HH", "AB", "HH!", "H"]
 @pytest.mark.parametrize("index", range(len(sequences)))
 def test_component_from_sequence(
     index: int, data_regression: DataRegressionFixture, check: bool = True
-) -> gf.Component:
+) -> None:
     bend180 = gf.components.bend_circular180()
     wg_pin = gf.components.straight_pin(length=40)
     wg = gf.components.straight()
@@ -33,9 +33,7 @@ def test_component_from_sequence(
     difftest(c)
     if check:
         data_regression.check(c.to_dict())
-    return c
 
 
 if __name__ == "__main__":
-    c = test_component_from_sequence(1, None, False)
-    c.show()
+    test_component_from_sequence(1, None, False)

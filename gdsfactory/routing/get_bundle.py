@@ -18,7 +18,6 @@ import numpy as np
 from numpy import ndarray
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.via_corner import via_corner
@@ -710,8 +709,7 @@ get_bundle_electrical_multilayer = partial(
 )
 
 
-@gf.cell
-def test_get_bundle_small() -> Component:
+def test_get_bundle_small() -> None:
     c = gf.Component()
     c1 = c << gf.components.mmi2x2()
     c2 = c << gf.components.mmi2x2()
@@ -726,18 +724,9 @@ def test_get_bundle_small() -> Component:
     for route in routes:
         c.add(route.references)
         assert np.isclose(route.length, 111.136), route.length
-    return c
 
 
 if __name__ == "__main__":
-    # c = test_connect_corner(None, check=False)
-    # c = test_get_bundle_small()
-    # c = test_get_bundle_small()
-    # c = test_facing_ports()
-    # c = test_get_bundle_u_indirect()
-    # c = test_get_bundle_udirect()
-    # c = test_connect_corner()
-
     import gdsfactory as gf
 
     # c = gf.Component("get_bundle_none_orientation")

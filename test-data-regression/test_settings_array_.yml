@@ -8,7 +8,7 @@ ports:
     - 49
     - 0
     name: e1_1_1
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -20,7 +20,7 @@ ports:
     - 49
     - 0
     name: e1_1_2
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -32,7 +32,7 @@ ports:
     - 49
     - 0
     name: e1_1_3
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -44,7 +44,7 @@ ports:
     - 49
     - 0
     name: e1_1_4
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -56,7 +56,7 @@ ports:
     - 49
     - 0
     name: e1_1_5
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -68,7 +68,7 @@ ports:
     - 49
     - 0
     name: e1_1_6
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -80,7 +80,7 @@ ports:
     - 49
     - 0
     name: e2_1_1
-    orientation: 90
+    orientation: 90.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -92,7 +92,7 @@ ports:
     - 49
     - 0
     name: e2_1_2
-    orientation: 90
+    orientation: 90.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -104,7 +104,7 @@ ports:
     - 49
     - 0
     name: e2_1_3
-    orientation: 90
+    orientation: 90.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -116,7 +116,7 @@ ports:
     - 49
     - 0
     name: e2_1_4
-    orientation: 90
+    orientation: 90.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -128,7 +128,7 @@ ports:
     - 49
     - 0
     name: e2_1_5
-    orientation: 90
+    orientation: 90.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -140,7 +140,7 @@ ports:
     - 49
     - 0
     name: e2_1_6
-    orientation: 90
+    orientation: 90.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -224,7 +224,7 @@ ports:
     - 49
     - 0
     name: e4_1_1
-    orientation: 270
+    orientation: 270.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -236,7 +236,7 @@ ports:
     - 49
     - 0
     name: e4_1_2
-    orientation: 270
+    orientation: 270.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -248,7 +248,7 @@ ports:
     - 49
     - 0
     name: e4_1_3
-    orientation: 270
+    orientation: 270.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -260,7 +260,7 @@ ports:
     - 49
     - 0
     name: e4_1_4
-    orientation: 270
+    orientation: 270.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -272,7 +272,7 @@ ports:
     - 49
     - 0
     name: e4_1_5
-    orientation: 270
+    orientation: 270.0
     port_type: electrical
     shear_angle: null
     width: 100.0
@@ -284,7 +284,7 @@ ports:
     - 49
     - 0
     name: e4_1_6
-    orientation: 270
+    orientation: 270.0
     port_type: electrical
     shear_angle: null
     width: 100.0

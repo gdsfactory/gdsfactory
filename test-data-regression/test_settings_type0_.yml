@@ -8,7 +8,7 @@ ports:
     - 1
     - 0
     name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-loopback0
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
@@ -20,7 +20,7 @@ ports:
     - 1
     - 0
     name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-loopback1
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
@@ -32,7 +32,7 @@ ports:
     - 1
     - 0
     name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-o1
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
@@ -44,7 +44,7 @@ ports:
     - 1
     - 0
     name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-o2
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
@@ -56,7 +56,7 @@ ports:
     - 1
     - 0
     name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-o3
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
@@ -68,7 +68,7 @@ ports:
     - 1
     - 0
     name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p99-o4
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5

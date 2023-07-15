@@ -158,14 +158,12 @@ straight_heater_metal_undercut_90_90 = partial(
 )
 
 
-def test_ports():
+def test_ports() -> None:
     c = straight_heater_metal(length=50.0)
     assert c.ports["o2"].center[0] == 50.0, c.ports["o2"].center[0]
-    return c
 
 
 if __name__ == "__main__":
-    # c = test_ports()
     # c = straight_heater_metal_undercut()
     # print(c.ports['o2'].center[0])
     # c.pprint_ports()

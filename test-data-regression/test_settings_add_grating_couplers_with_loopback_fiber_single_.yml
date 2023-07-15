@@ -8,7 +8,7 @@ ports:
     - 1
     - 0
     name: loopback1
-    orientation: 270
+    orientation: 270.0
     port_type: loopback
     shear_angle: null
     width: 0.5
@@ -20,7 +20,7 @@ ports:
     - 1
     - 0
     name: loopback2
-    orientation: 90
+    orientation: 90.0
     port_type: loopback
     shear_angle: null
     width: 0.5
@@ -32,7 +32,7 @@ ports:
     - 1
     - 0
     name: o1
-    orientation: 270
+    orientation: 270.0
     port_type: optical
     shear_angle: null
     width: 0.5
@@ -44,7 +44,7 @@ ports:
     - 1
     - 0
     name: o2
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5

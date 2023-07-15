@@ -69,7 +69,7 @@ def get_routes_bend180(
     return Routes(references=references, ports=ports, lengths=lengths)
 
 
-def test_get_routes_bend180():
+def test_get_routes_bend180() -> None:
     c = gf.Component("get_routes_bend180")
     pad_array = gf.components.pad_array(orientation=270)
     c1 = c << pad_array
@@ -91,7 +91,6 @@ def test_get_routes_bend180():
     for route in routes:
         c.add(route.references)
     difftest(c)
-    return c
 
 
 if __name__ == "__main__":

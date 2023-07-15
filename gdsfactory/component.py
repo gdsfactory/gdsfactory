@@ -833,10 +833,31 @@ class Component(_GeometryHelper):
             print(yaml.dump(self.to_dict()))
 
     def pprint_ports(self) -> None:
-        """Prints component netlists."""
+        """Prints ports in a rich table."""
+        from rich.table import Table
+        from rich.console import Console
+
+        console = Console()
+
+        table = Table(show_header=True, header_style="bold")
         ports_list = self.get_ports_list()
+        if not ports_list:
+            return
+        p0 = ports_list[0]
+        filtered_dict = {
+            key: value for key, value in p0.to_dict().items() if value is not None
+        }
+        keys = filtered_dict.keys()
+
+        for key in keys:
+            table.add_column(key)
+
         for port in ports_list:
-            print(port)
+            port_dict = port.to_dict()
+            row = [str(port_dict.get(key, "")) for key in keys]
+            table.add_row(*row)
+
+        console.print(table)
 
     @property
     def metadata_child(self) -> Dict:
@@ -866,6 +887,7 @@ class Component(_GeometryHelper):
         layer: Optional[LayerSpec] = None,
         port_type: Optional[str] = None,
         cross_section: Optional[CrossSectionSpec] = None,
+        shear_angle: Optional[float] = None,
     ) -> Port:
         """Add port to component.
 
@@ -883,8 +905,9 @@ class Component(_GeometryHelper):
             layer: port layer.
             port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm. Defaults to optical.
             cross_section: port cross_section.
+            shear_angle: an optional angle to shear port face in degrees.
         """
-        from gdsfactory.pdk import get_layer
+        from gdsfactory.pdk import get_layer, get_cross_section
 
         layer = get_layer(layer)
 
@@ -922,7 +945,9 @@ class Component(_GeometryHelper):
                 parent=self,
                 layer=layer,
                 port_type=port_type or "optical",
-                cross_section=cross_section,
+                cross_section=get_cross_section(cross_section)
+                if cross_section
+                else None,
             )
         if name is not None:
             p.name = name
@@ -2890,7 +2915,7 @@ def test_import_gds_settings() -> None:
     import gdsfactory as gf
 
     c = gf.components.mzi()
-    gdspath = c.write_gds_with_metadata()
+    gdspath = c.write_gds(with_metadata=True)
     c2 = gf.import_gds(gdspath, name="mzi_sample", read_metadata=True)
     c3 = gf.routing.add_fiber_single(c2)
     assert c3
@@ -2899,10 +2924,13 @@ def test_import_gds_settings() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component()
-    p = c.add_polygon(
-        [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
-    )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
-    c.write_gds("hi.gds")
-    c.show()
-    print(CONF.last_saved_files)
+    c = gf.c.mzi()
+    c.pprint_ports()
+
+    # c = gf.Component()
+    # p = c.add_polygon(
+    #     [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
+    # )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
+    # c.write_gds("hi.gds")
+    # c.show()
+    # print(CONF.last_saved_files)

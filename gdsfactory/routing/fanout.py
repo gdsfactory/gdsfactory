@@ -57,7 +57,7 @@ def fanout_component(
     ports1 = [p for p in ref.ports.values() if p.name in port_names]
     port = ports1[0]
     port_extended_x = port.get_extended_center(dx)[0]
-    port_settings = port.settings.copy()
+    port_settings = port.to_dict().copy()
 
     port_settings.pop("name")
     port_settings.update(center=(port_extended_x, 0))
@@ -101,7 +101,7 @@ def fanout_ports(
     ports1 = ports
     port = ports1[0]
     port_extended_x = port.get_extended_center(dx)[0]
-    port_settings = port.settings.copy()
+    port_settings = port.to_dict().copy()
 
     port_settings.pop("name")
     port_settings.update(center=(port_extended_x, 0))
@@ -114,7 +114,7 @@ def fanout_ports(
     return routes
 
 
-def test_fanout_ports() -> Component:
+def test_fanout_ports() -> None:
     c = gf.components.mmi2x2()
     ports = c.get_ports_dict(orientation=0)
     port_names = list(ports.keys())
@@ -122,27 +122,23 @@ def test_fanout_ports() -> Component:
     d = direction_ports_from_list_ports(c2.get_ports_list())
     assert len(d["E"]) == 2, len(d["E"]) == 2
     assert len(d["W"]) == 2, len(d["W"]) == 2
-    return c2
 
 
 if __name__ == "__main__":
-    c = test_fanout_ports()
-    c.show(show_ports=True)
-
+    # test_fanout_ports()
     # c =gf.components.coupler(gap=1.0)
     # c = gf.components.nxn(west=4)
     # c = gf.components.nxn(west=4, layer=gf.LAYER.SLAB90)
     c = gf.components.mmi2x2()
 
-    # cc = fanout_component(
-    #     component=c, port_names=tuple(c.get_ports_dict(orientation=0).keys())
-    # )
-    # print(len(cc.ports))
-    # cc.show(show_ports=True)
+    cc = fanout_component(
+        component=c, port_names=tuple(c.get_ports_dict(orientation=0).keys())
+    )
+    print(len(cc.ports))
+    cc.show(show_ports=True)
 
     # c = gf.components.nxn(west=4, layer=gf.LAYER.SLAB90)
     # routes = fanout_ports(ports=c.get_ports_list(orientation=180))
-
     # for route in routes:
     #     c.add(route.references)
     # c.show(show_ports=True)

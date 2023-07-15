@@ -117,7 +117,9 @@ def via_stack_slot(
 
 via_stack_slot_m1_m2 = partial(via_stack_slot, layers=("M1", "M2"), via=via1)
 
-via_stack_slot_slab_m1 = partial(via_stack_slot, layers=("M1",), via=viac)
+via_stack_slot_slab_m1 = partial(
+    via_stack_slot, layers=("M1",), via=viac, layer_offsets=(0,)
+)
 
 
 if __name__ == "__main__":

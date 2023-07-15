@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.routing.manhattan import RouteWarning
 
 
-def test_route_error_bundle():
+def test_route_error_bundle() -> None:
     """Ensures that an impossible route raises a RouteWarning."""
     c = gf.Component("get_route_from_steps_sample")
 
@@ -33,9 +33,7 @@ def test_route_error_bundle():
 
     for route in routes:
         c.add(route.references)
-    return c
 
 
 if __name__ == "__main__":
-    c = test_route_error_bundle()
-    c.show(show_ports=True)
+    test_route_error_bundle()
