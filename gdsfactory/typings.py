@@ -42,7 +42,7 @@ from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_layout import Label
-from gdsfactory.cross_section import CrossSection, Section, Transition
+from gdsfactory.cross_section import CrossSection, Section, Transition, WidthTypes
 from gdsfactory.port import Port
 from gdsfactory.technology import LayerLevel, LayerStack
 
@@ -130,7 +130,6 @@ Anchor = Literal[
 ]
 Axis = Literal["x", "y"]
 NSEW = Literal["N", "S", "E", "W"]
-WidthTypes = Literal["sine", "linear", "parabolic"]
 
 
 Float2 = Tuple[float, float]
@@ -310,48 +309,49 @@ class Array(np.ndarray, metaclass=ArrayMeta):
 
 
 __all__ = (
+    "Any",
     "Callable",
     "Component",
     "ComponentFactory",
     "ComponentFactoryDict",
-    "ComponentSpec",
     "ComponentOrPath",
     "ComponentOrReference",
+    "ComponentSpec",
     "Coordinate",
     "Coordinates",
     "CrossSection",
     "CrossSectionFactory",
     "CrossSectionOrFactory",
     "CrossSectionSpec",
-    "MultiCrossSectionAngleSpec",
+    "Dict",
     "Float2",
     "Float3",
     "Floats",
     "Int2",
     "Int3",
     "Ints",
-    "Layer",
     "Label",
-    "Layers",
+    "Layer",
     "LayerLevel",
-    "LayerStack",
     "LayerSpec",
     "LayerSpecs",
+    "LayerStack",
+    "Layers",
+    "List",
+    "MultiCrossSectionAngleSpec",
     "NameToFunctionDict",
     "Number",
+    "Optional",
     "PathType",
     "PathTypes",
     "Route",
     "RouteFactory",
     "Routes",
-    "Strs",
     "Section",
-    "Any",
-    "Dict",
-    "List",
-    "Optional",
-    "Union",
+    "Strs",
     "Tuple",
+    "Union",
+    "WidthTypes",
 )
 
 
