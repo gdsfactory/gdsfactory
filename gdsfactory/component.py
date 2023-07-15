@@ -15,7 +15,7 @@ from collections import Counter
 from collections.abc import Iterable
 from copy import deepcopy
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple, Union, TYPE_CHECKING
 
 import gdstk
 import numpy as np
@@ -33,7 +33,7 @@ from gdsfactory.component_layout import (
     _parse_layer,
     get_polygons,
 )
-from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
+from gdsfactory.component_reference import ComponentReference, SizeInfo
 from gdsfactory.config import CONF, GDSDIR_TEMP, logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.generic_tech import LAYER
@@ -52,6 +52,16 @@ from gdsfactory.serialization import clean_dict
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
 import importlib.util
+
+if TYPE_CHECKING:
+    from gdsfactory.typings import (
+        PathType,
+        Float2,
+        Layer,
+        Layers,
+        LayerSpec,
+        Coordinate,
+    )
 
 valid_plotters = [
     "holoviews",
@@ -114,11 +124,6 @@ ref = c.add_ref(gf.components.straight()) # or ref = c << gf.components.straight
 ref.xmin = 10
 """
 
-PathType = Union[str, Path]
-Float2 = Tuple[float, float]
-Layer = Tuple[int, int]
-Layers = Tuple[Layer, ...]
-LayerSpec = Union[str, int, Layer, None]
 
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32

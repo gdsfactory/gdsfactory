@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 import gdstk
 import numpy as np
 import shapely
-from numpy import cos, float64, int64, mod, ndarray, pi, sin
+from numpy import cos, mod, ndarray, pi, sin
 
 from gdsfactory.component_layout import Polygon, _GeometryHelper, get_polygons
 from gdsfactory.port import (
@@ -23,11 +23,7 @@ from gdsfactory.port import (
 )
 
 if typing.TYPE_CHECKING:
-    from gdsfactory.component import Component
-
-Number = Union[float64, int64, float, int]
-Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
-Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
+    from gdsfactory.component import Component, Coordinate, Coordinates
 
 
 class SizeInfo:
