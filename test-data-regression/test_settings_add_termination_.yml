@@ -8,7 +8,7 @@ ports:
     - 49
     - 0
     name: top_l_e1
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
     shear_angle: null
     width: 11.0
@@ -20,7 +20,7 @@ ports:
     - 49
     - 0
     name: top_l_e2
-    orientation: 90
+    orientation: 90.0
     port_type: electrical
     shear_angle: null
     width: 11.0
@@ -44,7 +44,7 @@ ports:
     - 49
     - 0
     name: top_l_e4
-    orientation: 270
+    orientation: 270.0
     port_type: electrical
     shear_angle: null
     width: 11.0
@@ -56,7 +56,7 @@ ports:
     - 49
     - 0
     name: top_r_e1
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
     shear_angle: null
     width: 11.0
@@ -68,7 +68,7 @@ ports:
     - 49
     - 0
     name: top_r_e2
-    orientation: 90
+    orientation: 90.0
     port_type: electrical
     shear_angle: null
     width: 11.0
@@ -92,7 +92,7 @@ ports:
     - 49
     - 0
     name: top_r_e4
-    orientation: 270
+    orientation: 270.0
     port_type: electrical
     shear_angle: null
     width: 11.0

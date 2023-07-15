@@ -104,7 +104,7 @@ ports:
     - 1
     - 0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     shear_angle: null
     width: 0.5
@@ -116,7 +116,7 @@ ports:
     - 1
     - 0
     name: o2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     shear_angle: null
     width: 0.5

@@ -27,6 +27,7 @@ You can also rename them with W,E,S,N prefix (west, east, south, north).
 Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
+import warnings
 
 import csv
 import functools
@@ -132,13 +133,12 @@ class Port:
             raise ValueError(f"Port width must be >=0. Got {self.width}")
 
     def to_dict(self) -> Dict[str, Any]:
+        x, y = np.round(self.center, 3)
         d = {
             "name": self.name,
             "width": self.width,
-            "center": tuple(np.round(self.center, 3)),
-            "orientation": int(self.orientation)
-            if self.orientation
-            else self.orientation,
+            "center": [float(x), float(y)],
+            "orientation": self.orientation,
             "layer": self.layer,
             "port_type": self.port_type,
             "shear_angle": self.shear_angle,
@@ -146,25 +146,15 @@ class Port:
         return clean_value_json(d)
 
     def to_yaml(self) -> str:
-        x, y = np.round(self.center, 3)
-        d = {
-            "name": self.name,
-            "width": float(self.width),
-            "center": [float(x), float(y)],
-            "orientation": float(self.orientation)
-            if self.orientation
-            else float(self.orientation),
-            "layer": self.layer,
-            "port_type": self.port_type,
-        }
-        d = OmegaConf.create(d)
+        d = OmegaConf.create(self.to_dict())
         return OmegaConf.to_yaml(d)
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
-        s = f"Port (name {self.name}, center {self.center}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
-        s += f" shear_angle {self.shear_angle}" if self.shear_angle else ""
-        return s
+        filtered_dict = {
+            key: value for key, value in self.to_dict().items() if value is not None
+        }
+        return str(filtered_dict)
 
     @classmethod
     def __get_validators__(cls):
@@ -181,10 +171,7 @@ class Port:
 
     @property
     def settings(self):
-        """TODO!
-
-        delete this. Use to_dict instead
-        """
+        warnings.warn("Port.settings is deprecated. Use port.to_dict instead!")
         return {
             "name": self.name,
             "center": self.center,
