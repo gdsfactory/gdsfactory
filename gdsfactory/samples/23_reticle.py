@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 
-
 if __name__ == "__main__":
     option = 3
 

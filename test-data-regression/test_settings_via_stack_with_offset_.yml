@@ -1,0 +1,88 @@
+name: via_stack_with_offset
+ports:
+  e1:
+    center:
+    - -5.0
+    - 5.0
+    layer:
+    - 25
+    - 0
+    name: e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10
+  e2:
+    center:
+    - 0.0
+    - 10.0
+    layer:
+    - 25
+    - 0
+    name: e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 10
+  e3:
+    center:
+    - 5.0
+    - 5.0
+    layer:
+    - 25
+    - 0
+    name: e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10
+  e4:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 25
+    - 0
+    name: e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 10
+settings:
+  changed: {}
+  child: null
+  default:
+    layer_offsets: null
+    layers:
+    - PPP
+    - M1
+    offsets: null
+    size:
+    - 10
+    - 10
+    sizes: null
+    vias:
+    - null
+    - function: via
+      settings:
+        layer: VIAC
+  full:
+    layer_offsets: null
+    layers:
+    - PPP
+    - M1
+    offsets: null
+    size:
+    - 10
+    - 10
+    sizes: null
+    vias:
+    - null
+    - function: via
+      settings:
+        layer: VIAC
+  function_name: via_stack_with_offset
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.via_stack_with_offset
+  name: via_stack_with_offset

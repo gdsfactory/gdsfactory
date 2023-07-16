@@ -1,0 +1,68 @@
+name: ring_single_dut
+ports:
+  o1:
+    center:
+    - -12.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 8.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_euler
+    component:
+      function: taper
+      settings:
+        width2: 3
+    coupler:
+      function: coupler_ring
+    gap: 0.2
+    length_x: 4
+    length_y: 0
+    port_name: o1
+    radius: 5.0
+    with_component: true
+  full:
+    bend:
+      function: bend_euler
+    component:
+      function: taper
+      settings:
+        width2: 3
+    coupler:
+      function: coupler_ring
+    gap: 0.2
+    length_x: 4
+    length_y: 0
+    port_name: o1
+    radius: 5.0
+    with_component: true
+  function_name: ring_single_dut
+  info:
+    component:
+      length: 10.0
+      width1: 0.5
+      width2: 3.0
+  info_version: 2
+  module: gdsfactory.components.ring_single_dut
+  name: ring_single_dut

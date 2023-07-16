@@ -3,14 +3,13 @@ from __future__ import annotations
 
 import shutil
 import time
-from typing import Dict, Optional
+from typing import Dict, Optional, TYPE_CHECKING
 
 import numpy as np
-import omegaconf
+import yaml
 
 import gdsfactory as gf
 from gdsfactory.config import __version__, logger
-from gdsfactory.materials import MaterialSpec
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_lumerical as get_sparameters_path,
@@ -20,7 +19,9 @@ from gdsfactory.technology import (
     LayerStack,
     SimulationSettingsLumericalFdtd,
 )
-from gdsfactory.typings import ComponentSpec, PathType
+
+if TYPE_CHECKING:
+    from gdsfactory.typings import ComponentSpec, PathType, MaterialSpec
 
 run_false_warning = """
 You have passed run=False to debug the simulation
@@ -302,7 +303,7 @@ def write_sparameters_lumerical(
     )
 
     # from pprint import pprint
-    # filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
+    # filepath_sim_settings.write_text(yaml.dump(sim_settings))
     # print(filepath_sim_settings)
     # pprint(sim_settings)
     # return
@@ -476,7 +477,7 @@ def write_sparameters_lumerical(
         end = time.time()
         sim_settings.update(compute_time_seconds=end - start)
         sim_settings.update(compute_time_minutes=(end - start) / 60)
-        filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
+        filepath_sim_settings.write_text(yaml.dump(sim_settings))
         if delete_fsp_files and fspdir.exists():
             shutil.rmtree(fspdir)
             logger.info(
@@ -486,7 +487,7 @@ def write_sparameters_lumerical(
 
         return sp
 
-    filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
+    filepath_sim_settings.write_text(yaml.dump(sim_settings))
     return s
 
 

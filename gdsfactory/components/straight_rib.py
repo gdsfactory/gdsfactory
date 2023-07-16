@@ -2,16 +2,17 @@
 
 from __future__ import annotations
 
-import gdsfactory as gf
+from functools import partial
+
 from gdsfactory.components.extension import extend_ports
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper_strip_to_ridge
 from gdsfactory.cross_section import rib
 
-straight_rib = gf.partial(straight, cross_section=rib)
+straight_rib = partial(straight, cross_section=rib)
 
 
-straight_rib_tapered = gf.partial(
+straight_rib_tapered = partial(
     extend_ports,
     component=straight_rib,
     extension=taper_strip_to_ridge,

@@ -41,7 +41,7 @@ if __name__ == "__main__":
     # m.show(show_ports=False)
 
     m = mask()
-    gdspath = m.write_gds_with_metadata(gdspath="test_mask_metadata.gds")
+    gdspath = m.write_gds(gdspath="test_mask_metadata.gds", with_metadata=True)
     labels_path = gdspath.with_suffix(".csv")
     gf.labels.write_labels.write_labels_klayout(gdspath=gdspath, layer_label=(66, 0))
 

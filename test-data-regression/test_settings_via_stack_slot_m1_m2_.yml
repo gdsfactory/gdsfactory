@@ -1,0 +1,103 @@
+name: via_stack_slot
+ports:
+  e1:
+    center:
+    - -6.5
+    - 0.0
+    layer:
+    - 45
+    - 0
+    name: e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 13.0
+  e2:
+    center:
+    - 0.0
+    - 6.5
+    layer:
+    - 45
+    - 0
+    name: e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 13.0
+  e3:
+    center:
+    - 6.5
+    - 0.0
+    layer:
+    - 45
+    - 0
+    name: e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 13.0
+  e4:
+    center:
+    - 0.0
+    - -6.5
+    layer:
+    - 45
+    - 0
+    name: e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 13.0
+settings:
+  changed: {}
+  child: null
+  default:
+    enclosure: 1.0
+    layer_offsets:
+    - 0
+    - 1.0
+    layer_offsetsx: null
+    layer_offsetsy: null
+    layer_port: null
+    layers:
+    - M1
+    - M2
+    size:
+    - 11.0
+    - 11.0
+    via:
+      function: via
+      settings:
+        enclosure: 2
+        layer: VIA1
+    ysize: 0.5
+    yspacing: 2.0
+  full:
+    enclosure: 1.0
+    layer_offsets:
+    - 0
+    - 1.0
+    layer_offsetsx: null
+    layer_offsetsy: null
+    layer_port: null
+    layers:
+    - M1
+    - M2
+    size:
+    - 11.0
+    - 11.0
+    via:
+      function: via
+      settings:
+        enclosure: 2
+        layer: VIA1
+    ysize: 0.5
+    yspacing: 2.0
+  function_name: via_stack_slot
+  info:
+    size:
+    - 11.0
+    - 11.0
+  info_version: 2
+  module: gdsfactory.components.via_stack_slot
+  name: via_stack_slot

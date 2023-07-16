@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
+# type: ignore
 
 import asyncio
 import json
-from loguru import logger
-
-from starlette.endpoints import WebSocketEndpoint
-from fastapi import WebSocket
+from typing import Optional
 
 import klayout.db as db
 import klayout.lay as lay
-
-from gdsfactory.component import GDSDIR_TEMP
+from fastapi import WebSocket
+from loguru import logger
+from starlette.endpoints import WebSocketEndpoint
 
 import gdsfactory as gf
-from typing import Optional
+from gdsfactory.component import GDSDIR_TEMP
 
 host = "localhost"
 port = 8765
@@ -42,11 +41,10 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
         # path_params = args[0]['path_params']
         # cell_name = path_params["cell_name"]
         cell_name = params["variant"]
-        self.url = str(GDSDIR_TEMP / f"{cell_name}.gds")
         # c = gf.get_component(cell_name)
         gds_path = GDSDIR_TEMP / f"{cell_name}.gds"
         # c.write_gds(gds_path)
-        self.gds_path = str(gds_path)
+        self.url = self.gds_path = str(gds_path)
 
     async def on_connect(self, websocket) -> None:
         await websocket.accept()
@@ -97,7 +95,8 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
         self, websocket: WebSocket, path: Optional[str] = None
     ) -> None:
         self.layout_view = lay.LayoutView()
-        self.layout_view.load_layout(self.url)
+        url = self.url
+        self.layout_view.load_layout(url)
         if self.layer_props is not None:
             self.layout_view.load_layer_props(str(self.layer_props))
         self.layout_view.max_hier()
@@ -160,45 +159,45 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
     async def reader(self, websocket, data: str) -> None:
         js = json.loads(data)
         msg = js["msg"]
-        if msg == "quit":
-            return
-        elif msg == "resize":
-            self.layout_view.resize(js["width"], js["height"])
-        elif msg == "clear-annotations":
+        if msg == "clear-annotations":
             self.layout_view.clear_annotations()
-        elif msg == "select-ruler":
-            ruler = js["value"]
-            self.layout_view.set_config("current-ruler-template", str(ruler))
-        elif msg == "select-mode":
-            mode = js["value"]
-            self.layout_view.switch_mode(mode)
+        elif msg == "initialize":
+            self.layout_view.resize(js["width"], js["height"])
+            await websocket.send_text(json.dumps({"msg": "initialized"}))
+        elif msg == "layer-v":
+            layer_id = js["id"]
+            vis = js["value"]
+            for layer in self.layout_view.each_layer():
+                if layer.id() == layer_id:
+                    layer.visible = vis
         elif msg == "layer-v-all":
             vis = js["value"]
             for layer in self.layout_view.each_layer():
                 layer.visible = vis
-        elif msg == "layer-v":
-            id = js["id"]
-            vis = js["value"]
-            for layer in self.layout_view.each_layer():
-                if layer.id() == id:
-                    layer.visible = vis
-        elif msg == "initialize":
-            self.layout_view.resize(js["width"], js["height"])
-            await websocket.send_text(json.dumps({"msg": "initialized"}))
         elif msg == "mode_select":
             self.layout_view.switch_mode(js["mode"])
+        elif msg == "mouse_dblclick":
+            self.mouse_event(self.layout_view.send_mouse_double_clicked_event, js)
+        elif msg == "mouse_enter":
+            self.layout_view.send_enter_event()
+        elif msg == "mouse_leave":
+            self.layout_view.send_leave_event()
         elif msg == "mouse_move":
             self.mouse_event(self.layout_view.send_mouse_move_event, js)
         elif msg == "mouse_pressed":
             self.mouse_event(self.layout_view.send_mouse_press_event, js)
         elif msg == "mouse_released":
             self.mouse_event(self.layout_view.send_mouse_release_event, js)
-        elif msg == "mouse_enter":
-            self.layout_view.send_enter_event()
-        elif msg == "mouse_leave":
-            self.layout_view.send_leave_event()
-        elif msg == "mouse_dblclick":
-            self.mouse_event(self.layout_view.send_mouse_double_clicked_event, js)
+        elif msg == "quit":
+            return
+        elif msg == "resize":
+            self.layout_view.resize(js["width"], js["height"])
+        elif msg == "select-mode":
+            mode = js["value"]
+            self.layout_view.switch_mode(mode)
+        elif msg == "select-ruler":
+            ruler = js["value"]
+            self.layout_view.set_config("current-ruler-template", str(ruler))
         elif msg == "wheel":
             self.wheel_event(self.layout_view.send_wheel_event, js)
 
@@ -209,7 +208,8 @@ def get_layer_properties() -> str:
     return str(lyp_path)
 
 
-def get_layout_view(component: gf.Component):
+def get_layout_view(component: gf.Component) -> lay.LayoutView:
+    """Returns klayout layout view for a gdsfactory Component."""
     gds_path = GDSDIR_TEMP / f"{component.name}.gds"
     component.write_gds(gdspath=str(gds_path))
     layout_view = lay.LayoutView()

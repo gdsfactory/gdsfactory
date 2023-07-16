@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 from gdsfactory.samples.big_device import big_device
 
 
-def test_big_device() -> Component:
+@gf.cell
+def big_device_with_gratings() -> gf.Component:
     component = big_device(nports=10)
     radius = 5.0
     return gf.routing.add_fiber_array(
@@ -15,6 +15,10 @@ def test_big_device() -> Component:
     )
 
 
+def test_big_device() -> None:
+    assert big_device_with_gratings()
+
+
 if __name__ == "__main__":
-    c = test_big_device()
+    c = big_device_with_gratings()
     c.show(show_ports=True)

@@ -1,0 +1,84 @@
+name: spiral_racetrack_heater_metal
+ports:
+  e1:
+    center:
+    - -5.625
+    - 11.0
+    layer:
+    - 47
+    - 0
+    name: e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 2.5
+  e2:
+    center:
+    - -5.625
+    - -29.0
+    layer:
+    - 47
+    - 0
+    name: e2
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 2.5
+  o1:
+    center:
+    - 0.0
+    - 16.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 30.0
+    - -34.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend_factory:
+      function: bend_euler
+    bend_s_factory:
+      function: bend_s
+    heater_cross_section: heater_metal
+    min_radius: null
+    num: 8
+    spacing: 2
+    straight_factory:
+      function: straight
+    straight_length: 30
+    waveguide_cross_section: strip
+  full:
+    bend_factory:
+      function: bend_euler
+    bend_s_factory:
+      function: bend_s
+    heater_cross_section: heater_metal
+    min_radius: null
+    num: 8
+    spacing: 2
+    straight_factory:
+      function: straight
+    straight_length: 30
+    waveguide_cross_section: strip
+  function_name: spiral_racetrack_heater_metal
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.spiral_heater
+  name: spiral_racetrack_heater_metal

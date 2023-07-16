@@ -3,11 +3,7 @@
 You'll need 2 windows:
 
 1. A text editor or IDE (Visual Studio Code, Pycharm, Spyder, neovim, Atom, Jupyterlab ...)
-2. Klayout to Visualize the GDS files.
-
-`Component.show()` will stream the GDS to KLayout so KLayout needs to be open.
-Make sure you also run `gf install klayout-integration` from the terminal to install the `gdsfactory` to `klayout` interface.
-
+2. Klayout to Visualize the GDS files. With the `klive` klayout package for showing GDS files when you run. Tools -> Manage Packages `Component.show()`
 
 ## 1. Standard Python flow
 
@@ -32,3 +28,6 @@ For building large components can use a file-watcher and see your updates in KLa
 ## 3. Jupyter Notebook based flow
 
 ![notebooks](https://i.imgur.com/jORMG3V.png)
+
+```{tableofcontents}
+```

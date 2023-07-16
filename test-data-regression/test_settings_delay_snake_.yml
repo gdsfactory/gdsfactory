@@ -1,0 +1,46 @@
+name: delay_snake
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 303.394
+    - -80.4
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    L0: 5.0
+    bend: bend_euler
+    cross_section: strip
+    length: 1600.0
+    n: 2
+  full:
+    L0: 5.0
+    bend: bend_euler
+    cross_section: strip
+    length: 1600.0
+    n: 2
+  function_name: delay_snake
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.delay_snake
+  name: delay_snake

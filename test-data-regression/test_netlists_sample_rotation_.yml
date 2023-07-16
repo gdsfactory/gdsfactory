@@ -1,0 +1,52 @@
+connections:
+  r1,e3: r2,e4
+instances:
+  r1:
+    component: rectangle
+    settings:
+      size:
+      - 4
+      - 2
+  r2:
+    component: rectangle
+    settings:
+      size:
+      - 2
+      - 4
+name: sample_rotation_0aef407a
+placements:
+  r1:
+    mirror: 0
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  r2:
+    mirror: 0
+    rotation: 270
+    x: 4.0
+    y: 2.0
+ports: {}
+warnings:
+  electrical:
+    unconnected_ports:
+    - message: 6 unconnected electrical ports!
+      ports:
+      - r1,e1
+      - r1,e2
+      - r1,e4
+      - r2,e1
+      - r2,e2
+      - r2,e3
+      values:
+      - - 0.0
+        - 1.0
+      - - 2.0
+        - 2.0
+      - - 2.0
+        - 0.0
+      - - 6.0
+        - 2.0
+      - - 8.0
+        - 1.0
+      - - 6.0
+        - 0.0

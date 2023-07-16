@@ -1,0 +1,116 @@
+name: straight_array
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 0.0
+    - 4.5
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 0.0
+    - 9.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 0.0
+    - 13.5
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o5:
+    center:
+    - 10.0
+    - 13.5
+    layer:
+    - 1
+    - 0
+    name: o5
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o6:
+    center:
+    - 10.0
+    - 9.0
+    layer:
+    - 1
+    - 0
+    name: o6
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o7:
+    center:
+    - 10.0
+    - 4.5
+    layer:
+    - 1
+    - 0
+    name: o7
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o8:
+    center:
+    - 10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o8
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    n: 4
+    spacing: 4.0
+    straight:
+      function: straight
+  full:
+    n: 4
+    spacing: 4.0
+    straight:
+      function: straight
+  function_name: straight_array
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.straight_array
+  name: straight_array

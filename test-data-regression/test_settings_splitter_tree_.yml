@@ -1,0 +1,97 @@
+name: splitter_tree
+ports:
+  o1_0_0:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1_0_0
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_1:
+    center:
+    - 195.5
+    - -12.5
+    layer:
+    - 1
+    - 0
+    name: o2_1_1
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_2:
+    center:
+    - 195.5
+    - -37.5
+    layer:
+    - 1
+    - 0
+    name: o2_1_2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_3:
+    center:
+    - 195.5
+    - 37.5
+    layer:
+    - 1
+    - 0
+    name: o2_1_3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_4:
+    center:
+    - 195.5
+    - 12.5
+    layer:
+    - 1
+    - 0
+    name: o2_1_4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend_s:
+      function: bend_s
+    bend_s_xsize: null
+    coupler:
+      function: mmi1x2
+    cross_section: strip
+    noutputs: 4
+    spacing:
+    - 90.0
+    - 50.0
+  full:
+    bend_s:
+      function: bend_s
+    bend_s_xsize: null
+    coupler:
+      function: mmi1x2
+    cross_section: strip
+    noutputs: 4
+    spacing:
+    - 90.0
+    - 50.0
+  function_name: splitter_tree
+  info:
+    bend_s:
+      end_angle: 0
+      length: 91.103
+      min_bend_radius: 129.147
+      start_angle: 0
+  info_version: 2
+  module: gdsfactory.components.splitter_tree
+  name: splitter_tree

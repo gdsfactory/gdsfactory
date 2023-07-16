@@ -1,7 +1,7 @@
 import warnings
-from typing import Optional, List
+from typing import List, Optional
 
-from gdsfactory.component import Port, ComponentReference, Component
+from gdsfactory.component import Component, ComponentReference, Port
 from gdsfactory.typings import CrossSectionSpec
 
 
@@ -37,10 +37,10 @@ def taper_to_cross_section(
         c.plot()
     """
     from gdsfactory.pdk import (
-        get_cross_section,
         get_active_pdk,
-        get_layer,
         get_component,
+        get_cross_section,
+        get_layer,
     )
 
     port_layer = get_layer(port.layer)

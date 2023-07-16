@@ -1,0 +1,84 @@
+name: coupler_ring
+ports:
+  o1:
+    center:
+    - -12.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -9.0
+    - 5.7
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 5.0
+    - 5.7
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 8.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_euler
+    bend_cross_section: null
+    coupler90:
+      function: coupler90
+    coupler_straight:
+      function: coupler_straight
+    cross_section: strip
+    gap: 0.2
+    length_extension: 3
+    length_x: 4.0
+    radius: 5.0
+  full:
+    bend:
+      function: bend_euler
+    bend_cross_section: null
+    coupler90:
+      function: coupler90
+    coupler_straight:
+      function: coupler_straight
+    cross_section: strip
+    gap: 0.2
+    length_extension: 3
+    length_x: 4.0
+    radius: 5.0
+  function_name: coupler_ring
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.coupler_ring
+  name: coupler_ring

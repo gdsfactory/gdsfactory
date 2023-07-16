@@ -1,0 +1,76 @@
+name: coupler_adiabatic
+ports:
+  o1:
+    center:
+    - -30.0
+    - -1.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.4
+  o2:
+    center:
+    - -30.0
+    - 1.77
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.6
+  o3:
+    center:
+    - 80.0
+    - 1.77
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 80.0
+    - -1.0
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section: strip
+    dw: 0.1
+    input_wg_sep: 3.0
+    length1: 20.0
+    length2: 50.0
+    length3: 30.0
+    output_wg_sep: 3.0
+    wg_sep: 1.0
+  full:
+    cross_section: strip
+    dw: 0.1
+    input_wg_sep: 3.0
+    length1: 20.0
+    length2: 50.0
+    length3: 30.0
+    output_wg_sep: 3.0
+    wg_sep: 1.0
+  function_name: coupler_adiabatic
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.coupler_adiabatic
+  name: coupler_adiabatic

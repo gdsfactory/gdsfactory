@@ -1,0 +1,63 @@
+name: spiral_external_io
+ports:
+  o1:
+    center:
+    - 383.0
+    - -43.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 270.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 386.0
+    - -46.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 270.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    N: 6
+    bend:
+      function: bend_euler
+    cross_section: strip
+    inner_loop_spacing_offset: 0.0
+    length: null
+    with_inner_ports: false
+    x_inner_length_cutback: 300.0
+    x_inner_offset: 0.0
+    xspacing: 3.0
+    y_straight_inner_top: 0.0
+    y_straight_outer_offset: 0.0
+    yspacing: 3.0
+  full:
+    N: 6
+    bend:
+      function: bend_euler
+    cross_section: strip
+    inner_loop_spacing_offset: 0.0
+    length: null
+    with_inner_ports: false
+    x_inner_length_cutback: 300.0
+    x_inner_offset: 0.0
+    xspacing: 3.0
+    y_straight_inner_top: 0.0
+    y_straight_outer_offset: 0.0
+    yspacing: 3.0
+  function_name: spiral_external_io
+  info:
+    length: 9003.302
+  info_version: 2
+  module: gdsfactory.components.spiral_external_io
+  name: spiral_external_io

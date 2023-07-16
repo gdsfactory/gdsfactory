@@ -2,10 +2,8 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER_STACK
-from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes
+from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes, Modes
 from gdsfactory.technology import LayerStack
-from femwell import mode_solver
-
 
 NUM_MODES = 1
 
@@ -15,7 +13,7 @@ PDK.activate()
 
 def compute_modes(
     overwrite: bool = True, with_cache: bool = False, num_modes: int = NUM_MODES
-):
+) -> Modes:
     filtered_layerstack = LayerStack(
         layers={
             k: LAYER_STACK.layers[k]
@@ -36,7 +34,7 @@ def compute_modes(
         "box": {"resolution": 0.2, "distance": 1},
         "slab90": {"resolution": 0.05, "distance": 1},
     }
-    lams, basis, xs = compute_cross_section_modes(
+    return compute_cross_section_modes(
         cross_section="rib",
         layerstack=filtered_layerstack,
         wavelength=1.55,
@@ -47,39 +45,12 @@ def compute_modes(
         overwrite=overwrite,
         with_cache=with_cache,
     )
-    return lams, basis, xs
 
 
 def test_compute_cross_section_mode() -> None:
-    lams, basis, xs = compute_modes()
-    assert len(lams) == NUM_MODES, len(lams)
-
-
-def test_compute_cross_section_mode_cache() -> None:
-    # write mode in cache
-    lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
-
-    # load mode from cache
-    lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
-    mode_solver.plot_mode(
-        basis=basis,
-        mode=np.real(xs[0]),
-        plot_vectors=False,
-        colorbar=True,
-        title="E",
-        direction="y",
-    )
+    modes = compute_modes()
+    assert len(modes) == NUM_MODES, len(modes)
 
 
 if __name__ == "__main__":
     test_compute_cross_section_mode()
-    # test_compute_cross_section_mode_cache()
-    # lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
-    # mode_solver.plot_mode(
-    #     basis=basis,
-    #     mode=np.real(xs[0]),
-    #     plot_vectors=False,
-    #     colorbar=True,
-    #     title="E",
-    #     direction="y",
-    # )

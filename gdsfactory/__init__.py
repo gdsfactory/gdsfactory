@@ -17,8 +17,8 @@ modules:
 isort:skip_file
 """
 from __future__ import annotations
-from warnings import warn
 from functools import partial
+import warnings
 from toolz import compose
 from gdsfactory.component_layout import Group
 from gdsfactory.path import Path
@@ -29,12 +29,16 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.config import CONF, call_if_func, PATH, logger
 from gdsfactory.port import Port
 from gdsfactory.cell import cell
+from gdsfactory.cell import declarative_cell
 from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section, xsection
 from gdsfactory.component_layout import Label
+from gdsfactory.polygon import Polygon
+from gdsfactory.difftest import difftest, diff
+
 from gdsfactory import decorators
 from gdsfactory import cross_section
 from gdsfactory import labels
@@ -81,7 +85,10 @@ c = components
 
 def __getattr__(name):
     if name == "types":
-        warn("gdsfactory.types has been renamed to gdsfactory.typings", stacklevel=3)
+        warnings.warn(
+            "gdsfactory.types has been renamed to gdsfactory.typings and will be deprecated soon.",
+            stacklevel=3,
+        )
         return typings
     raise AttributeError(f"No module named {name}")
 
@@ -109,12 +116,15 @@ __all__ = (
     "c",
     "call_if_func",
     "cell",
+    "declarative_cell",
     "cell_without_validator",
     "clear_cache",
     "components",
     "compose",
     "cross_section",
     "decorators",
+    "diff",
+    "difftest",
     "fill",
     "fill_rectangle",
     "functions",
@@ -136,6 +146,7 @@ __all__ = (
     "logger",
     "pack",
     "partial",
+    "Polygon",
     "path",
     "read",
     "routing",
@@ -147,4 +158,4 @@ __all__ = (
     "xsection",
     "PATH",
 )
-__version__ = "6.93.1"
+__version__ = "6.114.0"

@@ -5,6 +5,7 @@ import functools
 import hashlib
 import inspect
 import pathlib
+from functools import partial
 from typing import Any, Dict
 
 import gdstk
@@ -14,7 +15,7 @@ import pydantic
 import toolz
 from omegaconf import DictConfig, OmegaConf
 
-DEFAULT_SERIALIZATION_MAX_DIGITS = 8
+DEFAULT_SERIALIZATION_MAX_DIGITS = 3
 """By default, the maximum number of digits retained when serializing float-like arrays"""
 
 
@@ -41,8 +42,13 @@ def clean_value_json(value: Any) -> Any:
     """Return JSON serializable object."""
     from gdsfactory.path import Path
 
+    from gdsfactory.pdk import get_active_pdk
+
+    active_pdk = get_active_pdk()
+    include_module = active_pdk.cell_decorator_settings.include_module
+
     if isinstance(value, pydantic.BaseModel):
-        return value.dict()
+        return clean_dict(value.dict())
 
     elif hasattr(value, "get_component_spec"):
         return value.get_component_spec()
@@ -54,7 +60,7 @@ def clean_value_json(value: Any) -> Any:
         return int(value)
 
     elif isinstance(value, (float, np.inexact, np.float64)):
-        return float(value)
+        return float(np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS))
 
     elif isinstance(value, np.ndarray):
         value = np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
@@ -69,16 +75,27 @@ def clean_value_json(value: Any) -> Any:
         func = value.func
         while hasattr(func, "func"):
             func = func.func
-        return {"function": func.__name__, "settings": args_as_kwargs}
+        v = {
+            "function": func.__name__,
+            "settings": args_as_kwargs,
+        }
+        if include_module:
+            v.update(module=func.__module__)
+        return v
 
     elif hasattr(value, "to_dict"):
-        return value.to_dict()
+        # print(type(value))
+        return clean_dict(value.to_dict())
     elif callable(value) and isinstance(value, toolz.functoolz.Compose):
         value = [clean_value_json(value.first)] + [
             clean_value_json(func) for func in value.funcs
         ]
     elif callable(value) and hasattr(value, "__name__"):
-        value = {"function": value.__name__}
+        value = (
+            {"function": value.__name__, "module": value.__module__}
+            if include_module
+            else {"function": value.__name__}
+        )
     elif isinstance(value, Path):
         value = value.hash_geometry()
     elif isinstance(value, pathlib.Path):
@@ -92,7 +109,7 @@ def clean_value_json(value: Any) -> Any:
         value = [clean_value_json(i) for i in value]
 
     elif isinstance(value, gdstk.Polygon):
-        value = np.round(value.points, 3)
+        value = np.round(value.points, DEFAULT_SERIALIZATION_MAX_DIGITS)
     else:
         try:
             value_json = orjson.dumps(
@@ -129,11 +146,16 @@ def get_hash(value: Any) -> str:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # f = gf.partial(gf.c.straight, length=3)
+    # f = partial(gf.c.straight, length=3)
     # d = clean_value_json(f)
     # print(f"{d!r}")
+    # f = partial(gf.c.straight, length=3)
+    # c = f()
+    # d = clean_value_json(c)
+    # print(d, d)
 
-    f = gf.partial(gf.c.straight, length=3)
+    f = partial(gf.cross_section.strip, width=3)
     c = f()
     d = clean_value_json(c)
+    print(get_hash(d))
     print(d, d)

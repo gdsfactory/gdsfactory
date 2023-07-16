@@ -1,0 +1,124 @@
+name: mmi2x2_cutback_2x2
+ports:
+  o1:
+    center:
+    - -10.0
+    - -0.625
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -10.0
+    - 0.625
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 438.0
+    - -0.625
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 438.0
+    - 0.625
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child:
+    changed: {}
+    child: null
+    default:
+      cross_section: strip
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10.0
+      straight:
+        function: straight
+      taper:
+        function: taper
+      width: null
+      width_mmi: 2.5
+      width_taper: 1.0
+      with_bbox: true
+    full:
+      cross_section: strip
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10.0
+      straight:
+        function: straight
+      taper:
+        function: taper
+      width: null
+      width_mmi: 2.5
+      width_taper: 1.0
+      with_bbox: true
+    function_name: mmi2x2
+    info: {}
+    info_version: 2
+    module: gdsfactory.components.mmi2x2
+    name: mmi2x2
+  default:
+    bend180:
+      function: bend_circular
+      settings:
+        angle: 180
+    cols: 4
+    component:
+      function: mmi2x2
+    cross_section: strip
+    mirror: false
+    port1: o1
+    port2: o2
+    port3: o3
+    port4: o4
+    rows: 5
+    straight_length: null
+  full:
+    bend180:
+      function: bend_circular
+      settings:
+        angle: 180
+    cols: 4
+    component:
+      function: mmi2x2
+    cross_section: strip
+    mirror: false
+    port1: o1
+    port2: o2
+    port3: o3
+    port4: o4
+    rows: 5
+    straight_length: null
+  function_name: cutback_2x2
+  info:
+    components: 80
+  info_version: 2
+  module: gdsfactory.components.cutback_2x2
+  name: mmi2x2_cutback_2x2

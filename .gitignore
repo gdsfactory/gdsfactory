@@ -1,13 +1,13 @@
 py[cod]
-
 add_type_hints.xonsh
 gdsfactory/generic_tech/klayout/klayoutrc
 gdsfactory/plugins/dagster/tmp*
 docs/notebooks/sax/fdtd_vs_model.png
+gdsfactory/generic_tech/klayout/tech/generic_tech.py
+test-data
 # C extensions
 *.so
 *.l2n
-conda/
 gdsfactory/plugins/kweb/gds_files/
 *.properties
 *.sqlite3
@@ -20,7 +20,7 @@ gdsfactory/plugins/kweb/gds_files/
 *.svg
 *.db
 *.tar
-*.html
+sim_ref.yaml
 yarn.lock
 node_modules/
 test_mask_metadata.csv
@@ -35,6 +35,7 @@ gdsfactory/schema.yaml
 sim_run.yaml
 docs/notebooks/ring.yml
 .ruff_cache/
+Pipfile
 
 # Packages
 *.egg
@@ -69,7 +70,6 @@ cml/
 mzi.yml
 *.out
 mpb-sim/
-data/
 extrakdown-parser/
 
 # Installer logs
@@ -170,7 +170,6 @@ Icon?
 *.ppt
 *.gif
 *.pptx
-*.js
 *.prj
 *.swp
 *.lms
@@ -231,7 +230,6 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
-nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
@@ -309,3 +307,4 @@ gdsfactory/generic_tech/klayout/tech/layers.py
 # Optimiser output
 tune/
 gdsfactory/generic_tech/xsection_planarized.pyxs
+gdsfactory/plugins/pso/wrk_dir/

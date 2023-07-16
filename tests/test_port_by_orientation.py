@@ -3,14 +3,13 @@ from __future__ import annotations
 import gdsfactory as gf
 
 
-def test_port_by_orientation() -> gf.Component:
+def test_port_by_orientation() -> None:
     c = gf.components.nxn(west=1, north=2, east=3, south=4)
     p = c.port_by_orientation_cw(key="W0")
     assert p.name == "o1"
-    return c
 
 
-def test_port_by_orientation_ref() -> gf.Component:
+def test_port_by_orientation_ref() -> None:
     c = gf.Component()
     nxn = gf.components.nxn(west=1, north=2, east=3, south=4)
     ref = c << nxn
@@ -20,7 +19,6 @@ def test_port_by_orientation_ref() -> gf.Component:
     p2 = ref.port_by_orientation_cw(key="W1")
     assert p1.name == "o2", p1.name
     assert p2.name == "o3", p2.name
-    return c
 
 
 if __name__ == "__main__":

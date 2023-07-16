@@ -1,0 +1,412 @@
+name: splitter_tree_7c3f8531
+ports:
+  o1_0_0:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1_0_0
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_17:
+    center:
+    - 1401.02
+    - -25.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_17
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_18:
+    center:
+    - 1401.02
+    - -75.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_18
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_27:
+    center:
+    - 1401.02
+    - 75.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_27
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_28:
+    center:
+    - 1401.02
+    - 25.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_28
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  top_l_e1_0_1:
+    center:
+    - 19.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_l_e1_0_1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e1_1_19:
+    center:
+    - 519.5
+    - 72.625
+    layer:
+    - 49
+    - 0
+    name: top_l_e1_1_19
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e1_1_9:
+    center:
+    - 519.5
+    - -27.375
+    layer:
+    - 49
+    - 0
+    name: top_l_e1_1_9
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e2_0_3:
+    center:
+    - 25.0
+    - 28.125
+    layer:
+    - 49
+    - 0
+    name: top_l_e2_0_3
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e2_1_11:
+    center:
+    - 525.0
+    - -21.875
+    layer:
+    - 49
+    - 0
+    name: top_l_e2_1_11
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e2_1_21:
+    center:
+    - 525.0
+    - 78.125
+    layer:
+    - 49
+    - 0
+    name: top_l_e2_1_21
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e3_0_5:
+    center:
+    - 30.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_l_e3_0_5
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e3_1_13:
+    center:
+    - 530.5
+    - -27.375
+    layer:
+    - 49
+    - 0
+    name: top_l_e3_1_13
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e3_1_23:
+    center:
+    - 530.5
+    - 72.625
+    layer:
+    - 49
+    - 0
+    name: top_l_e3_1_23
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e4_0_8:
+    center:
+    - 25.0
+    - 17.125
+    layer:
+    - 49
+    - 0
+    name: top_l_e4_0_8
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e4_1_16:
+    center:
+    - 525.0
+    - -32.875
+    layer:
+    - 49
+    - 0
+    name: top_l_e4_1_16
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e4_1_26:
+    center:
+    - 525.0
+    - 67.125
+    layer:
+    - 49
+    - 0
+    name: top_l_e4_1_26
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e1_0_2:
+    center:
+    - 360.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_r_e1_0_2
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e1_1_10:
+    center:
+    - 860.5
+    - -27.375
+    layer:
+    - 49
+    - 0
+    name: top_r_e1_1_10
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e1_1_20:
+    center:
+    - 860.5
+    - 72.625
+    layer:
+    - 49
+    - 0
+    name: top_r_e1_1_20
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e2_0_4:
+    center:
+    - 366.0
+    - 28.125
+    layer:
+    - 49
+    - 0
+    name: top_r_e2_0_4
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e2_1_12:
+    center:
+    - 866.0
+    - -21.875
+    layer:
+    - 49
+    - 0
+    name: top_r_e2_1_12
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e2_1_22:
+    center:
+    - 866.0
+    - 78.125
+    layer:
+    - 49
+    - 0
+    name: top_r_e2_1_22
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e3_0_6:
+    center:
+    - 371.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_r_e3_0_6
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e3_1_14:
+    center:
+    - 871.5
+    - -27.375
+    layer:
+    - 49
+    - 0
+    name: top_r_e3_1_14
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e3_1_24:
+    center:
+    - 871.5
+    - 72.625
+    layer:
+    - 49
+    - 0
+    name: top_r_e3_1_24
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e4_0_7:
+    center:
+    - 366.0
+    - 17.125
+    layer:
+    - 49
+    - 0
+    name: top_r_e4_0_7
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e4_1_15:
+    center:
+    - 866.0
+    - -32.875
+    layer:
+    - 49
+    - 0
+    name: top_r_e4_1_15
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e4_1_25:
+    center:
+    - 866.0
+    - 67.125
+    layer:
+    - 49
+    - 0
+    name: top_r_e4_1_25
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+settings:
+  changed:
+    coupler:
+      function: mzi
+      settings:
+        combiner:
+          function: mmi2x2
+        delta_length: 0
+        length_x: null
+        port_e0_combiner: o4
+        port_e1_combiner: o3
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          settings:
+            with_undercut: false
+    spacing:
+    - 500
+    - 100
+  child: null
+  default:
+    bend_s:
+      function: bend_s
+    bend_s_xsize: null
+    coupler:
+      function: mmi1x2
+    cross_section: strip
+    noutputs: 4
+    spacing:
+    - 90.0
+    - 50.0
+  full:
+    bend_s:
+      function: bend_s
+    bend_s_xsize: null
+    coupler:
+      function: mzi
+      settings:
+        combiner:
+          function: mmi2x2
+        delta_length: 0
+        length_x: null
+        port_e0_combiner: o4
+        port_e1_combiner: o3
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          settings:
+            with_undercut: false
+    cross_section: strip
+    noutputs: 4
+    spacing:
+    - 500
+    - 100
+  function_name: splitter_tree
+  info:
+    bend_s:
+      end_angle: 0
+      length: 500.845
+      min_bend_radius: 1870.03
+      start_angle: 0
+  info_version: 2
+  module: gdsfactory.components.splitter_tree
+  name: splitter_tree_7c3f8531

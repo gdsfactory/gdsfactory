@@ -1,0 +1,74 @@
+name: coupler_bend
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 0.0
+    - 0.7
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 17.927
+    - 10.35
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 10.0
+    - 10.7
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_circular
+    coupler_gap: 0.2
+    coupling_angle_coverage: 120.0
+    cross_section_inner: strip
+    cross_section_outer: strip
+    radius: 10.0
+  full:
+    bend:
+      function: bend_circular
+    coupler_gap: 0.2
+    coupling_angle_coverage: 120.0
+    cross_section_inner: strip
+    cross_section_outer: strip
+    radius: 10.0
+  function_name: coupler_bend
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.ring_single_bend_coupler
+  name: coupler_bend

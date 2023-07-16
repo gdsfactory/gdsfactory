@@ -1,0 +1,127 @@
+name: grating_coupler_tree
+ports:
+  opt-grating_coupler_elliptical-straight_array-o1:
+    center:
+    - -439.5
+    - -34.2
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_elliptical-straight_array-o1
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_elliptical-straight_array-o2:
+    center:
+    - -312.5
+    - -34.2
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_elliptical-straight_array-o2
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_elliptical-straight_array-o3:
+    center:
+    - -185.5
+    - -34.2
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_elliptical-straight_array-o3
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_elliptical-straight_array-o4:
+    center:
+    - -58.5
+    - -34.2
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_elliptical-straight_array-o4
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_elliptical-straight_array-o5:
+    center:
+    - 68.5
+    - -34.2
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_elliptical-straight_array-o5
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_elliptical-straight_array-o6:
+    center:
+    - 195.5
+    - -34.2
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_elliptical-straight_array-o6
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_elliptical-straight_array-o7:
+    center:
+    - 322.5
+    - -34.2
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_elliptical-straight_array-o7
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_elliptical-straight_array-o8:
+    center:
+    - 449.5
+    - -34.2
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_elliptical-straight_array-o8
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend: bend_euler
+    fanout_length: 0.0
+    grating_coupler:
+      function: grating_coupler_elliptical
+    layer_label: TEXT
+    n: 4
+    straight_spacing: 4.0
+    with_loopback: false
+  full:
+    bend: bend_euler
+    fanout_length: 0.0
+    grating_coupler:
+      function: grating_coupler_elliptical
+    layer_label: TEXT
+    n: 4
+    straight_spacing: 4.0
+    with_loopback: false
+  function_name: grating_coupler_tree
+  info:
+    grating_coupler:
+      polarization: te
+      wavelength: 1.554
+  info_version: 2
+  module: gdsfactory.components.grating_coupler_tree
+  name: grating_coupler_tree

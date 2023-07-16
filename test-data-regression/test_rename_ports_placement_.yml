@@ -1,0 +1,92 @@
+name: nxn_port_typeplacement
+ports:
+  p1:
+    center:
+    - 0.0
+    - 4.0
+    layer:
+    - 1
+    - 0
+    name: p1
+    orientation: 180
+    port_type: placement
+    shear_angle: null
+    width: 0.5
+  p2:
+    center:
+    - 8.0
+    - 6.75
+    layer:
+    - 1
+    - 0
+    name: p2
+    orientation: 0
+    port_type: placement
+    shear_angle: null
+    width: 0.5
+  p3:
+    center:
+    - 8.0
+    - 4.917
+    layer:
+    - 1
+    - 0
+    name: p3
+    orientation: 0
+    port_type: placement
+    shear_angle: null
+    width: 0.5
+  p4:
+    center:
+    - 8.0
+    - 3.083
+    layer:
+    - 1
+    - 0
+    name: p4
+    orientation: 0
+    port_type: placement
+    shear_angle: null
+    width: 0.5
+  p5:
+    center:
+    - 8.0
+    - 1.25
+    layer:
+    - 1
+    - 0
+    name: p5
+    orientation: 0
+    port_type: placement
+    shear_angle: null
+    width: 0.5
+settings:
+  changed:
+    port_type: placement
+  child: null
+  default:
+    east: 4
+    layer: WG
+    north: 0
+    south: 0
+    west: 1
+    wg_margin: 1.0
+    wg_width: 0.5
+    xsize: 8.0
+    ysize: 8.0
+  full:
+    east: 4
+    layer: WG
+    north: 0
+    port_type: placement
+    south: 0
+    west: 1
+    wg_margin: 1.0
+    wg_width: 0.5
+    xsize: 8.0
+    ysize: 8.0
+  function_name: nxn
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.nxn
+  name: nxn_port_typeplacement

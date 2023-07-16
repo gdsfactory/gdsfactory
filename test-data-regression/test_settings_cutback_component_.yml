@@ -1,0 +1,86 @@
+name: taper_from_csv_cutback_component
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 603.68
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child:
+    changed: {}
+    child: null
+    default:
+      cross_section: strip
+      filepath: taper_strip_0p5_3_36
+    full:
+      cross_section: strip
+      filepath: taper_strip_0p5_3_36
+    function_name: taper_from_csv
+    info: {}
+    info_version: 2
+    module: gdsfactory.components.taper_from_csv
+    name: taper_from_csv
+  default:
+    bend180:
+      function: bend_euler
+      settings:
+        angle: 180
+    cols: 4
+    component:
+      function: taper_from_csv
+      settings:
+        filepath: taper_strip_0p5_3_36
+    cross_section: strip
+    mirror: false
+    mirror1: false
+    mirror2: false
+    port1: o1
+    port2: o2
+    rows: 5
+    straight_length: null
+    straight_length_pair: null
+  full:
+    bend180:
+      function: bend_euler
+      settings:
+        angle: 180
+    cols: 4
+    component:
+      function: taper_from_csv
+      settings:
+        filepath: taper_strip_0p5_3_36
+    cross_section: strip
+    mirror: false
+    mirror1: false
+    mirror2: false
+    port1: o1
+    port2: o2
+    rows: 5
+    straight_length: null
+    straight_length_pair: null
+  function_name: cutback_component
+  info:
+    components: 80
+  info_version: 2
+  module: gdsfactory.components.cutback_component
+  name: taper_from_csv_cutback_component

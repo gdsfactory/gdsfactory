@@ -17,7 +17,7 @@ def mmi2x2(
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     taper: ComponentSpec = taper_function,
-    straight: CrossSectionSpec = straight_function,
+    straight: ComponentSpec = straight_function,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:

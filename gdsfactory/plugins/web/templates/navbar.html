@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid" style="padding: 1em; background: #fefefe">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <ul>
+        <a href="/"><i class="fas fa-home"></i></a>
+        <a href="/pdk"><i class="fas fa-chart-bar"></i></a>
+        <a href="/gds_current"><i class="fas fa-code"></i></a>
+        <a href="/gds_list"><i class="fas fa-folder-open"></i></a>
+        <a href="/filewatcher"><i class="fas fa-search"></i></a>
+    </ul>
+
+        <div class="collapse navbar-collapse justify-content-end">
+            <form action="/search" method="POST" class="d-flex" style="margin: 0.5em;">
+                <input class="form-control me-2" type="search" placeholder="View a component..." name="name" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>

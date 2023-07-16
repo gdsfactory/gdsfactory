@@ -4,18 +4,19 @@ To create a component you need to extrude the path with a cross-section.
 """
 from __future__ import annotations
 
+import functools
 import hashlib
 import inspect
 import sys
-import functools
 from collections.abc import Iterable
 from functools import partial
 from inspect import getmembers
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union, TypeVar
+from typing import Any, Callable, Dict, List, Optional, Tuple, TypeVar, Union
 
 from pydantic import BaseModel, Field, validate_call
 from typing_extensions import Literal
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
+from gdsfactory.serialization import clean_dict
 
 nm = 1e-3
 
@@ -72,7 +73,7 @@ class Section(BaseModel):
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
     insets: Optional[tuple] = None
-    layer: Optional[LayerSpec] = None
+    layer: Optional[Union[LayerSpec, LayerSpecs]] = None
     port_names: Tuple[Optional[str], Optional[str]] = (None, None)
     port_types: Tuple[str, str] = ("optical", "optical")
     name: Optional[str] = None
@@ -144,7 +145,7 @@ class CrossSection(BaseModel):
     bbox_offsets: List[float] = Field(default_factory=list)
     cladding_layers: Optional[LayerSpecs] = None
     cladding_offsets: Optional[Floats] = None
-    cladding_simplify: Optional[Floats] = (cladding_simplify_optical,)
+    cladding_simplify: Optional[Floats] = cladding_simplify_optical
     sections: List[Section] = Field(default_factory=list)
     port_names: Tuple[Optional[str], Optional[str]] = ("o1", "o2")
     port_types: Tuple[Optional[str], Optional[str]] = ("optical", "optical")
@@ -154,8 +155,8 @@ class CrossSection(BaseModel):
     end_straight_length: float = 10e-3
     snap_to_grid: Optional[float] = None
     decorator: Optional[Callable] = None
-    add_pins: Optional[Callable] = None
-    add_bbox: Optional[Callable] = None
+    add_pins: Optional[Callable] = Field(default=None, exclude=True)
+    add_bbox: Optional[Callable] = Field(default=None, exclude=True)
     info: Dict[str, Any] = Field(default_factory=dict)
     name: Optional[str] = None
     mirror: bool = False
@@ -252,6 +253,20 @@ class CrossSection(BaseModel):
                 c.add_polygon(points, layer=layer)
         return c
 
+    def get_xmin_xmax(self):
+        """Returns the min and max extent of the cross_section across all sections."""
+        main_width = self.width
+        main_offset = self.offset
+        xmin = main_offset - main_width / 2
+        xmax = main_offset + main_width / 2
+        for section in self.sections:
+            width = section.width
+            offset = section.offset
+            xmin = min(xmin, offset - width / 2)
+            xmax = max(xmax, offset + width / 2)
+
+        return xmin, xmax
+
 
 CrossSectionSpec = Union[CrossSection, Callable, Dict[str, Any]]
 
@@ -323,16 +338,21 @@ def _xsection_without_validator(func):
         xs = func(*args, **kwargs)
 
         sig = inspect.signature(func)
-        args_as_kwargs = dict(zip(sig.parameters.keys(), args))
-        args_as_kwargs.update(kwargs)
 
-        default = {
+        # Collect args passed into function into dict
+        args_as_kwargs = dict(zip(sig.parameters.keys(), args))
+
+        # Get settings from default arguments in function signature
+        settings = {
             p.name: p.default
             for p in sig.parameters.values()
             if p.default != inspect._empty
         }
 
-        args_as_kwargs.update(**default)
+        # Update with args and kwargs, overriding defaults
+        settings.update(args_as_kwargs)
+        settings.update(kwargs)
+        settings = clean_dict(settings)
 
         if not isinstance(xs, CrossSection):
             raise ValueError(
@@ -340,7 +360,8 @@ def _xsection_without_validator(func):
                 "make sure that functions with @xsection decorator return a CrossSection",
             )
 
-        xs.info.update(settings=args_as_kwargs, function_name=func.__name__)
+        function_name = func.__name__
+        xs.info.update(settings=settings, function_name=function_name)
         return xs
 
     return _xsection
@@ -484,9 +505,11 @@ radius_nitride = 20
 radius_rib = 20
 
 
-strip = cross_section
-strip_pins = partial(cross_section, add_pins=add_pins_inside1nm, name="strip")
-# strip = strip_pins
+# strip = cross_section
+strip_pins = partial(
+    cross_section, add_pins=add_pins_inside1nm, name="strip", add_bbox=None
+)
+strip = strip_pins
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 strip_no_pins = partial(
     strip, add_pins=None, add_bbox=None, cladding_layers=None, cladding_offsets=None
@@ -768,6 +791,17 @@ heater_metal = partial(
 metal3_with_bend = partial(metal1, layer="M3", radius=10)
 metal_routing = metal3
 npp = partial(metal1, layer="NPP", width=0.5)
+
+metal_slotted = partial(
+    cross_section,
+    width=10,
+    offset=0,
+    layer="M3",
+    sections=[
+        Section(width=10, layer="M3", offset=11),
+        Section(width=10, layer="M3", offset=-11),
+    ],
+)
 
 
 @xsection
@@ -2313,11 +2347,9 @@ if __name__ == "__main__":
     # )
     # xs = pn_with_trenches(width=0.3)
     # xs = slot(width=0.3)
-
     # xs = rib_with_trenches()
     # p = gf.path.straight()
     # c = p.extrude(xs)
-
     # xs = l_with_trenches(
     #     width=0.5,
     #     width_trench=2.0,
@@ -2325,13 +2357,11 @@ if __name__ == "__main__":
     # )
     # p = gf.path.straight()
     # c = p.extrude(xs)
-
     # xs = l_wg_doped_with_trenches(
     #     layer="WG", width=0.5, width_trench=2.0, width_slab=7.0, gap_low_doping=0.1
     # )
     # p = gf.path.straight()
     # c = p.extrude(cross_section=xs)
-
     # xs = rib_with_trenches() # FIXME
     # c = gf.components.straight(cross_section=xs)
     c = gf.components.straight(cross_section="strip")

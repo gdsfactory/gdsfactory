@@ -1,0 +1,58 @@
+name: compensation_path
+ports:
+  o1:
+    center:
+    - -40.0
+    - -18.869
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 40.0
+    - -18.869
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section: strip
+    crossing:
+      function: crossing
+    crossing45:
+      function: crossing45
+      settings:
+        cross_section: strip
+    direction: top
+  full:
+    cross_section: strip
+    crossing:
+      function: crossing
+    crossing45:
+      function: crossing45
+      settings:
+        cross_section: strip
+    direction: top
+  function_name: compensation_path
+  info:
+    min_bend_radius: 18.226
+    sbend:
+      end_angle: 0
+      length: 42.087
+      min_bend_radius: 18.226
+      start_angle: 0
+  info_version: 2
+  module: gdsfactory.components.crossing_waveguide
+  name: compensation_path

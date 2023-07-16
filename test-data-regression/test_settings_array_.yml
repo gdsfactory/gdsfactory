@@ -1,0 +1,388 @@
+name: array
+ports:
+  e1_1_1:
+    center:
+    - -50.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e1_1_1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e1_1_2:
+    center:
+    - 100.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e1_1_2
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e1_1_3:
+    center:
+    - 250.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e1_1_3
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e1_1_4:
+    center:
+    - 400.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e1_1_4
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e1_1_5:
+    center:
+    - 550.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e1_1_5
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e1_1_6:
+    center:
+    - 700.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e1_1_6
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e2_1_1:
+    center:
+    - 0.0
+    - 50.0
+    layer:
+    - 49
+    - 0
+    name: e2_1_1
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e2_1_2:
+    center:
+    - 150.0
+    - 50.0
+    layer:
+    - 49
+    - 0
+    name: e2_1_2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e2_1_3:
+    center:
+    - 300.0
+    - 50.0
+    layer:
+    - 49
+    - 0
+    name: e2_1_3
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e2_1_4:
+    center:
+    - 450.0
+    - 50.0
+    layer:
+    - 49
+    - 0
+    name: e2_1_4
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e2_1_5:
+    center:
+    - 600.0
+    - 50.0
+    layer:
+    - 49
+    - 0
+    name: e2_1_5
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e2_1_6:
+    center:
+    - 750.0
+    - 50.0
+    layer:
+    - 49
+    - 0
+    name: e2_1_6
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e3_1_1:
+    center:
+    - 50.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3_1_1
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e3_1_2:
+    center:
+    - 200.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3_1_2
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e3_1_3:
+    center:
+    - 350.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3_1_3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e3_1_4:
+    center:
+    - 500.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3_1_4
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e3_1_5:
+    center:
+    - 650.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3_1_5
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e3_1_6:
+    center:
+    - 800.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3_1_6
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e4_1_1:
+    center:
+    - 0.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4_1_1
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e4_1_2:
+    center:
+    - 150.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4_1_2
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e4_1_3:
+    center:
+    - 300.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4_1_3
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e4_1_4:
+    center:
+    - 450.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4_1_4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e4_1_5:
+    center:
+    - 600.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4_1_5
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e4_1_6:
+    center:
+    - 750.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4_1_6
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  pad_1_1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad_1_1
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
+  pad_1_2:
+    center:
+    - 150.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad_1_2
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
+  pad_1_3:
+    center:
+    - 300.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad_1_3
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
+  pad_1_4:
+    center:
+    - 450.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad_1_4
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
+  pad_1_5:
+    center:
+    - 600.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad_1_5
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
+  pad_1_6:
+    center:
+    - 750.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad_1_6
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
+settings:
+  changed: {}
+  child: null
+  default:
+    add_ports: true
+    columns: 6
+    component: pad
+    rows: 1
+    size: null
+    spacing:
+    - 150.0
+    - 150.0
+  full:
+    add_ports: true
+    columns: 6
+    component: pad
+    rows: 1
+    size: null
+    spacing:
+    - 150.0
+    - 150.0
+  function_name: array
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.array_component
+  name: array

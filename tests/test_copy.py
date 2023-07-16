@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 
 
-def test_two_copies_in_one():
+def test_two_copies_in_one() -> None:
     c = gf.Component()
     c1 = gf.components.straight()
     c2 = c1.copy()
@@ -19,7 +19,7 @@ def test_two_copies_in_one():
     assert c2.name != c3.name
 
 
-def test_copied_cell_keeps_info():
+def test_copied_cell_keeps_info() -> None:
     c1 = gf.components.straight()
     c2 = c1.copy()
     assert (

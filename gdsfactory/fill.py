@@ -5,7 +5,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import itertools
-from typing import List, Optional, Union, Tuple
+from typing import List, Optional, Tuple, Union
 
 import gdstk
 import numpy as np
@@ -17,11 +17,11 @@ from gdsfactory.component import Component
 from gdsfactory.component_layout import _parse_layer
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.typings import (
+    ComponentOrReference,
+    ComponentSpec,
     Float2,
     Floats,
     LayerSpecs,
-    ComponentSpec,
-    ComponentOrReference,
 )
 
 
@@ -318,7 +318,7 @@ def fill_rectangle_custom(
     return F
 
 
-def test_fill():
+def test_fill() -> None:
     import gdsfactory as gf
     from gdsfactory.difftest import difftest
 
@@ -334,8 +334,7 @@ def test_fill():
         # bbox=(100.0, 100.0),
     )
     c << fill
-    difftest(c)
-    return c
+    difftest(c, test_name="fill")
 
 
 if __name__ == "__main__":

@@ -18,8 +18,6 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
-from gdsfactory.snap import snap_to_grid
-
 if TYPE_CHECKING:
     from gdsfactory.component import Component
     from gdsfactory.component_reference import ComponentReference
@@ -34,6 +32,29 @@ nm = 1e-3
 
 def _rotate(v: ndarray, m: ndarray) -> ndarray:
     return np.dot(m, v)
+
+
+def add_bbox(
+    component: Component,
+    bbox_layer: LayerSpec = "DEVREC",
+) -> Component:
+    """Add bbox on outline.
+
+    Args:
+        component: component to add bbox.
+        bbox_layer: bbox layer.
+    """
+    from gdsfactory.pdk import get_layer
+
+    bbox_layer = get_layer(bbox_layer)
+    polygons = component.get_polygons(as_array=False)
+    polygons_ = gdstk.boolean(
+        polygons, [], "or", layer=bbox_layer[0], datatype=bbox_layer[1]
+    )
+
+    component.add(polygons_)
+
+    return component
 
 
 def add_bbox_siepic(
@@ -161,7 +182,7 @@ def add_pin_rectangle_inside(
     d = p.width / 2
 
     dbot = np.array([0, -d])
-    dtop = np.array([0, d])
+    dtop = np.array([0, +d])
     dbotin = np.array([-pin_length, -d])
     dtopin = np.array([-pin_length, +d])
 
@@ -509,12 +530,10 @@ def add_instance_label(
         instance_name
         or f"{reference.parent.name},{int(reference.x)},{int(reference.y)}"
     )
-    x = snap_to_grid(reference.x)
-    y = snap_to_grid(reference.y)
 
     component.add_label(
         text=instance_name,
-        position=(x, y),
+        position=reference.center,
         layer=layer,
     )
 

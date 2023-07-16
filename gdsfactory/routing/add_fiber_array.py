@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Callable, Optional, Tuple
 
 import gdsfactory as gf
@@ -7,6 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import select_ports_optical
+from gdsfactory.routing.get_input_labels import get_input_labels_dash
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.typings import (
@@ -15,7 +17,6 @@ from gdsfactory.typings import (
     CrossSectionSpec,
     LayerSpec,
 )
-from gdsfactory.routing.get_input_labels import get_input_labels_dash
 
 
 @gf.cell
@@ -28,7 +29,7 @@ def add_fiber_array(
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     get_input_labels_function: Optional[Callable] = get_input_labels_dash,
-    layer_label: LayerSpec = "TEXT",
+    layer_label: LayerSpec = "LABEL",
     **kwargs,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
@@ -207,7 +208,7 @@ if __name__ == "__main__":
     # test_type0()
     gcte = gf.components.grating_coupler_te
     gctm = gf.components.grating_coupler_tm
-    strip = gf.partial(
+    strip = partial(
         gf.cross_section.cross_section,
         width=1,
         layer=(2, 0),

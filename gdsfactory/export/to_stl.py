@@ -21,7 +21,8 @@ def to_stl(
 
     Args:
         component: to export.
-        filepath: to write STL to.
+        filepath: filepath prefix to write STL to.
+            Each file will have each exported layer as suffix.
         layer_stack: contains thickness and zmin for each layer.
         exclude_layers: layers to exclude.
         use_layer_name: If True, uses LayerLevel names in output filenames rather than gds_layer and gds_datatype.
@@ -31,6 +32,7 @@ def to_stl(
     """
     import shapely
     import trimesh.creation
+
     from gdsfactory.pdk import get_layer_stack
 
     layer_stack = layer_stack or get_layer_stack()
@@ -44,6 +46,7 @@ def to_stl(
     component_layers = component_with_booleans.get_layers()
     layer_names = list(layer_stack.layers.keys())
     layer_tuples = list(layer_stack.layers.values())
+
     for layer, polygons in component_with_booleans.get_polygons(by_spec=True).items():
         if (
             layer in exclude_layers

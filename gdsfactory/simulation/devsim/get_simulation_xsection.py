@@ -11,22 +11,30 @@ From Chrostowski, L., & Hochberg, M. (2015). Silicon Photonics Design: From Devi
 
 from __future__ import annotations
 
-from typing import Optional
+import warnings
+from typing import Optional, TYPE_CHECKING
 
 import devsim
 import matplotlib.pyplot as plt
 import numpy as np
 import pyvista as pv
+import tidy3d as td
 from devsim.python_packages import model_create, simple_physics
 from pydantic import BaseModel
+from scipy.interpolate import griddata
 
 from gdsfactory.simulation.disable_print import disable_print, enable_print
-from gdsfactory.simulation.gtidy3d.modes import FilterPol, Precision, Waveguide
-from gdsfactory.typings import MaterialSpec
+from gdsfactory.simulation.gtidy3d.materials import get_nk
+from gdsfactory.simulation.gtidy3d.modes import Precision, Waveguide
+
+if TYPE_CHECKING:
+    from gdsfactory.typings import MaterialSpec
 
 nm = 1e-9
 um = 1e-6
 cm = 1e-2
+
+DEVSIM_INTERPOLATION_METHOD = "linear"
 
 
 def dn_carriers(wavelength: float, dN: float, dP: float) -> float:
@@ -94,7 +102,7 @@ class PINWaveguide(BaseModel):
     """Silicon PIN junction waveguide Model.
 
     Parameters:
-        wg_width: waveguide width.
+        core_width: waveguide width.
         core_thickness: thickness waveguide (um).
         p_offset: offset between waveguide center and P-doping in um
             negative to push toward n-side.
@@ -105,8 +113,8 @@ class PINWaveguide(BaseModel):
         npp_offset: offset between waveguide center and Npp-doping in um
             negative to push toward p-side) NOT IMPLEMENTED.
         slab_thickness: thickness slab (um).
-        t_box: thickness BOX (um).
-        t_clad: thickness cladding (um).
+        box_thickness: thickness BOX (um).
+        clad_thickness: thickness cladding (um).
         p_conc: low-doping acceptor concentration (/cm3).
         n_conc: low-doping donor concentration (/cm3).
         ppp_conc: high-doping acceptor concentration (/cm3).
@@ -139,15 +147,15 @@ class PINWaveguide(BaseModel):
 
     """
 
-    wg_width: float
+    core_width: float
     core_thickness: float
     p_offset: float = 0.0
     n_offset: float = 0.0
     ppp_offset: float = 0.5 * um
     npp_offset: float = 0.5 * um
     slab_thickness: float
-    t_box: float = 2.0 * um
-    t_clad: float = 2.0 * um
+    box_thickness: float = 2.0 * um
+    clad_thickness: float = 2.0 * um
     p_conc: float = 1e17
     n_conc: float = 1e17
     ppp_conc: float = 1e17
@@ -171,7 +179,7 @@ class PINWaveguide(BaseModel):
 
     # @property
     # def t_sim(self):
-    #     return self.t_box + self.core_thickness + self.t_clad
+    #     return self.box_thickness + self.core_thickness + self.clad_thickness
 
     # @property
     # def w_sim(self):
@@ -179,14 +187,14 @@ class PINWaveguide(BaseModel):
 
     def create_2d_mesh(self, device) -> None:
         """Creates a 2D mesh."""
-        xmin = (-self.xmargin - self.ppp_offset - self.wg_width / 2) / cm
-        xmax = (self.xmargin + self.npp_offset + self.wg_width / 2) / cm
-        self.xppp = -self.ppp_offset - self.wg_width / 2
-        self.xnpp = self.npp_offset + self.wg_width / 2
+        xmin = (-self.xmargin - self.ppp_offset - self.core_width / 2) / cm
+        xmax = (self.xmargin + self.npp_offset + self.core_width / 2) / cm
+        self.xppp = -self.ppp_offset - self.core_width / 2
+        self.xnpp = self.npp_offset + self.core_width / 2
         ymin = 0 / cm
         ymax = (self.core_thickness) / cm
-        xmin_waveguide = (-self.wg_width / 2) / cm
-        xmax_waveguide = (self.wg_width / 2) / cm
+        xmin_waveguide = (-self.core_width / 2) / cm
+        xmax_waveguide = (self.core_width / 2) / cm
         yslab = (self.slab_thickness) / cm
 
         devsim.create_2d_mesh(mesh="dio")
@@ -481,15 +489,14 @@ class PINWaveguide(BaseModel):
     def make_waveguide(
         self,
         wavelength: float,
-        t_box: float = 2.0,
-        t_clad: float = 2.0,
-        resolution: int = 200,
+        box_thickness: float = 2.0,
+        clad_thickness: float = 2.0,
+        grid_resolution: int = 200,
         perturb: bool = True,
         nmodes: int = 4,
         bend_radius: Optional[float] = None,
         cache: bool = False,
         precision: Precision = "double",
-        filter_pol: Optional[FilterPol] = None,
         core_material: MaterialSpec = "si",
         clad_material: MaterialSpec = "sio2",
     ) -> Waveguide:
@@ -500,88 +507,213 @@ class PINWaveguide(BaseModel):
 
         Args:
             wavelength: (um).
-            t_box: thickness BOX (um).
-            t_clad: thickness cladding (um).
+            box_thickness: thickness BOX (um).
+            clad_thickness: thickness cladding (um).
             xmargin: margin from waveguide edge to each side (um).
-            resolution: pixels/um.
+            grid_resolution: wavelength resolution of the computation grid.
             perturb: add perturbation.
             nmodes: number of modes to compute.
             bend_radius: optional bend radius (um).
             cache: True uses file cache from PDK.modes_path. False skips cache.
             precision: single or double.
-            filter_pol: te, tm or None.
 
         Returns:
             A tidy3d Waveguide object.
 
         """
-        # Create index perturbation
-        x_fem = []
-        y_fem = []
-        dN_fem = []
-        dP_fem = []
-
-        mat_dtype = np.float64 if precision == "double" else np.float32
-
-        for region_name in ["core", "slab"]:
-            x_fem.append(
-                np.array(self.get_field(region_name=region_name, field_name="x"))
+        if perturb:
+            # Create temporary Waveguide to get the X, Y, Z positions
+            temp_Waveguide = Waveguide(
+                wavelength=wavelength,
+                core_width=self.core_width / um,
+                core_thickness=self.core_thickness / um,
+                slab_thickness=self.slab_thickness / um,
+                box_thickness=box_thickness,
+                clad_thickness=clad_thickness,
+                side_margin=max(
+                    self.ppp_offset + self.xmargin, self.npp_offset + self.xmargin
+                )
+                / um,
+                grid_resolution=grid_resolution,
+                precision=precision,
+                core_material=core_material,
+                clad_material=clad_material,
+                cache=False,
             )
-            y_fem.append(
-                np.array(self.get_field(region_name=region_name, field_name="y"))
+
+            # Create index perturbation
+            x_fem = []
+            y_fem = []
+            dN_fem = []
+            dP_fem = []
+
+            mat_dtype = np.float64 if precision == "double" else np.float32
+
+            for region_name in ["core", "slab"]:
+                x_fem.append(
+                    np.array(self.get_field(region_name=region_name, field_name="x"))
+                )
+                y_fem.append(
+                    np.array(self.get_field(region_name=region_name, field_name="y"))
+                )
+                dN_fem.append(
+                    np.array(
+                        self.get_field(region_name=region_name, field_name="Electrons"),
+                        dtype=mat_dtype,
+                    )
+                )
+                dP_fem.append(
+                    np.array(
+                        self.get_field(region_name=region_name, field_name="Holes"),
+                        dtype=mat_dtype,
+                    )
+                )
+
+            x_fem = np.concatenate(x_fem)
+            y_fem = np.concatenate(y_fem)
+            dN_fem = np.concatenate(dN_fem)
+            dP_fem = np.concatenate(dP_fem)
+
+            dn_fem = dn_carriers(wavelength, dN_fem, dP_fem)
+            dk_fem = alpha_to_k(dalpha_carriers(wavelength, dN_fem, dP_fem), wavelength)
+
+            # Interpolate the index perturbation onto the Waveguide grid
+            temp_grid = temp_Waveguide.waveguide.mode_solver.simulation.grid
+            X = temp_grid.centers.x
+            Y = temp_grid.centers.y
+            Z = temp_grid.centers.z
+
+            freq0 = td.C_0 / wavelength
+            freqs = [freq0]
+
+            x_mesh, y_mesh, z_mesh, freq_mesh = np.meshgrid(
+                X, Y, Z, freqs, indexing="ij"
             )
-            dN_fem.append(
-                np.array(
-                    self.get_field(region_name=region_name, field_name="Electrons"),
-                    dtype=mat_dtype,
+            x_mesh_2D = x_mesh[:, :, 0, 0]
+            y_mesh_2D = y_mesh[:, :, 0, 0]
+
+            dn_grid = np.nan_to_num(
+                griddata(
+                    (x_fem * cm / um, y_fem * cm / um),
+                    dn_fem,
+                    (x_mesh_2D, y_mesh_2D),
+                    DEVSIM_INTERPOLATION_METHOD,
                 )
             )
-            dP_fem.append(
-                np.array(
-                    self.get_field(region_name=region_name, field_name="Holes"),
-                    dtype=mat_dtype,
+            dk_grid = np.nan_to_num(
+                griddata(
+                    (x_fem * cm / um, y_fem * cm / um),
+                    dk_fem,
+                    (x_mesh_2D, y_mesh_2D),
+                    DEVSIM_INTERPOLATION_METHOD,
                 )
             )
 
-        x_fem = np.concatenate(x_fem)
-        y_fem = np.concatenate(y_fem)
-        dN_fem = np.concatenate(dN_fem)
-        dP_fem = np.concatenate(dP_fem)
+            # Extend to 3D (Nx, Ny,) -> (Nx, Ny, Nz,)
+            dn_grid_3D = np.stack([dn_grid] * Z.size, axis=-1)
+            dk_grid_3D = np.stack([dk_grid] * Z.size, axis=-1)
 
-        dn_fem = dn_carriers(wavelength, dN_fem, dP_fem)
-        dk_fem = alpha_to_k(dalpha_carriers(wavelength, dN_fem, dP_fem), wavelength)
-        dn_dict = (
-            {
-                "x": x_fem * cm / um,
-                "y": y_fem * cm / um + t_box,
-                "dn": dn_fem + 1j * dk_fem,
-            }
-            if perturb
-            else None
-        )
+            # Extend to 4D (Nx, Ny, Nz,) -> (Nx, Ny, Nz, Nf)
+            dn_grid_td = np.stack([dn_grid_3D] * len(freqs), axis=-1)
+            dk_grid_td = np.stack([dk_grid_3D] * len(freqs), axis=-1)
 
-        # Create perturbed waveguide, handle like regular mode
-        return Waveguide(
-            wavelength=wavelength,
-            wg_width=self.wg_width / um,
-            core_thickness=self.core_thickness / um,
-            slab_thickness=self.slab_thickness / um,
-            t_box=t_box,
-            t_clad=t_clad,
-            xmargin=(self.ppp_offset + self.xmargin) / um,
-            resolution=resolution,
-            dn_dict=dn_dict,
-            precision=precision,
-            filter_pol=filter_pol,
-            core_material=core_material,
-            clad_material=clad_material,
-            cache=cache,
-        )
+            n_core, k_core = get_nk(core_material)
+            n_dataset = td.ScalarFieldDataArray(
+                n_core + dn_grid_td, coords=dict(x=X, y=Y, z=Z, f=freqs)
+            )
+            k_dataset = td.ScalarFieldDataArray(
+                k_core + dk_grid_td, coords=dict(x=X, y=Y, z=Z, f=freqs)
+            )
+
+            # core_material_pertub = td.CustomMedium.from_nk(
+            #     n=n_dataset,
+            #     k=k_dataset,
+            #     interp_method="linear",
+            # )
+            if isinstance(core_material, str):
+                name_material = core_material + "_with_carriers"
+            else:
+                name_material = "core_material_with_carriers"
+
+            eps_real = n_dataset**2 - k_dataset**2
+            eps_imag = 2 * n_dataset * k_dataset
+            eps_diag_data = td.ScalarFieldDataArray(
+                eps_real + 1.0j * eps_imag, coords=dict(x=X, y=Y, z=Z, f=freqs)
+            )
+
+            eps_perturb = td.PermittivityDataset(
+                eps_xx=eps_diag_data, eps_yy=eps_diag_data, eps_zz=eps_diag_data
+            )
+            core_material_pertub = td.CustomMedium(
+                name=name_material,
+                eps_dataset=eps_perturb,
+                frequency_range=[0.99 * freq0, 1.01 * freq0],
+            )
+
+            # dn_dict = (
+            #     {
+            #         "x": x_fem * cm / um,
+            #         "y": y_fem * cm / um + box_thickness,
+            #         "dn": dn_fem + 1j * dk_fem,
+            #     }
+            #     if perturb
+            #     else None
+            # )
+
+            # Create perturbed waveguide, handle like regular mode
+            return Waveguide(
+                wavelength=wavelength,
+                core_width=self.core_width / um,
+                core_thickness=self.core_thickness / um,
+                slab_thickness=self.slab_thickness / um,
+                box_thickness=box_thickness,
+                clad_thickness=clad_thickness,
+                side_margin=max(
+                    self.ppp_offset + self.xmargin, self.npp_offset + self.xmargin
+                )
+                / um,
+                grid_resolution=grid_resolution,
+                precision=precision,
+                core_material=core_material_pertub,
+                clad_material=clad_material,
+                cache=cache,
+            )
+        else:
+            # Create simple waveguide, handle like regular mode
+            return Waveguide(
+                wavelength=wavelength,
+                core_width=self.core_width / um,
+                core_thickness=self.core_thickness / um,
+                slab_thickness=self.slab_thickness / um,
+                box_thickness=box_thickness,
+                clad_thickness=clad_thickness,
+                side_margin=max(
+                    self.ppp_offset + self.xmargin, self.npp_offset + self.xmargin
+                )
+                / um,
+                grid_resolution=grid_resolution,
+                precision=precision,
+                core_material=core_material,
+                clad_material=clad_material,
+                cache=cache,
+            )
+
+
+def clear_devsim_cache() -> None:
+    try:
+        devsim.delete_mesh(mesh="dio")
+    except devsim.error:
+        warnings.warn("No mesh to delete.")
+
+    try:
+        devsim.delete_device(device="MyDevice")
+    except devsim.error:
+        warnings.warn("No device to delete.")
 
 
 if __name__ == "__main__":
     c = PINWaveguide(
-        wg_width=500 * nm,
+        core_width=500 * nm,
         core_thickness=220 * nm,
         slab_thickness=90 * nm,
     )

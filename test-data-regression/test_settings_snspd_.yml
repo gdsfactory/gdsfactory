@@ -1,0 +1,63 @@
+name: snspd
+ports:
+  e1:
+    center:
+    - -2.5
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 0.2
+  e2:
+    center:
+    - 7.5
+    - -8.4
+    layer:
+    - 1
+    - 0
+    name: e2
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 0.2
+settings:
+  changed: {}
+  child: null
+  default:
+    layer:
+    - 1
+    - 0
+    num_squares: null
+    size:
+    - 10
+    - 8
+    terminals_same_side: false
+    turn_ratio: 4
+    wire_pitch: 0.6
+    wire_width: 0.2
+  full:
+    layer:
+    - 1
+    - 0
+    num_squares: null
+    size:
+    - 10
+    - 8
+    terminals_same_side: false
+    turn_ratio: 4
+    wire_pitch: 0.6
+    wire_width: 0.2
+  function_name: snspd
+  info:
+    area: 80
+    num_squares: 750.0
+    size:
+    - 10
+    - 8
+  info_version: 2
+  module: gdsfactory.components.snspd
+  name: snspd

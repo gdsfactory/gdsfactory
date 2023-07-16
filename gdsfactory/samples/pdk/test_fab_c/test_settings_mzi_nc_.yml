@@ -1,4 +1,4 @@
-name: mzi_e687e91e
+name: mzi_a2d8b7af
 ports:
   o1:
     center:
@@ -8,7 +8,7 @@ ports:
     - 34
     - 0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     shear_angle: null
     width: 1.0
@@ -32,6 +32,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox: null
             add_pins:
               function: add_pins
             bbox_layers:
@@ -42,11 +43,13 @@ settings:
             layer:
             - 34
             - 0
+            name: strip
             width: 1.0
         with_bbox: true
     cross_section:
       function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
         bbox_layers:
@@ -57,6 +60,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
     splitter:
       function: mmi1x2
@@ -64,6 +68,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox: null
             add_pins:
               function: add_pins
             bbox_layers:
@@ -74,6 +79,7 @@ settings:
             layer:
             - 34
             - 0
+            name: strip
             width: 1.0
         width: 1.0
         width_mmi: 3
@@ -83,6 +89,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox: null
             add_pins:
               function: add_pins
             bbox_layers:
@@ -93,6 +100,7 @@ settings:
             layer:
             - 34
             - 0
+            name: strip
             width: 1.0
         with_bbox: true
   child: null
@@ -128,6 +136,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox: null
             add_pins:
               function: add_pins
             bbox_layers:
@@ -138,12 +147,14 @@ settings:
             layer:
             - 34
             - 0
+            name: strip
             width: 1.0
         with_bbox: true
     combiner: null
     cross_section:
       function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
         bbox_layers:
@@ -154,6 +165,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
     cross_section_x_bot: null
     cross_section_x_top: null
@@ -172,6 +184,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox: null
             add_pins:
               function: add_pins
             bbox_layers:
@@ -182,6 +195,7 @@ settings:
             layer:
             - 34
             - 0
+            name: strip
             width: 1.0
         width: 1.0
         width_mmi: 3
@@ -191,6 +205,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox: null
             add_pins:
               function: add_pins
             bbox_layers:
@@ -201,6 +216,7 @@ settings:
             layer:
             - 34
             - 0
+            name: strip
             width: 1.0
         with_bbox: true
     straight_x_bot: null
@@ -211,4 +227,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_e687e91e
+  name: mzi_a2d8b7af

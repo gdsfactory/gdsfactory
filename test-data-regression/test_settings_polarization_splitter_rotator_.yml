@@ -1,0 +1,82 @@
+name: polarization_splitter_rotator
+ports:
+  o1:
+    center:
+    - -49.867
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.54
+  o2:
+    center:
+    - 21.33
+    - 5.802
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.54
+  o3:
+    center:
+    - 21.33
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.54
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section: strip
+    dy: 5.0
+    gap: 0.15
+    length_coupler: 7.0
+    length_out: 14.33
+    length_taper_in:
+    - 4.0
+    - 44.0
+    width_coupler:
+    - 0.9
+    - 0.405
+    width_out: 0.54
+    width_taper_in:
+    - 0.54
+    - 0.69
+    - 0.83
+  full:
+    cross_section: strip
+    dy: 5.0
+    gap: 0.15
+    length_coupler: 7.0
+    length_out: 14.33
+    length_taper_in:
+    - 4.0
+    - 44.0
+    width_coupler:
+    - 0.9
+    - 0.405
+    width_out: 0.54
+    width_taper_in:
+    - 0.54
+    - 0.69
+    - 0.83
+  function_name: polarization_splitter_rotator
+  info:
+    length: 15.484
+    min_bend_radius: 9.391
+  info_version: 2
+  module: gdsfactory.components.polarization_splitter_rotator
+  name: polarization_splitter_rotator

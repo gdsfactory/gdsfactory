@@ -1,0 +1,144 @@
+name: mzi_lattice_mmi
+ports:
+  o1:
+    center:
+    - -10.0
+    - -0.625
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -10.0
+    - 0.625
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 81.12
+    - 0.625
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 81.12
+    - -0.625
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    coupler_gaps_mmis:
+    - 0.25
+    - 0.25
+    coupler_lengths_mmis:
+    - 5.5
+    - 5.5
+    coupler_lengths_tapers:
+    - 10.0
+    - 10.0
+    coupler_widths:
+    - null
+    - null
+    coupler_widths_mmis:
+    - 2.5
+    - 2.5
+    coupler_widths_tapers:
+    - 1.0
+    - 1.0
+    cross_sections_mmis:
+    - strip
+    - strip
+    delta_lengths:
+    - 10.0
+    mzi:
+      function: mzi
+      settings:
+        combiner:
+          function: mmi2x2
+        port_e0_combiner: o4
+        port_e0_splitter: o4
+        port_e1_combiner: o3
+        port_e1_splitter: o3
+        splitter:
+          function: mmi2x2
+    splitter:
+      function: mmi2x2
+    straight_functions_mmis:
+    - function: straight
+    - function: straight
+    taper_functions_mmis:
+    - function: taper
+    - function: taper
+  full:
+    coupler_gaps_mmis:
+    - 0.25
+    - 0.25
+    coupler_lengths_mmis:
+    - 5.5
+    - 5.5
+    coupler_lengths_tapers:
+    - 10.0
+    - 10.0
+    coupler_widths:
+    - null
+    - null
+    coupler_widths_mmis:
+    - 2.5
+    - 2.5
+    coupler_widths_tapers:
+    - 1.0
+    - 1.0
+    cross_sections_mmis:
+    - strip
+    - strip
+    delta_lengths:
+    - 10.0
+    mzi:
+      function: mzi
+      settings:
+        combiner:
+          function: mmi2x2
+        port_e0_combiner: o4
+        port_e0_splitter: o4
+        port_e1_combiner: o3
+        port_e1_splitter: o3
+        splitter:
+          function: mmi2x2
+    splitter:
+      function: mmi2x2
+    straight_functions_mmis:
+    - function: straight
+    - function: straight
+    taper_functions_mmis:
+    - function: taper
+    - function: taper
+  function_name: mzi_lattice_mmi
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mzi_lattice
+  name: mzi_lattice_mmi

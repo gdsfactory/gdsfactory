@@ -1,0 +1,92 @@
+name: regular_polygon
+ports:
+  p1:
+    center:
+    - -7.5
+    - -4.33
+    layer:
+    - 1
+    - 0
+    name: p1
+    orientation: 210.0
+    port_type: placement
+    shear_angle: null
+    width: 10
+  p2:
+    center:
+    - -7.5
+    - 4.33
+    layer:
+    - 1
+    - 0
+    name: p2
+    orientation: 150.0
+    port_type: placement
+    shear_angle: null
+    width: 10
+  p3:
+    center:
+    - 0.0
+    - 8.66
+    layer:
+    - 1
+    - 0
+    name: p3
+    orientation: 90.0
+    port_type: placement
+    shear_angle: null
+    width: 10
+  p4:
+    center:
+    - 7.5
+    - 4.33
+    layer:
+    - 1
+    - 0
+    name: p4
+    orientation: 30.0
+    port_type: placement
+    shear_angle: null
+    width: 10
+  p5:
+    center:
+    - 7.5
+    - -4.33
+    layer:
+    - 1
+    - 0
+    name: p5
+    orientation: 330.0
+    port_type: placement
+    shear_angle: null
+    width: 10
+  p6:
+    center:
+    - -0.0
+    - -8.66
+    layer:
+    - 1
+    - 0
+    name: p6
+    orientation: 270.0
+    port_type: placement
+    shear_angle: null
+    width: 10
+settings:
+  changed: {}
+  child: null
+  default:
+    layer: WG
+    port_type: placement
+    side_length: 10
+    sides: 6
+  full:
+    layer: WG
+    port_type: placement
+    side_length: 10
+    sides: 6
+  function_name: regular_polygon
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.regular_polygon
+  name: regular_polygon

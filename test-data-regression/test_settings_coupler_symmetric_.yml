@@ -1,0 +1,74 @@
+name: coupler_symmetric
+ports:
+  o1:
+    center:
+    - 0.0
+    - -0.367
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 0.0
+    - 0.367
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 10.0
+    - 2.5
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 10.0
+    - -2.5
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_s
+    cross_section: strip
+    dx: 10.0
+    dy: 5.0
+    gap: 0.234
+  full:
+    bend:
+      function: bend_s
+    cross_section: strip
+    dx: 10.0
+    dy: 5.0
+    gap: 0.234
+  function_name: coupler_symmetric
+  info:
+    length: 10.315
+    min_bend_radius: 9.447
+  info_version: 2
+  module: gdsfactory.components.coupler_symmetric
+  name: coupler_symmetric

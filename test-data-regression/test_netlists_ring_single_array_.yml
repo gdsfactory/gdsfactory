@@ -1,0 +1,81 @@
+connections:
+  ring_single_1,o2: straight_1,o1
+  ring_single_2,o1: straight_1,o2
+instances:
+  ring_single_1:
+    component: ring_single
+    settings:
+      length_x: 10.0
+      radius: 5.0
+  ring_single_2:
+    component: ring_single
+    settings:
+      length_x: 20.0
+  straight_1:
+    component: straight
+    info:
+      cross_section: strip
+      function_name: cross_section
+      length: 5.0
+      settings:
+        add_bbox: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        cladding_simplify: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: strip
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
+      width: 0.5
+    settings:
+      length: 5.0
+name: ring_single_array
+placements:
+  ring_single_1:
+    mirror: 0
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  ring_single_2:
+    mirror: 0
+    rotation: 0
+    x: 46.0
+    y: 0.0
+  straight_1:
+    mirror: 0
+    rotation: 0
+    x: 8.0
+    y: 0.0
+ports:
+  o1: ring_single_1,o1
+  o2: ring_single_2,o2

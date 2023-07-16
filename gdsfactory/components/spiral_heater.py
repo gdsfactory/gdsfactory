@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Optional
+
 import numpy as np
 from scipy.interpolate import interp1d
 
@@ -8,13 +10,8 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.bend_s import bend_s, get_min_sbend_size
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import (
-    ComponentFactory,
-    CrossSectionSpec,
-    Floats,
-)
 from gdsfactory.routing.get_route import get_route
-from typing import Optional
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Floats
 
 
 @gf.cell
@@ -461,14 +458,13 @@ def spiral_racetrack_heater_doped(
     return c
 
 
-def test_length_spiral_racetrack():
+def test_length_spiral_racetrack() -> None:
     import numpy as np
 
     length = 1000
     c = spiral_racetrack_fixed_length(length=length, cross_section="strip_no_pins")
     length_computed = c.area() / 0.5
     np.isclose(length, length_computed)
-    return c
 
 
 @gf.cell

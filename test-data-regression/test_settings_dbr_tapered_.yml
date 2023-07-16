@@ -1,0 +1,58 @@
+name: dbr_tapered
+ports:
+  o1:
+    center:
+    - -25.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 1.0
+  o2:
+    center:
+    - 25.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 1.0
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section: strip
+    dc: 0.5
+    fin_size:
+    - 0.2
+    - 0.05
+    fins: false
+    length: 10.0
+    period: 0.85
+    taper_length: 20.0
+    w1: 0.4
+    w2: 1.0
+  full:
+    cross_section: strip
+    dc: 0.5
+    fin_size:
+    - 0.2
+    - 0.05
+    fins: false
+    length: 10.0
+    period: 0.85
+    taper_length: 20.0
+    w1: 0.4
+    w2: 1.0
+  function_name: dbr_tapered
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.dbr_tapered
+  name: dbr_tapered

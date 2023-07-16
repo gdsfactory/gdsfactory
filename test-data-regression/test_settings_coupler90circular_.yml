@@ -1,0 +1,78 @@
+name: coupler90_528aa9f7
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 0.0
+    - 0.7
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 10.0
+    - 10.7
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed:
+    bend:
+      function: bend_circular
+  child: null
+  default:
+    bend:
+      function: bend_euler
+    bend_cross_section: null
+    cross_section: strip
+    gap: 0.2
+    radius: 10.0
+    straight:
+      function: straight
+  full:
+    bend:
+      function: bend_circular
+    bend_cross_section: null
+    cross_section: strip
+    gap: 0.2
+    radius: 10.0
+    straight:
+      function: straight
+  function_name: coupler90
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.coupler90
+  name: coupler90_528aa9f7

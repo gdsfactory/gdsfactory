@@ -27,8 +27,8 @@ from gdsfactory.routing.utils import (
 from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
-    PortsDict,
     LabelListFactory,
+    PortsDict,
 )
 
 
@@ -377,10 +377,6 @@ def add_grating_couplers_with_loopback_fiber_array(
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import get_generic_pdk
-
-    PDK = get_generic_pdk()
-    PDK.activate()
     # from gdsfactory.add_labels import get_optical_text
     # c = gf.components.grating_coupler_elliptical_te()
     # print(c.wavelength)

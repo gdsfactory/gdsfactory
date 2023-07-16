@@ -1,0 +1,102 @@
+name: mzi_lattice
+ports:
+  o1:
+    center:
+    - -10.0
+    - -1.65
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -10.0
+    - 2.35
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 100.12
+    - 2.4
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 100.12
+    - -1.6
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    coupler_gaps:
+    - 0.2
+    - 0.3
+    coupler_lengths:
+    - 10.0
+    - 20.0
+    delta_lengths:
+    - 10.0
+    mzi:
+      function: mzi
+      settings:
+        combiner:
+          function: coupler
+        port_e0_combiner: o4
+        port_e0_splitter: o4
+        port_e1_combiner: o3
+        port_e1_splitter: o3
+        splitter:
+          function: coupler
+    splitter:
+      function: coupler
+  full:
+    coupler_gaps:
+    - 0.2
+    - 0.3
+    coupler_lengths:
+    - 10.0
+    - 20.0
+    delta_lengths:
+    - 10.0
+    mzi:
+      function: mzi
+      settings:
+        combiner:
+          function: coupler
+        port_e0_combiner: o4
+        port_e0_splitter: o4
+        port_e1_combiner: o3
+        port_e1_splitter: o3
+        splitter:
+          function: coupler
+    splitter:
+      function: coupler
+  function_name: mzi_lattice
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mzi_lattice
+  name: mzi_lattice

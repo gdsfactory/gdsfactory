@@ -1,0 +1,37 @@
+name: bend_euler_s
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 20.0
+    - 20.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default: {}
+  full: {}
+  function_name: bend_euler_s
+  info:
+    length: 33.274
+  info_version: 2
+  module: gdsfactory.components.bend_euler
+  name: bend_euler_s

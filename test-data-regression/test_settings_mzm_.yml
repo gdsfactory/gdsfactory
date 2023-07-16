@@ -1,0 +1,266 @@
+name: mzm
+ports:
+  bot_bot_e1:
+    center:
+    - 45.5
+    - -28.625
+    layer:
+    - 49
+    - 0
+    name: bot_bot_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  bot_bot_e2:
+    center:
+    - 285.5
+    - -23.625
+    layer:
+    - 49
+    - 0
+    name: bot_bot_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 480.0
+  bot_bot_e3:
+    center:
+    - 525.5
+    - -28.625
+    layer:
+    - 49
+    - 0
+    name: bot_bot_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  bot_bot_e4:
+    center:
+    - 285.5
+    - -33.625
+    layer:
+    - 49
+    - 0
+    name: bot_bot_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 480.0
+  bot_top_e1:
+    center:
+    - 45.5
+    - -16.625
+    layer:
+    - 49
+    - 0
+    name: bot_top_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  bot_top_e2:
+    center:
+    - 285.5
+    - -11.625
+    layer:
+    - 49
+    - 0
+    name: bot_top_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 480.0
+  bot_top_e3:
+    center:
+    - 525.5
+    - -16.625
+    layer:
+    - 49
+    - 0
+    name: bot_top_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  bot_top_e4:
+    center:
+    - 285.5
+    - -21.625
+    layer:
+    - 49
+    - 0
+    name: bot_top_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 480.0
+  in_o1:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: in_o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  out_o1:
+    center:
+    - 581.02
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: out_o1
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  top_bot_e1:
+    center:
+    - 45.5
+    - 16.625
+    layer:
+    - 49
+    - 0
+    name: top_bot_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  top_bot_e2:
+    center:
+    - 285.5
+    - 21.625
+    layer:
+    - 49
+    - 0
+    name: top_bot_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 480.0
+  top_bot_e3:
+    center:
+    - 525.5
+    - 16.625
+    layer:
+    - 49
+    - 0
+    name: top_bot_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  top_bot_e4:
+    center:
+    - 285.5
+    - 11.625
+    layer:
+    - 49
+    - 0
+    name: top_bot_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 480.0
+  top_top_e1:
+    center:
+    - 45.5
+    - 28.625
+    layer:
+    - 49
+    - 0
+    name: top_top_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  top_top_e2:
+    center:
+    - 285.5
+    - 33.625
+    layer:
+    - 49
+    - 0
+    name: top_top_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 480.0
+  top_top_e3:
+    center:
+    - 525.5
+    - 28.625
+    layer:
+    - 49
+    - 0
+    name: top_top_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  top_top_e4:
+    center:
+    - 285.5
+    - 23.625
+    layer:
+    - 49
+    - 0
+    name: top_top_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 480.0
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_euler
+    combiner: mmi1x2
+    cross_section: strip
+    delta_length: 0.0
+    length_x: 500
+    length_y: 2.0
+    mirror_bot: false
+    nbends: 2
+    phase_shifter:
+      function: straight_pin
+    port_e0_combiner: o3
+    port_e0_splitter: o3
+    port_e1_combiner: o2
+    port_e1_splitter: o2
+    splitter: mmi1x2
+    straight:
+      function: straight
+    with_splitter: true
+  full:
+    bend:
+      function: bend_euler
+    combiner: mmi1x2
+    cross_section: strip
+    delta_length: 0.0
+    length_x: 500
+    length_y: 2.0
+    mirror_bot: false
+    nbends: 2
+    phase_shifter:
+      function: straight_pin
+    port_e0_combiner: o3
+    port_e0_splitter: o3
+    port_e1_combiner: o2
+    port_e1_splitter: o2
+    splitter: mmi1x2
+    straight:
+      function: straight
+    with_splitter: true
+  function_name: mzm
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mzm
+  name: mzm

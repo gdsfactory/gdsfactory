@@ -190,7 +190,7 @@ def mesh_from_polygons(
     return mesh
 
 
-def create_physical_mesh(mesh, cell_type, prune_z=True):
+def create_physical_mesh(mesh, cell_type):
     cells = mesh.get_cells_type(cell_type)
     cell_data = mesh.get_cell_data("gmsh:physical", cell_type)
     points = mesh.points
@@ -314,7 +314,7 @@ if __name__ == "__main__":
 
     mesh_from_file = meshio.read("mesh.msh")
 
-    def create_mesh(mesh, cell_type, prune_z=True):
+    def create_mesh(mesh, cell_type):
         cells = mesh.get_cells_type(cell_type)
         cell_data = mesh.get_cell_data("gmsh:physical", cell_type)
         points = mesh.points
@@ -324,8 +324,8 @@ if __name__ == "__main__":
             cell_data={"name_to_read": [cell_data]},
         )
 
-    line_mesh = create_mesh(mesh_from_file, "line", prune_z=True)
+    line_mesh = create_mesh(mesh_from_file, "line")
     meshio.write("facet_mesh.xdmf", line_mesh)
 
-    triangle_mesh = create_mesh(mesh_from_file, "triangle", prune_z=True)
+    triangle_mesh = create_mesh(mesh_from_file, "triangle")
     meshio.write("mesh.xdmf", triangle_mesh)

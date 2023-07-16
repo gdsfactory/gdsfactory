@@ -1,0 +1,94 @@
+name: pad
+ports:
+  e1:
+    center:
+    - -50.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e2:
+    center:
+    - 0.0
+    - 50.0
+    layer:
+    - 49
+    - 0
+    name: e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e3:
+    center:
+    - 50.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e4:
+    center:
+    - 0.0
+    - -50.0
+    layer:
+    - 49
+    - 0
+    name: e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  pad:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 100.0
+settings:
+  changed: {}
+  child: null
+  default:
+    bbox_layers: null
+    bbox_offsets: null
+    layer: MTOP
+    port_inclusion: 0
+    port_orientation: null
+    size:
+    - 100.0
+    - 100.0
+  full:
+    bbox_layers: null
+    bbox_offsets: null
+    layer: MTOP
+    port_inclusion: 0
+    port_orientation: null
+    size:
+    - 100.0
+    - 100.0
+  function_name: pad
+  info:
+    layer:
+    - 49
+    - 0
+    size:
+    - 100.0
+    - 100.0
+  info_version: 2
+  module: gdsfactory.components.pad
+  name: pad

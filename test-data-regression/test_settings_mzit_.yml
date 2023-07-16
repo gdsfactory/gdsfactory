@@ -1,0 +1,102 @@
+name: mzit
+ports:
+  o1:
+    center:
+    - -10.0
+    - -0.6
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -10.0
+    - 1.4
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - -11.0
+    - 21.4
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - -11.0
+    - 23.4
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend90:
+      function: bend_euler
+    coupler1:
+      function: coupler
+    coupler2:
+      function: coupler
+    coupler_gap1: 0.2
+    coupler_gap2: 0.3
+    coupler_length1: 5.0
+    coupler_length2: 10.0
+    delta_length: 10.0
+    dy: 2.0
+    length: 1.0
+    straight:
+      function: straight
+    taper:
+      function: taper
+    taper_length: 5.0
+    w0: 0.5
+    w1: 0.45
+    w2: 0.55
+  full:
+    bend90:
+      function: bend_euler
+    coupler1:
+      function: coupler
+    coupler2:
+      function: coupler
+    coupler_gap1: 0.2
+    coupler_gap2: 0.3
+    coupler_length1: 5.0
+    coupler_length2: 10.0
+    delta_length: 10.0
+    dy: 2.0
+    length: 1.0
+    straight:
+      function: straight
+    taper:
+      function: taper
+    taper_length: 5.0
+    w0: 0.5
+    w1: 0.45
+    w2: 0.55
+  function_name: mzit
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mzit
+  name: mzit

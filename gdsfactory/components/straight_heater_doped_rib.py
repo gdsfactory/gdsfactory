@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional, Tuple
 
 import gdsfactory as gf
@@ -96,7 +97,7 @@ def straight_heater_doped_rib(
 
     """
     c = Component()
-    cross_section_heater = gf.partial(
+    cross_section_heater = partial(
         cross_section_heater,
         heater_width=heater_width,
         heater_gap=heater_gap,
@@ -194,16 +195,15 @@ def straight_heater_doped_rib(
     return c
 
 
-def test_straight_heater_doped_rib_ports() -> Component:
+def test_straight_heater_doped_rib_ports() -> None:
     c = straight_heater_doped_rib(length=100.0)
     assert c.get_ports_xsize(port_type="optical") == 100.0, c.get_ports_xsize(
         port_type="optical"
     )
-    return c
 
 
 if __name__ == "__main__":
-    c = straight_heater_doped_rib(xoffset_tip1=10, via_stack=None)
+    c = straight_heater_doped_rib(xoffset_tip1=10)
     # c = straight_heater_doped_rib(with_taper1=False)
     # c = straight_heater_doped_rib(length=500)
     c.show(show_ports=True)

@@ -601,6 +601,21 @@ component_lattice
 
 
 
+component_lattice_generic
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.component_lattice_generic
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.component_lattice_generic()
+  c.plot_matplotlib()
+
+
+
 component_sequence
 ----------------------------------------------------
 
@@ -724,6 +739,21 @@ coupler_bend
   import gdsfactory as gf
 
   c = gf.components.coupler_bend(radius=10.0, coupler_gap=0.2, coupling_angle_coverage=120.0, cross_section_inner='strip', cross_section_outer='strip')
+  c.plot_matplotlib()
+
+
+
+coupler_bent
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coupler_bent
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coupler_bent(gap=0.2, radius=26, length=8.6, width1=0.4, width2=0.4, length_straight=10)
   c.plot_matplotlib()
 
 
@@ -858,7 +888,7 @@ crossing45
 
   import gdsfactory as gf
 
-  c = gf.components.crossing45(port_spacing=40.0, alpha=0.08, npoints=101, cross_section='strip')
+  c = gf.components.crossing45(port_spacing=40.0, alpha=0.08, npoints=101, cross_section='strip', cross_section_bends='strip_no_pins')
   c.plot_matplotlib()
 
 
@@ -1442,7 +1472,7 @@ grating_coupler_elliptical_lumerical
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_lumerical(parameters=[-2.4298362615732447, 0.1, 0.48007023217536954, 0.1, 0.607397685752365, 0.1, 0.4498844003086115, 0.1, 0.4274116312627637, 0.1, 0.4757904248387285, 0.1, 0.5026649898504233, 0.10002922416240886, 0.5100366774007897, 0.1, 0.494399635363353, 0.1079599958465788, 0.47400592737426483, 0.14972685326277918, 0.43272750134545823, 0.1839530796530385, 0.3872023336708212, 0.2360175325711591, 0.36032212454768675, 0.24261846353500535, 0.35770350120764394, 0.2606637836858316, 0.3526104381544335, 0.24668202254540886, 0.3717488388788273, 0.22920754299702897, 0.37769616507688464, 0.2246528336925301, 0.3765437598650894, 0.22041773376471022, 0.38047596041838994, 0.21923601658169187, 0.3798873698864591, 0.21700438236445285, 0.38291698672245644, 0.21827768053295463, 0.3641322152037017, 0.23729077006065105, 0.3676834419346081, 0.24865079519725933, 0.34415050295044936, 0.2733570818755685, 0.3306230780901629, 0.27350446437732157], layer='WG', layer_slab='SLAB150', taper_angle=55, taper_length=12.6, fiber_angle=5, bias_gap=0)
+  c = gf.components.grating_coupler_elliptical_lumerical(parameters=[-2.43, 0.1, 0.48, 0.1, 0.607, 0.1, 0.45, 0.1, 0.427, 0.1, 0.476, 0.1, 0.503, 0.1, 0.51, 0.1, 0.494, 0.108, 0.474, 0.15, 0.433, 0.184, 0.387, 0.236, 0.36, 0.243, 0.358, 0.261, 0.353, 0.247, 0.372, 0.229, 0.378, 0.225, 0.377, 0.22, 0.38, 0.219, 0.38, 0.217, 0.383, 0.218, 0.364, 0.237, 0.368, 0.249, 0.344, 0.273, 0.331, 0.274], layer='WG', layer_slab='SLAB150', taper_angle=55, taper_length=12.6, fiber_angle=5, bias_gap=0)
   c.plot_matplotlib()
 
 
@@ -2002,6 +2032,21 @@ mzi2x2_2x2
 
 
 
+mzi2x2_2x2_phase_shifter
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.mzi2x2_2x2_phase_shifter
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.mzi2x2_2x2_phase_shifter(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal', with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False)
+  c.plot_matplotlib()
+
+
+
 mzi_arm
 ----------------------------------------------------
 
@@ -2072,7 +2117,7 @@ mzi_lattice_mmi
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_lattice_mmi(coupler_widths=[None, None], coupler_widths_tapers=[1.0, 1.0], coupler_lengths_tapers=[10.0, 10.0], coupler_lengths_mmis=[5.5, 5.5], coupler_widths_mmis=[2.5, 2.5], coupler_gaps_mmis=[0.25, 0.25], taper_functions_mmis=[{'function': 'taper'}, {'function': 'taper'}], straight_functions_mmis=[{'function': 'straight'}, {'function': 'straight'}], cross_sections_mmis=['strip', 'strip'], delta_lengths=[10.0])
+  c = gf.components.mzi_lattice_mmi(coupler_widths=[None, None], coupler_widths_tapers=[1.0, 1.0], coupler_lengths_tapers=[10.0, 10.0], coupler_lengths_mmis=[5.5, 5.5], coupler_widths_mmis=[2.5, 2.5], coupler_gaps_mmis=[0.25, 0.25], taper_functions_mmis=[{'function': 'gdsfactory.components.taper.taper'}, {'function': 'gdsfactory.components.taper.taper'}], straight_functions_mmis=[{'function': 'gdsfactory.components.straight.straight'}, {'function': 'gdsfactory.components.straight.straight'}], cross_sections_mmis=['strip', 'strip'], delta_lengths=[10.0])
   c.plot_matplotlib()
 
 
@@ -2493,6 +2538,21 @@ rectangle_with_slits
   import gdsfactory as gf
 
   c = gf.components.rectangle_with_slits(size=[100.0, 200.0], layer='WG', layer_slit='SLAB150', centered=False, slit_size=[1.0, 1.0], slit_spacing=[20, 20], slit_enclosure=10)
+  c.plot_matplotlib()
+
+
+
+rectangular_ring
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.rectangular_ring
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.rectangular_ring(enclosed_size=[4.0, 2.0], width=0.5, layer='WG', centered=False)
   c.plot_matplotlib()
 
 
@@ -3647,7 +3707,7 @@ via_corner
 
   import gdsfactory as gf
 
-  c = gf.components.via_corner(cross_section=[[{'function': 'cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [0, 180]], [{'function': 'cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [90, 270]]], layers_labels=['m2', 'm3'])
+  c = gf.components.via_corner(cross_section=[[{'function': 'gdsfactory.cross_section.cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [0, 180]], [{'function': 'gdsfactory.cross_section.cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [90, 270]]], layers_labels=['m2', 'm3'])
   c.plot_matplotlib()
 
 

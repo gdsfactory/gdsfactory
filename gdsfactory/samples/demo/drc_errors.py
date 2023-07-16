@@ -1,3 +1,4 @@
+"""Write GDS with sample errors."""
 from __future__ import annotations
 
 import gdsfactory as gf
@@ -71,7 +72,8 @@ def snapping_error(gap: float = 1e-3) -> Component:
 def errors() -> Component:
     components = [width_min(), gap_min(), separation(), enclosing()]
     c = gf.pack(components, spacing=1.5)
-    return c[0]
+    c = gf.add_padding_container(c[0], layers=(gf.LAYER.FLOORPLAN,), default=5)
+    return c
 
 
 if __name__ == "__main__":
@@ -83,6 +85,5 @@ if __name__ == "__main__":
     # c.write_gds("snap.gds")
 
     c = errors()
-    c = gf.add_padding_container(c, layers=(gf.LAYER.FLOORPLAN,), default=5)
     c.write_gds("errors.gds")
     c.show(show_ports=True)

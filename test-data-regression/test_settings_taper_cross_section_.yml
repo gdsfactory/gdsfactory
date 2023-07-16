@@ -1,0 +1,156 @@
+name: taper_cross_section
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section1:
+      function: cross_section
+      settings:
+        add_bbox: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
+        radius: 20
+        sections:
+        - hidden: false
+          insets: null
+          layer: SLAB90
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          simplify: null
+          width: 0.2
+    cross_section2:
+      function: cross_section
+      settings:
+        add_bbox: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
+        radius: 20
+        sections:
+        - hidden: false
+          insets: null
+          layer: SLAB90
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          simplify: 0.05
+          width: 6.0
+    length: 10
+    linear: false
+    npoints: 100
+    width_type: sine
+  full:
+    cross_section1:
+      function: cross_section
+      settings:
+        add_bbox: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
+        radius: 20
+        sections:
+        - hidden: false
+          insets: null
+          layer: SLAB90
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          simplify: null
+          width: 0.2
+    cross_section2:
+      function: cross_section
+      settings:
+        add_bbox: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
+        radius: 20
+        sections:
+        - hidden: false
+          insets: null
+          layer: SLAB90
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          simplify: 0.05
+          width: 6.0
+    length: 10
+    linear: false
+    npoints: 100
+    width_type: sine
+  function_name: taper_cross_section
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.taper_cross_section
+  name: taper_cross_section

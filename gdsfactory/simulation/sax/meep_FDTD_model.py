@@ -1,10 +1,12 @@
-from gdsfactory.pdk import get_layer_stack
-from gdsfactory.simulation.sax.build_model import Model
-from gdsfactory.simulation.gmeep import write_sparameters_meep
-import ray
 from pathlib import Path
+
+import ray
+
 from gdsfactory.config import sparameters_path
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.read import import_gds
+from gdsfactory.simulation.gmeep import write_sparameters_meep
+from gdsfactory.simulation.sax.build_model import Model
 
 
 @ray.remote(num_cpus=1)
@@ -85,7 +87,7 @@ class MeepFDTDModel(Model):
         value_str = [str(value) for value in values]
         current_file = self.temp_dir / "_".join(list(value_str))
         input_component_file = current_file.with_suffix(".gds")
-        input_component.write_gds_with_metadata(input_component_file)
+        input_component.write_gds(input_component_file, with_metadata=True)
 
         # Define function input given parameter values and transformed layerstack/component
         function_input = dict(
@@ -100,7 +102,7 @@ class MeepFDTDModel(Model):
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.simulation.sax.parameter import NamedParameter, LithoParameter
+    from gdsfactory.simulation.sax.parameter import LithoParameter, NamedParameter
     from gdsfactory.technology import LayerStack
 
     c = gf.components.coupler_full(

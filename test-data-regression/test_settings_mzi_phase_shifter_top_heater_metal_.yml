@@ -1,0 +1,186 @@
+name: mzi_99ca1007
+ports:
+  o1:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 281.02
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  top_l_e1:
+    center:
+    - 19.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_l_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e2:
+    center:
+    - 25.0
+    - 28.125
+    layer:
+    - 49
+    - 0
+    name: top_l_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e3:
+    center:
+    - 30.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_l_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e4:
+    center:
+    - 25.0
+    - 17.125
+    layer:
+    - 49
+    - 0
+    name: top_l_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e1:
+    center:
+    - 240.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_r_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e2:
+    center:
+    - 246.0
+    - 28.125
+    layer:
+    - 49
+    - 0
+    name: top_r_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e3:
+    center:
+    - 251.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_r_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e4:
+    center:
+    - 246.0
+    - 17.125
+    layer:
+    - 49
+    - 0
+    name: top_r_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+settings:
+  changed:
+    length_x: 200
+    straight_x_top:
+      function: straight_heater_metal_undercut
+      settings:
+        with_undercut: false
+  child: null
+  default:
+    add_optical_ports_arms: false
+    bend:
+      function: bend_euler
+    combiner: null
+    cross_section: strip
+    cross_section_x_bot: null
+    cross_section_x_top: null
+    delta_length: 10.0
+    length_x: 0.1
+    length_y: 2.0
+    mirror_bot: false
+    nbends: 2
+    port_e0_combiner: o3
+    port_e0_splitter: o3
+    port_e1_combiner: o2
+    port_e1_splitter: o2
+    splitter: mmi1x2
+    straight:
+      function: straight
+    straight_x_bot: null
+    straight_x_top: null
+    straight_y: null
+    with_splitter: true
+  full:
+    add_optical_ports_arms: false
+    bend:
+      function: bend_euler
+    combiner: null
+    cross_section: strip
+    cross_section_x_bot: null
+    cross_section_x_top: null
+    delta_length: 10.0
+    length_x: 200
+    length_y: 2.0
+    mirror_bot: false
+    nbends: 2
+    port_e0_combiner: o3
+    port_e0_splitter: o3
+    port_e1_combiner: o2
+    port_e1_splitter: o2
+    splitter: mmi1x2
+    straight:
+      function: straight
+    straight_x_bot: null
+    straight_x_top:
+      function: straight_heater_metal_undercut
+      settings:
+        with_undercut: false
+    straight_y: null
+    with_splitter: true
+  function_name: mzi
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mzi
+  name: mzi_99ca1007

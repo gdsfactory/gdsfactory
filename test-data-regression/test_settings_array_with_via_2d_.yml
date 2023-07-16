@@ -1,0 +1,94 @@
+name: array_with_via_2d
+ports:
+  e0_1_1:
+    center:
+    - -65.5
+    - 0.0
+    layer:
+    - 45
+    - 0
+    name: e0_1_1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  e0_2_1:
+    center:
+    - -65.5
+    - 150.0
+    layer:
+    - 45
+    - 0
+    name: e0_2_1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  e1_1_1:
+    center:
+    - -65.5
+    - 10.0
+    layer:
+    - 45
+    - 0
+    name: e1_1_1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  e1_2_1:
+    center:
+    - -65.5
+    - 160.0
+    layer:
+    - 45
+    - 0
+    name: e1_2_1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  e2_1_1:
+    center:
+    - -65.5
+    - 20.0
+    layer:
+    - 45
+    - 0
+    name: e2_1_1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  e2_2_1:
+    center:
+    - -65.5
+    - 170.0
+    layer:
+    - 45
+    - 0
+    name: e2_2_1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+settings:
+  changed: {}
+  child: null
+  default:
+    columns: 3
+    rows: 2
+    spacing:
+    - 150.0
+    - 150.0
+  full:
+    columns: 3
+    rows: 2
+    spacing:
+    - 150.0
+    - 150.0
+  function_name: array_with_via_2d
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.array_with_via
+  name: array_with_via_2d

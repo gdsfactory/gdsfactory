@@ -1,0 +1,55 @@
+{% set version = os.environ.get("MINIFORGE_VERSION", "23.1.0-2") %}
+{% set name = os.environ.get("MINIFORGE_NAME", "Miniforge3") %}
+
+name: {{ name }}
+version: {{ version }}
+company: gdsfactory
+
+channels:
+  # specifying the channel with the full URL adds two channels
+  # when the end user adds the channel without the full URL
+  # - https://conda.anaconda.org/conda-forge
+  - conda-forge
+  # - http://repo.anaconda.com/pkgs/main/
+  # - https://repo.anaconda.com/pkgs/msys2/
+
+write_condarc: True
+# keep pkgs for space-saving implications for hardlinks when create new environments
+# and keep the same with Miniconda
+keep_pkgs: True
+# license_file: ../LICENSE
+
+# During the interactive installation, these variables are checked.
+# During batch installation, conda is never initialized
+initialize_conda: True
+initialize_by_default: False
+
+specs:
+{% if name.endswith("pypy3") %}
+  - python 3.9.* *_pypy
+{% else %}
+  - python 3.10.*
+{% endif %}
+
+{% if name.startswith("Mambaforge") %}
+  - mamba 1.4.2
+{% endif %}
+  - conda
+
+  - pip
+  - miniforge_console_shortcut 1.*  # [win]
+  - freetype-py
+  - bokeh
+  - networkx
+  - pyglet
+  - scikit-image
+  - trimesh
+  - pyvista
+  - gdsfactory
+  # - console_shortcut # [win]
+  # - menuinst # [win]
+  # - anaconda-navigator # [win]
+  # - ipympl # [win,unix]
+  # - ipywidgets # [win, unix]
+# post_install: install.sh  # [unix]
+# post_install: install.bat  # [win]

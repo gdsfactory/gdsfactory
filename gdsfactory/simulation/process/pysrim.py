@@ -1,9 +1,8 @@
-from itertools import count
-from pathlib import Path
-import shutil
-from srim import TRIM
 import os
-from itertools import repeat
+import shutil
+from itertools import count, repeat
+from pathlib import Path
+
 import pandas as pd
 
 
@@ -44,6 +43,12 @@ def run_fragmented_calculation(
         trim_settings: dict of SRIM simulation settings
         step: number of simulations per batch. Default 1000.
     """
+    try:
+        from srim import TRIM
+    except ImportError as e:
+        print("To install srim plugin `pip install pysrim`")
+        raise e
+
     for i, num_ions in enumerate(fragment(step, number_ions)):
         print(
             "total ions completed: {:06d}\tion: {}\tions in step: {:06d}".format(
@@ -132,8 +137,9 @@ def read_ranges(save_path):
 
 if __name__ == "__main__":
     from pathlib import Path
-    from srim import Ion, Layer, Target
+
     import matplotlib.pyplot as plt
+    from srim import Ion, Layer, Target
 
     # Define implant
     energy = 1.0e5

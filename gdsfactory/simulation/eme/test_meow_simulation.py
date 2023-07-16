@@ -57,14 +57,13 @@ def test_cells() -> None:
 
     c = gf.components.taper(length=10, width2=2)
     m = MEOW(component=c, layerstack=layerstack, wavelength=1.55, cell_length=1)
-    assert len(m.cells) == 10
+    assert len(m.cells) == 11, len(m.cells)
 
     c = gf.components.taper(length=1, width2=2)
     m = MEOW(component=c, layerstack=layerstack, wavelength=1.55, cell_length=1)
-    assert len(m.cells) == 1
+    assert len(m.cells) == 4, len(m.cells)
 
 
 if __name__ == "__main__":
-    test_cells()
-
-    # test_meow_defaults()
+    # test_cells()
+    test_meow_defaults()

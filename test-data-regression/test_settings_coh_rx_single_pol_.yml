@@ -1,0 +1,88 @@
+name: coh_rx_single_pol
+ports:
+  LO_in:
+    center:
+    - -60.0
+    - -1.25
+    layer:
+    - 1
+    - 0
+    name: LO_in
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  i_out:
+    center:
+    - 350.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: i_out
+    orientation: 0
+    port_type: placement
+    shear_angle: null
+    width: 2.0
+  q_out:
+    center:
+    - 350.0
+    - -15.0
+    layer:
+    - 45
+    - 0
+    name: q_out
+    orientation: 0
+    port_type: placement
+    shear_angle: null
+    width: 2.0
+  signal_in:
+    center:
+    - -60.0
+    - 3.75
+    layer:
+    - 1
+    - 0
+    name: signal_in
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend: bend_euler
+    cross_section: strip
+    det_spacing:
+    - 60.0
+    - 50.0
+    detector:
+      function: ge_detector_straight_si_contacts
+    hybrid_90deg:
+      function: mmi_90degree_hybrid
+    in_wg_length: 20.0
+    lo_input_coupler: null
+    pad_det_spacing: 80.0
+    signal_input_coupler: null
+    with_pads: true
+  full:
+    bend: bend_euler
+    cross_section: strip
+    det_spacing:
+    - 60.0
+    - 50.0
+    detector:
+      function: ge_detector_straight_si_contacts
+    hybrid_90deg:
+      function: mmi_90degree_hybrid
+    in_wg_length: 20.0
+    lo_input_coupler: null
+    pad_det_spacing: 80.0
+    signal_input_coupler: null
+    with_pads: true
+  function_name: coh_rx_single_pol
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.coh_rx_single_pol
+  name: coh_rx_single_pol

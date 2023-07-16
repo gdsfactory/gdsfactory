@@ -1,0 +1,64 @@
+name: crossing_from_taper
+ports:
+  o1:
+    center:
+    - -3.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 0.0
+    - 3.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 3.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 0.0
+    - -3.0
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 270.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    taper:
+      function: <lambda>
+  full:
+    taper:
+      function: <lambda>
+  function_name: crossing_from_taper
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.crossing_waveguide
+  name: crossing_from_taper

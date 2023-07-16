@@ -17,7 +17,6 @@ from dataclasses import asdict, is_dataclass
 from typing import List, Optional, Union
 
 import gdsfactory as gf
-from gdsfactory.config import logger
 from gdsfactory.install import get_klayout_path
 from gdsfactory.typings import CrossSectionSpec, Dict, Layer, PathType
 
@@ -109,7 +108,7 @@ def rule_area(layer: str, min_area_um2: float = 2.0) -> str:
 
 min_{layer}_a = {min_area_um2}.um2
 r_{layer}_a = {layer}.with_area(0, min_{layer}_a)
-r_{layer}_a.output("{layer.upper()}_A: {layer} area &lt; min_{layer}_a µm²")
+r_{layer}_a.output("{layer.upper()}_A: {layer} area &lt; min_{layer}_a um2")
 """
 
 
@@ -157,7 +156,7 @@ end
 
 def connectivity_checks(
     WG_cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]
-):
+) -> str:
     """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
 
     Args:
@@ -222,7 +221,6 @@ def write_drc_deck_macro(
     threads: int = 4,
     tile_size: int = 500,
     tile_borders: Optional[int] = None,
-    **kwargs,
 ) -> str:
     """Write KLayout DRC macro.
 
@@ -316,11 +314,12 @@ deep
 
     script += drc_script_end
     filepath = filepath or get_klayout_path() / "drc" / f"{name}.lydrc"
+    filepath = pathlib.Path(filepath)
     dirpath = filepath.parent
     dirpath.mkdir(parents=True, exist_ok=True)
     filepath = pathlib.Path(filepath)
-    filepath.write_text(script)
-    logger.info(f"Wrote DRC deck to {str(filepath)!r} with shortcut {shortcut!r}")
+    filepath.write_text(script, encoding="UTF-8")
+    print(f"Wrote DRC deck to {str(filepath)!r} with shortcut {shortcut!r}")
     return script
 
 

@@ -1,0 +1,72 @@
+name: array_with_fanout
+ports:
+  o1:
+    center:
+    - -45.0
+    - -80.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -45.0
+    - -70.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - -45.0
+    - -60.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend: bend_euler
+    bend_port_name1: null
+    bend_port_name2: null
+    columns: 3
+    component: pad
+    component_port_name: e4
+    cross_section: strip
+    end_straight_length: 40.0
+    pitch: 150.0
+    radius: 5.0
+    start_straight_length: 5.0
+    waveguide_pitch: 10.0
+  full:
+    bend: bend_euler
+    bend_port_name1: null
+    bend_port_name2: null
+    columns: 3
+    component: pad
+    component_port_name: e4
+    cross_section: strip
+    end_straight_length: 40.0
+    pitch: 150.0
+    radius: 5.0
+    start_straight_length: 5.0
+    waveguide_pitch: 10.0
+  function_name: array_with_fanout
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.array_with_fanout
+  name: array_with_fanout

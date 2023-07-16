@@ -27,6 +27,7 @@ You can also rename them with W,E,S,N prefix (west, east, south, north).
 Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
+import warnings
 
 import csv
 import functools
@@ -132,13 +133,12 @@ class Port(pydantic.BaseModel):
             raise ValueError(f"Port width must be >=0. Got {self.width}")
 
     def to_dict(self) -> Dict[str, Any]:
+        x, y = np.round(self.center, 3)
         d = {
             "name": self.name,
             "width": self.width,
-            "center": tuple(np.round(self.center, 3)),
-            "orientation": int(self.orientation)
-            if self.orientation
-            else self.orientation,
+            "center": [float(x), float(y)],
+            "orientation": self.orientation,
             "layer": self.layer,
             "port_type": self.port_type,
             "shear_angle": self.shear_angle,
@@ -146,24 +146,15 @@ class Port(pydantic.BaseModel):
         return clean_value_json(d)
 
     def to_yaml(self) -> str:
-        d = {
-            "name": self.name,
-            "width": float(self.width),
-            "center": [float(self.center[0]), float(self.center[1])],
-            "orientation": float(self.orientation)
-            if self.orientation
-            else float(self.orientation),
-            "layer": self.layer,
-            "port_type": self.port_type,
-        }
-        d = OmegaConf.create(d)
+        d = OmegaConf.create(self.to_dict())
         return OmegaConf.to_yaml(d)
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
-        s = f"Port (name {self.name}, center {self.center}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
-        s += f" shear_angle {self.shear_angle}" if self.shear_angle else ""
-        return s
+        filtered_dict = {
+            key: value for key, value in self.to_dict().items() if value is not None
+        }
+        return str(filtered_dict)
 
     @classmethod
     def __get_validators__(cls):
@@ -180,10 +171,7 @@ class Port(pydantic.BaseModel):
 
     @property
     def settings(self):
-        """TODO!
-
-        delete this. Use to_dict instead
-        """
+        warnings.warn("Port.settings is deprecated. Use port.to_dict instead!")
         return {
             "name": self.name,
             "center": self.center,
@@ -576,6 +564,7 @@ def select_ports(
 
 select_ports_optical = partial(select_ports, port_type="optical")
 select_ports_electrical = partial(select_ports, port_type="electrical")
+select_ports_placement = partial(select_ports, port_type="placement")
 
 
 def select_ports_list(**kwargs) -> List[Port]:
@@ -801,9 +790,11 @@ def auto_rename_ports(
     function=_rename_ports_clockwise,
     select_ports_optical: Optional[Callable] = select_ports_optical,
     select_ports_electrical: Optional[Callable] = select_ports_electrical,
+    select_ports_placement: Optional[Callable] = select_ports_placement,
     prefix: str = "",
     prefix_optical: str = "o",
     prefix_electrical: str = "e",
+    prefix_placement: str = "p",
     port_type: Optional[str] = None,
     **kwargs,
 ) -> Component:
@@ -814,8 +805,10 @@ def auto_rename_ports(
         function: to rename ports.
         select_ports_optical: to select optical ports.
         select_ports_electrical: to select electrical ports.
+        select_ports_placement: to select placement ports.
         prefix_optical: prefix of optical ports.
         prefix_electrical: prefix of electrical ports.
+        prefix_placement: prefix of electrical ports.
         port_type: select ports with port type (optical, electrical, vertical_te).
 
     Keyword Args:
@@ -841,6 +834,14 @@ def auto_rename_ports(
                 component=component,
                 select_ports=select_ports_electrical,
                 prefix=prefix_electrical,
+                function=function,
+                **kwargs,
+            )
+        if select_ports_placement:
+            rename_ports_by_orientation(
+                component=component,
+                select_ports=select_ports_placement,
+                prefix=prefix_placement,
                 function=function,
                 **kwargs,
             )

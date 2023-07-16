@@ -7,6 +7,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory import LAYER, Port
 from gdsfactory.component import Component
+from gdsfactory.typings import CrossSectionSpec
 
 
 @gf.cell
@@ -16,6 +17,7 @@ def big_device(
     spacing: float = 15.0,
     layer: Tuple[int, int] = LAYER.WG,
     wg_width: float = 0.5,
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Big component with N ports on each side.
 
@@ -25,6 +27,7 @@ def big_device(
         spacing: in um.
         layer: spec.
         wg_width: waveguide width in um.
+        cross_section: spec.
 
     """
     component = gf.Component()
@@ -77,11 +80,21 @@ def big_device(
             width=wg_width,
         )
         component.add_port(port)
+
+    component = gf.add_pins.add_pins_inside1nm(component)
     component.auto_rename_ports()
+    xs = gf.get_cross_section(cross_section)
+    if xs.add_pins:
+        xs.add_pins(component)
     return component
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
+
+    pdk = gf.pdk.get_active_pdk()
+    pdk.gds_write_settings.flatten_invalid_refs = False
     c = big_device()
     c = gf.routing.add_fiber_array(c)
-    c.show(show_ports=True)
+    # c.write_gds("./test.gds")
+    c.show(show_ports=False)

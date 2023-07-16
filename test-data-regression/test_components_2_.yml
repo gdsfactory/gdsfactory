@@ -1,0 +1,142 @@
+name: rotation_8fb1e19c
+ports:
+  o1:
+    center:
+    - 10.625
+    - 45.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 9.375
+    - 45.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 10.0
+    - 20.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 270.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed:
+    conf:
+      instances:
+        mmi_long:
+          component: mmi1x2
+          settings:
+            length_mmi: 5
+            width_mmi: 4.5
+      name: rotation
+      placements:
+        mmi_long:
+          port: o1
+          rotation: 90
+          x: 10
+          y: 20
+      ports:
+        o1: mmi_long,o3
+        o2: mmi_long,o2
+        o3: mmi_long,o1
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_all_angle:
+        function: get_bundle_all_angle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    mode: layout
+  full:
+    conf:
+      instances:
+        mmi_long:
+          component: mmi1x2
+          settings:
+            length_mmi: 5
+            width_mmi: 4.5
+      name: rotation
+      placements:
+        mmi_long:
+          port: o1
+          rotation: 90
+          x: 10
+          y: 20
+      ports:
+        o1: mmi_long,o3
+        o2: mmi_long,o2
+        o3: mmi_long,o1
+    label_instance_function:
+      function: add_instance_label
+    mode: layout
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_all_angle:
+        function: get_bundle_all_angle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
+  info:
+    instances:
+    - mmi_long
+  info_version: 2
+  module: gdsfactory.read.from_yaml
+  name: rotation_8fb1e19c

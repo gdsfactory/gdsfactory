@@ -7,10 +7,11 @@ from gdsfactory.samples.big_device import big_device
 
 if __name__ == "__main__":
     w = h = 18 * 50
-    c = big_device(nports=10)
+    cross_section = "metal3"
+    c = big_device(nports=10, cross_section=cross_section)
     c = gf.routing.add_fiber_array(
         component=c,
-        cross_section="metal3",
+        cross_section=cross_section,
         grating_coupler="pad",
         gc_port_name="e1",
         get_input_labels_function=None,

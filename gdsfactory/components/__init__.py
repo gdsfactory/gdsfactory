@@ -8,13 +8,13 @@ from __future__ import annotations
 import sys
 from functools import partial
 
-from gdsfactory.components.add_trenches import add_trenches, add_trenches90
 from gdsfactory.components.add_fiducials import add_fiducials, add_fiducials_offsets
 from gdsfactory.components.add_grating_couplers import (
     add_grating_couplers,
     add_grating_couplers_with_loopback_fiber_array,
     add_grating_couplers_with_loopback_fiber_single,
 )
+from gdsfactory.components.add_trenches import add_trenches, add_trenches90
 from gdsfactory.components.align import add_frame, align_wafer
 from gdsfactory.components.array_component import array
 from gdsfactory.components.array_with_fanout import (
@@ -49,12 +49,13 @@ from gdsfactory.components.component_lattice import component_lattice
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.coupler import coupler
+from gdsfactory.components.coupler_bent import coupler_bent
 from gdsfactory.components.coupler90 import coupler90, coupler90circular
 from gdsfactory.components.coupler90bend import coupler90bend
 from gdsfactory.components.coupler_adiabatic import coupler_adiabatic
 from gdsfactory.components.coupler_asymmetric import coupler_asymmetric
 from gdsfactory.components.coupler_full import coupler_full
-from gdsfactory.components.coupler_ring import coupler_ring
+from gdsfactory.components.coupler_ring import coupler_ring, coupler_ring_point
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.coupler_straight_asymmetric import (
     coupler_straight_asymmetric,
@@ -108,6 +109,7 @@ from gdsfactory.components.fiducial_squares import fiducial_squares
 from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,
 )
+from gdsfactory.components.component_lattice_generic import component_lattice_generic
 from gdsfactory.components.grating_coupler_array import grating_coupler_array
 from gdsfactory.components.grating_coupler_dual_pol import grating_coupler_dual_pol
 from gdsfactory.components.grating_coupler_elliptical import (
@@ -152,8 +154,8 @@ from gdsfactory.components.grating_coupler_rectangular_arbitrary_slab import (
 from gdsfactory.components.grating_coupler_tree import grating_coupler_tree
 from gdsfactory.components.greek_cross import (
     greek_cross,
-    greek_cross_with_pads,
     greek_cross_offset_pads,
+    greek_cross_with_pads,
 )
 from gdsfactory.components.hline import hline
 from gdsfactory.components.interdigital_capacitor import interdigital_capacitor
@@ -164,23 +166,24 @@ from gdsfactory.components.litho_steps import litho_steps
 from gdsfactory.components.logo import logo
 from gdsfactory.components.loop_mirror import loop_mirror
 from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mmi1x2_with_sbend import mmi1x2_with_sbend
+from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mmi2x2_with_sbend import mmi2x2_with_sbend
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
 from gdsfactory.components.mode_converter import mode_converter
 from gdsfactory.components.mzi import mzi, mzi1x2_2x2, mzi2x2_2x2, mzi_coupler
-from gdsfactory.components.mzm import mzm
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.mzi_arms import mzi_arms
 from gdsfactory.components.mzi_lattice import mzi_lattice, mzi_lattice_mmi
 from gdsfactory.components.mzi_pads_center import mzi_pads_center
 from gdsfactory.components.mzi_phase_shifter import (
     mzi_phase_shifter,
+    mzi2x2_2x2_phase_shifter,
     mzi_phase_shifter_top_heater_metal,
 )
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
+from gdsfactory.components.mzm import mzm
 from gdsfactory.components.nxn import nxn
 from gdsfactory.components.optimal_90deg import optimal_90deg
 from gdsfactory.components.optimal_hairpin import optimal_hairpin
@@ -188,12 +191,12 @@ from gdsfactory.components.optimal_step import optimal_step
 from gdsfactory.components.pack_doe import generate_doe, pack_doe, pack_doe_grid
 from gdsfactory.components.pad import (
     pad,
-    pad_rectangular,
     pad_array,
     pad_array0,
     pad_array90,
     pad_array180,
     pad_array270,
+    pad_rectangular,
 )
 from gdsfactory.components.pad_gsg import pad_gsg_open, pad_gsg_short
 from gdsfactory.components.pads_shorted import pads_shorted
@@ -201,8 +204,9 @@ from gdsfactory.components.polarization_splitter_rotator import (
     polarization_splitter_rotator,
 )
 from gdsfactory.components.ramp import ramp
-from gdsfactory.components.rectangle import rectangle, marker_te, marker_tm
+from gdsfactory.components.rectangle import marker_te, marker_tm, rectangle
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
+from gdsfactory.components.rectangular_ring import rectangular_ring
 from gdsfactory.components.regular_polygon import regular_polygon
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
@@ -212,8 +216,8 @@ from gdsfactory.components.ring_crow_couplers import ring_crow_couplers
 from gdsfactory.components.ring_double import ring_double
 from gdsfactory.components.ring_double_heater import ring_double_heater
 from gdsfactory.components.ring_double_pn import ring_double_pn
+from gdsfactory.components.ring_section_based import ring_section_based
 from gdsfactory.components.ring_single import ring_single
-from gdsfactory.components.ring_single_pn import ring_single_pn
 from gdsfactory.components.ring_single_array import ring_single_array
 from gdsfactory.components.ring_single_bend_coupler import (
     coupler_bend,
@@ -221,7 +225,7 @@ from gdsfactory.components.ring_single_bend_coupler import (
 )
 from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
 from gdsfactory.components.ring_single_heater import ring_single_heater
-from gdsfactory.components.ring_section_based import ring_section_based
+from gdsfactory.components.ring_single_pn import ring_single_pn
 from gdsfactory.components.seal_ring import seal_ring
 from gdsfactory.components.snspd import snspd
 from gdsfactory.components.spiral_double import spiral_double
@@ -266,6 +270,7 @@ from gdsfactory.components.taper import (
 )
 from gdsfactory.components.taper_adiabatic import taper_adiabatic
 from gdsfactory.components.taper_cross_section import (
+    taper_cross_section,
     taper_cross_section_linear,
     taper_cross_section_parabolic,
     taper_cross_section_sine,
@@ -297,16 +302,15 @@ from gdsfactory.components.via_stack import (
     via_stack,
     via_stack_from_rules,
     via_stack_heater_m3,
-    via_stack_slab_m3,
     via_stack_heater_mtop,
+    via_stack_slab_m3,
 )
 from gdsfactory.components.via_stack_slot import via_stack_slot, via_stack_slot_m1_m2
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.wafer import wafer
-from gdsfactory.components.wire import wire_corner, wire_straight, wire_corner45
+from gdsfactory.components.wire import wire_corner, wire_corner45, wire_straight
 from gdsfactory.components.wire_sbend import wire_sbend
 from gdsfactory.get_factories import get_cells
-
 
 bend_euler_trenches = partial(add_trenches90, component=bend_euler)
 coupler_trenches = partial(add_trenches, component=coupler)
@@ -325,6 +329,7 @@ _factory_passives = dict(
     coupler_asymmetric=coupler_asymmetric,
     coupler_full=coupler_full,
     coupler_ring=coupler_ring,
+    coupler_ring_point=coupler_ring_point,
     coupler_symmetric=coupler_symmetric,
     crossing=crossing,
     crossing45=crossing45,
@@ -399,6 +404,7 @@ __all__ = [
     "coupler",
     "coupler_trenches",
     "coupler_bend",
+    "coupler_bent",
     "coupler90",
     "coupler90bend",
     "coupler90circular",
@@ -406,6 +412,7 @@ __all__ = [
     "coupler_asymmetric",
     "coupler_full",
     "coupler_ring",
+    "coupler_ring_point",
     "coupler_straight",
     "coupler_straight_asymmetric",
     "coupler_symmetric",
@@ -447,6 +454,7 @@ __all__ = [
     "text_lines",
     "ge_detector_straight_si_contacts",
     "generate_doe",
+    "component_lattice_generic",
     "grating_coupler_array",
     "grating_coupler_elliptical",
     "grating_coupler_elliptical_arbitrary",
@@ -493,6 +501,7 @@ __all__ = [
     "mzi_pads_center",
     "mzi1x2_2x2",
     "mzi2x2_2x2",
+    "mzi2x2_2x2_phase_shifter",
     "mzi_coupler",
     "mzi_arm",
     "mzi_lattice",
@@ -516,7 +525,6 @@ __all__ = [
     "pad_array180",
     "pad_array270",
     "pad_array90",
-    "pad_gsg",
     "pad_gsg_open",
     "pad_gsg_short",
     "pads_shorted",
@@ -525,6 +533,7 @@ __all__ = [
     "qrcode",
     "ramp",
     "rectangle",
+    "rectangular_ring",
     "regular_polygon",
     "rectangle_with_slits",
     "resistance_meander",
@@ -576,6 +585,7 @@ __all__ = [
     "taper_adiabatic",
     "taper2",
     "taper_0p5_to_3_l36",
+    "taper_cross_section",
     "taper_from_csv",
     "taper_parabolic",
     "taper_strip_to_ridge",

@@ -36,9 +36,9 @@ from __future__ import annotations
 
 from functools import partial
 from typing import Callable, Optional, Union
-from pydantic import validate_call
 
 import numpy as np
+from pydantic import validate_call
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -183,12 +183,12 @@ def get_route_from_waypoints(
     gf.routing.
 
     Args:
-        waypoints: Coordinates that define the route
-        bend: function that returns bends
-        straight: function that returns straight waveguides
-        taper: function that returns tapers
-        cross_section:
-        kwargs: cross_section settings
+        waypoints: Coordinates that define the route.
+        bend: function that returns bends.
+        straight: function that returns straight waveguides.
+        taper: function that returns tapers.
+        cross_section: spec.
+        kwargs: cross_section settings.
 
     .. plot::
         :include-source:
@@ -264,15 +264,15 @@ def get_route_from_waypoints(
     )
 
 
-get_route_from_waypoints_electrical = gf.partial(
+get_route_from_waypoints_electrical = partial(
     get_route_from_waypoints, bend=wire_corner, cross_section="metal_routing"
 )
 
-get_route_from_waypoints_electrical_m2 = gf.partial(
+get_route_from_waypoints_electrical_m2 = partial(
     get_route_from_waypoints, bend=wire_corner, cross_section=metal2
 )
 
-get_route_from_waypoints_electrical_multilayer = gf.partial(
+get_route_from_waypoints_electrical_multilayer = partial(
     get_route_from_waypoints,
     bend=via_corner,
     cross_section=[(metal2, (0, 180)), (metal3, (90, 270))],
@@ -301,8 +301,6 @@ if __name__ == "__main__":
     # c.add(route.references)
     # c.show()
 
-    import gdsfactory as gf
-
     c = gf.Component("sample_connect")
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
@@ -318,4 +316,5 @@ if __name__ == "__main__":
         radius=30,
     )
     c.add(route.references)
+    print([i.name for i in c.get_dependencies()])
     c.show()

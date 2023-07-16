@@ -1,0 +1,208 @@
+name: straight_pin_slot
+ports:
+  bot_e1:
+    center:
+    - 0.0
+    - -6.5
+    layer:
+    - 49
+    - 0
+    name: bot_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  bot_e2:
+    center:
+    - 240.0
+    - -1.5
+    layer:
+    - 49
+    - 0
+    name: bot_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 480.0
+  bot_e3:
+    center:
+    - 480.0
+    - -6.5
+    layer:
+    - 49
+    - 0
+    name: bot_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  bot_e4:
+    center:
+    - 240.0
+    - -11.5
+    layer:
+    - 49
+    - 0
+    name: bot_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 480.0
+  o1:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 490.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  top_e1:
+    center:
+    - 0.0
+    - 6.5
+    layer:
+    - 49
+    - 0
+    name: top_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  top_e2:
+    center:
+    - 240.0
+    - 11.5
+    layer:
+    - 49
+    - 0
+    name: top_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 480.0
+  top_e3:
+    center:
+    - 480.0
+    - 6.5
+    layer:
+    - 49
+    - 0
+    name: top_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  top_e4:
+    center:
+    - 240.0
+    - 1.5
+    layer:
+    - 49
+    - 0
+    name: top_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 480.0
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section:
+      function: pin
+    length: 500.0
+    taper:
+      function: taper_strip_to_ridge
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - M1
+        - M2
+        - M3
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
+        - null
+    via_stack_slab:
+      function: via_stack_slot
+      settings:
+        layer_offsets:
+        - 0
+        layers:
+        - M1
+        via:
+          function: via
+          settings:
+            layer: VIAC
+    via_stack_slab_bot: null
+    via_stack_slab_spacing: 2.0
+    via_stack_slab_top: null
+    via_stack_slab_width: null
+    via_stack_spacing: 3.0
+    via_stack_width: 10.0
+  full:
+    cross_section:
+      function: pin
+    length: 500.0
+    taper:
+      function: taper_strip_to_ridge
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - M1
+        - M2
+        - M3
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
+        - null
+    via_stack_slab:
+      function: via_stack_slot
+      settings:
+        layer_offsets:
+        - 0
+        layers:
+        - M1
+        via:
+          function: via
+          settings:
+            layer: VIAC
+    via_stack_slab_bot: null
+    via_stack_slab_spacing: 2.0
+    via_stack_slab_top: null
+    via_stack_slab_width: null
+    via_stack_spacing: 3.0
+    via_stack_width: 10.0
+  function_name: straight_pin_slot
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.straight_pin_slot
+  name: straight_pin_slot

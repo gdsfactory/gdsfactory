@@ -1,0 +1,98 @@
+name: array_with_via
+ports:
+  e0:
+    center:
+    - -65.5
+    - 0.0
+    layer:
+    - 45
+    - 0
+    name: e0
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  e1:
+    center:
+    - -65.5
+    - 10.0
+    layer:
+    - 45
+    - 0
+    name: e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  e2:
+    center:
+    - -65.5
+    - 20.0
+    layer:
+    - 45
+    - 0
+    name: e2
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+settings:
+  changed: {}
+  child: null
+  default:
+    columns: 3
+    component:
+      function: pad
+    cross_section:
+      function: cross_section
+      settings:
+        gap: 5
+        layer: M2
+        min_length: 5
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        radius: null
+        width: 10.0
+    port_offset: null
+    port_orientation: 180
+    spacing: 150.0
+    straight_length: 60.0
+    via_spacing: 10.0
+    via_stack:
+      function: via_stack
+    via_stack_dy: 0
+  full:
+    columns: 3
+    component:
+      function: pad
+    cross_section:
+      function: cross_section
+      settings:
+        gap: 5
+        layer: M2
+        min_length: 5
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        radius: null
+        width: 10.0
+    port_offset: null
+    port_orientation: 180
+    spacing: 150.0
+    straight_length: 60.0
+    via_spacing: 10.0
+    via_stack:
+      function: via_stack
+    via_stack_dy: 0
+  function_name: array_with_via
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.array_with_via
+  name: array_with_via

@@ -1,0 +1,186 @@
+name: ge_detector_straight_si_contacts
+ports:
+  bot_e1:
+    center:
+    - 0.0
+    - -7.5
+    layer:
+    - 49
+    - 0
+    name: bot_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  bot_e2:
+    center:
+    - 20.0
+    - -2.5
+    layer:
+    - 49
+    - 0
+    name: bot_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 40.0
+  bot_e3:
+    center:
+    - 40.0
+    - -7.5
+    layer:
+    - 49
+    - 0
+    name: bot_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  bot_e4:
+    center:
+    - 20.0
+    - -12.5
+    layer:
+    - 49
+    - 0
+    name: bot_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 40.0
+  o1:
+    center:
+    - -20.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  top_e1:
+    center:
+    - 0.0
+    - 7.5
+    layer:
+    - 49
+    - 0
+    name: top_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  top_e2:
+    center:
+    - 20.0
+    - 12.5
+    layer:
+    - 49
+    - 0
+    name: top_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 40.0
+  top_e3:
+    center:
+    - 40.0
+    - 7.5
+    layer:
+    - 49
+    - 0
+    name: top_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  top_e4:
+    center:
+    - 20.0
+    - 2.5
+    layer:
+    - 49
+    - 0
+    name: top_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 40.0
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section:
+      function: pn_ge_detector_si_contacts
+    length: 80.0
+    taper:
+      function: taper
+      settings:
+        cross_section: strip
+        length: 20.0
+        width1: 0.5
+        width2: 0.8
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - SLAB90
+        - M1
+        - M2
+        - M3
+        vias:
+        - function: via
+          settings:
+            layer: VIAC
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
+        - null
+    via_stack_offset: 0.0
+    via_stack_spacing: 5.0
+    via_stack_width: 10.0
+  full:
+    cross_section:
+      function: pn_ge_detector_si_contacts
+    length: 80.0
+    taper:
+      function: taper
+      settings:
+        cross_section: strip
+        length: 20.0
+        width1: 0.5
+        width2: 0.8
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - SLAB90
+        - M1
+        - M2
+        - M3
+        vias:
+        - function: via
+          settings:
+            layer: VIAC
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
+        - null
+    via_stack_offset: 0.0
+    via_stack_spacing: 5.0
+    via_stack_width: 10.0
+  function_name: ge_detector_straight_si_contacts
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.ge_detector_straight_si_contacts
+  name: ge_detector_straight_si_contacts

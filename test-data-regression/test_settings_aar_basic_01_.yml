@@ -1,0 +1,39 @@
+name: aar_basic_01
+ports:
+  o1:
+    center:
+    - 109.848
+    - 101.736
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 10.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default: {}
+  full: {}
+  function_name: aar_basic_01
+  info:
+    instances:
+    - mmi_long
+    - mmi_short
+  info_version: 2
+  module: yaml_jinja
+  name: aar_basic_01

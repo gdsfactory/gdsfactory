@@ -8,12 +8,13 @@ from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 
 
-def test_type0() -> Component:
+def add_pads0() -> Component:
     c = gf.components.straight_heater_metal(length=100.0)
-    return gf.routing.add_pads_top(component=c, port_names=("e1",))
+    c = gf.routing.add_pads_top(component=c, port_names=("l_e1",))
+    return c
 
 
-components = [test_type0]
+components = [add_pads0]
 
 
 @pytest.fixture(params=components, scope="function")
@@ -32,5 +33,6 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
 
 
 if __name__ == "__main__":
-    c = test_type0()
+    c = gf.components.straight_heater_metal(length=100.0)
+    c = gf.routing.add_pads_top(component=c, port_names=("l_e1",))
     c.show(show_ports=True)

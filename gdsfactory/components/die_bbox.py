@@ -1,6 +1,7 @@
 """based on phidl.geometry."""
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional
 
 import numpy as np
@@ -10,7 +11,7 @@ from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text import text
 from gdsfactory.typings import Anchor, ComponentSpec, LayerSpec
 
-big_square = gf.partial(rectangle, size=(1300, 2600))
+big_square = partial(rectangle, size=(1300, 2600))
 
 
 @gf.cell

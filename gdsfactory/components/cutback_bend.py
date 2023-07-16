@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+from functools import partial
+
 from numpy import float64
 
-import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
@@ -22,6 +23,7 @@ def _get_bend_size(bend90: Component) -> float64:
 @cell
 def cutback_bend(
     bend90: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight,
     straight_length: float = 5.0,
     rows: int = 6,
     columns: int = 5,
@@ -33,6 +35,7 @@ def cutback_bend(
 
     Args:
         bend90: bend spec.
+        straight: straight spec.
         straight_length: in um.
         rows: number of rows.
         columns: number of columns.
@@ -76,6 +79,7 @@ def cutback_bend(
 @cell
 def cutback_bend90(
     bend90: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight,
     straight_length: float = 5.0,
     rows: int = 6,
     columns: int = 6,
@@ -86,6 +90,7 @@ def cutback_bend90(
 
     Args:
         bend90: bend spec.
+        straight: straight spec.
         straight_length: in um.
         rows: number of rows.
         columns: number of columns.
@@ -129,6 +134,7 @@ def cutback_bend90(
 @cell
 def staircase(
     bend90: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight,
     length_v: float = 5.0,
     length_h: float = 5.0,
     rows: int = 4,
@@ -138,6 +144,7 @@ def staircase(
 
     Args:
         bend90: bend spec.
+        straight: straight spec.
         length_v: vertical length.
         length_h: vertical length.
         rows: number of rows.
@@ -170,6 +177,7 @@ def staircase(
 @cell
 def cutback_bend180(
     bend180: ComponentSpec = bend_euler180,
+    straight: ComponentSpec = straight,
     straight_length: float = 5.0,
     rows: int = 6,
     columns: int = 6,
@@ -180,6 +188,7 @@ def cutback_bend180(
 
     Args:
         bend180: bend spec.
+        straight: straight spec.
         straight_length: in um.
         rows: number of rows.
         columns: number of columns.
@@ -225,8 +234,8 @@ def cutback_bend180(
     return c
 
 
-cutback_bend180circular = gf.partial(cutback_bend180, bend180=bend_circular180)
-cutback_bend90circular = gf.partial(cutback_bend90, bend90=bend_circular)
+cutback_bend180circular = partial(cutback_bend180, bend180=bend_circular180)
+cutback_bend90circular = partial(cutback_bend90, bend90=bend_circular)
 
 if __name__ == "__main__":
     # c = cutback_bend()

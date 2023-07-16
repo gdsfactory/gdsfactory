@@ -1,0 +1,161 @@
+name: straight_heater_metal_undercut
+ports:
+  l_e1:
+    center:
+    - -16.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: l_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  l_e2:
+    center:
+    - -10.5
+    - 5.5
+    layer:
+    - 49
+    - 0
+    name: l_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  l_e3:
+    center:
+    - -5.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: l_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  l_e4:
+    center:
+    - -10.5
+    - -5.5
+    layer:
+    - 49
+    - 0
+    name: l_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 320.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  r_e1:
+    center:
+    - 325.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: r_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  r_e2:
+    center:
+    - 330.5
+    - 5.5
+    layer:
+    - 49
+    - 0
+    name: r_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  r_e3:
+    center:
+    - 336.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: r_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  r_e4:
+    center:
+    - 330.5
+    - -5.5
+    layer:
+    - 49
+    - 0
+    name: r_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section_heater: heater_metal
+    cross_section_heater_undercut: strip_heater_metal_undercut
+    cross_section_waveguide_heater: strip_heater_metal
+    heater_taper_length: 5.0
+    heater_width: 2.5
+    length: 320.0
+    length_straight_input: 15.0
+    length_undercut: 30.0
+    length_undercut_spacing: 6.0
+    ohms_per_square: null
+    port_orientation1: null
+    port_orientation2: null
+    via_stack: via_stack_heater_mtop
+    with_undercut: true
+  full:
+    cross_section_heater: heater_metal
+    cross_section_heater_undercut: strip_heater_metal_undercut
+    cross_section_waveguide_heater: strip_heater_metal
+    heater_taper_length: 5.0
+    heater_width: 2.5
+    length: 320.0
+    length_straight_input: 15.0
+    length_undercut: 30.0
+    length_undercut_spacing: 6.0
+    ohms_per_square: null
+    port_orientation1: null
+    port_orientation2: null
+    via_stack: via_stack_heater_mtop
+    with_undercut: true
+  function_name: straight_heater_metal_undercut
+  info:
+    resistance: null
+  info_version: 2
+  module: gdsfactory.components.straight_heater_metal
+  name: straight_heater_metal_undercut

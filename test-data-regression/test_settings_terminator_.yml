@@ -1,0 +1,38 @@
+name: terminator
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section_input: strip
+    cross_section_tip: null
+    doping_layers:
+    - NPP
+    doping_offset: 1
+    length: 50
+    tapered_width: 0.2
+  full:
+    cross_section_input: strip
+    cross_section_tip: null
+    doping_layers:
+    - NPP
+    doping_offset: 1
+    length: 50
+    tapered_width: 0.2
+  function_name: terminator
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.terminator
+  name: terminator

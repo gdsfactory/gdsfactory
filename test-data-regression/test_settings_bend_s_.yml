@@ -1,0 +1,105 @@
+name: bezier_c3570097_bend_s
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 11.0
+    - 2.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child:
+    changed:
+      control_points:
+      - - 0
+        - 0
+      - - 5.5
+        - 0
+      - - 5.5
+        - 2.0
+      - - 11.0
+        - 2.0
+      npoints: 99
+    child: null
+    default:
+      control_points:
+      - - 0.0
+        - 0.0
+      - - 5.0
+        - 0.0
+      - - 5.0
+        - 2.0
+      - - 10.0
+        - 2.0
+      cross_section: strip
+      end_angle: null
+      npoints: 201
+      start_angle: null
+      with_bbox: true
+      with_manhattan_facing_angles: true
+    full:
+      control_points:
+      - - 0
+        - 0
+      - - 5.5
+        - 0
+      - - 5.5
+        - 2.0
+      - - 11.0
+        - 2.0
+      cross_section: strip
+      end_angle: null
+      npoints: 99
+      start_angle: null
+      with_bbox: true
+      with_manhattan_facing_angles: true
+    function_name: bezier
+    info:
+      end_angle: 0
+      length: 11.253
+      min_bend_radius: 11.873
+      start_angle: 0
+    info_version: 2
+    module: gdsfactory.components.bezier
+    name: bezier_c3570097
+  default:
+    check_min_radius: false
+    cross_section: strip
+    npoints: 99
+    size:
+    - 11.0
+    - 2.0
+  full:
+    check_min_radius: false
+    cross_section: strip
+    npoints: 99
+    size:
+    - 11.0
+    - 2.0
+  function_name: bend_s
+  info:
+    end_angle: 0
+    length: 11.253
+    min_bend_radius: 11.873
+    start_angle: 0
+  info_version: 2
+  module: gdsfactory.components.bend_s
+  name: bezier_c3570097_bend_s

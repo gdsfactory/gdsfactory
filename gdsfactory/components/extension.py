@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import warnings
+from functools import partial
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
@@ -40,9 +41,7 @@ def line(
 
 
 def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray:
-    """Returns the points of a position (pos) with angle, by shifted by certain.
-
-    length.
+    """Returns the points of a position (pos) with angle, shifted by length.
 
     Args:
         pos: position.
@@ -77,7 +76,7 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
     c.add_polygon(_line, layer=layer)
     c.add_port(name="original", port=port)
 
-    port_settings = port.settings.copy()
+    port_settings = port.to_dict()
     port_settings.update(center=p_end)
     c.add_port(**port_settings)
 
@@ -128,7 +127,6 @@ def extend_ports(
     c = gf.Component()
     component = gf.get_component(component)
     cref = c << component
-    c.component = component
 
     if centered:
         cref.x = 0
@@ -177,7 +175,7 @@ def extend_ports(
             c.add_port(port_name, port=extension_ref.ports[port2])
             extension_port_names = extension_port_names or []
             [
-                c.add_port(name, port=extension_ref.ports[name], prefix=port_name)
+                c.add_port(name, port=extension_ref.ports[name])
                 for name in extension_port_names
             ]
         else:
@@ -187,11 +185,11 @@ def extend_ports(
     return c
 
 
-def test_extend_ports() -> Component:
+def test_extend_ports() -> None:
     import gdsfactory.components as pc
 
     width = 0.5
-    xs_strip = gf.partial(
+    xs_strip = partial(
         gf.cross_section.strip,
         width=width,
         cladding_layers=None,
@@ -224,42 +222,12 @@ def test_extend_ports() -> Component:
     assert p == 0, p
     assert len(c4.references) == 1, len(c4.references)
 
-    return c4
-
 
 __all__ = ["extend_ports", "extend_port"]
 
 
 if __name__ == "__main__":
-    # c0 = gf.components.taper(width2=10)
-    extension = gf.components.straight_heater_meander()
-    c0 = gf.components.straight()
-    # c1 = extend_ports(c0, orientation=0, extension=extension)
-
-    c1 = extend_ports(
-        c0,
-        extension=extension,
-        orientation=0,
-        extension_port_names=["e1", "e2"],
-        port1="o1",
-        port2="o2",
-    )
-    c1.pprint_ports()
-    c1.show(show_ports=True)
-
-    # c = extend_ports(gf.components.mzi_phase_shifter_top_heater_metal)
-    # c = test_extend_ports()
-
-    # width = 0.5
-    # xs_strip = gf.partial(
-    #     gf.cross_section.strip,
-    #     width=width,
-    #     cladding_layers=None,
-    #     add_pins=None,
-    #     add_bbox=None,
-    # )
-
-    # import gdsfactory.components as pc
-    # c = pc.straight(cross_section=xs_strip)
-    # c4 = extend_ports(component=c, port_type='electrical')
-    # c4.show()
+    c0 = gf.c.straight()
+    p0 = c0["o1"]
+    c = extend_port(p0, length=100)
+    c.show()

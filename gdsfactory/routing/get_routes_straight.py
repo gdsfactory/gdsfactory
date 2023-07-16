@@ -46,7 +46,7 @@ def get_routes_straight(
     return Routes(references=references, ports=ports, lengths=lengths)
 
 
-def test_get_routes_straight(check: bool = True):
+def test_get_routes_straight(check: bool = True) -> None:
     c = gf.Component("get_routes_straight")
     pad_array = gf.components.pad_array()
     c1 = c << pad_array
@@ -57,9 +57,7 @@ def test_get_routes_straight(check: bool = True):
     c.add(routes.references)
     if check:
         difftest(c)
-    return c
 
 
 if __name__ == "__main__":
-    c = test_get_routes_straight(False)
-    c.show(show_ports=True)
+    test_get_routes_straight(False)

@@ -11,26 +11,27 @@ tidy3d can:
 
 from __future__ import annotations
 
-import pathlib
-from typing import Optional, Tuple, Union
 import hashlib
 import itertools
+import pathlib
+from typing import Any, Optional, Sequence, Tuple, Union
 
 import numpy as np
 import pydantic
 import tidy3d as td
-from tidy3d.plugins import waveguide
-from typing_extensions import Literal
 import xarray
+from tidy3d.plugins import waveguide
 from tqdm.auto import tqdm
+from typing_extensions import Literal
 
 from gdsfactory.config import logger
+from gdsfactory.pdk import MaterialSpec, get_modes_path
 from gdsfactory.serialization import clean_value_name
-from gdsfactory.pdk import MaterialSpec, get_material_index, get_modes_path
+from gdsfactory.simulation.gtidy3d.materials import get_medium
 from gdsfactory.typings import PathType
 
-
 Precision = Literal["single", "double"]
+nm = 1e-3
 
 
 class Waveguide(pydantic.BaseModel):
@@ -73,8 +74,10 @@ class Waveguide(pydantic.BaseModel):
         grid_resolution: wavelength resolution of the computation grid.
         max_grid_scaling: grid scaling factor in cladding regions.
         cache: controls the use of cached results.
+        overwrite: overwrite cache.
 
     ::
+
         ________________________________________________
                                                 ^
                                                 ¦
@@ -101,10 +104,10 @@ class Waveguide(pydantic.BaseModel):
         ________________________________________________
     """
 
-    wavelength: float
+    wavelength: Union[float, Sequence[float], Any]
     core_width: float
     core_thickness: float
-    core_material: MaterialSpec
+    core_material: Union[MaterialSpec, td.CustomMedium]
     clad_material: MaterialSpec
     box_material: Optional[MaterialSpec] = None
     slab_thickness: float = 0.0
@@ -123,9 +126,19 @@ class Waveguide(pydantic.BaseModel):
     grid_resolution: int = 20
     max_grid_scaling: float = 1.2
     cache: bool = True
+    overwrite: bool = False
 
     _cached_data = pydantic.PrivateAttr()
     _waveguide = pydantic.PrivateAttr()
+
+    class Config:
+        """pydantic config."""
+
+        extra = "forbid"
+
+    @pydantic.validator("wavelength")
+    def _fix_wavelength_type(cls, value):
+        return np.array(value, dtype=float)
 
     @property
     def cache_path(self) -> Optional[PathType]:
@@ -152,34 +165,39 @@ class Waveguide(pydantic.BaseModel):
     @property
     def waveguide(self):
         """Tidy3D waveguide used by this instance."""
+        # if (not hasattr(self, "_waveguide")
+        #         or isinstance(self.core_material, td.CustomMedium)):
         if not hasattr(self, "_waveguide"):
-            n_core = get_material_index(self.core_material, self.wavelength)
-            core_medium = td.Medium(permittivity=n_core**2)
-            n_clad = get_material_index(self.clad_material, self.wavelength)
-            clad_medium = td.Medium(permittivity=n_clad**2)
-            if self.box_material:
-                n_box = get_material_index(self.box_material, self.wavelength)
-                box_medium = td.Medium(permittivity=n_box**2)
+            # To include a dn -> custom medium
+            if isinstance(self.core_material, td.CustomMedium):
+                core_medium = self.core_material
             else:
-                box_medium = None
+                core_medium = get_medium(self.core_material)
+            clad_medium = get_medium(self.clad_material)
+            box_medium = get_medium(self.box_material) if self.box_material else None
 
-            if self.sidewall_k != 0.0:
-                sidewall_medium = td.Medium.from_nk(
-                    n=n_clad, k=self.sidewall_k, freq=td.C_0 / self.wavelength
-                )
-            else:
-                sidewall_medium = None
+            freq0 = td.C_0 / np.mean(self.wavelength)
+            n_core = core_medium.eps_model(freq0) ** 0.5
+            n_clad = clad_medium.eps_model(freq0) ** 0.5
 
-            if self.surface_k != 0.0:
-                surface_medium = td.Medium.from_nk(
-                    n=n_clad, k=self.surface_k, freq=td.C_0 / self.wavelength
+            sidewall_medium = (
+                td.Medium.from_nk(
+                    n=n_clad.real, k=n_clad.imag + self.sidewall_k, freq=freq0
                 )
-            else:
-                surface_medium = None
+                if self.sidewall_k != 0.0
+                else None
+            )
+            surface_medium = (
+                td.Medium.from_nk(
+                    n=n_clad.real, k=n_clad.imag + self.surface_k, freq=freq0
+                )
+                if self.surface_k != 0.0
+                else None
+            )
 
             mode_spec = td.ModeSpec(
                 num_modes=self.num_modes,
-                target_neff=n_core,
+                target_neff=n_core.real,
                 bend_radius=self.bend_radius,
                 bend_axis=1,
                 num_pml=(12, 12) if self.bend_radius else (0, 0),
@@ -218,15 +236,16 @@ class Waveguide(pydantic.BaseModel):
         if not hasattr(self, "_cached_data"):
             filepath = self.filepath
             if filepath and filepath.exists():
-                logger.info(f"load data from {filepath}.")
-                self._cached_data = np.load(filepath)
-                return self._cached_data
+                if not self.overwrite:
+                    logger.info(f"load data from {filepath}.")
+                    self._cached_data = np.load(filepath)
+                    return self._cached_data
 
             wg = self.waveguide
 
             fields = wg.mode_solver.data._centered_fields
             self._cached_data = {
-                f + c: fields[f + c].isel(f=0, drop=True).values
+                f + c: fields[f + c].squeeze(drop=True).values
                 for f in "EH"
                 for c in "xyz"
             }
@@ -237,6 +256,23 @@ class Waveguide(pydantic.BaseModel):
             self._cached_data["n_eff"] = wg.n_complex.squeeze(drop=True).values
             self._cached_data["mode_area"] = wg.mode_area.squeeze(drop=True).values
 
+            fraction_te = np.zeros(self.num_modes)
+            fraction_tm = np.zeros(self.num_modes)
+
+            for i in range(self.num_modes):
+                e_fields = (
+                    fields["Ex"].sel(mode_index=i),
+                    fields["Ey"].sel(mode_index=i),
+                )
+                areas_e = [np.sum(np.abs(e) ** 2) for e in e_fields]
+                areas_e /= np.sum(areas_e)
+                areas_e *= 100
+                fraction_te[i] = areas_e[0] / (areas_e[0] + areas_e[1])
+                fraction_tm[i] = areas_e[1] / (areas_e[0] + areas_e[1])
+
+            self._cached_data["fraction_te"] = fraction_te
+            self._cached_data["fraction_tm"] = fraction_tm
+
             if wg.n_group is not None:
                 self._cached_data["n_group"] = wg.n_group.squeeze(drop=True).values
 
@@ -245,6 +281,16 @@ class Waveguide(pydantic.BaseModel):
                 np.savez(filepath, **self._cached_data)
 
         return self._cached_data
+
+    @property
+    def fraction_te(self):
+        """Fraction of TE polarization."""
+        return self._data["fraction_te"]
+
+    @property
+    def fraction_tm(self):
+        """Fraction of TM polarization."""
+        return self._data["fraction_tm"]
 
     @property
     def n_eff(self):
@@ -268,15 +314,20 @@ class Waveguide(pydantic.BaseModel):
     def loss_dB_per_cm(self):
         """Propagation loss for computed modes in dB/cm."""
         wavelength = self.wavelength * 1e-6  # convert to m
-        alpha = 2 * np.pi * np.imag(self.n_eff) / wavelength  # lin/m loss
-        return 20 * np.log10(np.e) * alpha * 1e-2  # dB/cm loss
+        alpha = 2 * np.pi * np.imag(self.n_eff).T / wavelength  # lin/m loss
+        return 20 * np.log10(np.e) * alpha.T * 1e-2  # dB/cm loss
 
     @property
     def index(self) -> None:
         """Refractive index distribution on the simulation domain."""
         plane = self.waveguide.mode_solver.plane
+        wavelength = (
+            self.wavelength[self.wavelength.size // 2]
+            if self.wavelength.size > 1
+            else self.wavelength
+        )
         eps = self.waveguide.mode_solver.simulation.epsilon(
-            plane, freq=td.C_0 / self.wavelength
+            plane, freq=td.C_0 / wavelength
         )
         return eps.squeeze(drop=True).T ** 0.5
 
@@ -306,7 +357,12 @@ class Waveguide(pydantic.BaseModel):
         artist.axes.set_aspect("equal")
 
     def plot_field(
-        self, field_name: str, value: str = "real", mode_index: int = 0, **kwargs
+        self,
+        field_name: str,
+        value: str = "real",
+        mode_index: int = 0,
+        wavelength: float = None,
+        **kwargs,
     ) -> None:
         """Plot the selected field distribution from a waveguide mode.
 
@@ -315,9 +371,21 @@ class Waveguide(pydantic.BaseModel):
             value: component of the field to plot. One of 'real',
                 'imag', 'abs', 'phase', 'dB'.
             mode_index: mode selection.
+            wavelength: wavelength selection.
             kwargs: keyword arguments passed to xarray.DataArray.plot.
         """
-        data = self._data[field_name][:, :, mode_index]
+        data = self._data[field_name]
+
+        if self.num_modes > 1:
+            data = data[..., mode_index]
+        if self.wavelength.size > 1:
+            i = (
+                np.argmin(np.abs(wavelength - self.wavelength))
+                if wavelength
+                else self.wavelength.size // 2
+            )
+            data = data[..., i]
+
         if value == "real":
             data = data.real
         elif value == "imag":
@@ -400,6 +468,7 @@ class WaveguideCoupler(Waveguide):
         cache: controls the use of cached results.
 
     ::
+
         _____________________________________________________________
 
                 ._________________.       ._________________.
@@ -422,33 +491,32 @@ class WaveguideCoupler(Waveguide):
     def waveguide(self):
         """Tidy3D waveguide used by this instance."""
         if not hasattr(self, "_waveguide"):
-            n_core = get_material_index(self.core_material, self.wavelength)
-            core_medium = td.Medium(permittivity=n_core**2)
-            n_clad = get_material_index(self.clad_material, self.wavelength)
-            clad_medium = td.Medium(permittivity=n_clad**2)
-            if self.box_material:
-                n_box = get_material_index(self.box_material, self.wavelength)
-                box_medium = td.Medium(permittivity=n_box**2)
-            else:
-                box_medium = None
+            core_medium = get_medium(self.core_material)
+            clad_medium = get_medium(self.clad_material)
+            box_medium = get_medium(self.box_material) if self.box_material else None
 
-            if self.sidewall_k != 0.0:
-                sidewall_medium = td.Medium.from_nk(
-                    n=n_clad, k=self.sidewall_k, freq=td.C_0 / self.wavelength
-                )
-            else:
-                sidewall_medium = None
+            freq0 = td.C_0 / np.mean(self.wavelength)
+            n_core = core_medium.eps_model(freq0) ** 0.5
+            n_clad = clad_medium.eps_model(freq0) ** 0.5
 
-            if self.surface_k != 0.0:
-                surface_medium = td.Medium.from_nk(
-                    n=n_clad, k=self.surface_k, freq=td.C_0 / self.wavelength
+            sidewall_medium = (
+                td.Medium.from_nk(
+                    n=n_clad.real, k=n_clad.imag + self.sidewall_k, freq=freq0
                 )
-            else:
-                surface_medium = None
+                if self.sidewall_k != 0.0
+                else None
+            )
+            surface_medium = (
+                td.Medium.from_nk(
+                    n=n_clad.real, k=n_clad.imag + self.surface_k, freq=freq0
+                )
+                if self.surface_k != 0.0
+                else None
+            )
 
             mode_spec = td.ModeSpec(
                 num_modes=self.num_modes,
-                target_neff=n_core,
+                target_neff=n_core.real,
                 bend_radius=self.bend_radius,
                 bend_axis=1,
                 num_pml=(12, 12) if self.bend_radius else (0, 0),
@@ -485,7 +553,7 @@ class WaveguideCoupler(Waveguide):
     def coupling_length(self, power_ratio: float = 1.0) -> float:
         """Coupling length calculated from the effective mode indices.
 
-        Parameters:
+        Args:
             power_ratio: desired coupling power ratio.
         """
         m = (self.n_eff.size // 2) * 2
@@ -507,6 +575,10 @@ def _sweep(waveguide: Waveguide, attribute: str, **sweep_kwargs) -> xarray.DataA
         attribute: desired waveguide attribute (retrieved with getattr).
         sweep_kwargs: Waveguide arguments and values to sweep.
     """
+    for prohibited in ("wavelength", "num_modes"):
+        if prohibited in sweep_kwargs:
+            raise ValueError(f"Parameter '{prohibited}' cannot be swept.")
+
     kwargs = {
         k: getattr(waveguide, k) for k in waveguide.__fields__ if k not in sweep_kwargs
     }
@@ -515,7 +587,12 @@ def _sweep(waveguide: Waveguide, attribute: str, **sweep_kwargs) -> xarray.DataA
     values = tuple(sweep_kwargs.values())
 
     shape = [len(v) for v in values]
-    shape.append(waveguide.num_modes)
+    if waveguide.wavelength.size > 1:
+        shape.append(waveguide.wavelength.size)
+        sweep_kwargs["wavelength"] = waveguide.wavelength.tolist()
+    if waveguide.num_modes > 1:
+        shape.append(waveguide.num_modes)
+        sweep_kwargs["mode_index"] = list(range(waveguide.num_modes))
 
     variations = tuple(itertools.product(*values))
     neff = np.array(
@@ -525,7 +602,6 @@ def _sweep(waveguide: Waveguide, attribute: str, **sweep_kwargs) -> xarray.DataA
         ]
     ).reshape(shape)
 
-    sweep_kwargs["mode_index"] = list(range(shape[-1]))
     return xarray.DataArray(neff, coords=sweep_kwargs, name=attribute)
 
 
@@ -535,9 +611,44 @@ def sweep_n_eff(waveguide: Waveguide, **sweep_kwargs) -> np.ndarray:
     The returned array uses the sweep arguments and the mode index as
     coordinates to organize the data.
 
-    Parameters:
+    Args:
         waveguide: base waveguide geometry.
+
+    Keyword Args:
         sweep_kwargs: Waveguide arguments and values to sweep.
+        wavelength: wavelength in free space.
+        core_width: waveguide core width.
+        core_thickness: waveguide core thickness (height).
+        core_material: core material. One of:
+            - string: material name.
+            - float: refractive index.
+            - float, float: refractive index real and imaginary part.
+            - function: function of wavelength.
+        clad_material: top cladding material.
+        box_material: bottom cladding material.
+        slab_thickness: thickness of the slab region in a rib waveguide.
+        clad_thickness: thickness of the top cladding.
+        box_thickness: thickness of the bottom cladding.
+        side_margin: domain extension to the side of the waveguide core.
+        sidewall_angle: angle of the core sidewall w.r.t. the substrate
+            normal.
+        sidewall_thickness: thickness of a layer on the sides of the
+            waveguide core to model side-surface losses.
+        sidewall_k: absorption coefficient added to the core material
+            index on the side-surface layer.
+        surface_thickness: thickness of a layer on the top of the
+            waveguide core and slabs to model top-surface losses.
+        surface_k: absorption coefficient added to the core material
+            index on the top-surface layer.
+        bend_radius: radius to simulate circular bend.
+        num_modes: number of modes to compute.
+        group_index_step: if set to `True`, indicates that the group
+            index must also be calculated. If set to a positive float
+            it defines the fractional frequency step used for the
+            numerical differentiation of the effective index.
+        precision: computation precision.
+        grid_resolution: wavelength resolution of the computation grid.
+        max_grid_scaling: grid scaling factor in cladding regions.
 
     Example:
         >>> sweep_n_eff(
@@ -549,15 +660,102 @@ def sweep_n_eff(waveguide: Waveguide, **sweep_kwargs) -> np.ndarray:
     return _sweep(waveguide, "n_eff", **sweep_kwargs)
 
 
+def sweep_fraction_te(waveguide: Waveguide, **sweep_kwargs) -> np.ndarray:
+    """Return the te fraction for a range of waveguide geometries.
+
+    Args:
+        waveguide: base waveguide geometry.
+
+    Keyword Args:
+        sweep_kwargs: Waveguide arguments and values to sweep.
+        wavelength: wavelength in free space.
+        core_width: waveguide core width.
+        core_thickness: waveguide core thickness (height).
+        core_material: core material. One of:
+            - string: material name.
+            - float: refractive index.
+            - float, float: refractive index real and imaginary part.
+            - function: function of wavelength.
+        clad_material: top cladding material.
+        box_material: bottom cladding material.
+        slab_thickness: thickness of the slab region in a rib waveguide.
+        clad_thickness: thickness of the top cladding.
+        box_thickness: thickness of the bottom cladding.
+        side_margin: domain extension to the side of the waveguide core.
+        sidewall_angle: angle of the core sidewall w.r.t. the substrate
+            normal.
+        sidewall_thickness: thickness of a layer on the sides of the
+            waveguide core to model side-surface losses.
+        sidewall_k: absorption coefficient added to the core material
+            index on the side-surface layer.
+        surface_thickness: thickness of a layer on the top of the
+            waveguide core and slabs to model top-surface losses.
+        surface_k: absorption coefficient added to the core material
+            index on the top-surface layer.
+        bend_radius: radius to simulate circular bend.
+        num_modes: number of modes to compute.
+        group_index_step: if set to `True`, indicates that the group
+            index must also be calculated. If set to a positive float
+            it defines the fractional frequency step used for the
+            numerical differentiation of the effective index.
+        precision: computation precision.
+        grid_resolution: wavelength resolution of the computation grid.
+        max_grid_scaling: grid scaling factor in cladding regions.
+
+    Example:
+        >>> sweep_fraction_te(
+        ...     my_waveguide,
+        ...     core_width=[0.40, 0.45, 0.50],
+        ...     core_thickness=[0.22, 0.25],
+        ... )
+    """
+    return _sweep(waveguide, "fraction_te", **sweep_kwargs)
+
+
 def sweep_n_group(waveguide: Waveguide, **sweep_kwargs) -> np.ndarray:
     """Return the group index for a range of waveguide geometries.
 
     The returned array uses the sweep arguments and the mode index as
     coordinates to organize the data.
 
-    Parameters:
+    Args:
         waveguide: base waveguide geometry.
+
+    Keyword Args:
         sweep_kwargs: Waveguide arguments and values to sweep.
+        wavelength: wavelength in free space.
+        core_width: waveguide core width.
+        core_thickness: waveguide core thickness (height).
+        core_material: core material. One of:
+            - string: material name.
+            - float: refractive index.
+            - float, float: refractive index real and imaginary part.
+            - function: function of wavelength.
+        clad_material: top cladding material.
+        box_material: bottom cladding material.
+        slab_thickness: thickness of the slab region in a rib waveguide.
+        clad_thickness: thickness of the top cladding.
+        box_thickness: thickness of the bottom cladding.
+        side_margin: domain extension to the side of the waveguide core.
+        sidewall_angle: angle of the core sidewall w.r.t. the substrate
+            normal.
+        sidewall_thickness: thickness of a layer on the sides of the
+            waveguide core to model side-surface losses.
+        sidewall_k: absorption coefficient added to the core material
+            index on the side-surface layer.
+        surface_thickness: thickness of a layer on the top of the
+            waveguide core and slabs to model top-surface losses.
+        surface_k: absorption coefficient added to the core material
+            index on the top-surface layer.
+        bend_radius: radius to simulate circular bend.
+        num_modes: number of modes to compute.
+        group_index_step: if set to `True`, indicates that the group
+            index must also be calculated. If set to a positive float
+            it defines the fractional frequency step used for the
+            numerical differentiation of the effective index.
+        precision: computation precision.
+        grid_resolution: wavelength resolution of the computation grid.
+        max_grid_scaling: grid scaling factor in cladding regions.
 
     Example:
         >>> sweep_n_group(
@@ -575,9 +773,44 @@ def sweep_mode_area(waveguide: Waveguide, **sweep_kwargs) -> np.ndarray:
     The returned array uses the sweep arguments and the mode index as
     coordinates to organize the data.
 
-    Parameters:
+    Args:
         waveguide: base waveguide geometry.
+
+    Keyword Args:
         sweep_kwargs: Waveguide arguments and values to sweep.
+        wavelength: wavelength in free space.
+        core_width: waveguide core width.
+        core_thickness: waveguide core thickness (height).
+        core_material: core material. One of:
+            - string: material name.
+            - float: refractive index.
+            - float, float: refractive index real and imaginary part.
+            - function: function of wavelength.
+        clad_material: top cladding material.
+        box_material: bottom cladding material.
+        slab_thickness: thickness of the slab region in a rib waveguide.
+        clad_thickness: thickness of the top cladding.
+        box_thickness: thickness of the bottom cladding.
+        side_margin: domain extension to the side of the waveguide core.
+        sidewall_angle: angle of the core sidewall w.r.t. the substrate
+            normal.
+        sidewall_thickness: thickness of a layer on the sides of the
+            waveguide core to model side-surface losses.
+        sidewall_k: absorption coefficient added to the core material
+            index on the side-surface layer.
+        surface_thickness: thickness of a layer on the top of the
+            waveguide core and slabs to model top-surface losses.
+        surface_k: absorption coefficient added to the core material
+            index on the top-surface layer.
+        bend_radius: radius to simulate circular bend.
+        num_modes: number of modes to compute.
+        group_index_step: if set to `True`, indicates that the group
+            index must also be calculated. If set to a positive float
+            it defines the fractional frequency step used for the
+            numerical differentiation of the effective index.
+        precision: computation precision.
+        grid_resolution: wavelength resolution of the computation grid.
+        max_grid_scaling: grid scaling factor in cladding regions.
 
     Example:
         >>> sweep_mode_area(
@@ -597,7 +830,7 @@ def sweep_bend_mismatch(
     The loss is squared because you hit the bend loss twice
     (from bend to straight and from straight to bend).
 
-    Parameters:
+    Args:
         waveguide: base waveguide geometry.
         bend_radii: radii values to sweep.
     """
@@ -636,21 +869,21 @@ def sweep_coupling_length(
 
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
-    strip = Waveguide(
-        wavelength=1.55,
-        core_width=0.5,
-        core_thickness=0.22,
-        slab_thickness=0.0,
-        core_material="si",
-        clad_material="sio2",
-    )
-    # strip.plot_field(field_name="Ex", mode_index=0, value="dB")  # TE
-    strip.plot_grid()
-    plt.show()
-
     # from matplotlib import pyplot
+
+    # for num_modes in (1, 2):
+    #     for wavelength in (1.55, [1.54, 1.55, 1.56]):
+    #         strip = Waveguide(
+    #             wavelength=wavelength,
+    #             core_width=0.5,
+    #             core_thickness=0.22,
+    #             slab_thickness=0.0,
+    #             core_material="si",
+    #             clad_material="sio2",
+    #             num_modes=num_modes,
+    #         )
+    #         pyplot.figure()
+    #         strip.plot_field(field_name="Ex", mode_index=0, wavelength=1.55, value="real")
     # rib = Waveguide(
     #     wavelength=1.55,
     #     core_width=0.5,
@@ -665,7 +898,7 @@ if __name__ == "__main__":
     # print("Effective indices:", rib.n_eff)
     # print("Group indices:", rib.n_group)
     # print("Mode areas:", rib.mode_area)
-
+    #
     # fig, ax = pyplot.subplots(2, rib.num_modes + 1, tight_layout=True, figsize=(12, 8))
     # rib.plot_index(ax=ax[0, 0])
     # rib.waveguide.plot_structures(z=0, ax=ax[1, 0])
@@ -675,9 +908,8 @@ if __name__ == "__main__":
     #     rib.plot_field("Ey", mode_index=i, ax=ax[1, i + 1])
     #     ax[0, i + 1].set_title(f"Mode {i}")
     # fig.suptitle("Rib waveguide")
-
     # # Strip waveguide coupler
-
+    #
     # coupler = WaveguideCoupler(
     #     wavelength=1.55,
     #     core_width=(0.45, 0.45),
@@ -687,25 +919,23 @@ if __name__ == "__main__":
     #     num_modes=4,
     #     gap=0.1,
     # )
-
+    #
     # print("\nCoupler:", coupler)
     # print("Effective indices:", coupler.n_eff)
     # print("Mode areas:", coupler.mode_area)
     # print("Coupling length:", coupler.coupling_length())
-
+    #
     # gaps = np.linspace(0.05, 0.15, 11)
     # lengths = sweep_coupling_length(coupler, gaps)
-
+    #
     # _, ax = pyplot.subplots(1, 1)
     # ax.plot(gaps, lengths)
     # ax.set(xlabel="Gap (μm)", ylabel="Coupling length (μm)")
     # ax.legend(["TE", "TM"])
     # ax.grid()
-
     # # Strip bend mismatch
-
-    # radii = np.arange(6, 21)
-    # radii = np.arange(6, 7)
+    #
+    # radii = np.arange(7, 21)
     # bend = Waveguide(
     #     wavelength=1.55,
     #     core_width=0.5,
@@ -716,15 +946,13 @@ if __name__ == "__main__":
     #     bend_radius=radii.min(),
     # )
     # mismatch = sweep_bend_mismatch(bend, radii)
-
+    #
     # fig, ax = pyplot.subplots(1, 2, tight_layout=True, figsize=(9, 4))
     # bend.plot_field("Ex", ax=ax[0])
     # ax[1].plot(radii, 10 * np.log10(mismatch))
     # ax[1].set(xlabel="Radius (μm)", ylabel="Mismatch (dB)")
     # ax[1].grid()
     # fig.suptitle("Strip waveguide bend")
-    # print(bend.filepath)
-
     # Effective index sweep
 
     # wg = Waveguide(
@@ -734,7 +962,21 @@ if __name__ == "__main__":
     #     core_material="si",
     #     clad_material="sio2",
     #     num_modes=2,
+    #     overwrite=True
     # )
+
+    strip = Waveguide(
+        wavelength=1.55,
+        core_width=1.0,
+        slab_thickness=0.0,
+        core_material="si",
+        clad_material="sio2",
+        core_thickness=220 * nm,
+        num_modes=4,
+    )
+    w = np.linspace(400 * nm, 1000 * nm, 7)
+    n_eff = sweep_n_eff(strip, core_width=w)
+    fraction_te = sweep_fraction_te(strip, core_width=w)
 
     # t = np.linspace(0.2, 0.25, 6)
     # w = np.linspace(0.4, 0.6, 5)

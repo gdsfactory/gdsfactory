@@ -1,0 +1,102 @@
+name: greek_cross
+ports:
+  e1:
+    center:
+    - -26.0
+    - 0.0
+    layer:
+    - 41
+    - 0
+    name: e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  e2:
+    center:
+    - 0.0
+    - 26.0
+    layer:
+    - 41
+    - 0
+    name: e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  e3:
+    center:
+    - 26.0
+    - 0.0
+    layer:
+    - 41
+    - 0
+    name: e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  e4:
+    center:
+    - -0.0
+    - -26.0
+    layer:
+    - 41
+    - 0
+    name: e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+settings:
+  changed: {}
+  child: null
+  default:
+    layers:
+    - WG
+    - N
+    length: 30
+    offsets: null
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - WG
+        - NPP
+        - M1
+        vias:
+        - null
+        - null
+        - function: via
+          settings:
+            layer: VIAC
+    widths:
+    - 2.0
+    - 3.0
+  full:
+    layers:
+    - WG
+    - N
+    length: 30
+    offsets: null
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - WG
+        - NPP
+        - M1
+        vias:
+        - null
+        - null
+        - function: via
+          settings:
+            layer: VIAC
+    widths:
+    - 2.0
+    - 3.0
+  function_name: greek_cross
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.greek_cross
+  name: greek_cross

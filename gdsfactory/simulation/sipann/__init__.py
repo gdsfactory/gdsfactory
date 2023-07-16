@@ -3,7 +3,7 @@ from __future__ import annotations
 try:
     import SiPANN as _SIPANN
 except ImportError:
-    print("To install sipann plugin make sure you `pip install gdsfactory[sipann]`")
+    print("To install sipann plugin make sure you `pip install sipann`")
 
 from .bend_circular import bend_circular
 from .bend_euler import bend_euler

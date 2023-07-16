@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import multiprocessing
 import pathlib
+import pickle
 import shlex
 import subprocess
 import sys
 import time
+from functools import partial
 from pathlib import Path
 from typing import Optional
 
@@ -27,7 +29,6 @@ from gdsfactory.simulation.gmeep.write_sparameters_meep import (
 )
 from gdsfactory.technology import LayerStack
 from gdsfactory.typings import ComponentSpec, PathType
-import pickle
 
 core_materials = multiprocessing.cpu_count()
 
@@ -167,7 +168,7 @@ def write_sparameters_meep_mpi(
 
     # Save component to disk through gds for gdstk compatibility
     component_file = tempfile.with_suffix(".gds")
-    component.write_gds_with_metadata(component_file)
+    component.write_gds(component_file, with_metadata=True)
 
     # Write execution file
     script_lines = [
@@ -226,11 +227,11 @@ def write_sparameters_meep_mpi(
     return filepath
 
 
-write_sparameters_meep_mpi_1x1 = gf.partial(
+write_sparameters_meep_mpi_1x1 = partial(
     write_sparameters_meep_mpi, port_symmetries=port_symmetries.port_symmetries_1x1
 )
 
-write_sparameters_meep_mpi_1x1_bend90 = gf.partial(
+write_sparameters_meep_mpi_1x1_bend90 = partial(
     write_sparameters_meep_mpi,
     ymargin_bot=3,
     ymargin=0,

@@ -1,0 +1,68 @@
+name: via_cutback
+ports: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    layer1: HEATER
+    layer2: M1
+    min_pad_spacing: 0.0
+    num_vias: 100.0
+    pad:
+      function: via_stack
+      settings:
+        layers:
+        - HEATER
+        - M2
+        - M3
+        vias:
+        - null
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
+    pad_size:
+    - 150
+    - 150
+    via_layer: VIAC
+    via_spacing: 40.0
+    via_width: 5.0
+    wire_pad_inclusion: 12.0
+    wire_width: 10.0
+  full:
+    layer1: HEATER
+    layer2: M1
+    min_pad_spacing: 0.0
+    num_vias: 100.0
+    pad:
+      function: via_stack
+      settings:
+        layers:
+        - HEATER
+        - M2
+        - M3
+        vias:
+        - null
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
+    pad_size:
+    - 150
+    - 150
+    via_layer: VIAC
+    via_spacing: 40.0
+    via_width: 5.0
+    wire_pad_inclusion: 12.0
+    wire_width: 10.0
+  function_name: via_cutback
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.via_cutback
+  name: via_cutback

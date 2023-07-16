@@ -17,7 +17,7 @@ def mmi_90degree_hybrid(
     width_mmi: float = 10.0,
     gap_mmi: float = 0.8,
     taper: ComponentSpec = taper_function,
-    straight: CrossSectionSpec = straight_function,
+    straight: ComponentSpec = straight_function,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:

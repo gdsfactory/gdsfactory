@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional
 
 import gdsfactory as gf
@@ -9,7 +10,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack_heater_mtop
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
-via_stack_heater_mtop_mini = gf.partial(via_stack_heater_mtop, size=(4, 4))
+via_stack_heater_mtop_mini = partial(via_stack_heater_mtop, size=(4, 4))
 
 
 @gf.cell
@@ -23,7 +24,7 @@ def ring_single_heater(
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section: CrossSectionSpec = "strip",
     via_stack: ComponentSpec = via_stack_heater_mtop_mini,
-    port_orientation: Optional[float] = 90,
+    port_orientation: Optional[float] = None,
     via_stack_offset: Float2 = (0, 0),
     **kwargs,
 ) -> gf.Component:
@@ -111,9 +112,18 @@ def ring_single_heater(
     c2.xmin = +length_x / 2 + cb.x + via_stack_offset[0]
     c1.movey(via_stack_offset[1])
     c2.movey(via_stack_offset[1])
-    c.add_ports(c1.get_ports_list(orientation=port_orientation), prefix="e1")
-    c.add_ports(c2.get_ports_list(orientation=port_orientation), prefix="e2")
-    c.auto_rename_ports()
+
+    p1 = c1.get_ports_list(orientation=port_orientation)
+    p2 = c2.get_ports_list(orientation=port_orientation)
+    valid_orientations = {p.orientation for p in via.ports.values()}
+
+    if not p1:
+        raise ValueError(
+            f"No ports found for port_orientation {port_orientation} in {valid_orientations}"
+        )
+
+    c.add_ports(p1, prefix="l_")
+    c.add_ports(p2, prefix="r_")
     return c
 
 

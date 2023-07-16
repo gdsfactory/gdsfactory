@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional
 
 import gdsfactory as gf
@@ -20,8 +21,8 @@ def straight_heater_metal_undercut(
     cross_section_heater_undercut: CrossSectionSpec = "strip_heater_metal_undercut",
     with_undercut: bool = True,
     via_stack: Optional[ComponentSpec] = "via_stack_heater_mtop",
-    port_orientation1: int = 180,
-    port_orientation2: int = 0,
+    port_orientation1: Optional[int] = None,
+    port_orientation2: Optional[int] = None,
     heater_taper_length: Optional[float] = 5.0,
     ohms_per_square: Optional[float] = None,
     **kwargs,
@@ -95,7 +96,7 @@ def straight_heater_metal_undercut(
 
     if via_stack:
         refs = list(sequence.named_references.keys())
-        via_stackw = via_stacke = gf.get_component(via_stack)
+        via = via_stackw = via_stacke = gf.get_component(via_stack)
         via_stack_west_center = sequence.named_references[refs[0]].size_info.cw
         via_stack_east_center = sequence.named_references[refs[-1]].size_info.ce
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
@@ -104,12 +105,22 @@ def straight_heater_metal_undercut(
         via_stack_east = c << via_stacke
         via_stack_west.move(via_stack_west_center - (dx, 0))
         via_stack_east.move(via_stack_east_center + (dx, 0))
-        c.add_port(
-            "e1", port=via_stack_west.get_ports_list(orientation=port_orientation1)[0]
-        )
-        c.add_port(
-            "e2", port=via_stack_east.get_ports_list(orientation=port_orientation2)[0]
-        )
+
+        valid_orientations = {p.orientation for p in via.ports.values()}
+        p1 = via_stack_west.get_ports_list(orientation=port_orientation1)
+        p2 = via_stack_east.get_ports_list(orientation=port_orientation2)
+
+        if not p1:
+            raise ValueError(
+                f"No ports for port_orientation1 {port_orientation1} in {valid_orientations}"
+            )
+        if not p2:
+            raise ValueError(
+                f"No ports for port_orientation2 {port_orientation2} in {valid_orientations}"
+            )
+
+        c.add_ports(p1, prefix="l_")
+        c.add_ports(p2, prefix="r_")
         if heater_taper_length:
             x = gf.get_cross_section(cross_section_heater, width=heater_width)
             taper = gf.components.taper(
@@ -129,17 +140,17 @@ def straight_heater_metal_undercut(
     return c
 
 
-straight_heater_metal = gf.partial(
+straight_heater_metal = partial(
     straight_heater_metal_undercut,
     with_undercut=False,
 )
-straight_heater_metal_90_90 = gf.partial(
+straight_heater_metal_90_90 = partial(
     straight_heater_metal_undercut,
     with_undercut=False,
     port_orientation1=90,
     port_orientation2=90,
 )
-straight_heater_metal_undercut_90_90 = gf.partial(
+straight_heater_metal_undercut_90_90 = partial(
     straight_heater_metal_undercut,
     with_undercut=False,
     port_orientation1=90,
@@ -147,14 +158,12 @@ straight_heater_metal_undercut_90_90 = gf.partial(
 )
 
 
-def test_ports():
+def test_ports() -> None:
     c = straight_heater_metal(length=50.0)
     assert c.ports["o2"].center[0] == 50.0, c.ports["o2"].center[0]
-    return c
 
 
 if __name__ == "__main__":
-    # c = test_ports()
     # c = straight_heater_metal_undercut()
     # print(c.ports['o2'].center[0])
     # c.pprint_ports()

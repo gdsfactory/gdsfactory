@@ -4,49 +4,35 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 full: plugins
-	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax,database]
+	pip install -e .[docs,dev,full]
 
 all: plugins install full
 
 install:
-	pip install -e .[full,dev] pre-commit
+	pip install -e .[kfactory,cad,dev] pre-commit
 	pre-commit install
-	gf install klayout-integration
+	gf install klayout-genericpdk
+	gf install git-diff
 
 dev: full
 	pre-commit install
-	gf install klayout-integration
-
-mamba:
-	bash conda/mamba.sh
-
-patch:
-	bumpversion patch
-	python docs/write_components_doc.py
-
-minor:
-	bumpversion minor
-	python docs/write_components_doc.py
-
-major:
-	bumpversion major
-	python docs/write_components_doc.py
+	gf install klayout-genericpdk
 
 plugins:
 	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	conda install -c conda-forge slepc4py=*=complex* -y
-	pip install -e .[tidy3d,ray,sax,devsim,meow,database,femwell]
+	pip install -e .[tidy3d,ray,sax,devsim,meow,database,femwell,meshwell]
 
 plugins-conda:
 	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	conda install -c conda-forge slepc4py=*=complex* -y
-	pip install jax jaxlib numpy femwell --upgrade
+	pip install jax jaxlib numpy femwell meshwell --upgrade
 	pip install -e .[tidy3d,ray,sax,devsim,meow,database]
 
 plugins-mamba:
 	mamba install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	mamba install -c conda-forge slepc4py=*=complex* -y
-	pip install jax jaxlib numpy femwell --upgrade
+	pip install jax jaxlib numpy femwell meshwell --upgrade
 	pip install -e .[tidy3d,ray,sax,devsim,meow]
 
 plugins-debian: plugins
@@ -62,9 +48,6 @@ gmsh:
 meep:
 	conda install pymeep=*=mpi_mpich_* -y
 
-sax:
-	pip install jax jaxlib
-
 publish:
 	anaconda upload environment.yml
 
@@ -75,20 +58,26 @@ gds:
 	python gdsfactory/components/straight.py
 
 data-upload:
-	aws s3 sync data s3://gdslib
+	echo 'no need to upload'
+	# aws s3 sync data s3://gdslib
 	# gh release upload v6.90.3 data/gds/*.gds --clobber
-	# gh release upload v6.90.3 data/sp/*.npz --clobber
-	# gh release upload v6.90.3 data/sp/*.yml --clobber
-	# gh release upload v6.90.3 data/modes/*.msh --clobber
-	# gh release upload v6.90.3 data/modes/*.npz --clobber
 
-data-download:
+test-data:
+	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
+
+data-download: test-data
+	echo 'Make sure you git pull inside test-data folder'
+
+data-download-old:
 	aws s3 sync s3://gdslib data --no-sign-request
 	# gh release download v6.90.3 -D data/gds/*.gds --clobber
 	# gh release download v6.90.3 data/sp/*.npz --clobber
 	# gh release download v6.90.3 data/sp/*.yml --clobber
 	# gh release download v6.90.3 data/modes/*.msh --clobber
 	# gh release download v6.90.3 data/modes/*.npz --clobber
+
+data-clean:
+	aws s3 rm data s3://gdslib/gds
 
 test:
 	pytest -s
@@ -112,10 +101,17 @@ test-femwell:
 	pytest gdsfactory/simulation/fem
 
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gmsh tests/test_klayout gdsfactory/simulation/fem gdsfactory/simulation/gtidy3d
+	pytest gdsfactory/simulation \
+		--ignore=gdsfactory/simulation/sipann/ \
+		--ignore=gdsfactory/simulation/devsim \
+		--ignore=gdsfactory/simulation/simphony
 
 test-plugins-no-tidy3d:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gmsh tests/test_klayout gdsfactory/simulation/fem
+	pytest gdsfactory/simulation \
+		--ignore=gdsfactory/simulation/sipann/ \
+		--ignore=gdsfactory/simulation/simphony \
+		--ignore=gdsfactory/simulation/devsim \
+		--ignore=gdsfactory/simulation/gtidy3d
 
 test-notebooks:
 	py.test --nbval notebooks
@@ -200,7 +196,7 @@ codestyle:
 	pycodestyle --max-line-length=88
 
 doc:
-	python docs/write_components_doc.py
+	python .github/write_components_doc.py
 
 docs:
 	jb build docs
@@ -215,6 +211,9 @@ constructor:
 	conda install constructor -y
 	constructor conda
 
+notebooks:
+	jupytext gdsfactory/samples/notebooks/*.md --to ipynb notebooks/
+
 nbqa:
 	nbqa blacken-docs docs/notebooks/**/*.ipynb --nbqa-md
 	nbqa blacken-docs docs/notebooks/*.ipynb --nbqa-md
@@ -228,8 +227,12 @@ nbqa:
 jupytext:
 	jupytext **/*.ipynb --to py
 
+jupytext-clean:
+	jupytext docs/**/*.py --to py
+
 notebooks:
-	jupytext docs/notebooks/**/*.py --to ipynb
-	jupytext docs/notebooks/*.py --to ipynb
+	# jupytext docs/notebooks/*.py --to ipynb
+	# jupytext docs/notebooks/*.ipynb --to to
+	jupytext --pipe black docs/notebooks/*.py
 
 .PHONY: gdsdiff build conda gdslib docs doc

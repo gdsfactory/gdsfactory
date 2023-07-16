@@ -1,0 +1,61 @@
+name: cutback_bend180_13911d77
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 142.5
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed:
+    bend180:
+      function: bend_circular
+      settings:
+        angle: 180
+  child: null
+  default:
+    bend180:
+      function: bend_euler
+      settings:
+        angle: 180
+    columns: 6
+    rows: 6
+    spacing: 3
+    straight:
+      function: straight
+    straight_length: 5.0
+  full:
+    bend180:
+      function: bend_circular
+      settings:
+        angle: 180
+    columns: 6
+    rows: 6
+    spacing: 3
+    straight:
+      function: straight
+    straight_length: 5.0
+  function_name: cutback_bend180
+  info:
+    n_bends: 82
+  info_version: 2
+  module: gdsfactory.components.cutback_bend
+  name: cutback_bend180_13911d77

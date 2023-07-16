@@ -1,0 +1,640 @@
+name: coh_tx_dual_pol
+ports:
+  o1:
+    center:
+    - -115.5
+    - -147.25
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 473.77
+    - -55.75
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 473.77
+    - -238.75
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  pol1_mzm_i_top_bot_e1:
+    center:
+    - 45.5
+    - 16.625
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_i_top_bot_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol1_mzm_i_top_bot_e2:
+    center:
+    - 135.5
+    - 21.625
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_i_top_bot_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol1_mzm_i_top_bot_e3:
+    center:
+    - 225.5
+    - 16.625
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_i_top_bot_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol1_mzm_i_top_bot_e4:
+    center:
+    - 135.5
+    - 11.625
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_i_top_bot_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol1_mzm_i_top_top_e1:
+    center:
+    - 45.5
+    - 28.625
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_i_top_top_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol1_mzm_i_top_top_e2:
+    center:
+    - 135.5
+    - 33.625
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_i_top_top_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol1_mzm_i_top_top_e3:
+    center:
+    - 225.5
+    - 28.625
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_i_top_top_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol1_mzm_i_top_top_e4:
+    center:
+    - 135.5
+    - 23.625
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_i_top_top_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol1_mzm_q_top_bot_e1:
+    center:
+    - 45.5
+    - -94.875
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_q_top_bot_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol1_mzm_q_top_bot_e2:
+    center:
+    - 135.5
+    - -89.875
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_q_top_bot_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol1_mzm_q_top_bot_e3:
+    center:
+    - 225.5
+    - -94.875
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_q_top_bot_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol1_mzm_q_top_bot_e4:
+    center:
+    - 135.5
+    - -99.875
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_q_top_bot_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol1_mzm_q_top_top_e1:
+    center:
+    - 45.5
+    - -82.875
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_q_top_top_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol1_mzm_q_top_top_e2:
+    center:
+    - 135.5
+    - -77.875
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_q_top_top_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol1_mzm_q_top_top_e3:
+    center:
+    - 225.5
+    - -82.875
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_q_top_top_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol1_mzm_q_top_top_e4:
+    center:
+    - 135.5
+    - -87.875
+    layer:
+    - 49
+    - 0
+    name: pol1_mzm_q_top_top_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol1_ps_q_bot_e1:
+    center:
+    - 331.02
+    - -117.5
+    layer:
+    - 49
+    - 0
+    name: pol1_ps_q_bot_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol1_ps_q_bot_e2:
+    center:
+    - 371.02
+    - -112.5
+    layer:
+    - 49
+    - 0
+    name: pol1_ps_q_bot_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 80.0
+  pol1_ps_q_bot_e3:
+    center:
+    - 411.02
+    - -117.5
+    layer:
+    - 49
+    - 0
+    name: pol1_ps_q_bot_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol1_ps_q_bot_e4:
+    center:
+    - 371.02
+    - -122.5
+    layer:
+    - 49
+    - 0
+    name: pol1_ps_q_bot_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 80.0
+  pol1_ps_q_top_e1:
+    center:
+    - 331.02
+    - -105.5
+    layer:
+    - 49
+    - 0
+    name: pol1_ps_q_top_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol1_ps_q_top_e2:
+    center:
+    - 371.02
+    - -100.5
+    layer:
+    - 49
+    - 0
+    name: pol1_ps_q_top_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 80.0
+  pol1_ps_q_top_e3:
+    center:
+    - 411.02
+    - -105.5
+    layer:
+    - 49
+    - 0
+    name: pol1_ps_q_top_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol1_ps_q_top_e4:
+    center:
+    - 371.02
+    - -110.5
+    layer:
+    - 49
+    - 0
+    name: pol1_ps_q_top_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 80.0
+  pol2_mzm_i_top_bot_e1:
+    center:
+    - 45.5
+    - -166.375
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_i_top_bot_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol2_mzm_i_top_bot_e2:
+    center:
+    - 135.5
+    - -161.375
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_i_top_bot_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol2_mzm_i_top_bot_e3:
+    center:
+    - 225.5
+    - -166.375
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_i_top_bot_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol2_mzm_i_top_bot_e4:
+    center:
+    - 135.5
+    - -171.375
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_i_top_bot_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol2_mzm_i_top_top_e1:
+    center:
+    - 45.5
+    - -154.375
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_i_top_top_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol2_mzm_i_top_top_e2:
+    center:
+    - 135.5
+    - -149.375
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_i_top_top_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol2_mzm_i_top_top_e3:
+    center:
+    - 225.5
+    - -154.375
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_i_top_top_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol2_mzm_i_top_top_e4:
+    center:
+    - 135.5
+    - -159.375
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_i_top_top_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol2_mzm_q_top_bot_e1:
+    center:
+    - 45.5
+    - -277.875
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_q_top_bot_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol2_mzm_q_top_bot_e2:
+    center:
+    - 135.5
+    - -272.875
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_q_top_bot_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol2_mzm_q_top_bot_e3:
+    center:
+    - 225.5
+    - -277.875
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_q_top_bot_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol2_mzm_q_top_bot_e4:
+    center:
+    - 135.5
+    - -282.875
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_q_top_bot_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol2_mzm_q_top_top_e1:
+    center:
+    - 45.5
+    - -265.875
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_q_top_top_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol2_mzm_q_top_top_e2:
+    center:
+    - 135.5
+    - -260.875
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_q_top_top_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol2_mzm_q_top_top_e3:
+    center:
+    - 225.5
+    - -265.875
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_q_top_top_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol2_mzm_q_top_top_e4:
+    center:
+    - 135.5
+    - -270.875
+    layer:
+    - 49
+    - 0
+    name: pol2_mzm_q_top_top_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 180.0
+  pol2_ps_q_bot_e1:
+    center:
+    - 331.02
+    - -300.5
+    layer:
+    - 49
+    - 0
+    name: pol2_ps_q_bot_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol2_ps_q_bot_e2:
+    center:
+    - 371.02
+    - -295.5
+    layer:
+    - 49
+    - 0
+    name: pol2_ps_q_bot_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 80.0
+  pol2_ps_q_bot_e3:
+    center:
+    - 411.02
+    - -300.5
+    layer:
+    - 49
+    - 0
+    name: pol2_ps_q_bot_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol2_ps_q_bot_e4:
+    center:
+    - 371.02
+    - -305.5
+    layer:
+    - 49
+    - 0
+    name: pol2_ps_q_bot_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 80.0
+  pol2_ps_q_top_e1:
+    center:
+    - 331.02
+    - -288.5
+    layer:
+    - 49
+    - 0
+    name: pol2_ps_q_top_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol2_ps_q_top_e2:
+    center:
+    - 371.02
+    - -283.5
+    layer:
+    - 49
+    - 0
+    name: pol2_ps_q_top_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 80.0
+  pol2_ps_q_top_e3:
+    center:
+    - 411.02
+    - -288.5
+    layer:
+    - 49
+    - 0
+    name: pol2_ps_q_top_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  pol2_ps_q_top_e4:
+    center:
+    - 371.02
+    - -293.5
+    layer:
+    - 49
+    - 0
+    name: pol2_ps_q_top_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 80.0
+settings:
+  changed: {}
+  child: null
+  default:
+    combiner: null
+    cross_section: strip
+    input_coupler: null
+    output_coupler: null
+    splitter: mmi1x2
+    spol_coh_tx: coh_tx_single_pol
+    xspacing: 40.0
+    yspacing: 10.0
+  full:
+    combiner: null
+    cross_section: strip
+    input_coupler: null
+    output_coupler: null
+    splitter: mmi1x2
+    spol_coh_tx: coh_tx_single_pol
+    xspacing: 40.0
+    yspacing: 10.0
+  function_name: coh_tx_dual_pol
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.coh_tx_dual_pol
+  name: coh_tx_dual_pol

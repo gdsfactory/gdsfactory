@@ -1,0 +1,82 @@
+name: disk_heater
+ports:
+  e1:
+    center:
+    - -22.551
+    - 0.25
+    layer:
+    - 49
+    - 0
+    name: e1
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  e2:
+    center:
+    - 33.251
+    - 0.25
+    layer:
+    - 49
+    - 0
+    name: e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  o1:
+    center:
+    - -15.55
+    - 5.35
+    layer:
+    - 1
+    - 10
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 26.25
+    - 5.35
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section: strip
+    gap: 0.2
+    heater_extent: 2.0
+    heater_layer: HEATER
+    heater_width: 5.0
+    parity: 1
+    port_orientation: 90
+    radius: 10.0
+    via_stack: via_stack_heater_mtop
+    via_width: 10.0
+    wrap_angle_deg: 180.0
+  full:
+    cross_section: strip
+    gap: 0.2
+    heater_extent: 2.0
+    heater_layer: HEATER
+    heater_width: 5.0
+    parity: 1
+    port_orientation: 90
+    radius: 10.0
+    via_stack: via_stack_heater_mtop
+    via_width: 10.0
+    wrap_angle_deg: 180.0
+  function_name: disk_heater
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.disk
+  name: disk_heater

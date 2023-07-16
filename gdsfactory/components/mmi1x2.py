@@ -20,7 +20,7 @@ def mmi1x2(
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
-    r"""Mmi 1x2.
+    r"""1x2 MultiMode Interferometer (MMI).
 
     Args:
         width: input and output straight width.
@@ -144,7 +144,7 @@ def mmi1x2(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mmi1x2()
+    c = gf.components.mmi1x2(cross_section="rib_conformal")
 
     # print(c.xmin)
     # c.xmin = 0

@@ -1,11 +1,13 @@
 from __future__ import annotations
 
-from typing import Awaitable
 import time
+from functools import partial
+from typing import Awaitable
+import pathlib
 
 import numpy as np
 import tidy3d as td
-from omegaconf import OmegaConf
+import yaml
 
 import gdsfactory as gf
 from gdsfactory.config import logger
@@ -25,8 +27,8 @@ from gdsfactory.typings import (
     PathType,
     Port,
     PortSymmetries,
-    Tuple,
     Sparameters,
+    Tuple,
 )
 
 
@@ -74,6 +76,7 @@ def write_sparameters(
     port_symmetries: Optional[PortSymmetries] = None,
     port_source_names: Optional[List[str]] = None,
     dirpath: Optional[PathType] = None,
+    filepath: Optional[PathType] = None,
     run: bool = True,
     overwrite: bool = False,
     verbose: bool = False,
@@ -103,6 +106,7 @@ def write_sparameters(
         port_symmetries: Dict to specify port symmetries, to save number of simulations
         dirpath: directory to store sparameters in npz.
             Defaults to active Pdk.sparameters_path.
+        filepath: optional sparameters file.
         run: runs simulation, if False, only plots simulation.
         overwrite: overwrites stored Sparameter npz results.
         verbose: prints info messages and progressbars.
@@ -157,12 +161,15 @@ def write_sparameters(
 
     """
     component = gf.get_component(component)
-    filepath = get_sparameters_path(
+    filepath = filepath or get_sparameters_path(
         component=component,
         dirpath=dirpath,
         **kwargs,
     )
+    filepath = pathlib.Path(filepath).with_suffix(".npz")
     filepath_sim_settings = filepath.with_suffix(".yml")
+    dirpath = filepath.parent
+    dirpath.mkdir(exist_ok=True, parents=True)
     if filepath.exists() and not overwrite and run:
         logger.info(f"Simulation loaded from {filepath!r}")
         return dict(np.load(filepath))
@@ -171,6 +178,7 @@ def write_sparameters(
     component_ref = component.ref()
     ports = component_ref.ports
     port_names = [port.name for port in list(ports.values())]
+    port_symmetries_sources = [key.split("@")[0] for key in port_symmetries]
 
     sims = []
     sp = {}
@@ -178,9 +186,11 @@ def write_sparameters(
     port_source_names = port_source_names or port_names
 
     for port_name in port_source_names:
-        if port_name not in port_symmetries:
+        if port_name not in port_symmetries_sources:
             sim = get_simulation(component, port_source_name=port_name, **kwargs)
             sims.append(sim)
+        else:
+            print(f"leveraging port_symmetries for {port_name!r}")
 
     if not run:
         sim = sims[0]
@@ -199,7 +209,7 @@ def write_sparameters(
         """Return Component sparameter for a particular port Index n.
 
         Args:
-            port_name: source port name.
+            port_name_source: source port name.
             sim_data: simulation data.
             port_symmetries: to save simulations.
             kwargs: simulation settings.
@@ -228,13 +238,18 @@ def write_sparameters(
     for port_source_name, (_sim_name, sim_data) in zip(
         port_source_names, batch_data.items()
     ):
-        sp.update(get_sparameter(port_source_name, sim_data))
+        sp.update(
+            get_sparameter(
+                port_source_name,
+                sim_data,
+            )
+        )
 
     end = time.time()
     np.savez_compressed(filepath, **sp)
     kwargs.update(compute_time_seconds=end - start)
     kwargs.update(compute_time_minutes=(end - start) / 60)
-    filepath_sim_settings.write_text(OmegaConf.to_yaml(clean_value_json(kwargs)))
+    filepath_sim_settings.write_text(yaml.dump(clean_value_json(kwargs)))
     logger.info(f"Write simulation results to {str(filepath)!r}")
     logger.info(f"Write simulation settings to {str(filepath_sim_settings)!r}")
     return sp
@@ -256,26 +271,27 @@ def write_sparameters_batch(
     return [_executor.submit(write_sparameters, **job, **kwargs) for job in jobs]
 
 
-write_sparameters_1x1 = gf.partial(
+write_sparameters_1x1 = partial(
     write_sparameters, port_symmetries=port_symmetries.port_symmetries_1x1
 )
-write_sparameters_crossing = gf.partial(
+write_sparameters_crossing = partial(
     write_sparameters, port_symmetries=port_symmetries.port_symmetries_crossing
 )
 
-write_sparameters_batch_1x1 = gf.partial(
+write_sparameters_batch_1x1 = partial(
     write_sparameters_batch, port_symmetries=port_symmetries.port_symmetries_1x1
 )
 
 
 if __name__ == "__main__":
-    import gdsfactory.simulation as gs
-
     # c = gf.components.straight(length=2.1)
-    c = gf.c.straight(length=2.123)
+    # c = gf.c.straight(length=2.123)
     # c = gf.components.mmi1x2()
-    sp = write_sparameters(c, is_3d=True, port_source_names=None, overwrite=False)
-    gs.plot.plot_sparameters(sp)
+    # sp = write_sparameters(c, is_3d=True, port_source_names=None, overwrite=False)
+    # gs.plot.plot_sparameters(sp)
+    c = gf.components.straight(length=3)
+    sp = write_sparameters_1x1(c, overwrite=True, is_3d=False)
+    print(sp)
 
     # t = sp.o1@0,o2@0
     # print(f"Transmission = {t}")

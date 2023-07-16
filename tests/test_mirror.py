@@ -1,7 +1,7 @@
 import gdsfactory as gf
 
 
-def test_mirror():
+def test_mirror() -> None:
     c1 = gf.components.pad()
     c1.mirror()
 

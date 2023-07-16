@@ -1,0 +1,94 @@
+name: component_sequence_ae8efed6
+ports:
+  o1:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 70.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed:
+    sequence: '!HH'
+    symbol_to_component:
+      '-':
+      - component: straight
+        settings: {}
+      - o1
+      - o2
+      A:
+      - component: bend_circular
+        settings:
+          angle: 180
+      - o1
+      - o2
+      B:
+      - component: bend_circular
+        settings:
+          angle: 180
+      - o2
+      - o1
+      H:
+      - component: straight_pin
+        settings:
+          length: 40
+      - o1
+      - o2
+  child: null
+  default:
+    port_name1: o1
+    port_name2: o2
+    ports_map: null
+    start_orientation: 0.0
+  full:
+    port_name1: o1
+    port_name2: o2
+    ports_map: null
+    sequence: '!HH'
+    start_orientation: 0.0
+    symbol_to_component:
+      '-':
+      - component: straight
+        settings: {}
+      - o1
+      - o2
+      A:
+      - component: bend_circular
+        settings:
+          angle: 180
+      - o1
+      - o2
+      B:
+      - component: bend_circular
+        settings:
+          angle: 180
+      - o2
+      - o1
+      H:
+      - component: straight_pin
+        settings:
+          length: 40
+      - o1
+      - o2
+  function_name: component_sequence
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.component_sequence
+  name: component_sequence_ae8efed6

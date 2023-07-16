@@ -1,6 +1,7 @@
 """Straight Doped PIN waveguide."""
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional
 
 import gdsfactory as gf
@@ -114,7 +115,7 @@ def straight_pin_slot(
     return c
 
 
-straight_pn_slot = gf.partial(straight_pin_slot, cross_section=pn)
+straight_pn_slot = partial(straight_pin_slot, cross_section=pn)
 
 if __name__ == "__main__":
     c = straight_pin_slot(via_stack_width=4, via_stack_slab_width=3, length=50)

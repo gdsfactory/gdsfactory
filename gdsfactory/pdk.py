@@ -1,43 +1,46 @@
 """PDK stores layers, cross_sections, cell functions ..."""
 
 from __future__ import annotations
+
 import pathlib
 import warnings
 from functools import partial
-from typing import Any, Callable, Optional, Union, Tuple
-from typing_extensions import Literal
+from typing import Any, Callable, Optional, Tuple, Union, List
 
 import numpy as np
+import omegaconf
 from omegaconf import DictConfig
 from pydantic import BaseModel, Field, field_validator
+from typing_extensions import Literal
 
 from gdsfactory.config import PATH, logger
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.events import Event
-from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
+from gdsfactory.name import MAX_NAME_LENGTH
 from gdsfactory.read import cell_from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews
+
 from gdsfactory.typings import (
     CellSpec,
     Component,
     ComponentFactory,
     ComponentSpec,
     CrossSection,
-    Transition,
-    CrossSectionFactory,
+    CrossSectionOrFactory,
     CrossSectionSpec,
     Dict,
     Layer,
     LayerSpec,
     PathType,
+    Transition,
+    MaterialSpec,
 )
 
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
-layers_required = []
 
 constants = {
     "fiber_array_spacing": 127.0,
@@ -51,10 +54,69 @@ constants = {
 nm = 1e-3
 
 
+def evanescent_coupler_sample() -> None:
+    """Evanescent coupler example.
+
+    Args:
+      coupler_length: length of coupling (min: 0.0, max: 200.0, um).
+    """
+    pass
+
+
+def extract_args_from_docstring(docstring: str) -> Optional[Dict[str, Any]]:
+    """
+    This function extracts settings from a function's docstring for uPDK format.
+
+    Args:
+        docstring: The function from which to extract YAML in the docstring.
+
+    Returns:
+        settings (dict): The extracted YAML data as a dictionary.
+    """
+    args_dict = {}
+
+    docstring_lines = docstring.split("\n")
+    for line in docstring_lines:
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith("Args:"):
+            continue
+        if len(line.split(":")) != 2:
+            continue
+        name, description = line.split(":")
+        name = name.strip()
+        description_parts = description.split("(")
+        doc = description_parts[0].strip()
+        try:
+            min_max_unit = description_parts[1].strip(")").split(",")
+            min_val = float(min_max_unit[0].split(":")[1].strip())
+            max_val = float(min_max_unit[1].split(":")[1].strip())
+            unit = min_max_unit[2].strip()
+        except IndexError:
+            min_val = max_val = 0
+            unit = None
+
+        args_dict[name] = {
+            "doc": doc,
+            "min": min_val,
+            "max": max_val,
+            "type": "float",
+            "unit": unit,
+            "value": (min_val + max_val) / 2,  # setting default value as the midpoint
+        }
+
+    return args_dict
+
+
 class GdsWriteSettings(BaseModel):
     """Settings to use when writing to GDS."""
 
     on_uncached_component: Literal["warn", "error", "ignore"] = "ignore"
+    lib_name: str = Field(
+        default="library",
+        description="Name of the GDS library to write to. Default is 'library'.",
+    )
     unit: float = Field(
         default=1e-6,
         description="The units of coordinates in the database. The default is 1e-6 (1 micron).",
@@ -71,7 +133,7 @@ class GdsWriteSettings(BaseModel):
                         "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.""",
     )
     flatten_invalid_refs: bool = Field(
-        default=False,
+        default=True,
         description="If true, will auto-correct (and flatten) cell references which are off-grid or rotated by non-manhattan angles.",
     )
     max_points: int = Field(
@@ -102,6 +164,47 @@ class OasisWriteSettings(BaseModel):
     standard_properties: bool = Field(
         default=False,
         description="If true, stores standard OASIS properties in the file.",
+    )
+
+
+class CellDecoratorSettings(BaseModel):
+    """Settings for cell_without_validator decorator function in gdsfactory.cell."""
+
+    with_hash: bool = Field(
+        default=False,
+        description="If true, will append a hash of the cell to the cell name.",
+    )
+    autoname: bool = Field(
+        default=True,
+        description="If true, will automatically name the cell based on its parameters.",
+    )
+    name: Optional[str] = Field(
+        default=None,
+        description="If set, will override the cell name with this value.",
+    )
+    cache: bool = Field(
+        default=True,
+        description="If true, will cache the cell in the gdsfactory.cell.CACHE",
+    )
+    flatten: bool = Field(
+        default=False,
+        description="If true, will flatten the cell before returning it.",
+    )
+    info: Dict[str, Any] = Field(
+        default={},
+        description="Additional information to store in the cell.",
+    )
+    prefix: Optional[str] = Field(
+        default=None,
+        description="If set, will prepend this string to the cell name.",
+    )
+    max_name_length: int = Field(
+        default=MAX_NAME_LENGTH,
+        description="Maximum length of the cell name.",
+    )
+    include_module: bool = Field(
+        default=False,
+        description="If true, will include the module in the autogenerated component name.",
     )
 
 
@@ -140,12 +243,13 @@ class Pdk(BaseModel):
         circuit_yaml_parser: can parse different YAML formats.
         gds_write_settings: to write GDSII files.
         oasis_settings: to write OASIS files.
+        cell_decorator_settings: settings for cell_without_validator decorator function in gdsfactory.cell.
         bend_points_distance: default points distance for bends in um.
 
     """
 
     name: str
-    cross_sections: Dict[str, CrossSectionFactory] = Field(default_factory=dict)
+    cross_sections: Dict[str, CrossSectionOrFactory] = Field(default_factory=dict)
     cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
     symbols: Dict[str, ComponentFactory] = Field(default_factory=dict)
     default_symbol_factory: Callable = floorplan_with_block_letters
@@ -168,6 +272,7 @@ class Pdk(BaseModel):
     circuit_yaml_parser: Callable = cell_from_yaml
     gds_write_settings: GdsWriteSettings = GdsWriteSettings()
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
+    cell_decorator_settings: CellDecoratorSettings = CellDecoratorSettings()
     bend_points_distance: float = 20 * nm
 
     @property
@@ -197,7 +302,10 @@ class Pdk(BaseModel):
     def is_pathlib_path(cls, path):
         return pathlib.Path(path)
 
-    def validate_layers(self):
+    def validate_layers(self, layers_required: Optional[List[Layer]] = None):
+        """Raises ValueError if layers_required are not in Pdk."""
+        if layers_required is None:
+            layers_required = []
         for layer in layers_required:
             if layer not in self.layers:
                 raise ValueError(
@@ -205,7 +313,11 @@ class Pdk(BaseModel):
                 )
 
     def activate(self) -> None:
-        """Set current pdk to as the active pdk."""
+        """Set current pdk to the active pdk (if not already active)."""
+        global _ACTIVE_PDK
+        if self is _ACTIVE_PDK:
+            return None
+
         from gdsfactory.cell import clear_cache
 
         logger.info(f"{self.name!r} PDK is now active")
@@ -231,7 +343,8 @@ class Pdk(BaseModel):
 
             if not self.default_decorator:
                 self.default_decorator = self.base_pdk.default_decorator
-        self.validate_layers()
+        layers_required = []
+        self.validate_layers(layers_required)
         _set_active_pdk(self)
 
     def register_cells(self, **kwargs) -> None:
@@ -425,6 +538,7 @@ class Pdk(BaseModel):
 
             cell_name = component.get("component", None)
             cell_name = cell_name or component.get("function")
+            cell_name = cell_name.split(".")[-1]
             if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
                 cells = list(cells.keys())
                 containers = list(containers.keys())
@@ -455,8 +569,8 @@ class Pdk(BaseModel):
             if cross_section not in self.cross_sections:
                 cross_sections = list(self.cross_sections.keys())
                 raise ValueError(f"{cross_section!r} not in {cross_sections}")
-            cross_section_factory = self.cross_sections[cross_section]
-            return cross_section_factory(**kwargs)
+            xs = self.cross_sections[cross_section]
+            return xs(**kwargs) if callable(xs) else xs
         elif isinstance(cross_section, (dict, DictConfig)):
             for key in cross_section.keys():
                 if key not in cross_section_settings:
@@ -467,6 +581,7 @@ class Pdk(BaseModel):
             cross_section_factory_name = (
                 cross_section_factory_name or cross_section.get("function")
             )
+            cross_section_factory_name = cross_section_factory_name.split(".")[-1]
             if (
                 not isinstance(cross_section_factory_name, str)
                 or cross_section_factory_name not in self.cross_sections
@@ -531,6 +646,72 @@ class Pdk(BaseModel):
             raise ValueError(f"{key!r} not in {material_names}")
         material = self.materials_index[key]
         return material(*args, **kwargs) if callable(material) else material
+
+    def to_updk(self) -> str:
+        """Export to uPDK YAML definition."""
+        from gdsfactory.components.bbox import bbox_to_points
+
+        d = {}
+        blocks = {cell_name: cell() for cell_name, cell in self.cells.items()}
+        blocks = {
+            name: dict(
+                bbox=bbox_to_points(c.bbox),
+                doc=c.__doc__.split("\n")[0],
+                settings=extract_args_from_docstring(c.__doc__),
+                parameters={
+                    sname: {
+                        "value": svalue,
+                        "type": str(svalue.__class__.__name__),
+                        "doc": extract_args_from_docstring(c.__doc__)
+                        .get(sname, {})
+                        .get("doc", None),
+                        "min": extract_args_from_docstring(c.__doc__)
+                        .get(sname, {})
+                        .get("min", 0),
+                        "max": extract_args_from_docstring(c.__doc__)
+                        .get(sname, {})
+                        .get("max", 0),
+                        "unit": extract_args_from_docstring(c.__doc__)
+                        .get(sname, {})
+                        .get("unit", None),
+                    }
+                    for sname, svalue in c.settings.full.items()
+                    if isinstance(svalue, (str, float, int))
+                },
+                pins={
+                    port_name: {
+                        "width": port.width,
+                        "xsection": port.cross_section.name
+                        if port.cross_section
+                        else None,
+                        "xya": [
+                            float(port.center[0]),
+                            float(port.center[1]),
+                            float(port.orientation),
+                        ],
+                        "alias": port.info.get("alias"),
+                        "doc": port.info.get("doc"),
+                    }
+                    for port_name, port in c.ports.items()
+                },
+            )
+            for name, c in blocks.items()
+        }
+        xsections = {
+            xs_name: self.get_cross_section(xs_name)
+            for xs_name in self.cross_sections.keys()
+        }
+        xsections = {
+            xs_name: dict(width=xsection.width)
+            for xs_name, xsection in xsections.items()
+        }
+
+        header = dict(description=self.name)
+
+        d["blocks"] = blocks
+        d["xsections"] = xsections
+        d["header"] = header
+        return omegaconf.OmegaConf.to_yaml(d)
 
     # _on_cell_registered = Event()
     # _on_container_registered: Event = Event()
@@ -661,14 +842,23 @@ on_yaml_cell_modified.add_handler(show)
 
 
 if __name__ == "__main__":
-    from gdsfactory.components import cells
-    from gdsfactory.cross_section import cross_sections
+    from gdsfactory.samples.pdk.fab_c import pdk
+    from gdsfactory.read.from_updk import from_updk
 
-    c = Pdk(
-        name="demo",
-        cells=cells,
-        cross_sections=cross_sections,
-        # layers=dict(DEVREC=(3, 0), PORTE=(3, 5)),
-        sparameters_path="/home",
-    )
-    print(c.json())
+    yaml_pdk_decription = pdk.to_updk()
+    gdsfactory_script = from_updk(yaml_pdk_decription)
+    print(gdsfactory_script)
+    # print(yaml_pdk_decription)
+
+    # from gdsfactory.components import cells
+    # from gdsfactory.cross_section import cross_sections
+
+    # pdk = Pdk(
+    #     name="demo",
+    #     cells=cells,
+    #     cross_sections=cross_sections,
+    # layers=dict(DEVREC=(3, 0), PORTE=(3, 5)),
+    # sparameters_path="/home",
+    # )
+    # print(pdk.json())
+    print(pdk.to_updk())

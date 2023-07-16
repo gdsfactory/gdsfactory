@@ -1,0 +1,100 @@
+name: Build miniforge
+on:
+  push:
+    tags: "v*"
+
+jobs:
+  build:
+    name: ${{ matrix.MINIFORGE_NAME }}-${{ matrix.OS_NAME }}-${{ matrix.ARCH }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            ARCH: x86_64
+            TARGET_PLATFORM: win-64
+            MINIFORGE_NAME: "Mambaforge"
+            OS_NAME: "Windows"
+
+          - os: macos-latest
+            ARCH: arm64
+            TARGET_PLATFORM: osx-arm64
+            MINIFORGE_NAME: "Mambaforge"
+            OS_NAME: "MacOSX"
+
+          - os: macos-latest
+            ARCH: x86_64
+            TARGET_PLATFORM: osx-64
+            MINIFORGE_NAME: "Mambaforge"
+            OS_NAME: "MacOSX"
+
+          - os: ubuntu-latest
+            ARCH: x86_64
+            TARGET_PLATFORM: linux-64
+            DOCKER_ARCH: amd64
+            DOCKERIMAGE: condaforge/linux-anvil-comp7
+            MINIFORGE_NAME: "Mambaforge"
+            OS_NAME: "Linux"
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - uses: conda-incubator/setup-miniconda@v2.2.0
+      with:
+        miniforge-version: "latest"
+        miniforge-variant: Mambaforge
+        use-mamba: true
+      if: contains(matrix.OS_NAME, 'Windows')
+
+    - name: Build and test miniforge
+      env:
+        ARCH: ${{ matrix.ARCH }}
+        MINIFORGE_NAME: ${{ matrix.MINIFORGE_NAME }}
+        OS_NAME: ${{ matrix.OS_NAME }}
+        DOCKERIMAGE: ${{ matrix.DOCKERIMAGE }}
+        DOCKER_ARCH: ${{ matrix.DOCKER_ARCH }}
+        TARGET_PLATFORM: ${{ matrix.TARGET_PLATFORM }}
+        TEST_IMAGE_NAMES: ${{ matrix.TEST_IMAGE_NAMES }}
+      run: |
+        cd conda/constructor
+        if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+          export MINIFORGE_VERSION=${GITHUB_REF##*/};
+        fi
+        if [[ "$OS_NAME" == "Linux" ]]; then
+          export EXT=sh
+          bash build_miniforge.sh;
+        fi
+        if [[ "$OS_NAME" == "MacOSX" ]]; then
+          export EXT=sh
+          bash build_miniforge_osx.sh;
+        fi
+        if [[ "$OS_NAME" == "Windows" ]]; then
+          export EXT=exe
+          echo "WINDIR:$WINDIR"
+          source /c/Miniconda3/Scripts/activate;
+          source build_miniforge_win.sh;
+        fi
+        # Copy for latest release
+        cp build/$MINIFORGE_NAME-*-$OS_NAME-$ARCH.$EXT build/$MINIFORGE_NAME-$OS_NAME-$ARCH.$EXT
+        if [[ "$OS_NAME" == "MacOSX" ]]; then
+          cp build/$MINIFORGE_NAME-*-$OS_NAME-$ARCH.$EXT build/$MINIFORGE_NAME-Darwin-$ARCH.$EXT
+        fi
+        ls -alh build
+      shell: bash
+
+    - name: Upload miniforge to Github artifact
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        path: conda/constructor/build/${{ matrix.MINIFORGE_NAME }}-${{ matrix.OS_NAME }}-${{ matrix.ARCH }}*
+        name: ${{ matrix.MINIFORGE_NAME }}-${{ matrix.OS_NAME }}-${{ matrix.ARCH }}
+
+    - name: upload release
+      uses: softprops/action-gh-release@v1
+      with:
+        fail_on_unmatched_files: false
+        files: |
+          conda/constructor/build/${{ matrix.MINIFORGE_NAME }}-${{ matrix.OS_NAME }}-${{ matrix.ARCH }}*
+      if: startsWith(github.ref, 'refs/tags/')

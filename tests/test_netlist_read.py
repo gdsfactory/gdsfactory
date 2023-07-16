@@ -1,11 +1,10 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 from gdsfactory.config import PATH
 
 
-def test_netlist_read() -> Component:
+def test_netlist_read() -> None:
     filepath = PATH.netlists / "mzi.yml"
     c = gf.read.from_yaml(filepath)
 
@@ -16,7 +15,6 @@ def test_netlist_read() -> Component:
     # assert len(c.get_netlist().connections) == 18
 
     assert len(c.get_dependencies()) == 5, len(c.get_dependencies())
-    return c
 
 
 def regenerate_regression_test() -> None:

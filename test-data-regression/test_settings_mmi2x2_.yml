@@ -1,0 +1,84 @@
+name: mmi2x2
+ports:
+  o1:
+    center:
+    - -10.0
+    - -0.625
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -10.0
+    - 0.625
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 15.5
+    - 0.625
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 15.5
+    - -0.625
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section: strip
+    gap_mmi: 0.25
+    length_mmi: 5.5
+    length_taper: 10.0
+    straight:
+      function: straight
+    taper:
+      function: taper
+    width: null
+    width_mmi: 2.5
+    width_taper: 1.0
+    with_bbox: true
+  full:
+    cross_section: strip
+    gap_mmi: 0.25
+    length_mmi: 5.5
+    length_taper: 10.0
+    straight:
+      function: straight
+    taper:
+      function: taper
+    width: null
+    width_mmi: 2.5
+    width_taper: 1.0
+    with_bbox: true
+  function_name: mmi2x2
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mmi2x2
+  name: mmi2x2

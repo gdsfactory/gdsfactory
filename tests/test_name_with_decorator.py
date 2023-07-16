@@ -4,14 +4,14 @@ import gdsfactory as gf
 
 
 @gf.cell
-def straight_with_pins(**kwargs):
+def straight_with_pins(**kwargs) -> gf.Component:
     c = gf.Component()
     ref = c << gf.components.straight()
     c.add_ports(ref.ports)
     return c
 
 
-def test_name_with_decorator():
+def test_name_with_decorator() -> None:
     c = gf.Component("test_name_with_decorator")
     c1 = c << straight_with_pins(decorator=gf.add_padding)
     c2 = c << straight_with_pins()

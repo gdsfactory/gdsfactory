@@ -1,12 +1,12 @@
 from __future__ import annotations
+
 from functools import partial
 
 import gdsfactory as gf
-
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 from gdsfactory.components.bbox import bbox
-from gdsfactory.components.coupler import coupler
 from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.coupler import coupler
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell

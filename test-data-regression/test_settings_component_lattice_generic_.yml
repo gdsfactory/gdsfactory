@@ -1,0 +1,110 @@
+name: component_lattice_generic
+ports:
+  in_o_0:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: in_o_0
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  in_o_1:
+    center:
+    - 0.0
+    - -100.75
+    layer:
+    - 1
+    - 0
+    name: in_o_1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  in_o_2:
+    center:
+    - 0.0
+    - -201.5
+    layer:
+    - 1
+    - 0
+    name: in_o_2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  in_o_3:
+    center:
+    - 0.0
+    - -302.25
+    layer:
+    - 1
+    - 0
+    name: in_o_3
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  out_o_0:
+    center:
+    - 394.36
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: out_o_0
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  out_o_1:
+    center:
+    - 394.36
+    - -100.75
+    layer:
+    - 1
+    - 0
+    name: out_o_1
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  out_o_2:
+    center:
+    - 394.36
+    - -201.5
+    layer:
+    - 1
+    - 0
+    name: out_o_2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  out_o_3:
+    center:
+    - 394.36
+    - -302.25
+    layer:
+    - 1
+    - 0
+    name: out_o_3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    network: null
+  full:
+    network: null
+  function_name: component_lattice_generic
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.component_lattice_generic
+  name: component_lattice_generic

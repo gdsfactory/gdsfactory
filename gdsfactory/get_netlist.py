@@ -125,7 +125,7 @@ def get_netlist(
     warnings collected during netlisting are reported back into the netlist.
     These include warnings about mismatched port widths, orientations, shear angles, excessive offsets, etc.
     You can also configure warning types which should throw an error when encountered
-        by modifying DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.
+    by modifying DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.
     Validators, which will produce warnings for each port type,
     can be overridden with DEFAULT_CONNECTION_VALIDATORS
     A key difference in this algorithm is that we group each port type independently.
@@ -367,6 +367,7 @@ def _extract_connections_two_sweep(
                 raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
 
             else:
+                # Iterates over the list of multiple ports to create related two-port connectivity
                 num_ports = len(ports_at_xy)
                 for portindex1, portindex2 in zip(
                     range(-1, num_ports - 1), range(num_ports)

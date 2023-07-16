@@ -1,13 +1,16 @@
 """You can remap layers."""
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 
 
-def test_remap_layers() -> Component:
-    c = gf.Component("test_remap_layers_sample_device")
-    straight = gf.partial(
+@gf.cell
+def remap_layers() -> Component:
+    c = gf.Component()
+    straight = partial(
         gf.components.straight,
         with_bbox=True,
         cladding_layers=None,
@@ -30,5 +33,5 @@ def test_remap_layers() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_remap_layers()
+    c = remap_layers()
     c.show(show_ports=True)

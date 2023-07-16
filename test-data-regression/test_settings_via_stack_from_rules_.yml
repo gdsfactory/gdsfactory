@@ -1,0 +1,139 @@
+name: via_stack_from_rules
+ports:
+  e1:
+    center:
+    - -0.6
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 1.2
+  e2:
+    center:
+    - 0.0
+    - 0.6
+    layer:
+    - 49
+    - 0
+    name: e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 1.2
+  e3:
+    center:
+    - 0.6
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 1.2
+  e4:
+    center:
+    - 0.0
+    - -0.6
+    layer:
+    - 49
+    - 0
+    name: e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 1.2
+settings:
+  changed: {}
+  child: null
+  default:
+    layer_offsets: null
+    layer_port: null
+    layers:
+    - M1
+    - M2
+    - M3
+    size:
+    - 1.2
+    - 1.2
+    via_min_enclosure:
+    - 0.15
+    - 0.25
+    via_min_gap:
+    - - 0.1
+      - 0.1
+    - - 0.1
+      - 0.1
+    via_min_size:
+    - - 0.2
+      - 0.2
+    - - 0.2
+      - 0.2
+    vias:
+    - function: via
+      settings:
+        enclosure: 2
+        layer: VIA1
+    - function: via
+      settings:
+        layer: VIA2
+  full:
+    layer_offsets: null
+    layer_port: null
+    layers:
+    - M1
+    - M2
+    - M3
+    size:
+    - 1.2
+    - 1.2
+    via_min_enclosure:
+    - 0.15
+    - 0.25
+    via_min_gap:
+    - - 0.1
+      - 0.1
+    - - 0.1
+      - 0.1
+    via_min_size:
+    - - 0.2
+      - 0.2
+    - - 0.2
+      - 0.2
+    vias:
+    - function: via
+      settings:
+        enclosure: 2
+        layer: VIA1
+    - function: via
+      settings:
+        layer: VIA2
+  function_name: via_stack_from_rules
+  info:
+    layer: M3
+    size:
+    - 1.2
+    - 1.2
+    vias:
+    - enclosure: 0.15
+      size:
+      - 0.233
+      - 0.233
+      spacing:
+      - 0.333
+      - 0.333
+    - enclosure: 0.25
+      size:
+      - 0.3
+      - 0.3
+      spacing:
+      - 0.4
+      - 0.4
+  info_version: 2
+  module: gdsfactory.components.via_stack
+  name: via_stack_from_rules

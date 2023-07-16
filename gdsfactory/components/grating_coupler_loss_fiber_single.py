@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -47,7 +49,7 @@ def grating_coupler_loss_fiber_single(
 
 
 if __name__ == "__main__":
-    xs_strip2 = gf.partial(gf.cross_section.strip, layer=(2, 0))
+    xs_strip2 = partial(gf.cross_section.strip, layer=(2, 0))
     c = grating_coupler_loss_fiber_single(
         min_input_to_output_spacing=300, cross_section=xs_strip2
     )

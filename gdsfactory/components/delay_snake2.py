@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-
 diagram = """
        | length0 | length1 |
 
@@ -92,14 +91,13 @@ def delay_snake2(
     )
 
 
-def test_length_delay_snake2():
+def test_length_delay_snake2() -> Component:
     import numpy as np
 
     length = 200.0
     c = delay_snake2(length=length, cross_section="strip_no_pins")
     length_computed = c.area() / 0.5
     np.isclose(length, length_computed)
-    return c
 
 
 if __name__ == "__main__":

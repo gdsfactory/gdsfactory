@@ -21,8 +21,8 @@ from devsim import (
 )
 from devsim.python_packages import model_create, simple_physics
 
-from gdsfactory.pdk import get_layer_stack
 from gdsfactory.component import Component
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.devsim.doping import (
     DopingLayerLevel,
     get_doping_info_generic,

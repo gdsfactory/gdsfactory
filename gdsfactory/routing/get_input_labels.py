@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import List
 
-from functools import partial
 from gdsfactory.add_labels import (
     get_input_label,
     get_input_label_text,

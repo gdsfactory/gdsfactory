@@ -1,0 +1,78 @@
+name: crossing45
+ports:
+  o1:
+    center:
+    - -40.0
+    - -20.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -40.0
+    - 20.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 40.0
+    - 20.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 40.0
+    - -20.0
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    alpha: 0.08
+    cross_section: strip
+    cross_section_bends: strip_no_pins
+    crossing:
+      function: crossing
+    dx: null
+    npoints: 101
+    port_spacing: 40.0
+  full:
+    alpha: 0.08
+    cross_section: strip
+    cross_section_bends: strip_no_pins
+    crossing:
+      function: crossing
+    dx: null
+    npoints: 101
+    port_spacing: 40.0
+  function_name: crossing45
+  info:
+    bezier_length: 42.085
+    min_bend_radius: 44.312
+  info_version: 2
+  module: gdsfactory.components.crossing_waveguide
+  name: crossing45

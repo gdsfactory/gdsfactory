@@ -1,0 +1,98 @@
+name: edge_coupler_array_with_loopback
+ports:
+  o1:
+    center:
+    - 0.0
+    - 254.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 0.0
+    - 381.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 0.0
+    - 508.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 0.0
+    - 635.0
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section: strip
+    edge_coupler:
+      function: taper
+      settings:
+        length: 100
+        width2: 0.2
+        with_two_ports: false
+    extension_length: 1.0
+    n: 8
+    pitch: 127.0
+    radius: 30
+    right_loopback: true
+    text:
+      function: text_rectangular
+    text_offset:
+    - 0
+    - 0
+    text_rotation: 0
+    x_reflection: false
+  full:
+    cross_section: strip
+    edge_coupler:
+      function: taper
+      settings:
+        length: 100
+        width2: 0.2
+        with_two_ports: false
+    extension_length: 1.0
+    n: 8
+    pitch: 127.0
+    radius: 30
+    right_loopback: true
+    text:
+      function: text_rectangular
+    text_offset:
+    - 0
+    - 0
+    text_rotation: 0
+    x_reflection: false
+  function_name: edge_coupler_array_with_loopback
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.edge_coupler_array
+  name: edge_coupler_array_with_loopback

@@ -1,12 +1,12 @@
 from __future__ import annotations
 
+from pprint import pprint
 import jsondiff
 import numpy as np
 import pytest
 from omegaconf import OmegaConf
 from pytest_regressions.data_regression import DataRegressionFixture
 
-from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 from gdsfactory.read.from_yaml import from_yaml, sample_doe_function, sample_mmis
 
@@ -64,18 +64,16 @@ connections:
 """
 
 
-def test_sample() -> Component:
+def test_sample() -> None:
     c = from_yaml(sample_mmis)
     assert len(c.get_dependencies()) == 6, len(c.get_dependencies())
     assert len(c.ports) == 3, len(c.ports)
-    return c
 
 
-def test_connections() -> Component:
+def test_connections() -> None:
     c = from_yaml(sample_connections)
     assert len(c.get_dependencies()) == 2
     assert len(c.ports) == 0
-    return c
 
 
 sample_2x2_connections = """
@@ -111,14 +109,13 @@ routes:
 """
 
 
-def test_connections_2x2() -> Component:
+def test_connections_2x2() -> None:
     c = from_yaml(sample_2x2_connections)
     assert len(c.get_dependencies()) == 8, len(c.get_dependencies())
     assert len(c.ports) == 0, len(c.ports)
 
     length = c.routes["mmi_bottom,o3:mmi_top,o2"]
     assert np.isclose(length, 168.274), length
-    return c
 
 
 sample_different_factory = """
@@ -171,15 +168,13 @@ routes:
 """
 
 
-def test_connections_different_factory() -> Component:
+def test_connections_different_factory() -> None:
     c = from_yaml(sample_different_factory)
     lengths = [693.274, 693.274, 1199.144]
 
     assert np.isclose(c.routes["tl,e3:tr,e1"], lengths[0]), c.routes["tl,e3:tr,e1"]
     assert np.isclose(c.routes["bl,e3:br,e1"], lengths[1]), c.routes["bl,e3:br,e1"]
     assert np.isclose(c.routes["bl,e4:br,e3"], lengths[2]), c.routes["bl,e4:br,e3"]
-
-    return c
 
 
 sample_different_link_factory = """
@@ -221,13 +216,12 @@ routes:
 """
 
 
-def test_connections_different_link_factory() -> Component:
+def test_connections_different_link_factory() -> None:
     c = from_yaml(sample_different_link_factory)
 
     length = 1719.822
     assert np.isclose(c.routes["tl,e3:tr,e1"], length), c.routes["tl,e3:tr,e1"]
     assert np.isclose(c.routes["bl,e3:br,e1"], length), c.routes["bl,e3:br,e1"]
-    return c
 
 
 sample_waypoints = """
@@ -349,41 +343,37 @@ routes:
 """
 
 
-def test_connections_regex() -> Component:
+def test_connections_regex() -> None:
     c = from_yaml(sample_regex_connections)
     route_names = ["left,o1:right,o1", "left,o2:right,o2", "left,o3:right,o3"]
 
     length = 12.0
     for route_name in route_names:
         assert np.isclose(c.routes[route_name], length)
-    return c
 
 
-def test_connections_regex_backwargs() -> Component:
+def test_connections_regex_backwargs() -> None:
     c = from_yaml(sample_regex_connections_backwards)
     route_names = ["left,o1:right,o1", "left,o2:right,o2", "left,o3:right,o3"]
 
     length = 12.0
     for route_name in route_names:
         assert np.isclose(c.routes[route_name], length), c.routes[route_name]
-    return c
 
 
-def test_connections_waypoints() -> Component:
+def test_connections_waypoints() -> None:
     c = from_yaml(sample_waypoints)
 
     length = 2036.548
     route_name = "b,e11:t,e11"
     assert np.isclose(c.routes[route_name], length), c.routes[route_name]
-    return c
 
 
-def test_docstring_sample() -> Component:
+def test_docstring_sample() -> None:
     c = from_yaml(sample_docstring)
     route_name = "mmi_top,o3:mmi_bot,o1"
     length = 72.024
     assert np.isclose(c.routes[route_name], length), c.routes[route_name]
-    return c
 
 
 yaml_fail = """
@@ -540,14 +530,13 @@ def test_gds(yaml_key: str, data_regression: DataRegressionFixture) -> None:
 @pytest.mark.parametrize("yaml_key", yaml_strings.keys())
 def test_settings(
     yaml_key: str, data_regression: DataRegressionFixture, check: bool = True
-) -> Component:
+) -> None:
     """Avoid regressions when exporting settings."""
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
 
     if check:
         data_regression.check(c.to_dict())
-    return c
 
 
 @pytest.mark.parametrize("yaml_key", yaml_strings.keys())
@@ -578,8 +567,8 @@ def test_netlists(
     c2 = from_yaml(yaml_str, name=c.name)
     n2 = c2.get_netlist()
     # pprint(d)
-    # assert len(d) == 0, pprint(d)
-    return jsondiff.diff(n, n2)
+    d = jsondiff.diff(n, n2)
+    assert len(d) == 0, pprint(d)
 
 
 def _demo_netlist() -> None:
@@ -599,7 +588,7 @@ def _demo_netlist() -> None:
     gf.show(c2)
 
 
-def test_ref_names_retained_on_copy():
+def test_ref_names_retained_on_copy() -> None:
     c_orig = from_yaml(sample_connections)
     c_copy = c_orig.copy()
     orig_ref_names = set(c_orig.named_references.keys())
@@ -608,22 +597,21 @@ def test_ref_names_retained_on_copy():
 
 
 if __name__ == "__main__":
-    # c = test_connections_different_factory()
-    # c = test_sample()
-    # c = test_sa
-
-    # c = test_netlists("sample_mmis", None, False)
+    # test_connections_different_factory()
+    # test_sample()
+    test_connections()
+    # test_netlists("sample_mmis", None, False)
     # yaml_key = "sample_doe_function"
     # yaml_key = "sample_mmis"
-    yaml_key = "yaml_anchor"
-    yaml_string = yaml_strings[yaml_key]
-    c = from_yaml(yaml_string)
+    # yaml_key = "yaml_anchor"
+    # yaml_key = "sample_doe_function"
+    # yaml_string = yaml_strings[yaml_key]
+    # c = from_yaml(yaml_string)
+    # print(sorted([i.name for i in c.get_dependencies(True)]))
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # c2 = from_yaml(yaml_str)
     # n2 = c2.get_netlist()
     # d = jsondiff.diff(n, n2)
     # pprint(d)
-    # c2.show()
-
-    c.show()
+    # c.show()

@@ -1,0 +1,264 @@
+name: mzi_2e88f57c_fanout2x2_564dd830
+ports:
+  o1:
+    center:
+    - -30.0
+    - -10.25
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -30.0
+    - 10.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 137.12
+    - 10.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 137.12
+    - -10.25
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  top_l_e1:
+    center:
+    - 19.5
+    - 22.5
+    layer:
+    - 49
+    - 0
+    name: top_l_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e2:
+    center:
+    - 25.0
+    - 28.0
+    layer:
+    - 49
+    - 0
+    name: top_l_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e3:
+    center:
+    - 30.5
+    - 22.5
+    layer:
+    - 49
+    - 0
+    name: top_l_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_l_e4:
+    center:
+    - 25.0
+    - 17.0
+    layer:
+    - 49
+    - 0
+    name: top_l_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e1:
+    center:
+    - 76.6
+    - 22.5
+    layer:
+    - 49
+    - 0
+    name: top_r_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e2:
+    center:
+    - 82.1
+    - 28.0
+    layer:
+    - 49
+    - 0
+    name: top_r_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e3:
+    center:
+    - 87.6
+    - 22.5
+    layer:
+    - 49
+    - 0
+    name: top_r_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_r_e4:
+    center:
+    - 82.1
+    - 17.0
+    layer:
+    - 49
+    - 0
+    name: top_r_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+settings:
+  changed:
+    component:
+      component: mzi
+      settings:
+        combiner:
+          function: mmi2x2
+        port_e0_combiner: o4
+        port_e0_splitter: o4
+        port_e1_combiner: o3
+        port_e1_splitter: o3
+        splitter:
+          function: mmi2x2
+        straight_x_top: straight_heater_metal
+  child:
+    changed:
+      combiner:
+        function: mmi2x2
+      port_e0_combiner: o4
+      port_e0_splitter: o4
+      port_e1_combiner: o3
+      port_e1_splitter: o3
+      splitter:
+        function: mmi2x2
+      straight_x_top: straight_heater_metal
+    child: null
+    default:
+      add_optical_ports_arms: false
+      bend:
+        function: bend_euler
+      combiner: null
+      cross_section: strip
+      cross_section_x_bot: null
+      cross_section_x_top: null
+      delta_length: 10.0
+      length_x: 0.1
+      length_y: 2.0
+      mirror_bot: false
+      nbends: 2
+      port_e0_combiner: o3
+      port_e0_splitter: o3
+      port_e1_combiner: o2
+      port_e1_splitter: o2
+      splitter: mmi1x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      add_optical_ports_arms: false
+      bend:
+        function: bend_euler
+      combiner:
+        function: mmi2x2
+      cross_section: strip
+      cross_section_x_bot: null
+      cross_section_x_top: null
+      delta_length: 10.0
+      length_x: 0.1
+      length_y: 2.0
+      mirror_bot: false
+      nbends: 2
+      port_e0_combiner: o4
+      port_e0_splitter: o4
+      port_e1_combiner: o3
+      port_e1_splitter: o3
+      splitter:
+        function: mmi2x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top: straight_heater_metal
+      straight_y: null
+      with_splitter: true
+    function_name: mzi
+    info: {}
+    info_version: 2
+    module: gdsfactory.components.mzi
+    name: mzi_2e88f57c
+  default:
+    bend_length: null
+    component:
+      function: straight
+    cross_section: strip
+    npoints: 101
+    port_spacing: 20.0
+    select_ports:
+      function: select_ports
+      settings:
+        port_type: optical
+  full:
+    bend_length: null
+    component:
+      component: mzi
+      settings:
+        combiner:
+          function: mmi2x2
+        port_e0_combiner: o4
+        port_e0_splitter: o4
+        port_e1_combiner: o3
+        port_e1_splitter: o3
+        splitter:
+          function: mmi2x2
+        straight_x_top: straight_heater_metal
+    cross_section: strip
+    npoints: 101
+    port_spacing: 20.0
+    select_ports:
+      function: select_ports
+      settings:
+        port_type: optical
+  function_name: fanout2x2
+  info: {}
+  info_version: 2
+  module: gdsfactory.routing.fanout2x2
+  name: mzi_2e88f57c_fanout2x2_564dd830

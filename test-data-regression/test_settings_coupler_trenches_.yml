@@ -1,0 +1,105 @@
+name: coupler_add_trenches
+ports:
+  o1:
+    center:
+    - -10.0
+    - -1.632
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -10.0
+    - 2.368
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 30.0
+    - 2.368
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 30.0
+    - -1.632
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child:
+    changed: {}
+    child: null
+    default:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section: strip
+      dx: 10.0
+      dy: 4.0
+      gap: 0.236
+      length: 20.0
+    full:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section: strip
+      dx: 10.0
+      dy: 4.0
+      gap: 0.236
+      length: 20.0
+    function_name: coupler
+    info:
+      length: 10.186
+      min_bend_radius: 11.857
+    info_version: 2
+    module: gdsfactory.components.coupler
+    name: coupler
+  default:
+    bot: true
+    component:
+      function: coupler
+    cross_section: rib_with_trenches
+    left: false
+    right: false
+    top: true
+  full:
+    bot: true
+    component:
+      function: coupler
+    cross_section: rib_with_trenches
+    left: false
+    right: false
+    top: true
+  function_name: add_trenches
+  info:
+    length: 10.186
+    min_bend_radius: 11.857
+  info_version: 2
+  module: gdsfactory.components.add_trenches
+  name: coupler_add_trenches

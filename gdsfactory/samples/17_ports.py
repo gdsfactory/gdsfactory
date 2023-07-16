@@ -16,7 +16,7 @@ from gdsfactory.typings import LayerSpec
 
 
 @gf.cell
-def test_component_with_port(
+def component_with_port(
     length: float = 5.0, width: float = 0.5, layer: LayerSpec = "WG"
 ) -> Component:
     """Returns a component with one port on the west side.
@@ -37,6 +37,10 @@ def test_component_with_port(
     return c
 
 
+def test_component_with_port() -> None:
+    assert component_with_port()
+
+
 if __name__ == "__main__":
-    c = test_component_with_port()
+    c = component_with_port()
     c.show(show_ports=True)

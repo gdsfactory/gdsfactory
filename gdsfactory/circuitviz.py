@@ -1,18 +1,24 @@
+import contextlib
 from collections import defaultdict
 from functools import partial
 from typing import Dict, List, NamedTuple, Union
 
-import bokeh.events as be
 import numpy as np
 import pandas as pd
 import yaml
-from bokeh import io as bio
-from bokeh import models as bm
-from bokeh import plotting as bp
-from natsort import natsorted
+
 
 import gdsfactory as gf
 from gdsfactory.picmodel import PicYamlConfiguration, Placement, SchematicConfiguration
+
+try:
+    import bokeh.events as be
+    from bokeh import io as bio
+    from bokeh import models as bm
+    from bokeh import plotting as bp
+    from natsort import natsorted
+except ImportError:
+    print("No bokeh and natsort found!\n" "pip install bokeh natsort")
 
 data = {
     "srcs": defaultdict(lambda: defaultdict(lambda: [])),
@@ -43,10 +49,8 @@ def save_netlist(netlist, filename):
             if pv:
                 for kk in ["x", "y"]:
                     if kk in pv:
-                        try:
+                        with contextlib.suppress(Exception):
                             pv[kk] = float(pv[kk])
-                        except Exception:
-                            pass
             else:
                 p.pop(pk)
         yaml.dump(d, f, sort_keys=False, default_flow_style=None)
@@ -268,7 +272,7 @@ def viz_bk(
     )
     fig.on_event(be.DoubleTap, cp_double_tap)
 
-    fig.add_glyph(
+    inst_glyph = fig.add_glyph(
         data["dss"]["Rect"],
         bm.Rect(
             x="x",
@@ -287,8 +291,9 @@ def viz_bk(
                 xs="xs", ys="ys", fill_color="fill_color", fill_alpha="fill_alpha"
             ),
         )
+    net_glyph = None
     if "MultiLine" in data["dss"]:
-        fig.add_glyph(
+        net_glyph = fig.add_glyph(
             data["dss"]["MultiLine"],
             bm.MultiLine(xs="x", ys="y"),
             name="nets",
@@ -302,15 +307,16 @@ def viz_bk(
         empty_value="black",
     )
     hover_tool = bm.HoverTool(
-        names=["instances"],
+        renderers=[inst_glyph],
         tooltips=[("Instance", "@tag")],
     )
-    hover_tool_nets = bm.HoverTool(
-        names=["nets"],
-        tooltips=[("Net", "@name")],
-        show_arrow=True,
-        line_policy="interp",
-    )
+    if net_glyph:
+        hover_tool_nets = bm.HoverTool(
+            renderers=[net_glyph],
+            tooltips=[("Net", "@name")],
+            show_arrow=True,
+            line_policy="interp",
+        )
     # pan_tool = bm.PanTool()
     tap_tool = bm.TapTool()
     zoom = bm.WheelZoomTool()

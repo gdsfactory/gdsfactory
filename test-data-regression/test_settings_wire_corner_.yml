@@ -1,0 +1,42 @@
+name: wire_corner
+ports:
+  e1:
+    center:
+    - -5.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  e2:
+    center:
+    - 0.0
+    - 5.0
+    layer:
+    - 49
+    - 0
+    name: e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section: metal_routing
+    with_bbox: false
+  full:
+    cross_section: metal_routing
+    with_bbox: false
+  function_name: wire_corner
+  info:
+    dy: 10.0
+    length: 10.0
+  info_version: 2
+  module: gdsfactory.components.wire
+  name: wire_corner

@@ -1,0 +1,73 @@
+name: spiral_inner_io
+ports:
+  o1:
+    center:
+    - 0.0
+    - 50.0
+    layer: WG
+    name: o1
+    orientation: 270.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 127.0
+    - 50.0
+    layer: WG
+    name: o2
+    orientation: 270.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    N: 6
+    asymmetric_cross_section: false
+    bend180:
+      function: bend_euler
+      settings:
+        angle: 180
+    bend90:
+      function: bend_euler
+    cross_section: strip
+    cross_section_bend: null
+    cross_section_bend180: null
+    grating_spacing: 127.0
+    length: null
+    straight:
+      function: straight
+    waveguide_spacing: 3.0
+    x_straight_inner_left: 50.0
+    x_straight_inner_right: 150.0
+    y_straight_inner_bottom: 10.0
+    y_straight_inner_top: 50.0
+  full:
+    N: 6
+    asymmetric_cross_section: false
+    bend180:
+      function: bend_euler
+      settings:
+        angle: 180
+    bend90:
+      function: bend_euler
+    cross_section: strip
+    cross_section_bend: null
+    cross_section_bend180: null
+    grating_spacing: 127.0
+    length: null
+    straight:
+      function: straight
+    waveguide_spacing: 3.0
+    x_straight_inner_left: 50.0
+    x_straight_inner_right: 150.0
+    y_straight_inner_bottom: 10.0
+    y_straight_inner_top: 50.0
+  function_name: spiral_inner_io
+  info:
+    length: 11584.393
+  info_version: 2
+  module: gdsfactory.components.spiral_inner_io
+  name: spiral_inner_io

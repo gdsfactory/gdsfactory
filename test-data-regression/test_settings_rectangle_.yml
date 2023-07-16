@@ -1,0 +1,82 @@
+name: rectangle
+ports:
+  e1:
+    center:
+    - 0.0
+    - 1.0
+    layer:
+    - 1
+    - 0
+    name: e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 2.0
+  e2:
+    center:
+    - 2.0
+    - 2.0
+    layer:
+    - 1
+    - 0
+    name: e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 4.0
+  e3:
+    center:
+    - 4.0
+    - 1.0
+    layer:
+    - 1
+    - 0
+    name: e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 2.0
+  e4:
+    center:
+    - 2.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 4.0
+settings:
+  changed: {}
+  child: null
+  default:
+    centered: false
+    layer: WG
+    port_orientations:
+    - 180
+    - 90
+    - 0
+    - -90
+    port_type: electrical
+    size:
+    - 4.0
+    - 2.0
+  full:
+    centered: false
+    layer: WG
+    port_orientations:
+    - 180
+    - 90
+    - 0
+    - -90
+    port_type: electrical
+    size:
+    - 4.0
+    - 2.0
+  function_name: rectangle
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.rectangle
+  name: rectangle

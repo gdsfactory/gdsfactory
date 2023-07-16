@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import List, Optional
 
 import gdsfactory as gf
@@ -44,17 +45,22 @@ def taper(
     if width2 is None:
         width2 = width1
 
+    c = gf.Component()
+
     y1 = width1 / 2
     y2 = width2 / 2
-
     x1 = x.copy(width=width1)
     x2 = x.copy(width=width2)
-
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
-
-    c = gf.Component()
     c.add_polygon((xpts, ypts), layer=layer)
+
+    for section in x.sections:
+        layer = section.layer
+        y1 = section.width / 2
+        y2 = y1 + (width2 - width1)
+        ypts = [y1, y2, -y2, -y1]
+        c.add_polygon((xpts, ypts), layer=layer)
 
     if x.cladding_layers and x.cladding_offsets:
         for layer, offset in zip(x.cladding_layers, x.cladding_offsets):
@@ -242,10 +248,10 @@ def taper_strip_to_ridge_trenches(
     return c
 
 
-taper_strip_to_slab150 = gf.partial(taper_strip_to_ridge, layer_slab="SLAB150")
+taper_strip_to_slab150 = partial(taper_strip_to_ridge, layer_slab="SLAB150")
 
 # taper StripCband to NitrideCband
-taper_sc_nc = gf.partial(
+taper_sc_nc = partial(
     taper_strip_to_ridge,
     layer_wg="WG",
     layer_slab="WGN",
@@ -266,9 +272,10 @@ if __name__ == "__main__":
     #         for length in [1, 2, 3]
     #     ]
     # )
-    # c.write_gds_with_metadata("extra/tapers.gds")
+    # c.("extra/tapers.gds")
+    xs = gf.get_cross_section("rib_conformal")
 
-    c = taper(width2=1)
+    c = taper(width2=1, cross_section="rib_conformal")
     # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()

@@ -3,12 +3,12 @@ from __future__ import annotations
 
 from typing import Optional
 
+import gdstk
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.port import Port
 from gdsfactory.geometry.manhattanize import manhattanize_polygon
-import gdstk
+from gdsfactory.port import Port
 
 
 def _get_rotated_basis(theta):

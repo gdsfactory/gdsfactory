@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -9,7 +11,7 @@ from gdsfactory.components.taper import taper
 from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.typings import ComponentSpec
 
-taper2 = gf.partial(taper, width2=3)
+taper2 = partial(taper, width2=3)
 
 
 @gf.cell
@@ -43,7 +45,7 @@ def ring_single_dut(
         kwargs: cross_section settings.
 
     Args:
-        with_component: if False changes component for just a straight
+        with_component: if False changes component for just a straight.
 
     .. code::
 

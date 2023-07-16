@@ -1,0 +1,90 @@
+name: mode_converter
+ports:
+  o1:
+    center:
+    - -25.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 1.2
+  o2:
+    center:
+    - -14.142
+    - 6.908
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 35.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 1.2
+  o4:
+    center:
+    - 24.142
+    - 6.908
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_euler_s
+      settings:
+        angle: 45
+    coupler_straight_asymmetric:
+      function: coupler_straight_asymmetric
+    cross_section: strip
+    gap: 0.3
+    length: 10
+    mc_mm_width: 1
+    mm_width: 1.2
+    sm_width: 0.5
+    taper:
+      function: taper
+    taper_length: 25
+  full:
+    bend:
+      function: bend_euler_s
+      settings:
+        angle: 45
+    coupler_straight_asymmetric:
+      function: coupler_straight_asymmetric
+    cross_section: strip
+    gap: 0.3
+    length: 10
+    mc_mm_width: 1
+    mm_width: 1.2
+    sm_width: 0.5
+    taper:
+      function: taper
+    taper_length: 25
+  function_name: mode_converter
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mode_converter
+  name: mode_converter

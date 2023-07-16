@@ -1,0 +1,198 @@
+name: ring_single_heater
+ports:
+  l_e1:
+    center:
+    - -8.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: l_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  l_e2:
+    center:
+    - -6.0
+    - 2.0
+    layer:
+    - 49
+    - 0
+    name: l_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  l_e3:
+    center:
+    - -4.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: l_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  l_e4:
+    center:
+    - -6.0
+    - -2.0
+    layer:
+    - 49
+    - 0
+    name: l_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  o1:
+    center:
+    - -17.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 13.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  r_e1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: r_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  r_e2:
+    center:
+    - 2.0
+    - 2.0
+    layer:
+    - 49
+    - 0
+    name: r_e2
+    orientation: 90.0
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  r_e3:
+    center:
+    - 4.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: r_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  r_e4:
+    center:
+    - 2.0
+    - -2.0
+    layer:
+    - 49
+    - 0
+    name: r_e4
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 4
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_euler
+    coupler_ring:
+      function: coupler_ring
+    cross_section: strip
+    cross_section_waveguide_heater: strip_heater_metal
+    gap: 0.2
+    length_x: 4.0
+    length_y: 0.6
+    port_orientation: null
+    radius: 10.0
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - HEATER
+        - M2
+        - M3
+        size:
+        - 4
+        - 4
+        vias:
+        - null
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
+    via_stack_offset:
+    - 0
+    - 0
+  full:
+    bend:
+      function: bend_euler
+    coupler_ring:
+      function: coupler_ring
+    cross_section: strip
+    cross_section_waveguide_heater: strip_heater_metal
+    gap: 0.2
+    length_x: 4.0
+    length_y: 0.6
+    port_orientation: null
+    radius: 10.0
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - HEATER
+        - M2
+        - M3
+        size:
+        - 4
+        - 4
+        vias:
+        - null
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
+    via_stack_offset:
+    - 0
+    - 0
+  function_name: ring_single_heater
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.ring_single_heater
+  name: ring_single_heater

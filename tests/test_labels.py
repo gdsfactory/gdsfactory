@@ -1,4 +1,5 @@
 from __future__ import annotations
+from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.add_labels import (
@@ -8,7 +9,7 @@ from gdsfactory.add_labels import (
 )
 from gdsfactory.component import Component
 
-straight = gf.partial(
+straight = partial(
     gf.components.straight,
     with_bbox=True,
     cladding_layers=None,
@@ -17,8 +18,7 @@ straight = gf.partial(
 )
 
 
-@gf.cell
-def test_add_labels_optical() -> Component:
+def test_add_labels_optical() -> None:
     c = Component()
     wg = c << straight(length=1.467)
 
@@ -41,11 +41,9 @@ def test_add_labels_optical() -> Component:
 
     assert label1.text in labels_text, f"{label1.text} not in {labels_text}"
     assert label2.text in labels_text, f"{label2.text} not in {labels_text}"
-    return c
 
 
-@gf.cell
-def test_add_labels_electrical() -> Component:
+def test_add_labels_electrical() -> None:
     c = Component()
     _wg = gf.components.wire_straight(length=5.987)
     wg = c << _wg
@@ -64,7 +62,6 @@ def test_add_labels_electrical() -> Component:
 
     assert label1.text in labels_text, f"{label1.text} not in {labels_text}"
     assert label2.text in labels_text, f"{label2.text} not in {labels_text}"
-    return c
 
 
 if __name__ == "__main__":

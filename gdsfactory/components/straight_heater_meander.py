@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, Optional
@@ -15,8 +17,8 @@ def straight_heater_meander(
     layer_heater: LayerSpec = "HEATER",
     radius: float = 5.0,
     via_stack: Optional[ComponentSpec] = "via_stack_heater_mtop",
-    port_orientation1: int = 180,
-    port_orientation2: int = 0,
+    port_orientation1: Optional[int] = None,
+    port_orientation2: Optional[int] = None,
     heater_taper_length: Optional[float] = 10.0,
     straight_widths: Floats = (0.8, 0.9, 0.8),
     taper_length: float = 10,
@@ -37,8 +39,8 @@ def straight_heater_meander(
         layer_heater: for top heater, if None, it does not add a heater.
         radius: for the meander bends.
         via_stack: for the heater to via_stack metal.
-        port_orientation1: in degrees.
-        port_orientation2: in degrees.
+        port_orientation1: in degrees. None adds all orientations.
+        port_orientation2: in degrees. None adds all orientations.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         straight_width: width of the straight section.
         taper_length: from the cross_section.
@@ -71,16 +73,16 @@ def straight_heater_meander(
     )
     ports = {}
 
-    """
-    Straights
-    """
+    ##############
+    # Straights
+    ##############
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
         straight = gf.c.straight(
             length=straight_length - 2 * taper_length, cross_section=cross_section1
         )
 
-        taper = gf.partial(
+        taper = partial(
             gf.c.taper_cross_section_linear,
             cross_section1=cross_section1,
             cross_section2=cross_section2,
@@ -94,9 +96,9 @@ def straight_heater_meander(
         ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
         ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
 
-    """
-    Loopbacks
-    """
+    ##############
+    # loopbacks
+    ##############
     for row in range(1, rows, 2):
         extra_length = 3 * (rows - row - 1) / 2 * radius
         extra_straight1 = c << gf.c.straight(
@@ -143,7 +145,7 @@ def straight_heater_meander(
     c.add_port("o2", port=straight2.ports["o2"])
 
     if layer_heater:
-        heater_cross_section = gf.partial(
+        heater_cross_section = partial(
             gf.cross_section.cross_section, width=heater_width, layer=layer_heater
         )
 
@@ -154,24 +156,31 @@ def straight_heater_meander(
         heater.movey(spacing * (rows // 2))
 
     if layer_heater and via_stack:
-        via_stacke = via_stackw = gf.get_component(via_stack)
+        via = via_stacke = via_stackw = gf.get_component(via_stack)
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
         via_stack_west_center = heater.size_info.cw - (dx, 0)
         via_stack_east_center = heater.size_info.ce + (dx, 0)
-
-        via_stack_east_center = gf.snap.snap_to_grid(via_stack_east_center, nm=10)
-        via_stack_west_center = gf.snap.snap_to_grid(via_stack_west_center, nm=10)
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
         via_stack_west.move(via_stack_west_center)
         via_stack_east.move(via_stack_east_center)
-        c.add_port(
-            "e1", port=via_stack_west.get_ports_list(orientation=port_orientation1)[0]
-        )
-        c.add_port(
-            "e2", port=via_stack_east.get_ports_list(orientation=port_orientation2)[0]
-        )
+
+        valid_orientations = {p.orientation for p in via.ports.values()}
+        p1 = via_stack_west.get_ports_list(orientation=port_orientation1)
+        p2 = via_stack_east.get_ports_list(orientation=port_orientation2)
+
+        if not p1:
+            raise ValueError(
+                f"No ports for port_orientation1 {port_orientation1} in {valid_orientations}"
+            )
+        if not p2:
+            raise ValueError(
+                f"No ports for port_orientation2 {port_orientation2} in {valid_orientations}"
+            )
+
+        c.add_ports(p1, prefix="l_")
+        c.add_ports(p2, prefix="r_")
 
         if heater_taper_length:
             taper = gf.c.taper(
@@ -222,7 +231,8 @@ if __name__ == "__main__":
         taper_length=10,
         # taper_length=10,
         length=1000,
-        # cross_section=gf.partial(gf.cross_section.strip, width=0.8),
+        # port_orientation1=0
+        # cross_section=partial(gf.cross_section.strip, width=0.8),
     )
     c.show(show_ports=True)
     # scene = c.to_3d()

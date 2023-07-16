@@ -1,0 +1,142 @@
+name: mirror_port_76e6504a
+ports:
+  o1:
+    center:
+    - -5.0
+    - 9.375
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -5.0
+    - 10.625
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 20.0
+    - 10.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed:
+    conf:
+      instances:
+        mmi_long:
+          component: mmi1x2
+          settings:
+            length_mmi: 5
+            width_mmi: 4.5
+      name: mirror_port
+      placements:
+        mmi_long:
+          mirror: true
+          port: o1
+          x: 20
+          y: 10
+      ports:
+        o1: mmi_long,o3
+        o2: mmi_long,o2
+        o3: mmi_long,o1
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_all_angle:
+        function: get_bundle_all_angle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    mode: layout
+  full:
+    conf:
+      instances:
+        mmi_long:
+          component: mmi1x2
+          settings:
+            length_mmi: 5
+            width_mmi: 4.5
+      name: mirror_port
+      placements:
+        mmi_long:
+          mirror: true
+          port: o1
+          x: 20
+          y: 10
+      ports:
+        o1: mmi_long,o3
+        o2: mmi_long,o2
+        o3: mmi_long,o1
+    label_instance_function:
+      function: add_instance_label
+    mode: layout
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_all_angle:
+        function: get_bundle_all_angle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
+  info:
+    instances:
+    - mmi_long
+  info_version: 2
+  module: gdsfactory.read.from_yaml
+  name: mirror_port_76e6504a

@@ -1,0 +1,30 @@
+name: loop_mirror
+ports:
+  o1:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend90: bend_euler
+    component:
+      function: mmi1x2
+  full:
+    bend90: bend_euler
+    component:
+      function: mmi1x2
+  function_name: loop_mirror
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.loop_mirror
+  name: loop_mirror

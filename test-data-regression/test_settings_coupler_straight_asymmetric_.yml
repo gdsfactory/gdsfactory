@@ -1,0 +1,68 @@
+name: coupler_straight_asymmetric
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 1.0
+  o2:
+    center:
+    - 0.0
+    - 1.02
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 10.0
+    - 1.02
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 1.0
+settings:
+  changed: {}
+  child: null
+  default:
+    gap: 0.27
+    length: 10.0
+    width_bot: 1
+    width_top: 0.5
+  full:
+    gap: 0.27
+    length: 10.0
+    width_bot: 1
+    width_top: 0.5
+  function_name: coupler_straight_asymmetric
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.coupler_straight_asymmetric
+  name: coupler_straight_asymmetric

@@ -1,0 +1,114 @@
+name: component_lattice
+ports:
+  o1:
+    center:
+    - 0.0
+    - -120.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 0.0
+    - -80.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 0.0
+    - -40.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o5:
+    center:
+    - 280.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o5
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o6:
+    center:
+    - 280.0
+    - -40.0
+    layer:
+    - 1
+    - 0
+    name: o6
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o7:
+    center:
+    - 280.0
+    - -80.0
+    layer:
+    - 1
+    - 0
+    name: o7
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o8:
+    center:
+    - 280.0
+    - -120.0
+    layer:
+    - 1
+    - 0
+    name: o8
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    grid_per_unit: 1000
+    lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
+    symbol_to_component: null
+  full:
+    grid_per_unit: 1000
+    lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
+    symbol_to_component: null
+  function_name: component_lattice
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.component_lattice
+  name: component_lattice

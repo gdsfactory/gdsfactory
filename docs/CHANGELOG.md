@@ -1,4 +1,181 @@
-# [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
+# [Changelog](https://keepachangelog.com/en/1.0.0/)
+
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.114.0...main)
+
+## [6.114.0](https://github.com/gdsfactory/gdsfactory/compare/v6.114.0...v6.113.0)
+
+- add uPDK support [PR](https://github.com/gdsfactory/gdsfactory/pull/1862)
+- fix font [PR](https://github.com/gdsfactory/gdsfactory/pull/1854)
+- update meow and tidy3d
+
+## [6.113.0](https://github.com/gdsfactory/gdsfactory/compare/v6.113.0...v6.112.0)
+
+- improve webapp [PR](https://github.com/gdsfactory/gdsfactory/pull/1833)
+- fix `via_stack` ports orientation [PR](https://github.com/gdsfactory/gdsfactory/pull/1844)
+- update meow to 0.7.0
+
+## [6.112.0](https://github.com/gdsfactory/gdsfactory/compare/v6.112.0...v6.111.0)
+
+- add loopback to grating coupler array [PR](https://github.com/gdsfactory/gdsfactory/pull/1819)
+- add offset to terminator [PR](https://github.com/gdsfactory/gdsfactory/pull/1822)
+- fix test metadata [PR](https://github.com/gdsfactory/gdsfactory/pull/1824)
+- add `coupler_ring_point` [PR](https://github.com/gdsfactory/gdsfactory/pull/1825)
+
+## [6.111.0](https://github.com/gdsfactory/gdsfactory/compare/v6.111.0...v6.109.0)
+
+- add rib-strip routing example notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/1808)
+- fix wire components with bbox [PR](https://github.com/gdsfactory/gdsfactory/pull/1808)
+
+## [6.109.0](https://github.com/gdsfactory/gdsfactory/compare/v6.109.0...v6.108.1)
+
+- add module to `function_name` [PR](https://github.com/gdsfactory/gdsfactory/pull/1808)
+- minor updates to MEOW [PR](https://github.com/gdsfactory/gdsfactory/pull/1806)
+- use meshwell for 3D meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1800)
+- add component meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1807)
+- fix plugins tests and remove module from function name [PR](https://github.com/gdsfactory/gdsfactory/pull/1813)
+
+## [6.108.1](https://github.com/gdsfactory/gdsfactory/compare/v6.108.1...v6.108.0)
+
+- add module info to cell decorator [PR](https://github.com/gdsfactory/gdsfactory/pull/1805)
+
+## [6.108.0](https://github.com/gdsfactory/gdsfactory/compare/v6.108.0...v6.107.4)
+
+- add handshake for klive [PR](https://github.com/gdsfactory/gdsfactory/pull/1796)
+- make `plot_kweb` the default [PR](https://github.com/gdsfactory/gdsfactory/pull/1802)
+- update to latest MEOW [PR](https://github.com/gdsfactory/gdsfactory/pull/1799)
+- add `gf.components.rectangular_ring` [PR](https://github.com/gdsfactory/gdsfactory/pull/1803)
+- fix `get_bundle` regressions [PR](https://github.com/gdsfactory/gdsfactory/pull/1801)
+
+## [6.107.4](https://github.com/gdsfactory/gdsfactory/compare/v6.107.4...v6.107.3)
+
+- fix SDL notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/1788)
+- improve difftest [PR](https://github.com/gdsfactory/gdsfactory/pull/1787)
+
+## [6.107.3](https://github.com/gdsfactory/gdsfactory/compare/v6.107.3...v6.107.2)
+
+- pin meow [PR](https://github.com/gdsfactory/gdsfactory/pull/1786)
+- upgrade tidy3d to 2.2.3 [PR](https://github.com/gdsfactory/gdsfactory/pull/1784)
+
+## [6.107.2](https://github.com/gdsfactory/gdsfactory/compare/v6.107.2...v6.107.1)
+
+- fix extrude serialization [PR](https://github.com/gdsfactory/gdsfactory/pull/1781)
+
+## [6.107.1](https://github.com/gdsfactory/gdsfactory/compare/v6.107.1...v6.107.0)
+
+- fix transitions [PR](https://github.com/gdsfactory/gdsfactory/pull/1777)
+- improve docs and fix tidy3d local cache [PR](https://github.com/gdsfactory/gdsfactory/pull/1776)
+
+## [6.107.0](https://github.com/gdsfactory/gdsfactory/compare/v6.107.0...v6.106.0)
+
+- check for component overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1730)
+- add wire corner with sections [PR](https://github.com/gdsfactory/gdsfactory/pull/1766)
+- update femwell to 0.1.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1775)
+- enable kweb on GitHub codespaces [PR](https://github.com/gdsfactory/gdsfactory/pull/1774)
+- active PDK does not clear cache [PR](https://github.com/gdsfactory/gdsfactory/pull/1773)
+
+## [6.106.0](https://github.com/gdsfactory/gdsfactory/compare/v6.106.0...v6.105.0)
+
+- add `fraction_te` to tidy3d mode solver.
+
+## [6.105.0](https://github.com/gdsfactory/gdsfactory/compare/v6.105.3...v6.103.3)
+
+- fix installer.
+- add die text location [PR](https://github.com/gdsfactory/gdsfactory/pull/1760)
+- make validate layers more generic [PR](https://github.com/gdsfactory/gdsfactory/pull/1761)
+- fix taper [PR](https://github.com/gdsfactory/gdsfactory/pull/1762)
+
+## [6.103.3](https://github.com/gdsfactory/gdsfactory/compare/v6.103.3...v6.103.1)
+
+- add python3.7 bare bones tests [PR](https://github.com/gdsfactory/gdsfactory/pull/1745)
+
+## [6.103.1](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...v6.103.0)
+
+- fix jupyter widget [PR](https://github.com/gdsfactory/gdsfactory/pull/1740)
+
+## [6.103.0](https://github.com/gdsfactory/gdsfactory/compare/v6.103.0...v6.102.4)
+
+- add `gf.Polygon` [PR](https://github.com/gdsfactory/gdsfactory/pull/1736)
+    - add `gf.Polygon.to_shapely()`
+    - add `gf.Polygon.from_shapely()`
+    - add `gf.Polygon.snap()`
+- add `gf.components.coupler_bent`
+    - fix 1nm gaps coming from forcing snapping to grid
+- improve widget [PR](https://github.com/gdsfactory/gdsfactory/pull/1738)
+
+## [6.102.4](https://github.com/gdsfactory/gdsfactory/compare/v6.102.4...v6.102.3)
+
+- fix loopback snapping [PR](https://github.com/gdsfactory/gdsfactory/pull/1729)
+
+## [6.102.3](https://github.com/gdsfactory/gdsfactory/compare/v6.102.3...v6.102.1)
+
+- fix heater meander issues [PR](https://github.com/gdsfactory/gdsfactory/pull/1727)
+
+## [6.102.1](https://github.com/gdsfactory/gdsfactory/compare/v6.102.1...v6.102.0)
+
+- improve script to extract ports [PR](https://github.com/gdsfactory/gdsfactory/pull/1725)
+
+## [6.102.0](https://github.com/gdsfactory/gdsfactory/compare/v6.102.0...v6.101.1)
+
+- fix snapping references [PR](https://github.com/gdsfactory/gdsfactory/pull/1719)
+- re-enable all angle routing tests [PR](https://github.com/gdsfactory/gdsfactory/pull/1721)
+
+## [6.101.1](https://github.com/gdsfactory/gdsfactory/compare/v6.101.1...v6.101.0)
+
+- fix kfactory dependency [PR](https://github.com/gdsfactory/gdsfactory/pull/1714)
+
+## [6.101.0](https://github.com/gdsfactory/gdsfactory/compare/v6.101.0...v6.100.0)
+
+- fix git diff gds [PR](https://github.com/gdsfactory/gdsfactory/pull/1712)
+
+## [6.100.0](https://github.com/gdsfactory/gdsfactory/compare/v6.100.0...v6.99.0)
+
+- add `get_polygon_bbox` and `get_polygon_enclosure` that return a shapely polygon [PR](https://github.com/gdsfactory/gdsfactory/pull/1709)
+
+## [6.99.0](https://github.com/gdsfactory/gdsfactory/compare/v6.99.0...v6.98.2)
+
+- improve difftest [PR](https://github.com/gdsfactory/gdsfactory/pull/1703)
+- fix devsim [PR](https://github.com/gdsfactory/gdsfactory/pull/1704)
+- update tidy3d to 2.2.2
+
+## [6.98.2](https://github.com/gdsfactory/gdsfactory/compare/v6.98.2...v6.98.1)
+
+- only use section.insets if they are not (0, 0) [PR](https://github.com/gdsfactory/gdsfactory/commit/9bffa6d84f4fe427e74cd6193c3afdc731bb0deb)
+- fix webapp [PR](https://github.com/gdsfactory/gdsfactory/pull/1701)
+
+## [6.98.1](https://github.com/gdsfactory/gdsfactory/compare/v6.98.1...v6.98.0)
+
+- update kfactory [PR](https://github.com/gdsfactory/gdsfactory/pull/1695)
+- fix tidy3d 2D FDTD sims and update tidy3d [PR](https://github.com/gdsfactory/gdsfactory/pull/1697)
+
+## [6.98.0](https://github.com/gdsfactory/gdsfactory/compare/v6.98.0...v6.97.1)
+
+- add verification functions to check for component overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1689/)
+
+## [6.97.1](https://github.com/gdsfactory/gdsfactory/compare/v6.97.0...v6.97.1)
+
+- fix snapping issues [PR](https://github.com/gdsfactory/gdsfactory/pull/1685)
+- rename `write_gerbers` to `Component.write_gerber` [PR](https://github.com/gdsfactory/gdsfactory/pull/1687)
+
+## [6.97.0](https://github.com/gdsfactory/gdsfactory/compare/v6.96.0...v6.97.0)
+
+- improve declarative cell
+- control Sbend resolution [PR](https://github.com/gdsfactory/gdsfactory/commit/db5a802c8161e2ea6c5cc1350bfc87a439bbd4ea)
+- repair symmetries for tidy3d [PR](https://github.com/gdsfactory/gdsfactory/pull/1683)
+
+## [6.96.0](https://github.com/gdsfactory/gdsfactory/compare/v6.95.0...v6.96.0)
+
+- flatten invalid refs
+
+## 6.95.0
+
+- add pins and `flatten_invalid_refs` [PR](https://github.com/gdsfactory/gdsfactory/pull/1674)
+
+## 6.95.0
+
+- add `Component.write_gds(with_metadata=True) flag and deprecate `Component.write_gds_with_metadata()` [PR](https://github.com/gdsfactory/gdsfactory/pull/1668)
+- tidy3d.ModeSolver supports multiple wavelengths [PR](https://github.com/gdsfactory/gdsfactory/pull/1673)
+- remove S3 bucket [PR](https://github.com/gdsfactory/gdsfactory/pull/1670)
+- Added CellDecoratorSettings to give ability to change default behavior of cell_without_validator function [PR](https://github.com/gdsfactory/gdsfactory/pull/1659)
 
 ## 6.94.0
 
@@ -686,7 +863,8 @@
 ## 6.3.0
 
 - Schematic-Driven Layout flow [PR](https://github.com/gdsfactory/gdsfactory/pull/920)
-- from __future__ import annotations to all files and makes the docs cleaner by rendering the type aliases rather than the expanded type [PR](https://github.com/gdsfactory/gdsfactory/pull/923)
+- from __future__ import annotations
+from functools import partial to all files and makes the docs cleaner by rendering the type aliases rather than the expanded type [PR](https://github.com/gdsfactory/gdsfactory/pull/923)
 - Add routes to gdsfactory klayout macro [PR](https://github.com/gdsfactory/gdsfactory/pull/918)
 - fix missing conversion from rad (gdstk) to deg [PR](https://github.com/gdsfactory/gdsfactory/pull/927)
 - better error message when failing to import missing gdscell [PR](https://github.com/gdsfactory/gdsfactory/pull/926)
@@ -3115,7 +3293,7 @@
 ## 3.0.2
 
 - add straight_rib, straight_heater_metal and straight_heater_doped
-- `xs2 = gf.partial(cross_section)` does not require defining `xs2.__name__`
+- `xs2 = partial(cross_section)` does not require defining `xs2.__name__`
 - replace gf.extend[.] with gf.components.extension.
 - Component.show() uses `add_pins_triangle` as default to show port orientation
 - add gf.comtainers.bend_port

@@ -1,0 +1,69 @@
+name: spiral_racetrack_fixed_length
+ports:
+  o1:
+    center:
+    - -20.25
+    - 20.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 150.0
+    - 20.0
+    layer: WG
+    name: o2
+    orientation: 0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend_factory:
+      function: bend_euler
+    bend_s_factory:
+      function: bend_s
+    cross_section: strip
+    cross_section_s: null
+    in_out_port_spacing: 150
+    length: 1000
+    min_radius: 5
+    min_spacing: 5.0
+    n_bend_points: null
+    n_straight_sections: 8
+    straight_factory:
+      function: straight
+    with_inner_ports: false
+  full:
+    bend_factory:
+      function: bend_euler
+    bend_s_factory:
+      function: bend_s
+    cross_section: strip
+    cross_section_s: null
+    in_out_port_spacing: 150
+    length: 1000
+    min_radius: 5
+    min_spacing: 5.0
+    n_bend_points: null
+    n_straight_sections: 8
+    straight_factory:
+      function: straight
+    with_inner_ports: false
+  function_name: spiral_racetrack_fixed_length
+  info:
+    length: 1000.001
+    spiral_center:
+    - 35.231
+    - -2.5
+    straight_length: 65.462
+  info_version: 2
+  module: gdsfactory.components.spiral_heater
+  name: spiral_racetrack_fixed_length

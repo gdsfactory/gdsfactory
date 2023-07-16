@@ -1,0 +1,108 @@
+name: spiral_racetrack_heater_doped
+ports:
+  bot_e1:
+    center:
+    - 0.0
+    - 12.0
+    layer:
+    - 24
+    - 0
+    name: bot_e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 0.5
+  bot_e2:
+    center:
+    - 30.0
+    - 12.0
+    layer:
+    - 24
+    - 0
+    name: bot_e2
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 0.5
+  o1:
+    center:
+    - 0.0
+    - 18.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 30.0
+    - -36.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  top_e1:
+    center:
+    - 30.0
+    - -30.0
+    layer:
+    - 24
+    - 0
+    name: top_e1
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 0.5
+  top_e2:
+    center:
+    - 0.0
+    - -30.0
+    layer:
+    - 24
+    - 0
+    name: top_e2
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend_factory:
+      function: bend_euler
+    bend_s_factory:
+      function: bend_s
+    heater_cross_section: npp
+    min_radius: null
+    num: 8
+    spacing: 2
+    straight_factory:
+      function: straight
+    straight_length: 30
+    waveguide_cross_section: strip
+  full:
+    bend_factory:
+      function: bend_euler
+    bend_s_factory:
+      function: bend_s
+    heater_cross_section: npp
+    min_radius: null
+    num: 8
+    spacing: 2
+    straight_factory:
+      function: straight
+    straight_length: 30
+    waveguide_cross_section: strip
+  function_name: spiral_racetrack_heater_doped
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.spiral_heater
+  name: spiral_racetrack_heater_doped

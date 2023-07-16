@@ -4,22 +4,22 @@ from __future__ import annotations
 import functools
 import hashlib
 import inspect
-from typing import Any, Callable, Dict, Optional, Tuple
-from typing_extensions import ParamSpec
+from dataclasses import dataclass
+from functools import wraps
+from typing import Any, Callable, Dict, Optional, Tuple, Type, TypeVar
 
 import toolz
 from pydantic import BaseModel, validate_call
 
 from gdsfactory.component import Component
-from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
+from gdsfactory.name import clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
 CACHE: Dict[str, Component] = {}
 
 INFO_VERSION = 2
 
-CellSettings = ParamSpec("CellSettings")
-_F = Callable[CellSettings, Component]
+_F = TypeVar("_F", bound=Callable)
 
 
 class CellReturnTypeError(ValueError):
@@ -51,20 +51,20 @@ def get_source_code(func: Callable) -> str:
 
 class Settings(BaseModel):
     name: str
-    module: str
-    function_name: str
+    function_name: Optional[str] = None
+    module: Optional[str] = None
 
-    info: Dict[str, Any]  # derived properties (length, resistance)
+    info: Dict[str, Any] = {}  # derived properties (length, resistance)
     info_version: int = INFO_VERSION
 
-    full: Dict[str, Any]
-    changed: Dict[str, Any]
-    default: Dict[str, Any]
+    full: Dict[str, Any] = {}
+    changed: Dict[str, Any] = {}
+    default: Dict[str, Any] = {}
 
     child: Optional[Dict[str, Any]] = None
 
 
-def cell_without_validator(func) -> Callable[CellSettings, Component]:
+def cell_without_validator(func: _F) -> _F:
     """Decorator for Component functions.
 
     Similar to cell decorator but does not enforce argument types.
@@ -74,16 +74,29 @@ def cell_without_validator(func) -> Callable[CellSettings, Component]:
 
     @functools.wraps(func)
     def _cell(*args, **kwargs):
-        from gdsfactory.pdk import _ACTIVE_PDK
+        from gdsfactory.pdk import get_active_pdk
 
-        with_hash = kwargs.pop("with_hash", False)
-        autoname = kwargs.pop("autoname", True)
-        name = kwargs.pop("name", None)
-        cache = kwargs.pop("cache", True)
-        flatten = kwargs.pop("flatten", False)
-        info = kwargs.pop("info", {})
-        prefix = kwargs.pop("prefix", func.__name__)
-        max_name_length = kwargs.pop("max_name_length", MAX_NAME_LENGTH)
+        active_pdk = get_active_pdk()
+        cell_decorator_settings = active_pdk.cell_decorator_settings
+
+        with_hash = kwargs.pop("with_hash", cell_decorator_settings.with_hash)
+        autoname = kwargs.pop("autoname", cell_decorator_settings.autoname)
+        name = kwargs.pop("name", cell_decorator_settings.name)
+        cache = kwargs.pop("cache", cell_decorator_settings.cache)
+        flatten = kwargs.pop("flatten", cell_decorator_settings.flatten)
+        info = kwargs.pop("info", cell_decorator_settings.info)
+        prefix = kwargs.pop(
+            "prefix",
+            func.__name__
+            if cell_decorator_settings.prefix is None
+            else cell_decorator_settings.prefix,
+        )
+        max_name_length = kwargs.pop(
+            "max_name_length", cell_decorator_settings.max_name_length
+        )
+        include_module = kwargs.pop(
+            "include_module", cell_decorator_settings.include_module
+        )
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -118,27 +131,32 @@ def cell_without_validator(func) -> Callable[CellSettings, Component]:
         # if any args were different from default, append a hash of those args.
         # else, keep only the base name
         named_args_string = "_".join(changed_arg_list)
+        # print(named_args_string)
 
-        if changed_arg_list:
-            named_args_string = (
-                hashlib.md5(named_args_string.encode()).hexdigest()[:8]
+        if changed_arg_list or include_module:
+            if include_module and changed_arg_list:
+                named_args_module_string = f"{named_args_string}_{func.__module__}"
+            elif include_module:
+                named_args_module_string = func.__module__
+            elif changed_arg_list:
+                named_args_module_string = named_args_string
+
+            named_args_module_string = (
+                hashlib.md5(named_args_module_string.encode()).hexdigest()[:8]
                 if with_hash
-                or len(named_args_string) > 28
-                or "'" in named_args_string
-                or "{" in named_args_string
-                else named_args_string
+                or len(named_args_module_string) > 28
+                or "'" in named_args_module_string
+                or "{" in named_args_module_string
+                else named_args_module_string
             )
-            name_signature = clean_name(f"{prefix}_{named_args_string}")
+            name_signature = clean_name(f"{prefix}_{named_args_module_string}")
         else:
             name_signature = prefix
 
         # filter the changed dictionary to only keep entries which have truly changed
         changed_arg_names = [carg.split("=")[0] for carg in changed_arg_list]
         changed = {k: changed[k] for k in changed_arg_names}
-
-        pdk = _ACTIVE_PDK
-        default_decorator = pdk.default_decorator if pdk else None
-
+        default_decorator = active_pdk.default_decorator if active_pdk else None
         name = name or name_signature
         decorator = kwargs.pop("decorator", default_decorator)
         name = get_name_short(name, max_name_length=max_name_length)
@@ -182,7 +200,7 @@ def cell_without_validator(func) -> Callable[CellSettings, Component]:
                 "make sure that functions with @cell decorator return a Component",
             )
 
-        if metadata_child and component.get_child_name:
+        if metadata_child and component._get_child_name:
             component_name = f"{metadata_child.get('name')}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length
@@ -201,14 +219,15 @@ def cell_without_validator(func) -> Callable[CellSettings, Component]:
         if not hasattr(component, "imported_gds"):
             component.settings = Settings(
                 name=component_name,
-                module=func.__module__,
                 function_name=func.__name__,
+                module=func.__module__,
                 changed=clean_dict(changed),
                 default=clean_dict(default),
                 full=clean_dict(full),
                 info=component.info,
                 child=metadata_child,
             )
+            component.__doc__ = func.__doc__
 
         if decorator:
             if not callable(decorator):
@@ -228,7 +247,7 @@ def cell_without_validator(func) -> Callable[CellSettings, Component]:
     return _cell
 
 
-def cell(func: Callable[CellSettings, Component]) -> Callable[CellSettings, Component]:
+def cell(func: _F) -> _F:
     """Decorator for Component functions.
 
     Wraps cell_without_validator
@@ -288,6 +307,53 @@ def cell(func: Callable[CellSettings, Component]) -> Callable[CellSettings, Comp
 
     """
     return cell_without_validator(validate_call(func))
+
+
+def declarative_cell(cls: Type[Any]) -> Callable[..., Component]:
+    """
+    TODO:
+
+    - add placements
+    - add routes
+
+    """
+    cls = dataclass(cls)
+
+    @wraps(cls)
+    def cell(*args, **kwargs):
+        decl = cls(*args, **kwargs)
+
+        sig = inspect.signature(cls)
+        args_as_kwargs = dict(zip(sig.parameters.keys(), args))
+        args_as_kwargs.update(kwargs)
+
+        args_list = [
+            f"{key}={clean_value_name(args_as_kwargs[key])}"
+            for key in sorted(args_as_kwargs.keys())
+        ]
+        named_args_string = "_".join(args_list)
+        component_name = clean_name(f"{cls.__name__}_{named_args_string}")
+        if component_name in CACHE:
+            return CACHE[component_name]
+
+        decl.instances()
+        comp = Component()
+        comp.name = component_name
+
+        for k, c in vars(decl).items():
+            if not isinstance(c, Component):
+                continue
+            ref = comp << c
+            setattr(comp, k, ref)
+            setattr(decl, k, ref)
+        for p1, p2 in decl.connections():
+            p1.reference.connect(p1.name, p2.reference.ports[p2.name])
+        for name, p in decl.ports().items():
+            comp.add_port(name, port=p.reference.ports[p.name])
+        CACHE[component_name] = comp
+        return comp
+
+    return cell
 
 
 @cell
@@ -370,9 +436,34 @@ def straight_with_pins(**kwargs) -> Component:
     return c
 
 
+def test_hashes() -> None:
+    import gdsfactory as gf
+
+    c = gf.components.mzi()
+    names1 = {i.name for i in c.get_dependencies()}
+    gf.clear_cache()
+    c = gf.components.mzi()
+    names2 = {i.name for i in c.get_dependencies()}
+    assert names1 == names2
+
+
 if __name__ == "__main__":
-    test_names()
-    c = wg()
+    import gdsfactory as gf
+
+    c = gf.c.mzi()
+    print(c.name)
+
+    # c = gf.components.mzi()
+    # names1 = set([i.name for i in c.get_dependencies()])
+    # gf.clear_cache()
+    # c = gf.components.mzi()
+    # names2 = set([i.name for i in c.get_dependencies()])
+    # assert names1 == names2
+
+    # test_hashes()
+
+    # test_names()
+    # c = wg()
     # test_import_gds_settings()
 
     # import gdsfactory as gf

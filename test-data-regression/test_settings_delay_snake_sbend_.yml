@@ -1,0 +1,56 @@
+name: delay_snake_sbend
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -100.0
+    - -15.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend: bend_euler
+    cross_section: strip
+    length: 100.0
+    length1: 0.0
+    length4: 0.0
+    radius: 5.0
+    sbend: bend_s
+    sbend_xsize: 100.0
+    waveguide_spacing: 5.0
+  full:
+    bend: bend_euler
+    cross_section: strip
+    length: 100.0
+    length1: 0.0
+    length4: 0.0
+    radius: 5.0
+    sbend: bend_s
+    sbend_xsize: 100.0
+    waveguide_spacing: 5.0
+  function_name: delay_snake_sbend
+  info:
+    bend180_radius: 5.0
+    min_bend_radius: 364.774
+  info_version: 2
+  module: gdsfactory.components.delay_snake_sbend
+  name: delay_snake_sbend

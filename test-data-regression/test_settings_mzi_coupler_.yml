@@ -1,0 +1,116 @@
+name: mzi_1fc24805
+ports:
+  o1:
+    center:
+    - -10.0
+    - -1.632
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -10.0
+    - 2.368
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 110.12
+    - 2.368
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 110.12
+    - -1.632
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed:
+    combiner:
+      function: coupler
+    port_e0_combiner: o4
+    port_e0_splitter: o4
+    port_e1_combiner: o3
+    port_e1_splitter: o3
+    splitter:
+      function: coupler
+  child: null
+  default:
+    add_optical_ports_arms: false
+    bend:
+      function: bend_euler
+    combiner: null
+    cross_section: strip
+    cross_section_x_bot: null
+    cross_section_x_top: null
+    delta_length: 10.0
+    length_x: 0.1
+    length_y: 2.0
+    mirror_bot: false
+    nbends: 2
+    port_e0_combiner: o3
+    port_e0_splitter: o3
+    port_e1_combiner: o2
+    port_e1_splitter: o2
+    splitter: mmi1x2
+    straight:
+      function: straight
+    straight_x_bot: null
+    straight_x_top: null
+    straight_y: null
+    with_splitter: true
+  full:
+    add_optical_ports_arms: false
+    bend:
+      function: bend_euler
+    combiner:
+      function: coupler
+    cross_section: strip
+    cross_section_x_bot: null
+    cross_section_x_top: null
+    delta_length: 10.0
+    length_x: 0.1
+    length_y: 2.0
+    mirror_bot: false
+    nbends: 2
+    port_e0_combiner: o4
+    port_e0_splitter: o4
+    port_e1_combiner: o3
+    port_e1_splitter: o3
+    splitter:
+      function: coupler
+    straight:
+      function: straight
+    straight_x_bot: null
+    straight_x_top: null
+    straight_y: null
+    with_splitter: true
+  function_name: mzi
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mzi
+  name: mzi_1fc24805

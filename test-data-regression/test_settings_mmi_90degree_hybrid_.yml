@@ -1,0 +1,108 @@
+name: mmi_90degree_hybrid
+ports:
+  I_out1:
+    center:
+    - 215.0
+    - 3.75
+    layer:
+    - 1
+    - 0
+    name: I_out1
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  I_out2:
+    center:
+    - 215.0
+    - -3.75
+    layer:
+    - 1
+    - 0
+    name: I_out2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  LO_in:
+    center:
+    - -40.0
+    - -1.25
+    layer:
+    - 1
+    - 0
+    name: LO_in
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  Q_out1:
+    center:
+    - 215.0
+    - 1.25
+    layer:
+    - 1
+    - 0
+    name: Q_out1
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  Q_out2:
+    center:
+    - 215.0
+    - -1.25
+    layer:
+    - 1
+    - 0
+    name: Q_out2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  signal_in:
+    center:
+    - -40.0
+    - 3.75
+    layer:
+    - 1
+    - 0
+    name: signal_in
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section: strip
+    gap_mmi: 0.8
+    length_mmi: 175.0
+    length_taper: 40.0
+    straight:
+      function: straight
+    taper:
+      function: taper
+    width: 0.5
+    width_mmi: 10.0
+    width_taper: 1.7
+    with_bbox: true
+  full:
+    cross_section: strip
+    gap_mmi: 0.8
+    length_mmi: 175.0
+    length_taper: 40.0
+    straight:
+      function: straight
+    taper:
+      function: taper
+    width: 0.5
+    width_mmi: 10.0
+    width_taper: 1.7
+    with_bbox: true
+  function_name: mmi_90degree_hybrid
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mmi_90degree_hybrid
+  name: mmi_90degree_hybrid

@@ -1,0 +1,102 @@
+name: edge_coupler_array
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 0.0
+    - 127.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 0.0
+    - 254.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 0.0
+    - 381.0
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o5:
+    center:
+    - 0.0
+    - 508.0
+    layer:
+    - 1
+    - 0
+    name: o5
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    edge_coupler:
+      function: taper
+      settings:
+        length: 100
+        width2: 0.2
+        with_two_ports: false
+    n: 5
+    pitch: 127.0
+    text:
+      function: text_rectangular
+    text_offset:
+    - 10
+    - 20
+    text_rotation: 0
+    x_reflection: false
+  full:
+    edge_coupler:
+      function: taper
+      settings:
+        length: 100
+        width2: 0.2
+        with_two_ports: false
+    n: 5
+    pitch: 127.0
+    text:
+      function: text_rectangular
+    text_offset:
+    - 10
+    - 20
+    text_rotation: 0
+    x_reflection: false
+  function_name: edge_coupler_array
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.edge_coupler_array
+  name: edge_coupler_array

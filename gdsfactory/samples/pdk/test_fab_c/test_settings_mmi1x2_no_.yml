@@ -1,4 +1,4 @@
-name: mmi1x2_77b0da92
+name: mmi1x2_6b2171cd
 ports:
   o1:
     center:
@@ -8,7 +8,7 @@ ports:
     - 34
     - 0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     shear_angle: null
     width: 0.9
@@ -41,6 +41,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
         bbox_layers:
@@ -51,6 +52,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 0.9
     width: 0.9
   child: null
@@ -69,6 +71,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox: null
         add_pins:
           function: add_pins
         bbox_layers:
@@ -79,6 +82,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 0.9
     gap_mmi: 0.25
     length_mmi: 5.5
@@ -93,4 +97,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_77b0da92
+  name: mmi1x2_6b2171cd

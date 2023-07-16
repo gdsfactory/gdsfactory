@@ -1,0 +1,92 @@
+name: grating_coupler_dual_pol
+ports:
+  o1:
+    center:
+    - -155.5
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -0.0
+    - -155.5
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 270.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  vertical_dual:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: vertical_dual
+    orientation: 0
+    port_type: vertical_dual
+    shear_angle: null
+    width: 11
+settings:
+  changed: {}
+  child: null
+  default:
+    base_layer: WG
+    cross_section: strip
+    length_taper: 150.0
+    period_x: 0.58
+    period_y: 0.58
+    polarization: dual
+    taper:
+      function: taper
+    unit_cell:
+      function: rectangle
+      settings:
+        centered: true
+        layer: SLAB150
+        port_type: null
+        size:
+        - 0.3
+        - 0.3
+    wavelength: 1.55
+    width_taper: 10.0
+    x_span: 11
+    y_span: 11
+  full:
+    base_layer: WG
+    cross_section: strip
+    length_taper: 150.0
+    period_x: 0.58
+    period_y: 0.58
+    polarization: dual
+    taper:
+      function: taper
+    unit_cell:
+      function: rectangle
+      settings:
+        centered: true
+        layer: SLAB150
+        port_type: null
+        size:
+        - 0.3
+        - 0.3
+    wavelength: 1.55
+    width_taper: 10.0
+    x_span: 11
+    y_span: 11
+  function_name: grating_coupler_dual_pol
+  info:
+    polarization: dual
+    wavelength: 1.55
+  info_version: 2
+  module: gdsfactory.components.grating_coupler_dual_pol
+  name: grating_coupler_dual_pol

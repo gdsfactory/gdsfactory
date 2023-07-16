@@ -1,8 +1,11 @@
-from typing import Dict
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Dict
 
 from pydantic import BaseModel
 
-from gdsfactory.materials import MaterialSpec
+if TYPE_CHECKING:
+    from gdsfactory.typings import MaterialSpec
 from gdsfactory.materials import (
     material_name_to_lumerical as material_name_to_lumerical_default,
 )

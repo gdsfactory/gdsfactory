@@ -1,11 +1,12 @@
 """Register materials."""
 from __future__ import annotations
 
-from typing import Callable, Dict, Tuple, Union
+from typing import Dict, TYPE_CHECKING
 
 import numpy as np
 
-MaterialSpec = Union[str, float, Tuple[float, float], Callable]
+if TYPE_CHECKING:
+    from gdsfactory.typings import MaterialSpec
 
 material_name_to_meep: Dict[str, MaterialSpec] = {
     "si": "Si",

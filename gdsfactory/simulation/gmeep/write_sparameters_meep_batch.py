@@ -6,6 +6,7 @@ import multiprocessing
 import pathlib
 import shutil
 import time
+from functools import partial
 from pathlib import Path
 from pprint import pprint
 from typing import Dict, List, Optional
@@ -192,11 +193,11 @@ def write_sparameters_meep_batch(
     return filepaths
 
 
-write_sparameters_meep_batch_1x1 = gf.partial(
+write_sparameters_meep_batch_1x1 = partial(
     write_sparameters_meep_batch, port_symmetries=port_symmetries.port_symmetries_1x1
 )
 
-write_sparameters_meep_batch_1x1_bend90 = gf.partial(
+write_sparameters_meep_batch_1x1_bend90 = partial(
     write_sparameters_meep_batch,
     port_symmetries=port_symmetries.port_symmetries_1x1,
     ymargin=0,

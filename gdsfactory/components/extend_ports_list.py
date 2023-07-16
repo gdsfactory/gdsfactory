@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     # c = gf.Component("mmi_extended")
     # m = gf.components.mmi1x2()
-    # t = gf.partial(gf.components.taper, width2=0.1)
+    # t = partial(gf.components.taper, width2=0.1)
     # e = extend_ports_list(
     #     ports=m.get_ports_list(), extension=t, extension_port_name="o1"
     # )

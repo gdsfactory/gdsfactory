@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.components.pad import pad as pad_function
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
 
-rectangle_m3 = gf.partial(rectangle, layer="M3")
+rectangle_m3 = partial(rectangle, layer="M3")
 
 
 @gf.cell
@@ -60,7 +62,7 @@ def pad_gsg_short(
     return c
 
 
-pad_gsg_open = gf.partial(pad_gsg_short, short=False)
+pad_gsg_open = partial(pad_gsg_short, short=False)
 
 
 if __name__ == "__main__":

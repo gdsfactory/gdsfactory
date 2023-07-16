@@ -1,0 +1,46 @@
+name: ring_single_array
+ports:
+  o1:
+    center:
+    - -18.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 59.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section: strip
+    list_of_dicts: null
+    ring:
+      function: ring_single
+    spacing: 5.0
+  full:
+    cross_section: strip
+    list_of_dicts: null
+    ring:
+      function: ring_single
+    spacing: 5.0
+  function_name: ring_single_array
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.ring_single_array
+  name: ring_single_array

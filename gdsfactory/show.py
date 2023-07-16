@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import pathlib
-from typing import Union, Optional
+from typing import Optional, Union
 
 from gdsfactory import klive
 from gdsfactory.component import Component

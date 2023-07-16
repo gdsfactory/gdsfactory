@@ -1,5 +1,6 @@
 """Greek cross test structure."""
 from itertools import product
+from typing import Optional
 
 import numpy as np
 
@@ -7,11 +8,9 @@ import gdsfactory as gf
 from gdsfactory.components.cross import cross
 from gdsfactory.components.pad import pad
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.via_stack import via_stack
-from gdsfactory.typings import LayerSpecs, ComponentSpec, Floats, CrossSectionSpec
-from gdsfactory.components.via_stack import via_stack_npp_m1, via_stack_m1_m3
+from gdsfactory.components.via_stack import via_stack, via_stack_m1_m3, via_stack_npp_m1
 from gdsfactory.cross_section import metal1
-from typing import Optional
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpecs
 
 
 @gf.cell
@@ -27,13 +26,14 @@ def greek_cross(
 ) -> gf.Component:
     """Simple greek cross with via stacks at the endpoints.
 
-    A greek cross is a process control monitor for dopant sheet resistivity and linewidth variation.
+    Process control monitor for dopant sheet resistivity and linewidth variation.
 
     Args:
-        length: length of cross arms
-        layers: list of layers
-        widths: list of widths (same order as layers)
-        offsets: how much to extend each layer beyond the cross of length "length" (negative shorter, positive longer)
+        length: length of cross arms.
+        layers: list of layers.
+        widths: list of widths (same order as layers).
+        offsets: how much to extend each layer beyond the cross length
+            negative shorter, positive longer.
         via: via component to attach to the cross.
 
     .. code::
@@ -49,6 +49,7 @@ def greek_cross(
 
 
     References:
+
     - Walton, Anthony J.. “MICROELECTRONIC TEST STRUCTURES.” (1999).
     - W. Versnel, Analysis of the Greek cross, a Van der Pauw structure with finite
         contacts, Solid-State Electronics, Volume 22, Issue 11, 1979, Pages 911-914,
@@ -58,6 +59,7 @@ def greek_cross(
         Semiconductor Manufacturing, vol. 19, no. 1, pp. 2-9, Feb. 2006,
         doi: 10.1109/TSM.2005.863248.
     - https://download.tek.com/document/S530_VanDerPauwSheetRstnce.pdf
+
     """
     c = gf.Component()
 
