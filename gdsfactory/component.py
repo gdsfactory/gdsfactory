@@ -13,7 +13,7 @@ import pathlib
 import warnings
 from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple, Union, TYPE_CHECKING
 
 import gdstk
 import kfactory as kf
@@ -54,6 +54,9 @@ Axis = Literal["x", "y"]
 
 Number = Union[float, int]
 Coordinate = Union[Tuple[Number, Number], np.ndarray, List[Number]]
+
+if TYPE_CHECKING:
+    from gdsfactory.typings import Route
 
 
 class SizeInfo:
@@ -442,7 +445,6 @@ class Component(kf.KCell):
             # parent = cell.references[0].cell()
             # self.
             assert self.layout() == cell.references[0].cell.layout()
-            breakpoint()
             for inst in cell.references:
                 ca = self._kdb_cell.insert(inst.cell_inst)
                 inst = Instance(self.kcl, ca)

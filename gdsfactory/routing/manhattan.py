@@ -632,7 +632,6 @@ def round_corners(
         layer = x.layer
 
     layer = get_layer(layer)
-    print(points)
     points = (
         gf.snap.snap_to_grid(points, nm=snap_to_grid_nm) if snap_to_grid_nm else points
     )
@@ -1109,18 +1108,13 @@ def route_manhattan(
 
 
 if __name__ == "__main__":
-    c = gf.Component("pads_route_from_steps")
-    pt = c << gf.components.pad_array(orientation=270, columns=3)
-    pb = c << gf.components.pad_array(orientation=90, columns=3)
-    pt.move((100, 200))
-    route = gf.routing.get_route_from_steps(
-        pt.ports["e11"],
-        pb.ports["e11"],
-        steps=[
-            {"y": 100},
-        ],
-        cross_section="metal_routing",
-        bend=gf.components.wire_corner,
+    c = gf.Component()
+    sl = c << gf.components.straight()
+    sr = c << gf.components.straight()
+    sr.move((50, 50))
+    route = gf.routing.get_route(
+        sl.ports["o2"],
+        sr.ports["o1"],
     )
-    c.add(route.references)
+    c << route
     c.show(show_ports=True)
