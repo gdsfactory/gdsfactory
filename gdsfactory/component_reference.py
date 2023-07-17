@@ -21,9 +21,14 @@ from gdsfactory.port import (
     map_ports_to_orientation_cw,
     select_ports,
 )
+from pydantic import BaseModel, ConfigDict
 
 if typing.TYPE_CHECKING:
-    from gdsfactory.component import Component, Coordinate, Coordinates
+    from gdsfactory.component import Component
+
+
+Coordinate = Tuple[float, float]
+Coordinates = Tuple[Coordinate, ...]
 
 
 class SizeInfo:
@@ -117,7 +122,7 @@ def _rotate_points(
     return displacement * ca + perpendicular * sa + c0
 
 
-class ComponentReference(_GeometryHelper):
+class ComponentReference(BaseModel, _GeometryHelper):
     """Pointer to a Component with x, y, rotation, mirror.
 
     Args:
@@ -139,6 +144,8 @@ class ComponentReference(_GeometryHelper):
 
     """
 
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="allow")
+
     def __init__(
         self,
         component: Component,
@@ -155,6 +162,7 @@ class ComponentReference(_GeometryHelper):
         v2: Optional[Tuple[float, float]] = None,
     ) -> None:
         """Initialize the ComponentReference object."""
+        super().__init__()
         self._reference = gdstk.Reference(
             cell=component._cell,
             origin=origin,
@@ -432,6 +440,9 @@ class ComponentReference(_GeometryHelper):
                 self.owner._named_references[value] = self
             self._name = value
 
+    def __str__(self) -> str:
+        return self.__repr__()
+
     def __repr__(self) -> str:
         """Return a string representation of the object."""
         return (
@@ -466,19 +477,6 @@ class ComponentReference(_GeometryHelper):
         if bbox is None:
             bbox = ((0, 0), (0, 0))
         return np.array(bbox)
-
-    @classmethod
-    def __get_validators__(cls):
-        """Get validators."""
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        """Check with pydantic ComponentReference valid type."""
-        assert isinstance(
-            v, ComponentReference
-        ), f"TypeError, Got {type(v)}, expecting ComponentReference"
-        return v
 
     def __getitem__(self, key):
         """Access reference ports."""
@@ -924,30 +922,30 @@ def test_pads_no_orientation() -> None:
 
 
 if __name__ == "__main__":
-    # test_get_polygons_ref()
-    # test_get_polygons()
     import gdsfactory as gf
 
-    c = gf.Component("parent")
-    ref = c << gf.components.straight()
-    c.add_ports(ref.ports)
-    ref.movex(5)
-    # assert c.ports['o1'].center[0] == 5, print(c.ports['o1'])
-    print(c.ports["o1"].center)
-    c.show(show_ports=True)
+    # test_get_polygons_ref()
+    # test_get_polygons()
+
+    # c = gf.Component("parent")
+    # ref = c << gf.components.straight()
+    # c.add_ports(ref.ports)
+    # ref.movex(5)
+    # # assert c.ports['o1'].center[0] == 5, print(c.ports['o1'])
+    # print(c.ports["o1"].center)
+    # c.show(show_ports=True)
 
     # p = ref.get_polygons(by_spec=(1, 0), as_array=False)
 
-    # c = gf.Component("parent")
-    # c2 = gf.Component("child")
-    # length = 10
-    # width = 0.5
-    # layer = (1, 0)
-    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-    # c << c2
-
+    c = gf.Component("parent")
+    c2 = gf.Component("child")
+    length = 10
+    width = 0.5
+    layer = (1, 0)
+    c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    c << c2
     # c = gf.c.dbr()
-    # c.show()
+    c.show()
 
     # import gdsfactory as gf
 

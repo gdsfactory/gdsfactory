@@ -35,9 +35,10 @@ import typing
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 import numpy as np
-import pydantic
 from numpy import ndarray
+
 from omegaconf import OmegaConf
 from gdsfactory.component_layout import _rotate_points
 from gdsfactory.cross_section import CrossSection
@@ -66,7 +67,7 @@ class PortOrientationError(ValueError):
     pass
 
 
-class Port(pydantic.BaseModel):
+class Port(BaseModel):
     """Ports are useful to connect Components with each other.
 
     Args:
@@ -82,55 +83,27 @@ class Port(pydantic.BaseModel):
         shear_angle: an optional angle to shear port face in degrees.
     """
 
-    def __init__(
-        self,
-        name: str,
-        orientation: Optional[float],
-        center: Tuple[float, float],
-        width: Optional[float] = None,
-        layer: Optional[Tuple[int, int]] = None,
-        port_type: str = "optical",
-        parent: Optional[Component] = None,
-        cross_section: Optional[CrossSection] = None,
-        shear_angle: Optional[float] = None,
-    ) -> None:
-        """Initializes Port object."""
-        self.name = name
-        self.center = np.array(center, dtype="float64")
-        self.orientation = np.mod(orientation, 360) if orientation else orientation
-        self.parent = parent
-        self.info: Dict[str, Any] = {}
-        self.port_type = port_type
-        self.cross_section = cross_section
-        self.shear_angle = shear_angle
+    name: str
+    center: Tuple[float, float]
+    width: Optional[float] = None
+    orientation: Optional[float] = None
+    layer: Optional[Tuple[int, int]] = None
+    port_type: str = "optical"
+    parent: Optional["Component"] = None  # Use forward reference for Component
+    cross_section: Optional[
+        "CrossSection"
+    ] | None = None  # Use forward reference for CrossSection
+    shear_angle: Optional[float] = None
+    info: Dict[str, Any] = Field(default_factory=dict)
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="allow")
 
-        if cross_section is None and layer is None:
-            raise ValueError("You need Port to define cross_section or layer")
+    @field_validator("center")
+    def set_center(cls, v):
+        return np.array(v, dtype="float64")
 
-        if cross_section is None and width is None:
-            raise ValueError("You need Port to define cross_section or width")
-
-        if cross_section and isinstance(cross_section, str):
-            from gdsfactory.pdk import get_cross_section
-
-            cross_section = get_cross_section(cross_section)
-
-        if cross_section and not isinstance(cross_section, CrossSection):
-            raise ValueError(
-                f"cross_section = {cross_section} is not a valid CrossSection."
-            )
-
-        if layer is None:
-            layer = cross_section.layer
-
-        if width is None:
-            width = cross_section.width
-
-        self.layer = layer
-        self.width = width
-
-        if self.width < 0:
-            raise ValueError(f"Port width must be >=0. Got {self.width}")
+    @field_validator("orientation")
+    def set_orientation(cls, v):
+        return np.mod(v, 360) if v else v
 
     def to_dict(self) -> Dict[str, Any]:
         x, y = np.round(self.center, 3)
@@ -270,26 +243,26 @@ class Port(pydantic.BaseModel):
         self.center = _rotate_points(self.center, angle=angle, center=center)
         return self
 
-    def copy(self, name: Optional[str] = None) -> Port:
-        """Returns a copy of the port.
+    # def copy(self, name: Optional[str] = None) -> Port:
+    #     """Returns a copy of the port.
 
-        Args:
-            name: optional new name.
+    #     Args:
+    #         name: optional new name.
 
-        """
-        new_port = Port(
-            name=name or self.name,
-            center=self.center,
-            width=self.width,
-            orientation=self.orientation,
-            parent=self.parent,
-            layer=self.layer,
-            port_type=self.port_type,
-            cross_section=self.cross_section,
-            shear_angle=self.shear_angle,
-        )
-        new_port.info = self.info
-        return new_port
+    #     """
+    #     new_port = Port(
+    #         name=name or self.name,
+    #         center=self.center,
+    #         width=self.width,
+    #         orientation=self.orientation,
+    #         parent=self.parent,
+    #         layer=self.layer,
+    #         port_type=self.port_type,
+    #         cross_section=self.cross_section,
+    #         shear_angle=self.shear_angle,
+    #     )
+    #     new_port.info = self.info
+    #     return new_port
 
     def get_extended_center(self, length: float = 1.0) -> ndarray:
         """Returns an extended port center."""
@@ -342,9 +315,6 @@ class Port(pydantic.BaseModel):
                 f"{component_name!r} port {self.name!r} has invalid orientation"
                 f" {self.orientation}"
             )
-
-    class Config:
-        arbitrary_types_allowed = True
 
 
 PortsMap = Dict[str, List[Port]]
@@ -1019,9 +989,10 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
+    # p = Port(name="o1", center=(0, 0), width=0.5, orientation=0, layer=(1,0))
     import gdsfactory as gf
 
     c = gf.c.straight()
-    p2 = c["o2"]
-    p2.x = 20
+    # p2 = c["o2"]
+    # p2.x = 20
     c.show()

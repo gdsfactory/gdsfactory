@@ -12,10 +12,10 @@ import hashlib
 import warnings
 from collections.abc import Iterable
 from typing import Callable, Optional, Union
+from pydantic import BaseModel, Field, model_validator
 
 import math
 import numpy as np
-import pydantic
 from numpy import mod, pi
 
 from gdsfactory import snap
@@ -35,6 +35,7 @@ from gdsfactory.typings import (
     Float2,
     LayerSpec,
     WidthTypes,
+    Number,
 )
 
 
@@ -46,7 +47,7 @@ def _simplify(points, tolerance):
     return np.asarray(ls_simple.coords)
 
 
-class Path(_GeometryHelper):
+class Path(BaseModel, _GeometryHelper):
     """Path object for smooth Paths. You can extrude a Path with a CrossSection \
             to create a Component.
 
@@ -56,68 +57,25 @@ class Path(_GeometryHelper):
 
     """
 
-    @pydantic.computed_field
-    def points(self) -> np.ndarray:
-        return self._points
+    points: np.ndarray = Field(
+        default_factory=lambda: np.array([[0, 0]], dtype=np.float64)
+    )
+    start_angle: Number = Field(0)
+    end_angle: Number = Field(0)
+    info: dict = Field(default_factory=dict)
 
-    @points.setter
-    def points(self, points: np.ndarray) -> None:
-        self._points = points
+    @model_validator(mode="before")
+    def calculate_angles(cls, values):
+        points = np.array(values.get("points", [[0, 0]]), dtype=np.float64)
+        if points.shape[0] > 1:
+            nx1, ny1 = points[1] - points[0]
+            values["start_angle"] = np.arctan2(ny1, nx1) / np.pi * 180
+            nx2, ny2 = points[-1] - points[-2]
+            values["end_angle"] = np.arctan2(ny2, nx2) / np.pi * 180
+        return values
 
-    @pydantic.computed_field
-    def start_angle(self) -> float:
-        return 0
-
-    @start_angle.setter
-    def start_angle(self, start_angle: float) -> None:
-        self._start_angle = start_angle
-
-    @pydantic.computed_field
-    def end_angle(self) -> float:
-        return 0
-
-    @end_angle.setter
-    def end_angle(self, end_angle: float) -> None:
-        self._end_angle = end_angle
-
-    @pydantic.computed_field
-    def info(self) -> dict:
-        return {}
-
-    @info.setter
-    def info(self, info: dict) -> None:
-        self._info = info
-
-    def __init__(self, path=None) -> None:
-        """Creates an empty path."""
-        self._points = np.array([[0, 0]], dtype=np.float64)
-        self._start_angle = 0
-        self._end_angle = 0
-        self._info = {}
-        if path is not None:
-            # If array[N][2]
-            if (
-                (np.asarray(path, dtype=object).ndim == 2)
-                and np.issubdtype(np.array(path).dtype, np.number)
-                and (np.shape(path)[1] == 2)
-            ):
-                self.points = np.array(path, dtype=np.float64)
-                nx1, ny1 = self.points[1] - self.points[0]
-                self.start_angle = np.arctan2(ny1, nx1) / np.pi * 180
-                nx2, ny2 = self.points[-1] - self.points[-2]
-                self.end_angle = np.arctan2(ny2, nx2) / np.pi * 180
-            elif isinstance(path, Path):
-                self.points = np.array(path.points, dtype=np.float64)
-                self.start_angle = path.start_angle
-                self.end_angle = path.end_angle
-                self.info = {}
-            elif np.asarray(path, dtype=object).size > 1:
-                self.append(path)
-            else:
-                raise ValueError(
-                    "Path() the `path` argument must be either blank, a path Object, "
-                    "an array-like[N][2] list of points, or a list of these"
-                )
+    class Config:
+        arbitrary_types_allowed = True
 
     def __repr__(self) -> str:
         """Returns path points."""
@@ -1309,7 +1267,7 @@ def euler(
     return P
 
 
-def straight(length: float = 10.0, npoints: int = 2) -> Path:
+def straight(length: Number = 10.0, npoints: int = 2) -> Path:
     """Returns a straight path.
 
     For transitions you should increase have at least 100 points
@@ -1542,8 +1500,6 @@ def _demo_variable_offset() -> None:
 if __name__ == "__main__":
     import numpy as np
 
-    import gdsfactory as gf
-
     # nm = 1e-3
     # points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
     # p = smooth(points=points)
@@ -1552,32 +1508,32 @@ if __name__ == "__main__":
     p = straight()
     # p.plot()
 
-    # c = p.extrude(layer=(1, 0), width=0.1)
-    s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
-    s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-    X1 = gf.CrossSection(
-        width=1.2,
-        offset=0,
-        layer=(2, 0),
-        name="wg",
-        port_names=("in1", "out1"),
-        sections=[s1, s2],
-    )
+    c = p.extrude(layer=(1, 0), width=0.1)
+    # s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
+    # s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
+    # X1 = gf.CrossSection(
+    #     width=1.2,
+    #     offset=0,
+    #     layer=(2, 0),
+    #     name="wg",
+    #     port_names=("in1", "out1"),
+    #     sections=[s1, s2],
+    # )
 
-    # Create the second CrossSection that we want to transition to
-    s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
-    s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-    X2 = gf.CrossSection(
-        width=1,
-        offset=0,
-        layer=(2, 0),
-        name="wg",
-        port_names=("in1", "out1"),
-        sections=[s1, s2],
-    )
+    # # Create the second CrossSection that we want to transition to
+    # s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
+    # s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
+    # X2 = gf.CrossSection(
+    #     width=1,
+    #     offset=0,
+    #     layer=(2, 0),
+    #     name="wg",
+    #     port_names=("in1", "out1"),
+    #     sections=[s1, s2],
+    # )
 
-    Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
-    c = p.extrude(cross_section=Xtrans)
+    # Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
+    # c = p.extrude(cross_section=Xtrans)
     # c = gf.components.splitter_tree(
     #     noutputs=2**2,
     #     spacing=(120.0, 50.0),

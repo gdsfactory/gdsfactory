@@ -19,16 +19,16 @@ import warnings
 from pathlib import Path
 from pprint import pprint
 from typing_extensions import Literal
-from typing import Any, Optional, Union, ClassVar, TYPE_CHECKING, List
+from typing import Any, Optional, Union, TYPE_CHECKING, List
 
 import loguru
 from loguru import logger as logger
-from pydantic import BaseModel, BaseSettings, Field
+from pydantic import BaseModel
 from rich.console import Console
 from rich.table import Table
 
 if TYPE_CHECKING:
-    from loguru import Logger
+    pass
 
 __version__ = "6.114.0"
 PathType = Union[str, pathlib.Path]
@@ -188,30 +188,21 @@ class LogFilter(BaseModel):
             )
 
 
-class Settings(BaseSettings):
+class Settings(BaseModel):
     """GDSFACTORY settings object."""
 
-    n_threads: int = get_number_of_cores()
-    logger: ClassVar[Logger] = logger
-    logfilter: LogFilter = Field(default_factory=LogFilter)
+    n_threads: int = 1
     display_type: Literal["widget", "klayout", "docs", "kweb"] = "kweb"
-    last_saved_files: List[PathType] = []
-
-    def __init__(self, **data: Any):
-        """Set log filter and run pydantic."""
-        super().__init__(**data)
-        self.logger.remove()
-        self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
-        self.logger.info("LogLevel: {}", self.logfilter.level)
+    last_saved_files: List[Union[str, Path]] = []
 
     class Config:
         """Pydantic settings."""
 
-        validation = True
-        arbitrary_types_allowed = True
-        fields = {"logger": {"exclude": True}}
+        validate_assignment = True
+        extra = "forbid"
         env_prefix = "gdsfactory_"
-        env_nested_delimiter = "_"
+        env_file = ".env"
+        env_file_encoding = "utf-8"
 
 
 def set_log_level(level: str, sink=sys.stderr) -> None:

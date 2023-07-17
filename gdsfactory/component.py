@@ -4,7 +4,6 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
-import pydantic
 import datetime
 import hashlib
 import itertools
@@ -52,6 +51,7 @@ from gdsfactory.serialization import clean_dict
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
 import importlib.util
+from pydantic import BaseModel, Field
 
 if TYPE_CHECKING:
     from gdsfactory.typings import (
@@ -136,7 +136,7 @@ def _rnd(arr, precision=1e-4):
     return np.ascontiguousarray(arr.round(ndigits) / precision, dtype=np.int64)
 
 
-class Component(_GeometryHelper):
+class Component(BaseModel, _GeometryHelper):
     """A Component is an empty canvas where you add polygons, references and ports \
             (to connect to other components).
 
@@ -167,55 +167,36 @@ class Component(_GeometryHelper):
             child: dict info from the children, if any.
     """
 
-    @pydantic.computed_field
-    @property
-    def uid(self) -> str:
-        return str(uuid.uuid4())[:8]
+    settings: dict = Field(default_factory=dict)
+    info: dict = Field(default_factory=dict)
+    ports: dict = Field(default_factory=dict)
+    uid: str = Field(default_factory=lambda: str(uuid.uuid4())[:8], exclude=True)
 
-    @pydantic.computed_field
-    def info(self) -> dict:
-        return {}
-
-    @pydantic.computed_field
-    def settings(self) -> dict:
-        return {}
-
-    @pydantic.computed_field
-    def get_child_name(self) -> bool:
-        return False
-
-    @pydantic.computed_field
-    def ports(self) -> dict:
-        return {}
-
-    # TODO different initializer
-    # @pydantic.computed_field
-    # def name(self) -> dict:
-    #     return f"_{self.uid}"
-
-    def __init__(
-        self,
-        name: str = "Unnamed",
-        with_uuid: bool = False,
-    ) -> None:
-        """Initialize the Component object."""
-        # self.uid = str(uuid.uuid4())[:8]
+    def __init__(self, name: str = "Unnamed", with_uuid: bool = False, **data) -> None:
+        super().__init__(**data)
+        self._references = []
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
-
-        self._cell = gdstk.Cell(name=name)
-        self.name = name
-        # self.info: Dict[str, Any] = {}
-
-        # self.settings: Dict[str, Any] = {}
         self._locked = False
+        self._cell = gdstk.Cell(name=name)
         self._get_child_name = False
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
         self._named_references = {}
         self._references = []
 
-        # self.ports = {}
+    def __hash__(self) -> str:
+        return hash(self.uid)
+
+    @property
+    def name(self) -> str:
+        return self._cell.name
+
+    @name.setter
+    def name(self, v: str):
+        if len(v) > MAX_NAME_LENGTH:
+            raise ValueError(f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} ")
+        self._cell.name = v
 
     @property
     def references(self):
@@ -236,14 +217,6 @@ class Component(_GeometryHelper):
     @property
     def paths(self):
         return self._cell.paths
-
-    @property
-    def name(self) -> str:
-        return self._cell.name
-
-    @name.setter
-    def name(self, value) -> None:
-        self._cell.name = value
 
     def __iter__(self):
         """You can iterate over polygons, paths, labels and references."""
@@ -395,11 +368,6 @@ class Component(_GeometryHelper):
                 f"Tried to assign alias {key!r} in Component {self.name!r},"
                 "but failed because the item was not a ComponentReference"
             )
-
-    @classmethod
-    def __get_validators__(cls):
-        """Get validators for the Component object."""
-        yield cls.validate
 
     @classmethod
     def validate(cls, v):
@@ -843,7 +811,7 @@ class Component(_GeometryHelper):
     def __repr__(self) -> str:
         """Return a string representation of the object."""
         return (
-            f"{self.name}: uid {self.uid}, "
+            f"{self.name}: "
             f"ports {list(self.ports.keys())}, "
             f"references {list(self.named_references.keys())}, "
             f"{len(self.polygons)} polygons"
@@ -1069,8 +1037,10 @@ class Component(_GeometryHelper):
         return component
 
     def add_polygon(
-        self, points, layer: str | int | tuple[int, int] | np.nan = np.nan
-    ) -> Polygon:
+        self,
+        points,
+        layer: str | int | tuple[int, int] | set[[int, int]] | np.nan = np.nan,
+    ) -> Polygon | None:
         """Adds a Polygon to the Component.
 
         Args:
@@ -1110,7 +1080,7 @@ class Component(_GeometryHelper):
         elif hasattr(points, "exterior"):  # points is a shapely Polygon
             layer, datatype = _parse_layer(layer)
             points_on_grid = np.round(points.exterior.coords, 3)
-            polygon = Polygon(points_on_grid, (layer, datatype))
+            polygon = Polygon(points=points_on_grid, layer=(layer, datatype))
 
             if points.interiors:
                 from shapely import get_coordinates
@@ -1143,7 +1113,7 @@ class Component(_GeometryHelper):
                 # Convert to form [[1,2],[3,4],[5,6]]
                 points = np.column_stack(points)
             layer, datatype = _parse_layer(layer)
-            polygon = Polygon(points, (layer, datatype))
+            polygon = Polygon(points=points, layer=(layer, datatype))
             self._add_polygons(polygon)
             return polygon
         elif points.ndim == 3:
@@ -1364,7 +1334,7 @@ class Component(_GeometryHelper):
         from gdsfactory.functions import transformed
 
         self.remove(ref)
-        new_component = transformed(ref, decorator=None)
+        new_component = transformed(ref)
         self.add_ref(new_component, alias=ref.name)
 
     def add_ref(
@@ -1395,7 +1365,7 @@ class Component(_GeometryHelper):
         """
         if not isinstance(component, Component):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
-        ref = ComponentReference(component, **kwargs)
+        ref = ComponentReference(component=component, **kwargs)
         self._add(ref)
         self._register_reference(reference=ref, alias=alias)
         return ref
@@ -1475,7 +1445,7 @@ class Component(_GeometryHelper):
         port_marker_layer: Layer = (1, 10),
         layer_label: Layer = (1, 10),
     ) -> Component:
-        """Returns component with triangular pins."""
+        """Returns component copy with triangular pins."""
         from gdsfactory.add_pins import add_pins_triangle
 
         component = self.copy()
@@ -2271,14 +2241,14 @@ class Component(_GeometryHelper):
         self.remove(reference)
         return self
 
-    def remove(self, items):
+    def remove(self, items) -> Component:
         """Removes items from a Component, which can include Ports, PolygonSets \
         CellReferences, ComponentReferences and Labels.
 
         Args:
             items: list of Items to be removed from the Component.
         """
-        if not hasattr(items, "__iter__"):
+        if not isinstance(items, (list, set)):
             items = [items]
         for item in items:
             if isinstance(item, Port):
@@ -2951,13 +2921,30 @@ def test_import_gds_settings() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.mzi()
-    c.pprint_ports()
+    c = gf.c.straight()
+    # c.pprint_ports()
 
-    # c = gf.Component()
+    # c = gf.Component("demo")
     # p = c.add_polygon(
     #     [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
     # )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
+
+    # c2 = c.copy()
+    # c2.name = "hi"
+    # print(c2.name)
+    # print(c2._cell.name)
     # c.write_gds("hi.gds")
-    # c.show()
+    # c.show(show_ports=True)
+    # print(c.polygons)
     # print(CONF.last_saved_files)
+
+    # c = gf.Component("parent")
+    # c2 = gf.Component("child")
+    # length = 10
+    # width = 0.5
+    # layer = (1, 0)
+    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    # ref = c << c2
+    # c.remove(ref)
+    # c = gf.c.dbr()
+    c.show()

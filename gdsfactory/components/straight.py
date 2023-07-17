@@ -69,7 +69,7 @@ if __name__ == "__main__":
 
     nm = 1e-3
     xs = gf.cross_section.strip()
-    c = straight()
+    c = straight(length=5)
     # print(c.settings)
     print(c.settings.info["settings"]["add_pins"])
 
@@ -87,6 +87,6 @@ if __name__ == "__main__":
     #     # bbox_offsets=[3],
     # )
     # c.assert_ports_on_grid()
-    c.show(show_ports=True)
+    c.show(show_ports=False)
     # c.plot()
     # c.pprint()

@@ -64,7 +64,7 @@ def clean_value_json(value: Any) -> Any:
 
     elif isinstance(value, np.ndarray):
         value = np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
-        return orjson.loads(orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY))
+        return value.tolist()
     elif callable(value) and isinstance(value, functools.partial):
         sig = inspect.signature(value.func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))

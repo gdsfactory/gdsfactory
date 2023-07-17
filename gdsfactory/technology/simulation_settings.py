@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Dict
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from gdsfactory.typings import MaterialSpec
+    pass
 from gdsfactory.materials import (
     material_name_to_lumerical as material_name_to_lumerical_default,
 )
@@ -45,9 +45,7 @@ class SimulationSettingsLumericalFdtd(BaseModel):
     frequency_dependent_profile: bool = True
     field_profile_samples: int = 15
     distance_monitors_to_pml: float = 0.5
-    material_name_to_lumerical: Dict[
-        str, MaterialSpec
-    ] = material_name_to_lumerical_default
+    material_name_to_lumerical: Dict[str, str] = material_name_to_lumerical_default
 
     class Config:
         """pydantic basemodel config."""
