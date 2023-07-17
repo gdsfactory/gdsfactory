@@ -51,7 +51,7 @@ from gdsfactory.serialization import clean_dict
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
 import importlib.util
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 if TYPE_CHECKING:
     from gdsfactory.typings import (
@@ -171,6 +171,8 @@ class Component(BaseModel, _GeometryHelper):
     info: dict = Field(default_factory=dict)
     ports: dict = Field(default_factory=dict)
     uid: str = Field(default_factory=lambda: str(uuid.uuid4())[:8], exclude=True)
+
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="allow")
 
     def __init__(self, name: str = "Unnamed", with_uuid: bool = False, **data) -> None:
         super().__init__(**data)
@@ -904,48 +906,31 @@ class Component(BaseModel, _GeometryHelper):
         """
         from gdsfactory.pdk import get_layer, get_cross_section
 
-        layer = get_layer(layer)
-
         if port:
             if not isinstance(port, Port):
                 raise ValueError(f"add_port() needs a Port, got {type(port)}")
-            p = port.copy()
-            if name is not None:
-                p.name = name
-            if center is not None:
-                p.center = center
-            if width is not None:
-                p.width = width
-            if orientation is not None:
-                p.orientation = orientation
-            if port_type is not None:
-                p.port_type = port_type
-            if layer is not None:
-                p.layer = layer
-            p.parent = self
+            p = port
+            name = name or p.name
+            center = center or p.center
+            width = width or p.width
+            orientation = orientation or p.orientation
+            port_type = port_type or p.port_type
+            layer = get_layer(layer) or p.layer
 
-        elif isinstance(name, Port):
-            p = name.copy()
-            p.parent = self
-            name = p.name
-        elif center is None:
-            raise ValueError("Port needs center parameter (x, y) um.")
+        p_args = {
+            "name": name,
+            "center": center,
+            "width": width,
+            "orientation": orientation,
+            "parent": self,
+            "layer": get_layer(layer),
+            "port_type": port_type or "optical",
+            "cross_section": get_cross_section(cross_section)
+            if cross_section
+            else None,
+        }
+        p = Port(**{k: v for k, v in p_args.items() if v is not None})
 
-        else:
-            p = Port(
-                name=name,
-                center=center,
-                width=width,
-                orientation=orientation,
-                parent=self,
-                layer=layer,
-                port_type=port_type or "optical",
-                cross_section=get_cross_section(cross_section)
-                if cross_section
-                else None,
-            )
-        if name is not None:
-            p.name = name
         if p.name in self.ports:
             raise ValueError(f"add_port() Port name {p.name!r} exists in {self.name!r}")
 
@@ -2920,8 +2905,16 @@ def test_import_gds_settings() -> None:
 
 if __name__ == "__main__":
     import gdsfactory as gf
+    from functools import partial
 
-    c = gf.c.straight()
+    add_gratings = gf.components.add_grating_couplers
+    spiral = partial(
+        gf.c.spiral_inner_io,
+        decorator=add_gratings,
+    )
+    c = spiral()
+
+    # c = gf.c.straight()
     # c.pprint_ports()
 
     # c = gf.Component("demo")

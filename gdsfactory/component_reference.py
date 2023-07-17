@@ -488,9 +488,8 @@ class ComponentReference(BaseModel, _GeometryHelper):
 
     @property
     def ports(self) -> Dict[str, Port]:
-        """This property allows you to access myref.ports, and receive a copy.
-
-        of the ports dict which is correctly rotated and translated.
+        """This property allows you to access myref.ports and get copy
+        of correctly rotated and translated ports.
         """
         for name, port in self.parent.ports.items():
             port = self.parent.ports[name]

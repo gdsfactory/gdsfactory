@@ -87,7 +87,7 @@ class Port(BaseModel):
     center: Tuple[float, float]
     width: Optional[float] = None
     orientation: Optional[float] = None
-    layer: Optional[Tuple[int, int]] = None
+    layer: Optional[LayerSpec] = None
     port_type: str = "optical"
     parent: Optional["Component"] = None  # Use forward reference for Component
     cross_section: Optional[
@@ -95,7 +95,13 @@ class Port(BaseModel):
     ] | None = None  # Use forward reference for CrossSection
     shear_angle: Optional[float] = None
     info: Dict[str, Any] = Field(default_factory=dict)
-    model_config = ConfigDict(arbitrary_types_allowed=True, extra="allow")
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="allow", frozen=False)
+
+    def __hash__(self) -> int:
+        return self.model_hash()
+
+    def __init__(self, name, **data) -> None:
+        super().__init__(name=name, **data)
 
     @field_validator("center")
     def set_center(cls, v):
@@ -317,7 +323,7 @@ class Port(BaseModel):
             )
 
 
-PortsMap = Dict[str, List[Port]]
+PortsMap = Dict[str, Port]
 
 
 def port_array(
@@ -990,9 +996,11 @@ __all__ = [
 
 if __name__ == "__main__":
     # p = Port(name="o1", center=(0, 0), width=0.5, orientation=0, layer=(1,0))
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
-    c = gf.c.straight()
+    # c = gf.c.straight()
     # p2 = c["o2"]
     # p2.x = 20
-    c.show()
+    # c.show()
+    p = Port(name="o1", center=[0, 0], width=0.5, orientation=0, layer=None)
+    print(p.model_dump_json())

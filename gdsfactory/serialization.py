@@ -5,15 +5,14 @@ import functools
 import hashlib
 import inspect
 import pathlib
-from functools import partial
 from typing import Any, Dict
 
 import gdstk
 import numpy as np
 import orjson
-import pydantic
 import toolz
 from omegaconf import DictConfig, OmegaConf
+from pydantic import BaseModel
 
 DEFAULT_SERIALIZATION_MAX_DIGITS = 3
 """By default, the maximum number of digits retained when serializing float-like arrays"""
@@ -46,9 +45,11 @@ def clean_value_json(value: Any) -> Any:
 
     active_pdk = get_active_pdk()
     include_module = active_pdk.cell_decorator_settings.include_module
+    if hasattr(value, "to_dict"):
+        return clean_dict(value.to_dict())
 
-    if isinstance(value, pydantic.BaseModel):
-        return clean_dict(value.dict())
+    elif isinstance(value, BaseModel):
+        return clean_dict(value.model_dump())
 
     elif hasattr(value, "get_component_spec"):
         return value.get_component_spec()
@@ -83,9 +84,6 @@ def clean_value_json(value: Any) -> Any:
             v.update(module=func.__module__)
         return v
 
-    elif hasattr(value, "to_dict"):
-        # print(type(value))
-        return clean_dict(value.to_dict())
     elif callable(value) and isinstance(value, toolz.functoolz.Compose):
         value = [clean_value_json(value.first)] + [
             clean_value_json(func) for func in value.funcs
@@ -154,8 +152,12 @@ if __name__ == "__main__":
     # d = clean_value_json(c)
     # print(d, d)
 
-    f = partial(gf.cross_section.strip, width=3)
-    c = f()
+    # f = partial(gf.cross_section.strip, width=3)
+    # c = f()
+    # d = clean_value_json(c)
+    # print(get_hash(d))
+    # print(d, d)
+    c = gf.c.straight()
+    c = gf.routing.add_fiber_array(c)
     d = clean_value_json(c)
-    print(get_hash(d))
-    print(d, d)
+    c.show()
