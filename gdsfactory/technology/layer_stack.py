@@ -179,7 +179,7 @@ class LayerStack(BaseModel):
         component,
         portnames: List[str],
         delimiter: str = "#",
-        new_layers_init: Tuple[int, int] = (10000, 10),
+        new_layers_init: Tuple[int, int] = (10010, 0),
     ):
         """Returns component with new layers that combine port names and original layers, and modifies the layerstack accordingly.
 
@@ -189,7 +189,7 @@ class LayerStack(BaseModel):
             component: to process
             portnames: list of portnames to process into new layers.
             delimiter: the new layer created is called "layername{delimiter}portname"
-            new_layers_init: layer numbers for the temporary new layers. Purpose is incremented.
+            new_layers_init: nitial layer number for the temporary new layers.
         """
         import gdstk
 
@@ -207,7 +207,7 @@ class LayerStack(BaseModel):
                 if gdstk.inside([port.center], gdstk.Polygon(polygon))[0]:
                     old_layername = self.get_layer_to_layername()[port.layer]
                     new_layer = copy.deepcopy(self.layers[old_layername])
-                    new_layer.layer = (new_layers_init[0], new_layers_init[1] + i)
+                    new_layer.layer = (new_layers_init[0] + i, new_layers_init[1])
                     self.layers[f"{old_layername}{delimiter}{portname}"] = new_layer
                     net_component.add_polygon(polygon, layer=new_layer.layer)
                 # Otherwise put the polygon back on the same layer
