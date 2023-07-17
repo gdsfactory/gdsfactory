@@ -104,7 +104,7 @@ def xyz_mesh(
             layers=layerstack.layers
             | {
                 background_tag: LayerLevel(
-                    layer=(99, 99),  # TODO something like LAYERS.BACKGROUND?
+                    layer=(9999, 0),  # TODO something like LAYERS.BACKGROUND?
                     thickness=(zmax + background_padding[5])
                     - (zmin - background_padding[2]),
                     zmin=zmin - background_padding[2],
