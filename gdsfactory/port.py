@@ -95,17 +95,13 @@ class Port(BaseModel):
     ] | None = None  # Use forward reference for CrossSection
     shear_angle: Optional[float] = None
     info: Dict[str, Any] = Field(default_factory=dict)
-    model_config = ConfigDict(arbitrary_types_allowed=True, extra="allow", frozen=False)
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="allow", frozen=True)
 
-    def __hash__(self) -> int:
-        return self.model_hash()
+    # def __hash__(self) -> int:
+    #     return hash(self.model_dump_json())
 
     def __init__(self, name, **data) -> None:
         super().__init__(name=name, **data)
-
-    @field_validator("center")
-    def set_center(cls, v):
-        return np.array(v, dtype="float64")
 
     @field_validator("orientation")
     def set_orientation(cls, v):
@@ -249,26 +245,27 @@ class Port(BaseModel):
         self.center = _rotate_points(self.center, angle=angle, center=center)
         return self
 
-    # def copy(self, name: Optional[str] = None) -> Port:
-    #     """Returns a copy of the port.
+    def copy(self, name: Optional[str] = None, **kwargs) -> Port:
+        """Returns a copy of the port.
 
-    #     Args:
-    #         name: optional new name.
-
-    #     """
-    #     new_port = Port(
-    #         name=name or self.name,
-    #         center=self.center,
-    #         width=self.width,
-    #         orientation=self.orientation,
-    #         parent=self.parent,
-    #         layer=self.layer,
-    #         port_type=self.port_type,
-    #         cross_section=self.cross_section,
-    #         shear_angle=self.shear_angle,
-    #     )
-    #     new_port.info = self.info
-    #     return new_port
+        Args:
+            name: optional new name.
+            kwargs: optional new settings.
+        """
+        settings = dict(
+            name=name or self.name,
+            center=self.center,
+            width=self.width,
+            orientation=self.orientation,
+            parent=self.parent,
+            layer=self.layer,
+            port_type=self.port_type,
+            cross_section=self.cross_section,
+            shear_angle=self.shear_angle,
+            info=self.info,
+        )
+        settings.update(**kwargs)
+        return Port(**settings)
 
     def get_extended_center(self, length: float = 1.0) -> ndarray:
         """Returns an extended port center."""
@@ -279,7 +276,8 @@ class Port(BaseModel):
 
     def snap_to_grid(self, nm: int = 1) -> None:
         """Snap port center to nm grid."""
-        self.center = nm * np.round(np.array(self.center) * 1e3 / nm) / 1e3
+        raise ValueError("Deprecated snap to grid")
+        # self.center = nm * np.round(np.array(self.center) * 1e3 / nm) / 1e3
 
     def assert_on_grid(self, nm: int = 1) -> None:
         """Ensures ports edges are on grid to avoid snap_to_grid errors."""

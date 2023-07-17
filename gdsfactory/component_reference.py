@@ -21,7 +21,7 @@ from gdsfactory.port import (
     map_ports_to_orientation_cw,
     select_ports,
 )
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, computed_field
 
 if typing.TYPE_CHECKING:
     from gdsfactory.component import Component
@@ -113,6 +113,8 @@ def _rotate_points(
         perpendicular = displacement[:, ::-1]
     elif p_arr.ndim == 1:
         perpendicular = displacement[::-1]
+    else:
+        raise ValueError(f"{p_arr} is not a valid array")
 
     # Fall back to trigonometry
     angle = angle * pi / 180
@@ -486,6 +488,7 @@ class ComponentReference(BaseModel, _GeometryHelper):
 
         return self.ports[key]
 
+    @computed_field
     @property
     def ports(self) -> Dict[str, Port]:
         """This property allows you to access myref.ports and get copy
@@ -500,21 +503,20 @@ class ComponentReference(BaseModel, _GeometryHelper):
                 self.rotation,
                 self.x_reflection,
             )
-            if name not in self._local_ports:
-                self._local_ports[name] = port.copy()
-            self._local_ports[name].center = new_center
-            self._local_ports[name].orientation = (
-                mod(new_orientation, 360) if new_orientation else new_orientation
+            new_orientation = (
+                mod(new_orientation, 360) if new_orientation else self.orientation
             )
-            self._local_ports[name].parent = self
+            self._local_ports[name] = port.copy(
+                center=new_center, orientation=new_orientation
+            )
         # Remove any ports that no longer exist in the reference's parent
         parent_names = self.parent.ports.keys()
         local_names = list(self._local_ports.keys())
         for name in local_names:
             if name not in parent_names:
                 self._local_ports.pop(name)
-        for k in list(self._local_ports):
-            self._local_ports[k].reference = self
+        # for k in list(self._local_ports):
+        #     self._local_ports[k].reference = self
         return self._local_ports
 
     @property
@@ -540,7 +542,7 @@ class ComponentReference(BaseModel, _GeometryHelper):
         point: ndarray,
         orientation: float,
         origin: Coordinate = (0, 0),
-        rotation: Optional[int] = None,
+        rotation: float = 0,
         x_reflection: bool = False,
     ) -> Tuple[ndarray, float]:
         """Apply GDS-type transformation to a port (x_ref)."""
@@ -830,7 +832,7 @@ class ComponentReference(BaseModel, _GeometryHelper):
         """
         return select_ports(self.ports, **kwargs)
 
-    @property
+    @computed_field
     def ports_layer(self) -> Dict[str, str]:
         """Return a mapping from layer0_layer1_E0: portName."""
         return map_ports_layer_to_orientation(self.ports)
@@ -942,7 +944,10 @@ if __name__ == "__main__":
     width = 0.5
     layer = (1, 0)
     c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-    c << c2
+    c2.add_port("o1", (0, 0))
+    ref = c.add_ref(c2)
+    print(ref.ports)
+    # c.add_ports(ref.ports)
     # c = gf.c.dbr()
     c.show()
 

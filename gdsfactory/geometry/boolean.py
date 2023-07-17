@@ -5,14 +5,14 @@ from typing import Tuple, Union
 
 import gdstk
 
-import gdsfactory as gf
+from gdsfactory.cell import cell_without_validator
 from gdsfactory.component import Component
 from gdsfactory.component_layout import Polygon
 from gdsfactory.component_reference import ComponentReference
 from gdsfactory.typings import ComponentOrReference, LayerSpec
 
 
-@gf.cell
+@cell_without_validator
 def boolean(
     A: Union[ComponentOrReference, Tuple[ComponentOrReference, ...]],
     B: Union[ComponentOrReference, Tuple[ComponentOrReference, ...]],
@@ -143,7 +143,7 @@ if __name__ == "__main__":
     # e3.movex(5)
     # e2.movex(2)
     # c = boolean(A=[e1, e3], B=e2, operation="A-B")
-
+    import gdsfactory as gf
     import time
 
     n = 50
