@@ -47,6 +47,8 @@ def xyz_mesh(
     resolutions: Optional[Dict] = None,
     default_characteristic_length: float = 0.5,
     global_scaling: float = 1,
+    global_2D_algorithm: int = 6,
+    global_3D_algorithm: int = 1,
     filename: Optional[str] = None,
     verbosity: Optional[int] = 0,
     round_tol: int = 3,
@@ -60,6 +62,8 @@ def xyz_mesh(
         resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}} to roughly control mesh refinement
         default_characteristic_length (float): gmsh maximum edge length
         global_scaling: factor to scale all mesh coordinates by (e.g. 1E-6 to go from um to m)
+        global_2D_algorithm: gmsh surface default meshing algorithm, see https://gmsh.info/doc/texinfo/gmsh.html#Mesh-options
+        global_3D_algorithm: gmsh volume default meshing algorithm, see https://gmsh.info/doc/texinfo/gmsh.html#Mesh-options
         filename (str, path): where to save the .msh file
         round_tol: during gds --> mesh conversion cleanup, number of decimal points at which to round the gdsfactory/shapely points before introducing to gmsh
         simplify_tol: during gds --> mesh conversion cleanup, shapely "simplify" tolerance (make it so all points are at least separated by this amount)
@@ -80,6 +84,8 @@ def xyz_mesh(
         resolutions=resolutions,
         default_characteristic_length=default_characteristic_length,
         global_scaling=global_scaling,
+        global_2D_algorithm=global_2D_algorithm,
+        global_3D_algorithm=global_3D_algorithm,
         filename=filename,
         verbosity=verbosity,
     )
