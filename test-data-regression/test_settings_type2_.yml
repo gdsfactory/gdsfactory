@@ -1,4 +1,4 @@
-name: coupler_gap0p244_length_10b57faa
+name: coupler_gap0p244_length_7f619550
 ports:
   opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback0:
     center:
@@ -75,10 +75,90 @@ ports:
 settings:
   changed:
     component:
-      component: coupler
+      info:
+        length: 10.185
+        min_bend_radius: 11.883
+      ports:
+        o1:
+          center:
+          - -10.0
+          - -1.628
+          layer:
+          - 1
+          - 0
+          name: o1
+          orientation: 180.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
+        o2:
+          center:
+          - -10.0
+          - 2.372
+          layer:
+          - 1
+          - 0
+          name: o2
+          orientation: 180.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
+        o3:
+          center:
+          - 15.67
+          - 2.372
+          layer:
+          - 1
+          - 0
+          name: o3
+          orientation: 0.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
+        o4:
+          center:
+          - 15.67
+          - -1.628
+          layer:
+          - 1
+          - 0
+          name: o4
+          orientation: 0.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
       settings:
-        gap: 0.244
-        length: 5.67
+        changed:
+          gap: 0.244
+          length: 5.67
+        child: null
+        default:
+          coupler_straight:
+            function: coupler_straight
+          coupler_symmetric:
+            function: coupler_symmetric
+          cross_section: strip
+          dx: 10.0
+          dy: 4.0
+          gap: 0.236
+          length: 20.0
+        full:
+          coupler_straight:
+            function: coupler_straight
+          coupler_symmetric:
+            function: coupler_symmetric
+          cross_section: strip
+          dx: 10.0
+          dy: 4.0
+          gap: 0.244
+          length: 5.67
+        function_name: coupler
+        info:
+          length: 10.185
+          min_bend_radius: 11.883
+        info_version: 2
+        module: gdsfactory.components.coupler
+        name: coupler_gap0p244_length5p67
     optical_routing_type: 2
   child:
     changed:
@@ -136,10 +216,90 @@ settings:
         port_type: optical
   full:
     component:
-      component: coupler
+      info:
+        length: 10.185
+        min_bend_radius: 11.883
+      ports:
+        o1:
+          center:
+          - -10.0
+          - -1.628
+          layer:
+          - 1
+          - 0
+          name: o1
+          orientation: 180.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
+        o2:
+          center:
+          - -10.0
+          - 2.372
+          layer:
+          - 1
+          - 0
+          name: o2
+          orientation: 180.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
+        o3:
+          center:
+          - 15.67
+          - 2.372
+          layer:
+          - 1
+          - 0
+          name: o3
+          orientation: 0.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
+        o4:
+          center:
+          - 15.67
+          - -1.628
+          layer:
+          - 1
+          - 0
+          name: o4
+          orientation: 0.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
       settings:
-        gap: 0.244
-        length: 5.67
+        changed:
+          gap: 0.244
+          length: 5.67
+        child: null
+        default:
+          coupler_straight:
+            function: coupler_straight
+          coupler_symmetric:
+            function: coupler_symmetric
+          cross_section: strip
+          dx: 10.0
+          dy: 4.0
+          gap: 0.236
+          length: 20.0
+        full:
+          coupler_straight:
+            function: coupler_straight
+          coupler_symmetric:
+            function: coupler_symmetric
+          cross_section: strip
+          dx: 10.0
+          dy: 4.0
+          gap: 0.244
+          length: 5.67
+        function_name: coupler
+        info:
+          length: 10.185
+          min_bend_radius: 11.883
+        info_version: 2
+        module: gdsfactory.components.coupler
+        name: coupler_gap0p244_length5p67
     component_name: null
     cross_section: strip
     gc_port_labels: null
@@ -170,4 +330,4 @@ settings:
     min_bend_radius: 11.883
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: coupler_gap0p244_length_10b57faa
+  name: coupler_gap0p244_length_7f619550

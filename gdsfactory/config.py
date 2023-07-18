@@ -23,9 +23,10 @@ from typing import Any, Optional, Union, ClassVar, TYPE_CHECKING, List
 
 import loguru
 from loguru import logger as logger
-from pydantic import BaseModel, BaseSettings, Field
+from pydantic import BaseModel, Field
 from rich.console import Console
 from rich.table import Table
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 if TYPE_CHECKING:
     from loguru import Logger
@@ -204,14 +205,15 @@ class Settings(BaseSettings):
         self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
         self.logger.info("LogLevel: {}", self.logfilter.level)
 
-    class Config:
-        """Pydantic settings."""
-
-        validation = True
-        arbitrary_types_allowed = True
-        fields = {"logger": {"exclude": True}}
-        env_prefix = "gdsfactory_"
-        env_nested_delimiter = "_"
+    # TODO[pydantic]: The following keys were removed: `fields`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = SettingsConfigDict(
+        validation=True,
+        arbitrary_types_allowed=True,
+        fields={"logger": {"exclude": True}},
+        env_prefix="gdsfactory_",
+        env_nested_delimiter="_",
+    )
 
 
 def set_log_level(level: str, sink=sys.stderr) -> None:

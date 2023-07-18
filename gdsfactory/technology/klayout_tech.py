@@ -7,11 +7,17 @@ import pathlib
 import xml.etree.ElementTree as ET
 from typing import Dict, List, Optional, Tuple
 
-from pydantic import BaseModel, Field
+from pydantic import ConfigDict, BaseModel, Field
 
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.typings import PathType
+
+try:
+    import klayout.db as db
+except ImportError as e:
+    print("You can install `pip install klayout.")
+    raise e
 
 Layer = Tuple[int, int]
 ConductorViaConductorName = Tuple[str, str, str]
@@ -57,14 +63,13 @@ class KLayoutTechnology(BaseModel):
 
     # TODO: Add import method
     # TODO: Also interop with xs scripts?
-    import klayout.db as db
 
     name: str
     layer_map: Dict[str, Layer]
     layer_views: Optional[LayerViews] = None
     layer_stack: Optional[LayerStack] = None
-    technology: db.Technology = Field(default_factory=db.Technology)
     connectivity: Optional[List[ConductorViaConductorName]] = None
+    technology: db.Technology = Field(default_factory=db.Technology)
 
     def write_tech(
         self,
@@ -175,10 +180,11 @@ class KLayoutTechnology(BaseModel):
                     f"{layer}='{self.layer_map[layer][0]}/{self.layer_map[layer][1]}'"
                 )
 
-    class Config:
-        """Allow db.Technology type."""
-
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
+        ignore_extra=True,
+        extra="ignore",
+    )
 
 
 layer_views = LayerViews.from_lyp(str(PATH.klayout_lyp))
@@ -219,11 +225,15 @@ if __name__ == "__main__":
     ]
 
     c = generic_tech = KLayoutTechnology(
-        name="generic_tech", layer_views=lyp, connectivity=connectivity, layer_map=LAYER
+        name="generic_tech",
+        layer_views=lyp,
+        connectivity=connectivity,
+        layer_map=dict(LAYER),
+        layer_stack=LAYER_STACK,
     )
     tech_dir = PATH.klayout_tech
     # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
     tech_dir.mkdir(exist_ok=True, parents=True)
-    generic_tech.write_tech(tech_dir=tech_dir, layer_stack=LAYER_STACK)
+    generic_tech.write_tech(tech_dir=tech_dir)
 
     # yaml_test()

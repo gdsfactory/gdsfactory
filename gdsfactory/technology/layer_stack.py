@@ -41,7 +41,7 @@ class LayerLevel(BaseModel):
         info: simulation_info and other types of metadata.
     """
 
-    layer: Optional[Tuple[int, int]]
+    layer: Optional[Tuple[int, int]] = None
     thickness: float
     thickness_tolerance: Optional[float] = None
     zmin: float

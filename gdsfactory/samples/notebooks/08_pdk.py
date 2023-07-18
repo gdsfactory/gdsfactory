@@ -41,7 +41,7 @@ from typing import Tuple
 from functools import partial
 
 import pytest
-from pydantic import BaseModel
+from pydantic import ConfigDict, BaseModel
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.component import Component
@@ -109,10 +109,7 @@ class LayerMap(BaseModel):
     WGCLAD: Layer = (111, 0)
     WGN: Layer = (34, 0)
     WGclad_material: Layer = (36, 0)
-
-    class Config:
-        frozen = True
-        extra = "forbid"
+    model_config = ConfigDict(frozen=True, extra="forbid")
 
 
 LAYER = LayerMap()

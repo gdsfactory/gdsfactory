@@ -4,13 +4,13 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
 import yaml
-from pydantic import AnyUrl, BaseModel, Extra, Field
+from pydantic import ConfigDict, AnyUrl, BaseModel, Field, RootModel
 
 import gdsfactory as gf
 
 
-class CrossSection(BaseModel):
-    __root__: str = Field(
+class CrossSection(RootModel):
+    root: str = Field(
         ..., description="A cross section to use for waveguides or traces."
     )
 
@@ -20,24 +20,16 @@ class RouteSettings(BaseModel):
     separation: Optional[float] = Field(
         5.0, description="The minimum separation between routes in the bundle [um]."
     )
-
-    class Config:
-        """Extra config."""
-
-        extra = Extra.allow
+    model_config = ConfigDict(extra="allow")
 
 
-class RoutingStrategy(BaseModel):
-    __root__: str = Field(..., description="The type of routing to use")
+class RoutingStrategy(RootModel):
+    root: str = Field(..., description="The type of routing to use")
 
 
 class Links(BaseModel):
     pass
-
-    class Config:
-        """Extra config."""
-
-        extra = Extra.allow
+    model_config = ConfigDict(extra="allow")
 
 
 class PortEnum(Enum):
@@ -54,10 +46,7 @@ class PortEnum(Enum):
 
 
 class Placement(BaseModel):
-    class Config:
-        """Extra config."""
-
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
     x: Optional[Union[str, float]] = Field(
         None,
@@ -90,10 +79,7 @@ class Placement(BaseModel):
 
 
 class Instance(BaseModel):
-    class Config:
-        """Extra config."""
-
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
     component: str
     settings: Optional[Dict[str, Any]] = Field(
@@ -102,10 +88,7 @@ class Instance(BaseModel):
 
 
 class Route(BaseModel):
-    class Config:
-        """Extra config."""
-
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
     routing_strategy: Optional[RoutingStrategy] = None
     settings: Optional[RouteSettings] = None

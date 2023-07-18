@@ -29,6 +29,7 @@ from gdsfactory.pdk import MaterialSpec, get_modes_path
 from gdsfactory.serialization import clean_value_name
 from gdsfactory.simulation.gtidy3d.materials import get_medium
 from gdsfactory.typings import PathType
+from pydantic import ConfigDict
 
 Precision = Literal["single", "double"]
 nm = 1e-3
@@ -130,11 +131,7 @@ class Waveguide(pydantic.BaseModel):
 
     _cached_data = pydantic.PrivateAttr()
     _waveguide = pydantic.PrivateAttr()
-
-    class Config:
-        """pydantic config."""
-
-        extra = "forbid"
+    model_config = ConfigDict(extra="forbid")
 
     @pydantic.validator("wavelength")
     def _fix_wavelength_type(cls, value):

@@ -9,7 +9,7 @@ from functools import wraps
 from typing import Any, Callable, Dict, Optional, Tuple, Type, TypeVar
 
 import toolz
-from pydantic import BaseModel, validate_arguments
+from pydantic import BaseModel
 
 from gdsfactory.component import Component
 from gdsfactory.name import clean_name, get_name_short
@@ -247,66 +247,68 @@ def cell_without_validator(func: _F) -> _F:
     return _cell
 
 
-def cell(func: _F) -> _F:
-    """Decorator for Component functions.
+cell = cell_without_validator
 
-    Wraps cell_without_validator
-    Validates type annotations with pydantic.
+# def cell(func: _F) -> _F:
+#     """Decorator for Component functions.
 
-    Implements a cache so that if a component has already been build
-    it will return the component from the cache directly.
-    This avoids creating two exact Components that have the same name.
+#     Wraps cell_without_validator
+#     Validates type annotations with pydantic.
 
-    When decorate your functions with @cell you get:
+#     Implements a cache so that if a component has already been build
+#     it will return the component from the cache directly.
+#     This avoids creating two exact Components that have the same name.
 
-    - cache: avoids creating duplicated Components.
-    - name: names Components uniquely name based on parameters.
-    - metadata: adds Component.metadata with default, changed and full Args.
+#     When decorate your functions with @cell you get:
 
-    Note the cell decorator does not take any arguments.
-    Keyword Args are applied the resulting Component.
+#     - cache: avoids creating duplicated Components.
+#     - name: names Components uniquely name based on parameters.
+#     - metadata: adds Component.metadata with default, changed and full Args.
 
-    Keyword Args:
-        autoname (bool): True renames Component based on args and kwargs.
-            True by default.
-        name (str): Optional name.
-        cache (bool): returns Component from the CACHE if it already exists.
-            Avoids having duplicated cells with the same name.
-            If False overrides CACHE creates a new Component.
-        flatten (bool): False by default. True flattens component hierarchy.
-        info: updates Component.info dict.
-        prefix (str): name_prefix, defaults to function name.
-        max_name_length (int): truncates name beyond some characters with a hash.
-        decorator (Callable): function to apply to Component.
+#     Note the cell decorator does not take any arguments.
+#     Keyword Args are applied the resulting Component.
+
+#     Keyword Args:
+#         autoname (bool): True renames Component based on args and kwargs.
+#             True by default.
+#         name (str): Optional name.
+#         cache (bool): returns Component from the CACHE if it already exists.
+#             Avoids having duplicated cells with the same name.
+#             If False overrides CACHE creates a new Component.
+#         flatten (bool): False by default. True flattens component hierarchy.
+#         info: updates Component.info dict.
+#         prefix (str): name_prefix, defaults to function name.
+#         max_name_length (int): truncates name beyond some characters with a hash.
+#         decorator (Callable): function to apply to Component.
 
 
-    A decorator is a function that runs over a function, so when you do.
+#     A decorator is a function that runs over a function, so when you do.
 
-    .. code::
+#     .. code::
 
-        import gdsfactory as gf
+#         import gdsfactory as gf
 
-        @gf.cell
-        def mzi_with_bend():
-            c = gf.Component()
-            mzi = c << gf.components.mzi()
-            bend = c << gf.components.bend_euler()
-            return c
+#         @gf.cell
+#         def mzi_with_bend():
+#             c = gf.Component()
+#             mzi = c << gf.components.mzi()
+#             bend = c << gf.components.bend_euler()
+#             return c
 
-    it’s equivalent to
+#     it’s equivalent to
 
-    .. code::
+#     .. code::
 
-        def mzi_with_bend():
-            c = gf.Component()
-            mzi = c << gf.components.mzi()
-            bend = c << gf.components.bend_euler(radius=radius)
-            return c
+#         def mzi_with_bend():
+#             c = gf.Component()
+#             mzi = c << gf.components.mzi()
+#             bend = c << gf.components.bend_euler(radius=radius)
+#             return c
 
-        mzi_with_bend_decorated = gf.cell(mzi_with_bend)
+#         mzi_with_bend_decorated = gf.cell(mzi_with_bend)
 
-    """
-    return cell_without_validator(validate_arguments(func))
+#     """
+#     return cell_without_validator(validate_arguments(func))
 
 
 def declarative_cell(cls: Type[Any]) -> Callable[..., Component]:

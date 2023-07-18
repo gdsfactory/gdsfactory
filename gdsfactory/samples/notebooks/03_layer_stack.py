@@ -28,7 +28,7 @@
 #
 
 # +
-from pydantic import BaseModel
+from pydantic import ConfigDict, BaseModel
 from typing import Tuple
 
 import gdsfactory as gf
@@ -103,12 +103,7 @@ class GenericLayerMap(BaseModel):
 
     SOURCE: Layer = (110, 0)
     MONITOR: Layer = (101, 0)
-
-    class Config:
-        """pydantic config."""
-
-        frozen = True
-        extra = "forbid"
+    model_config = ConfigDict(frozen=True, extra="forbid")
 
 
 LAYER = GenericLayerMap()

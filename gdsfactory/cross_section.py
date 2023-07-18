@@ -13,7 +13,7 @@ from functools import partial
 from inspect import getmembers
 from typing import Any, Callable, Dict, List, Optional, Tuple, TypeVar, Union
 
-from pydantic import BaseModel, Field, validate_arguments
+from pydantic import ConfigDict, BaseModel, Field, validate_arguments
 from typing_extensions import Literal
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 from gdsfactory.serialization import clean_dict
@@ -79,11 +79,7 @@ class Section(BaseModel):
     name: Optional[str] = None
     hidden: bool = False
     simplify: Optional[float] = None
-
-    class Config:
-        """pydantic basemodel config."""
-
-        extra = "forbid"
+    model_config = ConfigDict(extra="forbid")
 
 
 class CrossSection(BaseModel):
@@ -174,15 +170,16 @@ class CrossSection(BaseModel):
                 for offset in data["cladding_offsets"]:
                     offset *= -1
 
-    class Config:
-        """Configuration."""
-
-        extra = "forbid"
-        fields = {
+    # TODO[pydantic]: The following keys were removed: `fields`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(
+        extra="forbid",
+        fields={
             "decorator": {"exclude": True},
             "add_pins": {"exclude": True},
             "add_bbox": {"exclude": True},
-        }
+        },
+    )
 
     def copy(self, **kwargs):
         """Returns a CrossSection copy."""

@@ -13,10 +13,11 @@ import xml.etree.ElementTree as ET
 from typing import Dict, Optional, Set, Tuple, Union
 
 import numpy as np
-from pydantic import BaseModel, Field, validator
-from pydantic.color import Color, ColorType
+from pydantic import field_validator, ConfigDict, BaseModel, Field
+from pydantic.color import ColorType
 
 from gdsfactory.config import logger
+from pydantic_extra_types.color import Color
 
 if typing.TYPE_CHECKING:
     from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
@@ -280,13 +281,12 @@ class HatchPattern(BaseModel):
     name: str
     order: Optional[int] = None
     custom_pattern: Optional[str] = None
+    # TODO[pydantic]: The following keys were removed: `fields`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(fields={"name": {"exclude": True}})
 
-    class Config:
-        """YAML output uses name as the key."""
-
-        fields = {"name": {"exclude": True}}
-
-    @validator("custom_pattern")
+    @field_validator("custom_pattern")
+    @classmethod
     def check_pattern_klayout(cls, pattern: Optional[str], **kwargs) -> Optional[str]:
         if pattern is None:
             return None
@@ -330,13 +330,12 @@ class LineStyle(BaseModel):
     name: str
     order: Optional[int] = None
     custom_style: Optional[str] = None
+    # TODO[pydantic]: The following keys were removed: `fields`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(fields={"name": {"exclude": True}})
 
-    class Config:
-        """YAML output uses name as the key."""
-
-        fields = {"name": {"exclude": True}}
-
-    @validator("custom_style")
+    @field_validator("custom_style")
+    @classmethod
     def check_pattern(cls, pattern: Optional[str], **kwargs) -> Optional[str]:
         if pattern is None:
             return None
@@ -417,11 +416,9 @@ class LayerView(BaseModel):
     xfill: bool = False
     animation: int = 0
     group_members: Optional[Dict[str, LayerView]] = Field(default_factory=dict)
-
-    class Config:
-        """YAML output uses name as the key."""
-
-        fields = {"name": {"exclude": True}}
+    # TODO[pydantic]: The following keys were removed: `fields`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(fields={"name": {"exclude": True}})
 
     def __init__(
         self,

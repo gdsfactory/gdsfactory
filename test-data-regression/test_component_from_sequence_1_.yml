@@ -1,4 +1,4 @@
-name: component_sequence_ae8efed6
+name: component_sequence_6a70cd3f
 ports:
   o1:
     center:
@@ -29,26 +29,434 @@ settings:
     sequence: '!HH'
     symbol_to_component:
       '-':
-      - component: straight
-        settings: {}
+      - info:
+          cross_section: strip
+          function_name: cross_section
+          length: 10.0
+          settings:
+            add_bbox: null
+            add_pins:
+              function: add_pins
+              settings:
+                function:
+                  function: add_pin_rectangle_inside
+                  settings:
+                    layer_label: null
+                    pin_length: 0.001
+            auto_widen: false
+            auto_widen_minimum_length: 200.0
+            bbox_layers: null
+            bbox_offsets: null
+            cladding_layers: null
+            cladding_offsets: null
+            cladding_simplify: null
+            decorator: null
+            end_straight_length: 0.01
+            gap: 3.0
+            info: null
+            layer: WG
+            min_length: 0.01
+            mirror: false
+            name: strip
+            offset: 0
+            port_names:
+            - o1
+            - o2
+            port_types:
+            - optical
+            - optical
+            radius: 10.0
+            sections: null
+            snap_to_grid: null
+            start_straight_length: 0.01
+            taper_length: 10.0
+            width: 0.5
+            width_wide: null
+          width: 0.5
+        ports:
+          o1:
+            center:
+            - 0.0
+            - 0.0
+            layer:
+            - 1
+            - 0
+            name: o1
+            orientation: 180.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
+          o2:
+            center:
+            - 10.0
+            - 0.0
+            layer:
+            - 1
+            - 0
+            name: o2
+            orientation: 0.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
+        settings:
+          changed: {}
+          child: null
+          default:
+            cross_section: strip
+            length: 10.0
+            npoints: 2
+            with_bbox: true
+          full:
+            cross_section: strip
+            length: 10.0
+            npoints: 2
+            with_bbox: true
+          function_name: straight
+          info:
+            cross_section: strip
+            function_name: cross_section
+            length: 10.0
+            settings:
+              add_bbox: null
+              add_pins:
+                function: add_pins
+                settings:
+                  function:
+                    function: add_pin_rectangle_inside
+                    settings:
+                      layer_label: null
+                      pin_length: 0.001
+              auto_widen: false
+              auto_widen_minimum_length: 200.0
+              bbox_layers: null
+              bbox_offsets: null
+              cladding_layers: null
+              cladding_offsets: null
+              cladding_simplify: null
+              decorator: null
+              end_straight_length: 0.01
+              gap: 3.0
+              info: null
+              layer: WG
+              min_length: 0.01
+              mirror: false
+              name: strip
+              offset: 0
+              port_names:
+              - o1
+              - o2
+              port_types:
+              - optical
+              - optical
+              radius: 10.0
+              sections: null
+              snap_to_grid: null
+              start_straight_length: 0.01
+              taper_length: 10.0
+              width: 0.5
+              width_wide: null
+            width: 0.5
+          info_version: 2
+          module: gdsfactory.components.straight
+          name: straight
       - o1
       - o2
       A:
-      - component: bend_circular
+      - info:
+          dy: 0.0
+          length: 31.415
+          radius: 10.0
+        ports:
+          o1:
+            center:
+            - 0.0
+            - 0.0
+            layer:
+            - 1
+            - 0
+            name: o1
+            orientation: 180.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
+          o2:
+            center:
+            - 0.0
+            - 20.0
+            layer:
+            - 1
+            - 0
+            name: o2
+            orientation: 180.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
         settings:
-          angle: 180
+          changed:
+            angle: 180
+          child: null
+          default:
+            angle: 90.0
+            cross_section: strip
+            npoints: null
+            with_bbox: true
+          full:
+            angle: 180
+            cross_section: strip
+            npoints: null
+            with_bbox: true
+          function_name: bend_circular
+          info:
+            dy: 0.0
+            length: 31.415
+            radius: 10.0
+          info_version: 2
+          module: gdsfactory.components.bend_circular
+          name: bend_circular_angle180
       - o1
       - o2
       B:
-      - component: bend_circular
+      - info:
+          dy: 0.0
+          length: 31.415
+          radius: 10.0
+        ports:
+          o1:
+            center:
+            - 0.0
+            - 0.0
+            layer:
+            - 1
+            - 0
+            name: o1
+            orientation: 180.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
+          o2:
+            center:
+            - 0.0
+            - 20.0
+            layer:
+            - 1
+            - 0
+            name: o2
+            orientation: 180.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
         settings:
-          angle: 180
+          changed:
+            angle: 180
+          child: null
+          default:
+            angle: 90.0
+            cross_section: strip
+            npoints: null
+            with_bbox: true
+          full:
+            angle: 180
+            cross_section: strip
+            npoints: null
+            with_bbox: true
+          function_name: bend_circular
+          info:
+            dy: 0.0
+            length: 31.415
+            radius: 10.0
+          info_version: 2
+          module: gdsfactory.components.bend_circular
+          name: bend_circular_angle180
       - o2
       - o1
       H:
-      - component: straight_pin
+      - info: {}
+        ports:
+          bot_e1:
+            center:
+            - 0.0
+            - -6.0
+            layer:
+            - 49
+            - 0
+            name: bot_e1
+            orientation: 180.0
+            port_type: electrical
+            shear_angle: null
+            width: 10.0
+          bot_e2:
+            center:
+            - 10.0
+            - -1.0
+            layer:
+            - 49
+            - 0
+            name: bot_e2
+            orientation: 90.0
+            port_type: electrical
+            shear_angle: null
+            width: 20.0
+          bot_e3:
+            center:
+            - 20.0
+            - -6.0
+            layer:
+            - 49
+            - 0
+            name: bot_e3
+            orientation: 0.0
+            port_type: electrical
+            shear_angle: null
+            width: 10.0
+          bot_e4:
+            center:
+            - 10.0
+            - -11.0
+            layer:
+            - 49
+            - 0
+            name: bot_e4
+            orientation: 270.0
+            port_type: electrical
+            shear_angle: null
+            width: 20.0
+          o1:
+            center:
+            - -10.0
+            - 0.0
+            layer:
+            - 1
+            - 0
+            name: o1
+            orientation: 180.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
+          o2:
+            center:
+            - 30.0
+            - 0.0
+            layer:
+            - 1
+            - 0
+            name: o2
+            orientation: 0.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
+          top_e1:
+            center:
+            - 0.0
+            - 6.0
+            layer:
+            - 49
+            - 0
+            name: top_e1
+            orientation: 180.0
+            port_type: electrical
+            shear_angle: null
+            width: 10.0
+          top_e2:
+            center:
+            - 10.0
+            - 11.0
+            layer:
+            - 49
+            - 0
+            name: top_e2
+            orientation: 90.0
+            port_type: electrical
+            shear_angle: null
+            width: 20.0
+          top_e3:
+            center:
+            - 20.0
+            - 6.0
+            layer:
+            - 49
+            - 0
+            name: top_e3
+            orientation: 0.0
+            port_type: electrical
+            shear_angle: null
+            width: 10.0
+          top_e4:
+            center:
+            - 10.0
+            - 1.0
+            layer:
+            - 49
+            - 0
+            name: top_e4
+            orientation: 270.0
+            port_type: electrical
+            shear_angle: null
+            width: 20.0
         settings:
-          length: 40
+          changed:
+            length: 40
+          child: null
+          default:
+            cross_section:
+              function: pin
+            length: 500.0
+            taper:
+              function: taper_strip_to_ridge
+            via_stack:
+              function: via_stack
+              settings:
+                layers:
+                - SLAB90
+                - M1
+                - M2
+                - M3
+                vias:
+                - function: via
+                  settings:
+                    layer: VIAC
+                - function: via
+                  settings:
+                    enclosure: 2
+                    layer: VIA1
+                - function: via
+                  settings:
+                    layer: VIA2
+                - null
+            via_stack_spacing: 2
+            via_stack_width: 10.0
+          full:
+            cross_section:
+              function: pin
+            length: 40
+            taper:
+              function: taper_strip_to_ridge
+            via_stack:
+              function: via_stack
+              settings:
+                layers:
+                - SLAB90
+                - M1
+                - M2
+                - M3
+                vias:
+                - function: via
+                  settings:
+                    layer: VIAC
+                - function: via
+                  settings:
+                    enclosure: 2
+                    layer: VIA1
+                - function: via
+                  settings:
+                    layer: VIA2
+                - null
+            via_stack_spacing: 2
+            via_stack_width: 10.0
+          function_name: straight_pin
+          info: {}
+          info_version: 2
+          module: gdsfactory.components.straight_pin
+          name: straight_pin_length40
       - o1
       - o2
   child: null
@@ -65,30 +473,438 @@ settings:
     start_orientation: 0.0
     symbol_to_component:
       '-':
-      - component: straight
-        settings: {}
+      - info:
+          cross_section: strip
+          function_name: cross_section
+          length: 10.0
+          settings:
+            add_bbox: null
+            add_pins:
+              function: add_pins
+              settings:
+                function:
+                  function: add_pin_rectangle_inside
+                  settings:
+                    layer_label: null
+                    pin_length: 0.001
+            auto_widen: false
+            auto_widen_minimum_length: 200.0
+            bbox_layers: null
+            bbox_offsets: null
+            cladding_layers: null
+            cladding_offsets: null
+            cladding_simplify: null
+            decorator: null
+            end_straight_length: 0.01
+            gap: 3.0
+            info: null
+            layer: WG
+            min_length: 0.01
+            mirror: false
+            name: strip
+            offset: 0
+            port_names:
+            - o1
+            - o2
+            port_types:
+            - optical
+            - optical
+            radius: 10.0
+            sections: null
+            snap_to_grid: null
+            start_straight_length: 0.01
+            taper_length: 10.0
+            width: 0.5
+            width_wide: null
+          width: 0.5
+        ports:
+          o1:
+            center:
+            - 0.0
+            - 0.0
+            layer:
+            - 1
+            - 0
+            name: o1
+            orientation: 180.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
+          o2:
+            center:
+            - 10.0
+            - 0.0
+            layer:
+            - 1
+            - 0
+            name: o2
+            orientation: 0.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
+        settings:
+          changed: {}
+          child: null
+          default:
+            cross_section: strip
+            length: 10.0
+            npoints: 2
+            with_bbox: true
+          full:
+            cross_section: strip
+            length: 10.0
+            npoints: 2
+            with_bbox: true
+          function_name: straight
+          info:
+            cross_section: strip
+            function_name: cross_section
+            length: 10.0
+            settings:
+              add_bbox: null
+              add_pins:
+                function: add_pins
+                settings:
+                  function:
+                    function: add_pin_rectangle_inside
+                    settings:
+                      layer_label: null
+                      pin_length: 0.001
+              auto_widen: false
+              auto_widen_minimum_length: 200.0
+              bbox_layers: null
+              bbox_offsets: null
+              cladding_layers: null
+              cladding_offsets: null
+              cladding_simplify: null
+              decorator: null
+              end_straight_length: 0.01
+              gap: 3.0
+              info: null
+              layer: WG
+              min_length: 0.01
+              mirror: false
+              name: strip
+              offset: 0
+              port_names:
+              - o1
+              - o2
+              port_types:
+              - optical
+              - optical
+              radius: 10.0
+              sections: null
+              snap_to_grid: null
+              start_straight_length: 0.01
+              taper_length: 10.0
+              width: 0.5
+              width_wide: null
+            width: 0.5
+          info_version: 2
+          module: gdsfactory.components.straight
+          name: straight
       - o1
       - o2
       A:
-      - component: bend_circular
+      - info:
+          dy: 0.0
+          length: 31.415
+          radius: 10.0
+        ports:
+          o1:
+            center:
+            - 0.0
+            - 0.0
+            layer:
+            - 1
+            - 0
+            name: o1
+            orientation: 180.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
+          o2:
+            center:
+            - 0.0
+            - 20.0
+            layer:
+            - 1
+            - 0
+            name: o2
+            orientation: 180.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
         settings:
-          angle: 180
+          changed:
+            angle: 180
+          child: null
+          default:
+            angle: 90.0
+            cross_section: strip
+            npoints: null
+            with_bbox: true
+          full:
+            angle: 180
+            cross_section: strip
+            npoints: null
+            with_bbox: true
+          function_name: bend_circular
+          info:
+            dy: 0.0
+            length: 31.415
+            radius: 10.0
+          info_version: 2
+          module: gdsfactory.components.bend_circular
+          name: bend_circular_angle180
       - o1
       - o2
       B:
-      - component: bend_circular
+      - info:
+          dy: 0.0
+          length: 31.415
+          radius: 10.0
+        ports:
+          o1:
+            center:
+            - 0.0
+            - 0.0
+            layer:
+            - 1
+            - 0
+            name: o1
+            orientation: 180.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
+          o2:
+            center:
+            - 0.0
+            - 20.0
+            layer:
+            - 1
+            - 0
+            name: o2
+            orientation: 180.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
         settings:
-          angle: 180
+          changed:
+            angle: 180
+          child: null
+          default:
+            angle: 90.0
+            cross_section: strip
+            npoints: null
+            with_bbox: true
+          full:
+            angle: 180
+            cross_section: strip
+            npoints: null
+            with_bbox: true
+          function_name: bend_circular
+          info:
+            dy: 0.0
+            length: 31.415
+            radius: 10.0
+          info_version: 2
+          module: gdsfactory.components.bend_circular
+          name: bend_circular_angle180
       - o2
       - o1
       H:
-      - component: straight_pin
+      - info: {}
+        ports:
+          bot_e1:
+            center:
+            - 0.0
+            - -6.0
+            layer:
+            - 49
+            - 0
+            name: bot_e1
+            orientation: 180.0
+            port_type: electrical
+            shear_angle: null
+            width: 10.0
+          bot_e2:
+            center:
+            - 10.0
+            - -1.0
+            layer:
+            - 49
+            - 0
+            name: bot_e2
+            orientation: 90.0
+            port_type: electrical
+            shear_angle: null
+            width: 20.0
+          bot_e3:
+            center:
+            - 20.0
+            - -6.0
+            layer:
+            - 49
+            - 0
+            name: bot_e3
+            orientation: 0.0
+            port_type: electrical
+            shear_angle: null
+            width: 10.0
+          bot_e4:
+            center:
+            - 10.0
+            - -11.0
+            layer:
+            - 49
+            - 0
+            name: bot_e4
+            orientation: 270.0
+            port_type: electrical
+            shear_angle: null
+            width: 20.0
+          o1:
+            center:
+            - -10.0
+            - 0.0
+            layer:
+            - 1
+            - 0
+            name: o1
+            orientation: 180.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
+          o2:
+            center:
+            - 30.0
+            - 0.0
+            layer:
+            - 1
+            - 0
+            name: o2
+            orientation: 0.0
+            port_type: optical
+            shear_angle: null
+            width: 0.5
+          top_e1:
+            center:
+            - 0.0
+            - 6.0
+            layer:
+            - 49
+            - 0
+            name: top_e1
+            orientation: 180.0
+            port_type: electrical
+            shear_angle: null
+            width: 10.0
+          top_e2:
+            center:
+            - 10.0
+            - 11.0
+            layer:
+            - 49
+            - 0
+            name: top_e2
+            orientation: 90.0
+            port_type: electrical
+            shear_angle: null
+            width: 20.0
+          top_e3:
+            center:
+            - 20.0
+            - 6.0
+            layer:
+            - 49
+            - 0
+            name: top_e3
+            orientation: 0.0
+            port_type: electrical
+            shear_angle: null
+            width: 10.0
+          top_e4:
+            center:
+            - 10.0
+            - 1.0
+            layer:
+            - 49
+            - 0
+            name: top_e4
+            orientation: 270.0
+            port_type: electrical
+            shear_angle: null
+            width: 20.0
         settings:
-          length: 40
+          changed:
+            length: 40
+          child: null
+          default:
+            cross_section:
+              function: pin
+            length: 500.0
+            taper:
+              function: taper_strip_to_ridge
+            via_stack:
+              function: via_stack
+              settings:
+                layers:
+                - SLAB90
+                - M1
+                - M2
+                - M3
+                vias:
+                - function: via
+                  settings:
+                    layer: VIAC
+                - function: via
+                  settings:
+                    enclosure: 2
+                    layer: VIA1
+                - function: via
+                  settings:
+                    layer: VIA2
+                - null
+            via_stack_spacing: 2
+            via_stack_width: 10.0
+          full:
+            cross_section:
+              function: pin
+            length: 40
+            taper:
+              function: taper_strip_to_ridge
+            via_stack:
+              function: via_stack
+              settings:
+                layers:
+                - SLAB90
+                - M1
+                - M2
+                - M3
+                vias:
+                - function: via
+                  settings:
+                    layer: VIAC
+                - function: via
+                  settings:
+                    enclosure: 2
+                    layer: VIA1
+                - function: via
+                  settings:
+                    layer: VIA2
+                - null
+            via_stack_spacing: 2
+            via_stack_width: 10.0
+          function_name: straight_pin
+          info: {}
+          info_version: 2
+          module: gdsfactory.components.straight_pin
+          name: straight_pin_length40
       - o1
       - o2
   function_name: component_sequence
   info: {}
   info_version: 2
   module: gdsfactory.components.component_sequence
-  name: component_sequence_ae8efed6
+  name: component_sequence_6a70cd3f

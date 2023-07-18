@@ -1,6 +1,8 @@
+from pydantic_extra_types.color import Color
+
+
 def add_color_yaml_presenter(prefer_named_color: bool = True) -> None:
     import yaml
-    from pydantic.color import Color
 
     from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
 

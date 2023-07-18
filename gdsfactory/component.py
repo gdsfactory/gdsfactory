@@ -16,6 +16,7 @@ from collections.abc import Iterable
 from copy import deepcopy
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union, TYPE_CHECKING
+from pydantic import BaseModel, Field, ConfigDict
 
 import gdstk
 import numpy as np
@@ -135,7 +136,7 @@ def _rnd(arr, precision=1e-4):
     return np.ascontiguousarray(arr.round(ndigits) / precision, dtype=np.int64)
 
 
-class Component(_GeometryHelper):
+class Component(BaseModel, _GeometryHelper):
     """A Component is an empty canvas where you add polygons, references and ports \
             (to connect to other components).
 
@@ -166,29 +167,28 @@ class Component(_GeometryHelper):
             child: dict info from the children, if any.
     """
 
-    def __init__(
-        self,
-        name: str = "Unnamed",
-        with_uuid: bool = False,
-    ) -> None:
-        """Initialize the Component object."""
-        self.uid = str(uuid.uuid4())[:8]
+    settings: dict = Field(default_factory=dict)
+    info: dict = Field(default_factory=dict)
+    ports: dict = Field(default_factory=dict)
+    uid: str = Field(default_factory=lambda: str(uuid.uuid4())[:8], exclude=True)
+
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="allow")
+
+    def __init__(self, name: str = "Unnamed", with_uuid: bool = False, **data) -> None:
+        super().__init__(**data)
+        self._references = []
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
-
-        self._cell = gdstk.Cell(name=name)
-        self.name = name
-        self.info: Dict[str, Any] = {}
-
-        self.settings: Dict[str, Any] = {}
         self._locked = False
+        self._cell = gdstk.Cell(name=name)
         self._get_child_name = False
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
         self._named_references = {}
         self._references = []
 
-        self.ports = {}
+    def __hash__(self) -> str:
+        return hash(self.uid)
 
     @property
     def references(self):

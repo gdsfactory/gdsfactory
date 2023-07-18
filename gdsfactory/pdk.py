@@ -10,7 +10,7 @@ from typing import Any, Callable, Optional, Tuple, Union, List
 import numpy as np
 import omegaconf
 from omegaconf import DictConfig
-from pydantic import BaseModel, Field, validator
+from pydantic import field_validator, ConfigDict, BaseModel, Field
 from typing_extensions import Literal
 
 from gdsfactory.config import PATH, logger
@@ -284,11 +284,11 @@ class Pdk(BaseModel):
     def grid_size(self, value) -> None:
         self.gds_write_settings.precision = value * self.gds_write_settings.unit
 
-    class Config:
-        """Configuration."""
-
-        extra = "forbid"
-        fields = {
+    # TODO[pydantic]: The following keys were removed: `fields`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(
+        extra="forbid",
+        fields={
             "cross_sections": {"exclude": True},
             "cells": {"exclude": True},
             "containers": {"exclude": True},
@@ -296,9 +296,11 @@ class Pdk(BaseModel):
             "default_decorator": {"exclude": True},
             "materials_index": {"exclude": True},
             "circuit_yaml_parser": {"exclude": True},
-        }
+        },
+    )
 
-    @validator("sparameters_path")
+    @field_validator("sparameters_path")
+    @classmethod
     def is_pathlib_path(cls, path):
         return pathlib.Path(path)
 

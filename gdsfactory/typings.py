@@ -37,7 +37,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 import gdstk
 import numpy as np
 from omegaconf import OmegaConf
-from pydantic import BaseModel, Extra
+from pydantic import ConfigDict, BaseModel, Extra
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
@@ -202,12 +202,7 @@ class Route(BaseModel):
     labels: Optional[List[gdstk.Label]] = None
     ports: Tuple[Port, Port]
     length: float
-
-    class Config:
-        """Config for Route."""
-
-        extra = Extra.forbid
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(extra="forbid", arbitrary_types_allowed=True)
 
 
 class Routes(BaseModel):
@@ -215,19 +210,13 @@ class Routes(BaseModel):
     lengths: List[float]
     ports: Optional[List[Port]] = None
     bend_radius: Optional[List[float]] = None
-
-    class Config:
-        """Config for Routes."""
-
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid", arbitrary_types_allowed=True)
 
 
 class ComponentModel(BaseModel):
     component: Union[str, Dict[str, Any]]
-    settings: Optional[Dict[str, Any]]
-
-    class Config:
-        extra = Extra.forbid
+    settings: Optional[Dict[str, Any]] = None
+    model_config = ConfigDict(extra="forbid")
 
 
 class PlacementModel(BaseModel):
@@ -242,18 +231,14 @@ class PlacementModel(BaseModel):
     port: Optional[Union[str, Anchor]] = None
     rotation: int = 0
     mirror: bool = False
-
-    class Config:
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
 
 class RouteModel(BaseModel):
     links: Dict[str, str]
     settings: Optional[Dict[str, Any]] = None
     routing_strategy: Optional[str] = None
-
-    class Config:
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
 
 class NetlistModel(BaseModel):
@@ -279,9 +264,7 @@ class NetlistModel(BaseModel):
     info: Optional[Dict[str, Any]] = None
     settings: Optional[Dict[str, Any]] = None
     ports: Optional[Dict[str, str]] = None
-
-    class Config:
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
 
 RouteFactory = Callable[..., Route]
@@ -355,8 +338,10 @@ __all__ = (
 )
 
 
-def write_schema(model: BaseModel = NetlistModel) -> None:
+def write_schema(model: Optional[BaseModel] = None) -> None:
     from gdsfactory.config import PATH
+
+    model = model or NetlistModel
 
     s = model.schema_json()
     d = OmegaConf.create(s)
