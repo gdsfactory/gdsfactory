@@ -167,7 +167,7 @@ full = [
   "shapely",
   "meshwell==0.0.3",
   # kfactory
-  "kfactory[git,ipy]==0.7.5",
+  "kfactory[git,ipy]==0.8.*",
   "meow-sim==0.7.1",
   # ray
   "ray[tune,air]",
@@ -191,7 +191,7 @@ gmsh = [
   "shapely"
 ]
 kfactory = [
-  "kfactory[git,ipy]==0.7.5"
+  "kfactory[git,ipy]==0.8.*"
 ]
 meow = [
   "meow-sim==0.7.1"
