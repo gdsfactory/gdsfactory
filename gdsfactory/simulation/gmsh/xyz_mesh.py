@@ -121,25 +121,30 @@ if __name__ == "__main__":
         layers={
             k: layerstack.layers[k]
             for k in (
-                "via1",
+                # "via1",
+                "box",
                 "clad",
-                "metal2",
+                # "metal2",
                 "metal3#l_e4",
                 "heater",
                 "via2",
                 "core",
                 "metal3#r_e2",
+                # "metal3",
+                # "via_contact",
+                # "metal1"
             )
         }
     )
 
     resolutions = {
-        "core": {"resolution": 0.1},
+        "core": {"resolution": 0.3},
     }
     geometry = xyz_mesh(
         component=c,
         layerstack=filtered_layerstack,
         resolutions=resolutions,
         filename="mesh.msh",
+        default_characteristic_length=5,
         verbosity=5,
     )
