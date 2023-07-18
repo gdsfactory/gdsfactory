@@ -25,10 +25,10 @@ dependencies = [
   "omegaconf",
   "orjson",
   "pandas",
-  "pydantic<2.0",
+  "pyyaml",
+  "pydantic==2.0.*",
   "pydantic-settings",
   "pydantic-extra-types",
-  "pyyaml",
   "qrcode",
   "rectpack",
   "scipy",
@@ -75,7 +75,7 @@ cad = [
   "jinja2",
   "python-multipart",
   "fastapi",
-  "uvicorn[standard]"
+  "uvicorn"
 ]
 database = [
   "sqlalchemy",
@@ -155,7 +155,7 @@ full = [
   "jinja2",
   "python-multipart",
   "fastapi",
-  "uvicorn[standard]",
+  "uvicorn",
   # gmsh
   "gmsh",
   "h5py",
