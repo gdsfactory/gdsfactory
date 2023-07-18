@@ -74,7 +74,7 @@ cad = [
   "kweb==0.1.1",
   "jinja2",
   "python-multipart",
-  "fastapi",
+  "fastapi>=0.100.0,<0.101.0",
   "uvicorn"
 ]
 database = [
@@ -154,7 +154,7 @@ full = [
   "kweb==0.1.1",
   "jinja2",
   "python-multipart",
-  "fastapi",
+  "fastapi>=0.100.0,<0.101.0",
   "uvicorn",
   # gmsh
   "gmsh",
