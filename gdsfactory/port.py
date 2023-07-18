@@ -33,12 +33,13 @@ import csv
 import functools
 import typing
 from functools import partial
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union, overload
 
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
+from gdsfactory.config import logger
 from gdsfactory.component_layout import _rotate_points
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.serialization import clean_value_json
@@ -190,6 +191,23 @@ class Port:
         DEG2RAD = np.pi / 180
         dp = np.array((d * np.cos(DEG2RAD * angle), d * np.sin(DEG2RAD * angle)))
         port.move(dp)
+        return port
+
+    @overload
+    def move_copy(self, x: np.ndarray | List[int | float, int | float]) -> Port:
+        ...
+
+    @overload
+    def move_copy(self, x: int | float, y: int | float) -> Port:
+        ...
+
+    def move_copy(self, x, y=None) -> Port:
+        """Returns a copy of the port moved by a vector or given x and y."""
+        port = self.copy()
+        if y is None:  # x is a vector
+            port.move(x)
+        else:
+            port.move([x, y])
         return port
 
     def flip(self, **kwargs) -> Port:
@@ -577,6 +595,10 @@ def flipped(port: Port) -> Port:
 
 
 def move_copy(port, x=0, y=0) -> Port:
+    logger.warning(
+        "Port.move_copy(...) should be used instead of move_copy(Port, ...).",
+        DeprecationWarning,
+    )
     _port = port.copy()
     _port.center += (x, y)
     return _port
