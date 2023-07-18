@@ -195,7 +195,7 @@ meow = [
   "meow-sim==0.7.1"
 ]
 meshwell = [
-  "meshwell==0.0.3"
+  "meshwell==0.0.4"
 ]
 ray = [
   "ray[tune,air]",
