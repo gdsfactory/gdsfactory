@@ -1,4 +1,4 @@
-name: mzi_6f76ede3
+name: mzi_08954266
 ports:
   o1:
     center:
@@ -8,7 +8,7 @@ ports:
     - 1
     - 0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     shear_angle: null
     width: 0.5
@@ -29,10 +29,77 @@ settings:
     cross_section:
       function: cross_section
     splitter:
-      component: mmi1x2
+      name: mmi1x2_be5e636a
+      ports:
+        o1:
+          center:
+          - -10.0
+          - 0.0
+          layer:
+          - 1
+          - 0
+          name: o1
+          orientation: 180.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
+        o2:
+          center:
+          - 15.5
+          - 0.625
+          layer:
+          - 1
+          - 0
+          name: o2
+          orientation: 0.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
+        o3:
+          center:
+          - 15.5
+          - -0.625
+          layer:
+          - 1
+          - 0
+          name: o3
+          orientation: 0.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
       settings:
-        cross_section:
-          function: cross_section
+        changed:
+          cross_section:
+            function: cross_section
+        child: null
+        default:
+          cross_section: strip
+          gap_mmi: 0.25
+          length_mmi: 5.5
+          length_taper: 10.0
+          taper:
+            function: taper
+          width: null
+          width_mmi: 2.5
+          width_taper: 1.0
+          with_bbox: true
+        full:
+          cross_section:
+            function: cross_section
+          gap_mmi: 0.25
+          length_mmi: 5.5
+          length_taper: 10.0
+          taper:
+            function: taper
+          width: null
+          width_mmi: 2.5
+          width_taper: 1.0
+          with_bbox: true
+        function_name: mmi1x2
+        info: {}
+        info_version: 2
+        module: gdsfactory.components.mmi1x2
+        name: mmi1x2_be5e636a
   child: null
   default:
     add_optical_ports_arms: false
@@ -77,10 +144,77 @@ settings:
     port_e1_combiner: o2
     port_e1_splitter: o2
     splitter:
-      component: mmi1x2
+      name: mmi1x2_be5e636a
+      ports:
+        o1:
+          center:
+          - -10.0
+          - 0.0
+          layer:
+          - 1
+          - 0
+          name: o1
+          orientation: 180.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
+        o2:
+          center:
+          - 15.5
+          - 0.625
+          layer:
+          - 1
+          - 0
+          name: o2
+          orientation: 0.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
+        o3:
+          center:
+          - 15.5
+          - -0.625
+          layer:
+          - 1
+          - 0
+          name: o3
+          orientation: 0.0
+          port_type: optical
+          shear_angle: null
+          width: 0.5
       settings:
-        cross_section:
-          function: cross_section
+        changed:
+          cross_section:
+            function: cross_section
+        child: null
+        default:
+          cross_section: strip
+          gap_mmi: 0.25
+          length_mmi: 5.5
+          length_taper: 10.0
+          taper:
+            function: taper
+          width: null
+          width_mmi: 2.5
+          width_taper: 1.0
+          with_bbox: true
+        full:
+          cross_section:
+            function: cross_section
+          gap_mmi: 0.25
+          length_mmi: 5.5
+          length_taper: 10.0
+          taper:
+            function: taper
+          width: null
+          width_mmi: 2.5
+          width_taper: 1.0
+          with_bbox: true
+        function_name: mmi1x2
+        info: {}
+        info_version: 2
+        module: gdsfactory.components.mmi1x2
+        name: mmi1x2_be5e636a
     straight:
       function: straight
     straight_x_bot: null
@@ -91,4 +225,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_6f76ede3
+  name: mzi_08954266

@@ -46,9 +46,12 @@ def clean_value_json(value: Any) -> Any:
 
     active_pdk = get_active_pdk()
     include_module = active_pdk.cell_decorator_settings.include_module
+    if hasattr(value, "to_dict"):
+        # print(type(value))
+        return clean_dict(value.to_dict())
 
-    if isinstance(value, pydantic.BaseModel):
-        return clean_dict(value.dict())
+    elif isinstance(value, pydantic.BaseModel):
+        return clean_dict(value.model_dump())
 
     elif hasattr(value, "get_component_spec"):
         return value.get_component_spec()
@@ -83,9 +86,6 @@ def clean_value_json(value: Any) -> Any:
             v.update(module=func.__module__)
         return v
 
-    elif hasattr(value, "to_dict"):
-        # print(type(value))
-        return clean_dict(value.to_dict())
     elif callable(value) and isinstance(value, toolz.functoolz.Compose):
         value = [clean_value_json(value.first)] + [
             clean_value_json(func) for func in value.funcs

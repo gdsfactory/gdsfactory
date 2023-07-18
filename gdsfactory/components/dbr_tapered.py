@@ -127,7 +127,9 @@ def dbr_tapered(
     input_taper.move(input_taper.center, (-length / 2 - taper_length / 2, 0))
     output_taper.move(output_taper.center, (length / 2 + taper_length / 2, 0))
     periodic_structures = c << gf.components.array(
-        gf.components.rectangle((period * dc, w2)), (period, 0), num
+        component=gf.components.rectangle((period * dc, w2)),
+        spacing=(period, 0),
+        columns=int(num),
     )
     periodic_structures.move(periodic_structures.center, (0, 0))
 

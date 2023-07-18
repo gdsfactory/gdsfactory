@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_electr_87c2ba2a
+name: mzi_2e88f57c_add_electr_1062af16
 ports:
   elec-mzi_2e88f57c-1:
     center:
@@ -147,7 +147,7 @@ ports:
 settings:
   changed:
     component:
-      info: {}
+      name: mzi_2e88f57c
       ports:
         o1:
           center:
@@ -444,7 +444,7 @@ settings:
     - 100.0
   full:
     component:
-      info: {}
+      name: mzi_2e88f57c
       ports:
         o1:
           center:
@@ -673,4 +673,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_electrical_pads_top
-  name: mzi_2e88f57c_add_electr_87c2ba2a
+  name: mzi_2e88f57c_add_electr_1062af16

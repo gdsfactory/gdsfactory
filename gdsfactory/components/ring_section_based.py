@@ -163,7 +163,7 @@ def ring_section_based(
             with_bbox=False,
             cross_section=xsec,
             radius=radius,
-            npoints=np.round(ang / ang_res) + 1 if ang_res is not None else None,
+            npoints=int(np.round(ang / ang_res)) + 1 if ang_res is not None else None,
         )
 
         sections_dict[key] = (b, "o1", "o2")
@@ -174,7 +174,7 @@ def ring_section_based(
             with_bbox=False,
             cross_section=start_xs,
             radius=radius,
-            npoints=np.round(ang / ang_res) + 1 if ang_res is not None else None,
+            npoints=int(np.round(ang / ang_res)) + 1 if ang_res is not None else None,
         )
         if "0" in sections_dict:
             raise ValueError(
@@ -188,7 +188,7 @@ def ring_section_based(
             with_bbox=False,
             cross_section=gf.get_cross_section(drop_cross_section),
             radius=radius,
-            npoints=np.round(ang / ang_res) + 1 if ang_res is not None else None,
+            npoints=int(np.round(ang / ang_res)) + 1 if ang_res is not None else None,
         )
         if "1" in sections_dict:
             raise ValueError(

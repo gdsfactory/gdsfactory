@@ -127,7 +127,7 @@ ref.xmin = 10
 
 
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
-MAX_NAME_LENGTH = 32
+MAX_NAME_LENGTH = 99
 
 
 def _rnd(arr, precision=1e-4):
@@ -181,6 +181,7 @@ class Component(BaseModel, _GeometryHelper):
             name += f"_{self.uid}"
         self._locked = False
         self._cell = gdstk.Cell(name=name)
+        self.name = name
         self._get_child_name = False
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
@@ -216,6 +217,8 @@ class Component(BaseModel, _GeometryHelper):
 
     @name.setter
     def name(self, value) -> None:
+        if len(value) > MAX_NAME_LENGTH:
+            raise ValueError(f"name is too long! {len(value)} > {MAX_NAME_LENGTH}")
         self._cell.name = value
 
     def __iter__(self):

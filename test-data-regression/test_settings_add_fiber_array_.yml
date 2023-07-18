@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_fiber__7db34d52
+name: mzi_2e88f57c_add_fiber__f432b995
 ports:
   opt-grating_coupler_ellipti_dd7f7af4-mzi_2e88f57c-loopback0:
     center:
@@ -171,7 +171,7 @@ ports:
 settings:
   changed:
     component:
-      info: {}
+      name: mzi_2e88f57c
       ports:
         o1:
           center:
@@ -475,7 +475,7 @@ settings:
         port_type: optical
   full:
     component:
-      info: {}
+      name: mzi_2e88f57c
       ports:
         o1:
           center:
@@ -715,4 +715,4 @@ settings:
       wavelength: 1.53
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: mzi_2e88f57c_add_fiber__7db34d52
+  name: mzi_2e88f57c_add_fiber__f432b995

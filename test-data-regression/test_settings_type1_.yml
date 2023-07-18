@@ -1,4 +1,4 @@
-name: coupler_gap0p2_length5p_92d05cb5
+name: coupler_gap0p2_length5p_ce1aa44d
 ports:
   opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p2_length5p0-loopback0:
     center:
@@ -75,9 +75,7 @@ ports:
 settings:
   changed:
     component:
-      info:
-        length: 10.19
-        min_bend_radius: 11.744
+      name: coupler_gap0p2_length5p0
       ports:
         o1:
           center:
@@ -216,9 +214,7 @@ settings:
         port_type: optical
   full:
     component:
-      info:
-        length: 10.19
-        min_bend_radius: 11.744
+      name: coupler_gap0p2_length5p0
       ports:
         o1:
           center:
@@ -330,4 +326,4 @@ settings:
     min_bend_radius: 11.744
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: coupler_gap0p2_length5p_92d05cb5
+  name: coupler_gap0p2_length5p_ce1aa44d

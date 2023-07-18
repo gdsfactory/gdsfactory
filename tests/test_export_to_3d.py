@@ -8,16 +8,17 @@ import trimesh
 def get_layer_stack() -> LayerStack:
     """Returns dummy LayerStack."""
 
-    class GenericLayerStack(LayerStack):
-        substrate = LayerLevel(
-            layer=(0, 0),
-            thickness=1,
-            zmin=0,
-            material="si",
-            mesh_order=99,
+    return LayerStack(
+        layers=dict(
+            substrate=LayerLevel(
+                layer=(0, 0),
+                thickness=1,
+                zmin=0,
+                material="si",
+                mesh_order=99,
+            )
         )
-
-    return GenericLayerStack()
+    )
 
 
 def test_valid_component() -> None:

@@ -1,4 +1,4 @@
-name: straight_length20_width_7e7fcadf
+name: straight_length20_width_7d76f702
 ports:
   opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-loopback0:
     center:
@@ -51,184 +51,7 @@ ports:
 settings:
   changed:
     component:
-      child:
-        info:
-          cross_section: strip
-          function_name: cross_section
-          length: 20
-          settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-            auto_widen: false
-            auto_widen_minimum_length: 200.0
-            bbox_layers: null
-            bbox_offsets: null
-            cladding_layers: null
-            cladding_offsets: null
-            cladding_simplify: null
-            decorator: null
-            end_straight_length: 0.01
-            gap: 3.0
-            info: null
-            layer: WG
-            min_length: 0.01
-            mirror: false
-            name: strip
-            offset: 0
-            port_names:
-            - o1
-            - o2
-            port_types:
-            - optical
-            - optical
-            radius: 10.0
-            sections: null
-            snap_to_grid: null
-            start_straight_length: 0.01
-            taper_length: 10.0
-            width: 2
-            width_wide: null
-          width: 2.0
-        ports:
-          o1:
-            center:
-            - 0.0
-            - 0.0
-            layer:
-            - 1
-            - 0
-            name: o1
-            orientation: 180.0
-            port_type: optical
-            shear_angle: null
-            width: 2.0
-          o2:
-            center:
-            - 20.0
-            - 0.0
-            layer:
-            - 1
-            - 0
-            name: o2
-            orientation: 0.0
-            port_type: optical
-            shear_angle: null
-            width: 2.0
-        settings:
-          changed:
-            length: 20
-            width: 2
-          child: null
-          default:
-            cross_section: strip
-            length: 10.0
-            npoints: 2
-            with_bbox: true
-          full:
-            cross_section: strip
-            length: 20
-            npoints: 2
-            width: 2
-            with_bbox: true
-          function_name: straight
-          info:
-            cross_section: strip
-            function_name: cross_section
-            length: 20
-            settings:
-              add_bbox: null
-              add_pins:
-                function: add_pins
-                settings:
-                  function:
-                    function: add_pin_rectangle_inside
-                    settings:
-                      layer_label: null
-                      pin_length: 0.001
-              auto_widen: false
-              auto_widen_minimum_length: 200.0
-              bbox_layers: null
-              bbox_offsets: null
-              cladding_layers: null
-              cladding_offsets: null
-              cladding_simplify: null
-              decorator: null
-              end_straight_length: 0.01
-              gap: 3.0
-              info: null
-              layer: WG
-              min_length: 0.01
-              mirror: false
-              name: strip
-              offset: 0
-              port_names:
-              - o1
-              - o2
-              port_types:
-              - optical
-              - optical
-              radius: 10.0
-              sections: null
-              snap_to_grid: null
-              start_straight_length: 0.01
-              taper_length: 10.0
-              width: 2
-              width_wide: null
-            width: 2.0
-          info_version: 2
-          module: gdsfactory.components.straight
-          name: straight_length20_width2
-      info:
-        cross_section: strip
-        function_name: cross_section
-        length: 20
-        settings:
-          add_bbox: null
-          add_pins:
-            function: add_pins
-            settings:
-              function:
-                function: add_pin_rectangle_inside
-                settings:
-                  layer_label: null
-                  pin_length: 0.001
-          auto_widen: false
-          auto_widen_minimum_length: 200.0
-          bbox_layers: null
-          bbox_offsets: null
-          cladding_layers: null
-          cladding_offsets: null
-          cladding_simplify: null
-          decorator: null
-          end_straight_length: 0.01
-          gap: 3.0
-          info: null
-          layer: WG
-          min_length: 0.01
-          mirror: false
-          name: strip
-          offset: 0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          radius: 10.0
-          sections: null
-          snap_to_grid: null
-          start_straight_length: 0.01
-          taper_length: 10.0
-          width: 2
-          width_wide: null
-        width: 2.0
+      name: straight_length20_width_13ccf8e4
       ports:
         o1:
           center:
@@ -257,50 +80,7 @@ settings:
       settings:
         changed:
           component:
-            info:
-              cross_section: strip
-              function_name: cross_section
-              length: 20
-              settings:
-                add_bbox: null
-                add_pins:
-                  function: add_pins
-                  settings:
-                    function:
-                      function: add_pin_rectangle_inside
-                      settings:
-                        layer_label: null
-                        pin_length: 0.001
-                auto_widen: false
-                auto_widen_minimum_length: 200.0
-                bbox_layers: null
-                bbox_offsets: null
-                cladding_layers: null
-                cladding_offsets: null
-                cladding_simplify: null
-                decorator: null
-                end_straight_length: 0.01
-                gap: 3.0
-                info: null
-                layer: WG
-                min_length: 0.01
-                mirror: false
-                name: strip
-                offset: 0
-                port_names:
-                - o1
-                - o2
-                port_types:
-                - optical
-                - optical
-                radius: 10.0
-                sections: null
-                snap_to_grid: null
-                start_straight_length: 0.01
-                taper_length: 10.0
-                width: 2
-                width_wide: null
-              width: 2.0
+            name: straight_length20_width2
             ports:
               o1:
                 center:
@@ -465,50 +245,7 @@ settings:
           taper_port_name2: o2
         full:
           component:
-            info:
-              cross_section: strip
-              function_name: cross_section
-              length: 20
-              settings:
-                add_bbox: null
-                add_pins:
-                  function: add_pins
-                  settings:
-                    function:
-                      function: add_pin_rectangle_inside
-                      settings:
-                        layer_label: null
-                        pin_length: 0.001
-                auto_widen: false
-                auto_widen_minimum_length: 200.0
-                bbox_layers: null
-                bbox_offsets: null
-                cladding_layers: null
-                cladding_offsets: null
-                cladding_simplify: null
-                decorator: null
-                end_straight_length: 0.01
-                gap: 3.0
-                info: null
-                layer: WG
-                min_length: 0.01
-                mirror: false
-                name: strip
-                offset: 0
-                port_names:
-                - o1
-                - o2
-                port_types:
-                - optical
-                - optical
-                radius: 10.0
-                sections: null
-                snap_to_grid: null
-                start_straight_length: 0.01
-                taper_length: 10.0
-                width: 2
-                width_wide: null
-              width: 2.0
+            name: straight_length20_width2
             ports:
               o1:
                 center:
@@ -653,55 +390,12 @@ settings:
           width: 2.0
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_length20_width_a711d5f1
+        name: straight_length20_width_13ccf8e4
     optical_routing_type: 0
   child:
     changed:
       component:
-        info:
-          cross_section: strip
-          function_name: cross_section
-          length: 20
-          settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-            auto_widen: false
-            auto_widen_minimum_length: 200.0
-            bbox_layers: null
-            bbox_offsets: null
-            cladding_layers: null
-            cladding_offsets: null
-            cladding_simplify: null
-            decorator: null
-            end_straight_length: 0.01
-            gap: 3.0
-            info: null
-            layer: WG
-            min_length: 0.01
-            mirror: false
-            name: strip
-            offset: 0
-            port_names:
-            - o1
-            - o2
-            port_types:
-            - optical
-            - optical
-            radius: 10.0
-            sections: null
-            snap_to_grid: null
-            start_straight_length: 0.01
-            taper_length: 10.0
-            width: 2
-            width_wide: null
-          width: 2.0
+        name: straight_length20_width2
         ports:
           o1:
             center:
@@ -866,50 +560,7 @@ settings:
       taper_port_name2: o2
     full:
       component:
-        info:
-          cross_section: strip
-          function_name: cross_section
-          length: 20
-          settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-            auto_widen: false
-            auto_widen_minimum_length: 200.0
-            bbox_layers: null
-            bbox_offsets: null
-            cladding_layers: null
-            cladding_offsets: null
-            cladding_simplify: null
-            decorator: null
-            end_straight_length: 0.01
-            gap: 3.0
-            info: null
-            layer: WG
-            min_length: 0.01
-            mirror: false
-            name: strip
-            offset: 0
-            port_names:
-            - o1
-            - o2
-            port_types:
-            - optical
-            - optical
-            radius: 10.0
-            sections: null
-            snap_to_grid: null
-            start_straight_length: 0.01
-            taper_length: 10.0
-            width: 2
-            width_wide: null
-          width: 2.0
+        name: straight_length20_width2
         ports:
           o1:
             center:
@@ -1054,7 +705,7 @@ settings:
       width: 2.0
     info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_length20_width_a711d5f1
+    name: straight_length20_width_13ccf8e4
   default:
     component:
       function: straight
@@ -1079,184 +730,7 @@ settings:
         port_type: optical
   full:
     component:
-      child:
-        info:
-          cross_section: strip
-          function_name: cross_section
-          length: 20
-          settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-            auto_widen: false
-            auto_widen_minimum_length: 200.0
-            bbox_layers: null
-            bbox_offsets: null
-            cladding_layers: null
-            cladding_offsets: null
-            cladding_simplify: null
-            decorator: null
-            end_straight_length: 0.01
-            gap: 3.0
-            info: null
-            layer: WG
-            min_length: 0.01
-            mirror: false
-            name: strip
-            offset: 0
-            port_names:
-            - o1
-            - o2
-            port_types:
-            - optical
-            - optical
-            radius: 10.0
-            sections: null
-            snap_to_grid: null
-            start_straight_length: 0.01
-            taper_length: 10.0
-            width: 2
-            width_wide: null
-          width: 2.0
-        ports:
-          o1:
-            center:
-            - 0.0
-            - 0.0
-            layer:
-            - 1
-            - 0
-            name: o1
-            orientation: 180.0
-            port_type: optical
-            shear_angle: null
-            width: 2.0
-          o2:
-            center:
-            - 20.0
-            - 0.0
-            layer:
-            - 1
-            - 0
-            name: o2
-            orientation: 0.0
-            port_type: optical
-            shear_angle: null
-            width: 2.0
-        settings:
-          changed:
-            length: 20
-            width: 2
-          child: null
-          default:
-            cross_section: strip
-            length: 10.0
-            npoints: 2
-            with_bbox: true
-          full:
-            cross_section: strip
-            length: 20
-            npoints: 2
-            width: 2
-            with_bbox: true
-          function_name: straight
-          info:
-            cross_section: strip
-            function_name: cross_section
-            length: 20
-            settings:
-              add_bbox: null
-              add_pins:
-                function: add_pins
-                settings:
-                  function:
-                    function: add_pin_rectangle_inside
-                    settings:
-                      layer_label: null
-                      pin_length: 0.001
-              auto_widen: false
-              auto_widen_minimum_length: 200.0
-              bbox_layers: null
-              bbox_offsets: null
-              cladding_layers: null
-              cladding_offsets: null
-              cladding_simplify: null
-              decorator: null
-              end_straight_length: 0.01
-              gap: 3.0
-              info: null
-              layer: WG
-              min_length: 0.01
-              mirror: false
-              name: strip
-              offset: 0
-              port_names:
-              - o1
-              - o2
-              port_types:
-              - optical
-              - optical
-              radius: 10.0
-              sections: null
-              snap_to_grid: null
-              start_straight_length: 0.01
-              taper_length: 10.0
-              width: 2
-              width_wide: null
-            width: 2.0
-          info_version: 2
-          module: gdsfactory.components.straight
-          name: straight_length20_width2
-      info:
-        cross_section: strip
-        function_name: cross_section
-        length: 20
-        settings:
-          add_bbox: null
-          add_pins:
-            function: add_pins
-            settings:
-              function:
-                function: add_pin_rectangle_inside
-                settings:
-                  layer_label: null
-                  pin_length: 0.001
-          auto_widen: false
-          auto_widen_minimum_length: 200.0
-          bbox_layers: null
-          bbox_offsets: null
-          cladding_layers: null
-          cladding_offsets: null
-          cladding_simplify: null
-          decorator: null
-          end_straight_length: 0.01
-          gap: 3.0
-          info: null
-          layer: WG
-          min_length: 0.01
-          mirror: false
-          name: strip
-          offset: 0
-          port_names:
-          - o1
-          - o2
-          port_types:
-          - optical
-          - optical
-          radius: 10.0
-          sections: null
-          snap_to_grid: null
-          start_straight_length: 0.01
-          taper_length: 10.0
-          width: 2
-          width_wide: null
-        width: 2.0
+      name: straight_length20_width_13ccf8e4
       ports:
         o1:
           center:
@@ -1285,50 +759,7 @@ settings:
       settings:
         changed:
           component:
-            info:
-              cross_section: strip
-              function_name: cross_section
-              length: 20
-              settings:
-                add_bbox: null
-                add_pins:
-                  function: add_pins
-                  settings:
-                    function:
-                      function: add_pin_rectangle_inside
-                      settings:
-                        layer_label: null
-                        pin_length: 0.001
-                auto_widen: false
-                auto_widen_minimum_length: 200.0
-                bbox_layers: null
-                bbox_offsets: null
-                cladding_layers: null
-                cladding_offsets: null
-                cladding_simplify: null
-                decorator: null
-                end_straight_length: 0.01
-                gap: 3.0
-                info: null
-                layer: WG
-                min_length: 0.01
-                mirror: false
-                name: strip
-                offset: 0
-                port_names:
-                - o1
-                - o2
-                port_types:
-                - optical
-                - optical
-                radius: 10.0
-                sections: null
-                snap_to_grid: null
-                start_straight_length: 0.01
-                taper_length: 10.0
-                width: 2
-                width_wide: null
-              width: 2.0
+            name: straight_length20_width2
             ports:
               o1:
                 center:
@@ -1493,50 +924,7 @@ settings:
           taper_port_name2: o2
         full:
           component:
-            info:
-              cross_section: strip
-              function_name: cross_section
-              length: 20
-              settings:
-                add_bbox: null
-                add_pins:
-                  function: add_pins
-                  settings:
-                    function:
-                      function: add_pin_rectangle_inside
-                      settings:
-                        layer_label: null
-                        pin_length: 0.001
-                auto_widen: false
-                auto_widen_minimum_length: 200.0
-                bbox_layers: null
-                bbox_offsets: null
-                cladding_layers: null
-                cladding_offsets: null
-                cladding_simplify: null
-                decorator: null
-                end_straight_length: 0.01
-                gap: 3.0
-                info: null
-                layer: WG
-                min_length: 0.01
-                mirror: false
-                name: strip
-                offset: 0
-                port_names:
-                - o1
-                - o2
-                port_types:
-                - optical
-                - optical
-                radius: 10.0
-                sections: null
-                snap_to_grid: null
-                start_straight_length: 0.01
-                taper_length: 10.0
-                width: 2
-                width_wide: null
-              width: 2.0
+            name: straight_length20_width2
             ports:
               o1:
                 center:
@@ -1681,7 +1069,7 @@ settings:
           width: 2.0
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_length20_width_a711d5f1
+        name: straight_length20_width_13ccf8e4
     component_name: null
     cross_section: strip
     gc_port_labels: null
@@ -1753,4 +1141,4 @@ settings:
     width: 2.0
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_length20_width_7e7fcadf
+  name: straight_length20_width_7d76f702

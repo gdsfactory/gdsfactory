@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_rotate_5506ad38
+name: mzi_2e88f57c_rotate_5b6d93ee
 ports:
   o1:
     center:
@@ -147,7 +147,7 @@ ports:
 settings:
   changed:
     component:
-      info: {}
+      name: mzi_2e88f57c
       ports:
         o1:
           center:
@@ -433,7 +433,7 @@ settings:
   full:
     angle: 90
     component:
-      info: {}
+      name: mzi_2e88f57c
       ports:
         o1:
           center:
@@ -651,4 +651,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.functions
-  name: mzi_2e88f57c_rotate_5506ad38
+  name: mzi_2e88f57c_rotate_5b6d93ee
