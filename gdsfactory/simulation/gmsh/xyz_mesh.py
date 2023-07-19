@@ -14,7 +14,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     list_unique_layerstack_z,
 )
 from gdsfactory.technology import LayerStack, LayerLevel
-from gdsfactory.typings import ComponentOrReference
+from gdsfactory.typings import ComponentOrReference, List
 
 from meshwell.prism import Prism
 from meshwell.model import Model
@@ -62,6 +62,8 @@ def xyz_mesh(
     round_tol: int = 3,
     simplify_tol: float = 1e-3,
     n_threads: int = get_number_of_cores(),
+    portnames: List[str] = None,
+    layer_portname_delimiter: str = "#",
 ) -> bool:
     """Full 3D mesh of component.
 
@@ -78,8 +80,22 @@ def xyz_mesh(
         filename: where to save the .msh file
         round_tol: during gds --> mesh conversion cleanup, number of decimal points at which to round the gdsfactory/shapely points before introducing to gmsh
         simplify_tol: during gds --> mesh conversion cleanup, shapely "simplify" tolerance (make it so all points are at least separated by this amount)
+        n_threads: for gmsh parallelization
+        portnames: list or port polygons to converts into new layers (useful for boundary conditions)
+        layer_portname_delimiter: delimiter for the new layername/portname physicals, formatted as {layername}{delimiter}{portname}
     """
+    if portnames:
+        mesh_component = gf.Component()
+        mesh_component << gf.geometry.union(component, by_layer=True)
+        mesh_component.add_ports(component.get_ports_list())
+        component = layerstack.get_component_with_net_layers(
+            mesh_component,
+            portnames=portnames,
+            delimiter=layer_portname_delimiter,
+        )
+
     # Fuse and cleanup polygons of same layer in case user overlapped them
+    # TODO: some duplication with union above, although this also does some useful offsetting
     layer_polygons_dict = cleanup_component(
         component, layerstack, round_tol, simplify_tol
     )
@@ -151,11 +167,6 @@ if __name__ == "__main__":
 
     # Generate a new component and layerstack with new logical layers
     layerstack = get_layer_stack()
-    c = layerstack.get_component_with_net_layers(
-        c,
-        portnames=["r_e2", "l_e4"],
-        delimiter="#",
-    )
 
     # FIXME: .filtered returns all layers
     # filtered_layerstack = layerstack.filtered_from_layerspec(layerspecs=c.get_layers())
@@ -167,12 +178,10 @@ if __name__ == "__main__":
                 "box",
                 "clad",
                 # "metal2",
-                "metal3#l_e4",
                 "heater",
                 "via2",
                 "core",
-                "metal3#r_e2",
-                # "metal3",
+                "metal3",
                 # "via_contact",
                 # "metal1"
             )
@@ -189,4 +198,5 @@ if __name__ == "__main__":
         filename="mesh.msh",
         default_characteristic_length=5,
         verbosity=5,
+        portnames=["r_e2", "l_e4"],
     )
