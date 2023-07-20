@@ -15,6 +15,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
 )
 from gdsfactory.technology import LayerStack, LayerLevel
 from gdsfactory.typings import ComponentOrReference, List
+from gdsfactory.geometry.union import union
 
 from meshwell.prism import Prism
 from meshwell.model import Model
@@ -86,7 +87,7 @@ def xyz_mesh(
     """
     if portnames:
         mesh_component = gf.Component()
-        mesh_component << gf.geometry.union(component, by_layer=True)
+        mesh_component << union(component, by_layer=True)
         mesh_component.add_ports(component.get_ports_list())
         component = layerstack.get_component_with_net_layers(
             mesh_component,
