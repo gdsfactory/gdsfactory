@@ -2511,6 +2511,7 @@ class Component(_GeometryHelper):
             [xmin - wafer_padding, ymax + wafer_padding],
         ]
         padded_component.add_polygon(points, layer=wafer_layer)
+        padded_component.add_ports(self.get_ports())
 
         if layer_stack is None:
             raise ValueError(
