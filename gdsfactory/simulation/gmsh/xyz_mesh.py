@@ -6,6 +6,7 @@ import numpy as np
 from shapely.geometry import Polygon
 from shapely.ops import unary_union
 
+from gdsfactory import Component
 from gdsfactory.config import get_number_of_cores
 from gdsfactory.simulation.gmsh.parse_component import bufferize
 from gdsfactory.simulation.gmsh.parse_gds import cleanup_component
@@ -86,7 +87,7 @@ def xyz_mesh(
         layer_portname_delimiter: delimiter for the new layername/portname physicals, formatted as {layername}{delimiter}{portname}
     """
     if portnames:
-        mesh_component = gf.Component()
+        mesh_component = Component()
         mesh_component << union(component, by_layer=True)
         mesh_component.add_ports(component.get_ports_list())
         component = layerstack.get_component_with_net_layers(
