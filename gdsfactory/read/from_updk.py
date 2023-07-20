@@ -88,8 +88,8 @@ from gdsfactory.get_factories import get_cells
         parameters_labels = (
             "\n".join(
                 [
-                    f"    c.add_label(text=f'{p_name}:{{{p_name}}}', position=(0, 0), layer={layer_label})"
-                    for p_name, p in parameters.items()
+                    f"    c.add_label(text=f'{p_name}:{{{p_name}}}', position=(xc, yc-{i}/{len(parameters)}*ysize/2), layer={layer_label})"
+                    for i, p_name in enumerate(parameters)
                 ]
             )
             if layer_label and parameters
@@ -107,7 +107,9 @@ from gdsfactory.get_factories import get_cells
 def {block_name}({parameters_string})->gf.Component:
     {doc}
     c = gf.Component()
-    c.add_polygon({points}, layer={layer_bbox})
+    p = c.add_polygon({points}, layer={layer_bbox})
+    xc, yc = p.center
+    ysize = p.ysize
 """
         script += parameters_labels
 
