@@ -312,4 +312,117 @@ c = gf.components.ring_single()
 cc = gf.routing.add_fiber_single(component=c)
 cc.plot()
 
+# %% [markdown]
+# ### Route to edge couplers
+#
+# You can also route Edge couplers to a fiber array or to both sides of the chip.
+#
+# For routing to both sides you can follow different strategies:
+#
+# 1. Place the edge couplers and route your components to the edge couplers.
+# 2. Extend your component ports to each side.
+# 3. Anything you imagine ...
+
+# %%
+from gdsfactory.generic_tech import LAYER
+import numpy as np
+import gdsfactory as gf
+
+
+@gf.cell
+def sample_die(size=(8e3, 40e3), y_spacing: float = 10) -> gf.Component:
+    """Returns a sample die
+
+    Args:
+        size: size of the die.
+        y_spacing: spacing between components.
+
+    Returns:
+        c: a sample die.
+
+    """
+    c = gf.Component()
+
+    die = c << gf.c.rectangle(size=np.array(size), layer=LAYER.FLOORPLAN, centered=True)
+    die = c << gf.c.rectangle(
+        size=np.array(size) - 2 * np.array((50, 50)),
+        layer=LAYER.FLOORPLAN,
+        centered=True,
+    )
+    ymin = die.ymin
+    ec = gf.components.edge_coupler_silicon()
+
+    cells = gf.components.cells
+    skip = [
+        "component_lattice",
+        "component_sequence",
+        "extend_port",
+        "extend_ports_list",
+        "die",
+        "wafer",
+    ]
+    for component_name in skip:
+        cells.pop(component_name, None)
+
+    for component in cells.values():
+        ci = component()
+        ci = (
+            gf.routing.add_pads_top(
+                ci,
+                pad=gf.components.pad,
+                pad_spacing=150,
+            )
+            if ci.get_ports_list(port_type="electrical")
+            else ci
+        )
+        ref = c << ci
+        ref.ymin = ymin
+        ref.x = 0
+        ymin = ref.ymax + y_spacing
+
+        routes_left, ports_left = gf.routing.route_ports_to_side(
+            ref.get_ports_list(orientation=180),
+            cross_section="strip",
+            side="west",
+            x=die.xmin + ec.xsize,
+        )
+        for route in routes_left:
+            c.add(route.references)
+
+        routes_right, ports_right = gf.routing.route_ports_to_side(
+            ref.get_ports_list(orientation=0),
+            cross_section="strip",
+            x=die.xmax - ec.xsize,
+            side="east",
+        )
+        for route in routes_right:
+            c.add(route.references)
+
+        for port in ports_right:
+            ref = c << ec
+            ref.connect("o1", port)
+            text = c << gf.c.text(
+                text=f"{ci.name}-{port.name.split('_')[0]}", size=10, layer=LAYER.MTOP
+            )
+            text.xmax = ref.xmax - 10
+            text.y = ref.y
+
+        for port in ports_left:
+            ref = c << ec
+            ref.connect("o1", port)
+            text = c << gf.c.text(
+                text=f"{ci.name}-{port.name.split('_')[0]}", size=10, layer=LAYER.MTOP
+            )
+            text.xmin = ref.xmin + 10
+            text.y = ref.y
+
+    return c
+
+
+if __name__ == "__main__":
+    c = sample_die(cache=False)
+    c.show(show_ports=True)
+    c.plot()
+
+
 # %%
