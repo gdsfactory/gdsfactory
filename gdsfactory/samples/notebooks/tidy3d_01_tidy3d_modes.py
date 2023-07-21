@@ -94,7 +94,9 @@ fraction_te = gt.modes.sweep_fraction_te(strip, core_width=w)
 
 for i in range(4):
     plt.plot(w, n_eff.sel(mode_index=i).real, c="k")
-    plt.scatter(w, n_eff.sel(mode_index=i).real, c=fraction_te.sel(mode_index=i), vmin=0, vmax=1)
+    plt.scatter(
+        w, n_eff.sel(mode_index=i).real, c=fraction_te.sel(mode_index=i), vmin=0, vmax=1
+    )
 plt.axhline(y=1.44, color="k", ls="--")
 plt.colorbar().set_label("TE fraction")
 plt.xlabel("Width of waveguide (µm)")
