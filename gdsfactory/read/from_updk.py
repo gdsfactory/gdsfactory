@@ -17,6 +17,7 @@ def from_updk(
     filepath: PathType,
     filepath_out: Optional[PathType] = None,
     layer_bbox: Tuple[int, int] = (68, 0),
+    layer_label: Optional[Tuple[int, int]] = None,
     optical_xsections: Optional[List[str]] = None,
     electrical_xsections: Optional[List[str]] = None,
 ) -> str:
@@ -53,6 +54,9 @@ from gdsfactory.get_factories import get_cells
 
 """
 
+    if layer_label:
+        script += f"layer_label = {layer_label}\n"
+
     for xsection_name, xsection in conf.xsections.items():
         script += f"{xsection_name} = gf.CrossSection(width={xsection.width})\n"
 
@@ -80,6 +84,18 @@ from gdsfactory.get_factories import get_cells
             if parameters
             else ""
         )
+
+        parameters_labels = (
+            "\n".join(
+                [
+                    f"    c.add_label(text=f'{p_name}:{{{p_name}}}', position=(xc, yc-{i}/{len(parameters)}*ysize/2), layer={layer_label})"
+                    for i, p_name in enumerate(parameters)
+                ]
+            )
+            if layer_label and parameters
+            else ""
+        )
+
         if parameters:
             doc = f'"""{block.doc}\n\n    Args:\n    {parameters_doc}\n    """'
         else:
@@ -91,8 +107,11 @@ from gdsfactory.get_factories import get_cells
 def {block_name}({parameters_string})->gf.Component:
     {doc}
     c = gf.Component()
-    c.add_polygon({points}, layer={layer_bbox})
+    p = c.add_polygon({points}, layer={layer_bbox})
+    xc, yc = p.center
+    ysize = p.ysize
 """
+        script += parameters_labels
 
         for port_name, port in block.pins.items():
             port_type = (
