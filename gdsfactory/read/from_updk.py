@@ -47,11 +47,12 @@ def from_updk(
     else:
         conf = OmegaConf.create(filepath)
 
-    script = """
+    script = f"""
 import sys
 import gdsfactory as gf
 from gdsfactory.get_factories import get_cells
 
+layer_bbox = {layer_bbox}
 """
 
     if layer_label:
@@ -88,7 +89,7 @@ from gdsfactory.get_factories import get_cells
         parameters_labels = (
             "\n".join(
                 [
-                    f"    c.add_label(text=f'{p_name}:{{{p_name}}}', position=(xc, yc-{i}/{len(parameters)}*ysize/2), layer={layer_label})"
+                    f"    c.add_label(text=f'{p_name}:{{{p_name}}}', position=(xc, yc-{i}/{len(parameters)}*ysize/2), layer=layer_label)"
                     for i, p_name in enumerate(parameters)
                 ]
             )
@@ -107,7 +108,7 @@ from gdsfactory.get_factories import get_cells
 def {block_name}({parameters_string})->gf.Component:
     {doc}
     c = gf.Component()
-    p = c.add_polygon({points}, layer={layer_bbox})
+    p = c.add_polygon({points}, layer=layer_bbox)
     xc, yc = p.center
     ysize = p.ysize
 """

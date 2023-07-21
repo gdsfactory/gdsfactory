@@ -34,7 +34,7 @@ def add_pads_bot(
     pad_port_labels: Optional[Tuple[str, ...]] = None,
     pad: ComponentSpec = pad_rectangular,
     bend: ComponentSpec = "wire_corner",
-    straight_separation: Optional[None] = None,
+    straight_separation: Optional[float] = None,
     pad_spacing: Union[float, str] = "pad_spacing",
     **kwargs,
 ) -> Component:
@@ -240,9 +240,19 @@ def add_pads_top(
 
 if __name__ == "__main__":
     # c = gf.components.pad()
-    c = gf.components.straight_heater_metal(length=100.0)
+    # c = gf.components.straight_heater_metal(length=100.0)
     # c = gf.components.straight(length=100.0)
 
     # cc = add_pads_top(component=c, port_names=("e1",))
-    cc = add_pads_top(component=c, port_names=("e1", "e2"), fanout_length=50)
+    # cc = add_pads_top(component=c, port_names=("e1", "e2"), fanout_length=50)
+    c = gf.c.nxn(
+        xsize=600,
+        ysize=200,
+        north=2,
+        south=3,
+        wg_width=10,
+        layer="M3",
+        port_type="electrical",
+    )
+    cc = add_pads_top(component=c)
     cc.show(show_ports=True)
