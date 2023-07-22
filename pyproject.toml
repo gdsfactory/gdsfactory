@@ -5,7 +5,6 @@ requires = ["poetry-core>=1.0.0"]
 [tool.poetry]
 authors = ["gdsfactory community <contact@gdsfactory.com>"]
 classifiers = [
-  "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
@@ -29,12 +28,12 @@ gdstk = "*"
 jinja2 = "*"
 loguru = "*"
 matplotlib = "*"
-numpy = "*"
+numpy = ">1.22"
 omegaconf = "*"
 orjson = "*"
 pandas = "*"
 pydantic = "<2.0"
-python = "^3.7"
+python = ">=3.8"
 pyyaml = "*"
 qrcode = "*"
 rectpack = "*"
