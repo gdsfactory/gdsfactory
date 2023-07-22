@@ -167,7 +167,7 @@ full = [
   "kfactory[git,ipy]==0.7.5",
   "meow-sim==0.7.1",
   # ray
-  "ray[tune,air]",
+  "ray",
   "hyperopt",
   # sax
   "sax==0.8.8",

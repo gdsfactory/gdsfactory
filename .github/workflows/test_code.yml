@@ -52,6 +52,7 @@ jobs:
           pip freeze
       - name: Test with pytest
         run: |
+          pip install pytest
           pytest
       - uses: actions/upload-artifact@v3
         with:
