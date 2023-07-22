@@ -82,12 +82,12 @@ Use python3.10 or python3.11, as some tools like kfactory are not available for 
 
 If you don't have python installed on your system you can [download anaconda](https://www.anaconda.com/download/)
 
-Once you have python installed, open Anaconda Prompt as Administrator and then install the latest gdsfactory using pip.
+Once you have python installed, open Anaconda Prompt as Administrator and then install the latest gdsfactory core conda (from conda-forge channel) and most plugins using pip.
 
 ![anaconda prompt](https://i.imgur.com/eKk2bbs.png)
 
 ```
-conda install gdstk -y
+conda install -c conda-forge gdsfactory -y
 pip install "gdsfactory[full]" --upgrade
 ```
 
