@@ -127,7 +127,6 @@ full = [
   "devsim",
   "pyvista",
   # docs
-  "jupytext",
   "femwell==0.1.4",
   # cad
   "autograd",
