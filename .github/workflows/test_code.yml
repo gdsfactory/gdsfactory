@@ -97,6 +97,25 @@ jobs:
       - name: Test with pytest
         run: |
           pytest gdsfactory/components
+  test_cli:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      max-parallel: 12
+      matrix:
+        python-version: ["3.11"]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install .
+      - name: Test
+        run: |
+          gf --version
   test_code_plugins:
     runs-on: ${{ matrix.os }}
     strategy:
