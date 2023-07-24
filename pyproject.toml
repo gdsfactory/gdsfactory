@@ -162,7 +162,7 @@ full = [
   "pyvista",
   "trimesh",
   "shapely",
-  "meshwell==0.0.3",
+  "meshwell==0.0.4",
   # kfactory
   "kfactory[git,ipy]==0.7.5",
   "meow-sim==0.7.1",
