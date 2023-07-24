@@ -36,6 +36,7 @@ def add_pads_bot(
     bend: ComponentSpec = "wire_corner",
     straight_separation: Optional[float] = None,
     pad_spacing: Union[float, str] = "pad_spacing",
+    optical_routing_type: Optional[int] = 1,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -54,6 +55,7 @@ def add_pads_bot(
         bend: bend spec.
         straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
         pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
+        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
 
     Keyword Args:
         straight: straight spec.
@@ -71,7 +73,6 @@ def add_pads_bot(
         grating_indices: list of grating coupler indices.
         routing_straight: function to route.
         routing_method: get_route.
-        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
 
@@ -135,6 +136,7 @@ def add_pads_bot(
         straight_separation=straight_separation,
         port_names=port_names,
         fiber_spacing=pad_spacing,
+        optical_routing_type=optical_routing_type,
         **kwargs,
     )
     if len(elements) == 0:
