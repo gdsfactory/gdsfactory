@@ -8,7 +8,6 @@ except ImportError as e:
     )
     raise e
 
-from typing import Optional
 
 from gdsfactory.typings import Dict, Layer, LayerSpecs, PathType, Tuple
 
@@ -66,9 +65,7 @@ class RegionCollection:
         filepath: to read GDS from.
     """
 
-    def __init__(
-        self, layermap: Dict[str, Layer], filepath: Optional[PathType] = None
-    ) -> None:
+    def __init__(self, layermap: Dict[str, Layer], filepath: PathType) -> None:
         lib = kf.kcell.KCLayout()
         lib.read(filename=str(filepath))
         c = lib[0]
