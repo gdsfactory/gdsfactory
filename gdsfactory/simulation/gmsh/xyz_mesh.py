@@ -147,7 +147,6 @@ def xyz_mesh(
         global_3D_algorithm=global_3D_algorithm,
         filename=filename,
         verbosity=verbosity,
-        n_threads=n_threads,
     )
 
     return mesh_out
