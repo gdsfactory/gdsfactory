@@ -1,5 +1,5 @@
-{% include 'header.html' %}
-{% include 'navbar.html' %}
+{% include 'header.html.j2' %}
+{% include 'navbar.html.j2' %}
 <div class="container" style="margin-top: 1em;">
     <h1>{{cell_name}}</h1>
     {% if variant %}
@@ -41,4 +41,4 @@
     var initial_image_data = "data:image/jpeg;base64,{{ initial_view | safe }}";
 </script>
 <script src="{{url_for('static', path='/client.js')}}"></script>
-{% include 'footer.html' %}
+{% include 'footer.html.j2' %}
