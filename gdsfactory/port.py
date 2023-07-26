@@ -124,6 +124,9 @@ class Port:
         if layer is None:
             layer = cross_section.layer
 
+        if isinstance(layer, list):
+            layer = tuple(layer)
+
         if width is None:
             width = cross_section.width
 
