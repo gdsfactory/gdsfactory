@@ -17,7 +17,7 @@
 <p>Files available:</p>
 <ul>
 {% for file in files_metadata %}
-    <li><a href="{{file['url']}}">{{ file['name'] }}</a></li>
+    <li><a href="{{ file['url'] }}">{{ file['name'] }}</a></li>
 {% endfor %}
 </ul>
 <p>File root: <i>{{ files_root }}</i></p>

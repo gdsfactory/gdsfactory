@@ -31,9 +31,9 @@ h2 {
         }
     </script>
 <div class="container" style="margin-top: 1em;">
-    <h1>{{cell_name}}</h1>
+    <h1>{{ cell_name }}</h1>
     {% if variant %}
-    <h2>({{variant}})</h2>
+    <h2>({{ variant }})</h2>
     {% endif %}
 
     <div class="viewer-panel">
@@ -59,7 +59,7 @@ h2 {
     var cell_variant = "{{ variant or cell_name }}";
     var initial_image_data = "data:image/jpeg;base64,{{ initial_view | safe }}";
 </script>
-<script src="{{url_for('static', path='/client.js')}}"></script>
+<script src="{{ url_for('static', path='/client.js') }}"></script>
 
 </body>
 </html>
