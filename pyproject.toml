@@ -232,6 +232,9 @@ include = '\.pyi?$'
 line-length = 88
 target-version = ['py310']
 
+[tool.codespell]
+ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
+
 [tool.commitizen]
 name = "cz_conventional_commits"
 version = "0.1.0"
