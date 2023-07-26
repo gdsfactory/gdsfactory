@@ -65,6 +65,7 @@ def xyz_mesh(
     n_threads: int = get_number_of_cores(),
     portnames: List[str] = None,
     layer_portname_delimiter: str = "#",
+    gmsh_version: Optional[float] = None,
 ) -> bool:
     """Full 3D mesh of component.
 
@@ -72,7 +73,7 @@ def xyz_mesh(
         component: gdsfactory component to mesh
         layerstack: gdsfactory LayerStack to parse
         resolutions: Pairs {"layername": {"resolution": float, "distance": "float}} to roughly control mesh refinement
-        default_characteristic_length: gmsh maximum edge length
+            default_characteristic_length: gmsh maximum edge length
         background_tag: name of the background layer to add (default: no background added). This will be used as the material as well.
         background_padding: [-x, -y, -z, +x, +y, +z] distances to add to the components and to fill with ``background_tag``
         global_scaling: factor to scale all mesh coordinates by (e.g. 1E-6 to go from um to m)
@@ -84,6 +85,8 @@ def xyz_mesh(
         n_threads: for gmsh parallelization
         portnames: list or port polygons to converts into new layers (useful for boundary conditions)
         layer_portname_delimiter: delimiter for the new layername/portname physicals, formatted as {layername}{delimiter}{portname}
+        gmsh_version: Gmsh mesh format version. For example, Palace requires an older version of 2.2,
+            see https://mfem.org/mesh-formats/#gmsh-mesh-formats.
     """
     if portnames:
         mesh_component = gf.Component()
@@ -145,6 +148,7 @@ def xyz_mesh(
         global_scaling=global_scaling,
         global_2D_algorithm=global_2D_algorithm,
         global_3D_algorithm=global_3D_algorithm,
+        gmsh_version=gmsh_version,
         filename=filename,
         verbosity=verbosity,
     )
