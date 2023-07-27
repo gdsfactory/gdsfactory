@@ -1,0 +1,10 @@
+{% include 'header.html.j2' %}
+{% include 'navbar.html.j2' %}
+<h1>gdspaths</h1>
+<p>
+{% for component in components %}
+<a class="component-link" href="/gds/{{ component }}">{{ component }}</a>
+{% endfor %}
+</p>
+
+{% include 'footer.html.j2' %}
