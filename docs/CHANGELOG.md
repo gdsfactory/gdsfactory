@@ -1,6 +1,10 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.114.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.115.0...main)
+
+## [6.115.0](https://github.com/gdsfactory/gdsfactory/compare/v6.115.0...v6.114.1)
+
+- add mmi for nxm [PR](https://github.com/gdsfactory/gdsfactory/pull/1915)
 
 ## [6.114.1](https://github.com/gdsfactory/gdsfactory/compare/v6.114.1...v6.114.0)
 
