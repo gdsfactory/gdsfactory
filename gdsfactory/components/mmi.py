@@ -1,63 +1,74 @@
 from __future__ import annotations
 
+from typing import List
+
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Optional
 
 
 @gf.cell
-def mmi1x2(
+def mmi(
+    inputs: int = 1,
+    outputs: int = 4,
     width: Optional[float] = None,
     width_taper: float = 1.0,
     length_taper: float = 10.0,
     length_mmi: float = 5.5,
-    width_mmi: float = 2.5,
-    gap_mmi: float = 0.25,
+    width_mmi: float = 5,
+    gap_input: float = 0.25,
+    gap_output: float = 0.25,
     taper: ComponentSpec = taper_function,
     straight: ComponentSpec = straight_function,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
+    input_positions: Optional[List[float]] = None,
+    output_positions: Optional[List[float]] = None,
 ) -> Component:
-    r"""1x2 MultiMode Interferometer (MMI).
+    r"""mxn MultiMode Interferometer (MMI).
 
     Args:
-        width: input and output straight width.
+        inputs: number of inputs.
+        outputs: number of outputs.
+        width: input and output straight width. Defaults to cross_section.
         width_taper: interface between input straights and mmi region.
         length_taper: into the mmi region.
         length_mmi: in x direction.
         width_mmi: in y direction.
-        gap_mmi:  gap between tapered wg.
+        gap_input:  gap between tapered wg.
+        gap_output:  gap between tapered wg.
         taper: taper function.
         straight: straight function.
         with_bbox: add rectangular box in cross_section
             bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string or dict).
-
+        input_positions: optional positions of the inputs.
+        output_positions: optional positions of the outputs.
 
     .. code::
 
-               length_mmi
-                <------>
-                ________
-               |        |
-               |         \__
-               |          __  o2
-            __/          /_ _ _ _
-         o1 __          | _ _ _ _| gap_mmi
-              \          \__
-               |          __  o3
-               |         /
-               |________|
-
-             <->
-        length_taper
-
+                   length_mmi
+                    <------>
+                    ________
+                   |        |
+                __/          \__
+            o2  __            __  o3
+                  \          /_ _ _ _
+                  |         | _ _ _ _| gap_output
+                __/          \__
+            o1  __            __  o4
+                  \          /
+                   |________|
+                 | |
+                 <->
+            length_taper
     """
     c = Component()
-    gap_mmi = gf.snap.snap_to_grid(gap_mmi, nm=2)
+    gap_input = gf.snap.snap_to_grid(gap_input, nm=2)
+    gap_output = gf.snap.snap_to_grid(gap_output, nm=2)
     w_mmi = width_mmi
     w_taper = width_taper
     x = gf.get_cross_section(cross_section)
@@ -74,7 +85,6 @@ def mmi1x2(
         decorator=None,
     )
 
-    a = gap_mmi / 2 + width_taper / 2
     mmi = c << gf.get_component(
         straight,
         length=length_mmi,
@@ -85,31 +95,41 @@ def mmi1x2(
         decorator=None,
     )
 
+    wg_spacing_input = gap_input + width_taper
+    wg_spacing_output = gap_output + width_taper
+
+    yi = -(inputs - 1) * wg_spacing_input / 2
+    yo = -(outputs - 1) * wg_spacing_output / 2
+
+    input_positions = input_positions or [
+        yi + i * wg_spacing_input for i in range(inputs)
+    ]
+    output_positions = output_positions or [
+        yo + i * wg_spacing_output for i in range(outputs)
+    ]
+
     ports = [
         gf.Port(
-            "o1",
+            f"in_{i}",
             orientation=180,
-            center=(0, 0),
+            center=(0, y),
             width=w_taper,
             layer=x.layer,
             cross_section=x,
-        ),
+        )
+        for i, y in enumerate(input_positions)
+    ]
+
+    ports += [
         gf.Port(
-            "o2",
+            f"out_{i}",
             orientation=0,
-            center=(+length_mmi, +a),
+            center=(+length_mmi, y),
             width=w_taper,
             layer=x.layer,
             cross_section=x,
-        ),
-        gf.Port(
-            "o3",
-            orientation=0,
-            center=(+length_mmi, -a),
-            width=w_taper,
-            layer=x.layer,
-            cross_section=x,
-        ),
+        )
+        for i, y in enumerate(output_positions)
     ]
 
     for port in ports:
@@ -139,16 +159,13 @@ def mmi1x2(
         c = x.add_pins(c)
     if x.decorator:
         c = x.decorator(c)
+    c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.components.mmi1x2(cross_section="rib_conformal")
-
-    # print(c.xmin)
-    # c.xmin = 0
-    # print(c.xmin)
-
+    # import gdsfactory as gf
+    # c = gf.components.mmi1x2(cross_section="rib_conformal")
+    c = mmi(inputs=2, outputs=4, gap_input=0.5, input_positions=[-1, 1])
+    print(len(c.ports))
     c.show(show_ports=True)
