@@ -5,7 +5,7 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Optional
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Optional
 
 
 @gf.cell
@@ -16,8 +16,8 @@ def mmi2x2(
     length_mmi: float = 5.5,
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
-    taper: ComponentSpec = taper_function,
-    straight: ComponentSpec = straight_function,
+    taper: ComponentFactory = taper_function,
+    straight: ComponentFactory = straight_function,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
@@ -62,8 +62,7 @@ def mmi2x2(
     x = gf.get_cross_section(cross_section)
     width = width or x.width
 
-    taper = gf.get_component(
-        taper,
+    _taper = taper(
         length=length_taper,
         width1=width,
         width2=w_taper,
@@ -74,8 +73,7 @@ def mmi2x2(
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    mmi = c << gf.get_component(
-        straight,
+    mmi = c << straight(
         length=length_mmi,
         width=w_mmi,
         cross_section=cross_section,
@@ -104,7 +102,7 @@ def mmi2x2(
     ]
 
     for port in ports:
-        taper_ref = c << taper
+        taper_ref = c << _taper
         taper_ref.connect(port="o2", destination=port)
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
