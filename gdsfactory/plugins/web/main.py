@@ -233,7 +233,7 @@ async def filewatcher(request: Request):
     b64_data = base64.b64encode(pixel_data).decode("utf-8")
 
     return templates.TemplateResponse(
-        "filewatcher.html",
+        "filewatcher.html.j2",
         {
             "request": request,
             "output": output,

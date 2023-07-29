@@ -65,8 +65,8 @@ settings:
   child: null
   default:
     cross_section: strip
-    gap_input: 0.25
-    gap_output: 0.25
+    gap_input_tapers: 0.25
+    gap_output_tapers: 0.25
     input_positions: null
     inputs: 1
     length_mmi: 5.5
@@ -83,8 +83,8 @@ settings:
     with_bbox: true
   full:
     cross_section: strip
-    gap_input: 0.25
-    gap_output: 0.25
+    gap_input_tapers: 0.25
+    gap_output_tapers: 0.25
     input_positions: null
     inputs: 1
     length_mmi: 5.5

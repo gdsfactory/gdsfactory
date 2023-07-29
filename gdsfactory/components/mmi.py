@@ -19,8 +19,8 @@ def mmi(
     length_taper: float = 10.0,
     length_mmi: float = 5.5,
     width_mmi: float = 5,
-    gap_input: float = 0.25,
-    gap_output: float = 0.25,
+    gap_input_tapers: float = 0.25,
+    gap_output_tapers: float = 0.25,
     taper: ComponentFactory = taper_function,
     straight: ComponentFactory = straight_function,
     with_bbox: bool = True,
@@ -38,8 +38,8 @@ def mmi(
         length_taper: into the mmi region.
         length_mmi: in x direction.
         width_mmi: in y direction.
-        gap_input:  gap between tapered wg.
-        gap_output:  gap between tapered wg.
+        gap_input_tapers: gap between input tapers from edge to edge.
+        gap_output_tapers: gap between output tapers from edge to edge.
         taper: taper function.
         straight: straight function.
         with_bbox: add rectangular box in cross_section
@@ -57,7 +57,7 @@ def mmi(
                 __/          \__
             o2  __            __  o3
                   \          /_ _ _ _
-                  |         | _ _ _ _| gap_output
+                  |         | _ _ _ _| gap_output_tapers
                 __/          \__
             o1  __            __  o4
                   \          /
@@ -67,8 +67,8 @@ def mmi(
             length_taper
     """
     c = Component()
-    gap_input = gf.snap.snap_to_grid(gap_input, nm=2)
-    gap_output = gf.snap.snap_to_grid(gap_output, nm=2)
+    gap_input_tapers = gf.snap.snap_to_grid(gap_input_tapers, nm=2)
+    gap_output_tapers = gf.snap.snap_to_grid(gap_output_tapers, nm=2)
     w_mmi = width_mmi
     w_taper = width_taper
     x = gf.get_cross_section(cross_section)
@@ -93,8 +93,8 @@ def mmi(
         decorator=None,
     )
 
-    wg_spacing_input = gap_input + width_taper
-    wg_spacing_output = gap_output + width_taper
+    wg_spacing_input = gap_input_tapers + width_taper
+    wg_spacing_output = gap_output_tapers + width_taper
 
     yi = -(inputs - 1) * wg_spacing_input / 2
     yo = -(outputs - 1) * wg_spacing_output / 2
@@ -164,6 +164,6 @@ def mmi(
 if __name__ == "__main__":
     # import gdsfactory as gf
     # c = gf.components.mmi1x2(cross_section="rib_conformal")
-    c = mmi(inputs=2, outputs=4, gap_input=0.5, input_positions=[-1, 1])
+    c = mmi(inputs=2, outputs=4, gap_input_tapers=0.5, input_positions=[-1, 1])
     print(len(c.ports))
     c.show(show_ports=True)
