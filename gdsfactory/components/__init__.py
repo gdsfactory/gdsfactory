@@ -165,6 +165,7 @@ from gdsfactory.components.litho_ruler import litho_ruler
 from gdsfactory.components.litho_steps import litho_steps
 from gdsfactory.components.logo import logo
 from gdsfactory.components.loop_mirror import loop_mirror
+from gdsfactory.components.mmi import mmi
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi1x2_with_sbend import mmi1x2_with_sbend
 from gdsfactory.components.mmi2x2 import mmi2x2
@@ -491,6 +492,7 @@ __all__ = [
     "marker_te",
     "marker_tm",
     "mmi_90degree_hybrid",
+    "mmi",
     "mmi1x2",
     "mmi2x2",
     "mmi1x2_with_sbend",
