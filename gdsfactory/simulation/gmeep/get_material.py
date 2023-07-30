@@ -7,7 +7,11 @@ import meep as mp
 import meep.materials as mat
 import numpy as np
 
-from gdsfactory.materials import material_name_to_meep as material_name_to_meep_default
+material_name_to_meep_default = {
+    "si": "Si",
+    "sin": "Si3N4_NIR",
+    "sio2": "SiO2",
+}
 
 MATERIALS = [m for m in dir(mat) if not m.startswith("_")]
 

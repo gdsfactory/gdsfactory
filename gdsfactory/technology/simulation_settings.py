@@ -6,9 +6,12 @@ from pydantic import BaseModel
 
 if TYPE_CHECKING:
     from gdsfactory.typings import MaterialSpec
-from gdsfactory.materials import (
-    material_name_to_lumerical as material_name_to_lumerical_default,
-)
+
+material_name_to_lumerical_default = {
+    "si": "Si (Silicon) - Palik",
+    "sio2": "SiO2 (Glass) - Palik",
+    "sin": "Si3N4 (Silicon Nitride) - Phillip",
+}
 
 
 class SimulationSettingsLumericalFdtd(BaseModel):
