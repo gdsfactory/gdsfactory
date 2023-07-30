@@ -82,7 +82,7 @@ def coupler_ring(
     cs = coupler_straight_component.ref()
 
     if length_x > 0:
-        cs = c.add(cs)
+        c.add(cs)
 
     # connect references
     y = coupler90_component.y
@@ -178,7 +178,8 @@ if __name__ == "__main__":
     # c = coupler_ring_point(c, open_layers=("HEATER",), open_sizes=((5, 7),))
 
     # c = coupler_ring_point()
-    c = coupler_ring(length_x=0)
+    # c = coupler_ring(length_x=0)
+    c = coupler_ring()
 
     # c = gf.Component()
     # c1 = coupler_ring(cladding_layers=[(111, 0)], cladding_offsets=[0.5])

@@ -67,8 +67,8 @@ def ring_double(
     sr = straight_component.ref()
 
     if length_y > 0:
-        sl = c.add(sl)
-        sr = c.add(sr)
+        c.add(sl)
+        c.add(sr)
 
     sl.connect(port="o1", destination=cb.ports["o2"])
     ct.connect(port="o3", destination=sl.ports["o2"])
