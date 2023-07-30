@@ -16,7 +16,6 @@ from typing_extensions import Literal
 from gdsfactory.config import PATH, logger
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.events import Event
-from gdsfactory.materials import materials_index as materials_index_default
 from gdsfactory.name import MAX_NAME_LENGTH
 from gdsfactory.read import cell_from_yaml
 from gdsfactory.show import show
@@ -267,7 +266,7 @@ class Pdk(BaseModel):
     interconnect_cml_path: Optional[PathType] = None
     warn_off_grid_ports: bool = False
     constants: Dict[str, Any] = constants
-    materials_index: Dict[str, MaterialSpec] = materials_index_default
+    materials_index: Dict[str, MaterialSpec] = Field(default_factory=dict)
     routing_strategies: Optional[Dict[str, Callable]] = None
     circuit_yaml_parser: Callable = cell_from_yaml
     gds_write_settings: GdsWriteSettings = GdsWriteSettings()

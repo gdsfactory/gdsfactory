@@ -44,6 +44,7 @@ def get_generic_pdk() -> Pdk:
     from gdsfactory.config import PATH, sparameters_path
     from gdsfactory.cross_section import cross_sections
     from gdsfactory.pdk import Pdk, constants
+    from gdsfactory.generic_tech.simulation_settings import materials_index
 
     LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
 
@@ -56,6 +57,7 @@ def get_generic_pdk() -> Pdk:
         layer_views=LAYER_VIEWS,
         layer_transitions=LAYER_TRANSITIONS,
         sparameters_path=sparameters_path,
+        materials_index=materials_index,
         constants=constants,
     )
 
