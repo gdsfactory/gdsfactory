@@ -78,7 +78,11 @@ def coupler_ring(
     # add references to subcells
     cbl = c << coupler90_component
     cbr = c << coupler90_component
-    cs = c << coupler_straight_component
+
+    cs = coupler_straight_component.ref()
+
+    if length_x > 0:
+        cs = c.add(cs)
 
     # connect references
     y = coupler90_component.y
@@ -150,10 +154,8 @@ def coupler_ring_point(
         c << gf.geometry.boolean(subcomponent, rectangle, "A-B", layer=layer)
 
     coupler_ref = c << coupler_ring_component.extract(layers=untouched_layers)
-
     c.add_ports(coupler_ring_component.get_ports_list())
     c.absorb(coupler_ref)
-
     return c
 
 
@@ -175,7 +177,8 @@ if __name__ == "__main__":
     # )
     # c = coupler_ring_point(c, open_layers=("HEATER",), open_sizes=((5, 7),))
 
-    c = coupler_ring_point()
+    # c = coupler_ring_point()
+    c = coupler_ring(length_x=0)
 
     # c = gf.Component()
     # c1 = coupler_ring(cladding_layers=[(111, 0)], cladding_offsets=[0.5])
