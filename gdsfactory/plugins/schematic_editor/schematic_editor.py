@@ -6,7 +6,7 @@ import ipywidgets as widgets
 import yaml
 
 import gdsfactory as gf
-from gdsfactory import circuitviz
+from gdsfactory.plugins.schematic_editor import circuitviz
 from gdsfactory.picmodel import (
     PicYamlConfiguration,
     Route,
