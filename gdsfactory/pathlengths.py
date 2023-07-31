@@ -88,10 +88,7 @@ def report_pathlengths(
     )
     route_records = get_paths(pathlength_graph)
 
-    if not route_records:
-        # print(f'skipping. {pic.name} does not have any paths to report')
-        pass
-    else:
+    if route_records:
         if not result_dir.is_dir():
             result_dir.mkdir()
         pathlength_table_filename = result_dir / f"{pic.name}.pathlengths.csv"
@@ -208,9 +205,9 @@ def idealized_mxn_connectivity(inst_name: str, ref: ComponentReference, g: nx.Gr
     out_ports = [p for p in ref.ports if p.startswith("out")]
     for in_port in in_ports:
         for out_port in out_ports:
-            inn = f"{inst_name},{in_port}"
-            outt = f"{inst_name},{out_port}"
-            g.add_edge(inn, outt, weight=0.0001, component=ref.parent.name)
+            inst_in = f"{inst_name},{in_port}"
+            inst_out = f"{inst_name},{out_port}"
+            g.add_edge(inst_in, inst_out, weight=0.0001, component=ref.parent.name)
 
 
 def _get_edge_based_route_attr_graph(
@@ -257,9 +254,9 @@ def _get_edge_based_route_attr_graph(
         if route_attrs:
             for link, attrs in route_attrs.items():
                 in_port, out_port = link.split(":")
-                inn = f"{inst_name},{in_port}"
-                outt = f"{inst_name},{out_port}"
-                g.add_edge(inn, outt, **attrs)
+                inst_in = f"{inst_name},{in_port}"
+                inst_out = f"{inst_name},{out_port}"
+                g.add_edge(inst_in, inst_out, **attrs)
         elif recursive:
             sub_inst = inst_refs[inst_name]
             if sub_inst.parent.name in netlists:
@@ -472,7 +469,6 @@ def get_pathlength_widgets(
         TableColumn(field="dst_inst", title="Dest"),
         TableColumn(field="dst_port", title="Port"),
         TableColumn(field="length", title="Length"),
-        # TableColumn(field='n_bends', title='# bends'),
     ]
     for cs_name in cs_colors:
         columns.append(TableColumn(field=f"{cs_name}_length", title=cs_name))
@@ -487,8 +483,6 @@ def get_pathlength_widgets(
         tooltips=[("port", "@name"), ("x", "@x"), ("y", "@y")],
         renderers=[graph_renderer.node_renderer],
     )
-    # hover_tool_insts = HoverTool(tooltips=[('instance', '@names')],
-    #                         renderers=[inst_renderer])
     edge_hover_tool = HoverTool(
         tooltips=[
             ("Start", "@start_name"),
