@@ -431,7 +431,7 @@ def get_pathlength_widgets(
         "r2s_length": [],
         "m2_length": [],
         "color": [],
-        "n_bends": [],
+        "n_bend_90": [],
     }
     for i, path in enumerate(paths):
         if "dst_node" in path:
@@ -491,7 +491,7 @@ def get_pathlength_widgets(
     ]
     for cs_name in cs_colors:
         columns.append(TableColumn(field=f"{cs_name}_length", title=cs_name))
-    columns.append(TableColumn(field="n_bends", title="# bends"))
+    columns.append(TableColumn(field="n_bend_90", title="# bend90"))
     table = DataTable(
         source=paths_ds,
         columns=columns,

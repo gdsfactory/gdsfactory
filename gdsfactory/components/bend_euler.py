@@ -76,7 +76,7 @@ def bend_euler(
     c.info["radius"] = radius
     c.info["width"] = x.width
     c.info["route_info"] = route_info_from_cs(
-        cross_section, length=c.info["length"], n_bends=abs(angle / 90.0)
+        cross_section, length=c.info["length"], n_bend_90=abs(angle / 90.0)
     )
 
     if x.info:
