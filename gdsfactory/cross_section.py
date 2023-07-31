@@ -507,7 +507,11 @@ radius_rib = 20
 
 # strip = cross_section
 strip_pins = partial(
-    cross_section, add_pins=add_pins_inside1nm, name="strip", add_bbox=None
+    cross_section,
+    add_pins=add_pins_inside1nm,
+    name="strip",
+    add_bbox=None,
+    info={"type": "strip"},
 )
 strip = strip_pins
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
@@ -517,13 +521,20 @@ strip_no_pins = partial(
 strip_siepic = partial(cross_section, add_pins=add_pins_siepic_optical)
 
 # Rib with rectangular slab
-rib = partial(strip, bbox_layers=["SLAB90"], bbox_offsets=[3], radius=radius_rib)
+rib = partial(
+    strip,
+    bbox_layers=["SLAB90"],
+    bbox_offsets=[3],
+    radius=radius_rib,
+    info={"type": "rib"},
+)
 
 # Rib with with slab that follows the waveguide core
 rib_conformal = partial(
     strip,
     sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),
     radius=radius_rib,
+    info={"type": "rib"},
 )
 rib_conformal2 = partial(
     strip,
@@ -531,6 +542,7 @@ rib_conformal2 = partial(
     cladding_layers=("SLAB90",),
     cladding_offsets=(3,),
     cladding_simplify=(50 * nm,),
+    info={"type": "rib"},
 )
 nitride = partial(strip, layer="WGN", width=1.0, radius=radius_nitride)
 strip_rib_tip = partial(

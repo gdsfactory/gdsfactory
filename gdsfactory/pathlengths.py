@@ -24,12 +24,14 @@ from bokeh.models import (
 from bokeh.palettes import Spectral4, Category10
 import numpy as np
 from gdsfactory.component import Component, ComponentReference
+from gdsfactory.typings import CrossSectionSpec
 
 
 DEFAULT_CS_COLORS = {
     "rib": "red",
     "strip": "blue",
     "r2s": "purple",
+    "m1": "#00FF92",
     "m2": "gold",
 }
 
@@ -38,7 +40,7 @@ def get_internal_netlist_attributes(
     route_inst_def: Dict[str, Dict], route_info: Optional[Dict]
 ):
     if route_info:
-        link = "in0:out0"
+        link = "o1:o2"
         component_name = route_inst_def["component"]
         attrs = route_info
         attrs["component"] = component_name
@@ -510,7 +512,9 @@ def visualize_graph(
     show(layout)
 
 
-def route_info(cs_type, length, length_eff=None, taper=False, **kwargs):
+def route_info(
+    cs_type: str, length: float, length_eff: float = None, taper: bool = False, **kwargs
+):
     """
     Gets a dictionary of route info, used by pathlength analysis.
 
@@ -536,9 +540,11 @@ def route_info(cs_type, length, length_eff=None, taper=False, **kwargs):
     return d
 
 
-def route_info_from_cs(cs, length, length_eff=None):
+def route_info_from_cs(
+    cs: CrossSectionSpec, length: float, length_eff: float = None, **kwargs
+):
     from gdsfactory import get_cross_section
 
     x = get_cross_section(cs)
     cs_type = x.info.get("type", str(cs))
-    return route_info(cs_type, length=length, length_eff=length_eff)
+    return route_info(cs_type, length=length, length_eff=length_eff, **kwargs)

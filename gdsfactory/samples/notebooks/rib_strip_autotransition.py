@@ -7,9 +7,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.14.6
 #   kernelspec:
-#     display_name: base
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
@@ -37,6 +37,7 @@ from gdsfactory.cross_section import strip, rib_conformal
 from gdsfactory.typings import CrossSectionSpec
 from gdsfactory.routing import all_angle
 from gdsfactory.read import cell_from_yaml_template
+from gdsfactory.pathlengths import route_info
 
 gf.clear_cache()
 gf.config.rich_output()
@@ -75,14 +76,18 @@ def strip_to_rib(width1: float = 0.5, width2: float = 0.5):
         port=taper.ports["o1"],
         layer="STRIP_INTENT",
         cross_section=strip_with_intent(width=width1),
+        width=width1,
     )
     c.add_port(
         "o2",
         port=taper.ports["o2"],
         layer="RIB_INTENT",
         cross_section=rib_with_intent(width=width2),
+        width=width2,
     )
+    c.absorb(taper)
     c.info.update(taper.info)
+    c.info["route_info"] = route_info("r2s", length=c.info["length"])
     return c
 
 
@@ -197,6 +202,8 @@ c.plot()
 # Notice how the strip waveguide bundles are much more tightly packed than the rib waveguide bundles in the example below.
 
 # %%
+
+# %%
 basic_sample_fn2 = sample_dir / "aar_bundles03.pic.yml"
 show_yaml_pic(basic_sample_fn2)
 
@@ -204,5 +211,27 @@ show_yaml_pic(basic_sample_fn2)
 f = cell_from_yaml_template(basic_sample_fn2, name="sample_transition")
 c = f()
 c.plot()
+
+# %% [markdown]
+# ## Analyzing pathlengths
+# You can use the `report_pathlenghts` functionality to get a detailed CSV report and interactive visualization about the routes in your PIC.
+
+# %%
+from gdsfactory.pathlengths import report_pathlengths
+from pathlib import Path
+
+report_pathlengths(
+    pic=c,
+    result_dir=Path("rib_strip_pathlengths"),
+    visualize=True,
+)
+
+# %% [markdown]
+# You should see an interactive webpage like the following appear, summarizing the paths in your PIC.
+# ![pathlength report](images/pathlength_report.png)
+
+# %% [markdown]
+# Clicking any of the routes or checking any of the boxes should highlight the respective route in the color shown in the table to the right to help you better identify them. Hovering over any of the routes or ports will display additional information.
+# ![pathlength report](images/pathlength_report_highlighted.png)
 
 # %%
