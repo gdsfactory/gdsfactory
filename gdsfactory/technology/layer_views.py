@@ -524,7 +524,7 @@ class LayerView(BaseModel):
             return 0.3
 
     def get_color_dict(self) -> Dict[str, str]:
-        from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
+        from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
 
         if self.fill_color is not None or self.frame_color is not None:
             return {
@@ -553,7 +553,7 @@ class LayerView(BaseModel):
         self, tag: str, name: str, custom_hatch_patterns: dict, custom_line_styles: dict
     ) -> ET.Element:
         """Get XML Element from attributes."""
-        from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
+        from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
 
         # If hatch pattern name matches a named (built-in) KLayout pattern, use 'I<idx>' notation
         hatch_name = getattr(self.hatch_pattern, "name", self.hatch_pattern)
@@ -985,7 +985,7 @@ class LayerViews(BaseModel):
             overwrite: Whether to overwrite an existing file located at the filepath.
 
         """
-        from gdsfactory.utils.xml_utils import make_pretty_xml
+        from gdsfactory.technology.xml_utils import make_pretty_xml
 
         filepath = pathlib.Path(filepath)
         dirpath = filepath.parent
@@ -1103,7 +1103,7 @@ class LayerViews(BaseModel):
         """
         import yaml
 
-        from gdsfactory.utils.yaml_utils import (
+        from gdsfactory.technology.yaml_utils import (
             add_color_yaml_presenter,
             add_multiline_str_yaml_presenter,
             add_tuple_yaml_presenter,
