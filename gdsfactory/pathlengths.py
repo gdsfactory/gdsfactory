@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Dict, Optional, List, Any, Union
 
 import networkx as nx
 import pandas as pd
@@ -25,6 +25,7 @@ from bokeh.palettes import Spectral4, Category10
 import numpy as np
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import CrossSectionSpec
+from pathlib import Path
 
 
 DEFAULT_CS_COLORS = {
@@ -55,6 +56,20 @@ def _get_link_name(component: Component):
         raise ValueError("routing components must have two ports")
     link = ":".join(ports)
     return link
+
+
+def _node_to_inst_port(node: str):
+    ip = node.split(",")
+    if len(ip) == 2:
+        inst, port = ip
+    elif len(ip) == 1:
+        port = ip[0]
+        inst = ""
+    else:
+        raise ValueError(
+            f"did not expect a connection name with more than one comma: {node}"
+        )
+    return inst, port
 
 
 def _is_scalar(val):
@@ -101,7 +116,13 @@ def report_pathlengths(
         visualize_graph(pic, pathlength_graph, route_records, result_dir)
 
 
-def get_paths(pathlength_graph):
+def get_paths(pathlength_graph: nx.Graph) -> List[Dict[str, Any]]:
+    """
+    Gets a list of dictionaries from the pathlength graph describing each of the aggregate paths.
+
+    Args:
+        pathlength_graph: a graph representing a circuit
+    """
     paths = nx.connected_components(pathlength_graph)
     route_records = []
     for path in paths:
@@ -109,16 +130,7 @@ def get_paths(pathlength_graph):
         end_nodes = [n for n, deg in node_degrees if deg == 1]
         end_ports = []
         for node in end_nodes:
-            ip = node.split(",")
-            if len(ip) == 2:
-                inst, port = ip
-            elif len(ip) == 1:
-                port = ip[0]
-                inst = ""
-            else:
-                raise ValueError(
-                    f"did not expect a connection name with more than one comma: {node}"
-                )
+            inst, port = _node_to_inst_port(node)
             end_ports.append((inst, port))
         if len(end_ports) > 1:
             node_pairs = []
@@ -152,16 +164,7 @@ def get_paths(pathlength_graph):
                             end_nodes = [path[0], path[-1]]
                             end_ports2 = []
                             for node in end_nodes:
-                                ip = node.split(",")
-                                if len(ip) == 2:
-                                    inst, port = ip
-                                elif len(ip) == 1:
-                                    port = ip[0]
-                                    inst = ""
-                                else:
-                                    raise ValueError(
-                                        f"did not expect a connection name with more than one comma: {node}"
-                                    )
+                                inst, port = _node_to_inst_port(node)
                                 end_ports2.append((inst, port))
                             record["src_inst"], record["src_port"] = end_ports2[0]
                             record["src_node"] = end_nodes[0]
@@ -195,10 +198,12 @@ def idealized_mxn_connectivity(inst_name: str, ref: ComponentReference, g: nx.Gr
     """
     Connects all input ports to all output ports of m x n components, with idealized routes
 
-    :param inst_name: The name of the instance we are providing internal routing for.
-    :param ref: The component reference.
-    :param g: The main graph we are adding connectivity to.
-    :return: None. (instead, we expect that the graph is modified accordingly)
+    Args:
+        inst_name: The name of the instance we are providing internal routing for.
+        ref: The component reference.
+        g: The main graph we are adding connectivity to.
+    Returns:
+        None (graph is modified in-place)
     """
     warnings.warn(f"using idealized links for {inst_name} ({ref.parent.name})")
     in_ports = [p for p in ref.ports if p.startswith("in")]
@@ -322,10 +327,12 @@ def get_edge_based_route_attr_graph(
     """
     Gets a connectivity graph for the circuit, with all path attributes on edges and ports as nodes.
 
-    :param pic: the pic to generate a graph from
-    :param recursive: True to expand all hierarchy. False to only report top-level connectivity.
-    :param component_connectivity: a function to report connectivity for base components. None to treat as black boxes with no internal connectivity.
-    :return: a NetworkX Graph
+    Args:
+        pic: the pic to generate a graph from
+        recursive: True to expand all hierarchy. False to only report top-level connectivity.
+        component_connectivity: a function to report connectivity for base components. None to treat as black boxes with no internal connectivity.
+    Returns:
+        A NetworkX Graph
     """
     from gdsfactory.get_netlist import get_netlist, get_netlist_recursive
 
@@ -345,10 +352,23 @@ def get_edge_based_route_attr_graph(
 def get_pathlength_widgets(
     pic: Component,
     G: nx.Graph,
-    paths: list,
+    paths: List[Dict[str, Any]],
     cs_colors: Optional[Dict[str, str]] = None,
     default_color: str = "#CCCCCC",
-):
+) -> Dict[str, Any]:
+    """
+    Gets a dictionary of bokeh widgets which can be used to visualize pathlength.
+
+    Args:
+        pic: the component to analyze
+        G: the connectivity graph
+        paths: a list of dictionaries of path attributes
+        cs_colors: a dictionary mapping cross-section names to colors to use in the plot
+        default_color: the default color to use for unmapped cross-section types
+
+    Returns:
+        A dictionary of linked bokeh widgets: the pathlength_table and the pathlength_plot
+    """
     inst_infos = {}
     node_positions = {}
     if cs_colors is None:
@@ -429,7 +449,6 @@ def get_pathlength_widgets(
                 if key not in ["xs", "ys", "color"]:
                     path_data[key].append(path.get(key, 0.0))
 
-    # plot.multi_line(xs='xs', ys='ys', line_color='orange', line_width=3, source=paths_ds)
     inst_patches = {"xs": [], "ys": [], "names": [], "xl": [], "yt": []}
     for inst_name, inst_info in inst_infos.items():
         bbox = np.array(_expand_bbox(inst_info["bbox"]))
@@ -504,15 +523,26 @@ def get_pathlength_widgets(
 def visualize_graph(
     pic: Component,
     G: nx.Graph,
-    paths: list,
-    result_dir,
+    paths: List[Dict[str, Any]],
+    result_dir: Union[str, Path],
     cs_colors: Optional[Dict[str, str]] = None,
-):
+) -> None:
+    """
+    Visualizes a pathlength graph with bokeh and shows the output html.
+
+    Args:
+        pic: the circuit component
+        G: the connectivity graph
+        paths: the path statistics
+        result_dir: the directory (name or Path) in which to store results
+        cs_colors: a mapping of cross-section names to colors to use in the visualization
+    """
     widgets = get_pathlength_widgets(pic, G, paths, cs_colors=cs_colors)
     plot = widgets["pathlength_plot"]
     table = widgets["pathlength_table"]
     layout = row(plot, table, sizing_mode="stretch_both")
     curdoc().add_root(layout)
+    result_dir = Path(result_dir)
     output_file(result_dir / f"{pic.name}.html")
     show(layout)
 
@@ -523,12 +553,14 @@ def route_info(
     """
     Gets a dictionary of route info, used by pathlength analysis.
 
-    :param cs_type: cross section type
-    :param length: length
-    :param length_eff: effective length
-    :param taper: true if this component is a taper
-    :param kwargs: other attributes to track
-    :return: a dictionary of routing attributes
+    Args:
+        cs_type: cross section type
+        length: length
+        length_eff: effective length (i.e. an equivalent straight length of a bend)
+        taper: True if this component is a taper
+        kwargs: other attributes to track
+    Returns:
+        A dictionary of routing attributes
     """
     if length_eff is None:
         length_eff = length
@@ -548,6 +580,17 @@ def route_info(
 def route_info_from_cs(
     cs: CrossSectionSpec, length: float, length_eff: float = None, **kwargs
 ):
+    """
+    Gets a dictionary of route info, used by pathlength analysis.
+
+    Args:
+        cs: cross section object or spec
+        length: length
+        length_eff: effective length (i.e. an equivalent straight length of a bend)
+        kwargs: other attributes to track
+    Returns:
+        A dictionary of routing attributes
+    """
     from gdsfactory import get_cross_section
 
     x = get_cross_section(cs)
