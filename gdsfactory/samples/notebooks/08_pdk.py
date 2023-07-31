@@ -20,7 +20,7 @@
 # Depending on the active pdk:
 #
 # - `get_layer` returns a Layer from the registered layers.
-# - `get_component` returns a Component from the registered cells or containers.
+# - `get_component` returns a Component from the registered cells.
 # - `get_cross_section` returns a CrossSection from the registered cross_sections.
 
 # ## layers

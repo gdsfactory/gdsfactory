@@ -14,7 +14,6 @@ from pydantic import BaseModel, Field, validator
 from typing_extensions import Literal
 
 from gdsfactory.config import PATH, logger
-from gdsfactory.containers import containers as containers_default
 from gdsfactory.events import Event
 from gdsfactory.name import MAX_NAME_LENGTH
 from gdsfactory.read import cell_from_yaml
@@ -218,7 +217,6 @@ class Pdk(BaseModel):
         cells: dict of parametric cells that return Components.
         symbols: dict of symbols names to functions.
         default_symbol_factory:
-        containers: dict of pcells that contain other cells.
         base_pdk: a pdk to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
         layers: maps name to gdslayer/datatype.
@@ -252,7 +250,6 @@ class Pdk(BaseModel):
     cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
     symbols: Dict[str, ComponentFactory] = Field(default_factory=dict)
     default_symbol_factory: Callable = floorplan_with_block_letters
-    containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: Optional[Pdk] = None
     default_decorator: Optional[Callable[[Component], None]] = None
     layers: Dict[str, Layer] = Field(default_factory=dict)
@@ -290,7 +287,6 @@ class Pdk(BaseModel):
         fields = {
             "cross_sections": {"exclude": True},
             "cells": {"exclude": True},
-            "containers": {"exclude": True},
             "default_symbol_factory": {"exclude": True},
             "default_decorator": {"exclude": True},
             "materials_index": {"exclude": True},
@@ -332,10 +328,6 @@ class Pdk(BaseModel):
             cells.update(self.cells)
             self.cells.update(cells)
 
-            containers = self.base_pdk.containers
-            containers.update(self.containers)
-            self.containers.update(containers)
-
             layers = self.base_pdk.layers
             layers.update(self.layers)
             self.layers.update(layers)
@@ -359,20 +351,6 @@ class Pdk(BaseModel):
 
             self.cells[name] = cell
             on_cell_registered.fire(name=name, cell=cell, pdk=self)
-
-    def register_containers(self, **kwargs) -> None:
-        """Register container factories."""
-        for name, cell in kwargs.items():
-            if not callable(cell):
-                raise ValueError(
-                    f"{cell} is not callable, make sure you register "
-                    "cells functions that return a Component"
-                )
-            if name in self.containers:
-                warnings.warn(f"Overwriting container {name!r}")
-
-            self.containers[name] = cell
-            on_container_registered.fire(name=name, cell=cell, pdk=self)
 
     def register_cross_sections(self, **kwargs) -> None:
         """Register cross_sections factories."""
@@ -440,20 +418,17 @@ class Pdk(BaseModel):
 
     def get_cell(self, cell: CellSpec, **kwargs) -> ComponentFactory:
         """Returns ComponentFactory from a cell spec."""
-        cells_and_containers = set(self.cells.keys()).union(set(self.containers.keys()))
+        cells = set(self.cells.keys())
 
         if callable(cell):
             return cell
         elif isinstance(cell, str):
-            if cell not in cells_and_containers:
+            if cell not in cells:
                 cells = list(self.cells.keys())
-                containers = "\n".join(list(self.containers.keys()))
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: {cells} "
-                    f"or containers: {containers}"
                 )
-            cell = self.cells[cell] if cell in self.cells else self.containers[cell]
-            return cell
+            return self.cells[cell]
         elif isinstance(cell, (dict, DictConfig)):
             for key in cell.keys():
                 if key not in component_settings:
@@ -464,18 +439,12 @@ class Pdk(BaseModel):
             settings.update(**kwargs)
 
             cell_name = cell.get("function")
-            if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
+            if not isinstance(cell_name, str) or cell_name not in cells:
                 cells = list(self.cells.keys())
-                containers = list(self.containers.keys())
                 raise ValueError(
                     f"{cell_name!r} from PDK {self.name!r} not in cells: {cells} "
-                    f"or containers: {containers}"
                 )
-            cell = (
-                self.cells[cell_name]
-                if cell_name in self.cells
-                else self.containers[cell_name]
-            )
+            cell = self.cells[cell_name]
             return partial(cell, **settings)
         else:
             raise ValueError(
@@ -485,17 +454,13 @@ class Pdk(BaseModel):
 
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
         """Returns component from a component spec."""
-        return self._get_component(
-            component=component, cells=self.cells, containers=self.containers, **kwargs
-        )
+        return self._get_component(component=component, cells=self.cells, **kwargs)
 
     def get_symbol(self, component: ComponentSpec, **kwargs) -> Component:
         """Returns a component's symbol from a component spec."""
         # this is a pretty rough first implementation
         try:
-            self._get_component(
-                component=component, cells=self.symbols, containers={}, **kwargs
-            )
+            self._get_component(component=component, cells=self.symbols, **kwargs)
         except ValueError:
             component = self.get_component(component, **kwargs)
             return self.default_symbol_factory(component)
@@ -504,11 +469,10 @@ class Pdk(BaseModel):
         self,
         component: ComponentSpec,
         cells: Dict[str, Callable],
-        containers: Dict[str, Callable],
         **kwargs,
     ) -> Component:
         """Returns component from a component spec."""
-        cells_and_containers = set(cells.keys()).union(set(containers.keys()))
+        cells = set(cells.keys())
 
         if isinstance(component, Component):
             if kwargs:
@@ -517,15 +481,11 @@ class Pdk(BaseModel):
         elif callable(component):
             return component(**kwargs)
         elif isinstance(component, str):
-            if component not in cells_and_containers:
-                cells = list(cells.keys())
-                containers = list(containers.keys())
+            if component not in cells:
                 raise ValueError(
                     f"{component!r} not in PDK {self.name!r} cells: {cells} "
-                    f"or containers: {containers}"
                 )
-            cell = cells[component] if component in cells else containers[component]
-            return cell(**kwargs)
+            return cells[component](**kwargs)
         elif isinstance(component, (dict, DictConfig)):
             for key in component.keys():
                 if key not in component_settings:
@@ -538,16 +498,12 @@ class Pdk(BaseModel):
             cell_name = component.get("component", None)
             cell_name = cell_name or component.get("function")
             cell_name = cell_name.split(".")[-1]
-            if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
-                cells = list(cells.keys())
-                containers = list(containers.keys())
+
+            if not isinstance(cell_name, str) or cell_name not in cells:
                 raise ValueError(
                     f"{cell_name!r} from PDK {self.name!r} not in cells: {cells} "
-                    f"or containers: {containers}"
                 )
-            cell = cells[cell_name] if cell_name in cells else containers[cell_name]
-            component = cell(**settings)
-            return component
+            return cells[cell_name](**settings)
         else:
             raise ValueError(
                 "get_component expects a ComponentSpec (Component, ComponentFactory, "

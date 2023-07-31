@@ -3,7 +3,7 @@
 There are two types of functions:
 
 - decorators: return the original component
-- containers: return a new component
+- containers: return a new component that contains the old one.
 
 """
 from __future__ import annotations
