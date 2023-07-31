@@ -37,16 +37,24 @@ DEFAULT_CS_COLORS = {
 
 
 def get_internal_netlist_attributes(
-    route_inst_def: Dict[str, Dict], route_info: Optional[Dict]
+    route_inst_def: Dict[str, Dict], route_info: Optional[Dict], component: Component
 ):
     if route_info:
-        link = "o1:o2"
+        link = _get_link_name(component)
         component_name = route_inst_def["component"]
         attrs = route_info
         attrs["component"] = component_name
         return {link: attrs}
     else:
         return None
+
+
+def _get_link_name(component: Component):
+    ports = sorted(component.ports.keys())
+    if len(ports) != 2:
+        raise ValueError("routing components must have two ports")
+    link = ":".join(ports)
+    return link
 
 
 def _is_scalar(val):
@@ -242,7 +250,10 @@ def _get_edge_based_route_attr_graph(
     # currently we only do this for routing components, but could do it more generally in the future
     for inst_name, inst_dict in netlist["instances"].items():
         route_info = inst_route_attrs.get(inst_name)
-        route_attrs = get_internal_netlist_attributes(inst_dict, route_info)
+        inst_component = component.named_references[inst_name]
+        route_attrs = get_internal_netlist_attributes(
+            inst_dict, route_info, inst_component
+        )
         if route_attrs:
             for link, attrs in route_attrs.items():
                 in_port, out_port = link.split(":")
