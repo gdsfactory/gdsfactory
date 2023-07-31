@@ -485,7 +485,7 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{component!r} not in PDK {self.name!r} cells: {cells} "
                 )
-            return cells[component](**kwargs)
+            return self.cells[component](**kwargs)
         elif isinstance(component, (dict, DictConfig)):
             for key in component.keys():
                 if key not in component_settings:
@@ -503,7 +503,7 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{cell_name!r} from PDK {self.name!r} not in cells: {cells} "
                 )
-            return cells[cell_name](**settings)
+            return self.cells[cell_name](**settings)
         else:
             raise ValueError(
                 "get_component expects a ComponentSpec (Component, ComponentFactory, "
