@@ -96,7 +96,8 @@ full = [
   "jinja2",
   "python-multipart",
   "fastapi",
-  "uvicorn[standard]"
+  "uvicorn[standard]",
+  "kfactory[git,ipy]==0.7.5"
 ]
 
 [project.scripts]
