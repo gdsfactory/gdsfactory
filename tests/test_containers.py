@@ -14,7 +14,6 @@ component = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
 skip_test = {"add_fiber_array", "add_termination"}
 
 container_names = set(containers.keys()) - skip_test
-container_names_gds = container_names - skip_test_gds
 
 
 @pytest.mark.parametrize("container_type", container_names)
@@ -24,7 +23,7 @@ def test_settings(container_type: str, data_regression: DataRegressionFixture) -
     data_regression.check(c.to_dict())
 
 
-@pytest.mark.parametrize("container_type", container_names_gds)
+@pytest.mark.parametrize("container_type", container_names)
 def test_gds(container_type: str) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     c = containers[container_type](component=component)
