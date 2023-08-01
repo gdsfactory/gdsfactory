@@ -4,12 +4,13 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 install:
-	pip install -e .[full,dev] pre-commit
+	pip install -e .[full,dev,docs] pre-commit
 	pre-commit install
 	gf install klayout-genericpdk
 	gf install git-diff
 
 dev: install
+	pip install gplugins[tidy3d]
 
 update-pre:
 	pre-commit autoupdate --bleeding-edge
