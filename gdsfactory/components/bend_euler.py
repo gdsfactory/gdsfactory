@@ -12,7 +12,7 @@ from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler
 from gdsfactory.typings import CrossSectionSpec, Optional
-from gdsfactory.pathlengths import route_info_from_cs
+from gdsfactory.route_info import route_info_from_cs
 
 
 @gf.cell

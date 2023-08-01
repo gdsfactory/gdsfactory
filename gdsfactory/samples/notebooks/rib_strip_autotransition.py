@@ -37,7 +37,7 @@ from gdsfactory.cross_section import strip, rib_conformal
 from gdsfactory.typings import CrossSectionSpec
 from gdsfactory.routing import all_angle
 from gdsfactory.read import cell_from_yaml_template
-from gdsfactory.pathlengths import route_info
+from gdsfactory.route_info import route_info
 
 gf.clear_cache()
 gf.config.rich_output()
@@ -217,7 +217,7 @@ c.plot()
 # You can use the `report_pathlenghts` functionality to get a detailed CSV report and interactive visualization about the routes in your PIC.
 
 # %%
-from gdsfactory.pathlengths import report_pathlengths
+from gdsfactory.plugins.pathlength_analysis import report_pathlengths
 from pathlib import Path
 
 report_pathlengths(

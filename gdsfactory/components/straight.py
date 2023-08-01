@@ -5,7 +5,7 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec
-from gdsfactory.pathlengths import route_info_from_cs
+from gdsfactory.route_info import route_info_from_cs
 
 
 @gf.cell

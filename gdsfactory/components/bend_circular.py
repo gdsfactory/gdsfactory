@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import CrossSectionSpec, Optional
-from gdsfactory.pathlengths import route_info_from_cs
+from gdsfactory.route_info import route_info_from_cs
 
 
 @gf.cell

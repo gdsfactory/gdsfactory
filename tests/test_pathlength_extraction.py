@@ -3,7 +3,7 @@ import pathlib
 import pandas as pd
 import pytest
 import gdsfactory as gf
-from gdsfactory.pathlengths import report_pathlengths
+from gdsfactory.plugins.pathlength_analysis import report_pathlengths
 
 primitive_components = ["straight", "bend_euler", "bend_circular"]
 supported_cross_sections = ["rib", "strip"]
