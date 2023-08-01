@@ -35,7 +35,7 @@ import tidy3d as td
 import sax
 
 import gdsfactory as gf
-import gdsfactory.simulation.gtidy3d as gt
+import gplugins.gtidy3d as gt
 from gdsfactory.config import PATH
 
 

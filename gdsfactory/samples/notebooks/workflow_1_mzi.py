@@ -52,7 +52,7 @@ def mzi(
 
 
 if __name__ == "__main__":
-    import gdsfactory.simulation.gtidy3d as gt
+    import gplugins.gtidy3d as gt
     import matplotlib.pyplot as plt
 
     nm = 1e-3
@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
 # +
 import numpy as np
-import gdsfactory.simulation.gtidy3d as gt
+import gplugins.gtidy3d as gt
 import matplotlib.pyplot as plt
 
 nm = 1e-3
@@ -155,9 +155,9 @@ ng
 #
 # ![cloud_model](https://i.imgur.com/5VTCPLR.png)
 
-import gdsfactory.simulation as sim
+import gplugins as sim
 import gdsfactory as gf
-import gdsfactory.simulation.gtidy3d as gt
+import gplugins.gtidy3d as gt
 import gdsfactory.components as pdk
 from gdsfactory.config import PATH
 
@@ -206,7 +206,7 @@ import jax.numpy as jnp
 import sax
 
 import gdsfactory as gf
-import gdsfactory.simulation.sax as gsax
+import gplugins.sax as gsax
 
 
 # +

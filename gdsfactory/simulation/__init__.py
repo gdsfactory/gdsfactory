@@ -1,25 +1,14 @@
-"""gdsfactory interface to simulations."""
+message = """
+gdsfactory.simulation have been moved to gplugins
 
-from __future__ import annotations
+Make sure you have gplugins installed and use gplugins instead of gdsfactory.simulation
 
-from gdsfactory.simulation import plot
-from gdsfactory.simulation.get_effective_indices import get_effective_indices
-from gdsfactory.simulation.get_sparameters_path import (
-    get_sparameters_data_lumerical,
-    get_sparameters_data_meep,
-    get_sparameters_data_tidy3d,
-    get_sparameters_path_lumerical,
-    get_sparameters_path_meep,
-    get_sparameters_path_tidy3d,
-)
+You can replace:
+    import gdsfactory.simulation -> import gplugins
 
-__all__ = [
-    "plot",
-    "get_sparameters_path_meep",
-    "get_sparameters_path_lumerical",
-    "get_sparameters_path_tidy3d",
-    "get_sparameters_data_meep",
-    "get_sparameters_data_lumerical",
-    "get_sparameters_data_tidy3d",
-    "get_effective_indices",
-]
+You can install gplugins with:
+    pip install gplugins
+"""
+
+
+raise ValueError(message)
