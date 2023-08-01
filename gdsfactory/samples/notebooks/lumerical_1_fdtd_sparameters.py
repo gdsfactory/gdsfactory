@@ -45,8 +45,6 @@ gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
 
-gf.technology.SIMULATION_SETTINGS_LUMERICAL_FDTD
-
 # +
 # sim.write_sparameters_lumerical?
 

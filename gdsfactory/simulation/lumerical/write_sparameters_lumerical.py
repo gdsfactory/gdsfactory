@@ -14,9 +14,9 @@ from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_lumerical as get_sparameters_path,
 )
-from gdsfactory.technology import (
+from gdsfactory.technology import LayerStack
+from gdsfactory.generic_tech.simulation_settings import (
     SIMULATION_SETTINGS_LUMERICAL_FDTD,
-    LayerStack,
     SimulationSettingsLumericalFdtd,
 )
 

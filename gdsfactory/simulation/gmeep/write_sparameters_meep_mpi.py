@@ -199,7 +199,7 @@ def write_sparameters_meep_mpi(
     if live_output:
         import asyncio
 
-        from gdsfactory.utils.async_utils import execute_and_stream_output
+        from gdsfactory.simulation.gmeep.async_utils import execute_and_stream_output
 
         asyncio.run(
             execute_and_stream_output(

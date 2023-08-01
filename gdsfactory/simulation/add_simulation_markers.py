@@ -11,7 +11,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.technology import LayerLevel
-from gdsfactory.typings import ComponentSpec, Layer, LayerSpec
+from gdsfactory.typings import ComponentSpec, Layer
 
 
 @gf.cell
@@ -21,7 +21,6 @@ def add_simulation_markers(
     port_source_name: str = "o1",
     layer_source: Layer = (110, 0),
     layer_monitor: Layer = (101, 0),
-    layer_label: LayerSpec = "TEXT",
     port_source_offset: float = 0.2,
 ) -> Component:
     r"""Returns new Component with simulation markers.
@@ -32,7 +31,6 @@ def add_simulation_markers(
         port_source_name: for input.
         layer_source: for port marker.
         layer_monitor: for port marker.
-        layer_label: for labeling the ports.
         port_source_offset: distance from source to monitor in um.
 
     .. code::

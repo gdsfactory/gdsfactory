@@ -25,7 +25,7 @@
 # %%
 from bokeh.io import output_notebook
 
-from gdsfactory.schematic_editor import SchematicEditor
+from gdsfactory.plugins.schematic_editor import SchematicEditor
 from gdsfactory.config import rich_output
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk

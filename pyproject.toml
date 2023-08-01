@@ -17,20 +17,20 @@ classifiers = [
 dependencies = [
   "click",
   "flatdict",
-  "gdstk",
+  "gdstk<1",
   "jinja2",
-  "loguru",
+  "loguru<1",
   "matplotlib",
   "numpy",
-  "omegaconf",
+  "omegaconf<3",
   "orjson",
   "pandas",
-  "pydantic<2.0",
+  "pydantic<2",
   "pyyaml",
   "qrcode",
   "rectpack",
   "scipy",
-  "shapely",
+  "shapely<3",
   "toolz",
   "tqdm",
   "types-PyYAML",
@@ -173,7 +173,7 @@ full = [
   "sax==0.8.8",
   "jaxlib",
   "jax",
-  "tidy3d==2.3.2",
+  "tidy3d==2.3.3",
   # particle swarm implementation
   "pyswarms"
 ]
@@ -206,7 +206,7 @@ sax = [
   "jax"
 ]
 tidy3d = [
-  "tidy3d==2.3.2"
+  "tidy3d==2.3.3"
 ]
 
 [project.scripts]
