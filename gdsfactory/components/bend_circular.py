@@ -8,6 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import CrossSectionSpec, Optional
+from gdsfactory.route_info import route_info_from_cs
 
 
 @gf.cell
@@ -49,6 +50,9 @@ def bend_circular(
     c.info["length"] = float(snap_to_grid(p.length()))
     c.info["dy"] = snap_to_grid(float(abs(p.points[0][0] - p.points[-1][0])))
     c.info["radius"] = float(radius)
+    c.info["route_info"] = route_info_from_cs(
+        cross_section, length=c.info["length"], n_bend_90=abs(angle / 90.0)
+    )
 
     if with_bbox and x.bbox_layers:
         padding = []

@@ -12,6 +12,7 @@ from gdsfactory.generic_tech.containers import containers
 component = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
 
 skip_test = {"add_fiber_array", "add_termination"}
+
 container_names = set(containers.keys()) - skip_test
 
 

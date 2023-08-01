@@ -28,6 +28,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -48,7 +54,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -67,6 +74,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -81,6 +89,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       radius: 10
   bend_euler_10:
@@ -91,6 +101,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -111,7 +127,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -130,6 +147,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -144,6 +162,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       radius: 10
   bend_euler_11:
@@ -154,6 +174,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -174,7 +200,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -193,6 +220,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -207,6 +235,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       radius: 10
   bend_euler_12:
@@ -217,6 +247,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -237,7 +273,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -256,6 +293,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -270,6 +308,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       radius: 10
   bend_euler_2:
@@ -280,6 +320,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -300,7 +346,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -319,6 +366,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -333,6 +381,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       radius: 10
   bend_euler_3:
@@ -343,6 +393,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -363,7 +419,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -382,6 +439,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -396,6 +454,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       radius: 10
   bend_euler_4:
@@ -406,6 +466,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -426,7 +492,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -445,6 +512,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -459,6 +527,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       radius: 10
   bend_euler_5:
@@ -469,6 +539,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -489,7 +565,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -508,6 +585,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -522,6 +600,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       radius: 10
   bend_euler_6:
@@ -532,6 +612,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -552,7 +638,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -571,6 +658,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -585,6 +673,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       radius: 10
   bend_euler_7:
@@ -595,6 +685,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -615,7 +711,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -634,6 +731,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -648,6 +746,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       radius: 10
   bend_euler_8:
@@ -658,6 +758,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -678,7 +784,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -697,6 +804,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -711,6 +819,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       radius: 10
   bend_euler_9:
@@ -721,6 +831,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -741,7 +857,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -760,6 +877,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -774,6 +892,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       radius: 10
   bl:
@@ -811,9 +931,16 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       function_name: cross_section
       length: 200.0
+      route_info:
+        length: 200.0
+        strip_length: 200.0
+        type: strip
+        weight: 200.0
       settings:
         add_bbox: null
         add_pins:
@@ -834,7 +961,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -853,6 +981,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -867,6 +996,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       length: 200.0
       radius: 10
@@ -885,9 +1016,16 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       function_name: cross_section
       length: 610.0
+      route_info:
+        length: 610.0
+        strip_length: 610.0
+        type: strip
+        weight: 610.0
       settings:
         add_bbox: null
         add_pins:
@@ -908,7 +1046,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -927,6 +1066,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -941,6 +1081,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       length: 610.0
       radius: 10
@@ -959,9 +1101,16 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       function_name: cross_section
       length: 340.0
+      route_info:
+        length: 340.0
+        strip_length: 340.0
+        type: strip
+        weight: 340.0
       settings:
         add_bbox: null
         add_pins:
@@ -982,7 +1131,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -1001,6 +1151,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -1015,6 +1166,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       length: 340.0
       radius: 10
@@ -1033,9 +1186,16 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       function_name: cross_section
       length: 250.0
+      route_info:
+        length: 250.0
+        strip_length: 250.0
+        type: strip
+        weight: 250.0
       settings:
         add_bbox: null
         add_pins:
@@ -1056,7 +1216,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -1075,6 +1236,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -1089,6 +1251,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       length: 250.0
       radius: 10
@@ -1107,9 +1271,16 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       function_name: cross_section
       length: 250.0
+      route_info:
+        length: 250.0
+        strip_length: 250.0
+        type: strip
+        weight: 250.0
       settings:
         add_bbox: null
         add_pins:
@@ -1130,7 +1301,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -1149,6 +1321,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -1163,6 +1336,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       length: 250.0
       radius: 10
@@ -1181,9 +1356,16 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       function_name: cross_section
       length: 580.0
+      route_info:
+        length: 580.0
+        strip_length: 580.0
+        type: strip
+        weight: 580.0
       settings:
         add_bbox: null
         add_pins:
@@ -1204,7 +1386,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -1223,6 +1406,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -1237,6 +1421,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       length: 580.0
       radius: 10
@@ -1255,9 +1441,16 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       function_name: cross_section
       length: 170.0
+      route_info:
+        length: 170.0
+        strip_length: 170.0
+        type: strip
+        weight: 170.0
       settings:
         add_bbox: null
         add_pins:
@@ -1278,7 +1471,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -1297,6 +1491,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -1311,6 +1506,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       length: 170.0
       radius: 10
@@ -1329,9 +1526,16 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       function_name: cross_section
       length: 340.0
+      route_info:
+        length: 340.0
+        strip_length: 340.0
+        type: strip
+        weight: 340.0
       settings:
         add_bbox: null
         add_pins:
@@ -1352,7 +1556,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -1371,6 +1576,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -1385,6 +1591,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       length: 340.0
       radius: 10
@@ -1403,9 +1611,16 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       function_name: cross_section
       length: 250.0
+      route_info:
+        length: 250.0
+        strip_length: 250.0
+        type: strip
+        weight: 250.0
       settings:
         add_bbox: null
         add_pins:
@@ -1426,7 +1641,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -1445,6 +1661,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -1459,6 +1676,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       length: 250.0
       radius: 10
@@ -1477,9 +1696,16 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       function_name: cross_section
       length: 250.0
+      route_info:
+        length: 250.0
+        strip_length: 250.0
+        type: strip
+        weight: 250.0
       settings:
         add_bbox: null
         add_pins:
@@ -1500,7 +1726,8 @@ instances:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -1519,6 +1746,7 @@ instances:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     settings:
       cross_section:
@@ -1533,6 +1761,8 @@ instances:
                 settings:
                   layer_label: null
                   pin_length: 0.001
+          info:
+            type: strip
           name: strip
       length: 250.0
       radius: 10
