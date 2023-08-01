@@ -184,7 +184,7 @@ array
 
   import gdsfactory as gf
 
-  c = gf.components.array(spacing=[150.0, 150.0], columns=6, rows=1, add_ports=True)
+  c = gf.components.array(component='pad', spacing=[150.0, 150.0], columns=6, rows=1, add_ports=True)
   c.plot_matplotlib()
 
 
@@ -394,7 +394,7 @@ bend_port
 
   import gdsfactory as gf
 
-  c = gf.components.bend_port(port_name='e1', port_name2='e2', cross_section='metal3_with_bend', angle=180)
+  c = gf.components.bend_port(port_name='l_e1', port_name2='r_e1', cross_section='metal3_with_bend', angle=180)
   c.plot_matplotlib()
 
 
@@ -574,7 +574,7 @@ compass
 
   import gdsfactory as gf
 
-  c = gf.components.compass(size=[4.0, 2.0], layer='WG', port_type='placement', port_inclusion=0.0, port_orientations=[180, 90, 0, -90])
+  c = gf.components.compass(size=[4.0, 2.0], layer='WG', port_type='electrical', port_inclusion=0.0, port_orientations=[180, 90, 0, -90])
   c.plot_matplotlib()
 
 
@@ -784,6 +784,21 @@ coupler_ring
   import gdsfactory as gf
 
   c = gf.components.coupler_ring(gap=0.2, radius=5.0, length_x=4.0, cross_section='strip', length_extension=3)
+  c.plot_matplotlib()
+
+
+
+coupler_ring_point
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coupler_ring_point
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coupler_ring_point()
   c.plot_matplotlib()
 
 
@@ -1412,7 +1427,7 @@ grating_coupler_array
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_array(pitch=127.0, n=6, port_name='o1', rotation=0)
+  c = gf.components.grating_coupler_array(pitch=127.0, n=6, port_name='o1', rotation=0, with_loopback=False)
   c.plot_matplotlib()
 
 
@@ -1877,7 +1892,7 @@ marker_te
 
   import gdsfactory as gf
 
-  c = gf.components.marker_te(layer='TE', centered=True, port_type='placement', port_orientations=[180, 90, 0, -90])
+  c = gf.components.marker_te(layer='TE', centered=True, port_type='electrical', port_orientations=[180, 90, 0, -90])
   c.plot_matplotlib()
 
 
@@ -1892,7 +1907,22 @@ marker_tm
 
   import gdsfactory as gf
 
-  c = gf.components.marker_tm(layer='TM', centered=True, port_type='placement', port_orientations=[180, 90, 0, -90])
+  c = gf.components.marker_tm(layer='TM', centered=True, port_type='electrical', port_orientations=[180, 90, 0, -90])
+  c.plot_matplotlib()
+
+
+
+mmi
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.mmi
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.mmi(inputs=1, outputs=4, width_taper=1.0, length_taper=10.0, length_mmi=5.5, width_mmi=5, gap_input_tapers=0.25, gap_output_tapers=0.25, with_bbox=True, cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -2117,7 +2147,7 @@ mzi_lattice_mmi
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_lattice_mmi(coupler_widths=[None, None], coupler_widths_tapers=[1.0, 1.0], coupler_lengths_tapers=[10.0, 10.0], coupler_lengths_mmis=[5.5, 5.5], coupler_widths_mmis=[2.5, 2.5], coupler_gaps_mmis=[0.25, 0.25], taper_functions_mmis=[{'function': 'gdsfactory.components.taper.taper'}, {'function': 'gdsfactory.components.taper.taper'}], straight_functions_mmis=[{'function': 'gdsfactory.components.straight.straight'}, {'function': 'gdsfactory.components.straight.straight'}], cross_sections_mmis=['strip', 'strip'], delta_lengths=[10.0])
+  c = gf.components.mzi_lattice_mmi(coupler_widths=[None, None], coupler_widths_tapers=[1.0, 1.0], coupler_lengths_tapers=[10.0, 10.0], coupler_lengths_mmis=[5.5, 5.5], coupler_widths_mmis=[2.5, 2.5], coupler_gaps_mmis=[0.25, 0.25], taper_functions_mmis=[{'function': 'taper'}, {'function': 'taper'}], straight_functions_mmis=[{'function': 'straight'}, {'function': 'straight'}], cross_sections_mmis=['strip', 'strip'], delta_lengths=[10.0])
   c.plot_matplotlib()
 
 
@@ -2132,7 +2162,7 @@ mzi_pads_center
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_pads_center(length_x=500, length_y=40, mzi_sig_top='top_e2', mzi_gnd_top='top_e1', mzi_sig_bot='bot_e1', mzi_gnd_bot='bot_e2', pad_sig_bot='e1_1_1', pad_sig_top='e3_1_3', pad_gnd_bot='e4_1_2', pad_gnd_top='e2_1_2', delta_length=40.0, cross_section='strip', cross_section_metal='metal_routing', pad_spacing='pad_spacing')
+  c = gf.components.mzi_pads_center(length_x=500, length_y=40, mzi_sig_top='top_r_e2', mzi_gnd_top='top_l_e2', mzi_sig_bot='bot_l_e2', mzi_gnd_bot='bot_r_e2', pad_sig_bot='e1_1_1', pad_sig_top='e3_1_3', pad_gnd_bot='e4_1_2', pad_gnd_top='e2_1_2', delta_length=40.0, cross_section='strip', cross_section_metal='metal_routing', pad_spacing='pad_spacing')
   c.plot_matplotlib()
 
 
@@ -2522,7 +2552,7 @@ rectangle
 
   import gdsfactory as gf
 
-  c = gf.components.rectangle(size=[4.0, 2.0], layer='WG', centered=False, port_type='placement', port_orientations=[180, 90, 0, -90])
+  c = gf.components.rectangle(size=[4.0, 2.0], layer='WG', centered=False, port_type='electrical', port_orientations=[180, 90, 0, -90])
   c.plot_matplotlib()
 
 
@@ -2672,7 +2702,7 @@ ring_double_heater
 
   import gdsfactory as gf
 
-  c = gf.components.ring_double_heater(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', port_orientation=90, via_stack_offset=[0, 0])
+  c = gf.components.ring_double_heater(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', via_stack_offset=[0, 0])
   c.plot_matplotlib()
 
 
@@ -2792,7 +2822,7 @@ ring_single_heater
 
   import gdsfactory as gf
 
-  c = gf.components.ring_single_heater(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', port_orientation=90, via_stack_offset=[0, 0])
+  c = gf.components.ring_single_heater(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', via_stack_offset=[0, 0])
   c.plot_matplotlib()
 
 
@@ -3092,7 +3122,7 @@ straight_heater_meander
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_meander(length=300.0, spacing=2.0, cross_section='strip', heater_width=2.5, extension_length=15.0, layer_heater='HEATER', radius=5.0, via_stack='via_stack_heater_mtop', port_orientation1=180, port_orientation2=0, heater_taper_length=10.0, straight_widths=[0.8, 0.9, 0.8], taper_length=10)
+  c = gf.components.straight_heater_meander(length=300.0, spacing=2.0, cross_section='strip', heater_width=2.5, extension_length=15.0, layer_heater='HEATER', radius=5.0, via_stack='via_stack_heater_mtop', heater_taper_length=10.0, straight_widths=[0.8, 0.9, 0.8], taper_length=10)
   c.plot_matplotlib()
 
 
@@ -3107,7 +3137,7 @@ straight_heater_meander_doped
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_meander_doped(length=300.0, spacing=2.0, cross_section='strip', heater_width=1.5, extension_length=15.0, layers_doping=['P', 'PP', 'PPP'], radius=5.0, port_orientation1=180, port_orientation2=0, straight_widths=[0.8, 0.9, 0.8], taper_length=10)
+  c = gf.components.straight_heater_meander_doped(length=300.0, spacing=2.0, cross_section='strip', heater_width=1.5, extension_length=15.0, layers_doping=['P', 'PP', 'PPP'], radius=5.0, straight_widths=[0.8, 0.9, 0.8], taper_length=10)
   c.plot_matplotlib()
 
 
@@ -3122,7 +3152,7 @@ straight_heater_metal
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_metal(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section_heater_undercut='strip_heater_metal_undercut', with_undercut=False, via_stack='via_stack_heater_mtop', port_orientation1=180, port_orientation2=0, heater_taper_length=5.0)
+  c = gf.components.straight_heater_metal(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section_heater_undercut='strip_heater_metal_undercut', with_undercut=False, via_stack='via_stack_heater_mtop', heater_taper_length=5.0)
   c.plot_matplotlib()
 
 
@@ -3152,7 +3182,7 @@ straight_heater_metal_undercut
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_metal_undercut(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section_heater_undercut='strip_heater_metal_undercut', with_undercut=True, via_stack='via_stack_heater_mtop', port_orientation1=180, port_orientation2=0, heater_taper_length=5.0)
+  c = gf.components.straight_heater_metal_undercut(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section_heater_undercut='strip_heater_metal_undercut', with_undercut=True, via_stack='via_stack_heater_mtop', heater_taper_length=5.0)
   c.plot_matplotlib()
 
 
@@ -3318,6 +3348,21 @@ taper_adiabatic
   import gdsfactory as gf
 
   c = gf.components.taper_adiabatic(width1=0.5, width2=5.0, length=0, alpha=1, wavelength=1.55, npoints=200, cross_section='strip')
+  c.plot_matplotlib()
+
+
+
+taper_cross_section
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_cross_section
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_cross_section(length=10, npoints=100, linear=False, width_type='sine')
   c.plot_matplotlib()
 
 
@@ -3527,7 +3572,7 @@ terminator
 
   import gdsfactory as gf
 
-  c = gf.components.terminator(length=50, cross_section_input='strip', tapered_width=0.2, doping_layers=['NPP'])
+  c = gf.components.terminator(length=50, cross_section_input='strip', tapered_width=0.2, doping_layers=['NPP'], doping_offset=1)
   c.plot_matplotlib()
 
 
@@ -3707,7 +3752,7 @@ via_corner
 
   import gdsfactory as gf
 
-  c = gf.components.via_corner(cross_section=[[{'function': 'gdsfactory.cross_section.cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [0, 180]], [{'function': 'gdsfactory.cross_section.cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [90, 270]]], layers_labels=['m2', 'm3'])
+  c = gf.components.via_corner(cross_section=[[{'function': 'cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [0, 180]], [{'function': 'cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [90, 270]]], layers_labels=['m2', 'm3'])
   c.plot_matplotlib()
 
 
@@ -3887,7 +3932,7 @@ wire_corner
 
   import gdsfactory as gf
 
-  c = gf.components.wire_corner(cross_section='metal_routing')
+  c = gf.components.wire_corner(cross_section='metal_routing', with_bbox=False)
   c.plot_matplotlib()
 
 
@@ -3902,7 +3947,7 @@ wire_corner45
 
   import gdsfactory as gf
 
-  c = gf.components.wire_corner45(cross_section='metal_routing', radius=10)
+  c = gf.components.wire_corner45(cross_section='metal_routing', radius=10, with_bbox=False)
   c.plot_matplotlib()
 
 

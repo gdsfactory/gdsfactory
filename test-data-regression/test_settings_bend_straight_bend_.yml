@@ -41,6 +41,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
     direction: ccw
     npoints: 720
@@ -61,6 +63,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
     direction: ccw
     npoints: 720

@@ -64,6 +64,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
     dc: 0.5
     dx: 10.0
@@ -90,6 +92,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
     dc: 0.5
     dx: 10.0

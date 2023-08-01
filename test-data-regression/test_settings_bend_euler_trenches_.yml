@@ -56,6 +56,12 @@ settings:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        strip_length: 16.637
+        type: strip
+        weight: 16.637
       settings:
         add_bbox: null
         add_pins:
@@ -76,7 +82,8 @@ settings:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: strip
         layer: WG
         min_length: 0.01
         mirror: false
@@ -95,6 +102,7 @@ settings:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: strip
       width: 0.5
     info_version: 2
     module: gdsfactory.components.bend_euler
@@ -122,6 +130,12 @@ settings:
     length: 16.637
     radius: 10.0
     radius_min: 7.061
+    route_info:
+      length: 16.637
+      n_bend_90: 1.0
+      strip_length: 16.637
+      type: strip
+      weight: 16.637
     settings:
       add_bbox: null
       add_pins:
@@ -142,7 +156,8 @@ settings:
       decorator: null
       end_straight_length: 0.01
       gap: 3.0
-      info: null
+      info:
+        type: strip
       layer: WG
       min_length: 0.01
       mirror: false
@@ -161,6 +176,7 @@ settings:
       taper_length: 10.0
       width: 0.5
       width_wide: null
+    type: strip
     width: 0.5
   info_version: 2
   module: gdsfactory.components.add_trenches
