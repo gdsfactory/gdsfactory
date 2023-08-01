@@ -1,3 +1,12 @@
+import warnings
+import sys
+
+try:
+    import gplugins
+except ImportError as e:
+    raise ImportError('You need to install gplugins with "pip install gplugins"') from e
+
+
 message = """
 gdsfactory.simulation have been moved to gplugins
 
@@ -10,5 +19,5 @@ You can install gplugins with:
     pip install gplugins
 """
 
-
-raise ValueError(message)
+warnings.warn(message)
+sys.modules["gdsfactory.simulation"] = gplugins

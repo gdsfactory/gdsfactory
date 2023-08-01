@@ -10,5 +10,4 @@ You can install gplugins with:
     pip install gplugins
 """
 
-
-raise ValueError(message)
+raise ImportError(message)
