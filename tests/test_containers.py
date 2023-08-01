@@ -19,10 +19,13 @@ skip_test = {
     "pack_doe",
     "pack_doe_grid",
     "ring_single_dut",
+}
+skip_test_gds = {
     "add_pads_top",
     "add_pads_bot",
 }
 container_names = set(containers.keys()) - skip_test
+container_names_gds = container_names - skip_test_gds
 
 
 @pytest.mark.parametrize("container_type", container_names)
@@ -32,7 +35,7 @@ def test_settings(container_type: str, data_regression: DataRegressionFixture) -
     data_regression.check(c.to_dict())
 
 
-@pytest.mark.parametrize("container_type", container_names)
+@pytest.mark.parametrize("container_type", container_names_gds)
 def test_gds(container_type: str) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     c = containers[container_type](component=component)
