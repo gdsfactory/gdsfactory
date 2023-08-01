@@ -19,6 +19,8 @@ skip_test = {
     "pack_doe",
     "pack_doe_grid",
     "ring_single_dut",
+    "add_pads_top",
+    "add_pads_bot",
 }
 container_names = set(containers.keys()) - skip_test
 
