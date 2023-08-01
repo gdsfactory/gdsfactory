@@ -46,11 +46,6 @@ parts:
         sections:
           - file: notebooks/21_drc
       - file: workflow
-        sections:
-          - file: notebooks/workflow_0_layout_summary
-          - file: notebooks/workflow_1_mzi
-          - file: notebooks/workflow_2_ring
-          - file: notebooks/workflow_3_cascaded_mzi
   - caption: Reference
     chapters:
       - file: api

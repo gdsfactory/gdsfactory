@@ -116,57 +116,9 @@ docker build -t joamatab/gdsfactory .
 ```
 For example, VS Code supports development inside a container, see [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
 
-
-### Plugins
-
-You can install all plugins with:
-
-```
-pip install "gdsfactory[full]" --upgrade
-```
-
-Or Install only the plugins you need `pip install gdsfactory[plugin1,plugin2]` from the available plugins:
-
-- `cad` 3D rendering, 3D meshing, klayout.
-- `database` for simulation and measurement database.
-- `devsim` TCAD device simulator.
-- `femwell` Finite Element Method Solver (heaters, modes, TCAD, RF waveguides).
-- `gmsh` mesh structures.
-- `kfactory` for fill, dataprep and testing.
-- `meow` Eigen Mode Expansion (EME).
-- `ray` for distributed computing and optimization.
-- `sax` S-parameter circuit solver.
-- `tidy3d` Finite Difference Time Domain (FDTD) simulations on the cloud using GPU.
-
-To install open source FDTD Meep you need to use `conda` or `mamba` on MacOS or Linux, so for Windows you need to use the [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install).
-- `conda install pymeep=*=mpi_mpich_* -c conda-forge -y`
-
 ## Plugins
 
-* [Optimization](https://gdsfactory.github.io/gdsfactory/plugins_optimization.html)
-  - [Ray Tune Generic Black-Box Optimiser](https://gdsfactory.github.io/gdsfactory/notebooks/ray/optimiser.html)
-* [Meshing](https://gdsfactory.github.io/gdsfactory/notebooks/devsim/01_pin_waveguide.html#Meshing)
-* [Device Simulators](https://gdsfactory.github.io/gdsfactory/plugins_process.html)
-  - [Thermal Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/thermal/thermal.html)
-  - [DEVSIM TCAD Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/devsim/01_pin_waveguide.html)
-  - [Analytical Process Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/tcad/02_analytical_process.html)
-  - [Montecarlo Implant Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/tcad/03_numerical_implantation.html)
-* [Mode Solvers & Eigenmode Expansion (EME)](https://gdsfactory.github.io/gdsfactory/plugins_mode_solver.html)
-  - Finite Element Mode Solvers
-    - [Femwell](https://gdsfactory.github.io/gdsfactory/notebooks/fem/01_mode_solving.html)
-  - Finite Difference Mode Solvers
-    - [tidy3d](https://gdsfactory.github.io/gdsfactory/notebooks/tidy3d/01_tidy3d_modes.html)
-    - [MPB](https://gdsfactory.github.io/gdsfactory/notebooks/mpb/001_mpb_waveguide.html)
-  - Eigenmode Expansion (EME)
-    - [MEOW](https://gdsfactory.github.io/gdsfactory/notebooks/eme/01_meow.html)
-* [Electromagnetic Wave Solvers using Finite Difference Time Domain (FDTD)](https://gdsfactory.github.io/gdsfactory/plugins_fdtd.html)
-  - [tidy3d](https://gdsfactory.github.io/gdsfactory/notebooks/tidy3d/00_tidy3d.html)
-  - [MEEP](https://gdsfactory.github.io/gdsfactory/notebooks/meep/001_meep_sparameters.html)
-  - [Ansys Lumerical FDTD](https://gdsfactory.github.io/gdsfactory/notebooks/lumerical/1_fdtd_sparameters.html)
-* [S-Parameter Circuit Solvers](https://gdsfactory.github.io/gdsfactory/plugins_circuits.html)
-  - [SAX](https://gdsfactory.github.io/gdsfactory/notebooks/sax/sax.html)
-  - [Ansys Lumerical INTERCONNECT](https://gdsfactory.github.io/gdsfactory/notebooks/lumerical/2_interconnect.html)
-* [Database](https://gdsfactory.github.io/gdsfactory/notebooks/12_database.html)
+We moved plugins to a separate [repo](https://github.com/gdsfactory/gplugins)
 
 ## Getting started
 

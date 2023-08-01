@@ -47,30 +47,7 @@ requires-python = ">=3.7"
 version = "6.115.0"
 
 [project.optional-dependencies]
-dev = [
-  "autotyping",
-  "black>=21",
-  "doc8",
-  "ipykernel",
-  "jsondiff",
-  "mypy",
-  "pre-commit",
-  "pylsp-mypy",
-  "pytest",
-  "pytest-cov",
-  "pytest_regressions",
-  "types-PyYAML",
-  "types-cachetools",
-  "xdoctest"
-]
-docs = [
-  "autodoc_pydantic",
-  "jupytext",
-  "jupyter-book==0.15.1",
-  "pydata_sphinx_theme==0.13.1",
-  "plotly"
-]
-full = [
+cad = [
   "autograd",
   "bokeh",
   "freetype-py",
@@ -98,6 +75,29 @@ full = [
   "fastapi",
   "uvicorn[standard]",
   "kfactory[git,ipy]==0.7.5"
+]
+dev = [
+  "autotyping",
+  "black>=21",
+  "doc8",
+  "ipykernel",
+  "jsondiff",
+  "mypy",
+  "pre-commit",
+  "pylsp-mypy",
+  "pytest",
+  "pytest-cov",
+  "pytest_regressions",
+  "types-PyYAML",
+  "types-cachetools",
+  "xdoctest"
+]
+docs = [
+  "autodoc_pydantic",
+  "jupytext",
+  "jupyter-book==0.15.1",
+  "pydata_sphinx_theme==0.13.1",
+  "plotly"
 ]
 
 [project.scripts]
