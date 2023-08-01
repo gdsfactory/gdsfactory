@@ -1,7 +1,4 @@
-# Gdsfactory Generic Technology
-
-This folder is for the Generic KLayout Technology for Gdsfactory
-
+# gdsfactory Generic PDK
 
 ## Usage
 
@@ -35,5 +32,4 @@ You could trace your nets using klayout net tracer after loading your generic te
 As shown, you need to click on Trace Net and select from layout your desired net that you want to trace.
 
 ![image](https://user-images.githubusercontent.com/91015308/236182447-3c9f4fb9-9c0f-4c2e-9016-653cd112464f.png)
-
 ![image](https://user-images.githubusercontent.com/91015308/236182554-c368d277-8fff-4358-8cf5-d3a8d21bbb08.png)

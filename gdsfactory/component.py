@@ -12,7 +12,7 @@ import pathlib
 import uuid
 import warnings
 from collections import Counter
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from copy import deepcopy
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union, TYPE_CHECKING
@@ -959,7 +959,7 @@ class Component(_GeometryHelper):
 
     def add_ports(
         self,
-        ports: Union[List[Port], Dict[str, Port]],
+        ports: Union[Iterable[Port], Dict[str, Port]],
         prefix: str = "",
         suffix: str = "",
         **kwargs,
@@ -973,8 +973,8 @@ class Component(_GeometryHelper):
             prefix: to prepend to each port name.
             suffix: to append to each port name.
         """
-        ports = ports if isinstance(ports, list) else ports.values()
-        for port in list(ports):
+        ports = ports.values() if isinstance(ports, Mapping) else ports
+        for port in ports:
             name = f"{prefix}{port.name}{suffix}"
             self.add_port(name=name, port=port, **kwargs)
 
@@ -2511,6 +2511,7 @@ class Component(_GeometryHelper):
             [xmin - wafer_padding, ymax + wafer_padding],
         ]
         padded_component.add_polygon(points, layer=wafer_layer)
+        padded_component.add_ports(self.get_ports_list())
 
         if layer_stack is None:
             raise ValueError(

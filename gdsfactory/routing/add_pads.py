@@ -34,8 +34,9 @@ def add_pads_bot(
     pad_port_labels: Optional[Tuple[str, ...]] = None,
     pad: ComponentSpec = pad_rectangular,
     bend: ComponentSpec = "wire_corner",
-    straight_separation: Optional[None] = None,
+    straight_separation: Optional[float] = None,
     pad_spacing: Union[float, str] = "pad_spacing",
+    optical_routing_type: Optional[int] = 1,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -54,6 +55,7 @@ def add_pads_bot(
         bend: bend spec.
         straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
         pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
+        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
 
     Keyword Args:
         straight: straight spec.
@@ -71,7 +73,6 @@ def add_pads_bot(
         grating_indices: list of grating coupler indices.
         routing_straight: function to route.
         routing_method: get_route.
-        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
 
@@ -135,6 +136,7 @@ def add_pads_bot(
         straight_separation=straight_separation,
         port_names=port_names,
         fiber_spacing=pad_spacing,
+        optical_routing_type=optical_routing_type,
         **kwargs,
     )
     if len(elements) == 0:
@@ -240,9 +242,19 @@ def add_pads_top(
 
 if __name__ == "__main__":
     # c = gf.components.pad()
-    c = gf.components.straight_heater_metal(length=100.0)
+    # c = gf.components.straight_heater_metal(length=100.0)
     # c = gf.components.straight(length=100.0)
 
     # cc = add_pads_top(component=c, port_names=("e1",))
-    cc = add_pads_top(component=c, port_names=("e1", "e2"), fanout_length=50)
+    # cc = add_pads_top(component=c, port_names=("e1", "e2"), fanout_length=50)
+    c = gf.c.nxn(
+        xsize=600,
+        ysize=200,
+        north=2,
+        south=3,
+        wg_width=10,
+        layer="M3",
+        port_type="electrical",
+    )
+    cc = add_pads_top(component=c)
     cc.show(show_ports=True)

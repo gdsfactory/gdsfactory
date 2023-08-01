@@ -17,7 +17,6 @@ repos:
     rev: af69927c7d3965d3fe8f68007e12cd971847573f
     hooks:
       - id: codespell
-        args: ["-L TE,TE/TM,te,ba,FPR,fpr_spacing,ro,nd,donot,schem"]
         additional_dependencies:
           - tomli
 
@@ -31,3 +30,9 @@ repos:
     hooks:
       - id: pretty-format-toml
         args: [--autofix]
+
+  - repo: https://github.com/aristanetworks/j2lint.git
+    rev: 1f242682122fa258557e429f1b92fadd6d2be2d4
+    hooks:
+      - id: j2lint
+        args: [--ignore, jinja-statements-delimiter, jinja-statements-indentation, --]

@@ -18,7 +18,6 @@ isort:skip_file
 """
 from __future__ import annotations
 from functools import partial
-import warnings
 from toolz import compose
 from gdsfactory.component_layout import Group
 from gdsfactory.path import Path
@@ -81,16 +80,6 @@ from gdsfactory.get_factories import get_cells
 from gdsfactory.cross_section import get_cross_section_factories
 
 c = components
-
-
-def __getattr__(name):
-    if name == "types":
-        warnings.warn(
-            "gdsfactory.types has been renamed to gdsfactory.typings and will be deprecated soon.",
-            stacklevel=3,
-        )
-        return typings
-    raise AttributeError(f"No module named {name}")
 
 
 __all__ = (
@@ -158,4 +147,4 @@ __all__ = (
     "xsection",
     "PATH",
 )
-__version__ = "6.114.0"
+__version__ = "6.115.0"

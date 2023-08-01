@@ -201,6 +201,7 @@ settings:
       cross_section: metal_routing
       get_input_labels_function: null
       layer_label: TEXT
+      optical_routing_type: 1
       pad:
         function: pad
         settings:
@@ -225,6 +226,7 @@ settings:
       cross_section: metal_routing
       get_input_labels_function: null
       layer_label: TEXT
+      optical_routing_type: 1
       pad:
         function: pad
         settings:

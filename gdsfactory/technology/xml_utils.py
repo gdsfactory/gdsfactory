@@ -1,4 +1,6 @@
 import xml.etree.ElementTree as ET
+from xml.dom.minidom import Node
+import xml.dom.minidom
 
 
 def _strip_xml(node) -> None:
@@ -6,8 +8,6 @@ def _strip_xml(node) -> None:
 
     Source: https://stackoverflow.com/a/16919069
     """
-    from xml.dom.minidom import Node
-
     for x in node.childNodes:
         if x.nodeType == Node.TEXT_NODE:
             if x.nodeValue:
@@ -17,8 +17,6 @@ def _strip_xml(node) -> None:
 
 
 def make_pretty_xml(root: ET.Element) -> bytes:
-    import xml.dom.minidom
-
     xml_doc = xml.dom.minidom.parseString(ET.tostring(root))
 
     _strip_xml(xml_doc)

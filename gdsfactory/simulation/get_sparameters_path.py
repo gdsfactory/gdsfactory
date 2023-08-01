@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import hashlib
 import pathlib
-import tempfile
 from functools import partial
 from pathlib import Path
 from typing import Optional
@@ -23,12 +22,10 @@ def get_kwargs_hash(**kwargs) -> str:
 
 
 def get_component_hash(component: gf.Component) -> str:
-    with tempfile.NamedTemporaryFile() as file:
-        path = Path(file.name)
-        dirpath = path.parent
-        dirpath.mkdir(exist_ok=True, parents=True)
-        component.write_gds(path)
-        return hashlib.md5(file.read()).hexdigest()
+    gdspath = pathlib.Path(component.write_gds())
+    h = hashlib.md5(gdspath.read_bytes()).hexdigest()
+    gdspath.unlink()
+    return h
 
 
 def _get_sparameters_path(
@@ -86,33 +83,6 @@ get_sparameters_path_tidy3d = partial(_get_sparameters_path, tool="tidy3d")
 get_sparameters_data_meep = partial(_get_sparameters_data, tool="meep")
 get_sparameters_data_lumerical = partial(_get_sparameters_data, tool="lumerical")
 get_sparameters_data_tidy3d = partial(_get_sparameters_data, tool="tidy3d")
-
-
-# def test_get_sparameters_path(test: bool = True) -> None:
-#     import gdsfactory as gf
-
-#     nm = 1e-3
-#     layer_stack2 = deepcopy(LAYER_STACK)
-#     layer_stack2.layers["core"].thickness = 230 * nm
-
-#     c = gf.components.straight()
-
-#     p1 = get_sparameters_path_lumerical(component=c)
-#     p2 = get_sparameters_path_lumerical(component=c, layer_stack=layer_stack2)
-#     p3 = get_sparameters_path_lumerical(c, material_name_to_lumerical=dict(si=3.6))
-
-#     if test:
-#         name1 = "straight_7167d14d14e6e5b9ef027cfb4dd3991d"
-#         name2 = "straight_b6123c58f68ca614c48d0ac005152f68"
-#         name3 = "straight_03e4259ddcd15791bf7ad0b1cd87182b"
-
-#         assert p1.stem == name1, p1.stem
-#         assert p2.stem == name2, p2.stem
-#         assert p3.stem == name3, p3.stem
-#     else:
-#         print(f"name1 = {p1.stem!r}")
-#         print(f"name2 = {p2.stem!r}")
-#         print(f"name3 = {p3.stem!r}")
 
 
 if __name__ == "__main__":

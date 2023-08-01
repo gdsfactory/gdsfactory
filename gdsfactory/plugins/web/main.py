@@ -73,7 +73,7 @@ def get_url(request: Request) -> str:
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("index.html.j2", {"request": request})
 
 
 @app.get("/gds_list", response_class=HTMLResponse)
@@ -86,7 +86,7 @@ async def gds_list(request: Request):
         {"name": file_name, "url": f"view/{file_name}"} for file_name in files_list
     ]
     return templates.TemplateResponse(
-        "file_browser.html",
+        "file_browser.html.j2",
         {
             "request": request,
             "message": f"GDS files in {str(files_root)!r}",
@@ -116,7 +116,7 @@ async def pdk(request: Request):
     pdk_name = active_pdk.name
     components = list(active_pdk.cells.keys())
     return templates.TemplateResponse(
-        "pdk.html",
+        "pdk.html.j2",
         {
             "request": request,
             "title": "Main",
@@ -155,7 +155,7 @@ async def view_cell(request: Request, cell_name: str, variant: Optional[str] = N
     pixel_data = layout_view.get_pixels_with_options(800, 400).to_png_data()
     b64_data = base64.b64encode(pixel_data).decode("utf-8")
     return templates.TemplateResponse(
-        "viewer.html",
+        "viewer.html.j2",
         {
             "request": request,
             "cell_name": cell_name,
@@ -233,7 +233,7 @@ async def filewatcher(request: Request):
     b64_data = base64.b64encode(pixel_data).decode("utf-8")
 
     return templates.TemplateResponse(
-        "filewatcher.html",
+        "filewatcher.html.j2",
         {
             "request": request,
             "output": output,

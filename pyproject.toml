@@ -17,20 +17,20 @@ classifiers = [
 dependencies = [
   "click",
   "flatdict",
-  "gdstk",
+  "gdstk<1",
   "jinja2",
-  "loguru",
+  "loguru<1",
   "matplotlib",
   "numpy",
-  "omegaconf",
+  "omegaconf<3",
   "orjson",
   "pandas",
-  "pydantic<2.0",
+  "pydantic<2",
   "pyyaml",
   "qrcode",
   "rectpack",
   "scipy",
-  "shapely",
+  "shapely<3",
   "toolz",
   "tqdm",
   "types-PyYAML",
@@ -44,7 +44,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "6.114.0"
+version = "6.115.0"
 
 [project.optional-dependencies]
 cad = [
@@ -113,7 +113,7 @@ docs = [
   "plotly"
 ]
 femwell = [
-  "femwell==0.1.4"
+  "femwell==0.1.5"
 ]
 full = [
   "sqlalchemy",
@@ -127,8 +127,7 @@ full = [
   "devsim",
   "pyvista",
   # docs
-  "jupytext",
-  "femwell==0.1.4",
+  "femwell==0.1.5",
   # cad
   "autograd",
   "bokeh",
@@ -163,18 +162,18 @@ full = [
   "pyvista",
   "trimesh",
   "shapely",
-  "meshwell==0.0.3",
+  "meshwell==0.0.9",
   # kfactory
   "kfactory[git,ipy]==0.7.5",
   "meow-sim==0.7.1",
   # ray
-  "ray[tune,air]",
+  "ray",
   "hyperopt",
   # sax
   "sax==0.8.8",
   "jaxlib",
   "jax",
-  "tidy3d==2.3.1",
+  "tidy3d==2.3.3",
   # particle swarm implementation
   "pyswarms"
 ]
@@ -195,7 +194,7 @@ meow = [
   "meow-sim==0.7.1"
 ]
 meshwell = [
-  "meshwell==0.0.4"
+  "meshwell==0.0.9"
 ]
 ray = [
   "ray[tune,air]",
@@ -207,7 +206,7 @@ sax = [
   "jax"
 ]
 tidy3d = [
-  "tidy3d==2.3.1"
+  "tidy3d==2.3.3"
 ]
 
 [project.scripts]
@@ -232,6 +231,9 @@ exclude = '''  # Specify the files/dirs that should be ignored by the black form
 include = '\.pyi?$'
 line-length = 88
 target-version = ['py310']
+
+[tool.codespell]
+ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 
 [tool.commitizen]
 name = "cz_conventional_commits"

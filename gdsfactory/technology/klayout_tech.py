@@ -84,7 +84,7 @@ class KLayoutTechnology(BaseModel):
             mebes_config: A dictionary specifying the KLayout mebes reader config.
 
         """
-        from gdsfactory.utils.xml_utils import make_pretty_xml
+        from gdsfactory.technology.xml_utils import make_pretty_xml
 
         d25_filename = d25_filename or f"{self.name}.lyd25"
 

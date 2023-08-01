@@ -58,11 +58,20 @@ def ring_single(
     sy = straight(length=length_y, cross_section=cross_section, **kwargs)
     b = gf.get_component(bend, cross_section=cross_section, radius=radius, **kwargs)
     sx = straight(length=length_x, cross_section=cross_section, **kwargs)
-    sl = c << sy
-    sr = c << sy
+
+    sl = sy.ref()
+    sr = sy.ref()
+    st = sx.ref()
+
+    if length_y > 0:
+        c.add(sl)
+        c.add(sr)
+
+    if length_x > 0:
+        c.add(st)
+
     bl = c << b
     br = c << b
-    st = c << sx
 
     sl.connect(port="o1", destination=cb.ports["o2"])
     bl.connect(port="o2", destination=sl.ports["o2"])
@@ -83,7 +92,9 @@ if __name__ == "__main__":
     # print(c.ports)
 
     # c = gf.routing.add_fiber_array(ring_single)
-    c = ring_single(cross_section="rib", width=2)
+    # c = ring_single(cross_section="rib", width=2)
+    c = ring_single(length_y=0, length_x=0)
+    c.get_netlist()
     c.show(show_ports=True)
 
     # cc = gf.add_pins(c)

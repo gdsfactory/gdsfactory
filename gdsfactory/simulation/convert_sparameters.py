@@ -10,6 +10,27 @@ from tqdm.auto import tqdm
 from gdsfactory.typings import PathType
 
 
+def pandas_to_float64(
+    df: pd.DataFrame,
+    magnitude_suffix: str = "m",
+    phase_suffix: str = "a",
+) -> pd.DataFrame:
+    """Converts a pandas CSV sparameters from complex128 format to 2x float64 format.
+
+    Adds magnitude_suffix (default m) and phase_suffix (default a) to original keys.
+    """
+    new_df = pd.DataFrame()
+
+    for key in df.keys():
+        if key != "wavelengths":
+            new_df[f"{key}{magnitude_suffix}"] = df[key].real
+            new_df[f"{key}{phase_suffix}"] = df[key].imag
+
+    new_df["wavelengths"] = df["wavelengths"]
+
+    return new_df
+
+
 def pandas_to_numpy(df: pd.DataFrame, port_map=None) -> np.ndarray:
     """Converts a pandas CSV sparameters into a numpy array.
 

@@ -7,7 +7,7 @@
 # +
 import gdsfactory as gf
 from gdsfactory.simulation.gmsh.mesh import create_physical_mesh
-from gdsfactory.simulation.thermal import solve_thermal
+from gdsfactory.simulation.fem import solve_thermal
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.technology import LayerStack
 import meshio
