@@ -20,15 +20,6 @@ jobs:
             ~/.gdsfactory/
           key: 0.0.1
           restore-keys: 0.0.1
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          python-version: "3.10"
-          channels: conda-forge,defaults
-          channel-priority: true
-          activate-environment: anaconda-client-env
-      - name: Add conda to system path
-        run: |
-          echo $CONDA/bin >> $GITHUB_PATH
       - name: Installing the library
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
