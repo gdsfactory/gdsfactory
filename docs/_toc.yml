@@ -4,58 +4,58 @@
 format: jb-book
 root: index
 parts:
-- caption: Introduction
-  chapters:
-    - file: getting_started
-      sections:
-        - file: developer
-        - file: notebooks/_2_klayout
-        - file: notebooks/_3_vscode
-        - file: notebooks/_0_python
-        - file: notebooks/_1_git
-        - file: notebooks/_4_gdsfactory
-    - file: layout
-      sections:
-        - file: notebooks/00_geometry
-        - file: notebooks/01_references
-        - file: notebooks/02_movement
-        - file: notebooks/03_cells_autoname_and_cache
-        - file: notebooks/03_Path_CrossSection
-        - file: notebooks/04_components_shapes
-        - file: notebooks/04_components_geometry
-        - file: notebooks/04_components_pack
-        - file: notebooks/04_components_hierarchy
-        - file: notebooks/07_mask
-        - file: notebooks/04_routing
-        - file: notebooks/04_routing_electrical
-        - file: notebooks/04_routing_non_manhattan
-        - file: notebooks/rib_strip_autotransition
-        - file: notebooks/common_mistakes
-        - file: notebooks/dataprep
-    - file: pdk
-      sections:
-        - file: notebooks/08_pdk
-        - file: notebooks/03_layer_stack
-        - file: notebooks/08_pdk_examples
-        - file: notebooks/09_pdk_import
-        - file: notebooks/20_schematic_driven_layout
-        - file: notebooks/10_yaml_component
-        - file: notebooks/11_get_netlist
-        - file: notebooks/11_get_netlist_spice
-    - file: verification
-      sections:
-        - file: notebooks/21_drc
-    - file: workflow
-      sections:
-        - file: notebooks/workflow_0_layout_summary
-        - file: notebooks/workflow_1_mzi
-        - file: notebooks/workflow_2_ring
-        - file: notebooks/workflow_3_cascaded_mzi
-- caption: Reference
-  chapters:
-    - file: api
-    - file: api_routing
-    - file: api_plugins
-    - file: components
-    - file: contribution
-    - file: CHANGELOG
+  - caption: Introduction
+    chapters:
+      - file: getting_started
+        sections:
+          - file: developer
+          - file: notebooks/_2_klayout
+          - file: notebooks/_3_vscode
+          - file: notebooks/_0_python
+          - file: notebooks/_1_git
+          - file: notebooks/_4_gdsfactory
+      - file: layout
+        sections:
+          - file: notebooks/00_geometry
+          - file: notebooks/01_references
+          - file: notebooks/02_movement
+          - file: notebooks/03_cells_autoname_and_cache
+          - file: notebooks/03_Path_CrossSection
+          - file: notebooks/04_components_shapes
+          - file: notebooks/04_components_geometry
+          - file: notebooks/04_components_pack
+          - file: notebooks/04_components_hierarchy
+          - file: notebooks/07_mask
+          - file: notebooks/04_routing
+          - file: notebooks/04_routing_electrical
+          - file: notebooks/04_routing_non_manhattan
+          - file: notebooks/rib_strip_autotransition
+          - file: notebooks/common_mistakes
+          - file: notebooks/dataprep
+      - file: pdk
+        sections:
+          - file: notebooks/08_pdk
+          - file: notebooks/03_layer_stack
+          - file: notebooks/08_pdk_examples
+          - file: notebooks/09_pdk_import
+          - file: notebooks/20_schematic_driven_layout
+          - file: notebooks/10_yaml_component
+          - file: notebooks/11_get_netlist
+          - file: notebooks/11_get_netlist_spice
+      - file: verification
+        sections:
+          - file: notebooks/21_drc
+      - file: workflow
+        sections:
+          - file: notebooks/workflow_0_layout_summary
+          - file: notebooks/workflow_1_mzi
+          - file: notebooks/workflow_2_ring
+          - file: notebooks/workflow_3_cascaded_mzi
+  - caption: Reference
+    chapters:
+      - file: api
+      - file: api_routing
+      - file: api_plugins
+      - file: components
+      - file: contribution
+      - file: CHANGELOG
