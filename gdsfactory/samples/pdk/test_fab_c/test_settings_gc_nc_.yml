@@ -1,4 +1,4 @@
-name: grating_coupler_ellipti_5dd568f3
+name: grating_coupler_ellipti_23f761ec
 ports:
   o1:
     center:
@@ -37,6 +37,8 @@ settings:
           - 0
         bbox_offsets:
         - 3
+        info:
+          type: strip
         layer:
         - 34
         - 0
@@ -74,6 +76,8 @@ settings:
           - 0
         bbox_offsets:
         - 3
+        info:
+          type: strip
         layer:
         - 34
         - 0
@@ -98,4 +102,4 @@ settings:
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_5dd568f3
+  name: grating_coupler_ellipti_23f761ec
