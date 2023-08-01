@@ -1,4 +1,0 @@
-# Device simulators
-
-```{tableofcontents}
-```
