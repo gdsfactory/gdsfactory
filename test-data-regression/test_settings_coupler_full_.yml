@@ -88,7 +88,8 @@ settings:
       decorator: null
       end_straight_length: 0.01
       gap: 3.0
-      info: null
+      info:
+        type: strip
       layer: WG
       min_length: 0.01
       mirror: false
@@ -107,6 +108,7 @@ settings:
       taper_length: 10.0
       width: 0.5
       width_wide: null
+    type: strip
   info_version: 2
   module: gdsfactory.components.coupler_full
   name: coupler_full

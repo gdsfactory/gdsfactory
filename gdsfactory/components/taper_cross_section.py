@@ -7,6 +7,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import rib_conformal, strip_rib_tip
 from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.route_info import route_info
 
 
 @cell
@@ -44,9 +45,11 @@ def taper_cross_section(
 
 
     """
+    x1 = gf.get_cross_section(cross_section1)
+    x2 = gf.get_cross_section(cross_section2, **kwargs)
     transition = gf.path.transition(
-        cross_section1=gf.get_cross_section(cross_section1),
-        cross_section2=gf.get_cross_section(cross_section2, **kwargs),
+        cross_section1=x1,
+        cross_section2=x2,
         width_type="linear" if linear else width_type,
     )
     taper_path = gf.path.straight(length=length, npoints=npoints)
@@ -55,6 +58,8 @@ def taper_cross_section(
     ref = c << gf.path.extrude(taper_path, cross_section=transition)
     c.add_ports(ref.ports)
     c.absorb(ref)
+    if "type" in x1.info and x1.info["type"] == x2.info.get("type"):
+        c.info["route_info"] = route_info(x1.info["type"], length=length, taper=True)
     return c
 
 

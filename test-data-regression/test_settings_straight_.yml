@@ -42,6 +42,11 @@ settings:
     cross_section: strip
     function_name: cross_section
     length: 10.0
+    route_info:
+      length: 10.0
+      strip_length: 10.0
+      type: strip
+      weight: 10.0
     settings:
       add_bbox: null
       add_pins:
@@ -62,7 +67,8 @@ settings:
       decorator: null
       end_straight_length: 0.01
       gap: 3.0
-      info: null
+      info:
+        type: strip
       layer: WG
       min_length: 0.01
       mirror: false
@@ -81,6 +87,7 @@ settings:
       taper_length: 10.0
       width: 0.5
       width_wide: null
+    type: strip
     width: 0.5
   info_version: 2
   module: gdsfactory.components.straight

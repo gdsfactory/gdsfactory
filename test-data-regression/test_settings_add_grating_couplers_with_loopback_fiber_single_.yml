@@ -148,6 +148,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
     gc_port_name: o1
     get_input_label_text_loopback_function:
@@ -187,6 +189,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
     gc_port_name: o1
     get_input_label_text_loopback_function:

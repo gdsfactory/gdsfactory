@@ -65,21 +65,21 @@ SIMULATION_SETTINGS_LUMERICAL_FDTD = SimulationSettingsLumericalFdtd()
 # default materials
 def si(wav: np.ndarray) -> np.ndarray:
     """Silicon crystalline."""
-    from gdsfactory.simulation.gtidy3d.materials import si
+    from gplugins.gtidy3d.materials import si
 
     return si(wav)
 
 
 def sio2(wav: np.ndarray) -> np.ndarray:
     """Silicon oxide."""
-    from gdsfactory.simulation.gtidy3d.materials import sio2
+    from gplugins.gtidy3d.materials import sio2
 
     return sio2(wav)
 
 
 def sin(wav: np.ndarray) -> np.ndarray:
     """Silicon Nitride."""
-    from gdsfactory.simulation.gtidy3d.materials import sin
+    from gplugins.gtidy3d.materials import sin
 
     return sin(wav)
 

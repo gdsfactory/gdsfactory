@@ -136,6 +136,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
         radius: 20
         sections:
@@ -214,6 +216,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
         radius: 20
         sections:

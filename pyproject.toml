@@ -7,9 +7,6 @@ requires = ["flit_core >=3.2,<4"]
 [project]
 authors = [{name = "gdsfactory community", email = "contact@gdsfactory.com"}]
 classifiers = [
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Operating System :: OS Independent"
@@ -18,6 +15,7 @@ dependencies = [
   "click",
   "flatdict",
   "gdstk<1",
+  "gplugins<1",
   "jinja2",
   "loguru<1",
   "matplotlib",
@@ -29,60 +27,41 @@ dependencies = [
   "pyyaml",
   "qrcode",
   "rectpack",
+  "rich",
   "scipy",
   "shapely<3",
   "toolz",
   "tqdm",
   "types-PyYAML",
   "typing_extensions",
-  "watchdog",
-  "rich"
+  "watchdog"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
 license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 version = "6.115.0"
 
 [project.optional-dependencies]
 cad = [
-  "autograd",
-  "bokeh",
   "freetype-py",
   "ipympl",
-  "ipywidgets==7.7.3",
+  "ipywidgets",
   "ipyevents",
   "ipykernel",
   "mapbox_earcut",
-  "natsort",
   "networkx",
   "pyglet<2",
-  "pygmsh",
-  "scikit-fem",
   "scikit-image",
-  "scikit-learn",
   "trimesh",
   "jupytext",
-  "klayout",
   "ipytree",
   "rich-click",
   "ipycytoscape",
   "kweb==0.1.1",
-  "jinja2",
-  "python-multipart",
-  "fastapi",
-  "uvicorn[standard]"
-]
-database = [
-  "sqlalchemy",
-  "sqlalchemy-utils",
-  "dagster",
-  "dagit",
-  "sqlmodel",
-  "boto3",
-  "pymysql"
+  "kfactory[git,ipy]==0.7.5"
 ]
 dev = [
   "autotyping",
@@ -100,113 +79,12 @@ dev = [
   "types-cachetools",
   "xdoctest"
 ]
-devsim = [
-  "devsim",
-  "pyvista",
-  "tidy3d"
-]
 docs = [
   "autodoc_pydantic",
   "jupytext",
   "jupyter-book==0.15.1",
   "pydata_sphinx_theme==0.13.1",
   "plotly"
-]
-femwell = [
-  "femwell==0.1.5"
-]
-full = [
-  "sqlalchemy",
-  "sqlalchemy-utils",
-  "dagster",
-  "dagit",
-  "sqlmodel",
-  "boto3",
-  "pymysql",
-  # devsim
-  "devsim",
-  "pyvista",
-  # docs
-  "femwell==0.1.5",
-  # cad
-  "autograd",
-  "bokeh",
-  "freetype-py",
-  "ipympl",
-  "ipywidgets==7.7.3",
-  "ipyevents",
-  "mapbox_earcut",
-  "natsort",
-  "networkx",
-  "pyglet<2",
-  "scikit-fem",
-  "scikit-image",
-  "scikit-learn",
-  "trimesh",
-  "jupytext",
-  "klayout",
-  "ipytree",
-  "rich-click",
-  "ipycytoscape",
-  "kweb==0.1.1",
-  "jinja2",
-  "python-multipart",
-  "fastapi",
-  "uvicorn[standard]",
-  # gmsh
-  "gmsh",
-  "h5py",
-  "mapbox_earcut",
-  "meshio",
-  "pygmsh",
-  "pyvista",
-  "trimesh",
-  "shapely",
-  "meshwell==0.0.9",
-  # kfactory
-  "kfactory[git,ipy]==0.7.5",
-  "meow-sim==0.7.1",
-  # ray
-  "ray",
-  "hyperopt",
-  # sax
-  "sax==0.8.8",
-  "jaxlib",
-  "jax",
-  "tidy3d==2.3.3",
-  # particle swarm implementation
-  "pyswarms"
-]
-gmsh = [
-  "gmsh",
-  "h5py",
-  "mapbox_earcut",
-  "meshio",
-  "pygmsh",
-  "pyvista",
-  "trimesh",
-  "shapely"
-]
-kfactory = [
-  "kfactory[git,ipy]==0.7.5"
-]
-meow = [
-  "meow-sim==0.7.1"
-]
-meshwell = [
-  "meshwell==0.0.9"
-]
-ray = [
-  "ray[tune,air]",
-  "hyperopt"
-]
-sax = [
-  "sax==0.8.8",
-  "jaxlib",
-  "jax"
-]
-tidy3d = [
-  "tidy3d==2.3.3"
 ]
 
 [project.scripts]
@@ -307,16 +185,13 @@ addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactor
 datadir = "test-data-regression"
 norecursedirs = [
   "gdsfactory/samples/notebooks",
+  "gdsfactory/geometry",
   "gdsfactory/plugins",
   "gdsfactory/simulation",
-  "gdsfactory/geometry",
-  "extra/*.py",
+  "extra",
   "gdsfactory/watch.py",
   "gdsfactory/schematic_editor.py",
-  "gdsfactory/database",
-  "gdsfactory/generic_tech/klayout",
-  "gdsfactory/simulation/simphony",
-  "gdsfactory/tests/test_klayout"
+  "gdsfactory/generic_tech/klayout"
 ]
 python_files = ["gdsfactory/*.py", "tests/*.py"]
 testpaths = ["gdsfactory/", "tests"]

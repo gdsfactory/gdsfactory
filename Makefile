@@ -3,64 +3,16 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
-full: plugins
-	pip install -e .[docs,dev,full]
-
-all: plugins install full
-
 install:
-	pip install -e .[full,dev] pre-commit
+	pip install -e .[cad,dev,docs] pre-commit
 	pre-commit install
 	gf install klayout-genericpdk
 	gf install git-diff
 
-dev: full
-	pre-commit install
-	gf install klayout-genericpdk
-
-plugins:
-	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
-	conda install -c conda-forge slepc4py=*=complex* -y
-	pip install -e .[tidy3d,ray,sax,devsim,meow,database,femwell,meshwell]
-
-plugins-conda:
-	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
-	conda install -c conda-forge slepc4py=*=complex* -y
-	pip install jax jaxlib numpy femwell meshwell --upgrade
-	pip install -e .[tidy3d,ray,sax,devsim,meow,database]
-
-plugins-mamba:
-	mamba install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
-	mamba install -c conda-forge slepc4py=*=complex* -y
-	pip install jax jaxlib numpy femwell meshwell --upgrade
-	pip install -e .[tidy3d,ray,sax,devsim,meow]
-
-plugins-debian: plugins
-	sudo apt-get update
-	sudo apt-get install -y python3-gmsh gmsh
-
-thermal:
-	conda install python-gmsh
-
-gmsh:
-	pip install trimesh mapbox_earcut gmsh meshio pygmsh pyvista h5py
-
-meep:
-	conda install pymeep=*=mpi_mpich_* -y
-
-publish:
-	anaconda upload environment.yml
+dev: install
 
 update-pre:
 	pre-commit autoupdate --bleeding-edge
-
-gds:
-	python gdsfactory/components/straight.py
-
-data-upload:
-	echo 'no need to upload'
-	# aws s3 sync data s3://gdslib
-	# gh release upload v6.90.3 data/gds/*.gds --clobber
 
 test-data:
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
@@ -70,11 +22,6 @@ data-download: test-data
 
 data-download-old:
 	aws s3 sync s3://gdslib data --no-sign-request
-	# gh release download v6.90.3 -D data/gds/*.gds --clobber
-	# gh release download v6.90.3 data/sp/*.npz --clobber
-	# gh release download v6.90.3 data/sp/*.yml --clobber
-	# gh release download v6.90.3 data/modes/*.msh --clobber
-	# gh release download v6.90.3 data/modes/*.npz --clobber
 
 data-clean:
 	aws s3 rm data s3://gdslib/gds
@@ -87,31 +34,6 @@ test-force:
 
 test-watch:
 	ptw
-
-test-meep:
-	pytest gdsfactory/simulation/gmeep
-
-test-tidy3d:
-	pytest gdsfactory/simulation/gtidy3d
-
-test-gmsh:
-	pytest gdsfactory/simulation/gmsh
-
-test-femwell:
-	pytest gdsfactory/simulation/fem
-
-test-plugins:
-	pytest gdsfactory/simulation \
-		--ignore=gdsfactory/simulation/sipann/ \
-		--ignore=gdsfactory/simulation/devsim \
-		--ignore=gdsfactory/simulation/simphony
-
-test-plugins-no-tidy3d:
-	pytest gdsfactory/simulation \
-		--ignore=gdsfactory/simulation/sipann/ \
-		--ignore=gdsfactory/simulation/simphony \
-		--ignore=gdsfactory/simulation/devsim \
-		--ignore=gdsfactory/simulation/gtidy3d
 
 test-notebooks:
 	py.test --nbval notebooks
@@ -153,9 +75,6 @@ docker-run:
 conda:
 	conda env create -f environment.yml
 	echo 'conda env installed, run `conda activate gdsfactory` to activate it'
-
-mypy:
-	mypy gdsfactory --ignore-missing-imports
 
 build:
 	rm -rf dist
@@ -213,16 +132,6 @@ constructor:
 
 notebooks:
 	jupytext gdsfactory/samples/notebooks/*.md --to ipynb notebooks/
-
-nbqa:
-	nbqa blacken-docs docs/notebooks/**/*.ipynb --nbqa-md
-	nbqa blacken-docs docs/notebooks/*.ipynb --nbqa-md
-	nbqa isort docs/notebooks/*.ipynb --float-to-top
-	nbqa isort docs/notebooks/**/*.ipynb --float-to-top
-	nbqa ruff --fix docs/notebooks/*.ipynb
-	nbqa ruff --fix docs/**/*.ipynb
-	nbqa autopep8 -i docs/notebooks/*.ipynb
-	nbqa autopep8 -i docs/notebooks/**/*.ipynb
 
 jupytext:
 	jupytext **/*.ipynb --to py

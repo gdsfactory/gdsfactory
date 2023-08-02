@@ -39,8 +39,8 @@ routes:
             - ds: 52
               exit_angle: -158
               cross_section: strip  # explicitly using strip routing
-            - ds: 47.5
-              exit_angle: 140
+            - ds: 67.5
+              exit_angle: 100
               cross_section:  # explicitly using strip routing with custom width
                 cross_section: strip
                 settings:
@@ -53,3 +53,7 @@ routes:
 ports:
     o1: wg_start_0,o2
     o2: wg_end_0,o2
+    o3: wg_start_1,o2
+    o4: wg_end_1,o2
+    o5: wg_start_2,o2
+    o6: wg_end_2,o2

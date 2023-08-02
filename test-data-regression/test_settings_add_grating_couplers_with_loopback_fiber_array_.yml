@@ -72,6 +72,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
     excluded_ports: null
     gc_port_name: o1
@@ -115,6 +117,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
     excluded_ports: null
     gc_port_name: o1

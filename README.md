@@ -88,7 +88,7 @@ Once you have python installed, open Anaconda Prompt as Administrator and then i
 
 ```
 conda install -c conda-forge gdsfactory -y
-pip install "gdsfactory[full]" --upgrade
+pip install gdsfactory --upgrade
 ```
 
 Then you can install Klayout-live `klive` integration in the klayout GUI `Tools --> Manage Packages --> Install New Packages --> Klive` as well as the genericpdk layermap `Tools --> Manage Packages --> Install New Packages --> gdsfactory` and restart klayout.
@@ -116,67 +116,21 @@ docker build -t joamatab/gdsfactory .
 ```
 For example, VS Code supports development inside a container, see [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
 
-
-### Plugins
-
-You can install all plugins with:
-
-```
-pip install "gdsfactory[full]" --upgrade
-```
-
-Or Install only the plugins you need `pip install gdsfactory[plugin1,plugin2]` from the available plugins:
-
-- `cad` 3D rendering, 3D meshing, klayout.
-- `database` for simulation and measurement database.
-- `devsim` TCAD device simulator.
-- `femwell` Finite Element Method Solver (heaters, modes, TCAD, RF waveguides).
-- `gmsh` mesh structures.
-- `kfactory` for fill, dataprep and testing.
-- `meow` Eigen Mode Expansion (EME).
-- `ray` for distributed computing and optimization.
-- `sax` S-parameter circuit solver.
-- `tidy3d` Finite Difference Time Domain (FDTD) simulations on the cloud using GPU.
-
-To install open source FDTD Meep you need to use `conda` or `mamba` on MacOS or Linux, so for Windows you need to use the [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install).
-- `conda install pymeep=*=mpi_mpich_* -c conda-forge -y`
-
 ## Plugins
 
-* [Optimization](https://gdsfactory.github.io/gdsfactory/plugins_optimization.html)
-  - [Ray Tune Generic Black-Box Optimiser](https://gdsfactory.github.io/gdsfactory/notebooks/ray/optimiser.html)
-* [Meshing](https://gdsfactory.github.io/gdsfactory/notebooks/devsim/01_pin_waveguide.html#Meshing)
-* [Device Simulators](https://gdsfactory.github.io/gdsfactory/plugins_process.html)
-  - [Thermal Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/thermal/thermal.html)
-  - [DEVSIM TCAD Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/devsim/01_pin_waveguide.html)
-  - [Analytical Process Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/tcad/02_analytical_process.html)
-  - [Montecarlo Implant Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/tcad/03_numerical_implantation.html)
-* [Mode Solvers & Eigenmode Expansion (EME)](https://gdsfactory.github.io/gdsfactory/plugins_mode_solver.html)
-  - Finite Element Mode Solvers
-    - [Femwell](https://gdsfactory.github.io/gdsfactory/notebooks/fem/01_mode_solving.html)
-  - Finite Difference Mode Solvers
-    - [tidy3d](https://gdsfactory.github.io/gdsfactory/notebooks/tidy3d/01_tidy3d_modes.html)
-    - [MPB](https://gdsfactory.github.io/gdsfactory/notebooks/mpb/001_mpb_waveguide.html)
-  - Eigenmode Expansion (EME)
-    - [MEOW](https://gdsfactory.github.io/gdsfactory/notebooks/eme/01_meow.html)
-* [Electromagnetic Wave Solvers using Finite Difference Time Domain (FDTD)](https://gdsfactory.github.io/gdsfactory/plugins_fdtd.html)
-  - [tidy3d](https://gdsfactory.github.io/gdsfactory/notebooks/tidy3d/00_tidy3d.html)
-  - [MEEP](https://gdsfactory.github.io/gdsfactory/notebooks/meep/001_meep_sparameters.html)
-  - [Ansys Lumerical FDTD](https://gdsfactory.github.io/gdsfactory/notebooks/lumerical/1_fdtd_sparameters.html)
-* [S-Parameter Circuit Solvers](https://gdsfactory.github.io/gdsfactory/plugins_circuits.html)
-  - [SAX](https://gdsfactory.github.io/gdsfactory/notebooks/sax/sax.html)
-  - [Ansys Lumerical INTERCONNECT](https://gdsfactory.github.io/gdsfactory/notebooks/lumerical/2_interconnect.html)
-* [Database](https://gdsfactory.github.io/gdsfactory/notebooks/12_database.html)
+Plugins are hosted in a separate [repo](https://github.com/gdsfactory/gplugins) and installed as part of gdsfactory.
+Notice that plugins allow you to interface with different tools and some of them need to be installed separately.
+Take a look at the [gplugins documentation](https://gdsfactory.github.io/gplugins/)
 
 ## Getting started
 
-- Run notebooks on [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
-- [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=250169028)
 - [See slides](https://docs.google.com/presentation/d/1_ZmUxbaHWo_lQP17dlT1FWX-XD8D9w7-FcuEih48d_0/edit#slide=id.g11711f50935_0_5)
 - [Read docs](https://gdsfactory.github.io/gdsfactory/)
 - [![Video Tutorials](https://img.shields.io/badge/youtube-Video_Tutorials-red.svg?logo=youtube)](https://www.youtube.com/@gdsfactory625/playlists)
 - [![Join the chat at https://gitter.im/gdsfactory-dev/community](https://badges.gitter.im/gdsfactory-dev/community.svg)](https://gitter.im/gdsfactory-dev/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 - See announcements on [GitHub](https://github.com/gdsfactory/gdsfactory/discussions/547), [google-groups](https://groups.google.com/g/gdsfactory) or [LinkedIn](https://www.linkedin.com/company/gdsfactory)
+- Run notebooks on [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
+- [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=250169028)
 
 ## Testimonals
 

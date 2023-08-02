@@ -247,7 +247,6 @@ class Paths:
     optimiser = repo_path / "tune"
     notebooks = module_path / "samples" / "notebooks"
     plugins = module / "plugins"
-    web = plugins / "web"
     test_data = repo / "test-data"
     gds_ref = test_data / "gds"
     gds_run = GDSDIR_TEMP / "gds_run"

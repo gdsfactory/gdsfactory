@@ -12,6 +12,7 @@ from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler
 from gdsfactory.typings import CrossSectionSpec, Optional
+from gdsfactory.route_info import route_info_from_cs
 
 
 @gf.cell
@@ -74,6 +75,9 @@ def bend_euler(
     c.info["radius_min"] = np.round(p.info["Rmin"], 3)
     c.info["radius"] = radius
     c.info["width"] = x.width
+    c.info["route_info"] = route_info_from_cs(
+        cross_section, length=c.info["length"], n_bend_90=abs(angle / 90.0)
+    )
 
     if x.info:
         c.info.update(x.info)

@@ -20,27 +20,14 @@ jobs:
             ~/.gdsfactory/
           key: 0.0.1
           restore-keys: 0.0.1
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          python-version: "3.10"
-          channels: conda-forge,defaults
-          channel-priority: true
-          activate-environment: anaconda-client-env
-      - name: Add conda to system path
-        run: |
-          echo $CONDA/bin >> $GITHUB_PATH
       - name: Installing the library
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
           SIMCLOUD_APIKEY: ${{ secrets.SIMCLOUD_APIKEY }}
           DISPLAY: 1.0
-          DOCS: True
           GDSFACTORY_DISPLAY_TYPE: klayout
           KFACTORY_DISPLAY_TYPE: image
-          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-west-2
         shell: bash -l {0}
         run: |
           sudo apt update

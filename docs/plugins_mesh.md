@@ -1,5 +1,0 @@
-# Materials and mesh
-
-
-```{tableofcontents}
-```

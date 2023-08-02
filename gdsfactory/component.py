@@ -1475,7 +1475,7 @@ class Component(_GeometryHelper):
 
         try:
             import kfactory as kf
-            from gdsfactory.plugins.widget.interactive import LayoutWidget
+            from gplugins.widget.interactive import LayoutWidget
         except ImportError:
             print(
                 "You need install kfactory plugin with `pip install gdsfactory[kfactory]`"
@@ -1555,7 +1555,7 @@ class Component(_GeometryHelper):
 
         except ImportError:
             print(
-                "You can install `pip install gdsfactory[full]` for better visualization"
+                "You can install `pip install gdsfactory[cad]` for better visualization"
             )
             component.plot(plotter="matplotlib")
 
@@ -2498,7 +2498,7 @@ class Component(_GeometryHelper):
             wafer_padding: padding beyond bbox to add to WAFER layers.
 
         Keyword Args:
-            Arguments for the target meshing function in gdsfactory.simulation.gmsh
+            Arguments for the target meshing function in gplugins.gmsh
         """
         # Add WAFER layer:
         padded_component = Component()
@@ -2522,7 +2522,7 @@ class Component(_GeometryHelper):
                 raise ValueError(
                     'For xy-meshing, a z-value must be provided via the float argument "z".'
                 )
-            from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
+            from gplugins.gmsh.xy_xsection_mesh import xy_xsection_mesh
 
             return xy_xsection_mesh(padded_component, z, layer_stack, **kwargs)
         elif type == "uz":
@@ -2531,7 +2531,7 @@ class Component(_GeometryHelper):
                     "For uz-meshing, you must provide a line in the xy-plane "
                     "via the Tuple argument [[x1,y1], [x2,y2]] xsection_bounds."
                 )
-            from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
+            from gplugins.gmsh.uz_xsection_mesh import uz_xsection_mesh
 
             return uz_xsection_mesh(
                 padded_component, xsection_bounds, layer_stack, **kwargs
@@ -2543,7 +2543,7 @@ class Component(_GeometryHelper):
                     "3D meshing requires meshwell, see https://github.com/simbilod/meshwell or run pip install meshwell."
                 )
 
-            from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
+            from gplugins.gmsh.xyz_mesh import xyz_mesh
 
             return xyz_mesh(padded_component, layer_stack, **kwargs)
         else:

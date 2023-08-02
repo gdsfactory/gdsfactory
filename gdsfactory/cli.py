@@ -138,7 +138,7 @@ def web(
 
     import uvicorn
 
-    from gdsfactory.plugins.web.main import app
+    from gplugins.web.main import app
 
     os.environ["PDK"] = pdk
 
