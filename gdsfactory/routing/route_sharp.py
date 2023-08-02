@@ -1,7 +1,6 @@
 """based on phidl.routing."""
 from __future__ import annotations
 
-from typing import Optional, Tuple
 
 import numpy as np
 
@@ -269,12 +268,12 @@ def path_V(port1: Port, port2: Port) -> Path:
 def route_sharp(
     port1: Port,
     port2: Port,
-    width: Optional[float] = None,
+    width: float | None = None,
     path_type: str = "manhattan",
     manual_path=None,
-    layer: Optional[LayerSpec] = None,
-    cross_section: Optional[CrossSectionSpec] = None,
-    port_names: Tuple[str, str] = ("o1", "o2"),
+    layer: LayerSpec | None = None,
+    cross_section: CrossSectionSpec | None = None,
+    port_names: tuple[str, str] = ("o1", "o2"),
     **kwargs,
 ) -> Component:
     """Returns Component route between ports.

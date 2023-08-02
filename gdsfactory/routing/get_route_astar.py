@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import List, Optional
 from warnings import warn
 
 import numpy as np
@@ -30,7 +29,7 @@ def get_route_astar(
     port1: Port,
     port2: Port,
     resolution: float = 1,
-    avoid_layers: Optional[List[LayerSpec]] = None,
+    avoid_layers: list[LayerSpec] | None = None,
     distance: float = 1,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -178,7 +177,7 @@ def get_route_astar(
     return route_manhattan(port1, port2, cross_section=cross_section)
 
 
-def _extract_all_bbox(c: Component, avoid_layers: Optional[List[LayerSpec]] = None):
+def _extract_all_bbox(c: Component, avoid_layers: list[LayerSpec] | None = None):
     """Extract all polygons whose layer is in `avoid_layers`."""
     return [c.get_polygons(layer) for layer in avoid_layers]
 
@@ -186,7 +185,7 @@ def _extract_all_bbox(c: Component, avoid_layers: Optional[List[LayerSpec]] = No
 def _generate_grid(
     c: Component,
     resolution: float = 0.5,
-    avoid_layers: Optional[List[LayerSpec]] = None,
+    avoid_layers: list[LayerSpec] | None = None,
     distance: float = 1,
 ) -> np.ndarray:
     """Generate discretization grid that the algorithm will step through."""
@@ -239,7 +238,7 @@ def _generate_neighbours(
     x: np.ndarray,
     y: np.ndarray,
     resolution: float,
-) -> List[Node]:
+) -> list[Node]:
     """Generate neighbours of a node."""
     neighbours = []
 

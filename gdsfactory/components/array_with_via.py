@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
 
 import numpy as np
 
@@ -23,11 +22,11 @@ def array_with_via(
     spacing: float = 150.0,
     via_spacing: float = 10.0,
     straight_length: float = 60.0,
-    cross_section: Optional[CrossSectionSpec] = metal2,
+    cross_section: CrossSectionSpec | None = metal2,
     via_stack: ComponentSpec = via_stack_factory,
     via_stack_dy: float = 0,
     port_orientation: float = 180,
-    port_offset: Optional[Float2] = None,
+    port_offset: Float2 | None = None,
     **kwargs,
 ) -> Component:
     """Returns an array of vias in X axis with fanout waveguides facing west.

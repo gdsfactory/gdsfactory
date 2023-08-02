@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Dict, List, Union
 
 from numpy import float64
 
@@ -12,7 +11,7 @@ def flip(port: Port) -> Port:
     return port.flip()
 
 
-def direction_ports_from_list_ports(optical_ports: List[Port]) -> Dict[str, List[Port]]:
+def direction_ports_from_list_ports(optical_ports: list[Port]) -> dict[str, list[Port]]:
     """Returns a dict of WENS ports."""
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
     for p in optical_ports:
@@ -36,7 +35,7 @@ def direction_ports_from_list_ports(optical_ports: List[Port]) -> Dict[str, List
     return direction_ports
 
 
-def check_ports_have_equal_spacing(list_ports: List[Port]) -> float64:
+def check_ports_have_equal_spacing(list_ports: list[Port]) -> float64:
     """Returns port separation.
 
     Raises error if not constant.
@@ -61,7 +60,7 @@ def check_ports_have_equal_spacing(list_ports: List[Port]) -> float64:
     return different_seps.pop()
 
 
-def get_list_ports_angle(list_ports: List[Port]) -> Union[float64, int]:
+def get_list_ports_angle(list_ports: list[Port]) -> float64 | int:
     """Returns the orientation/angle (in degrees) of a list of ports."""
     if not list_ports:
         return None

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -20,11 +19,11 @@ def straight_heater_metal_undercut(
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section_heater_undercut: CrossSectionSpec = "strip_heater_metal_undercut",
     with_undercut: bool = True,
-    via_stack: Optional[ComponentSpec] = "via_stack_heater_mtop",
-    port_orientation1: Optional[int] = None,
-    port_orientation2: Optional[int] = None,
-    heater_taper_length: Optional[float] = 5.0,
-    ohms_per_square: Optional[float] = None,
+    via_stack: ComponentSpec | None = "via_stack_heater_mtop",
+    port_orientation1: int | None = None,
+    port_orientation2: int | None = None,
+    heater_taper_length: float | None = 5.0,
+    ohms_per_square: float | None = None,
     **kwargs,
 ) -> Component:
     """Returns a thermal phase shifter.

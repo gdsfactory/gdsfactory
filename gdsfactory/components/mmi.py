@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import List
 
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
@@ -25,8 +24,8 @@ def mmi(
     straight: ComponentFactory = straight_function,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
-    input_positions: Optional[List[float]] = None,
-    output_positions: Optional[List[float]] = None,
+    input_positions: Optional[list[float]] = None,
+    output_positions: Optional[list[float]] = None,
 ) -> Component:
     r"""mxn MultiMode Interferometer (MMI).
 

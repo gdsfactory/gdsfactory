@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import List, Tuple
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -15,8 +14,8 @@ from gdsfactory.typings import ComponentSpec
 @cell
 def fanout_component(
     component: ComponentSpec,
-    port_names: Tuple[str, ...],
-    pitch: Tuple[float, float] = (0.0, 20.0),
+    port_names: tuple[str, ...],
+    pitch: tuple[float, float] = (0.0, 20.0),
     dx: float = 20.0,
     sort_ports: bool = True,
     auto_rename_ports: bool = True,
@@ -83,11 +82,11 @@ def fanout_component(
 
 
 def fanout_ports(
-    ports: List[gf.Port],
-    pitch: Tuple[float, float] = (0.0, 20.0),
+    ports: list[gf.Port],
+    pitch: tuple[float, float] = (0.0, 20.0),
     dx: float = 20.0,
     **kwargs,
-) -> List[gf.typings.Route]:
+) -> list[gf.typings.Route]:
     """Returns fanout Sbend routes.
 
     Args:

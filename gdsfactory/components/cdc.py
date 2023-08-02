@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory import Component
@@ -106,7 +105,7 @@ def cdc(
     width_top: float = 2.0,
     width_bot: float = 0.75,
     fins: bool = False,
-    fin_size: Tuple[float, float] = (0.2, 0.05),
+    fin_size: tuple[float, float] = (0.2, 0.05),
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Component:

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from itertools import chain
 from math import ceil, floor
-from typing import Union
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -12,9 +11,9 @@ from gdsfactory.typings import LayerSpec
 @gf.cell
 def interdigital_capacitor(
     fingers: int = 4,
-    finger_length: Union[float, int] = 20.0,
-    finger_gap: Union[float, int] = 2.0,
-    thickness: Union[float, int] = 5.0,
+    finger_length: float | int = 20.0,
+    finger_gap: float | int = 2.0,
+    thickness: float | int = 5.0,
     layer: LayerSpec = "WG",
 ) -> Component:
     """Generates an interdigital capacitor with ports on both ends.

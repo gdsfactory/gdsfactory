@@ -4,7 +4,6 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
-from typing import Optional, Tuple
 
 import numpy as np
 
@@ -18,10 +17,10 @@ from gdsfactory.typings import Anchor, ComponentSpec, Float2
 
 @cell
 def grid(
-    components: Optional[Tuple[ComponentSpec, ...]] = None,
-    spacing: Tuple[float, float] = (5.0, 5.0),
+    components: tuple[ComponentSpec, ...] | None = None,
+    spacing: tuple[float, float] = (5.0, 5.0),
     separation: bool = True,
-    shape: Optional[Tuple[int, int]] = None,
+    shape: tuple[int, int] | None = None,
     align_x: str = "x",
     align_y: str = "y",
     edge_x: str = "x",
@@ -160,14 +159,14 @@ def grid(
 
 @cell
 def grid_with_text(
-    components: Optional[Tuple[ComponentSpec, ...]] = None,
+    components: tuple[ComponentSpec, ...] | None = None,
     text_prefix: str = "",
-    text_offsets: Tuple[Float2, ...] = ((0, 0),),
-    text_anchors: Tuple[Anchor, ...] = ("cc",),
+    text_offsets: tuple[Float2, ...] = ((0, 0),),
+    text_anchors: tuple[Anchor, ...] = ("cc",),
     text_mirror: bool = False,
     text_rotation: int = 0,
-    text: Optional[ComponentSpec] = text_rectangular,
-    labels: Optional[Tuple[str, ...]] = None,
+    text: ComponentSpec | None = text_rectangular,
+    labels: tuple[str, ...] | None = None,
     **kwargs,
 ) -> Component:
     """Returns Component with 1D or 2D grid of components with text labels.

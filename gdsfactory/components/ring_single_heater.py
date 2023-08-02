@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
@@ -24,7 +23,7 @@ def ring_single_heater(
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section: CrossSectionSpec = "strip",
     via_stack: ComponentSpec = via_stack_heater_mtop_mini,
-    port_orientation: Optional[float] = None,
+    port_orientation: float | None = None,
     via_stack_offset: Float2 = (0, 0),
     **kwargs,
 ) -> gf.Component:

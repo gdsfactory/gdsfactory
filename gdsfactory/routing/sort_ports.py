@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import List, Tuple
 
 from gdsfactory.port import Port
 
@@ -13,19 +12,19 @@ def get_port_y(port: Port) -> float:
     return port.center[1]
 
 
-def sort_ports_x(ports: List[Port]) -> List[Port]:
+def sort_ports_x(ports: list[Port]) -> list[Port]:
     f_key = get_port_x
     ports.sort(key=f_key)
     return ports
 
 
-def sort_ports_y(ports: List[Port]) -> List[Port]:
+def sort_ports_y(ports: list[Port]) -> list[Port]:
     f_key = get_port_y
     ports.sort(key=f_key)
     return ports
 
 
-def sort_ports(ports1: List[Port], ports2: List[Port]) -> Tuple[List[Port], List[Port]]:
+def sort_ports(ports1: list[Port], ports2: list[Port]) -> tuple[list[Port], list[Port]]:
     """Returns two lists of sorted ports.
 
     Args:

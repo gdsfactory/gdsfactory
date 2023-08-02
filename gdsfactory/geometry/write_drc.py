@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import pathlib
 from dataclasses import asdict, is_dataclass
-from typing import List, Optional, Union
 
 import gdsfactory as gf
 from gdsfactory.install import get_klayout_path
@@ -155,7 +154,7 @@ end
 
 
 def connectivity_checks(
-    WG_cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]
+    WG_cross_sections: list[CrossSectionSpec], pin_widths: list[float] | float
 ) -> str:
     """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
 
@@ -178,7 +177,7 @@ def connectivity_checks(
     return connectivity_check
 
 
-def write_layer_definition(layers: Dict[str, Layer]) -> List[str]:
+def write_layer_definition(layers: Dict[str, Layer]) -> list[str]:
     """Returns layers definition script for KLayout.
 
     Args:
@@ -190,7 +189,7 @@ def write_layer_definition(layers: Dict[str, Layer]) -> List[str]:
     return [f"{key} = input({value[0]}, {value[1]})" for key, value in layers.items()]
 
 
-def write_drc_deck(rules: List[str], layers: Optional[Dict[str, Layer]] = None) -> str:
+def write_drc_deck(rules: list[str], layers: Dict[str, Layer] | None = None) -> str:
     """Returns drc_rule_deck for KLayout.
 
     based on https://github.com/klayoutmatthias/si4all
@@ -212,15 +211,15 @@ modes = ["tiled", "default", "deep"]
 
 
 def write_drc_deck_macro(
-    rules: List[str],
-    layers: Optional[Dict[str, Layer]] = None,
+    rules: list[str],
+    layers: Dict[str, Layer] | None = None,
     name: str = "generic",
-    filepath: Optional[PathType] = None,
+    filepath: PathType | None = None,
     shortcut: str = "Ctrl+Shift+D",
     mode: str = "tiled",
     threads: int = 4,
     tile_size: int = 500,
-    tile_borders: Optional[int] = None,
+    tile_borders: int | None = None,
 ) -> str:
     """Write KLayout DRC macro.
 

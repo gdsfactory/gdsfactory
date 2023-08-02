@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -12,7 +11,7 @@ def cross(
     length: float = 10.0,
     width: float = 3.0,
     layer: LayerSpec = "WG",
-    port_type: Optional[str] = None,
+    port_type: str | None = None,
 ) -> Component:
     """Returns a cross from two rectangles of length and width.
 

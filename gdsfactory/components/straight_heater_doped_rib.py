@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -19,11 +18,11 @@ def straight_heater_doped_rib(
     nsections: int = 3,
     cross_section: CrossSectionSpec = strip_rib_tip,
     cross_section_heater: CrossSectionSpec = rib_heater_doped,
-    via_stack: Optional[ComponentSpec] = via_stack_slab_npp_m3,
-    via_stack_metal: Optional[ComponentSpec] = via_stack_metal_function,
-    via_stack_metal_size: Tuple[float, float] = (10.0, 10.0),
-    via_stack_size: Tuple[float, float] = (10.0, 10.0),
-    taper: Optional[ComponentSpec] = taper_cross_section,
+    via_stack: ComponentSpec | None = via_stack_slab_npp_m3,
+    via_stack_metal: ComponentSpec | None = via_stack_metal_function,
+    via_stack_metal_size: tuple[float, float] = (10.0, 10.0),
+    via_stack_size: tuple[float, float] = (10.0, 10.0),
+    taper: ComponentSpec | None = taper_cross_section,
     with_taper1: bool = True,
     with_taper2: bool = True,
     heater_width: float = 2.0,

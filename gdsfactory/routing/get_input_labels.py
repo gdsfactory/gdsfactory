@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import List
 
 from gdsfactory.add_labels import (
     get_input_label,
@@ -14,13 +13,13 @@ from gdsfactory.typings import Label, LayerSpec
 
 
 def get_input_labels(
-    io_gratings: List[ComponentReference],
-    ordered_ports: List[Port],
+    io_gratings: list[ComponentReference],
+    ordered_ports: list[Port],
     component_name: str,
     layer_label: LayerSpec,
     gc_port_name: str,
     get_input_label_text_function=get_input_label_text,
-) -> List[Label]:
+) -> list[Label]:
     """Returns list of labels for a list of grating coupler references.
 
     Args:

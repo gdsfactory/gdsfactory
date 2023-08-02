@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
 
 import numpy as np
 
@@ -21,7 +20,7 @@ def grating_coupler_rectangular(
     polarization: str = "te",
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_function,
-    layer_slab: Optional[LayerSpec] = "SLAB150",
+    layer_slab: LayerSpec | None = "SLAB150",
     fiber_angle: float = 15,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,

@@ -5,7 +5,7 @@ from __future__ import annotations
 import csv
 import pathlib
 from pathlib import Path
-from typing import Iterator, List, Tuple
+from typing import Iterator
 
 import numpy as np
 
@@ -18,7 +18,7 @@ from gdsfactory.typings import LayerSpec, Optional, PathType
 
 def find_labels(
     gdspath: PathType, layer_label: LayerSpec = "LABEL", prefix: str = "opt_"
-) -> Iterator[Tuple[str, float, float]]:
+) -> Iterator[tuple[str, float, float]]:
     """Return text label and locations iterator from a GDS file.
 
     Klayout does not support label rotations.
@@ -98,7 +98,7 @@ def write_labels_klayout(
 
 def write_labels_gdstk(
     gdspath: Path,
-    prefixes: List[str] = ("opt", "elec"),
+    prefixes: list[str] = ("opt", "elec"),
     layer_label: LayerSpec = "LABEL",
     filepath: Optional[PathType] = None,
     debug: bool = False,

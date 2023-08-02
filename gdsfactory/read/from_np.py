@@ -1,7 +1,6 @@
 """Read component from a numpy.ndarray."""
 from __future__ import annotations
 
-from typing import Tuple
 
 import numpy as np
 
@@ -25,7 +24,7 @@ def compute_area_signed(pr) -> float:
 def from_np(
     ndarray: np.ndarray,
     nm_per_pixel: int = 20,
-    layer: Tuple[int, int] = (1, 0),
+    layer: tuple[int, int] = (1, 0),
     threshold: float = 0.99,
 ) -> Component:
     """Returns Component from a np.ndarray.

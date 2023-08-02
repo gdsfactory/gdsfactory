@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import warnings
 from functools import partial
-from typing import List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import ndarray
@@ -19,10 +18,10 @@ DEG2RAD = np.pi / 180
 
 
 def line(
-    p_start: Union[Port, Coordinate],
-    p_end: Union[Port, Coordinate],
-    width: Optional[float] = None,
-) -> Tuple[float, float, float, float]:
+    p_start: Port | Coordinate,
+    p_end: Port | Coordinate,
+    width: float | None = None,
+) -> tuple[float, float, float, float]:
     if isinstance(p_start, gf.Port):
         width = p_start.width
         p_start = p_start.center
@@ -54,7 +53,7 @@ def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray
 
 
 @cell
-def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Component:
+def extend_port(port: Port, length: float, layer: Layer | None = None) -> Component:
     """Returns a straight extension component out of a port.
 
     Args:
@@ -86,15 +85,15 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
 @gf.cell
 def extend_ports(
     component: ComponentSpec = mmi1x2,
-    port_names: Optional[Tuple[str, ...]] = None,
+    port_names: tuple[str, ...] | None = None,
     length: float = 5.0,
-    extension: Optional[ComponentSpec] = None,
-    port1: Optional[str] = None,
-    port2: Optional[str] = None,
+    extension: ComponentSpec | None = None,
+    port1: str | None = None,
+    port2: str | None = None,
     port_type: str = "optical",
     centered: bool = False,
-    cross_section: Optional[CrossSectionSpec] = None,
-    extension_port_names: Optional[List[str]] = None,
+    cross_section: CrossSectionSpec | None = None,
+    extension_port_names: list[str] | None = None,
     **kwargs,
 ) -> Component:
     """Returns a new component with some ports extended.

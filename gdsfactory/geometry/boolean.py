@@ -1,7 +1,6 @@
 """Based on phidl.geometry."""
 from __future__ import annotations
 
-from typing import Tuple, Union
 
 import gdstk
 
@@ -14,8 +13,8 @@ from gdsfactory.typings import ComponentOrReference, LayerSpec
 
 @gf.cell
 def boolean(
-    A: Union[ComponentOrReference, Tuple[ComponentOrReference, ...]],
-    B: Union[ComponentOrReference, Tuple[ComponentOrReference, ...]],
+    A: ComponentOrReference | tuple[ComponentOrReference, ...],
+    B: ComponentOrReference | tuple[ComponentOrReference, ...],
     operation: str,
     precision: float = 1e-4,
     layer: LayerSpec = (1, 0),

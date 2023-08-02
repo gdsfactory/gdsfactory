@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -14,10 +13,10 @@ from gdsfactory.typings import ComponentSpec, Float2, LayerSpec, Union
 def pad(
     size: Union[str, Float2] = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
-    bbox_layers: Optional[Tuple[LayerSpec, ...]] = None,
-    bbox_offsets: Optional[Tuple[float, ...]] = None,
+    bbox_layers: tuple[LayerSpec, ...] | None = None,
+    bbox_offsets: tuple[float, ...] | None = None,
     port_inclusion: float = 0,
-    port_orientation: Optional[float] = None,
+    port_orientation: float | None = None,
 ) -> Component:
     """Returns rectangular pad with ports.
 
@@ -77,10 +76,10 @@ pad_small = partial(pad, size=(80, 80))
 @cell
 def pad_array(
     pad: ComponentSpec = "pad",
-    spacing: Tuple[float, float] = (150.0, 150.0),
+    spacing: tuple[float, float] = (150.0, 150.0),
     columns: int = 6,
     rows: int = 1,
-    orientation: Optional[float] = 270,
+    orientation: float | None = 270,
 ) -> Component:
     """Returns 2D array of pads.
 

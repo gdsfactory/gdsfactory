@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import List, Optional
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -16,9 +15,9 @@ terminator_function = partial(taper_function, width2=0.1)
 @cell
 def add_termination(
     component: Component,
-    ports: Optional[List[Port]] = None,
+    ports: list[Port] | None = None,
     terminator: ComponentSpec = terminator_function,
-    port_name: Optional[str] = None,
+    port_name: str | None = None,
     port_type: str = "optical",
     **kwargs,
 ) -> Component:

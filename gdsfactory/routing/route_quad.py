@@ -1,7 +1,6 @@
 """Route for electrical based on phidl.routing.route_quad."""
 from __future__ import annotations
 
-from typing import Optional
 
 import gdstk
 import numpy as np
@@ -23,10 +22,10 @@ def _get_rotated_basis(theta):
 def route_quad(
     port1: Port,
     port2: Port,
-    width1: Optional[float] = None,
-    width2: Optional[float] = None,
+    width1: float | None = None,
+    width2: float | None = None,
     layer: gf.typings.LayerSpec = "M1",
-    manhattan_target_step: Optional[float] = None,
+    manhattan_target_step: float | None = None,
 ) -> gf.Component:
     """Routes a basic quadrilateral polygon directly between two ports.
 

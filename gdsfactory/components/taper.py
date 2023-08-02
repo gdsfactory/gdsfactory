@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import List, Optional
 
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
@@ -15,8 +14,8 @@ from gdsfactory.typings import CrossSectionSpec, LayerSpec
 def taper(
     length: float = 10.0,
     width1: float = 0.5,
-    width2: Optional[float] = None,
-    port: Optional[Port] = None,
+    width2: float | None = None,
+    port: Port | None = None,
     with_bbox: bool = True,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
@@ -122,8 +121,8 @@ def taper_strip_to_ridge(
     layer_wg: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB90",
     cross_section: CrossSectionSpec = "strip",
-    bbox_layers: Optional[List[LayerSpec]] = None,
-    bbox_offsets: Optional[List[float]] = None,
+    bbox_layers: list[LayerSpec] | None = None,
+    bbox_offsets: list[float] | None = None,
 ) -> Component:
     r"""Linear taper from strip to rib.
 

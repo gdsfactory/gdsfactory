@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, List, Optional, Tuple
+from typing import Callable
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -13,8 +13,8 @@ from gdsfactory.typings import ComponentSpec
 def get_ports_and_tapers(
     component: ComponentSpec,
     taper: ComponentSpec = taper_function,
-    select_ports: Optional[Callable] = select_ports_optical,
-) -> Tuple[List[Port], List[ComponentReference]]:
+    select_ports: Callable | None = select_ports_optical,
+) -> tuple[list[Port], list[ComponentReference]]:
     """Returns ports and taper elements for a component."""
     elements = []
 
@@ -35,7 +35,7 @@ def get_ports_and_tapers(
 def add_tapers(
     component: ComponentSpec,
     taper: ComponentSpec = taper_function,
-    select_ports: Optional[Callable] = select_ports_optical,
+    select_ports: Callable | None = select_ports_optical,
     taper_port_name1: str = "o1",
     taper_port_name2: str = "o2",
 ) -> Component:

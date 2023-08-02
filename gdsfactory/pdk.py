@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from functools import partial
-from typing import Any, Callable, Optional, Tuple, Union, List
+from typing import Any, Callable
 
 import numpy as np
 import omegaconf
@@ -61,7 +61,7 @@ def evanescent_coupler_sample() -> None:
     pass
 
 
-def extract_args_from_docstring(docstring: str) -> Optional[Dict[str, Any]]:
+def extract_args_from_docstring(docstring: str) -> Dict[str, Any] | None:
     """
     This function extracts settings from a function's docstring for uPDK format.
 
@@ -155,7 +155,7 @@ class OasisWriteSettings(BaseModel):
         default=0,
         description="Tolerance for detecting circles. If less or equal to 0, no detection is performed. Circles are stored in compressed format.",
     )
-    validation: Optional[str] = Field(
+    validation: str | None = Field(
         default=None,
         description="Type of validation to include in the saved file ('crc32', 'checksum32', or None).",
     )
@@ -176,7 +176,7 @@ class CellDecoratorSettings(BaseModel):
         default=True,
         description="If true, will automatically name the cell based on its parameters.",
     )
-    name: Optional[str] = Field(
+    name: str | None = Field(
         default=None,
         description="If set, will override the cell name with this value.",
     )
@@ -192,7 +192,7 @@ class CellDecoratorSettings(BaseModel):
         default={},
         description="Additional information to store in the cell.",
     )
-    prefix: Optional[str] = Field(
+    prefix: str | None = Field(
         default=None,
         description="If set, will prepend this string to the cell name.",
     )
@@ -250,21 +250,21 @@ class Pdk(BaseModel):
     cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
     symbols: Dict[str, ComponentFactory] = Field(default_factory=dict)
     default_symbol_factory: Callable = floorplan_with_block_letters
-    base_pdk: Optional[Pdk] = None
-    default_decorator: Optional[Callable[[Component], None]] = None
+    base_pdk: Pdk | None = None
+    default_decorator: Callable[[Component], None] | None = None
     layers: Dict[str, Layer] = Field(default_factory=dict)
-    layer_stack: Optional[LayerStack] = None
-    layer_views: Optional[LayerViews] = None
-    layer_transitions: Dict[Union[Layer, Tuple[Layer, Layer]], ComponentSpec] = Field(
+    layer_stack: LayerStack | None = None
+    layer_views: LayerViews | None = None
+    layer_transitions: Dict[Layer | tuple[Layer, Layer], ComponentSpec] = Field(
         default_factory=dict
     )
-    sparameters_path: Optional[PathType] = None
-    modes_path: Optional[PathType] = PATH.modes
-    interconnect_cml_path: Optional[PathType] = None
+    sparameters_path: PathType | None = None
+    modes_path: PathType | None = PATH.modes
+    interconnect_cml_path: PathType | None = None
     warn_off_grid_ports: bool = False
     constants: Dict[str, Any] = constants
     materials_index: Dict[str, MaterialSpec] = Field(default_factory=dict)
-    routing_strategies: Optional[Dict[str, Callable]] = None
+    routing_strategies: Dict[str, Callable] | None = None
     circuit_yaml_parser: Callable = cell_from_yaml
     gds_write_settings: GdsWriteSettings = GdsWriteSettings()
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
@@ -297,7 +297,7 @@ class Pdk(BaseModel):
     def is_pathlib_path(cls, path):
         return pathlib.Path(path)
 
-    def validate_layers(self, layers_required: Optional[List[Layer]] = None):
+    def validate_layers(self, layers_required: list[Layer] | None = None):
         """Raises ValueError if layers_required are not in Pdk."""
         if layers_required is None:
             layers_required = []
@@ -369,7 +369,7 @@ class Pdk(BaseModel):
 
     def register_cells_yaml(
         self,
-        dirpath: Optional[PathType] = None,
+        dirpath: PathType | None = None,
         update: bool = False,
         **kwargs,
     ) -> None:
@@ -512,7 +512,7 @@ class Pdk(BaseModel):
 
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs
-    ) -> Union[CrossSection, Transition]:
+    ) -> CrossSection | Transition:
         """Returns cross_section from a cross_section spec."""
         if isinstance(cross_section, CrossSection):
             return cross_section.copy(**kwargs)
@@ -753,7 +753,7 @@ def get_sparameters_path() -> pathlib.Path:
     return PDK.sparameters_path
 
 
-def get_modes_path() -> Optional[pathlib.Path]:
+def get_modes_path() -> pathlib.Path | None:
     PDK = get_active_pdk()
     return PDK.modes_path
 

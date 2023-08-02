@@ -53,7 +53,7 @@ import io
 import pathlib
 import warnings
 from functools import partial
-from typing import IO, Any, Callable, Dict, List, Optional, Union
+from typing import IO, Any, Callable
 
 import numpy as np
 from omegaconf import DictConfig, OmegaConf
@@ -127,7 +127,7 @@ valid_route_keys = [
 
 def _get_anchor_point_from_name(
     ref: ComponentReference, anchor_name: str
-) -> Optional[np.ndarray]:
+) -> np.ndarray | None:
     if anchor_name in valid_anchor_point_keywords:
         return getattr(ref.size_info, anchor_name)
     elif anchor_name in ref.ports:
@@ -138,7 +138,7 @@ def _get_anchor_point_from_name(
 
 def _get_anchor_value_from_name(
     ref: ComponentReference, anchor_name: str, return_value: str
-) -> Optional[float]:
+) -> float | None:
     if anchor_name in valid_anchor_value_keywords:
         return getattr(ref.size_info, anchor_name)
     anchor_point = _get_anchor_point_from_name(ref, anchor_name)
@@ -153,7 +153,7 @@ def _get_anchor_value_from_name(
 
 
 def _move_ref(
-    x: Union[str, float],
+    x: str | float,
     x_or_y: Literal["x", "y"],
     placements_conf,
     connections_by_transformed_inst,
@@ -197,12 +197,12 @@ def _move_ref(
 
 
 def place(
-    placements_conf: Dict[str, Dict[str, Union[int, float, str]]],
-    connections_by_transformed_inst: Dict[str, Dict[str, str]],
-    instances: Dict[str, ComponentReference],
-    encountered_insts: List[str],
-    instance_name: Optional[str] = None,
-    all_remaining_insts: Optional[List[str]] = None,
+    placements_conf: dict[str, dict[str, int | float | str]],
+    connections_by_transformed_inst: dict[str, dict[str, str]],
+    instances: dict[str, ComponentReference],
+    encountered_insts: list[str],
+    instance_name: str | None = None,
+    all_remaining_insts: list[str] | None = None,
 ) -> None:
     """Place instance_name based on placements_conf config.
 
@@ -394,7 +394,7 @@ def place(
         # placements_conf.pop(instance_name)
 
 
-def transform_connections_dict(connections_conf: Dict[str, str]) -> Dict[str, Dict]:
+def transform_connections_dict(connections_conf: dict[str, str]) -> dict[str, dict]:
     """Returns Dict with source_instance_name key and connection properties."""
     if not connections_conf:
         return {}
@@ -416,7 +416,7 @@ def make_connection(
     port_src_name: str,
     instance_dst_name: str,
     port_dst_name: str,
-    instances: Dict[str, ComponentReference],
+    instances: dict[str, ComponentReference],
 ) -> None:
     """Connect instance_src_name,port to instance_dst_name,port.
 
@@ -493,11 +493,11 @@ ports:
 
 
 def cell_from_yaml(
-    yaml_str: Union[str, pathlib.Path, IO[Any], Dict[str, Any], DictConfig],
-    routing_strategy: Optional[Dict[str, Callable]] = None,
+    yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
+    routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
-    name: Optional[str] = None,
-    prefix: Optional[str] = None,
+    name: str | None = None,
+    prefix: str | None = None,
     **kwargs,
 ) -> Callable:
     """Returns Component factory from YAML string or file.
@@ -591,11 +591,11 @@ def cell_from_yaml(
 
 
 def from_yaml(
-    yaml_str: Union[str, pathlib.Path, IO[Any], Dict[str, Any], DictConfig],
-    routing_strategy: Optional[Dict[str, Callable]] = None,
+    yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
+    routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
-    name: Optional[str] = None,
-    prefix: Optional[str] = None,
+    name: str | None = None,
+    prefix: str | None = None,
     **kwargs,
 ) -> Component:
     """Returns Component from YAML string or file.
@@ -721,7 +721,7 @@ def from_yaml(
 @cell
 def _from_yaml(
     conf,
-    routing_strategy: Dict[str, Callable],
+    routing_strategy: dict[str, Callable],
     label_instance_function: Callable = add_instance_label,
     mode: str = "layout",
 ) -> Component:

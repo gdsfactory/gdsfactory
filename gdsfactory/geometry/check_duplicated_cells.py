@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Union
 
 
-def check_duplicated_cells(gdspath: Union[Path, str]):
+def check_duplicated_cells(gdspath: Path | str):
     """Reads cell and checks for duplicated cells.
 
     klayout will fail to load the layout if it finds any duplicated cells.

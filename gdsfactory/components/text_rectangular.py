@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Callable, Tuple
+from typing import Callable
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -14,7 +14,7 @@ from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
 def text_rectangular(
     text: str = "abcd",
     size: float = 10.0,
-    position: Tuple[float, float] = (0.0, 0.0),
+    position: tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
     layer: LayerSpec = "WG",
     font: Callable = rectangular_font,

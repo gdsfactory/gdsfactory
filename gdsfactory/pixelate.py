@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import itertools as it
-from typing import Optional
 
 import numpy as np
 from shapely import geometry
@@ -83,10 +82,10 @@ def _pixelate(
     pts: Coordinates,
     N: int = 100,
     margin: float = 0.4,
-    margin_x: Optional[float] = None,
-    margin_y: Optional[float] = None,
-    nb_pixels_x: Optional[int] = None,
-    nb_pixels_y: Optional[int] = None,
+    margin_x: float | None = None,
+    margin_y: float | None = None,
+    nb_pixels_x: int | None = None,
+    nb_pixels_y: int | None = None,
     min_pixel_size: float = 0.4,
     snap_res: float = 0.05,
 ) -> Coordinates:

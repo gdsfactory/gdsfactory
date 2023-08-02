@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
 
 import numpy as np
 
@@ -201,7 +200,7 @@ def disk_heater(
     heater_width: float = 5.0,
     heater_extent: float = 2.0,
     via_width: float = 10.0,
-    port_orientation: Optional[float] = 90,
+    port_orientation: float | None = 90,
     **kwargs,
 ) -> Component:
     """Disk Resonator with top metal heater.

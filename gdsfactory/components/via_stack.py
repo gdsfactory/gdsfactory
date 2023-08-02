@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import warnings
 from functools import partial
-from typing import Optional, Tuple
 
 import numpy as np
 
@@ -17,9 +16,9 @@ from gdsfactory.typings import ComponentSpec, Float2, Floats, LayerSpec, LayerSp
 def via_stack(
     size=(11.0, 11.0),
     layers: LayerSpecs = ("M1", "M2", "M3"),
-    layer_offsets: Optional[Floats] = None,
-    vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2, None),
-    layer_port: Optional[LayerSpec] = None,
+    layer_offsets: Floats | None = None,
+    vias: tuple[ComponentSpec | None, ...] | None = (via1, via2, None),
+    layer_port: LayerSpec | None = None,
     correct_size: bool = True,
 ) -> Component:
     """Rectangular via array stack.
@@ -137,8 +136,8 @@ def via_stack_circular(
     center_angle: float = 0,
     width: float = 5.0,
     layers: LayerSpecs = ("M1", "M2", "M3"),
-    vias: Tuple[Optional[ComponentSpec], ...] = (via1, via2),
-    layer_port: Optional[LayerSpec] = None,
+    vias: tuple[ComponentSpec | None, ...] = (via1, via2),
+    layer_port: LayerSpec | None = None,
 ) -> Component:
     """Circular via array stack.
 
@@ -278,12 +277,12 @@ def _smaller_angle(angle, angle1, angle2):
 def via_stack_from_rules(
     size: Float2 = (1.2, 1.2),
     layers: LayerSpecs = ("M1", "M2", "M3"),
-    layer_offsets: Optional[Tuple[float, ...]] = None,
-    vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2),
-    via_min_size: Tuple[Float2, ...] = ((0.2, 0.2), (0.2, 0.2)),
-    via_min_gap: Tuple[Float2, ...] = ((0.1, 0.1), (0.1, 0.1)),
+    layer_offsets: tuple[float, ...] | None = None,
+    vias: tuple[ComponentSpec | None, ...] | None = (via1, via2),
+    via_min_size: tuple[Float2, ...] = ((0.2, 0.2), (0.2, 0.2)),
+    via_min_gap: tuple[Float2, ...] = ((0.1, 0.1), (0.1, 0.1)),
     via_min_enclosure: Float2 = (0.15, 0.25),
-    layer_port: Optional[LayerSpec] = None,
+    layer_port: LayerSpec | None = None,
 ) -> Component:
     """Rectangular via array stack, with optimized dimension for vias.
 
@@ -361,9 +360,9 @@ def via_stack_from_rules(
 
 def optimized_via(
     base_via: ComponentSpec = "VIAC",
-    size: Tuple[float, float] = (11.0, 11.0),
-    min_via_size: Tuple[float, float] = (0.3, 0.3),
-    min_via_gap: Tuple[float, float] = (0.1, 0.1),
+    size: tuple[float, float] = (11.0, 11.0),
+    min_via_size: tuple[float, float] = (0.3, 0.3),
+    min_via_gap: tuple[float, float] = (0.1, 0.1),
     min_via_enclosure: float = 0.2,
 ) -> Component:
     """Given a target total inclusion size, returns an optimized dimension for the via.

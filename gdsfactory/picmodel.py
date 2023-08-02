@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 import yaml
 from pydantic import AnyUrl, BaseModel, Extra, Field
@@ -16,8 +16,8 @@ class CrossSection(BaseModel):
 
 
 class RouteSettings(BaseModel):
-    cross_section: Optional[CrossSection] = None
-    separation: Optional[float] = Field(
+    cross_section: CrossSection | None = None
+    separation: float | None = Field(
         5.0, description="The minimum separation between routes in the bundle [um]."
     )
 
@@ -59,31 +59,31 @@ class Placement(BaseModel):
 
         extra = Extra.forbid
 
-    x: Optional[Union[str, float]] = Field(
+    x: str | float | None = Field(
         None,
         description="The x location at which to place the component.\nThis can either be a number or an other_inst,port definition, meaning it will be placed relative to the port specified on the other instance. \nIf port keyword is defined, this will be relative to the specified port. Otherwise, it will be relative to the cell origin.",
     )
-    y: Optional[Union[str, float]] = Field(
+    y: str | float | None = Field(
         None,
         description="The y location at which to place the component.\nThis can either be a number or an other_inst,port definition, meaning it will be placed relative to the port specified on the other instance. \nIf port keyword is defined, this will be relative to the specified port. Otherwise, it will be relative to the cell origin.",
     )
-    port: Optional[Union[str, PortEnum]] = Field(
+    port: str | PortEnum | None = Field(
         None,
         description="The port or keyword used to anchor the component. Either specify any port on the instance or one of these special keywords:\nne, nc, nw, se, sc, sw, ce, cw, cc for the northeast, north-center, northwest, etc. coordinates of the cell",
     )
-    rotation: Optional[float] = Field(
+    rotation: float | None = Field(
         0,
         description="The rotation of the cell about the origin, or port if defined.",
     )
-    dx: Optional[float] = Field(
+    dx: float | None = Field(
         None,
         description="An additional displacement in the x direction. Useful if x is defined using other_inst,port syntax",
     )
-    dy: Optional[float] = Field(
+    dy: float | None = Field(
         None,
         description="An additional displacement in the y direction. Useful if y is defined using other_inst,port syntax",
     )
-    mirror: Optional[bool] = Field(
+    mirror: bool | None = Field(
         None,
         description="true/false value indicating whether we should flip horizontally.",
     )
@@ -96,7 +96,7 @@ class Instance(BaseModel):
         extra = Extra.forbid
 
     component: str
-    settings: Optional[Dict[str, Any]] = Field(
+    settings: dict[str, Any] | None = Field(
         None, description="Settings for the component"
     )
 
@@ -107,20 +107,20 @@ class Route(BaseModel):
 
         extra = Extra.forbid
 
-    routing_strategy: Optional[RoutingStrategy] = None
-    settings: Optional[RouteSettings] = None
-    links: Dict[str, str]
+    routing_strategy: RoutingStrategy | None = None
+    settings: RouteSettings | None = None
+    links: dict[str, str]
 
 
 class PicYamlConfiguration(BaseModel):
-    _schema: Optional[AnyUrl] = Field(None, alias="$schema")
-    instances: Optional[Dict[str, Instance]] = None
-    placements: Optional[Dict[str, Placement]] = None
-    routes: Optional[Dict[str, Route]] = None
-    ports: Optional[Dict[str, str]] = None
+    _schema: AnyUrl | None = Field(None, alias="$schema")
+    instances: dict[str, Instance] | None = None
+    placements: dict[str, Placement] | None = None
+    routes: dict[str, Route] | None = None
+    ports: dict[str, str] | None = None
 
     def add_instance(
-        self, name: str, component: gf.Component, placement: Optional[Placement] = None
+        self, name: str, component: gf.Component, placement: Placement | None = None
     ) -> None:
         component_name = component.settings.function_name
         component_settings = component.settings.changed
@@ -150,11 +150,11 @@ class PicYamlConfiguration(BaseModel):
 
 
 class SchematicConfiguration(BaseModel):
-    _schema: Optional[AnyUrl] = Field(None, alias="$schema")
-    instances: Optional[Dict[str, Instance]] = None
-    schematic_placements: Optional[Dict[str, Placement]] = None
-    nets: Optional[List[List[str]]] = None
-    ports: Optional[Dict[str, str]] = None
+    _schema: AnyUrl | None = Field(None, alias="$schema")
+    instances: dict[str, Instance] | None = None
+    schematic_placements: dict[str, Placement] | None = None
+    nets: list[list[str]] | None = None
+    ports: dict[str, str] | None = None
 
     @property
     def placements(self):
@@ -163,9 +163,9 @@ class SchematicConfiguration(BaseModel):
     def add_instance(
         self,
         name: str,
-        component: Union[str, gf.Component],
-        placement: Optional[Placement] = None,
-        settings: Optional[Dict[str, Any]] = None,
+        component: str | gf.Component,
+        placement: Placement | None = None,
+        settings: dict[str, Any] | None = None,
     ) -> None:
         if isinstance(component, gf.Component):
             component_name = component.settings.function_name

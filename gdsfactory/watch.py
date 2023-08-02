@@ -9,7 +9,7 @@ import sys
 import time
 import traceback
 import threading
-from typing import Callable, Optional
+from typing import Callable
 
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
@@ -21,7 +21,7 @@ from gdsfactory.pdk import get_active_pdk
 class FileWatcher(FileSystemEventHandler):
     """Captures *.py or *.pic.yml file change events."""
 
-    def __init__(self, logger=None, path: Optional[str] = None) -> None:
+    def __init__(self, logger=None, path: str | None = None) -> None:
         """Initialize the YAML event handler."""
         super().__init__()
 

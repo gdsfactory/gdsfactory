@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, List, Optional, Tuple, Union
+from typing import Callable
 
 import gdstk
 import numpy as np
@@ -21,13 +21,13 @@ def route_fiber_single(
     grating_coupler: ComponentSpec = grating_coupler_te,
     min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 1,
-    port_names: Optional[Tuple[str, ...]] = None,
-    excluded_ports: Optional[Tuple[str, ...]] = None,
-    component_name: Optional[str] = None,
+    port_names: tuple[str, ...] | None = None,
+    excluded_ports: tuple[str, ...] | None = None,
+    component_name: str | None = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = strip,
     **kwargs,
-) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
+) -> tuple[list[ComponentReference | Label], list[ComponentReference]]:
     """Returns route Tuple(references, grating couplers) for single fiber input/output.
 
     Args:

@@ -1,7 +1,7 @@
 """Add grating_couplers to a component."""
 from __future__ import annotations
 
-from typing import Callable, List, Optional, Tuple
+from typing import Callable
 
 import numpy as np
 
@@ -36,11 +36,11 @@ from gdsfactory.typings import (
 def add_grating_couplers(
     component: ComponentSpec = straight,
     grating_coupler: ComponentSpec = grating_coupler_te,
-    layer_label: Tuple[int, int] = (200, 0),
+    layer_label: tuple[int, int] = (200, 0),
     gc_port_name: str = "o1",
-    get_input_labels_function: Optional[LabelListFactory] = get_input_labels,
+    get_input_labels_function: LabelListFactory | None = get_input_labels,
     select_ports: Callable[..., PortsDict] = select_ports_optical,
-    component_name: Optional[str] = None,
+    component_name: str | None = None,
 ) -> Component:
     """Returns new component with grating couplers and labels.
 
@@ -91,14 +91,14 @@ def add_grating_couplers(
 def add_grating_couplers_with_loopback_fiber_single(
     component: ComponentSpec = spiral_inner_io_fiber_single,
     grating_coupler: ComponentSpec = grating_coupler_te,
-    layer_label: Optional[Tuple[int, int]] = (200, 0),
+    layer_label: tuple[int, int] | None = (200, 0),
     gc_port_name: str = "o1",
-    get_input_labels_function: Optional[LabelListFactory] = get_input_labels,
+    get_input_labels_function: LabelListFactory | None = get_input_labels,
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     select_ports: Callable[..., PortsDict] = select_ports_optical,
     with_loopback: bool = True,
     cross_section: CrossSectionSpec = strip,
-    component_name: Optional[str] = None,
+    component_name: str | None = None,
     loopback_xspacing: float = 5.0,
     rotation: int = 90,
 ) -> Component:
@@ -210,19 +210,19 @@ def add_grating_couplers_with_loopback_fiber_single(
 def add_grating_couplers_with_loopback_fiber_array(
     component: ComponentSpec = spiral_inner_io,
     grating_coupler: ComponentSpec = grating_coupler_te,
-    excluded_ports: Optional[List[str]] = None,
+    excluded_ports: list[str] | None = None,
     grating_separation: float = 127.0,
-    bend_radius_loopback: Optional[float] = None,
+    bend_radius_loopback: float | None = None,
     gc_port_name: str = "o1",
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
     bend: ComponentSpec = bend_euler,
-    layer_label: Tuple[int, int] = (200, 0),
-    layer_label_loopback: Optional[Tuple[int, int]] = None,
-    component_name: Optional[str] = None,
+    layer_label: tuple[int, int] = (200, 0),
+    layer_label_loopback: tuple[int, int] | None = None,
+    component_name: str | None = None,
     with_loopback: bool = False,
     nlabels_loopback: int = 2,
-    get_input_labels_function: Optional[LabelListFactory] = get_input_labels,
+    get_input_labels_function: LabelListFactory | None = get_input_labels,
     cross_section: CrossSectionSpec = strip,
     select_ports: Callable = select_ports_optical,
     loopback_yspacing: float = 4.0,

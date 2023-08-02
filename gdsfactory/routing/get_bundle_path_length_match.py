@@ -1,7 +1,7 @@
 """Routes bundles of ports (river routing)."""
 from __future__ import annotations
 
-from typing import Callable, List, Optional, Union
+from typing import Callable
 
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as _straight
@@ -24,22 +24,22 @@ from gdsfactory.typings import (
 
 
 def get_bundle_path_length_match(
-    ports1: List[Port],
-    ports2: List[Port],
+    ports1: list[Port],
+    ports2: list[Port],
     separation: float = 30.0,
-    end_straight_length: Optional[float] = None,
+    end_straight_length: float | None = None,
     extra_length: float = 0.0,
     nb_loops: int = 1,
     modify_segment_i: int = -2,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = _straight,
-    taper: Optional[ComponentSpec] = taper_function,
+    taper: ComponentSpec | None = taper_function,
     start_straight_length: float = 0.0,
     route_filter: Callable = get_route_from_waypoints,
     sort_ports: bool = True,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     **kwargs,
-) -> List[Route]:
+) -> list[Route]:
     """Returns list of routes that are path length matched.
 
     Args:

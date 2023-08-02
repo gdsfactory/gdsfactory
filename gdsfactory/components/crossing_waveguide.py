@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
 
 import numpy as np
 from numpy import float64
@@ -233,7 +232,7 @@ def crossing_etched(
 def crossing45(
     crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,
-    dx: Optional[float] = None,
+    dx: float | None = None,
     alpha: float = 0.08,
     npoints: int = 101,
     cross_section: CrossSectionSpec = "strip",

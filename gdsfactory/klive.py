@@ -7,14 +7,13 @@ import os
 import pathlib
 import socket
 from pathlib import Path
-from typing import Optional, Union
 from gdsfactory import config
 
 
 def show(
-    gds_filename: Union[Path, str],
+    gds_filename: Path | str,
     keep_position: bool = True,
-    technology: Optional[str] = None,
+    technology: str | None = None,
     port: int = 8082,
     delete: bool = False,
 ) -> None:

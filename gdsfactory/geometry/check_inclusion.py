@@ -1,14 +1,13 @@
 from __future__ import annotations
 
-from typing import Tuple
 
 from gdsfactory.typings import ComponentOrPath
 
 
 def check_inclusion(
     gdspath: ComponentOrPath,
-    layer_in: Tuple[int, int] = (1, 0),
-    layer_out: Tuple[int, int] = (2, 0),
+    layer_in: tuple[int, int] = (1, 0),
+    layer_out: tuple[int, int] = (2, 0),
     min_inclusion: float = 0.150,
     dbu: float = 1e3,
     ignore_angle_deg: int = 80,

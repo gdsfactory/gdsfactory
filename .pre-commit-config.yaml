@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: f8d8c45220230434bd7440d85a7f64c67bcdb952
+    rev: d2bd9cd497c81622c3f5774b336ab451691f1c36
     hooks:
       - id: check-yaml
         exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|conda/construct.yaml|.*\.pic\.yml|conda/constructor/Miniforge3/construct.yaml)
@@ -8,31 +8,35 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/psf/black
-    rev: d1248ca9beaf0ba526d265f4108836d89cf551b7
+    rev: 1b028cc9d99c2c2e82f9b727742539173a92a373
     hooks:
       - id: black
         # exclude: '^gdsfactory/samples/notebooks/|^docs/notebooks/'
 
   - repo: https://github.com/codespell-project/codespell
-    rev: af69927c7d3965d3fe8f68007e12cd971847573f
+    rev: 38bc4a97f6e22827e86526148efa38f1044a97f8
     hooks:
       - id: codespell
         additional_dependencies:
           - tomli
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "770e3ceae230e989c8337eb434b7707d5f796e3d"
+    rev: "6c0ceaccffa1ebb1db1ea1a6d7289b50d29bfce2"
     hooks:
       - id: ruff
 
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-    rev: d2425a62376c2197448cce2f825d5a0c3926b862
+    rev: v2.10.0
     hooks:
       - id: pretty-format-toml
         args: [--autofix]
 
   - repo: https://github.com/aristanetworks/j2lint.git
-    rev: 1f242682122fa258557e429f1b92fadd6d2be2d4
+    rev: v1.1.0
     hooks:
       - id: j2lint
         args: [--ignore, jinja-statements-delimiter, jinja-statements-indentation, --]
+  - repo: https://github.com/asottile/pyupgrade
+    rev: f260e47664d38893c972e034f85b71e002799b42
+    hooks:
+      - id: pyupgrade

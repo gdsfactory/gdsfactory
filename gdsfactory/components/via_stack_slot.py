@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import warnings
 from functools import partial
-from typing import Optional
 
 from numpy import floor
 
@@ -17,10 +16,10 @@ from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, LayerSpecs
 def via_stack_slot(
     size=(11.0, 11.0),
     layers: LayerSpecs = ("M1", "M2"),
-    layer_offsets: Optional[Floats] = (0, 1.0),
-    layer_offsetsx: Optional[Floats] = None,
-    layer_offsetsy: Optional[Floats] = None,
-    layer_port: Optional[LayerSpec] = None,
+    layer_offsets: Floats | None = (0, 1.0),
+    layer_offsetsx: Floats | None = None,
+    layer_offsetsy: Floats | None = None,
+    layer_port: LayerSpec | None = None,
     via: ComponentSpec = via1,
     enclosure: float = 1.0,
     ysize: float = 0.5,

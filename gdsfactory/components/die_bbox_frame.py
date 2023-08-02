@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, Tuple, Union
+from typing import Tuple, Union
 
 import numpy as np
 
@@ -13,10 +13,10 @@ Coordinate = Union[Tuple[float, float], Tuple[int, int]]
 
 @gf.cell_without_validator
 def die_bbox_frame(
-    bbox: Tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
+    bbox: tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
     street_width: float = 100.0,
     street_length: float = 1000.0,
-    die_name: Optional[str] = None,
+    die_name: str | None = None,
     text_size: float = 100.0,
     text_anchor: Anchor = "sw",
     layer: LayerSpec = "M3",
