@@ -26,7 +26,7 @@ jobs:
           KFACTORY_DISPLAY_TYPE: image
         shell: bash -l {0}
         run: |
-          make dev data-download
+          make dev
           make docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2

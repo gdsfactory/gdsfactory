@@ -406,7 +406,7 @@ c1
 # +
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
-from gdsfactory.typings import LayerSpec, Tuple
+from gdsfactory.typings import LayerSpec
 
 PDK = get_generic_pdk()
 PDK.activate()

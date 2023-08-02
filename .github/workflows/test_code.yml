@@ -92,7 +92,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          make dev data-download
+          make dev
       - name: Test documentation
         env:
           GDSFACTORY_LAYOUT_PLOTTER: klayout
