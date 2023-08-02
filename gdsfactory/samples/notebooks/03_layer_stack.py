@@ -28,8 +28,8 @@
 #
 
 # +
+
 from pydantic import BaseModel
-from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER, LAYER_STACK
@@ -37,7 +37,7 @@ from gdsfactory.generic_tech.get_klayout_pyxs import get_klayout_pyxs
 from gdsfactory.technology import LayerLevel, LayerStack, LayerViews
 
 # +
-Layer = Tuple[int, int]
+Layer = tuple[int, int]
 
 gf.config.rich_output()
 PDK = gf.get_generic_pdk()
@@ -164,6 +164,7 @@ remap
 
 # +
 from IPython.display import Code
+
 from gdsfactory.config import PATH
 
 Code(filename=PATH.klayout_yaml)

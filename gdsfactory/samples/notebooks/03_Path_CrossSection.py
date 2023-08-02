@@ -12,12 +12,12 @@
 
 # +
 from functools import partial
+
 import matplotlib.pyplot as plt
 import numpy as np
 
-from gdsfactory.cross_section import Section
-
 import gdsfactory as gf
+from gdsfactory.cross_section import Section
 from gdsfactory.generic_tech import get_generic_pdk
 
 gf.config.rich_output()

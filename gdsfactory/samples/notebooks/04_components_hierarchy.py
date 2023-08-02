@@ -6,12 +6,12 @@
 
 # +
 from functools import partial
-import toolz
 
-from gdsfactory.typings import ComponentSpec, Optional, CrossSectionSpec
+import toolz
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Optional
 
 gf.config.rich_output()
 PDK = get_generic_pdk()

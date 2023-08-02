@@ -37,13 +37,14 @@
 
 # +
 import pathlib
-from typing import Tuple
 from functools import partial
+from typing import Tuple
 
 import pytest
 from pydantic import BaseModel
 from pytest_regressions.data_regression import DataRegressionFixture
 
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import PATH
 from gdsfactory.decorators import has_valid_transformations
@@ -54,9 +55,6 @@ from gdsfactory.technology import (
     lyp_to_dataclass,
 )
 from gdsfactory.typings import Layer, LayerSpec
-
-import gdsfactory as gf
-from gdsfactory.generic_tech import get_generic_pdk
 
 gf.config.rich_output()
 PDK = get_generic_pdk()
@@ -406,8 +404,8 @@ c1
 # For tracking changes you can add `Component` changelog in the PCell docstring.
 
 # +
-from gdsfactory.generic_tech import get_generic_pdk
 import gdsfactory as gf
+from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.typings import LayerSpec, Tuple
 
 PDK = get_generic_pdk()
