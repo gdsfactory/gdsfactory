@@ -118,7 +118,8 @@ For example, VS Code supports development inside a container, see [Developing in
 
 ## Plugins
 
-We moved plugins to a separate [repo](https://github.com/gdsfactory/gplugins)
+Plugins are hosted in a separate [repo](https://github.com/gdsfactory/gplugins) and installed as part of gdsfactory.
+Notice that plugins allow you to interface with different tools and some of them need to be installed separately.
 
 ## Getting started
 

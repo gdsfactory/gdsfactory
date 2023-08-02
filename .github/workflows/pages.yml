@@ -26,12 +26,8 @@ jobs:
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
           SIMCLOUD_APIKEY: ${{ secrets.SIMCLOUD_APIKEY }}
           DISPLAY: 1.0
-          DOCS: True
           GDSFACTORY_DISPLAY_TYPE: klayout
           KFACTORY_DISPLAY_TYPE: image
-          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-west-2
         shell: bash -l {0}
         run: |
           sudo apt update

@@ -7,9 +7,6 @@ requires = ["flit_core >=3.2,<4"]
 [project]
 authors = [{name = "gdsfactory community", email = "contact@gdsfactory.com"}]
 classifiers = [
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Operating System :: OS Independent"
@@ -18,6 +15,7 @@ dependencies = [
   "click",
   "flatdict",
   "gdstk<1",
+  "gplugins<1",
   "jinja2",
   "loguru<1",
   "matplotlib",
@@ -29,26 +27,25 @@ dependencies = [
   "pyyaml",
   "qrcode",
   "rectpack",
+  "rich",
   "scipy",
   "shapely<3",
   "toolz",
   "tqdm",
   "types-PyYAML",
   "typing_extensions",
-  "watchdog",
-  "rich"
+  "watchdog"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
 license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 version = "6.115.0"
 
 [project.optional-dependencies]
 cad = [
-  "autograd",
   "bokeh",
   "freetype-py",
   "ipympl",
@@ -60,9 +57,7 @@ cad = [
   "networkx",
   "pyglet<2",
   "pygmsh",
-  "scikit-fem",
   "scikit-image",
-  "scikit-learn",
   "trimesh",
   "jupytext",
   "klayout",
