@@ -34,18 +34,7 @@ dependencies = [
   "tqdm",
   "types-PyYAML",
   "typing_extensions",
-  "watchdog"
-]
-description = "python library to generate GDS layouts"
-keywords = ["eda", "photonics", "python"]
-license = {file = "LICENSE"}
-name = "gdsfactory"
-readme = "README.md"
-requires-python = ">=3.10"
-version = "6.115.0"
-
-[project.optional-dependencies]
-cad = [
+  "watchdog",
   "freetype-py",
   "ipycytoscape",
   "ipyevents",
@@ -63,6 +52,15 @@ cad = [
   "scikit-image",
   "trimesh"
 ]
+description = "python library to generate GDS layouts"
+keywords = ["eda", "photonics", "python"]
+license = {file = "LICENSE"}
+name = "gdsfactory"
+readme = "README.md"
+requires-python = ">=3.10"
+version = "6.115.0"
+
+[project.optional-dependencies]
 dev = [
   "autotyping",
   "black>=21",

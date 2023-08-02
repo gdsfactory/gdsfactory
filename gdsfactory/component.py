@@ -1554,30 +1554,19 @@ class Component(_GeometryHelper):
             display(image)
 
         except ImportError:
-            print(
-                "You can install `pip install gdsfactory[cad]` for better visualization"
-            )
+            print("You can install `pip install gdsfactory` for better visualization")
             component.plot(plotter="matplotlib")
 
     def plot_kweb(self):
-        """Shows current gds in klayout.
+        """Shows current gds in kweb."""
+        import os
+        from html import escape
 
-        Uses Kweb if installed, otherwise displays Klayout image.
-        """
-        try:
-            import os
-            from html import escape
+        import kweb.server_jupyter as kj
+        from IPython.display import IFrame
 
-            import kweb.server_jupyter as kj
-            from IPython.display import IFrame
-
-            from gdsfactory.config import PATH
-            from gdsfactory.pdk import get_layer_views
-        except ImportError:
-            print(
-                "You can install `pip install gdsfactory[cad]` for better visualization"
-            )
-            return self.plot_klayout()
+        from gdsfactory.config import PATH
+        from gdsfactory.pdk import get_layer_views
 
         gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
 
