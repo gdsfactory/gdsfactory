@@ -4,7 +4,7 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 install:
-	pip install -e .[cad,dev,docs] pre-commit
+	pip install -e .[dev,docs] pre-commit
 	pre-commit install
 	gf install klayout-genericpdk
 	gf install git-diff

@@ -15,7 +15,7 @@ dependencies = [
   "click",
   "flatdict",
   "gdstk<1",
-  "gplugins<1",
+  "gplugins<1",  # TODO: remove after we removing deprecated gdsfactory/simulation and gdsfactory/plugins
   "jinja2",
   "loguru<1",
   "matplotlib",
