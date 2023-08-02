@@ -33,7 +33,7 @@ import dataclasses
 import json
 import pathlib
 from collections.abc import Callable
-from typing import Any, Literal, Optional
+from typing import Any, Dict, List, Literal, Optional, Tuple, Union
 
 import gdstk
 import numpy as np
@@ -45,6 +45,55 @@ from gdsfactory.component_layout import Label
 from gdsfactory.cross_section import CrossSection, Section, Transition, WidthTypes
 from gdsfactory.port import Port
 from gdsfactory.technology import LayerLevel, LayerStack
+
+# TODO: remove this
+# def __getattr__(name):
+#     if name == "Optional":
+#         from typing import Optional
+
+#         warnings.warn(
+#             "gdsfactory.typings.Optional will be removed soon. "
+#             "Use from typing import Optional instead.",
+#             stacklevel=2,
+#         )
+#         return Optional
+#     elif name == "Union":
+#         from typing import Union
+
+#         warnings.warn(
+#             "gdsfactory.typings.Union will be removed soon. "
+#             "Use from typing import Union instead.",
+#             stacklevel=2,
+#         )
+#         return Union
+#     elif name == "Tuple":
+#         from typing import Tuple
+
+#         warnings.warn(
+#             "gdsfactory.typings.Tuple will be removed soon. "
+#             "Use from typing import Tuple instead.",
+#             stacklevel=2,
+#         )
+#         return Tuple
+#     elif name == "List":
+#         from typing import List
+
+#         warnings.warn(
+#             "gdsfactory.typings.List will be removed soon. "
+#             "Use from typing import List instead.",
+#             stacklevel=2,
+#         )
+#         return List
+#     elif name == "Dict":
+#         from typing import Dict
+
+#         warnings.warn(
+#             "gdsfactory.typings.Dict will be removed soon. "
+#             "Use from typing import Dict instead.",
+#             stacklevel=2,
+#         )
+#         return Dict
+
 
 STEP_DIRECTIVES = {
     "x",
@@ -348,6 +397,10 @@ __all__ = (
     "Section",
     "Strs",
     "WidthTypes",
+    "Union",
+    "List",
+    "Tuple",
+    "Dict",
 )
 
 
