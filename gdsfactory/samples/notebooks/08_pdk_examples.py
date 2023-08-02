@@ -7,11 +7,12 @@
 # Notice that some PDKs may have require different gdsfactory versions.
 
 # +
+from collections.abc import Callable
 from functools import partial
-from typing import Callable
 
 from pydantic import BaseModel
 
+import gdsfactory as gf
 from gdsfactory.add_pins import add_pin_rectangle_inside
 from gdsfactory.component import Component
 from gdsfactory.config import CONF
@@ -23,7 +24,6 @@ from gdsfactory.technology import (
     LayerViews,
 )
 from gdsfactory.typings import Layer
-import gdsfactory as gf
 
 gf.config.rich_output()
 nm = 1e-3

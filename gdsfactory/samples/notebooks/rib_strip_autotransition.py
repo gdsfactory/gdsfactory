@@ -29,15 +29,15 @@
 # 3. Preferred routing cross-sections defined for the all-angle router.
 
 # %%
-from gdsfactory.decorators import has_valid_transformations
-import gdsfactory as gf
-from gdsfactory.generic_tech import get_generic_pdk
 from functools import partial
-from gdsfactory.cross_section import strip, rib_conformal
-from gdsfactory.typings import CrossSectionSpec
-from gdsfactory.routing import all_angle
+
+import gdsfactory as gf
+from gdsfactory.cross_section import rib_conformal, strip
+from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read import cell_from_yaml_template
 from gdsfactory.route_info import route_info
+from gdsfactory.routing import all_angle
+from gdsfactory.typings import CrossSectionSpec
 
 gf.clear_cache()
 gf.config.rich_output()
@@ -170,10 +170,11 @@ c.plot()
 # we will see rib routing anywhere there is enough space to transition.
 
 # %%
-from gdsfactory.read import cell_from_yaml_template
-from IPython.display import Code
 from pathlib import Path
-from IPython.display import display
+
+from IPython.display import Code, display
+
+from gdsfactory.read import cell_from_yaml_template
 
 
 def show_yaml_pic(filepath):

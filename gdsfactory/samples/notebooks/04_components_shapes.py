@@ -179,6 +179,7 @@ f = P.plot()
 
 # +
 import numpy as np
+
 import gdsfactory as gf
 
 points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])

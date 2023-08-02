@@ -299,8 +299,8 @@ c.plot()
 # You can use a custom cell as a fill.
 
 # +
-from gdsfactory.geometry.fill_klayout import fill
 import gdsfactory as gf
+from gdsfactory.geometry.fill_klayout import fill
 
 
 @gf.cell
@@ -366,9 +366,10 @@ c_fill.plot()
 # For big layouts you can use klayout tiling processor.
 
 # +
-import gdsfactory.geometry.fill_tiled as fill
-import gdsfactory as gf
 import kfactory as kf
+
+import gdsfactory as gf
+import gdsfactory.geometry.fill_tiled as fill
 
 c = kf.KCell("ToFill")
 c.shapes(kf.kcl.layer(1, 0)).insert(

@@ -21,8 +21,9 @@
 # In gdsfactory you will write functions instead of classes. Functions are easier to write and combine, and have clearly defined inputs and outputs.
 
 # +
-from pydantic import validate_arguments
 from functools import partial
+
+from pydantic import validate_arguments
 
 import gdsfactory as gf
 

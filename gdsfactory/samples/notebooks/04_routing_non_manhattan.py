@@ -9,8 +9,8 @@
 # The GDS format often has issues with non-manhattan shapes, due to the rounding of vertices to a unit grid and to downstream tools (i.e. DRC) which often tend to assume cell references only have rotations at 90 degree intervals. For example:
 
 # %%
-from gdsfactory.decorators import has_valid_transformations
 import gdsfactory as gf
+from gdsfactory.decorators import has_valid_transformations
 from gdsfactory.generic_tech import get_generic_pdk
 
 gf.config.rich_output()
@@ -167,10 +167,11 @@ c1
 # Consider the yaml-based pic below.
 
 # %%
-from gdsfactory.read import cell_from_yaml_template
-from IPython.display import Code
 from pathlib import Path
-from IPython.display import display
+
+from IPython.display import Code, display
+
+from gdsfactory.read import cell_from_yaml_template
 
 
 def show_yaml_pic(filepath):
@@ -211,8 +212,9 @@ show_yaml_pic(basic_sample_fn)
 # You can also define your own connector, as a function of the two ports which should be connected and the (suggested) cross-section. See the example below, which implements a very custom connector, composed of two sine bends and a physical label.
 
 # %%
-import gdsfactory.routing.all_angle as aar
 import numpy as np
+
+import gdsfactory.routing.all_angle as aar
 
 
 def wonky_connector(port1, port2, cross_section):

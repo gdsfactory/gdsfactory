@@ -16,9 +16,10 @@
 # You can plot the downloads for gdsfactory over the last year.
 
 # %%
-import requests
 import datetime
+
 import plotly.graph_objects as go
+import requests
 
 
 def get_total_downloads(package_name):
@@ -68,9 +69,10 @@ else:
 
 # %%
 import contextlib
-import pkg_resources
-import networkx as nx
+
 import matplotlib.pyplot as plt
+import networkx as nx
+import pkg_resources
 
 
 def build_dependency_graph(package_name):
@@ -141,9 +143,9 @@ plt.show()
 
 
 # %%
-import pkg_resources
-import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
+import pkg_resources
 
 
 def build_dependency_graph(package_name):
@@ -217,8 +219,8 @@ plt.show()
 
 
 # %%
-import pkg_resources
 import networkx as nx
+import pkg_resources
 import plotly.graph_objects as go
 
 

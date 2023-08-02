@@ -37,12 +37,11 @@
 # %%
 from functools import partial
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.port import Port
-
-import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
+from gdsfactory.port import Port
 
 gf.config.rich_output()
 PDK = get_generic_pdk()

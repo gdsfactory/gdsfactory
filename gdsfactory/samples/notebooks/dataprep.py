@@ -13,8 +13,8 @@
 # ### Remove acute angles
 
 # +
-from gdsfactory.generic_tech.layer_map import LAYER as l
 import gdsfactory as gf
+from gdsfactory.generic_tech.layer_map import LAYER as l
 
 gf.config.rich_output()
 PDK = gf.generic_tech.get_generic_pdk()
@@ -22,6 +22,7 @@ PDK.activate()
 
 # +
 from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.geometry.maskprep import get_polygons_over_under, over_under
 

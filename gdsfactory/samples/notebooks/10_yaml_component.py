@@ -45,9 +45,10 @@
 # # %matplotlib widget
 
 # %%
+from functools import partial
+
 import ipywidgets
 from IPython.display import display
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
@@ -713,8 +714,9 @@ display(x, out)
 # An optional parser variant is also available which is capable of parsing jinja templating directives within the yaml-based cells. This can give python-like flexibility inside the otherwise declaratively-defined yaml circuit syntax.
 
 # %%
-from gdsfactory.read import cell_from_yaml_template
 from IPython.display import Code
+
+from gdsfactory.read import cell_from_yaml_template
 
 gf.clear_cache()
 

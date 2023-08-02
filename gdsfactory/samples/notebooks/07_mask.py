@@ -25,14 +25,15 @@
 # Labels follow format `opt_in_{polarization}_{wavelength}_device_{username}_({component_name})-{gc_index}-{port.name}`
 
 # +
-import ipywidgets
 from functools import partial
+
+import ipywidgets
 from IPython.display import display
 from omegaconf import OmegaConf
 
-from gdsfactory.labels import add_label_ehva
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
+from gdsfactory.labels import add_label_ehva
 
 gf.config.rich_output()
 PDK = get_generic_pdk()
@@ -445,6 +446,7 @@ Code(metadata)
 # +
 import pandas as pd
 from omegaconf import OmegaConf
+
 import gdsfactory as gf
 
 

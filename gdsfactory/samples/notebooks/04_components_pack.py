@@ -36,6 +36,7 @@ c.plot()
 
 # +
 import numpy as np
+
 import gdsfactory as gf
 
 np.random.seed(5)

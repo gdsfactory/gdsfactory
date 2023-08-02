@@ -11,11 +11,11 @@
 import gdsfactory as gf
 from gdsfactory.geometry.write_drc import (
     rule_area,
+    rule_density,
     rule_enclosing,
     rule_separation,
     rule_space,
     rule_width,
-    rule_density,
     write_drc_deck_macro,
 )
 
@@ -136,8 +136,8 @@ c.plot()
 # This will check for disconnected pins or ports with width mismatch.
 
 # %%
-from gdsfactory.generic_tech import LAYER
 import gdsfactory.geometry.write_connectivity as wc
+from gdsfactory.generic_tech import LAYER
 
 nm = 1e-3
 

@@ -6,12 +6,12 @@
 
 # +
 from functools import partial
-import toolz
 
-from gdsfactory.typings import ComponentSpec, Optional, CrossSectionSpec
+import toolz
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 gf.config.rich_output()
 PDK = get_generic_pdk()
@@ -34,7 +34,7 @@ def bend_with_straight_with_too_many_input_parameters(
     angle: float = 90.0,
     p: float = 0.5,
     with_arc_floorplan: bool = True,
-    npoints: Optional[int] = None,
+    npoints: int | None = None,
     direction: str = "ccw",
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",

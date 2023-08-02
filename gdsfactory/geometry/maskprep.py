@@ -9,7 +9,6 @@ from gdsfactory.typings import (
     ComponentSpec,
     Floats,
     LayerSpecs,
-    List,
 )
 
 
@@ -21,7 +20,7 @@ def get_polygons_over_under(
     precision: float = 1e-4,
     join: str = "miter",
     tolerance: int = 2,
-) -> List[gdstk.Polygon]:
+) -> list[gdstk.Polygon]:
     """Returns list polygons dilated and eroded by an offset.
     Cleans min width gap and acute angle DRC errors equal to distances.
 
