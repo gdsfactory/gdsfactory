@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 from numpy import floor
 
 import gdsfactory as gf

@@ -1,8 +1,9 @@
 """Merge mask metadata with test labels to return test_metadata."""
 from __future__ import annotations
 
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from omegaconf import DictConfig, OmegaConf
 

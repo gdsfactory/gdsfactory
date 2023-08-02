@@ -1,13 +1,9 @@
 from __future__ import annotations
 
-from typing import Tuple, Union
-
-from numpy import array
-
 import gdsfactory as gf
 
-Float2 = Tuple[float, float]
-Coordinate = Union[Tuple[Float2, Float2], array]
+Float2 = tuple[float, float]
+Coordinate = tuple[Float2, Float2]
 
 
 def bbox_to_points(

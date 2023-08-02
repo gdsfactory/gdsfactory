@@ -5,7 +5,6 @@ This module enables conversion between gdsfactory settings and KLayout technolog
 
 import pathlib
 import xml.etree.ElementTree as ET
-from typing import Dict, List, Optional, Tuple
 
 from pydantic import BaseModel, Field
 
@@ -13,8 +12,8 @@ from gdsfactory.config import PATH
 from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.typings import PathType
 
-Layer = Tuple[int, int]
-ConductorViaConductorName = Tuple[str, str, str]
+Layer = tuple[int, int]
+ConductorViaConductorName = tuple[str, str, str]
 
 prefix_d25 = """<?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
@@ -60,19 +59,19 @@ class KLayoutTechnology(BaseModel):
     import klayout.db as db
 
     name: str
-    layer_map: Dict[str, Layer]
-    layer_views: Optional[LayerViews] = None
-    layer_stack: Optional[LayerStack] = None
+    layer_map: dict[str, Layer]
+    layer_views: LayerViews | None = None
+    layer_stack: LayerStack | None = None
     technology: db.Technology = Field(default_factory=db.Technology)
-    connectivity: Optional[List[ConductorViaConductorName]] = None
+    connectivity: list[ConductorViaConductorName] | None = None
 
     def write_tech(
         self,
         tech_dir: PathType,
         lyp_filename: str = "layers.lyp",
         lyt_filename: str = "tech.lyt",
-        d25_filename: Optional[str] = None,
-        mebes_config: Optional[dict] = None,
+        d25_filename: str | None = None,
+        mebes_config: dict | None = None,
     ) -> None:
         """Write technology files into 'tech_dir'.
 

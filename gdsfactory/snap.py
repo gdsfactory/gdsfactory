@@ -1,7 +1,6 @@
 """snaps values and coordinates to the GDS grid in nm."""
 from __future__ import annotations
 
-
 import numpy as np
 
 
@@ -39,7 +38,7 @@ def snap_to_grid(
         y = nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3
     if isinstance(x, tuple):
         return tuple(y)
-    elif isinstance(x, (int, float, str, np.float_)):
+    elif isinstance(x, int | float | str | np.float_):
         return float(y)
     return y
 

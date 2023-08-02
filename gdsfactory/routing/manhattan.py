@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import uuid
 import warnings
+from collections.abc import Callable
 from functools import partial
-from typing import Callable
 
 import gdstk
 import numpy as np
@@ -965,7 +965,7 @@ def generate_manhattan_waypoints(
         else gf.get_component(bend, cross_section=cross_section, **kwargs)
     )
 
-    if isinstance(cross_section, (tuple, list)):
+    if isinstance(cross_section, tuple | list):
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
         start_straight_length = start_straight_length or min(_x.min_length for _x in x)
         end_straight_length = end_straight_length or min(_x.min_length for _x in x)
@@ -1030,7 +1030,7 @@ def route_manhattan(
         kwargs: cross_section settings.
 
     """
-    if isinstance(cross_section, (tuple, list)):
+    if isinstance(cross_section, tuple | list):
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
         start_straight_length = start_straight_length or min(_x.min_length for _x in x)
         end_straight_length = end_straight_length or min(_x.min_length for _x in x)

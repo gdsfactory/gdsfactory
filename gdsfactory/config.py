@@ -5,21 +5,20 @@ You can set environment variables.
 
 from __future__ import annotations
 
-import traceback
-from itertools import takewhile
 import importlib
-import re
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 import tempfile
+import traceback
 import warnings
+from itertools import takewhile
 from pathlib import Path
 from pprint import pprint
-from typing_extensions import Literal
-from typing import Any, Union, ClassVar, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, ClassVar, Literal
 
 import loguru
 from loguru import logger as logger
@@ -31,7 +30,7 @@ if TYPE_CHECKING:
     from loguru import Logger
 
 __version__ = "6.115.0"
-PathType = Union[str, pathlib.Path]
+PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
 cwd = pathlib.Path.cwd()

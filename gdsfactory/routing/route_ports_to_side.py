@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 
@@ -84,7 +85,7 @@ def route_ports_to_side(
     if isinstance(ports, dict):
         ports = list(ports.values())
 
-    elif isinstance(ports, (Component, ComponentReference)):
+    elif isinstance(ports, Component | ComponentReference):
         ports = list(ports.ports.values())
 
     # Choose which
@@ -198,7 +199,7 @@ def route_ports_to_x(
         x = max(p.x for p in list_ports) + bx
     elif x == "west":
         x = min(p.x for p in list_ports) - bx
-    elif isinstance(x, (float, int)):
+    elif isinstance(x, float | int):
         pass
     else:
         raise ValueError(f"x={x!r} should be a float or east or west")
@@ -406,7 +407,7 @@ def route_ports_to_y(
             )
             - by
         )
-    elif isinstance(y, (float, int)):
+    elif isinstance(y, float | int):
         pass
     if y <= min(ys):
         sort_key_east = sort_key_south_to_north

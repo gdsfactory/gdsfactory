@@ -1,7 +1,4 @@
-from typing import Union
-
-
-def ensure_six_digit_hex_color(color: Union[str, int]) -> str:
+def ensure_six_digit_hex_color(color: str | int) -> str:
     if isinstance(color, int):
         color = f"#{color:06x}"
 

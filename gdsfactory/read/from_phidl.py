@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pathlib
 import tempfile
-from functools import lru_cache
+from functools import cache
 
 import gdstk
 
@@ -11,7 +11,7 @@ from gdsfactory.read.import_gds import import_gds
 from gdsfactory.typings import Layer
 
 
-@lru_cache(maxsize=None)
+@cache
 def from_gdstk(cell: gdstk.Cell, **kwargs) -> Component:
     """Returns gdsfactory Component from a gdstk cell.
 
@@ -34,7 +34,7 @@ def from_gdstk(cell: gdstk.Cell, **kwargs) -> Component:
         return import_gds(filepath, **kwargs)
 
 
-@lru_cache(maxsize=None)
+@cache
 def from_phidl(component, port_layer: Layer = (1, 0), **kwargs) -> Component:
     """Returns gdsfactory Component from a phidl Device or function.
 

@@ -4,9 +4,10 @@ from __future__ import annotations
 import functools
 import hashlib
 import inspect
+from collections.abc import Callable
 from dataclasses import dataclass
 from functools import wraps
-from typing import Any, Callable, TypeVar
+from typing import Any, TypeVar
 
 import toolz
 from pydantic import BaseModel, validate_arguments

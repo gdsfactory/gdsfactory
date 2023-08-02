@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-
 from pydantic import BaseModel
 
 import gdsfactory as gf
 from gdsfactory.geometry.write_drc import write_drc_deck_macro
-from gdsfactory.typings import CrossSectionSpec, Dict, Layer, LayerSpec
+from gdsfactory.typings import CrossSectionSpec, Layer, LayerSpec
 
-layer_name_to_min_width: Dict[str, float]
+layer_name_to_min_width: dict[str, float]
 
 nm = 1e-3
 

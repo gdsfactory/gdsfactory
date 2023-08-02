@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 from numpy import pi, sin, sqrt
 
 neff_ridge = 2.8

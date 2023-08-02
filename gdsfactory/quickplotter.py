@@ -240,7 +240,7 @@ def quickplot(items, **kwargs):  # noqa: C901
     LAYER_VIEWS = get_layer_views()
     all_lv_tuples = LAYER_VIEWS.get_layer_tuples()
     for item in items:
-        if isinstance(item, (Component, ComponentReference)):
+        if isinstance(item, Component | ComponentReference):
             polygons_spec = item.get_polygons(by_spec=True, depth=None)
             for key in sorted(polygons_spec):
                 polygons = polygons_spec[key]
@@ -259,7 +259,7 @@ def quickplot(items, **kwargs):  # noqa: C901
                 )
                 bbox = _update_bbox(bbox, new_bbox)
             # If item is a Component or ComponentReference, draw ports
-            if isinstance(item, (Component, ComponentReference)) and show_ports is True:
+            if isinstance(item, Component | ComponentReference) and show_ports is True:
                 for port in item.ports.values():
                     if (
                         (port.width is None)
@@ -741,9 +741,7 @@ class Viewer(QGraphicsView):
 
     def update_mouse_position_label(self) -> None:
         self.position_label.setText(
-            "X = {:0.4f} / Y = {:0.4f}".format(
-                self.mouse_position[0], self.mouse_position[1]
-            )
+            f"X = {self.mouse_position[0]:0.4f} / Y = {self.mouse_position[1]:0.4f}"
         )
         self.position_label.move(QPoint(self.width() - 250, self.height() - 25))
 
@@ -954,16 +952,13 @@ def quickplot2(item_list, *args, **kwargs):
         viewer_window = ViewerWindow()
     viewer = viewer_window.viewer
     viewer.initialize()
-    if not isinstance(item_list, (list, tuple)):
+    if not isinstance(item_list, list | tuple):
         item_list = [item_list]
     LAYER_VIEWS = get_layer_views()
     for element in item_list:
         if isinstance(
             element,
-            (
-                Component,
-                ComponentReference,
-            ),
+            Component | ComponentReference,
         ):
             # Draw polygons in the element
             polygons_spec = element.get_polygons(by_spec=True, depth=None)

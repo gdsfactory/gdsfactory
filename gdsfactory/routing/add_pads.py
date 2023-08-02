@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -14,10 +14,7 @@ from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
     LayerSpec,
-    Optional,
     Strs,
-    Tuple,
-    Union,
 )
 
 
@@ -25,18 +22,18 @@ from gdsfactory.typings import (
 def add_pads_bot(
     component: ComponentSpec = straight_heater_metal,
     select_ports: Callable = select_ports_electrical,
-    port_names: Optional[Strs] = None,
-    component_name: Optional[str] = None,
+    port_names: Strs | None = None,
+    component_name: str | None = None,
     cross_section: CrossSectionSpec = "metal_routing",
-    get_input_labels_function: Optional[Callable] = None,
+    get_input_labels_function: Callable | None = None,
     layer_label: LayerSpec = "TEXT",
     pad_port_name: str = "e1",
-    pad_port_labels: Optional[Tuple[str, ...]] = None,
+    pad_port_labels: tuple[str, ...] | None = None,
     pad: ComponentSpec = pad_rectangular,
     bend: ComponentSpec = "wire_corner",
-    straight_separation: Optional[float] = None,
-    pad_spacing: Union[float, str] = "pad_spacing",
-    optical_routing_type: Optional[int] = 1,
+    straight_separation: float | None = None,
+    pad_spacing: float | str = "pad_spacing",
+    optical_routing_type: int | None = 1,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.

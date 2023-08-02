@@ -1,5 +1,5 @@
-import warnings
 import sys
+import warnings
 
 try:
     import gplugins

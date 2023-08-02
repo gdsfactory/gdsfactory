@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port

@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import csv
 import pathlib
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator
 
 import numpy as np
 
@@ -13,7 +13,7 @@ import gdsfactory as gf
 from gdsfactory.config import logger
 from gdsfactory.pdk import get_layer
 from gdsfactory.routing.add_fiber_single import add_fiber_single
-from gdsfactory.typings import LayerSpec, Optional, PathType
+from gdsfactory.typings import LayerSpec, PathType
 
 
 def find_labels(
@@ -66,7 +66,7 @@ def find_labels(
 def write_labels_klayout(
     gdspath: PathType,
     layer_label: LayerSpec = "LABEL",
-    filepath: Optional[PathType] = None,
+    filepath: PathType | None = None,
     prefix: str = "opt_",
 ) -> Path:
     """Load GDS and extracts labels in KLayout text and coordinates.
@@ -100,7 +100,7 @@ def write_labels_gdstk(
     gdspath: Path,
     prefixes: list[str] = ("opt", "elec"),
     layer_label: LayerSpec = "LABEL",
-    filepath: Optional[PathType] = None,
+    filepath: PathType | None = None,
     debug: bool = False,
 ) -> Path:
     """Load GDS and extracts label text and coordinates.

@@ -1,7 +1,6 @@
 """Add loopback reference for a grating coupler array."""
 from __future__ import annotations
 
-
 import gdsfactory as gf
 from gdsfactory.component import ComponentReference
 from gdsfactory.port import Port

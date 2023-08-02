@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 import gdsfactory as gf
 from gdsfactory.add_labels import (
@@ -141,7 +141,7 @@ def add_fiber_single(
 
     gc = (
         grating_coupler[0]
-        if isinstance(grating_coupler, (list, tuple))
+        if isinstance(grating_coupler, list | tuple)
         else grating_coupler
     )
     gc = gf.get_component(gc)

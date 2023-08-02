@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 import gdstk
 
 from gdsfactory.typings import Component, ComponentReference

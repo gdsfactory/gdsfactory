@@ -1,8 +1,8 @@
+import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.rectangle import rectangle
 from gdsfactory.geometry import boolean
 from gdsfactory.typings import LayerSpec
-from gdsfactory.components.rectangle import rectangle
-import gdsfactory as gf
 
 
 @gf.cell

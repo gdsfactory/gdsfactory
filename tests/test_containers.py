@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from functools import partial
 
 import pytest
@@ -7,7 +8,6 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 from gdsfactory.difftest import difftest
 from gdsfactory.generic_tech.containers import containers
-
 
 component = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
 

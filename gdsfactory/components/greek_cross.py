@@ -1,6 +1,5 @@
 """Greek cross test structure."""
 from itertools import product
-from typing import Optional
 
 import numpy as np
 
@@ -21,7 +20,7 @@ def greek_cross(
         "N",
     ),
     widths: Floats = (2.0, 3.0),
-    offsets: Optional[Floats] = None,
+    offsets: Floats | None = None,
     via_stack: ComponentSpec = via_stack_npp_m1,
 ) -> gf.Component:
     """Simple greek cross with via stacks at the endpoints.

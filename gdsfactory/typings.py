@@ -32,13 +32,13 @@ from __future__ import annotations
 import dataclasses
 import json
 import pathlib
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from collections.abc import Callable
+from typing import Any, Literal, Optional
 
 import gdstk
 import numpy as np
 from omegaconf import OmegaConf
 from pydantic import BaseModel, Extra
-from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_layout import Label
@@ -132,69 +132,69 @@ Axis = Literal["x", "y"]
 NSEW = Literal["N", "S", "E", "W"]
 
 
-Float2 = Tuple[float, float]
-Float3 = Tuple[float, float, float]
-Floats = Tuple[float, ...]
-Strs = Tuple[str, ...]
-Int2 = Tuple[int, int]
-Int3 = Tuple[int, int, int]
-Ints = Tuple[int, ...]
+Float2 = tuple[float, float]
+Float3 = tuple[float, float, float]
+Floats = tuple[float, ...]
+Strs = tuple[str, ...]
+Int2 = tuple[int, int]
+Int3 = tuple[int, int, int]
+Ints = tuple[int, ...]
 
-Layer = Tuple[int, int]  # Tuple of integer (layer, datatype)
-Layers = Tuple[Layer, ...]
+Layer = tuple[int, int]  # Tuple of integer (layer, datatype)
+Layers = tuple[Layer, ...]
 
-LayerSpec = Union[
-    Layer, int, str, None
-]  # tuple of integers (layer, datatype), a integer (layer, 0) or a string (layer_name)
+LayerSpec = (
+    Layer | int | str | None
+)  # tuple of integers (layer, datatype), a integer (layer, 0) or a string (layer_name)
 
-LayerSpecs = Optional[Tuple[LayerSpec, ...]]
+LayerSpecs = tuple[LayerSpec, ...] | None
 ComponentFactory = Callable[..., Component]
-ComponentFactoryDict = Dict[str, ComponentFactory]
-PathType = Union[str, pathlib.Path]
-PathTypes = Tuple[PathType, ...]
+ComponentFactoryDict = dict[str, ComponentFactory]
+PathType = str | pathlib.Path
+PathTypes = tuple[PathType, ...]
 
 
-MaterialSpec = Union[str, float, Tuple[float, float], Callable]
+MaterialSpec = str | float | tuple[float, float] | Callable
 
-ComponentOrPath = Union[PathType, Component]
-ComponentOrReference = Union[Component, ComponentReference]
-NameToFunctionDict = Dict[str, ComponentFactory]
-Number = Union[float, int]
-Coordinate = Tuple[float, float]
-Coordinates = Tuple[Coordinate, ...]
-ComponentOrPath = Union[Component, PathType]
+ComponentOrPath = PathType | Component
+ComponentOrReference = Component | ComponentReference
+NameToFunctionDict = dict[str, ComponentFactory]
+Number = float | int
+Coordinate = tuple[float, float]
+Coordinates = tuple[Coordinate, ...]
+ComponentOrPath = Component | PathType
 CrossSectionFactory = Callable[..., CrossSection]
 TransitionFactory = Callable[..., Transition]
-CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
-PortSymmetries = Dict[str, List[str]]
-PortsDict = Dict[str, Port]
-PortsList = Dict[str, Port]
+CrossSectionOrFactory = CrossSection | Callable[..., CrossSection]
+PortSymmetries = dict[str, list[str]]
+PortsDict = dict[str, Port]
+PortsList = dict[str, Port]
 
-Sparameters = Dict[str, np.ndarray]
+Sparameters = dict[str, np.ndarray]
 
-ComponentSpec = Union[
-    str, ComponentFactory, Component, Dict[str, Any]
-]  # PCell function, function name, dict or Component
+ComponentSpec = (
+    str | ComponentFactory | Component | dict[str, Any]
+)  # PCell function, function name, dict or Component
 
-ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
-CellSpec = Union[
-    str, ComponentFactory, Dict[str, Any]
-]  # PCell function, function name or dict
+ComponentSpecOrList = ComponentSpec | list[ComponentSpec]
+CellSpec = (
+    str | ComponentFactory | dict[str, Any]
+)  # PCell function, function name or dict
 
-ComponentSpecDict = Dict[str, ComponentSpec]
-CrossSectionSpec = Union[
-    str,
-    CrossSectionFactory,
-    CrossSection,
-    Transition,
-    TransitionFactory,
-    Dict[str, Any],
-]  # cross_section function, function name or dict
-CrossSectionSpecs = Tuple[CrossSectionSpec, ...]
+ComponentSpecDict = dict[str, ComponentSpec]
+CrossSectionSpec = (
+    str
+    | CrossSectionFactory
+    | CrossSection
+    | Transition
+    | TransitionFactory
+    | dict[str, Any]
+)  # cross_section function, function name or dict
+CrossSectionSpecs = tuple[CrossSectionSpec, ...]
 
-MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
+MultiCrossSectionAngleSpec = list[tuple[CrossSectionSpec, tuple[int, ...]]]
 
-LabelListFactory = Callable[..., List[Label]]
+LabelListFactory = Callable[..., list[Label]]
 
 
 class Route(BaseModel):
@@ -323,7 +323,6 @@ __all__ = (
     "CrossSectionFactory",
     "CrossSectionOrFactory",
     "CrossSectionSpec",
-    "Dict",
     "Float2",
     "Float3",
     "Floats",
@@ -337,7 +336,6 @@ __all__ = (
     "LayerSpecs",
     "LayerStack",
     "Layers",
-    "List",
     "MultiCrossSectionAngleSpec",
     "NameToFunctionDict",
     "Number",
@@ -349,8 +347,6 @@ __all__ = (
     "Routes",
     "Section",
     "Strs",
-    "Tuple",
-    "Union",
     "WidthTypes",
 )
 

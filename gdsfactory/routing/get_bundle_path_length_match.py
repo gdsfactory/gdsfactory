@@ -1,7 +1,7 @@
 """Routes bundles of ports (river routing)."""
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as _straight

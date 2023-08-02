@@ -1,7 +1,6 @@
 """Route for electrical based on phidl.routing.route_quad."""
 from __future__ import annotations
 
-
 import gdstk
 import numpy as np
 

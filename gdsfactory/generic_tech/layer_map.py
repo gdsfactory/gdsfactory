@@ -1,8 +1,6 @@
-from typing import Tuple
-
 from pydantic import BaseModel
 
-Layer = Tuple[int, int]
+Layer = tuple[int, int]
 
 
 class GenericLayerMap(BaseModel):

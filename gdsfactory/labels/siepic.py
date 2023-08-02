@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -43,7 +43,7 @@ def get_input_label_text(
         "TM",
     ], f"Not valid polarization {polarization.upper()!r} in [TE, TM]"
     assert (
-        isinstance(wavelength, (int, float)) and 1.0 < wavelength < 2.0
+        isinstance(wavelength, int | float) and 1.0 < wavelength < 2.0
     ), f"{wavelength} is Not valid 1000 < wavelength < 2000"
 
     name = component_name or port.parent.metadata_child.get("name")

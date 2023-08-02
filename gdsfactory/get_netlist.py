@@ -19,7 +19,8 @@ Assumes two ports are connected when they have same width, x, y
 from __future__ import annotations
 
 from collections import defaultdict
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 import omegaconf

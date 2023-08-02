@@ -1,8 +1,9 @@
 import pytest
-from gdsfactory.export.to_3d import to_3d
-import gdsfactory as gf
-from gdsfactory.technology import LayerLevel, LayerStack
 import trimesh
+
+import gdsfactory as gf
+from gdsfactory.export.to_3d import to_3d
+from gdsfactory.technology import LayerLevel, LayerStack
 
 
 def get_layer_stack() -> LayerStack:

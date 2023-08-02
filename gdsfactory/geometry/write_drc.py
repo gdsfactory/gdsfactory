@@ -17,9 +17,9 @@ from dataclasses import asdict, is_dataclass
 
 import gdsfactory as gf
 from gdsfactory.install import get_klayout_path
-from gdsfactory.typings import CrossSectionSpec, Dict, Layer, PathType
+from gdsfactory.typings import CrossSectionSpec, Layer, PathType
 
-layer_name_to_min_width: Dict[str, float]
+layer_name_to_min_width: dict[str, float]
 
 
 def get_drc_script_start(name, shortcut) -> str:
@@ -177,7 +177,7 @@ def connectivity_checks(
     return connectivity_check
 
 
-def write_layer_definition(layers: Dict[str, Layer]) -> list[str]:
+def write_layer_definition(layers: dict[str, Layer]) -> list[str]:
     """Returns layers definition script for KLayout.
 
     Args:
@@ -189,7 +189,7 @@ def write_layer_definition(layers: Dict[str, Layer]) -> list[str]:
     return [f"{key} = input({value[0]}, {value[1]})" for key, value in layers.items()]
 
 
-def write_drc_deck(rules: list[str], layers: Dict[str, Layer] | None = None) -> str:
+def write_drc_deck(rules: list[str], layers: dict[str, Layer] | None = None) -> str:
     """Returns drc_rule_deck for KLayout.
 
     based on https://github.com/klayoutmatthias/si4all
@@ -212,7 +212,7 @@ modes = ["tiled", "default", "deep"]
 
 def write_drc_deck_macro(
     rules: list[str],
-    layers: Dict[str, Layer] | None = None,
+    layers: dict[str, Layer] | None = None,
     name: str = "generic",
     filepath: PathType | None = None,
     shortcut: str = "Ctrl+Shift+D",

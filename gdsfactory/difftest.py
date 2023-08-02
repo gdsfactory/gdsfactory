@@ -2,7 +2,6 @@
 import filecmp
 import pathlib
 import shutil
-from typing import Optional, Union
 
 import gdsfactory as gf
 from gdsfactory.config import GDSDIR_TEMP, PATH, logger
@@ -12,7 +11,7 @@ class GeometryDifference(Exception):
     pass
 
 
-PathType = Union[pathlib.Path, str]
+PathType = pathlib.Path | str
 
 
 def diff(
@@ -135,7 +134,7 @@ def diff(
 
 def difftest(
     component: gf.Component,
-    test_name: Optional[gf.Component] = None,
+    test_name: gf.Component | None = None,
     dirpath: pathlib.Path = PATH.gds_ref,
     xor: bool = True,
 ) -> None:

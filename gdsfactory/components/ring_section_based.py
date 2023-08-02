@@ -6,7 +6,6 @@ complex junction profiles
 """
 
 from functools import partial
-from typing import Dict, Optional
 
 import numpy as np
 
@@ -14,7 +13,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell_without_validator
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import CrossSectionSpec, Floats, List, Tuple, Union
+from gdsfactory.typings import CrossSectionSpec, Floats
 
 def_dict = {"A": "rib", "B": "strip"}
 def_ang_dict = {"A": 6, "B": 6}
@@ -22,17 +21,17 @@ def_ang_dict = {"A": 6, "B": 6}
 
 @cell_without_validator
 def ring_section_based(
-    gap: Union[float, Floats] = 0.3,
+    gap: float | Floats = 0.3,
     radius: float = 5.0,
     add_drop: bool = False,
-    cross_sections: Dict[str, CrossSectionSpec] = def_dict,
-    cross_sections_sequence: Union[str, List[str], Tuple[str, ...]] = "AB",
-    cross_sections_angles: Optional[Dict[str, float]] = def_ang_dict,
-    start_cross_section: Optional[CrossSectionSpec] = None,
-    start_angle: Optional[float] = 10.0,
-    drop_cross_section: Optional[CrossSectionSpec] = None,
+    cross_sections: dict[str, CrossSectionSpec] = def_dict,
+    cross_sections_sequence: str | list[str] | tuple[str, ...] = "AB",
+    cross_sections_angles: dict[str, float] | None = def_ang_dict,
+    start_cross_section: CrossSectionSpec | None = None,
+    start_angle: float | None = 10.0,
+    drop_cross_section: CrossSectionSpec | None = None,
     bus_cross_section: CrossSectionSpec = "strip",
-    ang_res: Optional[int] = 0.1,
+    ang_res: int | None = 0.1,
 ) -> gf.Component:
     """Returns a ring made of the specified cross sections.
 
@@ -70,7 +69,7 @@ def ring_section_based(
     # First of all we need to do a bunch of checks
     angular_extent_sequence = 360
 
-    if not isinstance(gap, Union[List, Tuple]):
+    if not isinstance(gap, list | tuple):
         gap = [gap] * 2
 
     # See if we need to add initial cross sections
@@ -82,7 +81,7 @@ def ring_section_based(
         if start_cross_section is not None or drop_cross_section is not None:
             angular_extent_sequence -= start_angle
 
-        if not isinstance(cross_sections_sequence, Union[List, Tuple]):
+        if not isinstance(cross_sections_sequence, list | tuple):
             cross_sections_sequence = [cross_sections_sequence] * 2
 
     if cross_sections_angles is None:

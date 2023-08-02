@@ -1,4 +1,5 @@
 import pytest
+
 from gdsfactory.geometry.write_connectivity import write_connectivity_checks
 
 nm = 1e-3

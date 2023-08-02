@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import pathlib
+from collections.abc import Callable
 from functools import partial
-from typing import Callable
 
 from pydantic import BaseModel
 

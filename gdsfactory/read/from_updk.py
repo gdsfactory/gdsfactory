@@ -5,9 +5,10 @@ https://openepda.org/index.html
 
 from __future__ import annotations
 
-from typing import IO
 import io
 import pathlib
+from typing import IO
+
 from omegaconf import OmegaConf
 
 from gdsfactory.typings import PathType
@@ -34,7 +35,7 @@ def from_updk(
     optical_xsections = optical_xsections or []
     electrical_xsections = electrical_xsections or []
 
-    if isinstance(filepath, (str, pathlib.Path, IO)):
+    if isinstance(filepath, str | pathlib.Path | IO):
         filepath = (
             io.StringIO(filepath)
             if isinstance(filepath, str) and "\n" in filepath

@@ -3,10 +3,10 @@ from __future__ import annotations
 from collections.abc import Iterable
 from inspect import getmembers, signature
 
-from gdsfactory.typings import Component, ComponentFactory, Dict
+from gdsfactory.typings import Component, ComponentFactory
 
 
-def get_cells(modules, verbose: bool = False) -> Dict[str, ComponentFactory]:
+def get_cells(modules, verbose: bool = False) -> dict[str, ComponentFactory]:
     """Returns PCells (component functions) from a module or list of modules.
 
     Args:

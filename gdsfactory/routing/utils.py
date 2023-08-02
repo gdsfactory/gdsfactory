@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 from numpy import float64
 
 from gdsfactory.port import Port

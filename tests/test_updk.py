@@ -1,5 +1,5 @@
-from gdsfactory.samples.pdk.fab_c import pdk
 from gdsfactory.read.from_updk import from_updk
+from gdsfactory.samples.pdk.fab_c import pdk
 
 
 def test_updk() -> None:

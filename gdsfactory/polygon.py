@@ -4,9 +4,11 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 
 from __future__ import annotations
+
+import gdstk
 import numpy as np
 import shapely as sp
-import gdstk
+
 from gdsfactory.component_layout import _GeometryHelper, _parse_move, _simplify
 from gdsfactory.snap import snap_to_grid
 

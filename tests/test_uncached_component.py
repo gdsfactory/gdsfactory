@@ -1,13 +1,14 @@
 from __future__ import annotations
 
-import pytest
 import warnings
+
+import pytest
 
 import gdsfactory as gf
 from gdsfactory.component import (
-    UncachedComponentWarning,
-    UncachedComponentError,
     Component,
+    UncachedComponentError,
+    UncachedComponentWarning,
 )
 
 

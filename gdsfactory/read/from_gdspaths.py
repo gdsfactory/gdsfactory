@@ -18,7 +18,7 @@ def from_gdspaths(cells: tuple[ComponentOrPath, ...]) -> Component:
     component = Component("merged")
 
     for c in cells:
-        if isinstance(c, (str, pathlib.Path)):
+        if isinstance(c, str | pathlib.Path):
             logger.info(f"Loading {c!r}")
             c = import_gds(c)
 
