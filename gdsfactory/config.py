@@ -18,20 +18,19 @@ import warnings
 from itertools import takewhile
 from pathlib import Path
 from pprint import pprint
-from typing import TYPE_CHECKING, Any, ClassVar, Union
+from typing import TYPE_CHECKING, Any, ClassVar, Literal
 
 import loguru
 from loguru import logger as logger
 from pydantic import BaseModel, BaseSettings, Field
 from rich.console import Console
 from rich.table import Table
-from typing_extensions import Literal
 
 if TYPE_CHECKING:
     from loguru import Logger
 
 __version__ = "6.115.0"
-PathType = Union[str, pathlib.Path]
+PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
 cwd = pathlib.Path.cwd()

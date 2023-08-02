@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from functools import lru_cache
+from functools import cache
 
 import numpy as np
 
@@ -299,7 +299,7 @@ _
 """
 
 
-@lru_cache(maxsize=None)
+@cache
 def rectangular_font() -> dict[str, str]:
     """Returns a rectangular font dict The keys of the dictionary are the.
 

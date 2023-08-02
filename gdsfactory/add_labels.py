@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from functools import partial
-from typing import Callable
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
@@ -63,7 +63,7 @@ def get_input_label_text(
 
     if polarization not in ["te", "tm"]:
         raise ValueError(f"polarization {polarization!r} needs to be [te, tm]")
-    if not isinstance(wavelength, (int, float)) or not 0.5 < wavelength < 5.0:
+    if not isinstance(wavelength, int | float) or not 0.5 < wavelength < 5.0:
         raise ValueError(
             f"{wavelength} needs to be > 0.5um and < 5um. Make sure it's in um"
         )

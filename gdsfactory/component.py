@@ -16,14 +16,13 @@ from collections import Counter
 from collections.abc import Iterable, Mapping
 from copy import deepcopy
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal
 
 import gdstk
 import numpy as np
 import shapely
 import yaml
 from omegaconf import DictConfig
-from typing_extensions import Literal
 
 from gdsfactory.component_layout import (
     Label,
@@ -360,7 +359,7 @@ class Component(_GeometryHelper):
             element: Object that will be accessible by alias name.
 
         """
-        if isinstance(element, (ComponentReference, Polygon)):
+        if isinstance(element, ComponentReference | Polygon):
             self.named_references[key] = element
         else:
             raise ValueError(
@@ -1145,7 +1144,7 @@ class Component(_GeometryHelper):
 
         Parent components can access child cells settings.
         """
-        if not isinstance(component, (Component, ComponentReference)):
+        if not isinstance(component, Component | ComponentReference):
             raise ValueError(
                 f"{type(component)}" "is not a Component or ComponentReference"
             )

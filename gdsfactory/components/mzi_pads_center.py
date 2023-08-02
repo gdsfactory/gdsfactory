@@ -5,7 +5,7 @@ from gdsfactory.components.mzi import mzi as mzi_function
 from gdsfactory.components.pad import pad_small
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.routing.get_route import get_route
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Union
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -27,7 +27,7 @@ def mzi_pads_center(
     delta_length: float = 40.0,
     cross_section: CrossSectionSpec = "strip",
     cross_section_metal: CrossSectionSpec = "metal_routing",
-    pad_spacing: Union[float, str] = "pad_spacing",
+    pad_spacing: float | str = "pad_spacing",
     **kwargs,
 ) -> gf.Component:
     """Return Mzi phase shifter with pads in the middle.

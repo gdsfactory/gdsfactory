@@ -38,7 +38,7 @@ class Region(kdb.Region):
         return size(self, offset)
 
     def __add__(self, element):
-        if isinstance(element, (float, int)):
+        if isinstance(element, float | int):
             return size(self, element)
 
         elif isinstance(element, kdb.Region):
@@ -47,7 +47,7 @@ class Region(kdb.Region):
             raise ValueError(f"Cannot add type {type(element)} to region")
 
     def __sub__(self, element):
-        if isinstance(element, (float, int)):
+        if isinstance(element, float | int):
             return size(self, -element)
 
         elif isinstance(element, kdb.Region):

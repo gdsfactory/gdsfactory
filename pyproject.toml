@@ -195,6 +195,7 @@ testpaths = ["gdsfactory/", "tests"]
 
 [tool.ruff]
 extend-exclude = ["docs/notebooks", "gdsfactory/samples/notebooks"]
+fix = true
 ignore = [
   "E501",  # line too long, handled by black
   "B008",  # do not perform function calls in argument defaults
@@ -210,7 +211,8 @@ select = [
   "F",  # pyflakes
   "I",  # isort
   "C",  # flake8-comprehensions
-  "B"  # flake8-bugbear
+  "B",  # flake8-bugbear
+  "UP"
 ]
 
 [tool.setuptools.package-data]

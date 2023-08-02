@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import pathlib
 import warnings
+from collections.abc import Callable
 from functools import partial
-from typing import Any, Callable
+from typing import Any, Literal
 
 import numpy as np
 import omegaconf
 from omegaconf import DictConfig
 from pydantic import BaseModel, Field, validator
-from typing_extensions import Literal
 
 from gdsfactory.config import PATH, logger
 from gdsfactory.events import Event
@@ -28,7 +28,6 @@ from gdsfactory.typings import (
     CrossSection,
     CrossSectionOrFactory,
     CrossSectionSpec,
-    Dict,
     Layer,
     LayerSpec,
     MaterialSpec,
@@ -60,7 +59,7 @@ def evanescent_coupler_sample() -> None:
     pass
 
 
-def extract_args_from_docstring(docstring: str) -> Dict[str, Any] | None:
+def extract_args_from_docstring(docstring: str) -> dict[str, Any] | None:
     """
     This function extracts settings from a function's docstring for uPDK format.
 
@@ -187,7 +186,7 @@ class CellDecoratorSettings(BaseModel):
         default=False,
         description="If true, will flatten the cell before returning it.",
     )
-    info: Dict[str, Any] = Field(
+    info: dict[str, Any] = Field(
         default={},
         description="Additional information to store in the cell.",
     )
@@ -245,25 +244,25 @@ class Pdk(BaseModel):
     """
 
     name: str
-    cross_sections: Dict[str, CrossSectionOrFactory] = Field(default_factory=dict)
-    cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
-    symbols: Dict[str, ComponentFactory] = Field(default_factory=dict)
+    cross_sections: dict[str, CrossSectionOrFactory] = Field(default_factory=dict)
+    cells: dict[str, ComponentFactory] = Field(default_factory=dict)
+    symbols: dict[str, ComponentFactory] = Field(default_factory=dict)
     default_symbol_factory: Callable = floorplan_with_block_letters
     base_pdk: Pdk | None = None
     default_decorator: Callable[[Component], None] | None = None
-    layers: Dict[str, Layer] = Field(default_factory=dict)
+    layers: dict[str, Layer] = Field(default_factory=dict)
     layer_stack: LayerStack | None = None
     layer_views: LayerViews | None = None
-    layer_transitions: Dict[Layer | tuple[Layer, Layer], ComponentSpec] = Field(
+    layer_transitions: dict[Layer | tuple[Layer, Layer], ComponentSpec] = Field(
         default_factory=dict
     )
     sparameters_path: PathType | None = None
     modes_path: PathType | None = PATH.modes
     interconnect_cml_path: PathType | None = None
     warn_off_grid_ports: bool = False
-    constants: Dict[str, Any] = constants
-    materials_index: Dict[str, MaterialSpec] = Field(default_factory=dict)
-    routing_strategies: Dict[str, Callable] | None = None
+    constants: dict[str, Any] = constants
+    materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
+    routing_strategies: dict[str, Callable] | None = None
     circuit_yaml_parser: Callable = cell_from_yaml
     gds_write_settings: GdsWriteSettings = GdsWriteSettings()
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
@@ -428,7 +427,7 @@ class Pdk(BaseModel):
                     f"{cell!r} from PDK {self.name!r} not in cells: {cells} "
                 )
             return self.cells[cell]
-        elif isinstance(cell, (dict, DictConfig)):
+        elif isinstance(cell, dict | DictConfig):
             for key in cell.keys():
                 if key not in component_settings:
                     raise ValueError(
@@ -467,7 +466,7 @@ class Pdk(BaseModel):
     def _get_component(
         self,
         component: ComponentSpec,
-        cells: Dict[str, Callable],
+        cells: dict[str, Callable],
         **kwargs,
     ) -> Component:
         """Returns component from a component spec."""
@@ -485,7 +484,7 @@ class Pdk(BaseModel):
                     f"{component!r} not in PDK {self.name!r} cells: {cells} "
                 )
             return self.cells[component](**kwargs)
-        elif isinstance(component, (dict, DictConfig)):
+        elif isinstance(component, dict | DictConfig):
             for key in component.keys():
                 if key not in component_settings:
                     raise ValueError(
@@ -525,7 +524,7 @@ class Pdk(BaseModel):
                 raise ValueError(f"{cross_section!r} not in {cross_sections}")
             xs = self.cross_sections[cross_section]
             return xs(**kwargs) if callable(xs) else xs
-        elif isinstance(cross_section, (dict, DictConfig)):
+        elif isinstance(cross_section, dict | DictConfig):
             for key in cross_section.keys():
                 if key not in cross_section_settings:
                     raise ValueError(
@@ -557,7 +556,7 @@ class Pdk(BaseModel):
 
     def get_layer(self, layer: LayerSpec) -> Layer:
         """Returns layer from a layer spec."""
-        if isinstance(layer, (tuple, list)):
+        if isinstance(layer, tuple | list):
             if len(layer) != 2:
                 raise ValueError(f"{layer!r} needs two integer numbers.")
             return layer
@@ -630,7 +629,7 @@ class Pdk(BaseModel):
                         .get("unit", None),
                     }
                     for sname, svalue in c.settings.full.items()
-                    if isinstance(svalue, (str, float, int))
+                    if isinstance(svalue, str | float | int)
                 },
                 pins={
                     port_name: {
@@ -771,7 +770,7 @@ def _set_active_pdk(pdk: Pdk) -> None:
     on_pdk_activated.fire(old_pdk=old_pdk, new_pdk=pdk)
 
 
-def get_routing_strategies() -> Dict[str, Callable]:
+def get_routing_strategies() -> dict[str, Callable]:
     """Gets a dictionary of named routing functions available to the PDK, if defined, or gdsfactory defaults otherwise."""
     from gdsfactory.routing.factories import (
         routing_strategy as default_routing_strategies,

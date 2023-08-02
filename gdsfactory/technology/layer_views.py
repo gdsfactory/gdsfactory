@@ -10,7 +10,6 @@ import pathlib
 import re
 import typing
 import xml.etree.ElementTree as ET
-from typing import Tuple, Union
 
 import numpy as np
 from pydantic import BaseModel, Field, validator
@@ -21,9 +20,9 @@ from gdsfactory.config import logger
 if typing.TYPE_CHECKING:
     from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
 
-PathLike = Union[pathlib.Path, str]
+PathLike = pathlib.Path | str
 
-Layer = Tuple[int, int]
+Layer = tuple[int, int]
 
 _klayout_line_styles = {
     "solid": "",

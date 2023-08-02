@@ -6,12 +6,12 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import ComponentSpec, Float2, LayerSpec, Union
+from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
 
 
 @cell
 def pad(
-    size: Union[str, Float2] = (100.0, 100.0),
+    size: str | Float2 = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
     bbox_layers: tuple[LayerSpec, ...] | None = None,
     bbox_offsets: tuple[float, ...] | None = None,

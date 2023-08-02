@@ -11,8 +11,7 @@ from __future__ import annotations
 import hashlib
 import math
 import warnings
-from collections.abc import Iterable
-from typing import Callable
+from collections.abc import Callable, Iterable
 
 import numpy as np
 from numpy import mod, pi
@@ -143,7 +142,7 @@ class Path(_GeometryHelper):
             nx2, ny2 = points[-1] - points[-2]
             end_angle = np.arctan2(ny2, nx2) / np.pi * 180
         # If list of Paths or arrays
-        elif isinstance(path, (list, tuple)):
+        elif isinstance(path, list | tuple):
             for p in path:
                 self.append(p)
             return self
@@ -832,7 +831,7 @@ def extrude(
         port_types = section.port_types
         hidden = section.hidden
 
-        if isinstance(width, (int, float)) and isinstance(offset, (int, float)):
+        if isinstance(width, int | float) and isinstance(offset, int | float):
             xsection_points.append([width, offset])
         if isinstance(layer, int):
             layer = (layer, 0)

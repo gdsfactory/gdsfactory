@@ -8,27 +8,26 @@ import functools
 import hashlib
 import inspect
 import sys
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers
-from typing import Any, Callable, Dict, List, Tuple, TypeVar, Union
+from typing import Any, Literal, TypeVar
 
 from pydantic import BaseModel, Field, validate_arguments
-from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 from gdsfactory.serialization import clean_dict
 
 nm = 1e-3
 
-Layer = Tuple[int, int]
-Layers = Tuple[Layer, ...]
+Layer = tuple[int, int]
+Layers = tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]
 
-LayerSpec = Union[Layer, int, str]
-LayerSpecs = Union[List[LayerSpec], Tuple[LayerSpec, ...]]
+LayerSpec = Layer | int | str
+LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...]
 
-Floats = Tuple[float, ...]
+Floats = tuple[float, ...]
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
 
@@ -269,7 +268,7 @@ class CrossSection(BaseModel):
         return xmin, xmax
 
 
-CrossSectionSpec = Union[CrossSection, Callable, Dict[str, Any]]
+CrossSectionSpec = CrossSection | Callable | dict[str, Any]
 
 
 class Transition(CrossSection):
@@ -1445,7 +1444,7 @@ def pn_with_trenches_asymmetric(
         sections += [Section(width=width, offset=0, layer=wg_marking_layer)]
 
     # Low doping
-    if not isinstance(gap_low_doping, (list, Tuple)):
+    if not isinstance(gap_low_doping, list | tuple):
         gap_low_doping = [gap_low_doping] * 2
 
     if layer_n:
@@ -1466,7 +1465,7 @@ def pn_with_trenches_asymmetric(
         sections.append(p)
 
     if gap_medium_doping is not None:
-        if not isinstance(gap_medium_doping, (list, Tuple)):
+        if not isinstance(gap_medium_doping, list | tuple):
             gap_medium_doping = [gap_medium_doping] * 2
 
         if layer_np:
@@ -1487,7 +1486,7 @@ def pn_with_trenches_asymmetric(
             sections.append(pp)
 
     if gap_high_doping is not None:
-        if not isinstance(gap_high_doping, (list, Tuple)):
+        if not isinstance(gap_high_doping, list | tuple):
             gap_high_doping = [gap_high_doping] * 2
 
         if layer_npp:

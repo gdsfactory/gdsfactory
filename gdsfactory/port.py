@@ -32,8 +32,9 @@ import csv
 import functools
 import typing
 import warnings
+from collections.abc import Callable
 from functools import partial
-from typing import Any, Callable, Dict, List, Tuple, Union, overload
+from typing import Any, overload
 
 import numpy as np
 from numpy import ndarray
@@ -48,11 +49,11 @@ from gdsfactory.snap import snap_to_grid
 if typing.TYPE_CHECKING:
     from gdsfactory.component import Component
 
-Layer = Tuple[int, int]
-Layers = Tuple[Layer, ...]
-LayerSpec = Union[Layer, int, str, None]
-LayerSpecs = Tuple[LayerSpec, ...]
-Float2 = Tuple[float, float]
+Layer = tuple[int, int]
+Layers = tuple[Layer, ...]
+LayerSpec = Layer | int | str | None
+LayerSpecs = tuple[LayerSpec, ...]
+Float2 = tuple[float, float]
 
 
 class PortNotOnGridError(ValueError):
@@ -365,7 +366,7 @@ class Port:
             )
 
 
-PortsMap = Dict[str, List[Port]]
+PortsMap = dict[str, list[Port]]
 
 
 def port_array(
@@ -544,7 +545,7 @@ def select_ports(
     from gdsfactory.component import Component, ComponentReference
 
     # Make it accept Component or ComponentReference
-    if isinstance(ports, (Component, ComponentReference)):
+    if isinstance(ports, Component | ComponentReference):
         ports = ports.ports
 
     if layer:
@@ -617,7 +618,7 @@ def get_ports_facing(ports: list[Port], direction: str = "W") -> list[Port]:
 
     if isinstance(ports, dict):
         ports = list(ports.values())
-    elif isinstance(ports, (Component, ComponentReference)):
+    elif isinstance(ports, Component | ComponentReference):
         ports = list(ports.ports.values())
 
     direction_ports: dict[str, list[Port]] = {x: [] for x in ["E", "N", "W", "S"]}

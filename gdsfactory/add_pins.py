@@ -10,8 +10,9 @@ They without modifying the cell name
 from __future__ import annotations
 
 import json
+from collections.abc import Callable
 from functools import partial
-from typing import TYPE_CHECKING, Callable, Optional, Tuple, Union
+from typing import TYPE_CHECKING
 
 import gdstk
 import numpy as np
@@ -23,10 +24,10 @@ if TYPE_CHECKING:
     from gdsfactory.component_reference import ComponentReference
     from gdsfactory.port import Port
 
-Layer = Tuple[int, int]
-Layers = Tuple[Layer, ...]
-LayerSpec = Optional[Union[Layer, str, int]]
-LayerSpecs = Tuple[LayerSpec, ...]
+Layer = tuple[int, int]
+Layers = tuple[Layer, ...]
+LayerSpec = Layer | str | int | None
+LayerSpecs = tuple[LayerSpec, ...]
 nm = 1e-3
 
 

@@ -435,9 +435,8 @@ class ComponentReference(_GeometryHelper):
     def __repr__(self) -> str:
         """Return a string representation of the object."""
         return (
-            'ComponentReference (parent Component "%s", ports %s, origin %s, rotation %s,'
-            " x_reflection %s)"
-            % (
+            'ComponentReference (parent Component "{}", ports {}, origin {}, rotation {},'
+            " x_reflection {})".format(
                 self.parent.name,
                 list(self.ports.keys()),
                 self.origin,
@@ -671,7 +670,7 @@ class ComponentReference(_GeometryHelper):
         """
         if angle == 0:
             return self
-        if isinstance(center, (int, str)):
+        if isinstance(center, int | str):
             center = self.ports[center].center
 
         if isinstance(center, Port):

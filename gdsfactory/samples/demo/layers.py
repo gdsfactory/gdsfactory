@@ -2,15 +2,14 @@
 from __future__ import annotations
 
 import pathlib
-from typing import Tuple, Union
 
 from pydantic import BaseModel
 
 from gdsfactory.technology import LayerLevel, LayerStack
 
 module_path = pathlib.Path(__file__).parent.absolute()
-Layer = Tuple[int, int]
-LayerSpec = Union[int, Layer, str, None]
+Layer = tuple[int, int]
+LayerSpec = int | Layer | str | None
 nm = 1e-3
 
 

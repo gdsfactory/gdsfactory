@@ -58,12 +58,12 @@ def boolean(
     D = Component()
     A_polys = []
     B_polys = []
-    A = list(A) if isinstance(A, (list, tuple)) else [A]
-    B = list(B) if isinstance(B, (list, tuple)) else [B]
+    A = list(A) if isinstance(A, list | tuple) else [A]
+    B = list(B) if isinstance(B, list | tuple) else [B]
 
     for X, polys in ((A, A_polys), (B, B_polys)):
         for e in X:
-            if isinstance(e, (Component, ComponentReference)):
+            if isinstance(e, Component | ComponentReference):
                 polys.extend(e.get_polygons())
             elif isinstance(e, Polygon):
                 polys.extend(e.polygons)

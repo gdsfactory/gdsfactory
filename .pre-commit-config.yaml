@@ -36,7 +36,3 @@ repos:
     hooks:
       - id: j2lint
         args: [--ignore, jinja-statements-delimiter, jinja-statements-indentation, --]
-  - repo: https://github.com/asottile/pyupgrade
-    rev: f260e47664d38893c972e034f85b71e002799b42
-    hooks:
-      - id: pyupgrade

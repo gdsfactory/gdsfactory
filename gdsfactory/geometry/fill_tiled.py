@@ -1,4 +1,4 @@
-from typing import Iterable, Optional
+from collections.abc import Iterable
 
 try:
     import kfactory as kf
@@ -22,7 +22,7 @@ class FillOperator(kdb.TileOutputReceiver):
         row_step: kdb.Vector,
         column_step: kdb.Vector,
         fill_margin: kdb.Vector = kdb.Vector(0, 0),
-        remaining_polygons: Optional[kdb.Region] = None,
+        remaining_polygons: kdb.Region | None = None,
     ) -> None:
         self.kcl = kcl
         self.top_cell = top_cell
@@ -66,7 +66,7 @@ def fill_tiled(
     exclude_layers: Iterable[tuple[LayerEnum | int, int]] = [],
     exclude_regions: Iterable[tuple[kdb.Region, int]] = [],
     n_threads: int = 4,
-    tile_size: Optional[tuple[float, float]] = None,
+    tile_size: tuple[float, float] | None = None,
     x_space: float = 0,
     y_space: float = 0,
 ) -> None:

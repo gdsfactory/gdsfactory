@@ -34,8 +34,8 @@ To generate a straight route:
 """
 from __future__ import annotations
 
+from collections.abc import Callable
 from functools import partial
-from typing import Callable
 
 import numpy as np
 from pydantic import validate_arguments
@@ -112,7 +112,7 @@ def get_route(
         else gf.get_component(bend, cross_section=cross_section, **kwargs)
     )
     if taper:
-        if isinstance(cross_section, (tuple, list)):
+        if isinstance(cross_section, tuple | list):
             raise ValueError(
                 "Tapers not implemented for routes made from multiple cross_sections."
             )

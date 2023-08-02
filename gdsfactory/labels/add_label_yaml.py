@@ -64,7 +64,7 @@ settings:
         info += [
             f"  {k}: {v}"
             for k, v in metadata.items()
-            if k not in metadata_ignore and isinstance(v, (int, float, str))
+            if k not in metadata_ignore and isinstance(v, int | float | str)
         ]
 
     metadata = (

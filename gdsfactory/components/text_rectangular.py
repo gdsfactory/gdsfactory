@@ -1,7 +1,7 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from functools import partial
-from typing import Callable
 
 import gdsfactory as gf
 from gdsfactory.component import Component

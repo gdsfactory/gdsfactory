@@ -76,7 +76,7 @@ CIRCUIT NAME:{component.name}
         info += [
             f"CIRCUITINFO NAME: {k}, VALUE: {v}"
             for k, v in metadata.items()
-            if k not in metadata_ignore and isinstance(v, (int, float, str))
+            if k not in metadata_ignore and isinstance(v, int | float | str)
         ]
 
     metadata = flatdict.FlatDict(component.metadata["full"])

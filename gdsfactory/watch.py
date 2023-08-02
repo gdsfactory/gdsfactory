@@ -9,7 +9,7 @@ import sys
 import threading
 import time
 import traceback
-from typing import Callable
+from collections.abc import Callable
 
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer

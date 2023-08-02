@@ -221,7 +221,7 @@ def _accumulate_placements(
 def _flatten_str_list(xs):
     """Flatten nested list of strings to list of strings."""
     for x in xs:
-        if isinstance(x, Iterable) and not isinstance(x, (str, bytes)):
+        if isinstance(x, Iterable) and not isinstance(x, str | bytes):
             yield from _flatten_str_list(x)
         else:
             yield x

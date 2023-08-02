@@ -370,7 +370,7 @@ class Group(_GeometryHelper):
         elif element is None:
             return self
         elif isinstance(
-            element, (Component, ComponentReference, Polygon, Label, Group)
+            element, Component | ComponentReference | Polygon | Label | Group
         ):
             self.elements.append(element)
         else:
@@ -544,7 +544,7 @@ def _is_iterable(items):
     Args:
         items: any Item to check for iterability.
     """
-    return isinstance(items, (list, tuple, set, np.ndarray))
+    return isinstance(items, list | tuple | set | np.ndarray)
 
 
 def _parse_coordinate(c):

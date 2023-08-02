@@ -1,5 +1,5 @@
 import warnings
-from typing import Callable, List, Optional
+from collections.abc import Callable
 
 import numpy as np
 import shapely.geometry as sg
@@ -20,7 +20,7 @@ BEND_PATH_FUNCS = {
     # 'euler_bend': euler_path,
 }
 
-Connector = Callable[..., List[ComponentReference]]
+Connector = Callable[..., list[ComponentReference]]
 
 
 def get_connector(name: str) -> Connector:
@@ -44,7 +44,7 @@ def get_connector(name: str) -> Connector:
 
 def vector_intersection(
     p0, a0, p1, a1, max_distance=100000, raise_error=True
-) -> Optional[np.ndarray]:
+) -> np.ndarray | None:
     """
     Gets the intersection point between two vectors, specified by (point, angle) pairs, (p0, a0) and (p1, a1).
 
@@ -116,9 +116,9 @@ LOW_LOSS_CROSS_SECTIONS = [
 def low_loss_connector(
     port1: Port,
     port2: Port,
-    prioritized_cross_sections: Optional[List[CrossSectionSpec]] = None,
+    prioritized_cross_sections: list[CrossSectionSpec] | None = None,
     **kwargs,
-) -> List[ComponentReference]:
+) -> list[ComponentReference]:
     """
     Routes between two ports, using the lowest-loss cross-section which will fit.
 
@@ -203,7 +203,7 @@ def _make_error_trace(port1: Port, port2: Port, message: str):
 
 def straight_connector(
     port1: Port, port2: Port, cross_section: CrossSectionSpec = "strip"
-) -> List[ComponentReference]:
+) -> list[ComponentReference]:
     """
     Connects between the two ports with a straight of the given cross-section.
 
@@ -238,7 +238,7 @@ def auto_taper_connector(
     port2: Port,
     cross_section: CrossSectionSpec = "strip",
     inner_connector: Connector = straight_connector,
-) -> List[ComponentReference]:
+) -> list[ComponentReference]:
     """
     Connects the two ports with a straight in the specified cross_section, adding tapers at either end if necessary.
 
@@ -322,12 +322,10 @@ def _all_angle_connector(
     bend: ComponentSpec = "euler_bend",
     cross_section: CrossSectionSpec = "strip",
     connector1: Connector = straight_connector,
-    cross_section1: Optional[CrossSectionSpec] = None,
+    cross_section1: CrossSectionSpec | None = None,
     connector2: Connector = straight_connector,
-    cross_section2: Optional[CrossSectionSpec] = None,
-    report_segment_separation: Optional[
-        Callable[[List[ComponentReference]], None]
-    ] = None,
+    cross_section2: CrossSectionSpec | None = None,
+    report_segment_separation: Callable[[list[ComponentReference]], None] | None = None,
 ):
     if cross_section1 is None:
         cross_section1 = cross_section
@@ -458,7 +456,7 @@ def _get_bend_angles(p0, p1, a0, a1, bend):
     return bend_angle_0, bend_angle_1
 
 
-def _get_minimum_separation(refs: List[ComponentReference], *ports) -> float:
+def _get_minimum_separation(refs: list[ComponentReference], *ports) -> float:
     all_ports = [p for ref in refs for p in ref.ports.values()]
     all_ports.extend(ports)
     max_specified_separation = 0
@@ -487,19 +485,19 @@ def _angles_approx_opposing(angle1: float, angle2: float, tolerance: float = 1e-
 
 
 def get_bundle_all_angle(
-    ports1: List[Port],
-    ports2: List[Port],
-    steps: Optional[List[StepAllAngle]] = None,
+    ports1: list[Port],
+    ports2: list[Port],
+    steps: list[StepAllAngle] | None = None,
     cross_section: CrossSectionSpec = "strip",
     bend: ComponentSpec = "bend_euler",
     connector: str = "low_loss",
-    start_angle: Optional[float] = None,
-    end_angle: Optional[float] = None,
-    end_connector: Optional[str] = None,
-    end_cross_section: Optional[CrossSectionSpec] = None,
-    separation: Optional[float] = None,
+    start_angle: float | None = None,
+    end_angle: float | None = None,
+    end_connector: str | None = None,
+    end_cross_section: CrossSectionSpec | None = None,
+    separation: float | None = None,
     **kwargs,
-) -> List[Route]:
+) -> list[Route]:
     """Connects a bundle of ports, allowing steps which create waypoints at \
             arbitrary, non-manhattan angles.
 

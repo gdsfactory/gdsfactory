@@ -55,10 +55,10 @@ def clean_value_json(value: Any) -> Any:
     elif isinstance(value, bool):
         return value
 
-    elif isinstance(value, (np.integer, int)):
+    elif isinstance(value, np.integer | int):
         return int(value)
 
-    elif isinstance(value, (float, np.inexact, np.float64)):
+    elif isinstance(value, float | np.inexact | np.float64):
         return float(np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS))
 
     elif isinstance(value, np.ndarray):
@@ -104,7 +104,7 @@ def clean_value_json(value: Any) -> Any:
     elif isinstance(value, DictConfig):
         value = clean_dict(OmegaConf.to_container(value))
 
-    elif isinstance(value, (list, tuple, set)):
+    elif isinstance(value, list | tuple | set):
         value = [clean_value_json(i) for i in value]
 
     elif isinstance(value, gdstk.Polygon):

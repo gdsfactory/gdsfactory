@@ -341,7 +341,7 @@ if __name__ == "__main__":
     logging.basicConfig(
         level=logging.DEBUG,
         handlers=[
-            logging.FileHandler(os.path.join(lvs_run_dir, "{}.log".format(now_str))),
+            logging.FileHandler(os.path.join(lvs_run_dir, f"{now_str}.log")),
             logging.StreamHandler(),
         ],
         format="%(asctime)s | %(levelname)-7s | %(message)s",

@@ -52,12 +52,12 @@ import importlib
 import io
 import pathlib
 import warnings
+from collections.abc import Callable
 from functools import partial
-from typing import IO, Any, Callable
+from typing import IO, Any, Literal
 
 import numpy as np
 from omegaconf import DictConfig, OmegaConf
-from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import cell
@@ -271,7 +271,7 @@ def place(
                 pass
             elif isinstance(mirror, str):
                 ref.mirror_x(port_name=mirror)
-            elif isinstance(mirror, (int, float)):
+            elif isinstance(mirror, int | float):
                 ref.mirror_x(x0=mirror)
             else:
                 raise ValueError(
@@ -681,7 +681,7 @@ def from_yaml(
 
     if routing_strategy is None:
         routing_strategy = get_routing_strategies()
-    if isinstance(yaml_str, (str, pathlib.Path, IO)):
+    if isinstance(yaml_str, str | pathlib.Path | IO):
         yaml_str = (
             io.StringIO(yaml_str)
             if isinstance(yaml_str, str) and "\n" in yaml_str
