@@ -6,14 +6,14 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.path import arc
-from gdsfactory.typings import CrossSectionSpec, LayerSpec, Optional
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
 @gf.cell
 def bend_circular_heater(
     radius: float = 10,
     angle: float = 90,
-    npoints: Optional[int] = None,
+    npoints: int | None = None,
     heater_to_wg_distance: float = 1.2,
     heater_width: float = 0.5,
     layer_heater: LayerSpec = "HEATER",

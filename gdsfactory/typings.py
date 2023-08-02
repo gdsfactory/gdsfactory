@@ -67,32 +67,29 @@ from gdsfactory.technology import LayerLevel, LayerStack
 #         )
 #         return Union
 #     elif name == "Tuple":
-#         from typing import Tuple
 
 #         warnings.warn(
 #             "gdsfactory.typings.Tuple will be removed soon. "
 #             "Use from typing import Tuple instead.",
 #             stacklevel=2,
 #         )
-#         return Tuple
+#         return tuple
 #     elif name == "List":
-#         from typing import List
 
 #         warnings.warn(
 #             "gdsfactory.typings.List will be removed soon. "
 #             "Use from typing import List instead.",
 #             stacklevel=2,
 #         )
-#         return List
+#         return list
 #     elif name == "Dict":
-#         from typing import Dict
 
 #         warnings.warn(
 #             "gdsfactory.typings.Dict will be removed soon. "
 #             "Use from typing import Dict instead.",
 #             stacklevel=2,
 #         )
-#         return Dict
+#         return dict
 
 
 STEP_DIRECTIVES = {

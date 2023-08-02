@@ -8,7 +8,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pack import pack
-from gdsfactory.typings import CellSpec, ComponentSpec, Optional
+from gdsfactory.typings import CellSpec, ComponentSpec
 
 _doe = "mmi1x2"
 _settings = dict(length_mmi=[2.5, 100], width_mmi=[4, 10])
@@ -18,7 +18,7 @@ def generate_doe(
     doe: ComponentSpec,
     settings: dict[str, list[Any]],
     do_permutations: bool = False,
-    function: Optional[CellSpec] = None,
+    function: CellSpec | None = None,
 ) -> tuple[list[Component], list[dict]]:
     """Generates a component DOE (Design of Experiment).
 
@@ -54,7 +54,7 @@ def pack_doe(
     doe: ComponentSpec = _doe,
     settings: dict[str, list[Any]] = _settings,
     do_permutations: bool = False,
-    function: Optional[CellSpec] = None,
+    function: CellSpec | None = None,
     **kwargs,
 ) -> Component:
     """Packs a component DOE (Design of Experiment) using pack.
@@ -103,7 +103,7 @@ def pack_doe_grid(
     doe: ComponentSpec = _doe,
     settings: dict[str, list[Any]] = _settings,
     do_permutations: bool = False,
-    function: Optional[CellSpec] = None,
+    function: CellSpec | None = None,
     with_text: bool = False,
     **kwargs,
 ) -> Component:

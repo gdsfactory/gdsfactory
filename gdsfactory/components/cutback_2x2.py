@@ -6,7 +6,7 @@ from gdsfactory.components.bend_circular import bend_circular180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Optional
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -45,7 +45,7 @@ def straight_double(
     cross_section: CrossSectionSpec = "strip",
     port1: str = "o1",
     port2: str = "o2",
-    straight_length: Optional[float] = None,
+    straight_length: float | None = None,
     **kwargs,
 ) -> ComponentSpec:
     """Returns double straight"""
@@ -82,7 +82,7 @@ def cutback_2x2(
     port4: str = "o4",
     bend180: ComponentSpec = bend_circular180,
     mirror: bool = False,
-    straight_length: Optional[float] = None,
+    straight_length: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:

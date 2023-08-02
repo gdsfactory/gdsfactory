@@ -4,17 +4,17 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array
-from gdsfactory.typings import ComponentSpec, Coordinates, Float2, Optional
+from gdsfactory.typings import ComponentSpec, Coordinates, Float2
 
 
 @cell
 def add_fiducials(
     component: ComponentSpec = pad_array,
     gap: float = 50,
-    left: Optional[ComponentSpec] = "cross",
-    right: Optional[ComponentSpec] = "cross",
-    top: Optional[ComponentSpec] = None,
-    bottom: Optional[ComponentSpec] = None,
+    left: ComponentSpec | None = "cross",
+    right: ComponentSpec | None = "cross",
+    top: ComponentSpec | None = None,
+    bottom: ComponentSpec | None = None,
     offset: Float2 = (0, 0),
     **kwargs,
 ) -> Component:

@@ -530,11 +530,11 @@ def cell_from_yaml(
                     length: 10
                     ...
         placements:
-            x: Optional[float, str]  str can be instanceName,portName
-            y: Optional[float, str]
-            rotation: Optional[float]
-            mirror: Optional[bool, float] float is x mirror axis
-            port: Optional[str] port anchor
+            x: float, str | None  str can be instanceName,portName
+            y: float, str | None
+            rotation: float | None
+            mirror: bool, float | None float is x mirror axis
+            port: str | None port anchor
         connections (Optional): between instances
         ports (Optional): ports to expose
         routes (Optional): bundles of routes
@@ -628,11 +628,11 @@ def from_yaml(
                     length: 10
                     ...
         placements:
-            x: Optional[float, str]  str can be instanceName,portName
-            y: Optional[float, str]
-            rotation: Optional[float]
-            mirror: Optional[bool, float] float is x mirror axis
-            port: Optional[str] port anchor
+            x: float, str | None  str can be instanceName,portName
+            y: float, str | None
+            rotation: float | None
+            mirror: bool, float | None float is x mirror axis
+            port: str | None port anchor
         connections (Optional): between instances
         ports (Optional): ports to expose
         routes (Optional): bundles of routes

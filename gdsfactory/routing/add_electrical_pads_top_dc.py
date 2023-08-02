@@ -9,7 +9,7 @@ from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_bundle import get_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.typings import ComponentSpec, Float2, Optional, Strs
+from gdsfactory.typings import ComponentSpec, Float2, Strs
 
 
 @cell
@@ -19,7 +19,7 @@ def add_electrical_pads_top_dc(
     pad_array: ComponentSpec = "pad_array",
     select_ports: Callable = select_ports_electrical,
     get_bundle_function: Callable = get_bundle_electrical,
-    port_names: Optional[Strs] = None,
+    port_names: Strs | None = None,
     **kwargs,
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.

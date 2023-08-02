@@ -6,7 +6,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.optimal_hairpin import optimal_hairpin
-from gdsfactory.typings import Float2, LayerSpec, Optional
+from gdsfactory.typings import Float2, LayerSpec
 
 
 @cell
@@ -14,7 +14,7 @@ def snspd(
     wire_width: float = 0.2,
     wire_pitch: float = 0.6,
     size: Float2 = (10, 8),
-    num_squares: Optional[int] = None,
+    num_squares: int | None = None,
     turn_ratio: float = 4,
     terminals_same_side: bool = False,
     layer: LayerSpec = (1, 0),

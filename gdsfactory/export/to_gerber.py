@@ -75,7 +75,7 @@ def to_gerber(
         dirpath: directory path.
         layermap_to_gerber_layer: map of GDS layer to GerberLayer.
         options: to save.
-            header: Optional[List[str]] = None
+            header: List[str] | None = None
             mode: Literal["mm", "in"] = "mm"
             resolution: float = 1e-6
             int_size: int = 4
