@@ -41,7 +41,6 @@ def get_string(value: Any) -> str:
 def clean_value_json(value: Any) -> Any:
     """Return JSON serializable object."""
     from gdsfactory.path import Path
-
     from gdsfactory.pdk import get_active_pdk
 
     active_pdk = get_active_pdk()

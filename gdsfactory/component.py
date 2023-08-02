@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import datetime
 import hashlib
+import importlib.util
 import itertools
 import math
 import pathlib
@@ -15,7 +16,7 @@ from collections import Counter
 from collections.abc import Iterable, Mapping
 from copy import deepcopy
 from pathlib import Path
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import gdstk
 import numpy as np
@@ -24,7 +25,6 @@ import yaml
 from omegaconf import DictConfig
 from typing_extensions import Literal
 
-from gdsfactory.polygon import Polygon
 from gdsfactory.component_layout import (
     Label,
     _align,
@@ -36,6 +36,7 @@ from gdsfactory.component_layout import (
 from gdsfactory.component_reference import ComponentReference, SizeInfo
 from gdsfactory.config import CONF, GDSDIR_TEMP, logger
 from gdsfactory.generic_tech import LAYER
+from gdsfactory.polygon import Polygon
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -50,17 +51,15 @@ from gdsfactory.port import (
 from gdsfactory.serialization import clean_dict
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
-import importlib.util
-
 if TYPE_CHECKING:
     from gdsfactory.typings import (
-        PathType,
+        Coordinate,
+        CrossSectionSpec,
         Float2,
         Layer,
         Layers,
         LayerSpec,
-        Coordinate,
-        CrossSectionSpec,
+        PathType,
     )
 
 valid_plotters = [
@@ -834,8 +833,8 @@ class Component(_GeometryHelper):
 
     def pprint_ports(self) -> None:
         """Prints ports in a rich table."""
-        from rich.table import Table
         from rich.console import Console
+        from rich.table import Table
 
         console = Console()
 
@@ -907,7 +906,7 @@ class Component(_GeometryHelper):
             cross_section: port cross_section.
             shear_angle: an optional angle to shear port face in degrees.
         """
-        from gdsfactory.pdk import get_layer, get_cross_section
+        from gdsfactory.pdk import get_cross_section, get_layer
 
         layer = get_layer(layer)
 

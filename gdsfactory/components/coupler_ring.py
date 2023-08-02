@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -8,11 +7,11 @@ from gdsfactory.components.coupler90 import coupler90
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import (
+    ComponentFactory,
     ComponentSpec,
+    Coordinates,
     CrossSectionSpec,
     LayerSpecs,
-    Coordinates,
-    ComponentFactory,
 )
 
 

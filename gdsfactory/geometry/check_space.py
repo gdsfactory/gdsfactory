@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentOrPath
 

@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from functools import partial
 
 from pytest_regressions.data_regression import DataRegressionFixture

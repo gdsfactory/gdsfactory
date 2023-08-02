@@ -2,15 +2,15 @@
 In a multiple-topology Clements Scheme we can implement any universal photonic function.
 """
 from __future__ import annotations
+
 import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.port import select_ports_electrical
-
-from gdsfactory.components.straight import straight
-from gdsfactory.routing import get_route
 from gdsfactory.components.mzi import mzi2x2_2x2
+from gdsfactory.components.straight import straight
+from gdsfactory.port import select_ports_electrical
+from gdsfactory.routing import get_route
 
 
 def find_largest_component(component_list: list) -> Component:

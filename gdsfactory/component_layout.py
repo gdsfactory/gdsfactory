@@ -7,8 +7,8 @@ from __future__ import annotations
 import numbers
 from collections import defaultdict
 
-import shapely as sp
 import numpy as np
+import shapely as sp
 from gdstk import Label as _Label
 from gdstk import Polygon
 from numpy import cos, pi, sin

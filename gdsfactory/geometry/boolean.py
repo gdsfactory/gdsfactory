@@ -1,7 +1,6 @@
 """Based on phidl.geometry."""
 from __future__ import annotations
 
-
 import gdstk
 
 import gdsfactory as gf

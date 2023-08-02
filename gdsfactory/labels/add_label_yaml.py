@@ -1,7 +1,6 @@
 """Add label YAML."""
 from __future__ import annotations
 
-
 import flatdict
 import pydantic
 

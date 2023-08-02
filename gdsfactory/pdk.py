@@ -20,7 +20,6 @@ from gdsfactory.read import cell_from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews
-
 from gdsfactory.typings import (
     CellSpec,
     Component,
@@ -32,9 +31,9 @@ from gdsfactory.typings import (
     Dict,
     Layer,
     LayerSpec,
+    MaterialSpec,
     PathType,
     Transition,
-    MaterialSpec,
 )
 
 component_settings = ["function", "component", "settings"]
@@ -797,8 +796,8 @@ on_yaml_cell_modified.add_handler(show)
 
 
 if __name__ == "__main__":
-    from gdsfactory.samples.pdk.fab_c import pdk
     from gdsfactory.read.from_updk import from_updk
+    from gdsfactory.samples.pdk.fab_c import pdk
 
     yaml_pdk_decription = pdk.to_updk()
     gdsfactory_script = from_updk(yaml_pdk_decription)

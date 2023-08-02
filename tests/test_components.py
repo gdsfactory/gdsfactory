@@ -4,8 +4,8 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.components import cells
-from gdsfactory.difftest import difftest
 from gdsfactory.config import PATH
+from gdsfactory.difftest import difftest
 
 skip_test = {
     "version_stamp",

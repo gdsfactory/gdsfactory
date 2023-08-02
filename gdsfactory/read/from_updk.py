@@ -5,9 +5,10 @@ https://openepda.org/index.html
 
 from __future__ import annotations
 
-from typing import IO
 import io
 import pathlib
+from typing import IO
+
 from omegaconf import OmegaConf
 
 from gdsfactory.typings import PathType

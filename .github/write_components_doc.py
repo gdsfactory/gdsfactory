@@ -1,9 +1,8 @@
 import inspect
 
 import gdsfactory as gf
-from gdsfactory.serialization import clean_value_json
 from gdsfactory.config import PATH
-
+from gdsfactory.serialization import clean_value_json
 
 filepath = PATH.repo / "docs" / "components.rst"
 

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 import gdsfactory as gf
 from gdsfactory import components as pc
 from gdsfactory.component import Component

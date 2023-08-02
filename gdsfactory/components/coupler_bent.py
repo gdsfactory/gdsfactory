@@ -1,5 +1,6 @@
-import gdsfactory as gf
 import numpy as np
+
+import gdsfactory as gf
 
 
 @gf.cell

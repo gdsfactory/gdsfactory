@@ -3,7 +3,6 @@ import sys
 
 import menuinst
 
-
 spyder_settings = """
 {
     "menu_name": "gdsfactory Spyder",

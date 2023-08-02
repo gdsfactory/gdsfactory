@@ -4,8 +4,8 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec
 from gdsfactory.route_info import route_info_from_cs
+from gdsfactory.typings import CrossSectionSpec
 
 
 @gf.cell

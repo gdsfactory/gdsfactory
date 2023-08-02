@@ -3,8 +3,8 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.typings import Component
 from gdsfactory.samples.big_device import big_device
+from gdsfactory.typings import Component
 
 debug = False
 nlabels = 12

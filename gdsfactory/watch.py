@@ -6,9 +6,9 @@ import importlib
 import logging
 import pathlib
 import sys
+import threading
 import time
 import traceback
-import threading
 from typing import Callable
 
 from watchdog.events import FileSystemEventHandler

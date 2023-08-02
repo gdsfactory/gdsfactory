@@ -9,11 +9,11 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import hashlib
+import math
 import warnings
 from collections.abc import Iterable
 from typing import Callable
 
-import math
 import numpy as np
 from numpy import mod, pi
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.add_pins import add_pins_siepic, add_bbox
+from gdsfactory.add_pins import add_bbox, add_pins_siepic
 
 
 def test_remap_layers() -> None:

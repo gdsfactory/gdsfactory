@@ -33,7 +33,6 @@ dependencies = [
   "toolz",
   "tqdm",
   "types-PyYAML",
-  "typing_extensions",
   "watchdog",
   "freetype-py",
   "ipycytoscape",
@@ -209,7 +208,7 @@ select = [
   "E",  # pycodestyle errors
   "W",  # pycodestyle warnings
   "F",  # pyflakes
-  # "I",  # isort
+  "I",  # isort
   "C",  # flake8-comprehensions
   "B"  # flake8-bugbear
 ]

@@ -27,11 +27,11 @@ You can also rename them with W,E,S,N prefix (west, east, south, north).
 Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
-import warnings
 
 import csv
 import functools
 import typing
+import warnings
 from functools import partial
 from typing import Any, Callable, Dict, List, Tuple, Union, overload
 
@@ -39,8 +39,8 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
-from gdsfactory.config import logger
 from gdsfactory.component_layout import _rotate_points
+from gdsfactory.config import logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid

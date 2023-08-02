@@ -1,5 +1,7 @@
-import pytest
 import pathlib
+
+import pytest
+
 from gdsfactory.config import PATH
 
 

@@ -4,7 +4,6 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
-
 import numpy as np
 
 from gdsfactory.cell import cell

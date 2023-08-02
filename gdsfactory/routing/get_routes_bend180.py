@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.cross_section import strip

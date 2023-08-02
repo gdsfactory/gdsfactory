@@ -1,7 +1,6 @@
 """Sample DRC deck for the generic PDK."""
 from __future__ import annotations
 
-
 import gdsfactory as gf
 from gdsfactory.geometry.write_drc import (
     rule_area,

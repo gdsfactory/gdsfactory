@@ -2,7 +2,7 @@ from typing import Iterable, Optional
 
 try:
     import kfactory as kf
-    from kfactory import KCell, kcl, LayerEnum, kdb
+    from kfactory import KCell, LayerEnum, kcl, kdb
     from kfactory.conf import logger
 except ImportError as e:
     print(

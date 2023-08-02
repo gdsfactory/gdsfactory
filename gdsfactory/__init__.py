@@ -13,9 +13,8 @@ modules:
 
     - c: components
     - routing
-
-isort:skip_file
 """
+# isort: skip_file
 from __future__ import annotations
 from functools import partial
 from toolz import compose

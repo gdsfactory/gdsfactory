@@ -1,5 +1,5 @@
-from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.components import straight_heater_metal
+from gdsfactory.generic_tech import LAYER_STACK
 
 
 def test_layerstack() -> None:

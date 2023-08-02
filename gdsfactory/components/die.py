@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.components.text import text
-from gdsfactory.typings import LayerSpec, ComponentSpec, Float2
+from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
 
 
 @gf.cell

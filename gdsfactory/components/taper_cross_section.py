@@ -6,8 +6,8 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import rib_conformal, strip_rib_tip
-from gdsfactory.typings import CrossSectionSpec
 from gdsfactory.route_info import route_info
+from gdsfactory.typings import CrossSectionSpec
 
 
 @cell

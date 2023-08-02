@@ -1,13 +1,12 @@
 from __future__ import annotations
+
 from functools import partial
 
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.generic_tech import LAYER
 from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic
-from gdsfactory.generic_tech import get_generic_pdk
-
+from gdsfactory.generic_tech import LAYER, get_generic_pdk
 
 cladding_layers_optical_siepic = ("DEVREC",)  # for SiEPIC verification
 cladding_offsets_optical_siepic = (0,)  # for SiEPIC verification
