@@ -7,14 +7,13 @@ https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
 from __future__ import annotations
 
 import pathlib
-from typing import Tuple
 
 from gdsfactory.generic_tech import LAYER
 
 nm = 1e-3
 
 
-def layer_to_string(layer: Tuple[int, int]) -> str:
+def layer_to_string(layer: tuple[int, int]) -> str:
     return f"{layer[0]}/{layer[1]}"
 
 

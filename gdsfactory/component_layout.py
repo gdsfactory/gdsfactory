@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import numbers
 from collections import defaultdict
-from typing import Dict, List, Optional, Tuple, Union
 
 import shapely as sp
 import numpy as np
@@ -23,13 +22,13 @@ class Label(_Label):
 
 def get_polygons(
     instance,
-    by_spec: Union[bool, Tuple[int, int]] = False,
-    depth: Optional[int] = None,
+    by_spec: bool | tuple[int, int] = False,
+    depth: int | None = None,
     include_paths: bool = True,
     as_array: bool = True,
     as_shapely: bool = False,
     as_shapely_merged: bool = False,
-) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
+) -> list[Polygon] | dict[tuple[int, int], list[Polygon]]:
     """Return a list of polygons in this cell.
 
     Args:

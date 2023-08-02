@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import itertools as it
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -16,10 +16,10 @@ _settings = dict(length_mmi=[2.5, 100], width_mmi=[4, 10])
 
 def generate_doe(
     doe: ComponentSpec,
-    settings: Dict[str, List[Any]],
+    settings: dict[str, list[Any]],
     do_permutations: bool = False,
     function: Optional[CellSpec] = None,
-) -> Tuple[List[Component], List[Dict]]:
+) -> tuple[list[Component], list[dict]]:
     """Generates a component DOE (Design of Experiment).
 
     which can then be packed, or used elsewhere.
@@ -52,7 +52,7 @@ def generate_doe(
 @cell
 def pack_doe(
     doe: ComponentSpec = _doe,
-    settings: Dict[str, List[Any]] = _settings,
+    settings: dict[str, list[Any]] = _settings,
     do_permutations: bool = False,
     function: Optional[CellSpec] = None,
     **kwargs,
@@ -101,7 +101,7 @@ def pack_doe(
 @cell
 def pack_doe_grid(
     doe: ComponentSpec = _doe,
-    settings: Dict[str, List[Any]] = _settings,
+    settings: dict[str, list[Any]] = _settings,
     do_permutations: bool = False,
     function: Optional[CellSpec] = None,
     with_text: bool = False,

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -19,14 +18,14 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def mzi(
     delta_length: float = 10.0,
     length_y: float = 2.0,
-    length_x: Optional[float] = 0.1,
+    length_x: float | None = 0.1,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    straight_y: Optional[ComponentSpec] = None,
-    straight_x_top: Optional[ComponentSpec] = None,
-    straight_x_bot: Optional[ComponentSpec] = None,
+    straight_y: ComponentSpec | None = None,
+    straight_x_top: ComponentSpec | None = None,
+    straight_x_bot: ComponentSpec | None = None,
     splitter: ComponentSpec = "mmi1x2",
-    combiner: Optional[ComponentSpec] = None,
+    combiner: ComponentSpec | None = None,
     with_splitter: bool = True,
     port_e1_splitter: str = "o2",
     port_e0_splitter: str = "o3",
@@ -34,8 +33,8 @@ def mzi(
     port_e0_combiner: str = "o3",
     nbends: int = 2,
     cross_section: CrossSectionSpec = "strip",
-    cross_section_x_top: Optional[CrossSectionSpec] = None,
-    cross_section_x_bot: Optional[CrossSectionSpec] = None,
+    cross_section_x_top: CrossSectionSpec | None = None,
+    cross_section_x_bot: CrossSectionSpec | None = None,
     mirror_bot: bool = False,
     add_optical_ports_arms: bool = False,
 ) -> Component:

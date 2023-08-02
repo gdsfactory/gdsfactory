@@ -19,7 +19,7 @@ Assumes two ports are connected when they have same width, x, y
 from __future__ import annotations
 
 from collections import defaultdict
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable
 
 import numpy as np
 import omegaconf
@@ -91,7 +91,7 @@ def get_netlist_yaml(
     component: Component,
     full_settings: bool = False,
     tolerance: int = 5,
-    exclude_port_types: Optional[List] = None,
+    exclude_port_types: list | None = None,
     **kwargs,
 ) -> str:
     """Returns instances, connections and placements yaml string content."""
@@ -110,10 +110,10 @@ def get_netlist(
     component: Component,
     full_settings: bool = False,
     tolerance: int = 5,
-    exclude_port_types: Optional[Union[List[str], Tuple[str]]] = ("placement",),
+    exclude_port_types: list[str] | tuple[str] | None = ("placement",),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = False,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """From Component returns instances, connections and placements dict.
 
     Does two sweeps over the connections:
@@ -293,11 +293,11 @@ def get_netlist(
 
 
 def extract_connections(
-    port_names: List[str],
-    ports: Dict[str, Port],
+    port_names: list[str],
+    ports: dict[str, Port],
     port_type: str,
     tolerance: int = 5,
-    validators: Optional[Dict[str, Callable]] = None,
+    validators: dict[str, Callable] | None = None,
     allow_multiple: bool = False,
 ):
     if validators is None:
@@ -315,12 +315,12 @@ def extract_connections(
 
 
 def _extract_connections_two_sweep(
-    port_names: List[str],
-    ports: Dict[str, Port],
+    port_names: list[str],
+    ports: dict[str, Port],
     port_type: str,
     connection_validator: Callable,
     tolerance: int,
-    raise_error_for_warnings: Optional[List[str]] = None,
+    raise_error_for_warnings: list[str] | None = None,
     allow_multiple: bool = False,
 ):
     warnings = defaultdict(list)
@@ -406,7 +406,7 @@ def _extract_connections_two_sweep(
     return connections, dict(warnings)
 
 
-def _make_warning(ports: List[str], values: Any, message: str) -> Dict[str, Any]:
+def _make_warning(ports: list[str], values: Any, message: str) -> dict[str, Any]:
     w = {
         "ports": ports,
         "values": values,
@@ -521,7 +521,7 @@ def difference_between_angles(angle2: float, angle1: float):
     return diff
 
 
-def _get_references_to_netlist(component: Component) -> List[ComponentReference]:
+def _get_references_to_netlist(component: Component) -> list[ComponentReference]:
     from gdsfactory.cell import CACHE
 
     references = component.references
@@ -546,7 +546,7 @@ def get_netlist_recursive(
     get_netlist_func: Callable = get_netlist,
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     **kwargs,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Returns recursive netlist for a component and subcomponents.
 
     Args:

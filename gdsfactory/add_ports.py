@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional, Tuple
 
 import numpy as np
 from numpy import arctan2, degrees, isclose
@@ -16,13 +15,13 @@ from gdsfactory.typings import LayerSpec
 def add_ports_from_markers_square(
     component: Component,
     pin_layer: LayerSpec = "DEVREC",
-    port_layer: Optional[LayerSpec] = None,
-    orientation: Optional[int] = 90,
+    port_layer: LayerSpec | None = None,
+    orientation: int | None = 90,
     min_pin_area_um2: float = 0,
     max_pin_area_um2: float = 150 * 150,
     pin_extra_width: float = 0.0,
-    port_names: Optional[Tuple[str, ...]] = None,
-    port_name_prefix: Optional[str] = None,
+    port_names: tuple[str, ...] | None = None,
+    port_name_prefix: str | None = None,
     port_type: str = "optical",
 ) -> Component:
     """Add ports from square markers at the port center in port_layer.
@@ -69,16 +68,16 @@ def add_ports_from_markers_square(
 def add_ports_from_markers_center(
     component: Component,
     pin_layer: LayerSpec = "PORT",
-    port_layer: Optional[LayerSpec] = None,
+    port_layer: LayerSpec | None = None,
     inside: bool = False,
     tol: float = 0.1,
     pin_extra_width: float = 0.0,
-    min_pin_area_um2: Optional[float] = None,
+    min_pin_area_um2: float | None = None,
     max_pin_area_um2: float = 150.0 * 150.0,
     skip_square_ports: bool = False,
-    xcenter: Optional[float] = None,
-    ycenter: Optional[float] = None,
-    port_name_prefix: Optional[str] = None,
+    xcenter: float | None = None,
+    ycenter: float | None = None,
+    port_name_prefix: str | None = None,
     port_type: str = "optical",
     short_ports: bool = False,
     auto_rename_ports: bool = True,
@@ -272,13 +271,13 @@ def add_ports_from_labels(
     component: Component,
     port_width: float,
     port_layer: LayerSpec,
-    xcenter: Optional[float] = None,
-    port_name_prefix: Optional[str] = None,
+    xcenter: float | None = None,
+    port_name_prefix: str | None = None,
     port_type: str = "optical",
     get_name_from_label: bool = False,
-    layer_label: Optional[LayerSpec] = None,
+    layer_label: LayerSpec | None = None,
     fail_on_duplicates: bool = False,
-    port_orientation: Optional[float] = None,
+    port_orientation: float | None = None,
     guess_port_orientation: bool = True,
 ) -> Component:
     """Add ports from labels.
@@ -359,9 +358,9 @@ def add_ports_from_labels(
 def add_ports_from_siepic_pins(
     component: Component,
     pin_layer_optical: LayerSpec = "PORT",
-    port_layer_optical: Optional[LayerSpec] = None,
+    port_layer_optical: LayerSpec | None = None,
     pin_layer_electrical: LayerSpec = "PORTE",
-    port_layer_electrical: Optional[LayerSpec] = None,
+    port_layer_electrical: LayerSpec | None = None,
 ) -> Component:
     """Add ports from SiEPIC-type cells, where the pins are defined as paths.
 

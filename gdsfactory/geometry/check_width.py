@@ -1,14 +1,13 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Tuple, Union
 
 from gdsfactory.component import Component
 
 
 def check_width(
-    gdspath: Union[Path, Component, str],
-    layer: Tuple[int, int] = (1, 0),
+    gdspath: Path | Component | str,
+    layer: tuple[int, int] = (1, 0),
     min_width: float = 0.150,
     dbu: float = 1e3,
 ) -> int:

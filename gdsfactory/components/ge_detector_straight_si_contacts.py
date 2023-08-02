@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -26,7 +25,7 @@ def ge_detector_straight_si_contacts(
     via_stack_width: float = 10.0,
     via_stack_spacing: float = 5.0,
     via_stack_offset: float = 0.0,
-    taper: Optional[ComponentSpec] = default_taper,
+    taper: ComponentSpec | None = default_taper,
     **kwargs,
 ) -> Component:
     """Returns a straight Ge on Si detector with silicon contacts.

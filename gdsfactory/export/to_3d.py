@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional, Tuple
 
 import shapely
 
@@ -11,9 +10,9 @@ from gdsfactory.typings import Layer
 
 def to_3d(
     component: Component,
-    layer_views: Optional[LayerViews] = None,
-    layer_stack: Optional[LayerStack] = None,
-    exclude_layers: Optional[Tuple[Layer, ...]] = None,
+    layer_views: LayerViews | None = None,
+    layer_stack: LayerStack | None = None,
+    exclude_layers: tuple[Layer, ...] | None = None,
 ):
     """Return Component 3D trimesh Scene.
 

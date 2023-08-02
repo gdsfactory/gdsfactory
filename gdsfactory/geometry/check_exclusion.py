@@ -1,14 +1,13 @@
 from __future__ import annotations
 
-from typing import Tuple
 
 from gdsfactory.typings import ComponentOrPath
 
 
 def check_exclusion(
     gdspath: ComponentOrPath,
-    layer1: Tuple[int, int] = (1, 0),
-    layer2: Tuple[int, int] = (2, 0),
+    layer1: tuple[int, int] = (1, 0),
+    layer2: tuple[int, int] = (2, 0),
     min_space: float = 0.150,
     dbu: float = 1e3,
     ignore_angle_deg: int = 80,

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import datetime
 import platform
-from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -39,11 +38,11 @@ def qrcode(data: str = "mask01", psize: int = 1, layer: LayerSpec = "WG") -> Com
 
 @gf.cell
 def version_stamp(
-    labels: Tuple[str, ...] = ("demo_label",),
+    labels: tuple[str, ...] = ("demo_label",),
     with_qr_code: bool = False,
     layer: LayerSpec = "WG",
     pixel_size: int = 1,
-    version: Optional[str] = None,
+    version: str | None = None,
     text_size: int = 10,
 ) -> Component:
     """Component with module version and date.

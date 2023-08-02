@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.components.bend_circular import bend_circular
@@ -13,12 +12,12 @@ def bend_port(
     component: ComponentSpec = straight_heater_metal,
     port_name: str = "l_e1",
     port_name2: str = "r_e1",
-    port_name1_bend: Optional[str] = None,
-    port_name2_bend: Optional[str] = None,
+    port_name1_bend: str | None = None,
+    port_name2_bend: str | None = None,
     cross_section: CrossSectionSpec = "metal3_with_bend",
     bend: ComponentSpec = bend_circular,
     angle: float = 180,
-    extension_length: Optional[float] = None,
+    extension_length: float | None = None,
     **kwargs,
 ) -> gf.Component:
     """Returns a component with a bend and a straight extension.

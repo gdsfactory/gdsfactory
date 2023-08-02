@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -17,15 +16,15 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def straight_pin_slot(
     length: float = 500.0,
     cross_section: CrossSectionSpec = pin,
-    via_stack: Optional[ComponentSpec] = via_stack_m1_m3,
+    via_stack: ComponentSpec | None = via_stack_m1_m3,
     via_stack_width: float = 10.0,
-    via_stack_slab: Optional[ComponentSpec] = via_stack_slot_slab_m1,
-    via_stack_slab_top: Optional[ComponentSpec] = None,
-    via_stack_slab_bot: Optional[ComponentSpec] = None,
-    via_stack_slab_width: Optional[float] = None,
+    via_stack_slab: ComponentSpec | None = via_stack_slot_slab_m1,
+    via_stack_slab_top: ComponentSpec | None = None,
+    via_stack_slab_bot: ComponentSpec | None = None,
+    via_stack_slab_width: float | None = None,
     via_stack_spacing: float = 3.0,
     via_stack_slab_spacing: float = 2.0,
-    taper: Optional[ComponentSpec] = taper_strip_to_ridge,
+    taper: ComponentSpec | None = taper_strip_to_ridge,
     **kwargs,
 ) -> Component:
     """Returns a PIN straight waveguide with slotted via.

@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
 
 import numpy as np
 
@@ -18,8 +17,8 @@ big_square = partial(rectangle, size=(1300, 2600))
 def die_bbox(
     component: ComponentSpec = big_square,
     street_width: float = 100.0,
-    street_length: Optional[float] = None,
-    die_name: Optional[str] = None,
+    street_length: float | None = None,
+    die_name: str | None = None,
     text_size: float = 100.0,
     text_anchor: Anchor = "sw",
     layer: LayerSpec = "M3",

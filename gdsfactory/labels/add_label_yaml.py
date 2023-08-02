@@ -1,7 +1,6 @@
 """Add label YAML."""
 from __future__ import annotations
 
-from typing import List, Optional
 
 import flatdict
 import pydantic
@@ -27,11 +26,11 @@ port_prefixes = [
 @pydantic.validate_arguments
 def add_label_yaml(
     component: gf.Component,
-    port_prefixes: List[str] = ("opt_", "_elec"),
+    port_prefixes: list[str] = ("opt_", "_elec"),
     layer: LayerSpec = "LABEL",
-    metadata_ignore: Optional[List[str]] = ignore,
-    metadata_include_parent: Optional[List[str]] = None,
-    metadata_include_child: Optional[List[str]] = None,
+    metadata_ignore: list[str] | None = ignore,
+    metadata_include_parent: list[str] | None = None,
+    metadata_include_child: list[str] | None = None,
 ) -> gf.Component:
     """Returns Component with measurement label.
 

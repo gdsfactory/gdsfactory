@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple
 
 import numpy as np
 
@@ -12,10 +11,10 @@ from gdsfactory.typings import CrossSectionSpec
 
 @gf.cell
 def big_device(
-    size: Tuple[float, float] = (400.0, 400.0),
+    size: tuple[float, float] = (400.0, 400.0),
     nports: int = 16,
     spacing: float = 15.0,
-    layer: Tuple[int, int] = LAYER.WG,
+    layer: tuple[int, int] = LAYER.WG,
     wg_width: float = 0.5,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:

@@ -33,7 +33,7 @@ import csv
 import functools
 import typing
 from functools import partial
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union, overload
+from typing import Any, Callable, Dict, List, Tuple, Union, overload
 
 import numpy as np
 from numpy import ndarray
@@ -86,21 +86,21 @@ class Port:
     def __init__(
         self,
         name: str,
-        orientation: Optional[float],
-        center: Tuple[float, float],
-        width: Optional[float] = None,
-        layer: Optional[Tuple[int, int]] = None,
+        orientation: float | None,
+        center: tuple[float, float],
+        width: float | None = None,
+        layer: tuple[int, int] | None = None,
         port_type: str = "optical",
-        parent: Optional[Component] = None,
-        cross_section: Optional[CrossSection] = None,
-        shear_angle: Optional[float] = None,
+        parent: Component | None = None,
+        cross_section: CrossSection | None = None,
+        shear_angle: float | None = None,
     ) -> None:
         """Initializes Port object."""
         self.name = name
         self.center = np.array(center, dtype="float64")
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
-        self.info: Dict[str, Any] = {}
+        self.info: dict[str, Any] = {}
         self.port_type = port_type
         self.cross_section = cross_section
         self.shear_angle = shear_angle
@@ -136,7 +136,7 @@ class Port:
         if self.width < 0:
             raise ValueError(f"Port width must be >=0. Got {self.width}")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         x, y = np.round(self.center, 3)
         d = {
             "name": self.name,
@@ -197,7 +197,7 @@ class Port:
         return port
 
     @overload
-    def move_copy(self, x: np.ndarray | List[int | float, int | float]) -> Port:
+    def move_copy(self, x: np.ndarray | list[int | float, int | float]) -> Port:
         ...
 
     @overload
@@ -276,7 +276,7 @@ class Port:
     def y(self, value) -> None:
         self.center = (self.center[0], value)
 
-    def rotate(self, angle: float = 45, center: Optional[Float2] = None) -> Port:
+    def rotate(self, angle: float = 45, center: Float2 | None = None) -> Port:
         """Rotates a Port around the specified center point, if no centerpoint \
         specified will rotate around (0,0).
 
@@ -291,7 +291,7 @@ class Port:
         self.center = _rotate_points(self.center, angle=angle, center=center)
         return self
 
-    def copy(self, name: Optional[str] = None) -> Port:
+    def copy(self, name: str | None = None) -> Port:
         """Returns a copy of the port.
 
         Args:
@@ -369,13 +369,13 @@ PortsMap = Dict[str, List[Port]]
 
 
 def port_array(
-    center: Tuple[float, float] = (0.0, 0.0),
+    center: tuple[float, float] = (0.0, 0.0),
     width: float = 0.5,
     orientation: float = 0,
-    pitch: Tuple[float, float] = (10.0, 0.0),
+    pitch: tuple[float, float] = (10.0, 0.0),
     n: int = 2,
     **kwargs,
-) -> List[Port]:
+) -> list[Port]:
     """Returns a list of ports placed in an array.
 
     Args:
@@ -413,7 +413,7 @@ def read_port_markers(component: object, layers: LayerSpecs = ("PORT",)) -> Comp
     return component.extract(layers=layers)
 
 
-def csv2port(csvpath) -> Dict[str, Port]:
+def csv2port(csvpath) -> dict[str, Port]:
     """Reads ports from a CSV file and returns a Dict."""
     ports = {}
     with open(csvpath) as csvfile:
@@ -424,7 +424,7 @@ def csv2port(csvpath) -> Dict[str, Port]:
     return ports
 
 
-def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
+def sort_ports_clockwise(ports: dict[str, Port]) -> dict[str, Port]:
     """Sort and return ports in the clockwise direction.
 
     .. code::
@@ -468,7 +468,7 @@ def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
     return {port.name: port for port in ports}
 
 
-def sort_ports_counter_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
+def sort_ports_counter_clockwise(ports: dict[str, Port]) -> dict[str, Port]:
     """Sort and return ports in the counter-clockwise direction.
 
     .. code::
@@ -513,17 +513,17 @@ def sort_ports_counter_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
 
 
 def select_ports(
-    ports: Dict[str, Port],
-    layer: Optional[Tuple[int, int]] = None,
-    prefix: Optional[str] = None,
-    suffix: Optional[str] = None,
-    orientation: Optional[int] = None,
-    width: Optional[float] = None,
-    layers_excluded: Optional[Tuple[Tuple[int, int], ...]] = None,
-    port_type: Optional[str] = None,
-    names: Optional[List[str]] = None,
+    ports: dict[str, Port],
+    layer: tuple[int, int] | None = None,
+    prefix: str | None = None,
+    suffix: str | None = None,
+    orientation: int | None = None,
+    width: float | None = None,
+    layers_excluded: tuple[tuple[int, int], ...] | None = None,
+    port_type: str | None = None,
+    names: list[str] | None = None,
     clockwise: bool = True,
-) -> Dict[str, Port]:
+) -> dict[str, Port]:
     """Returns a dict of ports from a dict of ports.
 
     Args:
@@ -585,7 +585,7 @@ select_ports_electrical = partial(select_ports, port_type="electrical")
 select_ports_placement = partial(select_ports, port_type="placement")
 
 
-def select_ports_list(**kwargs) -> List[Port]:
+def select_ports_list(**kwargs) -> list[Port]:
     return list(select_ports(**kwargs).values())
 
 
@@ -607,7 +607,7 @@ def move_copy(port, x=0, y=0) -> Port:
     return _port
 
 
-def get_ports_facing(ports: List[Port], direction: str = "W") -> List[Port]:
+def get_ports_facing(ports: list[Port], direction: str = "W") -> list[Port]:
     from gdsfactory.component import Component, ComponentReference
 
     valid_directions = ["E", "N", "W", "S"]
@@ -620,7 +620,7 @@ def get_ports_facing(ports: List[Port], direction: str = "W") -> List[Port]:
     elif isinstance(ports, (Component, ComponentReference)):
         ports = list(ports.ports.values())
 
-    direction_ports: Dict[str, List[Port]] = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: dict[str, list[Port]] = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in ports:
         angle = p.orientation % 360 if p.orientation is not None else 0
@@ -647,7 +647,7 @@ def deco_rename_ports(component_factory: Callable) -> Callable:
 
 
 def _rename_ports_facing_side(
-    direction_ports: Dict[str, List[Port]], prefix: str = ""
+    direction_ports: dict[str, list[Port]], prefix: str = ""
 ) -> None:
     """Renames ports clockwise."""
     for direction, list_ports in list(direction_ports.items()):
@@ -666,7 +666,7 @@ def _rename_ports_facing_side(
 
 
 def _rename_ports_facing_side_ccw(
-    direction_ports: Dict[str, List[Port]], prefix: str = ""
+    direction_ports: dict[str, list[Port]], prefix: str = ""
 ) -> None:
     """Renames ports counter-clockwise."""
     for direction, list_ports in list(direction_ports.items()):
@@ -750,7 +750,7 @@ def _rename_ports_clockwise_top_right(
 
 def rename_ports_by_orientation(
     component: Component,
-    layers_excluded: Optional[LayerSpec] = None,
+    layers_excluded: LayerSpec | None = None,
     select_ports: Callable = select_ports,
     function=_rename_ports_facing_side,
     prefix: str = "o",
@@ -810,14 +810,14 @@ def rename_ports_by_orientation(
 def auto_rename_ports(
     component: Component,
     function=_rename_ports_clockwise,
-    select_ports_optical: Optional[Callable] = select_ports_optical,
-    select_ports_electrical: Optional[Callable] = select_ports_electrical,
-    select_ports_placement: Optional[Callable] = select_ports_placement,
+    select_ports_optical: Callable | None = select_ports_optical,
+    select_ports_electrical: Callable | None = select_ports_electrical,
+    select_ports_placement: Callable | None = select_ports_placement,
     prefix: str = "",
     prefix_optical: str = "o",
     prefix_electrical: str = "e",
     prefix_placement: str = "p",
-    port_type: Optional[str] = None,
+    port_type: str | None = None,
     **kwargs,
 ) -> Component:
     """Adds prefix for optical and electrical.
@@ -890,8 +890,8 @@ auto_rename_ports_electrical = partial(auto_rename_ports, select_ports_optical=N
 
 
 def map_ports_layer_to_orientation(
-    ports: Dict[str, Port], function=_rename_ports_facing_side
-) -> Dict[str, str]:
+    ports: dict[str, Port], function=_rename_ports_facing_side
+) -> dict[str, str]:
     """Returns component or reference port mapping.
 
     .. code::
@@ -930,8 +930,8 @@ def map_ports_layer_to_orientation(
 
 
 def map_ports_to_orientation_cw(
-    ports: Dict[str, Port], function=_rename_ports_facing_side, **kwargs
-) -> Dict[str, str]:
+    ports: dict[str, Port], function=_rename_ports_facing_side, **kwargs
+) -> dict[str, str]:
     """Returns component or reference port mapping clockwise.
 
     Args:

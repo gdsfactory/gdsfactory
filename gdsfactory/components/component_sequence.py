@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from collections import Counter
-from typing import Dict, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -47,7 +46,7 @@ class SequenceGenerator:
         return self.start_sequence + n * self.repeated_sequence + self.end_sequence
 
 
-def parse_component_name(name: str) -> Tuple[str, bool]:
+def parse_component_name(name: str) -> tuple[str, bool]:
     """If the component name has more than one character and starts with "!".
 
     then we need to flip along the axis given by the input port angle.
@@ -67,8 +66,8 @@ def _flip_ref(c_ref, port_name):
 @gf.cell
 def component_sequence(
     sequence: str,
-    symbol_to_component: Dict[str, Tuple[ComponentSpec, str, str]],
-    ports_map: Optional[Dict[str, Tuple[str, str]]] = None,
+    symbol_to_component: dict[str, tuple[ComponentSpec, str, str]],
+    ports_map: dict[str, tuple[str, str]] | None = None,
     port_name1: str = "o1",
     port_name2: str = "o2",
     start_orientation: float = 0.0,

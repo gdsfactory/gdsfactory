@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional, Tuple, Union
 
 import numpy as np
 
@@ -13,14 +12,14 @@ from gdsfactory.typings import LayerSpec, ComponentSpec, Float2
 
 @gf.cell
 def die(
-    size: Tuple[float, float] = (10000.0, 10000.0),
+    size: tuple[float, float] = (10000.0, 10000.0),
     street_width: float = 100.0,
     street_length: float = 1000.0,
-    die_name: Optional[str] = "chip99",
+    die_name: str | None = "chip99",
     text_size: float = 100.0,
-    text_location: Union[str, Float2] = "SW",
+    text_location: str | Float2 = "SW",
     layer: LayerSpec = "FLOORPLAN",
-    bbox_layer: Optional[LayerSpec] = "FLOORPLAN",
+    bbox_layer: LayerSpec | None = "FLOORPLAN",
     draw_corners: bool = True,
     draw_dicing_lane: bool = True,
     text_component: ComponentSpec = text,

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Dict, Optional
 
 import numpy as np
 import pandas as pd
@@ -13,8 +12,8 @@ from gdsfactory.typings import LayerSpec, PathType
 
 
 def read_labels_yaml(
-    csvpath: PathType, prefix: Optional[str] = None
-) -> Dict[str, DictConfig]:
+    csvpath: PathType, prefix: str | None = None
+) -> dict[str, DictConfig]:
     """Read labels from csvfile in YAML format."""
     labels = pd.read_csv(csvpath)
     cells = OmegaConf.create()

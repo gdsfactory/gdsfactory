@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict
+from typing import TYPE_CHECKING
 
 import numpy as np
 from pydantic import BaseModel
@@ -49,7 +49,7 @@ class SimulationSettingsLumericalFdtd(BaseModel):
     frequency_dependent_profile: bool = True
     field_profile_samples: int = 15
     distance_monitors_to_pml: float = 0.5
-    material_name_to_lumerical: Dict[
+    material_name_to_lumerical: dict[
         str, MaterialSpec
     ] = material_name_to_lumerical_default
 

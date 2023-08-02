@@ -1,15 +1,14 @@
 from __future__ import annotations
 
 import pathlib
-from typing import Optional, Union
 
 from gdsfactory import klive
 from gdsfactory.component import Component
 
 
 def show(
-    component: Union[Component, str, pathlib.Path],
-    technology: Optional[str] = None,
+    component: Component | str | pathlib.Path,
+    technology: str | None = None,
     **kwargs,
 ) -> None:
     """Write GDS and show Component in KLayout.

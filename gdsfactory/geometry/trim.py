@@ -5,7 +5,6 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-from typing import List, Optional, Tuple
 
 import gdstk
 
@@ -17,9 +16,9 @@ from gdsfactory.component_layout import _parse_layer
 @gf.cell
 def trim(
     component: Component,
-    domain: List[Tuple[float, float]],
+    domain: list[tuple[float, float]],
     precision: float = 1e-4,
-    return_ports: Optional[bool] = False,
+    return_ports: bool | None = False,
 ) -> Component:
     """Trim a component by another geometry, preserving the component's layers and ports.
 

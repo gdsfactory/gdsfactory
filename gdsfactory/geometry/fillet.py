@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import List, Union
 
 import gdstk
 
@@ -8,10 +7,10 @@ from gdsfactory.typings import Component, ComponentReference
 
 
 def fillet(
-    operand: Union[ComponentReference, Component, gdstk.Polygon, List[gdstk.Polygon]],
-    radius: Union[float, List[float]],
+    operand: ComponentReference | Component | gdstk.Polygon | list[gdstk.Polygon],
+    radius: float | list[float],
     tolerance: float = 0.01,
-) -> List[gdstk.Polygon]:
+) -> list[gdstk.Polygon]:
     """Perform a fillet operation and return the list of resulting Polygons.
 
     Args:

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import pathlib
-from typing import Optional, Tuple
 
 from gdsfactory.component import Component
 from gdsfactory.technology import LayerStack
@@ -11,11 +10,11 @@ from gdsfactory.typings import Layer
 def to_stl(
     component: Component,
     filepath: str,
-    layer_stack: Optional[LayerStack] = None,
-    exclude_layers: Optional[Tuple[Layer, ...]] = None,
+    layer_stack: LayerStack | None = None,
+    exclude_layers: tuple[Layer, ...] | None = None,
     use_layer_name: bool = False,
     hull_invalid_polygons: bool = True,
-    scale: Optional[float] = None,
+    scale: float | None = None,
 ) -> None:
     """Exports a Component into STL.
 

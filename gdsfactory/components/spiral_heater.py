@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
 
 import numpy as np
 from scipy.interpolate import interp1d
@@ -23,8 +22,8 @@ def spiral_racetrack(
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "strip",
-    cross_section_s: Optional[CrossSectionSpec] = None,
-    n_bend_points: Optional[int] = None,
+    cross_section_s: CrossSectionSpec | None = None,
+    n_bend_points: int | None = None,
     with_inner_ports: bool = False,
     extra_90_deg_bend: bool = False,
 ) -> Component:
@@ -123,8 +122,8 @@ def spiral_racetrack_fixed_length(
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "strip",
-    cross_section_s: Optional[CrossSectionSpec] = None,
-    n_bend_points: Optional[int] = None,
+    cross_section_s: CrossSectionSpec | None = None,
+    n_bend_points: int | None = None,
     with_inner_ports: bool = False,
 ) -> Component:
     """Returns Racetrack-Spiral with a specified total length.
@@ -325,7 +324,7 @@ def _req_straight_len(
 
 @gf.cell
 def spiral_racetrack_heater_metal(
-    min_radius: Optional[float] = None,
+    min_radius: float | None = None,
     straight_length: float = 30,
     spacing: float = 2,
     num: int = 8,
@@ -395,7 +394,7 @@ def spiral_racetrack_heater_metal(
 
 @gf.cell
 def spiral_racetrack_heater_doped(
-    min_radius: Optional[float] = None,
+    min_radius: float | None = None,
     straight_length: float = 30,
     spacing: float = 2,
     num: int = 8,

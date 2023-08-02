@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pathlib
-from typing import Optional
 
 from click.core import Context, Option
 
@@ -86,9 +85,7 @@ def write_cells(gdspath, dirpath) -> None:
 @click.command(name="merge_gds")
 @click.argument("dirpath", required=False, default=None)
 @click.argument("gdspath", required=False, default=None)
-def merge_gds(
-    dirpath: Optional[PathType] = None, gdspath: Optional[PathType] = None
-) -> None:
+def merge_gds(dirpath: PathType | None = None, gdspath: PathType | None = None) -> None:
     """Merges GDS cells from a directory into a single GDS."""
     dirpath = dirpath or pathlib.Path.cwd()
     gdspath = gdspath or pathlib.Path.cwd() / "merged.gds"

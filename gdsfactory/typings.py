@@ -78,23 +78,23 @@ class Step:
 
     """
 
-    x: Optional[float] = None
-    y: Optional[float] = None
-    dx: Optional[float] = None
-    dy: Optional[float] = None
+    x: float | None = None
+    y: float | None = None
+    dx: float | None = None
+    dy: float | None = None
 
 
 @dataclasses.dataclass
 class StepAllAngle:
-    x: Optional[float] = None
-    y: Optional[float] = None
-    dx: Optional[float] = None
-    dy: Optional[float] = None
-    ds: Optional[float] = None
-    exit_angle: Optional[float] = None
-    cross_section: Optional[CrossSectionSpec] = None
-    connector: Optional[ComponentSpec] = None
-    separation: Optional[float] = None
+    x: float | None = None
+    y: float | None = None
+    dx: float | None = None
+    dy: float | None = None
+    ds: float | None = None
+    exit_angle: float | None = None
+    cross_section: CrossSectionSpec | None = None
+    connector: ComponentSpec | None = None
+    separation: float | None = None
 
     """All angle Ste.
 
@@ -198,9 +198,9 @@ LabelListFactory = Callable[..., List[Label]]
 
 
 class Route(BaseModel):
-    references: List[ComponentReference]
-    labels: Optional[List[gdstk.Label]] = None
-    ports: Tuple[Port, Port]
+    references: list[ComponentReference]
+    labels: list[gdstk.Label] | None = None
+    ports: tuple[Port, Port]
     length: float
 
     class Config:
@@ -211,10 +211,10 @@ class Route(BaseModel):
 
 
 class Routes(BaseModel):
-    references: List[ComponentReference]
-    lengths: List[float]
-    ports: Optional[List[Port]] = None
-    bend_radius: Optional[List[float]] = None
+    references: list[ComponentReference]
+    lengths: list[float]
+    ports: list[Port] | None = None
+    bend_radius: list[float] | None = None
 
     class Config:
         """Config for Routes."""
@@ -223,23 +223,23 @@ class Routes(BaseModel):
 
 
 class ComponentModel(BaseModel):
-    component: Union[str, Dict[str, Any]]
-    settings: Optional[Dict[str, Any]]
+    component: str | dict[str, Any]
+    settings: dict[str, Any] | None
 
     class Config:
         extra = Extra.forbid
 
 
 class PlacementModel(BaseModel):
-    x: Union[str, float] = 0
-    y: Union[str, float] = 0
-    xmin: Optional[Union[str, float]] = None
-    ymin: Optional[Union[str, float]] = None
-    xmax: Optional[Union[str, float]] = None
-    ymax: Optional[Union[str, float]] = None
+    x: str | float = 0
+    y: str | float = 0
+    xmin: str | float | None = None
+    ymin: str | float | None = None
+    xmax: str | float | None = None
+    ymax: str | float | None = None
     dx: float = 0
     dy: float = 0
-    port: Optional[Union[str, Anchor]] = None
+    port: str | Anchor | None = None
     rotation: int = 0
     mirror: bool = False
 
@@ -248,9 +248,9 @@ class PlacementModel(BaseModel):
 
 
 class RouteModel(BaseModel):
-    links: Dict[str, str]
-    settings: Optional[Dict[str, Any]] = None
-    routing_strategy: Optional[str] = None
+    links: dict[str, str]
+    settings: dict[str, Any] | None = None
+    routing_strategy: str | None = None
 
     class Config:
         extra = Extra.forbid
@@ -271,14 +271,14 @@ class NetlistModel(BaseModel):
 
     """
 
-    instances: Optional[Dict[str, ComponentModel]] = None
-    placements: Optional[Dict[str, PlacementModel]] = None
-    connections: Optional[Dict[str, str]] = None
-    routes: Optional[Dict[str, RouteModel]] = None
-    name: Optional[str] = None
-    info: Optional[Dict[str, Any]] = None
-    settings: Optional[Dict[str, Any]] = None
-    ports: Optional[Dict[str, str]] = None
+    instances: dict[str, ComponentModel] | None = None
+    placements: dict[str, PlacementModel] | None = None
+    connections: dict[str, str] | None = None
+    routes: dict[str, RouteModel] | None = None
+    name: str | None = None
+    info: dict[str, Any] | None = None
+    settings: dict[str, Any] | None = None
+    ports: dict[str, str] | None = None
 
     class Config:
         extra = Extra.forbid

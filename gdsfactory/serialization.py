@@ -6,7 +6,7 @@ import hashlib
 import inspect
 import pathlib
 from functools import partial
-from typing import Any, Dict
+from typing import Any
 
 import gdstk
 import numpy as np
@@ -19,7 +19,7 @@ DEFAULT_SERIALIZATION_MAX_DIGITS = 3
 """By default, the maximum number of digits retained when serializing float-like arrays"""
 
 
-def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
+def clean_dict(d: dict[str, Any]) -> dict[str, Any]:
     """Cleans dictionary recursively."""
     return {
         k: clean_dict(dict(v)) if isinstance(v, dict) else clean_value_json(v)

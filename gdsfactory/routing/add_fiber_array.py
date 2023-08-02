@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Callable, Optional, Tuple
+from typing import Callable
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -24,11 +24,11 @@ def add_fiber_array(
     component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     gc_port_name: str = "o1",
-    gc_port_labels: Optional[Tuple[str, ...]] = None,
-    component_name: Optional[str] = None,
+    gc_port_labels: tuple[str, ...] | None = None,
+    component_name: str | None = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
-    get_input_labels_function: Optional[Callable] = get_input_labels_dash,
+    get_input_labels_function: Callable | None = get_input_labels_dash,
     layer_label: LayerSpec = "LABEL",
     **kwargs,
 ) -> Component:

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Union
 
 from numpy import ndarray
 
@@ -17,7 +16,7 @@ from gdsfactory.typings import CrossSectionSpec, Float2, Float3
 @gf.cell
 def polarization_splitter_rotator(
     width_taper_in: Float3 = (0.54, 0.69, 0.83),
-    length_taper_in: Union[Float2, Float3] = (4.0, 44.0),
+    length_taper_in: Float2 | Float3 = (4.0, 44.0),
     width_coupler: Float2 = (0.9, 0.405),
     length_coupler: float = 7.0,
     gap: float = 0.15,

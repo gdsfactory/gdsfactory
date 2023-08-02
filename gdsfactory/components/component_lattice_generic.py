@@ -4,7 +4,6 @@ In a multiple-topology Clements Scheme we can implement any universal photonic f
 from __future__ import annotations
 import numpy as np
 
-from typing import List, Optional
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import select_ports_electrical
@@ -28,7 +27,7 @@ def find_largest_component(component_list: list) -> Component:
 
 @cell
 def component_lattice_generic(
-    network: Optional[List[List]] = None,
+    network: list[list] | None = None,
 ) -> Component:
     """
     The shape of the `network` matrix determines the physical interconnection.

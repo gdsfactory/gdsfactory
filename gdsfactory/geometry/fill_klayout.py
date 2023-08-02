@@ -1,7 +1,6 @@
 """Dummy fill to keep density constant using klayout."""
 from __future__ import annotations
 
-from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.typings import LayerSpec, LayerSpecs, PathType
@@ -11,16 +10,16 @@ def fill(
     gdspath,
     layer_to_fill: LayerSpec,
     layer_to_fill_margin: float = 0,
-    layers_to_avoid: Optional[Tuple[LayerSpec, float], ...] = None,
-    cell_name: Optional[str] = None,
+    layers_to_avoid: tuple[LayerSpec, float] | None = None,
+    cell_name: str | None = None,
     fill_cell_name: str = "fill_cell",
     create_new_fill_cell: bool = False,
     include_original: bool = False,
-    fill_layers: Optional[LayerSpecs] = None,
-    fill_size: Tuple[float, float] = (10, 10),
-    fill_spacing: Tuple[float, float] = (20, 20),
-    fill_name: Optional[str] = None,
-    gdspath_out: Optional[PathType] = None,
+    fill_layers: LayerSpecs | None = None,
+    fill_size: tuple[float, float] = (10, 10),
+    fill_spacing: tuple[float, float] = (20, 20),
+    fill_name: str | None = None,
+    gdspath_out: PathType | None = None,
 ) -> None:
     """Write gds file with fill.
 

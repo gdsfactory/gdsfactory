@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional, Tuple
 
 import numpy as np
 
@@ -15,7 +14,7 @@ from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
+def get_bend_port_distances(bend: Component) -> tuple[float, float]:
     p0, p1 = bend.ports.values()
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
@@ -32,10 +31,10 @@ def spiral_inner_io(
     bend90: ComponentSpec = bend_euler,
     bend180: ComponentSpec = bend_euler180,
     straight: ComponentSpec = straight_function,
-    length: Optional[float] = None,
+    length: float | None = None,
     cross_section: CrossSectionSpec = "strip",
-    cross_section_bend: Optional[CrossSectionSpec] = None,
-    cross_section_bend180: Optional[CrossSectionSpec] = None,
+    cross_section_bend: CrossSectionSpec | None = None,
+    cross_section_bend180: CrossSectionSpec | None = None,
     asymmetric_cross_section: bool = False,
     **kwargs,
 ) -> Component:
@@ -174,8 +173,8 @@ def spiral_inner_io(
 @gf.cell
 def spiral_inner_io_fiber_single(
     cross_section: CrossSectionSpec = "strip",
-    cross_section_bend: Optional[CrossSectionSpec] = None,
-    cross_section_ports: Optional[CrossSectionSpec] = None,
+    cross_section_bend: CrossSectionSpec | None = None,
+    cross_section_ports: CrossSectionSpec | None = None,
     x_straight_inner_right: float = 40.0,
     x_straight_inner_left: float = 75.0,
     y_straight_inner_top: float = 10.0,

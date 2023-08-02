@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import List, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -12,11 +11,11 @@ from gdsfactory.typings import ComponentSpec, LayerSpec
 def get_padding_points(
     component: Component,
     default: float = 50.0,
-    top: Optional[float] = None,
-    bottom: Optional[float] = None,
-    right: Optional[float] = None,
-    left: Optional[float] = None,
-) -> List[float]:
+    top: float | None = None,
+    bottom: float | None = None,
+    right: float | None = None,
+    left: float | None = None,
+) -> list[float]:
     """Returns padding points for a component outline.
 
     Args:
@@ -42,7 +41,7 @@ def get_padding_points(
 
 def add_padding(
     component: ComponentSpec = "mmi2x2",
-    layers: Tuple[LayerSpec, ...] = ("PADDING",),
+    layers: tuple[LayerSpec, ...] = ("PADDING",),
     **kwargs,
 ) -> Component:
     """Adds padding layers to component. Returns same component.
@@ -69,7 +68,7 @@ def add_padding(
 @cell
 def add_padding_container(
     component: ComponentSpec,
-    layers: Tuple[LayerSpec, ...] = ("PADDING",),
+    layers: tuple[LayerSpec, ...] = ("PADDING",),
     **kwargs,
 ) -> Component:
     """Returns new component with padding added.
@@ -101,9 +100,9 @@ def add_padding_container(
 
 def add_padding_to_size(
     component: ComponentSpec,
-    layers: Tuple[LayerSpec, ...] = ("PADDING",),
-    xsize: Optional[float] = None,
-    ysize: Optional[float] = None,
+    layers: tuple[LayerSpec, ...] = ("PADDING",),
+    xsize: float | None = None,
+    ysize: float | None = None,
     left: float = 0,
     bottom: float = 0,
 ) -> Component:
@@ -140,9 +139,9 @@ def add_padding_to_size(
 @cell
 def add_padding_to_size_container(
     component: ComponentSpec,
-    layers: Tuple[LayerSpec, ...] = ("PADDING",),
-    xsize: Optional[float] = None,
-    ysize: Optional[float] = None,
+    layers: tuple[LayerSpec, ...] = ("PADDING",),
+    xsize: float | None = None,
+    ysize: float | None = None,
     left: float = 0,
     bottom: float = 0,
 ) -> Component:

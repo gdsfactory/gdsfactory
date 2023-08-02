@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import List, Optional, Union
 
 import numpy as np
 
@@ -22,10 +21,10 @@ from gdsfactory.typings import (
 def get_route_from_steps(
     port1: Port,
     port2: Port,
-    steps: Optional[List[Step]] = None,
+    steps: list[Step] | None = None,
     bend: ComponentSpec = "bend_euler",
-    taper: Optional[ComponentSpec] = "taper",
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
+    taper: ComponentSpec | None = "taper",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints steps.

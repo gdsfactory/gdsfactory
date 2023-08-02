@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import List
 
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.port import Port
@@ -10,7 +9,7 @@ from gdsfactory.typings import Route
 
 def get_bundle_sbend(
     ports1: Port, ports2: Port, sort_ports: bool = True, **kwargs
-) -> List[Route]:
+) -> list[Route]:
     """Returns a list of routes from ports1 to ports2.
 
     Args:

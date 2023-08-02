@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import warnings
 from functools import partial
-from typing import Optional, Tuple
 
 from numpy import floor
 
@@ -17,10 +16,10 @@ from gdsfactory.typings import ComponentSpec, Float2, Floats, LayerSpecs
 def via_stack_with_offset(
     layers: LayerSpecs = ("PPP", "M1"),
     size: Float2 = (10, 10),
-    sizes: Optional[Tuple[Float2, ...]] = None,
-    layer_offsets: Optional[Floats] = None,
-    vias: Tuple[Optional[ComponentSpec], ...] = (None, viac),
-    offsets: Optional[Tuple[float, ...]] = None,
+    sizes: tuple[Float2, ...] | None = None,
+    layer_offsets: Floats | None = None,
+    vias: tuple[ComponentSpec | None, ...] = (None, viac),
+    offsets: tuple[float, ...] | None = None,
 ) -> Component:
     """Rectangular layer transition with offset between layers.
 

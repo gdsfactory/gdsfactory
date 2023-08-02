@@ -6,7 +6,6 @@ based on phidl.quickplotter.
 from __future__ import annotations
 
 import sys
-from typing import Optional
 
 import numpy as np
 
@@ -128,14 +127,14 @@ def _rectangle_selector_factory(fig, ax):
 
 
 def set_quickplot_options(
-    show_ports: Optional[bool] = None,
-    show_subports: Optional[bool] = None,
-    label_aliases: Optional[bool] = None,
-    new_window: Optional[bool] = None,
-    blocking: Optional[bool] = None,
-    zoom_factor: Optional[float] = None,
-    interactive_zoom: Optional[bool] = None,
-    fontsize: Optional[int] = None,
+    show_ports: bool | None = None,
+    show_subports: bool | None = None,
+    label_aliases: bool | None = None,
+    new_window: bool | None = None,
+    blocking: bool | None = None,
+    zoom_factor: float | None = None,
+    interactive_zoom: bool | None = None,
+    fontsize: int | None = None,
 ) -> None:
     """Sets plotting options for quickplot().
 

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Dict, List, Union
 
 import gdsfactory as gf
 from gdsfactory.components.straight import straight
@@ -10,7 +9,7 @@ from gdsfactory.typings import ComponentSpec, Routes
 
 
 def get_routes_straight(
-    ports: Union[List[Port], Dict[str, Port]],
+    ports: list[Port] | dict[str, Port],
     straight: ComponentSpec = straight,
     **kwargs,
 ) -> Routes:

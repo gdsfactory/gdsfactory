@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, Optional
+from typing import Callable
 
 import gdsfactory as gf
 from gdsfactory.add_labels import (
@@ -34,13 +34,12 @@ def add_fiber_single(
     optical_routing_type: int = 2,
     with_loopback: bool = True,
     loopback_xspacing: float = 50.0,
-    component_name: Optional[str] = None,
+    component_name: str | None = None,
     gc_port_name: str = "o1",
-    zero_port: Optional[str] = "o1",
-    get_input_label_text_loopback_function: Optional[
-        Callable
-    ] = get_input_label_text_dash_loopback,
-    get_input_label_text_function: Optional[Callable] = get_input_label_text_dash,
+    zero_port: str | None = "o1",
+    get_input_label_text_loopback_function: None
+    | (Callable) = get_input_label_text_dash_loopback,
+    get_input_label_text_function: Callable | None = get_input_label_text_dash,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,

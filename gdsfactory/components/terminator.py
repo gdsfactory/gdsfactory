@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -11,9 +10,9 @@ from gdsfactory.typings import CrossSectionSpec, LayerSpecs
 
 @gf.cell
 def terminator(
-    length: Optional[float] = 50,
+    length: float | None = 50,
     cross_section_input: CrossSectionSpec = "strip",
-    cross_section_tip: Optional[CrossSectionSpec] = None,
+    cross_section_tip: CrossSectionSpec | None = None,
     tapered_width: float = 0.2,
     doping_layers: LayerSpecs = ("NPP",),
     doping_offset: float = 1,

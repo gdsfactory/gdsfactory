@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple
 
 import numpy as np
 import pytest
@@ -14,8 +13,8 @@ from gdsfactory.geometry import check_exclusion
 def exclusion(
     space: float,
     width: float = 0.5,
-    layer1: Tuple[int, int] = (1, 0),
-    layer2: Tuple[int, int] = (2, 0),
+    layer1: tuple[int, int] = (1, 0),
+    layer2: tuple[int, int] = (2, 0),
 ) -> Component:
     c = gf.Component()
     r1 = c << gf.components.rectangle(size=(width, width), layer=layer1)

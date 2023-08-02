@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional, Union
 
 import gdstk
 from omegaconf import OmegaConf
@@ -15,9 +14,9 @@ from gdsfactory.name import get_name_short
 
 @cell
 def import_gds(
-    gdspath: Union[str, Path],
-    cellname: Optional[str] = None,
-    gdsdir: Optional[Union[str, Path]] = None,
+    gdspath: str | Path,
+    cellname: str | None = None,
+    gdsdir: str | Path | None = None,
     read_metadata: bool = False,
     hashed_name: bool = True,
     **kwargs,
@@ -132,7 +131,7 @@ def import_gds(
     return component
 
 
-def import_gds_raw(gdspath, top_cellname: Optional[str] = None):
+def import_gds_raw(gdspath, top_cellname: str | None = None):
     if not top_cellname:
         if gdspath.suffix.lower() == ".gds":
             gdsii_lib = gdstk.read_gds(str(gdspath))
