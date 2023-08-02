@@ -1555,7 +1555,7 @@ class Component(_GeometryHelper):
 
         except ImportError:
             print(
-                "You can install `pip install gdsfactory[full]` for better visualization"
+                "You can install `pip install gdsfactory[cad]` for better visualization"
             )
             component.plot(plotter="matplotlib")
 

@@ -46,7 +46,6 @@ version = "6.115.0"
 
 [project.optional-dependencies]
 cad = [
-  "bokeh",
   "freetype-py",
   "ipympl",
   "ipywidgets==7.7.3",
