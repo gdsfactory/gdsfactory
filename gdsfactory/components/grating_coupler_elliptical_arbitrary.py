@@ -9,7 +9,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_tooth_points,
 )
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec, Optional
+from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.1,) * 10
 _widths = (0.5,) * 10
@@ -25,7 +25,7 @@ def grating_coupler_elliptical_arbitrary(
     fiber_angle: float = 15.0,
     nclad: float = 1.443,
     layer_slab: LayerSpec = "SLAB150",
-    layer_grating: Optional[LayerSpec] = None,
+    layer_grating: LayerSpec | None = None,
     taper_to_slab_offset: float = -3.0,
     polarization: str = "te",
     spiked: bool = True,

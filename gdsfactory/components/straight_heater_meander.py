@@ -4,7 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, Optional
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpec
 
 
 @gf.cell
@@ -16,10 +16,10 @@ def straight_heater_meander(
     extension_length: float = 15.0,
     layer_heater: LayerSpec = "HEATER",
     radius: float = 5.0,
-    via_stack: Optional[ComponentSpec] = "via_stack_heater_mtop",
-    port_orientation1: Optional[int] = None,
-    port_orientation2: Optional[int] = None,
-    heater_taper_length: Optional[float] = 10.0,
+    via_stack: ComponentSpec | None = "via_stack_heater_mtop",
+    port_orientation1: int | None = None,
+    port_orientation2: int | None = None,
+    heater_taper_length: float | None = 10.0,
     straight_widths: Floats = (0.8, 0.9, 0.8),
     taper_length: float = 10,
 ) -> Component:

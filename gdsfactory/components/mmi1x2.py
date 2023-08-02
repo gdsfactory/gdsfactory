@@ -5,12 +5,12 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Optional
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
 def mmi1x2(
-    width: Optional[float] = None,
+    width: float | None = None,
     width_taper: float = 1.0,
     length_taper: float = 10.0,
     length_mmi: float = 5.5,

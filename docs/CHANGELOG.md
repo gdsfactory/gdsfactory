@@ -7,6 +7,7 @@
 - move plugins and simulation to gplugins repo [PR](https://github.com/gdsfactory/gdsfactory/pull/1935)
 - add path length analyzer [PR](https://github.com/gdsfactory/gdsfactory/pull/1935)
 - only works for python>=3.10
+- You can modernize types with this command `find . -name "*.py" -exec sed -ri 's/Optional\[(.*)\]/\1 | None/g' {} \;`
 
 ## [6.115.0](https://github.com/gdsfactory/gdsfactory/compare/v6.115.0...v6.114.1)
 

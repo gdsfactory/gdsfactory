@@ -8,13 +8,13 @@ from gdsfactory.component import Component
 from gdsfactory.path import arc
 from gdsfactory.route_info import route_info_from_cs
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec, Optional
+from gdsfactory.typings import CrossSectionSpec
 
 
 @gf.cell
 def bend_circular(
     angle: float = 90.0,
-    npoints: Optional[int] = None,
+    npoints: int | None = None,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,

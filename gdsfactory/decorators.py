@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.snap import is_on_grid
-from gdsfactory.typings import Component, ComponentReference, Optional
+from gdsfactory.typings import Component, ComponentReference
 
 
 def is_valid_transformation(
-    ref: ComponentReference, grid_size: Optional[float] = None
+    ref: ComponentReference, grid_size: float | None = None
 ) -> bool:
     """Returns True if the component has valid transformations.
 
@@ -30,7 +30,7 @@ def has_valid_transformations(component: Component) -> bool:
     return all(is_valid_transformation(ref) for ref in refs)
 
 
-def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None):
+def flatten_invalid_refs(component: Component, grid_size: float | None = None):
     """Flattens component references which have invalid transformations.
 
     (i.e. non-90 deg rotations or sub-grid translations).
@@ -52,7 +52,7 @@ def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None
     return component
 
 
-def is_invalid_ref(ref, grid_size: Optional[float] = None) -> bool:
+def is_invalid_ref(ref, grid_size: float | None = None) -> bool:
     from gdsfactory.pdk import get_grid_size
 
     grid_size = grid_size or get_grid_size()
