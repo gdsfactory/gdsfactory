@@ -211,29 +211,3 @@ show_yaml_pic(basic_sample_fn2)
 f = cell_from_yaml_template(basic_sample_fn2, name="sample_transition")
 c = f()
 c.plot()
-
-# %% [markdown]
-# ## Analyzing pathlengths
-# You can use the `report_pathlenghts` functionality to get a detailed CSV report and interactive visualization about the routes in your PIC.
-
-# %%
-from gdsfactory.plugins.pathlength_analysis import report_pathlengths
-from pathlib import Path
-
-report_pathlengths(
-    pic=c,
-    result_dir=Path("rib_strip_pathlengths"),
-    visualize=True,
-)
-
-# %% [markdown]
-# You should see an interactive webpage like the following appear, summarizing the paths in your PIC.
-#
-# To the left is a stick diagram, showing all the instances and paths in your circuit (with straight lines connecting ports for simplification). To the right is a table of the aggregate paths from all routing components in your circuit (those with `route_info` included in their `info` dictionary). You will see that there is also a CSV table in the results folder which has more in-depth statistics.
-# ![pathlength report](images/pathlength_report.png)
-
-# %% [markdown]
-# Clicking any of the routes or checking any of the boxes should highlight the respective route in the color shown in the table to the right to help you better identify them. Hovering over any of the routes or ports will display additional information.
-# ![pathlength report](images/pathlength_report_highlighted.png)
-
-# %%

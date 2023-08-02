@@ -1,11 +1,6 @@
 ####################
-Plugins API
-####################
-
-
-*********************
 Klayout DRC
-*********************
+####################
 
 .. currentmodule:: gdsfactory.geometry.write_drc
 
