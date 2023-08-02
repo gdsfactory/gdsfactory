@@ -52,8 +52,54 @@ def test_clean_value_json_gdstk_polygon() -> None:
     assert np.all(np.equal(clean_value_json(polygon), expected))
 
 
+def test_clean_value_json():
+    # Test boolean value
+    assert clean_value_json(True) is True
+
+    # Test integer value
+    assert clean_value_json(10) == 10
+
+    # Test float value
+    assert clean_value_json(10.1) == round(10.1, 3)
+
+    # Test numpy integer value
+    assert clean_value_json(np.int64(10)) == 10
+
+    # Test numpy float value
+    assert clean_value_json(np.float64(10.1)) == round(10.1, 3)
+
+    # Test numpy array value
+    np_array = np.array([1, 2, 3])
+    assert np.array_equal(clean_value_json(np_array), np_array.tolist())
+
+    # Test callable function
+    def test_func():
+        pass
+
+    assert clean_value_json(test_func) == {"function": "test_func"}
+
+    # Test dictionary value
+    test_dict = {"key": "value"}
+    assert clean_value_json(test_dict) == test_dict
+
+    # Test list value
+    test_list = [1, 2, "3"]
+    assert clean_value_json(test_list) == test_list
+
+    # Test pathlib.Path value
+    test_path = pathlib.Path("/tmp/test.txt")
+    assert clean_value_json(test_path) == "test"
+
+    # # Test unsupported type
+    # class Unsupported: pass
+    # unsupported = Unsupported()
+    # with pytest.raises(TypeError):
+    #     clean_value_json(unsupported)
+
+
 if __name__ == "__main__":
-    test_clean_value_json_callable()
+    test_clean_value_json()
+    # test_clean_value_json_callable()
     # test_clean_value_json_gdstk_polygon()
     # test_clean_value_json_numpy_array()
     # def func(a: int, b: int) -> int:
