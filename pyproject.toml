@@ -47,21 +47,21 @@ version = "6.115.0"
 [project.optional-dependencies]
 cad = [
   "freetype-py",
-  "ipympl",
-  "ipywidgets",
+  "ipycytoscape",
   "ipyevents",
   "ipykernel",
+  "ipympl",
+  "ipytree",
+  "ipywidgets",
+  "jupytext",
+  "kfactory[git,ipy]==0.7.5",
+  "kweb==0.1.1",
   "mapbox_earcut",
   "networkx",
   "pyglet<2",
-  "scikit-image",
-  "trimesh",
-  "jupytext",
-  "ipytree",
   "rich-click",
-  "ipycytoscape",
-  "kweb==0.1.1",
-  "kfactory[git,ipy]==0.7.5"
+  "scikit-image",
+  "trimesh"
 ]
 dev = [
   "autotyping",
