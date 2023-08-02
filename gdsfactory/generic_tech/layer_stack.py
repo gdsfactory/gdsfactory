@@ -59,14 +59,14 @@ def get_layer_stack(
             thickness=substrate_thickness,
             zmin=-substrate_thickness - box_thickness,
             material="si",
-            mesh_order=99,
+            mesh_order=101,
         )
         box = LayerLevel(
             layer=LAYER.WAFER,
             thickness=box_thickness,
             zmin=-box_thickness,
             material="sio2",
-            mesh_order=99,
+            mesh_order=9,
         )
         core = LayerLevel(
             layer=LAYER.WG,
@@ -165,14 +165,14 @@ def get_layer_stack(
             thickness=750e-3,
             zmin=zmin_heater,
             material="TiN",
-            mesh_order=1,
+            mesh_order=2,
         )
         via1 = LayerLevel(
             layer=LAYER.VIA1,
             thickness=zmin_metal2 - (zmin_metal1 + thickness_metal1),
             zmin=zmin_metal1 + thickness_metal1,
             material="Aluminum",
-            mesh_order=2,
+            mesh_order=1,
         )
         metal2 = LayerLevel(
             layer=LAYER.M2,
