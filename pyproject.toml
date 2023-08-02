@@ -34,7 +34,23 @@ dependencies = [
   "tqdm",
   "types-PyYAML",
   "typing_extensions",
-  "watchdog"
+  "watchdog",
+  "freetype-py",
+  "ipycytoscape",
+  "ipyevents",
+  "ipykernel",
+  "ipympl",
+  "ipytree",
+  "ipywidgets",
+  "jupytext",
+  "kfactory[git,ipy]==0.7.5",
+  "kweb==0.1.1",
+  "mapbox_earcut",
+  "networkx",
+  "pyglet<2",
+  "rich-click",
+  "scikit-image",
+  "trimesh"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
@@ -45,24 +61,6 @@ requires-python = ">=3.10"
 version = "6.115.0"
 
 [project.optional-dependencies]
-cad = [
-  "freetype-py",
-  "ipympl",
-  "ipywidgets",
-  "ipyevents",
-  "ipykernel",
-  "mapbox_earcut",
-  "networkx",
-  "pyglet<2",
-  "scikit-image",
-  "trimesh",
-  "jupytext",
-  "ipytree",
-  "rich-click",
-  "ipycytoscape",
-  "kweb==0.1.1",
-  "kfactory[git,ipy]==0.7.5"
-]
 dev = [
   "autotyping",
   "black>=21",
