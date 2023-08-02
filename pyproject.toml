@@ -48,26 +48,19 @@ version = "6.115.0"
 cad = [
   "freetype-py",
   "ipympl",
-  "ipywidgets==7.7.3",
+  "ipywidgets",
   "ipyevents",
   "ipykernel",
   "mapbox_earcut",
-  "natsort",
   "networkx",
   "pyglet<2",
-  "pygmsh",
   "scikit-image",
   "trimesh",
   "jupytext",
-  "klayout",
   "ipytree",
   "rich-click",
   "ipycytoscape",
   "kweb==0.1.1",
-  "jinja2",
-  "python-multipart",
-  "fastapi",
-  "uvicorn[standard]",
   "kfactory[git,ipy]==0.7.5"
 ]
 dev = [
