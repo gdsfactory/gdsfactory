@@ -92,13 +92,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          make dev
-          make data-download
+          make dev data-download
       - name: Test documentation
         env:
-          DISPLAY: 1.0
-          DOCS: True
           GDSFACTORY_LAYOUT_PLOTTER: klayout
+          KFACTORY_DISPLAY_TYPE: image
         run: |
           make docs
           python tests/test_doc_errors.py
