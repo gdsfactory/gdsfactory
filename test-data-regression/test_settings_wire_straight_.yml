@@ -44,29 +44,78 @@ settings:
     function_name: cross_section
     length: 10.0
     route_info:
-      ? 'layer=''M3'' width=10.0 offset=0.0 radius=None width_wide=None simplify=None
-        auto_widen=False auto_widen_minimum_length=200.0 taper_length=10.0 bbox_layers=[]
-        bbox_offsets=[] cladding_layers=None cladding_offsets=None cladding_simplify=None
-        sections=[] port_names=(''e1'', ''e2'') port_types=(''electrical'', ''electrical'')
-        gap=5.0 min_length=5.0 start_straight_length=0.01 end_straight_length=0.01
-        snap_to_grid=None decorator=None add_pins=None add_bbox=None info={''settings'':
-        {''width'': 10.0, ''offset'': 0, ''layer'': ''M3'', ''width_wide'': None,
-        ''auto_widen'': False, ''auto_widen_minimum_length'': 200.0, ''taper_length'':
-        10.0, ''radius'': None, ''sections'': None, ''port_names'': [''e1'', ''e2''],
-        ''port_types'': [''electrical'', ''electrical''], ''gap'': 5, ''min_length'':
-        5, ''start_straight_length'': 0.01, ''end_straight_length'': 0.01, ''snap_to_grid'':
-        None, ''bbox_layers'': None, ''bbox_offsets'': None, ''cladding_layers'':
-        None, ''cladding_offsets'': None, ''cladding_simplify'': None, ''info'': None,
-        ''decorator'': None, ''add_pins'': None, ''add_bbox'': None, ''mirror'': False,
-        ''name'': None}, ''function_name'': ''cross_section''} name=None mirror=False_length'
-      : 10.0
       length: 10.0
-      type: 'layer=''M3'' width=10.0 offset=0.0 radius=None width_wide=None simplify=None
-        auto_widen=False auto_widen_minimum_length=200.0 taper_length=10.0 bbox_layers=[]
-        bbox_offsets=[] cladding_layers=None cladding_offsets=None cladding_simplify=None
-        sections=[] port_names=(''e1'', ''e2'') port_types=(''electrical'', ''electrical'')
-        gap=5.0 min_length=5.0 start_straight_length=0.01 end_straight_length=0.01
-        snap_to_grid=None decorator=None add_pins=None add_bbox=None info={''settings'':
+      type:
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: []
+        bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
+        cladding_simplify: null
+        end_straight_length: 0.01
+        gap: 5.0
+        info:
+          function_name: cross_section
+          settings:
+            add_bbox: null
+            add_pins: null
+            auto_widen: false
+            auto_widen_minimum_length: 200.0
+            bbox_layers: null
+            bbox_offsets: null
+            cladding_layers: null
+            cladding_offsets: null
+            cladding_simplify: null
+            decorator: null
+            end_straight_length: 0.01
+            gap: 5
+            info: null
+            layer: M3
+            min_length: 5
+            mirror: false
+            name: null
+            offset: 0
+            port_names:
+            - e1
+            - e2
+            port_types:
+            - electrical
+            - electrical
+            radius: null
+            sections: null
+            snap_to_grid: null
+            start_straight_length: 0.01
+            taper_length: 10.0
+            width: 10.0
+            width_wide: null
+        layer: M3
+        min_length: 5.0
+        mirror: false
+        name: null
+        offset: 0.0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        radius: null
+        sections: []
+        simplify: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 10.0
+        width_wide: null
+      weight: 10.0
+      ? '{''layer'': ''M3'', ''width'': 10.0, ''offset'': 0.0, ''radius'': None, ''width_wide'':
+        None, ''simplify'': None, ''auto_widen'': False, ''auto_widen_minimum_length'':
+        200.0, ''taper_length'': 10.0, ''bbox_layers'': [], ''bbox_offsets'': [],
+        ''cladding_layers'': None, ''cladding_offsets'': None, ''cladding_simplify'':
+        None, ''sections'': [], ''port_names'': [''e1'', ''e2''], ''port_types'':
+        [''electrical'', ''electrical''], ''gap'': 5.0, ''min_length'': 5.0, ''start_straight_length'':
+        0.01, ''end_straight_length'': 0.01, ''snap_to_grid'': None, ''info'': {''settings'':
         {''width'': 10.0, ''offset'': 0, ''layer'': ''M3'', ''width_wide'': None,
         ''auto_widen'': False, ''auto_widen_minimum_length'': 200.0, ''taper_length'':
         10.0, ''radius'': None, ''sections'': None, ''port_names'': [''e1'', ''e2''],
@@ -75,8 +124,9 @@ settings:
         None, ''bbox_layers'': None, ''bbox_offsets'': None, ''cladding_layers'':
         None, ''cladding_offsets'': None, ''cladding_simplify'': None, ''info'': None,
         ''decorator'': None, ''add_pins'': None, ''add_bbox'': None, ''mirror'': False,
-        ''name'': None}, ''function_name'': ''cross_section''} name=None mirror=False'
-      weight: 10.0
+        ''name'': None}, ''function_name'': ''cross_section''}, ''name'': None, ''mirror'':
+        False}_length'
+      : 10.0
     settings:
       add_bbox: null
       add_pins: null

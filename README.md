@@ -108,13 +108,14 @@ Alternatively, one may use the pre-built Docker image from [hub.docker.com/r/joa
 ```bash
 docker build -t joamatab/gdsfactory .
 ```
+
 For example, VS Code supports development inside a container, see [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
 
 ## Plugins
 
-Plugins are hosted in a separate [repo](https://github.com/gdsfactory/gplugins) and installed as part of gdsfactory.
-Notice that plugins allow you to interface with different tools and some of them need to be installed separately.
-Take a look at the [gplugins documentation](https://gdsfactory.github.io/gplugins/)
+We maintain gdsfactory plugins in the [separate package](https://github.com/gdsfactory/gplugins)
+These plugins enable interfaces with different tools, and you might need to install some of them separately.
+For more details, please visit the [gplugins documentation](https://gdsfactory.github.io/gplugins/).
 
 ## Getting started
 
@@ -155,7 +156,6 @@ Take a look at the [gplugins documentation](https://gdsfactory.github.io/gplugin
 "I use gdsfactory for all of my photonic tape-outs. The Python interface makes it easy to version control individual photonic components as well as entire layouts, while integrating seamlessly with KLayout and most standard photonic simulation tools, both open-source and commercial.
 
 <div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong></div>
-
 
 ## Contributors
 

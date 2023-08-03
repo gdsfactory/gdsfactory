@@ -1,4 +1,4 @@
-name: grating_coupler_ellipti_23f761ec
+name: grating_coupler_ellipti_b97d3fdf
 ports:
   o1:
     center:
@@ -32,6 +32,13 @@ settings:
         add_bbox: null
         add_pins:
           function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+            pin_length: 0.5
         bbox_layers:
         - - 36
           - 0
@@ -71,6 +78,13 @@ settings:
         add_bbox: null
         add_pins:
           function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+            pin_length: 0.5
         bbox_layers:
         - - 36
           - 0
@@ -102,4 +116,4 @@ settings:
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_23f761ec
+  name: grating_coupler_ellipti_b97d3fdf
