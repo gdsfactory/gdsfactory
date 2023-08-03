@@ -33,7 +33,9 @@ class LayerLevel(BaseModel):
             https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
         into: etch into another layer.
             https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
-        doping_concentration: for implants.
+        background_doping_concentration: uniform base doping level in the material (cm-3)
+        background_doping_ion: uniform base doping ion in the material
+        orientation: of the wafer (Miller indices of the plane)
         resistivity: for metals.
         bias: in um for the etch. Can be a single number or 2 numbers (bias_x, bias_y)
         derived_layer: Optional derived layer, used for layer_type='etch' to define the slab.
@@ -54,15 +56,17 @@ class LayerLevel(BaseModel):
     layer_type: Literal["grow", "etch", "implant", "background"] = "grow"
     mode: Literal["octagon", "taper", "round"] | None = None
     into: list[str] | None = None
-    doping_concentration: float | None = None
     resistivity: float | None = None
     bias: tuple[float, float] | float | None = None
     derived_layer: tuple[int, int] | None = None
     info: dict[str, Any] = {}
+    background_doping_concentration: float | None = None
+    background_doping_ion: str | None = None
+    orientation: str | None = "100"
 
 
 class LayerStack(BaseModel):
-    """For simulation and 3D rendering.
+    """For simulation and 3D rendering. Captures design intent of the chip layers after fabrication.
 
     Parameters:
         layers: dict of layer_levels.
@@ -436,6 +440,20 @@ class LayerStack(BaseModel):
             if layer in layers_to_layername
         ]
         return self.filtered(layers)
+
+    def z_offset(self, dz):
+        """Translates the z-coordinates of the layerstack."""
+        for layer in self.layers.values():
+            layer.zmin += dz
+
+        return self
+
+    def invert_zaxis(self):
+        """Flips the zmin values about the origin."""
+        for layer in self.layers.values():
+            layer.zmin *= -1
+
+        return self
 
 
 if __name__ == "__main__":
