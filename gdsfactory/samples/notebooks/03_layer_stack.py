@@ -223,7 +223,7 @@ c_wg_clad
 
 # ## LayerStack
 #
-# Each layer also includes the information of thickness and position of each layer.
+# Each layer also includes the information of thickness and position of each layer after fabrication.
 #
 # This LayerStack can be used for creating a 3D model with `Component.to_3d` or running Simulations.
 #
@@ -571,3 +571,88 @@ if __name__ == "__main__":
 
 
 # ![xsection generic](https://i.imgur.com/H5Qiygc.png)
+
+# ## Process
+#
+# The LayerStack uses the GDS layers to generate a representation of the chip after fabrication.
+#
+# The KLayout cross-section module uses the GDS layers to return a geometric approximation of the processed wafer.
+#
+# Sometimes, however, physical process modeling is desired.
+#
+# For these purposes, Processes acting on an initial substrate "wafer stack" can be defined. The waferstack is a LayerStack representing the initial state of the wafer. The processes take in some combination of GDS layers (which may differ from their use in the resulting LayerStack), some processing parameters, and are then run in a sequence.
+#
+# For instance, the early step of the front-end-of-line of the generic process could be approximated as done in `gdsfactory.technology.layer_stack` (the process classes are described in `gdsfactory.technology.processes`):
+
+
+def get_process():
+    """Returns generic process to generate LayerStack.
+
+    Represents processing steps that will result in the GenericLayerStack, starting from the waferstack LayerStack.
+
+    based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
+    """
+
+    return (
+        gf.processes.Etch(
+            name="strip_etch",
+            layer=LAYER.WG,
+            positive_tone=False,
+            depth=0.22 + 0.01,  # slight overetch for numerics
+            material="core",
+            resist_thickness=1.0,
+        ),
+        gf.processes.Etch(
+            name="slab_etch",
+            layer=LAYER.SLAB90,
+            layers_diff=[LAYER.WG],
+            depth=0.22 - 0.13,
+            material="core",
+            resist_thickness=1.0,
+        ),
+        # See gplugins.process.implant tables for ballpark numbers
+        # Adjust to your process
+        gf.processes.ImplantPhysical(
+            name="deep_n_implant",
+            layer=LAYER.N,
+            energy=100,
+            ion="P",
+            dose=1e12,
+            resist_thickness=1.0,
+        ),
+        gf.processes.ImplantPhysical(
+            name="shallow_n_implant",
+            layer=LAYER.N,
+            energy=50,
+            ion="P",
+            dose=1e12,
+            resist_thickness=1.0,
+        ),
+        gf.processes.ImplantPhysical(
+            name="deep_p_implant",
+            layer=LAYER.P,
+            energy=50,
+            ion="B",
+            dose=1e12,
+            resist_thickness=1.0,
+        ),
+        gf.processes.ImplantPhysical(
+            name="shallow_p_implant",
+            layer=LAYER.P,
+            energy=15,
+            ion="B",
+            dose=1e12,
+            resist_thickness=1.0,
+        ),
+        # "Temperatures of ~1000C for not more than a few seconds"
+        # Adjust to your process
+        # https://en.wikipedia.org/wiki/Rapid_thermal_processing
+        gf.processes.Anneal(
+            name="dopant_activation",
+            time=1,
+            temperature=1000,
+        ),
+    )
+
+
+# These process dataclasses can then be used in physical simulator plugins.
