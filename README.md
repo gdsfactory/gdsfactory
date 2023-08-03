@@ -13,46 +13,34 @@
 
 ![logo](https://i.imgur.com/cN1ZWq8.png)
 
-gdsfactory: An open source platform for end to-end chip design and validation.
+gdsfactory: Your open source platform for end to-end chip design and validation.
 
-gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...), objects for 3D printing and PCBs.
-
-You can describe your hardware in code (python or YAML), verify it (DRC, simulation, extraction) and validate it (to make sure it meets your specifications after fabrication).
+Welcome to gdsfactory, a Python library designed for crafting chips (Photonics, Analog, Quantum, MEMs, and more), 3D printed objects, and PCBs.
+Here, you can code your hardware design in Python or YAML, perform verification through DRC, simulation, and extraction, and validate in the lab to ensure your fabricated chip meets your specifications.
 
 ![workflow](https://i.imgur.com/abvxJJw.png)
 
-It provides you an end to end design flow to:
 
-- Design (Layout, Simulation, Optimization)
-  - Define Components using parametric cells functions in python or YAML.
-  - Test component settings, ports and geometry to avoid unwanted regressions.
-  - Capture design intent in a schematic.
-- Verify (DRC, DFM, LVS)
-  - Run simulations directly from the layout thanks to the simulation interfaces. No need to draw the geometry more than once.
-    - Run Component simulations (solve modes, FDTD, EME, TCAD, thermal ...)
-    - Run Circuit simulations from the Component netlist (Sparameters, Spice ...)
-    - Build Component models and study Design For Manufacturing.
-  - Create DRC rule decks in Klayout.
-  - Ensure complex layouts match their design intent (Layout Versus Schematic).
-- Validate
-  - Define layout and test protocols simultaneously, so when the chips come back you already know how to test and analyze them.
-  - Model extraction: extract the important parameters for each component.
-  - Build a data pipeline from raw data, to structured data and dashboards for monitoring your chip performance.
+We facilitate an end-to-end design flow for you to:
 
-As input, you write python or YAML code.
+- **Design (Layout, Simulation, Optimization)**: Utilize parametric cell functions in Python or YAML to define components. Test component settings, ports, and geometry to avoid unwanted regressions, and capture design intent in a schematic.
+- **Verify (DRC, DFM, LVS)**: Run simulations directly from the layout using our simulation interfaces, removing the need to duplicate geometry drawings. Conduct component and circuit simulations, study design for manufacturing, and ensure complex layouts match their design intent through Layout Versus Schematic verification.
+- **Validate**: Define layout and test protocols simultaneously for efficient chip analysis post-fabrication. Extract essential component parameters, and build a data pipeline from raw data to structured data, and dashboards for monitoring chip performance.
 
-As output you write a GDSII or OASIS file that you can send to your foundry for fabrication.
-It also exports component settings (for measurement and data analysis) and netlists (for circuit simulations) in YAML.
+Your input: Python or YAML text.
+Your output: A GDSII or OASIS file for fabrication, alongside component settings (for measurement and data analysis) and netlists (for circuit simulations) in YAML.
 
 ![layout_to_components](https://i.imgur.com/S96RSil.png)
 
 ![flow](https://i.imgur.com/XbhWJDz.png)
 
-It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, MEOW ...), verification and validation.
+We provide a common syntax for design (KLayout, gdstk, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, MEOW ...), verification, and validation.
 
 ![tool interfaces](https://i.imgur.com/oHKZ7hW.png)
 
-Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK as some are only provided under NDA:
+Numerous foundries have gdsfactory PDKs available. You may need to contact your foundry to access their gdsfactory PDK, as some are provided under NDA only.
+
+Available foundries include:
 
 - AIM photonics PDK
 - AMF photonics PDK
@@ -70,17 +58,16 @@ You can also access:
 - instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
 - instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
-![pdks](https://i.imgur.com/zngqi0B.png)
+![foundry-pdks](https://i.imgur.com/zngqi0B.png)
 
 ## Installation
 
-Use python3.10 or python3.11, as some tools like kfactory are not available for older versions of python. We recommend [VSCode](https://code.visualstudio.com/) as an IDE.
+We support Python 3.10 or 3.11, and [VSCode](https://code.visualstudio.com/) as an IDE. If you do not have Python installed, you can [download Anaconda](https://www.anaconda.com/download/).
 
-If you don't have python installed on your system you can [download anaconda](https://www.anaconda.com/download/)
-
-Once you have python installed, open Anaconda Prompt as Administrator and then install the latest gdsfactory core conda (from conda-forge channel) and most plugins using pip.
+Upon Python installation, open Anaconda Prompt as Administrator and install the latest gdsfactory core conda (from the conda-forge channel) and Optional `cad` visualization extras using pip.
 
 ![anaconda prompt](https://i.imgur.com/eKk2bbs.png)
+
 
 ```
 conda install -c conda-forge gdsfactory -y
@@ -91,11 +78,15 @@ Then you can install Klayout-live `klive` integration in the klayout GUI `Tools 
 
 ### Update gdsfactory
 
-You can `pip install gdsfactory[cad] --upgrade`
+You can upgrade your gdsfactory package using the following command:
 
-Notice that some PDKs may only work for a specific version of gdsfactory, so make sure you install the correct gdsfactory version specified in the `pyproject.toml` file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example `pip install gf180` will install the latest gdsfactory version that has been tested for the GlobalFoundries180 PDK.
+```
+pip install gdsfactory[cad] --upgrade
+```
 
-This code will tell you which gdsfactory you are using:
+Please note that some PDKs may only work for a specific version of gdsfactory. Ensure you install the correct gdsfactory version specified in the pyproject.toml file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example, pip install gf180 will install the latest gdsfactory version tested for the GlobalFoundries180 PDK.
+
+To determine your current gdsfactory version, use the following code:
 
 ```
 import gdsfactory as gf
@@ -105,18 +96,19 @@ gf.config.print_version()
 
 ### Docker container
 
-Alternatively, one may use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with:
+As an alternative, you can use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with:
+
 
 ```bash
 docker build -t joamatab/gdsfactory .
 ```
 
-For example, VS Code supports development inside a container, see [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
+For instance, VS Code supports development inside a container. See [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
 
 ## Plugins
 
-We maintain gdsfactory plugins in the [separate package](https://github.com/gdsfactory/gplugins)
-These plugins enable interfaces with different tools, and you might need to install some of them separately.
+We maintain gdsfactory plugins in a [separate package](https://github.com/gdsfactory/gplugins)
+These plugins enable interfaces with different tools, and you might need to install some of the tools separately.
 For more details, please visit the [gplugins documentation](https://gdsfactory.github.io/gplugins/).
 
 ## Getting started
