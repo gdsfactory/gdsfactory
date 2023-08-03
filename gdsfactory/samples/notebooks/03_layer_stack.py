@@ -606,7 +606,7 @@ def get_process():
             name="slab_etch",
             layer=LAYER.SLAB90,
             layers_diff=[LAYER.WG],
-            depth=0.22 - 0.13,
+            depth=0.22 - 0.09,
             material="core",
             resist_thickness=1.0,
         ),
