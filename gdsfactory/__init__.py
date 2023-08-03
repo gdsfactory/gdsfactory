@@ -93,6 +93,15 @@ def __getattr__(name):
     raise AttributeError(f"No module named {name}")
 
 
+warnings.warn(
+    """
+The latest versions of gdsfactory work with Python 3.10 and above.
+If you are using Python 3.9 or below, please install gdsfactory==6.115.0
+However we recommend you to upgrade to Python 3.10 or above so you can use the latest gdsfactory features.
+""",
+    stacklevel=2,
+)
+
 __all__ = (
     "CONF",
     "Component",
