@@ -1,4 +1,4 @@
-name: mzi_bdb841e1
+name: mzi_d1520c52
 ports:
   o1:
     center:
@@ -35,6 +35,13 @@ settings:
             add_bbox: null
             add_pins:
               function: add_pins
+              settings:
+                function:
+                  function: add_pin_rectangle_inside
+                  settings:
+                    layer_label: null
+                    pin_length: 0.001
+                pin_length: 0.5
             bbox_layers:
             - - 36
               - 0
@@ -54,6 +61,13 @@ settings:
         add_bbox: null
         add_pins:
           function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+            pin_length: 0.5
         bbox_layers:
         - - 36
           - 0
@@ -75,6 +89,13 @@ settings:
             add_bbox: null
             add_pins:
               function: add_pins
+              settings:
+                function:
+                  function: add_pin_rectangle_inside
+                  settings:
+                    layer_label: null
+                    pin_length: 0.001
+                pin_length: 0.5
             bbox_layers:
             - - 36
               - 0
@@ -97,6 +118,13 @@ settings:
             add_bbox: null
             add_pins:
               function: add_pins
+              settings:
+                function:
+                  function: add_pin_rectangle_inside
+                  settings:
+                    layer_label: null
+                    pin_length: 0.001
+                pin_length: 0.5
             bbox_layers:
             - - 36
               - 0
@@ -146,6 +174,13 @@ settings:
             add_bbox: null
             add_pins:
               function: add_pins
+              settings:
+                function:
+                  function: add_pin_rectangle_inside
+                  settings:
+                    layer_label: null
+                    pin_length: 0.001
+                pin_length: 0.5
             bbox_layers:
             - - 36
               - 0
@@ -166,6 +201,13 @@ settings:
         add_bbox: null
         add_pins:
           function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+            pin_length: 0.5
         bbox_layers:
         - - 36
           - 0
@@ -198,6 +240,13 @@ settings:
             add_bbox: null
             add_pins:
               function: add_pins
+              settings:
+                function:
+                  function: add_pin_rectangle_inside
+                  settings:
+                    layer_label: null
+                    pin_length: 0.001
+                pin_length: 0.5
             bbox_layers:
             - - 36
               - 0
@@ -220,6 +269,13 @@ settings:
             add_bbox: null
             add_pins:
               function: add_pins
+              settings:
+                function:
+                  function: add_pin_rectangle_inside
+                  settings:
+                    layer_label: null
+                    pin_length: 0.001
+                pin_length: 0.5
             bbox_layers:
             - - 36
               - 0
@@ -241,4 +297,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_bdb841e1
+  name: mzi_d1520c52

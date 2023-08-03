@@ -1,4 +1,4 @@
-name: mmi1x2_d48e5220
+name: mmi1x2_2bb20f1f
 ports:
   o1:
     center:
@@ -44,6 +44,13 @@ settings:
         add_bbox: null
         add_pins:
           function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+            pin_length: 0.5
         bbox_layers:
         - - 36
           - 0
@@ -78,6 +85,13 @@ settings:
         add_bbox: null
         add_pins:
           function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+            pin_length: 0.5
         bbox_layers:
         - - 36
           - 0
@@ -105,4 +119,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_d48e5220
+  name: mmi1x2_2bb20f1f
