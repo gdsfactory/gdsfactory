@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, List, Optional
+from collections.abc import Callable
 
 import numpy as np
 
@@ -57,15 +57,15 @@ def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
 
 
 def get_bundle_corner(
-    ports1: List[Port],
-    ports2: List[Port],
+    ports1: list[Port],
+    ports2: list[Port],
     route_filter: Callable[..., Route] = get_route_from_waypoints,
     separation: float = 5.0,
-    path_length_match_loops: Optional[int] = None,
+    path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     **kwargs,
-) -> List[Route]:
+) -> list[Route]:
     r"""Connect banks of ports with either 90Deg or 270Deg angle between them.
 
     Args:

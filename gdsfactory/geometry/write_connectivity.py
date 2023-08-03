@@ -2,15 +2,13 @@
 
 from __future__ import annotations
 
-from typing import List
-
 from pydantic import BaseModel
 
 import gdsfactory as gf
 from gdsfactory.geometry.write_drc import write_drc_deck_macro
-from gdsfactory.typings import CrossSectionSpec, Dict, Layer, LayerSpec
+from gdsfactory.typings import CrossSectionSpec, Layer, LayerSpec
 
-layer_name_to_min_width: Dict[str, float]
+layer_name_to_min_width: dict[str, float]
 
 nm = 1e-3
 
@@ -22,7 +20,7 @@ class ConnectivyCheck(BaseModel):
 
 
 def write_connectivity_checks(
-    pin_widths: List[float],
+    pin_widths: list[float],
     pin_layer: Layer,
     pin_length: float = 1 * nm,
     device_layer: LayerSpec = "DEVREC",
@@ -58,7 +56,7 @@ DEVREC.overlapping(DEVREC).output("Component overlap")\n
 
 
 def write_connectivity_checks_per_section(
-    connectivity_checks: List[ConnectivyCheck],
+    connectivity_checks: list[ConnectivyCheck],
     device_layer: LayerSpec = None,
 ) -> str:
     """Return script for port connectivity check.

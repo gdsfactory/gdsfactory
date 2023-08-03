@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional, Tuple
-
 import numpy as np
 
 import gdsfactory as gf
@@ -14,12 +12,12 @@ from gdsfactory.typings import Float2, LayerSpec
 
 @cell
 def rectangle_with_slits(
-    size: Tuple[float, float] = (100.0, 200.0),
+    size: tuple[float, float] = (100.0, 200.0),
     layer: LayerSpec = "WG",
     layer_slit: LayerSpec = "SLAB150",
     centered: bool = False,
-    port_type: Optional[str] = None,
-    slit_size: Tuple[float, float] = (1.0, 1.0),
+    port_type: str | None = None,
+    slit_size: tuple[float, float] = (1.0, 1.0),
     slit_spacing: Float2 = (20, 20),
     slit_enclosure: float = 10,
 ) -> Component:

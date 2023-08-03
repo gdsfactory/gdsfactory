@@ -1,21 +1,19 @@
 from __future__ import annotations
 
-from typing import Tuple
-
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, Float2, Optional
+from gdsfactory.typings import ComponentSpec, Float2
 
 
 @cell
 def array(
     component: ComponentSpec = "pad",
-    spacing: Tuple[float, float] = (150.0, 150.0),
+    spacing: tuple[float, float] = (150.0, 150.0),
     columns: int = 6,
     rows: int = 1,
     add_ports: bool = True,
-    size: Optional[Float2] = None,
+    size: Float2 | None = None,
 ) -> Component:
     """Returns an array of components.
 

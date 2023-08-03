@@ -1,8 +1,8 @@
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
-from gdsfactory.difftest import difftest
 import gdsfactory.samples.all_angle_routing as aar_samples
+from gdsfactory.difftest import difftest
 from gdsfactory.pdk import get_active_pdk
 
 AAR_YAML_PICS = aar_samples.get_yaml_pics()

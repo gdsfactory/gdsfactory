@@ -6,10 +6,9 @@ from __future__ import annotations
 
 import numbers
 from collections import defaultdict
-from typing import Dict, List, Optional, Tuple, Union
 
-import shapely as sp
 import numpy as np
+import shapely as sp
 from gdstk import Label as _Label
 from gdstk import Polygon
 from numpy import cos, pi, sin
@@ -23,13 +22,13 @@ class Label(_Label):
 
 def get_polygons(
     instance,
-    by_spec: Union[bool, Tuple[int, int]] = False,
-    depth: Optional[int] = None,
+    by_spec: bool | tuple[int, int] = False,
+    depth: int | None = None,
     include_paths: bool = True,
     as_array: bool = True,
     as_shapely: bool = False,
     as_shapely_merged: bool = False,
-) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
+) -> list[Polygon] | dict[tuple[int, int], list[Polygon]]:
     """Return a list of polygons in this cell.
 
     Args:
@@ -371,7 +370,7 @@ class Group(_GeometryHelper):
         elif element is None:
             return self
         elif isinstance(
-            element, (Component, ComponentReference, Polygon, Label, Group)
+            element, Component | ComponentReference | Polygon | Label | Group
         ):
             self.elements.append(element)
         else:
@@ -545,7 +544,7 @@ def _is_iterable(items):
     Args:
         items: any Item to check for iterability.
     """
-    return isinstance(items, (list, tuple, set, np.ndarray))
+    return isinstance(items, list | tuple | set | np.ndarray)
 
 
 def _parse_coordinate(c):

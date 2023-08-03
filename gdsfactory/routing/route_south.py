@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, List, Optional, Tuple
+from collections.abc import Callable
 
 import numpy as np
 
@@ -19,15 +19,15 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Number, Routes, 
 def route_south(
     component: Component,
     optical_routing_type: int = 1,
-    excluded_ports: Optional[Tuple[str, ...]] = None,
+    excluded_ports: tuple[str, ...] | None = None,
     straight_separation: Number = 4.0,
-    io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
+    io_gratings_lines: list[list[ComponentReference]] | None = None,
     gc_port_name: str = "o1",
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    taper: Optional[ComponentSpec] = taper_function,
+    taper: ComponentSpec | None = taper_function,
     select_ports: Callable = select_ports_optical,
-    port_names: Optional[Strs] = None,
+    port_names: Strs | None = None,
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Routes:

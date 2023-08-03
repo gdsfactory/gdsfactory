@@ -5,7 +5,7 @@ from numpy import cos, pi, sin
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpec, Optional
+from gdsfactory.typings import LayerSpec
 
 
 @gf.cell
@@ -14,7 +14,7 @@ def ring(
     width: float = 0.5,
     angle_resolution: float = 2.5,
     layer: LayerSpec = "WG",
-    angle: Optional[float] = 360,
+    angle: float | None = 360,
 ) -> Component:
     """Returns a ring.
 

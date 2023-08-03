@@ -1,7 +1,6 @@
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.technology import LayerLevel, LayerStack
-
-from gdsfactory.technology.processes import Etch, ImplantPhysical, Anneal
+from gdsfactory.technology.processes import Anneal, Etch, ImplantPhysical
 
 nm = 1e-3
 
@@ -83,7 +82,7 @@ def get_layer_stack(
             thickness=substrate_thickness,
             zmin=-substrate_thickness - box_thickness,
             material="si",
-            mesh_order=99,
+            mesh_order=101,
             background_doping={"concentration": "1E14", "ion": "Boron"},
             orientation="100",
         )
@@ -92,7 +91,7 @@ def get_layer_stack(
             thickness=box_thickness,
             zmin=-box_thickness,
             material="sio2",
-            mesh_order=99,
+            mesh_order=9,
         )
         core = LayerLevel(
             layer=LAYER.WG,
@@ -195,14 +194,14 @@ def get_layer_stack(
             thickness=750e-3,
             zmin=zmin_heater,
             material="TiN",
-            mesh_order=1,
+            mesh_order=2,
         )
         via1 = LayerLevel(
             layer=LAYER.VIA1,
             thickness=zmin_metal2 - (zmin_metal1 + thickness_metal1),
             zmin=zmin_metal1 + thickness_metal1,
             material="Aluminum",
-            mesh_order=2,
+            mesh_order=1,
         )
         metal2 = LayerLevel(
             layer=LAYER.M2,

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import warnings
 from functools import partial
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import numpy as np
 from pydantic import validate_arguments
@@ -19,12 +19,12 @@ from gdsfactory.typings import Anchor, ComponentSpec, Float2, Number
 
 
 def _pack_single_bin(
-    rect_dict: Dict[int, Tuple[Number, Number]],
-    aspect_ratio: Tuple[Number, Number],
-    max_size: Tuple[float, float],
+    rect_dict: dict[int, tuple[Number, Number]],
+    aspect_ratio: tuple[Number, Number],
+    max_size: tuple[float, float],
     sort_by_area: bool,
     density: float,
-) -> Tuple[Dict[int, Tuple[Number, Number, Number, Number]], Dict[Any, Any]]:
+) -> tuple[dict[int, tuple[Number, Number, Number, Number]], dict[Any, Any]]:
     """Packs a dict of rectangles {id:(w,h)} and tries to.
 
     Pack it into a bin as small as possible with aspect ratio `aspect_ratio`
@@ -92,26 +92,26 @@ def _pack_single_bin(
 
 @validate_arguments
 def pack(
-    component_list: List[ComponentSpec],
+    component_list: list[ComponentSpec],
     spacing: float = 10.0,
     aspect_ratio: Float2 = (1.0, 1.0),
-    max_size: Tuple[Optional[float], Optional[float]] = (None, None),
+    max_size: tuple[float | None, float | None] = (None, None),
     sort_by_area: bool = True,
     density: float = 1.1,
     precision: float = 1e-2,
-    text: Optional[ComponentSpec] = None,
+    text: ComponentSpec | None = None,
     text_prefix: str = "",
     text_mirror: bool = False,
     text_rotation: int = 0,
-    text_offsets: Tuple[Float2, ...] = ((0, 0),),
-    text_anchors: Tuple[Anchor, ...] = ("cc",),
-    name_prefix: Optional[str] = None,
+    text_offsets: tuple[Float2, ...] = ((0, 0),),
+    text_anchors: tuple[Anchor, ...] = ("cc",),
+    name_prefix: str | None = None,
     rotation: int = 0,
     h_mirror: bool = False,
     v_mirror: bool = False,
     add_ports_prefix: bool = True,
     add_ports_suffix: bool = False,
-) -> List[Component]:
+) -> list[Component]:
     """Pack a list of components into as few Components as possible.
 
     Args:

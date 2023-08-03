@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional, Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -17,10 +16,10 @@ LINE_LENGTH = 420.0
 
 @cell
 def cdsem_straight(
-    widths: Tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
+    widths: tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
     length: float = LINE_LENGTH,
     cross_section: CrossSectionSpec = "strip",
-    text: Optional[ComponentSpec] = text_rectangular_mini,
+    text: ComponentSpec | None = text_rectangular_mini,
     spacing: float = 5,
 ) -> Component:
     """Returns straight waveguide lines width sweep.

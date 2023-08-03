@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional, Tuple
-
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -15,7 +13,7 @@ def align_wafer(
     spacing: float = 10.0,
     cross_length: float = 80.0,
     layer: LayerSpec = "WG",
-    layer_cladding: Optional[Tuple[int, int]] = None,
+    layer_cladding: tuple[int, int] | None = None,
     square_corner: str = "bottom_left",
 ) -> Component:
     """Returns cross inside a frame to align wafer.

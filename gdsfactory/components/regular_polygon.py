@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import gdstk
 import numpy as np
 
@@ -15,7 +13,7 @@ def regular_polygon(
     sides: int = 6,
     side_length: float = 10,
     layer: LayerSpec = "WG",
-    port_type: Optional[str] = "placement",
+    port_type: str | None = "placement",
 ) -> Component:
     """Returns a regular N-sided polygon, with ports on each edge.
 

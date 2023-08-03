@@ -1,6 +1,6 @@
+import xml.dom.minidom
 import xml.etree.ElementTree as ET
 from xml.dom.minidom import Node
-import xml.dom.minidom
 
 
 def _strip_xml(node) -> None:

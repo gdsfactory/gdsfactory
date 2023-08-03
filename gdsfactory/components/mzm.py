@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -25,7 +24,7 @@ def mzm(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     splitter: ComponentSpec = "mmi1x2",
-    combiner: Optional[ComponentSpec] = "mmi1x2",
+    combiner: ComponentSpec | None = "mmi1x2",
     with_splitter: bool = True,
     port_e1_splitter: str = "o2",
     port_e0_splitter: str = "o3",

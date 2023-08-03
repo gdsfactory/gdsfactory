@@ -43,8 +43,8 @@
 # Lets see how it works.
 
 # +
-from gdsfactory.cell import print_cache
 import gdsfactory as gf
+from gdsfactory.cell import print_cache
 
 gf.config.rich_output()
 

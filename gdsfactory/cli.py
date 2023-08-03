@@ -3,14 +3,12 @@
 from __future__ import annotations
 
 import pathlib
-from typing import Optional
 
 from click.core import Context, Option
 
 import gdsfactory
-from gdsfactory.config import cwd, print_config
+from gdsfactory.config import cwd, print_config, print_version_pdks, print_version_raw
 from gdsfactory.config import print_version as _print_version
-from gdsfactory.config import print_version_pdks, print_version_raw
 from gdsfactory.generic_tech import LAYER
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.technology import lyp_to_dataclass
@@ -22,7 +20,7 @@ try:
 except ImportError:
     import click
 
-VERSION = "6.115.0"
+VERSION = "7.0.2"
 LAYER_LABEL = LAYER.LABEL
 
 
@@ -86,9 +84,7 @@ def write_cells(gdspath, dirpath) -> None:
 @click.command(name="merge_gds")
 @click.argument("dirpath", required=False, default=None)
 @click.argument("gdspath", required=False, default=None)
-def merge_gds(
-    dirpath: Optional[PathType] = None, gdspath: Optional[PathType] = None
-) -> None:
+def merge_gds(dirpath: PathType | None = None, gdspath: PathType | None = None) -> None:
     """Merges GDS cells from a directory into a single GDS."""
     dirpath = dirpath or pathlib.Path.cwd()
     gdspath = gdspath or pathlib.Path.cwd() / "merged.gds"
@@ -137,8 +133,7 @@ def web(
     import os
 
     import uvicorn
-
-    from gdsfactory.plugins.web.main import app
+    from gplugins.web.main import app
 
     os.environ["PDK"] = pdk
 

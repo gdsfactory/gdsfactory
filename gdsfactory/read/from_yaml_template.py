@@ -1,16 +1,18 @@
 import pathlib
+from collections.abc import Callable, Iterable
 from inspect import Parameter, Signature, signature
 from io import IOBase
-from typing import IO, Any, Callable, Dict, Iterable, Optional, Tuple, Union
-from gdsfactory.component import Component
+from typing import IO, Any
 
 import jinja2
 import yaml
 
+from gdsfactory.component import Component
+
 __all__ = ["cell_from_yaml_template"]
 
 
-def split_default_settings_from_yaml(yaml_lines: Iterable[str]) -> Tuple[str, str]:
+def split_default_settings_from_yaml(yaml_lines: Iterable[str]) -> tuple[str, str]:
     """Separates out the 'default_settings' block from the rest of the file body.
     Note: 'default settings' MUST be at the TOP of the file.
 
@@ -60,9 +62,9 @@ def _split_yaml_definition(subpic_yaml):
 
 
 def cell_from_yaml_template(
-    filename: Union[str, IO[Any], pathlib.Path],
+    filename: str | IO[Any] | pathlib.Path,
     name: str,
-    routing_strategy: Optional[Dict[str, Callable]] = None,
+    routing_strategy: dict[str, Callable] | None = None,
 ) -> Callable:
     """Gets a PIC factory function from a yaml definition, which can optionally be a jinja template.
 

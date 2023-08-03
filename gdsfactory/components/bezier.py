@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import numpy as np
 from numpy import ndarray
 
@@ -37,8 +35,8 @@ def bezier(
     control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 2.0), (10.0, 2.0)),
     npoints: int = 201,
     with_manhattan_facing_angles: bool = True,
-    start_angle: Optional[int] = None,
-    end_angle: Optional[int] = None,
+    start_angle: int | None = None,
+    end_angle: int | None = None,
     cross_section: CrossSectionSpec = "strip",
     with_bbox: bool = True,
     **kwargs,

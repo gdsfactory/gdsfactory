@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -12,9 +10,9 @@ from gdsfactory.typings import Ints, LayerSpec
 def compass(
     size=(4.0, 2.0),
     layer: LayerSpec = "WG",
-    port_type: Optional[str] = "electrical",
+    port_type: str | None = "electrical",
     port_inclusion: float = 0.0,
-    port_orientations: Optional[Ints] = (180, 90, 0, -90),
+    port_orientations: Ints | None = (180, 90, 0, -90),
 ) -> Component:
     """Rectangle with ports on each edge (north, south, east, and west).
 

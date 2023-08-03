@@ -6,7 +6,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import typing
-from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
+from typing import Any, cast
 
 import gdstk
 import numpy as np
@@ -53,7 +53,7 @@ class SizeInfo:
 
     def get_rect(
         self, padding=0, padding_w=None, padding_e=None, padding_n=None, padding_s=None
-    ) -> Tuple[Coordinate, Coordinate, Coordinate, Coordinate]:
+    ) -> tuple[Coordinate, Coordinate, Coordinate, Coordinate]:
         w, e, s, n = self.west, self.east, self.south, self.north
 
         padding_n = padding if padding_n is None else padding_n
@@ -69,7 +69,7 @@ class SizeInfo:
         return ((w, s), (e, s), (e, n), (w, n))
 
     @property
-    def rect(self) -> Tuple[Coordinate, Coordinate]:
+    def rect(self) -> tuple[Coordinate, Coordinate]:
         return self.get_rect()
 
     def __str__(self) -> str:
@@ -150,9 +150,9 @@ class ComponentReference(_GeometryHelper):
         columns: int = 1,
         rows: int = 1,
         spacing=None,
-        name: Optional[str] = None,
-        v1: Optional[Tuple[float, float]] = None,
-        v2: Optional[Tuple[float, float]] = None,
+        name: str | None = None,
+        v1: tuple[float, float] | None = None,
+        v2: tuple[float, float] | None = None,
     ) -> None:
         """Initialize the ComponentReference object."""
         self._reference = gdstk.Reference(
@@ -184,11 +184,11 @@ class ComponentReference(_GeometryHelper):
         # self.uid = str(uuid.uuid4())[:8]
 
     @property
-    def v1(self) -> Optional[Tuple[float, float]]:
+    def v1(self) -> tuple[float, float] | None:
         return self._reference.repetition.v1
 
     @property
-    def v2(self) -> Optional[Tuple[float, float]]:
+    def v2(self) -> tuple[float, float] | None:
         return self._reference.repetition.v2
 
     @property
@@ -200,7 +200,7 @@ class ComponentReference(_GeometryHelper):
         return self._reference.repetition.columns or 1
 
     @property
-    def spacing(self) -> Optional[Tuple[float, float]]:
+    def spacing(self) -> tuple[float, float] | None:
         return self._reference.repetition.spacing
 
     @property
@@ -261,10 +261,10 @@ class ComponentReference(_GeometryHelper):
     def get_polygon_bbox(
         self,
         default: float = 0.0,
-        top: Optional[float] = None,
-        bottom: Optional[float] = None,
-        right: Optional[float] = None,
-        left: Optional[float] = None,
+        top: float | None = None,
+        bottom: float | None = None,
+        right: float | None = None,
+        left: float | None = None,
     ) -> shapely.Polygon:
         """Returns shapely Polygon with padding.
 
@@ -291,12 +291,12 @@ class ComponentReference(_GeometryHelper):
     def get_polygons(
         self,
         by_spec: bool = False,
-        depth: Optional[int] = None,
+        depth: int | None = None,
         include_paths: bool = True,
         as_array: bool = True,
         as_shapely: bool = False,
         as_shapely_merged: bool = False,
-    ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
+    ) -> list[Polygon] | dict[tuple[int, int], list[Polygon]]:
         """Return the list of polygons created by this reference.
 
         Args:
@@ -361,7 +361,7 @@ class ComponentReference(_GeometryHelper):
         return self._reference.bounding_box()
 
     @property
-    def layers(self) -> Set[Tuple[int, int]]:
+    def layers(self) -> set[tuple[int, int]]:
         return self.parent.layers
 
     @property
@@ -435,9 +435,8 @@ class ComponentReference(_GeometryHelper):
     def __repr__(self) -> str:
         """Return a string representation of the object."""
         return (
-            'ComponentReference (parent Component "%s", ports %s, origin %s, rotation %s,'
-            " x_reflection %s)"
-            % (
+            'ComponentReference (parent Component "{}", ports {}, origin {}, rotation {},'
+            " x_reflection {})".format(
                 self.parent.name,
                 list(self.ports.keys()),
                 self.origin,
@@ -489,7 +488,7 @@ class ComponentReference(_GeometryHelper):
         return self.ports[key]
 
     @property
-    def ports(self) -> Dict[str, Port]:
+    def ports(self) -> dict[str, Port]:
         """This property allows you to access myref.ports, and receive a copy.
 
         of the ports dict which is correctly rotated and translated.
@@ -521,11 +520,11 @@ class ComponentReference(_GeometryHelper):
         return self._local_ports
 
     @property
-    def info(self) -> Dict[str, Any]:
+    def info(self) -> dict[str, Any]:
         return self.parent.info
 
     @property
-    def metadata_child(self) -> Dict[str, Any]:
+    def metadata_child(self) -> dict[str, Any]:
         return self.parent.metadata_child
 
     @property
@@ -543,9 +542,9 @@ class ComponentReference(_GeometryHelper):
         point: ndarray,
         orientation: float,
         origin: Coordinate = (0, 0),
-        rotation: Optional[int] = None,
+        rotation: int | None = None,
         x_reflection: bool = False,
-    ) -> Tuple[ndarray, float]:
+    ) -> tuple[ndarray, float]:
         """Apply GDS-type transformation to a port (x_ref)."""
         new_point = np.array(point)
         new_orientation = orientation
@@ -568,7 +567,7 @@ class ComponentReference(_GeometryHelper):
         self,
         point: ndarray,
         origin: Coordinate = (0, 0),
-        rotation: Optional[int] = None,
+        rotation: int | None = None,
         x_reflection: bool = False,
     ) -> ndarray:
         """Apply GDS-type transformation to a point."""
@@ -585,9 +584,9 @@ class ComponentReference(_GeometryHelper):
 
     def move(
         self,
-        origin: Union[Port, Coordinate, str] = (0, 0),
-        destination: Optional[Union[Port, Coordinate, str]] = None,
-        axis: Optional[str] = None,
+        origin: Port | Coordinate | str = (0, 0),
+        destination: Port | Coordinate | str | None = None,
+        axis: str | None = None,
     ) -> ComponentReference:
         """Move the ComponentReference from origin point to destination.
 
@@ -661,7 +660,7 @@ class ComponentReference(_GeometryHelper):
     def rotate(
         self,
         angle: float = 45,
-        center: Union[Coordinate, str, int] = (0.0, 0.0),
+        center: Coordinate | str | int = (0.0, 0.0),
     ) -> ComponentReference:
         """Return rotated ComponentReference.
 
@@ -671,7 +670,7 @@ class ComponentReference(_GeometryHelper):
         """
         if angle == 0:
             return self
-        if isinstance(center, (int, str)):
+        if isinstance(center, int | str):
             center = self.ports[center].center
 
         if isinstance(center, Port):
@@ -683,7 +682,7 @@ class ComponentReference(_GeometryHelper):
         return self
 
     def mirror_x(
-        self, port_name: Optional[str] = None, x0: Optional[Coordinate] = None
+        self, port_name: str | None = None, x0: Coordinate | None = None
     ) -> ComponentReference:
         """Perform horizontal mirror using x0 or port as axis (default, x0=0).
 
@@ -699,7 +698,7 @@ class ComponentReference(_GeometryHelper):
         return self
 
     def mirror_y(
-        self, port_name: Optional[str] = None, y0: Optional[float] = None
+        self, port_name: str | None = None, y0: float | None = None
     ) -> ComponentReference:
         """Perform vertical mirror using y0 as axis (default, y0=0)."""
         if port_name is None and y0 is None:
@@ -753,7 +752,7 @@ class ComponentReference(_GeometryHelper):
 
     def connect(
         self,
-        port: Union[str, Port],
+        port: str | Port,
         destination: Port,
         overlap: float = 0.0,
         preserve_orientation: bool = False,
@@ -805,7 +804,7 @@ class ComponentReference(_GeometryHelper):
 
         return self
 
-    def get_ports_list(self, **kwargs) -> List[Port]:
+    def get_ports_list(self, **kwargs) -> list[Port]:
         """Return a list of ports.
 
         Keyword Args:
@@ -819,7 +818,7 @@ class ComponentReference(_GeometryHelper):
         """
         return list(select_ports(self.ports, **kwargs).values())
 
-    def get_ports_dict(self, **kwargs) -> Dict[str, Port]:
+    def get_ports_dict(self, **kwargs) -> dict[str, Port]:
         """Return a dict of ports.
 
         Keyword Args:
@@ -834,7 +833,7 @@ class ComponentReference(_GeometryHelper):
         return select_ports(self.ports, **kwargs)
 
     @property
-    def ports_layer(self) -> Dict[str, str]:
+    def ports_layer(self) -> dict[str, str]:
         """Return a mapping from layer0_layer1_E0: portName."""
         return map_ports_layer_to_orientation(self.ports)
 

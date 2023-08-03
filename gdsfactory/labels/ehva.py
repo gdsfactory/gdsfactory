@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Dict, List, Optional, Tuple
 
 import flatdict
 import pydantic
@@ -13,7 +12,7 @@ from gdsfactory.typings import Layer
 
 
 class Dft(pydantic.BaseModel):
-    pad_size: Tuple[int, int] = (100, 100)
+    pad_size: tuple[int, int] = (100, 100)
     pad_pitch: int = 125
     pad_width: int = 100
     pad_gc_spacing_opposed: int = 500
@@ -44,11 +43,11 @@ prefix_to_type_default = {
 def add_label_ehva(
     component: gf.Component,
     die: str = "demo",
-    prefix_to_type: Dict[str, str] = prefix_to_type_default,
+    prefix_to_type: dict[str, str] = prefix_to_type_default,
     layer: Layer = (66, 0),
-    metadata_ignore: Optional[List[str]] = None,
-    metadata_include_parent: Optional[List[str]] = None,
-    metadata_include_child: Optional[List[str]] = None,
+    metadata_ignore: list[str] | None = None,
+    metadata_include_parent: list[str] | None = None,
+    metadata_include_child: list[str] | None = None,
 ) -> gf.Component:
     """Returns Component with measurement labels.
 
@@ -77,7 +76,7 @@ CIRCUIT NAME:{component.name}
         info += [
             f"CIRCUITINFO NAME: {k}, VALUE: {v}"
             for k, v in metadata.items()
-            if k not in metadata_ignore and isinstance(v, (int, float, str))
+            if k not in metadata_ignore and isinstance(v, int | float | str)
         ]
 
     metadata = flatdict.FlatDict(component.metadata["full"])

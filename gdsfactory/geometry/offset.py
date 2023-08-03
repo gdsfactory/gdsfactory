@@ -59,9 +59,9 @@ def offset(
         elements = [elements]
     polygons_to_offset = []
     for e in elements:
-        if isinstance(e, (Component, ComponentReference)):
+        if isinstance(e, Component | ComponentReference):
             polygons_to_offset += e.get_polygons(by_spec=False)
-        elif isinstance(e, (Polygon, gdstk.Polygon)):
+        elif isinstance(e, Polygon | gdstk.Polygon):
             polygons_to_offset.append(e)
     if len(polygons_to_offset) == 0:
         return gf.Component("offset")

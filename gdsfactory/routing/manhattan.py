@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import uuid
 import warnings
+from collections.abc import Callable
 from functools import partial
-from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import gdstk
 import numpy as np
@@ -51,10 +51,10 @@ def sign(x: float) -> int:
 
 
 def _get_unique_port_facing(
-    ports: Dict[str, Port],
+    ports: dict[str, Port],
     orientation: float = 0,
-    layer: Union[LayerSpec, LayerSpecs] = (1, 0),
-) -> List[Port]:
+    layer: LayerSpec | LayerSpecs = (1, 0),
+) -> list[Port]:
     """Ensures there is only one port."""
     ports_selected = []
     if isinstance(layer, list):
@@ -86,8 +86,8 @@ def _get_unique_port_facing(
 def _get_bend_ports(
     bend: Component,
     orientation: float = 0,
-    layer: Union[LayerSpec, LayerSpecs] = (1, 0),
-) -> List[Port]:
+    layer: LayerSpec | LayerSpecs = (1, 0),
+) -> list[Port]:
     """Returns West and North facing ports for bend.
 
     Any standard bend/corner has two ports: one facing west and one
@@ -104,8 +104,8 @@ def _get_bend_ports(
 
 def _get_straight_ports(
     straight: Component,
-    layer: Tuple[int, int] = (1, 0),
-) -> List[Port]:
+    layer: tuple[int, int] = (1, 0),
+) -> list[Port]:
     """Return West and east facing ports for straight waveguide.
 
     Any standard straight wire/straight has two ports: one facing west
@@ -424,8 +424,8 @@ def _get_bend_reference_parameters(
     p1: ndarray,
     p2: ndarray,
     bend_cell: Component,
-    port_layer: Union[LayerSpec, List[LayerSpec]],
-) -> Tuple[ndarray, int, bool]:
+    port_layer: LayerSpec | list[LayerSpec],
+) -> tuple[ndarray, int, bool]:
     """Returns bend reference settings.
 
     Args:
@@ -531,11 +531,11 @@ def remove_flat_angles(points: ndarray) -> ndarray:
 
 def get_route_error(
     points,
-    cross_section: Optional[CrossSection] = None,
+    cross_section: CrossSection | None = None,
     layer_path: LayerSpec = (208, 0),
     layer_label: LayerSpec = (66, 0),
     layer_marker: LayerSpec = (207, 0),
-    references: Optional[List[ComponentReference]] = None,
+    references: list[ComponentReference] | None = None,
     with_sbend: bool = False,
 ) -> Route:
     """Returns route with error markers.
@@ -597,11 +597,11 @@ def round_corners(
     points: Coordinates,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
-    taper: Optional[ComponentSpec] = None,
-    straight_fall_back_no_taper: Optional[ComponentSpec] = None,
+    taper: ComponentSpec | None = None,
+    straight_fall_back_no_taper: ComponentSpec | None = None,
     mirror_straight: bool = False,
-    straight_ports: Optional[List[str]] = None,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
+    straight_ports: list[str] | None = None,
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     on_route_error: Callable = get_route_error,
     with_point_markers: bool = False,
     with_sbend: bool = False,
@@ -936,11 +936,11 @@ def round_corners(
 def generate_manhattan_waypoints(
     input_port: Port,
     output_port: Port,
-    start_straight_length: Optional[float] = None,
-    end_straight_length: Optional[float] = None,
-    min_straight_length: Optional[float] = None,
+    start_straight_length: float | None = None,
+    end_straight_length: float | None = None,
+    min_straight_length: float | None = None,
     bend: ComponentSpec = bend_euler,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     **kwargs,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports.
@@ -965,7 +965,7 @@ def generate_manhattan_waypoints(
         else gf.get_component(bend, cross_section=cross_section, **kwargs)
     )
 
-    if isinstance(cross_section, (tuple, list)):
+    if isinstance(cross_section, tuple | list):
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
         start_straight_length = start_straight_length or min(_x.min_length for _x in x)
         end_straight_length = end_straight_length or min(_x.min_length for _x in x)
@@ -999,13 +999,13 @@ def route_manhattan(
     input_port: Port,
     output_port: Port,
     straight: ComponentSpec = straight_function,
-    taper: Optional[ComponentSpec] = None,
-    start_straight_length: Optional[float] = None,
-    end_straight_length: Optional[float] = None,
-    min_straight_length: Optional[float] = None,
+    taper: ComponentSpec | None = None,
+    start_straight_length: float | None = None,
+    end_straight_length: float | None = None,
+    min_straight_length: float | None = None,
     bend: ComponentSpec = bend_euler,
     with_sbend: bool = True,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     with_point_markers: bool = False,
     on_route_error: Callable = get_route_error,
     **kwargs,
@@ -1030,7 +1030,7 @@ def route_manhattan(
         kwargs: cross_section settings.
 
     """
-    if isinstance(cross_section, (tuple, list)):
+    if isinstance(cross_section, tuple | list):
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
         start_straight_length = start_straight_length or min(_x.min_length for _x in x)
         end_straight_length = end_straight_length or min(_x.min_length for _x in x)

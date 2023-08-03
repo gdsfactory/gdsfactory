@@ -13,9 +13,8 @@ modules:
 
     - c: components
     - routing
-
-isort:skip_file
 """
+# isort: skip_file
 from __future__ import annotations
 from functools import partial
 from toolz import compose
@@ -147,4 +146,6 @@ __all__ = (
     "xsection",
     "PATH",
 )
-__version__ = "6.115.0"
+
+
+__version__ = "7.0.2"

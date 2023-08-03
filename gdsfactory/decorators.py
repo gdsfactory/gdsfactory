@@ -2,14 +2,11 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.snap import is_on_grid
-from gdsfactory.typings import Component, ComponentReference, Optional
-import inspect
-import itertools as it
-from collections import deque
+from gdsfactory.typings import Component, ComponentReference
 
 
 def is_valid_transformation(
-    ref: ComponentReference, grid_size: Optional[float] = None
+    ref: ComponentReference, grid_size: float | None = None
 ) -> bool:
     """Returns True if the component has valid transformations.
 
@@ -33,7 +30,7 @@ def has_valid_transformations(component: Component) -> bool:
     return all(is_valid_transformation(ref) for ref in refs)
 
 
-def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None):
+def flatten_invalid_refs(component: Component, grid_size: float | None = None):
     """Flattens component references which have invalid transformations.
 
     (i.e. non-90 deg rotations or sub-grid translations).
@@ -55,7 +52,7 @@ def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None
     return component
 
 
-def is_invalid_ref(ref, grid_size: Optional[float] = None) -> bool:
+def is_invalid_ref(ref, grid_size: float | None = None) -> bool:
     from gdsfactory.pdk import get_grid_size
 
     grid_size = grid_size or get_grid_size()
@@ -63,42 +60,6 @@ def is_invalid_ref(ref, grid_size: Optional[float] = None) -> bool:
     origin_is_on_grid = all(is_on_grid(x, nm) for x in ref.origin)
     rotation_is_regular = ref.rotation is None or ref.rotation % 90 == 0
     return not origin_is_on_grid or not rotation_is_regular
-
-
-def defaultsfrom(funcOrClass):
-    """Return a decorator d so that d(func) updates func's default arguments.
-
-    From https://code.activestate.com/recipes/440702-reusing-default-function-arguments/
-    """
-
-    def decorator(newfunc):
-        if inspect.isclass(funcOrClass):
-            func = getattr(funcOrClass, newfunc.__name__)
-        else:
-            func = funcOrClass
-        args, _, _, defaults = inspect.getargspec(func)
-        # map each default argument of func to its value
-        arg2default = dict(zip(args[-len(defaults) :], defaults))
-        newargs, _, _, newdefaults = inspect.getargspec(newfunc)
-        if newdefaults is None:
-            newdefaults = ()
-        nondefaults = newargs[: len(newargs) - len(newdefaults)]
-        # starting from the last non-default argument towards the first, as
-        # long as the non-defaults of newfunc are default in func, make them
-        # default in newfunc too
-        iter_nondefaults = reversed(nondefaults)
-        newdefaults = deque(newdefaults)
-        for arg in it.takewhile(arg2default.__contains__, iter_nondefaults):
-            newdefaults.appendleft(arg2default[arg])
-        # all inherited defaults should be placed together; no gaps allowed
-        for _ in it.ifilter(arg2default.__contains__, iter_nondefaults):
-            raise TypeError(
-                "%s cannot inherit the default arguments of " "%s" % (newfunc, func)
-            )
-        newfunc.func_defaults = tuple(newdefaults)
-        return newfunc
-
-    return decorator
 
 
 @gf.cell

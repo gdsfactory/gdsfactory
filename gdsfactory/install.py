@@ -6,7 +6,7 @@ import os
 import pathlib
 import shutil
 import sys
-from typing import Optional
+
 from gdsfactory.config import PATH
 
 home = pathlib.Path.home()
@@ -138,7 +138,7 @@ def install_klayout_package() -> None:
 
 
 def install_klayout_technology(
-    tech_dir: pathlib.Path, tech_name: Optional[str] = None
+    tech_dir: pathlib.Path, tech_name: str | None = None
 ) -> None:
     """Install technology to KLayout."""
     _install_to_klayout(

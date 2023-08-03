@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -27,7 +25,7 @@ def mzit(
     taper_length: float = 5.0,
     bend90: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    coupler1: Optional[ComponentSpec] = coupler_function,
+    coupler1: ComponentSpec | None = coupler_function,
     coupler2: ComponentSpec = coupler_function,
     **kwargs,
 ) -> Component:

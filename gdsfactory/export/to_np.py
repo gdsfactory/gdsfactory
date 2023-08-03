@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import numpy as np
 
 from gdsfactory.component import Component
@@ -12,7 +10,7 @@ def to_np(
     component: Component,
     nm_per_pixel: int = 20,
     layers: Layers = ((1, 0),),
-    values: Optional[Floats] = None,
+    values: Floats | None = None,
     pad_width: int = 1,
 ) -> np.ndarray:
     """Returns a pixelated numpy array from Component polygons.

@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple
-
 import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.typings import CrossSectionSpec
@@ -9,7 +7,7 @@ from gdsfactory.typings import CrossSectionSpec
 
 def _generate_fins(
     c: Component,
-    fin_size: Tuple[float, float],
+    fin_size: tuple[float, float],
     taper_length: float,
     length: float,
     xs: CrossSectionSpec,
@@ -61,7 +59,7 @@ def dbr_tapered(
     w2: float = 1.0,
     taper_length: float = 20.0,
     fins: bool = False,
-    fin_size: Tuple[float, float] = (0.2, 0.05),
+    fin_size: tuple[float, float] = (0.2, 0.05),
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:

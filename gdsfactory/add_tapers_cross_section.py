@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, Optional
+from collections.abc import Callable
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -15,7 +15,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def add_tapers(
     component: Component,
     taper: ComponentSpec = taper_cross_section,
-    select_ports: Optional[Callable] = select_ports_optical,
+    select_ports: Callable | None = select_ports_optical,
     taper_port_name1: str = "o1",
     taper_port_name2: str = "o2",
     cross_section2: CrossSectionSpec = strip,

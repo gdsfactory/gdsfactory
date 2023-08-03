@@ -4,9 +4,10 @@ from __future__ import annotations
 import functools
 import hashlib
 import inspect
+from collections.abc import Callable
 from dataclasses import dataclass
 from functools import wraps
-from typing import Any, Callable, Dict, Optional, Tuple, Type, TypeVar
+from typing import Any, TypeVar
 
 import toolz
 from pydantic import BaseModel, validate_arguments
@@ -15,7 +16,7 @@ from gdsfactory.component import Component
 from gdsfactory.name import clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
-CACHE: Dict[str, Component] = {}
+CACHE: dict[str, Component] = {}
 
 INFO_VERSION = 2
 
@@ -51,17 +52,17 @@ def get_source_code(func: Callable) -> str:
 
 class Settings(BaseModel):
     name: str
-    function_name: Optional[str] = None
-    module: Optional[str] = None
+    function_name: str | None = None
+    module: str | None = None
 
-    info: Dict[str, Any] = {}  # derived properties (length, resistance)
+    info: dict[str, Any] = {}  # derived properties (length, resistance)
     info_version: int = INFO_VERSION
 
-    full: Dict[str, Any] = {}
-    changed: Dict[str, Any] = {}
-    default: Dict[str, Any] = {}
+    full: dict[str, Any] = {}
+    changed: dict[str, Any] = {}
+    default: dict[str, Any] = {}
 
-    child: Optional[Dict[str, Any]] = None
+    child: dict[str, Any] | None = None
 
 
 def cell_without_validator(func: _F) -> _F:
@@ -309,7 +310,7 @@ def cell(func: _F) -> _F:
     return cell_without_validator(validate_arguments(func))
 
 
-def declarative_cell(cls: Type[Any]) -> Callable[..., Component]:
+def declarative_cell(cls: type[Any]) -> Callable[..., Component]:
     """
     TODO:
 
@@ -357,7 +358,7 @@ def declarative_cell(cls: Type[Any]) -> Callable[..., Component]:
 
 
 @cell
-def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
+def wg(length: int = 3, layer: tuple[int, int] = (1, 0)) -> Component:
     """Dummy component for testing."""
     c = Component()
     width = 0.5

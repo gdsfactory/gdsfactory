@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import numpy as np
 
 import gdsfactory as gf
@@ -23,7 +21,7 @@ def grating_coupler_rectangular_arbitrary_slab(
     polarization: str = "te",
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_strip_to_slab150,
-    layer_slab: Optional[LayerSpec] = "SLAB150",
+    layer_slab: LayerSpec | None = "SLAB150",
     slab_offset: float = 2.0,
     fiber_angle: float = 15,
     cross_section: CrossSectionSpec = "strip",

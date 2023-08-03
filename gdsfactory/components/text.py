@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple
-
 import numpy as np
 
 import gdsfactory as gf
@@ -68,7 +66,7 @@ def text(
 
 @gf.cell
 def text_lines(
-    text: Tuple[str, ...] = ("Chip", "01"),
+    text: tuple[str, ...] = ("Chip", "01"),
     size: float = 0.4,
     layer: LayerSpec = "WG",
 ) -> Component:

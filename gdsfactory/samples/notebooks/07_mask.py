@@ -6,7 +6,7 @@
 #
 # To measure your reticle / die after fabrication you need to decide your test configurations. This includes things like:
 #
-# - `Individual input and output fibers` versus `fiber array`. We recommend `fiber array` for easier testing and higher throughtput, but also understand the flexibility of single fibers.
+# - `Individual input and output fibers` versus `fiber array`. We recommend `fiber array` for easier testing and higher throughput, but also understand the flexibility of single fibers.
 # - Fiber array pitch (127um or 250um) if using a fiber array.
 # - Pad pitch for DC and RF high speed probes (100, 125, 150, 200um). Probe configuration (GSG, GS ...)
 # - Test layout for DC, RF and optical fibers.
@@ -25,14 +25,15 @@
 # Labels follow format `opt_in_{polarization}_{wavelength}_device_{username}_({component_name})-{gc_index}-{port.name}`
 
 # +
-import ipywidgets
 from functools import partial
+
+import ipywidgets
 from IPython.display import display
 from omegaconf import OmegaConf
 
-from gdsfactory.labels import add_label_ehva
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
+from gdsfactory.labels import add_label_ehva
 
 gf.config.rich_output()
 PDK = get_generic_pdk()
@@ -445,6 +446,7 @@ Code(metadata)
 # +
 import pandas as pd
 from omegaconf import OmegaConf
+
 import gdsfactory as gf
 
 

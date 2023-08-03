@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.typings import Component, ComponentSpec, Optional, Tuple
+from gdsfactory.typings import Component, ComponentSpec
 
 _cols_200mm_wafer = (2, 6, 6, 8, 8, 6, 6, 2)
 
@@ -9,9 +9,9 @@ _cols_200mm_wafer = (2, 6, 6, 8, 8, 6, 6, 2)
 @gf.cell
 def wafer(
     reticle: ComponentSpec = "die",
-    cols: Tuple[int, ...] = _cols_200mm_wafer,
-    xspacing: Optional[float] = None,
-    yspacing: Optional[float] = None,
+    cols: tuple[int, ...] = _cols_200mm_wafer,
+    xspacing: float | None = None,
+    yspacing: float | None = None,
 ) -> Component:
     """Returns complete wafer. Useful for mask aligner steps.
 

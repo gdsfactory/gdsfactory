@@ -5,7 +5,6 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import itertools
-from typing import List, Optional, Tuple, Union
 
 import gdstk
 import numpy as np
@@ -156,12 +155,12 @@ def fill_rectangle(
     component: ComponentOrReference,
     fill_layers: LayerSpecs,
     fill_size=(5.0, 5.0),
-    avoid_layers: Optional[LayerSpecs] = None,
-    include_layers: Optional[LayerSpecs] = None,
+    avoid_layers: LayerSpecs | None = None,
+    include_layers: LayerSpecs | None = None,
     margin: float = 5.0,
-    fill_densities: Union[float, Floats] = (0.5, 0.25, 0.7),
-    fill_inverted: Optional[List[float]] = None,
-    bbox: Optional[object] = None,
+    fill_densities: float | Floats = (0.5, 0.25, 0.7),
+    fill_inverted: list[float] | None = None,
+    bbox: object | None = None,
 ) -> Component:
     """Returns rectangular fill pattern and fills all empty areas.
 
@@ -260,10 +259,10 @@ def fill_rectangle(
 def fill_rectangle_custom(
     component: Component,
     fill_cell: ComponentSpec,
-    spacing: Tuple[float, float],
-    avoid_layers: Optional[LayerSpecs] = None,
+    spacing: tuple[float, float],
+    avoid_layers: LayerSpecs | None = None,
     margin: float = 5.0,
-    bbox: Optional[object] = None,
+    bbox: object | None = None,
 ) -> Component:
     """Returns custom fill pattern to fill all empty areas.
 

@@ -7,9 +7,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.14.6
 #   kernelspec:
-#     display_name: base
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
@@ -29,14 +29,15 @@
 # 3. Preferred routing cross-sections defined for the all-angle router.
 
 # %%
-from gdsfactory.decorators import has_valid_transformations
-import gdsfactory as gf
-from gdsfactory.generic_tech import get_generic_pdk
 from functools import partial
-from gdsfactory.cross_section import strip, rib_conformal
-from gdsfactory.typings import CrossSectionSpec
-from gdsfactory.routing import all_angle
+
+import gdsfactory as gf
+from gdsfactory.cross_section import rib_conformal, strip
+from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read import cell_from_yaml_template
+from gdsfactory.route_info import route_info
+from gdsfactory.routing import all_angle
+from gdsfactory.typings import CrossSectionSpec
 
 gf.clear_cache()
 gf.config.rich_output()
@@ -75,14 +76,18 @@ def strip_to_rib(width1: float = 0.5, width2: float = 0.5):
         port=taper.ports["o1"],
         layer="STRIP_INTENT",
         cross_section=strip_with_intent(width=width1),
+        width=width1,
     )
     c.add_port(
         "o2",
         port=taper.ports["o2"],
         layer="RIB_INTENT",
         cross_section=rib_with_intent(width=width2),
+        width=width2,
     )
+    c.absorb(taper)
     c.info.update(taper.info)
+    c.info["route_info"] = route_info("r2s", length=c.info["length"])
     return c
 
 
@@ -165,10 +170,11 @@ c.plot()
 # we will see rib routing anywhere there is enough space to transition.
 
 # %%
-from gdsfactory.read import cell_from_yaml_template
-from IPython.display import Code
 from pathlib import Path
-from IPython.display import display
+
+from IPython.display import Code, display
+
+from gdsfactory.read import cell_from_yaml_template
 
 
 def show_yaml_pic(filepath):
@@ -197,6 +203,8 @@ c.plot()
 # Notice how the strip waveguide bundles are much more tightly packed than the rib waveguide bundles in the example below.
 
 # %%
+
+# %%
 basic_sample_fn2 = sample_dir / "aar_bundles03.pic.yml"
 show_yaml_pic(basic_sample_fn2)
 
@@ -204,5 +212,3 @@ show_yaml_pic(basic_sample_fn2)
 f = cell_from_yaml_template(basic_sample_fn2, name="sample_transition")
 c = f()
 c.plot()
-
-# %%

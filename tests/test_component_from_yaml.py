@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pprint import pprint
+
 import jsondiff
 import numpy as np
 import pytest

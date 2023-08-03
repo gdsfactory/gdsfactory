@@ -46,14 +46,15 @@ from gdsfactory.components.coh_tx_dual_pol import coh_tx_dual_pol
 from gdsfactory.components.coh_tx_single_pol import coh_tx_single_pol
 from gdsfactory.components.compass import compass
 from gdsfactory.components.component_lattice import component_lattice
+from gdsfactory.components.component_lattice_generic import component_lattice_generic
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.coupler import coupler
-from gdsfactory.components.coupler_bent import coupler_bent
 from gdsfactory.components.coupler90 import coupler90, coupler90circular
 from gdsfactory.components.coupler90bend import coupler90bend
 from gdsfactory.components.coupler_adiabatic import coupler_adiabatic
 from gdsfactory.components.coupler_asymmetric import coupler_asymmetric
+from gdsfactory.components.coupler_bent import coupler_bent
 from gdsfactory.components.coupler_full import coupler_full
 from gdsfactory.components.coupler_ring import coupler_ring, coupler_ring_point
 from gdsfactory.components.coupler_straight import coupler_straight
@@ -109,7 +110,6 @@ from gdsfactory.components.fiducial_squares import fiducial_squares
 from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,
 )
-from gdsfactory.components.component_lattice_generic import component_lattice_generic
 from gdsfactory.components.grating_coupler_array import grating_coupler_array
 from gdsfactory.components.grating_coupler_dual_pol import grating_coupler_dual_pol
 from gdsfactory.components.grating_coupler_elliptical import (
@@ -178,8 +178,8 @@ from gdsfactory.components.mzi_arms import mzi_arms
 from gdsfactory.components.mzi_lattice import mzi_lattice, mzi_lattice_mmi
 from gdsfactory.components.mzi_pads_center import mzi_pads_center
 from gdsfactory.components.mzi_phase_shifter import (
-    mzi_phase_shifter,
     mzi2x2_2x2_phase_shifter,
+    mzi_phase_shifter,
     mzi_phase_shifter_top_heater_metal,
 )
 from gdsfactory.components.mzit import mzit

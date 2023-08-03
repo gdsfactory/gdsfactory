@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple, Union
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
@@ -9,8 +7,8 @@ from gdsfactory.typings import LayerSpec
 
 @gf.cell
 def L(
-    width: Union[int, float] = 1,
-    size: Tuple[int, int] = (10, 20),
+    width: int | float = 1,
+    size: tuple[int, int] = (10, 20),
     layer: LayerSpec = "M3",
     port_type: str = "electrical",
 ) -> Component:

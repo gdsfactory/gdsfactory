@@ -5,9 +5,10 @@ https://openepda.org/index.html
 
 from __future__ import annotations
 
-from typing import IO, Tuple, Optional, List
 import io
 import pathlib
+from typing import IO
+
 from omegaconf import OmegaConf
 
 from gdsfactory.typings import PathType
@@ -15,11 +16,11 @@ from gdsfactory.typings import PathType
 
 def from_updk(
     filepath: PathType,
-    filepath_out: Optional[PathType] = None,
-    layer_bbox: Tuple[int, int] = (68, 0),
-    layer_label: Optional[Tuple[int, int]] = None,
-    optical_xsections: Optional[List[str]] = None,
-    electrical_xsections: Optional[List[str]] = None,
+    filepath_out: PathType | None = None,
+    layer_bbox: tuple[int, int] = (68, 0),
+    layer_label: tuple[int, int] | None = None,
+    optical_xsections: list[str] | None = None,
+    electrical_xsections: list[str] | None = None,
 ) -> str:
     """Read uPDK definition and returns a gdsfactory script.
 
@@ -34,7 +35,7 @@ def from_updk(
     optical_xsections = optical_xsections or []
     electrical_xsections = electrical_xsections or []
 
-    if isinstance(filepath, (str, pathlib.Path, IO)):
+    if isinstance(filepath, str | pathlib.Path | IO):
         filepath = (
             io.StringIO(filepath)
             if isinstance(filepath, str) and "\n" in filepath

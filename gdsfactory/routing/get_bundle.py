@@ -11,8 +11,8 @@ get_bundle calls different function depending on the port orientation.
 """
 from __future__ import annotations
 
+from collections.abc import Callable
 from functools import partial
-from typing import Callable, List, Optional, Union
 
 import numpy as np
 from numpy import ndarray
@@ -42,22 +42,22 @@ from gdsfactory.typings import (
 
 
 def get_bundle(
-    ports1: List[Port],
-    ports2: List[Port],
-    separation: Optional[float] = None,
+    ports1: list[Port],
+    ports2: list[Port],
+    separation: float | None = None,
     extension_length: float = 0.0,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
     with_sbend: bool = False,
     sort_ports: bool = True,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
-    start_straight_length: Optional[float] = None,
-    end_straight_length: Optional[float] = None,
-    path_length_match_loops: Optional[int] = None,
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    start_straight_length: float | None = None,
+    end_straight_length: float | None = None,
+    path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     **kwargs,
-) -> List[Route]:
+) -> list[Route]:
     """Returns list of routes to connect two groups of ports.
 
     Routes connect a bundle of ports with a river router.
@@ -139,7 +139,7 @@ def get_bundle(
     if separation is None:
         xs = (
             gf.get_cross_section(cross_section[0])
-            if isinstance(cross_section, (list, tuple))
+            if isinstance(cross_section, list | tuple)
             else gf.get_cross_section(cross_section)
         )
         separation = xs.width + xs.gap
@@ -254,7 +254,7 @@ def get_bundle(
         raise NotImplementedError("This should never happen")
 
 
-def get_port_width(port: Port) -> Union[float, int]:
+def get_port_width(port: Port) -> float | int:
     return port.width
 
 
@@ -263,7 +263,7 @@ def are_decoupled(
     x1p: float,
     x2: float,
     x2p: float,
-    sep: Union[str, float] = "metal_spacing",
+    sep: str | float = "metal_spacing",
 ) -> bool:
     sep = gf.get_constant(sep)
     if x2p + sep > x1:
@@ -272,19 +272,19 @@ def are_decoupled(
 
 
 def get_bundle_same_axis(
-    ports1: List[Port],
-    ports2: List[Port],
+    ports1: list[Port],
+    ports2: list[Port],
     separation: float = 5.0,
     end_straight_length: float = 0.0,
     start_straight_length: float = 0.0,
     bend: ComponentSpec = bend_euler,
     sort_ports: bool = True,
-    path_length_match_loops: Optional[int] = None,
+    path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     **kwargs,
-) -> List[Route]:
+) -> list[Route]:
     r"""Semi auto-routing for two lists of ports.
 
     Args:
@@ -383,15 +383,15 @@ def get_bundle_same_axis(
 
 
 def _get_bundle_waypoints(
-    ports1: List[Port],
-    ports2: List[Port],
+    ports1: list[Port],
+    ports2: list[Port],
     separation: float = 30,
     end_straight_length: float = 0.0,
     tol: float = 0.00001,
     start_straight_length: float = 0.0,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
-) -> List[ndarray]:
+) -> list[ndarray]:
     """Returns route coordinates List.
 
     Args:
@@ -506,7 +506,7 @@ def _get_bundle_waypoints(
     ]
 
 
-def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> float:
+def compute_ports_max_displacement(ports1: list[Port], ports2: list[Port]) -> float:
     if ports1[0].orientation in [0, 180]:
         a1 = [p.y for p in ports1]
         a2 = [p.y for p in ports2]
@@ -522,8 +522,8 @@ def sign(x: float) -> int:
 
 
 def get_min_spacing(
-    ports1: List[Port],
-    ports2: List[Port],
+    ports1: list[Port],
+    ports2: list[Port],
     sep: float = 5.0,
     radius: float = 5.0,
     sort_ports: bool = True,
@@ -563,16 +563,16 @@ def get_min_spacing(
 
 
 def get_bundle_same_axis_no_grouping(
-    ports1: List[Port],
-    ports2: List[Port],
+    ports1: list[Port],
+    ports2: list[Port],
     sep: float = 5.0,
     route_filter: Callable = get_route,
-    start_straight_length: Optional[float] = None,
-    end_straight_length: Optional[float] = None,
+    start_straight_length: float | None = None,
+    end_straight_length: float | None = None,
     sort_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
-) -> List[Route]:
+) -> list[Route]:
     r"""Returns a list of route elements.
 
     Compared to get_bundle_same_axis, this function does not do any grouping.

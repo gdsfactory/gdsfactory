@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, Optional
+from collections.abc import Callable
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -14,7 +14,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def fanout2x2(
     component: ComponentSpec = straight,
     port_spacing: float = 20.0,
-    bend_length: Optional[float] = None,
+    bend_length: float | None = None,
     npoints: int = 101,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",

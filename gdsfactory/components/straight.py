@@ -4,6 +4,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
+from gdsfactory.route_info import route_info_from_cs
 from gdsfactory.typings import CrossSectionSpec
 
 
@@ -39,6 +40,8 @@ def straight(
     c.info["length"] = length
     c.info["width"] = x.width
     c.info["cross_section"] = cross_section
+
+    c.info["route_info"] = route_info_from_cs(x, length=length)
 
     if x.info:
         c.info.update(x.info)

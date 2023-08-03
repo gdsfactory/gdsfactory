@@ -1,4 +1,4 @@
-name: straight_1dc14831_exten_a87df102
+name: straight_d6abaab6_exten_e9efddae
 ports:
   o1:
     center:
@@ -45,6 +45,8 @@ settings:
             - SLAB90
             bbox_offsets:
             - 3
+            info:
+              type: rib
             name: strip
             radius: 20
     extension:
@@ -69,6 +71,8 @@ settings:
           - SLAB90
           bbox_offsets:
           - 3
+          info:
+            type: rib
           name: strip
           radius: 20
     child: null
@@ -94,6 +98,8 @@ settings:
           - SLAB90
           bbox_offsets:
           - 3
+          info:
+            type: rib
           name: strip
           radius: 20
       length: 10.0
@@ -117,10 +123,17 @@ settings:
           - SLAB90
           bbox_offsets:
           - 3
+          info:
+            type: rib
           name: strip
           radius: 20
       function_name: cross_section
       length: 10.0
+      route_info:
+        length: 10.0
+        rib_length: 10.0
+        type: rib
+        weight: 10.0
       settings:
         add_bbox: null
         add_pins:
@@ -143,7 +156,8 @@ settings:
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
-        info: null
+        info:
+          type: rib
         layer: WG
         min_length: 0.01
         mirror: false
@@ -162,10 +176,11 @@ settings:
         taper_length: 10.0
         width: 0.5
         width_wide: null
+      type: rib
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
-    name: straight_1dc14831
+    name: straight_d6abaab6
   default:
     centered: false
     component:
@@ -199,6 +214,8 @@ settings:
             - SLAB90
             bbox_offsets:
             - 3
+            info:
+              type: rib
             name: strip
             radius: 20
     cross_section: null
@@ -228,10 +245,17 @@ settings:
         - SLAB90
         bbox_offsets:
         - 3
+        info:
+          type: rib
         name: strip
         radius: 20
     function_name: cross_section
     length: 10.0
+    route_info:
+      length: 10.0
+      rib_length: 10.0
+      type: rib
+      weight: 10.0
     settings:
       add_bbox: null
       add_pins:
@@ -254,7 +278,8 @@ settings:
       decorator: null
       end_straight_length: 0.01
       gap: 3.0
-      info: null
+      info:
+        type: rib
       layer: WG
       min_length: 0.01
       mirror: false
@@ -273,7 +298,8 @@ settings:
       taper_length: 10.0
       width: 0.5
       width_wide: null
+    type: rib
     width: 0.5
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_1dc14831_exten_a87df102
+  name: straight_d6abaab6_exten_e9efddae

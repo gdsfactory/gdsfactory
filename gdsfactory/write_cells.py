@@ -5,7 +5,6 @@ from __future__ import annotations
 import datetime
 import pathlib
 from pathlib import Path
-from typing import Dict, Optional
 
 import gdstk
 
@@ -31,7 +30,7 @@ add_ports = gf.compose(add_ports_optical, add_ports_electrical)
 """
 
 
-def get_script(gdspath: PathType, module: Optional[str] = None) -> str:
+def get_script(gdspath: PathType, module: str | None = None) -> str:
     """Returns script for importing a fixed cell.
 
     Args:
@@ -73,7 +72,7 @@ def {cell}()->gf.Component:
 """
 
 
-def get_import_gds_script(dirpath: PathType, module: Optional[str] = None) -> str:
+def get_import_gds_script(dirpath: PathType, module: str | None = None) -> str:
     """Returns import_gds script from a directory with all the GDS files.
 
     Args:
@@ -107,9 +106,9 @@ def write_cells_recursively(
     cell: gdstk.Cell,
     unit: float = 1e-6,
     precision: float = 1e-9,
-    timestamp: Optional[datetime.datetime] = _timestamp2019,
-    dirpath: Optional[pathlib.Path] = None,
-) -> Dict[str, Path]:
+    timestamp: datetime.datetime | None = _timestamp2019,
+    dirpath: pathlib.Path | None = None,
+) -> dict[str, Path]:
     """Write gdstk cells recursively.
 
     Args:
@@ -141,14 +140,14 @@ def write_cells_recursively(
 
 
 def write_cells(
-    gdspath: Optional[PathType] = None,
-    dirpath: Optional[PathType] = None,
+    gdspath: PathType | None = None,
+    dirpath: PathType | None = None,
     unit: float = 1e-6,
     precision: float = 1e-9,
-    timestamp: Optional[datetime.datetime] = _timestamp2019,
+    timestamp: datetime.datetime | None = _timestamp2019,
     recursively: bool = False,
     flatten: bool = False,
-) -> Dict[str, Path]:
+) -> dict[str, Path]:
     """Writes cells into separate GDS files.
 
     Args:

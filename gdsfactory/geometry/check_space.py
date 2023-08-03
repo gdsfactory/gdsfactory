@@ -1,14 +1,12 @@
 from __future__ import annotations
 
-from typing import Tuple
-
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentOrPath
 
 
 def check_space(
     gdspath: ComponentOrPath,
-    layer: Tuple[int, int] = (1, 0),
+    layer: tuple[int, int] = (1, 0),
     min_space: float = 0.150,
     dbu: float = 1e3,
     ignore_angle_deg: int = 80,

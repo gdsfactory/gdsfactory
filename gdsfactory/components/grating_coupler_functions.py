@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple
-
 from numpy import pi, sin, sqrt
 
 neff_ridge = 2.8
@@ -13,7 +11,7 @@ def get_grating_period_curved(
     wavelength: float = 1.55,
     n_slab: float = (neff_ridge + neff_shallow) / 2,
     n_clad: float = 1.0,
-) -> Tuple[float, float]:
+) -> tuple[float, float]:
     """The following function calculates the confocal grating periods n_slab is.
 
     the "average slab index" of the grating. For 220nm silicon it is 2.8, for

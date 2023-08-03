@@ -34,8 +34,8 @@ To generate a straight route:
 """
 from __future__ import annotations
 
+from collections.abc import Callable
 from functools import partial
-from typing import Callable, Optional, Union
 
 import numpy as np
 from pydantic import validate_arguments
@@ -66,11 +66,11 @@ def get_route(
     bend: ComponentSpec = bend_euler,
     with_sbend: bool = False,
     straight: ComponentSpec = straight_function,
-    taper: Optional[ComponentSpec] = None,
-    start_straight_length: Optional[float] = None,
-    end_straight_length: Optional[float] = None,
-    min_straight_length: Optional[float] = None,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
+    taper: ComponentSpec | None = None,
+    start_straight_length: float | None = None,
+    end_straight_length: float | None = None,
+    min_straight_length: float | None = None,
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     **kwargs,
 ) -> Route:
     """Returns a Manhattan Route between 2 ports.
@@ -112,7 +112,7 @@ def get_route(
         else gf.get_component(bend, cross_section=cross_section, **kwargs)
     )
     if taper:
-        if isinstance(cross_section, (tuple, list)):
+        if isinstance(cross_section, tuple | list):
             raise ValueError(
                 "Tapers not implemented for routes made from multiple cross_sections."
             )
@@ -171,7 +171,7 @@ def get_route_from_waypoints(
     waypoints: Coordinates,
     bend: Callable = bend_euler,
     straight: Callable = straight_function,
-    taper: Optional[Callable] = taper_function,
+    taper: Callable | None = taper_function,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Route:

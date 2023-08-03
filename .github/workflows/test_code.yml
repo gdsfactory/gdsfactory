@@ -40,11 +40,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
-        env:
-          AWS_EC2_METADATA_DISABLED: true
-          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-west-2
         run: |
           make install
           make data-download
@@ -68,10 +63,6 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install dependencies
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-west-2
         run: |
           make install data-download
       - name: Test with pytest
@@ -82,76 +73,12 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
-  test_code_python37:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.7'
-      - name: Install dependencies
-        run: |
-          pip install -e .[cad,dev] pre-commit
-      - name: Test with pytest
-        run: |
-          pytest gdsfactory/components
-  test_code_plugins:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      max-parallel: 12
-      matrix:
-        python-version: ["3.10"]
-        os: [ubuntu-latest]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-          channels: conda-forge,defaults
-          channel-priority: true
-          activate-environment: anaconda-client-env
-      - name: Add conda to system path
-        run: |
-          echo $CONDA/bin >> $GITHUB_PATH
-      - name: Install dependencies
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-west-2
-        run: |
-          python -m pip install --upgrade pip
-          make data-download plugins-debian
-          make install
-          pip freeze > requirements_plugins.txt
-      - uses: actions/upload-artifact@v3
-        with:
-          name: requirements
-          path: requirements_plugins.txt
-      - name: Test with pytest
-        env:
-          TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
-          TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
-          SIMCLOUD_APIKEY: ${{ secrets.SIMCLOUD_APIKEY }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-west-2
-        run: |
-          mkdir -p $HOME/.tidy3d
-          if [ -n "${{ secrets.SIMCLOUD_APIKEY }}" ]; then
-            echo "tidy3d credentials Variable is set. testing tidy3d..."
-            make test-plugins-no-tidy3d
-          else
-            echo "tidy3d credentials Variable is not set. Skipping tidy3 tests..."
-            make test-plugins-no-tidy3d
-          fi
   test_docs:
     runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 12
       matrix:
-        python-version: ["3.10"]
+        python-version: ["3.11"]
         os: [ubuntu-latest]
 
     steps:
@@ -162,36 +89,14 @@ jobs:
             ~/.gdsfactory/
           key: 0.0.1
           restore-keys: 0.0.1
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          python-version: "3.10"
-          channels: conda-forge,defaults
-          channel-priority: true
-          activate-environment: anaconda-client-env
-      - name: Add conda to system path
-        run: |
-          echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          sudo apt install libglu1-mesa libxi-dev libxmu-dev libglu1-mesa-dev
-          make plugins-debian full
+          make dev
       - name: Test documentation
         env:
-          TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
-          TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
-          DISPLAY: 1.0
-          DOCS: True
           GDSFACTORY_LAYOUT_PLOTTER: klayout
-          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-west-2
+          KFACTORY_DISPLAY_TYPE: image
         run: |
-          make data-download
-          mkdir -p $HOME/.tidy3d
-          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
           make docs
-          if [ ${{ secrets.TIDY3D_AUTH }} ]; then
-            make data-upload
-          fi
           python tests/test_doc_errors.py

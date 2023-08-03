@@ -32,6 +32,7 @@
 
 # %%
 from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.samples.big_device import big_device
@@ -324,9 +325,10 @@ cc.plot()
 # 3. Anything you imagine ...
 
 # %%
-from gdsfactory.generic_tech import LAYER
 import numpy as np
+
 import gdsfactory as gf
+from gdsfactory.generic_tech import LAYER
 
 
 @gf.cell

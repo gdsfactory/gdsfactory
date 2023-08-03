@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import numpy as np
 
 import gdsfactory as gf
@@ -22,8 +20,8 @@ def grating_coupler_rectangular_arbitrary(
     length_taper: float = 150.0,
     polarization: str = "te",
     wavelength: float = 1.55,
-    taper: Optional[ComponentSpec] = taper_function,
-    layer_grating: Optional[LayerSpec] = None,
+    taper: ComponentSpec | None = taper_function,
+    layer_grating: LayerSpec | None = None,
     layer_slab: LayerSpec = "SLAB150",
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,

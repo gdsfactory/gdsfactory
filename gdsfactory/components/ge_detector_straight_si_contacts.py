@@ -2,14 +2,13 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_func
 from gdsfactory.components.via_stack import via_stack_slab_m2, via_stack_slab_m3
 from gdsfactory.cross_section import pn_ge_detector_si_contacts
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Tuple, Union
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 default_taper = partial(
     taper_func, length=20.0, width1=0.5, width2=0.8, cross_section="strip"
@@ -20,13 +19,11 @@ default_taper = partial(
 def ge_detector_straight_si_contacts(
     length: float = 80.0,
     cross_section: CrossSectionSpec = pn_ge_detector_si_contacts,
-    via_stack: Union[
-        ComponentSpec, Tuple[ComponentSpec, ComponentSpec]
-    ] = via_stack_slab_m3,
+    via_stack: ComponentSpec | tuple[ComponentSpec, ComponentSpec] = via_stack_slab_m3,
     via_stack_width: float = 10.0,
     via_stack_spacing: float = 5.0,
     via_stack_offset: float = 0.0,
-    taper: Optional[ComponentSpec] = default_taper,
+    taper: ComponentSpec | None = default_taper,
     **kwargs,
 ) -> Component:
     """Returns a straight Ge on Si detector with silicon contacts.

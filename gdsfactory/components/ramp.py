@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
@@ -11,7 +9,7 @@ from gdsfactory.typings import LayerSpec
 def ramp(
     length: float = 10.0,
     width1: float = 5.0,
-    width2: Optional[float] = 8.0,
+    width2: float | None = 8.0,
     layer: LayerSpec = "WG",
 ) -> Component:
     """Return a ramp component.

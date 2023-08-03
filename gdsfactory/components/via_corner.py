@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple
-
 from numpy import floor
 
 import gdsfactory as gf
@@ -18,8 +16,8 @@ def via_corner(
         (metal2, (0, 180)),
         (metal3, (90, 270)),
     ),
-    vias: Tuple[ComponentSpec] = (via1,),
-    layers_labels: Tuple[str, ...] = ("m2", "m3"),
+    vias: tuple[ComponentSpec] = (via1,),
+    layers_labels: tuple[str, ...] = ("m2", "m3"),
     **kwargs,
 ) -> gf.Component:
     """Returns Corner via.

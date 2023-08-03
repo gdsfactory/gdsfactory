@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import datetime
 import hashlib
+import importlib.util
 import itertools
 import math
 import pathlib
@@ -15,16 +16,14 @@ from collections import Counter
 from collections.abc import Iterable, Mapping
 from copy import deepcopy
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Literal
 
 import gdstk
 import numpy as np
 import shapely
 import yaml
 from omegaconf import DictConfig
-from typing_extensions import Literal
 
-from gdsfactory.polygon import Polygon
 from gdsfactory.component_layout import (
     Label,
     _align,
@@ -36,6 +35,7 @@ from gdsfactory.component_layout import (
 from gdsfactory.component_reference import ComponentReference, SizeInfo
 from gdsfactory.config import CONF, GDSDIR_TEMP, logger
 from gdsfactory.generic_tech import LAYER
+from gdsfactory.polygon import Polygon
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -50,17 +50,15 @@ from gdsfactory.port import (
 from gdsfactory.serialization import clean_dict
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
-import importlib.util
-
 if TYPE_CHECKING:
     from gdsfactory.typings import (
-        PathType,
+        Coordinate,
+        CrossSectionSpec,
         Float2,
         Layer,
         Layers,
         LayerSpec,
-        Coordinate,
-        CrossSectionSpec,
+        PathType,
     )
 
 valid_plotters = [
@@ -178,9 +176,9 @@ class Component(_GeometryHelper):
 
         self._cell = gdstk.Cell(name=name)
         self.name = name
-        self.info: Dict[str, Any] = {}
+        self.info: dict[str, Any] = {}
 
-        self.settings: Dict[str, Any] = {}
+        self.settings: dict[str, Any] = {}
         self._locked = False
         self._get_child_name = False
         self._reference_names_counter = Counter()
@@ -195,7 +193,7 @@ class Component(_GeometryHelper):
         return self._references
 
     @property
-    def polygons(self) -> List[Polygon]:
+    def polygons(self) -> list[Polygon]:
         return self._cell.polygons
 
     @property
@@ -203,7 +201,7 @@ class Component(_GeometryHelper):
         return self._cell.area
 
     @property
-    def labels(self) -> List[Label]:
+    def labels(self) -> list[Label]:
         return self._cell.labels
 
     @property
@@ -228,10 +226,10 @@ class Component(_GeometryHelper):
     def get_polygon_bbox(
         self,
         default: float = 0.0,
-        top: Optional[float] = None,
-        bottom: Optional[float] = None,
-        right: Optional[float] = None,
-        left: Optional[float] = None,
+        top: float | None = None,
+        bottom: float | None = None,
+        right: float | None = None,
+        left: float | None = None,
     ) -> shapely.Polygon:
         """Returns shapely Polygon with bounding box.
 
@@ -257,13 +255,13 @@ class Component(_GeometryHelper):
 
     def get_polygons(
         self,
-        by_spec: Union[bool, Tuple[int, int]] = False,
-        depth: Optional[int] = None,
+        by_spec: bool | tuple[int, int] = False,
+        depth: int | None = None,
         include_paths: bool = True,
         as_array: bool = True,
         as_shapely: bool = False,
         as_shapely_merged: bool = False,
-    ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
+    ) -> list[Polygon] | dict[tuple[int, int], list[Polygon]]:
         """Return a list of polygons in this cell.
 
         Args:
@@ -303,7 +301,7 @@ class Component(_GeometryHelper):
             as_shapely_merged=as_shapely_merged,
         )
 
-    def get_dependencies(self, recursive: bool = False) -> List[Component]:
+    def get_dependencies(self, recursive: bool = False) -> list[Component]:
         """Return a list of Components referenced by this Component.
 
         Args:
@@ -361,7 +359,7 @@ class Component(_GeometryHelper):
             element: Object that will be accessible by alias name.
 
         """
-        if isinstance(element, (ComponentReference, Polygon)):
+        if isinstance(element, ComponentReference | Polygon):
             self.named_references[key] = element
         else:
             raise ValueError(
@@ -397,7 +395,7 @@ class Component(_GeometryHelper):
     def add_label(
         self,
         text: str = "hello",
-        position: Tuple[float, float] = (0.0, 0.0),
+        position: tuple[float, float] = (0.0, 0.0),
         magnification: float = 1.0,
         rotation: float = 0,
         anchor: str = "o",
@@ -446,7 +444,7 @@ class Component(_GeometryHelper):
         return np.array(bbox)
 
     @property
-    def ports_layer(self) -> Dict[str, str]:
+    def ports_layer(self) -> dict[str, str]:
         """Returns a mapping from layer0_layer1_E0: portName."""
         return map_ports_layer_to_orientation(self.ports)
 
@@ -568,7 +566,7 @@ class Component(_GeometryHelper):
         )
         return G
 
-    def get_netlist_yaml(self, **kwargs) -> Dict[str, Any]:
+    def get_netlist_yaml(self, **kwargs) -> dict[str, Any]:
         from gdsfactory.get_netlist import get_netlist_yaml
 
         return get_netlist_yaml(self, **kwargs)
@@ -580,7 +578,7 @@ class Component(_GeometryHelper):
         filepath = pathlib.Path(filepath)
         filepath.write_text(yaml.dump(netlist))
 
-    def write_netlist_dot(self, filepath: Optional[str] = None) -> None:
+    def write_netlist_dot(self, filepath: str | None = None) -> None:
         """Write netlist graph in DOT format."""
         from networkx.drawing.nx_agraph import write_dot
 
@@ -589,7 +587,7 @@ class Component(_GeometryHelper):
         G = self.plot_netlist()
         write_dot(G, filepath)
 
-    def get_netlist(self, **kwargs) -> Dict[str, Any]:
+    def get_netlist(self, **kwargs) -> dict[str, Any]:
         """From Component returns instances, connections and placements dict.
 
         Keyword Args:
@@ -613,7 +611,7 @@ class Component(_GeometryHelper):
 
         return get_netlist(component=self, **kwargs)
 
-    def get_netlist_recursive(self, **kwargs) -> Dict[str, DictConfig]:
+    def get_netlist_recursive(self, **kwargs) -> dict[str, DictConfig]:
         """Returns recursive netlist for a component and subcomponents.
 
         Keyword Args:
@@ -635,7 +633,7 @@ class Component(_GeometryHelper):
 
         return get_netlist_recursive(component=self, **kwargs)
 
-    def get_netlist_flat(self, **kwargs) -> Dict[str, DictConfig]:
+    def get_netlist_flat(self, **kwargs) -> dict[str, DictConfig]:
         """Returns a netlist where all subinstances are exposed and independently named.
 
         Keyword Args:
@@ -702,7 +700,7 @@ class Component(_GeometryHelper):
 
         return port_list
 
-    def get_ports_dict(self, **kwargs) -> Dict[str, Port]:
+    def get_ports_dict(self, **kwargs) -> dict[str, Port]:
         """Returns a dict of ports.
 
         Keyword Args:
@@ -717,7 +715,7 @@ class Component(_GeometryHelper):
         """
         return select_ports(self.ports, **kwargs)
 
-    def get_ports_list(self, **kwargs) -> List[Port]:
+    def get_ports_list(self, **kwargs) -> list[Port]:
         """Returns list of ports.
 
         Keyword Args:
@@ -770,7 +768,7 @@ class Component(_GeometryHelper):
     def ref(
         self,
         position: Coordinate = (0, 0),
-        port_id: Optional[str] = None,
+        port_id: str | None = None,
         rotation: float = 0,
         h_mirror: bool = False,
         v_mirror: bool = False,
@@ -834,8 +832,8 @@ class Component(_GeometryHelper):
 
     def pprint_ports(self) -> None:
         """Prints ports in a rich table."""
-        from rich.table import Table
         from rich.console import Console
+        from rich.table import Table
 
         console = Console()
 
@@ -860,7 +858,7 @@ class Component(_GeometryHelper):
         console.print(table)
 
     @property
-    def metadata_child(self) -> Dict:
+    def metadata_child(self) -> dict:
         """Returns metadata from child if any, Otherwise returns component own.
 
         metadata Great to access the children metadata at the bottom of the
@@ -874,20 +872,20 @@ class Component(_GeometryHelper):
         return dict(settings)
 
     @property
-    def metadata(self) -> Dict:
+    def metadata(self) -> dict:
         return dict(self.settings)
 
     def add_port(
         self,
-        name: Optional[Union[str, object]] = None,
-        center: Optional[Tuple[float, float]] = None,
-        width: Optional[float] = None,
-        orientation: Optional[float] = None,
-        port: Optional[Port] = None,
-        layer: Optional[LayerSpec] = None,
-        port_type: Optional[str] = None,
-        cross_section: Optional[CrossSectionSpec] = None,
-        shear_angle: Optional[float] = None,
+        name: str | object | None = None,
+        center: tuple[float, float] | None = None,
+        width: float | None = None,
+        orientation: float | None = None,
+        port: Port | None = None,
+        layer: LayerSpec | None = None,
+        port_type: str | None = None,
+        cross_section: CrossSectionSpec | None = None,
+        shear_angle: float | None = None,
     ) -> Port:
         """Add port to component.
 
@@ -907,7 +905,7 @@ class Component(_GeometryHelper):
             cross_section: port cross_section.
             shear_angle: an optional angle to shear port face in degrees.
         """
-        from gdsfactory.pdk import get_layer, get_cross_section
+        from gdsfactory.pdk import get_cross_section, get_layer
 
         layer = get_layer(layer)
 
@@ -959,7 +957,7 @@ class Component(_GeometryHelper):
 
     def add_ports(
         self,
-        ports: Union[Iterable[Port], Dict[str, Port]],
+        ports: Iterable[Port] | dict[str, Port],
         prefix: str = "",
         suffix: str = "",
         **kwargs,
@@ -984,7 +982,7 @@ class Component(_GeometryHelper):
 
     def remove_layers(
         self,
-        layers: List[LayerSpec],
+        layers: list[LayerSpec],
         include_labels: bool = True,
         invert_selection: bool = False,
         recursive: bool = True,
@@ -1014,7 +1012,7 @@ class Component(_GeometryHelper):
 
     def extract(
         self,
-        layers: List[Union[Tuple[int, int], str]],
+        layers: list[tuple[int, int] | str],
     ) -> Component:
         """Extract polygons from a Component and returns a new Component."""
         from gdsfactory.pdk import get_layer
@@ -1127,7 +1125,7 @@ class Component(_GeometryHelper):
         else:
             raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
 
-    def _add_polygons(self, *polygons: List[Polygon]) -> None:
+    def _add_polygons(self, *polygons: list[Polygon]) -> None:
         self.is_unlocked()
         self._cell.add(*polygons)
 
@@ -1146,7 +1144,7 @@ class Component(_GeometryHelper):
 
         Parent components can access child cells settings.
         """
-        if not isinstance(component, (Component, ComponentReference)):
+        if not isinstance(component, Component | ComponentReference):
             raise ValueError(
                 f"{type(component)}" "is not a Component or ComponentReference"
             )
@@ -1161,7 +1159,7 @@ class Component(_GeometryHelper):
         """Size info of the component."""
         return SizeInfo(self.bbox)
 
-    def get_setting(self, setting: str) -> Union[str, int, float]:
+    def get_setting(self, setting: str) -> str | int | float:
         return (
             self.info.get(setting)
             or self.settings.full.get(setting)
@@ -1217,8 +1215,8 @@ class Component(_GeometryHelper):
         component: Component,
         columns: int = 2,
         rows: int = 2,
-        spacing: Tuple[float, float] = (100, 100),
-        alias: Optional[str] = None,
+        spacing: tuple[float, float] = (100, 100),
+        alias: str | None = None,
     ) -> ComponentReference:
         """Creates a ComponentReference reference to a Component.
 
@@ -1293,7 +1291,7 @@ class Component(_GeometryHelper):
         _align(elements, alignment=alignment)
         return self
 
-    def flatten(self, single_layer: Optional[LayerSpec] = None):
+    def flatten(self, single_layer: LayerSpec | None = None):
         """Returns a flattened copy of the component.
 
         Flattens the hierarchy of the Component such that there are no longer
@@ -1341,7 +1339,7 @@ class Component(_GeometryHelper):
         self.add_ref(new_component, alias=ref.name)
 
     def add_ref(
-        self, component: Component, alias: Optional[str] = None, **kwargs
+        self, component: Component, alias: str | None = None, **kwargs
     ) -> ComponentReference:
         """Add ComponentReference to the current Component.
 
@@ -1374,7 +1372,7 @@ class Component(_GeometryHelper):
         return ref
 
     def _register_reference(
-        self, reference: ComponentReference, alias: Optional[str] = None
+        self, reference: ComponentReference, alias: str | None = None
     ) -> None:
         component = reference.parent
         reference.owner = self
@@ -1400,11 +1398,11 @@ class Component(_GeometryHelper):
         self._named_references[alias] = reference
 
     @property
-    def layers(self) -> Set[Tuple[int, int]]:
+    def layers(self) -> set[tuple[int, int]]:
         """Returns a set of the Layers in the Component."""
         return self.get_layers()
 
-    def get_layers(self) -> Set[Tuple[int, int]]:
+    def get_layers(self) -> set[tuple[int, int]]:
         """Return a set of (layer, datatype).
 
         .. code ::
@@ -1415,7 +1413,7 @@ class Component(_GeometryHelper):
         polygons = self._cell.get_polygons(depth=None)
         return {(polygon.layer, polygon.datatype) for polygon in polygons}
 
-    def get_layer_names(self) -> List[Tuple[int, int]]:
+    def get_layer_names(self) -> list[tuple[int, int]]:
         """Return layer names used in the design.
 
         .. code ::
@@ -1475,7 +1473,7 @@ class Component(_GeometryHelper):
 
         try:
             import kfactory as kf
-            from gdsfactory.plugins.widget.interactive import LayoutWidget
+            from gplugins.widget.interactive import LayoutWidget
         except ImportError:
             print(
                 "You need install kfactory plugin with `pip install gdsfactory[kfactory]`"
@@ -1554,30 +1552,19 @@ class Component(_GeometryHelper):
             display(image)
 
         except ImportError:
-            print(
-                "You can install `pip install gdsfactory[full]` for better visualization"
-            )
+            print("You can install `pip install gdsfactory` for better visualization")
             component.plot(plotter="matplotlib")
 
     def plot_kweb(self):
-        """Shows current gds in klayout.
+        """Shows current gds in kweb."""
+        import os
+        from html import escape
 
-        Uses Kweb if installed, otherwise displays Klayout image.
-        """
-        try:
-            import os
-            from html import escape
+        import kweb.server_jupyter as kj
+        from IPython.display import IFrame
 
-            import kweb.server_jupyter as kj
-            from IPython.display import IFrame
-
-            from gdsfactory.config import PATH
-            from gdsfactory.pdk import get_layer_views
-        except ImportError:
-            print(
-                "You can install `pip install gdsfactory[cad]` for better visualization"
-            )
-            return self.plot_klayout()
+        from gdsfactory.config import PATH
+        from gdsfactory.pdk import get_layer_views
 
         gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
 
@@ -1685,8 +1672,8 @@ class Component(_GeometryHelper):
 
     def plot_holoviews(
         self,
-        layers_excluded: Optional[Layers] = None,
-        layer_views: Optional[LayerViews] = None,
+        layers_excluded: Layers | None = None,
+        layer_views: LayerViews | None = None,
         min_aspect: float = 0.25,
         padding: float = 0.5,
     ):
@@ -1835,9 +1822,9 @@ class Component(_GeometryHelper):
 
     def _write_library(
         self,
-        gdspath: Optional[PathType] = None,
-        gdsdir: Optional[PathType] = None,
-        timestamp: Optional[datetime.datetime] = _timestamp2019,
+        gdspath: PathType | None = None,
+        gdsdir: PathType | None = None,
+        timestamp: datetime.datetime | None = _timestamp2019,
         logging: bool = True,
         with_oasis: bool = False,
         with_metadata: bool = False,
@@ -1989,8 +1976,8 @@ class Component(_GeometryHelper):
 
     def write_gds(
         self,
-        gdspath: Optional[PathType] = None,
-        gdsdir: Optional[PathType] = None,
+        gdspath: PathType | None = None,
+        gdsdir: PathType | None = None,
         **kwargs,
     ) -> Path:
         """Write component to GDS and returns gdspath.
@@ -2020,8 +2007,8 @@ class Component(_GeometryHelper):
 
     def write_oas(
         self,
-        gdspath: Optional[PathType] = None,
-        gdsdir: Optional[PathType] = None,
+        gdspath: PathType | None = None,
+        gdsdir: PathType | None = None,
         **kwargs,
     ) -> Path:
         """Write component to GDS and returns gdspath.
@@ -2072,11 +2059,11 @@ class Component(_GeometryHelper):
 
     def to_dict(
         self,
-        ignore_components_prefix: Optional[List[str]] = None,
-        ignore_functions_prefix: Optional[List[str]] = None,
+        ignore_components_prefix: list[str] | None = None,
+        ignore_functions_prefix: list[str] | None = None,
         with_cells: bool = False,
         with_ports: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Returns Dict representation of a component.
 
         Args:
@@ -2170,8 +2157,8 @@ class Component(_GeometryHelper):
     def move(
         self,
         origin: Float2 = (0, 0),
-        destination: Optional[Float2] = None,
-        axis: Optional[Axis] = None,
+        destination: Float2 | None = None,
+        axis: Axis | None = None,
     ) -> Component:
         """Returns new Component with a moved reference to the original.
 
@@ -2300,8 +2287,8 @@ class Component(_GeometryHelper):
         return final_hash.hexdigest()
 
     def get_labels(
-        self, apply_repetitions=True, depth: Optional[int] = None, layer=None
-    ) -> List[Label]:
+        self, apply_repetitions=True, depth: int | None = None, layer=None
+    ) -> list[Label]:
         """Return labels.
 
         Args:
@@ -2391,9 +2378,9 @@ class Component(_GeometryHelper):
 
     def to_3d(
         self,
-        layer_views: Optional[LayerViews] = None,
-        layer_stack: Optional[LayerStack] = None,
-        exclude_layers: Optional[Tuple[Layer, ...]] = None,
+        layer_views: LayerViews | None = None,
+        layer_stack: LayerStack | None = None,
+        exclude_layers: tuple[Layer, ...] | None = None,
     ):
         """Return Component 3D trimesh Scene.
 
@@ -2419,7 +2406,7 @@ class Component(_GeometryHelper):
         self,
         nm_per_pixel: int = 20,
         layers: Layers = ((1, 0),),
-        values: Optional[Tuple[float, ...]] = None,
+        values: tuple[float, ...] | None = None,
         pad_width: int = 1,
     ) -> np.ndarray:
         """Returns a pixelated numpy array from Component polygons.
@@ -2445,8 +2432,8 @@ class Component(_GeometryHelper):
     def write_stl(
         self,
         filepath: str,
-        layer_stack: Optional[LayerStack] = None,
-        exclude_layers: Optional[Tuple[Layer, ...]] = None,
+        layer_stack: LayerStack | None = None,
+        exclude_layers: tuple[Layer, ...] | None = None,
     ) -> None:
         """Write a Component to STL for 3D printing.
 
@@ -2498,7 +2485,7 @@ class Component(_GeometryHelper):
             wafer_padding: padding beyond bbox to add to WAFER layers.
 
         Keyword Args:
-            Arguments for the target meshing function in gdsfactory.simulation.gmsh
+            Arguments for the target meshing function in gplugins.gmsh
         """
         # Add WAFER layer:
         padded_component = Component()
@@ -2522,7 +2509,7 @@ class Component(_GeometryHelper):
                 raise ValueError(
                     'For xy-meshing, a z-value must be provided via the float argument "z".'
                 )
-            from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
+            from gplugins.gmsh.xy_xsection_mesh import xy_xsection_mesh
 
             return xy_xsection_mesh(padded_component, z, layer_stack, **kwargs)
         elif type == "uz":
@@ -2531,7 +2518,7 @@ class Component(_GeometryHelper):
                     "For uz-meshing, you must provide a line in the xy-plane "
                     "via the Tuple argument [[x1,y1], [x2,y2]] xsection_bounds."
                 )
-            from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
+            from gplugins.gmsh.uz_xsection_mesh import uz_xsection_mesh
 
             return uz_xsection_mesh(
                 padded_component, xsection_bounds, layer_stack, **kwargs
@@ -2543,7 +2530,7 @@ class Component(_GeometryHelper):
                     "3D meshing requires meshwell, see https://github.com/simbilod/meshwell or run pip install meshwell."
                 )
 
-            from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
+            from gplugins.gmsh.xyz_mesh import xyz_mesh
 
             return xyz_mesh(padded_component, layer_stack, **kwargs)
         else:
@@ -2694,9 +2681,9 @@ def _filter_polys(polygons, layers_excl):
 
 def recurse_structures(
     component: Component,
-    ignore_components_prefix: Optional[List[str]] = None,
-    ignore_functions_prefix: Optional[List[str]] = None,
-) -> Dict[str, Any]:
+    ignore_components_prefix: list[str] | None = None,
+    ignore_functions_prefix: list[str] | None = None,
+) -> dict[str, Any]:
     """Recurse component and components references recursively.
 
     Args:
@@ -2731,7 +2718,7 @@ def recurse_structures(
 
 def flatten_invalid_refs_recursive(
     component: Component,
-    grid_size: Optional[float] = None,
+    grid_size: float | None = None,
     updated_components=None,
     traversed_components=None,
 ):

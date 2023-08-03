@@ -6,7 +6,7 @@ from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Optional
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -19,7 +19,7 @@ def cutback_splitter(
     port3: str = "o3",
     bend180: ComponentSpec = bend_euler180,
     mirror: bool = False,
-    straight_length: Optional[float] = None,
+    straight_length: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:

@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
@@ -10,7 +8,7 @@ from gdsfactory.typings import LayerSpec
 @gf.cell
 def C(
     width: float = 1.0,
-    size: Tuple[float, float] = (10.0, 20.0),
+    size: tuple[float, float] = (10.0, 20.0),
     layer: LayerSpec = "WG",
 ) -> Component:
     """C geometry with ports on both ends.

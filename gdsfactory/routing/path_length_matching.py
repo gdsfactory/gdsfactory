@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import List, Union
-
 import numpy as np
 from numpy import ndarray
 
@@ -21,15 +19,15 @@ from gdsfactory.typings import (
 
 
 def path_length_matched_points(
-    list_of_waypoints: List[ndarray],
+    list_of_waypoints: list[ndarray],
     margin: float = 0.0,
     modify_segment_i: int = -2,
     extra_length: float = 0.0,
     nb_loops: int = 1,
     bend: ComponentSpec = bend_euler,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     **kwargs,
-) -> List[ndarray]:
+) -> list[ndarray]:
     """Several types of paths won't match correctly. We do not try to handle all the corner cases here. You will need to modify the input list of waypoints in some cases.
 
     Args:
@@ -146,15 +144,15 @@ def path_length_matched_points_modify_segment(
 
 
 def path_length_matched_points_add_waypoints(
-    list_of_waypoints: List[ndarray],
+    list_of_waypoints: list[ndarray],
     modify_segment_i: int = -2,
     bend: ComponentSpec = bend_euler,
     margin: float = 0.0,
     extra_length: float = 0.0,
     nb_loops: int = 1,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     **kwargs,
-) -> List[ndarray]:
+) -> list[ndarray]:
     """Args are the following.
 
         list_of_waypoints: a list of list_of_points:

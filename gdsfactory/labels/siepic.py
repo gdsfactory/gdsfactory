@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Callable, List, Optional, Tuple
+from collections.abc import Callable
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -22,8 +22,8 @@ from gdsfactory.typings import (
 def get_input_label_text(
     port: Port,
     gc: ComponentReference,
-    gc_index: Optional[int] = None,
-    component_name: Optional[str] = None,
+    gc_index: int | None = None,
+    component_name: str | None = None,
     username: str = "YourUserName",
 ) -> str:
     """Return label for port and a grating coupler.
@@ -43,7 +43,7 @@ def get_input_label_text(
         "TM",
     ], f"Not valid polarization {polarization.upper()!r} in [TE, TM]"
     assert (
-        isinstance(wavelength, (int, float)) and 1.0 < wavelength < 2.0
+        isinstance(wavelength, int | float) and 1.0 < wavelength < 2.0
     ), f"{wavelength} is Not valid 1000 < wavelength < 2000"
 
     name = component_name or port.parent.metadata_child.get("name")
@@ -51,14 +51,14 @@ def get_input_label_text(
 
 
 def get_input_labels(
-    io_gratings: List[ComponentReference],
-    ordered_ports: List[Port],
+    io_gratings: list[ComponentReference],
+    ordered_ports: list[Port],
     component_name: str,
-    layer_label: Tuple[int, int] = (10, 0),
+    layer_label: tuple[int, int] = (10, 0),
     gc_port_name: str = "o1",
     port_index: int = 1,
     get_input_label_text_function: Callable = get_input_label_text,
-) -> List[Label]:
+) -> list[Label]:
     """Return list of labels for all component ports.
 
     Args:
@@ -91,7 +91,7 @@ def get_input_labels(
 @cell
 def add_fiber_array_siepic(
     component: ComponentSpec = straight,
-    component_name: Optional[str] = None,
+    component_name: str | None = None,
     gc_port_name: str = "o1",
     get_input_labels_function: Callable = get_input_labels,
     with_loopback: bool = False,

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, List, Optional, Tuple, Union
+from collections.abc import Callable
 
 import gdsfactory as gf
 from gdsfactory.add_labels import (
@@ -33,42 +33,42 @@ from gdsfactory.typings import (
 
 def route_fiber_array(
     component: Component,
-    fiber_spacing: Union[str, float] = "fiber_array_spacing",
+    fiber_spacing: str | float = "fiber_array_spacing",
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     taper: ComponentSpec = taper_function,
-    fanout_length: Optional[float] = None,
+    fanout_length: float | None = None,
     max_y0_optical: None = None,
     with_loopback: bool = True,
     nlabels_loopback: int = 2,
     straight_separation: float = 6.0,
     straight_to_grating_spacing: float = 5.0,
-    optical_routing_type: Optional[int] = None,
+    optical_routing_type: int | None = None,
     connected_port_names: None = None,
     nb_optical_ports_lines: int = 1,
     force_manhattan: bool = False,
-    excluded_ports: Optional[List[str]] = None,
-    grating_indices: Optional[List[int]] = None,
+    excluded_ports: list[str] | None = None,
+    grating_indices: list[int] | None = None,
     route_filter: Callable = get_route_from_waypoints,
     gc_port_name: str = "o1",
     gc_rotation: int = -90,
     layer_label: LayerSpec = "TEXT",
     layer_label_loopback: LayerSpec = "TEXT",
-    component_name: Optional[str] = None,
+    component_name: str | None = None,
     x_grating_offset: int = 0,
-    port_names: Optional[Strs] = None,
+    port_names: Strs | None = None,
     get_input_label_text_loopback_function: Callable = get_input_label_text_dash_loopback,
-    get_input_label_text_function: Optional[Callable] = get_input_label_text_dash,
-    get_input_labels_function: Optional[Callable] = get_input_labels_dash,
+    get_input_label_text_function: Callable | None = get_input_label_text_dash,
+    get_input_labels_function: Callable | None = get_input_labels_dash,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = strip,
     **kwargs,
-) -> Tuple[
-    List[Union[ComponentReference, Label]],
-    List[List[ComponentReference]],
-    List[Port],
-    List[Port],
+) -> tuple[
+    list[ComponentReference | Label],
+    list[list[ComponentReference]],
+    list[Port],
+    list[Port],
 ]:
     """Returns component I/O elements for adding grating couplers with a fiber array Many components are fine with the defaults.
 

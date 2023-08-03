@@ -3,7 +3,6 @@ from __future__ import annotations
 import pathlib
 import tempfile
 import uuid
-from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -16,9 +15,9 @@ valid_operations = ("xor", "not", "and", "or")
 def boolean_klayout(
     gdspath1: ComponentOrPath,
     gdspath2: ComponentOrPath,
-    layer1: Tuple[int, int] = (1, 0),
-    layer2: Tuple[int, int] = (1, 0),
-    layer3: Tuple[int, int] = (2, 0),
+    layer1: tuple[int, int] = (1, 0),
+    layer2: tuple[int, int] = (1, 0),
+    layer3: tuple[int, int] = (2, 0),
     operation: str = "xor",
 ) -> Component:
     """Returns a boolean operation between two components Uses KLayout python API.

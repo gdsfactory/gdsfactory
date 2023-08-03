@@ -3,8 +3,7 @@
 source "$PREFIX/etc/profile.d/conda.sh"
 conda activate "$PREFIX"
 
-python -m pip install gdsfactory[full]==6.115.0
-# python -m pip install sklearn gdsfactory[full,dev,gmsh,tidy3d,meow,sax,ray,database,femwell,kfactory]==6.115.0
+python -m pip install gdsfactory==7.0.2 gplugins
 
 # conda install -c conda-forge slepc4py=*=complex* -y
 

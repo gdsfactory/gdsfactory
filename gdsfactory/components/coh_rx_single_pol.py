@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional, Tuple
-
 import numpy as np
 
 import gdsfactory as gf
@@ -20,12 +18,12 @@ def coh_rx_single_pol(
     cross_section: CrossSectionSpec = "strip",
     hybrid_90deg: ComponentSpec = mmi_90degree_hybrid,
     detector: ComponentSpec = ge_detector_straight_si_contacts,
-    det_spacing: Tuple[float, float] = (60.0, 50.0),
+    det_spacing: tuple[float, float] = (60.0, 50.0),
     with_pads: bool = True,
     pad_det_spacing: float = 80.0,
     in_wg_length: float = 20.0,
-    lo_input_coupler: Optional[ComponentSpec] = None,
-    signal_input_coupler: Optional[ComponentSpec] = None,
+    lo_input_coupler: ComponentSpec | None = None,
+    signal_input_coupler: ComponentSpec | None = None,
 ) -> Component:
     r"""Single polarization coherent receiver.
 

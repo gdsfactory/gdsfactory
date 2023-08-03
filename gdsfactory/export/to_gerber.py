@@ -7,22 +7,21 @@ See Also:
 - https://github.com/jamesbowman/cuflow/blob/master/gerber.py
 """
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Literal
 
 from pydantic import BaseModel, Field
-from typing_extensions import Literal
 
 from gdsfactory import Component
 
 
 class GerberLayer(BaseModel):
     name: str
-    function: List[str]
+    function: list[str]
     polarity: Literal["Positive", "Negative"]
 
 
 class GerberOptions(BaseModel):
-    header: Optional[List[str]] = None
+    header: list[str] | None = None
     mode: Literal["mm", "in"] = "mm"
     resolution: float = 1e-6
     int_size: int = 4
@@ -30,7 +29,7 @@ class GerberOptions(BaseModel):
 
 # For generating a gerber job json file
 class BoardOptions(BaseModel):
-    size: Optional[tuple] = (None,)
+    size: tuple | None = (None,)
     n_layers: int = (2,)
 
 
@@ -66,7 +65,7 @@ def polygon(pp):
 def to_gerber(
     component: Component,
     dirpath: Path,
-    layermap_to_gerber_layer: Dict[Tuple[int, int], GerberLayer],
+    layermap_to_gerber_layer: dict[tuple[int, int], GerberLayer],
     options: GerberOptions = Field(default_factory=dict),
 ) -> None:
     """Writes each layer to a different Gerber file.
@@ -76,7 +75,7 @@ def to_gerber(
         dirpath: directory path.
         layermap_to_gerber_layer: map of GDS layer to GerberLayer.
         options: to save.
-            header: Optional[List[str]] = None
+            header: List[str] | None = None
             mode: Literal["mm", "in"] = "mm"
             resolution: float = 1e-6
             int_size: int = 4

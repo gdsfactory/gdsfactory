@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import functools
-from typing import Callable
+from collections.abc import Callable
 
 import gdstk
 from pydantic import validate_arguments

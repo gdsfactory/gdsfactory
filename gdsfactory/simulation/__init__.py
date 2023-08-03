@@ -1,25 +1,23 @@
-"""gdsfactory interface to simulations."""
+import sys
+import warnings
 
-from __future__ import annotations
+try:
+    import gplugins
+except ImportError as e:
+    raise ImportError('You need to install gplugins with "pip install gplugins"') from e
 
-from gdsfactory.simulation import plot
-from gdsfactory.simulation.get_effective_indices import get_effective_indices
-from gdsfactory.simulation.get_sparameters_path import (
-    get_sparameters_data_lumerical,
-    get_sparameters_data_meep,
-    get_sparameters_data_tidy3d,
-    get_sparameters_path_lumerical,
-    get_sparameters_path_meep,
-    get_sparameters_path_tidy3d,
-)
 
-__all__ = [
-    "plot",
-    "get_sparameters_path_meep",
-    "get_sparameters_path_lumerical",
-    "get_sparameters_path_tidy3d",
-    "get_sparameters_data_meep",
-    "get_sparameters_data_lumerical",
-    "get_sparameters_data_tidy3d",
-    "get_effective_indices",
-]
+message = """
+gdsfactory.simulation have been moved to gplugins
+
+Make sure you have gplugins installed and use gplugins instead of gdsfactory.simulation
+
+You can replace:
+    import gdsfactory.simulation -> import gplugins
+
+You can install gplugins with:
+    pip install gplugins
+"""
+
+warnings.warn(message)
+sys.modules["gdsfactory.simulation"] = gplugins

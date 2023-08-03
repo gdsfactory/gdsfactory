@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import List, Union
-
 import gdstk
 
 import gdsfactory as gf
@@ -9,12 +7,12 @@ from gdsfactory.typings import Component, ComponentReference, LayerSpec
 
 
 def boolean_polygons(
-    operand1: Union[ComponentReference, Component, gdstk.Polygon],
-    operand2: Union[ComponentReference, Component, gdstk.Polygon],
+    operand1: ComponentReference | Component | gdstk.Polygon,
+    operand2: ComponentReference | Component | gdstk.Polygon,
     operation: str,
     output_layer: LayerSpec = (0, 0),
     precision: float = 1e-3,
-) -> List[gdstk.Polygon]:
+) -> list[gdstk.Polygon]:
     """Perform a boolean operation and return the list of resulting Polygons.
     See [gdstk docs](https://heitzmann.github.io/gdstk/geometry/gdstk.boolean.html#gdstk.boolean) for details.
 

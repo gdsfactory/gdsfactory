@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 
@@ -28,13 +29,13 @@ def sort_key_north_to_south(port: Port) -> float:
 
 
 def route_ports_to_side(
-    ports: Union[Dict[str, Port], List[Port], Component, ComponentReference],
+    ports: dict[str, Port] | list[Port] | Component | ComponentReference,
     side: str = "north",
-    x: Optional[float] = None,
-    y: Optional[float] = None,
+    x: float | None = None,
+    y: float | None = None,
     routing_func: Callable = get_route,
     **kwargs,
-) -> Tuple[List[Route], List[Port]]:
+) -> tuple[list[Route], list[Port]]:
     """Routes ports to a given side.
 
     Args:
@@ -84,7 +85,7 @@ def route_ports_to_side(
     if isinstance(ports, dict):
         ports = list(ports.values())
 
-    elif isinstance(ports, (Component, ComponentReference)):
+    elif isinstance(ports, Component | ComponentReference):
         ports = list(ports.ports.values())
 
     # Choose which
@@ -117,22 +118,22 @@ def route_ports_to_east(list_ports, **kwargs):
 
 
 def route_ports_to_x(
-    list_ports: List[Port],
-    x: Union[float, str] = "east",
+    list_ports: list[Port],
+    x: float | str = "east",
     separation: float = 10.0,
     radius: float = 10.0,
     extend_bottom: float = 0.0,
     extend_top: float = 0.0,
     extension_length: float = 0.0,
-    y0_bottom: Optional[float] = None,
-    y0_top: Optional[float] = None,
+    y0_bottom: float | None = None,
+    y0_top: float | None = None,
     routing_func: RouteFactory = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
-    dx_start: Optional[float] = None,
-    dy_start: Optional[float] = None,
+    dx_start: float | None = None,
+    dy_start: float | None = None,
     **routing_func_args,
-) -> Tuple[List[Route], List[Port]]:
+) -> tuple[list[Route], list[Port]]:
     """Returns route to x.
 
     Args:
@@ -198,7 +199,7 @@ def route_ports_to_x(
         x = max(p.x for p in list_ports) + bx
     elif x == "west":
         x = min(p.x for p in list_ports) - bx
-    elif isinstance(x, (float, int)):
+    elif isinstance(x, float | int):
         pass
     else:
         raise ValueError(f"x={x!r} should be a float or east or west")
@@ -310,22 +311,22 @@ def route_ports_to_x(
 
 
 def route_ports_to_y(
-    list_ports: List[Port],
-    y: Union[float, str] = "north",
+    list_ports: list[Port],
+    y: float | str = "north",
     separation: float = 10.0,
     radius: float = 10.0,
-    x0_left: Optional[float] = None,
-    x0_right: Optional[float] = None,
+    x0_left: float | None = None,
+    x0_right: float | None = None,
     extension_length: float = 0.0,
     extend_left: float = 0.0,
     extend_right: float = 0.0,
     routing_func: RouteFactory = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
-    dx_start: Optional[float] = None,
-    dy_start: Optional[float] = None,
-    **routing_func_args: Dict[Any, Any],
-) -> Tuple[List[Route], List[Port]]:
+    dx_start: float | None = None,
+    dy_start: float | None = None,
+    **routing_func_args: dict[Any, Any],
+) -> tuple[list[Route], list[Port]]:
     """Args are the following.
 
         list_ports: reasonably well behaved list of ports.
@@ -406,7 +407,7 @@ def route_ports_to_y(
             )
             - by
         )
-    elif isinstance(y, (float, int)):
+    elif isinstance(y, float | int):
         pass
     if y <= min(ys):
         sort_key_east = sort_key_south_to_north

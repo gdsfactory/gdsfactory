@@ -37,13 +37,14 @@
 
 # +
 import pathlib
-from typing import Tuple
 from functools import partial
+from typing import Tuple
 
 import pytest
 from pydantic import BaseModel
 from pytest_regressions.data_regression import DataRegressionFixture
 
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import PATH
 from gdsfactory.decorators import has_valid_transformations
@@ -54,9 +55,6 @@ from gdsfactory.technology import (
     lyp_to_dataclass,
 )
 from gdsfactory.typings import Layer, LayerSpec
-
-import gdsfactory as gf
-from gdsfactory.generic_tech import get_generic_pdk
 
 gf.config.rich_output()
 PDK = get_generic_pdk()
@@ -253,7 +251,7 @@ pdk1.get_component(dict(component="mmi1x2", settings=dict(length_mmi=10)))
 #
 # gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 #
-# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==6.115.0` replacing `6.115.0` by whatever version you end up using.
+# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==7.0.2` replacing `7.0.2` by whatever version you end up using.
 # 2. Before you upgrade gdsfactory to a newer version make sure your tests pass to make sure that things behave as expected
 #
 #
@@ -406,9 +404,9 @@ c1
 # For tracking changes you can add `Component` changelog in the PCell docstring.
 
 # +
-from gdsfactory.generic_tech import get_generic_pdk
 import gdsfactory as gf
-from gdsfactory.typings import LayerSpec, Tuple
+from gdsfactory.generic_tech import get_generic_pdk
+from gdsfactory.typings import LayerSpec
 
 PDK = get_generic_pdk()
 PDK.activate()

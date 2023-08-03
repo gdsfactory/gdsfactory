@@ -9,11 +9,10 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import hashlib
-import warnings
-from collections.abc import Iterable
-from typing import Callable, Optional, Union
-
 import math
+import warnings
+from collections.abc import Callable, Iterable
+
 import numpy as np
 from numpy import mod, pi
 
@@ -143,7 +142,7 @@ class Path(_GeometryHelper):
             nx2, ny2 = points[-1] - points[-2]
             end_angle = np.arctan2(ny2, nx2) / np.pi * 180
         # If list of Paths or arrays
-        elif isinstance(path, (list, tuple)):
+        elif isinstance(path, list | tuple):
             for p in path:
                 self.append(p)
             return self
@@ -165,7 +164,7 @@ class Path(_GeometryHelper):
 
         return self
 
-    def offset(self, offset: Union[float, Callable[..., float]] = 0):
+    def offset(self, offset: float | Callable[..., float] = 0):
         """Offsets Path so that it follows the Path centerline plus an offset.
 
         The offset can either be a fixed value, or a function
@@ -231,7 +230,7 @@ class Path(_GeometryHelper):
 
         return self
 
-    def rotate(self, angle: float = 45, center: Optional[Float2] = (0, 0)):
+    def rotate(self, angle: float = 45, center: Float2 | None = (0, 0)):
         """Rotates all Polygons in the Component around the specified center point.
 
         If no center point specified will rotate around (0,0).
@@ -431,13 +430,13 @@ class Path(_GeometryHelper):
 
     def extrude(
         self,
-        cross_section: Optional[CrossSectionSpec] = None,
-        layer: Optional[LayerSpec] = None,
-        width: Optional[float] = None,
-        widths: Optional[Float2] = None,
-        simplify: Optional[float] = None,
-        shear_angle_start: Optional[float] = None,
-        shear_angle_end: Optional[float] = None,
+        cross_section: CrossSectionSpec | None = None,
+        layer: LayerSpec | None = None,
+        width: float | None = None,
+        widths: Float2 | None = None,
+        simplify: float | None = None,
+        shear_angle_start: float | None = None,
+        shear_angle_end: float | None = None,
     ) -> Component:
         """Returns Component by extruding a Path with a CrossSection.
 
@@ -738,13 +737,13 @@ def transition(
 @cell
 def extrude(
     p: Path,
-    cross_section: Optional[CrossSectionSpec] = None,
-    layer: Optional[LayerSpec] = None,
-    width: Optional[float] = None,
-    widths: Optional[Float2] = None,
-    simplify: Optional[float] = None,
-    shear_angle_start: Optional[float] = None,
-    shear_angle_end: Optional[float] = None,
+    cross_section: CrossSectionSpec | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    widths: Float2 | None = None,
+    simplify: float | None = None,
+    shear_angle_start: float | None = None,
+    shear_angle_end: float | None = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
 
@@ -832,7 +831,7 @@ def extrude(
         port_types = section.port_types
         hidden = section.hidden
 
-        if isinstance(width, (int, float)) and isinstance(offset, (int, float)):
+        if isinstance(width, int | float) and isinstance(offset, int | float):
             xsection_points.append([width, offset])
         if isinstance(layer, int):
             layer = (layer, 0)
@@ -1036,9 +1035,9 @@ def _rotated_delta(
 
 def _cut_path_with_ray(
     start_point: np.ndarray,
-    start_angle: Optional[float],
+    start_angle: float | None,
     end_point: np.ndarray,
-    end_angle: Optional[float],
+    end_angle: float | None,
     path: np.ndarray,
 ) -> np.ndarray:
     """Cuts or extends a path given a point and angle to project."""
@@ -1096,8 +1095,8 @@ def _cut_path_with_ray(
 def arc(
     radius: float = 10.0,
     angle: float = 90,
-    npoints: Optional[int] = None,
-    start_angle: Optional[float] = -90,
+    npoints: int | None = None,
+    start_angle: float | None = -90,
 ) -> Path:
     """Returns a radial arc.
 
@@ -1162,7 +1161,7 @@ def euler(
     angle: float = 90,
     p: float = 0.5,
     use_eff: bool = False,
-    npoints: Optional[int] = None,
+    npoints: int | None = None,
 ) -> Path:
     """Returns an euler bend that adiabatically transitions from straight to curved.
 

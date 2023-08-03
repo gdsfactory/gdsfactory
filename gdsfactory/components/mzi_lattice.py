@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple
-
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -16,9 +14,9 @@ from gdsfactory.typings import ComponentSpec
 
 @cell
 def mzi_lattice(
-    coupler_lengths: Tuple[float, ...] = (10.0, 20.0),
-    coupler_gaps: Tuple[float, ...] = (0.2, 0.3),
-    delta_lengths: Tuple[float, ...] = (10.0,),
+    coupler_lengths: tuple[float, ...] = (10.0, 20.0),
+    coupler_gaps: tuple[float, ...] = (0.2, 0.3),
+    delta_lengths: tuple[float, ...] = (10.0,),
     mzi: ComponentSpec = mzi_coupler,
     splitter: ComponentSpec = coupler_function,
     **kwargs,
@@ -127,23 +125,23 @@ def mzi_lattice(
 @cell
 def mzi_lattice_mmi(
     coupler_widths=(None, None),
-    coupler_widths_tapers: Tuple[float, ...] = (
+    coupler_widths_tapers: tuple[float, ...] = (
         1.0,
         1.0,
     ),
-    coupler_lengths_tapers: Tuple[float, ...] = (
+    coupler_lengths_tapers: tuple[float, ...] = (
         10.0,
         10.0,
     ),
-    coupler_lengths_mmis: Tuple[float, ...] = (
+    coupler_lengths_mmis: tuple[float, ...] = (
         5.5,
         5.5,
     ),
-    coupler_widths_mmis: Tuple[float, ...] = (
+    coupler_widths_mmis: tuple[float, ...] = (
         2.5,
         2.5,
     ),
-    coupler_gaps_mmis: Tuple[float, ...] = (
+    coupler_gaps_mmis: tuple[float, ...] = (
         0.25,
         0.25,
     ),
@@ -153,7 +151,7 @@ def mzi_lattice_mmi(
     ),
     straight_functions_mmis=(straight_function, straight_function),
     cross_sections_mmis=("strip", "strip"),
-    delta_lengths: Tuple[float, ...] = (10.0,),
+    delta_lengths: tuple[float, ...] = (10.0,),
     mzi=mmi_coupler_function,
     splitter=mmi_splitter_function,
     **kwargs,

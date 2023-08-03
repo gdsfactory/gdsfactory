@@ -1,8 +1,9 @@
 """Merge mask metadata with test labels to return test_metadata."""
 from __future__ import annotations
 
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Callable
+from typing import Any
 
 from omegaconf import DictConfig, OmegaConf
 
@@ -12,7 +13,7 @@ from gdsfactory.typings import PathType
 
 def parse_csv_data(
     csv_labels_path: Path, ignore_prefix: str = "METR_"
-) -> List[List[str]]:
+) -> list[list[str]]:
     """Returns CSV labels as a list of strings."""
     with open(csv_labels_path) as f:
         # Get all lines
@@ -62,9 +63,9 @@ def component_name_from_string_with_dashes(label: str) -> str:
 
 def merge_test_metadata(
     labels_path: PathType,
-    mask_metadata: Dict[str, Any],
+    mask_metadata: dict[str, Any],
     component_name_from_string: Callable = component_name_from_string_with_dashes,
-    filepath: Optional[PathType] = None,
+    filepath: PathType | None = None,
 ) -> DictConfig:
     """Returns a test metadata dict config of labeled cells by merging GDS \
     labels in CSV and YAML mask metadata.

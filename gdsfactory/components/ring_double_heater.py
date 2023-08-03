@@ -8,7 +8,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack_heater_m3
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2, Optional
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
 via_stack_heater_m3_mini = partial(via_stack_heater_m3, size=(4, 4))
 
@@ -27,7 +27,7 @@ def ring_double_heater(
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section: CrossSectionSpec = "strip",
     via_stack: gf.typings.ComponentSpec = via_stack_heater_m3_mini,
-    port_orientation: Optional[float] = None,
+    port_orientation: float | None = None,
     via_stack_offset: Float2 = (0, 0),
     **kwargs,
 ) -> Component:

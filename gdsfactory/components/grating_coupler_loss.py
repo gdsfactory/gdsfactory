@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import inspect
-from typing import Callable, List, Tuple
+from collections.abc import Callable
 
 import gdsfactory as gf
 from gdsfactory.add_labels import get_input_label as get_input_label_function
@@ -22,7 +22,7 @@ def connect_loopback(
     y_bot_align_route: float,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
-) -> List[ComponentReference]:
+) -> list[ComponentReference]:
     """Connects loopback structure."""
     p0 = port0.center
     p1 = port1.center
@@ -51,7 +51,7 @@ def connect_loopback(
 def loss_deembedding_ch13_24(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
-    input_port_indexes: Tuple[int, ...] = (0, 1),
+    input_port_indexes: tuple[int, ...] = (0, 1),
     cross_section: CrossSectionSpec = "strip",
     port_name: str = "o1",
     get_input_label: Callable = get_input_label_function,
@@ -119,7 +119,7 @@ def loss_deembedding_ch13_24(
 def loss_deembedding_ch12_34(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
-    input_port_indexes: Tuple[int, ...] = (0, 2),
+    input_port_indexes: tuple[int, ...] = (0, 2),
     port_name: str = "o1",
     cross_section: CrossSectionSpec = "strip",
     get_input_label: Callable = get_input_label_function,
@@ -183,7 +183,7 @@ def loss_deembedding_ch12_34(
 def loss_deembedding_ch14_23(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
-    input_port_indexes: Tuple[int, ...] = (0, 1),
+    input_port_indexes: tuple[int, ...] = (0, 1),
     cross_section: CrossSectionSpec = "strip",
     port_name: str = "o1",
     get_input_label: Callable = get_input_label_function,
@@ -247,7 +247,7 @@ def loss_deembedding_ch14_23(
 def grating_coupler_loss_fiber_array(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
-    input_port_indexes: Tuple[int, ...] = (0, 1),
+    input_port_indexes: tuple[int, ...] = (0, 1),
     port_name: str = "o1",
     cross_section: CrossSectionSpec = "strip",
     get_input_label: Callable = get_input_label_function,

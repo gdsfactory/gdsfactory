@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -26,13 +24,13 @@ def coh_tx_single_pol(
     phase_shifter_length: float = 100.0,
     mzm_ps_spacing: float = 40.0,
     splitter: ComponentSpec = "mmi1x2",
-    combiner: Optional[ComponentSpec] = None,
+    combiner: ComponentSpec | None = None,
     mzm: ComponentSpec = default_mzm,
     mzm_length: float = 200.0,
     with_pads: bool = False,
     xspacing: float = 40.0,
-    input_coupler: Optional[ComponentSpec] = None,
-    output_coupler: Optional[ComponentSpec] = None,
+    input_coupler: ComponentSpec | None = None,
+    output_coupler: ComponentSpec | None = None,
     pad_array: ComponentSpec = "pad_array",
     cross_section: CrossSectionSpec = "strip",
     **kwargs,

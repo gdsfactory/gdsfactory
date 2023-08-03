@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.via import via
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.cross_section import Section
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Optional
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs
 
 via_stack = partial(
     via_stack,
@@ -41,9 +41,9 @@ def straight_heater_meander_doped(
     extension_length: float = 15.0,
     layers_doping: LayerSpecs = ("P", "PP", "PPP"),
     radius: float = 5.0,
-    via_stack: Optional[ComponentSpec] = via_stack,
-    port_orientation1: Optional[int] = None,
-    port_orientation2: Optional[int] = None,
+    via_stack: ComponentSpec | None = via_stack,
+    port_orientation1: int | None = None,
+    port_orientation2: int | None = None,
     straight_widths: Floats = (0.8, 0.9, 0.8),
     taper_length: float = 10,
 ) -> Component:

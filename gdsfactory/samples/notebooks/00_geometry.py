@@ -63,6 +63,7 @@ c.plot()
 
 # +
 from shapely.geometry.polygon import Polygon
+
 import gdsfactory as gf
 
 c = gf.Component("Mixed_polygons")

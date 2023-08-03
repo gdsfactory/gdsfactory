@@ -33,6 +33,6 @@ RUN mamba install gdstk -y
 RUN mamba install pymeep=*=mpi_mpich_* -y
 RUN mamba install -c conda-forge slepc4py=*=complex* -y
 
-RUN pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,sax] femwell
+RUN pip install gdsfactory[cad,full]
 WORKDIR /home/jovyan
 # VOLUME /home/jovyan/work

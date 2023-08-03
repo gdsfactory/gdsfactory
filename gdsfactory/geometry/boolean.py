@@ -1,8 +1,6 @@
 """Based on phidl.geometry."""
 from __future__ import annotations
 
-from typing import Tuple, Union
-
 import gdstk
 
 import gdsfactory as gf
@@ -14,8 +12,8 @@ from gdsfactory.typings import ComponentOrReference, LayerSpec
 
 @gf.cell
 def boolean(
-    A: Union[ComponentOrReference, Tuple[ComponentOrReference, ...]],
-    B: Union[ComponentOrReference, Tuple[ComponentOrReference, ...]],
+    A: ComponentOrReference | tuple[ComponentOrReference, ...],
+    B: ComponentOrReference | tuple[ComponentOrReference, ...],
     operation: str,
     precision: float = 1e-4,
     layer: LayerSpec = (1, 0),
@@ -60,12 +58,12 @@ def boolean(
     D = Component()
     A_polys = []
     B_polys = []
-    A = list(A) if isinstance(A, (list, tuple)) else [A]
-    B = list(B) if isinstance(B, (list, tuple)) else [B]
+    A = list(A) if isinstance(A, list | tuple) else [A]
+    B = list(B) if isinstance(B, list | tuple) else [B]
 
     for X, polys in ((A, A_polys), (B, B_polys)):
         for e in X:
-            if isinstance(e, (Component, ComponentReference)):
+            if isinstance(e, Component | ComponentReference):
                 polys.extend(e.get_polygons())
             elif isinstance(e, Polygon):
                 polys.extend(e.polygons)

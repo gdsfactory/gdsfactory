@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional, Union
-
 import numpy as np
 from numpy import cos, float64, ndarray, sin
 
@@ -164,10 +162,10 @@ def extrude_path(
     points: ndarray,
     width: float,
     with_manhattan_facing_angles: bool = True,
-    spike_length: Union[float64, int, float] = 0,
-    start_angle: Optional[int] = None,
-    end_angle: Optional[int] = None,
-    grid: Optional[float] = None,
+    spike_length: float64 | int | float = 0,
+    start_angle: int | None = None,
+    end_angle: int | None = None,
+    grid: float | None = None,
 ) -> ndarray:
     """Deprecated. Use gdsfactory.path.Path.extrude() instead.
 

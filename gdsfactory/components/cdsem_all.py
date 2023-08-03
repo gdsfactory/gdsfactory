@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional, Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -17,13 +16,13 @@ text_rectangular_mini = partial(text_rectangular, size=1)
 
 @cell
 def cdsem_all(
-    widths: Tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
-    dense_lines_width: Optional[float] = 0.3,
+    widths: tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
+    dense_lines_width: float | None = 0.3,
     dense_lines_width_difference: float = 20e-3,
     dense_lines_gap: float = 0.3,
-    dense_lines_labels: Tuple[str, ...] = ("DL", "DM", "DH"),
+    dense_lines_labels: tuple[str, ...] = ("DL", "DM", "DH"),
     straight: ComponentSpec = "straight",
-    bend90: Optional[ComponentSpec] = "bend_circular",
+    bend90: ComponentSpec | None = "bend_circular",
     cross_section: CrossSectionSpec = "strip",
     text: ComponentSpec = text_rectangular_mini,
 ) -> Component:

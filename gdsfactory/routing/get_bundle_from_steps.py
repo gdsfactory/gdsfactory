@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import List, Optional, Union
 
 import numpy as np
 
@@ -26,20 +25,20 @@ from gdsfactory.typings import (
 
 
 def get_bundle_from_steps(
-    ports1: List[Port],
-    ports2: List[Port],
-    steps: Optional[List[Step]] = None,
+    ports1: list[Port],
+    ports2: list[Port],
+    steps: list[Step] | None = None,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    taper: Optional[ComponentSpec] = taper_function,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
+    taper: ComponentSpec | None = taper_function,
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     sort_ports: bool = True,
-    separation: Optional[float] = None,
-    path_length_match_loops: Optional[int] = None,
+    separation: float | None = None,
+    path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     **kwargs,
-) -> List[Route]:
+) -> list[Route]:
     """Returns a list of routes formed by the given waypoints steps.
 
     Can add bends instead of corners and optionally tapers in straight sections.

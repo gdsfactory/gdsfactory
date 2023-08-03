@@ -8,26 +8,26 @@ import functools
 import hashlib
 import inspect
 import sys
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers
-from typing import Any, Callable, Dict, List, Optional, Tuple, TypeVar, Union
+from typing import Any, Literal, TypeVar
 
 from pydantic import BaseModel, Field, validate_arguments
-from typing_extensions import Literal
+
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 from gdsfactory.serialization import clean_dict
 
 nm = 1e-3
 
-Layer = Tuple[int, int]
-Layers = Tuple[Layer, ...]
+Layer = tuple[int, int]
+Layers = tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]
 
-LayerSpec = Union[Layer, int, str]
-LayerSpecs = Union[List[LayerSpec], Tuple[LayerSpec, ...]]
+LayerSpec = Layer | int | str
+LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...]
 
-Floats = Tuple[float, ...]
+Floats = tuple[float, ...]
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
 
@@ -70,15 +70,15 @@ class Section(BaseModel):
                          width
     """
 
-    width: Union[float, Callable]
-    offset: Union[float, Callable] = 0
-    insets: Optional[tuple] = None
-    layer: Optional[Union[LayerSpec, LayerSpecs]] = None
-    port_names: Tuple[Optional[str], Optional[str]] = (None, None)
-    port_types: Tuple[str, str] = ("optical", "optical")
-    name: Optional[str] = None
+    width: float | Callable
+    offset: float | Callable = 0
+    insets: tuple | None = None
+    layer: LayerSpec | LayerSpecs | None = None
+    port_names: tuple[str | None, str | None] = (None, None)
+    port_types: tuple[str, str] = ("optical", "optical")
+    name: str | None = None
     hidden: bool = False
-    simplify: Optional[float] = None
+    simplify: float | None = None
 
     class Config:
         """pydantic basemodel config."""
@@ -132,33 +132,33 @@ class CrossSection(BaseModel):
         aliases: dict of cross_section aliases.
     """
 
-    layer: Optional[LayerSpec] = None
-    width: Union[float, Callable]
-    offset: Union[float, Callable] = 0
-    radius: Optional[float] = None
-    width_wide: Optional[float] = None
-    simplify: Optional[float] = None
+    layer: LayerSpec | None = None
+    width: float | Callable
+    offset: float | Callable = 0
+    radius: float | None = None
+    width_wide: float | None = None
+    simplify: float | None = None
     auto_widen: bool = False
     auto_widen_minimum_length: float = 200.0
     taper_length: float = 10.0
-    bbox_layers: List[LayerSpec] = Field(default_factory=list)
-    bbox_offsets: List[float] = Field(default_factory=list)
-    cladding_layers: Optional[LayerSpecs] = None
-    cladding_offsets: Optional[Floats] = None
-    cladding_simplify: Optional[Floats] = cladding_simplify_optical
-    sections: List[Section] = Field(default_factory=list)
-    port_names: Tuple[Optional[str], Optional[str]] = ("o1", "o2")
-    port_types: Tuple[Optional[str], Optional[str]] = ("optical", "optical")
+    bbox_layers: list[LayerSpec] = Field(default_factory=list)
+    bbox_offsets: list[float] = Field(default_factory=list)
+    cladding_layers: LayerSpecs | None = None
+    cladding_offsets: Floats | None = None
+    cladding_simplify: Floats | None = cladding_simplify_optical
+    sections: list[Section] = Field(default_factory=list)
+    port_names: tuple[str | None, str | None] = ("o1", "o2")
+    port_types: tuple[str | None, str | None] = ("optical", "optical")
     gap: float = 3.0
     min_length: float = 10e-3
     start_straight_length: float = 10e-3
     end_straight_length: float = 10e-3
-    snap_to_grid: Optional[float] = None
-    decorator: Optional[Callable] = None
-    add_pins: Optional[Callable] = Field(default=None, exclude=True)
-    add_bbox: Optional[Callable] = Field(default=None, exclude=True)
-    info: Dict[str, Any] = Field(default_factory=dict)
-    name: Optional[str] = None
+    snap_to_grid: float | None = None
+    decorator: Callable | None = None
+    add_pins: Callable | None = Field(default=None, exclude=True)
+    add_bbox: Callable | None = Field(default=None, exclude=True)
+    info: dict[str, Any] = Field(default_factory=dict)
+    name: str | None = None
     mirror: bool = False
 
     def __init__(__pydantic_self__, **data: Any) -> None:
@@ -197,7 +197,7 @@ class CrossSection(BaseModel):
         return f"xs_{h}"
 
     @property
-    def aliases(self) -> Dict[str, Section]:
+    def aliases(self) -> dict[str, Section]:
         s = {
             "_default": Section(
                 width=self.width,
@@ -218,10 +218,10 @@ class CrossSection(BaseModel):
     def add_bbox_layers(
         self,
         component,
-        top: Optional[float] = None,
-        bottom: Optional[float] = None,
-        right: Optional[float] = None,
-        left: Optional[float] = None,
+        top: float | None = None,
+        bottom: float | None = None,
+        right: float | None = None,
+        left: float | None = None,
     ):
         """Add bounding box layers to a component.
 
@@ -268,7 +268,7 @@ class CrossSection(BaseModel):
         return xmin, xmax
 
 
-CrossSectionSpec = Union[CrossSection, Callable, Dict[str, Any]]
+CrossSectionSpec = CrossSection | Callable | dict[str, Any]
 
 
 class Transition(CrossSection):
@@ -319,12 +319,12 @@ class Transition(CrossSection):
     cross_section1: CrossSectionSpec
     cross_section2: CrossSectionSpec
     width_type: WidthTypes = "sine"
-    sections: List[Section]
-    layer: Optional[LayerSpec] = None
-    width: Optional[Union[float, Callable]] = None
-    snap_to_grid: Optional[float] = None
-    port_names: Tuple[Optional[str], Optional[str]] = (None, None)
-    port_types: Tuple[Optional[str], Optional[str]] = ("optical", "optical")
+    sections: list[Section]
+    layer: LayerSpec | None = None
+    width: float | Callable | None = None
+    snap_to_grid: float | None = None
+    port_names: tuple[str | None, str | None] = (None, None)
+    port_types: tuple[str | None, str | None] = ("optical", "optical")
 
 
 def _xsection_without_validator(func):
@@ -394,33 +394,33 @@ def xsection(func: _F) -> _F:
 
 @xsection
 def cross_section(
-    width: Union[Callable, float] = 0.5,
-    offset: Union[float, Callable] = 0,
-    layer: Optional[LayerSpec] = "WG",
-    width_wide: Optional[float] = None,
+    width: Callable | float = 0.5,
+    offset: float | Callable = 0,
+    layer: LayerSpec | None = "WG",
+    width_wide: float | None = None,
     auto_widen: bool = False,
     auto_widen_minimum_length: float = 200.0,
     taper_length: float = 10.0,
-    radius: Optional[float] = 10.0,
-    sections: Optional[Tuple[Section, ...]] = None,
-    port_names: Tuple[str, str] = ("o1", "o2"),
-    port_types: Tuple[str, str] = ("optical", "optical"),
+    radius: float | None = 10.0,
+    sections: tuple[Section, ...] | None = None,
+    port_names: tuple[str, str] = ("o1", "o2"),
+    port_types: tuple[str, str] = ("optical", "optical"),
     gap: float = 3.0,
     min_length: float = 10e-3,
     start_straight_length: float = 10e-3,
     end_straight_length: float = 10e-3,
-    snap_to_grid: Optional[float] = None,
-    bbox_layers: Optional[List[LayerSpec]] = None,
-    bbox_offsets: Optional[List[float]] = None,
-    cladding_layers: Optional[LayerSpecs] = None,
-    cladding_offsets: Optional[Floats] = None,
-    cladding_simplify: Optional[Floats] = cladding_simplify_optical,
-    info: Optional[Dict[str, Any]] = None,
-    decorator: Optional[Callable] = None,
-    add_pins: Optional[Callable] = None,
-    add_bbox: Optional[Callable] = None,
+    snap_to_grid: float | None = None,
+    bbox_layers: list[LayerSpec] | None = None,
+    bbox_offsets: list[float] | None = None,
+    cladding_layers: LayerSpecs | None = None,
+    cladding_offsets: Floats | None = None,
+    cladding_simplify: Floats | None = cladding_simplify_optical,
+    info: dict[str, Any] | None = None,
+    decorator: Callable | None = None,
+    add_pins: Callable | None = None,
+    add_bbox: Callable | None = None,
     mirror: bool = False,
-    name: Optional[str] = None,
+    name: str | None = None,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -507,7 +507,11 @@ radius_rib = 20
 
 # strip = cross_section
 strip_pins = partial(
-    cross_section, add_pins=add_pins_inside1nm, name="strip", add_bbox=None
+    cross_section,
+    add_pins=add_pins_inside1nm,
+    name="strip",
+    add_bbox=None,
+    info={"type": "strip"},
 )
 strip = strip_pins
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
@@ -517,13 +521,20 @@ strip_no_pins = partial(
 strip_siepic = partial(cross_section, add_pins=add_pins_siepic_optical)
 
 # Rib with rectangular slab
-rib = partial(strip, bbox_layers=["SLAB90"], bbox_offsets=[3], radius=radius_rib)
+rib = partial(
+    strip,
+    bbox_layers=["SLAB90"],
+    bbox_offsets=[3],
+    radius=radius_rib,
+    info={"type": "rib"},
+)
 
 # Rib with with slab that follows the waveguide core
 rib_conformal = partial(
     strip,
     sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),
     radius=radius_rib,
+    info={"type": "rib"},
 )
 rib_conformal2 = partial(
     strip,
@@ -531,6 +542,7 @@ rib_conformal2 = partial(
     cladding_layers=("SLAB90",),
     cladding_offsets=(3,),
     cladding_simplify=(50 * nm,),
+    info={"type": "rib"},
 )
 nitride = partial(strip, layer="WGN", width=1.0, radius=radius_nitride)
 strip_rib_tip = partial(
@@ -622,10 +634,10 @@ def rib_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
     width_slab: float = 7.0,
-    simplify_slab: Optional[float] = None,
-    layer: Optional[LayerSpec] = "WG",
+    simplify_slab: float | None = None,
+    layer: LayerSpec | None = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
-    wg_marking_layer: Optional[LayerSpec] = None,
+    wg_marking_layer: LayerSpec | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of rib waveguide defined by trenches.
@@ -695,10 +707,10 @@ def l_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
     width_slab: float = 7.0,
-    layer: Optional[LayerSpec] = "WG",
+    layer: LayerSpec | None = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
     mirror: bool = False,
-    wg_marking_layer: Optional[LayerSpec] = None,
+    wg_marking_layer: LayerSpec | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of l waveguide defined by trenches.
@@ -811,14 +823,14 @@ def pin(
     layer_slab: LayerSpec = "SLAB90",
     layers_via_stack1: LayerSpecs = ("PPP",),
     layers_via_stack2: LayerSpecs = ("NPP",),
-    bbox_offsets_via_stack1: Tuple[float, ...] = (0, -0.2),
-    bbox_offsets_via_stack2: Tuple[float, ...] = (0, -0.2),
+    bbox_offsets_via_stack1: tuple[float, ...] = (0, -0.2),
+    bbox_offsets_via_stack2: tuple[float, ...] = (0, -0.2),
     via_stack_width: float = 9.0,
     via_stack_gap: float = 0.55,
     slab_gap: float = -0.2,
-    layer_via: Optional[LayerSpec] = None,
+    layer_via: LayerSpec | None = None,
     via_width: float = 1,
-    via_offsets: Optional[Tuple[float, ...]] = None,
+    via_offsets: tuple[float, ...] | None = None,
     **kwargs,
 ) -> CrossSection:
     """Rib PIN doped cross_section.
@@ -912,27 +924,27 @@ def pn(
     layer: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB90",
     gap_low_doping: float = 0.0,
-    gap_medium_doping: Optional[float] = 0.5,
-    gap_high_doping: Optional[float] = 1.0,
-    offset_low_doping: Optional[float] = 0.0,
+    gap_medium_doping: float | None = 0.5,
+    gap_high_doping: float | None = 1.0,
+    offset_low_doping: float | None = 0.0,
     width_doping: float = 8.0,
     width_slab: float = 7.0,
-    layer_p: Optional[LayerSpec] = "P",
-    layer_pp: Optional[LayerSpec] = "PP",
-    layer_ppp: Optional[LayerSpec] = "PPP",
-    layer_n: Optional[LayerSpec] = "N",
-    layer_np: Optional[LayerSpec] = "NP",
-    layer_npp: Optional[LayerSpec] = "NPP",
-    layer_via: Optional[LayerSpec] = None,
+    layer_p: LayerSpec | None = "P",
+    layer_pp: LayerSpec | None = "PP",
+    layer_ppp: LayerSpec | None = "PPP",
+    layer_n: LayerSpec | None = "N",
+    layer_np: LayerSpec | None = "NP",
+    layer_npp: LayerSpec | None = "NPP",
+    layer_via: LayerSpec | None = None,
     width_via: float = 1.0,
-    layer_metal: Optional[LayerSpec] = None,
+    layer_metal: LayerSpec | None = None,
     width_metal: float = 1.0,
-    port_names: Tuple[str, str] = ("o1", "o2"),
-    bbox_layers: Optional[List[Layer]] = None,
-    bbox_offsets: Optional[List[float]] = None,
-    cladding_layers: Optional[Layers] = cladding_layers_optical,
-    cladding_offsets: Optional[Floats] = cladding_offsets_optical,
-    cladding_simplify: Optional[Floats] = cladding_simplify_optical,
+    port_names: tuple[str, str] = ("o1", "o2"),
+    bbox_layers: list[Layer] | None = None,
+    bbox_offsets: list[float] | None = None,
+    cladding_layers: Layers | None = cladding_layers_optical,
+    cladding_offsets: Floats | None = cladding_offsets_optical,
+    cladding_simplify: Floats | None = cladding_simplify_optical,
     mirror: bool = False,
     **kwargs,
 ) -> CrossSection:
@@ -1108,33 +1120,33 @@ def pn(
 @xsection
 def pn_with_trenches(
     width: float = 0.5,
-    layer: Optional[LayerSpec] = None,
+    layer: LayerSpec | None = None,
     layer_trench: LayerSpec = "DEEP_ETCH",
     gap_low_doping: float = 0.0,
-    gap_medium_doping: Optional[float] = 0.5,
-    gap_high_doping: Optional[float] = 1.0,
-    offset_low_doping: Optional[float] = 0.0,
+    gap_medium_doping: float | None = 0.5,
+    gap_high_doping: float | None = 1.0,
+    offset_low_doping: float | None = 0.0,
     width_doping: float = 8.0,
     width_slab: float = 7.0,
     width_trench: float = 2.0,
-    layer_p: Optional[LayerSpec] = "P",
-    layer_pp: Optional[LayerSpec] = "PP",
-    layer_ppp: Optional[LayerSpec] = "PPP",
-    layer_n: Optional[LayerSpec] = "N",
-    layer_np: Optional[LayerSpec] = "NP",
-    layer_npp: Optional[LayerSpec] = "NPP",
-    layer_via: Optional[LayerSpec] = None,
+    layer_p: LayerSpec | None = "P",
+    layer_pp: LayerSpec | None = "PP",
+    layer_ppp: LayerSpec | None = "PPP",
+    layer_n: LayerSpec | None = "N",
+    layer_np: LayerSpec | None = "NP",
+    layer_npp: LayerSpec | None = "NPP",
+    layer_via: LayerSpec | None = None,
     width_via: float = 1.0,
-    layer_metal: Optional[LayerSpec] = None,
+    layer_metal: LayerSpec | None = None,
     width_metal: float = 1.0,
-    port_names: Tuple[str, str] = ("o1", "o2"),
-    bbox_layers: Optional[List[Layer]] = None,
-    bbox_offsets: Optional[List[float]] = None,
-    cladding_layers: Optional[Layers] = cladding_layers_optical,
-    cladding_offsets: Optional[Floats] = cladding_offsets_optical,
-    cladding_simplify: Optional[Floats] = cladding_simplify_optical,
+    port_names: tuple[str, str] = ("o1", "o2"),
+    bbox_layers: list[Layer] | None = None,
+    bbox_offsets: list[float] | None = None,
+    cladding_layers: Layers | None = cladding_layers_optical,
+    cladding_offsets: Floats | None = cladding_offsets_optical,
+    cladding_simplify: Floats | None = cladding_simplify_optical,
     mirror: bool = False,
-    wg_marking_layer: Optional[LayerSpec] = None,
+    wg_marking_layer: LayerSpec | None = None,
     **kwargs,
 ) -> CrossSection:
     """Rib PN doped cross_section.
@@ -1320,31 +1332,31 @@ def pn_with_trenches(
 @xsection
 def pn_with_trenches_asymmetric(
     width: float = 0.5,
-    layer: Optional[LayerSpec] = None,
+    layer: LayerSpec | None = None,
     layer_trench: LayerSpec = "DEEP_ETCH",
-    gap_low_doping: Union[float, Tuple[float, float]] = (0.0, 0.0),
-    gap_medium_doping: Optional[Union[float, Tuple[float, float]]] = (0.5, 0.2),
-    gap_high_doping: Optional[Union[float, Tuple[float, float]]] = (1.0, 0.8),
+    gap_low_doping: float | tuple[float, float] = (0.0, 0.0),
+    gap_medium_doping: float | tuple[float, float] | None = (0.5, 0.2),
+    gap_high_doping: float | tuple[float, float] | None = (1.0, 0.8),
     width_doping: float = 8.0,
     width_slab: float = 7.0,
     width_trench: float = 2.0,
-    layer_p: Optional[LayerSpec] = "P",
-    layer_pp: Optional[LayerSpec] = "PP",
-    layer_ppp: Optional[LayerSpec] = "PPP",
-    layer_n: Optional[LayerSpec] = "N",
-    layer_np: Optional[LayerSpec] = "NP",
-    layer_npp: Optional[LayerSpec] = "NPP",
-    layer_via: Optional[LayerSpec] = None,
+    layer_p: LayerSpec | None = "P",
+    layer_pp: LayerSpec | None = "PP",
+    layer_ppp: LayerSpec | None = "PPP",
+    layer_n: LayerSpec | None = "N",
+    layer_np: LayerSpec | None = "NP",
+    layer_npp: LayerSpec | None = "NPP",
+    layer_via: LayerSpec | None = None,
     width_via: float = 1.0,
-    layer_metal: Optional[LayerSpec] = None,
+    layer_metal: LayerSpec | None = None,
     width_metal: float = 1.0,
-    port_names: Tuple[str, str] = ("o1", "o2"),
-    bbox_layers: Optional[List[Layer]] = None,
-    bbox_offsets: Optional[List[float]] = None,
-    cladding_layers: Optional[Layers] = cladding_layers_optical,
-    cladding_offsets: Optional[Floats] = cladding_offsets_optical,
+    port_names: tuple[str, str] = ("o1", "o2"),
+    bbox_layers: list[Layer] | None = None,
+    bbox_offsets: list[float] | None = None,
+    cladding_layers: Layers | None = cladding_layers_optical,
+    cladding_offsets: Floats | None = cladding_offsets_optical,
     mirror: bool = False,
-    wg_marking_layer: Optional[LayerSpec] = None,
+    wg_marking_layer: LayerSpec | None = None,
     **kwargs,
 ) -> CrossSection:
     """Rib PN doped cross_section with asymmetric dimensions left and right.
@@ -1432,7 +1444,7 @@ def pn_with_trenches_asymmetric(
         sections += [Section(width=width, offset=0, layer=wg_marking_layer)]
 
     # Low doping
-    if not isinstance(gap_low_doping, (list, Tuple)):
+    if not isinstance(gap_low_doping, list | tuple):
         gap_low_doping = [gap_low_doping] * 2
 
     if layer_n:
@@ -1453,7 +1465,7 @@ def pn_with_trenches_asymmetric(
         sections.append(p)
 
     if gap_medium_doping is not None:
-        if not isinstance(gap_medium_doping, (list, Tuple)):
+        if not isinstance(gap_medium_doping, list | tuple):
             gap_medium_doping = [gap_medium_doping] * 2
 
         if layer_np:
@@ -1474,7 +1486,7 @@ def pn_with_trenches_asymmetric(
             sections.append(pp)
 
     if gap_high_doping is not None:
-        if not isinstance(gap_high_doping, (list, Tuple)):
+        if not isinstance(gap_high_doping, list | tuple):
             gap_high_doping = [gap_high_doping] * 2
 
         if layer_npp:
@@ -1547,28 +1559,28 @@ def pn_with_trenches_asymmetric(
 @xsection
 def l_wg_doped_with_trenches(
     width: float = 0.5,
-    layer: Optional[LayerSpec] = None,
+    layer: LayerSpec | None = None,
     layer_trench: LayerSpec = "DEEP_ETCH",
     gap_low_doping: float = 0.0,
-    gap_medium_doping: Optional[float] = 0.5,
-    gap_high_doping: Optional[float] = 1.0,
+    gap_medium_doping: float | None = 0.5,
+    gap_high_doping: float | None = 1.0,
     width_doping: float = 8.0,
     width_slab: float = 7.0,
     width_trench: float = 2.0,
     layer_low: LayerSpec = "P",
     layer_mid: LayerSpec = "PP",
     layer_high: LayerSpec = "PPP",
-    layer_via: Optional[LayerSpec] = None,
+    layer_via: LayerSpec | None = None,
     width_via: float = 1.0,
-    layer_metal: Optional[LayerSpec] = None,
+    layer_metal: LayerSpec | None = None,
     width_metal: float = 1.0,
-    port_names: Tuple[str, str] = ("o1", "o2"),
-    bbox_layers: Optional[List[Layer]] = None,
-    bbox_offsets: Optional[List[float]] = None,
-    cladding_layers: Optional[Layers] = cladding_layers_optical,
-    cladding_offsets: Optional[Floats] = cladding_offsets_optical,
+    port_names: tuple[str, str] = ("o1", "o2"),
+    bbox_layers: list[Layer] | None = None,
+    bbox_offsets: list[float] | None = None,
+    cladding_layers: Layers | None = cladding_layers_optical,
+    cladding_offsets: Floats | None = cladding_offsets_optical,
     mirror: bool = False,
-    wg_marking_layer: Optional[LayerSpec] = None,
+    wg_marking_layer: LayerSpec | None = None,
     **kwargs,
 ) -> CrossSection:
     """L waveguide PN doped cross_section.
@@ -1849,7 +1861,7 @@ def strip_heater_doped(
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
     layers_heater: LayerSpecs = ("WG", "NPP"),
-    bbox_offsets_heater: Tuple[float, ...] = (0, 0.1),
+    bbox_offsets_heater: tuple[float, ...] = (0, 0.1),
     **kwargs,
 ) -> CrossSection:
     """Returns strip cross_section with N++ doped heaters on both sides.
@@ -2004,7 +2016,7 @@ def rib_heater_doped_via_stack(
     via_stack_width: float = 2.0,
     via_stack_gap: float = 0.8,
     layers_via_stack: LayerSpecs = ("NPP", "VIAC"),
-    bbox_offsets_via_stack: Tuple[float, ...] = (0, -0.2),
+    bbox_offsets_via_stack: tuple[float, ...] = (0, -0.2),
     slab_gap: float = 0.2,
     slab_offset: float = 0,
     with_top_heater: bool = True,
@@ -2125,8 +2137,8 @@ def pn_ge_detector_si_contacts(
     width_ge: float = 3.0,
     layer_ge: LayerSpec = "GE",
     gap_low_doping: float = 0.6,
-    gap_medium_doping: Optional[float] = 0.9,
-    gap_high_doping: Optional[float] = 1.1,
+    gap_medium_doping: float | None = 0.9,
+    gap_high_doping: float | None = 1.1,
     width_doping: float = 8.0,
     layer_p: LayerSpec = "P",
     layer_pp: LayerSpec = "PP",
@@ -2134,14 +2146,14 @@ def pn_ge_detector_si_contacts(
     layer_n: LayerSpec = "N",
     layer_np: LayerSpec = "NP",
     layer_npp: LayerSpec = "NPP",
-    layer_via: Optional[LayerSpec] = None,
+    layer_via: LayerSpec | None = None,
     width_via: float = 1.0,
-    layer_metal: Optional[LayerSpec] = None,
-    port_names: Tuple[str, str] = ("o1", "o2"),
-    bbox_layers: Optional[List[Layer]] = None,
-    bbox_offsets: Optional[List[float]] = None,
-    cladding_layers: Optional[Layers] = cladding_layers_optical,
-    cladding_offsets: Optional[Floats] = cladding_offsets_optical,
+    layer_metal: LayerSpec | None = None,
+    port_names: tuple[str, str] = ("o1", "o2"),
+    bbox_layers: list[Layer] | None = None,
+    bbox_offsets: list[float] | None = None,
+    cladding_layers: Layers | None = cladding_layers_optical,
+    cladding_offsets: Floats | None = cladding_offsets_optical,
 ) -> CrossSection:
     """Linear Ge detector cross section based on a lateral p(i)n junction.
 
@@ -2299,7 +2311,7 @@ CrossSectionFactory = Callable[..., CrossSection]
 
 def get_cross_section_factories(
     modules, verbose: bool = False
-) -> Dict[str, CrossSectionFactory]:
+) -> dict[str, CrossSectionFactory]:
     """Returns cross_section factories from a module or list of modules.
 
     Args:

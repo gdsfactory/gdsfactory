@@ -9,7 +9,7 @@ from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper
 from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Optional
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -23,8 +23,8 @@ def cutback_component(
     mirror: bool = False,
     mirror1: bool = False,
     mirror2: bool = False,
-    straight_length: Optional[float] = None,
-    straight_length_pair: Optional[float] = None,
+    straight_length: float | None = None,
+    straight_length_pair: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:

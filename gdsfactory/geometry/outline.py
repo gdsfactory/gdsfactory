@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Union
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
@@ -17,7 +15,7 @@ def outline(
     join: str = "miter",
     tolerance: int = 2,
     join_first: bool = True,
-    open_ports: Union[bool, float] = False,
+    open_ports: bool | float = False,
     layer=0,
 ) -> Component:
     """Returns Component containing the outlined polygon(s).

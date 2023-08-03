@@ -3,7 +3,6 @@ from __future__ import annotations
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
-
 import gdsfactory as gf
 
 

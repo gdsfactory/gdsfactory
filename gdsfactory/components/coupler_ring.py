@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -9,11 +7,11 @@ from gdsfactory.components.coupler90 import coupler90
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import (
+    ComponentFactory,
     ComponentSpec,
+    Coordinates,
     CrossSectionSpec,
     LayerSpecs,
-    Coordinates,
-    ComponentFactory,
 )
 
 
@@ -26,7 +24,7 @@ def coupler_ring(
     bend: ComponentSpec = bend_euler,
     coupler_straight: ComponentSpec = coupler_straight,
     cross_section: CrossSectionSpec = "strip",
-    bend_cross_section: Optional[CrossSectionSpec] = None,
+    bend_cross_section: CrossSectionSpec | None = None,
     length_extension: float = 3,
     **kwargs,
 ) -> Component:
@@ -113,7 +111,7 @@ def coupler_ring(
 def coupler_ring_point(
     coupler_ring: ComponentFactory = coupler_ring,
     open_layers: LayerSpecs = None,
-    open_sizes: Optional[Coordinates] = None,
+    open_sizes: Coordinates | None = None,
     **kwargs,
 ) -> Component:
     """Coupler ring that removes some layers at the coupling region.

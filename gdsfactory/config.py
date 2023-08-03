@@ -5,21 +5,20 @@ You can set environment variables.
 
 from __future__ import annotations
 
-import traceback
-from itertools import takewhile
 import importlib
-import re
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 import tempfile
+import traceback
 import warnings
+from itertools import takewhile
 from pathlib import Path
 from pprint import pprint
-from typing_extensions import Literal
-from typing import Any, Optional, Union, ClassVar, TYPE_CHECKING, List
+from typing import TYPE_CHECKING, Any, ClassVar, Literal
 
 import loguru
 from loguru import logger as logger
@@ -30,8 +29,8 @@ from rich.table import Table
 if TYPE_CHECKING:
     from loguru import Logger
 
-__version__ = "6.115.0"
-PathType = Union[str, pathlib.Path]
+__version__ = "7.0.2"
+PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
 cwd = pathlib.Path.cwd()
@@ -175,7 +174,7 @@ class LogFilter(BaseModel):
     level: Literal[
         "TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"
     ] = "INFO"
-    regex: Optional[str] = None
+    regex: str | None = None
 
     def __call__(self, record: loguru.Record) -> bool:
         """Loguru needs the filter to be callable."""
@@ -195,7 +194,7 @@ class Settings(BaseSettings):
     logger: ClassVar[Logger] = logger
     logfilter: LogFilter = Field(default_factory=LogFilter)
     display_type: Literal["widget", "klayout", "docs", "kweb"] = "kweb"
-    last_saved_files: List[PathType] = []
+    last_saved_files: list[PathType] = []
 
     def __init__(self, **data: Any):
         """Set log filter and run pydantic."""
@@ -247,7 +246,6 @@ class Paths:
     optimiser = repo_path / "tune"
     notebooks = module_path / "samples" / "notebooks"
     plugins = module / "plugins"
-    web = plugins / "web"
     test_data = repo / "test-data"
     gds_ref = test_data / "gds"
     gds_run = GDSDIR_TEMP / "gds_run"
@@ -287,7 +285,7 @@ def write_config(config: Any, json_out_path: Path) -> None:
         json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)
 
 
-def print_config(key: Optional[str] = None) -> None:
+def print_config(key: str | None = None) -> None:
     """Prints a key for the config or all the keys."""
     if key:
         if CONF.get(key):

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Callable, List, Optional, Tuple, Union
+from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 from numpy import float64, ndarray
@@ -20,8 +21,8 @@ from gdsfactory.typings import ComponentSpec, Route
 
 
 def _groups(
-    ports: List[Port], cut: float64, axis: str = "X"
-) -> Union[Tuple[List[Port], List[Any]], Tuple[List[Port], List[Port]]]:
+    ports: list[Port], cut: float64, axis: str = "X"
+) -> tuple[list[Port], list[Any]] | tuple[list[Port], list[Port]]:
     if axis == "Y":
         group1 = [p for p in ports if p.x <= cut]
         group2 = [p for p in ports if p.x > cut]
@@ -32,18 +33,18 @@ def _groups(
 
 
 def get_bundle_udirect(
-    ports1: List[Port],
-    ports2: List[Port],
+    ports1: list[Port],
+    ports2: list[Port],
     route_filter: Callable = get_route_from_waypoints,
     separation: float = 5.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     bend: ComponentSpec = bend_euler,
-    path_length_match_loops: Optional[int] = None,
+    path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     **kwargs,
-) -> List[Route]:
+) -> list[Route]:
     r"""Returns list of routes.
 
     Args:
@@ -127,8 +128,8 @@ def get_bundle_udirect(
 
 
 def _get_bundle_udirect_waypoints(
-    ports1: List[Port],
-    ports2: List[Port],
+    ports1: list[Port],
+    ports2: list[Port],
     routing_func: Callable = generate_manhattan_waypoints,
     separation: float = 5.0,
     start_straight_length: float = 0.01,
@@ -137,7 +138,7 @@ def _get_bundle_udirect_waypoints(
     start_straight_offset: float = 0.0,
     bend: ComponentSpec = bend_euler,
     **routing_func_params,
-) -> List[ndarray]:
+) -> list[ndarray]:
     nb_ports = len(ports1)
     for p in ports1:
         p.orientation = (
@@ -255,15 +256,15 @@ def _get_bundle_udirect_waypoints(
 
 
 def get_bundle_uindirect(
-    ports1: List[Port],
-    ports2: List[Port],
+    ports1: list[Port],
+    ports2: list[Port],
     route_filter: Callable = get_route_from_waypoints,
     separation: float = 5.0,
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     **routing_params,
-) -> List[Route]:
+) -> list[Route]:
     r"""Returns list of routes.
 
     Args:
@@ -337,15 +338,15 @@ def get_bundle_uindirect(
 
 
 def _get_bundle_uindirect_waypoints(
-    ports1: List[Port],
-    ports2: List[Port],
+    ports1: list[Port],
+    ports2: list[Port],
     routing_func: Callable = generate_manhattan_waypoints,
     separation: float = 5.0,
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     **routing_func_params,
-) -> List[ndarray]:
+) -> list[ndarray]:
     nb_ports = len(ports1)
 
     for p in ports1:

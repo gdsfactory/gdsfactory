@@ -41,10 +41,10 @@
 # %%
 
 # Lets generate the script that we need to have to each GDS cell into gdsfactory
-from gdsfactory.config import PATH
-from gdsfactory.technology import lyp_to_dataclass
 import gdsfactory as gf
+from gdsfactory.config import PATH
 from gdsfactory.generic_tech import get_generic_pdk
+from gdsfactory.technology import lyp_to_dataclass
 
 gf.config.rich_output()
 PDK = get_generic_pdk()

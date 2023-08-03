@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Dict, Optional, Tuple
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.ring_single import ring_single
@@ -18,7 +16,7 @@ _list_of_dicts = (
 def ring_single_array(
     ring: ComponentFactory = ring_single,
     spacing: float = 5.0,
-    list_of_dicts: Optional[Tuple[Dict[str, float], ...]] = None,
+    list_of_dicts: tuple[dict[str, float], ...] | None = None,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:

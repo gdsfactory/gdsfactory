@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from functools import lru_cache
-from typing import Dict
+from functools import cache
 
 import numpy as np
 
@@ -300,8 +299,8 @@ _
 """
 
 
-@lru_cache(maxsize=None)
-def rectangular_font() -> Dict[str, str]:
+@cache
+def rectangular_font() -> dict[str, str]:
     """Returns a rectangular font dict The keys of the dictionary are the.
 
     characters The values are the pixel representation of the character.

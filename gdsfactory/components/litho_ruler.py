@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple
-
 import gdsfactory as gf
 from gdsfactory.typings import LayerSpec
 
@@ -11,7 +9,7 @@ def litho_ruler(
     height: float = 2,
     width: float = 0.5,
     spacing: float = 2.0,
-    scale: Tuple[float, ...] = (3, 1, 1, 1, 1, 2, 1, 1, 1, 1),
+    scale: tuple[float, ...] = (3, 1, 1, 1, 1, 2, 1, 1, 1, 1),
     num_marks: int = 21,
     layer: LayerSpec = "WG",
 ) -> gf.Component:

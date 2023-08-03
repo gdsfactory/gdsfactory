@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-from typing import Tuple
-
 import gdsfactory as gf
 from gdsfactory.geometry import check_width
 
 
-def test_wmin_failing(layer: Tuple[int, int] = (1, 0)) -> None:
+def test_wmin_failing(layer: tuple[int, int] = (1, 0)) -> None:
     w = 50
     min_width = 50 + 10  # component edges are smaller than min_width
     c = gf.components.rectangle(size=(w, w), layer=layer)
@@ -18,7 +16,7 @@ def test_wmin_failing(layer: Tuple[int, int] = (1, 0)) -> None:
     assert check_width(c, min_width=min_width, layer=layer) == 2
 
 
-def test_wmin_passing(layer: Tuple[int, int] = (1, 0)) -> None:
+def test_wmin_passing(layer: tuple[int, int] = (1, 0)) -> None:
     w = 50
     min_width = 50 - 10  # component edges are bigger than the min_width
     c = gf.components.rectangle(size=(w, w), layer=layer)

@@ -77,6 +77,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
     - function: cross_section
       settings:
@@ -89,6 +91,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
     - function: cross_section
       settings:
@@ -101,6 +105,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
   full:
     bends:
@@ -128,6 +134,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
     - function: cross_section
       settings:
@@ -140,6 +148,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
     - function: cross_section
       settings:
@@ -152,6 +162,8 @@ settings:
               settings:
                 layer_label: null
                 pin_length: 0.001
+        info:
+          type: strip
         name: strip
   function_name: ring_crow_couplers
   info: {}

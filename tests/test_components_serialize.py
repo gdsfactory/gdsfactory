@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-import gdsfactory as gf
 import pytest
 
+import gdsfactory as gf
 from gdsfactory.components import cells
 
 skip_test = {
@@ -37,6 +37,7 @@ if __name__ == "__main__":
     # c2 = gf.get_component({"component": cell_name, "settings": settings2})
 
     import json
+
     import orjson
 
     c1 = gf.components.add_fiducials()

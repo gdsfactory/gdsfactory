@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -11,7 +11,7 @@ from gdsfactory.get_netlist import get_netlist_recursive
 def get_netlist_flat(
     component: Component,
     **kwargs,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Parses a recursive netlist for a component as if it was a single netlist \
             with its lowest-level instances.
 
@@ -129,7 +129,7 @@ def _get_leaf(
 
 def _lateral_map(
     local_leaf_port: str,
-    all_netlists: Dict[str, Any],
+    all_netlists: dict[str, Any],
     higher_component: str,
     level: int,
     hierarchy,
@@ -221,7 +221,7 @@ def _accumulate_placements(
 def _flatten_str_list(xs):
     """Flatten nested list of strings to list of strings."""
     for x in xs:
-        if isinstance(x, Iterable) and not isinstance(x, (str, bytes)):
+        if isinstance(x, Iterable) and not isinstance(x, str | bytes):
             yield from _flatten_str_list(x)
         else:
             yield x
@@ -229,7 +229,7 @@ def _flatten_str_list(xs):
 
 def _flatten_hierarchy(
     netlist_name: str,
-    all_netlists: List[Dict[str, Any]],
+    all_netlists: list[dict[str, Any]],
     hierarchy_delimiter: str = "~",
     component_instance_delimiter: str = ";",
 ):
@@ -256,11 +256,11 @@ def _flatten_hierarchy(
 
 def _flatten_hierarchy_recurse(
     netlist_name: str,
-    all_netlists: List[Dict[str, Any]],
-    hierarchy: Optional[str] = None,
+    all_netlists: list[dict[str, Any]],
+    hierarchy: str | None = None,
     hierarchy_delimiter: str = "~",
     component_instance_delimiter: str = ";",
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Flattens the provided recursive netlist by recursively updating a list.
 
     Args:

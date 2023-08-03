@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import itertools
-from typing import Dict, List, Optional, Tuple
 
 from numpy import float64
 
@@ -137,7 +136,7 @@ def component_lattice(
         CXX
         C-X
         """,
-    symbol_to_component: Optional[Dict[str, Component]] = None,
+    symbol_to_component: dict[str, Component] | None = None,
     grid_per_unit: int = 1000,
 ) -> Component:
     """Return a lattice Component of N inputs and outputs Columns must have.
@@ -262,8 +261,8 @@ def component_lattice(
 
 
 def parse_lattice(
-    lattice: str, symbol_to_component: Dict[str, Component]
-) -> Tuple[Dict[int, List[str]], Dict[int, float64]]:
+    lattice: str, symbol_to_component: dict[str, Component]
+) -> tuple[dict[int, list[str]], dict[int, float64]]:
     """Extract each column.
 
     Args:

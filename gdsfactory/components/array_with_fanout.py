@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -23,8 +21,8 @@ def array_with_fanout(
     radius: float = 5.0,
     component_port_name: str = "e4",
     bend: ComponentSpec = "bend_euler",
-    bend_port_name1: Optional[str] = None,
-    bend_port_name2: Optional[str] = None,
+    bend_port_name1: str | None = None,
+    bend_port_name2: str | None = None,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
@@ -82,8 +80,8 @@ def array_with_fanout(
 @cell
 def array_with_fanout_2d(
     pitch: float = 150.0,
-    pitch_x: Optional[float] = None,
-    pitch_y: Optional[float] = None,
+    pitch_x: float | None = None,
+    pitch_y: float | None = None,
     columns: int = 3,
     rows: int = 2,
     **kwargs,

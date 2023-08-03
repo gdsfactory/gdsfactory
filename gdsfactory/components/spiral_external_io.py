@@ -4,8 +4,6 @@ maybe: need to add grating coupler loopback as well
 """
 from __future__ import annotations
 
-from typing import Optional, Tuple
-
 import numpy as np
 from numpy import float64
 
@@ -16,7 +14,7 @@ from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
+def get_bend_port_distances(bend: Component) -> tuple[float64, float64]:
     """Returns distance between bend ports."""
     p0, p1 = bend.ports.values()
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
@@ -31,7 +29,7 @@ def spiral_external_io(
     xspacing: float = 3.0,
     yspacing: float = 3.0,
     bend: ComponentSpec = bend_euler,
-    length: Optional[float] = None,
+    length: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     with_inner_ports: bool = False,
     y_straight_outer_offset: float = 0.0,
