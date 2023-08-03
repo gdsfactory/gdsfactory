@@ -36,7 +36,14 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
     """
     ysize = port2.center[1] - port1.center[1]
     xsize = port2.center[0] - port1.center[0]
-    size = (xsize, ysize)
+
+    # We need to act differently if the route is orthogonal in x
+    # or orthogonal in y
+
+    if port1.orientation == 0 or port1.orientation == 180:
+        size = (xsize, ysize)
+    else:
+        size = (ysize, -xsize)
 
     bend = bend_s(size=size, **kwargs)
 
