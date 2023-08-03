@@ -50,7 +50,9 @@ It also exports component settings (for measurement and data analysis) and netli
 
 It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, MEOW ...), verification and validation.
 
-![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
+![tool interfaces](https://i.imgur.com/oHKZ7hW.png)
+
+![pdks](https://i.imgur.com/zngqi0B.png)
 
 Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK as some are only provided under NDA:
 
@@ -82,14 +84,14 @@ Once you have python installed, open Anaconda Prompt as Administrator and then i
 
 ```
 conda install -c conda-forge gdsfactory -y
-pip install gdsfactory --upgrade
+pip install "gdsfactory[cad]"--upgrade
 ```
 
 Then you can install Klayout-live `klive` integration in the klayout GUI `Tools --> Manage Packages --> Install New Packages --> Klive` as well as the genericpdk layermap `Tools --> Manage Packages --> Install New Packages --> gdsfactory` and restart klayout.
 
 ### Update gdsfactory
 
-You can `pip install gdsfactory --upgrade`
+You can `pip install gdsfactory[cad] --upgrade`
 
 Notice that some PDKs may only work for a specific version of gdsfactory, so make sure you install the correct gdsfactory version specified in the `pyproject.toml` file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example `pip install gf180` will install the latest gdsfactory version that has been tested for the GlobalFoundries180 PDK.
 

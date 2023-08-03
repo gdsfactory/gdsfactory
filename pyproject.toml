@@ -15,7 +15,6 @@ dependencies = [
   "click",
   "flatdict",
   "gdstk<1",
-  "gplugins<1",  # TODO: remove after we removing deprecated gdsfactory/simulation and gdsfactory/plugins
   "jinja2",
   "loguru<1",
   "matplotlib",
@@ -33,7 +32,18 @@ dependencies = [
   "toolz",
   "tqdm",
   "types-PyYAML",
-  "watchdog",
+  "watchdog"
+]
+description = "python library to generate GDS layouts"
+keywords = ["eda", "photonics", "python"]
+license = {file = "LICENSE"}
+name = "gdsfactory"
+readme = "README.md"
+requires-python = ">=3.10"
+version = "7.0.0"
+
+[project.optional-dependencies]
+cad = [
   "freetype-py",
   "ipycytoscape",
   "ipyevents",
@@ -49,17 +59,9 @@ dependencies = [
   "pyglet<2",
   "rich-click",
   "scikit-image",
-  "trimesh"
+  "trimesh",
+  "gplugins<1"  # TODO: remove after we remove deprecated gdsfactory/simulation and gdsfactory/plugins
 ]
-description = "python library to generate GDS layouts"
-keywords = ["eda", "photonics", "python"]
-license = {file = "LICENSE"}
-name = "gdsfactory"
-readme = "README.md"
-requires-python = ">=3.10"
-version = "7.0.0"
-
-[project.optional-dependencies]
 dev = [
   "autotyping",
   "black>=21",
