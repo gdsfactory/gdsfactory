@@ -15,13 +15,13 @@
 
 gdsfactory: An open source platform for end to-end chip design and validation.
 
-gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...), objects for 3D printing or PCBs.
+gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...), objects for 3D printing and PCBs.
 
 You can describe your hardware in code (python or YAML), verify it (DRC, simulation, extraction) and validate it (to make sure it meets your specifications after fabrication).
 
 ![workflow](https://i.imgur.com/abvxJJw.png)
 
-It provides you and end to end design flow to:
+It provides you an end to end design flow to:
 
 - Design (Layout, Simulation, Optimization)
   - Define Components using parametric cells functions in python or YAML.
@@ -52,8 +52,6 @@ It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tid
 
 ![tool interfaces](https://i.imgur.com/oHKZ7hW.png)
 
-![pdks](https://i.imgur.com/zngqi0B.png)
-
 Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK as some are only provided under NDA:
 
 - AIM photonics PDK
@@ -71,6 +69,8 @@ You can also access:
 
 - instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
 - instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
+
+![pdks](https://i.imgur.com/zngqi0B.png)
 
 ## Installation
 

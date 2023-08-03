@@ -2,6 +2,11 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.115.0...main)
 
+## [7.0.1](https://github.com/gdsfactory/gdsfactory/compare/v7.0.0...v7.0.0)
+
+- fix package for conda [PR](https://github.com/gdsfactory/gdsfactory/pull/1947)
+- improve `clean_value_json` [PR](https://github.com/gdsfactory/gdsfactory/pull/1945)
+
 ## [7.0.0](https://github.com/gdsfactory/gdsfactory/compare/v7.0.0...v6.115.0)
 
 - move plugins and simulation to gplugins repo [PR](https://github.com/gdsfactory/gdsfactory/pull/1935)
