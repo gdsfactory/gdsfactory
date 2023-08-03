@@ -1,28 +1,53 @@
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.technology import LayerLevel, LayerStack
 
+from gdsfactory.technology.processes import Etch, ImplantPhysical, Anneal
+
 nm = 1e-3
 
 
+class LayerStackParameters:
+    """values used by get_layer_stack and get_process."""
+
+    thickness_wg: float = 220 * nm
+    thickness_slab_deep_etch: float = 90 * nm
+    thickness_slab_shallow_etch: float = 150 * nm
+    sidewall_angle_wg: float = 10
+    thickness_clad: float = 3.0
+    thickness_nitride: float = 350 * nm
+    thickness_ge: float = 500 * nm
+    gap_silicon_to_nitride: float = 100 * nm
+    zmin_heater: float = 1.1
+    zmin_metal1: float = 1.1
+    thickness_metal1: float = 700 * nm
+    zmin_metal2: float = 2.3
+    thickness_metal2: float = 700 * nm
+    zmin_metal3: float = 3.2
+    thickness_metal3: float = 2000 * nm
+    substrate_thickness: float = 10.0
+    box_thickness: float = 3.0
+    undercut_thickness: float = 5.0
+
+
 def get_layer_stack(
-    thickness_wg: float = 220 * nm,
-    thickness_slab_deep_etch: float = 90 * nm,
-    thickness_slab_shallow_etch: float = 150 * nm,
-    sidewall_angle_wg: float = 10,
-    thickness_clad: float = 3.0,
-    thickness_nitride: float = 350 * nm,
-    thickness_ge: float = 500 * nm,
-    gap_silicon_to_nitride: float = 100 * nm,
-    zmin_heater: float = 1.1,
-    zmin_metal1: float = 1.1,
-    thickness_metal1: float = 700 * nm,
-    zmin_metal2: float = 2.3,
-    thickness_metal2: float = 700 * nm,
-    zmin_metal3: float = 3.2,
-    thickness_metal3: float = 2000 * nm,
-    substrate_thickness: float = 10.0,
-    box_thickness: float = 3.0,
-    undercut_thickness: float = 5.0,
+    thickness_wg=LayerStackParameters.thickness_wg,
+    thickness_slab_deep_etch=LayerStackParameters.thickness_slab_deep_etch,
+    thickness_slab_shallow_etch=LayerStackParameters.thickness_slab_shallow_etch,
+    sidewall_angle_wg=LayerStackParameters.sidewall_angle_wg,
+    thickness_clad=LayerStackParameters.thickness_clad,
+    thickness_nitride=LayerStackParameters.thickness_nitride,
+    thickness_ge=LayerStackParameters.thickness_ge,
+    gap_silicon_to_nitride=LayerStackParameters.gap_silicon_to_nitride,
+    zmin_heater=LayerStackParameters.zmin_heater,
+    zmin_metal1=LayerStackParameters.zmin_metal1,
+    thickness_metal1=LayerStackParameters.thickness_metal1,
+    zmin_metal2=LayerStackParameters.zmin_metal2,
+    thickness_metal2=LayerStackParameters.thickness_metal2,
+    zmin_metal3=LayerStackParameters.zmin_metal3,
+    thickness_metal3=LayerStackParameters.thickness_metal3,
+    substrate_thickness=LayerStackParameters.substrate_thickness,
+    box_thickness=LayerStackParameters.box_thickness,
+    undercut_thickness=LayerStackParameters.undercut_thickness,
 ) -> LayerStack:
     """Returns generic LayerStack.
 
@@ -31,8 +56,7 @@ def get_layer_stack(
     Args:
         thickness_wg: waveguide thickness in um.
         thickness_slab_deep_etch: for deep etched slab.
-        thickness_shallow_etch: thickness for the etch.
-        thickness_shallow_etch: in um.
+        thickness_shallow_etch: thickness for the etch in um.
         sidewall_angle_wg: waveguide side angle.
         thickness_clad: cladding thickness in um.
         thickness_nitride: nitride thickness in um.
@@ -60,6 +84,8 @@ def get_layer_stack(
             zmin=-substrate_thickness - box_thickness,
             material="si",
             mesh_order=99,
+            background_doping={"concentration": "1E14", "ion": "Boron"},
+            orientation="100",
         )
         box = LayerLevel(
             layer=LAYER.WAFER,
@@ -76,6 +102,10 @@ def get_layer_stack(
             mesh_order=2,
             sidewall_angle=sidewall_angle_wg,
             width_to_z=0.5,
+            background_doping_concentration=1e14,
+            background_doping_ion="Boron",
+            orientation="100",
+            info={"active": True},
         )
         shallow_etch = LayerLevel(
             layer=LAYER.SHALLOW_ETCH,
@@ -201,10 +231,102 @@ def get_layer_stack(
 
 LAYER_STACK = get_layer_stack()
 
+
+WAFER_STACK = (
+    LayerStack(
+        layers={
+            k: get_layer_stack().layers[k]
+            for k in (
+                "substrate",
+                "box",
+                "core",
+            )
+        }
+    )
+    .z_offset(-1 * LayerStackParameters.thickness_wg)
+    .invert_zaxis()
+)
+
+
+def get_process():
+    """Returns generic process to generate LayerStack.
+
+    Represents processing steps that will result in the GenericLayerStack, starting from the waferstack LayerStack.
+
+    based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
+    """
+
+    return (
+        Etch(
+            name="strip_etch",
+            layer=LAYER.WG,
+            positive_tone=False,
+            depth=LayerStackParameters.thickness_wg
+            + 0.01,  # slight overetch for numerics
+            material="core",
+            resist_thickness=1.0,
+        ),
+        Etch(
+            name="slab_etch",
+            layer=LAYER.SLAB90,
+            layers_diff=[LAYER.WG],
+            depth=LayerStackParameters.thickness_wg
+            - LayerStackParameters.thickness_slab_shallow_etch,
+            material="core",
+            resist_thickness=1.0,
+        ),
+        # See gplugins.process.implant tables for ballpark numbers
+        # Adjust to your process
+        ImplantPhysical(
+            name="deep_n_implant",
+            layer=LAYER.N,
+            energy=100,
+            ion="P",
+            dose=1e12,
+            resist_thickness=1.0,
+        ),
+        ImplantPhysical(
+            name="shallow_n_implant",
+            layer=LAYER.N,
+            energy=50,
+            ion="P",
+            dose=1e12,
+            resist_thickness=1.0,
+        ),
+        ImplantPhysical(
+            name="deep_p_implant",
+            layer=LAYER.P,
+            energy=50,
+            ion="B",
+            dose=1e12,
+            resist_thickness=1.0,
+        ),
+        ImplantPhysical(
+            name="shallow_p_implant",
+            layer=LAYER.P,
+            energy=15,
+            ion="B",
+            dose=1e12,
+            resist_thickness=1.0,
+        ),
+        # "Temperatures of ~1000C for not more than a few seconds"
+        # Adjust to your process
+        # https://en.wikipedia.org/wiki/Rapid_thermal_processing
+        Anneal(
+            name="dopant_activation",
+            time=1,
+            temperature=1000,
+        ),
+    )
+
+
 if __name__ == "__main__":
     # ls = get_layer_stack(substrate_thickness=50.0)
-    ls = get_layer_stack()
-    script = ls.get_klayout_3d_script()
-    print(script)
+    # ls = get_layer_stack()
+    # script = ls.get_klayout_3d_script()
+    # print(script)
     # print(ls.get_layer_to_material())
     # print(ls.get_layer_to_thickness())
+
+    for layername, layer in WAFER_STACK.layers.items():
+        print(layername, layer.zmin, layer.thickness)
