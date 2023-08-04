@@ -45,6 +45,10 @@ parts:
           - file: notebooks/21_drc
           - file: notebooks/11_get_netlist
           - file: notebooks/11_get_netlist_spice
+  - caption: Plugins
+    chapters:
+      - url: https://gdsfactory.github.io/gplugins/
+        title: Plugins
   - caption: Reference
     chapters:
       - file: api

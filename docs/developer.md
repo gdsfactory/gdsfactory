@@ -1,4 +1,47 @@
-# Installation for developers
+# Installation
+
+We support Python 3.10 or 3.11, and recommend [VSCode](https://code.visualstudio.com/) IDE. If you do not have Python installed, you can [download Anaconda](https://www.anaconda.com/download/).
+
+Upon Python installation, open Anaconda Prompt as Administrator and install the latest gdsfactory (from the conda-forge channel) and Optional `cad` visualization extras using pip.
+
+![anaconda prompt](https://i.imgur.com/eKk2bbs.png)
+
+
+```
+conda install -c conda-forge gdsfactory -y
+pip install "gdsfactory[cad]"--upgrade
+```
+
+## Update gdsfactory
+
+You can upgrade gdsfactory using the following command:
+
+```
+pip install gdsfactory[cad] --upgrade
+```
+
+Please note that some PDKs may only work for a specific version of gdsfactory. Ensure you install the correct gdsfactory version specified in the pyproject.toml file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example, pip install gf180 will install the latest gdsfactory version tested for the GlobalFoundries180 PDK.
+
+To determine your current gdsfactory version, use the following code:
+
+```
+import gdsfactory as gf
+
+gf.config.print_version()
+```
+
+## Docker container
+
+As an alternative, you can use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with:
+
+
+```bash
+docker build -t joamatab/gdsfactory .
+```
+
+For instance, VS Code supports development inside a container. See [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
+
+## Installation for developers
 
 As a contributor, if you are on windows you need to download [Git](https://git-scm.com/download/win) and optionally [GitHub Desktop](https://desktop.github.com/).
 
@@ -16,7 +59,7 @@ git clone git@github.com:YourUserName/gdsfactory.git
 cd gdsfactory
 git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
 mamba install gdstk -y
-pip install -e .[full,dev]
+pip install -e .[cad,dev]
 pre-commit install
 ```
 
@@ -88,8 +131,9 @@ Make sure you pin the version of gdsfactory that you are using in your `pyprojec
 
 You can take a look at the tests of other open source PDKs.
 
-- [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
 - [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
+- [VTT photonics PDK](https://gdsfactory.github.io/vtt) (open source)
+- [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
 - [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130) (open source)
 
 What do we test?
