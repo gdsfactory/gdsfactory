@@ -73,7 +73,7 @@ You can also access:
 
 ## Who is using gdsfactory?
 
-Hundreds of organisations and packages are using gdsfactory. Some of the prominent companies and organizations around the world who are using gdsfactory include:
+Hundreds of organisations are using gdsfactory. Some companies and organizations around the world using gdsfactory include:
 
 ![logos](https://i.imgur.com/IqTUq9S.png)
 
