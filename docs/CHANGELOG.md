@@ -21,7 +21,17 @@
 - move plugins and simulation to gplugins repo [PR](https://github.com/gdsfactory/gdsfactory/pull/1935)
 - add path length analyzer [PR](https://github.com/gdsfactory/gdsfactory/pull/1935)
 - only works for python>=3.10
-- You can modernize types with this command `find . -name "*.py" -exec sed -ri 's/Optional\[(.*)\]/\1 | None/g' {} \;`
+
+Migration guidelines:
+
+- Modernize types Optional[float] -> float | None
+```
+find . -name "*.py" -exec sed -ri 's/Optional\[(.*)\]/\1 | None/g' {} \;
+```
+- Replace gdsfactory[.]simulation. with gplugins.
+```
+grep -rl 'gdsfactory.simulation.' /path/to/your/files | xargs sed -i 's/gdsfactory.simulation./gplugins./g'
+```
 
 ## 6.116.0
 - Warning: You need python>=3.10 to get the latest version of gdsfactory.
