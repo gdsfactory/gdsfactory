@@ -69,7 +69,7 @@ git clone git@github.com:YourUserName/gdsfactory.git
 cd gdsfactory
 git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
 mamba install gdstk -y
-pip install -e .[full,dev]
+pip install -e .[cad,dev]
 pre-commit install
 ```
 
