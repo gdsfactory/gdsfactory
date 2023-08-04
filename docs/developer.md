@@ -1,8 +1,8 @@
 # Installation
 
-We support Python 3.10 or 3.11, and [VSCode](https://code.visualstudio.com/) as an IDE. If you do not have Python installed, you can [download Anaconda](https://www.anaconda.com/download/).
+We support Python 3.10 or 3.11, and recommend [VSCode](https://code.visualstudio.com/) IDE. If you do not have Python installed, you can [download Anaconda](https://www.anaconda.com/download/).
 
-Upon Python installation, open Anaconda Prompt as Administrator and install the latest gdsfactory core conda (from the conda-forge channel) and Optional `cad` visualization extras using pip.
+Upon Python installation, open Anaconda Prompt as Administrator and install the latest gdsfactory (from the conda-forge channel) and Optional `cad` visualization extras using pip.
 
 ![anaconda prompt](https://i.imgur.com/eKk2bbs.png)
 
@@ -12,11 +12,9 @@ conda install -c conda-forge gdsfactory -y
 pip install "gdsfactory[cad]"--upgrade
 ```
 
-Then you can install Klayout-live `klive` integration in the klayout GUI `Tools --> Manage Packages --> Install New Packages --> Klive` as well as the genericpdk layermap `Tools --> Manage Packages --> Install New Packages --> gdsfactory` and restart klayout.
+## Update gdsfactory
 
-### Update gdsfactory
-
-You can upgrade your gdsfactory package using the following command:
+You can upgrade gdsfactory using the following command:
 
 ```
 pip install gdsfactory[cad] --upgrade
@@ -32,7 +30,7 @@ import gdsfactory as gf
 gf.config.print_version()
 ```
 
-### Docker container
+## Docker container
 
 As an alternative, you can use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with:
 
@@ -42,14 +40,6 @@ docker build -t joamatab/gdsfactory .
 ```
 
 For instance, VS Code supports development inside a container. See [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
-
-## Plugins
-
-We maintain gdsfactory plugins in a [separate package](https://github.com/gdsfactory/gplugins)
-These plugins enable interfaces with different tools, and you might need to install some of the tools separately.
-For more details, please visit the [gplugins documentation](https://gdsfactory.github.io/gplugins/).
-
-
 
 ## Installation for developers
 
@@ -141,8 +131,9 @@ Make sure you pin the version of gdsfactory that you are using in your `pyprojec
 
 You can take a look at the tests of other open source PDKs.
 
-- [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
 - [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
+- [VTT photonics PDK](https://gdsfactory.github.io/vtt) (open source)
+- [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
 - [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130) (open source)
 
 What do we test?
