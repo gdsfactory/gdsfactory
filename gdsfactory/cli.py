@@ -143,7 +143,7 @@ def web(
 @click.argument("path", type=click.Path(exists=True), required=False, default=cwd)
 @click.command()
 def watch(path=cwd) -> None:
-    """Filewatch a folder for changes in python or pic.yaml files."""
+    """Filewatch a folder for changes in *.py or *.pic.yml files."""
     from gdsfactory.watch import watch
 
     path = pathlib.Path(path)

@@ -159,7 +159,9 @@ def watch(path=cwd, pdk=None) -> None:
         pdk_module.PDK.activate()
     watcher = FileWatcher(path=path)
     watcher.start()
-    logging.info(f"Observing {path!r}")
+    logging.info(
+        f"File watcher looking for changes in *.py and *.pic.yml files in {path!r}. Stop with Ctrl+C"
+    )
 
     try:
         while True:
