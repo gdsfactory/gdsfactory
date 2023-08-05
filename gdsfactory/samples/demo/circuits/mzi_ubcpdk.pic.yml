@@ -1,14 +1,16 @@
-name: mzi_ubcpdk
+name: mzi_ubc
 pdk: ubcpdk
 
-
-settings:
-  dy: -100
+default_settings:
+  dy:
+    value: -20
+    description: "The length of lower MZI arm y displacement"
 
 info:
   polarization: te
   wavelength: 1.55
   description: mzi for ubcpdk
+
 
 instances:
   yr:
@@ -33,7 +35,7 @@ routes:
       yl,o3: yr,o2
     routing_strategy: get_bundle_from_steps
     settings:
-      steps: [dx: 30, dy: "${settings.dy}", dx: 20]
+      steps: [dx: 30, dy: {{ dy }}, dx: 20]
       cross_section: strip
 
 ports:

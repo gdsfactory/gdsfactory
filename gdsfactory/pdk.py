@@ -16,7 +16,7 @@ from pydantic import BaseModel, Field, validator
 from gdsfactory.config import PATH, logger
 from gdsfactory.events import Event
 from gdsfactory.name import MAX_NAME_LENGTH
-from gdsfactory.read import cell_from_yaml
+from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews
@@ -263,7 +263,6 @@ class Pdk(BaseModel):
     constants: dict[str, Any] = constants
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
     routing_strategies: dict[str, Callable] | None = None
-    circuit_yaml_parser: Callable = cell_from_yaml
     gds_write_settings: GdsWriteSettings = GdsWriteSettings()
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
     cell_decorator_settings: CellDecoratorSettings = CellDecoratorSettings()
@@ -288,7 +287,6 @@ class Pdk(BaseModel):
             "default_symbol_factory": {"exclude": True},
             "default_decorator": {"exclude": True},
             "materials_index": {"exclude": True},
-            "circuit_yaml_parser": {"exclude": True},
         }
 
     @validator("sparameters_path")
@@ -396,8 +394,7 @@ class Pdk(BaseModel):
                     raise ValueError(
                         f"ERROR: Cell name {name!r} from {filepath} already registered."
                     )
-                parser = self.circuit_yaml_parser
-                self.cells[name] = parser(filepath, name=name)
+                self.cells[name] = cell_from_yaml_template(filepath, name=name)
                 on_yaml_cell_registered.fire(name=name, cell=self.cells[name], pdk=self)
                 logger.info(f"{message} cell {name!r}")
 

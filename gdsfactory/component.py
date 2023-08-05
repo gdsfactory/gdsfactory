@@ -1528,7 +1528,6 @@ class Component(_GeometryHelper):
         try:
             import klayout.db as db  # noqa: F401
             import klayout.lay as lay
-            from IPython.display import display
             from ipywidgets import Image
 
             from gdsfactory.pdk import get_layer_views
@@ -1548,8 +1547,7 @@ class Component(_GeometryHelper):
 
             pixel_buffer = layout_view.get_pixels_with_options(800, 600)
             png_data = pixel_buffer.to_png_data()
-            image = Image(value=png_data, format="png")
-            display(image)
+            return Image(value=png_data, format="png")
 
         except ImportError:
             print("You can install `pip install gdsfactory` for better visualization")
