@@ -1,15 +1,15 @@
-name: mzi_lattice_ubcpdk
+name: mzi_lattice_ubc
 pdk: ubcpdk
-
 
 instances:
   mzi1:
-    component: mzi_ubcpdk
+    component: mzi_ubc
     settings:
-      dy: -100
+      dy: -200
+
 
   mzi2:
-    component: mzi_ubcpdk
+    component: mzi_ubc
     settings:
       dy: -500
 

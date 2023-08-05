@@ -1,4 +1,4 @@
-name: mzi_ubcpdk
+name: mzi_ubc
 pdk: ubcpdk
 
 default_settings:
