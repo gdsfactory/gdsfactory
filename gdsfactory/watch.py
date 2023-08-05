@@ -16,6 +16,7 @@ from watchdog.observers import Observer
 
 from gdsfactory.config import cwd
 from gdsfactory.pdk import get_active_pdk
+from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 
 
 class FileWatcher(FileSystemEventHandler):
@@ -68,8 +69,7 @@ class FileWatcher(FileSystemEventHandler):
         cell_name = filepath.stem.split(".")[0]
         if cell_name in CACHE:
             CACHE.pop(cell_name)
-        parser = pdk.circuit_yaml_parser
-        function = parser(filepath, name=cell_name)
+        function = cell_from_yaml_template(filepath, name=cell_name)
         try:
             pdk.register_cells_yaml(**{cell_name: function}, update=update)
         except ValueError as e:
