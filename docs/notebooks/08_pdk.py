@@ -38,7 +38,6 @@
 # +
 import pathlib
 from functools import partial
-from typing import Tuple
 
 import pytest
 from pydantic import BaseModel
@@ -417,7 +416,7 @@ def litho_ruler(
     height: float = 2,
     width: float = 0.5,
     spacing: float = 2.0,
-    scale: Tuple[float, ...] = (3, 1, 1, 1, 1, 2, 1, 1, 1, 1),
+    scale: tuple[float, ...] = (3, 1, 1, 1, 1, 2, 1, 1, 1, 1),
     num_marks: int = 21,
     layer: LayerSpec = (1, 0),
 ) -> gf.Component:
@@ -458,7 +457,7 @@ def litho_ruler(
     height: float = 2,
     width: float = 0.5,
     spacing: float = 2.0,
-    scale: Tuple[float, ...] = (3, 1, 1, 1, 1, 2, 1, 1, 1, 1),
+    scale: tuple[float, ...] = (3, 1, 1, 1, 1, 2, 1, 1, 1, 1),
     num_marks: int = 21,
     layer: LayerSpec = (1, 0),
 ) -> gf.Component:

@@ -184,7 +184,7 @@ python_files = ["gdsfactory/*.py", "tests/*.py"]
 testpaths = ["gdsfactory/", "tests"]
 
 [tool.ruff]
-extend-exclude = ['gdsfactory/samples/notebooks/']
+extend-exclude = ['docs/notebooks/']
 fix = true
 ignore = [
   "E501",  # line too long, handled by black
@@ -206,7 +206,7 @@ select = [
 ]
 
 [tool.ruff.per-file-ignores]
-"gdsfactory/samples/notebooks/*.py" = ["F821", 'E402', 'F405', 'F403']
+"docs/notebooks/*.py" = ["F821", 'E402', 'F405', 'F403']
 "gdsfactory/typings.py" = ["UP035"]
 
 [tool.setuptools.package-data]

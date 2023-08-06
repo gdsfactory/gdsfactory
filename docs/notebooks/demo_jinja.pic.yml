@@ -1,0 +1,27 @@
+
+default_settings:
+    length_mmi:
+      value: 10
+      description: "The length of the long MMI"
+    width_mmi:
+      value: 5
+      description: "The width of both MMIs"
+
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: {{ width_mmi }}
+        length_mmi: {{ length_mmi }}
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: {{ width_mmi }}
+        length_mmi: 5
+connections:
+    mmi_long,o2: mmi_short,o1
+
+ports:
+    o1: mmi_long,o1
+    o2: mmi_short,o2
+    o3: mmi_short,o3

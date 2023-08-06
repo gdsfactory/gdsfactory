@@ -15,7 +15,6 @@ def test_two_copies_in_one() -> None:
     r3 = c << c3
     r2.movey(-100)
     r3.movey(-200)
-    c.write_gds("two_copies_in_one.gds")
     assert c2.name != c3.name
 
 

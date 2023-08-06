@@ -8,7 +8,7 @@ def test_wmin_failing(layer: tuple[int, int] = (1, 0)) -> None:
     w = 50
     min_width = 50 + 10  # component edges are smaller than min_width
     c = gf.components.rectangle(size=(w, w), layer=layer)
-    gdspath = c.write_gds("wmin.gds")
+    gdspath = c.write_gds()
 
     # r = check_width(gdspath, min_width=min_width, layer=layer)
     # print(check_width(gdspath, min_width=min_width, layer=layer))
@@ -20,7 +20,7 @@ def test_wmin_passing(layer: tuple[int, int] = (1, 0)) -> None:
     w = 50
     min_width = 50 - 10  # component edges are bigger than the min_width
     c = gf.components.rectangle(size=(w, w), layer=layer)
-    gdspath = c.write_gds("wmin.gds")
+    gdspath = c.write_gds()
 
     # print(check_width(c, min_width=min_width, layer=layer))
     # assert check_width(gdspath, min_width=min_width, layer=layer) is None
