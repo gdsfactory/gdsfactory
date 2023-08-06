@@ -1557,7 +1557,6 @@ class Component(_GeometryHelper):
             fig, ax = plt.subplots(figsize=(8, 6))
             ax.imshow(img_array)
             ax.axis("off")  # Hide axes
-            plt.close(fig)  # Close the figure to avoid displaying it inline
             return fig
 
         except ImportError:
