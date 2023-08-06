@@ -1554,9 +1554,22 @@ class Component(_GeometryHelper):
             with BytesIO(png_data) as f:
                 img_array = plt.imread(f)
 
-            fig, ax = plt.subplots(figsize=(8, 6))
+            # Compute the figure dimensions based on the image size and desired DPI
+            dpi = 80
+            fig_width = img_array.shape[1] / dpi
+            fig_height = img_array.shape[0] / dpi
+
+            fig, ax = plt.subplots(figsize=(fig_width, fig_height), dpi=dpi)
+
+            # Remove margins and display the image
             ax.imshow(img_array)
             ax.axis("off")  # Hide axes
+            ax.set_position([0, 0, 1, 1])  # Set axes to occupy the full figure space
+
+            plt.subplots_adjust(
+                left=0, right=1, top=1, bottom=0, wspace=0, hspace=0
+            )  # Remove any padding
+            plt.tight_layout(pad=0)  # Ensure no space is wasted
             return fig
 
         except ImportError:
