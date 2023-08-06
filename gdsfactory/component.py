@@ -1526,9 +1526,11 @@ class Component(_GeometryHelper):
         )
 
         try:
+            from io import BytesIO
+
             import klayout.db as db  # noqa: F401
             import klayout.lay as lay
-            from ipywidgets import Image
+            import matplotlib.pyplot as plt
 
             from gdsfactory.pdk import get_layer_views
 
@@ -1547,7 +1549,16 @@ class Component(_GeometryHelper):
 
             pixel_buffer = layout_view.get_pixels_with_options(800, 600)
             png_data = pixel_buffer.to_png_data()
-            return Image(value=png_data, format="png")
+
+            # Convert PNG data to NumPy array and display with matplotlib
+            with BytesIO(png_data) as f:
+                img_array = plt.imread(f)
+
+            fig, ax = plt.subplots(figsize=(8, 6))
+            ax.imshow(img_array)
+            ax.axis("off")  # Hide axes
+            plt.close(fig)  # Close the figure to avoid displaying it inline
+            return fig
 
         except ImportError:
             print("You can install `pip install gdsfactory` for better visualization")
