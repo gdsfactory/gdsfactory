@@ -7,8 +7,12 @@ import pathlib
 from click.core import Context, Option
 
 import gdsfactory
-from gdsfactory.config import cwd, print_config, print_version_pdks, print_version_raw
-from gdsfactory.config import print_version as _print_version
+from gdsfactory.config import (
+    cwd,
+    print_config,
+    print_version_pdks,
+    print_version_plugins,
+)
 from gdsfactory.generic_tech import LAYER
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.technology import lyp_to_dataclass
@@ -28,7 +32,7 @@ def print_version(ctx: Context, param: Option, value: bool) -> None:
     """Prints the version."""
     if not value or ctx.resilient_parsing:
         return
-    _print_version()
+    print_version_plugins()
     ctx.exit()
 
 
@@ -151,21 +155,6 @@ def watch(path=cwd) -> None:
     watch(str(path))
 
 
-# INIT
-@click.group()
-def init() -> None:
-    """Commands for initializing projects."""
-    pass
-
-
-@click.command()
-def notebooks() -> None:
-    """Convert notebooks in py to ipynb."""
-    from gdsfactory.install import convert_py_to_ipynb
-
-    convert_py_to_ipynb()
-
-
 # EXTRA
 @click.command()
 @click.argument("filename")
@@ -198,9 +187,9 @@ def git_diff() -> None:
 
 
 @click.command()
-def raw() -> None:
+def plugins() -> None:
     """Show installed plugin versions."""
-    print_version_raw()
+    print_version_plugins()
 
 
 @click.command()
@@ -231,10 +220,8 @@ gds.add_command(diff)
 install.add_command(klayout_genericpdk)
 install.add_command(git_diff)
 
-version.add_command(raw)
+version.add_command(plugins)
 version.add_command(pdks)
-
-init.add_command(notebooks)
 
 cli.add_command(web)
 # watch.add_command(watch_yaml)
@@ -243,7 +230,6 @@ cli.add_command(gds)
 cli.add_command(install)
 cli.add_command(watch)
 cli.add_command(version)
-cli.add_command(init)
 
 
 if __name__ == "__main__":

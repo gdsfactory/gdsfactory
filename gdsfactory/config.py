@@ -64,7 +64,7 @@ plugins = ["ray", "femwell", "devsim", "tidy3d", "meep", "meow", "lumapi", "sax"
 pdks = ["gf45", "tj", "imec", "amf", "sky130", "ubcpdk", "aim", "ct"]
 
 
-def print_version() -> None:
+def print_version_plugins() -> None:
     """Print gdsfactory plugin versions and paths."""
     table = Table(title="Modules")
     table.add_column("Package", justify="right", style="cyan", no_wrap=True)
@@ -88,7 +88,7 @@ def print_version() -> None:
     console.print(table)
 
 
-def print_version_raw() -> None:
+def print_version_plugins_raw() -> None:
     """Print gdsfactory plugin versions and paths."""
     print("python", sys.version)
     print("gdsfactory", __version__)
