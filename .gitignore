@@ -37,6 +37,9 @@ sim_run.yaml
 docs/notebooks/ring.yml
 .ruff_cache/
 Pipfile
+gdsfactory/samples/notebooks/demo_backwards_compatibility.pic.yml
+gdsfactory/samples/notebooks/demo_jinja.pic.yml
+
 
 # Packages
 *.egg

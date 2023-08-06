@@ -36,19 +36,13 @@
 # - connections: to connect instance ports to other ports (without routes)
 # - ports: define input and output circuit ports
 #
-#
-# When running this tutorial make sure you UNCOMMENT this line `%matplotlib widget` so you can see the changes in the YAML file both in KLayout and matplotlib.
-#
-# `# %matplotlib widget`  -> `%matplotlib widget`
-
-# %%
-# # %matplotlib widget
 
 # %%
 from functools import partial
 
 import ipywidgets
 from IPython.display import display
+from IPython.display import clear_output
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
@@ -103,23 +97,27 @@ routes:
 """
 
 out = ipywidgets.Output()
-display(x, out)
+display_widget = ipywidgets.VBox([x, out])
+display(display_widget)
 
 
-def f(change, out=out):
+def update_output(change):
+    out.clear_output(wait=True)  # Clear the previous output
+
     try:
-        c = gf.read.from_yaml(change["new"])
-        c.show(show_ports=True)
-        c.plot_klayout()
-        out.clear_output()
-    except Exception as e:
-        out.clear_output()
+        circuit = gf.read.from_yaml(change["new"])
+        circuit.show(show_ports=True)
+        image = circuit.plot_klayout()
         with out:
-            display(e)
+            display(image)
+    except Exception as e:
+        error_message = f"An error occurred: {e}"
+        with out:
+            display(error_message)
 
 
-x.observe(f, "value")
-f({"new": x.value})
+x.observe(update_output, "value")
+update_output({"new": x.value})
 
 # %% [markdown]
 # Lets start by defining the `instances` and `placements` section in YAML
