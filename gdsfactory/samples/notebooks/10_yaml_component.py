@@ -25,7 +25,6 @@ from functools import partial
 
 import ipywidgets
 from IPython.display import display
-from IPython.display import clear_output
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
@@ -654,7 +653,7 @@ n = c.get_netlist()
 
 print(c.get_netlist().keys())
 
-# ## `cell_from_yaml_template`: Jinja Pcells
+# ## Jinja Pcells
 #
 # You use jinja templates in YAML cells to define Pcells.
 
@@ -775,14 +774,14 @@ Code(filename=pic_filename, language="yaml+jinja")
 # -
 
 bc = big_cell()
-bc
+bc.plot()
 
 bc2 = big_cell(
     length_mmis=[10, 20, 40, 100, 200, 150, 10, 40],
     spacing_mmi=60,
     mmi_component="demo_jinja",
 )
-bc2
+bc2.plot()
 
 # In general, the jinja-yaml parser has a superset of the functionalities and syntax of the standard yaml parser. The one notable exception is with `settings`. When reading any yaml files with `settings` blocks, the default settings will be read and applied, but they will not be settable, as the jinja parser has a different mechanism for setting injection with the `default_settings` block and jinja2.
 
