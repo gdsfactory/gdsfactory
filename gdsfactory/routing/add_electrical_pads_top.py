@@ -18,6 +18,7 @@ def add_electrical_pads_top(
     select_ports: Callable = select_ports_electrical,
     port_names: Strs | None = None,
     layer: gf.typings.LayerSpec = "MTOP",
+    **kwargs,
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.
 
@@ -29,6 +30,7 @@ def add_electrical_pads_top(
         select_ports: function to select electrical ports.
         port_names: optional port names. Overrides select_ports.
         layer: for the routes.
+        **kwargs: extra kwargs for select ports.
 
     .. plot::
         :include-source:
@@ -47,7 +49,7 @@ def add_electrical_pads_top(
     ref = c << component
 
     ports = [ref[port_name] for port_name in port_names] if port_names else None
-    ports_electrical = ports or select_ports(ref.ports)
+    ports_electrical = ports or select_ports(ref.ports, **kwargs)
     ports_electrical = list(ports_electrical.values())
 
     if direction == "top":

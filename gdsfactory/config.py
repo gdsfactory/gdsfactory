@@ -60,7 +60,17 @@ def showwarning(message, *args, **kwargs) -> None:
 
 warnings.showwarning = showwarning
 
-plugins = ["ray", "femwell", "devsim", "tidy3d", "meep", "meow", "lumapi", "sax"]
+plugins = [
+    "gplugins",
+    "ray",
+    "femwell",
+    "devsim",
+    "tidy3d",
+    "meep",
+    "meow",
+    "lumapi",
+    "sax",
+]
 pdks = ["gf45", "tj", "imec", "amf", "sky130", "ubcpdk", "aim", "ct"]
 
 
@@ -343,3 +353,7 @@ def set_plot_options(
     # print_version_raw()
     # print_version_pdks()
     # write_tech("tech.json")
+
+
+if __name__ == "__main__":
+    print_version_plugins()

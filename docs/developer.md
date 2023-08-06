@@ -27,7 +27,7 @@ To determine your current gdsfactory version, use the following code:
 ```
 import gdsfactory as gf
 
-gf.config.print_version()
+gf.config.print_version_plugins()
 ```
 
 ## Docker container

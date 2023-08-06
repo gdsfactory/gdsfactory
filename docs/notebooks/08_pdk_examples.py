@@ -36,7 +36,7 @@ p = gf.get_active_pdk()
 p.name
 # -
 
-gf.config.print_version()
+gf.config.print_version_plugins()
 
 gf.config.print_version_pdks()
 #
