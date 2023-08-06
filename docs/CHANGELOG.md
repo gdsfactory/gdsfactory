@@ -2,6 +2,11 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.115.0...main)
 
+## [7.1.0](https://github.com/gdsfactory/gdsfactory/compare/v7.1.0...v7.0.1)
+
+- switch from matplotlib to klayout from default plotter [PR](https://github.com/gdsfactory/gdsfactory/pull/1953)
+- use jinja2 as the default YAML parser [PR](https://github.com/gdsfactory/gdsfactory/pull/1952)
+
 ## [7.0.1](https://github.com/gdsfactory/gdsfactory/compare/v7.0.0...v7.0.0)
 
 - fix package for conda [PR](https://github.com/gdsfactory/gdsfactory/pull/1947)
