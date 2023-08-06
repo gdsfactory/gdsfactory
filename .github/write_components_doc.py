@@ -71,7 +71,7 @@ Parametric cells
   import gdsfactory as gf
 
   c = gf.components.{name}({kwargs})
-  c.plot_klayout()
+  c.plot()
 
 """
             )
