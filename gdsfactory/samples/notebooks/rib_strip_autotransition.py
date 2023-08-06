@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.6
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -42,7 +42,6 @@ from gdsfactory.typings import CrossSectionSpec
 gf.clear_cache()
 gf.config.rich_output()
 generic_pdk = get_generic_pdk()
-generic_pdk.circuit_yaml_parser = cell_from_yaml_template
 
 # define our rib and strip waveguide intent layers
 RIB_INTENT_LAYER = (2000, 11)

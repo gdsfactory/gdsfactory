@@ -235,7 +235,6 @@ class Pdk(BaseModel):
             float, float: refractive index real and imaginary part.
             function: function of wavelength.
         routing_strategies: functions enabled to route.
-        circuit_yaml_parser: can parse different YAML formats.
         gds_write_settings: to write GDSII files.
         oasis_settings: to write OASIS files.
         cell_decorator_settings: settings for cell_without_validator decorator function in gdsfactory.cell.
