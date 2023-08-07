@@ -178,11 +178,12 @@ class LayerStack(BaseModel):
         return component_derived
 
     def get_component_with_net_layers(
-        self,
+        layerstack,
         component,
         portnames: list[str],
         delimiter: str = "#",
         new_layers_init: tuple[int, int] = (10010, 0),
+        add_to_layerstack: bool = True,
     ):
         """Returns component with new layers that combine port names and original layers, and modifies the layerstack accordingly.
 
@@ -192,7 +193,8 @@ class LayerStack(BaseModel):
             component: to process
             portnames: list of portnames to process into new layers.
             delimiter: the new layer created is called "layername{delimiter}portname"
-            new_layers_init: nitial layer number for the temporary new layers.
+            new_layers_init: initial layer number for the temporary new layers.
+            add_to_layerstack: True by default, but can be set to False to disable parsing of the layerstack
         """
         import gdstk
 
@@ -208,11 +210,15 @@ class LayerStack(BaseModel):
             for polygon in polygons:
                 # If polygon belongs to port, create a unique new layer, and add the polygon to it
                 if gdstk.inside([port.center], gdstk.Polygon(polygon))[0]:
-                    old_layername = self.get_layer_to_layername()[port.layer]
-                    new_layer = copy.deepcopy(self.layers[old_layername])
-                    new_layer.layer = (new_layers_init[0] + i, new_layers_init[1])
-                    self.layers[f"{old_layername}{delimiter}{portname}"] = new_layer
-                    net_component.add_polygon(polygon, layer=new_layer.layer)
+                    new_layer_number = (new_layers_init[0] + i, new_layers_init[1])
+                    if add_to_layerstack:
+                        old_layername = layerstack.get_layer_to_layername()[port.layer]
+                        new_layer = copy.deepcopy(layerstack.layers[old_layername])
+                        new_layer.layer = new_layer_number
+                        layerstack.layers[
+                            f"{old_layername}{delimiter}{portname}"
+                        ] = new_layer
+                    net_component.add_polygon(polygon, layer=new_layer_number)
                 # Otherwise put the polygon back on the same layer
                 else:
                     net_component.add_polygon(polygon, layer=port.layer)
@@ -470,7 +476,9 @@ if __name__ == "__main__":
     # c = gf.components.straight_heater_metal()
 
     c = layer_stack.get_component_with_net_layers(
-        gf.components.straight_heater_metal(), portnames=["r_e2", "l_e4"]
+        gf.components.straight_heater_metal(),
+        portnames=["r_e2", "l_e4"],
+        add_to_layerstack=False,
     )
     print(layer_stack.layers.keys())
 

@@ -231,19 +231,15 @@ def get_layer_stack(
 LAYER_STACK = get_layer_stack()
 
 
-WAFER_STACK = (
-    LayerStack(
-        layers={
-            k: get_layer_stack().layers[k]
-            for k in (
-                "substrate",
-                "box",
-                "core",
-            )
-        }
-    )
-    .z_offset(-1 * LayerStackParameters.thickness_wg)
-    .invert_zaxis()
+WAFER_STACK = LayerStack(
+    layers={
+        k: get_layer_stack().layers[k]
+        for k in (
+            "substrate",
+            "box",
+            "core",
+        )
+    }
 )
 
 
@@ -259,19 +255,20 @@ def get_process():
         Etch(
             name="strip_etch",
             layer=LAYER.WG,
-            positive_tone=False,
+            layers_or=[LAYER.SLAB90],
             depth=LayerStackParameters.thickness_wg
             + 0.01,  # slight overetch for numerics
-            material="core",
+            material="silicon",
             resist_thickness=1.0,
+            positive_tone=False,
         ),
         Etch(
             name="slab_etch",
             layer=LAYER.SLAB90,
             layers_diff=[LAYER.WG],
             depth=LayerStackParameters.thickness_wg
-            - LayerStackParameters.thickness_slab_shallow_etch,
-            material="core",
+            - LayerStackParameters.thickness_slab_deep_etch,
+            material="silicon",
             resist_thickness=1.0,
         ),
         # See gplugins.process.implant tables for ballpark numbers
