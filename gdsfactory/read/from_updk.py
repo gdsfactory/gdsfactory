@@ -21,6 +21,8 @@ def from_updk(
     layer_label: tuple[int, int] | None = None,
     optical_xsections: list[str] | None = None,
     electrical_xsections: list[str] | None = None,
+    prefix: str = "",
+    suffix: str = "",
 ) -> str:
     """Read uPDK definition and returns a gdsfactory script.
 
@@ -48,7 +50,9 @@ def from_updk(
     else:
         conf = OmegaConf.create(filepath)
 
-    script = f"""
+    script = prefix
+    script += f"""
+
 import sys
 import gdsfactory as gf
 from gdsfactory.get_factories import get_cells
@@ -121,8 +125,9 @@ def {block_name}({parameters_string})->gf.Component:
             port_type = (
                 "electrical" if port.xsection in electrical_xsections else "optical"
             )
+            cross_section = port.xsection if port.xsection != "None" else None
             script += f"""
-    c.add_port(name={port_name!r}, width={port.width}, cross_section={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})"""
+    c.add_port(name={port_name!r}, width={port.width}, cross_section={cross_section!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})"""
 
         script += """
     return c
@@ -132,6 +137,8 @@ def {block_name}({parameters_string})->gf.Component:
 cells = get_cells(sys.modules[__name__])
 pdk = gf.Pdk(name={conf.header.description!r}, cells=cells, cross_sections=cross_sections)
 pdk.activate()
+
+{suffix}
 
 if __name__ == "__main__":
     c = {block_name}()
