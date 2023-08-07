@@ -21,6 +21,8 @@ def from_updk(
     layer_label: tuple[int, int] | None = None,
     optical_xsections: list[str] | None = None,
     electrical_xsections: list[str] | None = None,
+    prefix: str = "",
+    suffix: str = "",
 ) -> str:
     """Read uPDK definition and returns a gdsfactory script.
 
@@ -48,7 +50,9 @@ def from_updk(
     else:
         conf = OmegaConf.create(filepath)
 
-    script = f"""
+    script = prefix
+    script += f"""
+
 import sys
 import gdsfactory as gf
 from gdsfactory.get_factories import get_cells
@@ -59,13 +63,14 @@ layer_bbox = {layer_bbox}
     if layer_label:
         script += f"layer_label = {layer_label}\n"
 
-    for xsection_name, xsection in conf.xsections.items():
-        script += f"{xsection_name} = gf.CrossSection(width={xsection.width})\n"
+    if "xsections" in conf:
+        for xsection_name, xsection in conf.xsections.items():
+            script += f"{xsection_name} = gf.CrossSection(width={xsection.width})\n"
 
-    xs = ",".join([f"{name}={name}" for name in conf.xsections.keys()])
-    script += "\n"
-    script += f"cross_sections = dict({xs})"
-    script += "\n"
+        xs = ",".join([f"{name}={name}" for name in conf.xsections.keys()])
+        script += "\n"
+        script += f"cross_sections = dict({xs})"
+        script += "\n"
 
     for block_name, block in conf.blocks.items():
         parameters = block.parameters
@@ -81,6 +86,7 @@ layer_bbox = {layer_bbox}
                 [
                     f"  {p_name}: {p.doc} (min: {p.min}, max: {p.max}, {p.unit})."
                     for p_name, p in parameters.items()
+                    if hasattr(p, "min")
                 ]
             )
             if parameters
@@ -119,8 +125,9 @@ def {block_name}({parameters_string})->gf.Component:
             port_type = (
                 "electrical" if port.xsection in electrical_xsections else "optical"
             )
+            cross_section = port.xsection if port.xsection != "None" else None
             script += f"""
-    c.add_port(name={port_name!r}, width={port.width}, cross_section={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})"""
+    c.add_port(name={port_name!r}, width={port.width}, cross_section={cross_section!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})"""
 
         script += """
     return c
@@ -130,6 +137,8 @@ def {block_name}({parameters_string})->gf.Component:
 cells = get_cells(sys.modules[__name__])
 pdk = gf.Pdk(name={conf.header.description!r}, cells=cells, cross_sections=cross_sections)
 pdk.activate()
+
+{suffix}
 
 if __name__ == "__main__":
     c = {block_name}()

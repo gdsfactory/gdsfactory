@@ -107,7 +107,7 @@ class Port:
         self.shear_angle = shear_angle
 
         if cross_section is None and layer is None:
-            raise ValueError("You need Port to define cross_section or layer")
+            warnings.warn("You need Port to define cross_section or layer")
 
         if cross_section is None and width is None:
             raise ValueError("You need Port to define cross_section or width")
@@ -122,7 +122,7 @@ class Port:
                 f"cross_section = {cross_section} is not a valid CrossSection."
             )
 
-        if layer is None:
+        if cross_section and layer is None:
             layer = cross_section.layer
 
         if isinstance(layer, list):
