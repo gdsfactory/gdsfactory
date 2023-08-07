@@ -59,13 +59,14 @@ layer_bbox = {layer_bbox}
     if layer_label:
         script += f"layer_label = {layer_label}\n"
 
-    for xsection_name, xsection in conf.xsections.items():
-        script += f"{xsection_name} = gf.CrossSection(width={xsection.width})\n"
+    if "xsections" in conf:
+        for xsection_name, xsection in conf.xsections.items():
+            script += f"{xsection_name} = gf.CrossSection(width={xsection.width})\n"
 
-    xs = ",".join([f"{name}={name}" for name in conf.xsections.keys()])
-    script += "\n"
-    script += f"cross_sections = dict({xs})"
-    script += "\n"
+        xs = ",".join([f"{name}={name}" for name in conf.xsections.keys()])
+        script += "\n"
+        script += f"cross_sections = dict({xs})"
+        script += "\n"
 
     for block_name, block in conf.blocks.items():
         parameters = block.parameters
@@ -81,6 +82,7 @@ layer_bbox = {layer_bbox}
                 [
                     f"  {p_name}: {p.doc} (min: {p.min}, max: {p.max}, {p.unit})."
                     for p_name, p in parameters.items()
+                    if hasattr(p, "min")
                 ]
             )
             if parameters
