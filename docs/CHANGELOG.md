@@ -2,6 +2,10 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.115.0...main)
 
+## [7.1.1](https://github.com/gdsfactory/gdsfactory/compare/v7.1.1...v7.1.0)
+
+- updk improve [PR](https://github.com/gdsfactory/gdsfactory/pull/1954)
+
 ## [7.1.0](https://github.com/gdsfactory/gdsfactory/compare/v7.1.0...v7.0.1)
 
 - switch from matplotlib to klayout from default plotter [PR](https://github.com/gdsfactory/gdsfactory/pull/1953)
