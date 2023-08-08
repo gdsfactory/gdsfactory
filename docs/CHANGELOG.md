@@ -2,6 +2,11 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.115.0...main)
 
+## [7.1.2](https://github.com/gdsfactory/gdsfactory/compare/v7.1.2...v7.1.1)
+
+- set the run directory for difftests [PR](https://github.com/gdsfactory/gdsfactory/pull/1960)
+- fix text(justify) [PR](https://github.com/gdsfactory/gdsfactory/pull/1961)
+
 ## [7.1.1](https://github.com/gdsfactory/gdsfactory/compare/v7.1.1...v7.1.0)
 
 - updk improve [PR](https://github.com/gdsfactory/gdsfactory/pull/1954)
