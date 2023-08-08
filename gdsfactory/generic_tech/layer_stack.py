@@ -1,6 +1,12 @@
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.technology import LayerLevel, LayerStack
-from gdsfactory.technology.processes import Anneal, Etch, ImplantPhysical
+from gdsfactory.technology.processes import (
+    Anneal,
+    Etch,
+    Grow,
+    ImplantPhysical,
+    Planarize,
+)
 
 nm = 1e-3
 
@@ -312,6 +318,38 @@ def get_process():
             name="dopant_activation",
             time=1,
             temperature=1000,
+        ),
+        Grow(
+            name="viac_metallization",
+            layer=None,
+            thickness=LayerStackParameters.zmin_metal1
+            - LayerStackParameters.thickness_slab_deep_etch,
+            material="Aluminum",
+            type="anisotropic",
+        ),
+        Etch(
+            name="viac_etch",
+            layer=LAYER.VIAC,
+            depth=LayerStackParameters.zmin_metal1
+            - LayerStackParameters.thickness_slab_deep_etch
+            + 0.1,
+            material="Aluminum",
+            type="anisotropic",
+            resist_thickness=1.0,
+            positive_tone=False,
+        ),
+        Grow(
+            name="deposit_cladding",
+            layer=None,
+            thickness=LayerStackParameters.thickness_clad
+            + LayerStackParameters.thickness_slab_deep_etch,
+            material="Oxide",
+            type="anisotropic",
+        ),
+        Planarize(
+            name="planarization",
+            height=LayerStackParameters.thickness_clad
+            - LayerStackParameters.thickness_slab_deep_etch,
         ),
     )
 
