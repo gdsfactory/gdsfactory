@@ -6,6 +6,7 @@ docs/notebooks/sax/fdtd_vs_model.png
 gdsfactory/generic_tech/klayout/tech/generic_tech.py
 test-data
 tests/test_pathlength_reporting/
+tests/test_difftest/
 # C extensions
 *.so
 *.l2n
