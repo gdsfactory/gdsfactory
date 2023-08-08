@@ -18,8 +18,6 @@ from pydantic import BaseModel, Field, validate_arguments
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 from gdsfactory.serialization import clean_dict
 
-if TYPE_CHECKING:
-    from gdsfactory.typings import ComponentSpec
 
 nm = 1e-3
 
@@ -97,9 +95,10 @@ class Via(BaseModel):
             this object should be oriented for placement on a horizontal line.
         spacing: distance between feature placements
         padding: minimum distance from the path start to the first feature.
+        y_offset: offset in y direction (um).
     """
 
-    feature: ComponentSpec
+    feature: object
     spacing: float
     padding: float = 0.0
 
@@ -181,7 +180,7 @@ class CrossSection(BaseModel):
     mirror: bool = False
     vias: list[Via] = Field(default_factory=list)
 
-    def __init__(__pydantic_self__, **data: Any) -> None:
+    def __init__(self, **data: Any) -> None:
         """Extend BaseModel init to process mirroring."""
         super().__init__(**data)
 
@@ -2370,6 +2369,8 @@ def test_copy() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
+    via = Via(feature=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2)
+
     # xs = gf.cross_section.pin(
     #     width=0.5,
     #     # gap_low_doping=0.05,
@@ -2396,7 +2397,7 @@ if __name__ == "__main__":
     # c = p.extrude(cross_section=xs)
     # xs = rib_with_trenches() # FIXME
     # c = gf.components.straight(cross_section=xs)
-    c = gf.components.straight(cross_section="strip")
+    # c = gf.components.straight(cross_section="strip")
 
     # xs = l_wg()
     # p = gf.path.straight()

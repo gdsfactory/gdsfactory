@@ -763,16 +763,21 @@ def along_path(
     next_feature = (length - (number - 1) * spacing) / 2
     stop = length - next_feature
 
+    # Prepare in advance the rotation angle for each segment
+    angle_list = [np.rad2deg(np.arctan2((p.points[i + 1] - p.points[i])[1], (p.points[i + 1] - p.points[i])[0])) for i in range(len(p.points) - 1)]
+
     for i, start_pt in enumerate(p.points[:-1]):
         end_pt = p.points[i + 1]
         segment_vector = end_pt - start_pt
         segment_length = np.linalg.norm(segment_vector)
         unit_vector = segment_vector / segment_length
 
+        # Get the pre-calculated angle for this segment
+        angle = angle_list[i]
+
         while next_feature <= cum_dist + segment_length and next_feature <= stop:
             added_dist = next_feature - cum_dist
             offset = added_dist * unit_vector
-            angle = np.rad2deg(np.arctan2(unit_vector[1], unit_vector[0]))
             feature_ref = c << feature
             feature_ref.rotate(angle).move(start_pt + offset)
             next_feature += spacing
