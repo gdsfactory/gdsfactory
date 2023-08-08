@@ -735,6 +735,53 @@ def transition(
 
 
 @cell
+def along_path(
+    p: Path,
+    feature: Component,
+    spacing: float,
+    padding: float,
+) -> Component:
+    """Returns Component containing many copies of `feature` along `p`.
+
+    Places as many copies of `feature` along each segment of `p` as possible
+    under the given constraints. `spacing` is always followed precisely, but
+    actual `padding` may exceed the provided value to place features evenly.
+
+    Args:
+        p: Path to place features along.
+        feature: Component to repeat along the path. The unrotated version of
+            this object should be oriented for placement on a horizontal line.
+        spacing: distance between feature placements.
+        padding: minimum distance from the path start to the first feature.
+    """
+    length = p.length()
+    number = (length - 2 * padding) // spacing + 1
+
+    c = Component()
+
+    cum_dist = 0
+    next_feature = (length - (number - 1) * spacing) / 2
+    stop = length - next_feature
+
+    for i, start_pt in enumerate(p.points[:-1]):
+        end_pt = p.points[i + 1]
+        segment_vector = end_pt - start_pt
+        segment_length = np.linalg.norm(segment_vector)
+        unit_vector = segment_vector / segment_length
+
+        while next_feature <= cum_dist + segment_length and next_feature <= stop:
+            added_dist = next_feature - cum_dist
+            offset = added_dist * unit_vector
+            angle = np.rad2deg(np.arctan2(unit_vector[1], unit_vector[0]))
+            feature_ref = c << feature
+            feature_ref.rotate(angle).move(start_pt + offset)
+            next_feature += spacing
+        cum_dist += segment_length
+
+    return c
+
+
+@cell
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
@@ -1011,6 +1058,9 @@ def extrude(
             c = x.add_pins(c)
         if x.decorator:
             c = x.decorator(c) or c
+
+        for via in x.vias:
+            c << along_path(p=p, feature=via.feature, spacing=via.spacing, padding=via.padding)
     return c
 
 

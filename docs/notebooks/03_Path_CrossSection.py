@@ -126,6 +126,26 @@ b = gf.path.extrude(p, cross_section=x)
 b.plot()
 # -
 
+# An arbitrary cross-section can also help place components along a path.
+# This feature can be useful for defining wiring vias.
+
+# +
+# Create the path
+p = gf.path.straight()
+p += gf.path.arc(10)
+p += gf.path.straight()
+
+# Define a cross-section with a via
+from gdsfactory.typings import ComponentSpec
+gf.Via.update_forward_refs(**{"ComponentSpec": ComponentSpec})
+via = gf.Via(feature=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2)
+x = gf.CrossSection(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"), vias=[via])
+
+# Combine the path with the cross-section
+c = gf.path.extrude(p, cross_section=x)
+c.plot()
+# -
+
 # ## Building Paths quickly
 #
 # You can pass `append()` lists of path segments.  This makes it easy to combine

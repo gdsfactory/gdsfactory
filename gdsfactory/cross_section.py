@@ -11,12 +11,15 @@ import sys
 from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers
-from typing import Any, Literal, TypeVar
+from typing import Any, Literal, TypeVar, TYPE_CHECKING
 
 from pydantic import BaseModel, Field, validate_arguments
 
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 from gdsfactory.serialization import clean_dict
+
+if TYPE_CHECKING:
+    from gdsfactory.typings import ComponentSpec
 
 nm = 1e-3
 
@@ -86,6 +89,20 @@ class Section(BaseModel):
         extra = "forbid"
 
 
+class Via(BaseModel):
+    """A Via object to place along an extruded path.
+
+    Parameters:
+        feature: Component to repeat along the path. The unrotated version of
+            this object should be oriented for placement on a horizontal line.
+        spacing: distance between feature placements
+        padding: minimum distance from the path start to the first feature.
+    """
+    feature: ComponentSpec
+    spacing: float
+    padding: float = 0.0
+
+
 class CrossSection(BaseModel):
     """Waveguide information to extrude a path.
 
@@ -127,6 +144,7 @@ class CrossSection(BaseModel):
         info: dict with extra settings or useful information.
         name: cross_section name.
         mirror: if True, reflects the offsets.
+        vias: list of Vias(feature, spacing, padding).
 
     Properties:
         aliases: dict of cross_section aliases.
@@ -160,6 +178,7 @@ class CrossSection(BaseModel):
     info: dict[str, Any] = Field(default_factory=dict)
     name: str | None = None
     mirror: bool = False
+    vias: list[Via] = Field(default_factory=list)
 
     def __init__(__pydantic_self__, **data: Any) -> None:
         """Extend BaseModel init to process mirroring."""
