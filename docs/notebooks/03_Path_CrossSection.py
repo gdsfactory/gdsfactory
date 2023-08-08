@@ -137,9 +137,12 @@ p += gf.path.straight()
 
 # Define a cross-section with a via
 from gdsfactory.typings import ComponentSpec
+
 gf.Via.update_forward_refs(**{"ComponentSpec": ComponentSpec})
 via = gf.Via(feature=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2)
-x = gf.CrossSection(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"), vias=[via])
+x = gf.CrossSection(
+    width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"), vias=[via]
+)
 
 # Combine the path with the cross-section
 c = gf.path.extrude(p, cross_section=x)

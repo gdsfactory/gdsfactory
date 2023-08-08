@@ -11,7 +11,7 @@ import sys
 from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers
-from typing import Any, Literal, TypeVar, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
 from pydantic import BaseModel, Field, validate_arguments
 
@@ -98,6 +98,7 @@ class Via(BaseModel):
         spacing: distance between feature placements
         padding: minimum distance from the path start to the first feature.
     """
+
     feature: ComponentSpec
     spacing: float
     padding: float = 0.0

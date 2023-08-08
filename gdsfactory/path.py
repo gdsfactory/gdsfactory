@@ -1060,7 +1060,9 @@ def extrude(
             c = x.decorator(c) or c
 
         for via in x.vias:
-            c << along_path(p=p, feature=via.feature, spacing=via.spacing, padding=via.padding)
+            c << along_path(
+                p=p, feature=via.feature, spacing=via.spacing, padding=via.padding
+            )
     return c
 
 

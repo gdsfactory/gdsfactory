@@ -32,7 +32,7 @@ from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
-from gdsfactory.cross_section import CrossSection, Section, Via, xsection
+from gdsfactory.cross_section import CrossSection, Section, xsection
 from gdsfactory.component_layout import Label
 from gdsfactory.polygon import Polygon
 from gdsfactory.difftest import difftest, diff
