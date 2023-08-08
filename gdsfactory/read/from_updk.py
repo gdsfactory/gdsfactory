@@ -145,7 +145,7 @@ def {block_name}({parameters_string})->gf.Component:
         if layers_text:
             for layer_text in layers_text:
                 script += f"""
-    c << gf.c.text(text=name, size={text_size}, position=(xc, yc), layer={layer_text})\n"""
+    c << gf.c.text(text=name, size={text_size}, position=(xc, yc), layer={layer_text},justify='center')\n"""
 
         script += """
     c.name = name
