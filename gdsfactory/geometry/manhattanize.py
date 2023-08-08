@@ -8,7 +8,7 @@ import gdsfactory as gf
 def manhattanize_polygon(
     p: Polygon,
     target_step: float = 0.05,
-):
+)->Polygon:
     """Return a Manhattanized version of the input polygon (where non-x and non-y parallel segments are decomposed into a staircase of small x and y-parallel segments)
 
     Implemented in pure Python, and hence only suited to small polygons.
