@@ -63,12 +63,21 @@ class RegionCollection:
     Args:
         layermap: dict of layernames to layer numbers {'WG': (1, 0)}
         filepath: to read GDS from.
+        cell_name: the name of the cell to edit (defaults to the top cell of the layout if None)
     """
 
-    def __init__(self, layermap: Dict[str, Layer], filepath: PathType) -> None:
+    def __init__(
+        self,
+        layermap: Dict[str, Layer],
+        filepath: PathType,
+        cell_name: str | None = None,
+    ) -> None:
         lib = kf.kcell.KCLayout()
         lib.read(filename=str(filepath))
-        c = lib[0]
+        if cell_name:
+            c = lib.cell_by_name(cell_name)
+        else:
+            c = lib.top_cell()
 
         for layername, layer in layermap.items():
             region = Region()
