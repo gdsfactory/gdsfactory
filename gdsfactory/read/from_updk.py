@@ -11,7 +11,7 @@ from typing import IO
 
 from omegaconf import OmegaConf
 
-from gdsfactory.typings import PathType
+from gdsfactory.typings import LayerSpec, PathType
 
 
 def from_updk(
@@ -21,6 +21,9 @@ def from_updk(
     layer_label: tuple[int, int] | None = None,
     optical_xsections: list[str] | None = None,
     electrical_xsections: list[str] | None = None,
+    layers_text: list[LayerSpec] | None = None,
+    text_size: float = 2.0,
+    activate_pdk: bool = False,
     prefix: str = "",
     suffix: str = "",
 ) -> str:
@@ -32,6 +35,11 @@ def from_updk(
         layer_bbox: layer to draw bounding boxes.
         optical_xsections: Optional list of names of xsections that will add optical ports.
         electrical_xsections: Optional list of names of xsections that will add electrical ports.
+        layers_text: Optional list of layers to add text labels.
+        text_size: text size for labels.
+        activate_pdk: if True, activate the pdk after writing the script.
+        prefix: optional prefix to add to the script.
+        suffix: optional suffix to add to the script.
     """
 
     optical_xsections = optical_xsections or []
@@ -93,10 +101,14 @@ layer_bbox = {layer_bbox}
             else ""
         )
 
+        parameters = (
+            [f"{p_name}:{{{p_name}}}" for p_name in parameters] if parameters else []
+        )
+
         parameters_labels = (
             "\n".join(
                 [
-                    f"    c.add_label(text=f'{p_name}:{{{p_name}}}', position=(xc, yc-{i}/{len(parameters)}*ysize/2), layer=layer_label)"
+                    f"    c.add_label(text='{p_name}:{{{p_name}}}', position=(xc, yc-{i}/{len(parameters)}*ysize/2), layer=layer_label)"
                     for i, p_name in enumerate(parameters)
                 ]
             )
@@ -118,6 +130,7 @@ def {block_name}({parameters_string})->gf.Component:
     p = c.add_polygon({points}, layer=layer_bbox)
     xc, yc = p.center
     ysize = p.ysize
+    name = f"{block_name}_{'_'.join(parameters)}"
 """
         script += parameters_labels
 
@@ -129,15 +142,24 @@ def {block_name}({parameters_string})->gf.Component:
             script += f"""
     c.add_port(name={port_name!r}, width={port.width}, cross_section={cross_section!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})"""
 
+        if layers_text:
+            for layer_text in layers_text:
+                script += f"""
+    c << gf.c.text(text=name, size={text_size}, position=(xc, yc), layer={layer_text},justify='center')\n"""
+
         script += """
+    c.name = name
     return c
 """
 
-    script += f"""
+    if activate_pdk:
+        script += f"""
 cells = get_cells(sys.modules[__name__])
 pdk = gf.Pdk(name={conf.header.description!r}, cells=cells, cross_sections=cross_sections)
 pdk.activate()
+"""
 
+    script += f"""
 {suffix}
 
 if __name__ == "__main__":
