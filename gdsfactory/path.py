@@ -735,6 +735,58 @@ def transition(
 
 
 @cell
+def along_path(
+    p: Path,
+    feature: Component,
+    spacing: float,
+    padding: float,
+) -> Component:
+    """Returns Component containing many copies of `feature` along `p`.
+
+    Places as many copies of `feature` along each segment of `p` as possible
+    under the given constraints. `spacing` is always followed precisely, but
+    actual `padding` may exceed the provided value to place features evenly.
+
+    Args:
+        p: Path to place features along.
+        feature: Component to repeat along the path. The unrotated version of
+            this object should be oriented for placement on a horizontal line.
+        spacing: distance between feature placements.
+        padding: minimum distance from the path start to the first feature.
+    """
+    length = p.length()
+    number = (length - 2 * padding) // spacing + 1
+
+    c = Component()
+
+    cum_dist = 0
+    next_feature = (length - (number - 1) * spacing) / 2
+    stop = length - next_feature
+
+    # Prepare in advance the rotation angle for each segment
+    angle_list = [np.rad2deg(np.arctan2((p.points[i + 1] - p.points[i])[1], (p.points[i + 1] - p.points[i])[0])) for i in range(len(p.points) - 1)]
+
+    for i, start_pt in enumerate(p.points[:-1]):
+        end_pt = p.points[i + 1]
+        segment_vector = end_pt - start_pt
+        segment_length = np.linalg.norm(segment_vector)
+        unit_vector = segment_vector / segment_length
+
+        # Get the pre-calculated angle for this segment
+        angle = angle_list[i]
+
+        while next_feature <= cum_dist + segment_length and next_feature <= stop:
+            added_dist = next_feature - cum_dist
+            offset = added_dist * unit_vector
+            feature_ref = c << feature
+            feature_ref.rotate(angle).move(start_pt + offset)
+            next_feature += spacing
+        cum_dist += segment_length
+
+    return c
+
+
+@cell
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
@@ -1011,6 +1063,21 @@ def extrude(
             c = x.add_pins(c)
         if x.decorator:
             c = x.decorator(c) or c
+
+        for via in x.vias:
+            if via.offset:
+                points_offset = p._centerpoint_offset_curve(
+                    points,
+                    offset_distance=via.offset,
+                    start_angle=start_angle,
+                    end_angle=end_angle,
+                )
+                _p = Path(points_offset)
+            else:
+                _p = p
+            c << along_path(
+                p=_p, feature=via.feature, spacing=via.spacing, padding=via.padding
+            )
     return c
 
 
@@ -1509,46 +1576,20 @@ if __name__ == "__main__":
     import numpy as np
 
     import gdsfactory as gf
+    from gdsfactory.cross_section import Via
 
-    # nm = 1e-3
-    # points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
-    # p = smooth(points=points)
-    # p = arc(start_angle=0)
-    # c = p.extrude(layer=(1, 0), width=0.1, simplify=50 * nm)
-    p = straight()
-    # p.plot()
+    # Create the path
+    p = gf.path.straight()
+    p += gf.path.arc(10)
+    p += gf.path.straight()
 
-    # c = p.extrude(layer=(1, 0), width=0.1)
-    s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
-    s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-    X1 = gf.CrossSection(
-        width=1.2,
-        offset=0,
-        layer=(2, 0),
-        name="wg",
-        port_names=("in1", "out1"),
-        sections=[s1, s2],
+    # Define a cross-section with a via
+    via0 = Via(feature=gf.c.via1(), spacing=5, padding=2, offset=0)
+    via = Via(feature=gf.c.via1(), spacing=5, padding=2, offset=2)
+    x = gf.CrossSection(
+        width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"), vias=[via0, via],
     )
 
-    # Create the second CrossSection that we want to transition to
-    s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
-    s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-    X2 = gf.CrossSection(
-        width=1,
-        offset=0,
-        layer=(2, 0),
-        name="wg",
-        port_names=("in1", "out1"),
-        sections=[s1, s2],
-    )
-
-    Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
-    c = p.extrude(cross_section=Xtrans)
-    # c = gf.components.splitter_tree(
-    #     noutputs=2**2,
-    #     spacing=(120.0, 50.0),
-    #     # bend_length=30,
-    #     # bend_s=None,
-    #     cross_section="rib_conformal2",
-    # )
+    # Combine the path with the cross-section
+    c = gf.path.extrude(p, cross_section=x)
     c.show()
