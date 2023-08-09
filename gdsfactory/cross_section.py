@@ -86,8 +86,8 @@ class Section(BaseModel):
         extra = "forbid"
 
 
-class Via(BaseModel):
-    """A Via object to place along an extruded path.
+class ComponentAlongPath(BaseModel):
+    """A ComponentAlongPath object to place along an extruded path.
 
     Parameters:
         feature: Component to repeat along the path. The unrotated version of
@@ -144,7 +144,7 @@ class CrossSection(BaseModel):
         info: dict with extra settings or useful information.
         name: cross_section name.
         mirror: if True, reflects the offsets.
-        vias: list of Vias(feature, spacing, padding, offset).
+        vias: list of ComponentAlongPaths(feature, spacing, padding, offset).
 
     Properties:
         aliases: dict of cross_section aliases.
@@ -178,7 +178,7 @@ class CrossSection(BaseModel):
     info: dict[str, Any] = Field(default_factory=dict)
     name: str | None = None
     mirror: bool = False
-    vias: list[Via] = Field(default_factory=list)
+    vias: list[ComponentAlongPath] = Field(default_factory=list)
 
     def __init__(self, **data: Any) -> None:
         """Extend BaseModel init to process mirroring."""

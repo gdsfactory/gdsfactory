@@ -1583,7 +1583,7 @@ if __name__ == "__main__":
     import numpy as np
 
     import gdsfactory as gf
-    from gdsfactory.cross_section import Via
+    from gdsfactory.cross_section import ComponentAlongPath
 
     # Create the path
     p = gf.path.straight()
@@ -1591,8 +1591,8 @@ if __name__ == "__main__":
     p += gf.path.straight()
 
     # Define a cross-section with a via
-    via0 = Via(feature=gf.c.via1(), spacing=5, padding=2, offset=0)
-    via = Via(feature=gf.c.via1(), spacing=5, padding=2, offset=2)
+    via0 = ComponentAlongPath(feature=gf.c.via1(), spacing=5, padding=2, offset=0)
+    via = ComponentAlongPath(feature=gf.c.via1(), spacing=5, padding=2, offset=2)
     x = gf.CrossSection(
         width=0.5,
         offset=0,
