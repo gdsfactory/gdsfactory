@@ -90,14 +90,14 @@ class ComponentAlongPath(BaseModel):
     """A ComponentAlongPath object to place along an extruded path.
 
     Parameters:
-        feature: Component to repeat along the path. The unrotated version of
+        component: Component to repeat along the path. The unrotated version of
             this object should be oriented for placement on a horizontal line.
-        spacing: distance between feature placements
-        padding: minimum distance from the path start to the first feature.
+        spacing: distance between component placements
+        padding: minimum distance from the path start to the first component.
         y_offset: offset in y direction (um).
     """
 
-    feature: object
+    component: object
     spacing: float
     padding: float = 0.0
     offset: float = 0.0
@@ -144,7 +144,7 @@ class CrossSection(BaseModel):
         info: dict with extra settings or useful information.
         name: cross_section name.
         mirror: if True, reflects the offsets.
-        vias: list of ComponentAlongPaths(feature, spacing, padding, offset).
+        vias: list of ComponentAlongPaths(component, spacing, padding, offset).
 
     Properties:
         aliases: dict of cross_section aliases.
