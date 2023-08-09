@@ -12,7 +12,6 @@ classifiers = [
   "Operating System :: OS Independent"
 ]
 dependencies = [
-  "click",
   "flatdict",
   "gdstk<1",
   "jinja2",
@@ -32,6 +31,7 @@ dependencies = [
   "toolz",
   "tqdm",
   "types-PyYAML",
+  "typer",
   "watchdog"
 ]
 description = "python library to generate GDS layouts"
@@ -40,7 +40,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "7.1.2"
+version = "7.1.4"
 
 [project.optional-dependencies]
 cad = [
@@ -57,7 +57,6 @@ cad = [
   "mapbox_earcut",
   "networkx",
   "pyglet<2",
-  "rich-click",
   "scikit-image",
   "trimesh",
   "gplugins<1"  # TODO: remove after we remove deprecated gdsfactory/simulation and gdsfactory/plugins
@@ -87,7 +86,7 @@ docs = [
 ]
 
 [project.scripts]
-gf = "gdsfactory.cli:cli"
+gf = "gdsfactory.cli:app"
 
 [tool.black]
 exclude = '''  # Specify the files/dirs that should be ignored by the black formatter

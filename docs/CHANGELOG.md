@@ -2,6 +2,16 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.115.0...main)
 
+## [7.1.4](https://github.com/gdsfactory/gdsfactory/compare/v7.1.4...v7.1.3)
+
+- Improve cell decorator updk [PR](https://github.com/gdsfactory/gdsfactory/pull/1967)
+- add ComponentAlongPath [PR](https://github.com/gdsfactory/gdsfactory/pull/1965)
+
+## [7.1.2](https://github.com/gdsfactory/gdsfactory/compare/v7.1.2...v7.1.1)
+
+- set the run directory for difftests [PR](https://github.com/gdsfactory/gdsfactory/pull/1960)
+- fix text(justify) [PR](https://github.com/gdsfactory/gdsfactory/pull/1961)
+
 ## [7.1.1](https://github.com/gdsfactory/gdsfactory/compare/v7.1.1...v7.1.0)
 
 - updk improve [PR](https://github.com/gdsfactory/gdsfactory/pull/1954)
@@ -21,7 +31,17 @@
 - move plugins and simulation to gplugins repo [PR](https://github.com/gdsfactory/gdsfactory/pull/1935)
 - add path length analyzer [PR](https://github.com/gdsfactory/gdsfactory/pull/1935)
 - only works for python>=3.10
-- You can modernize types with this command `find . -name "*.py" -exec sed -ri 's/Optional\[(.*)\]/\1 | None/g' {} \;`
+
+Migration guidelines:
+
+- Modernize types Optional[float] -> float | None
+```
+find . -name "*.py" -exec sed -ri 's/Optional\[(.*)\]/\1 | None/g' {} \;
+```
+- Replace gdsfactory[.]simulation. with gplugins.
+```
+grep -rl 'gdsfactory.simulation.' /path/to/your/files | xargs sed -i 's/gdsfactory.simulation./gplugins./g'
+```
 
 ## 6.116.0
 - Warning: You need python>=3.10 to get the latest version of gdsfactory.

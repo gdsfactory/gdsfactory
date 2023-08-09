@@ -106,6 +106,7 @@ settings:
         snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
+        vias: []
         width: 10.0
         width_wide: null
       weight: 10.0
@@ -125,7 +126,7 @@ settings:
         None, ''cladding_offsets'': None, ''cladding_simplify'': None, ''info'': None,
         ''decorator'': None, ''add_pins'': None, ''add_bbox'': None, ''mirror'': False,
         ''name'': None}, ''function_name'': ''cross_section''}, ''name'': None, ''mirror'':
-        False}_length'
+        False, ''vias'': []}_length'
       : 10.0
     settings:
       add_bbox: null

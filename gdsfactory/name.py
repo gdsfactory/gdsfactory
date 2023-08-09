@@ -97,7 +97,9 @@ def print_first_letters_warning(**kwargs) -> None:
         )
 
 
-def clean_name(name: str, remove_dots: bool = False) -> str:
+def clean_name(
+    name: str, remove_dots: bool = False, allowed_characters: list[str] | None = None
+) -> str:
     """Return a string with correct characters for a cell name.
 
     [a-zA-Z0-9]
@@ -105,7 +107,14 @@ def clean_name(name: str, remove_dots: bool = False) -> str:
     FIXME: only a few characters are currently replaced.
         This function has been updated only on case-by-case basis
 
+    Args:
+        name: to clean.
+        remove_dots: remove dots from name.
+        allowed_characters: list of allowed characters.
+
     """
+    allowed_characters = allowed_characters or []
+
     replace_map = {
         " ": "_",
         "!": "",
@@ -132,7 +141,8 @@ def clean_name(name: str, remove_dots: bool = False) -> str:
     if remove_dots:
         replace_map["."] = ""
     for k, v in list(replace_map.items()):
-        name = name.replace(k, v)
+        if k not in allowed_characters:
+            name = name.replace(k, v)
     return name
 
 

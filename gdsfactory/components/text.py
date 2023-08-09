@@ -45,8 +45,7 @@ def text(
                 xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
             else:
                 raise ValueError(f"No character with ascii value {ascii_val!r}")
-        ref = t.add_ref(label)
-        t.absorb(ref)
+        t.add_ref(label)
         yoffset -= 1500 * scaling
         xoffset = position[0]
     justify = justify.lower()
@@ -61,7 +60,7 @@ def text(
             raise ValueError(
                 f"justify = {justify!r} not in ('center', 'right', 'left')"
             )
-    return t
+    return t.flatten()
 
 
 @gf.cell
@@ -88,14 +87,15 @@ def text_lines(
 
 if __name__ == "__main__":
     # c1 = gf.components.text("hello", size=10, layer=(1, 0))
-    c2 = gf.components.text("10.0")
-    # c = text(
-    #     text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
-    #     size=4.0,
-    #     justify="right",
-    #     position=(120.5, 3),
-    # )
+    # c2 = gf.components.text("10.0")
+    c = text(
+        text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
+        size=4.0,
+        justify="right",
+        position=(0, 0),
+    )
     # c = text_lines(text=["a", "b"], size=10)
     # c = text_lines()
-    c2.show(show_ports=True)
+    # c2.show(show_ports=True)
     # c.plot()
+    c.show()
