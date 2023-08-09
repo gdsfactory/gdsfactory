@@ -737,22 +737,22 @@ def transition(
 @cell
 def along_path(
     p: Path,
-    feature: Component,
+    component: Component,
     spacing: float,
     padding: float,
 ) -> Component:
-    """Returns Component containing many copies of `feature` along `p`.
+    """Returns Component containing many copies of `component` along `p`.
 
-    Places as many copies of `feature` along each segment of `p` as possible
+    Places as many copies of `component` along each segment of `p` as possible
     under the given constraints. `spacing` is always followed precisely, but
-    actual `padding` may exceed the provided value to place features evenly.
+    actual `padding` may exceed the provided value to place components evenly.
 
     Args:
-        p: Path to place features along.
-        feature: Component to repeat along the path. The unrotated version of
+        p: Path to place components along.
+        component: Component to repeat along the path. The unrotated version of
             this object should be oriented for placement on a horizontal line.
-        spacing: distance between feature placements.
-        padding: minimum distance from the path start to the first feature.
+        spacing: distance between component placements.
+        padding: minimum distance from the path start to the first component.
     """
     length = p.length()
     number = (length - 2 * padding) // spacing + 1
@@ -760,8 +760,8 @@ def along_path(
     c = Component()
 
     cum_dist = 0
-    next_feature = (length - (number - 1) * spacing) / 2
-    stop = length - next_feature
+    next_component = (length - (number - 1) * spacing) / 2
+    stop = length - next_component
 
     # Prepare in advance the rotation angle for each segment
     angle_list = [
@@ -782,12 +782,12 @@ def along_path(
         # Get the pre-calculated angle for this segment
         angle = angle_list[i]
 
-        while next_feature <= cum_dist + segment_length and next_feature <= stop:
-            added_dist = next_feature - cum_dist
+        while next_component <= cum_dist + segment_length and next_component <= stop:
+            added_dist = next_component - cum_dist
             offset = added_dist * unit_vector
-            feature_ref = c << feature
-            feature_ref.rotate(angle).move(start_pt + offset)
-            next_feature += spacing
+            component_ref = c << component
+            component_ref.rotate(angle).move(start_pt + offset)
+            next_component += spacing
         cum_dist += segment_length
 
     return c
@@ -1083,7 +1083,7 @@ def extrude(
             else:
                 _p = p
             c << along_path(
-                p=_p, feature=via.feature, spacing=via.spacing, padding=via.padding
+                p=_p, component=via.component, spacing=via.spacing, padding=via.padding
             )
     return c
 
@@ -1591,8 +1591,8 @@ if __name__ == "__main__":
     p += gf.path.straight()
 
     # Define a cross-section with a via
-    via0 = ComponentAlongPath(feature=gf.c.via1(), spacing=5, padding=2, offset=0)
-    via = ComponentAlongPath(feature=gf.c.via1(), spacing=5, padding=2, offset=2)
+    via0 = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=0)
+    via = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=2)
     x = gf.CrossSection(
         width=0.5,
         offset=0,

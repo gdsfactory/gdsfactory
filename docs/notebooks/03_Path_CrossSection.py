@@ -158,7 +158,7 @@ b.plot()
 
 # %% [markdown]
 # An arbitrary cross-section can also help place components along a path.
-# This feature can be useful for defining wiring vias.
+# This component can be useful for defining wiring vias.
 
 # %%
 import gdsfactory as gf
@@ -171,7 +171,7 @@ p += gf.path.straight()
 
 # Define a cross-section with a via
 via = ComponentAlongPath(
-    feature=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
+    component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
 )
 x = gf.CrossSection(
     width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"), vias=[via]
@@ -191,9 +191,9 @@ p += gf.path.arc(10)
 p += gf.path.straight()
 
 # Define a cross-section with a via
-via0 = ComponentAlongPath(feature=gf.c.via1(), spacing=5, padding=2, offset=0)
-viap = ComponentAlongPath(feature=gf.c.via1(), spacing=5, padding=2, offset=+2)
-vian = ComponentAlongPath(feature=gf.c.via1(), spacing=5, padding=2, offset=-2)
+via0 = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=0)
+viap = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=+2)
+vian = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=-2)
 x = gf.CrossSection(
     width=0.5,
     offset=0,
