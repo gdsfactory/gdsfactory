@@ -79,13 +79,13 @@ def get_layer_stack_faba(
 
     class FabALayerStack(LayerStack):
         strip = LayerLevel(
-            layer=LAYER.WG,
+            layer=(1, 0),
             thickness=thickness_wg,
             zmin=0.0,
             material="si",
         )
         strip2 = LayerLevel(
-            layer=LAYER.SLAB150,
+            layer=(2, 0),
             thickness=thickness_slab,
             zmin=0.0,
             material="si",
@@ -99,7 +99,7 @@ LAYER_STACK = get_layer_stack_faba()
 WIDTH = 2
 
 # Specify a cross_section to use
-strip = partial(gf.cross_section.cross_section, width=WIDTH, layer=LAYER.WG)
+strip = partial(gf.cross_section.cross_section, width=WIDTH, layer=(1, 0))
 
 mmi1x2 = partial(
     gf.components.mmi1x2,
@@ -124,7 +124,7 @@ fab_a = gf.Pdk(
 fab_a.activate()
 
 gc = partial(
-    gf.components.grating_coupler_elliptical_te, layer=LAYER.WG, cross_section=strip
+    gf.components.grating_coupler_elliptical_te, layer=(1, 0), cross_section=strip
 )
 
 c = gf.components.mzi()
@@ -188,13 +188,13 @@ def get_layer_stack_fab_b(
 
     class FabBLayerStack(LayerStack):
         strip = LayerLevel(
-            layer=LAYER.WG,
+            layer=(1, 0),
             thickness=thickness_wg,
             zmin=0.0,
             material="si",
         )
         strip2 = LayerLevel(
-            layer=LAYER.SLAB150,
+            layer=(2, 0),
             thickness=thickness_slab,
             zmin=0.0,
             material="si",
@@ -215,7 +215,7 @@ BBOX_OFFSETS = (3, 3)
 strip = partial(
     gf.cross_section.cross_section,
     width=WIDTH,
-    layer=LAYER.WG,
+    layer=(1, 0),
     # bbox_layers=BBOX_LAYERS,
     # bbox_offsets=BBOX_OFFSETS,
     cladding_layers=BBOX_LAYERS,
@@ -233,7 +233,7 @@ mmi1x2 = partial(
 )
 mzi = partial(gf.components.mzi, cross_section=strip, splitter=mmi1x2)
 gc = partial(
-    gf.components.grating_coupler_elliptical_te, layer=LAYER.WG, cross_section=strip
+    gf.components.grating_coupler_elliptical_te, layer=(1, 0), cross_section=strip
 )
 
 cells = dict(

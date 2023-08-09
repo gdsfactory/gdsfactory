@@ -7,7 +7,7 @@ import gdsfactory as gf
 def component_with_label() -> None:
     c = gf.Component("component_with_label")
     c << gf.components.rectangle()
-    c.add_label(text="demo", position=(0.0, 0.0), layer=gf.LAYER.TEXT)
+    c.add_label(text="demo", position=(0.0, 0.0), layer=(66, 0))
 
 
 def test_label_move() -> None:

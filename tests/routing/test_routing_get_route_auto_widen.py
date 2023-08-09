@@ -13,14 +13,14 @@ xs_pin_m1 = partial(
     width=0.5,
     width_wide=WIDTH_WIDE,
     sections=(
-        Section(width=1, offset=2, layer=gf.LAYER.NPP, name="n+"),
-        Section(width=1, offset=3, layer=gf.LAYER.M1, name="m1"),
+        Section(width=1, offset=2, layer=(24, 0), name="n+"),
+        Section(width=1, offset=3, layer=(41, 0), name="m1"),
     ),
 )
 
 xs_pin = partial(
     gf.cross_section.strip_auto_widen,
-    sections=(Section(width=1, offset=2, layer=gf.LAYER.NPP, name="n+"),),
+    sections=(Section(width=1, offset=2, layer=(24, 0), name="n+"),),
 )
 
 

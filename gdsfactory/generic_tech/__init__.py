@@ -20,9 +20,9 @@ PORT_MARKER_LAYER_TO_TYPE = {
 }
 
 PORT_LAYER_TO_TYPE = {
-    LAYER.WG: "optical",
+    (1, 0): "optical",
     LAYER.WGN: "optical",
-    LAYER.SLAB150: "optical",
+    (2, 0): "optical",
     LAYER.M1: "dc",
     LAYER.M2: "dc",
     LAYER.M3: "dc",
@@ -33,7 +33,7 @@ PORT_LAYER_TO_TYPE = {
 PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
 
 LAYER_TRANSITIONS = {
-    LAYER.WG: "taper",
+    (1, 0): "taper",
     LAYER.M3: "taper",
     # (LAYER.)
 }

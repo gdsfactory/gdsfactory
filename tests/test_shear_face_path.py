@@ -141,20 +141,20 @@ def test_mate_on_shear_xor_empty_transition() -> None:
     as two straight component joined."""
     P = gf.path.straight(length=10)
 
-    s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    s = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
     X1 = gf.CrossSection(
         width=1,
         offset=0,
-        layer=gf.LAYER.WG,
+        layer=(1, 0),
         name="core",
         port_names=("o1", "o2"),
         sections=[s],
     )
-    s2 = gf.Section(width=2, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    s2 = gf.Section(width=2, offset=0, layer=(3, 0), name="slab")
     X2 = gf.CrossSection(
         width=0.5,
         offset=0,
-        layer=gf.LAYER.WG,
+        layer=(1, 0),
         name="core",
         port_names=("o1", "o2"),
         sections=[s2],
@@ -164,20 +164,20 @@ def test_mate_on_shear_xor_empty_transition() -> None:
 
     P = gf.path.straight(length=10)
 
-    s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    s = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
     x1 = gf.CrossSection(
         width=1,
         offset=0,
-        layer=gf.LAYER.WG,
+        layer=(1, 0),
         name="core",
         port_names=("o1", "o2"),
         sections=[s],
     )
-    s2 = gf.Section(width=2, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    s2 = gf.Section(width=2, offset=0, layer=(3, 0), name="slab")
     x2 = gf.CrossSection(
         width=0.5,
         offset=0,
-        layer=gf.LAYER.WG,
+        layer=(1, 0),
         name="core",
         port_names=("o1", "o2"),
         sections=[s2],
@@ -335,11 +335,11 @@ def test_points_are_correct_multi_layer():
     length = 1000
     P = gf.path.straight(length=length)
 
-    s = gf.Section(width=30, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    s = gf.Section(width=30, offset=0, layer=(3, 0), name="slab")
     X1 = gf.CrossSection(
         width=1,
         offset=0,
-        layer=gf.LAYER.WG,
+        layer=(1, 0),
         name="core",
         port_names=("o1", "o2"),
         sections=[s],
@@ -349,7 +349,7 @@ def test_points_are_correct_multi_layer():
     )
     shear_angle = DEMO_PORT_ANGLE
 
-    for layer, wg_width in [(gf.LAYER.WG, 1), (gf.LAYER.SLAB90, 30)]:
+    for layer, wg_width in [((1, 0), 1), ((3, 0), 30)]:
         points_expected = get_expected_shear_shape(
             length=length, width=wg_width, shear_angle=shear_angle
         )

@@ -154,8 +154,8 @@ c.plot()
 pin = partial(
     gf.cross_section.strip,
     sections=(
-        gf.Section(width=2, layer=gf.LAYER.N, offset=+1),
-        gf.Section(width=2, layer=gf.LAYER.P, offset=-1),
+        gf.Section(width=2, layer=(20, 0), offset=+1),
+        gf.Section(width=2, layer=(21, 0), offset=-1),
     ),
 )
 c = gf.components.straight(cross_section=pin)

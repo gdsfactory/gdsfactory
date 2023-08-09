@@ -94,7 +94,7 @@ def get_layer_stack(
             mesh_order=9,
         )
         core = LayerLevel(
-            layer=LAYER.WG,
+            layer=(1, 0),
             thickness=thickness_wg,
             zmin=0.0,
             material="si",
@@ -114,7 +114,7 @@ def get_layer_stack(
             mesh_order=1,
             layer_type="etch",
             into=["core"],
-            derived_layer=LAYER.SLAB150,
+            derived_layer=(2, 0),
         )
         deep_etch = LayerLevel(
             layer=LAYER.DEEP_ETCH,
@@ -135,7 +135,7 @@ def get_layer_stack(
             mesh_order=10,
         )
         slab150 = LayerLevel(
-            layer=LAYER.SLAB150,
+            layer=(2, 0),
             thickness=150e-3,
             zmin=0,
             material="si",
@@ -258,7 +258,7 @@ def get_process():
     return (
         Etch(
             name="strip_etch",
-            layer=LAYER.WG,
+            layer=(1, 0),
             positive_tone=False,
             depth=LayerStackParameters.thickness_wg
             + 0.01,  # slight overetch for numerics
@@ -268,7 +268,7 @@ def get_process():
         Etch(
             name="slab_etch",
             layer=LAYER.SLAB90,
-            layers_diff=[LAYER.WG],
+            layers_diff=[(1, 0)],
             depth=LayerStackParameters.thickness_wg
             - LayerStackParameters.thickness_slab_shallow_etch,
             material="core",

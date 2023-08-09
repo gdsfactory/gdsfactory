@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import numpy as np
-from scipy.interpolate import interp1d
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -244,7 +243,7 @@ def _req_straight_len(
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
     cross_section_s_bend: CrossSectionSpec = "strip",
-):
+) -> float:
     """Returns geometrical parameters to make a spiral of a given length.
 
     Args:
@@ -256,6 +255,7 @@ def _req_straight_len(
         bend_s_factory: factory to generate the s-bend segments.
         cross_section_s_bend: s bend cross section
     """
+    from scipy.interpolate import interp1d
 
     # "Brute force" approach - sweep length and save total length
 

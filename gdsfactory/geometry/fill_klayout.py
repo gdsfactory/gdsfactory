@@ -26,7 +26,7 @@ def fill(
         gdspath: GDS input.
         layer_to_fill: Layer that defines the region to fill.
         layer_to_fill_margin: in um.
-        layers_to_avoid: Layer to avoid to margin ((LAYER.WG, 3.5), (LAYER.SLAB, 2)).
+        layers_to_avoid: Layer to avoid to margin (((1, 0), 3.5), (LAYER.SLAB, 2)).
         cell_name: Optional cell to fill. Defaults to top cell.
         fill_cell_name: Optional cell name to use as fill.
         create_new_fill_cell: creates new fill cell, otherwise uses fill_cell_name from gdspath.
@@ -127,9 +127,9 @@ if __name__ == "__main__":
         fill(
             gdspath,
             fill_layers=("WG",),
-            layer_to_fill=gf.LAYER.PADDING,
-            layers_to_avoid=((gf.LAYER.WG, 0), (gf.LAYER.M3, 0)),
-            # layers_to_avoid=((gf.LAYER.WG, 0),),
+            layer_to_fill=(67, 0),
+            layers_to_avoid=(((1, 0), 0), ((49, 0), 0)),
+            # layers_to_avoid=(((1, 0), 0),),
             fill_cell_name="pad_size2__2",
             create_new_fill_cell=False,
             fill_spacing=(spacing, spacing),
@@ -141,8 +141,8 @@ if __name__ == "__main__":
         fill(
             gdspath,
             fill_layers=("WG",),
-            layer_to_fill=gf.LAYER.PADDING,
-            layers_to_avoid=((gf.LAYER.WG, 0),),
+            layer_to_fill=(67, 0),
+            layers_to_avoid=(((1, 0), 0),),
             fill_cell_name="fill_cell",
             create_new_fill_cell=True,
             fill_spacing=(1, 1),

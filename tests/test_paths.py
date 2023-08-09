@@ -133,11 +133,9 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
 
 def test_layers1() -> None:
     P = gf.path.straight(length=10.001)
-    X = gf.CrossSection(
-        width=0.5, offset=0, layer=gf.LAYER.SLAB90, port_names=("in", "out")
-    )
+    X = gf.CrossSection(width=0.5, offset=0, layer=(3, 0), port_names=("in", "out"))
     c = gf.path.extrude(P, X, simplify=5e-3)
-    assert c.ports["in"].layer == gf.LAYER.SLAB90
+    assert c.ports["in"].layer == (3, 0)
     assert c.ports["out"].center[0] == 10.001, c.ports["out"].center[0]
 
 
@@ -150,9 +148,7 @@ def test_layers2() -> None:
 
 
 def test_copy() -> None:
-    x1 = gf.CrossSection(
-        width=0.5, offset=0, layer=gf.LAYER.SLAB90, port_names=("in", "out")
-    )
+    x1 = gf.CrossSection(width=0.5, offset=0, layer=(3, 0), port_names=("in", "out"))
     x2 = x1.copy()
 
     d = jsondiff.diff(x1.dict(), x2.dict())
