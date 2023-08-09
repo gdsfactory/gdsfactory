@@ -764,7 +764,14 @@ def along_path(
     stop = length - next_feature
 
     # Prepare in advance the rotation angle for each segment
-    angle_list = [np.rad2deg(np.arctan2((p.points[i + 1] - p.points[i])[1], (p.points[i + 1] - p.points[i])[0])) for i in range(len(p.points) - 1)]
+    angle_list = [
+        np.rad2deg(
+            np.arctan2(
+                (p.points[i + 1] - p.points[i])[1], (p.points[i + 1] - p.points[i])[0]
+            )
+        )
+        for i in range(len(p.points) - 1)
+    ]
 
     for i, start_pt in enumerate(p.points[:-1]):
         end_pt = p.points[i + 1]
@@ -1587,7 +1594,11 @@ if __name__ == "__main__":
     via0 = Via(feature=gf.c.via1(), spacing=5, padding=2, offset=0)
     via = Via(feature=gf.c.via1(), spacing=5, padding=2, offset=2)
     x = gf.CrossSection(
-        width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"), vias=[via0, via],
+        width=0.5,
+        offset=0,
+        layer=(1, 0),
+        port_names=("in", "out"),
+        vias=[via0, via],
     )
 
     # Combine the path with the cross-section

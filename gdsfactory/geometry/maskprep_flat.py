@@ -34,7 +34,6 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
-
     import gdsfactory as gf
     import gdsfactory.geometry.maskprep_flat as dp
     from gdsfactory.generic_tech.layer_map import LAYER as l
