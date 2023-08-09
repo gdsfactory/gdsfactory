@@ -6,8 +6,8 @@ help:
 install:
 	pip install -e .[dev,docs,cad] pre-commit
 	pre-commit install
-	gf install klayout-genericpdk
-	gf install git-diff
+	gf install-klayout-genericpdk
+	gf install-git-diff
 
 dev: install
 
