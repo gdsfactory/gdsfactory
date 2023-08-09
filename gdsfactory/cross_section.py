@@ -11,13 +11,12 @@ import sys
 from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers
-from typing import TYPE_CHECKING, Any, Literal, TypeVar
+from typing import Any, Literal, TypeVar
 
 from pydantic import BaseModel, Field, validate_arguments
 
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 from gdsfactory.serialization import clean_dict
-
 
 nm = 1e-3
 
@@ -2370,8 +2369,6 @@ def test_copy() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    via = Via(feature=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2)
-
     # xs = gf.cross_section.pin(
     #     width=0.5,
     #     # gap_low_doping=0.05,
@@ -2380,9 +2377,9 @@ if __name__ == "__main__":
     #     mirror=False,
     # )
     # xs = pn_with_trenches(width=0.3)
-    # xs = slot(width=0.3)
+    xs = slot(width=0.3)
     # xs = rib_with_trenches()
-    # p = gf.path.straight()
+    p = gf.path.straight()
     # c = p.extrude(xs)
     # xs = l_with_trenches(
     #     width=0.5,
@@ -2402,5 +2399,5 @@ if __name__ == "__main__":
 
     # xs = l_wg()
     # p = gf.path.straight()
-    # c = p.extrude(xs)
+    c = p.extrude(xs)
     c.show(show_ports=True)

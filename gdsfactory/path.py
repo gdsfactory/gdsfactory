@@ -1576,7 +1576,6 @@ if __name__ == "__main__":
     import numpy as np
 
     import gdsfactory as gf
-    import gdsfactory as gf
     from gdsfactory.cross_section import Via
 
     # Create the path
