@@ -101,6 +101,7 @@ class Via(BaseModel):
     feature: object
     spacing: float
     padding: float = 0.0
+    offset: float = 0.0
 
 
 class CrossSection(BaseModel):
@@ -144,7 +145,7 @@ class CrossSection(BaseModel):
         info: dict with extra settings or useful information.
         name: cross_section name.
         mirror: if True, reflects the offsets.
-        vias: list of Vias(feature, spacing, padding).
+        vias: list of Vias(feature, spacing, padding, offset).
 
     Properties:
         aliases: dict of cross_section aliases.
