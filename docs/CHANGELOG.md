@@ -3991,7 +3991,7 @@ with_settings_label: False
 
 - added pre-commit hook for code consistency
 - waveguide and bend allow a list of cladding layers
-- all layers are defined as tuples using pp.(1, 0), pp.LAYER.WGCLAD
+- all layers are defined as tuples using pp.LAYER.WG, pp.LAYER.WGCLAD
 
 ## 1.1.4
 
