@@ -19,6 +19,8 @@ def taper(
     with_bbox: bool = True,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
+    port_order_name: tuple | None = ("o1", "o2"),
+    port_order_types: tuple | None = ("optical", "optical"),
     **kwargs,
 ) -> Component:
     """Linear taper.
@@ -34,6 +36,8 @@ def taper(
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+         port_order_name(tuple): Ordered tuple of port names. First port is default taper port, second name only if with_two_ports flags used.
+        port_order_types(tuple): Ordered tuple of port types. First port is default taper port, second name only if with_two_ports flags used.
         kwargs: cross_section settings.
     """
     x = gf.get_cross_section(cross_section, **kwargs)
@@ -69,21 +73,23 @@ def taper(
             c.add_polygon((xpts, ypts), layer=gf.get_layer(layer))
 
     c.add_port(
-        name="o1",
+        name=port_order_name[0],
         center=(0, 0),
         width=width1,
         orientation=180,
         layer=x.layer,
         cross_section=x1,
+        port_type=port_order_types[0],
     )
     if with_two_ports:
         c.add_port(
-            name="o2",
+            name=port_order_name[1],
             center=(length, 0),
             width=width2,
             orientation=0,
             layer=x.layer,
             cross_section=x2,
+            port_type=port_order_types[1],
         )
 
     if with_bbox and length:
