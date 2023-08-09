@@ -52,18 +52,21 @@ def text_rectangular(
 
         yoffset -= pixel_size * 6
         xoffset = position[0]
-    justify = justify.lower()
-    for ref in component.references:
-        if justify == "left":
-            pass
-        elif justify == "right":
-            ref.xmax = position[0]
-        elif justify == "center":
-            ref.move(origin=ref.center, destination=position, axis="x")
-        else:
-            raise ValueError(f"justify = {justify!r} not valid (left, center, right)")
 
-    return component
+    c = gf.Component()
+    ref = c << component
+    justify = justify.lower()
+    if justify == "left":
+        pass
+    elif justify == "right":
+        ref.xmax = position[0]
+    elif justify == "center":
+        ref.move(origin=ref.center, destination=position, axis="x")
+    else:
+        raise ValueError(f"justify = {justify!r} not valid (left, center, right)")
+    c.absorb(ref)
+
+    return c
 
 
 def text_rectangular_multi_layer(
