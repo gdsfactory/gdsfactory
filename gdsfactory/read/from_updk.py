@@ -101,18 +101,23 @@ layer_bbox = {layer_bbox}
             else ""
         )
 
-        parameters = (
+        parameters_colon = (
             [f"{p_name}:{{{p_name}}}" for p_name in parameters] if parameters else []
+        )
+        parameters_equal = (
+            [f"{p_name}={{{p_name}}}" for p_name in parameters] if parameters else []
         )
 
         parameters_labels = (
             "\n".join(
                 [
-                    f"    c.add_label(text='{p_name}:{{{p_name}}}', position=(xc, yc-{i}/{len(parameters)}*ysize/2), layer=layer_label)\n"
-                    for i, p_name in enumerate(parameters)
+                    "    c.add_label(text=f'{}', position=(xc, yc-{}/{}/2*ysize), layer=layer_label)\n".format(
+                        p_name, i, len(parameters)
+                    )
+                    for i, p_name in enumerate(parameters_colon)
                 ]
             )
-            if layer_label and parameters
+            if layer_label and parameters_colon
             else ""
         )
 
@@ -130,7 +135,7 @@ def {block_name}({parameters_string})->gf.Component:
     p = c.add_polygon({points}, layer=layer_bbox)
     xc, yc = p.center
     ysize = p.ysize
-    name = f"{block_name}_{'_'.join(parameters)}"
+    name = f"{block_name}:{','.join(parameters_equal)}"
 """
         script += parameters_labels
 

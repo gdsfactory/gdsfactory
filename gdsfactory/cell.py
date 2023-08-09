@@ -131,12 +131,11 @@ def cell_without_validator(func: _F) -> _F:
         # print(named_args_string)
 
         if active_pdk.cell_decorator_settings.naming_style == "updk":
-            default_args_list = [
-                f"{key}={clean_value_name(default2[key])}"
-                for key in sorted(default.keys())
+            full_args_list = [
+                f"{key}={clean_value_name(full[key])}" for key in sorted(full.keys())
             ]
-            named_args_string = ",".join(default_args_list)
-            name = clean_name(f"{prefix}:{named_args_string}")
+            named_args_string = ",".join(full_args_list)
+            name = f"{prefix}:{named_args_string}"
 
         elif active_pdk.cell_decorator_settings.naming_style == "default":
             changed_arg_set = set(passed_args_list).difference(default_args_list)
