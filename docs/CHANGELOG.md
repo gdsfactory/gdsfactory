@@ -2,7 +2,7 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.115.0...main)
 
-## [7.1.3](https://github.com/gdsfactory/gdsfactory/compare/v7.1.3...v7.1.2)
+## [7.1.4](https://github.com/gdsfactory/gdsfactory/compare/v7.1.4...v7.1.3)
 
 - Improve cell decorator updk [PR](https://github.com/gdsfactory/gdsfactory/pull/1967)
 - add ComponentAlongPath [PR](https://github.com/gdsfactory/gdsfactory/pull/1965)
