@@ -126,6 +126,12 @@ layer_bbox = {layer_bbox}
         else:
             doc = f'"""{block.doc}"""'
 
+        cell_name = (
+            f"{block_name}:{','.join(parameters_equal)}"
+            if parameters_equal
+            else block_name
+        )
+
         points = str(block.bbox).replace("'", "")
         script += f"""
 @gf.cell
@@ -135,7 +141,7 @@ def {block_name}({parameters_string})->gf.Component:
     p = c.add_polygon({points}, layer=layer_bbox)
     xc, yc = p.center
     ysize = p.ysize
-    name = f"{block_name}:{','.join(parameters_equal)}"
+    name = f{cell_name!r}
 """
         script += parameters_labels
 
