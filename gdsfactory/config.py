@@ -9,25 +9,23 @@ import importlib
 import json
 import os
 import pathlib
-import re
 import subprocess
 import sys
 import tempfile
 import traceback
-import warnings
 from itertools import takewhile
 from pathlib import Path
 from pprint import pprint
-from typing import TYPE_CHECKING, Any, ClassVar, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 import loguru
 from loguru import logger as logger
-from pydantic import BaseModel, BaseSettings, Field
+from pydantic import BaseSettings
 from rich.console import Console
 from rich.table import Table
 
 if TYPE_CHECKING:
-    from loguru import Logger
+    pass
 
 __version__ = "7.1.4"
 PathType = str | pathlib.Path
@@ -46,19 +44,6 @@ yamlpath_home = home_path / "config.yml"
 
 MAX_NAME_LENGTH = 32
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
-
-logger.remove()
-logger.add(sink=sys.stderr, level="WARNING")
-
-showwarning_ = warnings.showwarning
-
-
-def showwarning(message, *args, **kwargs) -> None:
-    logger.warning(message)
-    showwarning_(message, *args, **kwargs)
-
-
-warnings.showwarning = showwarning
 
 plugins = [
     "gplugins",
@@ -175,66 +160,20 @@ def tracing_formatter(record: loguru.Record) -> str:
         )
 
 
-class LogFilter(BaseModel):
-    """Filter certain messages by log level or regex.
-
-    Filtered messages are not evaluated and discarded.
-    """
-
-    level: Literal[
-        "TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"
-    ] = "INFO"
-    regex: str | None = None
-
-    def __call__(self, record: loguru.Record) -> bool:
-        """Loguru needs the filter to be callable."""
-        levelno = logger.level(self.level).no
-        if self.regex is None:
-            return record["level"].no >= levelno
-        else:
-            return record["level"].no >= levelno and not bool(
-                re.search(self.regex, record["message"])
-            )
-
-
 class Settings(BaseSettings):
     """GDSFACTORY settings object."""
 
     n_threads: int = get_number_of_cores()
-    logger: ClassVar[Logger] = logger
-    logfilter: LogFilter = Field(default_factory=LogFilter)
     display_type: Literal["widget", "klayout", "docs", "kweb"] = "kweb"
     last_saved_files: list[PathType] = []
-
-    def __init__(self, **data: Any):
-        """Set log filter and run pydantic."""
-        super().__init__(**data)
-        self.logger.remove()
-        self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
-        self.logger.info("LogLevel: {}", self.logfilter.level)
 
     class Config:
         """Pydantic settings."""
 
         validation = True
         arbitrary_types_allowed = True
-        fields = {"logger": {"exclude": True}}
         env_prefix = "gdsfactory_"
         env_nested_delimiter = "_"
-
-
-def set_log_level(level: str, sink=sys.stderr) -> None:
-    """Sets log level for gdsfactory.
-
-    Args:
-        level: ["DEBUG", "INFO", "WARNING", "ERROR"]
-        sink: defaults to standard error.
-    """
-    log_levels = ["DEBUG", "INFO", "WARNING", "ERROR"]
-    if level not in log_levels:
-        raise ValueError(f"{level!r} not a valid log level {log_levels}")
-    logger.remove()
-    logger.add(sink=sink, level=level)
 
 
 class Paths:
@@ -356,4 +295,5 @@ def set_plot_options(
 
 
 if __name__ == "__main__":
-    print_version_plugins()
+    # print_version_plugins()
+    pass
