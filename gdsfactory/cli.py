@@ -42,7 +42,7 @@ def version() -> None:
     pass
 
 
-# install
+# INSTALL
 @click.group()
 def install() -> None:
     """Commands install."""
@@ -54,6 +54,38 @@ def install() -> None:
 def config_get(key: str) -> None:
     """Shows key values from CONFIG."""
     print_config(key)
+
+
+# PDK
+@click.group()
+def pdk() -> None:
+    """Commands for pdk export."""
+    pass
+
+
+@click.command(name="from_updk")
+@click.argument("filepath", required=True)
+def from_updk(filepath: str) -> None:
+    """Writes a PDK in python from uPDK YAML spec."""
+    from gdsfactory.read.from_updk import from_updk
+
+    from_updk(filepath)
+
+
+@click.command(name="text_from_pdf")
+@click.argument("filepath", required=True)
+def text_from_pdf(filepath: str) -> None:
+    """Converts a PDF to text."""
+    import pdftotext
+
+    with open(filepath, "rb") as f:
+        pdf = pdftotext.PDF(f)
+
+    # Read all the text into one string
+    text = "\n".join(pdf)
+    filepath = pathlib.Path(filepath)
+    f = filepath.with_suffix(".md")
+    f.write_text(text)
 
 
 # GDS
@@ -223,15 +255,20 @@ install.add_command(git_diff)
 version.add_command(plugins)
 version.add_command(pdks)
 
-cli.add_command(web)
+
+pdk.add_command(from_updk)
+pdk.add_command(text_from_pdf)
+
 # watch.add_command(watch_yaml)
 
 cli.add_command(gds)
 cli.add_command(install)
 cli.add_command(watch)
 cli.add_command(version)
+cli.add_command(web)
+cli.add_command(pdk)
 
 
 if __name__ == "__main__":
-    # cli()
-    print_version()
+    cli()
+    # print_version()
