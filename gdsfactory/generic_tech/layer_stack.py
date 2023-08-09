@@ -311,12 +311,44 @@ def get_process():
             dose=1e12,
             resist_thickness=1.0,
         ),
+        ImplantPhysical(
+            name="pp_implant",
+            layer=LAYER.PP,
+            energy=15,
+            ion="B",
+            dose=5e12,
+            resist_thickness=1.0,
+        ),
+        ImplantPhysical(
+            name="np_implant",
+            layer=LAYER.NP,
+            energy=50,
+            ion="P",
+            dose=5e12,
+            resist_thickness=1.0,
+        ),
+        ImplantPhysical(
+            name="ppp_implant",
+            layer=LAYER.PPP,
+            energy=15,
+            ion="B",
+            dose=1e15,
+            resist_thickness=1.0,
+        ),
+        ImplantPhysical(
+            name="npp_implant",
+            layer=LAYER.NPP,
+            energy=100,
+            ion="As",
+            dose=1e15,
+            resist_thickness=1.0,
+        ),
         # "Temperatures of ~1000C for not more than a few seconds"
         # Adjust to your process
         # https://en.wikipedia.org/wiki/Rapid_thermal_processing
         Anneal(
             name="dopant_activation",
-            time=1,
+            time=5,
             temperature=1000,
         ),
         Grow(

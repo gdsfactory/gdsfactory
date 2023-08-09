@@ -184,6 +184,31 @@ class ImplantPhysical(Lithography):
 
 
 @dataclass(kw_only=True)
+class ImplantAnalytical(Lithography):
+    """Simulates masking + physical ion implantation + strip.
+
+    wafer mask opened          wafer mask opened
+        <------>                   <----->
+    ________________          __________________
+    |              |          |                |
+    |              |  ----->  |    ------- <---- range (depends on energy)
+    |______________|          |________________|
+
+    Args:
+        ion (str): ion tag
+        peak_conc (float): peak concentration
+        range (float): of the ions (center of distribution)
+        straggle (float): of the ions (spread of distribution)
+    """
+
+    ion: str
+    peak_conc: float
+    range: float
+    straggle: float
+    tilt: float = 0
+
+
+@dataclass(kw_only=True)
 class Anneal(ProcessStep):
     """Simulates thermal diffusion of impurities and healing of defects.
 
