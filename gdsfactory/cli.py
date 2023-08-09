@@ -6,14 +6,6 @@ import pathlib
 import typer
 import uvicorn
 
-import gdsfactory
-from gdsfactory.config import (
-    print_version_pdks,
-    print_version_plugins,
-)
-from gdsfactory.install import install_gdsdiff, install_klayout_package
-from gdsfactory.technology import lyp_to_dataclass
-
 app = typer.Typer()
 
 VERSION = "7.1.4"
@@ -25,6 +17,8 @@ def layermap_to_dataclass(
     force: bool = typer.Option(False, "--force", "-f", help="Force deletion"),
 ) -> None:
     """Converts KLayout LYP to a dataclass."""
+    from gdsfactory.technology import lyp_to_dataclass
+
     filepath_lyp = pathlib.Path(filepath)
     filepath_py = filepath_lyp.with_suffix(".py")
     if not filepath_lyp.exists():
@@ -77,7 +71,9 @@ def watch(path: str = pathlib.Path.cwd()) -> None:
 @app.command()
 def show(filename: str) -> None:
     """Show a GDS file using klive."""
-    gdsfactory.show(filename)
+    from gdsfactory.show import show
+
+    show(filename)
 
 
 @app.command()
@@ -91,24 +87,32 @@ def gds_diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
 @app.command()
 def install_klayout_genericpdk() -> None:
     """Install Klayout generic PDK."""
+    from gdsfactory.install import install_klayout_package
+
     install_klayout_package()
 
 
 @app.command()
 def install_git_diff() -> None:
     """Install git diff."""
+    from gdsfactory.install import install_gdsdiff
+
     install_gdsdiff()
 
 
 @app.command()
 def print_plugins() -> None:
     """Show installed plugin versions."""
+    from gdsfactory.config import print_version_plugins
+
     print_version_plugins()
 
 
 @app.command()
 def print_pdks() -> None:
     """Show installed PDK versions."""
+    from gdsfactory.config import print_version_pdks
+
     print_version_pdks()
 
 
@@ -138,5 +142,4 @@ def text_from_pdf_command(filepath: str) -> None:
 
 
 if __name__ == "__main__":
-    pass
-    # app()
+    app()
