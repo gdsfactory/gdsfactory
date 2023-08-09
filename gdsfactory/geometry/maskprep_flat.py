@@ -1,13 +1,12 @@
-from gdsfactory.typings import Dict, Layer, LayerSpecs, PathType, Tuple
 import warnings
 
 from gplugins.klayout.dataprep.regions import (
+    Region,
+    RegionCollection,
     boolean_not,
     boolean_or,
     copy,
     size,
-    Region,
-    RegionCollection,
 )
 
 message = """
@@ -35,7 +34,6 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
-    import kfactory as kf
 
     import gdsfactory as gf
     import gdsfactory.geometry.maskprep_flat as dp
