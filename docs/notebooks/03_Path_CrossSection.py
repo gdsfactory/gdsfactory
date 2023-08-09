@@ -193,7 +193,11 @@ via0 = Via(feature=gf.c.via1(), spacing=5, padding=2, offset=0)
 viap = Via(feature=gf.c.via1(), spacing=5, padding=2, offset=+2)
 vian = Via(feature=gf.c.via1(), spacing=5, padding=2, offset=-2)
 x = gf.CrossSection(
-    width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"), vias=[via0, viap, vian],
+    width=0.5,
+    offset=0,
+    layer=(1, 0),
+    port_names=("in", "out"),
+    vias=[via0, viap, vian],
 )
 
 # Combine the path with the cross-section

@@ -1,4 +1,0 @@
-# Verification
-
-```{tableofcontents}
-```
