@@ -86,6 +86,23 @@ class Section(BaseModel):
         extra = "forbid"
 
 
+class Via(BaseModel):
+    """A Via object to place along an extruded path.
+
+    Parameters:
+        feature: Component to repeat along the path. The unrotated version of
+            this object should be oriented for placement on a horizontal line.
+        spacing: distance between feature placements
+        padding: minimum distance from the path start to the first feature.
+        y_offset: offset in y direction (um).
+    """
+
+    feature: object
+    spacing: float
+    padding: float = 0.0
+    offset: float = 0.0
+
+
 class CrossSection(BaseModel):
     """Waveguide information to extrude a path.
 
@@ -127,6 +144,7 @@ class CrossSection(BaseModel):
         info: dict with extra settings or useful information.
         name: cross_section name.
         mirror: if True, reflects the offsets.
+        vias: list of Vias(feature, spacing, padding, offset).
 
     Properties:
         aliases: dict of cross_section aliases.
@@ -160,8 +178,9 @@ class CrossSection(BaseModel):
     info: dict[str, Any] = Field(default_factory=dict)
     name: str | None = None
     mirror: bool = False
+    vias: list[Via] = Field(default_factory=list)
 
-    def __init__(__pydantic_self__, **data: Any) -> None:
+    def __init__(self, **data: Any) -> None:
         """Extend BaseModel init to process mirroring."""
         super().__init__(**data)
 
@@ -2358,9 +2377,9 @@ if __name__ == "__main__":
     #     mirror=False,
     # )
     # xs = pn_with_trenches(width=0.3)
-    # xs = slot(width=0.3)
+    xs = slot(width=0.3)
     # xs = rib_with_trenches()
-    # p = gf.path.straight()
+    p = gf.path.straight()
     # c = p.extrude(xs)
     # xs = l_with_trenches(
     #     width=0.5,
@@ -2376,9 +2395,9 @@ if __name__ == "__main__":
     # c = p.extrude(cross_section=xs)
     # xs = rib_with_trenches() # FIXME
     # c = gf.components.straight(cross_section=xs)
-    c = gf.components.straight(cross_section="strip")
+    # c = gf.components.straight(cross_section="strip")
 
     # xs = l_wg()
     # p = gf.path.straight()
-    # c = p.extrude(xs)
+    c = p.extrude(xs)
     c.show(show_ports=True)
