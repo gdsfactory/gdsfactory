@@ -65,11 +65,14 @@ def pdk() -> None:
 
 @click.command(name="from_updk")
 @click.argument("filepath", required=True)
-def from_updk(filepath: str) -> None:
+@click.argument("filepath_out", required=False, default=None)
+def from_updk(filepath: str, filepath_out: str) -> None:
     """Writes a PDK in python from uPDK YAML spec."""
     from gdsfactory.read.from_updk import from_updk
 
-    from_updk(filepath)
+    filepath = pathlib.Path(filepath)
+    filepath_out = filepath_out or filepath.with_suffix(".py")
+    from_updk(filepath, filepath_out=filepath_out)
 
 
 @click.command(name="text_from_pdf")
