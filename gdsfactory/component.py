@@ -379,13 +379,17 @@ class Component(_GeometryHelper):
         - name characters < MAX_NAME_LENGTH
         - is not empty (has references or polygons)
         """
-        MAX_NAME_LENGTH = 99
+        from gdsfactory.pdk import get_active_pdk
+
+        pdk = get_active_pdk()
+
+        max_name_length = pdk.cell_decorator_settings.max_name_length
         assert isinstance(
             v, Component
         ), f"TypeError, Got {type(v)}, expecting Component"
         assert (
-            len(v.name) <= MAX_NAME_LENGTH
-        ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
+            len(v.name) <= max_name_length
+        ), f"name `{v.name}` {len(v.name)} > {max_name_length} "
         return v
 
     @property
