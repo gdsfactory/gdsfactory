@@ -143,12 +143,22 @@ class LayerStack(BaseModel):
             for polygon in polygons:
                 # If polygon belongs to port, create a unique new layer, and add the polygon to it
                 if gdstk.inside([port.center], gdstk.Polygon(polygon))[0]:
-                    for j, old_layername in enumerate(layerstack.get_layer_to_layername()[port.layer]):
-                        new_layer_number = (new_layers_init[0] + i, new_layers_init[1]+j)
+                    for j, old_layername in enumerate(
+                        layerstack.get_layer_to_layername()[port.layer]
+                    ):
+                        new_layer_number = (
+                            new_layers_init[0] + i,
+                            new_layers_init[1] + j,
+                        )
                         if add_to_layerstack:
                             new_layer = copy.deepcopy(layerstack.layers[old_layername])
-                            new_layer.layer = (new_layers_init[0] + i, new_layers_init[1]+j)
-                            layerstack.layers[f"{old_layername}{delimiter}{portname}"] = new_layer
+                            new_layer.layer = (
+                                new_layers_init[0] + i,
+                                new_layers_init[1] + j,
+                            )
+                            layerstack.layers[
+                                f"{old_layername}{delimiter}{portname}"
+                            ] = new_layer
                         net_component.add_polygon(polygon, layer=new_layer_number)
                 # Otherwise put the polygon back on the same layer
                 else:
