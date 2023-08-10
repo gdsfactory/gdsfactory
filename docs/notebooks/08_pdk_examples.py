@@ -42,6 +42,7 @@ from gdsfactory.technology import (
 )
 from gdsfactory.typings import Layer
 from gdsfactory.config import print_version_pdks, print_version_plugins
+from gdsfactory.generic_tech import get_generic_pdk
 
 gf.config.rich_output()
 nm = 1e-3
@@ -128,7 +129,7 @@ mmi1x2 = partial(
     cross_section=strip,
 )
 
-generic_pdk = gf.generic_tech.get_generic_pdk()
+generic_pdk = get_generic_pdk()
 
 fab_a = gf.Pdk(
     name="Fab_A",

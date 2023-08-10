@@ -123,7 +123,6 @@ __all__ = (
     "get_cross_section_factories",
     "get_layer",
     "get_padding_points",
-    "get_generic_pdk",
     "grid",
     "grid_with_text",
     "import_gds",
