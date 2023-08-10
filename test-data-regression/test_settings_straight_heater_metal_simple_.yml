@@ -1,0 +1,81 @@
+name: straight_heater_metal_simple
+ports:
+  e1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 47
+    - 0
+    name: e1
+    orientation: 180.0
+    port_type: electrical
+    shear_angle: null
+    width: 2.5
+  e2:
+    center:
+    - 320.0
+    - 0.0
+    layer:
+    - 47
+    - 0
+    name: e2
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 2.5
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 320.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section_heater: heater_metal
+    cross_section_waveguide_heater: strip_heater_metal
+    heater_taper_length: 5.0
+    heater_width: 2.5
+    length: 320.0
+    length_straight_input: 15.0
+    ohms_per_square: null
+    port_orientation1: null
+    port_orientation2: null
+    via_stack: via_stack_heater_mtop
+  full:
+    cross_section_heater: heater_metal
+    cross_section_waveguide_heater: strip_heater_metal
+    heater_taper_length: 5.0
+    heater_width: 2.5
+    length: 320.0
+    length_straight_input: 15.0
+    ohms_per_square: null
+    port_orientation1: null
+    port_orientation2: null
+    via_stack: via_stack_heater_mtop
+  function_name: straight_heater_metal_simple
+  info:
+    resistance: null
+  info_version: 2
+  module: gdsfactory.components.straight_heater_metal
+  name: straight_heater_metal_simple

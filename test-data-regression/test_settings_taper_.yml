@@ -31,6 +31,12 @@ settings:
     cross_section: strip
     length: 10.0
     port: null
+    port_order_name:
+    - o1
+    - o2
+    port_order_types:
+    - optical
+    - optical
     width1: 0.5
     width2: null
     with_bbox: true
@@ -39,6 +45,12 @@ settings:
     cross_section: strip
     length: 10.0
     port: null
+    port_order_name:
+    - o1
+    - o2
+    port_order_types:
+    - optical
+    - optical
     width1: 0.5
     width2: null
     with_bbox: true
