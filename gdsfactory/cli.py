@@ -8,7 +8,7 @@ import uvicorn
 
 app = typer.Typer()
 
-VERSION = "7.1.4"
+VERSION = "7.2.0"
 
 
 @app.command()
