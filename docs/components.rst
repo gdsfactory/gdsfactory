@@ -1308,7 +1308,7 @@ edge_coupler_silicon
 
   import gdsfactory as gf
 
-  c = gf.components.edge_coupler_silicon(length=100, width1=0.5, width2=0.2, with_bbox=True, with_two_ports=False, cross_section='strip')
+  c = gf.components.edge_coupler_silicon(length=100, width1=0.5, width2=0.2, with_bbox=True, with_two_ports=False, cross_section='strip', port_order_name=['o1', 'o2'], port_order_types=['optical', 'optical'])
   c.plot()
 
 
@@ -2072,7 +2072,7 @@ mzi2x2_2x2_phase_shifter
 
   import gdsfactory as gf
 
-  c = gf.components.mzi2x2_2x2_phase_shifter(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal', with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False)
+  c = gf.components.mzi2x2_2x2_phase_shifter(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal_simple', with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False)
   c.plot()
 
 
@@ -2568,6 +2568,21 @@ rectangle_with_slits
   import gdsfactory as gf
 
   c = gf.components.rectangle_with_slits(size=[100.0, 200.0], layer='WG', layer_slit='SLAB150', centered=False, slit_size=[1.0, 1.0], slit_spacing=[20, 20], slit_enclosure=10)
+  c.plot()
+
+
+
+rectangles
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.rectangles
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.rectangles(size=[4.0, 2.0], offsets=[0, 1], layers=['WG', 'SLAB150'], centered=True)
   c.plot()
 
 
@@ -3172,6 +3187,21 @@ straight_heater_metal_90_90
 
 
 
+straight_heater_metal_simple
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.straight_heater_metal_simple
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.straight_heater_metal_simple(length=320.0, length_straight_input=15.0, heater_width=2.5, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', via_stack='via_stack_heater_mtop', heater_taper_length=5.0)
+  c.plot()
+
+
+
 straight_heater_metal_undercut
 ----------------------------------------------------
 
@@ -3302,7 +3332,7 @@ taper
 
   import gdsfactory as gf
 
-  c = gf.components.taper(length=10.0, width1=0.5, with_bbox=True, with_two_ports=True, cross_section='strip')
+  c = gf.components.taper(length=10.0, width1=0.5, with_bbox=True, with_two_ports=True, cross_section='strip', port_order_name=['o1', 'o2'], port_order_types=['optical', 'optical'])
   c.plot()
 
 
@@ -3317,7 +3347,7 @@ taper2
 
   import gdsfactory as gf
 
-  c = gf.components.taper2(length=10.0, width1=0.5, width2=3, with_bbox=True, with_two_ports=True, cross_section='strip')
+  c = gf.components.taper2(length=10.0, width1=0.5, width2=3, with_bbox=True, with_two_ports=True, cross_section='strip', port_order_name=['o1', 'o2'], port_order_types=['optical', 'optical'])
   c.plot()
 
 
