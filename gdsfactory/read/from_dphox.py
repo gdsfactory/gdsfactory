@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from gdsfactory.cell import cell_without_validator
 from gdsfactory.component import Component, ComponentReference
 
 
+@cell_without_validator
 def from_dphox(device, foundry) -> Component:
     """Returns Gdsfactory Component from a dphox Device.
 

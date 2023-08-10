@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from gdsfactory.cell import cell_without_validator
 from gdsfactory.component import Component
 from gdsfactory.geometry.boolean import boolean
 
@@ -20,11 +21,13 @@ def compute_area_signed(pr) -> float:
     return sum(xs[i] * (ys[i + 1] - ys[i - 1]) for i in range(1, len(pr))) / 2.0
 
 
+@cell_without_validator
 def from_np(
     ndarray: np.ndarray,
     nm_per_pixel: int = 20,
     layer: tuple[int, int] = (1, 0),
     threshold: float = 0.99,
+    invert: bool = True,
 ) -> Component:
     """Returns Component from a np.ndarray.
 
@@ -35,6 +38,7 @@ def from_np(
         nm_per_pixel: scale_factor.
         layer: layer tuple to output gds.
         threshold: value along which to find contours in the array.
+        invert: invert the mask.
 
     """
     from skimage import measure
@@ -56,16 +60,48 @@ def from_np(
         else:
             d.add_polygon(points, layer=layer)
 
-    c = boolean(c, d, operation="not", layer=layer)
-    return c
+    return boolean(c, d, operation="not", layer=layer) if invert else d
+
+
+@cell_without_validator
+def from_image(image_path: str, **kwargs) -> Component:
+    """Returns Component from a png image.
+
+    Args:
+        image_path: png file path.
+
+    Keyword Args:
+        nm_per_pixel: scale_factor.
+        layer: layer tuple to output gds.
+        threshold: value along which to find contours in the array.
+
+    """
+    import matplotlib.pyplot as plt
+
+    # Load the image using matplotlib
+    img = plt.imread(image_path)
+
+    if len(img.shape) == 3:
+        img = 0.2989 * img[:, :, 0] + 0.5870 * img[:, :, 1] + 0.1140 * img[:, :, 2]
+
+    # Convert image to numpy array (in fact, plt.imread already returns a numpy array)
+    img_array = np.array(img)
+
+    return from_np(img_array, **kwargs)
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    from gdsfactory.config import PATH
 
-    c1 = gf.components.straight()
-    c1 = gf.components.bend_circular()
-    c1 = gf.components.ring_single()
-    img = c1.to_np()
-    c2 = from_np(img)
-    c2.show()
+    # import gdsfactory as gf
+    # c1 = gf.components.straight()
+    # c1 = gf.components.bend_circular()
+    # c1 = gf.components.ring_single()
+    # img = c1.to_np()
+    # c2 = from_np(img)
+    # c2.show()
+
+    c = from_image(
+        PATH.module / "samples" / "images" / "logo.png", nm_per_pixel=500, invert=True
+    )
+    c.show()
