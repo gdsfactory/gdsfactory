@@ -35,15 +35,6 @@ LAYER = LayerMap()
     return script
 
 
-def add_net_layers(layermap, ports):
-    """Adds net layers to the layermap.
-
-    Arguments:
-        layermap: to modify
-        ports: list of ports to consider for nets.
-    """
-
-
 if __name__ == "__main__":
     from gdsfactory.config import PATH
 
