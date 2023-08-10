@@ -37,17 +37,22 @@ gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
 
-# Create a blank component (essentially an empty GDS cell with some special features)
-c = gf.Component("myComponent")
 
-# Create and add a polygon from separate lists of x points and y points
-# (Can also be added like [(x1,y1), (x2,y2), (x3,y3), ... ]
-poly1 = c.add_polygon(
-    [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=1
-)  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
+@gf.cell
+def demo_polygons():
+    # Create a blank component (essentially an empty GDS cell with some special features)
+    c = gf.Component()
 
-# show it in matplotlib and KLayout (you need to have KLayout open and install gdsfactory from the git repo with make install)
-c.plot()
+    # Create and add a polygon from separate lists of x points and y points
+    # (Can also be added like [(x1,y1), (x2,y2), (x3,y3), ... ]
+    poly1 = c.add_polygon(
+        [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=1
+    )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
+    return c
+
+
+c = demo_polygons()
+c.plot()  # show it in KLayout
 
 # %% [markdown]
 # **Exercise** :
@@ -313,12 +318,12 @@ wg2 = straight(layer=(2, 0))
 mwg1_ref = c2.add_ref(wg1)
 mwg2_ref = c2.add_ref(wg2)
 mwg2_ref.move(destination=[10, 10])
-c2
+c2.plot()
 
 # %%
 # Like before, let's connect mwg1 and mwg2 together
 mwg1_ref.connect(port="o2", destination=mwg2_ref.ports["o1"])
-c2
+c2.plot()
 
 # %% [markdown]
 # ## Labels
@@ -338,7 +343,7 @@ c2.add_label(
     position=(c2.xmax, c2.ymax),
     layer=(10, 0),
 )
-c2
+c2.plot()
 
 # %% [markdown]
 # Another simple example
@@ -375,7 +380,7 @@ c.plot()
 
 # %%
 c2 = gf.geometry.boolean(A=[e1, e3], B=e2, operation="A-B", layer=(2, 0))
-c2
+c2.plot()
 
 # %% [markdown]
 # ## Move Reference by port
@@ -447,3 +452,5 @@ c.write_stl("demo.stl")
 # %%
 scene = c.to_3d()
 scene.show()
+
+# %%

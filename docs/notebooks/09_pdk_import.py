@@ -100,7 +100,7 @@ c3.plot()
 gdspath = c3.write_gds("extra/pdk.gds", with_metadata=True)
 
 # %%
-gf.labels.write_labels.write_labels_klayout(gdspath, layer_label=gf.LAYER.LABEL)
+gf.labels.write_labels.write_labels_klayout(gdspath, layer_label=(201, 0))
 
 # %% [markdown]
 # ### add ports from pins

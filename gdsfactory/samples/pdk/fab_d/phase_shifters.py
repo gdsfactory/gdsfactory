@@ -20,25 +20,23 @@ class LayerMap:
 LAYER = LayerMap()
 
 
-xs_strip = partial(gf.cross_section.strip, layer=LAYER.WG, width=1)
+xs_strip = partial(gf.cross_section.strip, layer=(1, 0), width=1)
 
 
 xs_strip_heater_metal = partial(
-    gf.cross_section.strip_heater_metal, layer=LAYER.WG, width=1
+    gf.cross_section.strip_heater_metal, layer=(1, 0), width=1
 )
 xs_rib_heater_doped = partial(
-    gf.cross_section.rib_heater_doped, layer=LAYER.WG, width=1, layer_slab=LAYER.SLAB
+    gf.cross_section.rib_heater_doped, layer=(1, 0), width=1, layer_slab=LAYER.SLAB
 )
 xs_strip_heater_doped = partial(
     gf.cross_section.strip_heater_doped,
-    layer=LAYER.WG,
+    layer=(1, 0),
     width=1,
-    layers_heater=(LAYER.WG, LAYER.HEATER),
+    layers_heater=((1, 0), LAYER.HEATER),
     bbox_offsets_heater=(0, 0.1),
 )
-xs_rib_pin = partial(
-    gf.cross_section.pin, layer=LAYER.WG, width=1, layer_slab=LAYER.SLAB
-)
+xs_rib_pin = partial(gf.cross_section.pin, layer=(1, 0), width=1, layer_slab=LAYER.SLAB)
 
 
 ps_heater_metal = partial(

@@ -25,10 +25,10 @@ def test_add_labels_optical() -> None:
 
     gc = gf.components.grating_coupler_elliptical_te()
     label1 = get_input_label(
-        port=wg.ports["o1"], gc=gc, gc_index=0, layer_label=gf.LAYER.LABEL
+        port=wg.ports["o1"], gc=gc, gc_index=0, layer_label=(201, 0)
     )
     label2 = get_input_label(
-        port=wg.ports["o2"], gc=gc, gc_index=1, layer_label=gf.LAYER.LABEL
+        port=wg.ports["o2"], gc=gc, gc_index=1, layer_label=(201, 0)
     )
 
     labels = get_labels(
@@ -49,10 +49,10 @@ def test_add_labels_electrical() -> None:
     _wg = gf.components.wire_straight(length=5.987)
     wg = c << _wg
     label1 = get_input_label_electrical(
-        port=wg.ports["e1"], layer_label=gf.LAYER.LABEL, gc_index=0
+        port=wg.ports["e1"], layer_label=(201, 0), gc_index=0
     )
     label2 = get_input_label_electrical(
-        port=wg.ports["e2"], layer_label=gf.LAYER.LABEL, gc_index=1
+        port=wg.ports["e2"], layer_label=(201, 0), gc_index=1
     )
     labels = get_labels(
         wg, get_label_function=get_input_label_electrical, component_name=_wg.name

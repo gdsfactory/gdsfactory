@@ -16,16 +16,13 @@ import traceback
 from itertools import takewhile
 from pathlib import Path
 from pprint import pprint
-from typing import TYPE_CHECKING, Any, Literal
+from typing import Any, Literal
 
 import loguru
 from loguru import logger as logger
 from pydantic import BaseSettings
 from rich.console import Console
 from rich.table import Table
-
-if TYPE_CHECKING:
-    pass
 
 __version__ = "7.1.4"
 PathType = str | pathlib.Path
@@ -56,7 +53,7 @@ plugins = [
     "lumapi",
     "sax",
 ]
-pdks = ["gf45", "tj", "imec", "amf", "sky130", "ubcpdk", "aim", "ct"]
+pdks = ["gf45", "tj", "imec", "amf", "sky130", "ubcpdk", "aim", "ct", "hhi", "sph"]
 
 
 def print_version_plugins() -> None:
@@ -296,4 +293,4 @@ def set_plot_options(
 
 if __name__ == "__main__":
     # print_version_plugins()
-    pass
+    print_version_pdks()

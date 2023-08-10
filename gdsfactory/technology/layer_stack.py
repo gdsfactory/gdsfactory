@@ -1,10 +1,16 @@
+from __future__ import annotations
+
 import copy
 from collections import defaultdict
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
+import gdstk
 from pydantic import BaseModel, Field
 
-from gdsfactory.technology.layer_views import LayerViews
+from gdsfactory.cell import cell
+
+if TYPE_CHECKING:
+    from gdsfactory.technology import LayerViews
 
 
 class LayerLevel(BaseModel):
@@ -97,85 +103,12 @@ class LayerStack(BaseModel):
 
         return layer_to_thickness
 
-    def get_component_with_derived_layers(self, component):
+    def get_component_with_derived_layers(self, component, **kwargs):
         """Returns component with derived layers."""
-        import gdstk
 
-        unetched_layers = [
-            layer_name
-            for layer_name, level in self.layers.items()
-            if level.layer and level.layer_type == "grow"
-        ]
-        etch_layers = [
-            layer_name
-            for layer_name, level in self.layers.items()
-            if level.layer and level.layer_type == "etch"
-        ]
-
-        # remove all etched layers from the grown layers
-        unetched_layers_dict = defaultdict(list)
-        for layer_name in etch_layers:
-            level = self.layers[layer_name]
-            into = level.into or []
-            for layer_name_etched in into:
-                unetched_layers_dict[layer_name_etched].append(layer_name)
-                if layer_name_etched in unetched_layers:
-                    unetched_layers.remove(layer_name_etched)
-
-        component_layers = component.get_layers()
-
-        # Define pure grown layers
-        unetched_layer_numbers = [
-            self.layers[layer_name].layer
-            for layer_name in unetched_layers
-            if self.layers[layer_name].layer in component_layers
-        ]
-        component_derived = component.extract(unetched_layer_numbers)
-
-        # Define unetched layers
-        polygons_to_remove = []
-        for unetched_layer_name, unetched_layers in unetched_layers_dict.items():
-            layer = self.layers[unetched_layer_name].layer
-            polygons = component.get_polygons(by_spec=layer)
-
-            # Add all the etching layers (OR)
-            for etching_layers in unetched_layers:
-                layer = self.layers[etching_layers].layer
-                B_polys = component.get_polygons(by_spec=layer)
-                polygons_to_remove = gdstk.boolean(
-                    operand1=polygons_to_remove,
-                    operand2=B_polys,
-                    operation="or",
-                    layer=layer[0],
-                    datatype=layer[1],
-                )
-
-                derived_layer = self.layers[etching_layers].derived_layer
-                if derived_layer:
-                    slab_polygons = gdstk.boolean(
-                        operand1=polygons,
-                        operand2=B_polys,
-                        operation="and",
-                        layer=derived_layer[0],
-                        datatype=derived_layer[1],
-                    )
-                    component_derived.add(slab_polygons)
-
-            # Remove all etching layers
-            layer = self.layers[unetched_layer_name].layer
-            polygons = component.get_polygons(by_spec=layer)
-            unetched_polys = gdstk.boolean(
-                operand1=polygons,
-                operand2=polygons_to_remove,
-                operation="not",
-                layer=layer[0],
-                datatype=layer[1],
-            )
-            component_derived.add(unetched_polys)
-
-        component_derived.add_ports(component.ports)
-        component_derived.name = f"{component.name}_derived_layers"
-        return component_derived
+        return get_component_with_derived_layers(
+            component=component, layer_stack=self, **kwargs
+        )
 
     def get_component_with_net_layers(
         layerstack,
@@ -460,6 +393,84 @@ class LayerStack(BaseModel):
             layer.zmin *= -1
 
         return self
+
+
+@cell
+def get_component_with_derived_layers(component, layer_stack: LayerStack):
+    unetched_layers = [
+        layer_name
+        for layer_name, level in layer_stack.layers.items()
+        if level.layer and level.layer_type == "grow"
+    ]
+    etch_layers = [
+        layer_name
+        for layer_name, level in layer_stack.layers.items()
+        if level.layer and level.layer_type == "etch"
+    ]
+
+    # remove all etched layers from the grown layers
+    unetched_layers_dict = defaultdict(list)
+    for layer_name in etch_layers:
+        level = layer_stack.layers[layer_name]
+        into = level.into or []
+        for layer_name_etched in into:
+            unetched_layers_dict[layer_name_etched].append(layer_name)
+            if layer_name_etched in unetched_layers:
+                unetched_layers.remove(layer_name_etched)
+
+    component_layers = component.get_layers()
+
+    # Define pure grown layers
+    unetched_layer_numbers = [
+        layer_stack.layers[layer_name].layer
+        for layer_name in unetched_layers
+        if layer_stack.layers[layer_name].layer in component_layers
+    ]
+    component_derived = component.extract(unetched_layer_numbers)
+
+    # Define unetched layers
+    polygons_to_remove = []
+    for unetched_layer_name, unetched_layers in unetched_layers_dict.items():
+        layer = layer_stack.layers[unetched_layer_name].layer
+        polygons = component.get_polygons(by_spec=layer)
+
+        # Add all the etching layers (OR)
+        for etching_layers in unetched_layers:
+            layer = layer_stack.layers[etching_layers].layer
+            B_polys = component.get_polygons(by_spec=layer)
+            polygons_to_remove = gdstk.boolean(
+                operand1=polygons_to_remove,
+                operand2=B_polys,
+                operation="or",
+                layer=layer[0],
+                datatype=layer[1],
+            )
+
+            derived_layer = layer_stack.layers[etching_layers].derived_layer
+            if derived_layer:
+                slab_polygons = gdstk.boolean(
+                    operand1=polygons,
+                    operand2=B_polys,
+                    operation="and",
+                    layer=derived_layer[0],
+                    datatype=derived_layer[1],
+                )
+                component_derived.add(slab_polygons)
+
+        # Remove all etching layers
+        layer = layer_stack.layers[unetched_layer_name].layer
+        polygons = component.get_polygons(by_spec=layer)
+        unetched_polys = gdstk.boolean(
+            operand1=polygons,
+            operand2=polygons_to_remove,
+            operation="not",
+            layer=layer[0],
+            datatype=layer[1],
+        )
+        component_derived.add(unetched_polys)
+
+    component_derived.add_ports(component.ports)
+    return component_derived
 
 
 if __name__ == "__main__":

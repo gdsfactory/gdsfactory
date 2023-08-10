@@ -35,7 +35,7 @@ def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
     return LayerStack(
         layers=dict(
             wg=LayerLevel(
-                layer=LAYER.WG,
+                layer=(1, 0),
                 zmin=0.0,
                 thickness=0.22,
             ),

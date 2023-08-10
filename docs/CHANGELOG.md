@@ -1,6 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.115.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.1.4...main)
+
+## [7.2.0](https://github.com/gdsfactory/gdsfactory/compare/v7.2.0...v7.1.4)
+
+- fix justify text rectangular
+- switch from click to typer for CLI. Requires reinstall gdsfactory.
+- add process info to layerstack
 
 ## [7.1.4](https://github.com/gdsfactory/gdsfactory/compare/v7.1.4...v7.1.3)
 
