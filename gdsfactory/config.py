@@ -56,7 +56,7 @@ plugins = [
     "lumapi",
     "sax",
 ]
-pdks = ["gf45", "tj", "imec", "amf", "sky130", "ubcpdk", "aim", "ct"]
+pdks = ["gf45", "tj", "imec", "amf", "sky130", "ubcpdk", "aim", "ct", "hhi", "sph"]
 
 
 def print_version_plugins() -> None:
@@ -296,4 +296,4 @@ def set_plot_options(
 
 if __name__ == "__main__":
     # print_version_plugins()
-    pass
+    print_version_plugins()

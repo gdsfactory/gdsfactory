@@ -79,11 +79,6 @@ Classes and functions for construction and manipulation of geometric objects.
    boolean
    boolean_klayout
    boolean_polygons
-   check_duplicated_cells
-   check_exclusion
-   check_inclusion
-   check_space
-   check_width
    fillet
    functions
    invert
