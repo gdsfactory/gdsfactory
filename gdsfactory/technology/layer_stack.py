@@ -208,11 +208,11 @@ class LayerStack(BaseModel):
             for polygon in polygons:
                 # If polygon belongs to port, create a unique new layer, and add the polygon to it
                 if gdstk.inside([port.center], gdstk.Polygon(polygon))[0]:
-                    old_layername = self.get_layer_to_layername()[port.layer]
-                    new_layer = copy.deepcopy(self.layers[old_layername])
-                    new_layer.layer = (new_layers_init[0] + i, new_layers_init[1])
-                    self.layers[f"{old_layername}{delimiter}{portname}"] = new_layer
-                    net_component.add_polygon(polygon, layer=new_layer.layer)
+                    for j, old_layername in enumerate(self.get_layer_to_layername()[port.layer]):
+                        new_layer = copy.deepcopy(self.layers[old_layername])
+                        new_layer.layer = (new_layers_init[0] + i, new_layers_init[1]+j)
+                        self.layers[f"{old_layername}{delimiter}{portname}"] = new_layer
+                        net_component.add_polygon(polygon, layer=new_layer.layer)
                 # Otherwise put the polygon back on the same layer
                 else:
                     net_component.add_polygon(polygon, layer=port.layer)
@@ -249,7 +249,12 @@ class LayerStack(BaseModel):
 
     def get_layer_to_layername(self) -> dict[tuple[int, int], str]:
         """Returns layer tuple to layername."""
-        return {level.layer: level_name for level_name, level in self.layers.items()}
+
+        d = defaultdict(list)
+        for level_name, level in self.layers.items():
+            d[level.layer].append(level_name)
+
+        return d
 
     def to_dict(self) -> dict[str, dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
