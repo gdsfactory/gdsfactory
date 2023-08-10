@@ -13,7 +13,7 @@ import pathlib
 import uuid
 import warnings
 from collections import Counter
-from collections.abc import Iterable, Mapping
+from collections.abc import Callable, Iterable, Mapping
 from copy import deepcopy
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal
@@ -121,7 +121,6 @@ c = gf.Component()
 ref = c.add_ref(gf.components.straight()) # or ref = c << gf.components.straight()
 ref.xmin = 10
 """
-
 
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
@@ -1853,6 +1852,8 @@ class Component(_GeometryHelper):
         logging: bool = True,
         with_oasis: bool = False,
         with_metadata: bool = False,
+        with_netlist: bool = False,
+        netlist_function: Callable | None = None,
         **kwargs,
     ) -> Path:
         """Write component to GDS or OASIS and returns gdspath.
@@ -1865,6 +1866,8 @@ class Component(_GeometryHelper):
             logging: disable GDS path logging, for example for showing it in KLayout.
             with_oasis: If True, file will be written to OASIS. Otherwise, file will be written to GDS.
             with_metadata: writes metadata in YAML format.
+            with_netlist: writes netlist in JSON format.
+            netlist_function: The netlist function to use. You can compose a partial function with the `get_netlist` function for example with your parameters.
 
         Keyword Args:
             Keyword arguments will override the active PDK's default GdsWriteSettings and OasisWriteSettings.
@@ -1996,6 +1999,23 @@ class Component(_GeometryHelper):
             metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
             logger.info(f"Write YAML metadata to {str(metadata)!r}")
 
+        if with_netlist:
+            """
+            Saves the netlist_function output to a json file.
+            """
+            import json
+
+            if netlist_function is not None:
+                pass
+            else:
+                from gdsfactory.get_netlist import get_netlist
+
+                netlist_function = get_netlist
+
+            netlist_path = gdspath.with_suffix(".json")
+            netlist_dictionary = netlist_function(component=self, **kwargs)
+            netlist_path.write_text(json.dumps(netlist_dictionary, indent=2))
+
         CONF.last_saved_files.append(gdspath)
         return gdspath
 
@@ -2024,6 +2044,8 @@ class Component(_GeometryHelper):
             max_points: Maximal number of vertices per polygon.
                 Polygons with more vertices that this are automatically fractured.
             with_metadata: writes metadata in YAML format.
+            with_netlist: writes a netlist in JSON format.
+            netlist_function: function to generate the netlist.
         """
 
         return self._write_library(
