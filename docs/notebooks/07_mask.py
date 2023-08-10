@@ -168,14 +168,14 @@ c.plot()
 # For example you can add prefix `S` at the `north-center` of each spiral using `text_rectangular` which is DRC clean and anchored on `nc` (north-center)
 
 # +
-text_metal3 = partial(gf.components.text_rectangular_multi_layer, layers=(gf.LAYER.M3,))
+text_metal3 = partial(gf.components.text_rectangular_multi_layer, layers=((49, 0),))
 
 m = gf.pack(sweep, text=text_metal3, text_anchors=("nc",), text_prefix="s")
 c = m[0]
 c.plot()
 
 # +
-text_metal2 = partial(gf.components.text, layer=gf.LAYER.M2)
+text_metal2 = partial(gf.components.text, layer=(45, 0))
 
 m = gf.pack(sweep, text=text_metal2, text_anchors=("nc",), text_prefix="s")
 c = m[0]
@@ -220,7 +220,7 @@ gh_ymin_m2
 # You can define a Component top cell reticle or die using `grid` and `pack` python functions.
 
 # +
-text_metal3 = partial(gf.components.text_rectangular_multi_layer, layers=(gf.LAYER.M3,))
+text_metal3 = partial(gf.components.text_rectangular_multi_layer, layers=((49, 0),))
 grid = partial(gf.grid_with_text, text=text_metal3)
 pack = partial(gf.pack, text=text_metal3)
 

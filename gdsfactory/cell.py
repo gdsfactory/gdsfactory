@@ -126,41 +126,53 @@ def cell_without_validator(func: _F) -> _F:
         ]
 
         # get only the args which are explicitly passed and different from defaults
-        changed_arg_set = set(passed_args_list).difference(default_args_list)
-        changed_arg_list = sorted(changed_arg_set)
-
         # if any args were different from default, append a hash of those args.
         # else, keep only the base name
-        named_args_string = "_".join(changed_arg_list)
         # print(named_args_string)
 
-        if changed_arg_list or include_module:
-            if include_module and changed_arg_list:
-                named_args_module_string = f"{named_args_string}_{func.__module__}"
-            elif include_module:
-                named_args_module_string = func.__module__
-            elif changed_arg_list:
-                named_args_module_string = named_args_string
+        if active_pdk.cell_decorator_settings.naming_style == "updk":
+            full_args_list = [
+                f"{key}={clean_value_name(full[key])}" for key in sorted(full.keys())
+            ]
+            named_args_string = ",".join(full_args_list)
+            name = f"{prefix}:{named_args_string}" if named_args_string else prefix
+            name = clean_name(name, allowed_characters=[":", ".", "="])
 
-            named_args_module_string = (
-                hashlib.md5(named_args_module_string.encode()).hexdigest()[:8]
-                if with_hash
-                or len(named_args_module_string) > 28
-                or "'" in named_args_module_string
-                or "{" in named_args_module_string
-                else named_args_module_string
-            )
-            name_signature = clean_name(f"{prefix}_{named_args_module_string}")
+        elif active_pdk.cell_decorator_settings.naming_style == "default":
+            changed_arg_set = set(passed_args_list).difference(default_args_list)
+            changed_arg_list = sorted(changed_arg_set)
+            named_args_string = "_".join(changed_arg_list)
+            if changed_arg_list or include_module:
+                if include_module and changed_arg_list:
+                    named_args_module_string = f"{named_args_string}_{func.__module__}"
+                elif include_module:
+                    named_args_module_string = func.__module__
+                elif changed_arg_list:
+                    named_args_module_string = named_args_string
+
+                named_args_module_string = (
+                    hashlib.md5(named_args_module_string.encode()).hexdigest()[:8]
+                    if with_hash
+                    or len(named_args_module_string) > 28
+                    or "'" in named_args_module_string
+                    or "{" in named_args_module_string
+                    else named_args_module_string
+                )
+                name_signature = clean_name(f"{prefix}_{named_args_module_string}")
+            else:
+                name_signature = prefix
+
+            # filter the changed dictionary to only keep entries which have truly changed
+            changed_arg_names = [carg.split("=")[0] for carg in changed_arg_list]
+            changed = {k: changed[k] for k in changed_arg_names}
+            name = name or name_signature
+
         else:
-            name_signature = prefix
+            raise ValueError('naming_style must be "default" or "updk"')
 
-        # filter the changed dictionary to only keep entries which have truly changed
-        changed_arg_names = [carg.split("=")[0] for carg in changed_arg_list]
-        changed = {k: changed[k] for k in changed_arg_names}
-        default_decorator = active_pdk.default_decorator if active_pdk else None
-        name = name or name_signature
-        decorator = kwargs.pop("decorator", default_decorator)
         name = get_name_short(name, max_name_length=max_name_length)
+        default_decorator = active_pdk.default_decorator if active_pdk else None
+        decorator = kwargs.pop("decorator", default_decorator)
 
         if (
             "args" not in sig.parameters

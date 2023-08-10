@@ -34,7 +34,6 @@ from gdsfactory.component_layout import (
 )
 from gdsfactory.component_reference import ComponentReference, SizeInfo
 from gdsfactory.config import CONF, GDSDIR_TEMP, logger
-from gdsfactory.generic_tech import LAYER
 from gdsfactory.polygon import Polygon
 from gdsfactory.port import (
     Port,
@@ -48,9 +47,9 @@ from gdsfactory.port import (
     select_ports,
 )
 from gdsfactory.serialization import clean_dict
-from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
 if TYPE_CHECKING:
+    from gdsfactory.technology import LayerStack, LayerViews
     from gdsfactory.typings import (
         Coordinate,
         CrossSectionSpec,
@@ -379,13 +378,17 @@ class Component(_GeometryHelper):
         - name characters < MAX_NAME_LENGTH
         - is not empty (has references or polygons)
         """
-        MAX_NAME_LENGTH = 99
+        from gdsfactory.pdk import get_active_pdk
+
+        pdk = get_active_pdk()
+
+        max_name_length = pdk.cell_decorator_settings.max_name_length
         assert isinstance(
             v, Component
         ), f"TypeError, Got {type(v)}, expecting Component"
         assert (
-            len(v.name) <= MAX_NAME_LENGTH
-        ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
+            len(v.name) <= max_name_length
+        ), f"name `{v.name}` {len(v.name)} > {max_name_length} "
         return v
 
     @property
@@ -1670,16 +1673,6 @@ class Component(_GeometryHelper):
             quickplot(self, **kwargs)
             return
 
-        elif plotter == "holoviews":
-            try:
-                import holoviews as hv
-
-                hv.extension("bokeh")
-            except ImportError as e:
-                print("you need to `pip install holoviews`")
-                raise e
-            return self.plot_holoviews(**kwargs)
-
         elif plotter == "qt":
             warnings.warn(
                 "qt plotter is deprecated. "
@@ -1690,106 +1683,6 @@ class Component(_GeometryHelper):
 
             quickplot2(self)
             return
-
-    def plot_holoviews(
-        self,
-        layers_excluded: Layers | None = None,
-        layer_views: LayerViews | None = None,
-        min_aspect: float = 0.25,
-        padding: float = 0.5,
-    ):
-        """Plot component in holoviews.
-
-        Args:
-            layers_excluded: list of layers to exclude.
-            layer_views: layer_views colors loaded from Klayout.
-            min_aspect: minimum aspect ratio.
-            padding: around bounding box.
-
-        Returns:
-            Holoviews Overlay to display all polygons.
-        """
-        from gdsfactory.add_pins import get_pin_triangle_polygon_tip
-        from gdsfactory.pdk import get_layer_views
-
-        warnings.warn(
-            "holoviews plotter is deprecated. "
-            "Use the default Component.plot(), Component.plot_klayout() or Component.plot_widget()",
-            stacklevel=3,
-        )
-
-        if layer_views is None:
-            layer_views = get_layer_views()
-
-        try:
-            import holoviews as hv
-
-            hv.extension("bokeh")
-        except ImportError as e:
-            print("you need to `pip install holoviews`")
-            raise e
-
-        self._bb_valid = False  # recompute the bounding box
-        b = self.bbox + ((-padding, -padding), (padding, padding))
-        b = np.array(b.flat)
-        center = np.array((np.sum(b[::2]) / 2, np.sum(b[1::2]) / 2))
-        size = np.array((np.abs(b[2] - b[0]), np.abs(b[3] - b[1])))
-        dx = np.array(
-            (
-                np.maximum(min_aspect * size[1], size[0]) / 2,
-                np.maximum(size[1], min_aspect * size[0]) / 2,
-            )
-        )
-        b = np.hstack((center - dx, center + dx))
-
-        plots_to_overlay = []
-        layers_excluded = [] if layers_excluded is None else layers_excluded
-
-        for layer, polygon in self.get_polygons(by_spec=True).items():
-            if layer in layers_excluded:
-                continue
-
-            try:
-                layer_view = layer_views.get_from_tuple(layer)
-            except ValueError:
-                layers = list(layer_views.get_layer_views().keys())
-                warnings.warn(f"{layer!r} not defined in {layers}", stacklevel=3)
-                layer_view = LayerView(layer=layer)
-            # TODO: Match up options with LayerViews
-            plots_to_overlay.append(
-                hv.Polygons(polygon, label=str(layer_view.name)).opts(
-                    data_aspect=1,
-                    frame_width=500,
-                    ylim=(b[1], b[3]),
-                    xlim=(b[0], b[2]),
-                    fill_color=layer_view.fill_color.as_rgb() or "",
-                    line_color=layer_view.frame_color.as_rgb() or "",
-                    fill_alpha=layer_view.get_alpha() or "",
-                    line_alpha=layer_view.get_alpha() or "",
-                    tools=["hover"],
-                )
-            )
-        for name, port in self.ports.items():
-            name = str(name)
-            polygon, ptip = get_pin_triangle_polygon_tip(port=port)
-
-            plots_to_overlay.append(
-                hv.Polygons(polygon, label=name).opts(
-                    data_aspect=1,
-                    frame_width=500,
-                    fill_alpha=0,
-                    ylim=(b[1], b[3]),
-                    xlim=(b[0], b[2]),
-                    color="red",
-                    line_alpha=layer_view.get_alpha() or "",
-                    tools=["hover"],
-                )
-                * hv.Text(ptip[0], ptip[1], name)
-            )
-
-        return hv.Overlay(plots_to_overlay).opts(
-            show_legend=True, shared_axes=False, ylim=(b[1], b[3]), xlim=(b[0], b[2])
-        )
 
     def show(
         self,
@@ -2493,7 +2386,7 @@ class Component(_GeometryHelper):
         xsection_bounds=None,
         layer_stack=None,
         wafer_padding=0.0,
-        wafer_layer=LAYER.WAFER,
+        wafer_layer=(99999, 0),
         *args,
         **kwargs,
     ):
@@ -2877,21 +2770,23 @@ def test_netlist_complex() -> None:
 def test_extract() -> None:
     import gdsfactory as gf
 
+    WGCLAD = (111, 0)
+
     c = gf.components.straight(
         length=10,
         width=0.5,
-        bbox_layers=[gf.LAYER.WGCLAD],
+        bbox_layers=[WGCLAD],
         bbox_offsets=[3],
         with_bbox=True,
         cladding_layers=None,
         add_pins=None,
         add_bbox=None,
     )
-    c2 = c.extract(layers=[gf.LAYER.WGCLAD])
+    c2 = c.extract(layers=[WGCLAD])
 
     assert len(c.polygons) == 2, len(c.polygons)
     assert len(c2.polygons) == 1, len(c2.polygons)
-    assert gf.LAYER.WGCLAD in c2.layers
+    assert WGCLAD in c2.layers
 
 
 def hash_file(filepath):

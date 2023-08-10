@@ -15,9 +15,10 @@
 # +
 import gdsfactory as gf
 from gdsfactory.generic_tech.layer_map import LAYER as l
+from gdsfactory.generic_tech import get_generic_pdk
 
 gf.config.rich_output()
-PDK = gf.generic_tech.get_generic_pdk()
+PDK = get_generic_pdk()
 PDK.activate()
 
 # +
@@ -85,78 +86,5 @@ c = gf.components.add_trenches(
 )
 c.plot()
 
-
 c = gf.components.add_trenches90(component=gf.components.bend_euler(radius=20))
-c.plot()
-
-# ## Flatten top level
-#
-# You can flatten the hierarchy and use klayout LayerProcessor to create a `RegionCollection` where you can easily grow and shrink layers.
-#
-# The advantage is that this can easily clean up routing, proximity effects, boolean operations on big masks.
-#
-# The disadvantage is that the design is no longer hierarchical and can take up more space.
-#
-# ### Size
-#
-# You can copy/size layers
-
-# +
-c = gf.Component()
-
-device = c << gf.components.coupler_ring()
-floorplan = c << gf.components.bbox(device.bbox, layer=l.FLOORPLAN)
-c.write_gds("src.gds")
-c.plot()
-
-# +
-import gdsfactory.geometry.maskprep_flat as dp
-
-d = dp.RegionCollection(filepath="src.gds", layermap=dict(l))
-d.SLAB150 = d.WG.copy()  # copy layer
-d.SLAB150 += 4  # size layer by 4 um
-d.SLAB150 -= 2  # size layer by 2 um
-c = d.write("dst.gds")
-c.plot()
-# -
-
-# ### Booleans
-#
-# You can derive layers and do boolean operations.
-#
-
-d = dp.RegionCollection(filepath="src.gds", layermap=dict(l))
-d.SLAB150 = d.WG.copy()
-d.SLAB150 += 3  # size layer by 3 um
-d.SHALLOW_ETCH = d.SLAB150 - d.WG
-c = d.write("dst.gds")
-c.plot()
-
-
-# ### Fill
-#
-# You can add rectangular fill, using booleans to decide where to add it:
-
-# +
-d = dp.RegionCollection(filepath="src.gds", layermap=dict(l))
-
-fill_region = d.FLOORPLAN - d.WG
-fill_cell = d.get_fill(
-    fill_region,
-    size=[0.1, 0.1],
-    spacing=[0.1, 0.1],
-    fill_layers=[l.WG, l.M1],
-    fill_name="test",
-)
-fill_cell
-# -
-
-# ### KLayout operations
-#
-# Any operation from Klayout Region can be called directly:
-
-d = dp.RegionCollection(filepath="src.gds", layermap=dict(l))
-d.SLAB150 = d.WG.copy()
-d.SLAB150.round_corners(1 * 1e3, 1 * 1e3, 100)  # round corners by 1um
-c = d.write("dst.gds")
 c.plot()

@@ -321,8 +321,8 @@ spacing = 20
 fill(
     gdspath,
     fill_layers=("WG",),
-    layer_to_fill=gf.LAYER.PADDING,
-    layers_to_avoid=((gf.LAYER.WG, 0), (gf.LAYER.M3, 0)),
+    layer_to_fill=(67, 0),
+    layers_to_avoid=(((1, 0), 0), ((49, 0), 0)),
     fill_cell_name="pad_size2__2",
     create_new_fill_cell=False,
     fill_spacing=(spacing, spacing),
@@ -346,8 +346,8 @@ gdspath = c.write_gds()
 fill(
     gdspath,
     fill_layers=("WG",),
-    layer_to_fill=gf.LAYER.PADDING,
-    layers_to_avoid=((gf.LAYER.WG, 0),),
+    layer_to_fill=(67, 0),
+    layers_to_avoid=(((1, 0), 0),),
     fill_cell_name="fill_custom_",
     create_new_fill_cell=True,
     fill_spacing=(1, 1),

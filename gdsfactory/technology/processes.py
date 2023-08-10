@@ -102,7 +102,7 @@ class Lithography(ProcessStep):
         resist_thickness (float): resist mask thickness, used in some simulators
     """
 
-    layer: Layer
+    layer: Layer | None = None
     layers_or: list | None = None
     layers_diff: list | None = None
     layers_and: list | None = None
@@ -184,6 +184,31 @@ class ImplantPhysical(Lithography):
 
 
 @dataclass(kw_only=True)
+class ImplantAnalytical(Lithography):
+    """Simulates masking + physical ion implantation + strip.
+
+    wafer mask opened          wafer mask opened
+        <------>                   <----->
+    ________________          __________________
+    |              |          |                |
+    |              |  ----->  |    ------- <---- range (depends on energy)
+    |______________|          |________________|
+
+    Args:
+        ion (str): ion tag
+        peak_conc (float): peak concentration
+        range (float): of the ions (center of distribution)
+        straggle (float): of the ions (spread of distribution)
+    """
+
+    ion: str
+    peak_conc: float
+    range: float
+    straggle: float
+    tilt: float = 0
+
+
+@dataclass(kw_only=True)
 class Anneal(ProcessStep):
     """Simulates thermal diffusion of impurities and healing of defects.
 
@@ -200,21 +225,21 @@ class Anneal(ProcessStep):
 
 @dataclass(kw_only=True)
 class Planarize(ProcessStep):
-    """Simulates chip planarization, removing all material down to the smallest zmax value across the wafer (+overshoot) in order to recover a flat surface. Does not use masking.
+    """Simulates chip planarization, "clipping" the structure above some height. Does not use masking.
 
-          __  lowest zmax
-    <-> _|  |___ <-->
-     __|        |____          _ _ _ _ _ _ _ _ _
-     |              |          _________________ <-- overshoot
-     |              |  ----->  |               |
-     |______________|          |_______________|
+         __
+       _|  |___
+    __|        |____
+    |              |  ___                     _________________
+    |              |   |  height    ----->    |               |
+    |______________|  _|_  z=0                |_______________|
 
 
-     Args:
-         overshoot (float): how much more than the smallest zmax value to remove
+    Args:
+        depth (float): how much to remove
     """
 
-    overshoot: float = 0
+    height: float = 0
 
 
 @dataclass(kw_only=True)

@@ -31,7 +31,7 @@ def spirals() -> Component:
 def demo_pack() -> Component:
     """Sample reticle."""
     c = gf.Component()
-    c << gf.c.rectangle(size=(22e3, 22e3), layer=gf.LAYER.FLOORPLAN)
+    c << gf.c.rectangle(size=(22e3, 22e3), layer=(64, 0))
     components = [mzi_te()] + [spirals()] + [gf.routing.add_fiber_array(big_device())]
     c << gf.pack(components)[0]
     return c

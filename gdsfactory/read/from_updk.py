@@ -101,18 +101,23 @@ layer_bbox = {layer_bbox}
             else ""
         )
 
-        parameters = (
+        parameters_colon = (
             [f"{p_name}:{{{p_name}}}" for p_name in parameters] if parameters else []
+        )
+        parameters_equal = (
+            [f"{p_name}={{{p_name}}}" for p_name in parameters] if parameters else []
         )
 
         parameters_labels = (
             "\n".join(
                 [
-                    f"    c.add_label(text='{p_name}:{{{p_name}}}', position=(xc, yc-{i}/{len(parameters)}*ysize/2), layer=layer_label)"
-                    for i, p_name in enumerate(parameters)
+                    "    c.add_label(text=f'{}', position=(xc, yc-{}/{}/2*ysize), layer=layer_label)\n".format(
+                        p_name, i, len(parameters)
+                    )
+                    for i, p_name in enumerate(parameters_colon)
                 ]
             )
-            if layer_label and parameters
+            if layer_label and parameters_colon
             else ""
         )
 
@@ -120,6 +125,12 @@ layer_bbox = {layer_bbox}
             doc = f'"""{block.doc}\n\n    Args:\n    {parameters_doc}\n    """'
         else:
             doc = f'"""{block.doc}"""'
+
+        cell_name = (
+            f"{block_name}:{','.join(parameters_equal)}"
+            if parameters_equal
+            else block_name
+        )
 
         points = str(block.bbox).replace("'", "")
         script += f"""
@@ -130,7 +141,7 @@ def {block_name}({parameters_string})->gf.Component:
     p = c.add_polygon({points}, layer=layer_bbox)
     xc, yc = p.center
     ysize = p.ysize
-    name = f"{block_name}_{'_'.join(parameters)}"
+    name = f{cell_name!r}
 """
         script += parameters_labels
 
@@ -138,14 +149,16 @@ def {block_name}({parameters_string})->gf.Component:
             port_type = (
                 "electrical" if port.xsection in electrical_xsections else "optical"
             )
-            cross_section = port.xsection if port.xsection != "None" else None
-            script += f"""
-    c.add_port(name={port_name!r}, width={port.width}, cross_section={cross_section!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})"""
+
+            if port.xsection != "None":
+                script += f"    c.add_port(name={port_name!r}, width={port.width}, cross_section={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
+            else:
+                script += f"    c.add_port(name={port_name!r}, width={port.width}, layer=(0, 0), center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
 
         if layers_text:
             for layer_text in layers_text:
-                script += f"""
-    c << gf.c.text(text=name, size={text_size}, position=(xc, yc), layer={layer_text},justify='center')\n"""
+                script += f"    text = c << gf.c.text(text=name, size={text_size}, position=(xc, yc), layer={layer_text},justify='center')\n"
+                script += "    c.absorb(text)\n"
 
         script += """
     c.name = name

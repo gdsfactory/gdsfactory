@@ -193,7 +193,7 @@ LayerSpec = (
     Layer | int | str | None
 )  # tuple of integers (layer, datatype), a integer (layer, 0) or a string (layer_name)
 
-LayerSpecs = tuple[LayerSpec, ...] | None
+LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...] | None
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = dict[str, ComponentFactory]
 PathType = str | pathlib.Path

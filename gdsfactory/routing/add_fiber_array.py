@@ -219,7 +219,7 @@ if __name__ == "__main__":
     )
 
     # from pprint import pprint
-    # layer_label = gf.LAYER.TEXT
+    # layer_label = (66, 0)
     # layer_label = (66, 5)
 
     # cc = demo_tapers()

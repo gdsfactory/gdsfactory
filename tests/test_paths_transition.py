@@ -6,18 +6,18 @@ import gdsfactory as gf
 def test_path_transition_class() -> None:
     P = gf.path.straight(length=10, npoints=101)
 
-    s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90)
+    s = gf.Section(width=3, offset=0, layer=(3, 0))
     X1 = gf.CrossSection(
         width=1,
         offset=0,
-        layer=gf.LAYER.WG,
+        layer=(1, 0),
         name="core",
         port_names=("o1", "o2"),
         sections=[s],
     )
 
     X2 = gf.CrossSection(
-        width=3, offset=0, layer=gf.LAYER.WG, name="core", port_names=("o1", "o2")
+        width=3, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
     )
 
     T = gf.path.transition(X1, X2)

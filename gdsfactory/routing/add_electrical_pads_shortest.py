@@ -84,7 +84,7 @@ def add_electrical_pads_shortest(
 
 
 if __name__ == "__main__":
-    # c = gf.components.cross(length=100, layer=gf.LAYER.M3)
+    # c = gf.components.cross(length=100, layer=(49, 0))
     # c = gf.components.mzi_phase_shifter()
     c = gf.components.straight_heater_metal(length=100)
     c = add_electrical_pads_shortest(component=c, port_orientation=270)

@@ -11,6 +11,7 @@ tests/test_difftest/
 *.so
 *.l2n
 gdsfactory/plugins/kweb/gds_files/
+profile.html
 *.properties
 *.sqlite3
 *.hdf5
