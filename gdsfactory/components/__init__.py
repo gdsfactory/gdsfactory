@@ -205,7 +205,7 @@ from gdsfactory.components.polarization_splitter_rotator import (
     polarization_splitter_rotator,
 )
 from gdsfactory.components.ramp import ramp
-from gdsfactory.components.rectangle import marker_te, marker_tm, rectangle
+from gdsfactory.components.rectangle import marker_te, marker_tm, rectangle, rectangles
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
 from gdsfactory.components.rectangular_ring import rectangular_ring
 from gdsfactory.components.regular_polygon import regular_polygon
@@ -536,6 +536,7 @@ __all__ = [
     "qrcode",
     "ramp",
     "rectangle",
+    "rectangles",
     "rectangular_ring",
     "regular_polygon",
     "rectangle_with_slits",

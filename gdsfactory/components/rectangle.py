@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from functools import partial
 
+import numpy as np
+
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
@@ -41,8 +43,47 @@ marker_te = partial(rectangle, size=[fiber_size, fiber_size], layer="TE", center
 marker_tm = partial(rectangle, size=[fiber_size, fiber_size], layer="TM", centered=True)
 
 
+@cell
+def rectangles(
+    size=(4.0, 2.0),
+    offsets=(0, 0),
+    layers=("WG", "SLAB150"),
+    centered: bool = True,
+    **kwargs,
+) -> Component:
+    """Returns overimposed rectangles.
+
+    Args:
+        size: (tuple) Width and height of rectangle.
+        layers: Specific layer to put polygon geometry on.
+        offsets: list of offsets.
+        centered: True sets center to (0, 0), False sets south-west of first rectangle to (0, 0).
+
+    Keyword Args:
+        port_type: optical, electrical.
+        port_orientations: list of port_orientations to add.
+    """
+    c = Component()
+    size = np.array(size)
+
+    ref0 = None
+
+    if len(offsets) != len(layers):
+        raise ValueError(f"len(offsets) != len(layers) {len(offsets)} != {len(layers)}")
+    for layer, offset in zip(layers, offsets):
+        ref = c << rectangle(
+            size=size + offset, layer=layer, centered=centered, **kwargs
+        )
+        if ref0:
+            ref.center = ref0.center
+        ref0 = ref
+
+    return c
+
+
 if __name__ == "__main__":
-    c = rectangle(size=(3, 2), centered=False, layer=(2, 3))
+    c = rectangles(offsets=(0, -1), centered=False)
+    # c = rectangle(size=(3, 2), centered=False, layer=(2, 3))
     # c = rectangle(size=(3, 2), centered=True, layer=(2, 3))
     print(c.ports)
     print(c.name)
