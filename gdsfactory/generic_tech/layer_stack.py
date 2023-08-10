@@ -1,6 +1,12 @@
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.technology import LayerLevel, LayerStack
-from gdsfactory.technology.processes import Anneal, Etch, ImplantPhysical
+from gdsfactory.technology.processes import (
+    Anneal,
+    Etch,
+    Grow,
+    ImplantPhysical,
+    Planarize,
+)
 
 nm = 1e-3
 
@@ -231,19 +237,15 @@ def get_layer_stack(
 LAYER_STACK = get_layer_stack()
 
 
-WAFER_STACK = (
-    LayerStack(
-        layers={
-            k: get_layer_stack().layers[k]
-            for k in (
-                "substrate",
-                "box",
-                "core",
-            )
-        }
-    )
-    .z_offset(-1 * LayerStackParameters.thickness_wg)
-    .invert_zaxis()
+WAFER_STACK = LayerStack(
+    layers={
+        k: get_layer_stack().layers[k]
+        for k in (
+            "substrate",
+            "box",
+            "core",
+        )
+    }
 )
 
 
@@ -259,19 +261,20 @@ def get_process():
         Etch(
             name="strip_etch",
             layer=LAYER.WG,
-            positive_tone=False,
+            layers_or=[LAYER.SLAB90],
             depth=LayerStackParameters.thickness_wg
             + 0.01,  # slight overetch for numerics
-            material="core",
+            material="silicon",
             resist_thickness=1.0,
+            positive_tone=False,
         ),
         Etch(
             name="slab_etch",
             layer=LAYER.SLAB90,
             layers_diff=[LAYER.WG],
             depth=LayerStackParameters.thickness_wg
-            - LayerStackParameters.thickness_slab_shallow_etch,
-            material="core",
+            - LayerStackParameters.thickness_slab_deep_etch,
+            material="silicon",
             resist_thickness=1.0,
         ),
         # See gplugins.process.implant tables for ballpark numbers
@@ -308,13 +311,77 @@ def get_process():
             dose=1e12,
             resist_thickness=1.0,
         ),
+        ImplantPhysical(
+            name="pp_implant",
+            layer=LAYER.PP,
+            energy=15,
+            ion="B",
+            dose=5e12,
+            resist_thickness=1.0,
+        ),
+        ImplantPhysical(
+            name="np_implant",
+            layer=LAYER.NP,
+            energy=50,
+            ion="P",
+            dose=5e12,
+            resist_thickness=1.0,
+        ),
+        ImplantPhysical(
+            name="ppp_implant",
+            layer=LAYER.PPP,
+            energy=15,
+            ion="B",
+            dose=1e15,
+            resist_thickness=1.0,
+        ),
+        ImplantPhysical(
+            name="npp_implant",
+            layer=LAYER.NPP,
+            energy=100,
+            ion="As",
+            dose=1e15,
+            resist_thickness=1.0,
+        ),
         # "Temperatures of ~1000C for not more than a few seconds"
         # Adjust to your process
         # https://en.wikipedia.org/wiki/Rapid_thermal_processing
         Anneal(
             name="dopant_activation",
-            time=1,
+            time=5,
             temperature=1000,
+        ),
+        Grow(
+            name="viac_metallization",
+            layer=None,
+            thickness=LayerStackParameters.zmin_metal1
+            - LayerStackParameters.thickness_slab_deep_etch,
+            material="Aluminum",
+            type="anisotropic",
+        ),
+        Etch(
+            name="viac_etch",
+            layer=LAYER.VIAC,
+            depth=LayerStackParameters.zmin_metal1
+            - LayerStackParameters.thickness_slab_deep_etch
+            + 0.1,
+            material="Aluminum",
+            type="anisotropic",
+            resist_thickness=1.0,
+            positive_tone=False,
+        ),
+        Grow(
+            name="deposit_cladding",
+            layer=None,
+            thickness=LayerStackParameters.thickness_clad
+            + LayerStackParameters.thickness_slab_deep_etch,
+            material="Oxide",
+            type="anisotropic",
+        ),
+        Planarize(
+            name="planarization",
+            height=LayerStackParameters.thickness_clad
+            - LayerStackParameters.thickness_slab_deep_etch,
         ),
     )
 
