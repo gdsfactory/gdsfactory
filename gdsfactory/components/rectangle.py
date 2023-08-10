@@ -46,7 +46,7 @@ marker_tm = partial(rectangle, size=[fiber_size, fiber_size], layer="TM", center
 @cell
 def rectangles(
     size=(4.0, 2.0),
-    offsets=(0, 0),
+    offsets=(0, 1),
     layers=("WG", "SLAB150"),
     centered: bool = True,
     **kwargs,
@@ -62,6 +62,19 @@ def rectangles(
     Keyword Args:
         port_type: optical, electrical.
         port_orientations: list of port_orientations to add.
+
+    .. code::
+
+            ┌──────────────┐
+            │              │
+            │   ┌──────┐   │
+            │   │      │   │
+            │   │      ├───►
+            │   │      │offset
+            │   └──────┘   │
+            │              │
+            └──────────────┘
+
     """
     c = Component()
     size = np.array(size)
@@ -72,7 +85,7 @@ def rectangles(
         raise ValueError(f"len(offsets) != len(layers) {len(offsets)} != {len(layers)}")
     for layer, offset in zip(layers, offsets):
         ref = c << rectangle(
-            size=size + offset, layer=layer, centered=centered, **kwargs
+            size=size + 2 * offset, layer=layer, centered=centered, **kwargs
         )
         if ref0:
             ref.center = ref0.center
@@ -82,7 +95,7 @@ def rectangles(
 
 
 if __name__ == "__main__":
-    c = rectangles(offsets=(0, -1), centered=False)
+    c = rectangles(offsets=(0, 1), centered=False)
     # c = rectangle(size=(3, 2), centered=False, layer=(2, 3))
     # c = rectangle(size=(3, 2), centered=True, layer=(2, 3))
     print(c.ports)
