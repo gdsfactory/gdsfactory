@@ -777,7 +777,7 @@ class LayerViews(BaseModel):
                 logger.info(
                     f"Importing LayerViews from KLayout layer properties file: {str(filepath)!r}."
                 )
-            elif filepath.suffix in [".yaml", ".yml"]:
+            elif filepath.suffix in {".yaml", ".yml"}:
                 lvs = LayerViews.from_yaml(layer_file=filepath)
                 logger.info(f"Importing LayerViews from YAML file: {str(filepath)!r}.")
             else:

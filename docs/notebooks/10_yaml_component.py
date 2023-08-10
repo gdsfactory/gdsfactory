@@ -389,7 +389,7 @@ display(x, out)
 
 # +
 @gf.cell
-def pad_new(size=(100, 100), layer=gf.LAYER.WG):
+def pad_new(size=(100, 100), layer=(1, 0)):
     c = gf.Component()
     compass = c << gf.components.compass(size=size, layer=layer)
     c.ports = compass.ports

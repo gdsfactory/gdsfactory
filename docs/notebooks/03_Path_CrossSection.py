@@ -848,11 +848,11 @@ c.plot()
 # %%
 P = gf.path.straight(length=10, npoints=101)
 
-s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90)
+s = gf.Section(width=3, offset=0, layer=(3, 0))
 X1 = gf.CrossSection(
     width=1,
     offset=0,
-    layer=gf.LAYER.WG,
+    layer=(1, 0),
     name="core",
     port_names=("o1", "o2"),
     sections=[s],
@@ -862,7 +862,7 @@ c.plot()
 
 # %%
 X2 = gf.CrossSection(
-    width=3, offset=0, layer=gf.LAYER.WG, name="core", port_names=("o1", "o2")
+    width=3, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
 )
 c2 = gf.path.extrude(P, X2)
 c2.plot()
@@ -905,8 +905,8 @@ pin = partial(
     gf.cross_section.strip,
     layer=(2, 0),
     sections=(
-        Section(layer=gf.LAYER.P, width=2, offset=+2),
-        Section(layer=gf.LAYER.N, width=2, offset=-2),
+        Section(layer=(21, 0), width=2, offset=+2),
+        Section(layer=(20, 0), width=2, offset=-2),
     ),
 )
 
@@ -926,8 +926,8 @@ gf.components.straight(
     layer=(1, 0),
     width=0.5,
     sections=(
-        Section(layer=gf.LAYER.P, width=1, offset=+2),
-        Section(layer=gf.LAYER.N, width=1, offset=-2),
+        Section(layer=(21, 0), width=1, offset=+2),
+        Section(layer=(20, 0), width=1, offset=-2),
     ),
 )
 
@@ -977,11 +977,11 @@ s.show()
 # %%
 P = gf.path.straight(length=10)
 
-s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90)
+s = gf.Section(width=3, offset=0, layer=(3, 0))
 X1 = gf.CrossSection(
     width=1,
     offset=0,
-    layer=gf.LAYER.WG,
+    layer=(1, 0),
     name="core",
     port_names=("o1", "o2"),
     sections=[s],
@@ -1021,11 +1021,11 @@ c.plot()
 p1 = gf.path.straight(length=10)
 p2 = gf.path.straight(length=0.5)
 
-s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+s = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
 xs = gf.CrossSection(
     width=1,
     offset=0,
-    layer=gf.LAYER.WG,
+    layer=(1, 0),
     name="core",
     port_names=("o1", "o2"),
     sections=[s],
@@ -1052,20 +1052,20 @@ c.plot()
 # %%
 P = gf.path.straight(length=10)
 
-s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+s = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
 X1 = gf.CrossSection(
     width=1,
     offset=0,
-    layer=gf.LAYER.WG,
+    layer=(1, 0),
     name="core",
     port_names=("o1", "o2"),
     sections=[s],
 )
-s2 = gf.Section(width=2, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+s2 = gf.Section(width=2, offset=0, layer=(3, 0), name="slab")
 X2 = gf.CrossSection(
     width=0.5,
     offset=0,
-    layer=gf.LAYER.WG,
+    layer=(1, 0),
     name="core",
     port_names=("o1", "o2"),
     sections=[s2],

@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import Float2, Layer
 
-layer = gf.LAYER.WG
+layer = (1, 0)
 nm = 1e-3
 
 
@@ -31,7 +31,7 @@ def gap_min(gap: float = 0.1) -> Component:
 
 @gf.cell
 def separation(
-    gap: float = 0.1, layer1: Layer = gf.LAYER.HEATER, layer2: Layer = gf.LAYER.M1
+    gap: float = 0.1, layer1: Layer = (47, 0), layer2: Layer = (41, 0)
 ) -> Component:
     c = gf.Component()
     r1 = c << gf.components.rectangle(size=(1, 1), layer=layer1)
@@ -43,7 +43,7 @@ def separation(
 
 @gf.cell
 def enclosing(
-    enclosing: float = 0.1, layer1: Layer = gf.LAYER.VIAC, layer2: Layer = gf.LAYER.M1
+    enclosing: float = 0.1, layer1: Layer = (40, 0), layer2: Layer = (41, 0)
 ) -> Component:
     """Layer1 must be enclosed by layer2 by value.
 
@@ -69,9 +69,7 @@ def snapping_error(gap: float = 1e-3) -> Component:
 
 
 @gf.cell
-def not_inside(
-    layer: Layer = gf.LAYER.VIAC, not_inside: Layer = gf.LAYER.NPP
-) -> Component:
+def not_inside(layer: Layer = (40, 0), not_inside: Layer = (24, 0)) -> Component:
     """Layer must be inside by layer."""
     enclosing = 0.1
     w1 = 1
@@ -103,6 +101,6 @@ if __name__ == "__main__":
     # c.write_gds("snap.gds")
 
     c = errors()
-    c = gf.add_padding_container(c, layers=(gf.LAYER.FLOORPLAN,), default=5)
+    c = gf.add_padding_container(c, layers=((64, 0),), default=5)
     c.write_gds("errors.gds")
     c.show(show_ports=True)

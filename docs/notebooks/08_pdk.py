@@ -154,8 +154,8 @@ c.plot()
 pin = partial(
     gf.cross_section.strip,
     sections=(
-        gf.Section(width=2, layer=gf.LAYER.N, offset=+1),
-        gf.Section(width=2, layer=gf.LAYER.P, offset=-1),
+        gf.Section(width=2, layer=(20, 0), offset=+1),
+        gf.Section(width=2, layer=(21, 0), offset=-1),
     ),
 )
 c = gf.components.straight(cross_section=pin)
@@ -250,7 +250,7 @@ pdk1.get_component(dict(component="mmi1x2", settings=dict(length_mmi=10)))
 #
 # gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 #
-# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==7.1.4` replacing `7.1.4` by whatever version you end up using.
+# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==7.2.0` replacing `7.2.0` by whatever version you end up using.
 # 2. Before you upgrade gdsfactory to a newer version make sure your tests pass to make sure that things behave as expected
 #
 #

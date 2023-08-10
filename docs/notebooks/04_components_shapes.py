@@ -12,10 +12,11 @@
 
 # +
 import gdsfactory as gf
+from gdsfactory.generic_tech import get_generic_pdk
 
 gf.config.rich_output()
 
-PDK = gf.get_generic_pdk()
+PDK = get_generic_pdk()
 PDK.activate()
 
 r1 = gf.components.rectangle(size=(4.5, 2), layer=(1, 0))

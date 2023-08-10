@@ -35,12 +35,13 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER, LAYER_STACK
 from gdsfactory.generic_tech.get_klayout_pyxs import get_klayout_pyxs
 from gdsfactory.technology import LayerLevel, LayerStack, LayerViews
+from gdsfactory.generic_tech import get_generic_pdk
 
 # +
 Layer = tuple[int, int]
 
 gf.config.rich_output()
-PDK = gf.get_generic_pdk()
+PDK = get_generic_pdk()
 PDK.activate()
 
 
@@ -115,7 +116,7 @@ LAYER = GenericLayerMap()
 LAYER
 # -
 
-layer_wg = gf.LAYER.WG
+layer_wg = (1, 0)
 print(layer_wg)
 
 # ### Extract layers
@@ -134,14 +135,14 @@ c = LAYER_VIEWS.preview_layerset()
 c.plot()
 # -
 
-extract = c.extract(layers=(gf.LAYER.M1, gf.LAYER.VIAC))
+extract = c.extract(layers=((41, 0), (40, 0)))
 extract
 
 # ### Remove layers
 #
 # You can remove layers using the `remove_layers()` function.
 
-removed = extract.remove_layers(layers=(gf.LAYER.VIAC,))
+removed = extract.remove_layers(layers=((40, 0),))
 removed
 
 # ### Remap layers
@@ -151,7 +152,7 @@ removed
 c = gf.components.straight(layer=(2, 0))
 c.plot()
 
-remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
+remap = c.remap_layers(layermap={(2, 0): (34, 0)})
 remap
 
 # ## LayerViews
@@ -205,7 +206,7 @@ c.plot()
 
 # By default the generic PDK has some layers that are not visible and therefore are not shown.
 
-c_wg_clad = c.extract(layers=gf.LAYER.WGCLAD)
+c_wg_clad = c.extract(layers=(111, 0))
 c_wg_clad
 
 LAYER_VIEWS.layer_views["WGCLAD"]
@@ -218,7 +219,7 @@ LAYER_VIEWS.layer_views["WGCLAD"].visible = True
 
 LAYER_VIEWS.layer_views["WGCLAD"].visible
 
-c_wg_clad = c.extract(layers=gf.LAYER.WGCLAD)
+c_wg_clad = c.extract(layers=(111, 0))
 c_wg_clad
 
 # ## LayerStack
@@ -304,7 +305,7 @@ def get_layer_stack(
             mesh_order=99,
         )
         core = LayerLevel(
-            layer=LAYER.WG,
+            layer=(1, 0),
             thickness=thickness_wg,
             zmin=0.0,
             material="si",
@@ -320,7 +321,7 @@ def get_layer_stack(
             mesh_order=1,
             layer_type="etch",
             into=["core"],
-            derived_layer=LAYER.SLAB150,
+            derived_layer=(2, 0),
         )
         deep_etch = LayerLevel(
             layer=LAYER.DEEP_ETCH,
@@ -341,7 +342,7 @@ def get_layer_stack(
             mesh_order=10,
         )
         slab150 = LayerLevel(
-            layer=LAYER.SLAB150,
+            layer=(2, 0),
             thickness=150e-3,
             zmin=0,
             material="si",
@@ -540,8 +541,8 @@ if __name__ == "__main__":
         t_m1_oxide=0.6,
         t_m2_oxide=2.0,
         t_m3_oxide=0.5,
-        layer_wg=LAYER.WG,
-        layer_fc=LAYER.SLAB150,
+        layer_wg=(1, 0),
+        layer_fc=(2, 0),
         layer_rib=LAYER.SLAB90,
         layer_n=LAYER.N,
         layer_np=LAYER.NP,
@@ -596,7 +597,7 @@ def get_process():
     return (
         gf.processes.Etch(
             name="strip_etch",
-            layer=LAYER.WG,
+            layer=(1, 0),
             positive_tone=False,
             depth=0.22 + 0.01,  # slight overetch for numerics
             material="core",
@@ -605,7 +606,7 @@ def get_process():
         gf.processes.Etch(
             name="slab_etch",
             layer=LAYER.SLAB90,
-            layers_diff=[LAYER.WG],
+            layers_diff=[(1, 0)],
             depth=0.22 - 0.09,
             material="core",
             resist_thickness=1.0,

@@ -45,7 +45,7 @@ def test_add_keepout() -> None:
 
     c = straight()
     polygons = len(c.get_polygons())
-    target_layers = [LAYER.WG]
+    target_layers = [(1, 0)]
     keepout_layers = [LAYER.NO_TILE_SI]
 
     assert len(c.get_polygons()) == polygons
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     from gdsfactory.components.straight import straight
 
     c = straight()
-    target_layers = [LAYER.WG]
-    keepout_layers = [LAYER.SLAB150]
+    target_layers = [(1, 0)]
+    keepout_layers = [(2, 0)]
     c = add_keepout(c, target_layers, keepout_layers)
     c.show(show_ports=True)

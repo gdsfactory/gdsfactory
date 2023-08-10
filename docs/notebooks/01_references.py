@@ -35,9 +35,10 @@
 
 # %%
 import gdsfactory as gf
+from gdsfactory.generic_tech import get_generic_pdk
 
 gf.config.rich_output()
-PDK = gf.generic_tech.get_generic_pdk()
+PDK = get_generic_pdk()
 PDK.activate()
 
 # Create a blank Component

@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory import LAYER, Port
+from gdsfactory import Port
 from gdsfactory.component import Component
 from gdsfactory.typings import CrossSectionSpec
 
@@ -13,7 +13,7 @@ def big_device(
     size: tuple[float, float] = (400.0, 400.0),
     nports: int = 16,
     spacing: float = 15.0,
-    layer: tuple[int, int] = LAYER.WG,
+    layer: tuple[int, int] = (1, 0),
     wg_width: float = 0.5,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:

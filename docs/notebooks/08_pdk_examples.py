@@ -1,3 +1,20 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
+# %% [markdown]
 # # PDK examples
 #
 # Different PDKs have different component libraries, design rules and layer stacks (GDS layers, materials and thickness).
@@ -6,7 +23,7 @@
 #
 # Notice that some PDKs may have require different gdsfactory versions.
 
-# +
+# %%
 from collections.abc import Callable
 from functools import partial
 
@@ -24,23 +41,26 @@ from gdsfactory.technology import (
     LayerViews,
 )
 from gdsfactory.typings import Layer
+from gdsfactory.config import print_version_pdks, print_version_plugins
+from gdsfactory.generic_tech import get_generic_pdk
 
 gf.config.rich_output()
 nm = 1e-3
 
 
-# +
+# %%
 CONF.display_type = "klayout"
 
 p = gf.get_active_pdk()
 p.name
-# -
 
-gf.config.print_version_plugins()
+# %%
+print_version_plugins()
 
-gf.config.print_version_pdks()
-#
+# %%
+print_version_pdks()
 
+# %% [markdown]
 # ### FabA
 #
 # FabA only has one waveguide layer available that is defined in GDS layer (30, 0)
@@ -48,7 +68,7 @@ gf.config.print_version_pdks()
 # The waveguide traces are 2um wide.
 
 
-# +
+# %%
 class LayerMap(BaseModel):
     WG: Layer = (34, 0)
     SLAB150: Layer = (2, 0)
@@ -109,7 +129,7 @@ mmi1x2 = partial(
     cross_section=strip,
 )
 
-generic_pdk = gf.generic_tech.get_generic_pdk()
+generic_pdk = get_generic_pdk()
 
 fab_a = gf.Pdk(
     name="Fab_A",
@@ -129,12 +149,13 @@ gc = partial(
 
 c = gf.components.mzi()
 c_gc = gf.routing.add_fiber_array(component=c, grating_coupler=gc, with_loopback=False)
-c_gc
-# -
+c_gc.plot()
 
+# %%
 scene = c_gc.to_3d()
 scene.show(show_ports=True)
 
+# %% [markdown]
 # ### FabB
 #
 # FabB has photonic waveguides that require rectangular cladding layers to avoid dopants
@@ -142,7 +163,7 @@ scene.show(show_ports=True)
 # Lets say that the waveguides are defined in layer (2, 0) and are 0.3um wide, 1um thick
 #
 
-# +
+# %%
 nm = 1e-3
 
 
@@ -262,18 +283,19 @@ c = mzi()
 wg_gc = gf.routing.add_fiber_array(
     component=c, grating_coupler=gc, cross_section=strip, with_loopback=False
 )
-wg_gc.plot_klayout()
-# -
+wg_gc.plot()
 
+# %%
 scene = wg_gc.to_3d()
 scene.show(show_ports=True)
 
+# %% [markdown]
 # ### FabC
 #
 # Lets assume that fab C has similar technology to the generic PDK in gdsfactory and that you just want to remap some layers, and adjust the widths.
 #
 
-# +
+# %%
 nm = 1e-3
 
 
@@ -472,11 +494,12 @@ pdk = gf.Pdk(
     layer_stack=LAYER_STACK,
 )
 pdk.activate()
-# -
 
 
+# %%
 LAYER_VIEWS.layer_map.values()
 
+# %%
 mzi = mzi_nc()
 mzi_gc = gf.routing.add_fiber_single(
     component=mzi,
@@ -488,7 +511,9 @@ mzi_gc = gf.routing.add_fiber_single(
 )
 mzi_gc.plot()
 
+# %%
 c = mzi_gc.to_3d()
 c.show(show_ports=True)
 
+# %%
 ls = get_layer_stack_fab_c()

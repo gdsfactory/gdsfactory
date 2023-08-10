@@ -13,7 +13,6 @@ Lets build straight crossing out of a vertical and horizontal arm
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory import LAYER
 from gdsfactory.component import Component
 
 
@@ -36,7 +35,7 @@ def crossing_arm(
 
     """
     c = gf.Component()
-    c << gf.components.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)
+    c << gf.components.ellipse(radii=(r1, r2), layer=(2, 0))
 
     xmax = taper_length + taper_width / 2
     h = wg_width / 2
@@ -51,15 +50,13 @@ def crossing_arm(
         (-xmax, -h),
     ]
 
-    c.add_polygon(taper_points, layer=LAYER.WG)
+    c.add_polygon(taper_points, layer=(1, 0))
 
     c.add_port(
-        name="o1", center=(-xmax, 0), orientation=180, width=wg_width, layer=LAYER.WG
+        name="o1", center=(-xmax, 0), orientation=180, width=wg_width, layer=(1, 0)
     )
 
-    c.add_port(
-        name="o2", center=(xmax, 0), orientation=0, width=wg_width, layer=LAYER.WG
-    )
+    c.add_port(name="o2", center=(xmax, 0), orientation=0, width=wg_width, layer=(1, 0))
     return c
 
 
