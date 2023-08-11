@@ -5,7 +5,6 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import tempfile
-import datetime
 import hashlib
 import itertools
 import math
@@ -145,7 +144,6 @@ LayerSpec = Union[str, int, Layer, None]
 
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
 tmp.mkdir(exist_ok=True, parents=True)
-_timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
 
@@ -525,31 +523,23 @@ class Component(kf.KCell):
             Instances of `FlexPath` and `RobustPath` are also included in
             the result by computing their polygonal boundary.
         """
-        if recursive:
-            if by_spec:
-                layer = self.kcl.layer(*by_spec)
-                return list(kdb.Region(self.begin_shapes_rec(layer)).each())
+        if include_paths:
+            warnings.warn(
+                "get_polygons(include_paths=True) not implemented", stacklevel=2
+            )
+        if as_array:
+            warnings.warn("get_polygons(as_array=True) not implemented", stacklevel=2)
 
-            else:
-                return {
-                    (layer_info.layer, layer_info.datatype): list(
-                        kdb.Region(self.begin_shapes_rec(layer_index)).each()
-                    )
-                    for layer_index, layer_info in zip(
-                        self.kcl.layer_indexes(), self.kcl.layer_infos()
-                    )
-                }
-        else:
-            if by_spec:
-                return [
+        if not recursive:
+            return (
+                [
                     p.polygon
                     for p in self.shapes(self.kcl.layer(*by_spec)).each(
                         kdb.Shapes.SRegions
                     )
                 ]
-
-            else:
-                return {
+                if by_spec
+                else {
                     (info.layer, info.datatype): [
                         p.polygon for p in self.shapes(index).each(kdb.Shapes.SRegions)
                     ]
@@ -557,6 +547,20 @@ class Component(kf.KCell):
                         self.kcl.layer_infos(), self.kcl.layer_indexes()
                     )
                 }
+            )
+        if by_spec:
+            layer = self.kcl.layer(*by_spec)
+            return list(kdb.Region(self.begin_shapes_rec(layer)).each())
+
+        else:
+            return {
+                (layer_info.layer, layer_info.datatype): list(
+                    kdb.Region(self.begin_shapes_rec(layer_index)).each()
+                )
+                for layer_index, layer_info in zip(
+                    self.kcl.layer_indexes(), self.kcl.layer_infos()
+                )
+            }
 
     def get_dependencies(self, recursive: bool = False) -> List[Component]:
         """Return a set of the cells included in this cell as references.
