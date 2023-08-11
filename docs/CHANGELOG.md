@@ -2,6 +2,8 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.2.0...main)
 
+- remove inflatten refs
+
 ## [7.2.1](https://github.com/gdsfactory/gdsfactory/compare/v7.2.1...v7.2.0)
 
 - add `from_image`
