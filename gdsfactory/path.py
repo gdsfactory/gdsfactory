@@ -848,6 +848,19 @@ def extrude(
     c = Component()
 
     x = get_cross_section(cross_section)
+    if x and x.mirror:
+        sections = x.sections or []
+        cladding_offsets = x.cladding_offsets or []
+        sections = [
+            section.copy(update=dict(offset=-section.offset)) for section in sections
+        ]
+        cladding_offsets = [-o for o in cladding_offsets]
+        x = x.copy(
+            offset=-cross_section.offset,
+            sections=sections,
+            cladding_offsets=cladding_offsets,
+        )
+
     sections = x.sections or []
     sections = list(sections)
 

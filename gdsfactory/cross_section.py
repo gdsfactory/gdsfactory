@@ -180,19 +180,6 @@ class CrossSection(BaseModel):
     mirror: bool = False
     vias: list[ComponentAlongPath] = Field(default_factory=list)
 
-    def __init__(self, **data: Any) -> None:
-        """Extend BaseModel init to process mirroring."""
-        super().__init__(**data)
-
-        if "mirror" in data and data["mirror"]:
-            data["offset"] *= -1
-            if data["sections"]:
-                for section in data["sections"]:
-                    section.offset *= -1
-            if data["cladding_offsets"]:
-                for offset in data["cladding_offsets"]:
-                    offset *= -1
-
     class Config:
         """Configuration."""
 
@@ -2369,15 +2356,15 @@ def test_copy() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # xs = gf.cross_section.pin(
-    #     width=0.5,
-    #     # gap_low_doping=0.05,
-    #     # width_doping=2.0,
-    #     # offset_low_doping=0,
-    #     mirror=False,
-    # )
+    xs = gf.cross_section.pin(
+        width=0.5,
+        # gap_low_doping=0.05,
+        # width_doping=2.0,
+        # offset_low_doping=0,
+        mirror=False,
+    )
     # xs = pn_with_trenches(width=0.3)
-    xs = slot(width=0.3)
+    # xs = slot(width=0.3)
     # xs = rib_with_trenches()
     p = gf.path.straight()
     # c = p.extrude(xs)
