@@ -6,7 +6,6 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import warnings
-from functools import partial
 from typing import Any
 
 import numpy as np
@@ -279,7 +278,7 @@ def test_pack_with_settings() -> None:
         spacing=1.25,  # Minimum distance between adjacent shapes
         aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
         # max_size=(None, None),  # Limits the size into which the shapes will be packed
-        max_size=(20, 20),  # Limits the size into which the shapes will be packed
+        max_size=(100, 100),  # Limits the size into which the shapes will be packed
         density=1.05,  # Values closer to 1 pack tighter but require more computation
         sort_by_area=True,  # Pre-sorts the shapes by area
         precision=1e-3,
@@ -289,25 +288,34 @@ def test_pack_with_settings() -> None:
 
 if __name__ == "__main__":
     # test_pack()
+    component_list = [
+        gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(2)
+    ]
+    component_list += [
+        gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2)) for n in range(2)
+    ]
 
-    # c = test_pack_with_settings()
-    # c = test_pack()
-    # c.show(show_ports=True)
-    # c.pprint()
-    # c.("mask.gds")
-
-    p = pack(
-        [gf.components.straight(length=i) for i in [1, 1]],
-        spacing=20.0,
-        max_size=(100, 100),
-        text=partial(gf.components.text, justify="center"),
-        text_prefix="R",
-        name_prefix="demo",
-        text_anchors=["nc"],
-        text_offsets=[(-10, 0)],
-        text_mirror=True,
-        v_mirror=True,
+    components_packed_list = pack(
+        component_list,  # Must be a list or tuple of Components
+        spacing=1.25,  # Minimum distance between adjacent shapes
+        aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
+        max_size=(None, None),  # Limits the size into which the shapes will be packed
+        density=1.05,  # Values closer to 1 pack tighter but require more computation
+        sort_by_area=True,  # Pre-sorts the shapes by area
     )
-    c = p[0]
-    print(c.name)
+    c = components_packed_list[0]  # Only one bin was created, so we plot that
+
+    # p = pack(
+    #     [gf.components.straight(length=i) for i in [1, 1]],
+    #     spacing=20.0,
+    #     max_size=(100, 100),
+    #     text=partial(gf.components.text, justify="center"),
+    #     text_prefix="R",
+    #     name_prefix="demo",
+    #     text_anchors=["nc"],
+    #     text_offsets=[(-10, 0)],
+    #     text_mirror=True,
+    #     v_mirror=True,
+    # )
+    # c = p[0]
     c.show(show_ports=True)

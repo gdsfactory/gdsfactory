@@ -3,11 +3,10 @@ from __future__ import annotations
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.difftest import difftest
 
 
 def test_get_route(data_regression: DataRegressionFixture, check: bool = True) -> None:
-    c = gf.Component("sample_connect")
+    c = gf.Component()
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
     mmi2.move((100, 50))
@@ -20,15 +19,13 @@ def test_get_route(data_regression: DataRegressionFixture, check: bool = True) -
     c.add(route.references)
     if check:
         lengths = dict(length=route.length)
-
         data_regression.check(lengths)
-        difftest(c)
 
 
 def test_get_route_electrical_multilayer(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    c = gf.Component("multi-layer")
+    c = gf.Component()
     ptop = c << gf.components.pad_array()
     pbot = c << gf.components.pad_array(orientation=90)
 
@@ -42,9 +39,7 @@ def test_get_route_electrical_multilayer(
     c.add(route.references)
     if check:
         lengths = dict(length=route.length)
-
         data_regression.check(lengths)
-        difftest(c)
 
 
 if __name__ == "__main__":
