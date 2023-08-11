@@ -2,14 +2,12 @@
 
 from __future__ import annotations
 
-import datetime
 import pathlib
 from pathlib import Path
 from typing import Dict, Optional
 
 import gdstk
 
-from gdsfactory.component import _timestamp2019
 from gdsfactory.config import PATH, logger
 from gdsfactory.name import clean_name
 from gdsfactory.read.import_gds import import_gds
@@ -107,7 +105,6 @@ def write_cells_recursively(
     cell: gdstk.Cell,
     unit: float = 1e-6,
     precision: float = 1e-9,
-    timestamp: Optional[datetime.datetime] = _timestamp2019,
     dirpath: Optional[pathlib.Path] = None,
 ) -> Dict[str, Path]:
     """Write gdstk cells recursively.
@@ -116,7 +113,6 @@ def write_cells_recursively(
         cell: gdstk cell.
         unit: unit size for objects in library. 1um by default.
         precision: for library dimensions (m). 1nm by default.
-        timestamp: Defaults to 2019-10-25. If None uses current time.
         dirpath: directory for the GDS file to write to.
 
     Returns:
@@ -145,7 +141,6 @@ def write_cells(
     dirpath: Optional[PathType] = None,
     unit: float = 1e-6,
     precision: float = 1e-9,
-    timestamp: Optional[datetime.datetime] = _timestamp2019,
     recursively: bool = False,
     flatten: bool = False,
 ) -> Dict[str, Path]:
@@ -157,7 +152,6 @@ def write_cells(
             Defaults to current working directory.
         unit: unit size for objects in library. 1um by default.
         precision: for object dimensions in the library (m). 1nm by default.
-        timestamp: Defaults to 2019-10-25. If None uses current time.
         recursively: writes all cells recursively. If False writes only top cells.
         flatten: flatten cell.
 
@@ -206,7 +200,6 @@ def write_cells(
                 cell=cell,
                 unit=unit,
                 precision=precision,
-                timestamp=timestamp,
                 dirpath=dirpath,
             )
             gdspaths.update(gdspaths2)
