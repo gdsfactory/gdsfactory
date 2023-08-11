@@ -5,7 +5,6 @@ from functools import partial
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.difftest import difftest
 
 
 def test_get_bundle_electrical(
@@ -13,7 +12,7 @@ def test_get_bundle_electrical(
 ) -> None:
     lengths = {}
 
-    c = gf.Component("test_get_bundle")
+    c = gf.Component()
     c1 = c << gf.components.pad()
     c2 = c << gf.components.pad()
     c2.move((200, 100))
@@ -50,7 +49,7 @@ def test_get_bundle_electrical2(
 ) -> None:
     lengths = {}
 
-    c = gf.Component("pads_bundle_steps")
+    c = gf.Component()
     pt = c << gf.components.pad_array(
         partial(gf.components.pad, size=(30, 30)),
         orientation=270,
@@ -74,7 +73,6 @@ def test_get_bundle_electrical2(
 
     if check:
         data_regression.check(lengths)
-        difftest(c)
 
 
 if __name__ == "__main__":

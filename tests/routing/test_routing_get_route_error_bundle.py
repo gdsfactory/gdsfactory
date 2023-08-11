@@ -10,7 +10,7 @@ from gdsfactory.routing.manhattan import RouteWarning
 
 def test_route_error_bundle() -> None:
     """Ensures that an impossible route raises a RouteWarning."""
-    c = gf.Component("get_route_from_steps_sample")
+    c = gf.Component()
 
     w = gf.components.array(
         partial(gf.components.straight, layer=(2, 0)),

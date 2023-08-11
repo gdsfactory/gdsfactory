@@ -121,6 +121,8 @@ ref = c.add_ref(gf.components.straight()) # or ref = c << gf.components.straight
 ref.xmin = 10
 """
 
+COMPONENT_NAMES_USED = set()
+
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
@@ -168,6 +170,13 @@ class Component(_GeometryHelper):
         with_uuid: bool = False,
     ) -> None:
         """Initialize the Component object."""
+
+        if name in COMPONENT_NAMES_USED:
+            warnings.warn(
+                f"Component name {name} already used. "
+                "Use @cell decorator for auto-naming."
+            )
+
         self.uid = str(uuid.uuid4())[:8]
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
@@ -185,6 +194,7 @@ class Component(_GeometryHelper):
         self._references = []
 
         self.ports = {}
+        COMPONENT_NAMES_USED.add(name)
 
     @property
     def references(self):
@@ -2850,8 +2860,11 @@ def test_import_gds_settings() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.mzi()
-    c.pprint_ports()
+    gf.Component("hi")
+    gf.Component("hi")
+
+    # c = gf.c.mzi()
+    # c.pprint_ports()
 
     # c = gf.Component()
     # p = c.add_polygon(

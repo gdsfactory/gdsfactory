@@ -131,7 +131,7 @@ def write_cells_recursively(
         lib = gdstk.Library(unit=unit, precision=precision)
         lib.add(cell)
         lib.add(*cell.dependencies(True))
-        lib.write_gds(gdspath)
+        lib.write_gds(gdspath, timestamp=timestamp)
         logger.info(f"Write {cell.name!r} to {gdspath}")
 
         gdspaths[c.name] = gdspath
@@ -208,7 +208,7 @@ def write_cells(
                 timestamp=timestamp,
                 dirpath=dirpath,
             )
-            gdspaths.update(gdspaths2)
+            gdspaths |= gdspaths2
     return gdspaths
 
 
@@ -225,7 +225,8 @@ def test_write_cells() -> None:
 
 
 if __name__ == "__main__":
-    test_write_cells_recursively()
+    test_write_cells()
+    # test_write_cells_recursively()
     # gdspath = PATH.gdsdir / "alphabet_3top_cells.gds"
     # gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=False)
     # assert len(gdspaths) == 3, len(gdspaths)

@@ -15,10 +15,9 @@ from gdsfactory.component import (
 @gf.cell
 def dangerous_intermediate_cells(width=0.5) -> Component:
     """Example that will show the dangers of using intermediate cells."""
-    c = gf.Component("safe")
-    c2 = gf.Component(
-        "dangerous"
-    )  # This should be forbidden as it will create duplicated cells
+    c = gf.Component()
+    c2 = gf.Component()  # dangerous intermediate cell
+    # This should be forbidden as it will create duplicated cells
     c2 << gf.components.hline(width=width)
     c << c2
     return c
