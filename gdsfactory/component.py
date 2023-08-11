@@ -1350,6 +1350,20 @@ class Component(_GeometryHelper):
         new_component = transformed(ref, decorator=None)
         self.add_ref(new_component, alias=ref.name)
 
+    def flatten_invalid_refs(
+        self,
+        grid_size: float | None = None,
+        updated_components=None,
+        traversed_components=None,
+    ) -> Component:
+        """Returns new component with flattened references."""
+        return flatten_invalid_refs_recursive(
+            self,
+            grid_size=grid_size,
+            updated_components=updated_components,
+            traversed_components=traversed_components,
+        )
+
     def add_ref(
         self, component: Component, alias: str | None = None, **kwargs
     ) -> ComponentReference:
@@ -2665,18 +2679,24 @@ def flatten_invalid_refs_recursive(
     grid_size: float | None = None,
     updated_components=None,
     traversed_components=None,
-):
-    """Recursively flattens component references which have invalid transformations (i.e. non-90 deg rotations or sub-grid translations) and returns a copy if any subcells have been modified.
+) -> Component:
+    """Recursively flattens component references which have invalid transformations
+    (i.e. non-90 deg rotations or sub-grid translations)
+    returns a copy if any subcells have been modified.
 
-    WARNING: this function will produce same-name copies of cells. It is strictly meant to be used on write of the GDS file and
-    should not be mixed with other cells, or you will likely experience issues with duplicate cells
+    WARNING: this function will produce same-name copies of cells.
+    It is strictly meant to be used on write of the GDS file and
+    should not be mixed with other cells,
+    or you will likely experience issues with duplicate cells
 
     Args:
         component: the component to fix (in place).
         grid_size: the GDS grid size, in um, defaults to active PDK.get_grid_size()
             any translations with higher resolution than this are considered invalid.
-        updated_components: the running dictionary of components which have been modified by this transformation. Should always be None, except for recursive invocations.
-        traversed_components: the set of component names which have been traversed. Should always be None, except for recursive invocations.
+        updated_components: dict of components transformed.
+            Should always be None, except for recursive.
+        traversed_components: the set of component names which have been traversed.
+            Should always be None, except for recursive invocations.
     """
     from gdsfactory.decorators import is_invalid_ref
 
