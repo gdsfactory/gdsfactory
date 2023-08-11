@@ -1,6 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.1.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.2.0...main)
+
+## [7.2.1](https://github.com/gdsfactory/gdsfactory/compare/v7.2.1...v7.2.0)
+
+- add `from_image`
+- add `gf.components.rectangles`
 
 ## [7.2.0](https://github.com/gdsfactory/gdsfactory/compare/v7.2.0...v7.1.4)
 
