@@ -58,7 +58,7 @@ You can also access:
 - instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
 - instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
-![foundry-pdks](https://i.imgur.com/zngqi0B.png)
+![pdks](https://i.imgur.com/BMhx9Jo.png)
 
 
 ## Getting started
