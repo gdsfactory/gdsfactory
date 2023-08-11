@@ -1904,9 +1904,7 @@ class Component(_GeometryHelper):
             """
             import json
 
-            if netlist_function is not None:
-                pass
-            else:
+            if netlist_function is None:
                 from gdsfactory.get_netlist import get_netlist
 
                 netlist_function = get_netlist
