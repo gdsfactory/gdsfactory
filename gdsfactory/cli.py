@@ -1,72 +1,24 @@
-"""Command line interface. Type `gf` into a terminal."""
-
 from __future__ import annotations
 
+import os
 import pathlib
-from typing import Optional
 
-from click.core import Context, Option
+import typer
+import uvicorn
 
-import gdsfactory
-from gdsfactory.config import cwd, print_config
-from gdsfactory.config import print_version as _print_version
-from gdsfactory.config import print_version_raw
-from gdsfactory.config import print_version_pdks
-from gdsfactory.generic_tech import LAYER
-from gdsfactory.install import install_gdsdiff, install_klayout_package
-from gdsfactory.technology import lyp_to_dataclass
-from gdsfactory.typs import PathType
-from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
+app = typer.Typer()
 
-try:
-    import rich_click as click
-except ImportError:
-    import click
-
-VERSION = "6.94.1"
-LAYER_LABEL = LAYER.LABEL
+VERSION = "7.2.1"
 
 
-def print_version(ctx: Context, param: Option, value: bool) -> None:
-    """Prints the version."""
-    if not value or ctx.resilient_parsing:
-        return
-    _print_version()
-    ctx.exit()
-
-
-@click.group()
-def version() -> None:
-    """Commands for printing gdsfactory extension versions."""
-    pass
-
-
-# install
-@click.group()
-def install() -> None:
-    """Commands install."""
-    pass
-
-
-@click.command(name="config")
-@click.argument("key", required=False, default=None)
-def config_get(key: str) -> None:
-    """Shows key values from CONFIG."""
-    print_config(key)
-
-
-# GDS
-@click.group()
-def gds() -> None:
-    """Commands for dealing with GDS files."""
-    pass
-
-
-@click.command(name="layermap_to_dataclass")
-@click.argument("filepath", type=click.Path(exists=True))
-@click.option("--force", "-f", default=False, help="Force deletion", is_flag=True)
-def layermap_to_dataclass(filepath, force: bool) -> None:
+@app.command()
+def layermap_to_dataclass(
+    filepath: str,
+    force: bool = typer.Option(False, "--force", "-f", help="Force deletion"),
+) -> None:
     """Converts KLayout LYP to a dataclass."""
+    from gdsfactory.technology import lyp_to_dataclass
+
     filepath_lyp = pathlib.Path(filepath)
     filepath_py = filepath_lyp.with_suffix(".py")
     if not filepath_lyp.exists():
@@ -76,78 +28,39 @@ def layermap_to_dataclass(filepath, force: bool) -> None:
     lyp_to_dataclass(lyp_filepath=filepath_lyp)
 
 
-@click.command(name="write_cells")
-@click.argument("gdspath")
-@click.argument("dirpath", required=False, default=None)
-def write_cells(gdspath, dirpath) -> None:
+@app.command()
+def write_cells(gdspath: str, dirpath: str = None) -> None:
     """Write each all level cells into separate GDS files."""
+    from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
+
     write_cells_to_separate_gds(gdspath=gdspath, dirpath=dirpath)
 
 
-@click.command(name="merge_gds")
-@click.argument("dirpath", required=False, default=None)
-@click.argument("gdspath", required=False, default=None)
-def merge_gds(
-    dirpath: Optional[PathType] = None, gdspath: Optional[PathType] = None
-) -> None:
+@app.command()
+def merge_gds(dirpath: str = None, gdspath: str = None) -> None:
     """Merges GDS cells from a directory into a single GDS."""
+    from gdsfactory.read.from_gdspaths import from_gdsdir
+
     dirpath = dirpath or pathlib.Path.cwd()
     gdspath = gdspath or pathlib.Path.cwd() / "merged.gds"
 
     dirpath = pathlib.Path(dirpath)
 
-    c = gdsfactory.read.from_gdsdir(dirpath=dirpath)
+    c = from_gdsdir(dirpath=dirpath)
     c.write_gds(gdspath=gdspath)
     c.show(show_ports=True)
 
 
-DEFAULT_PORT = 8765
-DEFAULT_HOST = "localhost"
-
-
-@click.option(
-    "--pdk",
-    type=click.STRING,
-    default="generic",
-    help="Process Design Kit (PDK) to activate",
-    show_default=True,
-)
-@click.option(
-    "--host",
-    "-h",
-    type=click.STRING,
-    default=DEFAULT_HOST,
-    help="Host to run server on",
-    show_default=True,
-)
-@click.option(
-    "--port",
-    "-p",
-    type=click.INT,
-    help=f"Port to run server on - defaults to {DEFAULT_PORT}",
-    default=DEFAULT_PORT,
-    show_default=True,
-)
-@click.command()
-def web(
-    pdk: str,
-    host: str,
-    port: int,
-) -> None:
+@app.command()
+def web(pdk: str = "generic", host: str = "localhost", port: int = 8765) -> None:
     """Opens web viewer."""
-    import uvicorn
-    from gdsfactory.plugins.web.main import app
-    import os
-
     os.environ["PDK"] = pdk
+    uvicorn.run("gplugins.web.main:app", host=host, port=port, reload=True)
 
-    uvicorn.run(app, host=host, port=port)
 
-
-@click.argument("path", type=click.Path(exists=True), required=False, default=cwd)
-@click.command()
-def watch(path=cwd) -> None:
-    """Filewatch a folder for changes in python or pic.yaml files."""
+@app.command()
+def watch(path: str = pathlib.Path.cwd()) -> None:
+    """Filewatch a folder for changes in *.py or *.pic.yml files."""
     from gdsfactory.watch import watch
 
     path = pathlib.Path(path)
@@ -155,78 +68,82 @@ def watch(path=cwd) -> None:
     watch(str(path))
 
 
-# EXTRA
-@click.command()
-@click.argument("filename")
+@app.command()
 def show(filename: str) -> None:
     """Show a GDS file using klive."""
-    gdsfactory.show(filename)
+    from gdsfactory.show import show
+
+    show(filename)
 
 
-@click.command()
-@click.argument("gdspath1")
-@click.argument("gdspath2")
-@click.option("--xor", "-x", default=False, help="include xor", is_flag=True)
-def diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
+@app.command()
+def gds_diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
     """Show boolean difference between two GDS files."""
-    from gdsfactory.gdsdiff.gdsdiff import gdsdiff
+    from gdsfactory.difftest import diff
 
-    diff = gdsdiff(gdspath1, gdspath2, xor=xor)
-    diff.show()
+    diff(gdspath1, gdspath2, xor=xor)
 
 
-@click.command()
-def klayout_integration() -> None:
-    """Install generic Klayout layermap, klive and git diff."""
+@app.command()
+def install_klayout_genericpdk() -> None:
+    """Install Klayout generic PDK."""
+    from gdsfactory.install import install_klayout_package
+
     install_klayout_package()
+
+
+@app.command()
+def install_git_diff() -> None:
+    """Install git diff."""
+    from gdsfactory.install import install_gdsdiff
+
     install_gdsdiff()
 
 
-@click.command()
-def raw() -> None:
+@app.command()
+def print_plugins() -> None:
     """Show installed plugin versions."""
-    print_version_raw()
+    from gdsfactory.config import print_version_plugins
+
+    print_version_plugins()
 
 
-@click.command()
-def pdks() -> None:
+@app.command()
+def print_pdks() -> None:
     """Show installed PDK versions."""
+    from gdsfactory.config import print_version_pdks
+
     print_version_pdks()
 
 
-@click.group()
-@click.option(
-    "--version",
-    is_flag=True,
-    callback=print_version,
-    expose_value=False,
-    is_eager=True,
-    help="Show the version number.",
-)
-def cli(name="gf") -> None:
-    """`gf` is the gdsfactory command line tool."""
+@app.command(name="from_updk")
+def from_updk_command(filepath: str, filepath_out: str = None) -> None:
+    """Writes a PDK in python from uPDK YAML spec."""
+    from gdsfactory.read.from_updk import from_updk
+
+    filepath = pathlib.Path(filepath)
+    filepath_out = filepath_out or filepath.with_suffix(".py")
+    from_updk(filepath, filepath_out=filepath_out)
 
 
-gds.add_command(layermap_to_dataclass)
-gds.add_command(write_cells)
-gds.add_command(merge_gds)
-gds.add_command(show)
-gds.add_command(diff)
+@app.command(name="text_from_pdf")
+def text_from_pdf_command(filepath: str) -> None:
+    """Converts a PDF to text."""
+    import pdftotext
 
-install.add_command(klayout_integration)
+    with open(filepath, "rb") as f:
+        pdf = pdftotext.PDF(f)
 
-version.add_command(raw)
-version.add_command(pdks)
-
-cli.add_command(web)
-# watch.add_command(watch_yaml)
-
-cli.add_command(gds)
-cli.add_command(install)
-cli.add_command(watch)
-cli.add_command(version)
+    # Read all the text into one string
+    text = "\n".join(pdf)
+    filepath = pathlib.Path(filepath)
+    f = filepath.with_suffix(".md")
+    f.write_text(text)
 
 
 if __name__ == "__main__":
-    # cli()
-    print_version()
+    import sys
+
+    if len(sys.argv) == 1:  # No arguments provided
+        sys.argv.append("--help")
+    app()
