@@ -79,61 +79,6 @@ dependencies = [
     "fastapi",
     "uvicorn[standard]",
     ]
-    femwell = ["femwell==0.0.18"]
-    database = [
-    "sqlalchemy",
-    "sqlalchemy-utils",
-    "dagster",
-    "dagit",
-    "sqlmodel",
-    "boto3",
-    "pymysql",
-    ]
-    gmsh = [
-      "gmsh",
-      "h5py",
-      "mapbox_earcut",
-      "meshio",
-      "pygmsh",
-      "pyvista",
-      "trimesh",
-      "shapely",
-    ]
-    tidy3d = ["tidy3d==2.1.1"]
-    devsim = [
-      "devsim",
-      "mkl",
-      "pyvista",
-      "tidy3d",
-    ]
-    meow = ["meow-sim"]
-    sax = ["sax>=0.8.6", "jaxlib", "jax"]
-    dev = [
-      "autotyping",
-      "black>=21",
-      "doc8",
-      "ipykernel",
-      "jsondiff",
-      "mypy",
-      "pre-commit",
-      "pylsp-mypy",
-      "pytest",
-      "pytest-cov",
-      "pytest_regressions",
-      "types-PyYAML",
-      "types-cachetools",
-      "xdoctest",
-    ]
-    docs = [
-      "autodoc_pydantic",
-      "jupytext",
-      "jupyter-book==0.15.1",
-      "pydata_sphinx_theme==0.13.1",
-    ]
-    ray = [
-      "ray[tune,air]",
-      "hyperopt"
-    ]
 
     [tool.setuptools.packages]
     find = {}

@@ -3,10 +3,8 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
-full: plugins
-	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax,database]
-
-all: plugins install full
+dev: 
+	pip install -e .[full,dev] pre-commit
 
 install:
 	pip install -e .[full,dev] pre-commit
@@ -32,42 +30,6 @@ major:
 	bumpversion major
 	python docs/write_components_doc.py
 
-plugins:
-	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
-	conda install -c conda-forge slepc4py=*=complex* -y
-	pip install -e .[tidy3d,ray,sax,devsim,meow,database,femwell]
-
-plugins-conda:
-	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
-	conda install -c conda-forge slepc4py=*=complex* -y
-	pip install jax jaxlib numpy femwell --upgrade
-	pip install -e .[tidy3d,ray,sax,devsim,meow,database]
-
-plugins-mamba:
-	mamba install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
-	mamba install -c conda-forge slepc4py=*=complex* -y
-	pip install jax jaxlib numpy femwell --upgrade
-	pip install -e .[tidy3d,ray,sax,devsim,meow]
-
-plugins-debian: plugins
-	sudo apt-get update
-	sudo apt-get install -y python3-gmsh gmsh
-
-thermal:
-	conda install python-gmsh
-
-gmsh:
-	pip install trimesh mapbox_earcut gmsh meshio pygmsh pyvista h5py
-
-meep:
-	conda install pymeep=*=mpi_mpich_* -y
-
-sax:
-	pip install jax jaxlib
-
-publish:
-	anaconda upload environment.yml
-
 update-pre:
 	pre-commit autoupdate --bleeding-edge
 
@@ -76,24 +38,12 @@ gds:
 
 data-upload:
 	echo 'no need to upload'
-	# aws s3 sync data s3://gdslib
-	# gh release upload v6.90.3 data/gds/*.gds --clobber
-	# gh release upload v6.90.3 data/sp/*.npz --clobber
-	# gh release upload v6.90.3 data/sp/*.yml --clobber
-	# gh release upload v6.90.3 data/modes/*.msh --clobber
-	# gh release upload v6.90.3 data/modes/*.npz --clobber
 
 test-data:
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
 
 data-download: test-data
 	echo 'Make sure you git pull inside test-data folder'
-	# aws s3 sync s3://gdslib data --no-sign-request
-	# gh release download v6.90.3 -D data/gds/*.gds --clobber
-	# gh release download v6.90.3 data/sp/*.npz --clobber
-	# gh release download v6.90.3 data/sp/*.yml --clobber
-	# gh release download v6.90.3 data/modes/*.msh --clobber
-	# gh release download v6.90.3 data/modes/*.npz --clobber
 
 data-clean:
 	aws s3 rm data s3://gdslib/gds
@@ -103,33 +53,6 @@ test:
 
 test-force:
 	pytest --force-regen -s
-
-test-watch:
-	ptw
-
-test-meep:
-	pytest gdsfactory/simulation/gmeep
-
-test-tidy3d:
-	pytest gdsfactory/simulation/gtidy3d
-
-test-gmsh:
-	pytest gdsfactory/simulation/gmsh
-
-test-femwell:
-	pytest gdsfactory/simulation/fem
-
-test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gmsh tests/test_klayout gdsfactory/simulation/fem gdsfactory/simulation/gtidy3d
-
-test-plugins-no-tidy3d:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gmsh tests/test_klayout gdsfactory/simulation/fem
-
-test-notebooks:
-	py.test --nbval notebooks
-
-diff:
-	python gdsfactory/merge_cells.py
 
 cov:
 	pytest --cov=gdsfactory
