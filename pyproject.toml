@@ -31,7 +31,7 @@ dependencies = [
   "omegaconf",
   "orjson",
   "pandas",
-  "pydantic",
+  "pydantic<2",
   "pyyaml",
   "qrcode",
   "rectpack",
@@ -43,6 +43,7 @@ dependencies = [
   "typing_extensions",
   "watchdog",
   "rich",
+  "kfactory[git,ipy]==0.7.5",
   ]
   readme = "README.md"
   requires-python = ">=3.7"
