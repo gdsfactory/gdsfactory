@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.2.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.3.0...main)
 
-- remove inflatten refs
+## [7.3.0](https://github.com/gdsfactory/gdsfactory/compare/v7.3.0...v7.2.1)
+
+- make `flatten_invalid_refs=False` in GdsWriteSettings.
+- add component flatten invalid refs.
 
 ## [7.2.1](https://github.com/gdsfactory/gdsfactory/compare/v7.2.1...v7.2.0)
 
-- add `from_image`
+- add `from_image` to import GDS from image.
 - add `gf.components.rectangles`
 
 ## [7.2.0](https://github.com/gdsfactory/gdsfactory/compare/v7.2.0...v7.1.4)
