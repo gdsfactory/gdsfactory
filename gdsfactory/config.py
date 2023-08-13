@@ -24,7 +24,7 @@ from pydantic import BaseSettings
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "7.2.1"
+__version__ = "7.3.0"
 PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
