@@ -18,6 +18,7 @@ def from_updk(
     filepath: PathType,
     filepath_out: PathType | None = None,
     layer_bbox: tuple[int, int] = (68, 0),
+    layer_bbmetal: tuple[int, int] | None = None,
     layer_label: tuple[int, int] | None = None,
     optical_xsections: list[str] | None = None,
     electrical_xsections: list[str] | None = None,
@@ -33,6 +34,7 @@ def from_updk(
         filepath: uPDK filepath definition.
         filepath_out: optional filepath to save script. if None only returns script and does not save it.
         layer_bbox: layer to draw bounding boxes.
+        layer_bbmetal: layer to draw bounding boxes for metal.
         optical_xsections: Optional list of names of xsections that will add optical ports.
         electrical_xsections: Optional list of names of xsections that will add electrical ports.
         layers_text: Optional list of layers to add text labels.
@@ -66,6 +68,7 @@ import gdsfactory as gf
 from gdsfactory.get_factories import get_cells
 
 layer_bbox = {layer_bbox}
+layer_bbmetal = {layer_bbmetal}
 """
 
     if layer_label:
@@ -143,6 +146,11 @@ def {block_name}({parameters_string})->gf.Component:
     ysize = p.ysize
     name = f{cell_name!r}
 """
+        if layer_bbmetal and "bb_metal" in block:
+            for bbmetal in block["bb_metal"].values():
+                points = str(bbmetal).replace("'", "")
+                script += f"    c.add_polygon({points}, layer=layer_bbmetal)\n"
+
         script += parameters_labels
 
         for port_name, port in block.pins.items():
