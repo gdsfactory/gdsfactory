@@ -25,6 +25,7 @@ def from_updk(
     layers_text: list[LayerSpec] | None = None,
     text_size: float = 2.0,
     activate_pdk: bool = False,
+    read_xsections: bool = True,
     prefix: str = "",
     suffix: str = "",
 ) -> str:
@@ -40,6 +41,7 @@ def from_updk(
         layers_text: Optional list of layers to add text labels.
         text_size: text size for labels.
         activate_pdk: if True, activate the pdk after writing the script.
+        read_xsections: if True, read xsections from uPDK.
         prefix: optional prefix to add to the script.
         suffix: optional suffix to add to the script.
     """
@@ -74,7 +76,7 @@ layer_bbmetal = {layer_bbmetal}
     if layer_label:
         script += f"layer_label = {layer_label}\n"
 
-    if "xsections" in conf:
+    if read_xsections and "xsections" in conf:
         for xsection_name, xsection in conf.xsections.items():
             script += f"{xsection_name} = gf.CrossSection(width={xsection.width})\n"
 
