@@ -22,13 +22,15 @@ with open(filepath, "w+") as f:
     f.write(
         """
 
-Here are some generic Parametric cells.
-
-You can customize them your fab or use them as an inspiration to build your own.
-
-
-Parametric cells
+Generic PDK
 =============================
+
+Parametric Cells for the Generic PDK.
+
+Consider them a foundation from which you can draw inspiration. Feel free to modify their cross-sections and layers to tailor a unique PDK suited for any foundry of your choice.
+
+By doing so, you'll possess a versatile, retargetable PDK, empowering you to design your circuits with speed and flexibility.
+
 """
     )
 
