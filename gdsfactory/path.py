@@ -28,8 +28,8 @@ from gdsfactory.component_layout import (
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
 from gdsfactory.typings import (
-    Coordinates,
     ComponentSpec,
+    Coordinates,
     CrossSectionSpec,
     Float2,
     LayerSpec,
