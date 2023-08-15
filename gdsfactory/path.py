@@ -28,6 +28,7 @@ from gdsfactory.component_layout import (
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
 from gdsfactory.typings import (
+    ComponentSpec,
     Coordinates,
     CrossSectionSpec,
     Float2,
@@ -737,7 +738,7 @@ def transition(
 @cell
 def along_path(
     p: Path,
-    component: Component,
+    component: ComponentSpec,
     spacing: float,
     padding: float,
 ) -> Component:
@@ -754,6 +755,10 @@ def along_path(
         spacing: distance between component placements.
         padding: minimum distance from the path start to the first component.
     """
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
+
     length = p.length()
     number = (length - 2 * padding) // spacing + 1
 
