@@ -12,6 +12,7 @@ import typing
 import xml.etree.ElementTree as ET
 
 import numpy as np
+import yaml
 from pydantic import BaseModel, Field, validator
 from pydantic.color import Color, ColorType
 
@@ -362,6 +363,33 @@ class LineStyle(BaseModel):
         ET.SubElement(el, "order").text = str(self.order)
         ET.SubElement(el, "name").text = self.name
         return el
+
+
+def generate_color(layer_num: int) -> str:
+    """Generate a simple unique color based on the layer number."""
+    r = (layer_num * 30) % 256
+    g = (layer_num * 50) % 256
+    b = (layer_num * 70) % 256
+    return f"#{r:02X}{g:02X}{b:02X}"
+
+
+def write_layers_to_yaml(
+    layers: dict[str, Layer], filename: str | pathlib.Path
+) -> None:
+    """Write a dictionary of layers to a YAML file with randon colors."""
+    formatted_layers = {"LayerViews": {}}
+
+    for layer_name, layer_value in layers.items():
+        formatted_layers["LayerViews"][layer_name] = {
+            "layer": list(layer_value),
+            "layer_in_name": True,
+            "hatch_pattern": "coarsely dotted",
+            "width": 1,
+            "color": generate_color(layer_value[0]),
+        }
+
+    with open(filename, "w") as file:
+        yaml.dump(formatted_layers, file, default_flow_style=False)
 
 
 class LayerView(BaseModel):
