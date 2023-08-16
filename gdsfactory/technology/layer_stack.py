@@ -145,9 +145,13 @@ class LayerStack(BaseModel):
 
                 if gdstk.inside([port.center], gdstk.Polygon(polygon))[0]:
                     try:
-                        port_layernames = layerstack.get_layer_to_layername()[port.layer]
+                        port_layernames = layerstack.get_layer_to_layername()[
+                            port.layer
+                        ]
                     except KeyError as e:
-                        raise KeyError('Make sure your `layer_stack` contains all layers with ports') from e
+                        raise KeyError(
+                            "Make sure your `layer_stack` contains all layers with ports"
+                        ) from e
                     for j, old_layername in enumerate(port_layernames):
                         new_layer_number = (
                             new_layers_init[0] + i,
