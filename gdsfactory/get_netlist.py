@@ -428,7 +428,7 @@ def validate_optical_connection(
     angle_tolerance=0.01,
     offset_tolerance=0.001,
     width_tolerance=0.001,
-):
+) -> None:
     is_top_level = [("," not in pname) for pname in port_names]
 
     if all(is_top_level):
@@ -513,7 +513,7 @@ def validate_optical_connection(
         )
 
 
-def difference_between_angles(angle2: float, angle1: float):
+def difference_between_angles(angle2: float, angle1: float) -> float:
     diff = angle2 - angle1
     while diff < 180:
         diff += 360
@@ -584,7 +584,7 @@ def get_netlist_recursive(
                 get_netlist_func=get_netlist_func,
                 **kwargs,
             )
-            all_netlists.update(grandchildren)
+            all_netlists |= grandchildren
 
             child_references = _get_references_to_netlist(ref.ref_cell)
 

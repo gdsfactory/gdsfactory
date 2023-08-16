@@ -6,8 +6,35 @@ import gdsfactory as gf
 
 
 @gf.cell
-def pads_with_routes(radius: float = 10):
+def pads_correct(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
     """Returns 2 pads connected with metal wires."""
+    c = gf.Component()
+
+    pad = gf.get_component(pad)
+    tl = c << pad
+    bl = c << pad
+
+    tr = c << pad
+    br = c << pad
+
+    tl.move((0, 300))
+    br.move((500, 0))
+    tr.move((500, 500))
+
+    ports1 = [bl.ports["e3"], tl.ports["e3"]]
+    ports2 = [br.ports["e1"], tr.ports["e1"]]
+    routes = gf.routing.get_bundle(ports1, ports2, cross_section=cross_section)
+
+    for route in routes:
+        c.add(route.references)
+
+    return c
+
+
+@gf.cell
+def pads_shorted(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
+    """Returns 2 pads connected with metal wires."""
+
     c = gf.Component()
     pad = gf.components.pad()
 
@@ -23,16 +50,20 @@ def pads_with_routes(radius: float = 10):
 
     ports1 = [bl.ports["e3"], tl.ports["e3"]]
     ports2 = [br.ports["e1"], tr.ports["e1"]]
-    routes = gf.routing.get_bundle(ports1, ports2, cross_section="metal3")
+    routes = gf.routing.get_bundle(ports1, ports2, cross_section=cross_section)
 
     for route in routes:
         c.add(route.references)
 
+    route = gf.routing.get_route(
+        bl.ports["e2"], tl.ports["e4"], cross_section=cross_section
+    )
+    c.add(route.references)
     return c
 
 
 if __name__ == "__main__":
-    c = pads_with_routes(radius=100)
+    c = pads_correct()
     c.show(show_ports=True)
     gdspath = c.write_gds()
 

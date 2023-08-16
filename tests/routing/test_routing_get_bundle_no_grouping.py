@@ -9,7 +9,7 @@ from gdsfactory.routing.get_bundle import get_bundle_same_axis_no_grouping
 def test_link_optical_ports_no_grouping(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    c = gf.Component("test_link_optical_ports_no_grouping")
+    c = gf.Component()
     w = c << gf.components.straight_array(n=4, spacing=200)
     d = c << gf.components.nxn(west=4, east=1)
     d.y = w.y
