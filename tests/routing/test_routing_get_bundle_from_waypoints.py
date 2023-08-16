@@ -34,7 +34,7 @@ def test_get_bundle_from_waypointsB(
 
     p0 = ports1[0].center
 
-    c = gf.Component("B")
+    c = gf.Component()
     c.add_ports(ports1)
     c.add_ports(ports2)
     waypoints = [

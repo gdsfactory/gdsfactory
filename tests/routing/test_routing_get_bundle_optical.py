@@ -10,7 +10,7 @@ def test_get_bundle_optical(
 ) -> None:
     lengths = {}
 
-    c = gf.Component("test_get_bundle_optical")
+    c = gf.Component()
 
     w = c << gf.components.straight_array(n=4, spacing=200)
     d = c << gf.components.nxn(west=4, east=0)
@@ -40,7 +40,7 @@ def test_get_bundle_optical2(
 ) -> None:
     lengths = {}
 
-    c = gf.Component("test_get_bundle_optical2")
+    c = gf.Component()
     w = c << gf.components.straight_array(n=4, spacing=200)
     d = c << gf.components.nxn(west=4, east=1)
     d.y = w.y

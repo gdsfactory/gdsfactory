@@ -171,15 +171,15 @@ class Component(_GeometryHelper):
     ) -> None:
         """Initialize the Component object."""
 
+        self.uid = str(uuid.uuid4())[:8]
+        if with_uuid or name == "Unnamed":
+            name += f"_{self.uid}"
+
         if name in COMPONENT_NAMES_USED:
             warnings.warn(
                 f"Component name {name} already used. "
                 "Use @cell decorator for auto-naming."
             )
-
-        self.uid = str(uuid.uuid4())[:8]
-        if with_uuid or name == "Unnamed":
-            name += f"_{self.uid}"
 
         self._cell = gdstk.Cell(name=name)
         self.name = name
@@ -2392,6 +2392,9 @@ class Component(_GeometryHelper):
         filepath: str,
         layer_stack: LayerStack | None = None,
         exclude_layers: tuple[Layer, ...] | None = None,
+        use_layer_name: bool = False,
+        hull_invalid_polygons: bool = True,
+        scale: float | None = None,
     ) -> None:
         """Write a Component to STL for 3D printing.
 
@@ -2411,9 +2414,22 @@ class Component(_GeometryHelper):
             filepath=filepath,
             layer_stack=layer_stack,
             exclude_layers=exclude_layers,
+            use_layer_name=use_layer_name,
+            hull_invalid_polygons=hull_invalid_polygons,
+            scale=scale,
         )
 
     def write_gerber(self, dirpath, layermap_to_gerber_layer, options) -> None:
+        """
+        Args:
+            dirpath: directory to write gerber files to.
+            layermap_to_gerber_layer: dictionary of layermap to gerber layer.
+            options: dictionary of options for gerber export.
+                header: List[str] | None = None
+                mode: Literal["mm", "in"] = "mm"
+                resolution: float = 1e-6
+                int_size: int = 4
+        """
         from gdsfactory.export.to_gerber import to_gerber
 
         to_gerber(
@@ -2425,22 +2441,24 @@ class Component(_GeometryHelper):
 
     def to_gmsh(
         self,
-        type,
-        z=None,
+        type: str,
+        layer_stack: LayerStack,
+        z: float | None = None,
         xsection_bounds=None,
-        layer_stack=None,
-        wafer_padding=0.0,
-        wafer_layer=(99999, 0),
+        wafer_padding: float = 0.0,
+        wafer_layer: Layer = (99999, 0),
         *args,
         **kwargs,
     ):
-        """Returns a gmsh msh of the component for finite element simulation.
+        """Returns a gmsh mesh of the component for finite element simulation.
 
         Arguments:
             type: one of "xy", "uz", or "3D". Determines the type of mesh to return.
-            z: used to define z-slice for xy meshing
-            xsection_bounds: used to define in-plane line for uz meshing
+            layer_stack: LayerStack object containing layer information.
+            z: used to define z-slice for xy meshing.
+            xsection_bounds: used to define in-plane line for uz meshing.
             wafer_padding: padding beyond bbox to add to WAFER layers.
+            wafer_layer: layer to use for WAFER padding.
 
         Keyword Args:
             Arguments for the target meshing function in gplugins.gmsh
@@ -2458,10 +2476,6 @@ class Component(_GeometryHelper):
         padded_component.add_polygon(points, layer=wafer_layer)
         padded_component.add_ports(self.get_ports_list())
 
-        if layer_stack is None:
-            raise ValueError(
-                'A LayerStack must be provided through argument "layer_stack".'
-            )
         if type == "xy":
             if z is None:
                 raise ValueError(
@@ -2511,13 +2525,16 @@ class Component(_GeometryHelper):
         Args:
             distance: Distance to offset polygons. Positive values expand, negative shrink.
             precision: Desired precision for rounding vertex coordinates.
+            polygons: If None, use self.get_polygons()
+            use_union: If True, use union instead of xor to combine polygons.
+            precision: Desired precision for rounding vertex coordinates.
             join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
             tolerance: For miter joints, this number must be at least 2 represents the
               maximal distance in multiples of offset between new vertices and their
               original position before beveling to avoid spikes at acute joints. For
               round joints, it indicates the curvature resolution in number of
               points per full circle.
-            layer: Specific layer for new polygons.
+            layer: layer spec for new polygons.
 
         """
         import gdsfactory as gf
