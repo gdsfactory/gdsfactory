@@ -142,10 +142,17 @@ class LayerStack(BaseModel):
             net_component = net_component.remove_layers(layers=[port.layer])
             for polygon in polygons:
                 # If polygon belongs to port, create a unique new layer, and add the polygon to it
+
                 if gdstk.inside([port.center], gdstk.Polygon(polygon))[0]:
-                    for j, old_layername in enumerate(
-                        layerstack.get_layer_to_layername()[port.layer]
-                    ):
+                    try:
+                        port_layernames = layerstack.get_layer_to_layername()[
+                            port.layer
+                        ]
+                    except KeyError as e:
+                        raise KeyError(
+                            "Make sure your `layer_stack` contains all layers with ports"
+                        ) from e
+                    for j, old_layername in enumerate(port_layernames):
                         new_layer_number = (
                             new_layers_init[0] + i,
                             new_layers_init[1] + j,
