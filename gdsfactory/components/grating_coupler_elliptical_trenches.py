@@ -22,7 +22,7 @@ def grating_coupler_elliptical_trenches(
     grating_line_width: float = 0.343,
     neff: float = 2.638,  # tooth effective index
     ncladding: float = 1.443,  # cladding index
-    layer_trench: LayerSpec = "SHALLOW_ETCH",
+    layer_trench: LayerSpec | None = "SHALLOW_ETCH",
     p_start: int = 26,
     n_periods: int = 30,
     end_straight_length: float = 0.2,

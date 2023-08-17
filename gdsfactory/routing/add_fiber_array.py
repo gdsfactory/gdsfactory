@@ -29,7 +29,7 @@ def add_fiber_array(
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     get_input_labels_function: Callable | None = get_input_labels_dash,
-    layer_label: LayerSpec = "LABEL",
+    layer_label: LayerSpec | None = "LABEL",
     **kwargs,
 ) -> Component:
     """Returns component with south routes and grating_couplers.

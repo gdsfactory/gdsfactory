@@ -24,7 +24,7 @@ def grating_coupler_elliptical_arbitrary(
     wavelength: float = 1.554,
     fiber_angle: float = 15.0,
     nclad: float = 1.443,
-    layer_slab: LayerSpec = "SLAB150",
+    layer_slab: LayerSpec | None = "SLAB150",
     layer_grating: LayerSpec | None = None,
     taper_to_slab_offset: float = -3.0,
     polarization: str = "te",

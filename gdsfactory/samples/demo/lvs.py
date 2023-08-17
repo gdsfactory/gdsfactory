@@ -11,7 +11,7 @@ def pads_correct(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
     c = gf.Component()
 
     xs = gf.get_cross_section(cross_section)
-    layer = xs.layer
+    layer = gf.get_layer(xs.layer)
 
     pad = gf.get_component(pad)
     tl = c << pad
@@ -46,7 +46,7 @@ def pads_shorted(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
     c = gf.Component()
     pad = gf.components.pad()
     xs = gf.get_cross_section(cross_section)
-    layer = xs.layer
+    layer = gf.get_layer(xs.layer)
 
     tl = c << pad
     bl = c << pad
