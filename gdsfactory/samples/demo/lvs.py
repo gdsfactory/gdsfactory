@@ -10,6 +10,9 @@ def pads_correct(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
     """Returns 2 pads connected with metal wires."""
     c = gf.Component()
 
+    xs = gf.get_cross_section(cross_section)
+    layer = xs.layer
+
     pad = gf.get_component(pad)
     tl = c << pad
     bl = c << pad
@@ -20,6 +23,11 @@ def pads_correct(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
     tl.move((0, 300))
     br.move((500, 0))
     tr.move((500, 500))
+
+    c.add_label("tl", position=tl.center, layer=layer)
+    c.add_label("tr", position=tr.center, layer=layer)
+    c.add_label("br", position=br.center, layer=layer)
+    c.add_label("bl", position=bl.center, layer=layer)
 
     ports1 = [bl.ports["e3"], tl.ports["e3"]]
     ports2 = [br.ports["e1"], tr.ports["e1"]]
@@ -37,6 +45,8 @@ def pads_shorted(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
 
     c = gf.Component()
     pad = gf.components.pad()
+    xs = gf.get_cross_section(cross_section)
+    layer = xs.layer
 
     tl = c << pad
     bl = c << pad
@@ -47,6 +57,11 @@ def pads_shorted(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
     tl.move((0, 300))
     br.move((500, 0))
     tr.move((500, 500))
+
+    c.add_label("tl", position=tl.center, layer=layer)
+    c.add_label("tr", position=tr.center, layer=layer)
+    c.add_label("br", position=br.center, layer=layer)
+    c.add_label("bl", position=bl.center, layer=layer)
 
     ports1 = [bl.ports["e3"], tl.ports["e3"]]
     ports2 = [br.ports["e1"], tr.ports["e1"]]
