@@ -55,6 +55,7 @@ from gdsfactory.components.coupler90bend import coupler90bend
 from gdsfactory.components.coupler_adiabatic import coupler_adiabatic
 from gdsfactory.components.coupler_asymmetric import coupler_asymmetric
 from gdsfactory.components.coupler_bent import coupler_bent
+from gdsfactory.components.coupler_broadband import coupler_broadband
 from gdsfactory.components.coupler_full import coupler_full
 from gdsfactory.components.coupler_ring import coupler_ring, coupler_ring_point
 from gdsfactory.components.coupler_straight import coupler_straight
@@ -407,6 +408,7 @@ __all__ = [
     "coupler_trenches",
     "coupler_bend",
     "coupler_bent",
+    "coupler_broadband",
     "coupler90",
     "coupler90bend",
     "coupler90circular",

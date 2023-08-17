@@ -94,5 +94,6 @@ if __name__ == "__main__":
     pdk.gds_write_settings.flatten_invalid_refs = False
     c = big_device()
     c = gf.routing.add_fiber_array(c)
+    c = c.flatten_invalid_refs()
     # c.write_gds("./test.gds")
     c.show(show_ports=False)
