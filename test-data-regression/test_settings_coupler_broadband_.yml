@@ -1,0 +1,86 @@
+name: coupler_broadband
+ports:
+  o1:
+    center:
+    - -25.75
+    - -10.45
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 270.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -25.75
+    - 10.25
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 25.75
+    - -10.45
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 270.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 25.75
+    - 10.25
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 90.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_euler
+    coupler_straight:
+      function: coupler_straight
+    cross_section: strip
+    gap_pc: 0.3
+    gap_sc: 0.2
+    legnth_taper: 1.0
+    lenght_coupler_big_gap: 4.7
+    length_coupler_straight: 12.4
+    radius: 10.0
+    w_sc: 0.5
+    w_top: 0.6
+  full:
+    bend:
+      function: bend_euler
+    coupler_straight:
+      function: coupler_straight
+    cross_section: strip
+    gap_pc: 0.3
+    gap_sc: 0.2
+    legnth_taper: 1.0
+    lenght_coupler_big_gap: 4.7
+    length_coupler_straight: 12.4
+    radius: 10.0
+    w_sc: 0.5
+    w_top: 0.6
+  function_name: coupler_broadband
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.coupler_broadband
+  name: coupler_broadband

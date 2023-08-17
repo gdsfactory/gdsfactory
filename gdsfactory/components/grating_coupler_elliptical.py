@@ -92,7 +92,7 @@ def grating_coupler_elliptical(
     nclad: float = 1.443,
     n_periods: int = 30,
     big_last_tooth: bool = False,
-    layer_slab: LayerSpec = "SLAB150",
+    layer_slab: LayerSpec | None = "SLAB150",
     slab_xmin: float = -1.0,
     slab_offset: float = 2.0,
     spiked: bool = True,

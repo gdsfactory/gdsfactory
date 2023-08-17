@@ -25,7 +25,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 def add_fiber_single(
     component: ComponentSpec = straight_function,
     grating_coupler=grating_coupler_te,
-    layer_label: LayerSpec = "LABEL",
+    layer_label: LayerSpec | None = "LABEL",
     fiber_spacing: float = 50,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
