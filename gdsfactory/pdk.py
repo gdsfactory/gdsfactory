@@ -390,7 +390,7 @@ class Pdk(BaseModel):
             if not dirpath.is_dir():
                 raise ValueError(f"{dirpath!r} needs to be a directory.")
 
-            for filepath in dirpath.glob("*/**/*.pic.yml"):
+            for filepath in dirpath.glob("**/*.pic.yml"):
                 name = filepath.stem.split(".")[0]
                 if not update and name in self.cells:
                     raise ValueError(

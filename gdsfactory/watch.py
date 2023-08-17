@@ -11,12 +11,14 @@ import time
 import traceback
 from collections.abc import Callable
 
+from IPython.terminal.embed import embed
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 from gdsfactory.config import cwd
-from gdsfactory.pdk import get_active_pdk
+from gdsfactory.pdk import get_active_pdk, on_pdk_activated
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
+from gdsfactory.typings import ComponentSpec
 
 
 class FileWatcher(FileSystemEventHandler):
@@ -33,6 +35,14 @@ class FileWatcher(FileSystemEventHandler):
         self.observer = Observer()
         self.path = path
         self.stopping = threading.Event()
+        # if a new pdk happens to get activated during the watcher loop, reset accordingly
+        on_pdk_activated.add_handler(self._on_pdk_activated)
+
+    def _on_pdk_activated(self, new_pdk, old_pdk):
+        from gdsfactory.cell import CACHE
+
+        CACHE.clear()
+        new_pdk.register_cells_yaml(dirpath=self.path, update=True)
 
     def start(self) -> None:
         self.observer.schedule(self, self.path, recursive=True)
@@ -162,12 +172,15 @@ def watch(path=cwd, pdk=None) -> None:
     logging.info(
         f"File watcher looking for changes in *.py and *.pic.yml files in {path!r}. Stop with Ctrl+C"
     )
+    embed()
+    watcher.stop()
 
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        watcher.stop()
+
+def show(component: ComponentSpec):
+    import gdsfactory as gf
+
+    c = gf.get_component(component)
+    c.show()
 
 
 if __name__ == "__main__":
