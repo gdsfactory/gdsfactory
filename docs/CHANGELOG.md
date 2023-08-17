@@ -1,6 +1,10 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.3.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.3.1...main)
+
+## [7.3.1](https://github.com/gdsfactory/gdsfactory/compare/v7.3.1...v7.3.0)
+
+- minor fixes
 
 ## [7.3.0](https://github.com/gdsfactory/gdsfactory/compare/v7.3.0...v7.2.1)
 
