@@ -259,6 +259,7 @@ class Pdk(BaseModel):
         default_factory=dict
     )
     sparameters_path: PathType | None = None
+    capacitance_path: PathType | None = None
     modes_path: PathType | None = PATH.modes
     interconnect_cml_path: PathType | None = None
     warn_off_grid_ports: bool = False
@@ -291,7 +292,7 @@ class Pdk(BaseModel):
             "materials_index": {"exclude": True},
         }
 
-    @validator("sparameters_path")
+    @validator("sparameters_path", "capacitance_path")
     def is_pathlib_path(cls, path):
         return pathlib.Path(path)
 
@@ -741,6 +742,13 @@ def get_constant(constant_name: Any) -> Any:
         if isinstance(constant_name, str)
         else constant_name
     )
+
+
+def get_capacitance_path() -> pathlib.Path:
+    PDK = get_active_pdk()
+    if PDK.capacitance_path is None:
+        raise ValueError(f"{_ACTIVE_PDK.name!r} has no capacitance_path")
+    return PDK.capacitance_path
 
 
 def get_sparameters_path() -> pathlib.Path:
