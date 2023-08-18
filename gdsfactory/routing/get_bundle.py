@@ -57,6 +57,7 @@ def get_bundle(
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
+    enforce_port_ordering: bool = True,
     **kwargs,
 ) -> list[Route]:
     """Returns list of routes to connect two groups of ports.
@@ -82,6 +83,7 @@ def get_bundle(
             to path length matching loops (requires path_length_match_loops != None).
         path_length_match_modify_segment_i: Index of straight segment to add path
             length matching loops to (requires path_length_match_loops != None).
+        enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
 
     Keyword Args:
         width: main layer waveguide width (um).
@@ -193,7 +195,7 @@ def get_bundle(
         "cross_section": cross_section,
     }
     if path_length_match_loops is not None:
-        params.update(path_length_match_params)
+        params |= path_length_match_params
     if end_straight_length is not None:
         params["end_straight_length"] = end_straight_length
     if start_straight_length is not None:
@@ -219,7 +221,7 @@ def get_bundle(
         return get_bundle_from_waypoints(**params)
 
     if start_axis != end_axis:
-        return get_bundle_corner(**params)
+        return get_bundle_corner(enforce_port_ordering=enforce_port_ordering, **params)
     if (
         start_angle == 0
         and end_angle == 180
@@ -237,11 +239,13 @@ def get_bundle(
         # print("get_bundle_same_axis")
         if with_sbend:
             return get_bundle_sbend(ports1, ports2, sort_ports=sort_ports, **kwargs)
-        return get_bundle_same_axis(**params)
+        return get_bundle_same_axis(
+            enforce_port_ordering=enforce_port_ordering, **params
+        )
 
     elif start_angle == end_angle:
         # print('get_bundle_udirect')
-        return get_bundle_udirect(**params)
+        return get_bundle_udirect(enforce_port_ordering=enforce_port_ordering, **params)
 
     elif end_angle == (start_angle + 180) % 360:
         # print("get_bundle_uindirect")
@@ -284,6 +288,7 @@ def get_bundle_same_axis(
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    enforce_port_ordering: bool = True,
     **kwargs,
 ) -> list[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -303,6 +308,7 @@ def get_bundle_same_axis(
         path_length_match_modify_segment_i: Index of straight segment to add path
             length matching loops to (requires path_length_match_loops != None).
         cross_section: CrossSection or function that returns a cross_section.
+        enforce_port_ordering: If True, will enforce that the ports are conneceted as ordered.
         kwargs: cross_section settings.
 
 
@@ -383,7 +389,9 @@ def get_bundle_same_axis(
         )
         for route in routes
     ]
-    return validate_connections(_p1, _p2, routes)
+    if enforce_port_ordering:
+        return validate_connections(_p1, _p2, routes)
+    return routes
 
 
 def _get_bundle_waypoints(
@@ -391,7 +399,6 @@ def _get_bundle_waypoints(
     ports2: list[Port],
     separation: float = 30,
     end_straight_length: float = 0.0,
-    tol: float = 0.00001,
     start_straight_length: float = 0.0,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -403,7 +410,6 @@ def _get_bundle_waypoints(
         ports2: list of end ports.
         separation: route spacing.
         end_straight_length: adds a straight.
-        tol: tolerance.
         start_straight_length: length of straight.
         cross_section: CrossSection or function that returns a cross_section.
         kwargs: cross_section settings.

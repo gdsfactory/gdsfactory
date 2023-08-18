@@ -132,7 +132,9 @@ def awg(
 
     fpr_out_ref.x += fpr_spacing
     routes = gf.routing.get_bundle(
-        fpr_in_ref.get_ports_list(prefix="E"), fpr_out_ref.get_ports_list(prefix="E")
+        fpr_in_ref.get_ports_list(prefix="E"),
+        fpr_out_ref.get_ports_list(prefix="E"),
+        enforce_port_ordering=False,
     )
 
     c.lengths = []

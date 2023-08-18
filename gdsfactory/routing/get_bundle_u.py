@@ -44,6 +44,7 @@ def get_bundle_udirect(
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
+    enforce_port_ordering: bool = True,
     **kwargs,
 ) -> list[Route]:
     r"""Returns list of routes.
@@ -63,6 +64,7 @@ def get_bundle_udirect(
             to path length matching loops (requires path_length_match_loops != None).
         path_length_match_modify_segment_i: Index of straight segment to add path
             length matching loops to (requires path_length_match_loops != None).
+        enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
 
     Returns:
         [route_filter(r) for r in routes] where routes is a list of lists of coordinates
@@ -127,7 +129,9 @@ def get_bundle_udirect(
     routes = [
         route_filter(route, bend=bend, straight=straight, **kwargs) for route in routes
     ]
-    return validate_connections(_p1, _p2, routes)
+    if enforce_port_ordering:
+        return validate_connections(_p1, _p2, routes)
+    return routes
 
 
 def _get_bundle_udirect_waypoints(

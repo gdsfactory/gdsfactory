@@ -65,6 +65,7 @@ def get_bundle_corner(
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
+    enforce_port_ordering: bool = True,
     **kwargs,
 ) -> list[Route]:
     r"""Connect banks of ports with either 90Deg or 270Deg angle between them.
@@ -78,6 +79,7 @@ def get_bundle_corner(
         path_length_match_loops: optional number of loops for path length matching.
         path_length_match_extra_length: extra length (um) for path length matching.
         path_length_match_modify_segment_i: segment to increase length.
+        enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
 
     Returns:
         returns a list of elements which can be added to a component.
@@ -142,7 +144,8 @@ def get_bundle_corner(
         )
 
     routes = [route_filter(r, **kwargs) for r in routes]
-    routes = validate_connections(ports1, ports2, routes)
+    if enforce_port_ordering:
+        routes = validate_connections(ports1, ports2, routes)
     return routes
 
 
