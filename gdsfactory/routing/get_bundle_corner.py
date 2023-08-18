@@ -7,8 +7,9 @@ import numpy as np
 from gdsfactory.component_layout import _rotate_points
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route_from_waypoints
-from gdsfactory.routing.manhattan import generate_manhattan_waypoints
+from gdsfactory.routing.manhattan import RouteError, generate_manhattan_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
+from gdsfactory.routing.validation import make_error_traces, validate_connections
 from gdsfactory.typings import Route
 
 
@@ -120,13 +121,16 @@ def get_bundle_corner(
     if "straight" in kwargs:
         _ = kwargs.pop("straight")
 
-    routes = _get_bundle_corner_waypoints(
-        ports1,
-        ports2,
-        routing_func=generate_manhattan_waypoints,
-        separation=separation,
-        **kwargs,
-    )
+    try:
+        routes = _get_bundle_corner_waypoints(
+            ports1,
+            ports2,
+            routing_func=generate_manhattan_waypoints,
+            separation=separation,
+            **kwargs,
+        )
+    except RouteError as e:
+        return make_error_traces(ports1, ports2, str(e))
     if path_length_match_loops:
         routes = [np.array(route) for route in routes]
         routes = path_length_matched_points(
@@ -137,7 +141,9 @@ def get_bundle_corner(
             **kwargs,
         )
 
-    return [route_filter(r, **kwargs) for r in routes]
+    routes = [route_filter(r, **kwargs) for r in routes]
+    routes = validate_connections(ports1, ports2, routes)
+    return routes
 
 
 def _get_bundle_corner_waypoints(
@@ -147,6 +153,8 @@ def _get_bundle_corner_waypoints(
     separation: float = 5.0,
     **kwargs,
 ):
+    ports1 = ports1.copy()
+    ports2 = ports2.copy()
     nb_ports = len(ports1)
     connections = []
 
@@ -212,11 +220,13 @@ def _get_bundle_corner_waypoints(
     is_routable_90 = ((are_below and are_right) or (are_above and are_left)) and (
         da == 90
     )
-    assert is_routable_270 or is_routable_90, (
-        f"Ports not routable with corner_bundle: da={da}; are_below={are_below};"
-        f"are_above={are_above}; are_left={are_left}; are_right={are_right}. "
-        "Consider applying a U turn first and then to to the 90Deg or 270Deg connection"
-    )
+    if not (is_routable_270 or is_routable_90):
+        message = (
+            f"Ports not routable with corner_bundle: da={da}; are_below={are_below};"
+            f"are_above={are_above}; are_left={are_left}; are_right={are_right}. "
+            "Consider applying a U turn first and then to to the 90Deg or 270Deg connection"
+        )
+        raise RouteError(message)
 
     end_sort_type = ["Y", "-X", "-Y", "X"] if da > 0 else ["-Y", "X", "Y", "-X"]
     start_angle_sort_index = a_start // 90

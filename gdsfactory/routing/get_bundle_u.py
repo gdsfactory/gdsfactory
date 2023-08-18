@@ -17,6 +17,7 @@ from gdsfactory.routing.manhattan import (
 )
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
+from gdsfactory.routing.validation import validate_connections
 from gdsfactory.typings import ComponentSpec, Route
 
 
@@ -99,6 +100,7 @@ def get_bundle_udirect(
                                   |
                            X------/
     """
+    _p1, _p2 = ports1.copy(), ports2.copy()
     straight = kwargs.pop("straight", straight_function)
     routes = _get_bundle_udirect_waypoints(
         ports1,
@@ -122,9 +124,10 @@ def get_bundle_udirect(
             **kwargs,
         )
 
-    return [
+    routes = [
         route_filter(route, bend=bend, straight=straight, **kwargs) for route in routes
     ]
+    return validate_connections(_p1, _p2, routes)
 
 
 def _get_bundle_udirect_waypoints(
@@ -323,6 +326,7 @@ def get_bundle_uindirect(
         '''
 
     """
+    _p1, _p2 = ports1.copy(), ports2.copy()
     routes = _get_bundle_uindirect_waypoints(
         ports1,
         ports2,
@@ -334,7 +338,8 @@ def get_bundle_uindirect(
         **routing_params,
     )
 
-    return [route_filter(route, **routing_params) for route in routes]
+    routes = [route_filter(route, **routing_params) for route in routes]
+    return validate_connections(_p1, _p2, routes)
 
 
 def _get_bundle_uindirect_waypoints(
@@ -348,6 +353,8 @@ def _get_bundle_uindirect_waypoints(
     **routing_func_params,
 ) -> list[ndarray]:
     nb_ports = len(ports1)
+    ports1 = ports1.copy()
+    ports2 = ports2.copy()
 
     for p in ports1:
         p.orientation = (

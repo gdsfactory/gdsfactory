@@ -33,6 +33,7 @@ from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
+from gdsfactory.routing.validation import validate_connections
 from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
@@ -171,12 +172,12 @@ def get_bundle(
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
 
-    if sort_ports:
-        ports1, ports2 = sort_ports_function(ports1, ports2)
-
     start_port_angles = {p.orientation for p in ports1}
     if len(start_port_angles) > 1:
         raise ValueError(f"All start port angles {start_port_angles} must be equal")
+
+    if sort_ports:
+        ports1, ports2 = sort_ports_function(ports1, ports2)
 
     path_length_match_params = {
         "path_length_match_loops": path_length_match_loops,
@@ -342,6 +343,8 @@ def get_bundle_same_axis(
     This method deals with different metal track/wg/wire widths too.
 
     """
+    _p1 = ports1.copy()
+    _p2 = ports2.copy()
     if "straight" in kwargs:
         _ = kwargs.pop("straight")
     assert len(ports1) == len(
@@ -371,7 +374,7 @@ def get_bundle_same_axis(
             cross_section=cross_section,
             **kwargs,
         )
-    return [
+    routes = [
         get_route_from_waypoints(
             route,
             bend=bend,
@@ -380,6 +383,7 @@ def get_bundle_same_axis(
         )
         for route in routes
     ]
+    return validate_connections(_p1, _p2, routes)
 
 
 def _get_bundle_waypoints(
