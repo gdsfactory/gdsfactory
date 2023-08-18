@@ -7,7 +7,9 @@ from gdsfactory.port import Port
 from gdsfactory.typings import Route
 
 
-def validate_connections(ports1: list[Port], ports2: list[Port], routes: list[Route]):
+def validate_connections(
+    ports1: list[Port], ports2: list[Port], routes: list[Route]
+) -> list[Route]:
     connections_expected = {_connection_tuple(p1, p2) for p1, p2 in zip(ports1, ports2)}
 
     for route in routes:
@@ -21,7 +23,9 @@ def validate_connections(ports1: list[Port], ports2: list[Port], routes: list[Ro
     return routes
 
 
-def make_error_traces(ports1: Port, ports2: Port, message: str) -> list[Route]:
+def make_error_traces(
+    ports1: list[Port], ports2: list[Port], message: str
+) -> list[Route]:
     import gdsfactory as gf
     from gdsfactory.routing.manhattan import RouteWarning
 
