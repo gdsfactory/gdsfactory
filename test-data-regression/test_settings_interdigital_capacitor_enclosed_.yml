@@ -1,0 +1,66 @@
+name: interdigital_capacitor_enclosed
+ports:
+  o1:
+    center:
+    - -46.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 10.0
+  o2:
+    center:
+    - 46.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 10.0
+settings:
+  changed: {}
+  child: null
+  default:
+    cpw_dimensions:
+    - 10
+    - 6
+    enclosure_box:
+    - - -200
+      - -200
+    - - 200
+      - 200
+    finger_gap: 2.0
+    finger_length: 20.0
+    fingers: 4
+    gap_layer: DEEPTRENCH
+    gap_to_ground: 5
+    metal_layer: WG
+    thickness: 5.0
+  full:
+    cpw_dimensions:
+    - 10
+    - 6
+    enclosure_box:
+    - - -200
+      - -200
+    - - 200
+      - 200
+    finger_gap: 2.0
+    finger_length: 20.0
+    fingers: 4
+    gap_layer: DEEPTRENCH
+    gap_to_ground: 5
+    metal_layer: WG
+    thickness: 5.0
+  function_name: interdigital_capacitor_enclosed
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.interdigital_capacitor_enclosed
+  name: interdigital_capacitor_enclosed
