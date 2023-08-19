@@ -760,6 +760,21 @@ coupler_bent
 
 
 
+coupler_broadband
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coupler_broadband
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coupler_broadband(w_sc=0.5, gap_sc=0.2, w_top=0.6, gap_pc=0.3, legnth_taper=1.0, length_coupler_straight=12.4, lenght_coupler_big_gap=4.7, cross_section='strip', radius=10.0)
+  c.plot()
+
+
+
 coupler_full
 ----------------------------------------------------
 
@@ -1760,6 +1775,21 @@ interdigital_capacitor
   import gdsfactory as gf
 
   c = gf.components.interdigital_capacitor(fingers=4, finger_length=20.0, finger_gap=2.0, thickness=5.0, layer='WG')
+  c.plot()
+
+
+
+interdigital_capacitor_enclosed
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.interdigital_capacitor_enclosed
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.interdigital_capacitor_enclosed(fingers=4, finger_length=20.0, finger_gap=2.0, thickness=5.0, cpw_dimensions=[10, 6], gap_to_ground=5, metal_layer='WG', gap_layer='DEEPTRENCH')
   c.plot()
 
 
