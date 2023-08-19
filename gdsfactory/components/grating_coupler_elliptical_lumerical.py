@@ -69,7 +69,7 @@ parameters = (
 def grating_coupler_elliptical_lumerical(
     parameters: Floats = parameters,
     layer: LayerSpec = "WG",
-    layer_slab: LayerSpec = "SLAB150",
+    layer_slab: LayerSpec | None = "SLAB150",
     taper_angle: float = 55,
     taper_length: float = 12.24 + 0.36,
     fiber_angle: float = 5,
