@@ -23,7 +23,7 @@ def type2() -> Component:
     return gf.routing.add_fiber_array(component=c, optical_routing_type=2)
 
 
-def tapers():
+def tapers() -> Component:
     c = gf.components.straight(width=2, length=20)
     cc = gf.add_tapers(component=c)
     return gf.routing.add_fiber_array(component=cc, optical_routing_type=0)
@@ -48,8 +48,7 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
 
 
 if __name__ == "__main__":
-    c = type1()
-    c.pprint()
-    # c = test_type2()
-    # c = test_tapers()
+    # c = type1()
+    c = type2()
+    # c = tapers()
     c.show(show_ports=True)

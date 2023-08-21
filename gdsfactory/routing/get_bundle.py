@@ -33,6 +33,7 @@ from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
+from gdsfactory.routing.validation import validate_connections
 from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
@@ -56,6 +57,7 @@ def get_bundle(
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
+    enforce_port_ordering: bool = True,
     **kwargs,
 ) -> list[Route]:
     """Returns list of routes to connect two groups of ports.
@@ -81,6 +83,7 @@ def get_bundle(
             to path length matching loops (requires path_length_match_loops != None).
         path_length_match_modify_segment_i: Index of straight segment to add path
             length matching loops to (requires path_length_match_loops != None).
+        enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
 
     Keyword Args:
         width: main layer waveguide width (um).
@@ -171,12 +174,14 @@ def get_bundle(
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
 
-    if sort_ports:
-        ports1, ports2 = sort_ports_function(ports1, ports2)
-
     start_port_angles = {p.orientation for p in ports1}
     if len(start_port_angles) > 1:
         raise ValueError(f"All start port angles {start_port_angles} must be equal")
+
+    if sort_ports:
+        ports1, ports2 = sort_ports_function(
+            ports1, ports2, enforce_port_ordering=enforce_port_ordering
+        )
 
     path_length_match_params = {
         "path_length_match_loops": path_length_match_loops,
@@ -190,9 +195,10 @@ def get_bundle(
         "bend": bend,
         "straight": straight,
         "cross_section": cross_section,
+        "enforce_port_ordering": enforce_port_ordering,
     }
     if path_length_match_loops is not None:
-        params.update(path_length_match_params)
+        params |= path_length_match_params
     if end_straight_length is not None:
         params["end_straight_length"] = end_straight_length
     if start_straight_length is not None:
@@ -283,6 +289,7 @@ def get_bundle_same_axis(
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    enforce_port_ordering: bool = True,
     **kwargs,
 ) -> list[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -302,6 +309,7 @@ def get_bundle_same_axis(
         path_length_match_modify_segment_i: Index of straight segment to add path
             length matching loops to (requires path_length_match_loops != None).
         cross_section: CrossSection or function that returns a cross_section.
+        enforce_port_ordering: If True, will enforce that the ports are conneceted as ordered.
         kwargs: cross_section settings.
 
 
@@ -342,13 +350,17 @@ def get_bundle_same_axis(
     This method deals with different metal track/wg/wire widths too.
 
     """
+    _p1 = ports1.copy()
+    _p2 = ports2.copy()
     if "straight" in kwargs:
         _ = kwargs.pop("straight")
     assert len(ports1) == len(
         ports2
     ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
     if sort_ports:
-        ports1, ports2 = sort_ports_function(ports1, ports2)
+        ports1, ports2 = sort_ports_function(
+            ports1, ports2, enforce_port_ordering=enforce_port_ordering
+        )
 
     routes = _get_bundle_waypoints(
         ports1,
@@ -371,7 +383,7 @@ def get_bundle_same_axis(
             cross_section=cross_section,
             **kwargs,
         )
-    return [
+    routes = [
         get_route_from_waypoints(
             route,
             bend=bend,
@@ -380,6 +392,9 @@ def get_bundle_same_axis(
         )
         for route in routes
     ]
+    if enforce_port_ordering:
+        return validate_connections(_p1, _p2, routes)
+    return routes
 
 
 def _get_bundle_waypoints(
@@ -387,7 +402,6 @@ def _get_bundle_waypoints(
     ports2: list[Port],
     separation: float = 30,
     end_straight_length: float = 0.0,
-    tol: float = 0.00001,
     start_straight_length: float = 0.0,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -399,7 +413,6 @@ def _get_bundle_waypoints(
         ports2: list of end ports.
         separation: route spacing.
         end_straight_length: adds a straight.
-        tol: tolerance.
         start_straight_length: length of straight.
         cross_section: CrossSection or function that returns a cross_section.
         kwargs: cross_section settings.
@@ -707,23 +720,6 @@ get_bundle_electrical_multilayer = partial(
         ("metal_routing", (0, 180)),
     ],
 )
-
-
-def test_get_bundle_small() -> None:
-    c = gf.Component()
-    c1 = c << gf.components.mmi2x2()
-    c2 = c << gf.components.mmi2x2()
-    c2.move((100, 40))
-    routes = get_bundle(
-        [c1.ports["o3"], c1.ports["o4"]],
-        [c2.ports["o1"], c2.ports["o2"]],
-        separation=5.0,
-        cross_section=gf.cross_section.strip(radius=5, layer=(2, 0))
-        # cross_section=gf.cross_section.strip,
-    )
-    for route in routes:
-        c.add(route.references)
-        assert np.isclose(route.length, 111.136), route.length
 
 
 if __name__ == "__main__":

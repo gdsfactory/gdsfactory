@@ -22,6 +22,7 @@ from gdsfactory.routing.manhattan import (
 )
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.utils import get_list_ports_angle
+from gdsfactory.routing.validation import validate_connections
 from gdsfactory.typings import (
     ComponentSpec,
     Coordinate,
@@ -118,6 +119,7 @@ def get_bundle_from_waypoints(
         kwargs: cross_section settings.
 
     """
+    _p1, _p2 = ports1, ports2
     if len(ports2) != len(ports1):
         raise ValueError(
             f"Number of start ports should match number of end ports.\
@@ -227,7 +229,7 @@ def get_bundle_from_waypoints(
             cross_section=cross_section,
             **kwargs,
         )
-    return [
+    routes = [
         round_corners(
             points=pts,
             bend=bend,
@@ -238,6 +240,8 @@ def get_bundle_from_waypoints(
         )
         for pts in routes
     ]
+    validate_connections(_p1, _p2, routes)
+    return routes
 
 
 get_bundle_from_waypoints_electrical = partial(

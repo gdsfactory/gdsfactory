@@ -392,6 +392,7 @@ def route_fiber_array(
                 straight=straight,
                 bend=bend90,
                 cross_section=cross_section,
+                enforce_port_ordering=False,
             )
             elements.extend([route.references for route in routes])
 
@@ -410,6 +411,7 @@ def route_fiber_array(
                     bend=bend90,
                     straight=straight,
                     cross_section=cross_section,
+                    enforce_port_ordering=False,
                 )
                 elements.extend([route.references for route in routes])
                 del to_route[n0 - dn : n0 + dn]

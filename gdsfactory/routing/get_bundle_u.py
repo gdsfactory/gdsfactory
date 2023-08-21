@@ -17,6 +17,7 @@ from gdsfactory.routing.manhattan import (
 )
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
+from gdsfactory.routing.validation import validate_connections
 from gdsfactory.typings import ComponentSpec, Route
 
 
@@ -43,6 +44,7 @@ def get_bundle_udirect(
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
+    enforce_port_ordering: bool = True,
     **kwargs,
 ) -> list[Route]:
     r"""Returns list of routes.
@@ -62,6 +64,7 @@ def get_bundle_udirect(
             to path length matching loops (requires path_length_match_loops != None).
         path_length_match_modify_segment_i: Index of straight segment to add path
             length matching loops to (requires path_length_match_loops != None).
+        enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
 
     Returns:
         [route_filter(r) for r in routes] where routes is a list of lists of coordinates
@@ -99,6 +102,7 @@ def get_bundle_udirect(
                                   |
                            X------/
     """
+    _p1, _p2 = ports1.copy(), ports2.copy()
     straight = kwargs.pop("straight", straight_function)
     routes = _get_bundle_udirect_waypoints(
         ports1,
@@ -122,9 +126,12 @@ def get_bundle_udirect(
             **kwargs,
         )
 
-    return [
+    routes = [
         route_filter(route, bend=bend, straight=straight, **kwargs) for route in routes
     ]
+    if enforce_port_ordering:
+        return validate_connections(_p1, _p2, routes)
+    return routes
 
 
 def _get_bundle_udirect_waypoints(
@@ -263,6 +270,7 @@ def get_bundle_uindirect(
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
+    enforce_port_ordering: bool = True,
     **routing_params,
 ) -> list[Route]:
     r"""Returns list of routes.
@@ -323,6 +331,7 @@ def get_bundle_uindirect(
         '''
 
     """
+    _p1, _p2 = ports1.copy(), ports2.copy()
     routes = _get_bundle_uindirect_waypoints(
         ports1,
         ports2,
@@ -334,7 +343,10 @@ def get_bundle_uindirect(
         **routing_params,
     )
 
-    return [route_filter(route, **routing_params) for route in routes]
+    routes = [route_filter(route, **routing_params) for route in routes]
+    if enforce_port_ordering:
+        routes = validate_connections(_p1, _p2, routes)
+    return routes
 
 
 def _get_bundle_uindirect_waypoints(
@@ -348,6 +360,8 @@ def _get_bundle_uindirect_waypoints(
     **routing_func_params,
 ) -> list[ndarray]:
     nb_ports = len(ports1)
+    ports1 = ports1.copy()
+    ports2 = ports2.copy()
 
     for p in ports1:
         p.orientation = (
