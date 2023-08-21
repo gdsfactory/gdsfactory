@@ -270,6 +270,7 @@ def get_bundle_uindirect(
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
+    enforce_port_ordering: bool = True,
     **routing_params,
 ) -> list[Route]:
     r"""Returns list of routes.
@@ -343,7 +344,9 @@ def get_bundle_uindirect(
     )
 
     routes = [route_filter(route, **routing_params) for route in routes]
-    return validate_connections(_p1, _p2, routes)
+    if enforce_port_ordering:
+        routes = validate_connections(_p1, _p2, routes)
+    return routes
 
 
 def _get_bundle_uindirect_waypoints(

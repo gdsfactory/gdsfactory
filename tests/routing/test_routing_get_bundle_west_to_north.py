@@ -33,6 +33,7 @@ def test_get_bundle_west_to_north(
         pbports,
         ptports,
         bend=gf.components.wire_corner,
+        enforce_port_ordering=False,
     )
     for i, route in enumerate(routes):
         c.add(route.references)

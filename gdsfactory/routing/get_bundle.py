@@ -722,23 +722,6 @@ get_bundle_electrical_multilayer = partial(
 )
 
 
-def test_get_bundle_small() -> None:
-    c = gf.Component()
-    c1 = c << gf.components.mmi2x2()
-    c2 = c << gf.components.mmi2x2()
-    c2.move((100, 40))
-    routes = get_bundle(
-        [c1.ports["o3"], c1.ports["o4"]],
-        [c2.ports["o1"], c2.ports["o2"]],
-        separation=5.0,
-        cross_section=gf.cross_section.strip(radius=5, layer=(2, 0))
-        # cross_section=gf.cross_section.strip,
-    )
-    for route in routes:
-        c.add(route.references)
-        assert np.isclose(route.length, 111.136), route.length
-
-
 if __name__ == "__main__":
     import gdsfactory as gf
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import numpy as np
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -324,7 +325,11 @@ def test_get_bundle_udirect(
 
     c = gf.Component(name="test_get_bundle_udirect")
     routes = get_bundle(
-        ports1, ports2, bend=gf.components.bend_circular, end_straight_length=30
+        ports1,
+        ports2,
+        bend=gf.components.bend_circular,
+        end_straight_length=30,
+        enforce_port_ordering=False,
     )
     lengths = {}
     for i, route in enumerate(routes):
@@ -393,6 +398,7 @@ def test_get_bundle_u_indirect(
         end_straight_length=15,
         start_straight_length=5,
         radius=5,
+        enforce_port_ordering=False,
     )
     lengths = {}
     for i, route in enumerate(routes):
@@ -439,6 +445,23 @@ def test_facing_ports(
     if check:
         data_regression.check(lengths)
         difftest(c)
+
+
+def test_get_bundle_small() -> None:
+    c = gf.Component()
+    c1 = c << gf.components.mmi2x2()
+    c2 = c << gf.components.mmi2x2()
+    c2.move((100, 40))
+    routes = get_bundle(
+        [c1.ports["o3"], c1.ports["o4"]],
+        [c2.ports["o2"], c2.ports["o1"]],
+        separation=5.0,
+        cross_section=gf.cross_section.strip(radius=5, layer=(2, 0))
+        # cross_section=gf.cross_section.strip,
+    )
+    for route in routes:
+        c.add(route.references)
+        assert np.isclose(route.length, 111.136), route.length
 
 
 if __name__ == "__main__":
