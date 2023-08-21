@@ -14,7 +14,9 @@ Explains how to use the runset.
  ```
 
 ## **Prerequisites**
+
 You need the following set of tools installed to be able to run GENERIC TECH LVS:
+
 - Python 3.6+
 - KLayout 0.28.4+
 
@@ -28,6 +30,7 @@ The `run_lvs.py` script takes your input gds and netlist files to run LVS rule d
 ```
 
 Example:
+
 ```bash
     python3 testing/testcases/unit/heater_devices/layout/straight_heater_metal.py
     python3 run_lvs.py --layout=testing/testcases/unit/heater_devices/layout/straight_heater_metal.gds --netlist=testing/testcases/unit/heater_devices/netlist/straight_heater_metal.spice --run_mode=deep --run_dir=lvs_straight_heater_metal
@@ -86,7 +89,7 @@ You could find the run results at your run directory if you previously specified
  ```
 
 The result is a database file (`<your_design_name>.lvsdb`) contains LVS extractions and comparison results.
-You could view it on your file using: `klayout <input_gds_file> -mn <resut_db_file> `, or you could view it on your gds file via netlist browser option in tools menu using klayout GUI.
+You could view it on your file using: `klayout <input_gds_file> -mn <resut_db_file>`, or you could view it on your gds file via netlist browser option in tools menu using klayout GUI.
 
 You could also find the extracted netlist generated from your design at (`<your_design_name>.cir`) in your run directory.
 
