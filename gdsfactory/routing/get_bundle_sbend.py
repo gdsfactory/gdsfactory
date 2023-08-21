@@ -7,7 +7,11 @@ from gdsfactory.typings import Route
 
 
 def get_bundle_sbend(
-    ports1: Port, ports2: Port, sort_ports: bool = True, **kwargs
+    ports1: Port,
+    ports2: Port,
+    sort_ports: bool = True,
+    enforce_port_ordering: bool = True,
+    **kwargs,
 ) -> list[Route]:
     """Returns a list of routes from ports1 to ports2.
 
@@ -22,7 +26,9 @@ def get_bundle_sbend(
 
     """
     if sort_ports:
-        ports1, ports2 = sort_ports_function(ports1, ports2)
+        ports1, ports2 = sort_ports_function(
+            ports1, ports2, enforce_port_ordering=enforce_port_ordering
+        )
 
     routes = []
 

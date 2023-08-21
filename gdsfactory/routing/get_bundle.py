@@ -179,7 +179,9 @@ def get_bundle(
         raise ValueError(f"All start port angles {start_port_angles} must be equal")
 
     if sort_ports:
-        ports1, ports2 = sort_ports_function(ports1, ports2)
+        ports1, ports2 = sort_ports_function(
+            ports1, ports2, enforce_port_ordering=enforce_port_ordering
+        )
 
     path_length_match_params = {
         "path_length_match_loops": path_length_match_loops,
@@ -193,6 +195,7 @@ def get_bundle(
         "bend": bend,
         "straight": straight,
         "cross_section": cross_section,
+        "enforce_port_ordering": enforce_port_ordering,
     }
     if path_length_match_loops is not None:
         params |= path_length_match_params
@@ -221,7 +224,7 @@ def get_bundle(
         return get_bundle_from_waypoints(**params)
 
     if start_axis != end_axis:
-        return get_bundle_corner(enforce_port_ordering=enforce_port_ordering, **params)
+        return get_bundle_corner(**params)
     if (
         start_angle == 0
         and end_angle == 180
@@ -239,13 +242,11 @@ def get_bundle(
         # print("get_bundle_same_axis")
         if with_sbend:
             return get_bundle_sbend(ports1, ports2, sort_ports=sort_ports, **kwargs)
-        return get_bundle_same_axis(
-            enforce_port_ordering=enforce_port_ordering, **params
-        )
+        return get_bundle_same_axis(**params)
 
     elif start_angle == end_angle:
         # print('get_bundle_udirect')
-        return get_bundle_udirect(enforce_port_ordering=enforce_port_ordering, **params)
+        return get_bundle_udirect(**params)
 
     elif end_angle == (start_angle + 180) % 360:
         # print("get_bundle_uindirect")
@@ -357,7 +358,9 @@ def get_bundle_same_axis(
         ports2
     ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
     if sort_ports:
-        ports1, ports2 = sort_ports_function(ports1, ports2)
+        ports1, ports2 = sort_ports_function(
+            ports1, ports2, enforce_port_ordering=enforce_port_ordering
+        )
 
     routes = _get_bundle_waypoints(
         ports1,

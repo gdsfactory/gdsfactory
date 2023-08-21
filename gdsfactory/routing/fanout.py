@@ -18,6 +18,7 @@ def fanout_component(
     dx: float = 20.0,
     sort_ports: bool = True,
     auto_rename_ports: bool = True,
+    enforce_port_ordering: bool = True,
     **kwargs,
 ) -> Component:
     """Returns component with Sbend fanout routes.
@@ -64,7 +65,9 @@ def fanout_component(
     ports2 = port_array(n=len(ports1), pitch=pitch, **port_settings)
 
     if sort_ports:
-        ports1, ports2 = sort_ports_function(ports1, ports2)
+        ports1, ports2 = sort_ports_function(
+            ports1, ports2, enforce_port_ordering=enforce_port_ordering
+        )
 
     for i, (p1, p2) in enumerate(zip(ports1, ports2)):
         route = get_route_sbend(port1=p1, port2=p2, **kwargs)

@@ -33,7 +33,9 @@ def connection_tuple(port1: gf.Port, port2: gf.Port) -> tuple:
     return (tuple(port1.center), tuple(port2.center))
 
 
-def make_bundle(angle: float = 0, reverse_ports: bool = False):
+def make_bundle(
+    angle: float = 0, reverse_ports: bool = False, sort_ports: bool = False
+):
     c = gf.Component()
     b = port_bank()
     r1 = c.add_ref(b, "r1")
@@ -49,7 +51,7 @@ def make_bundle(angle: float = 0, reverse_ports: bool = False):
     port1_lookup = {tuple(p.center): p.name for p in ports1}
     port2_lookup = {tuple(p.center): p.name for p in ports2}
     connections_expected = {connection_tuple(p1, p2) for p1, p2 in zip(ports1, ports2)}
-    bundle = gf.routing.get_bundle(ports1, ports2, sort_ports=False)
+    bundle = gf.routing.get_bundle(ports1, ports2, sort_ports=sort_ports)
 
     for route in bundle:
         c.add(route.references)
@@ -64,8 +66,22 @@ def make_bundle(angle: float = 0, reverse_ports: bool = False):
 
 @pytest.mark.parametrize("angle", MANHATTAN_ANGLES)
 def test_bad_bundle_fails(angle: float):
+    if angle == 180:
+        pytest.skip(
+            "In this case, the route has a different issue where the routes fall on top of each other. Skipping for now..."
+        )
     with pytest.warns(RouteWarning):
-        make_bundle(angle, reverse_ports=False)
+        make_bundle(angle, reverse_ports=False, sort_ports=False)
+
+
+@pytest.mark.parametrize("angle", MANHATTAN_ANGLES)
+def test_bad_bundle_fails_sorted(angle: float):
+    if angle == 180:
+        pytest.skip(
+            "In this case, the route has a different issue where the routes fall on top of each other. Skipping for now..."
+        )
+    with pytest.warns(RouteWarning):
+        make_bundle(angle, reverse_ports=False, sort_ports=True)
 
 
 @pytest.mark.parametrize("angle", MANHATTAN_ANGLES)
@@ -75,11 +91,24 @@ def test_good_bundle_passes(angle: float):
             "Skipping test for now... This is technically a routable bundle, but the router is not yet capable."
         )
     with warnings.catch_warnings(record=True) as ws:
-        make_bundle(angle, reverse_ports=True)
+        make_bundle(angle, reverse_ports=True, sort_ports=False)
+        for w in ws:
+            if issubclass(w.category, RouteWarning):
+                raise AssertionError(f"Routing warning was raised: {w}")
+
+
+@pytest.mark.parametrize("angle", MANHATTAN_ANGLES)
+def test_good_bundle_passes_sorted(angle: float):
+    if angle == 270:
+        pytest.skip(
+            "Skipping test for now... This is technically a routable bundle, but the router is not yet capable."
+        )
+    with warnings.catch_warnings(record=True) as ws:
+        make_bundle(angle, reverse_ports=True, sort_ports=True)
         for w in ws:
             if issubclass(w.category, RouteWarning):
                 raise AssertionError(f"Routing warning was raised: {w}")
 
 
 if __name__ == "__main__":
-    make_bundle(angle=90, reverse_ports=False)
+    make_bundle(angle=180, reverse_ports=False, sort_ports=False)

@@ -37,6 +37,7 @@ def get_bundle_from_steps(
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
+    enforce_port_ordering: bool = True,
     **kwargs,
 ) -> list[Route]:
     """Returns a list of routes formed by the given waypoints steps.
@@ -104,7 +105,9 @@ def get_bundle_from_steps(
         ports2 = list(ports2.values())
 
     if sort_ports:
-        ports1, ports2 = sort_ports_function(ports1, ports2)
+        ports1, ports2 = sort_ports_function(
+            ports1, ports2, enforce_port_ordering=enforce_port_ordering
+        )
 
     waypoints = []
     steps = steps or []
