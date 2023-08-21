@@ -1025,6 +1025,7 @@ class Component(_GeometryHelper):
     def extract(
         self,
         layers: list[tuple[int, int] | str],
+        include_paths: bool = False,
     ) -> Component:
         """Extract polygons from a Component and returns a new Component."""
         from gdsfactory.pdk import get_layer
@@ -1037,7 +1038,7 @@ class Component(_GeometryHelper):
         # component._cell.filter(spec=layers, remove=False)
 
         component = Component()
-        poly_dict = self.get_polygons(by_spec=True, include_paths=False)
+        poly_dict = self.get_polygons(by_spec=True, include_paths=include_paths)
 
         for layer in layers:
             if layer in poly_dict:
