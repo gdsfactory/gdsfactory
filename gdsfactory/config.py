@@ -53,7 +53,19 @@ plugins = [
     "lumapi",
     "sax",
 ]
-pdks = ["gf45", "tj", "imec", "amf", "sky130", "ubcpdk", "aim", "ct", "hhi", "sph"]
+pdks = [
+    "gf45",
+    "tj",
+    "imec",
+    "amf",
+    "sky130",
+    "ubcpdk",
+    "aim",
+    "ct",
+    "hhi",
+    "sph",
+    "gf180",
+]
 
 
 def print_version_plugins() -> None:
