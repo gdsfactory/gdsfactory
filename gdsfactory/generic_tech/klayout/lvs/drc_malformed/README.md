@@ -12,11 +12,14 @@ Explains how to use the runset.
  ```
 
 ## **Prerequisites**
+
 You need the following set of tools installed to be able to run DRC:
+
 - Python 3.6+
 - KLayout 0.28.4+
 
 ## Run Malformed-DRC Usage
+
 The `run_drc.py` script takes a gds file to run DRC rule decks with switches to select subsets of all checks.
 
 ```bash
@@ -62,6 +65,6 @@ You could find the run results at your run directory if you previously specified
  ```
 
 The result is a database file (`<your_design_name>.lyrdb`) contains all violations.
-You could view it on your file using: `klayout <input_gds_file> -m <result_db_file> `, or you could view it on your gds file via marker browser option in tools menu using klayout GUI as shown below.
+You could view it on your file using: `klayout <input_gds_file> -m <result_db_file>`, or you could view it on your gds file via marker browser option in tools menu using klayout GUI as shown below.
 
 ![image](https://user-images.githubusercontent.com/91015308/219004873-be7c1e81-7085-4e82-8cd4-8303bc021e13.png)
