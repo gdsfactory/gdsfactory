@@ -10,11 +10,17 @@ EXPOSE 8888
 USER root
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
-    make \
-    git \
-	python3-gmsh \
-    htop \
-    neovim
+        make \
+        git \
+        python3-gmsh \
+        htop \
+        neovim \
+        software-properties-common \
+        gnupg && \
+    apt-add-repository ppa:elmer-csc-ubuntu/elmer-csc-ppa && \
+    apt-get update --yes && \
+    apt-get install --yes elmerfem-csc && \
+    rm -rf /var/lib/apt/lists/*  # Undo apt-get update for final image
 
 USER jovyan
 # COPY . /home/jovyan/gdfactory
@@ -28,10 +34,9 @@ RUN conda init bash
 # RUN apt install gcc
 # RUN conda install -c conda-forge pymeep -y
 
-RUN mamba install gdspy -y
-RUN mamba install gdstk -y
-RUN mamba install pymeep=*=mpi_mpich_* -y
-RUN mamba install -c conda-forge slepc4py=*=complex* -y
+RUN mamba install gdspy gdstk pymeep=*=mpi_mpich_* -y && \
+    mamba install -c conda-forge slepc4py=*=complex* -y
+
 
 RUN pip install gdsfactory[cad,full]
 WORKDIR /home/jovyan
