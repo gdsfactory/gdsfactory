@@ -120,6 +120,7 @@ def get_bundle_corner(
 
 
     """
+    _p1, _p2 = ports1, ports2
     if "straight" in kwargs:
         _ = kwargs.pop("straight")
 
@@ -145,7 +146,7 @@ def get_bundle_corner(
 
     routes = [route_filter(r, **kwargs) for r in routes]
     if enforce_port_ordering:
-        routes = validate_connections(ports1, ports2, routes)
+        routes = validate_connections(_p1, _p2, routes)
     return routes
 
 

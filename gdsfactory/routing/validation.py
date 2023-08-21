@@ -4,6 +4,7 @@ import numpy as np
 
 from gdsfactory.component_reference import ComponentReference
 from gdsfactory.port import Port
+from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import Route
 
 
@@ -43,4 +44,6 @@ def make_error_traces(
 
 
 def _connection_tuple(port1: Port, port2: Port) -> tuple:
-    return (tuple(port1.center), tuple(port2.center))
+    c1 = snap_to_grid(port1.center)
+    c2 = snap_to_grid(port2.center)
+    return (tuple(c1), tuple(c2))

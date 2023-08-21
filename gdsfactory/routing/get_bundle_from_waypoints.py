@@ -119,6 +119,7 @@ def get_bundle_from_waypoints(
         kwargs: cross_section settings.
 
     """
+    _p1, _p2 = ports1, ports2
     if len(ports2) != len(ports1):
         raise ValueError(
             f"Number of start ports should match number of end ports.\
@@ -239,7 +240,7 @@ def get_bundle_from_waypoints(
         )
         for pts in routes
     ]
-    validate_connections(ports1, ports2, routes)
+    validate_connections(_p1, _p2, routes)
     return routes
 
 
