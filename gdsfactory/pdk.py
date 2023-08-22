@@ -11,9 +11,9 @@ from typing import Any, Literal
 import numpy as np
 import omegaconf
 from omegaconf import DictConfig
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 
-from gdsfactory.config import PATH, logger
+from gdsfactory.config import logger
 from gdsfactory.events import Event
 from gdsfactory.name import MAX_NAME_LENGTH
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
@@ -227,9 +227,6 @@ class Pdk(BaseModel):
             (refractive index, nonlinear coefficient, sheet resistance ...).
         layer_views: includes layer name to color, opacity and pattern.
         layer_transitions: transitions between different cross_sections.
-        sparameters_path: to store Sparameters simulations.
-        modes_path: to store Sparameters simulations.
-        interconnect_cml_path: path to interconnect CML (optional).
         warn_off_grid_ports: raises warning when extruding paths with offgrid ports.
         constants: dict of constants for the PDK.
         materials_index: material spec names to material spec, which can be:
@@ -258,10 +255,6 @@ class Pdk(BaseModel):
     layer_transitions: dict[Layer | tuple[Layer, Layer], ComponentSpec] = Field(
         default_factory=dict
     )
-    sparameters_path: PathType | None = None
-    capacitance_path: PathType | None = None
-    modes_path: PathType | None = PATH.modes
-    interconnect_cml_path: PathType | None = None
     warn_off_grid_ports: bool = False
     constants: dict[str, Any] = constants
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
@@ -291,10 +284,6 @@ class Pdk(BaseModel):
             "default_decorator": {"exclude": True},
             "materials_index": {"exclude": True},
         }
-
-    @validator("sparameters_path", "capacitance_path")
-    def is_pathlib_path(cls, path):
-        return pathlib.Path(path)
 
     def validate_layers(self, layers_required: list[Layer] | None = None):
         """Raises ValueError if layers_required are not in Pdk."""
@@ -742,32 +731,6 @@ def get_constant(constant_name: Any) -> Any:
         if isinstance(constant_name, str)
         else constant_name
     )
-
-
-def get_capacitance_path() -> pathlib.Path:
-    PDK = get_active_pdk()
-    if PDK.capacitance_path is None:
-        raise ValueError(f"{_ACTIVE_PDK.name!r} has no capacitance_path")
-    return PDK.capacitance_path
-
-
-def get_sparameters_path() -> pathlib.Path:
-    PDK = get_active_pdk()
-    if PDK.sparameters_path is None:
-        raise ValueError(f"{_ACTIVE_PDK.name!r} has no sparameters_path")
-    return PDK.sparameters_path
-
-
-def get_modes_path() -> pathlib.Path | None:
-    PDK = get_active_pdk()
-    return PDK.modes_path
-
-
-def get_interconnect_cml_path() -> pathlib.Path:
-    PDK = get_active_pdk()
-    if PDK.interconnect_cml_path is None:
-        raise ValueError(f"{_ACTIVE_PDK.name!r} has no interconnect_cml_path")
-    return PDK.interconnect_cml_path
 
 
 def _set_active_pdk(pdk: Pdk) -> None:
