@@ -109,7 +109,7 @@ def grid(
 
     D = Component()
     ref_array = np.empty(device_array.shape, dtype=object)
-    dummy = Component("dummy")
+    dummy = Component()
     for idx, d in np.ndenumerate(device_array):
         if d is not None:
             d = d() if callable(d) else d
@@ -255,15 +255,15 @@ def test_grid() -> None:
 
 
 if __name__ == "__main__":
-    c = test_grid()
-    # import gdsfactory as gf
+    # test_grid()
+    import gdsfactory as gf
 
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # c = [gf.components.triangle(x=i) for i in range(1, 10)]
     # print(len(c))
 
-    # c = [gf.components.straight(length=i) for i in range(1, 5)]
+    c = grid([gf.components.straight(length=i) for i in range(1, 5)])
     # c = grid(
     #     c,
     #     shape=(2, 2),
