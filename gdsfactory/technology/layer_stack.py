@@ -143,7 +143,9 @@ class LayerStack(BaseModel):
             for polygon in polygons:
                 # If polygon belongs to port, create a unique new layer, and add the polygon to it
 
-                if gdstk.inside([port.center], gdstk.offset(gdstk.Polygon(polygon),.001))[0]:
+                if gdstk.inside(
+                    [port.center], gdstk.offset(gdstk.Polygon(polygon), 0.001)
+                )[0]:
                     try:
                         port_layernames = layerstack.get_layer_to_layername()[
                             port.layer
