@@ -41,7 +41,7 @@ LAYER_TRANSITIONS = {
 
 def get_generic_pdk() -> Pdk:
     from gdsfactory.components import cells
-    from gdsfactory.config import PATH, sparameters_path
+    from gdsfactory.config import PATH
     from gdsfactory.cross_section import cross_sections
     from gdsfactory.generic_tech.containers import containers
     from gdsfactory.generic_tech.simulation_settings import materials_index
@@ -60,7 +60,6 @@ def get_generic_pdk() -> Pdk:
         layer_stack=LAYER_STACK,
         layer_views=LAYER_VIEWS,
         layer_transitions=LAYER_TRANSITIONS,
-        sparameters_path=sparameters_path,
         materials_index=materials_index,
         constants=constants,
     )
