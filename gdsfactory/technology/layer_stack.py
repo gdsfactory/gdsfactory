@@ -78,7 +78,7 @@ class LayerStack(BaseModel):
         layers: dict of layer_levels.
     """
 
-    layers: dict[str, LayerLevel] | None = Field(default_factory=dict)
+    layers: dict[str, LayerLevel] = Field(default_factory=dict)
 
     def __init__(self, **data: Any) -> None:
         """Add LayerLevels automatically for subclassed LayerStacks."""
@@ -111,7 +111,7 @@ class LayerStack(BaseModel):
         )
 
     def get_component_with_net_layers(
-        layerstack,
+        self,
         component,
         portnames: list[str],
         delimiter: str = "#",
@@ -145,9 +145,7 @@ class LayerStack(BaseModel):
 
                 if gdstk.inside([port.center], gdstk.Polygon(polygon))[0]:
                     try:
-                        port_layernames = layerstack.get_layer_to_layername()[
-                            port.layer
-                        ]
+                        port_layernames = self.get_layer_to_layername()[port.layer]
                     except KeyError as e:
                         raise KeyError(
                             "Make sure your `layer_stack` contains all layers with ports"
@@ -158,12 +156,12 @@ class LayerStack(BaseModel):
                             new_layers_init[1] + j,
                         )
                         if add_to_layerstack:
-                            new_layer = copy.deepcopy(layerstack.layers[old_layername])
+                            new_layer = copy.deepcopy(self.layers[old_layername])
                             new_layer.layer = (
                                 new_layers_init[0] + i,
                                 new_layers_init[1] + j,
                             )
-                            layerstack.layers[
+                            self.layers[
                                 f"{old_layername}{delimiter}{portname}"
                             ] = new_layer
                         net_component.add_polygon(polygon, layer=new_layer_number)
@@ -234,21 +232,23 @@ class LayerStack(BaseModel):
             layer_views: optional layer_views.
             dbu: Optional database unit. Defaults to 1nm.
         """
+        layers = self.layers or {}
+
         unetched_layers = [
             layer_name
-            for layer_name, level in self.layers.items()
+            for layer_name, level in layers.items()
             if level.layer and level.layer_type == "grow"
         ]
         etch_layers = [
             layer_name
-            for layer_name, level in self.layers.items()
+            for layer_name, level in layers.items()
             if level.layer and level.layer_type == "etch"
         ]
 
         # remove all etched layers from the grown layers
         unetched_layers_dict = defaultdict(list)
         for layer_name in etch_layers:
-            level = self.layers[layer_name]
+            level = layers[layer_name]
             into = level.into or []
             for layer_name_etched in into:
                 unetched_layers_dict[layer_name_etched].append(layer_name)
@@ -259,7 +259,7 @@ class LayerStack(BaseModel):
         out = "\n".join(
             [
                 f"{layer_name} = input({level.layer[0]}, {level.layer[1]})"
-                for layer_name, level in self.layers.items()
+                for layer_name, level in layers.items()
                 if level.layer
             ]
         )
@@ -274,7 +274,7 @@ class LayerStack(BaseModel):
         out += "\n"
 
         # define slabs
-        for layer_name, level in self.layers.items():
+        for layer_name, level in layers.items():
             if level.layer_type == "etch":
                 into = level.into or []
                 for i, layer1 in enumerate(into):
@@ -282,7 +282,7 @@ class LayerStack(BaseModel):
 
         out += "\n"
 
-        for layer_name, level in self.layers.items():
+        for layer_name, level in layers.items():
             layer = level.layer
             zmin = level.zmin
             zmax = zmin + level.thickness
@@ -297,8 +297,9 @@ class LayerStack(BaseModel):
             elif level.layer_type == "etch":
                 name = f"{layer_name}: {level.material}"
 
+                into = level.into or []
                 for i, layer1 in enumerate(into):
-                    unetched_level = self.layers[layer1]
+                    unetched_level = layers[layer1]
                     unetched_zmin = unetched_level.zmin
                     unetched_zmax = unetched_zmin + unetched_level.thickness
 
@@ -388,7 +389,8 @@ class LayerStack(BaseModel):
         return out
 
     def filtered(self, layers):
-        return type(self)(layers={k: self.layers[k] for k in layers})
+        layers = self.layers or {}
+        return type(self)(layers={k: layers[k] for k in layers})
 
     def filtered_from_layerspec(self, layerspecs):
         """Filtered layerstack, given LayerSpec input."""
@@ -402,14 +404,16 @@ class LayerStack(BaseModel):
 
     def z_offset(self, dz):
         """Translates the z-coordinates of the layerstack."""
-        for layer in self.layers.values():
+        layers = self.layers or {}
+        for layer in layers.values():
             layer.zmin += dz
 
         return self
 
     def invert_zaxis(self):
         """Flips the zmin values about the origin."""
-        for layer in self.layers.values():
+        layers = self.layers or {}
+        for layer in layers.values():
             layer.zmin *= -1
 
         return self

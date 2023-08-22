@@ -13,7 +13,7 @@ import omegaconf
 from omegaconf import DictConfig
 from pydantic import BaseModel, Field, validator
 
-from gdsfactory.config import PATH, logger
+from gdsfactory.config import logger
 from gdsfactory.events import Event
 from gdsfactory.name import MAX_NAME_LENGTH
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
@@ -258,10 +258,19 @@ class Pdk(BaseModel):
     layer_transitions: dict[Layer | tuple[Layer, Layer], ComponentSpec] = Field(
         default_factory=dict
     )
-    sparameters_path: PathType | None = None
-    capacitance_path: PathType | None = None
-    modes_path: PathType | None = PATH.modes
-    interconnect_cml_path: PathType | None = None
+    sparameters_path: PathType | None = Field(
+        default=None, description="This field is deprecated."
+    )
+    capacitance_path: PathType | None = Field(
+        default=None, description="This field is deprecated."
+    )
+
+    modes_path: PathType | None = Field(
+        default=None, description="This field is deprecated."
+    )
+    interconnect_cml_path: PathType | None = Field(
+        default=None, description="This field is deprecated."
+    )
     warn_off_grid_ports: bool = False
     constants: dict[str, Any] = constants
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
@@ -270,6 +279,21 @@ class Pdk(BaseModel):
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
     cell_decorator_settings: CellDecoratorSettings = CellDecoratorSettings()
     bend_points_distance: float = 20 * nm
+
+    def __init__(self, **data):
+        if "sparameters_path" in data:
+            warnings.warn(
+                "The 'pdk.sparameters_path' is deprecated. Use gf.config.PATH instead",
+            )
+        if "modes_path" in data:
+            warnings.warn(
+                "The 'pdk.modes_path' is deprecated. Use gf.config.PATH instead",
+            )
+        if "capacitance_path" in data:
+            warnings.warn(
+                "The 'pdk.capacitance_path' is deprecated. Use gf.config.PATH instead",
+            )
+        super().__init__(**data)
 
     @property
     def grid_size(self):
@@ -745,6 +769,9 @@ def get_constant(constant_name: Any) -> Any:
 
 
 def get_capacitance_path() -> pathlib.Path:
+    warnings.warn(
+        "get_capacitance_path() is deprecated. gf.config.PATH.capacitance instead",
+    )
     PDK = get_active_pdk()
     if PDK.capacitance_path is None:
         raise ValueError(f"{_ACTIVE_PDK.name!r} has no capacitance_path")
@@ -752,6 +779,9 @@ def get_capacitance_path() -> pathlib.Path:
 
 
 def get_sparameters_path() -> pathlib.Path:
+    warnings.warn(
+        "get_sparameters_path() is deprecated. gf.config.PATH.sparameters instead",
+    )
     PDK = get_active_pdk()
     if PDK.sparameters_path is None:
         raise ValueError(f"{_ACTIVE_PDK.name!r} has no sparameters_path")
@@ -759,11 +789,17 @@ def get_sparameters_path() -> pathlib.Path:
 
 
 def get_modes_path() -> pathlib.Path | None:
+    warnings.warn(
+        "get_modes_path() is deprecated. gf.config.PATH.modes instead",
+    )
     PDK = get_active_pdk()
     return PDK.modes_path
 
 
 def get_interconnect_cml_path() -> pathlib.Path:
+    warnings.warn(
+        "get_interconnect_cml_path() is deprecated. gf.config.PATH.interconnect_cml instead",
+    )
     PDK = get_active_pdk()
     if PDK.interconnect_cml_path is None:
         raise ValueError(f"{_ACTIVE_PDK.name!r} has no interconnect_cml_path")
