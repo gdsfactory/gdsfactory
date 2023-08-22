@@ -41,7 +41,6 @@ from numpy import ndarray
 from omegaconf import OmegaConf
 
 from gdsfactory.component_layout import _rotate_points
-from gdsfactory.config import logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
@@ -599,9 +598,8 @@ def flipped(port: Port) -> Port:
 
 
 def move_copy(port, x=0, y=0) -> Port:
-    logger.warning(
+    warnings.warn(
         "Port.move_copy(...) should be used instead of move_copy(Port, ...).",
-        DeprecationWarning,
     )
     _port = port.copy()
     _port.center += (x, y)
