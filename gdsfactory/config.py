@@ -209,7 +209,7 @@ class Paths:
     gds_run = GDSDIR_TEMP / "gds_run"
     gds_diff = GDSDIR_TEMP / "gds_diff"
     cwd = cwd
-    sparameters_repo = test_data / "sp"
+    sparameters_repo = test_data / "sp"  # repo with some demo sparameters
 
 
 CONF = Settings()
