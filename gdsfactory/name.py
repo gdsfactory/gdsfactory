@@ -146,6 +146,17 @@ def clean_name(
     return name
 
 
+def clean_path(name: str) -> str:
+    replace_map = {
+        ":": "_",
+        "=": "_",
+    }
+
+    for k, v in list(replace_map.items()):
+        name = name.replace(k, v)
+    return name
+
+
 def clean_value(value: Any) -> str:
     from gdsfactory.serialization import clean_value_json
 
