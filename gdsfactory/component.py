@@ -1622,15 +1622,21 @@ class Component(_GeometryHelper):
 
         layer_props = get_layer_views()
         layer_props.to_lyp(filepath=lyp_path)
+        host = os.getenv("KWEB_HOST", "localhost")
 
-        port = kj.port if hasattr(kj, "port") and kj.port else 8000
-        src = f"http://127.0.0.1:{port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
+        port = (
+            kj.port
+            if hasattr(kj, "port") and kj.port
+            else int(os.getenv("KWEB_PORT", 8000))
+        )
+        # src = f"http://{host}:{port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
+        src = f"http://{host}:{port}/gds/{escape(str(gdspath))}"
 
         os.environ["KWEB_PORT"] = str(os.getenv("KWEB_PORT", port))
 
         if not kj.jupyter_server:
-            port = int(os.getenv("KWEB_PORT"))
-            while kj.is_port_in_use(port):
+            port = port
+            while kj.is_port_in_use(port=port, host=host):
                 port += 1
 
             os.environ["KWEB_PORT"] = str(port)
