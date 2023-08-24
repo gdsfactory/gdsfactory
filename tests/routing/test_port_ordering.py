@@ -66,20 +66,12 @@ def make_bundle(
 
 @pytest.mark.parametrize("angle", MANHATTAN_ANGLES)
 def test_bad_bundle_fails(angle: float):
-    if angle == 180:
-        pytest.skip(
-            "In this case, the route has a different issue where the routes fall on top of each other. Skipping for now..."
-        )
     with pytest.warns(RouteWarning):
         make_bundle(angle, reverse_ports=False, sort_ports=False)
 
 
 @pytest.mark.parametrize("angle", MANHATTAN_ANGLES)
 def test_bad_bundle_fails_sorted(angle: float):
-    if angle == 180:
-        pytest.skip(
-            "In this case, the route has a different issue where the routes fall on top of each other. Skipping for now..."
-        )
     with pytest.warns(RouteWarning):
         make_bundle(angle, reverse_ports=False, sort_ports=True)
 
