@@ -140,5 +140,6 @@ def nxn(
 if __name__ == "__main__":
     # c = nxn(north=1.3, south=3)
     c = nxn()
+    c.pprint_ports()
     # c = gf.components.extension.extend_ports(component=c)
     c.show(show_ports=True)
