@@ -34,6 +34,7 @@ from gdsfactory.component_layout import (
 )
 from gdsfactory.component_reference import ComponentReference, SizeInfo
 from gdsfactory.config import CONF, GDSDIR_TEMP, logger
+from gdsfactory.name import clean_path
 from gdsfactory.polygon import Polygon
 from gdsfactory.port import (
     Port,
@@ -1847,7 +1848,7 @@ class Component(_GeometryHelper):
             gdspath = gdspath or gdsdir / f"{top_cell.name}.oas"
         else:
             gdspath = gdspath or gdsdir / f"{top_cell.name}.gds"
-        gdspath = pathlib.Path(gdspath)
+        gdspath = pathlib.Path(clean_path(gdspath))
         gdsdir = gdspath.parent
         gdsdir.mkdir(exist_ok=True, parents=True)
 
@@ -2895,8 +2896,10 @@ def test_import_gds_settings() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    gf.Component("hi")
-    gf.Component("hi")
+    c = gf.Component("hi:there")
+    gdspath = "hi:there"
+    gdspath = c.write_gds(gdspath=gdspath)
+    print(gdspath)
 
     # c = gf.c.mzi()
     # c.pprint_ports()

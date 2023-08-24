@@ -5,6 +5,7 @@ import shutil
 
 import gdsfactory as gf
 from gdsfactory.config import PATH, logger
+from gdsfactory.name import clean_path
 
 
 class GeometryDifference(Exception):
@@ -165,7 +166,7 @@ def difftest(
     dirpath_ref.mkdir(exist_ok=True, parents=True)
     dirpath_run.mkdir(exist_ok=True, parents=True)
 
-    ref_file = dirpath_ref / f"{test_name}.gds"
+    ref_file = dirpath_ref / f"{clean_path(test_name)}.gds"
     run_file = dirpath_run / filename
 
     component = gf.get_component(component)
@@ -220,6 +221,7 @@ if __name__ == "__main__":
     # c.show()
     # c.name = "mzi"
     c = gf.components.straight(length=20, layer=(1, 0))
+    c.name = "a:demo"
     c.show()
     difftest(c, "straight", dirpath=PATH.cwd)
 

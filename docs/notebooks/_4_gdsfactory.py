@@ -8,6 +8,10 @@
 #       format_name: percent
 #       format_version: '1.3'
 #       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
 # ---
 
 # %% [markdown]
@@ -20,6 +24,8 @@ import datetime
 
 import plotly.graph_objects as go
 import requests
+
+downloads0 = 0
 
 
 def get_total_downloads(package_name):
@@ -43,7 +49,9 @@ def get_total_downloads(package_name):
             break
     statistics.sort(key=lambda x: x[0])  # Sort by date
     dates, downloads = zip(*statistics)
-    cumulative_downloads = [sum(downloads[: i + 1]) for i in range(len(downloads))]
+    cumulative_downloads = [
+        sum(downloads[: i + 1]) + downloads0 for i in range(len(downloads))
+    ]
 
     return dates, cumulative_downloads
 
@@ -59,6 +67,7 @@ if dates and cumulative_downloads:
         yaxis=dict(title="Total Downloads", showgrid=True),
         title=f"Total Downloads - {package_name}",
     )
+    fig.update_layout(autosize=False, width=800, height=600)
     fig.show()
 else:
     print(f"Failed to retrieve download statistics for package '{package_name}'.")
