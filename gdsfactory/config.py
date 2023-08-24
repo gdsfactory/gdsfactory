@@ -200,6 +200,7 @@ class Paths:
     gdslib = home / ".gdsfactory"
     modes = gdslib / "modes"
     sparameters = gdslib / "sp"
+    capacitance = gdslib / "capacitance"
     interconnect = gdslib / "interconnect"
     optimiser = repo_path / "tune"
     notebooks = repo_path / "docs" / "notebooks"
