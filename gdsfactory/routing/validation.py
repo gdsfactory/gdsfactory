@@ -119,11 +119,11 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
         dot1 = np.vdot([dx_line, dy_line], [dx_p1, dy_p1])
         dot2 = np.vdot([-dx_line, -dy_line], [dx_p2, dy_p2])
         both_facing = dot1 * dot2
-        print(both_facing)
+        # print(both_facing)
         ports_facing.append(both_facing)
 
     intersections = intersection_all(lines)
-    print(intersections)
+    # print(intersections)
     if intersections.is_empty and all(s < -ANGLE_TOLERANCE for s in ports_facing):
         return True
     elif not intersections.is_empty and all(s > ANGLE_TOLERANCE for s in ports_facing):

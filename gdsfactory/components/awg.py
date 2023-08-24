@@ -22,6 +22,16 @@ def free_propagation_region(
 ) -> Component:
     r"""Free propagation region.
 
+    Args:
+        width1: width of the input region.
+        width2: width of the output region.
+        length: length of the free propagation region.
+        wg_width: waveguide width.
+        inputs: number of inputs.
+        outputs: number of outputs.
+        cross_section: cross_section function.
+        **kwargs: cross_section parameters.
+
     .. code::
 
                  length
@@ -60,7 +70,7 @@ def free_propagation_region(
                 f"W{i}",
                 center=(0, yi),
                 width=wg_width,
-                orientation=0,
+                orientation=180,
                 layer=layer,
             )
 
@@ -157,6 +167,5 @@ if __name__ == "__main__":
     PDK = get_generic_pdk()
     PDK.activate()
     # c = free_propagation_region(inputs=2, outputs=4)
-    # print(c.ports.keys())
     c = awg()
     c.show(show_ports=True)

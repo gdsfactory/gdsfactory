@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import gdstk
+import numpy as np
 from omegaconf import OmegaConf
 
 from gdsfactory.cell import Settings, cell
@@ -119,7 +120,7 @@ def import_gds(
                 if port_name not in component.ports:
                     component.add_port(
                         name=port_name,
-                        center=port.center,
+                        center=np.array(port.center, dtype="float64"),
                         width=port.width,
                         orientation=port.orientation,
                         layer=tuple(port.layer),
