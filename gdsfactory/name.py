@@ -102,7 +102,7 @@ def print_first_letters_warning(**kwargs) -> None:
 def clean_name(
     name: str,
     remove_dots: bool = False,
-    additional_allowed_characters: list[str] | None = None,
+    allowed_characters: list[str] | None = None,
 ) -> str:
     """Return a string with correct characters for a cell name.
 
@@ -111,7 +111,7 @@ def clean_name(
     Args:
         name (str): The name to clean.
         remove_dots (bool, optional): Whether to remove dots from the name. Defaults to False.
-        additional_allowed_characters (list[str], optional): List of additional allowed characters. Defaults to an empty list.
+        allowed_characters (list[str], optional): List of additional allowed characters. Defaults to an empty list.
 
     Returns:
         str: The cleaned name.
@@ -120,10 +120,10 @@ def clean_name(
     # Default allowed characters, including underscore
     allowed = r"a-zA-Z0-9_"
 
-    additional_allowed_characters = additional_allowed_characters or []
+    allowed_characters = allowed_characters or []
 
     # Add additional allowed characters
-    for char in additional_allowed_characters:
+    for char in allowed_characters:
         allowed += re.escape(char)
 
     # Pattern for characters to be replaced
