@@ -938,6 +938,8 @@ class Component(_GeometryHelper):
                 p.port_type = port_type
             if layer is not None:
                 p.layer = layer
+            if shear_angle is not None:
+                p.shear_angle = shear_angle
             p.parent = self
 
         elif isinstance(name, Port):
@@ -959,7 +961,9 @@ class Component(_GeometryHelper):
                 cross_section=get_cross_section(cross_section)
                 if cross_section
                 else None,
+                shear_angle=shear_angle,
             )
+            p.parent = self
         if name is not None:
             p.name = name
         if p.name in self.ports:
