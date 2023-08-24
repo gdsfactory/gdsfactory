@@ -34,9 +34,9 @@ from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.routing.validation import (
-    validate_connections,
     is_invalid_bundle_topology,
     make_error_traces,
+    validate_connections,
 )
 from gdsfactory.typings import (
     ComponentSpec,

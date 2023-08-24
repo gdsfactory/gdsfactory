@@ -73,7 +73,7 @@ def _connection_tuple(port1: Port, port2: Port) -> tuple:
 
 def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     """Returns True if the bundle is topologically unroutable without introducing crossings.
-    
+
     Args:
         ports1: the starting ports of the bundle
         ports2: the ending ports of the bundle
@@ -90,17 +90,17 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     # (actually, the bundle can contain 2 groups-- one of each, and still maintain valid, as long as there are no crossings between them)
     import shapely.geometry as sg
     from shapely import intersection_all
-    
+
     # this is not really quite angle, but a threshold to check if dot products are effectively above/below zero, excluding numerical errors
     ANGLE_TOLERANCE = 1e-10
 
     if len(ports1) < 2:
         # if there's only one route, the bundle topology is always valid
         return False
-    if any([p.orientation == None for p in ports1 + ports2]):
+    if any(p.orientation is None for p in ports1 + ports2):
         # don't check if the ports do not have orientation
         return False
-    
+
     lines = [sg.LineString([p1.center, p2.center]) for p1, p2 in zip(ports1, ports2)]
 
     # Positive if BOTH ports are EITHER facing towards OR away from the vector of the outgoing line between them
@@ -118,20 +118,19 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
         dx_p2 = np.cos(np.deg2rad(p2.orientation))
         dot1 = np.vdot([dx_line, dy_line], [dx_p1, dy_p1])
         dot2 = np.vdot([-dx_line, -dy_line], [dx_p2, dy_p2])
-        both_facing = (dot1 * dot2)
+        both_facing = dot1 * dot2
         print(both_facing)
         ports_facing.append(both_facing)
 
     intersections = intersection_all(lines)
     print(intersections)
-    if intersections.is_empty and all([s < -ANGLE_TOLERANCE for s in ports_facing]):
+    if intersections.is_empty and all(s < -ANGLE_TOLERANCE for s in ports_facing):
         return True
-    elif not intersections.is_empty and all([s > ANGLE_TOLERANCE for s in ports_facing]):
+    elif not intersections.is_empty and all(s > ANGLE_TOLERANCE for s in ports_facing):
         return True
-    
+
     # NOTE: there are more complicated cases we are ignoring for now and giving "the benefit of the doubt"
     # i.e. if ports2 is perpendicular to ports1 and located somewhere laterally in between ports1
     # or some cases where ports are not properly ordered
     # for now we call these cases potentially valid, but we could be stricter in the future
     return False
-
