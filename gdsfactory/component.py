@@ -412,8 +412,8 @@ class Component(_GeometryHelper):
         magnification: float = 1.0,
         rotation: float = 0,
         anchor: str = "o",
-        layer="TEXT",
-        x_reflection=False,
+        layer: LayerSpec = "TEXT",
+        x_reflection: bool = False,
     ) -> Label:
         """Adds Label to the Component.
 
