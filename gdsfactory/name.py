@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import hashlib
+import re
+from pathlib import Path
 from typing import Any
 
 import pydantic
@@ -98,23 +100,36 @@ def print_first_letters_warning(**kwargs) -> None:
 
 
 def clean_name(
-    name: str, remove_dots: bool = False, allowed_characters: list[str] | None = None
+    name: str,
+    remove_dots: bool = False,
+    additional_allowed_characters: list[str] | None = None,
 ) -> str:
     """Return a string with correct characters for a cell name.
 
-    [a-zA-Z0-9]
-
-    FIXME: only a few characters are currently replaced.
-        This function has been updated only on case-by-case basis
+    By default, the characters [a-zA-Z0-9] are allowed.
 
     Args:
-        name: to clean.
-        remove_dots: remove dots from name.
-        allowed_characters: list of allowed characters.
+        name (str): The name to clean.
+        remove_dots (bool, optional): Whether to remove dots from the name. Defaults to False.
+        additional_allowed_characters (list[str], optional): List of additional allowed characters. Defaults to an empty list.
 
+    Returns:
+        str: The cleaned name.
     """
-    allowed_characters = allowed_characters or []
 
+    # Default allowed characters, including underscore
+    allowed = r"a-zA-Z0-9_"
+
+    additional_allowed_characters = additional_allowed_characters or []
+
+    # Add additional allowed characters
+    for char in additional_allowed_characters:
+        allowed += re.escape(char)
+
+    # Pattern for characters to be replaced
+    pattern = f"[^{allowed}]"
+
+    # Replacements map
     replace_map = {
         " ": "_",
         "!": "",
@@ -140,21 +155,50 @@ def clean_name(
 
     if remove_dots:
         replace_map["."] = ""
-    for k, v in list(replace_map.items()):
-        if k not in allowed_characters:
-            name = name.replace(k, v)
-    return name
+
+    # Replace characters using the replace_map
+    def replace_match(match):
+        return replace_map.get(match.group(0), "")
+
+    return re.sub(pattern, replace_match, name)
 
 
-def clean_path(name: str) -> str:
-    replace_map = {
-        ":": "_",
-        "=": "_",
-    }
+def clean_path(p: str | Path) -> Path:
+    # Replace invalid characters with an underscore
+    safe_str = re.sub(r'[<>:"|?*]', "_", str(p))
 
-    for k, v in list(replace_map.items()):
-        name = name.replace(k, v)
-    return name
+    # Check for reserved names and add a prefix if found
+    reserved_names = [
+        "CON",
+        "PRN",
+        "AUX",
+        "NUL",
+        "COM1",
+        "COM2",
+        "COM3",
+        "COM4",
+        "COM5",
+        "COM6",
+        "COM7",
+        "COM8",
+        "COM9",
+        "LPT1",
+        "LPT2",
+        "LPT3",
+        "LPT4",
+        "LPT5",
+        "LPT6",
+        "LPT7",
+        "LPT8",
+        "LPT9",
+    ]
+    basename = (
+        safe_str.split("\\")[-1].split(".")[0].upper()
+    )  # Extract the base filename without extension
+    if basename in reserved_names:
+        safe_str = safe_str.replace(basename, f"_{basename}")
+
+    return Path(safe_str)
 
 
 def clean_value(value: Any) -> str:

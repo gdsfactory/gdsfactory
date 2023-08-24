@@ -1848,7 +1848,7 @@ class Component(_GeometryHelper):
             gdspath = gdspath or gdsdir / f"{top_cell.name}.oas"
         else:
             gdspath = gdspath or gdsdir / f"{top_cell.name}.gds"
-        gdspath = pathlib.Path(clean_path(str(gdspath)))
+        gdspath = pathlib.Path(clean_path(gdspath))
         gdsdir = gdspath.parent
         gdsdir.mkdir(exist_ok=True, parents=True)
 
