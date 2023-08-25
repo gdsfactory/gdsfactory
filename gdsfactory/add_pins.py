@@ -474,7 +474,12 @@ def add_pins(
         reference: to add pins.
         function: to add each pin.
         select_ports: function to select_ports.
+
+    Keyword Args:
         kwargs: add pins function settings.
+        pin_length: length of the pin marker for the port.
+        layer: layer for the pin marker.
+        layer_label: add label for the pin marker.
     """
     reference = reference or component
     ports = (
@@ -492,7 +497,9 @@ add_pins_center = partial(add_pins, function=add_pin_rectangle)
 add_pin_inside1nm = partial(
     add_pin_rectangle_inside, pin_length=1 * nm, layer_label=None
 )
+add_pin_inside2um = partial(add_pin_rectangle_inside, pin_length=2, layer_label=None)
 add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)
+add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)
 
 
 def add_settings_label(

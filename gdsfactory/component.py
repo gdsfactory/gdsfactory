@@ -2900,12 +2900,9 @@ def test_import_gds_settings() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("hi:there")
-    gdspath = "hi:there"
-    gdspath = c.write_gds(gdspath=gdspath)
-    print(gdspath)
-
-    # c = gf.c.mzi()
+    c = gf.c.mzi()
+    fig = c.plot_klayout()
+    fig.savefig("mzi.png")
     # c.pprint_ports()
 
     # c = gf.Component()

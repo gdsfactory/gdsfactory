@@ -20,6 +20,8 @@ def from_updk(
     layer_bbox: tuple[int, int] = (68, 0),
     layer_bbmetal: tuple[int, int] | None = None,
     layer_label: tuple[int, int] | None = None,
+    layer_pin_label: tuple[int, int] | None = None,
+    layer_pin: tuple[int, int] | None = None,
     optical_xsections: list[str] | None = None,
     electrical_xsections: list[str] | None = None,
     layers_text: list[LayerSpec] | None = None,
@@ -68,9 +70,12 @@ def from_updk(
 import sys
 import gdsfactory as gf
 from gdsfactory.get_factories import get_cells
+from gdsfactory.add_pins import add_pins_inside2um
 
 layer_bbox = {layer_bbox}
 layer_bbmetal = {layer_bbmetal}
+layer_pin_label = {layer_pin_label}
+layer_pin = {layer_pin}
 """
 
     if layer_label:
@@ -165,6 +170,11 @@ def {block_name}({parameters_string})->gf.Component:
             else:
                 script += f"    c.add_port(name={port_name!r}, width={port.width}, layer=(0, 0), center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
 
+            if layer_pin_label:
+                d = OmegaConf.to_container(port)
+                d["name"] = port_name
+                text = OmegaConf.to_yaml(d)
+                script += f"    c.add_label(text={text!r}, position=({port.xya[0]}, {port.xya[1]}), layer=layer_pin_label)\n"
         if layers_text:
             for layer_text in layers_text:
                 script += f"    text = c << gf.c.text(text=name, size={text_size}, position=(xc, yc), layer={layer_text},justify='center')\n"
@@ -172,6 +182,8 @@ def {block_name}({parameters_string})->gf.Component:
 
         script += """
     c.name = name
+    if layer_pin:
+        add_pins_inside2um(c, layer=layer_pin)
     return c
 """
 
