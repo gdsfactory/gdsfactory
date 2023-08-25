@@ -443,8 +443,21 @@ c.plot()
 # %%
 c.write_gds("demo.gds", with_metadata=True)
 
+# %% [markdown]
+# OASIS is a newer format that can store CAD files and that reduces the size.
+
 # %%
 c.write_oas("demo.oas")
+
+# %% [markdown]
+# You can also save the image as a PNG image
+
+# %%
+fig = c.plot_klayout()
+fig.savefig("demo.png")
+
+# %% [markdown]
+# You can also save it as STL for 3D printing or for some simulator, thanks to the LayerStack
 
 # %%
 c.write_stl("demo.stl")
