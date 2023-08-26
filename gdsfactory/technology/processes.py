@@ -93,6 +93,10 @@ class Lithography(ProcessStep):
                         ----->         |      | mask_thickness
         ________________           ____|______|____
 
+
+    (3) (Optional) Planarize the resist
+
+
     Args:
         layer: main layer to use as a mask for this lithography step
         layers_union (List[Layers]): other layers to use to form the mask (see diagram)
@@ -100,6 +104,7 @@ class Lithography(ProcessStep):
         layers_intersect (List[Layers]): other layers to use to form a mask (see diagram)
         positive_tone (bool): whether to invert the resulting mask (False) or not (True)
         resist_thickness (float): resist mask thickness, used in some simulators
+        planarization_height (float): height at which to "clip" the resist above the wafer
     """
 
     layer: Layer | None = None
@@ -109,6 +114,7 @@ class Lithography(ProcessStep):
     layers_xor: list | None = None
     resist_thickness: float | None = 0
     positive_tone: bool = True
+    planarization_height: float = None
 
 
 @dataclass(kw_only=True)
@@ -175,12 +181,18 @@ class ImplantPhysical(Lithography):
     Args:
         ion (str): ion tag
         energy (float): of the ions
+        dose (float): in /cm^2
+        tilt (float): ion angle from out-of-plane axis. in degrees. If None, uses simulator default
+        twist (float): ion angle from wafer "x-axis", in degrees. If None, uses simulator default
+        rotation (float): if twist is None, toggle to split the dose 4-ways between 4 cardinal twist angles (simulates substrate rotation during implantation)
     """
 
     ion: str
     energy: float
     dose: float
-    tilt: float = 0
+    tilt: float = None
+    twist: float = None
+    rotation: float = None
 
 
 @dataclass(kw_only=True)
@@ -204,8 +216,8 @@ class ImplantAnalytical(Lithography):
     ion: str
     peak_conc: float
     range: float
-    straggle: float
-    tilt: float = 0
+    straggle: float = None
+    tilt: float = None
 
 
 @dataclass(kw_only=True)
