@@ -4,7 +4,7 @@ import gdsfactory as gf
 
 
 def test_astar_pass() -> None:
-    c = gf.Component("get_route_astar")
+    c = gf.Component()
     w = gf.components.straight()
     left = c << w
     right = c << w

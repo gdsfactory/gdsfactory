@@ -52,4 +52,5 @@ def test_route_error2() -> None:
 
 
 if __name__ == "__main__":
-    test_route_error()
+    # test_route_error()
+    test_route_error2()

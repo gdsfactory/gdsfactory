@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import uuid
 import warnings
 from collections.abc import Callable
 from functools import partial
@@ -560,7 +559,7 @@ def get_route_error(
         raise RouteError(f"route error for points {points}")
     warnings.warn(f"Route error for points {points}", RouteWarning)
 
-    c = Component(f"route_{uuid.uuid4()}"[:16])
+    c = Component()
     path = gdstk.FlexPath(
         points,
         width=width,
