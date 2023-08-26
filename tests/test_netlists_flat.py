@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.get_netlist_flat import get_netlist_flat
 
 
-def test_flat_netlist_photonic():
+def test_flat_netlist_photonic() -> None:
     coupler_lengths = [10, 20, 30, 40]
     coupler_gaps = [0.1, 0.2, 0.4, 0.5]
     delta_lengths = [10, 100, 200]
@@ -17,12 +17,12 @@ def test_flat_netlist_photonic():
     gf.get_netlist_flat.get_netlist_flat(c)
 
 
-def test_flatten_netlist_identical_references():
+def test_flatten_netlist_identical_references() -> None:
     """
     Testing electrical netlist w/ identical component references
     """
     # Define compound component
-    series_resistors = gf.Component("seriesResistors")
+    series_resistors = gf.Component()
     rseries1 = series_resistors << gf.get_component(
         gf.components.resistance_sheet, width=20, ohms_per_square=20
     )
@@ -34,7 +34,7 @@ def test_flatten_netlist_identical_references():
     series_resistors.add_port("pad2", port=rseries2.ports["pad2"])
 
     # Increase hierarchy levels more
-    double_series_resistors = gf.Component("double_seriesResistors")
+    double_series_resistors = gf.Component()
     rseries1 = double_series_resistors << gf.get_component(series_resistors)
     rseries2 = double_series_resistors << gf.get_component(series_resistors)
     rseries1.connect("pad2", rseries2.ports["pad1"])
@@ -42,7 +42,7 @@ def test_flatten_netlist_identical_references():
     double_series_resistors.add_port("pad2", port=rseries2.ports["pad2"])
 
     # Define top-level component
-    vdiv = gf.Component("voltageDivider")
+    vdiv = gf.Component()
     r1 = vdiv << double_series_resistors
     r2 = vdiv << series_resistors
     r3 = (

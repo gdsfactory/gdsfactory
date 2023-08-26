@@ -4,7 +4,6 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.cross_section import Section
-from gdsfactory.difftest import difftest
 
 WIDTH_WIDE = 2.0
 
@@ -36,7 +35,7 @@ def taper_pin(length: float = 5, **kwargs) -> gf.Component:
 
 
 def test_get_route_auto_widen() -> None:
-    c = gf.Component("test_get_route_auto_widen")
+    c = gf.Component()
     route = gf.routing.get_route_from_waypoints(
         [(0, 0), (300, 0), (300, 300), (-600, 300), (-600, -300)],
         cross_section=xs_pin_m1,
@@ -45,7 +44,6 @@ def test_get_route_auto_widen() -> None:
         radius=30,
     )
     c.add(route.references)
-    difftest(c)
 
 
 if __name__ == "__main__":

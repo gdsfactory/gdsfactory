@@ -13,7 +13,7 @@ def test_get_bundle_west_to_north(
 ) -> None:
     lengths = {}
 
-    c = gf.Component("test_get_bundle_west_to_north")
+    c = gf.Component()
     pad = partial(gf.components.pad, size=(10, 10))
     c = gf.Component()
     pad_south = gf.components.pad_array(orientation=270, spacing=(15.0, 0.0), pad=pad)
@@ -49,7 +49,7 @@ def test_get_bundle_west_to_north2(
     layer = (1, 0)
 
     lengths = {}
-    c = gf.Component("test_get_bundle_west_to_north2")
+    c = gf.Component()
     pbottom_facing_north = port_array(
         center=(0, 0), orientation=90, pitch=(30, 0), layer=layer
     )

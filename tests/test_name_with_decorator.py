@@ -12,7 +12,7 @@ def straight_with_pins(**kwargs) -> gf.Component:
 
 
 def test_name_with_decorator() -> None:
-    c = gf.Component("test_name_with_decorator")
+    c = gf.Component()
     c1 = c << straight_with_pins(decorator=gf.add_padding)
     c2 = c << straight_with_pins()
 
@@ -42,7 +42,8 @@ def test_name_with_decorator() -> None:
 
 
 if __name__ == "__main__":
-    c = gf.Component("test_name_with_decorator")
+    c = gf.Component()
+    c.name = "demo"
     c1 = c << straight_with_pins(decorator=gf.add_padding)
     c1.movey(-10)
     c2 = c << straight_with_pins()

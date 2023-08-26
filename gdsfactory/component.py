@@ -124,14 +124,13 @@ ref.xmin = 10
 
 
 cell_decorator_message = """
-Use @cell decorator for auto-naming. Component(name) will be removed in the future.
+Use @cell decorator for auto-naming. Component(name) will be removed soon. Example:
 
 @gf.cell
 def my_component():
     c = gf.Component()
     c.add_ref(gf.components.straight())
     return c
-
 """
 
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
