@@ -80,7 +80,7 @@ def _get_glyph(font, letter):  # noqa: C901
 
     # Get the font name
     font_name = font.family_name.decode().replace(" ", "_")
-    block_name = f"*char_{font_name}_0x{ord(letter):2X}"
+    f"*char_{font_name}_0x{ord(letter):2X}"
 
     # Load control points from font file
     font.load_char(letter, freetype.FT_LOAD_FLAGS["FT_LOAD_NO_BITMAP"])
@@ -192,7 +192,7 @@ def _get_glyph(font, letter):  # noqa: C901
         polylines.append(gdstk.Polygon(curve.points()))
 
     # Construct the component
-    component = Component(block_name)
+    component = Component()
     if polylines:
         letter_polyline = polylines[0]
         for polyline in polylines[1:]:

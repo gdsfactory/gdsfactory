@@ -270,7 +270,8 @@ def test_get_netlist_electrical_different_widths() -> None:
 def test_get_netlist_transformed() -> None:
     rotation_value = 35
     cname = "test_get_netlist_transformed"
-    c = gf.Component(cname)
+    c = gf.Component()
+    c.name = cname
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i1.rotate(rotation_value)
@@ -306,21 +307,21 @@ def test_get_netlist_transformed() -> None:
 
 
 if __name__ == "__main__":
+    test_get_netlist_transformed()
     # c = gf.c.array()
     # n = c.get_netlist()
     # print(len(n.keys()))
-    # c = test_get_netlist_cell_array()
-    # c = test_get_netlist_cell_array_connecting()
-    # c = test_get_netlist_simple()
-    # c = test_get_netlist_promoted()
-    # c = test_get_netlist_close_enough()
-    # c = test_get_netlist_close_enough_orthogonal()
-    # c = test_get_netlist_close_enough_fails()
-    # c = test_get_netlist_close_enough_orthogonal_fails()
-    # c = test_get_netlist_close_enough_both()
-    # c = test_get_netlist_close_enough_rotated()
-    # c = test_get_netlist_throws_error_bad_rotation()
-    # c = test_get_netlist_tiny()
-    # c = test_get_netlist_metal()
-    c = test_get_netlist_electrical_different_widths()
-    c.show()
+    # test_get_netlist_cell_array()
+    # test_get_netlist_cell_array_connecting()
+    # test_get_netlist_simple()
+    # test_get_netlist_promoted()
+    # test_get_netlist_close_enough()
+    # test_get_netlist_close_enough_orthogonal()
+    # test_get_netlist_close_enough_fails()
+    # test_get_netlist_close_enough_orthogonal_fails()
+    # test_get_netlist_close_enough_both()
+    # test_get_netlist_close_enough_rotated()
+    # test_get_netlist_throws_error_bad_rotation()
+    # test_get_netlist_tiny()
+    # test_get_netlist_metal()
+    # test_get_netlist_electrical_different_widths()

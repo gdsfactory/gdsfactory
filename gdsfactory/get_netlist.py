@@ -636,7 +636,7 @@ if __name__ == "__main__":
 
     rotation_value = 35
     cname = "test_get_netlist_transformed"
-    c = gf.Component(cname)
+    c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i1.rotate(rotation_value)
