@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Any, Literal
 import gdstk
 from pydantic import BaseModel, Field
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 
 if TYPE_CHECKING:
@@ -144,7 +145,8 @@ class LayerStack(BaseModel):
                 # If polygon belongs to port, create a unique new layer, and add the polygon to it
 
                 if gdstk.inside(
-                    [port.center], gdstk.offset(gdstk.Polygon(polygon), 0.001)
+                    [port.center],
+                    gdstk.offset(gdstk.Polygon(polygon), gf.get_active_pdk().grid_size),
                 )[0]:
                     try:
                         port_layernames = layerstack.get_layer_to_layername()[
@@ -496,7 +498,6 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack):
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
     from gdsfactory.generic_tech import get_generic_pdk
 
     PDK = get_generic_pdk()
