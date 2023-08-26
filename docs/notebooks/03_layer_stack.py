@@ -1,10 +1,28 @@
+# -*- coding: utf-8 -*-
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
+# %% [markdown]
 # # Generic_tech
 #
 # gdsfactory includes a generic Technology module in `gdsfactory.generic_tech` that you can use as an inspiration to create your own.
 #
 # ## LayerMap
 #
-# A layer map maps layer names to a integer numbers pair  (GDSlayer, GDSpurpose)
+# A layer map maps layer names to a integer numbers pair (GDSlayer, GDSpurpose)
 #
 # Each foundry uses different GDS layer numbers for different process steps.
 #
@@ -27,7 +45,7 @@
 # | 64, 0                | FLOORPLAN  | Mask floorplan                                              |
 #
 
-# +
+# %%
 
 from pydantic import BaseModel
 
@@ -37,7 +55,7 @@ from gdsfactory.generic_tech.get_klayout_pyxs import get_klayout_pyxs
 from gdsfactory.technology import LayerLevel, LayerStack, LayerViews
 from gdsfactory.generic_tech import get_generic_pdk
 
-# +
+# %%
 Layer = tuple[int, int]
 
 gf.config.rich_output()
@@ -114,17 +132,18 @@ class GenericLayerMap(BaseModel):
 
 LAYER = GenericLayerMap()
 LAYER
-# -
 
+# %%
 layer_wg = (1, 0)
 print(layer_wg)
 
+# %% [markdown]
 # ### Extract layers
 #
 # You can also extract layers using the `extract` function. This function returns a new flattened Component that contains the extracted layers.
 # A flat Component does not have references, and all the polygons are absorbed into the top cell.
 
-# +
+# %%
 from gdsfactory.generic_tech import get_generic_pdk
 
 PDK = get_generic_pdk()
@@ -133,28 +152,34 @@ PDK.activate()
 LAYER_VIEWS = PDK.layer_views
 c = LAYER_VIEWS.preview_layerset()
 c.plot()
-# -
 
+# %%
 extract = c.extract(layers=((41, 0), (40, 0)))
-extract
+extract.plot()
 
+# %% [markdown]
 # ### Remove layers
 #
 # You can remove layers using the `remove_layers()` function.
 
+# %%
 removed = extract.remove_layers(layers=((40, 0),))
-removed
+removed.plot()
 
+# %% [markdown]
 # ### Remap layers
 #
 # You can remap (change the polygons from one layer to another layer) using the `remap_layer`, which will return a new `Component`
 
+# %%
 c = gf.components.straight(layer=(2, 0))
 c.plot()
 
+# %%
 remap = c.remap_layers(layermap={(2, 0): (34, 0)})
-remap
+remap.plot()
 
+# %% [markdown]
 # ## LayerViews
 #
 # Klayout shows each GDS layer with a color, style and transparency
@@ -163,14 +188,14 @@ remap
 #
 # We recommend using YAML and then generate the lyp in klayout, as YAML is easier to modify than XML.
 
-# +
+# %%
 from IPython.display import Code
 
 from gdsfactory.config import PATH
 
 Code(filename=PATH.klayout_yaml)
-# -
 
+# %% [markdown]
 # Once you modify the `YAML` file you can easily write it to klayout layer properties `lyp` or the other way around.
 #
 # ```
@@ -181,47 +206,62 @@ Code(filename=PATH.klayout_yaml)
 #
 # LYP is based on XML so it's much easier to make changes and maintain the equivalent YAML file.
 
+# %% [markdown]
 # ### YAML -> LYP
 #
 # You can easily convert from YAML into Klayout Layer Properties.
 
+# %%
 LAYER_VIEWS = LayerViews(filepath=PATH.klayout_lyp)
 LAYER_VIEWS.to_lyp("extra/klayout_layers.lyp")
 
+# %% [markdown]
 # ### LYP -> YAML
 #
 # Sometimes you start from an LYP XML file. We recommend converting to YAML and using the YAML as the layer views source of truth.
 #
 # Layers in YAML are easier to read and modify than doing it in klayout XML format.
 
+# %%
 LAYER_VIEWS = LayerViews(filepath=PATH.klayout_lyp)
 LAYER_VIEWS.to_yaml("extra/layers.yaml")
 
+# %% [markdown]
 # ### Preview layerset
 #
 # You can preview all the layers defined in your `LayerViews`
 
+# %%
 c = LAYER_VIEWS.preview_layerset()
 c.plot()
 
+# %% [markdown]
 # By default the generic PDK has some layers that are not visible and therefore are not shown.
 
-c_wg_clad = c.extract(layers=(111, 0))
-c_wg_clad
+# %%
+c_wg_clad = c.extract(layers=(1, 0))
+c_wg_clad.plot()
 
+# %%
 LAYER_VIEWS.layer_views["WGCLAD"]
 
+# %%
 LAYER_VIEWS.layer_views["WGCLAD"].visible
 
+# %% [markdown]
 # You can make it visible
 
+# %%
 LAYER_VIEWS.layer_views["WGCLAD"].visible = True
 
+# %%
 LAYER_VIEWS.layer_views["WGCLAD"].visible
 
+# %%
 c_wg_clad = c.extract(layers=(111, 0))
-c_wg_clad
+c_wg_clad.plot()
 
+# %% [markdown]
 # ## LayerStack
 #
 # Each layer also includes the information of thickness and position of each layer after fabrication.
@@ -234,7 +274,7 @@ c_wg_clad
 #
 # Lets define the layer stack for the generic layers in the generic_technology.
 
-# +
+# %%
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.technology import LayerLevel, LayerStack
 
@@ -289,200 +329,209 @@ def get_layer_stack(
     thickness_deep_etch = thickness_wg - thickness_slab_deep_etch
     thickness_shallow_etch = thickness_wg - thickness_slab_shallow_etch
 
-    class GenericLayerStack(LayerStack):
-        substrate = LayerLevel(
-            layer=LAYER.WAFER,
-            thickness=substrate_thickness,
-            zmin=-substrate_thickness - box_thickness,
-            material="si",
-            mesh_order=99,
+    return LayerStack(
+        layers=dict(
+            substrate=LayerLevel(
+                layer=LAYER.WAFER,
+                thickness=substrate_thickness,
+                zmin=-substrate_thickness - box_thickness,
+                material="si",
+                mesh_order=101,
+                background_doping={"concentration": "1E14", "ion": "Boron"},
+                orientation="100",
+            ),
+            box=LayerLevel(
+                layer=LAYER.WAFER,
+                thickness=box_thickness,
+                zmin=-box_thickness,
+                material="sio2",
+                mesh_order=9,
+            ),
+            core=LayerLevel(
+                layer=LAYER.WG,
+                thickness=thickness_wg,
+                zmin=0.0,
+                material="si",
+                mesh_order=2,
+                sidewall_angle=sidewall_angle_wg,
+                width_to_z=0.5,
+                background_doping_concentration=1e14,
+                background_doping_ion="Boron",
+                orientation="100",
+                info={"active": True},
+            ),
+            shallow_etch=LayerLevel(
+                layer=LAYER.SHALLOW_ETCH,
+                thickness=thickness_shallow_etch,
+                zmin=0.0,
+                material="si",
+                mesh_order=1,
+                layer_type="etch",
+                into=["core"],
+                derived_layer=LAYER.SLAB150,
+            ),
+            deep_etch=LayerLevel(
+                layer=LAYER.DEEP_ETCH,
+                thickness=thickness_deep_etch,
+                zmin=0.0,
+                material="si",
+                mesh_order=1,
+                layer_type="etch",
+                into=["core"],
+                derived_layer=LAYER.SLAB90,
+            ),
+            clad=LayerLevel(
+                # layer=LAYER.WGCLAD,
+                layer=LAYER.WAFER,
+                zmin=0.0,
+                material="sio2",
+                thickness=thickness_clad,
+                mesh_order=10,
+            ),
+            slab150=LayerLevel(
+                layer=LAYER.SLAB150,
+                thickness=150e-3,
+                zmin=0,
+                material="si",
+                mesh_order=3,
+            ),
+            slab90=LayerLevel(
+                layer=LAYER.SLAB90,
+                thickness=thickness_slab_deep_etch,
+                zmin=0.0,
+                material="si",
+                mesh_order=2,
+            ),
+            nitride=LayerLevel(
+                layer=LAYER.WGN,
+                thickness=thickness_nitride,
+                zmin=thickness_wg + gap_silicon_to_nitride,
+                material="sin",
+                mesh_order=2,
+            ),
+            ge=LayerLevel(
+                layer=LAYER.GE,
+                thickness=thickness_ge,
+                zmin=thickness_wg,
+                material="ge",
+                mesh_order=1,
+            ),
+            undercut=LayerLevel(
+                layer=LAYER.UNDERCUT,
+                thickness=-undercut_thickness,
+                zmin=-box_thickness,
+                material="air",
+                z_to_bias=[
+                    [0, 0.3, 0.6, 0.8, 0.9, 1],
+                    [-0, -0.5, -1, -1.5, -2, -2.5],
+                ],
+                mesh_order=1,
+            ),
+            via_contact=LayerLevel(
+                layer=LAYER.VIAC,
+                thickness=zmin_metal1 - thickness_slab_deep_etch,
+                zmin=thickness_slab_deep_etch,
+                material="Aluminum",
+                mesh_order=1,
+                sidewall_angle=-10,
+                width_to_z=0,
+            ),
+            metal1=LayerLevel(
+                layer=LAYER.M1,
+                thickness=thickness_metal1,
+                zmin=zmin_metal1,
+                material="Aluminum",
+                mesh_order=2,
+            ),
+            heater=LayerLevel(
+                layer=LAYER.HEATER,
+                thickness=750e-3,
+                zmin=zmin_heater,
+                material="TiN",
+                mesh_order=2,
+            ),
+            via1=LayerLevel(
+                layer=LAYER.VIA1,
+                thickness=zmin_metal2 - (zmin_metal1 + thickness_metal1),
+                zmin=zmin_metal1 + thickness_metal1,
+                material="Aluminum",
+                mesh_order=1,
+            ),
+            metal2=LayerLevel(
+                layer=LAYER.M2,
+                thickness=thickness_metal2,
+                zmin=zmin_metal2,
+                material="Aluminum",
+                mesh_order=2,
+            ),
+            via2=LayerLevel(
+                layer=LAYER.VIA2,
+                thickness=zmin_metal3 - (zmin_metal2 + thickness_metal2),
+                zmin=zmin_metal2 + thickness_metal2,
+                material="Aluminum",
+                mesh_order=1,
+            ),
+            metal3=LayerLevel(
+                layer=LAYER.M3,
+                thickness=thickness_metal3,
+                zmin=zmin_metal3,
+                material="Aluminum",
+                mesh_order=2,
+            ),
         )
-        box = LayerLevel(
-            layer=LAYER.WAFER,
-            thickness=box_thickness,
-            zmin=-box_thickness,
-            material="sio2",
-            mesh_order=99,
-        )
-        core = LayerLevel(
-            layer=(1, 0),
-            thickness=thickness_wg,
-            zmin=0.0,
-            material="si",
-            mesh_order=2,
-            sidewall_angle=sidewall_angle_wg,
-            width_to_z=0.5,
-        )
-        shallow_etch = LayerLevel(
-            layer=LAYER.SHALLOW_ETCH,
-            thickness=thickness_shallow_etch,
-            zmin=0.0,
-            material="si",
-            mesh_order=1,
-            layer_type="etch",
-            into=["core"],
-            derived_layer=(2, 0),
-        )
-        deep_etch = LayerLevel(
-            layer=LAYER.DEEP_ETCH,
-            thickness=thickness_deep_etch,
-            zmin=0.0,
-            material="si",
-            mesh_order=1,
-            layer_type="etch",
-            into=["core"],
-            derived_layer=LAYER.SLAB90,
-        )
-        clad = LayerLevel(
-            # layer=LAYER.WGCLAD,
-            layer=LAYER.WAFER,
-            zmin=0.0,
-            material="sio2",
-            thickness=thickness_clad,
-            mesh_order=10,
-        )
-        slab150 = LayerLevel(
-            layer=(2, 0),
-            thickness=150e-3,
-            zmin=0,
-            material="si",
-            mesh_order=3,
-        )
-        slab90 = LayerLevel(
-            layer=LAYER.SLAB90,
-            thickness=thickness_slab_deep_etch,
-            zmin=0.0,
-            material="si",
-            mesh_order=2,
-        )
-        nitride = LayerLevel(
-            layer=LAYER.WGN,
-            thickness=thickness_nitride,
-            zmin=thickness_wg + gap_silicon_to_nitride,
-            material="sin",
-            mesh_order=2,
-        )
-        ge = LayerLevel(
-            layer=LAYER.GE,
-            thickness=thickness_ge,
-            zmin=thickness_wg,
-            material="ge",
-            mesh_order=1,
-        )
-        undercut = LayerLevel(
-            layer=LAYER.UNDERCUT,
-            thickness=-undercut_thickness,
-            zmin=-box_thickness,
-            material="air",
-            z_to_bias=[
-                [0, 0.3, 0.6, 0.8, 0.9, 1],
-                [-0, -0.5, -1, -1.5, -2, -2.5],
-            ],
-            mesh_order=1,
-        )
-        via_contact = LayerLevel(
-            layer=LAYER.VIAC,
-            thickness=zmin_metal1 - thickness_slab_deep_etch,
-            zmin=thickness_slab_deep_etch,
-            material="Aluminum",
-            mesh_order=1,
-            sidewall_angle=-10,
-            width_to_z=0,
-        )
-        metal1 = LayerLevel(
-            layer=LAYER.M1,
-            thickness=thickness_metal1,
-            zmin=zmin_metal1,
-            material="Aluminum",
-            mesh_order=2,
-        )
-        heater = LayerLevel(
-            layer=LAYER.HEATER,
-            thickness=750e-3,
-            zmin=zmin_heater,
-            material="TiN",
-            mesh_order=1,
-        )
-        via1 = LayerLevel(
-            layer=LAYER.VIA1,
-            thickness=zmin_metal2 - (zmin_metal1 + thickness_metal1),
-            zmin=zmin_metal1 + thickness_metal1,
-            material="Aluminum",
-            mesh_order=2,
-        )
-        metal2 = LayerLevel(
-            layer=LAYER.M2,
-            thickness=thickness_metal2,
-            zmin=zmin_metal2,
-            material="Aluminum",
-            mesh_order=2,
-        )
-        via2 = LayerLevel(
-            layer=LAYER.VIA2,
-            thickness=zmin_metal3 - (zmin_metal2 + thickness_metal2),
-            zmin=zmin_metal2 + thickness_metal2,
-            material="Aluminum",
-            mesh_order=1,
-        )
-        metal3 = LayerLevel(
-            layer=LAYER.M3,
-            thickness=thickness_metal3,
-            zmin=zmin_metal3,
-            material="Aluminum",
-            mesh_order=2,
-        )
-
-    return GenericLayerStack()
+    )
 
 
 LAYER_STACK = get_layer_stack()
 layer_stack220 = LAYER_STACK
 
-# +
+# %%
 import gdsfactory as gf
 
 c = gf.components.straight_heater_doped_rib(length=100)
 c.plot()
-# -
 
+# %%
 scene = c.to_3d(layer_stack=layer_stack220)
 scene.show()
 
-# +
+# %%
 import gdsfactory as gf
 
 c = gf.components.straight_heater_metal(length=40)
 c.plot()
-# -
 
+# %%
 scene = c.to_3d(layer_stack=layer_stack220)
 scene.show()
 
-# +
+# %%
 import gdsfactory as gf
 
 c = gf.components.taper_strip_to_ridge_trenches()
 c.plot()
-# -
 
+# %%
 scene = c.to_3d(layer_stack=layer_stack220)
 scene.show()
 
+# %%
 # lets assume we have 900nm silicon instead of 220nm, You will see a much thicker waveguide under the metal heater.
 layer_stack900 = get_layer_stack(thickness_wg=900 * nm)
 scene = c.to_3d(layer_stack=layer_stack900)
 scene.show()
 
-# +
+# %%
 import gdsfactory as gf
 
 c = gf.components.grating_coupler_elliptical_trenches()
 c.plot()
-# -
 
+# %%
 scene = c.to_3d()
 scene.show()
 
+# %% [markdown]
 # ### 3D rendering
 #
 # To render components in 3D you will need to define two things:
@@ -490,18 +539,23 @@ scene.show()
 # 1. LayerStack: for each layer contains thickness of each material and z position
 # 2. LayerViews: for each layer contains view (color, pattern, opacity). You can load it with `gf.technology.LayerView.load_lyp()`
 
+# %%
 heater = gf.components.straight_heater_metal(length=50)
 heater.plot()
 
+# %%
 scene = heater.to_3d()
 scene.show()
 
+# %% [markdown]
 # ### Klayout 2.5D view
 #
 # From the `LayerStack` you can generate the KLayout 2.5D view script.
 
+# %%
 LAYER_STACK.get_klayout_3d_script()
 
+# %% [markdown]
 # Then you go go Tools → Manage Technologies
 #
 #
@@ -511,6 +565,7 @@ LAYER_STACK.get_klayout_3d_script()
 #
 # ![paste](https://i.imgur.com/CoTythB.png)
 
+# %% [markdown]
 # ### Klayout cross-section
 #
 # You can also install the [KLayout cross-section plugin](https://gdsfactory.github.io/klayout_pyxs/README.html)
@@ -519,6 +574,7 @@ LAYER_STACK.get_klayout_3d_script()
 #
 # This is not integrated with the LayerStack but you can customize the script in `gdsfactory.generic_tech.get_klayout_pyxs` for your technology.
 
+# %%
 nm = 1e-3
 if __name__ == "__main__":
     script = get_klayout_pyxs(
@@ -571,8 +627,10 @@ if __name__ == "__main__":
     print(script)
 
 
+# %% [markdown]
 # ![xsection generic](https://i.imgur.com/H5Qiygc.png)
 
+# %% [markdown]
 # ## Process
 #
 # The LayerStack uses the GDS layers to generate a representation of the chip after fabrication.
@@ -586,6 +644,7 @@ if __name__ == "__main__":
 # For instance, the early step of the front-end-of-line of the generic process could be approximated as done in `gdsfactory.technology.layer_stack` (the process classes are described in `gdsfactory.technology.processes`):
 
 
+# %%
 def get_process():
     """Returns generic process to generate LayerStack.
 
@@ -656,4 +715,5 @@ def get_process():
     )
 
 
+# %% [markdown]
 # These process dataclasses can then be used in physical simulator plugins.
