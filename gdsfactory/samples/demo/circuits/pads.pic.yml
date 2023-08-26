@@ -10,10 +10,11 @@ instances:
   tr:
     component: pad
 
+
 placements:
   tl:
     x: 100
-    y: 500
+    y: -200
 
   br:
     x: 400
@@ -28,12 +29,15 @@ routes:
     settings:
       separation: 20
       layer: M2
-      width: 10
+      width: 1
+      enforce_port_ordering: false
+      path_length_match_loops: 1
+      end_straight_length: 100
     links:
       tl,e3: tr,e1
       bl,e3: br,e1
   optical:
     settings:
-      radius: 10
+      radius: 1000
     links:
       bl,e4: br,e3

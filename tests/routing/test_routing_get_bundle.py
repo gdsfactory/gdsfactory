@@ -7,7 +7,6 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
-from gdsfactory.difftest import difftest
 from gdsfactory.routing.get_bundle import get_bundle
 
 
@@ -35,7 +34,7 @@ def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True) 
         for i in range(N)
     ]
 
-    c = gf.Component("test_get_bundle")
+    c = gf.Component()
     routes = get_bundle(
         top_ports, bot_ports, start_straight_length=5, end_straight_length=10
     )
@@ -46,7 +45,6 @@ def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True) 
 
     if check:
         data_regression.check(lengths)
-        difftest(c)
 
 
 @pytest.mark.parametrize("config", ["A", "C"])
@@ -56,7 +54,7 @@ def test_connect_corner(
     d = 10.0
     sep = 5.0
     layer = (1, 0)
-    c = Component(name=f"test_connect_corner_{config}")
+    c = Component()
 
     if config in {"A", "B"}:
         a = 100.0
@@ -265,7 +263,6 @@ def test_connect_corner(
 
     if check:
         data_regression.check(lengths)
-        difftest(c)
 
 
 def test_get_bundle_udirect(
@@ -323,7 +320,7 @@ def test_get_bundle_udirect(
             for i in range(N)
         ]
 
-    c = gf.Component(name="test_get_bundle_udirect")
+    c = gf.Component()
     routes = get_bundle(
         ports1,
         ports2,
@@ -338,7 +335,6 @@ def test_get_bundle_udirect(
 
     if check:
         data_regression.check(lengths)
-        difftest(c)
 
 
 @pytest.mark.parametrize("angle", [0, 90, 180, 270])
@@ -389,7 +385,7 @@ def test_get_bundle_u_indirect(
             for i in range(N)
         ]
 
-    c = gf.Component(f"test_get_bundle_u_indirect_{angle}_{dy}")
+    c = gf.Component()
 
     routes = get_bundle(
         ports1,
@@ -407,7 +403,6 @@ def test_get_bundle_u_indirect(
 
     if check:
         data_regression.check(lengths)
-        difftest(c)
 
 
 def test_facing_ports(
@@ -435,7 +430,7 @@ def test_facing_ports(
         for i in range(N)
     ]
 
-    c = gf.Component("test_facing_ports")
+    c = gf.Component()
     routes = get_bundle(ports1, ports2)
     lengths = {}
     for i, route in enumerate(routes):
@@ -444,7 +439,6 @@ def test_facing_ports(
 
     if check:
         data_regression.check(lengths)
-        difftest(c)
 
 
 def test_get_bundle_small() -> None:

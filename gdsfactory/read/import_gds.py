@@ -59,7 +59,8 @@ def import_gds(
 
     # create a new Component for each gdstk Cell
     for c in gdsii_lib.cells:
-        D = Component(name=c.name)
+        D = Component()
+        D.name = c.name
         D._cell = c
         D.name = c.name
 

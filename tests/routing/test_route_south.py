@@ -8,7 +8,7 @@ import gdsfactory as gf
 def test_route_south(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    c = gf.Component("test_route_south")
+    c = gf.Component()
     cr = c << gf.components.mmi2x2()
     route = gf.routing.route_south(component=cr)
     references = route.references

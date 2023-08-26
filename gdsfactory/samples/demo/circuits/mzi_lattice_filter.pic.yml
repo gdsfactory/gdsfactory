@@ -7,7 +7,6 @@ instances:
     settings:
       dy: -200
 
-
   mzi2:
     component: mzi_ubc
     settings:

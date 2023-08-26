@@ -1071,7 +1071,8 @@ def route_manhattan(
 
 
 if __name__ == "__main__":
-    c = gf.Component("pads_route_from_steps")
+    c = gf.Component()
+    c.name = "test"
     pt = c << gf.components.pad_array(orientation=270, columns=3)
     pb = c << gf.components.pad_array(orientation=90, columns=3)
     pt.move((100, 200))

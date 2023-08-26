@@ -25,7 +25,6 @@ instances:
       spacing: [10, 10]
       function: add_fiber_single
 
-
 placements:
   rings:
     x: 50

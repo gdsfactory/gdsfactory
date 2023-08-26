@@ -122,7 +122,17 @@ ref = c.add_ref(gf.components.straight()) # or ref = c << gf.components.straight
 ref.xmin = 10
 """
 
-COMPONENT_NAMES_USED = set()
+
+cell_decorator_message = """
+Use @cell decorator for auto-naming. Component(name) will be removed in the future.
+
+@gf.cell
+def my_component():
+    c = gf.Component()
+    c.add_ref(gf.components.straight())
+    return c
+
+"""
 
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
@@ -172,15 +182,12 @@ class Component(_GeometryHelper):
     ) -> None:
         """Initialize the Component object."""
 
+        if name != "Unnamed":
+            warnings.warn(cell_decorator_message, stacklevel=2)
+
         self.uid = str(uuid.uuid4())[:8]
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
-
-        if name in COMPONENT_NAMES_USED:
-            warnings.warn(
-                f"Component name {name} already used. "
-                "Use @cell decorator for auto-naming."
-            )
 
         self._cell = gdstk.Cell(name=name)
         self.name = name
@@ -195,7 +202,6 @@ class Component(_GeometryHelper):
         self._references = []
 
         self.ports = {}
-        COMPONENT_NAMES_USED.add(name)
 
     @property
     def references(self):

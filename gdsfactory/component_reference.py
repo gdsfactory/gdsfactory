@@ -916,7 +916,7 @@ def test_get_polygons_ref() -> None:
 def test_pads_no_orientation() -> None:
     import gdsfactory as gf
 
-    c = gf.Component("pads_no_orientation")
+    c = gf.Component()
     pt = c << gf.components.pad()
     pb = c << gf.components.pad()
     pb.connect("pad", pt["pad"])
@@ -927,7 +927,7 @@ if __name__ == "__main__":
     # test_get_polygons()
     import gdsfactory as gf
 
-    c = gf.Component("parent")
+    c = gf.Component()
     ref = c << gf.components.straight()
     c.add_ports(ref.ports)
     ref.movex(5)
