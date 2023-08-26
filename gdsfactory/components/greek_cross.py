@@ -247,7 +247,7 @@ def greek_cross_offset_pads(
         contact.rotate(pad_rotation)
         contact.move(np.array([sgnx * pad_offset, sgny * pad_offset]))
 
-    return c
+    return c.flatten()
 
 
 if __name__ == "__main__":
