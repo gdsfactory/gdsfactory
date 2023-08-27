@@ -159,7 +159,6 @@ if __name__ == "__main__":
     gdspath = c.write_gds()
     # c.show(show_ports=True)
 
-    gf.clear_cache()
     # c = import_gds(gdspath)
     c = import_gds(gdspath)
     c.show(show_ports=False)

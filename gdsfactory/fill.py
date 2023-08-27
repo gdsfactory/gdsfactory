@@ -342,18 +342,18 @@ def test_fill() -> None:
 
 
 if __name__ == "__main__":
-    # test_fill()
+    test_fill()
 
-    c = gf.Component("test_fill")
-    wg = c << gf.components.straight()
-    _ = c << gf.add_padding_container(wg.parent, default=15)
-    fill = fill_rectangle(
-        c,
-        fill_layers=((2, 0),),
-        fill_densities=(1.0,),
-        # fill_densities=0.5,
-        avoid_layers=((1, 0),),
-        # bbox=(100.0, 100.0),
-    )
-    _ = c << fill
-    c.show()
+    # c = gf.Component("test_fill")
+    # wg = c << gf.components.straight()
+    # _ = c << gf.add_padding_container(wg.parent, default=15)
+    # fill = fill_rectangle(
+    #     c,
+    #     fill_layers=((2, 0),),
+    #     fill_densities=(1.0,),
+    #     # fill_densities=0.5,
+    #     avoid_layers=((1, 0),),
+    #     # bbox=(100.0, 100.0),
+    # )
+    # _ = c << fill
+    # c.show()

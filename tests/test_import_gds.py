@@ -27,7 +27,6 @@ def test_import_gds_hierarchy() -> None:
 #     """Make sure you can import the ports"""
 #     c0 = gf.components.mzi_arms(decorator=gf.add_pins)
 #     gdspath = c0.write_gds()
-#     gf.clear_cache()
 
 #     c1 = import_gds(gdspath, decorator=gf.add_padding_container, name="mzi")
 #     assert c1.name == "mzi"
