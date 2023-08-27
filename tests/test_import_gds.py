@@ -40,7 +40,6 @@ def test_import_gds_array() -> None:
     )
     gdspath = c0.write_gds()
 
-    gf.clear_cache()
     c1 = import_gds(gdspath)
     assert len(c1.get_polygons()) == 4
 
@@ -52,15 +51,14 @@ def test_import_gds_raw() -> None:
     )
     gdspath = c0.write_gds()
 
-    gf.clear_cache()
     c = gf.read.import_gds(gdspath)
     assert c
 
 
 if __name__ == "__main__":
-    test_import_gds_hierarchy()
+    # test_import_gds_hierarchy()
     # test_import_ports_inside()
-    # test_import_gds_array()
+    test_import_gds_array()
 
     # c = test_import_ports()
     # c = test_import_gds_add_padding()

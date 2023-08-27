@@ -70,11 +70,11 @@ if __name__ == "__main__":
     # )
     # c = straight(cladding_offset=2.5)
 
-    nm = 1e-3
-    xs = gf.cross_section.strip()
+    # nm = 1e-3
+    # xs = gf.cross_section.strip()
     c = straight()
     # print(c.settings)
-    print(c.settings.info["settings"]["add_pins"])
+    # print(c.settings.info["settings"]["add_pins"])
 
     # strip2 = gf.get_cross_section("strip", layer=(2, 0))
     # settings = dict(width=2)

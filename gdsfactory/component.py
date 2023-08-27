@@ -176,10 +176,6 @@ class Component(_GeometryHelper):
         self.uid = str(uuid.uuid4())[:8]
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
-        else:
-            name_counters[name] += 1
-            if name_counters[name] > 1:
-                name = f"{name}${name_counters[name]-1}"
 
         self._cell = gdstk.Cell(name=name)
         self.name = name
@@ -220,8 +216,11 @@ class Component(_GeometryHelper):
         return self._cell.name
 
     @name.setter
-    def name(self, value) -> None:
-        self._cell.name = value
+    def name(self, name) -> None:
+        name_counters[name] += 1
+        if name_counters[name] > 1:
+            name = f"{name}${name_counters[name]-1}"
+        self._cell.name = name
 
     def __iter__(self):
         """You can iterate over polygons, paths, labels and references."""
@@ -1474,12 +1473,17 @@ class Component(_GeometryHelper):
         self,
         port_marker_layer: Layer = (1, 10),
         layer_label: Layer = (1, 10),
+        make_copy: bool = True,
     ) -> Component:
         """Returns component with triangular pins."""
         from gdsfactory.add_pins import add_pins_triangle
 
-        component = self.copy()
-        component.name = self.name
+        if make_copy:
+            component = self.copy()
+            component.name = self.name
+        else:
+            component = self
+            component.unlock()
         add_pins_triangle(
             component=component, layer=port_marker_layer, layer_label=layer_label
         )
@@ -1740,7 +1744,9 @@ class Component(_GeometryHelper):
 
         component = (
             self.add_pins_triangle(
-                port_marker_layer=port_marker_layer, layer_label=port_marker_layer
+                port_marker_layer=port_marker_layer,
+                layer_label=port_marker_layer,
+                make_copy=False,
             )
             if show_ports
             else self
@@ -1748,7 +1754,6 @@ class Component(_GeometryHelper):
 
         if show_subports:
             component = self.copy()
-            component.name = self.name
             for reference in component.references:
                 if isinstance(component, ComponentReference):
                     add_pins_triangle(
@@ -2516,7 +2521,6 @@ class Component(_GeometryHelper):
     def offset(
         self,
         distance: float = 0.1,
-        polygons=None,
         use_union: bool = True,
         precision: float = 1e-4,
         join: str = "miter",
@@ -2526,37 +2530,29 @@ class Component(_GeometryHelper):
         """Returns new Component with polygons eroded or dilated by an offset.
 
         Args:
-            distance: Distance to offset polygons. Positive values expand, negative shrink.
-            precision: Desired precision for rounding vertex coordinates.
-            polygons: If None, use self.get_polygons()
-            use_union: If True, use union instead of xor to combine polygons.
-            precision: Desired precision for rounding vertex coordinates.
-            join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
-            tolerance: For miter joints, this number must be at least 2 represents the
-              maximal distance in multiples of offset between new vertices and their
-              original position before beveling to avoid spikes at acute joints. For
-              round joints, it indicates the curvature resolution in number of
-              points per full circle.
-            layer: layer spec for new polygons.
+        distance: Distance to offset polygons. Positive values expand, negative shrink.
+        use_union: If True, use union of all polygons to offset. If False, offset
+        precision: Desired precision for rounding vertex coordinates.
+        join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
+        tolerance: For miter joints, this number must be at least 2 represents the
+          maximal distance in multiples of offset between new vertices and their
+          original position before beveling to avoid spikes at acute joints. For
+          round joints, it indicates the curvature resolution in number of
+          points per full circle.
+        layer: Specific layer to put polygon geometry on.
 
         """
-        import gdsfactory as gf
+        from gdsfactory.geometry.offset import offset
 
-        gds_layer, gds_datatype = gf.get_layer(layer)
-        p = gdstk.offset(
-            polygons or self.get_polygons(),
+        return offset(
+            self,
             distance=distance,
+            use_union=use_union,
+            precision=precision,
             join=join,
             tolerance=tolerance,
-            precision=precision,
-            use_union=use_union,
-            layer=gds_layer,
-            datatype=gds_datatype,
+            layer=layer,
         )
-
-        component = gf.Component()
-        component.add_polygon(p, layer=layer)
-        return component
 
 
 def copy(
