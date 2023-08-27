@@ -177,9 +177,9 @@ class Component(_GeometryHelper):
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
         else:
-            if name_counters[name] > 0:
-                name = f"{name}${name_counters[name]}"
             name_counters[name] += 1
+            if name_counters[name] > 1:
+                name = f"{name}${name_counters[name]-1}"
 
         self._cell = gdstk.Cell(name=name)
         self.name = name

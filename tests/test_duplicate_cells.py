@@ -38,12 +38,15 @@ def test_duplicated_cells_error() -> None:
 
 def test_duplicated_cells_pass() -> None:
     gf.Component("duplicated_cells_pass")
+    c1 = gf.Component("duplicated_cells_pass")
+    assert c1.name == "duplicated_cells_pass$1"
     c2 = gf.Component("duplicated_cells_pass")
-    assert c2.name == "duplicated_cells_pass$1"
+    assert c2.name == "duplicated_cells_pass$2", c2.name
 
 
 if __name__ == "__main__":
     # test_duplicated_cells_error()
+    # test_duplicated_cells_pass()
 
     w = h = 10
     points = [
