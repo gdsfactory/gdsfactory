@@ -1887,7 +1887,7 @@ class Component(_GeometryHelper):
 
         if no_name_cells:
             warnings.warn(
-                f"Component {top_cell.name!r} contains {len(no_name_cells)} Unnamed cells",
+                f"Unnamed cells, {len(no_name_cells)} in {top_cell.name!r}",
                 stacklevel=3,
             )
 

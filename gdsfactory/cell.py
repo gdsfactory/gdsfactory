@@ -12,7 +12,7 @@ from typing import Any, TypeVar
 import toolz
 from pydantic import BaseModel, validate_arguments
 
-from gdsfactory.component import Component
+from gdsfactory.component import Component, name_counters
 from gdsfactory.name import clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
@@ -255,6 +255,7 @@ def cell_without_validator(func: _F) -> _F:
 
         component.lock()
         CACHE[name] = component
+        name_counters[name] += 1
         return component
 
     return _cell

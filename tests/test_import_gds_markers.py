@@ -10,7 +10,11 @@ def test_import_ports_inside(data_regression) -> None:
     gdspath = c0.write_gds()
 
     gf.clear_cache()
-    c1 = import_gds(gdspath, decorator=gf.add_ports.add_ports_from_markers_inside)
+    c1 = import_gds(
+        gdspath,
+        decorator=gf.add_ports.add_ports_from_markers_inside,
+        unique_names=False,
+    )
     assert len(c1.ports) == 2, f"{len(c1.ports)}"
     if data_regression:
         data_regression.check(c1.to_dict())
@@ -22,7 +26,11 @@ def test_import_ports_center(data_regression) -> None:
     gdspath = c0.write_gds()
 
     gf.clear_cache()
-    c1 = import_gds(gdspath, decorator=gf.add_ports.add_ports_from_markers_center)
+    c1 = import_gds(
+        gdspath,
+        decorator=gf.add_ports.add_ports_from_markers_center,
+        unique_names=False,
+    )
     assert len(c1.ports) == 2, f"{len(c1.ports)}"
     if data_regression:
         data_regression.check(c1.to_dict())
@@ -36,7 +44,9 @@ def test_import_ports_siepic(data_regression) -> None:
     gdspath = c0.write_gds()
 
     gf.clear_cache()
-    c1 = import_gds(gdspath, decorator=gf.add_ports.add_ports_from_siepic_pins)
+    c1 = import_gds(
+        gdspath, decorator=gf.add_ports.add_ports_from_siepic_pins, unique_names=False
+    )
     assert len(c1.ports) == 2, f"{len(c1.ports)}"
     if data_regression:
         data_regression.check(c1.to_dict())

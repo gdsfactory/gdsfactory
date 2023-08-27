@@ -20,6 +20,7 @@ def import_gds(
     gdsdir: str | Path | None = None,
     read_metadata: bool = False,
     hashed_name: bool = True,
+    unique_names: bool = True,
     **kwargs,
 ) -> Component:
     """Returns a Component from a GDS file.
@@ -32,6 +33,7 @@ def import_gds(
         gdsdir: optional GDS directory.
         read_metadata: loads metadata (ports, settings) if it exists in YAML format.
         hashed_name: appends a hash to a shortened component name.
+        unique_names: appends $ with a number to the name if the cell name is on CACHE
         kwargs: extra to add to component.info (polarization, wavelength ...).
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
@@ -60,8 +62,10 @@ def import_gds(
     # create a new Component for each gdstk Cell
     for c in gdsii_lib.cells:
         D = Component(name=c.name)
+        name = D.name
         D._cell = c
-        D.name = c.name
+        if unique_names:
+            D.name = name
 
         if hashed_name:
             D.name = get_name_short(D.name)

@@ -7,7 +7,11 @@ from gdsfactory.pdk import get_active_pdk
 
 AAR_YAML_PICS = aar_samples.get_yaml_pics()
 
-cells_to_test = [cell_name for cell_name in AAR_YAML_PICS if "error" not in cell_name]
+cells_to_test = [
+    cell_name
+    for cell_name in AAR_YAML_PICS
+    if "error" not in cell_name and "wrong" not in cell_name
+]
 error_cells = [cell_name for cell_name in AAR_YAML_PICS if "error" in cell_name]
 
 

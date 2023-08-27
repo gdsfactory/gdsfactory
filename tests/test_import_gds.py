@@ -18,7 +18,7 @@ def test_import_gds_hierarchy() -> None:
     c0 = gf.components.mzi_arms(delta_length=11)
     gdspath = c0.write_gds()
 
-    c = import_gds(gdspath)
+    c = import_gds(gdspath, unique_names=False)
     assert len(c.get_dependencies()) == 3, len(c.get_dependencies())
     assert c.name == c0.name, c.name
 
