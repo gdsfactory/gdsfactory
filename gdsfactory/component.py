@@ -2742,7 +2742,7 @@ def flatten_invalid_refs_recursive(
                 subcell_modified = True
     if invalid_refs or subcell_modified:
         new_component = component.copy()
-        new_component.name = component.name
+        new_component.name = component.name + "_t"
         # make sure all modified cells have their references updated
         new_refs = new_component.references.copy()
         for ref in new_refs:
