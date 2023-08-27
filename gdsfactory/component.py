@@ -122,10 +122,11 @@ ref = c.add_ref(gf.components.straight()) # or ref = c << gf.components.straight
 ref.xmin = 10
 """
 
-COMPONENT_NAMES_USED = set()
-
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
+
+# Global dictionary to hold counters for each name
+name_counters = Counter()
 
 
 def _rnd(arr, precision=1e-4):
@@ -175,12 +176,10 @@ class Component(_GeometryHelper):
         self.uid = str(uuid.uuid4())[:8]
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
-
-        if name in COMPONENT_NAMES_USED:
-            warnings.warn(
-                f"Component name {name} already used. "
-                "Use @cell decorator for auto-naming."
-            )
+        else:
+            if name_counters[name] > 0:
+                name = f"{name}${name_counters[name]}"
+            name_counters[name] += 1
 
         self._cell = gdstk.Cell(name=name)
         self.name = name
@@ -195,7 +194,6 @@ class Component(_GeometryHelper):
         self._references = []
 
         self.ports = {}
-        COMPONENT_NAMES_USED.add(name)
 
     @property
     def references(self):
@@ -2900,12 +2898,16 @@ def test_import_gds_settings() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.mzi()
-    fig = c.plot_klayout()
-    fig.savefig("mzi.png")
+    # c = gf.c.mzi()
+    # fig = c.plot_klayout()
+    # fig.savefig("mzi.png")
     # c.pprint_ports()
 
-    # c = gf.Component()
+    c = gf.Component("hi")
+    print(c.name)
+
+    c = gf.Component("hi")
+    print(c.name)
     # p = c.add_polygon(
     #     [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
     # )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
