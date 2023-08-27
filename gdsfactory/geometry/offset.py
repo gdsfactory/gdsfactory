@@ -25,6 +25,7 @@ def offset(
         elements: Component(/Reference), list of Component(/Reference), or Polygon
           Polygons to offset or Component containing polygons to offset.
         distance: Distance to offset polygons. Positive values expand, negative shrink.
+        use_union: If True, use union of all polygons to offset. If False, offset
         precision: Desired precision for rounding vertex coordinates.
         join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
         tolerance: For miter joints, this number must be at least 2 represents the

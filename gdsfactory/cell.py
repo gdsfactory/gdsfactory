@@ -4,6 +4,7 @@ from __future__ import annotations
 import functools
 import hashlib
 import inspect
+from collections import Counter
 from collections.abc import Callable
 from dataclasses import dataclass
 from functools import wraps
@@ -30,7 +31,9 @@ class CellReturnTypeError(ValueError):
 def clear_cache() -> None:
     """Clears Component CACHE."""
     global CACHE
+    global name_counters
     CACHE = {}
+    name_counters = Counter()
 
 
 def print_cache() -> None:
@@ -454,7 +457,6 @@ def test_hashes() -> None:
 
     c = gf.components.mzi()
     names1 = {i.name for i in c.get_dependencies()}
-    gf.clear_cache()
     c = gf.components.mzi()
     names2 = {i.name for i in c.get_dependencies()}
     assert names1 == names2

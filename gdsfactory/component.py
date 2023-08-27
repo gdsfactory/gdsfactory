@@ -122,10 +122,11 @@ ref = c.add_ref(gf.components.straight()) # or ref = c << gf.components.straight
 ref.xmin = 10
 """
 
-COMPONENT_NAMES_USED = set()
-
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
+
+# Global dictionary to hold counters for each name
+name_counters = Counter()
 
 
 def _rnd(arr, precision=1e-4):
@@ -176,12 +177,6 @@ class Component(_GeometryHelper):
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
-        if name in COMPONENT_NAMES_USED:
-            warnings.warn(
-                f"Component name {name} already used. "
-                "Use @cell decorator for auto-naming."
-            )
-
         self._cell = gdstk.Cell(name=name)
         self.name = name
         self.info: dict[str, Any] = {}
@@ -195,7 +190,6 @@ class Component(_GeometryHelper):
         self._references = []
 
         self.ports = {}
-        COMPONENT_NAMES_USED.add(name)
 
     @property
     def references(self):
@@ -222,8 +216,11 @@ class Component(_GeometryHelper):
         return self._cell.name
 
     @name.setter
-    def name(self, value) -> None:
-        self._cell.name = value
+    def name(self, name) -> None:
+        name_counters[name] += 1
+        if name_counters[name] > 1:
+            name = f"{name}${name_counters[name]-1}"
+        self._cell.name = name
 
     def __iter__(self):
         """You can iterate over polygons, paths, labels and references."""
@@ -1476,12 +1473,17 @@ class Component(_GeometryHelper):
         self,
         port_marker_layer: Layer = (1, 10),
         layer_label: Layer = (1, 10),
+        make_copy: bool = True,
     ) -> Component:
         """Returns component with triangular pins."""
         from gdsfactory.add_pins import add_pins_triangle
 
-        component = self.copy()
-        component.name = self.name
+        if make_copy:
+            component = self.copy()
+            component.name = self.name
+        else:
+            component = self
+            component.unlock()
         add_pins_triangle(
             component=component, layer=port_marker_layer, layer_label=layer_label
         )
@@ -1742,7 +1744,9 @@ class Component(_GeometryHelper):
 
         component = (
             self.add_pins_triangle(
-                port_marker_layer=port_marker_layer, layer_label=port_marker_layer
+                port_marker_layer=port_marker_layer,
+                layer_label=port_marker_layer,
+                make_copy=False,
             )
             if show_ports
             else self
@@ -1750,7 +1754,6 @@ class Component(_GeometryHelper):
 
         if show_subports:
             component = self.copy()
-            component.name = self.name
             for reference in component.references:
                 if isinstance(component, ComponentReference):
                     add_pins_triangle(
@@ -1889,7 +1892,7 @@ class Component(_GeometryHelper):
 
         if no_name_cells:
             warnings.warn(
-                f"Component {top_cell.name!r} contains {len(no_name_cells)} Unnamed cells",
+                f"Unnamed cells, {len(no_name_cells)} in {top_cell.name!r}",
                 stacklevel=3,
             )
 
@@ -2518,7 +2521,6 @@ class Component(_GeometryHelper):
     def offset(
         self,
         distance: float = 0.1,
-        polygons=None,
         use_union: bool = True,
         precision: float = 1e-4,
         join: str = "miter",
@@ -2528,37 +2530,29 @@ class Component(_GeometryHelper):
         """Returns new Component with polygons eroded or dilated by an offset.
 
         Args:
-            distance: Distance to offset polygons. Positive values expand, negative shrink.
-            precision: Desired precision for rounding vertex coordinates.
-            polygons: If None, use self.get_polygons()
-            use_union: If True, use union instead of xor to combine polygons.
-            precision: Desired precision for rounding vertex coordinates.
-            join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
-            tolerance: For miter joints, this number must be at least 2 represents the
-              maximal distance in multiples of offset between new vertices and their
-              original position before beveling to avoid spikes at acute joints. For
-              round joints, it indicates the curvature resolution in number of
-              points per full circle.
-            layer: layer spec for new polygons.
+        distance: Distance to offset polygons. Positive values expand, negative shrink.
+        use_union: If True, use union of all polygons to offset. If False, offset
+        precision: Desired precision for rounding vertex coordinates.
+        join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
+        tolerance: For miter joints, this number must be at least 2 represents the
+          maximal distance in multiples of offset between new vertices and their
+          original position before beveling to avoid spikes at acute joints. For
+          round joints, it indicates the curvature resolution in number of
+          points per full circle.
+        layer: Specific layer to put polygon geometry on.
 
         """
-        import gdsfactory as gf
+        from gdsfactory.geometry.offset import offset
 
-        gds_layer, gds_datatype = gf.get_layer(layer)
-        p = gdstk.offset(
-            polygons or self.get_polygons(),
+        return offset(
+            self,
             distance=distance,
+            use_union=use_union,
+            precision=precision,
             join=join,
             tolerance=tolerance,
-            precision=precision,
-            use_union=use_union,
-            layer=gds_layer,
-            datatype=gds_datatype,
+            layer=layer,
         )
-
-        component = gf.Component()
-        component.add_polygon(p, layer=layer)
-        return component
 
 
 def copy(
@@ -2748,7 +2742,7 @@ def flatten_invalid_refs_recursive(
                 subcell_modified = True
     if invalid_refs or subcell_modified:
         new_component = component.copy()
-        new_component.name = component.name
+        new_component.name = component.name + "_t"
         # make sure all modified cells have their references updated
         new_refs = new_component.references.copy()
         for ref in new_refs:
@@ -2900,12 +2894,16 @@ def test_import_gds_settings() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.mzi()
-    fig = c.plot_klayout()
-    fig.savefig("mzi.png")
+    # c = gf.c.mzi()
+    # fig = c.plot_klayout()
+    # fig.savefig("mzi.png")
     # c.pprint_ports()
 
-    # c = gf.Component()
+    c = gf.Component("hi")
+    print(c.name)
+
+    c = gf.Component("hi")
+    print(c.name)
     # p = c.add_polygon(
     #     [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
     # )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
