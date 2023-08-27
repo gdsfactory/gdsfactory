@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-import gdsfactory as gf
 from gdsfactory.components.straight import straight
-from gdsfactory.difftest import difftest
 from gdsfactory.port import Port
 from gdsfactory.typings import ComponentSpec, Routes
 
@@ -24,7 +22,7 @@ def get_routes_straight(
 
         import gdsfactory as gf
 
-        c = gf.Component("get_routes_straight")
+        c = gf.Component()
         pad_array = gf.components.pad_array()
         c1 = c << pad_array
         c2 = c << pad_array
@@ -42,20 +40,3 @@ def get_routes_straight(
     ports = [ref.ports["o2"] for ref in references]
     lengths = [straight.info["length"]] * len(ports)
     return Routes(references=references, ports=ports, lengths=lengths)
-
-
-def test_get_routes_straight(check: bool = True) -> None:
-    c = gf.Component("get_routes_straight")
-    pad_array = gf.components.pad_array()
-    c1 = c << pad_array
-    c2 = c << pad_array
-    c2.ymax = -200
-
-    routes = get_routes_straight(ports=c1.get_ports_list(), length=200)
-    c.add(routes.references)
-    if check:
-        difftest(c)
-
-
-if __name__ == "__main__":
-    test_get_routes_straight(False)

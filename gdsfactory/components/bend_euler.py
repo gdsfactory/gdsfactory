@@ -266,3 +266,4 @@ if __name__ == "__main__":
     # c = bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
     # c.pprint()
+    c.show()

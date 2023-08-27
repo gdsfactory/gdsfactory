@@ -2,7 +2,8 @@ import gdsfactory as gf
 
 
 def test_clean_path_wrong() -> None:
-    c = gf.Component("hi:there")
+    c = gf.Component()
+    c.name = "Strange:Characters:in:the:filename"
     gdspath = c.write_gds()
     gdspath = str(gdspath)
     assert ":" not in gdspath, gdspath

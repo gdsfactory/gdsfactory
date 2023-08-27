@@ -28,7 +28,7 @@ def fillet(
       p1 = gdstk.Polygon(points, datatype=1)
       p1 = gf.geometry.fillet(p1, radius=1.0)
 
-      c = gf.Component("demo")
+      c = gf.Component()
       c.add_polygon(p0, layer=(1, 0))
       c.add_polygon(p1, layer=(2, 0))
       c.plot_matplotlib()
@@ -53,6 +53,6 @@ if __name__ == "__main__":
 
     o = gf.components.mzi()
     p = fillet(o, radius=0.3)
-    c = gf.Component("demo")
+    c = gf.Component()
     c.add_polygon(p)
     c.show(show_ports=True)

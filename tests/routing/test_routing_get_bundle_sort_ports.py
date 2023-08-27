@@ -9,7 +9,7 @@ def test_get_bundle_sort_ports(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     lengths = {}
-    c = gf.Component("test_get_bundle_sort_ports")
+    c = gf.Component()
     ys_right = [0, 10, 20, 40, 50, 80]
     pitch = 127.0
     N = len(ys_right)

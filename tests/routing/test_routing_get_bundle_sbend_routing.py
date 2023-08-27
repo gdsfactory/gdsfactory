@@ -12,7 +12,7 @@ def demo_get_bundle_sbend_routing(
 
     lengths = {}
 
-    c = gf.Component("test_get_bundle_sort_ports")
+    c = gf.Component()
     pitch = 2.0
     ys_left = [0, 10, 20]
     N = len(ys_left)

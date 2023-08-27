@@ -23,7 +23,7 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
 
         import gdsfactory as gf
 
-        c = gf.Component("demo_route_sbend")
+        c = gf.Component()
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
         mmi2.movex(50)
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     # import gdsfactory as gf
     # from gdsfactory.routing.sort_ports import sort_ports
 
-    # c = gf.Component("test_get_route_sbend")
+    # c = gf.Component()
     # pitch = 2.0
     # ys_left = [0, 10, 20]
     # N = len(ys_left)
@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.Component("demo_route_sbend")
+    c = gf.Component()
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
     mmi2.movex(50)

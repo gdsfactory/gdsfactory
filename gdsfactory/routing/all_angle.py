@@ -530,7 +530,7 @@ def get_bundle_all_angle(
         :include-source:
 
         import gdsfactory as gf
-        c = gf.Component("demo")
+        c = gf.Component()
 
         mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)
         mmi1 = c << mmi

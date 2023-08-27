@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     # import gdsfactory as gf
 
-    # c = gf.Component("component_with_fill")
+    # c = gf.Component()
     # ref1 = c.add_ref(gf.components.straight())
     # ref1.name = "straight_1"
 

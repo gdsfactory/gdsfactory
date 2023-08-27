@@ -460,7 +460,7 @@ if __name__ == "__main__":
     c.show()
     # c = gf.pack([via_stack_slab_m3, via_stack_heater_mtop])[0]
 
-    # c = gf.Component("offgrid_demo")
+    # c = gf.Component()
     # v1 = c << via_stack_slab_m3()
     # v2 = c << via_stack_slab_m3()
     # v2.x = 20.0005

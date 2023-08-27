@@ -222,7 +222,7 @@ def greek_cross_offset_pads(
     # contact vias and pads
     for sgnx, sgny in product([1, -1], [1, -1]):
         pad_rotation = np.arctan2(sgny, sgnx) * 180 / np.pi - 45
-        c2 = gf.Component(f"contact_{sgnx}_{sgny}")
+        c2 = gf.Component()
         c2 << gf.get_component(via_stack, size=(pad_width, pad_width))
         c2 << gf.get_component(pad, size=(pad_width, pad_width))
         for layer in contact_layers:

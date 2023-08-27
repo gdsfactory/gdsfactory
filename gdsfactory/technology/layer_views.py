@@ -970,7 +970,7 @@ class LayerViews(BaseModel):
         """
         import gdsfactory as gf
 
-        D = gf.Component(name="layerset", with_uuid=True)
+        D = gf.Component()
         scale = size / 100
         num_layers = len(self.get_layer_views())
         matrix_size = int(np.ceil(np.sqrt(num_layers)))

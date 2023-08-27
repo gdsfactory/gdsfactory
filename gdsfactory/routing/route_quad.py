@@ -101,7 +101,7 @@ def route_quad(
 
 
 def test_manhattan_route_quad() -> None:
-    c = gf.Component("route")
+    c = gf.Component()
     pad1 = c << gf.components.pad(size=(50, 50))
     pad2 = c << gf.components.pad(size=(10, 10))
     pad2.movex(100)
@@ -135,7 +135,7 @@ if __name__ == "__main__":
 
     # c.show(show_ports=True)
 
-    # c = gf.Component("route")
+    # c = gf.Component()
     # pad1 = c << gf.components.pad(size=(50, 50))
     # pad2 = c << gf.components.pad(size=(10, 10))
     # pad2.movex(100)

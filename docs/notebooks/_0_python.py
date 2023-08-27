@@ -33,7 +33,7 @@ PDK = get_generic_pdk()
 PDK.activate()
 # -
 
-c = gf.Component(name="my_fist_component")
+c = gf.Component()
 c.add_polygon([(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0))
 c.plot()
 

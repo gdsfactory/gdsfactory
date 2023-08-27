@@ -243,7 +243,7 @@ if __name__ == "__main__":
         layer=layer,
     )
 
-    cc = gf.Component("sample_route_fiber_single")
+    cc = gf.Component()
     cr = cc << c
     cr.rotate(90)
 
@@ -265,7 +265,7 @@ if __name__ == "__main__":
     #     radius=10,
     #     layer=layer,
     # )
-    # cc = gf.Component("sample_route_fiber_single")
+    # cc = gf.Component()
     # cr = cc << c.rotate(90)
     # for e in elements:
     #     cc.add(e)

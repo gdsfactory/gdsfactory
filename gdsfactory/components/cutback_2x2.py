@@ -51,7 +51,7 @@ def straight_double(
     """Returns double straight"""
     xs = gf.get_cross_section(cross_section, **kwargs)
 
-    straight_double = gf.Component("straight_double")
+    straight_double = gf.Component()
     straight_component = straight(
         length=straight_length or xs.radius * 2, cross_section=xs
     )

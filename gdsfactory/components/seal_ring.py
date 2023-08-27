@@ -80,7 +80,7 @@ def seal_ring(
 
 if __name__ == "__main__":
     big_square = partial(rectangle, size=(1300, 2600))
-    c = gf.Component("demo")
+    c = gf.Component()
     c << big_square()
     c << seal_ring(c.bbox + ((0, 0), (10, 0)), with_south=False)
     c.show(show_ports=True)

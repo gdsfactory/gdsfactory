@@ -739,7 +739,7 @@ if __name__ == "__main__":
     # _demo()
     # s = Step()
 
-    c = gf.Component("bend")
+    c = gf.Component()
     b = c << gf.components.bend_circular(angle=30)
     s = c << gf.components.straight(length=5)
     s.connect("o1", b.ports["o2"])

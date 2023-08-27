@@ -43,7 +43,7 @@ def test_get_route_electrical_multilayer(
 
 
 if __name__ == "__main__":
-    # c = gf.Component("sample_connect")
+    # c = gf.Component()
     # mmi1 = c << gf.components.mmi1x2()
     # mmi2 = c << gf.components.mmi1x2()
     # mmi2.move((100, 50))
@@ -56,7 +56,7 @@ if __name__ == "__main__":
     # c.add(route.references)
     # c.show(show_ports=True)
 
-    c = gf.Component("multi-layer")
+    c = gf.Component()
     ptop = c << gf.components.pad_array()
     pbot = c << gf.components.pad_array(orientation=90)
 

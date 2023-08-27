@@ -49,7 +49,7 @@ def get_route_from_steps(
 
         import gdsfactory as gf
 
-        c = gf.Component("get_route_from_steps_sample")
+        c = gf.Component()
         w = gf.components.straight()
         left = c << w
         right = c << w
@@ -193,7 +193,7 @@ def test_route_from_steps() -> gf.Component:
 if __name__ == "__main__":
     # c = test_route_from_steps()
 
-    # c = gf.Component("get_route_from_steps_sample")
+    # c = gf.Component()
     # w = gf.components.straight()
     # left = c << w
     # right = c << w
@@ -216,7 +216,7 @@ if __name__ == "__main__":
     # c.add(route.labels)
     # c.show(show_ports=True)
 
-    c = gf.Component("pads_route_from_steps")
+    c = gf.Component()
     pt = c << gf.components.pad_array(orientation=270, columns=3)
     pb = c << gf.components.pad_array(orientation=90, columns=3)
     pt.move((100, 200))

@@ -735,7 +735,7 @@ get_bundle_electrical_multilayer = partial(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.Component("get_bundle_none_orientation")
+    # c = gf.Component()
     # pt = c << gf.components.pad_array(orientation=None, columns=3)
     # pb = c << gf.components.pad_array(orientation=None, columns=3)
     # pt.move((100, 200))
@@ -749,7 +749,7 @@ if __name__ == "__main__":
     # for route in routes:
     #     c.add(route.references)
 
-    c = gf.Component("demo")
+    c = gf.Component()
     c1 = c << gf.components.mmi2x2()
     c2 = c << gf.components.mmi2x2()
     c2.move((100, 40))

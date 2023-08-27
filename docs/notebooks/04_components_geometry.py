@@ -38,7 +38,7 @@ C = gf.geometry.boolean(A=E, B=R, operation="not", precision=1e-6, layer=(3, 0))
 # Other operations include 'and', 'or', 'xor', or equivalently 'A-B', 'B-A', 'A+B'
 
 # Plot the originals and the result
-D = gf.Component("bool")
+D = gf.Component()
 D.add_ref(E)
 D.add_ref(R).movey(-1.5)
 D.add_ref(C).movex(30)
@@ -88,7 +88,7 @@ c4.plot()
 import gdsfactory as gf
 
 # Create `T`, an ellipse and rectangle which will be offset (expanded / contracted)
-T = gf.Component("ellipse_and_rectangle")
+T = gf.Component()
 e = T << gf.components.ellipse(radii=(10, 5), layer=(1, 0))
 r = T << gf.components.rectangle(size=[15, 5], layer=(2, 0))
 r.move([3, -2.5])
@@ -99,7 +99,7 @@ Tshrink = gf.geometry.offset(T, distance=-1.5, precision=1e-6, layer=(2, 0))
 Tshrink.name = "shrink"
 
 # Plot the original geometry, the expanded, and the shrunk versions
-offsets = gf.Component("top")
+offsets = gf.Component()
 t1 = offsets.add_ref(T)
 t2 = offsets.add_ref(Texpanded)
 t3 = offsets.add_ref(Tshrink)
@@ -112,7 +112,7 @@ offsets
 # You can do a positive offset to grow the polygons followed by a negative offset.
 
 # %%
-c = gf.Component("demo_dataprep")
+c = gf.Component()
 c1 = gf.components.coupler_ring(cladding_layers=[(2, 0)], cladding_offsets=[0.5])
 d = 0.8
 c2 = gf.geometry.offset(c1, distance=+d, layer=(2, 0))
@@ -131,14 +131,14 @@ c.plot()
 import gdsfactory as gf
 
 # Create a blank device and add two shapes
-X = gf.Component("outline_demo")
+X = gf.Component()
 X.add_ref(gf.components.cross(length=25, width=1, layer=(1, 0)))
 X.add_ref(gf.components.ellipse(radii=[10, 5], layer=(2, 0)))
 
 O = gf.geometry.outline(X, distance=1.5, precision=1e-6, layer=(3, 0))
 
 # Plot the original geometry and the result
-c = gf.Component("outline_compare")
+c = gf.Component()
 c.add_ref(X)
 c.add_ref(O).movex(30)
 c.plot()
@@ -193,7 +193,7 @@ D.plot()
 # %%
 import gdsfactory as gf
 
-D = gf.Component("union")
+D = gf.Component()
 e0 = D << gf.components.ellipse(layer=(1, 0))
 e1 = D << gf.components.ellipse(layer=(2, 0))
 e2 = D << gf.components.ellipse(layer=(3, 0))
@@ -228,11 +228,11 @@ D_joined_by_layer
 # %%
 import gdsfactory as gf
 
-A = gf.Component("A")
+A = gf.Component()
 A.add_ref(gf.components.ellipse(radii=[10, 5], layer=(1, 0)))
 A.add_ref(gf.components.text("A")).move([3, 0])
 
-B = gf.Component("B")
+B = gf.Component()
 B.add_ref(gf.components.ellipse(radii=[11, 4], layer=(1, 0))).movex(4)
 B.add_ref(gf.components.text("B")).move([3.2, 0])
 X = gf.geometry.xor_diff(A=A, B=B, precision=1e-6)
@@ -240,7 +240,7 @@ X = gf.geometry.xor_diff(A=A, B=B, precision=1e-6)
 # Plot the original geometry and the result
 # Upper left: A / Upper right: B
 # Lower left: A and B / Lower right: A xor B "diff" comparison
-D = gf.Component("xor_diff")
+D = gf.Component()
 D.add_ref(A).move([-15, 25])
 D.add_ref(B).move([15, 25])
 D.add_ref(A).movex(-15)
@@ -336,7 +336,7 @@ mzi = gf.components.mzi_lattice(
 )
 
 # Add fill
-c = gf.Component("component_with_fill")
+c = gf.Component()
 layers = [(1, 0)]
 fill_size = [0.5, 0.5]
 

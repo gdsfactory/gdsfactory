@@ -73,5 +73,6 @@ def test_uncached_component_error() -> None:
 
 
 if __name__ == "__main__":
-    test_uncached_component_warning()
+    test_uncached_component_ignore()
+    # test_uncached_component_warning()
     # test_uncached_component_error()

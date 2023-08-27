@@ -34,15 +34,15 @@
 # ```python
 # import gdsfactory as gf
 #
-# c1 = gf.Component("wg")
+# c1 = gf.Component()
 # c1 << gf.components.straight(length=5)
 #
 #
-# c2 = gf.Component("wg")
+# c2 = gf.Component()
 # c2 << gf.components.straight(length=50)
 #
 #
-# c3 = gf.Component("waveguides")
+# c3 = gf.Component()
 # wg1 = c3 << c1
 # wg2 = c3 << c2
 # wg2.movey(10)
@@ -156,7 +156,7 @@ import gdsfactory as gf
 @gf.cell
 def dangerous_intermediate_cells(width=0.5):
     """Example that will show the dangers of using intermediate cells."""
-    c = gf.Component("safe")
+    c = gf.Component()
 
     c2 = gf.Component(
         "dangerous"

@@ -26,7 +26,7 @@ def straight_wide(
         layer: layer spec
 
     """
-    wg = gf.Component("straight_sample")
+    wg = gf.Component()
     wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
     wg.add_port(
         name="o1", center=(0, width / 2), width=width, orientation=180, layer=layer
@@ -45,7 +45,7 @@ def straight_wide(
 # make a Component
 
 if __name__ == "__main__":
-    c = gf.Component("MultiWaveguide")
+    c = gf.Component()
 
     # Now say we want to add a few straights to to our  Component" c.
     # First we create the straights.  As you can see from the straight_wide() function

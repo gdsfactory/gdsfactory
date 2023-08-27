@@ -74,7 +74,7 @@ def get_bundle_path_length_match(
 
       import gdsfactory as gf
 
-      c = gf.Component("path_length_match_sample")
+      c = gf.Component()
 
       dy = 2000.0
       xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]

@@ -118,7 +118,7 @@ class Polygon(gdstk.Polygon, _GeometryHelper):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("demo")
+    c = gf.Component()
     p0 = Polygon(zip((-8, 6, 7, 9), (-6, 8, 17, 5)), layer="WG")
     p1 = sp.Polygon(zip((-8, 6, 7, 9), (-6, 8, 17, 5)))
     p2 = p1.buffer(1)

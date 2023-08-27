@@ -71,7 +71,7 @@ D_packed_list = gf.pack(
 )
 
 # Put all packed bins into a single device and spread them out with distribute()
-F = gf.Component("packed")
+F = gf.Component()
 [F.add_ref(D) for D in D_packed_list]
 F.distribute(elements="all", direction="x", spacing=100, separation=True)
 F
@@ -89,7 +89,7 @@ F
 
 # Say we start out with a few random-sized rectangles we want to space out:
 
-c = gf.Component("rectangles")
+c = gf.Component()
 # Create different-sized rectangles and add them to D
 [
     c.add_ref(
@@ -101,7 +101,7 @@ c.plot()
 
 # Oftentimes, we want to guarantee some distance between the objects.  By setting ``separation = True`` we move each object such that there is ``spacing`` distance between them:
 
-D = gf.Component("rectangles_separated")
+D = gf.Component()
 # Create different-sized rectangles and add them to D
 [
     D.add_ref(gf.components.rectangle(size=[n * 15 + 20, n * 15 + 20])).move((n, n * 4))
@@ -118,7 +118,7 @@ D
 
 # Alternatively, we can spread them out on a fixed grid by setting ``separation = False``. Here we align the left edge (``edge = 'min'``) of each object along a grid spacing of 100:
 
-D = gf.Component("spacing100")
+D = gf.Component()
 [
     D.add_ref(gf.components.rectangle(size=[n * 15 + 20, n * 15 + 20])).move((n, n * 4))
     for n in [0, 2, 3, 1, 2]
@@ -130,7 +130,7 @@ D
 
 # The alignment can be done along the right edge as well by setting ``edge = 'max'``, or along the center by setting ``edge = 'center'`` like in the following:
 
-D = gf.Component("alignment")
+D = gf.Component()
 [
     D.add_ref(gf.components.rectangle(size=[n * 15 + 20, n * 15 + 20])).move(
         (n - 10, n * 4)
@@ -151,7 +151,7 @@ D
 
 # Say we ``distribute()`` a few objects, but they're all misaligned:
 
-D = gf.Component("distribute")
+D = gf.Component()
 # Create different-sized rectangles and add them to D then distribute them
 [
     D.add_ref(gf.components.rectangle(size=[n * 15 + 20, n * 15 + 20])).move((n, n * 4))
@@ -163,7 +163,7 @@ D
 # we can use the ``align()`` function to align their top edges (``alignment = 'ymax'):
 
 # +
-D = gf.Component("align")
+D = gf.Component()
 # Create different-sized rectangles and add them to D then distribute them
 [
     D.add_ref(gf.components.rectangle(size=[n * 15 + 20, n * 15 + 20])).move((n, n * 4))
@@ -179,7 +179,7 @@ D
 # or align their centers (``alignment = 'y'):
 
 # +
-D = gf.Component("distribute_align_y")
+D = gf.Component()
 # Create different-sized rectangles and add them to D then distribute them
 [
     D.add_ref(gf.components.rectangle(size=[n * 15 + 20, n * 15 + 20])).move((n, n * 4))

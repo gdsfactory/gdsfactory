@@ -81,10 +81,10 @@ def _demo() -> None:
 
     import gdsfactory as gf
 
-    gdspath1 = gf.Component("ellipse1")
+    gdspath1 = gf.Component()
     gdspath1.add_ref(gf.components.ellipse(radii=[10, 5], layer=(1, 0)))
 
-    gdspath2 = gf.Component("ellipse2")
+    gdspath2 = gf.Component()
     gdspath2.add_ref(gf.components.ellipse(radii=[11, 4], layer=(1, 0))).movex(4)
 
     layer1 = layer2 = (1, 0)

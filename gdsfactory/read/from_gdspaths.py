@@ -15,7 +15,7 @@ def from_gdspaths(cells: tuple[ComponentOrPath, ...]) -> Component:
         cells: List of gdspaths or Components.
 
     """
-    component = Component("merged")
+    component = Component()
 
     for c in cells:
         if isinstance(c, str | pathlib.Path):

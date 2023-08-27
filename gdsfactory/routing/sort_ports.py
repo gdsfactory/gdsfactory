@@ -82,7 +82,7 @@ if __name__ == "__main__":
     def demo_connect_corner(N=6, config="A"):
         d = 10.0
         sep = 5.0
-        top_cell = gf.Component(name="connect_corner")
+        top_cell = gf.Component()
 
         if config in ["A", "B"]:
             a = 100.0

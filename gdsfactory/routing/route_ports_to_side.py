@@ -60,7 +60,7 @@ def route_ports_to_side(
 
         import gdsfactory as gf
 
-        c = gf.Component('sample_route_sides')
+        c = gf.Component()
         dummy = gf.components.nxn(north=2, south=2, west=2, east=2)
         sides = ["north", "south", "east", "west"]
         d = 100
@@ -556,7 +556,7 @@ def _sample_route_sides() -> Component:
 
 
 if __name__ == "__main__":
-    c = Component("sample_route_sides")
+    c = Component()
     dummy = gf.components.nxn(north=2, south=2, west=2, east=2, cross_section="nitride")
     sides = ["north", "south", "east", "west"]
     d = 100

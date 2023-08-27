@@ -62,7 +62,7 @@ if __name__ == "__main__":
     test_manhattan_sbend_pass()
     # test_manhattan_sbend_fail()
 
-    # c = gf.Component("demo_sbend")
+    # c = gf.Component()
     # length = 10
     # c1 = c << gf.components.straight(length=length)
     # c2 = c << gf.components.straight(length=length)

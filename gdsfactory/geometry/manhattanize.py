@@ -77,7 +77,7 @@ def manhattanize_polygon(
 
 
 def test_manhattanize() -> None:
-    c = gf.Component("route")
+    c = gf.Component()
     poly = gdstk.rectangle((-2, -2), (2, 2))
     poly.rotate(np.pi / 4)
     poly.scale(1, 0.5)

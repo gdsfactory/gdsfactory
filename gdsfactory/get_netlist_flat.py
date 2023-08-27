@@ -316,7 +316,7 @@ if __name__ == "__main__":
     # Testing electrical netlist w/ identical component references
     # """
     # # Define compound component
-    # series_resistors = gf.Component("seriesResistors")
+    # series_resistors = gf.Component()
     # rseries1 = series_resistors << gf.get_component(
     #     gf.components.resistance_sheet, width=20, ohms_per_square=20
     # )
@@ -328,7 +328,7 @@ if __name__ == "__main__":
     # series_resistors.add_port("pad2", port=rseries2.ports["pad2"])
 
     # # Increase hierarchy levels more
-    # double_series_resistors = gf.Component("double_seriesResistors")
+    # double_series_resistors = gf.Component()
     # rseries1 = double_series_resistors << gf.get_component(series_resistors)
     # rseries2 = double_series_resistors << gf.get_component(series_resistors)
     # rseries1.connect("pad2", rseries2.ports["pad1"])
@@ -336,7 +336,7 @@ if __name__ == "__main__":
     # double_series_resistors.add_port("pad2", port=rseries2.ports["pad2"])
 
     # # Define top-level component
-    # vdiv = gf.Component("voltageDivider")
+    # vdiv = gf.Component()
     # r1 = vdiv << double_series_resistors
     # r2 = vdiv << series_resistors
     # r3 = (

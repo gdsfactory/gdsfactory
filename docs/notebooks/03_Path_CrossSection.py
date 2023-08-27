@@ -407,7 +407,7 @@ print(len(P))  # Equivalently, use len(P) to see how many points are inside
 # [Ramer-Douglas–Peucker
 # algorithm](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm)
 # that lets you reduce the number of points in a curve without changing its shape.
-# All that needs to be done is when you  made a component `component()` extruding the path with a cross_section, you specify the
+# All that needs to be done is when you  made a component `Component()` extruding the path with a cross_section, you specify the
 # `simplify` argument.
 #
 # If we specify `simplify = 1e-3`, the number of points in the line drops from
@@ -571,7 +571,7 @@ wg1 = gf.path.extrude(P1, X1)
 wg2 = gf.path.extrude(P2, X2)
 
 # Place both cross-section Components and quickplot them
-c = gf.Component("demo")
+c = gf.Component()
 wg1ref = c << wg1
 wg2ref = c << wg2
 wg2ref.movex(7.5)
@@ -604,7 +604,7 @@ wg2.plot()
 # what it looks like
 
 # %%
-c = gf.Component("transition_demo")
+c = gf.Component()
 
 wg1ref = c << wg1
 wgtref = c << straight_transition
@@ -624,7 +624,7 @@ c.plot()
 P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
 wg_trans = gf.path.extrude(P4, Xtrans)
 
-c = gf.Component("demo_transition")
+c = gf.Component()
 wg1_ref = c << wg1  # First cross-section Component
 wg2_ref = c << wg2
 wgt_ref = c << wg_trans
@@ -794,7 +794,7 @@ wg_trans = gf.path.extrude(P4, Xtrans)
 # WG_trans = P4.extrude(Xtrans)
 
 
-c = gf.Component("demo")
+c = gf.Component()
 wg1_ref = c << wg1
 wg2_ref = c << wg2
 wgt_ref = c << wg_trans
@@ -873,7 +873,7 @@ c3 = gf.path.extrude(P, T)
 c3.plot()
 
 # %%
-c4 = gf.Component("demo_transition2")
+c4 = gf.Component()
 
 # %%
 start_ref = c4 << c
@@ -1034,7 +1034,7 @@ xs = gf.CrossSection(
 c1 = gf.path.extrude(p1, xs, shear_angle_start=45, shear_angle_end=45)
 c2 = gf.path.extrude(p2, xs, shear_angle_start=45, shear_angle_end=45)
 
-c = gf.Component("shear_sample")
+c = gf.Component()
 ref1 = c << c1
 ref2 = c << c2
 ref3 = c << c1

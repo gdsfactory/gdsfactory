@@ -59,7 +59,7 @@ get_polygons_over_under_slab = partial(
     get_polygons_over_under, layers=((2, 0)), distances=(0.5,)
 )
 
-c = gf.Component("compnent_clean")
+c = gf.Component()
 ref = c << gf.components.coupler_ring(
     cladding_layers=((2, 0)),
     cladding_offsets=(0.2,),  # decorator=over_under_slab_decorator

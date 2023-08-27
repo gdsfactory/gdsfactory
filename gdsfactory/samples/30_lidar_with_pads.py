@@ -11,7 +11,7 @@ from __future__ import annotations
 import gdsfactory as gf
 
 if __name__ == "__main__":
-    c = gf.Component("lidar")
+    c = gf.Component()
     elements = 2**2
     # elements = 2**4
     antenna_pitch = 2.0

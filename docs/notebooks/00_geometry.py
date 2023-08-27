@@ -60,7 +60,7 @@ c.plot()  # show it in KLayout
 # Make a component similar to the one above that has a second polygon in layer (2, 0)
 
 # %%
-c = gf.Component("myComponent2")
+c = gf.Component()
 # Create some new geometry from the functions available in the geometry library
 t = gf.components.text("Hello!")
 r = gf.components.rectangle(size=[5, 10], layer=(2, 0))
@@ -89,7 +89,7 @@ from shapely.geometry.polygon import Polygon
 
 import gdsfactory as gf
 
-c = gf.Component("Mixed_polygons")
+c = gf.Component()
 p0 = Polygon(zip((-8, 6, 7, 9), (-6, 8, 17, 5)))
 p1 = p0.buffer(1)
 p2 = p1.simplify(tolerance=0.1)
@@ -112,7 +112,7 @@ pnot = p1 - p0
 pnot
 
 # %%
-c = gf.Component("exterior")
+c = gf.Component()
 c.add_polygon(pnot, layer=3)
 c.plot()
 
@@ -125,7 +125,7 @@ p_or = pnot | p_small
 p_or
 
 # %%
-c = gf.Component("p_or")
+c = gf.Component()
 c.add_polygon(p_or, layer=1)
 c.plot()
 
@@ -140,24 +140,24 @@ p6 = p5 - p0
 p6
 
 # %%
-c = gf.Component("p6")
+c = gf.Component()
 c.add_polygon(p6, layer=1)
 c.plot()
 
 # %%
-c = gf.Component("demo_multilayer")
+c = gf.Component()
 p0 = c.add_polygon(p0, layer={2, 3})
 c.plot()
 
 # %%
-c = gf.Component("demo_mirror")
+c = gf.Component()
 p0 = c.add_polygon(p0, layer=1)
 p9 = c.add_polygon(p0, layer=2)
 p9.mirror()
 c.plot()
 
 # %%
-c = gf.Component("demo_xmin")
+c = gf.Component()
 p0 = c.add_polygon(p0, layer=1)
 p9 = c.add_polygon(p0, layer=2)
 p9.mirror()
@@ -165,34 +165,34 @@ p9.xmin = p0.xmax
 c.plot()
 
 # %%
-c = gf.Component("enclosure1")
+c = gf.Component()
 r = c << gf.components.ring_single()
 c.plot()
 
 
 # %%
-c = gf.Component("enclosure2")
+c = gf.Component()
 r = c << gf.components.ring_single()
 p = c.get_polygon_bbox()
 c.add_polygon(p, layer=(2, 0))
 c.plot()
 
 # %%
-c = gf.Component("enclosure3")
+c = gf.Component()
 r = c << gf.components.ring_single()
 p = c.get_polygon_bbox(top=3, bottom=3)
 c.add_polygon(p, layer=(2, 0))
 c.plot()
 
 # %%
-c = gf.Component("enclosure3")
+c = gf.Component()
 r = c << gf.components.ring_single()
 p = c.get_polygon_enclosure()
 c.add_polygon(p, layer=(2, 0))
 c.plot()
 
 # %%
-c = gf.Component("enclosure3")
+c = gf.Component()
 r = c << gf.components.ring_single()
 p = c.get_polygon_enclosure()
 p2 = p.buffer(3)
@@ -225,7 +225,7 @@ def straight(length=10, width=1, layer=(1, 0)):
     return WG
 
 
-c = gf.Component("straights_not_connected")
+c = gf.Component()
 
 wg1 = c << straight(length=6, width=2.5, layer=1)
 wg2 = c << straight(length=11, width=2.5, layer=2)
@@ -265,7 +265,7 @@ c.plot()
 # You can move, rotate, and reflect references to Components.
 
 # %%
-c = gf.Component("straights_connected")
+c = gf.Component()
 
 wg1 = c << straight(length=1, layer=(1, 0))
 wg2 = c << straight(length=2, layer=(2, 0))
@@ -312,7 +312,7 @@ wg2.ports
 # Now that your component `c` is a multi-straight component, you can add references to that component in a new blank Component `c2`, then add two references and shift one to see the movement.
 
 # %%
-c2 = gf.Component("MultiWaveguides")
+c2 = gf.Component()
 wg1 = straight()
 wg2 = straight(layer=(2, 0))
 mwg1_ref = c2.add_ref(wg1)
@@ -349,7 +349,7 @@ c2.plot()
 # Another simple example
 
 # %%
-c = gf.Component("rectangle_with_label")
+c = gf.Component()
 r = c << gf.components.rectangle(size=(1, 1))
 r.x = 0
 r.y = 0
@@ -372,7 +372,7 @@ c.plot()
 # 'B-A' is equivalent to 'not' with the operands switched
 
 # %%
-c = gf.Component("boolean_demo")
+c = gf.Component()
 e1 = c.add_ref(gf.components.ellipse(layer=(2, 0)))
 e2 = c.add_ref(gf.components.ellipse(radii=(10, 6), layer=(2, 0))).movex(2)
 e3 = c.add_ref(gf.components.ellipse(radii=(10, 4), layer=(2, 0))).movex(5)
@@ -386,7 +386,7 @@ c2.plot()
 # ## Move Reference by port
 
 # %%
-c = gf.Component("ref_port_sample")
+c = gf.Component()
 mmi = c.add_ref(gf.components.mmi1x2())
 bend = c.add_ref(gf.components.bend_circular(layer=(2, 0)))
 c.plot()
@@ -401,7 +401,7 @@ c.plot()
 # By default the mirror works along the y-axis.
 
 # %%
-c = gf.Component("ref_mirror")
+c = gf.Component()
 mmi = c.add_ref(gf.components.mmi1x2())
 bend = c.add_ref(gf.components.bend_circular(layer=(2, 0)))
 c.plot()

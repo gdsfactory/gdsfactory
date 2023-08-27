@@ -24,7 +24,7 @@ def outline(
     argument. `elements` may be a Component, Polygon, or list of Components.
 
     Args:
-        elements: Component(/Reference), list of Component(/Reference), or Polygon
+        elements: Component(), or Polygon
             Polygons to outline or Component containing polygons to outline.
         distance: int or float
             Distance to offset polygons. Positive values expand, negative shrink.

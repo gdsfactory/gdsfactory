@@ -20,7 +20,7 @@ PDK.activate()
 
 @gf.cell
 def demo_non_manhattan():
-    c = gf.Component("bend")
+    c = gf.Component()
     b = c << gf.components.bend_circular(angle=30)
     s = c << gf.components.straight(length=5)
     s.connect("o1", b.ports["o2"])
@@ -82,7 +82,7 @@ pdk.gds_write_settings.flatten_invalid_refs = True
 # %%
 @gf.cell
 def demo_non_manhattan_extrude_fix():
-    c = gf.Component("bend")
+    c = gf.Component()
     p1 = gf.path.arc(angle=30)
     p2 = gf.path.straight(length=5)
     p = p1 + p2
@@ -101,26 +101,26 @@ c1
 # %%
 import gdsfactory as gf
 
-c = gf.Component("bend")
+c = gf.Component()
 b = c << gf.components.bend_circular(angle=30)
 s = c << gf.components.straight(length=5)
 s.connect("o1", b.ports["o2"])
 p = c.get_polygons(as_shapely_merged=True)
-c2 = gf.Component("bend_fixed")
+c2 = gf.Component()
 c2.add_polygon(p, layer=(1, 0))
 c2
 
 # %%
 import gdsfactory as gf
 
-c = gf.Component("bend")
+c = gf.Component()
 b = c << gf.components.bend_circular(angle=30)
 s = c << gf.components.straight(length=5)
 s.connect("o1", b.ports["o2"])
 p_shapely = c.get_polygons(as_shapely_merged=True)
 p = gf.Polygon.from_shapely(p_shapely, layer=(1, 0))
 p = p.snap(nm=5)
-c2 = gf.Component("bend_fixed")
+c2 = gf.Component()
 c2.add_polygon(p, layer=(1, 0))
 c2
 
@@ -131,7 +131,7 @@ p_shapely
 # %%
 @gf.cell
 def demo_non_manhattan_merge_polygons():
-    c = gf.Component("bend")
+    c = gf.Component()
     b = c << gf.components.bend_circular(angle=30)
     s = c << gf.components.straight(length=5)
     s.connect("o1", b.ports["o2"])
@@ -384,7 +384,7 @@ show_yaml_pic(sample_dir / "aar_bundles02.pic.yml")
 # %%
 import gdsfactory as gf
 
-c = gf.Component("demo")
+c = gf.Component()
 
 mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)
 mmi1 = c << mmi
@@ -403,7 +403,7 @@ for route in routes:
 c.plot()
 
 # %%
-c = gf.Component("demo")
+c = gf.Component()
 
 mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)
 mmi1 = c << mmi

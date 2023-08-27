@@ -937,8 +937,8 @@ if __name__ == "__main__":
 
     # p = ref.get_polygons(by_spec=(1, 0), as_array=False)
 
-    # c = gf.Component("parent")
-    # c2 = gf.Component("child")
+    # c = gf.Component()
+    # c2 = gf.Component()
     # length = 10
     # width = 0.5
     # layer = (1, 0)

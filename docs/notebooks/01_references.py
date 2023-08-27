@@ -42,7 +42,7 @@ PDK = get_generic_pdk()
 PDK.activate()
 
 # Create a blank Component
-p = gf.Component("component_with_polygon")
+p = gf.Component()
 
 # Add a polygon
 xpts = [0, 0, 5, 6, 9, 12]
@@ -60,7 +60,7 @@ p.plot()
 # In this new Component you *reference* our Component `p` which contains our polygon.
 
 # %%
-c = gf.Component("Component_with_references")  # Create a new blank Component
+c = gf.Component()  # Create a new blank Component
 poly_ref = c.add_ref(p)  # Reference the Component "p" that has the polygon in it
 c.plot()
 
@@ -124,7 +124,7 @@ c.plot()
 # exactly equivalent to using `add_ref()`
 
 # %%
-c2 = gf.Component("array_sample")  # Create a new blank Component
+c2 = gf.Component()  # Create a new blank Component
 d_ref1 = c2.add_ref(c)  # Reference the Component "c" that 3 references in it
 d_ref2 = c2 << c  # Use the "<<" operator to create a 2nd reference to c.plot()
 d_ref3 = c2 << c  # Use the "<<" operator to create a 3rd reference to c.plot()
@@ -140,7 +140,7 @@ c2
 # 1. create the reference and add it to the component
 
 # %%
-c = gf.Component("reference_sample")
+c = gf.Component()
 w = gf.components.straight(width=0.6)
 wr = w.ref()
 c.add(wr)
@@ -150,7 +150,7 @@ c.plot()
 # 2. or do it in a single line
 
 # %%
-c = gf.Component("reference_sample_shorter_syntax")
+c = gf.Component()
 wr = c << gf.components.straight(width=0.6)
 c.plot()
 
@@ -158,7 +158,7 @@ c.plot()
 # in both cases you can move the reference `wr` after created
 
 # %%
-c = gf.Component("two_references")
+c = gf.Component()
 wr1 = c << gf.components.straight(width=0.6)
 wr2 = c << gf.components.straight(width=0.6)
 wr2.movey(10)
@@ -193,7 +193,7 @@ c.plot()
 # Let's make a new Component and put a big array of our Component `c` in it:
 
 # %%
-c3 = gf.Component("array_of_references")  # Create a new blank Component
+c3 = gf.Component()  # Create a new blank Component
 aref = c3.add_array(
     c, columns=6, rows=3, spacing=[20, 15]
 )  # Reference the Component "c" 3 references in it with a 3 rows, 6 columns array
@@ -205,7 +205,7 @@ c3
 # gdsfactory provides you with similar functions in `gf.components.array` and `gf.components.array_2d`
 
 # %%
-c4 = gf.Component("demo_array")  # Create a new blank Component
+c4 = gf.Component()  # Create a new blank Component
 aref = c4 << gf.components.array(component=c, columns=3, rows=2)
 c4.add_ports(aref.get_ports_list())
 c4
@@ -240,7 +240,7 @@ period = dbr_period(l1=l1, l2=l2)
 period
 
 # %%
-dbr = gf.Component("DBR")
+dbr = gf.Component()
 dbr.add_array(period, columns=n, rows=1, spacing=(l1 + l2, 100))
 dbr
 
@@ -264,7 +264,7 @@ bend = gf.components.bend_circular()
 bend
 
 # %%
-c = gf.Component("sample_reference_connect")
+c = gf.Component()
 
 mmi = c << gf.components.mmi1x2()
 b = c << gf.components.bend_circular()
@@ -279,7 +279,7 @@ c.plot()
 # You can also access the ports directly from the references
 
 # %%
-c = gf.Component("sample_reference_connect_simpler")
+c = gf.Component()
 
 mmi = c << gf.components.mmi1x2()
 b = c << gf.components.bend_circular()
@@ -371,7 +371,7 @@ c2.ports
 # ```
 
 # %%
-c = gf.Component("demo_ports")
+c = gf.Component()
 nxn = gf.components.nxn(west=2, north=2, east=2, south=2, xsize=4, ysize=4)
 ref = c.add_ref(nxn)
 c.add_ports(ref.ports)

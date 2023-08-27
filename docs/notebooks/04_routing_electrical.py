@@ -41,14 +41,14 @@ gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
 
-c = gf.Component("pads")
+c = gf.Component()
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((70, 200))
 c.plot()
 
 # %%
-c = gf.Component("pads_with_routes_with_bends")
+c = gf.Component()
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((70, 200))
@@ -59,7 +59,7 @@ c.add(route.references)
 c.plot()
 
 # %%
-c = gf.Component("pads_with_routes_with_wire_corners")
+c = gf.Component()
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((70, 200))
@@ -70,7 +70,7 @@ c.add(route.references)
 c.plot()
 
 # %%
-c = gf.Component("pads_with_routes_with_wire_corners_no_orientation")
+c = gf.Component()
 pt = c << gf.components.pad_array(orientation=None, columns=3)
 pb = c << gf.components.pad_array(orientation=None, columns=3)
 pt.move((70, 200))
@@ -81,7 +81,7 @@ c.add(route.references)
 c.plot()
 
 # %%
-c = gf.Component("multi-layer")
+c = gf.Component()
 columns = 2
 ptop = c << gf.components.pad_array(columns=columns)
 pbot = c << gf.components.pad_array(orientation=90, columns=columns)
@@ -100,7 +100,7 @@ c.plot()
 # There is also `bend = wire_corner45` for 45deg bend corner with parametrizable "radius":
 
 # %%
-c = gf.Component("pads_with_routes_with_wire_corner45")
+c = gf.Component()
 pt = c << gf.components.pad_array(orientation=270, columns=1)
 pb = c << gf.components.pad_array(orientation=90, columns=1)
 pt.move((300, 300))
@@ -111,7 +111,7 @@ c.add(route.references)
 c.plot()
 
 # %%
-c = gf.Component("pads_with_routes_with_wire_corner45")
+c = gf.Component()
 pt = c << gf.components.pad_array(orientation=270, columns=1)
 pb = c << gf.components.pad_array(orientation=90, columns=1)
 pt.move((300, 300))
@@ -125,7 +125,7 @@ c.plot()
 # ### route_quad
 
 # %%
-c = gf.Component("pads_route_quad")
+c = gf.Component()
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((100, 200))
@@ -136,7 +136,7 @@ c.plot()
 # ### get_route_from_steps
 
 # %%
-c = gf.Component("pads_route_from_steps")
+c = gf.Component()
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((100, 200))
@@ -153,7 +153,7 @@ c.add(route.references)
 c.plot()
 
 # %%
-c = gf.Component("pads_route_from_steps_None_orientation")
+c = gf.Component()
 pt = c << gf.components.pad_array(orientation=None, columns=3)
 pb = c << gf.components.pad_array(orientation=None, columns=3)
 pt.move((100, 200))
@@ -175,7 +175,7 @@ c.plot()
 # For routing groups of ports you can use `get_bundle` that returns a bundle of routes using a bundle router (also known as bus or river router)
 
 # %%
-c = gf.Component("pads_bundle")
+c = gf.Component()
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((100, 200))
@@ -192,7 +192,7 @@ c.plot()
 # ### get_bundle_from_steps_electrical
 
 # %%
-c = gf.Component("pads_bundle_steps")
+c = gf.Component()
 pt = c << gf.components.pad_array(
     partial(gf.components.pad, size=(30, 30)),
     orientation=270,
@@ -217,7 +217,7 @@ c.plot()
 # To avoid metal crossings you can use one metal layer.
 
 # %%
-c = gf.Component("get_bundle_multi_layer")
+c = gf.Component()
 columns = 2
 ptop = c << gf.components.pad_array(columns=columns)
 pbot = c << gf.components.pad_array(orientation=90, columns=columns)
@@ -367,7 +367,7 @@ def sample_die(size=(8e3, 40e3), y_spacing: float = 10) -> gf.Component:
         cells.pop(component_name, None)
 
     for component in cells.values():
-        ci = component()
+        ci = Component()
         ci = (
             gf.routing.add_pads_top(
                 ci,

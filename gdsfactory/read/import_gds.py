@@ -144,7 +144,7 @@ def import_gds_raw(gdspath, top_cellname: str | None = None):
         top_cellname = top_cellnames[0]
 
     cells = gdstk.read_rawcells(gdspath)
-    c = Component(name=top_cellname)
+    c = Component()
     c._cell = cells.pop(top_cellname)
     return c
 

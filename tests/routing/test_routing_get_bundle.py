@@ -512,7 +512,7 @@ if __name__ == "__main__":
             for i in range(N)
         ]
 
-    c = gf.Component(f"test_get_bundle_u_indirect_{angle}_{dy}")
+    c = gf.Component()
 
     routes = get_bundle(
         ports1,

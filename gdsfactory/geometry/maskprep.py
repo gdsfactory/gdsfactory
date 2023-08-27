@@ -123,7 +123,7 @@ if __name__ == "__main__":
     #     get_polygons_over_under, layers=((2, 0)), distances=(0.5,)
     # )
 
-    # c = gf.Component("component_clean")
+    # c = gf.Component()
     # ref = c << gf.components.coupler_ring(
     #     cladding_layers=((2, 0)),
     #     cladding_offsets=(0.2,),  # decorator=over_under_slab_decorator

@@ -32,7 +32,7 @@ if __name__ == "__main__":
     )
 
     # Add fill
-    c = gf.Component("component_with_fill")
+    c = gf.Component()
     layers = [(1, 0)]
     fill_size = [0.5, 0.5]
 

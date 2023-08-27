@@ -40,7 +40,7 @@ def die(
         draw_dicing_lane: around die.
         text_component: component to use for generating text
     """
-    c = gf.Component(name="die")
+    c = gf.Component()
     sx, sy = size[0] / 2, size[1] / 2
 
     if draw_dicing_lane:

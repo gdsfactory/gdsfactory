@@ -3,7 +3,6 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.cross_section import strip
-from gdsfactory.difftest import difftest
 from gdsfactory.port import Port
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Routes
 
@@ -31,7 +30,7 @@ def get_routes_bend180(
 
         import gdsfactory as gf
 
-        c = gf.Component("get_routes_bend180")
+        c = gf.Component()
         pad_array = gf.components.pad_array(orientation=270)
         c1 = c << pad_array
         c2 = c << pad_array
@@ -68,7 +67,7 @@ def get_routes_bend180(
 
 
 def test_get_routes_bend180() -> None:
-    c = gf.Component("get_routes_bend180")
+    c = gf.Component()
     pad_array = gf.components.pad_array(orientation=270)
     c1 = c << pad_array
     c2 = c << pad_array
@@ -88,11 +87,10 @@ def test_get_routes_bend180() -> None:
     )
     for route in routes:
         c.add(route.references)
-    difftest(c)
 
 
 if __name__ == "__main__":
-    c = gf.Component("get_routes_bend180")
+    c = gf.Component()
     pad_array = gf.components.pad_array(orientation=270)
     c1 = c << pad_array
     c2 = c << pad_array

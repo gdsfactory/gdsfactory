@@ -52,7 +52,7 @@ def get_bundle_sbend(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("test_get_route_sbend")
+    c = gf.Component()
     pitch = 2.0
     ys_left = [0, 10, 20]
     N = len(ys_left)

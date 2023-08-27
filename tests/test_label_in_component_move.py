@@ -6,7 +6,7 @@ from gdsfactory.component import Component
 
 @gf.cell
 def component_with_label_float() -> Component:
-    c = gf.Component("component_with_label_float")
+    c = gf.Component()
     c << gf.components.rectangle()
     c.add_label(text="demo", position=(0.0, 0.0), layer=(66, 0))
     return c
@@ -14,20 +14,20 @@ def component_with_label_float() -> Component:
 
 @gf.cell
 def component_with_label_int() -> Component:
-    c = gf.Component("component_with_label_int")
+    c = gf.Component()
     c << gf.components.rectangle()
     c.add_label(text="demo", position=(0, 0), layer=(66, 0))
     return c
 
 
 def test_move_float_with_int() -> None:
-    c = gf.Component("test_move_float_with_int")
+    c = gf.Component()
     ref = c.add_ref(component_with_label_float())
     ref.movex(10)
 
 
 def test_move_int_with_float() -> None:
-    c = gf.Component("test_move_float_with_float")
+    c = gf.Component()
     ref = c.add_ref(component_with_label_int())
     ref.movex(10)
 

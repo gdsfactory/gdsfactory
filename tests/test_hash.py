@@ -15,7 +15,7 @@ def test_hash_geometry() -> None:
 
 def _test_hash_array_file() -> None:
     """Test hash of a component with an array of references."""
-    c = gf.Component("array")
+    c = gf.Component()
     wg = gf.components.straight(length=3.2)
     c.add_array(wg)
     gdspath = c.write_gds()

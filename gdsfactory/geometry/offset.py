@@ -22,7 +22,7 @@ def offset(
     """Returns new Component with polygons eroded or dilated by an offset.
 
     Args:
-        elements: Component(/Reference), list of Component(/Reference), or Polygon
+        elements: Component(), or Polygon
           Polygons to offset or Component containing polygons to offset.
         distance: Distance to offset polygons. Positive values expand, negative shrink.
         precision: Desired precision for rounding vertex coordinates.
@@ -64,7 +64,7 @@ def offset(
         elif isinstance(e, Polygon | gdstk.Polygon):
             polygons_to_offset.append(e)
     if len(polygons_to_offset) == 0:
-        return gf.Component("offset")
+        return gf.Component()
 
     gds_layer, gds_datatype = gf.get_layer(layer)
     p = gdstk.offset(

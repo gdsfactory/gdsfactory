@@ -43,7 +43,7 @@ def add_port_markers(
     gdspath, csvpath, marker_size: int = 20, marker_layer: LayerSpec = (203, 0)
 ):
     """Add port markers from port info extracted from a gdspath and csvpath."""
-    c = gf.Component("overlay")
+    c = gf.Component()
     c << gf.import_gds(gdspath)
     cells = read_labels_yaml(csvpath=csvpath)
 
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     marker_size = 40
     marker_layer = (203, 0)
 
-    c = gf.Component("overlay")
+    c = gf.Component()
     c << gf.import_gds(gdspath)
     cells = read_labels_yaml(csvpath=csvpath)
 

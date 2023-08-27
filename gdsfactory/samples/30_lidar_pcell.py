@@ -15,7 +15,7 @@ import gdsfactory as gf
 def lidar(
     noutputs=2**2, antenna_pitch=2.0, splitter_tree_spacing=(50.0, 70.0)
 ) -> gf.Component:
-    c = gf.Component("lidar")
+    c = gf.Component()
 
     # power Splitter
     splitter_tree = c << gf.components.splitter_tree(

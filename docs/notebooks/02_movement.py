@@ -13,7 +13,7 @@ PDK = get_generic_pdk()
 PDK.activate()
 
 # Start with a blank Component
-c = gf.Component("demo_movement")
+c = gf.Component()
 
 # Create some more Components with shapes
 T = gf.components.text("hello", size=10, layer=(1, 0))
@@ -29,13 +29,13 @@ rect2 = c << R
 c.plot()
 # -
 
-c = gf.Component("move_one_ellipse")
+c = gf.Component()
 e1 = c << gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e2 = c << gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e1.movex(10)
 c.plot()
 
-c = gf.Component("move_one_ellipse_xmin")
+c = gf.Component()
 e1 = c << gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e2 = c << gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e2.xmin = e1.xmax
@@ -43,20 +43,20 @@ c.plot()
 
 # Now you can practice move and rotate the objects.
 
-c = gf.Component("two_ellipses_on_top_of_each_other")
+c = gf.Component()
 E = gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e1 = c << E
 e2 = c << E
 c.plot()
 
-c = gf.Component("ellipse_moved")
+c = gf.Component()
 e = gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e1 = c << e
 e2 = c << e
 e2.move(origin=[5, 5], destination=[10, 10])  # Translate by dx = 5, dy = 5
 c.plot()
 
-c = gf.Component("ellipse_moved_v2")
+c = gf.Component()
 e = gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e1 = c << e
 e2 = c << e
@@ -64,7 +64,7 @@ e2.move([5, 5])  # Translate by dx = 5, dy = 5
 c.plot()
 
 # +
-c = gf.Component("rectangles")
+c = gf.Component()
 r = gf.components.rectangle(size=(10, 5), layer=(2, 0))
 rect1 = c << r
 rect2 = c << r
@@ -76,12 +76,12 @@ rect2.rotate(
 c.plot()
 # -
 
-c = gf.Component("mirror_demo")
+c = gf.Component()
 text = c << gf.components.text("hello")
 text.mirror(p1=[1, 1], p2=[1, 3])  # Reflects across the line formed by p1 and p2
 c.plot()
 
-c = gf.Component("hello")
+c = gf.Component()
 text = c << gf.components.text("hello")
 c.plot()
 
@@ -118,7 +118,7 @@ print(text.xmax)  # Gives you the rightmost (+x) edge of the text bounding box
 # better
 
 # +
-c = gf.Component("canvas")
+c = gf.Component()
 text = c << gf.components.text("hello")
 E = gf.components.ellipse(radii=(10, 5), layer=(3, 0))
 R = gf.components.rectangle(size=(10, 5), layer=(2, 0))
@@ -166,14 +166,14 @@ c2.plot()
 
 # A bounding box is the smallest enclosing box which contains all points of the geometry.
 
-c = gf.Component("hi_bbox")
+c = gf.Component()
 text = c << gf.components.text("hi")
 bbox = text.bbox
 c << gf.components.bbox(bbox=bbox, layer=(2, 0))
 c.plot()
 
 # gf.get_padding_points can also add a bbox with respect to the bounding box edges
-c = gf.Component("sample_padding")
+c = gf.Component()
 text = c << gf.components.text("bye")
 device_bbox = text.bbox
 c.add_polygon(gf.get_padding_points(text, default=1), layer=(2, 0))
@@ -190,7 +190,7 @@ print("X-max of Component c:")
 print(c.xmax)
 # -
 
-D = gf.Component("rect")
+D = gf.Component()
 R = gf.components.rectangle(size=(10, 3), layer=(2, 0))
 rect1 = D << R
 D.plot()
@@ -205,7 +205,7 @@ D.plot()
 
 # ...into this single-line expression
 
-D = gf.Component("single_expression")
+D = gf.Component()
 R = gf.components.rectangle(size=(10, 3), layer=(2, 0))
 rect1 = D << R
 rect1.rotate(angle=37).move([10, 20])

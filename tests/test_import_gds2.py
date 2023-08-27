@@ -43,9 +43,9 @@ def test_mix_cells_from_gds_and_from_function() -> None:
     @cell decorator
     """
     gdspath = gf.PATH.gdsdir / "straight.gds"
-    c = gf.Component("test_mix_cells_from_gds_and_from_function")
-    c << gf.components.straight(length=1.234)
-    c << gf.import_gds(gdspath)
+    c = gf.Component()
+    _ = c << gf.components.straight(length=1.234)
+    _ = c << gf.import_gds(gdspath)
     c.write_gds()
 
 
@@ -58,10 +58,10 @@ def _write() -> None:
 
 
 if __name__ == "__main__":
-    _write()  # run this in case you want to regenerate the tests
+    # _write()  # run this in case you want to regenerate the tests
 
-    # test_mix_cells_from_gds_and_from_function()
-    test_read_gds_equivalent()
+    test_mix_cells_from_gds_and_from_function()
+    # test_read_gds_equivalent()
     # test_read_gds_hash()
 
     # c1 = gf.components.straight(length=1.234)

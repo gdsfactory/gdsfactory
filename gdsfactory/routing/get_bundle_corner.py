@@ -277,7 +277,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.routing import get_routes_bend180
 
-    c = gf.Component("get_routes_bend180")
+    c = gf.Component()
     pad_array = gf.components.pad_array(orientation=270)
     c1 = c << pad_array
     c2 = c << pad_array

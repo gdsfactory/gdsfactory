@@ -468,7 +468,7 @@ def _demo() -> None:
     print(c.info["min_bend_radius"])
     print(c2.info["min_bend_radius"])
 
-    component = Component(name="top_lvl")
+    component = Component()
     component.add(c.ref(port_id="o1"))
     component.add(c2.ref(port_id="o1", position=(0, 10)))
 

@@ -24,7 +24,7 @@ def trim(
     Useful to get a smaller component from a larger one for simulation.
 
     Args:
-        component: Component(/Reference).
+        component: Component().
         domain: list of array-like[N][2] representing the boundary of the component to keep.
         precision: float Desired precision for rounding vertex coordinates.
         return_ports: whether to return the included ports or not. Ports are always renamed to avoid inheritance conflicts.

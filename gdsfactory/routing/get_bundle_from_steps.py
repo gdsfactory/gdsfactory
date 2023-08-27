@@ -65,7 +65,7 @@ def get_bundle_from_steps(
         from functools import partial
         import gdsfactory as gf
 
-        c = gf.Component("get_route_from_steps_sample")
+        c = gf.Component()
         w = gf.components.array(
             partial(gf.components.straight, layer=(2, 0)),
             rows=3,
@@ -191,7 +191,7 @@ get_bundle_from_steps_electrical_multilayer = partial(
 
 
 def _demo() -> None:
-    c = gf.Component("get_route_from_steps_sample")
+    c = gf.Component()
 
     w = gf.components.array(
         partial(gf.components.straight, layer=(2, 0)),
@@ -221,7 +221,7 @@ def _demo() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("pads_bundle_steps")
+    c = gf.Component()
     pt = c << gf.components.pad_array(
         partial(gf.components.pad, size=(30, 30)),
         orientation=270,

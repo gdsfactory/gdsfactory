@@ -323,7 +323,8 @@ def test_fill() -> None:
     import gdsfactory as gf
     from gdsfactory.difftest import difftest
 
-    c = gf.Component("test_fill")
+    c = gf.Component()
+    c.name = "test_fill"
     wg = c << gf.components.straight()
     c << gf.add_padding_container(wg.parent, default=15)
     fill = fill_rectangle(
@@ -342,7 +343,7 @@ if __name__ == "__main__":
     c = test_fill()
 
     mzi = gf.components.mzi()
-    c = gf.Component("component_with_fill")
+    c = gf.Component()
     layers = [(1, 0)]
 
     # c << fill_rectangle(

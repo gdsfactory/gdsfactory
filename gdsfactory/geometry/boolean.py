@@ -27,8 +27,8 @@ def boolean(
     You can also use gdsfactory.drc.boolean_klayout
 
     Args:
-        A: Component(/Reference) or list of Component(/References).
-        B: Component(/Reference) or list of Component(/References).
+        A: Component().
+        B: Component().
         operation: {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}.
         precision: float Desired precision for rounding vertex coordinates.
         layer: Specific layer to put polygon geometry on.

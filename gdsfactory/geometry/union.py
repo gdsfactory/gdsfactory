@@ -43,7 +43,7 @@ def union(
     based on phidl.geometry.union
 
     Args:
-        component: Component(/Reference), list of Component(/Reference), or Polygon
+        component: Component(), or Polygon
             A containing the polygons to perform union and inversion on.
         by_Layer: performs the union operation layer-wise so each layer can be
             individually combined.

@@ -52,7 +52,7 @@ def test_path() -> None:
     P4 = pa.euler(radius=25, angle=45, p=0.5, use_eff=False)
     WG_trans = gf.path.extrude(P4, Xtrans)
 
-    c = gf.Component("test_path")
+    c = gf.Component()
     wg1 = c << WG1
     wg2 = c << WG2
     wgt = c << WG_trans

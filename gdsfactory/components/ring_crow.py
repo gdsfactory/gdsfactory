@@ -76,7 +76,7 @@ def ring_crow(
         zip(gaps, radius, bends, ring_cross_sections)
     ):
         gap = gf.snap.snap_to_grid(gap, nm=2)
-        ring = Component(f"ring{index}")
+        ring = Component()
 
         bend_c = gf.get_component(bend, radius=r, cross_section=cross_section)
         xs = gf.get_cross_section(cross_section)

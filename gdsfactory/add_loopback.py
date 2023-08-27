@@ -107,7 +107,7 @@ def add_loopback(
 
 
 if __name__ == "__main__":
-    c = gf.Component("straight_with_loopback")
+    c = gf.Component()
     wg = c << gf.components.straight()
     c.add(
         add_loopback(

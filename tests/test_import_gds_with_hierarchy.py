@@ -57,7 +57,7 @@ def test_mix_cells_from_gds_and_from_function2() -> None:
     @cell decorator
 
     """
-    c = gf.Component("test_mix_cells_from_gds_and_from_function")
+    c = gf.Component()
     c << gf.components.mzi()
     c << gf.import_gds(gdspath)
     c.write_gds()

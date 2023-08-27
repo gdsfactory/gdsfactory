@@ -18,7 +18,7 @@ def invert(
     border around the edges.
 
     Args:
-        elements : Component(/Reference), list of Component(/Reference), or Polygon
+        elements : Component(), or Polygon
             A Component containing the polygons to invert.
         border: Size of the border around the inverted shape (border value is the
             distance from the edges of the boundary box defining the inverted

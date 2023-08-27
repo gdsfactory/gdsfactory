@@ -34,7 +34,7 @@ def test_get_bundle_all_angle(
 
 
 if __name__ == "__main__":
-    c = gf.Component("demo")
+    c = gf.Component()
 
     mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)
     mmi1 = c << mmi

@@ -308,7 +308,7 @@ def route_sharp(
 
         import gdsfactory as gf
 
-        c = gf.Component("pads")
+        c = gf.Component()
         c1 = c << gf.components.pad(port_orientation=None)
         c2 = c << gf.components.pad(port_orientation=None)
 
@@ -374,7 +374,7 @@ def route_sharp(
 
 
 if __name__ == "__main__":
-    c = gf.Component("pads")
+    c = gf.Component()
     c1 = c << gf.components.pad(port_orientation=None)
     c2 = c << gf.components.pad(port_orientation=None)
 

@@ -97,7 +97,7 @@ def get_route(
 
         import gdsfactory as gf
 
-        c = gf.Component('sample_connect')
+        c = gf.Component()
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
         mmi2.move((40, 20))
@@ -195,7 +195,7 @@ def get_route_from_waypoints(
 
         import gdsfactory as gf
 
-        c = gf.Component("waypoints_sample")
+        c = gf.Component()
 
         w = gf.components.straight()
         left = c << w
@@ -287,7 +287,7 @@ if __name__ == "__main__":
     # cc = c.add(route.references)
     # cc.show(show_ports=True)
 
-    # c = gf.Component("multi-layer")
+    # c = gf.Component()
     # ptop = c << gf.components.pad_array()
     # pbot = c << gf.components.pad_array(orientation=90)
 
@@ -301,7 +301,7 @@ if __name__ == "__main__":
     # c.add(route.references)
     # c.show()
 
-    c = gf.Component("sample_connect")
+    c = gf.Component()
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
     mmi2.move((200, 50))

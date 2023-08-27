@@ -54,7 +54,7 @@ PDK.activate()
 
 
 def mzi_with_bend(radius: float = 10.0) -> gf.Component:
-    c = gf.Component("Unnamed_cells_can_cause_issues")
+    c = gf.Component()
     mzi = c << gf.components.mzi()
     bend = c << gf.components.bend_euler(radius=radius)
     bend.connect("o1", mzi.ports["o2"])
