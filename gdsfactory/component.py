@@ -124,7 +124,7 @@ ref.xmin = 10
 
 
 cell_decorator_message = """
-Use @cell decorator for auto-naming. Component(name) will be removed soon. Example:
+Use @cell decorator for auto-naming. Component(name) will be removed in 2024. Example:
 
 @gf.cell
 def my_component():
