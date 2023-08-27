@@ -25,7 +25,7 @@ def test_duplicated_cells_error() -> None:
     ]
 
     c2 = gf.Component()
-    c2.name = "test_duplicated_cells_error"
+    c2._cell.name = "test_duplicated_cells_error"
     c2.add_polygon(points, layer=(2, 0))
 
     c3 = gf.Component()
@@ -45,7 +45,7 @@ def test_duplicated_cells_pass() -> None:
 
 
 if __name__ == "__main__":
-    # test_duplicated_cells_error()
+    test_duplicated_cells_error()
     # test_duplicated_cells_pass()
 
     w = h = 10

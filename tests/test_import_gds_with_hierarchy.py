@@ -23,7 +23,7 @@ def test_read_gds_with_settings2(data_regression: DataRegressionFixture) -> None
     data_regression.check(c.to_dict())
 
 
-def test_read_gds_equivalent2() -> None:
+def test_import_gds_hierarchy() -> None:
     """Ensures we can load it from GDS + YAML and get the same component
     settings."""
     splitter = gf.components.mmi1x2(cross_section=cross_section)
@@ -34,8 +34,8 @@ def test_read_gds_equivalent2() -> None:
     d2 = c2.to_dict()
 
     # we change the name, so there is no cache conflicts
-    # d1.pop("name")
-    # d2.pop("name")
+    d1.pop("name")
+    d2.pop("name")
     # d1.pop("ports")
     # d2.pop("ports")
     # c1.pprint()
@@ -71,9 +71,8 @@ def _write() -> None:
 
 if __name__ == "__main__":
     # _write()
-    test_read_gds_equivalent2()
 
-    # c = test_read_gds_hash2()
+    c = test_read_gds_hash2()
     # c.show(show_ports=True)
     # test_mix_cells_from_gds_and_from_function2()
 
