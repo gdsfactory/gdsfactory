@@ -174,7 +174,7 @@ class Settings(BaseSettings):
     n_threads: int = get_number_of_cores()
     display_type: Literal["widget", "klayout", "docs", "kweb"] = "kweb"
     last_saved_files: list[PathType] = []
-    max_name_length: int = 100
+    max_name_length: int = 32
 
     class Config:
         """Pydantic settings."""
