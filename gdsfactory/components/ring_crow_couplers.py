@@ -116,7 +116,7 @@ def ring_crow_couplers(
             else:
                 # The straights are connected to coupler 1
                 str1.connect("o1", couplers_refs[index].ports["o3"])
-                str2.connect("o1", couplers_refs[index].ports["o2"])
+                str2.connect("o2", couplers_refs[index].ports["o2"])
                 bend1.connect("o1", str1.ports["o2"])
                 bend2.connect("o1", bend1.ports["o2"])
                 couplers_refs[index + 1].connect("o4", bend2.ports["o2"])
