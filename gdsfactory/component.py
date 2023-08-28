@@ -224,9 +224,10 @@ class Component(_GeometryHelper):
             )
             name = name_short
 
-        name_counters[name] += 1
-        if name_counters[name] > 1:
-            name = f"{name}${name_counters[name]-1}"
+        if self.name != name:
+            name_counters[name] += 1
+            if name_counters[name] > 1:
+                name = f"{name}${name_counters[name]-1}"
 
         self._cell.name = name
 
@@ -2902,16 +2903,20 @@ def test_import_gds_settings() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
+    c = gf.c.mzi(flatten=True, decorator=gf.routing.add_fiber_single)
+    print(c.name)
+    c.show()
+
     # c = gf.c.mzi()
     # fig = c.plot_klayout()
     # fig.savefig("mzi.png")
     # c.pprint_ports()
 
-    c = gf.Component("hi" * 200)
-    print(c.name)
+    # c = gf.Component("hi" * 200)
+    # print(c.name)
 
-    c = gf.Component("hi" * 200)
-    print(c.name)
+    # c = gf.Component("hi" * 200)
+    # print(c.name)
     # p = c.add_polygon(
     #     [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
     # )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)

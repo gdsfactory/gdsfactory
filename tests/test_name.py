@@ -26,10 +26,6 @@ def test_name_partial_functions() -> None:
     m2 = partial(gf.components.mzi, straight=s2)()
     m3 = partial(gf.components.mzi, straight=s3)()
 
-    # print(m1.name)
-    # print(m2.name)
-    # print(m3.name)
-
     assert (
         m2.name == m3.name
     ), f"{m2.name} different from {m2.name} while they are the same function"
@@ -59,6 +55,11 @@ def test_name_shortened() -> None:
     assert len(c1.name) < 300
 
 
+def test_name_flatten() -> None:
+    c1 = gf.components.straight(flatten=True)
+    assert c1.name == "straight"
+
+
 # def test_name_different_signatures():
 #     c1 = gf.components.compass()
 
@@ -74,7 +75,8 @@ def test_name_shortened() -> None:
 
 
 if __name__ == "__main__":
-    test_name_shortened()
+    test_name_flatten()
+    # test_name_shortened()
     # test_name_iterators()
     # test_name_partial_functions()
     # test_name_int_float()

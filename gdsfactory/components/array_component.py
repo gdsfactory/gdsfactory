@@ -55,8 +55,8 @@ def array(
     c.add_array(component, columns=columns, rows=rows, spacing=spacing)
 
     if add_ports and component.ports:
-        for col in range(columns):
-            for row in range(rows):
+        for col in range(int(columns)):
+            for row in range(int(rows)):
                 for port in component.ports.values():
                     name = f"{port.name}_{row+1}_{col+1}"
                     c.add_port(name, port=port)
