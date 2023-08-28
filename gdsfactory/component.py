@@ -176,7 +176,7 @@ class Component(_GeometryHelper):
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
-        self._cell = gdstk.Cell(name=name)
+        self._cell = gdstk.Cell("Unnamed")
         self.name = name
         self.info: dict[str, Any] = {}
 
@@ -2901,11 +2901,14 @@ def test_import_gds_settings() -> None:
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.c.mzi(flatten=True, decorator=gf.routing.add_fiber_single)
+    c = Component()
+    c.name = "h"
+    c.name = "h"
     print(c.name)
-    c.show()
+
+    # c = gf.c.mzi(flatten=True, decorator=gf.routing.add_fiber_single)
+    # print(c.name)
+    # c.show()
 
     # c = gf.c.mzi()
     # fig = c.plot_klayout()
