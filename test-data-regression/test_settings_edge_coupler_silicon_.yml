@@ -48,7 +48,7 @@ settings:
     with_two_ports: false
   function_name: taper
   info:
-    length: 100.0
+    length: 100
     width1: 0.5
     width2: 0.2
   info_version: 2

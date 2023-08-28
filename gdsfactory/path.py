@@ -1212,7 +1212,7 @@ def arc(
     PDK = get_active_pdk()
 
     npoints = npoints or abs(int(angle / 360 * radius / PDK.bend_points_distance / 2))
-    npoints = max(npoints, int(360 / angle) + 1)
+    npoints = max(int(npoints), int(360 / angle) + 1)
 
     t = np.linspace(
         start_angle * np.pi / 180, (angle + start_angle) * np.pi / 180, npoints
