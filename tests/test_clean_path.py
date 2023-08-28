@@ -1,7 +1,7 @@
 import gdsfactory as gf
 
 
-def test_clean_path() -> None:
+def test_clean_path_wrong() -> None:
     c = gf.Component("hi:there")
     gdspath = c.write_gds()
     gdspath = str(gdspath)
@@ -9,4 +9,4 @@ def test_clean_path() -> None:
 
 
 if __name__ == "__main__":
-    test_clean_path()
+    test_clean_path_wrong()

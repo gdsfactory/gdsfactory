@@ -51,6 +51,11 @@ def _rasterize_polygons(polygons, bounds=([-100, -100], [100, 100]), dx=1, dy=1)
             "$ pip install --upgrade scikit-image"
         ) from e
 
+    # Initialize the raster matrix we'll be writing to
+    xsize = int((bounds[1][0] - bounds[0][0]) // dx)
+    ysize = int((bounds[1][1] - bounds[0][1]) // dy)
+    raster = np.zeros((ysize, xsize), dtype=bool)
+
     # Prepare polygon array by shifting all points into the first quadrant and
     # separating points into x and y lists
     xpts = []
@@ -59,13 +64,8 @@ def _rasterize_polygons(polygons, bounds=([-100, -100], [100, 100]), dx=1, dy=1)
         p_array = np.asarray(p)
         x = p_array[:, 0]
         y = p_array[:, 1]
-        xpts.append((x - bounds[0][0]) / dx - 0.5)
-        ypts.append((y - bounds[0][1]) / dy - 0.5)
-
-    # Initialize the raster matrix we'll be writing to
-    xsize = int(np.ceil(bounds[1][0] - bounds[0][0]) / dx)
-    ysize = int(np.ceil(bounds[1][1] - bounds[0][1]) / dy)
-    raster = np.zeros((ysize, xsize), dtype=bool)
+        xpts.append((x - (bounds[1][0] + bounds[0][0] - (xsize - 1) * dx) / 2) / dx)
+        ypts.append((y - (bounds[1][1] + bounds[0][1] - (ysize - 1) * dy) / 2) / dy)
 
     # TODO: Replace polygon_perimeter with the supercover version
     for n in range(len(xpts)):
@@ -81,8 +81,10 @@ def _rasterize_polygons(polygons, bounds=([-100, -100], [100, 100]), dx=1, dy=1)
 
 def _raster_index_to_coords(i, j, bounds=([-100, -100], [100, 100]), dx=1, dy=1):
     """Converts (i,j) index of raster matrix to real coordinates."""
-    x = (j + 0.5) * dx + bounds[0][0]
-    y = (i + 0.5) * dy + bounds[0][1]
+    xsize = int((bounds[1][0] - bounds[0][0]) // dx)
+    ysize = int((bounds[1][1] - bounds[0][1]) // dy)
+    x = j * dx + (bounds[1][0] + bounds[0][0] - (xsize - 1) * dx) / 2
+    y = i * dy + (bounds[1][1] + bounds[0][1] - (ysize - 1) * dy) / 2
     return x, y
 
 

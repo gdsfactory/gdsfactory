@@ -15,12 +15,12 @@ def port_bank(
 ) -> gf.Component:
     c = gf.Component()
     xs = [spacing * i for i in range(count)]
-    ys = [0 for x in xs]
+    ys = [0 for _ in xs]
     for i, (x, y) in enumerate(zip(xs, ys)):
         c.add_port(
             f"o{i+1}", center=(x, y), cross_section=cross_section, orientation=90
         )
-        c << gf.c.text(
+        _ = c << gf.c.text(
             str(i + 1), position=(x, y - 2), size=1.5, layer=(2, 0), justify="center"
         )
 
@@ -35,7 +35,7 @@ def connection_tuple(port1: gf.Port, port2: gf.Port) -> tuple:
 
 def make_bundle(
     angle: float = 0, reverse_ports: bool = False, sort_ports: bool = False
-):
+) -> None:
     c = gf.Component()
     b = port_bank()
     r1 = c.add_ref(b, "r1")
@@ -61,25 +61,16 @@ def make_bundle(
             port1_name = port1_lookup.get(port1_pt, "N/A")
             port2_name = port2_lookup.get(port2_pt, "N/A")
             print(f"not a specified connection! r1.{port1_name} -> r2.{port2_name}")
-    c.show()
 
 
 @pytest.mark.parametrize("angle", MANHATTAN_ANGLES)
-def test_bad_bundle_fails(angle: float):
-    if angle == 180:
-        pytest.skip(
-            "In this case, the route has a different issue where the routes fall on top of each other. Skipping for now..."
-        )
+def test_bad_bundle_fails(angle: float) -> None:
     with pytest.warns(RouteWarning):
         make_bundle(angle, reverse_ports=False, sort_ports=False)
 
 
 @pytest.mark.parametrize("angle", MANHATTAN_ANGLES)
 def test_bad_bundle_fails_sorted(angle: float):
-    if angle == 180:
-        pytest.skip(
-            "In this case, the route has a different issue where the routes fall on top of each other. Skipping for now..."
-        )
     with pytest.warns(RouteWarning):
         make_bundle(angle, reverse_ports=False, sort_ports=True)
 

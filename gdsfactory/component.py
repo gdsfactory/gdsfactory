@@ -412,8 +412,8 @@ class Component(_GeometryHelper):
         magnification: float = 1.0,
         rotation: float = 0,
         anchor: str = "o",
-        layer="TEXT",
-        x_reflection=False,
+        layer: LayerSpec = "TEXT",
+        x_reflection: bool = False,
     ) -> Label:
         """Adds Label to the Component.
 
@@ -938,6 +938,8 @@ class Component(_GeometryHelper):
                 p.port_type = port_type
             if layer is not None:
                 p.layer = layer
+            if shear_angle is not None:
+                p.shear_angle = shear_angle
             p.parent = self
 
         elif isinstance(name, Port):
@@ -959,7 +961,9 @@ class Component(_GeometryHelper):
                 cross_section=get_cross_section(cross_section)
                 if cross_section
                 else None,
+                shear_angle=shear_angle,
             )
+            p.parent = self
         if name is not None:
             p.name = name
         if p.name in self.ports:
@@ -1854,7 +1858,7 @@ class Component(_GeometryHelper):
             gdspath = gdspath or gdsdir / f"{top_cell.name}.oas"
         else:
             gdspath = gdspath or gdsdir / f"{top_cell.name}.gds"
-        gdspath = pathlib.Path(clean_path(str(gdspath)))
+        gdspath = pathlib.Path(clean_path(gdspath))
         gdsdir = gdspath.parent
         gdsdir.mkdir(exist_ok=True, parents=True)
 
@@ -2902,12 +2906,9 @@ def test_import_gds_settings() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("hi:there")
-    gdspath = "hi:there"
-    gdspath = c.write_gds(gdspath=gdspath)
-    print(gdspath)
-
-    # c = gf.c.mzi()
+    c = gf.c.mzi()
+    fig = c.plot_klayout()
+    fig.savefig("mzi.png")
     # c.pprint_ports()
 
     # c = gf.Component()

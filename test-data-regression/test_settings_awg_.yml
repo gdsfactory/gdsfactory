@@ -2,13 +2,13 @@ name: awg
 ports:
   E0:
     center:
-    - 45.25
-    - 0.0
+    - 54.75
+    - -0.0
     layer:
     - 1
     - 0
     name: E0
-    orientation: 90.0
+    orientation: 270.0
     port_type: optical
     shear_angle: null
     width: 0.5
@@ -20,19 +20,19 @@ ports:
     - 1
     - 0
     name: E1
-    orientation: 90.0
+    orientation: 270.0
     port_type: optical
     shear_angle: null
     width: 0.5
   E2:
     center:
-    - 54.75
-    - -0.0
+    - 45.25
+    - 0.0
     layer:
     - 1
     - 0
     name: E2
-    orientation: 90.0
+    orientation: 270.0
     port_type: optical
     shear_angle: null
     width: 0.5

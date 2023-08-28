@@ -7,6 +7,7 @@ gdsfactory/generic_tech/klayout/tech/generic_tech.py
 test-data
 tests/test_pathlength_reporting/
 tests/test_difftest/
+docs/notebooks/demo.png
 # C extensions
 *.so
 *.l2n

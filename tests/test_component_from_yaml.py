@@ -347,7 +347,6 @@ routes:
 def test_connections_regex() -> None:
     c = from_yaml(sample_regex_connections)
     route_names = ["left,o1:right,o3", "left,o2:right,o2", "left,o3:right,o1"]
-    c.show()
 
     length = 12.0
     for route_name in route_names:

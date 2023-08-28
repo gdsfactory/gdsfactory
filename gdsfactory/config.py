@@ -24,7 +24,7 @@ from pydantic import BaseSettings
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "7.3.2"
+__version__ = "7.3.5"
 PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
@@ -200,6 +200,7 @@ class Paths:
     gdslib = home / ".gdsfactory"
     modes = gdslib / "modes"
     sparameters = gdslib / "sp"
+    capacitance = gdslib / "capacitance"
     interconnect = gdslib / "interconnect"
     optimiser = repo_path / "tune"
     notebooks = repo_path / "docs" / "notebooks"
