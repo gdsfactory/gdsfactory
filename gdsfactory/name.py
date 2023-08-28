@@ -8,11 +8,11 @@ from typing import Any
 
 import pydantic
 
-MAX_NAME_LENGTH = 32
+from gdsfactory.config import CONF
 
 
 @pydantic.validate_arguments
-def get_name_short(name: str, max_name_length=MAX_NAME_LENGTH) -> str:
+def get_name_short(name: str, max_name_length=CONF.max_name_length) -> str:
     """Returns a short name."""
     if len(name) > max_name_length:
         name_hash = hashlib.md5(name.encode()).hexdigest()[:8]

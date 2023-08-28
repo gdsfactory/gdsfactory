@@ -39,7 +39,6 @@ yamlpath_cwd = cwd / "config.yml"
 yamlpath_default = module_path / "config.yml"
 yamlpath_home = home_path / "config.yml"
 
-MAX_NAME_LENGTH = 32
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 
 plugins = [
@@ -175,6 +174,7 @@ class Settings(BaseSettings):
     n_threads: int = get_number_of_cores()
     display_type: Literal["widget", "klayout", "docs", "kweb"] = "kweb"
     last_saved_files: list[PathType] = []
+    max_name_length: int = 100
 
     class Config:
         """Pydantic settings."""
