@@ -13,9 +13,8 @@ import omegaconf
 from omegaconf import DictConfig
 from pydantic import BaseModel, Field, validator
 
-from gdsfactory.config import logger
+from gdsfactory.config import CONF, logger
 from gdsfactory.events import Event
-from gdsfactory.name import MAX_NAME_LENGTH
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
@@ -195,7 +194,7 @@ class CellDecoratorSettings(BaseModel):
         description="If set, will prepend this string to the cell name.",
     )
     max_name_length: int = Field(
-        default=MAX_NAME_LENGTH,
+        default=CONF.max_name_length,
         description="Maximum length of the cell name.",
     )
     include_module: bool = Field(

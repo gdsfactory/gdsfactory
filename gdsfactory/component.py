@@ -34,7 +34,7 @@ from gdsfactory.component_layout import (
 )
 from gdsfactory.component_reference import ComponentReference, SizeInfo
 from gdsfactory.config import CONF, GDSDIR_TEMP, logger
-from gdsfactory.name import clean_path
+from gdsfactory.name import clean_path, get_name_short
 from gdsfactory.polygon import Polygon
 from gdsfactory.port import (
     Port,
@@ -123,7 +123,6 @@ ref.xmin = 10
 """
 
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
-MAX_NAME_LENGTH = 32
 
 # Global dictionary to hold counters for each name
 name_counters = Counter()
@@ -217,9 +216,18 @@ class Component(_GeometryHelper):
 
     @name.setter
     def name(self, name) -> None:
+        if len(name) > CONF.max_name_length:
+            name_short = get_name_short(name)
+            warnings.warn(
+                f" {name} is too long. Max length is {CONF.max_name_length}. Renaming to {name_short}",
+                stacklevel=2,
+            )
+            name = name_short
+
         name_counters[name] += 1
         if name_counters[name] > 1:
             name = f"{name}${name_counters[name]-1}"
+
         self._cell.name = name
 
     def __iter__(self):
@@ -382,7 +390,7 @@ class Component(_GeometryHelper):
     def validate(cls, v):
         """Pydantic assumes component is valid if the following are true.
 
-        - name characters < MAX_NAME_LENGTH
+        - name characters < pdk.cell_decorator_settings.max_name_length
         - is not empty (has references or polygons)
         """
         from gdsfactory.pdk import get_active_pdk
@@ -2899,10 +2907,10 @@ if __name__ == "__main__":
     # fig.savefig("mzi.png")
     # c.pprint_ports()
 
-    c = gf.Component("hi")
+    c = gf.Component("hi" * 200)
     print(c.name)
 
-    c = gf.Component("hi")
+    c = gf.Component("hi" * 200)
     print(c.name)
     # p = c.add_polygon(
     #     [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
