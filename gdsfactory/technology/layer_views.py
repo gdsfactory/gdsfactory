@@ -12,7 +12,7 @@ import typing
 import xml.etree.ElementTree as ET
 
 import numpy as np
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, Field, field_validator
 from pydantic.color import ColorType
 from pydantic_extra_types.color import Color
 
@@ -277,12 +277,9 @@ class HatchPattern(BaseModel):
         custom_pattern: Pattern defining custom shape.
     """
 
-    name: str
+    name: str = Field(default=None, exclude=True)
     order: int | None = None
     custom_pattern: str | None = None
-    # TODO[pydantic]: The following keys were removed: `fields`.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(fields={"name": {"exclude": True}})
 
     @field_validator("custom_pattern")
     @classmethod
@@ -326,12 +323,9 @@ class LineStyle(BaseModel):
         custom_style: Line style to use.
     """
 
-    name: str
+    name: str = Field(default=None, exclude=True)
     order: int | None = None
     custom_style: str | None = None
-    # TODO[pydantic]: The following keys were removed: `fields`.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(fields={"name": {"exclude": True}})
 
     @field_validator("custom_style")
     @classmethod
@@ -397,7 +391,7 @@ class LayerView(BaseModel):
         group_members: Add a list of group members to the LayerView.
     """
 
-    name: str | None = None
+    name: str = Field(default=None, exclude=True)
     info: str | None = None
     layer: Layer | None = None
     layer_in_name: bool = False
@@ -415,9 +409,6 @@ class LayerView(BaseModel):
     xfill: bool = False
     animation: int = 0
     group_members: dict[str, LayerView] | None = Field(default_factory=dict)
-    # TODO[pydantic]: The following keys were removed: `fields`.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(fields={"name": {"exclude": True}})
 
     def __init__(
         self,
