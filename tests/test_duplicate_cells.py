@@ -52,7 +52,8 @@ def test_same_names() -> None:
 
 
 if __name__ == "__main__":
-    test_same_names()
+    # test_same_names()
+    test_duplicated_cells_pass()
     # c1 = gf.Component("h")
     # c2 = gf.Component("h")
     # c3 = gf.Component("h")

@@ -1,6 +1,3 @@
-name: mzi_ubc
-pdk: ubcpdk
-
 default_settings:
   dy:
     value: -20

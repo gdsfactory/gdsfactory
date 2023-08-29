@@ -233,6 +233,8 @@ class Component(_GeometryHelper):
             name = f"{name}${i}" if "$" not in name else name.split("$")[0] + f"${i}"
             i += 1
 
+        CACHE.pop(self._cell.name, None)
+        CACHE[name] = self
         self._cell.name = name
 
     def __iter__(self):
