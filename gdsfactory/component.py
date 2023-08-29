@@ -378,7 +378,7 @@ class Component(BaseModel, _GeometryHelper):
         yield cls.validate
 
     @classmethod
-    def validate(cls, v):
+    def validate(cls, v, _info):
         """Pydantic assumes component is valid if the following are true.
 
         - name characters < MAX_NAME_LENGTH

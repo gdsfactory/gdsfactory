@@ -96,7 +96,7 @@ class Route(BaseModel):
 
 
 class PicYamlConfiguration(BaseModel):
-    _schema: Optional[AnyUrl] = Field(None, alias="$schema")
+    schema: Optional[AnyUrl] = Field(None, alias="$schema")
     instances: Optional[Dict[str, Instance]] = None
     placements: Optional[Dict[str, Placement]] = None
     routes: Optional[Dict[str, Route]] = None
@@ -133,7 +133,7 @@ class PicYamlConfiguration(BaseModel):
 
 
 class SchematicConfiguration(BaseModel):
-    _schema: Optional[AnyUrl] = Field(None, alias="$schema")
+    schema: Optional[AnyUrl] = Field(None, alias="$schema")
     instances: Optional[Dict[str, Instance]] = None
     schematic_placements: Optional[Dict[str, Placement]] = None
     nets: Optional[List[List[str]]] = None
