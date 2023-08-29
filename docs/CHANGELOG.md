@@ -1,6 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.3.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.3.4...main)
+
+## [7.3.4](https://github.com/gdsfactory/gdsfactory/compare/v7.3.4...v7.3.3)
+
+- import `add_tapers`
+- add name counter with `$1`
 
 ## [7.3.3](https://github.com/gdsfactory/gdsfactory/compare/v7.3.3...v7.3.2)
 
