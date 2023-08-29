@@ -18,7 +18,7 @@ from watchdog.observers import Observer
 from gdsfactory.config import cwd
 from gdsfactory.pdk import get_active_pdk, on_pdk_activated
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentSpec, PathType
 
 
 class FileWatcher(FileSystemEventHandler):
@@ -157,7 +157,7 @@ class FileWatcher(FileSystemEventHandler):
             print(e)
 
 
-def watch(path=cwd, pdk=None) -> None:
+def watch(path: PathType | None = cwd, pdk: str | None = None) -> None:
     path = str(path)
     logging.basicConfig(
         level=logging.INFO,
