@@ -75,7 +75,14 @@ def test_name_flatten() -> None:
 
 
 if __name__ == "__main__":
-    test_name_flatten()
+    c = gf.Component("h")
+    c.name = "h"
+    c.name = "hi"
+    c.name = "h"
+
+    print(c.name)
+
+    # test_name_flatten()
     # test_name_shortened()
     # test_name_iterators()
     # test_name_partial_functions()

@@ -124,9 +124,6 @@ ref.xmin = 10
 
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 
-# Global dictionary to hold counters for each name
-name_counters = Counter()
-
 
 def _rnd(arr, precision=1e-4):
     arr = np.ascontiguousarray(arr)
@@ -216,6 +213,9 @@ class Component(_GeometryHelper):
 
     @name.setter
     def name(self, name) -> None:
+        from gdsfactory.cell import CACHE
+
+        # ensure name is not too long
         if len(name) > CONF.max_name_length:
             name_short = get_name_short(name)
             warnings.warn(
@@ -224,10 +224,14 @@ class Component(_GeometryHelper):
             )
             name = name_short
 
-        if self.name != name:
-            name_counters[name] += 1
-            if name_counters[name] > 1:
-                name = f"{name}${name_counters[name]-1}"
+        if self.name == name:
+            return
+
+        # ensure unique name
+        i = 1
+        while name in CACHE:
+            name = f"{name}${i}" if "$" not in name else name.split("$")[0] + f"${i}"
+            i += 1
 
         self._cell.name = name
 
