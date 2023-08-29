@@ -20,7 +20,7 @@ from typing import Any, Literal
 
 import loguru
 from loguru import logger as logger
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich.console import Console
 from rich.table import Table
 
@@ -175,14 +175,12 @@ class Settings(BaseSettings):
     display_type: Literal["widget", "klayout", "docs", "kweb"] = "kweb"
     last_saved_files: list[PathType] = []
     max_name_length: int = 32
-
-    class Config:
-        """Pydantic settings."""
-
-        validation = True
-        arbitrary_types_allowed = True
-        env_prefix = "gdsfactory_"
-        env_nested_delimiter = "_"
+    model_config = SettingsConfigDict(
+        validation=True,
+        arbitrary_types_allowed=True,
+        env_prefix="gdsfactory_",
+        env_nested_delimiter="_",
+    )
 
 
 class Paths:

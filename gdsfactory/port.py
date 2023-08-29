@@ -39,6 +39,7 @@ from typing import Any, overload
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
+from pydantic import BaseModel, ConfigDict, FieldValidationInfo, field_validator
 
 from gdsfactory.component_layout import _rotate_points
 from gdsfactory.cross_section import CrossSection
@@ -46,7 +47,7 @@ from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
 
 if typing.TYPE_CHECKING:
-    from gdsfactory.component import Component
+    from gdsfactory.typings import Component
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
@@ -67,7 +68,7 @@ class PortOrientationError(ValueError):
     pass
 
 
-class Port:
+class Port(BaseModel):
     """Ports are useful to connect Components with each other.
 
     Args:
@@ -83,60 +84,55 @@ class Port:
         shear_angle: an optional angle to shear port face in degrees.
     """
 
-    def __init__(
-        self,
-        name: str,
-        orientation: float | None,
-        center: tuple[float, float],
-        width: float | None = None,
-        layer: tuple[int, int] | None = None,
-        port_type: str = "optical",
-        parent: Component | None = None,
-        cross_section: CrossSection | None = None,
-        shear_angle: float | None = None,
-    ) -> None:
-        """Initializes Port object."""
-        self.name = name
-        self.center = np.array(center, dtype="float64")
-        self.orientation = np.mod(orientation, 360) if orientation else orientation
-        self.parent = parent
-        self.info: dict[str, Any] = {}
-        self.port_type = port_type
-        self.cross_section = cross_section
-        self.shear_angle = shear_angle
+    name: str
+    orientation: float | int | None = None
+    center: tuple[float, float]
+    width: float | None = None
+    layer: str | tuple[int, int] | None = None
+    port_type: str = "optical"
+    parent: Any | None = None
+    cross_section: CrossSection | None = None
+    shear_angle: float | None = None
+    info: dict[str, Any] = {}
 
-        if cross_section is None and layer is None:
-            warnings.warn("You need Port to define cross_section or layer")
+    def __init__(self, name: str, **data):
+        super().__init__(name=name, **data)
 
-        if cross_section is None and width is None:
+    @field_validator("orientation")
+    def set_orientation(cls, value):
+        return np.mod(value, 360) if value is not None else None
+
+    @field_validator("center")
+    def set_center(cls, value):
+        return np.array(value, dtype="float64")
+
+    @field_validator("width")
+    def validate_width(cls, v: int | float, info: FieldValidationInfo) -> float:
+        cross_section = info.config.get("cross_section")
+        if cross_section is None and info is None:
             raise ValueError("You need Port to define cross_section or width")
+        if v is None:
+            return cross_section.width  # Assuming cross_section has a width attribute
+        if v < 0:
+            raise ValueError(f"Port width must be >=0. Got {v}")
+        return v
 
-        if cross_section and isinstance(cross_section, str):
-            from gdsfactory.pdk import get_cross_section
+    @field_validator("layer")
+    def validate_layer(cls, v, info: FieldValidationInfo) -> tuple[int, int]:
+        cross_section = info.config.get("cross_section")
+        if cross_section is None and v is None:
+            warnings.warn("You need Port to define cross_section or layer")
+        if v is None and cross_section is not None:
+            return cross_section.layer  # Assuming cross_section has a layer attribute
+        return tuple(v) if isinstance(v, list) else v
 
-            cross_section = get_cross_section(cross_section)
-
-        if cross_section and not isinstance(cross_section, CrossSection):
-            raise ValueError(
-                f"cross_section = {cross_section} is not a valid CrossSection."
-            )
-
-        if cross_section and layer is None:
-            layer = cross_section.layer
-
-        if isinstance(layer, list):
-            layer = tuple(layer)
-
-        if width is None:
-            width = cross_section.width
-
-        self.layer = layer
-        self.width = width
-
-        if self.width < 0:
-            raise ValueError(f"Port width must be >=0. Got {self.width}")
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="allow")
 
     def to_dict(self) -> dict[str, Any]:
+        """TODO: remove this deprecated method"""
+        warnings.warn(
+            "Port.to_dict is deprecated. Use Port.dict instead!", stacklevel=2
+        )
         x, y = np.round(self.center, 3)
         d = {
             "name": self.name,
@@ -150,40 +146,9 @@ class Port:
         return clean_value_json(d)
 
     def to_yaml(self) -> str:
+        """TODO: remove this deprecated method"""
         d = OmegaConf.create(self.to_dict())
         return OmegaConf.to_yaml(d)
-
-    def __repr__(self) -> str:
-        """Return a string representation of the object."""
-        filtered_dict = {
-            key: value for key, value in self.to_dict().items() if value is not None
-        }
-        return str(filtered_dict)
-
-    @classmethod
-    def __get_validators__(cls):
-        """Get validators."""
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        """For pydantic assumes Port is valid if has a name and a valid type."""
-        assert isinstance(v, Port), f"TypeError, Got {type(v)}, expecting Port"
-        assert v.name, f"Port has no name, got {v.name!r}"
-        # assert v.assert_on_grid(), f"port.center = {v.center} has off-grid points"
-        return v
-
-    @property
-    def settings(self):
-        warnings.warn("Port.settings is deprecated. Use port.to_dict instead!")
-        return {
-            "name": self.name,
-            "center": self.center,
-            "width": self.width,
-            "orientation": self.orientation,
-            "layer": self.layer,
-            "port_type": self.port_type,
-        }
 
     def move(self, vector) -> None:
         self.center = self.center + np.array(vector)
@@ -1042,7 +1007,7 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.straight()
+    c = gf.c.mzi()
     p2 = c["o2"]
     p2.x = 20
     c.show()

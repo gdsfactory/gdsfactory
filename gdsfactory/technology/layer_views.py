@@ -12,16 +12,16 @@ import typing
 import xml.etree.ElementTree as ET
 
 import numpy as np
-import yaml
-from pydantic import BaseModel, Field, validator
-from pydantic.color import Color, ColorType
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic.color import ColorType
+from pydantic_extra_types.color import Color
 
 from gdsfactory.config import logger
 
 if typing.TYPE_CHECKING:
     from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
 
-PathLike = pathlib.Path | str
+PathType = pathlib.Path | str
 
 Layer = tuple[int, int]
 
@@ -280,13 +280,12 @@ class HatchPattern(BaseModel):
     name: str
     order: int | None = None
     custom_pattern: str | None = None
+    # TODO[pydantic]: The following keys were removed: `fields`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(fields={"name": {"exclude": True}})
 
-    class Config:
-        """YAML output uses name as the key."""
-
-        fields = {"name": {"exclude": True}}
-
-    @validator("custom_pattern")
+    @field_validator("custom_pattern")
+    @classmethod
     def check_pattern_klayout(cls, pattern: str | None, **kwargs) -> str | None:
         if pattern is None:
             return None
@@ -330,13 +329,12 @@ class LineStyle(BaseModel):
     name: str
     order: int | None = None
     custom_style: str | None = None
+    # TODO[pydantic]: The following keys were removed: `fields`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(fields={"name": {"exclude": True}})
 
-    class Config:
-        """YAML output uses name as the key."""
-
-        fields = {"name": {"exclude": True}}
-
-    @validator("custom_style")
+    @field_validator("custom_style")
+    @classmethod
     def check_pattern(cls, pattern: str | None, **kwargs) -> str | None:
         if pattern is None:
             return None
@@ -363,33 +361,6 @@ class LineStyle(BaseModel):
         ET.SubElement(el, "order").text = str(self.order)
         ET.SubElement(el, "name").text = self.name
         return el
-
-
-def generate_color(layer_num: int) -> str:
-    """Generate a simple unique color based on the layer number."""
-    r = (layer_num * 30) % 256
-    g = (layer_num * 50) % 256
-    b = (layer_num * 70) % 256
-    return f"#{r:02X}{g:02X}{b:02X}"
-
-
-def write_layers_to_yaml(
-    layers: dict[str, Layer], filename: str | pathlib.Path
-) -> None:
-    """Write a dictionary of layers to a YAML file with randon colors."""
-    formatted_layers = {"LayerViews": {}}
-
-    for layer_name, layer_value in layers.items():
-        formatted_layers["LayerViews"][layer_name] = {
-            "layer": list(layer_value),
-            "layer_in_name": True,
-            "hatch_pattern": "coarsely dotted",
-            "width": 1,
-            "color": generate_color(layer_value[0]),
-        }
-
-    with open(filename, "w") as file:
-        yaml.dump(formatted_layers, file, default_flow_style=False)
 
 
 class LayerView(BaseModel):
@@ -444,11 +415,9 @@ class LayerView(BaseModel):
     xfill: bool = False
     animation: int = 0
     group_members: dict[str, LayerView] | None = Field(default_factory=dict)
-
-    class Config:
-        """YAML output uses name as the key."""
-
-        fields = {"name": {"exclude": True}}
+    # TODO[pydantic]: The following keys were removed: `fields`.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
+    model_config = ConfigDict(fields={"name": {"exclude": True}})
 
     def __init__(
         self,
@@ -551,7 +520,7 @@ class LayerView(BaseModel):
             return 0.3
 
     def get_color_dict(self) -> dict[str, str]:
-        from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
+        from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
 
         if self.fill_color is not None or self.frame_color is not None:
             return {
@@ -580,7 +549,7 @@ class LayerView(BaseModel):
         self, tag: str, name: str, custom_hatch_patterns: dict, custom_line_styles: dict
     ) -> ET.Element:
         """Get XML Element from attributes."""
-        from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
+        from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
 
         # If hatch pattern name matches a named (built-in) KLayout pattern, use 'I<idx>' notation
         hatch_name = getattr(self.hatch_pattern, "name", self.hatch_pattern)
@@ -788,7 +757,7 @@ class LayerViews(BaseModel):
 
     def __init__(
         self,
-        filepath: PathLike | None = None,
+        filepath: PathType | None = None,
         layer_map: dict[str, Layer] | BaseModel | None = None,
         **data,
     ) -> None:
@@ -805,7 +774,7 @@ class LayerViews(BaseModel):
                 logger.info(
                     f"Importing LayerViews from KLayout layer properties file: {str(filepath)!r}."
                 )
-            elif filepath.suffix in {".yaml", ".yml"}:
+            elif filepath.suffix in [".yaml", ".yml"]:
                 lvs = LayerViews.from_yaml(layer_file=filepath)
                 logger.info(f"Importing LayerViews from YAML file: {str(filepath)!r}.")
             else:
@@ -1010,7 +979,7 @@ class LayerViews(BaseModel):
             overwrite: Whether to overwrite an existing file located at the filepath.
 
         """
-        from gdsfactory.technology.xml_utils import make_pretty_xml
+        from gdsfactory.utils.xml_utils import make_pretty_xml
 
         filepath = pathlib.Path(filepath)
         dirpath = filepath.parent
@@ -1128,7 +1097,7 @@ class LayerViews(BaseModel):
         """
         import yaml
 
-        from gdsfactory.technology.yaml_utils import (
+        from gdsfactory.utils.yaml_utils import (
             add_color_yaml_presenter,
             add_multiline_str_yaml_presenter,
             add_tuple_yaml_presenter,
