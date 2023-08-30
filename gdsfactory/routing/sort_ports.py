@@ -49,17 +49,9 @@ def sort_ports(
     ports1_original_order = {p: i for i, p in enumerate(ports1)}
 
     if ports1[0].orientation in [0, 180] and ports2[0].orientation in [0, 180]:
-        f_key1 = get_port_y
-        f_key2 = get_port_y
-        ports1.sort(key=f_key1)
-        if not enforce_port_ordering:
-            ports2.sort(key=f_key2)
+        _sort_ports(get_port_y, ports1, enforce_port_ordering, ports2)
     elif ports1[0].orientation in [90, 270] and ports2[0].orientation in [90, 270]:
-        f_key1 = get_port_x
-        f_key2 = get_port_x
-        ports1.sort(key=f_key1)
-        if not enforce_port_ordering:
-            ports2.sort(key=f_key2)
+        _sort_ports(get_port_x, ports1, enforce_port_ordering, ports2)
     else:
         axis = "X" if ports1[0].orientation in [0, 180] else "Y"
         f_key1 = get_port_y if axis in {"X", "x"} else get_port_x
@@ -72,6 +64,14 @@ def sort_ports(
     if enforce_port_ordering:
         ports2 = [ports2[ports1_original_order[p1]] for p1 in ports1]
     return ports1, ports2
+
+
+def _sort_ports(arg0, ports1, enforce_port_ordering, ports2) -> None:
+    f_key1 = arg0
+    f_key2 = arg0
+    ports1.sort(key=f_key1)
+    if not enforce_port_ordering:
+        ports2.sort(key=f_key2)
 
 
 if __name__ == "__main__":
