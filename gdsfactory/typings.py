@@ -38,7 +38,7 @@ from typing import Any, Dict, List, Literal, Optional, Tuple, Union
 import gdstk
 import numpy as np
 from omegaconf import OmegaConf
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_layout import Label
@@ -155,11 +155,7 @@ class StepAllAngle:
         separation: in um.
 
     """
-
-    class Config:
-        """Config for Steps with all angle."""
-
-        extra = Extra.forbid
+    model_config = {"extra": "forbid", "frozen": True}
 
 
 Anchor = Literal[
@@ -249,11 +245,7 @@ class Route(BaseModel):
     ports: tuple[Port, Port]
     length: float
 
-    class Config:
-        """Config for Route."""
-
-        extra = Extra.forbid
-        arbitrary_types_allowed = True
+    model_config = {"extra": "forbid", "arbitrary_types_allowed": True}
 
 
 class Routes(BaseModel):
@@ -262,18 +254,14 @@ class Routes(BaseModel):
     ports: list[Port] | None = None
     bend_radius: list[float] | None = None
 
-    class Config:
-        """Config for Routes."""
-
-        extra = Extra.forbid
+    model_config = {"extra": "forbid"}
 
 
 class ComponentModel(BaseModel):
     component: str | dict[str, Any]
     settings: dict[str, Any] | None
 
-    class Config:
-        extra = Extra.forbid
+    model_config = {"extra": "forbid"}
 
 
 class PlacementModel(BaseModel):
@@ -289,8 +277,7 @@ class PlacementModel(BaseModel):
     rotation: int = 0
     mirror: bool = False
 
-    class Config:
-        extra = Extra.forbid
+    model_config = {"extra": "forbid"}
 
 
 class RouteModel(BaseModel):
@@ -298,8 +285,7 @@ class RouteModel(BaseModel):
     settings: dict[str, Any] | None = None
     routing_strategy: str | None = None
 
-    class Config:
-        extra = Extra.forbid
+    model_config = {"extra": "forbid"}
 
 
 class NetlistModel(BaseModel):
@@ -326,8 +312,7 @@ class NetlistModel(BaseModel):
     settings: dict[str, Any] | None = None
     ports: dict[str, str] | None = None
 
-    class Config:
-        extra = Extra.forbid
+    model_config = {"extra": "forbid"}
 
 
 RouteFactory = Callable[..., Route]

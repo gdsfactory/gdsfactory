@@ -11,7 +11,7 @@ import pydantic
 from gdsfactory.config import CONF
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def get_name_short(name: str, max_name_length=CONF.max_name_length) -> str:
     """Returns a short name."""
     if len(name) > max_name_length:
