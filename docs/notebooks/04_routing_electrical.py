@@ -425,6 +425,3 @@ if __name__ == "__main__":
     c = sample_die(cache=False)
     c.show(show_ports=True)
     c.plot()
-
-
-# %%
