@@ -80,10 +80,7 @@ class Section(BaseModel):
     hidden: bool = False
     simplify: float | None = None
 
-    class Config:
-        """pydantic basemodel config."""
-
-        extra = "forbid"
+    model_config = ConfigDict(extra="forbid")
 
 
 class ComponentAlongPath(BaseModel):
@@ -485,7 +482,7 @@ def cross_section(
         cladding_layers=cladding_layers,
         cladding_offsets=cladding_offsets,
         cladding_simplify=cladding_simplify,
-        sections=sections or (),
+        sections=sections or [],
         gap=gap,
         min_length=min_length,
         start_straight_length=start_straight_length,
