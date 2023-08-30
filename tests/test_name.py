@@ -60,6 +60,13 @@ def test_name_flatten() -> None:
     assert c1.name == "straight"
 
 
+def test_clean_name() -> None:
+    c = gf.Component("hi:there")
+    gdspath = c.write_gds()
+    gdspath = str(gdspath)
+    assert ":" not in gdspath, gdspath
+
+
 # def test_name_different_signatures():
 #     c1 = gf.components.compass()
 
