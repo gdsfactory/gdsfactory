@@ -529,9 +529,9 @@ class Pdk(BaseModel):
     ) -> CrossSection | Transition:
         """Returns cross_section from a cross_section spec."""
         if isinstance(cross_section, CrossSection):
-            return cross_section.copy(**kwargs)
+            return cross_section.model_copy(update=kwargs)
         elif isinstance(cross_section, Transition):
-            return cross_section.copy(**kwargs)
+            return cross_section.model_copy(update=kwargs)
         elif callable(cross_section):
             return cross_section(**kwargs)
         elif isinstance(cross_section, str):

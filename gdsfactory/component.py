@@ -1847,8 +1847,8 @@ class Component(_GeometryHelper):
             if v is not None and k in default_oasis_settings.model_dump()
         }
         # update the write settings with any settings explicitly passed
-        write_settings = default_settings.copy(update=explicit_gds_settings)
-        oasis_settings = default_oasis_settings.copy(update=explicit_oas_settings)
+        write_settings = default_settings.model_copy(update=explicit_gds_settings)
+        oasis_settings = default_oasis_settings.model_copy(update=explicit_oas_settings)
 
         _check_uncached_components(
             component=self, mode=write_settings.on_uncached_component
