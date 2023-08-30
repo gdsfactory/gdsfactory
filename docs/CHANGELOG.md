@@ -5,6 +5,7 @@
 ## [7.4.0](https://github.com/gdsfactory/gdsfactory/compare/v7.4.0...v7.3.4)
 
 - port to pydantic2
+- fix windows paths
 
 ## [7.3.4](https://github.com/gdsfactory/gdsfactory/compare/v7.3.4...v7.3.3)
 

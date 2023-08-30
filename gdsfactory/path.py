@@ -857,7 +857,8 @@ def extrude(
         sections = x.sections or []
         cladding_offsets = x.cladding_offsets or []
         sections = [
-            section.copy(update=dict(offset=-section.offset)) for section in sections
+            section.model_copy(update=dict(offset=-section.offset))
+            for section in sections
         ]
         cladding_offsets = [-o for o in cladding_offsets]
         x = x.copy(

@@ -35,7 +35,10 @@ def _generate_fins(c, x, fin_size, bend):
 
 def _generate_bends(c, x_top, x_bot, dx, dy, gap):
     input_bend_top = (
-        c << gf.components.bend_s(size=(dx, dy), cross_section=x_top.copy()).mirror()
+        c
+        << gf.components.bend_s(
+            size=(dx, dy), cross_section=x_top.model_copy()
+        ).mirror()
     )
 
     input_bend_bottom = c << gf.components.bend_s(
@@ -131,8 +134,8 @@ def cdc(
         cross_section kwargs.
     """
     x = gf.get_cross_section(cross_section, **kwargs)
-    x_top = x.copy(width=width_top)
-    x_bot = x.copy(width=width_bot)
+    x_top = x.model_copy(update=dict(width=width_top))
+    x_bot = x.model_copy(update=dict(width=width_bot))
 
     c = gf.Component()
 
@@ -180,5 +183,4 @@ def cdc(
 
 if __name__ == "__main__":
     c = cdc(fins=False)
-    print(c.ports.keys())
     c.show(show_ports=True)

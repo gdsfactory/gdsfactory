@@ -34,7 +34,7 @@ from gdsfactory.component_layout import (
 )
 from gdsfactory.component_reference import ComponentReference, SizeInfo
 from gdsfactory.config import CONF, GDSDIR_TEMP, logger
-from gdsfactory.name import clean_path, get_name_short
+from gdsfactory.name import clean_name, get_name_short
 from gdsfactory.polygon import Polygon
 from gdsfactory.port import (
     Port,
@@ -216,6 +216,7 @@ class Component(_GeometryHelper):
 
     @name.setter
     def name(self, name) -> None:
+        name = clean_name(name)
         if len(name) > CONF.max_name_length:
             name_short = get_name_short(name)
             warnings.warn(
@@ -1846,8 +1847,8 @@ class Component(_GeometryHelper):
             if v is not None and k in default_oasis_settings.model_dump()
         }
         # update the write settings with any settings explicitly passed
-        write_settings = default_settings.copy(update=explicit_gds_settings)
-        oasis_settings = default_oasis_settings.copy(update=explicit_oas_settings)
+        write_settings = default_settings.model_copy(update=explicit_gds_settings)
+        oasis_settings = default_oasis_settings.model_copy(update=explicit_oas_settings)
 
         _check_uncached_components(
             component=self, mode=write_settings.on_uncached_component
@@ -1864,7 +1865,7 @@ class Component(_GeometryHelper):
             gdspath = gdspath or gdsdir / f"{top_cell.name}.oas"
         else:
             gdspath = gdspath or gdsdir / f"{top_cell.name}.gds"
-        gdspath = pathlib.Path(clean_path(gdspath))
+        gdspath = pathlib.Path(gdspath)
         gdsdir = gdspath.parent
         gdsdir.mkdir(exist_ok=True, parents=True)
 
