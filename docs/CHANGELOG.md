@@ -2,6 +2,10 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.4.0...main)
 
+## [7.4.1](https://github.com/gdsfactory/gdsfactory/compare/v7.4.1...v7.4.0)
+
+- fix route with sbends
+
 ## [7.4.0](https://github.com/gdsfactory/gdsfactory/compare/v7.4.0...v7.3.4)
 
 - port to pydantic2
