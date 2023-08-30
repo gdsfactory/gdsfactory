@@ -181,16 +181,16 @@ LAYER = LayerMap()
 # The LayerViews class supports grouping LayerViews within each other.
 # These groups are maintained when exporting a LayerViews object to a KLayout layer properties (.lyp) file.
 class FabBLayerViews(LayerViews):
-    WG = LayerView(color="red")
-    SLAB150 = LayerView(color="blue")
-    TE = LayerView(color="green")
-    PORT = LayerView(color="green", alpha=0)
+    WG: LayerView = LayerView(color="red")
+    SLAB150: LayerView = LayerView(color="blue")
+    TE: LayerView = LayerView(color="green")
+    PORT: LayerView = LayerView(color="green", alpha=0)
 
     class DopingBlockGroup(LayerView):
-        DOPING_BLOCK1 = LayerView(color="green", alpha=0)
-        DOPING_BLOCK2 = LayerView(color="green", alpha=0)
+        DOPING_BLOCK1: LayerView = LayerView(color="green", alpha=0)
+        DOPING_BLOCK2: LayerView = LayerView(color="green", alpha=0)
 
-    DopingBlocks = DopingBlockGroup()
+    DopingBlocks: LayerView = DopingBlockGroup()
 
 
 LAYER_VIEWS = FabBLayerViews(layer_map=LAYER)
@@ -201,21 +201,22 @@ def get_layer_stack_fab_b(
 ) -> LayerStack:
     """Returns fabA LayerStack."""
 
-    class FabBLayerStack(LayerStack):
-        strip = LayerLevel(
-            layer=LAYER.WG,
-            thickness=thickness_wg,
-            zmin=0.0,
-            material="si",
+    return LayerStack(
+        layers=dict(
+            strip=LayerLevel(
+                layer=LAYER.WG,
+                thickness=thickness_wg,
+                zmin=0.0,
+                material="si",
+            ),
+            strip2=LayerLevel(
+                layer=LAYER.SLAB150,
+                thickness=thickness_slab,
+                zmin=0.0,
+                material="si",
+            ),
         )
-        strip2 = LayerLevel(
-            layer=LAYER.SLAB150,
-            thickness=thickness_slab,
-            zmin=0.0,
-            material="si",
-        )
-
-    return FabBLayerStack()
+    )
 
 
 LAYER_STACK = get_layer_stack_fab_b()
@@ -316,22 +317,22 @@ PORT_TYPE_TO_LAYER = dict(optical=(100, 0))
 
 # This is something you usually define in KLayout
 class FabCLayerViews(LayerViews):
-    WG = LayerView(color="black")
-    SLAB150 = LayerView(color="blue")
-    WGN = LayerView(color="orange")
-    WGN_CLAD = LayerView(color="blue", alpha=0, visible=False)
+    WG: LayerView = LayerView(color="black")
+    SLAB150: LayerView = LayerView(color="blue")
+    WGN: LayerView = LayerView(color="orange")
+    WGN_CLAD: LayerView = LayerView(color="blue", alpha=0, visible=False)
 
     class SimulationGroup(LayerView):
-        TE = LayerView(color="green")
-        PORT = LayerView(color="green", alpha=0)
+        TE: LayerView = LayerView(color="green")
+        PORT: LayerView = LayerView(color="green", alpha=0)
 
-    Simulation = SimulationGroup()
+    Simulation: LayerView = SimulationGroup()
 
     class DopingGroup(LayerView):
-        DOPING_BLOCK1 = LayerView(color="green", alpha=0, visible=False)
-        DOPING_BLOCK2 = LayerView(color="green", alpha=0, visible=False)
+        DOPING_BLOCK1: LayerView = LayerView(color="green", alpha=0, visible=False)
+        DOPING_BLOCK2: LayerView = LayerView(color="green", alpha=0, visible=False)
 
-    Doping = DopingGroup()
+    Doping: LayerView = DopingGroup()
 
 
 LAYER_VIEWS = FabCLayerViews(layer_map=LAYER)
@@ -342,19 +343,20 @@ def get_layer_stack_fab_c(
 ) -> LayerStack:
     """Returns generic LayerStack"""
 
-    class FabCLayerStack(LayerStack):
-        core = LayerLevel(
-            layer=LAYER.WGN,
-            thickness=thickness_wg,
-            zmin=0,
+    return LayerStack(
+        layers=dict(
+            core=LayerLevel(
+                layer=LAYER.WGN,
+                thickness=thickness_wg,
+                zmin=0,
+            ),
+            clad=LayerLevel(
+                layer=LAYER.WGN_CLAD,
+                thickness=thickness_clad,
+                zmin=0,
+            ),
         )
-        clad = LayerLevel(
-            layer=LAYER.WGN_CLAD,
-            thickness=thickness_clad,
-            zmin=0,
-        )
-
-    return FabCLayerStack()
+    )
 
 
 LAYER_STACK = get_layer_stack_fab_c()
