@@ -49,7 +49,6 @@ def get_routes_bend180(
         )
         for route in routes:
             c.add(route.references)
-        c.show(show_ports=True)
         c.plot()
 
     """

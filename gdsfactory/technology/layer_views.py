@@ -463,7 +463,6 @@ class LayerView(BaseModel):
         include: AbstractSetIntStr | MappingIntStrAny | None = None,
         exclude: AbstractSetIntStr | MappingIntStrAny | None = None,
         by_alias: bool = False,
-        skip_defaults: bool | None = None,
         exclude_unset: bool = False,
         exclude_defaults: bool = False,
         exclude_none: bool = False,
@@ -472,12 +471,27 @@ class LayerView(BaseModel):
         """Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
 
         Specify "simplify" to consolidate fill and frame color/brightness if they are the same.
+
+        Args:
+            mode: The mode in which `to_python` should run.
+                If mode is 'json', the dictionary will only contain JSON serializable types.
+                If mode is 'python', the dictionary may contain any Python objects.
+            include: A list of fields to include in the output.
+            exclude: A list of fields to exclude from the output.
+            by_alias: Whether to use the field's alias in the dictionary key if defined.
+            exclude_unset: Whether to exclude fields that are unset or None from the output.
+            exclude_defaults: Whether to exclude fields that are set to their default value from the output.
+            exclude_none: Whether to exclude fields that have a value of `None` from the output.
+            simplify: Whether to consolidate fill and frame color/brightness if they are the same.
+
+        Returns:
+            A dictionary representation of the model.
+
         """
-        _dict = super().dict(
+        _dict = super().model_dump(
             include=include,
             exclude=exclude,
             by_alias=by_alias,
-            skip_defaults=skip_defaults,
             exclude_unset=exclude_unset,
             exclude_defaults=exclude_defaults,
             exclude_none=exclude_none,
@@ -771,7 +785,7 @@ class LayerViews(BaseModel):
                 logger.info(
                     f"Importing LayerViews from KLayout layer properties file: {str(filepath)!r}."
                 )
-            elif filepath.suffix in [".yaml", ".yml"]:
+            elif filepath.suffix in {".yaml", ".yml"}:
                 lvs = LayerViews.from_yaml(layer_file=filepath)
                 logger.info(f"Importing LayerViews from YAML file: {str(filepath)!r}.")
             else:

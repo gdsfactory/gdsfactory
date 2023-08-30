@@ -59,7 +59,7 @@ def fill(
         for layer in fill_layers:
             layer = gf.get_layer(layer)
             layer = kf.kcl.layer(*layer)
-            fill_cell << kf.cells.waveguide.waveguide(
+            fill_cell << kf.cells.straight.straight(
                 width=fill_size[0], length=fill_size[1], layer=layer
             )
     else:
@@ -99,7 +99,7 @@ def fill(
     )
 
     if include_original:
-        c << cell
+        _ = c << cell
 
     gdspath_out = gdspath_out or gdspath
     c.write(str(gdspath_out))
