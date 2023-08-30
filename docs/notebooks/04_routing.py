@@ -988,8 +988,7 @@ routes = gf.routing.get_bundle(
 for route in routes:
     c.add(route.references)
     print(route.length)
-c.plot_klayout()
-c.show()
+c.plot()
 
 # %% [markdown]
 # ### path_length_match with extra length
@@ -1146,8 +1145,7 @@ routes = gf.routing.get_bundle(ports, c2.ports)
 for route in routes:
     c.add(route.references)
 
-c.plot_klayout()
-c.show()
+c.plot()
 
 # %% [markdown]
 # ## get_bundle_from_steps

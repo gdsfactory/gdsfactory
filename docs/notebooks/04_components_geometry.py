@@ -312,6 +312,7 @@ c_copied_layers.plot()
 # %%
 from gdsfactory.config import PATH
 from gdsfactory.read.from_np import from_image
+import gdsfactory as gf
 
 c = from_image(
     PATH.module / "samples" / "images" / "logo.png", nm_per_pixel=500, invert=False

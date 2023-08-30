@@ -54,12 +54,6 @@ CONF.display_type = "klayout"
 p = gf.get_active_pdk()
 p.name
 
-# %%
-print_version_plugins()
-
-# %%
-print_version_pdks()
-
 # %% [markdown]
 # ### FabA
 #
@@ -84,9 +78,9 @@ LAYER = LayerMap()
 
 
 class FabALayerViews(LayerViews):
-    WG = LayerView(color="gold")
-    SLAB150 = LayerView(color="red")
-    TE = LayerView(color="green")
+    WG: LayerView = LayerView(color="gold")
+    SLAB150: LayerView = LayerView(color="red")
+    TE: LayerView = LayerView(color="green")
 
 
 LAYER_VIEWS = FabALayerViews(layer_map=dict(LAYER))
@@ -97,21 +91,22 @@ def get_layer_stack_faba(
 ) -> LayerStack:
     """Returns fabA LayerStack"""
 
-    class FabALayerStack(LayerStack):
-        strip = LayerLevel(
-            layer=LAYER.WG,
-            thickness=thickness_wg,
-            zmin=0.0,
-            material="si",
+    return LayerStack(
+        layers=dict(
+            strip=LayerLevel(
+                layer=LAYER.WG,
+                thickness=thickness_wg,
+                zmin=0.0,
+                material="si",
+            ),
+            strip2=LayerLevel(
+                layer=LAYER.SLAB150,
+                thickness=thickness_slab,
+                zmin=0.0,
+                material="si",
+            ),
         )
-        strip2 = LayerLevel(
-            layer=LAYER.SLAB150,
-            thickness=thickness_slab,
-            zmin=0.0,
-            material="si",
-        )
-
-    return FabALayerStack()
+    )
 
 
 LAYER_STACK = get_layer_stack_faba()
@@ -137,7 +132,6 @@ fab_a = gf.Pdk(
     cross_sections=dict(strip=strip),
     layers=dict(LAYER),
     base_pdk=generic_pdk,
-    sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
     layer_stack=LAYER_STACK,
 )
