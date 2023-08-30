@@ -127,7 +127,7 @@ class PicYamlConfiguration(BaseModel):
         self.placements[name].dy += dy
 
     def to_yaml(self, filename) -> None:
-        netlist = self.dict()
+        netlist = self.model_dump()
         with open(filename, mode="w") as f:
             yaml.dump(netlist, f, default_flow_style=None, sort_keys=False)
 

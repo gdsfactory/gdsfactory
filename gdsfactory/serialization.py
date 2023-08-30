@@ -43,7 +43,7 @@ def clean_value_json(value: Any) -> str | int | float | dict | list | bool | Non
     include_module = active_pdk.cell_decorator_settings.include_module
 
     if isinstance(value, pydantic.BaseModel):
-        return clean_dict(value.dict())
+        return clean_dict(value.model_dump())
 
     elif hasattr(value, "get_component_spec"):
         return value.get_component_spec()

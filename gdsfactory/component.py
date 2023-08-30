@@ -1838,12 +1838,12 @@ class Component(_GeometryHelper):
         explicit_gds_settings = {
             k: v
             for k, v in kwargs.items()
-            if v is not None and k in default_settings.dict()
+            if v is not None and k in default_settings.model_dump()
         }
         explicit_oas_settings = {
             k: v
             for k, v in kwargs.items()
-            if v is not None and k in default_oasis_settings.dict()
+            if v is not None and k in default_oasis_settings.model_dump()
         }
         # update the write settings with any settings explicitly passed
         write_settings = default_settings.copy(update=explicit_gds_settings)

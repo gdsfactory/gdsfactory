@@ -1,4 +1,4 @@
-name: grating_coupler_ellipti_b6bd8130
+name: grating_coupler_elliptical_def98097
 ports:
   o1:
     center:
@@ -71,4 +71,4 @@ settings:
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_b6bd8130
+  name: grating_coupler_elliptical_def98097

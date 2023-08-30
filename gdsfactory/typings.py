@@ -85,7 +85,7 @@ from gdsfactory.technology import LayerLevel, LayerStack
 #     elif name == "Dict":
 
 #         warnings.warn(
-#             "gdsfactory.typings.Dict will be removed soon. "
+#             "gdsfactory.typings.model_dump() will be removed soon. "
 #             "Use from typing import Dict instead.",
 #             stacklevel=2,
 #         )

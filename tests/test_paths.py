@@ -151,7 +151,7 @@ def test_copy() -> None:
     x1 = gf.CrossSection(width=0.5, offset=0, layer=(3, 0), port_names=("in", "out"))
     x2 = x1.copy()
 
-    d = jsondiff.diff(x1.dict(), x2.dict())
+    d = jsondiff.diff(x1.model_dump(), x2.model_dump())
     assert len(d) == 0, d
 
 

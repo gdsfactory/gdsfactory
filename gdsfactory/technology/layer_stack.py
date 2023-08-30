@@ -84,7 +84,7 @@ class LayerStack(BaseModel):
         """Add LayerLevels automatically for subclassed LayerStacks."""
         super().__init__(**data)
 
-        for field in self.dict():
+        for field in self.model_dump():
             val = getattr(self, field)
             if isinstance(val, LayerLevel):
                 self.layers[field] = val

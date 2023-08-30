@@ -10,7 +10,6 @@ import pathlib
 import re
 import typing
 import xml.etree.ElementTree as ET
-import typing
 
 import numpy as np
 import yaml
@@ -419,7 +418,7 @@ class LayerView(BaseModel):
     marked: bool = False
     xfill: bool = False
     animation: int = 0
-    group_members: typing.Dict[str, LayerView] | None = Field(default={})
+    group_members: typing.Dict[str, LayerView] | None = Field(default={})  # noqa: UP006
 
     def __init__(
         self,
@@ -500,7 +499,7 @@ class LayerView(BaseModel):
     def __str__(self) -> str:
         """Returns a formatted view of properties and their values."""
         return "LayerView:\n\t" + "\n\t".join(
-            [f"{k}: {v}" for k, v in self.dict().items()]
+            [f"{k}: {v}" for k, v in self.model_dump().items()]
         )
 
     def __repr__(self) -> str:
@@ -783,14 +782,14 @@ class LayerViews(BaseModel):
             data["custom_dither_patterns"] = lvs.custom_dither_patterns
 
         if isinstance(layer_map, BaseModel):
-            layer_map = layer_map.dict()
+            layer_map = layer_map.model_dump()
 
         if layer_map is not None:
             data["layer_map"] = layer_map
 
         super().__init__(**data)
 
-        for name in self.dict():
+        for name in self.model_dump():
             lv = getattr(self, name)
             if isinstance(lv, LayerView):
                 #

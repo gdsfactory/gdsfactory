@@ -1,4 +1,4 @@
-name: spiral_inner_io_add_gra_f2760628
+name: spiral_inner_io_add_grating_couplers_with_loopback_fiber_array
 ports: {}
 settings:
   changed: {}
@@ -150,4 +150,4 @@ settings:
     wavelength: 1.53
   info_version: 2
   module: gdsfactory.components.add_grating_couplers
-  name: spiral_inner_io_add_gra_f2760628
+  name: spiral_inner_io_add_grating_couplers_with_loopback_fiber_array
