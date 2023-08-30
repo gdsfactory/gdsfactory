@@ -23,7 +23,7 @@ ports:
     orientation: 0
     port_type: opt_te_1554_15
     shear_angle: null
-    width: 10
+    width: 10.0
 settings:
   changed:
     cross_section:

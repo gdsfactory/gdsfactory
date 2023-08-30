@@ -4,13 +4,13 @@ from enum import Enum
 from typing import Any
 
 import yaml
-from pydantic import AnyUrl, BaseModel, Extra, Field
+from pydantic import AnyUrl, BaseModel, ConfigDict, Field, RootModel
 
 import gdsfactory as gf
 
 
-class CrossSection(BaseModel):
-    __root__: str = Field(
+class CrossSection(RootModel):
+    root: str = Field(
         ..., description="A cross section to use for waveguides or traces."
     )
 
@@ -20,24 +20,16 @@ class RouteSettings(BaseModel):
     separation: float | None = Field(
         5.0, description="The minimum separation between routes in the bundle [um]."
     )
-
-    class Config:
-        """Extra config."""
-
-        extra = Extra.allow
+    model_config = ConfigDict(extra="allow")
 
 
-class RoutingStrategy(BaseModel):
-    __root__: str = Field(..., description="The type of routing to use")
+class RoutingStrategy(RootModel):
+    root: str = Field(..., description="The type of routing to use")
 
 
 class Links(BaseModel):
     pass
-
-    class Config:
-        """Extra config."""
-
-        extra = Extra.allow
+    model_config = ConfigDict(extra="allow")
 
 
 class PortEnum(Enum):
@@ -54,10 +46,7 @@ class PortEnum(Enum):
 
 
 class Placement(BaseModel):
-    class Config:
-        """Extra config."""
-
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
     x: str | float | None = Field(
         None,
@@ -90,10 +79,7 @@ class Placement(BaseModel):
 
 
 class Instance(BaseModel):
-    class Config:
-        """Extra config."""
-
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
     component: str
     settings: dict[str, Any] | None = Field(
@@ -102,10 +88,7 @@ class Instance(BaseModel):
 
 
 class Route(BaseModel):
-    class Config:
-        """Extra config."""
-
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
     routing_strategy: RoutingStrategy | None = None
     settings: RouteSettings | None = None
@@ -113,7 +96,7 @@ class Route(BaseModel):
 
 
 class PicYamlConfiguration(BaseModel):
-    _schema: AnyUrl | None = Field(None, alias="$schema")
+    schema: AnyUrl | None = Field(None, alias="$schema")
     instances: dict[str, Instance] | None = None
     placements: dict[str, Placement] | None = None
     routes: dict[str, Route] | None = None
@@ -150,7 +133,7 @@ class PicYamlConfiguration(BaseModel):
 
 
 class SchematicConfiguration(BaseModel):
-    _schema: AnyUrl | None = Field(None, alias="$schema")
+    schema: AnyUrl | None = Field(None, alias="$schema")
     instances: dict[str, Instance] | None = None
     schematic_placements: dict[str, Placement] | None = None
     nets: list[list[str]] | None = None

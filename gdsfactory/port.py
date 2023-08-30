@@ -31,6 +31,7 @@ from __future__ import annotations
 import csv
 import functools
 import typing
+import uuid
 import warnings
 from collections.abc import Callable
 from functools import partial
@@ -97,6 +98,10 @@ class Port(BaseModel):
 
     def __init__(self, name: str, **data):
         super().__init__(name=name, **data)
+        self.uid = str(uuid.uuid4())[:8]
+
+    def __hash__(self):
+        return hash(self.uid)
 
     @field_validator("orientation")
     def set_orientation(cls, value):

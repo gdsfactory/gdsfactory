@@ -12,16 +12,26 @@ import typing
 import xml.etree.ElementTree as ET
 
 import numpy as np
+import yaml
+from omegaconf import OmegaConf
 from pydantic import BaseModel, Field, field_validator
 from pydantic.color import ColorType
 from pydantic_extra_types.color import Color
 
 from gdsfactory.config import logger
+from gdsfactory.name import clean_name
+from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
+from gdsfactory.technology.xml_utils import make_pretty_xml
+from gdsfactory.technology.yaml_utils import (
+    add_color_yaml_presenter,
+    add_multiline_str_yaml_presenter,
+    add_tuple_yaml_presenter,
+)
 
 if typing.TYPE_CHECKING:
     from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
 
-PathType = pathlib.Path | str
+PathLike = pathlib.Path | str
 
 Layer = tuple[int, int]
 
@@ -277,7 +287,7 @@ class HatchPattern(BaseModel):
         custom_pattern: Pattern defining custom shape.
     """
 
-    name: str = Field(default=None, exclude=True)
+    name: str | None = Field(default=None, exclude=True)
     order: int | None = None
     custom_pattern: str | None = None
 
@@ -323,7 +333,7 @@ class LineStyle(BaseModel):
         custom_style: Line style to use.
     """
 
-    name: str = Field(default=None, exclude=True)
+    name: str | None = Field(default=None, exclude=True)
     order: int | None = None
     custom_style: str | None = None
 
@@ -391,8 +401,8 @@ class LayerView(BaseModel):
         group_members: Add a list of group members to the LayerView.
     """
 
-    name: str = Field(default=None, exclude=True)
-    info: str | None = None
+    name: str | None = Field(default=None, exclude=True)
+    info: str | None = Field(default=None)
     layer: Layer | None = None
     layer_in_name: bool = False
     frame_color: Color | None = None
@@ -511,8 +521,6 @@ class LayerView(BaseModel):
             return 0.3
 
     def get_color_dict(self) -> dict[str, str]:
-        from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
-
         if self.fill_color is not None or self.frame_color is not None:
             return {
                 "fill_color": ensure_six_digit_hex_color(self.fill_color.as_hex()),
@@ -540,7 +548,6 @@ class LayerView(BaseModel):
         self, tag: str, name: str, custom_hatch_patterns: dict, custom_line_styles: dict
     ) -> ET.Element:
         """Get XML Element from attributes."""
-        from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
 
         # If hatch pattern name matches a named (built-in) KLayout pattern, use 'I<idx>' notation
         hatch_name = getattr(self.hatch_pattern, "name", self.hatch_pattern)
@@ -645,7 +652,6 @@ class LayerView(BaseModel):
             name: XML-formatted name entry.
             layer_pattern: Regex pattern to match layers with.
         """
-        from gdsfactory.name import clean_name
 
         if not name:
             return None, None
@@ -748,7 +754,7 @@ class LayerViews(BaseModel):
 
     def __init__(
         self,
-        filepath: PathType | None = None,
+        filepath: PathLike | None = None,
         layer_map: dict[str, Layer] | BaseModel | None = None,
         **data,
     ) -> None:
@@ -970,7 +976,6 @@ class LayerViews(BaseModel):
             overwrite: Whether to overwrite an existing file located at the filepath.
 
         """
-        from gdsfactory.utils.xml_utils import make_pretty_xml
 
         filepath = pathlib.Path(filepath)
         dirpath = filepath.parent
@@ -1086,13 +1091,6 @@ class LayerViews(BaseModel):
             layer_file: Name of the file to write LayerViews to.
             prefer_named_color: Write the name of a color instead of its hex representation when possible.
         """
-        import yaml
-
-        from gdsfactory.utils.yaml_utils import (
-            add_color_yaml_presenter,
-            add_multiline_str_yaml_presenter,
-            add_tuple_yaml_presenter,
-        )
 
         lf_path = pathlib.Path(layer_file)
         dirpath = lf_path.parent
@@ -1140,7 +1138,6 @@ class LayerViews(BaseModel):
         Args:
             layer_file: Name of the file to read LayerViews, CustomDitherPatterns, and CustomLineStyles from.
         """
-        from omegaconf import OmegaConf
 
         layer_file = pathlib.Path(layer_file)
 
@@ -1189,7 +1186,6 @@ def _name_to_short_name(name_str: str) -> str:
         - key - description
 
     """
-    from gdsfactory.name import clean_name
 
     if name_str is None:
         raise OSError(f"layer {name_str} has no name")

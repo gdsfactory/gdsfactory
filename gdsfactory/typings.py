@@ -341,7 +341,7 @@ class TypedArray(np.ndarray):
         yield cls.validate_type
 
     @classmethod
-    def validate_type(cls, val):
+    def validate_type(cls, val, _info):
         return np.array(val, dtype=cls.inner_type)
 
 

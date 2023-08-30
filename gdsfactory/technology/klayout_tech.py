@@ -6,11 +6,17 @@ This module enables conversion between gdsfactory settings and KLayout technolog
 import pathlib
 import xml.etree.ElementTree as ET
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.typings import PathType
+
+try:
+    import klayout.db as db
+except ImportError as e:
+    print("You can install `pip install klayout.")
+    raise e
 
 Layer = tuple[int, int]
 ConductorViaConductorName = tuple[str, str, str]
@@ -56,14 +62,13 @@ class KLayoutTechnology(BaseModel):
 
     # TODO: Add import method
     # TODO: Also interop with xs scripts?
-    import klayout.db as db
 
     name: str
     layer_map: dict[str, Layer]
     layer_views: LayerViews | None = None
     layer_stack: LayerStack | None = None
-    technology: db.Technology = Field(default_factory=db.Technology)
     connectivity: list[ConductorViaConductorName] | None = None
+    technology: db.Technology = Field(default_factory=db.Technology)
 
     def write_tech(
         self,
@@ -83,7 +88,7 @@ class KLayoutTechnology(BaseModel):
             mebes_config: A dictionary specifying the KLayout mebes reader config.
 
         """
-        from gdsfactory.technology.xml_utils import make_pretty_xml
+        from gdsfactory.utils.xml_utils import make_pretty_xml
 
         d25_filename = d25_filename or f"{self.name}.lyd25"
 
@@ -174,10 +179,11 @@ class KLayoutTechnology(BaseModel):
                     f"{layer}='{self.layer_map[layer][0]}/{self.layer_map[layer][1]}'"
                 )
 
-    class Config:
-        """Allow db.Technology type."""
-
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
+        ignore_extra=True,
+        extra="ignore",
+    )
 
 
 layer_views = LayerViews.from_lyp(str(PATH.klayout_lyp))
@@ -218,11 +224,15 @@ if __name__ == "__main__":
     ]
 
     c = generic_tech = KLayoutTechnology(
-        name="generic_tech", layer_views=lyp, connectivity=connectivity, layer_map=LAYER
+        name="generic_tech",
+        layer_views=lyp,
+        connectivity=connectivity,
+        layer_map=dict(LAYER),
+        layer_stack=LAYER_STACK,
     )
     tech_dir = PATH.klayout_tech
     # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
     tech_dir.mkdir(exist_ok=True, parents=True)
-    generic_tech.write_tech(tech_dir=tech_dir, layer_stack=LAYER_STACK)
+    generic_tech.write_tech(tech_dir=tech_dir)
 
     # yaml_test()

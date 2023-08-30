@@ -11,7 +11,7 @@ ports:
     orientation: 270.0
     port_type: opt_te_1530_15
     shear_angle: null
-    width: 10
+    width: 10.0
   opt_te_1530_15-mzi_2e88f57c-0-1:
     center:
     - 24.4
@@ -23,7 +23,7 @@ ports:
     orientation: 270.0
     port_type: opt_te_1530_15
     shear_angle: null
-    width: 10
+    width: 10.0
   opt_te_1530_15-mzi_2e88f57c-1-0:
     center:
     - 24.4
@@ -35,7 +35,7 @@ ports:
     orientation: 90.0
     port_type: opt_te_1530_15
     shear_angle: null
-    width: 10
+    width: 10.0
   opt_te_1530_15-mzi_2e88f57c-2-0:
     center:
     - -25.6
@@ -47,7 +47,7 @@ ports:
     orientation: 90.0
     port_type: opt_te_1530_15
     shear_angle: null
-    width: 10
+    width: 10.0
   opt_te_1530_15-mzi_2e88f57c-loopback1:
     center:
     - -88.823
@@ -59,7 +59,7 @@ ports:
     orientation: 270.0
     port_type: opt_te_1530_15
     shear_angle: null
-    width: 10
+    width: 10.0
   opt_te_1530_15-mzi_2e88f57c-loopback2:
     center:
     - -88.823
@@ -71,7 +71,7 @@ ports:
     orientation: 90.0
     port_type: opt_te_1530_15
     shear_angle: null
-    width: 10
+    width: 10.0
   top_l_e1:
     center:
     - -23.25

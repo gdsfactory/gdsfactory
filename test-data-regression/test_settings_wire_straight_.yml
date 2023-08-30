@@ -53,6 +53,7 @@ settings:
         cladding_layers: null
         cladding_offsets: null
         cladding_simplify: null
+        decorator: null
         end_straight_length: 0.01
         gap: 5.0
         info:
@@ -116,17 +117,17 @@ settings:
         ''cladding_layers'': None, ''cladding_offsets'': None, ''cladding_simplify'':
         None, ''sections'': [], ''port_names'': [''e1'', ''e2''], ''port_types'':
         [''electrical'', ''electrical''], ''gap'': 5.0, ''min_length'': 5.0, ''start_straight_length'':
-        0.01, ''end_straight_length'': 0.01, ''snap_to_grid'': None, ''info'': {''settings'':
-        {''width'': 10.0, ''offset'': 0, ''layer'': ''M3'', ''width_wide'': None,
-        ''auto_widen'': False, ''auto_widen_minimum_length'': 200.0, ''taper_length'':
-        10.0, ''radius'': None, ''sections'': None, ''port_names'': [''e1'', ''e2''],
-        ''port_types'': [''electrical'', ''electrical''], ''gap'': 5, ''min_length'':
-        5, ''start_straight_length'': 0.01, ''end_straight_length'': 0.01, ''snap_to_grid'':
-        None, ''bbox_layers'': None, ''bbox_offsets'': None, ''cladding_layers'':
-        None, ''cladding_offsets'': None, ''cladding_simplify'': None, ''info'': None,
-        ''decorator'': None, ''add_pins'': None, ''add_bbox'': None, ''mirror'': False,
-        ''name'': None}, ''function_name'': ''cross_section''}, ''name'': None, ''mirror'':
-        False, ''vias'': []}_length'
+        0.01, ''end_straight_length'': 0.01, ''snap_to_grid'': None, ''decorator'':
+        None, ''info'': {''settings'': {''width'': 10.0, ''offset'': 0, ''layer'':
+        ''M3'', ''width_wide'': None, ''auto_widen'': False, ''auto_widen_minimum_length'':
+        200.0, ''taper_length'': 10.0, ''radius'': None, ''sections'': None, ''port_names'':
+        [''e1'', ''e2''], ''port_types'': [''electrical'', ''electrical''], ''gap'':
+        5, ''min_length'': 5, ''start_straight_length'': 0.01, ''end_straight_length'':
+        0.01, ''snap_to_grid'': None, ''bbox_layers'': None, ''bbox_offsets'': None,
+        ''cladding_layers'': None, ''cladding_offsets'': None, ''cladding_simplify'':
+        None, ''info'': None, ''decorator'': None, ''add_pins'': None, ''add_bbox'':
+        None, ''mirror'': False, ''name'': None}, ''function_name'': ''cross_section''},
+        ''name'': None, ''mirror'': False, ''vias'': []}_length'
       : 10.0
     settings:
       add_bbox: null

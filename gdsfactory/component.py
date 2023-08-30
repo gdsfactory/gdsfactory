@@ -388,7 +388,7 @@ class Component(_GeometryHelper):
         yield cls.validate
 
     @classmethod
-    def validate(cls, v):
+    def validate(cls, v, _info):
         """Pydantic assumes component is valid if the following are true.
 
         - name characters < pdk.cell_decorator_settings.max_name_length
@@ -2901,14 +2901,11 @@ def test_import_gds_settings() -> None:
 
 
 if __name__ == "__main__":
-    c = Component()
-    c.name = "h"
-    c.name = "h"
-    print(c.name)
+    import gdsfactory as gf
 
-    # c = gf.c.mzi(flatten=True, decorator=gf.routing.add_fiber_single)
+    c = gf.c.mzi(flatten=True, decorator=gf.routing.add_fiber_single)
     # print(c.name)
-    # c.show()
+    c.show()
 
     # c = gf.c.mzi()
     # fig = c.plot_klayout()

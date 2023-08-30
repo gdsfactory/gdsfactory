@@ -23,7 +23,7 @@ ports:
     orientation: 0
     port_type: opt_tm_1530_15
     shear_angle: null
-    width: 10
+    width: 10.0
 settings:
   changed:
     grating_line_width: 0.6
