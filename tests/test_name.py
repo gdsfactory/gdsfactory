@@ -64,7 +64,7 @@ def test_clean_name() -> None:
     c = gf.Component("hi:there")
     gdspath = c.write_gds()
     gdspath = str(gdspath)
-    assert ":" not in gdspath, gdspath
+    assert ":" not in c.name, c.name
 
 
 # def test_name_different_signatures():
@@ -82,7 +82,7 @@ def test_clean_name() -> None:
 
 
 if __name__ == "__main__":
-    test_name_flatten()
+    test_clean_name()
     # test_name_shortened()
     # test_name_iterators()
     # test_name_partial_functions()
