@@ -11,7 +11,7 @@ from typing import Any, Literal
 import numpy as np
 import omegaconf
 from omegaconf import DictConfig
-from pydantic import BaseModel, ConfigDict, Field, validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from gdsfactory.config import CONF, logger
 from gdsfactory.events import Event
@@ -266,9 +266,6 @@ class Pdk(BaseModel):
     sparameters_path: PathType | None = Field(
         default=None, description="This field is deprecated."
     )
-    capacitance_path: PathType | None = Field(
-        default=None, description="This field is deprecated."
-    )
 
     modes_path: PathType | None = Field(
         default=None, description="This field is deprecated."
@@ -300,10 +297,6 @@ class Pdk(BaseModel):
             warnings.warn(
                 "The 'pdk.modes_path' is deprecated. Use gf.config.PATH instead",
             )
-        if "capacitance_path" in data:
-            warnings.warn(
-                "The 'pdk.capacitance_path' is deprecated. Use gf.config.PATH instead",
-            )
         super().__init__(**data)
 
     @property
@@ -315,7 +308,7 @@ class Pdk(BaseModel):
     def grid_size(self, value) -> None:
         self.gds_write_settings.precision = value * self.gds_write_settings.unit
 
-    @validator("sparameters_path", "capacitance_path")
+    @field_validator("sparameters_path")
     def is_pathlib_path(cls, path):
         return pathlib.Path(path)
 
