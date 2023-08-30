@@ -1,6 +1,10 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.3.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.4.0...main)
+
+## [7.4.0](https://github.com/gdsfactory/gdsfactory/compare/v7.4.0...v7.3.4)
+
+- port to pydantic2
 
 ## [7.3.4](https://github.com/gdsfactory/gdsfactory/compare/v7.3.4...v7.3.3)
 
