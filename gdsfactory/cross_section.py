@@ -13,7 +13,7 @@ from functools import partial
 from inspect import getmembers
 from typing import Any, Literal, TypeVar
 
-from pydantic import BaseModel, Field, validate_arguments
+from pydantic import BaseModel, ConfigDict, Field, validate_arguments
 
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 from gdsfactory.serialization import clean_dict
@@ -172,7 +172,7 @@ class CrossSection(BaseModel):
     start_straight_length: float = 10e-3
     end_straight_length: float = 10e-3
     snap_to_grid: float | None = None
-    decorator: Callable | None = None
+    decorator: Callable | None = Field(default=None, exclude=True)
     add_pins: Callable | None = Field(default=None, exclude=True)
     add_bbox: Callable | None = Field(default=None, exclude=True)
     info: dict[str, Any] = Field(default_factory=dict)
@@ -180,15 +180,10 @@ class CrossSection(BaseModel):
     mirror: bool = False
     vias: list[ComponentAlongPath] = Field(default_factory=list)
 
-    class Config:
-        """Configuration."""
-
-        extra = "forbid"
-        fields = {
-            "decorator": {"exclude": True},
-            "add_pins": {"exclude": True},
-            "add_bbox": {"exclude": True},
-        }
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
+        extra="forbid",
+    )
 
     def copy(self, **kwargs):
         """Returns a CrossSection copy."""
