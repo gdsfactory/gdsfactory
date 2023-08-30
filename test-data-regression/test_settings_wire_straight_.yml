@@ -1,4 +1,4 @@
-name: straight_cross_sectionm_56ce1600
+name: straight_cross_sectionmetal_routing
 ports:
   e1:
     center:
@@ -163,4 +163,4 @@ settings:
     width: 10.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_cross_sectionm_56ce1600
+  name: straight_cross_sectionmetal_routing

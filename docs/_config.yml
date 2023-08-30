@@ -64,6 +64,7 @@ sphinx:
     - "sphinxcontrib.autodoc_pydantic"
   config:
     #autodoc_typehints: description
+    autodoc_pydantic_model_show_json_error_strategy: warn
     autodoc_type_aliases:
       "ComponentFactory": "ComponentFactory"
       "ComponentSpec": "ComponentSpec"

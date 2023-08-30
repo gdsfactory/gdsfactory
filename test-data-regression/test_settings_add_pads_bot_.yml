@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_pads_b_e10b4ae3
+name: mzi_2e88f57c_add_pads_bot_564dd830
 ports:
   elec-pad_sizepad_size-mzi_2e88f57c-top_l_e1:
     center:
@@ -381,4 +381,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_pads
-  name: mzi_2e88f57c_add_pads_b_e10b4ae3
+  name: mzi_2e88f57c_add_pads_bot_564dd830

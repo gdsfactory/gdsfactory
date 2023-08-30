@@ -1,6 +1,10 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.3.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.4.0...main)
+
+## [7.4.0](https://github.com/gdsfactory/gdsfactory/compare/v7.4.0...v7.3.4)
+
+- port to pydantic2
 
 ## [7.3.4](https://github.com/gdsfactory/gdsfactory/compare/v7.3.4...v7.3.3)
 
@@ -1833,7 +1837,7 @@ from functools import partial to all files and makes the docs cleaner by renderi
 - add events module and events relating to Pdk modifications [PR](https://github.com/gdsfactory/gdsfactory/pull/412)
   - add default_decorator attribute to Pdk. adding pdk argument to pdk-related events
 - add LayerSpec as Union[int, Tuple[int,int], str, None][pr](https://github.com/gdsfactory/gdsfactory/pull/413/)
-  - add layers dict to Pdk(layers=LAYER.dict()), and `pdk.get_layer`
+  - add layers dict to Pdk(layers=dict(LAYER)), and `pdk.get_layer`
 
 ## [5.7.1](https://github.com/gdsfactory/gdsfactory/pull/403)
 

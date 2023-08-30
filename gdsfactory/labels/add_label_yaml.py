@@ -22,7 +22,7 @@ port_prefixes = [
 ]
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def add_label_yaml(
     component: gf.Component,
     port_prefixes: list[str] = ("opt_", "_elec"),

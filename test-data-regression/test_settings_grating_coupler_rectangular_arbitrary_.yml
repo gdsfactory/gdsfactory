@@ -1,4 +1,4 @@
-name: grating_coupler_rectang_0b571e8d
+name: grating_coupler_rectangular_arbitrary
 ports:
   o1:
     center:
@@ -103,4 +103,4 @@ settings:
     wavelength: 1.55
   info_version: 2
   module: gdsfactory.components.grating_coupler_rectangular_arbitrary
-  name: grating_coupler_rectang_0b571e8d
+  name: grating_coupler_rectangular_arbitrary

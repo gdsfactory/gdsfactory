@@ -1,73 +1,73 @@
-name: coupler_gap0p244_length_10b57faa
+name: coupler_gap0p244_length5p67_add_fiber_array_100a2697
 ports:
-  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback0:
+  opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p244_length5p67-loopback0:
     center:
     - -314.7
     - -55.3
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback0
+    name: opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p244_length5p67-loopback0
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback1:
+  opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p244_length5p67-loopback1:
     center:
     - 320.3
     - -55.3
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback1
+    name: opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p244_length5p67-loopback1
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o1:
+  opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p244_length5p67-o1:
     center:
     - -187.7
     - -55.3
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o1
+    name: opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p244_length5p67-o1
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o2:
+  opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p244_length5p67-o2:
     center:
     - -60.7
     - -55.3
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o2
+    name: opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p244_length5p67-o2
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o3:
+  opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p244_length5p67-o3:
     center:
     - 66.3
     - -55.3
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o3
+    name: opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p244_length5p67-o3
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o4:
+  opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p244_length5p67-o4:
     center:
     - 193.3
     - -55.3
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o4
+    name: opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p244_length5p67-o4
     orientation: 90.0
     port_type: optical
     shear_angle: null
@@ -170,4 +170,4 @@ settings:
     min_bend_radius: 11.883
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: coupler_gap0p244_length_10b57faa
+  name: coupler_gap0p244_length5p67_add_fiber_array_100a2697

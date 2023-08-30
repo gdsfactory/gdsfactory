@@ -4,7 +4,7 @@ import functools
 from collections.abc import Callable
 
 import gdstk
-from pydantic import validate_arguments
+from pydantic import validate_call
 
 from gdsfactory.cell import _F, cell_without_validator
 from gdsfactory.component import Component
@@ -42,9 +42,7 @@ def symbol(func: _F, *args, **kwargs) -> _F:
     if "prefix" not in kwargs:
         prefix = f"SYMBOL_{func.__name__}"
         kwargs["prefix"] = prefix
-    _wrapped = functools.partial(
-        cell_without_validator(validate_arguments(func)), **kwargs
-    )
+    _wrapped = functools.partial(cell_without_validator(validate_call(func)), **kwargs)
     _wrapped._symbol = True
     return _wrapped
 

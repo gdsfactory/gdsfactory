@@ -1,4 +1,4 @@
-name: grating_coupler_ellipti_7645ee14
+name: grating_coupler_elliptical_trenches_taper_angle35_grating_coupler_loss_fiber_single
 ports: {}
 settings:
   changed: {}
@@ -43,7 +43,7 @@ settings:
       wavelength: 1.53
     info_version: 2
     module: gdsfactory.components.grating_coupler_elliptical_trenches
-    name: grating_coupler_ellipti_dd7f7af4
+    name: grating_coupler_elliptical_trenches_taper_angle35
   default:
     cross_section: strip
     grating_coupler:
@@ -65,4 +65,4 @@ settings:
     wavelength: 1.53
   info_version: 2
   module: gdsfactory.components.grating_coupler_loss_fiber_single
-  name: grating_coupler_ellipti_7645ee14
+  name: grating_coupler_elliptical_trenches_taper_angle35_grating_coupler_loss_fiber_single

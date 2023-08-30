@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_paddin_91e6753c
+name: mzi_2e88f57c_add_padding_container_564dd830
 ports:
   o1:
     center:
@@ -247,4 +247,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.add_padding
-  name: mzi_2e88f57c_add_paddin_91e6753c
+  name: mzi_2e88f57c_add_padding_container_564dd830

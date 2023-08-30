@@ -1,4 +1,4 @@
-name: straight_heater_doped_r_fe4184db
+name: straight_heater_doped_rib_39844888
 ports:
   bot_e1:
     center:
@@ -302,4 +302,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.straight_heater_doped_rib
-  name: straight_heater_doped_r_fe4184db
+  name: straight_heater_doped_rib_39844888

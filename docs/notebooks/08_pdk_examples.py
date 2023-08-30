@@ -89,7 +89,7 @@ class FabALayerViews(LayerViews):
     TE = LayerView(color="green")
 
 
-LAYER_VIEWS = FabALayerViews(layer_map=LAYER.dict())
+LAYER_VIEWS = FabALayerViews(layer_map=dict(LAYER))
 
 
 def get_layer_stack_faba(
@@ -135,7 +135,7 @@ fab_a = gf.Pdk(
     name="Fab_A",
     cells=dict(mmi1x2=mmi1x2),
     cross_sections=dict(strip=strip),
-    layers=LAYER.dict(),
+    layers=dict(LAYER),
     base_pdk=generic_pdk,
     sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
@@ -271,7 +271,7 @@ pdk = gf.Pdk(
     name="fab_b",
     cells=cells,
     cross_sections=cross_sections,
-    layers=LAYER.dict(),
+    layers=dict(LAYER),
     sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
     layer_stack=LAYER_STACK,
@@ -488,7 +488,7 @@ pdk = gf.Pdk(
     name="fab_c",
     cells=cells,
     cross_sections=cross_sections,
-    layers=LAYER.dict(),
+    layers=dict(LAYER),
     sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
     layer_stack=LAYER_STACK,

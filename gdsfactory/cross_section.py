@@ -13,7 +13,7 @@ from functools import partial
 from inspect import getmembers
 from typing import Any, Literal, TypeVar
 
-from pydantic import BaseModel, Field, validate_arguments
+from pydantic import BaseModel, ConfigDict, Field, validate_call
 
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 from gdsfactory.serialization import clean_dict
@@ -80,10 +80,7 @@ class Section(BaseModel):
     hidden: bool = False
     simplify: float | None = None
 
-    class Config:
-        """pydantic basemodel config."""
-
-        extra = "forbid"
+    model_config = ConfigDict(extra="forbid")
 
 
 class ComponentAlongPath(BaseModel):
@@ -172,7 +169,7 @@ class CrossSection(BaseModel):
     start_straight_length: float = 10e-3
     end_straight_length: float = 10e-3
     snap_to_grid: float | None = None
-    decorator: Callable | None = None
+    decorator: Callable | None = Field(default=None, exclude=True)
     add_pins: Callable | None = Field(default=None, exclude=True)
     add_bbox: Callable | None = Field(default=None, exclude=True)
     info: dict[str, Any] = Field(default_factory=dict)
@@ -180,19 +177,14 @@ class CrossSection(BaseModel):
     mirror: bool = False
     vias: list[ComponentAlongPath] = Field(default_factory=list)
 
-    class Config:
-        """Configuration."""
-
-        extra = "forbid"
-        fields = {
-            "decorator": {"exclude": True},
-            "add_pins": {"exclude": True},
-            "add_bbox": {"exclude": True},
-        }
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
+        extra="forbid",
+    )
 
     def copy(self, **kwargs):
         """Returns a CrossSection copy."""
-        xs = super().copy(update=kwargs)
+        xs = super().model_copy(update=kwargs)
         xs.decorator = self.decorator
         xs.add_pins = self.add_pins
         xs.add_bbox = self.add_bbox
@@ -322,8 +314,8 @@ class Transition(CrossSection):
         mirror: if True, reflects the offsets.
     """
 
-    cross_section1: CrossSectionSpec
-    cross_section2: CrossSectionSpec
+    cross_section1: CrossSectionSpec = Field(exclude=True)
+    cross_section2: CrossSectionSpec = Field(exclude=True)
     width_type: WidthTypes = "sine"
     sections: list[Section]
     layer: LayerSpec | None = None
@@ -395,7 +387,7 @@ def xsection(func: _F) -> _F:
         c = p.extrude(xs_sc)
         c.plot()
     """
-    return _xsection_without_validator(validate_arguments(func))
+    return _xsection_without_validator(validate_call(func))
 
 
 @xsection
@@ -490,7 +482,7 @@ def cross_section(
         cladding_layers=cladding_layers,
         cladding_offsets=cladding_offsets,
         cladding_simplify=cladding_simplify,
-        sections=sections or (),
+        sections=sections or [],
         gap=gap,
         min_length=min_length,
         start_straight_length=start_straight_length,

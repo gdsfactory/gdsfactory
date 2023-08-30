@@ -166,7 +166,7 @@ class Port:
         yield cls.validate
 
     @classmethod
-    def validate(cls, v):
+    def validate(cls, v, _info):
         """For pydantic assumes Port is valid if has a name and a valid type."""
         assert isinstance(v, Port), f"TypeError, Got {type(v)}, expecting Port"
         assert v.name, f"Port has no name, got {v.name!r}"

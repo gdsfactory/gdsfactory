@@ -1,4 +1,4 @@
-name: spiral_inner_io_2a92e51_825ccbf1
+name: spiral_inner_io_2a92e51b_spiral_inner_io_fiber_single
 ports:
   o1:
     center:
@@ -105,4 +105,4 @@ settings:
     length: 9973.393
   info_version: 2
   module: gdsfactory.components.spiral_inner_io
-  name: spiral_inner_io_2a92e51_825ccbf1
+  name: spiral_inner_io_2a92e51b_spiral_inner_io_fiber_single
