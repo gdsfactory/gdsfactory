@@ -22,6 +22,8 @@ dependencies = [
   "orjson",
   "pandas",
   "pydantic>=2,<3",
+  "pydantic-settings",
+  "pydantic-extra-types",
   "pyyaml",
   "qrcode",
   "rectpack",
