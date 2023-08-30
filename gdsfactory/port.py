@@ -116,7 +116,7 @@ class Port(BaseModel):
         cross_section = info.config.get("cross_section")
         if cross_section is None and info is None:
             raise ValueError("You need Port to define cross_section or width")
-        if v is None:
+        if cross_section:
             return cross_section.width  # Assuming cross_section has a width attribute
         if v < 0:
             raise ValueError(f"Port width must be >=0. Got {v}")

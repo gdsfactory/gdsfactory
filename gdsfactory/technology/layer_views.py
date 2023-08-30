@@ -10,6 +10,7 @@ import pathlib
 import re
 import typing
 import xml.etree.ElementTree as ET
+import typing
 
 import numpy as np
 import yaml
@@ -418,7 +419,7 @@ class LayerView(BaseModel):
     marked: bool = False
     xfill: bool = False
     animation: int = 0
-    group_members: dict[str, LayerView] | None = Field(default_factory=dict)
+    group_members: typing.Dict[str, LayerView] | None = Field(default={})
 
     def __init__(
         self,
