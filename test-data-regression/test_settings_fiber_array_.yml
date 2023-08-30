@@ -11,7 +11,7 @@ ports:
     orientation: 0
     port_type: optical
     shear_angle: null
-    width: 10.0
+    width: 10
   F1:
     center:
     - 0.0
@@ -23,7 +23,7 @@ ports:
     orientation: 0
     port_type: optical
     shear_angle: null
-    width: 10.0
+    width: 10
   F2:
     center:
     - 0.0
@@ -35,7 +35,7 @@ ports:
     orientation: 0
     port_type: optical
     shear_angle: null
-    width: 10.0
+    width: 10
   F3:
     center:
     - 0.0
@@ -47,7 +47,7 @@ ports:
     orientation: 0
     port_type: optical
     shear_angle: null
-    width: 10.0
+    width: 10
   F4:
     center:
     - 0.0
@@ -59,7 +59,7 @@ ports:
     orientation: 0
     port_type: optical
     shear_angle: null
-    width: 10.0
+    width: 10
   F5:
     center:
     - 0.0
@@ -71,7 +71,7 @@ ports:
     orientation: 0
     port_type: optical
     shear_angle: null
-    width: 10.0
+    width: 10
   F6:
     center:
     - 0.0
@@ -83,7 +83,7 @@ ports:
     orientation: 0
     port_type: optical
     shear_angle: null
-    width: 10.0
+    width: 10
   F7:
     center:
     - 0.0
@@ -95,7 +95,7 @@ ports:
     orientation: 0
     port_type: optical
     shear_angle: null
-    width: 10.0
+    width: 10
 settings:
   changed: {}
   child: null

@@ -11,7 +11,7 @@ ports:
     orientation: 180.0
     port_type: electrical
     shear_angle: null
-    width: 4.0
+    width: 4
   l_e2:
     center:
     - -6.0
@@ -23,7 +23,7 @@ ports:
     orientation: 90.0
     port_type: electrical
     shear_angle: null
-    width: 4.0
+    width: 4
   l_e3:
     center:
     - -4.0
@@ -35,7 +35,7 @@ ports:
     orientation: 0.0
     port_type: electrical
     shear_angle: null
-    width: 4.0
+    width: 4
   l_e4:
     center:
     - -6.0
@@ -47,7 +47,7 @@ ports:
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 4.0
+    width: 4
   o1:
     center:
     - -17.0
@@ -83,7 +83,7 @@ ports:
     orientation: 180.0
     port_type: electrical
     shear_angle: null
-    width: 4.0
+    width: 4
   r_e2:
     center:
     - 2.0
@@ -95,7 +95,7 @@ ports:
     orientation: 90.0
     port_type: electrical
     shear_angle: null
-    width: 4.0
+    width: 4
   r_e3:
     center:
     - 4.0
@@ -107,7 +107,7 @@ ports:
     orientation: 0.0
     port_type: electrical
     shear_angle: null
-    width: 4.0
+    width: 4
   r_e4:
     center:
     - 2.0
@@ -119,7 +119,7 @@ ports:
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 4.0
+    width: 4
 settings:
   changed: {}
   child: null

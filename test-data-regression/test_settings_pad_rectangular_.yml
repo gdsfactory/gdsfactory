@@ -11,7 +11,7 @@ ports:
     orientation: 180.0
     port_type: electrical
     shear_angle: null
-    width: 80.0
+    width: 80
   e2:
     center:
     - 0.0
@@ -23,7 +23,7 @@ ports:
     orientation: 90.0
     port_type: electrical
     shear_angle: null
-    width: 80.0
+    width: 80
   e3:
     center:
     - 40.0
@@ -35,7 +35,7 @@ ports:
     orientation: 0.0
     port_type: electrical
     shear_angle: null
-    width: 80.0
+    width: 80
   e4:
     center:
     - 0.0
@@ -47,7 +47,7 @@ ports:
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 80.0
+    width: 80
   pad:
     center:
     - 0.0
@@ -59,7 +59,7 @@ ports:
     orientation: null
     port_type: vertical_dc
     shear_angle: null
-    width: 80.0
+    width: 80
 settings:
   changed:
     size: pad_size

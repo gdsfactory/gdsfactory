@@ -11,7 +11,7 @@ ports:
     orientation: 180
     port_type: vertical_dc
     shear_angle: null
-    width: 10.0
+    width: 10
   pad2:
     center:
     - 50.0
@@ -23,7 +23,7 @@ ports:
     orientation: 0
     port_type: vertical_dc
     shear_angle: null
-    width: 10.0
+    width: 10
 settings:
   changed: {}
   child: null

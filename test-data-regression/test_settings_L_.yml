@@ -11,7 +11,7 @@ ports:
     orientation: 90
     port_type: electrical
     shear_angle: null
-    width: 1.0
+    width: 1
   e2:
     center:
     - 10.0
@@ -23,7 +23,7 @@ ports:
     orientation: 0
     port_type: electrical
     shear_angle: null
-    width: 1.0
+    width: 1
 settings:
   changed: {}
   child: null

@@ -23,7 +23,7 @@ ports:
     orientation: 0
     port_type: opt_te_1530_15
     shear_angle: null
-    width: 10.0
+    width: 10
 settings:
   changed:
     taper_angle: 35

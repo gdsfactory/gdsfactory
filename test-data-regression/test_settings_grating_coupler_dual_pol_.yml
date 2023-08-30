@@ -35,7 +35,7 @@ ports:
     orientation: 0
     port_type: vertical_dual
     shear_angle: null
-    width: 11.0
+    width: 11
 settings:
   changed: {}
   child: null
