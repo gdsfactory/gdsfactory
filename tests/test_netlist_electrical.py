@@ -8,7 +8,6 @@ import gdsfactory as gf
 
 def test_no_effect_on_original_components():
     passive_mzi = gf.components.mzi2x2_2x2()
-    passive_mzi.show()
     passive_mzi_phase_shifter_netlist_electrical = passive_mzi.get_netlist_recursive(
         exclude_port_types="optical",
     )
@@ -16,5 +15,4 @@ def test_no_effect_on_original_components():
 
 
 if __name__ == "__main__":
-    # TODO turn all back on.
     test_no_effect_on_original_components()

@@ -63,13 +63,14 @@ def path_L(port1: Port, port2: Port) -> Path:
 
 
 def path_U(port1: Port, port2: Port, length1=200) -> Path:
-    """Return waypoint path between port1 and port2 in a U shape. Useful when ports face the same direction or toward each other.
+    """Return waypoint path between port1 and port2 in a U shape.
+
+    Useful when ports face the same direction or toward each other.
 
     Args:
         port1: start port.
         port2: end port.
-        length1: Length of segment exiting port1.
-            Should be larger than bend radius.
+        length1: Length of segment exiting port1. Should be larger than bend radius.
 
     """
     delta_orientation = np.round(
@@ -151,8 +152,10 @@ def path_C(port1: Port, port2: Port, length1=100, left1=100, length2=100) -> Pat
     return Path(np.array([pt1, pt2, pt3, pt4, pt5, pt6]))
 
 
-def path_manhattan(port1: Port, port2: Port, radius) -> Path:
-    """Return waypoint path between port1 and port2 using manhattan routing. Routing is performed using straight, L, U, J, or C  waypoint path as needed. Ports must face orthogonal or parallel directions.
+def path_manhattan(port1: Port, port2: Port, radius: float) -> Path:
+    """Return waypoint path between port1 and port2 using manhattan routing.
+    Routing uses straight, L, U, J, or C waypoint path as needed.
+    Ports must face orthogonal or parallel directions.
 
     Args:
         port1: start port.
@@ -219,8 +222,8 @@ def path_manhattan(port1: Port, port2: Port, radius) -> Path:
 
 
 def path_Z(port1: Port, port2: Port, length1=100, length2=100) -> Path:
-    """Return waypoint path between port1 and port2 in a Z shape. Ports can \
-    have any relative orientation.
+    """Return waypoint path between port1 and port2 in a Z shape.
+    Ports can have any relative orientation.
 
     Args:
         port1: start port.
