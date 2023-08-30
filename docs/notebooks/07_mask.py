@@ -42,8 +42,8 @@ PDK.activate()
 
 mmi = gf.components.mmi2x2()
 mmi_te_siepic = gf.labels.add_fiber_array_siepic(component=mmi)
-mmi_te_siepic.plot_klayout(show_ports=False)
 mmi_te_siepic.show()
+mmi_te_siepic.plot()
 
 mmi_te_siepic.ports
 
@@ -61,8 +61,8 @@ mmi = gf.c.mmi2x2(length_mmi=2.2)
 mmi_te_ehva = gf.routing.add_fiber_array(
     mmi, get_input_labels_function=None, decorator=add_label_ehva_demo
 )
-mmi_te_ehva.plot_klayout(show_ports=False)
 mmi_te_ehva.show()
+mmi_te_ehva.plot()
 
 # +
 labels = mmi_te_ehva.get_labels(depth=0)
@@ -93,8 +93,8 @@ mmi = gf.components.mmi2x2(length_mmi=10)
 mmi_te_ehva = gf.routing.add_fiber_array(
     mmi, get_input_labels_function=None, decorator=add_label_ehva_demo
 )
-mmi_te_ehva.plot_klayout(show_ports=False)
 mmi_te_ehva.show()
+mmi_te_ehva.plot()
 
 # +
 labels = mmi_te_ehva.get_labels(depth=0)
@@ -112,8 +112,8 @@ from gdsfactory.routing.get_input_labels import get_input_labels_dash
 
 c1 = gf.components.mmi1x2()
 c2 = gf.routing.add_fiber_array(c1, get_input_labels_function=get_input_labels_dash)
-c2.plot_klayout(show_ports=False)
 c2.show()
+c2.plot()
 # -
 
 # ## Pack

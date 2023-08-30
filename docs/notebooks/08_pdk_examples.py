@@ -147,7 +147,7 @@ c_gc.plot()
 
 # %%
 scene = c_gc.to_3d()
-scene.show(show_ports=True)
+scene.show()
 
 # %% [markdown]
 # ### FabB
@@ -282,7 +282,7 @@ wg_gc.plot()
 
 # %%
 scene = wg_gc.to_3d()
-scene.show(show_ports=True)
+scene.show()
 
 # %% [markdown]
 # ### FabC
@@ -509,7 +509,7 @@ mzi_gc.plot()
 
 # %%
 c = mzi_gc.to_3d()
-c.show(show_ports=True)
+c.show()
 
 # %%
 ls = get_layer_stack_fab_c()
