@@ -55,7 +55,7 @@ cad = [
   "ipywidgets",
   "jupytext",
   "kfactory[git,ipy]>=0.8.4,<0.9",
-  "kweb==0.1.1",
+  "kweb==1.1.2",
   "mapbox_earcut",
   "networkx",
   "pyglet<2",
