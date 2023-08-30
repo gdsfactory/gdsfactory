@@ -58,8 +58,7 @@ cad = [
   "networkx",
   "pyglet<2",
   "scikit-image",
-  "trimesh",
-  "gplugins<1"  # TODO: remove after we remove deprecated gdsfactory/simulation and gdsfactory/plugins
+  "trimesh"
 ]
 dev = [
   "autotyping",
