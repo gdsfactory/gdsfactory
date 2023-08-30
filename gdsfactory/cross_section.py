@@ -314,8 +314,8 @@ class Transition(CrossSection):
         mirror: if True, reflects the offsets.
     """
 
-    cross_section1: CrossSectionSpec
-    cross_section2: CrossSectionSpec
+    cross_section1: CrossSectionSpec = Field(exclude=True)
+    cross_section2: CrossSectionSpec = Field(exclude=True)
     width_type: WidthTypes = "sine"
     sections: list[Section]
     layer: LayerSpec | None = None

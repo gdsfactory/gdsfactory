@@ -61,9 +61,10 @@ sphinx:
     - "sphinx.ext.napoleon"
     - "sphinx.ext.viewcode"
     - "matplotlib.sphinxext.plot_directive"
-    # - "sphinxcontrib.autodoc_pydantic"
+    - "sphinxcontrib.autodoc_pydantic"
   config:
     #autodoc_typehints: description
+    autodoc_pydantic_model_show_json_error_strategy: warn
     autodoc_type_aliases:
       "ComponentFactory": "ComponentFactory"
       "ComponentSpec": "ComponentSpec"
