@@ -85,6 +85,7 @@ from gdsfactory.components.cutback_component import (
     cutback_component,
     cutback_component_mirror,
 )
+from gdsfactory.components.cutback_loss import cutback_loss, cutback_loss_spirals
 from gdsfactory.components.cutback_splitter import cutback_splitter
 from gdsfactory.components.dbr import dbr
 from gdsfactory.components.dbr_tapered import dbr_tapered
@@ -436,6 +437,8 @@ __all__ = [
     "cutback_bend90circular",
     "cutback_component",
     "cutback_component_mirror",
+    "cutback_loss",
+    "cutback_loss_spirals",
     "cutback_splitter",
     "cutback_2x2",
     "dbr",

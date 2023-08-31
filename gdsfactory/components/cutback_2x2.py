@@ -125,8 +125,6 @@ def cutback_2x2(
         bend180=bend180,
         port1=port1,
         port2=port2,
-        port3=port3,
-        port4=port4,
         **kwargs,
     )
 
