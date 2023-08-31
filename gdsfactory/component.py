@@ -1646,9 +1646,11 @@ class Component(_GeometryHelper):
             else int(os.getenv("KWEB_PORT", 8000))
         )
         # src = f"http://{host}:{port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
-        src = f"http://{host}:{port}/gds/{escape(str(gdspath))}"
+        src = f"http://{host}:{port}/gds/{escape(gdspath.stem+gdspath.suffix)}"
+        # src = f"http://{host}:{port}/gds/{escape(gdspath.stem+gdspath.suffix)}?layer_props={escape(str(lyp_path))}"
 
         os.environ["KWEB_PORT"] = str(os.getenv("KWEB_PORT", port))
+        os.environ["KWEB_FILESDIRECTORY"] = str(dirpath)
 
         if not kj.jupyter_server:
             port = port
