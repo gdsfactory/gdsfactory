@@ -9,6 +9,7 @@ import hashlib
 import importlib.util
 import itertools
 import math
+import os
 import pathlib
 import uuid
 import warnings
@@ -70,6 +71,7 @@ valid_plotters = [
     "kweb",
 ]  # qt and holoviews are deprecated
 Axis = Literal["x", "y"]
+os.environ["KWEB_FILESLOCATION"] = str(GDSDIR_TEMP)
 
 
 class UncachedComponentWarning(UserWarning):
@@ -1621,20 +1623,16 @@ class Component(_GeometryHelper):
 
     def plot_kweb(self):
         """Shows current gds in kweb."""
-        import os
+
         from html import escape
 
         import kweb.server_jupyter as kj
         from IPython.display import IFrame
 
-        from gdsfactory.config import PATH
         from gdsfactory.pdk import get_layer_views
 
-        gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
-
-        dirpath = GDSDIR_TEMP
-        dirpath.mkdir(exist_ok=True, parents=True)
-        lyp_path = dirpath / "layers.lyp"
+        gdspath = self.write_gds(gdsdir=GDSDIR_TEMP, logging=False)
+        lyp_path = GDSDIR_TEMP / "layers.lyp"
 
         layer_props = get_layer_views()
         layer_props.to_lyp(filepath=lyp_path)
@@ -1645,12 +1643,9 @@ class Component(_GeometryHelper):
             if hasattr(kj, "port") and kj.port
             else int(os.getenv("KWEB_PORT", 8000))
         )
-        # src = f"http://{host}:{port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
-        src = f"http://{host}:{port}/gds/{escape(gdspath.stem+gdspath.suffix)}"
-        # src = f"http://{host}:{port}/gds/{escape(gdspath.stem+gdspath.suffix)}?layer_props={escape(str(lyp_path))}"
+        src = f"http://{host}:{port}/gds/{escape(gdspath.stem+gdspath.suffix)}?layer_props={escape(str(lyp_path))}"
 
         os.environ["KWEB_PORT"] = str(os.getenv("KWEB_PORT", port))
-        os.environ["KWEB_FILESDIRECTORY"] = str(dirpath)
 
         if not kj.jupyter_server:
             port = port
