@@ -9,7 +9,7 @@ from gdsfactory.typings import Route
 def get_bundle_sbend(
     ports1: Port,
     ports2: Port,
-    sort_ports: bool = True,
+    sort_ports: bool = False,
     **kwargs,
 ) -> list[Route]:
     """Returns a list of routes from ports1 to ports2.
@@ -71,7 +71,9 @@ if __name__ == "__main__":
     ]
     left_ports.reverse()
 
-    routes = gf.routing.get_bundle(right_ports, left_ports, with_sbend=False)
+    routes = gf.routing.get_bundle(
+        right_ports, left_ports, with_sbend=True, sort_ports=True
+    )
     for route in routes:
         c.add(route.references)
     c.show(show_ports=True)

@@ -36,7 +36,7 @@ def get_bundle_path_length_match(
     taper: ComponentSpec | None = taper_function,
     start_straight_length: float = 0.0,
     route_filter: Callable = get_route_from_waypoints,
-    sort_ports: bool = True,
+    sort_ports: bool = False,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     **kwargs,
 ) -> list[Route]:

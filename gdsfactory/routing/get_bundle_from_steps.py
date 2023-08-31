@@ -32,7 +32,7 @@ def get_bundle_from_steps(
     straight: ComponentSpec = straight_function,
     taper: ComponentSpec | None = taper_function,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
-    sort_ports: bool = True,
+    sort_ports: bool = False,
     separation: float | None = None,
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
