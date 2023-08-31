@@ -10,8 +10,6 @@ def test_import_gds_cell() -> None:
     c0 = gf.components.rectangle()
     gdspath = c0.write_gds()
 
-    gf.clear_cache()
-
     # top cell with rectangle reference
     c1 = gf.import_gds(gdspath)
     assert np.isclose(c1.area(), 8.0)
@@ -26,8 +24,6 @@ def test_import_gds_cell() -> None:
 if __name__ == "__main__":
     c0 = gf.c.rectangle()
     gdspath = c0.write_gds()
-
-    gf.clear_cache()
 
     # top cell with rectangle reference
     c1 = gf.import_gds(gdspath)

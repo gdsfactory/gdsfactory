@@ -25,7 +25,6 @@ def port_bank(
         )
 
     c.add_polygon([[xs[0], 0], [xs[-1], 0], [(xs[0] + xs[-1]) * 0.5, -2]])
-    print(c.ports)
     return c
 
 

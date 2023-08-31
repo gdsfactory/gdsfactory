@@ -857,7 +857,8 @@ def extrude(
         sections = x.sections or []
         cladding_offsets = x.cladding_offsets or []
         sections = [
-            section.copy(update=dict(offset=-section.offset)) for section in sections
+            section.model_copy(update=dict(offset=-section.offset))
+            for section in sections
         ]
         cladding_offsets = [-o for o in cladding_offsets]
         x = x.copy(
@@ -1212,7 +1213,7 @@ def arc(
     PDK = get_active_pdk()
 
     npoints = npoints or abs(int(angle / 360 * radius / PDK.bend_points_distance / 2))
-    npoints = max(npoints, int(360 / angle) + 1)
+    npoints = max(int(npoints), int(360 / angle) + 1)
 
     t = np.linspace(
         start_angle * np.pi / 180, (angle + start_angle) * np.pi / 180, npoints

@@ -23,10 +23,7 @@ class LayerMap(BaseModel):
         script += f"    {layer_name}: Layer = ({layer.layer[0]}, {layer.layer[1]})\n"
 
     script += """
-    class Config:
-        frozen = True
-        extra = "forbid"
-
+    model_config = {'extra': 'forbid', 'frozen': True}
 
 LAYER = LayerMap()
 """

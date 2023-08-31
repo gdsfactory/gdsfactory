@@ -176,7 +176,7 @@ def write_cells(
     components = {}
 
     for cellname in top_cellnames:
-        c = import_gds(gdspath=gdspath, cellname=cellname)
+        c = import_gds(gdspath=gdspath, cellname=cellname, unique_names=False)
         if flatten:
             c = c.flatten()
         components[cellname] = c

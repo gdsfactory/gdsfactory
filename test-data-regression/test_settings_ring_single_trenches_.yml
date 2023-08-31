@@ -1,4 +1,4 @@
-name: ring_single_add_trenche_1b7bb09d
+name: ring_single_add_trenches_06939900
 ports:
   o1:
     center:
@@ -76,4 +76,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.add_trenches
-  name: ring_single_add_trenche_1b7bb09d
+  name: ring_single_add_trenches_06939900

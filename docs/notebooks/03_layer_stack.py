@@ -46,6 +46,7 @@
 #
 
 # %%
+# %% tags=["hide-input"]
 
 from pydantic import BaseModel
 
@@ -54,6 +55,9 @@ from gdsfactory.generic_tech import LAYER, LAYER_STACK
 from gdsfactory.generic_tech.get_klayout_pyxs import get_klayout_pyxs
 from gdsfactory.technology import LayerLevel, LayerStack, LayerViews
 from gdsfactory.generic_tech import get_generic_pdk
+from IPython.display import Code
+
+from gdsfactory.config import PATH
 
 # %%
 Layer = tuple[int, int]
@@ -123,11 +127,7 @@ class GenericLayerMap(BaseModel):
     SOURCE: Layer = (110, 0)
     MONITOR: Layer = (101, 0)
 
-    class Config:
-        """pydantic config."""
-
-        frozen = True
-        extra = "forbid"
+    model_config = dict(frozen=True, extra="forbid")
 
 
 LAYER = GenericLayerMap()
@@ -189,9 +189,6 @@ remap.plot()
 # We recommend using YAML and then generate the lyp in klayout, as YAML is easier to modify than XML.
 
 # %%
-from IPython.display import Code
-
-from gdsfactory.config import PATH
 
 Code(filename=PATH.klayout_yaml)
 
@@ -486,8 +483,6 @@ LAYER_STACK = get_layer_stack()
 layer_stack220 = LAYER_STACK
 
 # %%
-import gdsfactory as gf
-
 c = gf.components.straight_heater_doped_rib(length=100)
 c.plot()
 
@@ -496,8 +491,6 @@ scene = c.to_3d(layer_stack=layer_stack220)
 scene.show()
 
 # %%
-import gdsfactory as gf
-
 c = gf.components.straight_heater_metal(length=40)
 c.plot()
 
@@ -506,8 +499,6 @@ scene = c.to_3d(layer_stack=layer_stack220)
 scene.show()
 
 # %%
-import gdsfactory as gf
-
 c = gf.components.taper_strip_to_ridge_trenches()
 c.plot()
 

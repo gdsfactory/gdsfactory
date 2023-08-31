@@ -94,5 +94,5 @@ if __name__ == "__main__":
     # c = gf.components.taper_strip_to_ridge_trenches()
 
     c.show()
-    s = c.to_3d()
-    s.show()
+    # s = c.to_3d()
+    # s.show()

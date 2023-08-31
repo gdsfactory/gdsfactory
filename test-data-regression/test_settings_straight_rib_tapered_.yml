@@ -1,4 +1,4 @@
-name: straight_d6abaab6_exten_e9efddae
+name: straight_d6abaab6_extend_ports_5819b9cb
 ports:
   o1:
     center:
@@ -302,4 +302,4 @@ settings:
     width: 0.5
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_d6abaab6_exten_e9efddae
+  name: straight_d6abaab6_extend_ports_5819b9cb

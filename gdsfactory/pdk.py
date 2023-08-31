@@ -11,11 +11,10 @@ from typing import Any, Literal
 import numpy as np
 import omegaconf
 from omegaconf import DictConfig
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from gdsfactory.config import logger
+from gdsfactory.config import CONF, logger
 from gdsfactory.events import Event
-from gdsfactory.name import MAX_NAME_LENGTH
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
@@ -195,7 +194,7 @@ class CellDecoratorSettings(BaseModel):
         description="If set, will prepend this string to the cell name.",
     )
     max_name_length: int = Field(
-        default=MAX_NAME_LENGTH,
+        default=CONF.max_name_length,
         description="Maximum length of the cell name.",
     )
     include_module: bool = Field(
@@ -246,12 +245,18 @@ class Pdk(BaseModel):
     """
 
     name: str
-    cross_sections: dict[str, CrossSectionOrFactory] = Field(default_factory=dict)
-    cells: dict[str, ComponentFactory] = Field(default_factory=dict)
+    cross_sections: dict[str, CrossSectionOrFactory] = Field(
+        default_factory=dict, exclude=True
+    )
+    cells: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
     symbols: dict[str, ComponentFactory] = Field(default_factory=dict)
-    default_symbol_factory: Callable = floorplan_with_block_letters
+    default_symbol_factory: Callable = Field(
+        default=floorplan_with_block_letters, exclude=True
+    )
     base_pdk: Pdk | None = None
-    default_decorator: Callable[[Component], None] | None = None
+    default_decorator: Callable[[Component], None] | None = Field(
+        default=None, exclude=True
+    )
     layers: dict[str, Layer] = Field(default_factory=dict)
     layer_stack: LayerStack | None = None
     layer_views: LayerViews | None = None
@@ -259,9 +264,6 @@ class Pdk(BaseModel):
         default_factory=dict
     )
     sparameters_path: PathType | None = Field(
-        default=None, description="This field is deprecated."
-    )
-    capacitance_path: PathType | None = Field(
         default=None, description="This field is deprecated."
     )
 
@@ -280,6 +282,12 @@ class Pdk(BaseModel):
     cell_decorator_settings: CellDecoratorSettings = CellDecoratorSettings()
     bend_points_distance: float = 20 * nm
 
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
+        ignore_extra=True,
+        extra="forbid",
+    )
+
     def __init__(self, **data):
         if "sparameters_path" in data:
             warnings.warn(
@@ -288,10 +296,6 @@ class Pdk(BaseModel):
         if "modes_path" in data:
             warnings.warn(
                 "The 'pdk.modes_path' is deprecated. Use gf.config.PATH instead",
-            )
-        if "capacitance_path" in data:
-            warnings.warn(
-                "The 'pdk.capacitance_path' is deprecated. Use gf.config.PATH instead",
             )
         super().__init__(**data)
 
@@ -304,19 +308,7 @@ class Pdk(BaseModel):
     def grid_size(self, value) -> None:
         self.gds_write_settings.precision = value * self.gds_write_settings.unit
 
-    class Config:
-        """Configuration."""
-
-        extra = "forbid"
-        fields = {
-            "cross_sections": {"exclude": True},
-            "cells": {"exclude": True},
-            "default_symbol_factory": {"exclude": True},
-            "default_decorator": {"exclude": True},
-            "materials_index": {"exclude": True},
-        }
-
-    @validator("sparameters_path", "capacitance_path")
+    @field_validator("sparameters_path")
     def is_pathlib_path(cls, path):
         return pathlib.Path(path)
 
@@ -537,9 +529,9 @@ class Pdk(BaseModel):
     ) -> CrossSection | Transition:
         """Returns cross_section from a cross_section spec."""
         if isinstance(cross_section, CrossSection):
-            return cross_section.copy(**kwargs)
+            return cross_section.model_copy(update=kwargs)
         elif isinstance(cross_section, Transition):
-            return cross_section.copy(**kwargs)
+            return cross_section.model_copy(update=kwargs)
         elif callable(cross_section):
             return cross_section(**kwargs)
         elif isinstance(cross_section, str):
@@ -618,6 +610,7 @@ class Pdk(BaseModel):
         return self.constants[key]
 
     def get_material_index(self, key: str, *args, **kwargs) -> float:
+        warnings.warn("get_material_index is deprecated")
         if key not in self.materials_index:
             material_names = list(self.materials_index.keys())
             raise ValueError(f"{key!r} not in {material_names}")

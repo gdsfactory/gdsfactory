@@ -3,16 +3,15 @@ from __future__ import annotations
 
 import hashlib
 import re
-from pathlib import Path
 from typing import Any
 
 import pydantic
 
-MAX_NAME_LENGTH = 32
+from gdsfactory.config import CONF
 
 
-@pydantic.validate_arguments
-def get_name_short(name: str, max_name_length=MAX_NAME_LENGTH) -> str:
+@pydantic.validate_call
+def get_name_short(name: str, max_name_length=CONF.max_name_length) -> str:
     """Returns a short name."""
     if len(name) > max_name_length:
         name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
@@ -163,44 +162,6 @@ def clean_name(
     return re.sub(pattern, replace_match, name)
 
 
-def clean_path(p: str | Path) -> Path:
-    # Replace invalid characters with an underscore
-    safe_str = re.sub(r'[<>:"|?*]', "_", str(p))
-
-    # Check for reserved names and add a prefix if found
-    reserved_names = [
-        "CON",
-        "PRN",
-        "AUX",
-        "NUL",
-        "COM1",
-        "COM2",
-        "COM3",
-        "COM4",
-        "COM5",
-        "COM6",
-        "COM7",
-        "COM8",
-        "COM9",
-        "LPT1",
-        "LPT2",
-        "LPT3",
-        "LPT4",
-        "LPT5",
-        "LPT6",
-        "LPT7",
-        "LPT8",
-        "LPT9",
-    ]
-    basename = (
-        safe_str.split("\\")[-1].split(".")[0].upper()
-    )  # Extract the base filename without extension
-    if basename in reserved_names:
-        safe_str = safe_str.replace(basename, f"_{basename}")
-
-    return Path(safe_str)
-
-
 def clean_value(value: Any) -> str:
     from gdsfactory.serialization import clean_value_json
 
@@ -219,16 +180,14 @@ def test_clean_name() -> None:
 
 
 if __name__ == "__main__":
-    # test_cell()
     # testclean_value_json()
-    # import gdsfactory as gf
+    import gdsfactory as gf
 
     # print(clean_value(gf.components.straight))
     # c = gf.components.straight(polarization="TMeraer")
     # print(c.settings["polarization"])
     # print(clean_value(11.001))
-    # c = gf.components.straight(length=10)
-    # c = gf.components.straight(length=10)
+    c = gf.components.straight(length=10)
 
     # print(c.name)
     # print(c)
@@ -241,13 +200,13 @@ if __name__ == "__main__":
     # print(clean_value([1, 2.4324324, 3]))
     # print(clean_value((0.001, 24)))
     # print(clean_value({"a": 1, "b": 2}))
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
-    d = {
-        "X": gf.components.crossing45(port_spacing=40.0),
-        "-": gf.components.compensation_path(
-            crossing45=gf.components.crossing45(port_spacing=40.0)
-        ),
-    }
-    d2 = clean_value(d)
-    print(d2)
+    # d = {
+    #     "X": gf.components.crossing45(port_spacing=40.0),
+    #     "-": gf.components.compensation_path(
+    #         crossing45=gf.components.crossing45(port_spacing=40.0)
+    #     ),
+    # }
+    # d2 = clean_value(d)
+    # print(d2)

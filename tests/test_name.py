@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from functools import partial
 
+import pytest
+
 import gdsfactory as gf
 
 
@@ -9,7 +11,7 @@ import gdsfactory as gf
 def rectangles(widths: gf.typings.Floats) -> gf.Component:
     c = gf.Component()
     for width in widths:
-        c << gf.components.rectangle(size=(width, width))
+        _ = c << gf.components.rectangle(size=(width, width))
 
     c.distribute()
     return c
@@ -23,10 +25,6 @@ def test_name_partial_functions() -> None:
     m1 = partial(gf.components.mzi, straight=s1)()
     m2 = partial(gf.components.mzi, straight=s2)()
     m3 = partial(gf.components.mzi, straight=s3)()
-
-    # print(m1.name)
-    # print(m2.name)
-    # print(m3.name)
 
     assert (
         m2.name == m3.name
@@ -51,6 +49,24 @@ def test_float_point_errors() -> None:
     assert c1.name == c2.name, f"{c1.name} does not match {c2.name}"
 
 
+def test_name_shortened() -> None:
+    with pytest.warns(UserWarning):
+        c1 = gf.Component("h" * 300)
+    assert len(c1.name) < 300
+
+
+def test_name_flatten() -> None:
+    c1 = gf.components.straight(flatten=True)
+    assert c1.name == "straight"
+
+
+def test_clean_name() -> None:
+    c = gf.Component("hi:there")
+    gdspath = c.write_gds()
+    gdspath = str(gdspath)
+    assert ":" not in c.name, c.name
+
+
 # def test_name_different_signatures():
 #     c1 = gf.components.compass()
 
@@ -66,7 +82,9 @@ def test_float_point_errors() -> None:
 
 
 if __name__ == "__main__":
-    test_name_iterators()
+    test_clean_name()
+    # test_name_shortened()
+    # test_name_iterators()
     # test_name_partial_functions()
     # test_name_int_float()
     # test_name_different_signatures()

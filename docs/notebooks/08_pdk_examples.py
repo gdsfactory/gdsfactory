@@ -54,12 +54,6 @@ CONF.display_type = "klayout"
 p = gf.get_active_pdk()
 p.name
 
-# %%
-print_version_plugins()
-
-# %%
-print_version_pdks()
-
 # %% [markdown]
 # ### FabA
 #
@@ -84,12 +78,12 @@ LAYER = LayerMap()
 
 
 class FabALayerViews(LayerViews):
-    WG = LayerView(color="gold")
-    SLAB150 = LayerView(color="red")
-    TE = LayerView(color="green")
+    WG: LayerView = LayerView(color="gold")
+    SLAB150: LayerView = LayerView(color="red")
+    TE: LayerView = LayerView(color="green")
 
 
-LAYER_VIEWS = FabALayerViews(layer_map=LAYER.dict())
+LAYER_VIEWS = FabALayerViews(layer_map=dict(LAYER))
 
 
 def get_layer_stack_faba(
@@ -97,21 +91,22 @@ def get_layer_stack_faba(
 ) -> LayerStack:
     """Returns fabA LayerStack"""
 
-    class FabALayerStack(LayerStack):
-        strip = LayerLevel(
-            layer=LAYER.WG,
-            thickness=thickness_wg,
-            zmin=0.0,
-            material="si",
+    return LayerStack(
+        layers=dict(
+            strip=LayerLevel(
+                layer=LAYER.WG,
+                thickness=thickness_wg,
+                zmin=0.0,
+                material="si",
+            ),
+            strip2=LayerLevel(
+                layer=LAYER.SLAB150,
+                thickness=thickness_slab,
+                zmin=0.0,
+                material="si",
+            ),
         )
-        strip2 = LayerLevel(
-            layer=LAYER.SLAB150,
-            thickness=thickness_slab,
-            zmin=0.0,
-            material="si",
-        )
-
-    return FabALayerStack()
+    )
 
 
 LAYER_STACK = get_layer_stack_faba()
@@ -135,9 +130,8 @@ fab_a = gf.Pdk(
     name="Fab_A",
     cells=dict(mmi1x2=mmi1x2),
     cross_sections=dict(strip=strip),
-    layers=LAYER.dict(),
+    layers=dict(LAYER),
     base_pdk=generic_pdk,
-    sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
     layer_stack=LAYER_STACK,
 )
@@ -153,7 +147,7 @@ c_gc.plot()
 
 # %%
 scene = c_gc.to_3d()
-scene.show(show_ports=True)
+scene.show()
 
 # %% [markdown]
 # ### FabB
@@ -187,16 +181,16 @@ LAYER = LayerMap()
 # The LayerViews class supports grouping LayerViews within each other.
 # These groups are maintained when exporting a LayerViews object to a KLayout layer properties (.lyp) file.
 class FabBLayerViews(LayerViews):
-    WG = LayerView(color="red")
-    SLAB150 = LayerView(color="blue")
-    TE = LayerView(color="green")
-    PORT = LayerView(color="green", alpha=0)
+    WG: LayerView = LayerView(color="red")
+    SLAB150: LayerView = LayerView(color="blue")
+    TE: LayerView = LayerView(color="green")
+    PORT: LayerView = LayerView(color="green", alpha=0)
 
     class DopingBlockGroup(LayerView):
-        DOPING_BLOCK1 = LayerView(color="green", alpha=0)
-        DOPING_BLOCK2 = LayerView(color="green", alpha=0)
+        DOPING_BLOCK1: LayerView = LayerView(color="green", alpha=0)
+        DOPING_BLOCK2: LayerView = LayerView(color="green", alpha=0)
 
-    DopingBlocks = DopingBlockGroup()
+    DopingBlocks: LayerView = DopingBlockGroup()
 
 
 LAYER_VIEWS = FabBLayerViews(layer_map=LAYER)
@@ -207,21 +201,22 @@ def get_layer_stack_fab_b(
 ) -> LayerStack:
     """Returns fabA LayerStack."""
 
-    class FabBLayerStack(LayerStack):
-        strip = LayerLevel(
-            layer=LAYER.WG,
-            thickness=thickness_wg,
-            zmin=0.0,
-            material="si",
+    return LayerStack(
+        layers=dict(
+            strip=LayerLevel(
+                layer=LAYER.WG,
+                thickness=thickness_wg,
+                zmin=0.0,
+                material="si",
+            ),
+            strip2=LayerLevel(
+                layer=LAYER.SLAB150,
+                thickness=thickness_slab,
+                zmin=0.0,
+                material="si",
+            ),
         )
-        strip2 = LayerLevel(
-            layer=LAYER.SLAB150,
-            thickness=thickness_slab,
-            zmin=0.0,
-            material="si",
-        )
-
-    return FabBLayerStack()
+    )
 
 
 LAYER_STACK = get_layer_stack_fab_b()
@@ -271,7 +266,7 @@ pdk = gf.Pdk(
     name="fab_b",
     cells=cells,
     cross_sections=cross_sections,
-    layers=LAYER.dict(),
+    layers=dict(LAYER),
     sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
     layer_stack=LAYER_STACK,
@@ -287,7 +282,7 @@ wg_gc.plot()
 
 # %%
 scene = wg_gc.to_3d()
-scene.show(show_ports=True)
+scene.show()
 
 # %% [markdown]
 # ### FabC
@@ -322,22 +317,22 @@ PORT_TYPE_TO_LAYER = dict(optical=(100, 0))
 
 # This is something you usually define in KLayout
 class FabCLayerViews(LayerViews):
-    WG = LayerView(color="black")
-    SLAB150 = LayerView(color="blue")
-    WGN = LayerView(color="orange")
-    WGN_CLAD = LayerView(color="blue", alpha=0, visible=False)
+    WG: LayerView = LayerView(color="black")
+    SLAB150: LayerView = LayerView(color="blue")
+    WGN: LayerView = LayerView(color="orange")
+    WGN_CLAD: LayerView = LayerView(color="blue", alpha=0, visible=False)
 
     class SimulationGroup(LayerView):
-        TE = LayerView(color="green")
-        PORT = LayerView(color="green", alpha=0)
+        TE: LayerView = LayerView(color="green")
+        PORT: LayerView = LayerView(color="green", alpha=0)
 
-    Simulation = SimulationGroup()
+    Simulation: LayerView = SimulationGroup()
 
     class DopingGroup(LayerView):
-        DOPING_BLOCK1 = LayerView(color="green", alpha=0, visible=False)
-        DOPING_BLOCK2 = LayerView(color="green", alpha=0, visible=False)
+        DOPING_BLOCK1: LayerView = LayerView(color="green", alpha=0, visible=False)
+        DOPING_BLOCK2: LayerView = LayerView(color="green", alpha=0, visible=False)
 
-    Doping = DopingGroup()
+    Doping: LayerView = DopingGroup()
 
 
 LAYER_VIEWS = FabCLayerViews(layer_map=LAYER)
@@ -348,19 +343,20 @@ def get_layer_stack_fab_c(
 ) -> LayerStack:
     """Returns generic LayerStack"""
 
-    class FabCLayerStack(LayerStack):
-        core = LayerLevel(
-            layer=LAYER.WGN,
-            thickness=thickness_wg,
-            zmin=0,
+    return LayerStack(
+        layers=dict(
+            core=LayerLevel(
+                layer=LAYER.WGN,
+                thickness=thickness_wg,
+                zmin=0,
+            ),
+            clad=LayerLevel(
+                layer=LAYER.WGN_CLAD,
+                thickness=thickness_clad,
+                zmin=0,
+            ),
         )
-        clad = LayerLevel(
-            layer=LAYER.WGN_CLAD,
-            thickness=thickness_clad,
-            zmin=0,
-        )
-
-    return FabCLayerStack()
+    )
 
 
 LAYER_STACK = get_layer_stack_fab_c()
@@ -488,7 +484,7 @@ pdk = gf.Pdk(
     name="fab_c",
     cells=cells,
     cross_sections=cross_sections,
-    layers=LAYER.dict(),
+    layers=dict(LAYER),
     sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
     layer_stack=LAYER_STACK,
@@ -513,7 +509,7 @@ mzi_gc.plot()
 
 # %%
 c = mzi_gc.to_3d()
-c.show(show_ports=True)
+c.show()
 
 # %%
 ls = get_layer_stack_fab_c()

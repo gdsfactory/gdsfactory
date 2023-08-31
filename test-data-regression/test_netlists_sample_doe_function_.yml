@@ -17,7 +17,7 @@ instances:
     component: pack_doe
     info:
       components:
-        ring_single_length_x1_r_71050ad9:
+        ring_single_length_x1_radius20_add_fiber_array_6cc4522c:
           changed:
             component:
               component: ring_single
@@ -111,103 +111,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x1_r_71050ad9
-        ring_single_length_x1_r_9a17daca:
-          changed:
-            component:
-              component: ring_single
-              settings:
-                length_x: 1
-                radius: 50
-            fanout_length: 200
-          child:
-            changed:
-              length_x: 1
-              radius: 50
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              radius: 10.0
-            full:
-              bend:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 1
-              length_y: 0.6
-              radius: 50
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x1_radius50
-          default:
-            component:
-              function: straight
-            component_name: null
-            cross_section: strip
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-              settings:
-                get_input_label_text_function:
-                  function: get_input_label_text_dash
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: LABEL
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          full:
-            component:
-              component: ring_single
-              settings:
-                length_x: 1
-                radius: 50
-            component_name: null
-            cross_section: strip
-            fanout_length: 200
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-              settings:
-                get_input_label_text_function:
-                  function: get_input_label_text_dash
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: LABEL
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
-          info_version: 2
-          module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x1_r_9a17daca
-        ring_single_length_x1_r_e922fb20:
+          name: ring_single_length_x1_radius20_add_fiber_array_6cc4522c
+        ring_single_length_x1_radius30_add_fiber_array_4a913d16:
           changed:
             component:
               component: ring_single
@@ -301,8 +206,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x1_r_e922fb20
-        ring_single_length_x1_r_f293a50f:
+          name: ring_single_length_x1_radius30_add_fiber_array_4a913d16
+        ring_single_length_x1_radius40_add_fiber_array_6fd7fc6d:
           changed:
             component:
               component: ring_single
@@ -396,18 +301,18 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x1_r_f293a50f
-        ring_single_length_x2_r_039ecebb:
+          name: ring_single_length_x1_radius40_add_fiber_array_6fd7fc6d
+        ring_single_length_x1_radius50_add_fiber_array_1f091694:
           changed:
             component:
               component: ring_single
               settings:
-                length_x: 2
+                length_x: 1
                 radius: 50
             fanout_length: 200
           child:
             changed:
-              length_x: 2
+              length_x: 1
               radius: 50
             child: null
             default:
@@ -427,14 +332,14 @@ instances:
                 function: coupler_ring
               cross_section: strip
               gap: 0.2
-              length_x: 2
+              length_x: 1
               length_y: 0.6
               radius: 50
             function_name: ring_single
             info: {}
             info_version: 2
             module: gdsfactory.components.ring_single
-            name: ring_single_length_x2_radius50
+            name: ring_single_length_x1_radius50
           default:
             component:
               function: straight
@@ -461,7 +366,7 @@ instances:
             component:
               component: ring_single
               settings:
-                length_x: 2
+                length_x: 1
                 radius: 50
             component_name: null
             cross_section: strip
@@ -491,8 +396,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x2_r_039ecebb
-        ring_single_length_x2_r_17a807d6:
+          name: ring_single_length_x1_radius50_add_fiber_array_1f091694
+        ring_single_length_x2_radius20_add_fiber_array_5f5eee5f:
           changed:
             component:
               component: ring_single
@@ -586,8 +491,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x2_r_17a807d6
-        ring_single_length_x2_r_711910fe:
+          name: ring_single_length_x2_radius20_add_fiber_array_5f5eee5f
+        ring_single_length_x2_radius30_add_fiber_array_f2b372dc:
           changed:
             component:
               component: ring_single
@@ -681,8 +586,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x2_r_711910fe
-        ring_single_length_x2_r_b5c24bf7:
+          name: ring_single_length_x2_radius30_add_fiber_array_f2b372dc
+        ring_single_length_x2_radius40_add_fiber_array_3df94b92:
           changed:
             component:
               component: ring_single
@@ -776,19 +681,19 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x2_r_b5c24bf7
-        ring_single_length_x3_r_82ca69e2:
+          name: ring_single_length_x2_radius40_add_fiber_array_3df94b92
+        ring_single_length_x2_radius50_add_fiber_array_79f726fe:
           changed:
             component:
               component: ring_single
               settings:
-                length_x: 3
-                radius: 40
+                length_x: 2
+                radius: 50
             fanout_length: 200
           child:
             changed:
-              length_x: 3
-              radius: 40
+              length_x: 2
+              radius: 50
             child: null
             default:
               bend:
@@ -807,14 +712,14 @@ instances:
                 function: coupler_ring
               cross_section: strip
               gap: 0.2
-              length_x: 3
+              length_x: 2
               length_y: 0.6
-              radius: 40
+              radius: 50
             function_name: ring_single
             info: {}
             info_version: 2
             module: gdsfactory.components.ring_single
-            name: ring_single_length_x3_radius40
+            name: ring_single_length_x2_radius50
           default:
             component:
               function: straight
@@ -841,8 +746,8 @@ instances:
             component:
               component: ring_single
               settings:
-                length_x: 3
-                radius: 40
+                length_x: 2
+                radius: 50
             component_name: null
             cross_section: strip
             fanout_length: 200
@@ -871,8 +776,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x3_r_82ca69e2
-        ring_single_length_x3_r_9a14b626:
+          name: ring_single_length_x2_radius50_add_fiber_array_79f726fe
+        ring_single_length_x3_radius20_add_fiber_array_720a4c68:
           changed:
             component:
               component: ring_single
@@ -966,8 +871,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x3_r_9a14b626
-        ring_single_length_x3_r_a8320a1f:
+          name: ring_single_length_x3_radius20_add_fiber_array_720a4c68
+        ring_single_length_x3_radius30_add_fiber_array_746436f8:
           changed:
             component:
               component: ring_single
@@ -1061,8 +966,103 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x3_r_a8320a1f
-        ring_single_length_x3_r_d4663425:
+          name: ring_single_length_x3_radius30_add_fiber_array_746436f8
+        ring_single_length_x3_radius40_add_fiber_array_86dad751:
+          changed:
+            component:
+              component: ring_single
+              settings:
+                length_x: 3
+                radius: 40
+            fanout_length: 200
+          child:
+            changed:
+              length_x: 3
+              radius: 40
+            child: null
+            default:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 4.0
+              length_y: 0.6
+              radius: 10.0
+            full:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 3
+              length_y: 0.6
+              radius: 40
+            function_name: ring_single
+            info: {}
+            info_version: 2
+            module: gdsfactory.components.ring_single
+            name: ring_single_length_x3_radius40
+          default:
+            component:
+              function: straight
+            component_name: null
+            cross_section: strip
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: LABEL
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          full:
+            component:
+              component: ring_single
+              settings:
+                length_x: 3
+                radius: 40
+            component_name: null
+            cross_section: strip
+            fanout_length: 200
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: LABEL
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          function_name: add_fiber_array
+          info:
+            grating_coupler:
+              period: 0.676
+              polarization: te
+              wavelength: 1.53
+          info_version: 2
+          module: gdsfactory.routing.add_fiber_array
+          name: ring_single_length_x3_radius40_add_fiber_array_86dad751
+        ring_single_length_x3_radius50_add_fiber_array_cc358e76:
           changed:
             component:
               component: ring_single
@@ -1156,7 +1156,7 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x3_r_d4663425
+          name: ring_single_length_x3_radius50_add_fiber_array_cc358e76
     settings:
       do_permutations: true
       doe: ring_single
@@ -1192,62 +1192,62 @@ warnings:
     unconnected_ports:
     - message: 56 unconnected optical ports!
       ports:
-      - rings,0_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius50-o1
-      - rings,0_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius50-o2
-      - rings,0_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius50-loopback0
-      - rings,0_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius50-loopback1
-      - rings,1_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius50-o1
-      - rings,1_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius50-o2
-      - rings,1_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius50-loopback0
-      - rings,1_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius50-loopback1
-      - rings,2_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius50-o1
-      - rings,2_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius50-o2
-      - rings,2_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius50-loopback0
-      - rings,2_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius50-loopback1
-      - rings,3_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius40-o1
-      - rings,3_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius40-o2
-      - rings,3_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius40-loopback0
-      - rings,3_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius40-loopback1
-      - rings,4_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius40-o1
-      - rings,4_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius40-o2
-      - rings,4_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius40-loopback0
-      - rings,4_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius40-loopback1
-      - rings,5_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius40-o1
-      - rings,5_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius40-o2
-      - rings,5_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius40-loopback0
-      - rings,5_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius40-loopback1
-      - rings,6_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius30-o1
-      - rings,6_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius30-o2
-      - rings,6_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius30-loopback0
-      - rings,6_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius30-loopback1
-      - rings,7_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius30-o1
-      - rings,7_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius30-o2
-      - rings,7_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius30-loopback0
-      - rings,7_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius30-loopback1
-      - rings,8_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius30-o1
-      - rings,8_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius30-o2
-      - rings,8_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius30-loopback0
-      - rings,8_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius30-loopback1
-      - rings,9_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius20-o1
-      - rings,9_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius20-o2
-      - rings,9_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius20-loopback0
-      - rings,9_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius20-loopback1
-      - rings,10_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius20-o1
-      - rings,10_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius20-o2
-      - rings,10_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius20-loopback0
-      - rings,10_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius20-loopback1
-      - rings,11_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius20-o1
-      - rings,11_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius20-o2
-      - rings,11_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius20-loopback0
-      - rings,11_opt-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius20-loopback1
-      - mzis,0_0_opt-grating_coupler_ellipti_dd7f7af4-mzi_delta_length10-o1
-      - mzis,0_0_opt-grating_coupler_ellipti_dd7f7af4-mzi_delta_length10-o2
-      - mzis,0_0_opt-grating_coupler_ellipti_dd7f7af4-mzi_delta_length10-loopback0
-      - mzis,0_0_opt-grating_coupler_ellipti_dd7f7af4-mzi_delta_length10-loopback1
-      - mzis,1_0_opt-grating_coupler_ellipti_dd7f7af4-mzi_delta_length100-o1
-      - mzis,1_0_opt-grating_coupler_ellipti_dd7f7af4-mzi_delta_length100-o2
-      - mzis,1_0_opt-grating_coupler_ellipti_dd7f7af4-mzi_delta_length100-loopback0
-      - mzis,1_0_opt-grating_coupler_ellipti_dd7f7af4-mzi_delta_length100-loopback1
+      - rings,0_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius50-o1
+      - rings,0_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius50-o2
+      - rings,0_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius50-loopback0
+      - rings,0_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius50-loopback1
+      - rings,1_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius50-o1
+      - rings,1_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius50-o2
+      - rings,1_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius50-loopback0
+      - rings,1_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius50-loopback1
+      - rings,2_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius50-o1
+      - rings,2_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius50-o2
+      - rings,2_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius50-loopback0
+      - rings,2_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius50-loopback1
+      - rings,3_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius40-o1
+      - rings,3_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius40-o2
+      - rings,3_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius40-loopback0
+      - rings,3_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius40-loopback1
+      - rings,4_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius40-o1
+      - rings,4_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius40-o2
+      - rings,4_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius40-loopback0
+      - rings,4_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius40-loopback1
+      - rings,5_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius40-o1
+      - rings,5_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius40-o2
+      - rings,5_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius40-loopback0
+      - rings,5_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius40-loopback1
+      - rings,6_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius30-o1
+      - rings,6_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius30-o2
+      - rings,6_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius30-loopback0
+      - rings,6_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius30-loopback1
+      - rings,7_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius30-o1
+      - rings,7_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius30-o2
+      - rings,7_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius30-loopback0
+      - rings,7_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius30-loopback1
+      - rings,8_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius30-o1
+      - rings,8_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius30-o2
+      - rings,8_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius30-loopback0
+      - rings,8_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius30-loopback1
+      - rings,9_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius20-o1
+      - rings,9_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius20-o2
+      - rings,9_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius20-loopback0
+      - rings,9_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius20-loopback1
+      - rings,10_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius20-o1
+      - rings,10_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius20-o2
+      - rings,10_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius20-loopback0
+      - rings,10_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius20-loopback1
+      - rings,11_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius20-o1
+      - rings,11_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius20-o2
+      - rings,11_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius20-loopback0
+      - rings,11_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius20-loopback1
+      - mzis,0_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length10-o1
+      - mzis,0_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length10-o2
+      - mzis,0_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length10-loopback0
+      - mzis,0_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length10-loopback1
+      - mzis,1_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length100-o1
+      - mzis,1_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length100-o2
+      - mzis,1_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length100-loopback0
+      - mzis,1_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length100-loopback1
       values:
       - - 189.973
         - 50.851

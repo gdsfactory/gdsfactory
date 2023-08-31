@@ -72,7 +72,14 @@ def grating_taper_points(
     wg_width: float,
     angle_step: float = 1.0,
 ) -> ndarray:
-    taper_arc = ellipse_arc(a, b, taper_length, -taper_angle / 2, taper_angle / 2)
+    taper_arc = ellipse_arc(
+        a=a,
+        b=b,
+        x0=taper_length,
+        theta_min=-taper_angle / 2,
+        theta_max=taper_angle / 2,
+        angle_step=angle_step,
+    )
 
     port_position = np.array((x0, 0))
     p0 = port_position + (0, wg_width / 2)

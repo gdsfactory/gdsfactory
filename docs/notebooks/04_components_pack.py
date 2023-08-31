@@ -1,11 +1,29 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
+# %% [markdown]
 # # Grid / pack / align / distribute
 
+# %% [markdown]
 # ## Grid
 #
 #
 # The ``gf.components.grid()`` function can take a list (or 2D array) of objects and arrange them along a grid. This is often useful for making parameter sweeps.   If the `separation` argument is true, grid is arranged such that the elements are guaranteed not to touch, with a `spacing` distance between them.  If `separation` is false, elements are spaced evenly along a grid. The `align_x`/`align_y` arguments specify intra-row/intra-column alignment.  The `edge_x`/`edge_y` arguments specify inter-row/inter-column alignment (unused if `separation = True`).
 
-# +
+# %%
 import gdsfactory as gf
 
 components_list = []
@@ -25,8 +43,8 @@ c = gf.grid(
     edge_y="ymax",
 )
 c.plot()
-# -
 
+# %% [markdown]
 # ## Pack
 #
 #
@@ -34,7 +52,7 @@ c.plot()
 #
 # Here we generate several random shapes then pack them together automatically. We allow the bin to be as large as needed to fit all the Components by specifying ``max_size = (None, None)``.  By setting ``aspect_ratio = (2,1)``, we specify the rectangular bin it tries to pack them into should be twice as wide as it is tall:
 
-# +
+# %%
 import numpy as np
 
 import gdsfactory as gf
@@ -51,12 +69,12 @@ D_packed_list = gf.pack(
     sort_by_area=True,  # Pre-sorts the shapes by area
 )
 D = D_packed_list[0]  # Only one bin was created, so we plot that
-D
-# -
+D.plot()
 
+# %% [markdown]
 # Say we need to pack many shapes into multiple 500x500 unit die. If we set ``max_size = (500,500)`` the shapes will be packed into as many 500x500 unit die as required to fit them all:
 
-# +
+# %%
 np.random.seed(1)
 D_list = [
     gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(120)
@@ -74,21 +92,25 @@ D_packed_list = gf.pack(
 F = gf.Component("packed")
 [F.add_ref(D) for D in D_packed_list]
 F.distribute(elements="all", direction="x", spacing=100, separation=True)
-F
-# -
+F.plot()
 
+# %% [markdown]
 # Note that the packing problem is an NP-complete problem, so ``gf.components.packer()`` may be slow if there are more than a few hundred Components to pack (in that case, try pre-packing a few dozen at a time then packing the resulting bins). Requires the ``rectpack`` python package.
 
+# %% [markdown]
 # ## Distribute
 #
 #
 # The ``distribute()`` function allows you to space out elements within a Component evenly in the x or y direction.  It is meant to duplicate the distribute functionality present in Inkscape / Adobe Illustrator:
 
 
+# %% [markdown]
 # ![](https://i.imgur.com/dC74M8x.png)
 
+# %% [markdown]
 # Say we start out with a few random-sized rectangles we want to space out:
 
+# %%
 c = gf.Component("rectangles")
 # Create different-sized rectangles and add them to D
 [
@@ -99,8 +121,10 @@ c = gf.Component("rectangles")
 ]
 c.plot()
 
+# %% [markdown]
 # Oftentimes, we want to guarantee some distance between the objects.  By setting ``separation = True`` we move each object such that there is ``spacing`` distance between them:
 
+# %%
 D = gf.Component("rectangles_separated")
 # Create different-sized rectangles and add them to D
 [
@@ -114,10 +138,12 @@ D.distribute(
     spacing=5,
     separation=True,
 )
-D
+D.plot()
 
+# %% [markdown]
 # Alternatively, we can spread them out on a fixed grid by setting ``separation = False``. Here we align the left edge (``edge = 'min'``) of each object along a grid spacing of 100:
 
+# %%
 D = gf.Component("spacing100")
 [
     D.add_ref(gf.components.rectangle(size=[n * 15 + 20, n * 15 + 20])).move((n, n * 4))
@@ -126,10 +152,12 @@ D = gf.Component("spacing100")
 D.distribute(
     elements="all", direction="x", spacing=100, separation=False, edge="xmin"
 )  # edge must be either 'xmin' (left), 'xmax' (right), or 'x' (center)
-D
+D.plot()
 
+# %% [markdown]
 # The alignment can be done along the right edge as well by setting ``edge = 'max'``, or along the center by setting ``edge = 'center'`` like in the following:
 
+# %%
 D = gf.Component("alignment")
 [
     D.add_ref(gf.components.rectangle(size=[n * 15 + 20, n * 15 + 20])).move(
@@ -140,17 +168,21 @@ D = gf.Component("alignment")
 D.distribute(
     elements="all", direction="x", spacing=100, separation=False, edge="x"
 )  # edge must be either 'xmin' (left), 'xmax' (right), or 'x' (center)
-D
+D.plot()
 
+# %% [markdown]
 # ## Align
 #
 #
 # The ``align()`` function allows you to elements within a Component horizontally or vertically.  It is meant to duplicate the alignment functionality present in Inkscape / Adobe Illustrator:
 
+# %% [markdown]
 # ![](https://i.imgur.com/rqzunXM.png)
 
+# %% [markdown]
 # Say we ``distribute()`` a few objects, but they're all misaligned:
 
+# %%
 D = gf.Component("distribute")
 # Create different-sized rectangles and add them to D then distribute them
 [
@@ -158,11 +190,12 @@ D = gf.Component("distribute")
     for n in [0, 2, 3, 1, 2]
 ]
 D.distribute(elements="all", direction="x", spacing=5, separation=True)
-D
+D.plot()
 
+# %% [markdown]
 # we can use the ``align()`` function to align their top edges (``alignment = 'ymax'):
 
-# +
+# %%
 D = gf.Component("align")
 # Create different-sized rectangles and add them to D then distribute them
 [
@@ -173,12 +206,12 @@ D.distribute(elements="all", direction="x", spacing=5, separation=True)
 
 # Align top edges
 D.align(elements="all", alignment="ymax")
-D
-# -
+D.plot()
 
+# %% [markdown]
 # or align their centers (``alignment = 'y'):
 
-# +
+# %%
 D = gf.Component("distribute_align_y")
 # Create different-sized rectangles and add them to D then distribute them
 [
@@ -189,7 +222,7 @@ D.distribute(elements="all", direction="x", spacing=5, separation=True)
 
 # Align top edges
 D.align(elements="all", alignment="y")
-D
-# -
+D.plot()
 
+# %% [markdown]
 # other valid alignment options include ``'xmin', 'x', 'xmax', 'ymin', 'y', and 'ymax'``

@@ -472,7 +472,7 @@ class ComponentReference(_GeometryHelper):
         yield cls.validate
 
     @classmethod
-    def validate(cls, v):
+    def validate(cls, v, _info):
         """Check with pydantic ComponentReference valid type."""
         assert isinstance(
             v, ComponentReference

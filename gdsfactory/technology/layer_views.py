@@ -13,10 +13,20 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 import yaml
-from pydantic import BaseModel, Field, validator
-from pydantic.color import Color, ColorType
+from omegaconf import OmegaConf
+from pydantic import BaseModel, Field, field_validator
+from pydantic.color import ColorType
+from pydantic_extra_types.color import Color
 
 from gdsfactory.config import logger
+from gdsfactory.name import clean_name
+from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
+from gdsfactory.technology.xml_utils import make_pretty_xml
+from gdsfactory.technology.yaml_utils import (
+    add_color_yaml_presenter,
+    add_multiline_str_yaml_presenter,
+    add_tuple_yaml_presenter,
+)
 
 if typing.TYPE_CHECKING:
     from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
@@ -277,16 +287,12 @@ class HatchPattern(BaseModel):
         custom_pattern: Pattern defining custom shape.
     """
 
-    name: str
+    name: str | None = Field(default=None, exclude=True)
     order: int | None = None
     custom_pattern: str | None = None
 
-    class Config:
-        """YAML output uses name as the key."""
-
-        fields = {"name": {"exclude": True}}
-
-    @validator("custom_pattern")
+    @field_validator("custom_pattern")
+    @classmethod
     def check_pattern_klayout(cls, pattern: str | None, **kwargs) -> str | None:
         if pattern is None:
             return None
@@ -327,16 +333,12 @@ class LineStyle(BaseModel):
         custom_style: Line style to use.
     """
 
-    name: str
+    name: str | None = Field(default=None, exclude=True)
     order: int | None = None
     custom_style: str | None = None
 
-    class Config:
-        """YAML output uses name as the key."""
-
-        fields = {"name": {"exclude": True}}
-
-    @validator("custom_style")
+    @field_validator("custom_style")
+    @classmethod
     def check_pattern(cls, pattern: str | None, **kwargs) -> str | None:
         if pattern is None:
             return None
@@ -363,33 +365,6 @@ class LineStyle(BaseModel):
         ET.SubElement(el, "order").text = str(self.order)
         ET.SubElement(el, "name").text = self.name
         return el
-
-
-def generate_color(layer_num: int) -> str:
-    """Generate a simple unique color based on the layer number."""
-    r = (layer_num * 30) % 256
-    g = (layer_num * 50) % 256
-    b = (layer_num * 70) % 256
-    return f"#{r:02X}{g:02X}{b:02X}"
-
-
-def write_layers_to_yaml(
-    layers: dict[str, Layer], filename: str | pathlib.Path
-) -> None:
-    """Write a dictionary of layers to a YAML file with randon colors."""
-    formatted_layers = {"LayerViews": {}}
-
-    for layer_name, layer_value in layers.items():
-        formatted_layers["LayerViews"][layer_name] = {
-            "layer": list(layer_value),
-            "layer_in_name": True,
-            "hatch_pattern": "coarsely dotted",
-            "width": 1,
-            "color": generate_color(layer_value[0]),
-        }
-
-    with open(filename, "w") as file:
-        yaml.dump(formatted_layers, file, default_flow_style=False)
 
 
 class LayerView(BaseModel):
@@ -426,8 +401,8 @@ class LayerView(BaseModel):
         group_members: Add a list of group members to the LayerView.
     """
 
-    name: str | None = None
-    info: str | None = None
+    name: str | None = Field(default=None, exclude=True)
+    info: str | None = Field(default=None)
     layer: Layer | None = None
     layer_in_name: bool = False
     frame_color: Color | None = None
@@ -443,12 +418,7 @@ class LayerView(BaseModel):
     marked: bool = False
     xfill: bool = False
     animation: int = 0
-    group_members: dict[str, LayerView] | None = Field(default_factory=dict)
-
-    class Config:
-        """YAML output uses name as the key."""
-
-        fields = {"name": {"exclude": True}}
+    group_members: typing.Dict[str, LayerView] | None = Field(default={})  # noqa: UP006
 
     def __init__(
         self,
@@ -482,7 +452,7 @@ class LayerView(BaseModel):
         super().__init__(**data)
 
         # Iterate through all items, adding group members as needed
-        for name, field in self.__fields__.items():
+        for name, field in self.model_fields.items():
             default = field.get_default()
             if isinstance(default, LayerView):
                 self.group_members[name] = default
@@ -493,7 +463,6 @@ class LayerView(BaseModel):
         include: AbstractSetIntStr | MappingIntStrAny | None = None,
         exclude: AbstractSetIntStr | MappingIntStrAny | None = None,
         by_alias: bool = False,
-        skip_defaults: bool | None = None,
         exclude_unset: bool = False,
         exclude_defaults: bool = False,
         exclude_none: bool = False,
@@ -502,12 +471,27 @@ class LayerView(BaseModel):
         """Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
 
         Specify "simplify" to consolidate fill and frame color/brightness if they are the same.
+
+        Args:
+            mode: The mode in which `to_python` should run.
+                If mode is 'json', the dictionary will only contain JSON serializable types.
+                If mode is 'python', the dictionary may contain any Python objects.
+            include: A list of fields to include in the output.
+            exclude: A list of fields to exclude from the output.
+            by_alias: Whether to use the field's alias in the dictionary key if defined.
+            exclude_unset: Whether to exclude fields that are unset or None from the output.
+            exclude_defaults: Whether to exclude fields that are set to their default value from the output.
+            exclude_none: Whether to exclude fields that have a value of `None` from the output.
+            simplify: Whether to consolidate fill and frame color/brightness if they are the same.
+
+        Returns:
+            A dictionary representation of the model.
+
         """
-        _dict = super().dict(
+        _dict = super().model_dump(
             include=include,
             exclude=exclude,
             by_alias=by_alias,
-            skip_defaults=skip_defaults,
             exclude_unset=exclude_unset,
             exclude_defaults=exclude_defaults,
             exclude_none=exclude_none,
@@ -529,7 +513,7 @@ class LayerView(BaseModel):
     def __str__(self) -> str:
         """Returns a formatted view of properties and their values."""
         return "LayerView:\n\t" + "\n\t".join(
-            [f"{k}: {v}" for k, v in self.dict().items()]
+            [f"{k}: {v}" for k, v in self.model_dump().items()]
         )
 
     def __repr__(self) -> str:
@@ -551,8 +535,6 @@ class LayerView(BaseModel):
             return 0.3
 
     def get_color_dict(self) -> dict[str, str]:
-        from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
-
         if self.fill_color is not None or self.frame_color is not None:
             return {
                 "fill_color": ensure_six_digit_hex_color(self.fill_color.as_hex()),
@@ -580,7 +562,6 @@ class LayerView(BaseModel):
         self, tag: str, name: str, custom_hatch_patterns: dict, custom_line_styles: dict
     ) -> ET.Element:
         """Get XML Element from attributes."""
-        from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
 
         # If hatch pattern name matches a named (built-in) KLayout pattern, use 'I<idx>' notation
         hatch_name = getattr(self.hatch_pattern, "name", self.hatch_pattern)
@@ -685,7 +666,6 @@ class LayerView(BaseModel):
             name: XML-formatted name entry.
             layer_pattern: Regex pattern to match layers with.
         """
-        from gdsfactory.name import clean_name
 
         if not name:
             return None, None
@@ -816,14 +796,14 @@ class LayerViews(BaseModel):
             data["custom_dither_patterns"] = lvs.custom_dither_patterns
 
         if isinstance(layer_map, BaseModel):
-            layer_map = layer_map.dict()
+            layer_map = layer_map.model_dump()
 
         if layer_map is not None:
             data["layer_map"] = layer_map
 
         super().__init__(**data)
 
-        for name in self.dict():
+        for name in self.model_dump():
             lv = getattr(self, name)
             if isinstance(lv, LayerView):
                 #
@@ -1010,7 +990,6 @@ class LayerViews(BaseModel):
             overwrite: Whether to overwrite an existing file located at the filepath.
 
         """
-        from gdsfactory.technology.xml_utils import make_pretty_xml
 
         filepath = pathlib.Path(filepath)
         dirpath = filepath.parent
@@ -1126,13 +1105,6 @@ class LayerViews(BaseModel):
             layer_file: Name of the file to write LayerViews to.
             prefer_named_color: Write the name of a color instead of its hex representation when possible.
         """
-        import yaml
-
-        from gdsfactory.technology.yaml_utils import (
-            add_color_yaml_presenter,
-            add_multiline_str_yaml_presenter,
-            add_tuple_yaml_presenter,
-        )
 
         lf_path = pathlib.Path(layer_file)
         dirpath = lf_path.parent
@@ -1180,7 +1152,6 @@ class LayerViews(BaseModel):
         Args:
             layer_file: Name of the file to read LayerViews, CustomDitherPatterns, and CustomLineStyles from.
         """
-        from omegaconf import OmegaConf
 
         layer_file = pathlib.Path(layer_file)
 
@@ -1229,7 +1200,6 @@ def _name_to_short_name(name_str: str) -> str:
         - key - description
 
     """
-    from gdsfactory.name import clean_name
 
     if name_str is None:
         raise OSError(f"layer {name_str} has no name")

@@ -202,7 +202,7 @@ generic_pdk = get_generic_pdk()
 
 pdk1 = gf.Pdk(
     name="fab1",
-    layers=LAYER.dict(),
+    layers=dict(LAYER),
     cross_sections=cross_sections,
     cells=cells,
     base_pdk=generic_pdk,
@@ -250,7 +250,7 @@ pdk1.get_component(dict(component="mmi1x2", settings=dict(length_mmi=10)))
 #
 # gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 #
-# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==7.3.5` replacing `7.3.5` by whatever version you end up using.
+# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==7.4.1` replacing `7.4.1` by whatever version you end up using.
 # 2. Before you upgrade gdsfactory to a newer version make sure your tests pass to make sure that things behave as expected
 #
 #
@@ -362,7 +362,7 @@ pdk = gf.Pdk(
     name="fab_c",
     cells=cells,
     cross_sections=cross_sections,
-    layers=LAYER.dict(),
+    layers=dict(LAYER),
     sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
     # layer_stack=LAYER_STACK,
@@ -379,7 +379,7 @@ pdk = gf.Pdk(
     name="fab_c",
     cells=cells,
     cross_sections=cross_sections,
-    layers=LAYER.dict(),
+    layers=dict(LAYER),
     sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
     # layer_stack=LAYER_STACK,

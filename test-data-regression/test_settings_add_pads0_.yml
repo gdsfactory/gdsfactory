@@ -1,13 +1,13 @@
-name: straight_heater_metal_u_583d1f06
+name: straight_heater_metal_undercut_954d6e94_add_pads_bot_4867537a_add_pads_top_4867537a
 ports:
-  elec-pad_sizepad_size-straight_heater_metal_u_b4c23abf-l_e1:
+  elec-pad_sizepad_size-straight_heater_metal_undercut_954d6e94-l_e1:
     center:
     - -16.0
     - 46.5
     layer:
     - 49
     - 0
-    name: elec-pad_sizepad_size-straight_heater_metal_u_b4c23abf-l_e1
+    name: elec-pad_sizepad_size-straight_heater_metal_undercut_954d6e94-l_e1
     orientation: 270.0
     port_type: electrical
     shear_angle: null
@@ -190,7 +190,7 @@ settings:
         resistance: null
       info_version: 2
       module: gdsfactory.components.straight_heater_metal
-      name: straight_heater_metal_u_b4c23abf
+      name: straight_heater_metal_undercut_954d6e94
     default:
       bend: wire_corner
       component:
@@ -246,7 +246,7 @@ settings:
       resistance: null
     info_version: 2
     module: gdsfactory.routing.add_pads
-    name: straight_heater_metal_u_08b0a6b4
+    name: straight_heater_metal_undercut_954d6e94_add_pads_bot_4867537a
   default:
     component:
       function: straight_heater_metal_undercut
@@ -265,4 +265,4 @@ settings:
     resistance: null
   info_version: 2
   module: gdsfactory.routing.add_pads
-  name: straight_heater_metal_u_583d1f06
+  name: straight_heater_metal_undercut_954d6e94_add_pads_bot_4867537a_add_pads_top_4867537a

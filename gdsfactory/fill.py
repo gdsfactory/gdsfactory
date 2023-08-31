@@ -39,7 +39,9 @@ def _loop_over(var):
     return var if hasattr(var, "__iter__") else [var]
 
 
-def _rasterize_polygons(polygons, bounds=([-100, -100], [100, 100]), dx=1, dy=1):
+def _rasterize_polygons(
+    polygons, bounds=([-100, -100], [100, 100]), dx: float = 1.0, dy: float = 1.0
+):
     """Converts polygons to a black/white (1/0) matrix."""
     try:
         from skimage import draw
@@ -79,7 +81,9 @@ def _rasterize_polygons(polygons, bounds=([-100, -100], [100, 100]), dx=1, dy=1)
     return raster
 
 
-def _raster_index_to_coords(i, j, bounds=([-100, -100], [100, 100]), dx=1, dy=1):
+def _raster_index_to_coords(
+    i, j, bounds=([-100, -100], [100, 100]), dx: float = 1, dy: float = 1
+):
     """Converts (i,j) index of raster matrix to real coordinates."""
     xsize = int((bounds[1][0] - bounds[0][0]) // dx)
     ysize = int((bounds[1][1] - bounds[0][1]) // dy)
@@ -88,7 +92,7 @@ def _raster_index_to_coords(i, j, bounds=([-100, -100], [100, 100]), dx=1, dy=1)
     return x, y
 
 
-def _expand_raster(raster, distance=(4, 2)):
+def _expand_raster(raster, distance: tuple[float, float] = (4, 2)):
     """Expands all black (1) pixels in the raster."""
     try:
         from skimage import draw, morphology
@@ -320,12 +324,11 @@ def fill_rectangle_custom(
 
 
 def test_fill() -> None:
-    import gdsfactory as gf
     from gdsfactory.difftest import difftest
 
     c = gf.Component("test_fill")
     wg = c << gf.components.straight()
-    c << gf.add_padding_container(wg.parent, default=15)
+    _ = c << gf.add_padding_container(wg.parent, default=15)
     fill = fill_rectangle(
         c,
         fill_layers=((2, 0),),
@@ -334,36 +337,23 @@ def test_fill() -> None:
         avoid_layers=((1, 0),),
         # bbox=(100.0, 100.0),
     )
-    c << fill
+    _ = c << fill
     difftest(c, test_name="fill")
 
 
 if __name__ == "__main__":
-    c = test_fill()
+    test_fill()
 
-    mzi = gf.components.mzi()
-    c = gf.Component("component_with_fill")
-    layers = [(1, 0)]
-
-    # c << fill_rectangle(
-    #     mzi,
-    #     fill_size=(0.5, 0.5),
-    #     fill_layers=layers,
-    #     margin=5,
-    #     fill_densities=[0.8] * len(layers),
-    #     avoid_layers=layers,
+    # c = gf.Component("test_fill")
+    # wg = c << gf.components.straight()
+    # _ = c << gf.add_padding_container(wg.parent, default=15)
+    # fill = fill_rectangle(
+    #     c,
+    #     fill_layers=((2, 0),),
+    #     fill_densities=(1.0,),
+    #     # fill_densities=0.5,
+    #     avoid_layers=((1, 0),),
+    #     # bbox=(100.0, 100.0),
     # )
-
-    # bbox = tuple(map(tuple, mzi.bbox))
-    # bbox = mzi.bbox
-
-    c << fill_rectangle_custom(
-        mzi,
-        gf.components.rectangle(),
-        avoid_layers=layers,
-        margin=5,
-        spacing=(10, 10),
-        bbox=mzi.bbox,
-    )
-    c << mzi
-    c.show(show_ports=True)
+    # _ = c << fill
+    # c.show()

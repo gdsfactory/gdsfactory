@@ -251,7 +251,13 @@ def get_bundle(
     ):
         # print("get_bundle_same_axis")
         if with_sbend:
-            return get_bundle_sbend(ports1, ports2, sort_ports=sort_ports, **kwargs)
+            return get_bundle_sbend(
+                ports1,
+                ports2,
+                sort_ports=sort_ports,
+                cross_section=cross_section,
+                **kwargs,
+            )
         return get_bundle_same_axis(**params)
 
     elif start_angle == end_angle:

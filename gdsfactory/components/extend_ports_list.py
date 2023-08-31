@@ -27,7 +27,7 @@ def extend_ports_list(
     extension = get_component(extension)
 
     extension_port_name = extension_port_name or list(extension.ports.keys())[0]
-    ignore_ports = ignore_ports or []
+    ignore_ports = ignore_ports or ()
 
     for i, port in enumerate(ports):
         extension_ref = c << extension

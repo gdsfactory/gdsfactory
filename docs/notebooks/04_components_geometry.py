@@ -152,26 +152,31 @@ c.plot()
 # - If a float equal to the outline ``distance``, the outline will be flush with the port (useful positive-tone processes).
 
 # %%
-gf.components.L(width=7, size=(10, 20), layer=(1, 0))
+c = gf.components.L(width=7, size=(10, 20), layer=(1, 0))
+c.plot()
 
 # %%
 # Outline the geometry and open a hole at each port
-gf.geometry.outline(offsets, distance=5, open_ports=False, layer=(2, 0))  # No holes
+c = gf.geometry.outline(offsets, distance=5, open_ports=False, layer=(2, 0))  # No holes
+c.plot()
 
 # %%
-gf.geometry.outline(
+c = gf.geometry.outline(
     offsets, distance=5, open_ports=True, layer=(2, 0)
 )  # Hole is the same width as the port
+c.plot()
 
 # %%
-gf.geometry.outline(
+c = gf.geometry.outline(
     offsets, distance=5, open_ports=10, layer=(2, 0)
 )  # Change the hole size by entering a float
+c.plot()
 
 # %%
-gf.geometry.outline(
+c = gf.geometry.outline(
     offsets, distance=5, open_ports=5, layer=(2, 0)
 )  # Creates flush opening (open_ports > distance)
+c.plot()
 
 # %% [markdown]
 # ### Invert
@@ -307,6 +312,7 @@ c_copied_layers.plot()
 # %%
 from gdsfactory.config import PATH
 from gdsfactory.read.from_np import from_image
+import gdsfactory as gf
 
 c = from_image(
     PATH.module / "samples" / "images" / "logo.png", nm_per_pixel=500, invert=False
@@ -396,36 +402,9 @@ c_fill = gf.import_gds(gdspath)
 c_fill.plot()
 
 # %% [markdown]
-# ### Fill cell (by layer)
-#
-# You can also fill specific layers.
-
-# %%
-c = cell_with_pad()
-gdspath = c.write_gds()
-
-# %%
-fill(
-    gdspath,
-    fill_layers=("WG",),
-    layer_to_fill=(67, 0),
-    layers_to_avoid=(((1, 0), 0),),
-    fill_cell_name="fill_custom_",
-    create_new_fill_cell=True,
-    fill_spacing=(1, 1),
-    fill_size=(10, 10),
-    layer_to_fill_margin=25,
-    include_original=True,
-    fill_name="component_with_fill_",
-)
-
-c_fill = gf.import_gds(gdspath)
-c_fill.plot()
-
-# %% [markdown]
 # ### Tiling processor
 #
-# For big layouts you can use klayout tiling processor.
+# For big layouts you can should use klayout tiling processor.
 
 # %%
 import kfactory as kf

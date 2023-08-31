@@ -9,7 +9,7 @@ import gdsfactory as gf
 
 def test_read_gds_hash() -> None:
     gdspath = gf.PATH.gdsdir / "straight.gds"
-    c = gf.import_gds(gdspath)
+    c = gf.import_gds(gdspath, unique_names=False)
     h = "c956390621a5322a185cd20b0072a778fc613195"
     assert c.hash_geometry() == h, f"h = {c.hash_geometry()!r}"
 
@@ -25,27 +25,34 @@ def test_read_gds_equivalent() -> None:
     c1 = gf.components.straight(length=1.234)
     gdspath = gf.PATH.gdsdir / "straight.gds"
 
-    c2 = gf.import_gds(gdspath, read_metadata=True)
+    c2 = gf.import_gds(gdspath, read_metadata=True, unique_names=False)
     d1 = c1.to_dict()
     d2 = c2.to_dict()
+    d1.pop("name")
+    d2.pop("name")
     d = jsondiff.diff(d1, d2)
 
     # pprint(d1)
     # pprint(d2)
     # pprint(d)
-    assert len(d) == 0, d
+    assert len(d) == 0, f"{c1.name} != {c2.name}"
 
 
-def test_mix_cells_from_gds_and_from_function() -> None:
-    """Ensures not duplicated cell names.
-
-    when cells loaded from GDS and have the same name as a function with
-    @cell decorator
-    """
+def test_build_and_import() -> None:
+    """Create a cell and then import the same cell from GDS."""
     gdspath = gf.PATH.gdsdir / "straight.gds"
-    c = gf.Component("test_mix_cells_from_gds_and_from_function")
+    c = gf.Component("build_and_import")
     c << gf.components.straight(length=1.234)
-    c << gf.import_gds(gdspath)
+    c << gf.import_gds(gdspath, unique_names=False)
+    c.write_gds()
+
+
+def test_import_and_build() -> None:
+    """Import a same cell from GDS and then create the same cell."""
+    gdspath = gf.PATH.gdsdir / "straight.gds"
+    c = gf.Component("build_and_import")
+    c << gf.import_gds(gdspath, unique_names=False)
+    c << gf.components.straight(length=1.234)
     c.write_gds()
 
 
@@ -58,24 +65,12 @@ def _write() -> None:
 
 
 if __name__ == "__main__":
-    _write()  # run this in case you want to regenerate the tests
-
-    # test_mix_cells_from_gds_and_from_function()
-    test_read_gds_equivalent()
-    # test_read_gds_hash()
-
     # c1 = gf.components.straight(length=1.234)
     # gdspath = gf.PATH.gdsdir / "straight.gds"
 
-    # c2 = gf.import_gds(gdspath, name="c2")
-    # d = c2.to_dict()["cells"]
-    # print(d)
-
-    # c1 = gf.components.straight(length=1.234)
-    # gdspath = gf.PATH.gdsdir / "straight.gds"
-    # c2 = gf.import_gds(gdspath)
+    # c2 = gf.import_gds(gdspath, read_metadata=True, unique_names=False)
     # d1 = c1.to_dict()
     # d2 = c2.to_dict()
-
     # d = jsondiff.diff(d1, d2)
-    # assert len(d) == 0, d
+    # test_build_and_import()
+    test_read_gds_equivalent()

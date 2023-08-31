@@ -185,7 +185,7 @@ wg2 = wg()
 # cell returns the same straight as before without having to run the function
 print(wg2)  # notice that they have the same uuid (unique identifier)
 
-wg2
+wg2.plot()
 
 # Lets say that you change the code of the straight function in a Jupyter Notebook like this one.  (I mostly use Vim/VsCode/Pycharm for creating new cells in python)
 

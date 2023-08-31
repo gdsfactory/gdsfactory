@@ -8,7 +8,7 @@ import uvicorn
 
 app = typer.Typer()
 
-VERSION = "7.3.5"
+VERSION = "7.4.1"
 
 
 @app.command()
@@ -59,7 +59,7 @@ def web(pdk: str = "generic", host: str = "localhost", port: int = 8765) -> None
 
 
 @app.command()
-def watch(path: str = str(pathlib.Path.cwd())) -> None:
+def watch(path: str = str(pathlib.Path.cwd()), pdk: str = None) -> None:
     """Filewatch a folder for changes in *.py or *.pic.yml files."""
     from gdsfactory.watch import watch
 

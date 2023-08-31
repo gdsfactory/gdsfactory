@@ -56,7 +56,7 @@ def get_generic_pdk() -> Pdk:
         name="generic",
         cells=cells,
         cross_sections=cross_sections,
-        layers=LAYER.dict(),
+        layers=dict(LAYER),
         layer_stack=LAYER_STACK,
         layer_views=LAYER_VIEWS,
         layer_transitions=LAYER_TRANSITIONS,
