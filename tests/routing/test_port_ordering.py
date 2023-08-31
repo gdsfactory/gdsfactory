@@ -71,7 +71,7 @@ def test_bad_bundle_fails(angle: float) -> None:
 @pytest.mark.parametrize("angle", MANHATTAN_ANGLES)
 def test_bad_bundle_fails_sorted(angle: float):
     with pytest.warns(RouteWarning):
-        make_bundle(angle, reverse_ports=False, sort_ports=True)
+        make_bundle(angle, reverse_ports=False, sort_ports=False)
 
 
 @pytest.mark.parametrize("angle", MANHATTAN_ANGLES)

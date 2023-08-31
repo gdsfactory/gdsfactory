@@ -129,9 +129,7 @@ def get_bundle_udirect(
     routes = [
         route_filter(route, bend=bend, straight=straight, **kwargs) for route in routes
     ]
-    if not sort_ports:
-        return validate_connections(_p1, _p2, routes)
-    return routes
+    return routes if sort_ports else validate_connections(_p1, _p2, routes)
 
 
 def _get_bundle_udirect_waypoints(

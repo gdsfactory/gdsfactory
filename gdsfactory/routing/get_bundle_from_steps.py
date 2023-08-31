@@ -37,7 +37,6 @@ def get_bundle_from_steps(
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
-    enforce_port_ordering: bool = True,
     **kwargs,
 ) -> list[Route]:
     """Returns a list of routes formed by the given waypoints steps.
@@ -48,15 +47,18 @@ def get_bundle_from_steps(
     and a more convenient version of `get_bundle_from_waypoints`.
 
     Args:
-        port1: start ports (list or dict).
-        port2: end ports (list or dict).
+        ports1: start ports (list or dict).
+        ports2: end ports (list or dict).
         steps: that define the route (x, y, dx, dy) [{'dx': 5}, {'dy': 10}].
         bend: function that returns bends.
         straight: function that returns straight waveguides.
         taper: function that returns tapers.
         cross_section: for routes.
-        sort_ports: if True sort ports.
+        sort_ports: if True sort ports2 by ports1 orientation.
         separation: center to center, defaults to ports1 separation.
+        path_length_match_loops: number of loops to match path length.
+        path_length_match_extra_length: extra length to add to path length.
+        path_length_match_modify_segment_i: index of segment to modify.
         kwargs: cross_section settings.
 
     .. plot::
@@ -88,7 +90,6 @@ def get_bundle_from_steps(
         for route in routes:
             c.add(route.references)
         c.plot()
-        c.show(show_ports=True)
 
     """
     if isinstance(ports1, Port):
@@ -105,9 +106,7 @@ def get_bundle_from_steps(
         ports2 = list(ports2.values())
 
     if sort_ports:
-        ports1, ports2 = sort_ports_function(
-            ports1, ports2, enforce_port_ordering=enforce_port_ordering
-        )
+        ports1, ports2 = sort_ports_function(ports1, ports2)
 
     waypoints = []
     steps = steps or []

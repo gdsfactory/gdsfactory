@@ -38,7 +38,6 @@ def get_bundle_path_length_match(
     route_filter: Callable = get_route_from_waypoints,
     sort_ports: bool = True,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
-    enforce_port_ordering: bool = True,
     **kwargs,
 ) -> list[Route]:
     """Returns list of routes that are path length matched.
@@ -100,9 +99,7 @@ def get_bundle_path_length_match(
     # Heuristic to get a correct default end_straight_offset to leave
     # enough space for path-length compensation
     if sort_ports:
-        ports1, ports2 = sort_ports_function(
-            ports1, ports2, enforce_port_ordering=enforce_port_ordering
-        )
+        ports1, ports2 = sort_ports_function(ports1, ports2)
 
     if end_straight_length is None:
         if modify_segment_i == -2:

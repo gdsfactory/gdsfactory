@@ -106,7 +106,7 @@ def get_bundle_from_waypoints(
         straight: function that returns straights.
         taper: function that returns tapers.
         bend: function that returns bends.
-        sort_ports: sorts ports.
+        sort_ports: if True sort ports2 by ports1 orientation.
         cross_section: cross_section.
         separation: center to center, defaults to ports1 separation.
         on_route_error: function to call for routing errors.
@@ -285,6 +285,7 @@ def _generate_manhattan_bundle_waypoints(
         waypoints: from one point within the ports1 bank
             to another point within the ports2 bank.
         separation: center to center, defaults to ports1 separation.
+        kwargs: ignore auto_widen, end_straight_length ...
     """
     waypoints = remove_flat_angles(waypoints)
     way_segments = list(zip(waypoints, waypoints[1:]))

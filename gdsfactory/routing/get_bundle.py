@@ -76,7 +76,7 @@ def get_bundle(
         extension_length: adds straight extension.
         bend: function for the bend. Defaults to euler.
         with_sbend: use s_bend routing when there is no space for manhattan routing.
-        sort_ports: sort port coordinates.
+        sort_ports: sort ports2 by ports1 orientation.
         cross_section: CrossSection or function that returns a cross_section.
         start_straight_length: straight length at the beginning of the route. If None, uses default value for the routing CrossSection.
         end_straight_length: end length at the beginning of the route. If None, uses default value for the routing CrossSection.

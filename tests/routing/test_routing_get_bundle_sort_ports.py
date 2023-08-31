@@ -29,9 +29,7 @@ def test_get_bundle_sort_ports(
         for i in range(N)
     ]
     left_ports.reverse()
-    routes = gf.routing.get_bundle(
-        right_ports, left_ports, sort_ports=True, enforce_port_ordering=False
-    )
+    routes = gf.routing.get_bundle(right_ports, left_ports, sort_ports=True)
 
     for i, route in enumerate(routes):
         c.add(route.references)
