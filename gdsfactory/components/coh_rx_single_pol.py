@@ -133,7 +133,7 @@ def coh_rx_single_pol(
         det_ports.append(det.ports["o1"])
         ports_hybrid.append(hybrid.ports[port_name])
 
-    routes = gf.routing.get_bundle(ports_hybrid, det_ports, enforce_port_ordering=True)
+    routes = gf.routing.get_bundle(ports_hybrid, det_ports, sort_ports=True)
     for route in routes:
         c.add(route.references)
 

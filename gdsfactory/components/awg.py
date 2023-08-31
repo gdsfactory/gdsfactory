@@ -144,7 +144,6 @@ def awg(
     routes = gf.routing.get_bundle(
         fpr_in_ref.get_ports_list(prefix="E"),
         fpr_out_ref.get_ports_list(prefix="E"),
-        enforce_port_ordering=False,
     )
 
     c.lengths = []

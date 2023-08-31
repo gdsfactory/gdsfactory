@@ -24,7 +24,7 @@ def sort_ports_y(ports: list[Port]) -> list[Port]:
 
 
 def sort_ports(
-    ports1: list[Port], ports2: list[Port], enforce_port_ordering: bool
+    ports1: list[Port], ports2: list[Port], enforce_port_ordering: bool = False
 ) -> tuple[list[Port], list[Port]]:
     """Returns two lists of sorted ports.
 

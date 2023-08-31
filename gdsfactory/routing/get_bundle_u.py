@@ -44,7 +44,7 @@ def get_bundle_udirect(
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
-    enforce_port_ordering: bool = True,
+    sort_ports: bool = False,
     **kwargs,
 ) -> list[Route]:
     r"""Returns list of routes.
@@ -64,7 +64,7 @@ def get_bundle_udirect(
             to path length matching loops (requires path_length_match_loops != None).
         path_length_match_modify_segment_i: Index of straight segment to add path
             length matching loops to (requires path_length_match_loops != None).
-        enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
+        sort_ports: If True, enforce that the ports are connected in the specific order.
 
     Returns:
         [route_filter(r) for r in routes] where routes is a list of lists of coordinates
@@ -129,7 +129,7 @@ def get_bundle_udirect(
     routes = [
         route_filter(route, bend=bend, straight=straight, **kwargs) for route in routes
     ]
-    if enforce_port_ordering:
+    if not sort_ports:
         return validate_connections(_p1, _p2, routes)
     return routes
 
@@ -270,7 +270,7 @@ def get_bundle_uindirect(
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
-    enforce_port_ordering: bool = True,
+    sort_ports: bool = True,
     **routing_params,
 ) -> list[Route]:
     r"""Returns list of routes.
@@ -284,6 +284,7 @@ def get_bundle_uindirect(
         extension_length: in um.
         start_straight_length: extends in um.
         end_straight_length: in um.
+        sort_ports: if True, sorts ports by x or y depending on orientation.
 
     Returns:
         list of routes, where each route has references, ports and length.
@@ -344,7 +345,7 @@ def get_bundle_uindirect(
     )
 
     routes = [route_filter(route, **routing_params) for route in routes]
-    if enforce_port_ordering:
+    if not sort_ports:
         routes = validate_connections(_p1, _p2, routes)
     return routes
 

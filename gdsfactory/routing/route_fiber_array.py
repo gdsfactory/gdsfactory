@@ -62,6 +62,7 @@ def route_fiber_array(
     get_input_label_text_function: Callable | None = get_input_label_text_dash,
     get_input_labels_function: Callable | None = get_input_labels_dash,
     select_ports: Callable = select_ports_optical,
+    sort_ports: bool = True,
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> tuple[
@@ -392,7 +393,7 @@ def route_fiber_array(
                 straight=straight,
                 bend=bend90,
                 cross_section=cross_section,
-                enforce_port_ordering=False,
+                sort_ports=sort_ports,
             )
             elements.extend([route.references for route in routes])
 
@@ -411,7 +412,7 @@ def route_fiber_array(
                     bend=bend90,
                     straight=straight,
                     cross_section=cross_section,
-                    enforce_port_ordering=False,
+                    sort_ports=sort_ports,
                 )
                 elements.extend([route.references for route in routes])
                 del to_route[n0 - dn : n0 + dn]

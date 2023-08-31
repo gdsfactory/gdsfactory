@@ -184,7 +184,7 @@ def get_bundle(
         ports1, ports2 = sort_ports_function(
             ports1, ports2, enforce_port_ordering=False
         )
-    if is_invalid_bundle_topology(ports1, ports2):
+    if not sort_ports and is_invalid_bundle_topology(ports1, ports2):
         return make_error_traces(
             ports1,
             ports2,
@@ -203,6 +203,7 @@ def get_bundle(
         "bend": bend,
         "straight": straight,
         "cross_section": cross_section,
+        "sort_ports": sort_ports,
     }
     if path_length_match_loops is not None:
         params |= path_length_match_params
@@ -757,11 +758,12 @@ if __name__ == "__main__":
     c2 = c << gf.components.mmi2x2()
     c2.move((100, 40))
     routes = get_bundle(
-        [c1.ports["o2"], c1.ports["o1"]],
+        [c1.ports["o1"], c1.ports["o2"]],
         [c2.ports["o1"], c2.ports["o2"]],
+        # [c2.ports["o2"], c2.ports["o1"]],
         radius=5,
         straight=partial(gf.components.straight, layer=(1, 0), width=1),
-        sort_ports=True,
+        sort_ports=False,
     )
     for route in routes:
         c.add(route.references)
