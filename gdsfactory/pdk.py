@@ -831,12 +831,14 @@ on_yaml_cell_modified.add_handler(show)
 
 
 if __name__ == "__main__":
-    from gdsfactory.read.from_updk import from_updk
-    from gdsfactory.samples.pdk.fab_c import pdk
+    c = get_component("add_fiber_array")
 
-    yaml_pdk_decription = pdk.to_updk()
-    gdsfactory_script = from_updk(yaml_pdk_decription)
-    print(gdsfactory_script)
+    # from gdsfactory.read.from_updk import from_updk
+    # from gdsfactory.samples.pdk.fab_c import pdk
+
+    # yaml_pdk_decription = pdk.to_updk()
+    # gdsfactory_script = from_updk(yaml_pdk_decription)
+    # print(gdsfactory_script)
     # print(yaml_pdk_decription)
 
     # from gdsfactory.components import cells
@@ -850,4 +852,4 @@ if __name__ == "__main__":
     # sparameters_path="/home",
     # )
     # print(pdk.json())
-    print(pdk.to_updk())
+    # print(pdk.to_updk())
