@@ -56,8 +56,6 @@ def cutback_splitter(
         "_": (straight_component, "o2", "o1"),
     }
 
-    # Generate the sequence of staircases
-
     s = ""
     for i in range(rows):
         s += "AB" * cols
