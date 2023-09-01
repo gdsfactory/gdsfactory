@@ -90,6 +90,8 @@ valid_top_level_keys = [
     "info",
     "pdk",
     "warnings",
+    "schema",
+    "schema_version",
 ]
 
 valid_anchor_point_keywords = [

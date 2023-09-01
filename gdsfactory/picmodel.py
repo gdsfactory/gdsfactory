@@ -8,6 +8,8 @@ from pydantic import AnyUrl, BaseModel, ConfigDict, Field, RootModel
 
 import gdsfactory as gf
 
+SCHEMA_VERSION = 1
+
 
 class CrossSection(RootModel):
     root: str = Field(
@@ -96,6 +98,9 @@ class Route(BaseModel):
 
 
 class PicYamlConfiguration(BaseModel):
+    schema_version: str = Field(
+        default=SCHEMA_VERSION, description="The version of the YAML syntax used."
+    )
     schema: AnyUrl | None = Field(None, alias="$schema")
     instances: dict[str, Instance] | None = None
     placements: dict[str, Placement] | None = None
@@ -133,6 +138,9 @@ class PicYamlConfiguration(BaseModel):
 
 
 class SchematicConfiguration(BaseModel):
+    schema_version: str = Field(
+        default=SCHEMA_VERSION, description="The version of the YAML syntax used."
+    )
     schema: AnyUrl | None = Field(None, alias="$schema")
     instances: dict[str, Instance] | None = None
     schematic_placements: dict[str, Placement] | None = None
