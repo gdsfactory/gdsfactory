@@ -6,7 +6,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.components.text import text
-from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
+from gdsfactory.typings import ComponentFactory, Float2, LayerSpec
 
 
 @gf.cell
@@ -17,11 +17,9 @@ def die(
     die_name: str | None = "chip99",
     text_size: float = 100.0,
     text_location: str | Float2 = "SW",
-    layer: LayerSpec = "FLOORPLAN",
+    layer: LayerSpec | None = "FLOORPLAN",
     bbox_layer: LayerSpec | None = "FLOORPLAN",
-    draw_corners: bool = True,
-    draw_dicing_lane: bool = True,
-    text_component: ComponentSpec = text,
+    text: ComponentFactory = text,
 ) -> gf.Component:
     """Returns basic die with 4 right angle corners marking the boundary of the.
 
@@ -31,23 +29,27 @@ def die(
         size: x, y dimensions of the die.
         street_width: Width of the corner marks for die-sawing.
         street_length: Length of the corner marks for die-sawing.
-        die_name: Label text.
+        die_name: Label text. If None, no label is added.
         text_size: Label text size.
-        text_location: {'NW', 'N', 'NE', 'SW', 'S', 'SE'} Label text compass location.
-        layer: Specific layer to put polygon geometry on.
+        text_location: {'NW', 'N', 'NE', 'SW', 'S', 'SE'} or (x, y) coordinate.
+        layer: For street widths.
         bbox_layer: optional bbox layer.
-        draw_corners: around die.
-        draw_dicing_lane: around die.
-        text_component: component to use for generating text
+        text: function use for generating text. Needs to accept text, size, layer.
     """
     c = gf.Component()
     sx, sy = size[0] / 2, size[1] / 2
 
-    if draw_dicing_lane:
-        street_length = sy
-
-    if draw_corners or draw_dicing_lane:
-        xpts = np.array([sx, sx, sx - street_width, sx - street_width, 0, 0])
+    if layer:
+        xpts = np.array(
+            [
+                sx,
+                sx,
+                sx - street_width,
+                sx - street_width,
+                sx - street_length,
+                sx - street_length,
+            ]
+        )
         ypts = np.array(
             [
                 sy,
@@ -67,7 +69,7 @@ def die(
         c.add_polygon([[sx, sy], [sx, -sy], [-sx, -sy], [-sx, sy]], layer=bbox_layer)
 
     if die_name:
-        t = c.add_ref(text_component(text=die_name, size=text_size, layer=layer))
+        t = c.add_ref(text(text=die_name, size=text_size, layer=layer))
 
         d = street_width + 20
         if isinstance(text_location, str):
@@ -84,6 +86,10 @@ def die(
                 t.xmax, t.ymin = [sx - d, -sy + d]
             elif text_location == "SW":
                 t.xmin, t.ymin = [-sx + d, -sy + d]
+            else:
+                raise ValueError(
+                    f"Invalid text_location: {text_location} not in N, NE, NW, S, SE, SW"
+                )
         else:
             t.x, t.y = text_location
 
@@ -101,7 +107,8 @@ if __name__ == "__main__":
         text_size=500,  # Label text size
         text_location="SW",  # Label text compass location e.g. 'S', 'SE', 'SW'
         layer=(2, 0),
-        bbox_layer=(3, 0),
+        # bbox_layer=(3, 0),
+        # bbox_layer=None,
     )
     c.show()
     # c.show(show_ports=True)
