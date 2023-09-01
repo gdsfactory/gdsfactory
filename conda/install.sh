@@ -1,7 +1,7 @@
 #!/bin/bash
 
 conda install -c conda-forge slepc4py=*=complex* -y
-pip install sklearn gdsfactory==7.4.1 gplugins
+pip install sklearn gdsfactory==7.4.2 gplugins
 [ ! -d $HOME/Desktop/gdsfactory ] && git clone https://github.com/gdsfactory/gdsfactory.git $HOME/Desktop/gdsfactory
 
 # if [[ $(uname -s) == Linux ]]; then
