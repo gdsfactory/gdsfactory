@@ -16,11 +16,18 @@ def bendu_double(
     bend180: ComponentSpec = bend_circular180,
     port1: str = "o1",
     port2: str = "o2",
-    port3: str = "o3",
-    port4: str = "o4",
     **kwargs,
 ) -> ComponentSpec:
-    """Returns double bend"""
+    """Returns double bend.
+
+    Args:
+        component: for cutback.
+        cross_section: specification (CrossSection, string or dict).
+        bend180: ubend.
+        port1: name of first optical port.
+        port2: name of second optical port.
+        kwargs: cross_section settings.
+    """
     xs = gf.get_cross_section(cross_section, **kwargs)
     bendu = gf.Component()
     bend_r = bendu << bend180(cross_section=xs)
@@ -48,10 +55,19 @@ def straight_double(
     straight_length: float | None = None,
     **kwargs,
 ) -> ComponentSpec:
-    """Returns double straight"""
+    """Returns double straight.
+
+    Args:
+        component: for cutback.
+        cross_section: specification (CrossSection, string or dict).
+        port1: name of first optical port.
+        port2: name of second optical port.
+        straight_length: length of straight.
+        kwargs: cross_section settings.
+    """
     xs = gf.get_cross_section(cross_section, **kwargs)
 
-    straight_double = gf.Component("straight_double")
+    straight_double = gf.Component()
     straight_component = straight(
         length=straight_length or xs.radius * 2, cross_section=xs
     )
@@ -109,8 +125,6 @@ def cutback_2x2(
         bend180=bend180,
         port1=port1,
         port2=port2,
-        port3=port3,
-        port4=port4,
         **kwargs,
     )
 
@@ -155,7 +169,7 @@ def cutback_2x2(
     seq = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
 
     c = gf.Component()
-    c << seq
+    _ = c << seq
     c.add_port("o1", port=seq.named_references["A1"]["o1"])
     c.add_port("o2", port=seq.named_references["A1"]["o2"])
     c.add_port("o3", port=seq.named_references[f"B{n}"]["o2"])
