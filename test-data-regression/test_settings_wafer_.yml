@@ -13,7 +13,9 @@ settings:
     - 6
     - 6
     - 2
-    reticle: die
+    die_name_col_row: false
+    reticle:
+      function: die
     xspacing: null
     yspacing: null
   full:
@@ -26,7 +28,9 @@ settings:
     - 6
     - 6
     - 2
-    reticle: die
+    die_name_col_row: false
+    reticle:
+      function: die
     xspacing: null
     yspacing: null
   function_name: wafer

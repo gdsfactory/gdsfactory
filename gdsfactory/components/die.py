@@ -20,10 +20,9 @@ def die(
     layer: LayerSpec | None = "FLOORPLAN",
     bbox_layer: LayerSpec | None = "FLOORPLAN",
     text: ComponentFactory = text,
+    draw_corners: bool = False,
 ) -> gf.Component:
-    """Returns basic die with 4 right angle corners marking the boundary of the.
-
-    chip/die and a label with the name of the die.
+    """Returns die with optional markers marking the boundary of the die.
 
     Args:
         size: x, y dimensions of the die.
@@ -32,14 +31,17 @@ def die(
         die_name: Label text. If None, no label is added.
         text_size: Label text size.
         text_location: {'NW', 'N', 'NE', 'SW', 'S', 'SE'} or (x, y) coordinate.
-        layer: For street widths.
-        bbox_layer: optional bbox layer.
+        layer: For street widths. None to not draw the street widths.
+        bbox_layer: optional bbox layer drawn bounding box around the die.
         text: function use for generating text. Needs to accept text, size, layer.
+        draw_corners: True draws only corners. False draws a square die.
     """
     c = gf.Component()
     sx, sy = size[0] / 2, size[1] / 2
 
     if layer:
+        if not draw_corners:
+            street_length = sx
         xpts = np.array(
             [
                 sx,
@@ -50,6 +52,8 @@ def die(
                 sx - street_length,
             ]
         )
+        if not draw_corners:
+            street_length = sy
         ypts = np.array(
             [
                 sy,
@@ -99,7 +103,7 @@ def die(
 if __name__ == "__main__":
     # c = die(size=(3000, 5000), draw_dicing_lane=True)
     # c = die()
-    c = gf.components.die(
+    c = die(
         size=(13000, 3000),  # Size of die
         street_width=100,  # Width of corner marks for die-sawing
         street_length=1000,  # Length of corner marks for die-sawing
