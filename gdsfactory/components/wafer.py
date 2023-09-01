@@ -1,17 +1,19 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.typings import Component, ComponentSpec
+from gdsfactory.components.die import die
+from gdsfactory.typings import Component, ComponentFactory
 
 _cols_200mm_wafer = (2, 6, 6, 8, 8, 6, 6, 2)
 
 
 @gf.cell
 def wafer(
-    reticle: ComponentSpec = "die",
+    reticle: ComponentFactory = die,
     cols: tuple[int, ...] = _cols_200mm_wafer,
     xspacing: float | None = None,
     yspacing: float | None = None,
+    die_name_col_row: bool = False,
 ) -> Component:
     """Returns complete wafer. Useful for mask aligner steps.
 
@@ -20,22 +22,24 @@ def wafer(
         cols: how many columns per row.
         xspacing: optional spacing, defaults to reticle.xsize.
         yspacing: optional spacing, defaults to reticle.ysize.
+        die_name_col_row: if True, die name is row_col, otherwise is a number
     """
     c = gf.Component()
-    reticle = gf.get_component(reticle)
-    xspacing = xspacing or reticle.xsize
-    yspacing = yspacing or reticle.ysize
+    die = reticle()
+    xspacing = xspacing or die.xsize
+    yspacing = yspacing or die.ysize
 
-    for i, columns in enumerate(cols):
-        ref = c.add_array(
-            reticle, rows=1, columns=columns, spacing=(xspacing, yspacing)
-        )
-        ref.x = 0
-        ref.movey(i * yspacing)
+    i = 1
+    for col in range(len(cols)):
+        for row in range(cols[col]):
+            die_name = f"{col+1}_{row+1}" if die_name_col_row else str(i)
+            die = reticle(die_name=die_name)
+            c.add_ref(die).movex((row - cols[col] / 2) * xspacing).movey(col * yspacing)
+            i += 1
 
     return c
 
 
 if __name__ == "__main__":
-    c = wafer()
+    c = wafer(die_name_col_row=True)
     c.show()
