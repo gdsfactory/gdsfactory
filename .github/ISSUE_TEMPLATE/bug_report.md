@@ -13,7 +13,7 @@ What's the bug?
 **To Reproduce**
 What's the code to reproduce the behavior? What commands or code did you write to get the error?
 You can add screenshots to help explain your problem.
-Adding the code in `fixme/` folder is also a great option for others to reproduce your issue.
+Make sure you include the code for others to reproduce your issue.
 
 **Expected behavior**
 What would you like to happen?
