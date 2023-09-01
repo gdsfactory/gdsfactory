@@ -1,6 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.4.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.4.3...main)
+
+## [7.4.3](https://github.com/gdsfactory/gdsfactory/compare/v7.4.3...v7.4.1)
+
+- add schema version for YAML files [PR](https://github.com/gdsfactory/gdsfactory/pull/2050)
+- add `gf.components.cutback_loss`
+- improve `gf.components.die` and `gf.components.wafer`
 
 ## [7.4.1](https://github.com/gdsfactory/gdsfactory/compare/v7.4.1...v7.4.0)
 
