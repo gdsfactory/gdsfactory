@@ -11,7 +11,7 @@ from functools import wraps
 from typing import Any, TypeVar
 
 import toolz
-from pydantic import BaseModel
+from pydantic import BaseModel, validate_call
 
 from gdsfactory.component import Component
 from gdsfactory.name import clean_name, get_name_short
@@ -68,63 +68,10 @@ class Settings(BaseModel):
     child: dict[str, Any] | None = None
 
 
-def cell(func: _F) -> _F:
-    """Decorator for Component functions.
+def cell_without_validator(func: _F) -> _F:
+    """Similar to cell decorator but does not enforce argument types.
 
-    Wraps cell_without_validator
-    Validates type annotations with pydantic.
-
-    Implements a cache so that if a component has already been build
-    it will return the component from the cache directly.
-    This avoids creating two exact Components that have the same name.
-
-    When decorate your functions with @cell you get:
-
-    - cache: avoids creating duplicated Components.
-    - name: names Components uniquely name based on parameters.
-    - metadata: adds Component.metadata with default, changed and full Args.
-
-    Note the cell decorator does not take any arguments.
-    Keyword Args are applied the resulting Component.
-
-    Keyword Args:
-        autoname (bool): True renames Component based on args and kwargs.
-            True by default.
-        name (str): Optional name.
-        cache (bool): returns Component from the CACHE if it already exists.
-            Avoids having duplicated cells with the same name.
-            If False overrides CACHE creates a new Component.
-        flatten (bool): False by default. True flattens component hierarchy.
-        info: updates Component.info dict.
-        prefix (str): name_prefix, defaults to function name.
-        max_name_length (int): truncates name beyond some characters with a hash.
-        decorator (Callable): function to apply to Component.
-
-
-    A decorator is a function that runs over a function, so when you do.
-
-    .. code::
-
-        import gdsfactory as gf
-
-        @gf.cell
-        def mzi_with_bend():
-            c = gf.Component()
-            mzi = c << gf.components.mzi()
-            bend = c << gf.components.bend_euler()
-            return c
-
-    it’s equivalent to
-
-    .. code::
-
-        def mzi_with_bend():
-            c = gf.Component()
-            mzi = c << gf.components.mzi()
-            bend = c << gf.components.bend_euler(radius=radius)
-            return c
-
-        mzi_with_bend_decorated = gf.cell(mzi_with_bend)
+    I recommend using @cell instead.
 
     """
 
@@ -315,7 +262,66 @@ def cell(func: _F) -> _F:
     return _cell
 
 
-cell_without_validator = cell
+def cell(func: _F) -> _F:
+    """Decorator for Component functions.
+
+    Wraps cell_without_validator
+    Validates type annotations with pydantic.
+
+    Implements a cache so that if a component has already been build
+    it will return the component from the cache directly.
+    This avoids creating two exact Components that have the same name.
+
+    When decorate your functions with @cell you get:
+
+    - cache: avoids creating duplicated Components.
+    - name: names Components uniquely name based on parameters.
+    - metadata: adds Component.metadata with default, changed and full Args.
+
+    Note the cell decorator does not take any arguments.
+    Keyword Args are applied the resulting Component.
+
+    Keyword Args:
+        autoname (bool): True renames Component based on args and kwargs.
+            True by default.
+        name (str): Optional name.
+        cache (bool): returns Component from the CACHE if it already exists.
+            Avoids having duplicated cells with the same name.
+            If False overrides CACHE creates a new Component.
+        flatten (bool): False by default. True flattens component hierarchy.
+        info: updates Component.info dict.
+        prefix (str): name_prefix, defaults to function name.
+        max_name_length (int): truncates name beyond some characters with a hash.
+        decorator (Callable): function to apply to Component.
+
+
+    A decorator is a function that runs over a function, so when you do.
+
+    .. code::
+
+        import gdsfactory as gf
+
+        @gf.cell
+        def mzi_with_bend():
+            c = gf.Component()
+            mzi = c << gf.components.mzi()
+            bend = c << gf.components.bend_euler()
+            return c
+
+    it’s equivalent to
+
+    .. code::
+
+        def mzi_with_bend():
+            c = gf.Component()
+            mzi = c << gf.components.mzi()
+            bend = c << gf.components.bend_euler(radius=radius)
+            return c
+
+        mzi_with_bend_decorated = gf.cell(mzi_with_bend)
+
+    """
+    return cell_without_validator(validate_call(func))
 
 
 def declarative_cell(cls: type[Any]) -> Callable[..., Component]:
