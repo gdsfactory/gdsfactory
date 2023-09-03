@@ -406,7 +406,7 @@ class Path(_GeometryHelper):
         yield cls._validate
 
     @classmethod
-    def _validate(cls, v):
+    def _validate(cls, v, validation_info):
         """Pydantic Path validator."""
         assert isinstance(v, Path), f"TypeError, Got {type(v)}, expecting Path"
         return v
