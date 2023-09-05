@@ -37,10 +37,3 @@ repos:
     hooks:
       - id: j2lint
         args: [--ignore, jinja-statements-delimiter, jinja-statements-indentation, --]
-
-  - repo: https://github.com/markdownlint/markdownlint.git
-    rev: v0.12.0
-    hooks:
-      - id: markdownlint
-        args: [--rules, '~MD007,~MD012,~MD013,~MD026,~MD029,~MD033,~MD034']
-        exclude: '^docs/CHANGELOG.md$'
