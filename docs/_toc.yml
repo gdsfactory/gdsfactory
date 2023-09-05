@@ -14,6 +14,8 @@ parts:
           - file: notebooks/_0_python
           - file: notebooks/_1_git
           - file: notebooks/_4_gdsfactory
+          - url: https://github.com/gdsfactory/gdsfactory-photonics-training
+            title: gdsfactory-photonics-training
       - file: layout
         sections:
           - file: notebooks/00_geometry
