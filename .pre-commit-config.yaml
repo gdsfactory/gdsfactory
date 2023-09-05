@@ -37,4 +37,3 @@ repos:
     hooks:
       - id: j2lint
         args: [--ignore, jinja-statements-delimiter, jinja-statements-indentation, --]
-
