@@ -2,70 +2,70 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.4.3...main)
 
-## [7.4.3](https://github.com/gdsfactory/gdsfactory/compare/v7.4.3...v7.4.1)
+## [7.4.3](https://github.com/gdsfactory/gdsfactory/compare/v7.4.1...v7.4.3)
 
 - add schema version for YAML files [PR](https://github.com/gdsfactory/gdsfactory/pull/2050)
 - add `gf.components.cutback_loss`
 - improve `gf.components.die` and `gf.components.wafer`
 
-## [7.4.1](https://github.com/gdsfactory/gdsfactory/compare/v7.4.1...v7.4.0)
+## [7.4.1](https://github.com/gdsfactory/gdsfactory/compare/v7.4.0...v7.4.1)
 
 - fix route with sbends
 
-## [7.4.0](https://github.com/gdsfactory/gdsfactory/compare/v7.4.0...v7.3.4)
+## [7.4.0](https://github.com/gdsfactory/gdsfactory/compare/v7.3.4...v7.4.0)
 
 - port to pydantic2
 - fix windows paths
 
-## [7.3.4](https://github.com/gdsfactory/gdsfactory/compare/v7.3.4...v7.3.3)
+## [7.3.4](https://github.com/gdsfactory/gdsfactory/compare/v7.3.3...v7.3.4)
 
 - import `add_tapers`
 - add name counter with `$1`
 
-## [7.3.3](https://github.com/gdsfactory/gdsfactory/compare/v7.3.3...v7.3.2)
+## [7.3.3](https://github.com/gdsfactory/gdsfactory/compare/v7.3.2...v7.3.3)
 
 - clean path characters
 - add bundle topology validation to `get_bundle`
 
-## [7.3.2](https://github.com/gdsfactory/gdsfactory/compare/v7.3.2...v7.3.1)
+## [7.3.2](https://github.com/gdsfactory/gdsfactory/compare/v7.3.1...v7.3.2)
 
 - warn on bad bundles [PR](https://github.com/gdsfactory/gdsfactory/pull/1993)
 
-## [7.3.1](https://github.com/gdsfactory/gdsfactory/compare/v7.3.1...v7.3.0)
+## [7.3.1](https://github.com/gdsfactory/gdsfactory/compare/v7.3.0...v7.3.1)
 
 - minor fixes
 
-## [7.3.0](https://github.com/gdsfactory/gdsfactory/compare/v7.3.0...v7.2.1)
+## [7.3.0](https://github.com/gdsfactory/gdsfactory/compare/v7.2.1...v7.3.0)
 
 - make `flatten_invalid_refs=False` in GdsWriteSettings.
 - add component flatten invalid refs.
 
-## [7.2.1](https://github.com/gdsfactory/gdsfactory/compare/v7.2.1...v7.2.0)
+## [7.2.1](https://github.com/gdsfactory/gdsfactory/compare/v7.2.0...v7.2.1)
 
 - add `from_image` to import GDS from image.
 - add `gf.components.rectangles`
 
-## [7.2.0](https://github.com/gdsfactory/gdsfactory/compare/v7.2.0...v7.1.4)
+## [7.2.0](https://github.com/gdsfactory/gdsfactory/compare/v7.1.4...v7.2.0)
 
 - fix justify text rectangular
 - switch from click to typer for CLI. Requires reinstall gdsfactory.
 - add process info to layerstack
 
-## [7.1.4](https://github.com/gdsfactory/gdsfactory/compare/v7.1.4...v7.1.3)
+## [7.1.4](https://github.com/gdsfactory/gdsfactory/compare/v7.1.3...v7.1.4)
 
 - Improve cell decorator updk [PR](https://github.com/gdsfactory/gdsfactory/pull/1967)
 - add ComponentAlongPath [PR](https://github.com/gdsfactory/gdsfactory/pull/1965)
 
-## [7.1.2](https://github.com/gdsfactory/gdsfactory/compare/v7.1.2...v7.1.1)
+## [7.1.2](https://github.com/gdsfactory/gdsfactory/compare/v7.1.1...v7.1.2)
 
 - set the run directory for difftests [PR](https://github.com/gdsfactory/gdsfactory/pull/1960)
 - fix text(justify) [PR](https://github.com/gdsfactory/gdsfactory/pull/1961)
 
-## [7.1.1](https://github.com/gdsfactory/gdsfactory/compare/v7.1.1...v7.1.0)
+## [7.1.1](https://github.com/gdsfactory/gdsfactory/compare/v7.1.0...v7.1.1)
 
 - updk improve [PR](https://github.com/gdsfactory/gdsfactory/pull/1954)
 
-## [7.1.0](https://github.com/gdsfactory/gdsfactory/compare/v7.1.0...v7.0.1)
+## [7.1.0](https://github.com/gdsfactory/gdsfactory/compare/v7.0.1...v7.1.0)
 
 - switch from matplotlib to klayout from default plotter [PR](https://github.com/gdsfactory/gdsfactory/pull/1953)
 - use jinja2 as the default YAML parser [PR](https://github.com/gdsfactory/gdsfactory/pull/1952)
@@ -95,11 +95,11 @@ grep -rl 'gdsfactory.simulation.' /path/to/your/files | xargs sed -i 's/gdsfacto
 ## 6.116.0
 - Warning: You need python>=3.10 to get the latest version of gdsfactory.
 
-## [6.115.0](https://github.com/gdsfactory/gdsfactory/compare/v6.115.0...v6.114.1)
+## [6.115.0](https://github.com/gdsfactory/gdsfactory/compare/v6.114.1...v6.115.0)
 
 - add mmi for nxm [PR](https://github.com/gdsfactory/gdsfactory/pull/1915)
 
-## [6.114.1](https://github.com/gdsfactory/gdsfactory/compare/v6.114.1...v6.114.0)
+## [6.114.1](https://github.com/gdsfactory/gdsfactory/compare/v6.114.0...v6.114.1)
 
 - fix `get_hash` for windows [PR](https://github.com/gdsfactory/gdsfactory/pull/1898)
 - component preprocessing before meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1891)
