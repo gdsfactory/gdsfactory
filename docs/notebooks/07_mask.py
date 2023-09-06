@@ -17,13 +17,13 @@
 # %% [markdown]
 # # Die assembly
 #
-# With gdsfactory you can easily go from a simple Component, to a Component with many references/instances.
+# With gdsfactory you can easily go from a simple Component, to a Component with many components inside.
 #
 # ## Design for testing
 #
 # To measure your reticle / die after fabrication you need to decide your test configurations. This includes things like:
 #
-# - `Individual input and output fibers` versus `fiber array`. We recommend `fiber array` for easier testing and higher throughput, but also understand the flexibility of single fibers.
+# - `Individual input and output fibers` versus `fiber array`. You can use `add_fiber_array` for easier testing and higher throughput, or `add_fiber_single` for the flexibility of single fibers.
 # - Fiber array pitch (127um or 250um) if using a fiber array.
 # - Pad pitch for DC and RF high speed probes (100, 125, 150, 200um). Probe configuration (GSG, GS ...)
 # - Test layout for DC, RF and optical fibers.
@@ -171,11 +171,9 @@ c = spiral_te(length=10e3)
 c.plot()
 
 # %%
-add_label_ehva_mpw1 = partial(gf.labels.add_label_ehva, die="mpw1")
 add_fiber_single_no_labels = partial(
     gf.routing.add_fiber_single,
     get_input_label_text_function=None,
-    decorator=add_label_ehva_mpw1,
 )
 
 spiral_te = gf.compose(
@@ -186,11 +184,11 @@ spiral_te = gf.compose(
 sweep = [spiral_te(length=length) for length in [10e3, 20e3, 30e3]]
 m = gf.pack(sweep)
 c = m[0]
+c.show()
 c.plot()
 
 # %% [markdown]
-# Together with GDS labels that are not fabricated, you can also add some physical labels that will be fabricated.
-#
+# You can also add some physical labels that will be fabricated.
 # For example you can add prefix `S` at the `north-center` of each spiral using `text_rectangular` which is DRC clean and anchored on `nc` (north-center)
 
 # %%
@@ -339,20 +337,12 @@ c.plot()
 # %% [markdown]
 # ### 2.1 pack_doe
 #
-# `pack_doe` places components as compact as possible
-
-# %% [markdown]
-# When running this tutorial make sure you UNCOMMENT this line `%matplotlib widget` so you can live update your changes in the YAML file
-#
-# `# %matplotlib widget`  -> `%matplotlib widget`
+# `pack_doe` places components as compact as possible.
 
 # %%
-# # %matplotlib widget
 
-# %%
-x = ipywidgets.Textarea(rows=20, columns=480)
-
-x.value = """
+c = gf.read.from_yaml(
+    """
 name: mask_grid
 
 instances:
@@ -384,26 +374,9 @@ placements:
   mzis:
     xmin: rings,east
 """
+)
 
-out = ipywidgets.Output()
-display(x, out)
-
-
-def f(change, out=out):
-    try:
-        c = gf.read.from_yaml(change["new"])
-        # clear_output()
-        c.plot()
-        c.show(show_ports=True)
-        out.clear_output()
-    except Exception as e:
-        out.clear_output()
-        with out:
-            display(e)
-
-
-x.observe(f, "value")
-f({"new": x.value})
+c.plot()
 
 # %% [markdown]
 # ### 2.2 pack_doe_grid
@@ -411,7 +384,8 @@ f({"new": x.value})
 # `pack_doe_grid` places each component on a regular grid
 
 # %%
-x.value = """
+c = gf.read.from_yaml(
+    """
 name: mask_compact
 
 instances:
@@ -446,8 +420,8 @@ placements:
   mzis:
     xmin: rings,east
 """
-
-display(x, out)
+)
+c.plot()
 
 # %% [markdown]
 # ## Metadata
@@ -486,20 +460,22 @@ Code(metadata)
 # %%
 import pandas as pd
 from omegaconf import OmegaConf
-
 import gdsfactory as gf
 
 
 def mzi_te(**kwargs) -> gf.Component:
     gc = gf.c.grating_coupler_elliptical_tm()
     c = gf.c.mzi_phase_shifter_top_heater_metal(delta_length=40)
+    c = gf.routing.add_pads_top(c, port_names=["top_l_e4", "top_r_e4"])
     c = gf.routing.add_fiber_array(c, grating_coupler=gc, **kwargs)
-    c = gf.routing.add_electrical_pads_shortest(c)
     return c
 
 
 c = mzi_te()
 c.plot()
+
+# %%
+c.pprint_ports()
 
 # %%
 c = gf.grid(
