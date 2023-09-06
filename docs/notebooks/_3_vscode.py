@@ -28,7 +28,7 @@
 #
 # gdsfactory has a VScode extension that you can install from the marketplace.
 #
-# The extension provides you with useful code snippets
+# The extension provides you with useful code snippets and filewatcher extension to see live modifications of `*pic.yml` or `*.py` files. Look for the telescope button on the top right of VSCode 🔭.
 #
 # ![extension](https://i.imgur.com/89OPCQ1.png)
 #

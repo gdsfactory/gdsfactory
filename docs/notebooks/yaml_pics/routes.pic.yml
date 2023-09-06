@@ -1,0 +1,25 @@
+name: with_routes
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 10
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+placements:
+    mmi_long:
+        x: 100
+        y: 100
+routes:
+    optical:
+        links:
+            mmi_short,o2: mmi_long,o1
+        settings:
+            cross_section:
+                cross_section: strip
+                settings:
+                    layer: [2, 0]

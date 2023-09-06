@@ -1,0 +1,26 @@
+name: routes_custom
+
+instances:
+    t:
+      component: pad_array
+      settings:
+          orientation: 270
+          columns: 3
+    b:
+      component: pad_array
+      settings:
+          orientation: 90
+          columns: 3
+
+placements:
+    t:
+        x: 200
+        y: 400
+routes:
+    electrical:
+        settings:
+            width: 10.
+            end_straight_length: 150
+        links:
+            t,e11: b,e11
+            t,e13: b,e13
