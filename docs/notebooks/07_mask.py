@@ -152,13 +152,13 @@ c.plot()
 
 # %%
 spiral = gf.components.spiral_inner_io_fiber_single()
-spiral
+spiral.plot()
 
 # %%
 spiral_te = gf.routing.add_fiber_single(
     gf.functions.rotate(gf.components.spiral_inner_io_fiber_single, 90)
 )
-spiral_te
+spiral_te.plot()
 
 # %%
 # which is equivalent to
@@ -533,6 +533,7 @@ c = gf.add_labels.add_labels_to_ports(c)
 gdspath = c.write_gds()
 csvpath = gf.labels.write_labels.write_labels_gdstk(gdspath, debug=True)
 df = pd.read_csv(csvpath)
+c.show()
 c.plot()
 
 # %%
