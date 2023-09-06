@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import importlib
 import pathlib
 import warnings
 from collections.abc import Callable
@@ -710,13 +711,19 @@ _ACTIVE_PDK = None
 
 def get_active_pdk() -> Pdk:
     global _ACTIVE_PDK
-    if _ACTIVE_PDK is None:
-        logger.warning("No active PDK. Activating generic PDK.\n")
-        from gdsfactory.generic_tech import get_generic_pdk
 
-        PDK = get_generic_pdk()
-        PDK.activate()
-        _ACTIVE_PDK = PDK
+    if _ACTIVE_PDK is None:
+        if CONF.pdk:
+            pdk_module = importlib.import_module(CONF.pdk)
+            pdk_module.PDK.activate()
+
+        else:
+            logger.warning("No active PDK. Activating generic PDK.\n")
+            from gdsfactory.generic_tech import get_generic_pdk
+
+            PDK = get_generic_pdk()
+            PDK.activate()
+            _ACTIVE_PDK = PDK
     return _ACTIVE_PDK
 
 

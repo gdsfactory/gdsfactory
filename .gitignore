@@ -24,6 +24,7 @@ profile.html
 *.svg
 *.db
 *.tar
+gfconfig.yml
 sim_ref.yaml
 yarn.lock
 node_modules/
