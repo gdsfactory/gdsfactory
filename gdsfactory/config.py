@@ -19,6 +19,7 @@ from pprint import pprint
 from typing import Any, Literal
 
 import loguru
+import yaml
 from loguru import logger as logger
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich.console import Console
@@ -169,7 +170,17 @@ def tracing_formatter(record: loguru.Record) -> str:
 
 
 class Settings(BaseSettings):
-    """GDSFACTORY settings object."""
+    """GDSFACTORY settings object.
+
+    Attributes:
+        n_threads: Number of threads to use for multiprocessing.
+        display_type: Display type for components.
+        last_saved_files: List of last saved files.
+        max_name_length: Maximum length of component names.
+        model_config: Pydantic model configuration.
+        loglevel: Log level.
+        pdk: PDK to use. Defaults to generic.
+    """
 
     n_threads: int = get_number_of_cores()
     display_type: Literal["widget", "klayout", "docs", "kweb"] = "kweb"
@@ -181,6 +192,24 @@ class Settings(BaseSettings):
         env_prefix="gdsfactory_",
         env_nested_delimiter="_",
     )
+    loglevel: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
+    pdk: str | None = None
+
+    @classmethod
+    def from_config(cls) -> Settings:
+        """Load settings from YAML config file.
+        Recursively search for a `gfconfig.yml` file in the current working directory.
+        """
+        path = cwd
+
+        while path.parent != path:
+            path_config = path / "gfconfig.yml"
+            if path_config.is_file():
+                logger.info(f"Loading settings from {path_config}")
+                return Settings(**yaml.safe_load(path_config.read_text()))
+            path = path.parent
+        logger.info("No settings file found, using defaults")
+        return Settings()
 
 
 class Paths:
@@ -211,7 +240,7 @@ class Paths:
     sparameters_repo = test_data / "sp"  # repo with some demo sparameters
 
 
-CONF = Settings()
+CONF = Settings.from_config()
 PATH = Paths()
 sparameters_path = PATH.sparameters
 
@@ -303,5 +332,6 @@ def set_plot_options(
 
 
 if __name__ == "__main__":
+    print(CONF.pdk)
     # print_version_plugins()
-    print_version_pdks()
+    # print_version_pdks()
