@@ -1,41 +1,22 @@
-
-name: sample_different_factory
-
+name: sample_custom_cells
 instances:
-    bl:
-      component: pad
-    tl:
-      component: pad
-    br:
-      component: pad
-    tr:
-      component: pad
-
+    mmit:
+      component: mmi2x2
+    mmib:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
 placements:
-    tl:
-        x: -200
-        y: 500
-
-    br:
-        x: 400
-        y: 400
-
-    tr:
-        x: 400
-        y: 600
-
-
+    mmit:
+        x: 100
+        y: 100
 routes:
-    electrical:
-        settings:
-            separation: 20
-            layer: [41, 0]
-            width: 10
+    route1:
         links:
-            tl,e3: tr,e1
-            bl,e3: br,e1
-    optical:
-        settings:
-            radius: 100
-        links:
-            bl,e4: br,e3
+            mmib,o2: mmit,o2
+
+ports:
+    o1: mmib,o1
+    o2: mmit,o2
+    o3: mmit,o3
+    o4: mmit,o4

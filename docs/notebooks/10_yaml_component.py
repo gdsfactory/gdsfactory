@@ -107,7 +107,6 @@ c.plot()
 # it follows the syntax `instance_source,port : instance_destination,port`
 
 # %%
-# %%
 filepath = "yaml_pics/connections_demo.pic.yml"
 Code(filepath, language="yaml+jinja")
 
@@ -195,10 +194,10 @@ def pad_new(size=(100, 100), layer=(1, 0)):
 
 gf.get_active_pdk().register_cells(pad_new=pad_new)
 c = pad_new()
-f = c.plot()
+c.plot()
 
 # %%
-filepath = "yaml_pics/pad_new.pic.yml"
+filepath = "yaml_pics/new_factories.pic.yml"
 Code(filepath, language="yaml+jinja")
 
 # %%
@@ -302,13 +301,15 @@ help(pic_cell)
 # You can invoke this cell without arguments to see the default implementation
 
 # %%
-pic_cell()
+c = pic_cell()
+c.plot()
 
 # %% [markdown]
 # Or you can provide arguments explicitly, like a normal cell. Note however that yaml-based cells **only accept keyword arguments**, since yaml dictionaries are inherently unordered.
 
 # %%
-pic_cell(length_mmi=100)
+c = pic_cell(length_mmi=100)
+c.plot()
 
 # %% [markdown]
 # The power of jinja-templated cells become more apparent with more complex cells, like the following.
@@ -383,16 +384,14 @@ bc2.plot()
 # In general, the jinja-yaml parser has a superset of the functionalities and syntax of the standard yaml parser. The one notable exception is with `settings`. When reading any yaml files with `settings` blocks, the default settings will be read and applied, but they will not be settable, as the jinja parser has a different mechanism for setting injection with the `default_settings` block and jinja2.
 
 # %%
-pic_filename = "demo_backwards_compatibility.pic.yml"
-
-with open(pic_filename, mode="w") as f:
-    f.write(x.value)
-
-retro_cell = cell_from_yaml_template(
-    pic_filename, name="demo_jinja_backwards_compatible"
-)
-Code(filename=pic_filename, language="yaml")
+filepath = "yaml_pics/mzi_lattice_filter.pic.yml"
+mzi_lattice = cell_from_yaml_template(filepath, name="mzi_lattice_filter")
+Code(filepath, language="yaml")
 
 # %%
-retro_cell()  # this is fine-- because cell_from_yaml_template internally calls from_yaml, cells should work from their default state
-# retro_cell(length_mmi=15) # this fails-- you must use "default_settings" and jinja syntax with the yaml-jinja parser for settings to be settable
+c = mzi_lattice(delta_length=10)
+c.plot()
+
+# %%
+c = mzi_lattice(delta_length=100)
+c.plot()
