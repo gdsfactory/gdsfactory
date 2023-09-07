@@ -23,11 +23,15 @@ jobs:
             ~/.gdsfactory/
           key: 0.0.1
           restore-keys: 0.0.1
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
       - name: Installing the library
         env:
           GDSFACTORY_DISPLAY_TYPE: klayout
           KFACTORY_DISPLAY_TYPE: image
-        shell: bash -l {0}
         run: |
           make dev
           make docs
@@ -37,19 +41,6 @@ jobs:
         uses: actions/upload-pages-artifact@v2
         with:
           path: "./docs/_build/html/"
-
-  deploy-docs:
-    needs: build-docs
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    runs-on: ubuntu-latest
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
