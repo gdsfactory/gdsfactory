@@ -99,4 +99,5 @@ jobs:
           KFACTORY_DISPLAY_TYPE: image
         run: |
           make docs
-          python tests/test_doc_errors.py
+          cd docs
+          myst build --html
