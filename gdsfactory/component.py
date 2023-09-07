@@ -1480,7 +1480,8 @@ class Component(_GeometryHelper):
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
         self.show(show_ports=True)  # show in klayout
         fig = self.plot()
-        return fig._repr_html_() if hasattr(fig, "_repr_html_") else fig
+        if fig and hasattr(fig, "_repr_html_"):
+            return fig._repr_html_()
 
     def add_pins_triangle(
         self,
@@ -1703,7 +1704,8 @@ class Component(_GeometryHelper):
             raise ValueError(f"{plotter!r} not in {valid_plotters}")
 
         if plotter == "klayout":
-            return self.plot_klayout()
+            self.plot_klayout()
+            return
         elif plotter == "kweb":
             return self.plot_kweb()
         elif plotter == "widget":
