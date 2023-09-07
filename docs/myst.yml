@@ -11,9 +11,6 @@ site:
   template: book-theme
   title: gdsfactory
   logo: logo.png
-  projects:
-    - slug: myst
-      path: .
   nav: []
   actions:
     - title: Plugins
