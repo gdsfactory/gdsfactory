@@ -65,16 +65,13 @@ release:
 	git push
 	git push origin --tags
 
-lintdocs:
-	flake8 --select RST
-
 autopep8:
 	autopep8 --in-place --aggressive --aggressive **/*.py
 
 doc:
 	python .github/write_components_doc.py
 
-docs:
+docs: notebooks
 	npm install -g mystmd
 	pydoc-markdown -p gdsfactory -m gdsfactory.routing > docs/api.md
 	pydoc-markdown -m gdsfactory.routing > docs/api_routing.md
