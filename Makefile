@@ -65,17 +65,17 @@ release:
 	git push
 	git push origin --tags
 
-lintdocs:
-	flake8 --select RST
-
 autopep8:
 	autopep8 --in-place --aggressive --aggressive **/*.py
 
 doc:
 	python .github/write_components_doc.py
 
-docs:
-	jb build docs
+docs: notebooks
+	npm install -g mystmd
+	pydoc-markdown -p gdsfactory -m gdsfactory.routing > docs/api.md
+	pydoc-markdown -m gdsfactory.routing > docs/api_routing.md
+	pydoc-markdown -m gdsfactory.components > docs/api_components.md
 
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
@@ -85,17 +85,7 @@ constructor:
 	constructor conda
 
 notebooks:
-	jupytext gdsfactory/samples/notebooks/*.md --to ipynb notebooks/
-
-jupytext:
-	jupytext **/*.ipynb --to py
-
-jupytext-clean:
-	jupytext docs/**/*.py --to py
-
-notebooks:
-	# jupytext docs/notebooks/*.py --to ipynb
-	# jupytext docs/notebooks/*.ipynb --to to
-	jupytext --pipe black docs/notebooks/*.py
+	python -m ipykernel install --name kernel_name --user
+	GDSFACTORY_DISPLAY_TYPE=klayout jupytext docs/notebooks/*.py --to ipynb --execute
 
 .PHONY: gdsdiff build conda gdslib docs doc

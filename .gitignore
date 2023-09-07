@@ -8,6 +8,7 @@ test-data
 tests/test_pathlength_reporting/
 tests/test_difftest/
 docs/notebooks/demo.png
+docs/api.md
 # C extensions
 *.so
 *.l2n

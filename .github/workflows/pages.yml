@@ -28,6 +28,8 @@ jobs:
         run: |
           make dev
           make docs
+          cd docs
+          myst build --html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
