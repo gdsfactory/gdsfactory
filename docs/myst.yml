@@ -15,4 +15,6 @@ site:
   actions:
     - title: Plugins
       url: https://gdsfactory.github.io/gplugins/
+    - title: Training
+      url: https://github.com/gdsfactory/gdsfactory-photonics-training
   domains: []
