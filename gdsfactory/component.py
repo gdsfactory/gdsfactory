@@ -1476,10 +1476,11 @@ class Component(_GeometryHelper):
                 layer_names.append(layer_to_name[layer])
         return layer_names
 
-    def _ipython_display_(self) -> None:
+    def _repr_html_(self):
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
         self.show(show_ports=True)  # show in klayout
-        return self.plot()
+        fig = self.plot_kweb()
+        return fig._repr_html_() if hasattr(fig, "_repr_html_") else fig
 
     def add_pins_triangle(
         self,
