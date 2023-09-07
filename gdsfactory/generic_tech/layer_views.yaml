@@ -393,11 +393,11 @@ LayerViews:
         width: 1
         color: "grey"
         hatch_pattern: solid
-      XS_M1:
+      XS_OX_NIT_CLAD:
         layer: [304, 0]
         layer_in_name: true
         width: 1
-        color: "green"
+        color: "#f3ff80"
         hatch_pattern: solid
       XS_OXIDE_M1:
         layer: [305, 0]
