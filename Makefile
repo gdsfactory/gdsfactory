@@ -74,7 +74,7 @@ doc:
 docs: notebooks
 	npm install -g mystmd
 	pydoc-markdown -p gdsfactory -m gdsfactory.routing > docs/api.md
-	pydoc-markdown -m gdsfactory.routing > docs/api_routing.md
+	pydoc-markdown -m gdsfactory.routing.* > docs/api_routing.md
 	pydoc-markdown -m gdsfactory.components > docs/api_components.md
 
 git-rm-merged:
