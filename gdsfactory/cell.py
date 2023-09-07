@@ -69,12 +69,10 @@ class Settings(BaseModel):
 
 
 def cell_without_validator(func: _F) -> _F:
-    """Decorator for Component functions.
+    """Similar to cell decorator but does not enforce argument types.
 
-    Similar to cell decorator, this one does not validate_arguments using
-    type annotations
+    I recommend using @cell instead.
 
-    I recommend using @cell instead
     """
 
     @functools.wraps(func)
@@ -323,7 +321,6 @@ def cell(func: _F) -> _F:
         mzi_with_bend_decorated = gf.cell(mzi_with_bend)
 
     """
-
     return cell_without_validator(validate_call(func))
 
 
@@ -432,6 +429,9 @@ def test_names() -> None:
     name_args = demo(3).name
     name_kwargs = demo(length=3).name
     assert name_args == name_kwargs, name_with_prefix
+
+    c = wg(length=3.1)
+    assert c.settings.changed["length"] == 3.1
 
 
 @cell
