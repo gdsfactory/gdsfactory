@@ -1,4 +1,1 @@
 # PDK
-
-```{tableofcontents}
-```

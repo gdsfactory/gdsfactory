@@ -1,0 +1,21 @@
+# See docs at: https://myst-tools.org/docs/mystjs/frontmatter
+version: 1
+project:
+  # title:
+  # description:
+  keywords: []
+  authors: []
+  github: https://github.com/gdsfactory/gdsfactory
+  # bibliography: []
+site:
+  template: book-theme
+  title: gdsfactory
+  logo: logo.png
+  projects:
+    - slug: myst
+      path: .
+  nav: []
+  actions:
+    - title: Learn More
+      url: https://gdsfactory.github.io/gdsfactory/
+  domains: []

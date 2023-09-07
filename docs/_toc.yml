@@ -50,6 +50,6 @@ parts:
     chapters:
       - file: api
       - file: api_routing
-      - file: components
+      - file: api_components
       - file: contribution
       - file: CHANGELOG
