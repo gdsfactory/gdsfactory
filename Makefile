@@ -85,6 +85,7 @@ constructor:
 	constructor conda
 
 notebooks:
+	python -m ipykernel install --name kernel_name --user
 	GDSFACTORY_DISPLAY_TYPE=klayout jupytext docs/notebooks/*.py --to ipynb --execute
 
 .PHONY: gdsdiff build conda gdslib docs doc
