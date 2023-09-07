@@ -16,6 +16,6 @@ site:
       path: .
   nav: []
   actions:
-    - title: Learn More
-      url: https://gdsfactory.github.io/gdsfactory/
+    - title: Plugins
+      url: https://gdsfactory.github.io/gplugins/
   domains: []
