@@ -106,4 +106,4 @@ jobs:
         if: always()
         with:
           name: docs
-          path: docs/_build/html/
+          path: docs/_build/
