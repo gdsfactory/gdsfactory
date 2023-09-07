@@ -2,7 +2,7 @@ name: Release PyPI, installers and docker container
 
 on:
   push:
-    branches: "main"
+    tags: "v*"
 
 jobs:
   release_pypi:
