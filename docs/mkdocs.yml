@@ -1,0 +1,13 @@
+nav:
+  - API Documentation:
+    - api/index.md
+    - pydoc_markdown:
+      - api/routing.md
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.tasklist
+  - pymdownx.tabbed
+  - pymdownx.emoji
+  - pymdownx.snippets:
+      check_paths: true

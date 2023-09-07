@@ -85,7 +85,7 @@ def grating_coupler_elliptical_lumerical(
 
     Here are the simulation settings used in lumerical
 
-        n_bg=1.44401 #Refractive index of the background material (cladding)
+        n_bg=1.44401 # Refractive index of the background material (cladding)
         wg=3.47668   # Refractive index of the waveguide material (core)
         lambda0=1550e-9
         bandwidth = 0e-9
