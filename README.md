@@ -53,7 +53,7 @@ Available foundries include:
 - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
 - [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
 - [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130) (open source)
-- [VTT](https://github.com/gdsfactory/vtt) (open source)
+- [VTT photonics PDK](https://github.com/gdsfactory/vtt) (open source)
 
 You can also access:
 
