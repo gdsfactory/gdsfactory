@@ -160,6 +160,18 @@ notebook_metadata_filter = "-all"
 python_version = "3.10"
 strict = true
 
+[[tool.pydoc-markdown.loaders]]
+search_path = ["../gdsfactory"]
+type = "python"
+
+[tool.pydoc-markdown.renderer]
+type = "mkdocs"
+
+[[tool.pydoc-markdown.renderer.pages]]
+contents = ["gdsfactory.*"]
+name = "index"
+title = "API Documentation"
+
 [tool.pylsp-mypy]
 enabled = true
 live_mode = true

@@ -1,0 +1,14 @@
+
+import os
+
+template "mkdocs"
+
+action "mkdocs-update-config" {
+  site_name = "gdsfactory"
+  update '$.theme.features' add: ['navigation.sections']
+  update '$.theme.palette' add: {'scheme': 'slate', 'primary': 'amber', 'accent': 'deep orange'}
+}
+
+action "preprocess-markdown" {
+  use "pydoc"
+}

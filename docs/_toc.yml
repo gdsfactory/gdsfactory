@@ -42,14 +42,8 @@ parts:
           - file: notebooks/08_pdk_examples
           - file: notebooks/09_pdk_import
       - file: workflow
-  - caption: Plugins
-    chapters:
-      - url: https://gdsfactory.github.io/gplugins/
-        title: Plugins
   - caption: Reference
     chapters:
       - file: api
-      - file: api_routing
-      - file: api_components
       - file: contribution
       - file: CHANGELOG

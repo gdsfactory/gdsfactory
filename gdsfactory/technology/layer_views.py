@@ -386,7 +386,7 @@ class LayerView(BaseModel):
             The values are "Ix" for one of the built-in pattern where "I0" is "solid" and "I1" is "clear".
         fill_color: Display color of the layer fill.
         frame_color: Display color of the layer frame.
-            Accepts Pydantic Color types. See: https://docs.pydantic.dev/usage/types/#color-type for more info.
+            Accepts Pydantic Color types. See: https://docs.pydantic.dev/usage/types for more info.
         fill_brightness: Brightness of the fill.
         frame_brightness: Brightness of the frame.
         animation: This is a value indicating the animation mode.
