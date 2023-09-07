@@ -101,3 +101,9 @@ jobs:
           make docs
           cd docs
           myst build --html
+      - name: Expose docs artifact
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: docs
+          path: docs/_build/html/
