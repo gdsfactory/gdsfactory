@@ -31,7 +31,7 @@ settings:
     - 2.0
   function_name: via
   info:
-    enclosure: 2
+    enclosure: 2.0
     size:
     - 0.7
     - 0.7
