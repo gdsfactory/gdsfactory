@@ -180,6 +180,7 @@ class Settings(BaseSettings):
         model_config: Pydantic model configuration.
         loglevel: Log level.
         pdk: PDK to use. Defaults to generic.
+        difftest_ignore_cell_name_differences: Ignore cell name differences in difftest.
     """
 
     n_threads: int = get_number_of_cores()
@@ -194,6 +195,7 @@ class Settings(BaseSettings):
     )
     loglevel: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
     pdk: str | None = None
+    difftest_ignore_cell_name_differences: bool = True
 
     @classmethod
     def from_config(cls) -> Settings:
