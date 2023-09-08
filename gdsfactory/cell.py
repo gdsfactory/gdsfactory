@@ -193,7 +193,7 @@ def cell_without_validator(func: _F) -> _F:
         if cache and name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
-        # print(f"BUILD {name} {func.__name__}({named_args_string})")
+        # print(f"BUILD {name} {func.__module__}.{func.__name__}({named_args_string})")
 
         if not callable(func):
             raise ValueError(

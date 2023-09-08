@@ -1220,7 +1220,7 @@ die
 
   import gdsfactory as gf
 
-  c = gf.components.die(size=[10000.0, 10000.0], street_width=100.0, street_length=1000.0, die_name='chip99', text_size=100.0, text_location='SW', layer='FLOORPLAN', bbox_layer='FLOORPLAN', draw_corners=True, draw_dicing_lane=True)
+  c = gf.components.die(size=[10000.0, 10000.0], street_width=100.0, street_length=1000.0, die_name='chip99', text_size=100.0, text_location='SW', layer='FLOORPLAN', bbox_layer='FLOORPLAN', draw_corners=False)
   c.plot()
 
 
@@ -3979,7 +3979,7 @@ wafer
 
   import gdsfactory as gf
 
-  c = gf.components.wafer(reticle='die', cols=[2, 6, 6, 8, 8, 6, 6, 2])
+  c = gf.components.wafer(cols=[2, 6, 6, 8, 8, 6, 6, 2], die_name_col_row=False)
   c.plot()
 
 
