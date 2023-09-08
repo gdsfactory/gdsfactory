@@ -27,15 +27,15 @@ def crossing_arm(
     """Returns a crossing arm.
 
     Args:
-        wg_width:
-        r1:
-        r2:
-        taper_width:
-        taper_length:
+        wg_width: waveguide width.
+        r1: radius of the ellipse.
+        r2: radius of the ellipse.
+        taper_width: width of the taper.
+        taper_length: length of the taper.
 
     """
     c = gf.Component()
-    c << gf.components.ellipse(radii=(r1, r2), layer=(2, 0))
+    _ = c << gf.components.ellipse(radii=(r1, r2), layer=(2, 0))
 
     xmax = taper_length + taper_width / 2
     h = wg_width / 2

@@ -15,6 +15,13 @@ import gdsfactory as gf
 def lidar(
     noutputs=2**2, antenna_pitch=2.0, splitter_tree_spacing=(50.0, 70.0)
 ) -> gf.Component:
+    """LiDAR demo.
+
+    Args:
+        noutputs: number of outputs.
+        antenna_pitch: pitch of the antennas.
+        splitter_tree_spacing: spacing of the splitter tree.
+    """
     c = gf.Component("lidar")
 
     # power Splitter
@@ -45,6 +52,7 @@ def lidar(
         ports1=antennas.get_ports_list(orientation=180),
         ports2=phase_shifter_optical_ports,
         radius=5,
+        enforce_port_ordering=False,
     )
 
     for route in routes:

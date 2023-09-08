@@ -11,7 +11,13 @@ from gdsfactory.components.taper import taper_strip_to_ridge
 def cutback_phase(
     straight_length: float = 100.0, bend_radius: float = 12.0, n: int = 2
 ) -> Component:
-    """Modulator sections connected by bends."""
+    """Modulator sections connected by bends.
+
+    Args:
+        straight_length: length of the straight waveguides.
+        bend_radius: radius of the bends.
+        n: number of modulator sections.
+    """
     # Define sub components
     bend180 = gf.components.bend_circular180(radius=bend_radius)
     pm_wg = gf.components.straight_pin(length=straight_length, taper=None)
@@ -35,7 +41,6 @@ def cutback_phase(
     # Generate a sequence
     # This is simply a chain of characters. Each of them represents a component
     # with a given input and and a given output
-
     repeated_sequence = "SIPOSASIPOSB"
     heater_seq = "-H-H-H-H-"
     sequence = repeated_sequence * n + "SIPO" + heater_seq

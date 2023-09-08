@@ -44,6 +44,7 @@ if __name__ == "__main__":
         ports1=antennas.get_ports_list(orientation=180),
         ports2=phase_shifter_optical_ports,
         radius=5,
+        enforce_port_ordering=False,
     )
 
     for route in routes:
