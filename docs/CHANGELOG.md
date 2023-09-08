@@ -1,6 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.4.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.4.4...main)
+
+## [7.4.4](https://github.com/gdsfactory/gdsfactory/compare/v7.4.3...v7.4.4)
+
+- update docs
+- fix cli, remove uvicorn optional dependency from cli
 
 ## [7.4.3](https://github.com/gdsfactory/gdsfactory/compare/v7.4.1...v7.4.3)
 
