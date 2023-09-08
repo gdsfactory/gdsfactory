@@ -219,7 +219,7 @@ class Paths:
     generic_tech = module / "generic_tech"
     klayout = generic_tech / "klayout"
     klayout_tech = klayout / "tech"
-    klayout_lyp = klayout_tech / "generic_tech.lyp"
+    klayout_lyp = klayout_tech / "layers.lyp"
     klayout_yaml = generic_tech / "layer_views.yaml"
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
