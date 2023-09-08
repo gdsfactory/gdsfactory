@@ -4,7 +4,7 @@ import pathlib
 import shutil
 
 import gdsfactory as gf
-from gdsfactory.config import PATH, logger
+from gdsfactory.config import CONF, PATH, logger
 from gdsfactory.name import clean_name
 
 
@@ -79,20 +79,29 @@ def diff(
 
     ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)
     ld.on_cell_in_b_only = lambda anotb: cell_diff_b(anotb)
-    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)
-    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)
     ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_a(anotb, prop_id)
     ld.on_text_in_b_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)
 
-    if not ld.compare(ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.Verbose, 1):
+    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)
+    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)
+
+    if CONF.difftest_ignore_cell_name_differences:
+        ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")
+        equal = ld.compare(
+            ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.SmartCellMapping, 1
+        )
+    else:
+        equal = ld.compare(ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.Verbose, 1)
+
+    if not equal:
         c = KCell(f"{test_name}_difftest")
         refdiff = KCell(f"{test_name}_old")
         rundiff = KCell(f"{test_name}_new")
 
         refdiff.copy_tree(ref._kdb_cell)
         rundiff.copy_tree(run._kdb_cell)
-        c << refdiff
-        c << rundiff
+        _ = c << refdiff
+        _ = c << rundiff
 
         if xor:
             diff = KCell(f"{test_name}_xor")
@@ -126,7 +135,7 @@ def diff(
                     diff.shapes(layer_id).insert(region)
                     print(f"{test_name}: layer {layer} missing from updated cell")
 
-            c << diff
+            _ = c << diff
 
         c.show()
         return True
