@@ -65,9 +65,10 @@ add_trenches90 = partial(
 )
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import get_generic_pdk
+    pass
+    # from gdsfactory.generic_tech import get_generic_pdk
 
-    PDK = get_generic_pdk()
-    PDK.activate()
-    c = add_trenches()
-    c.show(show_ports=True)
+    # PDK = get_generic_pdk()
+    # PDK.activate()
+    # c = add_trenches()
+    # c.show(show_ports=True)

@@ -20,13 +20,13 @@ def ring_double_heater(
     length_x: float = 0.01,
     length_y: float = 0.01,
     coupler_ring: ComponentSpec = coupler_ring,
-    coupler_ring_top: ComponentSpec = None,
+    coupler_ring_top: ComponentSpec | None = None,
     straight: ComponentSpec = straight,
     bend: ComponentSpec = bend_euler,
     cross_section_heater: CrossSectionSpec = "heater_metal",
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section: CrossSectionSpec = "strip",
-    via_stack: gf.typings.ComponentSpec = via_stack_heater_m3_mini,
+    via_stack: ComponentSpec = via_stack_heater_m3_mini,
     port_orientation: float | None = None,
     via_stack_offset: Float2 = (0, 0),
     **kwargs,
@@ -134,16 +134,16 @@ def ring_double_heater(
         cross_section=cross_section_heater,
     )
     heater_top.connect("e1", ct.ports["e1"])
-
     return c
 
 
 if __name__ == "__main__":
-    c1 = ring_double_heater(via_stack="via_stack")
-    c1.pprint_ports()
+    pass
+    # c1 = ring_double_heater(via_stack="via_stack")
+    # c1.pprint_ports()
 
-    c2 = ring_double_heater(via_stack="via_stack_slot")
-    c2.pprint_ports()
+    # c2 = ring_double_heater(via_stack="via_stack_slot")
+    # c2.pprint_ports()
     # c = ring_double_heater(width=1, layer=(2, 0), length_y=3)
     # c = ring_double_heater(
     #     length_x=0,
@@ -158,5 +158,5 @@ if __name__ == "__main__":
     #         open_sizes=((5, 7),),
     #     ),
     # )
-    c2.show(show_ports=True)
+    # c2.show(show_ports=True)
     # c.pprint()

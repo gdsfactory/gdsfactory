@@ -208,7 +208,6 @@ class Settings(BaseSettings):
                 logger.info(f"Loading settings from {path_config}")
                 return Settings(**yaml.safe_load(path_config.read_text()))
             path = path.parent
-        logger.info("No settings file found, using defaults")
         return Settings()
 
 
