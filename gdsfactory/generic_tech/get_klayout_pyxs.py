@@ -196,10 +196,11 @@ output("305/0", nitride)
 
 ################# back-end
 ################# VIAC, M1 and MH
-ox_si = deposit(t_clad + t_ge + t_nitride, t_clad + t_ge + t_nitride, mode="round")
-planarize(less=t_ge + t_nitride, into=[ox_si])
+ox_nitride_clad = deposit(t_clad + t_ge + t_nitride, t_clad + t_ge + t_nitride, mode="round")
+
+planarize(less=t_ge + t_nitride, into=[ox_nitride_clad])
 mask(l_viac).etch(
-    t_clad + t_ge + t_nitride + gap_oxide_nitride, taper=4, into=[ox_si, ox_nitride]
+    t_clad + t_ge + t_nitride + gap_oxide_nitride, taper=4, into=[ox_nitride_clad, ox_nitride]
 )
 
 viac = deposit(2 * t_clad, 2 * t_clad)
@@ -212,7 +213,7 @@ mask(l_m1.inverted()).etch(t_m1 + t_m1, into=[m1])
 output("306/0", mh)
 output("399/0", m1)
 
-output("302/0", ox_si)
+output("304/0", ox_nitride_clad)
 output("303/0", viac)
 
 ################# VIA1 and M2
@@ -289,6 +290,12 @@ if __name__ == "__main__":
         layer_open=LAYER.PADOPEN,
     )
 
-    script_path = pathlib.Path(__file__).parent.absolute() / "xsection_planarized.pyxs"
+    script_path = (
+        pathlib.Path(__file__).parent.absolute()
+        / "klayout"
+        / "tech"
+        / "xsection_planarized.pyxs"
+    )
+    print(script_path)
     script_path.write_text(script)
     print(script)
