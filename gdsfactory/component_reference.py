@@ -552,9 +552,10 @@ class ComponentReference(_GeometryHelper):
         if x_reflection:
             new_point[1] = -new_point[1]
             new_orientation = None if orientation is None else -orientation
-        if rotation is not None and orientation is not None:
+        if rotation is not None:
             new_point = _rotate_points(new_point, angle=rotation, center=[0, 0])
-            new_orientation += rotation
+            if  orientation is not None:
+                new_orientation += rotation
         if origin is not None:
             new_point = new_point + np.array(origin)
 
@@ -920,7 +921,19 @@ def test_pads_no_orientation() -> None:
     pt = c << gf.components.pad()
     pb = c << gf.components.pad()
     pb.connect("pad", pt["pad"])
-
+    
+def test_rotation_of_ports_with_no_orientation():
+    import gdsfactory as gf
+    c = gf.Component("pads_with_routes_with_wire_corners_no_orientation") # from docs
+    pt = c << gf.components.pad_array(orientation=None, columns=3)
+    pb = c << gf.components.pad_array(orientation=None, columns=3)
+    pt.move((70, 200))
+    pt.rotate(90)
+    route = gf.routing.get_route_electrical(
+        pt.ports["e11"], pb.ports["e11"], bend="wire_corner"
+    )
+    c.add(route.references)
+    c.plot()
 
 if __name__ == "__main__":
     # test_get_polygons_ref()
