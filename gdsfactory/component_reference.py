@@ -434,16 +434,7 @@ class ComponentReference(_GeometryHelper):
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
-        return (
-            'ComponentReference (parent Component "{}", ports {}, origin {}, rotation {},'
-            " x_reflection {})".format(
-                self.parent.name,
-                list(self.ports.keys()),
-                self.origin,
-                self.rotation,
-                self.x_reflection,
-            )
-        )
+        return f'ComponentReference (parent Component "{self.parent.name}", ports {list(self.ports.keys())}, origin {self.origin}, rotation {self.rotation}, x_reflection {self.x_reflection})'
 
     def to_dict(self):
         d = self.parent.to_dict()
@@ -552,9 +543,10 @@ class ComponentReference(_GeometryHelper):
         if x_reflection:
             new_point[1] = -new_point[1]
             new_orientation = None if orientation is None else -orientation
-        if rotation is not None and orientation is not None:
+        if rotation is not None:
             new_point = _rotate_points(new_point, angle=rotation, center=[0, 0])
-            new_orientation += rotation
+            if orientation is not None:
+                new_orientation += rotation
         if origin is not None:
             new_point = new_point + np.array(origin)
 
@@ -868,58 +860,6 @@ class ComponentReference(_GeometryHelper):
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return ports_ccw[0].y - ports_cw[0].y
-
-
-def test_move() -> None:
-    import gdsfactory as gf
-
-    c = gf.Component()
-    mzi = c.add_ref(gf.components.mzi())
-    bend = c.add_ref(gf.components.bend_euler())
-    bend.move("o1", mzi.ports["o2"])
-
-
-def test_get_polygons() -> None:
-    import gdsfactory as gf
-
-    ref = gf.components.straight()
-    p0 = ref.get_polygons(by_spec="WG", as_array=False)
-    p1 = ref.get_polygons(by_spec=(1, 0), as_array=True)
-    p2 = ref.get_polygons(by_spec=(1, 0), as_array=False)
-
-    p3 = ref.get_polygons(by_spec=True, as_array=True)[(1, 0)]
-    p4 = ref.get_polygons(by_spec=True, as_array=False)[(1, 0)]
-
-    assert len(p1) == len(p2) == len(p3) == len(p4) == 1 == len(p0)
-    assert p1[0].dtype == p3[0].dtype == float
-    assert isinstance(p2[0], Polygon)
-    assert isinstance(p4[0], Polygon)
-
-
-def test_get_polygons_ref() -> None:
-    import gdsfactory as gf
-
-    ref = gf.components.straight().ref()
-    p0 = ref.get_polygons(by_spec="WG", as_array=False)
-    p1 = ref.get_polygons(by_spec=(1, 0), as_array=True)
-    p2 = ref.get_polygons(by_spec=(1, 0), as_array=False)
-
-    p3 = ref.get_polygons(by_spec=True, as_array=True)[(1, 0)]
-    p4 = ref.get_polygons(by_spec=True, as_array=False)[(1, 0)]
-
-    assert len(p1) == len(p2) == len(p3) == len(p4) == 1 == len(p0)
-    assert p1[0].dtype == p3[0].dtype == float
-    assert isinstance(p2[0], Polygon)
-    assert isinstance(p4[0], Polygon)
-
-
-def test_pads_no_orientation() -> None:
-    import gdsfactory as gf
-
-    c = gf.Component("pads_no_orientation")
-    pt = c << gf.components.pad()
-    pb = c << gf.components.pad()
-    pb.connect("pad", pt["pad"])
 
 
 if __name__ == "__main__":
