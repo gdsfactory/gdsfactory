@@ -72,7 +72,7 @@ if __name__ == "__main__":
 
     # nm = 1e-3
     # xs = gf.cross_section.strip()
-    c = straight(cross_section="nitride")
+    c = straight()
     # print(c.settings)
     # print(c.settings.info["settings"]["add_pins"])
 

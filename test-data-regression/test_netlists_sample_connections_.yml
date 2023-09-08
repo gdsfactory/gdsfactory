@@ -61,12 +61,12 @@ instances:
     info:
       cross_section: strip
       function_name: cross_section
-      length: 1
+      length: 1.0
       route_info:
-        length: 1
-        strip_length: 1
+        length: 1.0
+        strip_length: 1.0
         type: strip
-        weight: 1
+        weight: 1.0
       settings:
         add_bbox: null
         add_pins:

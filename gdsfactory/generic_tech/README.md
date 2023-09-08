@@ -14,7 +14,7 @@ To be able to use KLayout Technology, you need to do the following steps:
 - Open klayout using the following command
 
 ```bash
-    klayout -e -j $KLAYOUT_HOME -l $KLAYOUT_HOME/tech/layers.lyp -nn $KLAYOUT_HOME/tech/generic_tech.lyt
+    klayout -e -j $KLAYOUT_HOME -l $KLAYOUT_HOME/tech/generic_tech.lyp -nn $KLAYOUT_HOME/tech/generic_tech.lyt
 ```
 
 Or you could use `generic_tech.sh` script in this directory:
