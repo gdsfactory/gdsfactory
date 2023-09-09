@@ -5,7 +5,7 @@ from pydantic import BaseModel, model_validator
 
 from gdsfactory.technology.layer_views import LayerViews
 
-# required_layers = ["TEXT", "ERROR_MARKER", "ERROR_PATH"]
+# required_layers = ["TEXT"]
 required_layers = []
 
 

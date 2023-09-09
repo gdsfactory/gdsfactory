@@ -2,7 +2,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: -all
+#     cell_metadata_filter: tags,-all
 #     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
@@ -45,9 +45,7 @@
 # | 64, 0                | FLOORPLAN  | Mask floorplan                                              |
 #
 
-# %%
 # %% tags=["hide-input"]
-
 from pydantic import BaseModel
 
 import gdsfactory as gf
@@ -117,8 +115,6 @@ class GenericLayerMap(LayerMap):
     SHOW_PORTS: Layer = (1, 12)
     LABEL: Layer = (201, 0)
     LABEL_SETTINGS: Layer = (202, 0)
-    TE: Layer = (203, 0)
-    TM: Layer = (204, 0)
     DRC_MARKER: Layer = (205, 0)
     LABEL_INSTANCE: Layer = (206, 0)
 

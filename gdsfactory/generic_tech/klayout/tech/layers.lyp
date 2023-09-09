@@ -1361,23 +1361,6 @@
   <source>205/0@1</source>
  </properties>
  <properties>
-  <frame-color>#ff0000</frame-color>
-  <fill-color>#ff0000</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern/>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>true</transparent>
-  <width>3</width>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>ERROR_MARKER 207/0</name>
-  <source>207/0@1</source>
- </properties>
- <properties>
   <frame-color>#808080</frame-color>
   <fill-color>#808080</fill-color>
   <frame-brightness>0</frame-brightness>
@@ -1429,11 +1412,11 @@
   <source>73/0@1</source>
  </properties>
  <properties>
-  <frame-color>#ff80a8</frame-color>
-  <fill-color>#ff80a8</fill-color>
+  <frame-color/>
+  <fill-color/>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
-  <dither-pattern>I5</dither-pattern>
+  <dither-pattern/>
   <line-style/>
   <valid>true</valid>
   <visible>true</visible>
@@ -1442,24 +1425,58 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>SHOW_PORTS 1/12</name>
-  <source>1/12@1</source>
- </properties>
- <properties>
-  <frame-color>#ff80a8</frame-color>
-  <fill-color>#ff80a8</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I5</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>false</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>WAFER</name>
-  <source>99999/0@1</source>
+  <name>gdsfactory</name>
+  <source>*/*@*</source>
+  <group-members>
+   <frame-color>#ff0000</frame-color>
+   <fill-color>#ff0000</fill-color>
+   <frame-brightness>0</frame-brightness>
+   <fill-brightness>0</fill-brightness>
+   <dither-pattern/>
+   <line-style/>
+   <valid>true</valid>
+   <visible>true</visible>
+   <transparent>true</transparent>
+   <width>3</width>
+   <marked>false</marked>
+   <xfill>false</xfill>
+   <animation>0</animation>
+   <name>ERROR_MARKER 1000/0</name>
+   <source>1000/0@1</source>
+  </group-members>
+  <group-members>
+   <frame-color>#ff80a8</frame-color>
+   <fill-color>#ff80a8</fill-color>
+   <frame-brightness>0</frame-brightness>
+   <fill-brightness>0</fill-brightness>
+   <dither-pattern>I5</dither-pattern>
+   <line-style/>
+   <valid>true</valid>
+   <visible>true</visible>
+   <transparent>false</transparent>
+   <width/>
+   <marked>false</marked>
+   <xfill>false</xfill>
+   <animation>0</animation>
+   <name>SHOW_PORTS 1/12</name>
+   <source>1/12@1</source>
+  </group-members>
+  <group-members>
+   <frame-color>#ff80a8</frame-color>
+   <fill-color>#ff80a8</fill-color>
+   <frame-brightness>0</frame-brightness>
+   <fill-brightness>0</fill-brightness>
+   <dither-pattern>I5</dither-pattern>
+   <line-style/>
+   <valid>true</valid>
+   <visible>false</visible>
+   <transparent>false</transparent>
+   <width/>
+   <marked>false</marked>
+   <xfill>false</xfill>
+   <animation>0</animation>
+   <name>WAFER</name>
+   <source>99999/0@1</source>
+  </group-members>
  </properties>
 </layer-properties>

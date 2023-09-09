@@ -172,7 +172,7 @@ class LayerMapFabB(LayerMap):
     DOPING_BLOCK2: Layer = (62, 0)
 
 
-LAYER = LayerMap()
+LAYER = LayerMapFabB()
 
 
 # The LayerViews class supports grouping LayerViews within each other.
@@ -303,7 +303,7 @@ class LayerMapFabC(LayerMap):
     LABEL: Layer = (201, 0)
 
 
-LAYER = LayerMap()
+LAYER = LayerMapFabC()
 WIDTH_NITRIDE_OBAND = 0.9
 WIDTH_NITRIDE_CBAND = 1.0
 PORT_TYPE_TO_LAYER = dict(optical=(100, 0))
@@ -506,3 +506,5 @@ c.show()
 
 # %%
 ls = get_layer_stack_fab_c()
+
+# %%
