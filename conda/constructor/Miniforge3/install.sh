@@ -3,7 +3,7 @@
 source "$PREFIX/etc/profile.d/conda.sh"
 conda activate "$PREFIX"
 
-python -m pip install gdsfactory==7.4.4 gplugins
+python -m pip install gdsfactory==7.4.5 gplugins
 
 # conda install -c conda-forge slepc4py=*=complex* -y
 
