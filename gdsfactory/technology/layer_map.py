@@ -18,14 +18,14 @@ class LayerMap(BaseModel):
     @classmethod
     def check_required_layers(cls, data: Any) -> Any:
         for layer in required_layers:
-            if layer not in data.__fields__.keys():
+            if layer not in data.model_fields.keys():
                 raise ValueError(f"{layer} layer must be defined")
         return data
 
     @model_validator(mode="after")
     @classmethod
     def check_all_layers_are_tuples_of_int(cls, data: Any) -> Any:
-        for key, layer in data.__fields__.items():
+        for key, layer in data.model_fields.items():
             layer = layer.default
             if (
                 not isinstance(layer, tuple)
@@ -65,6 +65,7 @@ LAYER = LayerMapFab()
 
 
 if __name__ == "__main__":
-    from gdsfactory.config import PATH
+    layers = LayerMap()
+    # from gdsfactory.config import PATH
 
-    print(lyp_to_dataclass(PATH.klayout_lyp))
+    # print(lyp_to_dataclass(PATH.klayout_lyp))

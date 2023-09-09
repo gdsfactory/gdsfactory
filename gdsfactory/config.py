@@ -54,17 +54,18 @@ plugins = [
     "sax",
 ]
 pdks = [
-    "gf45",
-    "tj",
-    "imec",
-    "amf",
-    "sky130",
-    "ubcpdk",
     "aim",
+    "amf",
     "ct",
-    "hhi",
-    "sph",
     "gf180",
+    "gf45",
+    "hhi",
+    "imec",
+    "sky130",
+    "sph",
+    "tj",
+    "ubcpdk",
+    "gvtt",
 ]
 
 
