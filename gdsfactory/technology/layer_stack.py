@@ -393,8 +393,7 @@ class LayerStack(BaseModel):
         return out
 
     def filtered(self, layers):
-        layers = self.layers or {}
-        return type(self)(layers={k: layers[k] for k in layers})
+        return type(self)(layers={k: self.layers[k] for k in layers})
 
     def filtered_from_layerspec(self, layerspecs):
         """Filtered layerstack, given LayerSpec input."""
