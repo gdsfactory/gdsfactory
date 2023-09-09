@@ -1,6 +1,10 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.4.4...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.4.6...main)
+
+## [7.4.6](https://github.com/gdsfactory/gdsfactory/compare/v7.4.5...v7.4.6)
+
+- add layermap model [PR](https://github.com/gdsfactory/gdsfactory/pull/2074)
 
 ## [7.4.4](https://github.com/gdsfactory/gdsfactory/compare/v7.4.3...v7.4.4)
 
