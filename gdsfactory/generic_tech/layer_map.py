@@ -67,3 +67,7 @@ class GenericLayerMap(LayerMap):
 
 
 LAYER = GenericLayerMap()
+
+
+if __name__ == "__main__":
+    LAYER.my_layer = (1, 2)
