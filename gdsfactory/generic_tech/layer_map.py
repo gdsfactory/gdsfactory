@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from gdsfactory.technology.layer_map import LayerMap
 
 Layer = tuple[int, int]
 
 
-class GenericLayerMap(BaseModel):
+class GenericLayerMap(LayerMap):
     """Generic layermap based on book.
 
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
