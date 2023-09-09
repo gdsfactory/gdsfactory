@@ -196,6 +196,7 @@ class Settings(BaseSettings):
     loglevel: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
     pdk: str | None = None
     difftest_ignore_cell_name_differences: bool = True
+    layer_error_path: tuple[int, int] = (1000, 0)
 
     @classmethod
     def from_config(cls) -> Settings:

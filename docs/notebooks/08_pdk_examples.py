@@ -39,6 +39,7 @@ from gdsfactory.technology import (
     LayerStack,
     LayerView,
     LayerViews,
+    LayerMap,
 )
 from gdsfactory.typings import Layer
 from gdsfactory.config import print_version_pdks, print_version_plugins
@@ -63,18 +64,16 @@ p.name
 
 
 # %%
-class LayerMap(BaseModel):
+class LayerMapFabA(LayerMap):
     WG: Layer = (34, 0)
     SLAB150: Layer = (2, 0)
     DEVREC: Layer = (68, 0)
     PORT: Layer = (1, 10)
     PORTE: Layer = (1, 11)
-    TE: Layer = (203, 0)
-    TM: Layer = (204, 0)
     TEXT: Layer = (66, 0)
 
 
-LAYER = LayerMap()
+LAYER = LayerMapFabA()
 
 
 class FabALayerViews(LayerViews):
@@ -161,21 +160,19 @@ scene.show()
 nm = 1e-3
 
 
-class LayerMap(BaseModel):
+class LayerMapFabB(LayerMap):
     WG: Layer = (2, 0)
     SLAB150: Layer = (3, 0)
     DEVREC: Layer = (68, 0)
     PORT: Layer = (1, 10)
     PORTE: Layer = (1, 11)
-    TE: Layer = (203, 0)
-    TM: Layer = (204, 0)
     TEXT: Layer = (66, 0)
     LABEL: Layer = (201, 0)
     DOPING_BLOCK1: Layer = (61, 0)
     DOPING_BLOCK2: Layer = (62, 0)
 
 
-LAYER = LayerMap()
+LAYER = LayerMapFabB()
 
 
 # The LayerViews class supports grouping LayerViews within each other.
@@ -267,7 +264,6 @@ pdk = gf.Pdk(
     cells=cells,
     cross_sections=cross_sections,
     layers=dict(LAYER),
-    sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
     layer_stack=LAYER_STACK,
 )
@@ -294,7 +290,7 @@ scene.show()
 nm = 1e-3
 
 
-class LayerMap(BaseModel):
+class LayerMapFabC(LayerMap):
     WG: Layer = (10, 1)
     WG_CLAD: Layer = (10, 2)
     WGN: Layer = (34, 0)
@@ -303,13 +299,11 @@ class LayerMap(BaseModel):
     DEVREC: Layer = (68, 0)
     PORT: Layer = (1, 10)
     PORTE: Layer = (1, 11)
-    TE: Layer = (203, 0)
-    TM: Layer = (204, 0)
     TEXT: Layer = (66, 0)
     LABEL: Layer = (201, 0)
 
 
-LAYER = LayerMap()
+LAYER = LayerMapFabC()
 WIDTH_NITRIDE_OBAND = 0.9
 WIDTH_NITRIDE_CBAND = 1.0
 PORT_TYPE_TO_LAYER = dict(optical=(100, 0))
@@ -485,7 +479,6 @@ pdk = gf.Pdk(
     cells=cells,
     cross_sections=cross_sections,
     layers=dict(LAYER),
-    sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
     layer_stack=LAYER_STACK,
 )
@@ -513,3 +506,5 @@ c.show()
 
 # %%
 ls = get_layer_stack_fab_c()
+
+# %%

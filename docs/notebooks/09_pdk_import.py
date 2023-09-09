@@ -130,14 +130,14 @@ gdspath = c.write_gds("extra/wg.gds")
 # %%
 gf.clear_cache()
 c2 = gf.import_gds(gdspath)
-c2
+c2.plot()
 
 # %%
 c2.ports  # import_gds does not automatically add the pins
 
 # %%
 c3 = gf.import_gds(gdspath, decorator=gf.add_ports.add_ports_from_markers_inside)
-c3
+c3.plot()
 
 # %%
 c3.ports

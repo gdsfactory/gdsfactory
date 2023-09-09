@@ -2,7 +2,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: -all
+#     cell_metadata_filter: tags,-all
 #     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
@@ -45,15 +45,13 @@
 # | 64, 0                | FLOORPLAN  | Mask floorplan                                              |
 #
 
-# %%
 # %% tags=["hide-input"]
-
 from pydantic import BaseModel
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER, LAYER_STACK
 from gdsfactory.generic_tech.get_klayout_pyxs import get_klayout_pyxs
-from gdsfactory.technology import LayerLevel, LayerStack, LayerViews
+from gdsfactory.technology import LayerLevel, LayerStack, LayerViews, LayerMap
 from gdsfactory.generic_tech import get_generic_pdk
 from IPython.display import Code
 
@@ -67,7 +65,7 @@ PDK = get_generic_pdk()
 PDK.activate()
 
 
-class GenericLayerMap(BaseModel):
+class GenericLayerMap(LayerMap):
     """Generic layermap based on book.
 
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
@@ -117,17 +115,11 @@ class GenericLayerMap(BaseModel):
     SHOW_PORTS: Layer = (1, 12)
     LABEL: Layer = (201, 0)
     LABEL_SETTINGS: Layer = (202, 0)
-    TE: Layer = (203, 0)
-    TM: Layer = (204, 0)
     DRC_MARKER: Layer = (205, 0)
     LABEL_INSTANCE: Layer = (206, 0)
-    ERROR_MARKER: Layer = (207, 0)
-    ERROR_PATH: Layer = (208, 0)
 
     SOURCE: Layer = (110, 0)
     MONITOR: Layer = (101, 0)
-
-    model_config = dict(frozen=True, extra="forbid")
 
 
 LAYER = GenericLayerMap()
