@@ -40,7 +40,6 @@ import pathlib
 from functools import partial
 
 import pytest
-from pydantic import BaseModel
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
@@ -52,6 +51,7 @@ from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.technology import (
     LayerViews,
     lyp_to_dataclass,
+    LayerMap,
 )
 from gdsfactory.typings import Layer, LayerSpec
 
@@ -65,7 +65,7 @@ print(lyp_to_dataclass(PATH.klayout_lyp))
 
 
 # +
-class LayerMap(BaseModel):
+class LayerMapDemo(LayerMap):
     WG: Layer = (1, 0)
     DEVREC: Layer = (68, 0)
     PORT: Layer = (1, 10)
@@ -107,15 +107,11 @@ class LayerMap(BaseModel):
     WGN: Layer = (34, 0)
     WGclad_material: Layer = (36, 0)
 
-    class Config:
-        frozen = True
-        extra = "forbid"
 
-
-LAYER = LayerMap()
+LAYER = LayerMapDemo()
 # -
 
-# There are some default layers in some generic components and cross_sections, that it may be convenient adding.
+# some generic components use some
 #
 # | Layer          | Purpose                                                      |
 # | -------------- | ------------------------------------------------------------ |
@@ -125,12 +121,13 @@ LAYER = LayerMap()
 # | SHOW_PORTS     | add port pin markers when `Component.show(show_ports=True)`  |
 # | LABEL          | for adding labels to grating couplers for automatic testing. |
 # | LABEL_INSTANCE | for adding instance labels on `gf.read.from_yaml`            |
-# | TE             | for TE polarization fiber marker.                            |
-# | TM             | for TM polarization fiber marker.                            |
+# | ERROR_PATH | for marking routing error paths            |
+# | ERROR_MARKER | for marking routing error  waypoints           |
+# | MTOP | for top metal routing            |
 #
 #
 # ```python
-# class LayersConvenient(BaseModel):
+# class LayersConvenient(LayerMap):
 #     DEVREC: Layer = (68, 0)
 #     PORT: Layer = (1, 10)  # PinRec optical
 #     PORTE: Layer = (1, 11)  # PinRec electrical

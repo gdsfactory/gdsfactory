@@ -53,7 +53,7 @@ from pydantic import BaseModel
 import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER, LAYER_STACK
 from gdsfactory.generic_tech.get_klayout_pyxs import get_klayout_pyxs
-from gdsfactory.technology import LayerLevel, LayerStack, LayerViews
+from gdsfactory.technology import LayerLevel, LayerStack, LayerViews, LayerMap
 from gdsfactory.generic_tech import get_generic_pdk
 from IPython.display import Code
 
@@ -67,7 +67,7 @@ PDK = get_generic_pdk()
 PDK.activate()
 
 
-class GenericLayerMap(BaseModel):
+class GenericLayerMap(LayerMap):
     """Generic layermap based on book.
 
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
@@ -126,8 +126,6 @@ class GenericLayerMap(BaseModel):
 
     SOURCE: Layer = (110, 0)
     MONITOR: Layer = (101, 0)
-
-    model_config = dict(frozen=True, extra="forbid")
 
 
 LAYER = GenericLayerMap()
