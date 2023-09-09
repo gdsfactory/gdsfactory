@@ -121,8 +121,6 @@ LAYER = LayerMapDemo()
 # | SHOW_PORTS     | add port pin markers when `Component.show(show_ports=True)`  |
 # | LABEL          | for adding labels to grating couplers for automatic testing. |
 # | LABEL_INSTANCE | for adding instance labels on `gf.read.from_yaml`            |
-# | ERROR_PATH | for marking routing error paths            |
-# | ERROR_MARKER | for marking routing error  waypoints           |
 # | MTOP | for top metal routing            |
 #
 #

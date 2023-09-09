@@ -6,7 +6,7 @@ import shapely.geometry as sg
 
 from gdsfactory.component import Component, ComponentReference, Port
 from gdsfactory.components.straight import straight
-from gdsfactory.generic_tech.layer_map import LAYER
+from gdsfactory.config import CONF
 from gdsfactory.get_netlist import difference_between_angles
 from gdsfactory.path import Path, extrude
 from gdsfactory.routing.auto_taper import (
@@ -196,7 +196,7 @@ def _make_error_trace(port1: Port, port2: Port, message: str):
 
     warnings.warn(message, RouteWarning)
     path = Path([port1.center, port2.center])
-    error_component = extrude(path, layer=LAYER.ERROR_PATH, width=1)
+    error_component = extrude(path, layer=CONF.layer_error_path, width=1)
     error_ref = ComponentReference(error_component)
     return [error_ref]
 

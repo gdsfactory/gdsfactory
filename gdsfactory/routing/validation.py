@@ -3,6 +3,7 @@ from warnings import warn
 import numpy as np
 
 from gdsfactory.component_reference import ComponentReference
+from gdsfactory.config import CONF
 from gdsfactory.port import Port
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import Route
@@ -56,7 +57,7 @@ def make_error_traces(
     error_routes = []
     for port1, port2 in zip(ports1, ports2):
         path = gf.path.Path([port1.center, port2.center])
-        error_component = gf.path.extrude(path, layer="ERROR_PATH", width=1)
+        error_component = gf.path.extrude(path, layer=CONF.layer_error_path, width=1)
         error_ref = ComponentReference(error_component)
         error_route = Route(
             references=[error_ref], ports=list(error_ref.ports.values()), length=np.nan
