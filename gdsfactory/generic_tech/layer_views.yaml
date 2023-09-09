@@ -485,7 +485,7 @@ LayerViews:
     color: "#606060"
   gdsfactory:
     group_members:
-      ERROR_MARKER:
+      ERROR_PATH:
         layer: [1000, 0]
         layer_in_name: true
         transparent: true

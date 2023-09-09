@@ -1441,7 +1441,7 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>ERROR_MARKER 1000/0</name>
+   <name>ERROR_PATH 1000/0</name>
    <source>1000/0@1</source>
   </group-members>
   <group-members>
