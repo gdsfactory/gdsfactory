@@ -123,6 +123,37 @@ c.plot()
 
 
 # %% [markdown]
+# You can also run it as a decorator.
+
+# %%
+from functools import partial
+from gdsfactory.geometry.maskprep import get_polygons_over_under, over_under
+
+over_under_slab = partial(over_under, layers=((2, 0),), distances=(0.5,))
+
+c = gf.components.coupler_ring(
+    cladding_layers=((2, 0)),
+    cladding_offsets=(0.2,),
+    decorator=over_under_slab,
+)
+c.plot()
+
+
+# %% [markdown]
+# You can also add extra polygons on top
+
+# %%
+get_polygons_over_under_slab = partial(
+    get_polygons_over_under, layers=((2, 0)), distances=(0.5,)
+)
+
+c = gf.Component("compnent_clean")
+ref = c << gf.components.coupler_ring(cladding_layers=((2, 0)), cladding_offsets=(0.2,))
+polygons = get_polygons_over_under_slab(ref)
+c.add(polygons)
+c.plot()
+
+# %% [markdown]
 # ### Outline
 #
 # The ``outline()`` function takes the polygons of the input geometry then performs an offset and "not" boolean operation to create an outline.  The function returns polygons on a single layer -- it does not respect layers.
@@ -181,7 +212,9 @@ c.plot()
 # %% [markdown]
 # ### Invert
 #
-# The ``gf.boolean.invert()`` function creates an inverted version of the input geometry.  The function creates a rectangle around the geometry (with extra padding of distance ``border``), then subtract all polygons from all layers from that rectangle, resulting in an inverted version of the geometry.
+# Sometimes you need to define not what you keep (positive resist) but what you etch (negative resist). We have some useful functions to invert the tone.
+# The ``gf.boolean.invert()`` function creates an inverted version of the input geometry.
+# The function creates a rectangle around the geometry (with extra padding of distance ``border``), then subtract all polygons from all layers from that rectangle, resulting in an inverted version of the geometry.
 
 # %%
 import gdsfactory as gf
@@ -189,6 +222,14 @@ import gdsfactory as gf
 E = gf.components.ellipse(radii=(10, 5))
 D = gf.geometry.invert(E, border=0.5, precision=1e-6, layer=(2, 0))
 D.plot()
+
+# %%
+c = gf.components.add_trenches(component=gf.components.coupler)
+c.plot()
+
+# %%
+c = gf.components.add_trenches(component=gf.components.ring_single)
+c.plot()
 
 # %% [markdown]
 # ### Union

@@ -31,7 +31,6 @@ parts:
           - file: notebooks/04_routing_electrical
           - file: notebooks/04_routing_non_manhattan
           - file: notebooks/rib_strip_autotransition
-          - file: notebooks/dataprep
           - file: notebooks/10_yaml_component
           - file: notebooks/common_mistakes
       - file: pdk

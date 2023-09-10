@@ -80,24 +80,13 @@ until you fix all the issues that the pre-commit check complaints about.
 
 ## Tests
 
-gdsfactory tests are written with [pytest](https://docs.pytest.org/en/latest/contents.html). You can run them, from the root of the repository, like this
+gdsfactory tests are written with [pytest](https://docs.pytest.org/en/latest/contents.html). You can run them, from the root of the repository with pytest:
 
 ```shell
 pytest -s
 ```
 
-You can run tests with `pytest`. This will run 3 types of tests:
-
-- pytest will test any function that starts with `test_`. You can assert the number of polygons, the name, the length of a route or whatever you want.
-- regressions tests: avoids unwanted regressions by storing Components port locations in CSV and metadata in YAML files. You can force to regenerate the reference files running `pytest --force-regen -s` from the repo root directory.
-  - `tests/test_containers.py` stores container settings in YAML and port locations in a CSV file
-  - `tests/components/test_components.py` stores all the component settings in YAML
-  - `tests/components/test_ports.py` stores all port locations in a CSV file
-  - `tests/test_netlists.py` stores all the component netlist in YAML and rebuilds the component from the netlist.
-    - converts the routed PIC into YAML and build back into the same PIC from its YAML definition
-  - lytest: writes all components GDS in `run_layouts` and compares them with `ref_layouts`
-    - when running the test it will do a boolean of the `run_layout` and the `ref_layout` and raise an error for any significant differences.
-    - you can check out any changes in your library with `gf gds diff ref_layouts/bbox.gds run_layouts/bbox.gds`
+pytest will test any function that starts with `test_`. You can assert the number of polygons, the name, the length of a route or whatever you want.
 
 In addition to unit tests run against the library, gdsfactory has a suite of regression tests which ensure that Components are never unintentionally modified between revisions. These regression tests include
 | Test Type | Path | Format | Purpose |
@@ -107,6 +96,12 @@ In addition to unit tests run against the library, gdsfactory has a suite of reg
 | Netlist | `tests/test_netlists.py` | YAML | Tests that extracted netlist yaml contents have not changed. |
 | Ports | `tests/components/test_ports.py` | CSV | Tests that port locations have not changed |
 | Containers | `tests/test_containers.py` | YAML | Tests that container settings have not changed |
+
+- regressions tests: avoids unwanted regressions by storing Components port locations in CSV and metadata in YAML files. You can force to regenerate the reference files running `pytest --force-regen -s` from the repo root directory.
+  - `tests/components/test_components.py` stores all the component settings in YAML
+  - `tests/components/test_ports.py` stores all port locations in a CSV file
+  - `tests/test_netlists.py` stores all the component netlist in YAML and rebuilds the component from the netlist. Converts the routed PIC into YAML and build back into the same PIC from its YAML definition
+  - difftest: writes all components GDS in `run_layouts` and compares them with `ref_layouts`. When running the test it will do a boolean of the `run_layout` and the `ref_layout` and raise an error for any significant differences. It will prompt you to review the differences in klayout and approve or reject the new GDS.
 
 To regenerate regression reference files, you can run
 
@@ -179,16 +174,15 @@ def test_assert_ports_on_grid(component_name: str) -> None:
     component = cells[component_name]()
     component.assert_ports_on_grid()
 
-
 ```
 
 For questions join the [![Join the chat at https://gitter.im/gdsfactory-dev/community](https://badges.gitter.im/gdsfactory-dev/community.svg)](https://gitter.im/gdsfactory-dev/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) with [element.io](https://element.io/download) or use GitHub issues or discussions.
 
 ## Running notebooks
 
-You can find the tutorial jupyter notebooks in `gdsfactory/samples/notebooks` and open them with [jupytext](https://jupytext.readthedocs.io/en/latest/).
+You can find the tutorial jupyter notebooks in `docs/notebooks` and open them with [jupytext](https://jupytext.readthedocs.io/en/latest/).
 Jupytext is a python package to open and edit jupyter notebooks as python or markdown files, so they are easier to read and version control with GIT.
 
-You can use [VSCode Jupytext extension](https://marketplace.visualstudio.com/items?itemName=congyiwu.vscode-jupytext) to open the notebooks from the markdown files.
+You can use [VSCode gdsfactory extension](https://marketplace.visualstudio.com/items?itemName=gdsfactory.gdsfactory) to open the notebooks from the markdown files.
 
 <img src=https://raw.githubusercontent.com/notebookPowerTools/vscode-jupytext/main/images/main.gif>
