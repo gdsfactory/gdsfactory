@@ -77,9 +77,6 @@ component = bend(radius=10)
 
 print(component)
 component.plot()
-# -
-
-component
 
 
 # ## Decorators
@@ -175,22 +172,20 @@ print(y)
 #
 # ### partial
 #
-# Partial is an easy way to modify the default arguments of a function. This is useful in gdsfactory because we define PCells using functions.
+# Partial is an easy way to modify the default arguments of a function. This is useful in gdsfactory because we define PCells using functions. `from functools import partial`
 #
-# `gdsfactory.partial` comes from the module `functools.partial`, which is available in the standard python library.
+# You can use partial to create a new function with some default arguments.
 #
-# The following two functions are equivalent in functionality.
-#
-# Notice how the second one is shorter, more readable and easier to maintain thanks to `partial`
+# The following two functions are equivalent in functionality. Notice how the second one is shorter, more readable and easier to maintain thanks to `partial`:
 #
 
 
 # +
-def ring_sc(gap=0.3, **kwargs):
+def ring_sc(gap=0.3, **kwargs) -> gf.Component:
     return gf.components.ring_single(gap=gap, **kwargs)
 
 
-ring_sc = partial(gf.components.ring_single, gap=0.3)
+ring_sc = partial(gf.components.ring_single, gap=0.3)  # shorter and easier to read
 # -
 
 # As you customize more parameters, it's more obvious that the second one is easier to maintain
@@ -207,7 +202,7 @@ ring_sc = partial(gf.components.ring_single, gap=0.3, radius=10)
 
 # ### compose
 #
-# `gf.compose` combines two functions into one.
+# `gf.compose` combines two functions into one. This is useful in gdsfactory because we define PCells using functions and functions are easier to combine than classes. You can also import compose from the toolz package `from toolz import compose`
 
 # +
 ring_sc = partial(gf.components.ring_single, radius=10)
@@ -259,7 +254,7 @@ help(gf.components.coupler)
 # %time
 
 
-def hi():
+def hi() -> None:
     print("hi")
 
 

@@ -1555,7 +1555,7 @@ class Component(_GeometryHelper):
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
         show_labels: bool = False,
-    ) -> None:
+    ):
         """Returns klayout image.
 
         If it fails to import klayout defaults to matplotlib.

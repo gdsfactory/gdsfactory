@@ -58,7 +58,7 @@ The following lines will:
 git clone git@github.com:YourUserName/gdsfactory.git
 cd gdsfactory
 git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
-mamba install gdstk -y
+conda install -c conda-forge gdstk -y
 pip install -e .[cad,dev]
 pre-commit install
 ```

@@ -45,7 +45,7 @@ def demo_polygons():
 
     # Create and add a polygon from separate lists of x points and y points
     # (Can also be added like [(x1,y1), (x2,y2), (x3,y3), ... ]
-    poly1 = c.add_polygon(
+    c.add_polygon(
         [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=1
     )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
     return c
