@@ -392,21 +392,11 @@ class LayerStack(BaseModel):
 
         return out
 
-    def filtered(self, layers):
-        layers = self.layers or {}
-        return type(self)(layers={k: layers[k] for k in layers})
+    def filtered(self, layers) -> LayerStack:
+        """Filtered layerstack, given layer specs."""
+        return LayerStack(layers={k: self.layers[k] for k in layers})
 
-    def filtered_from_layerspec(self, layerspecs):
-        """Filtered layerstack, given LayerSpec input."""
-        layers_to_layername = self.get_layer_to_layername()
-        layers = [
-            layers_to_layername[layer]
-            for layer in layerspecs
-            if layer in layers_to_layername
-        ]
-        return self.filtered(layers)
-
-    def z_offset(self, dz):
+    def z_offset(self, dz) -> LayerStack:
         """Translates the z-coordinates of the layerstack."""
         layers = self.layers or {}
         for layer in layers.values():
@@ -414,7 +404,7 @@ class LayerStack(BaseModel):
 
         return self
 
-    def invert_zaxis(self):
+    def invert_zaxis(self) -> LayerStack:
         """Flips the zmin values about the origin."""
         layers = self.layers or {}
         for layer in layers.values():
