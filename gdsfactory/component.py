@@ -1626,9 +1626,14 @@ class Component(_GeometryHelper):
     def plot_kweb(self):
         """Shows current gds in kweb."""
 
+        try:
+            import kweb.server_jupyter as kj
+        except Exception:
+            print("You need to install kweb with `pip install gdsfactory[cad]`")
+            return self.plot_klayout()
+
         from html import escape
 
-        import kweb.server_jupyter as kj
         from IPython.display import IFrame
 
         from gdsfactory.pdk import get_layer_views
