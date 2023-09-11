@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import os
 import warnings
 
@@ -69,10 +70,8 @@ def text_freetype(
         if (face.endswith(".otf") or face.endswith(".ttf")) and os.path.exists(face):
             font = _get_font_by_file(face)
         else:
-            try:
+            with contextlib.suppress(ValueError):
                 font = _get_font_by_name(face)
-            except ValueError:
-                pass
         if font is None:
             raise ValueError(
                 f"Failed to find font: {face!r}. "
@@ -110,7 +109,7 @@ def text_freetype(
 
 
 if __name__ == "__main__":
-    # c2 = text_freetype("hello", font="Times New Roman")
+    c2 = text_freetype("hello", font="Times New Roman")
     # print(c2.name)
-    c2 = text_freetype()
+    # c2 = text_freetype()
     c2.show()
