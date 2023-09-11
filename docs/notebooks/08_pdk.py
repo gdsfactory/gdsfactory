@@ -40,7 +40,6 @@ import pathlib
 from functools import partial
 
 import pytest
-from pydantic import BaseModel
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
@@ -52,6 +51,7 @@ from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.technology import (
     LayerViews,
     lyp_to_dataclass,
+    LayerMap,
 )
 from gdsfactory.typings import Layer, LayerSpec
 
@@ -65,7 +65,7 @@ print(lyp_to_dataclass(PATH.klayout_lyp))
 
 
 # +
-class LayerMap(BaseModel):
+class LayerMapDemo(LayerMap):
     WG: Layer = (1, 0)
     DEVREC: Layer = (68, 0)
     PORT: Layer = (1, 10)
@@ -107,15 +107,11 @@ class LayerMap(BaseModel):
     WGN: Layer = (34, 0)
     WGclad_material: Layer = (36, 0)
 
-    class Config:
-        frozen = True
-        extra = "forbid"
 
-
-LAYER = LayerMap()
+LAYER = LayerMapDemo()
 # -
 
-# There are some default layers in some generic components and cross_sections, that it may be convenient adding.
+# some generic components use some
 #
 # | Layer          | Purpose                                                      |
 # | -------------- | ------------------------------------------------------------ |
@@ -125,12 +121,11 @@ LAYER = LayerMap()
 # | SHOW_PORTS     | add port pin markers when `Component.show(show_ports=True)`  |
 # | LABEL          | for adding labels to grating couplers for automatic testing. |
 # | LABEL_INSTANCE | for adding instance labels on `gf.read.from_yaml`            |
-# | TE             | for TE polarization fiber marker.                            |
-# | TM             | for TM polarization fiber marker.                            |
+# | MTOP | for top metal routing            |
 #
 #
 # ```python
-# class LayersConvenient(BaseModel):
+# class LayersConvenient(LayerMap):
 #     DEVREC: Layer = (68, 0)
 #     PORT: Layer = (1, 10)  # PinRec optical
 #     PORTE: Layer = (1, 11)  # PinRec electrical
@@ -250,7 +245,7 @@ pdk1.get_component(dict(component="mmi1x2", settings=dict(length_mmi=10)))
 #
 # gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 #
-# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==7.4.3` replacing `7.4.3` by whatever version you end up using.
+# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==7.4.6` replacing `7.4.6` by whatever version you end up using.
 # 2. Before you upgrade gdsfactory to a newer version make sure your tests pass to make sure that things behave as expected
 #
 #

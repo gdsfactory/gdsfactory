@@ -25,7 +25,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "7.4.3"
+__version__ = "7.4.6"
 PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
@@ -54,17 +54,18 @@ plugins = [
     "sax",
 ]
 pdks = [
-    "gf45",
-    "tj",
-    "imec",
-    "amf",
-    "sky130",
-    "ubcpdk",
     "aim",
+    "amf",
     "ct",
-    "hhi",
-    "sph",
     "gf180",
+    "gf45",
+    "hhi",
+    "imec",
+    "sky130",
+    "sph",
+    "tj",
+    "ubcpdk",
+    "gvtt",
 ]
 
 
@@ -180,6 +181,7 @@ class Settings(BaseSettings):
         model_config: Pydantic model configuration.
         loglevel: Log level.
         pdk: PDK to use. Defaults to generic.
+        difftest_ignore_cell_name_differences: Ignore cell name differences in difftest.
     """
 
     n_threads: int = get_number_of_cores()
@@ -194,6 +196,8 @@ class Settings(BaseSettings):
     )
     loglevel: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
     pdk: str | None = None
+    difftest_ignore_cell_name_differences: bool = True
+    layer_error_path: tuple[int, int] = (1000, 0)
 
     @classmethod
     def from_config(cls) -> Settings:
@@ -208,7 +212,6 @@ class Settings(BaseSettings):
                 logger.info(f"Loading settings from {path_config}")
                 return Settings(**yaml.safe_load(path_config.read_text()))
             path = path.parent
-        logger.info("No settings file found, using defaults")
         return Settings()
 
 
@@ -219,7 +222,7 @@ class Paths:
     generic_tech = module / "generic_tech"
     klayout = generic_tech / "klayout"
     klayout_tech = klayout / "tech"
-    klayout_lyp = klayout_tech / "generic_tech.lyp"
+    klayout_lyp = klayout_tech / "layers.lyp"
     klayout_yaml = generic_tech / "layer_views.yaml"
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"

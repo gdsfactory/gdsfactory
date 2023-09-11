@@ -23,9 +23,19 @@ def crossing_arm(
     layer_wg: Layer = (1, 0),
     layer_slab: Layer = (2, 0),
 ) -> Component:
-    """Crossing arm."""
+    """Crossing arm.
+
+    Args:
+        wg_width: waveguide width.
+        r1: radius of the ellipse.
+        r2: radius of the ellipse.
+        taper_width: width of the taper.
+        taper_length: length of the taper.
+        layer_wg: waveguide layer.
+        layer_slab: slab layer.
+    """
     c = gf.Component()
-    c << gf.components.ellipse(radii=(r1, r2), layer=layer_slab)
+    _ = c << gf.components.ellipse(radii=(r1, r2), layer=layer_slab)
 
     xmax = taper_length + taper_width / 2
     h = wg_width / 2

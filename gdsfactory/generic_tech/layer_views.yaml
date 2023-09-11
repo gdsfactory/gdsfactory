@@ -393,11 +393,11 @@ LayerViews:
         width: 1
         color: "grey"
         hatch_pattern: solid
-      XS_M1:
+      XS_OX_NIT_CLAD:
         layer: [304, 0]
         layer_in_name: true
         width: 1
-        color: "green"
+        color: "#f3ff80"
         hatch_pattern: solid
       XS_OXIDE_M1:
         layer: [305, 0]
@@ -465,12 +465,6 @@ LayerViews:
     transparent: true
     width: 3
     color: "red"
-  ERROR_MARKER:
-    layer: [207, 0]
-    layer_in_name: true
-    transparent: true
-    width: 3
-    color: "red"
   NOTILE_M1:
     layer: [71, 0]
     layer_in_name: true
@@ -489,18 +483,21 @@ LayerViews:
     hatch_pattern: coarsely dotted
     visible: false
     color: "#606060"
-  SHOW_PORTS:
-    layer: [1, 12]
-    layer_in_name: true
-    hatch_pattern: lightly left-hatched
-    color: "#ff80a8"
-  WAFER:
-    layer: [99999, 0]
-    hatch_pattern: lightly left-hatched
-    color: "#ff80a8"
-    visible: false
-  WG_PIN:
-    layer: [1, 10]
-    layer_in_name: true
-    hatch_pattern: lightly left-hatched
-    color: "#ff80a8"
+  gdsfactory:
+    group_members:
+      ERROR_PATH:
+        layer: [1000, 0]
+        layer_in_name: true
+        transparent: true
+        width: 3
+        color: "red"
+      SHOW_PORTS:
+        layer: [1, 12]
+        layer_in_name: true
+        hatch_pattern: lightly left-hatched
+        color: "#ff80a8"
+      WAFER:
+        layer: [99999, 0]
+        hatch_pattern: lightly left-hatched
+        color: "#ff80a8"
+        visible: false

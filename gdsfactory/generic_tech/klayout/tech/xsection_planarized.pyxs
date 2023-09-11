@@ -20,33 +20,33 @@ t_m1_oxide=0.6
 t_m2_oxide=2.0
 t_m3_oxide=0.5
 
-l_wg = layer("1/0")
-l_fc = layer("2/0")
-l_rib = layer("3/0")
+l_wg = layer('1/0')
+l_fc = layer('2/0')
+l_rib = layer('3/0')
 
-l_n = layer("20/0")
-l_np = layer("22/0")
-l_npp = layer("24/0")
-l_p = layer("21/0")
-l_pp = layer("23/0")
-l_ppp = layer("25/0")
-l_PDPP = layer("27/0")
+l_n = layer('20/0')
+l_np = layer('22/0')
+l_npp = layer('24/0')
+l_p = layer('21/0')
+l_pp = layer('23/0')
+l_ppp = layer('25/0')
+l_PDPP = layer('27/0')
 l_bottom_implant = l_PDPP
 
-l_nitride = layer("34/0")
-l_Ge = layer("5/0")
-l_GePPp = layer("27/0")
-l_GeNPP = layer("26/0")
+l_nitride = layer('34/0')
+l_Ge = layer('5/0')
+l_GePPp = layer('27/0')
+l_GeNPP = layer('26/0')
 
-l_viac = layer("40/0")
-l_viac_slot = layer("40/0")
-l_m1 = layer("41/0")
-l_mh = layer("47/0")
-l_via1 = layer("44/0")
-l_m2 = layer("45/0")
-l_via2 = layer("43/0")
-l_m3 = layer("49/0")
-l_open = layer("46/0")
+l_viac = layer('40/0')
+l_viac_slot = layer('40/0')
+l_m1 = layer('41/0')
+l_mh = layer('47/0')
+l_via1 = layer('44/0')
+l_m2 = layer('45/0')
+l_via2 = layer('43/0')
+l_m3 = layer('49/0')
+l_open = layer('46/0')
 
 l_top_implant = l_GePPp.or_(l_GeNPP)
 l_viac = l_viac.or_(l_viac_slot)
@@ -128,10 +128,11 @@ output("305/0", nitride)
 
 ################# back-end
 ################# VIAC, M1 and MH
-ox_si = deposit(t_clad + t_ge + t_nitride, t_clad + t_ge + t_nitride, mode="round")
-planarize(less=t_ge + t_nitride, into=[ox_si])
+ox_nitride_clad = deposit(t_clad + t_ge + t_nitride, t_clad + t_ge + t_nitride, mode="round")
+
+planarize(less=t_ge + t_nitride, into=[ox_nitride_clad])
 mask(l_viac).etch(
-    t_clad + t_ge + t_nitride + gap_oxide_nitride, taper=4, into=[ox_si, ox_nitride]
+    t_clad + t_ge + t_nitride + gap_oxide_nitride, taper=4, into=[ox_nitride_clad, ox_nitride]
 )
 
 viac = deposit(2 * t_clad, 2 * t_clad)
@@ -144,7 +145,7 @@ mask(l_m1.inverted()).etch(t_m1 + t_m1, into=[m1])
 output("306/0", mh)
 output("399/0", m1)
 
-output("302/0", ox_si)
+output("304/0", ox_nitride_clad)
 output("303/0", viac)
 
 ################# VIA1 and M2

@@ -16,7 +16,6 @@ parts:
     chapters:
       - file: notebooks/00_geometry
       - file: notebooks/01_references
-      - file: notebooks/02_movement
       - file: notebooks/03_cells_autoname_and_cache
       - file: notebooks/03_Path_CrossSection
       - file: notebooks/04_components_shapes
@@ -28,9 +27,7 @@ parts:
       - file: notebooks/04_routing_electrical
       - file: notebooks/04_routing_non_manhattan
       - file: notebooks/rib_strip_autotransition
-      - file: notebooks/dataprep
       - file: notebooks/10_yaml_component
-      - file: notebooks/common_mistakes
   - caption: pdk
     chapters:
       - file: notebooks/08_pdk

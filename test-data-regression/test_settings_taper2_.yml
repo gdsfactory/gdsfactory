@@ -23,7 +23,7 @@ ports:
     orientation: 0
     port_type: optical
     shear_angle: null
-    width: 3
+    width: 3.0
 settings:
   changed:
     width2: 3

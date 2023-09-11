@@ -4,11 +4,10 @@ import os
 import pathlib
 
 import typer
-import uvicorn
 
 app = typer.Typer()
 
-VERSION = "7.4.3"
+VERSION = "7.4.6"
 
 
 @app.command()
@@ -54,6 +53,8 @@ def merge_gds(dirpath: str = None, gdspath: str = None) -> None:
 @app.command()
 def web(pdk: str = "generic", host: str = "localhost", port: int = 8765) -> None:
     """Opens web viewer."""
+    import uvicorn
+
     os.environ["PDK"] = pdk
     uvicorn.run("gplugins.web.main:app", host=host, port=port, reload=True)
 

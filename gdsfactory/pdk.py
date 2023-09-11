@@ -149,7 +149,7 @@ class OasisWriteSettings(BaseModel):
     detect_trapezoids: bool = Field(
         default=True, description="If true, stores trapezoids in a compressed format."
     )
-    circle_tolerance: bool = Field(
+    circle_tolerance: float = Field(
         default=0,
         description="Tolerance for detecting circles. If less or equal to 0, no detection is performed. Circles are stored in compressed format.",
     )

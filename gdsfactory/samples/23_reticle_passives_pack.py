@@ -14,8 +14,8 @@ def mzi_te(**kwargs) -> Component:
     """Returns MZI with TE grating couplers."""
     gc = gf.c.grating_coupler_elliptical_tm()
     c = gf.c.mzi_phase_shifter_top_heater_metal(delta_length=40)
+    c = gf.routing.add_pads_top(c, port_names=["top_l_e4", "top_r_e4"])
     c = gf.routing.add_fiber_array(c, grating_coupler=gc, **kwargs)
-    c = gf.routing.add_electrical_pads_shortest(c)
     return c
 
 
@@ -31,13 +31,13 @@ def spirals() -> Component:
 def demo_pack() -> Component:
     """Sample reticle."""
     c = gf.Component()
-    c << gf.c.rectangle(size=(22e3, 22e3), layer=(64, 0))
+    _ = c << gf.c.rectangle(size=(22e3, 22e3), layer=(64, 0))
     components = [mzi_te()] + [spirals()] + [gf.routing.add_fiber_array(big_device())]
-    c << gf.pack(components)[0]
+    ref = c << gf.pack(components)[0]
+    c.add_ports(ref.ports)
     return c
 
 
 if __name__ == "__main__":
-    # c = spirals()
     c = demo_pack()
     c.show()

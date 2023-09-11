@@ -43,10 +43,9 @@
 # ![extension](https://i.imgur.com/89OPCQ1.png)
 #
 # The extension provides you with useful code snippets and filewatcher extension to see live modifications of `*pic.yml` or `*.py` files. Look for the telescope button on the top right of VSCode 🔭.
-#
+# ![watcher-button](https://i.imgur.com/Kbb2A2X.png)
 
 # %%
-from functools import partial
 import gdsfactory as gf
 from IPython.display import Code
 

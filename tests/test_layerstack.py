@@ -36,5 +36,11 @@ def test_component_with_net_layers():
             assert getattr(old_layer, varname) == getattr(new_layer, varname)
 
 
+def test_layerstack_filtered() -> None:
+    ls2 = LAYER_STACK.filtered(["metal1", "metal2"])
+    assert len(ls2.layers) == 2
+
+
 if __name__ == "__main__":
-    test_component_with_net_layers()
+    test_layerstack_filtered()
+    # test_component_with_net_layers()

@@ -11,7 +11,7 @@ def logo(text: str = "GDSFACTORY") -> Component:
     c = Component()
     elements = []
     for i, letter in enumerate(text):
-        c << gf.components.text(letter, layer=(i + 1, 0), size=10)
+        _ = c << gf.components.text(letter, layer=(i + 1, 0), size=10)
         elements.append(c)
 
     c.distribute(

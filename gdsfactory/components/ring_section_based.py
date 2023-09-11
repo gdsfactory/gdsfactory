@@ -16,7 +16,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.typings import CrossSectionSpec, Floats
 
 def_dict = {"A": "rib", "B": "strip"}
-def_ang_dict = {"A": 6, "B": 6}
+def_ang_dict = {"A": 6.0, "B": 6.0}
 
 
 @cell_without_validator
@@ -24,14 +24,14 @@ def ring_section_based(
     gap: float | Floats = 0.3,
     radius: float = 5.0,
     add_drop: bool = False,
-    cross_sections: dict[str, CrossSectionSpec] = def_dict,
+    cross_sections: dict[str, str] = def_dict,
     cross_sections_sequence: str | list[str] | tuple[str, ...] = "AB",
     cross_sections_angles: dict[str, float] | None = def_ang_dict,
     start_cross_section: CrossSectionSpec | None = None,
     start_angle: float | None = 10.0,
     drop_cross_section: CrossSectionSpec | None = None,
     bus_cross_section: CrossSectionSpec = "strip",
-    ang_res: int | None = 0.1,
+    ang_res: float | None = 0.1,
 ) -> gf.Component:
     """Returns a ring made of the specified cross sections.
 
@@ -61,7 +61,7 @@ def ring_section_based(
         drop_cross_section: cross section for the drop port. If not indicated, we assume
             it is the same as init_cross_section.
         bus_cross_section: cross section for the bus waveguide.
-        ang_res: angular resolution to draw the bends for each section
+        ang_res: angular resolution to draw the bends for each section.
     """
 
     c = gf.Component()
@@ -286,7 +286,6 @@ def ring_section_based(
         s_drop.x = r.x
         s_drop.ymin = ring_guide_drop.ymax + gap[1] - s.ysize / 2 + input_xs_width / 2
 
-    # Add ports
     c.add_port("o1", port=s_add.ports["o1"], orientation=180)
     c.add_port("o2", port=s_add.ports["o2"], orientation=0)
     if add_drop:
@@ -298,14 +297,6 @@ def ring_section_based(
 
 if __name__ == "__main__":
     from gdsfactory.cross_section import rib
-
-    # rib = c << straight(length = 100, cross_section="rib")
-    # b_rib = c << bend_circular(angle = 10,
-    #                       with_bbox = True,
-    #                       cross_section = "slot",
-    #                       radius=5)
-    # strip = c << straight(length = 100, cross_section="strip")
-    # strip.ymax = b_rib.ymin - 10
 
     c = ring_section_based(
         gap=0.3,
@@ -320,12 +311,4 @@ if __name__ == "__main__":
         bus_cross_section="strip",
     )
 
-    # b = c << bend_circular(angle = 15,
-    #                     with_bbox = True,
-    #                     cross_section = "strip",)
-    # print(b.ports)
-    # b.rotate(-7.5)
-    # c = ring_section_based(add_drop=True)
-
     c.show(show_ports=True)
-    # print(c.info["ring_center"])

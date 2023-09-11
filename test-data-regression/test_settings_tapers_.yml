@@ -86,12 +86,12 @@ settings:
       info:
         cross_section: strip
         function_name: cross_section
-        length: 20
+        length: 20.0
         route_info:
-          length: 20
-          strip_length: 20
+          length: 20.0
+          strip_length: 20.0
           type: strip
-          weight: 20
+          weight: 20.0
         settings:
           add_bbox: null
           add_pins:
@@ -166,12 +166,12 @@ settings:
     info:
       cross_section: strip
       function_name: cross_section
-      length: 20
+      length: 20.0
       route_info:
-        length: 20
-        strip_length: 20
+        length: 20.0
+        strip_length: 20.0
         type: strip
-        weight: 20
+        weight: 20.0
       settings:
         add_bbox: null
         add_pins:
@@ -276,12 +276,12 @@ settings:
       period: 0.676
       polarization: te
       wavelength: 1.53
-    length: 20
+    length: 20.0
     route_info:
-      length: 20
-      strip_length: 20
+      length: 20.0
+      strip_length: 20.0
       type: strip
-      weight: 20
+      weight: 20.0
     settings:
       add_bbox: null
       add_pins:

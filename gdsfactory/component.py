@@ -1479,8 +1479,9 @@ class Component(_GeometryHelper):
     def _repr_html_(self):
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
         self.show(show_ports=True)  # show in klayout
-        fig = self.plot_kweb()
-        return fig._repr_html_() if hasattr(fig, "_repr_html_") else fig
+        fig = self.plot()
+        if fig and hasattr(fig, "_repr_html_"):
+            return fig._repr_html_()
 
     def add_pins_triangle(
         self,
@@ -1554,7 +1555,7 @@ class Component(_GeometryHelper):
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
         show_labels: bool = False,
-    ) -> None:
+    ):
         """Returns klayout image.
 
         If it fails to import klayout defaults to matplotlib.
@@ -1625,9 +1626,14 @@ class Component(_GeometryHelper):
     def plot_kweb(self):
         """Shows current gds in kweb."""
 
+        try:
+            import kweb.server_jupyter as kj
+        except Exception:
+            print("You need to install kweb with `pip install gdsfactory[cad]`")
+            return self.plot_klayout()
+
         from html import escape
 
-        import kweb.server_jupyter as kj
         from IPython.display import IFrame
 
         from gdsfactory.pdk import get_layer_views

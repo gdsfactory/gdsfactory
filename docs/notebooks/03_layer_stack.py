@@ -2,7 +2,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: -all
+#     cell_metadata_filter: tags,-all
 #     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
@@ -16,17 +16,17 @@
 # ---
 
 # %% [markdown]
-# # Generic_tech
+# # Generic PDK
 #
-# gdsfactory includes a generic Technology module in `gdsfactory.generic_tech` that you can use as an inspiration to create your own.
+# gdsfactory includes a generic PDK `gdsfactory.generic_tech` that you can use as an inspiration to create your own. It is based on the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg".
+#
+# The PDK technology also includes a [generic component library](https://gdsfactory.github.io/gdsfactory/components.html) that you can use to create your own components.
 #
 # ## LayerMap
 #
 # A layer map maps layer names to a integer numbers pair (GDSlayer, GDSpurpose)
 #
 # Each foundry uses different GDS layer numbers for different process steps.
-#
-# We follow the generic layer numbers from the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg".
 #
 # | GDS (layer, purpose) | layer_name | Description                                                 |
 # | -------------------- | ---------- | ----------------------------------------------------------- |
@@ -45,15 +45,13 @@
 # | 64, 0                | FLOORPLAN  | Mask floorplan                                              |
 #
 
-# %%
 # %% tags=["hide-input"]
-
 from pydantic import BaseModel
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER, LAYER_STACK
 from gdsfactory.generic_tech.get_klayout_pyxs import get_klayout_pyxs
-from gdsfactory.technology import LayerLevel, LayerStack, LayerViews
+from gdsfactory.technology import LayerLevel, LayerStack, LayerViews, LayerMap
 from gdsfactory.generic_tech import get_generic_pdk
 from IPython.display import Code
 
@@ -67,7 +65,7 @@ PDK = get_generic_pdk()
 PDK.activate()
 
 
-class GenericLayerMap(BaseModel):
+class GenericLayerMap(LayerMap):
     """Generic layermap based on book.
 
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
@@ -117,17 +115,11 @@ class GenericLayerMap(BaseModel):
     SHOW_PORTS: Layer = (1, 12)
     LABEL: Layer = (201, 0)
     LABEL_SETTINGS: Layer = (202, 0)
-    TE: Layer = (203, 0)
-    TM: Layer = (204, 0)
     DRC_MARKER: Layer = (205, 0)
     LABEL_INSTANCE: Layer = (206, 0)
-    ERROR_MARKER: Layer = (207, 0)
-    ERROR_PATH: Layer = (208, 0)
 
     SOURCE: Layer = (110, 0)
     MONITOR: Layer = (101, 0)
-
-    model_config = dict(frozen=True, extra="forbid")
 
 
 LAYER = GenericLayerMap()
@@ -418,10 +410,10 @@ def get_layer_stack(
                 thickness=-undercut_thickness,
                 zmin=-box_thickness,
                 material="air",
-                z_to_bias=[
+                z_to_bias=(
                     [0, 0.3, 0.6, 0.8, 0.9, 1],
                     [-0, -0.5, -1, -1.5, -2, -2.5],
-                ],
+                ),
                 mesh_order=1,
             ),
             via_contact=LayerLevel(
@@ -636,6 +628,9 @@ if __name__ == "__main__":
 
 
 # %%
+import gdsfactory.technology.processes as gp
+
+
 def get_process():
     """Returns generic process to generate LayerStack.
 
@@ -645,7 +640,7 @@ def get_process():
     """
 
     return (
-        gf.processes.Etch(
+        gp.Etch(
             name="strip_etch",
             layer=(1, 0),
             positive_tone=False,
@@ -653,7 +648,7 @@ def get_process():
             material="core",
             resist_thickness=1.0,
         ),
-        gf.processes.Etch(
+        gp.Etch(
             name="slab_etch",
             layer=LAYER.SLAB90,
             layers_diff=[(1, 0)],
@@ -663,7 +658,7 @@ def get_process():
         ),
         # See gplugins.process.implant tables for ballpark numbers
         # Adjust to your process
-        gf.processes.ImplantPhysical(
+        gp.ImplantPhysical(
             name="deep_n_implant",
             layer=LAYER.N,
             energy=100,
@@ -671,7 +666,7 @@ def get_process():
             dose=1e12,
             resist_thickness=1.0,
         ),
-        gf.processes.ImplantPhysical(
+        gp.ImplantPhysical(
             name="shallow_n_implant",
             layer=LAYER.N,
             energy=50,
@@ -679,7 +674,7 @@ def get_process():
             dose=1e12,
             resist_thickness=1.0,
         ),
-        gf.processes.ImplantPhysical(
+        gp.ImplantPhysical(
             name="deep_p_implant",
             layer=LAYER.P,
             energy=50,
@@ -687,7 +682,7 @@ def get_process():
             dose=1e12,
             resist_thickness=1.0,
         ),
-        gf.processes.ImplantPhysical(
+        gp.ImplantPhysical(
             name="shallow_p_implant",
             layer=LAYER.P,
             energy=15,
@@ -698,12 +693,15 @@ def get_process():
         # "Temperatures of ~1000C for not more than a few seconds"
         # Adjust to your process
         # https://en.wikipedia.org/wiki/Rapid_thermal_processing
-        gf.processes.Anneal(
+        gp.Anneal(
             name="dopant_activation",
             time=1,
             temperature=1000,
         ),
     )
+
+
+process = get_process()
 
 
 # %% [markdown]
