@@ -79,18 +79,21 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_port_names = electrical_port_names or r.get_ports_list(
         port_type="electrical"
     )
+
+    npads = npads or len(electrical_port_names)
     pads = c << gf.components.array(
         component=pad,
-        columns=npads or len(electrical_port_names),
+        columns=npads,
         spacing=(pad_spacing, 0),
     )
     pads.x = r.x
     pads.ymin = r.ymin + pad_gc_spacing
 
     electrical_ports = [r[por_name] for por_name in electrical_port_names]
+    nroutes = min(len(electrical_ports), npads)
     routes = gf.routing.get_bundle_electrical(
-        ports1=electrical_ports,
-        ports2=pads.get_ports_list(orientation=270),
+        ports1=electrical_ports[:nroutes],
+        ports2=pads.get_ports_list(orientation=270)[:nroutes],
         cross_section=xs_metal,
         enforce_port_ordering=False,
     )
@@ -102,9 +105,9 @@ def add_fiber_array_optical_south_electrical_north(
 if __name__ == "__main__":
     from functools import partial
 
-    dut = partial(mzi_phase_shifter, length_y=100)
+    dut = partial(mzi_phase_shifter, length_y=1)
 
     c = add_fiber_array_optical_south_electrical_north(
-        dut=dut, electrical_port_names=["top_l_e2", "top_r_e2"]
+        dut=dut, electrical_port_names=["top_l_e2", "top_r_e2"], npads=5
     )
     c.show(show_ports=True)
