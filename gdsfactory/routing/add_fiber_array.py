@@ -68,6 +68,7 @@ def add_fiber_array(
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
+        fiber_spacing: in um.
 
     .. plot::
         :include-source:

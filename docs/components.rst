@@ -41,6 +41,21 @@ L
 
 
 
+add_fiber_array_optical_south_electrical_north
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.add_fiber_array_optical_south_electrical_north
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.add_fiber_array_optical_south_electrical_north(with_loopback=True, pad_spacing=100.0, fiber_spacing=127.0, pad_gc_spacing=250.0, xs_metal='metal_routing')
+  c.plot()
+
+
+
 add_fiducials
 ----------------------------------------------------
 
