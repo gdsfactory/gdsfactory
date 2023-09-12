@@ -48,11 +48,9 @@ def get_bundle_path_length_match(
         ports2: list of ports.
         separation: between the loops.
         end_straight_length: if None tries to determine it.
-        extra_length: distance added to all path length compensation.
-            Useful is we want to add space for extra taper on all branches.
+        extra_length: distance added to all path length compensation. Useful is we want to add space for extra taper on all branches.
         nb_loops: number of extra loops added in the path.
-        modify_segment_i: index of the segment that accommodates the new turns
-            default is next to last segment.
+        modify_segment_i: index of the segment that accommodates the new turns default is next to last segment.
         bend: for bends.
         straight: for straights.
         taper: spec.

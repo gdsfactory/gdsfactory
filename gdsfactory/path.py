@@ -50,8 +50,7 @@ class Path(_GeometryHelper):
             to create a Component.
 
     Parameters:
-        path: array-like[N][2], Path, or list of Paths.
-            Points or Paths to append() initially.
+        path: array-like[N][2], Path, or list of Paths. Points or Paths to append() initially.
 
     """
 
@@ -123,8 +122,7 @@ class Path(_GeometryHelper):
         smoothly from the previous segment.
 
         Args:
-            path : Path, array-like[N][2], or list of Paths
-                The input path that will be appended.
+            path: Path, array-like[N][2], or list of Paths. The input path that will be appended.
         """
         # If appending another Path, load relevant variables
         if isinstance(path, Path):
@@ -328,10 +326,8 @@ class Path(_GeometryHelper):
         along the curve can cause discontinuities.
 
         Returns:
-            s : array-like[N]
-                The arc-length of the Path
-            K : array-like[N]
-                The curvature of the Path
+            s: array-like[N] The arc-length of the Path
+            K: array-like[N] The curvature of the Path
         """
         x = self.points[:, 0]
         y = self.points[:, 1]
@@ -354,8 +350,8 @@ class Path(_GeometryHelper):
         """Computes an SHA1 hash of the points in the Path and the start_angle and end_angle.
 
         Args:
-            precision: Rounding precision for the the objects in the Component.  For instance,
-                a precision of 1e-2 will round a point at (0.124, 1.748) to (0.12, 1.75)
+            precision: Rounding precision for the the objects in the Component. For instance, \
+                    a precision of 1e-2 will round a point at (0.124, 1.748) to (0.12, 1.75)
 
         Returns:
             str Hash result in the form of an SHA1 hex digest string.
@@ -450,9 +446,9 @@ class Path(_GeometryHelper):
             layer: optional layer.
             width: optional width in um.
             widths: tuple of starting and end width for a linear taper.
-            simplify: Tolerance value for the simplification algorithm.
-              All points that can be removed without changing the resulting
-              polygon by more than the value listed here will be removed.
+            simplify: Tolerance value for the simplification algorithm. \
+                    All points that can be removed without changing the resulting polygon\
+                    by more than the value listed here will be removed.
             shear_angle_start: an optional angle to shear the starting face by (in degrees).
             shear_angle_end: an optional angle to shear the ending face by (in degrees).
 
@@ -564,14 +560,15 @@ def transition_adiabatic(
     Args:
         w1: start width in um.
         w2: end width in um.
-        neff_w: a callable that returns the effective index as a function of width
-            By default, use a compact model of neff(y) for fundamental 1550 nm TE mode of 220nm-thick
-            core with 3.45 index, fully clad with 1.44 index. Many coefficients are needed to capture the behaviour.
+        neff_w: a callable that returns the effective index as a function of width. \
+                By default, use a compact model of neff(y) for fundamental 1550 nm TE \
+                mode of 220nm-thick core with 3.45 index, fully clad with 1.44 index.\
+                Many coefficients are needed to capture the behaviour.
         wavelength: wavelength, in same units as widths
         alpha: parameter that scales the rate of width change
-                - closer to 0 means longer and more adiabatic;
-                - 1 is the intuitive limit beyond which higher order modes are excited;
-                - [2] reports good performance up to 1.4 for fundamental TE in SOI (for multiple core thicknesses)
+            - closer to 0 means longer and more adiabatic;
+            - 1 is the intuitive limit beyond which higher order modes are excited;
+            - [2] reports good performance up to 1.4 for fundamental TE in SOI (for multiple core thicknesses)
         max_length: maximum length in um.
         num_points_ODE: number of samplings points for the ODE solve.
 
@@ -624,9 +621,8 @@ def transition(
     Args:
         cross_section1: First CrossSection.
         cross_section2: Second CrossSection.
-        width_type: sine or linear.
-          Sets the type of width transition used if any widths are different
-          between the two input CrossSections.
+        width_type: sine or linear. Sets the type of width transition used if any widths are different \
+                between the two input CrossSections.
 
     """
     from gdsfactory.pdk import get_layer
@@ -750,8 +746,8 @@ def along_path(
 
     Args:
         p: Path to place components along.
-        component: Component to repeat along the path. The unrotated version of
-            this object should be oriented for placement on a horizontal line.
+        component: Component to repeat along the path. The unrotated version of \
+                this object should be oriented for placement on a horizontal line.
         spacing: distance between component placements.
         padding: minimum distance from the path start to the first component.
     """
@@ -820,9 +816,9 @@ def extrude(
         layer: optional layer to extrude.
         width: optional width to extrude.
         widths: tuple of starting and end width.
-        simplify: Tolerance value for the simplification algorithm.
-          All points that can be removed without changing the resulting.
-          polygon by more than the value listed here will be removed.
+        simplify: Tolerance value for the simplification algorithm. \
+                All points that can be removed without changing the resulting polygon \
+                by more than the value listed here will be removed.
         shear_angle_start: an optional angle to shear the starting face by (in degrees).
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
     """
@@ -1268,9 +1264,9 @@ def euler(
         radius: minimum radius of curvature.
         angle: total angle of the curve.
         p: Proportion of the curve that is an Euler curve.
-        use_eff: If False: `radius` is the minimum radius of curvature of the bend.
-            If True: The curve will be scaled such that the endpoints match an arc.
-            with parameters `radius` and `angle`.
+        use_eff: If False: `radius` is the minimum radius of curvature of the bend. \
+                If True: The curve will be scaled such that the endpoints match an \
+                arc with parameters `radius` and `angle`.
         npoints: Number of points used per 360 degrees.
 
     .. plot::

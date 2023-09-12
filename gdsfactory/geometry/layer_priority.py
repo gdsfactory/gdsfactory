@@ -18,8 +18,8 @@ def layer_priority(
         component: spec.
         layer_high_order: layer used to etch.
         layer_low_order: layer etched into.
-        remove_high_order: whether to also remove the high order layer polygons.
-            Useful if the higher order layer is purely logical.
+        remove_high_order: whether to also remove the high order layer polygons. \
+                Useful if the higher order layer is purely logical.
         kwargs: keyword arguments for boolean difference operation.
     """
     c = gf.Component()

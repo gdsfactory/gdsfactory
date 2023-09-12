@@ -32,7 +32,6 @@ parts:
           - file: notebooks/04_routing_non_manhattan
           - file: notebooks/rib_strip_autotransition
           - file: notebooks/10_yaml_component
-          - file: notebooks/common_mistakes
       - file: pdk
         sections:
           - file: notebooks/08_pdk

@@ -53,6 +53,8 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.labels import add_label_ehva
 
+
+gf.CONF.display_type = "klayout"
 gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
@@ -427,6 +429,10 @@ c.plot()
 # ## Metadata
 #
 # When saving GDS files is also convenient to store the metadata settings that you used to generate the GDS file.
+#
+# We recommend storing all the device metadata in GDS labels but you can also store it in a separate YAML file.
+#
+# ### Metadata in separate YAML file
 
 # %%
 import gdsfactory as gf
@@ -451,105 +457,47 @@ c.pprint()
 gdspath = c.write_gds("demo.gds", with_metadata=True)
 
 
-# %%
-from IPython.display import Code
+# %% [markdown]
+# ### Metadata in the GDS file
+#
+# You can use GDS labels to store device information such as settings and port locations.
+#
+# The advantage of GDS labels is that they are all stored in the same file.
 
-metadata = gdspath.with_suffix(".yml")
-Code(metadata)
+# %%
+mzis = [
+    gf.components.mzi_phase_shifter(length_x=lengths) for lengths in [100, 200, 300]
+]
+rings = [
+    gf.components.ring_single_heater(length_x=length_x) for length_x in [10, 20, 30]
+]
+
+mzis_te = [
+    gf.components.add_fiber_array_optical_south_electrical_north(
+        mzi, electrical_port_names=["top_l_e2", "top_r_e2"]
+    )
+    for mzi in mzis
+]
+rings_te = [
+    gf.components.add_fiber_array_optical_south_electrical_north(
+        ring, electrical_port_names=["l_e2", "r_e2"]
+    )
+    for ring in rings
+]
+c = gf.pack(mzis_te + rings_te)[0]
+c.plot()
 
 # %%
 import pandas as pd
-from omegaconf import OmegaConf
-import gdsfactory as gf
 
-
-def mzi_te(**kwargs) -> gf.Component:
-    gc = gf.c.grating_coupler_elliptical_tm()
-    c = gf.c.mzi_phase_shifter_top_heater_metal(delta_length=40)
-    c = gf.routing.add_pads_top(c, port_names=["top_l_e4", "top_r_e4"])
-    c = gf.routing.add_fiber_array(c, grating_coupler=gc, **kwargs)
-    return c
-
-
-c = mzi_te()
-c.plot()
-
-# %%
-c.pprint_ports()
-
-# %%
-c = gf.grid(
-    [mzi_te()] * 2,
-    decorator=gf.add_labels.add_labels_to_ports,
-    add_ports_suffix=True,
-    add_ports_prefix=False,
-)
 gdspath = c.write_gds()
-csvpath = gf.labels.write_labels.write_labels_gdstk(gdspath, debug=True)
-
+csvpath = gf.labels.write_labels.write_labels_gdstk(
+    gdspath, debug=True, prefixes=["{"], layer_label="TEXT"
+)
 df = pd.read_csv(csvpath)
-c.plot()
-
-# %%
 df
 
-# %%
-mzis = [mzi_te()] * 2
-spirals = [
-    gf.routing.add_fiber_array(gf.components.spiral_external_io(length=length))
-    for length in [10e3, 20e3, 30e3]
-]
-
-c = gf.pack(
-    mzis + spirals,
-    add_ports_suffix=True,
-    add_ports_prefix=False,
-)[0]
-c = gf.add_labels.add_labels_to_ports(c)
-gdspath = c.write_gds()
-csvpath = gf.labels.write_labels.write_labels_gdstk(gdspath, debug=True)
-df = pd.read_csv(csvpath)
-c.show()
-c.plot()
-
-# %%
-gdspath = c.write_gds(gdsdir="extra", with_metadata=True)
-
-# %%
-yaml_path = gdspath.with_suffix(".yml")
-
-# %%
-labels_path = gf.labels.write_labels.write_labels_gdstk(
-    gdspath=gdspath, layer_label=(201, 0)
-)
-
-# %%
-mask_metadata = OmegaConf.load(yaml_path)
-
-# %%
-test_metadata = tm = gf.labels.merge_test_metadata(
-    labels_path=labels_path, mask_metadata=mask_metadata
-)
-
-# %%
-tm.keys()
-
 # %% [markdown]
-# ```
-#
-# CSV labels  ------|
-#                   |--> merge_test_metadata dict
-#                   |
-# YAML metadata  ---
-#
-# ```
+# As you can see there are 6 devices, each of which has optical and electrical ports.
 
 # %%
-spiral_names = [s for s in test_metadata.keys() if s.startswith("spiral")]
-spiral_names
-
-# %%
-spiral_lengths = [
-    test_metadata[spiral_name].info.length for spiral_name in spiral_names
-]
-spiral_lengths

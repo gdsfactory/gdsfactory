@@ -144,8 +144,8 @@ def get_netlist(
         tolerance: tolerance in nm to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
-        allow_multiple: False to raise an error if more than two ports share the same connection.
-            if True, will return key: [value] pairs with [value] a list of all connected instances.
+        allow_multiple: False to raise an error if more than two ports share the same connection. \
+                if True, will return key: [value] pairs with [value] a list of all connected instances.
 
     Returns:
         instances: Dict of instance name and settings.

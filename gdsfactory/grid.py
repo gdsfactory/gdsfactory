@@ -34,12 +34,12 @@ def grid(
 
     Args:
         components: Iterable to be placed onto a grid. (can be 1D or 2D).
-        spacing: between adjacent elements on the grid, can be a tuple for
-            different distances in height and width.
-        separation: If True, guarantees elements are separated with fixed spacing
-            if False, elements are spaced evenly along a grid.
-        shape: x, y shape of the grid (see np.reshape).
-            If no shape and the list is 1D, if np.reshape were run with (1, -1).
+        spacing: between adjacent elements on the grid, can be a tuple for \
+                different distances in height and width.
+        separation: If True, guarantees elements are separated with fixed spacing \
+                if False, elements are spaced evenly along a grid.
+        shape: x, y shape of the grid (see np.reshape). \
+                If no shape and the list is 1D, if np.reshape were run with (1, -1).
         align_x: {'x', 'xmin', 'xmax'} for x (column) alignment along.
         align_y: {'y', 'ymin', 'ymax'} for y (row) alignment along.
         edge_x: {'x', 'xmin', 'xmax'} for x (column) (ignored if separation = True).
@@ -181,18 +181,18 @@ def grid_with_text(
         labels: optional, specify a tuple of labels rather than using a text_prefix.
 
     keyword Args:
-        spacing: between adjacent elements on the grid, can be a tuple for
-          different distances in height and width.
-        separation: If True, guarantees elements are separated with fixed spacing
-          if False, elements are spaced evenly along a grid.
-        shape: x, y shape of the grid (see np.reshape).
-          If no shape and the list is 1D, if np.reshape were run with (1, -1).
+        spacing: between adjacent elements on the grid, can be a tuple for \
+                different distances in height and width.
+        separation: If True, guarantees elements are separated with fixed spacing \
+                if False, elements are spaced evenly along a grid.
+        shape: x, y shape of the grid (see np.reshape). \
+                If no shape and the list is 1D, if np.reshape were run with (1, -1).
         align_x: {'x', 'xmin', 'xmax'} to perform the x (column) alignment along.
         align_y: {'y', 'ymin', 'ymax'} to perform the y (row) alignment along.
-        edge_x: {'x', 'xmin', 'xmax'} to perform the x (column) distribution
-            ignored if separation = True.
-        edge_y: {'y', 'ymin', 'ymax'} to perform the y (row) distribution along
-            ignored if separation = True.
+        edge_x: {'x', 'xmin', 'xmax'} to perform the x (column) distribution \
+                ignored if separation = True.
+        edge_y: {'y', 'ymin', 'ymax'} to perform the y (row) distribution along \
+                ignored if separation = True.
         rotation: for each reference in degrees.
 
 

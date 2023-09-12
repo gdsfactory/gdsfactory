@@ -97,10 +97,8 @@ def path_J(port1: Port, port2: Port, length1=200, length2=200) -> Path:
     Args:
         port1: start port.
         port2: end port.
-        length1: Length of segment exiting port1.
-            Should be larger than bend radius.
-        length2: Length of segment exiting port2.
-            Should be larger than bend radius.
+        length1: Length of segment exiting port1. Should be larger than bend radius.
+        length2: Length of segment exiting port2. Should be larger than bend radius.
 
     """
     delta_orientation = np.round(
@@ -126,12 +124,9 @@ def path_C(port1: Port, port2: Port, length1=100, left1=100, length2=100) -> Pat
     Args:
         port1: start port.
         port2: end port.
-        length1: Length of route segment coming out of port1. Should be at larger
-            than bend radius.
-        left1: Length of route segment that turns left (or right if negative)
-            from port1. Should be larger than twice the bend radius.
-        length2: Length of route segment coming out of port2. Should be larger
-            than bend radius.
+        length1: Length of route segment coming out of port1. Should be larger than bend radius.
+        left1: Length of route segment that turns left (or right if negative) from port1. Should be larger than twice the bend radius.
+        length2: Length of route segment coming out of port2. Should be larger than bend radius.
 
     """
     delta_orientation = np.round(
@@ -283,12 +278,12 @@ def route_sharp(
     Args:
         port1: start port.
         port2: end port.
-        width: None, int, float, array-like[2], or CrossSection.
-            If None, the route linearly tapers between the widths the ports
-            If set to a single number (e.g. `width=1.7`): makes a fixed-width route
-            If set to a 2-element array (e.g. `width=[1.8,2.5]`): makes a route
-                whose width varies linearly from width[0] to width[1]
-            If set to a CrossSection: uses the CrossSection parameters for the route.
+        width: None, int, float, array-like[2], or CrossSection. \
+                If None, the route linearly tapers between the widths the ports \
+                If set to a single number (e.g. `width=1.7`): makes a fixed-width route \
+                If set to a 2-element array (e.g. `width=[1.8,2.5]`): makes a route \
+                whose width varies linearly from width[0] to width[1] \
+                If set to a CrossSection: uses the CrossSection parameters for the route.
         path_type : {'manhattan', 'L', 'U', 'J', 'C', 'V', 'Z', 'straight', 'manual'}.
         manual_path: array-like[N][2] or Path Waypoint for  manual route.
         layer: Layer to put route on.

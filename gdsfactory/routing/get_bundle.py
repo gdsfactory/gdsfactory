@@ -72,8 +72,7 @@ def get_bundle(
     Args:
         ports1: list of starting ports.
         ports2: list of end ports.
-        separation: bundle separation (center to center).
-            Defaults to cross_section.width + cross_section.gap
+        separation: bundle separation (center to center). Defaults to cross_section.width + cross_section.gap
         extension_length: adds straight extension.
         bend: function for the bend. Defaults to euler.
         with_sbend: use s_bend routing when there is no space for manhattan routing.
@@ -81,12 +80,12 @@ def get_bundle(
         cross_section: CrossSection or function that returns a cross_section.
         start_straight_length: straight length at the beginning of the route. If None, uses default value for the routing CrossSection.
         end_straight_length: end length at the beginning of the route. If None, uses default value for the routing CrossSection.
-        path_length_match_loops: Integer number of loops to add to bundle
-            for path length matching. Path-length matching won't be attempted if this is set to None.
-        path_length_match_extra_length: Extra length to add
-            to path length matching loops (requires path_length_match_loops != None).
-        path_length_match_modify_segment_i: Index of straight segment to add path
-            length matching loops to (requires path_length_match_loops != None).
+        path_length_match_loops: Integer number of loops to add to bundle \
+                for path length matching. Path-length matching won't be attempted if this is set to None.
+        path_length_match_extra_length: Extra length to add to path length matching loops \
+                (requires path_length_match_loops != None).
+        path_length_match_modify_segment_i: Index of straight segment to add path length matching loops to \
+                (requires path_length_match_loops != None).
         enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
 
     Keyword Args:
@@ -318,10 +317,10 @@ def get_bundle_same_axis(
         start_straight_length: in um.
         bend: spec.
         sort_ports: sort the ports according to the axis.
-        path_length_match_loops: Integer number of loops to add to bundle
-            for path length matching (won't try to match if None).
-        path_length_match_extra_length: Extra length to add
-            to path length matching loops (requires path_length_match_loops != None).
+        path_length_match_loops: Integer number of loops to add to bundle \
+                for path length matching (won't try to match if None).
+        path_length_match_extra_length: Extra length to add to path length matching loops \
+                (requires path_length_match_loops != None).
         path_length_match_modify_segment_i: Index of straight segment to add path
             length matching loops to (requires path_length_match_loops != None).
         cross_section: CrossSection or function that returns a cross_section.
@@ -616,7 +615,8 @@ def get_bundle_same_axis_no_grouping(
 
     We want to connect something like this:
 
-    ::
+
+    .. code::
 
          2             X    X     X  X X  X
            |-----------|    |     |  | |  |-----------------------|
@@ -629,22 +629,19 @@ def get_bundle_same_axis_no_grouping(
 
     The general strategy is:
 
-    if x2 < x1, decrease ``start straight``, and increase ``end_straight``
-        (as seen on left two ports)
-    otherwise, decrease ``start_straight``, and increase ``end_straight``
-        (as seen on the last 3 right ports)
+    if x2 < x1, decrease ``start straight``, and increase ``end_straight`` (as seen on left two ports)
+    otherwise, decrease ``start_straight``, and increase ``end_straight`` (as seen on the last 3 right ports)
 
     Args:
         ports1: first list of optical ports.
         ports2: second list of optical ports.
         axis: specifies "X" or "Y" direction along which the port is going.
-        route_filter: ManhattanExpandedWgConnector or ManhattanWgConnector.
-            or any other connector function with the same input.
+        route_filter: ManhattanExpandedWgConnector or ManhattanWgConnector \
+                or any other connector function with the same input.
         radius: bend radius. If unspecified, uses the default radius.
         start_straight_length: offset on the starting length before the first bend.
         end_straight_length: offset on the ending length after the last bend.
-        sort_ports: True -> sort the ports according to the axis.
-            False -> no sort applied.
+        sort_ports: True -> sort the ports according to the axis. False -> no sort applied.
         cross_section: CrossSection or function that returns a cross_section.
 
     Returns:
