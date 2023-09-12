@@ -8,7 +8,7 @@ from gdsfactory.components.straight_heater_metal import straight_heater_metal
 mzi_phase_shifter = partial(mzi, straight_x_top="straight_heater_metal", length_x=200)
 
 mzi2x2_2x2_phase_shifter = partial(
-    mzi2x2_2x2, straight_x_top="straight_heater_metal_simple", length_x=200
+    mzi2x2_2x2, straight_x_top="straight_heater_metal", length_x=200
 )
 
 mzi_phase_shifter_top_heater_metal = partial(

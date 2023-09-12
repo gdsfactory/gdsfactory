@@ -11,32 +11,37 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 @gf.cell
 def add_fiber_array_optical_south_electrical_north(
-    dut: ComponentSpec = mzi_phase_shifter,
+    component: ComponentSpec = mzi_phase_shifter,
     pad: ComponentSpec = pad_small,
     with_loopback: bool = True,
     pad_spacing: float = 100.0,
     fiber_spacing: float = 127.0,
     pad_gc_spacing: float = 250.0,
     electrical_port_names: list[str] | None = None,
+    electrical_port_orientation: float | None = 90,
     npads: int | None = None,
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     xs_metal: CrossSectionSpec = "metal_routing",
     layer_label: LayerSpec = "TEXT",
+    test_info: dict | None = None,
     **kwargs,
 ) -> gf.Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
 
     Args:
-        dut: device under test.
+        component: component spec to add fiber and pads.
         pad: pad spec.
         with_loopback: whether to add a loopback port.
         pad_spacing: spacing between pads.
         fiber_spacing: spacing between grating couplers.
         pad_gc_spacing: spacing between pads and grating couplers.
         electrical_port_names: list of electrical port names. Defaults to all electrical ports.
+        electrical_port_orientation: orientation of electrical ports. Defaults to 90.
         npads: number of pads. Defaults to one per electrical_port_names.
         grating_coupler: grating coupler function.
         xs_metal: metal cross section.
+        layer_label: layer for settings label.
+        test_info: dictionary of test_info.
 
     Keyword Args:
         gc_port_name: grating coupler input port name.
@@ -69,9 +74,9 @@ def add_fiber_array_optical_south_electrical_north(
 
     """
     c = gf.Component()
-    dut = gf.get_component(dut)
+    component = gf.get_component(component)
     r = c << gf.routing.add_fiber_array(
-        component=dut,
+        component=component,
         grating_coupler=grating_coupler,
         with_loopback=with_loopback,
         fiber_spacing=fiber_spacing,
@@ -81,9 +86,10 @@ def add_fiber_array_optical_south_electrical_north(
     optical_ports = r.get_ports_list(port_type="optical")
     c.add_ports(optical_ports)
 
-    electrical_port_names = electrical_port_names or r.get_ports_list(
-        port_type="electrical"
+    electrical_ports = r.get_ports_list(
+        port_type="electrical", orientation=electrical_port_orientation
     )
+    electrical_port_names = electrical_port_names or [p.name for p in electrical_ports]
 
     npads = npads or len(electrical_port_names)
     pads = c << gf.components.array(
@@ -111,10 +117,10 @@ def add_fiber_array_optical_south_electrical_north(
     c.add_ports(ports2)
 
     if layer_label:
-        dut_electrical_ports = {
+        electrical_ports = {
             p.name: dict(x=p.x, y=p.y, orientation=p.orientation) for p in ports2
         }
-        dut_optical_ports = {
+        optical_ports = {
             p.name: dict(x=p.x, y=p.y, orientation=p.orientation) for p in optical_ports
         }
 
@@ -123,10 +129,11 @@ def add_fiber_array_optical_south_electrical_north(
             with_loopback=with_loopback,
             nelectrical=npads,
             noptical=len(r.get_ports_list(port_type="optical")),
-            dut_settings=dut.settings.full,
-            dut_name=dut.name,
-            dut_electrical_ports=dut_electrical_ports,
-            dut_optical_ports=dut_optical_ports,
+            settings=component.settings.full,
+            name=component.name,
+            electrical_ports=electrical_ports,
+            optical_ports=optical_ports,
+            test_info=test_info or {},
         )
         info = json.dumps(settings)
         c.add_label(layer=layer_label, text=info, position=c.center)
@@ -136,19 +143,28 @@ def add_fiber_array_optical_south_electrical_north(
 
 
 if __name__ == "__main__":
-    c = add_fiber_array_optical_south_electrical_north()
+    c = add_fiber_array_optical_south_electrical_north(
+        test_info=dict(
+            doe="mzi_heater",
+            data_analysis="mzi_heater",
+            test_sequence="optical_heater",
+        )
+    )
+
+    d = json.loads(c.labels[0].text)
+    print(d)
     # import gdsfactory as gf
     # from functools import partial
 
-    # dut = partial(mzi_phase_shifter, length_y=1)
+    # component = partial(mzi_phase_shifter, length_y=1)
     # c = add_fiber_array_optical_south_electrical_north(
-    #     dut=dut,
+    #     component=component,
     #     electrical_port_names=["top_l_e2", "top_r_e2"],
     #     npads=5,
     # )
-    # dut = partial(gf.c.ring_single_heater, length_x=10)
+    # component = partial(gf.c.ring_single_heater, length_x=10)
     # c = add_fiber_array_optical_south_electrical_north(
-    #     dut=dut,
+    #     component=component,
     #     electrical_port_names=["l_e2", "r_e2"],
     #     npads=5,
     # )

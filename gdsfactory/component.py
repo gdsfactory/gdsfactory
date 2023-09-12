@@ -2030,19 +2030,6 @@ class Component(_GeometryHelper):
             **kwargs,
         )
 
-    def write_gds_with_metadata(self, *args, **kwargs) -> Path:
-        """Write component in GDS and metadata (component settings) in YAML."""
-        warnings.warn(
-            "Component.write_gds_with_metadata() is deprecated. "
-            "Use Component.write_gds(with_metadata=True) or Component.write_oas(with_metadata=True).",
-            stacklevel=3,
-        )
-        gdspath = self.write_gds(*args, **kwargs)
-        metadata = gdspath.with_suffix(".yml")
-        metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
-        logger.info(f"Write YAML metadata to {str(metadata)!r}")
-        return gdspath
-
     def to_dict(
         self,
         ignore_components_prefix: list[str] | None = None,
@@ -2140,21 +2127,8 @@ class Component(_GeometryHelper):
         self.is_unlocked()
         auto_rename_ports_orientation(self, **kwargs)
 
-    def move(
-        self,
-        origin: Float2 = (0, 0),
-        destination: Float2 | None = None,
-        axis: Axis | None = None,
-    ) -> Component:
-        """Returns new Component with a moved reference to the original.
-
-        component.
-
-        Args:
-            origin: of component.
-            destination: x, y.
-            axis: x or y.
-        """
+    def move(self, *args, **kwargs) -> Component:
+        """Make a reference instead"""
         raise ValueError(move_error_message)
 
     def mirror(self, p1: Float2 = (0, 1), p2: Float2 = (0, 0), **kwargs) -> Component:

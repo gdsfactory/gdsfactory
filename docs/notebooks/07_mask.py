@@ -21,7 +21,7 @@
 #
 # ## Design for testing
 #
-# To measure your reticle / die after fabrication you need to decide your test configurations. This includes things like:
+# To measure your chips after fabrication you need to decide your test configurations. This includes things like:
 #
 # - `Individual input and output fibers` versus `fiber array`. You can use `add_fiber_array` for easier testing and higher throughput, or `add_fiber_single` for the flexibility of single fibers.
 # - Fiber array pitch (127um or 250um) if using a fiber array.
@@ -33,14 +33,12 @@
 #
 # Lets review some different automatic labeling schemas:
 #
-# 1. SiEPIC ubc Ebeam PDK schema, labels only one of the grating couplers from the fiber array.
-# 2. EHVA automatic testers, include a Label component declaration as described in this [doc](https://drive.google.com/file/d/1kbQNrVLzPbefh3by7g2s865bcsA2vl5l/view)
-# 3. Label all ports
-
-# %% [markdown]
-# ### 1. SiEPIC labels
+# 1. One label per test site (Component) that includes settings, electrical ports and optical ports.
+# 2. SiEPIC labels , labels only one of the grating couplers from the fiber array.
+# 3. EHVA automatic testers, include a Label component declaration as described in this [doc](https://drive.google.com/file/d/1kbQNrVLzPbefh3by7g2s865bcsA2vl5l/view)
 #
-# Labels follow format `opt_in_{polarization}_{wavelength}_device_{username}_({component_name})-{gc_index}-{port.name}`
+#
+# Most gdsfactory examples add south grating couplers on the south and RF or DC signals to the north. However if you need RF and DC pads, you have to make sure RF pads are orthogonal to the DC Pads. For example, you can use EAST/WEST for RF and NORTH for DC.
 
 # %%
 from functools import partial
@@ -59,6 +57,40 @@ gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
 
+# %% [markdown]
+# ### 1. Test Sites Labels
+#
+# Each test site labels includes:
+#
+# - Optical and electrical ports
+# - Component settings
+# - test and data analysis information. Such as Design of Experiment (DOE) id.
+
+# %%
+c = gf.components.mzi_phase_shifter()
+c = gf.components.add_fiber_array_optical_south_electrical_north(
+    c,
+    test_info=dict(
+        doe="mzis",
+        data_analysis="mzi_phase_shifter",
+        test_sequence="optical_electrial",
+    ),
+)
+c.plot()
+
+# %%
+c.labels
+
+# %%
+import json
+
+json.loads(c.labels[0].text)
+
+# %% [markdown]
+# ### 2. SiEPIC labels
+#
+# Labels follow format `opt_in_{polarization}_{wavelength}_device_{username}_({component_name})-{gc_index}-{port.name}` and you only need to label the input port
+
 # %%
 mmi = gf.components.mmi2x2()
 mmi_te_siepic = gf.labels.add_fiber_array_siepic(component=mmi)
@@ -75,7 +107,7 @@ for label in labels:
     print(label.text)
 
 # %% [markdown]
-# ### 2. EHVA labels
+# ### 3. EHVA labels
 
 # %%
 add_label_ehva_demo = partial(add_label_ehva, die="demo_die")
@@ -124,19 +156,6 @@ labels = mmi_te_ehva.get_labels(depth=0)
 
 for label in labels:
     print(label.text)
-
-# %% [markdown]
-# ### 3. Dash separated labels
-#
-# You can also use labels with `GratingName-ComponentName-PortName`
-
-# %%
-from gdsfactory.routing.get_input_labels import get_input_labels_dash
-
-c1 = gf.components.mmi1x2()
-c2 = gf.routing.add_fiber_array(c1, get_input_labels_function=get_input_labels_dash)
-c2.show()
-c2.plot()
 
 # %% [markdown]
 # ## Pack
@@ -432,7 +451,7 @@ c.plot()
 #
 # We recommend storing all the device metadata in GDS labels but you can also store it in a separate YAML file.
 #
-# ### Metadata in separate YAML file
+# ### Metadata in separate YAML file (not recommended)
 
 # %%
 import gdsfactory as gf
@@ -465,6 +484,18 @@ gdspath = c.write_gds("demo.gds", with_metadata=True)
 # The advantage of GDS labels is that they are all stored in the same file.
 
 # %%
+test_info_mzi_heaters = dict(
+    doe="mzis_heaters",
+    data_analysis="mzi_heater",
+    test_sequence="optical_heater",
+)
+test_info_ring_heaters = dict(
+    doe="ring_heaters",
+    data_analysis="ring_heater",
+    test_sequence="optical_heater",
+)
+
+
 mzis = [
     gf.components.mzi_phase_shifter(length_x=lengths) for lengths in [100, 200, 300]
 ]
@@ -474,13 +505,15 @@ rings = [
 
 mzis_te = [
     gf.components.add_fiber_array_optical_south_electrical_north(
-        mzi, electrical_port_names=["top_l_e2", "top_r_e2"]
+        mzi,
+        electrical_port_names=["top_l_e2", "top_r_e2"],
+        test_info=test_info_mzi_heaters,
     )
     for mzi in mzis
 ]
 rings_te = [
     gf.components.add_fiber_array_optical_south_electrical_north(
-        ring, electrical_port_names=["l_e2", "r_e2"]
+        ring, electrical_port_names=["l_e2", "r_e2"], test_info=test_info_ring_heaters
     )
     for ring in rings
 ]
@@ -499,5 +532,7 @@ df
 
 # %% [markdown]
 # As you can see there are 6 devices, each of which has optical and electrical ports.
+#
+# You can turn each label into a test manifest CSV file.
 
 # %%
