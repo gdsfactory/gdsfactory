@@ -3,6 +3,8 @@ default_settings:
     value: -20
     description: "The length of lower MZI arm y displacement"
 
+pdk: ubcpdk
+
 info:
   polarization: te
   wavelength: 1.55

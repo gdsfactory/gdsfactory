@@ -21,7 +21,6 @@ from typing import TYPE_CHECKING, Any, Literal
 
 import gdstk
 import numpy as np
-import shapely
 import yaml
 from omegaconf import DictConfig
 
@@ -238,7 +237,10 @@ class Component(_GeometryHelper):
         """You can iterate over polygons, paths, labels and references."""
         return itertools.chain(self.polygons, self.paths, self.labels, self.references)
 
-    def get_polygon_enclosure(self) -> shapely.Polygon:
+    def get_polygon_enclosure(self):
+        """Returns shapely Polygon with enclosure."""
+        import shapely
+
         return shapely.Polygon(self._cell.convex_hull())
 
     def get_polygon_bbox(
@@ -248,7 +250,7 @@ class Component(_GeometryHelper):
         bottom: float | None = None,
         right: float | None = None,
         left: float | None = None,
-    ) -> shapely.Polygon:
+    ):
         """Returns shapely Polygon with bounding box.
 
         Args:
@@ -258,6 +260,8 @@ class Component(_GeometryHelper):
             right: east padding in um.
             left: west padding in um.
         """
+        import shapely
+
         (xmin, ymin), (xmax, ymax) = self.bbox
         top = top if top is not None else default
         bottom = bottom if bottom is not None else default

@@ -8,7 +8,6 @@ import numbers
 from collections import defaultdict
 
 import numpy as np
-import shapely as sp
 from gdstk import Label as _Label
 from gdstk import Polygon
 from numpy import cos, pi, sin
@@ -93,6 +92,8 @@ def get_polygons(
     if not as_array:
         return polygons
     elif as_shapely_merged:
+        import shapely as sp
+
         polygons = [sp.Polygon(polygon.points) for polygon in polygons]
         p = sp.Polygon()
         for polygon in polygons:
@@ -100,6 +101,8 @@ def get_polygons(
         return p
 
     elif as_shapely:
+        import shapely as sp
+
         return [sp.Polygon(polygon.points) for polygon in polygons]
 
     elif by_spec is not True:
@@ -603,17 +606,17 @@ def _distribute(elements, direction="x", spacing=100, separation=True, edge=None
     grid or with a fixed spacing between them.
 
     Args:
-        elements : array-like of gdsfactory objects
+        elements: array-like of gdsfactory objects
             Elements to distribute.
-        direction : {'x', 'y'}
+        direction: {'x', 'y'}
             Direction of distribution; either a line in the x-direction or
             y-direction.
-        spacing : int or float
+        spacing: int or float
             Distance between elements.
-        separation : bool
+        separation: bool
             If True, guarantees elements are separated with a fixed spacing between;
             if False, elements are spaced evenly along a grid.
-        edge : {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
+        edge: {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
             Which edge to perform the distribution along (unused if
             separation == True)
 

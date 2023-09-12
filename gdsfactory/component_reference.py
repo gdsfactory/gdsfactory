@@ -10,7 +10,6 @@ from typing import Any, cast
 
 import gdstk
 import numpy as np
-import shapely
 from numpy import cos, mod, ndarray, pi, sin
 
 from gdsfactory.component_layout import Polygon, _GeometryHelper, get_polygons
@@ -23,6 +22,8 @@ from gdsfactory.port import (
 )
 
 if typing.TYPE_CHECKING:
+    import shapely
+
     from gdsfactory.component import Component, Coordinate, Coordinates
 
 
@@ -256,6 +257,8 @@ class ComponentReference(_GeometryHelper):
         self._set_ref_cell(value)
 
     def get_polygon_enclosure(self) -> shapely.Polygon:
+        import shapely
+
         return shapely.Polygon(self._reference.convex_hull())
 
     def get_polygon_bbox(
@@ -275,6 +278,8 @@ class ComponentReference(_GeometryHelper):
             right: east padding in um.
             left: west padding in um.
         """
+        import shapely
+
         (xmin, ymin), (xmax, ymax) = self.bbox
         top = top if top is not None else default
         bottom = bottom if bottom is not None else default

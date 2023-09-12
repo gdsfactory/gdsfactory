@@ -1,5 +1,4 @@
 name: mask_compact
-pdk: ubcpdk
 
 instances:
   rings:
@@ -14,6 +13,7 @@ instances:
         function: add_fiber_array
         settings:
             fanout_length: 200
+
 
   mzis:
     component: pack_doe_grid

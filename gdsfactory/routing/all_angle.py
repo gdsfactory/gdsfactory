@@ -2,7 +2,6 @@ import warnings
 from collections.abc import Callable
 
 import numpy as np
-import shapely.geometry as sg
 
 from gdsfactory.component import Component, ComponentReference, Port
 from gdsfactory.components.straight import straight
@@ -58,6 +57,8 @@ def vector_intersection(
     Returns:
         The (x,y) point of intersection, if one is found. Otherwise None.
     """
+    import shapely.geometry as sg
+
     a0_rad = np.deg2rad(a0)
     a1_rad = np.deg2rad(a1)
     dx0 = max_distance * np.cos(a0_rad)

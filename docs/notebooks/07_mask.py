@@ -495,7 +495,6 @@ test_info_ring_heaters = dict(
     test_sequence="optical_heater",
 )
 
-
 mzis = [
     gf.components.mzi_phase_shifter(length_x=lengths) for lengths in [100, 200, 300]
 ]

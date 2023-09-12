@@ -103,6 +103,8 @@ class Polygon(gdstk.Polygon, _GeometryHelper):
         return Polygon(points, (self.layer, self.datatype))
 
     def to_shapely(self) -> sp.Polygon:
+        import shapely as sp
+
         return sp.Polygon(self.points)
 
     @classmethod

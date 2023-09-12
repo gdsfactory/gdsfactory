@@ -35,11 +35,6 @@
 
 # %%
 import gdsfactory as gf
-from gdsfactory.generic_tech import get_generic_pdk
-
-gf.config.rich_output()
-PDK = get_generic_pdk()
-PDK.activate()
 
 # Create a blank Component
 p = gf.Component("component_with_polygon")
@@ -494,13 +489,6 @@ component.plot()
 
 # %%
 import gdsfactory as gf
-from gdsfactory.generic_tech import get_generic_pdk
-
-gf.config.rich_output()
-
-PDK = get_generic_pdk()
-
-PDK.activate()
 
 # Start with a blank Component
 c = gf.Component("demo_movement")
