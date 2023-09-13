@@ -33,8 +33,8 @@ def write_test_manifest(csvpath: str | pathlib.Path) -> pd.DataFrame:
                 x + electrical_ports[port_in]["x"],
                 y + electrical_ports[port_in]["y"],
                 orientation,
-                port_in,
-                port_out,
+                [port_in],
+                [port_out],
                 electrical_ports[port_in]["port_type"],
                 d["measurement"],
                 d["analysis"],
@@ -48,8 +48,8 @@ def write_test_manifest(csvpath: str | pathlib.Path) -> pd.DataFrame:
                 x + optical_alignment_ports[optical_alignment_ports_names[0]]["x"],
                 y + optical_alignment_ports[optical_alignment_ports_names[0]]["y"],
                 orientation,
-                optical_alignment_ports_names[0],
-                optical_alignment_ports_names[1],
+                [optical_alignment_ports_names[0]],
+                [optical_alignment_ports_names[1]],
                 optical_alignment_ports[optical_alignment_ports_names[0]]["port_type"],
                 d["measurement"],
                 d["analysis"],
@@ -59,20 +59,19 @@ def write_test_manifest(csvpath: str | pathlib.Path) -> pd.DataFrame:
 
         for port_in in optical_component_ports:
             ports_out = set(optical_component_ports) - {port_in}
-            for port_out in ports_out:
-                row = [
-                    component,
-                    x + optical_component_ports[port_in]["x"],
-                    y + optical_component_ports[port_in]["y"],
-                    orientation,
-                    port_in,
-                    port_out,
-                    optical_component_ports[port_in]["port_type"],
-                    d["measurement"],
-                    d["analysis"],
-                    d["doe"],
-                ]
-                rows.append(row)
+            row = [
+                component,
+                x + optical_component_ports[port_in]["x"],
+                y + optical_component_ports[port_in]["y"],
+                orientation,
+                [port_in],
+                list(ports_out),
+                optical_component_ports[port_in]["port_type"],
+                d["measurement"],
+                d["analysis"],
+                d["doe"],
+            ]
+            rows.append(row)
 
     # Create a DataFrame from the collected rows
     return pd.DataFrame(
@@ -101,3 +100,4 @@ if __name__ == "__main__":
     )
     df = write_test_manifest(csvpath)
     df.to_csv("test_manifest.csv", index=False)
+    print(df)
