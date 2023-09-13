@@ -314,7 +314,7 @@ class Port:
 
     def get_extended_center(self, length: float = 1.0) -> ndarray:
         """Returns an extended port center."""
-        angle = self.orientation
+        angle = np.deg2rad(self.orientation)
         c = np.cos(angle)
         s = np.sin(angle)
         return self.center + length * np.array([c, s])
