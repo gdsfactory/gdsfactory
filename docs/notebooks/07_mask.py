@@ -547,6 +547,8 @@ df
 # Having a general case for interfacing with test equipment is pretty hard, so this is just a guideline on how this could be done.
 #
 # Each `doe` Design of Experiment (DOE) will have a different output, can run a different `measurement` and have different `analysis` function code and settings, which would have to be defined separately.
+#
+# This would require having a separate `measurement_settings.yml` and  `analysis_settings.yml`  with all the settings in YAML format
 
 # %%
 from gdsfactory.labels.write_test_manifest import write_test_manifest
