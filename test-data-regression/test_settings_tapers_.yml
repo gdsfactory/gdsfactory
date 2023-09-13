@@ -1,25 +1,25 @@
 name: straight_length20_width2_add_tapers_b2a8d58e_add_fiber_array_09a0105a
 ports:
-  opt-grating_coupler_elliptical_trenches_taper_angle35-straight_length20_width2-loopback0:
+  opt-grating_coupler_elliptical_trenches_taper_angle35-straight_length20_width2-loopback_1:
     center:
     - -180.5
     - -28.5
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_elliptical_trenches_taper_angle35-straight_length20_width2-loopback0
+    name: opt-grating_coupler_elliptical_trenches_taper_angle35-straight_length20_width2-loopback_1
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_elliptical_trenches_taper_angle35-straight_length20_width2-loopback1:
+  opt-grating_coupler_elliptical_trenches_taper_angle35-straight_length20_width2-loopback_4:
     center:
     - 200.5
     - -28.5
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_elliptical_trenches_taper_angle35-straight_length20_width2-loopback1
+    name: opt-grating_coupler_elliptical_trenches_taper_angle35-straight_length20_width2-loopback_4
     orientation: 90.0
     port_type: optical
     shear_angle: null
@@ -234,7 +234,7 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label: LABEL
+    layer_label: null
     select_ports:
       function: select_ports
       settings:
@@ -262,7 +262,7 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label: LABEL
+    layer_label: null
     optical_routing_type: 0
     select_ports:
       function: select_ports

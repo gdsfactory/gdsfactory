@@ -6,7 +6,7 @@ from gdsfactory.components.pad import pad_array as pad_array_function
 from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.typings import Callable, ComponentSpec, Float2, Strs
+from gdsfactory.typings import Callable, ComponentSpec, Float2, LayerSpec, Strs
 
 
 @gf.cell
@@ -17,20 +17,30 @@ def add_electrical_pads_top(
     pad_array: ComponentSpec = pad_array_function,
     select_ports: Callable = select_ports_electrical,
     port_names: Strs | None = None,
-    layer: gf.typings.LayerSpec = "MTOP",
+    layer: LayerSpec = "MTOP",
     **kwargs,
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.
 
     Args:
         component: to route.
-        direction: 'top' or 'right', sets direction of the array.
+        direction: sets direction of the array (top or right).
         spacing: component to pad spacing.
         pad_array: function for pad_array.
         select_ports: function to select electrical ports.
         port_names: optional port names. Overrides select_ports.
         layer: for the routes.
-        **kwargs: extra kwargs for select ports.
+
+    Keyword Args:
+        ports: Dict[str, Port] a port dict {port name: port}.
+        prefix: select ports with port name prefix.
+        suffix: select ports with port name suffix.
+        orientation: select ports with orientation in degrees.
+        width: select ports with port width.
+        layers_excluded: List of layers to exclude.
+        port_type: select ports with port type (optical, electrical, vertical_te).
+        clockwise: if True, sort ports clockwise, False: counter-clockwise.
+
 
     .. plot::
         :include-source:

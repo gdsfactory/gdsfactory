@@ -35,14 +35,13 @@ def route_south(
 
     Args:
         component: component to route.
-        optical_routing_type: routing heuristic `1` or `2`
-            `1` uses the component size info to estimate the box size.
-            `2` only looks at the optical port positions to estimate the size.
+        optical_routing_type: routing heuristic `1` or `2` \
+                `1` uses the component size info to estimate the box size.\
+                `2` only looks at the optical port positions to estimate the size.
         excluded_ports: list of port names to NOT route.
         straight_separation: in um.
-        io_gratings_lines: list of ports to which the ports produced by this
-            function will be connected. Supplying this information helps
-            avoiding straight collisions.
+        io_gratings_lines: list of ports to which the ports produced by this function will be connected. \
+                Supplying this information helps avoiding straight collisions.
         gc_port_name: grating coupler port name.
         bend: spec.
         straight: spec.

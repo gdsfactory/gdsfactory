@@ -14,21 +14,19 @@ def invert(
     precision: float = 1e-4,
     layer: LayerSpec = (1, 0),
 ) -> Component:
-    """Creates an inverted version of the input shapes with an additional \
-    border around the edges.
+    """Returns inverted version of input shapes with additional border around the edges.
 
     Args:
-        elements : Component(/Reference), list of Component(/Reference), or Polygon
-            A Component containing the polygons to invert.
-        border: Size of the border around the inverted shape (border value is the
-            distance from the edges of the boundary box defining the inverted
-            shape to the border, and is applied to all 4 sides of the shape).
+        elements : Component(/Reference), list of Component(/Reference), or Polygon \
+                A Component containing the polygons to invert.
+        border: Size of the border around the inverted shape (border value is the \
+                distance from the edges of the boundary box defining the inverted \
+                shape to the border, and is applied to all 4 sides of the shape).
         precision: Desired precision for rounding vertex coordinates.
         layer: Specific layer(s) to put polygon geometry on.
 
     Returns
-        D: A Component containing the inverted version of the input shape(s) and the
-        corresponding border(s).
+        Component with inverted version of the input shape(s) and the border(s).
 
     .. plot::
       :include-source:

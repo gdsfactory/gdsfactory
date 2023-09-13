@@ -18,9 +18,11 @@
 # %% [markdown]
 # # Generic PDK
 #
-# gdsfactory includes a generic PDK `gdsfactory.generic_tech` that you can use as an inspiration to create your own. It is based on the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg".
+# gdsfactory includes a generic Process Design Kit PDK, which is a library of components associated to a generic foundry process `gdsfactory.generic_tech`.
+# See components available in the [generic component library](https://gdsfactory.github.io/gdsfactory/components.html) that you can customize or adapt to create your own.
 #
-# The PDK technology also includes a [generic component library](https://gdsfactory.github.io/gdsfactory/components.html) that you can use to create your own components.
+# The generic process including layer numbers is based on the book "Silicon Photonics Design: From Devices to Systems Lukas Chrostowski, Michael Hochberg".
+# You can learn more about process design kits (PDKs) [in this tutorial](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
 #
 # ## LayerMap
 #

@@ -7,20 +7,16 @@ from gdsfactory.component import Component
 from gdsfactory.typings import Layer
 
 
-def _union_polygons(polygons, precision: float = 1e-4):
+def _union_polygons(polygons, precision: float = 1e-4) -> gdstk.Polygon:
     """Performs union of polygons within PolygonSet or list of polygons.
 
     Args:
-        polygons : PolygonSet or list of polygons
-            A set containing the input polygons.
-        precision : float
-            Desired precision for rounding vertex coordinates.
-        max_points : int
-            The maximum number of vertices within the resulting polygon.
+        polygons: PolygonSet or list of polygons. A set containing the input polygons.
+        precision: Desired precision for rounding vertex coordinates.
+        max_points: maximum number of vertices within the resulting polygon.
 
     Returns:
-        unioned: polygon The result of the union of all the polygons
-            within the input PolygonSet.
+        unioned: polygon result of the union of all polygons within the input PolygonSet.
     """
     return gdstk.boolean(
         polygons,
@@ -43,13 +39,12 @@ def union(
     based on phidl.geometry.union
 
     Args:
-        component: Component(/Reference), list of Component(/Reference), or Polygon
-            A containing the polygons to perform union and inversion on.
-        by_Layer: performs the union operation layer-wise so each layer can be
-            individually combined.
+        component: Component(/Reference), list of Component(/Reference), or Polygon \
+                A containing the polygons to perform union and inversion on.
+        by_Layer: performs the union operation layer-wise so each layer can be \
+                individually combined.
         precision: Desired precision for rounding vertex coordinates.
-        join_first: before offsetting to avoid unnecessary joins
-            in adjacent polygons.
+        join_first: before offsetting to avoid unnecessary joins in adjacent polygons.
         layer: Specific layer to put polygon geometry on.
 
     .. plot::
@@ -60,6 +55,7 @@ def union(
       c << gf.components.ellipse(radii=(6, 6))
       c << gf.components.ellipse(radii=(10, 4))
       c2 = gf.geometry.union(c, join_first=False)
+      c2.plot()
     """
     U = Component()
 

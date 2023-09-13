@@ -29,7 +29,7 @@ def add_fiber_array(
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     get_input_labels_function: Callable | None = get_input_labels_dash,
-    layer_label: LayerSpec | None = "LABEL",
+    layer_label: LayerSpec | None = None,
     **kwargs,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
@@ -68,6 +68,7 @@ def add_fiber_array(
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
+        fiber_spacing: in um.
 
     .. plot::
         :include-source:
@@ -175,11 +176,15 @@ def add_fiber_array(
             port=port_grating,
         )
 
-    for i, port in enumerate(ports_loopback):
-        grating_ref = port_grating.parent
+    if ports_loopback:
+        grating_ref = ports_loopback[0].parent
         component_new.add_port(
-            f"opt-{grating_ref.parent.name}-{component_name}-loopback{i}",
-            port=port,
+            f"opt-{grating_ref.parent.name}-{component_name}-loopback_1",
+            port=ports_loopback[0],
+        )
+        component_new.add_port(
+            f"opt-{grating_ref.parent.name}-{component_name}-loopback_{len(ports)}",
+            port=ports_loopback[1],
         )
 
     component_new.copy_child_info(component)
@@ -233,7 +238,9 @@ if __name__ == "__main__":
     # c = gf.components.spiral(direction="NORTH")
 
     # c = gf.components.bend_euler(info=dict(doe="bends"))
-    cc = add_fiber_array(c, layer_label="TEXT", layer_label_loopback="TEXT")
+    cc = add_fiber_array(
+        c, layer_label=None, layer_label_loopback=None, with_loopback=False
+    )
 
     # cc = add_fiber_array(
     #     component=c,
@@ -252,4 +259,4 @@ if __name__ == "__main__":
     #     cross_section=strip,
     #     info=dict(a=1),
     # )
-    cc.show(show_ports=False)
+    cc.show(show_ports=True)

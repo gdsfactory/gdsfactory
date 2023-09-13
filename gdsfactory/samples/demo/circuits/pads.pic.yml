@@ -3,6 +3,9 @@ name: sample_different_factory
 instances:
   bl:
     component: pad
+    settings:
+      size: [100, 100]
+
   tl:
     component: pad
   br:
@@ -13,7 +16,7 @@ instances:
 placements:
   tl:
     x: 100
-    y: 500
+    y: 600
 
   br:
     x: 400

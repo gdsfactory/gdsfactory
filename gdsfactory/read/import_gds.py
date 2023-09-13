@@ -33,8 +33,7 @@ def import_gds(
         gdsdir: optional GDS directory.
         read_metadata: loads metadata (ports, settings) if it exists in YAML format.
         keep_name_short: appends a hash to a shortened component name.
-        unique_names: appends $ with a number to the name if the cell name is on CACHE.
-            This avoids name collisions when importing multiple times the same cell name.
+        unique_names: appends $ with a number to the name if the cell name is on CACHE. This avoids name collisions when importing multiple times the same cell name.
         kwargs: extra to add to component.info (polarization, wavelength ...).
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)

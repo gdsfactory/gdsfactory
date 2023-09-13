@@ -17,17 +17,18 @@ def get_netlist_flat(
 
     Procedure:
         - Recursively parse the recursive dict to generate a unique list of all instances **even if they are reused**
-          Each entry is formatted as [(netlist, instance),...], and defines a unique flat_name = {top}{hierarchy_delimiter}{instance}{hierarchy_delimiter}{instance}{hierarchy_delimiter}...
+          Each entry is formatted as [(netlist, instance),...], \
+                  and defines a unique flat_name = {top}{hierarchy_delimiter}{instance}{hierarchy_delimiter}{instance}{hierarchy_delimiter}...
         - Populate the flat netlist dict with similar entries as regular gdsfactory netlists:
             - instances: component, info, and settings from the original netlist, but keyed with flat_name
             - placements: For instance corresponding to each flat_name, accumulate placements across the hierarchy
-            - ports and connections: each unique port of each flat_name instance is uniquely named as flat_name,port_name
-                                     for each flat_name,port_name, starting at lowest hierarchy level:
-                                        - list connections at that level (finding the proper other flat_name,port_name if non-leaf level)
-                                        - if possible, maps the port to a port of that instance's netlist, and repeat at a higher level
-                                        - if the top level is reached, assign that flat_name,port_name to a top-level component port instead
-                    the returned ports dict has top level component portname: flat_name,port_name mappings
-                    the returned connections dict is sorted and flattened into a minimal (flat_name,port_name)_1: [(flat_name,port_name)] key: value pairs
+            - ports and connections: each unique port of each flat_name instance is\
+                    uniquely named as flat_name,port_name for each flat_name,port_name, starting at lowest hierarchy level:
+                - list connections at that level (finding the proper other flat_name,port_name if non-leaf level)
+                - if possible, maps the port to a port of that instance's netlist, and repeat at a higher level
+                - if the top level is reached, assign that flat_name,port_name to a top-level component port instead \
+                        the returned ports dict has top level component portname: flat_name,port_name mappings \
+                        the returned connections dict is sorted and flattened into a minimal (flat_name,port_name)_1: [(flat_name,port_name)] key: value pairs \
                         If allow_multiple flag in get_netlist is True, the values will be lists (to support multiple connections)
             - name: top_level_component name
 
@@ -35,8 +36,7 @@ def get_netlist_flat(
         component: to extract flat netlist.
 
     Keyword Args:
-        component_suffix: suffix to append to each component name.
-            useful if to save and reload a back-annotated netlist.
+        component_suffix: suffix to append to each component name, useful if to save and reload a back-annotated netlist.
         get_netlist_func: function to extract individual netlists.
         full_settings: True returns all, false changed settings.
         tolerance: tolerance in nm to consider two ports connected.

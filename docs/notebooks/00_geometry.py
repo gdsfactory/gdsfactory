@@ -30,18 +30,11 @@
 
 # %%
 import gdsfactory as gf
-from gdsfactory.generic_tech import get_generic_pdk
-
-gf.config.rich_output()
-
-PDK = get_generic_pdk()
-PDK.activate()
 
 
-@gf.cell
 def demo_polygons():
     # Create a blank component (essentially an empty GDS cell with some special features)
-    c = gf.Component()
+    c = gf.Component("demo")
 
     # Create and add a polygon from separate lists of x points and y points
     # (Can also be added like [(x1,y1), (x2,y2), (x3,y3), ... ]

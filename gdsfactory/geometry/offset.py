@@ -22,17 +22,17 @@ def offset(
     """Returns new Component with polygons eroded or dilated by an offset.
 
     Args:
-        elements: Component(/Reference), list of Component(/Reference), or Polygon
-          Polygons to offset or Component containing polygons to offset.
+        elements: Component(/Reference), list of Component(/Reference), or Polygons \
+                to offset or Component containing polygons to offset.
         distance: Distance to offset polygons. Positive values expand, negative shrink.
         use_union: If True, use union of all polygons to offset. If False, offset
         precision: Desired precision for rounding vertex coordinates.
         join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
-        tolerance: For miter joints, this number must be at least 2 represents the
-          maximal distance in multiples of offset between new vertices and their
-          original position before beveling to avoid spikes at acute joints. For
-          round joints, it indicates the curvature resolution in number of
-          points per full circle.
+        tolerance: For miter joints, this number must be at least 2 represents the \
+                maximal distance in multiples of offset between new vertices and their \
+                original position before beveling to avoid spikes at acute joints. For \
+                round joints, it indicates the curvature resolution in number of \
+                points per full circle.
         layer: Specific layer to put polygon geometry on.
 
     Returns:

@@ -8,8 +8,7 @@ instances:
   r2:
     component: rectangle
     settings:
-        size: [2, 4]
-
+        size: [2, 4
 placements:
     r1:
         xmin: 0

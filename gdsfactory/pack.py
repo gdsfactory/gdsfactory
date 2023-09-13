@@ -38,8 +38,7 @@ def _pack_single_bin(
         density: of packing, closer to 1 packs tighter (more compute heavy).
 
     Returns:
-        packed rectangles dict {id:(x,y,w,h)}.
-        dict of remaining unpacked rectangles.
+        packed rectangles dict {id:(x,y,w,h)}. dict of remaining unpacked rectangles.
 
     """
     import rectpack
@@ -127,8 +126,8 @@ def pack(
         text_rotation: Optional text rotation.
         text_offsets: relative to component size info anchor. Defaults to center.
         text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
-        name_prefix: for each packed component (avoids the Unnamed cells warning).
-            Note that the suffix contains a uuid so the name will not be deterministic.
+        name_prefix: for each packed component (avoids the Unnamed cells warning). \
+                Note that the suffix contains a uuid so the name will not be deterministic.
         rotation: optional component rotation in degrees.
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
