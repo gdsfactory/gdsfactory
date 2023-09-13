@@ -313,7 +313,7 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label: LABEL
+    layer_label: null
     loopback_xspacing: 50.0
     min_input_to_output_spacing: 200.0
     optical_routing_type: 2
@@ -355,7 +355,7 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label: LABEL
+    layer_label: null
     loopback_xspacing: 50.0
     min_input_to_output_spacing: 200.0
     optical_routing_type: 2

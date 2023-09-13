@@ -25,7 +25,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 def add_fiber_single(
     component: ComponentSpec = straight_function,
     grating_coupler=grating_coupler_te,
-    layer_label: LayerSpec | None = "LABEL",
+    layer_label: LayerSpec | None = None,
     fiber_spacing: float = 50,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
@@ -53,7 +53,7 @@ def add_fiber_single(
     Args:
         component: component or component function to connect to grating couplers.
         grating_coupler: grating coupler instance, function or list of functions.
-        layer_label: for test and measurement label.
+        layer_label: optional layer for test and measurement label. None avoids label.
         fiber_spacing: between outputs.
         bend: bend spec.
         straight: straight sepc.
@@ -159,11 +159,9 @@ def add_fiber_single(
     gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].center[0])
 
     c = Component()
-
     c.component = component
     cr = c << component
     cr.rotate(90)
-
     elements = []
 
     for port in cr.ports.values():
