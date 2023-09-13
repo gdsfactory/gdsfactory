@@ -252,7 +252,7 @@ if __name__ == "__main__":
     for e in gc:
         cc.add(e)
 
-    cc.add_ports(ports_grating_input_waveguide)
+    # cc.add_ports(ports_grating_input_waveguide)
     cc.show(show_ports=True)
 
     # layer = (31, 0)
