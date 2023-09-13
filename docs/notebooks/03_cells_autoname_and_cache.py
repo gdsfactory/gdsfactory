@@ -58,12 +58,6 @@
 # %%
 import gdsfactory as gf
 from gdsfactory.cell import print_cache
-from gdsfactory.generic_tech import get_generic_pdk
-
-gf.config.rich_output()
-
-PDK = get_generic_pdk()
-PDK.activate()
 
 
 def mzi_with_bend(radius: float = 10.0) -> gf.Component:

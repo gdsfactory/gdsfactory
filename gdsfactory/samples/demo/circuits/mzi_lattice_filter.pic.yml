@@ -1,3 +1,5 @@
+pdk: ubcpdk
+
 instances:
   mzi1:
     component: mzi_ubcpdk
@@ -8,6 +10,7 @@ instances:
     component: mzi_ubcpdk
     settings:
       dy: -500
+
 
   gc1:
     component: gc_te1550

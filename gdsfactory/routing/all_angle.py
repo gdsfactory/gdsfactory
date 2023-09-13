@@ -2,7 +2,6 @@ import warnings
 from collections.abc import Callable
 
 import numpy as np
-import shapely.geometry as sg
 
 from gdsfactory.component import Component, ComponentReference, Port
 from gdsfactory.components.straight import straight
@@ -24,8 +23,7 @@ Connector = Callable[..., list[ComponentReference]]
 
 
 def get_connector(name: str) -> Connector:
-    """
-    Gets a connector function by name.
+    """Gets a connector function by name.
 
     Args:
         name: the name of the connector function to retrieve.
@@ -49,16 +47,18 @@ def vector_intersection(
     Gets the intersection point between two vectors, specified by (point, angle) pairs, (p0, a0) and (p1, a1).
 
     Args:
-        p0: x,y location of vector 0
-        a0: angle of vector 0 [degrees]
-        p1: x,y location of vector 1
-        a1: angle of vector 1 [degrees]
-        max_distance: maximum search distance for an intersection [um]
+        p0: x,y location of vector 0.
+        a0: angle of vector 0 [degrees].
+        p1: x,y location of vector 1.
+        a1: angle of vector 1 [degrees].
+        max_distance: maximum search distance for an intersection [um].
         raise_error: if True, raises an error if no intersection is found. Otherwise, returns None in that case.
 
     Returns:
         The (x,y) point of intersection, if one is found. Otherwise None.
     """
+    import shapely.geometry as sg
+
     a0_rad = np.deg2rad(a0)
     a1_rad = np.deg2rad(a1)
     dx0 = max_distance * np.cos(a0_rad)
@@ -123,15 +123,15 @@ def low_loss_connector(
     Routes between two ports, using the lowest-loss cross-section which will fit.
 
     Args:
-        port1: the starting port
-        port2: the ending port
-        prioritized_cross_sections: a list of cross-sections, sorted by preference (starting with most preferred). If None, uses the global variable LOW_LOSS_CROSS_SECTIONS
+        port1: the starting port.
+        port2: the ending port.
+        prioritized_cross_sections: a list of cross-sections, sorted by preference (starting with most preferred). If None, uses the global variable LOW_LOSS_CROSS_SECTIONS.
 
     Keyword Args:
         kwargs are added for API compatibility, but they are ignored.
 
     Returns:
-        A list of component references comprising the connection
+        A list of component references comprising the connection.
     """
     distance = np.sqrt(np.sum(np.square(port2.center - port1.center)))
     if prioritized_cross_sections is None:
@@ -504,23 +504,22 @@ def get_bundle_all_angle(
     Args:
         ports1: ports at the start of the bundle.
         ports2: ports at the end of the bundle.
-        steps: a list of steps, which contain directives on how to proceed with the route.
-            "x", "y", "dx", "dy", "ds", "exit_angle", "cross_section", "connector", "separation".
-            The first route, between ports1[0] and ports2[0] will take on the role of the primary route,
-            and other routes will follow, given the bundling logic.
-            It is assume that both ports1 and ports2 are sorted.
-        cross_section: the default cross-section of the bends.
-            Then the specified connector may also use this information for straights in between.
+        steps: a list of steps, which contain directives on how to proceed with the route. \
+                "x", "y", "dx", "dy", "ds", "exit_angle", "cross_section", "connector", "separation". \
+                The first route, between ports1[0] and ports2[0] will take on the role of the primary route, \
+                and other routes will follow, given the bundling logic. \
+                It is assume that both ports1 and ports2 are sorted. \
+        cross_section: the default cross-section of the bends. Then the specified connector may also use this information for straights in between.
         bend: the default component to use for the bends.
         connector: the default connector to use to connect between two ports.
-        start_angle: if defined and different from the angle of port1,
-            will cap the starting port with a bend, as to exit with this angle.
-        end_angle:  if defined, and different from the angle of port2,
-            will cap the ending port with a bend, as to exit with this angle.
+        start_angle: if defined and different from the angle of port1, \
+                will cap the starting port with a bend, as to exit with this angle.
+        end_angle:  if defined, and different from the angle of port2, \
+                will cap the ending port with a bend, as to exit with this angle.
         end_connector: specifies the connector to use for the final straight segment of the route.
         end_cross_section: specifies the cross section to use for the final straight segment of the route.
-        separation: specifies the separation between adjacent routes.
-            If None, will query each segment's cross-section's and choose the largest value.
+        separation: specifies the separation between adjacent routes. If None, will query \
+                each segment's cross-section's and choose the largest value.
         kwargs: added for compatibility, but in general, kwargs will be ignored with a warning.
 
     Returns:

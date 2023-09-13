@@ -40,22 +40,22 @@ class Section(BaseModel):
     """CrossSection to extrude a path with a waveguide.
 
     Parameters:
-        width: of the section (um) or parameterized function from 0 to 1.
-             the width at t==0 is the width at the beginning of the Path.
-             the width at t==1 is the width at the end.
-        offset: center offset (um) or function parameterized function from 0 to 1.
-             the offset at t==0 is the offset at the beginning of the Path.
-             the offset at t==1 is the offset at the end.
-        insets: distance (um) in x to inset section relative to end of the Path
-             (i.e. (start inset, stop_inset)).
+        width: of the section (um) or parameterized function from 0 to 1. \
+                the width at t==0 is the width at the beginning of the Path. \
+                the width at t==1 is the width at the end.
+        offset: center offset (um) or function parameterized function from 0 to 1. \
+                the offset at t==0 is the offset at the beginning of the Path. \
+                the offset at t==1 is the offset at the end.
+        insets: distance (um) in x to inset section relative to end of the Path \
+                (i.e. (start inset, stop_inset)).
         layer: layer spec. If None does not draw the main section.
         port_names: Optional port names.
         port_types: optical, electrical, ...
         name: Optional Section name.
         hidden: hide layer.
-        simplify: Optional Tolerance value for the simplification algorithm.
-          All points that can be removed without changing the resulting.
-          polygon by more than the value listed here will be removed.
+        simplify: Optional Tolerance value for the simplification algorithm. \
+                All points that can be removed without changing the resulting. \
+                polygon by more than the value listed here will be removed.
 
 
     .. code::
@@ -87,8 +87,8 @@ class ComponentAlongPath(BaseModel):
     """A ComponentAlongPath object to place along an extruded path.
 
     Parameters:
-        component: Component to repeat along the path. The unrotated version of
-            this object should be oriented for placement on a horizontal line.
+        component: to repeat along the path. The unrotated version should be oriented \
+                for placement on a horizontal line.
         spacing: distance between component placements
         padding: minimum distance from the path start to the first component.
         y_offset: offset in y direction (um).
@@ -106,14 +106,14 @@ class CrossSection(BaseModel):
     cladding_layers follow path shape, while bbox_layers are rectangular.
 
     Parameters:
-        layer: main Section layer. Main section name = '_default'.
-            If None does not draw the main section.
-        width: main Section width (um) or function parameterized from 0 to 1.
-            the width at t==0 is the width at the beginning of the Path.
-            the width at t==1 is the width at the end.
-        offset: main Section center offset (um) or function from 0 to 1.
-             the offset at t==0 is the offset at the beginning of the Path.
-             the offset at t==1 is the offset at the end.
+        layer: main Section layer. Main section name = '_default'. \
+                If None does not draw the main section.
+        width: main Section width (um) or function parameterized from 0 to 1.\
+                the width at t==0 is the width at the beginning of the Path. \
+                the width at t==1 is the width at the end.
+        offset: main Section center offset (um) or function from 0 to 1. \
+                the offset at t==0 is the offset at the beginning of the Path. \
+                the offset at t==1 is the offset at the end.
         radius: main Section bend radius (um).
         simplify: main Section Optional Tolerance value for the simplification algorithm.
         width_wide: wide waveguides width (um) for low loss routing.
@@ -124,9 +124,9 @@ class CrossSection(BaseModel):
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm.
-          All points that can be removed without changing the resulting.
-          polygon by more than the value listed here will be removed.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
+                All points that can be removed without changing the resulting polygon \
+                by more than the value listed here will be removed.
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
@@ -277,14 +277,13 @@ class Transition(CrossSection):
     Parameters:
         cross_section1: input cross_section.
         cross_section2: output cross_section.
-        width_type: sine or linear.
-          Sets the type of width transition used if any widths are different
-          between the two input CrossSections.
+        width_type: sine or linear. Sets the type of width transition used if widths are different \
+                between the two input CrossSections.
         sections: list of Sections(width, offset, layer, ports).
         layer: main Section layer. Main section name = '_default'.
-        width: main Section width (um) or function parameterized from 0 to 1.
-            the width at t==0 is the width at the beginning of the Path.
-            the width at t==1 is the width at the end.
+        width: main Section width (um) or function parameterized from 0 to 1. \
+                the width at t==0 is the width at the beginning of the Path. \
+                the width at t==1 is the width at the end.
         snap_to_grid: Optional snap points to grid when extruding paths (um).
         radius: main Section bend radius (um).
         width_wide: wide waveguides width (um) for low loss routing.
@@ -295,9 +294,9 @@ class Transition(CrossSection):
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm.
-          All points that can be removed without changing the resulting.
-          polygon by more than the value listed here will be removed.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
+                All points that can be removed without changing the resulting. \
+                polygon by more than the value listed here will be removed.
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
@@ -423,12 +422,12 @@ def cross_section(
     """Return CrossSection.
 
     Args:
-        width: main Section width (um) or function parameterized from 0 to 1.
-            the width at t==0 is the width at the beginning of the Path.
-            the width at t==1 is the width at the end.
-        offset: main Section center offset (um) or function from 0 to 1.
-             the offset at t==0 is the offset at the beginning of the Path.
-             the offset at t==1 is the offset at the end.
+        width: main Section width (um) or function parameterized from 0 to 1. \
+                the width at t==0 is the width at the beginning of the Path. \
+                the width at t==1 is the width at the end.
+        offset: main Section center offset (um) or function from 0 to 1.\
+                the offset at t==0 is the offset at the beginning of the Path.\
+                the offset at t==1 is the offset at the end.
         layer: main section layer.
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
@@ -447,9 +446,9 @@ def cross_section(
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm.
-          All points that can be removed without changing the resulting.
-          polygon by more than the value listed here will be removed.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
+                All points that can be removed without changing the resulting. \
+                polygon by more than the value listed here will be removed.
         info: settings info.
         decorator: function to run when converting path to component.
         add_pins: optional function to add pins to component.
@@ -566,16 +565,16 @@ def slot(
     """Return CrossSection Slot (with an etched region in the center).
 
     Args:
-        width: main Section width (um) or function parameterized from 0 to 1.
-            the width at t==0 is the width at the beginning of the Path.
-            the width at t==1 is the width at the end.
+        width: main Section width (um) or function parameterized from 0 to 1. \
+                the width at t==0 is the width at the beginning of the Path. \
+                the width at t==1 is the width at the end.
         layer: main section layer.
         slot_width: in um.
 
     Keyword Args:
-        offset: main Section center offset (um) or function from 0 to 1.
-             the offset at t==0 is the offset at the beginning of the Path.
-             the offset at t==1 is the offset at the end.
+        offset: main Section center offset (um) or function from 0 to 1. \
+                the offset at t==0 is the offset at the beginning of the Path. \
+                the offset at t==1 is the offset at the end.
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
@@ -592,9 +591,9 @@ def slot(
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm.
-          All points that can be removed without changing the resulting.
-          polygon by more than the value listed here will be removed.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
+                All points that can be removed without changing the resulting. \
+                polygon by more than the value listed here will be removed.
         info: settings info.
         decorator: function to run when converting path to component.
         add_pins: optional function to add pins to component.
@@ -641,15 +640,15 @@ def rib_with_trenches(
     """Return CrossSection of rib waveguide defined by trenches.
 
     Args:
-        width: main Section width (um) or function parameterized from 0 to 1.
-            the width at t==0 is the width at the beginning of the Path.
-            the width at t==1 is the width at the end.
+        width: main Section width (um) or function parameterized from 0 to 1. \
+                the width at t==0 is the width at the beginning of the Path. \
+                the width at t==1 is the width at the end.
         width_trench: in um.
         width_slab: in um.
         layer: ridge layer. None adds only ridge.
         layer_trench: layer to etch trenches.
-        wg_marking_layer: layer to draw over the actual waveguide.
-            This can be useful for booleans, routing, placement ...
+        wg_marking_layer: layer to draw over the actual waveguide. \
+                This can be useful for booleans, routing, placement ...
         kwargs: cross_section settings.
 
 
@@ -714,9 +713,9 @@ def l_with_trenches(
     """Return CrossSection of l waveguide defined by trenches.
 
     Args:
-        width: main Section width (um) or function parameterized from 0 to 1.
-            the width at t==0 is the width at the beginning of the Path.
-            the width at t==1 is the width at the end.
+        width: main Section width (um) or function parameterized from 0 to 1. \
+                the width at t==0 is the width at the beginning of the Path. \
+                the width at t==1 is the width at the end.
         width_slab: in um.
         width_trench: in um.
         layer: ridge layer. None adds only ridge.
@@ -953,8 +952,7 @@ def pn(
         layer: ridge layer.
         layer_slab: slab layer.
         gap_low_doping: from waveguide center to low doping. Only used for PIN.
-        gap_medium_doping: from waveguide center to medium doping.
-            None removes medium doping.
+        gap_medium_doping: from waveguide center to medium doping. None removes it.
         gap_high_doping: from center to high doping. None removes it.
         offset_low_doping: from center to junction center.
         width_doping: in um.
@@ -976,9 +974,9 @@ def pn(
         bbox_offsets: list of bounding box offsets.
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm.
-          All points that can be removed without changing the resulting.
-          polygon by more than the value listed here will be removed.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
+                All points that can be removed without changing the resulting\
+                polygon by more than the value listed here will be removed.
         mirror: if True, reflects all doping sections.
 
     .. code::
@@ -1154,8 +1152,7 @@ def pn_with_trenches(
         layer: ridge layer. None adds only ridge.
         layer_trench: layer to etch trenches.
         gap_low_doping: from waveguide center to low doping. Only used for PIN.
-        gap_medium_doping: from waveguide center to medium doping.
-            None removes medium doping.
+        gap_medium_doping: from waveguide center to medium doping. None removes it.
         gap_high_doping: from center to high doping. None removes it.
         offset_low_doping: from center to junction center.
         width_doping: in um.
@@ -1178,9 +1175,9 @@ def pn_with_trenches(
         bbox_offsets: list of bounding box offsets.
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm.
-          All points that can be removed without changing the resulting.
-          polygon by more than the value listed here will be removed.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.\
+                All points that can be removed without changing the resulting. \
+                polygon by more than the value listed here will be removed.
         mirror: if True, reflects all doping sections.
         kwargs: cross_section settings.
 
@@ -1363,16 +1360,15 @@ def pn_with_trenches_asymmetric(
         width: width of the ridge in um.
         layer: ridge layer. None adds only ridge.
         layer_trench: layer to etch trenches.
-        gap_low_doping: from waveguide center to low doping. Only used for PIN.
-            If a list, it considers the first element is [p_side, n_side]. If a number,
-            it assumes the same for both sides.
-        gap_medium_doping: from waveguide center to medium doping.
-            None removes medium doping.
-            If a list, it considers the first element is [p_side, n_side]. If a number,
-            it assumes the same for both sides.
-        gap_high_doping: from center to high doping. None removes it.
-            If a list, it considers the first element is [p_side, n_side]. If a number,
-            it assumes the same for both sides.
+        gap_low_doping: from waveguide center to low doping. Only used for PIN. \
+                If a list, it considers the first element is [p_side, n_side]. If a number, \
+                it assumes the same for both sides.
+        gap_medium_doping: from waveguide center to medium doping. None removes it. \
+                If a list, it considers the first element is [p_side, n_side]. \
+                If a number, it assumes the same for both sides.
+        gap_high_doping: from center to high doping. None removes it. \
+                If a list, it considers the first element is [p_side, n_side].\
+                If a number, it assumes the same for both sides.
         width_doping: in um.
         width_slab: in um.
         width_trench: in um.
@@ -1588,8 +1584,7 @@ def l_wg_doped_with_trenches(
         layer: ridge layer. None adds only ridge.
         layer_trench: layer to etch trenches.
         gap_low_doping: from waveguide outer edge to low doping. Only used for PIN.
-        gap_medium_doping: from waveguide edge to medium doping.
-            None removes medium doping.
+        gap_medium_doping: from waveguide edge to medium doping. None removes it.
         gap_high_doping: from edge to high doping. None removes it.
         width_doping: in um.
         width_slab: in um.
@@ -2171,11 +2166,9 @@ def pn_ge_detector_si_contacts(
         width_ge: width of the ge in um.
         layer_ge: ge layer.
         gap_low_doping: from waveguide center to low doping.
-        gap_medium_doping: from waveguide center to medium doping.
-            None removes medium doping.
+        gap_medium_doping: from waveguide center to medium doping. None removes it.
         gap_high_doping: from center to high doping. None removes it.
-        width_doping: distance from the waveguide center to the edge
-            of the p (or n) dopings in um.
+        width_doping: distance from waveguide center to the edge of the p (or n) doping in um.
         layer_p: p doping layer.
         layer_pp: p+ doping layer.
         layer_ppp: p++ doping layer.

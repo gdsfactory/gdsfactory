@@ -25,7 +25,7 @@ port_prefixes = [
 @pydantic.validate_call
 def add_label_yaml(
     component: gf.Component,
-    port_prefixes: list[str] = ("opt_", "_elec"),
+    port_prefixes: tuple[str, ...] = ("opt_", "_elec"),
     layer: LayerSpec = "LABEL",
     metadata_ignore: list[str] | None = ignore,
     metadata_include_parent: list[str] | None = None,

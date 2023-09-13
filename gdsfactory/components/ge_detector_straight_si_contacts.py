@@ -92,8 +92,8 @@ def ge_detector_straight_si_contacts(
 
 
 if __name__ == "__main__":
-    comp = ge_detector_straight_si_contacts(
-        via_stack=(via_stack_slab_m3, via_stack_slab_m2), via_stack_offset=10
+    c = ge_detector_straight_si_contacts(
+        via_stack=(via_stack_slab_m3, via_stack_slab_m2), via_stack_offset=0
     )
     # print(c.ports.keys())
-    comp.show(show_ports=True)
+    c.show(show_ports=True)

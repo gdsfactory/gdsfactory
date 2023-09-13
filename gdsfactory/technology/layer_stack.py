@@ -26,20 +26,16 @@ class LayerLevel(BaseModel):
         material: material name.
         sidewall_angle: in degrees with respect to normal.
         sidewall_angle_tolerance: in degrees.
-        width_to_z: if sidewall_angle, relative z-position
-            (0 --> zmin, 1 --> zmin + thickness).
-        z_to_bias: parametrizes shrinking/expansion of the design GDS layer
-            when extruding from zmin (0) to zmin + thickness (1).
-            Defaults no buffering [[0, 1], [0, 0]].
-        mesh_order: lower mesh order (1) will have priority over higher
-            mesh order (2) in the regions where materials overlap.
-        refractive_index: refractive_index
-            can be int, complex or function that depends on wavelength (um).
+        width_to_z: if sidewall_angle, relative z-position (0 --> zmin, 1 --> zmin + thickness).
+        z_to_bias: parametrizes shrinking/expansion of the design GDS layer \
+                when extruding from zmin (0) to zmin + thickness (1).\
+                Defaults no buffering [[0, 1], [0, 0]].
+        mesh_order: lower mesh order (1) will have priority over higher \
+                mesh order (2) in the regions where materials overlap.
+        refractive_index: int, complex or function that depends on wavelength (um).
         type: grow, etch, implant, or background.
-        mode: octagon, taper, round.
-            https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
-        into: etch into another layer.
-            https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+        mode: octagon, taper, round. https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+        into: etch into another layer. https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
         background_doping_concentration: uniform base doping level in the material (cm-3)
         background_doping_ion: uniform base doping ion in the material
         orientation: of the wafer (Miller indices of the plane)
@@ -121,14 +117,15 @@ class LayerStack(BaseModel):
     ):
         """Returns component with new layers that combine port names and original layers, and modifies the layerstack accordingly.
 
-        Uses port's "layer" attribute to decide which polygons need to be renamed. New layers are named "layername{delimiter}portname".
+        Uses port's layer attribute to decide which polygons need to be renamed.
+        New layers are named "layername{delimiter}portname".
 
-        Arguments
-            component: to process
+        Args:
+            component: to process.
             portnames: list of portnames to process into new layers.
-            delimiter: the new layer created is called "layername{delimiter}portname"
+            delimiter: the new layer created is called "layername{delimiter}portname".
             new_layers_init: initial layer number for the temporary new layers.
-            add_to_layerstack: True by default, but can be set to False to disable parsing of the layerstack
+            add_to_layerstack: True by default, but can be set to False to disable parsing of the layerstack.
         """
         import gdstk
 

@@ -72,7 +72,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -98,7 +98,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -167,7 +167,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -193,7 +193,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -262,7 +262,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -288,7 +288,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -357,7 +357,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -383,7 +383,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -452,7 +452,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -478,7 +478,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -547,7 +547,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -573,7 +573,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -642,7 +642,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -668,7 +668,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -737,7 +737,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -763,7 +763,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -832,7 +832,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -858,7 +858,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -927,7 +927,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -953,7 +953,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -1022,7 +1022,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -1048,7 +1048,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -1117,7 +1117,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -1143,7 +1143,7 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label: LABEL
+            layer_label: null
             select_ports:
               function: select_ports
               settings:
@@ -1194,60 +1194,60 @@ warnings:
       ports:
       - rings,0_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius50-o1
       - rings,0_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius50-o2
-      - rings,0_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius50-loopback0
-      - rings,0_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius50-loopback1
+      - rings,0_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius50-loopback_1
+      - rings,0_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius50-loopback_4
       - rings,1_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius50-o1
       - rings,1_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius50-o2
-      - rings,1_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius50-loopback0
-      - rings,1_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius50-loopback1
+      - rings,1_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius50-loopback_1
+      - rings,1_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius50-loopback_4
       - rings,2_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius50-o1
       - rings,2_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius50-o2
-      - rings,2_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius50-loopback0
-      - rings,2_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius50-loopback1
+      - rings,2_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius50-loopback_1
+      - rings,2_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius50-loopback_4
       - rings,3_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius40-o1
       - rings,3_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius40-o2
-      - rings,3_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius40-loopback0
-      - rings,3_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius40-loopback1
+      - rings,3_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius40-loopback_1
+      - rings,3_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius40-loopback_4
       - rings,4_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius40-o1
       - rings,4_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius40-o2
-      - rings,4_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius40-loopback0
-      - rings,4_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius40-loopback1
+      - rings,4_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius40-loopback_1
+      - rings,4_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius40-loopback_4
       - rings,5_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius40-o1
       - rings,5_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius40-o2
-      - rings,5_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius40-loopback0
-      - rings,5_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius40-loopback1
+      - rings,5_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius40-loopback_1
+      - rings,5_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius40-loopback_4
       - rings,6_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius30-o1
       - rings,6_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius30-o2
-      - rings,6_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius30-loopback0
-      - rings,6_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius30-loopback1
+      - rings,6_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius30-loopback_1
+      - rings,6_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius30-loopback_4
       - rings,7_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius30-o1
       - rings,7_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius30-o2
-      - rings,7_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius30-loopback0
-      - rings,7_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius30-loopback1
+      - rings,7_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius30-loopback_1
+      - rings,7_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius30-loopback_4
       - rings,8_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius30-o1
       - rings,8_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius30-o2
-      - rings,8_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius30-loopback0
-      - rings,8_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius30-loopback1
+      - rings,8_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius30-loopback_1
+      - rings,8_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius30-loopback_4
       - rings,9_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius20-o1
       - rings,9_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius20-o2
-      - rings,9_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius20-loopback0
-      - rings,9_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius20-loopback1
+      - rings,9_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius20-loopback_1
+      - rings,9_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x1_radius20-loopback_4
       - rings,10_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius20-o1
       - rings,10_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius20-o2
-      - rings,10_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius20-loopback0
-      - rings,10_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius20-loopback1
+      - rings,10_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius20-loopback_1
+      - rings,10_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x2_radius20-loopback_4
       - rings,11_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius20-o1
       - rings,11_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius20-o2
-      - rings,11_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius20-loopback0
-      - rings,11_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius20-loopback1
+      - rings,11_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius20-loopback_1
+      - rings,11_opt-grating_coupler_elliptical_trenches_taper_angle35-ring_single_length_x3_radius20-loopback_4
       - mzis,0_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length10-o1
       - mzis,0_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length10-o2
-      - mzis,0_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length10-loopback0
-      - mzis,0_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length10-loopback1
+      - mzis,0_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length10-loopback_1
+      - mzis,0_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length10-loopback_4
       - mzis,1_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length100-o1
       - mzis,1_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length100-o2
-      - mzis,1_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length100-loopback0
-      - mzis,1_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length100-loopback1
+      - mzis,1_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length100-loopback_1
+      - mzis,1_0_opt-grating_coupler_elliptical_trenches_taper_angle35-mzi_delta_length100-loopback_4
       values:
       - - 189.973
         - 50.851

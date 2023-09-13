@@ -98,7 +98,7 @@ def write_labels_klayout(
 
 def write_labels_gdstk(
     gdspath: Path,
-    prefixes: list[str] = ("opt", "elec"),
+    prefixes: tuple[str, ...] = ("opt", "elec"),
     layer_label: LayerSpec = "LABEL",
     filepath: PathType | None = None,
     debug: bool = False,
