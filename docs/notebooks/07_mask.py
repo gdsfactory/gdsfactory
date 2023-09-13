@@ -556,4 +556,8 @@ from gdsfactory.labels.write_test_manifest import write_test_manifest
 dm = write_test_manifest(csvpath)
 dm
 
-# %%
+# %% [markdown]
+# ![](https://i.imgur.com/FnOCb6H.png)
+
+# %% [markdown]
+#
