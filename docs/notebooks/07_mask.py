@@ -70,11 +70,9 @@ PDK.activate()
 c = gf.components.mzi_phase_shifter()
 c = gf.components.add_fiber_array_optical_south_electrical_north(
     c,
-    test_info=dict(
-        doe="mzis",
-        data_analysis="mzi_phase_shifter",
-        test_sequence="optical_electrial",
-    ),
+    doe="mzis",
+    analysis="mzi_phase_shifter",
+    measurement="optical_electrial",
 )
 c.plot()
 
@@ -149,7 +147,6 @@ mmi = gf.components.mmi2x2(length_mmi=10)
 mmi_te_ehva = gf.routing.add_fiber_array(
     mmi, get_input_labels_function=None, decorator=add_label_ehva_demo
 )
-mmi_te_ehva.show()
 mmi_te_ehva.plot()
 
 # %%

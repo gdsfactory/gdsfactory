@@ -43,8 +43,8 @@ def add_fiber_array_optical_south_electrical_north(
         grating_coupler: grating coupler function.
         xs_metal: metal cross section.
         layer_label: layer for settings label.
-        test_info: measurement.
-        analysis: analysis.
+        measurement: measurement name.
+        analysis: analysis name.
         doe: Design of Experiment.
 
     Keyword Args:
