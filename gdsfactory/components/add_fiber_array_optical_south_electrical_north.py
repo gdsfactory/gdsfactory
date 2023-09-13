@@ -35,7 +35,7 @@ def add_fiber_array_optical_south_electrical_north(
         pad_spacing: spacing between pads.
         fiber_spacing: spacing between grating couplers.
         pad_gc_spacing: spacing between pads and grating couplers.
-        electrical_port_names: list of electrical port names. Defaults to all electrical ports.
+        electrical_port_names: list of electrical port names. Defaults to all.
         electrical_port_orientation: orientation of electrical ports. Defaults to 90.
         npads: number of pads. Defaults to one per electrical_port_names.
         grating_coupler: grating coupler function.
@@ -115,24 +115,35 @@ def add_fiber_array_optical_south_electrical_north(
         c.add(route.references)
 
     c.add_ports(ports2)
+    xc, yc = c.center
 
     if layer_label:
         electrical_ports = {
-            p.name: dict(x=p.x, y=p.y, orientation=p.orientation) for p in ports2
+            p.name: dict(x=int(p.x - xc), y=int(p.y - yc), orientation=p.orientation)
+            for p in ports2
         }
-        optical_ports = {
-            p.name: dict(x=p.x, y=p.y, orientation=p.orientation) for p in optical_ports
+
+        optical_component_ports = {
+            p.name: dict(x=int(p.x - xc), y=int(p.y - yc), orientation=p.orientation)
+            for p in optical_ports
+            if "loopback" not in p.name
+        }
+
+        optical_alignment_ports = {
+            p.name: dict(x=int(p.x - xc), y=int(p.y - yc), orientation=p.orientation)
+            for p in optical_ports
+            if "loopback" in p.name
         }
 
         settings = dict(
             test_type="optical_south_electrical_north}",
-            with_loopback=with_loopback,
             nelectrical=npads,
             noptical=len(r.get_ports_list(port_type="optical")),
             settings=component.settings.full,
             name=component.name,
             electrical_ports=electrical_ports,
-            optical_ports=optical_ports,
+            optical_component_ports=optical_component_ports,
+            optical_alignment_ports=optical_alignment_ports,
             test_info=test_info or {},
         )
         info = json.dumps(settings)
