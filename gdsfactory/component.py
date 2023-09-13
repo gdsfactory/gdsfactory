@@ -682,7 +682,7 @@ class Component(_GeometryHelper):
         for port in self.ports.values():
             port.assert_on_grid(nm=nm)
 
-    def get_ports(self, depth=None):
+    def get_ports(self, depth=0):
         """Returns copies of all the ports of the Component, rotated and \
                 translated so that they're in their top-level position.
 
