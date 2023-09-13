@@ -89,7 +89,8 @@ json.loads(c.labels[0].text)
 # %% [markdown]
 # ### 2. SiEPIC labels
 #
-# Labels follow format `opt_in_{polarization}_{wavelength}_device_{username}_({component_name})-{gc_index}-{port.name}` and you only need to label the input port
+# Labels follow format `opt_in_{polarization}_{wavelength}_device_{username}_({component_name})-{gc_index}-{port.name}` and you only need to label the input port of the fibe array.
+# This also includes one label per test site.
 
 # %%
 mmi = gf.components.mmi2x2()
@@ -482,22 +483,26 @@ gdspath = c.write_gds("demo.gds", with_metadata=True)
 # You can use GDS labels to store device information such as settings and port locations.
 #
 # The advantage of GDS labels is that they are all stored in the same file.
+#
+# We define a single label for each test site, and the label contains all the testing and data analysis information.
 
 # %%
 test_info_mzi_heaters = dict(
     doe="mzis_heaters",
-    data_analysis="mzi_heater",
-    test_sequence="optical_heater",
+    analysis="mzi_heater_phase_shifter_length",
+    measurement="optical_mzi_heater",
 )
 test_info_ring_heaters = dict(
-    doe="ring_heaters",
-    data_analysis="ring_heater",
-    test_sequence="optical_heater",
+    doe="ring_heaters_coupling_length",
+    analysis="ring_heater",
+    measurement="optical_ring_heater",
 )
 
 mzis = [
-    gf.components.mzi_phase_shifter(length_x=lengths) for lengths in [100, 200, 300]
+    gf.components.mzi2x2_2x2_phase_shifter(length_x=lengths)
+    for lengths in [100, 200, 300]
 ]
+
 rings = [
     gf.components.ring_single_heater(length_x=length_x) for length_x in [10, 20, 30]
 ]
@@ -506,18 +511,23 @@ mzis_te = [
     gf.components.add_fiber_array_optical_south_electrical_north(
         mzi,
         electrical_port_names=["top_l_e2", "top_r_e2"],
-        test_info=test_info_mzi_heaters,
+        **test_info_mzi_heaters,
     )
     for mzi in mzis
 ]
 rings_te = [
     gf.components.add_fiber_array_optical_south_electrical_north(
-        ring, electrical_port_names=["l_e2", "r_e2"], test_info=test_info_ring_heaters
+        ring, electrical_port_names=["l_e2", "r_e2"], **test_info_ring_heaters
     )
     for ring in rings
 ]
 c = gf.pack(mzis_te + rings_te)[0]
 c.plot()
+
+# %% [markdown]
+# ## Test manifest
+#
+# Each site has a test label in JSON with all the settings.
 
 # %%
 import pandas as pd
@@ -532,6 +542,16 @@ df
 # %% [markdown]
 # As you can see there are 6 devices, each of which has optical and electrical ports.
 #
-# You can turn each label into a test manifest CSV file.
+# You can turn each label into a test manifest CSV file, which will be used to interface with your lab instrumentation.
+#
+# Having a general case for interfacing with test equipment is pretty hard, so this is just a guideline on how this could be done.
+#
+# Each `doe` Design of Experiment (DOE) will have a different output, can run a different `measurement` and have different `analysis` function code and settings, which would have to be defined separately.
+
+# %%
+from gdsfactory.labels.write_test_manifest import write_test_manifest
+
+dm = write_test_manifest(csvpath)
+dm
 
 # %%

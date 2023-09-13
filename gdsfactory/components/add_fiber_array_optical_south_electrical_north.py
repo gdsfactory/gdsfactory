@@ -23,7 +23,9 @@ def add_fiber_array_optical_south_electrical_north(
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     xs_metal: CrossSectionSpec = "metal_routing",
     layer_label: LayerSpec = "TEXT",
-    test_info: dict | None = None,
+    measurement: str = "",
+    analysis: str = "",
+    doe: str = "",
     **kwargs,
 ) -> gf.Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
@@ -41,7 +43,9 @@ def add_fiber_array_optical_south_electrical_north(
         grating_coupler: grating coupler function.
         xs_metal: metal cross section.
         layer_label: layer for settings label.
-        test_info: dictionary of test_info.
+        test_info: measurement.
+        analysis: analysis.
+        doe: Design of Experiment.
 
     Keyword Args:
         gc_port_name: grating coupler input port name.
@@ -119,18 +123,33 @@ def add_fiber_array_optical_south_electrical_north(
 
     if layer_label:
         electrical_ports = {
-            p.name: dict(x=int(p.x - xc), y=int(p.y - yc), orientation=p.orientation)
+            p.name: dict(
+                x=int(p.x - xc),
+                y=int(p.y - yc),
+                orientation=p.orientation,
+                port_type="electrical-dc",
+            )
             for p in ports2
         }
 
         optical_component_ports = {
-            p.name: dict(x=int(p.x - xc), y=int(p.y - yc), orientation=p.orientation)
+            p.name: dict(
+                x=int(p.x - xc),
+                y=int(p.y - yc),
+                orientation=p.orientation,
+                port_type="optical-fiber_array",
+            )
             for p in optical_ports
             if "loopback" not in p.name
         }
 
         optical_alignment_ports = {
-            p.name: dict(x=int(p.x - xc), y=int(p.y - yc), orientation=p.orientation)
+            p.name: dict(
+                x=int(p.x - xc),
+                y=int(p.y - yc),
+                orientation=p.orientation,
+                port_type="optical_fiber_array_alignment",
+            )
             for p in optical_ports
             if "loopback" in p.name
         }
@@ -144,7 +163,9 @@ def add_fiber_array_optical_south_electrical_north(
             electrical_ports=electrical_ports,
             optical_component_ports=optical_component_ports,
             optical_alignment_ports=optical_alignment_ports,
-            test_info=test_info or {},
+            measurement=measurement,
+            analysis=analysis,
+            doe=doe,
         )
         info = json.dumps(settings)
         c.add_label(layer=layer_label, text=info, position=c.center)
@@ -154,13 +175,7 @@ def add_fiber_array_optical_south_electrical_north(
 
 
 if __name__ == "__main__":
-    c = add_fiber_array_optical_south_electrical_north(
-        test_info=dict(
-            doe="mzi_heater",
-            data_analysis="mzi_heater",
-            test_sequence="optical_heater",
-        )
-    )
+    c = add_fiber_array_optical_south_electrical_north()
 
     d = json.loads(c.labels[0].text)
     print(d)
