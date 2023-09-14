@@ -34,6 +34,12 @@ def clean_dict(dictionary: dict) -> dict:
     return {k: clean_value_json(v) for k, v in dictionary.items()}
 
 
+def complex_encoder(obj, digits=DEFAULT_SERIALIZATION_MAX_DIGITS):
+    real_part = np.round(obj.real, digits)
+    imag_part = np.round(obj.imag, digits)
+    return {"real": real_part, "imag": imag_part}
+
+
 def clean_value_json(value: Any) -> str | int | float | dict | list | bool | None:
     """Return JSON serializable object."""
     from gdsfactory.path import Path
@@ -56,6 +62,9 @@ def clean_value_json(value: Any) -> str | int | float | dict | list | bool | Non
 
     elif isinstance(value, float | np.inexact | np.float64):
         return float(np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS))
+
+    elif isinstance(value, complex | np.complex64 | np.complex128):
+        return complex_encoder(value)
 
     elif isinstance(value, np.ndarray):
         value = np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
