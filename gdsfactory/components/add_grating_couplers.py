@@ -28,6 +28,7 @@ from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
     LabelListFactory,
+    LayerSpec,
     PortsDict,
 )
 
@@ -36,7 +37,7 @@ from gdsfactory.typings import (
 def add_grating_couplers(
     component: ComponentSpec = straight,
     grating_coupler: ComponentSpec = grating_coupler_te,
-    layer_label: tuple[int, int] = (200, 0),
+    layer_label: LayerSpec | None = (200, 0),
     gc_port_name: str = "o1",
     get_input_labels_function: LabelListFactory | None = get_input_labels,
     select_ports: Callable[..., PortsDict] = select_ports_optical,
@@ -74,7 +75,7 @@ def add_grating_couplers(
         io_gratings.append(gc_ref)
         c.add(gc_ref)
 
-    if get_input_labels_function:
+    if layer_label and get_input_labels_function:
         labels = get_input_labels_function(
             io_gratings,
             list(component.ports.values()),
@@ -217,8 +218,8 @@ def add_grating_couplers_with_loopback_fiber_array(
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
     bend: ComponentSpec = bend_euler,
-    layer_label: tuple[int, int] = (200, 0),
-    layer_label_loopback: tuple[int, int] | None = None,
+    layer_label: LayerSpec | None = (200, 0),
+    layer_label_loopback: LayerSpec | None = None,
     component_name: str | None = None,
     with_loopback: bool = False,
     nlabels_loopback: int = 2,
@@ -228,7 +229,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     loopback_yspacing: float = 4.0,
     **kwargs,
 ) -> Component:
-    """Returns a component with grating_couplers and loopback.
+    """Returns a component with grating_couplers and optional reference loopback.
 
     Args:
         component: to add grating_couplers.
@@ -244,8 +245,8 @@ def add_grating_couplers_with_loopback_fiber_array(
         layer_label_loopback: for testing label alignment loopback.
         component_name: optional component name.
         with_loopback: If True, add compact loopback alignment ports.
-        nlabels_loopback: number of ports to label
-            (0: no labels, 1: first port, 2: both ports).
+        nlabels_loopback: number of ports to label \
+                (0: no labels, 1: first port, 2: both ports).
         get_input_labels_function: for getting test labels.
         cross_section: CrossSectionSpec.
         select_ports: function to select ports.
@@ -388,6 +389,6 @@ if __name__ == "__main__":
     # c = add_grating_couplers_with_loopback_fiber_array(component=c)
     # c = add_grating_couplers(c)
 
-    # c = add_grating_couplers_with_loopback_fiber_array()
-    c = add_grating_couplers_with_loopback_fiber_single()
+    c = add_grating_couplers_with_loopback_fiber_array(layer_label="TEXT")
+    # c = add_grating_couplers_with_loopback_fiber_single()
     c.show(show_ports=True)

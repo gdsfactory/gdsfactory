@@ -10,18 +10,6 @@ from gdsfactory.name import clean_name
 from gdsfactory.snap import snap_to_grid as snap
 from gdsfactory.typings import Layer
 
-
-class Dft(pydantic.BaseModel):
-    pad_size: tuple[int, int] = (100, 100)
-    pad_pitch: int = 125
-    pad_width: int = 100
-    pad_gc_spacing_opposed: int = 500
-    pad_gc_spacing_adjacent: int = 1000
-
-
-DFT = Dft()
-
-
 ignore = (
     "cross_section",
     "decorator",

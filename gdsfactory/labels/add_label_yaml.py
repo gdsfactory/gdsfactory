@@ -16,16 +16,11 @@ ignore = [
     "contact",
     "pad",
 ]
-port_prefixes = [
-    "opt_",
-    "elec_",
-]
 
 
 @pydantic.validate_call
 def add_label_yaml(
     component: gf.Component,
-    port_prefixes: tuple[str, ...] = ("opt_", "_elec"),
     layer: LayerSpec = "LABEL",
     metadata_ignore: list[str] | None = ignore,
     metadata_include_parent: list[str] | None = None,
@@ -35,14 +30,10 @@ def add_label_yaml(
 
     Args:
         component: to add labels to.
-        port_types: list of port types to label.
         layer: text label layer.
-        metadata_ignore: list of settings keys to ignore.
-            Works with flatdict setting:subsetting.
-        metadata_include_parent: parent metadata keys to include.
-            Works with flatdict setting:subsetting.
+        metadata_ignore: list of settings keys to ignore. Works with flatdict setting:subsetting.
+        metadata_include_parent: parent metadata keys to include. Works with flatdict setting:subsetting.
         metadata_include_child: child metadata keys to include.
-
     """
     from gdsfactory.pdk import get_layer
 
@@ -93,13 +84,12 @@ settings:
 
     ports_info = []
     if component.ports:
-        for port_prefix in port_prefixes:
-            for port in component.get_ports_list(prefix=port_prefix):
-                ports_info += []
-                ports_info += [f"  {port.name}:"]
-                s = f"    {port.to_yaml()}"
-                s = s.split("\n")
-                ports_info += ["    \n    ".join(s)]
+        for port in component.get_ports_list():
+            ports_info += []
+            ports_info += [f"  {port.name}:"]
+            s = f"    {port.to_yaml()}"
+            s = s.split("\n")
+            ports_info += ["    \n    ".join(s)]
 
     text += "\n".join(info)
     text += "\n".join(ports_info)
