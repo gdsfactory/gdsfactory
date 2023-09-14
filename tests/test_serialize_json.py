@@ -62,6 +62,9 @@ def test_clean_value_json():
     # Test float value
     assert clean_value_json(10.1) == round(10.1, 3)
 
+    # Test complex value
+    assert clean_value_json(1.0 + 1j) == {"real": round(1.0, 3), "imag": round(1.0, 3)}
+
     # Test numpy integer value
     assert clean_value_json(np.int64(10)) == 10
 
