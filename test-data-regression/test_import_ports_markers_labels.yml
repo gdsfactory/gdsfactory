@@ -1,5 +1,7 @@
+analysis: None
+analysis_settings: null
 component_name: straight_aa0e8b9c_move_34b9bad8_add_fiber_single_ca0be452_rotate_346286ce
-polarization: None
+doe: None
 ports:
   opt_te_1530_15-straight_aa0e8b9c-0-0:
     center:
@@ -49,5 +51,5 @@ ports:
     port_type: opt_te_1530_15
     shear_angle: null
     width: 10
-settings: null
+test: None
 wavelength: None
