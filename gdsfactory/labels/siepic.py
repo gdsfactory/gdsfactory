@@ -68,13 +68,13 @@ def get_input_labels(
         layer_label: for the label.
         gc_port_name: grating_coupler port.
         port_index: index of the port.
-        get_input_label_text_function: function.
+        get_input_label_text_function: function to get input label.
 
     """
     gc = io_gratings[port_index]
     port = ordered_ports[1]
 
-    text = get_input_label_text(
+    text = get_input_label_text_function(
         port=port, gc=gc, gc_index=port_index, component_name=component_name
     )
     layer, texttype = gf.get_layer(layer_label)

@@ -30,6 +30,8 @@ def add_fiber_array_optical_south_electrical_north(
 ) -> gf.Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
 
+    This a test configuration for DC pads.
+
     Args:
         component: component spec to add fiber and pads.
         pad: pad spec.
@@ -155,7 +157,7 @@ def add_fiber_array_optical_south_electrical_north(
         }
 
         settings = dict(
-            test_type="optical_south_electrical_north}",
+            test="optical_south_electrical_north",
             nelectrical=npads,
             noptical=len(r.get_ports_list(port_type="optical")),
             settings=component.settings.full,
