@@ -1,6 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.4.6...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.5.0...main)
+
+## [7.5.0](https://github.com/gdsfactory/gdsfactory/compare/v7.4.6...v7.5.0)
+
+- fix layerstack.filtered
+- Change default `Component.get_ports()` depth to 0
+- handle complex numbers in serialization
+- protect against no kweb installed
+- Fix pydantic serializer warnings
 
 ## [7.4.6](https://github.com/gdsfactory/gdsfactory/compare/v7.4.5...v7.4.6)
 
