@@ -1,6 +1,8 @@
 """Add label YAML."""
 from __future__ import annotations
 
+from typing import Any
+
 import flatdict
 import pydantic
 
@@ -21,19 +23,31 @@ ignore = [
 @pydantic.validate_call
 def add_label_yaml(
     component: gf.Component,
+    position: tuple[float, float] = (0, 0),
     layer: LayerSpec = "LABEL",
     metadata_ignore: list[str] | None = ignore,
     metadata_include_parent: list[str] | None = None,
     metadata_include_child: list[str] | None = None,
+    test: list[str] | None = None,
+    test_settings: dict[str, Any] | None = None,
+    analysis: str | None = None,
+    analysis_settings: dict[str, Any] | None = None,
+    doe: str | None = None,
 ) -> gf.Component:
     """Returns Component with measurement label.
 
     Args:
         component: to add labels to.
+        position: label position.
         layer: text label layer.
         metadata_ignore: list of settings keys to ignore. Works with flatdict setting:subsetting.
         metadata_include_parent: parent metadata keys to include. Works with flatdict setting:subsetting.
         metadata_include_child: child metadata keys to include.
+        test: test config name.
+        test_settings: test settings.
+        analysis: analysis name.
+        analysis_settings: Extra analysis settings. Defaults to component settings.
+        doe: Design of Experiment name.
     """
     from gdsfactory.pdk import get_layer
 
@@ -42,9 +56,13 @@ def add_label_yaml(
     metadata_include_child = metadata_include_child or []
 
     text = f"""component_name: {component.name}
-polarization: {component.metadata.get('polarization')}
+doe: {doe}
+test: {test}
+analysis: {analysis}
 wavelength: {component.metadata.get('wavelength')}
-settings:
+"""
+
+    text += """analysis_settings:
 """
     info = []
     layer = get_layer(layer)
@@ -96,7 +114,7 @@ settings:
 
     label = gf.Label(
         text=text,
-        origin=(0, 0),
+        origin=position,
         anchor="o",
         layer=layer[0],
         texttype=layer[1],

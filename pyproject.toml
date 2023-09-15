@@ -85,6 +85,9 @@ docs = [
   "pydata_sphinx_theme==0.13.1",
   "plotly"
 ]
+full = [
+  "gplugins[database,devsim,femwell,gmsh,meow,meshwell,ray,sax,schematic,tidy3d,web]"
+]
 
 [project.scripts]
 gf = "gdsfactory.cli:app"
