@@ -14,16 +14,16 @@ def test_component_with_net_layers():
     original_component = straight_heater_metal()
 
     # Run the function
-    net_component = LAYER_STACK.get_component_with_net_layers(
-        original_component, portnames=portnames_to_test, delimiter=delimiter
+    LAYER_STACK.get_component_with_net_layers(
+        original_component,
+        portnames=portnames_to_test,
+        delimiter=delimiter,
+        remove_empty_layers=False,
     )
     layernames_after = set(LAYER_STACK.layers.keys())
 
     # Check we have two new layers in the LayerStack
     assert len(layernames_after - layernames_before) == 2
-
-    # Check we have one new layer in Component (all metal3 is removed by these operations)
-    assert len(net_component.get_layers()) == len(original_component.get_layers()) + 1
 
     # Check new layer is the same as old layer, apart from layer number and name
     old_layer = LAYER_STACK.layers["metal3"]
@@ -35,6 +35,16 @@ def test_component_with_net_layers():
         else:
             assert getattr(old_layer, varname) == getattr(new_layer, varname)
 
+    # Test remove old layers
+    LAYER_STACK.get_component_with_net_layers(
+        original_component,
+        portnames=portnames_to_test,
+        delimiter=delimiter,
+        remove_empty_layers=True,
+    )
+    # Assert that "metal3" does not exist in the layers
+    assert "metal3" not in LAYER_STACK.layers
+
 
 def test_layerstack_filtered() -> None:
     ls2 = LAYER_STACK.filtered(["metal1", "metal2"])
@@ -42,5 +52,5 @@ def test_layerstack_filtered() -> None:
 
 
 if __name__ == "__main__":
-    test_layerstack_filtered()
-    # test_component_with_net_layers()
+    # test_layerstack_filtered()
+    test_component_with_net_layers()
