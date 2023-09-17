@@ -114,6 +114,7 @@ class LayerStack(BaseModel):
         delimiter: str = "#",
         new_layers_init: tuple[int, int] = (10010, 0),
         add_to_layerstack: bool = True,
+        remove_empty_layers: bool = True,
     ):
         """Returns component with new layers that combine port names and original layers, and modifies the layerstack accordingly.
 
@@ -126,6 +127,7 @@ class LayerStack(BaseModel):
             delimiter: the new layer created is called "layername{delimiter}portname".
             new_layers_init: initial layer number for the temporary new layers.
             add_to_layerstack: True by default, but can be set to False to disable parsing of the layerstack.
+            remove_empty_layers: if True, if the relabeling removes all polygons of a given layer, remove it from the LayerStack
         """
         import gdstk
 
@@ -169,6 +171,19 @@ class LayerStack(BaseModel):
                 # Otherwise put the polygon back on the same layer
                 else:
                     net_component.add_polygon(polygon, layer=port.layer)
+
+        # Filter the layerstack for layers that are present
+        if remove_empty_layers:
+            layers_present = net_component.layers
+            layernames_dict = self.get_layer_to_layername()
+            layernames_present = [
+                name
+                for sublist in [layernames_dict[layer] for layer in layers_present]
+                for name in sublist
+            ]
+            for key in list(self.layers.keys()):
+                if key not in layernames_present:
+                    del self.layers[key]
 
         net_component.name = f"{component.name}_net_layers"
 
