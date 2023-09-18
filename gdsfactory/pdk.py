@@ -709,12 +709,16 @@ class Pdk(BaseModel):
 _ACTIVE_PDK = None
 
 
-def get_active_pdk() -> Pdk:
+def get_active_pdk(name: str | None = None) -> Pdk:
+    """Returns active PDK.
+    By default it will return the PDK defined in the name or config file.
+    Otherwise it will return the generic PDK.
+    """
     global _ACTIVE_PDK
 
     if _ACTIVE_PDK is None:
-        if CONF.pdk:
-            pdk_module = importlib.import_module(CONF.pdk)
+        if name is not None or CONF.pdk:
+            pdk_module = importlib.import_module(name or CONF.pdk)
             pdk_module.PDK.activate()
 
         else:

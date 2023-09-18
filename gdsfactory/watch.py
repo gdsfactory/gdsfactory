@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import importlib
 import logging
 import pathlib
 import sys
@@ -165,8 +164,7 @@ def watch(path: PathType | None = cwd, pdk: str | None = None) -> None:
         datefmt="%Y-%m-%d %H:%M:%S",
     )
     if pdk:
-        pdk_module = importlib.import_module(pdk)
-        pdk_module.PDK.activate()
+        get_active_pdk(name=pdk)
     watcher = FileWatcher(path=path)
     watcher.start()
     logging.info(
