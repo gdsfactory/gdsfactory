@@ -46,52 +46,6 @@ from gdsfactory.cross_section import CrossSection, Section, Transition, WidthTyp
 from gdsfactory.port import Port
 from gdsfactory.technology import LayerLevel, LayerStack
 
-# TODO: remove this
-# def __getattr__(name):
-#     if name == "Optional":
-#         from typing import Optional
-
-#         warnings.warn(
-#             "gdsfactory.typings.Optional will be removed soon. "
-#             "Use from typing import Optional instead.",
-#             stacklevel=2,
-#         )
-#         return Optional
-#     elif name == "Union":
-#         from typing import Union
-
-#         warnings.warn(
-#             "gdsfactory.typings.Union will be removed soon. "
-#             "Use from typing import Union instead.",
-#             stacklevel=2,
-#         )
-#         return Union
-#     elif name == "Tuple":
-
-#         warnings.warn(
-#             "gdsfactory.typings.Tuple will be removed soon. "
-#             "Use from typing import Tuple instead.",
-#             stacklevel=2,
-#         )
-#         return tuple
-#     elif name == "List":
-
-#         warnings.warn(
-#             "gdsfactory.typings.List will be removed soon. "
-#             "Use from typing import List instead.",
-#             stacklevel=2,
-#         )
-#         return list
-#     elif name == "Dict":
-
-#         warnings.warn(
-#             "gdsfactory.typings.model_dump() will be removed soon. "
-#             "Use from typing import Dict instead.",
-#             stacklevel=2,
-#         )
-#         return dict
-
-
 STEP_DIRECTIVES = {
     "x",
     "y",

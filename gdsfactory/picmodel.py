@@ -138,14 +138,14 @@ class PicYamlConfiguration(BaseModel):
 
 
 class SchematicConfiguration(BaseModel):
-    schema_version: str = Field(
-        default=SCHEMA_VERSION, description="The version of the YAML syntax used."
-    )
     schema: AnyUrl | None = Field(None, alias="$schema")
     instances: dict[str, Instance] | None = None
     schematic_placements: dict[str, Placement] | None = None
     nets: list[list[str]] | None = None
     ports: dict[str, str] | None = None
+    schema_version: int = Field(
+        default=SCHEMA_VERSION, description="The version of the YAML syntax used."
+    )
 
     @property
     def placements(self):
