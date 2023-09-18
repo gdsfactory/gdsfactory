@@ -421,7 +421,8 @@ def sample_die(size=(8e3, 40e3), y_spacing: float = 10) -> gf.Component:
     return c
 
 
-if __name__ == "__main__":
-    c = sample_die(cache=False)
-    c.show(show_ports=True)
-    c.plot()
+c = sample_die(cache=False)
+c.show(show_ports=True)  # show in klayout
+c.plot()  # show in jupyter
+
+# %%

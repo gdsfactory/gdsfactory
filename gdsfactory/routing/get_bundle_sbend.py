@@ -19,6 +19,7 @@ def get_bundle_sbend(
         ports1: start ports.
         ports2: end ports.
         sort_ports: sort ports.
+        enforce_port_ordering: enforces port ordering.
         kwargs: cross_section settings.
 
     Returns:

@@ -1,5 +1,8 @@
 from gdsfactory.components import straight_heater_metal
-from gdsfactory.generic_tech import LAYER_STACK
+from gdsfactory.generic_tech import LAYER_STACK, get_generic_pdk
+
+PDK = get_generic_pdk()
+PDK.activate()
 
 
 def test_layerstack() -> None:
@@ -52,5 +55,5 @@ def test_layerstack_filtered() -> None:
 
 
 if __name__ == "__main__":
-    # test_layerstack_filtered()
+    test_layerstack_filtered()
     test_component_with_net_layers()
