@@ -66,6 +66,15 @@ class LayerLevel(BaseModel):
     background_doping_ion: str | None = None
     orientation: str | None = "100"
 
+    @property
+    def bounds(self) -> tuple[float, float]:
+        """Calculates and returns the bounds of the layer level in the z-direction.
+
+        Returns:
+            tuple: A tuple containing the minimum and maximum z-values of the layer level.
+        """
+        return tuple(sorted([self.zmin, self.zmin + self.thickness]))
+
 
 class LayerStack(BaseModel):
     """For simulation and 3D rendering. Captures design intent of the chip layers after fabrication.
