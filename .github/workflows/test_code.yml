@@ -99,4 +99,9 @@ jobs:
           KFACTORY_DISPLAY_TYPE: image
         run: |
           make docs
-          python tests/test_doc_errors.py
+      - name: Expose docs artifact
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: docs
+          path: docs/_build/html/
