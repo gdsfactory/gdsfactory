@@ -331,7 +331,11 @@ left_ports.reverse()
 
 c = gf.Component(name="connect_bundle_v2")
 routes = gf.routing.get_bundle(
-    left_ports, right_ports, sort_ports=True, start_straight_length=100
+    left_ports,
+    right_ports,
+    sort_ports=True,
+    start_straight_length=100,
+    enforce_port_ordering=False,
 )
 for route in routes:
     c.add(route.references)
@@ -649,14 +653,16 @@ def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
         ]
 
     top_cell = Component()
-    routes = gf.routing.get_bundle(ports1, ports2, radius=10.0)
+    routes = gf.routing.get_bundle(
+        ports1, ports2, radius=10.0, enforce_port_ordering=False
+    )
     for route in routes:
         top_cell.add(route.references)
 
     return top_cell
 
 
-c = test_connect_bundle_udirect()
+c = test_connect_bundle_udirect(cache=False)
 c.plot()
 
 
@@ -712,6 +718,7 @@ def test_connect_bundle_u_indirect(dy=-200, orientation=180, layer=(1, 0)):
         ports2,
         bend=gf.components.bend_euler,
         radius=5,
+        enforce_port_ordering=False,
     )
     for route in routes:
         top_cell.add(route.references)
@@ -926,7 +933,9 @@ c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.move((80, 0))
 routes = gf.routing.get_bundle_sbend(
-    c1.get_ports_list(orientation=0), c2.get_ports_list(orientation=180)
+    c1.get_ports_list(orientation=0),
+    c2.get_ports_list(orientation=180),
+    enforce_port_ordering=False,
 )
 for route in routes:
     c.add(route.references)
@@ -944,6 +953,7 @@ routes = gf.routing.get_bundle(
     c1.get_ports_list(orientation=0),
     c2.get_ports_list(orientation=180),
     with_sbend=True,
+    enforce_port_ordering=False,
 )
 for route in routes:
     c.add(route.references)
@@ -1090,6 +1100,7 @@ routes = gf.routing.get_bundle(
     separation=30,  # not enough
     radius=5,
     path_length_match_loops=1,
+    enforce_port_ordering=False,
 )
 
 for route in routes:
@@ -1112,6 +1123,7 @@ routes = gf.routing.get_bundle(
     separation=80,  # increased
     path_length_match_loops=1,
     radius=5,
+    enforce_port_ordering=False,
 )
 
 for route in routes:

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import copy
 from collections import defaultdict
 from typing import TYPE_CHECKING, Any, Literal
 
@@ -36,13 +35,13 @@ class LayerLevel(BaseModel):
         type: grow, etch, implant, or background.
         mode: octagon, taper, round. https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
         into: etch into another layer. https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
-        background_doping_concentration: uniform base doping level in the material (cm-3)
-        background_doping_ion: uniform base doping ion in the material
-        orientation: of the wafer (Miller indices of the plane)
         resistivity: for metals.
         bias: in um for the etch. Can be a single number or 2 numbers (bias_x, bias_y)
         derived_layer: Optional derived layer, used for layer_type='etch' to define the slab.
         info: simulation_info and other types of metadata.
+        background_doping_concentration: uniform base doping level in the material (cm-3)
+        background_doping_ion: uniform base doping ion in the material
+        orientation: of the wafer (Miller indices of the plane)
     """
 
     layer: tuple[int, int] | None = None
@@ -106,73 +105,6 @@ class LayerStack(BaseModel):
         return get_component_with_derived_layers(
             component=component, layer_stack=self, **kwargs
         )
-
-    def get_component_with_net_layers(
-        self,
-        component,
-        portnames: list[str],
-        delimiter: str = "#",
-        new_layers_init: tuple[int, int] = (10010, 0),
-        add_to_layerstack: bool = True,
-    ):
-        """Returns component with new layers that combine port names and original layers, and modifies the layerstack accordingly.
-
-        Uses port's layer attribute to decide which polygons need to be renamed.
-        New layers are named "layername{delimiter}portname".
-
-        Args:
-            component: to process.
-            portnames: list of portnames to process into new layers.
-            delimiter: the new layer created is called "layername{delimiter}portname".
-            new_layers_init: initial layer number for the temporary new layers.
-            add_to_layerstack: True by default, but can be set to False to disable parsing of the layerstack.
-        """
-        import gdstk
-
-        # Initialize returned component
-        net_component = component.copy()
-
-        # For each port to consider, convert relevant polygons
-        for i, portname in enumerate(portnames):
-            port = component.ports[portname]
-            # Get original port layer polygons, and modify a new component without that layer
-            polygons = net_component.extract(layers=[port.layer]).get_polygons()
-            net_component = net_component.remove_layers(layers=[port.layer])
-            for polygon in polygons:
-                # If polygon belongs to port, create a unique new layer, and add the polygon to it
-
-                if gdstk.inside(
-                    [port.center],
-                    gdstk.offset(gdstk.Polygon(polygon), gf.get_active_pdk().grid_size),
-                )[0]:
-                    try:
-                        port_layernames = self.get_layer_to_layername()[port.layer]
-                    except KeyError as e:
-                        raise KeyError(
-                            "Make sure your `layer_stack` contains all layers with ports"
-                        ) from e
-                    for j, old_layername in enumerate(port_layernames):
-                        new_layer_number = (
-                            new_layers_init[0] + i,
-                            new_layers_init[1] + j,
-                        )
-                        if add_to_layerstack:
-                            new_layer = copy.deepcopy(self.layers[old_layername])
-                            new_layer.layer = (
-                                new_layers_init[0] + i,
-                                new_layers_init[1] + j,
-                            )
-                            self.layers[
-                                f"{old_layername}{delimiter}{portname}"
-                            ] = new_layer
-                        net_component.add_polygon(polygon, layer=new_layer_number)
-                # Otherwise put the polygon back on the same layer
-                else:
-                    net_component.add_polygon(polygon, layer=port.layer)
-
-        net_component.name = f"{component.name}_net_layers"
-
-        return net_component
 
     def get_layer_to_zmin(self) -> dict[tuple[int, int], float]:
         """Returns layer tuple to z min position (um)."""
@@ -390,8 +322,10 @@ class LayerStack(BaseModel):
         return out
 
     def filtered(self, layers) -> LayerStack:
-        """Filtered layerstack, given layer specs."""
-        return LayerStack(layers={k: self.layers[k] for k in layers})
+        """Returns filtered layerstack, given layer specs."""
+        return LayerStack(
+            layers={k: self.layers[k] for k in layers if k in self.layers}
+        )
 
     def z_offset(self, dz) -> LayerStack:
         """Translates the z-coordinates of the layerstack."""
@@ -412,6 +346,12 @@ class LayerStack(BaseModel):
 
 @cell
 def get_component_with_derived_layers(component, layer_stack: LayerStack):
+    """Returns a component with derived layers.
+
+    Args:
+        component: Component to get derived layers for.
+        layer_stack: Layer stack to get derived layers from.
+    """
     unetched_layers = [
         layer_name
         for layer_name, level in layer_stack.layers.items()
@@ -498,15 +438,7 @@ if __name__ == "__main__":
 
     layer_stack = LAYER_STACK
 
-    # c = gf.components.straight_heater_metal()
-
-    c = layer_stack.get_component_with_net_layers(
-        gf.components.straight_heater_metal(),
-        portnames=["r_e2", "l_e4"],
-        add_to_layerstack=False,
-    )
-    print(layer_stack.layers.keys())
-
+    c = gf.components.straight_heater_metal()
     c.show()
 
     # import gdsfactory as gf
