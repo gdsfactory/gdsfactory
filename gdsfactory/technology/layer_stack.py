@@ -44,6 +44,7 @@ class LayerLevel(BaseModel):
         orientation: of the wafer (Miller indices of the plane)
     """
 
+    name: str | None = None
     layer: tuple[int, int] | None = None
     thickness: float
     thickness_tolerance: float | None = None
