@@ -61,14 +61,7 @@ if TYPE_CHECKING:
         PathType,
     )
 
-valid_plotters = [
-    "holoviews",
-    "matplotlib",
-    "widget",
-    "klayout",
-    "qt",
-    "kweb",
-]  # qt and holoviews are deprecated
+valid_plotters = ["matplotlib", "klayout", "kweb"]
 Axis = Literal["x", "y"]
 os.environ["KWEB_FILESLOCATION"] = str(GDSDIR_TEMP)
 
@@ -1507,53 +1500,6 @@ class Component(_GeometryHelper):
         )
         return component
 
-    def plot_widget(
-        self,
-        show_ports: bool = True,
-        port_marker_layer: Layer = (1, 10),
-    ) -> None:
-        """Returns ipython widget for klayout visualization.
-
-        Args:
-            show_ports: shows component with port markers and labels.
-            port_marker_layer: for the ports.
-        """
-        from IPython.display import display
-
-        from gdsfactory.pdk import get_layer_views
-
-        try:
-            import kfactory as kf
-            from gplugins.widget.interactive import LayoutWidget
-        except ImportError:
-            print(
-                "You need install kfactory plugin with `pip install gdsfactory[kfactory]`"
-            )
-            self.plot_klayout()
-            return
-
-        component = (
-            self.add_pins_triangle(port_marker_layer=port_marker_layer)
-            if show_ports
-            else self
-        )
-
-        gdspath = component.write_gds(logging=False)
-        lyp_path = gdspath.with_suffix(".lyp")
-
-        kcl = kf.KCLayout()
-        kcl.read(gdspath)
-        top_cell = kcl.top_cell()
-        c = kcl.dup()[top_cell.name]
-        # c = kf.KCell(top_cell.name, all)
-        # c.copy_tree(top_cell)
-
-        layer_views = get_layer_views()
-        layer_views.to_lyp(filepath=lyp_path)
-
-        lw = LayoutWidget(cell=c, layer_properties=lyp_path)
-        display(lw.widget)
-
     def plot_klayout(
         self,
         show_ports: bool = True,
@@ -1700,12 +1646,14 @@ class Component(_GeometryHelper):
         quickplot(self, **kwargs)
 
     def plot(self, plotter: str | None = None, **kwargs):
-        """Returns component plot using klayout, matplotlib, holoviews or qt.
+        """Returns component plot using klayout, matplotlib, or kweb.
 
-        We recommend using klayout.
+        We recommend using klayout or kweb.
+        Klayout is good for images and kweb for responsive interactive plots.
+        Matplotlib is slow for rendering big layouts and is almost Deprecated.
 
         Args:
-            plotter: plot backend ('matplotlib', 'widget', 'klayout', 'kweb').
+            plotter: plot backends ('widget', 'klayout', 'kweb').
         """
         plotter = plotter or CONF.display_type
 
@@ -1717,25 +1665,11 @@ class Component(_GeometryHelper):
             return
         elif plotter == "kweb":
             return self.plot_kweb()
-        elif plotter == "widget":
-            self.plot_widget()
-            return
 
         elif plotter == "matplotlib":
             from gdsfactory.quickplotter import quickplot
 
             quickplot(self, **kwargs)
-            return
-
-        elif plotter == "qt":
-            warnings.warn(
-                "qt plotter is deprecated. "
-                "Use the default Component.plot(), Component.plot_klayout() or Component.plot_widget()",
-                stacklevel=3,
-            )
-            from gdsfactory.quickplotter import quickplot2
-
-            quickplot2(self)
             return
 
     def show(
@@ -2453,7 +2387,6 @@ class Component(_GeometryHelper):
         xsection_bounds=None,
         wafer_padding: float = 0.0,
         wafer_layer: Layer = (99999, 0),
-        *args,
         **kwargs,
     ):
         """Returns a gmsh mesh of the component for finite element simulation.
@@ -2468,7 +2401,14 @@ class Component(_GeometryHelper):
 
         Keyword Args:
             Arguments for the target meshing function in gplugins.gmsh
+
+
+        TODO! remove this code and move it to the gplugins.gmsh package
         """
+        from gplugins.gmsh.uz_xsection_mesh import uz_xsection_mesh
+        from gplugins.gmsh.xy_xsection_mesh import xy_xsection_mesh
+        from gplugins.gmsh.xyz_mesh import xyz_mesh
+
         # Add WAFER layer:
         padded_component = Component()
         padded_component << self
@@ -2487,7 +2427,6 @@ class Component(_GeometryHelper):
                 raise ValueError(
                     'For xy-meshing, a z-value must be provided via the float argument "z".'
                 )
-            from gplugins.gmsh.xy_xsection_mesh import xy_xsection_mesh
 
             return xy_xsection_mesh(padded_component, z, layer_stack, **kwargs)
         elif type == "uz":
@@ -2496,7 +2435,6 @@ class Component(_GeometryHelper):
                     "For uz-meshing, you must provide a line in the xy-plane "
                     "via the Tuple argument [[x1,y1], [x2,y2]] xsection_bounds."
                 )
-            from gplugins.gmsh.uz_xsection_mesh import uz_xsection_mesh
 
             return uz_xsection_mesh(
                 padded_component, xsection_bounds, layer_stack, **kwargs
@@ -2507,8 +2445,6 @@ class Component(_GeometryHelper):
                 print(
                     "3D meshing requires meshwell, see https://github.com/simbilod/meshwell or run pip install meshwell."
                 )
-
-            from gplugins.gmsh.xyz_mesh import xyz_mesh
 
             return xyz_mesh(padded_component, layer_stack, **kwargs)
         else:
