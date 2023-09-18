@@ -45,7 +45,9 @@ def demo_polygons():
 
 
 c = demo_polygons()
-c.plot()  # show it in KLayout
+c.write_gds("demo.gds")  # write it to a GDS file. You can open it in klayout.
+c.show()  # show it in klayout
+c.plot()  # plot it in jupyter notebook
 
 # %% [markdown]
 # **Exercise** :
