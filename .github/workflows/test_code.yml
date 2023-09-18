@@ -95,7 +95,7 @@ jobs:
           make dev
       - name: Test documentation
         env:
-          GDSFACTORY_LAYOUT_PLOTTER: klayout
+          GDSFACTORY_DISPLAY_TYPE: klayout
           KFACTORY_DISPLAY_TYPE: image
         run: |
           make docs
