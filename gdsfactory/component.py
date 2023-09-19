@@ -2232,7 +2232,7 @@ class Component(_GeometryHelper):
         """Returns a copy of the component with remapped layers.
 
         Args:
-            layermap: Dictionary of values in format {layer_from : layer_to}.
+            layermap: Dictionary of values in format {layer_from: layer_to}.
             include_labels: Selects whether to move Labels along with polygons.
             include_paths: Selects whether to move Paths along with polygons.
         """
@@ -2378,34 +2378,19 @@ class Component(_GeometryHelper):
             options=options,
         )
 
-    def to_gmsh(
-        self,
-        type: str,
-        layer_stack: LayerStack,
-        z: float | None = None,
-        xsection_bounds=None,
-        wafer_padding: float = 0.0,
-        wafer_layer: Layer = (99999, 0),
-        **kwargs,
-    ):
-        """Returns a gmsh mesh of the component for finite element simulation.
+    def to_gmsh(self, *args, **kwargs) -> None:
+        """Deprecated. instead of.
 
-        Arguments:
-            type: one of "xy", "uz", or "3D". Determines the type of mesh to return.
-            layer_stack: LayerStack object containing layer information.
-            z: used to define z-slice for xy meshing.
-            xsection_bounds: used to define in-plane line for uz meshing.
-            wafer_padding: padding beyond bbox to add to WAFER layers.
-            wafer_layer: layer to use for WAFER padding.
+        mesh = component.to_gmsh(arguments)
 
-        Keyword Args:
-            Arguments for the target meshing function in gplugins.gmsh
+        Use:
 
+        from gplugins.gmsh.get_mesh import get_mesh
 
-        TODO! remove this code and move it to the gplugins.gmsh package
         """
 
-        message = """component.to_gmsh() has been deprecated. Instead of:
+        raise ValueError(
+            """component.to_gmsh() has been deprecated. Instead of:
 
         mesh = component.to_gmsh(arguments)
 
@@ -2415,7 +2400,7 @@ class Component(_GeometryHelper):
 
         mesh = get_mesh(component, arguments)
         """
-        raise BaseException(message)
+        )
 
     def offset(
         self,
@@ -2467,30 +2452,35 @@ def copy(
 
     Args:
         D: component to copy.
+        references: references to copy.
+        ports: ports to copy.
+        polygons: polygons to copy.
+        paths: paths to copy.
+        name: name of the new component.
+        labels: labels to copy.
     """
-    D_copy = Component()
-    D_copy.info = D.info
-    # D_copy._cell = D._cell.copy(name=D_copy.name)
+    c = Component()
+    c.info = D.info
 
     for ref in references if references is not None else D.references:
-        D_copy.add(copy_reference(ref))
+        c.add(copy_reference(ref))
     for port in (ports if ports is not None else D.ports).values():
-        D_copy.add_port(port=port)
+        c.add_port(port=port)
     for poly in polygons if polygons is not None else D.polygons:
-        D_copy.add_polygon(poly)
+        c.add_polygon(poly)
     for path in paths if paths is not None else D.paths:
-        D_copy.add(path)
+        c.add(path)
     for label in labels if labels is not None else D.labels:
-        D_copy.add_label(
+        c.add_label(
             text=label.text,
             position=label.origin,
             layer=(label.layer, label.texttype),
         )
 
     if name is not None:
-        D_copy.name = name
+        c.name = name
 
-    return D_copy
+    return c
 
 
 def copy_reference(
