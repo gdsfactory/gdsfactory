@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import datetime
 import hashlib
-import importlib.util
 import itertools
 import math
 import os
@@ -2233,7 +2232,7 @@ class Component(_GeometryHelper):
         """Returns a copy of the component with remapped layers.
 
         Args:
-            layermap: Dictionary of values in format {layer_from : layer_to}.
+            layermap: Dictionary of values in format {layer_from: layer_to}.
             include_labels: Selects whether to move Labels along with polygons.
             include_paths: Selects whether to move Paths along with polygons.
         """
@@ -2379,78 +2378,29 @@ class Component(_GeometryHelper):
             options=options,
         )
 
-    def to_gmsh(
-        self,
-        type: str,
-        layer_stack: LayerStack,
-        z: float | None = None,
-        xsection_bounds=None,
-        wafer_padding: float = 0.0,
-        wafer_layer: Layer = (99999, 0),
-        **kwargs,
-    ):
-        """Returns a gmsh mesh of the component for finite element simulation.
+    def to_gmsh(self, *args, **kwargs) -> None:
+        """Deprecated. instead of.
 
-        Arguments:
-            type: one of "xy", "uz", or "3D". Determines the type of mesh to return.
-            layer_stack: LayerStack object containing layer information.
-            z: used to define z-slice for xy meshing.
-            xsection_bounds: used to define in-plane line for uz meshing.
-            wafer_padding: padding beyond bbox to add to WAFER layers.
-            wafer_layer: layer to use for WAFER padding.
+        mesh = component.to_gmsh(arguments)
 
-        Keyword Args:
-            Arguments for the target meshing function in gplugins.gmsh
+        Use:
 
+        from gplugins.gmsh.get_mesh import get_mesh
 
-        TODO! remove this code and move it to the gplugins.gmsh package
         """
-        from gplugins.gmsh.uz_xsection_mesh import uz_xsection_mesh
-        from gplugins.gmsh.xy_xsection_mesh import xy_xsection_mesh
-        from gplugins.gmsh.xyz_mesh import xyz_mesh
 
-        # Add WAFER layer:
-        padded_component = Component()
-        padded_component << self
-        (xmin, ymin), (xmax, ymax) = self.bbox
-        points = [
-            [xmin - wafer_padding, ymin - wafer_padding],
-            [xmax + wafer_padding, ymin - wafer_padding],
-            [xmax + wafer_padding, ymax + wafer_padding],
-            [xmin - wafer_padding, ymax + wafer_padding],
-        ]
-        padded_component.add_polygon(points, layer=wafer_layer)
-        padded_component.add_ports(self.get_ports_list())
+        raise ValueError(
+            """component.to_gmsh() has been deprecated. Instead of:
 
-        if type == "xy":
-            if z is None:
-                raise ValueError(
-                    'For xy-meshing, a z-value must be provided via the float argument "z".'
-                )
+        mesh = component.to_gmsh(arguments)
 
-            return xy_xsection_mesh(padded_component, z, layer_stack, **kwargs)
-        elif type == "uz":
-            if xsection_bounds is None:
-                raise ValueError(
-                    "For uz-meshing, you must provide a line in the xy-plane "
-                    "via the Tuple argument [[x1,y1], [x2,y2]] xsection_bounds."
-                )
+        Use:
 
-            return uz_xsection_mesh(
-                padded_component, xsection_bounds, layer_stack, **kwargs
-            )
-        elif type == "3D":
-            spec = importlib.util.find_spec("meshwell")
-            if spec is None:
-                print(
-                    "3D meshing requires meshwell, see https://github.com/simbilod/meshwell or run pip install meshwell."
-                )
+        from gplugins.gmsh.get_mesh import get_mesh
 
-            return xyz_mesh(padded_component, layer_stack, **kwargs)
-        else:
-            raise ValueError(
-                'Required argument "type" must be one of "xy", "uz", or "3D".'
-            )
+        mesh = get_mesh(component, arguments)
+        """
+        )
 
     def offset(
         self,
@@ -2502,30 +2452,35 @@ def copy(
 
     Args:
         D: component to copy.
+        references: references to copy.
+        ports: ports to copy.
+        polygons: polygons to copy.
+        paths: paths to copy.
+        name: name of the new component.
+        labels: labels to copy.
     """
-    D_copy = Component()
-    D_copy.info = D.info
-    # D_copy._cell = D._cell.copy(name=D_copy.name)
+    c = Component()
+    c.info = D.info
 
     for ref in references if references is not None else D.references:
-        D_copy.add(copy_reference(ref))
+        c.add(copy_reference(ref))
     for port in (ports if ports is not None else D.ports).values():
-        D_copy.add_port(port=port)
+        c.add_port(port=port)
     for poly in polygons if polygons is not None else D.polygons:
-        D_copy.add_polygon(poly)
+        c.add_polygon(poly)
     for path in paths if paths is not None else D.paths:
-        D_copy.add(path)
+        c.add(path)
     for label in labels if labels is not None else D.labels:
-        D_copy.add_label(
+        c.add_label(
             text=label.text,
             position=label.origin,
             layer=(label.layer, label.texttype),
         )
 
     if name is not None:
-        D_copy.name = name
+        c.name = name
 
-    return D_copy
+    return c
 
 
 def copy_reference(
