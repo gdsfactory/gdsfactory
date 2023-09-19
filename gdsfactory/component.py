@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import datetime
 import hashlib
-import importlib.util
 import itertools
 import math
 import os
@@ -2405,52 +2404,18 @@ class Component(_GeometryHelper):
 
         TODO! remove this code and move it to the gplugins.gmsh package
         """
-        from gplugins.gmsh.uz_xsection_mesh import uz_xsection_mesh
-        from gplugins.gmsh.xy_xsection_mesh import xy_xsection_mesh
-        from gplugins.gmsh.xyz_mesh import xyz_mesh
 
-        # Add WAFER layer:
-        padded_component = Component()
-        padded_component << self
-        (xmin, ymin), (xmax, ymax) = self.bbox
-        points = [
-            [xmin - wafer_padding, ymin - wafer_padding],
-            [xmax + wafer_padding, ymin - wafer_padding],
-            [xmax + wafer_padding, ymax + wafer_padding],
-            [xmin - wafer_padding, ymax + wafer_padding],
-        ]
-        padded_component.add_polygon(points, layer=wafer_layer)
-        padded_component.add_ports(self.get_ports_list())
+        message = """component.to_gmsh() has been deprecated. Instead of:
 
-        if type == "xy":
-            if z is None:
-                raise ValueError(
-                    'For xy-meshing, a z-value must be provided via the float argument "z".'
-                )
+        mesh = component.to_gmsh(arguments)
 
-            return xy_xsection_mesh(padded_component, z, layer_stack, **kwargs)
-        elif type == "uz":
-            if xsection_bounds is None:
-                raise ValueError(
-                    "For uz-meshing, you must provide a line in the xy-plane "
-                    "via the Tuple argument [[x1,y1], [x2,y2]] xsection_bounds."
-                )
+        Use:
 
-            return uz_xsection_mesh(
-                padded_component, xsection_bounds, layer_stack, **kwargs
-            )
-        elif type == "3D":
-            spec = importlib.util.find_spec("meshwell")
-            if spec is None:
-                print(
-                    "3D meshing requires meshwell, see https://github.com/simbilod/meshwell or run pip install meshwell."
-                )
+        from gplugins.gmsh.get_mesh import get_mesh
 
-            return xyz_mesh(padded_component, layer_stack, **kwargs)
-        else:
-            raise ValueError(
-                'Required argument "type" must be one of "xy", "uz", or "3D".'
-            )
+        mesh = get_mesh(component, arguments)
+        """
+        raise BaseException(message)
 
     def offset(
         self,
