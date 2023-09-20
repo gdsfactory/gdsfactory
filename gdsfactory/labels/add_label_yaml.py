@@ -12,21 +12,12 @@ import gdsfactory as gf
 from gdsfactory.read.from_yaml import valid_anchor_point_keywords
 from gdsfactory.typings import LayerSpec
 
-ignore = [
-    "cross_section",
-    "decorator",
-    "cross_section1",
-    "cross_section2",
-    "contact",
-    "pad",
-]
-
 
 @pydantic.validate_call
 def add_label_yaml(
     component: gf.Component,
     layer: LayerSpec = "LABEL",
-    measurement: list[str] | None = None,
+    measurement: str | None = None,
     measurement_settings: dict[str, Any] | None = None,
     analysis: str | None = None,
     analysis_settings: dict[str, Any] | None = None,
@@ -70,8 +61,8 @@ def add_label_yaml(
         analysis=analysis,
         measurement_settings=measurement_settings,
         analysis_settings=analysis_settings,
-        xopt=[int(optical_ports[0].x - xc)],
-        yopt=[int(optical_ports[0].y - yc)],
+        xopt=[int(optical_ports[0].x - xc)] if optical_ports else [],
+        yopt=[int(optical_ports[0].y - yc)] if optical_ports else [],
         xelec=[int(electrical_ports[0].x - xc)] if electrical_ports else [],
         yelec=[int(electrical_ports[0].y - yc)] if electrical_ports else [],
     )

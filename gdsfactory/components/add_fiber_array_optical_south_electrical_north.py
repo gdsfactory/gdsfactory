@@ -24,11 +24,12 @@ def add_fiber_array_optical_south_electrical_north(
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     xs_metal: CrossSectionSpec = "metal_routing",
     layer_label: LayerSpec = "TEXT",
-    measurement: str = "cutback_loopback4_heater_sweep",
+    measurement: str = "cutback_loopback2_heater_sweep",
     measurement_settings: dict[str, Any] | None = None,
     analysis: str = "",
     analysis_settings: dict[str, Any] | None = None,
     doe: str = "",
+    anchor: str = "sw",
     **kwargs,
 ) -> gf.Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
@@ -53,6 +54,8 @@ def add_fiber_array_optical_south_electrical_north(
         analysis: analysis name.
         analysis_settings: analysis settings.
         doe: Design of Experiment.
+        anchor: anchor point for the label. Defaults to south-west "sw". \
+            Valid options are: "n", "s", "e", "w", "ne", "nw", "se", "sw", "c".
 
     Keyword Args:
         gc_port_name: grating coupler input port name.
@@ -126,7 +129,10 @@ def add_fiber_array_optical_south_electrical_north(
         c.add(route.references)
 
     c.add_ports(ports2)
-    xc, yc = c.center
+    xc, yc = getattr(r.size_info, anchor)
+
+    analysis_settings = analysis_settings or {}
+    analysis_settings.update(component.metadata.get("full", {}))
 
     if layer_label:
         settings = dict(
@@ -134,15 +140,15 @@ def add_fiber_array_optical_south_electrical_north(
             measurement=measurement,
             xopt=[int(optical_ports[0].x - xc)],
             yopt=[int(optical_ports[0].y - yc)],
-            xelec=[int(electrical_ports[0].x - xc)],
-            yelec=[int(electrical_ports[0].y - yc)],
+            xelec=[int(ports2[0].x - xc)],
+            yelec=[int(ports2[0].y - yc)],
             measurement_settings=measurement_settings,
             analysis=analysis,
             analysis_settings=analysis_settings,
             doe=doe,
         )
         info = json.dumps(settings)
-        c.add_label(layer=layer_label, text=info, position=c.center)
+        c.add_label(layer=layer_label, text=info, position=(xc, yc))
 
     c.copy_child_info(r)
     return c
@@ -150,7 +156,9 @@ def add_fiber_array_optical_south_electrical_north(
 
 if __name__ == "__main__":
     gf.config.rich_output()
-    c = add_fiber_array_optical_south_electrical_north()
+    c = add_fiber_array_optical_south_electrical_north(
+        measurement_settings={"wavelength_min": 1550}
+    )
 
     d = json.loads(c.labels[0].text)
     print(d)

@@ -18,7 +18,7 @@ from gdsfactory.typings import LayerSpec, PathType
 
 def find_labels(
     gdspath: PathType, layer_label: LayerSpec = "LABEL", prefix: str = "opt_"
-) -> Iterator[tuple[str, float, float]]:
+) -> Iterator[tuple[str, float, float, float]]:
     """Return text label and locations iterator from a GDS file.
 
     Klayout does not support label rotations.
@@ -149,9 +149,10 @@ def write_labels_gdstk(
 
 def test_find_labels() -> None:
     import gdsfactory as gf
+    from gdsfactory.add_labels import add_labels_to_ports
 
     c = gf.components.straight(length=124)
-    cc = add_fiber_single(component=c, decorator=gf.add_labels.add_labels_to_ports)
+    cc = add_fiber_single(component=c, decorator=add_labels_to_ports)
     gdspath = cc.write_gds()
     assert len(list(find_labels(gdspath))) == 4
 

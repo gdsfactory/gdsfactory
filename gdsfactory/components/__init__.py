@@ -14,6 +14,7 @@ from gdsfactory.components.add_fiber_array_optical_south_electrical_north import
 from gdsfactory.components.add_fiducials import add_fiducials, add_fiducials_offsets
 from gdsfactory.components.add_grating_couplers import (
     add_grating_couplers,
+    add_grating_couplers_fiber_array,
     add_grating_couplers_with_loopback_fiber_array,
     add_grating_couplers_with_loopback_fiber_single,
 )
@@ -251,6 +252,7 @@ from gdsfactory.components.spiral_heater import (
 )
 from gdsfactory.components.spiral_inner_io import (
     spiral_inner_io,
+    spiral_inner_io_fiber_array,
     spiral_inner_io_fiber_single,
 )
 from gdsfactory.components.splitter_chain import splitter_chain
@@ -340,6 +342,7 @@ __all__ = [
     "add_fiducials_offsets",
     "add_frame",
     "add_grating_couplers",
+    "add_grating_couplers_fiber_array",
     "add_grating_couplers_with_loopback_fiber_array",
     "add_grating_couplers_with_loopback_fiber_single",
     "add_trenches",
@@ -540,6 +543,7 @@ __all__ = [
     "spiral_external_io",
     "spiral_inner_io",
     "spiral_inner_io_fiber_single",
+    "spiral_inner_io_fiber_array",
     "spiral_racetrack",
     "spiral_racetrack_fixed_length",
     "spiral_racetrack_heater_doped",

@@ -239,7 +239,7 @@ if __name__ == "__main__":
 
     # c = gf.components.bend_euler(info=dict(doe="bends"))
     cc = add_fiber_array(
-        c, layer_label=None, layer_label_loopback=None, with_loopback=False
+        c, layer_label=None, layer_label_loopback=None, with_loopback=True
     )
 
     # cc = add_fiber_array(
@@ -259,4 +259,5 @@ if __name__ == "__main__":
     #     cross_section=strip,
     #     info=dict(a=1),
     # )
+    cc.pprint_ports()
     cc.show(show_ports=True)

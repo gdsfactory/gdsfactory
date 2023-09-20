@@ -84,7 +84,14 @@ class LayerStack(BaseModel):
         layers: dict of layer_levels.
     """
 
-    layers: dict[str, LayerLevel] = Field(default_factory=dict)
+    layers: dict[str, LayerLevel] = Field(
+        default_factory=dict,
+        description="dict of layer_levels",
+    )
+
+    def model_copy(self) -> LayerStack:
+        """Returns a copy of the LayerStack."""
+        return LayerStack.model_validate_json(self.model_dump_json())
 
     def __init__(self, **data: Any) -> None:
         """Add LayerLevels automatically for subclassed LayerStacks."""
