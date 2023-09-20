@@ -11,6 +11,11 @@ def demo_cross_section_setting(cross_section=strip) -> gf.Component:
     return gf.components.straight(cross_section=cross_section)
 
 
+@gf.cell
+def demo_dict_keys(port_names: tuple[str, ...]):
+    return gf.Component()
+
+
 def test_settings(data_regression, check: bool = True) -> None:
     """Avoid regressions when exporting settings."""
     component = demo_cross_section_setting()
@@ -41,6 +46,11 @@ def test_serialize_polygons() -> None:
     wrap_polygons(s.get_polygons(by_spec=False, as_array=True))  # FAILS
     wrap_polygons(s.get_polygons(by_spec=(1, 0), as_array=True))  # FAILS
     wrap_polygons(s.get_polygons(by_spec=True, as_array=True))  # FAILS
+
+
+def test_serialize_dict_keys():
+    c1 = gf.c.straight()
+    demo_dict_keys(port_names=c1.ports.keys())
 
 
 if __name__ == "__main__":
