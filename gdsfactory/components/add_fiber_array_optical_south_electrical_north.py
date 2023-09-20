@@ -1,4 +1,5 @@
 import json
+from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.components.grating_coupler_elliptical import (
@@ -23,8 +24,10 @@ def add_fiber_array_optical_south_electrical_north(
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     xs_metal: CrossSectionSpec = "metal_routing",
     layer_label: LayerSpec = "TEXT",
-    measurement: str = "",
+    measurement: str = "cutback_loopback4_heater_sweep",
+    measurement_settings: dict[str, Any] | None = None,
     analysis: str = "",
+    analysis_settings: dict[str, Any] | None = None,
     doe: str = "",
     **kwargs,
 ) -> gf.Component:
@@ -46,7 +49,9 @@ def add_fiber_array_optical_south_electrical_north(
         xs_metal: metal cross section.
         layer_label: layer for settings label.
         measurement: measurement name.
+        measurement_settings: measurement settings.
         analysis: analysis name.
+        analysis_settings: analysis settings.
         doe: Design of Experiment.
 
     Keyword Args:
@@ -124,49 +129,16 @@ def add_fiber_array_optical_south_electrical_north(
     xc, yc = c.center
 
     if layer_label:
-        electrical_ports = {
-            p.name: dict(
-                x=int(p.x - xc),
-                y=int(p.y - yc),
-                orientation=p.orientation,
-                port_type="electrical-dc",
-            )
-            for p in ports2
-        }
-
-        optical_component_ports = {
-            p.name: dict(
-                x=int(p.x - xc),
-                y=int(p.y - yc),
-                orientation=p.orientation,
-                port_type="optical-fiber_array",
-            )
-            for p in optical_ports
-            if "loopback" not in p.name
-        }
-
-        optical_alignment_ports = {
-            p.name: dict(
-                x=int(p.x - xc),
-                y=int(p.y - yc),
-                orientation=p.orientation,
-                port_type="optical_fiber_array_alignment",
-            )
-            for p in optical_ports
-            if "loopback" in p.name
-        }
-
         settings = dict(
-            test="optical_south_electrical_north",
-            nelectrical=npads,
-            noptical=len(r.get_ports_list(port_type="optical")),
-            settings=component.settings.full,
             name=component.name,
-            electrical_ports=electrical_ports,
-            optical_component_ports=optical_component_ports,
-            optical_alignment_ports=optical_alignment_ports,
             measurement=measurement,
+            xopt=[int(optical_ports[0].x - xc)],
+            yopt=[int(optical_ports[0].y - yc)],
+            xelec=[int(electrical_ports[0].x - xc)],
+            yelec=[int(electrical_ports[0].y - yc)],
+            measurement_settings=measurement_settings,
             analysis=analysis,
+            analysis_settings=analysis_settings,
             doe=doe,
         )
         info = json.dumps(settings)
@@ -177,6 +149,7 @@ def add_fiber_array_optical_south_electrical_north(
 
 
 if __name__ == "__main__":
+    gf.config.rich_output()
     c = add_fiber_array_optical_south_electrical_north()
 
     d = json.loads(c.labels[0].text)

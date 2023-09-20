@@ -33,8 +33,8 @@
 #
 # Lets review some different automatic labeling schemas:
 #
-# 1. One label per test site (Component) that includes settings, electrical ports and optical ports.
-# 2. SiEPIC labels , labels only one of the grating couplers from the fiber array.
+# 1. One label per test site or device under test (Component) that includes settings, electrical ports and optical ports.
+# 2. SiEPIC labels: only the laser input grating coupler from the fiber array has a label, which is the second from left to right.
 # 3. EHVA automatic testers, include a Label component declaration as described in this [doc](https://drive.google.com/file/d/1kbQNrVLzPbefh3by7g2s865bcsA2vl5l/view)
 #
 #
