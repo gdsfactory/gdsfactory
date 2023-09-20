@@ -2,6 +2,12 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.5.0...main)
 
+## [7.6.0](https://github.com/gdsfactory/gdsfactory/compare/v7.5.0...v7.6.0)
+
+- improve labels and documentation for test protocol
+- fix layer_stack mutability by redefining `LayerStack.model_copy()` @yaugenst @simbilod
+- add `spiral_inner_io_fiber_array` and `add_grating_couplers_fiber_array` to components
+
 ## [7.5.0](https://github.com/gdsfactory/gdsfactory/compare/v7.4.6...v7.5.0)
 
 - fix layerstack.filtered
