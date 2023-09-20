@@ -5,6 +5,7 @@ import functools
 import hashlib
 import inspect
 import pathlib
+from collections.abc import KeysView as dict_keys
 from functools import partial
 from typing import Any
 
@@ -114,7 +115,7 @@ def clean_value_json(value: Any) -> str | int | float | dict | list | bool | Non
     elif isinstance(value, DictConfig):
         return clean_dict(OmegaConf.to_container(value))
 
-    elif isinstance(value, list | tuple | set):
+    elif isinstance(value, list | tuple | set | dict_keys):
         return [clean_value_json(i) for i in value]
 
     elif isinstance(value, gdstk.Polygon):
