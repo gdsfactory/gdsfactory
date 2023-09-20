@@ -336,23 +336,26 @@ class Pdk(BaseModel):
         clear_cache()
 
         if self.base_pdk:
-            cross_sections = self.base_pdk.cross_sections
-            cross_sections.update(self.cross_sections)
-            self.cross_sections = cross_sections
-
-            cells = self.base_pdk.cells
-            cells.update(self.cells)
-            self.cells.update(cells)
-
-            layers = self.base_pdk.layers
-            layers.update(self.layers)
-            self.layers.update(layers)
-
-            if not self.default_decorator:
-                self.default_decorator = self.base_pdk.default_decorator
+            self.add_base_pdk()
         layers_required = []
         self.validate_layers(layers_required)
         _set_active_pdk(self)
+
+    def add_base_pdk(self):
+        """Update pdk with self.base_pdk."""
+        cross_sections = self.base_pdk.cross_sections
+        cross_sections.update(self.cross_sections)
+        cells = self.base_pdk.cells
+        self.cross_sections = cross_sections
+        cells.update(self.cells)
+        self.cells.update(cells)
+
+        layers = self.base_pdk.layers
+        layers.update(self.layers)
+        self.layers.update(layers)
+
+        if not self.default_decorator:
+            self.default_decorator = self.base_pdk.default_decorator
 
     def register_cells(self, **kwargs) -> None:
         """Register cell factories."""

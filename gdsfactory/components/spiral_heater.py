@@ -152,21 +152,19 @@ def spiral_racetrack_fixed_length(
     if np.mod(n_straight_sections, 2) != 0:
         raise ValueError("The number of straight sections has to be even!")
 
-    # First, we need to get the length of the straight sections to achieve the required length,
-    # given the specified parameters
-    spacings = [min_spacing] * (n_straight_sections // 2)
+    # get the length of the straight sections to achieve the required length
+    spacings = (min_spacing,) * (n_straight_sections // 2)
 
     straight_length = _req_straight_len(
-        length,
-        in_out_port_spacing,
-        min_radius,
-        spacings,
-        bend_factory,
-        bend_s_factory,
-        xs_s_bend,
+        length=length,
+        in_out_port_spacing=in_out_port_spacing,
+        min_radius=min_radius,
+        spacings=spacings,
+        bend_factory=bend_factory,
+        bend_s_factory=bend_s_factory,
+        cross_section_s_bend=xs_s_bend,
+        cross_section=cross_section,
     )
-
-    # print(straight_length)
 
     spiral = c << spiral_racetrack(
         min_radius=min_radius,
@@ -189,10 +187,7 @@ def spiral_racetrack_fixed_length(
     if spiral.ports["o1"].x > spiral.ports["o2"].x:
         spiral.mirror_x()
 
-    # We need to add a bit more to the spiral racetrack to
-    # make the in and out ports be aligned in y
-
-    # Input waveguide
+    # add a bit more to the spiral racetrack to make the in and out ports be aligned in y
     in_wg = c << straight_factory(
         spiral.ports["o1"].x - spiral.xmin, cross_section=cross_section
     )
@@ -228,10 +223,7 @@ def spiral_racetrack_fixed_length(
     )
 
     c.info["length"] += np.sum([r.info["length"] for r in route.references])
-
-    # Ports
     c.add_port("o1", port=in_wg.ports["o2"])
-
     return c
 
 
@@ -242,6 +234,7 @@ def _req_straight_len(
     spacings: Floats = (1.0, 1.0),
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
+    cross_section: CrossSectionSpec = "strip",
     cross_section_s_bend: CrossSectionSpec = "strip",
 ) -> float:
     """Returns geometrical parameters to make a spiral of a given length.
@@ -284,7 +277,7 @@ def _req_straight_len(
             straight_factory=straight,
             bend_factory=bend_factory,
             bend_s_factory=bend_s_factory,
-            cross_section="strip",
+            cross_section=cross_section,
             cross_section_s=cross_section_s_bend,
             extra_90_deg_bend=True,
         )
