@@ -51,7 +51,7 @@ add_fiber_array_optical_south_electrical_north
 
   import gdsfactory as gf
 
-  c = gf.components.add_fiber_array_optical_south_electrical_north(with_loopback=True, pad_spacing=100.0, fiber_spacing=127.0, pad_gc_spacing=250.0, xs_metal='metal_routing')
+  c = gf.components.add_fiber_array_optical_south_electrical_north(with_loopback=True, pad_spacing=100.0, fiber_spacing=127.0, pad_gc_spacing=250.0, electrical_port_orientation=90, xs_metal='metal_routing', layer_label='TEXT', measurement='cutback_loopback2_heater_sweep', analysis='', doe='', anchor='sw')
   c.plot()
 
 
@@ -111,7 +111,22 @@ add_grating_couplers
 
   import gdsfactory as gf
 
-  c = gf.components.add_grating_couplers(layer_label=[200, 0], gc_port_name='o1')
+  c = gf.components.add_grating_couplers(gc_port_name='o1')
+  c.plot()
+
+
+
+add_grating_couplers_fiber_array
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.add_grating_couplers_fiber_array
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.add_grating_couplers_fiber_array(grating_separation=127.0, gc_port_name='o1', gc_rotation=-90, straight_separation=5.0, with_loopback=False, nlabels_loopback=2, loopback_yspacing=4.0)
   c.plot()
 
 
@@ -126,7 +141,7 @@ add_grating_couplers_with_loopback_fiber_array
 
   import gdsfactory as gf
 
-  c = gf.components.add_grating_couplers_with_loopback_fiber_array(grating_separation=127.0, gc_port_name='o1', gc_rotation=-90, straight_separation=5.0, layer_label=[200, 0], with_loopback=False, nlabels_loopback=2, loopback_yspacing=4.0)
+  c = gf.components.add_grating_couplers_with_loopback_fiber_array(grating_separation=127.0, gc_port_name='o1', gc_rotation=-90, straight_separation=5.0, with_loopback=True, nlabels_loopback=2, loopback_yspacing=4.0)
   c.plot()
 
 
@@ -141,7 +156,7 @@ add_grating_couplers_with_loopback_fiber_single
 
   import gdsfactory as gf
 
-  c = gf.components.add_grating_couplers_with_loopback_fiber_single(layer_label=[200, 0], gc_port_name='o1', with_loopback=True, loopback_xspacing=5.0, rotation=90)
+  c = gf.components.add_grating_couplers_with_loopback_fiber_single(component='spiral_inner_io_fiber_single', gc_port_name='o1', with_loopback=True, loopback_xspacing=5.0, rotation=90)
   c.plot()
 
 
@@ -2119,7 +2134,7 @@ mzi2x2_2x2_phase_shifter
 
   import gdsfactory as gf
 
-  c = gf.components.mzi2x2_2x2_phase_shifter(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal_simple', with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False)
+  c = gf.components.mzi2x2_2x2_phase_shifter(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal', with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False)
   c.plot()
 
 
@@ -2990,6 +3005,21 @@ spiral_inner_io
   import gdsfactory as gf
 
   c = gf.components.spiral_inner_io(N=6, x_straight_inner_right=150.0, x_straight_inner_left=50.0, y_straight_inner_top=50.0, y_straight_inner_bottom=10.0, grating_spacing=127.0, waveguide_spacing=3.0, cross_section='strip', asymmetric_cross_section=False)
+  c.plot()
+
+
+
+spiral_inner_io_fiber_array
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.spiral_inner_io_fiber_array
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.spiral_inner_io_fiber_array(N=6, x_straight_inner_right=150.0, x_straight_inner_left=50.0, y_straight_inner_top=50.0, y_straight_inner_bottom=10.0, grating_spacing=127.0, waveguide_spacing=3.0, length=20000.0, cross_section='strip', asymmetric_cross_section=False)
   c.plot()
 
 

@@ -7,11 +7,14 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.add_grating_couplers import (
+    add_grating_couplers_with_loopback_fiber_array,
+)
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
 def get_bend_port_distances(bend: Component) -> tuple[float, float]:
@@ -40,8 +43,7 @@ def spiral_inner_io(
 ) -> Component:
     """Returns Spiral with ports inside the spiral loop.
 
-    You can add grating
-    couplers inside.
+    You can add grating couplers inside the spiral to save space.
 
     Args:
         N: number of loops.
@@ -59,7 +61,7 @@ def spiral_inner_io(
         cross_section: spec.
         cross_section_bend: for the bends.
         cross_section_bend180: for 180 bend.
-        asymmetric_cross_section: if the cross_section is asymmetric, it needs to be mirrored at the halfway point
+        asymmetric_cross_section: if the cross_section is asymmetric, it needs to be mirrored at the halfway point.
         kwargs: cross_section settings.
     """
     dx = dy = waveguide_spacing
@@ -171,6 +173,70 @@ def spiral_inner_io(
 
 
 @gf.cell
+def spiral_inner_io_fiber_array(
+    N: int = 6,
+    x_straight_inner_right: float = 150.0,
+    x_straight_inner_left: float = 50.0,
+    y_straight_inner_top: float = 50.0,
+    y_straight_inner_bottom: float = 10.0,
+    grating_spacing: float = 127.0,
+    waveguide_spacing: float = 3.0,
+    bend90: ComponentSpec = bend_euler,
+    bend180: ComponentSpec = bend_euler180,
+    straight: ComponentSpec = straight_function,
+    length: float | None = 20e3,
+    cross_section: CrossSectionSpec = "strip",
+    cross_section_bend: CrossSectionSpec | None = None,
+    cross_section_bend180: CrossSectionSpec | None = None,
+    asymmetric_cross_section: bool = False,
+    add_grating_couplers: ComponentFactory = add_grating_couplers_with_loopback_fiber_array,
+    **kwargs,
+) -> Component:
+    """Returns Spiral with fiber array grating couplers.
+
+    Args:
+        N: number of loops.
+        x_straight_inner_right: xlength.
+        x_straight_inner_left: x length left.
+        y_straight_inner_top: x inner top.
+        y_straight_inner_bottom: y length.
+        grating_spacing: defaults to 127 for fiber array.
+        waveguide_spacing: center to center spacing.
+        bend90: bend90 spec.
+        bend180: bend180 spec.
+        straight: straight spec.
+        length: spiral target length (um), overrides x_straight_inner_left.
+            to match the length by a simple 1D interpolation.
+        cross_section: spec.
+        cross_section_bend: for the bends.
+        cross_section_bend180: for 180 bend.
+        asymmetric_cross_section: if the cross_section is asymmetric, it needs to be mirrored at the halfway point.
+        add_grating_couplers: function to add grating couplers.
+
+    Keyword Args:
+    """
+    spiral = spiral_inner_io(
+        N=N,
+        x_straight_inner_right=x_straight_inner_right,
+        x_straight_inner_left=x_straight_inner_left,
+        y_straight_inner_top=y_straight_inner_top,
+        y_straight_inner_bottom=y_straight_inner_bottom,
+        grating_spacing=grating_spacing,
+        waveguide_spacing=waveguide_spacing,
+        bend90=bend90,
+        bend180=bend180,
+        straight=straight,
+        length=length,
+        cross_section=cross_section,
+        cross_section_bend=cross_section_bend,
+        cross_section_bend180=cross_section_bend180,
+        asymmetric_cross_section=asymmetric_cross_section,
+        **kwargs,
+    )
+    return add_grating_couplers(spiral, cross_section=cross_section, **kwargs)
+
+
+@gf.cell
 def spiral_inner_io_fiber_single(
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
@@ -259,7 +325,7 @@ if __name__ == "__main__":
     cross_section = gf.cross_section.rib_conformal2
     cross_section = gf.cross_section.pn
 
-    c = gf.components.spiral_inner_io(
+    c = gf.components.spiral_inner_io_fiber_array(
         cross_section=cross_section,
         cross_section_bend=partial(cross_section, mirror=True),
         # cross_section_bend180=partial(cross_section, mirror=True),

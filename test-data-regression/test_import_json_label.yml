@@ -1,0 +1,25 @@
+analysis: null
+analysis_settings:
+  angle: 90
+  component:
+    component: add_fiber_single
+    settings:
+      component:
+        component: straight
+        settings:
+          cross_section: strip_no_pins
+          decorator:
+            function: add_pins_siepic
+  decorator:
+    function: add_label_yaml
+    settings:
+      with_yaml_format: false
+  recenter: false
+doe: null
+measurement: null
+measurement_settings: {}
+name: straight_aa0e8b9c_move_34b9bad8_add_fiber_single_ca0be452_rotate_66e80ecc
+xelec: []
+xopt: []
+yelec: []
+yopt: []

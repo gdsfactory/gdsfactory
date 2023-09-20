@@ -33,8 +33,8 @@
 #
 # Lets review some different automatic labeling schemas:
 #
-# 1. One label per test site (Component) that includes settings, electrical ports and optical ports.
-# 2. SiEPIC labels , labels only one of the grating couplers from the fiber array.
+# 1. One label per test site or Device under test (Component) that includes settings, electrical ports and optical ports.
+# 2. SiEPIC labels: only the laser input grating coupler from the fiber array has a label, which is the second from left to right.
 # 3. EHVA automatic testers, include a Label component declaration as described in this [doc](https://drive.google.com/file/d/1kbQNrVLzPbefh3by7g2s865bcsA2vl5l/view)
 #
 #
@@ -60,11 +60,14 @@ PDK.activate()
 # %% [markdown]
 # ### 1. Test Sites Labels
 #
-# Each test site labels includes:
+# Each test site includes a label with the measurement and analysis settings:
 #
-# - Optical and electrical ports
-# - Component settings
-# - test and data analysis information. Such as Design of Experiment (DOE) id.
+# - Optical and electrical port locations for each alignment.
+# - measurement settings.
+# - Component settings for the analysis and test and data analysis information. Such as Design of Experiment (DOE) id.
+#
+#
+# The default settings can be stored in a separate [CSV file](https://docs.google.com/spreadsheets/d/1845m-XZM8tZ1tNd8GIvAaq7ZE-iha00XNWa0XrEOabc/edit#gid=0)
 
 # %%
 c = gf.components.mzi_phase_shifter()
@@ -72,7 +75,8 @@ c = gf.components.add_fiber_array_optical_south_electrical_north(
     c,
     doe="mzis",
     analysis="mzi_phase_shifter",
-    measurement="optical_electrial",
+    measurement="cutback_loopback2_heater_sweep",
+    measurement_settings=dict(v_max=5),
 )
 c.plot()
 
@@ -87,13 +91,12 @@ json.loads(c.labels[0].text)
 # %% [markdown]
 # ### 2. SiEPIC labels
 #
-# Labels follow format `opt_in_{polarization}_{wavelength}_device_{username}_({component_name})-{gc_index}-{port.name}` and you only need to label the input port of the fibe array.
+# Labels follow format `opt_in_{polarization}_{wavelength}_device_{username}_({component_name})-{gc_index}-{port.name}` and you only need to label the input port of the fiber array.
 # This also includes one label per test site.
 
 # %%
 mmi = gf.components.mmi2x2()
 mmi_te_siepic = gf.labels.add_fiber_array_siepic(component=mmi)
-mmi_te_siepic.show()
 mmi_te_siepic.plot()
 
 # %%
@@ -114,7 +117,6 @@ mmi = gf.c.mmi2x2(length_mmi=2.2)
 mmi_te_ehva = gf.routing.add_fiber_array(
     mmi, get_input_labels_function=None, decorator=add_label_ehva_demo
 )
-mmi_te_ehva.show()
 mmi_te_ehva.plot()
 
 # %%
@@ -167,7 +169,22 @@ c = m[0]
 c.plot()
 
 # %% [markdown]
-# Then we add spirals with different lengths to measure waveguide propagation loss.
+# Then we add spirals with different lengths to measure waveguide propagation loss. You can use both fiber array or single fiber.
+
+# %%
+from toolz import compose
+from functools import partial
+import gdsfactory as gf
+
+add_cutback_loopback2_label = partial(
+    gf.labels.add_label_json, measurement="cutback_loopback2"
+)
+
+c = gf.components.spiral_inner_io_fiber_array(
+    length=20e3, decorator=add_cutback_loopback2_label
+)
+c.show()
+c.plot()
 
 # %%
 spiral = gf.components.spiral_inner_io_fiber_single()
@@ -206,22 +223,43 @@ c = m[0]
 c.show()
 c.plot()
 
+# %%
+from toolz import compose
+from functools import partial
+import gdsfactory as gf
+
+add_cutback_loopback2_label = partial(
+    gf.labels.add_label_json, measurement="cutback_loopback2"
+)
+
+c = gf.components.spiral_inner_io_fiber_array(
+    length=20e3, decorator=add_cutback_loopback2_label
+)
+c.show()
+c.plot()
+
+# %%
+sweep = [
+    gf.components.spiral_inner_io_fiber_array(
+        length=length, decorator=add_cutback_loopback2_label
+    )
+    for length in [20e3, 30e3, 40e3]
+]
+m = gf.pack(sweep)
+c = m[0]
+c.show()
+c.plot()
+
 # %% [markdown]
 # You can also add some physical labels that will be fabricated.
 # For example you can add prefix `S` at the `north-center` of each spiral using `text_rectangular` which is DRC clean and anchored on `nc` (north-center)
 
 # %%
-text_metal3 = partial(gf.components.text_rectangular_multi_layer, layers=((49, 0),))
+text_metal = partial(gf.components.text_rectangular_multi_layer, layers=("M1",))
 
-m = gf.pack(sweep, text=text_metal3, text_anchors=("nc",), text_prefix="s")
+m = gf.pack(sweep, text=text_metal, text_anchors=("cw",), text_prefix="s")
 c = m[0]
-c.plot()
-
-# %%
-text_metal2 = partial(gf.components.text, layer=(45, 0))
-
-m = gf.pack(sweep, text=text_metal2, text_anchors=("nc",), text_prefix="s")
-c = m[0]
+c.show()
 c.plot()
 
 # %% [markdown]
@@ -238,7 +276,7 @@ gh = gf.grid(sweep, shape=(1, len(sweep)))
 gh.plot()
 
 # %%
-gh_ymin = gf.grid(sweep, shape=(1, len(sweep)), align_y="ymin")
+gh_ymin = gf.grid(sweep, shape=(len(sweep), 1), align_x="xmin")
 gh_ymin.plot()
 
 # %% [markdown]
@@ -246,18 +284,9 @@ gh_ymin.plot()
 
 # %%
 gh_ymin = gf.grid_with_text(
-    sweep, shape=(1, len(sweep)), align_y="ymin", text=text_metal3
+    sweep, shape=(len(sweep), 1), align_x="xmax", text=text_metal
 )
 gh_ymin.plot()
-
-# %% [markdown]
-# You can modify the text by customizing the `text_function` that you pass to `grid_with_text`
-
-# %%
-gh_ymin_m2 = gf.grid_with_text(
-    sweep, shape=(1, len(sweep)), align_y="ymin", text=text_metal2
-)
-gh_ymin_m2.plot()
 
 # %% [markdown]
 # You have 2 ways of defining a mask:
@@ -481,18 +510,18 @@ gdspath = c.write_gds("demo.gds", with_metadata=True)
 #
 # The advantage of GDS labels is that they are all stored in the same file.
 #
-# We define a single label for each test site, and the label contains all the testing and data analysis information.
+# We define a single label for each test site (Device Under Test), and the label contains all the measurement and data analysis information.
 
 # %%
 test_info_mzi_heaters = dict(
     doe="mzis_heaters",
     analysis="mzi_heater_phase_shifter_length",
-    measurement="optical_mzi_heater",
+    measurement="cutback_loopback4_heater_sweep",
 )
 test_info_ring_heaters = dict(
     doe="ring_heaters_coupling_length",
     analysis="ring_heater",
-    measurement="optical_ring_heater",
+    measurement="cutback_loopback2_heater_sweep",
 )
 
 mzis = [
@@ -519,12 +548,16 @@ rings_te = [
     for ring in rings
 ]
 c = gf.pack(mzis_te + rings_te)[0]
+c.show()
 c.plot()
 
 # %% [markdown]
 # ## Test manifest
 #
-# Each site has a test label in JSON with all the settings.
+# Each Device Under Test (test site) has a test label in JSON with all the settings.
+#
+# You can define a Test manifest (also known as Test sequence) in CSV automatically from the labels.
+# See Test Manifest [example](https://docs.google.com/spreadsheets/d/1845m-XZM8tZ1tNd8GIvAaq7ZE-iha00XNWa0XrEOabc/edit#gid=0)
 
 # %%
 import pandas as pd
@@ -540,21 +573,15 @@ df
 # As you can see there are 6 devices, each of which has optical and electrical ports.
 #
 # You can turn each label into a test manifest CSV file, which will be used to interface with your lab instrumentation.
+# There are many different ways to define a test manifest, here we are just proposing one.
 #
-# Having a general case for interfacing with test equipment is pretty hard, so this is just a guideline on how this could be done.
+# Each measurement will use a different function name `measurement` and settings `measurement_settings`
 #
-# Each `doe` Design of Experiment (DOE) will have a different output, can run a different `measurement` and have different `analysis` function code and settings, which would have to be defined separately.
-#
-# This would require having a separate `measurement_settings.yml` and  `analysis_settings.yml`  with all the settings in YAML format
+# The default measurement settings for each functions can also be defined in CSV and easily editable with Excel or LibreOffice.
+# See Test Manifest [example](https://docs.google.com/spreadsheets/d/1845m-XZM8tZ1tNd8GIvAaq7ZE-iha00XNWa0XrEOabc/edit#gid=0)
 
 # %%
 from gdsfactory.labels.write_test_manifest import write_test_manifest
 
 dm = write_test_manifest(csvpath)
 dm
-
-# %% [markdown]
-# ![](https://i.imgur.com/FnOCb6H.png)
-
-# %% [markdown]
-#

@@ -90,7 +90,8 @@ def get_layer_stack(
                 zmin=-substrate_thickness - box_thickness,
                 material="si",
                 mesh_order=101,
-                background_doping={"concentration": "1E14", "ion": "Boron"},
+                background_doping_concentration=1e14,
+                background_doping_ion="Boron",
                 orientation="100",
             ),
             box=LayerLevel(
@@ -134,7 +135,6 @@ def get_layer_stack(
                 derived_layer=LAYER.SLAB90,
             ),
             clad=LayerLevel(
-                # layer=LAYER.WGCLAD,
                 layer=LAYER.WAFER,
                 zmin=0.0,
                 material="sio2",
@@ -174,10 +174,10 @@ def get_layer_stack(
                 thickness=-undercut_thickness,
                 zmin=-box_thickness,
                 material="air",
-                z_to_bias=[
+                z_to_bias=(
                     [0, 0.3, 0.6, 0.8, 0.9, 1],
                     [-0, -0.5, -1, -1.5, -2, -2.5],
-                ],
+                ),
                 mesh_order=1,
             ),
             via_contact=LayerLevel(

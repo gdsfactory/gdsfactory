@@ -12,7 +12,7 @@ required_layers = []
 class LayerMap(BaseModel):
     """You will need to create a new LayerMap with your specific foundry layers."""
 
-    model_config = {"extra": "allow", "frozen": False}
+    model_config = {"frozen": True}
 
     @model_validator(mode="after")
     @classmethod

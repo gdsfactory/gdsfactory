@@ -133,8 +133,7 @@ settings:
     module: gdsfactory.components.spiral_inner_io
     name: spiral_inner_io_2a92e51b_spiral_inner_io_fiber_single
   default:
-    component:
-      function: spiral_inner_io_fiber_single
+    component: spiral_inner_io_fiber_single
     component_name: null
     cross_section:
       function: cross_section
@@ -163,9 +162,7 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label:
-    - 200
-    - 0
+    layer_label: null
     loopback_xspacing: 5.0
     rotation: 90
     select_ports:
@@ -174,8 +171,7 @@ settings:
         port_type: optical
     with_loopback: true
   full:
-    component:
-      function: spiral_inner_io_fiber_single
+    component: spiral_inner_io_fiber_single
     component_name: null
     cross_section:
       function: cross_section
@@ -204,9 +200,7 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label:
-    - 200
-    - 0
+    layer_label: null
     loopback_xspacing: 5.0
     rotation: 90
     select_ports:

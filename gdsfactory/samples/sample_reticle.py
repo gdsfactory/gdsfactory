@@ -16,12 +16,12 @@ def sample_reticle(grid: bool = True, **kwargs) -> gf.Component:
     test_info_mzi_heaters = dict(
         doe="mzis_heaters",
         analysis="mzi_heater",
-        measurement="optical_heater",
+        measurement="cutback_loopback4_heater_sweep",
     )
     test_info_ring_heaters = dict(
         doe="ring_heaters",
         analysis="ring_heater",
-        measurement="optical_heater",
+        measurement="cutback_loopback2_heater_sweep",
     )
 
     mzis = [
