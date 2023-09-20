@@ -1,29 +1,5 @@
-name: spiral_inner_io_length20000p0_add_grating_couplers_with_loopback_fiber_array
+name: spiral_inner_io_length20000p0_add_grating_couplers_with_loopback_fiber_array_with_loopbackFalse
 ports:
-  loopback_1:
-    center:
-    - -127.0
-    - 46.0
-    layer:
-    - 1
-    - 0
-    name: loopback_1
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  loopback_4:
-    center:
-    - -127.0
-    - 46.0
-    layer:
-    - 1
-    - 0
-    name: loopback_4
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
   o1:
     center:
     - 0.0
@@ -45,7 +21,8 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
+  changed:
+    with_loopback: false
   child:
     changed:
       length: 20000.0
@@ -187,7 +164,7 @@ settings:
       settings:
         port_type: optical
     straight_separation: 5.0
-    with_loopback: true
+    with_loopback: false
   function_name: add_grating_couplers_with_loopback_fiber_array
   info:
     length: 19999.999
@@ -195,4 +172,4 @@ settings:
     wavelength: 1.53
   info_version: 2
   module: gdsfactory.components.add_grating_couplers
-  name: spiral_inner_io_length20000p0_add_grating_couplers_with_loopback_fiber_array
+  name: spiral_inner_io_length20000p0_add_grating_couplers_with_loopback_fiber_array_with_loopbackFalse

@@ -82,9 +82,7 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label:
-    - 200
-    - 0
+    layer_label: null
     select_ports:
       function: select_ports
       settings:
@@ -101,9 +99,7 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label:
-    - 200
-    - 0
+    layer_label: null
     select_ports:
       function: select_ports
       settings:
