@@ -7,7 +7,7 @@ import typer
 
 app = typer.Typer()
 
-VERSION = "7.5.0"
+VERSION = "7.6.0"
 
 
 @app.command()
