@@ -39,7 +39,7 @@ def demo_polygons():
     # Create and add a polygon from separate lists of x points and y points
     # (Can also be added like [(x1,y1), (x2,y2), (x3,y3), ... ]
     c.add_polygon(
-        [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=1
+        [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
     )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
     return c
 
@@ -88,11 +88,11 @@ c = gf.Component("Mixed_polygons")
 p0 = Polygon(zip((-8, 6, 7, 9), (-6, 8, 17, 5)))
 p1 = p0.buffer(1)
 p2 = p1.simplify(tolerance=0.1)
-c.add_polygon(p0, layer=0)
-c.add_polygon(p1, layer=1)
-c.add_polygon(p2, layer=2)
+c.add_polygon(p0, layer=(1, 0))
+c.add_polygon(p1, layer=(2, 0))
+c.add_polygon(p2, layer=(3, 0))
 
-c.add_polygon([(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=3)
+c.add_polygon([(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(4, 0))
 c.plot()
 
 # %%
@@ -108,7 +108,7 @@ pnot
 
 # %%
 c = gf.Component("exterior")
-c.add_polygon(pnot, layer=3)
+c.add_polygon(pnot, layer=(3, 0))
 c.plot()
 
 # %%
@@ -121,7 +121,7 @@ p_or
 
 # %%
 c = gf.Component("p_or")
-c.add_polygon(p_or, layer=1)
+c.add_polygon(p_or, layer=(1, 0))
 c.plot()
 
 # %%
@@ -136,25 +136,25 @@ p6
 
 # %%
 c = gf.Component("p6")
-c.add_polygon(p6, layer=1)
+c.add_polygon(p6, layer=(1, 0))
 c.plot()
 
 # %%
 c = gf.Component("demo_multilayer")
-p0 = c.add_polygon(p0, layer={2, 3})
+p0 = c.add_polygon(p0, layer={(2, 0), (3, 0)})
 c.plot()
 
 # %%
 c = gf.Component("demo_mirror")
-p0 = c.add_polygon(p0, layer=1)
-p9 = c.add_polygon(p0, layer=2)
+p0 = c.add_polygon(p0, layer=(1, 0))
+p9 = c.add_polygon(p0, layer=(2, 0))
 p9.mirror()
 c.plot()
 
 # %%
 c = gf.Component("demo_xmin")
-p0 = c.add_polygon(p0, layer=1)
-p9 = c.add_polygon(p0, layer=2)
+p0 = c.add_polygon(p0, layer=(1, 0))
+p9 = c.add_polygon(p0, layer=(2, 0))
 p9.mirror()
 p9.xmin = p0.xmax
 c.plot()
@@ -209,22 +209,22 @@ c.plot()
 # %%
 @gf.cell
 def straight(length=10, width=1, layer=(1, 0)):
-    WG = gf.Component()
-    WG.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-    WG.add_port(
+    c = gf.Component()
+    c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    c.add_port(
         name="o1", center=[0, width / 2], width=width, orientation=180, layer=layer
     )
-    WG.add_port(
+    c.add_port(
         name="o2", center=[length, width / 2], width=width, orientation=0, layer=layer
     )
-    return WG
+    return c
 
 
 c = gf.Component("straights_not_connected")
 
-wg1 = c << straight(length=6, width=2.5, layer=1)
-wg2 = c << straight(length=11, width=2.5, layer=2)
-wg3 = c << straight(length=15, width=2.5, layer=3)
+wg1 = c << straight(length=6, width=2.5, layer=(1, 0))
+wg2 = c << straight(length=6, width=2.5, layer=(2, 0))
+wg3 = c << straight(length=15, width=2.5, layer=(3, 0))
 wg2.movey(10).rotate(10)
 wg3.movey(20).rotate(15)
 
@@ -300,6 +300,9 @@ c.plot()
 
 # %%
 wg2.ports
+
+# %%
+wg2.pprint_ports()
 
 # %% [markdown]
 # ## References
