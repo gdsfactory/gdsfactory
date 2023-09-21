@@ -581,7 +581,9 @@ class Pdk(BaseModel):
                 raise ValueError(f"{layer!r} needs two integer numbers.")
             return layer
         elif isinstance(layer, int):
-            return (layer, 0)
+            raise ValueError(
+                f"A gds layer requires a tuple of two integers and got only one integer `{layer}`"
+            )
         elif isinstance(layer, str):
             if layer not in self.layers:
                 raise ValueError(f"{layer!r} not in {self.layers.keys()}")

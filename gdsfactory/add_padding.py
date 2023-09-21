@@ -182,6 +182,6 @@ def add_padding_to_size_container(
 if __name__ == "__main__":
     # test_container()
 
-    p = partial(add_padding, layers=["SLAB150"])
+    p = partial(add_padding, layers=((1, 0)))
     c = gf.components.straight(length=10, decorator=p)
     c.show()
