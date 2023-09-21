@@ -25,6 +25,7 @@ from gdsfactory.port import (
     map_ports_to_orientation_cw,
     select_ports,
 )
+from gdsfactory.snap import snap_to_grid
 
 if typing.TYPE_CHECKING:
     import shapely
@@ -454,7 +455,7 @@ class ComponentReference(_GeometryHelper):
         bbox = self.get_bounding_box()
         if bbox is None:
             bbox = ((0, 0), (0, 0))
-        return np.round(np.array(bbox), 3)
+        return snap_to_grid(np.array(bbox))
 
     @classmethod
     def __get_validators__(cls):

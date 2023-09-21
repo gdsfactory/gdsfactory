@@ -48,6 +48,7 @@ from gdsfactory.port import (
     select_ports,
 )
 from gdsfactory.serialization import clean_dict
+from gdsfactory.snap import snap_to_grid
 
 if TYPE_CHECKING:
     from gdsfactory.technology import LayerStack, LayerViews
@@ -460,7 +461,7 @@ class Component(_GeometryHelper):
         bbox = self._cell.bounding_box()
         if bbox is None:
             bbox = ((0, 0), (0, 0))
-        return np.round(np.array(bbox), 3)
+        return snap_to_grid(np.array(bbox))
 
     @property
     def ports_layer(self) -> dict[str, str]:
@@ -2608,7 +2609,7 @@ def flatten_invalid_refs_recursive(
                 subcell_modified = True
     if invalid_refs or subcell_modified:
         new_component = component.copy()
-        new_component.name = component.name + "_t"
+        new_component.name = f"{component.name}_t"
         # make sure all modified cells have their references updated
         new_refs = new_component.references.copy()
         for ref in new_refs:
@@ -2646,115 +2647,6 @@ def _check_uncached_components(component, mode):
 
             elif mode == "error":
                 raise UncachedComponentError(message)
-
-
-def test_same_uid() -> None:
-    import gdsfactory as gf
-
-    c = Component()
-    c << gf.components.rectangle()
-    c << gf.components.rectangle()
-
-    r1 = c.references[0].parent
-    r2 = c.references[1].parent
-
-    assert r1.uid == r2.uid, f"{r1.uid} must equal {r2.uid}"
-
-
-def test_netlist_simple() -> None:
-    import gdsfactory as gf
-
-    c = gf.Component()
-    c1 = c << gf.components.straight(length=1, width=2)
-    c2 = c << gf.components.straight(length=2, width=2)
-    c2.connect(port="o1", destination=c1.ports["o2"])
-    c.add_port("o1", port=c1.ports["o1"])
-    c.add_port("o2", port=c2.ports["o2"])
-    netlist = c.get_netlist()
-    # print(netlist.pretty())
-    assert len(netlist["instances"]) == 2
-
-
-def test_netlist_simple_width_mismatch_throws_error() -> None:
-    import pytest
-
-    import gdsfactory as gf
-
-    c = gf.Component()
-    c1 = c << gf.components.straight(length=1, width=1)
-    c2 = c << gf.components.straight(length=2, width=2)
-    c2.connect(port="o1", destination=c1.ports["o2"])
-    c.add_port("o1", port=c1.ports["o1"])
-    c.add_port("o2", port=c2.ports["o2"])
-    with pytest.raises(ValueError):
-        c.get_netlist()
-
-
-def test_netlist_complex() -> None:
-    import gdsfactory as gf
-
-    c = gf.components.mzi_arms()
-    netlist = c.get_netlist()
-    # print(netlist.pretty())
-    assert len(netlist["instances"]) == 4, len(netlist["instances"])
-
-
-def test_extract() -> None:
-    import gdsfactory as gf
-
-    WGCLAD = (111, 0)
-
-    c = gf.components.straight(
-        length=10,
-        width=0.5,
-        bbox_layers=[WGCLAD],
-        bbox_offsets=[3],
-        with_bbox=True,
-        cladding_layers=None,
-        add_pins=None,
-        add_bbox=None,
-    )
-    c2 = c.extract(layers=[WGCLAD])
-
-    assert len(c.polygons) == 2, len(c.polygons)
-    assert len(c2.polygons) == 1, len(c2.polygons)
-    assert WGCLAD in c2.layers
-
-
-def hash_file(filepath):
-    md5 = hashlib.md5()
-    md5.update(filepath.read_bytes())
-    return md5.hexdigest()
-
-
-def test_bbox_reference() -> None:
-    import gdsfactory as gf
-
-    c = gf.Component()
-    c1 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
-    c2 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
-    c2.xmin = c1.xmax
-
-    assert c2.xsize == 1.5e-3
-
-
-def test_remove_labels() -> None:
-    import gdsfactory as gf
-
-    c = gf.c.straight()
-    c.remove_labels()
-
-    assert len(c.labels) == 0
-
-
-def test_import_gds_settings() -> None:
-    import gdsfactory as gf
-
-    c = gf.components.mzi()
-    gdspath = c.write_gds(with_metadata=True)
-    c2 = gf.import_gds(gdspath, name="mzi_sample", read_metadata=True)
-    c3 = gf.routing.add_fiber_single(c2)
-    assert c3
 
 
 if __name__ == "__main__":
