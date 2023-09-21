@@ -91,7 +91,7 @@ def demo_non_manhattan_extrude_fix():
 
 
 c1 = demo_non_manhattan_extrude_fix()
-c1
+c1.plot()
 
 # %% [markdown]
 # ### Fix polygons
@@ -108,7 +108,7 @@ s.connect("o1", b.ports["o2"])
 p = c.get_polygons(as_shapely_merged=True)
 c2 = gf.Component("bend_fixed")
 c2.add_polygon(p, layer=(1, 0))
-c2
+c2.plot()
 
 # %%
 import gdsfactory as gf
@@ -122,7 +122,7 @@ p = gf.Polygon.from_shapely(p_shapely, layer=(1, 0))
 p = p.snap(nm=5)
 c2 = gf.Component("bend_fixed")
 c2.add_polygon(p, layer=(1, 0))
-c2
+c2.plot()
 
 # %%
 p_shapely
@@ -147,7 +147,7 @@ def demo_non_manhattan_merge_polygons():
 
 
 c1 = demo_non_manhattan_merge_polygons(cache=False)
-c1
+c1.plot()
 
 # %% [markdown]
 # ## Non-manhattan router

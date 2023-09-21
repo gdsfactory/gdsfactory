@@ -230,7 +230,7 @@ c.plot()
 # By default the generic PDK has some layers that are not visible and therefore are not shown.
 
 # %%
-c_wg_clad = c.extract(layers=(1, 0))
+c_wg_clad = c.extract(layers=[(1, 0)])
 c_wg_clad.plot()
 
 # %%
@@ -249,7 +249,7 @@ LAYER_VIEWS.layer_views["WGCLAD"].visible = True
 LAYER_VIEWS.layer_views["WGCLAD"].visible
 
 # %%
-c_wg_clad = c.extract(layers=(111, 0))
+c_wg_clad = c.extract(layers=[(111, 0)])
 c_wg_clad.plot()
 
 # %% [markdown]

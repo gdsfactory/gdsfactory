@@ -132,7 +132,7 @@ from gdsfactory.geometry.maskprep import get_polygons_over_under, over_under
 over_under_slab = partial(over_under, layers=((2, 0),), distances=(0.5,))
 
 c = gf.components.coupler_ring(
-    cladding_layers=((2, 0)),
+    cladding_layers=[(2, 0)],
     cladding_offsets=(0.2,),
     decorator=over_under_slab,
 )
@@ -144,11 +144,11 @@ c.plot()
 
 # %%
 get_polygons_over_under_slab = partial(
-    get_polygons_over_under, layers=((2, 0)), distances=(0.5,)
+    get_polygons_over_under, layers=[(2, 0)], distances=(0.5,)
 )
 
 c = gf.Component("compnent_clean")
-ref = c << gf.components.coupler_ring(cladding_layers=((2, 0)), cladding_offsets=(0.2,))
+ref = c << gf.components.coupler_ring(cladding_layers=[(2, 0)], cladding_offsets=(0.2,))
 polygons = get_polygons_over_under_slab(ref)
 c.add(polygons)
 c.plot()

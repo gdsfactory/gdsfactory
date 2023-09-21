@@ -554,10 +554,9 @@ c.plot()
 # %% [markdown]
 # ## Test manifest
 #
-# Each Device Under Test (test site) has a test label in JSON with all the settings.
+# Each Device Under Test (test site) has a JSON test label with all the settings.
 #
-# You can define a Test manifest (also known as Test sequence) in CSV automatically from the labels.
-# See Test Manifest [example](https://docs.google.com/spreadsheets/d/1845m-XZM8tZ1tNd8GIvAaq7ZE-iha00XNWa0XrEOabc/edit#gid=0)
+# You can define a [Test manifest](https://docs.google.com/spreadsheets/d/1845m-XZM8tZ1tNd8GIvAaq7ZE-iha00XNWa0XrEOabc/edit#gid=0) (also known as Test sequence) in CSV automatically from the labels.
 
 # %%
 import pandas as pd
@@ -570,15 +569,13 @@ df = pd.read_csv(csvpath)
 df
 
 # %% [markdown]
-# As you can see there are 6 devices, each of which has optical and electrical ports.
+# As you can see there are 6 devices with optical and electrical ports.
 #
-# You can turn each label into a test manifest CSV file, which will be used to interface with your lab instrumentation.
-# There are many different ways to define a test manifest, here we are just proposing one.
+# You can turn each label into a test manifest CSV file to interface with your lab instrumentation functions.
 #
-# Each measurement will use a different function name `measurement` and settings `measurement_settings`
+# Each measurement will use a different `measurement` procedure and settings `measurement_settings`
 #
-# The default measurement settings for each functions can also be defined in CSV and easily editable with Excel or LibreOffice.
-# See Test Manifest [example](https://docs.google.com/spreadsheets/d/1845m-XZM8tZ1tNd8GIvAaq7ZE-iha00XNWa0XrEOabc/edit#gid=0)
+# The default measurement settings for each functions can also be defined in a separate [CSV file](https://docs.google.com/spreadsheets/d/1845m-XZM8tZ1tNd8GIvAaq7ZE-iha00XNWa0XrEOabc/edit#gid=138229318) and easily editable with Excel or LibreOffice.
 
 # %%
 from gdsfactory.labels.write_test_manifest import write_test_manifest

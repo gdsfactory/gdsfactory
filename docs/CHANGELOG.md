@@ -1,6 +1,17 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.5.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.6.2...main)
+
+## [7.6.2](https://github.com/gdsfactory/gdsfactory/compare/v7.6.1...v7.6.2)
+
+- fix `spiral_heater`
+- raise error when using a single layer
+- assert ports on grid at the cell layer, and bounding box points on grid
+
+
+## [7.6.1](https://github.com/gdsfactory/gdsfactory/compare/v7.6.0...v7.6.1)
+
+- serialize `dict_keys`
 
 ## [7.6.0](https://github.com/gdsfactory/gdsfactory/compare/v7.5.0...v7.6.0)
 
