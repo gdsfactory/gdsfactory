@@ -249,7 +249,7 @@ LAYER_VIEWS.layer_views["WGCLAD"].visible = True
 LAYER_VIEWS.layer_views["WGCLAD"].visible
 
 # %%
-c_wg_clad = c.extract(layers=(111, 0))
+c_wg_clad = c.extract(layers=[(111, 0)])
 c_wg_clad.plot()
 
 # %% [markdown]
