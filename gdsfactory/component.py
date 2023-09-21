@@ -30,6 +30,7 @@ from gdsfactory.component_layout import (
     _GeometryHelper,
     _parse_layer,
     get_polygons,
+    pprint_ports,
 )
 from gdsfactory.component_reference import ComponentReference, SizeInfo
 from gdsfactory.config import CONF, GDSDIR_TEMP, logger
@@ -850,30 +851,8 @@ class Component(_GeometryHelper):
 
     def pprint_ports(self) -> None:
         """Prints ports in a rich table."""
-        from rich.console import Console
-        from rich.table import Table
 
-        console = Console()
-
-        table = Table(show_header=True, header_style="bold")
-        ports_list = self.get_ports_list()
-        if not ports_list:
-            return
-        p0 = ports_list[0]
-        filtered_dict = {
-            key: value for key, value in p0.to_dict().items() if value is not None
-        }
-        keys = filtered_dict.keys()
-
-        for key in keys:
-            table.add_column(key)
-
-        for port in ports_list:
-            port_dict = port.to_dict()
-            row = [str(port_dict.get(key, "")) for key in keys]
-            table.add_row(*row)
-
-        console.print(table)
+        pprint_ports(self.ports)
 
     @property
     def metadata_child(self) -> dict:

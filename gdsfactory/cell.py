@@ -84,6 +84,9 @@ def cell_without_validator(func: _F) -> _F:
         active_pdk = get_active_pdk()
         cell_decorator_settings = active_pdk.cell_decorator_settings
 
+        assert_ports_on_grid = kwargs.pop(
+            "assert_ports_on_grid", cell_decorator_settings.assert_ports_on_grid
+        )
         with_hash = kwargs.pop("with_hash", cell_decorator_settings.with_hash)
         autoname = kwargs.pop("autoname", cell_decorator_settings.autoname)
         name = kwargs.pop("name", cell_decorator_settings.name)
@@ -201,6 +204,9 @@ def cell_without_validator(func: _F) -> _F:
             )
 
         component = func(*args, **kwargs)
+
+        if assert_ports_on_grid:
+            component.assert_ports_on_grid(active_pdk.grid_size)
 
         if flatten:
             component = component.flatten()

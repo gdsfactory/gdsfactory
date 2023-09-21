@@ -12,7 +12,12 @@ import gdstk
 import numpy as np
 from numpy import cos, mod, ndarray, pi, sin
 
-from gdsfactory.component_layout import Polygon, _GeometryHelper, get_polygons
+from gdsfactory.component_layout import (
+    Polygon,
+    _GeometryHelper,
+    get_polygons,
+    pprint_ports,
+)
 from gdsfactory.port import (
     Port,
     map_ports_layer_to_orientation,
@@ -529,9 +534,7 @@ class ComponentReference(_GeometryHelper):
 
     def pprint_ports(self) -> None:
         """Pretty print component ports."""
-        ports_list = self.get_ports_list()
-        for port in ports_list:
-            print(port)
+        pprint_ports(self.ports)
 
     def _transform_port(
         self,
