@@ -1,7 +1,14 @@
 from __future__ import annotations
 
+import hashlib
+
 import gdsfactory as gf
-from gdsfactory.component import hash_file
+
+
+def hash_file(filepath) -> str:
+    md5 = hashlib.md5()
+    md5.update(filepath.read_bytes())
+    return md5.hexdigest()
 
 
 def test_hash_geometry() -> None:

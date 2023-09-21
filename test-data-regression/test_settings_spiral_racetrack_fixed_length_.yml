@@ -59,7 +59,7 @@ settings:
     with_inner_ports: false
   function_name: spiral_racetrack_fixed_length
   info:
-    length: 1000.001
+    length: 1000.0
     spiral_center:
     - 35.231
     - -2.5
