@@ -460,7 +460,7 @@ class Component(_GeometryHelper):
         bbox = self._cell.bounding_box()
         if bbox is None:
             bbox = ((0, 0), (0, 0))
-        return np.array(bbox)
+        return np.round(np.array(bbox), 3)
 
     @property
     def ports_layer(self) -> dict[str, str]:
@@ -679,7 +679,7 @@ class Component(_GeometryHelper):
         for port in self.ports.values():
             port.assert_on_grid(nm=nm)
 
-    def get_ports(self, depth=0):
+    def get_ports(self, depth: int | None = 0):
         """Returns copies of all the ports of the Component, rotated and \
                 translated so that they're in their top-level position.
 
@@ -687,9 +687,7 @@ class Component(_GeometryHelper):
         ``uid`` as the original so that they can be traced back to the original if needed.
 
         Args:
-            depth : int or None
-                If not None, defines from how many reference levels to
-                retrieve Ports from.
+            depth: If not None, defines from how many reference levels to retrieve Ports from.
 
         Returns:
             port_list : list of Port List of all Ports in the Component.

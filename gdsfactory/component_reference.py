@@ -347,20 +347,15 @@ class ComponentReference(_GeometryHelper):
             as_shapely_merged=as_shapely_merged,
         )
 
-    def get_labels(self, depth=None, set_transform=True):
+    def get_labels(self, depth: int | None = None, set_transform: bool = True):
         """Return the list of labels created by this reference.
 
         Args:
-            depth : integer or None
-                If not None, defines from how many reference levels to
-                retrieve labels from.
-            set_transform : bool
-                If True, labels will include the transformations from
-                the reference.
+            depth: If not None, defines from how many reference levels to retrieve labels from.
+            set_transform: If True, labels will include the transformations from the reference.
 
         Returns:
-            out : list of `Label`
-                List containing the labels in this cell and its references.
+            List containing the labels in this cell and its references.
         """
         if set_transform:
             return self._reference.get_labels(depth=depth)
@@ -378,17 +373,14 @@ class ComponentReference(_GeometryHelper):
     def settings(self):
         return self.parent.settings
 
-    def get_paths(self, depth=None):
+    def get_paths(self, depth: int | None = None):
         """Return the list of paths created by this reference.
 
         Args:
-            depth : integer or None
-                If not None, defines from how many reference levels to
-                retrieve paths from.
+            depth: If not None, defines from how many reference levels to retrieve paths from.
 
         Returns:
-            list of `FlexPath` or `RobustPath`
-                List containing the paths in this cell and its references.
+            List containing the paths in this cell and its references.
         """
         return self._reference.get_paths(depth=depth)
 
@@ -397,17 +389,14 @@ class ComponentReference(_GeometryHelper):
         self.origin = (x0 + dx, y0 + dy)
         return self
 
-    def area(self, by_spec=False):
+    def area(self, by_spec: bool = False):
         """Calculate total area.
 
         Args:
-            by_spec : bool
-                If True, the return value is a dictionary with the areas
-                of each individual pair (layer, datatype).
+            by_spec: If True, the return value is a dictionary with the areas of each individual pair (layer, datatype).
 
         Returns:
-            out : number, dictionary
-                Area of this cell.
+            out: number or dictionary Area of this cell.
         """
         return self._reference.area(by_spec=by_spec)
 
@@ -465,7 +454,7 @@ class ComponentReference(_GeometryHelper):
         bbox = self.get_bounding_box()
         if bbox is None:
             bbox = ((0, 0), (0, 0))
-        return np.array(bbox)
+        return np.round(np.array(bbox), 3)
 
     @classmethod
     def __get_validators__(cls):
