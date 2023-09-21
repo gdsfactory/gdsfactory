@@ -284,9 +284,7 @@ print(gdsfactory_script)
 #
 # class LayerMap(BaseModel):
 #     WGCORE = (3, 0)
-#     LABEL = (100, 0)
 #     DEVREC: Layer = (68, 0)
-#     LABEL: Layer = (10, 0)
 #     PORT: Layer = (1, 10)  # PinRec
 #     PORTE: Layer = (1, 11)  # PinRecM
 #     FLOORPLAN: Layer = (99, 0)

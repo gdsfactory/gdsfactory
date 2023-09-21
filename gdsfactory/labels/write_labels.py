@@ -17,7 +17,7 @@ from gdsfactory.typings import LayerSpec, PathType
 
 
 def find_labels(
-    gdspath: PathType, layer_label: LayerSpec = "LABEL", prefix: str = "opt_"
+    gdspath: PathType, layer_label: LayerSpec = "TEXT", prefix: str = "opt_"
 ) -> Iterator[tuple[str, float, float, float]]:
     """Return text label and locations iterator from a GDS file.
 
@@ -65,7 +65,7 @@ def find_labels(
 
 def write_labels_klayout(
     gdspath: PathType,
-    layer_label: LayerSpec = "LABEL",
+    layer_label: LayerSpec = "TEXT",
     filepath: PathType | None = None,
     prefix: str = "opt_",
 ) -> Path:
@@ -99,7 +99,7 @@ def write_labels_klayout(
 def write_labels_gdstk(
     gdspath: Path,
     prefixes: tuple[str, ...] = ("opt", "elec"),
-    layer_label: LayerSpec = "LABEL",
+    layer_label: LayerSpec = "TEXT",
     filepath: PathType | None = None,
     debug: bool = False,
 ) -> Path:

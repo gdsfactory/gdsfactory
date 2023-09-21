@@ -104,7 +104,7 @@ settings:
     fanout_length: 0.0
     grating_coupler:
       function: grating_coupler_elliptical
-    layer_label: TEXT
+    layer_label: null
     n: 4
     straight_spacing: 4.0
     with_loopback: false
@@ -113,7 +113,7 @@ settings:
     fanout_length: 0.0
     grating_coupler:
       function: grating_coupler_elliptical
-    layer_label: TEXT
+    layer_label: null
     n: 4
     straight_spacing: 4.0
     with_loopback: false

@@ -75,7 +75,7 @@ c = gf.components.add_fiber_array_optical_south_electrical_north(
     c,
     doe="mzis",
     analysis="mzi_phase_shifter",
-    measurement="cutback_loopback2_heater_sweep",
+    measurement="optical_loopback2_heater_sweep",
     measurement_settings=dict(v_max=5),
 )
 c.plot()
@@ -176,12 +176,10 @@ from toolz import compose
 from functools import partial
 import gdsfactory as gf
 
-add_cutback_loopback2_label = partial(
-    gf.labels.add_label_json, measurement="cutback_loopback2"
-)
-
 c = gf.components.spiral_inner_io_fiber_array(
-    length=20e3, decorator=add_cutback_loopback2_label
+    length=20e3,
+    decorator=gf.labels.add_label_json,
+    info=dict(measurement="optical_loopback2"),
 )
 c.show()
 c.plot()
@@ -228,12 +226,10 @@ from toolz import compose
 from functools import partial
 import gdsfactory as gf
 
-add_cutback_loopback2_label = partial(
-    gf.labels.add_label_json, measurement="cutback_loopback2"
-)
-
 c = gf.components.spiral_inner_io_fiber_array(
-    length=20e3, decorator=add_cutback_loopback2_label
+    length=20e3,
+    decorator=gf.labels.add_label_json,
+    info=dict(measurement="optical_loopback2"),
 )
 c.show()
 c.plot()
@@ -241,7 +237,9 @@ c.plot()
 # %%
 sweep = [
     gf.components.spiral_inner_io_fiber_array(
-        length=length, decorator=add_cutback_loopback2_label
+        length=length,
+        decorator=gf.labels.add_label_json,
+        info=dict(measurement="optical_loopback2"),
     )
     for length in [20e3, 30e3, 40e3]
 ]
@@ -516,12 +514,12 @@ gdspath = c.write_gds("demo.gds", with_metadata=True)
 test_info_mzi_heaters = dict(
     doe="mzis_heaters",
     analysis="mzi_heater_phase_shifter_length",
-    measurement="cutback_loopback4_heater_sweep",
+    measurement="optical_loopback4_heater_sweep",
 )
 test_info_ring_heaters = dict(
     doe="ring_heaters_coupling_length",
     analysis="ring_heater",
-    measurement="cutback_loopback2_heater_sweep",
+    measurement="optical_loopback2_heater_sweep",
 )
 
 mzis = [

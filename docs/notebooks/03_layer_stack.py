@@ -115,7 +115,6 @@ class GenericLayerMap(LayerMap):
     PORTE: Layer = (1, 11)
     PORTH: Layer = (70, 0)
     SHOW_PORTS: Layer = (1, 12)
-    LABEL: Layer = (201, 0)
     LABEL_SETTINGS: Layer = (202, 0)
     DRC_MARKER: Layer = (205, 0)
     LABEL_INSTANCE: Layer = (206, 0)

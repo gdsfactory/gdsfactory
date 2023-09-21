@@ -213,7 +213,7 @@ settings:
     grating_coupler:
       function: grating_coupler_elliptical
     layer_label: TEXT
-    measurement: cutback_loopback2_heater_sweep
+    measurement: optical_loopback2_heater_sweep
     measurement_settings: null
     npads: null
     pad:
@@ -242,7 +242,7 @@ settings:
     grating_coupler:
       function: grating_coupler_elliptical
     layer_label: TEXT
-    measurement: cutback_loopback2_heater_sweep
+    measurement: optical_loopback2_heater_sweep
     measurement_settings: null
     npads: null
     pad:
