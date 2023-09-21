@@ -16,12 +16,12 @@ def sample_reticle(grid: bool = True, **kwargs) -> gf.Component:
     test_info_mzi_heaters = dict(
         doe="mzis_heaters",
         analysis="mzi_heater",
-        measurement="cutback_loopback4_heater_sweep",
+        measurement="optical_loopback4_heater_sweep",
     )
     test_info_ring_heaters = dict(
         doe="ring_heaters",
         analysis="ring_heater",
-        measurement="cutback_loopback2_heater_sweep",
+        measurement="optical_loopback2_heater_sweep",
     )
 
     mzis = [
@@ -30,6 +30,19 @@ def sample_reticle(grid: bool = True, **kwargs) -> gf.Component:
     ]
     rings = [
         gf.components.ring_single_heater(length_x=length_x) for length_x in [10, 20, 30]
+    ]
+
+    spirals_sc = [
+        gf.components.spiral_inner_io_fiber_array(
+            length=length,
+            info=dict(
+                doe="spirals_sc",
+                measurement="optical_loopback4",
+                analysis="optical_loopback4_spirals",
+            ),
+            decorator=gf.labels.add_label_json,
+        )
+        for length in [20e3, 40e3, 60e3]
     ]
 
     mzis_te = [
@@ -48,9 +61,12 @@ def sample_reticle(grid: bool = True, **kwargs) -> gf.Component:
         )
         for ring in rings
     ]
+
+    components = mzis_te + rings_te + spirals_sc
+
     if grid:
-        return gf.grid(mzis_te + rings_te, **kwargs)
-    c = gf.pack(mzis_te + rings_te, **kwargs)
+        return gf.grid(components, **kwargs)
+    c = gf.pack(components, **kwargs)
     if len(c) > 1:
         raise ValueError(f"failed to pack into single group. Made {len(c)} groups.")
     return c[0]
