@@ -1245,24 +1245,23 @@ class Component(_GeometryHelper):
         return ref
 
     def distribute(
-        self, elements="all", direction="x", spacing=100, separation=True, edge="center"
-    ):
+        self,
+        elements: str = "all",
+        direction: str = "x",
+        spacing: float = 100.0,
+        separation: bool = True,
+        edge: str = "center",
+    ) -> Component:
         """Distributes the specified elements in the Component.
 
         Args:
-            elements : array-like of objects or 'all'
-                Elements to distribute.
-            direction : {'x', 'y'}
-                Direction of distribution; either a line in the x-direction or
-                y-direction.
-            spacing : int or float
-                Distance between elements.
-            separation : bool
-                If True, guarantees elements are separated with a fixed spacing
+            elements: array-like of objects or 'all'. Elements to distribute.
+            direction: {'x', 'y'} Direction of distribution; either a line in the x-direction or y-direction.
+            spacing  int or float. Distance between elements.
+            separation: bool. If True, guarantees elements are separated with a fixed spacing
                 between; if  False, elements are spaced evenly along a grid.
-            edge : {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
-                Which edge to perform the distribution along (unused if
-                separation == True)
+            edge: {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
+                Which edge to perform the distribution along (unused if separation == True)
 
         """
         if elements == "all":
@@ -1276,7 +1275,7 @@ class Component(_GeometryHelper):
         )
         return self
 
-    def align(self, elements="all", alignment="ymax"):
+    def align(self, elements="all", alignment: str = "ymax") -> Component:
         """Align elements in the Component.
 
         Args:
@@ -1291,7 +1290,7 @@ class Component(_GeometryHelper):
         _align(elements, alignment=alignment)
         return self
 
-    def flatten(self, single_layer: LayerSpec | None = None):
+    def flatten(self, single_layer: LayerSpec | None = None) -> Component:
         """Returns a flattened copy of the component.
 
         Flattens the hierarchy of the Component such that there are no longer

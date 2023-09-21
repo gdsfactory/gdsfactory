@@ -1094,12 +1094,12 @@ c.plot()
 # %%
 xs_bbox = gf.cross_section.cross_section(bbox_layers=[(3, 0)], bbox_offsets=[3])
 w1 = gf.components.bend_euler(cross_section=xs_bbox, with_bbox=True)
-w1
+w1.plot()
 
 # %%
 xs_clad = gf.cross_section.cross_section(cladding_layers=[(3, 0)], cladding_offsets=[3])
 w2 = gf.components.bend_euler(cross_section=xs_clad)
-w2
+w2.plot()
 
 # %% [markdown]
 # ## Insets
@@ -1111,7 +1111,7 @@ import gdsfactory as gf
 
 
 @gf.xsection
-def xs_waveguide_heater():
+def xs_waveguide_heater() -> gf.CrossSection:
     return gf.cross_section.cross_section(
         layer="WG",
         width=0.5,
@@ -1132,7 +1132,7 @@ c.plot()
 
 # %%
 @gf.xsection
-def xs_waveguide_heater_with_ports():
+def xs_waveguide_heater_with_ports() -> gf.CrossSection:
     return gf.cross_section.cross_section(
         layer="WG",
         width=0.5,

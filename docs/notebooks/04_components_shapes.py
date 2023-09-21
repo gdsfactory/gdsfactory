@@ -20,7 +20,7 @@ PDK = get_generic_pdk()
 PDK.activate()
 
 r1 = gf.components.rectangle(size=(4.5, 2), layer=(1, 0))
-r1
+r1.plot()
 # -
 
 # ``gf.components.bbox()`` can also create a rectangle based on a bounding box.
@@ -38,39 +38,45 @@ c.plot()
 #
 # The ``gf.components.cross()`` function creates a cross structure:
 
-gf.components.cross(length=10, width=0.5, layer=(1, 0))
+c = gf.components.cross(length=10, width=0.5, layer=(1, 0))
+c.plot()
 
 # ### Ellipse
 #
 # The ``gf.components.ellipse()`` function creates an ellipse by defining the major and minor radii:
 
-gf.components.ellipse(radii=(10, 5), angle_resolution=2.5, layer=(1, 0))
+c = gf.components.ellipse(radii=(10, 5), angle_resolution=2.5, layer=(1, 0))
+c.plot()
 
 # ### Circle
 #
 # The ``gf.components.circle()`` function creates a circle:
 
-gf.components.circle(radius=10, angle_resolution=2.5, layer=(1, 0))
+c = gf.components.circle(radius=10, angle_resolution=2.5, layer=(1, 0))
+c.plot()
 
 # ### Ring
 #
 # The ``gf.components.ring()`` function creates a ring.  The radius refers to the center radius of the ring structure (halfway between the inner and outer radius).
 
-gf.components.ring(radius=5, width=0.5, angle_resolution=2.5, layer=(1, 0))
+c = gf.components.ring(radius=5, width=0.5, angle_resolution=2.5, layer=(1, 0))
+c.plot()
 
-gf.components.ring_single(
+c = gf.components.ring_single(
     width=0.5, gap=0.2, radius=10, length_x=4, length_y=2, layer=(1, 0)
 )
+c.plot()
 
 # +
 import gdsfactory as gf
 
-gf.components.ring_double(
+c = gf.components.ring_double(
     width=0.5, gap=0.2, radius=10, length_x=4, length_y=2, layer=(1, 0)
 )
+c.plot()
 # -
 
-gf.components.ring_double(
+c = gf.components.ring_double(
     width=0.5,
     gap=0.2,
     radius=10,
@@ -79,50 +85,60 @@ gf.components.ring_double(
     layer=(1, 0),
     bend=gf.components.bend_circular,
 )
+c.plot()
 
 # ### Bend circular
 #
 # The ``gf.components.bend_circular()`` function creates an arc.  The radius refers to the center radius of the arc (halfway between the inner and outer radius).
 
-gf.components.bend_circular(radius=2.0, width=0.5, angle=90, npoints=720, layer=(1, 0))
+c = gf.components.bend_circular(
+    radius=2.0, width=0.5, angle=90, npoints=720, layer=(1, 0)
+)
+c.plot()
 
 # ### Bend euler
 #
 # The ``gf.components.bend_euler()`` function creates an adiabatic bend in which the bend radius changes gradually. Euler bends have lower loss than circular bends.
 #
 
-gf.components.bend_euler(radius=2.0, width=0.5, angle=90, npoints=720, layer=(1, 0))
+c = gf.components.bend_euler(radius=2.0, width=0.5, angle=90, npoints=720, layer=(1, 0))
+c.plot()
 
 # ### Tapers
 #
 # `gf.components.taper()`is defined by setting its length and its start and end length.  It has two ports, ``1`` and ``2``, on either end, allowing you to easily connect it to other structures.
 
-gf.components.taper(length=10, width1=6, width2=4, port=None, layer=(1, 0))
+c = gf.components.taper(length=10, width1=6, width2=4, port=None, layer=(1, 0))
+c.plot()
 
 # `gf.components.ramp()` is a structure is similar to `taper()` except it is asymmetric.  It also has two ports, ``1`` and ``2``, on either end.
 
-gf.components.ramp(length=10, width1=4, width2=8, layer=(1, 0))
+c = gf.components.ramp(length=10, width1=4, width2=8, layer=(1, 0))
+c.plot()
 
 # ### Common compound shapes
 
 # The `gf.components.L()` function creates a "L" shape with ports on either end named ``1`` and ``2``.
 
-gf.components.L(width=7, size=(10, 20), layer=(1, 0))
+c = gf.components.L(width=7, size=(10, 20), layer=(1, 0))
+c.plot()
 
 # The `gf.components.C()` function creates a "C" shape with ports on either end named ``1`` and ``2``.
 
-gf.components.C(width=7, size=(10, 20), layer=(1, 0))
+c = gf.components.C(width=7, size=(10, 20), layer=(1, 0))
+c.plot()
 
 # ## Text
 #
 # Gdsfactory has an implementation of the DEPLOF font with the majority of english ASCII characters represented (thanks to phidl)
 
-gf.components.text(
+c = gf.components.text(
     text="Hello world!\nMultiline text\nLeft-justified",
     size=10,
     justify="left",
     layer=(1, 0),
 )
+c.plot()
 # `justify` should be either 'left', 'center', or 'right'
 
 # ## Lithography structures
@@ -131,10 +147,10 @@ gf.components.text(
 #
 # The `gf.components.litho_steps()` function creates lithographic test structure that is useful for measuring resolution of photoresist or electron-beam resists.  It provides both positive-tone and negative-tone resolution tests.
 
-D = gf.components.litho_steps(
+c = gf.components.litho_steps(
     line_widths=[1, 2, 4, 8, 16], line_spacing=10, height=100, layer=(1, 0)
 )
-D.plot()
+c.plot()
 
 # ### Calipers (inter-layer alignment)
 
@@ -226,7 +242,7 @@ c.plot()
 # +
 import gdsfactory as gf
 
-D = gf.components.die(
+c = gf.components.die(
     size=(10000, 5000),  # Size of die
     street_width=100,  # Width of corner marks for die-sawing
     street_length=1000,  # Length of corner marks for die-sawing
@@ -236,7 +252,7 @@ D = gf.components.die(
     layer=(2, 0),
     bbox_layer=(3, 0),
 )
-D
+c.plot()
 # -
 
 # ## Optimal superconducting curves

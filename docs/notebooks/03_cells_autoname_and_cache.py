@@ -356,7 +356,7 @@ c1.write_gds()
 def die_bad():
     """c1 is an intermediate Unnamed cell"""
     c1 = gf.Component()
-    c1 << gf.components.straight(length=10)
+    _ = c1 << gf.components.straight(length=10)
     return gf.components.die_bbox(c1, street_width=10)
 
 
@@ -373,8 +373,8 @@ c.plot()
 @gf.cell
 def die_good():
     c = gf.Component()
-    c << gf.components.straight(length=10)
-    c << gf.components.die_bbox_frame(c.bbox, street_width=10)
+    _ = c << gf.components.straight(length=10)
+    _ = c << gf.components.die_bbox_frame(c.bbox, street_width=10)
     return c
 
 
@@ -392,7 +392,7 @@ c.plot()
 def die_flat():
     """c will be an intermediate unnamed cell"""
     c = gf.Component()
-    c << gf.components.straight(length=10)
+    _ = c << gf.components.straight(length=10)
     c2 = gf.components.die_bbox(c, street_width=10)
     c2 = c2.flatten()
     return c2
@@ -414,8 +414,8 @@ def dangerous_intermediate_cells(width=0.5):
     c2 = gf.Component(
         "dangerous"
     )  # This should be forbidden as it will create duplicated cells
-    c2 << gf.components.hline(width=width)
-    c << c2
+    _ = c2 << gf.components.hline(width=width)
+    _ = c << c2
 
     return c
 
@@ -428,7 +428,7 @@ def using_dangerous_intermediate_cells():
     they end up with two duplicated cells and a name collision on the intermediate cell
     """
     c = gf.Component()
-    c << dangerous_intermediate_cells(width=0.5)
+    _ = c << dangerous_intermediate_cells(width=0.5)
     r3 = c << dangerous_intermediate_cells(width=2)
     r3.movey(5)
     return c
