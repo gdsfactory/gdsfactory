@@ -16,7 +16,7 @@ from gdsfactory.typings import LayerSpec
 @pydantic.validate_call
 def add_label_yaml(
     component: gf.Component,
-    layer: LayerSpec = "LABEL",
+    layer: LayerSpec = "TEXT",
     measurement: str | None = None,
     measurement_settings: dict[str, Any] | None = None,
     analysis: str | None = None,
@@ -40,6 +40,14 @@ def add_label_yaml(
             Valid options are: "n", "s", "e", "w", "ne", "nw", "se", "sw", "c".
     """
     from gdsfactory.pdk import get_layer
+
+    measurement = measurement or component.info.get("measurement")
+    measurement_settings = measurement_settings or component.info.get(
+        "measurement_settings"
+    )
+    analysis = analysis or component.info.get("analysis")
+    analysis_settings = analysis_settings or component.info.get("analysis_settings")
+    doe = doe or component.info.get("doe")
 
     layer = get_layer(layer)
     analysis_settings = analysis_settings or {}
