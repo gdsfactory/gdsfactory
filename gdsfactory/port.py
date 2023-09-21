@@ -97,7 +97,7 @@ class Port:
     ) -> None:
         """Initializes Port object."""
         self.name = name
-        self.center = np.array(center, dtype="float64")
+        self.center = snap_to_grid(np.array(center, dtype="float64"))
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
         self.info: dict[str, Any] = {}
@@ -319,45 +319,27 @@ class Port:
         s = np.sin(angle)
         return self.center + length * np.array([c, s])
 
-    def snap_to_grid(self, nm: int = 1) -> None:
-        """Snap port center to nm grid."""
-        self.center = nm * np.round(np.array(self.center) * 1e3 / nm) / 1e3
+    def snap_to_grid(self, grid_factor: int = 1) -> None:
+        """Snap port center to grid."""
+        self.center = snap_to_grid(self.center, grid_factor=grid_factor)
 
-    def assert_on_grid(self, nm: int = 1) -> None:
+    def assert_on_grid(self, grid_factor: int = 1) -> None:
         """Ensures ports edges are on grid to avoid snap_to_grid errors."""
-        half_width = self.width / 2
-        half_width_correct = snap_to_grid(half_width, nm=nm)
-        component_name = self.parent.name
-        if not np.isclose(half_width, half_width_correct):
+        center = np.array(self.center)
+        center_snapped = snap_to_grid(center, grid_factor=grid_factor)
+        if not np.isclose(center, center_snapped).all():
             raise PortNotOnGridError(
-                f"{component_name!r}, port = {self.name!r}, center = {self.center} "
-                f"width = {self.width} will create off-grid points",
-                f"you can fix it by changing width to {2*half_width_correct}",
+                f"port = {self.name!r}, center = {self.center} should be on grid {center_snapped}"
             )
 
-    def assert_manhattan(self, nm: int = 1) -> None:
+    def assert_manhattan(self, grid_factor: int = 1) -> None:
         """Ensures port has a valid manhattan orientation (0, 90, 180, 270)."""
         component_name = self.parent.name
         if self.port_type.startswith("vertical"):
             return
 
-        if self.orientation is None:
+        if self.orientation in [0, 90, 180, 270, None]:
             return
-
-        elif self.orientation in [0, 180]:
-            x = self.y + self.width / 2
-            if not np.isclose(snap_to_grid(x, nm=nm), x):
-                raise PortNotOnGridError(
-                    f"{self.name!r} port in {component_name!r} has an off-grid point {x}",
-                    f"you can fix it by moving the point to {snap_to_grid(x, nm=nm)}",
-                )
-        elif self.orientation in [90, 270]:
-            x = self.x + self.width / 2
-            if not np.isclose(snap_to_grid(x, nm=nm), x):
-                raise PortNotOnGridError(
-                    f"{self.name!r} port in {component_name!r} has an off-grid point {x}",
-                    f"you can fix it by moving the point to {snap_to_grid(x, nm=nm)}",
-                )
         else:
             raise PortOrientationError(
                 f"{component_name!r} port {self.name!r} has invalid orientation"

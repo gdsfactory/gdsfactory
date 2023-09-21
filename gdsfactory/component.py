@@ -675,10 +675,10 @@ class Component(_GeometryHelper):
 
         return get_netlist_flat(component=self, **kwargs)
 
-    def assert_ports_on_grid(self, nm: int = 1) -> None:
+    def assert_ports_on_grid(self, grid_factor: int = 1) -> None:
         """Asserts that all ports are on grid."""
         for port in self.ports.values():
-            port.assert_on_grid(nm=nm)
+            port.assert_on_grid(grid_factor=grid_factor)
 
     def get_ports(self, depth: int | None = 0):
         """Returns copies of all the ports of the Component, rotated and \
@@ -976,9 +976,9 @@ class Component(_GeometryHelper):
             name = f"{prefix}{port.name}{suffix}"
             self.add_port(name=name, port=port, **kwargs)
 
-    def snap_ports_to_grid(self, nm: int = 1) -> None:
+    def snap_ports_to_grid(self, grid_factor: int = 1) -> None:
         for port in self.ports.values():
-            port.snap_to_grid(nm=nm)
+            port.snap_to_grid(grid_factor=grid_factor)
 
     def remove_layers(
         self,
@@ -1057,6 +1057,7 @@ class Component(_GeometryHelper):
             return polygons[0]
 
         layer = get_layer(layer)
+        layer_number, datatype = _parse_layer(layer)
         if isinstance(points, gdstk.Polygon):
             # if layer is unspecified or matches original polygon, just add it as-is
             polygon = points
@@ -1065,8 +1066,7 @@ class Component(_GeometryHelper):
             ):
                 polygon = Polygon(polygon.points, (polygon.layer, polygon.datatype))
             else:
-                layer, datatype = _parse_layer(layer)
-                polygon = Polygon(polygon.points, (layer, datatype))
+                polygon = Polygon(polygon.points, (layer_number, datatype))
 
             if hasattr(points, "properties"):
                 polygon.properties = deepcopy(points.properties)
@@ -1079,20 +1079,21 @@ class Component(_GeometryHelper):
                 polygon = self.add_polygon(geom, layer=layer)
             return polygon
         elif hasattr(points, "exterior"):  # points is a shapely Polygon
-            layer, datatype = _parse_layer(layer)
-            points_on_grid = np.round(points.exterior.coords, 3)
-            polygon = Polygon(points_on_grid, (layer, datatype))
+            points_on_grid = snap_to_grid(points.exterior.coords)
+            polygon = Polygon(points_on_grid, (layer_number, datatype))
 
             if points.interiors:
                 from shapely import get_coordinates
 
                 points_on_grid_interior = np.round(get_coordinates(points.interiors), 3)
-                polygon_interior = Polygon(points_on_grid_interior, (layer, datatype))
+                polygon_interior = Polygon(
+                    points_on_grid_interior, (layer_number, datatype)
+                )
                 polygons = gdstk.boolean(
                     polygon,
                     polygon_interior,
                     operation="not",
-                    layer=layer,
+                    layer=layer_number,
                     datatype=datatype,
                 )
                 for polygon in polygons:

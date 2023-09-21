@@ -69,7 +69,7 @@ def straight_heater_meander(
     cross_section2 = cross_section
 
     straight_length = gf.snap.snap_to_grid(
-        (length - (rows - 1) * route.length) / rows, nm=2
+        (length - (rows - 1) * route.length) / rows, grid_factor=2
     )
     ports = {}
 

@@ -75,8 +75,11 @@ def ring_single_pn(
         heater_vias: components specifications for heater vias.
         kwargs: cross_section settings.
     """
+    from gdsfactory.pdk import get_grid_size
 
-    gap = gf.snap.snap_to_grid(gap, nm=2)
+    get_grid_size()
+
+    gap = gf.snap.snap_to_grid(gap, grid_factor=2)
     c = gf.Component()
 
     undoping_angle = 360 - doping_angle

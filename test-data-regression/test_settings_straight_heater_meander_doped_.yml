@@ -74,7 +74,7 @@ ports:
     width: 0.5
   r_e1:
     center:
-    - 68.28
+    - 68.278
     - 2.0
     layer:
     - 45
@@ -86,7 +86,7 @@ ports:
     width: 1.5
   r_e2:
     center:
-    - 69.03
+    - 69.028
     - 2.75
     layer:
     - 45
@@ -98,7 +98,7 @@ ports:
     width: 1.5
   r_e3:
     center:
-    - 69.78
+    - 69.778
     - 2.0
     layer:
     - 45
@@ -110,7 +110,7 @@ ports:
     width: 1.5
   r_e4:
     center:
-    - 69.03
+    - 69.028
     - 1.25
     layer:
     - 45

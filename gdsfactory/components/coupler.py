@@ -50,11 +50,8 @@ def coupler(
 
 
     """
-    from gdsfactory.pdk import get_grid_size
-
-    grid_size = get_grid_size()
     length = gf.snap.snap_to_grid(length)
-    gap = gf.snap.snap_to_grid(gap, nm=2 * grid_size)
+    gap = gf.snap.snap_to_grid2x(gap)
     c = Component()
 
     sbend = gf.get_component(

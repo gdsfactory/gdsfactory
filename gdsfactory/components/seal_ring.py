@@ -44,7 +44,7 @@ def seal_ring(
     sx = xmax - xmin
     sy = ymax - ymin
 
-    snap = partial(snap_to_grid, nm=2)
+    snap = partial(snap_to_grid, grid_factor=2)
     sx = snap(sx)
     sy = snap(sy)
 

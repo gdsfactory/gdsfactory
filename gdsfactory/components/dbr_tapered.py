@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory import Component
+from gdsfactory.snap import snap_to_grid2x
 from gdsfactory.typings import CrossSectionSpec
 
 
@@ -124,9 +125,11 @@ def dbr_tapered(
     straight.move(straight.center, (0, 0))
     input_taper.move(input_taper.center, (-length / 2 - taper_length / 2, 0))
     output_taper.move(output_taper.center, (length / 2 + taper_length / 2, 0))
-    periodic_structures = c << gf.components.array(
-        gf.components.rectangle((period * dc, w2)), (period, 0), num
-    )
+
+    size = snap_to_grid2x((period * dc, w2))
+    teeth = gf.components.rectangle(size=size, layer=xs.layer)
+
+    periodic_structures = c << gf.components.array(teeth, (period, 0), num)
     periodic_structures.move(periodic_structures.center, (0, 0))
 
     if fins:

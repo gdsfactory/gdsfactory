@@ -10,10 +10,10 @@ Period: 318nm, width: 500nm, dw: 20 ~ 120 nm.
 """
 from __future__ import annotations
 
-import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
+from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import CrossSectionSpec
 
 period = 318e-3
@@ -54,10 +54,10 @@ def dbr_cell(
         _______
                |_________
     """
-    l1 = gf.snap.snap_to_grid(l1)
-    l2 = gf.snap.snap_to_grid(l2)
-    w1 = gf.snap.snap_to_grid(w1, 2)
-    w2 = gf.snap.snap_to_grid(w2, 2)
+    l1 = snap_to_grid(l1)
+    l2 = snap_to_grid(l2)
+    w1 = snap_to_grid(w1, 2)
+    w2 = snap_to_grid(w2, 2)
     c = Component()
     c1 = c << straight(length=l1, width=w1, cross_section=cross_section, **kwargs)
     c2 = c << straight(length=l2, width=w2, cross_section=cross_section, **kwargs)
@@ -100,8 +100,8 @@ def dbr(
                |_________
     """
     c = Component()
-    l1 = gf.snap.snap_to_grid(l1)
-    l2 = gf.snap.snap_to_grid(l2)
+    l1 = snap_to_grid(l1)
+    l2 = snap_to_grid(l2)
     cell = dbr_cell(w1=w1, w2=w2, l1=l1, l2=l2, cross_section=cross_section, **kwargs)
     c.add_array(cell, columns=n, rows=1, spacing=(l1 + l2, 100))
     c.add_port("o1", port=cell.ports["o1"])
