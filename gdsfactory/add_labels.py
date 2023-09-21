@@ -87,7 +87,7 @@ def get_input_label(
     gc: ComponentReference,
     gc_index: int | None = None,
     gc_port_name: str = "o1",
-    layer_label: LayerSpec = "LABEL",
+    layer_label: LayerSpec = "TEXT",
     component_name: str | None = None,
     get_input_label_text_function=get_input_label_text,
 ) -> Label:
@@ -130,7 +130,7 @@ def get_input_label_electrical(
     port: Port,
     gc_index: int = 0,
     component_name: str | None = None,
-    layer_label: LayerSpec = "LABEL",
+    layer_label: LayerSpec = "TEXT",
     gc: ComponentReference | None = None,
 ) -> Label:
     """Returns a label to test component info for a given electrical port.
@@ -167,7 +167,7 @@ def get_input_label_electrical(
 def add_labels(
     component: Component,
     get_label_function: Callable = get_input_label_electrical,
-    layer_label: LayerSpec = "LABEL",
+    layer_label: LayerSpec = "TEXT",
     gc: Component | None = None,
     **kwargs,
 ) -> Component:
@@ -259,7 +259,7 @@ def add_siepic_labels(
 
 def add_labels_to_ports(
     component: Component,
-    label_layer: LayerSpec = "LABEL",
+    label_layer: LayerSpec = "TEXT",
     port_type: str | None = None,
     **kwargs,
 ) -> Component:
@@ -289,7 +289,7 @@ def add_labels_to_ports(
 
 def add_labels_to_ports_x_y(
     component: Component,
-    label_layer: LayerSpec = "LABEL",
+    label_layer: LayerSpec = "TEXT",
     port_type: str | None = None,
     **kwargs,
 ) -> Component:
@@ -340,7 +340,7 @@ add_labels_to_ports_opt = partial(add_labels_to_ports, prefix="opt", port_type=N
 def get_labels(
     component: ComponentOrReference,
     get_label_function: Callable = get_input_label_electrical,
-    layer_label: LayerSpec = "LABEL",
+    layer_label: LayerSpec = "TEXT",
     gc: Component | None = None,
     component_name: str | None = None,
     **kwargs,

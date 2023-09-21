@@ -30,11 +30,11 @@ def add_label_yaml(
     Args:
         component: to add labels to.
         layer: text label layer.
-        measurement: measurement config name.
-        measurement_settings: measurement settings.
-        analysis: analysis name.
+        measurement: measurement config name. Defaults to component['info']['measurement'].
+        measurement_settings: measurement settings. Defaults to component['info']['measurement_settings'].
+        analysis: analysis name. Defaults to component['info']['analysis'].
         analysis_settings: Extra analysis settings. Defaults to component settings.
-        doe: Design of Experiment name.
+        doe: Design of Experiment name. Defaults to component['info']['doe'].
         with_yaml_format: whether to use yaml or json format.
         anchor: anchor point for the label. Defaults to south-west "sw". \
             Valid options are: "n", "s", "e", "w", "ne", "nw", "se", "sw", "c".
@@ -98,11 +98,11 @@ if __name__ == "__main__":
     with_yaml_format = False
     with_yaml_format = True
 
-    add_label_yaml_cutback_loopback4 = partial(
-        add_label_yaml,
+    decorator = add_label_yaml if with_yaml_format else add_label_json
+
+    info = dict(
         measurement_settings=measurement_settings,
         with_yaml_format=with_yaml_format,
-        anchor="sw",
     )
 
     c = gf.c.straight(length=11)
@@ -111,7 +111,8 @@ if __name__ == "__main__":
         c,
         get_input_labels_function=None,
         grating_coupler=gf.components.grating_coupler_te,
-        decorator=add_label_yaml_cutback_loopback4,
+        decorator=decorator,
+        info=info,
     )
     print(len(c.labels[0].text))
     print(c.labels[0].text)

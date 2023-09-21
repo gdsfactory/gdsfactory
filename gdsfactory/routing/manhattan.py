@@ -590,7 +590,7 @@ def get_route_error(
 
     references = references or []
     references += point_markers
-    return Route(references=references, ports=[port1, port2], length=-1, labels=labels)
+    return Route(references=references, ports=(port1, port2), length=-1, labels=labels)
 
 
 def round_corners(
