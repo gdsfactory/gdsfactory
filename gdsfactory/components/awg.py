@@ -30,7 +30,7 @@ def free_propagation_region(
         inputs: number of inputs.
         outputs: number of outputs.
         cross_section: cross_section function.
-        **kwargs: cross_section parameters.
+        kwargs: cross_section parameters.
 
     .. code::
 

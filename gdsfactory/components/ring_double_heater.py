@@ -63,7 +63,7 @@ def ring_double_heater(
 
           length_x
     """
-    gap = gf.snap.snap_to_grid(gap, nm=2)
+    gap = gf.snap.snap_to_grid(gap, grid_factor=2)
 
     coupler_ring_top = coupler_ring_top or coupler_ring
 

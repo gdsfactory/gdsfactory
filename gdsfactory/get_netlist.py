@@ -141,7 +141,7 @@ def get_netlist(
     Args:
         component: to extract netlist.
         full_settings: True returns all, false changed settings.
-        tolerance: tolerance in nm to consider two ports connected.
+        tolerance: tolerance in grid_factor to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
         allow_multiple: False to raise an error if more than two ports share the same connection. \
@@ -349,7 +349,9 @@ def _extract_connections_two_sweep(
 
         for port_name in unconnected_port_names:
             port = ports[port_name]
-            by_xy[tuple(snap_to_grid(port.center, nm=grid_size))].append(port_name)
+            by_xy[tuple(snap_to_grid(port.center, grid_factor=grid_size))].append(
+                port_name
+            )
 
         unconnected_port_names = []
 
@@ -558,7 +560,7 @@ def get_netlist_recursive(
 
     Keyword Args:
         full_settings: True returns all, false changed settings.
-        tolerance: tolerance in nm to consider two ports connected.
+        tolerance: tolerance in grid_factor to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
 

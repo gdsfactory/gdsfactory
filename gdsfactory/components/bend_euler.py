@@ -227,8 +227,8 @@ def _compare_bend_euler90():
     print(b1.info["length"])
     print(b2.info["length"])
 
-    c << b1
-    c << b2
+    _ = c << b1
+    _ = c << b2
     return c
 
 
@@ -249,7 +249,7 @@ if __name__ == "__main__":
     # c.show(show_ports=True)
 
     # c = bend_euler(direction="cw")
-    c = bend_euler()
+    c = bend_euler(with_arc_floorplan=False)
     # c.pprint()
     # p = euler()
     # c = bend_straight_bend()

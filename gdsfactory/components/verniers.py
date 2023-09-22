@@ -9,10 +9,19 @@ from gdsfactory.typings import Floats, LayerSpec
 def verniers(
     widths: Floats = (0.1, 0.2, 0.3, 0.4, 0.5),
     gap: float = 0.1,
-    xsize: int = 100,
-    layer_label: LayerSpec = "LABEL",
+    xsize: float = 100.0,
+    layer_label: LayerSpec = "TEXT",
     **kwargs,
 ) -> Component:
+    """Returns a component with verniers.
+
+    Args:
+        widths: list of widths.
+        gap: gap between verniers.
+        xsize: size of the component.
+        layer_label: layer for the labels.
+        **kwargs: cross_section settings.
+    """
     c = gf.Component()
     y = 0
 

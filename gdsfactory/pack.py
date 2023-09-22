@@ -14,6 +14,7 @@ from pydantic import validate_call
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.name import get_name_short
+from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import Anchor, ComponentSpec, Float2, Number
 
 
@@ -208,7 +209,7 @@ def pack(
 
             if hasattr(component, "settings"):
                 packed.info["components"][component.name] = dict(component.settings)
-            d.center = (xcenter * precision, ycenter * precision)
+            d.center = snap_to_grid((xcenter * precision, ycenter * precision))
             if add_ports_prefix:
                 packed.add_ports(d.ports, prefix=f"{index}_")
             elif add_ports_suffix:

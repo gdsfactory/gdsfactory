@@ -53,7 +53,7 @@ def coupler_ring(
 
     """
     c = Component()
-    gap = gf.snap.snap_to_grid(gap, nm=2)
+    gap = gf.snap.snap_to_grid(gap, grid_factor=2)
 
     # define subcells
     coupler90_component = gf.get_component(

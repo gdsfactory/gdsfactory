@@ -167,7 +167,6 @@ class LayerMapFabB(LayerMap):
     PORT: Layer = (1, 10)
     PORTE: Layer = (1, 11)
     TEXT: Layer = (66, 0)
-    LABEL: Layer = (201, 0)
     DOPING_BLOCK1: Layer = (61, 0)
     DOPING_BLOCK2: Layer = (62, 0)
 
@@ -300,7 +299,6 @@ class LayerMapFabC(LayerMap):
     PORT: Layer = (1, 10)
     PORTE: Layer = (1, 11)
     TEXT: Layer = (66, 0)
-    LABEL: Layer = (201, 0)
 
 
 LAYER = LayerMapFabC()

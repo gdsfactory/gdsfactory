@@ -3,6 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.snap import snap_to_grid2x
 from gdsfactory.typings import Ints, LayerSpec
 
 
@@ -24,7 +25,7 @@ def compass(
         port_orientations: list of port_orientations to add. None add one port only.
     """
     c = gf.Component()
-    dx, dy = size
+    dx, dy = snap_to_grid2x(size)
 
     points = [
         [-dx / 2.0, -dy / 2.0],

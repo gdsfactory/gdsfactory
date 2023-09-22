@@ -11,7 +11,7 @@ ports:
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 80
+    width: 80.0
   elec-pad_sizepad_size-mzi_2e88f57c-top_l_e2:
     center:
     - -96.4
@@ -23,7 +23,7 @@ ports:
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 80
+    width: 80.0
   elec-pad_sizepad_size-mzi_2e88f57c-top_l_e3:
     center:
     - 103.6
@@ -35,7 +35,7 @@ ports:
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 80
+    width: 80.0
   elec-pad_sizepad_size-mzi_2e88f57c-top_l_e4:
     center:
     - 403.6
@@ -47,7 +47,7 @@ ports:
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 80
+    width: 80.0
   elec-pad_sizepad_size-mzi_2e88f57c-top_r_e1:
     center:
     - -196.4
@@ -59,7 +59,7 @@ ports:
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 80
+    width: 80.0
   elec-pad_sizepad_size-mzi_2e88f57c-top_r_e2:
     center:
     - 3.6
@@ -71,7 +71,7 @@ ports:
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 80
+    width: 80.0
   elec-pad_sizepad_size-mzi_2e88f57c-top_r_e3:
     center:
     - 203.6
@@ -83,7 +83,7 @@ ports:
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 80
+    width: 80.0
   elec-pad_sizepad_size-mzi_2e88f57c-top_r_e4:
     center:
     - 303.6
@@ -95,7 +95,7 @@ ports:
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 80
+    width: 80.0
   o1:
     center:
     - -10.0

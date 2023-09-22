@@ -206,7 +206,7 @@ def cell_without_validator(func: _F) -> _F:
         component = func(*args, **kwargs)
 
         if assert_ports_on_grid:
-            component.assert_ports_on_grid(active_pdk.grid_size)
+            component.assert_ports_on_grid()
 
         if flatten:
             component = component.flatten()

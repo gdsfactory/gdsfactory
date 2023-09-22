@@ -24,7 +24,7 @@ def add_fiber_array_optical_south_electrical_north(
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     xs_metal: CrossSectionSpec = "metal_routing",
     layer_label: LayerSpec = "TEXT",
-    measurement: str = "cutback_loopback2_heater_sweep",
+    measurement: str = "optical_loopback2_heater_sweep",
     measurement_settings: dict[str, Any] | None = None,
     analysis: str = "",
     analysis_settings: dict[str, Any] | None = None,

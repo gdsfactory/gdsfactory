@@ -8,7 +8,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper
-from gdsfactory.snap import assert_on_2nm_grid
+from gdsfactory.snap import assert_on_2x_grid
 from gdsfactory.typings import ComponentSpec
 
 taper2 = partial(taper, width2=3)
@@ -58,7 +58,7 @@ def ring_single_dut(
           length_x
     """
     component = gf.get_component(component)
-    assert_on_2nm_grid(gap)
+    assert_on_2x_grid(gap)
 
     coupler = gf.get_component(
         coupler, gap=gap, length_x=length_x, radius=radius, **kwargs

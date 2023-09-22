@@ -97,9 +97,9 @@ class Polygon(gdstk.Polygon, _GeometryHelper):
         points = _simplify(self.points, tolerance=tolerance)
         return Polygon(points, (self.layer, self.datatype))
 
-    def snap(self, nm: int = 1) -> sp.Polygon:
+    def snap(self, grid_factor: int = 1) -> sp.Polygon:
         """Returns new polygon snap points to grid"""
-        points = snap_to_grid(self.points, nm=nm)
+        points = snap_to_grid(self.points, grid_factor=grid_factor)
         return Polygon(points, (self.layer, self.datatype))
 
     def to_shapely(self) -> sp.Polygon:

@@ -17,7 +17,7 @@ def grating_coupler_tree(
     with_loopback: bool = False,
     bend: ComponentSpec = "bend_euler",
     fanout_length: float = 0.0,
-    layer_label: LayerSpec = "TEXT",
+    layer_label: LayerSpec | None = None,
     **kwargs,
 ) -> Component:
     """Array of straights connected with grating couplers.
@@ -31,7 +31,7 @@ def grating_coupler_tree(
         with_loopback: adds loopback.
         bend: bend spec.
         fanout_length: in um.
-        layer_label: for layer.
+        layer_label: for layer. Optional removes label.
         kwargs: cross_section settings.
     """
     c = straight_array(

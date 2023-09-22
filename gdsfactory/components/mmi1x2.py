@@ -57,7 +57,7 @@ def mmi1x2(
 
     """
     c = Component()
-    gap_mmi = gf.snap.snap_to_grid(gap_mmi, nm=2)
+    gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
     w_mmi = width_mmi
     w_taper = width_taper
     x = gf.get_cross_section(cross_section)

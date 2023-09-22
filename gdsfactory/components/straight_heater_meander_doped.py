@@ -91,14 +91,15 @@ def straight_heater_meander_doped(
 
     cross_section2 = cross_section
 
-    straight_length = gf.snap.snap_to_grid(
-        (length - (rows - 1) * route.length) / rows, nm=2
+    straight_length = gf.snap.snap_to_grid2x(
+        (length - (rows - 1) * route.length) / rows,
     )
     ports = {}
 
-    """
-    Straights
-    """
+    if straight_length - 2 * taper_length <= 0:
+        raise ValueError("straight_length - 2 * taper_length <= 0")
+
+    # Straights
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
         straight = gf.c.straight(
@@ -121,9 +122,8 @@ def straight_heater_meander_doped(
             straight_ref.y = (row + 1) * spacing
         ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
         ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
-    """
-    Loopbacks
-    """
+
+    # Loopbacks
     for row in range(1, rows, 2):
         extra_length = 3 * (rows - row - 1) / 2 * radius
         extra_straight1 = c << gf.c.straight(
@@ -192,8 +192,8 @@ def straight_heater_meander_doped(
         via_stack_west_center = heater.size_info.cw + (dx, 0)
         via_stack_east_center = heater.size_info.ce - (dx, 0)
 
-        via_stack_east_center = gf.snap.snap_to_grid(via_stack_east_center, nm=10)
-        via_stack_west_center = gf.snap.snap_to_grid(via_stack_west_center, nm=10)
+        via_stack_east_center = gf.snap.snap_to_grid(via_stack_east_center)
+        via_stack_west_center = gf.snap.snap_to_grid(via_stack_west_center)
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke

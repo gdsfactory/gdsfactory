@@ -11,7 +11,7 @@ ports:
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 80
+    width: 80.0
   l_e1:
     center:
     - -16.0

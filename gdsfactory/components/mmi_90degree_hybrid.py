@@ -74,7 +74,7 @@ def mmi_90degree_hybrid(
     """
     c = gf.Component()
 
-    gap_mmi = gf.snap.snap_to_grid(gap_mmi, nm=2)
+    gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
     w_mmi = width_mmi
     w_taper = width_taper
 

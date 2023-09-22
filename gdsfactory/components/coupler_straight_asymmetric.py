@@ -27,7 +27,9 @@ def coupler_straight_asymmetric(
     top = component << straight(length=length, width=width_top, **kwargs)
     bot = component << straight(length=length, width=width_bot, **kwargs)
 
-    top.movey(0.5 * abs(width_top - width_bot) + gap + width_top)
+    dy = 0.5 * abs(width_top - width_bot) + gap + width_top
+    dy = gf.snap.snap_to_grid(dy)
+    top.movey(dy)
 
     component.add_port("o1", port=bot.ports["o1"])
     component.add_port("o2", port=top.ports["o1"])
@@ -37,5 +39,6 @@ def coupler_straight_asymmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_straight_asymmetric(length=5)
+    d = {"length": 7.0, "gap": 0.15, "width_top": 0.405, "width_bot": 0.9}
+    c = coupler_straight_asymmetric(**d)
     c.show(show_ports=True)

@@ -7,6 +7,7 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
+from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
@@ -49,6 +50,8 @@ def taper(
         width2 = width1
 
     c = gf.Component()
+
+    length = snap_to_grid(length)
 
     y1 = width1 / 2
     y2 = width2 / 2
