@@ -4,6 +4,7 @@ import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import LayerSpec
 
 
@@ -23,20 +24,14 @@ def optimal_hairpin(
     based on phidl.geometry
 
     Args:
-        width : int or float
-            Width of the hairpin leads.
-        pitch : int or float
-            Distance between the two hairpin leads. Must be greater than width.
-        length : int or float
-            Length of the hairpin from the connectors to the opposite end of the
-            curve.
+        width: Width of the hairpin leads.
+        pitch: Distance between the two hairpin leads. Must be greater than width.
+        length: Length of the hairpin from the connectors to the opposite end of the curve.
         turn_ratio: int or float
             Specifies how much of the hairpin is dedicated to the 180 degree turn.
             A turn_ratio of 10 will result in 20% of the hairpin being comprised of the turn.
-        num_pts : int
-            Number of points constituting the 180 degree turn.
-        layer : int, array-like[2], or set
-            Specific layer(s) to put polygon geometry on.
+        num_pts: Number of points constituting the 180 degree turn.
+        layer: Specific layer(s) to put polygon geometry on.
 
     Notes:
         Hairpin pitch must be greater than width.
@@ -91,25 +86,25 @@ def optimal_hairpin(
     xpts.append(xpts[0])
     ypts.append(ypts[0])
 
-    xpts = np.array(xpts)
-    ypts = np.array(ypts)
+    xpts = snap_to_grid(xpts)
+    ypts = snap_to_grid(ypts)
 
     # ==========================================================================
     #  Create a blank device, add the geometry, and define the ports
     # ==========================================================================
-    D = Component()
-    D.add_polygon([xpts, ypts], layer=layer)
-    D.add_polygon([xpts, -ypts], layer=layer)
+    c = Component()
+    c.add_polygon([xpts, ypts], layer=layer)
+    c.add_polygon([xpts, -ypts], layer=layer)
 
     xports = min(xpts)
     yports = -a + width / 2
-    D.add_port(
-        name="e1", center=[xports, -yports], width=width, orientation=180, layer=layer
+    c.add_port(
+        name="e1", center=(xports, -yports), width=width, orientation=180, layer=layer
     )
-    D.add_port(
-        name="e2", center=[xports, yports], width=width, orientation=180, layer=layer
+    c.add_port(
+        name="e2", center=(xports, yports), width=width, orientation=180, layer=layer
     )
-    return D
+    return c
 
 
 if __name__ == "__main__":

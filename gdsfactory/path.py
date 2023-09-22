@@ -16,7 +16,6 @@ from collections.abc import Callable, Iterable
 import numpy as np
 from numpy import mod, pi
 
-from gdsfactory import snap
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.component_layout import (
@@ -441,7 +440,6 @@ class Path(_GeometryHelper):
         The CrossSection defines the layer numbers, widths and offsets.
 
         Args:
-            p: a path is a list of points (arc, straight, euler).
             cross_section: to extrude.
             layer: optional layer.
             width: optional width in um.
@@ -1001,10 +999,6 @@ def extrude(
         if with_simplify:
             points1 = _simplify(points1, tolerance=with_simplify)
             points2 = _simplify(points2, tolerance=with_simplify)
-
-        points = snap.snap_to_grid(points)
-        points1 = snap.snap_to_grid(points1)
-        points2 = snap.snap_to_grid(points2)
 
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
@@ -1580,7 +1574,8 @@ if __name__ == "__main__":
     import numpy as np
 
     import gdsfactory as gf
-    from gdsfactory.cross_section import ComponentAlongPath
+
+    # from gdsfactory.cross_section import ComponentAlongPath
 
     # Create the path
     p = gf.path.straight()
@@ -1588,16 +1583,17 @@ if __name__ == "__main__":
     p += gf.path.straight()
 
     # Define a cross-section with a via
-    via0 = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=0)
-    via = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=2)
+    # via0 = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=0)
+    # via = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=2)
     x = gf.CrossSection(
         width=0.5,
         offset=0,
         layer=(1, 0),
         port_names=("in", "out"),
-        vias=[via0, via],
+        # vias=[via0, via],
     )
 
     # Combine the path with the cross-section
     c = gf.path.extrude(p, cross_section=x)
+    c = c.rotate(30)
     c.show()

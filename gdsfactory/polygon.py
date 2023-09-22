@@ -30,7 +30,7 @@ class Polygon(gdstk.Polygon, _GeometryHelper):
         from gdsfactory.pdk import get_layer
 
         layer, datatype = get_layer(layer)
-        super().__init__(list(points), layer, datatype)
+        super().__init__(snap_to_grid(points), layer, datatype)
 
     @property
     def bbox(self):
@@ -97,9 +97,9 @@ class Polygon(gdstk.Polygon, _GeometryHelper):
         points = _simplify(self.points, tolerance=tolerance)
         return Polygon(points, (self.layer, self.datatype))
 
-    def snap(self, grid_factor: int = 1) -> sp.Polygon:
+    def snap(self, grid_factor: int = 1, nm: int | None = None) -> sp.Polygon:
         """Returns new polygon snap points to grid"""
-        points = snap_to_grid(self.points, grid_factor=grid_factor)
+        points = snap_to_grid(self.points, grid_factor=grid_factor, nm=nm)
         return Polygon(points, (self.layer, self.datatype))
 
     def to_shapely(self) -> sp.Polygon:
@@ -112,7 +112,7 @@ class Polygon(gdstk.Polygon, _GeometryHelper):
         from gdsfactory.pdk import get_layer
 
         layer, datatype = get_layer(layer)
-        points_on_grid = np.round(polygon.exterior.coords, 3)
+        points_on_grid = snap_to_grid(polygon.exterior.coords)
         polygon = Polygon(points_on_grid, (layer, datatype))
         return polygon
 
