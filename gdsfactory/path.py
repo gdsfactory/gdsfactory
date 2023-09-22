@@ -823,9 +823,7 @@ def extrude(
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
     """
     from gdsfactory.pdk import (
-        get_active_pdk,
         get_cross_section,
-        get_grid_size,
         get_layer,
     )
 
@@ -867,7 +865,6 @@ def extrude(
     sections = list(sections)
 
     if isinstance(x, CrossSection):
-        snap_to_grid_nm = int(1e3 * (x.snap_to_grid or get_grid_size()))
         sections += [
             Section(
                 width=x.width,
@@ -1005,10 +1002,9 @@ def extrude(
             points1 = _simplify(points1, tolerance=with_simplify)
             points2 = _simplify(points2, tolerance=with_simplify)
 
-        if x.snap_to_grid:
-            points = snap.snap_to_grid(points, snap_to_grid_nm)
-            points1 = snap.snap_to_grid(points1, snap_to_grid_nm)
-            points2 = snap.snap_to_grid(points2, snap_to_grid_nm)
+        points = snap.snap_to_grid(points)
+        points1 = snap.snap_to_grid(points1)
+        points2 = snap.snap_to_grid(points2)
 
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
@@ -1017,9 +1013,6 @@ def extrude(
         if not hidden and p_sec.length() > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
-        pdk = get_active_pdk()
-        warn_off_grid_ports = pdk.warn_off_grid_ports
-
         # Add port_names if they were specified
         if port_names[0] is not None:
             port_width = width if np.isscalar(width) else width[0]
@@ -1027,11 +1020,6 @@ def extrude(
             center = points[0]
             face = [points1[0], points2[0]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
-
-            if warn_off_grid_ports:
-                center_snap = snap.snap_to_grid(center, snap_to_grid_nm)
-                if center[0] != center_snap[0] or center[1] != center_snap[1]:
-                    warnings.warn(f"Port center {center} has off-grid ports")
 
             port1 = c.add_port(
                 port=Port(
@@ -1055,11 +1043,6 @@ def extrude(
             face = [points1[-1], points2[-1]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            if warn_off_grid_ports:
-                center_snap = snap.snap_to_grid(center, snap_to_grid_nm)
-
-                if center[0] != center_snap[0] or center[1] != center_snap[1]:
-                    warnings.warn(f"Port center {center} has off-grid ports")
             port2 = c.add_port(
                 port=Port(
                     name=port_names[1],
@@ -1097,7 +1080,7 @@ def extrude(
                 _p = Path(points_offset)
             else:
                 _p = p
-            c << along_path(
+            _ = c << along_path(
                 p=_p, component=via.component, spacing=via.spacing, padding=via.padding
             )
     return c
@@ -1300,8 +1283,8 @@ def euler(
     sp = R0 * np.sqrt(p * alpha)
     s0 = 2 * sp + Rp * alpha * (1 - p)
 
-    PDK = get_active_pdk()
-    npoints = npoints or abs(int(angle / 360 * radius / PDK.bend_points_distance / 2))
+    pdk = get_active_pdk()
+    npoints = npoints or abs(int(angle / 360 * radius / pdk.bend_points_distance / 2))
     npoints = max(npoints, int(360 / angle) + 1)
 
     num_pts_euler = int(np.round(sp / (s0 / 2) * npoints))
@@ -1391,7 +1374,7 @@ def spiral_archimedean(
     """Returns an Archimedean spiral.
 
     Args:
-        radius: Inner radius of the spiral.
+        min_bend_radius: Inner radius of the spiral.
         separation: Separation between the loops in um.
         number_of_loops: number of loops.
         npoints: number of Points.
@@ -1439,7 +1422,6 @@ def smooth(
         points: array-like[N][2] List of waypoints for the path to follow.
         radius: radius of curvature, passed to `bend`.
         bend: bend function that returns a path that round corners.
-        npoints: Number of points used per 360 degrees for the bend.
         kwargs: Extra keyword arguments that will be passed to `bend`.
 
     .. plot::

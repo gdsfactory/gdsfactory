@@ -23,7 +23,7 @@ def from_gdspaths(cells: tuple[ComponentOrPath, ...]) -> Component:
             c = import_gds(c)
 
         assert isinstance(c, Component)
-        component << c
+        _ = component << c
 
     return component
 
