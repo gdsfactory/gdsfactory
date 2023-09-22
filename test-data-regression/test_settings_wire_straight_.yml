@@ -91,7 +91,7 @@ settings:
         layer: M3
         min_length: 5.0
         mirror: false
-        name: null
+        name: xs_2a77cb49
         offset: 0.0
         port_names:
         - e1
@@ -123,7 +123,7 @@ settings:
         None, ''cladding_layers'': None, ''cladding_offsets'': None, ''cladding_simplify'':
         None, ''info'': None, ''decorator'': None, ''add_pins'': None, ''add_bbox'':
         None, ''mirror'': False, ''name'': None}, ''function_name'': ''cross_section''},
-        ''name'': None, ''mirror'': False, ''vias'': []}_length'
+        ''name'': ''xs_2a77cb49'', ''mirror'': False, ''vias'': []}_length'
       : 10.0
     settings:
       add_bbox: null

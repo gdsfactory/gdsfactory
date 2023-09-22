@@ -13,7 +13,7 @@ from functools import partial
 from inspect import getmembers
 from typing import Any, Literal, TypeVar
 
-from pydantic import BaseModel, ConfigDict, Field, validate_call
+from pydantic import BaseModel, ConfigDict, Field, model_validator, validate_call
 
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 from gdsfactory.serialization import clean_dict
@@ -179,6 +179,15 @@ class CrossSection(BaseModel):
         arbitrary_types_allowed=True,
         extra="forbid",
     )
+
+    @model_validator(mode="after")
+    def name_must_be_set(self) -> CrossSection:
+        self.name = self.name or self.get_name()
+        return self
+
+    @classmethod
+    def validate_x(cls, v):
+        return v
 
     def copy(self, **kwargs):
         """Returns a CrossSection copy."""
@@ -2362,5 +2371,7 @@ if __name__ == "__main__":
 
     # xs = l_wg()
     # p = gf.path.straight()
-    c = p.extrude(xs)
-    c.show(show_ports=True)
+    # c = p.extrude(xs)
+    # c.show(show_ports=True)
+    x = CrossSection(width=0.5)
+    print(x.name)
