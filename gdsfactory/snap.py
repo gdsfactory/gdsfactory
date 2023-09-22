@@ -6,8 +6,14 @@ from functools import partial
 import numpy as np
 
 
-def is_on_grid(x: float, grid_factor: int = 1) -> bool:
-    return np.array_equal(snap_to_grid(x, grid_factor=grid_factor), np.round(x, 6))
+def is_on_grid(x: float, grid_factor: int = 1, nm: int = 1) -> bool:
+    return np.array_equal(
+        snap_to_grid(x, grid_factor=grid_factor, nm=nm), np.round(x, 6)
+    )
+
+
+assert_on_1nm_grid = partial(is_on_grid, nm=1)
+assert_on_2nm_grid = partial(is_on_grid, nm=2)
 
 
 def assert_on_grid(x: float) -> None:
@@ -23,17 +29,18 @@ def assert_on_2x_grid(x: float) -> None:
 
 
 def snap_to_grid(
-    x: float | tuple | np.ndarray, grid_factor: int = 1
+    x: float | tuple | np.ndarray, grid_factor: int = 1, nm: int | None = None
 ) -> float | tuple | np.ndarray:
     """snap x to grid_sizes
 
     Args:
         x: value to snap.
         grid_factor: snap to grid_factor * grid_size.
+        nm: Optional grid size in nm. If None, it will use the default grid size from PDK multiplied by grid_factor.
     """
     from gdsfactory.pdk import get_grid_size
 
-    nm = int(get_grid_size() * 1000 * grid_factor)
+    nm = nm or int(get_grid_size() * 1000 * grid_factor)
     y = nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3
 
     if isinstance(x, tuple):
