@@ -32,18 +32,15 @@ def test_read_gds_equivalent() -> None:
     d2.pop("name")
     d = jsondiff.diff(d1, d2)
 
-    # pprint(d1)
-    # pprint(d2)
-    # pprint(d)
-    assert len(d) == 0, f"{c1.name} != {c2.name}"
+    assert len(d) == 0, d
 
 
 def test_build_and_import() -> None:
     """Create a cell and then import the same cell from GDS."""
     gdspath = gf.PATH.gdsdir / "straight.gds"
     c = gf.Component("build_and_import")
-    c << gf.components.straight(length=1.234)
-    c << gf.import_gds(gdspath, unique_names=False)
+    _ = c << gf.components.straight(length=1.234)
+    _ = c << gf.import_gds(gdspath, unique_names=False)
     c.write_gds()
 
 
@@ -51,8 +48,8 @@ def test_import_and_build() -> None:
     """Import a same cell from GDS and then create the same cell."""
     gdspath = gf.PATH.gdsdir / "straight.gds"
     c = gf.Component("build_and_import")
-    c << gf.import_gds(gdspath, unique_names=False)
-    c << gf.components.straight(length=1.234)
+    _ = c << gf.import_gds(gdspath, unique_names=False)
+    _ = c << gf.components.straight(length=1.234)
     c.write_gds()
 
 
@@ -65,6 +62,7 @@ def _write() -> None:
 
 
 if __name__ == "__main__":
+    _write()
     # c1 = gf.components.straight(length=1.234)
     # gdspath = gf.PATH.gdsdir / "straight.gds"
 

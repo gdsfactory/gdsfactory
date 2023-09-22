@@ -20,7 +20,6 @@ def from_gdstk(cell: gdstk.Cell, **kwargs) -> Component:
 
     Keyword Args:
         cellname: cell of the name to import (None) imports top cell.
-        snap_to_grid_nm: snap to different nm grid (does not snap if False).
         gdsdir: optional GDS directory.
         read_metadata: loads metadata if it exists.
         hashed_name: appends a hash to a shortened component name.
@@ -44,7 +43,6 @@ def from_phidl(component, port_layer: Layer = (1, 0), **kwargs) -> Component:
 
     Keyword Args:
         cellname: cell of the name to import (None) imports top cell.
-        snap_to_grid_nm: snap to different nm grid (does not snap if False).
         gdsdir: optional GDS directory.
         read_metadata: loads metadata if it exists.
         hashed_name: appends a hash to a shortened component name.

@@ -233,7 +233,6 @@ class Pdk(BaseModel):
         sparameters_path: to store Sparameters simulations.
         modes_path: to store Sparameters simulations.
         interconnect_cml_path: path to interconnect CML (optional).
-        warn_off_grid_ports: raises warning when extruding paths with offgrid ports.
         constants: dict of constants for the PDK.
         materials_index: material spec names to material spec, which can be:
             string: material name.
@@ -277,7 +276,6 @@ class Pdk(BaseModel):
     interconnect_cml_path: PathType | None = Field(
         default=None, description="This field is deprecated."
     )
-    warn_off_grid_ports: bool = False
     constants: dict[str, Any] = constants
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
     routing_strategies: dict[str, Callable] | None = None

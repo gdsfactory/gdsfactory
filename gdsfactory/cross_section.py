@@ -134,7 +134,6 @@ class CrossSection(BaseModel):
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
-        snap_to_grid: Optional snap points to grid when extruding paths (um).
         decorator: function when extruding component. For example add_pins.
         add_pins: Optional function to add pins.
         add_bbox: Optional function to add bounding box.
@@ -168,7 +167,6 @@ class CrossSection(BaseModel):
     min_length: float = 10e-3
     start_straight_length: float = 10e-3
     end_straight_length: float = 10e-3
-    snap_to_grid: float | None = None
     decorator: Callable | None = Field(default=None, exclude=True)
     add_pins: Callable | None = Field(default=None, exclude=True)
     add_bbox: Callable | None = Field(default=None, exclude=True)
@@ -284,7 +282,6 @@ class Transition(CrossSection):
         width: main Section width (um) or function parameterized from 0 to 1. \
                 the width at t==0 is the width at the beginning of the Path. \
                 the width at t==1 is the width at the end.
-        snap_to_grid: Optional snap points to grid when extruding paths (um).
         radius: main Section bend radius (um).
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
@@ -304,7 +301,6 @@ class Transition(CrossSection):
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
-        snap_to_grid: Optional snap points to grid when extruding paths (um).
         decorator: function when extruding component. For example add_pins.
         add_pins: Optional function to add pins.
         add_bbox: Optional function to add bounding box.
@@ -319,7 +315,6 @@ class Transition(CrossSection):
     sections: list[Section]
     layer: LayerSpec | None = None
     width: float | Callable | None = None
-    snap_to_grid: float | None = None
     port_names: tuple[str | None, str | None] = (None, None)
     port_types: tuple[str | None, str | None] = ("optical", "optical")
 
@@ -406,7 +401,6 @@ def cross_section(
     min_length: float = 10e-3,
     start_straight_length: float = 10e-3,
     end_straight_length: float = 10e-3,
-    snap_to_grid: float | None = None,
     bbox_layers: list[LayerSpec] | None = None,
     bbox_offsets: list[float] | None = None,
     cladding_layers: LayerSpecs | None = None,
@@ -441,7 +435,6 @@ def cross_section(
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
-        snap_to_grid: can snap points to grid when extruding the path.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
@@ -486,7 +479,6 @@ def cross_section(
         min_length=min_length,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
-        snap_to_grid=snap_to_grid,
         port_types=port_types,
         port_names=port_names,
         info=info or {},
@@ -586,7 +578,6 @@ def slot(
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
-        snap_to_grid: can snap points to grid when extruding the path.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
