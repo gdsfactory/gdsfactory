@@ -97,9 +97,7 @@ class Port:
     ) -> None:
         """Initializes Port object."""
         self.name = name
-        # self.center = np.array(center, dtype="float64")
-        # self.center = np.array(snap_to_grid(center), dtype="float64")
-        self.center = snap_to_grid(center)
+        self.center = np.array(snap_to_grid(center), dtype="float64")
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
         self.info: dict[str, Any] = {}
