@@ -1079,29 +1079,7 @@ class Component(_GeometryHelper):
                 polygon = self.add_polygon(geom, layer=layer)
             return polygon
         elif hasattr(points, "exterior"):  # points is a shapely Polygon
-            layer, datatype = _parse_layer(layer)
-            points_on_grid = snap_to_grid(points.exterior.coords)
-            polygon = Polygon(points_on_grid, (layer, datatype))
-
-            if points.interiors:
-                from shapely import get_coordinates
-
-                points_on_grid_interior = np.round(get_coordinates(points.interiors), 3)
-                polygon_interior = Polygon(points_on_grid_interior, (layer, datatype))
-                polygons = gdstk.boolean(
-                    polygon,
-                    polygon_interior,
-                    operation="not",
-                    layer=layer,
-                    datatype=datatype,
-                )
-                for polygon in polygons:
-                    self._add_polygons(polygon)
-                return polygon
-
-            self._add_polygons(polygon)
-            return polygon
-
+            return self._add_polygon_shapely(layer, points)
         points = np.asarray(points)
         if points.ndim == 1:
             return [self.add_polygon(poly, layer=layer) for poly in points]
@@ -1124,6 +1102,34 @@ class Component(_GeometryHelper):
             return polygons
         else:
             raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
+
+    def _add_polygon_shapely(self, layer, points):
+        layer, datatype = _parse_layer(layer)
+        points_on_grid = snap_to_grid(points.exterior.coords)
+        polygon = Polygon(points_on_grid, (layer, datatype))
+
+        if points.interiors:
+            return self._add_polygon_shapely_with_holes(
+                points, layer, datatype, polygon
+            )
+        self._add_polygons(polygon)
+        return polygon
+
+    def _add_polygon_shapely_with_holes(self, points, layer, datatype, polygon):
+        from shapely import get_coordinates
+
+        points_on_grid_interior = np.round(get_coordinates(points.interiors), 3)
+        polygon_interior = Polygon(points_on_grid_interior, (layer, datatype))
+        polygons = gdstk.boolean(
+            polygon,
+            polygon_interior,
+            operation="not",
+            layer=layer,
+            datatype=datatype,
+        )
+        for polygon in polygons:
+            self._add_polygons(polygon)
+        return polygon
 
     def _add_polygons(self, *polygons: list[Polygon]) -> None:
         self.is_unlocked()

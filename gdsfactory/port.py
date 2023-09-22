@@ -97,7 +97,7 @@ class Port:
     ) -> None:
         """Initializes Port object."""
         self.name = name
-        self.center = snap_to_grid(np.array(center, dtype="float64"))
+        self.center = np.array(snap_to_grid(center), dtype="float64")
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
         self.info: dict[str, Any] = {}
@@ -106,7 +106,7 @@ class Port:
         self.shear_angle = shear_angle
 
         if cross_section is None and layer is None:
-            warnings.warn("You need Port to define cross_section or layer")
+            warnings.warn("You need to define Port cross_section or layer")
 
         if cross_section is None and width is None:
             raise ValueError("You need Port to define cross_section or width")
