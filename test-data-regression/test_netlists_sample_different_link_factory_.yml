@@ -69,7 +69,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -142,7 +141,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -215,7 +213,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -288,7 +285,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -361,7 +357,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -434,7 +429,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -507,7 +501,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -580,7 +573,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -653,7 +645,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -726,7 +717,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -799,7 +789,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -872,7 +861,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -976,7 +964,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -1061,7 +1048,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -1146,7 +1132,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -1231,7 +1216,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -1316,7 +1300,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -1401,7 +1384,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -1486,7 +1468,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -1571,7 +1552,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -1656,7 +1636,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5
@@ -1741,7 +1720,6 @@ instances:
         - optical
         radius: 10
         sections: null
-        snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
         width: 0.5

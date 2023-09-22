@@ -140,11 +140,18 @@ def test_layers1() -> None:
 
 
 def test_layers2() -> None:
+    from gdsfactory.pdk import get_active_pdk
+
+    pdk = get_active_pdk()
+    pdk.grid_size = 0.005
+
     P = gf.path.straight(length=10.001)
-    X = gf.cross_section.strip(snap_to_grid=5e-3)
+    X = gf.cross_section.strip()
     c = gf.path.extrude(P, X, simplify=5e-3)
     assert c.ports["o1"].layer == (1, 0)
     assert c.ports["o2"].center[0] == 10.0, c.ports["o2"].center[0]
+
+    pdk.grid_size = 0.001
 
 
 def test_copy() -> None:
@@ -173,13 +180,14 @@ def test_path_add() -> None:
 
 
 if __name__ == "__main__":
+    test_layers2()
     # test_append()
     # c = transition()
 
-    p1 = gf.path.straight(length=5)
-    p2 = gf.path.euler(radius=5, angle=45, p=0.5, use_eff=False)
-    p = p2 + p1
+    # p1 = gf.path.straight(length=5)
+    # p2 = gf.path.euler(radius=5, angle=45, p=0.5, use_eff=False)
+    # p = p2 + p1
     # assert p.start_angle == 45
     # assert p.end_angle == 0
-    c = p.extrude(cross_section="strip")
-    c.show(show_ports=False)
+    # c = p.extrude(cross_section="strip")
+    # c.show(show_ports=False)
