@@ -1,13 +1,17 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.6.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.7.0...main)
 
-## [7.6.2](https://github.com/gdsfactory/gdsfactory/compare/v7.6.1...v7.6.2)
+## [7.7.1](https://github.com/gdsfactory/gdsfactory/compare/v7.7.0...v7.7.1)
+
+- make snap to grid backwards compatible with <= 7.6.1
+
+## [7.7.0](https://github.com/gdsfactory/gdsfactory/compare/v7.6.2...v7.7.0)
 
 - fix `spiral_heater`
 - raise error when using a single layer
 - assert ports on grid at the cell layer, and bounding box points on grid
-
+- snap to grid acctepts `grid_factor`
 
 ## [7.6.1](https://github.com/gdsfactory/gdsfactory/compare/v7.6.0...v7.6.1)
 
@@ -16,7 +20,7 @@
 ## [7.6.0](https://github.com/gdsfactory/gdsfactory/compare/v7.5.0...v7.6.0)
 
 - improve labels and documentation for test protocol
-- fix layer_stack mutability by redefining `LayerStack.model_copy()` @yaugenst @simbilod
+- fix `layer_stack` mutability by redefining `LayerStack.model_copy()`
 - add `spiral_inner_io_fiber_array` and `add_grating_couplers_fiber_array` to components
 
 ## [7.5.0](https://github.com/gdsfactory/gdsfactory/compare/v7.4.6...v7.5.0)
