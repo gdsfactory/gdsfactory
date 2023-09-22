@@ -1057,7 +1057,6 @@ class Component(_GeometryHelper):
             return polygons[0]
 
         layer = get_layer(layer)
-        layer_number, datatype = _parse_layer(layer)
         if isinstance(points, gdstk.Polygon):
             # if layer is unspecified or matches original polygon, just add it as-is
             polygon = points
@@ -1066,7 +1065,8 @@ class Component(_GeometryHelper):
             ):
                 polygon = Polygon(polygon.points, (polygon.layer, polygon.datatype))
             else:
-                polygon = Polygon(polygon.points, (layer_number, datatype))
+                layer, datatype = _parse_layer(layer)
+                polygon = Polygon(polygon.points, (layer, datatype))
 
             if hasattr(points, "properties"):
                 polygon.properties = deepcopy(points.properties)
@@ -1079,21 +1079,20 @@ class Component(_GeometryHelper):
                 polygon = self.add_polygon(geom, layer=layer)
             return polygon
         elif hasattr(points, "exterior"):  # points is a shapely Polygon
+            layer, datatype = _parse_layer(layer)
             points_on_grid = snap_to_grid(points.exterior.coords)
-            polygon = Polygon(points_on_grid, (layer_number, datatype))
+            polygon = Polygon(points_on_grid, (layer, datatype))
 
             if points.interiors:
                 from shapely import get_coordinates
 
                 points_on_grid_interior = np.round(get_coordinates(points.interiors), 3)
-                polygon_interior = Polygon(
-                    points_on_grid_interior, (layer_number, datatype)
-                )
+                polygon_interior = Polygon(points_on_grid_interior, (layer, datatype))
                 polygons = gdstk.boolean(
                     polygon,
                     polygon_interior,
                     operation="not",
-                    layer=layer_number,
+                    layer=layer,
                     datatype=datatype,
                 )
                 for polygon in polygons:
