@@ -11,14 +11,15 @@ def straight(
     length: float = 10.0,
     npoints: int = 2,
     cross_section: CrossSectionSpec = "xs_sc",
+    add_pins: bool = True,
 ) -> Component:
     """Returns a Straight waveguide.
 
     Args:
         length: straight length (um).
         npoints: number of points.
-        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string or dict).
+        add_pins: add pins to the component.
 
     .. code::
 
@@ -32,6 +33,8 @@ def straight(
     path = p.extrude(x)
     ref = c << path
     c.add_ports(ref.ports)
+    if add_pins and x.add_pins:
+        c = x.add_pins(c)
     c.info["length"] = length
     c.info["width"] = x.sections[0].width
     c.info["cross_section"] = cross_section
@@ -45,4 +48,3 @@ if __name__ == "__main__":
     xs = gf.cross_section.strip()
     c = straight(cross_section=xs)
     c.show(show_ports=True)
-"xs_sc" "xs_sc" "xs_sc"

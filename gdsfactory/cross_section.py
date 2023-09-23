@@ -106,7 +106,16 @@ class CrossSection(BaseModel):
         sections: tuple of Sections(width, offset, layer, ports).
         components_along_path: list[ComponentAlongPath] = Field(default_factory=list): list of ComponentAlongPaths(component, spacing, padding, offset).
         radius: route bend radius (um).
+        info: dictionary with extra information.
         add_pins_function_name: name of the function to add pins to the component.
+        min_length: defaults to 1nm = 10e-3um for routing.
+        start_straight_length: straight length at the beginning of the route.
+        end_straight_length: end length at the beginning of the route.
+        width_wide: wide waveguides width (um) for low loss routing.
+        auto_widen: taper to wide waveguides for low loss routing.
+        auto_widen_minimum_length: minimum straight length for auto_widen.
+        taper_length: taper_length for auto_widen.
+        gap: minimum gap between waveguides.
     """
 
     sections: tuple[Section, ...] = Field(default_factory=tuple)
@@ -115,7 +124,18 @@ class CrossSection(BaseModel):
     bbox_layers: LayerSpecs | None = None
     bbox_offsets: Floats | None = None
 
+    info: dict[str, Any] = Field(default_factory=dict)
     add_pins_function_name: str | None = None
+
+    min_length: float = 10e-3
+    start_straight_length: float = 10e-3
+    end_straight_length: float = 10e-3
+    width_wide: float | None = None
+    auto_widen: bool = False
+    auto_widen_minimum_length: float = 200.0
+    taper_length: float = 10.0
+    gap: float = 3.0
+
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     @classmethod
@@ -203,34 +223,7 @@ class CrossSection(BaseModel):
         return xmin, xmax
 
 
-CrossSectionSpec = CrossSection | Callable | dict[str, Any]
-
-
-class RoutingSettings(BaseModel):
-    """Routing settings for a Route.
-
-    Parameters:
-        width_wide: wide waveguides width (um) for low loss routing.
-        auto_widen: taper to wide waveguides for low loss routing.
-        auto_widen_minimum_length: minimum straight length for auto_widen.
-        taper_length: taper_length for auto_widen.
-        min_length: defaults to 1nm = 10e-3um for routing.
-        start_straight_length: straight length at the beginning of the route.
-        end_straight_length: end length at the beginning of the route.
-        gap: minimum gap between waveguides.
-        info: settings info.
-
-    """
-
-    min_length: float = 10e-3
-    start_straight_length: float = 10e-3
-    end_straight_length: float = 10e-3
-    width_wide: float | None = None
-    auto_widen: bool = False
-    auto_widen_minimum_length: float = 200.0
-    taper_length: float = 10.0
-    gap: float = 3.0
-    info: dict[str, Any] = Field(default_factory=dict)
+CrossSectionSpec = CrossSection | str | dict[str, Any]
 
 
 class Transition(BaseModel):
@@ -264,6 +257,7 @@ def cross_section(
     cladding_simplify: Floats | None = None,
     radius: float | None = 10.0,
     add_pins_function_name: str | None = None,
+    **kwargs,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -283,6 +277,19 @@ def cross_section(
                 polygon by more than the value listed here will be removed.
         radius: routing bend radius (um).
         add_pins_function_name: name of the function to add pins to the component.
+
+    Keyword Args:
+        info: dictionary with extra information.
+        add_pins_function_name: name of the function to add pins to the component.
+        min_length: defaults to 1nm = 10e-3um for routing.
+        start_straight_length: straight length at the beginning of the route.
+        end_straight_length: end length at the beginning of the route.
+        width_wide: wide waveguides width (um) for low loss routing.
+        auto_widen: taper to wide waveguides for low loss routing.
+        auto_widen_minimum_length: minimum straight length for auto_widen.
+        taper_length: taper_length for auto_widen.
+        gap: minimum gap between waveguides.
+
 
     .. plot::
         :include-source:
@@ -320,6 +327,7 @@ def cross_section(
         bbox_layers=bbox_layers,
         bbox_offsets=bbox_offsets,
         add_pins_function_name=add_pins_function_name,
+        **kwargs,
     )
 
 
@@ -432,8 +440,6 @@ def pin(
     width: float = 0.5,
     layer: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB90",
-    layers_via_stack1: LayerSpecs = ("PPP",),
-    layers_via_stack2: LayerSpecs = ("NPP",),
     via_stack_width: float = 9.0,
     via_stack_gap: float = 0.55,
     slab_gap: float = -0.2,
@@ -448,8 +454,6 @@ def pin(
         width: ridge width.
         layer: ridge layer.
         layer_slab: slab layer.
-        layers_via_stack1: P++ layer.
-        layers_via_stack2: N++ layer.
         via_stack_width: in um.
         via_stack_gap: offset from via_stack to ridge edge.
         slab_gap: extra slab gap (negative: via_stack goes beyond slab).
@@ -1358,6 +1362,7 @@ def strip_heater_metal(
         width=width,
         layer=layer,
         sections=sections,
+        info=dict(heater_width=heater_width),
     )
 
 
@@ -1819,6 +1824,10 @@ def get_cross_sections(
 xs_sc = strip()
 xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
 xs_rc2 = rib2()
+
+xs_heater_metal = heater_metal()
+xs_sc_heater_metal = strip_heater_metal()
+xs_sc_heater_metal_undercut = strip_heater_metal_undercut()
 
 cross_sections = get_cross_sections(sys.modules[__name__])
 

@@ -82,7 +82,7 @@ def mmi1x2(
             center=(0, 0),
             width=width_taper,
             layer=x.layer,
-            cross_section=cross_section,
+            cross_section=x,
         ),
         gf.Port(
             "o2",

@@ -41,7 +41,7 @@ from numpy import ndarray
 from omegaconf import OmegaConf
 
 from gdsfactory.component_layout import _rotate_points
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
 
@@ -92,7 +92,7 @@ class Port:
         layer: tuple[int, int] | None = None,
         port_type: str = "optical",
         parent: Component | None = None,
-        cross_section: CrossSection | None = None,
+        cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
     ) -> None:
         """Initializes Port object."""
@@ -111,15 +111,10 @@ class Port:
         if cross_section is None and width is None:
             raise ValueError("You need Port to define cross_section or width")
 
-        if cross_section and isinstance(cross_section, str):
+        if layer is None or width is None:
             from gdsfactory.pdk import get_cross_section
 
             cross_section = get_cross_section(cross_section)
-
-        if cross_section and not isinstance(cross_section, CrossSection):
-            raise ValueError(
-                f"cross_section = {cross_section} is not a valid CrossSection."
-            )
 
         if cross_section and layer is None:
             layer = cross_section.layer
