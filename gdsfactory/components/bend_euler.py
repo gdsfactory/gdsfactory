@@ -74,6 +74,7 @@ def bend_euler(
         ref.mirror(p1=[0, 0], p2=[1, 0])
 
     x.add_bbox(c)
+    x.add_pins(c)
     c.absorb(ref)
     return c
 

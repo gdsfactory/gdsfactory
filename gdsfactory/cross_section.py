@@ -104,10 +104,13 @@ class CrossSection(BaseModel):
 
     Parameters:
         sections: tuple of Sections(width, offset, layer, ports).
-        components_along_path: list[ComponentAlongPath] = Field(default_factory=list): list of ComponentAlongPaths(component, spacing, padding, offset).
+        components_along_path: list of ComponentAlongPaths(component, spacing, padding, offset).
         radius: route bend radius (um).
+        bbox_layers: layer to add as bounding box.
+        bbox_offsets: offset to add to the bounding box.
         info: dictionary with extra information.
-        add_pins_function_name: name of the function to add pins to the component.
+        add_pins_function_name: name of the function to add pins to the component.\
+                None by default does not add pins.
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
@@ -150,13 +153,13 @@ class CrossSection(BaseModel):
     def layer(self):
         return self.sections[0].layer
 
-    def copy(self, width: float | None = None):
+    def copy(self, width: float | None = None, **kwargs):
         """ "Returns a copy of the cross_section with a new width or the same by default."""
         if width is not None:
             sections = [s.model_copy() for s in self.sections]
             sections[0] = sections[0].model_copy(update={"width": width})
             return self.model_copy(update={"sections": sections})
-        return self.model_copy()
+        return self.model_copy(update=kwargs)
 
     def add_pins(self, component: Component) -> Component:
         if self.add_pins_function_name is None:
@@ -333,6 +336,7 @@ radius_nitride = 20
 radius_rib = 20
 
 strip = partial(cross_section, add_pins_function_name="add_pins_inside1nm")
+strip_auto_widen = partial(strip, auto_widen=True)
 rib = partial(
     strip,
     sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),
@@ -1809,6 +1813,8 @@ def get_cross_sections(modules, verbose: bool = False) -> dict[str, CrossSection
 
 
 xs_sc = strip()
+xs_sc_auto_widen = strip_auto_widen()
+
 xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
 xs_rc2 = rib2()
 xs_sc_rc_tip = strip_rib_tip()

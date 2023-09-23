@@ -45,6 +45,7 @@ def bend_circular(
     c.info["dy"] = snap_to_grid(float(abs(p.points[0][0] - p.points[-1][0])))
     c.info["radius"] = float(radius)
     x.add_bbox(c)
+    x.add_pins(c)
     return c
 
 

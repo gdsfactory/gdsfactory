@@ -11,7 +11,19 @@ def coupler_bent_half(
     width1: float = 0.400,
     width2: float = 0.400,
     length_straight: float = 10,
+    cross_section: str = "xs_sc",
 ) -> gf.Component:
+    """Returns Broadband SOI curved / straight directional coupler.
+
+    Args:
+        gap: gap.
+        radius: radius coupling.
+        length: coupler_length.
+        width1: width1.
+        width2: width2.
+        length_straight: input and output straight length.
+        cross_section: cross_section.
+    """
     R1 = radius + (width1 + gap) / 2
     R2 = radius - (width2 + gap) / 2
     alpha = round(np.rad2deg(length / (2 * radius)), 4)
@@ -19,32 +31,32 @@ def coupler_bent_half(
 
     c = gf.Component()
 
+    xs = gf.get_cross_section(cross_section)
+    xs1 = xs.copy(radius=R1, width=width1)
+    xs2 = xs.copy(radius=R2, width=width2)
+
     outer_bend = c << gf.components.bend_circular(
-        radius=R1,
         angle=np.round(-alpha, 3),
-        cross_section=gf.cross_section.cross_section(width=width1),
-        with_bbox=False,
+        cross_section=xs1,
     )
 
     inner_bend = c << gf.components.bend_circular(
-        radius=R2,
         angle=-alpha,
-        cross_section=gf.cross_section.cross_section(width=width2),
-        with_bbox=True,
+        cross_section=xs2,
     )
 
-    outer_bend.movey((width1 + gap) / 2)
+    outer_bend.movey(+(width1 + gap) / 2)
     inner_bend.movey(-(width2 + gap) / 2)
 
     outer_straight = c << gf.components.straight(
         length=length,
-        cross_section=gf.cross_section.cross_section(width=width1),
+        cross_section=xs1,
         npoints=100,
     )
 
     inner_straight = c << gf.components.straight(
         length=length,
-        cross_section=gf.cross_section.cross_section(width=width2),
+        cross_section=xs2,
         npoints=100,
     )
 
@@ -52,27 +64,18 @@ def coupler_bent_half(
     inner_straight.connect(port="o1", destination=inner_bend.ports["o2"])
 
     outer_exit_bend = c << gf.components.bend_circular(
-        radius=R2,
         angle=alpha,
-        cross_section=gf.cross_section.cross_section(width=width1),
-        bend=gf.components.bend_circular(),
-        with_bbox=True,
+        cross_section=xs1,
     )
 
     inner_exit_bend_down = c << gf.components.bend_circular(
-        radius=R2,
         angle=-beta,
-        cross_section=gf.cross_section.cross_section(width=width2),
-        bend=gf.components.bend_circular(),
-        with_bbox=True,
+        cross_section=xs2,
     )
 
     inner_exit_bend_up = c << gf.components.bend_circular(
-        radius=R2,
         angle=alpha + beta,
-        cross_section=gf.cross_section.cross_section(width=width2),
-        bend=gf.components.bend_circular(),
-        with_bbox=True,
+        cross_section=xs2,
     )
 
     outer_exit_bend.connect(port="o1", destination=outer_straight.ports["o2"])
@@ -112,6 +115,7 @@ def coupler_bent(
     width1: float = 0.400,
     width2: float = 0.400,
     length_straight: float = 10,
+    cross_section: str = "xs_sc",
 ) -> gf.Component:
     """Returns Broadband SOI curved / straight directional coupler.
     based on: https://doi.org/10.1038/s41598-017-07618-6
@@ -123,6 +127,7 @@ def coupler_bent(
         width1: width1.
         width2: width2.
         length_straight: input and output straight length.
+        cross_section: cross_section.
     """
     c = gf.Component()
 
@@ -133,6 +138,7 @@ def coupler_bent(
         width1=width1,
         width2=width2,
         length_straight=length_straight,
+        cross_section=cross_section,
     )
     left_half = c << coupler_bent_half(
         gap=gap,
@@ -141,6 +147,7 @@ def coupler_bent(
         width1=width1,
         width2=width2,
         length_straight=length_straight,
+        cross_section=cross_section,
     )
 
     left_half.mirror_x()
