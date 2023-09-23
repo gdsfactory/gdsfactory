@@ -21,7 +21,7 @@ Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]
 
-LayerSpec = Layer | int | str
+LayerSpec = Layer | str
 LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...]
 
 Floats = tuple[float, ...]
@@ -76,7 +76,7 @@ class Section(BaseModel):
     hidden: bool = False
     simplify: float | None = None
 
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    model_config = ConfigDict(extra="forbid")
 
 
 class ComponentAlongPath(BaseModel):
@@ -105,16 +105,30 @@ class CrossSection(BaseModel):
     Parameters:
         sections: tuple of Sections(width, offset, layer, ports).
         components_along_path: list[ComponentAlongPath] = Field(default_factory=list): list of ComponentAlongPaths(component, spacing, padding, offset).
+        radius: route bend radius (um).
     """
 
     sections: tuple[Section, ...] = Field(default_factory=tuple)
     components_along_path: list[ComponentAlongPath] = Field(default_factory=list)
+    radius: float | None = None
+    bbox_layers: LayerSpecs | None = None
+    bbox_offsets: Floats | None = None
+
+    model_config = ConfigDict(extra="forbid")
 
     @classmethod
     def validate_x(cls, v):
         return v
 
-    def add_bbox_layers(
+    @property
+    def width(self):
+        return self.sections[0].width
+
+    @property
+    def layer(self):
+        return self.sections[0].layer
+
+    def add_bbox(
         self,
         component,
         top: float | None = None,
@@ -134,10 +148,9 @@ class CrossSection(BaseModel):
         from gdsfactory.add_padding import get_padding_points
 
         c = component
-        x = self
-        if x.bbox_layers and x.bbox_offsets:
+        if self.bbox_layers and self.bbox_offsets:
             padding = []
-            for offset in x.bbox_offsets:
+            for offset in self.bbox_offsets:
                 points = get_padding_points(
                     component=c,
                     default=0,
@@ -148,7 +161,7 @@ class CrossSection(BaseModel):
                 )
                 padding.append(points)
 
-            for layer, points in zip(x.bbox_layers, padding):
+            for layer, points in zip(self.bbox_layers, padding):
                 c.add_polygon(points, layer=layer)
         return c
 
@@ -174,7 +187,6 @@ class RoutingSettings(BaseModel):
     """Routing settings for a Route.
 
     Parameters:
-        radius: main Section bend radius (um).
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
@@ -187,7 +199,6 @@ class RoutingSettings(BaseModel):
 
     """
 
-    radius: float | None = None
     min_length: float = 10e-3
     start_straight_length: float = 10e-3
     end_straight_length: float = 10e-3
@@ -226,9 +237,12 @@ def cross_section(
     sections: tuple[Section, ...] | None = None,
     port_names: tuple[str, str] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),
+    bbox_layers: LayerSpecs | None = None,
+    bbox_offsets: Floats | None = None,
     cladding_layers: LayerSpecs | None = None,
     cladding_offsets: Floats | None = None,
     cladding_simplify: Floats | None = None,
+    radius: float | None = 10.0,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -239,11 +253,14 @@ def cross_section(
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
+        bbox_layers: list of layers bounding boxes to extrude.
+        bbox_offsets: list of offset from bounding box edge.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
         cladding_simplify: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
+        radius: routing bend radius (um).
 
     .. plot::
         :include-source:
@@ -277,6 +294,9 @@ def cross_section(
     ]
     return CrossSection(
         sections=tuple(s),
+        radius=radius,
+        bbox_layers=bbox_layers,
+        bbox_offsets=bbox_offsets,
     )
 
 
@@ -1207,7 +1227,7 @@ def strip_heater_metal_undercut(
     trench_gap: float = 2.0,
     layer_heater: LayerSpec = "HEATER",
     layer_trench: LayerSpec = "DEEPTRENCH",
-    **kwargs,
+    sections: Sections | None = None,
 ) -> CrossSection:
     """Returns strip cross_section with top metal and undercut trenches on both.
 
@@ -1254,7 +1274,7 @@ def strip_heater_metal_undercut(
         c.plot()
     """
     trench_offset = trench_gap + trench_width / 2 + width / 2
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or [])
     sections += [
         Section(
             layer=layer_heater,
@@ -1269,8 +1289,7 @@ def strip_heater_metal_undercut(
     return strip(
         width=width,
         layer=layer,
-        sections=sections,
-        **kwargs,
+        sections=tuple(sections),
     )
 
 
@@ -1279,7 +1298,7 @@ def strip_heater_metal(
     layer: LayerSpec = "WG",
     heater_width: float = 2.5,
     layer_heater: LayerSpec = "HEATER",
-    **kwargs,
+    sections: Sections | None = None,
 ) -> CrossSection:
     """Returns strip cross_section with top heater metal.
 
@@ -1302,7 +1321,7 @@ def strip_heater_metal(
         c.plot()
     """
 
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or [])
     sections += [
         Section(
             layer=layer_heater,
@@ -1316,7 +1335,6 @@ def strip_heater_metal(
         width=width,
         layer=layer,
         sections=sections,
-        **kwargs,
     )
 
 
@@ -1327,6 +1345,7 @@ def strip_heater_doped(
     heater_gap: float = 0.8,
     layers_heater: LayerSpecs = ("WG", "NPP"),
     bbox_offsets_heater: tuple[float, ...] = (0, 0.1),
+    sections: Sections | None = None,
     **kwargs,
 ) -> CrossSection:
     """Returns strip cross_section with N++ doped heaters on both sides.
@@ -1362,7 +1381,7 @@ def strip_heater_doped(
     """
     heater_offset = width / 2 + heater_gap + heater_width / 2
 
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or [])
     sections += [
         Section(
             layer=layer,
@@ -1406,6 +1425,7 @@ def rib_heater_doped(
     slab_gap: float = 0.2,
     with_top_heater: bool = True,
     with_bot_heater: bool = True,
+    sections: Sections | None = None,
     **kwargs,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
@@ -1448,7 +1468,7 @@ def rib_heater_doped(
         slab_width = width + heater_gap + heater_width + slab_gap
         slab_offset = +slab_width / 2
 
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or [])
 
     if with_bot_heater:
         sections += [
@@ -1484,7 +1504,7 @@ def rib_heater_doped_via_stack(
     slab_offset: float = 0,
     with_top_heater: bool = True,
     with_bot_heater: bool = True,
-    **kwargs,
+    sections: Sections | None = None,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
 
@@ -1543,7 +1563,7 @@ def rib_heater_doped_via_stack(
 
     heater_offset = width / 2 + heater_gap + heater_width / 2
     via_stack_offset = width / 2 + via_stack_gap + via_stack_width / 2
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or [])
     sections += [
         Section(width=slab_width, layer=layer_slab, offset=slab_offset, name="slab"),
     ]
@@ -1589,7 +1609,6 @@ def rib_heater_doped_via_stack(
         sections=tuple(sections),
         width=width,
         layer=layer,
-        **kwargs,
     )
 
 
@@ -1758,7 +1777,7 @@ CrossSectionFactory = Callable[..., CrossSection]
 def get_cross_sections(
     modules, verbose: bool = False
 ) -> dict[str, CrossSectionFactory]:
-    """Returns cross_section factories from a module or list of modules.
+    """Returns cross_sections from a module or list of modules.
 
     Args:
         modules: module or iterable of modules.
@@ -1775,8 +1794,8 @@ def get_cross_sections(
 
 
 xs_sc = strip()
-xs_rib = rib()
-xs_rib2 = rib2()
+xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
+xs_rc2 = rib2()
 
 cross_sections = get_cross_sections(sys.modules[__name__])
 
@@ -1824,3 +1843,4 @@ if __name__ == "__main__":
     # c = p.extrude(xs)
     # c.show(show_ports=True)
     x = CrossSection(width=0.5, name="test")
+"xs_sc"

@@ -19,7 +19,7 @@ def mmi1x2(
     taper: ComponentFactory = taper_function,
     straight: ComponentFactory = straight_function,
     with_bbox: bool = True,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     r"""1x2 MultiMode Interferometer (MMI).
 
@@ -143,7 +143,7 @@ def mmi1x2(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mmi1x2(cross_section="xs_rib")
+    c = gf.components.mmi1x2(cross_section="xs_rc")
 
     # print(c.xmin)
     # c.xmin = 0

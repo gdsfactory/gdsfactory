@@ -35,7 +35,7 @@ def spiral_inner_io(
     bend180: ComponentSpec = bend_euler180,
     straight: ComponentSpec = straight_function,
     length: float | None = None,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     cross_section_bend: CrossSectionSpec | None = None,
     cross_section_bend180: CrossSectionSpec | None = None,
     asymmetric_cross_section: bool = False,
@@ -185,7 +185,7 @@ def spiral_inner_io_fiber_array(
     bend180: ComponentSpec = bend_euler180,
     straight: ComponentSpec = straight_function,
     length: float | None = 20e3,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     cross_section_bend: CrossSectionSpec | None = None,
     cross_section_bend180: CrossSectionSpec | None = None,
     asymmetric_cross_section: bool = False,
@@ -238,7 +238,7 @@ def spiral_inner_io_fiber_array(
 
 @gf.cell
 def spiral_inner_io_fiber_single(
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     cross_section_bend: CrossSectionSpec | None = None,
     cross_section_ports: CrossSectionSpec | None = None,
     x_straight_inner_right: float = 40.0,
@@ -322,7 +322,7 @@ def get_straight_length(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    cross_section = gf.cross_section.xs_rib2
+    cross_section = gf.cross_section.xs_rc2
     cross_section = gf.cross_section.pn
 
     c = gf.components.spiral_inner_io_fiber_array(

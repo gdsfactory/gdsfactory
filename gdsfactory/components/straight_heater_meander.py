@@ -11,7 +11,7 @@ from gdsfactory.typings import ComponentSpec, Floats, LayerSpec
 def straight_heater_meander(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.typings.CrossSectionSpec = "strip",
+    cross_section: gf.typings.CrossSectionSpec = "xs_sc",
     heater_width: float = 2.5,
     extension_length: float = 15.0,
     layer_heater: LayerSpec = "HEATER",

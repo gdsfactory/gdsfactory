@@ -12,7 +12,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @gf.cell
 def bendu_double(
     component: ComponentSpec,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     bend180: ComponentSpec = bend_circular180,
     port1: str = "o1",
     port2: str = "o2",
@@ -49,7 +49,7 @@ def bendu_double(
 @gf.cell
 def straight_double(
     component: ComponentSpec,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     port1: str = "o1",
     port2: str = "o2",
     straight_length: float | None = None,
@@ -99,7 +99,7 @@ def cutback_2x2(
     bend180: ComponentSpec = bend_circular180,
     mirror: bool = False,
     straight_length: float | None = None,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Returns a daisy chain of splitters for measuring their loss.

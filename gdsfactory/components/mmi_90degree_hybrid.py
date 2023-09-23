@@ -19,7 +19,7 @@ def mmi_90degree_hybrid(
     taper: ComponentSpec = taper_function,
     straight: ComponentSpec = straight_function,
     with_bbox: bool = True,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     r"""90 degree hybrid based on a 4x4 MMI.
 

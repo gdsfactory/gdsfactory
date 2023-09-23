@@ -15,7 +15,7 @@ def coupler_adiabatic(
     input_wg_sep: float = 3.0,
     output_wg_sep: float = 3.0,
     dw: float = 0.1,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Returns 50/50 adiabatic coupler.

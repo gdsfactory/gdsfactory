@@ -16,7 +16,7 @@ def coupler90(
     radius: float = 10.0,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     bend_cross_section: CrossSectionSpec | None = None,
     **kwargs,
 ) -> Component:

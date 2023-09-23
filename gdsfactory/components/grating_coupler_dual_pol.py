@@ -32,7 +32,7 @@ def grating_coupler_dual_pol(
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_function,
     base_layer: LayerSpec | None = "WG",
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     r"""2 dimensional, dual polarization grating coupler.

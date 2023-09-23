@@ -33,7 +33,7 @@ def delay_snake_sbend(
     bend: ComponentSpec = "bend_euler",
     sbend: ComponentSpec = "bend_s",
     sbend_xsize: float = 100.0,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     r"""Returns compact Snake with sbend in the middle.

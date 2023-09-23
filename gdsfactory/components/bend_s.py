@@ -16,7 +16,7 @@ from gdsfactory.typings import CrossSectionSpec, Float2
 def bend_s(
     size: Float2 = (11.0, 1.8),
     npoints: int = 99,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     check_min_radius: bool = False,
     **kwargs,
 ) -> Component:
@@ -65,7 +65,7 @@ def bend_s(
 
 def get_min_sbend_size(
     size: Float2 = (None, 10.0),
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     num_points: int = 100,
     **kwargs,
 ) -> float:

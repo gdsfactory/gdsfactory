@@ -19,7 +19,7 @@ def mmi2x2(
     taper: ComponentFactory = taper_function,
     straight: ComponentFactory = straight_function,
     with_bbox: bool = True,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     r"""Mmi 2x2.
 

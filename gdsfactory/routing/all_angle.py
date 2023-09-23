@@ -108,8 +108,8 @@ def _get_bend_ports(bend):
 
 
 LOW_LOSS_CROSS_SECTIONS = [
-    {"cross_section": "strip", "settings": {"width": 0.9}},
-    "strip",
+    {"cross_section": "xs_sc", "settings": {"width": 0.9}},
+    "xs_sc",
 ]
 
 
@@ -202,7 +202,7 @@ def _make_error_trace(port1: Port, port2: Port, message: str):
 
 
 def straight_connector(
-    port1: Port, port2: Port, cross_section: CrossSectionSpec = "strip"
+    port1: Port, port2: Port, cross_section: CrossSectionSpec = "xs_sc"
 ) -> list[ComponentReference]:
     """
     Connects between the two ports with a straight of the given cross-section.
@@ -236,7 +236,7 @@ def straight_connector(
 def auto_taper_connector(
     port1: Port,
     port2: Port,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     inner_connector: Connector = straight_connector,
 ) -> list[ComponentReference]:
     """
@@ -320,7 +320,7 @@ def _all_angle_connector(
     bend_angle: float,
     intersect: np.ndarray,
     bend: ComponentSpec = "euler_bend",
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     connector1: Connector = straight_connector,
     cross_section1: CrossSectionSpec | None = None,
     connector2: Connector = straight_connector,
@@ -488,7 +488,7 @@ def get_bundle_all_angle(
     ports1: list[Port],
     ports2: list[Port],
     steps: list[StepAllAngle] | None = None,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     bend: ComponentSpec = "bend_euler",
     connector: str = "low_loss",
     start_angle: float | None = None,

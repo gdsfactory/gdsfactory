@@ -384,7 +384,7 @@ def sample_die(size=(8e3, 40e3), y_spacing: float = 10) -> gf.Component:
 
         routes_left, ports_left = gf.routing.route_ports_to_side(
             ref.get_ports_list(orientation=180),
-            cross_section="strip",
+            cross_section="xs_sc",
             side="west",
             x=die.xmin + ec.xsize,
         )
@@ -393,7 +393,7 @@ def sample_die(size=(8e3, 40e3), y_spacing: float = 10) -> gf.Component:
 
         routes_right, ports_right = gf.routing.route_ports_to_side(
             ref.get_ports_list(orientation=0),
-            cross_section="strip",
+            cross_section="xs_sc",
             x=die.xmax - ec.xsize,
             side="east",
         )

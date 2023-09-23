@@ -23,7 +23,7 @@ def coupler_ring(
     coupler90: ComponentSpec = coupler90,
     bend: ComponentSpec = bend_euler,
     coupler_straight: ComponentSpec = coupler_straight,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     bend_cross_section: CrossSectionSpec | None = None,
     length_extension: float = 3,
     **kwargs,

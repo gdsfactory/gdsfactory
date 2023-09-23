@@ -32,7 +32,7 @@
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.cross_section import xs_rib, strip
+from gdsfactory.cross_section import xs_rc, strip
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read import cell_from_yaml_template
 from gdsfactory.route_info import route_info
@@ -57,7 +57,7 @@ strip_with_intent = partial(
 )
 
 rib_with_intent = partial(
-    xs_rib,
+    xs_rc,
     layer="RIB_INTENT",
     cladding_layers=["WG"],  # keeping WG layer is nice for compatibility
     cladding_offsets=[0],
@@ -104,7 +104,7 @@ def rib_to_strip(width1: float = 0.5, width2: float = 0.5):
 # create single-layer taper components
 @gf.cell
 def taper_single_cross_section(
-    cross_section: CrossSectionSpec = "strip", width1: float = 0.5, width2: float = 1.0
+    cross_section: CrossSectionSpec = "xs_sc", width1: float = 0.5, width2: float = 1.0
 ):
     cs1 = gf.get_cross_section(cross_section, width=width1)
     cs2 = gf.get_cross_section(cross_section, width=width2)
@@ -114,7 +114,7 @@ def taper_single_cross_section(
     return c
 
 
-taper_strip = partial(taper_single_cross_section, cross_section="strip")
+taper_strip = partial(taper_single_cross_section, cross_section="xs_sc")
 taper_rib = partial(taper_single_cross_section, cross_section="rib")
 
 # make a new PDK with our required layers, cross-sections, and default transitions
@@ -127,7 +127,7 @@ multi_wg_pdk = gf.Pdk(
     },
     cross_sections={
         "rib": rib_with_intent,
-        "strip": strip_with_intent,
+        "xs_sc": strip_with_intent,
     },
     layer_transitions={
         RIB_INTENT_LAYER: taper_rib,
@@ -152,7 +152,7 @@ all_angle.LOW_LOSS_CROSS_SECTIONS.insert(0, "rib")
 strip_width = 1
 rib_width = 0.7
 c = gf.Component()
-strip_wg = c << gf.c.straight(cross_section="strip", width=strip_width)
+strip_wg = c << gf.c.straight(cross_section="xs_sc", width=strip_width)
 rib_wg = c << gf.c.straight(cross_section="rib", width=rib_width)
 taper = c << strip_to_rib(width1=strip_width, width2=rib_width)
 taper.connect("o1", strip_wg.ports["o2"])

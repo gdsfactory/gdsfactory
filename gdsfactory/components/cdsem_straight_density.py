@@ -22,7 +22,7 @@ def cdsem_straight_density(
     gaps: Floats = gaps,
     length: float = 420.0,
     label: str = "",
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     text: ComponentSpec | None = text_rectangular_mini,
 ) -> Component:
     """Returns sweep of dense straight lines.

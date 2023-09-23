@@ -5,13 +5,11 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler
-from gdsfactory.route_info import route_info_from_cs
 from gdsfactory.typings import CrossSectionSpec
 
 
@@ -22,9 +20,7 @@ def bend_euler(
     with_arc_floorplan: bool = True,
     npoints: int | None = None,
     direction: str = "ccw",
-    with_bbox: bool = True,
-    cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     """Euler bend with changing bend radius.
 
@@ -45,9 +41,7 @@ def bend_euler(
           with parameters `radius` and `angle`.
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
-        with_bbox: add bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -58,7 +52,7 @@ def bend_euler(
                /
        o1_____/
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section)
     radius = x.radius
 
     if radius is None:
@@ -75,34 +69,11 @@ def bend_euler(
     c.info["radius_min"] = np.round(p.info["Rmin"], 3)
     c.info["radius"] = radius
     c.info["width"] = x.width
-    c.info["route_info"] = route_info_from_cs(
-        cross_section, length=c.info["length"], n_bend_90=abs(angle / 90.0)
-    )
-
-    if x.info:
-        c.info.update(x.info)
-
-    if with_bbox and x.bbox_layers:
-        padding = []
-        angle = int(angle)
-        for offset in x.bbox_offsets:
-            top = offset if angle in {180, -180, -90} else 0
-            bottom = 0 if angle in {-90} else offset
-            points = get_padding_points(
-                component=c,
-                default=0,
-                bottom=bottom,
-                right=offset,
-                top=top,
-            )
-            padding.append(points)
-
-        for layer, points in zip(x.bbox_layers, padding):
-            c.add_polygon(points, layer=layer)
 
     if direction == "cw":
         ref.mirror(p1=[0, 0], p2=[1, 0])
 
+    x.add_bbox(c)
     c.absorb(ref)
     return c
 

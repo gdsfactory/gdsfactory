@@ -22,7 +22,7 @@ def mmi(
     taper: ComponentFactory = taper_function,
     straight: ComponentFactory = straight_function,
     with_bbox: bool = True,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     input_positions: list[float] | None = None,
     output_positions: list[float] | None = None,
 ) -> Component:
@@ -161,7 +161,7 @@ def mmi(
 
 if __name__ == "__main__":
     # import gdsfactory as gf
-    # c = gf.components.mmi1x2(cross_section="xs_rib")
+    # c = gf.components.mmi1x2(cross_section="xs_rc")
     c = mmi(inputs=2, outputs=4, gap_input_tapers=0.5, input_positions=[-1, 1])
     print(len(c.ports))
     c.show(show_ports=True)

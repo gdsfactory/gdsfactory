@@ -19,7 +19,7 @@ def cdsem_coupler(
     width: float = 0.45,
     length: float = 420.0,
     gaps: tuple[float, ...] = (0.15, 0.2, 0.25),
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     text: ComponentSpec | None = text_rectangular_mini,
     spacing: float = 3,
 ) -> Component:

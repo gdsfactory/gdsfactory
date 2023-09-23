@@ -10,7 +10,7 @@ from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 def mmi2x2_with_sbend(
     with_sbend: bool = True,
     s_bend: ComponentFactory = bend_s,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     """Returns mmi2x2 for Cband.
 
@@ -98,7 +98,7 @@ def mmi2x2_with_sbend(
 if __name__ == "__main__":
     # c = mmi2x2_with_sbend(
     #     with_sbend=True,
-    #     cross_section=dict(cross_section="strip", settings=dict(layer=(2, 0))),
+    #     cross_section=dict(cross_section="xs_sc", settings=dict(layer=(2, 0))),
     # )
     c = mmi2x2_with_sbend()
     c.show(show_ports=True)

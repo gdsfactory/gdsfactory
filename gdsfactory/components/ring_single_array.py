@@ -17,7 +17,7 @@ def ring_single_array(
     ring: ComponentFactory = ring_single,
     spacing: float = 5.0,
     list_of_dicts: tuple[dict[str, float], ...] | None = None,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Ring of single bus connected with straights.

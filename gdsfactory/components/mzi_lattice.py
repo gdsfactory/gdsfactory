@@ -150,7 +150,7 @@ def mzi_lattice_mmi(
         taper_function,
     ),
     straight_functions_mmis=(straight_function, straight_function),
-    cross_sections_mmis=("strip", "strip"),
+    cross_sections_mmis=("xs_sc", "xs_sc"),
     delta_lengths: tuple[float, ...] = (10.0,),
     mzi=mmi_coupler_function,
     splitter=mmi_splitter_function,
@@ -358,7 +358,7 @@ if __name__ == "__main__":
         coupler_gaps_mmis=(0.25,) * 5,
         taper_functions_mmis=(taper_function,) * 5,
         straight_functions_mmis=(straight_function,) * 5,
-        cross_sections_mmis=("strip",) * 5,
+        cross_sections_mmis=("xs_sc",) * 5,
         delta_lengths=(10.0,) * 4,
     )
     c.show(show_ports=True)

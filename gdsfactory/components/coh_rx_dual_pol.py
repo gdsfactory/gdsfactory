@@ -12,7 +12,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @cell
 def coh_rx_dual_pol(
     bend: ComponentSpec = bend_euler,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     lo_splitter: ComponentSpec = "mmi1x2",
     signal_splitter: ComponentSpec | None = None,
     spol_coh_rx: ComponentSpec = coh_rx_single_pol,

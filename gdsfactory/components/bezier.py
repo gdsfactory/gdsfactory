@@ -37,7 +37,7 @@ def bezier(
     with_manhattan_facing_angles: bool = True,
     start_angle: int | None = None,
     end_angle: int | None = None,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     with_bbox: bool = True,
     **kwargs,
 ) -> Component:
@@ -162,7 +162,7 @@ def find_min_curv_bezier_control_points(
 if __name__ == "__main__":
     # control_points = ((0.0, 0.0), (5.0, 0.0), (5.0, 5.0), (10.0, 5.0))
     # cross_section = gf.get_cross_section(
-    #     "strip", bbox_offsets=[0.5], bbox_layers=[(111, 0)]
+    #     "xs_sc", bbox_offsets=[0.5], bbox_layers=[(111, 0)]
     # )
     # npoints = 201
     # with_manhattan_facing_angles = True

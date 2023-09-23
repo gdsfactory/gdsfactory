@@ -45,3 +45,4 @@ if __name__ == "__main__":
     xs = gf.cross_section.strip()
     c = straight(cross_section=xs)
     c.show(show_ports=True)
+"xs_sc" "xs_sc" "xs_sc"

@@ -23,7 +23,7 @@ def array_with_fanout(
     bend: ComponentSpec = "bend_euler",
     bend_port_name1: str | None = None,
     bend_port_name2: str | None = None,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Returns component array in X axis with west facing waveguides.

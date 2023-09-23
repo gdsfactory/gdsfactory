@@ -26,7 +26,7 @@ def delay_snake2(
     length2: float = 0.0,
     n: int = 2,
     bend180: ComponentSpec = "bend_euler180",
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Returns Snake with a starting straight and 180 bends.

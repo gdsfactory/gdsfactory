@@ -27,7 +27,7 @@ def add_fiber_array(
     gc_port_labels: tuple[str, ...] | None = None,
     component_name: str | None = None,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     get_input_labels_function: Callable | None = get_input_labels_dash,
     layer_label: LayerSpec | None = None,
     **kwargs,

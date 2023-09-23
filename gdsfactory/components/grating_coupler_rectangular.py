@@ -23,7 +23,7 @@ def grating_coupler_rectangular(
     fiber_angle: float = 15,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     r"""Grating coupler with rectangular shapes (not elliptical).

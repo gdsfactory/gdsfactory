@@ -11,7 +11,7 @@ from gdsfactory.typings import CrossSectionSpec, LayerSpecs
 @gf.cell
 def terminator(
     length: float | None = 50,
-    cross_section_input: CrossSectionSpec = "strip",
+    cross_section_input: CrossSectionSpec = "xs_sc",
     cross_section_tip: CrossSectionSpec | None = None,
     tapered_width: float = 0.2,
     doping_layers: LayerSpecs = ("NPP",),

@@ -15,7 +15,7 @@ from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import CrossSectionSpec, Floats
 
-def_dict = {"A": "rib", "B": "strip"}
+def_dict = {"A": "rib", "B": "xs_sc"}
 def_ang_dict = {"A": 6.0, "B": 6.0}
 
 
@@ -30,7 +30,7 @@ def ring_section_based(
     start_cross_section: CrossSectionSpec | None = None,
     start_angle: float | None = 10.0,
     drop_cross_section: CrossSectionSpec | None = None,
-    bus_cross_section: CrossSectionSpec = "strip",
+    bus_cross_section: CrossSectionSpec = "xs_sc",
     ang_res: float | None = 0.1,
 ) -> gf.Component:
     """Returns a ring made of the specified cross sections.
@@ -308,7 +308,7 @@ if __name__ == "__main__":
         start_cross_section=partial(rib, width=0.65),
         start_angle=10.0,
         drop_cross_section=partial(rib, width=0.55),
-        bus_cross_section="strip",
+        bus_cross_section="xs_sc",
     )
 
     c.show(show_ports=True)

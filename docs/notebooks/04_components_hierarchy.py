@@ -37,7 +37,7 @@ def bend_with_straight_with_too_many_input_parameters(
     npoints: int | None = None,
     direction: str = "ccw",
     with_bbox: bool = True,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> gf.Component:
     """ "As hierarchical cells become more complex, the number of input parameters can increase significantly."""
     c = gf.Component()

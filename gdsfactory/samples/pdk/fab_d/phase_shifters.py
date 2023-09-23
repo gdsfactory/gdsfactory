@@ -26,7 +26,7 @@ xs_strip = partial(gf.cross_section.strip, layer=(1, 0), width=1)
 xs_strip_heater_metal = partial(
     gf.cross_section.strip_heater_metal, layer=(1, 0), width=1
 )
-xs_rib_heater_doped = partial(
+xs_rc_heater_doped = partial(
     gf.cross_section.rib_heater_doped, layer=(1, 0), width=1, layer_slab=LAYER.SLAB
 )
 xs_strip_heater_doped = partial(
@@ -36,7 +36,7 @@ xs_strip_heater_doped = partial(
     layers_heater=((1, 0), LAYER.HEATER),
     bbox_offsets_heater=(0, 0.1),
 )
-xs_rib_pin = partial(gf.cross_section.pin, layer=(1, 0), width=1, layer_slab=LAYER.SLAB)
+xs_rc_pin = partial(gf.cross_section.pin, layer=(1, 0), width=1, layer_slab=LAYER.SLAB)
 
 
 ps_heater_metal = partial(
@@ -51,7 +51,7 @@ ps_heater_doped = partial(
 )
 ps_pin = partial(
     gf.components.straight_pin,
-    cross_section=xs_rib_pin,
+    cross_section=xs_rc_pin,
 )
 
 

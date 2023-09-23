@@ -55,7 +55,7 @@ def get_bundle(
     bend: ComponentSpec = bend_euler,
     with_sbend: bool = False,
     sort_ports: bool = True,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
     path_length_match_loops: int | None = None,
@@ -303,7 +303,7 @@ def get_bundle_same_axis(
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     enforce_port_ordering: bool = True,
     **kwargs,
 ) -> list[Route]:
@@ -418,7 +418,7 @@ def _get_bundle_waypoints(
     separation: float = 30,
     end_straight_length: float = 0.0,
     start_straight_length: float = 0.0,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> list[ndarray]:
     """Returns route coordinates List.
@@ -598,7 +598,7 @@ def get_bundle_same_axis_no_grouping(
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
     sort_ports: bool = True,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> list[Route]:
     r"""Returns a list of route elements.

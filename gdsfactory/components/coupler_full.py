@@ -13,7 +13,7 @@ def coupler_full(
     dy: float = 5.0,
     gap: float = 0.5,
     dw: float = 0.1,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Adiabatic Full coupler.

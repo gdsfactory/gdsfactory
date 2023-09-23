@@ -30,7 +30,7 @@ def spiral_external_io(
     yspacing: float = 3.0,
     bend: ComponentSpec = bend_euler,
     length: float | None = None,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     with_inner_ports: bool = False,
     y_straight_outer_offset: float = 0.0,
     inner_loop_spacing_offset: float = 0.0,

@@ -16,7 +16,7 @@ def ring_double(
     length_y: float = 0.01,
     coupler_ring: ComponentSpec = coupler_ring_function,
     bend: ComponentSpec = bend_euler,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Returns a double bus ring.

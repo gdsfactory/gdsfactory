@@ -25,7 +25,7 @@ def ring_double_heater(
     bend: ComponentSpec = bend_euler,
     cross_section_heater: CrossSectionSpec = "heater_metal",
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     via_stack: ComponentSpec = via_stack_heater_m3_mini,
     port_orientation: float | None = None,
     via_stack_offset: Float2 = (0, 0),

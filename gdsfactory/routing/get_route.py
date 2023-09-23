@@ -70,7 +70,7 @@ def get_route(
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
     min_straight_length: float | None = None,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     **kwargs,
 ) -> Route:
     """Returns a Manhattan Route between 2 ports.
@@ -172,7 +172,7 @@ def get_route_from_waypoints(
     bend: Callable = bend_euler,
     straight: Callable = straight_function,
     taper: Callable | None = taper_function,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints with bends instead of \

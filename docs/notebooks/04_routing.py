@@ -238,7 +238,7 @@ rect2.move(destination=(8, 4))
 rect3.move(destination=(5.5, 1.5))
 
 port1 = gf.Port(
-    "o1", 0, rect1.center + (0, 3), cross_section=gf.get_cross_section("strip")
+    "o1", 0, rect1.center + (0, 3), cross_section=gf.get_cross_section("xs_sc")
 )
 port2 = port1.copy("o2")
 port2.orientation = 180
@@ -258,7 +258,7 @@ rect2.move(destination=(8, 4))
 rect3.move(destination=(5.5, 1.5))
 
 port1 = gf.Port(
-    "o1", 0, rect1.center + (0, 3), cross_section=gf.get_cross_section("strip")
+    "o1", 0, rect1.center + (0, 3), cross_section=gf.get_cross_section("xs_sc")
 )
 port2 = port1.copy("o2")
 port2.orientation = 180

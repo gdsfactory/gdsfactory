@@ -16,8 +16,8 @@ def ring_double_bend_coupler(
     bend: ComponentSpec = bend_circular,
     length_x: float = 0.6,
     length_y: float = 0.6,
-    cross_section_inner: CrossSectionSpec = "strip",
-    cross_section_outer: CrossSectionSpec = "strip",
+    cross_section_inner: CrossSectionSpec = "xs_sc",
+    cross_section_outer: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     r"""Returns ring with double curved couplers.

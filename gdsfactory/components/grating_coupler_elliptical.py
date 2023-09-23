@@ -103,7 +103,7 @@ def grating_coupler_elliptical(
     slab_xmin: float = -1.0,
     slab_offset: float = 2.0,
     spiked: bool = True,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.

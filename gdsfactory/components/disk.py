@@ -118,7 +118,7 @@ def disk(
     gap: float = 0.2,
     wrap_angle_deg: float = 180.0,
     parity: int = 1,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Disk Resonator.
@@ -193,7 +193,7 @@ def disk_heater(
     gap: float = 0.2,
     wrap_angle_deg: float = 180.0,
     parity: int = 1,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     heater_layer: LayerSpec = "HEATER",
     via_stack: ComponentSpec = "via_stack_heater_mtop",
     heater_width: float = 5.0,

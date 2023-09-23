@@ -40,7 +40,7 @@ def get_expected_shear_shape(length, width, shear_angle):
 def shear_waveguide_symmetric():
     P = gf.path.straight(length=10)
     return gf.path.extrude(
-        P, "strip", shear_angle_start=DEMO_PORT_ANGLE, shear_angle_end=DEMO_PORT_ANGLE
+        P, "xs_sc", shear_angle_start=DEMO_PORT_ANGLE, shear_angle_end=DEMO_PORT_ANGLE
     )
 
 
@@ -48,7 +48,7 @@ def shear_waveguide_symmetric():
 def shear_waveguide_start():
     P = gf.path.straight(length=10)
     return gf.path.extrude(
-        P, "strip", shear_angle_start=DEMO_PORT_ANGLE, shear_angle_end=None
+        P, "xs_sc", shear_angle_start=DEMO_PORT_ANGLE, shear_angle_end=None
     )
 
 
@@ -56,26 +56,26 @@ def shear_waveguide_start():
 def shear_waveguide_end():
     P = gf.path.straight(length=10)
     return gf.path.extrude(
-        P, "strip", shear_angle_start=None, shear_angle_end=DEMO_PORT_ANGLE
+        P, "xs_sc", shear_angle_start=None, shear_angle_end=DEMO_PORT_ANGLE
     )
 
 
 @pytest.fixture
 def regular_waveguide():
     P = gf.path.straight(length=10)
-    return gf.path.extrude(P, "strip")
+    return gf.path.extrude(P, "xs_sc")
 
 
 @pytest.fixture
 def more_slanted_than_wide():
     P = gf.path.straight(length=0.1)
-    return gf.path.extrude(P, "strip", shear_angle_start=60, shear_angle_end=60)
+    return gf.path.extrude(P, "xs_sc", shear_angle_start=60, shear_angle_end=60)
 
 
 @pytest.fixture
 def skinny():
     P = gf.path.straight(length=0.1)
-    return gf.path.extrude(P, "strip")
+    return gf.path.extrude(P, "xs_sc")
 
 
 @pytest.fixture
@@ -206,12 +206,12 @@ def test_mate_on_shear_xor_empty_curve() -> None:
     """two sheared components joined at the sheared port should appear the same
     as two straight component joined."""
     P = gf.path.euler()
-    curve = gf.path.extrude(P, "strip")
+    curve = gf.path.extrude(P, "xs_sc")
 
     angle = 15
     P = gf.path.euler()
-    curve_sheared1 = gf.path.extrude(P, "strip", shear_angle_end=angle)
-    curve_sheared2 = gf.path.extrude(P, "strip", shear_angle_start=angle)
+    curve_sheared1 = gf.path.extrude(P, "xs_sc", shear_angle_end=angle)
+    curve_sheared2 = gf.path.extrude(P, "xs_sc", shear_angle_start=angle)
 
     two_straights = gf.Component()
     c1 = two_straights << curve
@@ -252,7 +252,7 @@ def test_port_attributes(regular_waveguide, shear_waveguide_symmetric) -> None:
 
 def test_points_are_correct(shear_waveguide_symmetric):
     shear_angle = DEMO_PORT_ANGLE
-    cs = gf.get_cross_section("strip")
+    cs = gf.get_cross_section("xs_sc")
     wg_width = cs.width
     length = 10
     points_expected = get_expected_shear_shape(
@@ -270,7 +270,7 @@ def test_points_are_correct_wide():
     P = gf.path.straight(length=length)
     shear_waveguide_symmetric = gf.path.extrude(
         P,
-        {"cross_section": "strip", "settings": {"width": wg_width}},
+        {"cross_section": "xs_sc", "settings": {"width": wg_width}},
         shear_angle_start=DEMO_PORT_ANGLE,
         shear_angle_end=DEMO_PORT_ANGLE,
     )
@@ -291,7 +291,7 @@ def test_points_are_correct_short():
     P = gf.path.straight(length=length)
     shear_waveguide_symmetric = gf.path.extrude(
         P,
-        {"cross_section": "strip", "settings": {"width": wg_width}},
+        {"cross_section": "xs_sc", "settings": {"width": wg_width}},
         shear_angle_start=DEMO_PORT_ANGLE,
         shear_angle_end=DEMO_PORT_ANGLE,
     )
@@ -312,7 +312,7 @@ def test_points_are_correct_long():
     P = gf.path.straight(length=length)
     shear_waveguide_symmetric = gf.path.extrude(
         P,
-        {"cross_section": "strip", "settings": {"width": wg_width}},
+        {"cross_section": "xs_sc", "settings": {"width": wg_width}},
         shear_angle_start=DEMO_PORT_ANGLE,
         shear_angle_end=DEMO_PORT_ANGLE,
     )
@@ -357,12 +357,12 @@ if __name__ == "__main__":
     # test_points_are_correct(shear_waveguide_symmetric)
     # test_mate_on_shear_xor_empty_curve()
     # P = gf.path.euler()
-    # curve = gf.path.extrude(P, "strip")
+    # curve = gf.path.extrude(P, "xs_sc")
 
     # angle = 15
     # P = gf.path.euler()
-    # curve_sheared1 = gf.path.extrude(P, "strip", shear_angle_end=angle)
-    # curve_sheared2 = gf.path.extrude(P, "strip", shear_angle_start=angle)
+    # curve_sheared1 = gf.path.extrude(P, "xs_sc", shear_angle_end=angle)
+    # curve_sheared2 = gf.path.extrude(P, "xs_sc", shear_angle_start=angle)
 
     # two_straights = gf.Component()
     # c1 = two_straights << curve
@@ -381,12 +381,12 @@ if __name__ == "__main__":
     # two_shears.show()
 
     # P = gf.path.euler()
-    # curve = gf.path.extrude(P, "strip")
+    # curve = gf.path.extrude(P, "xs_sc")
 
     # angle = 15
     # P = gf.path.euler()
-    # curve_sheared1 = gf.path.extrude(P, "strip", shear_angle_end=angle)
-    # curve_sheared2 = gf.path.extrude(P, "strip", shear_angle_start=angle)
+    # curve_sheared1 = gf.path.extrude(P, "xs_sc", shear_angle_end=angle)
+    # curve_sheared2 = gf.path.extrude(P, "xs_sc", shear_angle_start=angle)
 
     # two_straights = gf.Component()
     # c1 = two_straights << curve

@@ -26,7 +26,7 @@ def grating_coupler_rectangular_arbitrary(
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     fiber_angle: float = 15,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     r"""Grating coupler uniform with rectangular shape (not elliptical). Therefore it needs a longer taper. Grating teeth are straight instead of elliptical.

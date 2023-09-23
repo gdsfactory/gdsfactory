@@ -31,7 +31,7 @@ def get_route_astar(
     resolution: float = 1,
     avoid_layers: list[LayerSpec] | None = None,
     distance: float = 1,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Route:
     """A* routing function. Finds a route between two ports avoiding obstacles.

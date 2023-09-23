@@ -32,7 +32,7 @@ def mzi(
     port_e1_combiner: str = "o2",
     port_e0_combiner: str = "o3",
     nbends: int = 2,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     cross_section_x_top: CrossSectionSpec | None = None,
     cross_section_x_bot: CrossSectionSpec | None = None,
     mirror_bot: bool = False,
@@ -228,7 +228,7 @@ if __name__ == "__main__":
     # pdk = get_generic_pdk()
     # pdk.activate()
 
-    # c = mzi(cross_section="strip")
+    # c = mzi(cross_section="xs_sc")
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
     # c.show(show_ports=True)
 

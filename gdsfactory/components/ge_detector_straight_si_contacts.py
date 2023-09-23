@@ -11,7 +11,7 @@ from gdsfactory.cross_section import pn_ge_detector_si_contacts
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 default_taper = partial(
-    taper_func, length=20.0, width1=0.5, width2=0.8, cross_section="strip"
+    taper_func, length=20.0, width1=0.5, width2=0.8, cross_section="xs_sc"
 )
 
 

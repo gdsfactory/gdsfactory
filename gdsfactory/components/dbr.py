@@ -29,7 +29,7 @@ def dbr_cell(
     w2: float = w2,
     l1: float = period / 2,
     l2: float = period / 2,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Distributed Bragg Reflector unit cell.
@@ -74,7 +74,7 @@ def dbr(
     l1: float = period / 2,
     l2: float = period / 2,
     n: int = 10,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Distributed Bragg Reflector.

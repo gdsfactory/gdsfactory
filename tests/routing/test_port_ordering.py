@@ -11,7 +11,7 @@ MANHATTAN_ANGLES = [0, 90, 180, 270]
 
 @gf.cell
 def port_bank(
-    count: int = 4, spacing: float = 3.0, cross_section: CrossSectionSpec = "strip"
+    count: int = 4, spacing: float = 3.0, cross_section: CrossSectionSpec = "xs_sc"
 ) -> gf.Component:
     c = gf.Component()
     xs = [spacing * i for i in range(count)]
