@@ -3,13 +3,13 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
 def mmi2x2_with_sbend(
     with_sbend: bool = True,
-    s_bend: ComponentSpec = bend_s,
+    s_bend: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Returns mmi2x2 for Cband.
@@ -19,20 +19,18 @@ def mmi2x2_with_sbend(
 
     Args:
         with_sbend: add sbend.
-        s_bend: S-bend spec.
+        s_bend: S-bend function.
         cross_section: spec.
     """
 
     def mmi_widths(t):
         # Note: Custom width/offset functions MUST be vectorizable--you must be able
         # to call them with an array input like my_custom_width_fun([0, 0.1, 0.2, 0.3, 0.4])
-        widths = np.array([2 * 0.7 + 0.2, 1.48, 1.48, 1.48, 1.6])
-        return widths
+        return np.array([2 * 0.7 + 0.2, 1.48, 1.48, 1.48, 1.6])
 
     c = gf.Component()
 
     P = gf.path.straight(length=2 * 2.4 + 2 * 1.6, npoints=5)
-
     xs = gf.get_cross_section(cross_section, add_pins=None)
     xs = xs.copy(width=mmi_widths)
     ref = c << gf.path.extrude(P, cross_section=xs)
@@ -55,7 +53,7 @@ def mmi2x2_with_sbend(
     botr_taper.move((9, -0.45))
 
     if with_sbend:
-        sbend = gf.get_component(s_bend, cross_section=cross_section, add_pins=None)
+        sbend = s_bend(cross_section=cross_section, add_pins=None)
 
         topl_sbend = c << sbend
         topl_sbend.mirror([0, 1])
