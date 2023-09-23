@@ -161,15 +161,13 @@ class CrossSection(BaseModel):
     def add_pins(self, component: Component) -> Component:
         if self.add_pins_function_name is None:
             return component
-        else:
-            from gdsfactory import add_pins
+        from gdsfactory import add_pins
 
-            if not hasattr(add_pins, self.add_pins_function_name):
-                raise ValueError(
-                    f"add_pins_function_name={self.add_pins_function_name} not found in add_pins"
-                )
-            add_pins_function = getattr(add_pins, self.add_pins_function_name)
-            return add_pins_function(component=component)
+        if not hasattr(add_pins, self.add_pins_function_name):
+            raise ValueError(
+                f"add_pins_function_name={self.add_pins_function_name} not found in add_pins"
+            )
+        return getattr(add_pins, self.add_pins_function_name)(component=component)
 
     def add_bbox(
         self,
@@ -1825,10 +1823,14 @@ xs_sc = strip()
 xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
 xs_rc2 = rib2()
 
-xs_heater_metal = heater_metal()
 xs_sc_heater_metal = strip_heater_metal()
 xs_sc_heater_metal_undercut = strip_heater_metal_undercut()
+xs_slot = slot()
 
+xs_heater_metal = heater_metal()
+xs_metal_routing = xs_m1 = metal1()
+xs_m2 = metal2()
+xs_m3 = metal3()
 cross_sections = get_cross_sections(sys.modules[__name__])
 
 
