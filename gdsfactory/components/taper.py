@@ -7,7 +7,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec, LayerSpecs
 
 
 @cell
@@ -62,7 +62,7 @@ def taper(
     ypts = [y1, y2, -y2, -y1]
     c.add_polygon((xpts, ypts), layer=layer)
 
-    x1 = x.model_copy()
+    x1 = x.model_copy(update=dict(sections=width1))
     x2 = x.model_copy()
 
     x1.sections[0].width = width1
@@ -115,8 +115,8 @@ def taper_strip_to_ridge(
     layer_wg: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB90",
     cross_section: CrossSectionSpec = "xs_sc",
-    bbox_layers: list[LayerSpec] | None = None,
-    bbox_offsets: list[float] | None = None,
+    bbox_layers: LayerSpecs | None = None,
+    bbox_offsets: Floats | None = None,
 ) -> Component:
     r"""Linear taper from strip to rib.
 

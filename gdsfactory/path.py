@@ -576,6 +576,7 @@ def transition_adiabatic(
         [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper."
             Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
     """
+    from scipy.integrate import odeint
 
     # Define ODE
     def dWdx(w, x, neff_w, wavelength, alpha):
@@ -593,7 +594,6 @@ def transition_adiabatic(
 
     # Solve ODE
     x = np.linspace(0, max_length, num_points_ODE)
-    from scipy.integrate import odeint
 
     sol = odeint(dWdx, wmin, x, args=(neff_w, wavelength, alpha))
 
@@ -605,10 +605,9 @@ def transition_adiabatic(
 
 
 def transition(
-    cross_section1: CrossSection,
-    cross_section2: CrossSection,
+    cross_section1: CrossSectionSpec,
+    cross_section2: CrossSectionSpec,
     width_type: WidthTypes = "sine",
-    **kwargs,
 ) -> Transition:
     """Returns a smoothly-transitioning between two CrossSections.
 
@@ -623,16 +622,10 @@ def transition(
                 between the two input CrossSections.
 
     """
-    from gdsfactory.pdk import get_layer
+    from gdsfactory.pdk import get_cross_section, get_layer
 
-    X1 = cross_section1
-    X2 = cross_section2
-
-    if not X1.aliases or not X2.aliases:
-        raise ValueError(
-            "transition() found no named sections in one "
-            "or both inputs (cross_section1/cross_section2)."
-        )
+    X1 = get_cross_section(cross_section1)
+    X2 = get_cross_section(cross_section2)
 
     layers1 = {get_layer(section.layer) for section in X1.sections}
     layers2 = {get_layer(section.layer) for section in X2.sections}
@@ -645,87 +638,10 @@ def transition(
             f"transition() found no common layers X1 {layers1} and X2 {layers2}"
         )
 
-    sections = []
-
-    sections1 = [
-        X1.aliases[alias] for alias in X1.aliases.keys() if alias in X2.aliases
-    ]
-    sections2 = [
-        X2.aliases[alias] for alias in X2.aliases.keys() if alias in X1.aliases
-    ]
-
-    if X1.cladding_layers:
-        cladding_simplify = X1.cladding_simplify or [None] * len(X1.cladding_layers)
-        sections1 += [
-            Section(width=X1.width + 2 * offset, layer=layer, simplify=simplify)
-            for offset, layer, simplify in zip(
-                X1.cladding_offsets, X1.cladding_layers, cladding_simplify
-            )
-        ]
-    if X2.cladding_layers:
-        cladding_simplify = X2.cladding_simplify or [None] * len(X2.cladding_layers)
-        sections2 += [
-            Section(width=X2.width + 2 * offset, layer=layer)
-            for offset, layer, simplify in zip(
-                X2.cladding_offsets, X2.cladding_layers, cladding_simplify
-            )
-        ]
-
-    for section1, section2 in zip(sections1, sections2):
-        offset1 = section1.offset
-        offset2 = section2.offset
-        width1 = section1.width
-        width2 = section2.width
-
-        if callable(offset1):
-            offset1 = offset1(1)
-        if callable(offset2):
-            offset2 = offset2(0)
-        if callable(width1):
-            width1 = width1(1)
-        if callable(width2):
-            width2 = width2(0)
-
-        offset_fun = _sinusoidal_transition(offset1, offset2)
-
-        if width_type == "linear":
-            width_fun = _linear_transition(width1, width2)
-        elif width_type == "sine":
-            width_fun = _sinusoidal_transition(width1, width2)
-        elif width_type == "parabolic":
-            width_fun = _parabolic_transition(width1, width2)
-        else:
-            raise ValueError(
-                f"width_type={width_type!r} must be {'sine','linear','parabolic'}"
-            )
-
-        if section1.layer != section2.layer:
-            hidden = True
-            layer1 = get_layer(section1.layer)
-            layer2 = get_layer(section2.layer)
-            layer = (layer1, layer2)
-        else:
-            hidden = False
-            layer = get_layer(section1.layer)
-
-        s = Section(
-            width=width_fun,
-            offset=offset_fun,
-            layer=layer,
-            port_names=(section2.port_names[0], section1.port_names[1]),
-            port_types=(section2.port_types[0], section1.port_types[1]),
-            name=section1.name,
-            hidden=hidden,
-        )
-        sections.append(s)
-
     return Transition(
         cross_section1=X1,
         cross_section2=X2,
         width_type=width_type,
-        sections=sections,
-        width=max([X1.width, X2.width]),
-        **kwargs,
     )
 
 
@@ -813,7 +729,7 @@ def extrude(
         cross_section: to extrude.
         layer: optional layer to extrude.
         width: optional width to extrude.
-        widths: tuple of starting and end width.
+        widths: tuple of starting and end width for a linear transition.
         simplify: Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting polygon \
                 by more than the value listed here will be removed.
@@ -834,12 +750,10 @@ def extrude(
     if layer is not None and width is None and widths is None:
         raise ValueError("Need to define layer width or widths")
     elif width:
-        cross_section = CrossSection(width=width, layer=layer)
+        cross_section = CrossSection(sections=(Section(width=width, layer=layer),))
 
     elif widths:
-        cross_section = CrossSection(
-            width=_linear_transition(widths[0], widths[1]), layer=layer
-        )
+        widths = _linear_transition(widths[0], widths[1])
 
     xsection_points = []
     c = Component()
@@ -1438,85 +1352,6 @@ __all__ = [
     "Path",
 ]
 
-
-def _demo() -> None:
-    import gdsfactory as gf
-
-    c = gf.Component()
-    X1 = gf.CrossSection()
-    X1.add(width=1.2, offset=0, layer=2, name="wg", ports=("in1", "out1"))
-    X1.add(width=2.2, offset=0, layer=3, name="etch")
-    X1.add(width=1.1, offset=3, layer=1, name="wg2")
-
-    # Create the second CrossSection that we want to transition to
-    X2 = gf.CrossSection()
-    X2.add(width=1, offset=0, layer=2, name="wg", ports=("in2", "out2"))
-    X2.add(width=3.5, offset=0, layer=3, name="etch")
-    X2.add(width=3, offset=5, layer=1, name="wg2")
-
-    Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
-
-    P1 = gf.path.straight(length=5)
-    P2 = gf.path.straight(length=5)
-
-    wg1 = gf.path.extrude(P1, X1)
-    wg2 = gf.path.extrude(P2, X2)
-
-    P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
-    wg_trans = gf.path.extrude(P4, Xtrans)
-    wg1_ref = c << wg1
-    wg2_ref = c << wg2
-    wgt_ref = c << wg_trans
-    wgt_ref.connect("in2", wg1_ref.ports["out1"])
-    wg2_ref.connect("in2", wgt_ref.ports["out1"])
-
-    print(wg1)
-    print(wg2)
-    print(wg_trans)
-    c.show(show_ports=True)
-
-
-def _my_custom_width_fun(t):
-    # Note: Custom width/offset functions MUST be vectorizable--you must be able
-    # to call them with an array input like my_custom_width_fun([0, 0.1, 0.2, 0.3, 0.4])
-    num_periods = 5
-    return 3 + np.cos(2 * np.pi * t * num_periods)
-
-
-def _demo_variable_width() -> None:
-    # Create the Path
-    P = straight(length=40, npoints=40)
-
-    # Create two cross-sections: one fixed width, one modulated by my_custom_offset_fun
-    s = Section(width=_my_custom_width_fun, offset=0, layer=(1, 0))
-    X = CrossSection(width=3, offset=-6, layer=(2, 0), sections=[s])
-
-    # Extrude the Path to create the Component
-    c = extrude(P, cross_section=X)
-    c.show(show_ports=True)
-
-
-def _my_custom_offset_fun(t):
-    # Note: Custom width/offset functions MUST be vectorizable--you must be able
-    # to call them with an array input like my_custom_offset_fun([0, 0.1, 0.2,
-    # 0.3, 0.4])
-    num_periods = 3
-    return 3 + np.cos(2 * np.pi * t * num_periods)
-
-
-def _demo_variable_offset() -> None:
-    # Create the Path
-    P = straight(length=40, npoints=30)
-
-    # Create two cross-sections: one fixed offset, one modulated by my_custom_offset_fun
-    s1 = Section(width=1, offset=_my_custom_offset_fun, layer=(2, 0))
-    X = CrossSection(layer=(1, 0), width=1, sections=[s1])
-
-    # Extrude the Path to create the Component
-    c = extrude(P, cross_section=X)
-    c.show(show_ports=True)
-
-
 if __name__ == "__main__":
     import numpy as np
 
@@ -1532,15 +1367,15 @@ if __name__ == "__main__":
     # Define a cross-section with a via
     # via0 = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=0)
     # via = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=2)
-    x = gf.CrossSection(
-        width=0.5,
-        offset=0,
-        layer=(1, 0),
-        port_names=("in", "out"),
-        # vias=[via0, via],
-    )
+    # x = gf.CrossSection(
+    #     width=0.5,
+    #     offset=0,
+    #     layer=(1, 0),
+    #     port_names=("in", "out"),
+    #     # vias=[via0, via],
+    # )
 
     # Combine the path with the cross-section
-    c = gf.path.extrude(p, cross_section=x)
-    c = c.rotate(30)
-    c.show()
+    trans_sc_rc = transition(cross_section1="xs_sc", cross_section2="xs_rc")
+    c = gf.path.extrude(p)
+    c.show(show_ports=True)
