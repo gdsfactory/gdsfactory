@@ -13,7 +13,9 @@ def straight_heater_metal_undercut(
     length: float = 320.0,
     length_undercut_spacing: float = 6.0,
     length_undercut: float = 30.0,
+    length_straight: float = 0.1,
     length_straight_input: float = 15.0,
+    cross_section: CrossSectionSpec = "xs_sc",
     cross_section_heater: CrossSectionSpec = "xs_heater_metal",
     cross_section_waveguide_heater: CrossSectionSpec = "xs_sc_heater_metal",
     cross_section_heater_undercut: CrossSectionSpec = "xs_sc_heater_metal_undercut",
@@ -49,6 +51,16 @@ def straight_heater_metal_undercut(
 
     length_straight_input = (length - n * period) / 2
 
+    if length_straight > length_straight_input:
+        raise ValueError("length_straight_ must be smaller than length_straight_input")
+
+    length_straight_input -= length_straight
+
+    s_ports = gf.components.straight(
+        cross_section=cross_section,
+        length=length_straight,
+    )
+
     s_si = gf.components.straight(
         cross_section=cross_section_waveguide_heater,
         length=length_straight_input,
@@ -67,13 +79,14 @@ def straight_heater_metal_undercut(
         length=length_undercut_spacing,
     )
     symbol_to_component = {
+        "_": (s_ports, "o1", "o2"),
         "-": (s_si, "o1", "o2"),
         "U": (s_uc, "o1", "o2"),
         "H": (s_spacing, "o1", "o2"),
     }
 
     # Each character in the sequence represents a component
-    sequence = "-" + n * "UH" + "-"
+    sequence = "_-" + n * "UH" + "-_"
 
     c = Component()
     sequence = gf.components.component_sequence(
@@ -88,8 +101,8 @@ def straight_heater_metal_undercut(
     if via_stack:
         refs = list(sequence.named_references.keys())
         via = via_stackw = via_stacke = gf.get_component(via_stack)
-        via_stack_west_center = sequence.named_references[refs[0]].size_info.cw
-        via_stack_east_center = sequence.named_references[refs[-1]].size_info.ce
+        via_stack_west_center = sequence.named_references[refs[1]].size_info.cw
+        via_stack_east_center = sequence.named_references[refs[-2]].size_info.ce
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
 
         via_stack_west = c << via_stackw
@@ -245,8 +258,9 @@ if __name__ == "__main__":
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)
 
-    c = straight_heater_metal_undercut(length=200)
+    # c = straight_heater_metal_undercut(length=200)
     # n = c.get_netlist()
+    c = straight_heater_metal(length=20)
     c.show(show_ports=True)
     # scene = c.to_3d()
     # scene.show()

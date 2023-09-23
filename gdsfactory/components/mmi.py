@@ -77,10 +77,7 @@ def mmi(
         add_pins=False,
     )
 
-    mmi = c << straight(
-        length=length_mmi,
-        cross_section=xs_mmi,
-    )
+    mmi = c << straight(length=length_mmi, cross_section=xs_mmi, add_pins=False)
 
     wg_spacing_input = gap_input_tapers + width_taper
     wg_spacing_output = gap_output_tapers + width_taper
