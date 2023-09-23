@@ -591,6 +591,7 @@ class ComponentReference(_GeometryHelper):
         Returns:
             ComponentReference.
         """
+
         # If only one set of coordinates is defined, make sure it's used to move things
         if destination is None:
             destination = origin

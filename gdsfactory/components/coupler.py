@@ -81,4 +81,4 @@ def coupler(
 if __name__ == "__main__":
     c0 = coupler(gap=0.2)
     c = gf.routing.add_fiber_array(c0)
-    c.show(show_ports=True)
+    c.show(show_ports=False)

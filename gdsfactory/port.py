@@ -82,7 +82,7 @@ class Port:
         parent: Component that port belongs to.
         cross_section: cross_section spec.
         shear_angle: an optional angle to shear port face in degrees.
-        on_grid: True snap port to grid.
+        snap_to_grid: True snap port to grid.
     """
 
     def __init__(
@@ -96,7 +96,7 @@ class Port:
         parent: Component | None = None,
         cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
-        snap_to_grid: bool = False,
+        snap_to_grid: bool = True,
     ) -> None:
         self.name = name
         center = snap.snap_to_grid(center) if snap_to_grid else center

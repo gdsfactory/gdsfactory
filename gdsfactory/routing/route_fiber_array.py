@@ -63,7 +63,6 @@ def route_fiber_array(
     get_input_labels_function: Callable | None = get_input_labels_dash,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = strip,
-    **kwargs,
 ) -> tuple[
     list[ComponentReference | Label],
     list[list[ComponentReference]],
@@ -121,7 +120,6 @@ def route_fiber_array(
         get_input_label_text_function: for the label.
         get_input_labels_function: for the label.
         select_ports: function to select ports for which to add grating couplers.
-        kwargs: cross_section settings.
 
     Returns:
         elements: list of references and labels.
@@ -132,7 +130,7 @@ def route_fiber_array(
 
     """
     fiber_spacing = gf.get_constant(fiber_spacing)
-    cross_section = x = gf.get_cross_section(cross_section, **kwargs)
+    cross_section = x = gf.get_cross_section(cross_section)
 
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
@@ -201,7 +199,7 @@ def route_fiber_array(
         optical_routing_type = 1 if is_big_component else 0
     # choose the default length if the default fanout distance is not set
 
-    def has_p(side):
+    def has_p(side) -> bool:
         return len(direction_ports[side]) > 0
 
     list_ew_ports_on_sides = [has_p(side) for side in ["E", "W"]]
@@ -564,7 +562,7 @@ if __name__ == "__main__":
     c = gf.Component()
 
     layer = (1, 0)
-    ci = gf.components.straight(layer=layer)
+    ci = gf.components.straight()
     ci = gf.components.mmi2x2()
     ci = gf.components.straight_heater_metal()
     gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
@@ -572,7 +570,6 @@ if __name__ == "__main__":
         component=ci,
         grating_coupler=gc,
         nlabels_loopback=1,
-        layer=layer,
         # with_loopback=False,
         layer_label="TEXT",
         layer_label_loopback="TEXT"
