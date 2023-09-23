@@ -34,7 +34,7 @@ def mmi2x2_with_sbend(
     P = gf.path.straight(length=2 * 2.4 + 2 * 1.6, npoints=5)
 
     xs = gf.get_cross_section(cross_section, add_pins=None)
-    xs.width = mmi_widths
+    xs = xs.copy(width=mmi_widths)
     ref = c << gf.path.extrude(P, cross_section=xs)
 
     # Add input and output tapers
@@ -102,5 +102,5 @@ if __name__ == "__main__":
     #     with_sbend=True,
     #     cross_section=dict(cross_section="strip", settings=dict(layer=(2, 0))),
     # )
-    c = mmi2x2_with_sbend(with_sbend=False)
+    c = mmi2x2_with_sbend()
     c.show(show_ports=True)

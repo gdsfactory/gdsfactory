@@ -43,7 +43,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
     direction: ccw
     npoints: 720
     p: 0.5
@@ -65,7 +64,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
     direction: ccw
     npoints: 720
     p: 0.5

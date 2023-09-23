@@ -1,4 +1,4 @@
-name: mmi1x2_2bb20f1f
+name: mmi1x2_473df4e8
 ports:
   o1:
     center:
@@ -61,7 +61,6 @@ settings:
         layer:
         - 34
         - 0
-        name: strip
         width: 0.9
     width: 0.9
   child: null
@@ -102,7 +101,6 @@ settings:
         layer:
         - 34
         - 0
-        name: strip
         width: 0.9
     gap_mmi: 0.25
     length_mmi: 5.5
@@ -119,4 +117,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_2bb20f1f
+  name: mmi1x2_473df4e8

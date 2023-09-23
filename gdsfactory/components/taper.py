@@ -37,8 +37,10 @@ def taper(
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-         port_order_name(tuple): Ordered tuple of port names. First port is default taper port, second name only if with_two_ports flags used.
-        port_order_types(tuple): Ordered tuple of port types. First port is default taper port, second name only if with_two_ports flags used.
+        port_order_name(tuple): Ordered tuple of port names. First port is default \
+                taper port, second name only if with_two_ports flags used.
+        port_order_types(tuple): Ordered tuple of port types. First port is default \
+                taper port, second name only if with_two_ports flags used.
         kwargs: cross_section settings.
     """
     x = gf.get_cross_section(cross_section, **kwargs)
@@ -55,8 +57,8 @@ def taper(
 
     y1 = width1 / 2
     y2 = width2 / 2
-    x1 = x.copy(width=width1)
-    x2 = x.copy(width=width2)
+    x1 = x.model_copy(update=dict(width=width1))
+    x2 = x.model_copy(update=dict(width=width2))
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
     c.add_polygon((xpts, ypts), layer=layer)

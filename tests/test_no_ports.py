@@ -25,7 +25,6 @@ def test_path() -> None:
         width=1.2,
         offset=0,
         layer=(2, 0),
-        name="wg",
         port_names=("in1", "out1"),
         sections=(s1, s2),
     )
@@ -37,7 +36,6 @@ def test_path() -> None:
         width=1,
         offset=0,
         layer=(2, 0),
-        name="wg",
         port_names=("in2", "out2"),
         sections=[s1, s2],
     )

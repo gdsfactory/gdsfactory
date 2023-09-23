@@ -75,7 +75,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
     output_straight_cross_section:
       function: cross_section
       settings:
@@ -90,7 +89,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
     radius:
     - 10.0
     - 10.0
@@ -109,7 +107,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
     - function: cross_section
       settings:
         add_bbox: null
@@ -123,7 +120,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
     - function: cross_section
       settings:
         add_bbox: null
@@ -137,7 +133,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
   full:
     bends:
     - function: bend_circular
@@ -162,7 +157,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
     output_straight_cross_section:
       function: cross_section
       settings:
@@ -177,7 +171,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
     radius:
     - 10.0
     - 10.0
@@ -196,7 +189,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
     - function: cross_section
       settings:
         add_bbox: null
@@ -210,7 +202,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
     - function: cross_section
       settings:
         add_bbox: null
@@ -224,7 +215,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
   function_name: ring_crow
   info: {}
   info_version: 2

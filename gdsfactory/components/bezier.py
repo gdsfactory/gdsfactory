@@ -15,7 +15,7 @@ def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
 
     Args:
         t: 1D array of points varying between 0 and 1.
-        control_points:
+        control_points: for the bezier curve.
     """
     from scipy.special import binom
 
@@ -51,6 +51,7 @@ def bezier(
         end_angle: optional end angle in deg.
         cross_section: spec.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
+        kwargs: cross_section settings.
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
     t = np.linspace(0, 1, npoints)
@@ -103,6 +104,17 @@ def find_min_curv_bezier_control_points(
     alpha: float = 0.05,
     nb_pts: int = 2,
 ) -> Coordinates:
+    """Returns bezier control points that minimize curvature.
+
+    Args:
+        start_point: start point.
+        end_point: end point.
+        start_angle: start angle in deg.
+        end_angle: end angle in deg.
+        npoints: number of points varying between 0 and 1.
+        alpha: weight for angle mismatch.
+        nb_pts: number of control points.
+    """
     from scipy.optimize import minimize
 
     t = np.linspace(0, 1, npoints)

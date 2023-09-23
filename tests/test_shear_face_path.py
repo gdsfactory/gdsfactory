@@ -146,7 +146,6 @@ def test_mate_on_shear_xor_empty_transition() -> None:
         width=1,
         offset=0,
         layer=(1, 0),
-        name="core",
         port_names=("o1", "o2"),
         sections=[s],
     )
@@ -155,7 +154,6 @@ def test_mate_on_shear_xor_empty_transition() -> None:
         width=0.5,
         offset=0,
         layer=(1, 0),
-        name="core",
         port_names=("o1", "o2"),
         sections=[s2],
     )
@@ -169,7 +167,6 @@ def test_mate_on_shear_xor_empty_transition() -> None:
         width=1,
         offset=0,
         layer=(1, 0),
-        name="core",
         port_names=("o1", "o2"),
         sections=[s],
     )
@@ -178,7 +175,6 @@ def test_mate_on_shear_xor_empty_transition() -> None:
         width=0.5,
         offset=0,
         layer=(1, 0),
-        name="core",
         port_names=("o1", "o2"),
         sections=[s2],
     )
@@ -340,7 +336,6 @@ def test_points_are_correct_multi_layer():
         width=1,
         offset=0,
         layer=(1, 0),
-        name="core",
         port_names=("o1", "o2"),
         sections=[s],
     )

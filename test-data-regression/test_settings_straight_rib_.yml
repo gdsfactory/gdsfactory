@@ -1,4 +1,4 @@
-name: straight_d6abaab6
+name: straight_e657893d
 ports:
   o1:
     center:
@@ -44,7 +44,6 @@ settings:
         - 3
         info:
           type: rib
-        name: strip
         radius: 20
   child: null
   default:
@@ -71,7 +70,6 @@ settings:
         - 3
         info:
           type: rib
-        name: strip
         radius: 20
     length: 10.0
     npoints: 2
@@ -96,58 +94,15 @@ settings:
         - 3
         info:
           type: rib
-        name: strip
         radius: 20
-    function_name: cross_section
     length: 10.0
     route_info:
       length: 10.0
       rib_length: 10.0
       type: rib
       weight: 10.0
-    settings:
-      add_bbox: null
-      add_pins:
-        function: add_pins
-        settings:
-          function:
-            function: add_pin_rectangle_inside
-            settings:
-              layer_label: null
-              pin_length: 0.001
-      auto_widen: false
-      auto_widen_minimum_length: 200.0
-      bbox_layers:
-      - SLAB90
-      bbox_offsets:
-      - 3
-      cladding_layers: null
-      cladding_offsets: null
-      cladding_simplify: null
-      decorator: null
-      end_straight_length: 0.01
-      gap: 3.0
-      info:
-        type: rib
-      layer: WG
-      min_length: 0.01
-      mirror: false
-      name: strip
-      offset: 0
-      port_names:
-      - o1
-      - o2
-      port_types:
-      - optical
-      - optical
-      radius: 20
-      sections: null
-      start_straight_length: 0.01
-      taper_length: 10.0
-      width: 0.5
-      width_wide: null
     type: rib
     width: 0.5
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_d6abaab6
+  name: straight_e657893d

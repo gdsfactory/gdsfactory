@@ -54,7 +54,7 @@ def double_loop() -> Component:
         width=1.5,
         offset=0,
         layer=(2, 0),
-        port_names=["in", "out"],
+        port_names=("in", "out"),
         sections=[s1, s2, s3],
     )
 
@@ -70,7 +70,6 @@ def transition() -> Component:
         width=1.2,
         offset=0,
         layer=(2, 0),
-        name="wg",
         port_names=("in1", "out1"),
         sections=[s1, s2],
     )
@@ -82,7 +81,6 @@ def transition() -> Component:
         width=1,
         offset=0,
         layer=(2, 0),
-        name="wg",
         port_names=("in1", "out1"),
         sections=[s1, s2],
     )

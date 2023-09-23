@@ -144,8 +144,8 @@ def disk(
     c = gf.Component()
 
     xs = gf.get_cross_section(cross_section=cross_section, radius=radius, **kwargs)
-    xs_bend = xs.copy()
-    xs_bend.radius = radius + xs.width / 2.0 + gap
+    radius = radius + xs.width / 2.0 + gap
+    xs_bend = xs.copy(radius=radius)
 
     r_bend, size_x, dy, bus_length = _compute_parameters(
         xs_bend, wrap_angle_deg, radius

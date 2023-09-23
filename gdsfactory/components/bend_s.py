@@ -14,7 +14,7 @@ from gdsfactory.typings import CrossSectionSpec, Float2
 
 @cell
 def bend_s(
-    size: Float2 = (11.0, 2.0),
+    size: Float2 = (11.0, 1.8),
     npoints: int = 99,
     cross_section: CrossSectionSpec = "strip",
     check_min_radius: bool = False,
@@ -52,7 +52,7 @@ def bend_s(
     ):
         if check_min_radius:
             raise ValueError(
-                f"The min bend radius of the generated s bend {c.info['min_bend_radius']} "
+                f"The min bend radius of the generated s-bend {c.info['min_bend_radius']} "
                 f"is below the bend radius of the waveguide {cross_section.radius}"
             )
         else:
@@ -68,7 +68,7 @@ def get_min_sbend_size(
     cross_section: CrossSectionSpec = "strip",
     num_points: int = 100,
     **kwargs,
-):
+) -> float:
     """
     Returns the minimum sbend size to comply with bend radius requirements.
 

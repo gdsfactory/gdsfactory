@@ -1,4 +1,4 @@
-name: mzi_a1aa14b7
+name: mzi_51952163
 ports:
   o1:
     center:
@@ -52,7 +52,6 @@ settings:
             layer:
             - 34
             - 0
-            name: strip
             width: 1.0
         with_bbox: true
     cross_section:
@@ -78,7 +77,6 @@ settings:
         layer:
         - 34
         - 0
-        name: strip
         width: 1.0
     splitter:
       function: mmi1x2
@@ -106,7 +104,6 @@ settings:
             layer:
             - 34
             - 0
-            name: strip
             width: 1.0
         width: 1.0
         width_mmi: 3
@@ -136,7 +133,6 @@ settings:
             layer:
             - 34
             - 0
-            name: strip
             width: 1.0
         with_bbox: true
   child: null
@@ -192,7 +188,6 @@ settings:
             layer:
             - 34
             - 0
-            name: strip
             width: 1.0
         with_bbox: true
     combiner: null
@@ -219,7 +214,6 @@ settings:
         layer:
         - 34
         - 0
-        name: strip
         width: 1.0
     cross_section_x_bot: null
     cross_section_x_top: null
@@ -258,7 +252,6 @@ settings:
             layer:
             - 34
             - 0
-            name: strip
             width: 1.0
         width: 1.0
         width_mmi: 3
@@ -288,7 +281,6 @@ settings:
             layer:
             - 34
             - 0
-            name: strip
             width: 1.0
         with_bbox: true
     straight_x_bot: null
@@ -299,4 +291,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_a1aa14b7
+  name: mzi_51952163

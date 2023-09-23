@@ -42,7 +42,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
         sections:
         - hidden: false
           insets: null
@@ -119,7 +118,6 @@ settings:
                 pin_length: 0.001
         info:
           type: strip
-        name: strip
         sections:
         - hidden: false
           insets: null

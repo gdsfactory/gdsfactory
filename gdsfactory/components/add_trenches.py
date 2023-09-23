@@ -34,8 +34,8 @@ def add_trenches(
     component = gf.get_component(component, **kwargs)
     xs = gf.get_cross_section(cross_section)
 
-    layer_trench = xs.info["settings"]["layer_trench"]
-    width_trench = xs.info["settings"]["width_trench"]
+    layer_trench = xs.info.get("layer_trench")
+    width_trench = xs.info.get("width_trench")
 
     top = width_trench if top else 0
     bot = width_trench if bot else 0
@@ -65,10 +65,5 @@ add_trenches90 = partial(
 )
 
 if __name__ == "__main__":
-    pass
-    # from gdsfactory.generic_tech import get_generic_pdk
-
-    # PDK = get_generic_pdk()
-    # PDK.activate()
-    # c = add_trenches()
-    # c.show(show_ports=True)
+    c = add_trenches()
+    c.show(show_ports=True)

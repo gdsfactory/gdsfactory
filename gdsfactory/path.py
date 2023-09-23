@@ -608,7 +608,6 @@ def transition(
     cross_section1: CrossSection,
     cross_section2: CrossSection,
     width_type: WidthTypes = "sine",
-    name: str = "",
     **kwargs,
 ) -> Transition:
     """Returns a smoothly-transitioning between two CrossSections.
@@ -726,7 +725,6 @@ def transition(
         width_type=width_type,
         sections=sections,
         width=max([X1.width, X2.width]),
-        # name=name or f"transition_{X1.name}_{X2.name}",
         **kwargs,
     )
 

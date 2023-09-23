@@ -28,7 +28,6 @@ instances:
     component: bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
@@ -38,45 +37,6 @@ instances:
         strip_length: 16.637
         type: strip
         weight: 16.637
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -95,12 +55,10 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
   bend_euler_2:
     component: bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
@@ -110,45 +68,6 @@ instances:
         strip_length: 16.637
         type: strip
         weight: 16.637
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -167,12 +86,10 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
   bend_euler_3:
     component: bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
@@ -182,45 +99,6 @@ instances:
         strip_length: 16.637
         type: strip
         weight: 16.637
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -239,12 +117,10 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
   bend_euler_4:
     component: bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
@@ -254,45 +130,6 @@ instances:
         strip_length: 16.637
         type: strip
         weight: 16.637
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -311,12 +148,10 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
   bend_euler_5:
     component: bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
@@ -326,45 +161,6 @@ instances:
         strip_length: 16.637
         type: strip
         weight: 16.637
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -383,12 +179,10 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
   bend_euler_6:
     component: bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
@@ -398,45 +192,6 @@ instances:
         strip_length: 16.637
         type: strip
         weight: 16.637
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -455,12 +210,10 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
   bend_euler_7:
     component: bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
@@ -470,45 +223,6 @@ instances:
         strip_length: 16.637
         type: strip
         weight: 16.637
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -527,12 +241,10 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
   bend_euler_8:
     component: bend_euler
     info:
       dy: 10.0
-      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
@@ -542,45 +254,6 @@ instances:
         strip_length: 16.637
         type: strip
         weight: 16.637
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -599,7 +272,6 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
   straight_1:
     component: straight
     info:
@@ -617,53 +289,12 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
-      function_name: cross_section
       length: 290.0
       route_info:
         length: 290.0
         strip_length: 290.0
         type: strip
         weight: 290.0
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -682,7 +313,6 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
       length: 290.0
   straight_10:
     component: straight
@@ -701,53 +331,12 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
-      function_name: cross_section
       length: 440.0
       route_info:
         length: 440.0
         strip_length: 440.0
         type: strip
         weight: 440.0
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -766,7 +355,6 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
       length: 440.0
   straight_2:
     component: straight
@@ -785,53 +373,12 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
-      function_name: cross_section
       length: 380.0
       route_info:
         length: 380.0
         strip_length: 380.0
         type: strip
         weight: 380.0
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -850,7 +397,6 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
       length: 380.0
   straight_3:
     component: straight
@@ -869,53 +415,12 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
-      function_name: cross_section
       length: 80.0
       route_info:
         length: 80.0
         strip_length: 80.0
         type: strip
         weight: 80.0
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -934,7 +439,6 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
       length: 80.0
   straight_4:
     component: straight
@@ -953,53 +457,12 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
-      function_name: cross_section
       length: 630.0
       route_info:
         length: 630.0
         strip_length: 630.0
         type: strip
         weight: 630.0
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -1018,7 +481,6 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
       length: 630.0
   straight_5:
     component: straight
@@ -1037,53 +499,12 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
-      function_name: cross_section
       length: 590.0
       route_info:
         length: 590.0
         strip_length: 590.0
         type: strip
         weight: 590.0
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -1102,7 +523,6 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
       length: 590.0
   straight_6:
     component: straight
@@ -1121,53 +541,12 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
-      function_name: cross_section
       length: 140.0
       route_info:
         length: 140.0
         strip_length: 140.0
         type: strip
         weight: 140.0
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -1186,7 +565,6 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
       length: 140.0
   straight_7:
     component: straight
@@ -1205,53 +583,12 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
-      function_name: cross_section
       length: 380.0
       route_info:
         length: 380.0
         strip_length: 380.0
         type: strip
         weight: 380.0
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -1270,7 +607,6 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
       length: 380.0
   straight_8:
     component: straight
@@ -1289,53 +625,12 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
-      function_name: cross_section
       length: 380.0
       route_info:
         length: 380.0
         strip_length: 380.0
         type: strip
         weight: 380.0
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -1354,7 +649,6 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
       length: 380.0
   straight_9:
     component: straight
@@ -1373,53 +667,12 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
-      function_name: cross_section
       length: 630.0
       route_info:
         length: 630.0
         strip_length: 630.0
         type: strip
         weight: 630.0
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: strip
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       type: strip
       width: 0.5
     settings:
@@ -1438,7 +691,6 @@ instances:
                   pin_length: 0.001
           info:
             type: strip
-          name: strip
       length: 630.0
   t:
     component: pad_array

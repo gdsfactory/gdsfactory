@@ -8,12 +8,13 @@ import functools
 import hashlib
 import inspect
 import sys
+import warnings
 from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers
 from typing import Any, Literal, TypeVar
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator, validate_call
+from pydantic import BaseModel, ConfigDict, Field, validate_call
 
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 from gdsfactory.serialization import clean_dict
@@ -80,7 +81,7 @@ class Section(BaseModel):
     hidden: bool = False
     simplify: float | None = None
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
 
 class ComponentAlongPath(BaseModel):
@@ -171,19 +172,14 @@ class CrossSection(BaseModel):
     add_pins: Callable | None = Field(default=None, exclude=True)
     add_bbox: Callable | None = Field(default=None, exclude=True)
     info: dict[str, Any] = Field(default_factory=dict)
-    name: str | None = None
     mirror: bool = False
     vias: list[ComponentAlongPath] = Field(default_factory=list)
 
     model_config = ConfigDict(
-        arbitrary_types_allowed=True,
         extra="forbid",
+        arbitrary_types_allowed=True,
+        frozen=True,
     )
-
-    @model_validator(mode="after")
-    def name_must_be_set(self) -> CrossSection:
-        self.name = self.name or self.get_name()
-        return self
 
     @classmethod
     def validate_x(cls, v):
@@ -191,15 +187,12 @@ class CrossSection(BaseModel):
 
     def copy(self, **kwargs):
         """Returns a CrossSection copy."""
-        xs = super().model_copy(update=kwargs)
-        xs.decorator = self.decorator
-        xs.add_pins = self.add_pins
-        xs.add_bbox = self.add_bbox
-        return xs
+        return super().model_copy(update=kwargs)
 
-    def get_name(self) -> str:
-        h = hashlib.md5(str(self).encode()).hexdigest()[:8]
-        return f"xs_{h}"
+    @property
+    def name(self) -> str:
+        # return f"xs_{self.__hash__()}"
+        return f"xs_{hashlib.md5(str(self).encode()).hexdigest()[:8]}"
 
     @property
     def aliases(self) -> dict[str, Section]:
@@ -314,12 +307,11 @@ class Transition(CrossSection):
         add_pins: Optional function to add pins.
         add_bbox: Optional function to add bounding box.
         info: dict with extra settings or useful information.
-        name: cross_section name.
         mirror: if True, reflects the offsets.
     """
 
-    cross_section1: CrossSectionSpec = Field(exclude=True)
-    cross_section2: CrossSectionSpec = Field(exclude=True)
+    cross_section1: CrossSectionSpec
+    cross_section2: CrossSectionSpec
     width_type: WidthTypes = "sine"
     sections: list[Section]
     layer: LayerSpec | None = None
@@ -390,10 +382,13 @@ def xsection(func: _F) -> _F:
         c = p.extrude(xs_sc)
         c.plot()
     """
+    warnings.warn(
+        "@xsection is deprecated and will be removed in a future release.",
+        DeprecationWarning,
+    )
     return _xsection_without_validator(validate_call(func))
 
 
-@xsection
 def cross_section(
     width: Callable | float = 0.5,
     offset: float | Callable = 0,
@@ -420,7 +415,6 @@ def cross_section(
     add_pins: Callable | None = None,
     add_bbox: Callable | None = None,
     mirror: bool = False,
-    name: str | None = None,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -456,7 +450,6 @@ def cross_section(
         add_pins: optional function to add pins to component.
         add_bbox: optional function to add bounding box to component.
         mirror: if True, reflects the offsets.
-        name: cross_section name.
 
 
     .. plot::
@@ -495,7 +488,6 @@ def cross_section(
         add_bbox=add_bbox,
         add_pins=add_pins,
         mirror=mirror,
-        name=name,
     )
 
 
@@ -507,7 +499,6 @@ radius_rib = 20
 strip_pins = partial(
     cross_section,
     add_pins=add_pins_inside1nm,
-    name="strip",
     add_bbox=None,
     info={"type": "strip"},
 )
@@ -556,7 +547,6 @@ l_wg = partial(
 )
 
 
-@xsection
 def slot(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -626,7 +616,6 @@ def slot(
     )
 
 
-@xsection
 def rib_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
@@ -691,15 +680,23 @@ def rib_with_trenches(
         for i, offset in enumerate([+trench_offset, -trench_offset])
     ]
 
+    info = dict(
+        width_slab=width_slab,
+        width_trench=width_trench,
+        layer_trench=layer_trench,
+        wg_marking_layer=wg_marking_layer,
+    )
+    info.update(kwargs.pop("info", {}))
+
     return CrossSection(
         width=width,
         layer=wg_marking_layer,
         sections=tuple(sections),
+        info=info,
         **kwargs,
     )
 
 
-@xsection
 def l_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
@@ -813,7 +810,6 @@ metal_slotted = partial(
 )
 
 
-@xsection
 def pin(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -915,7 +911,6 @@ def pin(
     )
 
 
-@xsection
 def pn(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1113,7 +1108,6 @@ def pn(
     )
 
 
-@xsection
 def pn_with_trenches(
     width: float = 0.5,
     layer: LayerSpec | None = None,
@@ -1324,7 +1318,6 @@ def pn_with_trenches(
     )
 
 
-@xsection
 def pn_with_trenches_asymmetric(
     width: float = 0.5,
     layer: LayerSpec | None = None,
@@ -1550,7 +1543,6 @@ def pn_with_trenches_asymmetric(
     )
 
 
-@xsection
 def l_wg_doped_with_trenches(
     width: float = 0.5,
     layer: LayerSpec | None = None,
@@ -1724,7 +1716,6 @@ def l_wg_doped_with_trenches(
     )
 
 
-@xsection
 def strip_heater_metal_undercut(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1800,7 +1791,6 @@ def strip_heater_metal_undercut(
     )
 
 
-@xsection
 def strip_heater_metal(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1847,7 +1837,6 @@ def strip_heater_metal(
     )
 
 
-@xsection
 def strip_heater_doped(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1924,7 +1913,6 @@ strip_heater_doped_via_stack = partial(
 )
 
 
-@xsection
 def rib_heater_doped(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1998,7 +1986,6 @@ def rib_heater_doped(
     )
 
 
-@xsection
 def rib_heater_doped_via_stack(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -2123,7 +2110,6 @@ def rib_heater_doped_via_stack(
     )
 
 
-@xsection
 def pn_ge_detector_si_contacts(
     width_si: float = 6.0,
     layer_si: LayerSpec = "WG",

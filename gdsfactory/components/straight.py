@@ -40,7 +40,6 @@ def straight(
     c.info["length"] = length
     c.info["width"] = x.width
     c.info["cross_section"] = cross_section
-
     c.info["route_info"] = route_info_from_cs(x, length=length)
 
     if x.info:

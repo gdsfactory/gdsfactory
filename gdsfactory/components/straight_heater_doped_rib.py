@@ -205,4 +205,7 @@ if __name__ == "__main__":
     c = straight_heater_doped_rib(xoffset_tip1=10)
     # c = straight_heater_doped_rib(with_taper1=False)
     # c = straight_heater_doped_rib(length=500)
+    settings = c.settings.full
+    cell_name = c.settings.function_name
+    c2 = gf.get_component({"component": cell_name, "settings": settings})
     c.show(show_ports=True)

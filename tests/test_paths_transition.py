@@ -11,14 +11,11 @@ def test_path_transition_class() -> None:
         width=1,
         offset=0,
         layer=(1, 0),
-        name="core",
         port_names=("o1", "o2"),
         sections=[s],
     )
 
-    X2 = gf.CrossSection(
-        width=3, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    )
+    X2 = gf.CrossSection(width=3, offset=0, layer=(1, 0), port_names=("o1", "o2"))
 
     T = gf.path.transition(X1, X2)
     c = gf.path.extrude(P, T)
@@ -45,7 +42,6 @@ def test_path_transitions() -> None:
         width=1.2,
         offset=0,
         layer=(2, 0),
-        name="wg",
         port_names=("o1", "o2"),
         sections=[s1, s2],
     )
@@ -57,7 +53,6 @@ def test_path_transitions() -> None:
         width=1,
         offset=0,
         layer=(2, 0),
-        name="wg",
         port_names=("o1", "o2"),
         sections=[s1, s2],
     )
