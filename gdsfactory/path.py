@@ -845,53 +845,8 @@ def extrude(
     c = Component()
 
     x = get_cross_section(cross_section)
-    if x and x.mirror:
-        sections = x.sections or []
-        cladding_offsets = x.cladding_offsets or []
-        sections = [
-            section.model_copy(update=dict(offset=-section.offset))
-            for section in sections
-        ]
-        cladding_offsets = [-o for o in cladding_offsets]
-        x = x.copy(
-            offset=-cross_section.offset,
-            sections=sections,
-            cladding_offsets=cladding_offsets,
-        )
 
-    sections = x.sections or []
-    sections = list(sections)
-
-    if isinstance(x, CrossSection):
-        sections += [
-            Section(
-                width=x.width,
-                offset=x.offset,
-                layer=get_layer(x.layer),
-                simplify=x.simplify,
-                port_names=x.port_names,
-                port_types=x.port_types,
-                insets=None,
-            )
-        ]
-
-        if x.cladding_layers and x.cladding_offsets:
-            cladding_simplify = x.cladding_simplify or [None] * len(x.cladding_layers)
-            for layer, cladding_offset, with_simplify in zip(
-                x.cladding_layers, x.cladding_offsets, cladding_simplify
-            ):
-                width = x.width(1) if callable(x.width) else x.width
-                width = max(width) if isinstance(width, Iterable) else width
-                sections += [
-                    Section(
-                        width=width + 2 * cladding_offset,
-                        offset=x.offset,
-                        layer=get_layer(layer),
-                        simplify=with_simplify,
-                    )
-                ]
-
-    for section in sections:
+    for section in x.sections:
         p_sec = p.copy()
         width = section.width
         offset = section.offset
@@ -1055,28 +1010,20 @@ def extrude(
 
     c.info["length"] = float(np.round(p.length(), 3))
 
-    if isinstance(x, CrossSection):
-        if x.add_bbox:
-            c = x.add_bbox(c)
-        if x.add_pins:
-            c = x.add_pins(c)
-        if x.decorator:
-            c = x.decorator(c) or c
-
-        for via in x.vias:
-            if via.offset:
-                points_offset = p._centerpoint_offset_curve(
-                    points,
-                    offset_distance=via.offset,
-                    start_angle=start_angle,
-                    end_angle=end_angle,
-                )
-                _p = Path(points_offset)
-            else:
-                _p = p
-            _ = c << along_path(
-                p=_p, component=via.component, spacing=via.spacing, padding=via.padding
+    for via in x.components_along_path:
+        if via.offset:
+            points_offset = p._centerpoint_offset_curve(
+                points,
+                offset_distance=via.offset,
+                start_angle=start_angle,
+                end_angle=end_angle,
             )
+            _p = Path(points_offset)
+        else:
+            _p = p
+        _ = c << along_path(
+            p=_p, component=via.component, spacing=via.spacing, padding=via.padding
+        )
     return c
 
 

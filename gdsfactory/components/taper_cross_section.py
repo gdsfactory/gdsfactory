@@ -5,7 +5,7 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.cross_section import rib_conformal, strip_rib_tip
+from gdsfactory.cross_section import strip_rib_tip, xs_rib
 from gdsfactory.route_info import route_info
 from gdsfactory.typings import CrossSectionSpec
 
@@ -13,7 +13,7 @@ from gdsfactory.typings import CrossSectionSpec
 @cell
 def taper_cross_section(
     cross_section1: CrossSectionSpec = strip_rib_tip,
-    cross_section2: CrossSectionSpec = rib_conformal,
+    cross_section2: CrossSectionSpec = xs_rib,
     length: float = 10,
     npoints: int = 100,
     linear: bool = False,

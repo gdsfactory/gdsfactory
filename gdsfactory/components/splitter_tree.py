@@ -160,7 +160,7 @@ if __name__ == "__main__":
         spacing=(120.0, 50.0),
         # bend_length=30,
         # bend_s=None,
-        cross_section="rib_conformal2",
+        cross_section="xs_rib2",
     )
     c.show(show_ports=True)
     # print(len(c.ports))

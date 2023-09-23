@@ -32,7 +32,7 @@
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.cross_section import rib_conformal, strip
+from gdsfactory.cross_section import xs_rib, strip
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read import cell_from_yaml_template
 from gdsfactory.route_info import route_info
@@ -57,7 +57,7 @@ strip_with_intent = partial(
 )
 
 rib_with_intent = partial(
-    rib_conformal,
+    xs_rib,
     layer="RIB_INTENT",
     cladding_layers=["WG"],  # keeping WG layer is nice for compatibility
     cladding_offsets=[0],

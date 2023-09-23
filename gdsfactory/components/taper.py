@@ -283,9 +283,9 @@ if __name__ == "__main__":
     #     ]
     # )
     # c.("extra/tapers.gds")
-    xs = gf.get_cross_section("rib_conformal")
+    xs = gf.get_cross_section("xs_rib")
 
-    c = taper(width2=1, cross_section="rib_conformal")
+    c = taper(width2=1, cross_section="xs_rib")
     # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()

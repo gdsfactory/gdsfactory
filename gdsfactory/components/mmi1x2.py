@@ -143,7 +143,7 @@ def mmi1x2(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mmi1x2(cross_section="rib_conformal")
+    c = gf.components.mmi1x2(cross_section="xs_rib")
 
     # print(c.xmin)
     # c.xmin = 0

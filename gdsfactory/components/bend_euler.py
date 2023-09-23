@@ -249,7 +249,7 @@ if __name__ == "__main__":
     # c.show(show_ports=True)
 
     # c = bend_euler(direction="cw")
-    c = bend_euler(with_arc_floorplan=False)
+    c = bend_euler(cross_section="rib", angle=30)
     # c.pprint()
     # p = euler()
     # c = bend_straight_bend()
@@ -266,3 +266,4 @@ if __name__ == "__main__":
     # c = bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
     # c.pprint()
+    c.show(show_ports=True)

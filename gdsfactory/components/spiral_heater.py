@@ -482,7 +482,7 @@ def spiral_slab(cross_section="strip", layer_slab=(3, 0), cladding_offset=3, **k
 
 
 if __name__ == "__main__":
-    # c = spiral_racetrack(cross_section="rib_conformal", cache=False)
+    # c = spiral_racetrack(cross_section="xs_rib", cache=False)
 
     c = spiral_slab(cache=False)
     c.show(show_ports=True)

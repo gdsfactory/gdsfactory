@@ -322,7 +322,7 @@ def get_straight_length(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    cross_section = gf.cross_section.rib_conformal2
+    cross_section = gf.cross_section.xs_rib2
     cross_section = gf.cross_section.pn
 
     c = gf.components.spiral_inner_io_fiber_array(
