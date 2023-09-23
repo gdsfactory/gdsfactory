@@ -5,7 +5,7 @@ To create a component you need to extrude the path with a cross-section.
 from __future__ import annotations
 
 import sys
-from collections.abc import Callable, Iterable
+from collections.abc import Iterable
 from functools import partial
 from inspect import getmembers
 from typing import TYPE_CHECKING, Any, Literal
@@ -1787,22 +1787,11 @@ def pn_ge_detector_si_contacts(
     sections.append(s)
 
     return CrossSection(
-        width=width_si,
-        offset=0,
-        layer=layer_si,
-        port_names=port_names,
         sections=sections,
-        cladding_offsets=cladding_offsets,
-        cladding_layers=cladding_layers,
     )
 
 
-CrossSectionFactory = Callable[..., CrossSection]
-
-
-def get_cross_sections(
-    modules, verbose: bool = False
-) -> dict[str, CrossSectionFactory]:
+def get_cross_sections(modules, verbose: bool = False) -> dict[str, CrossSection]:
     """Returns cross_sections from a module or list of modules.
 
     Args:
@@ -1822,24 +1811,17 @@ def get_cross_sections(
 xs_sc = strip()
 xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
 xs_rc2 = rib2()
-
+xs_sc_rc_tip = strip_rib_tip()
 xs_sc_heater_metal = strip_heater_metal()
 xs_sc_heater_metal_undercut = strip_heater_metal_undercut()
 xs_slot = slot()
-
 xs_heater_metal = heater_metal()
-xs_metal_routing = xs_m1 = metal1()
+xs_m1 = metal1()
 xs_m2 = metal2()
 xs_m3 = metal3()
+xs_metal_routing = xs_m3
+
 cross_sections = get_cross_sections(sys.modules[__name__])
-
-
-def test_copy() -> None:
-    import gdsfactory as gf
-
-    p = gf.path.straight()
-    copied_cs = gf.cross_section.strip().copy()
-    gf.path.extrude(p, cross_section=copied_cs)
 
 
 if __name__ == "__main__":
