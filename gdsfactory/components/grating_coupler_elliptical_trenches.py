@@ -110,6 +110,7 @@ def grating_coupler_elliptical_trenches(
         (xmax + end_straight_length, -y),
         (xmax, -y),
     ]
+    len(pts)
     c.add_polygon(pts, layer)
 
     c.add_port(

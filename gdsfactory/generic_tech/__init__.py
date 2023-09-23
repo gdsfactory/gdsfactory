@@ -71,6 +71,6 @@ if __name__ == "__main__":
     layer_views = LayerViews(filepath=PATH.klayout_yaml)
     layer_views.to_lyp(PATH.klayout_lyp)
 
-    # pdk = get_generic_pdk()
+    pdk = get_generic_pdk()
     # pdk.layer_views.to_yaml('layer_views2.yaml')
     # print(pdk.name)

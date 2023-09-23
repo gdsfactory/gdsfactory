@@ -26,7 +26,6 @@ def big_device(
         layer: spec.
         wg_width: waveguide width in um.
         cross_section: spec.
-
     """
     component = gf.Component()
     p0 = np.array((0, 0))

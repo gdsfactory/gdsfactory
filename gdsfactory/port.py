@@ -40,6 +40,7 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
+from gdsfactory import snap
 from gdsfactory.component_layout import _rotate_points
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.serialization import clean_value_json
@@ -81,6 +82,7 @@ class Port:
         parent: Component that port belongs to.
         cross_section: cross_section spec.
         shear_angle: an optional angle to shear port face in degrees.
+        on_grid: True snap port to grid.
     """
 
     def __init__(
@@ -94,10 +96,11 @@ class Port:
         parent: Component | None = None,
         cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
+        snap_to_grid: bool = False,
     ) -> None:
-        """Initializes Port object."""
         self.name = name
-        self.center = np.array(snap_to_grid(center), dtype="float64")
+        center = snap.snap_to_grid(center) if snap_to_grid else center
+        self.center = np.array(center, dtype="float64")
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
         self.info: dict[str, Any] = {}

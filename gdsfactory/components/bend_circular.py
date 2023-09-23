@@ -14,6 +14,7 @@ def bend_circular(
     angle: float = 90.0,
     npoints: int | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
+    add_pins: bool = True,
 ) -> Component:
     """Returns a radial arc.
 
@@ -21,6 +22,7 @@ def bend_circular(
         angle: angle of arc (degrees).
         npoints: number of points.
         cross_section: spec (CrossSection, string or dict).
+        add_pins: add pins to the component.
 
     .. code::
 
@@ -45,7 +47,8 @@ def bend_circular(
     c.info["dy"] = snap_to_grid(float(abs(p.points[0][0] - p.points[-1][0])))
     c.info["radius"] = float(radius)
     x.add_bbox(c)
-    x.add_pins(c)
+    if add_pins:
+        x.add_pins(c)
     return c
 
 

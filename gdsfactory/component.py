@@ -23,6 +23,7 @@ import numpy as np
 import yaml
 from omegaconf import DictConfig
 
+from gdsfactory import snap
 from gdsfactory.component_layout import (
     Label,
     _align,
@@ -48,7 +49,7 @@ from gdsfactory.port import (
     select_ports,
 )
 from gdsfactory.serialization import clean_dict
-from gdsfactory.snap import snap_to_grid
+from gdsfactory.snap import snap_to_grid, warn_if_not_on_grid
 
 if TYPE_CHECKING:
     from gdsfactory.technology import LayerStack, LayerViews
@@ -802,6 +803,7 @@ class Component(_GeometryHelper):
             v_mirror: vertical mirror using x axis (1, y) (0, y).
         """
         _ref = ComponentReference(self)
+        warn_if_not_on_grid(position)
 
         if port_id and port_id not in self.ports:
             raise ValueError(f"port {port_id} not in {self.ports.keys()}")
@@ -1040,7 +1042,10 @@ class Component(_GeometryHelper):
         return component
 
     def add_polygon(
-        self, points, layer: str | int | tuple[int, int] | np.nan = np.nan
+        self,
+        points,
+        layer: str | int | tuple[int, int] | np.nan = np.nan,
+        snap_to_grid: bool = True,
     ) -> Polygon:
         """Adds a Polygon to the Component.
 
@@ -1081,6 +1086,7 @@ class Component(_GeometryHelper):
         elif hasattr(points, "exterior"):  # points is a shapely Polygon
             return self._add_polygon_shapely(layer, points)
         points = np.asarray(points)
+        points = snap.snap_to_grid(points) if snap_to_grid else points
         if points.ndim == 1:
             return [self.add_polygon(poly, layer=layer) for poly in points]
         if layer is np.nan:

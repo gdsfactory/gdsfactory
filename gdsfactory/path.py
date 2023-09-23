@@ -193,10 +193,10 @@ class Path(_GeometryHelper):
             ds = tol / lengths[-1]
             ny1 = offset(ds) - offset(0)
             start_angle = np.arctan2(-ny1, tol) / np.pi * 180 + self.start_angle
-            start_angle = np.round(start_angle, decimals=6)
+            # start_angle = np.round(start_angle, decimals=6)
             ny2 = offset(1) - offset(1 - ds)
             end_angle = np.arctan2(-ny2, tol) / np.pi * 180 + self.end_angle
-            end_angle = np.round(end_angle, decimals=6)
+            # end_angle = np.round(end_angle, decimals=6)
         else:  # Offset is just a number
             points = self._centerpoint_offset_curve(
                 self.points,

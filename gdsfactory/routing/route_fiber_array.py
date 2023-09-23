@@ -584,7 +584,7 @@ if __name__ == "__main__":
     )
     # c = p.ring_single()
     # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)
-    c << ci
+    _ = c << ci
     for e in elements:
         # if isinstance(e, list):
         # print(len(e))
