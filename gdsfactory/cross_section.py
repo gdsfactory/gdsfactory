@@ -106,6 +106,7 @@ class CrossSection(BaseModel):
         sections: tuple of Sections(width, offset, layer, ports).
         components_along_path: list[ComponentAlongPath] = Field(default_factory=list): list of ComponentAlongPaths(component, spacing, padding, offset).
         radius: route bend radius (um).
+        add_pins_function_name: name of the function to add pins to the component.
     """
 
     sections: tuple[Section, ...] = Field(default_factory=tuple)
@@ -114,6 +115,7 @@ class CrossSection(BaseModel):
     bbox_layers: LayerSpecs | None = None
     bbox_offsets: Floats | None = None
 
+    add_pins_function_name: str | None = None
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     @classmethod
@@ -135,6 +137,19 @@ class CrossSection(BaseModel):
             sections[0] = sections[0].model_copy(update={"width": width})
             return self.model_copy(update={"sections": sections})
         return self.model_copy()
+
+    def add_pins(self, component: Component) -> Component:
+        if self.add_pins_function_name is None:
+            return component
+        else:
+            from gdsfactory import add_pins
+
+            if not hasattr(add_pins, self.add_pins_function_name):
+                raise ValueError(
+                    f"add_pins_function_name={self.add_pins_function_name} not found in add_pins"
+                )
+            add_pins_function = getattr(add_pins, self.add_pins_function_name)
+            return add_pins_function(component=component)
 
     def add_bbox(
         self,
@@ -248,6 +263,7 @@ def cross_section(
     cladding_offsets: Floats | None = None,
     cladding_simplify: Floats | None = None,
     radius: float | None = 10.0,
+    add_pins_function_name: str | None = None,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -266,6 +282,7 @@ def cross_section(
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
         radius: routing bend radius (um).
+        add_pins_function_name: name of the function to add pins to the component.
 
     .. plot::
         :include-source:
@@ -302,13 +319,14 @@ def cross_section(
         radius=radius,
         bbox_layers=bbox_layers,
         bbox_offsets=bbox_offsets,
+        add_pins_function_name=add_pins_function_name,
     )
 
 
 radius_nitride = 20
 radius_rib = 20
 
-strip = cross_section
+strip = partial(cross_section, add_pins_function_name="add_pins_inside1nm")
 rib = partial(
     strip,
     sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),

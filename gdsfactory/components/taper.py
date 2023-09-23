@@ -7,7 +7,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec, LayerSpecs
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
 @cell
@@ -21,7 +21,7 @@ def taper(
     cross_section: CrossSectionSpec = "xs_sc",
     port_order_name: tuple | None = ("o1", "o2"),
     port_order_types: tuple | None = ("optical", "optical"),
-    **kwargs,
+    add_pins: bool = True,
 ) -> Component:
     """Linear taper, which tapers only the main cross section section.
 
@@ -40,9 +40,9 @@ def taper(
                 taper port, second name only if with_two_ports flags used.
         port_order_types(tuple): Ordered tuple of port types. First port is default \
                 taper port, second name only if with_two_ports flags used.
-        kwargs: cross_section settings.
+        add_pins: add pins to the component.
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section)
     layer = x.layer
 
     if isinstance(port, gf.Port) and width1 is None:
@@ -62,11 +62,8 @@ def taper(
     ypts = [y1, y2, -y2, -y1]
     c.add_polygon((xpts, ypts), layer=layer)
 
-    x1 = x.model_copy(update=dict(sections=width1))
-    x2 = x.model_copy()
-
-    x1.sections[0].width = width1
-    x2.sections[0].width = width2
+    x1 = x.copy(width=width1)
+    x2 = x.copy(width=width2)
 
     xpts = [0, length, length, 0]
     for section in x.sections[1:]:
@@ -98,6 +95,8 @@ def taper(
 
     if with_bbox and length:
         x.add_bbox(c)
+    if add_pins and x.add_pins:
+        c = x.add_pins(c)
 
     c.info["length"] = length
     c.info["width1"] = float(width1)
@@ -115,8 +114,6 @@ def taper_strip_to_ridge(
     layer_wg: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB90",
     cross_section: CrossSectionSpec = "xs_sc",
-    bbox_layers: LayerSpecs | None = None,
-    bbox_offsets: Floats | None = None,
 ) -> Component:
     r"""Linear taper from strip to rib.
 
@@ -238,6 +235,6 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
-    # c = taper(width2=1, cross_section="xs_rc")
-    c = taper_sc_nc()
+    c = taper(width2=1, cross_section="xs_rc")
+    # c = taper_sc_nc()
     c.show(show_ports=True)

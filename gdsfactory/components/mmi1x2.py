@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
@@ -58,29 +57,22 @@ def mmi1x2(
     """
     c = Component()
     gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
-    w_mmi = width_mmi
-    w_taper = width_taper
     x = gf.get_cross_section(cross_section)
+    xs_mmi = x.copy(width=width_mmi)
     width = width or x.width
 
     _taper = taper(
         length=length_taper,
         width1=width,
-        width2=w_taper,
+        width2=width_taper,
         cross_section=cross_section,
-        add_pins=None,
-        add_bbox=None,
-        decorator=None,
+        add_pins=False,
     )
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = c << straight(
         length=length_mmi,
-        width=w_mmi,
-        cross_section=cross_section,
-        add_pins=None,
-        add_bbox=None,
-        decorator=None,
+        cross_section=xs_mmi,
     )
 
     ports = [
@@ -88,15 +80,15 @@ def mmi1x2(
             "o1",
             orientation=180,
             center=(0, 0),
-            width=w_taper,
+            width=width_taper,
             layer=x.layer,
-            cross_section=x,
+            cross_section=cross_section,
         ),
         gf.Port(
             "o2",
             orientation=0,
             center=(+length_mmi, +a),
-            width=w_taper,
+            width=width_taper,
             layer=x.layer,
             cross_section=x,
         ),
@@ -104,7 +96,7 @@ def mmi1x2(
             "o3",
             orientation=0,
             center=(+length_mmi, -a),
-            width=w_taper,
+            width=width_taper,
             layer=x.layer,
             cross_section=x,
         ),
@@ -116,27 +108,11 @@ def mmi1x2(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    if with_bbox:
-        padding = []
-        for offset in x.bbox_offsets:
-            points = get_padding_points(
-                component=c,
-                default=0,
-                bottom=offset,
-                top=offset,
-            )
-            padding.append(points)
-
-        for layer, points in zip(x.bbox_layers, padding):
-            c.add_polygon(points, layer=layer)
-
     c.absorb(mmi)
     if x.add_bbox:
         c = x.add_bbox(c)
     if x.add_pins:
         c = x.add_pins(c)
-    if x.decorator:
-        c = x.decorator(c)
     return c
 
 

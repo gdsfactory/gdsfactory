@@ -40,7 +40,6 @@ def taper_adiabatic(
     wavelength: float = 1.55,
     npoints: int = 200,
     cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
 ) -> gf.Component:
     """Returns a straight adiabatic_taper from an effective index callable.
 
@@ -60,7 +59,7 @@ def taper_adiabatic(
         [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper." Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
         npoints: number of points for sampling
     """
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
     layer = xs.layer
 
     # Obtain optimal curve
