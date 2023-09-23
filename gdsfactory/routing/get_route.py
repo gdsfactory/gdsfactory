@@ -149,7 +149,7 @@ def get_route(
 get_route_electrical = partial(
     get_route,
     bend=wire_corner,
-    cross_section="metal_routing",
+    cross_section="xs_metal_routing",
     taper=None,
 )
 
@@ -265,7 +265,7 @@ def get_route_from_waypoints(
 
 
 get_route_from_waypoints_electrical = partial(
-    get_route_from_waypoints, bend=wire_corner, cross_section="metal_routing"
+    get_route_from_waypoints, bend=wire_corner, cross_section="xs_metal_routing"
 )
 
 get_route_from_waypoints_electrical_m2 = partial(

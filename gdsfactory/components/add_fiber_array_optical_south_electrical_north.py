@@ -22,7 +22,7 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_port_orientation: float | None = 90,
     npads: int | None = None,
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
-    xs_metal: CrossSectionSpec = "metal_routing",
+    xs_metal: CrossSectionSpec = "xs_metal_routing",
     layer_label: LayerSpec = "TEXT",
     measurement: str = "optical_loopback2_heater_sweep",
     measurement_settings: dict[str, Any] | None = None,
@@ -177,4 +177,4 @@ if __name__ == "__main__":
     #     electrical_port_names=["l_e2", "r_e2"],
     #     npads=5,
     # )
-    c.show(show_ports=True)
+    c.show(show_ports=False)

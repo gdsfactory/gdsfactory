@@ -1,11 +1,12 @@
 """Sample AWG."""
 from __future__ import annotations
 
+from functools import partial
+
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import strip
 from gdsfactory.typings import CrossSectionSpec
 
 
@@ -17,8 +18,7 @@ def free_propagation_region(
     wg_width: float = 0.5,
     inputs: int = 1,
     outputs: int = 10,
-    cross_section: CrossSectionSpec = strip,
-    **kwargs,
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     r"""Free propagation region.
 
@@ -30,7 +30,6 @@ def free_propagation_region(
         inputs: number of inputs.
         outputs: number of outputs.
         cross_section: cross_section function.
-        kwargs: cross_section parameters.
 
     .. code::
 
@@ -44,9 +43,9 @@ def free_propagation_region(
     """
     y1 = width1 / 2
     y2 = width2 / 2
-    x = cross_section(**kwargs)
+    xs = gf.get_cross_section(cross_section)
     o = 0
-    layer = x.layer
+    layer = xs.layer
 
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
@@ -90,21 +89,15 @@ def free_propagation_region(
     c.info["length"] = length
     c.info["width1"] = width1
     c.info["width2"] = width2
+    c = xs.add_pins(c)
     return c
 
 
-@gf.cell
-def free_propagation_region_input(inputs: int = 1, **kwargs) -> Component:
-    return free_propagation_region(inputs=inputs, **kwargs)
+free_propagation_region_input = partial(free_propagation_region, inputs=1)
 
-
-@gf.cell
-def free_propagation_region_output(
-    inputs: int = 10, width1: float = 10.0, width2: float = 20.0, **kwargs
-) -> Component:
-    return free_propagation_region(
-        inputs=inputs, width2=width2, width1=width1, **kwargs
-    )
+free_propagation_region_output = partial(
+    free_propagation_region, inputs=10, width=10, width2=20.0
+)
 
 
 @gf.cell
@@ -162,10 +155,6 @@ def awg(
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import get_generic_pdk
-
-    PDK = get_generic_pdk()
-    PDK.activate()
     # c = free_propagation_region(inputs=2, outputs=4)
     c = awg()
     c.show(show_ports=True)

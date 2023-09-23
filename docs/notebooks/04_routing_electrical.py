@@ -146,7 +146,7 @@ route = gf.routing.get_route_from_steps(
     steps=[
         {"y": 200},
     ],
-    cross_section="metal_routing",
+    cross_section="xs_metal_routing",
     bend=gf.components.wire_corner,
 )
 c.add(route.references)
@@ -163,7 +163,7 @@ route = gf.routing.get_route_from_steps(
     steps=[
         {"y": 200},
     ],
-    cross_section="metal_routing",
+    cross_section="xs_metal_routing",
     bend=gf.components.wire_corner,
 )
 c.add(route.references)

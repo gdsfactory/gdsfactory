@@ -49,7 +49,7 @@ from gdsfactory.port import (
     select_ports,
 )
 from gdsfactory.serialization import clean_dict
-from gdsfactory.snap import snap_to_grid, warn_if_not_on_grid
+from gdsfactory.snap import snap_to_grid
 
 if TYPE_CHECKING:
     from gdsfactory.technology import LayerStack, LayerViews
@@ -803,7 +803,6 @@ class Component(_GeometryHelper):
             v_mirror: vertical mirror using x axis (1, y) (0, y).
         """
         _ref = ComponentReference(self)
-        warn_if_not_on_grid(position)
 
         if port_id and port_id not in self.ports:
             raise ValueError(f"port {port_id} not in {self.ports.keys()}")
@@ -1085,8 +1084,8 @@ class Component(_GeometryHelper):
             return polygon
         elif hasattr(points, "exterior"):  # points is a shapely Polygon
             return self._add_polygon_shapely(layer, points)
+
         points = np.asarray(points)
-        points = snap.snap_to_grid(points) if snap_to_grid else points
         if points.ndim == 1:
             return [self.add_polygon(poly, layer=layer) for poly in points]
         if layer is np.nan:
@@ -1097,6 +1096,7 @@ class Component(_GeometryHelper):
             if len(points[0]) > 2:
                 # Convert to form [[1,2],[3,4],[5,6]]
                 points = np.column_stack(points)
+            points = snap.snap_to_grid(points) if snap_to_grid else points
             layer, datatype = _parse_layer(layer)
             polygon = Polygon(points, (layer, datatype))
             self._add_polygons(polygon)

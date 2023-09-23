@@ -46,6 +46,7 @@ def straight_heater_metal_undercut(
         ohms_per_square: to calculate resistance.
         cross_section: for waveguide ports.
     """
+    xs = gf.get_cross_section(cross_section)
     period = length_undercut + length_undercut_spacing
     n = int((length - 2 * length_straight_input) // period)
 
@@ -57,13 +58,13 @@ def straight_heater_metal_undercut(
     length_straight_input -= length_straight
 
     s_ports = gf.components.straight(
-        cross_section=cross_section,
-        length=length_straight,
+        cross_section=cross_section, length=length_straight, add_pins=False
     )
 
     s_si = gf.components.straight(
         cross_section=cross_section_waveguide_heater,
         length=length_straight_input,
+        add_pins=False,
     )
     cross_section_undercut = (
         cross_section_heater_undercut
@@ -71,12 +72,12 @@ def straight_heater_metal_undercut(
         else cross_section_waveguide_heater
     )
     s_uc = gf.components.straight(
-        cross_section=cross_section_undercut,
-        length=length_undercut,
+        cross_section=cross_section_undercut, length=length_undercut, add_pins=False
     )
     s_spacing = gf.components.straight(
         cross_section=cross_section_waveguide_heater,
         length=length_undercut_spacing,
+        add_pins=False,
     )
     symbol_to_component = {
         "_": (s_ports, "o1", "o2"),
@@ -97,6 +98,7 @@ def straight_heater_metal_undercut(
 
     x = gf.get_cross_section(cross_section_heater)
     heater_width = x.width
+    xs.add_pins(c)
 
     if via_stack:
         refs = list(sequence.named_references.keys())
@@ -258,9 +260,9 @@ if __name__ == "__main__":
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)
 
-    # c = straight_heater_metal_undercut(length=200)
+    c = straight_heater_metal_undercut(length=200)
     # n = c.get_netlist()
-    c = straight_heater_metal(length=20)
-    c.show(show_ports=True)
+    # c = straight_heater_metal(length=20)
+    c.show(show_ports=False)
     # scene = c.to_3d()
     # scene.show()

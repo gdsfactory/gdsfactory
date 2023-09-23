@@ -722,7 +722,7 @@ def get_bundle_same_axis_no_grouping(
 
 
 get_bundle_electrical = partial(
-    get_bundle, bend=wire_corner, cross_section="metal_routing"
+    get_bundle, bend=wire_corner, cross_section="xs_metal_routing"
 )
 
 get_bundle_electrical_multilayer = partial(
@@ -730,7 +730,7 @@ get_bundle_electrical_multilayer = partial(
     bend=via_corner,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        ("metal_routing", (0, 180)),
+        ("xs_metal_routing", (0, 180)),
     ],
 )
 

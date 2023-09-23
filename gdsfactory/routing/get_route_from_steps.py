@@ -138,7 +138,7 @@ get_route_from_steps_electrical_multilayer = partial(
     taper=None,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        ("metal_routing", (0, 180)),
+        ("xs_metal_routing", (0, 180)),
     ],
 )
 

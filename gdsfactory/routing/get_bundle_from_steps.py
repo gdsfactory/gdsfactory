@@ -177,7 +177,7 @@ def get_bundle_from_steps(
 
 
 get_bundle_from_steps_electrical = partial(
-    get_bundle_from_steps, bend=wire_corner, cross_section="metal_routing"
+    get_bundle_from_steps, bend=wire_corner, cross_section="xs_metal_routing"
 )
 
 get_bundle_from_steps_electrical_multilayer = partial(
@@ -185,7 +185,7 @@ get_bundle_from_steps_electrical_multilayer = partial(
     bend=via_corner,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        ("metal_routing", (0, 180)),
+        ("xs_metal_routing", (0, 180)),
     ],
 )
 

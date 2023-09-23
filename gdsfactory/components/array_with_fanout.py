@@ -18,13 +18,11 @@ def array_with_fanout(
     waveguide_pitch: float = 10.0,
     start_straight_length: float = 5.0,
     end_straight_length: float = 40.0,
-    radius: float = 5.0,
     component_port_name: str = "e4",
     bend: ComponentSpec = "bend_euler",
     bend_port_name1: str | None = None,
     bend_port_name2: str | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
 ) -> Component:
     """Returns component array in X axis with west facing waveguides.
 
@@ -35,17 +33,15 @@ def array_with_fanout(
         waveguide_pitch: for output waveguides.
         start_straight_length: length of the start of the straight.
         end_straight_length: length of the straight at the end.
-        radius: bend radius.
         component_port_name: for fanout.
         bend: spec.
         bend_port_name1: optional port name.
         bend_port_name2: optional port name.
         cross_section: cross_section spec.
-        kwargs: cross_section settings.
     """
     c = Component()
     component = gf.get_component(component)
-    bend = gf.get_component(bend, radius=radius, cross_section=cross_section, **kwargs)
+    bend = gf.get_component(bend, cross_section=cross_section)
 
     bend_ports = bend.get_ports_list()
     bend_ports = sort_ports_x(bend_ports)
@@ -60,7 +56,8 @@ def array_with_fanout(
         ylength = col * waveguide_pitch + start_straight_length
         xlength = col * pitch + end_straight_length
         straight_ref = c << straight(
-            length=ylength, cross_section=cross_section, **kwargs
+            length=ylength,
+            cross_section=cross_section,
         )
         port_s1, port_s2 = straight_ref.get_ports_list()
 
@@ -69,7 +66,8 @@ def array_with_fanout(
         bend_ref = c.add_ref(bend)
         bend_ref.connect(bend_port_name1, straight_ref.ports[port_s1.name])
         straightx_ref = c << straight(
-            length=xlength, cross_section=cross_section, **kwargs
+            length=xlength,
+            cross_section=cross_section,
         )
         straightx_ref.connect(port_s2.name, bend_ref.ports[bend_port_name2])
         c.add_port(f"W_{col}", port=straightx_ref.ports[port_s1.name])
@@ -124,10 +122,6 @@ def test_array() -> None:
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import get_generic_pdk
-
-    PDK = get_generic_pdk()
-    PDK.activate()
     # import gdsfactory as gf
     # c1 = gf.components.pad()
     # c2 = array(component=c1, pitch=150, columns=2)

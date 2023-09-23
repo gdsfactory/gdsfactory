@@ -212,7 +212,7 @@ class CrossSection(BaseModel):
     def get_xmin_xmax(self):
         """Returns the min and max extent of the cross_section across all sections."""
         main_width = self.width
-        main_offset = self.offset
+        main_offset = self.sections[0].offset
         xmin = main_offset - main_width / 2
         xmax = main_offset + main_width / 2
         for section in self.sections:
@@ -399,6 +399,175 @@ def slot(
         width=width,
         layer=None,
         sections=sections,
+    )
+
+
+def rib_with_trenches(
+    width: float = 0.5,
+    width_trench: float = 2.0,
+    width_slab: float = 7.0,
+    simplify_slab: float | None = None,
+    layer: LayerSpec | None = "WG",
+    layer_trench: LayerSpec = "DEEP_ETCH",
+    wg_marking_layer: LayerSpec | None = None,
+    sections: tuple[Section, ...] | None = None,
+    info: dict[str, Any] | None = None,
+    **kwargs,
+) -> CrossSection:
+    """Return CrossSection of rib waveguide defined by trenches.
+
+    Args:
+        width: main Section width (um) or function parameterized from 0 to 1. \
+                the width at t==0 is the width at the beginning of the Path. \
+                the width at t==1 is the width at the end.
+        width_trench: in um.
+        width_slab: in um.
+        layer: ridge layer. None adds only ridge.
+        layer_trench: layer to etch trenches.
+        wg_marking_layer: layer to draw over the actual waveguide. \
+                This can be useful for booleans, routing, placement ...
+        kwargs: cross_section settings.
+
+
+    .. code::
+
+
+        _____         __________         ________
+             |        |         |        |
+             |________|         |________|
+
+       __________________________________________
+             <------->                           |
+            width_trench
+                                                 |
+       <---------------------------------------->
+                    width_slab
+
+
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.rib_with_trenches(width=0.5)
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
+    """
+    trench_offset = width / 2 + width_trench / 2
+
+    sections = list(sections or ())
+    sections += [
+        Section(width=width_slab, layer=layer, name="slab", simplify=simplify_slab)
+    ]
+    sections += [
+        Section(
+            width=width_trench, offset=offset, layer=layer_trench, name=f"trench_{i}"
+        )
+        for i, offset in enumerate([+trench_offset, -trench_offset])
+    ]
+
+    info = info or {}
+    info.update(
+        dict(
+            layer_trench=layer_trench,
+            width=width,
+            width_trench=width_trench,
+            width_slab=width_slab,
+            wg_marking_layer=wg_marking_layer,
+        )
+    )
+
+    return CrossSection(
+        sections=tuple(sections),
+        info=info,
+        **kwargs,
+    )
+
+
+def l_with_trenches(
+    width: float = 0.5,
+    width_trench: float = 2.0,
+    width_slab: float = 7.0,
+    layer: LayerSpec | None = "WG",
+    layer_trench: LayerSpec = "DEEP_ETCH",
+    mirror: bool = False,
+    wg_marking_layer: LayerSpec | None = None,
+    sections: tuple[Section, ...] | None = None,
+    info: dict[str, Any] | None = None,
+    **kwargs,
+) -> CrossSection:
+    """Return CrossSection of l waveguide defined by trenches.
+
+    Args:
+        width: main Section width (um) or function parameterized from 0 to 1. \
+                the width at t==0 is the width at the beginning of the Path. \
+                the width at t==1 is the width at the end.
+        width_slab: in um.
+        width_trench: in um.
+        layer: ridge layer. None adds only ridge.
+        layer_trench: layer to etch trenches.
+        mirror: this cross section is not symmetric and you can switch orientation.
+        kwargs: cross_section settings.
+
+
+    .. code::
+                          x = 0
+                           |
+                           |
+        _____         __________
+             |        |         |
+             |________|         |
+
+       _________________________
+             <------->          |
+            width_trench
+                       <-------->
+                          width
+                                |
+       <------------------------>
+            width_slab
+
+
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.l_with_trenches(width=0.5)
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
+    """
+
+    mult = 1 if mirror else -1
+    trench_offset = mult * (width / 2 + width_trench / 2)
+    sections = list(sections or ())
+    sections += [
+        Section(
+            width=width_slab,
+            layer=layer,
+            offset=mult * (width_slab / 2 - width / 2),
+        )
+    ]
+    sections += [Section(width=width_trench, offset=trench_offset, layer=layer_trench)]
+    info = info or {}
+    info.update(
+        dict(
+            layer_trench=layer_trench,
+            width=width,
+            width_trench=width_trench,
+            width_slab=width_slab,
+            wg_marking_layer=wg_marking_layer,
+        )
+    )
+
+    return CrossSection(
+        sections=tuple(sections),
+        info=info,
+        **kwargs,
     )
 
 
@@ -1826,6 +1995,7 @@ xs_m1 = metal1()
 xs_m2 = metal2()
 xs_m3 = metal3()
 xs_metal_routing = xs_m3
+xs_rc_with_trenches = rib_with_trenches()
 
 cross_sections = get_cross_sections(sys.modules[__name__])
 

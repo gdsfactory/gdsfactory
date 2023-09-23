@@ -245,7 +245,7 @@ def get_bundle_from_waypoints(
 
 
 get_bundle_from_waypoints_electrical = partial(
-    get_bundle_from_waypoints, bend=wire_corner, cross_section="metal_routing"
+    get_bundle_from_waypoints, bend=wire_corner, cross_section="xs_metal_routing"
 )
 
 get_bundle_from_waypoints_electrical_multilayer = partial(
@@ -253,7 +253,7 @@ get_bundle_from_waypoints_electrical_multilayer = partial(
     bend=via_corner,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        ("metal_routing", (0, 180)),
+        ("xs_metal_routing", (0, 180)),
     ],
 )
 

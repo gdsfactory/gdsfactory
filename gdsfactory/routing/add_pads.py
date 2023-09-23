@@ -24,7 +24,7 @@ def add_pads_bot(
     select_ports: Callable = select_ports_electrical,
     port_names: Strs | None = None,
     component_name: str | None = None,
-    cross_section: CrossSectionSpec = "metal_routing",
+    cross_section: CrossSectionSpec = "xs_metal_routing",
     get_input_labels_function: Callable | None = None,
     layer_label: LayerSpec = "TEXT",
     pad_port_name: str = "e1",

@@ -1081,7 +1081,7 @@ if __name__ == "__main__":
         steps=[
             {"y": 100},
         ],
-        cross_section="metal_routing",
+        cross_section="xs_metal_routing",
         bend=gf.components.wire_corner,
     )
     c.add(route.references)
