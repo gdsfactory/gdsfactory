@@ -40,32 +40,8 @@ def straight(
 
 
 if __name__ == "__main__":
-    # c = straight(cross_section=partial('metal_routing', width=2), with_hash=False)
-    # c = straight(
-    #     cross_section=partial(gf.cross_section.strip, width=2), with_hash=False
-    # )
-    # c = straight(cladding_offset=2.5)
+    import gdsfactory as gf
 
-    # nm = 1e-3
-    # xs = gf.cross_section.strip()
-    c = straight()
-    # print(c.settings)
-    # print(c.settings.info["settings"]["add_pins"])
-
-    # strip2 = gf.get_cross_section("strip", layer=(2, 0))
-    # settings = dict(width=2)
-
-    # c = straight(
-    #     length=1, cross_section={"cross_section": "strip", "settings": settings}
-    # )
-    # c = straight(
-    #     length=1,
-    #     cross_section={"cross_section": "strip", "settings": settings},
-    #     width=3,
-    #     # bbox_layers=[(2, 0)],
-    #     # bbox_offsets=[3],
-    # )
-    # c.assert_ports_on_grid()
+    xs = gf.cross_section.strip()
+    c = straight(cross_section=xs)
     c.show(show_ports=True)
-    # c.plot()
-    # c.pprint()
