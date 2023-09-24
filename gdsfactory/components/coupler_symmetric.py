@@ -12,8 +12,7 @@ def coupler_symmetric(
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
+    cross_section: CrossSectionSpec = "xs_sc_no_pins",
 ) -> Component:
     r"""Two coupled straights with bends.
 
@@ -23,7 +22,6 @@ def coupler_symmetric(
         dy: port to port vertical spacing.
         dx: bend length in x direction.
         cross_section: section.
-        **kwargs: cross_section settings.
 
     .. code::
 
@@ -38,13 +36,12 @@ def coupler_symmetric(
                            E0
 
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section)
     width = x.width
     bend_component = gf.get_component(
         bend,
         size=(dx, (dy - gap - width) / 2),
         cross_section=cross_section,
-        **kwargs,
     )
 
     w = bend_component.ports["o1"].width
@@ -71,7 +68,7 @@ def coupler_symmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_symmetric(gap=0.2, width=0.9)
+    c = coupler_symmetric()
     c.show(show_ports=False)
     # c.pprint()
 

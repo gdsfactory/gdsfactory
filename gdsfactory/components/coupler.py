@@ -52,7 +52,10 @@ def coupler(
     gap = gf.snap.snap_to_grid2x(gap)
     c = Component()
 
-    sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=cross_section)
+    xs = gf.get_cross_section(cross_section)
+    xs_no_pins = xs.copy(add_pins_function_name=None)
+
+    sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=xs_no_pins)
 
     sr = c << sbend
     sl = c << sbend
@@ -73,12 +76,12 @@ def coupler(
     c.auto_rename_ports()
 
     x = gf.get_cross_section(cross_section)
-    c = x.add_bbox(c)
-    c = x.add_pins(c)
+    x.add_bbox(c)
+    x.add_pins(c)
     return c
 
 
 if __name__ == "__main__":
-    c0 = coupler(gap=0.2)
-    c = gf.routing.add_fiber_array(c0)
+    c = coupler(gap=0.2)
+    c = gf.routing.add_fiber_array(c)
     c.show(show_ports=False)

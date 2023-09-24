@@ -13,8 +13,7 @@ def coupler_asymmetric(
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
+    cross_section: CrossSectionSpec = "xs_sc_no_pins",
 ) -> Component:
     """Bend coupled to straight waveguide.
 
@@ -24,7 +23,6 @@ def coupler_asymmetric(
         dy: port to port vertical spacing.
         dx: bend length in x direction.
         cross_section: spec.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -36,14 +34,14 @@ def coupler_asymmetric(
          gap o1____________    |  dy
                             o3
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section)
     width = x.width
     bend_component = (
-        bend(size=(dx, dy - gap - width), cross_section=cross_section, **kwargs)
+        bend(size=(dx, dy - gap - width), cross_section=cross_section)
         if callable(bend)
         else bend
     )
-    wg = straight(cross_section=cross_section, **kwargs)
+    wg = straight(cross_section=cross_section)
 
     w = bend_component.ports["o1"].width
     y = (w + gap) / 2
@@ -67,5 +65,5 @@ def coupler_asymmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_asymmetric(gap=0.4, layer=(2, 0))
-    c.show(show_ports=True)
+    c = coupler_asymmetric(gap=0.4)
+    c.show(show_ports=False)

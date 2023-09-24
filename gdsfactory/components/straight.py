@@ -33,7 +33,7 @@ def straight(
     path = p.extrude(x)
     ref = c << path
     c.add_ports(ref.ports)
-    if add_pins and x.add_pins:
+    if add_pins:
         c = x.add_pins(c)
     c.info["length"] = length
     c.info["width"] = x.sections[0].width

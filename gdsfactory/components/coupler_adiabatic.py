@@ -16,7 +16,6 @@ def coupler_adiabatic(
     output_wg_sep: float = 3.0,
     dw: float = 0.1,
     cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
 ) -> Component:
     """Returns 50/50 adiabatic coupler.
 
@@ -45,8 +44,6 @@ def coupler_adiabatic(
             In Region 1, top arm tapers to width+dw/2.0, bottom taper to width-dw/2.0.
         cross_section: cross_section spec.
 
-    Keyword Args:
-        cross_section kwargs.
     """
     # Control points for input and output S-bends
     control_points_input_top = [
@@ -81,7 +78,7 @@ def coupler_adiabatic(
 
     c = Component()
 
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section)
     width = float(x.width)
     width_top = width + dw
     width_bot = width - dw
@@ -91,10 +88,10 @@ def coupler_adiabatic(
     coupler = c << gf.components.coupler_straight(length=length2, cross_section=x)
 
     taper_top = c << gf.components.taper(
-        width1=width, width2=width_top, cross_section=cross_section, **kwargs
+        width1=width, width2=width_top, cross_section=cross_section
     )
     taper_bot = c << gf.components.taper(
-        width1=width, width2=width_bot, cross_section=cross_section, **kwargs
+        width1=width, width2=width_bot, cross_section=cross_section
     )
 
     taper_bot.connect("o1", coupler.ports["o1"])
@@ -122,9 +119,10 @@ def coupler_adiabatic(
     c.add_port("o2", port=sbend_left_top.ports["o1"])
     c.add_port("o3", port=sbend_right_top.ports["o2"])
     c.add_port("o4", port=sbend_right_bot.ports["o2"])
+    x.add_pins(c)
     return c
 
 
 if __name__ == "__main__":
-    c = coupler_adiabatic(length3=5, bbox_offsets=[0.5], bbox_layers=[(111, 0)])
-    c.show(show_ports=True)
+    c = coupler_adiabatic(length3=5)
+    c.show(show_ports=False)
