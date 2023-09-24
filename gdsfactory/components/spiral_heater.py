@@ -324,7 +324,7 @@ def spiral_racetrack_heater_metal(
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
     waveguide_cross_section: CrossSectionSpec = "xs_sc",
-    heater_cross_section: CrossSectionSpec = "heater_metal",
+    heater_cross_section: CrossSectionSpec = "xs_heater_metal",
 ) -> Component:
     """Returns spiral racetrack with a heater above.
 

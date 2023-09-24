@@ -54,7 +54,7 @@ settings:
   default:
     bend:
       function: bend_euler
-    bend_cross_section: null
+    cross_section_bend: null
     cross_section: xs_sc
     gap: 0.2
     radius: 10.0
@@ -63,7 +63,7 @@ settings:
   full:
     bend:
       function: bend_euler
-    bend_cross_section: null
+    cross_section_bend: null
     cross_section: xs_sc
     gap: 0.2
     radius: 10.0

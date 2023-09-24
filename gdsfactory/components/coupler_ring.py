@@ -23,7 +23,7 @@ def coupler_ring(
     bend: ComponentFactory = bend_euler,
     coupler_straight: ComponentFactory = coupler_straight,
     cross_section: CrossSectionSpec = "xs_sc",
-    bend_cross_section: CrossSectionSpec | None = None,
+    cross_section_bend: CrossSectionSpec | None = None,
     length_extension: float = 3,
 ) -> Component:
     r"""Coupler for ring.
@@ -36,7 +36,7 @@ def coupler_ring(
         bend: bend spec.
         coupler_straight: two parallel coupled straight waveguides.
         cross_section: cross_section spec.
-        bend_cross_section: optional bend cross_section spec.
+        cross_section_bend: optional bend cross_section spec.
         length_extension: for the ports.
 
     .. code::
@@ -54,9 +54,9 @@ def coupler_ring(
     xs = gf.get_cross_section(cross_section)
     xs_no_pins = xs.copy(add_pins_function_name=None)
 
-    bend_cross_section = bend_cross_section or xs
-    xs_bend = gf.get_cross_section(bend_cross_section)
-    xs_bend = xs.copy(radius=radius, add_pins_function_name=None)
+    cross_section_bend = cross_section_bend or xs
+    xs_bend = gf.get_cross_section(cross_section_bend)
+    xs_bend = xs_bend.copy(radius=radius, add_pins_function_name=None)
 
     # define subcells
     coupler90_component = coupler90(
@@ -64,7 +64,7 @@ def coupler_ring(
         radius=radius,
         bend=bend,
         cross_section=xs_no_pins,
-        bend_cross_section=xs_bend,
+        cross_section_bend=xs_bend,
     )
     coupler_straight_component = coupler_straight(
         gap=gap,
@@ -130,7 +130,6 @@ def coupler_ring_point(
         bend: bend spec.
         coupler_straight: two parallel coupled straight waveguides.
         cross_section: cross_section spec.
-        bend_cross_section: optional bend cross_section spec.
         length_extension: for the ports.
     """
     c = gf.Component()
@@ -156,5 +155,5 @@ def coupler_ring_point(
 
 
 if __name__ == "__main__":
-    c = coupler_ring()
+    c = coupler_ring(cross_section_bend="xs_sc_heater_metal")
     c.show(show_ports=False)

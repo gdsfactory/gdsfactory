@@ -148,8 +148,8 @@ def straight_heater_metal_undercut(
 @cell
 def straight_heater_metal_simple(
     length: float = 320.0,
-    cross_section_heater: CrossSectionSpec = "heater_metal",
-    cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
+    cross_section_heater: CrossSectionSpec = "xs_heater_metal",
+    cross_section_waveguide_heater: CrossSectionSpec = "xs_sc_heater_metal",
     via_stack: ComponentSpec | None = "via_stack_heater_mtop",
     port_orientation1: int | None = None,
     port_orientation2: int | None = None,
