@@ -81,6 +81,9 @@ if __name__ == "__main__":
 
     # c = taper_cross_section(gf.cross_section.strip, gf.cross_section.rib)
     # c = taper_cross_section_sine()
-    c = taper_cross_section_linear()
-    print([i.name for i in c.get_dependencies()])
+    # c = taper_cross_section_linear()
+    # print([i.name for i in c.get_dependencies()])
+    cross_section1 = gf.cross_section.rib_heater_doped
+    cross_section2 = gf.cross_section.strip_rib_tip
+    c = taper_cross_section(cross_section1, cross_section2)
     c.show(show_ports=True)

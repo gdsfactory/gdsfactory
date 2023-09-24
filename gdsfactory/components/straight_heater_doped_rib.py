@@ -23,15 +23,12 @@ def straight_heater_doped_rib(
     via_stack_metal_size: tuple[float, float] = (10.0, 10.0),
     via_stack_size: tuple[float, float] = (10.0, 10.0),
     taper: ComponentSpec | None = taper_cross_section,
-    with_taper1: bool = True,
-    with_taper2: bool = True,
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
     via_stack_gap: float = 0.0,
     width: float = 0.5,
     xoffset_tip1: float = 0.2,
     xoffset_tip2: float = 0.4,
-    **kwargs,
 ) -> Component:
     r"""Returns a doped thermal phase shifter.
 
@@ -53,7 +50,6 @@ def straight_heater_doped_rib(
         width: waveguide width on the ridge.
         xoffset_tip1: distance in um from input taper to via_stack.
         xoffset_tip2: distance in um from output taper to via_stack.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -101,7 +97,6 @@ def straight_heater_doped_rib(
         heater_width=heater_width,
         heater_gap=heater_gap,
         width=width,
-        **kwargs,
     )
 
     if taper:
@@ -118,21 +113,14 @@ def straight_heater_doped_rib(
     )
 
     if taper:
-        if with_taper1:
-            taper1 = c << taper
-            taper1.connect("o2", wg.ports["o1"])
-            c.add_port("o1", port=taper1.ports["o1"])
-        else:
-            c.add_port("o1", port=wg.ports["o1"])
+        taper1 = c << taper
+        taper1.connect("o2", wg.ports["o1"])
+        c.add_port("o1", port=taper1.ports["o1"])
+        taper2 = c << taper
+        taper2.mirror()
+        taper2.connect("o2", wg.ports["o2"])
+        c.add_port("o2", port=taper2.ports["o1"])
 
-        if with_taper2:
-            taper2 = c << taper
-            taper2.mirror()
-            taper2.connect("o2", wg.ports["o2"])
-            c.add_port("o2", port=taper2.ports["o1"])
-
-        else:
-            c.add_port("o2", port=wg.ports["o2"])
     else:
         c.add_port("o2", port=wg.ports["o2"])
         c.add_port("o1", port=wg.ports["o1"])
@@ -202,10 +190,5 @@ def test_straight_heater_doped_rib_ports() -> None:
 
 
 if __name__ == "__main__":
-    c = straight_heater_doped_rib(xoffset_tip1=10)
-    # c = straight_heater_doped_rib(with_taper1=False)
-    # c = straight_heater_doped_rib(length=500)
-    settings = c.settings.full
-    cell_name = c.settings.function_name
-    c2 = gf.get_component({"component": cell_name, "settings": settings})
+    c = straight_heater_doped_rib()
     c.show(show_ports=True)

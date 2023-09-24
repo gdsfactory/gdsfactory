@@ -1747,6 +1747,9 @@ def rib_heater_doped(
         slab_offset = +slab_width / 2
 
     sections = list(sections or [])
+    sections += [
+        Section(width=slab_width, layer=layer_slab, offset=slab_offset, name="slab")
+    ]
 
     if with_bot_heater:
         sections += [
@@ -1756,9 +1759,6 @@ def rib_heater_doped(
         sections += [
             Section(layer=layer_heater, width=heater_width, offset=-heater_offset)
         ]
-    sections += [
-        Section(width=slab_width, layer=layer_slab, offset=slab_offset, name="slab")
-    ]
     return strip(
         width=width,
         layer=layer,
