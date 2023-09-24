@@ -617,7 +617,7 @@ settings:
   child: null
   default:
     combiner: null
-    cross_section: strip
+    cross_section: xs_sc
     input_coupler: null
     output_coupler: null
     splitter: mmi1x2
@@ -626,7 +626,7 @@ settings:
     yspacing: 10.0
   full:
     combiner: null
-    cross_section: strip
+    cross_section: xs_sc
     input_coupler: null
     output_coupler: null
     splitter: mmi1x2

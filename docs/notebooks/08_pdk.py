@@ -215,12 +215,12 @@ pdk1.get_layer([1, 0])
 #
 # You can access cross_sections from the pdk from the cross_section name, or using a dict to customize the CrossSection
 
-pdk1.get_cross_section("pin")
+pdk1.get_cross_section("xs_pin")
 
-cross_section_spec_string = "pin"
+cross_section_spec_string = "xs_pin"
 gf.components.straight(cross_section=cross_section_spec_string)
 
-cross_section_spec_dict = dict(cross_section="pin", settings=dict(width=2))
+cross_section_spec_dict = dict(cross_section="xs_pin", settings=dict(width=2))
 print(pdk1.get_cross_section(cross_section_spec_dict))
 wg_pin = gf.components.straight(cross_section=cross_section_spec_dict)
 wg_pin

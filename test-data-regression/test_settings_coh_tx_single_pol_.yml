@@ -318,12 +318,12 @@ settings:
   default:
     balanced_phase_shifters: false
     combiner: null
-    cross_section: strip
+    cross_section: xs_sc
     input_coupler: null
     mzm:
       component: mzi
       settings:
-        cross_section_x_top: pin
+        cross_section_x_top: xs_pin
         delta_length: 10.0
         straight_x_top: straight_pin
     mzm_length: 200.0
@@ -339,12 +339,12 @@ settings:
   full:
     balanced_phase_shifters: false
     combiner: null
-    cross_section: strip
+    cross_section: xs_sc
     input_coupler: null
     mzm:
       component: mzi
       settings:
-        cross_section_x_top: pin
+        cross_section_x_top: xs_pin
         delta_length: 10.0
         straight_x_top: straight_pin
     mzm_length: 200.0

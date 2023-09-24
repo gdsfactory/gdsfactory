@@ -10,7 +10,7 @@ default_mzm = dict(
     component="mzi",
     settings=dict(
         straight_x_top="straight_pin",
-        cross_section_x_top="pin",
+        cross_section_x_top="xs_pin",
         delta_length=10.0,
     ),
 )
