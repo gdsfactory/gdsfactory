@@ -14,6 +14,7 @@ import toolz
 from pydantic import BaseModel, validate_call
 
 from gdsfactory.component import Component
+from gdsfactory.config import CONF
 from gdsfactory.name import clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
@@ -84,9 +85,7 @@ def cell_without_validator(func: _F) -> _F:
         active_pdk = get_active_pdk()
         cell_decorator_settings = active_pdk.cell_decorator_settings
 
-        assert_ports_on_grid = kwargs.pop(
-            "assert_ports_on_grid", cell_decorator_settings.assert_ports_on_grid
-        )
+        ports_off_grid = kwargs.pop("ports_off_grid", CONF.ports_off_grid)
         with_hash = kwargs.pop("with_hash", cell_decorator_settings.with_hash)
         autoname = kwargs.pop("autoname", cell_decorator_settings.autoname)
         name = kwargs.pop("name", cell_decorator_settings.name)
@@ -205,8 +204,8 @@ def cell_without_validator(func: _F) -> _F:
 
         component = func(*args, **kwargs)
 
-        if assert_ports_on_grid:
-            component.assert_ports_on_grid()
+        if ports_off_grid in ("warn", "error"):
+            component.assert_ports_on_grid(error_type=ports_off_grid)
 
         if flatten:
             component = component.flatten()

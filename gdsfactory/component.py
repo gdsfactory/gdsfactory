@@ -676,10 +676,12 @@ class Component(_GeometryHelper):
 
         return get_netlist_flat(component=self, **kwargs)
 
-    def assert_ports_on_grid(self, grid_factor: int = 1) -> None:
+    def assert_ports_on_grid(
+        self, grid_factor: int = 1, error_type: str = "error"
+    ) -> None:
         """Asserts that all ports are on grid."""
         for port in self.ports.values():
-            port.assert_on_grid(grid_factor=grid_factor)
+            port.assert_on_grid(grid_factor=grid_factor, error_type=error_type)
 
     def get_ports(self, depth: int | None = 0):
         """Returns copies of all the ports of the Component, rotated and \

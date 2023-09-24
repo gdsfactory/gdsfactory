@@ -21,6 +21,7 @@ from typing import Any, Literal
 import loguru
 import yaml
 from loguru import logger as logger
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich.console import Console
 from rich.table import Table
@@ -198,6 +199,10 @@ class Settings(BaseSettings):
     pdk: str | None = None
     difftest_ignore_cell_name_differences: bool = True
     layer_error_path: tuple[int, int] = (1000, 0)
+    ports_off_grid: Literal["warn", "error", "ignore"] = Field(
+        default="warn", description="Ensures ports are on grid."
+    )
+    enforce_ports_on_grid: bool = True
 
     @classmethod
     def from_config(cls) -> Settings:
