@@ -40,14 +40,14 @@ settings:
   default:
     bend:
       function: bend_s
-    cross_section: strip
+    cross_section: xs_sc_no_pins
     dx: 10.0
     dy: 5.0
     gap: 0.234
   full:
     bend:
       function: bend_s
-    cross_section: strip
+    cross_section: xs_sc_no_pins
     dx: 10.0
     dy: 5.0
     gap: 0.234

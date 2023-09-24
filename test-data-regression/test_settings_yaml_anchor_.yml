@@ -1,4 +1,4 @@
-name: yaml_anchor_14cbc915
+name: yaml_anchor_18adfe0a
 ports: {}
 settings:
   changed:
@@ -36,7 +36,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -44,7 +44,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -94,7 +94,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -102,7 +102,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -116,4 +116,4 @@ settings:
     - mmi_short
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: yaml_anchor_14cbc915
+  name: yaml_anchor_18adfe0a

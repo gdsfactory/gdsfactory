@@ -59,7 +59,7 @@ settings:
       function: coupler90
     coupler_straight:
       function: coupler_straight
-    cross_section: strip
+    cross_section: xs_sc
     gap: 0.2
     length_extension: 3
     length_x: 4.0
@@ -72,7 +72,7 @@ settings:
       function: coupler90
     coupler_straight:
       function: coupler_straight
-    cross_section: strip
+    cross_section: xs_sc
     gap: 0.2
     length_extension: 3
     length_x: 4.0

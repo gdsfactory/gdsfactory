@@ -29,7 +29,7 @@ settings:
   child: null
   default:
     big_last_tooth: false
-    cross_section: strip
+    cross_section: xs_sc
     fiber_angle: 15.0
     grating_line_width: 0.343
     layer_slab: SLAB150
@@ -45,7 +45,7 @@ settings:
     wavelength: 1.554
   full:
     big_last_tooth: false
-    cross_section: strip
+    cross_section: xs_sc
     fiber_angle: 15.0
     grating_line_width: 0.343
     layer_slab: SLAB150

@@ -59,7 +59,7 @@ settings:
           angle: 180
       bend90:
         function: bend_euler
-      cross_section: strip
+      cross_section: xs_sc
       cross_section_bend: null
       cross_section_bend180: null
       grating_spacing: 127.0
@@ -80,7 +80,7 @@ settings:
           angle: 180
       bend90:
         function: bend_euler
-      cross_section: strip
+      cross_section: xs_sc
       cross_section_bend: null
       cross_section_bend180: null
       grating_spacing: 127.0
@@ -101,26 +101,12 @@ settings:
   default:
     bend:
       function: bend_euler
-    bend_radius_loopback: null
     component:
       component: spiral_inner_io
       settings:
         length: 20000.0
     component_name: null
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
+    cross_section: xs_sc
     excluded_ports: null
     gc_port_name: o1
     gc_rotation: -90
@@ -145,26 +131,12 @@ settings:
   full:
     bend:
       function: bend_euler
-    bend_radius_loopback: null
     component:
       component: spiral_inner_io
       settings:
         length: 20000.0
     component_name: null
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
+    cross_section: xs_sc
     excluded_ports: null
     gc_port_name: o1
     gc_rotation: -90

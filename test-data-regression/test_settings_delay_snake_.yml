@@ -30,13 +30,13 @@ settings:
   default:
     L0: 5.0
     bend: bend_euler
-    cross_section: strip
+    cross_section: xs_sc
     length: 1600.0
     n: 2
   full:
     L0: 5.0
     bend: bend_euler
-    cross_section: strip
+    cross_section: xs_sc
     length: 1600.0
     n: 2
   function_name: delay_snake

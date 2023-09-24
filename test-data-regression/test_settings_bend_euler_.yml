@@ -28,34 +28,27 @@ settings:
   changed: {}
   child: null
   default:
+    add_pins: true
     angle: 90.0
-    cross_section: strip
+    cross_section: xs_sc
     direction: ccw
     npoints: null
     p: 0.5
     with_arc_floorplan: true
-    with_bbox: true
   full:
+    add_pins: true
     angle: 90.0
-    cross_section: strip
+    cross_section: xs_sc
     direction: ccw
     npoints: null
     p: 0.5
     with_arc_floorplan: true
-    with_bbox: true
   function_name: bend_euler
   info:
     dy: 10.0
     length: 16.637
     radius: 10.0
     radius_min: 7.061
-    route_info:
-      length: 16.637
-      n_bend_90: 1.0
-      strip_length: 16.637
-      type: strip
-      weight: 16.637
-    type: strip
     width: 0.5
   info_version: 2
   module: gdsfactory.components.bend_euler

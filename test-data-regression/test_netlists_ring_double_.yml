@@ -17,28 +17,16 @@ instances:
   straight_1:
     component: straight
     info:
-      cross_section: strip
+      cross_section: xs_sc
       length: 0.01
-      route_info:
-        length: 0.01
-        strip_length: 0.01
-        type: strip
-        weight: 0.01
-      type: strip
       width: 0.5
     settings:
       length: 0.01
   straight_2:
     component: straight
     info:
-      cross_section: strip
+      cross_section: xs_sc
       length: 0.01
-      route_info:
-        length: 0.01
-        strip_length: 0.01
-        type: strip
-        weight: 0.01
-      type: strip
       width: 0.5
     settings:
       length: 0.01

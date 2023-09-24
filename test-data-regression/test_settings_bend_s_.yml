@@ -49,7 +49,7 @@ settings:
         - 2.0
       - - 10.0
         - 2.0
-      cross_section: strip
+      cross_section: xs_sc
       end_angle: null
       npoints: 201
       start_angle: null
@@ -65,7 +65,7 @@ settings:
         - 1.8
       - - 11.0
         - 1.8
-      cross_section: strip
+      cross_section: xs_sc
       end_angle: null
       npoints: 99
       start_angle: null
@@ -82,14 +82,14 @@ settings:
     name: bezier_9d5ee62f
   default:
     check_min_radius: false
-    cross_section: strip
+    cross_section: xs_sc
     npoints: 99
     size:
     - 11.0
     - 1.8
   full:
     check_min_radius: false
-    cross_section: strip
+    cross_section: xs_sc
     npoints: 99
     size:
     - 11.0

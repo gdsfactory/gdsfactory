@@ -2,8 +2,8 @@ name: array_with_fanout
 ports:
   o1:
     center:
-    - -45.0
-    - -80.0
+    - -50.0
+    - -85.0
     layer:
     - 1
     - 0
@@ -14,8 +14,8 @@ ports:
     width: 0.5
   o2:
     center:
-    - -45.0
-    - -70.0
+    - -50.0
+    - -75.0
     layer:
     - 1
     - 0
@@ -26,8 +26,8 @@ ports:
     width: 0.5
   o3:
     center:
-    - -45.0
-    - -60.0
+    - -50.0
+    - -65.0
     layer:
     - 1
     - 0
@@ -46,10 +46,9 @@ settings:
     columns: 3
     component: pad
     component_port_name: e4
-    cross_section: strip
+    cross_section: xs_sc
     end_straight_length: 40.0
     pitch: 150.0
-    radius: 5.0
     start_straight_length: 5.0
     waveguide_pitch: 10.0
   full:
@@ -59,10 +58,9 @@ settings:
     columns: 3
     component: pad
     component_port_name: e4
-    cross_section: strip
+    cross_section: xs_sc
     end_straight_length: 40.0
     pitch: 150.0
-    radius: 5.0
     start_straight_length: 5.0
     waveguide_pitch: 10.0
   function_name: array_with_fanout

@@ -53,21 +53,20 @@ settings:
   child: null
   default:
     coupling_length: 40.0
-    cross_section: strip
+    cross_section: xs_sc
     dw: 0.1
     dx: 10.0
     dy: 5.0
     gap: 0.5
   full:
     coupling_length: 40.0
-    cross_section: strip
+    cross_section: xs_sc
     dw: 0.1
     dx: 10.0
     dy: 5.0
     gap: 0.5
   function_name: coupler_full
-  info:
-    type: strip
+  info: {}
   info_version: 2
   module: gdsfactory.components.coupler_full
   name: coupler_full

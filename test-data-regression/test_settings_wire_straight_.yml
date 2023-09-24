@@ -1,4 +1,4 @@
-name: straight_cross_sectionmetal_routing
+name: straight_299ab026
 ports:
   e1:
     center:
@@ -26,64 +26,23 @@ ports:
     width: 10.0
 settings:
   changed:
-    cross_section: metal_routing
+    cross_section: xs_metal_routing
   child: null
   default:
-    cross_section: strip
+    add_pins: true
+    cross_section: xs_sc
     length: 10.0
     npoints: 2
-    with_bbox: true
   full:
-    cross_section: metal_routing
+    add_pins: true
+    cross_section: xs_metal_routing
     length: 10.0
     npoints: 2
-    with_bbox: true
   function_name: straight
   info:
-    cross_section: metal_routing
+    cross_section: xs_metal_routing
     length: 10.0
-    route_info:
-      length: 10.0
-      type:
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: []
-        bbox_offsets: []
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        end_straight_length: 0.01
-        gap: 5.0
-        info: {}
-        layer: M3
-        min_length: 5.0
-        mirror: false
-        offset: 0.0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        radius: null
-        sections: []
-        simplify: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        vias: []
-        width: 10.0
-        width_wide: null
-      weight: 10.0
-      ? '{''layer'': ''M3'', ''width'': 10.0, ''offset'': 0.0, ''radius'': None, ''width_wide'':
-        None, ''simplify'': None, ''auto_widen'': False, ''auto_widen_minimum_length'':
-        200.0, ''taper_length'': 10.0, ''bbox_layers'': [], ''bbox_offsets'': [],
-        ''cladding_layers'': None, ''cladding_offsets'': None, ''cladding_simplify'':
-        None, ''sections'': [], ''port_names'': [''e1'', ''e2''], ''port_types'':
-        [''electrical'', ''electrical''], ''gap'': 5.0, ''min_length'': 5.0, ''start_straight_length'':
-        0.01, ''end_straight_length'': 0.01, ''info'': {}, ''mirror'': False, ''vias'':
-        []}_length'
-      : 10.0
     width: 10.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_cross_sectionmetal_routing
+  name: straight_299ab026

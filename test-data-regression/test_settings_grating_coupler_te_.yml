@@ -29,7 +29,7 @@ settings:
     taper_angle: 35
   child: null
   default:
-    cross_section: strip
+    cross_section: xs_sc
     end_straight_length: 0.2
     fiber_angle: 15.0
     grating_line_width: 0.343
@@ -44,7 +44,7 @@ settings:
     trenches_extra_angle: 9.0
     wavelength: 1.53
   full:
-    cross_section: strip
+    cross_section: xs_sc
     end_straight_length: 0.2
     fiber_angle: 15.0
     grating_line_width: 0.343

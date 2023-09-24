@@ -13,13 +13,6 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
-      route_info:
-        length: 16.637
-        n_bend_90: 1.0
-        strip_length: 16.637
-        type: strip
-        weight: 16.637
-      type: strip
       width: 0.5
     settings: {}
   bend_euler_2:
@@ -29,13 +22,6 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
-      route_info:
-        length: 16.637
-        n_bend_90: 1.0
-        strip_length: 16.637
-        type: strip
-        weight: 16.637
-      type: strip
       width: 0.5
     settings: {}
   mmi_bot:
@@ -51,46 +37,28 @@ instances:
   straight_1:
     component: straight
     info:
-      cross_section: strip
+      cross_section: xs_sc
       length: 19.99
-      route_info:
-        length: 19.99
-        strip_length: 19.99
-        type: strip
-        weight: 19.99
-      type: strip
       width: 0.5
     settings:
       length: 19.99
   straight_2:
     component: straight
     info:
-      cross_section: strip
+      cross_section: xs_sc
       length: 18.75
-      route_info:
-        length: 18.75
-        strip_length: 18.75
-        type: strip
-        weight: 18.75
-      type: strip
       width: 0.5
     settings:
       length: 18.75
   straight_3:
     component: straight
     info:
-      cross_section: strip
+      cross_section: xs_sc
       length: 0.01
-      route_info:
-        length: 0.01
-        strip_length: 0.01
-        type: strip
-        weight: 0.01
-      type: strip
       width: 0.5
     settings:
       length: 0.01
-name: sample_docstring_7864c0c5
+name: sample_docstring_cd51b535
 placements:
   bend_euler_1:
     mirror: true

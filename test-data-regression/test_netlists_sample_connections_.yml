@@ -4,32 +4,20 @@ instances:
   wgn:
     component: straight
     info:
-      cross_section: strip
+      cross_section: xs_sc
       length: 0.5
-      route_info:
-        length: 0.5
-        strip_length: 0.5
-        type: strip
-        weight: 0.5
-      type: strip
       width: 0.5
     settings:
       length: 0.5
   wgw:
     component: straight
     info:
-      cross_section: strip
+      cross_section: xs_sc
       length: 1.0
-      route_info:
-        length: 1.0
-        strip_length: 1.0
-        type: strip
-        weight: 1.0
-      type: strip
       width: 0.5
     settings:
       length: 1
-name: sample_connections_65d4d507
+name: sample_connections_dd1d97b8
 placements:
   wgn:
     mirror: 0

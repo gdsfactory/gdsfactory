@@ -37,7 +37,7 @@ settings:
       - 2.0
     - - 10.0
       - 2.0
-    cross_section: strip
+    cross_section: xs_sc
     end_angle: null
     npoints: 201
     start_angle: null
@@ -53,7 +53,7 @@ settings:
       - 2.0
     - - 10.0
       - 2.0
-    cross_section: strip
+    cross_section: xs_sc
     end_angle: null
     npoints: 201
     start_angle: null

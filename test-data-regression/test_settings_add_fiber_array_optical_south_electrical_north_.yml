@@ -95,7 +95,7 @@ settings:
         bend:
           function: bend_euler
         combiner: null
-        cross_section: strip
+        cross_section: xs_sc
         cross_section_x_bot: null
         cross_section_x_top: null
         delta_length: 10.0
@@ -119,7 +119,7 @@ settings:
         bend:
           function: bend_euler
         combiner: null
-        cross_section: strip
+        cross_section: xs_sc
         cross_section_x_bot: null
         cross_section_x_top: null
         delta_length: 10.0
@@ -147,7 +147,7 @@ settings:
       component:
         function: straight
       component_name: null
-      cross_section: strip
+      cross_section: xs_sc
       gc_port_labels: null
       gc_port_name: o1
       get_input_labels_function:
@@ -172,7 +172,7 @@ settings:
           length_x: 200
           straight_x_top: straight_heater_metal
       component_name: null
-      cross_section: strip
+      cross_section: xs_sc
       fiber_spacing: 127.0
       gc_port_labels: null
       gc_port_name: o1
@@ -225,7 +225,7 @@ settings:
     pad_gc_spacing: 250.0
     pad_spacing: 100.0
     with_loopback: true
-    xs_metal: metal_routing
+    xs_metal: xs_metal_routing
   full:
     analysis: ''
     analysis_settings: null
@@ -254,7 +254,7 @@ settings:
     pad_gc_spacing: 250.0
     pad_spacing: 100.0
     with_loopback: true
-    xs_metal: metal_routing
+    xs_metal: xs_metal_routing
   function_name: add_fiber_array_optical_south_electrical_north
   info:
     grating_coupler:

@@ -154,11 +154,14 @@ class CrossSection(BaseModel):
         return self.sections[0].layer
 
     def copy(self, width: float | None = None, **kwargs):
-        """ "Returns a copy of the cross_section with a new width or the same by default."""
+        """Returns copy of the cross_section with new parameters."""
+        for kwarg in kwargs:
+            if kwarg not in dict(self):
+                raise ValueError(f"{kwarg!r} not in CrossSection")
         if width is not None:
             sections = [s.model_copy() for s in self.sections]
             sections[0] = sections[0].model_copy(update={"width": width})
-            return self.model_copy(update={"sections": sections})
+            return self.model_copy(update={"sections": tuple(sections), **kwargs})
         return self.model_copy(update=kwargs)
 
     def add_pins(self, component: Component) -> Component:
@@ -579,6 +582,9 @@ metal1 = partial(
     width=10.0,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
+    radius=None,
+    min_length=5,
+    gap=5,
 )
 metal2 = partial(
     metal1,
@@ -2016,7 +2022,8 @@ if __name__ == "__main__":
     # xs = slot(width=0.3)
     # xs = rib_with_trenches()
     p = gf.path.straight()
-    print(xs.copy(width=10))
+    xs = xs.copy(width=10)
+    # print(xs.copy(width=10))
     # c = p.extrude(xs)
     # xs = l_with_trenches(
     #     width=0.5,
@@ -2039,4 +2046,3 @@ if __name__ == "__main__":
     # c = p.extrude(xs)
     # c.show(show_ports=True)
     # x = CrossSection(width=0.5)
-"xs_sc"

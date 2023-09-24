@@ -2,8 +2,8 @@ name: coupler_bent
 ports:
   o1:
     center:
-    - -35.176
-    - -1.825
+    - -24.978
+    - -1.389
     layer:
     - 1
     - 0
@@ -14,8 +14,8 @@ ports:
     width: 0.4
   o2:
     center:
-    - -35.176
-    - -4.503
+    - -24.978
+    - -2.799
     layer:
     - 1
     - 0
@@ -26,8 +26,8 @@ ports:
     width: 0.4
   o3:
     center:
-    - 35.176
-    - -1.825
+    - 24.978
+    - -1.389
     layer:
     - 1
     - 0
@@ -38,13 +38,13 @@ ports:
     width: 0.4
   o4:
     center:
-    - 35.176
-    - -4.503
+    - 24.978
+    - -2.799
     layer:
     - 1
     - 0
     name: o4
-    orientation: 0.0
+    orientation: 360.0
     port_type: optical
     shear_angle: null
     width: 0.4
@@ -52,6 +52,7 @@ settings:
   changed: {}
   child: null
   default:
+    cross_section: xs_sc
     gap: 0.2
     length: 8.6
     length_straight: 10
@@ -59,6 +60,7 @@ settings:
     width1: 0.4
     width2: 0.4
   full:
+    cross_section: xs_sc
     gap: 0.2
     length: 8.6
     length_straight: 10

@@ -1,4 +1,4 @@
-name: sample_connections_65d4d507
+name: sample_connections_dd1d97b8
 ports: {}
 settings:
   changed:
@@ -25,7 +25,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -33,7 +33,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -72,7 +72,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -80,7 +80,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -94,4 +94,4 @@ settings:
     - wgn
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: sample_connections_65d4d507
+  name: sample_connections_dd1d97b8

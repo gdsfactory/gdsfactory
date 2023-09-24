@@ -7,27 +7,15 @@ instances:
       dy: 10.0
       length: 15.708
       radius: 10.0
-      route_info:
-        length: 15.708
-        n_bend_90: 1.0
-        strip_length: 15.708
-        type: strip
-        weight: 15.708
     settings: {}
   s:
     component: straight
     info:
-      cross_section: strip
+      cross_section: xs_sc
       length: 10.0
-      route_info:
-        length: 10.0
-        strip_length: 10.0
-        type: strip
-        weight: 10.0
-      type: strip
       width: 0.5
     settings: {}
-name: sample_mirror_simple_f31e619a
+name: sample_mirror_simple_0e62769d
 placements:
   b:
     mirror: true

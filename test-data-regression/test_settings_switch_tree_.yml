@@ -62,7 +62,7 @@ ports:
     width: 0.5
   top_l_e1_0_1:
     center:
-    - 19.5
+    - 19.6
     - 22.625
     layer:
     - 49
@@ -74,7 +74,7 @@ ports:
     width: 11.0
   top_l_e1_1_19:
     center:
-    - 519.5
+    - 519.6
     - 72.625
     layer:
     - 49
@@ -86,7 +86,7 @@ ports:
     width: 11.0
   top_l_e1_1_9:
     center:
-    - 519.5
+    - 519.6
     - -27.375
     layer:
     - 49
@@ -98,7 +98,7 @@ ports:
     width: 11.0
   top_l_e2_0_3:
     center:
-    - 25.0
+    - 25.1
     - 28.125
     layer:
     - 49
@@ -110,7 +110,7 @@ ports:
     width: 11.0
   top_l_e2_1_11:
     center:
-    - 525.0
+    - 525.1
     - -21.875
     layer:
     - 49
@@ -122,7 +122,7 @@ ports:
     width: 11.0
   top_l_e2_1_21:
     center:
-    - 525.0
+    - 525.1
     - 78.125
     layer:
     - 49
@@ -134,7 +134,7 @@ ports:
     width: 11.0
   top_l_e3_0_5:
     center:
-    - 30.5
+    - 30.6
     - 22.625
     layer:
     - 49
@@ -146,7 +146,7 @@ ports:
     width: 11.0
   top_l_e3_1_13:
     center:
-    - 530.5
+    - 530.6
     - -27.375
     layer:
     - 49
@@ -158,7 +158,7 @@ ports:
     width: 11.0
   top_l_e3_1_23:
     center:
-    - 530.5
+    - 530.6
     - 72.625
     layer:
     - 49
@@ -170,7 +170,7 @@ ports:
     width: 11.0
   top_l_e4_0_8:
     center:
-    - 25.0
+    - 25.1
     - 17.125
     layer:
     - 49
@@ -182,7 +182,7 @@ ports:
     width: 11.0
   top_l_e4_1_16:
     center:
-    - 525.0
+    - 525.1
     - -32.875
     layer:
     - 49
@@ -194,7 +194,7 @@ ports:
     width: 11.0
   top_l_e4_1_26:
     center:
-    - 525.0
+    - 525.1
     - 67.125
     layer:
     - 49
@@ -206,7 +206,7 @@ ports:
     width: 11.0
   top_r_e1_0_2:
     center:
-    - 360.5
+    - 360.4
     - 22.625
     layer:
     - 49
@@ -218,7 +218,7 @@ ports:
     width: 11.0
   top_r_e1_1_10:
     center:
-    - 860.5
+    - 860.4
     - -27.375
     layer:
     - 49
@@ -230,7 +230,7 @@ ports:
     width: 11.0
   top_r_e1_1_20:
     center:
-    - 860.5
+    - 860.4
     - 72.625
     layer:
     - 49
@@ -242,7 +242,7 @@ ports:
     width: 11.0
   top_r_e2_0_4:
     center:
-    - 366.0
+    - 365.9
     - 28.125
     layer:
     - 49
@@ -254,7 +254,7 @@ ports:
     width: 11.0
   top_r_e2_1_12:
     center:
-    - 866.0
+    - 865.9
     - -21.875
     layer:
     - 49
@@ -266,7 +266,7 @@ ports:
     width: 11.0
   top_r_e2_1_22:
     center:
-    - 866.0
+    - 865.9
     - 78.125
     layer:
     - 49
@@ -278,7 +278,7 @@ ports:
     width: 11.0
   top_r_e3_0_6:
     center:
-    - 371.5
+    - 371.4
     - 22.625
     layer:
     - 49
@@ -290,7 +290,7 @@ ports:
     width: 11.0
   top_r_e3_1_14:
     center:
-    - 871.5
+    - 871.4
     - -27.375
     layer:
     - 49
@@ -302,7 +302,7 @@ ports:
     width: 11.0
   top_r_e3_1_24:
     center:
-    - 871.5
+    - 871.4
     - 72.625
     layer:
     - 49
@@ -314,7 +314,7 @@ ports:
     width: 11.0
   top_r_e4_0_7:
     center:
-    - 366.0
+    - 365.9
     - 17.125
     layer:
     - 49
@@ -326,7 +326,7 @@ ports:
     width: 11.0
   top_r_e4_1_15:
     center:
-    - 866.0
+    - 865.9
     - -32.875
     layer:
     - 49
@@ -338,7 +338,7 @@ ports:
     width: 11.0
   top_r_e4_1_25:
     center:
-    - 866.0
+    - 865.9
     - 67.125
     layer:
     - 49
@@ -373,7 +373,7 @@ settings:
     bend_s_xsize: null
     coupler:
       function: mmi1x2
-    cross_section: strip
+    cross_section: xs_sc
     noutputs: 4
     spacing:
     - 90.0
@@ -395,7 +395,7 @@ settings:
           function: straight_heater_metal_undercut
           settings:
             with_undercut: false
-    cross_section: strip
+    cross_section: xs_sc
     noutputs: 4
     spacing:
     - 500

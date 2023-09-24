@@ -28,26 +28,20 @@ settings:
   changed: {}
   child: null
   default:
+    add_pins: true
     angle: 90.0
-    cross_section: strip
+    cross_section: xs_sc
     npoints: null
-    with_bbox: true
   full:
+    add_pins: true
     angle: 90.0
-    cross_section: strip
+    cross_section: xs_sc
     npoints: null
-    with_bbox: true
   function_name: bend_circular
   info:
     dy: 10.0
     length: 15.708
     radius: 10.0
-    route_info:
-      length: 15.708
-      n_bend_90: 1.0
-      strip_length: 15.708
-      type: strip
-      weight: 15.708
   info_version: 2
   module: gdsfactory.components.bend_circular
   name: bend_circular

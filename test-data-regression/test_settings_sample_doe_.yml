@@ -1,4 +1,4 @@
-name: mask_8d17f522
+name: mask_93e227fa
 ports: {}
 settings:
   changed:
@@ -28,7 +28,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -36,7 +36,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -78,7 +78,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -86,7 +86,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -99,4 +99,4 @@ settings:
     - mmi1x2_sweep
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: mask_8d17f522
+  name: mask_93e227fa

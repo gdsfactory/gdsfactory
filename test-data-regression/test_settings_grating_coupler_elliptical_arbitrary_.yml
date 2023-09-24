@@ -29,7 +29,7 @@ settings:
   child: null
   default:
     bias_gap: 0
-    cross_section: strip
+    cross_section: xs_sc
     fiber_angle: 15.0
     gaps:
     - 0.1
@@ -64,7 +64,7 @@ settings:
     - 0.5
   full:
     bias_gap: 0
-    cross_section: strip
+    cross_section: xs_sc
     fiber_angle: 15.0
     gaps:
     - 0.1
