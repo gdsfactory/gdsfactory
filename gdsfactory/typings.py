@@ -179,12 +179,7 @@ CellSpec = (
 
 ComponentSpecDict = dict[str, ComponentSpec]
 CrossSectionSpec = (
-    str
-    | CrossSectionFactory
-    | CrossSection
-    | Transition
-    | TransitionFactory
-    | dict[str, Any]
+    str | CrossSectionFactory | CrossSection | dict[str, Any]
 )  # cross_section function, function name or dict
 CrossSectionSpecs = tuple[CrossSectionSpec, ...]
 

@@ -55,7 +55,7 @@ def taper_cross_section(
     taper_path = gf.path.straight(length=length, npoints=npoints)
 
     c = gf.Component()
-    ref = c << gf.path.extrude(taper_path, cross_section=transition)
+    ref = c << gf.path.extrude_transition(taper_path, transition=transition)
     c.add_ports(ref.ports)
     c.absorb(ref)
     if "type" in x1.info and x1.info["type"] == x2.info.get("type"):
@@ -81,6 +81,6 @@ if __name__ == "__main__":
 
     # c = taper_cross_section(gf.cross_section.strip, gf.cross_section.rib)
     # c = taper_cross_section_sine()
-    c = taper_cross_section_parabolic()
+    c = taper_cross_section_linear()
     print([i.name for i in c.get_dependencies()])
     c.show(show_ports=True)
