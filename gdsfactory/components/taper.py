@@ -145,14 +145,12 @@ def taper_strip_to_ridge(
         length=length,
         width1=width1,
         width2=width2,
-        layer=layer_wg,
         cross_section=cross_section,
     )
     taper_slab = taper(
         length=length,
         width1=w_slab1,
         width2=w_slab2,
-        layer=layer_slab,
     )
 
     c = gf.Component()
@@ -235,6 +233,8 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
-    c = taper(width1=1.5, width2=1, cross_section="xs_rc")
+    c = taper_strip_to_ridge_trenches()
+    # c = taper_strip_to_ridge()
+    # c = taper(width1=1.5, width2=1, cross_section="xs_rc")
     # c = taper_sc_nc()
     c.show(show_ports=True)
