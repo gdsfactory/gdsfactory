@@ -437,6 +437,6 @@ def sample_die(size=(8e3, 40e3), y_spacing: float = 10) -> gf.Component:
 
 c = sample_die(cache=False)
 c.show(show_ports=True)  # show in klayout
-c.plot()  # show in jupyter
+c.plot()  # plot in notebook
 
 # %%
