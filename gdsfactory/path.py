@@ -708,7 +708,7 @@ def along_path(
 @cell
 def extrude(
     p: Path,
-    cross_section: CrossSectionSpec | None = None,
+    cross_section=None,
     layer: LayerSpec | None = None,
     width: float | None = None,
     simplify: float | None = None,

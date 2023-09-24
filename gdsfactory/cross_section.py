@@ -667,6 +667,10 @@ def pin(
     width: float = 0.5,
     layer: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB90",
+    layers_via_stack1: LayerSpecs = ("PPP",),
+    layers_via_stack2: LayerSpecs = ("NPP",),
+    bbox_offsets_via_stack1: tuple[float, ...] = (0, -0.2),
+    bbox_offsets_via_stack2: tuple[float, ...] = (0, -0.2),
     via_stack_width: float = 9.0,
     via_stack_gap: float = 0.55,
     slab_gap: float = -0.2,
@@ -681,13 +685,16 @@ def pin(
         width: ridge width.
         layer: ridge layer.
         layer_slab: slab layer.
+        layers_via_stack1: list of bot layer.
+        layers_via_stack2: list of top layer.
+        bbox_offsets_via_stack1: for bot.
+        bbox_offsets_via_stack2: for top.
         via_stack_width: in um.
         via_stack_gap: offset from via_stack to ridge edge.
         slab_gap: extra slab gap (negative: via_stack goes beyond slab).
         layer_via: for via.
         via_width: in um.
         via_offsets: in um.
-        kwargs: other cross_section settings.
 
     https://doi.org/10.1364/OE.26.029983
 
@@ -716,25 +723,41 @@ def pin(
         c = p.extrude(xs)
         c.plot()
     """
+    sections = list(sections or [])
     slab_width = width + 2 * via_stack_gap + 2 * via_stack_width - 2 * slab_gap
-    width / 2 + via_stack_gap + via_stack_width / 2
+    via_stack_offset = width / 2 + via_stack_gap + via_stack_width / 2
 
-    sections = sections or ()
-    sections += (Section(width=slab_width, layer=layer_slab, name="slab"),)
+    sections += [Section(width=slab_width, layer=layer_slab, name="slab")]
+    sections += [
+        Section(
+            layer=layer,
+            width=via_stack_width + 2 * cladding_offset,
+            offset=+via_stack_offset,
+        )
+        for layer, cladding_offset in zip(layers_via_stack1, bbox_offsets_via_stack1)
+    ]
+    sections += [
+        Section(
+            layer=layer,
+            width=via_stack_width + 2 * cladding_offset,
+            offset=-via_stack_offset,
+        )
+        for layer, cladding_offset in zip(layers_via_stack2, bbox_offsets_via_stack2)
+    ]
     if layer_via and via_width and via_offsets:
-        sections += (
+        sections += [
             Section(
                 layer=layer_via,
                 width=via_width,
                 offset=offset,
             )
             for offset in via_offsets
-        )
+        ]
 
     return strip(
         width=width,
         layer=layer,
-        sections=sections,
+        sections=tuple(sections),
     )
 
 
@@ -2056,6 +2079,8 @@ xs_m3 = metal3()
 xs_metal_routing = xs_m3
 xs_rc_with_trenches = rib_with_trenches()
 
+xs_pin = pin()
+
 cross_sections = get_cross_sections(sys.modules[__name__])
 
 
@@ -2067,5 +2092,5 @@ if __name__ == "__main__":
         cladding_offsets=[3],
     )
     p = gf.path.straight()
-    c = p.extrude(xs)
+    c = p.extrude(pin)
     c.show()
