@@ -54,12 +54,12 @@ settings:
   default:
     bend:
       function: bend_euler
-    cross_section_bend: null
     coupler90:
       function: coupler90
     coupler_straight:
       function: coupler_straight
     cross_section: xs_sc
+    cross_section_bend: null
     gap: 0.2
     length_extension: 3
     length_x: 4.0
@@ -67,12 +67,12 @@ settings:
   full:
     bend:
       function: bend_euler
-    cross_section_bend: null
     coupler90:
       function: coupler90
     coupler_straight:
       function: coupler_straight
     cross_section: xs_sc
+    cross_section_bend: null
     gap: 0.2
     length_extension: 3
     length_x: 4.0

@@ -2,7 +2,7 @@ name: ring_double_heater
 ports:
   l_e1:
     center:
-    - -4.01
+    - -6.0
     - 0.0
     layer:
     - 49
@@ -14,7 +14,7 @@ ports:
     width: 4.0
   l_e2:
     center:
-    - -2.01
+    - -4.0
     - 2.0
     layer:
     - 49
@@ -26,7 +26,7 @@ ports:
     width: 4.0
   l_e3:
     center:
-    - -0.01
+    - -2.0
     - 0.0
     layer:
     - 49
@@ -38,7 +38,7 @@ ports:
     width: 4.0
   l_e4:
     center:
-    - -2.01
+    - -4.0
     - -2.0
     layer:
     - 49
@@ -50,7 +50,7 @@ ports:
     width: 4.0
   o1:
     center:
-    - -13.01
+    - -14.0
     - 0.0
     layer:
     - 1
@@ -74,7 +74,7 @@ ports:
     width: 0.5
   o3:
     center:
-    - -13.01
+    - -14.0
     - 21.41
     layer:
     - 1
@@ -98,7 +98,7 @@ ports:
     width: 0.5
   r_e1:
     center:
-    - 0.0
+    - 1.0
     - 0.0
     layer:
     - 49
@@ -110,7 +110,7 @@ ports:
     width: 4.0
   r_e2:
     center:
-    - 2.0
+    - 3.0
     - 2.0
     layer:
     - 49
@@ -122,7 +122,7 @@ ports:
     width: 4.0
   r_e3:
     center:
-    - 4.0
+    - 5.0
     - 0.0
     layer:
     - 49
@@ -134,7 +134,7 @@ ports:
     width: 4.0
   r_e4:
     center:
-    - 2.0
+    - 3.0
     - -2.0
     layer:
     - 49
@@ -153,11 +153,11 @@ settings:
     coupler_ring:
       function: coupler_ring
     coupler_ring_top: null
-    cross_section: strip
-    cross_section_heater: heater_metal
-    cross_section_waveguide_heater: strip_heater_metal
+    cross_section: xs_sc
+    cross_section_heater: xs_heater_metal
+    cross_section_waveguide_heater: xs_sc_heater_metal
     gap: 0.2
-    length_x: 0.01
+    length_x: 1.0
     length_y: 0.01
     port_orientation: null
     radius: 10.0
@@ -183,7 +183,7 @@ settings:
           settings:
             layer: VIA2
     via_stack_offset:
-    - 0
+    - 1
     - 0
   full:
     bend:
@@ -191,11 +191,11 @@ settings:
     coupler_ring:
       function: coupler_ring
     coupler_ring_top: null
-    cross_section: strip
-    cross_section_heater: heater_metal
-    cross_section_waveguide_heater: strip_heater_metal
+    cross_section: xs_sc
+    cross_section_heater: xs_heater_metal
+    cross_section_waveguide_heater: xs_sc_heater_metal
     gap: 0.2
-    length_x: 0.01
+    length_x: 1.0
     length_y: 0.01
     port_orientation: null
     radius: 10.0
@@ -221,7 +221,7 @@ settings:
           settings:
             layer: VIA2
     via_stack_offset:
-    - 0
+    - 1
     - 0
   function_name: ring_double_heater
   info: {}

@@ -30,7 +30,7 @@ settings:
   default:
     bend:
       function: bend_circular
-    cross_section: strip
+    cross_section: xs_sc
     min_bend_radius: 10.0
     npoints: 1000
     number_of_loops: 3
@@ -38,7 +38,7 @@ settings:
   full:
     bend:
       function: bend_circular
-    cross_section: strip
+    cross_section: xs_sc
     min_bend_radius: 10.0
     npoints: 1000
     number_of_loops: 3

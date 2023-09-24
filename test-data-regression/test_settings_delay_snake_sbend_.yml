@@ -29,7 +29,7 @@ settings:
   child: null
   default:
     bend: bend_euler
-    cross_section: strip
+    cross_section: xs_sc
     length: 100.0
     length1: 0.0
     length4: 0.0
@@ -39,7 +39,7 @@ settings:
     waveguide_spacing: 5.0
   full:
     bend: bend_euler
-    cross_section: strip
+    cross_section: xs_sc
     length: 100.0
     length1: 0.0
     length4: 0.0

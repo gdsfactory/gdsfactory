@@ -34,6 +34,7 @@ settings:
     direction: ccw
     npoints: null
     p: 0.5
+    radius: null
     with_arc_floorplan: true
   full:
     add_pins: true
@@ -42,6 +43,7 @@ settings:
     direction: ccw
     npoints: null
     p: 0.5
+    radius: null
     with_arc_floorplan: true
   function_name: bend_euler
   info:

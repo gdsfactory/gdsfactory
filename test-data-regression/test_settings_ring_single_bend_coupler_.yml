@@ -31,8 +31,8 @@ settings:
     bend:
       function: bend_circular
     coupling_angle_coverage: 180.0
-    cross_section_inner: strip
-    cross_section_outer: strip
+    cross_section_inner: xs_sc
+    cross_section_outer: xs_sc
     gap: 0.2
     length_x: 0.6
     length_y: 0.6
@@ -41,8 +41,8 @@ settings:
     bend:
       function: bend_circular
     coupling_angle_coverage: 180.0
-    cross_section_inner: strip
-    cross_section_outer: strip
+    cross_section_inner: xs_sc
+    cross_section_outer: xs_sc
     gap: 0.2
     length_x: 0.6
     length_y: 0.6

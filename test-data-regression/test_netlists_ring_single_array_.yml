@@ -14,14 +14,8 @@ instances:
   straight_1:
     component: straight
     info:
-      cross_section: strip
+      cross_section: xs_sc
       length: 5.0
-      route_info:
-        length: 5.0
-        strip_length: 5.0
-        type: strip
-        weight: 5.0
-      type: strip
       width: 0.5
     settings:
       length: 5.0
