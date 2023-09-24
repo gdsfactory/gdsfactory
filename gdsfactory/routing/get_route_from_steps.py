@@ -129,7 +129,7 @@ def get_route_from_steps(
 
 
 get_route_from_steps_electrical = partial(
-    get_route_from_steps, bend="wire_corner", taper=None, cross_section="metal3"
+    get_route_from_steps, bend="wire_corner", taper=None, cross_section="xs_m3"
 )
 
 get_route_from_steps_electrical_multilayer = partial(

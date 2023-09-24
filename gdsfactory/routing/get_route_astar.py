@@ -291,7 +291,7 @@ def _generate_neighbours(
 
 
 if __name__ == "__main__":
-    # cross_section = gf.get_cross_section("metal1", width=3)
+    # cross_section = gf.get_cross_section("xs_m1", width=3)
 
     # c = gf.Component("get_route_astar")
     # w = gf.components.straight(cross_section=cross_section)
@@ -321,7 +321,7 @@ if __name__ == "__main__":
     # c.add(routes.references)
 
     c = gf.Component("get_route_astar_avoid_layers")
-    cross_section = gf.get_cross_section("metal1", width=3)
+    cross_section = gf.get_cross_section("xs_m1", width=3)
     w = gf.components.straight(cross_section=cross_section)
 
     left = c << w

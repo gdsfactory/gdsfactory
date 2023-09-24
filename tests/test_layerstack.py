@@ -6,14 +6,14 @@ def test_layerstack() -> None:
 
 
 def test_layerstack_filtered() -> None:
-    ls2 = LAYER_STACK.filtered(["metal1", "metal2"])
+    ls2 = LAYER_STACK.filtered(["xs_m1", "xs_m2"])
     assert len(ls2.layers) == 2, len(ls2.layers)
 
 
 def test_layerstack_copy() -> None:
     ls1 = LAYER_STACK
     ls2 = LAYER_STACK.model_copy()
-    ls2.layers["metal5"] = ls2.layers["metal2"]
+    ls2.layers["metal5"] = ls2.layers["xs_m2"]
     assert len(ls2.layers) == len(ls1.layers) + 1
 
 
