@@ -68,7 +68,7 @@ class Section(BaseModel):
 
     width: float
     offset: float = 0
-    insets: tuple | None = None
+    insets: tuple[float, float] | None = None
     layer: LayerSpec | None = None
     port_names: tuple[str | None, str | None] = (None, None)
     port_types: tuple[str, str] = ("optical", "optical")
@@ -156,27 +156,54 @@ class CrossSection(BaseModel):
     def layer(self):
         return self.sections[0].layer
 
-    def copy(self, width: float | None = None, **kwargs):
-        """Returns copy of the cross_section with new parameters."""
-        width_function = kwargs.pop("width_function", None)
-        offset_function = kwargs.pop("offset_function", None)
+    def copy(
+        self,
+        width: float | None = None,
+        layer: LayerSpec | None = None,
+        width_function: callable | None = None,
+        offset_function: callable | None = None,
+        **kwargs,
+    ):
+        """Returns copy of the cross_section with new parameters.
 
-        if width_function or offset_function:
+        Args:
+            width: of the section (um). Defaults to current width.
+            layer: layer spec. Defaults to current layer.
+            width_function: parameterized function from 0 to 1.
+            offset_function: parameterized function from 0 to 1.
+
+        Keyword Args:
+            sections: tuple of Sections(width, offset, layer, ports).
+            components_along_path: list of ComponentAlongPaths(component, spacing, padding, offset).
+            radius: route bend radius (um).
+            bbox_layers: layer to add as bounding box.
+            bbox_offsets: offset to add to the bounding box.
+            info: dictionary with extra information.
+            add_pins_function_name: name of the function to add pins to the component.
+            min_length: defaults to 1nm = 10e-3um for routing.
+            start_straight_length: straight length at the beginning of the route.
+            end_straight_length: end length at the beginning of the route.
+            width_wide: wide waveguides width (um) for low loss routing.
+            auto_widen: taper to wide waveguides for low loss routing.
+            auto_widen_minimum_length: minimum straight length for auto_widen.
+            taper_length: taper_length for auto_widen.
+            gap: minimum gap between waveguides.
+
+        """
+        for kwarg in kwargs:
+            if kwarg not in dict(self):
+                raise ValueError(f"{kwarg!r} not in CrossSection")
+
+        if width_function or offset_function or width or layer:
             sections = [s.model_copy() for s in self.sections]
             sections[0] = sections[0].model_copy(
                 update={
                     "width_function": width_function,
                     "offset_function": offset_function,
+                    "width": width or self.width,
+                    "layer": layer or self.layer,
                 }
             )
-            return self.model_copy(update={"sections": tuple(sections), **kwargs})
-
-        for kwarg in kwargs:
-            if kwarg not in dict(self):
-                raise ValueError(f"{kwarg!r} not in CrossSection")
-        if width is not None:
-            sections = [s.model_copy() for s in self.sections]
-            sections[0] = sections[0].model_copy(update={"width": width})
             return self.model_copy(update={"sections": tuple(sections), **kwargs})
         return self.model_copy(update=kwargs)
 
