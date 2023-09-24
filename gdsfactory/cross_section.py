@@ -352,6 +352,11 @@ rib2 = partial(
     cladding_offsets=(3,),
     cladding_simplify=(50 * nm,),
 )
+rib_bbox = partial(
+    strip,
+    bbox_layers=("SLAB90",),
+    bbox_offsets=(3,),
+)
 nitride = partial(strip, layer="WGN", width=1.0)
 strip_rib_tip = partial(
     strip,
@@ -1995,6 +2000,8 @@ xs_sc_no_pins = strip_no_pins()
 
 xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
 xs_rc2 = rib2()
+xs_rc_bbox = rib_bbox()
+
 xs_sc_rc_tip = strip_rib_tip()
 xs_sc_heater_metal = strip_heater_metal()
 xs_sc_heater_metal_undercut = strip_heater_metal_undercut()

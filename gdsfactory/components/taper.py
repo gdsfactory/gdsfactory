@@ -235,6 +235,6 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
-    c = taper(width2=1, cross_section="xs_rc")
+    c = taper(width1=1.5, width2=1, cross_section="xs_rc")
     # c = taper_sc_nc()
     c.show(show_ports=True)

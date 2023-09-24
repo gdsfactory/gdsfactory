@@ -561,11 +561,10 @@ if __name__ == "__main__":
 
     c = gf.Component()
 
-    layer = (1, 0)
     ci = gf.components.straight()
     ci = gf.components.mmi2x2()
     ci = gf.components.straight_heater_metal()
-    gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
+    gc = gf.components.grating_coupler_elliptical_te(taper_length=30)
     elements, gc, ports, ports_loopback, ports_component = route_fiber_array(
         component=ci,
         grating_coupler=gc,
