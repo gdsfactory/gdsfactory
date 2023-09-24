@@ -22,7 +22,7 @@ def bend_circular_heater(
     """Creates an arc of arclength `theta` starting at angle `start_angle`.
 
     Args:
-        radius: in um.
+        radius: in um. Defaults to cross_section.radius.
         angle: angle of arc (degrees).
         npoints: Number of points used per 360 degrees.
         heater_to_wg_distance: in um.
@@ -47,9 +47,11 @@ def bend_circular_heater(
         offset=-offset,
         layer=layer_heater,
     )
-    x.sections += (s1, s2)
+    sections = list(x.sections) + [s1, s2]
+
+    xs = x.copy(sections=sections)
     p = arc(radius=radius, angle=angle, npoints=npoints)
-    c = p.extrude(x)
+    c = p.extrude(xs)
     c.length = np.round(p.length(), 3)
     c.dx = abs(p.points[0][0] - p.points[-1][0])
     c.dy = abs(p.points[0][0] - p.points[-1][0])

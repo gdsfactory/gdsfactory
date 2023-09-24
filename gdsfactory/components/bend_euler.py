@@ -15,6 +15,7 @@ from gdsfactory.typings import CrossSectionSpec
 
 @gf.cell
 def bend_euler(
+    radius: float | None = None,
     angle: float = 90.0,
     p: float = 0.5,
     with_arc_floorplan: bool = True,
@@ -35,6 +36,7 @@ def bend_euler(
     https://www.osapublishing.org/oe/fulltext.cfm?uri=oe-25-8-9150&id=362937
 
     Args:
+        radius: in um. Defaults to cross_section_radius.
         angle: total angle of the curve.
         p: Proportion of the curve that is an Euler curve.
         with_arc_floorplan: If False: `radius` is the minimum radius of curvature
@@ -55,7 +57,7 @@ def bend_euler(
        o1_____/
     """
     x = gf.get_cross_section(cross_section)
-    radius = x.radius
+    radius = radius or x.radius
 
     if radius is None:
         return wire_corner(cross_section=x)
@@ -136,7 +138,6 @@ def bend_straight_bend(
     npoints: int = 720,
     direction: str = "ccw",
     cross_section: CrossSectionSpec = strip,
-    **kwargs,
 ) -> Component:
     """Sbend made of 2 euler bends and straight section in between.
 
@@ -150,7 +151,6 @@ def bend_straight_bend(
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        kwargs: cross_section settings.
     """
     c = Component()
     b = bend_euler(
@@ -160,11 +160,10 @@ def bend_straight_bend(
         npoints=npoints,
         direction=direction,
         cross_section=cross_section,
-        **kwargs,
     )
     b1 = c.add_ref(b)
     b2 = c.add_ref(b)
-    s = c << straight(length=straight_length, cross_section=cross_section, **kwargs)
+    s = c << straight(length=straight_length, cross_section=cross_section)
     s.connect("o1", b1.ports["o2"])
     b2.mirror()
     b2.connect("o1", s.ports["o2"])

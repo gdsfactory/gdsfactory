@@ -11,6 +11,7 @@ from gdsfactory.typings import CrossSectionSpec
 
 @gf.cell
 def bend_circular(
+    radius: float | None = None,
     angle: float = 90.0,
     npoints: int | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
@@ -19,6 +20,7 @@ def bend_circular(
     """Returns a radial arc.
 
     Args:
+        radius: in um. Defaults to cross_section_radius.
         angle: angle of arc (degrees).
         npoints: number of points.
         cross_section: spec (CrossSection, string or dict).
@@ -34,7 +36,7 @@ def bend_circular(
        o1_____/
     """
     x = gf.get_cross_section(cross_section)
-    radius = x.radius
+    radius = radius or x.radius
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = Component()

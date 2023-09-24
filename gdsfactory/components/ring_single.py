@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -13,10 +13,9 @@ def ring_single(
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.6,
-    coupler_ring: ComponentSpec = coupler_ring_function,
-    bend: ComponentSpec = bend_euler,
+    coupler_ring: ComponentFactory = coupler_ring_function,
+    bend: ComponentFactory = bend_euler,
     cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
 ) -> gf.Component:
     """Returns a single ring.
 
@@ -31,7 +30,6 @@ def ring_single(
         coupler_ring: ring coupler spec.
         bend: 90 degrees bend spec.
         cross_section: cross_section spec.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -46,18 +44,16 @@ def ring_single(
     gap = gf.snap.snap_to_grid2x(gap)
 
     c = gf.Component()
-    cb = c << gf.get_component(
-        coupler_ring,
+    cb = c << coupler_ring(
         bend=bend,
         gap=gap,
         radius=radius,
         length_x=length_x,
         cross_section=cross_section,
-        **kwargs,
     )
-    sy = straight(length=length_y, cross_section=cross_section, **kwargs)
-    b = gf.get_component(bend, cross_section=cross_section, radius=radius, **kwargs)
-    sx = straight(length=length_x, cross_section=cross_section, **kwargs)
+    sy = straight(length=length_y, cross_section=cross_section)
+    b = bend(bend, cross_section=cross_section)
+    sx = straight(length=length_x, cross_section=cross_section)
 
     sl = sy.ref()
     sr = sy.ref()
