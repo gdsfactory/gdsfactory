@@ -14,6 +14,8 @@ def bend_circular(
     radius: float | None = None,
     angle: float = 90.0,
     npoints: int | None = None,
+    layer: gf.typings.LayerSpec | None = None,
+    width: float | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
     add_pins: bool = True,
 ) -> Component:
@@ -23,6 +25,8 @@ def bend_circular(
         radius: in um. Defaults to cross_section_radius.
         angle: angle of arc (degrees).
         npoints: number of points.
+        layer: layer to use. Defaults to cross_section.layer.
+        width: width to use. Defaults to cross_section.width.
         cross_section: spec (CrossSection, string or dict).
         add_pins: add pins to the component.
 
@@ -37,6 +41,8 @@ def bend_circular(
     """
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
+    if layer or width:
+        x = x.copy(layer=layer or x.layer, width=width or x.width)
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = Component()
@@ -66,5 +72,6 @@ if __name__ == "__main__":
     c = bend_circular(
         angle=180,
         cross_section="xs_rc",
+        layer=(2, 0),
     )
     c.show(show_ports=True)

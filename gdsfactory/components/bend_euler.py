@@ -20,6 +20,8 @@ def bend_euler(
     p: float = 0.5,
     with_arc_floorplan: bool = True,
     npoints: int | None = None,
+    layer: gf.typings.LayerSpec | None = None,
+    width: float | None = None,
     direction: str = "ccw",
     cross_section: CrossSectionSpec = "xs_sc",
     add_pins: bool = True,
@@ -43,6 +45,8 @@ def bend_euler(
           If True: The curve scales such that the endpoints match a bend_circular
           with parameters `radius` and `angle`.
         npoints: Number of points used per 360 degrees.
+        layer: layer to use. Defaults to cross_section.layer.
+        width: width to use. Defaults to cross_section.width.
         direction: cw (clock-wise) or ccw (counter clock-wise).
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         add_pins: add pins to the component.
@@ -61,6 +65,9 @@ def bend_euler(
 
     if radius is None:
         return wire_corner(cross_section=x)
+
+    if layer or width:
+        x = x.copy(layer=layer or x.layer, width=width or x.width)
 
     c = Component()
     p = euler(

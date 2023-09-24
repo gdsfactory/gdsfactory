@@ -143,7 +143,8 @@ def get_bundle_from_steps(
     waypoints = np.array(waypoints)
 
     if not isinstance(cross_section, list):
-        x = gf.get_cross_section(cross_section, **kwargs)
+        x = gf.get_cross_section(cross_section)
+        cross_section = x.copy(**kwargs)
         auto_widen = x.auto_widen
 
         if auto_widen:
@@ -153,7 +154,6 @@ def get_bundle_from_steps(
                 width1=x.width,
                 width2=x.width_wide,
                 cross_section=cross_section,
-                **kwargs,
             )
         else:
             taper = None
@@ -172,7 +172,6 @@ def get_bundle_from_steps(
         path_length_match_extra_length=path_length_match_extra_length,
         path_length_match_modify_segment_i=path_length_match_modify_segment_i,
         path_length_match_loops=path_length_match_loops,
-        **kwargs,
     )
 
 

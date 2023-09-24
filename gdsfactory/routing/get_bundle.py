@@ -40,9 +40,11 @@ from gdsfactory.routing.validation import (
 )
 from gdsfactory.typings import (
     ComponentSpec,
+    Coordinates,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
     Route,
+    Step,
 )
 
 
@@ -62,6 +64,8 @@ def get_bundle(
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     enforce_port_ordering: bool = True,
+    steps: list[Step] | None = None,
+    waypoints: Coordinates | None = None,
     **kwargs,
 ) -> list[Route]:
     """Returns list of routes to connect two groups of ports.
@@ -87,6 +91,8 @@ def get_bundle(
         path_length_match_modify_segment_i: Index of straight segment to add path length matching loops to \
                 (requires path_length_match_loops != None).
         enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
+        steps: specify waypoint steps to route using get_bundle_from_steps.
+        waypoints: specify waypoints to route using get_bundle_from_steps.
 
     Keyword Args:
         width: main layer waveguide width (um).
@@ -105,8 +111,6 @@ def get_bundle(
         port_types: for input and output: electrical, optical, vertical_te ...
         min_length: defaults to 1nm = 10e-3um for routing.
         snap_to_grid: can snap points to grid when extruding the path.
-        steps: specify waypoint steps to route using get_bundle_from_steps.
-        waypoints: specify waypoints to route using get_bundle_from_steps.
 
     .. plot::
         :include-source:
@@ -149,6 +153,13 @@ def get_bundle(
             else gf.get_cross_section(cross_section)
         )
         separation = xs.width + xs.gap
+
+    if isinstance(cross_section, list | tuple):
+        cross_section = [xs.copy(**kwargs) for xs in cross_section]
+
+    else:
+        cross_section = gf.get_cross_section(cross_section)
+        cross_section = cross_section.copy(**kwargs)
 
     # convert single port to list
     if isinstance(ports1, Port):
@@ -212,7 +223,6 @@ def get_bundle(
         params["end_straight_length"] = end_straight_length
     if start_straight_length is not None:
         params["start_straight_length"] = start_straight_length
-    params.update(**kwargs)
 
     start_angle = ports1[0].orientation
     end_angle = ports2[0].orientation
@@ -226,10 +236,12 @@ def get_bundle(
     y_start = np.mean([p.y for p in ports1])
     y_end = np.mean([p.y for p in ports2])
 
-    if "steps" in kwargs:
+    if steps:
+        params["steps"] = steps
         return get_bundle_from_steps(**params)
 
-    elif "waypoints" in kwargs:
+    elif waypoints:
+        params["waypoints"] = waypoints
         return get_bundle_from_waypoints(**params)
 
     if start_axis != end_axis:
@@ -255,7 +267,6 @@ def get_bundle(
                 ports2,
                 sort_ports=sort_ports,
                 cross_section=cross_section,
-                **kwargs,
             )
         return get_bundle_same_axis(**params)
 
@@ -367,11 +378,9 @@ def get_bundle_same_axis(
     """
     _p1 = ports1.copy()
     _p2 = ports2.copy()
-    if "straight" in kwargs:
-        _ = kwargs.pop("straight")
-    assert len(ports1) == len(
-        ports2
-    ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
+    kwargs.pop("straight", None)
+    if len(ports1) != len(ports2):
+        raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
     if sort_ports:
         ports1, ports2 = sort_ports_function(
             ports1, ports2, enforce_port_ordering=enforce_port_ordering
@@ -759,9 +768,8 @@ if __name__ == "__main__":
     routes = get_bundle(
         [c1.ports["o2"], c1.ports["o1"]],
         [c2.ports["o1"], c2.ports["o2"]],
-        radius=5,
-        # layer=(2, 0),
-        straight=partial(gf.components.straight, layer=(1, 0), width=1),
+        layer=(2, 0),
+        straight=partial(gf.components.straight, layer=(2, 0), width=1),
     )
     for route in routes:
         c.add(route.references)

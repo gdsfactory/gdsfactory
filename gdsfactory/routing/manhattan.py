@@ -85,7 +85,6 @@ def _get_unique_port_facing(
 
 def _get_bend_ports(
     bend: Component,
-    orientation: float = 0,
     layer: LayerSpec | LayerSpecs = (1, 0),
 ) -> list[Port]:
     """Returns West and North facing ports for bend.
@@ -210,12 +209,13 @@ def reverse_transform(
     angle_deg: int = 0,
     x_reflection: bool = False,
 ) -> ndarray:
-    """Args are the following.
+    """
 
-    points (np.array of shape (N,2) ): points to be transformed.
-    translation (2d like array): translation vector.
-    angle_deg: rotation angle.
-    x_reflection: if True, mirror the shape across the x axis  (y -> -y).
+    Args:
+        points (np.array of shape (N,2) ): points to be transformed.
+        translation (2d like array): translation vector.
+        angle_deg: rotation angle.
+        x_reflection: if True, mirror the shape across the x axis  (y -> -y).
     """
     angle_deg = -angle_deg
 
@@ -966,12 +966,14 @@ def generate_manhattan_waypoints(
     )
 
     if isinstance(cross_section, tuple | list):
-        x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
+        x = [gf.get_cross_section(xsection[0]) for xsection in cross_section]
+        x = [xs.copy(**kwargs) for xs in x]
         start_straight_length = start_straight_length or min(_x.min_length for _x in x)
         end_straight_length = end_straight_length or min(_x.min_length for _x in x)
         min_straight_length = min_straight_length or min(_x.min_length for _x in x)
     else:
-        x = gf.get_cross_section(cross_section, **kwargs)
+        x = gf.get_cross_section(cross_section)
+        x = x.copy(**kwargs)
         start_straight_length = start_straight_length or x.min_length
         end_straight_length = end_straight_length or x.min_length
         min_straight_length = min_straight_length or x.min_length
@@ -1071,18 +1073,15 @@ def route_manhattan(
 
 
 if __name__ == "__main__":
-    c = gf.Component("pads_route_from_steps")
-    pt = c << gf.components.pad_array(orientation=270, columns=3)
-    pb = c << gf.components.pad_array(orientation=90, columns=3)
-    pt.move((100, 200))
-    route = gf.routing.get_route_from_steps(
-        pt.ports["e11"],
-        pb.ports["e11"],
-        steps=[
-            {"y": 100},
-        ],
-        cross_section="xs_metal_routing",
-        bend=gf.components.wire_corner,
+    c = gf.Component("demo")
+    s = gf.c.straight()
+    pt = c << s
+    pb = c << s
+    pt.move((400, 50))
+    route = gf.routing.get_route(
+        pb.ports["o2"],
+        pt.ports["o1"],
+        cross_section="xs_sc_auto_widen",
     )
     c.add(route.references)
     c.show(show_ports=True)
