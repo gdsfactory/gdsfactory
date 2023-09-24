@@ -1019,5 +1019,3 @@ def xs_waveguide_heater_with_ports() -> gf.CrossSection:
 
 c = gf.components.straight(cross_section=xs_waveguide_heater_with_ports)
 c.plot()
-
-# %%
