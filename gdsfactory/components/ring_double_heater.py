@@ -29,7 +29,6 @@ def ring_double_heater(
     via_stack: ComponentSpec = via_stack_heater_m3_mini,
     port_orientation: float | None = None,
     via_stack_offset: Float2 = (0, 0),
-    **kwargs,
 ) -> Component:
     """Returns a double bus ring with heater on top.
 
@@ -51,7 +50,6 @@ def ring_double_heater(
         via_stack: for heater to routing metal.
         port_orientation: for electrical ports to promote from via_stack.
         via_stack_offset: x,y offset for via_stack.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -75,7 +73,6 @@ def ring_double_heater(
         bend=bend,
         cross_section=cross_section,
         bend_cross_section=cross_section_waveguide_heater,
-        **kwargs,
     )
     coupler_component_top = gf.get_component(
         coupler_ring_top,
@@ -85,13 +82,11 @@ def ring_double_heater(
         bend=bend,
         cross_section=cross_section,
         bend_cross_section=cross_section_waveguide_heater,
-        **kwargs,
     )
     straight_component = gf.get_component(
         straight,
         length=length_y,
         cross_section=cross_section_waveguide_heater,
-        **kwargs,
     )
 
     c = Component()
@@ -138,25 +133,5 @@ def ring_double_heater(
 
 
 if __name__ == "__main__":
-    pass
-    # c1 = ring_double_heater(via_stack="via_stack")
-    # c1.pprint_ports()
-
-    # c2 = ring_double_heater(via_stack="via_stack_slot")
-    # c2.pprint_ports()
-    # c = ring_double_heater(width=1, layer=(2, 0), length_y=3)
-    # c = ring_double_heater(
-    #     length_x=0,
-    #     port_orientation=90,
-    #     bend=gf.components.bend_circular,
-    #     via_stack_offset=(2, 0),
-    #     coupler_ring_top=coupler_ring,
-    #     coupler_ring=gf.partial(
-    #         coupler_ring_point,
-    #         coupler_ring=coupler_ring,
-    #         open_layers=("HEATER",),
-    #         open_sizes=((5, 7),),
-    #     ),
-    # )
-    # c2.show(show_ports=True)
-    # c.pprint()
+    c = ring_double_heater()
+    c.show()
