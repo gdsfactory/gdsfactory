@@ -331,9 +331,10 @@ def cross_section(
         radius: routing bend radius (um).
         add_pins_function_name: name of the function to add pins to the component.
 
+
     Keyword Args:
         info: dictionary with extra information.
-        add_pins_function_name: name of the function to add pins to the component.
+        add_pins_function_module: name of the module to add pins to the component.
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.

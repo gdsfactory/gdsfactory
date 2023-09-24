@@ -331,14 +331,13 @@ def test_points_are_correct_multi_layer():
     length = 1000
     P = gf.path.straight(length=length)
 
-    s = gf.Section(width=30, offset=0, layer=(3, 0), name="slab")
-    X1 = gf.CrossSection(
-        width=1,
-        offset=0,
-        layer=(1, 0),
-        port_names=("o1", "o2"),
-        sections=[s],
+    s0 = gf.Section(
+        width=1, offset=10, layer=(1, 0), name="core", port_names=("o1", "o2")
     )
+    s1 = gf.Section(width=30, offset=0, layer=(3, 0), name="slab")
+
+    X1 = gf.CrossSection(sections=[s0, s1])
+
     shear_waveguide_symmetric = gf.path.extrude(
         P, X1, shear_angle_start=DEMO_PORT_ANGLE, shear_angle_end=DEMO_PORT_ANGLE
     )
@@ -356,6 +355,7 @@ if __name__ == "__main__":
     test_points_are_correct_multi_layer()
     # test_points_are_correct(shear_waveguide_symmetric)
     # test_mate_on_shear_xor_empty_curve()
+
     # P = gf.path.euler()
     # curve = gf.path.extrude(P, "xs_sc")
 
@@ -368,11 +368,13 @@ if __name__ == "__main__":
     # c1 = two_straights << curve
     # c2 = two_straights << curve
     # c2.connect("o1", c1.ports["o2"])
+    # two_straights.show()
 
     # two_shears = gf.Component()
     # c1 = two_shears << curve_sheared1
     # c2 = two_shears << curve_sheared2
     # c2.connect("o1", c1.ports["o2"])
+    # two_shears.show()
 
     # xor = gf.geometry.xor_diff(two_straights, two_shears, precision=1e-2)
     # assert not xor.layers, f"{xor.layers}"
