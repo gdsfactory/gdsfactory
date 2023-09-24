@@ -202,6 +202,9 @@ class Settings(BaseSettings):
     ports_off_grid: Literal["warn", "error", "ignore"] = Field(
         default="warn", description="Ensures ports are on grid."
     )
+    ports_not_manhattan: Literal["warn", "error", "ignore"] = Field(
+        default="warn", description="Ensures ports are manhattan."
+    )
     enforce_ports_on_grid: bool = True
 
     @classmethod

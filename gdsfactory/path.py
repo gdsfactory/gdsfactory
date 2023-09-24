@@ -736,11 +736,6 @@ def extrude(
         get_layer,
     )
 
-    if not isinstance(cross_section, CrossSection):
-        raise ValueError(
-            f"cross_section should be a CrossSection, got {type(cross_section)}"
-        )
-
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
 
@@ -750,7 +745,13 @@ def extrude(
     if layer is not None and width is None:
         raise ValueError("Need to define layer width")
     elif width:
-        cross_section = CrossSection(sections=(Section(width=width, layer=layer),))
+        s = Section(
+            width=width,
+            layer=layer,
+            port_names=("o1", "o2"),
+            port_types=("optical", "optical"),
+        )
+        cross_section = CrossSection(sections=(s,))
 
     xsection_points = []
     c = Component()
@@ -1049,6 +1050,34 @@ def extrude_transition(
             start_angle=start_angle,
             end_angle=end_angle,
         )
+        if shear_angle_start or shear_angle_end:
+            _face_angle_start = (
+                start_angle + shear_angle_start - 90 if shear_angle_start else None
+            )
+            _face_angle_end = (
+                end_angle + shear_angle_end + 90 if shear_angle_end else None
+            )
+            points1 = _cut_path_with_ray(
+                start_point=points[0],
+                start_angle=_face_angle_start,
+                end_point=points[-1],
+                end_angle=_face_angle_end,
+                path=points1,
+            )
+            points2 = _cut_path_with_ray(
+                start_point=points[0],
+                start_angle=_face_angle_start,
+                end_point=points[-1],
+                end_angle=_face_angle_end,
+                path=points2,
+            )
+
+        with_simplify = section1.simplify and section2.simplify
+
+        if with_simplify:
+            tolerance = min([section1.simplify, section2.simplify])
+            points1 = _simplify(points1, tolerance=tolerance)
+            points2 = _simplify(points2, tolerance=tolerance)
 
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
@@ -1523,30 +1552,22 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
-    import numpy as np
-
     import gdsfactory as gf
 
-    # from gdsfactory.cross_section import ComponentAlongPath
+    P = gf.path.straight(length=10)
 
-    # Create the path
-    p = gf.path.straight()
-    # p += gf.path.arc(10)
-    # p += gf.path.straight()
+    s0 = gf.Section(
+        width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    )
+    s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
+    X1 = gf.CrossSection(sections=(s0, s1))
 
-    # Define a cross-section with a via
-    # via0 = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=0)
-    # via = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=2)
-    # x = gf.CrossSection(
-    #     width=0.5,
-    #     offset=0,
-    #     layer=(1, 0),
-    #     port_names=("in", "out"),
-    #     # vias=[via0, via],
-    # )
+    s2 = gf.Section(
+        width=0.5, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    )
+    s3 = gf.Section(width=2.0, offset=0, layer=(3, 0), name="slab")
+    X2 = gf.CrossSection(sections=(s2, s3))
+    t = gf.path.transition(X1, X2, width_type="linear")
+    c = gf.path.extrude_transition(P, t, shear_angle_start=10, shear_angle_end=45)
 
-    # Combine the path with the cross-section
-    # trans_sc_rc = transition(cross_section1="xs_sc_rc_tip", cross_section2="xs_rc")
-    # c = extrude_transition(p, trans_sc_rc)
-    c = gf.path.extrude(p, layer=(1, 0), width=1)
     c.show(show_ports=True)

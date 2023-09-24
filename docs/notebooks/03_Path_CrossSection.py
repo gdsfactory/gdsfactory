@@ -617,6 +617,10 @@ c.plot()
 
 
 # %%
+import numpy as np
+import gdsfactory as gf
+
+
 def my_custom_width_fun(t):
     # Note: Custom width/offset functions MUST be vectorizable--you must be able
     # to call them with an array input like my_custom_width_fun([0, 0.1, 0.2, 0.3, 0.4])
@@ -628,8 +632,9 @@ def my_custom_width_fun(t):
 P = gf.path.straight(length=40, npoints=30)
 
 # Create two cross-sections: one fixed width, one modulated by my_custom_offset_fun
-s = gf.Section(width=my_custom_width_fun, offset=0, layer=(1, 0))
-X = gf.CrossSection(width=3, offset=-6, layer=(2, 0), sections=[s])
+s0 = gf.Section(width=3, offset=-6, layer=(2, 0))
+s1 = gf.Section(width=0, width_function=my_custom_width_fun, offset=0, layer=(1, 0))
+X = gf.CrossSection(sections=[s0, s1])
 
 # Extrude the Path to create the Component
 c = gf.path.extrude(P, cross_section=X)
@@ -653,10 +658,14 @@ def my_custom_offset_fun(t):
 P = gf.path.straight(length=40, npoints=30)
 
 # Create two cross-sections: one fixed offset, one modulated by my_custom_offset_fun
-s = gf.Section(
-    width=1, offset=my_custom_offset_fun, layer=(2, 0), port_names=["clad1", "clad2"]
+s0 = gf.Section(width=1, offset=0, layer=(1, 0))
+s1 = gf.Section(
+    width=1,
+    offset_function=my_custom_offset_fun,
+    layer=(2, 0),
+    port_names=["clad1", "clad2"],
 )
-X = gf.CrossSection(width=1, offset=0, layer=(1, 0), sections=[s])
+X = gf.CrossSection(sections=[s0, s1])
 
 # Extrude the Path to create the Component
 c = gf.path.extrude(P, cross_section=X)
@@ -682,105 +691,24 @@ def my_custom_offset_fun(t):
 
 
 P1 = gf.path.straight(npoints=101)
-P2 = P1.copy()  # Make a copy of the Path
-
 P1.offset(offset=my_custom_offset_fun)
-P2.offset(offset=my_custom_offset_fun)
-P2.mirror((1, 0))  # reflect across X-axis
-
 f = P1.plot()
 
 # %%
+P2 = P1.copy()  # Make a copy of the Path
+P2.mirror((1, 0))  # reflect across X-axis
 f2 = P2.plot()
-
-# %% [markdown]
-# ## Modifying a CrossSection
-#
-# In case you need to modify the CrossSection, it can be done simply by specifying
-# a `name` argument for the cross-sectional element you want to modify later.
-# Here is an example where we name one of thee cross-sectional elements
-# `'myelement1'` and `'myelement2'`:
 
 # %%
 # Create the Path
 P = gf.path.arc(radius=10, angle=45)
 
 # Create two cross-sections: one fixed width, one modulated by my_custom_offset_fun
-s = gf.Section(width=1, offset=3, layer=(2, 0), name="waveguide")
-X = gf.CrossSection(
-    width=1,
-    offset=0,
-    layer=(1, 0),
-    port_names=("o1", "o2"),
-    name="heater",
-    sections=[s],
-)
-
-
+s0 = gf.Section(width=1, offset=3, layer=(2, 0), name="waveguide")
+s1 = gf.Section(width=1, offset=0, layer=(1, 0), name="heater", port_names=("o1", "o2"))
+X = gf.CrossSection(sections=(s0, s1))
 c = gf.path.extrude(P, X)
 c.plot()
-
-# %% [markdown]
-# In case we want to change any of the CrossSection elements, we simply access the
-# Python dictionary that specifies that element and modify the values
-
-# %%
-# Create our first CrossSection
-s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
-s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-X1 = gf.CrossSection(
-    width=1.2,
-    offset=0,
-    layer=(2, 0),
-    name="wg",
-    port_names=("o1", "o2"),
-    sections=[s1, s2],
-)
-
-# Create the second CrossSection that we want to transition to
-s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
-s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-X2 = gf.CrossSection(
-    width=1,
-    offset=0,
-    layer=(2, 0),
-    name="wg",
-    port_names=("o1", "o2"),
-    sections=[s1, s2],
-)
-
-Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
-
-
-P1 = gf.path.straight(length=5)
-P2 = gf.path.straight(length=5)
-wg1 = gf.path.extrude(P1, X1)
-wg2 = gf.path.extrude(P2, X2)
-
-P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
-wg_trans = gf.path.extrude(P4, Xtrans)
-# WG_trans = P4.extrude(Xtrans)
-
-
-c = gf.Component("demo")
-wg1_ref = c << wg1
-wg2_ref = c << wg2
-wgt_ref = c << wg_trans
-
-wgt_ref.connect("o1", wg1_ref.ports["o2"])
-wg2_ref.connect("o1", wgt_ref.ports["o2"])
-
-c.plot()
-
-# %%
-len(c.references)
-
-# %% [markdown]
-# **Note**
-#
-# Any unnamed section in the CrossSection won't be transitioned.
-#
-# If you don't add any named sections in a cross-section it will give you an error when making a transition
 
 # %%
 P = gf.Path()
@@ -796,72 +724,53 @@ P.append(gf.path.straight(length=10))
 f = P.plot()
 
 # %%
-X1 = gf.CrossSection(width=1, offset=0, layer=(2, 0))
-c = gf.path.extrude(P, X1)
+c = gf.path.extrude(P, width=1, layer=(2, 0))
 c.plot()
 
 # %%
-X2 = gf.CrossSection(width=2, offset=0, layer=(2, 0))
-c = gf.path.extrude(P, X2)
-c.plot()
-
-# %% [markdown]
-# For example this will give you an error
-# ```
-# T = gf.path.transition(X, X2)
-# ```
-#
-# **Solution**
-
-# %%
-P = gf.path.straight(length=10, npoints=101)
-
-s = gf.Section(width=3, offset=0, layer=(3, 0))
-X1 = gf.CrossSection(
-    width=1,
-    offset=0,
-    layer=(1, 0),
-    name="core",
-    port_names=("o1", "o2"),
-    sections=[s],
-)
-c = gf.path.extrude(P, X1)
+s0 = gf.Section(width=2, offset=0, layer=(2, 0))
+xs = gf.CrossSection(sections=(s0,))
+c = gf.path.extrude(P, xs)
 c.plot()
 
 # %%
-X2 = gf.CrossSection(
-    width=3, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-)
-c2 = gf.path.extrude(P, X2)
+p = gf.path.straight(length=10, npoints=101)
+s0 = gf.Section(width=1, offset=0, layer=(1, 0), port_names=("o1", "o2"))
+s1 = gf.Section(width=3, offset=0, layer=(3, 0))
+x1 = gf.CrossSection(sections=(s0, s1))
+c = gf.path.extrude(p, x1)
+c.plot()
+
+# %%
+s0 = gf.Section(width=1 + 3, offset=0, layer=(1, 0), port_names=("o1", "o2"))
+s1 = gf.Section(width=3 + 3, offset=0, layer=(3, 0))
+x2 = gf.CrossSection(sections=(s0, s1))
+c2 = gf.path.extrude(p, x2)
 c2.plot()
 
 # %%
-T = gf.path.transition(X1, X2)
-c3 = gf.path.extrude(P, T)
+t = gf.path.transition(x1, x2)
+c3 = gf.path.extrude_transition(p, t)
 c3.plot()
 
 # %%
 c4 = gf.Component("demo_transition2")
-
-# %%
 start_ref = c4 << c
-
 trans_ref = c4 << c3
 end_ref = c4 << c2
 
 trans_ref.connect("o1", start_ref.ports["o2"])
 end_ref.connect("o1", trans_ref.ports["o2"])
-
-# %%
 c4.plot()
 
 # %% [markdown]
-# ## cross-section
+# ## Creating new cross_sections
 #
 # You can create functions that return a cross_section in 2 ways:
 #
-# - `functools.partial` can customize an existing cross-section for example `gf.cross_section.strip`
-# - define a function that returns a cross_section
+# - Customize an existing cross-section for example `gf.cross_section.strip`
+# - Define a function that returns a cross_section
+# - Define a CrossSection object
 #
 # What parameters do `cross_section` take?
 
@@ -869,12 +778,15 @@ c4.plot()
 help(gf.cross_section.cross_section)
 
 # %%
+from functools import partial
+import gdsfactory as gf
+
 pin = partial(
     gf.cross_section.strip,
     layer=(2, 0),
     sections=(
-        Section(layer=(21, 0), width=2, offset=+2),
-        Section(layer=(20, 0), width=2, offset=-2),
+        gf.Section(layer=(21, 0), width=2, offset=+2),
+        gf.Section(layer=(20, 0), width=2, offset=-2),
     ),
 )
 
@@ -890,35 +802,21 @@ pin5.plot()
 # finally, you can also pass most components Dict that define the cross-section
 
 # %%
-gf.components.straight(
-    layer=(1, 0),
-    width=0.5,
-    sections=(
-        Section(layer=(21, 0), width=1, offset=+2),
-        Section(layer=(20, 0), width=1, offset=-2),
-    ),
-)
-
-# %%
 # Create our first CrossSection
+s0 = gf.Section(width=0.5, offset=0, layer=(1, 0), name="wg", port_names=("o1", "o2"))
 s1 = gf.Section(width=0.2, offset=0, layer=(3, 0), name="slab")
-X1 = gf.CrossSection(
-    width=0.5, offset=0, layer=(1, 0), name="wg", port_names=("o1", "o2"), sections=[s1]
-)
-
+x1 = gf.CrossSection(sections=(s0, s1))
 
 # Create the second CrossSection that we want to transition to
-s = gf.Section(width=3.0, offset=0, layer=(3, 0), name="slab")
-X2 = gf.CrossSection(
-    width=0.5, offset=0, layer=(1, 0), name="wg", port_names=("o1", "o2"), sections=[s]
-)
+s0 = gf.Section(width=0.5, offset=0, layer=(1, 0), name="wg", port_names=("o1", "o2"))
+s1 = gf.Section(width=3.0, offset=0, layer=(3, 0), name="slab")
+x2 = gf.CrossSection(sections=(s0, s1))
 
-# To show the cross-sections, let's create two Paths and
-# create Components by extruding them
-P1 = gf.path.straight(length=5)
-P2 = gf.path.straight(length=5)
-wg1 = gf.path.extrude(P1, X1)
-wg2 = gf.path.extrude(P2, X2)
+# To show the cross-sections, let's create two Paths and create Components by extruding them
+p1 = gf.path.straight(length=5)
+p2 = gf.path.straight(length=5)
+wg1 = gf.path.extrude(p1, x1)
+wg2 = gf.path.extrude(p2, x2)
 
 # Place both cross-section Components and quickplot them
 c = gf.Component()
@@ -927,11 +825,34 @@ wg2ref = c << wg2
 wg2ref.movex(7.5)
 
 # Create the transitional CrossSection
-Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="linear")
+xtrans = gf.path.transition(cross_section1=x1, cross_section2=x2, width_type="linear")
 # Create a Path for the transitional CrossSection to follow
-P3 = gf.path.straight(length=15, npoints=100)
+p3 = gf.path.straight(length=15, npoints=100)
+
 # Use the transitional CrossSection to create a Component
-straight_transition = gf.path.extrude(P3, Xtrans)
+straight_transition = gf.path.extrude_transition(p3, xtrans)
+straight_transition.plot()
+
+# %%
+# Create the transitional CrossSection
+xtrans = gf.path.transition(
+    cross_section1=x1, cross_section2=x2, width_type="parabolic"
+)
+# Create a Path for the transitional CrossSection to follow
+p3 = gf.path.straight(length=15, npoints=100)
+
+# Use the transitional CrossSection to create a Component
+straight_transition = gf.path.extrude_transition(p3, xtrans)
+straight_transition.plot()
+
+# %%
+# Create the transitional CrossSection
+xtrans = gf.path.transition(cross_section1=x1, cross_section2=x2, width_type="sine")
+# Create a Path for the transitional CrossSection to follow
+p3 = gf.path.straight(length=15, npoints=100)
+
+# Use the transitional CrossSection to create a Component
+straight_transition = gf.path.extrude_transition(p3, xtrans)
 straight_transition.plot()
 
 # %%
@@ -940,22 +861,21 @@ s.show()
 
 # %% [markdown]
 # ## Waveguides with Shear Faces
-# By default, an extruded path will end in a face orthogonal to the direction of the path. In some cases, it is desired to have a sheared face that tilts at a given angle from this orthogonal baseline. This can be done by supplying the parameters `shear_angle_start` and `shear_angle_end` to the `extrude()` function.
+# By default, an extruded path will end in a face orthogonal to the direction of the path.
+# Sometimes you want to have a sheared face that tilts at a given angle from this orthogonal baseline.
+# You can supply the parameters `shear_angle_start` and `shear_angle_end` to the `extrude()` function.
 
 # %%
 P = gf.path.straight(length=10)
 
-s = gf.Section(width=3, offset=0, layer=(3, 0))
-X1 = gf.CrossSection(
-    width=1,
-    offset=0,
-    layer=(1, 0),
-    name="core",
-    port_names=("o1", "o2"),
-    sections=[s],
-)
+s0 = gf.Section(width=1, offset=0, layer=(1, 0), port_names=("o1", "o2"))
+s1 = gf.Section(width=3, offset=0, layer=(3, 0))
+X1 = gf.CrossSection(sections=(s0, s1))
 c = gf.path.extrude(P, X1, shear_angle_start=10, shear_angle_end=45)
 c.plot()
+
+# %%
+c.pprint_ports()
 
 # %% [markdown]
 # By default, the shear angle parameters are `None`, in which case shearing will not be applied to the face.
@@ -988,16 +908,9 @@ c.plot()
 # %%
 p1 = gf.path.straight(length=10)
 p2 = gf.path.straight(length=0.5)
-
-s = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
-xs = gf.CrossSection(
-    width=1,
-    offset=0,
-    layer=(1, 0),
-    name="core",
-    port_names=("o1", "o2"),
-    sections=[s],
-)
+s0 = gf.Section(width=1, offset=0, layer=(1, 0), port_names=("o1", "o2"))
+s1 = gf.Section(width=3, offset=0, layer=(3, 0))
+xs = gf.CrossSection(sections=(s0, s1))
 
 c1 = gf.path.extrude(p1, xs, shear_angle_start=45, shear_angle_end=45)
 c2 = gf.path.extrude(p2, xs, shear_angle_start=45, shear_angle_end=45)
@@ -1020,26 +933,15 @@ c.plot()
 # %%
 P = gf.path.straight(length=10)
 
-s = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
-X1 = gf.CrossSection(
-    width=1,
-    offset=0,
-    layer=(1, 0),
-    name="core",
-    port_names=("o1", "o2"),
-    sections=[s],
-)
-s2 = gf.Section(width=2, offset=0, layer=(3, 0), name="slab")
-X2 = gf.CrossSection(
-    width=0.5,
-    offset=0,
-    layer=(1, 0),
-    name="core",
-    port_names=("o1", "o2"),
-    sections=[s2],
-)
+s0 = gf.Section(width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2"))
+s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
+X1 = gf.CrossSection(sections=(s0, s1))
+
+s2 = gf.Section(width=0.5, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2"))
+s3 = gf.Section(width=2.0, offset=0, layer=(3, 0), name="slab")
+X2 = gf.CrossSection(sections=(s2, s3))
 t = gf.path.transition(X1, X2, width_type="linear")
-c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
+c = gf.path.extrude_transition(P, t, shear_angle_start=10, shear_angle_end=45)
 c.plot()
 
 # %% [markdown]
@@ -1048,7 +950,7 @@ c.plot()
 # %%
 angle = 15
 P = gf.path.euler()
-c = gf.path.extrude(P, t, shear_angle_start=angle, shear_angle_end=angle)
+c = gf.path.extrude_transition(P, t, shear_angle_start=angle, shear_angle_end=angle)
 c.plot()
 
 # %% [markdown]
@@ -1061,7 +963,7 @@ c.plot()
 
 # %%
 xs_bbox = gf.cross_section.cross_section(bbox_layers=[(3, 0)], bbox_offsets=[3])
-w1 = gf.components.bend_euler(cross_section=xs_bbox, with_bbox=True)
+w1 = gf.components.bend_euler(cross_section=xs_bbox)
 w1.plot()
 
 # %%
@@ -1078,7 +980,6 @@ w2.plot()
 import gdsfactory as gf
 
 
-@gf.xsection
 def xs_waveguide_heater() -> gf.CrossSection:
     return gf.cross_section.cross_section(
         layer="WG",
@@ -1099,7 +1000,6 @@ c.plot()
 
 
 # %%
-@gf.xsection
 def xs_waveguide_heater_with_ports() -> gf.CrossSection:
     return gf.cross_section.cross_section(
         layer="WG",
@@ -1119,3 +1019,5 @@ def xs_waveguide_heater_with_ports() -> gf.CrossSection:
 
 c = gf.components.straight(cross_section=xs_waveguide_heater_with_ports)
 c.plot()
+
+# %%

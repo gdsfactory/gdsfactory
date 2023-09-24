@@ -86,6 +86,10 @@ def cell_without_validator(func: _F) -> _F:
         cell_decorator_settings = active_pdk.cell_decorator_settings
 
         ports_off_grid = kwargs.pop("ports_off_grid", CONF.ports_off_grid)
+        ports_not_manhattan = kwargs.pop(
+            "ports_not_manhattan", CONF.ports_not_manhattan
+        )
+
         with_hash = kwargs.pop("with_hash", cell_decorator_settings.with_hash)
         autoname = kwargs.pop("autoname", cell_decorator_settings.autoname)
         name = kwargs.pop("name", cell_decorator_settings.name)
@@ -206,6 +210,8 @@ def cell_without_validator(func: _F) -> _F:
 
         if ports_off_grid in ("warn", "error"):
             component.assert_ports_on_grid(error_type=ports_off_grid)
+        if ports_not_manhattan in ("warn", "error"):
+            component.assert_ports_manhattan(error_type=ports_off_grid)
 
         if flatten:
             component = component.flatten()

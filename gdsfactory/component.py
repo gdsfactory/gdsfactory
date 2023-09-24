@@ -683,6 +683,11 @@ class Component(_GeometryHelper):
         for port in self.ports.values():
             port.assert_on_grid(grid_factor=grid_factor, error_type=error_type)
 
+    def assert_ports_manhattan(self, error_type: str = "error") -> None:
+        """Asserts that all ports are on manhattan angles (0, 90, 180, 270)."""
+        for port in self.ports.values():
+            port.assert_manhattan(error_type=error_type)
+
     def get_ports(self, depth: int | None = 0):
         """Returns copies of all the ports of the Component, rotated and \
                 translated so that they're in their top-level position.

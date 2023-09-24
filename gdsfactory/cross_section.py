@@ -243,7 +243,7 @@ class CrossSection(BaseModel):
         return xmin, xmax
 
 
-CrossSectionSpec = CrossSection | str | dict[str, Any]
+CrossSectionSpec = CrossSection | str | dict[str, Any] | Callable[..., CrossSection]
 
 
 class Transition(BaseModel):
@@ -324,7 +324,7 @@ def cross_section(
     sections = list(sections or [])
     cladding_layers = cladding_layers or ()
     cladding_offsets = cladding_offsets or ()
-    cladding_simplify = cladding_simplify or ()
+    cladding_simplify = cladding_simplify or (None,) * len(cladding_layers)
 
     s = [
         Section(
@@ -2035,37 +2035,10 @@ cross_sections = get_cross_sections(sys.modules[__name__])
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    xs = gf.cross_section.pin(
-        width=0.5,
-        # gap_low_doping=0.05,
-        # width_doping=2.0,
-        # offset_low_doping=0,
+    xs = gf.cross_section.strip(
+        cladding_layers=[(2, 0)],
+        cladding_offsets=[3],
     )
-    # xs = pn_with_trenches(width=0.3)
-    # xs = slot(width=0.3)
-    # xs = rib_with_trenches()
     p = gf.path.straight()
-    xs = xs.copy(width=10)
-    # print(xs.copy(width=10))
-    # c = p.extrude(xs)
-    # xs = l_with_trenches(
-    #     width=0.5,
-    #     width_trench=2.0,
-    #     width_slab=7.0,
-    # )
-    # p = gf.path.straight()
-    # c = p.extrude(xs)
-    # xs = l_wg_doped_with_trenches(
-    #     layer="WG", width=0.5, width_trench=2.0, width_slab=7.0, gap_low_doping=0.1
-    # )
-    # p = gf.path.straight()
-    # c = p.extrude(cross_section=xs)
-    # xs = rib_with_trenches() # FIXME
-    # c = gf.components.straight(cross_section=xs)
-    # c = gf.components.straight(cross_section="strip")
-
-    # xs = l_wg()
-    # p = gf.path.straight()
-    # c = p.extrude(xs)
-    # c.show(show_ports=True)
-    # x = CrossSection(width=0.5)
+    c = p.extrude(xs)
+    c.show()

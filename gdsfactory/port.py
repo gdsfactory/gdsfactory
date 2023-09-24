@@ -55,6 +55,7 @@ Layers = tuple[Layer, ...]
 LayerSpec = Layer | int | str | None
 LayerSpecs = tuple[LayerSpec, ...]
 Float2 = tuple[float, float]
+valid_error_types = ["error", "warn", "ignore"]
 
 
 class PortNotOnGridError(ValueError):
@@ -333,29 +334,36 @@ class Port:
                 f"port = {self.name!r}, center = {self.center} is not on grid.\n"
                 "You can use Component.flatten_invalid_refs() to snap to grid."
             )
-            if error_type == "error":
-                raise PortNotOnGridError(message)
-            elif error_type == "warn":
-                warnings.warn(message, stacklevel=2)
-
-            else:
+            if error_type not in valid_error_types:
                 raise ValueError(
                     f"error_type = {error_type} is not valid. Must be 'error' or 'warning'"
                 )
 
-    def assert_manhattan(self, grid_factor: int = 1) -> None:
+            elif error_type == "error":
+                raise PortNotOnGridError(message)
+            elif error_type == "warn":
+                warnings.warn(message)
+
+    def assert_manhattan(self, error_type: str = "error") -> None:
         """Ensures port has a valid manhattan orientation (0, 90, 180, 270)."""
         component_name = self.parent.name
         if self.port_type.startswith("vertical"):
             return
 
-        if self.orientation in [0, 90, 180, 270, None]:
-            return
-        else:
-            raise PortOrientationError(
-                f"{component_name!r} port {self.name!r} has invalid orientation"
-                f" {self.orientation}"
+        if self.orientation not in [0, 90, 180, 270, None]:
+            message = (
+                f"Port {self.name!r} orientation {self.orientation} "
+                "is not manhattan (0, 90, 180, 270).\n Non-manhattan ports can cause "
+                f"1nm snapping errors in Component {component_name}.\n"
             )
+            if error_type not in valid_error_types:
+                raise ValueError(
+                    f"error_type = {error_type} is not valid. Must be 'error' or 'warning'"
+                )
+            elif error_type == "error":
+                raise PortOrientationError()
+            elif error_type == "warn":
+                warnings.warn(message, stacklevel=2)
 
 
 PortsMap = dict[str, list[Port]]

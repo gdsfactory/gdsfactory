@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 
 
@@ -39,6 +41,12 @@ def test_cross_section_autoname() -> None:
 
 
 if __name__ == "__main__":
-    # test_waveguide_setting()
-    # test_settings_different()
-    test_transition_names()
+    pin = partial(
+        gf.cross_section.strip,
+        layer=(2, 0),
+        sections=(
+            gf.Section(layer=(21, 0), width=2, offset=+2),
+            gf.Section(layer=(20, 0), width=2, offset=-2),
+        ),
+    )
+    c = gf.components.straight(cross_section=pin)
