@@ -37,6 +37,7 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.samples.big_device import big_device
 
+gf.CONF.display_type = "klayout"
 gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
@@ -250,6 +251,19 @@ cc.plot()
 # %%
 c = gf.components.straight_heater_metal(length=100.0)
 cc = gf.routing.add_pads_top(component=c, port_names=("l_e2", "r_e2"))
+cc.plot()
+
+# %%
+c = gf.c.nxn(
+    xsize=600,
+    ysize=200,
+    north=2,
+    south=3,
+    wg_width=10,
+    layer="M3",
+    port_type="electrical",
+)
+cc = gf.routing.add_pads_top(component=c)
 cc.plot()
 
 # %%

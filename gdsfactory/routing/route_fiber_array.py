@@ -62,6 +62,7 @@ def route_fiber_array(
     get_input_label_text_function: Callable | None = get_input_label_text_dash,
     get_input_labels_function: Callable | None = get_input_labels_dash,
     select_ports: Callable = select_ports_optical,
+    radius: float | None = None,
     cross_section: CrossSectionSpec = strip,
 ) -> tuple[
     list[ComponentReference | Label],
@@ -120,6 +121,7 @@ def route_fiber_array(
         get_input_label_text_function: for the label.
         get_input_labels_function: for the label.
         select_ports: function to select ports for which to add grating couplers.
+        radius: optional radius of the bend. Defaults to the cros_section.
 
     Returns:
         elements: list of references and labels.
@@ -131,6 +133,8 @@ def route_fiber_array(
     """
     fiber_spacing = gf.get_constant(fiber_spacing)
     cross_section = x = gf.get_cross_section(cross_section)
+    if radius:
+        cross_section = x = cross_section.copy(radius=radius)
 
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
@@ -571,7 +575,8 @@ if __name__ == "__main__":
         nlabels_loopback=1,
         # with_loopback=False,
         layer_label="TEXT",
-        layer_label_loopback="TEXT"
+        layer_label_loopback="TEXT",
+        radius=5
         # get_input_labels_function=get_input_labels_dash
         # get_input_labels_function=None
         # optical_routing_type=2,
