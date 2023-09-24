@@ -269,8 +269,8 @@ def test_points_are_correct_wide():
     length = 10
     P = gf.path.straight(length=length)
     shear_waveguide_symmetric = gf.path.extrude(
-        P,
-        {"cross_section": "xs_sc", "settings": {"width": wg_width}},
+        p=P,
+        cross_section={"cross_section": "xs_sc", "settings": {"width": wg_width}},
         shear_angle_start=DEMO_PORT_ANGLE,
         shear_angle_end=DEMO_PORT_ANGLE,
     )
@@ -352,7 +352,11 @@ def test_points_are_correct_multi_layer():
 
 
 if __name__ == "__main__":
-    test_points_are_correct_multi_layer()
+    cross_section = {"cross_section": "xs_sc", "settings": {"width": 1}}
+    xs = gf.get_cross_section(cross_section)
+    print(xs.sections[0].width)
+    # test_points_are_correct_wide()
+    # test_points_are_correct_multi_layer()
     # test_points_are_correct(shear_waveguide_symmetric)
     # test_mate_on_shear_xor_empty_curve()
 

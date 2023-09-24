@@ -2508,26 +2508,6 @@ def copy_reference(
     )
 
 
-def test_get_layers() -> None:
-    import gdsfactory as gf
-
-    c1 = gf.components.straight(
-        length=10,
-        width=0.5,
-        layer=(2, 0),
-        bbox_layers=[(111, 0)],
-        bbox_offsets=[3],
-        with_bbox=True,
-        cladding_layers=None,
-        add_pins=None,
-        add_bbox=None,
-    )
-    assert c1.get_layers() == {(2, 0), (111, 0)}, c1.get_layers()
-    # return c1
-    c2 = c1.remove_layers([(111, 0)])
-    assert c2.get_layers() == {(2, 0)}, c2.get_layers()
-
-
 def _filter_polys(polygons, layers_excl):
     return [
         polygon

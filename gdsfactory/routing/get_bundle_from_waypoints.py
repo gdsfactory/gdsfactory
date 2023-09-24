@@ -126,93 +126,69 @@ def get_bundle_from_waypoints(
         Got {len(ports1)} {len(ports2)}"
         )
 
+    if isinstance(cross_section, list | tuple):
+        xs_list = []
+        for element in cross_section:
+            xs, angles = element
+            xs = gf.get_cross_section(xs)
+            xs = xs.copy(**kwargs)  # Shallow copy
+            xs_list.append((xs, angles))
+        cross_section = xs_list
+
+    else:
+        cross_section = gf.get_cross_section(cross_section)
+        xs = cross_section = cross_section.copy(**kwargs)
+
     waypoints = [ports1[0].center] + list(waypoints) + [ports2[0].center]
     for p in ports1:
-        # if ports1 orientation is None, guess it from the first two waypoints
-        if p.orientation is None:
-            if np.subtract(waypoints[1], waypoints[0])[0] > 0:
+        if np.subtract(waypoints[1], waypoints[0])[0] > 0:
+            if p.orientation is None:
                 p.orientation = 0
-            elif np.subtract(waypoints[1], waypoints[0])[0] < 0:
+        elif np.subtract(waypoints[1], waypoints[0])[0] < 0:
+            if p.orientation is None:
                 p.orientation = 180
-            elif np.subtract(waypoints[1], waypoints[0])[1] > 0:
+        elif np.subtract(waypoints[1], waypoints[0])[1] > 0:
+            if p.orientation is None:
                 p.orientation = 90
-            elif np.subtract(waypoints[1], waypoints[0])[1] < 0:
+        elif np.subtract(waypoints[1], waypoints[0])[1] < 0:
+            if p.orientation is None:
                 p.orientation = 270
         p.orientation = int(p.orientation) % 360 if p.orientation else p.orientation
 
     for p in ports2:
-        # if ports2 orientation is None, guess it from the last two waypoints
-        if p.orientation is None:
-            if np.subtract(waypoints[-1], waypoints[-2])[0] > 0:
+        if np.subtract(waypoints[-1], waypoints[-2])[0] > 0:
+            if p.orientation is None:
                 p.orientation = 180
-            elif np.subtract(waypoints[-1], waypoints[-2])[0] < 0:
+        elif np.subtract(waypoints[-1], waypoints[-2])[0] < 0:
+            if p.orientation is None:
                 p.orientation = 0
-            elif np.subtract(waypoints[-1], waypoints[-2])[1] > 0:
+        elif np.subtract(waypoints[-1], waypoints[-2])[1] > 0:
+            if p.orientation is None:
                 p.orientation = 90
-            elif np.subtract(waypoints[-1], waypoints[-2])[1] < 0:
+        elif np.subtract(waypoints[-1], waypoints[-2])[1] < 0:
+            if p.orientation is None:
                 p.orientation = 270
         p.orientation = int(p.orientation) % 360 if p.orientation else p.orientation
 
     if sort_ports:
-        # Sort the ports such that the bundle connect the correct corresponding ports.
-        angles_to_sorttypes = {
-            (0, 180): ("Y", "Y"),
-            (0, 90): ("Y", "X"),
-            (0, 0): ("Y", "-Y"),
-            (0, 270): ("Y", "-X"),
-            (90, 0): ("X", "Y"),
-            (90, 90): ("X", "-X"),
-            (90, 180): ("X", "-Y"),
-            (90, 270): ("X", "X"),
-            (180, 90): ("Y", "-X"),
-            (180, 0): ("Y", "Y"),
-            (180, 270): ("Y", "X"),
-            (180, 180): ("Y", "-Y"),
-            (270, 90): ("X", "X"),
-            (270, 270): ("X", "-X"),
-            (270, 0): ("X", "-Y"),
-            (270, 180): ("X", "Y"),
-        }
-
-        dict_sorts = {
-            "X": lambda p: p.x,
-            "Y": lambda p: p.y,
-            "-X": lambda p: -p.x,
-            "-Y": lambda p: -p.y,
-        }
-        start_angle = ports1[0].orientation
-        end_angle = ports2[0].orientation
-
-        key = (start_angle, end_angle)
-        sp_st, ep_st = angles_to_sorttypes[key]
-        start_port_sort = dict_sorts[sp_st]
-        end_port_sort = dict_sorts[ep_st]
-        ports1.sort(key=start_port_sort)
-        ports2.sort(key=end_port_sort)
-
+        sort_ports_function(ports1, ports2)
     try:
         routes = _generate_manhattan_bundle_waypoints(
             ports1=ports1,
             ports2=ports2,
             waypoints=list(waypoints),
             separation=separation,
-            **kwargs,
         )
     except RouteError:
         return [on_route_error(waypoints)]
 
-    # bends90 = [
-    #     gf.get_component(bend, cross_section=cross_section, **kwargs) for p in ports1
-    # ]
-
     if taper and not isinstance(cross_section, list):
-        x = gf.get_cross_section(cross_section, **kwargs)
-        if x.auto_widen and callable(taper):
+        if xs.auto_widen and callable(taper):
             taper = gf.get_component(
                 taper,
-                length=x.taper_length,
+                length=xs.taper_length,
                 width1=ports1[0].width,
-                width2=x.width_wide,
+                width2=xs.width_wide,
                 layer=ports1[0].layer,
             )
     else:
@@ -227,7 +203,6 @@ def get_bundle_from_waypoints(
             nb_loops=path_length_match_loops,
             modify_segment_i=path_length_match_modify_segment_i,
             cross_section=cross_section,
-            **kwargs,
         )
     routes = [
         round_corners(
@@ -236,12 +211,49 @@ def get_bundle_from_waypoints(
             straight=straight,
             taper=taper,
             cross_section=cross_section,
-            **kwargs,
         )
         for pts in routes
     ]
     validate_connections(_p1, _p2, routes)
     return routes
+
+
+def sort_ports_function(ports1, ports2) -> None:
+    # Sort the ports such that the bundle connect the correct corresponding ports.
+    angles_to_sorttypes = {
+        (0, 180): ("Y", "Y"),
+        (0, 90): ("Y", "X"),
+        (0, 0): ("Y", "-Y"),
+        (0, 270): ("Y", "-X"),
+        (90, 0): ("X", "Y"),
+        (90, 90): ("X", "-X"),
+        (90, 180): ("X", "-Y"),
+        (90, 270): ("X", "X"),
+        (180, 90): ("Y", "-X"),
+        (180, 0): ("Y", "Y"),
+        (180, 270): ("Y", "X"),
+        (180, 180): ("Y", "-Y"),
+        (270, 90): ("X", "X"),
+        (270, 270): ("X", "-X"),
+        (270, 0): ("X", "-Y"),
+        (270, 180): ("X", "Y"),
+    }
+
+    dict_sorts = {
+        "X": lambda p: p.x,
+        "Y": lambda p: p.y,
+        "-X": lambda p: -p.x,
+        "-Y": lambda p: -p.y,
+    }
+    start_angle = ports1[0].orientation
+    end_angle = ports2[0].orientation
+
+    key = (start_angle, end_angle)
+    sp_st, ep_st = angles_to_sorttypes[key]
+    start_port_sort = dict_sorts[sp_st]
+    end_port_sort = dict_sorts[ep_st]
+    ports1.sort(key=start_port_sort)
+    ports2.sort(key=end_port_sort)
 
 
 get_bundle_from_waypoints_electrical = partial(

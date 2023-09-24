@@ -103,7 +103,7 @@ routes:
 
         settings:
             cross_section:
-                cross_section: strip
+                cross_section: xs_sc
                 settings:
                     layer: [2, 0]
 
@@ -150,9 +150,8 @@ routes:
         settings:
             separation: 20
             cross_section:
-                cross_section: metal3_with_bend
+                cross_section: xs_m3_bend
                 settings:
-                    layer: [31, 0]
                     width: 10
         links:
             tl,e3: tr,e1
@@ -160,7 +159,7 @@ routes:
     optical:
         settings:
             cross_section:
-                cross_section: strip
+                cross_section: xs_sc
                 settings:
                     radius: 100
         links:
@@ -607,7 +606,9 @@ if __name__ == "__main__":
     # yaml_key = "yaml_anchor"
     # yaml_key = "sample_doe_function"
     # yaml_key = "sample_doe_grid"
-    yaml_key = "sample_docstring"
+    # yaml_key = "sample_docstring"
+    # yaml_key = "sample_waypoints"
+    yaml_key = "sample_different_link_factory"
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
     # print(sorted([i.name for i in c.get_dependencies(True)]))
@@ -617,4 +618,4 @@ if __name__ == "__main__":
     # n2 = c2.get_netlist()
     # d = jsondiff.diff(n, n2)
     # pprint(d)
-    c.show()
+    # c.show()

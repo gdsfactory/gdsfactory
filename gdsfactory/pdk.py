@@ -32,7 +32,6 @@ from gdsfactory.typings import (
     LayerSpec,
     MaterialSpec,
     PathType,
-    Transition,
 )
 
 component_settings = ["function", "component", "settings"]
@@ -528,12 +527,10 @@ class Pdk(BaseModel):
 
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs
-    ) -> CrossSection | Transition:
+    ) -> CrossSection:
         """Returns cross_section from a cross_section spec."""
         if isinstance(cross_section, CrossSection):
-            return cross_section.model_copy(update=kwargs)
-        elif isinstance(cross_section, Transition):
-            return cross_section.model_copy(update=kwargs)
+            return cross_section.copy(**kwargs)
         elif callable(cross_section):
             return cross_section(**kwargs)
         elif isinstance(cross_section, str):
@@ -543,29 +540,10 @@ class Pdk(BaseModel):
             xs = self.cross_sections[cross_section]
             return xs(**kwargs) if callable(xs) else xs
         elif isinstance(cross_section, dict | DictConfig):
-            for key in cross_section.keys():
-                if key not in cross_section_settings:
-                    raise ValueError(
-                        f"Invalid setting {key!r} not in {cross_section_settings}"
-                    )
-            cross_section_factory_name = cross_section.get("cross_section", None)
-            cross_section_factory_name = (
-                cross_section_factory_name or cross_section.get("function")
-            )
-            cross_section_factory_name = cross_section_factory_name.split(".")[-1]
-            if (
-                not isinstance(cross_section_factory_name, str)
-                or cross_section_factory_name not in self.cross_sections
-            ):
-                cross_sections = list(self.cross_sections.keys())
-                raise ValueError(
-                    f"{cross_section_factory_name!r} not in {cross_sections}"
-                )
-            cross_section_factory = self.cross_sections[cross_section_factory_name]
-            settings = dict(cross_section.get("settings", {}))
-            settings.update(**kwargs)
-
-            return cross_section_factory.copy(settings)
+            xs_name = cross_section.get("cross_section", None)
+            settings = cross_section.get("settings", {})
+            xs = self.get_cross_section(xs_name)
+            return xs.copy(**settings)
         else:
             raise ValueError(
                 "get_cross_section expects a CrossSectionSpec (CrossSection, "

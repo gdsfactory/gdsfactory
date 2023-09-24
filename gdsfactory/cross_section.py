@@ -2083,6 +2083,7 @@ xs_heater_metal = heater_metal()
 xs_m1 = metal1()
 xs_m2 = metal2()
 xs_m3 = metal3()
+xs_m3_bend = metal3(radius=10)
 xs_metal_routing = xs_m3
 xs_rc_with_trenches = rib_with_trenches()
 

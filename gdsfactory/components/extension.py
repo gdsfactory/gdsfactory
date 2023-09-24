@@ -192,8 +192,7 @@ def test_extend_ports() -> None:
         gf.cross_section.strip,
         width=width,
         cladding_layers=None,
-        add_pins=None,
-        add_bbox=None,
+        add_pins_function_name=None,
     )
 
     c = pc.straight(cross_section=xs_strip)
@@ -226,6 +225,7 @@ __all__ = ["extend_ports", "extend_port"]
 
 
 if __name__ == "__main__":
+    test_extend_ports()
     c0 = gf.c.straight()
     # p0 = c0["o1"]
     # c = extend_port(p0, length=100)
