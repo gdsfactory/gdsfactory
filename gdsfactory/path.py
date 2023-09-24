@@ -429,7 +429,6 @@ class Path(_GeometryHelper):
         cross_section: CrossSectionSpec | None = None,
         layer: LayerSpec | None = None,
         width: float | None = None,
-        widths: Float2 | None = None,
         simplify: float | None = None,
         shear_angle_start: float | None = None,
         shear_angle_end: float | None = None,
@@ -443,7 +442,6 @@ class Path(_GeometryHelper):
             cross_section: to extrude.
             layer: optional layer.
             width: optional width in um.
-            widths: tuple of starting and end width for a linear taper.
             simplify: Tolerance value for the simplification algorithm. \
                     All points that can be removed without changing the resulting polygon\
                     by more than the value listed here will be removed.
@@ -464,7 +462,6 @@ class Path(_GeometryHelper):
             cross_section=cross_section,
             layer=layer,
             width=width,
-            widths=widths,
             simplify=simplify,
             shear_angle_start=shear_angle_start,
             shear_angle_end=shear_angle_end,
@@ -768,6 +765,8 @@ def extrude(
         port_names = section.port_names
         port_types = section.port_types
         hidden = section.hidden
+        width_function = section.width_function
+        offset_function = section.offset_function
 
         if isinstance(width, int | float) and isinstance(offset, int | float):
             xsection_points.append([width, offset])
@@ -804,19 +803,19 @@ def extrude(
                 [new_start_point, *p_pts[new_start_idx:new_stop_idx], new_stop_point]
             )
 
-        if callable(offset):
-            p_sec.offset(offset)
+        if callable(offset_function):
+            p_sec.offset(offset_function)
             offset = 0
         end_angle = p_sec.end_angle
         start_angle = p_sec.start_angle
         points = p_sec.points
-        if callable(width):
+        if callable(width_function):
             # Compute lengths
             dx = np.diff(p_sec.points[:, 0])
             dy = np.diff(p_sec.points[:, 1])
             lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
             lengths = np.concatenate([[0], lengths])
-            width = width(lengths / lengths[-1])
+            width = width_function(lengths / lengths[-1])
         dy = offset + width / 2
         # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 

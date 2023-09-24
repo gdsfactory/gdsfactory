@@ -565,7 +565,7 @@ class Pdk(BaseModel):
             settings = dict(cross_section.get("settings", {}))
             settings.update(**kwargs)
 
-            return cross_section_factory(**settings)
+            return cross_section_factory.copy(settings)
         else:
             raise ValueError(
                 "get_cross_section expects a CrossSectionSpec (CrossSection, "

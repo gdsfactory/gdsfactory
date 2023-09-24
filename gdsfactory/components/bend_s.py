@@ -30,7 +30,8 @@ def bend_s(
         npoints: number of points.
         cross_section: spec.
         check_min_radius: raise ValueError if radius below min_bend_radius.
-        kwargs: cross_section settings.
+
+    Keyword Args:
     """
     c = Component()
     dx, dy = size

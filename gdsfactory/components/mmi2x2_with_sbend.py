@@ -29,13 +29,13 @@ def mmi2x2_with_sbend(
     c = gf.Component()
 
     P = gf.path.straight(length=2 * 2.4 + 2 * 1.6, npoints=5)
-    xs = gf.get_cross_section(cross_section, add_pins=None)
-    xs = xs.copy(width=mmi_widths)
-    ref = c << gf.path.extrude(P, cross_section=xs)
+    xs = gf.get_cross_section(cross_section)
+    xs0 = xs.copy(width_function=mmi_widths, add_pins_function=None)
+    ref = c << gf.path.extrude(P, cross_section=xs0)
 
     # Add input and output tapers
     taper = gf.components.taper(
-        length=1, width1=0.5, width2=0.7, cross_section=cross_section, add_pins=None
+        length=1, width1=0.5, width2=0.7, cross_section=cross_section, add_pins=False
     )
     topl_taper = c << taper
     topl_taper.move((-1, 0.45))
@@ -51,7 +51,7 @@ def mmi2x2_with_sbend(
     botr_taper.move((9, -0.45))
 
     if with_sbend:
-        sbend = s_bend(cross_section=cross_section, add_pins=None)
+        sbend = s_bend(cross_section=cross_section, add_pins=False)
 
         topl_sbend = c << sbend
         topl_sbend.mirror([0, 1])
@@ -80,12 +80,8 @@ def mmi2x2_with_sbend(
         c.add_port("o3", port=topr_taper.ports["o1"])
         c.add_port("o4", port=botr_taper.ports["o1"])
 
-    xs = gf.get_cross_section(cross_section)
-    if xs.add_pins:
-        c = xs.add_pins(c)
-
+    xs.add_pins(c)
     c.absorb(ref)
-
     c.absorb(topr_taper)
     c.absorb(topl_taper)
     c.absorb(botr_taper)

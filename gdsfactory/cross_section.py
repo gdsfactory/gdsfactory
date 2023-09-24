@@ -5,7 +5,7 @@ To create a component you need to extrude the path with a cross-section.
 from __future__ import annotations
 
 import sys
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers
 from typing import TYPE_CHECKING, Any, Literal
@@ -69,12 +69,15 @@ class Section(BaseModel):
     width: float
     offset: float = 0
     insets: tuple | None = None
-    layer: LayerSpec | LayerSpecs | None = None
+    layer: LayerSpec | None = None
     port_names: tuple[str | None, str | None] = (None, None)
     port_types: tuple[str, str] = ("optical", "optical")
     name: str | None = None
     hidden: bool = False
     simplify: float | None = None
+
+    width_function: Callable | None = Field(default=None, exclude=True)
+    offset_function: Callable | None = Field(default=None, exclude=True)
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -155,6 +158,19 @@ class CrossSection(BaseModel):
 
     def copy(self, width: float | None = None, **kwargs):
         """Returns copy of the cross_section with new parameters."""
+        width_function = kwargs.pop("width_function", None)
+        offset_function = kwargs.pop("offset_function", None)
+
+        if width_function or offset_function:
+            sections = [s.model_copy() for s in self.sections]
+            sections[0] = sections[0].model_copy(
+                update={
+                    "width_function": width_function,
+                    "offset_function": offset_function,
+                }
+            )
+            return self.model_copy(update={"sections": tuple(sections), **kwargs})
+
         for kwarg in kwargs:
             if kwarg not in dict(self):
                 raise ValueError(f"{kwarg!r} not in CrossSection")

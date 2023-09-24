@@ -4,7 +4,6 @@ import numpy as np
 from numpy import ndarray
 
 import gdsfactory as gf
-from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.geometry.functions import angles_deg, curvature, path_length, snap_angle
 from gdsfactory.typings import Coordinate, Coordinates, CrossSectionSpec
@@ -39,6 +38,7 @@ def bezier(
     end_angle: int | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
     with_bbox: bool = True,
+    add_pins: bool = True,
 ) -> Component:
     """Returns Bezier bend.
 
@@ -50,6 +50,7 @@ def bezier(
         end_angle: optional end angle in deg.
         cross_section: spec.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
+        add_pins: add pins to the component.
     """
     xs = gf.get_cross_section(cross_section)
     t = np.linspace(0, 1, npoints)
@@ -77,20 +78,10 @@ def bezier(
     c.info["start_angle"] = path.start_angle
     c.info["end_angle"] = path.end_angle
 
-    if with_bbox and xs.bbox_layers:
-        padding = []
-        for offset in xs.bbox_offsets:
-            points = get_padding_points(
-                component=c,
-                default=0,
-                bottom=offset,
-                top=offset,
-            )
-            padding.append(points)
-
-        for layer, points in zip(xs.bbox_layers, padding):
-            c.add_polygon(points, layer=layer)
-    xs.add_pins(c)
+    if with_bbox:
+        xs.add_bbox(c)
+    if add_pins:
+        xs.add_pins(c)
     return c
 
 
