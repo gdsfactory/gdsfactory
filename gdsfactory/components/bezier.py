@@ -39,7 +39,6 @@ def bezier(
     end_angle: int | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
     with_bbox: bool = True,
-    **kwargs,
 ) -> Component:
     """Returns Bezier bend.
 
@@ -51,9 +50,8 @@ def bezier(
         end_angle: optional end angle in deg.
         cross_section: spec.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        kwargs: cross_section settings.
     """
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
     t = np.linspace(0, 1, npoints)
     path_points = bezier_curve(t, control_points)
     path = gf.Path(path_points)
@@ -92,6 +90,7 @@ def bezier(
 
         for layer, points in zip(xs.bbox_layers, padding):
             c.add_polygon(points, layer=layer)
+    xs.add_pins(c)
     return c
 
 

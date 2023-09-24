@@ -16,7 +16,6 @@ def bendu_double(
     bend180: ComponentSpec = bend_circular180,
     port1: str = "o1",
     port2: str = "o2",
-    **kwargs,
 ) -> ComponentSpec:
     """Returns double bend.
 
@@ -26,14 +25,17 @@ def bendu_double(
         bend180: ubend.
         port1: name of first optical port.
         port2: name of second optical port.
-        kwargs: cross_section settings.
     """
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
+
+    xs_r2 = xs.copy(
+        radius=xs.radius - (component.ports[port1].y - component.ports[port2].y)
+    )
+
     bendu = gf.Component()
     bend_r = bendu << bend180(cross_section=xs)
     bend_r2 = bendu << bend180(
-        cross_section=xs,
-        radius=xs.radius - (component.ports[port1].y - component.ports[port2].y),
+        cross_section=xs_r2,
     )
     bend_r2 = bend_r2.move(
         origin=(0, 0),
@@ -53,7 +55,6 @@ def straight_double(
     port1: str = "o1",
     port2: str = "o2",
     straight_length: float | None = None,
-    **kwargs,
 ) -> ComponentSpec:
     """Returns double straight.
 
@@ -63,9 +64,8 @@ def straight_double(
         port1: name of first optical port.
         port2: name of second optical port.
         straight_length: length of straight.
-        kwargs: cross_section settings.
     """
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
 
     straight_double = gf.Component()
     straight_component = straight(
@@ -100,7 +100,6 @@ def cutback_2x2(
     mirror: bool = False,
     straight_length: float | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
 ) -> Component:
     """Returns a daisy chain of splitters for measuring their loss.
 
@@ -115,7 +114,6 @@ def cutback_2x2(
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
         straight_length: length of the straight section between cutbacks.
         cross_section: specification (CrossSection, string or dict).
-        kwargs: cross_section settings.
     """
     component = gf.get_component(component)
 
@@ -125,7 +123,6 @@ def cutback_2x2(
         bend180=bend180,
         port1=port1,
         port2=port2,
-        **kwargs,
     )
 
     straight = straight_double(
@@ -134,7 +131,6 @@ def cutback_2x2(
         straight_length=straight_length,
         port1=port1,
         port2=port2,
-        **kwargs,
     )
 
     # Define a map between symbols and (component, input port, output port)

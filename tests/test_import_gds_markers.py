@@ -37,7 +37,7 @@ def test_import_ports_center(data_regression) -> None:
 def test_import_ports_siepic(data_regression) -> None:
     """Make sure you can import the ports"""
     c0 = gf.components.straight(
-        decorator=gf.add_pins.add_pins_siepic, cross_section="strip_no_pins"
+        decorator=gf.add_pins.add_pins_siepic, cross_section="xs_sc_no_pins"
     )
     gdspath = c0.write_gds()
 
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     # test_import_ports_siepic(None)
     # test_import_ports_inside(None)
     c0 = gf.components.straight(
-        decorator=gf.add_pins.add_pins_siepic, cross_section="strip_no_pins"
+        decorator=gf.add_pins.add_pins_siepic, cross_section="xs_sc_no_pins"
     )
     gdspath = c0.write_gds()
 

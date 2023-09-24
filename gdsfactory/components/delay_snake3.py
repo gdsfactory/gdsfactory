@@ -95,7 +95,7 @@ def test_length_delay_snake3() -> None:
     import numpy as np
 
     length = 200.0
-    c = delay_snake3(n=2, length=length, length0=50, cross_section="strip_no_pins")
+    c = delay_snake3(n=2, length=length, length0=50, cross_section="xs_sc_no_pins")
     length_computed = c.area() / 0.5
     np.isclose(length, length_computed)
 
@@ -109,7 +109,7 @@ if __name__ == "__main__":
         n=2,
         length=length,
         length2=length - 120,
-        cross_section="strip_no_pins",
+        cross_section="xs_sc_no_pins",
     )
     length_computed = c.area() / 0.5
     assert np.isclose(length, length_computed), length_computed

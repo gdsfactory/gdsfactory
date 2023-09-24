@@ -6,7 +6,6 @@ import numpy as np
 from numpy import float64
 
 import gdsfactory as gf
-from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import (
@@ -116,16 +115,7 @@ def crossing(
     c.auto_rename_ports()
 
     x.add_bbox(c)
-
-    if x.cladding_layers and x.cladding_offsets:
-        padding = []
-        for offset in x.cladding_offsets:
-            points = get_padding_points(component=c, default=offset)
-        for layer, points in zip(x.bbox_layers, padding):
-            c.add_polygon(points, layer=layer)
-
-    if x.add_pins:
-        c = x.add_pins(c)
+    x.add_pins(c)
     return c
 
 
@@ -234,7 +224,7 @@ def crossing45(
     alpha: float = 0.08,
     npoints: int = 101,
     cross_section: CrossSectionSpec = "xs_sc",
-    cross_section_bends: CrossSectionSpec = "strip_no_pins",
+    cross_section_bends: CrossSectionSpec = "xs_sc_no_pins",
 ) -> Component:
     r"""Returns 45deg crossing with bends.
 
@@ -325,11 +315,8 @@ def crossing45(
     c.snap_ports_to_grid()
 
     x = gf.get_cross_section(cross_section)
-    if x.add_bbox:
-        c = x.add_bbox(c)
-    if x.add_pins:
-        c = x.add_pins(c)
-
+    x.add_bbox(c)
+    x.add_pins(c)
     return c
 
 
@@ -443,17 +430,8 @@ def compensation_path(
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     c.info["sbend"] = sbend.info
 
-    if x.cladding_layers and x.cladding_offsets:
-        padding = []
-        for offset in x.cladding_offsets:
-            points = get_padding_points(component=c, default=offset)
-        for layer, points in zip(x.bbox_layers, padding):
-            c.add_polygon(points, layer=layer)
-
-    if x.add_bbox:
-        c = x.add_bbox(c)
-    if x.add_pins:
-        c = x.add_pins(c)
+    x.add_bbox(c)
+    x.add_pins(c)
     return c
 
 
@@ -500,4 +478,4 @@ if __name__ == "__main__":
     # c = crossing_etched()
     # c = compensation_path()
     # c = crossing45(port_spacing=40)
-    c.show(show_ports=True)
+    c.show(show_ports=False)
