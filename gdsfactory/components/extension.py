@@ -203,23 +203,23 @@ def test_extend_ports() -> None:
         cross_section=xs_strip,
     )
     assert len(c.ports) == len(c1.ports)
-    p = len(c1.polygons)
-    assert p == 0, p
-    assert len(c1.references) == 3, len(c1.references)
-
+    p = assert_polygons(c1, 3)
     c2 = extend_ports(component=c, cross_section=xs_strip, port_names=("o1",))
-    p = len(c2.polygons)
-    assert p == 0, p
-    assert len(c2.references) == 2, len(c2.references)
-
+    p = assert_polygons(c2, 2)
     c3 = extend_ports(component=c, cross_section=xs_strip)
     p = len(c3.polygons)
     assert p == 0, p
 
     c4 = extend_ports(component=c, port_type="electrical")
-    p = len(c4.polygons)
-    assert p == 0, p
-    assert len(c4.references) == 1, len(c4.references)
+    p = assert_polygons(c4, 1)
+
+
+def assert_polygons(component, n_polygons):
+    result = len(component.polygons)
+    assert result == 0, result
+    assert len(component.references) == n_polygons, len(component.references)
+
+    return result
 
 
 __all__ = ["extend_ports", "extend_port"]
