@@ -10,6 +10,8 @@ from gdsfactory.cross_section import CrossSectionSpec
 def straight(
     length: float = 10.0,
     npoints: int = 2,
+    layer: gf.typings.LayerSpec | None = None,
+    width: float | None = None,
     add_pins: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
@@ -18,6 +20,8 @@ def straight(
     Args:
         length: straight length (um).
         npoints: number of points.
+        layer: layer to use. Defaults to cross_section.layer.
+        width: width to use. Defaults to cross_section.width.
         add_pins: add pins to the component.
         cross_section: specification (CrossSection, string or dict).
 
@@ -28,6 +32,9 @@ def straight(
     """
     p = gf.path.straight(length=length, npoints=npoints)
     x = gf.get_cross_section(cross_section)
+
+    if layer or width:
+        x = x.copy(layer=layer or x.layer, width=width or x.width)
 
     c = Component()
     path = p.extrude(x)
@@ -48,5 +55,5 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     xs = gf.cross_section.strip()
-    c = straight(cross_section=xs)
+    c = straight(layer=(2, 0))
     c.show(show_ports=True)
