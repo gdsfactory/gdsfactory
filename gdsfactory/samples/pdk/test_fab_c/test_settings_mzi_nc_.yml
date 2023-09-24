@@ -1,4 +1,4 @@
-name: mzi_51952163
+name: mzi_39cf5628
 ports:
   o1:
     center:
@@ -14,7 +14,7 @@ ports:
     width: 1.0
   o2:
     center:
-    - 81.12
+    - 87.12
     - 0.0
     layer:
     - 34
@@ -32,48 +32,27 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-                pin_length: 0.5
+            add_pins_function_module: gdsfactory.samples.pdk.fab_c
+            add_pins_function_name: add_pins
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
-            info:
-              type: strip
             layer:
             - 34
             - 0
             width: 1.0
-        with_bbox: true
     cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-            pin_length: 0.5
+        add_pins_function_module: gdsfactory.samples.pdk.fab_c
+        add_pins_function_name: add_pins
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
-        info:
-          type: strip
         layer:
         - 34
         - 0
@@ -84,23 +63,13 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-                pin_length: 0.5
+            add_pins_function_module: gdsfactory.samples.pdk.fab_c
+            add_pins_function_name: add_pins
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
-            info:
-              type: strip
             layer:
             - 34
             - 0
@@ -113,35 +82,24 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-                pin_length: 0.5
+            add_pins_function_module: gdsfactory.samples.pdk.fab_c
+            add_pins_function_name: add_pins
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
-            info:
-              type: strip
             layer:
             - 34
             - 0
             width: 1.0
-        with_bbox: true
   child: null
   default:
     add_optical_ports_arms: false
     bend:
       function: bend_euler
     combiner: null
-    cross_section: strip
+    cross_section: xs_sc
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10.0
@@ -168,49 +126,28 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-                pin_length: 0.5
+            add_pins_function_module: gdsfactory.samples.pdk.fab_c
+            add_pins_function_name: add_pins
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
-            info:
-              type: strip
             layer:
             - 34
             - 0
             width: 1.0
-        with_bbox: true
     combiner: null
     cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-            pin_length: 0.5
+        add_pins_function_module: gdsfactory.samples.pdk.fab_c
+        add_pins_function_name: add_pins
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
-        info:
-          type: strip
         layer:
         - 34
         - 0
@@ -232,23 +169,13 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-                pin_length: 0.5
+            add_pins_function_module: gdsfactory.samples.pdk.fab_c
+            add_pins_function_name: add_pins
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
-            info:
-              type: strip
             layer:
             - 34
             - 0
@@ -261,28 +188,17 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-                pin_length: 0.5
+            add_pins_function_module: gdsfactory.samples.pdk.fab_c
+            add_pins_function_name: add_pins
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
-            info:
-              type: strip
             layer:
             - 34
             - 0
             width: 1.0
-        with_bbox: true
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
@@ -291,4 +207,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_51952163
+  name: mzi_39cf5628

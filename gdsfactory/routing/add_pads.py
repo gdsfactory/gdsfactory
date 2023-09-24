@@ -77,7 +77,15 @@ def add_pads_bot(
         :include-source:
 
         import gdsfactory as gf
-        c = gf.components.pad()
+        c = gf.c.nxn(
+            xsize=600,
+            ysize=200,
+            north=2,
+            south=3,
+            wg_width=10,
+            layer="M3",
+            port_type="electrical",
+        )
         cc = gf.routing.add_pads_bot(component=c, port_names=("e1", "e4"), fanout_length=50)
         cc.plot()
 
@@ -129,7 +137,6 @@ def add_pads_bot(
         layer_label=layer_label,
         with_loopback=False,
         bend=bend,
-        radius=xs.width,
         straight_separation=straight_separation,
         port_names=port_names,
         fiber_spacing=pad_spacing,
@@ -223,7 +230,15 @@ def add_pads_top(
         :include-source:
 
         import gdsfactory as gf
-        c = gf.components.pad()
+        c = gf.c.nxn(
+            xsize=600,
+            ysize=200,
+            north=2,
+            south=3,
+            wg_width=10,
+            layer="M3",
+            port_type="electrical",
+        )
         cc = gf.routing.add_pads_top(component=c, port_names=("e1", "e4"), fanout_length=50)
         cc.plot()
 

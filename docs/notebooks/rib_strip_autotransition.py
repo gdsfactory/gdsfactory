@@ -32,7 +32,7 @@
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.cross_section import xs_rc, strip
+from gdsfactory.cross_section import xs_rc, strip, rib
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read import cell_from_yaml_template
 from gdsfactory.route_info import route_info
@@ -57,7 +57,7 @@ strip_with_intent = partial(
 )
 
 rib_with_intent = partial(
-    xs_rc,
+    rib,
     layer="RIB_INTENT",
     cladding_layers=["WG"],  # keeping WG layer is nice for compatibility
     cladding_offsets=[0],
@@ -152,8 +152,8 @@ all_angle.LOW_LOSS_CROSS_SECTIONS.insert(0, "rib")
 strip_width = 1
 rib_width = 0.7
 c = gf.Component()
-strip_wg = c << gf.c.straight(cross_section="xs_sc", width=strip_width)
-rib_wg = c << gf.c.straight(cross_section="rib", width=rib_width)
+strip_wg = c << gf.c.straight(cross_section="xs_sc")
+rib_wg = c << gf.c.straight(cross_section="rib")
 taper = c << strip_to_rib(width1=strip_width, width2=rib_width)
 taper.connect("o1", strip_wg.ports["o2"])
 rib_wg.connect("o1", taper.ports["o2"])
@@ -200,8 +200,6 @@ c.plot()
 # You can see that since `gap` is defined in our cross-sections, the bundle router also intelligently picks the appropriate bundle spacing for the cross section used.
 #
 # Notice how the strip waveguide bundles are much more tightly packed than the rib waveguide bundles in the example below.
-
-# %%
 
 # %%
 basic_sample_fn2 = sample_dir / "aar_bundles03.pic.yml"

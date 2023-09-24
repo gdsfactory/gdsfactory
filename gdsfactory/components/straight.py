@@ -10,16 +10,16 @@ from gdsfactory.cross_section import CrossSectionSpec
 def straight(
     length: float = 10.0,
     npoints: int = 2,
-    cross_section: CrossSectionSpec = "xs_sc",
     add_pins: bool = True,
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     """Returns a Straight waveguide.
 
     Args:
         length: straight length (um).
         npoints: number of points.
-        cross_section: specification (CrossSection, string or dict).
         add_pins: add pins to the component.
+        cross_section: specification (CrossSection, string or dict).
 
     .. code::
 
@@ -33,8 +33,10 @@ def straight(
     path = p.extrude(x)
     ref = c << path
     c.add_ports(ref.ports)
+
+    x.add_bbox(c)
     if add_pins:
-        c = x.add_pins(c)
+        x.add_pins(c)
     c.info["length"] = length
     c.info["width"] = x.sections[0].width
     c.info["cross_section"] = cross_section

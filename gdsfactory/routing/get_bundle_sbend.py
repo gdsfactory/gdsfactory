@@ -46,7 +46,6 @@ def get_bundle_sbend(
                 length=bend.info["length"],
             )
         )
-
     return routes
 
 

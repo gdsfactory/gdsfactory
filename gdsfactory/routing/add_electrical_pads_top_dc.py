@@ -1,20 +1,23 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.straight_heater_metal import straight_heater_metal
+from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_bundle import get_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.typings import ComponentSpec, Float2, Strs
 
+_wire_long = partial(wire_straight, length=200.0)
+
 
 @cell
 def add_electrical_pads_top_dc(
-    component: ComponentSpec = straight_heater_metal,
+    component: ComponentSpec = _wire_long,
     spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentSpec = "pad_array",
     select_ports: Callable = select_ports_electrical,
@@ -37,7 +40,7 @@ def add_electrical_pads_top_dc(
         :include-source:
 
         import gdsfactory as gf
-        c = gf.components.straight_heater_metal(length=100)
+        c = gf.components.wire_straight(length=200.)
         c = gf.routing.add_electrical_pads_top_dc(c, width=10)
         c.plot()
 
@@ -86,7 +89,5 @@ def add_electrical_pads_top_dc(
 
 
 if __name__ == "__main__":
-    c = gf.components.straight_heater_metal(length=100.0)
-    # c = gf.components.straight(length=100.0)
-    cc = add_electrical_pads_top_dc(component=c, width=10)
+    cc = add_electrical_pads_top_dc()
     cc.show(show_ports=True)

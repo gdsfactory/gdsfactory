@@ -40,6 +40,7 @@ settings:
       npoints: 99
     child: null
     default:
+      add_pins: true
       control_points:
       - - 0.0
         - 0.0
@@ -56,6 +57,7 @@ settings:
       with_bbox: true
       with_manhattan_facing_angles: true
     full:
+      add_pins: true
       control_points:
       - - 0
         - 0

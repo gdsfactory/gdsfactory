@@ -16,6 +16,7 @@ instances:
       width: 0.5
     settings:
       cross_section:
+        add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: add_pins_inside1nm
         auto_widen: false
         auto_widen_minimum_length: 200.0
@@ -54,6 +55,7 @@ instances:
       width: 0.5
     settings:
       cross_section:
+        add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: add_pins_inside1nm
         auto_widen: false
         auto_widen_minimum_length: 200.0
@@ -86,6 +88,7 @@ instances:
     component: coupler_ring
     settings:
       cross_section:
+        add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: add_pins_inside1nm
         auto_widen: false
         auto_widen_minimum_length: 200.0
@@ -119,6 +122,7 @@ instances:
     component: straight
     info:
       cross_section:
+        add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: add_pins_inside1nm
         auto_widen: false
         auto_widen_minimum_length: 200.0
@@ -151,6 +155,7 @@ instances:
       width: 0.5
     settings:
       cross_section:
+        add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: add_pins_inside1nm
         auto_widen: false
         auto_widen_minimum_length: 200.0
@@ -184,6 +189,7 @@ instances:
     component: straight
     info:
       cross_section:
+        add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: add_pins_inside1nm
         auto_widen: false
         auto_widen_minimum_length: 200.0
@@ -216,6 +222,7 @@ instances:
       width: 0.5
     settings:
       cross_section:
+        add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: add_pins_inside1nm
         auto_widen: false
         auto_widen_minimum_length: 200.0
@@ -249,6 +256,7 @@ instances:
     component: straight
     info:
       cross_section:
+        add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: add_pins_inside1nm
         auto_widen: false
         auto_widen_minimum_length: 200.0
@@ -281,6 +289,7 @@ instances:
       width: 0.5
     settings:
       cross_section:
+        add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: add_pins_inside1nm
         auto_widen: false
         auto_widen_minimum_length: 200.0

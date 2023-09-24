@@ -1,4 +1,4 @@
-name: bend_euler_539752e7
+name: bend_euler_4a9a281e
 ports:
   o1:
     center:
@@ -29,58 +29,40 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-            pin_length: 0.5
+        add_pins_function_module: gdsfactory.samples.pdk.fab_c
+        add_pins_function_name: add_pins
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
-        info:
-          type: strip
         layer:
         - 34
         - 0
         width: 1.0
   child: null
   default:
+    add_pins: true
     angle: 90.0
-    cross_section: strip
+    cross_section: xs_sc
     direction: ccw
     npoints: null
     p: 0.5
+    radius: null
     with_arc_floorplan: true
-    with_bbox: true
   full:
+    add_pins: true
     angle: 90.0
     cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-            pin_length: 0.5
+        add_pins_function_module: gdsfactory.samples.pdk.fab_c
+        add_pins_function_name: add_pins
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
-        info:
-          type: strip
         layer:
         - 34
         - 0
@@ -88,22 +70,15 @@ settings:
     direction: ccw
     npoints: null
     p: 0.5
+    radius: null
     with_arc_floorplan: true
-    with_bbox: true
   function_name: bend_euler
   info:
     dy: 10.0
     length: 16.637
     radius: 10.0
     radius_min: 7.061
-    route_info:
-      length: 16.637
-      n_bend_90: 1.0
-      strip_length: 16.637
-      type: strip
-      weight: 16.637
-    type: strip
     width: 1.0
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_539752e7
+  name: bend_euler_4a9a281e

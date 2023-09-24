@@ -31,55 +31,19 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
+        add_pins_function_name: add_pins_inside1nm
   full:
     cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
+        add_pins_function_name: add_pins_inside1nm
   function_name: demo_cross_section_setting
   info:
     cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
+        add_pins_function_name: add_pins_inside1nm
     length: 10.0
-    route_info:
-      length: 10.0
-      strip_length: 10.0
-      type: strip
-      weight: 10.0
-    type: strip
     width: 0.5
   info_version: 2
   module: test_serialize

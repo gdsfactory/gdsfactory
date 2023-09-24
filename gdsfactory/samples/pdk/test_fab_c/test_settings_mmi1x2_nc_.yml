@@ -1,4 +1,4 @@
-name: mmi1x2_80455031
+name: mmi1x2_cd3bb51f
 ports:
   o1:
     center:
@@ -41,23 +41,13 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-            pin_length: 0.5
+        add_pins_function_module: gdsfactory.samples.pdk.fab_c
+        add_pins_function_name: add_pins
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
-        info:
-          type: strip
         layer:
         - 34
         - 0
@@ -66,7 +56,7 @@ settings:
     width_mmi: 3
   child: null
   default:
-    cross_section: strip
+    cross_section: xs_sc
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10.0
@@ -82,23 +72,13 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-            pin_length: 0.5
+        add_pins_function_module: gdsfactory.samples.pdk.fab_c
+        add_pins_function_name: add_pins
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
-        info:
-          type: strip
         layer:
         - 34
         - 0
@@ -118,4 +98,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_80455031
+  name: mmi1x2_cd3bb51f

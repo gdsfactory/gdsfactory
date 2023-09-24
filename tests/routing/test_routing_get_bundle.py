@@ -397,7 +397,6 @@ def test_get_bundle_u_indirect(
         bend=gf.components.bend_circular,
         end_straight_length=15,
         start_straight_length=5,
-        radius=5,
         enforce_port_ordering=False,
     )
     lengths = {}
@@ -456,7 +455,7 @@ def test_get_bundle_small() -> None:
         [c1.ports["o3"], c1.ports["o4"]],
         [c2.ports["o2"], c2.ports["o1"]],
         separation=5.0,
-        cross_section=gf.cross_section.strip(radius=5, layer=(2, 0))
+        cross_section=gf.cross_section.strip(layer=(2, 0))
         # cross_section=gf.cross_section.strip,
     )
     for route in routes:
@@ -526,7 +525,6 @@ if __name__ == "__main__":
         bend=gf.components.bend_circular,
         end_straight_length=15,
         start_straight_length=5,
-        radius=5,
     )
     lengths = {}
     for i, route in enumerate(routes):

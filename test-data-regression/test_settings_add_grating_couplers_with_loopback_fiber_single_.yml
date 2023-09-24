@@ -69,7 +69,7 @@ settings:
             angle: 180
         bend90:
           function: bend_euler
-        cross_section: strip
+        cross_section: xs_sc
         cross_section_bend: null
         cross_section_bend180: null
         grating_spacing: 127.0
@@ -90,7 +90,7 @@ settings:
             angle: 180
         bend90:
           function: bend_euler
-        cross_section: strip
+        cross_section: xs_sc
         cross_section_bend: null
         cross_section_bend180: null
         grating_spacing: 200.0
@@ -109,7 +109,7 @@ settings:
       module: gdsfactory.components.spiral_inner_io
       name: spiral_inner_io_2a92e51b
     default:
-      cross_section: strip
+      cross_section: xs_sc
       cross_section_bend: null
       cross_section_ports: null
       grating_spacing: 200.0
@@ -118,7 +118,7 @@ settings:
       y_straight_inner_bottom: 0.0
       y_straight_inner_top: 10.0
     full:
-      cross_section: strip
+      cross_section: xs_sc
       cross_section_bend: null
       cross_section_ports: null
       grating_spacing: 200.0
@@ -138,17 +138,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
+        add_pins_function_name: add_pins_inside1nm
     gc_port_name: o1
     get_input_label_text_loopback_function:
       function: get_input_label_text
@@ -175,17 +165,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
+        add_pins_function_name: add_pins_inside1nm
     gc_port_name: o1
     get_input_label_text_loopback_function:
       function: get_input_label_text
