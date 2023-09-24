@@ -43,6 +43,10 @@ def ring_single(
     """
     gap = gf.snap.snap_to_grid2x(gap)
 
+    xs = gf.get_cross_section(cross_section)
+    radius = radius or xs.radius
+    cross_section = xs.copy(radius=radius)
+
     c = gf.Component()
     cb = c << coupler_ring(
         bend=bend,
@@ -52,7 +56,7 @@ def ring_single(
         cross_section=cross_section,
     )
     sy = straight(length=length_y, cross_section=cross_section)
-    b = bend(bend, cross_section=cross_section)
+    b = bend(cross_section=cross_section)
     sx = straight(length=length_x, cross_section=cross_section)
 
     sl = sy.ref()
