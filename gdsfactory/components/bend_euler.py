@@ -217,7 +217,7 @@ if __name__ == "__main__":
     # PDK = get_generic_pdk()
     # PDK.activate()
     # c = bend_euler_s()
-    # c = bend_euler(cross_section="rib", angle=180)
+    # c = bend_euler(cross_section="xs_rc", angle=180)
     # c = bend_euler(bbox_layers=[(2, 0), (3, 0)], bbox_offsets=[3, 3])
 
     # c = gf.Component()
@@ -230,7 +230,7 @@ if __name__ == "__main__":
     # c.show(show_ports=True)
 
     # c = bend_euler(direction="cw")
-    c = bend_euler(cross_section="rib", angle=30)
+    c = bend_euler(cross_section="xs_rc", angle=30)
     # c.pprint()
     # p = euler()
     # c = bend_straight_bend()

@@ -115,7 +115,7 @@ def taper_single_cross_section(
 
 
 taper_strip = partial(taper_single_cross_section, cross_section="xs_sc")
-taper_rib = partial(taper_single_cross_section, cross_section="rib")
+taper_rib = partial(taper_single_cross_section, cross_section="xs_rc")
 
 # make a new PDK with our required layers, cross-sections, and default transitions
 multi_wg_pdk = gf.Pdk(
@@ -126,7 +126,7 @@ multi_wg_pdk = gf.Pdk(
         "STRIP_INTENT": STRIP_INTENT_LAYER,
     },
     cross_sections={
-        "rib": rib_with_intent,
+        "xs_rc": rib_with_intent,
         "xs_sc": strip_with_intent,
     },
     layer_transitions={
@@ -142,7 +142,7 @@ multi_wg_pdk = gf.Pdk(
 multi_wg_pdk.activate()
 
 # set to prefer rib routing when there is enough space
-all_angle.LOW_LOSS_CROSS_SECTIONS.insert(0, "rib")
+all_angle.LOW_LOSS_CROSS_SECTIONS.insert(0, "xs_rc")
 
 # %% [markdown]
 # Let's quickly demonstrate our new cross-sections and transition component.
@@ -153,7 +153,7 @@ strip_width = 1
 rib_width = 0.7
 c = gf.Component()
 strip_wg = c << gf.c.straight(cross_section="xs_sc")
-rib_wg = c << gf.c.straight(cross_section="rib")
+rib_wg = c << gf.c.straight(cross_section="xs_rc")
 taper = c << strip_to_rib(width1=strip_width, width2=rib_width)
 taper.connect("o1", strip_wg.ports["o2"])
 rib_wg.connect("o1", taper.ports["o2"])

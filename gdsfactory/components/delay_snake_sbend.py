@@ -137,7 +137,7 @@ if __name__ == "__main__":
     c = test_delay_snake_sbend_length()
     # c = gf.grid(
     #     [
-    #         delay_snake_sbend(length=length, cross_section="rib")
+    #         delay_snake_sbend(length=length, cross_section="xs_rc")
     #         for length in [500, 3000]
     #     ]
     # )

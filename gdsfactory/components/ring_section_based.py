@@ -15,7 +15,7 @@ from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import CrossSectionSpec, Floats
 
-def_dict = {"A": "rib", "B": "xs_sc"}
+def_dict = {"A": "xs_rc", "B": "xs_sc"}
 def_ang_dict = {"A": 6.0, "B": 6.0}
 
 
@@ -159,7 +159,6 @@ def ring_section_based(
         ang = cross_sections_angles[key]
         b = bend_circular(
             angle=ang,
-            with_bbox=False,
             cross_section=xsec,
             radius=radius,
             npoints=np.round(ang / ang_res) + 1 if ang_res is not None else None,
@@ -170,7 +169,6 @@ def ring_section_based(
     if start_cross_section is not None:
         b = bend_circular(
             angle=start_angle,
-            with_bbox=False,
             cross_section=start_xs,
             radius=radius,
             npoints=np.round(ang / ang_res) + 1 if ang_res is not None else None,
@@ -184,7 +182,6 @@ def ring_section_based(
     if drop_cross_section is not None:
         b = bend_circular(
             angle=start_angle,
-            with_bbox=False,
             cross_section=gf.get_cross_section(drop_cross_section),
             radius=radius,
             npoints=np.round(ang / ang_res) + 1 if ang_res is not None else None,
@@ -302,7 +299,7 @@ if __name__ == "__main__":
         gap=0.3,
         radius=5.0,
         add_drop=True,
-        cross_sections={"A": "rib", "B": "slot"},
+        cross_sections={"A": "xs_rc", "B": "xs_slot"},
         cross_sections_sequence=["AB", "BA"],
         cross_sections_angles={"A": 17, "B": 17},
         start_cross_section=partial(rib, width=0.65),

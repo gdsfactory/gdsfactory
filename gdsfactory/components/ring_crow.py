@@ -114,7 +114,8 @@ def ring_crow(
 
 if __name__ == "__main__":
     c = ring_crow(
-        input_straight_cross_section="rib", ring_cross_sections=["rib", "xs_sc", "rib"]
+        input_straight_cross_section="xs_rc",
+        ring_cross_sections=["xs_rc", "xs_sc", "xs_rc"],
     )
     # c = ring_crow(gaps = [0.3, 0.4, 0.5, 0.2],
     #     radius = [20.0, 5.0, 15.0],

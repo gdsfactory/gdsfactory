@@ -125,7 +125,7 @@ if __name__ == "__main__":
     c = bend_s()
     # c = bend_s(bbox_offsets=[0.5], bbox_layers=[(111, 0)], width=2)
     # c = bend_s(size=[10, 2.5])  # 10um bend radius
-    # c = bend_s(size=[20, 3], cross_section="rib")  # 10um bend radius
+    # c = bend_s(size=[20, 3], cross_section="xs_rc")  # 10um bend radius
     # c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
