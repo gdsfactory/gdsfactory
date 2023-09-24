@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-import pathlib
+import sys
 from functools import partial
 
 from pydantic import BaseModel
 
 import gdsfactory as gf
 from gdsfactory.add_pins import add_pins_inside1nm
-from gdsfactory.cross_section import strip
+from gdsfactory.cross_section import get_cross_sections, strip
 from gdsfactory.port import select_ports
 from gdsfactory.technology import LayerLevel, LayerStack
 from gdsfactory.typings import Layer
@@ -52,7 +52,7 @@ add_pins = partial(add_pins_inside1nm, pin_length=0.5)
 
 # cross_sections
 
-xs_nc = partial(
+strip_nc = partial(
     strip,
     width=WIDTH_NITRIDE_CBAND,
     layer=LAYER.WGN,
@@ -61,17 +61,13 @@ xs_nc = partial(
     add_pins_function_name="add_pins",
     add_pins_function_module="gdsfactory.samples.pdk.fab_c",
 )
-xs_no = partial(
-    strip,
+strip_no = partial(
+    strip_nc,
     width=WIDTH_NITRIDE_OBAND,
-    layer=LAYER.WGN,
-    bbox_layers=[LAYER.WGN_CLAD],
-    bbox_offsets=[3],
-    add_pins=add_pins,
 )
 
-cross_sections = dict(xs_nc=xs_nc, xs_no=xs_no)
-
+xs_nc = strip_nc()
+xs_no = strip_no()
 
 # LEAF COMPONENTS have pins
 bend_euler_nc = partial(gf.components.bend_euler, cross_section=xs_nc)
@@ -116,7 +112,6 @@ mzi_no = partial(
 )
 
 
-# for testing
 cells = dict(
     mmi1x2_nc=mmi1x2_nc,
     mmi1x2_no=mmi1x2_no,
@@ -128,10 +123,15 @@ cells = dict(
 )
 
 
-LAYER_STACK = get_layer_stack_fab_c()
-SPARAMETERS_PATH = pathlib.Path.home() / "fabc"
+layer_stack = get_layer_stack_fab_c()
+cross_sections = get_cross_sections(sys.modules[__name__])
 
-pdk = gf.Pdk(name="fab_c_demopdk", cells=cells, cross_sections=cross_sections)
+pdk = gf.Pdk(
+    name="fab_c_demopdk",
+    cells=cells,
+    cross_sections=cross_sections,
+    layer_stack=layer_stack,
+)
 
 
 if __name__ == "__main__":
@@ -145,15 +145,3 @@ if __name__ == "__main__":
 
     c = mzi_nc()
     c.show()
-
-    # # mzi.show()
-    # mzi_gc = gf.routing.add_fiber_single(
-    #     component=mzi,
-    #     grating_coupler=gc_nc,
-    #     cross_section=xs_nc,
-    #     optical_routing_type=1,
-    #     straight=straight_nc,
-    #     bend=bend_euler_nc,
-    #     select_ports=select_ports_optical,
-    # )
-    # mzi_gc.show(show_ports=True)

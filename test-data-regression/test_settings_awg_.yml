@@ -55,17 +55,29 @@ settings:
     arms: 10
     fpr_spacing: 50.0
     free_propagation_region_input_function:
-      function: free_propagation_region_input
+      function: free_propagation_region
+      settings:
+        inputs: 1
     free_propagation_region_output_function:
-      function: free_propagation_region_output
+      function: free_propagation_region
+      settings:
+        inputs: 10
+        width1: 10
+        width2: 20.0
     outputs: 3
   full:
     arms: 10
     fpr_spacing: 50.0
     free_propagation_region_input_function:
-      function: free_propagation_region_input
+      function: free_propagation_region
+      settings:
+        inputs: 1
     free_propagation_region_output_function:
-      function: free_propagation_region_output
+      function: free_propagation_region
+      settings:
+        inputs: 10
+        width1: 10
+        width2: 20.0
     outputs: 3
   function_name: awg
   info: {}

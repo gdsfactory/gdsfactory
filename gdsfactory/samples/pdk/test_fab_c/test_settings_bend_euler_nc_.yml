@@ -1,4 +1,4 @@
-name: bend_euler_4a9a281e
+name: bend_euler_83b8a121
 ports:
   o1:
     center:
@@ -27,50 +27,96 @@ ports:
 settings:
   changed:
     cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_module: gdsfactory.samples.pdk.fab_c
-        add_pins_function_name: add_pins
-        bbox_layers:
-        - - 36
-          - 0
-        bbox_offsets:
-        - 3
+      add_pins_function_module: gdsfactory.samples.pdk.fab_c
+      add_pins_function_name: add_pins
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      bbox_layers:
+      - - 36
+        - 0
+      bbox_offsets:
+      - 3.0
+      components_along_path: []
+      end_straight_length: 0.01
+      gap: 3.0
+      info: {}
+      min_length: 0.01
+      radius: 10.0
+      sections:
+      - hidden: false
+        insets: null
         layer:
         - 34
         - 0
+        name: null
+        offset: 0.0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        simplify: null
         width: 1.0
+      start_straight_length: 0.01
+      taper_length: 10.0
+      width_wide: null
   child: null
   default:
     add_pins: true
     angle: 90.0
     cross_section: xs_sc
     direction: ccw
+    layer: null
     npoints: null
     p: 0.5
     radius: null
+    width: null
     with_arc_floorplan: true
   full:
     add_pins: true
     angle: 90.0
     cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_module: gdsfactory.samples.pdk.fab_c
-        add_pins_function_name: add_pins
-        bbox_layers:
-        - - 36
-          - 0
-        bbox_offsets:
-        - 3
+      add_pins_function_module: gdsfactory.samples.pdk.fab_c
+      add_pins_function_name: add_pins
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      bbox_layers:
+      - - 36
+        - 0
+      bbox_offsets:
+      - 3.0
+      components_along_path: []
+      end_straight_length: 0.01
+      gap: 3.0
+      info: {}
+      min_length: 0.01
+      radius: 10.0
+      sections:
+      - hidden: false
+        insets: null
         layer:
         - 34
         - 0
+        name: null
+        offset: 0.0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        simplify: null
         width: 1.0
+      start_straight_length: 0.01
+      taper_length: 10.0
+      width_wide: null
     direction: ccw
+    layer: null
     npoints: null
     p: 0.5
     radius: null
+    width: null
     with_arc_floorplan: true
   function_name: bend_euler
   info:
@@ -81,4 +127,4 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_4a9a281e
+  name: bend_euler_83b8a121

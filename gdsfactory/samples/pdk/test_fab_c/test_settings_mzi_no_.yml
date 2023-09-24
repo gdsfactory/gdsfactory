@@ -1,4 +1,4 @@
-name: mzi_ed5f89b3
+name: mzi_3e70810e
 ports:
   o1:
     center:
@@ -14,7 +14,7 @@ ports:
     width: 0.9
   o2:
     center:
-    - 81.12
+    - 87.12
     - 0.0
     layer:
     - 34
@@ -30,117 +30,159 @@ settings:
       function: bend_euler
       settings:
         cross_section:
-          function: cross_section
-          settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-                pin_length: 0.5
-            bbox_layers:
-            - - 36
-              - 0
-            bbox_offsets:
-            - 3
-            info:
-              type: strip
+          add_pins_function_module: gdsfactory.samples.pdk.fab_c
+          add_pins_function_name: add_pins
+          auto_widen: false
+          auto_widen_minimum_length: 200.0
+          bbox_layers:
+          - - 36
+            - 0
+          bbox_offsets:
+          - 3.0
+          components_along_path: []
+          end_straight_length: 0.01
+          gap: 3.0
+          info: {}
+          min_length: 0.01
+          radius: 10.0
+          sections:
+          - hidden: false
+            insets: null
             layer:
             - 34
             - 0
+            name: null
+            offset: 0.0
+            port_names:
+            - o1
+            - o2
+            port_types:
+            - optical
+            - optical
+            simplify: null
             width: 0.9
-        with_bbox: true
+          start_straight_length: 0.01
+          taper_length: 10.0
+          width_wide: null
     cross_section:
-      function: cross_section
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-            pin_length: 0.5
-        bbox_layers:
-        - - 36
-          - 0
-        bbox_offsets:
-        - 3
-        info:
-          type: strip
+      add_pins_function_module: gdsfactory.samples.pdk.fab_c
+      add_pins_function_name: add_pins
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      bbox_layers:
+      - - 36
+        - 0
+      bbox_offsets:
+      - 3.0
+      components_along_path: []
+      end_straight_length: 0.01
+      gap: 3.0
+      info: {}
+      min_length: 0.01
+      radius: 10.0
+      sections:
+      - hidden: false
+        insets: null
         layer:
         - 34
         - 0
+        name: null
+        offset: 0.0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        simplify: null
         width: 0.9
+      start_straight_length: 0.01
+      taper_length: 10.0
+      width_wide: null
     splitter:
       function: mmi1x2
       settings:
         cross_section:
-          function: cross_section
-          settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-                pin_length: 0.5
-            bbox_layers:
-            - - 36
-              - 0
-            bbox_offsets:
-            - 3
-            info:
-              type: strip
+          add_pins_function_module: gdsfactory.samples.pdk.fab_c
+          add_pins_function_name: add_pins
+          auto_widen: false
+          auto_widen_minimum_length: 200.0
+          bbox_layers:
+          - - 36
+            - 0
+          bbox_offsets:
+          - 3.0
+          components_along_path: []
+          end_straight_length: 0.01
+          gap: 3.0
+          info: {}
+          min_length: 0.01
+          radius: 10.0
+          sections:
+          - hidden: false
+            insets: null
             layer:
             - 34
             - 0
+            name: null
+            offset: 0.0
+            port_names:
+            - o1
+            - o2
+            port_types:
+            - optical
+            - optical
+            simplify: null
             width: 0.9
+          start_straight_length: 0.01
+          taper_length: 10.0
+          width_wide: null
         width: 0.9
     straight:
       function: straight
       settings:
         cross_section:
-          function: cross_section
-          settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-                pin_length: 0.5
-            bbox_layers:
-            - - 36
-              - 0
-            bbox_offsets:
-            - 3
-            info:
-              type: strip
+          add_pins_function_module: gdsfactory.samples.pdk.fab_c
+          add_pins_function_name: add_pins
+          auto_widen: false
+          auto_widen_minimum_length: 200.0
+          bbox_layers:
+          - - 36
+            - 0
+          bbox_offsets:
+          - 3.0
+          components_along_path: []
+          end_straight_length: 0.01
+          gap: 3.0
+          info: {}
+          min_length: 0.01
+          radius: 10.0
+          sections:
+          - hidden: false
+            insets: null
             layer:
             - 34
             - 0
+            name: null
+            offset: 0.0
+            port_names:
+            - o1
+            - o2
+            port_types:
+            - optical
+            - optical
+            simplify: null
             width: 0.9
-        with_bbox: true
+          start_straight_length: 0.01
+          taper_length: 10.0
+          width_wide: null
   child: null
   default:
     add_optical_ports_arms: false
     bend:
       function: bend_euler
     combiner: null
-    cross_section: strip
+    cross_section: xs_sc
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10.0
@@ -165,55 +207,76 @@ settings:
       function: bend_euler
       settings:
         cross_section:
-          function: cross_section
-          settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-                pin_length: 0.5
-            bbox_layers:
-            - - 36
-              - 0
-            bbox_offsets:
-            - 3
-            info:
-              type: strip
+          add_pins_function_module: gdsfactory.samples.pdk.fab_c
+          add_pins_function_name: add_pins
+          auto_widen: false
+          auto_widen_minimum_length: 200.0
+          bbox_layers:
+          - - 36
+            - 0
+          bbox_offsets:
+          - 3.0
+          components_along_path: []
+          end_straight_length: 0.01
+          gap: 3.0
+          info: {}
+          min_length: 0.01
+          radius: 10.0
+          sections:
+          - hidden: false
+            insets: null
             layer:
             - 34
             - 0
+            name: null
+            offset: 0.0
+            port_names:
+            - o1
+            - o2
+            port_types:
+            - optical
+            - optical
+            simplify: null
             width: 0.9
-        with_bbox: true
+          start_straight_length: 0.01
+          taper_length: 10.0
+          width_wide: null
     combiner: null
     cross_section:
-      function: cross_section
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-            pin_length: 0.5
-        bbox_layers:
-        - - 36
-          - 0
-        bbox_offsets:
-        - 3
-        info:
-          type: strip
+      add_pins_function_module: gdsfactory.samples.pdk.fab_c
+      add_pins_function_name: add_pins
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      bbox_layers:
+      - - 36
+        - 0
+      bbox_offsets:
+      - 3.0
+      components_along_path: []
+      end_straight_length: 0.01
+      gap: 3.0
+      info: {}
+      min_length: 0.01
+      radius: 10.0
+      sections:
+      - hidden: false
+        insets: null
         layer:
         - 34
         - 0
+        name: null
+        offset: 0.0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        simplify: null
         width: 0.9
+      start_straight_length: 0.01
+      taper_length: 10.0
+      width_wide: null
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10.0
@@ -229,58 +292,79 @@ settings:
       function: mmi1x2
       settings:
         cross_section:
-          function: cross_section
-          settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-                pin_length: 0.5
-            bbox_layers:
-            - - 36
-              - 0
-            bbox_offsets:
-            - 3
-            info:
-              type: strip
+          add_pins_function_module: gdsfactory.samples.pdk.fab_c
+          add_pins_function_name: add_pins
+          auto_widen: false
+          auto_widen_minimum_length: 200.0
+          bbox_layers:
+          - - 36
+            - 0
+          bbox_offsets:
+          - 3.0
+          components_along_path: []
+          end_straight_length: 0.01
+          gap: 3.0
+          info: {}
+          min_length: 0.01
+          radius: 10.0
+          sections:
+          - hidden: false
+            insets: null
             layer:
             - 34
             - 0
+            name: null
+            offset: 0.0
+            port_names:
+            - o1
+            - o2
+            port_types:
+            - optical
+            - optical
+            simplify: null
             width: 0.9
+          start_straight_length: 0.01
+          taper_length: 10.0
+          width_wide: null
         width: 0.9
     straight:
       function: straight
       settings:
         cross_section:
-          function: cross_section
-          settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-                pin_length: 0.5
-            bbox_layers:
-            - - 36
-              - 0
-            bbox_offsets:
-            - 3
-            info:
-              type: strip
+          add_pins_function_module: gdsfactory.samples.pdk.fab_c
+          add_pins_function_name: add_pins
+          auto_widen: false
+          auto_widen_minimum_length: 200.0
+          bbox_layers:
+          - - 36
+            - 0
+          bbox_offsets:
+          - 3.0
+          components_along_path: []
+          end_straight_length: 0.01
+          gap: 3.0
+          info: {}
+          min_length: 0.01
+          radius: 10.0
+          sections:
+          - hidden: false
+            insets: null
             layer:
             - 34
             - 0
+            name: null
+            offset: 0.0
+            port_names:
+            - o1
+            - o2
+            port_types:
+            - optical
+            - optical
+            simplify: null
             width: 0.9
-        with_bbox: true
+          start_straight_length: 0.01
+          taper_length: 10.0
+          width_wide: null
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
@@ -289,4 +373,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_ed5f89b3
+  name: mzi_3e70810e

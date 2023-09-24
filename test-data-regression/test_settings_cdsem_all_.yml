@@ -5,7 +5,7 @@ settings:
   child: null
   default:
     bend90: bend_circular
-    cross_section: strip
+    cross_section: xs_sc
     dense_lines_gap: 0.3
     dense_lines_labels:
     - DL
@@ -27,7 +27,7 @@ settings:
     - 1.0
   full:
     bend90: bend_circular
-    cross_section: strip
+    cross_section: xs_sc
     dense_lines_gap: 0.3
     dense_lines_labels:
     - DL
