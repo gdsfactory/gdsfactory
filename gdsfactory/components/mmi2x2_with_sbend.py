@@ -24,8 +24,6 @@ def mmi2x2_with_sbend(
     """
 
     def mmi_widths(t):
-        # Note: Custom width/offset functions MUST be vectorizable--you must be able
-        # to call them with an array input like my_custom_width_fun([0, 0.1, 0.2, 0.3, 0.4])
         return np.array([2 * 0.7 + 0.2, 1.48, 1.48, 1.48, 1.6])
 
     c = gf.Component()

@@ -25,8 +25,6 @@ def mmi1x2_with_sbend(
     def mmi_widths(t):
         from scipy.interpolate import interp1d
 
-        # Note: Custom width/offset functions MUST be vectorizable--you must be able
-        # to call them with an array input like my_custom_width_fun([0, 0.1, 0.2, 0.3, 0.4])
         widths = np.array(
             [0.5, 0.5, 0.6, 0.7, 0.9, 1.26, 1.4, 1.4, 1.4, 1.4, 1.31, 1.2, 1.2]
         )

@@ -714,7 +714,6 @@ def extrude(
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     width: float | None = None,
-    widths: Float2 | None = None,
     simplify: float | None = None,
     shear_angle_start: float | None = None,
     shear_angle_end: float | None = None,
@@ -729,7 +728,6 @@ def extrude(
         cross_section: to extrude.
         layer: optional layer to extrude.
         width: optional width to extrude.
-        widths: tuple of starting and end width for a linear transition.
         simplify: Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting polygon \
                 by more than the value listed here will be removed.
@@ -741,19 +739,21 @@ def extrude(
         get_layer,
     )
 
+    if not isinstance(cross_section, CrossSection):
+        raise ValueError(
+            f"cross_section should be a CrossSection, got {type(cross_section)}"
+        )
+
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
 
     if cross_section is not None and layer is not None:
         raise ValueError("Define only CrossSection or layer")
 
-    if layer is not None and width is None and widths is None:
-        raise ValueError("Need to define layer width or widths")
+    if layer is not None and width is None:
+        raise ValueError("Need to define layer width")
     elif width:
         cross_section = CrossSection(sections=(Section(width=width, layer=layer),))
-
-    elif widths:
-        widths = _linear_transition(widths[0], widths[1])
 
     xsection_points = []
     c = Component()
@@ -1510,13 +1510,17 @@ def smooth(
 
 
 __all__ = [
-    "straight",
-    "euler",
-    "arc",
-    "extrude",
-    "transition",
-    "smooth",
     "Path",
+    "arc",
+    "along_path",
+    "euler",
+    "extrude",
+    "extrude_transition",
+    "smooth",
+    "spiral_archimedean",
+    "straight",
+    "transition",
+    "transition_adiabatic",
 ]
 
 if __name__ == "__main__":
@@ -1543,6 +1547,7 @@ if __name__ == "__main__":
     # )
 
     # Combine the path with the cross-section
-    trans_sc_rc = transition(cross_section1="xs_sc_rc_tip", cross_section2="xs_rc")
-    c = extrude_transition(p, trans_sc_rc)
+    # trans_sc_rc = transition(cross_section1="xs_sc_rc_tip", cross_section2="xs_rc")
+    # c = extrude_transition(p, trans_sc_rc)
+    c = gf.path.extrude(p, layer=(1, 0), width=1)
     c.show(show_ports=True)

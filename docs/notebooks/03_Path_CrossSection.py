@@ -115,17 +115,7 @@ c = gf.path.extrude(P, layer=(1, 0), width=1.5)
 c.plot()
 
 # %% [markdown]
-# ### Option 2: Linearly-varying width
-#
-# A slightly more advanced version is to make the cross-section width vary linearly from start to finish by passing a 2-element list to `extrude()` like so:
-
-# %%
-# Extrude the Path and the CrossSection
-c = gf.path.extrude(P, layer=(1, 0), widths=(1, 3))
-c.plot()
-
-# %% [markdown]
-# ### Option 3: Arbitrary Cross-section
+# ### Option 2: Arbitrary Cross-section
 #
 # You can also extrude an arbitrary cross_section
 
@@ -140,11 +130,10 @@ c.plot()
 p = gf.path.straight()
 
 # Add a few "sections" to the cross-section
+s0 = gf.Section(width=1, offset=0, layer=(1, 0), port_names=("in", "out"))
 s1 = gf.Section(width=2, offset=2, layer=(2, 0))
 s2 = gf.Section(width=2, offset=-2, layer=(2, 0))
-x = gf.CrossSection(
-    width=1, offset=0, layer=(1, 0), port_names=("in", "out"), sections=[s1, s2]
-)
+x = gf.CrossSection(sections=[s0, s1, s2])
 
 c = gf.path.extrude(p, cross_section=x)
 c.plot()
@@ -173,9 +162,8 @@ p += gf.path.straight()
 via = ComponentAlongPath(
     component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
 )
-x = gf.CrossSection(
-    width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"), vias=[via]
-)
+s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
+x = gf.CrossSection(sections=[s], components_along_path=[via])
 
 # Combine the path with the cross-section
 c = gf.path.extrude(p, cross_section=x)
@@ -194,13 +182,7 @@ p += gf.path.straight()
 via0 = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=0)
 viap = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=+2)
 vian = ComponentAlongPath(component=gf.c.via1(), spacing=5, padding=2, offset=-2)
-x = gf.CrossSection(
-    width=0.5,
-    offset=0,
-    layer=(1, 0),
-    port_names=("in", "out"),
-    vias=[via0, viap, vian],
-)
+x = gf.CrossSection(sections=[s], components_along_path=[via0, viap, vian])
 
 # Combine the path with the cross-section
 c = gf.path.extrude(p, cross_section=x)
@@ -337,11 +319,13 @@ P += gf.path.straight(length=10, npoints=2)  # "Walk" length of 10
 f = P.plot()
 
 # %%
+s0 = gf.Section(width=1, offset=0, layer=(1, 0))
 s1 = gf.Section(width=1.5, offset=2.5, layer=(2, 0))
 s2 = gf.Section(width=1.5, offset=-2.5, layer=(3, 0))
-X = gf.CrossSection(width=1, offset=0, layer=(1, 0), sections=[s1, s2])
-component = gf.path.extrude(P, X)
-component.plot()
+X = gf.CrossSection(sections=[s0, s1, s2])
+c = gf.path.extrude(P, X)
+c.show()
+c.plot()
 
 
 # %% [markdown]
@@ -378,12 +362,11 @@ P.append(looploop(num_pts=1000))
 P.rotate(-45)
 
 # Create the crosssection
+s0 = gf.Section(width=1, offset=0, layer=(1, 0), port_names=("in", "out"))
 s1 = gf.Section(width=0.5, offset=2, layer=(2, 0))
 s2 = gf.Section(width=0.5, offset=4, layer=(3, 0))
 s3 = gf.Section(width=1, offset=0, layer=(4, 0))
-X = gf.CrossSection(
-    width=1.5, offset=0, layer=(1, 0), port_names=["in", "out"], sections=[s1, s2, s3]
-)
+X = gf.CrossSection(sections=[s0, s1, s2, s3])
 
 c = gf.path.extrude(P, X)
 c.plot()
@@ -540,28 +523,18 @@ plt.ylabel("Curvature")
 
 # %%
 # Create our first CrossSection
+import gdsfactory as gf
+
+s0 = gf.Section(width=1.2, offset=0, layer=(2, 0), name="core", port_names=("o1", "o2"))
 s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
 s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-X1 = gf.CrossSection(
-    width=1.2,
-    offset=0,
-    layer=(2, 0),
-    name="wg",
-    port_names=("o1", "o2"),
-    sections=[s1, s2],
-)
+X1 = gf.CrossSection(sections=[s0, s1, s2])
 
 # Create the second CrossSection that we want to transition to
+s0 = gf.Section(width=1, offset=0, layer=(2, 0), name="core", port_names=("o1", "o2"))
 s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
 s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-X2 = gf.CrossSection(
-    width=1,
-    offset=0,
-    layer=(2, 0),
-    name="wg",
-    port_names=("o1", "o2"),
-    sections=[s1, s2],
-)
+X2 = gf.CrossSection(sections=[s0, s1, s2])
 
 # To show the cross-sections, let's create two Paths and
 # create Components by extruding them
@@ -587,17 +560,13 @@ c.plot()
 # %%
 # Create the transitional CrossSection
 Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
+
 # Create a Path for the transitional CrossSection to follow
 P3 = gf.path.straight(length=15, npoints=100)
+
 # Use the transitional CrossSection to create a Component
-straight_transition = gf.path.extrude(P3, Xtrans)
+straight_transition = gf.path.extrude_transition(P3, Xtrans)
 straight_transition.plot()
-
-# %%
-wg1.plot()
-
-# %%
-wg2.plot()
 
 # %% [markdown]
 # Now that we have all of our components, let's `connect()` everything and see
@@ -616,13 +585,12 @@ wg2ref.connect("o1", wgtref.ports["o2"])
 c.plot()
 
 # %% [markdown]
-# Note that since `transition()` outputs a `CrossSection`, we can make the
-# transition follow an arbitrary path:
+# Note that since `transition()` outputs a `Transition`, we can make the transition follow an arbitrary path:
 
 # %%
 # Transition along a curving Path
 P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
-wg_trans = gf.path.extrude(P4, Xtrans)
+wg_trans = gf.path.extrude_transition(P4, Xtrans)
 
 c = gf.Component("demo_transition")
 wg1_ref = c << wg1  # First cross-section Component
