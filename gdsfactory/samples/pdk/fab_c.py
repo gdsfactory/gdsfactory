@@ -58,7 +58,8 @@ xs_nc = partial(
     layer=LAYER.WGN,
     bbox_layers=[LAYER.WGN_CLAD],
     bbox_offsets=[3],
-    add_pins=add_pins,
+    add_pins_function_name="add_pins",
+    add_pins_function_module="gdsfactory.samples.pdk.fab_c",
 )
 xs_no = partial(
     strip,
@@ -73,10 +74,10 @@ cross_sections = dict(xs_nc=xs_nc, xs_no=xs_no)
 
 
 # LEAF COMPONENTS have pins
-bend_euler_nc = partial(gf.components.bend_euler, cross_section=xs_nc, with_bbox=True)
-straight_nc = partial(gf.components.straight, cross_section=xs_nc, with_bbox=True)
-bend_euler_o = partial(gf.components.bend_euler, cross_section=xs_no, with_bbox=True)
-straight_o = partial(gf.components.straight, cross_section=xs_no, with_bbox=True)
+bend_euler_nc = partial(gf.components.bend_euler, cross_section=xs_nc)
+straight_nc = partial(gf.components.straight, cross_section=xs_nc)
+bend_euler_o = partial(gf.components.bend_euler, cross_section=xs_no)
+straight_o = partial(gf.components.straight, cross_section=xs_no)
 
 mmi1x2_nc = partial(
     gf.components.mmi1x2,
@@ -134,11 +135,6 @@ pdk = gf.Pdk(name="fab_c_demopdk", cells=cells, cross_sections=cross_sections)
 
 
 if __name__ == "__main__":
-    c1 = bend_euler_nc()
-    d = c1.to_dict()
-    print(d)
-    # c1 = mmi1x2_nc()
-
     # c2 = mmi1x2_nc(cache=False)
     # d2 = c2.to_dict()
 
@@ -147,11 +143,10 @@ if __name__ == "__main__":
     # d = diff(d1, d2)
     # c.show(show_ports=True)
 
-    # c = mzi_nc()
-    # print(c.name)
-    # c.show()
+    c = mzi_nc()
+    c.show()
 
-    # mzi.show()
+    # # mzi.show()
     # mzi_gc = gf.routing.add_fiber_single(
     #     component=mzi,
     #     grating_coupler=gc_nc,

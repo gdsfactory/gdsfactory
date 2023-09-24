@@ -4,6 +4,7 @@ To create a component you need to extrude the path with a cross-section.
 """
 from __future__ import annotations
 
+import importlib
 import sys
 from collections.abc import Callable, Iterable
 from functools import partial
@@ -114,6 +115,7 @@ class CrossSection(BaseModel):
         info: dictionary with extra information.
         add_pins_function_name: name of the function to add pins to the component.\
                 None by default does not add pins.
+        add_pins_function_module: function to add pins to the component.
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
@@ -132,6 +134,7 @@ class CrossSection(BaseModel):
 
     info: dict[str, Any] = Field(default_factory=dict)
     add_pins_function_name: str | None = None
+    add_pins_function_module: str = "gdsfactory.add_pins"
 
     min_length: float = 10e-3
     start_straight_length: float = 10e-3
@@ -180,6 +183,7 @@ class CrossSection(BaseModel):
             bbox_offsets: offset to add to the bounding box.
             info: dictionary with extra information.
             add_pins_function_name: name of the function to add pins to the component.
+            add_pins_function_module: function to add pins to the component.
             min_length: defaults to 1nm = 10e-3um for routing.
             start_straight_length: straight length at the beginning of the route.
             end_straight_length: end length at the beginning of the route.
@@ -210,13 +214,15 @@ class CrossSection(BaseModel):
     def add_pins(self, component: Component) -> Component:
         if self.add_pins_function_name is None:
             return component
-        from gdsfactory import add_pins
 
+        add_pins = importlib.import_module(self.add_pins_function_module)
         if not hasattr(add_pins, self.add_pins_function_name):
             raise ValueError(
-                f"add_pins_function_name={self.add_pins_function_name} not found in add_pins"
+                f"add_pins_function_name = {self.add_pins_function_name} not found in"
+                f"add_pins_function_module = {self.add_pins_function_module}"
             )
-        return getattr(add_pins, self.add_pins_function_name)(component=component)
+        function = getattr(add_pins, self.add_pins_function_name)
+        return function(component=component)
 
     def add_bbox(
         self,
@@ -2091,6 +2097,7 @@ if __name__ == "__main__":
         cladding_layers=[(2, 0)],
         cladding_offsets=[3],
     )
-    p = gf.path.straight()
-    c = p.extrude(pin)
+    # p = gf.path.straight()
+    # c = p.extrude(xs)
+    c = gf.c.straight()
     c.show()
