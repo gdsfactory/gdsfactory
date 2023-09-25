@@ -40,12 +40,12 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section: strip
+    cross_section: xs_sc
     s_bend:
       function: bend_s
     with_sbend: true
   full:
-    cross_section: strip
+    cross_section: xs_sc
     s_bend:
       function: bend_s
     with_sbend: true

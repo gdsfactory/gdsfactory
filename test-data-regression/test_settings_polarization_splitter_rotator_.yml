@@ -40,7 +40,7 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section: strip
+    cross_section: xs_sc
     dy: 5.0
     gap: 0.15
     length_coupler: 7.0
@@ -57,7 +57,7 @@ settings:
     - 0.69
     - 0.83
   full:
-    cross_section: strip
+    cross_section: xs_sc
     dy: 5.0
     gap: 0.15
     length_coupler: 7.0

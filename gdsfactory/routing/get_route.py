@@ -243,8 +243,7 @@ def get_route_from_waypoints(
                     length=taper_length,
                     width1=width1,
                     width2=width2,
-                    cross_section=cross_section,
-                    **kwargs,
+                    cross_section=x,
                 )
                 if callable(taper)
                 else taper
@@ -259,8 +258,7 @@ def get_route_from_waypoints(
         bend=bend,
         straight=straight,
         taper=taper,
-        cross_section=cross_section,
-        **kwargs,
+        cross_section=x,
     )
 
 
