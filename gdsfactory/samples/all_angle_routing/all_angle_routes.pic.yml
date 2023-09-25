@@ -10,11 +10,11 @@ instances:
   wg_ma{{ i }}:
     component: straight
     settings:
-      cross_section: strip
+      cross_section: xs_sc
   wg_mb{{ i }}:
     component: straight
     settings:
-      cross_section: strip
+      cross_section: xs_sc
   {% endfor %}
 
   wg_a1:
@@ -25,11 +25,11 @@ instances:
   wg_b1:
     component: straight
     settings:
-      cross_section: strip
+      cross_section: xs_sc
   wg_b2:
     component: straight
     settings:
-      cross_section: rib
+      cross_section: xs_rc
 
   wg_c1:
     component: straight
@@ -122,24 +122,24 @@ routes:
   r_offangle_bundle:
     routing_strategy: get_bundle_all_angle
     settings:
-      end_cross_section: strip
+      end_cross_section: xs_sc
       steps:
         - dx: 400
-          cross_section: rib
+          cross_section: xs_rc
           exit_angle: -70
         - dy: -500
           cross_section:
-            cross_section: strip
+            cross_section: xs_sc
             settings:
               width: 2.6
         - dx: 2000
-          cross_section: strip
+          cross_section: xs_sc
           exit_angle: -90
         - dy: -400
           exit_angle: 180
 {#          dx: -300#}
-{#          cross_section: rib#}
-{#      end_cross_section: strip#}
+{#          cross_section: xs_rc#}
+{#      end_cross_section: xs_sc#}
 {#        - dx: -1000#}
 {#      end_angle: 160#}
     links:
@@ -155,7 +155,7 @@ routes:
         - dy: -2100
         - x: -500
           exit_angle: -90
-          cross_section: strip
+          cross_section: xs_sc
     links:
   {% for i in range(5) %}  # bundling is currently not supported, but you can template, like so
       wg_ma{{ i }},o2: wg_mb{{ i }},o1 # partial euler routing also works between two non-orthogonal ports

@@ -104,7 +104,7 @@ routes:
       steps:
         - dx: 3000
           cross_section:
-            cross_section: strip
+            cross_section: xs_sc
             settings:
               width: 3.0
         - dx: 500
@@ -115,7 +115,7 @@ routes:
         - dx: -3000
           exit_angle: 90
         - cross_section:   # sets second-to-last cross-section
-            cross_section: strip
+            cross_section: xs_sc
             settings:
               width: 5
     links:
@@ -123,7 +123,7 @@ routes:
   r3:
     routing_strategy: get_bundle_all_angle
     settings:
-      end_cross_section: strip
+      end_cross_section: xs_sc
       steps:
         - dx: 3000
         - dx: 500
@@ -141,7 +141,7 @@ routes:
     settings:
       end_angle: 170
       end_cross_section:
-        cross_section: strip
+        cross_section: xs_sc
         settings:
           width: 3.5
       steps:
@@ -160,12 +160,12 @@ routes:
     routing_strategy: get_bundle_all_angle
     settings:
       end_cross_section:
-        cross_section: strip
+        cross_section: xs_sc
         settings:
           width: 3.5
       steps:
         - cross_section:  # ignored for a single-link ending
-            cross_section: strip
+            cross_section: xs_sc
             settings:
               width: 4.2
     links:
@@ -176,12 +176,12 @@ routes:
     settings:
       end_angle: 100
       end_cross_section:
-        cross_section: strip
+        cross_section: xs_sc
         settings:
           width: 3.5
       steps:
         - cross_section:  # should see the effect in the first link now
-            cross_section: strip
+            cross_section: xs_sc
             settings:
               width: 4.2
           connector: auto_taper

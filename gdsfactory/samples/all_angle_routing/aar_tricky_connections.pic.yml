@@ -2,7 +2,7 @@ instances:
   wg_a1:
     component: straight
     settings:
-      cross_section: strip
+      cross_section: xs_sc
   wg_a2:
     component: straight
 

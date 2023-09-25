@@ -842,8 +842,7 @@ def round_corners(
             wg = gf.get_component(
                 straight_fall_back_no_taper,
                 length=length,
-                cross_section=xsection,
-                **kwargs,
+                cross_section=x,
             )
         else:
             # Taper starts where straight would have started
