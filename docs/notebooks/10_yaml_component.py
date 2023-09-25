@@ -394,3 +394,5 @@ c.plot()
 # %%
 c = mzi_lattice(delta_length=100)
 c.plot()
+
+# %%

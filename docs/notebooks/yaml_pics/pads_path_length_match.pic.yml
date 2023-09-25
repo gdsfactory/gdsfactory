@@ -28,7 +28,6 @@ routes:
     electrical:
         settings:
             separation: 20
-            layer: [41, 0]
             width: 10
             path_length_match_loops: 2
             end_straight_length: 100
