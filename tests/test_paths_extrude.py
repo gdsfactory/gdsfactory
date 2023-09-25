@@ -38,11 +38,13 @@ def test_extrude_transition() -> None:
     cs2 = gf.get_cross_section("xs_sc", width=w2)
     transition = gf.path.transition(cs1, cs2)
     p = gf.path.straight(length)
-    c = gf.path.extrude(p, transition)
-    # assert c.ports["o1"].cross_section == cs1
-    # assert c.ports["o2"].cross_section == cs2
+    c = gf.path.extrude_transition(p, transition)
+    assert c.ports["o1"].cross_section == cs1
+    assert c.ports["o2"].cross_section == cs2
     assert c.ports["o1"].width == w1
     assert c.ports["o2"].width == w2
+    assert c.ports["o1"].cross_section.width == w1
+    assert c.ports["o2"].cross_section.width == w2
 
     expected_area = (w1 + w2) / 2 * length
     actual_area = c._cell.area(True)[(1, 0)]
@@ -114,7 +116,7 @@ def test_transition_cross_section_different_layers() -> None:
     assert c._cell.area(True)[gf.get_layer("WGCLAD")] == expected_area
 
 
-def test_diagonal_extrude_consistent_naming():
+def test_diagonal_extrude_consistent_naming() -> None:
     """This test intends to check that diagonal extrude components are properly serialized and get the same name on different platforms/environments."""
     p = gf.path.Path([(0, 0), (4.9932849, 6.328497)])
     c = p.extrude(cross_section="xs_sc")
@@ -124,6 +126,7 @@ def test_diagonal_extrude_consistent_naming():
 
 
 if __name__ == "__main__":
-    test_diagonal_extrude_consistent_naming()
+    # test_diagonal_extrude_consistent_naming()
     # test_transition_cross_section()
-    # test_transition_cross_section_different_layers()
+    test_transition_cross_section_different_layers()
+    # test_extrude_transition()

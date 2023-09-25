@@ -103,7 +103,7 @@ def get_import_gds_script(dirpath: PathType, module: str | None = None) -> str:
 
 
 def write_cells_recursively(
-    cell: gdstk.Cell,
+    gdspath: PathType | None = None,
     unit: float = 1e-6,
     precision: float = 1e-9,
     timestamp: datetime.datetime | None = _timestamp2019,
@@ -120,13 +120,14 @@ def write_cells_recursively(
 
     Returns:
         gdspaths: dict of cell name to gdspath.
-
     """
+    lib = gdstk.read_gds(gdspath)
     dirpath = dirpath or pathlib.Path.cwd()
+    dirpath = pathlib.Path(dirpath)
     gdspaths = {}
 
-    for c in cell.dependencies(True):
-        gdspath = dirpath / f"{c.name}.gds"
+    for cell in lib.cells:
+        gdspath = dirpath / f"{cell.name}.gds"
 
         lib = gdstk.Library(unit=unit, precision=precision)
         lib.add(cell)
@@ -134,7 +135,7 @@ def write_cells_recursively(
         lib.write_gds(gdspath, timestamp=timestamp)
         logger.info(f"Write {cell.name!r} to {gdspath}")
 
-        gdspaths[c.name] = gdspath
+        gdspaths[cell.name] = gdspath
 
     return gdspaths
 
@@ -145,8 +146,6 @@ def write_cells(
     unit: float = 1e-6,
     precision: float = 1e-9,
     timestamp: datetime.datetime | None = _timestamp2019,
-    recursively: bool = False,
-    flatten: bool = False,
 ) -> dict[str, Path]:
     """Writes cells into separate GDS files.
 
@@ -157,8 +156,6 @@ def write_cells(
         unit: unit size for objects in library. 1um by default.
         precision: for object dimensions in the library (m). 1nm by default.
         timestamp: Defaults to 2019-10-25. If None uses current time.
-        recursively: writes all cells recursively. If False writes only top cells.
-        flatten: flatten cell.
 
     Returns:
         gdspaths: dict of cell name to gdspath.
@@ -177,56 +174,32 @@ def write_cells(
 
     for cellname in top_cellnames:
         c = import_gds(gdspath=gdspath, cellname=cellname, unique_names=False)
-        if flatten:
-            c = c.flatten()
         components[cellname] = c
 
     for component_name, component in components.items():
         gdspath = dirpath / f"{component_name}.gds"
-        component.write_gds(gdspath)
+        component.write_gds(
+            gdspath, unit=unit, precision=precision, timestamp=timestamp
+        )
         gdspaths[component_name] = gdspath
-
-    if recursively:
-        for cell in top_level_cells:
-            if flatten:
-                cell = cell.flatten()
-
-            gdspath = dirpath / f"{cell.name}.gds"
-
-            lib = gdstk.Library(unit=unit, precision=precision)
-            lib.add(cell)
-            lib.add(*cell.dependencies(True))
-            lib.write_gds(gdspath)
-
-            logger.info(f"Write {cell.name!r} to {gdspath}")
-            gdspaths[cell.name] = gdspath
-
-            gdspaths2 = write_cells_recursively(
-                cell=cell,
-                unit=unit,
-                precision=precision,
-                timestamp=timestamp,
-                dirpath=dirpath,
-            )
-            gdspaths |= gdspaths2
     return gdspaths
 
 
 def test_write_cells_recursively() -> None:
     gdspath = PATH.gdsdir / "mzi2x2.gds"
-    gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=True)
-    assert len(gdspaths) == 9, len(gdspaths)
+    gdspaths = write_cells_recursively(gdspath=gdspath, dirpath="extra/gds")
+    assert len(gdspaths) == 10, len(gdspaths)
 
 
 def test_write_cells() -> None:
     gdspath = PATH.gdsdir / "alphabet_3top_cells.gds"
-    gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=False)
+    gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds")
     assert len(gdspaths) == 3, len(gdspaths)
 
 
 if __name__ == "__main__":
-    test_write_cells()
-    # test_write_cells_recursively()
+    # test_write_cells()
+    test_write_cells_recursively()
     # gdspath = PATH.gdsdir / "alphabet_3top_cells.gds"
     # gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=False)
     # assert len(gdspaths) == 3, len(gdspaths)
