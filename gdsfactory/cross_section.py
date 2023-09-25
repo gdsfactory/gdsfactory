@@ -108,7 +108,7 @@ class CrossSection(BaseModel):
 
     Parameters:
         sections: tuple of Sections(width, offset, layer, ports).
-        components_along_path: list of ComponentAlongPaths(component, spacing, padding, offset).
+        components_along_path: tuple of ComponentAlongPaths.
         radius: route bend radius (um).
         bbox_layers: layer to add as bounding box.
         bbox_offsets: offset to add to the bounding box.
@@ -127,7 +127,7 @@ class CrossSection(BaseModel):
     """
 
     sections: tuple[Section, ...] = Field(default_factory=tuple)
-    components_along_path: list[ComponentAlongPath] = Field(default_factory=list)
+    components_along_path: tuple[ComponentAlongPath, ...] = Field(default_factory=tuple)
     radius: float | None = None
     bbox_layers: LayerSpecs | None = None
     bbox_offsets: Floats | None = None
@@ -163,8 +163,8 @@ class CrossSection(BaseModel):
         self,
         width: float | None = None,
         layer: LayerSpec | None = None,
-        width_function: callable | None = None,
-        offset_function: callable | None = None,
+        width_function: Callable | None = None,
+        offset_function: Callable | None = None,
         **kwargs,
     ):
         """Returns copy of the cross_section with new parameters.
@@ -177,7 +177,7 @@ class CrossSection(BaseModel):
 
         Keyword Args:
             sections: tuple of Sections(width, offset, layer, ports).
-            components_along_path: list of ComponentAlongPaths(component, spacing, padding, offset).
+            components_along_path: tuple of ComponentAlongPaths.
             radius: route bend radius (um).
             bbox_layers: layer to add as bounding box.
             bbox_offsets: offset to add to the bounding box.
@@ -287,8 +287,8 @@ class Transition(BaseModel):
     Parameters:
         cross_section1: input cross_section.
         cross_section2: output cross_section.
-        width_type: sine or linear. Sets the type of width transition used if widths are different \
-                between the two input CrossSections.
+        width_type: sine or linear. Sets the type of width transition used if widths \
+                are different between the two input CrossSections.
     """
 
     cross_section1: CrossSectionSpec
@@ -1138,6 +1138,7 @@ def pn_with_trenches(
         cladding_offsets=cladding_offsets,
         cladding_simplify=cladding_simplify,
         cladding_layers=cladding_layers,
+        **kwargs,
     )
 
 
@@ -1940,7 +1941,7 @@ def pn_ge_detector_si_contacts(
         gap_low_doping: from waveguide center to low doping.
         gap_medium_doping: from waveguide center to medium doping. None removes it.
         gap_high_doping: from center to high doping. None removes it.
-        width_doping: distance from waveguide center to the edge of the p (or n) doping in um.
+        width_doping: distance from waveguide center to doping edge in um.
         layer_p: p doping layer.
         layer_pp: p+ doping layer.
         layer_ppp: p++ doping layer.
@@ -2070,7 +2071,9 @@ def pn_ge_detector_si_contacts(
     )
 
 
-def get_cross_sections(modules, verbose: bool = False) -> dict[str, CrossSection]:
+def get_cross_sections(
+    modules: list[str], verbose: bool = False
+) -> dict[str, CrossSection]:
     """Returns cross_sections from a module or list of modules.
 
     Args:
@@ -2120,6 +2123,7 @@ if __name__ == "__main__":
         cladding_layers=[(2, 0)],
         cladding_offsets=[3],
     )
+    print(xs.__hash__())
     # p = gf.path.straight()
     # c = p.extrude(xs)
     c = gf.c.straight()
