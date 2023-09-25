@@ -17,6 +17,7 @@ def ring_double(
     coupler_ring: ComponentSpec = coupler_ring_function,
     bend: ComponentSpec = bend_euler,
     cross_section: CrossSectionSpec = "xs_sc",
+    **kwargs,
 ) -> Component:
     """Returns a double bus ring.
 
@@ -31,6 +32,7 @@ def ring_double(
         coupler: ring coupler spec.
         bend: bend spec.
         cross_section: cross_section spec.
+        **kwargs: cross_section settings.
 
     .. code::
 
@@ -43,7 +45,7 @@ def ring_double(
           length_x
     """
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-    xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section, **kwargs)
     radius = radius or xs.radius
     cross_section = xs.copy(radius=radius)
 
@@ -79,6 +81,6 @@ def ring_double(
 
 
 if __name__ == "__main__":
-    c = ring_double(length_y=0, length_x=0)
+    c = ring_double(length_y=0, length_x=0, layer=(2, 0))
     c.get_netlist()
     c.show(show_subports=False)
