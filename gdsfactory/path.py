@@ -979,7 +979,6 @@ def extrude_transition(
     sections2 = x2.sections
 
     for section1, section2 in zip(sections1, sections2):
-        x = section1
         port_names = section1.port_names
         port_types = section1.port_types
 
@@ -1102,9 +1101,7 @@ def extrude_transition(
                     width=port_width,
                     orientation=port_orientation,
                     center=center,
-                    cross_section=x.cross_section1
-                    if hasattr(x, "cross_section1")
-                    else x,
+                    cross_section=x1,
                     shear_angle=shear_angle_start,
                 )
             )
@@ -1124,9 +1121,7 @@ def extrude_transition(
                     width=port_width,
                     center=center,
                     orientation=port_orientation,
-                    cross_section=x.cross_section2
-                    if hasattr(x, "cross_section2")
-                    else x,
+                    cross_section=x2,
                     shear_angle=shear_angle_end,
                 )
             )

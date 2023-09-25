@@ -1,11 +1,10 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -17,8 +16,7 @@ def mmi_90degree_hybrid(
     width_mmi: float = 10.0,
     gap_mmi: float = 0.8,
     taper: ComponentSpec = taper_function,
-    straight: ComponentSpec = straight_function,
-    with_bbox: bool = True,
+    straight: ComponentFactory = straight_function,
     cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     r"""90 degree hybrid based on a 4x4 MMI.
@@ -84,12 +82,13 @@ def mmi_90degree_hybrid(
         width1=width,
         width2=w_taper,
         cross_section=cross_section,
+        add_pins=False,
     )
 
     x = gf.get_cross_section(cross_section)
 
-    mmi = c << gf.get_component(
-        straight, length=length_mmi, width=w_mmi, cross_section=cross_section
+    mmi = c << straight(
+        length=length_mmi, width=w_mmi, cross_section=cross_section, add_pins=False
     )
 
     y_signal_in = gap_mmi * 3 / 2 + width_taper * 3 / 2
@@ -148,26 +147,9 @@ def mmi_90degree_hybrid(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    if with_bbox:
-        x = gf.get_cross_section(cross_section)
-        padding = []
-        for offset in x.bbox_offsets:
-            points = get_padding_points(
-                component=c,
-                default=0,
-                bottom=offset,
-                top=offset,
-            )
-            padding.append(points)
-
-        for layer, points in zip(x.bbox_layers, padding):
-            c.add_polygon(points, layer=layer)
-
     c.absorb(mmi)
-    if x.add_bbox:
-        c = x.add_bbox(c)
-    if x.add_pins:
-        c = x.add_pins(c)
+    x.add_bbox(c)
+    x.add_pins(c)
     return c
 
 

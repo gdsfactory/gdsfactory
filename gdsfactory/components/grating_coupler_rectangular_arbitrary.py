@@ -29,7 +29,9 @@ def grating_coupler_rectangular_arbitrary(
     cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
-    r"""Grating coupler uniform with rectangular shape (not elliptical). Therefore it needs a longer taper. Grating teeth are straight instead of elliptical.
+    r"""Grating coupler uniform with rectangular shape (not elliptical).
+    Therefore it needs a longer taper.
+    Grating teeth are straight instead of elliptical.
 
     Args:
         gaps: list of gaps between grating teeth.
@@ -39,9 +41,9 @@ def grating_coupler_rectangular_arbitrary(
         polarization: 'te' or 'tm'.
         wavelength: in um.
         taper: function.
-        layer_grating: Optional layer for grating.
-            by default None uses cross_section.layer.
-            if different from cross_section.layer expands taper.
+        layer_grating: Optional layer for grating. \
+                by default None uses cross_section.layer. \
+                if different from cross_section.layer expands taper.
         layer_slab: layer that protects the slab under the grating.
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: from edge of grating to edge of the slab.
@@ -88,7 +90,7 @@ def grating_coupler_rectangular_arbitrary(
             length=length_taper,
             width2=width_grating,
             width1=wg_width,
-            layer=xs.layer,
+            cross_section=xs,
         )
 
         c.add_port(port=taper_ref.ports["o1"], name="o1")
@@ -156,7 +158,7 @@ def grating_coupler_rectangular_arbitrary(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_rectangular_arbitrary()
+    c = grating_coupler_rectangular_arbitrary(width=3)
     # c = grating_coupler_rectangular_arbitrary(
     #     layer_grating=(3, 0), layer_slab=(2, 0), slab_offset=1
     # )

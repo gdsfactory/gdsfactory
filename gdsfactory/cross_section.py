@@ -856,7 +856,7 @@ def pn(
     """
     slab = Section(width=width_slab, offset=0, layer=layer_slab)
 
-    sections = list(sections) or []
+    sections = list(sections or [])
     sections += [slab]
     base_offset_low_doping = width_doping / 2 + gap_low_doping / 4
     width_low_doping = width_doping - gap_low_doping / 2
@@ -1918,6 +1918,7 @@ def pn_ge_detector_si_contacts(
     port_names: tuple[str, str] = ("o1", "o2"),
     cladding_layers: Layers | None = cladding_layers_optical,
     cladding_offsets: Floats | None = cladding_offsets_optical,
+    cladding_simplify: Floats | None = None,
 ) -> CrossSection:
     """Linear Ge detector cross section based on a lateral p(i)n junction.
 
@@ -1949,6 +1950,12 @@ def pn_ge_detector_si_contacts(
         layer_via: via layer.
         width_via: via width in um.
         layer_metal: metal layer.
+        port_names: for input and output ('o1', 'o2').
+        cladding_layers: list of layers to extrude.
+        cladding_offsets: list of offset from main Section edge.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
+                All points that can be removed without changing the resulting. \
+                polygon by more than the value listed here will be removed.
 
     .. code::
 
@@ -1982,16 +1989,29 @@ def pn_ge_detector_si_contacts(
         import gdsfactory as gf
 
         xs = gf.cross_section.pn()
-        p = gf.path.arc(radius=10, angle=45)
+        p = gf.path.straight()
         c = p.extrude(xs)
         c.plot()
     """
     width_low_doping = width_doping - gap_low_doping
     offset_low_doping = width_low_doping / 2 + gap_low_doping
 
+    s = Section(width=width_si, offset=0, layer=layer_si, port_names=port_names)
     n = Section(width=width_low_doping, offset=+offset_low_doping, layer=layer_n)
     p = Section(width=width_low_doping, offset=-offset_low_doping, layer=layer_p)
-    sections = [n, p]
+
+    sections = [s, n, p]
+
+    cladding_layers = cladding_layers or ()
+    cladding_offsets = cladding_offsets or ()
+    cladding_simplify = cladding_simplify or (None,) * len(cladding_layers)
+    sections += [
+        Section(width=width_si + 2 * offset, layer=layer, simplify=simplify)
+        for layer, offset, simplify in zip(
+            cladding_layers, cladding_offsets, cladding_simplify
+        )
+    ]
+
     if gap_medium_doping is not None:
         width_medium_doping = width_doping - gap_medium_doping
         offset_medium_doping = width_medium_doping / 2 + gap_medium_doping
@@ -2088,6 +2108,7 @@ xs_metal_routing = xs_m3
 xs_rc_with_trenches = rib_with_trenches()
 
 xs_pin = pin()
+xs_npp = npp()
 
 cross_sections = get_cross_sections(sys.modules[__name__])
 

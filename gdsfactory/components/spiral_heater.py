@@ -394,7 +394,7 @@ def spiral_racetrack_heater_doped(
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
     waveguide_cross_section: CrossSectionSpec = "xs_sc",
-    heater_cross_section: CrossSectionSpec = "npp",
+    heater_cross_section: CrossSectionSpec = "xs_npp",
 ) -> Component:
     """Returns spiral racetrack with a heater between the loops.
 
@@ -458,31 +458,7 @@ def test_length_spiral_racetrack() -> None:
     np.isclose(length, length_computed)
 
 
-@gf.cell
-def spiral_slab(cross_section="xs_sc", layer_slab=(3, 0), cladding_offset=3, **kwargs):
-    xs = gf.get_cross_section(cross_section)
-    xs_slab = gf.CrossSection(layer=layer_slab, width=xs.width + cladding_offset)
-
-    c = gf.Component()
-
-    o = 2.5
-    s1 = spiral_racetrack(cross_section=cross_section, **kwargs)
-    s2 = (
-        spiral_racetrack(cross_section=xs_slab, **kwargs)
-        .offset(+o)
-        .offset(-o, layer=(2, 0))
-    )
-
-    ref = c << s1
-    c << s2
-
-    c.copy_child_info(s1)
-    c.add_ports(ref.ports)
-    return c
-
-
 if __name__ == "__main__":
-    # c = spiral_racetrack(cross_section="xs_rc", cache=False)
-
-    c = spiral_slab(cache=False)
+    # c = spiral_racetrack(cross_section="xs_rc")
+    c = spiral_racetrack_heater_doped()
     c.show(show_ports=True)

@@ -84,8 +84,8 @@ def grating_coupler_rectangular(
         length=length_taper,
         width2=width_grating,
         width1=wg_width,
-        layer=layer,
         cross_section=cross_section,
+        add_pins=False,
     )
 
     c.add_port(port=taper_ref.ports["o1"], name="o1")
@@ -117,10 +117,8 @@ def grating_coupler_rectangular(
             ],
             layer_slab,
         )
-    if xs.add_bbox:
-        c = xs.add_bbox(c)
-    if xs.add_pins:
-        c = xs.add_pins(c)
+    xs.add_bbox(c)
+    xs.add_pins(c)
 
     xport = np.round((x0 + cgrating.x) / 2, 3)
     name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
@@ -140,4 +138,4 @@ if __name__ == "__main__":
     # c = grating_coupler_rectangular()
     c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_rectangular)
     print(c.ports)
-    c.show(show_ports=True)
+    c.show(show_ports=False)

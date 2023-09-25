@@ -538,7 +538,7 @@ class Pdk(BaseModel):
                 cross_sections = list(self.cross_sections.keys())
                 raise ValueError(f"{cross_section!r} not in {cross_sections}")
             xs = self.cross_sections[cross_section]
-            return xs(**kwargs) if callable(xs) else xs
+            return xs(**kwargs) if callable(xs) else xs.copy(**kwargs)
         elif isinstance(cross_section, dict | DictConfig):
             xs_name = cross_section.get("cross_section", None)
             settings = cross_section.get("settings", {})

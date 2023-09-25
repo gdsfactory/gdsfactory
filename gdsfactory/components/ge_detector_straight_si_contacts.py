@@ -10,9 +10,7 @@ from gdsfactory.components.via_stack import via_stack_slab_m2, via_stack_slab_m3
 from gdsfactory.cross_section import pn_ge_detector_si_contacts
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-default_taper = partial(
-    taper_func, length=20.0, width1=0.5, width2=0.8, cross_section="xs_sc"
-)
+_taper = partial(taper_func, length=20.0, width1=0.5, width2=0.8, cross_section="xs_sc")
 
 
 @gf.cell
@@ -23,8 +21,7 @@ def ge_detector_straight_si_contacts(
     via_stack_width: float = 10.0,
     via_stack_spacing: float = 5.0,
     via_stack_offset: float = 0.0,
-    taper: ComponentSpec | None = default_taper,
-    **kwargs,
+    taper: ComponentSpec | None = _taper,
 ) -> Component:
     """Returns a straight Ge on Si detector with silicon contacts.
 
@@ -42,9 +39,8 @@ def ge_detector_straight_si_contacts(
         via_stack_width: width of the via_stack.
         via_stack_spacing: spacing between via_stacks.
         via_stack_offset: with respect to the detector
-        taper: optional taper to transition from the input waveguide
-            into the absorption region.
-        kwargs: cross_section settings.
+        taper: optional taper to transition from the input waveguide \
+                into the absorption region.
     """
     c = Component()
     if taper:
@@ -61,13 +57,12 @@ def ge_detector_straight_si_contacts(
     wg = c << gf.components.straight(
         cross_section=cross_section,
         length=length,
-        **kwargs,
     )
 
     if taper:
         t1 = c << taper
-        t1.connect("o2", wg.ports["o1"])
-        c.add_port("o1", port=t1.ports["o1"])
+        t1.connect("o2", wg["o1"])
+        c.add_port("o1", port=t1["o1"])
 
     else:
         c.add_ports(wg.get_ports_list())
@@ -95,5 +90,4 @@ if __name__ == "__main__":
     c = ge_detector_straight_si_contacts(
         via_stack=(via_stack_slab_m3, via_stack_slab_m2), via_stack_offset=0
     )
-    # print(c.ports.keys())
     c.show(show_ports=True)
