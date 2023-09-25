@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import jsondiff
+
 import gdsfactory as gf
 
 
@@ -36,5 +38,14 @@ def test_transition_names() -> None:
     assert c1.name != c2.name
 
 
+def test_copy() -> None:
+    s = gf.Section(width=0.5, offset=0, layer=(3, 0), port_names=("in", "out"))
+    x1 = gf.CrossSection(sections=(s,))
+    x2 = x1.copy()
+    d = jsondiff.diff(x1.model_dump(), x2.model_dump())
+    assert len(d) == 0, d
+
+
 if __name__ == "__main__":
-    test_transition_names()
+    # test_transition_names()
+    test_copy()
