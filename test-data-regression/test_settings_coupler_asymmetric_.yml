@@ -25,7 +25,7 @@ ports:
   o3:
     center:
     - 10.0
-    - -4.633
+    - -2.133
     layer:
     - 1
     - 0
@@ -42,14 +42,14 @@ settings:
       function: bend_s
     cross_section: xs_sc_no_pins
     dx: 10.0
-    dy: 5.0
+    dy: 2.5
     gap: 0.234
   full:
     bend:
       function: bend_s
     cross_section: xs_sc_no_pins
     dx: 10.0
-    dy: 5.0
+    dy: 2.5
     gap: 0.234
   function_name: coupler_asymmetric
   info: {}

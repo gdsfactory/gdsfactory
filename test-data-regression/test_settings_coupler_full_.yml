@@ -3,7 +3,7 @@ ports:
   o1:
     center:
     - -10.0
-    - -2.5
+    - -2.4
     layer:
     - 1
     - 0
@@ -15,7 +15,7 @@ ports:
   o2:
     center:
     - -10.0
-    - 2.5
+    - 2.4
     layer:
     - 1
     - 0
@@ -27,7 +27,7 @@ ports:
   o3:
     center:
     - 50.0
-    - 2.5
+    - 2.4
     layer:
     - 1
     - 0
@@ -39,7 +39,7 @@ ports:
   o4:
     center:
     - 50.0
-    - -2.5
+    - -2.4
     layer:
     - 1
     - 0
@@ -56,14 +56,14 @@ settings:
     cross_section: xs_sc
     dw: 0.1
     dx: 10.0
-    dy: 5.0
+    dy: 4.8
     gap: 0.5
   full:
     coupling_length: 40.0
     cross_section: xs_sc
     dw: 0.1
     dx: 10.0
-    dy: 5.0
+    dy: 4.8
     gap: 0.5
   function_name: coupler_full
   info: {}

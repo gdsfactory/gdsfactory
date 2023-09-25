@@ -10,7 +10,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def coupler_symmetric(
     bend: ComponentSpec = bend_s,
     gap: float = 0.234,
-    dy: float = 5.0,
+    dy: float = 4.0,
     dx: float = 10.0,
     cross_section: CrossSectionSpec = "xs_sc_no_pins",
 ) -> Component:

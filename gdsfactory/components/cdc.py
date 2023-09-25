@@ -100,7 +100,7 @@ def cdc(
     period: float = 0.220,
     dc: float = 0.5,
     dx: float = 10.0,
-    dy: float = 5.0,
+    dy: float = 1.8,
     width_top: float = 2.0,
     width_bot: float = 0.75,
     fins: bool = False,

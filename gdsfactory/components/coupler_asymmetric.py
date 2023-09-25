@@ -11,7 +11,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def coupler_asymmetric(
     bend: ComponentSpec = bend_s,
     gap: float = 0.234,
-    dy: float = 5.0,
+    dy: float = 2.5,
     dx: float = 10.0,
     cross_section: CrossSectionSpec = "xs_sc_no_pins",
 ) -> Component:
@@ -65,5 +65,5 @@ def coupler_asymmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_asymmetric(gap=0.4)
+    c = coupler_asymmetric()
     c.show(show_ports=False)
