@@ -151,10 +151,6 @@ class CrossSection(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    @classmethod
-    def validate_x(cls, v):
-        return v
-
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
     ) -> None:
@@ -178,11 +174,11 @@ class CrossSection(BaseModel):
         return f"xs_{h}"
 
     @property
-    def width(self):
+    def width(self) -> float:
         return self.sections[0].width
 
     @property
-    def layer(self):
+    def layer(self) -> LayerSpec:
         return self.sections[0].layer
 
     def copy(
@@ -192,7 +188,7 @@ class CrossSection(BaseModel):
         width_function: Callable | None = None,
         offset_function: Callable | None = None,
         **kwargs,
-    ):
+    ) -> CrossSection:
         """Returns copy of the cross_section with new parameters.
 
         Args:
