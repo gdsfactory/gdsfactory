@@ -19,6 +19,7 @@ def mmi1x2(
     straight: ComponentFactory = straight_function,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
+    **kwargs,
 ) -> Component:
     r"""1x2 MultiMode Interferometer (MMI).
 
@@ -34,6 +35,7 @@ def mmi1x2(
         with_bbox: add rectangular box in cross_section
             bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string or dict).
+        kwargs: cross_section settings.
 
 
     .. code::
@@ -57,7 +59,7 @@ def mmi1x2(
     """
     c = Component()
     gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
-    x = gf.get_cross_section(cross_section)
+    x = gf.get_cross_section(cross_section, **kwargs)
     xs_mmi = x.copy(width=width_mmi)
     width = width or x.width
 
@@ -65,7 +67,7 @@ def mmi1x2(
         length=length_taper,
         width1=width,
         width2=width_taper,
-        cross_section=cross_section,
+        cross_section=x,
         add_pins=False,
     )
 
@@ -106,10 +108,10 @@ def mmi1x2(
         c.absorb(taper_ref)
 
     c.absorb(mmi)
-    if x.add_bbox:
-        c = x.add_bbox(c)
+    if with_bbox:
+        x.add_bbox(c)
     if x.add_pins:
-        c = x.add_pins(c)
+        x.add_pins(c)
     return c
 
 

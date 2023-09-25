@@ -27,7 +27,7 @@ routes:
         settings:
           end_connector: wonky  # using our new, wonky connector for the final segment
           end_cross_section:  # and for that final segment, also tip the connector to use this cross-section
-            cross_section: strip
+            cross_section: xs_sc
             settings:
               width: 2.0
         links:
