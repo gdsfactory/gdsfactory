@@ -65,6 +65,7 @@ settings:
       width: null
       width_mmi: 2.5
       width_taper: 1.0
+      with_bbox: true
     full:
       cross_section: xs_sc
       gap_mmi: 0.25
@@ -77,6 +78,7 @@ settings:
       width: null
       width_mmi: 2.5
       width_taper: 1.0
+      with_bbox: true
     function_name: mmi2x2
     info: {}
     info_version: 2
