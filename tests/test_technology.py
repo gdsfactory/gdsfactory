@@ -1,10 +1,7 @@
-import pytest
-
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerViews
 
 
-@pytest.mark.skip("TODO")
 def test_yaml() -> None:
     tech_dir = PATH.repo / "extra" / "test_tech"
 
@@ -20,3 +17,7 @@ def test_yaml() -> None:
     lyp_loaded = LayerViews.from_yaml(layer_yaml)
     print("Loaded from .yaml", lyp_loaded)
     assert lyp_loaded == lyp
+
+
+if __name__ == "__main__":
+    test_yaml()

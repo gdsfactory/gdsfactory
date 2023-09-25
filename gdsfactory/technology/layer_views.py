@@ -12,6 +12,7 @@ import typing
 import xml.etree.ElementTree as ET
 
 import numpy as np
+import yaml
 from omegaconf import OmegaConf
 from pydantic import BaseModel, Field, field_validator
 from pydantic.color import ColorType
@@ -1133,9 +1134,15 @@ class LayerViews(BaseModel):
                 )
                 for name, ls in self.custom_line_styles.items()
             }
-        d = dict(out_dict)
-        d = OmegaConf.to_yaml(d)
-        lf_path.write_text(d)
+        lf_path.write_bytes(
+            yaml.dump(
+                out_dict,
+                indent=2,
+                sort_keys=False,
+                default_flow_style=False,
+                encoding="utf-8",
+            )
+        )
 
     @staticmethod
     def from_yaml(layer_file: str | pathlib.Path) -> LayerViews:
@@ -1227,9 +1234,12 @@ def test_load_lyp() -> None:
 if __name__ == "__main__":
     test_load_lyp()
     # import gdsfactory as gf
-    # from gdsfactory.config import PATH
+    from gdsfactory.config import PATH
+    from gdsfactory.generic_tech import get_generic_pdk
 
-    # gf.config.rich_output()
+    PDK = get_generic_pdk()
+    LAYER_VIEWS = PDK.layer_views
+    LAYER_VIEWS.to_yaml(PATH.repo / "extra" / "layers.yml")
 
     # LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
     # LAYER_VIEWS.to_lyp(PATH.klayout_lyp)
@@ -1237,4 +1247,3 @@ if __name__ == "__main__":
 
     # LAYER_VIEWS.to_yaml(PATH.generic_tech / "layer_views.yaml")
     # LAYER_VIEWS2 = LayerViews(filepath=PATH.generic_tech / "layer_views.yaml")
-    # LAYER_VIEWS2.to_lyp(PATH.repo / "extra" / "test_tech" / "layers.lyp")
