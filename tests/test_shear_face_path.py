@@ -9,7 +9,7 @@ import gdsfactory as gf
 DEMO_PORT_ANGLE = 10
 
 
-def assert_polygon_equals(coords_expected, coords_actual):
+def assert_polygon_equals(coords_expected, coords_actual) -> None:
     coords_expected = gf.snap.snap_to_grid(coords_expected)
     coords_actual = gf.snap.snap_to_grid(coords_actual)
     shape_expected = sg.polygon.orient(sg.Polygon(coords_expected))
@@ -20,7 +20,7 @@ def assert_polygon_equals(coords_expected, coords_actual):
     ), f"Expected: {shape_expected}. Got: {shape_actual}"
 
 
-def get_expected_shear_shape(length, width, shear_angle):
+def get_expected_shear_shape(length, width, shear_angle) -> np.ndarray:
     dx = np.round(np.tan(np.deg2rad(shear_angle)) * width * 0.5, 3)
     x0 = 0
     x1 = length
@@ -37,7 +37,7 @@ def get_expected_shear_shape(length, width, shear_angle):
 
 
 @pytest.fixture
-def shear_waveguide_symmetric():
+def shear_waveguide_symmetric() -> gf.Component:
     P = gf.path.straight(length=10)
     return gf.path.extrude(
         P, "xs_sc", shear_angle_start=DEMO_PORT_ANGLE, shear_angle_end=DEMO_PORT_ANGLE
@@ -45,7 +45,7 @@ def shear_waveguide_symmetric():
 
 
 @pytest.fixture
-def shear_waveguide_start():
+def shear_waveguide_start() -> gf.Component:
     P = gf.path.straight(length=10)
     return gf.path.extrude(
         P, "xs_sc", shear_angle_start=DEMO_PORT_ANGLE, shear_angle_end=None
@@ -53,7 +53,7 @@ def shear_waveguide_start():
 
 
 @pytest.fixture
-def shear_waveguide_end():
+def shear_waveguide_end() -> gf.Component:
     P = gf.path.straight(length=10)
     return gf.path.extrude(
         P, "xs_sc", shear_angle_start=None, shear_angle_end=DEMO_PORT_ANGLE
@@ -61,19 +61,19 @@ def shear_waveguide_end():
 
 
 @pytest.fixture
-def regular_waveguide():
+def regular_waveguide() -> gf.Component:
     P = gf.path.straight(length=10)
     return gf.path.extrude(P, "xs_sc")
 
 
 @pytest.fixture
-def more_slanted_than_wide():
+def more_slanted_than_wide() -> gf.Component:
     P = gf.path.straight(length=0.1)
     return gf.path.extrude(P, "xs_sc", shear_angle_start=60, shear_angle_end=60)
 
 
 @pytest.fixture
-def skinny():
+def skinny() -> gf.Component:
     P = gf.path.straight(length=0.1)
     return gf.path.extrude(P, "xs_sc")
 
@@ -141,48 +141,19 @@ def test_mate_on_shear_xor_empty_transition() -> None:
     as two straight component joined."""
     P = gf.path.straight(length=10)
 
-    s = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
-    X1 = gf.CrossSection(
-        width=1,
-        offset=0,
-        layer=(1, 0),
-        port_names=("o1", "o2"),
-        sections=[s],
-    )
-    s2 = gf.Section(width=2, offset=0, layer=(3, 0), name="slab")
-    X2 = gf.CrossSection(
-        width=0.5,
-        offset=0,
-        layer=(1, 0),
-        port_names=("o1", "o2"),
-        sections=[s2],
-    )
+    s0 = gf.Section(width=1, offset=0, layer=(1, 0), port_names=("o1", "o2"))
+    s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
+    X1 = gf.CrossSection(sections=(s0, s1))
+
+    s0 = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("o1", "o2"))
+    s1 = gf.Section(width=2, offset=0, layer=(3, 0), name="slab")
+    X2 = gf.CrossSection(sections=(s0, s1))
     t = gf.path.transition(X1, X2, width_type="linear")
-    linear_taper = gf.path.extrude(P, t)
+    linear_taper = gf.path.extrude_transition(P, t)
 
-    P = gf.path.straight(length=10)
-
-    s = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
-    x1 = gf.CrossSection(
-        width=1,
-        offset=0,
-        layer=(1, 0),
-        port_names=("o1", "o2"),
-        sections=[s],
-    )
-    s2 = gf.Section(width=2, offset=0, layer=(3, 0), name="slab")
-    x2 = gf.CrossSection(
-        width=0.5,
-        offset=0,
-        layer=(1, 0),
-        port_names=("o1", "o2"),
-        sections=[s2],
-    )
-    t = gf.path.transition(x1, x2, width_type="linear")
-    linear_taper_sheared = gf.path.extrude(
+    linear_taper_sheared = gf.path.extrude_transition(
         P, t, shear_angle_start=10, shear_angle_end=None
     )
-
     two_straights = gf.Component()
     c1 = two_straights << linear_taper
     c2 = two_straights << linear_taper
@@ -194,10 +165,6 @@ def test_mate_on_shear_xor_empty_transition() -> None:
     c2.connect("o1", c1.ports["o1"])
 
     xor = gf.geometry.xor_diff(two_straights, two_shears)
-    # xor.show()
-    # two_straights.show()
-    # two_shears.show()
-
     area = xor.area()
     assert area < 0.1, area
 
@@ -250,7 +217,7 @@ def test_port_attributes(regular_waveguide, shear_waveguide_symmetric) -> None:
             assert p1[k] == p2[k], f"{k} differs! {p1[k]} != {p2[k]}"
 
 
-def test_points_are_correct(shear_waveguide_symmetric):
+def test_points_are_correct(shear_waveguide_symmetric) -> None:
     shear_angle = DEMO_PORT_ANGLE
     cs = gf.get_cross_section("xs_sc")
     wg_width = cs.width
@@ -264,7 +231,7 @@ def test_points_are_correct(shear_waveguide_symmetric):
     assert_polygon_equals(points_expected, poly_actual)
 
 
-def test_points_are_correct_wide():
+def test_points_are_correct_wide() -> None:
     wg_width = 40
     length = 10
     P = gf.path.straight(length=length)
@@ -285,7 +252,7 @@ def test_points_are_correct_wide():
     assert_polygon_equals(points_expected, poly_actual)
 
 
-def test_points_are_correct_short():
+def test_points_are_correct_short() -> None:
     wg_width = 40
     length = 0.5
     P = gf.path.straight(length=length)
@@ -306,7 +273,7 @@ def test_points_are_correct_short():
     assert_polygon_equals(points_expected, poly_actual)
 
 
-def test_points_are_correct_long():
+def test_points_are_correct_long() -> None:
     wg_width = 28
     length = 100
     P = gf.path.straight(length=length)
@@ -327,21 +294,20 @@ def test_points_are_correct_long():
     assert_polygon_equals(points_expected, poly_actual)
 
 
-def test_points_are_correct_multi_layer():
+def test_points_are_correct_multi_layer() -> None:
     length = 1000
     P = gf.path.straight(length=length)
 
-    s0 = gf.Section(
-        width=1, offset=10, layer=(1, 0), name="core", port_names=("o1", "o2")
-    )
+    s0 = gf.Section(width=1, offset=0, layer=(1, 0), port_names=("o1", "o2"))
     s1 = gf.Section(width=30, offset=0, layer=(3, 0), name="slab")
 
-    X1 = gf.CrossSection(sections=[s0, s1])
+    X1 = gf.CrossSection(sections=(s0, s1))
 
     shear_waveguide_symmetric = gf.path.extrude(
         P, X1, shear_angle_start=DEMO_PORT_ANGLE, shear_angle_end=DEMO_PORT_ANGLE
     )
     shear_angle = DEMO_PORT_ANGLE
+    shear_waveguide_symmetric.show()
 
     for layer, wg_width in [((1, 0), 1), ((3, 0), 30)]:
         points_expected = get_expected_shear_shape(
@@ -352,57 +318,5 @@ def test_points_are_correct_multi_layer():
 
 
 if __name__ == "__main__":
-    cross_section = {"cross_section": "xs_sc", "settings": {"width": 1}}
-    xs = gf.get_cross_section(cross_section)
-    print(xs.sections[0].width)
-    # test_points_are_correct_wide()
-    # test_points_are_correct_multi_layer()
-    # test_points_are_correct(shear_waveguide_symmetric)
-    # test_mate_on_shear_xor_empty_curve()
-
-    # P = gf.path.euler()
-    # curve = gf.path.extrude(P, "xs_sc")
-
-    # angle = 15
-    # P = gf.path.euler()
-    # curve_sheared1 = gf.path.extrude(P, "xs_sc", shear_angle_end=angle)
-    # curve_sheared2 = gf.path.extrude(P, "xs_sc", shear_angle_start=angle)
-
-    # two_straights = gf.Component()
-    # c1 = two_straights << curve
-    # c2 = two_straights << curve
-    # c2.connect("o1", c1.ports["o2"])
-    # two_straights.show()
-
-    # two_shears = gf.Component()
-    # c1 = two_shears << curve_sheared1
-    # c2 = two_shears << curve_sheared2
-    # c2.connect("o1", c1.ports["o2"])
-    # two_shears.show()
-
-    # xor = gf.geometry.xor_diff(two_straights, two_shears, precision=1e-2)
-    # assert not xor.layers, f"{xor.layers}"
-
-    # two_straights.show()
-    # two_shears.show()
-
-    # P = gf.path.euler()
-    # curve = gf.path.extrude(P, "xs_sc")
-
-    # angle = 15
-    # P = gf.path.euler()
-    # curve_sheared1 = gf.path.extrude(P, "xs_sc", shear_angle_end=angle)
-    # curve_sheared2 = gf.path.extrude(P, "xs_sc", shear_angle_start=angle)
-
-    # two_straights = gf.Component()
-    # c1 = two_straights << curve
-    # c2 = two_straights << curve
-    # c2.connect("o1", c1.ports["o2"])
-
-    # two_shears = gf.Component()
-    # c1 = two_shears << curve_sheared1
-    # c2 = two_shears << curve_sheared2
-    # c2.connect("o1", c1.ports["o2"])
-
-    # xor = gf.geometry.xor_diff(two_straights, two_shears, precision=1e-2)
-    # xor.show()
+    # test_mate_on_shear_xor_empty_transition()
+    test_points_are_correct_multi_layer()
