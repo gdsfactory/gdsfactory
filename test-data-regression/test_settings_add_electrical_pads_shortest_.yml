@@ -228,6 +228,9 @@ settings:
   default:
     component:
       function: straight
+      settings:
+        cross_section: xs_metal_routing
+        length: 200.0
     layer: M3
     pad: pad
     pad_port_spacing: 50.0

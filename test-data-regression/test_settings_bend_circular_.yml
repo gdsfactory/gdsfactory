@@ -31,14 +31,18 @@ settings:
     add_pins: true
     angle: 90.0
     cross_section: xs_sc
+    layer: null
     npoints: null
     radius: null
+    width: null
   full:
     add_pins: true
     angle: 90.0
     cross_section: xs_sc
+    layer: null
     npoints: null
     radius: null
+    width: null
   function_name: bend_circular
   info:
     dy: 10.0

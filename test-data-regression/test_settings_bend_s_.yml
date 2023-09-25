@@ -83,6 +83,7 @@ settings:
     module: gdsfactory.components.bezier
     name: bezier_9d5ee62f
   default:
+    add_pins: true
     check_min_radius: false
     cross_section: xs_sc
     npoints: 99
@@ -90,6 +91,7 @@ settings:
     - 11.0
     - 1.8
   full:
+    add_pins: true
     check_min_radius: false
     cross_section: xs_sc
     npoints: 99

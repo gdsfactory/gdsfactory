@@ -30,13 +30,17 @@ settings:
   default:
     add_pins: true
     cross_section: xs_sc
+    layer: null
     length: 10.0
     npoints: 2
+    width: null
   full:
     add_pins: true
     cross_section: xs_sc
+    layer: null
     length: 10.0
     npoints: 2
+    width: null
   function_name: straight
   info:
     cross_section: xs_sc

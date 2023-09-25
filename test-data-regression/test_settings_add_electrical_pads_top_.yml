@@ -228,6 +228,9 @@ settings:
   default:
     component:
       function: straight
+      settings:
+        cross_section: xs_metal_routing
+        length: 200.0
     direction: top
     layer: MTOP
     pad_array:

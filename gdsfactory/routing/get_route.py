@@ -106,17 +106,29 @@ def get_route(
         c.plot()
 
     """
+    if isinstance(cross_section, list | tuple):
+        xs_list = []
+        for element in cross_section:
+            xs, angles = element
+            xs = gf.get_cross_section(xs)
+            xs = xs.copy(**kwargs)  # Shallow copy
+            xs_list.append((xs, angles))
+        cross_section = xs_list
+
+    else:
+        cross_section = gf.get_cross_section(cross_section)
+        x = cross_section = cross_section.copy(**kwargs)
+
     bend90 = (
         bend
         if isinstance(bend, Component)
-        else gf.get_component(bend, cross_section=cross_section, **kwargs)
+        else gf.get_component(bend, cross_section=cross_section)
     )
     if taper:
         if isinstance(cross_section, tuple | list):
             raise ValueError(
                 "Tapers not implemented for routes made from multiple cross_sections."
             )
-        x = gf.get_cross_section(cross_section, **kwargs)
         taper_length = x.taper_length
         width1 = input_port.width
         auto_widen = x.auto_widen
@@ -128,7 +140,6 @@ def get_route(
             width1=input_port.width,
             width2=width2,
             cross_section=cross_section,
-            **kwargs,
         )
 
     return route_manhattan(
@@ -142,7 +153,6 @@ def get_route(
         bend=bend90,
         with_sbend=with_sbend,
         cross_section=cross_section,
-        **kwargs,
     )
 
 
@@ -229,6 +239,19 @@ def get_route_from_waypoints(
         c.plot()
 
     """
+    if isinstance(cross_section, list | tuple):
+        xs_list = []
+        for element in cross_section:
+            xs, angles = element
+            xs = gf.get_cross_section(xs)
+            xs = xs.copy(**kwargs)  # Shallow copy
+            xs_list.append((xs, angles))
+        x = cross_section = xs_list
+
+    else:
+        cross_section = gf.get_cross_section(cross_section)
+        x = cross_section = cross_section.copy(**kwargs)
+
     if isinstance(cross_section, list):
         taper = None
     elif taper:
