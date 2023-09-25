@@ -56,6 +56,7 @@ def bend_circular_heater(
     c.dx = abs(p.points[0][0] - p.points[-1][0])
     c.dy = abs(p.points[0][0] - p.points[-1][0])
 
+    x.validate_radius(radius)
     if with_bbox and x.bbox_layers:
         x.add_bbox(c)
     return c

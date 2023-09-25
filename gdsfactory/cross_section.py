@@ -7,12 +7,15 @@ from __future__ import annotations
 import hashlib
 import importlib
 import sys
+import warnings
 from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers
 from typing import TYPE_CHECKING, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
+
+from gdsfactory.config import CONF, ErrorType
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
@@ -151,6 +154,23 @@ class CrossSection(BaseModel):
     @classmethod
     def validate_x(cls, v):
         return v
+
+    def validate_radius(
+        self, radius: float, error_type: ErrorType | None = None
+    ) -> None:
+        if self.radius and radius < self.radius:
+            message = (
+                f"min_bend_radius {radius} < CrossSection.radius {self.radius}. "
+                "Increase CrossSection.radius or decrease the number of points"
+            )
+
+            error_type = error_type or CONF.bend_radius_error_type
+
+            if error_type == ErrorType.ERROR:
+                raise ValueError(message)
+
+            elif error_type == ErrorType.WARNING:
+                warnings.warn(message)
 
     @property
     def name(self) -> str:

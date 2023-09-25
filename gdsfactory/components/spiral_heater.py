@@ -14,7 +14,7 @@ from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Floats
 @gf.cell
 def spiral_racetrack(
     min_radius: float = 5,
-    straight_length: float = 10.0,
+    straight_length: float = 20.0,
     spacings: Floats = (2, 2, 3, 3, 2, 2),
     straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
@@ -460,5 +460,5 @@ def test_length_spiral_racetrack() -> None:
 
 if __name__ == "__main__":
     # c = spiral_racetrack(cross_section="xs_rc")
-    c = spiral_racetrack_heater_doped()
+    c = spiral_racetrack()
     c.show(show_ports=True)

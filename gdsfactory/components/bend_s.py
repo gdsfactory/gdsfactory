@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
-from gdsfactory.config import logger
+from gdsfactory.config import ErrorType
 from gdsfactory.typings import CrossSectionSpec, Float2
 
 
@@ -17,7 +17,7 @@ def bend_s(
     size: Float2 = (11.0, 1.8),
     npoints: int = 99,
     cross_section: CrossSectionSpec = "xs_sc",
-    check_min_radius: bool = False,
+    with_bbox: bool = True,
     add_pins: bool = True,
     **kwargs,
 ) -> Component:
@@ -30,8 +30,8 @@ def bend_s(
         size: in x and y direction.
         npoints: number of points.
         cross_section: spec.
+        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         add_pins: add pins to the component.
-        check_min_radius: raise ValueError if radius below min_bend_radius.
 
     Keyword Args:
     """
@@ -42,28 +42,13 @@ def bend_s(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
         npoints=npoints,
         cross_section=cross_section,
+        with_bbox=with_bbox,
         add_pins=add_pins,
         **kwargs,
     )
     bend_ref = c << bend
     c.add_ports(bend_ref.ports)
     c.copy_child_info(bend)
-
-    cross_section = gf.get_cross_section(cross_section, **kwargs)
-    if (
-        cross_section.radius is not None
-        and c.info["min_bend_radius"] < cross_section.radius
-    ):
-        if check_min_radius:
-            raise ValueError(
-                f"The min bend radius of the generated s-bend {c.info['min_bend_radius']} "
-                f"is below the bend radius of the waveguide {cross_section.radius}"
-            )
-        else:
-            logger.warning(
-                f"The min bend radius of the generated s bend {c.info['min_bend_radius']} is below the bend radius of the waveguide {cross_section.radius}"
-            )
-
     return c
 
 
@@ -114,7 +99,10 @@ def get_min_sbend_size(
         # print(sz)
         try:
             bend_s(
-                size=sz, cross_section=cross_section, check_min_radius=True, **kwargs
+                size=sz,
+                cross_section=cross_section,
+                bend_radius_error_type=ErrorType.ERROR,
+                **kwargs,
             )
             # print(c.info['min_bend_radius'])
             min_size = sizes[i]

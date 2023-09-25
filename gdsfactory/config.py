@@ -13,6 +13,7 @@ import subprocess
 import sys
 import tempfile
 import traceback
+from enum import Enum, auto
 from itertools import takewhile
 from pathlib import Path
 from pprint import pprint
@@ -68,6 +69,12 @@ pdks = [
     "ubcpdk",
     "gvtt",
 ]
+
+
+class ErrorType(Enum):
+    ERROR = auto()
+    WARNING = auto()
+    IGNORE = auto()
 
 
 def print_version_plugins() -> None:
@@ -206,6 +213,7 @@ class Settings(BaseSettings):
         default="warn", description="Ensures ports are manhattan."
     )
     enforce_ports_on_grid: bool = True
+    bend_radius_error_type: ErrorType = ErrorType.WARNING
 
     @classmethod
     def from_config(cls) -> Settings:

@@ -84,6 +84,7 @@ def bend_euler(
     if direction == "cw":
         ref.mirror(p1=[0, 0], p2=[1, 0])
 
+    x.validate_radius(radius)
     x.add_bbox(c)
     if add_pins:
         x.add_pins(c)
@@ -214,37 +215,5 @@ def _compare_bend_euler90():
 
 
 if __name__ == "__main__":
-    # PDK = get_generic_pdk()
-    # PDK.activate()
-    # c = bend_euler_s()
-    # c = bend_euler(cross_section="xs_rc", angle=180)
-    # c = bend_euler(bbox_layers=[(2, 0), (3, 0)], bbox_offsets=[3, 3])
-
-    # c = gf.Component()
-    # ps = np.arange(0, 1.1, 0.2)
-    # for p in ps:
-    #     b = bend_euler(p=p, radius=10)
-    #     print(p, b.info["radius_min"])
-    #     c << b
-
-    # c.show(show_ports=True)
-
-    # c = bend_euler(direction="cw")
-    c = bend_euler(cross_section="xs_rc", angle=30)
-    # c.pprint()
-    # p = euler()
-    # c = bend_straight_bend()
-    # c = _compare_bend_euler90()
-
-    # c = gf.Component()
-    # b1 = c << bend_euler()
-    # b2 = c << bend_euler()
-    # b2.connect("o1", b1.ports["o2"])
-    # c.show(show_ports=False)
-
-    # _compare_bend_euler180()
-    # import gdsfactory as gf
-    # c = bend_euler(radius=10)
-    # c << gf.components.bend_circular(radius=10)
-    # c.pprint()
+    c = bend_euler(cross_section="xs_rc", angle=30, radius=5)
     c.show(show_ports=True)

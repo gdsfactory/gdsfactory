@@ -41,15 +41,16 @@ settings:
     child: null
     default:
       add_pins: true
+      bend_radius_error_type: null
       control_points:
       - - 0.0
         - 0.0
       - - 5.0
         - 0.0
       - - 5.0
-        - 2.0
+        - 1.8
       - - 10.0
-        - 2.0
+        - 1.8
       cross_section: xs_sc
       end_angle: null
       npoints: 201
@@ -58,6 +59,7 @@ settings:
       with_manhattan_facing_angles: true
     full:
       add_pins: true
+      bend_radius_error_type: null
       control_points:
       - - 0
         - 0
@@ -84,20 +86,20 @@ settings:
     name: bezier_9d5ee62f
   default:
     add_pins: true
-    check_min_radius: false
     cross_section: xs_sc
     npoints: 99
     size:
     - 11.0
     - 1.8
+    with_bbox: true
   full:
     add_pins: true
-    check_min_radius: false
     cross_section: xs_sc
     npoints: 99
     size:
     - 11.0
     - 1.8
+    with_bbox: true
   function_name: bend_s
   info:
     end_angle: 0
