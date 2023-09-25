@@ -12,10 +12,7 @@ from gdsfactory.component import Component
 
 straight = partial(
     gf.components.straight,
-    with_bbox=True,
-    cladding_layers=None,
-    add_pins=None,
-    add_bbox=None,
+    add_pins=False,
 )
 
 
@@ -37,8 +34,6 @@ def test_add_labels_optical() -> None:
 
     c.add(labels)
     labels_text = [c.labels[0].text, c.labels[1].text]
-    # print(label1)
-    # print(label2)
 
     assert label1.text in labels_text, f"{label1.text} not in {labels_text}"
     assert label2.text in labels_text, f"{label2.text} not in {labels_text}"
@@ -63,12 +58,3 @@ def test_add_labels_electrical() -> None:
 
     assert label1.text in labels_text, f"{label1.text} not in {labels_text}"
     assert label2.text in labels_text, f"{label2.text} not in {labels_text}"
-
-
-if __name__ == "__main__":
-    c = test_add_labels_electrical()
-    # c = test_add_labels_optical()
-    c.show(show_ports=True)
-    # c = gf.components.mzi()
-    # c2 = c.copy()
-    # print(c2.name)
