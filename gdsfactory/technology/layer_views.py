@@ -12,7 +12,6 @@ import typing
 import xml.etree.ElementTree as ET
 
 import numpy as np
-import yaml
 from omegaconf import OmegaConf
 from pydantic import BaseModel, Field, field_validator
 from pydantic.color import ColorType
@@ -1122,28 +1121,21 @@ class LayerViews(BaseModel):
         out_dict = {"LayerViews": lvs}
         if self.custom_dither_patterns:
             out_dict["CustomDitherPatterns"] = {
-                name: dp.dict(
+                name: dp.model_dump(
                     exclude_none=True, exclude_defaults=True, exclude_unset=True
                 )
                 for name, dp in self.custom_dither_patterns.items()
             }
         if self.custom_line_styles:
             out_dict["CustomLineStyles"] = {
-                name: ls.dict(
+                name: ls.model_dump(
                     exclude_none=True, exclude_defaults=True, exclude_unset=True
                 )
                 for name, ls in self.custom_line_styles.items()
             }
-
-        lf_path.write_bytes(
-            yaml.dump(
-                out_dict,
-                indent=2,
-                sort_keys=False,
-                default_flow_style=False,
-                encoding="utf-8",
-            )
-        )
+        d = dict(out_dict)
+        d = OmegaConf.to_yaml(d)
+        lf_path.write_text(d)
 
     @staticmethod
     def from_yaml(layer_file: str | pathlib.Path) -> LayerViews:

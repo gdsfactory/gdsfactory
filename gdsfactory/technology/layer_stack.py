@@ -62,7 +62,7 @@ class LayerLevel(BaseModel):
     resistivity: float | None = None
     bias: tuple[float, float] | float | None = None
     derived_layer: tuple[int, int] | None = None
-    info: dict[str, Any] = {}
+    info: dict[str, Any] = Field(default_factory=dict)
     background_doping_concentration: float | None = None
     background_doping_ion: str | None = None
     orientation: str | None = "100"
