@@ -314,6 +314,18 @@ def get_git_hash():
         return "not_a_git_repo"
 
 
+def enable_off_grid_ports() -> None:
+    CONF.enforce_ports_on_grid = False
+    CONF.ports_off_grid = "ignore"
+    CONF.ports_not_manhattan = "ignore"
+
+
+def disable_off_grid_ports(error_type: str = "warn") -> None:
+    CONF.enforce_ports_on_grid = True
+    CONF.ports_off_grid = error_type
+    CONF.ports_not_manhattan = error_type
+
+
 def set_plot_options(
     show_ports: bool = True,
     show_subports: bool = False,

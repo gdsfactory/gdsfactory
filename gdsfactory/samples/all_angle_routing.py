@@ -32,9 +32,7 @@ if __name__ == "__main__":
     from gdsfactory import grid
     from gdsfactory.pdk import get_active_pdk
 
-    gf.CONF.enforce_ports_on_grid = False
-    gf.CONF.ports_off_grid = "ignore"
-    gf.CONF.ports_not_manhattan = "ignore"
+    gf.config.enable_off_grid_ports()
 
     # IMPORTANT: always use this gds write flag when using non-manhattan features
     get_active_pdk().gds_write_settings.flatten_invalid_refs = True
