@@ -8,19 +8,18 @@ from gdsfactory.components.coupler_straight import (
 from gdsfactory.components.coupler_symmetric import (
     coupler_symmetric as coupler_symmetric_function,
 )
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
 def coupler(
     gap: float = 0.236,
     length: float = 20.0,
-    coupler_symmetric: ComponentSpec = coupler_symmetric_function,
-    coupler_straight: ComponentSpec = coupler_straight_function,
+    coupler_symmetric: ComponentFactory = coupler_symmetric_function,
+    coupler_straight: ComponentFactory = coupler_straight_function,
     dy: float = 4.0,
     dx: float = 10.0,
-    cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     r"""Symmetric coupler.
 
@@ -32,7 +31,6 @@ def coupler(
         dy: port to port vertical spacing in um.
         dx: length of bend in x direction in um.
         cross_section: spec (CrossSection, string or dict).
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -54,15 +52,14 @@ def coupler(
     gap = gf.snap.snap_to_grid2x(gap)
     c = Component()
 
-    sbend = gf.get_component(
-        coupler_symmetric, gap=gap, dy=dy, dx=dx, cross_section=cross_section, **kwargs
-    )
+    xs = gf.get_cross_section(cross_section)
+    xs_no_pins = xs.copy(add_pins_function_name=None)
+
+    sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=xs_no_pins)
 
     sr = c << sbend
     sl = c << sbend
-    cs = c << gf.get_component(
-        coupler_straight, length=length, gap=gap, cross_section=cross_section, **kwargs
-    )
+    cs = c << coupler_straight(length=length, gap=gap, cross_section=cross_section)
     sl.connect("o2", destination=cs.ports["o1"])
     sr.connect("o1", destination=cs.ports["o4"])
 
@@ -78,35 +75,13 @@ def coupler(
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     c.auto_rename_ports()
 
-    x = gf.get_cross_section(cross_section, **kwargs)
-    if x.add_bbox:
-        c = x.add_bbox(c)
-    if x.add_pins:
-        c = x.add_pins(c)
+    x = gf.get_cross_section(cross_section)
+    x.add_bbox(c)
+    x.add_pins(c)
     return c
 
 
 if __name__ == "__main__":
-    c = coupler(bbox_offsets=[0.5], bbox_layers=[(111, 0)])
-    c.show(show_ports=True)
-
-    # c = gf.Component()
-    # cp1 = c << coupler(gap=0.2)
-    # cp2 = c << coupler(gap=0.5)
-    # cp1.ymin = 0
-    # cp2.ymin = 0
-
-    # layer = (2, 0)
-    # c = coupler(gap=0.300, layer=layer)
-    # c = coupler(cross_section="rib")
-
-    # nm = 1e-3
-    # c = gf.Component()
-    # coupler_ = c << gf.components.coupler(gap=101 * nm)
-    # wg = c << gf.components.straight()
-    # wg.connect("o1", coupler_.ports["o2"])
-    # c.show()
-
-    # c = gf.components.coupler(gap=101 * nm)
-    # c2 = gf.routing.add_fiber_array(c, decorator=gf.decorators.flatten_invalid_refs)
-    # c2.show(show_ports=True)
+    c = coupler(gap=0.2)
+    c = gf.routing.add_fiber_array(c)
+    c.show(show_ports=False)

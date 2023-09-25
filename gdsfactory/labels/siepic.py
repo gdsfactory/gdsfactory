@@ -98,7 +98,7 @@ def add_fiber_array_siepic(
     optical_routing_type: int = 0,
     fanout_length: float = 0.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     layer_label: LayerSpec = (10, 0),
     **kwargs,
 ) -> Component:

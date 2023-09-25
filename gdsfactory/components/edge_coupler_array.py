@@ -63,7 +63,7 @@ def edge_coupler_array(
 @gf.cell
 def edge_coupler_array_with_loopback(
     edge_coupler: ComponentSpec = edge_coupler_silicon,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     radius: float = 30,
     n: int = 8,
     pitch: float = 127.0,

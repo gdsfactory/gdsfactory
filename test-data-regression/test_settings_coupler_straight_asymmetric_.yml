@@ -11,7 +11,7 @@ ports:
     orientation: 180.0
     port_type: optical
     shear_angle: null
-    width: 1.0
+    width: 1
   o2:
     center:
     - 0.0
@@ -47,16 +47,18 @@ ports:
     orientation: 0.0
     port_type: optical
     shear_angle: null
-    width: 1.0
+    width: 1
 settings:
   changed: {}
   child: null
   default:
+    cross_section: xs_sc
     gap: 0.27
     length: 10.0
     width_bot: 1
     width_top: 0.5
   full:
+    cross_section: xs_sc
     gap: 0.27
     length: 10.0
     width_bot: 1

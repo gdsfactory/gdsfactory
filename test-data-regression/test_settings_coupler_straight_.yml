@@ -52,9 +52,11 @@ settings:
   changed: {}
   child: null
   default:
+    cross_section: xs_sc_no_pins
     gap: 0.27
     length: 10.0
   full:
+    cross_section: xs_sc_no_pins
     gap: 0.27
     length: 10.0
   function_name: coupler_straight

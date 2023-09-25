@@ -175,7 +175,7 @@ settings:
       bend:
         function: bend_euler
       combiner: null
-      cross_section: strip
+      cross_section: xs_sc
       cross_section_x_bot: null
       cross_section_x_top: null
       delta_length: 10.0
@@ -200,7 +200,7 @@ settings:
         function: bend_euler
       combiner:
         function: mmi2x2
-      cross_section: strip
+      cross_section: xs_sc
       cross_section_x_bot: null
       cross_section_x_top: null
       delta_length: 10.0
@@ -228,6 +228,9 @@ settings:
   default:
     component:
       function: straight
+      settings:
+        cross_section: xs_metal_routing
+        length: 200.0
     direction: top
     layer: MTOP
     pad_array:

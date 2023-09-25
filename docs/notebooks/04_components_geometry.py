@@ -113,14 +113,17 @@ offsets
 
 # %%
 c = gf.Component("demo_dataprep")
-c1 = gf.components.coupler_ring(cladding_layers=[(2, 0)], cladding_offsets=[0.5])
+c1 = gf.components.coupler_ring(cross_section="xs_rc2", radius=20)
+c1.plot()
+
+
+# %%
 d = 0.8
-c2 = gf.geometry.offset(c1, distance=+d, layer=(2, 0))
-c3 = gf.geometry.offset(c2, distance=-d, layer=(2, 0))
+c2 = gf.geometry.offset(c1, distance=+d, layer=(3, 0))
+c3 = gf.geometry.offset(c2, distance=-d, layer=(3, 0))
 c << c1
 c << c3
 c.plot()
-
 
 # %% [markdown]
 # You can also run it as a decorator.
@@ -129,12 +132,10 @@ c.plot()
 from functools import partial
 from gdsfactory.geometry.maskprep import get_polygons_over_under, over_under
 
-over_under_slab = partial(over_under, layers=((2, 0),), distances=(0.5,))
+over_under_slab = partial(over_under, layers=((3, 0),), distances=(0.5,))
 
 c = gf.components.coupler_ring(
-    cladding_layers=[(2, 0)],
-    cladding_offsets=(0.2,),
-    decorator=over_under_slab,
+    cross_section="xs_rc2", radius=20, decorator=over_under_slab
 )
 c.plot()
 
@@ -144,11 +145,14 @@ c.plot()
 
 # %%
 get_polygons_over_under_slab = partial(
-    get_polygons_over_under, layers=[(2, 0)], distances=(0.5,)
+    get_polygons_over_under, layers=[(3, 0)], distances=(0.5,)
+)
+ring = gf.components.coupler_ring(
+    cross_section="xs_rc2", radius=20, decorator=over_under_slab
 )
 
 c = gf.Component("compnent_clean")
-ref = c << gf.components.coupler_ring(cladding_layers=[(2, 0)], cladding_offsets=(0.2,))
+ref = c << ring
 polygons = get_polygons_over_under_slab(ref)
 c.add(polygons)
 c.plot()

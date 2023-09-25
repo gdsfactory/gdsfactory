@@ -29,7 +29,8 @@ settings:
     width2: 3
   child: null
   default:
-    cross_section: strip
+    add_pins: true
+    cross_section: xs_sc
     length: 10.0
     port: null
     port_order_name:
@@ -43,7 +44,8 @@ settings:
     with_bbox: true
     with_two_ports: true
   full:
-    cross_section: strip
+    add_pins: true
+    cross_section: xs_sc
     length: 10.0
     port: null
     port_order_name:

@@ -42,7 +42,7 @@ def test_astar_pass() -> None:
 #     rect3.move(destination=(5.5, 1.5))
 
 #     port1 = Port(
-#         "o1", 0, rect1.center + (0, 3), cross_section=gf.get_cross_section("strip")
+#         "o1", 0, rect1.center + (0, 3), cross_section=gf.get_cross_section("xs_sc")
 #     )
 #     port2 = port1.copy("o2")
 #     port2.orientation = 180

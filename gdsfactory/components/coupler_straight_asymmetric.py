@@ -3,6 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
+from gdsfactory.typings import CrossSectionSpec
 
 
 @gf.cell
@@ -11,7 +12,7 @@ def coupler_straight_asymmetric(
     gap: float = 0.27,
     width_top: float = 0.5,
     width_bot: float = 1,
-    **kwargs,
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     """Coupler with two parallel straights of different widths.
 
@@ -20,12 +21,15 @@ def coupler_straight_asymmetric(
         gap: between straights.
         width_top: of top straight.
         width_bot: of bottom straight.
-        kwargs: cross_section settings.
     """
     component = Component()
 
-    top = component << straight(length=length, width=width_top, **kwargs)
-    bot = component << straight(length=length, width=width_bot, **kwargs)
+    xs = gf.get_cross_section(cross_section)
+    xs_top = xs.copy(width=width_top)
+    xs_bot = xs.copy(width=width_bot)
+
+    top = component << straight(length=length, cross_section=xs_top)
+    bot = component << straight(length=length, cross_section=xs_bot)
 
     dy = 0.5 * abs(width_top - width_bot) + gap + width_top
     dy = gf.snap.snap_to_grid(dy)

@@ -11,21 +11,20 @@ from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import CrossSectionSpec
 
-wire_straight = partial(straight, cross_section="metal_routing")
+wire_straight = partial(straight, cross_section="xs_metal_routing")
 
 
 @gf.cell
 def wire_corner(
-    cross_section: CrossSectionSpec = "metal_routing", with_bbox: bool = False, **kwargs
+    cross_section: CrossSectionSpec = "xs_metal_routing",
 ) -> Component:
     """Returns 45 degrees electrical corner wire.
 
     Args:
         cross_section: spec.
         with_bbox: if True, includes the bbox layer and bbox offsets of the cross_section
-        kwargs: cross_section settings.
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section)
     layer = x.layer
     width = x.width
 
@@ -35,20 +34,6 @@ def wire_corner(
     ypts = [-a, -a, a, a]
 
     c.add_polygon([xpts, ypts], layer=layer)
-
-    corner_bbox = c.bbox
-    if with_bbox:
-        bbox_layers = x.bbox_layers
-        bbox_offsets = x.bbox_offsets
-        for bbox_layer, bbox_offset in zip(bbox_layers, bbox_offsets):
-            c << gf.components.bbox(
-                corner_bbox,
-                layer=bbox_layer,
-                top=bbox_offset,
-                bottom=bbox_offset,
-                left=bbox_offset,
-                right=bbox_offset,
-            )
 
     c.add_port(
         name="e1",
@@ -68,24 +53,21 @@ def wire_corner(
     )
     c.info["length"] = width
     c.info["dy"] = width
+    x.add_bbox(c)
     return c
 
 
 @gf.cell
 def wire_corner45(
-    cross_section: CrossSectionSpec = "metal_routing",
+    cross_section: CrossSectionSpec = "xs_metal_routing",
     radius: float = 10,
-    with_bbox: bool = False,
-    **kwargs,
 ) -> Component:
     """Returns 90 degrees electrical corner wire.
 
     Args:
         cross_section: spec.
-        with_bbox: if True, includes the bbox layer and bbox offsets of the cross_section
-        kwargs: cross_section settings.
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section)
     layer = x.layer
     width = x.width
     radius = x.radius if radius is None else radius
@@ -102,20 +84,6 @@ def wire_corner45(
     ypts = [-a, radius, radius + np.sqrt(2) * width, -a]
 
     c.add_polygon([xpts, ypts], layer=layer)
-
-    corner_bbox = c.bbox
-    if with_bbox:
-        bbox_layers = x.bbox_layers
-        bbox_offsets = x.bbox_offsets
-        for bbox_layer, bbox_offset in zip(bbox_layers, bbox_offsets):
-            c << gf.components.bbox(
-                corner_bbox,
-                layer=bbox_layer,
-                top=bbox_offset,
-                bottom=bbox_offset,
-                left=bbox_offset,
-                right=bbox_offset,
-            )
 
     c.add_port(
         name="e1",
@@ -139,9 +107,7 @@ def wire_corner45(
 
 @gf.cell
 def wire_corner_sections(
-    cross_section: CrossSectionSpec = "metal_routing",
-    with_bbox: bool = False,
-    **kwargs,
+    cross_section: CrossSectionSpec = "xs_metal_routing",
 ) -> Component:
     """Returns 90 degrees electrical corner wire, where all cross_section sections properly represented.
 
@@ -149,18 +115,12 @@ def wire_corner_sections(
 
     Args:
         cross_section: spec.
-        with_bbox: if True, includes the bbox layer and bbox offsets of the cross_section
-        kwargs: cross_section settings.
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section)
 
     xmin, ymax = x.get_xmin_xmax()
 
-    main_section = gf.cross_section.Section(
-        width=x.width,
-        layer=x.layer,
-        offset=x.offset,
-    )
+    main_section = x.sections[0]
 
     all_sections = [main_section]
     all_sections.extend(x.sections)
@@ -185,20 +145,6 @@ def wire_corner_sections(
 
         c.add_polygon([xpts, ypts], layer=layer)
 
-    corner_bbox = c.bbox
-    if with_bbox:
-        bbox_layers = x.bbox_layers
-        bbox_offsets = x.bbox_offsets
-        for bbox_layer, bbox_offset in zip(bbox_layers, bbox_offsets):
-            c << gf.components.bbox(
-                corner_bbox,
-                layer=bbox_layer,
-                top=bbox_offset,
-                bottom=bbox_offset,
-                left=bbox_offset,
-                right=bbox_offset,
-            )
-
     c.add_port(
         name="e1",
         center=(xmin, -(xmin + ymax) / 2),
@@ -215,6 +161,7 @@ def wire_corner_sections(
     )
     c.info["length"] = ymax - xmin
     c.info["dy"] = ymax - xmin
+    x.add_bbox(c)
     return c
 
 
@@ -265,7 +212,7 @@ if __name__ == "__main__":
     route = gf.routing.get_route_electrical(
         input_port=port1,
         output_port=port2,
-        bend=wire_corner_sections(cross_section=metal_slotted_bbox, with_bbox=True),
+        bend=wire_corner_sections(cross_section=metal_slotted_bbox),
         cross_section=metal_slotted_bbox,
     )
     c.add(route.references)

@@ -19,7 +19,6 @@ def straight_pin(
     via_stack_width: float = 10.0,
     via_stack_spacing: float = 2,
     taper: ComponentSpec | None = taper_strip_to_ridge,
-    **kwargs,
 ) -> Component:
     """Returns rib waveguide with doping and via_stacks used for PN and PIN modulators.
 
@@ -44,7 +43,6 @@ def straight_pin(
         via_stack_width: width of the via_stack.
         via_stack_spacing: spacing between via_stacks.
         taper: optional taper.
-        kwargs: cross_section settings.
     """
     c = Component()
     if taper:
@@ -54,7 +52,6 @@ def straight_pin(
     wg = c << gf.components.straight(
         cross_section=cross_section,
         length=length,
-        **kwargs,
     )
 
     if taper:
@@ -90,6 +87,5 @@ def straight_pin(
 straight_pn = partial(straight_pin, cross_section=pn, length=2000)
 
 if __name__ == "__main__":
-    c = straight_pin(length=40)
-    # print(c.ports.keys())
+    c = straight_pn(length=40)
     c.show(show_ports=True)

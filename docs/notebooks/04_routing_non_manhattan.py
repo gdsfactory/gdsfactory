@@ -86,7 +86,7 @@ def demo_non_manhattan_extrude_fix():
     p1 = gf.path.arc(angle=30)
     p2 = gf.path.straight(length=5)
     p = p1 + p2
-    c = p.extrude(cross_section="strip")
+    c = p.extrude(cross_section="xs_sc")
     return c
 
 

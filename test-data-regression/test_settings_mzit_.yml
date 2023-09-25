@@ -62,6 +62,7 @@ settings:
     coupler_gap2: 0.3
     coupler_length1: 5.0
     coupler_length2: 10.0
+    cross_section: xs_sc
     delta_length: 10.0
     dy: 2.0
     length: 1.0
@@ -84,6 +85,7 @@ settings:
     coupler_gap2: 0.3
     coupler_length1: 5.0
     coupler_length2: 10.0
+    cross_section: xs_sc
     delta_length: 10.0
     dy: 2.0
     length: 1.0

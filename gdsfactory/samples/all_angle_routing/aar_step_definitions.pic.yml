@@ -63,7 +63,7 @@ routes:
         - x: 8000
         - dx: 500
           y: -1000
-          cross_section: strip # explicit cross section
+          cross_section: xs_sc # explicit cross section
           exit_angle: 0
         - ds: 400
         - dy: -1000

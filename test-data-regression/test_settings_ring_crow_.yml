@@ -64,33 +64,11 @@ settings:
     input_straight_cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
     output_straight_cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
     radius:
     - 10.0
     - 10.0
@@ -98,46 +76,13 @@ settings:
     ring_cross_sections:
     - function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
     - function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
     - function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
   full:
     bends:
     - function: bend_circular
@@ -151,33 +96,11 @@ settings:
     input_straight_cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
     output_straight_cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
     radius:
     - 10.0
     - 10.0
@@ -185,46 +108,13 @@ settings:
     ring_cross_sections:
     - function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
     - function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
     - function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
   function_name: ring_crow
   info: {}
   info_version: 2

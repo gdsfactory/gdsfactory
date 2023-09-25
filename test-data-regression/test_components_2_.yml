@@ -1,4 +1,4 @@
-name: rotation_8fb1e19c
+name: rotation_c5815660
 ports:
   o1:
     center:
@@ -66,7 +66,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -74,7 +74,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -118,7 +118,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -126,7 +126,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -139,4 +139,4 @@ settings:
     - mmi_long
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: rotation_8fb1e19c
+  name: rotation_c5815660

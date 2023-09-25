@@ -41,7 +41,7 @@ def add_fiber_single(
     | (Callable) = get_input_label_text_dash_loopback,
     get_input_label_text_function: Callable | None = get_input_label_text_dash,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     r"""Returns component with grating couplers and labels on each port.

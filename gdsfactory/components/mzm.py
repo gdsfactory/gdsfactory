@@ -31,7 +31,7 @@ def mzm(
     port_e1_combiner: str = "o2",
     port_e0_combiner: str = "o3",
     nbends: int = 2,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     mirror_bot: bool = False,
 ) -> Component:
     """Mzm modulator.

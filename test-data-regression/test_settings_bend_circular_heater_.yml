@@ -1,25 +1,25 @@
 name: bend_circular_heater
 ports:
-  in:
+  o1:
     center:
     - 0.0
     - 0.0
     layer:
     - 1
     - 0
-    name: in
+    name: o1
     orientation: 180
     port_type: optical
     shear_angle: null
     width: 0.5
-  out:
+  o2:
     center:
     - 10.0
     - 10.0
     layer:
     - 1
     - 0
-    name: out
+    name: o2
     orientation: 90
     port_type: optical
     shear_angle: null
@@ -29,21 +29,21 @@ settings:
   child: null
   default:
     angle: 90
-    cross_section: strip
+    cross_section: xs_sc
     heater_to_wg_distance: 1.2
     heater_width: 0.5
     layer_heater: HEATER
     npoints: null
-    radius: 10
+    radius: null
     with_bbox: true
   full:
     angle: 90
-    cross_section: strip
+    cross_section: xs_sc
     heater_to_wg_distance: 1.2
     heater_width: 0.5
     layer_heater: HEATER
     npoints: null
-    radius: 10
+    radius: null
     with_bbox: true
   function_name: bend_circular_heater
   info:

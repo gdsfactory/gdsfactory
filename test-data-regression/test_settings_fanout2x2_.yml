@@ -50,7 +50,7 @@ ports:
     width: 0.5
   top_l_e1:
     center:
-    - 19.5
+    - 19.6
     - 22.5
     layer:
     - 49
@@ -62,7 +62,7 @@ ports:
     width: 11.0
   top_l_e2:
     center:
-    - 25.0
+    - 25.1
     - 28.0
     layer:
     - 49
@@ -74,7 +74,7 @@ ports:
     width: 11.0
   top_l_e3:
     center:
-    - 30.5
+    - 30.6
     - 22.5
     layer:
     - 49
@@ -86,7 +86,7 @@ ports:
     width: 11.0
   top_l_e4:
     center:
-    - 25.0
+    - 25.1
     - 17.0
     layer:
     - 49
@@ -98,7 +98,7 @@ ports:
     width: 11.0
   top_r_e1:
     center:
-    - 76.6
+    - 76.5
     - 22.5
     layer:
     - 49
@@ -110,7 +110,7 @@ ports:
     width: 11.0
   top_r_e2:
     center:
-    - 82.1
+    - 82.0
     - 28.0
     layer:
     - 49
@@ -122,7 +122,7 @@ ports:
     width: 11.0
   top_r_e3:
     center:
-    - 87.6
+    - 87.5
     - 22.5
     layer:
     - 49
@@ -134,7 +134,7 @@ ports:
     width: 11.0
   top_r_e4:
     center:
-    - 82.1
+    - 82.0
     - 17.0
     layer:
     - 49
@@ -175,7 +175,7 @@ settings:
       bend:
         function: bend_euler
       combiner: null
-      cross_section: strip
+      cross_section: xs_sc
       cross_section_x_bot: null
       cross_section_x_top: null
       delta_length: 10.0
@@ -200,7 +200,7 @@ settings:
         function: bend_euler
       combiner:
         function: mmi2x2
-      cross_section: strip
+      cross_section: xs_sc
       cross_section_x_bot: null
       cross_section_x_top: null
       delta_length: 10.0
@@ -229,7 +229,7 @@ settings:
     bend_length: null
     component:
       function: straight
-    cross_section: strip
+    cross_section: xs_sc
     npoints: 101
     port_spacing: 20.0
     select_ports:
@@ -250,7 +250,7 @@ settings:
         splitter:
           function: mmi2x2
         straight_x_top: straight_heater_metal
-    cross_section: strip
+    cross_section: xs_sc
     npoints: 101
     port_spacing: 20.0
     select_ports:

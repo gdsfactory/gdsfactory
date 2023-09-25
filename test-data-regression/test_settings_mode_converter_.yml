@@ -58,7 +58,7 @@ settings:
         angle: 45
     coupler_straight_asymmetric:
       function: coupler_straight_asymmetric
-    cross_section: strip
+    cross_section: xs_sc
     gap: 0.3
     length: 10
     mc_mm_width: 1
@@ -74,7 +74,7 @@ settings:
         angle: 45
     coupler_straight_asymmetric:
       function: coupler_straight_asymmetric
-    cross_section: strip
+    cross_section: xs_sc
     gap: 0.3
     length: 10
     mc_mm_width: 1

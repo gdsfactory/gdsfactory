@@ -25,7 +25,7 @@ strip_siepic100nm = partial(
 @pytest.mark.parametrize("optical_routing_type", [0, 1])
 def test_add_pins_with_routes(optical_routing_type) -> None:
     """Add pins to a straight ensure that all the routes have pins."""
-    cross_section = "strip"
+    cross_section = "xs_sc"
     c = gf.components.straight(length=1.0, cross_section=cross_section)
     gc = gf.components.grating_coupler_elliptical_te(cross_section=cross_section)
     cc = gf.routing.add_fiber_single(
@@ -40,7 +40,7 @@ def test_add_pins_with_routes(optical_routing_type) -> None:
 
 def test_add_pins() -> None:
     """Ensure that all the waveguide has 2 pins."""
-    cross_section = "strip"
+    cross_section = "xs_sc"
     c = gf.components.straight(length=1.0, cross_section=cross_section)
     pins_component = c.extract(layers=(LAYER.PORT,))
     assert len(pins_component.polygons) == 2, len(pins_component.polygons)

@@ -15,7 +15,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @cell
 def coh_rx_single_pol(
     bend: ComponentSpec = "bend_euler",
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     hybrid_90deg: ComponentSpec = mmi_90degree_hybrid,
     detector: ComponentSpec = ge_detector_straight_si_contacts,
     det_spacing: tuple[float, float] = (60.0, 50.0),

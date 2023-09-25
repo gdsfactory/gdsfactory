@@ -12,7 +12,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @cell
 def coh_rx_dual_pol(
     bend: ComponentSpec = bend_euler,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     lo_splitter: ComponentSpec = "mmi1x2",
     signal_splitter: ComponentSpec | None = None,
     spol_coh_rx: ComponentSpec = coh_rx_single_pol,
@@ -156,12 +156,10 @@ def coh_rx_dual_pol(
         lo_coup = c << lo_coupler
         lo_coup.connect("o1", lo_split.ports["o1"])
 
-    # ------ Extract electrical ports (if no pads) -------
     c.add_ports(single_rx_1.get_ports_list(port_type="electrical"), prefix="pol1_")
     c.add_ports(single_rx_2.get_ports_list(port_type="electrical"), prefix="pol2_")
     c.add_ports(single_rx_1.get_ports_list(port_type="placement"), prefix="pol1_")
     c.add_ports(single_rx_2.get_ports_list(port_type="placement"), prefix="pol2_")
-
     c.add_ports(
         lo_split.get_ports_list(port_type="optical", orientation=180), prefix="lo_"
     )

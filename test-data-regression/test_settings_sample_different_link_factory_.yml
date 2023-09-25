@@ -1,4 +1,4 @@
-name: sample_path_length_matching_07eda8ec
+name: sample_path_length_matching_a27584d3
 ports: {}
 settings:
   changed:
@@ -38,7 +38,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -46,7 +46,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -98,7 +98,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -106,7 +106,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -122,4 +122,4 @@ settings:
     - tr
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: sample_path_length_matching_07eda8ec
+  name: sample_path_length_matching_a27584d3

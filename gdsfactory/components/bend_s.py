@@ -8,16 +8,17 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
-from gdsfactory.config import logger
+from gdsfactory.config import ErrorType
 from gdsfactory.typings import CrossSectionSpec, Float2
 
 
 @cell
 def bend_s(
-    size: Float2 = (11.0, 2.0),
+    size: Float2 = (11.0, 1.8),
     npoints: int = 99,
-    cross_section: CrossSectionSpec = "strip",
-    check_min_radius: bool = False,
+    cross_section: CrossSectionSpec = "xs_sc",
+    with_bbox: bool = True,
+    add_pins: bool = True,
     **kwargs,
 ) -> Component:
     """Return S bend with bezier curve.
@@ -29,8 +30,10 @@ def bend_s(
         size: in x and y direction.
         npoints: number of points.
         cross_section: spec.
-        check_min_radius: raise ValueError if radius below min_bend_radius.
-        kwargs: cross_section settings.
+        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
+        add_pins: add pins to the component.
+
+    Keyword Args:
     """
     c = Component()
     dx, dy = size
@@ -39,36 +42,22 @@ def bend_s(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
         npoints=npoints,
         cross_section=cross_section,
+        with_bbox=with_bbox,
+        add_pins=add_pins,
         **kwargs,
     )
     bend_ref = c << bend
     c.add_ports(bend_ref.ports)
     c.copy_child_info(bend)
-
-    cross_section = gf.get_cross_section(cross_section, **kwargs)
-    if (
-        cross_section.radius is not None
-        and c.info["min_bend_radius"] < cross_section.radius
-    ):
-        if check_min_radius:
-            raise ValueError(
-                f"The min bend radius of the generated s bend {c.info['min_bend_radius']} "
-                f"is below the bend radius of the waveguide {cross_section.radius}"
-            )
-        else:
-            logger.warning(
-                f"The min bend radius of the generated s bend {c.info['min_bend_radius']} is below the bend radius of the waveguide {cross_section.radius}"
-            )
-
     return c
 
 
 def get_min_sbend_size(
     size: Float2 = (None, 10.0),
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     num_points: int = 100,
     **kwargs,
-):
+) -> float:
     """
     Returns the minimum sbend size to comply with bend radius requirements.
 
@@ -110,7 +99,10 @@ def get_min_sbend_size(
         # print(sz)
         try:
             bend_s(
-                size=sz, cross_section=cross_section, check_min_radius=True, **kwargs
+                size=sz,
+                cross_section=cross_section,
+                bend_radius_error_type=ErrorType.ERROR,
+                **kwargs,
             )
             # print(c.info['min_bend_radius'])
             min_size = sizes[i]
@@ -124,7 +116,7 @@ if __name__ == "__main__":
     c = bend_s()
     # c = bend_s(bbox_offsets=[0.5], bbox_layers=[(111, 0)], width=2)
     # c = bend_s(size=[10, 2.5])  # 10um bend radius
-    # c = bend_s(size=[20, 3], cross_section="rib")  # 10um bend radius
+    # c = bend_s(size=[20, 3], cross_section="xs_rc")  # 10um bend radius
     # c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])

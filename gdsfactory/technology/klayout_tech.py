@@ -6,7 +6,7 @@ This module enables conversion between gdsfactory settings and KLayout technolog
 import pathlib
 import xml.etree.ElementTree as ET
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerStack, LayerViews
@@ -15,6 +15,8 @@ from gdsfactory.typings import PathType
 
 try:
     import klayout.db as db
+
+    technology = db.Technology()
 except ImportError as e:
     print("You can install `pip install klayout.")
     raise e
@@ -61,15 +63,11 @@ class KLayoutTechnology(BaseModel):
         connectivity: List of layer names connectivity for netlist tracing.
     """
 
-    # TODO: Add import method
-    # TODO: Also interop with xs scripts?
-
     name: str
     layer_map: dict[str, Layer]
     layer_views: LayerViews | None = None
     layer_stack: LayerStack | None = None
     connectivity: list[ConductorViaConductorName] | None = None
-    technology: db.Technology = Field(default_factory=db.Technology)
 
     def write_tech(
         self,
@@ -99,16 +97,16 @@ class KLayoutTechnology(BaseModel):
         d25_dir = tech_path / "d25"
         d25_dir.mkdir(exist_ok=True, parents=True)
 
-        if not self.technology.name:
-            self.technology.name = self.name
+        if not technology.name:
+            technology.name = self.name
 
-        self.technology.layer_properties_file = lyp_path.name
+        technology.layer_properties_file = lyp_path.name
 
         if self.layer_views:
             self.layer_views.to_lyp(lyp_path)
             print(f"Wrote {str(lyp_path)!r}")
 
-        root = ET.XML(self.technology.to_xml().encode("utf-8"))
+        root = ET.XML(technology.to_xml().encode("utf-8"))
 
         # KLayout tech doesn't include mebes config, so add it after lefdef config:
         if not mebes_config:
@@ -137,7 +135,7 @@ class KLayoutTechnology(BaseModel):
         reader_opts.insert(lefdef_idx + 1, mebes)
 
         if self.layer_stack:
-            dbu = len(str(self.technology.dbu).split(".")[-1])
+            dbu = len(str(technology.dbu).split(".")[-1])
             d25_script = (
                 prefix_d25
                 + self.layer_stack.get_klayout_3d_script(
@@ -181,30 +179,8 @@ class KLayoutTechnology(BaseModel):
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
-        ignore_extra=True,
         extra="ignore",
     )
-
-
-layer_views = LayerViews.from_lyp(str(PATH.klayout_lyp))
-
-
-def yaml_test() -> None:
-    tech_dir = PATH.repo / "extra" / "test_tech"
-
-    # Load from existing layer properties file
-    lyp = LayerViews.from_lyp(str(PATH.klayout_lyp))
-    print("Loaded from .lyp", lyp)
-
-    # Export layer properties to yaml files
-    layer_yaml = str(tech_dir / "layers.yml")
-    lyp.to_yaml(layer_yaml)
-
-    # Load layer properties from yaml files and check that they're the same
-    lyp_loaded = LayerViews.from_yaml(layer_yaml)
-    print("Loaded from .yaml", lyp_loaded)
-
-    assert lyp_loaded == lyp
 
 
 if __name__ == "__main__":
@@ -231,8 +207,5 @@ if __name__ == "__main__":
         layer_stack=LAYER_STACK,
     )
     tech_dir = PATH.klayout_tech
-    # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
     tech_dir.mkdir(exist_ok=True, parents=True)
     generic_tech.write_tech(tech_dir=tech_dir)
-
-    # yaml_test()

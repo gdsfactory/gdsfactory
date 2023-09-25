@@ -90,7 +90,7 @@ settings:
         function: coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-      cross_section: strip
+      cross_section: xs_sc
       dx: 10.0
       dy: 4.0
       gap: 0.236
@@ -100,7 +100,7 @@ settings:
         function: coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-      cross_section: strip
+      cross_section: xs_sc
       dx: 10.0
       dy: 4.0
       gap: 0.2
@@ -116,7 +116,7 @@ settings:
     component:
       function: straight
     component_name: null
-    cross_section: strip
+    cross_section: xs_sc
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
@@ -141,7 +141,7 @@ settings:
         gap: 0.2
         length: 5.99
     component_name: null
-    cross_section: strip
+    cross_section: xs_sc
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:

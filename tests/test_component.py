@@ -46,15 +46,17 @@ def test_netlist_complex() -> None:
 def test_extract() -> None:
     WGCLAD = (111, 0)
 
-    c = gf.components.straight(
-        length=10,
+    xs = gf.cross_section.strip(
         width=0.5,
         bbox_layers=[WGCLAD],
         bbox_offsets=[3],
-        with_bbox=True,
         cladding_layers=None,
-        add_pins=None,
-        add_bbox=None,
+    )
+
+    c = gf.components.straight(
+        length=10,
+        cross_section=xs,
+        add_pins=False,
     )
     c2 = c.extract(layers=[WGCLAD])
 
@@ -85,3 +87,7 @@ def test_import_gds_settings() -> None:
     c2 = gf.import_gds(gdspath, name="mzi_sample", read_metadata=True)
     c3 = gf.routing.add_fiber_single(c2)
     assert c3
+
+
+if __name__ == "__main__":
+    test_extract()

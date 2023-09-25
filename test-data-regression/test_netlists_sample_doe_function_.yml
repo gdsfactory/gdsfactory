@@ -35,7 +35,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
@@ -45,7 +45,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 1
               length_y: 0.6
@@ -59,7 +59,7 @@ instances:
             component:
               function: straight
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -84,7 +84,7 @@ instances:
                 length_x: 1
                 radius: 20
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -130,7 +130,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
@@ -140,7 +140,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 1
               length_y: 0.6
@@ -154,7 +154,7 @@ instances:
             component:
               function: straight
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -179,7 +179,7 @@ instances:
                 length_x: 1
                 radius: 30
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -225,7 +225,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
@@ -235,7 +235,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 1
               length_y: 0.6
@@ -249,7 +249,7 @@ instances:
             component:
               function: straight
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -274,7 +274,7 @@ instances:
                 length_x: 1
                 radius: 40
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -320,7 +320,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
@@ -330,7 +330,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 1
               length_y: 0.6
@@ -344,7 +344,7 @@ instances:
             component:
               function: straight
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -369,7 +369,7 @@ instances:
                 length_x: 1
                 radius: 50
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -415,7 +415,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
@@ -425,7 +425,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 2
               length_y: 0.6
@@ -439,7 +439,7 @@ instances:
             component:
               function: straight
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -464,7 +464,7 @@ instances:
                 length_x: 2
                 radius: 20
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -510,7 +510,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
@@ -520,7 +520,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 2
               length_y: 0.6
@@ -534,7 +534,7 @@ instances:
             component:
               function: straight
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -559,7 +559,7 @@ instances:
                 length_x: 2
                 radius: 30
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -605,7 +605,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
@@ -615,7 +615,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 2
               length_y: 0.6
@@ -629,7 +629,7 @@ instances:
             component:
               function: straight
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -654,7 +654,7 @@ instances:
                 length_x: 2
                 radius: 40
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -700,7 +700,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
@@ -710,7 +710,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 2
               length_y: 0.6
@@ -724,7 +724,7 @@ instances:
             component:
               function: straight
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -749,7 +749,7 @@ instances:
                 length_x: 2
                 radius: 50
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -795,7 +795,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
@@ -805,7 +805,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 3
               length_y: 0.6
@@ -819,7 +819,7 @@ instances:
             component:
               function: straight
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -844,7 +844,7 @@ instances:
                 length_x: 3
                 radius: 20
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -890,7 +890,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
@@ -900,7 +900,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 3
               length_y: 0.6
@@ -914,7 +914,7 @@ instances:
             component:
               function: straight
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -939,7 +939,7 @@ instances:
                 length_x: 3
                 radius: 30
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -985,7 +985,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
@@ -995,7 +995,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 3
               length_y: 0.6
@@ -1009,7 +1009,7 @@ instances:
             component:
               function: straight
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -1034,7 +1034,7 @@ instances:
                 length_x: 3
                 radius: 40
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -1080,7 +1080,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
@@ -1090,7 +1090,7 @@ instances:
                 function: bend_euler
               coupler_ring:
                 function: coupler_ring
-              cross_section: strip
+              cross_section: xs_sc
               gap: 0.2
               length_x: 3
               length_y: 0.6
@@ -1104,7 +1104,7 @@ instances:
             component:
               function: straight
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -1129,7 +1129,7 @@ instances:
                 length_x: 3
                 radius: 50
             component_name: null
-            cross_section: strip
+            cross_section: xs_sc
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -1174,7 +1174,7 @@ instances:
         - 50
         - 20
         - 40
-name: mask_compact_48574a98
+name: mask_compact_5c33d3f0
 placements:
   mzis:
     mirror: 0

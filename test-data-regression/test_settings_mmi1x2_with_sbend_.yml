@@ -15,7 +15,7 @@ ports:
   o2:
     center:
     - 13.25
-    - 2.35
+    - 2.15
     layer:
     - 1
     - 0
@@ -27,7 +27,7 @@ ports:
   o3:
     center:
     - 13.25
-    - -2.35
+    - -2.15
     layer:
     - 1
     - 0
@@ -40,12 +40,12 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section: strip
+    cross_section: xs_sc
     s_bend:
       function: bend_s
     with_sbend: true
   full:
-    cross_section: strip
+    cross_section: xs_sc
     s_bend:
       function: bend_s
     with_sbend: true

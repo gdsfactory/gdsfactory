@@ -20,6 +20,4 @@ routes:
             mmi_short,o2: mmi_long,o1
         settings:
             cross_section:
-                cross_section: strip
-                settings:
-                    layer: [2, 0]
+                cross_section: xs_sc

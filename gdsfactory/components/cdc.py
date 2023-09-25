@@ -35,10 +35,7 @@ def _generate_fins(c, x, fin_size, bend):
 
 def _generate_bends(c, x_top, x_bot, dx, dy, gap):
     input_bend_top = (
-        c
-        << gf.components.bend_s(
-            size=(dx, dy), cross_section=x_top.model_copy()
-        ).mirror()
+        c << gf.components.bend_s(size=(dx, dy), cross_section=x_top).mirror()
     )
 
     input_bend_bottom = c << gf.components.bend_s(
@@ -103,7 +100,7 @@ def cdc(
     period: float = 0.220,
     dc: float = 0.5,
     dx: float = 10.0,
-    dy: float = 5.0,
+    dy: float = 1.8,
     width_top: float = 2.0,
     width_bot: float = 0.75,
     fins: bool = False,
@@ -134,8 +131,8 @@ def cdc(
         cross_section kwargs.
     """
     x = gf.get_cross_section(cross_section, **kwargs)
-    x_top = x.model_copy(update=dict(width=width_top))
-    x_bot = x.model_copy(update=dict(width=width_bot))
+    x_top = x.copy(width=width_top, add_pins_function_name=None)
+    x_bot = x.copy(width=width_bot, add_pins_function_name=None)
 
     c = gf.Component()
 
@@ -170,17 +167,16 @@ def cdc(
         bend_output_bottom,
     )
 
-    if x.add_bbox:
-        c = x.add_bbox(c)
+    x.add_bbox(c)
+    x.add_pins(c)
 
     c.add_port("o1", port=input_bend_top.ports["o1"])
     c.add_port("o2", port=input_bend_bottom.ports["o1"])
     c.add_port("o3", port=bend_output_top.ports["o1"])
     c.add_port("o4", port=bend_output_bottom.ports["o1"])
-
     return c
 
 
 if __name__ == "__main__":
     c = cdc(fins=False)
-    c.show(show_ports=True)
+    c.show(show_ports=False)

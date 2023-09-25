@@ -41,7 +41,7 @@ settings:
   child: null
   default:
     base_layer: WG
-    cross_section: strip
+    cross_section: xs_sc
     length_taper: 150.0
     period_x: 0.58
     period_y: 0.58
@@ -63,7 +63,7 @@ settings:
     y_span: 11
   full:
     base_layer: WG
-    cross_section: strip
+    cross_section: xs_sc
     length_taper: 150.0
     period_x: 0.58
     period_y: 0.58

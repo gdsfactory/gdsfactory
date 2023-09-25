@@ -26,7 +26,7 @@ ports:
     width: 0.5
   top_l_e1:
     center:
-    - 19.5
+    - 19.6
     - 22.625
     layer:
     - 49
@@ -38,7 +38,7 @@ ports:
     width: 11.0
   top_l_e2:
     center:
-    - 25.0
+    - 25.1
     - 28.125
     layer:
     - 49
@@ -50,7 +50,7 @@ ports:
     width: 11.0
   top_l_e3:
     center:
-    - 30.5
+    - 30.6
     - 22.625
     layer:
     - 49
@@ -62,7 +62,7 @@ ports:
     width: 11.0
   top_l_e4:
     center:
-    - 25.0
+    - 25.1
     - 17.125
     layer:
     - 49
@@ -74,7 +74,7 @@ ports:
     width: 11.0
   top_r_e1:
     center:
-    - 240.5
+    - 240.4
     - 22.625
     layer:
     - 49
@@ -86,7 +86,7 @@ ports:
     width: 11.0
   top_r_e2:
     center:
-    - 246.0
+    - 245.9
     - 28.125
     layer:
     - 49
@@ -98,7 +98,7 @@ ports:
     width: 11.0
   top_r_e3:
     center:
-    - 251.5
+    - 251.4
     - 22.625
     layer:
     - 49
@@ -110,7 +110,7 @@ ports:
     width: 11.0
   top_r_e4:
     center:
-    - 246.0
+    - 245.9
     - 17.125
     layer:
     - 49
@@ -133,7 +133,7 @@ settings:
     bend:
       function: bend_euler
     combiner: null
-    cross_section: strip
+    cross_section: xs_sc
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10.0
@@ -157,7 +157,7 @@ settings:
     bend:
       function: bend_euler
     combiner: null
-    cross_section: strip
+    cross_section: xs_sc
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10.0

@@ -30,7 +30,7 @@ settings:
       function: bend_euler
     bend_s_factory:
       function: bend_s
-    cross_section: strip
+    cross_section: xs_sc
     cross_section_s: null
     in_out_port_spacing: 150
     length: 1000
@@ -46,7 +46,7 @@ settings:
       function: bend_euler
     bend_s_factory:
       function: bend_s
-    cross_section: strip
+    cross_section: xs_sc
     cross_section_s: null
     in_out_port_spacing: 150
     length: 1000

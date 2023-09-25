@@ -62,8 +62,8 @@ def route_fiber_array(
     get_input_label_text_function: Callable | None = get_input_label_text_dash,
     get_input_labels_function: Callable | None = get_input_labels_dash,
     select_ports: Callable = select_ports_optical,
+    radius: float | None = None,
     cross_section: CrossSectionSpec = strip,
-    **kwargs,
 ) -> tuple[
     list[ComponentReference | Label],
     list[list[ComponentReference]],
@@ -121,7 +121,7 @@ def route_fiber_array(
         get_input_label_text_function: for the label.
         get_input_labels_function: for the label.
         select_ports: function to select ports for which to add grating couplers.
-        kwargs: cross_section settings.
+        radius: optional radius of the bend. Defaults to the cros_section.
 
     Returns:
         elements: list of references and labels.
@@ -132,7 +132,9 @@ def route_fiber_array(
 
     """
     fiber_spacing = gf.get_constant(fiber_spacing)
-    cross_section = x = gf.get_cross_section(cross_section, **kwargs)
+    cross_section = x = gf.get_cross_section(cross_section)
+    if radius:
+        cross_section = x = cross_section.copy(radius=radius)
 
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
@@ -201,7 +203,7 @@ def route_fiber_array(
         optical_routing_type = 1 if is_big_component else 0
     # choose the default length if the default fanout distance is not set
 
-    def has_p(side):
+    def has_p(side) -> bool:
         return len(direction_ports[side]) > 0
 
     list_ew_ports_on_sides = [has_p(side) for side in ["E", "W"]]
@@ -563,19 +565,18 @@ if __name__ == "__main__":
 
     c = gf.Component()
 
-    layer = (1, 0)
-    ci = gf.components.straight(layer=layer)
+    ci = gf.components.straight()
     ci = gf.components.mmi2x2()
     ci = gf.components.straight_heater_metal()
-    gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
+    gc = gf.components.grating_coupler_elliptical_te(taper_length=30)
     elements, gc, ports, ports_loopback, ports_component = route_fiber_array(
         component=ci,
         grating_coupler=gc,
         nlabels_loopback=1,
-        layer=layer,
         # with_loopback=False,
         layer_label="TEXT",
-        layer_label_loopback="TEXT"
+        layer_label_loopback="TEXT",
+        radius=5
         # get_input_labels_function=get_input_labels_dash
         # get_input_labels_function=None
         # optical_routing_type=2,
@@ -584,7 +585,7 @@ if __name__ == "__main__":
     )
     # c = p.ring_single()
     # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)
-    c << ci
+    _ = c << ci
     for e in elements:
         # if isinstance(e, list):
         # print(len(e))

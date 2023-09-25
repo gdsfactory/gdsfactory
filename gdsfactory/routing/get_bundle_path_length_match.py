@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as _straight
 from gdsfactory.components.taper import taper as taper_function
@@ -94,6 +95,8 @@ def get_bundle_path_length_match(
 
     """
     extra_length /= 2
+    cross_section = gf.get_cross_section(cross_section)
+    cross_section = cross_section.copy(**kwargs)
 
     # Heuristic to get a correct default end_straight_offset to leave
     # enough space for path-length compensation
@@ -119,7 +122,6 @@ def get_bundle_path_length_match(
         end_straight_length=end_straight_length,
         start_straight_length=start_straight_length,
         cross_section=cross_section,
-        **kwargs,
     )
 
     list_of_waypoints = path_length_matched_points(
@@ -129,7 +131,6 @@ def get_bundle_path_length_match(
         nb_loops=nb_loops,
         modify_segment_i=modify_segment_i,
         cross_section=cross_section,
-        **kwargs,
     )
     return [
         route_filter(
@@ -138,15 +139,12 @@ def get_bundle_path_length_match(
             straight=straight,
             taper=taper,
             cross_section=cross_section,
-            **kwargs,
         )
         for waypoints in list_of_waypoints
     ]
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     c = gf.Component()
     c1 = c << gf.components.straight_array(spacing=50)
     c2 = c << gf.components.straight_array(spacing=5)
@@ -160,7 +158,7 @@ if __name__ == "__main__":
         end_straight_length=0,
         start_straight_length=0,
         separation=50,
-        layer=(2, 0),
+        # layer=(2, 0),
     )
 
     for route in routes:

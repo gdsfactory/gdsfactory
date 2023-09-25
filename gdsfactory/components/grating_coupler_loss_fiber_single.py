@@ -12,7 +12,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @cell
 def grating_coupler_loss_fiber_single(
     grating_coupler: ComponentSpec = grating_coupler_te,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Returns grating coupler test structure.

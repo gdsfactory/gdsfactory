@@ -33,7 +33,7 @@ def delay_snake_sbend(
     bend: ComponentSpec = "bend_euler",
     sbend: ComponentSpec = "bend_s",
     sbend_xsize: float = 100.0,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     r"""Returns compact Snake with sbend in the middle.
@@ -128,7 +128,7 @@ def test_delay_snake_sbend_length() -> None:
     import numpy as np
 
     length = 200.0
-    c = delay_snake_sbend(length=length, cross_section="strip_no_pins")
+    c = delay_snake_sbend(length=length, cross_section="xs_sc_no_pins")
     length_computed = c.area() / 0.5
     np.isclose(length, length_computed)
 
@@ -137,7 +137,7 @@ if __name__ == "__main__":
     c = test_delay_snake_sbend_length()
     # c = gf.grid(
     #     [
-    #         delay_snake_sbend(length=length, cross_section="rib")
+    #         delay_snake_sbend(length=length, cross_section="xs_rc")
     #         for length in [500, 3000]
     #     ]
     # )

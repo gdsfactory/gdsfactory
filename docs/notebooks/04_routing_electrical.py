@@ -37,6 +37,7 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.samples.big_device import big_device
 
+gf.CONF.display_type = "klayout"
 gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
@@ -146,7 +147,7 @@ route = gf.routing.get_route_from_steps(
     steps=[
         {"y": 200},
     ],
-    cross_section="metal_routing",
+    cross_section="xs_metal_routing",
     bend=gf.components.wire_corner,
 )
 c.add(route.references)
@@ -163,7 +164,7 @@ route = gf.routing.get_route_from_steps(
     steps=[
         {"y": 200},
     ],
-    cross_section="metal_routing",
+    cross_section="xs_metal_routing",
     bend=gf.components.wire_corner,
 )
 c.add(route.references)
@@ -250,6 +251,19 @@ cc.plot()
 # %%
 c = gf.components.straight_heater_metal(length=100.0)
 cc = gf.routing.add_pads_top(component=c, port_names=("l_e2", "r_e2"))
+cc.plot()
+
+# %%
+c = gf.c.nxn(
+    xsize=600,
+    ysize=200,
+    north=2,
+    south=3,
+    wg_width=10,
+    layer="M3",
+    port_type="electrical",
+)
+cc = gf.routing.add_pads_top(component=c)
 cc.plot()
 
 # %%
@@ -384,7 +398,7 @@ def sample_die(size=(8e3, 40e3), y_spacing: float = 10) -> gf.Component:
 
         routes_left, ports_left = gf.routing.route_ports_to_side(
             ref.get_ports_list(orientation=180),
-            cross_section="strip",
+            cross_section="xs_sc",
             side="west",
             x=die.xmin + ec.xsize,
         )
@@ -393,7 +407,7 @@ def sample_die(size=(8e3, 40e3), y_spacing: float = 10) -> gf.Component:
 
         routes_right, ports_right = gf.routing.route_ports_to_side(
             ref.get_ports_list(orientation=0),
-            cross_section="strip",
+            cross_section="xs_sc",
             x=die.xmax - ec.xsize,
             side="east",
         )
@@ -423,6 +437,6 @@ def sample_die(size=(8e3, 40e3), y_spacing: float = 10) -> gf.Component:
 
 c = sample_die(cache=False)
 c.show(show_ports=True)  # show in klayout
-c.plot()  # show in jupyter
+c.plot()  # plot in notebook
 
 # %%

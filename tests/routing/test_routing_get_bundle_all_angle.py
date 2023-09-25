@@ -34,6 +34,7 @@ def test_get_bundle_all_angle(
 
 
 if __name__ == "__main__":
+    gf.CONF.enforce_ports_on_grid = False
     c = gf.Component("demo")
 
     mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)
@@ -48,6 +49,7 @@ if __name__ == "__main__":
         [mmi2.ports["o2"], mmi2.ports["o1"]],
         connector=None,
     )
-    for _i, route in enumerate(routes):
+    for route in routes:
         c.add(route.references)
+    c = c.flatten_invalid_refs()
     c.show(show_ports=True)

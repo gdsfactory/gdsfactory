@@ -11,7 +11,7 @@ def spiral_double(
     separation: float = 2.0,
     number_of_loops: float = 3,
     npoints: int = 1000,
-    cross_section: gf.typings.CrossSectionSpec = "strip",
+    cross_section: gf.typings.CrossSectionSpec = "xs_sc",
     bend: gf.typings.ComponentSpec = bend_circular,
 ) -> gf.Component:
     """Returns a spiral double (spiral in, and then out).

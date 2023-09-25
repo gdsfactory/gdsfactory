@@ -128,8 +128,8 @@ settings:
       function: bend_euler
     coupler_ring:
       function: coupler_ring
-    cross_section: strip
-    cross_section_waveguide_heater: strip_heater_metal
+    cross_section: xs_sc
+    cross_section_waveguide_heater: xs_sc_heater_metal
     gap: 0.2
     length_x: 4.0
     length_y: 0.6
@@ -162,8 +162,8 @@ settings:
       function: bend_euler
     coupler_ring:
       function: coupler_ring
-    cross_section: strip
-    cross_section_waveguide_heater: strip_heater_metal
+    cross_section: xs_sc
+    cross_section_waveguide_heater: xs_sc_heater_metal
     gap: 0.2
     length_x: 4.0
     length_y: 0.6

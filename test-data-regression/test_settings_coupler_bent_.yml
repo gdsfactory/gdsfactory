@@ -3,7 +3,7 @@ ports:
   o1:
     center:
     - -35.176
-    - -1.825
+    - -1.834
     layer:
     - 1
     - 0
@@ -27,7 +27,7 @@ ports:
   o3:
     center:
     - 35.176
-    - -1.825
+    - -1.834
     layer:
     - 1
     - 0
@@ -52,6 +52,7 @@ settings:
   changed: {}
   child: null
   default:
+    cross_section: xs_sc
     gap: 0.2
     length: 8.6
     length_straight: 10
@@ -59,6 +60,7 @@ settings:
     width1: 0.4
     width2: 0.4
   full:
+    cross_section: xs_sc
     gap: 0.2
     length: 8.6
     length_straight: 10

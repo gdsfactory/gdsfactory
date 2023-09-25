@@ -25,7 +25,7 @@ def cutback_component(
     mirror2: bool = False,
     straight_length: float | None = None,
     straight_length_pair: float | None = None,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Returns a daisy chain of components for measuring their loss.

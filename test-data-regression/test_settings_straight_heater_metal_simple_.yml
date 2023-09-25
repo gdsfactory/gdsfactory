@@ -52,23 +52,19 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section_heater: heater_metal
-    cross_section_waveguide_heater: strip_heater_metal
+    cross_section_heater: xs_heater_metal
+    cross_section_waveguide_heater: xs_sc_heater_metal
     heater_taper_length: 5.0
-    heater_width: 2.5
     length: 320.0
-    length_straight_input: 15.0
     ohms_per_square: null
     port_orientation1: null
     port_orientation2: null
     via_stack: via_stack_heater_mtop
   full:
-    cross_section_heater: heater_metal
-    cross_section_waveguide_heater: strip_heater_metal
+    cross_section_heater: xs_heater_metal
+    cross_section_waveguide_heater: xs_sc_heater_metal
     heater_taper_length: 5.0
-    heater_width: 2.5
     length: 320.0
-    length_straight_input: 15.0
     ohms_per_square: null
     port_orientation1: null
     port_orientation2: null

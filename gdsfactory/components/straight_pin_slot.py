@@ -49,7 +49,7 @@ def straight_pin_slot(
         via_stack_spacing: spacing between via_stacks.
         via_stack_slab_spacing: spacing between via_stacks slabs.
         taper: optional taper.
-        kwargs: cross_section settings.
+        kwargs: straight settings.
     """
     c = Component()
     if taper:

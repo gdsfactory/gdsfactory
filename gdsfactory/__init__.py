@@ -32,7 +32,7 @@ from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
-from gdsfactory.cross_section import CrossSection, Section, xsection
+from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.component_layout import Label
 from gdsfactory.polygon import Polygon
 from gdsfactory.difftest import difftest, diff
@@ -75,7 +75,7 @@ from gdsfactory.pdk import (
     get_constant,
 )
 from gdsfactory.get_factories import get_cells
-from gdsfactory.cross_section import get_cross_section_factories
+from gdsfactory.cross_section import get_cross_sections
 
 c = components
 
@@ -120,7 +120,7 @@ __all__ = (
     "get_component",
     "get_constant",
     "get_cross_section",
-    "get_cross_section_factories",
+    "get_cross_sections",
     "get_layer",
     "get_padding_points",
     "grid",
@@ -139,7 +139,6 @@ __all__ = (
     "typings",
     "technology",
     "write_cells",
-    "xsection",
     "PATH",
 )
 

@@ -7,7 +7,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.components.via import via
 from gdsfactory.components.via_stack import via_stack
-from gdsfactory.cross_section import Section
+from gdsfactory.cross_section import Section, xs_rc
 from gdsfactory.typings import ComponentSpec, CrossSectionFactory, LayerSpec
 
 cross_section_rib = partial(
@@ -52,7 +52,7 @@ def ring_double_pn(
     drop_gap: float = 0.3,
     radius: float = 5.0,
     doping_angle: float = 85,
-    cross_section: CrossSectionFactory = cross_section_rib,
+    cross_section: CrossSectionFactory = xs_rc,
     pn_cross_section: CrossSectionFactory = cross_section_pn,
     doped_heater: bool = True,
     doped_heater_angle_buffer: float = 10,
@@ -87,8 +87,10 @@ def ring_double_pn(
     drop_gap = gf.snap.snap_to_grid(drop_gap, grid_factor=2)
     c = gf.Component()
 
-    pn_cross_section = pn_cross_section(**kwargs)
-    cross_section = cross_section(**kwargs)
+    pn_cross_section = gf.get_cross_section(pn_cross_section)
+    pn_cross_section = pn_cross_section.copy(**kwargs)
+    cross_section = gf.get_cross_section(cross_section)
+    cross_section = cross_section.copy(**kwargs)
 
     undoping_angle = 180 - doping_angle
 
@@ -200,21 +202,9 @@ def ring_double_pn(
     c.add_port("o2", port=add_waveguide.ports["o2"])
     c.add_port("o3", port=drop_waveguide.ports["o2"])
     c.add_port("o4", port=drop_waveguide.ports["o1"])
-
     return c
 
 
 if __name__ == "__main__":
-    pass
-    # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
-    # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
-    # print(c.ports)
-
-    # c = gf.routing.add_fiber_array(ring_single)
-    # c = ring_double_pn(width=1)
-    # c.show(show_ports=True)
-
-    # cc = gf.add_pins(c)
-    # print(c.settings)
-    # print(c.settings)
-    # cc.show(show_ports=True)
+    c = ring_double_pn()
+    c.show()

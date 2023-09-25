@@ -1,16 +1,20 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight
+from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.typings import Callable, ComponentSpec, Strs
 
+_wire_long = partial(wire_straight, length=200.0)
+
 
 @gf.cell
 def add_electrical_pads_shortest(
-    component: ComponentSpec = straight,
+    component: ComponentSpec = _wire_long,
     pad: ComponentSpec = "pad",
     pad_port_spacing: float = 50.0,
     select_ports: Callable = select_ports_electrical,
@@ -34,7 +38,8 @@ def add_electrical_pads_shortest(
 
         import gdsfactory as gf
         c = gf.components.straight_heater_metal(length=100)
-        c = gf.routing.add_electrical_pads_shortest(c, port_orientation=270)
+        wire_long = gf.components.wire_straight(length=200.)
+        c = gf.routing.add_electrical_pads_shortest(wire_long)
         c.plot()
 
     """
@@ -86,6 +91,7 @@ def add_electrical_pads_shortest(
 if __name__ == "__main__":
     # c = gf.components.cross(length=100, layer=(49, 0))
     # c = gf.components.mzi_phase_shifter()
-    c = gf.components.straight_heater_metal(length=100)
-    c = add_electrical_pads_shortest(component=c, port_orientation=270)
+    # c = gf.components.straight_heater_metal(length=100)
+    # c = add_electrical_pads_shortest(component=c, port_orientation=270)
+    c = add_electrical_pads_shortest()
     c.show(show_ports=True)

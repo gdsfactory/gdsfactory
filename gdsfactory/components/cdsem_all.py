@@ -23,7 +23,7 @@ def cdsem_all(
     dense_lines_labels: tuple[str, ...] = ("DL", "DM", "DH"),
     straight: ComponentSpec = "straight",
     bend90: ComponentSpec | None = "bend_circular",
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     text: ComponentSpec = text_rectangular_mini,
 ) -> Component:
     """Column with all optical PCMs.

@@ -1,4 +1,4 @@
-name: grating_coupler_elliptical_3bc3e33a
+name: grating_coupler_elliptical_9d09d148
 ports:
   o1:
     center:
@@ -27,36 +27,46 @@ ports:
 settings:
   changed:
     cross_section:
-      function: cross_section
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-            pin_length: 0.5
-        bbox_layers:
-        - - 36
-          - 0
-        bbox_offsets:
-        - 3
-        info:
-          type: strip
+      add_pins_function_module: gdsfactory.samples.pdk.fab_c
+      add_pins_function_name: add_pins
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      bbox_layers:
+      - - 36
+        - 0
+      bbox_offsets:
+      - 3.0
+      components_along_path: []
+      end_straight_length: 0.01
+      gap: 3.0
+      info: {}
+      min_length: 0.01
+      radius: 10.0
+      sections:
+      - hidden: false
+        insets: null
         layer:
         - 34
         - 0
-        name: strip
+        name: null
+        offset: 0.0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        simplify: null
         width: 1.0
+      start_straight_length: 0.01
+      taper_length: 10.0
+      width_wide: null
     grating_line_width: 0.6
     layer_slab: null
   child: null
   default:
     big_last_tooth: false
-    cross_section: strip
+    cross_section: xs_sc
     fiber_angle: 15.0
     grating_line_width: 0.343
     layer_slab: SLAB150
@@ -73,30 +83,40 @@ settings:
   full:
     big_last_tooth: false
     cross_section:
-      function: cross_section
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-            pin_length: 0.5
-        bbox_layers:
-        - - 36
-          - 0
-        bbox_offsets:
-        - 3
-        info:
-          type: strip
+      add_pins_function_module: gdsfactory.samples.pdk.fab_c
+      add_pins_function_name: add_pins
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      bbox_layers:
+      - - 36
+        - 0
+      bbox_offsets:
+      - 3.0
+      components_along_path: []
+      end_straight_length: 0.01
+      gap: 3.0
+      info: {}
+      min_length: 0.01
+      radius: 10.0
+      sections:
+      - hidden: false
+        insets: null
         layer:
         - 34
         - 0
-        name: strip
+        name: null
+        offset: 0.0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        simplify: null
         width: 1.0
+      start_straight_length: 0.01
+      taper_length: 10.0
+      width_wide: null
     fiber_angle: 15.0
     grating_line_width: 0.6
     layer_slab: null
@@ -116,4 +136,4 @@ settings:
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_elliptical_3bc3e33a
+  name: grating_coupler_elliptical_9d09d148

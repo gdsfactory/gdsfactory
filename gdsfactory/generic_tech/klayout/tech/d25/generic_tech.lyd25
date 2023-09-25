@@ -1,3 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description/>
+ <version/>
+ <category>d25</category>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <priority>0</priority>
+ <shortcut/>
+ <show-in-menu>true</show-in-menu>
+ <group-name>d25_scripts</group-name>
+ <menu-path>tools_menu.d25.end</menu-path>
+ <interpreter>dsl</interpreter>
+ <dsl-interpreter-name>d25-dsl-xml</dsl-interpreter-name>
+ <text>
+
 substrate = input(99999, 0)
 box = input(99999, 0)
 core = input(1, 0)
@@ -41,3 +60,6 @@ z(via2, zstart: 3.0, zstop: 3.2, name: 'via2: Aluminum 43/0', )
 z(metal3, zstart: 3.2, zstop: 5.2, name: 'metal3: Aluminum 49/0', )
 
 z(unetched_core, zstart: 0.0, zstop: 0.22, name: 'unetched_core: si 1/0', )
+
+</text>
+</klayout-macro>

@@ -1,9 +1,22 @@
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
+import gdsfactory as gf
 import gdsfactory.samples.all_angle_routing as aar_samples
 from gdsfactory.difftest import difftest
 from gdsfactory.pdk import get_active_pdk
+
+
+@pytest.fixture(autouse=True)
+def setup_and_teardown():
+    # Setup: Code before the yield is the setup code
+    gf.config.enable_off_grid_ports()
+
+    yield  # This is where the test function gets executed
+
+    # Teardown: Code after the yield is the teardown code
+    gf.config.disable_off_grid_ports()
+
 
 AAR_YAML_PICS = aar_samples.get_yaml_pics()
 

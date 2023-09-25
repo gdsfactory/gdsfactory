@@ -30,7 +30,7 @@ settings:
     changed: {}
     child: null
     default:
-      cross_section: strip
+      cross_section: xs_sc
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10.0
@@ -43,7 +43,7 @@ settings:
       width_taper: 1.0
       with_bbox: true
     full:
-      cross_section: strip
+      cross_section: xs_sc
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10.0
@@ -68,7 +68,7 @@ settings:
     cols: 4
     component:
       function: mmi1x2
-    cross_section: strip
+    cross_section: xs_sc
     mirror: false
     port1: o1
     port2: o2
@@ -83,7 +83,7 @@ settings:
     cols: 4
     component:
       function: mmi1x2
-    cross_section: strip
+    cross_section: xs_sc
     mirror: false
     port1: o1
     port2: o2

@@ -24,6 +24,7 @@ def test_import_gds_cell() -> None:
 if __name__ == "__main__":
     c0 = gf.c.rectangle()
     gdspath = c0.write_gds()
+    c0.show()
 
     # top cell with rectangle reference
     c1 = gf.import_gds(gdspath)

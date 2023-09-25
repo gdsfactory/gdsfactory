@@ -16,9 +16,8 @@ def coupler90(
     radius: float = 10.0,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight,
-    cross_section: CrossSectionSpec = "strip",
-    bend_cross_section: CrossSectionSpec | None = None,
-    **kwargs,
+    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section_bend: CrossSectionSpec | None = None,
 ) -> Component:
     r"""Straight coupled to a bend.
 
@@ -28,8 +27,7 @@ def coupler90(
         straight: for straight.
         bend: bend spec.
         cross_section: cross_section spec.
-        bend_cross_section: optional bend cross_section spec.
-        kwargs: cross_section settings.
+        cross_section_bend: optional bend cross_section spec.
 
     .. code::
 
@@ -42,18 +40,19 @@ def coupler90(
 
     """
     c = Component()
-    x = gf.get_cross_section(cross_section, radius=radius, **kwargs)
-    bend_cross_section = bend_cross_section or cross_section
+    x = gf.get_cross_section(cross_section, radius=radius)
+    x.copy(radius=radius)
+    xs_bend = cross_section_bend or cross_section
 
     bend90 = gf.get_component(
-        bend, cross_section=bend_cross_section, radius=radius, **kwargs
+        bend,
+        cross_section=xs_bend,
     )
     bend_ref = c << bend90
     straight_component = gf.get_component(
         straight,
         cross_section=cross_section,
         length=bend90.ports["o2"].center[0] - bend90.ports["o1"].center[0],
-        **kwargs,
     )
 
     wg_ref = c << straight_component
@@ -72,10 +71,5 @@ coupler90circular = partial(coupler90, bend=bend_circular)
 
 
 if __name__ == "__main__":
-    # c = coupler90circular(gap=0.3)
-    # c << coupler90(gap=0.3)
-    c = coupler90(radius=3, layer=(2, 0))
-    c = coupler90(radius=10, cross_section="strip_heater_metal")
-    c.show(show_ports=True)
-    c.pprint()
-    # print(c.ports)
+    c = coupler90(radius=10, cross_section_bend="xs_sc_heater_metal")
+    c.show(show_ports=False)

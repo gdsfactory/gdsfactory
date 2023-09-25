@@ -10,10 +10,10 @@ from gdsfactory.typings import CrossSectionSpec
 def coupler_full(
     coupling_length: float = 40.0,
     dx: float = 10.0,
-    dy: float = 5.0,
+    dy: float = 4.8,
     gap: float = 0.5,
     dw: float = 0.1,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Adiabatic Full coupler.

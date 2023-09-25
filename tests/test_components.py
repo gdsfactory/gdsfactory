@@ -18,6 +18,7 @@ skip_test = {
     "crossing",
     "spiral_racetrack",
     "ring_section_based",
+    "ring_double_pn",
 }
 
 

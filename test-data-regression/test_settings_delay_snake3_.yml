@@ -32,7 +32,7 @@ settings:
       function: bend_euler
       settings:
         angle: 180
-    cross_section: strip
+    cross_section: xs_sc
     length: 1600.0
     length0: 0.0
     length2: 0.0
@@ -42,7 +42,7 @@ settings:
       function: bend_euler
       settings:
         angle: 180
-    cross_section: strip
+    cross_section: xs_sc
     length: 1600.0
     length0: 0.0
     length2: 0.0

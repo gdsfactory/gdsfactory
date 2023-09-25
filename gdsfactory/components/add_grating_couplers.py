@@ -213,7 +213,6 @@ def add_grating_couplers_with_loopback_fiber_array(
     grating_coupler: ComponentSpec = grating_coupler_te,
     excluded_ports: list[str] | None = None,
     grating_separation: float = 127.0,
-    bend_radius_loopback: float | None = None,
     gc_port_name: str = "o1",
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
@@ -224,10 +223,9 @@ def add_grating_couplers_with_loopback_fiber_array(
     with_loopback: bool = True,
     nlabels_loopback: int = 2,
     get_input_labels_function: LabelListFactory | None = get_input_labels,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "xs_sc",
     select_ports: Callable = select_ports_optical,
     loopback_yspacing: float = 4.0,
-    **kwargs,
 ) -> Component:
     """Returns a component with grating_couplers and optional reference loopback.
 
@@ -236,7 +234,6 @@ def add_grating_couplers_with_loopback_fiber_array(
         grating_coupler: grating_coupler.
         excluded_ports: list of ports to exclude.
         grating_separation: in um.
-        bend_radius_loopback: um.
         gc_port_name: optional grating coupler name.
         gc_rotation: grating coupler rotation in degrees.
         straight_separation: in um.
@@ -251,12 +248,10 @@ def add_grating_couplers_with_loopback_fiber_array(
         cross_section: CrossSectionSpec.
         select_ports: function to select ports.
         loopback_yspacing: in um.
-        kwargs: cross_section settings.
     """
     component = gf.get_component(component)
-    x = gf.get_cross_section(cross_section, **kwargs)
-    kwargs.pop("radius", None)
-    bend_radius_loopback = bend_radius_loopback or x.radius
+    x = gf.get_cross_section(cross_section)
+    bend_radius_loopback = x.radius
     excluded_ports = excluded_ports or []
     gc = gf.get_component(grating_coupler)
 
@@ -264,7 +259,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     component_name = component_name or component.metadata_child.get("name")
 
     c = Component()
-    c.component = component
+    c.copy_child_info(component)
     c.info["polarization"] = gc.info["polarization"]
     c.info["wavelength"] = gc.info["wavelength"]
 
@@ -338,14 +333,11 @@ def add_grating_couplers_with_loopback_fiber_array(
                 p1,
             ]
         )
-        bend90 = gf.get_component(
-            bend, radius=bend_radius_loopback, cross_section=cross_section, **kwargs
-        )
+        bend90 = bend(cross_section=cross_section)
         loopback_route = round_corners(
             points=points,
             bend=bend90,
             cross_section=cross_section,
-            **kwargs,
         )
         c.add([gca1, gca2])
         c.add(loopback_route.references)
@@ -401,4 +393,4 @@ if __name__ == "__main__":
     c = add_grating_couplers_with_loopback_fiber_array()
     c.pprint_ports()
     # c = add_grating_couplers_with_loopback_fiber_single()
-    c.show(show_ports=True)
+    c.show(show_ports=False)

@@ -3,7 +3,7 @@ ports:
   o1:
     center:
     - -10.0
-    - -2.5
+    - -2.4
     layer:
     - 1
     - 0
@@ -15,7 +15,7 @@ ports:
   o2:
     center:
     - 50.0
-    - -2.5
+    - -2.4
     layer:
     - 1
     - 0
@@ -27,7 +27,7 @@ ports:
   o3:
     center:
     - -10.0
-    - 77.5
+    - 76.8
     layer:
     - 1
     - 0
@@ -39,7 +39,7 @@ ports:
   o4:
     center:
     - 50.0
-    - 77.5
+    - 76.8
     layer:
     - 1
     - 0
@@ -68,46 +68,13 @@ settings:
     ring_cross_sections:
     - function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
     - function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
     - function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
   full:
     bends:
     - function: bend_circular
@@ -125,46 +92,13 @@ settings:
     ring_cross_sections:
     - function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
     - function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
     - function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
+        add_pins_function_name: add_pins_inside1nm
   function_name: ring_crow_couplers
   info: {}
   info_version: 2

@@ -4,19 +4,21 @@ To create a component you need to extrude the path with a cross-section.
 """
 from __future__ import annotations
 
-import functools
 import hashlib
-import inspect
+import importlib
 import sys
+import warnings
 from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers
-from typing import Any, Literal, TypeVar
+from typing import TYPE_CHECKING, Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, validate_call
+from pydantic import BaseModel, ConfigDict, Field
 
-from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
-from gdsfactory.serialization import clean_dict
+from gdsfactory.config import CONF, ErrorType
+
+if TYPE_CHECKING:
+    from gdsfactory.component import Component
 
 nm = 1e-3
 
@@ -24,13 +26,12 @@ Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]
 
-LayerSpec = Layer | int | str
+LayerSpec = Layer | str
 LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...]
 
 Floats = tuple[float, ...]
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
-
 cladding_layers_optical = None
 cladding_offsets_optical = None
 cladding_simplify_optical = None
@@ -70,17 +71,20 @@ class Section(BaseModel):
                          width
     """
 
-    width: float | Callable
-    offset: float | Callable = 0
-    insets: tuple | None = None
-    layer: LayerSpec | LayerSpecs | None = None
+    width: float
+    offset: float = 0
+    insets: tuple[float, float] | None = None
+    layer: LayerSpec | None = None
     port_names: tuple[str | None, str | None] = (None, None)
     port_types: tuple[str, str] = ("optical", "optical")
     name: str | None = None
     hidden: bool = False
     simplify: float | None = None
 
-    model_config = ConfigDict(extra="forbid")
+    width_function: Callable | None = Field(default=None, exclude=True)
+    offset_function: Callable | None = Field(default=None, exclude=True)
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
 
 class ComponentAlongPath(BaseModel):
@@ -100,125 +104,156 @@ class ComponentAlongPath(BaseModel):
     offset: float = 0.0
 
 
+Sections = tuple[Section, ...]
+
+
 class CrossSection(BaseModel):
     """Waveguide information to extrude a path.
 
-    cladding_layers follow path shape, while bbox_layers are rectangular.
-
     Parameters:
-        layer: main Section layer. Main section name = '_default'. \
-                If None does not draw the main section.
-        width: main Section width (um) or function parameterized from 0 to 1.\
-                the width at t==0 is the width at the beginning of the Path. \
-                the width at t==1 is the width at the end.
-        offset: main Section center offset (um) or function from 0 to 1. \
-                the offset at t==0 is the offset at the beginning of the Path. \
-                the offset at t==1 is the offset at the end.
-        radius: main Section bend radius (um).
-        simplify: main Section Optional Tolerance value for the simplification algorithm.
+        sections: tuple of Sections(width, offset, layer, ports).
+        components_along_path: tuple of ComponentAlongPaths.
+        radius: route bend radius (um).
+        bbox_layers: layer to add as bounding box.
+        bbox_offsets: offset to add to the bounding box.
+        info: dictionary with extra information.
+        add_pins_function_name: name of the function to add pins to the component.\
+                None by default does not add pins.
+        add_pins_function_module: function to add pins to the component.
+        min_length: defaults to 1nm = 10e-3um for routing.
+        start_straight_length: straight length at the beginning of the route.
+        end_straight_length: end length at the beginning of the route.
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
         taper_length: taper_length for auto_widen.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
-        cladding_layers: list of layers to extrude.
-        cladding_offsets: list of offset from main Section edge.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
-                All points that can be removed without changing the resulting polygon \
-                by more than the value listed here will be removed.
-        sections: list of Sections(width, offset, layer, ports).
-        port_names: for input and output ('o1', 'o2').
-        port_types: for input and output: electrical, optical, vertical_te ...
-        gap: edge to edge waveguide spacing for routing.
-        min_length: defaults to 1nm = 10e-3um for routing.
-        start_straight_length: straight length at the beginning of the route.
-        end_straight_length: end length at the beginning of the route.
-        decorator: function when extruding component. For example add_pins.
-        add_pins: Optional function to add pins.
-        add_bbox: Optional function to add bounding box.
-        info: dict with extra settings or useful information.
-        name: cross_section name.
-        mirror: if True, reflects the offsets.
-        vias: list of ComponentAlongPaths(component, spacing, padding, offset).
-
-    Properties:
-        aliases: dict of cross_section aliases.
+        gap: minimum gap between waveguides.
     """
 
-    layer: LayerSpec | None = None
-    width: float | Callable
-    offset: float | Callable = 0
+    sections: tuple[Section, ...] = Field(default_factory=tuple)
+    components_along_path: tuple[ComponentAlongPath, ...] = Field(default_factory=tuple)
     radius: float | None = None
-    width_wide: float | None = None
-    simplify: float | None = None
-    auto_widen: bool = False
-    auto_widen_minimum_length: float = 200.0
-    taper_length: float = 10.0
-    bbox_layers: list[LayerSpec] = Field(default_factory=list)
-    bbox_offsets: list[float] = Field(default_factory=list)
-    cladding_layers: LayerSpecs | None = None
-    cladding_offsets: Floats | None = None
-    cladding_simplify: Floats | None = cladding_simplify_optical
-    sections: list[Section] = Field(default_factory=list)
-    port_names: tuple[str | None, str | None] = ("o1", "o2")
-    port_types: tuple[str | None, str | None] = ("optical", "optical")
-    gap: float = 3.0
+    bbox_layers: LayerSpecs | None = None
+    bbox_offsets: Floats | None = None
+
+    info: dict[str, Any] = Field(default_factory=dict)
+    add_pins_function_name: str | None = None
+    add_pins_function_module: str = "gdsfactory.add_pins"
+
     min_length: float = 10e-3
     start_straight_length: float = 10e-3
     end_straight_length: float = 10e-3
-    decorator: Callable | None = Field(default=None, exclude=True)
-    add_pins: Callable | None = Field(default=None, exclude=True)
-    add_bbox: Callable | None = Field(default=None, exclude=True)
-    info: dict[str, Any] = Field(default_factory=dict)
-    name: str | None = None
-    mirror: bool = False
-    vias: list[ComponentAlongPath] = Field(default_factory=list)
+    width_wide: float | None = None
+    auto_widen: bool = False
+    auto_widen_minimum_length: float = 200.0
+    taper_length: float = 10.0
+    gap: float = 3.0
 
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True,
-        extra="forbid",
-    )
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
-    def copy(self, **kwargs):
-        """Returns a CrossSection copy."""
-        xs = super().model_copy(update=kwargs)
-        xs.decorator = self.decorator
-        xs.add_pins = self.add_pins
-        xs.add_bbox = self.add_bbox
-        return xs
+    def validate_radius(
+        self, radius: float, error_type: ErrorType | None = None
+    ) -> None:
+        if self.radius and radius < self.radius:
+            message = (
+                f"min_bend_radius {radius} < CrossSection.radius {self.radius}. "
+                "Increase CrossSection.radius or decrease the number of points"
+            )
 
-    def get_name(self) -> str:
+            error_type = error_type or CONF.bend_radius_error_type
+
+            if error_type == ErrorType.ERROR:
+                raise ValueError(message)
+
+            elif error_type == ErrorType.WARNING:
+                warnings.warn(message)
+
+    @property
+    def name(self) -> str:
         h = hashlib.md5(str(self).encode()).hexdigest()[:8]
         return f"xs_{h}"
 
     @property
-    def aliases(self) -> dict[str, Section]:
-        s = {
-            "_default": Section(
-                width=self.width,
-                offset=self.offset,
-                layer=self.layer,
-                simplify=self.simplify,
-                port_names=self.port_names,
-                port_types=self.port_types,
-                name="_default",
-            )
-        }
-        sections = self.sections or []
-        for section in sections:
-            if section.name:
-                s[section.name] = section
-        return s
+    def width(self) -> float:
+        return self.sections[0].width
 
-    def add_bbox_layers(
+    @property
+    def layer(self) -> LayerSpec:
+        return self.sections[0].layer
+
+    def copy(
+        self,
+        width: float | None = None,
+        layer: LayerSpec | None = None,
+        width_function: Callable | None = None,
+        offset_function: Callable | None = None,
+        **kwargs,
+    ) -> CrossSection:
+        """Returns copy of the cross_section with new parameters.
+
+        Args:
+            width: of the section (um). Defaults to current width.
+            layer: layer spec. Defaults to current layer.
+            width_function: parameterized function from 0 to 1.
+            offset_function: parameterized function from 0 to 1.
+
+        Keyword Args:
+            sections: tuple of Sections(width, offset, layer, ports).
+            components_along_path: tuple of ComponentAlongPaths.
+            radius: route bend radius (um).
+            bbox_layers: layer to add as bounding box.
+            bbox_offsets: offset to add to the bounding box.
+            info: dictionary with extra information.
+            add_pins_function_name: name of the function to add pins to the component.
+            add_pins_function_module: function to add pins to the component.
+            min_length: defaults to 1nm = 10e-3um for routing.
+            start_straight_length: straight length at the beginning of the route.
+            end_straight_length: end length at the beginning of the route.
+            width_wide: wide waveguides width (um) for low loss routing.
+            auto_widen: taper to wide waveguides for low loss routing.
+            auto_widen_minimum_length: minimum straight length for auto_widen.
+            taper_length: taper_length for auto_widen.
+            gap: minimum gap between waveguides.
+
+        """
+        for kwarg in kwargs:
+            if kwarg not in dict(self):
+                raise ValueError(f"{kwarg!r} not in CrossSection")
+
+        if width_function or offset_function or width or layer:
+            sections = [s.model_copy() for s in self.sections]
+            sections[0] = sections[0].model_copy(
+                update={
+                    "width_function": width_function,
+                    "offset_function": offset_function,
+                    "width": width or self.width,
+                    "layer": layer or self.layer,
+                }
+            )
+            return self.model_copy(update={"sections": tuple(sections), **kwargs})
+        return self.model_copy(update=kwargs)
+
+    def add_pins(self, component: Component) -> Component:
+        if self.add_pins_function_name is None:
+            return component
+
+        add_pins = importlib.import_module(self.add_pins_function_module)
+        if not hasattr(add_pins, self.add_pins_function_name):
+            raise ValueError(
+                f"add_pins_function_name = {self.add_pins_function_name} not found in"
+                f"add_pins_function_module = {self.add_pins_function_module}"
+            )
+        function = getattr(add_pins, self.add_pins_function_name)
+        return function(component=component)
+
+    def add_bbox(
         self,
         component,
         top: float | None = None,
         bottom: float | None = None,
         right: float | None = None,
         left: float | None = None,
-    ):
+    ) -> Component:
         """Add bounding box layers to a component.
 
         Args:
@@ -231,10 +266,9 @@ class CrossSection(BaseModel):
         from gdsfactory.add_padding import get_padding_points
 
         c = component
-        x = self
-        if x.bbox_layers and x.bbox_offsets:
+        if self.bbox_layers and self.bbox_offsets:
             padding = []
-            for offset in x.bbox_offsets:
+            for offset in self.bbox_offsets:
                 points = get_padding_points(
                     component=c,
                     default=0,
@@ -245,14 +279,14 @@ class CrossSection(BaseModel):
                 )
                 padding.append(points)
 
-            for layer, points in zip(x.bbox_layers, padding):
+            for layer, points in zip(self.bbox_layers, padding):
                 c.add_polygon(points, layer=layer)
         return c
 
     def get_xmin_xmax(self):
         """Returns the min and max extent of the cross_section across all sections."""
         main_width = self.width
-        main_offset = self.offset
+        main_offset = self.sections[0].offset
         xmin = main_offset - main_width / 2
         xmax = main_offset + main_width / 2
         for section in self.sections:
@@ -264,190 +298,73 @@ class CrossSection(BaseModel):
         return xmin, xmax
 
 
-CrossSectionSpec = CrossSection | Callable | dict[str, Any]
+CrossSectionSpec = CrossSection | str | dict[str, Any] | Callable[..., CrossSection]
 
 
-class Transition(CrossSection):
+class Transition(BaseModel):
     """Waveguide information to extrude a path between two CrossSection.
 
-    cladding_layers follow path shape, while bbox_layers are rectangular.
+    cladding_layers follow path shape
 
     Parameters:
         cross_section1: input cross_section.
         cross_section2: output cross_section.
-        width_type: sine or linear. Sets the type of width transition used if widths are different \
-                between the two input CrossSections.
-        sections: list of Sections(width, offset, layer, ports).
-        layer: main Section layer. Main section name = '_default'.
-        width: main Section width (um) or function parameterized from 0 to 1. \
-                the width at t==0 is the width at the beginning of the Path. \
-                the width at t==1 is the width at the end.
-        radius: main Section bend radius (um).
-        width_wide: wide waveguides width (um) for low loss routing.
-        auto_widen: taper to wide waveguides for low loss routing.
-        auto_widen_minimum_length: minimum straight length for auto_widen.
-        taper_length: taper_length for auto_widen.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
-        cladding_layers: list of layers to extrude.
-        cladding_offsets: list of offset from main Section edge.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
-                All points that can be removed without changing the resulting. \
-                polygon by more than the value listed here will be removed.
-        sections: list of Sections(width, offset, layer, ports).
-        port_names: for input and output ('o1', 'o2').
-        port_types: for input and output: electrical, optical, vertical_te ...
-        gap: edge to edge waveguide spacing for routing.
-        min_length: defaults to 1nm = 10e-3um for routing.
-        start_straight_length: straight length at the beginning of the route.
-        end_straight_length: end length at the beginning of the route.
-        decorator: function when extruding component. For example add_pins.
-        add_pins: Optional function to add pins.
-        add_bbox: Optional function to add bounding box.
-        info: dict with extra settings or useful information.
-        name: cross_section name.
-        mirror: if True, reflects the offsets.
+        width_type: sine or linear. Sets the type of width transition used if widths \
+                are different between the two input CrossSections.
     """
 
-    cross_section1: CrossSectionSpec = Field(exclude=True)
-    cross_section2: CrossSectionSpec = Field(exclude=True)
+    cross_section1: CrossSectionSpec
+    cross_section2: CrossSectionSpec
     width_type: WidthTypes = "sine"
-    sections: list[Section]
-    layer: LayerSpec | None = None
-    width: float | Callable | None = None
-    port_names: tuple[str | None, str | None] = (None, None)
-    port_types: tuple[str | None, str | None] = ("optical", "optical")
 
 
-def _xsection_without_validator(func):
-    """Decorator for cross_section functions
-
-    use xsection instead so it will validate arguments with types.
-    """
-
-    @functools.wraps(func)
-    def _xsection(*args, **kwargs):
-        xs = func(*args, **kwargs)
-
-        sig = inspect.signature(func)
-
-        # Collect args passed into function into dict
-        args_as_kwargs = dict(zip(sig.parameters.keys(), args))
-
-        # Get settings from default arguments in function signature
-        settings = {
-            p.name: p.default
-            for p in sig.parameters.values()
-            if p.default != inspect._empty
-        }
-
-        # Update with args and kwargs, overriding defaults
-        settings.update(args_as_kwargs)
-        settings.update(kwargs)
-        settings = clean_dict(settings)
-
-        if not isinstance(xs, CrossSection):
-            raise ValueError(
-                f"function {func.__name__!r} return type = {type(xs)}",
-                "make sure that functions with @xsection decorator return a CrossSection",
-            )
-
-        function_name = func.__name__
-        xs.info.update(settings=settings, function_name=function_name)
-        return xs
-
-    return _xsection
-
-
-_F = TypeVar("_F", bound=Callable)
-
-
-def xsection(func: _F) -> _F:
-    """Decorator for CrossSection functions
-
-    Validates type annotations with pydantic.
-
-    .. plot::
-        :include-source:
-
-        import gdsfactory as gf
-
-        @gf.cross_section.xsection
-        def xs_sc(width=0.5, **kwargs):
-            xs = gf.cross_section.cross_section(width=width, **kwargs)
-            return xs
-
-        p = gf.path.arc(radius=10, angle=45)
-        c = p.extrude(xs_sc)
-        c.plot()
-    """
-    return _xsection_without_validator(validate_call(func))
-
-
-@xsection
 def cross_section(
-    width: Callable | float = 0.5,
-    offset: float | Callable = 0,
+    width: float = 0.5,
+    offset: float = 0,
     layer: LayerSpec | None = "WG",
-    width_wide: float | None = None,
-    auto_widen: bool = False,
-    auto_widen_minimum_length: float = 200.0,
-    taper_length: float = 10.0,
-    radius: float | None = 10.0,
     sections: tuple[Section, ...] | None = None,
     port_names: tuple[str, str] = ("o1", "o2"),
     port_types: tuple[str, str] = ("optical", "optical"),
-    gap: float = 3.0,
-    min_length: float = 10e-3,
-    start_straight_length: float = 10e-3,
-    end_straight_length: float = 10e-3,
-    bbox_layers: list[LayerSpec] | None = None,
-    bbox_offsets: list[float] | None = None,
+    bbox_layers: LayerSpecs | None = None,
+    bbox_offsets: Floats | None = None,
     cladding_layers: LayerSpecs | None = None,
     cladding_offsets: Floats | None = None,
-    cladding_simplify: Floats | None = cladding_simplify_optical,
-    info: dict[str, Any] | None = None,
-    decorator: Callable | None = None,
-    add_pins: Callable | None = None,
-    add_bbox: Callable | None = None,
-    mirror: bool = False,
-    name: str | None = None,
+    cladding_simplify: Floats | None = None,
+    radius: float | None = 10.0,
+    add_pins_function_name: str | None = None,
+    **kwargs,
 ) -> CrossSection:
     """Return CrossSection.
 
     Args:
-        width: main Section width (um) or function parameterized from 0 to 1. \
-                the width at t==0 is the width at the beginning of the Path. \
-                the width at t==1 is the width at the end.
-        offset: main Section center offset (um) or function from 0 to 1.\
-                the offset at t==0 is the offset at the beginning of the Path.\
-                the offset at t==1 is the offset at the end.
+        width: main Section width (um).
+        offset: main Section center offset (um).
         layer: main section layer.
-        width_wide: wide waveguides width (um) for low loss routing.
-        auto_widen: taper to wide waveguides for low loss routing.
-        auto_widen_minimum_length: minimum straight length for auto_widen.
-        taper_length: taper_length for auto_widen.
-        radius: bend radius (um).
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
-        gap: edge to edge waveguide gap for routing.
-        min_length: defaults to 1nm = 10e-3um for routing.
-        start_straight_length: straight length at the beginning of the route.
-        end_straight_length: end length at the beginning of the route.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
+        bbox_layers: list of layers bounding boxes to extrude.
+        bbox_offsets: list of offset from bounding box edge.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
         cladding_simplify: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
-        info: settings info.
-        decorator: function to run when converting path to component.
-        add_pins: optional function to add pins to component.
-        add_bbox: optional function to add bounding box to component.
-        mirror: if True, reflects the offsets.
-        name: cross_section name.
+        radius: routing bend radius (um).
+        add_pins_function_name: name of the function to add pins to the component.
+
+
+    Keyword Args:
+        info: dictionary with extra information.
+        add_pins_function_module: name of the module to add pins to the component.
+        min_length: defaults to 1nm = 10e-3um for routing.
+        start_straight_length: straight length at the beginning of the route.
+        end_straight_length: end length at the beginning of the route.
+        width_wide: wide waveguides width (um) for low loss routing.
+        auto_widen: taper to wide waveguides for low loss routing.
+        auto_widen_minimum_length: minimum straight length for auto_widen.
+        taper_length: taper_length for auto_widen.
+        gap: minimum gap between waveguides.
 
 
     .. plot::
@@ -460,84 +377,62 @@ def cross_section(
         c = p.extrude(xs)
         c.plot()
     """
+    sections = list(sections or [])
+    cladding_layers = cladding_layers or ()
+    cladding_offsets = cladding_offsets or ()
+    cladding_simplify = cladding_simplify or (None,) * len(cladding_layers)
+
+    s = [
+        Section(
+            width=width,
+            offset=offset,
+            layer=layer,
+            port_names=port_names,
+            port_types=port_types,
+        )
+    ] + sections
+    s += [
+        Section(width=width + 2 * offset, layer=layer, simplify=simplify)
+        for layer, offset, simplify in zip(
+            cladding_layers, cladding_offsets, cladding_simplify
+        )
+    ]
     return CrossSection(
-        width=width,
-        offset=offset,
-        layer=layer,
-        width_wide=width_wide,
-        auto_widen=auto_widen,
-        auto_widen_minimum_length=auto_widen_minimum_length,
-        taper_length=taper_length,
+        sections=tuple(s),
         radius=radius,
-        bbox_layers=bbox_layers or [],
-        bbox_offsets=bbox_offsets or [],
-        cladding_layers=cladding_layers,
-        cladding_offsets=cladding_offsets,
-        cladding_simplify=cladding_simplify,
-        sections=sections or [],
-        gap=gap,
-        min_length=min_length,
-        start_straight_length=start_straight_length,
-        end_straight_length=end_straight_length,
-        port_types=port_types,
-        port_names=port_names,
-        info=info or {},
-        decorator=decorator,
-        add_bbox=add_bbox,
-        add_pins=add_pins,
-        mirror=mirror,
-        name=name,
+        bbox_layers=bbox_layers,
+        bbox_offsets=bbox_offsets,
+        add_pins_function_name=add_pins_function_name,
+        **kwargs,
     )
 
 
 radius_nitride = 20
 radius_rib = 20
 
+strip = partial(cross_section, add_pins_function_name="add_pins_inside1nm")
+strip_auto_widen = partial(strip, auto_widen=True)
+strip_no_pins = cross_section
 
-# strip = cross_section
-strip_pins = partial(
-    cross_section,
-    add_pins=add_pins_inside1nm,
-    name="strip",
-    add_bbox=None,
-    info={"type": "strip"},
-)
-strip = strip_pins
-strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
-strip_no_pins = partial(
-    strip, add_pins=None, add_bbox=None, cladding_layers=None, cladding_offsets=None
-)
-strip_siepic = partial(cross_section, add_pins=add_pins_siepic_optical)
-
-# Rib with rectangular slab
 rib = partial(
     strip,
-    bbox_layers=["SLAB90"],
-    bbox_offsets=[3],
-    radius=radius_rib,
-    info={"type": "rib"},
-)
-
-# Rib with with slab that follows the waveguide core
-rib_conformal = partial(
-    strip,
     sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),
-    radius=radius_rib,
-    info={"type": "rib"},
 )
-rib_conformal2 = partial(
+rib2 = partial(
     strip,
-    radius=radius_rib,
     cladding_layers=("SLAB90",),
     cladding_offsets=(3,),
     cladding_simplify=(50 * nm,),
-    info={"type": "rib"},
 )
-nitride = partial(strip, layer="WGN", width=1.0, radius=radius_nitride)
+rib_bbox = partial(
+    strip,
+    bbox_layers=("SLAB90",),
+    bbox_offsets=(3,),
+)
+nitride = partial(strip, layer="WGN", width=1.0)
 strip_rib_tip = partial(
     strip,
     sections=(Section(width=0.2, layer="SLAB90", name="slab"),),
-    radius=radius_nitride,
 )
 
 # L shaped waveguide (slab only on one side of the core)
@@ -547,12 +442,11 @@ l_wg = partial(
 )
 
 
-@xsection
 def slot(
     width: float = 0.5,
     layer: LayerSpec = "WG",
     slot_width: float = 0.04,
-    **kwargs,
+    sections: tuple[Section, ...] | None = None,
 ) -> CrossSection:
     """Return CrossSection Slot (with an etched region in the center).
 
@@ -562,33 +456,7 @@ def slot(
                 the width at t==1 is the width at the end.
         layer: main section layer.
         slot_width: in um.
-
-    Keyword Args:
-        offset: main Section center offset (um) or function from 0 to 1. \
-                the offset at t==0 is the offset at the beginning of the Path. \
-                the offset at t==1 is the offset at the end.
-        width_wide: wide waveguides width (um) for low loss routing.
-        auto_widen: taper to wide waveguides for low loss routing.
-        auto_widen_minimum_length: minimum straight length for auto_widen.
-        taper_length: taper_length for auto_widen.
-        radius: bend radius (um).
         sections: list of Sections(width, offset, layer, ports).
-        port_names: for input and output ('o1', 'o2').
-        port_types: for input and output: electrical, optical, vertical_te ...
-        min_length: defaults to 1nm = 10e-3um for routing.
-        start_straight_length: straight length at the beginning of the route.
-        end_straight_length: end length at the beginning of the route.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
-        cladding_layers: list of layers to extrude.
-        cladding_offsets: list of offset from main Section edge.
-        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
-                All points that can be removed without changing the resulting. \
-                polygon by more than the value listed here will be removed.
-        info: settings info.
-        decorator: function to run when converting path to component.
-        add_pins: optional function to add pins to component.
-        add_bbox: optional function to add bounding box to component.
 
     .. plot::
         :include-source:
@@ -603,21 +471,19 @@ def slot(
     rail_width = (width - slot_width) / 2
     rail_offset = (rail_width + slot_width) / 2
 
-    sections = kwargs.pop("sections", [])
-    sections += [
+    sections = sections or ()
+    sections += (
         Section(width=rail_width, offset=rail_offset, layer=layer, name="left_rail"),
         Section(width=rail_width, offset=-rail_offset, layer=layer, name="right rail"),
-    ]
+    )
 
     return strip(
         width=width,
         layer=None,
-        sections=tuple(sections),
-        **kwargs,
+        sections=sections,
     )
 
 
-@xsection
 def rib_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
@@ -626,6 +492,8 @@ def rib_with_trenches(
     layer: LayerSpec | None = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
     wg_marking_layer: LayerSpec | None = None,
+    sections: tuple[Section, ...] | None = None,
+    info: dict[str, Any] | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of rib waveguide defined by trenches.
@@ -671,7 +539,7 @@ def rib_with_trenches(
     """
     trench_offset = width / 2 + width_trench / 2
 
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or ())
     sections += [
         Section(width=width_slab, layer=layer, name="slab", simplify=simplify_slab)
     ]
@@ -682,15 +550,24 @@ def rib_with_trenches(
         for i, offset in enumerate([+trench_offset, -trench_offset])
     ]
 
+    info = info or {}
+    info.update(
+        dict(
+            layer_trench=layer_trench,
+            width=width,
+            width_trench=width_trench,
+            width_slab=width_slab,
+            wg_marking_layer=wg_marking_layer,
+        )
+    )
+
     return CrossSection(
-        width=width,
-        layer=wg_marking_layer,
         sections=tuple(sections),
+        info=info,
         **kwargs,
     )
 
 
-@xsection
 def l_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
@@ -699,6 +576,8 @@ def l_with_trenches(
     layer_trench: LayerSpec = "DEEP_ETCH",
     mirror: bool = False,
     wg_marking_layer: LayerSpec | None = None,
+    sections: tuple[Section, ...] | None = None,
+    info: dict[str, Any] | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of l waveguide defined by trenches.
@@ -744,22 +623,32 @@ def l_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
-    # width_slab = max(width_slab, width + width_trench)
 
     mult = 1 if mirror else -1
     trench_offset = mult * (width / 2 + width_trench / 2)
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or ())
     sections += [
         Section(
-            width=width_slab, layer=layer, offset=mult * (width_slab / 2 - width / 2)
+            width=width_slab,
+            layer=layer,
+            offset=mult * (width_slab / 2 - width / 2),
         )
     ]
     sections += [Section(width=width_trench, offset=trench_offset, layer=layer_trench)]
+    info = info or {}
+    info.update(
+        dict(
+            layer_trench=layer_trench,
+            width=width,
+            width_trench=width_trench,
+            width_slab=width_slab,
+            wg_marking_layer=wg_marking_layer,
+        )
+    )
 
     return CrossSection(
-        width=width,
-        layer=wg_marking_layer,
         sections=tuple(sections),
+        info=info,
         **kwargs,
     )
 
@@ -788,7 +677,6 @@ heater_metal = partial(
     layer="HEATER",
 )
 
-metal3_with_bend = partial(metal1, layer="M3", radius=10)
 metal_routing = metal3
 npp = partial(metal1, layer="NPP", width=0.5)
 
@@ -797,14 +685,13 @@ metal_slotted = partial(
     width=10,
     offset=0,
     layer="M3",
-    sections=[
+    sections=(
         Section(width=10, layer="M3", offset=11),
         Section(width=10, layer="M3", offset=-11),
-    ],
+    ),
 )
 
 
-@xsection
 def pin(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -819,7 +706,7 @@ def pin(
     layer_via: LayerSpec | None = None,
     via_width: float = 1,
     via_offsets: tuple[float, ...] | None = None,
-    **kwargs,
+    sections: tuple[Section, ...] | None = None,
 ) -> CrossSection:
     """Rib PIN doped cross_section.
 
@@ -827,17 +714,16 @@ def pin(
         width: ridge width.
         layer: ridge layer.
         layer_slab: slab layer.
-        layers_via_stack1: P++ layer.
-        layers_via_stack2: N++ layer.
-        bbox_offsets_via_stack1: for via left.
-        bbox_offsets_via_stack2: for via right.
+        layers_via_stack1: list of bot layer.
+        layers_via_stack2: list of top layer.
+        bbox_offsets_via_stack1: for bot.
+        bbox_offsets_via_stack2: for top.
         via_stack_width: in um.
         via_stack_gap: offset from via_stack to ridge edge.
         slab_gap: extra slab gap (negative: via_stack goes beyond slab).
         layer_via: for via.
         via_width: in um.
         via_offsets: in um.
-        kwargs: other cross_section settings.
 
     https://doi.org/10.1364/OE.26.029983
 
@@ -866,10 +752,10 @@ def pin(
         c = p.extrude(xs)
         c.plot()
     """
+    sections = list(sections or [])
     slab_width = width + 2 * via_stack_gap + 2 * via_stack_width - 2 * slab_gap
     via_stack_offset = width / 2 + via_stack_gap + via_stack_width / 2
 
-    sections = kwargs.pop("sections", [])
     sections += [Section(width=slab_width, layer=layer_slab, name="slab")]
     sections += [
         Section(
@@ -887,7 +773,6 @@ def pin(
         )
         for layer, cladding_offset in zip(layers_via_stack2, bbox_offsets_via_stack2)
     ]
-
     if layer_via and via_width and via_offsets:
         sections += [
             Section(
@@ -902,11 +787,9 @@ def pin(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        **kwargs,
     )
 
 
-@xsection
 def pn(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -928,13 +811,10 @@ def pn(
     layer_metal: LayerSpec | None = None,
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
-    bbox_layers: list[Layer] | None = None,
-    bbox_offsets: list[float] | None = None,
-    cladding_layers: Layers | None = cladding_layers_optical,
-    cladding_offsets: Floats | None = cladding_offsets_optical,
-    cladding_simplify: Floats | None = cladding_simplify_optical,
-    mirror: bool = False,
-    **kwargs,
+    sections: tuple[Section, ...] | None = None,
+    cladding_layers: LayerSpecs | None = None,
+    cladding_offsets: Floats | None = None,
+    cladding_simplify: Floats | None = None,
 ) -> CrossSection:
     """Rib PN doped cross_section.
 
@@ -959,16 +839,12 @@ def pn(
         layer_metal: metal layer.
         width_metal: metal width in um.
         port_names: input and output port names.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
+        sections: optional list of sections.
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
         cladding_simplify: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting\
                 polygon by more than the value listed here will be removed.
-        mirror: if True, reflects all doping sections.
 
     .. code::
 
@@ -1002,7 +878,7 @@ def pn(
     """
     slab = Section(width=width_slab, offset=0, layer=layer_slab)
 
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or [])
     sections += [slab]
     base_offset_low_doping = width_doping / 2 + gap_low_doping / 4
     width_low_doping = width_doping - gap_low_doping / 2
@@ -1082,29 +958,18 @@ def pn(
         sections.append(metal_top)
         sections.append(metal_bot)
 
-    bbox_layers = bbox_layers or []
-    bbox_offsets = bbox_offsets or []
-    for layer_cladding, cladding_offset in zip(bbox_layers, bbox_offsets):
-        s = Section(
-            width=width_slab + 2 * cladding_offset, offset=0, layer=layer_cladding
-        )
-        sections.append(s)
-
-    return strip(
+    return cross_section(
         width=width,
         offset=0,
         layer=layer,
         port_names=port_names,
-        sections=sections,
+        sections=tuple(sections),
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
         cladding_simplify=cladding_simplify,
-        mirror=mirror,
-        **kwargs,
     )
 
 
-@xsection
 def pn_with_trenches(
     width: float = 0.5,
     layer: LayerSpec | None = None,
@@ -1127,13 +992,11 @@ def pn_with_trenches(
     layer_metal: LayerSpec | None = None,
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
-    bbox_layers: list[Layer] | None = None,
-    bbox_offsets: list[float] | None = None,
     cladding_layers: Layers | None = cladding_layers_optical,
     cladding_offsets: Floats | None = cladding_offsets_optical,
     cladding_simplify: Floats | None = cladding_simplify_optical,
-    mirror: bool = False,
     wg_marking_layer: LayerSpec | None = None,
+    sections: Sections | None = None,
     **kwargs,
 ) -> CrossSection:
     """Rib PN doped cross_section.
@@ -1160,16 +1023,11 @@ def pn_with_trenches(
         layer_metal: metal layer.
         width_metal: metal width in um.
         port_names: input and output port names.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
         cladding_simplify: Optional Tolerance value for the simplification algorithm.\
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
-        mirror: if True, reflects all doping sections.
         kwargs: cross_section settings.
 
     .. code::
@@ -1205,7 +1063,7 @@ def pn_with_trenches(
         c.plot()
     """
     trench_offset = width / 2 + width_trench / 2
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or [])
     sections += [Section(width=width_slab, layer=layer)]
     sections += [
         Section(width=width_trench, offset=offset, layer=layer_trench)
@@ -1293,29 +1151,19 @@ def pn_with_trenches(
         sections.append(metal_top)
         sections.append(metal_bot)
 
-    bbox_layers = bbox_layers or []
-    bbox_offsets = bbox_offsets or []
-    for layer_cladding, cladding_offset in zip(bbox_layers, bbox_offsets):
-        s = Section(
-            width=width_slab + 2 * cladding_offset, offset=0, layer=layer_cladding
-        )
-        sections.append(s)
-
     return CrossSection(
         width=width,
         offset=0,
         layer=layer,
         port_names=port_names,
-        sections=sections,
+        sections=tuple(sections),
         cladding_offsets=cladding_offsets,
         cladding_simplify=cladding_simplify,
         cladding_layers=cladding_layers,
-        mirror=mirror,
         **kwargs,
     )
 
 
-@xsection
 def pn_with_trenches_asymmetric(
     width: float = 0.5,
     layer: LayerSpec | None = None,
@@ -1337,11 +1185,8 @@ def pn_with_trenches_asymmetric(
     layer_metal: LayerSpec | None = None,
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
-    bbox_layers: list[Layer] | None = None,
-    bbox_offsets: list[float] | None = None,
     cladding_layers: Layers | None = cladding_layers_optical,
     cladding_offsets: Floats | None = cladding_offsets_optical,
-    mirror: bool = False,
     wg_marking_layer: LayerSpec | None = None,
     **kwargs,
 ) -> CrossSection:
@@ -1374,13 +1219,8 @@ def pn_with_trenches_asymmetric(
         layer_metal: metal layer.
         width_metal: metal width in um.
         port_names: input and output port names.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
-        mirror: if True, reflects all doping sections.
         kwargs: cross_section settings.
 
     .. code::
@@ -1520,14 +1360,6 @@ def pn_with_trenches_asymmetric(
         sections.append(metal_top)
         sections.append(metal_bot)
 
-    bbox_layers = bbox_layers or []
-    bbox_offsets = bbox_offsets or []
-    for layer_cladding, cladding_offset in zip(bbox_layers, bbox_offsets):
-        s = Section(
-            width=width_slab + 2 * cladding_offset, offset=0, layer=layer_cladding
-        )
-        sections.append(s)
-
     return CrossSection(
         width=width,
         offset=0,
@@ -1536,12 +1368,10 @@ def pn_with_trenches_asymmetric(
         sections=sections,
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
-        mirror=mirror,
         **kwargs,
     )
 
 
-@xsection
 def l_wg_doped_with_trenches(
     width: float = 0.5,
     layer: LayerSpec | None = None,
@@ -1560,11 +1390,8 @@ def l_wg_doped_with_trenches(
     layer_metal: LayerSpec | None = None,
     width_metal: float = 1.0,
     port_names: tuple[str, str] = ("o1", "o2"),
-    bbox_layers: list[Layer] | None = None,
-    bbox_offsets: list[float] | None = None,
     cladding_layers: Layers | None = cladding_layers_optical,
     cladding_offsets: Floats | None = cladding_offsets_optical,
-    mirror: bool = False,
     wg_marking_layer: LayerSpec | None = None,
     **kwargs,
 ) -> CrossSection:
@@ -1588,13 +1415,8 @@ def l_wg_doped_with_trenches(
         layer_metal: metal layer.
         width_metal: metal width in um.
         port_names: input and output port names.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
-        mirror: if True, reflects all doping sections.
         wg_marking_layer: layer to mark where the actual guiding section is.
         kwargs: cross_section settings.
 
@@ -1692,16 +1514,6 @@ def l_wg_doped_with_trenches(
         )
         sections.append(metal)
 
-    bbox_layers = bbox_layers or []
-    bbox_offsets = bbox_offsets or []
-    for layer_cladding, cladding_offset in zip(bbox_layers, bbox_offsets):
-        s = Section(
-            width=width_slab + 2 * cladding_offset,
-            offset=0,
-            layer=layer_cladding,
-        )
-        sections.append(s)
-
     return CrossSection(
         width=width,
         offset=0,
@@ -1710,12 +1522,10 @@ def l_wg_doped_with_trenches(
         sections=sections,
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
-        mirror=mirror,
         **kwargs,
     )
 
 
-@xsection
 def strip_heater_metal_undercut(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1724,7 +1534,7 @@ def strip_heater_metal_undercut(
     trench_gap: float = 2.0,
     layer_heater: LayerSpec = "HEATER",
     layer_trench: LayerSpec = "DEEPTRENCH",
-    **kwargs,
+    sections: Sections | None = None,
 ) -> CrossSection:
     """Returns strip cross_section with top metal and undercut trenches on both.
 
@@ -1771,7 +1581,7 @@ def strip_heater_metal_undercut(
         c.plot()
     """
     trench_offset = trench_gap + trench_width / 2 + width / 2
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or [])
     sections += [
         Section(
             layer=layer_heater,
@@ -1786,18 +1596,16 @@ def strip_heater_metal_undercut(
     return strip(
         width=width,
         layer=layer,
-        sections=sections,
-        **kwargs,
+        sections=tuple(sections),
     )
 
 
-@xsection
 def strip_heater_metal(
     width: float = 0.5,
     layer: LayerSpec = "WG",
     heater_width: float = 2.5,
     layer_heater: LayerSpec = "HEATER",
-    **kwargs,
+    sections: Sections | None = None,
 ) -> CrossSection:
     """Returns strip cross_section with top heater metal.
 
@@ -1820,7 +1628,7 @@ def strip_heater_metal(
         c.plot()
     """
 
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or [])
     sections += [
         Section(
             layer=layer_heater,
@@ -1834,11 +1642,10 @@ def strip_heater_metal(
         width=width,
         layer=layer,
         sections=sections,
-        **kwargs,
+        info=dict(heater_width=heater_width),
     )
 
 
-@xsection
 def strip_heater_doped(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1846,6 +1653,7 @@ def strip_heater_doped(
     heater_gap: float = 0.8,
     layers_heater: LayerSpecs = ("WG", "NPP"),
     bbox_offsets_heater: tuple[float, ...] = (0, 0.1),
+    sections: Sections | None = None,
     **kwargs,
 ) -> CrossSection:
     """Returns strip cross_section with N++ doped heaters on both sides.
@@ -1881,7 +1689,7 @@ def strip_heater_doped(
     """
     heater_offset = width / 2 + heater_gap + heater_width / 2
 
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or [])
     sections += [
         Section(
             layer=layer,
@@ -1915,7 +1723,6 @@ strip_heater_doped_via_stack = partial(
 )
 
 
-@xsection
 def rib_heater_doped(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1926,6 +1733,7 @@ def rib_heater_doped(
     slab_gap: float = 0.2,
     with_top_heater: bool = True,
     with_bot_heater: bool = True,
+    sections: Sections | None = None,
     **kwargs,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
@@ -1968,7 +1776,10 @@ def rib_heater_doped(
         slab_width = width + heater_gap + heater_width + slab_gap
         slab_offset = +slab_width / 2
 
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or [])
+    sections += [
+        Section(width=slab_width, layer=layer_slab, offset=slab_offset, name="slab")
+    ]
 
     if with_bot_heater:
         sections += [
@@ -1978,9 +1789,6 @@ def rib_heater_doped(
         sections += [
             Section(layer=layer_heater, width=heater_width, offset=-heater_offset)
         ]
-    sections += [
-        Section(width=slab_width, layer=layer_slab, offset=slab_offset, name="slab")
-    ]
     return strip(
         width=width,
         layer=layer,
@@ -1989,7 +1797,6 @@ def rib_heater_doped(
     )
 
 
-@xsection
 def rib_heater_doped_via_stack(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -2005,7 +1812,7 @@ def rib_heater_doped_via_stack(
     slab_offset: float = 0,
     with_top_heater: bool = True,
     with_bot_heater: bool = True,
-    **kwargs,
+    sections: Sections | None = None,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
 
@@ -2064,7 +1871,7 @@ def rib_heater_doped_via_stack(
 
     heater_offset = width / 2 + heater_gap + heater_width / 2
     via_stack_offset = width / 2 + via_stack_gap + via_stack_width / 2
-    sections = kwargs.pop("sections", [])
+    sections = list(sections or [])
     sections += [
         Section(width=slab_width, layer=layer_slab, offset=slab_offset, name="slab"),
     ]
@@ -2110,11 +1917,9 @@ def rib_heater_doped_via_stack(
         sections=tuple(sections),
         width=width,
         layer=layer,
-        **kwargs,
     )
 
 
-@xsection
 def pn_ge_detector_si_contacts(
     width_si: float = 6.0,
     layer_si: LayerSpec = "WG",
@@ -2134,10 +1939,9 @@ def pn_ge_detector_si_contacts(
     width_via: float = 1.0,
     layer_metal: LayerSpec | None = None,
     port_names: tuple[str, str] = ("o1", "o2"),
-    bbox_layers: list[Layer] | None = None,
-    bbox_offsets: list[float] | None = None,
     cladding_layers: Layers | None = cladding_layers_optical,
     cladding_offsets: Floats | None = cladding_offsets_optical,
+    cladding_simplify: Floats | None = None,
 ) -> CrossSection:
     """Linear Ge detector cross section based on a lateral p(i)n junction.
 
@@ -2159,7 +1963,7 @@ def pn_ge_detector_si_contacts(
         gap_low_doping: from waveguide center to low doping.
         gap_medium_doping: from waveguide center to medium doping. None removes it.
         gap_high_doping: from center to high doping. None removes it.
-        width_doping: distance from waveguide center to the edge of the p (or n) doping in um.
+        width_doping: distance from waveguide center to doping edge in um.
         layer_p: p doping layer.
         layer_pp: p+ doping layer.
         layer_ppp: p++ doping layer.
@@ -2169,11 +1973,12 @@ def pn_ge_detector_si_contacts(
         layer_via: via layer.
         width_via: via width in um.
         layer_metal: metal layer.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
         port_names: for input and output ('o1', 'o2').
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
+        cladding_layers: list of layers to extrude.
+        cladding_offsets: list of offset from main Section edge.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm. \
+                All points that can be removed without changing the resulting. \
+                polygon by more than the value listed here will be removed.
 
     .. code::
 
@@ -2207,16 +2012,29 @@ def pn_ge_detector_si_contacts(
         import gdsfactory as gf
 
         xs = gf.cross_section.pn()
-        p = gf.path.arc(radius=10, angle=45)
+        p = gf.path.straight()
         c = p.extrude(xs)
         c.plot()
     """
     width_low_doping = width_doping - gap_low_doping
     offset_low_doping = width_low_doping / 2 + gap_low_doping
 
+    s = Section(width=width_si, offset=0, layer=layer_si, port_names=port_names)
     n = Section(width=width_low_doping, offset=+offset_low_doping, layer=layer_n)
     p = Section(width=width_low_doping, offset=-offset_low_doping, layer=layer_p)
-    sections = [n, p]
+
+    sections = [s, n, p]
+
+    cladding_layers = cladding_layers or ()
+    cladding_offsets = cladding_offsets or ()
+    cladding_simplify = cladding_simplify or (None,) * len(cladding_layers)
+    sections += [
+        Section(width=width_si + 2 * offset, layer=layer, simplify=simplify)
+        for layer, offset, simplify in zip(
+            cladding_layers, cladding_offsets, cladding_simplify
+        )
+    ]
+
     if gap_medium_doping is not None:
         width_medium_doping = width_doping - gap_medium_doping
         offset_medium_doping = width_medium_doping / 2 + gap_medium_doping
@@ -2265,36 +2083,20 @@ def pn_ge_detector_si_contacts(
             port_names=("e1_bot", "e2_bot"),
         )
         sections.extend((metal_top, metal_bot))
-    bbox_layers = bbox_layers or []
-    bbox_offsets = bbox_offsets or []
-    for layer_cladding, cladding_offset in zip(bbox_layers, bbox_offsets):
-        s = Section(
-            width=width_si + 2 * cladding_offset, offset=0, layer=layer_cladding
-        )
-        sections.append(s)
 
     # Add the Ge
     s = Section(width=width_ge, offset=0, layer=layer_ge)
     sections.append(s)
 
     return CrossSection(
-        width=width_si,
-        offset=0,
-        layer=layer_si,
-        port_names=port_names,
         sections=sections,
-        cladding_offsets=cladding_offsets,
-        cladding_layers=cladding_layers,
     )
 
 
-CrossSectionFactory = Callable[..., CrossSection]
-
-
-def get_cross_section_factories(
-    modules, verbose: bool = False
-) -> dict[str, CrossSectionFactory]:
-    """Returns cross_section factories from a module or list of modules.
+def get_cross_sections(
+    modules: list[str], verbose: bool = False
+) -> dict[str, CrossSection]:
+    """Returns cross_sections from a module or list of modules.
 
     Args:
         modules: module or iterable of modules.
@@ -2305,62 +2107,46 @@ def get_cross_section_factories(
     xs = {}
     for module in modules:
         for t in getmembers(module):
-            if callable(t[1]) and t[0] != "partial":
-                try:
-                    r = inspect.signature(t[1]).return_annotation
-                    if r == CrossSection or (
-                        isinstance(r, str) and r.endswith("CrossSection")
-                    ):
-                        xs[t[0]] = t[1]
-                except ValueError:
-                    if verbose:
-                        print(f"error in {t[0]}")
+            if isinstance(t[1], CrossSection):
+                xs[t[0]] = t[1]
     return xs
 
 
-cross_sections = get_cross_section_factories(sys.modules[__name__])
+xs_sc = strip()
+xs_sc_auto_widen = strip_auto_widen()
+xs_sc_no_pins = strip_no_pins()
 
+xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
+xs_rc2 = rib2()
+xs_rc_bbox = rib_bbox()
 
-def test_copy() -> None:
-    import gdsfactory as gf
+xs_sc_rc_tip = strip_rib_tip()
+xs_sc_heater_metal = strip_heater_metal()
+xs_sc_heater_metal_undercut = strip_heater_metal_undercut()
+xs_slot = slot()
+xs_heater_metal = heater_metal()
+xs_m1 = metal1()
+xs_m2 = metal2()
+xs_m3 = metal3()
+xs_m3_bend = metal3(radius=10)
+xs_metal_routing = xs_m3
+xs_rc_with_trenches = rib_with_trenches()
 
-    p = gf.path.straight()
-    copied_cs = gf.cross_section.strip().copy()
-    gf.path.extrude(p, cross_section=copied_cs)
+xs_pin = pin()
+xs_npp = npp()
+
+cross_sections = get_cross_sections(sys.modules[__name__])
 
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    xs = gf.cross_section.pin(
-        width=0.5,
-        # gap_low_doping=0.05,
-        # width_doping=2.0,
-        # offset_low_doping=0,
-        mirror=False,
+    xs = gf.cross_section.strip(
+        cladding_layers=[(2, 0)],
+        cladding_offsets=[3],
     )
-    # xs = pn_with_trenches(width=0.3)
-    # xs = slot(width=0.3)
-    # xs = rib_with_trenches()
-    p = gf.path.straight()
-    # c = p.extrude(xs)
-    # xs = l_with_trenches(
-    #     width=0.5,
-    #     width_trench=2.0,
-    #     width_slab=7.0,
-    # )
+    print(xs.name)
     # p = gf.path.straight()
     # c = p.extrude(xs)
-    # xs = l_wg_doped_with_trenches(
-    #     layer="WG", width=0.5, width_trench=2.0, width_slab=7.0, gap_low_doping=0.1
-    # )
-    # p = gf.path.straight()
-    # c = p.extrude(cross_section=xs)
-    # xs = rib_with_trenches() # FIXME
-    # c = gf.components.straight(cross_section=xs)
-    # c = gf.components.straight(cross_section="strip")
-
-    # xs = l_wg()
-    # p = gf.path.straight()
-    c = p.extrude(xs)
-    c.show(show_ports=True)
+    c = gf.c.straight()
+    c.show()

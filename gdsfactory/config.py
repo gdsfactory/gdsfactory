@@ -13,6 +13,7 @@ import subprocess
 import sys
 import tempfile
 import traceback
+from enum import Enum, auto
 from itertools import takewhile
 from pathlib import Path
 from pprint import pprint
@@ -21,6 +22,7 @@ from typing import Any, Literal
 import loguru
 import yaml
 from loguru import logger as logger
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich.console import Console
 from rich.table import Table
@@ -67,6 +69,12 @@ pdks = [
     "ubcpdk",
     "gvtt",
 ]
+
+
+class ErrorType(Enum):
+    ERROR = auto()
+    WARNING = auto()
+    IGNORE = auto()
 
 
 def print_version_plugins() -> None:
@@ -198,6 +206,14 @@ class Settings(BaseSettings):
     pdk: str | None = None
     difftest_ignore_cell_name_differences: bool = True
     layer_error_path: tuple[int, int] = (1000, 0)
+    ports_off_grid: Literal["warn", "error", "ignore"] = Field(
+        default="warn", description="Ensures ports are on grid."
+    )
+    ports_not_manhattan: Literal["warn", "error", "ignore"] = Field(
+        default="warn", description="Ensures ports are manhattan."
+    )
+    enforce_ports_on_grid: bool = True
+    bend_radius_error_type: ErrorType = ErrorType.WARNING
 
     @classmethod
     def from_config(cls) -> Settings:
@@ -304,6 +320,18 @@ def get_git_hash():
             )
     except subprocess.CalledProcessError:
         return "not_a_git_repo"
+
+
+def enable_off_grid_ports() -> None:
+    CONF.enforce_ports_on_grid = False
+    CONF.ports_off_grid = "ignore"
+    CONF.ports_not_manhattan = "ignore"
+
+
+def disable_off_grid_ports(error_type: str = "warn") -> None:
+    CONF.enforce_ports_on_grid = True
+    CONF.ports_off_grid = error_type
+    CONF.ports_not_manhattan = error_type
 
 
 def set_plot_options(
