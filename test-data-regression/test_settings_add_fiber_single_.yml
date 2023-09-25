@@ -75,7 +75,7 @@ ports:
   top_l_e1:
     center:
     - -23.25
-    - 29.5
+    - 29.6
     layer:
     - 49
     - 0
@@ -87,7 +87,7 @@ ports:
   top_l_e2:
     center:
     - -28.75
-    - 35.0
+    - 35.1
     layer:
     - 49
     - 0
@@ -99,7 +99,7 @@ ports:
   top_l_e3:
     center:
     - -23.25
-    - 40.5
+    - 40.6
     layer:
     - 49
     - 0
@@ -111,7 +111,7 @@ ports:
   top_l_e4:
     center:
     - -17.75
-    - 35.0
+    - 35.1
     layer:
     - 49
     - 0
@@ -123,7 +123,7 @@ ports:
   top_r_e1:
     center:
     - -23.25
-    - 86.6
+    - 86.5
     layer:
     - 49
     - 0
@@ -135,7 +135,7 @@ ports:
   top_r_e2:
     center:
     - -28.75
-    - 92.1
+    - 92.0
     layer:
     - 49
     - 0
@@ -147,7 +147,7 @@ ports:
   top_r_e3:
     center:
     - -23.25
-    - 97.6
+    - 97.5
     layer:
     - 49
     - 0
@@ -159,7 +159,7 @@ ports:
   top_r_e4:
     center:
     - -17.75
-    - 92.1
+    - 92.0
     layer:
     - 49
     - 0
@@ -216,7 +216,7 @@ settings:
         bend:
           function: bend_euler
         combiner: null
-        cross_section: strip
+        cross_section: xs_sc
         cross_section_x_bot: null
         cross_section_x_top: null
         delta_length: 10.0
@@ -241,7 +241,7 @@ settings:
           function: bend_euler
         combiner:
           function: mmi2x2
-        cross_section: strip
+        cross_section: xs_sc
         cross_section_x_bot: null
         cross_section_x_top: null
         delta_length: 10.0
@@ -301,7 +301,7 @@ settings:
     component:
       function: straight
     component_name: null
-    cross_section: strip
+    cross_section: xs_sc
     fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_function:
@@ -343,7 +343,7 @@ settings:
           function: mmi2x2
         straight_x_top: straight_heater_metal
     component_name: null
-    cross_section: strip
+    cross_section: xs_sc
     fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_function:

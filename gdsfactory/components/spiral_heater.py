@@ -14,12 +14,12 @@ from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Floats
 @gf.cell
 def spiral_racetrack(
     min_radius: float = 5,
-    straight_length: float = 10.0,
+    straight_length: float = 20.0,
     spacings: Floats = (2, 2, 3, 3, 2, 2),
     straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     cross_section_s: CrossSectionSpec | None = None,
     n_bend_points: int | None = None,
     with_inner_ports: bool = False,
@@ -119,7 +119,7 @@ def spiral_racetrack_fixed_length(
     straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     cross_section_s: CrossSectionSpec | None = None,
     n_bend_points: int | None = None,
     with_inner_ports: bool = False,
@@ -234,8 +234,8 @@ def _req_straight_len(
     spacings: Floats = (1.0, 1.0),
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
-    cross_section: CrossSectionSpec = "strip",
-    cross_section_s_bend: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section_s_bend: CrossSectionSpec = "xs_sc",
 ) -> float:
     """Returns geometrical parameters to make a spiral of a given length.
 
@@ -323,8 +323,8 @@ def spiral_racetrack_heater_metal(
     straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
-    waveguide_cross_section: CrossSectionSpec = "strip",
-    heater_cross_section: CrossSectionSpec = "heater_metal",
+    waveguide_cross_section: CrossSectionSpec = "xs_sc",
+    heater_cross_section: CrossSectionSpec = "xs_heater_metal",
 ) -> Component:
     """Returns spiral racetrack with a heater above.
 
@@ -393,8 +393,8 @@ def spiral_racetrack_heater_doped(
     straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
-    waveguide_cross_section: CrossSectionSpec = "strip",
-    heater_cross_section: CrossSectionSpec = "npp",
+    waveguide_cross_section: CrossSectionSpec = "xs_sc",
+    heater_cross_section: CrossSectionSpec = "xs_npp",
 ) -> Component:
     """Returns spiral racetrack with a heater between the loops.
 
@@ -453,36 +453,12 @@ def test_length_spiral_racetrack() -> None:
     import numpy as np
 
     length = 1000
-    c = spiral_racetrack_fixed_length(length=length, cross_section="strip_no_pins")
+    c = spiral_racetrack_fixed_length(length=length, cross_section="xs_sc_no_pins")
     length_computed = c.area() / 0.5
     np.isclose(length, length_computed)
 
 
-@gf.cell
-def spiral_slab(cross_section="strip", layer_slab=(3, 0), cladding_offset=3, **kwargs):
-    xs = gf.get_cross_section(cross_section)
-    xs_slab = gf.CrossSection(layer=layer_slab, width=xs.width + cladding_offset)
-
-    c = gf.Component()
-
-    o = 2.5
-    s1 = spiral_racetrack(cross_section=cross_section, **kwargs)
-    s2 = (
-        spiral_racetrack(cross_section=xs_slab, **kwargs)
-        .offset(+o)
-        .offset(-o, layer=(2, 0))
-    )
-
-    ref = c << s1
-    c << s2
-
-    c.copy_child_info(s1)
-    c.add_ports(ref.ports)
-    return c
-
-
 if __name__ == "__main__":
-    # c = spiral_racetrack(cross_section="rib_conformal", cache=False)
-
-    c = spiral_slab(cache=False)
+    # c = spiral_racetrack(cross_section="xs_rc")
+    c = spiral_racetrack()
     c.show(show_ports=True)

@@ -1,5 +1,5 @@
 import yaml
-from pydantic.color import Color
+from pydantic_extra_types.color import Color
 
 from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
 

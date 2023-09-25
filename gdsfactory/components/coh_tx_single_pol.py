@@ -10,7 +10,7 @@ default_mzm = dict(
     component="mzi",
     settings=dict(
         straight_x_top="straight_pin",
-        cross_section_x_top="pin",
+        cross_section_x_top="xs_pin",
         delta_length=10.0,
     ),
 )
@@ -32,7 +32,7 @@ def coh_tx_single_pol(
     input_coupler: ComponentSpec | None = None,
     output_coupler: ComponentSpec | None = None,
     pad_array: ComponentSpec = "pad_array",
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """MZM-based single polarization coherent transmitter.

@@ -4,6 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.cross_section import strip
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpec
 
 
@@ -11,7 +12,7 @@ from gdsfactory.typings import ComponentSpec, Floats, LayerSpec
 def straight_heater_meander(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.typings.CrossSectionSpec = "strip",
+    cross_section: gf.typings.CrossSectionSpec = strip,
     heater_width: float = 2.5,
     extension_length: float = 15.0,
     layer_heater: LayerSpec = "HEATER",
@@ -42,7 +43,7 @@ def straight_heater_meander(
         port_orientation1: in degrees. None adds all orientations.
         port_orientation2: in degrees. None adds all orientations.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
-        straight_width: width of the straight section.
+        straight_widths: widths of the straight sections.
         taper_length: from the cross_section.
     """
     rows = len(straight_widths)
@@ -201,39 +202,12 @@ def straight_heater_meander(
 
 
 if __name__ == "__main__":
-    # rows = 3
-    # length = 300.0
-    # spacing = 3
-
-    # c = gf.Component()
-    # p1 = gf.Port(center=(0, 0), orientation=0)
-    # p2 = gf.Port(center=(0, spacing), orientation=0)
-    # route = gf.routing.get_route(p1, p2)
-    # straight_length = gf.snap.snap_to_grid((length - (rows - 1) * route.length) / rows)
-    # straight_array = c << gf.components.array(spacing=(0, spacing), columns=1, rows=rows)
-
-    # for row in range(1, rows, 2):
-    #     route = gf.routing.get_route(
-    #         straight_array.ports[f"o2_{row+1}_1"], straight_array.ports[f"o2_{row}_1"]
-    #     )
-    #     c.add(route.references)
-
-    #     route = gf.routing.get_route(
-    #         straight_array.ports[f"o1_{row+1}_1"], straight_array.ports[f"o1_{row+2}_1"]
-    #     )
-    #     c.add(route.references)
-
-    # c.add_port("o1", port=straight_array.ports["o1_1_1"])
-    # c.add_port("o2", port=straight_array.ports[f"o2_{rows}_1"])
-
     c = straight_heater_meander(
-        straight_widths=(0.5,) * 7,
+        # straight_widths=(0.5,) * 7,
         taper_length=10,
         # taper_length=10,
-        length=1000,
+        # length=1000,
         # port_orientation1=0
         # cross_section=partial(gf.cross_section.strip, width=0.8),
     )
     c.show(show_ports=True)
-    # scene = c.to_3d()
-    # scene.show()

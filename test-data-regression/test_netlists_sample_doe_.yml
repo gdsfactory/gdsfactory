@@ -10,7 +10,7 @@ instances:
             width_mmi: 10
           child: null
           default:
-            cross_section: strip
+            cross_section: xs_sc
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10.0
@@ -23,7 +23,7 @@ instances:
             width_taper: 1.0
             with_bbox: true
           full:
-            cross_section: strip
+            cross_section: xs_sc
             gap_mmi: 0.25
             length_mmi: 100
             length_taper: 10.0
@@ -46,7 +46,7 @@ instances:
             width_mmi: 4
           child: null
           default:
-            cross_section: strip
+            cross_section: xs_sc
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10.0
@@ -59,7 +59,7 @@ instances:
             width_taper: 1.0
             with_bbox: true
           full:
-            cross_section: strip
+            cross_section: xs_sc
             gap_mmi: 0.25
             length_mmi: 100
             length_taper: 10.0
@@ -82,7 +82,7 @@ instances:
             width_mmi: 10
           child: null
           default:
-            cross_section: strip
+            cross_section: xs_sc
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10.0
@@ -95,7 +95,7 @@ instances:
             width_taper: 1.0
             with_bbox: true
           full:
-            cross_section: strip
+            cross_section: xs_sc
             gap_mmi: 0.25
             length_mmi: 2
             length_taper: 10.0
@@ -118,7 +118,7 @@ instances:
             width_mmi: 4
           child: null
           default:
-            cross_section: strip
+            cross_section: xs_sc
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10.0
@@ -131,7 +131,7 @@ instances:
             width_taper: 1.0
             with_bbox: true
           full:
-            cross_section: strip
+            cross_section: xs_sc
             gap_mmi: 0.25
             length_mmi: 2
             length_taper: 10.0
@@ -158,7 +158,7 @@ instances:
         - 4
         - 10
       spacing: 100
-name: mask_8d17f522
+name: mask_93e227fa
 placements:
   mmi1x2_sweep:
     mirror: 0

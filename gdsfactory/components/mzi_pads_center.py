@@ -25,8 +25,8 @@ def mzi_pads_center(
     pad_gnd_bot: str = "e4_1_2",
     pad_gnd_top: str = "e2_1_2",
     delta_length: float = 40.0,
-    cross_section: CrossSectionSpec = "strip",
-    cross_section_metal: CrossSectionSpec = "metal_routing",
+    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section_metal: CrossSectionSpec = "xs_metal_routing",
     pad_spacing: float | str = "pad_spacing",
     **kwargs,
 ) -> gf.Component:

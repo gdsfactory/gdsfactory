@@ -205,3 +205,10 @@ if __name__ == "__main__":
         filepath_out = pathlib.Path(filepath_out)
         filepath_out.write_text(script)
     return script
+
+
+if __name__ == "__main__":
+    from gdsfactory.samples.pdk.fab_c import pdk
+
+    yaml_pdk_decription = pdk.to_updk()
+    gdsfactory_script = from_updk(yaml_pdk_decription)

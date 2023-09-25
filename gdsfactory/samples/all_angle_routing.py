@@ -28,8 +28,11 @@ def get_yaml_pics():
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
     from gdsfactory import grid
     from gdsfactory.pdk import get_active_pdk
+
+    gf.config.enable_off_grid_ports()
 
     # IMPORTANT: always use this gds write flag when using non-manhattan features
     get_active_pdk().gds_write_settings.flatten_invalid_refs = True
@@ -39,5 +42,5 @@ if __name__ == "__main__":
     # get all the render-able pics: those with "error" in the name intentionally demonstrate errors
     good_pics = [pic for pic_name, pic in pics.items() if "error" not in pic_name]
     c = grid(good_pics)
-
+    c = c.flatten_invalid_refs()
     c.show(show_ports=True)

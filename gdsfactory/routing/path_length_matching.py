@@ -25,7 +25,7 @@ def path_length_matched_points(
     extra_length: float = 0.0,
     nb_loops: int = 1,
     bend: ComponentSpec = bend_euler,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     **kwargs,
 ) -> list[ndarray]:
     """Several types of paths won't match correctly. We do not try to handle all the corner cases here. You will need to modify the input list of waypoints in some cases.
@@ -150,7 +150,7 @@ def path_length_matched_points_add_waypoints(
     margin: float = 0.0,
     extra_length: float = 0.0,
     nb_loops: int = 1,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     **kwargs,
 ) -> list[ndarray]:
     """Args are the following.

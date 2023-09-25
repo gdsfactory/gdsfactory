@@ -118,7 +118,7 @@ settings:
     taper:
       function: taper
       settings:
-        cross_section: strip
+        cross_section: xs_sc
         length: 20.0
         width1: 0.5
         width2: 0.8
@@ -152,7 +152,7 @@ settings:
     taper:
       function: taper
       settings:
-        cross_section: strip
+        cross_section: xs_sc
         length: 20.0
         width1: 0.5
         width2: 0.8

@@ -60,7 +60,7 @@ def add_tapers(
 
 if __name__ == "__main__":
     c0 = gf.components.straight(width=2, cross_section=gf.cross_section.rib)
-    xs_rib_tip = gf.cross_section.strip_rib_tip
+    xs_rc_tip = gf.cross_section.strip_rib_tip
 
-    c1 = add_tapers(c0, cross_section2=xs_rib_tip, linear=True)
+    c1 = add_tapers(c0, cross_section2=xs_rc_tip, linear=True)
     c1.show()

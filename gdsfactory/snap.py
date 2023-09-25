@@ -1,13 +1,16 @@
 """snaps values and coordinates to the GDS grid in nm."""
 from __future__ import annotations
 
+import warnings
 from functools import partial
 
 import numpy as np
 
+Value = float | tuple | np.ndarray
+
 
 def is_on_grid(
-    x: float,
+    x: Value,
     nm: int | None = None,
     grid_factor: int = 1,
 ) -> bool:
@@ -16,14 +19,23 @@ def is_on_grid(
     )
 
 
-assert_on_1nm_grid = partial(is_on_grid, nm=1)
-assert_on_2nm_grid = partial(is_on_grid, nm=2)
+def warn_if_not_on_grid(x: Value) -> None:
+    if not is_on_grid(x):
+        warnings.warn(f"{x} is not on grid", stacklevel=2)
 
 
-def assert_on_grid(x: float) -> None:
-    x_grid = snap_to_grid(x)
+def assert_on_grid(
+    x: Value,
+    nm: int | None = None,
+    grid_factor: int = 1,
+) -> None:
+    x_grid = snap_to_grid(x, nm=nm, grid_factor=grid_factor)
     if not np.isclose(x_grid, x):
         raise ValueError(f"{x} needs to be on 1nm grid and should be {x_grid}")
+
+
+assert_on_1nm_grid = partial(assert_on_grid, nm=1)
+assert_on_2nm_grid = partial(assert_on_grid, nm=2)
 
 
 def assert_on_2x_grid(x: float) -> None:
@@ -33,10 +45,10 @@ def assert_on_2x_grid(x: float) -> None:
 
 
 def snap_to_grid(
-    x: float | tuple | np.ndarray,
+    x: Value,
     nm: int | None = None,
     grid_factor: int = 1,
-) -> float | tuple | np.ndarray:
+) -> Value:
     """snap x to grid_sizes
 
     Args:

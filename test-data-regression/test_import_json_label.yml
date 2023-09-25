@@ -7,7 +7,7 @@ analysis_settings:
       component:
         component: straight
         settings:
-          cross_section: strip_no_pins
+          cross_section: xs_sc_no_pins
           decorator:
             function: add_pins_siepic
   decorator:
@@ -18,7 +18,7 @@ analysis_settings:
 doe: null
 measurement: null
 measurement_settings: {}
-name: straight_aa0e8b9c_move_34b9bad8_add_fiber_single_ca0be452_rotate_66e80ecc
+name: straight_7688267d_move_33512259_add_fiber_single_91204c7e_rotate_39dea194
 xelec: []
 xopt: []
 yelec: []

@@ -52,7 +52,7 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section: strip
+    cross_section: xs_sc
     edge_coupler:
       function: taper
       settings:
@@ -72,7 +72,7 @@ settings:
     text_rotation: 0
     x_reflection: false
   full:
-    cross_section: strip
+    cross_section: xs_sc
     edge_coupler:
       function: taper
       settings:

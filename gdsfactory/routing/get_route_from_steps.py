@@ -24,12 +24,12 @@ def get_route_from_steps(
     steps: list[Step] | None = None,
     bend: ComponentSpec = "bend_euler",
     taper: ComponentSpec | None = "taper",
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints steps.
 
-    Uses smooth euler bends instead of corners and optionally tapers in straight sections.
+    Uses smooth euler bends instead of corners and tapers in straight sections.
     Tapering to wider straights reduces the optical loss when auto_widen=True.
     `get_route_from_steps` is a manual version of `get_route`
     and a more concise and convenient version of `get_route_from_waypoints`
@@ -100,8 +100,18 @@ def get_route_from_steps(
     waypoints += [(x2, y2)]
     waypoints = np.array(waypoints)
 
-    if not isinstance(cross_section, list):
-        x = gf.get_cross_section(cross_section, **kwargs)
+    if isinstance(cross_section, list | tuple):
+        xs_list = []
+        for element in cross_section:
+            xs, angles = element
+            xs = gf.get_cross_section(xs)
+            xs = xs.copy(**kwargs)  # Shallow copy
+            xs_list.append((xs, angles))
+        cross_section = xs_list
+
+    else:
+        cross_section = gf.get_cross_section(cross_section)
+        x = cross_section = cross_section.copy(**kwargs)
         auto_widen = x.auto_widen
 
         if auto_widen:
@@ -115,8 +125,6 @@ def get_route_from_steps(
             )
         else:
             taper = None
-    else:
-        taper = None
 
     return round_corners(
         points=waypoints,
@@ -129,7 +137,7 @@ def get_route_from_steps(
 
 
 get_route_from_steps_electrical = partial(
-    get_route_from_steps, bend="wire_corner", taper=None, cross_section="metal3"
+    get_route_from_steps, bend="wire_corner", taper=None, cross_section="xs_m3"
 )
 
 get_route_from_steps_electrical_multilayer = partial(
@@ -138,15 +146,15 @@ get_route_from_steps_electrical_multilayer = partial(
     taper=None,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        ("metal_routing", (0, 180)),
+        ("xs_metal_routing", (0, 180)),
     ],
 )
 
 
-@gf.cell
-def test_route_from_steps() -> gf.Component:
-    c = gf.Component("get_route_from_steps_sample")
-    w = gf.components.straight()
+def test_route_from_steps():
+    c = gf.Component()
+    layer = (2, 0)
+    w = gf.components.straight(layer=layer)
     left = c << w
     right = c << w
     right.move((100, 80))
@@ -169,6 +177,7 @@ def test_route_from_steps() -> gf.Component:
             {"x": 120, "y": 20},
             {"x": 120, "y": 80},
         ],
+        layer=layer,
     )
 
     length = 186.548
@@ -183,7 +192,7 @@ def test_route_from_steps() -> gf.Component:
             {"x": 120},
             {"y": 80},
         ],
-        layer=(2, 0),
+        layer=layer,
     )
     c.add(route.references)
     assert route.length == length, route.length
@@ -191,7 +200,7 @@ def test_route_from_steps() -> gf.Component:
 
 
 if __name__ == "__main__":
-    # c = test_route_from_steps()
+    test_route_from_steps()
 
     # c = gf.Component("get_route_from_steps_sample")
     # w = gf.components.straight()

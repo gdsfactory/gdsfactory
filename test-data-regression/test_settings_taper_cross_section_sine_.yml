@@ -32,19 +32,7 @@ settings:
     cross_section1:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
-        radius: 20
+        add_pins_function_name: add_pins_inside1nm
         sections:
         - hidden: false
           insets: null
@@ -59,36 +47,7 @@ settings:
           - optical
           simplify: null
           width: 0.2
-    cross_section2:
-      function: cross_section
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: rib
-        name: strip
-        radius: 20
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: 0.05
-          width: 6.0
+    cross_section2: xs_rc
     length: 10
     linear: false
     npoints: 100
@@ -97,19 +56,7 @@ settings:
     cross_section1:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        name: strip
-        radius: 20
+        add_pins_function_name: add_pins_inside1nm
         sections:
         - hidden: false
           insets: null
@@ -124,36 +71,7 @@ settings:
           - optical
           simplify: null
           width: 0.2
-    cross_section2:
-      function: cross_section
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: rib
-        name: strip
-        radius: 20
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: 0.05
-          width: 6.0
+    cross_section2: xs_rc
     length: 10
     linear: false
     npoints: 101

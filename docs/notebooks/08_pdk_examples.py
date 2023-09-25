@@ -353,35 +353,6 @@ def get_layer_stack_fab_c(
 
 LAYER_STACK = get_layer_stack_fab_c()
 
-
-def add_pins(
-    component: Component,
-    function: Callable = add_pin_rectangle_inside,
-    pin_length: float = 0.5,
-    port_layer: Layer = LAYER.PORT,
-    **kwargs,
-) -> Component:
-    """Add Pin port markers.
-
-    Args:
-        component: to add ports.
-        function: to add pins.
-        pin_length: in um.
-        port_layer: spec.
-        kwargs: function kwargs.
-    """
-    for p in component.ports.values():
-        function(
-            component=component,
-            port=p,
-            layer=port_layer,
-            layer_label=port_layer,
-            pin_length=pin_length,
-            **kwargs,
-        )
-    return component
-
-
 # cross_section constants
 bbox_layers = [LAYER.WGN_CLAD]
 bbox_offsets = [3]
@@ -393,7 +364,6 @@ xs_nc = partial(
     layer=LAYER.WGN,
     bbox_layers=bbox_layers,
     bbox_offsets=bbox_offsets,
-    add_pins=add_pins,
 )
 # Nitride Oband
 xs_no = partial(
@@ -402,7 +372,6 @@ xs_no = partial(
     layer=LAYER.WGN,
     bbox_layers=bbox_layers,
     bbox_offsets=bbox_offsets,
-    add_pins=add_pins,
 )
 
 

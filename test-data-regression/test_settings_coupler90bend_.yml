@@ -54,15 +54,15 @@ settings:
   default:
     bend:
       function: bend_euler
-    cross_section_inner: strip
-    cross_section_outer: strip
+    cross_section_inner: xs_sc
+    cross_section_outer: xs_sc
     gap: 0.2
     radius: 10.0
   full:
     bend:
       function: bend_euler
-    cross_section_inner: strip
-    cross_section_outer: strip
+    cross_section_inner: xs_sc
+    cross_section_outer: xs_sc
     gap: 0.2
     radius: 10.0
   function_name: coupler90bend

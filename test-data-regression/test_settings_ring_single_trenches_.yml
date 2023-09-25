@@ -36,7 +36,7 @@ settings:
         function: bend_euler
       coupler_ring:
         function: coupler_ring
-      cross_section: strip
+      cross_section: xs_sc
       gap: 0.2
       length_x: 4.0
       length_y: 0.6
@@ -46,7 +46,7 @@ settings:
         function: bend_euler
       coupler_ring:
         function: coupler_ring
-      cross_section: strip
+      cross_section: xs_sc
       gap: 0.2
       length_x: 4.0
       length_y: 0.6
@@ -60,7 +60,7 @@ settings:
     bot: true
     component:
       function: coupler
-    cross_section: rib_with_trenches
+    cross_section: xs_rc_with_trenches
     left: false
     right: false
     top: true
@@ -68,7 +68,7 @@ settings:
     bot: true
     component:
       function: ring_single
-    cross_section: rib_with_trenches
+    cross_section: xs_rc_with_trenches
     left: false
     right: false
     top: true

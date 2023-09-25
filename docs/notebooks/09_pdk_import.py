@@ -201,9 +201,7 @@ sample_pdk_cells.get_dependencies()
 # %%
 # we write the sample PDK into a single GDS file
 gf.clear_cache()
-gf.write_cells.write_cells(
-    gdspath="extra/pdk.gds", dirpath="extra/gds", recursively=True
-)
+gf.write_cells.write_cells_recursively(gdspath="extra/pdk.gds", dirpath="extra/gds")
 
 # %%
 print(gf.write_cells.get_import_gds_script("extra/gds"))

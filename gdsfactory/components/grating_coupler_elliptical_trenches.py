@@ -26,7 +26,7 @@ def grating_coupler_elliptical_trenches(
     p_start: int = 26,
     n_periods: int = 30,
     end_straight_length: float = 0.2,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     r"""Returns Grating coupler with defined trenches.
@@ -110,6 +110,7 @@ def grating_coupler_elliptical_trenches(
         (xmax + end_straight_length, -y),
         (xmax, -y),
     ]
+    len(pts)
     c.add_polygon(pts, layer)
 
     c.add_port(

@@ -6,7 +6,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentFactory
 
 
 @gf.cell
@@ -21,13 +21,13 @@ def mzit(
     coupler_length2: float = 10.0,
     coupler_gap1: float = 0.2,
     coupler_gap2: float = 0.3,
-    taper: ComponentSpec = taper_function,
+    taper: ComponentFactory = taper_function,
     taper_length: float = 5.0,
-    bend90: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
-    coupler1: ComponentSpec | None = coupler_function,
-    coupler2: ComponentSpec = coupler_function,
-    **kwargs,
+    bend90: ComponentFactory = bend_euler,
+    straight: ComponentFactory = straight_function,
+    coupler1: ComponentFactory | None = coupler_function,
+    coupler2: ComponentFactory = coupler_function,
+    cross_section: str = "xs_sc",
 ) -> Component:
     r"""Mzi tolerant to fabrication variations.
 
@@ -50,7 +50,6 @@ def mzit(
         straight: spec.
         coupler1: coupler1 spec (optional).
         coupler2: coupler2 spec.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -76,62 +75,60 @@ def mzit(
 
     """
     c = gf.Component()
+
+    xs = gf.get_cross_section(cross_section)
+    xs1 = xs.copy(width=w1)
+    xs2 = xs.copy(width=w2)
+
     cp2 = c << coupler2(
         length=coupler_length2,
         gap=coupler_gap2,
         dy=dy,
-        **kwargs,
+        cross_section=cross_section,
     )
 
     # inner arm (w1)
-    t1 = c << gf.get_component(
-        taper,
+    t1 = c << taper(
         width1=w0,
         width2=w1,
         length=taper_length,
-        **kwargs,
+        cross_section=cross_section,
     )
     t1.connect("o1", cp2.ports["o3"])
-    b1t = c << gf.get_component(
-        bend90,
-        width=w1,
-        **kwargs,
+
+    b1t = c << bend90(
+        cross_section=xs1,
     )
-    b1b = c << gf.get_component(
-        bend90,
-        width=w1,
-        **kwargs,
+    b1b = c << bend90(
+        cross_section=xs1,
     )
 
     b1b.connect("o1", t1.ports["o2"])
     b1t.connect("o1", b1b.ports["o2"])
 
-    t3b = c << gf.get_component(
-        taper,
+    t3b = c << taper(
         width1=w1,
         width2=w2,
         length=taper_length,
-        **kwargs,
+        cross_section=cross_section,
     )
     t3b.connect("o1", b1t.ports["o2"])
-    wgs2 = c << gf.get_component(straight, width=w2, length=length, **kwargs)
+    wgs2 = c << straight(length=length, cross_section=xs2)
     wgs2.connect("o1", t3b.ports["o2"])
-    t20i = c << gf.get_component(
-        taper,
+    t20i = c << taper(
         width1=w2,
         width2=w0,
         length=taper_length,
-        **kwargs,
+        cross_section=cross_section,
     )
     t20i.connect("o1", wgs2.ports["o2"])
 
     # outer_arm (w2)
-    t2 = c << gf.get_component(
-        taper,
+    t2 = c << taper(
         width1=w0,
         width2=w2,
         length=taper_length,
-        **kwargs,
+        cross_section=cross_section,
     )
     t2.connect("o1", cp2.ports["o4"])
 
@@ -140,45 +137,39 @@ def mzit(
         delta_length >= 4 * dy
     ), f"`delta_length`={delta_length} needs to be at least {4*dy}"
 
-    wg2b = c << gf.get_component(straight, width=w2, length=dx, **kwargs)
+    wg2b = c << straight(length=dx, cross_section=xs2)
     wg2b.connect("o1", t2.ports["o2"])
 
-    b2t = c << gf.get_component(
-        bend90,
-        width=w2,
-        **kwargs,
-    )
-    b2b = c << gf.get_component(
-        bend90,
-        width=w2,
-        **kwargs,
-    )
+    b2 = bend90(cross_section=xs2)
+    b2t = c << b2
+    b2b = c << b2
+    wy = straight(length=2 * dy, cross_section=xs2)
+    wx = straight(length=dx, cross_section=xs2)
 
     b2b.connect("o1", wg2b.ports["o2"])
+
     # vertical straight
-    wg2y = c << gf.get_component(straight, width=w2, length=2 * dy, **kwargs)
+    wg2y = c << wy
     wg2y.connect("o1", b2b.ports["o2"])
     b2t.connect("o1", wg2y.ports["o2"])
 
-    wg2t = c << gf.get_component(straight, width=w2, length=dx, **kwargs)
+    wg2t = c << wx
     wg2t.connect("o1", b2t.ports["o2"])
 
-    t3t = c << gf.get_component(
-        taper,
+    t3t = c << taper(
         width1=w2,
         width2=w1,
         length=taper_length,
-        **kwargs,
+        cross_section=cross_section,
     )
     t3t.connect("o1", wg2t.ports["o2"])
-    wgs1 = c << gf.get_component(straight, width=w1, length=length, **kwargs)
+    wgs1 = c << straight(length=length, cross_section=xs1)
     wgs1.connect("o1", t3t.ports["o2"])
-    t20o = c << gf.get_component(
-        taper,
+    t20o = c << taper(
         width1=w1,
         width2=w0,
         length=taper_length,
-        **kwargs,
+        cross_section=cross_section,
     )
     t20o.connect("o1", wgs1.ports["o2"])
 
@@ -187,7 +178,7 @@ def mzit(
             length=coupler_length1,
             gap=coupler_gap1,
             dy=dy,
-            **kwargs,
+            cross_section=cross_section,
         )
 
         cp1.connect("o3", t20o.ports["o2"])
@@ -200,14 +191,16 @@ def mzit(
 
     c.add_port("o2", port=cp2.ports["o2"])
     c.add_port("o1", port=cp2.ports["o1"])
+    xs.add_pins(c)
     c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
+    c = mzit()
     # c = mzit(coupler1=None)
     # c = mzit(delta_length=20, layer=(2, 0))
-    c = mzit(delta_length=20)
+    # c = mzit(delta_length=20, cross_section="xs_rc_bbox")
     # c = mzit(delta_length=20, coupler_gap1=0.1, coupler_gap2=0.5)
     # c = mzit(delta_length=20, coupler_gap1=0.5, coupler_gap2=0.1)
     # c = mzit(coupler_length1=200)

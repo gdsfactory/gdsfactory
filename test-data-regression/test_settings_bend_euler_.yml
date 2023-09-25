@@ -28,74 +28,33 @@ settings:
   changed: {}
   child: null
   default:
+    add_pins: true
     angle: 90.0
-    cross_section: strip
+    cross_section: xs_sc
     direction: ccw
+    layer: null
     npoints: null
     p: 0.5
+    radius: null
+    width: null
     with_arc_floorplan: true
-    with_bbox: true
   full:
+    add_pins: true
     angle: 90.0
-    cross_section: strip
+    cross_section: xs_sc
     direction: ccw
+    layer: null
     npoints: null
     p: 0.5
+    radius: null
+    width: null
     with_arc_floorplan: true
-    with_bbox: true
   function_name: bend_euler
   info:
     dy: 10.0
-    function_name: cross_section
     length: 16.637
     radius: 10.0
     radius_min: 7.061
-    route_info:
-      length: 16.637
-      n_bend_90: 1.0
-      strip_length: 16.637
-      type: strip
-      weight: 16.637
-    settings:
-      add_bbox: null
-      add_pins:
-        function: add_pins
-        settings:
-          function:
-            function: add_pin_rectangle_inside
-            settings:
-              layer_label: null
-              pin_length: 0.001
-      auto_widen: false
-      auto_widen_minimum_length: 200.0
-      bbox_layers: null
-      bbox_offsets: null
-      cladding_layers: null
-      cladding_offsets: null
-      cladding_simplify: null
-      decorator: null
-      end_straight_length: 0.01
-      gap: 3.0
-      info:
-        type: strip
-      layer: WG
-      min_length: 0.01
-      mirror: false
-      name: strip
-      offset: 0
-      port_names:
-      - o1
-      - o2
-      port_types:
-      - optical
-      - optical
-      radius: 10.0
-      sections: null
-      start_straight_length: 0.01
-      taper_length: 10.0
-      width: 0.5
-      width_wide: null
-    type: strip
     width: 0.5
   info_version: 2
   module: gdsfactory.components.bend_euler

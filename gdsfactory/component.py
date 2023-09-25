@@ -23,6 +23,7 @@ import numpy as np
 import yaml
 from omegaconf import DictConfig
 
+from gdsfactory import snap
 from gdsfactory.component_layout import (
     Label,
     _align,
@@ -675,10 +676,17 @@ class Component(_GeometryHelper):
 
         return get_netlist_flat(component=self, **kwargs)
 
-    def assert_ports_on_grid(self, grid_factor: int = 1) -> None:
+    def assert_ports_on_grid(
+        self, grid_factor: int = 1, error_type: str = "error"
+    ) -> None:
         """Asserts that all ports are on grid."""
         for port in self.ports.values():
-            port.assert_on_grid(grid_factor=grid_factor)
+            port.assert_on_grid(grid_factor=grid_factor, error_type=error_type)
+
+    def assert_ports_manhattan(self, error_type: str = "error") -> None:
+        """Asserts that all ports are on manhattan angles (0, 90, 180, 270)."""
+        for port in self.ports.values():
+            port.assert_manhattan(error_type=error_type)
 
     def get_ports(self, depth: int | None = 0):
         """Returns copies of all the ports of the Component, rotated and \
@@ -1040,7 +1048,10 @@ class Component(_GeometryHelper):
         return component
 
     def add_polygon(
-        self, points, layer: str | int | tuple[int, int] | np.nan = np.nan
+        self,
+        points,
+        layer: str | int | tuple[int, int] | np.nan = np.nan,
+        snap_to_grid: bool = True,
     ) -> Polygon:
         """Adds a Polygon to the Component.
 
@@ -1080,6 +1091,7 @@ class Component(_GeometryHelper):
             return polygon
         elif hasattr(points, "exterior"):  # points is a shapely Polygon
             return self._add_polygon_shapely(layer, points)
+
         points = np.asarray(points)
         if points.ndim == 1:
             return [self.add_polygon(poly, layer=layer) for poly in points]
@@ -1091,6 +1103,7 @@ class Component(_GeometryHelper):
             if len(points[0]) > 2:
                 # Convert to form [[1,2],[3,4],[5,6]]
                 points = np.column_stack(points)
+            points = snap.snap_to_grid(points) if snap_to_grid else points
             layer, datatype = _parse_layer(layer)
             polygon = Polygon(points, (layer, datatype))
             self._add_polygons(polygon)
@@ -2493,26 +2506,6 @@ def copy_reference(
         v1=v1 or ref.v1,
         v2=v2 or ref.v2,
     )
-
-
-def test_get_layers() -> None:
-    import gdsfactory as gf
-
-    c1 = gf.components.straight(
-        length=10,
-        width=0.5,
-        layer=(2, 0),
-        bbox_layers=[(111, 0)],
-        bbox_offsets=[3],
-        with_bbox=True,
-        cladding_layers=None,
-        add_pins=None,
-        add_bbox=None,
-    )
-    assert c1.get_layers() == {(2, 0), (111, 0)}, c1.get_layers()
-    # return c1
-    c2 = c1.remove_layers([(111, 0)])
-    assert c2.get_layers() == {(2, 0)}, c2.get_layers()
 
 
 def _filter_polys(polygons, layers_excl):

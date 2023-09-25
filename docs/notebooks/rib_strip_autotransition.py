@@ -32,7 +32,7 @@
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.cross_section import rib_conformal, strip
+from gdsfactory.cross_section import xs_rc, strip, rib
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read import cell_from_yaml_template
 from gdsfactory.route_info import route_info
@@ -57,7 +57,7 @@ strip_with_intent = partial(
 )
 
 rib_with_intent = partial(
-    rib_conformal,
+    rib,
     layer="RIB_INTENT",
     cladding_layers=["WG"],  # keeping WG layer is nice for compatibility
     cladding_offsets=[0],
@@ -104,7 +104,7 @@ def rib_to_strip(width1: float = 0.5, width2: float = 0.5):
 # create single-layer taper components
 @gf.cell
 def taper_single_cross_section(
-    cross_section: CrossSectionSpec = "strip", width1: float = 0.5, width2: float = 1.0
+    cross_section: CrossSectionSpec = "xs_sc", width1: float = 0.5, width2: float = 1.0
 ):
     cs1 = gf.get_cross_section(cross_section, width=width1)
     cs2 = gf.get_cross_section(cross_section, width=width2)
@@ -114,8 +114,8 @@ def taper_single_cross_section(
     return c
 
 
-taper_strip = partial(taper_single_cross_section, cross_section="strip")
-taper_rib = partial(taper_single_cross_section, cross_section="rib")
+taper_strip = partial(taper_single_cross_section, cross_section="xs_sc")
+taper_rib = partial(taper_single_cross_section, cross_section="xs_rc")
 
 # make a new PDK with our required layers, cross-sections, and default transitions
 multi_wg_pdk = gf.Pdk(
@@ -126,8 +126,8 @@ multi_wg_pdk = gf.Pdk(
         "STRIP_INTENT": STRIP_INTENT_LAYER,
     },
     cross_sections={
-        "rib": rib_with_intent,
-        "strip": strip_with_intent,
+        "xs_rc": rib_with_intent,
+        "xs_sc": strip_with_intent,
     },
     layer_transitions={
         RIB_INTENT_LAYER: taper_rib,
@@ -142,7 +142,7 @@ multi_wg_pdk = gf.Pdk(
 multi_wg_pdk.activate()
 
 # set to prefer rib routing when there is enough space
-all_angle.LOW_LOSS_CROSS_SECTIONS.insert(0, "rib")
+all_angle.LOW_LOSS_CROSS_SECTIONS.insert(0, "xs_rc")
 
 # %% [markdown]
 # Let's quickly demonstrate our new cross-sections and transition component.
@@ -152,8 +152,8 @@ all_angle.LOW_LOSS_CROSS_SECTIONS.insert(0, "rib")
 strip_width = 1
 rib_width = 0.7
 c = gf.Component()
-strip_wg = c << gf.c.straight(cross_section="strip", width=strip_width)
-rib_wg = c << gf.c.straight(cross_section="rib", width=rib_width)
+strip_wg = c << gf.c.straight(cross_section="xs_sc")
+rib_wg = c << gf.c.straight(cross_section="xs_rc")
 taper = c << strip_to_rib(width1=strip_width, width2=rib_width)
 taper.connect("o1", strip_wg.ports["o2"])
 rib_wg.connect("o1", taper.ports["o2"])
@@ -200,8 +200,6 @@ c.plot()
 # You can see that since `gap` is defined in our cross-sections, the bundle router also intelligently picks the appropriate bundle spacing for the cross section used.
 #
 # Notice how the strip waveguide bundles are much more tightly packed than the rib waveguide bundles in the example below.
-
-# %%
 
 # %%
 basic_sample_fn2 = sample_dir / "aar_bundles03.pic.yml"

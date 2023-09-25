@@ -31,7 +31,7 @@ def get_bundle_from_steps(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     taper: ComponentSpec | None = taper_function,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     sort_ports: bool = True,
     separation: float | None = None,
     path_length_match_loops: int | None = None,
@@ -143,7 +143,8 @@ def get_bundle_from_steps(
     waypoints = np.array(waypoints)
 
     if not isinstance(cross_section, list):
-        x = gf.get_cross_section(cross_section, **kwargs)
+        x = gf.get_cross_section(cross_section)
+        cross_section = x.copy(**kwargs)
         auto_widen = x.auto_widen
 
         if auto_widen:
@@ -153,7 +154,6 @@ def get_bundle_from_steps(
                 width1=x.width,
                 width2=x.width_wide,
                 cross_section=cross_section,
-                **kwargs,
             )
         else:
             taper = None
@@ -172,12 +172,11 @@ def get_bundle_from_steps(
         path_length_match_extra_length=path_length_match_extra_length,
         path_length_match_modify_segment_i=path_length_match_modify_segment_i,
         path_length_match_loops=path_length_match_loops,
-        **kwargs,
     )
 
 
 get_bundle_from_steps_electrical = partial(
-    get_bundle_from_steps, bend=wire_corner, cross_section="metal_routing"
+    get_bundle_from_steps, bend=wire_corner, cross_section="xs_metal_routing"
 )
 
 get_bundle_from_steps_electrical_multilayer = partial(
@@ -185,7 +184,7 @@ get_bundle_from_steps_electrical_multilayer = partial(
     bend=via_corner,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        ("metal_routing", (0, 180)),
+        ("xs_metal_routing", (0, 180)),
     ],
 )
 

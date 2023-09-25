@@ -40,9 +40,11 @@ from gdsfactory.routing.validation import (
 )
 from gdsfactory.typings import (
     ComponentSpec,
+    Coordinates,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
     Route,
+    Step,
 )
 
 
@@ -55,13 +57,15 @@ def get_bundle(
     bend: ComponentSpec = bend_euler,
     with_sbend: bool = False,
     sort_ports: bool = True,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     enforce_port_ordering: bool = True,
+    steps: list[Step] | None = None,
+    waypoints: Coordinates | None = None,
     **kwargs,
 ) -> list[Route]:
     """Returns list of routes to connect two groups of ports.
@@ -87,6 +91,8 @@ def get_bundle(
         path_length_match_modify_segment_i: Index of straight segment to add path length matching loops to \
                 (requires path_length_match_loops != None).
         enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
+        steps: specify waypoint steps to route using get_bundle_from_steps.
+        waypoints: specify waypoints to route using get_bundle_from_steps.
 
     Keyword Args:
         width: main layer waveguide width (um).
@@ -105,8 +111,6 @@ def get_bundle(
         port_types: for input and output: electrical, optical, vertical_te ...
         min_length: defaults to 1nm = 10e-3um for routing.
         snap_to_grid: can snap points to grid when extruding the path.
-        steps: specify waypoint steps to route using get_bundle_from_steps.
-        waypoints: specify waypoints to route using get_bundle_from_steps.
 
     .. plot::
         :include-source:
@@ -149,6 +153,19 @@ def get_bundle(
             else gf.get_cross_section(cross_section)
         )
         separation = xs.width + xs.gap
+
+    if isinstance(cross_section, list | tuple):
+        xs_list = []
+        for element in cross_section:
+            xs, angles = element
+            xs = gf.get_cross_section(xs)
+            xs = xs.copy(**kwargs)  # Shallow copy
+            xs_list.append((xs, angles))
+        cross_section = xs_list
+
+    else:
+        cross_section = gf.get_cross_section(cross_section)
+        cross_section = cross_section.copy(**kwargs)
 
     # convert single port to list
     if isinstance(ports1, Port):
@@ -212,7 +229,6 @@ def get_bundle(
         params["end_straight_length"] = end_straight_length
     if start_straight_length is not None:
         params["start_straight_length"] = start_straight_length
-    params.update(**kwargs)
 
     start_angle = ports1[0].orientation
     end_angle = ports2[0].orientation
@@ -226,10 +242,12 @@ def get_bundle(
     y_start = np.mean([p.y for p in ports1])
     y_end = np.mean([p.y for p in ports2])
 
-    if "steps" in kwargs:
+    if steps:
+        params["steps"] = steps
         return get_bundle_from_steps(**params)
 
-    elif "waypoints" in kwargs:
+    elif waypoints:
+        params["waypoints"] = waypoints
         return get_bundle_from_waypoints(**params)
 
     if start_axis != end_axis:
@@ -255,7 +273,6 @@ def get_bundle(
                 ports2,
                 sort_ports=sort_ports,
                 cross_section=cross_section,
-                **kwargs,
             )
         return get_bundle_same_axis(**params)
 
@@ -303,7 +320,7 @@ def get_bundle_same_axis(
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     enforce_port_ordering: bool = True,
     **kwargs,
 ) -> list[Route]:
@@ -367,11 +384,9 @@ def get_bundle_same_axis(
     """
     _p1 = ports1.copy()
     _p2 = ports2.copy()
-    if "straight" in kwargs:
-        _ = kwargs.pop("straight")
-    assert len(ports1) == len(
-        ports2
-    ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
+    kwargs.pop("straight", None)
+    if len(ports1) != len(ports2):
+        raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
     if sort_ports:
         ports1, ports2 = sort_ports_function(
             ports1, ports2, enforce_port_ordering=enforce_port_ordering
@@ -418,7 +433,7 @@ def _get_bundle_waypoints(
     separation: float = 30,
     end_straight_length: float = 0.0,
     start_straight_length: float = 0.0,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> list[ndarray]:
     """Returns route coordinates List.
@@ -598,7 +613,7 @@ def get_bundle_same_axis_no_grouping(
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
     sort_ports: bool = True,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> list[Route]:
     r"""Returns a list of route elements.
@@ -722,7 +737,7 @@ def get_bundle_same_axis_no_grouping(
 
 
 get_bundle_electrical = partial(
-    get_bundle, bend=wire_corner, cross_section="metal_routing"
+    get_bundle, bend=wire_corner, cross_section="xs_metal_routing"
 )
 
 get_bundle_electrical_multilayer = partial(
@@ -730,7 +745,7 @@ get_bundle_electrical_multilayer = partial(
     bend=via_corner,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        ("metal_routing", (0, 180)),
+        ("xs_metal_routing", (0, 180)),
     ],
 )
 
@@ -738,31 +753,30 @@ get_bundle_electrical_multilayer = partial(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.Component("get_bundle_none_orientation")
-    # pt = c << gf.components.pad_array(orientation=None, columns=3)
-    # pb = c << gf.components.pad_array(orientation=None, columns=3)
-    # pt.move((100, 200))
-    # routes = gf.routing.get_bundle_electrical_multilayer(
-    #     pb.ports,
-    #     pt.ports,
-    #     start_straight_length=1,
-    #     end_straight_length=10,
-    #     separation=30,
-    # )
-    # for route in routes:
-    #     c.add(route.references)
+    c = gf.Component("get_bundle_multi_layer")
+    columns = 2
+    ptop = c << gf.components.pad_array(columns=columns)
+    pbot = c << gf.components.pad_array(orientation=90, columns=columns)
 
-    c = gf.Component("demo")
-    c1 = c << gf.components.mmi2x2()
-    c2 = c << gf.components.mmi2x2()
-    c2.move((100, 40))
-    routes = get_bundle(
-        [c1.ports["o2"], c1.ports["o1"]],
-        [c2.ports["o1"], c2.ports["o2"]],
-        radius=5,
-        # layer=(2, 0),
-        straight=partial(gf.components.straight, layer=(1, 0), width=1),
+    ptop.movex(300)
+    ptop.movey(300)
+    routes = gf.routing.get_bundle_electrical_multilayer(
+        ptop.ports, pbot.ports, end_straight_length=100, separation=20
     )
     for route in routes:
         c.add(route.references)
-    c.show(show_ports=True)
+
+    c.show()
+    # c = gf.Component("demo")
+    # c1 = c << gf.components.mmi2x2()
+    # c2 = c << gf.components.mmi2x2()
+    # c2.move((100, 40))
+    # routes = get_bundle(
+    #     [c1.ports["o2"], c1.ports["o1"]],
+    #     [c2.ports["o1"], c2.ports["o2"]],
+    #     layer=(2, 0),
+    #     straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    # )
+    # for route in routes:
+    #     c.add(route.references)
+    # c.show(show_ports=True)

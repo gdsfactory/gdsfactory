@@ -28,8 +28,9 @@ def interdigital_capacitor_enclosed(
     metal_layer: LayerSpec = INTERDIGITAL_DEFAULTS["layer"],
     gap_layer: LayerSpec = "DEEPTRENCH",
 ) -> Component:
-    """Generates an interdigital capacitor surrounded by a ground plane and coplanar waveguides with ports on both ends.
-    See for :func:`~interdigital_capacitor` for details.
+    """Generates an interdigital capacitor surrounded by a ground plane and \
+            coplanar waveguides with ports on both ends. \
+            See for :func:`~interdigital_capacitor` for details.
 
     Note:
         ``finger_length=0`` effectively provides a plate capacitor.
@@ -54,21 +55,19 @@ def interdigital_capacitor_enclosed(
     gap = Component()
     for port in cap.get_ports_list():
         port2 = port.copy()
+
         # TODO very bad check, should do vector according to orientation
         direction = -1 if port.orientation > 0 else 1
         port2.move((30 * direction, 0))
         port2 = port2.flip()
 
         cpw_a, cpw_b = cpw_dimensions
+        s0 = gf.Section(
+            width=cpw_a, offset=0, layer=metal_layer, port_names=("in", "out")
+        )
         s1 = gf.Section(width=cpw_b, offset=(cpw_a + cpw_b) / 2, layer=gap_layer)
         s2 = gf.Section(width=cpw_b, offset=-(cpw_a + cpw_b) / 2, layer=gap_layer)
-        x = gf.CrossSection(
-            width=cpw_a,
-            offset=0,
-            layer=metal_layer,
-            port_names=("in", "out"),
-            sections=[s1, s2],
-        )
+        x = gf.CrossSection(sections=[s0, s1, s2])
         route = gf.routing.get_route(
             port,
             port2,
@@ -97,9 +96,7 @@ def interdigital_capacitor_enclosed(
     ground = gf.geometry.boolean(
         A=ground, B=[c, gap], operation="A-B", layer=metal_layer
     )
-
-    c << ground
-
+    _ = c << ground
     return c.flatten()
 
 

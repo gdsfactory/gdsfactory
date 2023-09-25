@@ -15,7 +15,7 @@ def big_device(
     spacing: float = 15.0,
     layer: tuple[int, int] = (1, 0),
     wg_width: float = 0.5,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     """Big component with N ports on each side.
 
@@ -26,7 +26,6 @@ def big_device(
         layer: spec.
         wg_width: waveguide width in um.
         cross_section: spec.
-
     """
     component = gf.Component()
     p0 = np.array((0, 0))

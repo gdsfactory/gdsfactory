@@ -1,4 +1,4 @@
-name: straight_d6abaab6_extend_ports_5819b9cb
+name: straight_ddd5d58a_extend_ports_1361110e
 ports:
   o1:
     center:
@@ -32,23 +32,21 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-            bbox_layers:
-            - SLAB90
-            bbox_offsets:
-            - 3
-            info:
-              type: rib
-            name: strip
-            radius: 20
+            add_pins_function_name: add_pins_inside1nm
+            sections:
+            - hidden: false
+              insets: null
+              layer: SLAB90
+              name: slab
+              offset: 0
+              port_names:
+              - null
+              - null
+              port_types:
+              - optical
+              - optical
+              simplify: 0.05
+              width: 6.0
     extension:
       function: taper_strip_to_ridge
     port1: o2
@@ -58,128 +56,78 @@ settings:
       cross_section:
         function: cross_section
         settings:
-          add_bbox: null
-          add_pins:
-            function: add_pins
-            settings:
-              function:
-                function: add_pin_rectangle_inside
-                settings:
-                  layer_label: null
-                  pin_length: 0.001
-          bbox_layers:
-          - SLAB90
-          bbox_offsets:
-          - 3
-          info:
-            type: rib
-          name: strip
-          radius: 20
+          add_pins_function_name: add_pins_inside1nm
+          sections:
+          - hidden: false
+            insets: null
+            layer: SLAB90
+            name: slab
+            offset: 0
+            port_names:
+            - null
+            - null
+            port_types:
+            - optical
+            - optical
+            simplify: 0.05
+            width: 6.0
     child: null
     default:
-      cross_section: strip
+      add_pins: true
+      cross_section: xs_sc
+      layer: null
       length: 10.0
       npoints: 2
-      with_bbox: true
+      width: null
     full:
+      add_pins: true
       cross_section:
         function: cross_section
         settings:
-          add_bbox: null
-          add_pins:
-            function: add_pins
-            settings:
-              function:
-                function: add_pin_rectangle_inside
-                settings:
-                  layer_label: null
-                  pin_length: 0.001
-          bbox_layers:
-          - SLAB90
-          bbox_offsets:
-          - 3
-          info:
-            type: rib
-          name: strip
-          radius: 20
+          add_pins_function_name: add_pins_inside1nm
+          sections:
+          - hidden: false
+            insets: null
+            layer: SLAB90
+            name: slab
+            offset: 0
+            port_names:
+            - null
+            - null
+            port_types:
+            - optical
+            - optical
+            simplify: 0.05
+            width: 6.0
+      layer: null
       length: 10.0
       npoints: 2
-      with_bbox: true
+      width: null
     function_name: straight
     info:
       cross_section:
         function: cross_section
         settings:
-          add_bbox: null
-          add_pins:
-            function: add_pins
-            settings:
-              function:
-                function: add_pin_rectangle_inside
-                settings:
-                  layer_label: null
-                  pin_length: 0.001
-          bbox_layers:
-          - SLAB90
-          bbox_offsets:
-          - 3
-          info:
-            type: rib
-          name: strip
-          radius: 20
-      function_name: cross_section
+          add_pins_function_name: add_pins_inside1nm
+          sections:
+          - hidden: false
+            insets: null
+            layer: SLAB90
+            name: slab
+            offset: 0
+            port_names:
+            - null
+            - null
+            port_types:
+            - optical
+            - optical
+            simplify: 0.05
+            width: 6.0
       length: 10.0
-      route_info:
-        length: 10.0
-        rib_length: 10.0
-        type: rib
-        weight: 10.0
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers:
-        - SLAB90
-        bbox_offsets:
-        - 3
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        decorator: null
-        end_straight_length: 0.01
-        gap: 3.0
-        info:
-          type: rib
-        layer: WG
-        min_length: 0.01
-        mirror: false
-        name: strip
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 20
-        sections: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
-      type: rib
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
-    name: straight_d6abaab6
+    name: straight_ddd5d58a
   default:
     centered: false
     component:
@@ -200,23 +148,21 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox: null
-            add_pins:
-              function: add_pins
-              settings:
-                function:
-                  function: add_pin_rectangle_inside
-                  settings:
-                    layer_label: null
-                    pin_length: 0.001
-            bbox_layers:
-            - SLAB90
-            bbox_offsets:
-            - 3
-            info:
-              type: rib
-            name: strip
-            radius: 20
+            add_pins_function_name: add_pins_inside1nm
+            sections:
+            - hidden: false
+              insets: null
+              layer: SLAB90
+              name: slab
+              offset: 0
+              port_names:
+              - null
+              - null
+              port_types:
+              - optical
+              - optical
+              simplify: 0.05
+              width: 6.0
     cross_section: null
     extension:
       function: taper_strip_to_ridge
@@ -231,73 +177,23 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        bbox_layers:
-        - SLAB90
-        bbox_offsets:
-        - 3
-        info:
-          type: rib
-        name: strip
-        radius: 20
-    function_name: cross_section
+        add_pins_function_name: add_pins_inside1nm
+        sections:
+        - hidden: false
+          insets: null
+          layer: SLAB90
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          simplify: 0.05
+          width: 6.0
     length: 10.0
-    route_info:
-      length: 10.0
-      rib_length: 10.0
-      type: rib
-      weight: 10.0
-    settings:
-      add_bbox: null
-      add_pins:
-        function: add_pins
-        settings:
-          function:
-            function: add_pin_rectangle_inside
-            settings:
-              layer_label: null
-              pin_length: 0.001
-      auto_widen: false
-      auto_widen_minimum_length: 200.0
-      bbox_layers:
-      - SLAB90
-      bbox_offsets:
-      - 3
-      cladding_layers: null
-      cladding_offsets: null
-      cladding_simplify: null
-      decorator: null
-      end_straight_length: 0.01
-      gap: 3.0
-      info:
-        type: rib
-      layer: WG
-      min_length: 0.01
-      mirror: false
-      name: strip
-      offset: 0
-      port_names:
-      - o1
-      - o2
-      port_types:
-      - optical
-      - optical
-      radius: 20
-      sections: null
-      start_straight_length: 0.01
-      taper_length: 10.0
-      width: 0.5
-      width_wide: null
-    type: rib
     width: 0.5
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_d6abaab6_extend_ports_5819b9cb
+  name: straight_ddd5d58a_extend_ports_1361110e

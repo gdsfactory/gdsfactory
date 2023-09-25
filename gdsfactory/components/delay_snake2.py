@@ -26,7 +26,7 @@ def delay_snake2(
     length2: float = 0.0,
     n: int = 2,
     bend180: ComponentSpec = "bend_euler180",
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Returns Snake with a starting straight and 180 bends.
@@ -95,7 +95,7 @@ def test_length_delay_snake2() -> Component:
     import numpy as np
 
     length = 200.0
-    c = delay_snake2(length=length, cross_section="strip_no_pins")
+    c = delay_snake2(length=length, cross_section="xs_sc_no_pins")
     length_computed = c.area() / 0.5
     np.isclose(length, length_computed)
 

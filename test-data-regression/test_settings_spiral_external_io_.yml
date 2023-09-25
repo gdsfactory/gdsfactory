@@ -31,7 +31,7 @@ settings:
     N: 6
     bend:
       function: bend_euler
-    cross_section: strip
+    cross_section: xs_sc
     inner_loop_spacing_offset: 0.0
     length: null
     with_inner_ports: false
@@ -45,7 +45,7 @@ settings:
     N: 6
     bend:
       function: bend_euler
-    cross_section: strip
+    cross_section: xs_sc
     inner_loop_spacing_offset: 0.0
     length: null
     with_inner_ports: false

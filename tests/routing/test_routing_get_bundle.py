@@ -526,7 +526,6 @@ if __name__ == "__main__":
         bend=gf.components.bend_circular,
         end_straight_length=15,
         start_straight_length=5,
-        radius=5,
     )
     lengths = {}
     for i, route in enumerate(routes):

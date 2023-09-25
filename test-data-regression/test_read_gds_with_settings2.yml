@@ -8,7 +8,7 @@ ports:
     - 1
     - 0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     shear_angle: null
     width: 0.5
@@ -39,7 +39,7 @@ settings:
     bend:
       function: bend_euler
     combiner: null
-    cross_section: strip
+    cross_section: xs_sc
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10.0

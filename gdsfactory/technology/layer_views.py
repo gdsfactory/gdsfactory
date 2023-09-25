@@ -1122,19 +1122,18 @@ class LayerViews(BaseModel):
         out_dict = {"LayerViews": lvs}
         if self.custom_dither_patterns:
             out_dict["CustomDitherPatterns"] = {
-                name: dp.dict(
+                name: dp.model_dump(
                     exclude_none=True, exclude_defaults=True, exclude_unset=True
                 )
                 for name, dp in self.custom_dither_patterns.items()
             }
         if self.custom_line_styles:
             out_dict["CustomLineStyles"] = {
-                name: ls.dict(
+                name: ls.model_dump(
                     exclude_none=True, exclude_defaults=True, exclude_unset=True
                 )
                 for name, ls in self.custom_line_styles.items()
             }
-
         lf_path.write_bytes(
             yaml.dump(
                 out_dict,
@@ -1235,9 +1234,12 @@ def test_load_lyp() -> None:
 if __name__ == "__main__":
     test_load_lyp()
     # import gdsfactory as gf
-    # from gdsfactory.config import PATH
+    from gdsfactory.config import PATH
+    from gdsfactory.generic_tech import get_generic_pdk
 
-    # gf.config.rich_output()
+    PDK = get_generic_pdk()
+    LAYER_VIEWS = PDK.layer_views
+    LAYER_VIEWS.to_yaml(PATH.repo / "extra" / "layers.yml")
 
     # LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
     # LAYER_VIEWS.to_lyp(PATH.klayout_lyp)
@@ -1245,4 +1247,3 @@ if __name__ == "__main__":
 
     # LAYER_VIEWS.to_yaml(PATH.generic_tech / "layer_views.yaml")
     # LAYER_VIEWS2 = LayerViews(filepath=PATH.generic_tech / "layer_views.yaml")
-    # LAYER_VIEWS2.to_lyp(PATH.repo / "extra" / "test_tech" / "layers.lyp")

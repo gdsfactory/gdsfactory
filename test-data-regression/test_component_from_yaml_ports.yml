@@ -1,4 +1,4 @@
-name: component_yaml_ports_9329f23c
+name: component_yaml_ports_173ce04f
 ports:
   o1:
     center:
@@ -90,7 +90,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -98,7 +98,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -166,7 +166,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -174,7 +174,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section: metal_routing
+          cross_section: xs_metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -187,4 +187,4 @@ settings:
     - mmi_bot
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: component_yaml_ports_9329f23c
+  name: component_yaml_ports_173ce04f

@@ -5,7 +5,7 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.cross_section import rib_conformal, strip_rib_tip
+from gdsfactory.cross_section import strip_rib_tip
 from gdsfactory.route_info import route_info
 from gdsfactory.typings import CrossSectionSpec
 
@@ -13,7 +13,7 @@ from gdsfactory.typings import CrossSectionSpec
 @cell
 def taper_cross_section(
     cross_section1: CrossSectionSpec = strip_rib_tip,
-    cross_section2: CrossSectionSpec = rib_conformal,
+    cross_section2: CrossSectionSpec = "xs_rc",
     length: float = 10,
     npoints: int = 100,
     linear: bool = False,
@@ -55,7 +55,7 @@ def taper_cross_section(
     taper_path = gf.path.straight(length=length, npoints=npoints)
 
     c = gf.Component()
-    ref = c << gf.path.extrude(taper_path, cross_section=transition)
+    ref = c << gf.path.extrude_transition(taper_path, transition=transition)
     c.add_ports(ref.ports)
     c.absorb(ref)
     if "type" in x1.info and x1.info["type"] == x2.info.get("type"):
@@ -81,6 +81,9 @@ if __name__ == "__main__":
 
     # c = taper_cross_section(gf.cross_section.strip, gf.cross_section.rib)
     # c = taper_cross_section_sine()
-    c = taper_cross_section_parabolic()
-    print([i.name for i in c.get_dependencies()])
+    # c = taper_cross_section_linear()
+    # print([i.name for i in c.get_dependencies()])
+    cross_section1 = gf.cross_section.rib_heater_doped
+    cross_section2 = gf.cross_section.strip_rib_tip
+    c = taper_cross_section(cross_section1, cross_section2)
     c.show(show_ports=True)

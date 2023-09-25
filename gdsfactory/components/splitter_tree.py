@@ -16,7 +16,7 @@ def splitter_tree(
     spacing: Float2 = (90.0, 50.0),
     bend_s: ComponentSpec | None = bend_s_function,
     bend_s_xsize: float | None = None,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> gf.Component:
     """Tree of power splitters.
 
@@ -160,7 +160,7 @@ if __name__ == "__main__":
         spacing=(120.0, 50.0),
         # bend_length=30,
         # bend_s=None,
-        cross_section="rib_conformal2",
+        cross_section="xs_rc2",
     )
     c.show(show_ports=True)
     # print(len(c.ports))

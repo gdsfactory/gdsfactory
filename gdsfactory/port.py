@@ -40,8 +40,10 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
+from gdsfactory import snap
 from gdsfactory.component_layout import _rotate_points
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.config import CONF
+from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
 
@@ -53,6 +55,7 @@ Layers = tuple[Layer, ...]
 LayerSpec = Layer | int | str | None
 LayerSpecs = tuple[LayerSpec, ...]
 Float2 = tuple[float, float]
+valid_error_types = ["error", "warn", "ignore"]
 
 
 class PortNotOnGridError(ValueError):
@@ -81,6 +84,7 @@ class Port:
         parent: Component that port belongs to.
         cross_section: cross_section spec.
         shear_angle: an optional angle to shear port face in degrees.
+        snap_to_grid: True snap port to grid.
     """
 
     def __init__(
@@ -92,12 +96,15 @@ class Port:
         layer: tuple[int, int] | None = None,
         port_type: str = "optical",
         parent: Component | None = None,
-        cross_section: CrossSection | None = None,
+        cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
+        enforce_ports_on_grid: bool | None = None,
     ) -> None:
-        """Initializes Port object."""
         self.name = name
-        self.center = np.array(snap_to_grid(center), dtype="float64")
+        enforce_ports_on_grid = enforce_ports_on_grid or CONF.enforce_ports_on_grid
+
+        center = snap.snap_to_grid(center) if enforce_ports_on_grid else center
+        self.center = np.array(center, dtype="float64")
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
         self.info: dict[str, Any] = {}
@@ -111,15 +118,10 @@ class Port:
         if cross_section is None and width is None:
             raise ValueError("You need Port to define cross_section or width")
 
-        if cross_section and isinstance(cross_section, str):
+        if layer is None or width is None:
             from gdsfactory.pdk import get_cross_section
 
             cross_section = get_cross_section(cross_section)
-
-        if cross_section and not isinstance(cross_section, CrossSection):
-            raise ValueError(
-                f"cross_section = {cross_section} is not a valid CrossSection."
-            )
 
         if cross_section and layer is None:
             layer = cross_section.layer
@@ -323,28 +325,45 @@ class Port:
         """Snap port center to grid."""
         self.center = snap_to_grid(self.center, grid_factor=grid_factor)
 
-    def assert_on_grid(self, grid_factor: int = 1) -> None:
+    def assert_on_grid(self, grid_factor: int = 1, error_type: str = "error") -> None:
         """Ensures ports edges are on grid to avoid snap_to_grid errors."""
         center = np.array(self.center)
         center_snapped = snap_to_grid(center, grid_factor=grid_factor)
         if not np.isclose(center, center_snapped).all():
-            raise PortNotOnGridError(
-                f"port = {self.name!r}, center = {self.center} should be on grid {center_snapped}"
+            message = (
+                f"port = {self.name!r}, center = {self.center} is not on grid.\n"
+                "You can use Component.flatten_invalid_refs() to snap to grid."
             )
+            if error_type not in valid_error_types:
+                raise ValueError(
+                    f"error_type = {error_type} is not valid. Must be 'error' or 'warning'"
+                )
 
-    def assert_manhattan(self, grid_factor: int = 1) -> None:
+            elif error_type == "error":
+                raise PortNotOnGridError(message)
+            elif error_type == "warn":
+                warnings.warn(message)
+
+    def assert_manhattan(self, error_type: str = "error") -> None:
         """Ensures port has a valid manhattan orientation (0, 90, 180, 270)."""
         component_name = self.parent.name
         if self.port_type.startswith("vertical"):
             return
 
-        if self.orientation in [0, 90, 180, 270, None]:
-            return
-        else:
-            raise PortOrientationError(
-                f"{component_name!r} port {self.name!r} has invalid orientation"
-                f" {self.orientation}"
+        if self.orientation not in [0, 90, 180, 270, None]:
+            message = (
+                f"Port {self.name!r} orientation {self.orientation} "
+                "is not manhattan (0, 90, 180, 270).\n Non-manhattan ports can cause "
+                f"1nm snapping errors in Component {component_name}.\n"
             )
+            if error_type not in valid_error_types:
+                raise ValueError(
+                    f"error_type = {error_type} is not valid. Must be 'error' or 'warning'"
+                )
+            elif error_type == "error":
+                raise PortOrientationError()
+            elif error_type == "warn":
+                warnings.warn(message, stacklevel=2)
 
 
 PortsMap = dict[str, list[Port]]

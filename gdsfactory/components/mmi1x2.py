@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
@@ -19,7 +18,8 @@ def mmi1x2(
     taper: ComponentFactory = taper_function,
     straight: ComponentFactory = straight_function,
     with_bbox: bool = True,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
+    **kwargs,
 ) -> Component:
     r"""1x2 MultiMode Interferometer (MMI).
 
@@ -35,6 +35,7 @@ def mmi1x2(
         with_bbox: add rectangular box in cross_section
             bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string or dict).
+        kwargs: cross_section settings.
 
 
     .. code::
@@ -58,37 +59,27 @@ def mmi1x2(
     """
     c = Component()
     gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
-    w_mmi = width_mmi
-    w_taper = width_taper
-    x = gf.get_cross_section(cross_section)
+    x = gf.get_cross_section(cross_section, **kwargs)
+    xs_mmi = x.copy(width=width_mmi)
     width = width or x.width
 
     _taper = taper(
         length=length_taper,
         width1=width,
-        width2=w_taper,
-        cross_section=cross_section,
-        add_pins=None,
-        add_bbox=None,
-        decorator=None,
+        width2=width_taper,
+        cross_section=x,
+        add_pins=False,
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    mmi = c << straight(
-        length=length_mmi,
-        width=w_mmi,
-        cross_section=cross_section,
-        add_pins=None,
-        add_bbox=None,
-        decorator=None,
-    )
+    mmi = c << straight(length=length_mmi, cross_section=xs_mmi, add_pins=False)
 
     ports = [
         gf.Port(
             "o1",
             orientation=180,
             center=(0, 0),
-            width=w_taper,
+            width=width_taper,
             layer=x.layer,
             cross_section=x,
         ),
@@ -96,7 +87,7 @@ def mmi1x2(
             "o2",
             orientation=0,
             center=(+length_mmi, +a),
-            width=w_taper,
+            width=width_taper,
             layer=x.layer,
             cross_section=x,
         ),
@@ -104,7 +95,7 @@ def mmi1x2(
             "o3",
             orientation=0,
             center=(+length_mmi, -a),
-            width=w_taper,
+            width=width_taper,
             layer=x.layer,
             cross_section=x,
         ),
@@ -116,34 +107,18 @@ def mmi1x2(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    if with_bbox:
-        padding = []
-        for offset in x.bbox_offsets:
-            points = get_padding_points(
-                component=c,
-                default=0,
-                bottom=offset,
-                top=offset,
-            )
-            padding.append(points)
-
-        for layer, points in zip(x.bbox_layers, padding):
-            c.add_polygon(points, layer=layer)
-
     c.absorb(mmi)
-    if x.add_bbox:
-        c = x.add_bbox(c)
+    if with_bbox:
+        x.add_bbox(c)
     if x.add_pins:
-        c = x.add_pins(c)
-    if x.decorator:
-        c = x.decorator(c)
+        x.add_pins(c)
     return c
 
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mmi1x2(cross_section="rib_conformal")
+    c = gf.components.mmi1x2(cross_section="xs_rc", layer=(2, 0))
 
     # print(c.xmin)
     # c.xmin = 0

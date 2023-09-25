@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import jsondiff
 import numpy as np
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
@@ -47,45 +46,31 @@ def double_loop() -> Component:
     P.rotate(-45)
 
     # Create the crosssection
+    s0 = gf.Section(width=1.5, offset=0, layer=(2, 0), ports=("in", "out"))
     s1 = gf.Section(width=0.5, offset=2, layer=(0, 0))
     s2 = gf.Section(width=0.5, offset=4, layer=(1, 0))
     s3 = gf.Section(width=1, offset=0, layer=(3, 0))
-    X = gf.CrossSection(
-        width=1.5,
-        offset=0,
-        layer=(2, 0),
-        port_names=["in", "out"],
-        sections=[s1, s2, s3],
-    )
-
+    X = gf.CrossSection(sections=[s0, s1, s2, s3])
     return gf.path.extrude(P, X, simplify=0.3)
 
 
 @cell
 def transition() -> Component:
     c = gf.Component()
+    s0 = gf.Section(
+        width=1.2, offset=0, layer=(2, 0), name="core", port_names=("in1", "out1")
+    )
     s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-    X1 = gf.CrossSection(
-        width=1.2,
-        offset=0,
-        layer=(2, 0),
-        name="wg",
-        port_names=("in1", "out1"),
-        sections=[s1, s2],
-    )
+    X1 = gf.CrossSection(sections=[s0, s1, s2])
 
     # Create the second CrossSection that we want to transition to
+    s0 = gf.Section(
+        width=1, offset=0, layer=(2, 0), name="core", port_names=("in1", "out1")
+    )
     s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-    X2 = gf.CrossSection(
-        width=1,
-        offset=0,
-        layer=(2, 0),
-        name="wg",
-        port_names=("in1", "out1"),
-        sections=[s1, s2],
-    )
+    X2 = gf.CrossSection(sections=[s0, s1, s2])
 
     Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
     # Xtrans = gf.cross_section.strip(port_names=('in1', 'out1'))
@@ -97,7 +82,7 @@ def transition() -> Component:
     wg2 = gf.path.extrude(P2, X2)
 
     P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
-    wg_trans = gf.path.extrude(P4, Xtrans)
+    wg_trans = gf.path.extrude_transition(P4, Xtrans)
 
     wg1_ref = c << wg1
     wgt_ref = c << wg_trans
@@ -133,7 +118,8 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
 
 def test_layers1() -> None:
     P = gf.path.straight(length=10.001)
-    X = gf.CrossSection(width=0.5, offset=0, layer=(3, 0), port_names=("in", "out"))
+    s = gf.Section(width=0.5, offset=0, layer=(3, 0), port_names=("in", "out"))
+    X = gf.CrossSection(sections=(s,))
     c = gf.path.extrude(P, X, simplify=5e-3)
     assert c.ports["in"].layer == (3, 0)
     assert c.ports["out"].center[0] == 10.001, c.ports["out"].center[0]
@@ -152,14 +138,6 @@ def test_layers2() -> None:
     assert c.ports["o2"].center[0] == 10.0, c.ports["o2"].center[0]
 
     pdk.grid_size = 0.001
-
-
-def test_copy() -> None:
-    x1 = gf.CrossSection(width=0.5, offset=0, layer=(3, 0), port_names=("in", "out"))
-    x2 = x1.copy()
-
-    d = jsondiff.diff(x1.model_dump(), x2.model_dump())
-    assert len(d) == 0, d
 
 
 def test_path_add() -> None:
@@ -189,5 +167,5 @@ if __name__ == "__main__":
     # p = p2 + p1
     # assert p.start_angle == 45
     # assert p.end_angle == 0
-    # c = p.extrude(cross_section="strip")
+    # c = p.extrude(cross_section="xs_sc")
     # c.show(show_ports=False)

@@ -178,14 +178,7 @@ CellSpec = (
 )  # PCell function, function name or dict
 
 ComponentSpecDict = dict[str, ComponentSpec]
-CrossSectionSpec = (
-    str
-    | CrossSectionFactory
-    | CrossSection
-    | Transition
-    | TransitionFactory
-    | dict[str, Any]
-)  # cross_section function, function name or dict
+CrossSectionSpec = CrossSectionFactory | CrossSection | dict[str, Any] | str
 CrossSectionSpecs = tuple[CrossSectionSpec, ...]
 
 MultiCrossSectionAngleSpec = list[tuple[CrossSectionSpec, tuple[int, ...]]]

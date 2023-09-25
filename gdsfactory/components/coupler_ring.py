@@ -20,13 +20,12 @@ def coupler_ring(
     gap: float = 0.2,
     radius: float = 5.0,
     length_x: float = 4.0,
-    coupler90: ComponentSpec = coupler90,
+    coupler90: ComponentFactory = coupler90,
     bend: ComponentSpec = bend_euler,
-    coupler_straight: ComponentSpec = coupler_straight,
-    cross_section: CrossSectionSpec = "strip",
-    bend_cross_section: CrossSectionSpec | None = None,
+    coupler_straight: ComponentFactory = coupler_straight,
+    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section_bend: CrossSectionSpec | None = None,
     length_extension: float = 3,
-    **kwargs,
 ) -> Component:
     r"""Coupler for ring.
 
@@ -38,9 +37,8 @@ def coupler_ring(
         bend: bend spec.
         coupler_straight: two parallel coupled straight waveguides.
         cross_section: cross_section spec.
-        bend_cross_section: optional bend cross_section spec.
+        cross_section_bend: optional bend cross_section spec.
         length_extension: for the ports.
-        kwargs: cross_section settings for bend and coupler.
 
     .. code::
 
@@ -54,29 +52,30 @@ def coupler_ring(
     """
     c = Component()
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
+    xs = gf.get_cross_section(cross_section)
+    xs_no_pins = xs.copy(add_pins_function_name=None)
+
+    cross_section_bend = cross_section_bend or xs
+    xs_bend = gf.get_cross_section(cross_section_bend)
+    xs_bend = xs_bend.copy(radius=radius, add_pins_function_name=None)
 
     # define subcells
-    coupler90_component = gf.get_component(
-        coupler90,
+    coupler90_component = coupler90(
         gap=gap,
         radius=radius,
         bend=bend,
-        cross_section=cross_section,
-        bend_cross_section=bend_cross_section,
-        **kwargs,
+        cross_section=xs_no_pins,
+        cross_section_bend=xs_bend,
     )
-    coupler_straight_component = gf.get_component(
-        coupler_straight,
+    coupler_straight_component = coupler_straight(
         gap=gap,
         length=length_x,
-        cross_section=cross_section,
-        **kwargs,
+        cross_section=xs_no_pins,
     )
 
     # add references to subcells
     cbl = c << coupler90_component
     cbr = c << coupler90_component
-
     cs = coupler_straight_component.ref()
 
     if length_x > 0:
@@ -88,7 +87,7 @@ def coupler_ring(
     cbl.mirror(p1=(0, y), p2=(1, y))
     cbl.connect(port="o2", destination=cs.ports["o2"])
 
-    s = straight(length=length_extension, cross_section=cross_section, **kwargs)
+    s = straight(length=length_extension, cross_section=xs_no_pins)
 
     s1 = c << s
     s2 = c << s
@@ -104,6 +103,7 @@ def coupler_ring(
     c.add_ports(cbl.get_ports_list(port_type="electrical"), prefix="cbl")
     c.add_ports(cbr.get_ports_list(port_type="electrical"), prefix="cbr")
     c.auto_rename_ports()
+    xs.add_pins(c)
     return c
 
 
@@ -131,9 +131,7 @@ def coupler_ring_point(
         bend: bend spec.
         coupler_straight: two parallel coupled straight waveguides.
         cross_section: cross_section spec.
-        bend_cross_section: optional bend cross_section spec.
         length_extension: for the ports.
-        kwargs: cross_section settings for bend and coupler.
     """
     c = gf.Component()
 
@@ -149,7 +147,7 @@ def coupler_ring_point(
     for layer, size in zip(open_layers, open_sizes):
         subcomponent = coupler_ring_component.extract(layers=[layer])
         rectangle = gf.components.rectangle(size=size, layer=layer, centered=True)
-        c << gf.geometry.boolean(subcomponent, rectangle, "A-B", layer=layer)
+        _ = c << gf.geometry.boolean(subcomponent, rectangle, "A-B", layer=layer)
 
     coupler_ref = c << coupler_ring_component.extract(layers=untouched_layers)
     c.add_ports(coupler_ring_component.get_ports_list())
@@ -158,32 +156,5 @@ def coupler_ring_point(
 
 
 if __name__ == "__main__":
-    # c = coupler_ring()
-    # c = coupler_ring(width=1, layer=(2, 0), length_x=20)
-    # c = coupler_ring(
-    #     cross_section="strip_heater_metal",
-    #     length_x=0,
-    #     bend=gf.components.bend_circular,
-    # )
-    # from functools import partial
-
-    # c = partial(
-    #     coupler_ring,
-    #     cross_section="strip_heater_metal",
-    #     length_x=0,
-    #     bend=gf.components.bend_circular,
-    # )
-    # c = coupler_ring_point(c, open_layers=("HEATER",), open_sizes=((5, 7),))
-
-    # c = coupler_ring_point()
-    # c = coupler_ring(length_x=0)
-    c = coupler_ring()
-
-    # c = gf.Component()
-    # c1 = coupler_ring(cladding_layers=[(111, 0)], cladding_offsets=[0.5])
-    # d = 0.8
-    # c2 = gf.geometry.offset(c1, distance=+d, layer=(111, 0))
-    # c3 = gf.geometry.offset(c2, distance=-d, layer=(111, 0))
-    # c << c1
-    # c << c3
-    c.show(show_ports=True)
+    c = coupler_ring(cross_section_bend="xs_sc_heater_metal")
+    c.show(show_ports=False)

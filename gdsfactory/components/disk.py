@@ -14,7 +14,6 @@ def _compute_parameters(xs_bend, wrap_angle_deg, radius):
         theta * np.pi / 180
     )
     bus_length = max(4 * size_x, 2 * radius)
-
     return (r_bend, size_x, dy, bus_length)
 
 
@@ -73,18 +72,10 @@ def _generate_circles(
         r_bend: spec.
         dy: in um.
     """
-    cladding_offset = xs.cladding_offsets[0] if xs.cladding_offsets else 0
-    cladding_layer = xs.cladding_layers[0] if xs.cladding_layers else None
 
     circle = c << gf.components.circle(radius=radius, layer=xs.layer)
 
-    if cladding_layer and cladding_offset:
-        circle_cladding = c << gf.components.circle(
-            radius=radius + cladding_offset, layer=cladding_layer
-        )
-    else:
-        circle_cladding = None
-
+    circle_cladding = None
     if bend_middle is not None:
         circle.move(
             origin=circle.center,
@@ -118,8 +109,7 @@ def disk(
     gap: float = 0.2,
     wrap_angle_deg: float = 180.0,
     parity: int = 1,
-    cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     """Disk Resonator.
 
@@ -132,7 +122,6 @@ def disk(
         180 corresponds to a bus straight wrapped around half of the resonator.
        parity (1 or -1): 1, resonator left from bus straight, -1 resonator to the right.
        cross_section: cross_section spec.
-       kwargs: cross_section settings.
 
     """
     if parity not in (1, -1):
@@ -143,9 +132,10 @@ def disk(
 
     c = gf.Component()
 
-    xs = gf.get_cross_section(cross_section=cross_section, radius=radius, **kwargs)
-    xs_bend = xs.copy()
-    xs_bend.radius = radius + xs.width / 2.0 + gap
+    xs = gf.get_cross_section(cross_section=cross_section)
+    radius_disk = radius
+    radius = radius + xs.width / 2.0 + gap
+    xs_bend = xs.copy(radius=radius)
 
     r_bend, size_x, dy, bus_length = _compute_parameters(
         xs_bend, wrap_angle_deg, radius
@@ -160,7 +150,7 @@ def disk(
     )
 
     c, circle, circle_cladding = _generate_circles(
-        c, radius, xs, bend_middle, straight_left, r_bend, dy
+        c, radius_disk, xs, bend_middle, straight_left, r_bend, dy
     )
 
     c = _absorb(
@@ -176,14 +166,9 @@ def disk(
 
     c.add_port("o1", port=straight_left.ports["o1"], layer="PORT")
     c.add_port("o2", port=straight_right.ports["o2"])
-
-    if xs.add_bbox:
-        c = xs.add_bbox(c)
-
+    xs.add_bbox(c)
     if parity == -1:
         c = c.rotate(180)
-
-    c.snap_ports_to_grid()
     return c
 
 
@@ -193,14 +178,13 @@ def disk_heater(
     gap: float = 0.2,
     wrap_angle_deg: float = 180.0,
     parity: int = 1,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     heater_layer: LayerSpec = "HEATER",
     via_stack: ComponentSpec = "via_stack_heater_mtop",
     heater_width: float = 5.0,
     heater_extent: float = 2.0,
     via_width: float = 10.0,
     port_orientation: float | None = 90,
-    **kwargs,
 ) -> Component:
     """Disk Resonator with top metal heater.
 
@@ -218,9 +202,9 @@ def disk_heater(
        heater_extent: length of heater beyond disk.
        via_width: size of the square via at the end of the heater.
        port_orientation: in degrees.
-       kwargs: cross_section settings.
     """
     c = gf.Component()
+    xs = gf.get_cross_section(cross_section=cross_section)
 
     disk_instance = c << disk(
         radius=radius,
@@ -228,7 +212,6 @@ def disk_heater(
         wrap_angle_deg=wrap_angle_deg,
         parity=parity,
         cross_section=cross_section,
-        **kwargs,
     )
 
     dx = disk_instance.xmax - disk_instance.xmin
@@ -239,11 +222,7 @@ def disk_heater(
         layer=heater_layer,
     )
     heater.x = disk_instance.x
-    heater.y = (
-        dy / 2
-        + disk_instance.ymin
-        + (gf.get_cross_section(cross_section).width + gap) / 2
-    )
+    heater.y = dy / 2 + disk_instance.ymin + (xs.width + gap) / 2
 
     via = gf.get_component(via_stack, size=(via_width, via_width))
     c1 = c << via
@@ -260,5 +239,6 @@ def disk_heater(
 
 
 if __name__ == "__main__":
-    c = disk_heater(wrap_angle_deg=75)
+    # c = disk_heater(wrap_angle_deg=75)
+    c = disk()
     c.show(show_ports=True)

@@ -1,3 +1,20 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
+# %% [markdown]
 # # PDK
 #
 # gdsfactory includes a generic Process Design Kit (PDK), that you can use as an inspiration to create your own.
@@ -23,6 +40,7 @@
 # - `get_component` returns a Component from the registered cells.
 # - `get_cross_section` returns a CrossSection from the registered cross_sections.
 
+# %% [markdown]
 # ## layers
 #
 # GDS layers are a tuple of two integer number `gdslayer/gdspurpose`
@@ -35,7 +53,7 @@
 #
 # Lets generate the layers definition code from a KLayout `lyp` file.
 
-# +
+# %%
 import pathlib
 from functools import partial
 
@@ -56,6 +74,7 @@ from gdsfactory.technology import (
 from gdsfactory.typings import Layer, LayerSpec
 
 gf.config.rich_output()
+gf.CONF.display_type = "klayout"
 PDK = get_generic_pdk()
 PDK.activate()
 
@@ -64,13 +83,12 @@ nm = 1e-3
 print(lyp_to_dataclass(PATH.klayout_lyp))
 
 
-# +
+# %%
 class LayerMapDemo(LayerMap):
     WG: Layer = (1, 0)
     DEVREC: Layer = (68, 0)
     PORT: Layer = (1, 10)
     PORTE: Layer = (1, 11)
-    LABEL: Layer = (201, 0)
     LABEL_INSTANCES: Layer = (206, 0)
     LABEL_SETTINGS: Layer = (202, 0)
     LUMERICAL: Layer = (733, 0)
@@ -109,8 +127,8 @@ class LayerMapDemo(LayerMap):
 
 
 LAYER = LayerMapDemo()
-# -
 
+# %% [markdown]
 # some generic components use some
 #
 # | Layer          | Purpose                                                      |
@@ -119,7 +137,6 @@ LAYER = LayerMapDemo()
 # | PORT           | optical port pins. For connectivity checks.                  |
 # | PORTE          | electrical port pins. For connectivity checks.               |
 # | SHOW_PORTS     | add port pin markers when `Component.show(show_ports=True)`  |
-# | LABEL          | for adding labels to grating couplers for automatic testing. |
 # | LABEL_INSTANCE | for adding instance labels on `gf.read.from_yaml`            |
 # | MTOP | for top metal routing            |
 #
@@ -131,21 +148,24 @@ LAYER = LayerMapDemo()
 #     PORTE: Layer = (1, 11)  # PinRec electrical
 #     SHOW_PORTS: Layer = (1, 12)
 #
-#     LABEL: Layer = (201, 0)
 #     LABEL_INSTANCE: Layer = (66, 0)
 #     TE: Layer = (203, 0)
 #     TM: Layer = (204, 0)
 # ```
 
+# %% [markdown]
 # ## cross_sections
 #
 # You can create a `CrossSection` from scratch or you can customize the cross_section functions in `gf.cross_section`
 
+# %%
 strip2 = partial(gf.cross_section.strip, layer=(2, 0))
 
+# %%
 c = gf.components.straight(cross_section=strip2)
 c.plot()
 
+# %%
 pin = partial(
     gf.cross_section.strip,
     sections=(
@@ -156,15 +176,22 @@ pin = partial(
 c = gf.components.straight(cross_section=pin)
 c.plot()
 
+# %%
 strip_wide = partial(gf.cross_section.strip, width=3)
 
 
-strip = partial(
-    gf.cross_section.strip, auto_widen=True
-)  # auto_widen tapers to wider waveguides for lower loss in long straight sections.
+# %%
+# auto_widen tapers to wider waveguides for lower loss in long straight sections.
+strip = partial(gf.cross_section.strip, auto_widen=True)
 
-cross_sections = dict(strip_wide=strip_wide, pin=pin, strip=strip)
+# %%
+xs_sc = strip()
+xs_sc_wide = strip_wide()
+xs_pin = pin()
 
+cross_sections = dict(xs_sc_wide=xs_sc_wide, xs_pin=xs_pin, xs_sc=xs_sc)
+
+# %% [markdown]
 # ## cells
 #
 # Cells are functions that return Components. They are parametrized and accept also cells as parameters, so you can build many levels of complexity. Cells are also known as PCells or parametric cells.
@@ -174,13 +201,13 @@ cross_sections = dict(strip_wide=strip_wide, pin=pin, strip=strip)
 #
 # For example, you can make some wide MMIs for a particular technology. Lets say the best MMI width you found it to be 9um.
 
-# +
+# %%
 mmi1x2 = partial(gf.components.mmi1x2, width_mmi=9)
 mmi2x2 = partial(gf.components.mmi2x2, width_mmi=9)
 
 cells = dict(mmi1x2=mmi1x2, mmi2x2=mmi2x2)
-# -
 
+# %% [markdown]
 # ## PDK
 #
 # You can register Layers, ComponentFactories (Parametric cells) and CrossSectionFactories (cross_sections) into a PDK.
@@ -190,7 +217,7 @@ cells = dict(mmi1x2=mmi1x2, mmi2x2=mmi2x2)
 #
 # You can access layers from the active Pdk using the layer name or a tuple/list of two numbers.
 
-# +
+# %%
 from gdsfactory.generic_tech import get_generic_pdk
 
 generic_pdk = get_generic_pdk()
@@ -205,34 +232,46 @@ pdk1 = gf.Pdk(
     layer_views=generic_pdk.layer_views,
 )
 pdk1.activate()
-# -
 
+# %%
 pdk1.get_layer("WG")
 
+# %%
 pdk1.get_layer([1, 0])
 
+# %% [markdown]
 # ### CrossSectionSpec
 #
 # You can access cross_sections from the pdk from the cross_section name, or using a dict to customize the CrossSection
 
-pdk1.get_cross_section("pin")
+# %%
+pdk1.get_cross_section("xs_pin")
 
-cross_section_spec_string = "pin"
-gf.components.straight(cross_section=cross_section_spec_string)
+# %%
+cross_section_spec_string = "xs_pin"
+c = gf.components.straight(cross_section=cross_section_spec_string)
+c.plot()
 
-cross_section_spec_dict = dict(cross_section="pin", settings=dict(width=2))
+# %%
+cross_section_spec_dict = dict(cross_section="xs_pin", settings=dict(width=2))
 print(pdk1.get_cross_section(cross_section_spec_dict))
 wg_pin = gf.components.straight(cross_section=cross_section_spec_dict)
-wg_pin
+wg_pin.plot()
 
+# %% [markdown]
 # ### ComponentSpec
 #
 # You can get Component from the active pdk using the cell name (string) or a dict.
 
-pdk1.get_component("mmi1x2")
+# %%
+c = pdk1.get_component("mmi1x2")
+c.plot()
 
-pdk1.get_component(dict(component="mmi1x2", settings=dict(length_mmi=10)))
+# %%
+c = pdk1.get_component(dict(component="mmi1x2", settings=dict(length_mmi=10)))
+c.plot()
 
+# %% [markdown]
 # ## Testing PDK cells
 #
 # To make sure all your PDK PCells produce the components that you want, it's important to test your PDK cells.
@@ -250,7 +289,7 @@ pdk1.get_component(dict(component="mmi1x2", settings=dict(length_mmi=10)))
 #
 #
 
-# +
+# %%
 """This code tests all your cells in the PDK
 
 it will test 3 things:
@@ -296,27 +335,29 @@ def test_assert_ports_on_grid(component_name: str):
     component.assert_ports_on_grid()
 
 
-# -
-
+# %% [markdown]
 # ## Compare gds files
 #
 # You can use the command line `gf gds diff gds1.gds gds2.gds` to overlay `gds1.gds` and `gds2.gds` files and show them in KLayout.
 #
 # For example, if you changed the mmi1x2 and made it 5um longer by mistake, you could `gf gds diff ref_layouts/mmi1x2.gds run_layouts/mmi1x2.gds` and see the GDS differences in Klayout.
 
+# %%
 help(gf.diff)
 
+# %%
 mmi1 = gf.components.mmi1x2(length_mmi=5)
 mmi2 = gf.components.mmi1x2(length_mmi=6)
 gds1 = mmi1.write_gds()
 gds2 = mmi2.write_gds()
 gf.diff(gds1, gds2)
 
+# %% [markdown]
 # ## PDK decorator
 #
 # You can also define a PDK decorator (function) that runs over every PDK PCell.
 
-# +
+# %%
 from gdsfactory.add_pins import add_pins_siepic
 from gdsfactory.technology import LayerViews
 
@@ -369,7 +410,7 @@ c1 = gf.components.straight(length=5)
 print(has_valid_transformations(c1))
 c1.layers
 
-# +
+# %%
 pdk = gf.Pdk(
     name="fab_c",
     cells=cells,
@@ -385,19 +426,20 @@ pdk.activate()
 c1 = gf.components.straight(length=5)
 print(has_valid_transformations(c1))
 c1.layers
-c1
-# -
+c1.plot()
 
+# %% [markdown]
 # You can see a waveguide with device recognition layer and pins.
 #
 
+# %% [markdown]
 # ## Version control components
 #
 # For version control your component library you can use GIT
 #
 # For tracking changes you can add `Component` changelog in the PCell docstring.
 
-# +
+# %%
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.typings import LayerSpec
@@ -439,14 +481,14 @@ def litho_ruler(
 
 c = litho_ruler()
 c.plot()
-# -
 
+# %% [markdown]
 # Lets assume that later on you change the code inside the PCell and want to keep a changelog.
 # You can use the docstring Notes to document any significant changes in the component.
 #
 
 
-# +
+# %%
 @gf.cell
 def litho_ruler(
     height: float = 2,

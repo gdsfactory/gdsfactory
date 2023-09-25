@@ -2,16 +2,16 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.components.straight import straight
+from gdsfactory.typings import CrossSectionSpec
 
 
 @gf.cell
 def straight_array(
     n: int = 4,
     spacing: float = 4.0,
-    straight: ComponentSpec = straight_function,
-    **kwargs,
+    length: float = 10.0,
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     """Array of straights connected with grating couplers.
 
@@ -20,11 +20,11 @@ def straight_array(
     Args:
         n: number of straights.
         spacing: edge to edge straight spacing.
-        straight: straight straight Component or library.
-        kwargs: straight settings.
+        length: straight length (um).
+        cross_section: specification (CrossSection, string or dict).
     """
     c = Component()
-    wg = gf.get_component(straight, **kwargs)
+    wg = straight(cross_section=cross_section, length=length)
 
     for i in range(n):
         wref = c.add_ref(wg)

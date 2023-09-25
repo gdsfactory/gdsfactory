@@ -32,7 +32,7 @@ settings:
     bend:
       function: bend_euler
     combiner: null
-    cross_section: strip
+    cross_section: xs_sc
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10.0
@@ -56,7 +56,7 @@ settings:
     bend:
       function: bend_euler
     combiner: null
-    cross_section: strip
+    cross_section: xs_sc
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10.0

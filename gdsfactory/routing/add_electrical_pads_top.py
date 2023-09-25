@@ -1,17 +1,21 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array as pad_array_function
-from gdsfactory.components.straight import straight
+from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.typings import Callable, ComponentSpec, Float2, LayerSpec, Strs
 
+_wire_long = partial(wire_straight, length=200.0)
+
 
 @gf.cell
 def add_electrical_pads_top(
-    component: ComponentSpec = straight,
+    component: ComponentSpec = _wire_long,
     direction: str = "top",
     spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentSpec = pad_array_function,
@@ -47,7 +51,7 @@ def add_electrical_pads_top(
 
         import gdsfactory as gf
 
-        c = gf.components.straight_heater_metal()
+        c = gf.components.wire_straight(length=200.)
         cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
         cc.plot()
 
@@ -93,13 +97,10 @@ def add_electrical_pads_top(
 
 
 if __name__ == "__main__":
-    # FIXME
-    # c = demo_mzi()
-    # c = demo_straight()
-    # c.show(show_ports=True)
     import gdsfactory as gf
 
-    c = gf.components.straight_heater_metal()
+    # c = gf.components.straight_heater_metal()
     # c = gf.components.mzi_phase_shifter_top_heater_metal()
-    cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
-    cc.show(show_ports=True)
+    # cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
+    c = add_electrical_pads_top()
+    c.show(show_ports=True)

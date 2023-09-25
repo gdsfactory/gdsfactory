@@ -7,22 +7,21 @@ from gdsfactory.generic_tech import LAYER
 
 def test_path_near_collinear() -> None:
     p = gf.path.smooth(points=[(0, 0), (0, 1000), (1, 10000)])
-    c = p.extrude(cross_section="strip")
+    c = p.extrude(cross_section="xs_sc")
     assert c
 
 
 def test_path_port_types() -> None:
     """Test path with different port types."""
-    s = gf.Section(
+    s0 = gf.Section(width=0.5, offset=0, layer=LAYER.SLAB90, port_names=["o1", "o2"])
+    s1 = gf.Section(
         width=2.0,
         offset=-4,
         layer=LAYER.HEATER,
         port_names=["e1", "e2"],
         port_types=("electrical", "electrical"),
     )
-    X = gf.CrossSection(
-        width=0.5, offset=0, layer=LAYER.SLAB90, port_names=["o1", "o2"], sections=[s]
-    )
+    X = gf.CrossSection(sections=(s0, s1))
     P = gf.path.straight(npoints=100, length=10)
     c = gf.path.extrude(P, X)
     assert c.ports["e1"].port_type == "electrical"
@@ -35,15 +34,17 @@ def test_extrude_transition() -> None:
     w1 = 1
     w2 = 5
     length = 10
-    cs1 = gf.get_cross_section("strip", width=w1)
-    cs2 = gf.get_cross_section("strip", width=w2)
+    cs1 = gf.get_cross_section("xs_sc", width=w1)
+    cs2 = gf.get_cross_section("xs_sc", width=w2)
     transition = gf.path.transition(cs1, cs2)
     p = gf.path.straight(length)
-    c = gf.path.extrude(p, transition)
-    # assert c.ports["o1"].cross_section == cs1
-    # assert c.ports["o2"].cross_section == cs2
+    c = gf.path.extrude_transition(p, transition)
+    assert c.ports["o1"].cross_section == cs1
+    assert c.ports["o2"].cross_section == cs2
     assert c.ports["o1"].width == w1
     assert c.ports["o2"].width == w2
+    assert c.ports["o1"].cross_section.width == w1
+    assert c.ports["o2"].cross_section.width == w2
 
     expected_area = (w1 + w2) / 2 * length
     actual_area = c._cell.area(True)[(1, 0)]
@@ -54,11 +55,12 @@ def test_transition_cross_section() -> None:
     w1 = 1
     w2 = 5
     length = 10
-    cs1 = gf.get_cross_section("strip", width=w1)
-    cs2 = gf.get_cross_section("strip", width=w2)
-    transition = gf.path.transition(cs1, cs2, port_names=(None, None))
+    cs1 = gf.get_cross_section("xs_sc", width=w1)
+    cs2 = gf.get_cross_section("xs_sc", width=w2)
+    transition = gf.path.transition(cs1, cs2)
 
-    c = gf.components.straight(length=length, cross_section=transition)
+    p = gf.path.straight(length=length)
+    c = gf.path.extrude_transition(p=p, transition=transition)
     assert c.ports["o1"].width == w1
     assert c.ports["o2"].width == w2
 
@@ -99,9 +101,9 @@ def test_transition_cross_section_different_layers() -> None:
         clad_layer="WGCLAD",
         clad_width=w2,
     )
-    transition = gf.path.transition(cs1, cs2, port_names=(None, None))
-
-    c = gf.components.straight(length=length, cross_section=transition)
+    transition = gf.path.transition(cs1, cs2)
+    p = gf.path.straight(length=length)
+    c = gf.path.extrude_transition(p=p, transition=transition)
     assert c.ports["o1"].width == core_width
     assert c.ports["o2"].width == core_width
     assert c.ports["o1"].layer == intent_layer_1
@@ -114,14 +116,17 @@ def test_transition_cross_section_different_layers() -> None:
     assert c._cell.area(True)[gf.get_layer("WGCLAD")] == expected_area
 
 
-def test_diagonal_extrude_consistent_naming():
+def test_diagonal_extrude_consistent_naming() -> None:
     """This test intends to check that diagonal extrude components are properly serialized and get the same name on different platforms/environments."""
     p = gf.path.Path([(0, 0), (4.9932849, 6.328497)])
-    c = p.extrude(cross_section="strip")
+    c = p.extrude(cross_section="xs_sc")
     # This name was generated at the time of writing the test. We expect it to be the same across other platforms.
-    expected_name = "extrude_43964f7b"
-    assert c.name == expected_name
+    expected_name = "extrude_d442fd31"
+    assert c.name == expected_name, c.name
 
 
 if __name__ == "__main__":
-    test_transition_cross_section()
+    # test_diagonal_extrude_consistent_naming()
+    # test_transition_cross_section()
+    test_transition_cross_section_different_layers()
+    # test_extrude_transition()

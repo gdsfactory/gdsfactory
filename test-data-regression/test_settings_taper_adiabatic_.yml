@@ -29,7 +29,7 @@ settings:
   child: null
   default:
     alpha: 1
-    cross_section: strip
+    cross_section: xs_sc
     length: 0
     neff_w:
       function: <lambda>
@@ -39,7 +39,7 @@ settings:
     width2: 5.0
   full:
     alpha: 1
-    cross_section: strip
+    cross_section: xs_sc
     length: 0
     neff_w:
       function: <lambda>

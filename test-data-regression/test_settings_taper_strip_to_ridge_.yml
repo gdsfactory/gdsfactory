@@ -28,9 +28,7 @@ settings:
   changed: {}
   child: null
   default:
-    bbox_layers: null
-    bbox_offsets: null
-    cross_section: strip
+    cross_section: xs_sc
     layer_slab: SLAB90
     layer_wg: WG
     length: 10.0
@@ -39,9 +37,7 @@ settings:
     width1: 0.5
     width2: 0.5
   full:
-    bbox_layers: null
-    bbox_offsets: null
-    cross_section: strip
+    cross_section: xs_sc
     layer_slab: SLAB90
     layer_wg: WG
     length: 10.0

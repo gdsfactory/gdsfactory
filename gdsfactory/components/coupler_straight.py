@@ -3,30 +3,29 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
+from gdsfactory.cross_section import CrossSectionSpec
 
 
 @gf.cell
 def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,
-    **kwargs,
+    cross_section: CrossSectionSpec = "xs_sc_no_pins",
 ) -> Component:
     """Coupler_straight with two parallel straights.
 
     Args:
         length: of straight.
         gap: between straights.
-        kwargs: cross_section settings.
+        cross_section: specification (CrossSection, string or dict).
     """
     component = Component()
-    straight_component = straight(length=length, **kwargs)
+    straight_component = straight(
+        length=length, cross_section=cross_section, add_pins=False
+    )
 
     top = component << straight_component
     bot = component << straight_component
-
-    # bot.ymax = 0
-    # top.ymin = gap
-
     top.movey(straight_component.info["width"] + gap)
 
     component.add_port("o1", port=bot.ports["o1"])
@@ -39,4 +38,4 @@ def coupler_straight(
 
 if __name__ == "__main__":
     c = coupler_straight(length=2)
-    c.show(show_ports=True)
+    c.show(show_ports=False)

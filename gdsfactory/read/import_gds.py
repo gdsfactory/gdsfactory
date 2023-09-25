@@ -33,7 +33,8 @@ def import_gds(
         gdsdir: optional GDS directory.
         read_metadata: loads metadata (ports, settings) if it exists in YAML format.
         keep_name_short: appends a hash to a shortened component name.
-        unique_names: appends $ with a number to the name if the cell name is on CACHE. This avoids name collisions when importing multiple times the same cell name.
+        unique_names: appends $ with a number to the name if the cell name is on CACHE. \
+                This avoids name collisions when importing multiple times the same cell name.
         kwargs: extra to add to component.info (polarization, wavelength ...).
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
@@ -74,7 +75,7 @@ def import_gds(
         D_list += [D]
 
     cellnames = list(cell_name_to_component.keys())
-    if cellname is not None:
+    if cellname:
         if cellname not in cell_name_to_component:
             raise ValueError(
                 f"cell {cellname!r} is not in file {gdspath} with cells {cellnames}"
@@ -154,12 +155,12 @@ def import_gds_raw(gdspath, top_cellname: str | None = None):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.array()
+    c = gf.components.mzi()
     gdspath = c.write_gds()
     # c.show(show_ports=True)
 
     # c = import_gds(gdspath)
-    c = import_gds(gdspath)
+    c = import_gds(gdspath, cellname="straight_length7p0")
     c.show(show_ports=False)
 
     # gdspath = PATH.gdsdir / "mzi2x2.gds"

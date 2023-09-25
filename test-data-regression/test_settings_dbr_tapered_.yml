@@ -28,7 +28,7 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section: strip
+    cross_section: xs_sc
     dc: 0.5
     fin_size:
     - 0.2
@@ -40,7 +40,7 @@ settings:
     w1: 0.4
     w2: 1.0
   full:
-    cross_section: strip
+    cross_section: xs_sc
     dc: 0.5
     fin_size:
     - 0.2

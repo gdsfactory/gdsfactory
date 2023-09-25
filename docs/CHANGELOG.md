@@ -1,6 +1,19 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.7.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.0...main)
+
+## [7.8.0](https://github.com/gdsfactory/gdsfactory/compare/v7.7.1...v7.8.0)
+
+- fixes name issue https://github.com/gdsfactory/gdsfactory/issues/2089
+- adds `CONF.enforce_ports_on_grid` flag that allows you to create offgrid ports fixes https://github.com/gdsfactory/gdsfactory/issues/2118
+- simplify CrossSection so that it's serializable.
+- simplify Transition, it does not inherit from CrossSection
+- create separate `gf.path.extrude_transition`
+- remove A-star router from docs as it's an experimental feature, not ready for use
+- remove **kwargs from many components
+- add warnings for off-grid-ports and non-manhattan ports (0, 90, 180, 270)
+- add `CrossSection.validate_radius`
+- pin pydantic min version <2.4
 
 ## [7.7.1](https://github.com/gdsfactory/gdsfactory/compare/v7.7.0...v7.7.1)
 

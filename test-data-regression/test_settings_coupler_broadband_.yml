@@ -56,7 +56,7 @@ settings:
       function: bend_euler
     coupler_straight:
       function: coupler_straight
-    cross_section: strip
+    cross_section: xs_sc
     gap_pc: 0.3
     gap_sc: 0.2
     legnth_taper: 1.0
@@ -70,7 +70,7 @@ settings:
       function: bend_euler
     coupler_straight:
       function: coupler_straight
-    cross_section: strip
+    cross_section: xs_sc
     gap_pc: 0.3
     gap_sc: 0.2
     legnth_taper: 1.0

@@ -53,7 +53,8 @@ filepath = "yaml_pics/pads.pic.yml"
 Code(filepath, language="yaml+jinja")
 
 # %%
-gf.read.from_yaml(filepath).plot()
+c = gf.read.from_yaml(filepath)
+c.plot()
 
 # %% [markdown]
 # Lets start by defining the `instances` and `placements` section in YAML
@@ -394,3 +395,5 @@ c.plot()
 # %%
 c = mzi_lattice(delta_length=100)
 c.plot()
+
+# %%

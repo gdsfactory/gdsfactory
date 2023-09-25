@@ -20,12 +20,11 @@ def ring_single_heater(
     length_y: float = 0.6,
     coupler_ring: ComponentSpec = _coupler_ring,
     bend: ComponentSpec = bend_euler,
-    cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
-    cross_section: CrossSectionSpec = "strip",
+    cross_section_waveguide_heater: CrossSectionSpec = "xs_sc_heater_metal",
+    cross_section: CrossSectionSpec = "xs_sc",
     via_stack: ComponentSpec = via_stack_heater_mtop_mini,
     port_orientation: float | None = None,
     via_stack_offset: Float2 = (0, 0),
-    **kwargs,
 ) -> gf.Component:
     """Returns a single ring with heater on top.
 
@@ -44,7 +43,6 @@ def ring_single_heater(
         via_stack: for heater to routing metal.
         port_orientation: for electrical ports to promote from via_stack.
         via_stack_offset: x,y offset for via_stack.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -65,23 +63,22 @@ def ring_single_heater(
         radius=radius,
         length_x=length_x,
         cross_section=cross_section,
-        bend_cross_section=cross_section_waveguide_heater,
-        **kwargs,
+        cross_section_bend=cross_section_waveguide_heater,
     )
 
     straight_side = straight(
         length=length_y,
         cross_section=cross_section_waveguide_heater,
-        **kwargs,
     )
     straight_top = straight(
         length=length_x,
         cross_section=cross_section_waveguide_heater,
-        **kwargs,
     )
 
     bend = gf.get_component(
-        bend, radius=radius, cross_section=cross_section_waveguide_heater, **kwargs
+        bend,
+        radius=radius,
+        cross_section=cross_section_waveguide_heater,
     )
 
     c = gf.Component()
@@ -127,5 +124,5 @@ def ring_single_heater(
 
 
 if __name__ == "__main__":
-    c = ring_single_heater(width=0.5, gap=1, layer=(2, 0), radius=10, length_y=1)
+    c = ring_single_heater()
     c.show(show_subports=False)

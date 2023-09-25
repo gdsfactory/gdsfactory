@@ -23,7 +23,7 @@ def mode_converter(
     mc_mm_width: float = 1,
     sm_width: float = 0.5,
     taper_length: float = 25,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     r"""Returns Mode converter from TE0 to TE1.

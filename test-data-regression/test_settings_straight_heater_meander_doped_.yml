@@ -124,7 +124,7 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section: strip
+    cross_section: xs_sc
     extension_length: 15.0
     heater_width: 1.5
     layers_doping:
@@ -172,7 +172,7 @@ settings:
             - 0.2
             - 0.2
   full:
-    cross_section: strip
+    cross_section: xs_sc
     extension_length: 15.0
     heater_width: 1.5
     layers_doping:

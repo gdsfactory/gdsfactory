@@ -22,8 +22,7 @@ def polarization_splitter_rotator(
     width_out: float = 0.54,
     length_out: float = 14.33,
     dy: float = 5.0,
-    cross_section: CrossSectionSpec = "strip",
-    **kwargs,
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     """Returns polarization splitter rotator
 
@@ -42,8 +41,6 @@ def polarization_splitter_rotator(
         dy: Port-to-port distance between the splitter region in um.
         cross_section: cross-section spec.
 
-    Keyword Args:
-        cross_section kwargs.
 
     Notes:
         The length of third input taper is automatically determined
@@ -51,7 +48,7 @@ def polarization_splitter_rotator(
     """
 
     c = gf.Component()
-    x = gf.get_cross_section(cross_section=cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section=cross_section)
 
     w0, w1, w2 = width_taper_in
     w3, w4 = width_coupler
@@ -72,7 +69,7 @@ def polarization_splitter_rotator(
     def bend_s_width(t: ndarray) -> ndarray:
         return w4 + (width_out - w4) * t
 
-    x_bend = x.copy(width=bend_s_width)
+    x_bend = x.copy(width_function=bend_s_width)
 
     bend_s_var = c << bezier(
         control_points=(
@@ -82,7 +79,6 @@ def polarization_splitter_rotator(
             (length_out, dy),
         ),
         cross_section=x_bend,
-        **kwargs,
     )
 
     taper_out = c << taper(
