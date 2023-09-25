@@ -18,6 +18,7 @@ def bend_s(
     npoints: int = 99,
     cross_section: CrossSectionSpec = "xs_sc",
     check_min_radius: bool = False,
+    add_pins: bool = True,
     **kwargs,
 ) -> Component:
     """Return S bend with bezier curve.
@@ -29,6 +30,7 @@ def bend_s(
         size: in x and y direction.
         npoints: number of points.
         cross_section: spec.
+        add_pins: add pins to the component.
         check_min_radius: raise ValueError if radius below min_bend_radius.
 
     Keyword Args:
@@ -40,6 +42,7 @@ def bend_s(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
         npoints=npoints,
         cross_section=cross_section,
+        add_pins=add_pins,
         **kwargs,
     )
     bend_ref = c << bend

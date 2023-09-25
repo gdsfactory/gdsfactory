@@ -53,7 +53,7 @@ settings:
   child: null
   default:
     bend: bend_euler
-    cross_section: strip
+    cross_section: xs_sc
     det_spacing:
     - 60.0
     - 50.0
@@ -68,7 +68,7 @@ settings:
     with_pads: true
   full:
     bend: bend_euler
-    cross_section: strip
+    cross_section: xs_sc
     det_spacing:
     - 60.0
     - 50.0

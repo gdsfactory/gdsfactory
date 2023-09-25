@@ -87,6 +87,5 @@ def straight_pin(
 straight_pn = partial(straight_pin, cross_section=pn, length=2000)
 
 if __name__ == "__main__":
-    c = straight_pin(length=40)
-    # print(c.ports.keys())
+    c = straight_pn(length=40)
     c.show(show_ports=True)

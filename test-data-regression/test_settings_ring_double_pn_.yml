@@ -54,33 +54,50 @@ settings:
   default:
     add_gap: 0.3
     cross_section:
-      function: cross_section
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 4.85
+      add_pins_function_module: gdsfactory.add_pins
+      add_pins_function_name: add_pins_inside1nm
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      bbox_layers:
+      - DEVREC
+      bbox_offsets:
+      - 0.0
+      components_along_path: []
+      end_straight_length: 0.01
+      gap: 3.0
+      info: {}
+      min_length: 0.01
+      radius: 10.0
+      sections:
+      - hidden: false
+        insets: null
+        layer: WG
+        name: null
+        offset: 0.0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        simplify: null
+        width: 0.5
+      - hidden: false
+        insets: null
+        layer: SLAB90
+        name: slab
+        offset: 0
+        port_names:
+        - null
+        - null
+        port_types:
+        - optical
+        - optical
+        simplify: 0.05
+        width: 6.0
+      start_straight_length: 0.01
+      taper_length: 10.0
+      width_wide: null
     doped_heater: true
     doped_heater_angle_buffer: 10
     doped_heater_layer: NPP
@@ -131,33 +148,50 @@ settings:
   full:
     add_gap: 0.3
     cross_section:
-      function: cross_section
-      settings:
-        add_bbox: null
-        add_pins:
-          function: add_pins
-          settings:
-            function:
-              function: add_pin_rectangle_inside
-              settings:
-                layer_label: null
-                pin_length: 0.001
-        info:
-          type: strip
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 4.85
+      add_pins_function_module: gdsfactory.add_pins
+      add_pins_function_name: add_pins_inside1nm
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      bbox_layers:
+      - DEVREC
+      bbox_offsets:
+      - 0.0
+      components_along_path: []
+      end_straight_length: 0.01
+      gap: 3.0
+      info: {}
+      min_length: 0.01
+      radius: 10.0
+      sections:
+      - hidden: false
+        insets: null
+        layer: WG
+        name: null
+        offset: 0.0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        simplify: null
+        width: 0.5
+      - hidden: false
+        insets: null
+        layer: SLAB90
+        name: slab
+        offset: 0
+        port_names:
+        - null
+        - null
+        port_types:
+        - optical
+        - optical
+        simplify: 0.05
+        width: 6.0
+      start_straight_length: 0.01
+      taper_length: 10.0
+      width_wide: null
     doped_heater: true
     doped_heater_angle_buffer: 10
     doped_heater_layer: NPP

@@ -13,7 +13,7 @@ def bend_port(
     port_name2: str = "r_e1",
     port_name1_bend: str | None = None,
     port_name2_bend: str | None = None,
-    cross_section: CrossSectionSpec = "metal3_with_bend",
+    cross_section: CrossSectionSpec = "xs_m3_bend",
     bend: ComponentSpec = bend_circular,
     angle: float = 180,
     extension_length: float | None = None,
@@ -35,7 +35,9 @@ def bend_port(
     """
     c = gf.Component()
     component = gf.get_component(component)
-    c.component = component
+
+    xs = gf.get_cross_section(cross_section)
+    xs = xs.copy(**kwargs)
 
     if port_name not in component.ports:
         raise ValueError(
@@ -47,7 +49,7 @@ def bend_port(
     )
 
     ref = c << component
-    b = c << gf.get_component(bend, angle=angle, cross_section=cross_section, **kwargs)
+    b = c << gf.get_component(bend, angle=angle, cross_section=xs)
     bend_ports = b.get_ports_list()
 
     port_name1_bend = port_name1_bend or bend_ports[0].name
@@ -55,9 +57,7 @@ def bend_port(
 
     b.connect(port_name1_bend, ref.ports[port_name])
 
-    s = c << gf.components.straight(
-        length=extension_length, cross_section=cross_section, **kwargs
-    )
+    s = c << gf.components.straight(length=extension_length, cross_section=xs)
     straight_ports = s.get_ports_list()
     o2 = straight_ports[1].name
     o1 = straight_ports[0].name

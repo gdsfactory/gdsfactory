@@ -51,8 +51,8 @@ def grating_coupler_dual_pol(
         polarization: polarization of the grating coupler.
         wavelength: operation wavelength [um]
         taper: function to generate the tapers.
-        base_layer: layer to draw over the whole photonic crystal
-            (necessary if the unit cells are etched into a base layer).
+        base_layer: layer to draw over the whole photonic crystal \
+                (necessary if the unit cells are etched into a base layer).
         cross_section: for the routing waveguides.
         kwargs: cross_section settings.
 
@@ -89,9 +89,6 @@ def grating_coupler_dual_pol(
 
     c = Component()
 
-    # ---------- First draw the grating coupler itself -----
-
-    # Base layer
     _ = c << rectangle(
         size=(x_span, y_span), layer=base_layer, centered=True, port_type=None
     )
@@ -130,7 +127,7 @@ def grating_coupler_dual_pol(
         length=length_taper,
         width2=width_taper,
         width1=wg_width,
-        layer=layer,
+        cross_section=xs,
     )
 
     taper1.xmax = -x_span / 2
@@ -143,7 +140,7 @@ def grating_coupler_dual_pol(
         length=length_taper,
         width2=width_taper,
         width1=wg_width,
-        layer=layer,
+        cross_section=xs,
     )
     taper2.rotate(90)
 
@@ -152,11 +149,8 @@ def grating_coupler_dual_pol(
     c.add_port(port=taper2.ports["o1"], name="o2")
 
     gf.asserts.grating_coupler(c)
-    if xs.add_bbox:
-        c = xs.add_bbox(c)
-    if xs.add_pins:
-        c = xs.add_pins(c)
-
+    xs.add_bbox(c)
+    xs.add_pins(c)
     return c
 
 
