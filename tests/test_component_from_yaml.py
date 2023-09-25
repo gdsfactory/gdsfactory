@@ -104,8 +104,6 @@ routes:
         settings:
             cross_section:
                 cross_section: xs_sc
-                settings:
-                    layer: [2, 0]
 
 """
 
@@ -597,6 +595,7 @@ def test_ref_names_retained_on_copy() -> None:
 
 
 if __name__ == "__main__":
+    test_connections_2x2()
     # test_connections_different_factory()
     # test_sample()
     # test_connections()
@@ -608,9 +607,10 @@ if __name__ == "__main__":
     # yaml_key = "sample_doe_grid"
     # yaml_key = "sample_docstring"
     # yaml_key = "sample_waypoints"
-    yaml_key = "sample_different_link_factory"
-    yaml_string = yaml_strings[yaml_key]
-    c = from_yaml(yaml_string)
+    # yaml_key = "sample_different_link_factory"
+    # yaml_key = "test_connections_2x2"
+    # yaml_string = yaml_strings[yaml_key]
+    # c = from_yaml(yaml_string)
     # print(sorted([i.name for i in c.get_dependencies(True)]))
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)

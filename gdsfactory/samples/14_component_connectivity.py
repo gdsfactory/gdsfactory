@@ -47,23 +47,20 @@ def ring_single_sample(
     """
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
 
+    xs = gf.get_cross_section(cross_section, **kwargs)
+
     coupler_ring_component = gf.get_component(
         coupler_ring,
         bend=bend,
         gap=gap,
         radius=radius,
         length_x=length_x,
-        cross_section=cross_section,
-        **kwargs,
+        cross_section=xs,
     )
-    straight_side = gf.get_component(
-        straight, length=length_y, cross_section=cross_section, **kwargs
-    )
-    straight_top = gf.get_component(
-        straight, length=length_x, cross_section=cross_section, **kwargs
-    )
+    straight_side = gf.get_component(straight, length=length_y, cross_section=xs)
+    straight_top = gf.get_component(straight, length=length_x, cross_section=xs)
 
-    bend = gf.get_component(bend, radius=radius, cross_section=cross_section, **kwargs)
+    bend = gf.get_component(bend, radius=radius, cross_section=xs)
 
     c = Component()
     cb = c << coupler_ring_component

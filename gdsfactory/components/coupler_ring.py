@@ -8,6 +8,7 @@ from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import (
     ComponentFactory,
+    ComponentSpec,
     Coordinates,
     CrossSectionSpec,
     LayerSpecs,
@@ -20,7 +21,7 @@ def coupler_ring(
     radius: float = 5.0,
     length_x: float = 4.0,
     coupler90: ComponentFactory = coupler90,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     coupler_straight: ComponentFactory = coupler_straight,
     cross_section: CrossSectionSpec = "xs_sc",
     cross_section_bend: CrossSectionSpec | None = None,
