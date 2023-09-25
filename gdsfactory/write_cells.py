@@ -124,6 +124,7 @@ def write_cells_recursively(
     lib = gdstk.read_gds(gdspath)
     dirpath = dirpath or pathlib.Path.cwd()
     dirpath = pathlib.Path(dirpath)
+    dirpath.mkdir(exist_ok=True, parents=True)
     gdspaths = {}
 
     for cell in lib.cells:
