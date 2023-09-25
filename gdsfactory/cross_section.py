@@ -4,6 +4,7 @@ To create a component you need to extrude the path with a cross-section.
 """
 from __future__ import annotations
 
+import hashlib
 import importlib
 import sys
 from collections.abc import Callable, Iterable
@@ -150,6 +151,11 @@ class CrossSection(BaseModel):
     @classmethod
     def validate_x(cls, v):
         return v
+
+    @property
+    def name(self) -> str:
+        h = hashlib.md5(str(self).encode()).hexdigest()[:8]
+        return f"xs_{h}"
 
     @property
     def width(self):
@@ -2123,7 +2129,7 @@ if __name__ == "__main__":
         cladding_layers=[(2, 0)],
         cladding_offsets=[3],
     )
-    print(xs.__hash__())
+    print(xs.name)
     # p = gf.path.straight()
     # c = p.extrude(xs)
     c = gf.c.straight()
