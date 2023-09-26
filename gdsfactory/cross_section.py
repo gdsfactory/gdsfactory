@@ -181,6 +181,10 @@ class CrossSection(BaseModel):
     def layer(self) -> LayerSpec:
         return self.sections[0].layer
 
+    def append_sections(self, sections: Sections) -> CrossSection:
+        sections = self.sections + tuple(sections)
+        return self.model_copy(update={"sections": sections})
+
     def copy(
         self,
         width: float | None = None,
@@ -2165,11 +2169,12 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     xs = gf.cross_section.strip(
-        cladding_layers=[(2, 0)],
-        cladding_offsets=[3],
+        # cladding_layers=[(2, 0)],
+        # cladding_offsets=[3],
     )
     print(xs.name)
+    xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0))])
     # p = gf.path.straight()
     # c = p.extrude(xs)
-    c = gf.c.straight()
+    c = gf.c.straight(cross_section=xs)
     c.show()

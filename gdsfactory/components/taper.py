@@ -116,6 +116,7 @@ def taper_strip_to_ridge(
     layer_wg: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB90",
     cross_section: CrossSectionSpec = "xs_sc",
+    **kwargs,
 ) -> Component:
     r"""Linear taper from strip to rib.
 
@@ -130,6 +131,7 @@ def taper_strip_to_ridge(
         layer_wg: for input waveguide.
         layer_slab: for output waveguide with slab.
         cross_section: for input waveguide.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -143,7 +145,7 @@ def taper_strip_to_ridge(
                      \__________________________
 
     """
-    xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section, **kwargs)
     xs_wg = xs.copy(layer=layer_wg)
     xs_slab = xs.copy(layer=layer_slab)
 
