@@ -707,6 +707,7 @@ def pin(
     via_width: float = 1,
     via_offsets: tuple[float, ...] | None = None,
     sections: tuple[Section, ...] | None = None,
+    **kwargs,
 ) -> CrossSection:
     """Rib PIN doped cross_section.
 
@@ -724,6 +725,9 @@ def pin(
         layer_via: for via.
         via_width: in um.
         via_offsets: in um.
+        sections: cross_section sections.
+        kwargs: cross_section settings.
+
 
     https://doi.org/10.1364/OE.26.029983
 
@@ -787,6 +791,7 @@ def pin(
         width=width,
         layer=layer,
         sections=tuple(sections),
+        **kwargs,
     )
 
 
@@ -815,6 +820,7 @@ def pn(
     cladding_layers: LayerSpecs | None = None,
     cladding_offsets: Floats | None = None,
     cladding_simplify: Floats | None = None,
+    **kwargs,
 ) -> CrossSection:
     """Rib PN doped cross_section.
 
@@ -845,6 +851,7 @@ def pn(
         cladding_simplify: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting\
                 polygon by more than the value listed here will be removed.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -967,6 +974,7 @@ def pn(
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
         cladding_simplify=cladding_simplify,
+        **kwargs,
     )
 
 
@@ -1535,6 +1543,7 @@ def strip_heater_metal_undercut(
     layer_heater: LayerSpec = "HEATER",
     layer_trench: LayerSpec = "DEEPTRENCH",
     sections: Sections | None = None,
+    **kwargs,
 ) -> CrossSection:
     """Returns strip cross_section with top metal and undercut trenches on both.
 
@@ -1550,6 +1559,7 @@ def strip_heater_metal_undercut(
         trench_gap: from waveguide edge to trench edge.
         layer_heater: heater layer.
         layer_trench: tench layer.
+        sections: cross_section sections.
         kwargs: cross_section settings.
 
     .. code::
@@ -1597,6 +1607,7 @@ def strip_heater_metal_undercut(
         width=width,
         layer=layer,
         sections=tuple(sections),
+        **kwargs,
     )
 
 
@@ -1606,6 +1617,7 @@ def strip_heater_metal(
     heater_width: float = 2.5,
     layer_heater: LayerSpec = "HEATER",
     sections: Sections | None = None,
+    **kwargs,
 ) -> CrossSection:
     """Returns strip cross_section with top heater metal.
 
@@ -1616,6 +1628,8 @@ def strip_heater_metal(
         layer: waveguide layer.
         heater_width: of metal heater.
         layer_heater: for the metal.
+        sections: cross_section sections.
+        kwargs: cross_section settings.
 
     .. plot::
         :include-source:
@@ -1641,8 +1655,9 @@ def strip_heater_metal(
     return strip(
         width=width,
         layer=layer,
-        sections=sections,
+        sections=tuple(sections),
         info=dict(heater_width=heater_width),
+        **kwargs,
     )
 
 
@@ -1665,6 +1680,7 @@ def strip_heater_doped(
         heater_gap: in um.
         layers_heater: for doped heater.
         bbox_offsets_heater: for each layers_heater.
+        sections: cross_section sections.
         kwargs: cross_section settings.
 
     .. code::
@@ -1813,6 +1829,7 @@ def rib_heater_doped_via_stack(
     with_top_heater: bool = True,
     with_bot_heater: bool = True,
     sections: Sections | None = None,
+    **kwargs,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
 
@@ -1833,6 +1850,8 @@ def rib_heater_doped_via_stack(
         slab_offset: over the center of the slab.
         with_top_heater: adds top/left heater.
         with_bot_heater: adds bottom/right heater.
+        sections: list of sections to add to the cross_section.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -1917,6 +1936,7 @@ def rib_heater_doped_via_stack(
         sections=tuple(sections),
         width=width,
         layer=layer,
+        **kwargs,
     )
 
 
@@ -1942,6 +1962,7 @@ def pn_ge_detector_si_contacts(
     cladding_layers: Layers | None = cladding_layers_optical,
     cladding_offsets: Floats | None = cladding_offsets_optical,
     cladding_simplify: Floats | None = None,
+    **kwargs,
 ) -> CrossSection:
     """Linear Ge detector cross section based on a lateral p(i)n junction.
 
@@ -1979,6 +2000,7 @@ def pn_ge_detector_si_contacts(
         cladding_simplify: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -2089,7 +2111,8 @@ def pn_ge_detector_si_contacts(
     sections.append(s)
 
     return CrossSection(
-        sections=sections,
+        sections=tuple(sections),
+        **kwargs,
     )
 
 

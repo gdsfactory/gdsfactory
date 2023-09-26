@@ -29,7 +29,7 @@ def taper_cross_section(
         npoints: number of points.
         linear: shape of the transition, sine when False.
         width_type: shape of the transition ONLY IF linear is False
-        kwargs: cross_section settings for section2.
+        kwargs: cross_section settings for both cross_sections.
 
 
     .. code::
@@ -45,7 +45,7 @@ def taper_cross_section(
 
 
     """
-    x1 = gf.get_cross_section(cross_section1)
+    x1 = gf.get_cross_section(cross_section1, **kwargs)
     x2 = gf.get_cross_section(cross_section2, **kwargs)
     transition = gf.path.transition(
         cross_section1=x1,
