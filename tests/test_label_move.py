@@ -6,7 +6,7 @@ import gdsfactory as gf
 @gf.cell
 def component_with_label() -> None:
     c = gf.Component("component_with_label")
-    c << gf.components.rectangle()
+    _ = c << gf.components.rectangle()
     c.add_label(text="demo", position=(0.0, 0.0), layer=(66, 0))
 
 

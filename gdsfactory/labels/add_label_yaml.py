@@ -114,7 +114,18 @@ if __name__ == "__main__":
         decorator=decorator,
         info=info,
     )
+
+    c = gf.components.spiral_inner_io_fiber_array(
+        length=20e3,
+        decorator=decorator,
+        info=dict(
+            measurement="optical_loopback2",
+            doe="spiral_sc",
+            measurement_settings=dict(wavelength_alignment=1560),
+        ),
+    )
     print(len(c.labels[0].text))
     print(c.labels[0].text)
     d = yaml.safe_load(c.labels[0].text) if yaml else json.loads(c.labels[0].text)
+    print(d)
     c.show(show_ports=False)

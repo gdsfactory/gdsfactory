@@ -57,7 +57,6 @@ def _write() -> None:
     c1 = gf.components.straight(length=1.234)
     gdspath = gf.PATH.gdsdir / "straight.gds"
     c1.write_gds(gdspath=gdspath, with_metadata=True)
-    c1.show()
     c1.pprint()
 
 

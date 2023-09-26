@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdstk
 import numpy as np
 
@@ -45,9 +47,12 @@ def regular_polygon(
     return c
 
 
+hexagon = partial(regular_polygon, sides=6)
+octagon = partial(regular_polygon, sides=8)
+
+
 if __name__ == "__main__":
-    c = regular_polygon(sides=8, side_length=20)
+    # c = regular_polygon(sides=8, side_length=20)
     # c = rectangle(size=(3, 2), centered=True, layer=(2, 3))
-    print(c.ports)
-    print(c.name)
+    c = octagon(side_length=20)
     c.show(show_ports=True)

@@ -19,7 +19,7 @@ def test_two_flats_in_one():
     c3 = c1.flatten()
     c3.add_label("I'm different")
 
-    c << c1
+    _ = c << c1
     r2 = c << c2
     r3 = c << c3
     r2.movey(-100)

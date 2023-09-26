@@ -10,7 +10,7 @@ def test_two_copies_in_one() -> None:
     c3 = c1.copy()
     c3.add_label("I'm different")
 
-    c << c1
+    _ = c << c1
     r2 = c << c2
     r3 = c << c3
     r2.movey(-100)
@@ -32,6 +32,6 @@ if __name__ == "__main__":
     c1 = gf.components.straight()
     c2 = c1.copy()
 
-    c << c1
-    c << c2
+    _ = c << c1
+    _ = c << c2
     c.show(show_ports=True)

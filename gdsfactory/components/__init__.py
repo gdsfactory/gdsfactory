@@ -365,8 +365,8 @@ __all__ = [
     "bend_straight_bend",
     "bezier",
     "cavity",
-    "cdsem_all",
     "cdc",
+    "cdsem_all",
     "circle",
     "coh_rx_dual_pol",
     "coh_rx_single_pol",
@@ -409,8 +409,8 @@ __all__ = [
     "cutback_component",
     "cutback_component_mirror",
     "cutback_loss",
-    "cutback_loss_spirals",
     "cutback_loss_mmi1x2",
+    "cutback_loss_spirals",
     "cutback_splitter",
     "dbr",
     "dbr_tapered",
@@ -542,8 +542,8 @@ __all__ = [
     "spiral_double",
     "spiral_external_io",
     "spiral_inner_io",
-    "spiral_inner_io_fiber_single",
     "spiral_inner_io_fiber_array",
+    "spiral_inner_io_fiber_single",
     "spiral_racetrack",
     "spiral_racetrack_fixed_length",
     "spiral_racetrack_heater_doped",
@@ -616,6 +616,7 @@ __all__ = [
     "wire_corner45",
     "wire_sbend",
     "wire_straight",
+    "hexagon" "octagon",
 ]
 
 cells = get_cells(sys.modules[__name__])

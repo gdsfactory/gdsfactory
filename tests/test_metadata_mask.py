@@ -14,8 +14,8 @@ def mask(size=(1000, 1000)):
         rings, add_ports_suffix=True, decorator=gf.add_labels.add_labels_to_ports_x_y
     )
     c = gf.Component()
-    c << gf.components.die(size=size)
-    c << rings
+    _ = c << gf.components.die(size=size)
+    _ = c << rings
     c.add_ports(rings.ports)
     return c
 

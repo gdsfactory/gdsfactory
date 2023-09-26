@@ -242,11 +242,6 @@ def cell_without_validator(func: _F) -> _F:
         if autoname and not hasattr(component, "imported_gds"):
             component.name = component_name
 
-        if component.info is None:
-            component.info = {}
-
-        component.info.update(**info)
-
         if not hasattr(component, "imported_gds"):
             component.settings = Settings(
                 name=component_name,
@@ -259,6 +254,9 @@ def cell_without_validator(func: _F) -> _F:
                 child=metadata_child,
             )
             component.__doc__ = func.__doc__
+
+        component.info = component.info or {}
+        component.info.update(**info)
 
         if decorator:
             if not callable(decorator):
