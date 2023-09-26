@@ -8,9 +8,9 @@ from pydantic import BaseModel, Field
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
+from gdsfactory.component import Component
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component
     from gdsfactory.technology import LayerViews
 
 
