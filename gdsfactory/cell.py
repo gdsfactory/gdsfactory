@@ -95,7 +95,7 @@ def cell_without_validator(func: _F) -> _F:
         name = kwargs.pop("name", cell_decorator_settings.name)
         cache = kwargs.pop("cache", cell_decorator_settings.cache)
         flatten = kwargs.pop("flatten", cell_decorator_settings.flatten)
-        info = kwargs.pop("info", cell_decorator_settings.info)
+        info = kwargs.pop("info", {})
         prefix = kwargs.pop(
             "prefix",
             func.__name__
@@ -199,7 +199,6 @@ def cell_without_validator(func: _F) -> _F:
         if cache and name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
-        # print(f"BUILD {name} {func.__module__}.{func.__name__}({named_args_string})")
 
         if not callable(func):
             raise ValueError(
@@ -242,6 +241,9 @@ def cell_without_validator(func: _F) -> _F:
         if autoname and not hasattr(component, "imported_gds"):
             component.name = component_name
 
+        info.update(**cell_decorator_settings.info)
+        component.info.update(**info)
+
         if not hasattr(component, "imported_gds"):
             component.settings = Settings(
                 name=component_name,
@@ -254,9 +256,6 @@ def cell_without_validator(func: _F) -> _F:
                 child=metadata_child,
             )
             component.__doc__ = func.__doc__
-
-        component.info = component.info or {}
-        component.info.update(**info)
 
         if decorator:
             if not callable(decorator):
@@ -467,39 +466,5 @@ def test_hashes() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.mzi(flatten=True)
-    print(c.name)
-    c.show()
-
-    # c = gf.components.mzi()
-    # names1 = set([i.name for i in c.get_dependencies()])
-    # gf.clear_cache()
-    # c = gf.components.mzi()
-    # names2 = set([i.name for i in c.get_dependencies()])
-    # assert names1 == names2
-
-    # test_hashes()
-
-    # test_names()
-    # c = wg()
-    # test_import_gds_settings()
-
-    # import gdsfactory as gf
-
-    # c = gf.components.straight()
-    # c = gf.components.straight()
-    # print(c.name)
-
-    # c = wg3()
-    # print(c.name)
-
-    # print(wg(length=3).name)
-    # print(wg(length=3.0).name)
-    # print(wg().name)
-
-    # import gdsfactory as gf
-
-    # gdspath = gf.PATH.gdsdir / "mzi2x2.gds"
-    # c = gf.import_gds(gdspath)
-    # c3 = gf.routing.add_fiber_single(c)
-    # c3.show()
+    c = gf.c.straight(length=3, info=dict(polarization="te", wavelength=1.55))
+    c.pprint()

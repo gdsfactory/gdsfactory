@@ -10,6 +10,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 
 if TYPE_CHECKING:
+    from gdsfactory.component import Component
     from gdsfactory.technology import LayerViews
 
 
@@ -362,7 +363,7 @@ class LayerStack(BaseModel):
 
 
 @cell
-def get_component_with_derived_layers(component, layer_stack: LayerStack):
+def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Component:
     """Returns a component with derived layers.
 
     Args:
