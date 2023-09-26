@@ -10,7 +10,7 @@ def rectangles0():
     c = gf.Component()
     r1 = gf.c.rectangle(size=(4, 4))
     r1.name = "r1"
-    c << r1
+    _ = c << r1
     return c
 
 
@@ -19,7 +19,7 @@ def rectangles1():
     c = gf.Component()
     r1 = gf.c.rectangle(size=(4, 2))
     r1.name = "r1"
-    c << r1
+    _ = c << r1
     return c
 
 
