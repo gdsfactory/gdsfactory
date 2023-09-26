@@ -1779,6 +1779,21 @@ greek_cross_with_pads
 
 
 
+hexagon
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.hexagon
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.hexagon(sides=6, side_length=10, layer='WG', port_type='placement')
+  c.plot()
+
+
+
 hline
 ----------------------------------------------------
 
@@ -2315,6 +2330,21 @@ nxn
   import gdsfactory as gf
 
   c = gf.components.nxn(west=1, east=4, north=0, south=0, xsize=8.0, ysize=8.0, wg_width=0.5, layer='WG', wg_margin=1.0)
+  c.plot()
+
+
+
+octagon
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.octagon
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.octagon(sides=8, side_length=10, layer='WG', port_type='placement')
   c.plot()
 
 
