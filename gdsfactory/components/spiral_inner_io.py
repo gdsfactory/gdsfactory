@@ -84,8 +84,8 @@ def spiral_inner_io(
             waveguide_spacing=waveguide_spacing,
         )
 
-    _bend180 = gf.get_component(bend180, cross_section=cross_section_bend180, **kwargs)
-    _bend90 = gf.get_component(bend90, cross_section=cross_section_bend, **kwargs)
+    _bend180 = gf.get_component(bend180, cross_section=cross_section_bend180)
+    _bend90 = gf.get_component(bend90, cross_section=cross_section_bend)
 
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate

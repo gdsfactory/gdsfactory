@@ -19,7 +19,9 @@
 #
 # With gdsfactory you can easily go from a simple Component, to a Component with many components inside.
 #
-# ## Design for testing
+# In the same way that you need to Layout for DRC (Design Rule Check) clean devices, you have to layout obeying the Design for Test (DFT) and Design for Packaging rules.
+#
+# ## Design for test
 #
 # To measure your chips after fabrication you need to decide your test configurations. This includes things like:
 #
@@ -43,6 +45,7 @@
 # %%
 from functools import partial
 
+import json
 import ipywidgets
 from IPython.display import display
 from omegaconf import OmegaConf
@@ -84,14 +87,27 @@ c.plot()
 c.labels
 
 # %%
-import json
+json.loads(c.labels[0].text)
 
+# %%
+c = gf.components.spiral_inner_io_fiber_array(
+    length=20e3,
+    decorator=gf.labels.add_label_json,
+    info=dict(
+        measurement="optical_loopback2",
+        doe="spiral_sc",
+        measurement_settings=dict(wavelength_alignment=1560),
+    ),
+)
+c.plot()
+
+# %%
 json.loads(c.labels[0].text)
 
 # %% [markdown]
 # ### 2. SiEPIC labels
 #
-# Labels follow format `opt_in_{polarization}_{wavelength}_device_{username}_({component_name})-{gc_index}-{port.name}` and you only need to label the input port of the fiber array.
+# Labels follow format `opt_in_{polarization}_{wavelength}_device_{username}_({component_name})-{gc_index}-{port.name}` and you only need to label the laser input port of the fiber array.
 # This also includes one label per test site.
 
 # %%

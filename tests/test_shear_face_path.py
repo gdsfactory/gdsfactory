@@ -307,7 +307,6 @@ def test_points_are_correct_multi_layer() -> None:
         P, X1, shear_angle_start=DEMO_PORT_ANGLE, shear_angle_end=DEMO_PORT_ANGLE
     )
     shear_angle = DEMO_PORT_ANGLE
-    shear_waveguide_symmetric.show()
 
     for layer, wg_width in [((1, 0), 1), ((3, 0), 30)]:
         points_expected = get_expected_shear_shape(
