@@ -89,6 +89,9 @@ def bend_euler(
     if add_pins:
         x.add_pins(c)
     c.absorb(ref)
+    c.add_route_info(
+        cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
+    )
     return c
 
 

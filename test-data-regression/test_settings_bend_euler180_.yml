@@ -56,6 +56,12 @@ settings:
     length: 42.817
     radius: 10.0
     radius_min: 9.086
+    route_info:
+      length: 42.817
+      n_bend_90: 2.0
+      type: xs_sc
+      weight: 42.817
+      xs_sc_length: 42.817
     width: 0.5
   info_version: 2
   module: gdsfactory.components.bend_euler

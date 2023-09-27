@@ -7,12 +7,23 @@ instances:
       dy: 10.0
       length: 15.708
       radius: 10.0
+      route_info:
+        length: 15.708
+        n_bend_90: 1.0
+        type: xs_sc
+        weight: 15.708
+        xs_sc_length: 15.708
     settings: {}
   s:
     component: straight
     info:
       cross_section: xs_sc
       length: 10.0
+      route_info:
+        length: 10.0
+        type: xs_sc
+        weight: 10.0
+        xs_sc_length: 10.0
       width: 0.5
     settings: {}
 name: sample_mirror_simple_0e62769d

@@ -47,6 +47,8 @@ def straight(
     c.info["length"] = length
     c.info["width"] = x.sections[0].width
     c.info["cross_section"] = cross_section
+
+    c.add_route_info(cross_section=x, length=length)
     c.absorb(ref)
     return c
 
@@ -56,4 +58,6 @@ if __name__ == "__main__":
 
     xs = gf.cross_section.strip()
     c = straight(layer=(2, 0))
+    # c = straight()
+    print(c.info)
     c.show(show_ports=True)

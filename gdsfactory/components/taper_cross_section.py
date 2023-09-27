@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip_rib_tip
-from gdsfactory.route_info import route_info
 from gdsfactory.typings import CrossSectionSpec
 
 
@@ -59,7 +58,7 @@ def taper_cross_section(
     c.add_ports(ref.ports)
     c.absorb(ref)
     if "type" in x1.info and x1.info["type"] == x2.info.get("type"):
-        c.info["route_info"] = route_info(x1.info["type"], length=length, taper=True)
+        c.add_route_info(cross_section=x1, length=length, taper=True)
     return c
 
 

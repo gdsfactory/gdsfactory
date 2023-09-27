@@ -108,6 +108,11 @@ instances:
         taper_length: 10.0
         width_wide: null
       length: 0.01
+      route_info:
+        length: 0.01
+        type: xs_sc
+        weight: 0.01
+        xs_sc_length: 0.01
       width: 0.5
     settings:
       cross_section:
@@ -175,6 +180,11 @@ instances:
         taper_length: 10.0
         width_wide: null
       length: 0.01
+      route_info:
+        length: 0.01
+        type: xs_sc
+        weight: 0.01
+        xs_sc_length: 0.01
       width: 0.5
     settings:
       cross_section:

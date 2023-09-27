@@ -124,6 +124,11 @@ settings:
             simplify: 0.05
             width: 6.0
       length: 10.0
+      route_info:
+        length: 10.0
+        type: xs_2ba84833
+        weight: 10.0
+        xs_2ba84833_length: 10.0
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
@@ -193,6 +198,11 @@ settings:
           simplify: 0.05
           width: 6.0
     length: 10.0
+    route_info:
+      length: 10.0
+      type: xs_2ba84833
+      weight: 10.0
+      xs_2ba84833_length: 10.0
     width: 0.5
   info_version: 2
   module: gdsfactory.components.extension
