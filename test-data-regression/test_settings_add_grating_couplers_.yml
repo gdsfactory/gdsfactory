@@ -23,6 +23,11 @@ settings:
     info:
       cross_section: xs_sc
       length: 10.0
+      route_info:
+        length: 10.0
+        type: xs_sc
+        weight: 10.0
+        xs_sc_length: 10.0
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
@@ -66,6 +71,11 @@ settings:
     cross_section: xs_sc
     length: 10.0
     polarization: te
+    route_info:
+      length: 10.0
+      type: xs_sc
+      weight: 10.0
+      xs_sc_length: 10.0
     wavelength: 1.53
     width: 0.5
   info_version: 2

@@ -13,6 +13,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        type: xs_sc
+        weight: 16.637
+        xs_sc_length: 16.637
       width: 0.5
     settings:
       cross_section:
@@ -52,6 +58,12 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      route_info:
+        length: 16.637
+        n_bend_90: 1.0
+        type: xs_sc
+        weight: 16.637
+        xs_sc_length: 16.637
       width: 0.5
     settings:
       cross_section:
@@ -128,6 +140,11 @@ instances:
         taper_length: 10.0
         width_wide: null
       length: 95.02
+      route_info:
+        length: 95.02
+        type: xs_sc
+        weight: 95.02
+        xs_sc_length: 95.02
       width: 0.5
     settings:
       cross_section:
@@ -195,6 +212,11 @@ instances:
         taper_length: 10.0
         width_wide: null
       length: 79.375
+      route_info:
+        length: 79.375
+        type: xs_sc
+        weight: 79.375
+        xs_sc_length: 79.375
       width: 0.5
     settings:
       cross_section:
@@ -262,6 +284,11 @@ instances:
         taper_length: 10.0
         width_wide: null
       length: 0.02
+      route_info:
+        length: 0.02
+        type: xs_sc
+        weight: 0.02
+        xs_sc_length: 0.02
       width: 0.5
     settings:
       cross_section:
