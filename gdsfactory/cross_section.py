@@ -564,7 +564,8 @@ def slot(
 def rib_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
-    width_slab: float = 7.0,
+    slab_offset: float | None = 0.3,
+    width_slab: float | None = None,
     simplify_slab: float | None = None,
     layer: LayerSpec | None = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
@@ -580,7 +581,11 @@ def rib_with_trenches(
                 the width at t==0 is the width at the beginning of the Path. \
                 the width at t==1 is the width at the end.
         width_trench: in um.
+        slab_offset: from the edge of the trench to the edge of the slab.
         width_slab: in um.
+        simplify_slab: Optional Tolerance value for the simplification algorithm. \
+                All points that can be removed without changing the resulting\
+                polygon by more than the value listed here will be removed.
         layer: ridge layer. None adds only ridge.
         layer_trench: layer to etch trenches.
         wg_marking_layer: layer to draw over the actual waveguide. \
@@ -589,30 +594,30 @@ def rib_with_trenches(
 
     .. code::
 
-                         ┌─────────┐
-                         │         │ wg_marking_layer
-                         └─────────┘
+                        ┌─────────┐
+                        │         │ wg_marking_layer
+                        └─────────┘
 
-                ┌────────┐         ┌────────┐
-                │        │         │        │layer_trench
-                └────────┘         └────────┘
+               ┌────────┐         ┌────────┐
+               │        │         │        │layer_trenc
+               └────────┘         └────────┘
 
-          ┌─────────────────────────────────────────┐
-          │                                  layer  │
-          │                                         │
-          └─────────────────────────────────────────┘
-                         ◄─────────►
-                            width
-          ┌─────┐         ┌────────┐        ┌───────┐
-          │     │         │        │        │       │
-          │     └─────────┘        └────────┘       │
-          │     ◄---------►         ◄-------►       │
-          └─────────────────────────────────────────┘
-
-               width_trench
-                                                    |
-          ◄────────────────────────────────────────►
-                       width_slab
+         ┌─────────────────────────────────────────┐
+         │                                  layer  │
+         │                                         │
+         └─────────────────────────────────────────┘
+                        ◄─────────►
+                           width
+         ┌─────┐         ┌────────┐        ┌───────┐
+         │     │         │        │        │       │
+         │     └─────────┘        └────────┘       │
+         │     ◄---------►         ◄-------►       │
+         └─────────────────────────────────────────┘
+                                            slab_offset
+              width_trench                  ──────►
+                                                   |
+         ◄────────────────────────────────────────►
+                      width_slab
 
 
     .. plot::
@@ -625,8 +630,16 @@ def rib_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
-    trench_offset = width / 2 + width_trench / 2
+    if slab_offset is None and width_slab is None:
+        raise ValueError("Must specify either slab_offset or width_slab")
 
+    elif slab_offset is not None and width_slab is not None:
+        raise ValueError("Cannot specify both slab_offset and width_slab")
+
+    elif slab_offset is not None:
+        width_slab = width + 2 * width_trench + 2 * slab_offset
+
+    trench_offset = width / 2 + width_trench / 2
     sections = list(sections or ())
     sections += [
         Section(width=width_slab, layer=layer, name="slab", simplify=simplify_slab)
@@ -2252,12 +2265,13 @@ cross_sections = get_cross_sections(sys.modules[__name__])
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    xs = gf.cross_section.strip(
-        offset=1,
-        cladding_layers=[(2, 0)],
-        cladding_offsets=[3],
-        bbox_layers=[(3, 0)],
-        bbox_offsets=[2],
+    xs = gf.cross_section.rib_with_trenches(
+        slab_offset=0
+        # offset=1,
+        # cladding_layers=[(2, 0)],
+        # cladding_offsets=[3],
+        # bbox_layers=[(3, 0)],
+        # bbox_offsets=[2],
     )
     # print(xs.name)
     # xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0))])
