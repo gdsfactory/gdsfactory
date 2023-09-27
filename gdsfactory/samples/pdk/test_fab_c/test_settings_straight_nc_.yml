@@ -148,6 +148,11 @@ settings:
       taper_length: 10.0
       width_wide: null
     length: 10.0
+    route_info:
+      length: 10.0
+      type: xs_e757d4e7
+      weight: 10.0
+      xs_e757d4e7_length: 10.0
     width: 1.0
   info_version: 2
   module: gdsfactory.components.straight

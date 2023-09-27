@@ -6,7 +6,6 @@ import hashlib
 import inspect
 import pathlib
 from collections.abc import KeysView as dict_keys
-from functools import partial
 from typing import Any
 
 import gdstk
@@ -72,22 +71,7 @@ def clean_value_json(value: Any) -> str | int | float | dict | list | bool | Non
         return orjson.loads(orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY))
 
     elif callable(value) and isinstance(value, functools.partial):
-        sig = inspect.signature(value.func)
-        args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
-        args_as_kwargs.update(value.keywords)
-        args_as_kwargs = clean_dict(args_as_kwargs)
-
-        func = value.func
-        while hasattr(func, "func"):
-            func = func.func
-        v = {
-            "function": func.__name__,
-            "settings": args_as_kwargs,
-        }
-        if include_module:
-            v.update(module=func.__module__)
-        return v
-
+        return clean_value_partial(value, include_module)
     elif hasattr(value, "to_dict"):
         return clean_dict(value.to_dict())
 
@@ -132,6 +116,24 @@ def clean_value_json(value: Any) -> str | int | float | dict | list | bool | Non
             raise e
 
 
+def clean_value_partial(value, include_module):
+    sig = inspect.signature(value.func)
+    args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
+    args_as_kwargs |= value.keywords
+    args_as_kwargs = clean_dict(args_as_kwargs)
+
+    func = value.func
+    while hasattr(func, "func"):
+        func = func.func
+    v = {
+        "function": func.__name__,
+        "settings": args_as_kwargs,
+    }
+    if include_module:
+        v.update(module=func.__module__)
+    return v
+
+
 def clean_value_name(value: Any) -> str:
     """Returns a string representation of an object."""
     # value1 = clean_value_json(value)
@@ -153,13 +155,13 @@ if __name__ == "__main__":
     # d = clean_value_json(c)
     # print(d, d)
 
-    xs = partial(
-        gf.cross_section.strip,
-        width=3,
-        add_pins=gf.partial(gf.add_pins.add_pins_inside1nm, pin_length=0.1),
-    )
-    f = partial(gf.routing.add_fiber_array, cross_section=xs)
-    c = f()
+    # xs = partial(
+    #     gf.cross_section.strip,
+    #     width=3,
+    #     add_pins=gf.partial(gf.add_pins.add_pins_inside1nm, pin_length=0.1),
+    # )
+    # f = partial(gf.routing.add_fiber_array, cross_section=xs)
+    # c = f()
+    c = gf.cross_section.strip(width=3)
     d = clean_value_json(c)
     print(get_hash(d))
-    print(d, d)

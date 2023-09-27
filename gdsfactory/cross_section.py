@@ -287,7 +287,7 @@ class CrossSection(BaseModel):
                 c.add_polygon(points, layer=layer)
         return c
 
-    def get_xmin_xmax(self):
+    def get_xmin_xmax(self) -> tuple[float, float]:
         """Returns the min and max extent of the cross_section across all sections."""
         main_width = self.width
         main_offset = self.sections[0].offset

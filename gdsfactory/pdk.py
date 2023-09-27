@@ -686,6 +686,17 @@ class Pdk(BaseModel):
     # def on_cross_section_registered(self) -> Event:
     #     return self._on_cross_section_registered
 
+    def get_cross_section_name(self, cross_section: CrossSection) -> str:
+        xs_name = next(
+            (
+                key
+                for key, value in self.cross_sections.items()
+                if value == cross_section
+            ),
+            None,
+        )
+        return xs_name or cross_section.name
+
 
 _ACTIVE_PDK = None
 

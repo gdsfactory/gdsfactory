@@ -89,6 +89,11 @@ settings:
       info:
         cross_section: xs_sc
         length: 20.0
+        route_info:
+          length: 20.0
+          type: xs_6a91b928
+          weight: 20.0
+          xs_6a91b928_length: 20.0
         width: 2.0
       info_version: 2
       module: gdsfactory.components.straight
@@ -122,6 +127,11 @@ settings:
     info:
       cross_section: xs_sc
       length: 20.0
+      route_info:
+        length: 20.0
+        type: xs_6a91b928
+        weight: 20.0
+        xs_6a91b928_length: 20.0
       width: 2.0
     info_version: 2
     module: gdsfactory.add_tapers
@@ -185,6 +195,11 @@ settings:
       polarization: te
       wavelength: 1.53
     length: 20.0
+    route_info:
+      length: 20.0
+      type: xs_6a91b928
+      weight: 20.0
+      xs_6a91b928_length: 20.0
     width: 2.0
   info_version: 2
   module: gdsfactory.routing.add_fiber_array

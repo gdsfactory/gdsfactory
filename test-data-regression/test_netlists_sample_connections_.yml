@@ -6,6 +6,11 @@ instances:
     info:
       cross_section: xs_sc
       length: 0.5
+      route_info:
+        length: 0.5
+        type: xs_sc
+        weight: 0.5
+        xs_sc_length: 0.5
       width: 0.5
     settings:
       length: 0.5
@@ -14,6 +19,11 @@ instances:
     info:
       cross_section: xs_sc
       length: 1.0
+      route_info:
+        length: 1.0
+        type: xs_sc
+        weight: 1.0
+        xs_sc_length: 1.0
       width: 0.5
     settings:
       length: 1

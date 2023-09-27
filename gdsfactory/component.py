@@ -55,6 +55,7 @@ if TYPE_CHECKING:
     from gdsfactory.technology import LayerStack, LayerViews
     from gdsfactory.typings import (
         Coordinate,
+        CrossSection,
         CrossSectionSpec,
         Float2,
         Layer,
@@ -2433,6 +2434,48 @@ class Component(_GeometryHelper):
             tolerance=tolerance,
             layer=layer,
         )
+
+    def add_route_info(
+        self,
+        cross_section: CrossSection | str,
+        length: float,
+        length_eff: float | None = None,
+        taper: bool = False,
+        **kwargs,
+    ) -> None:
+        """Adds route information to a component.
+
+        Args:
+            cross_section: CrossSection or name of the cross_section.
+            length: length of the route.
+            length_eff: effective length of the route.
+            taper: if True adds taper information.
+            **kwargs: extra information to add to the component.
+        """
+        from gdsfactory.pdk import get_active_pdk
+
+        pdk = get_active_pdk()
+
+        length_eff = length_eff or length
+        xs_name = (
+            cross_section
+            if isinstance(cross_section, str)
+            else pdk.get_cross_section_name(cross_section)
+        )
+
+        d = {
+            "type": xs_name,
+            "length": length_eff,
+            f"{xs_name}_length": length_eff,
+            "weight": length_eff,
+        }
+        if taper:
+            d[f"{xs_name}_taper_length"] = length
+        d |= kwargs
+        self.info["route_info"] = d
+
+
+# Component methods
 
 
 def copy(
