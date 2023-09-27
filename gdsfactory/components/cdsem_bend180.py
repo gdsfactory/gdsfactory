@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 LINE_LENGTH = 420.0
 
@@ -22,7 +22,7 @@ def cdsem_bend180(
     straight: ComponentSpec = "straight",
     bend90: ComponentSpec = "bend_circular",
     cross_section: CrossSectionSpec = "xs_sc",
-    text: ComponentSpec = text_rectangular_mini,
+    text: ComponentFactory = text_rectangular_mini,
 ) -> Component:
     """Returns CDSEM structures.
 

@@ -3,51 +3,60 @@ from __future__ import annotations
 
 from functools import partial
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.grid import grid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 
 
 @cell
 def cdsem_coupler(
-    width: float = 0.45,
     length: float = 420.0,
     gaps: tuple[float, ...] = (0.15, 0.2, 0.25),
     cross_section: CrossSectionSpec = "xs_sc",
-    text: ComponentSpec | None = text_rectangular_mini,
-    spacing: float = 3,
+    text: ComponentFactory | None = text_rectangular_mini,
+    spacing: float | None = 7.0,
+    positions: tuple[float, ...] | None = None,
+    **kwargs,
 ) -> Component:
     """Returns 2 coupled waveguides gap sweep.
 
     Args:
-        width: for the waveguide.
         length: for the line.
         gaps: list of gaps for the sweep.
         cross_section: for the lines.
         text: optional text for labels.
-        spacing: edge to edge spacing.
+        spacing: Optional center to center spacing.
+        positions: Optional positions for the text labels.
+        kwargs: cross_section settings.
     """
-    cross_section = gf.get_cross_section(cross_section, width=width)
+    c = Component()
+    xs = gf.get_cross_section(cross_section, **kwargs)
+    p = 0
 
-    couplers = []
+    if positions is None and spacing is None:
+        raise ValueError("Either positions or spacing should be defined")
+    elif positions:
+        positions = positions or [None] * len(gaps)
+    else:
+        positions = np.arange(len(gaps)) * spacing
 
-    for gap in gaps:
-        coupler = coupler_straight(length=length, gap=gap, cross_section=cross_section)
+    for gap, position in zip(gaps, positions):
+        line = c << coupler_straight(length=length, cross_section=xs, gap=gap)
+        p = position or p
+        line.ymin = p
         if text:
-            coupler = coupler.copy()
-            t = coupler << gf.get_component(text, text=str(int(gap * 1e3)))
-            t.xmin = coupler.xmax + 5
-            t.y = 0
+            t = c << text(str(int(gap * 1e3)))
+            t.xmin = line.xmax + 5
+            t.y = p
 
-        couplers.append(coupler)
-
-    return grid(couplers, spacing=(0, spacing))
+    return c
 
 
 if __name__ == "__main__":

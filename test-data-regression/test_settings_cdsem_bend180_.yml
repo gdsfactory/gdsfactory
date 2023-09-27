@@ -1,0 +1,32 @@
+name: cdsem_bend180
+ports: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    bend90: bend_circular
+    cross_section: xs_sc
+    radius: 10.0
+    straight: straight
+    text:
+      function: text_rectangular
+      settings:
+        size: 1
+    wg_length: 420.0
+    width: 0.5
+  full:
+    bend90: bend_circular
+    cross_section: xs_sc
+    radius: 10.0
+    straight: straight
+    text:
+      function: text_rectangular
+      settings:
+        size: 1
+    wg_length: 420.0
+    width: 0.5
+  function_name: cdsem_bend180
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.cdsem_bend180
+  name: cdsem_bend180

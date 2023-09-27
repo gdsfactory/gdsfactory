@@ -43,6 +43,10 @@ from gdsfactory.components.C import C
 from gdsfactory.components.cavity import cavity
 from gdsfactory.components.cdc import cdc
 from gdsfactory.components.cdsem_all import cdsem_all
+from gdsfactory.components.cdsem_bend180 import cdsem_bend180
+from gdsfactory.components.cdsem_coupler import cdsem_coupler
+from gdsfactory.components.cdsem_straight import cdsem_straight
+from gdsfactory.components.cdsem_straight_density import cdsem_straight_density
 from gdsfactory.components.circle import circle
 from gdsfactory.components.coh_rx_dual_pol import coh_rx_dual_pol
 from gdsfactory.components.coh_rx_single_pol import coh_rx_single_pol
@@ -367,6 +371,10 @@ __all__ = [
     "cavity",
     "cdc",
     "cdsem_all",
+    "cdsem_straight",
+    "cdsem_straight_density",
+    "cdsem_coupler",
+    "cdsem_bend180",
     "circle",
     "coh_rx_dual_pol",
     "coh_rx_single_pol",
