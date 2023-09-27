@@ -8,12 +8,12 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Floats
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 
-widths = 10 * [0.3]
-gaps = 10 * [0.3]
+widths = 10 * (0.3,)
+gaps = 10 * (0.3,)
 
 
 @cell
@@ -23,7 +23,7 @@ def cdsem_straight_density(
     length: float = 420.0,
     label: str = "",
     cross_section: CrossSectionSpec = "xs_sc",
-    text: ComponentSpec | None = text_rectangular_mini,
+    text: ComponentFactory | None = text_rectangular_mini,
 ) -> Component:
     """Returns sweep of dense straight lines.
 

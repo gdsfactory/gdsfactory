@@ -9,7 +9,7 @@ from gdsfactory.components.cdsem_bend180 import cdsem_bend180
 from gdsfactory.components.cdsem_straight import cdsem_straight
 from gdsfactory.components.cdsem_straight_density import cdsem_straight_density
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 
@@ -24,7 +24,7 @@ def cdsem_all(
     straight: ComponentSpec = "straight",
     bend90: ComponentSpec | None = "bend_circular",
     cross_section: CrossSectionSpec = "xs_sc",
-    text: ComponentSpec = text_rectangular_mini,
+    text: ComponentFactory = text_rectangular_mini,
 ) -> Component:
     """Column with all optical PCMs.
 
@@ -76,8 +76,8 @@ def cdsem_all(
 
         all_devices += [
             cdsem_straight_density(
-                widths=[w] * 10,
-                gaps=[g] * 10,
+                widths=(w,) * 10,
+                gaps=(g,) * 10,
                 label=lbl,
                 cross_section=cross_section,
                 text=text,

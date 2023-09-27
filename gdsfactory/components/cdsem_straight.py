@@ -9,7 +9,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 
@@ -21,7 +21,7 @@ def cdsem_straight(
     widths: tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
     length: float = LINE_LENGTH,
     cross_section: CrossSectionSpec = "xs_sc",
-    text: ComponentSpec | None = text_rectangular_mini,
+    text: ComponentFactory | None = text_rectangular_mini,
     spacing: float | None = 7.0,
     positions: tuple[float, ...] | None = None,
     **kwargs,
