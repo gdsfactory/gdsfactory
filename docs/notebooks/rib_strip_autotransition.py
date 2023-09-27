@@ -35,31 +35,35 @@ import gdsfactory as gf
 from gdsfactory.cross_section import xs_rc, strip, rib
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.read import cell_from_yaml_template
-from gdsfactory.route_info import route_info
 from gdsfactory.routing import all_angle
 from gdsfactory.typings import CrossSectionSpec
 
 gf.clear_cache()
 gf.config.rich_output()
+gf.CONF.display_type = "klayout"
 generic_pdk = get_generic_pdk()
 
 # define our rib and strip waveguide intent layers
 RIB_INTENT_LAYER = (2000, 11)
 STRIP_INTENT_LAYER = (2001, 11)
 
+generic_pdk.layers.update(
+    RIB_INTENT_LAYER=RIB_INTENT_LAYER, STRIP_INTENT_LAYER=STRIP_INTENT_LAYER
+)
+
 # create strip and rib cross-sections, with differentiated intent layers
 strip_with_intent = partial(
     strip,
-    layer="STRIP_INTENT",
-    cladding_layers=["WG"],  # keeping WG layer is nice for compatibility
+    cladding_layers=[
+        "STRIP_INTENT_LAYER"
+    ],  # keeping WG layer is nice for compatibility
     cladding_offsets=[0],
     gap=2,
 )
 
 rib_with_intent = partial(
     rib,
-    layer="RIB_INTENT",
-    cladding_layers=["WG"],  # keeping WG layer is nice for compatibility
+    cladding_layers=["RIB_INTENT_LAYER"],  # keeping WG layer is nice for compatibility
     cladding_offsets=[0],
     gap=5,
 )
@@ -67,7 +71,7 @@ rib_with_intent = partial(
 
 # create strip->rib transition component
 @gf.cell
-def strip_to_rib(width1: float = 0.5, width2: float = 0.5):
+def strip_to_rib(width1: float = 0.5, width2: float = 0.5) -> gf.Component:
     c = gf.Component()
     taper = c << gf.c.taper_strip_to_ridge(width1=width1, width2=width2)
     c.add_port(
@@ -86,13 +90,13 @@ def strip_to_rib(width1: float = 0.5, width2: float = 0.5):
     )
     c.absorb(taper)
     c.info.update(taper.info)
-    c.info["route_info"] = route_info("r2s", length=c.info["length"])
+    c.add_route_info(cross_section="r2s", length=c.info["length"])
     return c
 
 
 # also define a rib->strip component for transitioning the other way
 @gf.cell
-def rib_to_strip(width1: float = 0.5, width2: float = 0.5):
+def rib_to_strip(width1: float = 0.5, width2: float = 0.5) -> gf.Component:
     c = gf.Component()
     taper = c << strip_to_rib(width1=width2, width2=width1)
     c.add_port("o1", port=taper.ports["o2"])
@@ -105,11 +109,11 @@ def rib_to_strip(width1: float = 0.5, width2: float = 0.5):
 @gf.cell
 def taper_single_cross_section(
     cross_section: CrossSectionSpec = "xs_sc", width1: float = 0.5, width2: float = 1.0
-):
+) -> gf.Component:
     cs1 = gf.get_cross_section(cross_section, width=width1)
     cs2 = gf.get_cross_section(cross_section, width=width2)
     length = abs(width1 - width2) * 10
-    c = gf.c.taper_cross_section_linear(cs1, cs2, length=length).copy()
+    c = gf.components.taper_cross_section_linear(cs1, cs2, length=length).copy()
     c.info["length"] = length
     return c
 
@@ -151,6 +155,7 @@ all_angle.LOW_LOSS_CROSS_SECTIONS.insert(0, "xs_rc")
 # demonstrate rib and strip waveguides in our new PDK
 strip_width = 1
 rib_width = 0.7
+
 c = gf.Component()
 strip_wg = c << gf.c.straight(cross_section="xs_sc")
 rib_wg = c << gf.c.straight(cross_section="xs_rc")
@@ -209,3 +214,5 @@ show_yaml_pic(basic_sample_fn2)
 f = cell_from_yaml_template(basic_sample_fn2, name="sample_transition")
 c = f()
 c.plot()
+
+# %%
