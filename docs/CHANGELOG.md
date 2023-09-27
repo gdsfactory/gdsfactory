@@ -2,6 +2,10 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.0...main)
 
+## [7.8.1](https://github.com/gdsfactory/gdsfactory/compare/v7.8.0...v7.8.1)
+
+- fix `route_info` [PR](https://github.com/gdsfactory/gdsfactory/pull/2130)
+
 ## [7.8.0](https://github.com/gdsfactory/gdsfactory/compare/v7.7.1...v7.8.0)
 
 - fixes name issue https://github.com/gdsfactory/gdsfactory/issues/2089
