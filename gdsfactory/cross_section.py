@@ -447,7 +447,9 @@ def cross_section(
     sections = list(sections or [])
     cladding_layers = cladding_layers or ()
     cladding_offsets = cladding_offsets or ()
-    cladding_simplify = cladding_simplify or ()
+
+    if cladding_simplify is None:
+        cladding_simplify = (None,) * len(cladding_layers)
 
     if (
         len({len(x) for x in (cladding_layers, cladding_offsets, cladding_simplify)})
