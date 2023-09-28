@@ -1,3 +1,4 @@
+# type: ignore
 """You can define a path as list of points.
 
 To create a component you need to extrude the path with a cross-section.
@@ -58,17 +59,22 @@ class Section(BaseModel):
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
 
-
     .. code::
 
-          0   offset
-          |<-------------->|
-          |              _____
-          |             |     |
-          |             |layer|
-          |             |_____|
-          |              <---->
-                         width
+         0
+
+         │        ┌───────┐
+                  │       │
+         │        │ layer │
+                  │◄─────►│
+         │        │       │
+                  │ width │
+         │        └───────┘
+                      |
+         │
+                      |
+         ◄────────────►
+            +offset
     """
 
     width: float
@@ -128,6 +134,35 @@ class CrossSection(BaseModel):
         auto_widen_minimum_length: minimum straight length for auto_widen.
         taper_length: taper_length for auto_widen.
         gap: minimum gap between waveguides.
+
+    .. code::
+
+
+           ┌────────────────────────────────────────────────────────────┐
+           │                                                            │
+           │                                                            │
+           │                   boox_layer                               │
+           │                                                            │
+           │         ┌──────────────────────────────────────┐           │
+           │         │                            ▲         │bbox_offset│
+           │         │                            │         ├──────────►│
+           │         │           cladding_offset  │         │           │
+           │         │                            │         │           │
+           │         ├─────────────────────────▲──┴─────────┤           │
+           │         │                         │            │           │
+        ─ ─┤         │           core   width  │            │           ├─ ─ center
+           │         │                         │            │           │
+           │         ├─────────────────────────▼────────────┤           │
+           │         │                                      │           │
+           │         │                                      │           │
+           │         │                                      │           │
+           │         │                                      │           │
+           │         └──────────────────────────────────────┘           │
+           │                                                            │
+           │                                                            │
+           │                                                            │
+           └────────────────────────────────────────────────────────────┘
+
     """
 
     sections: tuple[Section, ...] = Field(default_factory=tuple)
@@ -380,11 +415,49 @@ def cross_section(
         p = gf.path.arc(radius=10, angle=45)
         c = p.extrude(xs)
         c.plot()
+
+    .. code::
+
+
+           ┌────────────────────────────────────────────────────────────┐
+           │                                                            │
+           │                                                            │
+           │                   boox_layer                               │
+           │                                                            │
+           │         ┌──────────────────────────────────────┐           │
+           │         │                            ▲         │bbox_offset│
+           │         │                            │         ├──────────►│
+           │         │           cladding_offset  │         │           │
+           │         │                            │         │           │
+           │         ├─────────────────────────▲──┴─────────┤           │
+           │         │                         │            │           │
+        ─ ─┤         │           core   width  │            │           ├─ ─ center
+           │         │                         │            │           │
+           │         ├─────────────────────────▼────────────┤           │
+           │         │                                      │           │
+           │         │                                      │           │
+           │         │                                      │           │
+           │         │                                      │           │
+           │         └──────────────────────────────────────┘           │
+           │                                                            │
+           │                                                            │
+           │                                                            │
+           └────────────────────────────────────────────────────────────┘
     """
     sections = list(sections or [])
     cladding_layers = cladding_layers or ()
     cladding_offsets = cladding_offsets or ()
-    cladding_simplify = cladding_simplify or (None,) * len(cladding_layers)
+
+    if cladding_simplify is None:
+        cladding_simplify = (None,) * len(cladding_layers)
+
+    if (
+        len({len(x) for x in (cladding_layers, cladding_offsets, cladding_simplify)})
+        > 1
+    ):
+        raise ValueError(
+            "cladding_layers, cladding_offsets, cladding_simplify must have same length"
+        )
 
     s = [
         Section(
@@ -514,21 +587,32 @@ def rib_with_trenches(
                 This can be useful for booleans, routing, placement ...
         kwargs: cross_section settings.
 
-
     .. code::
 
+                         ┌─────────┐
+                         │         │ wg_marking_layer
+                         └─────────┘
 
-        _____         __________         ________
-             |        |         |        |
-             |________|         |________|
+                ┌────────┐         ┌────────┐
+                │        │         │        │layer_trench
+                └────────┘         └────────┘
 
-       __________________________________________
-             <------->                           |
-            width_trench
-                                                 |
-       <---------------------------------------->
-                    width_slab
+          ┌─────────────────────────────────────────┐
+          │                                  layer  │
+          │                                         │
+          └─────────────────────────────────────────┘
+                         ◄─────────►
+                            width
+          ┌─────┐         ┌────────┐        ┌───────┐
+          │     │         │        │        │       │
+          │     └─────────┘        └────────┘       │
+          │     ◄---------►         ◄-------►       │
+          └─────────────────────────────────────────┘
 
+               width_trench
+                                                    |
+          ◄────────────────────────────────────────►
+                       width_slab
 
 
     .. plot::
@@ -2169,11 +2253,14 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     xs = gf.cross_section.strip(
-        # cladding_layers=[(2, 0)],
-        # cladding_offsets=[3],
+        offset=1,
+        cladding_layers=[(2, 0)],
+        cladding_offsets=[3],
+        bbox_layers=[(3, 0)],
+        bbox_offsets=[2],
     )
-    print(xs.name)
-    xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0))])
+    # print(xs.name)
+    # xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0))])
     # p = gf.path.straight()
     # c = p.extrude(xs)
     c = gf.c.straight(cross_section=xs)
