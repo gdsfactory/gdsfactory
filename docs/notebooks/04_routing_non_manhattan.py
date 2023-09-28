@@ -1,7 +1,33 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Non manhattan routing
 #
+# gdsfactory snaps ports to grid by default to avoid grid snapping errors
+#
+# ![](https://i.imgur.com/SUXBWed.png)
+#
+# ![](https://i.imgur.com/suiHyqM.png)
+#
 # gdsfactory provides functions to connect and route components ports that are off-grid or have non manhattan orientations (0, 90, 180, 270 degrees)
+#
+# However this feature is turned off by default for safety reasons.
+#
+# If you want to create off-grid ports and non-manhattan connections you will have to enable it manually.
 #
 # ## Fix Non manhattan connections
 
@@ -14,6 +40,7 @@ from gdsfactory.decorators import has_valid_transformations
 from gdsfactory.generic_tech import get_generic_pdk
 
 gf.config.rich_output()
+gf.config.enable_off_grid_ports()  # enable off grid ports
 PDK = get_generic_pdk()
 PDK.activate()
 
@@ -48,6 +75,9 @@ has_valid_transformations(c1)  # has gap issues
 
 # %%
 has_valid_transformations(c2)  # works perfect
+
+# %%
+c2.plot()
 
 # %% [markdown]
 # If you zoom in the connection the decorator you can see it fixed the issue in `c` that we fixed in `c2` thanks to the `flatten_invalid_refs` flag.
@@ -117,12 +147,13 @@ c = gf.Component("bend")
 b = c << gf.components.bend_circular(angle=30)
 s = c << gf.components.straight(length=5)
 s.connect("o1", b.ports["o2"])
-p_shapely = c.get_polygons(as_shapely_merged=True)
-p = gf.Polygon.from_shapely(p_shapely, layer=(1, 0))
-p = p.snap()
+p = c.get_polygons(as_shapely_merged=True)
 c2 = gf.Component("bend_fixed")
 c2.add_polygon(p, layer=(1, 0))
 c2.plot()
+
+# %%
+p_shapely.point_on_surface
 
 # %%
 p_shapely
@@ -136,11 +167,9 @@ def demo_non_manhattan_merge_polygons():
     s = c << gf.components.straight(length=5)
     s.connect("o1", b.ports["o2"])
     p = c.get_polygons(as_shapely_merged=True)
-    p = gf.Polygon.from_shapely(polygon=p, layer=(1, 0))
-    p.simplify(tolerance=0.1)
 
     c2 = gf.Component()
-    c2.add_polygon(p)
+    c2.add_polygon(p, layer=(1, 0))
     c2.add_port("o1", port=b["o1"])
     c2.add_port("o2", port=s["o2"])
     return c2
