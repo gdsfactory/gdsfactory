@@ -586,7 +586,7 @@ def rib_with_trenches(
         simplify_slab: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting\
                 polygon by more than the value listed here will be removed.
-        layer: ridge layer. None adds only ridge.
+        layer: slab layer.
         layer_trench: layer to etch trenches.
         wg_marking_layer: layer to draw over the actual waveguide. \
                 This can be useful for booleans, routing, placement ...
@@ -662,7 +662,9 @@ def rib_with_trenches(
         )
     )
 
-    return CrossSection(
+    return cross_section(
+        layer=wg_marking_layer,
+        width=width,
         sections=tuple(sections),
         info=info,
         **kwargs,
