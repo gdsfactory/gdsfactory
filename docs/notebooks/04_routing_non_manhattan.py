@@ -152,12 +152,6 @@ c2 = gf.Component("bend_fixed")
 c2.add_polygon(p, layer=(1, 0))
 c2.plot()
 
-# %%
-p_shapely.point_on_surface
-
-# %%
-p_shapely
-
 
 # %%
 @gf.cell
