@@ -38,7 +38,7 @@ def test_extrude_transition() -> None:
     cs2 = gf.get_cross_section("xs_sc", width=w2)
     transition = gf.path.transition(cs1, cs2)
     p = gf.path.straight(length)
-    c = gf.path.extrude_transition(p, transition)
+    c = gf.path.extrude(p, transition)
     assert c.ports["o1"].cross_section == cs1
     assert c.ports["o2"].cross_section == cs2
     assert c.ports["o1"].width == w1
@@ -128,5 +128,23 @@ def test_diagonal_extrude_consistent_naming() -> None:
 if __name__ == "__main__":
     # test_diagonal_extrude_consistent_naming()
     # test_transition_cross_section()
-    test_transition_cross_section_different_layers()
-    # test_extrude_transition()
+    # test_transition_cross_section_different_layers()
+    test_extrude_transition()
+
+    P = gf.path.straight(length=10)
+
+    s0 = gf.Section(
+        width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    )
+    s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
+    X1 = gf.CrossSection(sections=(s0, s1))
+
+    s2 = gf.Section(
+        width=0.5, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    )
+    s3 = gf.Section(width=2.0, offset=0, layer=(3, 0), name="slab")
+    X2 = gf.CrossSection(sections=(s2, s3))
+    t = gf.path.transition(X1, X2, width_type="linear")
+    c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
+
+    c.show(show_ports=True)
