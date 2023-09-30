@@ -74,9 +74,14 @@ jobs:
         run: |
           pip install .
           pip freeze > requirements.txt
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          fail_on_unmatched_files: false
-          files: |
-            requirements.txt
+      - name: Publish Latest Draft
+        run: |
+          # Get the latest draft release
+          RELEASE_DATA=$(gh api repos/:owner/:repo/releases | jq '[.[] | select(.draft == true)][0]')
+          RELEASE_ID=$(echo $RELEASE_DATA | jq '.id')
+
+          # Publish the release
+          gh api -X PATCH repos/:owner/:repo/releases/$RELEASE_ID --field draft=false
+          gh release upload ${{ github.ref }} requirements.txt --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
