@@ -284,6 +284,7 @@ regex = '''
 directory = ".changelog.d"
 filename = "CHANGELOG.md"
 issue_format = "[#{issue}](https://github.com/gdsfactory/gdsfactory/issues/{issue})"
+package = "gdsfactory"
 start_string = "<!-- towncrier release notes start -->\n"
 template = ".changelog.d/changelog_template.jinja"
 title_format = "## [{version}](https://github.com/gdsfactory/gdsfactory/releases/tag/v{version}) - {project_date}"
