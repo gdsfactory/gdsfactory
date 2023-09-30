@@ -1,3 +1,11 @@
+## [7.8.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.2) - 2023-09-30
+
+
+### Fixed
+
+- fixed pn cross_section functions [#2141](https://github.com/gdsfactory/gdsfactory/issues/2141)
+
+
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.0...main)
