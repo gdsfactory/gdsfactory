@@ -5,6 +5,7 @@ from functools import partial
 
 import numpy as np
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
@@ -40,6 +41,8 @@ def cdsem_straight(
     c = Component()
     p = 0
 
+    xs = gf.get_cross_section(cross_section, **kwargs)
+
     if positions is None and spacing is None:
         raise ValueError("Either positions or spacing should be defined")
     elif positions:
@@ -48,9 +51,7 @@ def cdsem_straight(
         positions = np.arange(len(widths)) * spacing
 
     for width, position in zip(widths, positions):
-        line = c << straight(
-            length=length, cross_section=cross_section, width=width, **kwargs
-        )
+        line = c << straight(length=length, cross_section=xs, width=width)
         p = position or p
         line.ymin = p
         if text:

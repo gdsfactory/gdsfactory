@@ -60,5 +60,5 @@ def cdsem_coupler(
 
 
 if __name__ == "__main__":
-    c = cdsem_coupler()
+    c = cdsem_coupler(cross_section="xs_rc_with_trenches")
     c.show(show_ports=True)
