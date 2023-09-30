@@ -758,7 +758,7 @@ def extrude(
 
     x = get_cross_section(cross_section)
 
-    if isinstance(p, Transition):
+    if isinstance(x, Transition):
         return extrude_transition(
             p,
             transition=x,
