@@ -925,7 +925,7 @@ def map_ports_layer_to_orientation(
                 else:
                     direction_ports["S"].append(p)
         function(direction_ports, prefix=f"{layer[0]}_{layer[1]}_")
-        m.update({p.name: p.name_original for p in ports_on_layer})
+        m |= {p.name: p.name_original for p in ports_on_layer}
     return m
 
 
@@ -979,7 +979,6 @@ map_ports_to_orientation_ccw = partial(
 def auto_rename_ports_layer_orientation(
     component: Component,
     function=_rename_ports_facing_side,
-    prefix: str = "",
 ) -> None:
     """Renames port names with layer_orientation  (1_0_W0).
 

@@ -31,12 +31,12 @@ def coupler90(
 
     .. code::
 
-             3
+            o3
              |
             /
            /
-        2_/
-        1____4
+       o2_/
+       o1___o4
 
     """
     c = Component()

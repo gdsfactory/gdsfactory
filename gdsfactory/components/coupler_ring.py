@@ -42,12 +42,12 @@ def coupler_ring(
 
     .. code::
 
-           2             3
+          o2            o3
            |             |
             \           /
              \         /
            ---=========---
-         1    length_x    4
+        o1    length_x   o4
 
     """
     c = Component()
