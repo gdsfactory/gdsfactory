@@ -1090,7 +1090,8 @@ def pn_with_trenches(
     gap_high_doping: float | None = 1.0,
     offset_low_doping: float | None = 0.0,
     width_doping: float = 8.0,
-    width_slab: float = 7.0,
+    slab_offset: float | None = 0.3,
+    width_slab: float | None = None,
     width_trench: float = 2.0,
     layer_p: LayerSpec | None = "P",
     layer_pp: LayerSpec | None = "PP",
@@ -1121,6 +1122,7 @@ def pn_with_trenches(
         gap_high_doping: from center to high doping. None removes it.
         offset_low_doping: from center to junction center.
         width_doping: in um.
+        slab_offset: from the edge of the trench to the edge of the slab.
         width_slab: in um.
         width_trench: in um.
         layer_p: p doping layer.
@@ -1147,8 +1149,8 @@ def pn_with_trenches(
                                      <------>
                                     |       |
                                    wg     junction
-                                 center   center
-                                    |       |
+                                 center   center             slab_offset
+                                    |       |               <------>
         _____         ______________|_______ ______         ________
              |        |             |       |     |         |       |
              |________|             |             |_________|       |
@@ -1173,8 +1175,18 @@ def pn_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
+    if slab_offset is None and width_slab is None:
+        raise ValueError("Must specify either slab_offset or width_slab")
+
+    elif slab_offset is not None and width_slab is not None:
+        raise ValueError("Cannot specify both slab_offset and width_slab")
+
+    elif slab_offset is not None:
+        width_slab = width + 2 * width_trench + 2 * slab_offset
+
     trench_offset = width / 2 + width_trench / 2
-    sections = list(sections or [])
+    sections = []
+    sections += list(sections or [])
     sections += [Section(width=width_slab, layer=layer)]
     sections += [
         Section(width=width_trench, offset=offset, layer=layer_trench)
@@ -1262,7 +1274,7 @@ def pn_with_trenches(
         sections.append(metal_top)
         sections.append(metal_bot)
 
-    return CrossSection(
+    return cross_section(
         width=width,
         offset=0,
         layer=layer,
@@ -1283,7 +1295,8 @@ def pn_with_trenches_asymmetric(
     gap_medium_doping: float | tuple[float, float] | None = (0.5, 0.2),
     gap_high_doping: float | tuple[float, float] | None = (1.0, 0.8),
     width_doping: float = 8.0,
-    width_slab: float = 7.0,
+    slab_offset: float | None = 0.3,
+    width_slab: float | None = None,
     width_trench: float = 2.0,
     layer_p: LayerSpec | None = "P",
     layer_pp: LayerSpec | None = "PP",
@@ -1299,6 +1312,7 @@ def pn_with_trenches_asymmetric(
     cladding_layers: Layers | None = cladding_layers_optical,
     cladding_offsets: Floats | None = cladding_offsets_optical,
     wg_marking_layer: LayerSpec | None = None,
+    sections: Sections | None = None,
     **kwargs,
 ) -> CrossSection:
     """Rib PN doped cross_section with asymmetric dimensions left and right.
@@ -1317,6 +1331,7 @@ def pn_with_trenches_asymmetric(
                 If a list, it considers the first element is [p_side, n_side].\
                 If a number, it assumes the same for both sides.
         width_doping: in um.
+        slab_offset: from the edge of the trench to the edge of the slab.
         width_slab: in um.
         width_trench: in um.
         layer_p: p doping layer.
@@ -1340,8 +1355,8 @@ def pn_with_trenches_asymmetric(
                                      <------>
                                     |       |
                                    wg     junction
-                                 center   center
-                                    |       |
+                                 center   center           slab_offset
+                                    |       |               <------>
         _____         ______________|_______ ______         ________
              |        |             |       |     |         |       |
              |________|             |             |_________|       |
@@ -1366,10 +1381,19 @@ def pn_with_trenches_asymmetric(
         c = p.extrude(xs)
         c.plot()
     """
+    if slab_offset is None and width_slab is None:
+        raise ValueError("Must specify either slab_offset or width_slab")
+
+    elif slab_offset is not None and width_slab is not None:
+        raise ValueError("Cannot specify both slab_offset and width_slab")
+
+    elif slab_offset is not None:
+        width_slab = width + 2 * width_trench + 2 * slab_offset
 
     # Trenches
     trench_offset = width / 2 + width_trench / 2
-    sections = kwargs.pop("sections", [])
+    sections = []
+    sections += list(sections or [])
     sections += [Section(width=width_slab, layer=layer)]
     sections += [
         Section(width=width_trench, offset=offset, layer=layer_trench)
@@ -1471,12 +1495,12 @@ def pn_with_trenches_asymmetric(
         sections.append(metal_top)
         sections.append(metal_bot)
 
-    return CrossSection(
+    return cross_section(
         width=width,
         offset=0,
         layer=layer,
         port_names=port_names,
-        sections=sections,
+        sections=tuple(sections),
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
         **kwargs,
@@ -1491,7 +1515,8 @@ def l_wg_doped_with_trenches(
     gap_medium_doping: float | None = 0.5,
     gap_high_doping: float | None = 1.0,
     width_doping: float = 8.0,
-    width_slab: float = 7.0,
+    slab_offset: float | None = 0.3,
+    width_slab: float | None = None,
     width_trench: float = 2.0,
     layer_low: LayerSpec = "P",
     layer_mid: LayerSpec = "PP",
@@ -1504,6 +1529,7 @@ def l_wg_doped_with_trenches(
     cladding_layers: Layers | None = cladding_layers_optical,
     cladding_offsets: Floats | None = cladding_offsets_optical,
     wg_marking_layer: LayerSpec | None = None,
+    sections: Sections | None = None,
     **kwargs,
 ) -> CrossSection:
     """L waveguide PN doped cross_section.
@@ -1516,6 +1542,7 @@ def l_wg_doped_with_trenches(
         gap_medium_doping: from waveguide edge to medium doping. None removes it.
         gap_high_doping: from edge to high doping. None removes it.
         width_doping: in um.
+        slab_offset: from the edge of the trench to the edge of the slab.
         width_slab: in um.
         width_trench: in um.
         layer_low: low doping layer.
@@ -1566,9 +1593,18 @@ def l_wg_doped_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
+    if slab_offset is None and width_slab is None:
+        raise ValueError("Must specify either slab_offset or width_slab")
+
+    elif slab_offset is not None and width_slab is not None:
+        raise ValueError("Cannot specify both slab_offset and width_slab")
+
+    elif slab_offset is not None:
+        width_slab = width + 2 * width_trench + 2 * slab_offset
 
     trench_offset = -1 * (width / 2 + width_trench / 2)
-    sections = kwargs.pop("sections", [])
+    sections = []
+    sections += list(sections or [])
     sections += [
         Section(width=width_slab, layer=layer, offset=-1 * (width_slab / 2 - width / 2))
     ]
@@ -1625,12 +1661,12 @@ def l_wg_doped_with_trenches(
         )
         sections.append(metal)
 
-    return CrossSection(
+    return cross_section(
         width=width,
         offset=0,
         layer=layer,
         port_names=port_names,
-        sections=sections,
+        sections=tuple(sections),
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
         **kwargs,
@@ -2250,7 +2286,15 @@ xs_sc_rc_tip = strip_rib_tip()
 xs_sc_heater_metal = strip_heater_metal()
 xs_sc_heater_metal_undercut = strip_heater_metal_undercut()
 xs_slot = slot()
+
 xs_heater_metal = heater_metal()
+xs_sc_heater_doped = strip_heater_doped()
+xs_sc_heater_doped_via_stack = strip_heater_doped_via_stack()
+
+xs_rc_heater_doped = rib_heater_doped()
+xs_rc_heater_doped_via_stack = rib_heater_doped_via_stack()
+xs_pn_ge = pn_ge_detector_si_contacts()
+
 xs_m1 = metal1()
 xs_m2 = metal2()
 xs_m3 = metal3()
@@ -2258,8 +2302,11 @@ xs_m3_bend = metal3(radius=10)
 xs_metal_routing = xs_m3
 xs_rc_with_trenches = rib_with_trenches()
 
+xs_pn = pn()
 xs_pin = pin()
 xs_npp = npp()
+xs_pn_with_trenches = pn_with_trenches()
+xs_pn_with_trenches_asymmetric = pn_with_trenches_asymmetric()
 
 cross_sections = get_cross_sections(sys.modules[__name__])
 
