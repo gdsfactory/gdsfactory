@@ -7,8 +7,6 @@ import typer
 
 app = typer.Typer()
 
-VERSION = "7.8.1"
-
 
 @app.command()
 def layermap_to_dataclass(
