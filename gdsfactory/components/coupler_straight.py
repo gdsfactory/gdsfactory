@@ -18,6 +18,12 @@ def coupler_straight(
         length: of straight.
         gap: between straights.
         cross_section: specification (CrossSection, string or dict).
+
+    .. code::
+
+        o2──────▲─────────o3
+                │gap
+        o1──────▼─────────o4
     """
     component = Component()
     straight_component = straight(

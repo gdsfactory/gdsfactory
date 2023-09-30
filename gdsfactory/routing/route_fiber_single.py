@@ -50,9 +50,9 @@ def route_fiber_single(
 
     .. code::
               _________
-             |         |_E1
-          W0_|         |
-             |         |_E0
+             |         |_o2
+          o1_|         |
+             |         |_o3
              |_________|
 
 
@@ -64,7 +64,7 @@ def route_fiber_single(
 
          route_fiber_array is designed to route ports south
 
-               E1  E0
+               o2  o3
               _|___|_
              |       |
              |       |
@@ -74,7 +74,7 @@ def route_fiber_single(
              |       |
              |_______|
                  |
-                 W0     1st part routes West ports south
+                 o1     1st part routes West ports south
 
         then rotates 180 and routes the rest of the ports North
 
