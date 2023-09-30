@@ -708,7 +708,7 @@ def along_path(
 @cell
 def extrude(
     p: Path,
-    cross_section=None,
+    cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     width: float | None = None,
     simplify: float | None = None,
@@ -757,6 +757,14 @@ def extrude(
     c = Component()
 
     x = get_cross_section(cross_section)
+
+    if isinstance(x, Transition):
+        return extrude_transition(
+            p,
+            transition=x,
+            shear_angle_start=shear_angle_start,
+            shear_angle_end=shear_angle_end,
+        )
 
     for section in x.sections:
         p_sec = p.copy()
@@ -941,6 +949,7 @@ def extrude(
     return c
 
 
+@cell
 def extrude_transition(
     p: Path,
     transition: Transition,
@@ -1563,6 +1572,6 @@ if __name__ == "__main__":
     s3 = gf.Section(width=2.0, offset=0, layer=(3, 0), name="slab")
     X2 = gf.CrossSection(sections=(s2, s3))
     t = gf.path.transition(X1, X2, width_type="linear")
-    c = gf.path.extrude_transition(P, t, shear_angle_start=10, shear_angle_end=45)
+    c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
 
     c.show(show_ports=True)

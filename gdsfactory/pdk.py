@@ -32,6 +32,7 @@ from gdsfactory.typings import (
     LayerSpec,
     MaterialSpec,
     PathType,
+    Transition,
 )
 
 component_settings = ["function", "component", "settings"]
@@ -527,10 +528,12 @@ class Pdk(BaseModel):
 
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs
-    ) -> CrossSection:
+    ) -> CrossSection | Transition:
         """Returns cross_section from a cross_section spec."""
         if isinstance(cross_section, CrossSection):
             return cross_section.copy(**kwargs)
+        elif isinstance(cross_section, Transition):
+            return cross_section
         elif callable(cross_section):
             return cross_section(**kwargs)
         elif isinstance(cross_section, str):
@@ -735,7 +738,9 @@ def get_cell(cell: CellSpec, **kwargs) -> ComponentFactory:
     return get_active_pdk().get_cell(cell, **kwargs)
 
 
-def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection:
+def get_cross_section(
+    cross_section: CrossSectionSpec, **kwargs
+) -> CrossSection | Transition:
     return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
 

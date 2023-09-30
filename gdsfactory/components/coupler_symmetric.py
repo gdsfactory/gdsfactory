@@ -27,13 +27,14 @@ def coupler_symmetric(
 
                        dx
                     |-----|
-                       ___ E1
+                       ___ o3
                       /       |
-                _____/        |
-           gap  _____         |  dy
+             o2 _____/        |
+                              |
+             o1 _____         |  dy
                      \        |
                       \___    |
-                           E0
+                           o4
 
     """
     x = gf.get_cross_section(cross_section)

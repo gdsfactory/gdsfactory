@@ -40,6 +40,7 @@ from gdsfactory.typings import CrossSectionSpec
 
 gf.clear_cache()
 gf.config.rich_output()
+gf.config.enable_off_grid_ports()
 gf.CONF.display_type = "klayout"
 generic_pdk = get_generic_pdk()
 

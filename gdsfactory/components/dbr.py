@@ -31,6 +31,7 @@ def dbr_cell(
     l1: float = period / 2,
     l2: float = period / 2,
     cross_section: CrossSectionSpec = "xs_sc",
+    **kwargs,
 ) -> Component:
     """Distributed Bragg Reflector unit cell.
 
@@ -57,7 +58,7 @@ def dbr_cell(
     l2 = snap_to_grid(l2)
     w1 = snap_to_grid(w1, 2)
     w2 = snap_to_grid(w2, 2)
-    xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section, **kwargs)
     xs1 = xs.copy(width=w1, add_pins_function_name=None)
     xs2 = xs.copy(width=w2, add_pins_function_name=None)
 
@@ -78,6 +79,7 @@ def dbr(
     l2: float = period / 2,
     n: int = 10,
     cross_section: CrossSectionSpec = "xs_sc",
+    **kwargs,
 ) -> Component:
     """Distributed Bragg Reflector.
 
@@ -88,6 +90,7 @@ def dbr(
         l2: thick length in um.
         n: number of periods.
         cross_section: cross_section spec.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -103,7 +106,7 @@ def dbr(
     c = Component()
     l1 = snap_to_grid(l1)
     l2 = snap_to_grid(l2)
-    xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section, **kwargs)
     cell = dbr_cell(w1=w1, w2=w2, l1=l1, l2=l2, cross_section=cross_section)
     c.add_array(cell, columns=n, rows=1, spacing=(l1 + l2, 100))
     c.add_port("o1", port=cell.ports["o1"])
