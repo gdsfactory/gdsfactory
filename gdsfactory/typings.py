@@ -44,7 +44,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_layout import Label
 from gdsfactory.cross_section import CrossSection, Section, Transition, WidthTypes
 from gdsfactory.port import Port
-from gdsfactory.technology import LayerLevel, LayerStack
+from gdsfactory.technology import LayerLevel, LayerMap, LayerStack
 
 STEP_DIRECTIVES = {
     "x",
@@ -309,6 +309,7 @@ __all__ = (
     "Ints",
     "Label",
     "Layer",
+    "LayerMap",
     "LayerLevel",
     "LayerSpec",
     "LayerSpecs",
