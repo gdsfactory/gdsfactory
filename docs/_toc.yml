@@ -49,4 +49,4 @@ parts:
       - file: api_routing
       - file: components
       - file: contribution
-      - file: CHANGELOG
+      - file: changelog
