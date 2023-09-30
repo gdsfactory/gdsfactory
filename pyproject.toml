@@ -271,7 +271,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "0.8.4"
+current = "7.8.1"
 regex = '''
   (?P<major>\d+)
   \.
