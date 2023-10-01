@@ -41,3 +41,6 @@ version-resolver:
 
 exclude-labels:
   - 'skip-changelog'
+
+exclude-contributors:
+  - 'joamatab'
