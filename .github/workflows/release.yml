@@ -84,6 +84,6 @@ jobs:
 
           # Publish the release
           gh api -X PATCH repos/:owner/:repo/releases/$RELEASE_ID --field draft=false
-          gh release upload ${{ github.ref }} requirements.txt --clobber
+          gh release upload $RELEASE_ID requirements.txt --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
