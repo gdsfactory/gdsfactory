@@ -1,14 +1,17 @@
+# [Changelog](https://keepachangelog.com/en/1.0.0/)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.2...main)
+
 ## [7.8.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.2) - 2023-09-30
 
-
-### Fixed
-
 - fixed pn cross_section functions [#2141](https://github.com/gdsfactory/gdsfactory/issues/2141)
-
-
-# [Changelog](https://keepachangelog.com/en/1.0.0/)
-
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.0...main)
+* Fix pn cross sections (#2142)
+* use tbump and towncrier (#2140)
+* better rib_with_trenches (#2133)
+* better ascii art (#2139)
+* extrude transition (#2138)
+* Add dbr kwargs (#2136)
+* fix docs for non-manhattan router (#2135)
+* Improve cdsem (#2132) @joamatab
 
 ## [7.8.1](https://github.com/gdsfactory/gdsfactory/compare/v7.8.0...v7.8.1)
 
