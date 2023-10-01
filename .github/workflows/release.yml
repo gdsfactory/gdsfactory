@@ -58,6 +58,8 @@ jobs:
   release_environment:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     strategy:
       max-parallel: 12
       matrix:
