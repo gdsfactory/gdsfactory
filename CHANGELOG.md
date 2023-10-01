@@ -1,3 +1,8 @@
+## [7.8.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.3) - 2023-10-01
+
+No significant changes.
+
+
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.2...main)
 
