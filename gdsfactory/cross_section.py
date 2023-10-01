@@ -445,19 +445,20 @@ def cross_section(
            └────────────────────────────────────────────────────────────┘
     """
     sections = list(sections or [])
-    cladding_layers = cladding_layers or ()
-    cladding_offsets = cladding_offsets or ()
 
-    if cladding_simplify is None:
-        cladding_simplify = (None,) * len(cladding_layers)
+    if cladding_layers:
+        cladding_simplify = cladding_simplify or (None,) * len(cladding_layers)
+        cladding_offsets = cladding_offsets or (0,) * len(cladding_layers)
 
-    if (
-        len({len(x) for x in (cladding_layers, cladding_offsets, cladding_simplify)})
-        > 1
-    ):
-        raise ValueError(
-            "cladding_layers, cladding_offsets, cladding_simplify must have same length"
-        )
+        if (
+            len(
+                {len(x) for x in (cladding_layers, cladding_offsets, cladding_simplify)}
+            )
+            > 1
+        ):
+            raise ValueError(
+                "cladding_layers, cladding_offsets, cladding_simplify must have same length"
+            )
 
     s = [
         Section(
@@ -468,12 +469,14 @@ def cross_section(
             port_types=port_types,
         )
     ] + sections
-    s += [
-        Section(width=width + 2 * offset, layer=layer, simplify=simplify)
-        for layer, offset, simplify in zip(
-            cladding_layers, cladding_offsets, cladding_simplify
-        )
-    ]
+
+    if cladding_layers:
+        s += [
+            Section(width=width + 2 * offset, layer=layer, simplify=simplify)
+            for layer, offset, simplify in zip(
+                cladding_layers, cladding_offsets, cladding_simplify
+            )
+        ]
     return CrossSection(
         sections=tuple(s),
         radius=radius,
@@ -676,6 +679,7 @@ def l_with_trenches(
     width_trench: float = 2.0,
     width_slab: float = 7.0,
     layer: LayerSpec | None = "WG",
+    layer_slab: LayerSpec | None = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
     mirror: bool = False,
     wg_marking_layer: LayerSpec | None = None,
@@ -733,7 +737,7 @@ def l_with_trenches(
     sections += [
         Section(
             width=width_slab,
-            layer=layer,
+            layer=layer_slab,
             offset=mult * (width_slab / 2 - width / 2),
         )
     ]
@@ -749,7 +753,9 @@ def l_with_trenches(
         )
     )
 
-    return CrossSection(
+    return cross_section(
+        width=width,
+        layer=layer,
         sections=tuple(sections),
         info=info,
         **kwargs,
