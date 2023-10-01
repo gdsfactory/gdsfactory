@@ -1,5 +1,6 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
+change-template: '- $TITLE [#$NUMBER](https://github.com/gdsfactory/gdsfactory/pull/#$NUMBER)'
 template: |
   # What's Changed
 
@@ -41,6 +42,3 @@ version-resolver:
 
 exclude-labels:
   - 'skip-changelog'
-
-exclude-contributors:
-  - 'joamatab'
