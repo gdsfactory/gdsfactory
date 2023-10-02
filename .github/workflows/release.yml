@@ -60,16 +60,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    strategy:
-      max-parallel: 12
-      matrix:
-        python-version: ["3.10"]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.11'
           cache: "pip"
           cache-dependency-path: pyproject.toml
       - name: Install dependencies

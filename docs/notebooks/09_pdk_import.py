@@ -170,10 +170,10 @@ c3.ports
 #
 # ```
 # pip install cookiecutter
-# cookiecutter https://github.com/joamatab/cookiecutter-pypackage-minimal
+# cookiecutter gh:joamatab/python
 # ```
 #
-# It will ask you some questions to fill in the template (name of the package being the most important)
+# It will ask you some questions to fill in the template for the python package.
 #
 #
 # Then you can add the information about the GDS files and the Layers inside that package
@@ -270,7 +270,7 @@ print(gdsfactory_script)
 #
 # ```
 # pip install cookiecutter
-# cookiecutter https://github.com/joamatab/cookiecutter-pypackage-minimal
+# cookiecutter gh:joamatab/python
 # ```
 #
 # Or you can fork the ubcpdk and create new PCell functions that use the correct layers for your foundry. For example.

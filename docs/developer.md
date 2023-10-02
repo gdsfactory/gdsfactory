@@ -117,7 +117,7 @@ We recommend creating a separate python project for each mask and PDK.
 
 ```
 pip install cookiecutter
-cookiecutter https://github.com/joamatab/cookiecutter-pypackage-minimal
+cookiecutter gh:joamatab/python
 ```
 
 Make sure you pin the version of gdsfactory that you are using in your `pyproject.toml`
