@@ -74,7 +74,7 @@ jobs:
           pip freeze > requirements.txt
       - name: Publish Latest Draft
         run: |
-          gh release edit $RELEASE_ID --draft=false
-          gh release upload $RELEASE_ID requirements.txt --clobber
+          gh release edit ${{ github.ref_name }} --draft=false
+          gh release upload ${{ github.ref_name }} requirements.txt --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
