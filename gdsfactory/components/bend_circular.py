@@ -49,13 +49,16 @@ def bend_circular(
     path = p.extrude(x)
     ref = c << path
     c.add_ports(ref.ports)
-
     c.absorb(ref)
+
     c.info["length"] = float(snap_to_grid(p.length()))
     c.info["dy"] = snap_to_grid(float(abs(p.points[0][0] - p.points[-1][0])))
     c.info["radius"] = float(radius)
     x.validate_radius(radius)
-    x.add_bbox(c)
+
+    top = None if int(angle) in {180, -180, -90} else 0
+    bottom = 0 if int(angle) in {-90} else None
+    x.add_bbox(c, top=top, bottom=bottom)
     if add_pins:
         x.add_pins(c)
     c.add_route_info(

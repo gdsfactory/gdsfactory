@@ -41,7 +41,7 @@ def straight(
     ref = c << path
     c.add_ports(ref.ports)
 
-    x.add_bbox(c)
+    x.add_bbox(c, right=0, left=0)
     if add_pins:
         x.add_pins(c)
     c.info["length"] = length
@@ -56,8 +56,7 @@ def straight(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    xs = gf.cross_section.strip()
-    c = straight(layer=(2, 0))
+    c = straight(cross_section="xs_rc")
     # c = straight()
     print(c.info)
     c.show(show_ports=True)
