@@ -74,12 +74,7 @@ jobs:
           pip freeze > requirements.txt
       - name: Publish Latest Draft
         run: |
-          # Get the latest draft release
-          RELEASE_DATA=$(gh api repos/:owner/:repo/releases | jq '[.[] | select(.draft == true)][0]')
-          RELEASE_ID=$(echo $RELEASE_DATA | jq '.id')
-
-          # Publish the release
-          gh api -X PATCH repos/:owner/:repo/releases/$RELEASE_ID --field draft=false
+          gh release publish $RELEASE_ID
           gh release upload $RELEASE_ID requirements.txt --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
