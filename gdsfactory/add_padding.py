@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from functools import partial
-
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -182,6 +180,10 @@ def add_padding_to_size_container(
 if __name__ == "__main__":
     # test_container()
 
-    p = partial(add_padding, layers=((1, 0)))
-    c = gf.components.straight(length=10, decorator=p)
-    c.show()
+    # p = partial(add_padding, layers=((1, 0)))
+    c = gf.components.straight(length=10)
+    c1 = add_padding_to_size_container(c, xsize=100, ysize=100)
+    c2 = add_padding_to_size_container(c, xsize=100, ysize=100)
+    print(c1.name)
+    print(c2.name)
+    c2.show()

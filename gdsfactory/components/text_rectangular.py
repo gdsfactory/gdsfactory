@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.text_rectangular_font import pixel_array, rectangular_font
-from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
+from gdsfactory.typings import LayerSpec
 
 
 @gf.cell
@@ -33,7 +33,7 @@ def text_rectangular(
     xoffset = position[0]
     yoffset = position[1]
     component = gf.Component()
-    characters = rectangular_font()
+    characters = font()
 
     for line in text.split("\n"):
         for character in line:
@@ -69,41 +69,29 @@ def text_rectangular(
     return c
 
 
-def text_rectangular_multi_layer(
-    text: str = "abcd",
-    layers: LayerSpecs = ("WG", "M1", "M2", "M3"),
-    text_factory: ComponentSpec = text_rectangular,
-    **kwargs,
-) -> Component:
-    """Returns rectangular text in different layers.
-
-    Args:
-        text: string of text
-        layers: list of layers to replicate the text
-        text_factory: function to create the text Components
-
-    Keyword Args:
-        size: pixel size
-        position: coordinate
-        justify: left, right or center
-        font: function that returns dictionary of characters
-    """
-    func = partial(
-        copy_layers,
-        factory=partial(text_factory, text=text, **kwargs),
-        layers=layers,
-    )
-    return func()
+text_rectangular_multi_layer = partial(
+    copy_layers,
+    factory=text_rectangular,
+    layers=("WG", "M1", "M2", "M3"),
+)
 
 
 if __name__ == "__main__":
-    import string
+    # import string
+    import json
 
-    c = text_rectangular_multi_layer(
-        # text="The mask is nearly done. only 12345 drc errors remaining?",
-        # text="v",
-        text=string.ascii_lowercase,
-        layers=("SLAB90", "M2"),
-        justify="center",
-    )
+    c = text_rectangular_multi_layer()
+    settings = c.settings.full
+    settings_string = json.dumps(settings)
+    settings2 = json.loads(settings_string)
+    cell_name = c.settings.function_name
+    c2 = gf.get_component({"component": cell_name, "settings": settings2})
+
+    # c = text_rectangular_multi_layer(
+    #     # text="The mask is nearly done. only 12345 drc errors remaining?",
+    #     # text="v",
+    #     text=string.ascii_lowercase,
+    #     layers=("SLAB90", "M2"),
+    #     justify="center",
+    # )
     c.show(show_ports=True)

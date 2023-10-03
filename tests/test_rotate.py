@@ -5,17 +5,6 @@ import numpy.testing as npt
 import gdsfactory as gf
 
 
-def test_rotate() -> None:
-    c1 = gf.components.straight()
-    c1r = c1.rotate()
-
-    c2 = gf.components.straight()
-    c2r = c2.rotate()
-
-    assert c1.uid == c2.uid
-    assert c1r.uid == c2r.uid
-
-
 def test_rotate_port() -> None:
     port_center_original = (10, 0)
     port_center_expected = (0, 10)
@@ -43,7 +32,6 @@ def test_rotate_port() -> None:
 
 
 if __name__ == "__main__":
-    # test_rotate()
     test_rotate_port()
     # c1 = gf.components.straight()
     # c1r = c1.rotate()

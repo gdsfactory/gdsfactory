@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.cross import cross
@@ -19,15 +20,13 @@ def copy_layers(
     """
     c = Component()
     for layer in layers:
-        ci = factory(layer=layer, **kwargs)
-        c << ci
+        ci = gf.get_component(factory, layer=layer, **kwargs)
+        _ = c << ci
 
     c.copy_child_info(ci)
     return c
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     c = copy_layers(gf.components.rectangle)
     c.show(show_ports=True)

@@ -1,11 +1,9 @@
-name: text_rectangular_layerM3_copy_layers_a9798861
+name: text_rectangular_layerM3_copy_layers_2d3a1d91
 ports: {}
 settings:
   changed:
     factory:
       function: text_rectangular
-      settings:
-        text: abcd
     layers:
     - WG
     - M1
@@ -51,8 +49,6 @@ settings:
   full:
     factory:
       function: text_rectangular
-      settings:
-        text: abcd
     layers:
     - WG
     - M1
@@ -62,4 +58,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.copy_layers
-  name: text_rectangular_layerM3_copy_layers_a9798861
+  name: text_rectangular_layerM3_copy_layers_2d3a1d91

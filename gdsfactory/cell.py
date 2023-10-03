@@ -199,6 +199,7 @@ def cell_without_validator(func: _F) -> _F:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
 
+        # print(f"BUILD {name} {func.__name__}({named_args_string})")
         if not callable(func):
             raise ValueError(
                 f"{func!r} is not callable! @cell decorator is only for functions"
@@ -265,7 +266,7 @@ def cell_without_validator(func: _F) -> _F:
             component = component_new or component
 
         component.lock()
-        CACHE[component.name] = component
+        CACHE[name] = component
         return component
 
     return _cell
