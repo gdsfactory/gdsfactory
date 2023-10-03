@@ -51,18 +51,25 @@ def bend_circular_heater(
 
     xs = x.copy(sections=sections)
     p = arc(radius=radius, angle=angle, npoints=npoints)
-    c = p.extrude(xs)
-    c.length = np.round(p.length(), 3)
-    c.dx = abs(p.points[0][0] - p.points[-1][0])
-    c.dy = abs(p.points[0][0] - p.points[-1][0])
+
+    c = Component()
+    path = p.extrude(xs)
+    ref = c << path
+    c.add_ports(ref.ports)
+    c.absorb(ref)
+    c.info["length"] = np.round(p.length(), 3)
+    c.info["dx"] = abs(p.points[0][0] - p.points[-1][0])
+    c.info["dy"] = abs(p.points[0][0] - p.points[-1][0])
 
     x.validate_radius(radius)
-    if with_bbox and x.bbox_layers:
-        x.add_bbox(c)
+    if with_bbox:
+        top = None if int(angle) in {180, -180, -90} else 0
+        bottom = 0 if int(angle) in {-90} else None
+        x.add_bbox(c, top=top, bottom=bottom)
     return c
 
 
 if __name__ == "__main__":
-    c = bend_circular_heater(heater_width=1)
+    c = bend_circular_heater(heater_width=1, cross_section="xs_rc")
     print(c.ports)
     c.show(show_ports=True)

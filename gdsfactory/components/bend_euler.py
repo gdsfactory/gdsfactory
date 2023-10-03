@@ -85,7 +85,10 @@ def bend_euler(
         ref.mirror(p1=[0, 0], p2=[1, 0])
 
     x.validate_radius(radius)
-    x.add_bbox(c)
+
+    top = None if int(angle) in {180, -180, -90} else 0
+    bottom = 0 if int(angle) in {-90} else None
+    x.add_bbox(c, top=top, bottom=bottom)
     if add_pins:
         x.add_pins(c)
     c.absorb(ref)
