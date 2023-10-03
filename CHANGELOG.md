@@ -5,8 +5,8 @@
 
 ## [7.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.4) - 2023-10-02
 
-No significant changes.
-
+- Fix clear cache [#2153](https://github.com/gdsfactory/gdsfactory/pull/#2153)
+- Update pydantic requirement from <2.4,>=2 to >=2,<2.5 [#2151](https://github.com/gdsfactory/gdsfactory/pull/#2151)
 
 ## [7.8.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.3) - 2023-10-01
 
