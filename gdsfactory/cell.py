@@ -4,7 +4,6 @@ from __future__ import annotations
 import functools
 import hashlib
 import inspect
-from collections import Counter
 from collections.abc import Callable
 from dataclasses import dataclass
 from functools import wraps
@@ -13,7 +12,7 @@ from typing import Any, TypeVar
 import toolz
 from pydantic import BaseModel, validate_call
 
-from gdsfactory.component import Component
+from gdsfactory.component import Component, name_counters
 from gdsfactory.config import CONF
 from gdsfactory.name import clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
@@ -32,9 +31,9 @@ class CellReturnTypeError(ValueError):
 def clear_cache() -> None:
     """Clears Component CACHE."""
     global CACHE
-    global name_counters
+
     CACHE = {}
-    name_counters = Counter()
+    name_counters.clear()
 
 
 def print_cache() -> None:
@@ -266,7 +265,7 @@ def cell_without_validator(func: _F) -> _F:
             component = component_new or component
 
         component.lock()
-        CACHE[name] = component
+        CACHE[component.name] = component
         return component
 
     return _cell
@@ -466,5 +465,9 @@ def test_hashes() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.straight(length=3, info=dict(polarization="te", wavelength=1.55))
-    c.pprint()
+    # c = gf.c.straight(length=3, info=dict(polarization="te", wavelength=1.55))
+    c = gf.c.straight()
+    gf.clear_cache()
+    c = gf.c.straight()
+    print(c.name)
+    # c.pprint()
