@@ -84,7 +84,7 @@ class Port:
         parent: Component that port belongs to.
         cross_section: cross_section spec.
         shear_angle: an optional angle to shear port face in degrees.
-        snap_to_grid: True snap port to grid.
+        enforce_ports_on_grid: True snap port to grid.
     """
 
     def __init__(
@@ -101,7 +101,8 @@ class Port:
         enforce_ports_on_grid: bool | None = None,
     ) -> None:
         self.name = name
-        enforce_ports_on_grid = enforce_ports_on_grid or CONF.enforce_ports_on_grid
+        if enforce_ports_on_grid is None:
+            enforce_ports_on_grid = CONF.enforce_ports_on_grid
 
         center = snap.snap_to_grid(center) if enforce_ports_on_grid else center
         self.center = np.array(center, dtype="float64")
