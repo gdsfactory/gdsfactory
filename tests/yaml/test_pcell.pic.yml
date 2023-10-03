@@ -1,0 +1,21 @@
+default_settings:
+    length:
+        value: 10
+    angle:
+        value: 180
+instances:
+    s1:
+        component: straight
+        settings:
+            length: {{ length }}
+    s2:
+        component: straight
+        settings:
+            length: {{ length }}
+    bend:
+        component: bend_euler
+        settings:
+            angle: {{ angle }}
+connections:
+    s1,o2: bend,o1
+    s2,o1: bend,o2
