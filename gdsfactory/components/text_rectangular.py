@@ -33,7 +33,7 @@ def text_rectangular(
     xoffset = position[0]
     yoffset = position[1]
     component = gf.Component()
-    characters = rectangular_font()
+    characters = font()
 
     for line in text.split("\n"):
         for character in line:
@@ -88,22 +88,28 @@ def text_rectangular_multi_layer(
         justify: left, right or center
         font: function that returns dictionary of characters
     """
-    func = partial(
-        copy_layers,
+    return copy_layers(
         factory=partial(text_factory, text=text, **kwargs),
         layers=layers,
     )
-    return func()
 
 
 if __name__ == "__main__":
-    import string
+    # import string
+    import json
 
-    c = text_rectangular_multi_layer(
-        # text="The mask is nearly done. only 12345 drc errors remaining?",
-        # text="v",
-        text=string.ascii_lowercase,
-        layers=("SLAB90", "M2"),
-        justify="center",
-    )
+    c = text_rectangular_multi_layer()
+    settings = c.settings.full
+    settings_string = json.dumps(settings)
+    settings2 = json.loads(settings_string)
+    cell_name = c.settings.function_name
+    c2 = gf.get_component({"component": cell_name, "settings": settings2})
+
+    # c = text_rectangular_multi_layer(
+    #     # text="The mask is nearly done. only 12345 drc errors remaining?",
+    #     # text="v",
+    #     text=string.ascii_lowercase,
+    #     layers=("SLAB90", "M2"),
+    #     justify="center",
+    # )
     c.show(show_ports=True)

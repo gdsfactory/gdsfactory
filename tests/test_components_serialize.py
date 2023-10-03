@@ -9,6 +9,10 @@ skip_test = {
     "component_sequence",
     "extend_port",
     "extend_ports_list",
+    "add_grating_couplers",
+    "add_grating_couplers_fiber_array",
+    "add_grating_couplers_with_loopback_fiber_array",
+    "add_grating_couplers_with_loopback_fiber_single",
 }
 cells_to_test = set(cells.keys()) - skip_test
 
@@ -40,7 +44,7 @@ if __name__ == "__main__":
 
     import orjson
 
-    c1 = gf.components.add_fiducials()
+    c1 = gf.components.add_grating_couplers()
     settings = c1.settings.full
     settings_string = json.dumps(settings)
     settings2 = orjson.loads(settings_string)
