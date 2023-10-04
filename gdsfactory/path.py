@@ -25,7 +25,6 @@ from gdsfactory.component_layout import (
     _rotate_points,
 )
 from gdsfactory.cross_section import CrossSection, Section, Transition
-from gdsfactory.port import Port
 from gdsfactory.typings import (
     ComponentSpec,
     Coordinates,
@@ -430,8 +429,6 @@ class Path(_GeometryHelper):
         layer: LayerSpec | None = None,
         width: float | None = None,
         simplify: float | None = None,
-        shear_angle_start: float | None = None,
-        shear_angle_end: float | None = None,
     ) -> Component:
         """Returns Component by extruding a Path with a CrossSection.
 
@@ -445,8 +442,6 @@ class Path(_GeometryHelper):
             simplify: Tolerance value for the simplification algorithm. \
                     All points that can be removed without changing the resulting polygon\
                     by more than the value listed here will be removed.
-            shear_angle_start: an optional angle to shear the starting face by (in degrees).
-            shear_angle_end: an optional angle to shear the ending face by (in degrees).
 
         .. plot::
             :include-source:
@@ -463,8 +458,6 @@ class Path(_GeometryHelper):
             layer=layer,
             width=width,
             simplify=simplify,
-            shear_angle_start=shear_angle_start,
-            shear_angle_end=shear_angle_end,
         )
 
     def copy(self):
@@ -705,15 +698,13 @@ def along_path(
     return c
 
 
-@cell
+# @cell
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
     layer: LayerSpec | None = None,
     width: float | None = None,
     simplify: float | None = None,
-    shear_angle_start: float | None = None,
-    shear_angle_end: float | None = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
 
@@ -728,8 +719,6 @@ def extrude(
         simplify: Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting polygon \
                 by more than the value listed here will be removed.
-        shear_angle_start: an optional angle to shear the starting face by (in degrees).
-        shear_angle_end: an optional angle to shear the ending face by (in degrees).
     """
     from gdsfactory.pdk import (
         get_cross_section,
@@ -762,8 +751,6 @@ def extrude(
         return extrude_transition(
             p,
             transition=x,
-            shear_angle_start=shear_angle_start,
-            shear_angle_end=shear_angle_end,
         )
 
     for section in x.sections:
@@ -826,7 +813,6 @@ def extrude(
             lengths = np.concatenate([[0], lengths])
             width = width_function(lengths / lengths[-1])
         dy = offset + width / 2
-        # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
         points1 = p_sec._centerpoint_offset_curve(
             points,
@@ -835,7 +821,6 @@ def extrude(
             end_angle=end_angle,
         )
         dy = offset - width / 2
-        # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
         points2 = p_sec._centerpoint_offset_curve(
             points,
@@ -843,31 +828,6 @@ def extrude(
             start_angle=start_angle,
             end_angle=end_angle,
         )
-        if shear_angle_start or shear_angle_end:
-            _face_angle_start = (
-                start_angle + shear_angle_start - 90 if shear_angle_start else None
-            )
-            _face_angle_end = (
-                end_angle + shear_angle_end + 90 if shear_angle_end else None
-            )
-            points1 = _cut_path_with_ray(
-                start_point=points[0],
-                start_angle=_face_angle_start,
-                end_point=points[-1],
-                end_angle=_face_angle_end,
-                path=points1,
-            )
-            points2 = _cut_path_with_ray(
-                start_point=points[0],
-                start_angle=_face_angle_start,
-                end_point=points[-1],
-                end_angle=_face_angle_end,
-                path=points2,
-            )
-
-        # angle = start_angle + shear_angle_start + 90
-        # points2 = _cut_path_with_ray(points[0], angle, points2, start=True)
-        # Simplify lines using the Ramer–Douglas–Peucker algorithm
         if isinstance(simplify, bool):
             raise ValueError("simplify argument must be a number (e.g. 1e-3) or None")
 
@@ -892,21 +852,15 @@ def extrude(
             face = [points1[0], points2[0]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            port1 = c.add_port(
-                port=Port(
-                    name=port_names[0],
-                    layer=get_layer(layers[0]),
-                    port_type=port_types[0],
-                    width=port_width,
-                    orientation=port_orientation,
-                    center=center,
-                    cross_section=x.cross_section1
-                    if hasattr(x, "cross_section1")
-                    else x,
-                    shear_angle=shear_angle_start,
-                )
+            c.add_port(
+                name=port_names[0],
+                layer=get_layer(layers[0]),
+                port_type=port_types[0],
+                width=port_width,
+                orientation=port_orientation,
+                center=center,
+                cross_section=x.cross_section1 if hasattr(x, "cross_section1") else x,
             )
-            port1.info["face"] = face
         if port_names[1] is not None:
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p_sec.end_angle) % 360
@@ -914,21 +868,15 @@ def extrude(
             face = [points1[-1], points2[-1]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            port2 = c.add_port(
-                port=Port(
-                    name=port_names[1],
-                    layer=get_layer(layers[1]),
-                    port_type=port_types[1],
-                    width=port_width,
-                    center=center,
-                    orientation=port_orientation,
-                    cross_section=x.cross_section2
-                    if hasattr(x, "cross_section2")
-                    else x,
-                    shear_angle=shear_angle_end,
-                )
+            c.add_port(
+                name=port_names[1],
+                layer=get_layer(layers[1]),
+                port_type=port_types[1],
+                width=port_width,
+                center=center,
+                orientation=port_orientation,
+                cross_section=x.cross_section2 if hasattr(x, "cross_section2") else x,
             )
-            port2.info["face"] = face
 
     c.info["length"] = float(np.round(p.length(), 3))
 
@@ -949,20 +897,16 @@ def extrude(
     return c
 
 
-@cell
+# @cell
 def extrude_transition(
     p: Path,
     transition: Transition,
-    shear_angle_start: float | None = None,
-    shear_angle_end: float | None = None,
 ) -> Component:
     """Extrudes a path along a transition.
 
     Args:
         p: path to extrude.
         transition: transition to extrude along.
-        shear_angle_start: angle to shear the start of the path.
-        shear_angle_end: angle to shear the end of the path.
     """
 
     from gdsfactory.pdk import get_layer
@@ -1041,7 +985,6 @@ def extrude_transition(
             lengths = np.concatenate([[0], lengths])
             width = width(lengths / lengths[-1])
         dy = offset + width / 2
-        # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
         points1 = p_sec._centerpoint_offset_curve(
             points,
@@ -1050,7 +993,6 @@ def extrude_transition(
             end_angle=end_angle,
         )
         dy = offset - width / 2
-        # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
         points2 = p_sec._centerpoint_offset_curve(
             points,
@@ -1058,27 +1000,6 @@ def extrude_transition(
             start_angle=start_angle,
             end_angle=end_angle,
         )
-        if shear_angle_start or shear_angle_end:
-            _face_angle_start = (
-                start_angle + shear_angle_start - 90 if shear_angle_start else None
-            )
-            _face_angle_end = (
-                end_angle + shear_angle_end + 90 if shear_angle_end else None
-            )
-            points1 = _cut_path_with_ray(
-                start_point=points[0],
-                start_angle=_face_angle_start,
-                end_point=points[-1],
-                end_angle=_face_angle_end,
-                path=points1,
-            )
-            points2 = _cut_path_with_ray(
-                start_point=points[0],
-                start_angle=_face_angle_start,
-                end_point=points[-1],
-                end_angle=_face_angle_end,
-                path=points2,
-            )
 
         with_simplify = section1.simplify and section2.simplify
 
@@ -1102,19 +1023,15 @@ def extrude_transition(
             face = [points1[0], points2[0]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            port1 = c.add_port(
-                port=Port(
-                    name=port_names[0],
-                    layer=get_layer(layers[0]),
-                    port_type=port_types[0],
-                    width=port_width,
-                    orientation=port_orientation,
-                    center=center,
-                    cross_section=x1,
-                    shear_angle=shear_angle_start,
-                )
+            c.add_port(
+                name=port_names[0],
+                layer=get_layer(layers[0]),
+                port_type=port_types[0],
+                width=port_width,
+                orientation=port_orientation,
+                center=center,
+                cross_section=x1,
             )
-            port1.info["face"] = face
         if port_names[1] is not None:
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p_sec.end_angle) % 360
@@ -1122,19 +1039,15 @@ def extrude_transition(
             face = [points1[-1], points2[-1]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            port2 = c.add_port(
-                port=Port(
-                    name=port_names[1],
-                    layer=get_layer(layers[1]),
-                    port_type=port_types[1],
-                    width=port_width,
-                    center=center,
-                    orientation=port_orientation,
-                    cross_section=x2,
-                    shear_angle=shear_angle_end,
-                )
+            c.add_port(
+                name=port_names[1],
+                layer=get_layer(layers[1]),
+                port_type=port_types[1],
+                width=port_width,
+                center=center,
+                orientation=port_orientation,
+                cross_section=x2,
             )
-            port2.info["face"] = face
 
     c.info["length"] = float(np.round(p.length(), 3))
     return c
@@ -1572,6 +1485,6 @@ if __name__ == "__main__":
     s3 = gf.Section(width=2.0, offset=0, layer=(3, 0), name="slab")
     X2 = gf.CrossSection(sections=(s2, s3))
     t = gf.path.transition(X1, X2, width_type="linear")
-    c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
+    c = gf.path.extrude(P, t)
 
-    c.show(show_ports=True)
+    c.show()

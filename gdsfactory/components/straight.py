@@ -59,4 +59,4 @@ if __name__ == "__main__":
     c = straight(cross_section="xs_rc")
     # c = straight()
     print(c.info)
-    c.show(show_ports=True)
+    c.show()

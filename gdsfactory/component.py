@@ -11,9 +11,9 @@ import numpy as np
 from kfactory import kdb
 
 if TYPE_CHECKING:
-    from gdsfactory.typings import (
-        LayerSpec,
-    )
+    from gdsfactory.typings import CrossSection, LayerSpec
+
+ComponentReference = kf.Instance
 
 
 class Component(kf.KCell):
@@ -47,6 +47,45 @@ class Component(kf.KCell):
             child: dict info from the children, if any.
     """
 
+    def add_port(
+        self,
+        name: str,
+        port: kf.Port | None = None,
+        center: tuple[float, float] | None = None,
+        width: float | None = None,
+        orientation: float | None = None,
+        layer: LayerSpec | None = None,
+        port_type: str = "optical",
+        cross_section: CrossSection | None = None,
+    ) -> kf.Port:
+        """Adds a Port to the Component.
+
+        Args:
+            name: name of the port.
+            port: port to add.
+            center: center of the port.
+            width: width of the port.
+            orientation: orientation of the port.
+            layer: layer spec to add port on.
+            port_type: port type (optical, electrical, ...)
+            cross_section: cross_section of the port.
+        """
+        if port:
+            kf.KCell.add_port(self, port=port, name=name)
+            return port
+        else:
+            self.create_port(
+                name=name,
+                position=(
+                    center[0] / self.kcl.dbu,
+                    center[1] / self.kcl.dbu,
+                ),
+                width=int(width / self.kcl.dbu),
+                angle=int(orientation // 90),
+                layer=layer,
+                port_type=port_type,
+            )
+
     def add_polygon(self, points: np.ndarray | kdb.Polygon, layer: LayerSpec):
         """Adds a Polygon to the Component.
 
@@ -54,22 +93,46 @@ class Component(kf.KCell):
             points: Coordinates of the vertices of the Polygon.
             layer: layer spec to add polygon on.
         """
-        # from gdsfactory.pdk import get_layer
+        from gdsfactory.pdk import get_layer
 
-        # layer = get_layer(layer)
+        layer = get_layer(layer)
 
         if not isinstance(points, kdb.DPolygon):
             points = kdb.DPolygon([kdb.DPoint(point[0], point[1]) for point in points])
 
         self.shapes(self.kcl.layer(layer[0], layer[1])).insert(points)
 
+    @classmethod
+    def __get_validators__(cls):
+        """Get validators for the Component object."""
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v, _info):
+        """Pydantic assumes component is valid if the following are true.
+
+        - name characters < pdk.cell_decorator_settings.max_name_length
+        - is not empty (has references or polygons)
+        """
+        from gdsfactory.pdk import get_active_pdk
+
+        pdk = get_active_pdk()
+
+        max_name_length = pdk.cell_decorator_settings.max_name_length
+        assert isinstance(
+            v, Component
+        ), f"TypeError, Got {type(v)}, expecting Component"
+        assert (
+            len(v.name) <= max_name_length
+        ), f"name `{v.name}` {len(v.name)} > {max_name_length} "
+        return v
+
 
 if __name__ == "__main__":
-    c = Component()
+    from gdsfactory.generic_tech import LAYER
 
-    p = c.add_polygon(
-        [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
-    )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
-    # c.write_gds("hi.gds")
+    c = Component()
+    c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    # c.create_port(name="o1", position=(10, 10), angle=1, layer=LAYER.WG, width=2000)
+    c.add_port(name="o1", center=(0, 0), orientation=270, layer=LAYER.WG, width=2.0)
     c.show()
-    # print(CONF.last_saved_files)

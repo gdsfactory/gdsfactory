@@ -4,14 +4,13 @@ import typing
 from functools import cache
 
 from gdsfactory.config import PATH
-from gdsfactory.generic_tech.layer_map import GenericLayerMap as LayerMap
+from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.generic_tech.layer_stack import LAYER_STACK
 from gdsfactory.technology import LayerViews
 
 if typing.TYPE_CHECKING:
     from gdsfactory.pdk import Pdk
 
-LAYER = LayerMap()
 
 PORT_MARKER_LAYER_TO_TYPE = {
     LAYER.PORT: "optical",
@@ -58,7 +57,7 @@ def get_generic_pdk() -> Pdk:
         name="generic",
         cells=cells,
         cross_sections=cross_sections,
-        layers=dict(LAYER),
+        layers=LAYER,
         layer_stack=LAYER_STACK,
         layer_views=LAYER_VIEWS,
         layer_transitions=LAYER_TRANSITIONS,

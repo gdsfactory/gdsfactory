@@ -35,8 +35,8 @@ import pathlib
 from collections.abc import Callable
 from typing import Any, Dict, List, Literal, Optional, Tuple, Union
 
-import gdstk
 import numpy as np
+from kfactory.kcell import LayerEnum
 from omegaconf import OmegaConf
 from pydantic import BaseModel
 
@@ -138,7 +138,9 @@ Ints = tuple[int, ...]
 
 Layer = tuple[int, int]  # Tuple of integer (layer, datatype)
 Layers = tuple[Layer, ...]
-LayerSpec = Layer | str  # tuple of integers (layer, datatype) or a string (layer_name)
+LayerSpec = (
+    LayerEnum | Layer | str
+)  # tuple of integers (layer, datatype) or a string (layer_name)
 
 LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...] | None
 ComponentFactory = Callable[..., Component]
@@ -185,16 +187,16 @@ MultiCrossSectionAngleSpec = list[tuple[CrossSectionSpec, tuple[int, ...]]]
 LabelListFactory = Callable[..., list[Label]]
 
 
-class Route(BaseModel):
+class Route:
     references: list[ComponentReference]
-    labels: list[gdstk.Label] | None = None
+    labels: list[Label] | None = None
     ports: tuple[Port, Port]
     length: float
 
     model_config = {"extra": "forbid", "arbitrary_types_allowed": True}
 
 
-class Routes(BaseModel):
+class Routes:
     references: list[ComponentReference]
     lengths: list[float]
     ports: list[Port] | None = None

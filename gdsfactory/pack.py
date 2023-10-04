@@ -9,7 +9,6 @@ import warnings
 from typing import Any
 
 import numpy as np
-from pydantic import validate_call
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -89,7 +88,6 @@ def _pack_single_bin(
     return packed_rect_dict, unpacked_rect_dict
 
 
-@validate_call
 def pack(
     component_list: list[ComponentSpec],
     spacing: float = 10.0,

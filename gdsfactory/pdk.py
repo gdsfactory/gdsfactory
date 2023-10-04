@@ -11,6 +11,7 @@ from typing import Any, Literal
 
 import numpy as np
 import omegaconf
+from kfactory import LayerEnum
 from omegaconf import DictConfig
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -257,7 +258,7 @@ class Pdk(BaseModel):
     default_decorator: Callable[[Component], None] | None = Field(
         default=None, exclude=True
     )
-    layers: dict[str, Layer] = Field(default_factory=dict)
+    layers: type[LayerEnum]
     layer_stack: LayerStack | None = None
     layer_views: LayerViews | None = None
     layer_transitions: dict[Layer | tuple[Layer, Layer], ComponentSpec] = Field(
@@ -555,18 +556,16 @@ class Pdk(BaseModel):
 
     def get_layer(self, layer: LayerSpec) -> Layer:
         """Returns layer from a layer spec."""
-        if isinstance(layer, tuple | list):
+        if isinstance(layer, LayerEnum):
+            return layer
+        elif isinstance(layer, tuple | list):
             if len(layer) != 2:
                 raise ValueError(f"{layer!r} needs two integer numbers.")
             return layer
-        elif isinstance(layer, int):
-            raise ValueError(
-                f"A gds layer requires a tuple of two integers and got only one integer `{layer}`"
-            )
         elif isinstance(layer, str):
-            if layer not in self.layers:
-                raise ValueError(f"{layer!r} not in {self.layers.keys()}")
-            return self.layers[layer]
+            if not hasattr(self.layers, layer):
+                raise ValueError(f"{layer!r} not in {self.layers}")
+            return getattr(self.layers, layer)
         elif layer is np.nan:
             return np.nan
         elif layer is None:

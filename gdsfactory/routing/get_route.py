@@ -38,7 +38,6 @@ from collections.abc import Callable
 from functools import partial
 
 import numpy as np
-from pydantic import validate_call
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -59,7 +58,6 @@ from gdsfactory.typings import (
 )
 
 
-@validate_call
 def get_route(
     input_port: Port,
     output_port: Port,

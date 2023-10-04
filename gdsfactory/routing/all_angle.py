@@ -3,11 +3,12 @@ from collections.abc import Callable
 
 import numpy as np
 
-from gdsfactory.component import Component, ComponentReference, Port
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.straight import straight
 from gdsfactory.config import CONF
 from gdsfactory.get_netlist import difference_between_angles
 from gdsfactory.path import Path, extrude
+from gdsfactory.port import Port
 from gdsfactory.routing.auto_taper import (
     _get_taper_io_port_names,
     taper_to_cross_section,

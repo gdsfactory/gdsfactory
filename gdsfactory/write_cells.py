@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-import datetime
 import pathlib
 from pathlib import Path
 
 import gdstk
 
-from gdsfactory.component import _timestamp2019
 from gdsfactory.config import PATH, logger
 from gdsfactory.name import clean_name
 from gdsfactory.read.import_gds import import_gds
@@ -106,7 +104,6 @@ def write_cells_recursively(
     gdspath: PathType | None = None,
     unit: float = 1e-6,
     precision: float = 1e-9,
-    timestamp: datetime.datetime | None = _timestamp2019,
     dirpath: pathlib.Path | None = None,
 ) -> dict[str, Path]:
     """Write gdstk cells recursively.
@@ -115,7 +112,6 @@ def write_cells_recursively(
         cell: gdstk cell.
         unit: unit size for objects in library. 1um by default.
         precision: for library dimensions (m). 1nm by default.
-        timestamp: Defaults to 2019-10-25. If None uses current time.
         dirpath: directory for the GDS file to write to.
 
     Returns:
@@ -133,7 +129,7 @@ def write_cells_recursively(
         lib = gdstk.Library(unit=unit, precision=precision)
         lib.add(cell)
         lib.add(*cell.dependencies(True))
-        lib.write_gds(gdspath, timestamp=timestamp)
+        lib.write_gds(gdspath)
         logger.info(f"Write {cell.name!r} to {gdspath}")
 
         gdspaths[cell.name] = gdspath
@@ -146,7 +142,6 @@ def write_cells(
     dirpath: PathType | None = None,
     unit: float = 1e-6,
     precision: float = 1e-9,
-    timestamp: datetime.datetime | None = _timestamp2019,
 ) -> dict[str, Path]:
     """Writes cells into separate GDS files.
 
@@ -156,7 +151,6 @@ def write_cells(
             Defaults to current working directory.
         unit: unit size for objects in library. 1um by default.
         precision: for object dimensions in the library (m). 1nm by default.
-        timestamp: Defaults to 2019-10-25. If None uses current time.
 
     Returns:
         gdspaths: dict of cell name to gdspath.
@@ -180,7 +174,9 @@ def write_cells(
     for component_name, component in components.items():
         gdspath = dirpath / f"{component_name}.gds"
         component.write_gds(
-            gdspath, unit=unit, precision=precision, timestamp=timestamp
+            gdspath,
+            unit=unit,
+            precision=precision,
         )
         gdspaths[component_name] = gdspath
     return gdspaths

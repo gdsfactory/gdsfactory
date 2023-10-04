@@ -2319,19 +2319,18 @@ cross_sections = get_cross_sections(sys.modules[__name__])
 
 if __name__ == "__main__":
     import gdsfactory as gf
+    from gdsfactory.generic_tech import LAYER
 
-    xs = gf.cross_section.strip(
-        # slab_offset=0
-        # offset=1,
-        # cladding_layers=[(2, 0)],
-        # cladding_offsets=[3],
-        bbox_layers=[(3, 0)],
-        bbox_offsets=[2],
-    )
+    c = gf.get_layer(LAYER.WG)
+
+    # xs = gf.cross_section.strip(
+    #     bbox_layers=[(3, 0)],
+    #     bbox_offsets=[2],
+    # )
     # print(xs.name)
     # xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0))])
     # p = gf.path.straight()
     # c = p.extrude(xs)
     # c = gf.c.straight(cross_section=xs)
-    c = gf.c.cdsem_straight(cross_section=xs)
-    c.show()
+    # c = gf.c.cdsem_straight(cross_section=xs)
+    # c.show()

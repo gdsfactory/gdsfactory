@@ -3,7 +3,6 @@ from __future__ import annotations
 from functools import partial
 
 import flatdict
-import pydantic
 
 import gdsfactory as gf
 from gdsfactory.name import clean_name
@@ -27,7 +26,6 @@ prefix_to_type_default = {
 }
 
 
-@pydantic.validate_call
 def add_label_ehva(
     component: gf.Component,
     die: str = "demo",

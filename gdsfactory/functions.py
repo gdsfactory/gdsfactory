@@ -12,7 +12,6 @@ from functools import lru_cache, partial
 
 import numpy as np
 from omegaconf import OmegaConf
-from pydantic import validate_call
 
 from gdsfactory import ComponentReference
 from gdsfactory.cell import cell
@@ -224,7 +223,6 @@ def update_info(component: Component, **kwargs) -> Component:
     return component
 
 
-@validate_call
 def add_settings_label(
     component: ComponentSpec = straight,
     layer_label: LayerSpec = (66, 0),

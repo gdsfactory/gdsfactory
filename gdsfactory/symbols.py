@@ -6,12 +6,14 @@ from collections.abc import Callable
 import gdstk
 from pydantic import validate_call
 
-from gdsfactory.cell import _F, cell_without_validator
+from gdsfactory.cell import cell_without_validator
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpecs
 
+_F = Callable[..., Component]
 
-def symbol(func: _F, *args, **kwargs) -> _F:
+
+def symbol(func: Callable, *args, **kwargs) -> Callable:
     """Decorator for Component symbols.
 
     Wraps cell_without_validator
