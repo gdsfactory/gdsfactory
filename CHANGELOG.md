@@ -5,8 +5,8 @@
 
 ## [7.8.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.6) - 2023-10-04
 
-No significant changes.
-
+- Fix yaml cell naming [#2156](https://github.com/gdsfactory/gdsfactory/pull/#2156)
+- fix off-grid ports [#2155](https://github.com/gdsfactory/gdsfactory/pull/#2155)
 
 ## [7.8.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.5) - 2023-10-03
 
