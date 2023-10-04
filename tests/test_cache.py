@@ -1,5 +1,12 @@
+from pathlib import Path
+
 import gdsfactory as gf
-from gdsfactory.add_padding import add_padding_to_size_container
+
+_this_dir = Path(__file__).parent
+_test_yaml_dir = _this_dir / "yaml"
+
+ACTIVE_PDK = gf.get_active_pdk()
+ACTIVE_PDK.register_cells_yaml(dirpath=_test_yaml_dir)
 
 
 def test_cache_container() -> None:
@@ -13,8 +20,15 @@ def test_cache_container() -> None:
     assert c1r.uid == c2r.uid  # pulling this from cache
 
 
-def test_cache_name() -> None:
-    c = gf.components.straight()
-    c1 = add_padding_to_size_container(c, xsize=100, ysize=100)
-    c2 = add_padding_to_size_container(c, xsize=100, ysize=100)
-    assert c1.name == c2.name
+def test_cache_name_yaml() -> None:
+    c1 = gf.get_component("test_pcell", length=23)
+    c2 = gf.get_component("test_pcell", length=23)
+    # the ordering is important, to ensure that cells with non-default parameters don't change the name of the default component
+    c3 = gf.get_component("test_pcell")
+    c4 = gf.get_component("test_pcell")
+
+    assert c1 is c2
+    assert c1.name == "test_pcell_length23"
+
+    assert c3.name == "test_pcell"
+    assert c3 is c4

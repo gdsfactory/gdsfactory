@@ -172,6 +172,5 @@ def _pic_from_templated_yaml(evaluated_text, name, routing_strategy) -> Componen
     c = from_yaml(
         evaluated_text,
         routing_strategy=routing_strategy,
-    ).copy()
-    c.name = name
+    )
     return c
