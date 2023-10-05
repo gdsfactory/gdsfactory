@@ -11,7 +11,7 @@ from __future__ import annotations
 import hashlib
 import math
 import warnings
-from collections.abc import Callable, Iterable
+from collections.abc import Callable
 
 import numpy as np
 from numpy import mod, pi
@@ -768,15 +768,6 @@ def extrude(
 
         if isinstance(width, int | float) and isinstance(offset, int | float):
             xsection_points.append([width, offset])
-        if isinstance(layer, int):
-            layer = (layer, 0)
-        if (
-            isinstance(layer, Iterable)
-            and len(layer) == 2
-            and isinstance(layer[0], int)
-            and isinstance(layer[1], int)
-        ):
-            xsection_points.append([layer[0], layer[1]])
 
         if section.insets and section.insets != (0, 0):
             p_pts = p_sec.points
@@ -842,7 +833,6 @@ def extrude(
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
 
-        layers = layer if hidden else [layer, layer]
         if not hidden and p_sec.length() > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
@@ -856,7 +846,7 @@ def extrude(
 
             c.add_port(
                 name=port_names[0],
-                layer=get_layer(layers[0]),
+                layer=layer,
                 port_type=port_types[0],
                 width=port_width,
                 orientation=port_orientation,
@@ -872,7 +862,7 @@ def extrude(
 
             c.add_port(
                 name=port_names[1],
-                layer=get_layer(layers[1]),
+                layer=layer,
                 port_type=port_types[1],
                 width=port_width,
                 center=center,

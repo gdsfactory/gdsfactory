@@ -118,10 +118,9 @@ class Component(kf.KCell):
         from gdsfactory.pdk import get_layer
 
         layer = get_layer(layer)
-        l1, l2 = layer
         x, y = position
         trans = kdb.DTrans(0, False, x, y)
-        return self.shapes(self.kcl.layer(l1, l2)).insert(kf.kdb.DText(text, trans))
+        return self.shapes(layer).insert(kf.kdb.DText(text, trans))
 
     def get_ports_list(self, **kwargs) -> list[kf.Port]:
         """Returns list of ports.
@@ -191,6 +190,9 @@ class Component(kf.KCell):
         reference.flatten()
         return self
 
+    def add_ref(self, component: Component, **kwargs) -> kf.Instance:
+        return self.create_inst(component)
+
     @classmethod
     def __get_validators__(cls):
         """Get validators for the Component object."""
@@ -230,13 +232,23 @@ class Component(kf.KCell):
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import LAYER
-
     c = Component()
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer="SLAB150")
-    c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=LAYER.WG)
+    # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=LAYER.WG)
     # c.create_port(name="o1", position=(10, 10), angle=1, layer=LAYER.WG, width=2000)
-    c.add_port(name="o1", center=(0, 0), orientation=270, layer=LAYER.WG, width=2.0)
-    c.add_label(text="hello", position=(2, 2), layer=LAYER.TEXT)
+    # c.add_port(name="o1", center=(0, 0), orientation=270, layer=LAYER.WG, width=2.0)
+    # c.add_label(text="hello", position=(2, 2), layer=LAYER.TEXT)
+
+    import gdsfactory as gf
+
+    P = gf.path.straight(length=10)
+    s0 = gf.Section(
+        width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    )
+    s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
+    x1 = gf.CrossSection(sections=(s0, s1))
+    c1 = gf.path.extrude(P, x1)
+    ref = c.add_ref(c1)
+
     c.show()

@@ -329,11 +329,7 @@ class Pdk(BaseModel):
         if self is _ACTIVE_PDK:
             return None
 
-        from gdsfactory.cell import clear_cache
-
         logger.info(f"{self.name!r} PDK is now active")
-
-        clear_cache()
 
         if self.base_pdk:
             self.add_base_pdk()
@@ -563,18 +559,19 @@ class Pdk(BaseModel):
             if len(layer) != 2:
                 raise ValueError(f"{layer!r} needs two integer numbers.")
             return kf.kcl.layer(*layer)
-            # return self.layers(kf.kcl.layer(*layer))
         elif isinstance(layer, str):
             if not hasattr(self.layers, layer):
                 raise ValueError(f"{layer!r} not in {self.layers}")
             return getattr(self.layers, layer)
+        elif isinstance(layer, int):
+            return layer
         elif layer is np.nan:
             return np.nan
         elif layer is None:
             return
         else:
             raise ValueError(
-                f"{layer!r} needs to be a LayerSpec (string, int or Layer)"
+                f"{layer!r} needs to be a LayerSpec (string, int or (int, int) or LayerEnum), got {type(layer)}"
             )
 
     def get_layer_views(self) -> LayerViews:
@@ -607,7 +604,6 @@ class Pdk(BaseModel):
         """Export to uPDK YAML definition."""
         from gdsfactory.components.bbox import bbox_to_points
 
-        d = {}
         blocks = {cell_name: cell() for cell_name, cell in self.cells.items()}
         blocks = {
             name: dict(
@@ -664,9 +660,7 @@ class Pdk(BaseModel):
 
         header = dict(description=self.name)
 
-        d["blocks"] = blocks
-        d["xsections"] = xsections
-        d["header"] = header
+        d = {"blocks": blocks, "xsections": xsections, "header": header}
         return omegaconf.OmegaConf.to_yaml(d)
 
     # _on_cell_registered = Event()
@@ -840,25 +834,7 @@ on_yaml_cell_modified.add_handler(show)
 
 
 if __name__ == "__main__":
-    c = get_component("add_fiber_array")
-
-    # from gdsfactory.read.from_updk import from_updk
-    # from gdsfactory.samples.pdk.fab_c import pdk
-
-    # yaml_pdk_decription = pdk.to_updk()
-    # gdsfactory_script = from_updk(yaml_pdk_decription)
-    # print(gdsfactory_script)
-    # print(yaml_pdk_decription)
-
-    # from gdsfactory.components import cells
-    # from gdsfactory.cross_section import cross_sections
-
-    # pdk = Pdk(
-    #     name="demo",
-    #     cells=cells,
-    #     cross_sections=cross_sections,
-    # layers=dict(DEVREC=(3, 0), PORTE=(3, 5)),
-    # sparameters_path="/home",
-    # )
-    # print(pdk.json())
-    # print(pdk.to_updk())
+    l1 = get_layer((1, 0))
+    l2 = get_layer((3, 0))
+    print(l1)
+    print(l2)

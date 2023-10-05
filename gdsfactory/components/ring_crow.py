@@ -69,7 +69,8 @@ def ring_crow(
     input_straight_cross_section = gf.get_cross_section(input_straight_cross_section)
     input_straight_width = input_straight_cross_section.width
 
-    input_straight_waveguide = c.add_ref(input_straight).movex(-radius[0])
+    input_straight_waveguide = c.add_ref(input_straight)
+    input_straight_waveguide.movex(-radius[0])
     c.add_port(name="o1", port=input_straight_waveguide.ports["o1"])
     c.add_port(name="o2", port=input_straight_waveguide.ports["o2"])
 
@@ -95,7 +96,7 @@ def ring_crow(
         bend4.connect("o1", bend3.ports["o2"])
 
         ring_ref = c.add_ref(ring)
-        ring_ref.movey(cum_y_dist + gap + bend_width / 2)
+        ring_ref.d.movey(cum_y_dist + gap + bend_width / 2)
         c.absorb(ring_ref)
         cum_y_dist += gap + bend_width + 2 * r
 
@@ -106,11 +107,9 @@ def ring_crow(
         cross_section=output_straight_cross_section,
     )
     output_straight_width = output_straight_cross_section().width
-    output_straight_waveguide = (
-        c.add_ref(output_straight)
-        .movey(cum_y_dist + gaps[-1] + output_straight_width / 2)
-        .movex(-radius[-1])
-    )
+    output_straight_waveguide = c.add_ref(output_straight)
+    output_straight_waveguide.d.movey(cum_y_dist + gaps[-1] + output_straight_width / 2)
+    output_straight_waveguide.d.movex(-radius[-1])
     c.add_port(name="o3", port=output_straight_waveguide.ports["o1"])
     c.add_port(name="o4", port=output_straight_waveguide.ports["o2"])
     return c

@@ -14,6 +14,7 @@ from functools import partial
 from inspect import getmembers
 from typing import TYPE_CHECKING, Any, Literal
 
+from kfactory import LayerEnum
 from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory.config import CONF, ErrorType
@@ -23,7 +24,7 @@ if TYPE_CHECKING:
 
 nm = 1e-3
 
-Layer = tuple[int, int]
+Layer = LayerEnum | tuple[int, int]
 Layers = tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]
 

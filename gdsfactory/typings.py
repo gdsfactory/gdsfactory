@@ -136,11 +136,9 @@ Int2 = tuple[int, int]
 Int3 = tuple[int, int, int]
 Ints = tuple[int, ...]
 
-Layer = tuple[int, int]  # Tuple of integer (layer, datatype)
+Layer = LayerEnum
 Layers = tuple[Layer, ...]
-LayerSpec = (
-    LayerEnum | Layer | str
-)  # tuple of integers (layer, datatype) or a string (layer_name)
+LayerSpec = LayerEnum | str
 
 LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...] | None
 ComponentFactory = Callable[..., Component]
