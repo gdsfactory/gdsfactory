@@ -217,11 +217,11 @@ def overwrite(ref_file, run_file):
     raise GeometryDifference
 
 
-def read_top_cell(arg0):
-    from kfactory import KCLayout
+def read_top_cell(filepath: pathlib.Path):
+    import kfactory as kf
 
-    kcl = KCLayout()
-    kcl.read(arg0)
+    kcl = kf.KCLayout(filepath.stem)
+    kcl.read(filepath)
     return kcl[kcl.top_cell().name]
 
 
@@ -229,19 +229,18 @@ if __name__ == "__main__":
     # print([i.name for i in c.get_dependencies()])
     # c.show()
     # c.name = "mzi"
-    c = gf.components.straight(length=20, layer=(1, 0))
-    c.name = "a:demo"
-    c.show()
-    difftest(c, "straight", dirpath=PATH.cwd)
+    # c = gf.components.straight(length=20, layer=(1, 0))
+    # c.name = "a:demo"
+    # c.show()
+    # difftest(c, "straight", dirpath=PATH.cwd)
 
     # component = gf.components.mzi()
-    # test_name = "mzi"
-    # filename = f"{test_name}.gds"
-    # dirpath = PATH.cwd
-    # dirpath_ref = dirpath / "gds_ref"
-    # dirpath_run = GDSDIR_TEMP
+    test_name = "mzi"
+    filename = f"{test_name}.gds"
+    dirpath = PATH.cwd
+    dirpath_ref = dirpath / "gds_ref"
 
-    # ref_file = dirpath_ref / f"{test_name}.gds"
+    ref_file = dirpath_ref / f"{test_name}.gds"
     # run_file = dirpath_run / filename
     # run = gf.get_component(component)
     # run_file = run.write_gds(gdspath=run_file)
@@ -252,7 +251,7 @@ if __name__ == "__main__":
     #         f"Reference GDS file for {test_name!r} not found. Writing to {ref_file!r}"
     #     )
 
-    # ref = read_top_cell(ref_file)
+    ref = read_top_cell(ref_file)
     # run = read_top_cell(run_file)
     # ld = kdb.LayoutDiff()
 
