@@ -74,6 +74,16 @@ class Component(kf.KCell):
             kf.KCell.add_port(self, port=port, name=name)
             return port
         else:
+            from gdsfactory.pdk import get_cross_section, get_layer
+
+            if layer is None:
+                if cross_section is None:
+                    raise ValueError("Must specify layer or cross_section")
+                xs = get_cross_section(cross_section)
+                layer = xs.layer
+
+            layer = get_layer(layer)
+
             self.create_port(
                 name=name,
                 position=(
@@ -229,6 +239,17 @@ class Component(kf.KCell):
                 f"{kwargs.keys()} is deprecated. Use the klayout extension to show ports"
             )
         super().show()
+
+    def copy_child_info(self, component: Component) -> None:
+        """Copy and settings info from child component into parent.
+
+        Parent components can access child cells settings.
+        """
+        info = dict(component.info)
+
+        for k, v in info.items():
+            if k not in self.info:
+                self.info[k] = v
 
 
 if __name__ == "__main__":
