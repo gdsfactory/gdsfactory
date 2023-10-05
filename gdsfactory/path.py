@@ -1476,7 +1476,7 @@ if __name__ == "__main__":
     P = gf.path.straight(length=10)
 
     s0 = gf.Section(
-        width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+        width=1, offset=0, layer=(2, 0), name="core", port_names=("o1", "o2")
     )
     s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
     x1 = gf.CrossSection(sections=(s0, s1))
@@ -1490,4 +1490,4 @@ if __name__ == "__main__":
     # c = gf.path.extrude(P, t)
     c = gf.path.extrude(P, x1)
 
-    # c.show()
+    c.show()

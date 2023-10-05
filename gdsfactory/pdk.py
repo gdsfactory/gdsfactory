@@ -9,6 +9,7 @@ from collections.abc import Callable
 from functools import partial
 from typing import Any, Literal
 
+import kfactory as kf
 import numpy as np
 import omegaconf
 from kfactory import LayerEnum
@@ -561,7 +562,8 @@ class Pdk(BaseModel):
         elif isinstance(layer, tuple | list):
             if len(layer) != 2:
                 raise ValueError(f"{layer!r} needs two integer numbers.")
-            return layer
+            return kf.kcl.layer(*layer)
+            # return self.layers(kf.kcl.layer(*layer))
         elif isinstance(layer, str):
             if not hasattr(self.layers, layer):
                 raise ValueError(f"{layer!r} not in {self.layers}")
