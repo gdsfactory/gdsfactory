@@ -57,6 +57,5 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = straight(cross_section="xs_rc")
-    # c = straight()
     print(c.info)
     c.show()

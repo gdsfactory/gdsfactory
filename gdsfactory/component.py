@@ -1,11 +1,14 @@
 """Component is a canvas for geometry."""
 from __future__ import annotations
 
+import warnings
 from typing import TYPE_CHECKING
 
 import kfactory as kf
 import numpy as np
 from kfactory import kdb
+
+from gdsfactory.port import select_ports
 
 if TYPE_CHECKING:
     from gdsfactory.typings import CrossSection, LayerSpec
@@ -120,6 +123,74 @@ class Component(kf.KCell):
         trans = kdb.DTrans(0, False, x, y)
         return self.shapes(self.kcl.layer(l1, l2)).insert(kf.kdb.DText(text, trans))
 
+    def get_ports_list(self, **kwargs) -> list[kf.Port]:
+        """Returns list of ports.
+
+        Keyword Args:
+            layer: select ports with GDS layer.
+            prefix: select ports with prefix in port name.
+            suffix: select ports with port name suffix.
+            orientation: select ports with orientation in degrees.
+            orientation: select ports with orientation in degrees.
+            width: select ports with port width.
+            layers_excluded: List of layers to exclude.
+            port_type: select ports with port_type (optical, electrical, vertical_te).
+            clockwise: if True, sort ports clockwise, False: counter-clockwise.
+        """
+        return list(select_ports(self.ports, **kwargs).values())
+
+    def add_route_info(
+        self,
+        cross_section: CrossSection | str,
+        length: float,
+        length_eff: float | None = None,
+        taper: bool = False,
+        **kwargs,
+    ) -> None:
+        """Adds route information to a component.
+
+        Args:
+            cross_section: CrossSection or name of the cross_section.
+            length: length of the route.
+            length_eff: effective length of the route.
+            taper: if True adds taper information.
+            **kwargs: extra information to add to the component.
+        """
+        from gdsfactory.pdk import get_active_pdk
+
+        pdk = get_active_pdk()
+
+        length_eff = length_eff or length
+        xs_name = (
+            cross_section
+            if isinstance(cross_section, str)
+            else pdk.get_cross_section_name(cross_section)
+        )
+
+        info = self.info
+        if taper:
+            info[f"route_info_{xs_name}_taper_length"] = length
+
+        info["route_info_type"] = xs_name
+        info["route_info_length"] = length_eff
+        info["route_info_weight"] = length_eff
+        info[f"route_info_{xs_name}_length"] = length_eff
+
+    def absorb(self, reference) -> Component:
+        """Absorbs polygons from ComponentReference into Component.
+
+        Destroys the reference in the process but keeping the polygon geometry.
+
+        Args:
+            reference: ComponentReference to be absorbed into the Component.
+        """
+        if reference not in self.insts:
+            raise ValueError(
+                "The reference you asked to absorb does not exist in this Component."
+            )
+        reference.flatten()
+        return self
+
     @classmethod
     def __get_validators__(cls):
         """Get validators for the Component object."""
@@ -144,6 +215,18 @@ class Component(kf.KCell):
             len(v.name) <= max_name_length
         ), f"name `{v.name}` {len(v.name)} > {max_name_length} "
         return v
+
+    def show(self, **kwargs) -> None:
+        """Shows the Component in Klayout.
+
+        Args:
+            **kwargs: extra arguments to pass to klayout.db.Database.show().
+        """
+        if kwargs:
+            warnings.warn(
+                f"{kwargs.keys()} is deprecated. Use the klayout extension to show ports"
+            )
+        super().show()
 
 
 if __name__ == "__main__":

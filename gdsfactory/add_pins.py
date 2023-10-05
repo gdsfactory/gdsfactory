@@ -19,6 +19,8 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
+from gdsfactory.port import select_ports
+
 if TYPE_CHECKING:
     from gdsfactory.component import Component
     from gdsfactory.component_reference import ComponentReference
@@ -460,18 +462,17 @@ add_pins_siepic_electrical = partial(
 
 def add_pins(
     component: Component,
-    reference: ComponentReference | None = None,
+    port_type: str | None = None,
+    layer: tuple[int, int] | None = None,
+    orientation: int | None = None,
+    width: float | None = None,
     function: Callable = add_pin_rectangle_inside,
-    select_ports: Callable | None = None,
     **kwargs,
 ) -> Component:
     """Add Pin port markers.
 
-    Be careful with this function as it modifies the component.
-
     Args:
         component: to add ports to.
-        reference: to add pins.
         function: to add each pin.
         select_ports: function to select_ports.
 
@@ -481,12 +482,14 @@ def add_pins(
         layer: layer for the pin marker.
         layer_label: add label for the pin marker.
     """
-    reference = reference or component
-    ports = (
-        select_ports(reference.ports).values()
-        if select_ports
-        else reference.get_ports_list()
+    ports = select_ports(
+        ports=component.ports,
+        port_type=port_type,
+        layer=layer,
+        orientation=orientation,
+        width=width,
     )
+
     for port in ports:
         function(component=component, port=port, **kwargs)
     return component
@@ -590,7 +593,8 @@ if __name__ == "__main__":
     # p2 = len(c2.get_polygons())
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
-    c = gf.components.straight(decorator=add_pins)
+    c = gf.components.straight()
     # cc.show(show_ports=False)
-    c.show(show_subports=True)
-    c.show(show_ports=True)
+    # c.show(show_subports=True)
+    # c.show(show_ports=True)
+    c.show()

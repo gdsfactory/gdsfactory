@@ -214,12 +214,12 @@ def _compare_bend_euler90():
 
     print(b1.info["length"])
     print(b2.info["length"])
-
     _ = c << b1
     _ = c << b2
     return c
 
 
 if __name__ == "__main__":
-    c = bend_euler(cross_section="xs_rc", angle=30, radius=5)
-    c.show(show_ports=True)
+    # c = bend_euler(cross_section="xs_rc", angle=90, radius=5)
+    c = bend_euler(cross_section="xs_rc", angle=90, radius=5)
+    c.show()
