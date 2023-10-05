@@ -1,7 +1,4 @@
-"""Component is a canvas for geometry.
-
-Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
-"""
+"""Component is a canvas for geometry."""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -132,7 +129,8 @@ if __name__ == "__main__":
     from gdsfactory.generic_tech import LAYER
 
     c = Component()
-    c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer="SLAB150")
     # c.create_port(name="o1", position=(10, 10), angle=1, layer=LAYER.WG, width=2000)
     c.add_port(name="o1", center=(0, 0), orientation=270, layer=LAYER.WG, width=2.0)
     c.show()
