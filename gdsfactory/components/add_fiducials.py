@@ -94,4 +94,4 @@ if __name__ == "__main__":
     PDK.activate()
     # c = add_fiducials(top='cross')
     c = add_fiducials_offsets()
-    c.show(show_ports=True)
+    c.show()

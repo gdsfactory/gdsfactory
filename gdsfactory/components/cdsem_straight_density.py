@@ -54,4 +54,4 @@ def cdsem_straight_density(
 
 if __name__ == "__main__":
     c = cdsem_straight_density()
-    c.show(show_ports=True)
+    c.show()

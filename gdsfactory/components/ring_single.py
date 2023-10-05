@@ -97,9 +97,9 @@ if __name__ == "__main__":
     # c = ring_single(cross_section="xs_rc", width=2)
     c = ring_single(length_y=0, length_x=0)
     c.get_netlist()
-    c.show(show_ports=True)
+    c.show()
 
     # cc = gf.add_pins(c)
     # print(c.settings)
     # print(c.settings)
-    # cc.show(show_ports=True)
+    # cc.show( )

@@ -45,6 +45,6 @@ if __name__ == "__main__":
         avoid_layers=layers,
     )
     c << mzi
-    c.show(show_ports=True)
+    c.show()
     end = time.time()
     print(end - start)

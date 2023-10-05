@@ -25,4 +25,4 @@ def logo(text: str = "GDSFACTORY") -> Component:
 
 if __name__ == "__main__":
     c = logo()
-    c.show(show_ports=True)
+    c.show()

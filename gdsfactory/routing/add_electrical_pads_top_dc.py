@@ -90,4 +90,4 @@ def add_electrical_pads_top_dc(
 
 if __name__ == "__main__":
     cc = add_electrical_pads_top_dc()
-    cc.show(show_ports=True)
+    cc.show()

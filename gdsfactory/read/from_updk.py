@@ -199,7 +199,7 @@ pdk.activate()
 
 if __name__ == "__main__":
     c = {block_name}()
-    c.show(show_ports=True)
+    c.show( )
 """
     if filepath_out:
         filepath_out = pathlib.Path(filepath_out)

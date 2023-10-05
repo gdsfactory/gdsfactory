@@ -95,4 +95,4 @@ if __name__ == "__main__":
     #     cross_section=dict(cross_section="xs_sc", settings=dict(layer=(2, 0))),
     # )
     c = mmi2x2_with_sbend()
-    c.show(show_ports=True)
+    c.show()

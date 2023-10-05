@@ -79,4 +79,4 @@ if __name__ == "__main__":
     # c = taper_0p5_to_3_l36()
     c = taper_w10_l100()
     # c = taper_w11_l200()
-    c.show(show_ports=True)
+    c.show()

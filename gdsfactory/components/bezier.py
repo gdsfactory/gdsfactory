@@ -150,4 +150,4 @@ def find_min_curv_bezier_control_points(
 if __name__ == "__main__":
     control_points = ((0.0, 0.0), (5.0, 0.0), (5.0, 5.0), (10.0, 5.0))
     c = bezier(control_points=control_points)
-    c.show(show_ports=True)
+    c.show()

@@ -94,4 +94,4 @@ if __name__ == "__main__":
     # c = gf.components.straight_heater_metal(length=100)
     # c = add_electrical_pads_shortest(component=c, port_orientation=270)
     c = add_electrical_pads_shortest()
-    c.show(show_ports=True)
+    c.show()

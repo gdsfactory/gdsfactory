@@ -285,4 +285,4 @@ if __name__ == "__main__":
         c.add(e)
 
     print(r.lengths)
-    c.show(show_ports=True)
+    c.show()

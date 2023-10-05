@@ -177,7 +177,7 @@ if __name__ == "__main__":
     # )
 
     # c = wire_corner(cross_section=xsection, with_bbox=True)
-    # c.show(show_ports=True)
+    # c.show( )
     # section1 = gf.cross_section.Section(width=0.4, layer="M1", offset=0.5)
     # section2 = gf.cross_section.Section(width=0.4, layer="M1", offset=-0.5)
     # xsection = gf.cross_section.cross_section(
@@ -186,7 +186,7 @@ if __name__ == "__main__":
     from gdsfactory.cross_section import metal_slotted
 
     # # c = wire_corner_sections(cross_section=metal_slotted)
-    # # c.show(show_ports=True)
+    # # c.show( )
     # # c.pprint_ports()
     # # c.pprint()
 

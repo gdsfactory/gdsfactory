@@ -476,10 +476,10 @@ if __name__ == "__main__":
     # c = via_stack_circular()
     # c = via_stack_m1_m3(size=(4.5, 4.5))
     # print(c.to_dict())
-    # c.show(show_ports=True)
+    # c.show( )
 
     # c = via_stack_from_rules()
-    # c.show(show_ports=True)
+    # c.show( )
 
     # c = via_stack_circular(
     #     radius=20.0,
@@ -490,4 +490,4 @@ if __name__ == "__main__":
     #     vias=(via1, via2),
     #     layer_port=None,
     # )
-    # c.show(show_ports=True)
+    # c.show( )

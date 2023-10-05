@@ -136,4 +136,4 @@ if __name__ == "__main__":
     #     radius=11,
     # )
     c = array_with_fanout_2d()
-    c.show(show_ports=True)
+    c.show()

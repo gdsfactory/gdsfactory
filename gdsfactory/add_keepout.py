@@ -61,4 +61,4 @@ if __name__ == "__main__":
     target_layers = [(1, 0)]
     keepout_layers = [(2, 0)]
     c = add_keepout(c, target_layers, keepout_layers)
-    c.show(show_ports=True)
+    c.show()

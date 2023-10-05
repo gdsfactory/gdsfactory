@@ -90,4 +90,4 @@ if __name__ == "__main__":
     c = ge_detector_straight_si_contacts(
         via_stack=(via_stack_slab_m3, via_stack_slab_m2), via_stack_offset=0
     )
-    c.show(show_ports=True)
+    c.show()

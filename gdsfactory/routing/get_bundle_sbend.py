@@ -77,4 +77,4 @@ if __name__ == "__main__":
     routes = gf.routing.get_bundle(right_ports, left_ports, with_sbend=False)
     for route in routes:
         c.add(route.references)
-    c.show(show_ports=True)
+    c.show()

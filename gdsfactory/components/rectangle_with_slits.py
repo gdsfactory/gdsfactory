@@ -82,4 +82,4 @@ def rectangle_with_slits(
 if __name__ == "__main__":
     # c = rectangle_with_slits(layer_slit=None)
     c = rectangle_with_slits(layer_slit=(2, 0), slit_size=(10, 10))
-    c.show(show_ports=True)
+    c.show()

@@ -393,4 +393,4 @@ if __name__ == "__main__":
     # c = gf.routing.add_fiber_single(c)
 
     c = gf.components.pad(decorator=add_labels_to_ports_vertical_dc)
-    c.show(show_ports=True)
+    c.show()

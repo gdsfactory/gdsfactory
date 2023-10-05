@@ -308,4 +308,4 @@ if __name__ == "__main__":
         bus_cross_section="xs_sc",
     )
 
-    c.show(show_ports=True)
+    c.show()

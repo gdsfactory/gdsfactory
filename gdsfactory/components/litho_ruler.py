@@ -40,4 +40,4 @@ def litho_ruler(
 
 if __name__ == "__main__":
     c = litho_ruler()
-    c.show(show_ports=True)
+    c.show()

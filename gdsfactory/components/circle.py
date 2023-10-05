@@ -31,4 +31,4 @@ def circle(
 
 if __name__ == "__main__":
     c = circle()
-    c.show(show_ports=True)
+    c.show()

@@ -87,4 +87,4 @@ def cutback_splitter(
 
 if __name__ == "__main__":
     c = cutback_splitter()
-    c.show(show_ports=True)
+    c.show()

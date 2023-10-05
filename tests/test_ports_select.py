@@ -27,7 +27,7 @@ if __name__ == "__main__":
     test_get_ports()
 
     # c = gf.components.mzi_phase_shifter()
-    # c.show(show_ports=True)
+    # c.show( )
     # p = c.get_ports_dict()
     # assert len(p) == 4, len(p)
 

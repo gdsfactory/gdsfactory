@@ -61,7 +61,7 @@ if __name__ == "__main__":
 
     # c = test_import_ports()
     # c = test_import_gds_add_padding()
-    # c.show(show_ports=True)
+    # c.show( )
     # test_import_gds_snap_to_grid()
 
     # cross_section = gf.cross_section.cross_section
@@ -82,4 +82,4 @@ if __name__ == "__main__":
     # assert c0x1 == c1x1
     # assert c0x2 == c1x2
 
-    # c1.show(show_ports=True)
+    # c1.show( )

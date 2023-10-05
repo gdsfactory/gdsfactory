@@ -154,4 +154,4 @@ if __name__ == "__main__":
     t1 = time.time()
     print(t1 - t0)
 
-    c.show(show_ports=True)
+    c.show()

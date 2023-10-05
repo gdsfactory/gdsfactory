@@ -65,4 +65,4 @@ if __name__ == "__main__":
     c = gf.Component()
     a = c << gf.components.L()
     c << bbox(bbox=a.bbox, top=10, left=5, right=-2)
-    c.show(show_ports=True)
+    c.show()

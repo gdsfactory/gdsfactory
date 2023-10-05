@@ -356,7 +356,7 @@ if __name__ == "__main__":
     # vdiv.add_port("gnd1", port=r2.ports["pad2"])
     # vdiv.add_port("gnd2", port=r4.ports["pad2"])
     # vdiv.add_port("vsig", port=r1.ports["pad1"])
-    # vdiv.show(show_ports=True)
+    # vdiv.show( )
 
     # recursive_netlist = get_netlist_recursive(vdiv, allow_multiple=True)
     # import pprint

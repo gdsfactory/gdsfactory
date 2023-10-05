@@ -77,4 +77,4 @@ def grating_coupler_array(
 
 if __name__ == "__main__":
     c = grating_coupler_array(rotation=90, with_loopback=True)
-    c.show(show_ports=True)
+    c.show()

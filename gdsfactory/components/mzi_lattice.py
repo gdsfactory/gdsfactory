@@ -347,7 +347,7 @@ if __name__ == "__main__":
     #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
     # )
     # c = mzi_lattice(delta_lengths=(20,))
-    # c.show(show_ports=True)
+    # c.show( )
 
     c = mzi_lattice_mmi(
         coupler_widths=(None,) * 5,
@@ -361,4 +361,4 @@ if __name__ == "__main__":
         cross_sections_mmis=("xs_sc",) * 5,
         delta_lengths=(10.0,) * 4,
     )
-    c.show(show_ports=True)
+    c.show()

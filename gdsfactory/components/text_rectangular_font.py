@@ -323,4 +323,4 @@ def rectangular_font() -> dict[str, str]:
 
 if __name__ == "__main__":
     c = pixel_array()
-    c.show(show_ports=True)
+    c.show()

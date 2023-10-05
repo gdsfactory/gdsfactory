@@ -52,4 +52,4 @@ def terminator(
 if __name__ == "__main__":
     # c = terminator(cross_section_input=partial(gf.cross_section.strip, width=10))
     c = terminator()
-    c.show(show_ports=True)
+    c.show()

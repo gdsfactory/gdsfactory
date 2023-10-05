@@ -88,7 +88,7 @@ def get_bundle_from_steps(
         for route in routes:
             c.add(route.references)
         c.plot()
-        c.show(show_ports=True)
+        c.show( )
 
     """
     if isinstance(ports1, Port):
@@ -214,7 +214,7 @@ def _demo() -> None:
     for route in routes:
         c.add(route.references)
 
-    c.show(show_ports=True)
+    c.show()
 
 
 if __name__ == "__main__":
@@ -237,4 +237,4 @@ if __name__ == "__main__":
     for route in routes:
         c.add(route.references)
 
-    c.show(show_ports=True)
+    c.show()

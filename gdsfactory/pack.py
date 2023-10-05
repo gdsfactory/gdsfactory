@@ -316,4 +316,4 @@ if __name__ == "__main__":
     #     v_mirror=True,
     # )
     # c = p[0]
-    c.show(show_ports=True)
+    c.show()

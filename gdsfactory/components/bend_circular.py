@@ -81,4 +81,4 @@ if __name__ == "__main__":
         cross_section="xs_rc",
         layer=(2, 0),
     )
-    c.show(show_ports=True)
+    c.show()

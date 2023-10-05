@@ -43,4 +43,4 @@ if __name__ == "__main__":
     good_pics = [pic for pic_name, pic in pics.items() if "error" not in pic_name]
     c = grid(good_pics)
     c = c.flatten_invalid_refs()
-    c.show(show_ports=True)
+    c.show()

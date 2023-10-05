@@ -90,4 +90,4 @@ def test_ring_single_sample() -> None:
 if __name__ == "__main__":
     c = ring_single_sample(width=2, gap=1, layer=(2, 0))
     print(c.ports)
-    c.show(show_ports=True)
+    c.show()

@@ -64,4 +64,4 @@ def optimal_90deg(
 
 if __name__ == "__main__":
     c = optimal_90deg()
-    c.show(show_ports=True)
+    c.show()

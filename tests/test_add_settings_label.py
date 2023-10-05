@@ -10,4 +10,4 @@ def test_add_settings_label() -> None:
 
 if __name__ == "__main__":
     c = gf.c.mzi(delta_length=20, decorator=gf.functions.add_settings_label)
-    c.show(show_ports=True)
+    c.show()

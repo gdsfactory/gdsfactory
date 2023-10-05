@@ -83,4 +83,4 @@ if __name__ == "__main__":
     c = gf.Component("demo")
     c << big_square()
     c << seal_ring(c.bbox + ((0, 0), (10, 0)), with_south=False)
-    c.show(show_ports=True)
+    c.show()

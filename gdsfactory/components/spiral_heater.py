@@ -461,4 +461,4 @@ def test_length_spiral_racetrack() -> None:
 if __name__ == "__main__":
     # c = spiral_racetrack(cross_section="xs_rc")
     c = spiral_racetrack()
-    c.show(show_ports=True)
+    c.show()

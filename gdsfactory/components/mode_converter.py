@@ -115,4 +115,4 @@ def mode_converter(
 if __name__ == "__main__":
     c = mode_converter(bbox_offsets=[0.5], bbox_layers=[(111, 0)])
     c.pprint_ports()
-    c.show(show_ports=True)
+    c.show()

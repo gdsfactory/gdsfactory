@@ -32,9 +32,9 @@ if __name__ == "__main__":
 
     # c = mzi_phase_shifter()
     c = mzi_phase_shifter()
-    c.show(show_ports=True)
+    c.show()
     print(c.name)
 
     c1 = mzi2x2_2x2_phase_shifter()
-    c1.show(show_ports=True)
+    c1.show()
     print(c1.name)

@@ -102,4 +102,4 @@ def interdigital_capacitor_enclosed(
 
 if __name__ == "__main__":
     c = interdigital_capacitor_enclosed()
-    c.show(show_ports=True)
+    c.show()

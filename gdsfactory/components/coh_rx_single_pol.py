@@ -275,4 +275,4 @@ def coh_rx_single_pol(
 
 if __name__ == "__main__":
     c = coh_rx_single_pol(with_pads=False)
-    c.show(show_ports=True)
+    c.show()

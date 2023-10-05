@@ -47,4 +47,4 @@ def litho_steps(
 
 if __name__ == "__main__":
     c = litho_steps()
-    c.show(show_ports=True)
+    c.show()

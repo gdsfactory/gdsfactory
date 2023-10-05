@@ -141,4 +141,4 @@ if __name__ == "__main__":
     #         for length in [500, 3000]
     #     ]
     # )
-    c.show(show_ports=True)
+    c.show()

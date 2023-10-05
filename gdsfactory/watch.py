@@ -141,7 +141,7 @@ class FileWatcher(FileSystemEventHandler):
                 if str(filepath).endswith(".pic.yml"):
                     cell_func = self.update_cell(filepath, update=True)
                     c = cell_func()
-                    c.show(show_ports=True)
+                    c.show()
                     # on_yaml_cell_modified.fire(c)
                     return c
                 elif str(filepath).endswith(".py"):

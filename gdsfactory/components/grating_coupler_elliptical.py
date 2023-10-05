@@ -274,4 +274,4 @@ if __name__ == "__main__":
 
     # c = gf.components.grating_coupler_elliptical_te()
     c = gf.components.grating_coupler_elliptical_tm()
-    c.show(show_ports=True)
+    c.show()

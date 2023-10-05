@@ -56,4 +56,4 @@ if __name__ == "__main__":
     e1 = gf.components.ellipse(radii=(6, 6))
     e2 = gf.components.ellipse(radii=(10, 4))
     c = xor_diff(A=e1, B=e2)
-    c.show(show_ports=True)
+    c.show()

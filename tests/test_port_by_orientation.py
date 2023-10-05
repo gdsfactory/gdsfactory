@@ -28,9 +28,9 @@ if __name__ == "__main__":
     # ref.rotate(+90)
     # c.add_ports(ref.ports)
     # p = ref.port_by_orientation_cw(key="W0")
-    # c.show(show_ports=True)
+    # c.show( )
 
     c = gf.components.nxn(west=1, north=2, east=3, south=4)
     p = c.port_by_orientation_cw(key="W0")
     c.pprint_ports()
-    c.show(show_ports=True)
+    c.show()

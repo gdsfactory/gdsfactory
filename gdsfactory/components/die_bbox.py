@@ -104,4 +104,4 @@ if __name__ == "__main__":
     mask = gf.components.array(rows=10, columns=10)
     # c = die_bbox(component=mask, die_name="chip99")
     c = die_bbox()
-    # c.show(show_ports=True)
+    # c.show( )

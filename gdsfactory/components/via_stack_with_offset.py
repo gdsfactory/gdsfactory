@@ -156,4 +156,4 @@ if __name__ == "__main__":
     )
     # c = via_stack_with_offset_m1_m3(layer_offsets=[0, 5, 10])
     # c = via_stack_with_offset(vias=(None, None))
-    c.show(show_ports=True)
+    c.show()

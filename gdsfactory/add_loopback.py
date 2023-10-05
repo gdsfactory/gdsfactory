@@ -117,4 +117,4 @@ if __name__ == "__main__":
             inside=False,
         )
     )
-    c.show(show_ports=True)
+    c.show()

@@ -271,7 +271,7 @@ if __name__ == "__main__":
         length_mmi=10,
         decorator=partial(add_settings_label, settings=["name", "length_mmi"]),
     )
-    # c.show(show_ports=True)
+    # c.show( )
 
     # cr = rotate(component=c)
     # cr.show()

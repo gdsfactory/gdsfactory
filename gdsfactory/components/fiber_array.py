@@ -57,4 +57,4 @@ def fiber_array(
 
 if __name__ == "__main__":
     c = fiber_array()
-    c.show(show_ports=True)
+    c.show()

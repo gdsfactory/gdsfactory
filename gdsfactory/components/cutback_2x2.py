@@ -178,4 +178,4 @@ def cutback_2x2(
 
 if __name__ == "__main__":
     c = cutback_2x2(cols=3, rows=2, mirror=True)
-    c.show(show_ports=True)
+    c.show()

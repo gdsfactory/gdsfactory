@@ -173,4 +173,4 @@ def via_cutback(
 
 if __name__ == "__main__":
     c = via_cutback()
-    c.show(show_ports=True)
+    c.show()

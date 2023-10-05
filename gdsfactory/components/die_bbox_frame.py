@@ -102,4 +102,4 @@ if __name__ == "__main__":
     c = gf.Component("demo")
     mask = c << gf.components.array(rows=15, columns=10)
     c << die_bbox_frame(mask.bbox, die_name="chip99")
-    c.show(show_ports=True)
+    c.show()

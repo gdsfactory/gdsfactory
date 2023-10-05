@@ -55,4 +55,4 @@ def test_cutback_phase() -> None:
 
 if __name__ == "__main__":
     c = cutback_phase(n=1)
-    c.show(show_ports=True)
+    c.show()

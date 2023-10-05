@@ -111,4 +111,4 @@ def taper_adiabatic(
 
 if __name__ == "__main__":
     c = taper_adiabatic(width1=0.5, width2=5)
-    c.show(show_ports=True)
+    c.show()

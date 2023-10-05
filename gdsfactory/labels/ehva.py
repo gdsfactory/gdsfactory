@@ -124,4 +124,4 @@ if __name__ == "__main__":
     # add_label_ehva(c, die="demo_die", metadata_include_child=[])
 
     print(c.labels[0])
-    c.show(show_ports=True)
+    c.show()

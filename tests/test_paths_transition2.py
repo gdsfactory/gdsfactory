@@ -40,4 +40,4 @@ if __name__ == "__main__":
     assert c.ports["o2"].cross_section.width == width2, c.ports[
         "o2"
     ].cross_section.width
-    c.show(show_ports=True)
+    c.show()

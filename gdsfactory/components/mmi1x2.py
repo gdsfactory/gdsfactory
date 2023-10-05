@@ -124,4 +124,4 @@ if __name__ == "__main__":
     # c.xmin = 0
     # print(c.xmin)
 
-    c.show(show_ports=True)
+    c.show()

@@ -106,4 +106,4 @@ def resistance_meander(
 
 if __name__ == "__main__":
     c = resistance_meander(res_layer="M1", width=0.5)
-    c.show(show_ports=True)
+    c.show()

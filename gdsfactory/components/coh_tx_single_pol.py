@@ -184,4 +184,4 @@ def coh_tx_single_pol(
 
 if __name__ == "__main__":
     c = coh_tx_single_pol()
-    c.show(show_ports=True)
+    c.show()

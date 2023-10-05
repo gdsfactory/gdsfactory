@@ -92,4 +92,4 @@ if __name__ == "__main__":
 
     # c = gf.routing.add_fiber_array(component=c, with_loopback=True)
     # print(len(c.labels))
-    # c.show(show_ports=True)
+    # c.show( )

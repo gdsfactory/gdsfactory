@@ -248,4 +248,4 @@ if __name__ == "__main__":
     # c = cutback_bend90(rows=3, columns=2)
     c = cutback_bend180(rows=2, columns=2)
     # c = cutback_bend(rows=3, columns=2)
-    c.show(show_ports=True)
+    c.show()

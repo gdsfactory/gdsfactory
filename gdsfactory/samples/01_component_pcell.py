@@ -69,4 +69,4 @@ if __name__ == "__main__":
     # Alternatively, we can do this all on one line
     wg3 = c.add_ref(straight_wide(length=14, width=3))
 
-    c.show(show_ports=True)  # show it in Klayout
+    c.show()  # show it in Klayout

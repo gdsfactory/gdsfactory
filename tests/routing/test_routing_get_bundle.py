@@ -531,4 +531,4 @@ if __name__ == "__main__":
     for i, route in enumerate(routes):
         c.add(route.references)
         lengths[i] = route.length
-    c.show(show_ports=True)
+    c.show()

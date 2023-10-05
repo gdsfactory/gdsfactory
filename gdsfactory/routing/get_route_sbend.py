@@ -84,7 +84,7 @@ if __name__ == "__main__":
     #     route = get_route_sbend(p1, p2, layer=(2, 0))
     #     c.add(route.references)
 
-    # c.show(show_ports=True)
+    # c.show( )
 
     import gdsfactory as gf
 

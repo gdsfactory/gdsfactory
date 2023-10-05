@@ -28,4 +28,4 @@ def test_netlist_with_routes() -> None:
 
 if __name__ == "__main__":
     c = test_netlist_with_routes()
-    c.show(show_ports=True)
+    c.show()

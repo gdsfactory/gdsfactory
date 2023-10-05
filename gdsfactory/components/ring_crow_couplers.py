@@ -135,6 +135,6 @@ if __name__ == "__main__":
         couplers=[gf.components.coupler_full(coupling_length=0.01, dw=0)] * 4
     )
 
-    c.show(show_ports=True, show_subports=False)
+    c.show()
 
     print(c.named_references["bot_right_bend_ring_0"].ports)

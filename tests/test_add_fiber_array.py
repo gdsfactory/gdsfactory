@@ -51,4 +51,4 @@ if __name__ == "__main__":
     # c = type1()
     c = type2()
     # c = tapers()
-    c.show(show_ports=True)
+    c.show()

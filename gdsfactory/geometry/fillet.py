@@ -55,4 +55,4 @@ if __name__ == "__main__":
     p = fillet(o, radius=0.3)
     c = gf.Component("demo")
     c.add_polygon(p)
-    c.show(show_ports=True)
+    c.show()

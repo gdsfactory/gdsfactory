@@ -59,4 +59,4 @@ if __name__ == "__main__":
     from gdsfactory.components.dbr import dbr
 
     c = cavity(component=dbr())
-    c.show(show_ports=True)
+    c.show()

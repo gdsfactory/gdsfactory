@@ -60,4 +60,4 @@ if __name__ == "__main__":
 
     c = gf.Component("demo")
     c.add_polygon(p)
-    c.show(show_ports=True)
+    c.show()

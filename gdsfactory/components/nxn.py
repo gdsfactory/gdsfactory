@@ -142,4 +142,4 @@ if __name__ == "__main__":
     c = nxn()
     c.pprint_ports()
     # c = gf.components.extension.extend_ports(component=c)
-    c.show(show_ports=True)
+    c.show()

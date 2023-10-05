@@ -147,4 +147,4 @@ if __name__ == "__main__":
     t = gf.path.transition(X1, X2, width_type="linear")
     c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
 
-    c.show(show_ports=True)
+    c.show()

@@ -299,7 +299,7 @@ if __name__ == "__main__":
     #     [mzi2x2_2x2(), 0, mzi2x2_2x2()],
     # ]
     # c = component_lattice_generic(example_component_lattice)
-    # c.show(show_ports=True)
+    # c.show( )
 
     # example_mixed_component_lattice = [
     #     [mzi2x2_2x2_phase_shifter(), 0, mzi2x2_2x2(delta_length=20.0)],
@@ -307,6 +307,6 @@ if __name__ == "__main__":
     #     [mzi2x2_2x2(delta_length=100.0), 0, mzi2x2_2x2_phase_shifter()],
     # ]
     # c_mixed = component_lattice_generic(example_mixed_component_lattice)
-    # c_mixed.show(show_ports=True)
+    # c_mixed.show( )
     c = component_lattice_generic()
     c.show()

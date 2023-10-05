@@ -162,4 +162,4 @@ if __name__ == "__main__":
     # c = grating_coupler_rectangular_arbitrary(
     #     layer_grating=(3, 0), layer_slab=(2, 0), slab_offset=1
     # )
-    c.show(show_ports=True)
+    c.show()

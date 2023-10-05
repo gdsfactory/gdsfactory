@@ -133,4 +133,4 @@ if __name__ == "__main__":
     c1 = gf.components.ellipse(radii=[8, 8], layer=(1, 0))
     c2 = gf.components.ellipse(radii=[11, 4], layer=(1, 0))
     c = boolean_klayout(c1, c2, operation="not")
-    c.show(show_ports=True)
+    c.show()

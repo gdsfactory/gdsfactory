@@ -74,4 +74,4 @@ if __name__ == "__main__":
     c = ps_heater_doped()
     # c = ps_heater_metal()
     # c = ps_pin()
-    c.show(show_ports=True)
+    c.show()

@@ -251,6 +251,6 @@ if __name__ == "__main__":
         length=1000,
         # cross_section=partial(gf.cross_section.strip, width=0.8),
     )
-    c.show(show_ports=True)
+    c.show()
     # scene = c.to_3d()
     # scene.show()

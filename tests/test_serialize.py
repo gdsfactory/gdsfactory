@@ -60,6 +60,6 @@ if __name__ == "__main__":
     c2 = gf.get_component({"component": cell_name, "settings": settings})
     # c = demo_cross_section_setting()
     # d = c.to_dict()
-    # c.show(show_ports=True)
+    # c.show( )
     # test_settings(None)
     # test_serialize_polygons()

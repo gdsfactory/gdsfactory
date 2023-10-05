@@ -572,4 +572,4 @@ if __name__ == "__main__":
             c.add_port(name=f"{side[0]}{i}", port=p)
 
     # c.plot()
-    c.show(show_ports=True)
+    c.show()

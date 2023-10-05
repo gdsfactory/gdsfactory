@@ -15,4 +15,4 @@ def test_rename_ports(port_type, data_regression: DataRegressionFixture):
 if __name__ == "__main__":
     c = gf.c.nxn(port_type="placement")
     # c = gf.c.nxn(port_type="optical")
-    c.show(show_ports=True)
+    c.show()

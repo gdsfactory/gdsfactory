@@ -72,4 +72,4 @@ def bend_circular_heater(
 if __name__ == "__main__":
     c = bend_circular_heater(heater_width=1, cross_section="xs_rc")
     print(c.ports)
-    c.show(show_ports=True)
+    c.show()

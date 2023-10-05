@@ -169,4 +169,4 @@ def coh_rx_dual_pol(
 if __name__ == "__main__":
     c = coh_rx_dual_pol()
     # c = coh_rx_single_pol()
-    c.show(show_ports=True)
+    c.show()

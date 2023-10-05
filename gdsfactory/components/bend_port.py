@@ -77,4 +77,4 @@ if __name__ == "__main__":
     # c = bend_port(component=gf.components.mzi_phase_shifter)
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
     c = bend_port()
-    c.show(show_ports=True)
+    c.show()

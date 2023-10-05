@@ -274,4 +274,4 @@ if __name__ == "__main__":
     #     # text_offsets=((0, 100), (0, -100)),
     #     # text_anchors=("nc", "sc"),
     # )
-    c.show(show_ports=True)
+    c.show()

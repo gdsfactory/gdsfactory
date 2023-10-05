@@ -56,7 +56,7 @@ def write_test_manifest(csvpath: str | pathlib.Path) -> pd.DataFrame:
 
 if __name__ == "__main__":
     c = sample_reticle(grid=False)
-    c.show(show_ports=True)
+    c.show()
     gdspath = c.write_gds()
     csvpath = gf.labels.write_labels.write_labels_gdstk(
         gdspath, prefixes=("{",), layer_label="TEXT"

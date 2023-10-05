@@ -162,7 +162,7 @@ if __name__ == "__main__":
     # c.pprint_netlist()
     mmi2x2 = partial(gf.components.mmi2x2, width_mmi=5, gap_mmi=2)
     c = mzi_arms(delta_length=10, combiner=mmi2x2)
-    c.show(show_ports=True)
+    c.show()
 
     def bend_s(length: float = 10, **kwargs):
         return gf.components.bend_s(size=(length, 10), **kwargs)
@@ -181,7 +181,7 @@ if __name__ == "__main__":
     #     # length_y=1.8,
     #     # with_splitter=False,
     # )
-    # c.show(show_ports=True)
+    # c.show( )
     # c.show(show_subports=True)
     # c.pprint()
     # n = c.get_netlist()

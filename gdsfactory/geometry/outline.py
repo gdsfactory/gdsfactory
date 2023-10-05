@@ -108,6 +108,6 @@ if __name__ == "__main__":
     # e1 = gf.components.ellipse(radii=(6, 6))
     # e2 = gf.components.ellipse(radii=(10, 4))
     # c = outline([e1, e2], distance=1)
-    # c.show(show_ports=True)
+    # c.show( )
     test_outline()
     test_outline_ports()

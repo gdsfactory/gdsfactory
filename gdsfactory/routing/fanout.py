@@ -137,11 +137,11 @@ if __name__ == "__main__":
         component=c, port_names=tuple(c.get_ports_dict(orientation=0).keys())
     )
     print(len(cc.ports))
-    cc.show(show_ports=True)
+    cc.show()
 
     # c = gf.components.nxn(west=4, layer=(3, 0))
     # routes = fanout_ports(ports=c.get_ports_list(orientation=180))
     # for route in routes:
     #     c.add(route.references)
-    # c.show(show_ports=True)
+    # c.show( )
     # print(cc.ports.keys())

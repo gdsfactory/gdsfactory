@@ -84,9 +84,9 @@ if __name__ == "__main__":
     # c = gf.pack(sweep)[0]
 
     c = resistance_sheet()
-    c.show(show_ports=True)
+    c.show()
 
     # import gdsfactory as gf
     # sweep_resistance = list(map(resistance_sheet, (5, 10, 80)))
     # c = gf.grid(sweep_resistance)
-    # c.show(show_ports=True)
+    # c.show( )

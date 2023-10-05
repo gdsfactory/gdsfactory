@@ -63,4 +63,4 @@ add_trenches90 = partial(
 
 if __name__ == "__main__":
     c = add_trenches()
-    c.show(show_ports=True)
+    c.show()

@@ -109,4 +109,4 @@ def optimal_hairpin(
 
 if __name__ == "__main__":
     c = optimal_hairpin()
-    c.show(show_ports=True)
+    c.show()

@@ -156,4 +156,4 @@ def grating_coupler_dual_pol(
 
 if __name__ == "__main__":
     c = grating_coupler_dual_pol()
-    c.show(show_ports=True)
+    c.show()

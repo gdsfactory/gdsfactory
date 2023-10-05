@@ -56,4 +56,4 @@ if __name__ == "__main__":
     c = gf.components.straight(length=50)
     cc = add_termination(component=c)
     # cc = add_termination(component=c, orientation=0)
-    cc.show(show_ports=True)
+    cc.show()

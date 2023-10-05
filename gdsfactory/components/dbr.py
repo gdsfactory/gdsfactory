@@ -121,4 +121,4 @@ if __name__ == "__main__":
     c = dbr()
     c = dbr_cell()
     # c.assert_ports_on_grid()
-    c.show(show_ports=True)
+    c.show()

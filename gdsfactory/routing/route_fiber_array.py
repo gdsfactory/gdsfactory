@@ -536,7 +536,7 @@ def demo() -> None:
         c.add(e)
     for e in gc:
         c.add(e)
-    c.show(show_ports=True)
+    c.show()
 
 
 if __name__ == "__main__":
@@ -594,4 +594,4 @@ if __name__ == "__main__":
     for e in gc:
         c.add(e)
     # c.add_ports(ports)
-    c.show(show_ports=True)
+    c.show()

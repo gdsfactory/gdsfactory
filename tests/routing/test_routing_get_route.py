@@ -54,7 +54,7 @@ if __name__ == "__main__":
     #     bend=gf.components.wire_corner,
     # )
     # c.add(route.references)
-    # c.show(show_ports=True)
+    # c.show( )
 
     c = gf.Component("multi-layer")
     ptop = c << gf.components.pad_array()
@@ -69,4 +69,4 @@ if __name__ == "__main__":
     )
     c.add(route.references)
     lengths = dict(length=route.length)
-    c.show(show_ports=True)
+    c.show()

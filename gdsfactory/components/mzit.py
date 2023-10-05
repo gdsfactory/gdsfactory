@@ -204,4 +204,4 @@ if __name__ == "__main__":
     # c = mzit(delta_length=20, coupler_gap1=0.1, coupler_gap2=0.5)
     # c = mzit(delta_length=20, coupler_gap1=0.5, coupler_gap2=0.1)
     # c = mzit(coupler_length1=200)
-    c.show(show_ports=True)
+    c.show()

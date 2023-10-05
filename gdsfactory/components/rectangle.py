@@ -100,4 +100,4 @@ if __name__ == "__main__":
     # c = rectangle(size=(3, 2), centered=True, layer=(2, 3))
     print(c.ports)
     print(c.name)
-    c.show(show_ports=True)
+    c.show()

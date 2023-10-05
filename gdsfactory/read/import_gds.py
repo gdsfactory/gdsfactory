@@ -157,7 +157,7 @@ if __name__ == "__main__":
 
     c = gf.components.mzi()
     gdspath = c.write_gds()
-    # c.show(show_ports=True)
+    # c.show( )
 
     # c = import_gds(gdspath)
     c = import_gds(gdspath, cellname="straight_length7p0")

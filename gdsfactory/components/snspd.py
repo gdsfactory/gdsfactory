@@ -111,4 +111,4 @@ def snspd(
 
 if __name__ == "__main__":
     c = snspd()
-    c.show(show_ports=True)
+    c.show()

@@ -42,4 +42,4 @@ def ring(
 
 if __name__ == "__main__":
     c = ring(radius=5, angle=270)
-    c.show(show_ports=True)
+    c.show()

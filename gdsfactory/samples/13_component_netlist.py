@@ -57,4 +57,4 @@ def test_netlist_yaml_sample() -> None:
 
 if __name__ == "__main__":
     c = netlist_yaml()
-    c.show(show_ports=True)
+    c.show()

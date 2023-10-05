@@ -57,4 +57,4 @@ def test_astar_pass() -> None:
 if __name__ == "__main__":
     c = test_astar_pass()
     # c = test_astar_fail()
-    c.show(show_ports=True)
+    c.show()

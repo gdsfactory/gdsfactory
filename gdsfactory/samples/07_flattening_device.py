@@ -34,4 +34,4 @@ def flatten_device() -> Component:
 
 if __name__ == "__main__":
     c = flatten_device()
-    c.show(show_ports=True)
+    c.show()

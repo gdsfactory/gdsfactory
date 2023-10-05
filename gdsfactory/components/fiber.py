@@ -35,4 +35,4 @@ def fiber(
 
 if __name__ == "__main__":
     c = fiber()
-    c.show(show_ports=True)
+    c.show()

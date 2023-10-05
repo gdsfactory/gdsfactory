@@ -468,7 +468,7 @@ if __name__ == "__main__":
     # ls = layer_stack = LAYER_STACK
     # layer_to_thickness = layer_stack.get_layer_to_thickness()
     # c = layer_stack.get_component_with_derived_layers(component)
-    # c.show(show_ports=True)
+    # c.show( )
     # import pathlib
     # filepath = pathlib.Path(
     #     "/home/jmatres/gdslib/sp/temp/write_sparameters_meep_mpi.json"

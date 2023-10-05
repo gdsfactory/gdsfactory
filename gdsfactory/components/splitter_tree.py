@@ -162,7 +162,7 @@ if __name__ == "__main__":
         # bend_s=None,
         cross_section="xs_rc2",
     )
-    c.show(show_ports=True)
+    c.show()
     # print(len(c.ports))
     # for port in c.get_ports_list():
     #     print(port)

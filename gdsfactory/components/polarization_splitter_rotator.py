@@ -111,4 +111,4 @@ def polarization_splitter_rotator(
 
 if __name__ == "__main__":
     c = polarization_splitter_rotator(length_taper_in=(10, 69))
-    c.show(show_ports=True)
+    c.show()

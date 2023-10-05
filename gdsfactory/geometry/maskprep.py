@@ -131,4 +131,4 @@ if __name__ == "__main__":
     # polygons = get_polygons_over_under_slab(ref)
     # c.add(polygons)
 
-    c.show(show_ports=True)
+    c.show()

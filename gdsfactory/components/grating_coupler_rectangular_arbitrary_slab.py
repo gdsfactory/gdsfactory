@@ -141,4 +141,4 @@ def grating_coupler_rectangular_arbitrary_slab(
 if __name__ == "__main__":
     c = grating_coupler_rectangular_arbitrary_slab(slab_offset=2.0)
     print(c.ports)
-    c.show(show_ports=True)
+    c.show()

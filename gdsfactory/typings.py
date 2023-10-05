@@ -171,6 +171,8 @@ ComponentSpec = (
     str | ComponentFactory | Component | dict[str, Any]
 )  # PCell function, function name, dict or Component
 
+ComponentSpecs = tuple[ComponentSpec, ...]
+
 ComponentSpecOrList = ComponentSpec | list[ComponentSpec]
 CellSpec = (
     str | ComponentFactory | dict[str, Any]

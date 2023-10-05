@@ -81,4 +81,4 @@ if __name__ == "__main__":
 
     df = pd.read_csv(csvpath)
     print(df)
-    c.show(show_ports=True)
+    c.show()

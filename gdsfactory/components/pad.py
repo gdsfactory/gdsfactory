@@ -132,4 +132,4 @@ if __name__ == "__main__":
     # c = pad_array_2d(cols=2, rows=3, port_names=("e2",))
     # c = pad_array(columns=2, rows=2, orientation=270)
     # c.auto_rename_ports()
-    c.show(show_ports=True)
+    c.show()

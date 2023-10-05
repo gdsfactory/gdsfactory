@@ -136,7 +136,7 @@ LAYER = LayerMapDemo()
 # | DEVREC         | device recognition layer. For connectivity checks.           |
 # | PORT           | optical port pins. For connectivity checks.                  |
 # | PORTE          | electrical port pins. For connectivity checks.               |
-# | SHOW_PORTS     | add port pin markers when `Component.show(show_ports=True)`  |
+# | SHOW_PORTS     | add port pin markers when `Component.show( )`  |
 # | LABEL_INSTANCE | for adding instance labels on `gf.read.from_yaml`            |
 # | MTOP | for top metal routing            |
 #

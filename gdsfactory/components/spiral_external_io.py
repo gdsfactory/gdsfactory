@@ -174,4 +174,4 @@ if __name__ == "__main__":
         y_straight_inner_top=0,
         x_inner_offset=0,
     )
-    c.show(show_ports=True)
+    c.show()

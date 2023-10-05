@@ -14,4 +14,4 @@ def test_path_less_than_1nm() -> None:
 if __name__ == "__main__":
     test_path_less_than_1nm()
     c = gf.components.straight(length=0.5e-3)
-    c.show(show_ports=True)
+    c.show()

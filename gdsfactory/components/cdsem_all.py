@@ -93,4 +93,4 @@ def cdsem_all(
 
 if __name__ == "__main__":
     c = cdsem_all()
-    c.show(show_ports=True)
+    c.show()

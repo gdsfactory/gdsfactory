@@ -37,4 +37,4 @@ def verniers(
 
 if __name__ == "__main__":
     c = verniers()
-    c.show(show_ports=True)
+    c.show()

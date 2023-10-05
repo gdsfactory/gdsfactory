@@ -45,7 +45,7 @@ def merge_gds(dirpath: str = None, gdspath: str = None) -> None:
 
     c = from_gdsdir(dirpath=dirpath)
     c.write_gds(gdspath=gdspath)
-    c.show(show_ports=True)
+    c.show()
 
 
 @app.command()

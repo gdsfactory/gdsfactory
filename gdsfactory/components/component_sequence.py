@@ -219,6 +219,6 @@ if __name__ == "__main__":
     )
     # n = c.get_netlist()
     # c = gf.read.from_yaml(n)
-    c.show(show_ports=True)
+    c.show()
     # c.pprint()
     # print(c.named_references.keys())

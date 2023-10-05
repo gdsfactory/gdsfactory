@@ -52,4 +52,4 @@ if __name__ == "__main__":
     for route in routes:
         c.add(route.references)
     c = c.flatten_invalid_refs()
-    c.show(show_ports=True)
+    c.show()

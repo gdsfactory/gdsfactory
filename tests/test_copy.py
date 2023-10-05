@@ -34,4 +34,4 @@ if __name__ == "__main__":
 
     _ = c << c1
     _ = c << c2
-    c.show(show_ports=True)
+    c.show()

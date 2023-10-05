@@ -576,7 +576,7 @@ def _demo_netlist() -> None:
     # c = from_yaml(sample_2x2_connections)
     c = from_yaml(sample_waypoints)
     c = from_yaml(sample_different_factory)
-    c.show(show_ports=True)
+    c.show()
     n = c.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     c2 = from_yaml(yaml_str)

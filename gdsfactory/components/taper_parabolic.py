@@ -45,4 +45,4 @@ if __name__ == "__main__":
     # c = taper_parabolic(width2=6, length=40, exp=0.6)
     c = taper_parabolic()
     print(c.name)
-    c.show(show_ports=True)
+    c.show()

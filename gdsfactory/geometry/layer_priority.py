@@ -122,4 +122,4 @@ if __name__ == "__main__":
         layer_low_order="SLAB150",
         remove_high_order=False,
     )
-    c2.show(show_ports=True)
+    c2.show()

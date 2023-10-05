@@ -53,4 +53,4 @@ if __name__ == "__main__":
     c = grating_coupler_loss_fiber_single(
         min_input_to_output_spacing=300, cross_section=xs_strip2
     )
-    c.show(show_ports=True)
+    c.show()

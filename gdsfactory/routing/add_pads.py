@@ -269,4 +269,4 @@ if __name__ == "__main__":
         port_type="electrical",
     )
     cc = add_pads_top(component=c)
-    cc.show(show_ports=True)
+    cc.show()

@@ -133,4 +133,4 @@ if __name__ == "__main__":
         port_offset=(0, 10),
     )
     # c.auto_rename_ports()
-    c.show(show_ports=True)
+    c.show()

@@ -23,4 +23,4 @@ def remove_layers() -> Component:
 
 if __name__ == "__main__":
     c = remove_layers()
-    c.show(show_ports=True)
+    c.show()

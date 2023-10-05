@@ -53,4 +53,4 @@ def C(
 
 if __name__ == "__main__":
     c = C(width=1.0)
-    c.show(show_ports=True)
+    c.show()

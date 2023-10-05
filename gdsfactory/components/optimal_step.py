@@ -195,4 +195,4 @@ if __name__ == "__main__":
     print(c.to_dict())
     # c = optimal_step()
     # print(c.to_dict())
-    c.show(show_ports=True)
+    c.show()

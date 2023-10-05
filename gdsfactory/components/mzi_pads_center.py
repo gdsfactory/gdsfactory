@@ -125,4 +125,4 @@ if __name__ == "__main__":
     # mzi_ps_fs = gf.compose(gf.routing.add_fiber_single, mzi_pads_center)
     # c = mzi_ps_fs()
     c = mzi_pads_center()
-    c.show(show_ports=True)
+    c.show()

@@ -85,4 +85,4 @@ if __name__ == "__main__":
     # c = coupler_ring_bend()
     c = ring_double_bend_coupler()
     c.assert_ports_on_grid()
-    c.show(show_ports=True)
+    c.show()

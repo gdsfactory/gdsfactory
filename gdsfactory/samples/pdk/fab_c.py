@@ -141,7 +141,7 @@ if __name__ == "__main__":
     # from jsondiff import diff
 
     # d = diff(d1, d2)
-    # c.show(show_ports=True)
+    # c.show( )
 
     c = mzi_nc()
     c.show()

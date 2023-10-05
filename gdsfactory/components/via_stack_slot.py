@@ -126,4 +126,4 @@ if __name__ == "__main__":
     # c = via_stack_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=1, size=(3, 3))
     # c = via_stack_slot_m1_m2()
     # c = via_stack_slot_slab_m1()
-    c.show(show_ports=True)
+    c.show()

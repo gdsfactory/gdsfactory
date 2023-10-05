@@ -72,4 +72,4 @@ def cdsem_bend180(
 
 if __name__ == "__main__":
     c = cdsem_bend180(width=2)
-    c.show(show_ports=True)
+    c.show()

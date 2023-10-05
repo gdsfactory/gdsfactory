@@ -110,4 +110,4 @@ if __name__ == "__main__":
             r.x = x + cell["x"]
             r.y = y + cell["y"]
 
-    c.show(show_ports=True)
+    c.show()

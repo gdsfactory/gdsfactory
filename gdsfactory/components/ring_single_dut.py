@@ -92,4 +92,4 @@ def ring_single_dut(
 
 if __name__ == "__main__":
     c = ring_single_dut()
-    c.show(show_ports=True)
+    c.show()

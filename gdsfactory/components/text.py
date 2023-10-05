@@ -96,6 +96,6 @@ if __name__ == "__main__":
     )
     # c = text_lines(text=["a", "b"], size=10)
     # c = text_lines()
-    # c2.show(show_ports=True)
+    # c2.show( )
     # c.plot()
     c.show()

@@ -67,7 +67,7 @@ def cross(
 
 if __name__ == "__main__":
     c = cross()
-    c.show(show_ports=True)
+    c.show()
     # c.pprint_ports()
     # cc = gf.routing.add_fiber_array(component=c)
-    # cc.show(show_ports=True)
+    # cc.show( )

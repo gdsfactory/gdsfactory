@@ -127,4 +127,4 @@ if __name__ == "__main__":
         # cladding_offsets=[3],
     )
     c.show()
-    # c.show(show_ports=True)
+    # c.show( )

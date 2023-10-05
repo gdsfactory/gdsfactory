@@ -19,4 +19,4 @@ def test_big_device_fiber_single() -> None:
 
 if __name__ == "__main__":
     c = big_device_fiber_single()
-    c.show(show_ports=True)
+    c.show()

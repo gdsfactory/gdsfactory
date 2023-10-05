@@ -305,4 +305,4 @@ if __name__ == "__main__":
     # c.pprint_ports()
     # c = compensation_path()
     c = component_lattice()
-    c.show(show_ports=True)
+    c.show()

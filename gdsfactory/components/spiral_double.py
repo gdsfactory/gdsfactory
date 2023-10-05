@@ -63,4 +63,4 @@ if __name__ == "__main__":
     )
     print(c.ports["o1"].orientation)
     print(c.ports["o2"].orientation)
-    c.show(show_ports=True)
+    c.show()

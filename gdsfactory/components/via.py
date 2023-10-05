@@ -80,4 +80,4 @@ if __name__ == "__main__":
     c = via()
     # c.pprint()
     print(c)
-    c.show(show_ports=True)
+    c.show()

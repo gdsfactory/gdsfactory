@@ -45,4 +45,4 @@ def coupler_straight_asymmetric(
 if __name__ == "__main__":
     d = {"length": 7.0, "gap": 0.15, "width_top": 0.405, "width_bot": 0.9}
     c = coupler_straight_asymmetric(**d)
-    c.show(show_ports=True)
+    c.show()

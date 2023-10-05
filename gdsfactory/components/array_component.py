@@ -79,6 +79,6 @@ if __name__ == "__main__":
 
     # nports = len(c2.get_ports_list(orientation=0))
     # assert nports == 2, nports
-    # c2.show(show_ports=True)
+    # c2.show( )
     # c2.show(show_subports=True)
-    c2.show(show_ports=True)
+    c2.show()

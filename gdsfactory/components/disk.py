@@ -241,4 +241,4 @@ def disk_heater(
 if __name__ == "__main__":
     # c = disk_heater(wrap_angle_deg=75)
     c = disk()
-    c.show(show_ports=True)
+    c.show()

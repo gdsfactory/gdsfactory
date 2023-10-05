@@ -114,4 +114,4 @@ def coupler_broadband(
 
 if __name__ == "__main__":
     c = coupler_broadband(cross_section="xs_sc")
-    c.show(show_ports=True)
+    c.show()

@@ -41,4 +41,4 @@ instances:
 if __name__ == "__main__":
     """TODO, fix this."""
     c = gf.read.from_yaml(padding_example1)
-    c.show(show_ports=True)
+    c.show()

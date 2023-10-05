@@ -162,4 +162,4 @@ if __name__ == "__main__":
     # c = grating_coupler_tm()
     # print(c.ports.keys())
     # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_trenches)
-    c.show(show_ports=True)
+    c.show()

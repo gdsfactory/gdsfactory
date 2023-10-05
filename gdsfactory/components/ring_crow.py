@@ -5,17 +5,21 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import (
+    ComponentSpecs,
+    CrossSectionSpec,
+    CrossSectionSpecs,
+)
 
 
 @gf.cell
 def ring_crow(
-    gaps: list[float] = [0.2] * 4,
-    radius: list[float] = [10.0] * 3,
+    gaps: tuple[float, ...] = (0.2,) * 4,
+    radius: tuple[float, ...] = (10.0,) * 3,
     input_straight_cross_section: CrossSectionSpec = strip,
     output_straight_cross_section: CrossSectionSpec = strip,
-    bends: list[ComponentSpec] = [bend_circular] * 3,
-    ring_cross_sections: list[CrossSectionSpec] = [strip] * 3,
+    bends: ComponentSpecs = (bend_circular,) * 3,
+    ring_cross_sections: CrossSectionSpecs = (strip,) * 3,
 ) -> Component:
     """Coupled ring resonators.
 
@@ -115,7 +119,7 @@ def ring_crow(
 if __name__ == "__main__":
     c = ring_crow(
         input_straight_cross_section="xs_rc",
-        ring_cross_sections=["xs_rc", "xs_sc", "xs_rc"],
+        ring_cross_sections=("xs_rc", "xs_sc", "xs_rc"),
     )
     # c = ring_crow(gaps = [0.3, 0.4, 0.5, 0.2],
     #     radius = [20.0, 5.0, 15.0],
@@ -125,4 +129,4 @@ if __name__ == "__main__":
     #     ring_cross_sections = [strip] * 3,
     # )
 
-    c.show(show_ports=True, show_subports=False)
+    c.show()

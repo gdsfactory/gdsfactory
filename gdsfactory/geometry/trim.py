@@ -74,4 +74,4 @@ def trim(
 if __name__ == "__main__":
     c = gf.components.straight_pin(length=10, taper=None)
     trimmed_c = trim(component=c, domain=[[0, -5], [0, 5], [5, 5], [5, -5]])
-    trimmed_c.show(show_ports=True)
+    trimmed_c.show()

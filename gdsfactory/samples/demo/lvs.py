@@ -79,7 +79,7 @@ def pads_shorted(pad=gf.components.pad, cross_section="xs_m3") -> gf.Component:
 
 if __name__ == "__main__":
     c = pads_correct()
-    c.show(show_ports=True)
+    c.show()
     gdspath = c.write_gds()
 
     import kfactory as kf

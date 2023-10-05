@@ -1083,4 +1083,4 @@ if __name__ == "__main__":
         cross_section="xs_sc_auto_widen",
     )
     c.add(route.references)
-    c.show(show_ports=True)
+    c.show()

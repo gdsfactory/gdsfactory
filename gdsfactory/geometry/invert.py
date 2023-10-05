@@ -72,4 +72,4 @@ if __name__ == "__main__":
     # test_invert()
     e1 = gf.components.ellipse(radii=(6, 6))
     c = invert(e1)
-    c.show(show_ports=True)
+    c.show()

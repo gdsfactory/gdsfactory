@@ -260,4 +260,4 @@ if __name__ == "__main__":
     #     info=dict(a=1),
     # )
     cc.pprint_ports()
-    cc.show(show_ports=True)
+    cc.show()

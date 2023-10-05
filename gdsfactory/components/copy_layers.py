@@ -29,4 +29,4 @@ def copy_layers(
 
 if __name__ == "__main__":
     c = copy_layers(gf.components.rectangle)
-    c.show(show_ports=True)
+    c.show()

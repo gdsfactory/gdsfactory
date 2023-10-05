@@ -586,7 +586,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c = test_add_pins()
-    # c.show(show_ports=True)
+    # c.show( )
     # c = gf.components.straight(length=2)
     # c.show(show_ports_suborts=True)
     # p1 = len(c1.get_polygons())
@@ -596,5 +596,5 @@ if __name__ == "__main__":
     c = gf.components.straight()
     # cc.show(show_ports=False)
     # c.show(show_subports=True)
-    # c.show(show_ports=True)
+    # c.show( )
     c.show()

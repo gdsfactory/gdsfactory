@@ -146,9 +146,9 @@ if __name__ == "__main__":
     # c = gf.routing.add_fiber_array(ring_single)
     c = ring_single_pn()
     print([i.name for i in c.get_dependencies()])
-    c.show(show_ports=True)
+    c.show()
 
     # cc = gf.add_pins(c)
     # print(c.settings)
     # print(c.settings)
-    # cc.show(show_ports=True)
+    # cc.show( )

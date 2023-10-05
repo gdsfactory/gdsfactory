@@ -25,4 +25,4 @@ if __name__ == "__main__":
     # c = straight_rib()
     c = straight_rib_tapered()
     # c.plot_holoviews()
-    c.show(show_ports=True)
+    c.show()

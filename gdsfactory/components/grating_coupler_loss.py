@@ -300,4 +300,4 @@ if __name__ == "__main__":
     # c = grating_coupler_loss_fiber_array4(layer=(2, 0), radius=30)
     c = grating_coupler_loss_fiber_array4(cross_section="xs_rc")
     # c = grating_coupler_loss_fiber_array(layer=(2, 0), radius=30)
-    c.show(show_ports=True)
+    c.show()

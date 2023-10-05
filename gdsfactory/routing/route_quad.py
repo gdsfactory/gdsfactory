@@ -133,7 +133,7 @@ if __name__ == "__main__":
     #     width2=None,
     # )
 
-    # c.show(show_ports=True)
+    # c.show( )
 
     # c = gf.Component("route")
     # pad1 = c << gf.components.pad(size=(50, 50))

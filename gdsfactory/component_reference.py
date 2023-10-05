@@ -872,7 +872,7 @@ if __name__ == "__main__":
     ref.movex(5)
     # assert c.ports['o1'].center[0] == 5, print(c.ports['o1'])
     print(c.ports["o1"].center)
-    c.show(show_ports=True)
+    c.show()
 
     # p = ref.get_polygons(by_spec=(1, 0), as_array=False)
 
