@@ -103,7 +103,7 @@ def mmi1x2(
 
     for port in ports:
         taper_ref = c << _taper
-        taper_ref.connect(port="o2", destination=port)
+        taper_ref.connect(port="o2", other=port, allow_width_mismatch=True)
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
@@ -116,12 +116,5 @@ def mmi1x2(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.components.mmi1x2(cross_section="xs_rc", layer=(2, 0))
-
-    # print(c.xmin)
-    # c.xmin = 0
-    # print(c.xmin)
-
+    c = mmi1x2()
     c.show()

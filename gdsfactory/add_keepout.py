@@ -58,7 +58,7 @@ if __name__ == "__main__":
     from gdsfactory.components.straight import straight
 
     c = straight()
-    target_layers = [(1, 0)]
-    keepout_layers = [(2, 0)]
+    target_layers = ((1, 0),)
+    keepout_layers = ((2, 0),)
     c = add_keepout(c, target_layers, keepout_layers)
     c.show()

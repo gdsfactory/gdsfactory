@@ -123,7 +123,6 @@ class CrossSection(BaseModel):
         radius: route bend radius (um).
         bbox_layers: layer to add as bounding box.
         bbox_offsets: offset to add to the bounding box.
-        info: dictionary with extra information.
         add_pins_function_name: name of the function to add pins to the component.\
                 None by default does not add pins.
         add_pins_function_module: function to add pins to the component.
@@ -172,7 +171,6 @@ class CrossSection(BaseModel):
     bbox_layers: LayerSpecs | None = None
     bbox_offsets: Floats | None = None
 
-    info: dict[str, Any] = Field(default_factory=dict)
     add_pins_function_name: str | None = None
     add_pins_function_module: str = "gdsfactory.add_pins"
 
@@ -243,7 +241,6 @@ class CrossSection(BaseModel):
             radius: route bend radius (um).
             bbox_layers: layer to add as bounding box.
             bbox_offsets: offset to add to the bounding box.
-            info: dictionary with extra information.
             add_pins_function_name: name of the function to add pins to the component.
             add_pins_function_module: function to add pins to the component.
             min_length: defaults to 1nm = 10e-3um for routing.
@@ -395,7 +392,6 @@ def cross_section(
 
 
     Keyword Args:
-        info: dictionary with extra information.
         add_pins_function_module: name of the module to add pins to the component.
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
@@ -576,7 +572,6 @@ def rib_with_trenches(
     layer_trench: LayerSpec = "DEEP_ETCH",
     wg_marking_layer: LayerSpec | None = None,
     sections: tuple[Section, ...] | None = None,
-    info: dict[str, Any] | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of rib waveguide defined by trenches.
@@ -655,23 +650,18 @@ def rib_with_trenches(
         )
         for i, offset in enumerate([+trench_offset, -trench_offset])
     ]
-
-    info = info or {}
-    info.update(
-        dict(
-            layer_trench=layer_trench,
-            width=width,
-            width_trench=width_trench,
-            width_slab=width_slab,
-            wg_marking_layer=wg_marking_layer,
-        )
+    dict(
+        layer_trench=layer_trench,
+        width=width,
+        width_trench=width_trench,
+        width_slab=width_slab,
+        wg_marking_layer=wg_marking_layer,
     )
 
     return cross_section(
         layer=wg_marking_layer,
         width=width,
         sections=tuple(sections),
-        info=info,
         **kwargs,
     )
 
@@ -686,7 +676,6 @@ def l_with_trenches(
     mirror: bool = False,
     wg_marking_layer: LayerSpec | None = None,
     sections: tuple[Section, ...] | None = None,
-    info: dict[str, Any] | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of l waveguide defined by trenches.
@@ -744,22 +733,11 @@ def l_with_trenches(
         )
     ]
     sections += [Section(width=width_trench, offset=trench_offset, layer=layer_trench)]
-    info = info or {}
-    info.update(
-        dict(
-            layer_trench=layer_trench,
-            width=width,
-            width_trench=width_trench,
-            width_slab=width_slab,
-            wg_marking_layer=wg_marking_layer,
-        )
-    )
 
     return cross_section(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        info=info,
         **kwargs,
     )
 
@@ -1803,7 +1781,6 @@ def strip_heater_metal(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        info=dict(heater_width=heater_width),
         **kwargs,
     )
 
@@ -2320,10 +2297,11 @@ cross_sections = get_cross_sections(sys.modules[__name__])
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-    from gdsfactory.generic_tech import LAYER
+    print(xs_sc.__hash__())
+    # import gdsfactory as gf
+    # from gdsfactory.generic_tech import LAYER
 
-    c = gf.get_layer(LAYER.WG)
+    # c = gf.get_layer(LAYER.WG)
 
     # xs = gf.cross_section.strip(
     #     bbox_layers=[(3, 0)],

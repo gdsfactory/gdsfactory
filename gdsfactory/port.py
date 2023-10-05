@@ -88,6 +88,8 @@ class Port(kf.Port):
         port_type: str = "optical",
         cross_section: CrossSectionSpec | None = None,
     ) -> None:
+        from gdsfactory.pdk import get_layer
+
         orientation = np.mod(orientation, 360) if orientation else orientation
 
         if cross_section is None and layer is None:
@@ -117,7 +119,7 @@ class Port(kf.Port):
             name=name,
             angle=int(orientation // 90),
             position=center,
-            layer=layer,
+            layer=get_layer(layer),
             width=width,
             port_type=port_type,
         )

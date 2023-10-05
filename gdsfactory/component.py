@@ -251,6 +251,9 @@ class Component(kf.KCell):
             if k not in self.info:
                 self.info[k] = v
 
+    def auto_rename_ports(self) -> None:
+        self.autorename_ports()
+
 
 if __name__ == "__main__":
     c = Component()

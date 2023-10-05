@@ -96,7 +96,7 @@ def mmi2x2(
 
     for port in ports:
         taper_ref = c << _taper
-        taper_ref.connect(port="o2", destination=port)
+        taper_ref.connect(port="o2", other=port, allow_width_mismatch=True)
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
@@ -112,4 +112,4 @@ if __name__ == "__main__":
     # c = mmi2x2(gap_mmi=0.252, cross_section="xs_m1")
     c = mmi2x2(gap_mmi=0.252)
     c.show()
-    c.pprint()
+    # c.pprint()

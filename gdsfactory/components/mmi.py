@@ -118,15 +118,13 @@ def mmi(
 
     for port in ports:
         taper_ref = c << _taper
-        taper_ref.connect(port="o2", destination=port)
+        taper_ref.connect("o2", port, allow_width_mismatch=True)
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
     c.absorb(mmi)
-    if x.add_bbox:
-        c = x.add_bbox(c)
-    if x.add_pins:
-        c = x.add_pins(c)
+    x.add_bbox(c)
+    x.add_pins(c)
     c.auto_rename_ports()
     return c
 
@@ -134,6 +132,5 @@ def mmi(
 if __name__ == "__main__":
     # import gdsfactory as gf
     # c = gf.components.mmi1x2(cross_section="xs_rc")
-    c = mmi(inputs=2, outputs=4, gap_input_tapers=0.5, input_positions=[-1, 1])
-    print(len(c.ports))
+    c = mmi(inputs=2, outputs=4, gap_input_tapers=0.5, input_positions=(-1, 1))
     c.show()
