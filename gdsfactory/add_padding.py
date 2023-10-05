@@ -30,10 +30,10 @@ def get_padding_points(
     right = right if right is not None else default
     left = left if left is not None else default
     return [
-        [c.xmin - left, c.ymin - bottom],
-        [c.xmax + right, c.ymin - bottom],
-        [c.xmax + right, c.ymax + top],
-        [c.xmin - left, c.ymax + top],
+        [c.d.xmin - left, c.d.ymin - bottom],
+        [c.d.xmax + right, c.d.ymin - bottom],
+        [c.d.xmax + right, c.d.ymax + top],
+        [c.d.xmin - left, c.d.ymax + top],
     ]
 
 
