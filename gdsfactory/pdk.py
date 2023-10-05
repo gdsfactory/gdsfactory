@@ -545,8 +545,10 @@ class Pdk(BaseModel):
         elif isinstance(cross_section, dict | DictConfig):
             xs_name = cross_section.get("cross_section", None)
             settings = cross_section.get("settings", {})
-            xs = self.get_cross_section(xs_name)
-            return xs.copy(**settings)
+            if kwargs:
+                settings = settings | kwargs
+            xs = self.get_cross_section(xs_name, **settings)
+            return xs
         else:
             raise ValueError(
                 "get_cross_section expects a CrossSectionSpec (CrossSection, "
