@@ -285,6 +285,32 @@ c.add_port("o2", port=b["o2"])
 c.add_port("o3", port=mmi["o3"])
 c.plot()
 
+# %%
+c = gf.Component("sample_reference_connect_simpler")
+
+mmi = c << gf.components.mmi1x2()
+b = c.add_ref(gf.components.bend_circular()).connect("o1", destination=mmi["o2"])
+
+c.add_port("o1", port=mmi["o1"])
+c.add_port("o2", port=b["o2"])
+c.add_port("o3", port=mmi["o3"])
+c.plot()
+
+# %%
+c = gf.Component("sample_reference_connect_simpler_with_mirror")
+
+mmi = c << gf.components.mmi1x2()
+b = (
+    c.add_ref(gf.components.bend_circular())
+    .mirror()
+    .connect("o1", destination=mmi["o2"])
+)
+
+c.add_port("o1", port=mmi["o1"])
+c.add_port("o2", port=b["o2"])
+c.add_port("o3", port=mmi["o3"])
+c.plot()
+
 # %% [markdown]
 # Notice that `connect` mates two ports together and does not imply that ports will remain connected.
 #
