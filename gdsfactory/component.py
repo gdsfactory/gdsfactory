@@ -82,8 +82,19 @@ class Component(kf.KCell):
                 xs = get_cross_section(cross_section)
                 layer = xs.layer
 
-            layer = get_layer(layer)
+            if width is None:
+                if cross_section is None:
+                    raise ValueError("Must specify width or cross_section")
+                xs = get_cross_section(cross_section)
+                width = xs.width
 
+            if orientation is None:
+                raise ValueError("Must specify orientation")
+
+            if center is None:
+                raise ValueError("Must specify center")
+
+            layer = get_layer(layer)
             self.create_port(
                 name=name,
                 position=(
@@ -108,6 +119,9 @@ class Component(kf.KCell):
         layer = get_layer(layer)
 
         if not isinstance(points, kdb.DPolygon):
+            if len(points) == 2:
+                x, y = points
+                points = list(zip(x, y))
             points = kdb.DPolygon([kdb.DPoint(point[0], point[1]) for point in points])
 
         self.shapes(layer).insert(points)
