@@ -49,7 +49,7 @@ def text(
         yoffset -= 1500 * scaling
         xoffset = position[0]
     justify = justify.lower()
-    for label in t.references:
+    for label in t.insts:
         if justify == "left":
             pass
         elif justify == "right":
@@ -60,7 +60,8 @@ def text(
             raise ValueError(
                 f"justify = {justify!r} not in ('center', 'right', 'left')"
             )
-    return t.flatten()
+    t.flatten()
+    return t
 
 
 @gf.cell
