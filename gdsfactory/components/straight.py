@@ -52,8 +52,13 @@ def straight(
 
 
 if __name__ == "__main__":
+    import klayout.db as kdb
+
     import gdsfactory as gf
 
     c = gf.Component()
     ref = c << straight(cross_section="xs_rc")
+    ref2 = c << straight(cross_section="xs_rc")
+    ref2.center = ref.center + kdb.Point(0, 1000)
+    ref2.d.move((0, 10))
     c.show()
