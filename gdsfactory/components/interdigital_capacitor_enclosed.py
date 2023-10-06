@@ -82,7 +82,7 @@ def interdigital_capacitor_enclosed(
         if direction < 0:
             term.movex(-cpw_b)
         term.move(
-            destination=route.ports[-1].move_copy(-1 * np.array([0, cpw_a / 2 + cpw_b]))
+            other=route.ports[-1].move_copy(-1 * np.array([0, cpw_a / 2 + cpw_b]))
         )
 
         c.add_port(route.ports[-1])

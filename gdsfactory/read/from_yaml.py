@@ -453,7 +453,7 @@ def make_connection(
             f" {instance_dst_name!r}"
         )
     port_dst = instance_dst.ports[port_dst_name]
-    instance_src.connect(port=port_src_name, destination=port_dst)
+    instance_src.connect(port=port_src_name, other=port_dst)
 
 
 sample_mmis = """

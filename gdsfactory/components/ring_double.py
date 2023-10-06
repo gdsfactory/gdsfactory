@@ -70,9 +70,9 @@ def ring_double(
         c.add(sl)
         c.add(sr)
 
-    sl.connect(port="o1", destination=cb.ports["o2"])
-    ct.connect(port="o3", destination=sl.ports["o2"])
-    sr.connect(port="o2", destination=ct.ports["o2"])
+    sl.connect(port="o1", other=cb.ports["o2"])
+    ct.connect(port="o3", other=sl.ports["o2"])
+    sr.connect(port="o2", other=ct.ports["o2"])
     c.add_port("o1", port=cb.ports["o1"])
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o3", port=ct.ports["o4"])

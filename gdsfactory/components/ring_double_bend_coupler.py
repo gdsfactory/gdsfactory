@@ -63,10 +63,10 @@ def ring_double_bend_coupler(
     sl = c << sy
     sr = c << sy
 
-    sl.connect(port="o1", destination=cb.ports["o2"])
-    ct.connect(port="o3", destination=sl.ports["o2"])
-    sr.connect(port="o1", destination=ct.ports["o2"])
-    cb.connect(port="o3", destination=sr.ports["o2"])
+    sl.connect(port="o1", other=cb.ports["o2"])
+    ct.connect(port="o3", other=sl.ports["o2"])
+    sr.connect(port="o1", other=ct.ports["o2"])
+    cb.connect(port="o3", other=sr.ports["o2"])
 
     c.absorb(cb)
     c.absorb(ct)

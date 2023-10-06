@@ -272,9 +272,9 @@ def wonky_connector(port1, port2, cross_section):
         justify="center",
         layer="M1",
     ).ref()
-    label.move(
-        label.center, destination=center_port.center + (0, center_port.width)
-    ).rotate(center_port.orientation, center=center_port.center)
+    label.move(label.center, other=center_port.center + (0, center_port.width)).rotate(
+        center_port.orientation, center=center_port.center
+    )
     label.info["length"] = 0
     return [t1, t2, label]
 

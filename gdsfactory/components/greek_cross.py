@@ -132,9 +132,9 @@ def greek_cross_with_pads(
         pad_ref.x = index * pad_spacing + pad_ref.xsize / 2
         via_ref = c << gf.get_component(pad_via)
         if index < 2:
-            via_ref.connect("e2", destination=pad_ref.ports["e4"])
+            via_ref.connect("e2", other=pad_ref.ports["e4"])
         else:
-            via_ref.connect("e4", destination=pad_ref.ports["e2"])
+            via_ref.connect("e4", other=pad_ref.ports["e2"])
 
         route = gf.routing.get_route(
             cross_ref[cross_pad_via_port_pairs[index][0]],

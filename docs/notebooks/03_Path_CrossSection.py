@@ -921,8 +921,8 @@ ref2 = c << c2
 ref3 = c << c1
 
 
-ref1.connect(port="o1", destination=ref2.ports["o1"])
-ref3.connect(port="o1", destination=ref2.ports["o2"])
+ref1.connect(port="o1", other=ref2.ports["o1"])
+ref3.connect(port="o1", other=ref2.ports["o2"])
 c.plot()
 
 # %% [markdown]

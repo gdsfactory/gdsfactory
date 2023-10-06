@@ -60,8 +60,8 @@ def coupler(
     sr = c << sbend
     sl = c << sbend
     cs = c << coupler_straight(length=length, gap=gap, cross_section=cross_section)
-    sl.connect("o2", destination=cs.ports["o1"])
-    sr.connect("o1", destination=cs.ports["o4"])
+    sl.connect("o2", other=cs.ports["o1"])
+    sr.connect("o1", other=cs.ports["o4"])
 
     c.add_port("o1", port=sl.ports["o3"])
     c.add_port("o2", port=sl.ports["o4"])
@@ -83,5 +83,4 @@ def coupler(
 
 if __name__ == "__main__":
     c = coupler(gap=0.2)
-    c = gf.routing.add_fiber_array(c)
     c.show(show_ports=False)

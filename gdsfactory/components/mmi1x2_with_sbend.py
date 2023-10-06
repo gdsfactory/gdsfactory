@@ -57,8 +57,8 @@ def mmi1x2_with_sbend(
         top_sbend = c << sbend
         bot_sbend = c << sbend
         bot_sbend.mirror([1, 0])
-        top_sbend.connect("o1", destination=s_topr.ports["o2"])
-        bot_sbend.connect("o1", destination=s_botr.ports["o2"])
+        top_sbend.connect("o1", other=s_topr.ports["o2"])
+        bot_sbend.connect("o1", other=s_botr.ports["o2"])
         c.add_port("o1", port=sl.ports["o1"])
         c.add_port("o2", port=top_sbend.ports["o2"])
         c.add_port("o3", port=bot_sbend.ports["o2"])

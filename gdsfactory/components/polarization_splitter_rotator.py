@@ -85,11 +85,11 @@ def polarization_splitter_rotator(
         length=length_out, width1=w3, width2=width_out, cross_section=x
     )
 
-    taper_in3.connect("o2", destination=coupler.ports["o1"])
-    taper_in2.connect("o2", destination=taper_in3.ports["o1"])
-    taper_in1.connect("o2", destination=taper_in2.ports["o1"])
-    taper_out.connect("o1", destination=coupler.ports["o4"])
-    bend_s_var.connect("o1", destination=coupler.ports["o3"])
+    taper_in3.connect("o2", other=coupler.ports["o1"])
+    taper_in2.connect("o2", other=taper_in3.ports["o1"])
+    taper_in1.connect("o2", other=taper_in2.ports["o1"])
+    taper_out.connect("o1", other=coupler.ports["o4"])
+    bend_s_var.connect("o1", other=coupler.ports["o3"])
 
     c.add_port("o1", port=taper_in1.ports["o1"])
     c.add_port("o2", port=bend_s_var.ports["o2"])

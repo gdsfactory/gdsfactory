@@ -222,7 +222,7 @@ def dbr_period(w1=0.5, w2=0.6, l1=0.2, l2=0.4, straight=gf.components.straight):
     c = gf.Component()
     r1 = c << straight(length=l1, width=w1)
     r2 = c << straight(length=l2, width=w2)
-    r2.connect(port="o1", destination=r1.ports["o2"])
+    r2.connect(port="o1", other=r1.ports["o2"])
     c.add_port("o1", port=r1.ports["o1"])
     c.add_port("o2", port=r2.ports["o2"])
     return c
@@ -263,7 +263,7 @@ c = gf.Component("sample_reference_connect")
 
 mmi = c << gf.components.mmi1x2()
 b = c << gf.components.bend_circular()
-b.connect("o1", destination=mmi.ports["o2"])
+b.connect("o1", other=mmi.ports["o2"])
 
 c.add_port("o1", port=mmi.ports["o1"])
 c.add_port("o2", port=b.ports["o2"])
@@ -278,7 +278,7 @@ c = gf.Component("sample_reference_connect_simpler")
 
 mmi = c << gf.components.mmi1x2()
 b = c << gf.components.bend_circular()
-b.connect("o1", destination=mmi["o2"])
+b.connect("o1", other=mmi["o2"])
 
 c.add_port("o1", port=mmi["o1"])
 c.add_port("o2", port=b["o2"])
@@ -539,7 +539,7 @@ c = gf.Component("ellipse_moved")
 e = gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e1 = c << e
 e2 = c << e
-e2.move(origin=[5, 5], destination=[10, 10])  # Translate by dx = 5, dy = 5
+e2.move(origin=[5, 5], other=[10, 10])  # Translate by dx = 5, dy = 5
 c.plot()
 
 

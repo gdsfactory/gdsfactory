@@ -34,12 +34,12 @@ def _via_iterable(
     wire2 = c.add_ref(compass(size=(via_spacing, wire_width), layer=layer2))
     viac = c.add_ref(compass(size=(via_width, via_width), layer=via_layer))
     via1 = c.add_ref(compass(size=(via_width, via_width), layer=via_layer))
-    wire1.connect(port="e3", destination=wire2.ports["e1"], overlap=wire_width)
+    wire1.connect(port="e3", other=wire2.ports["e1"], overlap=wire_width)
     viac.connect(
-        port="e1", destination=wire1.ports["e3"], overlap=(wire_width + via_width) / 2
+        port="e1", other=wire1.ports["e3"], overlap=(wire_width + via_width) / 2
     )
     via1.connect(
-        port="e1", destination=wire2.ports["e3"], overlap=(wire_width + via_width) / 2
+        port="e1", other=wire2.ports["e3"], overlap=(wire_width + via_width) / 2
     )
     c.add_port(name="e1", port=wire1.ports["e1"], port_type="electrical", layer=layer1)
     c.add_port(name="e3", port=wire2.ports["e3"], port_type="electrical", layer=layer2)
@@ -104,7 +104,7 @@ def via_cutback(
     head = c.add_ref(pad(size=(wire_width, wire_width)))
     nub.ymax = pad1.ymax - 5
     nub.xmin = pad1.xmax - wire_pad_inclusion
-    head.connect(port="e1", destination=nub.ports["e3"])
+    head.connect(port="e1", other=nub.ports["e3"])
 
     old_port = head.ports["e4"]
     count = 0
@@ -127,11 +127,11 @@ def via_cutback(
     )
     while (count + 2) <= num_vias:
         obj = c.add_ref(via_iterable)
-        obj.connect(port="e1", destination=old_port, overlap=wire_width)
+        obj.connect(port="e1", other=old_port, overlap=wire_width)
         old_port = obj.ports["e3"]
         edge = False
         if obj.ymax > pad1.ymax:
-            obj.connect(port="e1", destination=obj_old.ports["e4"], overlap=wire_width)
+            obj.connect(port="e1", other=obj_old.ports["e4"], overlap=wire_width)
             old_port = obj.ports["e4"]
             current_width += width_via_iter
             down = True
@@ -139,7 +139,7 @@ def via_cutback(
             edge = True
 
         elif obj.ymin < pad1.ymin:
-            obj.connect(port="e1", destination=obj_old.ports["e2"], overlap=wire_width)
+            obj.connect(port="e1", other=obj_old.ports["e2"], overlap=wire_width)
             old_port = obj.ports["e2"]
             current_width += width_via_iter
             up = True
@@ -161,11 +161,11 @@ def via_cutback(
         tail = c.add_ref(pad(size=(3 * wire_width, wire_width)))
 
     if up and not edge:
-        tail.connect(port="e1", destination=obj.ports["e4"], overlap=wire_width)
+        tail.connect(port="e1", other=obj.ports["e4"], overlap=wire_width)
     elif down and not edge:
-        tail.connect(port="e1", destination=obj.ports["e2"], overlap=wire_width)
+        tail.connect(port="e1", other=obj.ports["e2"], overlap=wire_width)
     else:
-        tail.connect(port="e1", destination=obj.ports["e3"], overlap=wire_width)
+        tail.connect(port="e1", other=obj.ports["e3"], overlap=wire_width)
 
     pad2.xmin = tail.xmax - wire_pad_inclusion
     return c

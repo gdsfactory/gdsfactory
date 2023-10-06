@@ -71,7 +71,7 @@ def coupler_full(
             size=(dx, (dy - gap - x_top.width) / 2.0), cross_section=x_top
         ).mirror()
     )
-    bend_input_top.movey(origin=0, destination=(x_top.width + gap) / 2.0)
+    bend_input_top.movey(origin=0, other=(x_top.width + gap) / 2.0)
 
     bend_input_bottom = (
         c
@@ -79,7 +79,7 @@ def coupler_full(
             size=(dx, (-dy + gap + x_bottom.width) / 2.0), cross_section=x_bottom
         ).mirror()
     )
-    bend_input_bottom.movey(origin=0, destination=-(x_bottom.width + gap) / 2.0)
+    bend_input_bottom.movey(origin=0, other=-(x_bottom.width + gap) / 2.0)
 
     taper_top.connect("o1", bend_input_top.ports["o1"])
     taper_bottom.connect("o1", bend_input_bottom.ports["o1"])
@@ -87,12 +87,12 @@ def coupler_full(
     bend_output_top = c << bend_s(
         size=(dx, (dy - gap - x_top.width) / 2.0), cross_section=x_bottom
     )
-    bend_output_top.move(destination=taper_top.ports["o2"])
+    bend_output_top.move(other=taper_top.ports["o2"])
 
     bend_output_bottom = c << bend_s(
         size=(dx, (-dy + gap + x_bottom.width) / 2.0), cross_section=x_top
     )
-    bend_output_bottom.move(destination=taper_bottom.ports["o2"])
+    bend_output_bottom.move(other=taper_bottom.ports["o2"])
 
     bend_output_top.connect("o2", taper_top.ports["o2"])
     bend_output_bottom.connect("o2", taper_bottom.ports["o2"])

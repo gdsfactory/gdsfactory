@@ -143,7 +143,7 @@ def mmi_90degree_hybrid(
 
     for port in ports:
         taper_ref = c << taper
-        taper_ref.connect(port="o2", destination=port)
+        taper_ref.connect(port="o2", other=port)
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 

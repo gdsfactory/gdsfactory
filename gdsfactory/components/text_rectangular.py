@@ -61,7 +61,7 @@ def text_rectangular(
     elif justify == "right":
         ref.xmax = position[0]
     elif justify == "center":
-        ref.d.move(origin=ref.center, destination=position, axis="x")
+        ref.d.move(origin=ref.center, other=position, axis="x")
     else:
         raise ValueError(f"justify = {justify!r} not valid (left, center, right)")
     c.flatten()

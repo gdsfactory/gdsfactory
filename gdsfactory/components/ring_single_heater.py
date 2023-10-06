@@ -90,13 +90,13 @@ def ring_single_heater(
     st = c << straight_top
     # st.mirror(p1=(0, 0), p2=(1, 0))
 
-    sl.connect(port="o1", destination=cb.ports["o2"])
-    bl.connect(port="o2", destination=sl.ports["o2"])
+    sl.connect(port="o1", other=cb.ports["o2"])
+    bl.connect(port="o2", other=sl.ports["o2"])
 
-    st.connect(port="o2", destination=bl.ports["o1"])
-    br.connect(port="o2", destination=st.ports["o1"])
-    sr.connect(port="o1", destination=br.ports["o1"])
-    sr.connect(port="o2", destination=cb.ports["o3"])
+    st.connect(port="o2", other=bl.ports["o1"])
+    br.connect(port="o2", other=st.ports["o1"])
+    sr.connect(port="o1", other=br.ports["o1"])
+    sr.connect(port="o2", other=cb.ports["o3"])
 
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])

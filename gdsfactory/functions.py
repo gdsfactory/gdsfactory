@@ -124,7 +124,7 @@ def rotate(
     if recenter:
         ref.d.move(
             origin=ref.center,
-            destination=np.array((ref.xsize / 2, ref.ysize / 2)) - origin_offset,
+            other=np.array((ref.xsize / 2, ref.ysize / 2)) - origin_offset,
         )
 
     component_new.add_ports(ref.ports)
@@ -165,7 +165,7 @@ def mirror(
 def move(
     component: Component,
     origin=(0, 0),
-    destination=None,
+    other=None,
     axis: Axis | None = None,
 ) -> Component:
     """Return new Component with a moved reference to the original component.
@@ -179,7 +179,7 @@ def move(
     component_new = Component()
     component_new.component = component
     ref = component_new.add_ref(component)
-    ref.d.move(origin=origin, destination=destination, axis=axis)
+    ref.d.move(origin=origin, other=destination, axis=axis)
     component_new.add_ports(ref.ports)
     component_new.copy_child_info(component)
     return component_new
@@ -283,7 +283,7 @@ if __name__ == "__main__":
     # cr.pprint()
     # cr.show()
 
-    # cm = move(c, destination=(20, 20))
+    # cm = move(c, other=(20, 20))
     # cm.show()
 
     # cm = mirror(c)

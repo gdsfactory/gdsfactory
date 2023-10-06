@@ -31,7 +31,7 @@ def _generate_fins(
         )
         rectangle_input.move(
             origin=(x0, y0),
-            destination=(
+            other=(
                 x0 + fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
                 y0 + y + fin_size[1] / 2.0,
             ),
@@ -41,7 +41,7 @@ def _generate_fins(
         rectangle_output = c << rectangle_input.parent.copy()
         rectangle_output.move(
             origin=(x0, y0),
-            destination=(
+            other=(
                 xend - fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
                 y0 + y + fin_size[1] / 2.0,
             ),

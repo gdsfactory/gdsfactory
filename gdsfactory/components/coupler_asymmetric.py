@@ -34,6 +34,7 @@ def coupler_asymmetric(
          gap o1____________    |  dy
                             o3
     """
+    c = Component()
     x = gf.get_cross_section(cross_section)
     width = x.width
     bend_component = (
@@ -44,14 +45,16 @@ def coupler_asymmetric(
     wg = straight(cross_section=cross_section)
 
     w = bend_component.ports["o1"].width
+    gap = gap * c.kcl.dbu
     y = (w + gap) / 2
+    y = int(y)
 
-    c = Component()
-    wg = wg.ref(position=(0, y), port_id="o1")
-    bottom_bend = bend_component.ref(position=(0, -y), port_id="o1", v_mirror=True)
+    wg = c << wg
+    bottom_bend = c << bend_component
 
-    c.add(wg)
-    c.add(bottom_bend)
+    bottom_bend.movey(+y)
+    wg.movey(-y)
+
     c.absorb(wg)
     c.absorb(bottom_bend)
 

@@ -79,7 +79,7 @@ def test_get_netlist_close_enough() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.movex(0.001)
     netlist = c.get_netlist(tolerance=2)
     connections = netlist["connections"]
@@ -95,7 +95,7 @@ def test_get_netlist_close_enough_fails() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.movex(-0.001)
     netlist = c.get_netlist(tolerance=1)
     connections = netlist["connections"]
@@ -106,7 +106,7 @@ def test_get_netlist_close_enough_orthogonal() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.movey(0.001)
     netlist = c.get_netlist(tolerance=2)
     connections = netlist["connections"]
@@ -121,7 +121,7 @@ def test_get_netlist_close_enough_orthogonal_fails() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.movey(0.001)
     netlist = c.get_netlist(tolerance=1)
     connections = netlist["connections"]
@@ -132,7 +132,7 @@ def test_get_netlist_close_enough_both() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.move((0.001, 0.001))
     netlist = c.get_netlist(tolerance=2)
     connections = netlist["connections"]
@@ -147,7 +147,7 @@ def test_get_netlist_close_enough_rotated() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.rotate(angle=0.01, center="o2")
     netlist = c.get_netlist(tolerance=2)
     connections = netlist["connections"]
@@ -162,7 +162,7 @@ def test_get_netlist_throws_error_bad_rotation() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.rotate(angle=90, center="o2")
     with pytest.raises(ValueError):
         c.get_netlist(tolerance=2)
@@ -256,7 +256,7 @@ def test_get_netlist_electrical_different_widths() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(width=1, cross_section="xs_m1"), "i1")
     i2 = c.add_ref(gf.components.straight(width=10, cross_section="xs_m1"), "i2")
-    i2.move("e2", destination=i1.ports["e1"])
+    i2.move("e2", other=i1.ports["e1"])
     i2.movex(0.001)
     netlist = c.get_netlist(tolerance=2)
     connections = netlist["connections"]

@@ -142,7 +142,7 @@ def component_lattice_generic(
             straight_i = C << straight(length=1, width=0.5)
             interconnection_ports_array[column_j].extend([straight_i])
             interconnection_ports_array[column_j][row_i].move(
-                destination=(x_mode_pitch * column_j, -y_mode_pitch * row_i)
+                other=(x_mode_pitch * column_j, -y_mode_pitch * row_i)
             )
 
             if column_j == 0:
@@ -169,7 +169,7 @@ def component_lattice_generic(
                 element_references.append(C << element_i)
                 element_references[k].center = (0, 0)
                 element_references[k].move(
-                    destination=(
+                    other=(
                         x_component_pitch * j
                         + largest_component.xsize / 2
                         + inter_stage_clearance_x_offset / 2,

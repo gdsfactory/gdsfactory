@@ -79,7 +79,7 @@ def _generate_circles(
     if bend_middle is not None:
         circle.move(
             origin=circle.center,
-            destination=(
+            other=(
                 (bend_middle.ports["o1"].x + bend_middle.ports["o2"].x) / 2.0,
                 straight_left.ports["o2"].y - 2 * dy + r_bend,
             ),
@@ -87,11 +87,11 @@ def _generate_circles(
     else:
         circle.move(
             origin=circle.center,
-            destination=(straight_left.ports["o2"].center + (0, r_bend),),
+            other=(straight_left.ports["o2"].center + (0, r_bend),),
         )
 
     if circle_cladding:
-        circle_cladding.move(origin=circle_cladding.center, destination=circle.center)
+        circle_cladding.move(origin=circle_cladding.center, other=circle.center)
 
     return (c, circle, circle_cladding)
 

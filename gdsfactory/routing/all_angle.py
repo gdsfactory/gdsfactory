@@ -299,7 +299,7 @@ def _place_bend(bend_component: Component, position, rotation) -> ComponentRefer
     bend_ref.rotate(
         rotation + 180 - bend_ports[0].orientation, center=bend_control_point
     )
-    bend_ref.move(origin=bend_control_point, destination=position)
+    bend_ref.move(origin=bend_control_point, other=position)
     return bend_ref
 
 

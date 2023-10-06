@@ -631,7 +631,7 @@ class ComponentReference(_GeometryHelper):
 
         else:
             raise ValueError(
-                f"{self.parent.name}.move(destination={destination!r}) \n"
+                f"{self.parent.name}.move(other={destination!r}) \n"
                 f"Invalid destination = {destination!r} needs to be"
                 f"a coordinate, a port, or a valid port name {list(self.ports.keys())}"
             )
@@ -780,7 +780,7 @@ class ComponentReference(_GeometryHelper):
             angle = angle % 360
             self.rotate(angle=angle, center=p.center)
 
-        self.move(origin=p, destination=destination)
+        self.move(origin=p, other=destination)
 
         if destination.orientation is not None:
             self.move(

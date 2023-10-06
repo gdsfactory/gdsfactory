@@ -54,8 +54,8 @@ def coupler_bent_half(
         length=length, cross_section=xs2, npoints=100, add_pins=False
     )
 
-    outer_straight.connect(port="o1", destination=outer_bend.ports["o2"])
-    inner_straight.connect(port="o1", destination=inner_bend.ports["o2"])
+    outer_straight.connect(port="o1", other=outer_bend.ports["o2"])
+    inner_straight.connect(port="o1", other=inner_bend.ports["o2"])
 
     outer_exit_bend = c << gf.components.bend_circular(
         angle=alpha, cross_section=xs1, add_pins=False
@@ -69,23 +69,23 @@ def coupler_bent_half(
         angle=alpha + beta, cross_section=xs2, add_pins=False
     )
 
-    outer_exit_bend.connect(port="o1", destination=outer_straight.ports["o2"])
-    inner_exit_bend_down.connect(port="o1", destination=inner_straight.ports["o2"])
-    inner_exit_bend_up.connect(port="o1", destination=inner_exit_bend_down.ports["o2"])
+    outer_exit_bend.connect(port="o1", other=outer_straight.ports["o2"])
+    inner_exit_bend_down.connect(port="o1", other=inner_straight.ports["o2"])
+    inner_exit_bend_up.connect(port="o1", other=inner_exit_bend_down.ports["o2"])
 
     inner_exit_straight = c << gf.components.straight(
         length=length_straight,
         cross_section=gf.cross_section.cross_section(width=width2),
         npoints=100,
     )
-    inner_exit_straight.connect(port="o1", destination=inner_exit_bend_up.ports["o2"])
+    inner_exit_straight.connect(port="o1", other=inner_exit_bend_up.ports["o2"])
 
     outer_exit_straight = c << gf.components.straight(
         length=abs(inner_exit_straight.ports["o2"].x - outer_exit_bend.ports["o2"].x),
         cross_section=gf.cross_section.cross_section(width=width1),
         npoints=100,
     )
-    outer_exit_straight.connect(port="o1", destination=outer_exit_bend.ports["o2"])
+    outer_exit_straight.connect(port="o1", other=outer_exit_bend.ports["o2"])
 
     c.add_port("o1", port=outer_bend.ports["o1"])
     c.add_port("o2", port=inner_bend.ports["o1"])
@@ -144,7 +144,7 @@ def coupler_bent(
     )
 
     left_half.mirror_x()
-    left_half.connect(port="o1", destination=right_half.ports["o1"])
+    left_half.connect(port="o1", other=right_half.ports["o1"])
     c = c.flatten()
 
     c.add_port("o1", port=left_half.ports["o3"])

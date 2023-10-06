@@ -93,7 +93,7 @@ def floorplan_with_block_letters(
 
     # add floorplan box
     bbox = sym << rectangle(size=(w, h), layer=(0, 0))
-    bbox.move((0, 0), destination=component.bbox[0])
+    bbox.move((0, 0), other=component.bbox[0])
 
     # add text, fit to box with specified margin
     margin = 0.2
@@ -115,7 +115,7 @@ def floorplan_with_block_letters(
     )
 
     text = sym << text_component
-    text.move(text.center, destination=bbox.center)
+    text.move(text.center, other=bbox.center)
 
     # add ports
     sym.add_ports(component.ports)

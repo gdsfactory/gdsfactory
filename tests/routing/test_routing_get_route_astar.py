@@ -38,8 +38,8 @@ def test_astar_pass() -> None:
 #     rect1 = c << gf.components.rectangle()
 #     rect2 = c << gf.components.rectangle()
 #     rect3 = c << gf.components.rectangle((2, 2))
-#     rect2.move(destination=(8, 4))
-#     rect3.move(destination=(5.5, 1.5))
+#     rect2.move(other=(8, 4))
+#     rect3.move(other=(5.5, 1.5))
 
 #     port1 = Port(
 #         "o1", 0, rect1.center + (0, 3), cross_section=gf.get_cross_section("xs_sc")

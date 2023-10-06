@@ -71,12 +71,12 @@ def ring_single_sample(
     wt = c << straight_top
     # wt.mirror(p1=(0, 0), p2=(1, 0))
 
-    wl.connect(port="o2", destination=cb.ports["o2"])
-    bl.connect(port="o2", destination=wl.ports["o1"])
+    wl.connect(port="o2", other=cb.ports["o2"])
+    bl.connect(port="o2", other=wl.ports["o1"])
 
-    wt.connect(port="o2", destination=bl.ports["o1"])
-    br.connect(port="o2", destination=wt.ports["o1"])
-    wr.connect(port="o1", destination=br.ports["o1"])
+    wt.connect(port="o2", other=bl.ports["o1"])
+    br.connect(port="o2", other=wt.ports["o1"])
+    wr.connect(port="o1", other=br.ports["o1"])
 
     c.add_port("o2", port=cb.ports["o2"])
     c.add_port("o1", port=cb.ports["o1"])

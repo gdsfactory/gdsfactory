@@ -278,7 +278,7 @@ poly2 = c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(5, 0))
 wg1.move([10, 5])
 
 # Shift the second straight over by dx = 10, dy = 0
-wg2.move(origin=[0, 0], destination=[10, 0])
+wg2.move(origin=[0, 0], other=[10, 0])
 
 # Shift the third straight over by dx = 0, dy = 4. The translation movement consist of the difference between the values of the destination and the origin and can optionally be limited in a single axis.
 wg3.move([1, 1], [5, 5], axis="y")
@@ -315,12 +315,12 @@ wg1 = straight()
 wg2 = straight(layer=(2, 0))
 mwg1_ref = c2.add_ref(wg1)
 mwg2_ref = c2.add_ref(wg2)
-mwg2_ref.move(destination=[10, 10])
+mwg2_ref.move(other=[10, 10])
 c2.plot()
 
 # %%
 # Like before, let's connect mwg1 and mwg2 together
-mwg1_ref.connect(port="o2", destination=mwg2_ref.ports["o1"])
+mwg1_ref.connect(port="o2", other=mwg2_ref.ports["o1"])
 c2.plot()
 
 # %% [markdown]

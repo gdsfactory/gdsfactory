@@ -55,7 +55,7 @@ def text(
         elif justify == "right":
             label.xmax = position[0]
         elif justify == "center":
-            label.move(origin=label.center, destination=position, axis="x")
+            label.move(origin=label.center, other=position, axis="x")
         else:
             raise ValueError(
                 f"justify = {justify!r} not in ('center', 'right', 'left')"

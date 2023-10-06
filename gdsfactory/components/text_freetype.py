@@ -88,19 +88,19 @@ def text_freetype(
                 for poly in letter_template.polygons:
                     letter_dev.add_polygon(poly, layer=layer)
                 ref = char.add_ref(letter_dev)
-                ref.d.move(destination=(xoffset, 0))
+                ref.d.move(other=(xoffset, 0))
                 ref.magnification = size
                 xoffset += size * advance_x
 
             ref = t.add_ref(char)
-            ref.d.move(destination=(0, yoffset))
+            ref.d.move(other=(0, yoffset))
             yoffset -= size
             t.absorb(ref)
 
     justify = justify.lower()
     for ref in t.references:
         if justify == "center":
-            ref.d.move(origin=ref.center, destination=(0, 0), axis="x")
+            ref.d.move(origin=ref.center, other=(0, 0), axis="x")
 
         elif justify == "right":
             ref.xmax = 0

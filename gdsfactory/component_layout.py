@@ -200,7 +200,7 @@ class _GeometryHelper:
         Args:
             destination : array-like[2] Coordinates of the new bounding box center.
         """
-        self.move(destination=destination, origin=self.center)
+        self.move(other=destination, origin=self.center)
 
     @property
     def x(self):
@@ -215,7 +215,7 @@ class _GeometryHelper:
             destination : int or float x-coordinate of the bbox center.
         """
         destination = (destination, self.center[1])
-        self.move(destination=destination, origin=self.center, axis="x")
+        self.move(other=destination, origin=self.center, axis="x")
 
     @property
     def y(self):
@@ -231,7 +231,7 @@ class _GeometryHelper:
             y-coordinate of the bbox center.
         """
         destination = (self.center[0], destination)
-        self.move(destination=destination, origin=self.center, axis="y")
+        self.move(other=destination, origin=self.center, axis="y")
 
     @property
     def xmax(self):
@@ -246,7 +246,7 @@ class _GeometryHelper:
         destination : int or float
             x-coordinate of the maximum edge of the bbox.
         """
-        self.move(destination=(destination, 0), origin=self.bbox[1], axis="x")
+        self.move(other=(destination, 0), origin=self.bbox[1], axis="x")
 
     @property
     def ymax(self):
@@ -260,7 +260,7 @@ class _GeometryHelper:
         Args:
             destination : int or float y-coordinate of the maximum edge of the bbox.
         """
-        self.move(destination=(0, destination), origin=self.bbox[1], axis="y")
+        self.move(other=(0, destination), origin=self.bbox[1], axis="y")
 
     @property
     def xmin(self):
@@ -274,7 +274,7 @@ class _GeometryHelper:
         Args:
             destination : int or float x-coordinate of the minimum edge of the bbox.
         """
-        self.move(destination=(destination, 0), origin=self.bbox[0], axis="x")
+        self.move(other=(destination, 0), origin=self.bbox[0], axis="x")
 
     @property
     def ymin(self):
@@ -288,7 +288,7 @@ class _GeometryHelper:
         Args:
             destination : int or float y-coordinate of the minimum edge of the bbox.
         """
-        self.move(destination=(0, destination), origin=self.bbox[0], axis="y")
+        self.move(other=(0, destination), origin=self.bbox[0], axis="y")
 
     @property
     def size(self):
@@ -308,7 +308,7 @@ class _GeometryHelper:
         bbox = self.bbox
         return bbox[1][1] - bbox[0][1]
 
-    def movex(self, origin=0, destination=None):
+    def movex(self, origin=0, other=None):
         """Moves an object by a specified x-distance.
 
         Args:
@@ -318,9 +318,9 @@ class _GeometryHelper:
         if destination is None:
             destination = origin
             origin = 0
-        return self.move(origin=(origin, 0), destination=(destination, 0))
+        return self.move(origin=(origin, 0), other=(destination, 0))
 
-    def movey(self, origin=0, destination=None):
+    def movey(self, origin=0, other=None):
         """Moves an object by a specified y-distance.
 
         Args:
@@ -330,7 +330,7 @@ class _GeometryHelper:
         if destination is None:
             destination = origin
             origin = 0
-        return self.move(origin=(0, origin), destination=(0, destination))
+        return self.move(origin=(0, origin), other=(0, destination))
 
     def __add__(self, element) -> Group:
         """Adds an element to a Group.
@@ -434,7 +434,7 @@ class Group(_GeometryHelper):
             e.rotate(angle=angle, center=center)
         return self
 
-    def move(self, origin=(0, 0), destination=None, axis=None) -> Group:
+    def move(self, origin=(0, 0), other=None, axis=None) -> Group:
         """Moves the Group from the origin point to the destination.
 
         Both origin and destination can be 1x2 array-like, Port, or a key
@@ -450,7 +450,7 @@ class Group(_GeometryHelper):
         """
         destination = snap_to_grid(destination)
         for e in self.elements:
-            e.move(origin=origin, destination=destination, axis=axis)
+            e.move(origin=origin, other=destination, axis=axis)
         return self
 
     def mirror(self, p1=(0, 1), p2=(0, 0)) -> Group:
