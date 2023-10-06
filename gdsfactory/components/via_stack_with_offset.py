@@ -91,9 +91,9 @@ def via_stack_with_offset(
 
         if via:
             via = gf.get_component(via)
-            w, h = via.info["size"]
+            w, h = via.info["xsize"], via.info["ysize"]
             enclosure = via.info["enclosure"]
-            pitch_x, pitch_y = via.info["spacing"]
+            pitch_x, pitch_y = via.info["xspacing"], via.info["yspacing"]
 
             nb_vias_x = (width - w - 2 * enclosure) / pitch_x + 1
             nb_vias_y = (height - h - 2 * enclosure) / pitch_y + 1
@@ -110,7 +110,7 @@ def via_stack_with_offset(
             ref = c.add_array(
                 via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
-            ref.move((x00, y00))
+            ref.d.move((x00, y00))
             y0 += height
             if ref.xsize + enclosure > width or ref.ysize + enclosure > height:
                 warnings.warn(

@@ -91,7 +91,7 @@ import gdsfactory as gf
 T = gf.Component("ellipse_and_rectangle")
 e = T << gf.components.ellipse(radii=(10, 5), layer=(1, 0))
 r = T << gf.components.rectangle(size=[15, 5], layer=(2, 0))
-r.move([3, -2.5])
+r.d.move([3, -2.5])
 
 Texpanded = gf.geometry.offset(T, distance=2, precision=1e-6, layer=(2, 0))
 Texpanded.name = "expanded"

@@ -33,7 +33,7 @@ def add_fiducials(
     c = Component()
     component = gf.get_component(component, **kwargs)
     r = c << component
-    r.move(offset)
+    r.d.move(offset)
 
     if left:
         x1 = c << gf.get_component(left)

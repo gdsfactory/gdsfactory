@@ -78,7 +78,7 @@ def via_stack_slot(
     layer_port = layer_port or layers[-1]
 
     c = Component()
-    c.info["size"] = (float(size[0]), float(size[1]))
+    c.info["sizex"], c.info["sizey"] = size
 
     layer_offsets = layer_offsets or [0] * len(layers)
     layer_offsetsx = layer_offsetsx or layer_offsets
@@ -110,7 +110,7 @@ def via_stack_slot(
     nb_vias_y = int(floor(nb_vias_y)) or 1
     ref = c.add_array(via, columns=1, rows=nb_vias_y, spacing=(0, yspacing))
     dy = (size[1] - (nb_vias_y - 1) * yspacing - size[1]) / 2
-    ref.move((0, dy))
+    ref.d.move((0, dy))
     return c
 
 

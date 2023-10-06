@@ -122,7 +122,7 @@ def rotate(
     ref.rotate(angle)
 
     if recenter:
-        ref.move(
+        ref.d.move(
             origin=ref.center,
             destination=np.array((ref.xsize / 2, ref.ysize / 2)) - origin_offset,
         )
@@ -179,7 +179,7 @@ def move(
     component_new = Component()
     component_new.component = component
     ref = component_new.add_ref(component)
-    ref.move(origin=origin, destination=destination, axis=axis)
+    ref.d.move(origin=origin, destination=destination, axis=axis)
     component_new.add_ports(ref.ports)
     component_new.copy_child_info(component)
     return component_new

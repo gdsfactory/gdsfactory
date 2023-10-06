@@ -46,7 +46,7 @@ def text_rectangular(
                 ref = component.add_ref(
                     pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
                 )
-                ref.move((xoffset, yoffset))
+                ref.d.move((xoffset, yoffset))
                 component.absorb(ref)
                 xoffset += pixel_size * 6
 
@@ -61,11 +61,10 @@ def text_rectangular(
     elif justify == "right":
         ref.xmax = position[0]
     elif justify == "center":
-        ref.move(origin=ref.center, destination=position, axis="x")
+        ref.d.move(origin=ref.center, destination=position, axis="x")
     else:
         raise ValueError(f"justify = {justify!r} not valid (left, center, right)")
-    c.absorb(ref)
-
+    c.flatten()
     return c
 
 
@@ -95,21 +94,5 @@ def text_rectangular_multi_layer(
 
 
 if __name__ == "__main__":
-    # import string
-    import json
-
     c = text_rectangular_multi_layer()
-    settings = c.settings.full
-    settings_string = json.dumps(settings)
-    settings2 = json.loads(settings_string)
-    cell_name = c.settings.function_name
-    c2 = gf.get_component({"component": cell_name, "settings": settings2})
-
-    # c = text_rectangular_multi_layer(
-    #     # text="The mask is nearly done. only 12345 drc errors remaining?",
-    #     # text="v",
-    #     text=string.ascii_lowercase,
-    #     layers=("SLAB90", "M2"),
-    #     justify="center",
-    # )
     c.show()

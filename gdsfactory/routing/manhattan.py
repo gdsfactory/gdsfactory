@@ -148,7 +148,7 @@ def gen_sref(
         ref.mirror(p1=(0, y0), p2=(1, y0))
 
     ref.rotate(rotation_angle, center=port_position)
-    ref.move(port_position, position)
+    ref.d.move(port_position, position)
     return ref
 
 

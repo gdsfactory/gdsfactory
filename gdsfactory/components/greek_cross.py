@@ -80,7 +80,7 @@ def greek_cross(
 
     port_at_length = [
         port.move_polar_copy(d=cross_offset, angle=180 + port.orientation)
-        for port in cross_ref.get_ports_list()
+        for port in cross_ref.ports
     ]
 
     # Add via
@@ -235,7 +235,7 @@ def greek_cross_offset_pads(
                 layer=layer,
             )
             ref = c2 << w
-            ref.move(
+            ref.d.move(
                 np.array(
                     [
                         -1 * pad_offset + cross_implant_length / 2 - contact_buffer / 2,
