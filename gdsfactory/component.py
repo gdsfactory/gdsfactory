@@ -132,6 +132,34 @@ class Component(kf.KCell):
         trans = kdb.DTrans(0, False, x, y)
         return self.shapes(layer).insert(kf.kdb.DText(text, trans))
 
+    def add_array(
+        self,
+        component: Component,
+        columns: int = 2,
+        rows: int = 2,
+        spacing: tuple[float, float] = (100, 100),
+    ) -> ComponentReference:
+        """Creates a ComponentReference reference to a Component.
+
+        Args:
+            component: The referenced component.
+            columns: Number of columns in the array.
+            rows: Number of rows in the array.
+            spacing: array-like[2] of int or float.
+                Distance between adjacent columns and adjacent rows.
+
+        """
+        if not isinstance(component, Component):
+            raise TypeError("add_array() needs a Component object.")
+
+        return self.create_inst(
+            component,
+            na=columns,
+            nb=rows,
+            a=kf.kdb.Vector(spacing[0] / self.kcl.dbu, 0),
+            b=kf.kdb.Vector(0, spacing[1] / self.kcl.dbu),
+        )
+
     def get_ports_list(self, **kwargs) -> list[kf.Port]:
         """Returns list of ports.
 
@@ -274,5 +302,5 @@ if __name__ == "__main__":
     x1 = gf.CrossSection(sections=(s0, s1))
     c1 = gf.path.extrude(P, x1)
     ref = c.add_ref(c1)
-
+    c.add_ports(ref.ports)
     c.show()

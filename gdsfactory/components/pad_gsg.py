@@ -52,13 +52,15 @@ def pad_gsg_short(
     pads.xmin = via.xmax + 50
     pads.y = 0
 
-    c << gf.routing.route_quad(
+    _ = c << gf.routing.route_quad(
         gnd_bot.ports["e4"], pads.ports["e1_1_1"], layer=layer_metal
     )
-    c << gf.routing.route_quad(
+    _ = c << gf.routing.route_quad(
         gnd_top.ports["e2"], pads.ports["e1_3_1"], layer=layer_metal
     )
-    c << gf.routing.route_quad(via.ports["e3"], pads.ports["e1_2_1"], layer=layer_metal)
+    _ = c << gf.routing.route_quad(
+        via.ports["e3"], pads.ports["e1_2_1"], layer=layer_metal
+    )
     return c
 
 

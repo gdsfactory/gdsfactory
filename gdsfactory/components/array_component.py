@@ -57,10 +57,11 @@ def array(
     if add_ports and component.ports:
         for col in range(int(columns)):
             for row in range(int(rows)):
-                for port in component.ports.values():
+                for port in component.ports:
                     name = f"{port.name}_{row+1}_{col+1}"
+                    port.x = col * spacing[0] / c.kcl.dbu
+                    port.y = row * spacing[1] / c.kcl.dbu
                     c.add_port(name, port=port)
-                    c.ports[name].move((col * spacing[0], row * spacing[1]))
     return c
 
 

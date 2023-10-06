@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
+from gdsfactory.typings import ComponentFactory, Float2, LayerSpec
 
 
 @cell
@@ -16,7 +16,7 @@ def pad(
     bbox_layers: tuple[LayerSpec, ...] | None = None,
     bbox_offsets: tuple[float, ...] | None = None,
     port_inclusion: float = 0,
-    port_orientation: float | None = None,
+    port_orientation: int = 0,
 ) -> Component:
     """Returns rectangular pad with ports.
 
@@ -37,8 +37,6 @@ def pad(
     )
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
-    c.info["size"] = (float(size[0]), float(size[1]))
-    c.info["layer"] = layer
     c.absorb(c_ref)
 
     if bbox_layers and bbox_offsets:
@@ -56,7 +54,7 @@ def pad(
             )
             c.absorb(ref)
 
-    width = size[1] if port_orientation in [0, 180] else size[0]
+    width = size[1] if port_orientation in {0, 180} else size[0]
 
     c.add_port(
         name="pad",
@@ -75,11 +73,13 @@ pad_small = partial(pad, size=(80, 80))
 
 @cell
 def pad_array(
-    pad: ComponentSpec = "pad",
+    pad: ComponentFactory = pad,
     spacing: tuple[float, float] = (150.0, 150.0),
     columns: int = 6,
     rows: int = 1,
-    orientation: float | None = 270,
+    port_orientation: int = 0,
+    size: Float2 = (100.0, 100.0),
+    layer: LayerSpec = "MTOP",
 ) -> Component:
     """Returns 2D array of pads.
 
@@ -88,15 +88,15 @@ def pad_array(
         spacing: x, y pitch.
         columns: number of columns.
         rows: number of rows.
-        orientation: port orientation in deg. None for low speed DC ports.
+        port_orientation: port orientation in deg. None for low speed DC ports.
+        size: pad size.
+        layer: pad layer.
     """
     c = Component()
-    pad = gf.get_component(pad)
-    size = pad.settings.full["size"]
-    c.info["size"] = size
+    pad = pad(size=size, port_orientation=port_orientation, layer=layer)
 
     c.add_array(pad, columns=columns, rows=rows, spacing=spacing)
-    width = size[0] if orientation in [90, 270] else size[1]
+    width = size[0] if port_orientation in [90, 270] else size[1]
 
     for col in range(columns):
         for row in range(rows):
@@ -104,29 +104,29 @@ def pad_array(
                 name=f"e{row+1}{col+1}",
                 center=(col * spacing[0], row * spacing[1]),
                 width=width,
-                orientation=orientation,
+                orientation=port_orientation,
                 port_type="electrical",
-                layer=pad.info["layer"],
+                layer=layer,
             )
     return c
 
 
-pad_array90 = partial(pad_array, orientation=90)
-pad_array270 = partial(pad_array, orientation=270)
+pad_array90 = partial(pad_array, port_orientation=90)
+pad_array270 = partial(pad_array, port_orientation=270)
 
-pad_array0 = partial(pad_array, orientation=0, columns=1, rows=3)
-pad_array180 = partial(pad_array, orientation=180, columns=1, rows=3)
+pad_array0 = partial(pad_array, port_orientation=0, columns=1, rows=3)
+pad_array180 = partial(pad_array, port_orientation=180, columns=1, rows=3)
 
 
 if __name__ == "__main__":
     # c = pad_rectangular()
-    # c = pad()
+    c = pad()
     # c = pad(layer_to_inclusion={(3, 0): 10})
     # print(c.ports)
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
     # c = pad_array90()
-    c = pad_array0()
+    # c = pad_array0()
     # c = pad_array270()
     # c.pprint_ports()
     # c = pad_array_2d(cols=2, rows=3, port_names=("e2",))
