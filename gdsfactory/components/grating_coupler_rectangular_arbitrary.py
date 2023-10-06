@@ -22,7 +22,7 @@ def grating_coupler_rectangular_arbitrary(
     wavelength: float = 1.55,
     taper: ComponentSpec | None = taper_function,
     layer_grating: LayerSpec | None = None,
-    layer_slab: LayerSpec = "SLAB150",
+    layer_slab: LayerSpec | None = "SLAB150",
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     fiber_angle: float = 15,
