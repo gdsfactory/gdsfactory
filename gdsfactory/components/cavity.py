@@ -47,8 +47,8 @@ def cavity(
     ml = c << mirror
     mr = c << mirror
 
-    ml.connect("o1", destination=cr.ports["o2"])
-    mr.connect("o1", destination=cr.ports["o3"])
+    ml.connect("o1", other=cr.ports["o2"])
+    mr.connect("o1", other=cr.ports["o3"])
     c.add_port("o1", port=cr.ports["o1"])
     c.add_port("o2", port=cr.ports["o4"])
     c.copy_child_info(mirror)

@@ -65,7 +65,7 @@ def dbr_cell(
     c = Component()
     c1 = c << straight(length=l1, cross_section=xs1)
     c2 = c << straight(length=l2, cross_section=xs2)
-    c2.connect(port="o1", destination=c1.ports["o2"])
+    c2.connect(port="o1", other=c1.ports["o2"], allow_width_mismatch=True)
     c.add_port("o1", port=c1.ports["o1"])
     c.add_port("o2", port=c2.ports["o2"])
     return c
@@ -119,6 +119,6 @@ def dbr(
 if __name__ == "__main__":
     # c = dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10)
     c = dbr()
-    c = dbr_cell()
+    # c = dbr_cell()
     # c.assert_ports_on_grid()
     c.show()

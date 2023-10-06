@@ -32,7 +32,7 @@ def coupler_straight(
 
     top = component << straight_component
     bot = component << straight_component
-    top.movey(straight_component.info["width"] + gap)
+    top.d.movey(straight_component.info["width"] + gap)
 
     component.add_port("o1", port=bot.ports["o1"])
     component.add_port("o2", port=top.ports["o1"])
@@ -44,4 +44,4 @@ def coupler_straight(
 
 if __name__ == "__main__":
     c = coupler_straight(length=2)
-    c.show(show_ports=False)
+    c.show()
