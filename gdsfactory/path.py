@@ -48,7 +48,7 @@ class Path(_GeometryHelper):
             to create a Component.
 
     Parameters:
-        path: array-like[N][2], Path, or list of Paths. Points or Paths to append() initially.
+        path: array-like[N][2], Path, or list of Paths.
 
     """
 

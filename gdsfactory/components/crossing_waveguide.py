@@ -102,18 +102,16 @@ def crossing(
     x = gf.get_cross_section(cross_section)
     c = Component()
     arm = gf.get_component(arm)
-    arm_h = arm.ref()
-    arm_v = arm.ref(rotation=90)
-
     port_id = 0
-    for i in [arm_h, arm_v]:
-        c.add(i)
-        c.absorb(i)
-        for p in i.ports.values():
+    for rotation in [0, 1]:
+        ref = c << arm
+        ref.rotate(rotation)
+        c.absorb(ref)
+        for p in ref.ports:
             c.add_port(name=port_id, port=p)
             port_id += 1
-    c.auto_rename_ports()
 
+    c.autorename_ports()
     x.add_bbox(c)
     x.add_pins(c)
     return c
