@@ -54,6 +54,6 @@ def straight(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = straight(cross_section="xs_rc")
-    print(c.info)
+    c = gf.Component()
+    ref = c << straight(cross_section="xs_rc")
     c.show()

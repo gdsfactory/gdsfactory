@@ -62,8 +62,7 @@ def via_stack(
 
     c = Component()
     c.height = height_m
-    c.info["size"] = (float(size[0]), float(size[1]))
-    c.info["layer"] = layer_port
+    c.info["xsize"], c.info["ysize"] = size
 
     for layer, offset in zip(layers, layer_offsets):
         size_m = (width_m + 2 * offset, height_m + 2 * offset)
@@ -80,9 +79,9 @@ def via_stack(
             width += 2 * offset
             height += 2 * offset
             via = gf.get_component(via)
-            w, h = via.info["size"]
+            w, h = via.info["xsize"], via.info["ysize"]
             enclosure = via.info["enclosure"]
-            pitch_x, pitch_y = via.info["spacing"]
+            pitch_x, pitch_y = via.info["xspacing"], via.info["yspacing"]
 
             min_width = w + enclosure
             min_height = h + enclosure
@@ -124,7 +123,7 @@ def via_stack(
             ch = (height - (nb_vias_y - 1) * pitch_y - h) / 2
             x0 = -a + cw + w / 2
             y0 = -b + ch + h / 2
-            ref.move((x0, y0))
+            ref.d.move((x0, y0))
 
     return c
 
@@ -190,9 +189,9 @@ def via_stack_circular(
         metal_top = layers[level + 1]
         via = gf.get_component(via)
 
-        w, h = via.info["size"]
+        w, h = via.info["xsize"], via.info["ysize"]
         g = via.info["enclosure"]
-        pitch_x, pitch_y = via.info["spacing"]
+        pitch_x, pitch_y = via.info["xspacing"], via.info["yspacing"]
 
         nb_vias_x = (width - w - 2 * g) / pitch_x + 1
         nb_vias_x = int(np.floor(nb_vias_x)) or 1
@@ -311,7 +310,8 @@ def via_stack_from_rules(
 
     c = Component()
     c.height = height
-    c.info["size"] = (float(size[0]), float(size[1]))
+    c.info["xsize"] = size[0]
+    c.info["ysize"] = size[1]
     c.info["layer"] = layer_port
 
     layer_offsets = layer_offsets or [0] * len(layers)
@@ -325,7 +325,6 @@ def via_stack_from_rules(
             ref = c << compass(size=size, layer=layer, port_type="electrical")
 
     vias = vias or []
-    c.info["vias"] = []
     for current_via, min_size, min_gap, min_enclosure in zip(
         vias, via_min_size, via_min_gap, via_min_enclosure
     ):
@@ -334,11 +333,10 @@ def via_stack_from_rules(
             via = gf.get_component(
                 optimized_via(current_via, size, min_size, min_gap, min_enclosure)
             )
-            c.info["vias"].append(via.info)
 
-            w, h = via.info["size"]
+            w, h = via.info["xsize"], via.info["ysize"]
             g = via.info["enclosure"]
-            pitch_x, pitch_y = via.info["spacing"]
+            pitch_x, pitch_y = via.info["xspacing"], via.info["yspacing"]
 
             nb_vias_x = (width - w - 2 * g) / pitch_x + 1
             nb_vias_y = (height - h - 2 * g) / pitch_y + 1
@@ -416,11 +414,10 @@ def test_via_stack_from_rules() -> None:
         )
     )
 
-    assert c.info["vias"][0]["size"][0] > via_min_size[0][0]
-    assert c.info["vias"][0]["size"][1] > via_min_size[0][1]
+    assert c.info["vias"][0]["xsize"] > via_min_size[0][0]
+    assert c.info["vias"][0]["ysize"] > via_min_size[0][1]
     assert (
-        c.info["vias"][0]["spacing"][0]
-        == via_min_gap[0][0] + c.info["vias"][0]["size"][0]
+        c.info["vias"][0]["xspacing"] == via_min_gap[0][0] + c.info["vias"][0]["xsize"]
     )
 
 

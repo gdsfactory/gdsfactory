@@ -35,12 +35,15 @@ def align_wafer(
     w = width
 
     rh = rectangle(size=(2 * b + w, w), layer=layer, centered=True)
+    rv = rectangle(size=(w, 2 * b), layer=layer, centered=True)
+
     rtop = c.add_ref(rh)
     rbot = c.add_ref(rh)
+
+    b = int(b / c.kcl.dbu)
     rtop.movey(+b)
     rbot.movey(-b)
 
-    rv = rectangle(size=(w, 2 * b), layer=layer, centered=True)
     rl = c.add_ref(rv)
     rr = c.add_ref(rv)
     rl.movex(-b)
@@ -57,7 +60,7 @@ def align_wafer(
         "top_left": (-a, a),
     }
 
-    square_mark.move(corner_to_position[square_corner])
+    square_mark.d.move(corner_to_position[square_corner])
 
     if layer_cladding:
         rc_tile_excl = rectangle(

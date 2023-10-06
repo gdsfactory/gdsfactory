@@ -53,9 +53,11 @@ def via(
         spacing = (size[0] + gap[0], size[1] + gap[1])
 
     c = Component()
-    c.info["spacing"] = spacing
+    c.info["xspacing"] = spacing[0]
+    c.info["yspacing"] = spacing[1]
     c.info["enclosure"] = enclosure
-    c.info["size"] = size
+    c.info["xsize"] = size[0]
+    c.info["ysize"] = size[1]
 
     width, height = size
     a = width / 2
