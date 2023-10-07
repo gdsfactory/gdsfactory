@@ -38,7 +38,7 @@ def mask(size=(1000, 1000)):
 if __name__ == "__main__":
     # m = test_mask_metadata()
     # m = mask(decorator=gf.add_labels.add_labels_to_ports_x_y)
-    # m.show(show_ports=False)
+    # m.show()
 
     m = mask()
     gdspath = m.write_gds(gdspath="test_mask_metadata.gds", with_metadata=True)

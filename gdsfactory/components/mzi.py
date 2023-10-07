@@ -244,4 +244,4 @@ if __name__ == "__main__":
     # c2 = c2.flatten()
 
     # c3 = gf.grid([c2, c1])
-    # c3.show(show_ports=False)
+    # c3.show()

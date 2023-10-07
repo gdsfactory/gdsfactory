@@ -476,4 +476,4 @@ if __name__ == "__main__":
     # c = crossing_etched()
     # c = compensation_path()
     # c = crossing45(port_spacing=40)
-    c.show(show_ports=False)
+    c.show()

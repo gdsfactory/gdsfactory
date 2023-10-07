@@ -157,4 +157,4 @@ def coupler_ring_point(
 
 if __name__ == "__main__":
     c = coupler_ring(cross_section_bend="xs_sc_heater_metal")
-    c.show(show_ports=False)
+    c.show()

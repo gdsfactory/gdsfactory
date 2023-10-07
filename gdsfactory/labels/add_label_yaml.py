@@ -128,4 +128,4 @@ if __name__ == "__main__":
     print(c.labels[0].text)
     d = yaml.safe_load(c.labels[0].text) if yaml else json.loads(c.labels[0].text)
     print(d)
-    c.show(show_ports=False)
+    c.show()

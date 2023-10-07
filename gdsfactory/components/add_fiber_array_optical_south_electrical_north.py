@@ -177,4 +177,4 @@ if __name__ == "__main__":
     #     electrical_port_names=["l_e2", "r_e2"],
     #     npads=5,
     # )
-    c.show(show_ports=False)
+    c.show()

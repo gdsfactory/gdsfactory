@@ -95,4 +95,4 @@ if __name__ == "__main__":
     c = gf.routing.add_fiber_array(c)
     c = c.flatten_invalid_refs()
     # c.write_gds("./test.gds")
-    c.show(show_ports=False)
+    c.show()

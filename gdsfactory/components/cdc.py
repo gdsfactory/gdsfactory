@@ -179,4 +179,4 @@ def cdc(
 
 if __name__ == "__main__":
     c = cdc(fins=False)
-    c.show(show_ports=False)
+    c.show()

@@ -226,4 +226,4 @@ def grating_coupler_elliptical_uniform(
 if __name__ == "__main__":
     c = grating_coupler_elliptical_arbitrary(layer_grating=(3, 0))
     # c = grating_coupler_elliptical_arbitrary()
-    c.show(show_ports=False)
+    c.show()

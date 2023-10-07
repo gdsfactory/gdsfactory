@@ -125,4 +125,4 @@ def coupler_adiabatic(
 
 if __name__ == "__main__":
     c = coupler_adiabatic(length3=5)
-    c.show(show_ports=False)
+    c.show()

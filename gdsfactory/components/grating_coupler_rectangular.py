@@ -138,4 +138,4 @@ if __name__ == "__main__":
     # c = grating_coupler_rectangular()
     c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_rectangular)
     print(c.ports)
-    c.show(show_ports=False)
+    c.show()

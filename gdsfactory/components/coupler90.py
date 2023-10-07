@@ -71,4 +71,4 @@ coupler90circular = partial(coupler90, bend=bend_circular)
 
 if __name__ == "__main__":
     c = coupler90(radius=10, cross_section_bend="xs_sc_heater_metal")
-    c.show(show_ports=False)
+    c.show()

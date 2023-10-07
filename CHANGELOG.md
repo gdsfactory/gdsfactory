@@ -1873,7 +1873,7 @@ from functools import partial to all files and makes the docs cleaner by renderi
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/440)
   - add default layers to pdk. fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/437)
   - apply default_decorator before returning component if pdk.default_decorator is defined.
-- [PR](https://github.com/gdsfactory/gdsfactory/pull/441) Component.show(show_ports=False) `show_ports=False` and use `LAYER.PORT`, fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/438)
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/441) Component.show() `` and use `LAYER.PORT`, fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/438)
 
 ## [5.8.8](https://github.com/gdsfactory/gdsfactory/pull/436)
 
@@ -3642,7 +3642,7 @@ from functools import partial to all files and makes the docs cleaner by renderi
 
 ## 2.5.7
 
-- Component.show( ) adds port names and pins by default (before show_ports=False)
+- Component.show( ) adds port names and pins by default (before )
 - splitter_tree, also propagates extra coupler ports
 - add_ports_from_markers has an optional `port_layer` for the new created port.
 - component_settings = OmegaConf.to_container(component_settings, resolve=True)

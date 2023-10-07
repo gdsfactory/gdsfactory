@@ -594,7 +594,7 @@ if __name__ == "__main__":
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
     c = gf.components.straight()
-    # cc.show(show_ports=False)
+    # cc.show()
     # c.show(show_subports=True)
     # c.show( )
     c.show()

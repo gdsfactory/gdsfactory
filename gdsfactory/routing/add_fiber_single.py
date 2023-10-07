@@ -294,4 +294,4 @@ if __name__ == "__main__":
         # layer_label="TEXT"
         # layer_label=None,
     )
-    cc.show(show_ports=False)
+    cc.show()

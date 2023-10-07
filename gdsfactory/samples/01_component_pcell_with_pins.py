@@ -32,4 +32,4 @@ if __name__ == "__main__":
     wg = straight_narrow(decorator=gf.add_pins.add_pins)
 
     # By default show adds pins, so you don't need it to show_ports
-    wg.show(show_ports=False)
+    wg.show()

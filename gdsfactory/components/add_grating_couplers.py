@@ -393,4 +393,4 @@ if __name__ == "__main__":
     c = add_grating_couplers_with_loopback_fiber_array()
     c.pprint_ports()
     # c = add_grating_couplers_with_loopback_fiber_single()
-    c.show(show_ports=False)
+    c.show()

@@ -168,4 +168,4 @@ if __name__ == "__main__":
     # assert p.start_angle == 45
     # assert p.end_angle == 0
     # c = p.extrude(cross_section="xs_sc")
-    # c.show(show_ports=False)
+    # c.show()

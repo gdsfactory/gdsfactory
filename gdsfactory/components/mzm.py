@@ -193,4 +193,4 @@ if __name__ == "__main__":
 
     # c2 = gf.read.import_gds("a.gds")
     # c3 = gf.grid([c2, c1])
-    # c3.show(show_ports=False)
+    # c3.show()
