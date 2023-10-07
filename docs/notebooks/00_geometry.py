@@ -76,111 +76,33 @@ r.movex(-15)
 print(c)
 c.plot()
 
-# %% [markdown]
-# You define polygons both from `gdstk` or `Shapely`
-
 # %%
-from shapely.geometry.polygon import Polygon
-
-import gdsfactory as gf
-
 c = gf.Component()
-p0 = Polygon(zip((-8, 6, 7, 9), (-6, 8, 17, 5)))
-p1 = p0.buffer(1)
-p2 = p1.simplify(tolerance=0.1)
-c.add_polygon(p0, layer=(1, 0))
-c.add_polygon(p1, layer=(2, 0))
-c.add_polygon(p2, layer=(3, 0))
-
-c.add_polygon([(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(4, 0))
-c.plot()
-
-# %%
-p0
-
-# %%
-p1 = p0.buffer(1)
-p1
-
-# %%
-pnot = p1 - p0
-pnot
-
-# %%
-c = gf.Component("exterior")
-c.add_polygon(pnot, layer=(3, 0))
-c.plot()
-
-# %%
-p_small = p0.buffer(-1)
-p_small
-
-# %%
-p_or = pnot | p_small
-p_or
-
-# %%
-c = gf.Component("p_or")
-c.add_polygon(p_or, layer=(1, 0))
-c.plot()
-
-# %%
-import shapely as sp
-
-p5 = sp.envelope(p0)
-p5
-
-# %%
-p6 = p5 - p0
-p6
-
-# %%
-c = gf.Component("p6")
-c.add_polygon(p6, layer=(1, 0))
-c.plot()
-
-# %%
-c = gf.Component("demo_multilayer")
-p0 = c.add_polygon(p0, layer={(2, 0), (3, 0)})
-c.plot()
-
-# %%
-c = gf.Component("demo_mirror")
-p0 = c.add_polygon(p0, layer=(1, 0))
-p9 = c.add_polygon(p0, layer=(2, 0))
-p9.mirror()
-c.plot()
-
-# %%
-c = gf.Component("demo_xmin")
-p0 = c.add_polygon(p0, layer=(1, 0))
-p9 = c.add_polygon(p0, layer=(2, 0))
-p9.mirror()
-p9.xmin = p0.xmax
-c.plot()
-
-# %%
-c = gf.Component("enclosure1")
-r = c << gf.components.ring_single()
+p1 = c.add_polygon([(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0))
+p2 = p1 + 2
+p2 = c.add_polygon(p2, layer=(2, 0))
+p3 = p2 - p1
+p3 = c.add_polygon(p3, layer=(3, 0))
 c.plot()
 
 
 # %%
-c = gf.Component("enclosure2")
-r = c << gf.components.ring_single()
-p = c.get_polygon_bbox()
-c.add_polygon(p, layer=(2, 0))
+c = gf.Component()
+c.add_polygon(p1, layer=(1, 0))
 c.plot()
 
 # %%
-c = gf.Component("enclosure3")
-r = c << gf.components.ring_single()
-p = c.get_polygon_bbox(top=3, bottom=3)
-c.add_polygon(p, layer=(2, 0))
+c = gf.Component()
+c.add_polygon(p2, layer=(2, 0))
 c.plot()
 
 # %%
-c = gf.Component("enclosure3")
+c = gf.Component()
+c.add_polygon(p3, layer=(3, 0))
+c.plot()
+
+# %%
+c = gf.Component()
 r = c << gf.components.ring_single()
 p = c.get_polygon_enclosure()
 c.add_polygon(p, layer=(2, 0))

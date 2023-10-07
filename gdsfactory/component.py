@@ -20,6 +20,51 @@ if TYPE_CHECKING:
 ComponentReference = kf.Instance
 
 
+def size(region: kdb.Region, offset: float, dbu=1e3) -> kdb.Region:
+    return region.dup().size(int(offset * dbu))
+
+
+def boolean_or(region1: kdb.Region, region2: kdb.Region) -> kdb.Region:
+    return region1.__or__(region2)
+
+
+def boolean_not(region1: kdb.Region, region2: kdb.Region) -> kdb.Region:
+    return kdb.Region.__sub__(region1, region2)
+
+
+def copy(region: kdb.Region) -> kdb.Region:
+    return region.dup()
+
+
+class Region(kdb.Region):
+    def __iadd__(self, offset) -> kdb.Region:
+        """Adds an offset to the layer."""
+        return size(self, offset)
+
+    def __isub__(self, offset) -> kdb.Region:
+        """Adds an offset to the layer."""
+        return size(self, -offset)
+
+    def __add__(self, element) -> kdb.Region:
+        if isinstance(element, float | int):
+            return size(self, element)
+
+        elif isinstance(element, kdb.Region):
+            return boolean_or(self, element)
+        else:
+            raise ValueError(f"Cannot add type {type(element)} to region")
+
+    def __sub__(self, element) -> kdb.Region | None:
+        if isinstance(element, float | int):
+            return size(self, -element)
+
+        elif isinstance(element, kdb.Region):
+            return boolean_not(self, element)
+
+    def copy(self) -> kdb.Region:
+        return self.dup()
+
+
 class Component(kf.KCell):
     """A Component is an empty canvas where you add polygons, references and ports \
             (to connect to other components).
@@ -111,7 +156,9 @@ class Component(kf.KCell):
                 port_type=port_type,
             )
 
-    def add_polygon(self, points: np.ndarray | kdb.Polygon, layer: LayerSpec):
+    def add_polygon(
+        self, points: np.ndarray | kdb.Polygon | Region, layer: LayerSpec
+    ) -> Region:
         """Adds a Polygon to the Component.
 
         Args:
@@ -122,13 +169,26 @@ class Component(kf.KCell):
 
         layer = get_layer(layer)
 
-        if not isinstance(points, kdb.DPolygon):
+        if isinstance(points, np.ndarray):
+            polygon = kf.dpolygon_from_array(points)
+
+        elif isinstance(points, tuple | list):
             if len(points) == 2:
                 x, y = points
                 points = list(zip(x, y))
-            points = kdb.DPolygon([kdb.DPoint(point[0], point[1]) for point in points])
+            polygon = kdb.DPolygon([kdb.DPoint(point[0], point[1]) for point in points])
 
-        self.shapes(layer).insert(points)
+        elif isinstance(
+            points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region
+        ):
+            polygon = points
+
+        self.shapes(layer).insert(polygon)
+
+        if not isinstance(polygon, kdb.Region):
+            return Region(polygon.to_itype(self.kcl.dbu))
+        else:
+            return polygon
 
     def add_label(
         self,
@@ -347,16 +407,22 @@ if __name__ == "__main__":
     # c.create_port(name="o1", position=(10, 10), angle=1, layer=LAYER.WG, width=2000)
     # c.add_port(name="o1", center=(0, 0), orientation=270, layer=LAYER.WG, width=2.0)
     # c.add_label(text="hello", position=(2, 2), layer=LAYER.TEXT)
+    # p = c.add_polygon(np.array(list(zip((-8, 6, 7, 9), (-6, 8, 17, 5)))), layer=(1, 0))
 
-    import gdsfactory as gf
+    p = c.add_polygon([(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0))
+    p2 = p + 2
+    p2 = c.add_polygon(p2, layer=(1, 0))
 
-    P = gf.path.straight(length=10)
-    s0 = gf.Section(
-        width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    )
-    s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
-    x1 = gf.CrossSection(sections=(s0, s1))
-    c1 = gf.path.extrude(P, x1)
-    ref = c.add_ref(c1)
-    c.add_ports(ref.ports)
+    p3 = p2 - p
+    p3 = c.add_polygon(p3, layer=(2, 0))
+
+    # P = gf.path.straight(length=10)
+    # s0 = gf.Section(
+    #     width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    # )
+    # s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
+    # x1 = gf.CrossSection(sections=(s0, s1))
+    # c1 = gf.path.extrude(P, x1)
+    # ref = c.add_ref(c1)
+    # c.add_ports(ref.ports)
     c.show()
