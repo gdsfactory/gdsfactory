@@ -81,4 +81,5 @@ if __name__ == "__main__":
 
     df = pd.read_csv(csvpath)
     print(df)
+    c.write_gds('/home/j/sample_reticle.gds')
     c.show(show_ports=True)

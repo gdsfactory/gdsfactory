@@ -11,7 +11,6 @@ instances:
     settings:
       dy: -500
 
-
   gc1:
     component: gc_te1550
 
