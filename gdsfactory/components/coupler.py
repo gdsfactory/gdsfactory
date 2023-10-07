@@ -68,9 +68,9 @@ def coupler(
     c.add_port("o3", port=sr.ports["o3"])
     c.add_port("o4", port=sr.ports["o4"])
 
-    c.absorb(sl)
-    c.absorb(sr)
-    c.absorb(cs)
+    # c.absorb(sl)
+    # c.absorb(sr)
+    # c.absorb(cs)
     c.info["length"] = sbend.info["length"]
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     c.auto_rename_ports()
@@ -83,4 +83,4 @@ def coupler(
 
 if __name__ == "__main__":
     c = coupler(gap=0.2)
-    c.show(show_ports=False)
+    c.show()

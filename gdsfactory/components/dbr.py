@@ -79,6 +79,7 @@ def dbr(
     l2: float = period / 2,
     n: int = 10,
     cross_section: CrossSectionSpec = "xs_sc",
+    straight_length:float=10e-3,
     **kwargs,
 ) -> Component:
     """Distributed Bragg Reflector.
@@ -107,18 +108,25 @@ def dbr(
     l1 = snap_to_grid(l1)
     l2 = snap_to_grid(l2)
     xs = gf.get_cross_section(cross_section, **kwargs)
+    s1 = c << straight(cross_section=xs, length=straight_length)
+    s2 = c << straight(cross_section=xs, length=straight_length)
+
     cell = dbr_cell(w1=w1, w2=w2, l1=l1, l2=l2, cross_section=cross_section)
     c.add_array(cell, columns=n, rows=1, spacing=(l1 + l2, 100))
-    c.add_port("o1", port=cell.ports["o1"])
-    p1 = c.add_port("o2", port=cell.ports["o2"])
-    p1.center = [(l1 + l2) * n, 0]
+
+    s1.connect(port="o1", other=cell.ports["o1"], allow_width_mismatch=True)
+    s2.connect(port="o1", other=cell.ports["o2"], allow_width_mismatch=True)
+
+    c.add_port("o1", port=s1.ports["o2"])
+    c.add_port("o2", port=s2.ports["o2"])
+
     xs.add_pins(c)
     return c
 
 
 if __name__ == "__main__":
     # c = dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10)
-    c = dbr()
+    c = dbr(n=1)
     # c = dbr_cell()
     # c.assert_ports_on_grid()
     c.show()
