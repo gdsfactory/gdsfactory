@@ -98,10 +98,10 @@ class Component(kf.KCell):
             self.create_port(
                 name=name,
                 position=(
-                    center[0] / self.kcl.dbu,
-                    center[1] / self.kcl.dbu,
+                    np.round(center[0] / self.kcl.dbu),
+                    np.round(center[1] / self.kcl.dbu),
                 ),
-                width=int(width / self.kcl.dbu),
+                width=int(np.round(width / self.kcl.dbu)),
                 angle=int(orientation // 90),
                 layer=layer,
                 port_type=port_type,

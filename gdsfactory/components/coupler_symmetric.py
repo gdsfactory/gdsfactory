@@ -40,21 +40,26 @@ def coupler_symmetric(
     c = Component()
     x = gf.get_cross_section(cross_section)
     width = x.width
+
+    gap = gf.snap.snap_to_grid2x(gap)
+    dy = gf.snap.snap_to_grid2x((dy - gap - width) / 2)
+
     bend_component = gf.get_component(
         bend,
-        size=(dx, (dy - gap - width) / 2),
+        size=(dx, dy),
         cross_section=cross_section,
     )
 
-    gap = gf.snap.snap_to_grid2x(gap) / c.kcl.dbu
+    gap = gap / c.kcl.dbu
     w = bend_component.ports["o1"].width
-    y = int(w + gap)
+    y = int(w + gap) // 2
 
     top_bend = c << bend_component
     bot_bend = c << bend_component
 
     bot_bend.mirror_y()
     top_bend.movey(+y)
+    bot_bend.movey(-y)
 
     c.add_port("o1", port=bot_bend.ports["o1"])
     c.add_port("o2", port=top_bend.ports["o1"])
