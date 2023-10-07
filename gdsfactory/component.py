@@ -169,14 +169,8 @@ class Component(kf.KCell):
 
         layer = get_layer(layer)
 
-        if isinstance(points, np.ndarray):
+        if isinstance(points, tuple | list | np.ndarray):
             polygon = kf.dpolygon_from_array(points)
-
-        elif isinstance(points, tuple | list):
-            if len(points) == 2:
-                x, y = points
-                points = list(zip(x, y))
-            polygon = kdb.DPolygon([kdb.DPoint(point[0], point[1]) for point in points])
 
         elif isinstance(
             points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region
@@ -409,7 +403,7 @@ if __name__ == "__main__":
     # c.add_label(text="hello", position=(2, 2), layer=LAYER.TEXT)
     # p = c.add_polygon(np.array(list(zip((-8, 6, 7, 9), (-6, 8, 17, 5)))), layer=(1, 0))
 
-    p = c.add_polygon([(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0))
+    p = c.add_polygon(list(zip((-8, 6, 7, 9), (-6, 8, 17, 5))), layer=(1, 0))
     p2 = p + 2
     p2 = c.add_polygon(p2, layer=(1, 0))
 

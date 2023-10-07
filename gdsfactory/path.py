@@ -1463,7 +1463,7 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    P = gf.path.straight(length=10)
+    P = gf.path.arc()
     s0 = gf.Section(
         width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
     )
