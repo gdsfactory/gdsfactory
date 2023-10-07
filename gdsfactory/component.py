@@ -7,11 +7,15 @@ from typing import TYPE_CHECKING
 import kfactory as kf
 import numpy as np
 from kfactory import kdb
+from kfactory.kcell import default_save
 
 from gdsfactory.port import select_ports
 
+import pathlib
+from gdsfactory.config import GDSDIR_TEMP
+
 if TYPE_CHECKING:
-    from gdsfactory.typings import CrossSection, LayerSpec
+    from gdsfactory.typings import CrossSection, LayerSpec, PathType
 
 ComponentReference = kf.Instance
 
@@ -303,6 +307,36 @@ class Component(kf.KCell):
 
     def auto_rename_ports(self) -> None:
         self.autorename_ports()
+
+    def write_gds(
+        self,
+        gdspath: PathType | None = None,
+        gdsdir: PathType | None = None,
+        save_options: kdb.SaveLayoutOptions = default_save(),
+        **kwargs,
+    ) -> pathlib.Path:
+        """Write component to GDS and returns gdspath.
+
+        Args:
+            gdspath: GDS file path to write to.
+            gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
+            save_options: klayout save options.
+        """
+        if gdspath and gdsdir:
+            warnings.warn(
+                "gdspath and gdsdir have both been specified. "
+                "gdspath will take precedence and gdsdir will be ignored.",
+                stacklevel=3,
+            )
+        gdsdir = gdsdir or GDSDIR_TEMP
+        gdsdir = pathlib.Path(gdsdir)
+        gdspath = gdspath or gdsdir / f"{self.name}.gds"
+
+        if kwargs:
+            warnings.warn(f"{kwargs.keys()} is deprecated")
+
+        self.write(filename=str(gdspath), save_options=save_options)
+        return gdspath
 
 
 if __name__ == "__main__":

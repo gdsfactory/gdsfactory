@@ -64,4 +64,5 @@ if __name__ == "__main__":
     # ref.name = "straight"
     # print(c.insts['straight'].ports)
     c = straight(cross_section="xs_rc")
+    gdspath = c.write_gds()
     c.show()

@@ -34,7 +34,7 @@ import gdsfactory as gf
 
 def demo_polygons():
     # Create a blank component (essentially an empty GDS cell with some special features)
-    c = gf.Component("demo")
+    c = gf.Component()
 
     # Create and add a polygon from separate lists of x points and y points
     # (Can also be added like [(x1,y1), (x2,y2), (x3,y3), ... ]
@@ -55,10 +55,10 @@ c.plot()  # plot it in jupyter notebook
 # Make a component similar to the one above that has a second polygon in layer (2, 0)
 
 # %%
-c = gf.Component("myComponent2")
+c = gf.Component()
 # Create some new geometry from the functions available in the geometry library
 t = gf.components.text("Hello!")
-r = gf.components.rectangle(size=[5, 10], layer=(2, 0))
+r = gf.components.rectangle(size=(5, 10), layer=(2, 0))
 
 # Add references to the new geometry to c, our blank component
 text1 = c.add_ref(t)  # Add the text we created as a reference
@@ -84,7 +84,7 @@ from shapely.geometry.polygon import Polygon
 
 import gdsfactory as gf
 
-c = gf.Component("Mixed_polygons")
+c = gf.Component()
 p0 = Polygon(zip((-8, 6, 7, 9), (-6, 8, 17, 5)))
 p1 = p0.buffer(1)
 p2 = p1.simplify(tolerance=0.1)
