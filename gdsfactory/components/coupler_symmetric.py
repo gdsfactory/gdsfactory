@@ -57,14 +57,14 @@ def coupler_symmetric(
     top_bend.movey(+y)
     bot_bend.movey(-y)
 
-    c.absorb(top_bend)
-    c.absorb(bot_bend)
-
     c.add_port("o1", port=bot_bend.ports["o1"])
     c.add_port("o2", port=top_bend.ports["o1"])
 
     c.add_port("o3", port=top_bend.ports["o2"])
     c.add_port("o4", port=bot_bend.ports["o2"])
+
+    c.absorb(top_bend)
+    c.absorb(bot_bend)
     c.info["length"] = bend_component.info["length"]
     c.info["min_bend_radius"] = bend_component.info["min_bend_radius"]
     return c

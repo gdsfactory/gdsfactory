@@ -25,21 +25,25 @@ def coupler_straight(
                 │gap
         o1──────▼─────────o4
     """
-    component = Component()
-    straight_component = straight(
-        length=length, cross_section=cross_section, add_pins=False
-    )
+    c = Component()
+    _straight = straight(length=length, cross_section=cross_section, add_pins=False)
 
-    top = component << straight_component
-    bot = component << straight_component
-    top.d.movey(straight_component.info["width"] + gap)
+    top = c << _straight
+    bot = c << _straight
 
-    component.add_port("o1", port=bot.ports["o1"])
-    component.add_port("o2", port=top.ports["o1"])
-    component.add_port("o3", port=bot.ports["o2"])
-    component.add_port("o4", port=top.ports["o2"])
-    component.auto_rename_ports()
-    return component
+    gap = gap / c.kcl.dbu
+    w = _straight.ports["o1"].width
+    y = int((w + gap) / 2)
+
+    top.movey(+y)
+    bot.movey(-y)
+
+    c.add_port("o1", port=bot.ports["o1"])
+    c.add_port("o2", port=top.ports["o1"])
+    c.add_port("o3", port=bot.ports["o2"])
+    c.add_port("o4", port=top.ports["o2"])
+    c.auto_rename_ports()
+    return c
 
 
 if __name__ == "__main__":
