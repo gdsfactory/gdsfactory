@@ -56,9 +56,12 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.Component()
-    ref = c << straight(cross_section="xs_rc")
-    ref2 = c << straight(cross_section="xs_rc")
-    ref2.center = ref.center + kdb.Point(0, 1000)
-    ref2.d.move((0, 10))
+    # c = gf.Component()
+    # ref = c << straight(cross_section="xs_rc")
+    # ref2 = c << straight(cross_section="xs_rc")
+    # ref2.center = ref.center + kdb.Point(0, 1000)
+    # ref2.d.move((0, 10))
+    # ref.name = "straight"
+    # print(c.insts['straight'].ports)
+    c = straight(cross_section="xs_rc")
     c.show()

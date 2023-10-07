@@ -242,8 +242,16 @@ class Component(kf.KCell):
         reference.flatten()
         return self
 
-    def add_ref(self, component: Component, **kwargs) -> kf.Instance:
-        return self.create_inst(component)
+    def add_ref(
+        self, component: Component, name: str | None = None, alias: str | None = None
+    ) -> kf.Instance:
+        inst = self.create_inst(component)
+        if alias:
+            warnings.warn("alias is deprecated, use name instead")
+            inst.name = alias
+        elif name:
+            inst.name = name
+        return inst
 
     @classmethod
     def __get_validators__(cls):

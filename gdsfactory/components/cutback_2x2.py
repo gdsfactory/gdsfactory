@@ -38,8 +38,7 @@ def bendu_double(
         cross_section=xs_r2,
     )
     bend_r2 = bend_r2.move(
-        origin=(0, 0),
-        other=(0, component.ports[port1].y - component.ports[port2].y),
+        (0, component.ports[port1].y - component.ports[port2].y),
     )
     bendu.add_port("o1", port=bend_r.ports["o1"])
     bendu.add_port("o2", port=bend_r2.ports["o1"])
@@ -75,10 +74,9 @@ def straight_double(
         length=straight_length or xs.radius * 2, cross_section=xs
     )
     straight_r = straight_double << straight_component
-    straight_r2 = straight_double << straight_component2.mirror((1, 0))
+    straight_r2 = straight_double << straight_component2
     straight_r2 = straight_r2.move(
-        origin=(0, 0),
-        other=(0, -component.ports[port1].y + component.ports[port2].y),
+        (0, -component.ports[port1].y + component.ports[port2].y),
     )
     straight_double.add_port("o1", port=straight_r.ports["o1"])
     straight_double.add_port("o2", port=straight_r2.ports["o1"])

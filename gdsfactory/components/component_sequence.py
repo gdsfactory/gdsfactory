@@ -124,7 +124,7 @@ def component_sequence(
 
     named_references_counter.update({name_start_device: 1})
     alias = f"{name_start_device}{named_references_counter[name_start_device]}"
-    prev_device = component.add_ref(component_input, alias=alias)
+    prev_device = component.add_ref(component_input, name=alias)
 
     if do_flip:
         prev_device = _flip_ref(prev_device, input_port)
@@ -158,8 +158,8 @@ def component_sequence(
         component_i = gf.get_component(component_i)
 
         named_references_counter.update({s: 1})
-        alias = f"{s}{named_references_counter[s]}"
-        ref = component.add_ref(component_i, alias=alias)
+        ref_name = f"{s}{named_references_counter[s]}"
+        ref = component.add_ref(component_i, name=ref_name)
 
         if do_flip:
             ref = _flip_ref(ref, input_port)
@@ -187,8 +187,8 @@ def component_sequence(
         raise
 
     # Add any extra port specified in ports_map
-    for name, (alias, alias_port_name) in ports_map.items():
-        component.add_port(name=name, port=component[alias].ports[alias_port_name])
+    for name, (ref_name, alias_port_name) in ports_map.items():
+        component.add_port(name=name, port=component.insts[ref_name].ports[alias_port_name])
 
     return component
 

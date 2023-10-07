@@ -163,14 +163,13 @@ def taper_strip_to_ridge(
     )
 
     c = gf.Component()
-    for _t in [taper_wg, taper_slab]:
-        taper_ref = _t.ref()
-        c.add(taper_ref)
+    for t in [taper_wg, taper_slab]:
+        taper_ref = c << t
         c.absorb(taper_ref)
 
     c.info["length"] = length
     c.add_port(name="o1", port=taper_wg.ports["o1"])
-    c.add_port(name="o2", port=taper_slab.ports["o2"])
+    c.add_port(name="o2", port=taper_wg.ports["o2"])
 
     if length:
         xs.add_bbox(c)
@@ -242,8 +241,8 @@ taper_sc_nc = partial(
 
 if __name__ == "__main__":
     # c = taper_strip_to_ridge_trenches()
-    # c = taper_strip_to_ridge()
+    c = taper_strip_to_ridge()
     # c = taper(width1=1.5, width2=1, cross_section="xs_rc")
     # c = taper_sc_nc()
-    c = taper()
+    # c = taper()
     c.show()
