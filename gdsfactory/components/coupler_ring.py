@@ -76,32 +76,26 @@ def coupler_ring(
     # add references to subcells
     cbl = c << coupler90_component
     cbr = c << coupler90_component
-    cs = coupler_straight_component.ref()
-
-    if length_x > 0:
-        c.add(cs)
+    cs = c << coupler_straight_component
 
     # connect references
-    y = coupler90_component.y
     cs.connect(port="o4", other=cbr.ports["o1"])
-    cbl.mirror(p1=(0, y), p2=(1, y))
-    cbl.connect(port="o2", other=cs.ports["o2"])
+    cbl.connect(port="o2", other=cs.ports["o2"], mirror=True)
 
     s = straight(length=length_extension, cross_section=xs_no_pins)
-
     s1 = c << s
     s2 = c << s
 
-    s1.connect("o2", cbl["o4"])
-    s2.connect("o1", cbr["o4"])
+    s1.connect("o2", cbl.ports["o4"])
+    s2.connect("o1", cbr.ports["o4"])
 
-    c.add_port("o1", port=s1["o1"])
-    c.add_port("o2", port=cbl["o3"])
-    c.add_port("o3", port=cbr["o3"])
-    c.add_port("o4", port=s2["o2"])
+    c.add_port("o1", port=s1.ports["o1"])
+    c.add_port("o2", port=cbl.ports["o3"])
+    c.add_port("o3", port=cbr.ports["o3"])
+    c.add_port("o4", port=s2.ports["o2"])
 
-    c.add_ports(cbl.get_ports_list(port_type="electrical"), prefix="cbl")
-    c.add_ports(cbr.get_ports_list(port_type="electrical"), prefix="cbr")
+    c.add_ports(gf.port.select_ports_list(ports=cbl.ports, port_type="electrical"), prefix="cbl")
+    c.add_ports(gf.port.select_ports_list(ports=cbr.ports, port_type="electrical"), prefix="cbr")
     c.auto_rename_ports()
     xs.add_pins(c)
     return c
@@ -157,4 +151,5 @@ def coupler_ring_point(
 
 if __name__ == "__main__":
     c = coupler_ring(cross_section_bend="xs_sc_heater_metal")
+    # c = coupler_ring()
     c.show()

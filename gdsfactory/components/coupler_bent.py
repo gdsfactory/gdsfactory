@@ -43,8 +43,8 @@ def coupler_bent_half(
         angle=-alpha, cross_section=xs2, add_pins=False
     )
 
-    outer_bend.movey(+(width1 + gap) / 2)
-    inner_bend.movey(-(width2 + gap) / 2)
+    outer_bend.d.movey(+(width1 + gap) / 2)
+    inner_bend.d.movey(-(width2 + gap) / 2)
 
     outer_straight = c << gf.components.straight(
         length=length, cross_section=xs1, npoints=100, add_pins=False
@@ -95,7 +95,7 @@ def coupler_bent_half(
     c.absorb(outer_exit_bend)
     c.absorb(inner_exit_bend_down)
     c.absorb(inner_exit_bend_up)
-    c = c.flatten_invalid_refs()
+    c.flatten()
     return c
 
 
@@ -145,7 +145,6 @@ def coupler_bent(
 
     left_half.mirror_x()
     left_half.connect(port="o1", other=right_half.ports["o1"])
-    c = c.flatten()
 
     c.add_port("o1", port=left_half.ports["o3"])
     c.add_port("o2", port=left_half.ports["o4"])
@@ -153,10 +152,11 @@ def coupler_bent(
     c.add_port("o4", port=right_half.ports["o4"])
 
     xs.add_pins(c)
+    c.flatten()
     return c
 
 
 if __name__ == "__main__":
-    # c = coupler_bent_half()
-    c = coupler_bent()
+    c = coupler_bent_half()
+    # c = coupler_bent()
     c.show()

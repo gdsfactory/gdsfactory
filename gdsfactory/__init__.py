@@ -38,6 +38,7 @@ from gdsfactory import decorators
 from gdsfactory import cross_section
 from gdsfactory import labels
 from gdsfactory import asserts
+from gdsfactory import port
 from gdsfactory import components
 from gdsfactory import typings
 from gdsfactory import path
@@ -126,6 +127,7 @@ __all__ = (
     "partial",
     "Polygon",
     "path",
+    "port",
     "read",
     "show",
     "snap",

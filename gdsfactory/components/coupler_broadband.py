@@ -61,7 +61,7 @@ def coupler_broadband(
     _bend = bend(radius=radius, cross_section=cross_section)
     bend_lt = c << _bend
     bend_lb = c << _bend
-    bend_lt.mirror()
+    bend_lt.mirror_y()
 
     bend_lb.connect("o1", coupler1.ports["o1"])
     bend_lt.connect("o1", coupler1.ports["o2"])
