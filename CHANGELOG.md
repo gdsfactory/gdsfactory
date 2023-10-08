@@ -10,8 +10,7 @@
 
 ## [7.8.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.5) - 2023-10-03
 
-No significant changes.
-
+- bbox does not extend beyond ports in bends [#2154](https://github.com/gdsfactory/gdsfactory/pull/#2154)
 
 ## [7.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.4) - 2023-10-02
 

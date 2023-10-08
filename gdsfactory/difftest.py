@@ -220,7 +220,7 @@ def overwrite(ref_file, run_file):
 def read_top_cell(arg0):
     from kfactory import KCLayout
 
-    kcl = KCLayout()
+    kcl = KCLayout(name=str(arg0))
     kcl.read(arg0)
     return kcl[kcl.top_cell().name]
 
