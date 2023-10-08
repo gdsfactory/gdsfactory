@@ -37,22 +37,22 @@ def add_fiducials(
 
     if left:
         x1 = c << gf.get_component(left)
-        x1.xmax = r.d.xmin - gap
+        x1.d.xmax = r.d.xmin - gap
         c.add_ports(x1.ports, prefix="l")
 
     if right:
         x2 = c << gf.get_component(right)
-        x2.xmin = r.d.xmax + gap
+        x2.d.xmin = r.d.xmax + gap
         c.add_ports(x2.ports, prefix="r")
 
     if top:
         y1 = c << gf.get_component(top)
-        y1.ymin = r.d.ymax + gap
+        y1.d.ymin = r.d.ymax + gap
         c.add_ports(y1.ports, prefix="t")
 
     if bottom:
         y2 = c << gf.get_component(bottom)
-        y2.ymax = r.d.ymin - gap
+        y2.d.ymax = r.d.ymin - gap
         c.add_ports(y2.ports, prefix="b")
 
     c.add_ports(r.ports)
@@ -88,10 +88,6 @@ def add_fiducials_offsets(
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import get_generic_pdk
-
-    PDK = get_generic_pdk()
-    PDK.activate()
-    # c = add_fiducials(top='cross')
-    c = add_fiducials_offsets()
+    c = add_fiducials()
+    # c = add_fiducials_offsets()
     c.show()
