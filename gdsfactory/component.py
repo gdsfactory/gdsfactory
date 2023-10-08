@@ -99,7 +99,7 @@ class Component(kf.KCell):
         self,
         name: str,
         port: kf.Port | None = None,
-        center: tuple[float, float] | None = None,
+        center: tuple[float, float] | kf.kdb.Point | None = None,
         width: float | None = None,
         orientation: float | None = None,
         layer: LayerSpec | None = None,
@@ -141,14 +141,16 @@ class Component(kf.KCell):
 
             if center is None:
                 raise ValueError("Must specify center")
+            elif isinstance(center, list | tuple):
+                center = (
+                    center[0] / kf.kcl.dbu,
+                    center[1] / kf.kcl.dbu,
+                )
 
             layer = get_layer(layer)
             self.create_port(
                 name=name,
-                position=(
-                    np.round(center[0] / self.kcl.dbu),
-                    np.round(center[1] / self.kcl.dbu),
-                ),
+                position=center,
                 width=int(np.round(width / self.kcl.dbu)),
                 angle=int(orientation // 90),
                 layer=layer,

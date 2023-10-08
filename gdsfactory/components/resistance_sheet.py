@@ -13,14 +13,14 @@ pad_via_stack_slab_npp = partial(via_stack_slab_npp_m3, size=(80, 80))
 
 @cell
 def resistance_sheet(
-    width: float = 10,
+    width: float = 10.0,
     layers: LayerSpecs = ("SLAB90", "NPP"),
     layer_offsets: Floats = (0, 0.2),
     pad: ComponentSpec = pad_via_stack_slab_npp,
+    pad_size: tuple[float, float] = (50.0, 50.0),
     pad_pitch: float = 100.0,
     ohms_per_square: float | None = None,
-    port_orientation1: int = 180,
-    port_orientation2: int = 0,
+    pad_port_name: int = "e4",
 ) -> Component:
     """Returns Sheet resistance.
 
@@ -38,8 +38,8 @@ def resistance_sheet(
     """
     c = Component()
 
-    pad = pad()
-    length = pad_pitch - pad.get_setting("size")[0]
+    pad = pad(size=pad_size)
+    length = pad_pitch - pad_size[0]
 
     pad1 = c << pad
     pad2 = c << pad
@@ -52,27 +52,38 @@ def resistance_sheet(
         r = c << compass(size=(length + 2 * offset, width + 2 * offset), layer=layer)
         c.absorb(r)
 
-    pad1.connect("e3", r0.ports["e1"])
-    pad2.connect("e1", r0.ports["e3"])
+    pad1.connect(
+        "e3", r0.ports["e1"], allow_width_mismatch=True, allow_layer_mismatch=True
+    )
+    pad2.connect(
+        "e1", r0.ports["e3"], allow_width_mismatch=True, allow_layer_mismatch=True
+    )
 
-    c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else None
-
+    c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else 0
     c.add_port(
-        "pad1",
-        port_type="vertical_dc",
-        center=pad1.center,
-        layer=list(layers)[-1],
-        width=width,
-        orientation=port_orientation1,
+        name="pad1",
+        port=pad1.ports[pad_port_name],
     )
     c.add_port(
-        "pad2",
-        port_type="vertical_dc",
-        center=pad2.center,
-        layer=list(layers)[-1],
-        width=width,
-        orientation=port_orientation2,
+        name="pad2",
+        port=pad2.ports[pad_port_name],
     )
+    # c.add_port(
+    #     name="pad1",
+    #     port_type="vertical_dc",
+    #     center=pad1.center,
+    #     layer=list(layers)[-1],
+    #     width=width,
+    #     orientation=port_orientation1,
+    # )
+    # c.add_port(
+    #     name="pad2",
+    #     port_type="vertical_dc",
+    #     center=pad2.center,
+    #     layer=list(layers)[-1],
+    #     width=width,
+    #     orientation=port_orientation2,
+    # )
     c.absorb(pad1)
     c.absorb(pad2)
     return c

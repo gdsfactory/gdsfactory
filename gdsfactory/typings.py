@@ -170,6 +170,7 @@ ComponentSpec = (
 )  # PCell function, function name, dict or Component
 
 ComponentSpecs = tuple[ComponentSpec, ...]
+ComponentFactories = tuple[ComponentFactory, ...]
 
 ComponentSpecOrList = ComponentSpec | list[ComponentSpec]
 CellSpec = (

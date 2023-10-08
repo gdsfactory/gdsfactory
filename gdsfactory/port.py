@@ -45,7 +45,7 @@ if typing.TYPE_CHECKING:
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
-LayerSpec = Layer | int | str | None
+LayerSpec = Layer | str | None | kf.LayerEnum
 LayerSpecs = tuple[LayerSpec, ...]
 Float2 = tuple[float, float]
 valid_error_types = ["error", "warn", "ignore"]
@@ -82,9 +82,9 @@ class Port(kf.Port):
         self,
         name: str,
         orientation: float | None,
-        center: tuple[float, float],
-        width: float | None = None,
-        layer: tuple[int, int] | None = None,
+        center: tuple[float, float] | kf.kdb.Point | kf.kdb.DPoint,
+        width: float,
+        layer: LayerSpec = None,
         port_type: str = "optical",
         cross_section: CrossSectionSpec | None = None,
     ) -> None:
@@ -115,13 +115,16 @@ class Port(kf.Port):
         if width < 0:
             raise ValueError(f"Port width must be >=0. Got {width}")
 
+        if isinstance(center, list | tuple):
+            center = (
+                center[0] / kf.kcl.dbu,
+                center[1] / kf.kcl.dbu,
+            )
+
         super().__init__(
             name=name,
             angle=int(orientation // 90),
-            position=(
-                center[0] / kf.kcl.dbu,
-                center[1] / kf.kcl.dbu,
-            ),
+            position=center,
             layer=get_layer(layer),
             width=width,
             port_type=port_type,
