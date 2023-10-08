@@ -46,21 +46,30 @@ def coupler_asymmetric(
 
     w = bend_component.ports["o1"].width
     gap = gap / c.kcl.dbu
-    y = int(w + gap)
+    y = int(w + gap) // 2
 
     wg = c << wg
     bend = c << bend_component
-    bend.movey(+y)
+    bend.mirror_y()
+
+    bend.xmin = 0
+    wg.xmin = 0
+
+    bend.movey(-y)
+    wg.movey(+y)
 
     port_width = 2 * w + gap
     c.add_port(
-        name="o1", center=(0, y/2*c.kcl.dbu), width=port_width*c.kcl.dbu, orientation=180, cross_section=x
+        name="o1",
+        center=(0, 0),
+        width=port_width * c.kcl.dbu,
+        orientation=180,
+        cross_section=x,
     )
     c.add_port(name="o3", port=bend.ports["o2"])
     c.add_port(name="o2", port=wg.ports["o2"])
 
-    c.absorb(wg)
-    c.absorb(bend)
+    c.flatten()
     return c
 
 
