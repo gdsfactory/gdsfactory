@@ -19,7 +19,14 @@ def pixel(size: int = 1.0, layer: LayerSpec = "WG") -> Component:
 
 @gf.cell
 def qrcode(data: str = "mask01", psize: int = 1, layer: LayerSpec = "WG") -> Component:
-    """Returns QRCode."""
+    """Returns QRCode.
+
+    Args:
+        data: string to encode.
+        psize: pixel size.
+        layer: layer to use.
+
+    """
     import qrcode
 
     pix = pixel(size=psize, layer=layer)
@@ -30,9 +37,9 @@ def qrcode(data: str = "mask01", psize: int = 1, layer: LayerSpec = "WG") -> Com
     for i, row in enumerate(matrix):
         for j, value in enumerate(row):
             if value:
-                pix_ref = pix.ref((i * psize, j * psize))
-                c.add(pix_ref)
-                c.absorb(pix_ref)
+                ref = c << pix
+                ref.d.center = (i * psize, j * psize)
+    c.flatten()
     return c
 
 
@@ -48,7 +55,13 @@ def version_stamp(
     """Component with module version and date.
 
     Args:
-        labels: Iterable of labels
+        labels: Iterable of labels.
+        with_qr_code: Whether to add a QR code with the date.
+        layer: Layer to use.
+        pixel_size: Pixel size.
+        version: Version string.
+        text_size: Text size.
+
     """
     now = datetime.datetime.now()
     timestamp = f"{now:%Y-%m-%d %H:%M:%S}"
@@ -57,35 +70,29 @@ def version_stamp(
     c = gf.Component()
     if with_qr_code:
         data = f"{timestamp}/{platform.node()}"
-        q = qrcode(layer=layer, data=data, psize=pixel_size).ref_center()
-        c.add(q)
-        c.absorb(q)
-
-        x = q.size_info.width * 0.5 + 10
+        q = c << qrcode(layer=layer, data=data, psize=pixel_size)
+        q.center = (0, 0)
+        x = q.d.xsize * 0.5 + 10
 
     else:
         x = 0
 
     txt_params = {"layer": layer, "justify": "left", "size": text_size}
-    date = text(
+    _ = c << text(
         position=(x, text_size + 2 * pixel_size), text=short_stamp, **txt_params
-    ).ref()
-    c.add(date)
-    c.absorb(date)
+    )
 
     if version:
-        t = text(position=(x, 0), text=version, **txt_params).ref()
-        c.add(t)
-        c.absorb(t)
+        _ = c << text(position=(x, 0), text=version, **txt_params)
 
     for i, line in enumerate(labels):
-        t = c << text(
+        _ = c << text(
             position=(x, -(i + 1) * (text_size + 2 * pixel_size)),
             text=line,
             **txt_params,
         )
-        c.absorb(t)
 
+    c.flatten()
     return c
 
 

@@ -41,7 +41,9 @@ def text(
                 for poly in _glyph[ascii_val]:
                     xpts = np.array(poly)[:, 0] * scaling
                     ypts = np.array(poly)[:, 1] * scaling
-                    label.add_polygon([xpts + xoffset, ypts + yoffset], layer=layer)
+                    label.add_polygon(
+                        list(zip(xpts + xoffset, ypts + yoffset)), layer=layer
+                    )
                 xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
             else:
                 raise ValueError(f"No character with ascii value {ascii_val!r}")
