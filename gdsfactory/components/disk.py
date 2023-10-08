@@ -26,14 +26,12 @@ def _generate_bends(c, r_bend, wrap_angle_deg, cross_section):
 
         bend_input = c << bend_input_output
         bend_middle = c << bend_middle_arc.extrude(cross_section=cross_section)
-        # bend_middle.rotate(180 + wrap_angle_deg / 2.0, center=c.center)
-        bend_middle.rotate(180 + wrap_angle_deg / 2.0)
+        bend_middle.d.rotate(180 + wrap_angle_deg / 2.0)
 
         bend_input.connect("o2", bend_middle.ports["o2"])
 
         bend_output = c << bend_input_output
-        bend_output.mirror_x()
-        bend_output.connect("o2", bend_middle.ports["o1"])
+        bend_output.connect("o2", bend_middle.ports["o1"], mirror=True)
 
         return (c, bend_input, bend_middle, bend_output)
     else:
@@ -89,6 +87,7 @@ def disk(
     c = gf.Component()
 
     xs = gf.get_cross_section(cross_section=cross_section)
+    radius_disk = radius
     radius = radius + xs.width / 2.0 + gap
     xs_bend = xs.copy(radius=radius)
 
@@ -104,7 +103,7 @@ def disk(
         c, bus_length, size_x, bend_input, bend_output, xs_bend
     )
 
-    circle = c << gf.components.circle(radius=radius, layer=xs.layer)
+    circle = c << gf.components.circle(radius=radius_disk, layer=xs.layer)
 
     circle_cladding = None
     if bend_middle is not None:
@@ -176,8 +175,8 @@ def disk_heater(
         size=(dx + 2 * heater_extent, heater_width),
         layer=heater_layer,
     )
-    heater.x = disk_instance.x
-    heater.y = dy / 2 + disk_instance.ymin + (xs.width + gap) / 2
+    heater.d.x = disk_instance.x
+    heater.d.y = dy / 2 + disk_instance.d.ymin + (xs.width + gap) / 2
 
     via = gf.get_component(via_stack, size=(via_width, via_width))
     c1 = c << via

@@ -28,7 +28,7 @@ def pads_shorted(
     pad = gf.get_component(pad)
     for i in range(columns):
         pad_ref = c.add_ref(pad)
-        pad_ref.movex(i * pad_spacing - columns / 2 * pad_spacing + pad_spacing / 2)
+        pad_ref.d.movex(i * pad_spacing - columns / 2 * pad_spacing + pad_spacing / 2)
 
     short = rectangle(
         size=(pad_spacing * (columns - 1), metal_width),
