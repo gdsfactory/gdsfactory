@@ -33,7 +33,7 @@ def coupler_straight_asymmetric(
 
     dy = 0.5 * abs(width_top - width_bot) + gap + width_top
     dy = gf.snap.snap_to_grid(dy)
-    top.movey(dy)
+    top.d.movey(dy)
 
     component.add_port("o1", port=bot.ports["o1"])
     component.add_port("o2", port=top.ports["o1"])

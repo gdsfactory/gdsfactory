@@ -95,17 +95,8 @@ def polarization_splitter_rotator(
     c.add_port("o2", port=bend_s_var.ports["o2"])
     c.add_port("o3", port=taper_out.ports["o2"])
 
-    c.absorb(coupler)
-    c.absorb(taper_in3)
-    c.absorb(taper_in2)
-    c.absorb(taper_in1)
-    c.absorb(taper_out)
-    c.absorb(bend_s_var)
-
-    c.info["length"] = bend_s_var.info["length"]
-    c.info["min_bend_radius"] = bend_s_var.info["min_bend_radius"]
     c.auto_rename_ports()
-
+    c.flatten()
     return c
 
 
