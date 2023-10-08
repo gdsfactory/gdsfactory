@@ -43,7 +43,7 @@ def bbox(
         left: west offset.
         right: east offset.
     """
-    D = gf.Component()
+    c = gf.Component()
     bbox = component.dbbox()
     xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
     points = [
@@ -52,8 +52,8 @@ def bbox(
         [xmax + right, ymax + top],
         [xmin - left, ymax + top],
     ]
-    D.add_polygon(points, layer=layer)
-    return D
+    c.add_polygon(points, layer=layer)
+    return c
 
 
 if __name__ == "__main__":

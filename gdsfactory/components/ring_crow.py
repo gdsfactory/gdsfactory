@@ -66,7 +66,7 @@ def ring_crow(
     input_straight_width = xs1.width
 
     input_straight_waveguide = c.add_ref(input_straight)
-    input_straight_waveguide.movex(-radius[0])
+    input_straight_waveguide.d.movex(-radius[0])
     c.add_port(name="o1", port=input_straight_waveguide.ports["o1"])
     c.add_port(name="o2", port=input_straight_waveguide.ports["o2"])
 
@@ -77,15 +77,15 @@ def ring_crow(
         zip(gaps, radius, bends, ring_cross_sections)
     ):
         gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-        ring = Component(f"ring{index}")
+        ring = Component()
 
         bend_c = bend(radius=r, cross_section=cross_section)
         xs = gf.get_cross_section(cross_section)
         bend_width = xs.width
-        bend1 = ring.add_ref(bend_c, alias=f"bot_right_bend_ring_{index}")
-        bend2 = ring.add_ref(bend_c, alias=f"top_right_bend_ring_{index}")
-        bend3 = ring.add_ref(bend_c, alias=f"top_left_bend_ring_{index}")
-        bend4 = ring.add_ref(bend_c, alias=f"bot_left_bend_ring_{index}")
+        bend1 = ring.add_ref(bend_c, name=f"bot_right_bend_ring_{index}")
+        bend2 = ring.add_ref(bend_c, name=f"top_right_bend_ring_{index}")
+        bend3 = ring.add_ref(bend_c, name=f"top_left_bend_ring_{index}")
+        bend4 = ring.add_ref(bend_c, name=f"bot_left_bend_ring_{index}")
 
         bend2.connect("o1", bend1.ports["o2"])
         bend3.connect("o1", bend2.ports["o2"])
@@ -113,8 +113,8 @@ def ring_crow(
 
 if __name__ == "__main__":
     c = ring_crow(
-        input_straight_cross_section="xs_rc",
-        ring_cross_sections=("xs_rc", "xs_sc", "xs_rc"),
+        # input_straight_cross_section="xs_rc",
+        # ring_cross_sections=("xs_rc", "xs_sc", "xs_rc"),
     )
     # c = ring_crow(gaps = [0.3, 0.4, 0.5, 0.2],
     #     radius = [20.0, 5.0, 15.0],

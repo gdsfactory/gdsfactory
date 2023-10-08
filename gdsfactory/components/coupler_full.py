@@ -65,21 +65,15 @@ def coupler_full(
         cross_section=x_bottom,
     )
 
-    bend_input_top = (
-        c
-        << bend_s(
-            size=(dx, (dy - gap - x_top.width) / 2.0), cross_section=x_top
-        ).mirror()
+    bend_input_top = c << bend_s(
+        size=(dx, (dy - gap - x_top.width) / 2.0), cross_section=x_top
     )
-    bend_input_top.movey(origin=0, other=(x_top.width + gap) / 2.0)
+    bend_input_top.d.movey((x_top.width + gap) / 2.0)
 
-    bend_input_bottom = (
-        c
-        << bend_s(
-            size=(dx, (-dy + gap + x_bottom.width) / 2.0), cross_section=x_bottom
-        ).mirror()
+    bend_input_bottom = c << bend_s(
+        size=(dx, (-dy + gap + x_bottom.width) / 2.0), cross_section=x_bottom
     )
-    bend_input_bottom.movey(origin=0, other=-(x_bottom.width + gap) / 2.0)
+    bend_input_bottom.d.movey(-(x_bottom.width + gap) / 2.0)
 
     taper_top.connect("o1", bend_input_top.ports["o1"])
     taper_bottom.connect("o1", bend_input_bottom.ports["o1"])
@@ -87,34 +81,24 @@ def coupler_full(
     bend_output_top = c << bend_s(
         size=(dx, (dy - gap - x_top.width) / 2.0), cross_section=x_bottom
     )
-    bend_output_top.move(other=taper_top.ports["o2"])
+    # bend_output_top.d.move(taper_top.ports["o2"])
 
     bend_output_bottom = c << bend_s(
         size=(dx, (-dy + gap + x_bottom.width) / 2.0), cross_section=x_top
     )
-    bend_output_bottom.move(other=taper_bottom.ports["o2"])
+    # bend_output_bottom.d.move(taper_bottom.ports["o2"])
 
-    bend_output_top.connect("o2", taper_top.ports["o2"])
-    bend_output_bottom.connect("o2", taper_bottom.ports["o2"])
+    bend_output_top.connect("o2", taper_top.ports["o2"], mirror=True)
+    bend_output_bottom.connect("o2", taper_bottom.ports["o2"], mirror=True)
 
-    c.absorb(bend_input_bottom)
-    c.absorb(bend_input_top)
-    c.absorb(bend_output_top)
-    c.absorb(bend_output_bottom)
-    c.absorb(taper_top)
-    c.absorb(taper_bottom)
-
-    if x.add_bbox:
-        c = x.add_bbox(c)
-
-    if x.info:
-        c.info = x.info
+    x.add_bbox(c)
 
     c.add_port("o1", port=bend_input_bottom.ports["o2"])
     c.add_port("o2", port=bend_input_top.ports["o2"])
     c.add_port("o3", port=bend_output_top.ports["o1"])
     c.add_port("o4", port=bend_output_bottom.ports["o1"])
 
+    c.flatten()
     return c
 
 

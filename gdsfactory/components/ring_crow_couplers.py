@@ -77,10 +77,10 @@ def ring_crow_couplers(
     ):
         # Add ring
         bend_c = gf.get_component(bend, radius=r, cross_section=cross_section)
-        bend1 = c.add_ref(bend_c, alias=f"bot_right_bend_ring_{index}")
-        bend2 = c.add_ref(bend_c, alias=f"top_right_bend_ring_{index}")
-        bend3 = c.add_ref(bend_c, alias=f"top_left_bend_ring_{index}")
-        bend4 = c.add_ref(bend_c, alias=f"bot_left_bend_ring_{index}")
+        bend1 = c.add_ref(bend_c, name=f"bot_right_bend_ring_{index}")
+        bend2 = c.add_ref(bend_c, name=f"top_right_bend_ring_{index}")
+        bend3 = c.add_ref(bend_c, name=f"top_left_bend_ring_{index}")
+        bend4 = c.add_ref(bend_c, name=f"bot_left_bend_ring_{index}")
 
         # We need to account for the chance that the top and bottom couplers
         # have a different length --> In this case we need to add straights

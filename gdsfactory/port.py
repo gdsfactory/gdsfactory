@@ -124,7 +124,7 @@ class Port(kf.Port):
         super().__init__(
             name=name,
             angle=int(orientation // 90),
-            position=center,
+            center=center,
             layer=get_layer(layer),
             width=width,
             port_type=port_type,

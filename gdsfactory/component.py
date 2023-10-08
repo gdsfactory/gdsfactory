@@ -141,7 +141,7 @@ class Component(kf.KCell):
 
             if center is None:
                 raise ValueError("Must specify center")
-            elif isinstance(center, list | tuple):
+            elif not isinstance(center, kf.kdb.Point):
                 center = (
                     center[0] / kf.kcl.dbu,
                     center[1] / kf.kcl.dbu,
@@ -150,7 +150,7 @@ class Component(kf.KCell):
             layer = get_layer(layer)
             self.create_port(
                 name=name,
-                position=center,
+                center=center,
                 width=int(np.round(width / self.kcl.dbu)),
                 angle=int(orientation // 90),
                 layer=layer,
@@ -286,13 +286,14 @@ class Component(kf.KCell):
         info["route_info_weight"] = length_eff
         info[f"route_info_{xs_name}_length"] = length_eff
 
-    def absorb(self, reference) -> Component:
+    def absorb(self, reference: Instance) -> Component:
         """Absorbs polygons from ComponentReference into Component.
 
         Destroys the reference in the process but keeping the polygon geometry.
 
         Args:
-            reference: ComponentReference to be absorbed into the Component.
+            reference: Instance to be absorbed into the Component.
+
         """
         if reference not in self.insts:
             raise ValueError(
