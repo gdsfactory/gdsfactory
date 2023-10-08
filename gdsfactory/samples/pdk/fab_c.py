@@ -5,7 +5,8 @@ from __future__ import annotations
 import sys
 from functools import partial
 
-from pydantic import BaseModel
+import kfactory as kf
+from kfactory.kcell import LayerEnum
 
 import gdsfactory as gf
 from gdsfactory.add_pins import add_pins_inside1nm
@@ -15,7 +16,9 @@ from gdsfactory.technology import LayerLevel, LayerStack
 from gdsfactory.typings import Layer
 
 
-class LayerMap(BaseModel):
+class LAYER(LayerEnum):
+    kcl = kf.constant(kf.kcl)
+
     WG: Layer = (10, 1)
     WG_CLAD: Layer = (10, 2)
     WGN: Layer = (34, 0)
@@ -23,7 +26,6 @@ class LayerMap(BaseModel):
     PIN: Layer = (1, 10)
 
 
-LAYER = LayerMap()
 WIDTH_NITRIDE_OBAND = 0.9
 WIDTH_NITRIDE_CBAND = 1.0
 
@@ -131,6 +133,7 @@ pdk = gf.Pdk(
     cells=cells,
     cross_sections=cross_sections,
     layer_stack=layer_stack,
+    layers=LAYER,
 )
 
 
