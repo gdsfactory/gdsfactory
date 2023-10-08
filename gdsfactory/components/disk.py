@@ -59,45 +59,6 @@ def _generate_straights(c, bus_length, size_x, bend_input, bend_output, cross_se
     return (c, straight_left, straight_right)
 
 
-def _generate_circles(
-    c, radius: float, xs, bend_middle, straight_left, r_bend, dy: float
-):
-    """Returns Component, circle and circle_cladding.
-
-    Args:
-        c: component.
-        radius: in um.
-        xs: cross_section:
-        bend_middle: bend spec.
-        straight_left: spec.
-        r_bend: spec.
-        dy: in um.
-    """
-
-    circle = c << gf.components.circle(radius=radius, layer=xs.layer)
-
-    circle_cladding = None
-    if bend_middle is not None:
-        circle.move(
-            (bend_middle.ports["o1"].d.x + bend_middle.ports["o2"].d.x) / 2.0,
-            straight_left.ports["o2"].d.y - 2 * dy + r_bend,
-        )
-    else:
-        circle.move(np.array(straight_left.ports["o2"].center) + (0, r_bend))
-
-    if circle_cladding:
-        circle_cladding.move(circle.center)
-
-    return (c, circle, circle_cladding)
-
-
-def _absorb(c, *refs):
-    for ref in list(refs):
-        if ref is not None:
-            c.absorb(ref)
-    return c
-
-
 @gf.cell
 def disk(
     radius: float = 10.0,
@@ -128,7 +89,6 @@ def disk(
     c = gf.Component()
 
     xs = gf.get_cross_section(cross_section=cross_section)
-    radius_disk = radius
     radius = radius + xs.width / 2.0 + gap
     xs_bend = xs.copy(radius=radius)
 
@@ -144,26 +104,26 @@ def disk(
         c, bus_length, size_x, bend_input, bend_output, xs_bend
     )
 
-    c, circle, circle_cladding = _generate_circles(
-        c, radius_disk, xs, bend_middle, straight_left, r_bend, dy
-    )
+    circle = c << gf.components.circle(radius=radius, layer=xs.layer)
 
-    c = _absorb(
-        c,
-        circle,
-        circle_cladding,
-        straight_left,
-        straight_right,
-        bend_input,
-        bend_middle,
-        bend_output,
-    )
+    circle_cladding = None
+    if bend_middle is not None:
+        dx = (bend_middle.ports["o1"].d.x + bend_middle.ports["o2"].d.x) / 2.0
+        dy = straight_left.ports["o2"].d.y - 2 * dy + r_bend
+        circle.d.move((dx, dy))
+    else:
+        circle.d.move(np.array(straight_left.ports["o2"].d.center) + (0, r_bend))
+
+    if circle_cladding:
+        circle_cladding.move(circle.center)
 
     c.add_port("o1", port=straight_left.ports["o1"], layer="PORT")
     c.add_port("o2", port=straight_right.ports["o2"])
     xs.add_bbox(c)
     if parity == -1:
         c = c.rotate(180)
+
+    c.flatten()
     return c
 
 
