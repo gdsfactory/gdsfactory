@@ -37,22 +37,22 @@ def add_fiducials(
 
     if left:
         x1 = c << gf.get_component(left)
-        x1.xmax = r.xmin - gap
+        x1.xmax = r.d.xmin - gap
         c.add_ports(x1.ports, prefix="l")
 
     if right:
         x2 = c << gf.get_component(right)
-        x2.xmin = r.xmax + gap
+        x2.xmin = r.d.xmax + gap
         c.add_ports(x2.ports, prefix="r")
 
     if top:
         y1 = c << gf.get_component(top)
-        y1.ymin = r.ymax + gap
+        y1.ymin = r.d.ymax + gap
         c.add_ports(y1.ports, prefix="t")
 
     if bottom:
         y2 = c << gf.get_component(bottom)
-        y2.ymax = r.ymin - gap
+        y2.ymax = r.d.ymin - gap
         c.add_ports(y2.ports, prefix="b")
 
     c.add_ports(r.ports)
@@ -82,7 +82,7 @@ def add_fiducials_offsets(
 
     for offset in offsets:
         f = c << fiducial
-        f.move(offset)
+        f.d.move(offset)
 
     return c
 
