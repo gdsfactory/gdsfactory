@@ -63,16 +63,15 @@ def ring_double(
     cb = c.add_ref(coupler_component)
     ct = c.add_ref(coupler_component)
 
-    sl = straight_component.ref()
-    sr = straight_component.ref()
+    length_y = length_y or 0.001
 
-    if length_y > 0:
-        c.add(sl)
-        c.add(sr)
+    sl = c << straight_component
+    sr = c << straight_component
 
     sl.connect(port="o1", other=cb.ports["o2"])
-    ct.connect(port="o3", other=sl.ports["o2"])
     sr.connect(port="o2", other=ct.ports["o2"])
+
+    ct.connect(port="o3", other=sl.ports["o2"])
     c.add_port("o1", port=cb.ports["o1"])
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o3", port=ct.ports["o4"])
@@ -82,5 +81,4 @@ def ring_double(
 
 if __name__ == "__main__":
     c = ring_double(length_y=0, length_x=0, layer=(2, 0))
-    c.get_netlist()
-    c.show(show_subports=False)
+    c.show()
