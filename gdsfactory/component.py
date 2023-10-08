@@ -1,6 +1,7 @@
 """Component is a canvas for geometry."""
 from __future__ import annotations
 
+import pathlib
 import warnings
 from typing import TYPE_CHECKING
 
@@ -9,10 +10,8 @@ import numpy as np
 from kfactory import kdb
 from kfactory.kcell import default_save
 
-from gdsfactory.port import select_ports
-
-import pathlib
 from gdsfactory.config import GDSDIR_TEMP
+from gdsfactory.port import select_ports
 
 if TYPE_CHECKING:
     from gdsfactory.typings import CrossSection, LayerSpec, PathType
@@ -358,9 +357,6 @@ class Component(kf.KCell):
         for k, v in info.items():
             if k not in self.info:
                 self.info[k] = v
-
-    def auto_rename_ports(self) -> None:
-        self.autorename_ports()
 
     def write_gds(
         self,

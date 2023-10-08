@@ -571,7 +571,7 @@ def rib_with_trenches(
     simplify_slab: float | None = None,
     layer: LayerSpec | None = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
-    wg_marking_layer: LayerSpec | None = None,
+    wg_marking_layer: LayerSpec | None = "WG",
     sections: tuple[Section, ...] | None = None,
     **kwargs,
 ) -> CrossSection:
@@ -651,13 +651,6 @@ def rib_with_trenches(
         )
         for i, offset in enumerate([+trench_offset, -trench_offset])
     ]
-    dict(
-        layer_trench=layer_trench,
-        width=width,
-        width_trench=width_trench,
-        width_slab=width_slab,
-        wg_marking_layer=wg_marking_layer,
-    )
 
     return cross_section(
         layer=wg_marking_layer,

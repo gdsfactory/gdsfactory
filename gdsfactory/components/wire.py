@@ -33,7 +33,7 @@ def wire_corner(
     xpts = [-a, a, a, -a]
     ypts = [-a, -a, a, a]
 
-    c.add_polygon([xpts, ypts], layer=layer)
+    c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
     c.add_port(
         name="e1",
@@ -83,7 +83,7 @@ def wire_corner45(
     xpts = [0, radius + a, radius + a, -np.sqrt(2) * width]
     ypts = [-a, radius, radius + np.sqrt(2) * width, -a]
 
-    c.add_polygon([xpts, ypts], layer=layer)
+    c.add_polygon(list(zip([xpts, ypts])), layer=layer)
 
     c.add_port(
         name="e1",
@@ -143,7 +143,7 @@ def wire_corner_sections(
             -offset - b,
         ]
 
-        c.add_polygon([xpts, ypts], layer=layer)
+        c.add_polygon(list(zip([xpts, ypts])), layer=layer)
 
     c.add_port(
         name="e1",

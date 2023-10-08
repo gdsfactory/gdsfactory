@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from functools import cache
 
-import numpy as np
-
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
@@ -41,8 +39,12 @@ def pixel_array(
         i = 0
         for c in line:
             if c in ["X", "1"]:
-                p0 = np.array([i * a, j * a])
-                pixel = [p0 + p for p in [(0, 0), (a, 0), (a, a), (0, a)]]
+                pixel = [
+                    (i * a, j * a),
+                    ((i + 1) * a, j * a),
+                    ((i + 1) * a, (j + 1) * a),
+                    (i * a, (j + 1) * a),
+                ]
                 component.add_polygon(pixel, layer=layer)
             i += 1
         i_max = max(i_max, i)

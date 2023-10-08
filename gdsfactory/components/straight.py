@@ -52,8 +52,6 @@ def straight(
 
 
 if __name__ == "__main__":
-    import klayout.db as kdb
-
     import gdsfactory as gf
 
     # c = gf.Component()
@@ -63,6 +61,6 @@ if __name__ == "__main__":
     # ref2.d.move((0, 10))
     # ref.name = "straight"
     # print(c.insts['straight'].ports)
-    c = straight(cross_section="xs_rc")
+    c = straight(cross_section="xs_sc", width=15e-3, length=15e-3)
     gdspath = c.write_gds()
     c.show()
