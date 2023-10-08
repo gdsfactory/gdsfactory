@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.8.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.7) - 2023-10-08
+
+No significant changes.
+
+
 ## [7.8.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.6) - 2023-10-04
 
 - Fix yaml cell naming [#2156](https://github.com/gdsfactory/gdsfactory/pull/#2156)
