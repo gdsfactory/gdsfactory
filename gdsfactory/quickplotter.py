@@ -1015,10 +1015,6 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    # set_quickplot_options(label_aliases=True, , show_subports=False)
-    c = gf.components.straight_pn()
-    c.plotqt()
-    # c.plot()
-    c.show()
-    quickplot(c, , show_subports=False, label_aliases=True)
+    c = gf.path.straight()
+    quickplot(c)
     plt.show()
