@@ -5,8 +5,10 @@
 
 ## [7.8.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.7) - 2023-10-08
 
-No significant changes.
-
+- fix difftest [#2164](https://github.com/gdsfactory/gdsfactory/pull/#2164)
+- Extrude can have off grid ports [#2163](https://github.com/gdsfactory/gdsfactory/pull/#2163)
+- update to latest kfactory [#2161](https://github.com/gdsfactory/gdsfactory/pull/#2161)
+- fix slab_layer arg to accept None [#2160](https://github.com/gdsfactory/gdsfactory/pull/#2160)
 
 ## [7.8.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.6) - 2023-10-04
 
