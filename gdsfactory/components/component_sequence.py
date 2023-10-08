@@ -188,7 +188,9 @@ def component_sequence(
 
     # Add any extra port specified in ports_map
     for name, (ref_name, alias_port_name) in ports_map.items():
-        component.add_port(name=name, port=component.insts[ref_name].ports[alias_port_name])
+        component.add_port(
+            name=name, port=component.insts[ref_name].ports[alias_port_name]
+        )
 
     return component
 
@@ -219,6 +221,18 @@ if __name__ == "__main__":
     )
     # n = c.get_netlist()
     # c = gf.read.from_yaml(n)
-    c.show()
+    c = c.dup()
+    c << gf.c.straight()
+    c.name = "top"
+    c.write("a.gds")
+
+    import kfactory as kf
+
+    kcl = kf.KCLayout("a")
+    kcl.read("a.gds")
+    top_cell = kcl["top"]
+    rdb = top_cell.connectivity_check()
+    rdb.save('a.lyrdb')
+    top_cell.show()
     # c.pprint()
     # print(c.named_references.keys())
