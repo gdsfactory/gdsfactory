@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 
 import kfactory as kf
 import numpy as np
-from kfactory import kdb
+from kfactory import Instance, kdb
 from kfactory.kcell import default_save
 
 from gdsfactory.config import GDSDIR_TEMP
@@ -16,7 +16,7 @@ from gdsfactory.port import select_ports
 if TYPE_CHECKING:
     from gdsfactory.typings import CrossSection, LayerSpec, PathType
 
-ComponentReference = kf.Instance
+ComponentReference = Instance
 
 
 def size(region: kdb.Region, offset: float, dbu=1e3) -> kdb.Region:

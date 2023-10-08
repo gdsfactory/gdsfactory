@@ -23,7 +23,7 @@ from gdsfactory.path import Path
 
 
 # NOTE: import order matters. Only change the order if you know what you are doing
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component, ComponentReference, Instance
 from gdsfactory.config import CONF, call_if_func, PATH, logger
 from gdsfactory.port import Port
 from gdsfactory.cell import cell, cell_without_validator
@@ -82,6 +82,7 @@ __all__ = (
     "Component",
     "ComponentReference",
     "CrossSection",
+    "Instance",
     "Group",
     "Label",
     "Path",

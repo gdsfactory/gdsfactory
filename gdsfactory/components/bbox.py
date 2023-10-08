@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-
-Float2 = tuple[float, float]
-Coordinate = tuple[Float2, Float2]
+from gdsfactory.typings import LayerSpec
 
 
 def bbox_to_points(
@@ -26,10 +24,10 @@ def bbox_to_points(
     ]
 
 
-@gf.cell_without_validator
+@gf.cell
 def bbox(
-    bbox: tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
-    layer: tuple[int, int] = (1, 0),
+    component: gf.Component | gf.Instance,
+    layer: LayerSpec = (1, 0),
     top: float = 0,
     bottom: float = 0,
     left: float = 0,
@@ -46,7 +44,8 @@ def bbox(
         right: east offset.
     """
     D = gf.Component()
-    (xmin, ymin), (xmax, ymax) = bbox
+    bbox = component.dbbox()
+    xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
     points = [
         [xmin - left, ymin - bottom],
         [xmax + right, ymin - bottom],
@@ -62,7 +61,10 @@ if __name__ == "__main__":
 
     PDK = get_generic_pdk()
     PDK.activate()
+
     c = gf.Component()
-    a = c << gf.components.L()
-    c << bbox(bbox=a.bbox, top=10, left=5, right=-2)
+    a1 = c << gf.components.L()
+    a2 = c << gf.components.L()
+    a2.d.xmin = 0
+    _ = c << bbox(a1, top=10, left=5, right=-2)
     c.show()
