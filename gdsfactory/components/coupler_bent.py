@@ -81,7 +81,9 @@ def coupler_bent_half(
     inner_exit_straight.connect(port="o1", other=inner_exit_bend_up.ports["o2"])
 
     outer_exit_straight = c << gf.components.straight(
-        length=abs(inner_exit_straight.ports["o2"].x - outer_exit_bend.ports["o2"].x),
+        length=abs(
+            inner_exit_straight.ports["o2"].d.x - outer_exit_bend.ports["o2"].d.x
+        ),
         cross_section=gf.cross_section.cross_section(width=width1),
         npoints=100,
     )
@@ -92,9 +94,6 @@ def coupler_bent_half(
     c.add_port("o3", port=outer_exit_straight.ports["o2"])
     c.add_port("o4", port=inner_exit_straight.ports["o2"])
 
-    c.absorb(outer_exit_bend)
-    c.absorb(inner_exit_bend_down)
-    c.absorb(inner_exit_bend_up)
     c.flatten()
     return c
 
@@ -143,8 +142,7 @@ def coupler_bent(
         cross_section=cross_section,
     )
 
-    left_half.mirror_x()
-    left_half.connect(port="o1", other=right_half.ports["o1"])
+    left_half.connect(port="o1", other=right_half.ports["o1"], mirror=True)
 
     c.add_port("o1", port=left_half.ports["o3"])
     c.add_port("o2", port=left_half.ports["o4"])
@@ -157,6 +155,6 @@ def coupler_bent(
 
 
 if __name__ == "__main__":
-    c = coupler_bent_half()
-    # c = coupler_bent()
+    # c = coupler_bent_half()
+    c = coupler_bent()
     c.show()

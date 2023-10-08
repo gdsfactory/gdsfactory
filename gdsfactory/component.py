@@ -141,20 +141,15 @@ class Component(kf.KCell):
 
             if center is None:
                 raise ValueError("Must specify center")
-            elif not isinstance(center, kf.kdb.Point):
-                center = (
-                    center[0] / kf.kcl.dbu,
-                    center[1] / kf.kcl.dbu,
-                )
 
             layer = get_layer(layer)
+            trans = kdb.DCplxTrans(1, orientation, False, center[0], center[1])
             self.create_port(
                 name=name,
-                center=center,
-                width=int(np.round(width / self.kcl.dbu)),
-                angle=int(orientation // 90),
+                dwidth=width,
                 layer=layer,
                 port_type=port_type,
+                dcplx_trans=trans,
             )
 
     def add_polygon(

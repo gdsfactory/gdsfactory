@@ -211,7 +211,7 @@ class Path(_GeometryHelper):
         self.end_angle = end_angle
         return self
 
-    def move(self, origin=(0, 0), other=None, axis=None):
+    def move(self, origin=(0, 0), destination=None, axis=None):
         """Moves the Path from the origin point to the destination.
 
         Both origin and destination can be 1x2 array-like or a Port.
@@ -1463,7 +1463,7 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    P = gf.path.arc()
+    P = gf.path.arc(angle=30)
     s0 = gf.Section(
         width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
     )
