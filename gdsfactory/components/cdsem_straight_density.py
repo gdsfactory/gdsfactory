@@ -48,7 +48,7 @@ def cdsem_straight_density(
 
     if text:
         marker_label = c << gf.get_component(text, text=f"{label}")
-        marker_label.d.xmin = tooth_ref.xmax + 5
+        marker_label.d.xmin = tooth_ref.d.xmax + 5
     return c
 
 

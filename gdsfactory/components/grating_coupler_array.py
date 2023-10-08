@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import grating_coupler_elliptical
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -14,6 +14,7 @@ def grating_coupler_array(
     port_name: str = "o1",
     rotation: int = 0,
     with_loopback: bool = False,
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Array of grating couplers.
 
@@ -24,6 +25,7 @@ def grating_coupler_array(
         port_name: port name.
         rotation: rotation angle for each reference.
         with_loopback: if True, adds a loopback between edge GCs. Only works for rotation = 90 for now.
+        cross_section: cross_section for the routing.
     """
     c = Component()
     grating_coupler = gf.get_component(grating_coupler)
@@ -31,7 +33,7 @@ def grating_coupler_array(
     for i in range(n):
         gc = c << grating_coupler
         gc.rotate(rotation)
-        gc.x = i * pitch
+        gc.d.x = i * pitch
         port_name_new = f"o{i}"
         c.add_port(port=gc.ports[port_name], name=port_name_new)
 
@@ -40,16 +42,7 @@ def grating_coupler_array(
             raise ValueError(
                 "with_loopback is currently only programmed to work with rotation = 90"
             )
-        if grating_coupler.get_ports_list()[0].cross_section is None:
-            routing_xs = gf.cross_section.cross_section(
-                layer=grating_coupler.get_ports_list()[0].layer,
-                width=grating_coupler.get_ports_list()[0].width,
-                radius=10,
-            )
-        else:
-            routing_xs = gf.get_cross_section(
-                grating_coupler.get_ports_list()[0].cross_section
-            )
+        routing_xs = gf.get_cross_section(cross_section)
         radius = routing_xs.radius
 
         steps = (
@@ -68,7 +61,6 @@ def grating_coupler_array(
             cross_section=routing_xs,
         )
         c.add(route.references)
-
         c.ports.pop("o0")
         c.ports.pop(f"o{n-1}")
 
@@ -76,5 +68,5 @@ def grating_coupler_array(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_array(rotation=90, with_loopback=True)
+    c = grating_coupler_array(with_loopback=True)
     c.show()
