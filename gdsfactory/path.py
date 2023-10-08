@@ -24,8 +24,8 @@ from gdsfactory.component_layout import (
     _reflect_points,
     _rotate_points,
 )
-from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.config import CONF
+from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
 from gdsfactory.typings import (
     ComponentSpec,
