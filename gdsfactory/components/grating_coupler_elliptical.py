@@ -104,6 +104,7 @@ def grating_coupler_elliptical(
     slab_offset: float = 2.0,
     spiked: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
+    add_pins: bool = True,
     **kwargs,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
@@ -124,6 +125,7 @@ def grating_coupler_elliptical(
         slab_offset: in um.
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors.
         cross_section: specification (CrossSection, string or dict).
+        add_pins: adds pins to the component.
         kwargs: cross_section settings.
 
     .. code::
@@ -202,7 +204,6 @@ def grating_coupler_elliptical(
 
     if big_last_tooth:
         # Add last "large tooth" after the standard grating teeth
-
         a = total_length / (1 + x1 / a1)
         b = b1 / a1 * a
         x = x1 / a1 * a
@@ -219,7 +220,7 @@ def grating_coupler_elliptical(
     if layer_slab:
         slab_xmin += x_output + taper_length
         slab_length = total_length + slab_offset
-        slab_width = (c.ysize + 2 * slab_offset) / 2
+        slab_width = (c.d.ysize + 2 * slab_offset) / 2
         c.add_polygon(
             [
                 (slab_xmin, slab_width),
@@ -230,10 +231,9 @@ def grating_coupler_elliptical(
             layer_slab,
         )
 
-    if xs.add_bbox:
-        c = xs.add_bbox(c)
-    if xs.add_pins:
-        c = xs.add_pins(c)
+    xs.add_bbox(c)
+    if add_pins:
+        xs.add_pins(c)
 
     name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(

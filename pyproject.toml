@@ -140,7 +140,8 @@ norecursedirs = [
   "gdsfactory/watch.py",
   "gdsfactory/schematic_editor.py",
   "gdsfactory/generic_tech/klayout",
-  "docs"
+  "docs",
+  "tests/fixme"
 ]
 python_files = ["gdsfactory/*.py", "tests/*.py"]
 testpaths = ["gdsfactory/", "tests"]

@@ -26,12 +26,13 @@ def _generate_bends(c, r_bend, wrap_angle_deg, cross_section):
 
         bend_input = c << bend_input_output
         bend_middle = c << bend_middle_arc.extrude(cross_section=cross_section)
-        bend_middle.rotate(180 + wrap_angle_deg / 2.0, center=c.center)
+        # bend_middle.rotate(180 + wrap_angle_deg / 2.0, center=c.center)
+        bend_middle.rotate(180 + wrap_angle_deg / 2.0)
 
         bend_input.connect("o2", bend_middle.ports["o2"])
 
         bend_output = c << bend_input_output
-        bend_output.mirror()
+        bend_output.mirror_x()
         bend_output.connect("o2", bend_middle.ports["o1"])
 
         return (c, bend_input, bend_middle, bend_output)
@@ -78,20 +79,14 @@ def _generate_circles(
     circle_cladding = None
     if bend_middle is not None:
         circle.move(
-            origin=circle.center,
-            other=(
-                (bend_middle.ports["o1"].x + bend_middle.ports["o2"].x) / 2.0,
-                straight_left.ports["o2"].y - 2 * dy + r_bend,
-            ),
+            (bend_middle.ports["o1"].d.x + bend_middle.ports["o2"].d.x) / 2.0,
+            straight_left.ports["o2"].d.y - 2 * dy + r_bend,
         )
     else:
-        circle.move(
-            origin=circle.center,
-            other=(straight_left.ports["o2"].center + (0, r_bend),),
-        )
+        circle.move(np.array(straight_left.ports["o2"].center) + (0, r_bend))
 
     if circle_cladding:
-        circle_cladding.move(origin=circle_cladding.center, other=circle.center)
+        circle_cladding.move(circle.center)
 
     return (c, circle, circle_cladding)
 
