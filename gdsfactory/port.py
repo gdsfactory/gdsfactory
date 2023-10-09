@@ -299,7 +299,7 @@ def sort_ports_counter_clockwise(ports: dict[str, Port]) -> dict[str, Port]:
 
 
 def select_ports(
-    ports: dict[str, Port],
+    ports: kf.Ports,
     layer: tuple[int, int] | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
@@ -362,8 +362,11 @@ select_ports_electrical = partial(select_ports, port_type="electrical")
 select_ports_placement = partial(select_ports, port_type="placement")
 
 
-def select_ports_list(**kwargs) -> list[Port]:
-    return list(select_ports(**kwargs).values())
+def select_ports_list(ports: kf.Ports, **kwargs) -> list[Port]:
+    return list(select_ports(ports=ports, **kwargs).values())
+
+
+get_ports_list = select_ports_list
 
 
 def flipped(port: Port) -> Port:
