@@ -21,6 +21,7 @@ def import_gds(
     read_metadata: bool = False,
     keep_name_short: bool = False,
     unique_names: bool = True,
+    max_name_length: int = 250,
     **kwargs,
 ) -> Component:
     """Returns a Component from a GDS file.
@@ -35,6 +36,7 @@ def import_gds(
         keep_name_short: appends a hash to a shortened component name.
         unique_names: appends $ with a number to the name if the cell name is on CACHE. \
                 This avoids name collisions when importing multiple times the same cell name.
+        max_name_length: maximum length of the name.
         kwargs: extra to add to component.info (polarization, wavelength ...).
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
@@ -62,7 +64,7 @@ def import_gds(
 
     # create a new Component for each gdstk Cell
     for c in gdsii_lib.cells:
-        D = Component(name=c.name)
+        D = Component(name=c.name, max_name_length=max_name_length)
         D._cell = c
         if not unique_names:
             D._cell.name = c.name
@@ -153,14 +155,15 @@ def import_gds_raw(gdspath, top_cellname: str | None = None):
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    # import gdsfactory as gf
+    # gf.CONF.max_name_length = 250
 
-    c = gf.components.mzi()
-    gdspath = c.write_gds()
-    # c.show(show_ports=True)
+    # c = gf.Component(name='a'*250)
+    # _ = c << gf.components.mzi()
+    # gdspath = c.write_gds('a.gds')
 
     # c = import_gds(gdspath)
-    c = import_gds(gdspath, cellname="straight_length7p0")
+    c = import_gds("a.gds")
     c.show(show_ports=False)
 
     # gdspath = PATH.gdsdir / "mzi2x2.gds"

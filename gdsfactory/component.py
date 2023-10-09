@@ -166,10 +166,12 @@ class Component(_GeometryHelper):
         self,
         name: str = "Unnamed",
         with_uuid: bool = False,
+        max_name_length: int | None = None,
     ) -> None:
         """Initialize the Component object."""
 
         self.uid = str(uuid.uuid4())[:8]
+        self.max_name_length = max_name_length or CONF.max_name_length
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
@@ -214,10 +216,10 @@ class Component(_GeometryHelper):
     @name.setter
     def name(self, name) -> None:
         name = clean_name(name)
-        if len(name) > CONF.max_name_length:
-            name_short = get_name_short(name)
+        if len(name) > self.max_name_length:
+            name_short = get_name_short(name, max_name_length=self.max_name_length)
             warnings.warn(
-                f" {name} is too long. Max length is {CONF.max_name_length}. Renaming to {name_short}",
+                f" {name} is too long. Max length is {self.max_name_length}. Renaming to {name_short}",
                 stacklevel=2,
             )
             name = name_short
@@ -2693,20 +2695,25 @@ def _check_uncached_components(component, mode):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    gf.config.enable_off_grid_ports()
-
-    c = gf.Component("bend")
-    b = c << gf.components.bend_circular(angle=30)
-    s = c << gf.components.straight(length=5)
-    s.connect("o1", b.ports["o2"])
-    p_shapely = c.get_polygons(as_shapely_merged=True)
-    c2 = gf.Component("bend_fixed")
-    c2.add_polygon(p_shapely, layer=(1, 0))
-    c2.plot()
-
-    c = gf.c.mzi(flatten=True, decorator=gf.routing.add_fiber_single)
-    # print(c.name)
+    c = gf.c.mzi()
+    # c.remap_layers({(1, 0): (2, 0)})
+    c._cell.remap({(1, 0): (2, 0)})
     c.show()
+
+    # gf.config.enable_off_grid_ports()
+
+    # c = gf.Component("bend")
+    # b = c << gf.components.bend_circular(angle=30)
+    # s = c << gf.components.straight(length=5)
+    # s.connect("o1", b.ports["o2"])
+    # p_shapely = c.get_polygons(as_shapely_merged=True)
+    # c2 = gf.Component("bend_fixed")
+    # c2.add_polygon(p_shapely, layer=(1, 0))
+    # c2.plot()
+
+    # c = gf.c.mzi(flatten=True, decorator=gf.routing.add_fiber_single)
+    # # print(c.name)
+    # c.show()
 
     # c = gf.c.mzi()
     # fig = c.plot_klayout()
