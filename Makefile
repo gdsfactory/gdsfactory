@@ -15,7 +15,10 @@ update-pre:
 	pre-commit autoupdate --bleeding-edge
 
 test-data:
-	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
+	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
+
+test-data-ssh:
+	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
 data-download: test-data
 	echo 'Make sure you git pull inside test-data folder'
