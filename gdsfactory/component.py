@@ -2693,20 +2693,25 @@ def _check_uncached_components(component, mode):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    gf.config.enable_off_grid_ports()
-
-    c = gf.Component("bend")
-    b = c << gf.components.bend_circular(angle=30)
-    s = c << gf.components.straight(length=5)
-    s.connect("o1", b.ports["o2"])
-    p_shapely = c.get_polygons(as_shapely_merged=True)
-    c2 = gf.Component("bend_fixed")
-    c2.add_polygon(p_shapely, layer=(1, 0))
-    c2.plot()
-
-    c = gf.c.mzi(flatten=True, decorator=gf.routing.add_fiber_single)
-    # print(c.name)
+    c = gf.c.mzi()
+    # c.remap_layers({(1, 0): (2, 0)})
+    c._cell.remap({(1, 0): (2, 0)})
     c.show()
+
+    # gf.config.enable_off_grid_ports()
+
+    # c = gf.Component("bend")
+    # b = c << gf.components.bend_circular(angle=30)
+    # s = c << gf.components.straight(length=5)
+    # s.connect("o1", b.ports["o2"])
+    # p_shapely = c.get_polygons(as_shapely_merged=True)
+    # c2 = gf.Component("bend_fixed")
+    # c2.add_polygon(p_shapely, layer=(1, 0))
+    # c2.plot()
+
+    # c = gf.c.mzi(flatten=True, decorator=gf.routing.add_fiber_single)
+    # # print(c.name)
+    # c.show()
 
     # c = gf.c.mzi()
     # fig = c.plot_klayout()

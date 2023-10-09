@@ -1,6 +1,6 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
-change-template: '- $TITLE [#$NUMBER](https://github.com/gdsfactory/gdsfactory/pull/#$NUMBER)'
+change-template: '- $TITLE [#$NUMBER](https://github.com/$OWNER/$REPOSITORY/pull/#$NUMBER)'
 template: |
   # What's Changed
 
