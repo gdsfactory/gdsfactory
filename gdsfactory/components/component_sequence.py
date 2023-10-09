@@ -222,7 +222,7 @@ if __name__ == "__main__":
     # n = c.get_netlist()
     # c = gf.read.from_yaml(n)
     c = c.dup()
-    c << gf.c.straight()
+    _ = c << gf.c.straight()
     c.name = "top"
     c.write("a.gds")
 

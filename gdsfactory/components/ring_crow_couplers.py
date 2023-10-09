@@ -5,17 +5,16 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.components.coupler_full import coupler_full
-from gdsfactory.cross_section import strip
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.components.coupler import coupler
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats
 
 
 @gf.cell
 def ring_crow_couplers(
-    radius: list[float] = [10.0] * 3,
-    bends: list[ComponentSpec] = [bend_circular] * 3,
-    ring_cross_sections: list[CrossSectionSpec] = [strip] * 3,
-    couplers: list[ComponentSpec] = [coupler_full] * 4,
+    radius: tuple[float, ...] = (10.0,) * 3,
+    bends: list[ComponentSpec] = (bend_circular,) * 3,
+    ring_cross_sections: list[CrossSectionSpec] = ("xs_sc",) * 3,
+    couplers: list[ComponentSpec] = (coupler,) * 4,
 ) -> Component:
     """Coupled ring resonators with coupler components between gaps.
 
@@ -126,15 +125,12 @@ def ring_crow_couplers(
     # Output bus
     c.add_port(name="o3", port=couplers_refs[-1].ports["o2"])
     c.add_port(name="o4", port=couplers_refs[-1].ports["o3"])
-
     return c
 
 
 if __name__ == "__main__":
     c = ring_crow_couplers(
-        couplers=[gf.components.coupler_full(coupling_length=0.01, dw=0)] * 4
+        # couplers=(gf.components.coupler_full(coupling_length=0.01, dw=0),) * 4
     )
-
     c.show()
-
-    print(c.named_references["bot_right_bend_ring_0"].ports)
+    # print(c.insts["bot_right_bend_ring_0"].ports)

@@ -97,6 +97,7 @@ def coupler_full(
     c.add_port("o2", port=bend_input_top.ports["o2"])
     c.add_port("o3", port=bend_output_top.ports["o1"])
     c.add_port("o4", port=bend_output_bottom.ports["o1"])
+    c.auto_rename_ports()
 
     c.flatten()
     return c
