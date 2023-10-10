@@ -12,7 +12,7 @@ instances:
 
 placements:
     tl:
-        x: -200
+        x: -000
         y: 500
 
     br:

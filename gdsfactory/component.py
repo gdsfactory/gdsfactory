@@ -166,10 +166,12 @@ class Component(_GeometryHelper):
         self,
         name: str = "Unnamed",
         with_uuid: bool = False,
+        max_name_length: int | None = None,
     ) -> None:
         """Initialize the Component object."""
 
         self.uid = str(uuid.uuid4())[:8]
+        self.max_name_length = max_name_length or CONF.max_name_length
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
@@ -214,10 +216,10 @@ class Component(_GeometryHelper):
     @name.setter
     def name(self, name) -> None:
         name = clean_name(name)
-        if len(name) > CONF.max_name_length:
-            name_short = get_name_short(name)
+        if len(name) > self.max_name_length:
+            name_short = get_name_short(name, max_name_length=self.max_name_length)
             warnings.warn(
-                f" {name} is too long. Max length is {CONF.max_name_length}. Renaming to {name_short}",
+                f" {name} is too long. Max length is {self.max_name_length}. Renaming to {name_short}",
                 stacklevel=2,
             )
             name = name_short
@@ -2223,51 +2225,22 @@ class Component(_GeometryHelper):
         D_list = self.get_dependencies(recursive=True)
         return [D.info.copy() for D in D_list]
 
-    def remap_layers(
-        self, layermap, include_labels: bool = True, include_paths: bool = True
-    ) -> Component:
+    def remap_layers(self, layermap, **kwargs) -> Component:
         """Returns a copy of the component with remapped layers.
 
         Args:
             layermap: Dictionary of values in format {layer_from: layer_to}.
-            include_labels: Selects whether to move Labels along with polygons.
-            include_paths: Selects whether to move Paths along with polygons.
         """
-        component = self.copy()
+        if kwargs:
+            warnings.warn("{kwargs.keys} is deprecated.", DeprecationWarning)
+
+        component = self
         layermap = {_parse_layer(k): _parse_layer(v) for k, v in layermap.items()}
 
-        all_D = list(component.get_dependencies(True))
-        all_D.append(component)
-        for D in all_D:
-            for p in D.polygons:
-                layer = (p.layer, p.datatype)
-                if layer in layermap:
-                    new_layer = layermap[layer]
-                    p.layer = new_layer[0]
-                    p.datatype = new_layer[1]
-            if include_labels:
-                for label in D.labels:
-                    original_layer = (label.layer, label.texttype)
-                    original_layer = _parse_layer(original_layer)
-                    if original_layer in layermap:
-                        new_layer = layermap[original_layer]
-                        label.layer = new_layer[0]
-                        label.texttype = new_layer[1]
-
-            if include_paths:
-                for path in D.paths:
-                    new_layers = list(path.layers)
-                    new_datatypes = list(path.datatypes)
-                    for layer_number in range(len(new_layers)):
-                        original_layer = _parse_layer(
-                            (new_layers[layer_number], new_datatypes[layer_number])
-                        )
-                        if original_layer in layermap:
-                            new_layer = layermap[original_layer]
-                            new_layers[layer_number] = new_layer[0]
-                            new_datatypes[layer_number] = new_layer[1]
-                    path.set_layers(*new_layers)
-                    path.set_datatypes(*new_datatypes)
+        cells = list(component.get_dependencies(True))
+        cells.append(component)
+        for cell in cells:
+            cell._cell.remap(layermap)
         return component
 
     def to_3d(
@@ -2691,22 +2664,38 @@ def _check_uncached_components(component, mode):
 
 
 if __name__ == "__main__":
+    from functools import partial
+
     import gdsfactory as gf
 
-    gf.config.enable_off_grid_ports()
+    custom_padding = partial(gf.add_padding, layers=("WG",))
+    c = gf.c.mzi(decorator=custom_padding)
 
-    c = gf.Component("bend")
-    b = c << gf.components.bend_circular(angle=30)
-    s = c << gf.components.straight(length=5)
-    s.connect("o1", b.ports["o2"])
-    p_shapely = c.get_polygons(as_shapely_merged=True)
-    c2 = gf.Component("bend_fixed")
-    c2.add_polygon(p_shapely, layer=(1, 0))
-    c2.plot()
+    # c = c.copy()
+    c = c.remap_layers({(1, 0): (3, 0)})
 
-    c = gf.c.mzi(flatten=True, decorator=gf.routing.add_fiber_single)
-    # print(c.name)
+    # c._cell.remap({(1, 0): (3, 0)})
+    # lib = gdstk.Library()
+    # lib.add(c._cell)
+    # lib.remap({(1, 0): (2, 0)})
+    # c2 = lib[c.name]
+    # c._cell = c2
     c.show()
+
+    # gf.config.enable_off_grid_ports()
+
+    # c = gf.Component("bend")
+    # b = c << gf.components.bend_circular(angle=30)
+    # s = c << gf.components.straight(length=5)
+    # s.connect("o1", b.ports["o2"])
+    # p_shapely = c.get_polygons(as_shapely_merged=True)
+    # c2 = gf.Component("bend_fixed")
+    # c2.add_polygon(p_shapely, layer=(1, 0))
+    # c2.plot()
+
+    # c = gf.c.mzi(flatten=True, decorator=gf.routing.add_fiber_single)
+    # # print(c.name)
+    # c.show()
 
     # c = gf.c.mzi()
     # fig = c.plot_klayout()

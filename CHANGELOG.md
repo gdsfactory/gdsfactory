@@ -3,6 +3,13 @@
 
 <!-- towncrier release notes start -->
 
+## [7.8.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.7) - 2023-10-08
+
+- fix difftest [#2164](https://github.com/gdsfactory/gdsfactory/pull/#2164)
+- Extrude can have off grid ports [#2163](https://github.com/gdsfactory/gdsfactory/pull/#2163)
+- update to latest kfactory [#2161](https://github.com/gdsfactory/gdsfactory/pull/#2161)
+- fix slab_layer arg to accept None [#2160](https://github.com/gdsfactory/gdsfactory/pull/#2160)
+
 ## [7.8.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.6) - 2023-10-04
 
 - Fix yaml cell naming [#2156](https://github.com/gdsfactory/gdsfactory/pull/#2156)
@@ -10,8 +17,7 @@
 
 ## [7.8.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.5) - 2023-10-03
 
-No significant changes.
-
+- bbox does not extend beyond ports in bends [#2154](https://github.com/gdsfactory/gdsfactory/pull/#2154)
 
 ## [7.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.4) - 2023-10-02
 

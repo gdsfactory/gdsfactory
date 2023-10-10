@@ -24,6 +24,7 @@ from gdsfactory.component_layout import (
     _reflect_points,
     _rotate_points,
 )
+from gdsfactory.config import CONF
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
 from gdsfactory.typings import (
@@ -714,6 +715,7 @@ def extrude(
     simplify: float | None = None,
     shear_angle_start: float | None = None,
     shear_angle_end: float | None = None,
+    enforce_ports_on_grid: bool | None = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
 
@@ -735,6 +737,9 @@ def extrude(
         get_cross_section,
         get_layer,
     )
+
+    if enforce_ports_on_grid is None:
+        enforce_ports_on_grid = CONF.enforce_ports_on_grid
 
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
@@ -904,6 +909,7 @@ def extrude(
                     if hasattr(x, "cross_section1")
                     else x,
                     shear_angle=shear_angle_start,
+                    enforce_ports_on_grid=enforce_ports_on_grid,
                 )
             )
             port1.info["face"] = face
@@ -926,6 +932,7 @@ def extrude(
                     if hasattr(x, "cross_section2")
                     else x,
                     shear_angle=shear_angle_end,
+                    enforce_ports_on_grid=enforce_ports_on_grid,
                 )
             )
             port2.info["face"] = face
@@ -1576,7 +1583,7 @@ if __name__ == "__main__":
     P = gf.path.straight(length=10)
 
     s0 = gf.Section(
-        width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+        width=0.415, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
     )
     s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
     X1 = gf.CrossSection(sections=(s0, s1))

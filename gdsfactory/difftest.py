@@ -107,6 +107,7 @@ def diff(
             diff = KCell(f"{test_name}_xor")
 
             for layer in c.kcl.layer_infos():
+                # exists in both
                 if layer in run.kcl.layer_infos() and layer in ref.kcl.layer_infos():
                     layer_ref = ref.layer(layer)
                     layer_run = run.layer(layer)
@@ -124,15 +125,18 @@ def diff(
                         if is_sliver:
                             message += " (sliver or label)"
                         print(message)
+                # only in run
                 elif layer in run.kcl.layer_infos():
                     layer_id = run.layer(layer)
                     region = kdb.Region(run.begin_shapes_rec(layer_id))
-                    diff.shapes(layer_id).insert(region)
+                    diff.shapes(c.kcl.layer(layer)).insert(region)
                     print(f"{test_name}: layer {layer} only exists in updated cell")
+
+                # only in ref
                 elif layer in ref.kcl.layer_infos():
                     layer_id = ref.layer(layer)
                     region = kdb.Region(ref.begin_shapes_rec(layer_id))
-                    diff.shapes(layer_id).insert(region)
+                    diff.shapes(c.kcl.layer(layer)).insert(region)
                     print(f"{test_name}: layer {layer} missing from updated cell")
 
             _ = c << diff
@@ -220,7 +224,7 @@ def overwrite(ref_file, run_file):
 def read_top_cell(arg0):
     from kfactory import KCLayout
 
-    kcl = KCLayout()
+    kcl = KCLayout(name=str(arg0))
     kcl.read(arg0)
     return kcl[kcl.top_cell().name]
 
