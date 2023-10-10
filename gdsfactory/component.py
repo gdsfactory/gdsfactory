@@ -18,6 +18,8 @@ if TYPE_CHECKING:
 
 ComponentReference = Instance
 
+ORPHANAGE = kf.KCell()
+
 
 def size(region: kdb.Region, offset: float, dbu=1e3) -> kdb.Region:
     return region.dup().size(int(offset * dbu))
@@ -308,6 +310,10 @@ class Component(kf.KCell):
             inst.name = name
         return inst
 
+    def ref(self) -> kf.Instance:
+        """Returns a reference to the Component."""
+        return ORPHANAGE.create_inst(cell=self)
+
     @classmethod
     def __get_validators__(cls):
         """Get validators for the Component object."""
@@ -388,7 +394,21 @@ class Component(kf.KCell):
 
 
 if __name__ == "__main__":
-    c = Component()
+    import gdsfactory as gf
+    from gdsfactory.routing.manhattan import _get_unique_port_facing
+
+    c = gf.c.bend_euler()
+    ports = c.ports
+
+    ports2 = gf.port.select_ports(ports=ports, orientation=180, layer=(1, 0))
+    print(ports2)
+
+    layer = (1, 0)
+    p_w = _get_unique_port_facing(ports=ports, orientation=180, layer=layer)
+
+    # ref = c.ref()
+
+    # c = Component()
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer="SLAB150")
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=LAYER.WG)
@@ -397,12 +417,12 @@ if __name__ == "__main__":
     # c.add_label(text="hello", position=(2, 2), layer=LAYER.TEXT)
     # p = c.add_polygon(np.array(list(zip((-8, 6, 7, 9), (-6, 8, 17, 5)))), layer=(1, 0))
 
-    p = c.add_polygon(list(zip((-8, 6, 7, 9), (-6, 8, 17, 5))), layer=(1, 0))
-    p2 = p + 2
-    p2 = c.add_polygon(p2, layer=(1, 0))
+    # p = c.add_polygon(list(zip((-8, 6, 7, 9), (-6, 8, 17, 5))), layer=(1, 0))
+    # p2 = p + 2
+    # p2 = c.add_polygon(p2, layer=(1, 0))
 
-    p3 = p2 - p
-    p3 = c.add_polygon(p3, layer=(2, 0))
+    # p3 = p2 - p
+    # p3 = c.add_polygon(p3, layer=(2, 0))
 
     # P = gf.path.straight(length=10)
     # s0 = gf.Section(

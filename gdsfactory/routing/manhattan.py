@@ -6,6 +6,7 @@ from collections.abc import Callable
 from functools import partial
 
 import gdstk
+import kfactory as kf
 import numpy as np
 from numpy import bool_, ndarray
 
@@ -51,7 +52,7 @@ def sign(x: float) -> int:
 
 
 def _get_unique_port_facing(
-    ports: dict[str, Port],
+    ports: kf.Ports,
     orientation: float = 0,
     layer: LayerSpec | LayerSpecs = (1, 0),
 ) -> list[Port]:
@@ -141,13 +142,14 @@ def gen_sref(
     else:
         port_position = structure.ports[port_name].center
 
-    ref = gf.ComponentReference(component=structure, origin=(0, 0))
+    ref = structure.ref()
 
     if x_reflection:  # Vertical mirror: Reflection across x-axis
         y0 = port_position[1]
         ref.mirror(p1=(0, y0), p2=(1, y0))
 
-    ref.rotate(rotation_angle, center=port_position)
+    ref.rotate(rotation_angle)
+    # ref.rotate(rotation_angle, center=port_position)
     ref.d.move(port_position, position)
     return ref
 
@@ -677,7 +679,7 @@ def round_corners(
 
     # If there is a taper, make sure its length is known
     if taper and isinstance(taper, Component) and "length" not in taper.info:
-        _taper_ports = list(taper.ports.values())
+        _taper_ports = taper.ports
         taper.info["length"] = _taper_ports[-1].x - _taper_ports[0].x
 
     straight_fall_back_no_taper = straight_fall_back_no_taper or straight
@@ -692,7 +694,7 @@ def round_corners(
 
     total_length = 0  # Keep track of the total path length
 
-    if not bend90.info.get("length"):
+    if not hasattr(bend90.info, "length"):
         raise ValueError(f"bend {bend90} needs to have bend.info['length'] defined")
 
     bend_length = bend90.info["length"]
@@ -724,7 +726,7 @@ def round_corners(
         )
     except ValueError as exc:
         raise ValueError(
-            f"Did not find 2 ports on layer {layer}. Got {list(bend90.ports.values())}"
+            f"Did not find 2 ports on layer {layer}. Got {bend90.ports}"
         ) from exc
     n_o_bends = points.shape[0] - 2
     total_length += n_o_bends * bend_length
@@ -745,21 +747,17 @@ def round_corners(
 
         if abs(dx_points) < TOLERANCE:
             matching_ports = [
-                port
-                for port in bend_ref.ports.values()
-                if np.isclose(port.x, points[i][0])
+                port for port in bend_ref.ports if np.isclose(port.x, points[i][0])
             ]
 
         if abs(dy_points) < TOLERANCE:
             matching_ports = [
-                port
-                for port in bend_ref.ports.values()
-                if np.isclose(port.y, points[i][1])
+                port for port in bend_ref.ports if np.isclose(port.y, points[i][1])
             ]
 
         if matching_ports:
             next_port = matching_ports[0]
-            other_port_name = set(bend_ref.ports.keys()) - {next_port.name}
+            other_port_name = set(bend_ref.ports) - {next_port.name}
             other_port = bend_ref.ports[list(other_port_name)[0]]
             bend_points.extend((next_port.center, other_port.center))
             previous_port_point = other_port.center
@@ -882,7 +880,7 @@ def round_corners(
         wg_ref = wg.ref()
         wg_ref.move(wg.ports[pname_west], (0, 0))
         if mirror_straight:
-            wg_ref.mirror_y(list(wg_ref.ports.values())[0].name)
+            wg_ref.mirror_y(list(wg_ref.ports)[0].name)
 
         wg_ref.rotate(angle)
         wg_ref.move(straight_origin)
@@ -921,8 +919,8 @@ def round_corners(
         references += route.references
         labels += route.labels
 
-    port_input = list(wg_refs[0].ports.values())[0]
-    port_output = list(wg_refs[-1].ports.values())[port_index_out]
+    port_input = wg_refs[0].ports[0]
+    port_output = wg_refs[-1].ports[port_index_out]
     length = float(np.round(total_length, 3))
     return Route(
         references=references,
@@ -989,10 +987,10 @@ def generate_manhattan_waypoints(
     )
 
 
-def _get_bend_size(bend90: Component):
-    p1, p2 = list(bend90.ports.values())[:2]
-    bsx = abs(p2.x - p1.x)
-    bsy = abs(p2.y - p1.y)
+def _get_bend_size(bend90: Component, port_name1: str = "o1", port_name2: str = "o2"):
+    p1, p2 = bend90.ports[port_name1], bend90.ports[port_name2]
+    bsx = abs(p2.d.x - p1.d.x)
+    bsy = abs(p2.d.y - p1.d.y)
     return max(bsx, bsy)
 
 

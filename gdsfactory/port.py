@@ -300,7 +300,7 @@ def sort_ports_counter_clockwise(ports: dict[str, Port]) -> dict[str, Port]:
 
 def select_ports(
     ports: kf.Ports,
-    layer: tuple[int, int] | None = None,
+    layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
     orientation: int | None = None,
@@ -311,7 +311,7 @@ def select_ports(
     clockwise: bool = True,
     sort_ports: bool = False,
 ) -> dict[str, Port]:
-    """Returns a dict of ports from a dict of ports.
+    """Returns a dict of ports from a list of ports.
 
     Args:
         ports: Dict[str, Port] a port dict {port name: port}.
@@ -331,23 +331,26 @@ def select_ports(
     """
 
     if layer:
-        ports = {p.name: p for p in ports if p.layer == layer}
+        from gdsfactory.pdk import get_layer
+
+        layer = get_layer(layer)
+
+        ports = [p for p in ports if get_layer(p.layer) == layer]
     if prefix:
-        ports = {p.name: p for p in ports if str(p.name).startswith(prefix)}
+        ports = [p for p in ports if str(p.name).startswith(prefix)]
     if suffix:
-        ports = {p.name: p for p in ports if str(p.name).endswith(suffix)}
+        ports = [p for p in ports if str(p.name).endswith(suffix)]
     if orientation is not None:
-        angle = int(orientation // 90)
-        ports = {p.name: p for p in ports if p.angle == angle}
+        ports = [p for p in ports if np.isclose(p.d.angle, orientation)]
 
     if layers_excluded:
-        ports = {p.name: p for p in ports if p.layer not in layers_excluded}
+        ports = [p for p in ports if p.layer not in layers_excluded]
     if width:
-        ports = {p.name: p for p in ports if p.width == width}
+        ports = [p for p in ports if p.width == width]
     if port_type:
-        ports = {p.name: p for p in ports if p.port_type == port_type}
+        ports = [p for p in ports if p.port_type == port_type]
     if names:
-        ports = {p.name: p for p in ports if p.name in names}
+        ports = [p for p in ports if p.name in names]
 
     if sort_ports:
         if clockwise:
@@ -362,8 +365,8 @@ select_ports_electrical = partial(select_ports, port_type="electrical")
 select_ports_placement = partial(select_ports, port_type="placement")
 
 
-def select_ports_list(ports: kf.Ports, **kwargs) -> list[Port]:
-    return list(select_ports(ports=ports, **kwargs).values())
+def select_ports_list(ports: kf.Ports, **kwargs) -> kf.Ports:
+    return select_ports(ports=ports, **kwargs)
 
 
 get_ports_list = select_ports_list
