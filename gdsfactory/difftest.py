@@ -114,7 +114,7 @@ def diff(
 
                     region_run = kdb.Region(run.begin_shapes_rec(layer_run))
                     region_ref = kdb.Region(ref.begin_shapes_rec(layer_ref))
-                    region_diff = region_run - region_ref
+                    region_diff = region_run ^ region_ref
 
                     if not region_diff.is_empty():
                         layer_id = c.layer(layer)
