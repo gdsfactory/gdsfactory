@@ -18,6 +18,7 @@ from gdsfactory.component_layout import (
     get_polygons,
     pprint_ports,
 )
+from gdsfactory.config import CONF, logger
 from gdsfactory.port import (
     Port,
     map_ports_layer_to_orientation,
@@ -747,6 +748,9 @@ class ComponentReference(_GeometryHelper):
         destination: Port,
         overlap: float = 0.0,
         preserve_orientation: bool = False,
+        allow_width_mismatch: bool = False,
+        allow_layer_mismatch: bool = False,
+        allow_type_mismatch: bool = False,
     ) -> ComponentReference:
         """Return ComponentReference where port connects to a destination.
 
@@ -781,6 +785,27 @@ class ComponentReference(_GeometryHelper):
             self.rotate(angle=angle, center=p.center)
 
         self.move(origin=p, destination=destination)
+
+        if not np.isclose(p.width, destination.width) and not allow_width_mismatch:
+            message = f"Port width mismatch: {p.width} != {destination.width} in {self.parent.name}"
+            if CONF.on_width_missmatch == "error":
+                raise ValueError(message)
+            elif CONF.on_width_missmatch == "warn":
+                logger.warning(message)
+
+        if p.layer != destination.layer and not allow_layer_mismatch:
+            message = f"Port layer mismatch: {p.layer} != {destination.layer} in {self.parent.name}"
+            if CONF.on_layer_missmatch == "error":
+                raise ValueError(message)
+            elif CONF.on_layer_missmatch == "warn":
+                logger.warning(message)
+
+        if p.port_type != destination.port_type and not allow_type_mismatch:
+            message = f"Port type mismatch: {p.port_type} != {destination.port_type} in {self.parent.name}"
+            if CONF.on_type_missmatch == "error":
+                raise ValueError(message)
+            elif CONF.on_type_missmatch == "warn":
+                logger.warning(message)
 
         if destination.orientation is not None:
             self.move(
@@ -867,11 +892,9 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.Component("parent")
-    ref = c << gf.components.straight()
-    c.add_ports(ref.ports)
-    ref.movex(5)
-    # assert c.ports['o1'].center[0] == 5, print(c.ports['o1'])
-    print(c.ports["o1"].center)
+    wg1 = c << gf.components.straight(width=0.5, layer=(1, 0))
+    wg2 = c << gf.components.straight(width=0.5, layer=(2, 0))
+    wg2.connect("o1", wg1.ports["o2"], allow_layer_mismatch=True)
     c.show(show_ports=True)
 
     # p = ref.get_polygons(by_spec=(1, 0), as_array=False)

@@ -2664,15 +2664,19 @@ def _check_uncached_components(component, mode):
 
 
 if __name__ == "__main__":
-    from functools import partial
-
+    # from functools import partial
     import gdsfactory as gf
 
-    custom_padding = partial(gf.add_padding, layers=("WG",))
-    c = gf.c.mzi(decorator=custom_padding)
+    c = gf.Component()
+    wg1 = c << gf.components.straight(width=0.5, layer=(1, 0))
+    wg2 = c << gf.components.straight(width=0.5, layer=(2, 0))
+    wg2.connect("o1", wg1.ports["o2"])
+    c.show()
+    # custom_padding = partial(gf.add_padding, layers=("WG",))
+    # c = gf.c.mzi(decorator=custom_padding)
 
     # c = c.copy()
-    c = c.remap_layers({(1, 0): (3, 0)})
+    # c = c.remap_layers({(1, 0): (3, 0)})
 
     # c._cell.remap({(1, 0): (3, 0)})
     # lib = gdstk.Library()
@@ -2680,7 +2684,7 @@ if __name__ == "__main__":
     # lib.remap({(1, 0): (2, 0)})
     # c2 = lib[c.name]
     # c._cell = c2
-    c.show()
+    # c.show()
 
     # gf.config.enable_off_grid_ports()
 
