@@ -59,7 +59,7 @@ def fill(
         for layer in fill_layers:
             layer = gf.get_layer(layer)
             layer = kf.kcl.layer(*layer)
-            fill_cell << kf.cells.straight.straight(
+            _ = fill_cell << kf.cells.straight.straight(
                 width=fill_size[0], length=fill_size[1], layer=layer
             )
     else:

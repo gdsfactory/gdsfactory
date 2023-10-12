@@ -455,7 +455,7 @@ c_fill.plot()
 import kfactory as kf
 
 import gdsfactory as gf
-import gdsfactory.geometry.fill_tiled as fill
+from kfactory.utils.fill import fill_tiled
 
 c = kf.KCell("ToFill")
 c.shapes(kf.kcl.layer(1, 0)).insert(
@@ -472,7 +472,7 @@ fc.shapes(fc.kcl.layer(2, 0)).insert(kf.kdb.DBox(20, 40))
 fc.shapes(fc.kcl.layer(3, 0)).insert(kf.kdb.DBox(30, 15))
 
 # fill.fill_tiled(c, fc, [(kf.kcl.layer(1,0), 0)], exclude_layers = [(kf.kcl.layer(10,0), 100), (kf.kcl.layer(2,0), 0), (kf.kcl.layer(3,0),0)], x_space=5, y_space=5)
-fill.fill_tiled(
+fill_tiled(
     c,
     fc,
     [(kf.kcl.layer(1, 0), 0)],

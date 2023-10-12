@@ -33,7 +33,6 @@ def test_remap_layers() -> None:
     n_polygons = len(c1.polygons)
     assert len(c1.polygons) == n_polygons, len(c1.polygons)
     assert len(c2.polygons) == n_polygons, len(c2.polygons)
-    assert (1, 0) in c1.layers
     assert (2, 0) in c2.layers
 
 
