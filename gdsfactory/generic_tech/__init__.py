@@ -43,7 +43,6 @@ LAYER_TRANSITIONS = {
 @cache
 def get_generic_pdk() -> Pdk:
     from gdsfactory.components import cells
-    from gdsfactory.config import PATH
     from gdsfactory.cross_section import cross_sections
     from gdsfactory.generic_tech.containers import containers
     from gdsfactory.generic_tech.simulation_settings import materials_index
@@ -68,9 +67,27 @@ def get_generic_pdk() -> Pdk:
 
 
 if __name__ == "__main__":
+    from gdsfactory.technology.klayout_tech import KLayoutTechnology
+
+    LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
+    connectivity = [
+        ("HEATER", "VIA1", "M2"),
+        ("M1", "VIA1", "M2"),
+        ("M2", "VIA2", "M3"),
+    ]
+
+    t = KLayoutTechnology(
+        name="generic_tech",
+        layer_map=dict(LAYER),
+        layer_views=LAYER_VIEWS,
+        layer_stack=LAYER_STACK,
+        connectivity=connectivity,
+    )
+    t.write_tech(tech_dir=PATH.klayout)
+
     layer_views = LayerViews(filepath=PATH.klayout_yaml)
     layer_views.to_lyp(PATH.klayout_lyp)
 
-    pdk = get_generic_pdk()
+    # pdk = get_generic_pdk()
     # pdk.layer_views.to_yaml('layer_views2.yaml')
     # print(pdk.name)

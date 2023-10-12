@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -40,11 +41,18 @@ def pads_correct(pad=gf.components.pad, cross_section="xs_m3") -> gf.Component:
 
 
 @gf.cell
-def pads_shorted(pad=gf.components.pad, cross_section="xs_m3") -> gf.Component:
+def pads_shorted(
+    pad: ComponentSpec = gf.components.pad,
+    cross_section: CrossSectionSpec = "xs_m3",
+    cross_section_short: CrossSectionSpec | None = None,
+) -> gf.Component:
     """Returns 2 pads connected with metal wires."""
 
     c = gf.Component()
-    pad = gf.components.pad()
+    pad = gf.get_component(pad)
+    cross_section_short = cross_section_short or cross_section
+
+    xs_short = gf.get_cross_section(cross_section_short)
     xs = gf.get_cross_section(cross_section)
     layer = gf.get_layer(xs.layer)
 
@@ -65,15 +73,15 @@ def pads_shorted(pad=gf.components.pad, cross_section="xs_m3") -> gf.Component:
 
     ports1 = [bl.ports["e3"], tl.ports["e3"]]
     ports2 = [br.ports["e1"], tr.ports["e1"]]
-    routes = gf.routing.get_bundle(ports1, ports2, cross_section=cross_section)
+    routes = gf.routing.get_bundle(ports1, ports2, cross_section=xs)
 
     for route in routes:
         c.add(route.references)
 
-    route = gf.routing.get_route(
-        bl.ports["e2"], tl.ports["e4"], cross_section=cross_section
+    route_short = gf.routing.get_route(
+        bl.ports["e2"], tl.ports["e4"], cross_section=xs_short
     )
-    c.add(route.references)
+    c.add(route_short.references)
     return c
 
 
