@@ -248,6 +248,7 @@ def get_bundle(
 
     elif waypoints:
         params["waypoints"] = waypoints
+        params.pop("enforce_port_ordering")
         return get_bundle_from_waypoints(**params)
 
     if start_axis != end_axis:
