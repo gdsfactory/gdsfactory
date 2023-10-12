@@ -964,7 +964,7 @@ def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
         name = section.name or get_layer(section.layer)
         if name in named_sections:
             raise ValueError(
-                "Duplicate name or layer of section used for cross-section in transition. Cross-sections with multiple Sections for a single layer must have unique names for each section"
+                f"Duplicate name or layer '{name}' of section used for cross-section in transition. Cross-sections with multiple Sections for a single layer must have unique names for each section"
             )
         named_sections[name] = section
     return named_sections

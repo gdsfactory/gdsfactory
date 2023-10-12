@@ -27,9 +27,9 @@ instances:
       route_info:
         length: 16.637
         n_bend_90: 1.0
-        type: xs_15379035
+        type: xs_5d28b726
         weight: 16.637
-        xs_15379035_length: 16.637
+        xs_5d28b726_length: 16.637
       width: 0.45
     settings:
       cross_section:
@@ -49,7 +49,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -72,9 +72,9 @@ instances:
       route_info:
         length: 16.637
         n_bend_90: 1.0
-        type: xs_15379035
+        type: xs_5d28b726
         weight: 16.637
-        xs_15379035_length: 16.637
+        xs_5d28b726_length: 16.637
       width: 0.45
     settings:
       cross_section:
@@ -94,7 +94,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -117,9 +117,9 @@ instances:
       route_info:
         length: 16.637
         n_bend_90: 1.0
-        type: xs_fb9acbc2
+        type: xs_c75e0198
         weight: 16.637
-        xs_fb9acbc2_length: 16.637
+        xs_c75e0198_length: 16.637
       width: 0.55
     settings:
       cross_section:
@@ -139,7 +139,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -162,9 +162,9 @@ instances:
       route_info:
         length: 16.637
         n_bend_90: 1.0
-        type: xs_fb9acbc2
+        type: xs_c75e0198
         weight: 16.637
-        xs_fb9acbc2_length: 16.637
+        xs_c75e0198_length: 16.637
       width: 0.55
     settings:
       cross_section:
@@ -184,7 +184,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -235,7 +235,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -251,9 +251,9 @@ instances:
       length: 1.0
       route_info:
         length: 1.0
-        type: xs_fb9acbc2
+        type: xs_c75e0198
         weight: 1.0
-        xs_fb9acbc2_length: 1.0
+        xs_c75e0198_length: 1.0
       width: 0.55
     settings:
       cross_section:
@@ -273,7 +273,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -307,7 +307,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -323,9 +323,9 @@ instances:
       length: 3.0
       route_info:
         length: 3.0
-        type: xs_fb9acbc2
+        type: xs_c75e0198
         weight: 3.0
-        xs_fb9acbc2_length: 3.0
+        xs_c75e0198_length: 3.0
       width: 0.55
     settings:
       cross_section:
@@ -345,7 +345,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -379,7 +379,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -395,9 +395,9 @@ instances:
       length: 4.0
       route_info:
         length: 4.0
-        type: xs_fb9acbc2
+        type: xs_c75e0198
         weight: 4.0
-        xs_fb9acbc2_length: 4.0
+        xs_c75e0198_length: 4.0
       width: 0.55
     settings:
       cross_section:
@@ -417,7 +417,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -451,7 +451,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -467,9 +467,9 @@ instances:
       length: 3.0
       route_info:
         length: 3.0
-        type: xs_fb9acbc2
+        type: xs_c75e0198
         weight: 3.0
-        xs_fb9acbc2_length: 3.0
+        xs_c75e0198_length: 3.0
       width: 0.55
     settings:
       cross_section:
@@ -489,7 +489,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -523,7 +523,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1
@@ -539,9 +539,9 @@ instances:
       length: 1.0
       route_info:
         length: 1.0
-        type: xs_15379035
+        type: xs_5d28b726
         weight: 1.0
-        xs_15379035_length: 1.0
+        xs_5d28b726_length: 1.0
       width: 0.45
     settings:
       cross_section:
@@ -561,7 +561,7 @@ instances:
         - hidden: false
           insets: null
           layer: WG
-          name: null
+          name: _default
           offset: 0.0
           port_names:
           - o1

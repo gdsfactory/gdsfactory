@@ -126,9 +126,9 @@ settings:
       length: 10.0
       route_info:
         length: 10.0
-        type: xs_2ba84833
+        type: xs_f0722844
         weight: 10.0
-        xs_2ba84833_length: 10.0
+        xs_f0722844_length: 10.0
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
@@ -200,9 +200,9 @@ settings:
     length: 10.0
     route_info:
       length: 10.0
-      type: xs_2ba84833
+      type: xs_f0722844
       weight: 10.0
-      xs_2ba84833_length: 10.0
+      xs_f0722844_length: 10.0
     width: 0.5
   info_version: 2
   module: gdsfactory.components.extension
