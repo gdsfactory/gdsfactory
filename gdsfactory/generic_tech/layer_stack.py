@@ -286,6 +286,8 @@ def get_process():
             ion="P",
             dose=1e12,
             resist_thickness=1.0,
+            tilt=7,
+            rotation=True,
         ),
         ImplantPhysical(
             name="shallow_n_implant",
@@ -294,6 +296,8 @@ def get_process():
             ion="P",
             dose=1e12,
             resist_thickness=1.0,
+            tilt=7,
+            rotation=True,
         ),
         ImplantPhysical(
             name="deep_p_implant",
@@ -302,6 +306,8 @@ def get_process():
             ion="B",
             dose=1e12,
             resist_thickness=1.0,
+            tilt=7,
+            rotation=True,
         ),
         ImplantPhysical(
             name="shallow_p_implant",
@@ -310,6 +316,8 @@ def get_process():
             ion="B",
             dose=1e12,
             resist_thickness=1.0,
+            tilt=7,
+            rotation=True,
         ),
         ImplantPhysical(
             name="pp_implant",
@@ -318,6 +326,8 @@ def get_process():
             ion="B",
             dose=5e12,
             resist_thickness=1.0,
+            tilt=7,
+            rotation=True,
         ),
         ImplantPhysical(
             name="np_implant",
@@ -326,6 +336,8 @@ def get_process():
             ion="P",
             dose=5e12,
             resist_thickness=1.0,
+            tilt=7,
+            rotation=True,
         ),
         ImplantPhysical(
             name="ppp_implant",
@@ -334,6 +346,8 @@ def get_process():
             ion="B",
             dose=1e15,
             resist_thickness=1.0,
+            tilt=7,
+            rotation=True,
         ),
         ImplantPhysical(
             name="npp_implant",
@@ -342,6 +356,8 @@ def get_process():
             ion="As",
             dose=1e15,
             resist_thickness=1.0,
+            tilt=7,
+            rotation=True,
         ),
         # "Temperatures of ~1000C for not more than a few seconds"
         # Adjust to your process
