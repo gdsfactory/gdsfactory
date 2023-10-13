@@ -46,6 +46,69 @@ def test_copy() -> None:
     assert len(d) == 0, d
 
 
+def multi_layer_cs(width: float = 1):
+    width1 = width
+    width2 = width + 2
+    s2 = gf.Section(width=width2, layer=(5, 21))
+    cs = gf.cross_section.cross_section(width=width1, layer=(2, 21), sections=[s2])
+    return cs
+
+
+def many_sections_per_layer_cs(width: float = 1):
+    width1 = width
+    width2 = width + 2
+    s2 = gf.Section(width=width2, layer=(5, 21))
+    s3 = gf.Section(width=1, offset=width2 / 2 + 1, layer=(6, 21), name="l3_upper")
+    s4 = gf.Section(width=1, offset=-(width2 / 2 + 1), layer=(6, 21), name="l3_lower")
+    cs = gf.cross_section.cross_section(
+        width=width1, layer=(2, 21), sections=[s2, s3, s4]
+    )
+    return cs
+
+
+def other_many_sections_per_layer_cs(width: float = 1):
+    width1 = width
+    s3 = gf.Section(width=1, offset=width1 / 2 + 1, layer=(6, 21), name="l3_upper")
+    s4 = gf.Section(width=1, offset=-(width1 / 2 + 1), layer=(6, 21), name="l3_lower")
+    cs = gf.cross_section.cross_section(width=width1, layer=(2, 21), sections=[s3, s4])
+    return cs
+
+
+def test_get_cross_section_modified_width():
+    pdk = gf.get_active_pdk()
+    # register our test cross section
+    pdk.register_cross_sections(test_multi_layer_cs=multi_layer_cs)
+    cs_spec = {"cross_section": "test_multi_layer_cs", "settings": {"width": 4}}
+
+    c = gf.get_component("straight", cross_section=cs_spec, length=10)
+    layer1_area = c.extract([(2, 21)]).area()
+    layer2_area = c.extract([(5, 21)]).area()
+
+    assert layer1_area == 4 * 10
+    assert layer2_area == 6 * 10
+
+    # teardown: remove the test cross section
+    pdk.cross_sections.pop("test_multi_layer_cs")
+
+
+def test_extrude_transition_multi_section():
+    cs1 = many_sections_per_layer_cs(width=1)
+    cs2 = other_many_sections_per_layer_cs(width=5)
+    transition = gf.cross_section.Transition(cross_section1=cs1, cross_section2=cs2)
+    p = gf.path.straight(10)
+
+    c = gf.path.extrude_transition(transition=transition, p=p)
+    c.show()
+
+    layer1_area = c.extract([(2, 21)]).area()
+    layer2_area = c.extract([(5, 21)]).area()
+    layer3_area = c.extract([(6, 21)]).area()
+
+    assert layer1_area == (1 + 5) / 2 * 10
+    assert layer2_area == 0
+    assert layer3_area == 1 * 10 * 2
+
+
 if __name__ == "__main__":
     # test_transition_names()
     test_copy()

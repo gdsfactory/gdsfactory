@@ -128,11 +128,17 @@ def gen_sref(
 ) -> ComponentReference:
     """Place reference of `port_name` of `structure` at `position`.
 
-    Keep this convention, otherwise phidl port transform won't work
+    Keep this convention, otherwise port transform won't work
     - 1 Mirror
     - 2 Rotate
     - 3 Move
 
+    Args:
+        structure: to be placed.
+        rotation_angle: in degrees.
+        x_reflection: if True, mirror structure across x-axis.
+        port_name: name of port to be placed.
+        position: position of port.
     """
     position = np.array(position)
 

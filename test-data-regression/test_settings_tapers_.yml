@@ -91,9 +91,9 @@ settings:
         length: 20.0
         route_info:
           length: 20.0
-          type: xs_6a91b928
+          type: xs_81041bac
           weight: 20.0
-          xs_6a91b928_length: 20.0
+          xs_81041bac_length: 20.0
         width: 2.0
       info_version: 2
       module: gdsfactory.components.straight
@@ -129,9 +129,9 @@ settings:
       length: 20.0
       route_info:
         length: 20.0
-        type: xs_6a91b928
+        type: xs_81041bac
         weight: 20.0
-        xs_6a91b928_length: 20.0
+        xs_81041bac_length: 20.0
       width: 2.0
     info_version: 2
     module: gdsfactory.add_tapers
@@ -197,9 +197,9 @@ settings:
     length: 20.0
     route_info:
       length: 20.0
-      type: xs_6a91b928
+      type: xs_81041bac
       weight: 20.0
-      xs_6a91b928_length: 20.0
+      xs_81041bac_length: 20.0
     width: 2.0
   info_version: 2
   module: gdsfactory.routing.add_fiber_array

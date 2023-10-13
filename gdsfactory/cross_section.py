@@ -226,6 +226,7 @@ class CrossSection(BaseModel):
         layer: LayerSpec | None = None,
         width_function: Callable | None = None,
         offset_function: Callable | None = None,
+        sections: tuple[Section, ...] | None = None,
         **kwargs,
     ) -> CrossSection:
         """Returns copy of the cross_section with new parameters.
@@ -235,6 +236,7 @@ class CrossSection(BaseModel):
             layer: layer spec. Defaults to current layer.
             width_function: parameterized function from 0 to 1.
             offset_function: parameterized function from 0 to 1.
+            sections: a tuple of Sections, to replace the original sections
 
         Keyword Args:
             sections: tuple of Sections(width, offset, layer, ports).
@@ -259,8 +261,10 @@ class CrossSection(BaseModel):
             if kwarg not in dict(self):
                 raise ValueError(f"{kwarg!r} not in CrossSection")
 
-        if width_function or offset_function or width or layer:
-            sections = [s.model_copy() for s in self.sections]
+        if width_function or offset_function or width or layer or sections:
+            if sections is None:
+                sections = self.sections
+            sections = [s.model_copy() for s in sections]
             sections[0] = sections[0].model_copy(
                 update={
                     "width_function": width_function,
@@ -467,6 +471,7 @@ def cross_section(
             layer=layer,
             port_names=port_names,
             port_types=port_types,
+            name="_default",
         )
     ] + sections
 
@@ -1856,6 +1861,7 @@ def strip_heater_doped(
             layer=layer,
             width=heater_width + 2 * cladding_offset,
             offset=+heater_offset,
+            name=f"heater_upper_{layer}",
         )
         for layer, cladding_offset in zip(layers_heater, bbox_offsets_heater)
     ]
@@ -1865,6 +1871,7 @@ def strip_heater_doped(
             layer=layer,
             width=heater_width + 2 * cladding_offset,
             offset=-heater_offset,
+            name=f"heater_lower_{layer}",
         )
         for layer, cladding_offset in zip(layers_heater, bbox_offsets_heater)
     ]
@@ -1944,11 +1951,21 @@ def rib_heater_doped(
 
     if with_bot_heater:
         sections += [
-            Section(layer=layer_heater, width=heater_width, offset=+heater_offset)
+            Section(
+                layer=layer_heater,
+                width=heater_width,
+                offset=+heater_offset,
+                name="heater_upper",
+            )
         ]
     if with_top_heater:
         sections += [
-            Section(layer=layer_heater, width=heater_width, offset=-heater_offset)
+            Section(
+                layer=layer_heater,
+                width=heater_width,
+                offset=-heater_offset,
+                name="heater_lower",
+            )
         ]
     return strip(
         width=width,

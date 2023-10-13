@@ -30,6 +30,8 @@
 # 2. Creates a cache of components where we use the name as the key. The first time the function runs, the cache stores the component, so the second time, you get the component directly from the cache, so you don't create the same component twice.
 #
 #
+# What is a decorator?
+#
 # A decorator is a function that runs over a function, so when you do.
 #
 # ```python
@@ -58,6 +60,9 @@
 # %%
 import gdsfactory as gf
 from gdsfactory.cell import print_cache
+
+
+gf.CONF.display_type = "klayout"
 
 
 def mzi_with_bend(radius: float = 10.0) -> gf.Component:
@@ -169,51 +174,47 @@ print(c.metadata["info"]["wavelength"])
 #
 # To avoid that 2 exact cells are not references of the same cell the `cell` decorator has a cache where if a component has already been built it will return the component from the cache
 
+
 # %%
-
-
 @gf.cell
 def wg(length=10, width=1):
     c = gf.Component()
     c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(1, 0))
-    print("BUILDING waveguide")
+    print(f"BUILDING {length}um long waveguide")
     return c
 
 
-# +
-gf.clear_cache()
+# %% [markdown]
+# If you run the cell below multiple times it will print a message because we are deleting the CACHE every single time and every time the cell will have a different Unique Identifier (UID).
 
+# %%
+gf.clear_cache()
 wg1 = wg()  # cell builds a straight
-print(wg1)
+print(wg1.uid)
 
+# %% [markdown]
+# If you run the cell below multiple times it will NOT print a message because we are hitting CACHE every single time and every time the cell will have the SAME Unique Identifier (UID) because it's the same cell.
 
 # %%
-
-wg2 = wg()
+wg2 = wg(length=11)
 # cell returns the same straight as before without having to run the function
-print(wg2)  # notice that they have the same uuid (unique identifier)
-
-wg2.plot()
+print(wg2.uid)  # notice that they have the same uuid (unique identifier)
 
 
 # %%
-# Lets say that you change the code of the straight function in a Jupyter Notebook like this one.  (I mostly use Vim/VsCode/Pycharm for creating new cells in python)
+# Lets see which Components are in the cache
+print_cache()
+
+
+# %%
+wg3 = wg(length=12)
+wg4 = wg(length=13)
 
 print_cache()
 
-wg3 = wg()
-wg4 = wg(length=11)
-
-print_cache()
-
+# %%
 gf.clear_cache()
-
-# To enable nice notebook tutorials, every time we show a cell in Matplotlib or Klayout, you can clear the cache,
-#
-# in case you want to develop cells in Jupyter Notebooks or an IPython kernel
-
 print_cache()  # cache is now empty
-
 
 # %% [markdown]
 #
