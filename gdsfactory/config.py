@@ -246,7 +246,7 @@ class Paths:
     results_tidy3d = home / ".tidy3d"
     generic_tech = module / "generic_tech"
     klayout = generic_tech / "klayout"
-    klayout_tech = klayout / "tech"
+    klayout_tech = klayout
     klayout_lyp = klayout_tech / "layers.lyp"
     klayout_yaml = generic_tech / "layer_views.yaml"
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
