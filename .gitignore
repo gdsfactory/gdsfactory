@@ -45,6 +45,7 @@ docs/notebooks/ring.yml
 Pipfile
 gdsfactory/samples/notebooks/demo_backwards_compatibility.pic.yml
 gdsfactory/samples/notebooks/demo_jinja.pic.yml
+test-data-gds
 
 
 # Packages

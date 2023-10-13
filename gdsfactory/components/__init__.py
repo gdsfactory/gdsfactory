@@ -321,6 +321,7 @@ from gdsfactory.components.via_cutback import via_cutback
 from gdsfactory.components.via_stack import (
     via_stack,
     via_stack_from_rules,
+    via_stack_heater_m2,
     via_stack_heater_m3,
     via_stack_heater_mtop,
     via_stack_slab_m3,
@@ -612,6 +613,7 @@ __all__ = [
     "via_cutback",
     "via_stack",
     "via_stack_from_rules",
+    "via_stack_heater_m2",
     "via_stack_heater_m3",
     "via_stack_heater_mtop",
     "via_stack_slab_m3",
