@@ -38,8 +38,6 @@ from gdsfactory.read import cell_from_yaml_template
 from gdsfactory.routing import all_angle
 from gdsfactory.typings import CrossSectionSpec
 
-gf.clear_cache()
-gf.config.rich_output()
 gf.config.enable_off_grid_ports()
 gf.CONF.display_type = "klayout"
 generic_pdk = get_generic_pdk()
@@ -158,8 +156,8 @@ strip_width = 1
 rib_width = 0.7
 
 c = gf.Component()
-strip_wg = c << gf.c.straight(cross_section="xs_sc")
-rib_wg = c << gf.c.straight(cross_section="xs_rc")
+strip_wg = c << gf.c.straight(cross_section=strip(width=strip_width))
+rib_wg = c << gf.c.straight(cross_section=rib(width=rib_width))
 taper = c << strip_to_rib(width1=strip_width, width2=rib_width)
 taper.connect("o1", strip_wg.ports["o2"])
 rib_wg.connect("o1", taper.ports["o2"])
