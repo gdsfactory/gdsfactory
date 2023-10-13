@@ -175,10 +175,10 @@ c1.plot()
 # %% [markdown]
 # ## Non-manhattan router
 # <div class="alert alert-block alert-warning">
-# <b>Warning:</b> It is highly advised that you follow the above instructions and set your PDK to <b>flatten invalid refs on GDS write by default</b> if you intend to use the non-manhattan router.
+# <b>Warning:</b> For using the non-manhattan router you need to gf.config.enable_off_grid_ports() in your scripts and use Component.flatten_invalid_refs() or write_gds(flatten_invalid_refs=True) to avoid 1nm gaps in your layout due to grid snapping issues.
 # </div>
 #
-# The non-manhattan (all-angle) router allows you to route between ports and in directions which are not aligned with the x and y axes, which is the constraint of most other gdsfactory routers. Unlike phidl's `smooth()` however, the all-angle router
+# The non-manhattan (all-angle) router allows you to route between ports and in directions which are not aligned with the x and y axes, which is the constraint of most other gdsfactory routers. Unlike `gf.path.smooth()` however, the all-angle router:
 #
 # - has a `steps` based syntax, fully compatible with the yaml-based circuit flow
 # - builds paths from available PDK components, such that routes can be simulated naturally by S-matrix-based circuit modeling tools, like SAX
