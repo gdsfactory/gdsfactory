@@ -5,29 +5,38 @@
 
 ## [7.8.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.8) - 2023-10-13
 
-No significant changes.
+- Fix cs and transitions [#2158](https://github.com/gdsfactory/gdsfactory/pull/2158)
+- add via_stack_heater_m2 [#2178](https://github.com/gdsfactory/gdsfactory/pull/2178)
+- Fix lvs demo [#2175](https://github.com/gdsfactory/gdsfactory/pull/2175)
+- warn_connect_with_width_layer_or_type_missmatch [#2176](https://github.com/gdsfactory/gdsfactory/pull/2176)
+- more representative implants generic_process [#2177](https://github.com/gdsfactory/gdsfactory/pull/2177)
+- remove enforce_port_ordering arg from get_bundle_from_waypoint params [#2174](https://github.com/gdsfactory/gdsfactory/pull/2174)
+- fixes difftest to use XOR instead of NOT [#2172](https://github.com/gdsfactory/gdsfactory/pull/2172)
+- Fix docs [#2170](https://github.com/gdsfactory/gdsfactory/pull/2170)
+- Faster remap layers [#2168](https://github.com/gdsfactory/gdsfactory/pull/2168)
+- Import gds names have longer limit [#2167](https://github.com/gdsfactory/gdsfactory/pull/2167)
 
 
 ## [7.8.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.7) - 2023-10-08
 
-- fix difftest [#2164](https://github.com/gdsfactory/gdsfactory/pull/#2164)
-- Extrude can have off grid ports [#2163](https://github.com/gdsfactory/gdsfactory/pull/#2163)
-- update to latest kfactory [#2161](https://github.com/gdsfactory/gdsfactory/pull/#2161)
-- fix slab_layer arg to accept None [#2160](https://github.com/gdsfactory/gdsfactory/pull/#2160)
+- fix difftest [#2164](https://github.com/gdsfactory/gdsfactory/pull/2164)
+- Extrude can have off grid ports [#2163](https://github.com/gdsfactory/gdsfactory/pull/2163)
+- update to latest kfactory [#2161](https://github.com/gdsfactory/gdsfactory/pull/2161)
+- fix slab_layer arg to accept None [#2160](https://github.com/gdsfactory/gdsfactory/pull/2160)
 
 ## [7.8.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.6) - 2023-10-04
 
-- Fix yaml cell naming [#2156](https://github.com/gdsfactory/gdsfactory/pull/#2156)
-- fix off-grid ports [#2155](https://github.com/gdsfactory/gdsfactory/pull/#2155)
+- Fix yaml cell naming [#2156](https://github.com/gdsfactory/gdsfactory/pull/2156)
+- fix off-grid ports [#2155](https://github.com/gdsfactory/gdsfactory/pull/2155)
 
 ## [7.8.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.5) - 2023-10-03
 
-- bbox does not extend beyond ports in bends [#2154](https://github.com/gdsfactory/gdsfactory/pull/#2154)
+- bbox does not extend beyond ports in bends [#2154](https://github.com/gdsfactory/gdsfactory/pull/2154)
 
 ## [7.8.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.4) - 2023-10-02
 
-- Fix clear cache [#2153](https://github.com/gdsfactory/gdsfactory/pull/#2153)
-- Update pydantic requirement from <2.4,>=2 to >=2,<2.5 [#2151](https://github.com/gdsfactory/gdsfactory/pull/#2151)
+- Fix clear cache [#2153](https://github.com/gdsfactory/gdsfactory/pull/2153)
+- Update pydantic requirement from <2.4,>=2 to >=2,<2.5 [#2151](https://github.com/gdsfactory/gdsfactory/pull/2151)
 
 ## [7.8.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.3) - 2023-10-01
 
