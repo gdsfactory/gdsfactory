@@ -75,7 +75,6 @@ __pycache__
 .mypy_cache/
 .pyre/
 extra/
-fixme/
 gdsfactory/components/doc
 cml/
 mzi.yml
