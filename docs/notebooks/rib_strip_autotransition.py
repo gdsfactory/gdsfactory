@@ -104,15 +104,17 @@ def rib_to_strip(width1: float = 0.5, width2: float = 0.5) -> gf.Component:
     return c
 
 
-# create single-layer taper components
 @gf.cell
 def taper_single_cross_section(
     cross_section: CrossSectionSpec = "xs_sc", width1: float = 0.5, width2: float = 1.0
 ) -> gf.Component:
+    """Single-layer taper components."""
     cs1 = gf.get_cross_section(cross_section, width=width1)
     cs2 = gf.get_cross_section(cross_section, width=width2)
     length = abs(width1 - width2) * 10
-    c = gf.components.taper_cross_section_linear(cs1, cs2, length=length).copy()
+    c = gf.Component()
+    ref = c << gf.components.taper_cross_section_linear(cs1, cs2, length=length)
+    c.add_ports(ref.ports)
     c.info["length"] = length
     return c
 
@@ -156,11 +158,12 @@ strip_width = 1
 rib_width = 0.7
 
 c = gf.Component()
-strip_wg = c << gf.c.straight(cross_section=strip(width=strip_width))
-rib_wg = c << gf.c.straight(cross_section=rib(width=rib_width))
+strip_wg = c << gf.c.straight(cross_section=strip_with_intent(width=strip_width))
+rib_wg = c << gf.c.straight(cross_section=rib_with_intent(width=rib_width))
 taper = c << strip_to_rib(width1=strip_width, width2=rib_width)
 taper.connect("o1", strip_wg.ports["o2"])
 rib_wg.connect("o1", taper.ports["o2"])
+c.show()
 c.plot()
 
 # %% [markdown]
@@ -213,5 +216,3 @@ show_yaml_pic(basic_sample_fn2)
 f = cell_from_yaml_template(basic_sample_fn2, name="sample_transition")
 c = f()
 c.plot()
-
-# %%
