@@ -450,6 +450,7 @@ via_stack_slab_npp_m3 = partial(
     layers=("SLAB90", "NPP", "M1"),
     vias=(None, None, viac),
 )
+via_stack_heater_m2 = partial(via_stack, layers=("HEATER", "M2"), vias=(None, via1))
 via_stack_heater_mtop = via_stack_heater_m3 = partial(
     via_stack, layers=("HEATER", "M2", "M3"), vias=(None, via1, via2)
 )
