@@ -214,6 +214,15 @@ class Settings(BaseSettings):
     )
     enforce_ports_on_grid: bool = True
     bend_radius_error_type: ErrorType = ErrorType.WARNING
+    on_width_missmatch: Literal["warn", "error", "ignore"] = Field(
+        default="warn", description="When connecting ports with different width."
+    )
+    on_layer_missmatch: Literal["warn", "error", "ignore"] = Field(
+        default="warn", description="When connecting ports with different layers."
+    )
+    on_type_missmatch: Literal["warn", "error", "ignore"] = Field(
+        default="warn", description="When connecting ports with different types."
+    )
 
     @classmethod
     def from_config(cls) -> Settings:
