@@ -25,6 +25,7 @@ from gdsfactory.typings import (
     Component,
     ComponentFactory,
     ComponentSpec,
+    ConductorViaConductorName
     CrossSection,
     CrossSectionOrFactory,
     CrossSectionSpec,
@@ -241,6 +242,7 @@ class Pdk(BaseModel):
         oasis_settings: to write OASIS files.
         cell_decorator_settings: settings for cell_without_validator decorator function in gdsfactory.cell.
         bend_points_distance: default points distance for bends in um.
+        connectivity: defines connectivity between layers through vias.
 
     """
 
@@ -280,6 +282,7 @@ class Pdk(BaseModel):
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
     cell_decorator_settings: CellDecoratorSettings = CellDecoratorSettings()
     bend_points_distance: float = 20 * nm
+    connectivity: list[ConductorViaConductorName] | None = None
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
