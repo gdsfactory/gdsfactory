@@ -1,4 +1,4 @@
-name: mmi1x2_c4b7a244
+name: mmi1x2_acfd9a92
 ports:
   o1:
     center:
@@ -60,7 +60,7 @@ settings:
         layer:
         - 34
         - 0
-        name: null
+        name: _default
         offset: 0.0
         port_names:
         - o1
@@ -111,7 +111,7 @@ settings:
         layer:
         - 34
         - 0
-        name: null
+        name: _default
         offset: 0.0
         port_names:
         - o1
@@ -139,4 +139,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_c4b7a244
+  name: mmi1x2_acfd9a92

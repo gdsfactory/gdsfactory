@@ -1,4 +1,4 @@
-name: grating_coupler_elliptical_9d09d148
+name: grating_coupler_elliptical_fd65b124
 ports:
   o1:
     center:
@@ -48,7 +48,7 @@ settings:
         layer:
         - 34
         - 0
-        name: null
+        name: _default
         offset: 0.0
         port_names:
         - o1
@@ -104,7 +104,7 @@ settings:
         layer:
         - 34
         - 0
-        name: null
+        name: _default
         offset: 0.0
         port_names:
         - o1
@@ -136,4 +136,4 @@ settings:
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_elliptical_9d09d148
+  name: grating_coupler_elliptical_fd65b124

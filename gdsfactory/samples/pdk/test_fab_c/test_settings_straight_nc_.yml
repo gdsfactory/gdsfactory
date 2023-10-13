@@ -1,4 +1,4 @@
-name: straight_83b8a121
+name: straight_decae8b0
 ports:
   o1:
     center:
@@ -48,7 +48,7 @@ settings:
         layer:
         - 34
         - 0
-        name: null
+        name: _default
         offset: 0.0
         port_names:
         - o1
@@ -93,7 +93,7 @@ settings:
         layer:
         - 34
         - 0
-        name: null
+        name: _default
         offset: 0.0
         port_names:
         - o1
@@ -134,7 +134,7 @@ settings:
         layer:
         - 34
         - 0
-        name: null
+        name: _default
         offset: 0.0
         port_names:
         - o1
@@ -150,10 +150,10 @@ settings:
     length: 10.0
     route_info:
       length: 10.0
-      type: xs_e757d4e7
+      type: xs_7269f467
       weight: 10.0
-      xs_e757d4e7_length: 10.0
+      xs_7269f467_length: 10.0
     width: 1.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_83b8a121
+  name: straight_decae8b0

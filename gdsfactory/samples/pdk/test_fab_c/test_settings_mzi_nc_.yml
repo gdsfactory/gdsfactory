@@ -1,4 +1,4 @@
-name: mzi_aba6aab6
+name: mzi_2e8d667d
 ports:
   o1:
     center:
@@ -51,7 +51,7 @@ settings:
             layer:
             - 34
             - 0
-            name: null
+            name: _default
             offset: 0.0
             port_names:
             - o1
@@ -86,7 +86,7 @@ settings:
         layer:
         - 34
         - 0
-        name: null
+        name: _default
         offset: 0.0
         port_names:
         - o1
@@ -124,7 +124,7 @@ settings:
             layer:
             - 34
             - 0
-            name: null
+            name: _default
             offset: 0.0
             port_names:
             - o1
@@ -164,7 +164,7 @@ settings:
             layer:
             - 34
             - 0
-            name: null
+            name: _default
             offset: 0.0
             port_names:
             - o1
@@ -229,7 +229,7 @@ settings:
             layer:
             - 34
             - 0
-            name: null
+            name: _default
             offset: 0.0
             port_names:
             - o1
@@ -265,7 +265,7 @@ settings:
         layer:
         - 34
         - 0
-        name: null
+        name: _default
         offset: 0.0
         port_names:
         - o1
@@ -314,7 +314,7 @@ settings:
             layer:
             - 34
             - 0
-            name: null
+            name: _default
             offset: 0.0
             port_names:
             - o1
@@ -354,7 +354,7 @@ settings:
             layer:
             - 34
             - 0
-            name: null
+            name: _default
             offset: 0.0
             port_names:
             - o1
@@ -375,4 +375,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_aba6aab6
+  name: mzi_2e8d667d
