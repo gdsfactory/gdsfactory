@@ -80,6 +80,18 @@ def demo() -> gf.Component:
     return c
 
 
+def test_demo() -> None:
+    p = partial(gf.c.pad, size=(100, 100))
+    c = demo()
+    cc = gf.routing.add_pads_top(
+        c,
+        straight_separation=26,
+        pad_spacing=150,
+        pad=p,
+    )
+    assert cc
+
+
 if __name__ == "__main__":
     p = partial(gf.c.pad, size=(100, 100))
     c = demo()
