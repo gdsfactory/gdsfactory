@@ -31,7 +31,7 @@ from gdsfactory.snap import snap_to_grid
 if typing.TYPE_CHECKING:
     import shapely
 
-    from gdsfactory.component import Component, Coordinate, Coordinates
+    from gdsfactory.component import Component, Coordinate, Coordinates, LayerSpec
 
 
 class SizeInfo:
@@ -391,16 +391,20 @@ class ComponentReference(_GeometryHelper):
         self.origin = (x0 + dx, y0 + dy)
         return self
 
-    def area(self, by_spec: bool = False):
-        """Calculate total area.
+    def area(self, layer: LayerSpec | None = None) -> float:
+        """Returns the area of the component.
 
         Args:
-            by_spec: If True, the return value is a dictionary with the areas of each individual pair (layer, datatype).
-
-        Returns:
-            out: number or dictionary Area of this cell.
+            layer: if None returns the area of the component.
+                If layer is specified returns the area of the component in that layer.
         """
-        return self._reference.area(by_spec=by_spec)
+        if not layer:
+            return self._reference.area(False)
+        from gdsfactory.pdk import get_layer
+
+        layer = get_layer(layer)
+        layer_to_area = self._cell.area(True)
+        return layer_to_area[layer]
 
     @property
     def owner(self):
