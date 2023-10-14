@@ -6,7 +6,7 @@ layer_bbox = (1, 0)
 
 
 @gf.cell
-def demo() -> gf.Component:
+def sample_add_pads() -> gf.Component:
     """Sample component."""
     c = gf.Component()
     c.add_polygon(
@@ -80,9 +80,9 @@ def demo() -> gf.Component:
     return c
 
 
-def test_demo() -> None:
+def test_sample_add_pads() -> None:
     p = partial(gf.c.pad, size=(100, 100))
-    c = demo()
+    c = sample_add_pads()
     cc = gf.routing.add_pads_top(
         c,
         straight_separation=26,
@@ -93,8 +93,8 @@ def test_demo() -> None:
 
 
 if __name__ == "__main__":
-    p = partial(gf.c.pad, size=(100, 100))
-    c = demo()
+    p = partial(gf.components.pad, size=(100, 100))
+    c = sample_add_pads()
     cc = gf.routing.add_pads_top(
         c,
         straight_separation=26,
