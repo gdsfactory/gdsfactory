@@ -7,18 +7,25 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.port import Port
-from gdsfactory.routing.manhattan import round_corners
+from gdsfactory.routing.get_route import place_route
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
+    Component,
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
-    Route,
     Step,
 )
 
 
-def get_route_from_steps(
+def get_route_from_steps(**kwargs) -> None:
+    raise ValueError(
+        "get_route is not supported in gdsfactory >=8. Use place_route instead!"
+    )
+
+
+def place_route_from_steps(
+    component: Component,
     port1: Port,
     port2: Port,
     steps: list[Step] | None = None,
@@ -26,8 +33,8 @@ def get_route_from_steps(
     taper: ComponentSpec | None = "taper",
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     **kwargs,
-) -> Route:
-    """Returns a route formed by the given waypoints steps.
+) -> None:
+    """Places a route formed by the given waypoints steps.
 
     Uses smooth euler bends instead of corners and tapers in straight sections.
     Tapering to wider straights reduces the optical loss when auto_widen=True.
@@ -53,17 +60,18 @@ def get_route_from_steps(
         w = gf.components.straight()
         left = c << w
         right = c << w
-        right.move((100, 80))
+        right.d.move((100, 80))
 
         obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
         obstacle1 = c << obstacle
         obstacle2 = c << obstacle
-        obstacle1.ymin = 40
-        obstacle2.xmin = 25
+        obstacle1.d.ymin = 40
+        obstacle2.d.xmin = 25
 
         p1 = left.ports['o2']
         p2 = right.ports['o2']
-        route = gf.routing.get_route_from_steps(
+        gf.routing.place_route_from_steps(
+            c,
             port1=p1,
             port2=p2,
             steps=[
@@ -73,15 +81,13 @@ def get_route_from_steps(
                 {"y": 80},
             ],
         )
-        c.add(route.references)
         c.plot()
-        c.show( )
 
     """
-    x, y = port1.center
-    x2, y2 = port2.center
+    x, y = port1.d.center
+    x2, y2 = port2.d.center
 
-    waypoints = [(x, y)]
+    waypoints = []
     steps = steps or []
 
     for d in steps:
@@ -97,7 +103,6 @@ def get_route_from_steps(
         y += d.get("dy", 0)
         waypoints += [(x, y)]
 
-    waypoints += [(x2, y2)]
     waypoints = np.array(waypoints)
 
     if isinstance(cross_section, list | tuple):
@@ -126,12 +131,14 @@ def get_route_from_steps(
         else:
             taper = None
 
-    return round_corners(
-        points=waypoints,
+    return place_route(
+        component=component,
+        port1=port1,
+        port2=port2,
+        waypoints=waypoints,
         bend=bend,
         taper=taper,
         cross_section=cross_section,
-        with_sbend=False,
         **kwargs,
     )
 
@@ -153,37 +160,21 @@ get_route_from_steps_electrical_multilayer = partial(
 
 def test_route_from_steps():
     c = gf.Component()
-    layer = (2, 0)
-    w = gf.components.straight(layer=layer)
+    w = gf.components.straight()
     left = c << w
     right = c << w
-    right.move((100, 80))
+    right.d.move((100, 80))
 
-    obstacle = gf.components.rectangle(size=(100, 10))
+    obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
     obstacle1 = c << obstacle
     obstacle2 = c << obstacle
-    obstacle1.ymin = 40
-    obstacle2.xmin = 25
+    obstacle1.d.ymin = 40
+    obstacle2.d.xmin = 25
 
     p1 = left.ports["o2"]
     p2 = right.ports["o2"]
-
-    route = get_route_from_steps(
-        port1=p1,
-        port2=p2,
-        steps=[
-            {"x": 20, "y": 0},
-            {"x": 20, "y": 20},
-            {"x": 120, "y": 20},
-            {"x": 120, "y": 80},
-        ],
-        layer=layer,
-    )
-
-    length = 186.548
-
-    assert route.length == length, route.length
-    route = gf.routing.get_route_from_steps(
+    place_route_from_steps(
+        c,
         port1=p1,
         port2=p2,
         steps=[
@@ -192,52 +183,54 @@ def test_route_from_steps():
             {"x": 120},
             {"y": 80},
         ],
-        layer=layer,
     )
-    c.add(route.references)
-    assert route.length == length, route.length
-    return c
 
 
 if __name__ == "__main__":
     test_route_from_steps()
 
-    # c = gf.Component("get_route_from_steps_sample")
-    # w = gf.components.straight()
-    # left = c << w
-    # right = c << w
-    # right.move((100, 80))
+    import gdsfactory as gf
 
-    # p1 = left.ports["o2"]
-    # p2 = right.ports["o2"]
+    c = gf.Component("get_route_from_steps_sample")
+    w = gf.components.straight()
+    left = c << w
+    right = c << w
+    right.d.move((100, 80))
 
-    # route = get_route_from_steps(
-    #     port1=p2,
-    #     port2=p1,
+    obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
+    obstacle1 = c << obstacle
+    obstacle2 = c << obstacle
+    obstacle1.d.ymin = 40
+    obstacle2.d.xmin = 25
+
+    p1 = left.ports["o2"]
+    p2 = right.ports["o2"]
+    place_route_from_steps(
+        c,
+        port1=p1,
+        port2=p2,
+        steps=[
+            {"x": 20},
+            {"y": 20},
+            {"x": 120},
+            {"y": 80},
+        ],
+    )
+    c.show()
+
+    # c = gf.Component("pads_route_from_steps")
+    # pt = c << gf.components.pad_array(orientation=270, columns=3)
+    # pb = c << gf.components.pad_array(orientation=90, columns=3)
+    # pt.move((100, 200))
+    # route = gf.routing.get_route_from_steps_electrical(
+    #     pb.ports["e11"],
+    #     pt.ports["e11"],
     #     steps=[
-    #         {"x": 20, "y": 0},
-    #         {"x": 20, "y": 20},
-    #         {"x": 120, "y": 20},
-    #         {"x": 120, "y": 80},
+    #         {"y": 200},
+    #         # {"z": 200},
     #     ],
+    #     # cross_section='metal_routing',
+    #     # bend=gf.components.wire_corner,
     # )
     # c.add(route.references)
-    # c.add(route.labels)
-    # c.show( )
-
-    c = gf.Component("pads_route_from_steps")
-    pt = c << gf.components.pad_array(orientation=270, columns=3)
-    pb = c << gf.components.pad_array(orientation=90, columns=3)
-    pt.move((100, 200))
-    route = gf.routing.get_route_from_steps_electrical(
-        pb.ports["e11"],
-        pt.ports["e11"],
-        steps=[
-            {"y": 200},
-            # {"z": 200},
-        ],
-        # cross_section='metal_routing',
-        # bend=gf.components.wire_corner,
-    )
-    c.add(route.references)
-    c.show()
+    # c.show()
