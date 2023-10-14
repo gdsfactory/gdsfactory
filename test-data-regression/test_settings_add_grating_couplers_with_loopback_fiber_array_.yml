@@ -28,7 +28,9 @@ ports:
     center:
     - 0.0
     - 50.0
-    layer: WG
+    layer:
+    - 1
+    - 0
     name: o1
     orientation: 270.0
     port_type: optical
@@ -38,7 +40,9 @@ ports:
     center:
     - 127.0
     - 50.0
-    layer: WG
+    layer:
+    - 1
+    - 0
     name: o2
     orientation: 270.0
     port_type: optical
