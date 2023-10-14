@@ -81,7 +81,7 @@ docs = [
   "plotly"
 ]
 full = [
-  "gplugins[database,devsim,femwell,gmsh,meow,meshwell,ray,sax,schematic,tidy3d,web]"
+  "gplugins[devsim,femwell,gmsh,meow,meshwell,ray,sax,schematic,tidy3d,web]"
 ]
 maintainer = [
   "black>=21",
