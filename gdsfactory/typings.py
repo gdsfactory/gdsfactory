@@ -188,19 +188,19 @@ MultiCrossSectionAngleSpec = list[tuple[CrossSectionSpec, tuple[int, ...]]]
 LabelListFactory = Callable[..., list[Label]]
 
 
-class Route:
-    references: list[ComponentReference]
+class Route(BaseModel):
+    references: list[object]
     labels: list[Label] | None = None
-    ports: tuple[Port, Port]
+    ports: tuple[object, object]
     length: float
 
     model_config = {"extra": "forbid", "arbitrary_types_allowed": True}
 
 
-class Routes:
-    references: list[ComponentReference]
+class Routes(BaseModel):
+    references: list[object]
     lengths: list[float]
-    ports: list[Port] | None = None
+    ports: list[object] | None = None
     bend_radius: list[float] | None = None
 
     model_config = {"extra": "forbid"}

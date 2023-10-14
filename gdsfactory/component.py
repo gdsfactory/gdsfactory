@@ -310,6 +310,13 @@ class Component(kf.KCell):
             inst.name = name
         return inst
 
+    def add(self, instances: list[Instance] | Instance) -> None:
+        if not hasattr(instances, "__iter__"):
+            instances = [instances]
+
+        for instance in instances:
+            self.insts.append(instance)
+
     def ref(self) -> kf.Instance:
         """Returns a reference to the Component."""
         return ORPHANAGE.create_inst(cell=self)

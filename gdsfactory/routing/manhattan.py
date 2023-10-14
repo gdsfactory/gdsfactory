@@ -5,7 +5,6 @@ import warnings
 from collections.abc import Callable
 from functools import partial
 
-import gdstk
 import kfactory as kf
 import numpy as np
 from numpy import bool_, ndarray
@@ -140,13 +139,13 @@ def gen_sref(
     if port_name is None:
         port_position = np.array([0, 0])
     else:
-        port_position = structure.ports[port_name].center
+        port_position = structure.ports[port_name].d.center
 
     ref = structure.ref()
 
     if x_reflection:  # Vertical mirror: Reflection across x-axis
-        y0 = port_position[1]
-        ref.mirror(p1=(0, y0), p2=(1, y0))
+        y0 = int(port_position[1] / structure.kcl.dbu)
+        ref.mirror(p1=kf.kdb.Point(0, y0), p2=kf.kdb.Point(1, y0))
 
     ref.rotate(rotation_angle)
     # ref.rotate(rotation_angle, center=port_position)
@@ -263,8 +262,8 @@ def _generate_route_manhattan_points(
     threshold = TOLERANCE
 
     # transform I/O to the case where output is at (0, 0) pointing east (180)
-    p_input = np.array(input_port.center)
-    p_output = np.array(output_port.center)
+    p_input = np.array(input_port.d.center)
+    p_output = np.array(output_port.d.center)
     pts_io = np.stack([p_input, p_output], axis=0)
     angle = output_port.orientation
 
@@ -301,9 +300,7 @@ def _generate_route_manhattan_points(
                     f"Too many iterations for in {input_port} -> out {output_port}"
                 )
             # not ready for final bend: go over possibilities
-            sigp = np.sign(p[1])
-            if not sigp:
-                sigp = 1
+            sigp = np.sign(p[1]) or 1
             if a % 360 == 0:
                 # same directions
                 if abs(p[1]) < threshold and p[0] <= threshold:
@@ -357,9 +354,7 @@ def _generate_route_manhattan_points(
                     )
                 a = -sigp * 90
             elif a % 180 == 90:
-                siga = -np.sign((a % 360) - 180)
-                if not siga:
-                    siga = 1
+                siga = -np.sign((a % 360) - 180) or 1
 
                 if ((-p[1] * siga) - (s + bs2) > -threshold) and (
                     -p[0] - (end_straight_length + bs2)
@@ -563,31 +558,29 @@ def get_route_error(
     warnings.warn(f"Route error for points {points}", RouteWarning)
 
     c = Component(f"route_{uuid.uuid4()}"[:16])
-    path = gdstk.FlexPath(
+
+    p1 = points[0]
+    p2 = points[1]
+
+    points = [kf.kdb.DPoint(x, y) for (x, y) in points]
+    path = kf.kdb.DPath(
         points,
-        width=width,
-        simple_path=True,
-        layer=layer_path[0],
-        datatype=layer_path[1],
+        width,
     )
-    c.add(path)
-    ref = ComponentReference(c)
-    port1 = gf.Port(
-        name="p1", center=points[0], width=width, layer=layer_path, orientation=0
-    )
-    port2 = gf.Port(
-        name="p2", center=points[1], width=width, layer=layer_path, orientation=0
-    )
+    c.shapes(layer_path).insert(path)
+    ref = c.ref()
+    port1 = gf.Port(name="p1", center=p1, width=width, layer=layer_path, orientation=0)
+    port2 = gf.Port(name="p2", center=p2, width=width, layer=layer_path, orientation=0)
 
     point_marker = gf.components.rectangle(
         size=(width * 2, width * 2), centered=True, layer=layer_marker
     )
-    point_markers = [point_marker.ref(position=point) for point in points] + [ref]
+    point_markers = [point_marker.ref() for _ in points] + [ref]
     labels = [
-        gf.Label(
-            text=str(i), origin=point, layer=layer_label[0], texttype=layer_label[1]
-        )
-        for i, point in enumerate(points)
+        # gf.Label(
+        #     text=str(i), origin=point, layer=layer_label[0], texttype=layer_label[1]
+        # )
+        # for i, point in enumerate(points)
     ]
 
     references = references or []
@@ -757,7 +750,8 @@ def round_corners(
 
         if matching_ports:
             next_port = matching_ports[0]
-            other_port_name = set(bend_ref.ports) - {next_port.name}
+            bend_port_names = [p.name for p in bend_ref.ports]
+            other_port_name = set(bend_port_names) - {next_port.name}
             other_port = bend_ref.ports[list(other_port_name)[0]]
             bend_points.extend((next_port.center, other_port.center))
             previous_port_point = other_port.center
@@ -779,8 +773,8 @@ def round_corners(
                 with_sbend=with_sbend,
             )
 
-        p0_straight = bend_ref.ports[pname_north].center
-        bend_orientation = bend_ref.ports[pname_north].orientation
+        p0_straight = bend_ref.ports[pname_north].d.center
+        bend_orientation = bend_ref.ports[pname_north].d.angle
 
     bend_points.append(points[-1])
 
@@ -802,19 +796,19 @@ def round_corners(
         )
 
     # ensure bend connectivity
-    for i, point in enumerate(points[:-1]):
-        sx = np.sign(np.round(points[i + 1][0] - point[0], 3))
-        sy = np.sign(np.round(points[i + 1][1] - point[1], 3))
-        bsx = np.sign(np.round(bend_points[2 * i + 1][0] - bend_points[2 * i][0], 3))
-        bsy = np.sign(np.round(bend_points[2 * i + 1][1] - bend_points[2 * i][1], 3))
-        if bsx * sx == -1 or bsy * sy == -1:
-            print(f"No enough space for a route between {point} and {points[i+1]}")
-            return on_route_error(
-                points=points,
-                cross_section=None if multi_cross_section else x,
-                references=references,
-                with_sbend=with_sbend,
-            )
+    # for i, point in enumerate(points[:-1]):
+    #     sx = np.sign(np.round(points[i + 1][0] - point[0], 3))
+    #     sy = np.sign(np.round(points[i + 1][1] - point[1], 3))
+    #     bsx = np.sign(np.round(bend_points[2 * i + 1][0] - bend_points[2 * i][0], 3))
+    #     bsy = np.sign(np.round(bend_points[2 * i + 1][1] - bend_points[2 * i][1], 3))
+    #     if bsx * sx == -1 or bsy * sy == -1:
+    #         print(f"No enough space for a route between {point} and {points[i+1]}")
+    #         return on_route_error(
+    #             points=points,
+    #             cross_section=None if multi_cross_section else x,
+    #             references=references,
+    #             with_sbend=with_sbend,
+    #         )
 
     wg_refs = []
     for straight_origin, angle, length in straight_sections:
@@ -878,12 +872,12 @@ def round_corners(
         pname_west, pname_east = straight_ports
 
         wg_ref = wg.ref()
-        wg_ref.move(wg.ports[pname_west], (0, 0))
-        if mirror_straight:
-            wg_ref.mirror_y(list(wg_ref.ports)[0].name)
+        # wg_ref.move(wg.ports[pname_west], (0, 0))
+        # if mirror_straight:
+        #     wg_ref.mirror_y(list(wg_ref.ports)[0].name)
 
         wg_ref.rotate(angle)
-        wg_ref.move(straight_origin)
+        # wg_ref.move(straight_origin)
 
         if length > 0:
             references.append(wg_ref)
@@ -1074,7 +1068,7 @@ if __name__ == "__main__":
     s = gf.c.straight()
     pt = c << s
     pb = c << s
-    pt.move((400, 50))
+    pt.d.move((50, 50))
     route = gf.routing.get_route(
         pb.ports["o2"],
         pt.ports["o1"],
