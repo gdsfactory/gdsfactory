@@ -63,8 +63,7 @@ def add_electrical_pads_top(
     ref = c << component
 
     ports = [ref[port_name] for port_name in port_names] if port_names else None
-    ports_electrical = ports or select_ports(ref.ports, **kwargs)
-    ports_electrical = list(ports_electrical.values())
+    ports_electrical = ports or list(select_ports(ref.ports, **kwargs).values())
 
     if direction == "top":
         pads = c << gf.get_component(
