@@ -49,8 +49,11 @@ def add_electrical_pads_top_dc(
     component = gf.get_component(component)
 
     cref = c << component
-    ports = [cref[port_name] for port_name in port_names] if port_names else None
-    ports = ports or select_ports(cref.ports)
+    ports = (
+        [cref[port_name] for port_name in port_names]
+        if port_names
+        else select_ports(cref.ports)
+    )
 
     if not ports:
         raise ValueError(
@@ -89,5 +92,9 @@ def add_electrical_pads_top_dc(
 
 
 if __name__ == "__main__":
-    cc = add_electrical_pads_top_dc()
-    cc.show(show_ports=True)
+    ring = gf.components.ring_single_heater(gap=0.2, radius=10, length_x=4)
+    ring_with_grating_couplers = gf.routing.add_fiber_array(ring)
+    c = gf.routing.add_electrical_pads_top_dc(
+        ring_with_grating_couplers, port_names=("l_e1", "r_e3")
+    )
+    c.show(show_ports=True)
