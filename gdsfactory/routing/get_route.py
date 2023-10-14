@@ -38,7 +38,7 @@ import warnings
 from functools import partial
 
 import kfactory as kf
-from kfactory.routing.optical import route
+from kfactory.routing.optical import place90, route
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -181,6 +181,15 @@ def place_route(
         w += [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
         w += [kf.kdb.Point(*p2.center)]
         waypoints = w
+        return place90(
+            component,
+            p1=p1,
+            p2=p2,
+            straight_factory=straight_dbu,
+            bend90_cell=bend90,
+            taper_cell=taper_cell,
+            pts=waypoints,
+        )
 
     route(
         component,
