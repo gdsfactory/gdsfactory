@@ -5,8 +5,9 @@
 
 ## [7.8.9](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.9) - 2023-10-14
 
-No significant changes.
-
+- fix add_pads with defined electrical ports [#2182](https://github.com/gdsfactory/gdsfactory/pull/2182)
+- Add fixme [#2181](https://github.com/gdsfactory/gdsfactory/pull/2181)
+- Add connectivity information to  PDK and generate KLayoutTechnology [#2179](https://github.com/gdsfactory/gdsfactory/pull/2179)
 
 ## [7.8.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.8) - 2023-10-13
 
