@@ -315,11 +315,20 @@ class Component(kf.KCell):
             instances = [instances]
 
         for instance in instances:
-            self.insts.append(instance)
+            self._kdb_cell.insert(instance._instance)
 
-    def ref(self) -> kf.Instance:
-        """Returns a reference to the Component."""
-        return ORPHANAGE.create_inst(cell=self)
+    def ref(self) -> Instance:
+        """Returns a Component Instance."""
+
+        # trans = kdb.DTrans() # before
+        trans = kdb.DCplxTrans()  # after
+        na = 1
+        nb = 1
+        ci = self.cell_index()
+        a = kdb.DVector()
+        b = kdb.DVector()
+        dcellinst = kdb.DCellInstArray(ci, trans, a, b, na, nb)
+        return kf.Instance(self.kcl, dcellinst)
 
     @classmethod
     def __get_validators__(cls):
@@ -402,18 +411,11 @@ class Component(kf.KCell):
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.routing.manhattan import _get_unique_port_facing
 
-    c = gf.c.bend_euler()
-    ports = c.ports
-
-    ports2 = gf.port.select_ports(ports=ports, orientation=180, layer=(1, 0))
-    print(ports2)
-
-    layer = (1, 0)
-    p_w = _get_unique_port_facing(ports=ports, orientation=180, layer=layer)
-
-    # ref = c.ref()
+    c = gf.Component()
+    c2 = gf.c.bend_euler()
+    ref = c2.ref()
+    c.add(ref)
 
     # c = Component()
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))

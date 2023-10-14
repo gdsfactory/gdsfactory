@@ -740,12 +740,12 @@ def round_corners(
 
         if abs(dx_points) < TOLERANCE:
             matching_ports = [
-                port for port in bend_ref.ports if np.isclose(port.x, points[i][0])
+                port for port in bend_ref.ports if np.isclose(port.d.x, points[i][0])
             ]
 
         if abs(dy_points) < TOLERANCE:
             matching_ports = [
-                port for port in bend_ref.ports if np.isclose(port.y, points[i][1])
+                port for port in bend_ref.ports if np.isclose(port.d.y, points[i][1])
             ]
 
         if matching_ports:
