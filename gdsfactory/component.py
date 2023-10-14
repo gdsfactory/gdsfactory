@@ -197,9 +197,20 @@ class Component(_GeometryHelper):
     def polygons(self) -> list[Polygon]:
         return self._cell.polygons
 
-    @property
-    def area(self) -> float:
-        return self._cell.area
+    def area(self, layer: LayerSpec | None = None) -> float:
+        """Returns the area of the component.
+
+        Args:
+            layer: if None returns the area of the component.
+                If layer is specified returns the area of the component in that layer.
+        """
+        if not layer:
+            return self._cell.area(False)
+        from gdsfactory.pdk import get_layer
+
+        layer = get_layer(layer)
+        layer_to_area = self._cell.area(True)
+        return layer_to_area[layer]
 
     @property
     def labels(self) -> list[Label]:
