@@ -1069,7 +1069,7 @@ if __name__ == "__main__":
     pt = c << s
     pb = c << s
     pt.d.move((50, 50))
-    route = gf.routing.get_route(
+    route = gf.routing.place_route(
         pb.ports["o2"],
         pt.ports["o1"],
         cross_section="xs_sc_auto_widen",

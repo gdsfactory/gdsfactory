@@ -34,10 +34,12 @@ To generate a straight route:
 """
 from __future__ import annotations
 
+import warnings
 from collections.abc import Callable
 from functools import partial
 
 import numpy as np
+from kfactory.routing.optical import route
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -48,7 +50,7 @@ from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import metal2, metal3
 from gdsfactory.port import Port
-from gdsfactory.routing.manhattan import round_corners, route_manhattan
+from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.typings import (
     ComponentSpec,
     Coordinates,
@@ -58,25 +60,30 @@ from gdsfactory.typings import (
 )
 
 
-def get_route(
+def get_route() -> None:
+    raise ValueError("get_route is deprecated. Use place_route instead")
+
+
+def place_route(
+    component: Component,
     input_port: Port,
     output_port: Port,
     bend: ComponentSpec = bend_euler,
     with_sbend: bool = False,
     straight: ComponentSpec = straight_function,
     taper: ComponentSpec | None = None,
-    start_straight_length: float | None = None,
-    end_straight_length: float | None = None,
-    min_straight_length: float | None = None,
+    start_straight_length: float = 0.0,
+    end_straight_length: float = 0.0,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     **kwargs,
-) -> Route:
+) -> None:
     """Returns a Manhattan Route between 2 ports.
 
     The references are straights, bends and tapers.
     `get_route` is an automatic version of `get_route_from_steps`.
 
     Args:
+        component: to place the route into.
         input_port: start port.
         output_port: end port.
         bend: bend spec.
@@ -99,58 +106,44 @@ def get_route(
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
         mmi2.move((40, 20))
-        route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
-        c.add(route.references)
+        gf.routing.place_route(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
         c.plot()
-
     """
-    if isinstance(cross_section, list | tuple):
-        xs_list = []
-        for element in cross_section:
-            xs, angles = element
-            xs = gf.get_cross_section(xs)
-            xs = xs.copy(**kwargs)  # Shallow copy
-            xs_list.append((xs, angles))
-        cross_section = xs_list
+    with_sbend = kwargs.pop("min_straight_length", None)
+    min_straight_length = kwargs.pop("min_straight_length", None)
 
-    else:
-        cross_section = gf.get_cross_section(cross_section)
-        x = cross_section = cross_section.copy(**kwargs)
+    if with_sbend:
+        warnings.warn("with_sbend is not implemented yet")
 
-    bend90 = (
-        bend
-        if isinstance(bend, Component)
-        else gf.get_component(bend, cross_section=cross_section)
-    )
-    if taper:
-        if isinstance(cross_section, tuple | list):
-            raise ValueError(
-                "Tapers not implemented for routes made from multiple cross_sections."
-            )
-        taper_length = x.taper_length
-        width1 = input_port.width
-        auto_widen = x.auto_widen
-        width2 = x.width_wide if auto_widen else width1
+    if min_straight_length:
+        warnings.warn("minimum straight length not implemented yet")
 
-        taper = gf.get_component(
-            taper,
-            length=taper_length,
-            width1=input_port.width,
-            width2=width2,
+    xs = gf.get_cross_section(cross_section, **kwargs)
+    width = xs.width
+    straight = partial(straight, width=width)
+    bend90 = gf.get_component(bend_euler)
+    taper_cell = gf.get_component(taper) if taper else None
+
+    def straight_dbu(length: int, width: int = width) -> Component:
+        return straight(
+            length=round(length * component.kcl.dbu),
+            width=round(width * component.kcl.dbu),
             cross_section=cross_section,
+            **kwargs,
         )
 
-    return route_manhattan(
-        input_port=input_port,
-        output_port=output_port,
-        straight=straight,
-        taper=taper,
-        start_straight_length=start_straight_length,
-        end_straight_length=end_straight_length,
-        min_straight_length=min_straight_length,
-        bend=bend90,
-        with_sbend=with_sbend,
-        cross_section=cross_section,
+    end_straight = round(end_straight_length / component.kcl.dbu)
+    start_straight = round(start_straight_length / component.kcl.dbu)
+
+    route(
+        component,
+        p1=input_port,
+        p2=output_port,
+        straight_factory=straight_dbu,
+        bend90_cell=bend90,
+        taper_cell=taper_cell,
+        start_straight=start_straight,
+        end_straight=end_straight,
     )
 
 
@@ -299,41 +292,15 @@ get_route_from_waypoints_electrical_multilayer = partial(
 
 
 if __name__ == "__main__":
-    # w = gf.components.mmi1x2()
-    # c = gf.Component()
-    # c << w
-    # route = get_route(w.ports["o2"], w.ports["o1"], layer=(2, 0), width=2)
-    # cc = c.add(route.references)
-    # cc.show( )
-
-    # c = gf.Component("multi-layer")
-    # ptop = c << gf.components.pad_array()
-    # pbot = c << gf.components.pad_array(orientation=90)
-
-    # ptop.movex(300)
-    # ptop.movey(300)
-    # route = get_route_electrical_multilayer(
-    #     ptop.ports["e11"],
-    #     pbot.ports["e11"],
-    #     end_straight_length=100,
-    # )
-    # c.add(route.references)
-    # c.show()
-
-    c = gf.Component("sample_connect")
-    mmi1 = c << gf.components.mmi1x2()
-    mmi2 = c << gf.components.mmi1x2()
-    mmi2.move((200, 50))
-
-    route = gf.routing.get_route(
-        mmi1.ports["o3"],
-        mmi2.ports["o1"],
-        cross_section=gf.cross_section.strip(),
-        auto_widen=True,
-        width_wide=2,
-        auto_widen_minimum_length=100,
-        radius=30,
+    c = gf.Component("demo")
+    s = gf.c.straight()
+    pt = c << s
+    pb = c << s
+    pt.d.move((50, 50))
+    gf.routing.place_route(
+        c,
+        pb.ports["o2"],
+        pt.ports["o1"],
+        cross_section="xs_sc_auto_widen",
     )
-    c.add(route.references)
-    print([i.name for i in c.get_dependencies()])
     c.show()

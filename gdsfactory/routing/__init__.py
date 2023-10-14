@@ -38,6 +38,7 @@ from gdsfactory.routing.get_route import (
     get_route_from_waypoints_electrical,
     get_route_from_waypoints_electrical_m2,
     get_route_from_waypoints_electrical_multilayer,
+    place_route,
 )
 from gdsfactory.routing.get_route_astar import get_route_astar
 from gdsfactory.routing.get_route_from_steps import (
@@ -89,7 +90,6 @@ __all__ = [
     "get_route_from_steps_electrical",
     "get_route_from_steps_electrical_multilayer",
     "fanout2x2",
-    "fanout",
     "route_ports_to_side",
     "route_south",
     "route_quad",
@@ -98,6 +98,7 @@ __all__ = [
     "fanout_ports",
     "sort_ports",
     "utils",
+    "place_route",
 ]
 
 
