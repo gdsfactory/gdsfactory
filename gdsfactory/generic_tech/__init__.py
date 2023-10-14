@@ -39,6 +39,13 @@ LAYER_TRANSITIONS = {
     # (LAYER.)
 }
 
+LAYER_CONNECTIVITY = [
+    ("NPP", "VIAC", "M1"),
+    ("PPP", "VIAC", "M1"),
+    ("M1", "VIA1", "M2"),
+    ("M2", "VIA2", "M3"),
+]
+
 
 @cache
 def get_generic_pdk() -> Pdk:
@@ -63,6 +70,7 @@ def get_generic_pdk() -> Pdk:
         layer_transitions=LAYER_TRANSITIONS,
         materials_index=materials_index,
         constants=constants,
+        connectivity=LAYER_CONNECTIVITY,
     )
 
 

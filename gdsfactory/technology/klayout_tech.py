@@ -11,7 +11,7 @@ from pydantic import BaseModel, ConfigDict
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.technology.xml_utils import make_pretty_xml
-from gdsfactory.typings import PathType
+from gdsfactory.typings import ConductorViaConductorName, Layer, PathType
 
 try:
     import klayout.db as db
@@ -21,8 +21,6 @@ except ImportError as e:
     print("You can install `pip install klayout.")
     raise e
 
-Layer = tuple[int, int]
-ConductorViaConductorName = tuple[str, str, str]
 
 prefix_d25 = """<?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>

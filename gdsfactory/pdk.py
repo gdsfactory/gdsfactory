@@ -6,7 +6,7 @@ import importlib
 import pathlib
 import warnings
 from collections.abc import Callable
-from functools import partial
+from functools import cached_property, partial
 from typing import Any, Literal
 
 import numpy as np
@@ -19,12 +19,13 @@ from gdsfactory.events import Event
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
-from gdsfactory.technology import LayerStack, LayerViews
+from gdsfactory.technology import LayerStack, LayerViews, klayout_tech
 from gdsfactory.typings import (
     CellSpec,
     Component,
     ComponentFactory,
     ComponentSpec,
+    ConductorViaConductorName,
     CrossSection,
     CrossSectionOrFactory,
     CrossSectionSpec,
@@ -241,6 +242,7 @@ class Pdk(BaseModel):
         oasis_settings: to write OASIS files.
         cell_decorator_settings: settings for cell_without_validator decorator function in gdsfactory.cell.
         bend_points_distance: default points distance for bends in um.
+        connectivity: defines connectivity between layers through vias.
 
     """
 
@@ -280,6 +282,7 @@ class Pdk(BaseModel):
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
     cell_decorator_settings: CellDecoratorSettings = CellDecoratorSettings()
     bend_points_distance: float = 20 * nm
+    connectivity: list[ConductorViaConductorName] | None = None
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
@@ -701,6 +704,27 @@ class Pdk(BaseModel):
             None,
         )
         return xs_name or cross_section.name
+
+    @cached_property
+    def klayout_technology(self) -> klayout_tech.KLayoutTechnology:
+        """Returns a KLayoutTechnology from the PDK.
+
+        Raises:
+            UserWarning if required properties for generating a KLayoutTechnology are not defined.
+        """
+        try:
+            return klayout_tech.KLayoutTechnology(
+                name=self.name,
+                layer_views=self.layer_views,
+                connectivity=self.connectivity,
+                layer_map=self.layers,
+                layer_stack=self.layer_stack,
+            )
+        except AttributeError as e:
+            raise UserWarning(
+                "Required properties for generating a KLayoutTechnology are not defined. "
+                "Check the error for missing property"
+            ) from e
 
 
 _ACTIVE_PDK = None

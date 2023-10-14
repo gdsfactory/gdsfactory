@@ -4,10 +4,11 @@ Layer = tuple[int, int]
 
 
 class GenericLayerMap(LayerMap):
-    """Generic layermap based on book.
+    """Generic layermap based on the book:
 
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
     Cambridge University Press 2015, page 353
+
     You will need to create a new LayerMap with your specific foundry layers.
     """
 
