@@ -56,7 +56,7 @@ def route_fiber_array(
     layer_label: LayerSpec | None = None,
     layer_label_loopback: LayerSpec | None = None,
     component_name: str | None = None,
-    x_grating_offset: int = 0,
+    x_grating_offset: float = 0.0,
     port_names: Strs | None = None,
     get_input_label_text_loopback_function: Callable = get_input_label_text_dash_loopback,
     get_input_label_text_function: Callable | None = get_input_label_text_dash,
@@ -130,6 +130,32 @@ def route_fiber_array(
         ports_loopback: list of grating coupler input waveguide ports.
         ports_component: list of optical ports.
 
+    .. code::
+
+                            ┌─────────┬─────────┬────────┐
+                            │         │Component│        │
+                            │         ├─────────┤        │
+                       ▲    │         │         │        │
+                       │    │         │         │        │
+                       │    │         │         │        │
+                       │    │         │         │        │
+                       │    │         │         │        │
+                       │    │         │         │        │
+          fanout_length│    │         │         │        │
+                       │    │         │         │        │
+                       │    │         │         │        │
+                       │    │         │         │        │
+                       │    │         │         │        │
+                       │    │         │         │        │
+                       │    │         │         │        │
+                       │    │         │         │        │
+                       ▼   ┌▼─┐     ┌─▼┐      ┌─▼┐     ┌─▼┐
+                           │  │     │  │      │  │     │  │
+                           └──┘     └──┘      └──┘     └──┘
+
+                            ◄─────────►
+                           fiber_spacing
+
     """
     fiber_spacing = gf.get_constant(fiber_spacing)
     cross_section = x = gf.get_cross_section(cross_section)
@@ -153,9 +179,7 @@ def route_fiber_array(
 
     elements = []
 
-    # grating_coupler can either be a component/function
-    # or a list of components/functions
-
+    # grating_coupler can be a component/function or list of components/functions
     if isinstance(grating_coupler, list):
         grating_couplers = [gf.call_if_func(g) for g in grating_coupler]
         grating_coupler = grating_couplers[0]
@@ -350,12 +374,9 @@ def route_fiber_array(
         elements.extend(elems)
 
         if force_manhattan:
-            """1) find the min x_distance between each grating port and each
-            component port.
-
-            2) If abs(min distance) < 2* bend radius     then offset
-            io_gratings by -min_distance
-
+            """
+            1) find the min x_distance between each grating port and each port.
+            2) If abs(min distance) < 2* bend radius offset io_gratings by -min_distance
             """
             min_dist = 2 * dy + 10.0
             min_dist_threshold = 2 * dy + 1.0
@@ -567,12 +588,13 @@ if __name__ == "__main__":
 
     ci = gf.components.straight()
     ci = gf.components.mmi2x2()
-    ci = gf.components.straight_heater_metal()
+    # ci = gf.components.straight_heater_metal()
     gc = gf.components.grating_coupler_elliptical_te(taper_length=30)
     elements, gc, ports, ports_loopback, ports_component = route_fiber_array(
         component=ci,
         grating_coupler=gc,
         nlabels_loopback=1,
+        # nb_optical_ports_lines=2,
         # with_loopback=False,
         layer_label="TEXT",
         layer_label_loopback="TEXT",

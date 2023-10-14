@@ -62,9 +62,11 @@ def add_electrical_pads_top(
     c.component = component
     ref = c << component
 
-    ports = [ref[port_name] for port_name in port_names] if port_names else None
-    ports_electrical = ports or select_ports(ref.ports, **kwargs)
-    ports_electrical = list(ports_electrical.values())
+    ports_electrical = (
+        [ref[port_name] for port_name in port_names]
+        if port_names
+        else list(select_ports(ref.ports, **kwargs).values())
+    )
 
     if direction == "top":
         pads = c << gf.get_component(
@@ -82,7 +84,7 @@ def add_electrical_pads_top(
     ports_component = gf.routing.sort_ports.sort_ports_x(ports_electrical)
 
     for p1, p2 in zip(ports_component, ports_pads):
-        c << route_quad(p1, p2, layer=layer)
+        _ = c << route_quad(p1, p2, layer=layer)
 
     c.add_ports(ref.ports)
 

@@ -100,6 +100,8 @@ class Port:
         shear_angle: float | None = None,
         enforce_ports_on_grid: bool | None = None,
     ) -> None:
+        from gdsfactory.pdk import get_cross_section, get_layer
+
         self.name = name
         if enforce_ports_on_grid is None:
             enforce_ports_on_grid = CONF.enforce_ports_on_grid
@@ -120,8 +122,6 @@ class Port:
             raise ValueError("You need Port to define cross_section or width")
 
         if layer is None or width is None:
-            from gdsfactory.pdk import get_cross_section
-
             cross_section = get_cross_section(cross_section)
 
         if cross_section and layer is None:
@@ -133,7 +133,7 @@ class Port:
         if width is None:
             width = cross_section.width
 
-        self.layer = layer
+        self.layer = get_layer(layer)
         self.width = width
 
         if self.width < 0:

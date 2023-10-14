@@ -4,7 +4,9 @@ ports:
     center:
     - 0.0
     - 0.0
-    layer: PORT
+    layer:
+    - 1
+    - 10
     name: o1
     orientation: 180
     port_type: optical
@@ -14,7 +16,9 @@ ports:
     center:
     - 10.0
     - 0.0
-    layer: PORT
+    layer:
+    - 1
+    - 10
     name: o2
     orientation: 0
     port_type: optical
