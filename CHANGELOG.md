@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.8.9](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.9) - 2023-10-14
+
+No significant changes.
+
+
 ## [7.8.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.8) - 2023-10-13
 
 - Fix cs and transitions [#2158](https://github.com/gdsfactory/gdsfactory/pull/2158)
