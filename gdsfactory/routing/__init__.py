@@ -16,6 +16,7 @@ from gdsfactory.routing.get_bundle import (
     get_bundle,
     get_bundle_electrical,
     get_bundle_electrical_multilayer,
+    place_bundle,
 )
 from gdsfactory.routing.get_bundle_from_steps import (
     get_bundle_from_steps,
@@ -99,6 +100,7 @@ __all__ = [
     "sort_ports",
     "utils",
     "place_route",
+    "place_bundle",
 ]
 
 

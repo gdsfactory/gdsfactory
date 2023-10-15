@@ -15,6 +15,7 @@ from collections.abc import Callable
 from functools import partial
 
 import numpy as np
+from kfactory.routing.manhattan import route_manhattan
 from numpy import ndarray
 
 import gdsfactory as gf
@@ -28,17 +29,15 @@ from gdsfactory.routing.get_bundle_from_steps import get_bundle_from_steps
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 from gdsfactory.routing.get_bundle_sbend import get_bundle_sbend
 from gdsfactory.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
-from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
-from gdsfactory.routing.manhattan import generate_manhattan_waypoints
-from gdsfactory.routing.path_length_matching import path_length_matched_points
+from gdsfactory.routing.get_route import get_route, place_route
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.routing.validation import (
     is_invalid_bundle_topology,
     make_error_traces,
-    validate_connections,
 )
 from gdsfactory.typings import (
+    Component,
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
@@ -48,7 +47,20 @@ from gdsfactory.typings import (
 )
 
 
-def get_bundle(
+def get_bundle(**kwargs) -> None:
+    raise ValueError(
+        "get_bundle is not supported in gdsfactory>=8. Use place_bundle instead!"
+    )
+
+
+get_bundle_same_axis = get_bundle
+get_bundle_same_axis_no_grouping = get_bundle
+get_bundle_electrical = get_bundle
+get_bundle_electrical_multilayer = get_bundle
+
+
+def place_bundle(
+    component: Component,
     ports1: list[Port],
     ports2: list[Port],
     separation: float | None = None,
@@ -67,13 +79,14 @@ def get_bundle(
     steps: list[Step] | None = None,
     waypoints: Coordinates | None = None,
     **kwargs,
-) -> list[Route]:
-    """Returns list of routes to connect two groups of ports.
+) -> None:
+    """Places a bundle of routes to connect two groups of ports.
 
     Routes connect a bundle of ports with a river router.
     Chooses the correct routing function depending on port angles.
 
     Args:
+        component: component to add the routes to.
         ports1: list of starting ports.
         ports2: list of end ports.
         separation: bundle separation (center to center). Defaults to cross_section.width + cross_section.gap
@@ -117,32 +130,22 @@ def get_bundle(
 
         import gdsfactory as gf
 
-        @gf.cell
-        def test_north_to_south():
-            dy = 200.0
-            xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
+        dy = 200.0
+        xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
 
-            pitch = 10.0
-            N = len(xs1)
-            xs2 = [-20 + i * pitch for i in range(N // 2)]
-            xs2 += [400 + i * pitch for i in range(N // 2)]
+        pitch = 10.0
+        N = len(xs1)
+        xs2 = [-20 + i * pitch for i in range(N // 2)]
+        xs2 += [400 + i * pitch for i in range(N // 2)]
 
-            a1 = 90
-            a2 = a1 + 180
+        a1 = 90
+        a2 = a1 + 180
 
-            ports1 = [gf.Port(f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1,0)) for i in range(N)]
-            ports2 = [gf.Port(f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1,0)) for i in range(N)]
+        ports1 = [gf.Port(f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1,0)) for i in range(N)]
+        ports2 = [gf.Port(f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1,0)) for i in range(N)]
 
-            c = gf.Component()
-            routes = gf.routing.get_bundle(ports1, ports2)
-            for route in routes:
-                c.add(route.references)
-
-            return c
-
-
-        gf.config.set_plot_options(show_subports=False)
-        c = test_north_to_south()
+        c = gf.Component()
+        gf.routing.place_bundle(c, ports1, ports2)
         c.plot()
 
     """
@@ -215,6 +218,7 @@ def get_bundle(
         "path_length_match_modify_segment_i": path_length_match_modify_segment_i,
     }
     params = {
+        "component": component,
         "ports1": ports1,
         "ports2": ports2,
         "separation": separation,
@@ -266,7 +270,7 @@ def get_bundle(
         and end_angle == 90
         and y_start > y_end
     ):
-        # print("get_bundle_same_axis")
+        print("get_bundle_same_axis")
         if with_sbend:
             return get_bundle_sbend(
                 ports1,
@@ -274,7 +278,7 @@ def get_bundle(
                 sort_ports=sort_ports,
                 cross_section=cross_section,
             )
-        return get_bundle_same_axis(**params)
+        return place_bundle_same_axis(**params)
 
     elif start_angle == end_angle:
         # print('get_bundle_udirect')
@@ -309,7 +313,8 @@ def are_decoupled(
     return False if x2 < x1p + sep else x2 >= x1p - sep
 
 
-def get_bundle_same_axis(
+def place_bundle_same_axis(
+    component: Component,
     ports1: list[Port],
     ports2: list[Port],
     separation: float = 5.0,
@@ -392,49 +397,71 @@ def get_bundle_same_axis(
             ports1, ports2, enforce_port_ordering=enforce_port_ordering
         )
 
+    xs = gf.get_cross_section(cross_section, **kwargs)
+    radius = xs.radius
+    radius_dbu = round(radius / component.kcl.dbu)
+    # for port1, port2 in zip(ports1, ports2):
+    #     place_route(
+    #         component=component,
+    #         port1=port1,
+    #         port2=port2,
+    #         bend=bend,
+    #         cross_section=cross_section,
+    #         **kwargs,
+    #     )
+
+    # routes = []
+    # for port1, port2 in zip(ports1, ports2):
+    #     waypoints = route_manhattan(
+    #         port1=port1,
+    #         port2=port2,
+    #         bend90_radius=radius,
+    #         start_straight=start_straight_length,
+    #         end_straight=end_straight_length,
+    #     )
+    #     routes.append(waypoints)
+
     routes = _get_bundle_waypoints(
         ports1,
         ports2,
-        separation=separation,
-        bend=bend,
-        cross_section=cross_section,
-        end_straight_length=end_straight_length,
-        start_straight_length=start_straight_length,
-        **kwargs,
+        separation_dbu=round(separation / component.kcl.dbu),
+        end_straight_length_dbu=round(end_straight_length / component.kcl.dbu),
+        start_straight_length_dbu=round(start_straight_length / component.kcl.dbu),
+        radius_dbu=radius_dbu,
     )
-    if path_length_match_loops:
-        routes = [np.array(route) for route in routes]
-        routes = path_length_matched_points(
-            routes,
-            extra_length=path_length_match_extra_length,
+    # if path_length_match_loops:
+    #     routes = [np.array(route) for route in routes]
+    #     routes = path_length_matched_points(
+    #         routes,
+    #         extra_length=path_length_match_extra_length,
+    #         bend=bend,
+    #         nb_loops=path_length_match_loops,
+    #         modify_segment_i=path_length_match_modify_segment_i,
+    #         cross_section=cross_section,
+    #         **kwargs,
+    #     )
+
+    for route, port1, port2 in zip(routes, ports1, ports2):
+        print(route)
+        place_route(
+            component=component,
+            port1=port1,
+            port2=port2,
+            waypoints=route,
             bend=bend,
-            nb_loops=path_length_match_loops,
-            modify_segment_i=path_length_match_modify_segment_i,
-            cross_section=cross_section,
-            **kwargs,
+            cross_section=xs,
         )
-    routes = [
-        get_route_from_waypoints(
-            route,
-            bend=bend,
-            cross_section=cross_section,
-            **kwargs,
-        )
-        for route in routes
-    ]
-    if enforce_port_ordering:
-        return validate_connections(_p1, _p2, routes)
-    return routes
+    # if enforce_port_ordering:
+    #     return validate_connections(_p1, _p2, routes)
 
 
 def _get_bundle_waypoints(
     ports1: list[Port],
     ports2: list[Port],
-    separation: float = 30,
-    end_straight_length: float = 0.0,
-    start_straight_length: float = 0.0,
-    cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
+    separation_dbu: int = 30000,
+    end_straight_length_dbu: int = 0,
+    start_straight_length_dbu: int = 0,
+    radius_dbu: int = 10000,
 ) -> list[ndarray]:
     """Returns route coordinates List.
 
@@ -446,8 +473,8 @@ def _get_bundle_waypoints(
         start_straight_length: length of straight.
         cross_section: CrossSection or function that returns a cross_section.
         kwargs: cross_section settings.
-
     """
+
     if not ports1 and not ports2:
         return []
 
@@ -462,13 +489,12 @@ def _get_bundle_waypoints(
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     if len(ports1) == 1 and len(ports2) == 1:
         return [
-            generate_manhattan_waypoints(
-                ports1[0],
-                ports2[0],
-                start_straight_length=start_straight_length,
-                end_straight_length=end_straight_length,
-                cross_section=cross_section,
-                **kwargs,
+            route_manhattan(
+                port1=ports1[0],
+                port2=ports2[0],
+                bend90_radius=radius_dbu,
+                start_straight=start_straight_length_dbu,
+                end_straight=end_straight_length_dbu,
             )
         ]
 
@@ -494,9 +520,10 @@ def _get_bundle_waypoints(
     s = sign(y0 - y1)
     curr_end_straight = 0
 
-    end_straight_length = end_straight_length or 15.0
+    end_straight_length = end_straight_length_dbu or 15000
 
     Le = end_straight_length
+    separation = separation_dbu
 
     # First pass - loop on all the ports to find the tentative end_straights
     for i in range(len(ports1)):
@@ -510,8 +537,7 @@ def _get_bundle_waypoints(
             y = get_port_y(ports2[i])
 
         if are_decoupled(x2, x2_prev, x1, x1_prev, sep=separation):
-            # If this metal track does not impact the previous one, then start a new
-            # group.
+            # If this metal track does not impact the previous one, then start a new group.
             L = min(end_straights_in_group)
             end_straights += [max(x - L, 0) + Le for x in end_straights_in_group]
 
@@ -525,7 +551,6 @@ def _get_bundle_waypoints(
             curr_end_straight -= separation
 
         end_straights_in_group.append(curr_end_straight + (y - y0) * s)
-
         x1_prev = x1
         x2_prev = x2
 
@@ -535,18 +560,18 @@ def _get_bundle_waypoints(
     end_straights += [max(x - L, 0) + Le for x in end_straights_in_group]
 
     # Second pass - route the ports pairwise
-    N = len(ports1)
-    return [
-        generate_manhattan_waypoints(
-            ports1[i],
-            ports2[i],
-            start_straight_length=start_straight_length,
-            end_straight_length=end_straights[i],
-            cross_section=cross_section,
-            **kwargs,
+    routes = []
+    for i in range(len(ports1)):
+        routes.append(
+            route_manhattan(
+                port1=ports1[i],
+                port2=ports2[i],
+                bend90_radius=radius_dbu,
+                start_straight=start_straight_length_dbu,
+                end_straight=end_straights[i],
+            )
         )
-        for i in range(N)
-    ]
+    return routes
 
 
 def compute_ports_max_displacement(ports1: list[Port], ports2: list[Port]) -> float:
@@ -605,7 +630,8 @@ def get_min_spacing(
     return (max_j - min_j) * sep + 2 * radius + 1.0
 
 
-def get_bundle_same_axis_no_grouping(
+def place_bundle_same_axis_no_grouping(
+    component: Component,
     ports1: list[Port],
     ports2: list[Port],
     sep: float = 5.0,
@@ -767,16 +793,44 @@ if __name__ == "__main__":
     #     c.add(route.references)
 
     # c.show()
-    c = gf.Component("demo")
-    c1 = c << gf.components.mmi2x2()
-    c2 = c << gf.components.mmi2x2()
-    c2.move((100, 40))
-    routes = get_bundle(
-        [c1.ports["o2"], c1.ports["o1"]],
-        [c2.ports["o1"], c2.ports["o2"]],
-        layer=(2, 0),
-        straight=partial(gf.components.straight, layer=(2, 0), width=1),
-    )
-    for route in routes:
-        c.add(route.references)
+    # c = gf.Component("demo")
+    # c1 = c << gf.components.mmi2x2()
+    # c2 = c << gf.components.mmi2x2()
+    # c2.move((100, 40))
+    # routes = get_bundle(
+    #     [c1.ports["o2"], c1.ports["o1"]],
+    #     [c2.ports["o1"], c2.ports["o2"]],
+    #     layer=(2, 0),
+    #     straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    # )
+    # for route in routes:
+    #     c.add(route.references)
+    # c.show()
+
+    dy = 200.0
+    xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
+
+    pitch = 10.0
+    N = len(xs1)
+    xs2 = [-20 + i * pitch for i in range(N // 2)]
+    xs2 += [400 + i * pitch for i in range(N // 2)]
+
+    a1 = 90
+    a2 = a1 + 180
+
+    ports1 = [
+        gf.Port(
+            f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1, 0)
+        )
+        for i in range(N)
+    ]
+    ports2 = [
+        gf.Port(
+            f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1, 0)
+        )
+        for i in range(N)
+    ]
+
+    c = gf.Component()
+    place_bundle(c, ports1, ports2)
     c.show()

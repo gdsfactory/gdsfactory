@@ -59,14 +59,11 @@ from gdsfactory.typings import (
 
 def get_route(**kwargs) -> None:
     raise ValueError(
-        "get_route is not supported in gdsfactory >=8. Use place_route instead!"
+        "get_route is not supported in gdsfactory>=8. Use place_route instead!"
     )
 
 
-def get_route_from_waypoints(**kwargs) -> None:
-    raise ValueError(
-        "get_route_from_waypoints is not supported in gdsfactory >=8. Use place_route instead!"
-    )
+get_route_from_waypoints = get_route
 
 
 get_route_electrical = partial(
@@ -177,10 +174,11 @@ def place_route(
     start_straight = round(start_straight_length / dbu)
 
     if waypoints is not None:
-        w = [kf.kdb.Point(*p1.center)]
-        w += [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
-        w += [kf.kdb.Point(*p2.center)]
-        waypoints = w
+        if not isinstance(waypoints[0], kf.kdb.Point):
+            w = [kf.kdb.Point(*p1.center)]
+            w += [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
+            w += [kf.kdb.Point(*p2.center)]
+            waypoints = w
         return place90(
             component,
             p1=p1,
