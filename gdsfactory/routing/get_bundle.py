@@ -753,30 +753,30 @@ get_bundle_electrical_multilayer = partial(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("get_bundle_multi_layer")
-    columns = 2
-    ptop = c << gf.components.pad_array(columns=columns)
-    pbot = c << gf.components.pad_array(orientation=90, columns=columns)
+    # c = gf.Component("get_bundle_multi_layer")
+    # columns = 2
+    # ptop = c << gf.components.pad_array(columns=columns)
+    # pbot = c << gf.components.pad_array(orientation=90, columns=columns)
 
-    ptop.movex(300)
-    ptop.movey(300)
-    routes = gf.routing.get_bundle_electrical_multilayer(
-        ptop.ports, pbot.ports, end_straight_length=100, separation=20
-    )
-    for route in routes:
-        c.add(route.references)
-
-    c.show()
-    # c = gf.Component("demo")
-    # c1 = c << gf.components.mmi2x2()
-    # c2 = c << gf.components.mmi2x2()
-    # c2.move((100, 40))
-    # routes = get_bundle(
-    #     [c1.ports["o2"], c1.ports["o1"]],
-    #     [c2.ports["o1"], c2.ports["o2"]],
-    #     layer=(2, 0),
-    #     straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    # ptop.movex(300)
+    # ptop.movey(300)
+    # routes = gf.routing.get_bundle_electrical_multilayer(
+    #     ptop.ports, pbot.ports, end_straight_length=100, separation=20
     # )
     # for route in routes:
     #     c.add(route.references)
-    # c.show( )
+
+    # c.show()
+    c = gf.Component("demo")
+    c1 = c << gf.components.mmi2x2()
+    c2 = c << gf.components.mmi2x2()
+    c2.move((100, 40))
+    routes = get_bundle(
+        [c1.ports["o2"], c1.ports["o1"]],
+        [c2.ports["o1"], c2.ports["o2"]],
+        layer=(2, 0),
+        straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    )
+    for route in routes:
+        c.add(route.references)
+    c.show()
