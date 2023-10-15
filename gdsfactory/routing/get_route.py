@@ -200,7 +200,6 @@ def place_route(
         taper_cell=taper_cell,
         start_straight=start_straight,
         end_straight=end_straight,
-        waypoints=waypoints,
     )
 
 

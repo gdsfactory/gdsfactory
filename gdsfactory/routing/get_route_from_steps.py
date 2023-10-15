@@ -14,7 +14,6 @@ from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
-    Step,
 )
 
 
@@ -28,7 +27,7 @@ def place_route_from_steps(
     component: Component,
     port1: Port,
     port2: Port,
-    steps: list[Step] | None = None,
+    steps: list[dict[str, float]] | None = None,
     bend: ComponentSpec = "bend_euler",
     taper: ComponentSpec | None = "taper",
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
