@@ -13,15 +13,6 @@ from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.technology.xml_utils import make_pretty_xml
 from gdsfactory.typings import ConductorViaConductorName, Layer, PathType
 
-try:
-    import klayout.db as db
-
-    technology = db.Technology()
-except ImportError as e:
-    print("You can install `pip install klayout.")
-    raise e
-
-
 prefix_d25 = """<?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
  <description/>
@@ -85,6 +76,13 @@ class KLayoutTechnology(BaseModel):
             mebes_config: A dictionary specifying the KLayout mebes reader config.
 
         """
+        try:
+            import klayout.db as db
+
+            technology = db.Technology()
+        except ImportError as e:
+            print("You can install `pip install klayout.")
+            raise e
 
         d25_filename = d25_filename or f"{self.name}.lyd25"
 
