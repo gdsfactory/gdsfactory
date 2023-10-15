@@ -1,5 +1,5 @@
 help:
-	@echo 'make install:          Install package, hook, notebooks and gdslib'
+	@echo 'make install:          Install package in development mode'
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 

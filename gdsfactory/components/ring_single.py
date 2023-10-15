@@ -95,8 +95,8 @@ if __name__ == "__main__":
 
     # c = gf.routing.add_fiber_array(ring_single)
     # c = ring_single(cross_section="xs_rc", width=2)
-    c = ring_single(length_y=0, length_x=0)
-    c.get_netlist()
+    c = ring_single(length_y=0, length_x=0, cross_section="xs_rc")
+    # c.get_netlist()
     c.show(show_ports=True)
 
     # cc = gf.add_pins(c)
