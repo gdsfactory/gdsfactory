@@ -23,6 +23,7 @@ def get_layer_stack() -> LayerStack:
 
 def test_valid_component() -> None:
     import trimesh
+
     c = gf.components.rectangle()
     scene = to_3d(c)
     assert isinstance(scene, trimesh.Scene)
