@@ -10,7 +10,6 @@ import time
 import traceback
 from collections.abc import Callable
 
-from IPython.terminal.embed import embed
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
@@ -157,6 +156,8 @@ class FileWatcher(FileSystemEventHandler):
 
 
 def watch(path: PathType | None = cwd, pdk: str | None = None) -> None:
+    from IPython.terminal.embed import embed
+
     path = str(path)
     logging.basicConfig(
         level=logging.INFO,
