@@ -1,5 +1,4 @@
 import pytest
-import trimesh
 
 import gdsfactory as gf
 from gdsfactory.export.to_3d import to_3d
@@ -23,6 +22,7 @@ def get_layer_stack() -> LayerStack:
 
 
 def test_valid_component() -> None:
+    import trimesh
     c = gf.components.rectangle()
     scene = to_3d(c)
     assert isinstance(scene, trimesh.Scene)
