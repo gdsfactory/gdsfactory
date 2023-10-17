@@ -442,7 +442,6 @@ def place_bundle_same_axis(
     #     )
 
     for route, port1, port2 in zip(routes, ports1, ports2):
-        print(route)
         place_route(
             component=component,
             port1=port1,
@@ -468,11 +467,10 @@ def _get_bundle_waypoints(
     Args:
         ports1: list of starting ports.
         ports2: list of end ports.
-        separation: route spacing.
-        end_straight_length: adds a straight.
-        start_straight_length: length of straight.
-        cross_section: CrossSection or function that returns a cross_section.
-        kwargs: cross_section settings.
+        separation_dbu: route spacing.
+        end_straight_length_dbu: adds a straight.
+        start_straight_length_dbu: length of straight.
+        radius_dbu: radius of bend.
     """
 
     if not ports1 and not ports2:
@@ -500,7 +498,6 @@ def _get_bundle_waypoints(
 
     # Contains end_straight of tracks which need to be adjusted together
     end_straights_in_group = []
-
     # Once a group is finished, all the lengths are appended to end_straights
     end_straights = []
 
