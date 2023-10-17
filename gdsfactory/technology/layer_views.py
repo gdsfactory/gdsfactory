@@ -898,18 +898,17 @@ class LayerViews(BaseModel):
             return self.layer_views[name]
 
     def __getitem__(self, val: str):
-        """Allows accessing to the layer names like ls['gold2'].
+        """Allows accessing LayerViews with the syntax ``ls['gold2']``.
 
         Args:
             val: Layer name to access within the LayerViews.
 
         Returns:
             self.layers[val]: LayerView in the LayerViews.
-
         """
         try:
             return self.get_layer_views()[val]
-        except Exception as error:
+        except KeyError as error:
             raise ValueError(
                 f"LayerView {val!r} not in LayerViews {list(self.layer_views.keys())}"
             ) from error
