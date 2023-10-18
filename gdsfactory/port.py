@@ -115,27 +115,14 @@ class Port(kf.Port):
         if width < 0:
             raise ValueError(f"Port width must be >=0. Got {width}")
 
-        if isinstance(center, list | tuple):
-            center = (
-                center[0] / kf.kcl.dbu,
-                center[1] / kf.kcl.dbu,
-            )
-
+        dcplx_trans = kf.kdb.DCplxTrans(1.0, float(orientation), False, *center)
         super().__init__(
             name=name,
-            angle=int(orientation // 90),
-            center=center,
             layer=get_layer(layer),
-            width=width,
+            dwidth=width,
             port_type=port_type,
+            dcplx_trans=dcplx_trans,
         )
-
-    def __repr__(self) -> str:
-        """Return a string representation of the object."""
-        filtered_dict = {
-            key: value for key, value in self.to_dict().items() if value is not None
-        }
-        return str(filtered_dict)
 
     @classmethod
     def __get_validators__(cls):
