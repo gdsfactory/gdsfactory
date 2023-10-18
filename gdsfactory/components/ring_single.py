@@ -15,6 +15,8 @@ def ring_single(
     length_y: float = 0.6,
     coupler_ring: ComponentFactory = coupler_ring_function,
     bend: ComponentFactory = bend_euler,
+    bend_coupler: ComponentFactory | None = bend_euler,
+    straight: ComponentFactory = straight,
     cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> gf.Component:
@@ -49,9 +51,11 @@ def ring_single(
     radius = radius or xs.radius
     cross_section = xs.copy(radius=radius, **kwargs)
 
+    bend_coupler = bend_coupler or bend
+
     c = gf.Component()
     cb = c << coupler_ring(
-        bend=bend,
+        bend=bend_coupler,
         gap=gap,
         radius=radius,
         length_x=length_x,

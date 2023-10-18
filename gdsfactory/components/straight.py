@@ -14,6 +14,7 @@ def straight(
     width: float | None = None,
     add_pins: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
+    add_bbox: callable | None = None,
 ) -> Component:
     """Returns a Straight waveguide.
 
@@ -41,6 +42,8 @@ def straight(
     ref = c << path
     c.add_ports(ref.ports)
 
+    if add_bbox:
+        add_bbox(c)
     x.add_bbox(c, right=0, left=0)
     if add_pins:
         x.add_pins(c)
