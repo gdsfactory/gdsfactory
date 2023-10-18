@@ -440,35 +440,3 @@ def test_names() -> None:
     name_args = demo(3).name
     name_kwargs = demo(length=3).name
     assert name_args == name_kwargs, name_with_prefix
-
-
-@cell
-def straight_with_pins(**kwargs) -> Component:
-    import gdsfactory as gf
-
-    c = gf.Component()
-    ref = c << gf.components.straight()
-    c.add_ports(ref.ports)
-    gf.add_pins.add_pins(c)
-    return c
-
-
-def test_hashes() -> None:
-    import gdsfactory as gf
-
-    c = gf.components.mzi()
-    names1 = {i.name for i in c.get_dependencies()}
-    c = gf.components.mzi()
-    names2 = {i.name for i in c.get_dependencies()}
-    assert names1 == names2
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    # c = gf.c.straight(length=3, info=dict(polarization="te", wavelength=1.55))
-    c = gf.c.straight()
-    gf.clear_cache()
-    c = gf.c.straight()
-    print(c.name)
-    # c.pprint()
