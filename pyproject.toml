@@ -148,28 +148,37 @@ testpaths = ["gdsfactory/", "tests"]
 extend-exclude = ['docs/notebooks/']
 fix = true
 ignore = [
-  "E501",  # line too long, handled by black
   "B008",  # do not perform function calls in argument defaults
-  "C901",  # too complex
+  "B028",  # stacklevel
+  "B904",
   "B905",  # `zip()` without an explicit `strict=` parameter
   "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
-  "B904",
-  "B028"  # stacklevel
+  "C901",  # too complex
+  "D100",  # public module docstrings
+  "D101",  # public class docstrings
+  "D102",  # public method docstrings
+  "D103",  # public function docstrings
+  "D104",  # public package docstrings
+  "E501"  # line too long, handled by black
 ]
 select = [
+  "B",  # flake8-bugbear
+  "C",  # flake8-comprehensions
+  "D",  # pydocstyle
   "E",  # pycodestyle errors
-  "W",  # pycodestyle warnings
   "F",  # pyflakes
   "I",  # isort
-  "C",  # flake8-comprehensions
-  "B",  # flake8-bugbear
   "T10",  # flake8-debugger
-  "UP"
+  "UP",  # pyupgrade
+  "W"  # pycodestyle warnings
 ]
 
 [tool.ruff.per-file-ignores]
 "docs/notebooks/*.py" = ["F821", 'E402', 'F405', 'F403']
 "gdsfactory/typings.py" = ["UP035"]
+
+[tool.ruff.pydocstyle]
+convention = "google"
 
 [tool.setuptools.package-data]
 mypkg = [
