@@ -98,7 +98,6 @@ Classes and functions for construction and manipulation of geometric objects.
    :toctree: _autosummary/
 
    cell
-   cell_without_validator
 
 
 .. currentmodule:: gdsfactory.typings

@@ -240,7 +240,7 @@ class Pdk(BaseModel):
         routing_strategies: functions enabled to route.
         gds_write_settings: to write GDSII files.
         oasis_settings: to write OASIS files.
-        cell_decorator_settings: settings for cell_without_validator decorator function in gdsfactory.cell.
+        cell_decorator_settings: settings for the cell decorator.
         bend_points_distance: default points distance for bends in um.
         connectivity: defines connectivity between layers through vias.
 

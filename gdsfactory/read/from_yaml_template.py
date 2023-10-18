@@ -112,7 +112,8 @@ def yaml_cell(yaml_definition, name: str, routing_strategy) -> Callable[..., Com
     Returns:
         a dynamically-generated function for the yaml file.
     """
-    from gdsfactory.cell import cell_without_validator
+
+    from gdsfactory.cell import cell
 
     yaml_body, default_settings_def = _split_yaml_definition(yaml_definition)
     default_settings = get_default_settings_dict(default_settings_def)
@@ -146,7 +147,7 @@ def yaml_cell(yaml_definition, name: str, routing_strategy) -> Callable[..., Com
     _yaml_func.__module__ = "yaml_jinja"
     _yaml_func.__signature__ = new_sig
     _yaml_func.__doc__ = docstring
-    return cell_without_validator(_yaml_func)
+    return cell(_yaml_func)
 
 
 def _evaluate_yaml_template(main_file, default_settings, settings):

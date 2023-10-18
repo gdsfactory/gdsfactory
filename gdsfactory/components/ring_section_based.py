@@ -10,7 +10,7 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cell import cell_without_validator
+from gdsfactory.cell import cell
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import CrossSectionSpec, Floats
@@ -19,7 +19,7 @@ def_dict = {"A": "xs_rc", "B": "xs_sc"}
 def_ang_dict = {"A": 6.0, "B": 6.0}
 
 
-@cell_without_validator
+@cell
 def ring_section_based(
     gap: float | Floats = 0.3,
     radius: float = 5.0,
