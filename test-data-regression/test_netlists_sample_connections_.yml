@@ -18,12 +18,12 @@ instances:
     component: straight
     info:
       cross_section: xs_sc
-      length: 1.0
+      length: 1
       route_info:
-        length: 1.0
+        length: 1
         type: xs_sc
-        weight: 1.0
-        xs_sc_length: 1.0
+        weight: 1
+        xs_sc_length: 1
       width: 0.5
     settings:
       length: 1

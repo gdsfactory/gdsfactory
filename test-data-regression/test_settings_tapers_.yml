@@ -88,13 +88,13 @@ settings:
       function_name: straight
       info:
         cross_section: xs_sc
-        length: 20.0
+        length: 20
         route_info:
-          length: 20.0
-          type: xs_81041bac
-          weight: 20.0
-          xs_81041bac_length: 20.0
-        width: 2.0
+          length: 20
+          type: xs_2df11454
+          weight: 20
+          xs_2df11454_length: 20
+        width: 2
       info_version: 2
       module: gdsfactory.components.straight
       name: straight_length20_width2
@@ -126,13 +126,13 @@ settings:
     function_name: add_tapers
     info:
       cross_section: xs_sc
-      length: 20.0
+      length: 20
       route_info:
-        length: 20.0
-        type: xs_81041bac
-        weight: 20.0
-        xs_81041bac_length: 20.0
-      width: 2.0
+        length: 20
+        type: xs_2df11454
+        weight: 20
+        xs_2df11454_length: 20
+      width: 2
     info_version: 2
     module: gdsfactory.add_tapers
     name: straight_length20_width2_add_tapers_b2a8d58e
@@ -194,13 +194,13 @@ settings:
       period: 0.676
       polarization: te
       wavelength: 1.53
-    length: 20.0
+    length: 20
     route_info:
-      length: 20.0
-      type: xs_81041bac
-      weight: 20.0
-      xs_81041bac_length: 20.0
-    width: 2.0
+      length: 20
+      type: xs_2df11454
+      weight: 20
+      xs_2df11454_length: 20
+    width: 2
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
   name: straight_length20_width2_add_tapers_b2a8d58e_add_fiber_array_09a0105a
