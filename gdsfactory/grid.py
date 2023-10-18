@@ -180,7 +180,7 @@ def grid_with_text(
         text: function to add text labels.
         labels: optional, specify a tuple of labels rather than using a text_prefix.
 
-    keyword Args:
+    Keyword Args:
         spacing: between adjacent elements on the grid, can be a tuple for \
                 different distances in height and width.
         separation: If True, guarantees elements are separated with fixed spacing \

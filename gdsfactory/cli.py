@@ -18,7 +18,6 @@ def layermap_to_dataclass(
     force: bool = typer.Option(False, "--force", "-f", help="Force deletion"),
 ) -> None:
     """Converts KLayout LYP to a dataclass."""
-
     filepath_lyp = pathlib.Path(filepath)
     filepath_py = filepath_lyp.with_suffix(".py")
     if not filepath_lyp.exists():
@@ -78,35 +77,30 @@ def show(filename: str) -> None:
 @app.command()
 def gds_diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
     """Show boolean difference between two GDS files."""
-
     diff(gdspath1, gdspath2, xor=xor)
 
 
 @app.command()
 def install_klayout_genericpdk() -> None:
     """Install Klayout generic PDK."""
-
     install_klayout_package()
 
 
 @app.command()
 def install_git_diff() -> None:
     """Install git diff."""
-
     install_gdsdiff()
 
 
 @app.command()
 def print_plugins() -> None:
     """Show installed plugin versions."""
-
     print_version_plugins()
 
 
 @app.command()
 def print_pdks() -> None:
     """Show installed PDK versions."""
-
     print_version_pdks()
 
 

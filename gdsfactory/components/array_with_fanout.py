@@ -93,7 +93,7 @@ def array_with_fanout_2d(
         columns: number of columns.
         rows: number of rows.
 
-    keyword args:
+    Keyword Args:
         component: to replicate.
         pitch: in um.
         waveguide_pitch: for fanout in um.

@@ -1,4 +1,4 @@
-"""Polygon
+"""Polygon.
 
 Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
@@ -93,12 +93,11 @@ class Polygon(gdstk.Polygon, _GeometryHelper):
                 the value listed here will be removed. Also known as `epsilon` here
                 https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
         """
-
         points = _simplify(self.points, tolerance=tolerance)
         return Polygon(points, (self.layer, self.datatype))
 
     def snap(self, grid_factor: int = 1, nm: int | None = None) -> Polygon:
-        """Returns new polygon snap points to grid"""
+        """Returns new polygon snap points to grid."""
         points = snap_to_grid(self.points, grid_factor=grid_factor, nm=nm)
         return Polygon(points, (self.layer, self.datatype))
 

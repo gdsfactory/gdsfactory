@@ -1,5 +1,4 @@
-"""
-Generates a ring resonator based on a series of given cross sections.
+"""Generates a ring resonator based on a series of given cross sections.
 
 This is useful to generate interleaved junction rings or rings with relatively
 complex junction profiles
@@ -63,7 +62,6 @@ def ring_section_based(
         bus_cross_section: cross section for the bus waveguide.
         ang_res: angular resolution to draw the bends for each section.
     """
-
     c = gf.Component()
 
     # First of all we need to do a bunch of checks

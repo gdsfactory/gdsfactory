@@ -33,7 +33,6 @@ def mmi1x2_with_sbend(
         s_bend: S-bend spec.
         cross_section: spec.
     """
-
     c = gf.Component()
 
     P = gf.path.straight(length=2, npoints=100)

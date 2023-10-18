@@ -72,7 +72,6 @@ def _generate_circles(
         r_bend: spec.
         dy: in um.
     """
-
     circle = c << gf.components.circle(radius=radius, layer=xs.layer)
 
     circle_cladding = None

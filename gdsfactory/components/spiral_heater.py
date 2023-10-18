@@ -144,7 +144,6 @@ def spiral_racetrack_fixed_length(
         n_bend_points: optional bend points.
         with_inner_ports: if True, will build the spiral, but expose the inner ports where the S-bend would be.
     """
-
     c = gf.Component()
 
     xs_s_bend = cross_section_s or cross_section

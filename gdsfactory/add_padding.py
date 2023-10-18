@@ -50,7 +50,7 @@ def add_padding(
         component: to add padding.
         layers: list of layers.
 
-    keyword Args:
+    Keyword Args:
         default: default padding.
         top: north padding in um.
         bottom: south padding in um.

@@ -270,7 +270,7 @@ def add_labels_to_ports(
         label_layer: layer spec for the label.
         port_type: to select ports.
 
-    keyword Args:
+    Keyword Args:
         layer: select ports with GDS layer.
         prefix: select ports with prefix in port name.
         suffix: select ports with port name suffix.
@@ -293,14 +293,14 @@ def add_labels_to_ports_x_y(
     port_type: str | None = None,
     **kwargs,
 ) -> Component:
-    """Add labels to component ports. Prepends -x-y coordinates
+    """Add labels to component ports. Prepends -x-y coordinates.
 
     Args:
         component: to add labels.
         label_layer: layer spec for the label.
         port_type: to select ports.
 
-    keyword Args:
+    Keyword Args:
         layer: select ports with GDS layer.
         prefix: select ports with prefix in port name.
         suffix: select ports with port name suffix.
@@ -354,7 +354,7 @@ def get_labels(
         gc: Optional grating coupler.
         component_name: optional component name.
 
-    keyword Args:
+    Keyword Args:
         layer: port GDS layer.
         prefix: look for prefix in port name.
         suffix: select ports with port name suffix.

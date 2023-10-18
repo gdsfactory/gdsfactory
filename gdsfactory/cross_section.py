@@ -760,7 +760,6 @@ def l_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
-
     mult = 1 if mirror else -1
     trench_offset = mult * (width / 2 + width_trench / 2)
     sections = list(sections or ())
@@ -1820,7 +1819,6 @@ def strip_heater_metal(
         c = p.extrude(xs)
         c.plot()
     """
-
     sections = list(sections or [])
     sections += [
         Section(

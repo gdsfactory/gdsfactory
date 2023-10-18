@@ -1,6 +1,5 @@
-"""
-Based on Gerber file spec:
-https://www.ucamco.com/files/downloads/file_en/456/gerber-layer-format-specification-revision-2022-02_en.pdf
+"""Based on Gerber file spec:
+https://www.ucamco.com/files/downloads/file_en/456/gerber-layer-format-specification-revision-2022-02_en.pdf.
 
 See Also:
 - https://github.com/opiopan/pcb-tools-extension

@@ -1,5 +1,4 @@
-""" snap issue
-"""
+"""snap issue."""
 
 from __future__ import annotations
 

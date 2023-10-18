@@ -1,6 +1,4 @@
-"""
-In a multiple-topology Clements Scheme we can implement any universal photonic function.
-"""
+"""In a multiple-topology Clements Scheme we can implement any universal photonic function."""
 from __future__ import annotations
 
 import numpy as np
@@ -29,8 +27,7 @@ def find_largest_component(component_list: list) -> Component:
 def component_lattice_generic(
     network: list[list] | None = None,
 ) -> Component:
-    """
-    The shape of the `network` matrix determines the physical interconnection.
+    """The shape of the `network` matrix determines the physical interconnection.
     Note that there should be at least S+1=N modes
     based on this formalism of interconnection,
     and the position of the component implements a connectivity in between the modes,
@@ -93,7 +90,6 @@ def component_lattice_generic(
     # TODO automatic electrical fanout?
     # TODO multiple placement optimization algorithms.
     """
-
     network = network or [
         [mzi2x2_2x2(), 0, mzi2x2_2x2()],
         [0, mzi2x2_2x2(delta_length=30.0), 0],

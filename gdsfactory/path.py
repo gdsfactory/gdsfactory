@@ -269,7 +269,8 @@ class Path(_GeometryHelper):
         self, points, offset_distance, start_angle, end_angle
     ):
         """Creates a offset curve (but does not account for cusps etc)\
-        by computing the centerpoint offset of the supplied x and y points."""
+        by computing the centerpoint offset of the supplied x and y points.
+        """
         new_points = np.array(points, dtype=np.float64)
         dx = np.diff(points[:, 0])
         dy = np.diff(points[:, 1])
@@ -294,7 +295,8 @@ class Path(_GeometryHelper):
 
     def _parametric_offset_curve(self, points, offset_distance, start_angle, end_angle):
         """Creates a parametric offset (does not account for cusps etc) \
-        by using gradient of the supplied x and y points."""
+        by using gradient of the supplied x and y points.
+        """
         x = points[:, 0]
         y = points[:, 1]
         dxdt = np.gradient(x)
@@ -1283,7 +1285,8 @@ def arc(
 
 def _cumtrapz(x):
     """Numpy-based implementation of the cumulative trapezoidal integration \
-    function usually found in scipy (scipy.integrate.cumtrapz)."""
+    function usually found in scipy (scipy.integrate.cumtrapz).
+    """
     return np.cumsum((x[1:] + x[:-1]) / 2)
 
 

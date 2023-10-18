@@ -112,7 +112,6 @@ def get_layer_stack(
         layer_via2: via2 layer.
 
     """
-
     thickness_deep_etch = thickness_wg - thickness_slab_deep_etch
     thickness_shallow_etch = thickness_wg - thickness_slab_shallow_etch
     layers = dict(
@@ -291,7 +290,6 @@ def get_process() -> tuple[ProcessStep]:
 
     based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
     """
-
     return (
         Etch(
             name="strip_etch",

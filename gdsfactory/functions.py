@@ -99,7 +99,7 @@ def add_texts(
         prefix: Optional prefix for the labels.
         index0: defaults to 0 (0, for first component, 1 for second ...).
 
-    keyword Args:
+    Keyword Args:
         text_offset: relative to component size info anchor. Defaults to center.
         text_anchor: relative to component (ce cw nc ne nw sc se sw center cc).
         text_factory: function to add text labels.

@@ -119,7 +119,6 @@ class LayerStack(BaseModel):
 
     def get_component_with_derived_layers(self, component, **kwargs):
         """Returns component with derived layers."""
-
         return get_component_with_derived_layers(
             component=component, layer_stack=self, **kwargs
         )
@@ -152,7 +151,6 @@ class LayerStack(BaseModel):
 
     def get_layer_to_layername(self) -> dict[tuple[int, int], str]:
         """Returns layer tuple to layername."""
-
         d = defaultdict(list)
         for level_name, level in self.layers.items():
             d[level.layer].append(level_name)

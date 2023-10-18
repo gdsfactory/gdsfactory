@@ -156,7 +156,6 @@ def via_stack_circular(
         vias: vias to use to fill the rectangles.
         layer_port: if None assumes port is on the last layer.
     """
-
     # We basically just want to place rectangular via stacks
     # stacked with a little bit of an offset
     c = gf.Component()
@@ -256,7 +255,6 @@ def _smaller_angle(angle, angle1, angle2):
     But it does so assuming that angle1 and angle2 are between [-pi, pi]
     and that we are trying to fill an arc
     """
-
     if angle2 >= 0 and angle1 >= 0:
         if angle2 > angle1:
             return angle < angle2

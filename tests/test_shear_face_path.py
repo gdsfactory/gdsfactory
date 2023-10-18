@@ -137,8 +137,9 @@ def test_area_stays_same_skinny(
 
 
 def test_mate_on_shear_xor_empty_transition() -> None:
-    """two sheared components joined at the sheared port should appear the same
-    as two straight component joined."""
+    """Two sheared components joined at the sheared port should appear the same
+    as two straight component joined.
+    """
     P = gf.path.straight(length=10)
 
     s0 = gf.Section(width=1, offset=0, layer=(1, 0), port_names=("o1", "o2"))
@@ -170,8 +171,9 @@ def test_mate_on_shear_xor_empty_transition() -> None:
 
 
 def test_mate_on_shear_xor_empty_curve() -> None:
-    """two sheared components joined at the sheared port should appear the same
-    as two straight component joined."""
+    """Two sheared components joined at the sheared port should appear the same
+    as two straight component joined.
+    """
     P = gf.path.euler()
     curve = gf.path.extrude(P, "xs_sc")
 

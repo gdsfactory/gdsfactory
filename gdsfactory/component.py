@@ -169,7 +169,6 @@ class Component(_GeometryHelper):
         max_name_length: int | None = None,
     ) -> None:
         """Initialize the Component object."""
-
         self.uid = str(uuid.uuid4())[:8]
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
@@ -327,7 +326,7 @@ class Component(_GeometryHelper):
             as_shapely: returns shapely polygons.
             as_shapely_merged: returns a shapely polygonize.
 
-        Returns
+        Returns:
             out: list of array-like[N][2] or dictionary
                 List containing the coordinates of the vertices of each
                 polygon, or dictionary with with the list of polygons (if
@@ -1286,7 +1285,7 @@ class Component(_GeometryHelper):
                 Distance between adjacent columns and adjacent rows.
             alias: str or None. Alias of the referenced Component.
 
-        Returns
+        Returns:
             a: ComponentReference containing references to the Component.
         """
         if not isinstance(component, Component):
@@ -1612,7 +1611,6 @@ class Component(_GeometryHelper):
 
     def plot_kweb(self):
         """Shows current gds in kweb."""
-
         try:
             import kweb.server_jupyter as kj
         except Exception:
@@ -1810,7 +1808,6 @@ class Component(_GeometryHelper):
                 standard_properties: Store standard OASIS properties in the file.
 
         """
-
         from gdsfactory.pdk import get_active_pdk
 
         if gdspath and gdsdir:
@@ -1962,7 +1959,6 @@ class Component(_GeometryHelper):
             with_netlist: writes a netlist in JSON format.
             netlist_function: function to generate the netlist.
         """
-
         return self._write_library(
             gdspath=gdspath, gdsdir=gdsdir, with_oasis=False, **kwargs
         )
@@ -2104,7 +2100,7 @@ class Component(_GeometryHelper):
         auto_rename_ports_orientation(self, **kwargs)
 
     def move(self, *args, **kwargs) -> Component:
-        """Make a reference instead"""
+        """Make a reference instead."""
         raise ValueError(move_error_message)
 
     def mirror(self, p1: Float2 = (0, 1), p2: Float2 = (0, 0), **kwargs) -> Component:
@@ -2369,15 +2365,14 @@ class Component(_GeometryHelper):
         )
 
     def write_gerber(self, dirpath, layermap_to_gerber_layer, options) -> None:
-        """
-        Args:
-            dirpath: directory to write gerber files to.
-            layermap_to_gerber_layer: dictionary of layermap to gerber layer.
-            options: dictionary of options for gerber export.
-                header: List[str] | None = None
-                mode: Literal["mm", "in"] = "mm"
-                resolution: float = 1e-6
-                int_size: int = 4
+        """Args:
+        dirpath: directory to write gerber files to.
+        layermap_to_gerber_layer: dictionary of layermap to gerber layer.
+        options: dictionary of options for gerber export.
+        header: List[str] | None = None
+        mode: Literal["mm", "in"] = "mm"
+        resolution: float = 1e-6
+        int_size: int = 4.
         """
         from gdsfactory.export.to_gerber import to_gerber
 
@@ -2398,7 +2393,6 @@ class Component(_GeometryHelper):
         from gplugins.gmsh.get_mesh import get_mesh
 
         """
-
         raise ValueError(
             """component.to_gmsh() has been deprecated. Instead of:
 

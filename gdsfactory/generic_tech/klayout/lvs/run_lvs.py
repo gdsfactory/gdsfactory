@@ -29,9 +29,7 @@ from docopt import docopt
 
 
 def check_klayout_version() -> None:
-    """
-    check_klayout_version checks klayout version and makes sure it would work with the LVS.
-    """
+    """check_klayout_version checks klayout version and makes sure it would work with the LVS."""
     # ======= Checking Klayout version =======
     klayout_v_ = os.popen("klayout -b -v").read()
     klayout_v_ = klayout_v_.split("\n")[0]
@@ -58,20 +56,18 @@ def check_klayout_version() -> None:
 
 
 def check_layout_type(layout_path):
-    """
-    check_layout_type checks if the layout provided is GDS or OAS. Otherwise, kill the process. We only support GDS or OAS now.
+    """check_layout_type checks if the layout provided is GDS or OAS. Otherwise, kill the process. We only support GDS or OAS now.
 
     Parameters
     ----------
     layout_path : string
         string that represent the path of the layout.
 
-    Returns
+    Returns:
     -------
     string
         string that represent full absolute layout path.
     """
-
     if not os.path.isfile(layout_path):
         logging.error(
             f"## GDS file path {layout_path} provided doesn't exist or not a file."
@@ -88,15 +84,14 @@ def check_layout_type(layout_path):
 
 
 def get_top_cell_names(gds_path):
-    """
-    get_top_cell_names get the top cell names from the GDS file.
+    """get_top_cell_names get the top cell names from the GDS file.
 
     Parameters
     ----------
     gds_path : string
         Path to the target GDS file.
 
-    Returns
+    Returns:
     -------
     List of string
         Names of the top cell in the layout.
@@ -109,8 +104,7 @@ def get_top_cell_names(gds_path):
 
 
 def get_run_top_cell_name(arguments, layout_path):
-    """
-    get_run_top_cell_name Get the top cell name to use for running. If it's provided by the user, we use the user input.
+    """get_run_top_cell_name Get the top cell name to use for running. If it's provided by the user, we use the user input.
     If not, we get it from the GDS file.
 
     Parameters
@@ -120,13 +114,12 @@ def get_run_top_cell_name(arguments, layout_path):
     layout_path : string
         Path to the target layout.
 
-    Returns
+    Returns:
     -------
     string
         Name of the topcell to use in run.
 
     """
-
     if arguments["--topcell"]:
         topcell = arguments["--topcell"]
     else:
@@ -143,8 +136,7 @@ def get_run_top_cell_name(arguments, layout_path):
 
 
 def generate_klayout_switches(arguments, layout_path, netlist_path):
-    """
-    parse_switches Function that parse all the args from input to prepare switches for LVS run.
+    """parse_switches Function that parse all the args from input to prepare switches for LVS run.
 
     Parameters
     ----------
@@ -155,7 +147,7 @@ def generate_klayout_switches(arguments, layout_path, netlist_path):
     netlist_path : string
         Path to the netlist file that we will run LVS on.
 
-    Returns
+    Returns:
     -------
     dict
         Dictionary that represent all run switches passed to klayout.
@@ -205,8 +197,7 @@ def generate_klayout_switches(arguments, layout_path, netlist_path):
 
 
 def build_switches_string(sws: dict):
-    """
-    build_switches_string Build switches string from dictionary.
+    """build_switches_string Build switches string from dictionary.
 
     Parameters
     ----------
@@ -217,23 +208,20 @@ def build_switches_string(sws: dict):
 
 
 def check_lvs_results(results_db_files: list) -> None:
-    """
-    check_lvs_results Checks the results db generated from run and report at the end if the LVS run failed or passed.
+    """check_lvs_results Checks the results db generated from run and report at the end if the LVS run failed or passed.
 
     Parameters
     ----------
     results_db_files : list
         A list of strings that represent paths to results databases of all the LVS runs.
     """
-
     if not results_db_files:
         logging.error("Klayout did not generate any db results. Please check run logs")
         exit(1)
 
 
 def run_check(lvs_file: str, path: str, run_dir: str, sws: dict):
-    """
-    run_check run LVS check.
+    """run_check run LVS check.
 
     Parameters
     ----------
@@ -246,13 +234,12 @@ def run_check(lvs_file: str, path: str, run_dir: str, sws: dict):
     sws : dict
         Dictionary that holds all switches that needs to be passed to the antenna checks.
 
-    Returns
+    Returns:
     -------
     string
         string that represent the path to the results output database for this run.
 
     """
-
     logging.info(
         f'Running GENERIC TECH {lvs_file} checks on design {path} on cell {sws["topcell"]}'
     )
@@ -273,8 +260,7 @@ def run_check(lvs_file: str, path: str, run_dir: str, sws: dict):
 
 
 def main(lvs_run_dir: str, arguments: dict) -> None:
-    """
-    main function to run the LVS.
+    """Main function to run the LVS.
 
     Parameters
     ----------
@@ -283,7 +269,6 @@ def main(lvs_run_dir: str, arguments: dict) -> None:
     arguments : dict
         Dictionary that holds the arguments used by user in the run command. This is generated by docopt library.
     """
-
     ## Check Klayout version
     check_klayout_version()
 

@@ -9,7 +9,6 @@ def demo_get_bundle_sbend_routing(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     """FIXME."""
-
     lengths = {}
 
     c = gf.Component("test_get_bundle_sort_ports")

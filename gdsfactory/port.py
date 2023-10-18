@@ -709,7 +709,8 @@ def _rename_ports_counter_clockwise(direction_ports, prefix="") -> None:
 
 def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None:
     """Rename ports in the clockwise direction starting from the bottom left \
-    (west) corner."""
+    (west) corner.
+    """
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
 
@@ -733,7 +734,8 @@ def _rename_ports_clockwise_top_right(
     direction_ports: PortsMap, prefix: str = ""
 ) -> None:
     """Rename ports in the clockwise direction starting from the top right \
-    corner."""
+    corner.
+    """
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
 

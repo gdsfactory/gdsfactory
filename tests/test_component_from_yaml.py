@@ -570,7 +570,7 @@ def test_netlists(
 
 
 def _demo_netlist() -> None:
-    """path on the route."""
+    """Path on the route."""
     import gdsfactory as gf
 
     # c = from_yaml(sample_2x2_connections)

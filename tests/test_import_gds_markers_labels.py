@@ -8,7 +8,7 @@ import gdsfactory as gf
 
 
 def test_import_json_label(data_regression) -> None:
-    """Make sure you can import the ports"""
+    """Make sure you can import the ports."""
     c = gf.components.straight(
         decorator=gf.add_pins.add_pins_siepic, cross_section="xs_sc_no_pins"
     )

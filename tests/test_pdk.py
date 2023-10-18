@@ -6,7 +6,7 @@ from gdsfactory.generic_tech import get_generic_pdk
 
 @pytest.fixture
 def pdk() -> gf.Pdk:
-    """Returns the generic PDK"""
+    """Returns the generic PDK."""
     return get_generic_pdk()
 
 

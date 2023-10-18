@@ -55,7 +55,6 @@ def mode_converter(
         = : multimode width
         - : singlemode width
     """
-
     c = Component()
 
     coupler = gf.get_component(

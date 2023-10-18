@@ -25,7 +25,8 @@ def test_read_gds_with_settings2(data_regression: DataRegressionFixture) -> None
 
 def test_import_gds_hierarchy() -> None:
     """Ensures we can load it from GDS + YAML and get the same component
-    settings."""
+    settings.
+    """
     splitter = gf.components.mmi1x2(cross_section=cross_section)
     c1 = gf.components.mzi(splitter=splitter, cross_section=cross_section)
     c2 = gf.import_gds(gdspath, read_metadata=True, unique_names=False)

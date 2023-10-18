@@ -45,8 +45,7 @@ def get_cell_from_label_brackets(label: str) -> str:
 
 
 def component_name_from_string_with_dashes(label: str) -> str:
-    """Returns cell_name assuming opt-GratingName-ComponentName-PortName"""
-
+    """Returns cell_name assuming opt-GratingName-ComponentName-PortName."""
     if label.startswith("elec"):
         if not label.split("-"):
             raise ValueError(

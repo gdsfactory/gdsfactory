@@ -28,7 +28,7 @@ def find_labels(
         layer_label: for the labels.
         prefix: for the labels to select.
 
-    Returns
+    Returns:
         string: for the label.
         x: x position (um).
         y: y position (um).

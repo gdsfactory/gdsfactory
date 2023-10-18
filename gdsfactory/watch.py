@@ -69,7 +69,6 @@ class FileWatcher(FileSystemEventHandler):
         Returns:
             The cell function parsed from the yaml file.
         """
-
         pdk = get_active_pdk()
         print(f"Active PDK: {pdk.name}")
         filepath = pathlib.Path(src_path)

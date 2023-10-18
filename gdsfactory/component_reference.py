@@ -329,7 +329,7 @@ class ComponentReference(_GeometryHelper):
             as_shapely: returns shapely polygons.
             as_shapely_merged: returns a shapely polygonize.
 
-        Returns
+        Returns:
             out : list of array-like[N][2] or dictionary
                 List containing the coordinates of the vertices of each
                 polygon, or dictionary with the list of polygons (if
@@ -599,7 +599,6 @@ class ComponentReference(_GeometryHelper):
         Returns:
             ComponentReference.
         """
-
         # If only one set of coordinates is defined, make sure it's used to move things
         if destination is None:
             destination = origin
