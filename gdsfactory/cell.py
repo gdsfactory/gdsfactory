@@ -5,11 +5,8 @@ import functools
 import hashlib
 import inspect
 from collections.abc import Callable
-from dataclasses import dataclass
-from functools import wraps
 from typing import Any, TypeVar
 
-import toolz
 from pydantic import BaseModel, validate_call
 
 from gdsfactory.component import Component, name_counters
@@ -39,18 +36,6 @@ def clear_cache() -> None:
 def print_cache() -> None:
     for k in CACHE:
         print(k)
-
-
-def get_source_code(func: Callable) -> str:
-    if isinstance(func, functools.partial):
-        source = inspect.getsource(func.func)
-    elif isinstance(func, toolz.functoolz.Compose):
-        source = inspect.getsource(func.first)
-    elif callable(func):
-        source = inspect.getsource(func)
-    else:
-        raise ValueError(f"{func!r} needs to be callable")
-    return source
 
 
 class Settings(BaseModel):
@@ -333,110 +318,3 @@ def cell(func: _F) -> _F:
     """
 
     return cell_without_validator(validate_call(func))
-
-
-def declarative_cell(cls: type[Any]) -> Callable[..., Component]:
-    """Decorator to turn a dataclass into a cell. Work in progress."""
-    cls = dataclass(cls)
-
-    @wraps(cls)
-    def cell(*args, **kwargs):
-        decl = cls(*args, **kwargs)
-
-        sig = inspect.signature(cls)
-        args_as_kwargs = dict(zip(sig.parameters.keys(), args))
-        args_as_kwargs.update(kwargs)
-
-        args_list = [
-            f"{key}={clean_value_name(args_as_kwargs[key])}"
-            for key in sorted(args_as_kwargs.keys())
-        ]
-        named_args_string = "_".join(args_list)
-        component_name = clean_name(f"{cls.__name__}_{named_args_string}")
-        if component_name in CACHE:
-            return CACHE[component_name]
-
-        decl.instances()
-        comp = Component()
-        comp.name = component_name
-
-        for k, c in vars(decl).items():
-            if not isinstance(c, Component):
-                continue
-            ref = comp << c
-            setattr(comp, k, ref)
-            setattr(decl, k, ref)
-        for p1, p2 in decl.connections():
-            p1.reference.connect(p1.name, p2.reference.ports[p2.name])
-        for name, p in decl.ports().items():
-            comp.add_port(name, port=p.reference.ports[p.name])
-        CACHE[component_name] = comp
-        return comp
-
-    return cell
-
-
-@cell
-def wg(length: int = 3, layer: tuple[int, int] = (1, 0)) -> Component:
-    """Dummy component for testing."""
-    c = Component()
-    width = 0.5
-    w = width / 2
-    c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
-    c.add_port(name="o1", center=[0, 0], width=width, orientation=180, layer=layer)
-    c.add_port(name="o2", center=[length, 0], width=width, orientation=0, layer=layer)
-    return c
-
-
-@cell
-def wg2(wg1=wg):
-    """Dummy component for testing."""
-    c = Component()
-    w = wg1()
-    w1 = c << w
-    w1.rotate(90)
-    c.copy_child_info(w)
-    c.add_ports(w1.ports)
-    return c
-
-
-def test_set_name() -> None:
-    c = wg(length=3, name="hi_there")
-    assert c.name == "hi_there", c.name
-
-
-@cell
-def demo(length: int = 3, wg_width: float = 0.5) -> Component:
-    """Demo Dummy cell."""
-    c = Component()
-    w = length
-    h = wg_width
-    points = [
-        [-w / 2.0, -h / 2.0],
-        [-w / 2.0, h / 2],
-        [w / 2, h / 2],
-        [w / 2, -h / 2.0],
-    ]
-    c.add_polygon(points)
-    return c
-
-
-def test_names() -> None:
-    name_base = demo().name
-    assert name_base.split("_")[0] == "demo", name_base
-
-    demo2 = functools.partial(demo, length=3)
-    c1 = demo2(length=3)
-    c2 = demo(length=3)
-    assert c1.name == c2.name, "{c1.name} != {c2.name}"
-
-    c1 = demo(length=3, wg_width=0.5).name
-    c2 = demo(wg_width=0.5, length=3).name
-    assert c1 == c2, f"{c1} != {c2}"
-
-    name_with_prefix = demo(prefix="hi").name
-    assert name_with_prefix.split("_")[0] == "hi", name_with_prefix
-
-    name_args = demo(3).name
-    name_kwargs = demo(length=3).name
-    assert name_args == name_kwargs, name_with_prefix

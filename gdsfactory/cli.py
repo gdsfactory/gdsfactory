@@ -5,6 +5,11 @@ import pathlib
 
 import typer
 
+from gdsfactory.config import print_version_pdks, print_version_plugins
+from gdsfactory.difftest import diff
+from gdsfactory.install import install_gdsdiff, install_klayout_package
+from gdsfactory.technology import lyp_to_dataclass
+
 app = typer.Typer()
 
 
@@ -14,7 +19,6 @@ def layermap_to_dataclass(
     force: bool = typer.Option(False, "--force", "-f", help="Force deletion"),
 ) -> None:
     """Converts KLayout LYP to a dataclass."""
-    from gdsfactory.technology import lyp_to_dataclass
 
     filepath_lyp = pathlib.Path(filepath)
     filepath_py = filepath_lyp.with_suffix(".py")
@@ -81,7 +85,6 @@ def show(filename: str) -> None:
 @app.command()
 def gds_diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
     """Show boolean difference between two GDS files."""
-    from gdsfactory.difftest import diff
 
     diff(gdspath1, gdspath2, xor=xor)
 
@@ -89,7 +92,6 @@ def gds_diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
 @app.command()
 def install_klayout_genericpdk() -> None:
     """Install Klayout generic PDK."""
-    from gdsfactory.install import install_klayout_package
 
     install_klayout_package()
 
@@ -97,7 +99,6 @@ def install_klayout_genericpdk() -> None:
 @app.command()
 def install_git_diff() -> None:
     """Install git diff."""
-    from gdsfactory.install import install_gdsdiff
 
     install_gdsdiff()
 
@@ -105,7 +106,6 @@ def install_git_diff() -> None:
 @app.command()
 def print_plugins() -> None:
     """Show installed plugin versions."""
-    from gdsfactory.config import print_version_plugins
 
     print_version_plugins()
 
@@ -113,7 +113,6 @@ def print_plugins() -> None:
 @app.command()
 def print_pdks() -> None:
     """Show installed PDK versions."""
-    from gdsfactory.config import print_version_pdks
 
     print_version_pdks()
 

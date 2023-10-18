@@ -10,13 +10,14 @@ import time
 import traceback
 from collections.abc import Callable
 
+from IPython.terminal.embed import embed
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
+from gdsfactory.cell import CACHE
 from gdsfactory.config import cwd
 from gdsfactory.pdk import get_active_pdk, on_pdk_activated
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
-from gdsfactory.typings import ComponentSpec, PathType
 
 
 class FileWatcher(FileSystemEventHandler):
@@ -37,8 +38,6 @@ class FileWatcher(FileSystemEventHandler):
         on_pdk_activated.add_handler(self._on_pdk_activated)
 
     def _on_pdk_activated(self, new_pdk, old_pdk):
-        from gdsfactory.cell import CACHE
-
         CACHE.clear()
         new_pdk.register_cells_yaml(dirpath=self.path, update=True)
 
@@ -65,11 +64,10 @@ class FileWatcher(FileSystemEventHandler):
         Args:
             src_path: the path to the file
             update: if True, will update an existing cell function of the same name without raising an error
+
         Returns:
             The cell function parsed from the yaml file.
-
         """
-        from gdsfactory.cell import CACHE
 
         pdk = get_active_pdk()
         print(f"Active PDK: {pdk.name}")
@@ -155,9 +153,7 @@ class FileWatcher(FileSystemEventHandler):
             print(e)
 
 
-def watch(path: PathType | None = cwd, pdk: str | None = None) -> None:
-    from IPython.terminal.embed import embed
-
+def watch(path: pathlib.Path | str | None = cwd, pdk: str | None = None) -> None:
     path = str(path)
     logging.basicConfig(
         level=logging.INFO,
@@ -173,13 +169,6 @@ def watch(path: PathType | None = cwd, pdk: str | None = None) -> None:
     )
     embed()
     watcher.stop()
-
-
-def show(component: ComponentSpec):
-    import gdsfactory as gf
-
-    c = gf.get_component(component)
-    c.show()
 
 
 if __name__ == "__main__":
