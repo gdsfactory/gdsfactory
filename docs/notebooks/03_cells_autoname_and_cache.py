@@ -217,58 +217,6 @@ gf.clear_cache()
 print_cache()  # cache is now empty
 
 # %% [markdown]
-#
-# ## Validate argument types
-#
-# By default, also `@cell` validates arguments based on their type annotations.
-# To make sure you pass the correct arguments to the cell function it runs a validator that checks the type annotations for the function.
-#
-#
-# For example this will be correct
-#
-# ```python
-# import gdsfactory as gf
-#
-#
-# @gf.cell
-# def straigth_waveguide(length: float):
-#     return gf.components.straight(length=length)
-#
-#
-# component = straigth_waveguide(length=3)
-# ```
-#
-# While this will raise an error, because you are passing a length that is a string, so it cannot convert it to a float
-#
-#
-# ```python
-# component = straigth_waveguide(length="long")
-# ```
-#
-# ```bash
-# ValidationError: 1 validation error for StraigthWaveguide
-# length
-#   value is not a valid float
-#
-# ```
-#
-# by default `@cell` validates all arguments using [pydantic](https://pydantic-docs.helpmanual.io/usage/validation_decorator/#argument-types)
-#
-#
-
-
-# %%
-@gf.cell
-def straigth_waveguide(length: float):
-    print(type(length))
-    return gf.components.straight(length=length)
-
-
-# It will also convert an `int` to a `float`
-c = straigth_waveguide(length=3)
-
-
-# %% [markdown]
 # # Create cells without `cell` decorator
 #
 # The cell decorator names cells deterministically and uniquely based on the name of the functions and its parameters.
@@ -445,5 +393,3 @@ for component in c.get_dependencies(recursive=True):
             f"Component {component.name!r} was NOT properly locked. "
             "You need to write it into a function that has the @cell decorator."
         )
-
-# %%
