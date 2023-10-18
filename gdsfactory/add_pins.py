@@ -544,7 +544,7 @@ def add_instance_label(
 
     component.add_label(
         text=instance_name,
-        position=reference.center,
+        position=reference.d.center,
         layer=layer,
     )
 

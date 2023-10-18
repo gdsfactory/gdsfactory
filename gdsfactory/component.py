@@ -185,7 +185,7 @@ class Component(kf.KCell):
     def add_label(
         self,
         text: str = "hello",
-        position: tuple[float, float] = (0.0, 0.0),
+        position: tuple[float, float] | kf.kdb.DPoint = (0.0, 0.0),
         layer: LayerSpec = "TEXT",
     ) -> kdb.Shape:
         """Adds Label to the Component.
@@ -198,7 +198,14 @@ class Component(kf.KCell):
         from gdsfactory.pdk import get_layer
 
         layer = get_layer(layer)
-        x, y = position
+        if isinstance(position, kf.kdb.DPoint):
+            x, y = position.x, position.y
+
+        elif isinstance(position, tuple | list):
+            x, y = position
+
+        else:
+            raise ValueError(f"position {position} not supported")
         trans = kdb.DTrans(0, False, x, y)
         return self.shapes(layer).insert(kf.kdb.DText(text, trans))
 

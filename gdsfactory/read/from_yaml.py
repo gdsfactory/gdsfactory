@@ -60,7 +60,6 @@ import numpy as np
 from omegaconf import DictConfig, OmegaConf
 
 from gdsfactory.add_pins import add_instance_label
-from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.typings import Route
 
@@ -322,10 +321,10 @@ def place(
 
         if rotation:
             if port:
-                ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
+                ref.d.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
             else:
-                x, y = ref.origin
-                ref.rotate(rotation, center=(x, y))
+                ref.d.rotate(rotation)
+                # x, y = ref.d.center.x, ref.d.center.y
                 # ref.rotate(rotation, center=(ref.x, ref.y))
 
         if ymin is not None and ymax is not None:
@@ -714,18 +713,19 @@ def from_yaml(
         conf=OmegaConf.to_container(conf, resolve=True),
         routing_strategy=routing_strategy,
         label_instance_function=label_instance_function,
-        prefix=prefix or conf.get("name", "Unnamed"),
-        name=name,
+        # prefix=prefix or conf.get("name", "Unnamed"),
+        # name=name,
         mode=mode,
     )
 
 
-@cell
 def _from_yaml(
     conf,
     routing_strategy: dict[str, Callable],
     label_instance_function: Callable = add_instance_label,
     mode: str = "layout",
+    # prefix: str="Unnamed",
+    # name: str | None = None,
 ) -> Component:
     """Returns component from YAML decorated with cell for caching and autonaming.
 
@@ -923,17 +923,17 @@ def _from_yaml(
                     instance_src = instances[instance_src_name]
                     instance_dst = instances[instance_dst_name]
 
-                    if port_src_name not in instance_src.ports:
-                        raise ValueError(
-                            f"{port_src_name!r} not in {list(instance_src.ports.keys())} for"
-                            f" {instance_src_name!r} "
-                        )
+                    # if port_src_name not in instance_src.ports:
+                    #     raise ValueError(
+                    #         f"{port_src_name!r} not in {list(instance_src.ports.keys())} for"
+                    #         f" {instance_src_name!r} "
+                    #     )
 
-                    if port_dst_name not in instance_dst.ports:
-                        raise ValueError(
-                            f"{port_dst_name!r} not in {list(instance_dst.ports.keys())} for"
-                            f" {instance_dst_name!r}"
-                        )
+                    # if port_dst_name not in instance_dst.ports:
+                    #     raise ValueError(
+                    #         f"{port_dst_name!r} not in {list(instance_dst.ports.keys())} for"
+                    #         f" {instance_dst_name!r}"
+                    #     )
 
                     ports1.append(instance_src.ports[port_src_name])
                     ports2.append(instance_dst.ports[port_dst_name])
@@ -1381,10 +1381,11 @@ placements:
 
 
 if __name__ == "__main__":
-    c = from_yaml(sample_doe_function)
+    # c = from_yaml(sample_doe_function)
     c = from_yaml(sample_mmis)
-    n = c.get_netlist()
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c2 = from_yaml(yaml_str)
-    n2 = c2.get_netlist()
-    c2.show()
+    c.show()
+    # n = c.get_netlist()
+    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # c2 = from_yaml(yaml_str)
+    # n2 = c2.get_netlist()
+    # c2.show()
