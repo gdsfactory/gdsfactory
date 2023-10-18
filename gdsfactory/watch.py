@@ -134,7 +134,7 @@ class FileWatcher(FileSystemEventHandler):
         self.update()
         try:
             filepath = pathlib.Path(filepath)
-            if filepath.exists():
+            if filepath.is_file():
                 if str(filepath).endswith(".pic.yml"):
                     cell_func = self.update_cell(filepath, update=True)
                     c = cell_func()
@@ -142,9 +142,8 @@ class FileWatcher(FileSystemEventHandler):
                     # on_yaml_cell_modified.fire(c)
                     return c
                 elif str(filepath).endswith(".py"):
-                    d = dict(locals(), **globals())
-                    d.update(__name__="__main__")
-                    exec(filepath.read_text(), d, d)
+                    namespace = {**globals(), **locals(), "__name__": "__main__"}
+                    exec(filepath.read_text(), namespace, namespace)
                 else:
                     print("Changed file {filepath} ignored (not .pic.yml or .py)")
 
