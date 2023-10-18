@@ -7,7 +7,7 @@ import inspect
 from collections.abc import Callable
 from typing import Any, TypeVar
 
-from pydantic import BaseModel, validate_call
+from pydantic import BaseModel
 
 from gdsfactory.component import Component, name_counters
 from gdsfactory.config import CONF
@@ -317,4 +317,4 @@ def cell(func: _F) -> _F:
 
     """
 
-    return cell_without_validator(validate_call(func))
+    return cell_without_validator(func)
