@@ -46,6 +46,7 @@ settings:
           width: 6.0
   child: null
   default:
+    add_bbox: null
     add_pins: true
     cross_section: xs_sc
     layer: null
@@ -53,6 +54,7 @@ settings:
     npoints: 2
     width: null
   full:
+    add_bbox: null
     add_pins: true
     cross_section:
       function: cross_section

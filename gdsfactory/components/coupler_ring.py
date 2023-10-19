@@ -26,6 +26,7 @@ def coupler_ring(
     cross_section: CrossSectionSpec = "xs_sc",
     cross_section_bend: CrossSectionSpec | None = None,
     length_extension: float = 3,
+    add_bbox: callable | None = None,
 ) -> Component:
     r"""Coupler for ring.
 
@@ -103,6 +104,8 @@ def coupler_ring(
     c.add_ports(cbl.get_ports_list(port_type="electrical"), prefix="cbl")
     c.add_ports(cbr.get_ports_list(port_type="electrical"), prefix="cbr")
     c.auto_rename_ports()
+    if add_bbox:
+        add_bbox(c)
     xs.add_pins(c)
     return c
 

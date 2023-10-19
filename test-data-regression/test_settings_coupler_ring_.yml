@@ -52,6 +52,7 @@ settings:
   changed: {}
   child: null
   default:
+    add_bbox: null
     bend:
       function: bend_euler
     coupler90:
@@ -65,6 +66,7 @@ settings:
     length_x: 4.0
     radius: 5.0
   full:
+    add_bbox: null
     bend:
       function: bend_euler
     coupler90:

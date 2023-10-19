@@ -65,9 +65,6 @@ release:
 	git push
 	git push origin --tags
 
-lintdocs:
-	flake8 --select RST
-
 autopep8:
 	autopep8 --in-place --aggressive --aggressive **/*.py
 
@@ -80,22 +77,7 @@ docs:
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
 
-constructor:
-	conda install constructor -y
-	constructor conda
-
 notebooks:
-	jupytext gdsfactory/samples/notebooks/*.md --to ipynb notebooks/
-
-jupytext:
-	jupytext **/*.ipynb --to py
-
-jupytext-clean:
-	jupytext docs/**/*.py --to py
-
-notebooks:
-	# jupytext docs/notebooks/*.py --to ipynb
-	# jupytext docs/notebooks/*.ipynb --to to
-	jupytext --pipe black docs/notebooks/*.py
+	jupytext docs/notebooks/*.py --to ipynb
 
 .PHONY: gdsdiff build conda gdslib docs doc
