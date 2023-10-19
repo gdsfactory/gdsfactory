@@ -416,7 +416,7 @@ class Component(kf.KCell):
         self.write(filename=str(gdspath), save_options=save_options)
         return gdspath
 
-    def extract_layers(
+    def extract(
         self,
         layers: list[LayerSpec],
     ) -> Component:
@@ -465,7 +465,7 @@ if __name__ == "__main__":
     _ = c << gf.c.bend_euler(cross_section="xs_rc")
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
     # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
-    c = c.extract_layers(layers=[(1, 0)])
+    c = c.extract(layers=[(1, 0)])
 
     # c = Component()
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
