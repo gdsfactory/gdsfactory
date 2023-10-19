@@ -419,34 +419,42 @@ class Component(kf.KCell):
     def extract_layers(
         self,
         layers: list[LayerSpec],
-    ) -> list[kdb.Region]:
-        """Copy a list and returns a list of regions.
+    ) -> Component:
+        """Extracts a list of layers and adds them to a new Component.
 
         Args:
-            layers: list of layers to remove.
+            layers: list of layers to extract.
         """
         from gdsfactory import get_layer
 
-        layers = [get_layer(layer) for layer in layers]
-        return [
-            kf.kdb.Region(self._kdb_cell.begin_shapes_rec(layer_index))
-            for layer_index in layers
-        ]
+        c = Component()
+
+        for layer in layers:
+            layer_index = get_layer(layer)
+            for r in self._kdb_cell.begin_shapes_rec(layer_index):
+                c.shapes(layer_index).insert(r)
+
+        return c
 
     def remove_layers(
         self,
         layers: list[LayerSpec],
+        recursive: bool = True,
     ) -> Component:
         """Removes a list of layers and returns the same Component.
 
         Args:
             layers: list of layers to remove.
+            recursive: if True, removes layers recursively.
         """
         from gdsfactory import get_layer
 
         layers = [get_layer(layer) for layer in layers]
         for layer_index in layers:
-            self.kcl.clear_layer(layer_index)
+            if recursive:
+                self.kcl.clear_layer(layer_index)
+            else:
+                self.shapes(layer_index).clear()
         return self
 
 
@@ -455,7 +463,9 @@ if __name__ == "__main__":
 
     c = gf.Component()
     _ = c << gf.c.bend_euler(cross_section="xs_rc")
-    c = c.remove_layers(layers=[(1, 0), (2, 0)])
+    # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
+    c = c.extract_layers(layers=[(1, 0)])
 
     # c = Component()
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
