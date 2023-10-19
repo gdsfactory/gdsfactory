@@ -3,16 +3,17 @@ from __future__ import annotations
 import warnings
 from pathlib import Path
 
-import kfactory as kf
 from kfactory import KCLayout
+
+from gdsfactory.component import Component
 
 
 def import_gds(
     gdspath: str | Path,
     cellname: str | None = None,
     **kwargs,
-) -> kf.KCell:
-    """Reads a GDS file and returns a KLayout cell.
+) -> Component:
+    """Reads a GDS file and returns a Component.
 
     Args:
         gdspath: path to GDS file.
@@ -24,7 +25,15 @@ def import_gds(
 
     kcl = KCLayout(name=str(gdspath))
     kcl.read(gdspath)
-    return kcl[kcl.top_cell().name] if cellname is None else kcl[cellname]
+    kcell = kcl[kcl.top_cell().name] if cellname is None else kcl[cellname]
+    c = Component()
+    c.name = kcell.name
+    c._kdb_cell = kcell._kdb_cell
+    c.kcl = kcell.kcl
+    c.ports = kcell.ports
+    c._settings = kcell.settings.model_copy()
+    c.info = kcell.info.model_copy()
+    return c
 
 
 if __name__ == "__main__":
