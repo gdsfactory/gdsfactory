@@ -407,6 +407,7 @@ class Component(kf.KCell):
             )
         gdsdir = gdsdir or GDSDIR_TEMP
         gdsdir = pathlib.Path(gdsdir)
+        gdsdir.mkdir(parents=True, exist_ok=True)
         gdspath = gdspath or gdsdir / f"{self.name}.gds"
 
         if kwargs:
@@ -415,14 +416,46 @@ class Component(kf.KCell):
         self.write(filename=str(gdspath), save_options=save_options)
         return gdspath
 
+    def extract_layers(
+        self,
+        layers: list[LayerSpec],
+    ) -> list[kdb.Region]:
+        """Copy a list and returns a list of regions.
+
+        Args:
+            layers: list of layers to remove.
+        """
+        from gdsfactory import get_layer
+
+        layers = [get_layer(layer) for layer in layers]
+        return [
+            kf.kdb.Region(self._kdb_cell.begin_shapes_rec(layer_index))
+            for layer_index in layers
+        ]
+
+    def remove_layers(
+        self,
+        layers: list[LayerSpec],
+    ) -> Component:
+        """Removes a list of layers and returns the same Component.
+
+        Args:
+            layers: list of layers to remove.
+        """
+        from gdsfactory import get_layer
+
+        layers = [get_layer(layer) for layer in layers]
+        for layer_index in layers:
+            self.kcl.clear_layer(layer_index)
+        return self
+
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.Component()
-    c2 = gf.c.bend_euler()
-    ref = c2.ref()
-    c.add(ref)
+    _ = c << gf.c.bend_euler(cross_section="xs_rc")
+    c = c.remove_layers(layers=[(1, 0), (2, 0)])
 
     # c = Component()
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))

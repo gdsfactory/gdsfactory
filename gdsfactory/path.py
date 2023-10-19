@@ -698,7 +698,7 @@ def along_path(
     return c
 
 
-# @cell
+@cell
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
@@ -889,7 +889,7 @@ def extrude(
     return c
 
 
-# @cell
+@cell
 def extrude_transition(
     p: Path,
     transition: Transition,
