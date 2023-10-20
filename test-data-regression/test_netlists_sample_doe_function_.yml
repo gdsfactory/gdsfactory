@@ -41,6 +41,7 @@ instances:
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 10.0
               straight:
                 function: straight
@@ -55,6 +56,7 @@ instances:
               gap: 0.2
               length_x: 1
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 20
               straight:
                 function: straight
@@ -144,6 +146,7 @@ instances:
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 10.0
               straight:
                 function: straight
@@ -158,6 +161,7 @@ instances:
               gap: 0.2
               length_x: 1
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 30
               straight:
                 function: straight
@@ -247,6 +251,7 @@ instances:
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 10.0
               straight:
                 function: straight
@@ -261,6 +266,7 @@ instances:
               gap: 0.2
               length_x: 1
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 40
               straight:
                 function: straight
@@ -350,6 +356,7 @@ instances:
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 10.0
               straight:
                 function: straight
@@ -364,6 +371,7 @@ instances:
               gap: 0.2
               length_x: 1
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 50
               straight:
                 function: straight
@@ -453,6 +461,7 @@ instances:
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 10.0
               straight:
                 function: straight
@@ -467,6 +476,7 @@ instances:
               gap: 0.2
               length_x: 2
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 20
               straight:
                 function: straight
@@ -556,6 +566,7 @@ instances:
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 10.0
               straight:
                 function: straight
@@ -570,6 +581,7 @@ instances:
               gap: 0.2
               length_x: 2
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 30
               straight:
                 function: straight
@@ -659,6 +671,7 @@ instances:
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 10.0
               straight:
                 function: straight
@@ -673,6 +686,7 @@ instances:
               gap: 0.2
               length_x: 2
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 40
               straight:
                 function: straight
@@ -762,6 +776,7 @@ instances:
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 10.0
               straight:
                 function: straight
@@ -776,6 +791,7 @@ instances:
               gap: 0.2
               length_x: 2
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 50
               straight:
                 function: straight
@@ -865,6 +881,7 @@ instances:
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 10.0
               straight:
                 function: straight
@@ -879,6 +896,7 @@ instances:
               gap: 0.2
               length_x: 3
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 20
               straight:
                 function: straight
@@ -968,6 +986,7 @@ instances:
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 10.0
               straight:
                 function: straight
@@ -982,6 +1001,7 @@ instances:
               gap: 0.2
               length_x: 3
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 30
               straight:
                 function: straight
@@ -1071,6 +1091,7 @@ instances:
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 10.0
               straight:
                 function: straight
@@ -1085,6 +1106,7 @@ instances:
               gap: 0.2
               length_x: 3
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 40
               straight:
                 function: straight
@@ -1174,6 +1196,7 @@ instances:
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 10.0
               straight:
                 function: straight
@@ -1188,6 +1211,7 @@ instances:
               gap: 0.2
               length_x: 3
               length_y: 0.6
+              pass_cross_section_to_bend: true
               radius: 50
               straight:
                 function: straight
