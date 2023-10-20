@@ -28,6 +28,7 @@ settings:
   changed: {}
   child: null
   default:
+    add_bbox: null
     add_pins: true
     angle: 90.0
     cross_section: xs_sc
@@ -36,6 +37,7 @@ settings:
     radius: null
     width: null
   full:
+    add_bbox: null
     add_pins: true
     angle: 90.0
     cross_section: xs_sc

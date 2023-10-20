@@ -44,7 +44,8 @@ def straight(
 
     if add_bbox:
         add_bbox(c)
-    x.add_bbox(c, right=0, left=0)
+    else:
+        x.add_bbox(c, right=0, left=0)
     if add_pins:
         x.add_pins(c)
     c.info["length"] = length
