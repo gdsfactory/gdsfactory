@@ -46,13 +46,24 @@ def ring_single_heater(
 
     .. code::
 
-          bl-st-br
-          |      |
-          sl     sr length_y
-          |      |
-         --==cb==-- gap
 
-          length_x
+                    xxxxxxxxxxxxx
+                xxxxx           xxxx
+              xxx                   xxx
+            xxx                       xxx
+           xx                           xxx
+           x                             xxx
+          xx                              xx▲
+          xx                              xx│length_y
+          xx                              xx▼
+          xx                             xx
+           xx          length_x          x
+            xx     ◄───────────────►    x
+             xx                       xxx
+               xx                   xxx
+                xxx──────▲─────────xxx
+                         │gap
+                 o1──────▼─────────o2
     """
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
 

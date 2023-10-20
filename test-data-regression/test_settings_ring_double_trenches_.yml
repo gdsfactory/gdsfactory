@@ -62,9 +62,12 @@ settings:
         function: coupler_ring
       cross_section: xs_sc
       gap: 0.2
+      gap_top: null
       length_x: 0.01
       length_y: 0.01
       radius: 10.0
+      straight:
+        function: straight
     full:
       bend:
         function: bend_euler
@@ -72,9 +75,12 @@ settings:
         function: coupler_ring
       cross_section: xs_sc
       gap: 0.2
+      gap_top: null
       length_x: 0.01
       length_y: 0.01
       radius: 10.0
+      straight:
+        function: straight
     function_name: ring_double
     info: {}
     info_version: 2

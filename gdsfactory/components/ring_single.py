@@ -18,7 +18,7 @@ def ring_single(
     bend_coupler: ComponentFactory | None = bend_euler,
     straight: ComponentFactory = straight,
     cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
+    pass_cross_section_to_bend: bool = True,
 ) -> gf.Component:
     """Returns a single ring.
 
@@ -33,23 +33,34 @@ def ring_single(
         coupler_ring: ring coupler spec.
         bend: 90 degrees bend spec.
         cross_section: cross_section spec.
-        **kwargs: cross_section settings.
+        pass_cross_section_to_bend: pass cross_section to bend.
 
     .. code::
 
-          bl-st-br
-          |      |
-          sl     sr length_y
-          |      |
-         --==cb==-- gap
+                    xxxxxxxxxxxxx
+                xxxxx           xxxx
+              xxx                   xxx
+            xxx                       xxx
+           xx                           xxx
+           x                             xxx
+          xx                              xx▲
+          xx                              xx│length_y
+          xx                              xx▼
+          xx                             xx
+           xx          length_x          x
+            xx     ◄───────────────►    x
+             xx                       xxx
+               xx                   xxx
+                xxx──────▲─────────xxx
+                         │gap
+                 o1──────▼─────────o2
 
-          length_x
     """
     gap = gf.snap.snap_to_grid2x(gap)
 
     xs = gf.get_cross_section(cross_section)
     radius = radius or xs.radius
-    cross_section = xs.copy(radius=radius, **kwargs)
+    cross_section = xs.copy(radius=radius)
 
     bend_coupler = bend_coupler or bend
 
@@ -62,7 +73,11 @@ def ring_single(
         cross_section=cross_section,
     )
     sy = straight(length=length_y, cross_section=cross_section)
-    b = bend(cross_section=cross_section)
+    b = (
+        bend(cross_section=cross_section)
+        if pass_cross_section_to_bend
+        else bend(radius=radius)
+    )
     sx = straight(length=length_x, cross_section=cross_section)
 
     sl = sy.ref()
@@ -99,7 +114,9 @@ if __name__ == "__main__":
 
     # c = gf.routing.add_fiber_array(ring_single)
     # c = ring_single(cross_section="xs_rc", width=2)
-    c = ring_single(length_y=0, length_x=0)
+    c = ring_single(
+        length_y=10, length_x=10, radius=12, cross_section="xs_rc", layer=(2, 0)
+    )
     c.get_netlist()
     c.show(show_ports=True)
 

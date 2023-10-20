@@ -157,11 +157,14 @@ settings:
     cross_section_heater: xs_heater_metal
     cross_section_waveguide_heater: xs_sc_heater_metal
     gap: 0.2
+    gap_top: null
     length_x: 1.0
     length_y: 0.01
     port_orientation: null
     radius: 10.0
     straight:
+      function: straight
+    straight_heater:
       function: straight
     via_stack:
       function: via_stack
@@ -195,11 +198,14 @@ settings:
     cross_section_heater: xs_heater_metal
     cross_section_waveguide_heater: xs_sc_heater_metal
     gap: 0.2
+    gap_top: null
     length_x: 1.0
     length_y: 0.01
     port_orientation: null
     radius: 10.0
     straight:
+      function: straight
+    straight_heater:
       function: straight
     via_stack:
       function: via_stack

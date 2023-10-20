@@ -55,10 +55,14 @@ settings:
     cross_section: xs_sc_no_pins
     gap: 0.27
     length: 10.0
+    straight:
+      function: straight
   full:
     cross_section: xs_sc_no_pins
     gap: 0.27
     length: 10.0
+    straight:
+      function: straight
   function_name: coupler_straight
   info: {}
   info_version: 2
