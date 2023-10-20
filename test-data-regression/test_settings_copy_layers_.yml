@@ -10,6 +10,7 @@ settings:
     child: null
     default:
       layer: WG
+      layers: null
       length: 10.0
       port_type: null
       width: 3.0
@@ -17,6 +18,7 @@ settings:
       layer:
       - 2
       - 0
+      layers: null
       length: 10.0
       port_type: null
       width: 3.0

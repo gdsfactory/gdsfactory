@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -10,6 +10,7 @@ def cross(
     length: float = 10.0,
     width: float = 3.0,
     layer: LayerSpec = "WG",
+    layers: LayerSpecs | None = None,
     port_type: str | None = None,
 ) -> Component:
     """Returns a cross from two rectangles of length and width.
@@ -18,10 +19,11 @@ def cross(
         length: float Length of the cross from one end to the other.
         width: float Width of the arms of the cross.
         layer: layer for geometry.
+        layers: Optional. List of layers for geometry.
         port_type: None, optical, electrical.
     """
     c = gf.Component()
-    layers = layer if isinstance(layer, set) else {layer}
+    layers = layers or [layer]
 
     for layer in layers:
         layer = gf.get_layer(layer)
@@ -69,8 +71,8 @@ def cross(
 
 
 if __name__ == "__main__":
-    layer = {(1, 0), (2, 0)}
-    c = cross(layer=layer)
+    layers = {(1, 0), (2, 0)}
+    c = cross(layers=layers)
     c.show(show_ports=True)
     # c.pprint_ports()
     # cc = gf.routing.add_fiber_array(component=c)

@@ -9,7 +9,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.constants import _glyph, _indent, _width
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -19,6 +19,7 @@ def text_freetype(
     justify: str = "left",
     layer: LayerSpec = "WG",
     font: str = "DEPLOF",
+    layers: LayerSpecs | None = None,
 ) -> Component:
     """Returns text Component.
 
@@ -33,8 +34,8 @@ def text_freetype(
             (e.g. "Times New Roman"), or by file OTF or TTF filepath.
     """
     t = Component()
+    layers = layers or [layer]
     yoffset = 0
-
     face = font
     xoffset = 0
     if face == "DEPLOF":
@@ -50,7 +51,10 @@ def text_freetype(
                     for poly in _glyph[ascii_val]:
                         xpts = np.array(poly)[:, 0] * scaling
                         ypts = np.array(poly)[:, 1] * scaling
-                        char.add_polygon([xpts + xoffset, ypts + yoffset], layer=layer)
+                        for layer in layers:
+                            char.add_polygon(
+                                [xpts + xoffset, ypts + yoffset], layer=layer
+                            )
                     xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
                 else:
                     valid_chars = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~µ"
@@ -86,7 +90,8 @@ def text_freetype(
                 letter_dev = Component()
                 letter_template, advance_x = _get_glyph(font, letter)
                 for poly in letter_template.polygons:
-                    letter_dev.add_polygon(poly, layer=layer)
+                    for layer in layers:
+                        letter_dev.add_polygon(poly, layer=layer)
                 ref = char.add_ref(letter_dev)
                 ref.move(destination=(xoffset, 0))
                 ref.magnification = size
@@ -109,7 +114,8 @@ def text_freetype(
 
 
 if __name__ == "__main__":
-    c2 = text_freetype("hello", font="Times New Roman")
+    c2 = text_freetype("hello", layers=[(1, 0), (2, 0)])
+    # c2 = text_freetype("hello", font="Times New Roman")
     # print(c2.name)
     # c2 = text_freetype()
     c2.show()

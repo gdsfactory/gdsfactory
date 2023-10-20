@@ -5,9 +5,11 @@ settings:
   child: null
   default:
     layer: WG
+    layers: null
     size: 1.0
   full:
     layer: WG
+    layers: null
     size: 1.0
   function_name: pixel
   info: {}

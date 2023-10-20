@@ -7,12 +7,14 @@ settings:
     component:
       function: rectangle
     layer: WG
+    layers: null
     spacing: 10.0
     width: 10.0
   full:
     component:
       function: rectangle
     layer: WG
+    layers: null
     spacing: 10.0
     width: 10.0
   function_name: add_frame

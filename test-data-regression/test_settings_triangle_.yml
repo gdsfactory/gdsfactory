@@ -5,12 +5,14 @@ settings:
   child: null
   default:
     layer: WG
+    layers: null
     x: 10
     xtop: 0
     y: 20
     ybot: 0
   full:
     layer: WG
+    layers: null
     x: 10
     xtop: 0
     y: 20

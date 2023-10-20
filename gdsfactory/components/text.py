@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.constants import _glyph, _indent, _width
-from gdsfactory.typings import Coordinate, LayerSpec
+from gdsfactory.typings import Coordinate, LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -16,6 +16,7 @@ def text(
     position: Coordinate = (0, 0),
     justify: str = "left",
     layer: LayerSpec = "WG",
+    layers: LayerSpecs | None = None,
 ) -> Component:
     """Text shapes.
 
@@ -25,11 +26,13 @@ def text(
         position: x, y position.
         justify: left, right, center.
         layer: for the text.
+        layers: optional for duplicating the text.
     """
     scaling = size / 1000
     xoffset = position[0]
     yoffset = position[1]
     t = gf.Component()
+    layers = layers or [layer]
 
     for line in text.split("\n"):
         label = gf.Component()
@@ -41,7 +44,8 @@ def text(
                 for poly in _glyph[ascii_val]:
                     xpts = np.array(poly)[:, 0] * scaling
                     ypts = np.array(poly)[:, 1] * scaling
-                    label.add_polygon([xpts + xoffset, ypts + yoffset], layer=layer)
+                    for layer in layers:
+                        label.add_polygon([xpts + xoffset, ypts + yoffset], layer=layer)
                 xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
             else:
                 raise ValueError(f"No character with ascii value {ascii_val!r}")
@@ -93,6 +97,7 @@ if __name__ == "__main__":
         size=4.0,
         justify="right",
         position=(0, 0),
+        layers=[(1, 0), (2, 0)],
     )
     # c = text_lines(text=["a", "b"], size=10)
     # c = text_lines()

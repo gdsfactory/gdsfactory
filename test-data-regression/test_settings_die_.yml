@@ -5,9 +5,11 @@ settings:
   child: null
   default:
     bbox_layer: FLOORPLAN
+    bbox_layers: null
     die_name: chip99
     draw_corners: false
     layer: FLOORPLAN
+    layers: null
     size:
     - 10000.0
     - 10000.0
@@ -19,9 +21,11 @@ settings:
     text_size: 100.0
   full:
     bbox_layer: FLOORPLAN
+    bbox_layers: null
     die_name: chip99
     draw_corners: false
     layer: FLOORPLAN
+    layers: null
     size:
     - 10000.0
     - 10000.0

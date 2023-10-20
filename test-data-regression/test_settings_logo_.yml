@@ -4,8 +4,10 @@ settings:
   changed: {}
   child: null
   default:
+    layer: null
     text: GDSFACTORY
   full:
+    layer: null
     text: GDSFACTORY
   function_name: logo
   info: {}
