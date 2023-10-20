@@ -41,6 +41,8 @@ settings:
     length_y: 0
     port_name: o1
     radius: 5.0
+    straight:
+      function: straight
     with_component: true
   full:
     bend:
@@ -56,6 +58,8 @@ settings:
     length_y: 0
     port_name: o1
     radius: 5.0
+    straight:
+      function: straight
     with_component: true
   function_name: ring_single_dut
   info:
