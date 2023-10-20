@@ -5,6 +5,7 @@ settings:
   child: null
   default:
     layer_dicing: DICING
+    layers: null
     marker:
       function: triangle
       settings:
@@ -15,6 +16,7 @@ settings:
     - 300
   full:
     layer_dicing: DICING
+    layers: null
     marker:
       function: triangle
       settings:

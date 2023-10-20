@@ -4,15 +4,17 @@ settings:
   changed: {}
   child: null
   default:
-    font: DEPLOF
+    font: OCR-A
     justify: left
     layer: WG
+    layers: null
     size: 10
     text: abcd
   full:
-    font: DEPLOF
+    font: OCR-A
     justify: left
     layer: WG
+    layers: null
     size: 10
     text: abcd
   function_name: text_freetype

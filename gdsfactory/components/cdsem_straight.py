@@ -55,7 +55,7 @@ def cdsem_straight(
         p = position or p
         line.ymin = p
         if text:
-            t = c << text(str(int(width * 1e3)))
+            t = c << text(text=str(int(width * 1e3)))
             t.xmin = line.xmax + 5
             t.y = p
 

@@ -7,6 +7,7 @@ settings:
     cross_length: 80.0
     layer: WG
     layer_cladding: null
+    layers: null
     spacing: 10.0
     square_corner: bottom_left
     width: 10.0
@@ -14,6 +15,7 @@ settings:
     cross_length: 80.0
     layer: WG
     layer_cladding: null
+    layers: null
     spacing: 10.0
     square_corner: bottom_left
     width: 10.0

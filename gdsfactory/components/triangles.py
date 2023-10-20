@@ -4,7 +4,7 @@ from functools import partial
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpec, LayerSpecs
 
 
 @cell
@@ -14,6 +14,7 @@ def triangle(
     y: float = 20,
     ybot: float = 0,
     layer: LayerSpec = "WG",
+    layers: LayerSpecs | None = None,
 ) -> Component:
     r"""Return triangle.
 
@@ -23,6 +24,7 @@ def triangle(
         y: ysize.
         ybot: bottom ysize.
         layer: layer.
+        layers: optional list of layers to duplicate the geometry.
 
     .. code::
 
@@ -39,7 +41,9 @@ def triangle(
     """
     c = Component()
     points = [[0, 0], [x, 0], [x, ybot], [xtop, y], [0, y]]
-    c.add_polygon(points, layer=layer)
+    layers = layers or [layer]
+    for layer in layers:
+        c.add_polygon(points, layer=layer)
     return c
 
 
@@ -56,6 +60,7 @@ def triangle2(spacing: float = 3, **kwargs):
         y: ysize.
         ybot: bottom ysize.
         layer: layer.
+        layers: optional list of layers to duplicate the geometry.
 
     .. code::
           _
@@ -95,6 +100,7 @@ def triangle4(**kwargs):
         y: ysize.
         ybot: bottom ysize.
         layer: layer.
+        layers: optional list of layers to duplicate the geometry.
 
     .. code::
 
@@ -129,5 +135,6 @@ triangle4_thin = partial(triangle2, xtop=0.2, x=2, y=5)
 
 if __name__ == "__main__":
     # cc = triangle(xtop=5, ybot=5)
-    cc = triangle4_thin(spacing=0)
+    layers = {(1, 0), (2, 0)}
+    cc = triangle4_thin(spacing=0, layers=layers)
     cc.show(show_ports=True)

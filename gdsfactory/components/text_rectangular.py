@@ -17,6 +17,7 @@ def text_rectangular(
     position: tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
     layer: LayerSpec = "WG",
+    layers: LayerSpecs | None = None,
     font: Callable = rectangular_font,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without acute angles.
@@ -27,6 +28,7 @@ def text_rectangular(
         position: coordinate.
         justify: left, right or center.
         layer: for text.
+        layers: optional for duplicating the text.
         font: function that returns dictionary of characters.
     """
     pixel_size = size
@@ -34,6 +36,7 @@ def text_rectangular(
     yoffset = position[1]
     component = gf.Component()
     characters = font()
+    layers = layers or [layer]
 
     for line in text.split("\n"):
         for character in line:
@@ -43,11 +46,12 @@ def text_rectangular(
                 print(f"skipping character {character!r} not in font")
             else:
                 pixels = characters[character.upper()]
-                ref = component.add_ref(
-                    pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
-                )
-                ref.move((xoffset, yoffset))
-                component.absorb(ref)
+                for layer in layers:
+                    ref = component.add_ref(
+                        pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
+                    )
+                    ref.move((xoffset, yoffset))
+                    component.absorb(ref)
                 xoffset += pixel_size * 6
 
         yoffset -= pixel_size * 6
@@ -95,21 +99,9 @@ def text_rectangular_multi_layer(
 
 
 if __name__ == "__main__":
-    # import string
-    import json
-
-    c = text_rectangular_multi_layer()
-    settings = c.settings.full
-    settings_string = json.dumps(settings)
-    settings2 = json.loads(settings_string)
-    cell_name = c.settings.function_name
-    c2 = gf.get_component({"component": cell_name, "settings": settings2})
-
-    # c = text_rectangular_multi_layer(
-    #     # text="The mask is nearly done. only 12345 drc errors remaining?",
-    #     # text="v",
-    #     text=string.ascii_lowercase,
-    #     layers=("SLAB90", "M2"),
-    #     justify="center",
-    # )
+    c = text_rectangular(
+        text="The mask is nearly done. only 12345 drc errors remaining?",
+        layers=("SLAB90", "M2"),
+        justify="center",
+    )
     c.show(show_ports=True)

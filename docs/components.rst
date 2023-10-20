@@ -521,6 +521,66 @@ cdsem_all
 
 
 
+cdsem_bend180
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cdsem_bend180
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cdsem_bend180(width=0.5, radius=10.0, wg_length=420.0, straight='straight', bend90='bend_circular', cross_section='xs_sc')
+  c.plot()
+
+
+
+cdsem_coupler
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cdsem_coupler
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cdsem_coupler(length=420.0, gaps=[0.15, 0.2, 0.25], cross_section='xs_sc', spacing=7.0)
+  c.plot()
+
+
+
+cdsem_straight
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cdsem_straight
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cdsem_straight(widths=[0.4, 0.45, 0.5, 0.6, 0.8, 1.0], length=420.0, cross_section='xs_sc', spacing=7.0)
+  c.plot()
+
+
+
+cdsem_straight_density
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cdsem_straight_density
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cdsem_straight_density(widths=[0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3], gaps=[0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3], length=420.0, label='', cross_section='xs_sc')
+  c.plot()
+
+
+
 circle
 ----------------------------------------------------
 
@@ -1444,7 +1504,7 @@ fiducial_squares
 
   import gdsfactory as gf
 
-  c = gf.components.fiducial_squares(layers=[[1, 0]], size=[5, 5], offset=0.14)
+  c = gf.components.fiducial_squares(layer='WG', size=[5.0, 5.0], offset=0.14)
   c.plot()
 
 
@@ -1775,21 +1835,6 @@ greek_cross_with_pads
   import gdsfactory as gf
 
   c = gf.components.greek_cross_with_pads(pad_spacing=150.0)
-  c.plot()
-
-
-
-hexagon
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.hexagon
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.hexagon(sides=6, side_length=10, layer='WG', port_type='placement')
   c.plot()
 
 
@@ -2330,21 +2375,6 @@ nxn
   import gdsfactory as gf
 
   c = gf.components.nxn(west=1, east=4, north=0, south=0, xsize=8.0, ysize=8.0, wg_width=0.5, layer='WG', wg_margin=1.0)
-  c.plot()
-
-
-
-octagon
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.octagon
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.octagon(sides=8, side_length=10, layer='WG', port_type='placement')
   c.plot()
 
 
@@ -3739,7 +3769,7 @@ text_freetype
 
   import gdsfactory as gf
 
-  c = gf.components.text_freetype(text='abcd', size=10, justify='left', layer='WG', font='DEPLOF')
+  c = gf.components.text_freetype(text='abcd', size=10, justify='left', layer='WG')
   c.plot()
 
 
@@ -3935,6 +3965,21 @@ via_stack_from_rules
   import gdsfactory as gf
 
   c = gf.components.via_stack_from_rules(size=[1.2, 1.2], layers=['M1', 'M2', 'M3'], via_min_size=[[0.2, 0.2], [0.2, 0.2]], via_min_gap=[[0.1, 0.1], [0.1, 0.1]], via_min_enclosure=[0.15, 0.25])
+  c.plot()
+
+
+
+via_stack_heater_m2
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_heater_m2
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_heater_m2(size=[11.0, 11.0], layers=['HEATER', 'M2'], correct_size=True)
   c.plot()
 
 

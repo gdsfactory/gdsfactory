@@ -6,6 +6,7 @@ settings:
   default:
     justify: left
     layer: WG
+    layers: null
     position:
     - 0
     - 0
@@ -14,6 +15,7 @@ settings:
   full:
     justify: left
     layer: WG
+    layers: null
     position:
     - 0
     - 0
