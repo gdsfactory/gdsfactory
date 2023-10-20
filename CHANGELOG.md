@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.8.10](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.10) - 2023-10-20
+
+No significant changes.
+
+
 ## [7.8.9](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.9) - 2023-10-14
 
 - fix add_pads with defined electrical ports [#2182](https://github.com/gdsfactory/gdsfactory/pull/2182)
