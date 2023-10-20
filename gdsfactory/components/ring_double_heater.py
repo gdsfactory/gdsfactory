@@ -16,12 +16,14 @@ via_stack_heater_m3_mini = partial(via_stack_heater_m3, size=(4, 4))
 @gf.cell
 def ring_double_heater(
     gap: float = 0.2,
+    gap_top: float | None = None,
     radius: float = 10.0,
     length_x: float = 1.0,
     length_y: float = 0.01,
     coupler_ring: ComponentFactory = coupler_ring,
     coupler_ring_top: ComponentFactory | None = None,
     straight: ComponentFactory = straight,
+    straight_heater: ComponentFactory = straight,
     bend: ComponentFactory = bend_euler,
     cross_section_heater: CrossSectionSpec = "xs_heater_metal",
     cross_section_waveguide_heater: CrossSectionSpec = "xs_sc_heater_metal",
@@ -36,7 +38,8 @@ def ring_double_heater(
     connected with two vertical straights (sl: left, sr: right)
 
     Args:
-        gap: gap between for coupler.
+        gap: gap between bottom coupler waveguides.
+        gap_top: optional gap between top waveguides. Defaults to gap.
         radius: for the bend and coupler.
         length_x: ring coupler length.
         length_y: vertical straight length.
@@ -53,15 +56,28 @@ def ring_double_heater(
 
     .. code::
 
-         --==ct==--
-          |      |
-          sl     sr length_y
-          |      |
-         --==cb==-- gap
-
-          length_x
+           o2──────▲─────────o3
+                   │gap_top
+           xx──────▼─────────xxx
+          xxx                   xxx
+        xxx                       xxx
+       xx                           xxx
+       x                             xxx
+      xx                              xx▲
+      xx                              xx│length_y
+      xx                              xx▼
+      xx                             xx
+       xx          length_x          x
+        xx     ◄───────────────►    x
+         xx                       xxx
+           xx                   xxx
+            xxx──────▲─────────xxx
+                     │gap
+             o1──────▼─────────o4
     """
+    gap_top = gap_top or gap
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
+    gap_top = gf.snap.snap_to_grid(gap_top, grid_factor=2)
 
     coupler_ring_top = coupler_ring_top or coupler_ring
 
@@ -75,7 +91,7 @@ def ring_double_heater(
     )
     coupler_component_top = gf.get_component(
         coupler_ring_top,
-        gap=gap,
+        gap=gap_top,
         radius=radius,
         length_x=length_x,
         bend=bend,
@@ -121,7 +137,7 @@ def ring_double_heater(
     c.add_ports(p1, prefix="l_")
     c.add_ports(p2, prefix="r_")
 
-    heater_top = c << straight(
+    heater_top = c << straight_heater(
         length=length_x,
         cross_section=cross_section_heater,
     )
@@ -130,5 +146,5 @@ def ring_double_heater(
 
 
 if __name__ == "__main__":
-    c = ring_double_heater()
+    c = ring_double_heater(radius=10, length_x=1, length_y=10, gap=0.2)
     c.show()

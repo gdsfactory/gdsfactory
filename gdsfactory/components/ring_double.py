@@ -11,6 +11,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @gf.cell
 def ring_double(
     gap: float = 0.2,
+    gap_top: float | None = None,
     radius: float = 10.0,
     length_x: float = 0.01,
     length_y: float = 0.01,
@@ -26,6 +27,7 @@ def ring_double(
 
     Args:
         gap: gap between for coupler.
+        gap_top: optional gap between top waveguides. Defaults to gap.
         radius: for the bend and coupler.
         length_x: ring coupler length.
         length_y: vertical straight length.
@@ -36,20 +38,43 @@ def ring_double(
 
     .. code::
 
-         --==ct==--
-          |      |
-          sl     sr length_y
-          |      |
-         --==cb==-- gap
+           o2──────▲─────────o3
+                   │gap_top
+           xx──────▼─────────xxx
+          xxx                   xxx
+        xxx                       xxx
+       xx                           xxx
+       x                             xxx
+      xx                              xx▲
+      xx                              xx│length_y
+      xx                              xx▼
+      xx                             xx
+       xx          length_x          x
+        xx     ◄───────────────►    x
+         xx                       xxx
+           xx                   xxx
+            xxx──────▲─────────xxx
+                     │gap
+             o1──────▼─────────o4
 
-          length_x
     """
+    gap_top = gap_top or gap
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
+    gap_top = gf.snap.snap_to_grid(gap_top, grid_factor=2)
+
     xs = gf.get_cross_section(cross_section)
     radius = radius or xs.radius
     cross_section = xs.copy(radius=radius)
 
-    coupler_component = gf.get_component(
+    coupler_component_top = gf.get_component(
+        coupler_ring,
+        gap=gap_top,
+        radius=radius,
+        length_x=length_x,
+        bend=bend,
+        cross_section=cross_section,
+    )
+    coupler_component_bot = gf.get_component(
         coupler_ring,
         gap=gap,
         radius=radius,
@@ -60,8 +85,8 @@ def ring_double(
     straight_component = straight(length=length_y, cross_section=cross_section)
 
     c = Component()
-    cb = c.add_ref(coupler_component)
-    ct = c.add_ref(coupler_component)
+    cb = c.add_ref(coupler_component_bot)
+    ct = c.add_ref(coupler_component_top)
 
     sl = straight_component.ref()
     sr = straight_component.ref()
@@ -81,6 +106,6 @@ def ring_double(
 
 
 if __name__ == "__main__":
-    c = ring_double(length_y=0, length_x=0, layer=(2, 0))
+    c = ring_double(length_x=10, radius=15, length_y=5)
     c.get_netlist()
     c.show(show_subports=False)
