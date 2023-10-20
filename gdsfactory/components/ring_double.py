@@ -16,6 +16,7 @@ def ring_double(
     length_y: float = 0.01,
     coupler_ring: ComponentSpec = coupler_ring_function,
     bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight,
     cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
@@ -31,8 +32,9 @@ def ring_double(
         length_y: vertical straight length.
         coupler: ring coupler spec.
         bend: bend spec.
+        straight: straight spec.
         cross_section: cross_section spec.
-        **kwargs: cross_section settings.
+        kwargs: cross_section settings.
 
     .. code::
 
