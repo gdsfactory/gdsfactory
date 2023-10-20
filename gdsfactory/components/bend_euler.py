@@ -25,6 +25,7 @@ def bend_euler(
     direction: str = "ccw",
     cross_section: CrossSectionSpec = "xs_sc",
     add_pins: bool = True,
+    add_bbox: callable | None = None,
 ) -> Component:
     """Euler bend with changing bend radius.
 
@@ -50,6 +51,7 @@ def bend_euler(
         direction: cw (clock-wise) or ccw (counter clock-wise).
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         add_pins: add pins to the component.
+        add_bbox: optional function to add bounding box to the component.
 
     .. code::
 
@@ -88,7 +90,10 @@ def bend_euler(
 
     top = None if int(angle) in {180, -180, -90} else 0
     bottom = 0 if int(angle) in {-90} else None
-    x.add_bbox(c, top=top, bottom=bottom)
+    if add_bbox:
+        add_bbox(c)
+    else:
+        x.add_bbox(c, top=top, bottom=bottom)
     if add_pins:
         x.add_pins(c)
     c.absorb(ref)
