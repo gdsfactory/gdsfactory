@@ -18,7 +18,6 @@ def ring_double(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight,
     cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
 ) -> Component:
     """Returns a double bus ring.
 
@@ -34,7 +33,6 @@ def ring_double(
         bend: bend spec.
         straight: straight spec.
         cross_section: cross_section spec.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -47,7 +45,7 @@ def ring_double(
           length_x
     """
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
     radius = radius or xs.radius
     cross_section = xs.copy(radius=radius)
 

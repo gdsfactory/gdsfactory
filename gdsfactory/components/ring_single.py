@@ -19,7 +19,6 @@ def ring_single(
     straight: ComponentFactory = straight,
     cross_section: CrossSectionSpec = "xs_sc",
     pass_cross_section_to_bend: bool = True,
-    **kwargs,
 ) -> gf.Component:
     """Returns a single ring.
 
@@ -35,7 +34,6 @@ def ring_single(
         bend: 90 degrees bend spec.
         cross_section: cross_section spec.
         pass_cross_section_to_bend: pass cross_section to bend.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -51,7 +49,7 @@ def ring_single(
 
     xs = gf.get_cross_section(cross_section)
     radius = radius or xs.radius
-    cross_section = xs.copy(radius=radius, **kwargs)
+    cross_section = xs.copy(radius=radius)
 
     bend_coupler = bend_coupler or bend
 
