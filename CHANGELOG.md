@@ -5,8 +5,16 @@
 
 ## [7.8.10](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.10) - 2023-10-20
 
-No significant changes.
-
+- Add straight function to ring dut [#2203](https://github.com/gdsfactory/gdsfactory/pull/2203)
+- add optional function add_bbox to bend_euler and bend_circular [#2202](https://github.com/gdsfactory/gdsfactory/pull/2202)
+- Cleaner rings [#2201](https://github.com/gdsfactory/gdsfactory/pull/2201)
+- allow align to be multi-layer [#2200](https://github.com/gdsfactory/gdsfactory/pull/2200)
+- Add bbox [#2198](https://github.com/gdsfactory/gdsfactory/pull/2198)
+- Fix file watcher [#2195](https://github.com/gdsfactory/gdsfactory/pull/2195)
+- Less general error catching in LayerViews [#2190](https://github.com/gdsfactory/gdsfactory/pull/2190)
+- make optional packages optional [#2187](https://github.com/gdsfactory/gdsfactory/pull/2187)
+- make klayout optional [#2185](https://github.com/gdsfactory/gdsfactory/pull/2185)
+- fix area [#2183](https://github.com/gdsfactory/gdsfactory/pull/2183)
 
 ## [7.8.9](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.9) - 2023-10-14
 
