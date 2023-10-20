@@ -317,6 +317,7 @@ def get_bundle_same_axis(
     end_straight_length: float = 0.0,
     start_straight_length: float = 0.0,
     bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight_function,
     sort_ports: bool = True,
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
@@ -419,6 +420,7 @@ def get_bundle_same_axis(
             route,
             bend=bend,
             cross_section=cross_section,
+            straight=straight,
             **kwargs,
         )
         for route in routes
