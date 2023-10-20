@@ -32,6 +32,8 @@ def ring_single(
         length_y: vertical straight length.
         coupler_ring: ring coupler spec.
         bend: 90 degrees bend spec.
+        bend_coupler: optional bend for coupler.
+        straight: straight spec.
         cross_section: cross_section spec.
         pass_cross_section_to_bend: pass cross_section to bend.
 

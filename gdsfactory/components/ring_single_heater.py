@@ -7,7 +7,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as _coupler_ring
 from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack_heater_mtop
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
+from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec, Float2
 
 via_stack_heater_mtop_mini = partial(via_stack_heater_mtop, size=(4, 4))
 
@@ -20,6 +20,8 @@ def ring_single_heater(
     length_y: float = 0.6,
     coupler_ring: ComponentSpec = _coupler_ring,
     bend: ComponentSpec = bend_euler,
+    bend_coupler: ComponentFactory | None = bend_euler,
+    straight: ComponentFactory = straight,
     cross_section_waveguide_heater: CrossSectionSpec = "xs_sc_heater_metal",
     cross_section: CrossSectionSpec = "xs_sc",
     via_stack: ComponentSpec = via_stack_heater_mtop_mini,
@@ -38,6 +40,7 @@ def ring_single_heater(
         length_y: vertical straight length.
         coupler_ring: ring coupler function.
         bend: 90 degrees bend function.
+        straight: straight function.
         cross_section_waveguide_heater: for heater.
         cross_section: for regular waveguide.
         via_stack: for heater to routing metal.
@@ -66,10 +69,11 @@ def ring_single_heater(
                  o1──────▼─────────o2
     """
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
+    bend_coupler = bend_coupler or bend
 
     coupler_ring = gf.get_component(
         coupler_ring,
-        bend=bend,
+        bend=bend_coupler,
         gap=gap,
         radius=radius,
         length_x=length_x,
