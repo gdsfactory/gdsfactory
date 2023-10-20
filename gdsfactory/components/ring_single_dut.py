@@ -23,6 +23,7 @@ def ring_single_dut(
     radius: float = 5.0,
     coupler: ComponentSpec = coupler_ring,
     bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight,
     with_component: bool = True,
     port_name: str = "o1",
     **kwargs,
