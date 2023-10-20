@@ -126,6 +126,8 @@ settings:
   default:
     bend:
       function: bend_euler
+    bend_coupler:
+      function: bend_euler
     coupler_ring:
       function: coupler_ring
     cross_section: xs_sc
@@ -135,6 +137,8 @@ settings:
     length_y: 0.6
     port_orientation: null
     radius: 10.0
+    straight:
+      function: straight
     via_stack:
       function: via_stack
       settings:
@@ -160,6 +164,8 @@ settings:
   full:
     bend:
       function: bend_euler
+    bend_coupler:
+      function: bend_euler
     coupler_ring:
       function: coupler_ring
     cross_section: xs_sc
@@ -169,6 +175,8 @@ settings:
     length_y: 0.6
     port_orientation: null
     radius: 10.0
+    straight:
+      function: straight
     via_stack:
       function: via_stack
       settings:
