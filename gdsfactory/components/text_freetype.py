@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-import contextlib
-import os
+import pathlib
 import warnings
 
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.config import PATH
 from gdsfactory.constants import _glyph, _indent, _width
-from gdsfactory.typings import LayerSpec, LayerSpecs
+from gdsfactory.typings import LayerSpec, LayerSpecs, PathType
 
 
 @gf.cell
@@ -17,8 +17,8 @@ def text_freetype(
     text: str = "abcd",
     size: int = 10,
     justify: str = "left",
+    font: PathType = PATH.font_ocr,
     layer: LayerSpec = "WG",
-    font: str = "DEPLOF",
     layers: LayerSpecs | None = None,
 ) -> Component:
     """Returns text Component.
@@ -28,17 +28,18 @@ def text_freetype(
         size: in um.
         position: x, y position.
         justify: left, right, center.
-        layer: for the text.
         font: Font face to use. Default DEPLOF does not require additional libraries,
             otherwise freetype load fonts. You can choose font by name
             (e.g. "Times New Roman"), or by file OTF or TTF filepath.
+        layer: for the text.
+        layers: optional list of layers for the text.
     """
     t = Component()
     layers = layers or [layer]
     yoffset = 0
-    face = font
     xoffset = 0
-    if face == "DEPLOF":
+
+    if font == "DEPLOF":
         scaling = size / 1000
 
         for line in text.split("\n"):
@@ -68,17 +69,16 @@ def text_freetype(
     else:
         from gdsfactory.font import _get_font_by_file, _get_font_by_name, _get_glyph
 
-        # Load the font
-        # If we've passed a valid file, try to load that, otherwise search system fonts
-        font = None
-        if (face.endswith(".otf") or face.endswith(".ttf")) and os.path.exists(face):
-            font = _get_font_by_file(face)
+        font_path = pathlib.Path(font)
+
+        # Load the font. If we've passed a valid file, try to load that, otherwise search system fonts
+        if font_path.is_file() and font_path.suffix in (".otf", ".ttf"):
+            font = _get_font_by_file(str(font))
         else:
-            with contextlib.suppress(ValueError):
-                font = _get_font_by_name(face)
+            font = _get_font_by_name(font)
         if font is None:
             raise ValueError(
-                f"Failed to find font: {face!r}. "
+                f"Failed to find font: {font!r}. "
                 "Try specifying the exact (full) path to the .ttf or .otf file. "
             )
 
@@ -114,8 +114,8 @@ def text_freetype(
 
 
 if __name__ == "__main__":
-    c2 = text_freetype("hello", layers=[(1, 0), (2, 0)])
+    # c2 = text_freetype("hello", layers=[(1, 0), (2, 0)])
     # c2 = text_freetype("hello", font="Times New Roman")
     # print(c2.name)
-    # c2 = text_freetype()
+    c2 = text_freetype()
     c2.show()
