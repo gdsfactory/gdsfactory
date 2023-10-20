@@ -80,6 +80,7 @@ def rectangles(
     size = np.array(size)
 
     ref0 = None
+    kwargs.pop("layer", None)
 
     if len(offsets) != len(layers):
         raise ValueError(f"len(offsets) != len(layers) {len(offsets)} != {len(layers)}")
@@ -95,8 +96,9 @@ def rectangles(
 
 
 if __name__ == "__main__":
-    c = rectangles(offsets=(0, 1), centered=False)
-    # c = rectangle(size=(3, 2), centered=False, layer=(2, 3))
+    layer = {(1, 0), (2, 0)}
+    # c = rectangles(offsets=(0, 1), centered=False, layer=layer)
+    c = rectangle(size=(3, 2), centered=False, layer=layer)
     # c = rectangle(size=(3, 2), centered=True, layer=(2, 3))
     print(c.ports)
     print(c.name)

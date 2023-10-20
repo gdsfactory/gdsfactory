@@ -26,38 +26,41 @@ def align_wafer(
         layer_cladding: optional.
         square_corner: bottom_left, bottom_right, top_right, top_left.
     """
-    layer = gf.get_layer(layer)
+    layers = layer if isinstance(layer, set) else {layer}
     c = Component()
-    cross = gf.components.cross(length=cross_length, width=width, layer=layer)
-    c.add_ref(cross)
 
-    b = cross_length / 2 + spacing + width / 2
-    w = width
+    for layer in layers:
+        layer = gf.get_layer(layer)
+        cross = gf.components.cross(length=cross_length, width=width, layer=layer)
+        c.add_ref(cross)
 
-    rh = rectangle(size=(2 * b + w, w), layer=layer, centered=True)
-    rtop = c.add_ref(rh)
-    rbot = c.add_ref(rh)
-    rtop.movey(+b)
-    rbot.movey(-b)
+        b = cross_length / 2 + spacing + width / 2
+        w = width
 
-    rv = rectangle(size=(w, 2 * b), layer=layer, centered=True)
-    rl = c.add_ref(rv)
-    rr = c.add_ref(rv)
-    rl.movex(-b)
-    rr.movex(+b)
+        rh = rectangle(size=(2 * b + w, w), layer=layer, centered=True)
+        rtop = c.add_ref(rh)
+        rbot = c.add_ref(rh)
+        rtop.movey(+b)
+        rbot.movey(-b)
 
-    wsq = (cross_length + 2 * spacing) / 4
-    square_mark = c << rectangle(size=(wsq, wsq), layer=layer, centered=True)
-    a = width / 2 + wsq / 2 + spacing
+        rv = rectangle(size=(w, 2 * b), layer=layer, centered=True)
+        rl = c.add_ref(rv)
+        rr = c.add_ref(rv)
+        rl.movex(-b)
+        rr.movex(+b)
 
-    corner_to_position = {
-        "bottom_left": (-a, -a),
-        "bottom_right": (a, -a),
-        "top_right": (a, a),
-        "top_left": (-a, a),
-    }
+        wsq = (cross_length + 2 * spacing) / 4
+        square_mark = c << rectangle(size=(wsq, wsq), layer=layer, centered=True)
+        a = width / 2 + wsq / 2 + spacing
 
-    square_mark.move(corner_to_position[square_corner])
+        corner_to_position = {
+            "bottom_left": (-a, -a),
+            "bottom_right": (a, -a),
+            "top_right": (a, a),
+            "top_left": (-a, a),
+        }
+
+        square_mark.move(corner_to_position[square_corner])
 
     if layer_cladding:
         rc_tile_excl = rectangle(
@@ -120,5 +123,5 @@ if __name__ == "__main__":
     PDK.activate()
     # c = gf.components.straight()
     # c = add_frame(component=c)
-    c = align_wafer()
+    c = align_wafer(layer={(1, 0), (2, 0)})
     c.show(show_ports=True)

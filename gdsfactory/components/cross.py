@@ -20,53 +20,57 @@ def cross(
         layer: layer for geometry.
         port_type: None, optical, electrical.
     """
-    layer = gf.get_layer(layer)
     c = gf.Component()
-    R = gf.components.rectangle(size=(width, length), layer=layer)
-    r1 = c.add_ref(R).rotate(90)
-    r2 = c.add_ref(R)
-    r1.center = (0, 0)
-    r2.center = (0, 0)
+    layers = layer if isinstance(layer, set) else {layer}
 
-    if port_type:
-        c.add_port(
-            1,
-            width=width,
-            layer=layer,
-            orientation=0,
-            center=(+length / 2, 0),
-            port_type=port_type,
-        )
-        c.add_port(
-            2,
-            width=width,
-            layer=layer,
-            orientation=180,
-            center=(-length / 2, 0),
-            port_type=port_type,
-        )
-        c.add_port(
-            3,
-            width=width,
-            layer=layer,
-            orientation=90,
-            center=(0, length / 2),
-            port_type=port_type,
-        )
-        c.add_port(
-            4,
-            width=width,
-            layer=layer,
-            orientation=270,
-            center=(0, -length / 2),
-            port_type=port_type,
-        )
+    for layer in layers:
+        layer = gf.get_layer(layer)
+        R = gf.components.rectangle(size=(width, length), layer=layer)
+        r1 = c.add_ref(R).rotate(90)
+        r2 = c.add_ref(R)
+        r1.center = (0, 0)
+        r2.center = (0, 0)
+
+        if port_type:
+            c.add_port(
+                1,
+                width=width,
+                layer=layer,
+                orientation=0,
+                center=(+length / 2, 0),
+                port_type=port_type,
+            )
+            c.add_port(
+                2,
+                width=width,
+                layer=layer,
+                orientation=180,
+                center=(-length / 2, 0),
+                port_type=port_type,
+            )
+            c.add_port(
+                3,
+                width=width,
+                layer=layer,
+                orientation=90,
+                center=(0, length / 2),
+                port_type=port_type,
+            )
+            c.add_port(
+                4,
+                width=width,
+                layer=layer,
+                orientation=270,
+                center=(0, -length / 2),
+                port_type=port_type,
+            )
         c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
-    c = cross()
+    layer = {(1, 0), (2, 0)}
+    c = cross(layer=layer)
     c.show(show_ports=True)
     # c.pprint_ports()
     # cc = gf.routing.add_fiber_array(component=c)
