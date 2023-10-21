@@ -17,7 +17,8 @@ def write_test_manifest(csvpath: str | pathlib.Path) -> pd.DataFrame:
     # Initialize an empty list to collect the rows
     rows = []
     columns = [
-        "name",
+        "cell",
+        "device",
         "xopt",
         "yopt",
         "xelec",
@@ -27,6 +28,7 @@ def write_test_manifest(csvpath: str | pathlib.Path) -> pd.DataFrame:
         "doe",
         "analysis",
         "analysis_settings",
+        "cell_settings",
     ]
 
     for _, label in df_in.iterrows():
@@ -35,6 +37,7 @@ def write_test_manifest(csvpath: str | pathlib.Path) -> pd.DataFrame:
         d = json.loads(text)
 
         row = [
+            d["name"],
             d["name"] + f"_{int(x)}_{int(y)}",
             [np.round(i + x, 3) for i in d["xopt"]],
             [np.round(i + y, 3) for i in d["yopt"]],
@@ -45,6 +48,7 @@ def write_test_manifest(csvpath: str | pathlib.Path) -> pd.DataFrame:
             d["doe"],
             d["analysis"],
             d["analysis_settings"],
+            d["cell_settings"],
         ]
         rows.append(row)
 
@@ -57,7 +61,7 @@ def write_test_manifest(csvpath: str | pathlib.Path) -> pd.DataFrame:
 if __name__ == "__main__":
     c = sample_reticle(grid=False)
     c.show(show_ports=True)
-    gdspath = c.write_gds()
+    gdspath = c.write_gds("sample_reticle.gds")
     csvpath = gf.labels.write_labels.write_labels_gdstk(
         gdspath, prefixes=("{",), layer_label="TEXT"
     )

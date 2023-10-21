@@ -1,5 +1,6 @@
 analysis: null
-analysis_settings:
+analysis_settings: {}
+cell_settings:
   angle: 90
   component:
     component: add_fiber_single

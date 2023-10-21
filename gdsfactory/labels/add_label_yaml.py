@@ -52,7 +52,7 @@ def add_label_yaml(
     layer = get_layer(layer)
     analysis_settings = analysis_settings or {}
     measurement_settings = measurement_settings or {}
-    analysis_settings.update(component.metadata.get("full", {}))
+    cell_settings = component.metadata.get("full", {})
 
     optical_ports = component.get_ports_list(port_type="optical")
     electrical_ports = component.get_ports_list(port_type="electrical")
@@ -66,6 +66,7 @@ def add_label_yaml(
         name=component.name,
         doe=doe,
         measurement=measurement,
+        cell_settings=cell_settings,
         analysis=analysis,
         measurement_settings=measurement_settings,
         analysis_settings=analysis_settings,

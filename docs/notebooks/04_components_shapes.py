@@ -62,27 +62,21 @@ c.plot()
 c = gf.components.ring(radius=5, width=0.5, angle_resolution=2.5, layer=(1, 0))
 c.plot()
 
-c = gf.components.ring_single(
-    width=0.5, gap=0.2, radius=10, length_x=4, length_y=2, layer=(1, 0)
-)
+c = gf.components.ring_single(gap=0.2, radius=10, length_x=4, length_y=2)
 c.plot()
 
 # +
 import gdsfactory as gf
 
-c = gf.components.ring_double(
-    width=0.5, gap=0.2, radius=10, length_x=4, length_y=2, layer=(1, 0)
-)
+c = gf.components.ring_double(gap=0.2, radius=10, length_x=4, length_y=2)
 c.plot()
 # -
 
 c = gf.components.ring_double(
-    width=0.5,
     gap=0.2,
     radius=10,
     length_x=4,
     length_y=2,
-    layer=(1, 0),
     bend=gf.components.bend_circular,
 )
 c.plot()
