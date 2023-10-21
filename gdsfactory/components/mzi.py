@@ -10,7 +10,7 @@ from gdsfactory.components.coupler import coupler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.routing.get_route import get_route
+from gdsfactory.routing.get_route import place_route
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -102,15 +102,14 @@ def mzi(
 
     cp2 = c << cp2
     b5 = c << bend
-    b5.mirror()
-    b5.connect("o1", cp1.ports[port_e0_splitter])
+    b5.connect("o1", cp1.ports[port_e0_splitter], mirror=True)
 
     syl = c << gf.get_component(
         straight_y, length=delta_length / 2 + length_y, cross_section=cross_section
     )
     syl.connect("o1", b5.ports["o2"])
     b6 = c << bend
-    b6.connect("o1", syl.ports["o2"])
+    b6.connect("o1", syl.ports["o2"], mirror=True)
 
     straight_x_bot = (
         gf.get_component(
@@ -121,7 +120,7 @@ def mzi(
     )
     sxb = c << straight_x_bot
     if mirror_bot:
-        sxb.mirror()
+        sxb.mirror_x()
     sxb.connect("o1", b6.ports["o2"])
 
     b1 = c << bend
@@ -144,28 +143,26 @@ def mzi(
     sxt = c << straight_x_top
     sxt.connect("o1", b2.ports["o1"])
 
-    cp2.mirror()
+    cp2.mirror_x()
     xs = gf.get_cross_section(cross_section)
-    cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 2 * xs.min_length
+    cp2.d.xmin = sxt.ports["o2"].d.x + bend.info["radius"] * nbends + 2 * xs.min_length
 
-    route = get_route(
+    place_route(
+        c,
         sxt.ports["o2"],
         cp2.ports[port_e1_combiner],
         straight=straight,
         bend=bend_spec,
         cross_section=cross_section,
-        with_sbend=False,
     )
-    c.add(route.references)
-    route = get_route(
+    place_route(
+        c,
         sxb.ports["o2"],
         cp2.ports[port_e0_combiner],
         straight=straight,
         bend=bend_spec,
         cross_section=cross_section,
-        with_sbend=False,
     )
-    c.add(route.references)
 
     sytl.name = "sytl"
     syl.name = "syl"
@@ -175,23 +172,31 @@ def mzi(
     cp2.name = "cp2"
 
     if with_splitter:
-        c.add_ports(cp1.get_ports_list(orientation=180), prefix="in_")
+        c.add_ports(gf.port.get_ports_list(cp1.ports, orientation=180), prefix="in_")
     else:
         c.add_port("o1", port=b1.ports["o1"])
         c.add_port("o2", port=b5.ports["o1"])
-    c.add_ports(cp2.get_ports_list(orientation=0), prefix="ou_")
+    c.add_ports(gf.port.get_ports_list(cp2.ports, orientation=0), prefix="ou_")
+    c.add_ports(
+        gf.port.get_ports_list(sxt.ports, port_type="electrical"), prefix="top_"
+    )
+    c.add_ports(
+        gf.port.get_ports_list(sxb.ports, port_type="electrical"), prefix="bot_"
+    )
+    c.add_ports(gf.port.get_ports_list(sxt.ports, port_type="placement"), prefix="top_")
+    c.add_ports(gf.port.get_ports_list(sxb.ports, port_type="placement"), prefix="bot_")
 
-    c.add_ports(sxt.get_ports_list(port_type="electrical"), prefix="top_")
-    c.add_ports(sxb.get_ports_list(port_type="electrical"), prefix="bot_")
-    c.add_ports(sxt.get_ports_list(port_type="placement"), prefix="top_")
-    c.add_ports(sxb.get_ports_list(port_type="placement"), prefix="bot_")
-
-    c.auto_rename_ports(port_type="optical", prefix="o")
+    # c.auto_rename_ports(port_type="optical", prefix="o")
 
     if add_optical_ports_arms:
-        c.add_ports(sxt.get_ports_list(port_type="optical"), prefix="top_")
-        c.add_ports(sxb.get_ports_list(port_type="optical"), prefix="bot_")
+        c.add_ports(
+            gf.port.get_ports_list(sxt.ports, port_type="optical"), prefix="top_"
+        )
+        c.add_ports(
+            gf.port.get_ports_list(sxb.ports, port_type="optical"), prefix="bot_"
+        )
 
+    c.auto_rename_ports()
     return c
 
 
@@ -222,7 +227,6 @@ mzi_coupler = partial(
 
 if __name__ == "__main__":
     c = mzi()
-    print(sorted([i.name for i in c.get_dependencies()]))
     # from gdsfactory import get_generic_pdk
 
     # pdk = get_generic_pdk()
