@@ -111,6 +111,17 @@ def mzi(
     b6 = c << bend
     b6.connect("o1", syl.ports["o2"], mirror=True)
 
+    straight_x_top = (
+        gf.get_component(
+            straight_x_top, length=length_x, cross_section=cross_section_x_top
+        )
+        if length_x
+        else gf.get_component(straight_x_top)
+    )
+    sxt = c << straight_x_top
+
+    length_x = length_x or sxt.d.xsize
+
     straight_x_bot = (
         gf.get_component(
             straight_x_bot, length=length_x, cross_section=cross_section_x_bot
@@ -133,14 +144,7 @@ def mzi(
 
     b2 = c << bend
     b2.connect("o2", sytl.ports["o2"])
-    straight_x_top = (
-        gf.get_component(
-            straight_x_top, length=length_x, cross_section=cross_section_x_top
-        )
-        if length_x
-        else gf.get_component(straight_x_top)
-    )
-    sxt = c << straight_x_top
+
     sxt.connect("o1", b2.ports["o1"])
 
     cp2.mirror_x()
@@ -209,6 +213,7 @@ mzi2x2_2x2 = partial(
     port_e0_splitter="o4",
     port_e1_combiner="o3",
     port_e0_combiner="o4",
+    length_x=None,
 )
 
 mzi1x2_2x2 = partial(
