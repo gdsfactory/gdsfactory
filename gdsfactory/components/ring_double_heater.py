@@ -134,7 +134,11 @@ def ring_double_heater(
 
     if not p1:
         raise ValueError(
-            f"No ports found for port_orientation {port_orientation} in {valid_orientations}"
+            f"No ports found for port_orientation {port_orientation[0]} in {valid_orientations}"
+        )
+    if not p2:
+        raise ValueError(
+            f"No ports found for port_orientation {port_orientation[1]} in {valid_orientations}"
         )
 
     c.add_ports(p1, prefix="l_")
