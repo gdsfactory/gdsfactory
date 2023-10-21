@@ -29,7 +29,7 @@ def ring_double_heater(
     cross_section_waveguide_heater: CrossSectionSpec = "xs_sc_heater_metal",
     cross_section: CrossSectionSpec = "xs_sc",
     via_stack: ComponentSpec = via_stack_heater_m3_mini,
-    port_orientation: float | None = None,
+    port_orientation: float | Float2 | None = None,
     via_stack_offset: Float2 = (1, 0),
 ) -> Component:
     """Returns a double bus ring with heater on top.
@@ -51,7 +51,7 @@ def ring_double_heater(
         cross_section_waveguide_heater: for waveguide with heater.
         cross_section: for regular waveguide.
         via_stack: for heater to routing metal.
-        port_orientation: for electrical ports to promote from via_stack.
+        port_orientation: for electrical ports to promote from via_stack. Tuple allows the left and right contacts to be defined differently.
         via_stack_offset: x,y offset for via_stack.
 
     .. code::
@@ -125,13 +125,20 @@ def ring_double_heater(
     c1.movey(via_stack_offset[1])
     c2.movey(via_stack_offset[1])
 
-    p1 = c1.get_ports_list(orientation=port_orientation)
-    p2 = c2.get_ports_list(orientation=port_orientation)
+    if isinstance(port_orientation, float) or port_orientation is None:
+        port_orientation = [port_orientation, port_orientation]
+
+    p1 = c1.get_ports_list(orientation=port_orientation[0])
+    p2 = c2.get_ports_list(orientation=port_orientation[1])
     valid_orientations = {p.orientation for p in via.ports.values()}
 
     if not p1:
         raise ValueError(
-            f"No ports found for port_orientation {port_orientation} in {valid_orientations}"
+            f"No ports found for port_orientation {port_orientation[0]} in {valid_orientations}"
+        )
+    if not p2:
+        raise ValueError(
+            f"No ports found for port_orientation {port_orientation[1]} in {valid_orientations}"
         )
 
     c.add_ports(p1, prefix="l_")
@@ -146,5 +153,8 @@ def ring_double_heater(
 
 
 if __name__ == "__main__":
-    c = ring_double_heater(radius=10, length_x=1, length_y=10, gap=0.2)
+    c = ring_double_heater(
+        radius=10, length_x=1, length_y=10, gap=0.2, port_orientation=(180, 0)
+    )
+    c.show(show_subports=True, show_ports=True)
     c.show()
