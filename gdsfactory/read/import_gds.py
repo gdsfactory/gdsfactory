@@ -23,13 +23,15 @@ def import_gds(
     if kwargs:
         warnings.warn(f"kwargs {kwargs} are not used")
 
-    kcl = KCLayout(name=str(gdspath))
-    kcl.read(gdspath)
-    kcell = kcl[kcl.top_cell().name] if cellname is None else kcl[cellname]
+    temp_kcl = KCLayout(name=str(gdspath))
+    temp_kcl.read(gdspath)
+    cellname = cellname or temp_kcl.top_cell().name
+    kcell = temp_kcl[cellname]
+
     c = Component()
-    c.name = kcell.name
-    c._kdb_cell = kcell._kdb_cell
-    c.kcl = kcell.kcl
+    c.name = cellname
+    c._kdb_cell.copy_tree(kcell._kdb_cell)
+
     c.ports = kcell.ports
     c._settings = kcell.settings.model_copy()
     c.info = kcell.info.model_copy()
