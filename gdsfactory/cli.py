@@ -70,7 +70,12 @@ def watch(
     from gdsfactory.watch import watch
 
     path = pathlib.Path(path)
-    path = path.parent if path.is_dir() else path
+    if path.is_file():
+        path = path.parent
+    elif path.is_dir():
+        pass  # the typical case
+    elif not path.exists():
+        raise ValueError(f"Invalid path passed to watch command: {path}")
     watch(str(path), pdk=pdk)
 
 
