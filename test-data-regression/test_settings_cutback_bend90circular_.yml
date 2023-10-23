@@ -1,4 +1,4 @@
-name: cutback_bend90_d1ad1beb
+name: cutback_bend90_d89ef24e
 ports:
   o1:
     center:
@@ -26,22 +26,22 @@ ports:
     width: 0.5
 settings:
   changed:
-    bend90:
+    component:
       function: bend_circular
   child: null
   default:
-    bend90:
+    cols: 6
+    component:
       function: bend_euler
-    columns: 6
     rows: 6
     spacing: 5
     straight:
       function: straight
     straight_length: 5.0
   full:
-    bend90:
+    cols: 6
+    component:
       function: bend_circular
-    columns: 6
     rows: 6
     spacing: 5
     straight:
@@ -52,4 +52,4 @@ settings:
     n_bends: 144
   info_version: 2
   module: gdsfactory.components.cutback_bend
-  name: cutback_bend90_d1ad1beb
+  name: cutback_bend90_d89ef24e

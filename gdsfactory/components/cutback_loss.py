@@ -3,6 +3,7 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.components.cutback_bend import cutback_bend90, cutback_bend180
 from gdsfactory.components.cutback_component import cutback_component
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.spiral_inner_io import spiral_inner_io
@@ -86,6 +87,12 @@ def cutback_loss_spirals(
 
 
 cutback_loss_mmi1x2 = partial(cutback_loss, component=mmi1x2, port2="o3", mirror2=True)
+cutback_loss_bend90 = partial(
+    cutback_loss, component="bend_euler", cutback=cutback_bend90, cols=12
+)
+cutback_loss_bend180 = partial(
+    cutback_loss, component="bend_euler180", cutback=cutback_bend180, cols=12
+)
 
 
 if __name__ == "__main__":
@@ -97,6 +104,7 @@ if __name__ == "__main__":
     # components = cutback_loss(
     #     component=gf.c.mmi2x2, decorator=gf.routing.add_fiber_array
     # )
-    components = cutback_loss_mmi1x2(decorator=gf.routing.add_fiber_array)
+    # components = cutback_loss_mmi1x2(decorator=gf.routing.add_fiber_array)
+    components = cutback_loss_bend180(decorator=gf.routing.add_fiber_array)
     c = gf.pack(components)[0]
     c.show()
