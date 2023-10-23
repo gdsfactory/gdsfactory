@@ -336,7 +336,9 @@ def route_fiber_array(
             ordered_ports = [component.ports[i] for i in connected_port_names]
 
         for io_gratings in io_gratings_lines:
-            for i in range(min(N, len(connected_port_names))):
+            for i in range(
+                min(N, len(connected_port_names)) if connected_port_names else N
+            ):
                 p0 = io_gratings[i].ports[gc_port_name]
                 p1 = ordered_ports[i]
                 waypoints = generate_manhattan_waypoints(
