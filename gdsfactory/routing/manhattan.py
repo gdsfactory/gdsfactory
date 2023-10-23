@@ -388,7 +388,7 @@ def _generate_route_manhattan_points(
 
                     p = (p[0], sigp * _y)
                     if count == 1:  # take care of the start_straight case
-                        p = (p[0], -sigp * max(start_straight_length, _y))
+                        p = (p[0], sigp * max(start_straight_length, _y))
 
                     a = 180
                 elif (
@@ -1082,8 +1082,12 @@ if __name__ == "__main__":
     s = gf.c.straight()
     pt = c << s
     pb = c << s
+    pb.rotate(90)
     pt.move((400, 50))
-    route = gf.routing.get_route(
+
+    pb.movex(400)
+    pb.movey(100)  # -10
+    route = route_manhattan(
         pb.ports["o2"],
         pt.ports["o1"],
         cross_section="xs_sc_auto_widen",
