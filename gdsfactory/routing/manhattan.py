@@ -395,7 +395,6 @@ def _generate_route_manhattan_points(
                     -p[0] - (end_straight_length + 2 * bs1 + bs2 + min_straight_length)
                     > -threshold
                 ):
-                    print("here2")
                     # go sufficiently up, and then east
                     p = (
                         p[0],
