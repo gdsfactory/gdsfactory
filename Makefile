@@ -17,6 +17,9 @@ update-pre:
 test-data:
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
 
+test-data-ssh:
+	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test-data test-data
+
 data-download: test-data
 	echo 'Make sure you git pull inside test-data folder'
 
