@@ -1085,7 +1085,7 @@ cutback_bend
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_bend(straight_length=5.0, rows=6, columns=5)
+  c = gf.components.cutback_bend(straight_length=5.0, rows=6, cols=5)
   c.plot()
 
 
@@ -1100,7 +1100,7 @@ cutback_bend180
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_bend180(straight_length=5.0, rows=6, columns=6, spacing=3)
+  c = gf.components.cutback_bend180(straight_length=5.0, rows=6, cols=6, spacing=3)
   c.plot()
 
 
@@ -1115,7 +1115,7 @@ cutback_bend180circular
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_bend180circular(straight_length=5.0, rows=6, columns=6, spacing=3)
+  c = gf.components.cutback_bend180circular(straight_length=5.0, rows=6, cols=6, spacing=3)
   c.plot()
 
 
@@ -1130,7 +1130,7 @@ cutback_bend90
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_bend90(straight_length=5.0, rows=6, columns=6, spacing=5)
+  c = gf.components.cutback_bend90(straight_length=5.0, rows=6, cols=6, spacing=5)
   c.plot()
 
 
@@ -1145,7 +1145,7 @@ cutback_bend90circular
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_bend90circular(straight_length=5.0, rows=6, columns=6, spacing=5)
+  c = gf.components.cutback_bend90circular(straight_length=5.0, rows=6, cols=6, spacing=5)
   c.plot()
 
 
@@ -2899,7 +2899,7 @@ ring_single
 
   import gdsfactory as gf
 
-  c = gf.components.ring_single(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, cross_section='xs_sc')
+  c = gf.components.ring_single(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, cross_section='xs_sc', pass_cross_section_to_bend=True)
   c.plot()
 
 

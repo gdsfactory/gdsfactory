@@ -28,18 +28,18 @@ settings:
   changed: {}
   child: null
   default:
-    bend90:
+    cols: 6
+    component:
       function: bend_euler
-    columns: 6
     rows: 6
     spacing: 5
     straight:
       function: straight
     straight_length: 5.0
   full:
-    bend90:
+    cols: 6
+    component:
       function: bend_euler
-    columns: 6
     rows: 6
     spacing: 5
     straight:

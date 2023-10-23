@@ -28,7 +28,7 @@ settings:
   changed: {}
   child: null
   default:
-    bend90:
+    component:
       function: bend_euler
     length_h: 5.0
     length_v: 5.0
@@ -36,7 +36,7 @@ settings:
     straight:
       function: straight
   full:
-    bend90:
+    component:
       function: bend_euler
     length_h: 5.0
     length_v: 5.0

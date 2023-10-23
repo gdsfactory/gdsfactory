@@ -28,22 +28,22 @@ settings:
   changed: {}
   child: null
   default:
-    bend180:
+    cols: 6
+    component:
       function: bend_euler
       settings:
         angle: 180
-    columns: 6
     rows: 6
     spacing: 3
     straight:
       function: straight
     straight_length: 5.0
   full:
-    bend180:
+    cols: 6
+    component:
       function: bend_euler
       settings:
         angle: 180
-    columns: 6
     rows: 6
     spacing: 3
     straight:

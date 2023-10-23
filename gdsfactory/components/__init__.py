@@ -95,6 +95,8 @@ from gdsfactory.components.cutback_component import (
 )
 from gdsfactory.components.cutback_loss import (
     cutback_loss,
+    cutback_loss_bend90,
+    cutback_loss_bend180,
     cutback_loss_mmi1x2,
     cutback_loss_spirals,
 )
@@ -420,6 +422,8 @@ __all__ = [
     "cutback_loss",
     "cutback_loss_mmi1x2",
     "cutback_loss_spirals",
+    "cutback_loss_bend90",
+    "cutback_loss_bend180",
     "cutback_splitter",
     "dbr",
     "dbr_tapered",
