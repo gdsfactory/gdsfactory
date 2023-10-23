@@ -18,6 +18,7 @@ from gdsfactory.cell import CACHE
 from gdsfactory.config import cwd
 from gdsfactory.pdk import get_active_pdk, on_pdk_activated
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
+from gdsfactory.typings import ComponentSpec
 
 
 class FileWatcher(FileSystemEventHandler):
@@ -168,6 +169,13 @@ def watch(path: pathlib.Path | str | None = cwd, pdk: str | None = None) -> None
     )
     embed()
     watcher.stop()
+
+
+def show(component: ComponentSpec) -> None:
+    import gdsfactory as gf
+
+    c = gf.get_component(component)
+    c.show()
 
 
 if __name__ == "__main__":

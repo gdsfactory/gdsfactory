@@ -69,14 +69,11 @@ def watch(
     """Filewatch a folder for changes in *.py or *.pic.yml files."""
     from gdsfactory.watch import watch
 
-    path = pathlib.Path(path)
-    if path.is_file():
-        path = path.parent
-    elif path.is_dir():
-        pass  # the typical case
-    elif not path.exists():
-        raise ValueError(f"Invalid path passed to watch command: {path}")
-    watch(str(path), pdk=pdk)
+    p = pathlib.Path(path)
+    if not p.exists():
+        raise ValueError(f"Invalid path passed to watch command: {p}")
+    p = p.parent if p.is_file() else p
+    watch(str(p), pdk=pdk)
 
 
 @app.command()
