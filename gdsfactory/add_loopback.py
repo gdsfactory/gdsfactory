@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import ComponentReference
+from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.typings import ComponentSpec
@@ -15,7 +16,7 @@ def add_loopback(
     grating_separation: float = 127.0,
     grating_rotation: int = -90,
     grating_port_name: str = "o1",
-    bend: ComponentSpec = gf.components.bend_euler,
+    bend: ComponentSpec = bend_euler,
     south_waveguide_spacing: float | None = None,
     inside: bool = True,
     **kwargs,

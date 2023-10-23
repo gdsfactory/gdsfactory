@@ -301,7 +301,7 @@ def select_ports(
     """Returns a dict of ports from a list of ports.
 
     Args:
-        ports: Dict[str, Port] a port dict {port name: port}.
+        ports: port list.
         layer: select ports with port GDS layer.
         prefix: select ports with port name prefix.
         suffix: select ports with port name suffix.

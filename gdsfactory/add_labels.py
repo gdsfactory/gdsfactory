@@ -385,12 +385,5 @@ def get_labels(
 
 
 if __name__ == "__main__":
-    # c = gf.components.mzi_phase_shifter()
-    # add_labels_ports(c, c.get_ports_list(port_type="electrical"), prefix="pad_")
-    # from gdsfactory.tests.test_labels import test_add_labels_electrical
-    # c = test_add_labels_optical()
-    # c = test_add_labels_electrical()
-    # c = gf.routing.add_fiber_single(c)
-
-    c = gf.components.pad(decorator=add_labels_to_ports_vertical_dc)
+    c = gf.components.pad()
     c.show()

@@ -14,12 +14,12 @@ def direction_ports_from_list_ports(optical_ports: list[Port]) -> dict[str, list
     """Returns a dict of WENS ports."""
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
     for p in optical_ports:
-        p.orientation = (p.orientation + 360.0) % 360
-        if p.orientation <= 45.0 or p.orientation >= 315:
+        orientation = (p.d.angle + 360.0) % 360
+        if orientation <= 45.0 or orientation >= 315:
             direction_ports["E"].append(p)
-        elif p.orientation <= 135.0 and p.orientation >= 45.0:
+        elif orientation <= 135.0 and orientation >= 45.0:
             direction_ports["N"].append(p)
-        elif p.orientation <= 225.0 and p.orientation >= 135.0:
+        elif orientation <= 225.0 and orientation >= 135.0:
             direction_ports["W"].append(p)
         else:
             direction_ports["S"].append(p)

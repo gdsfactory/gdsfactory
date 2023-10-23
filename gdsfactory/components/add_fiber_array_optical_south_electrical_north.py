@@ -132,7 +132,6 @@ def add_fiber_array_optical_south_electrical_north(
     xc, yc = getattr(r.size_info, anchor)
 
     analysis_settings = analysis_settings or {}
-    analysis_settings.update(component.metadata.get("full", {}))
 
     if layer_label:
         settings = dict(

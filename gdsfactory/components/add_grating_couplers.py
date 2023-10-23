@@ -204,12 +204,9 @@ def add_grating_couplers_with_loopback_fiber_single(
     return c
 
 
-_spiral_inner_io_2cm = dict(component="spiral_inner_io", settings=dict(length=2e4))
-
-
 @cell
 def add_grating_couplers_with_loopback_fiber_array(
-    component: ComponentSpec = _spiral_inner_io_2cm,
+    component: ComponentSpec = "spiral_inner_io_fiber_array",
     grating_coupler: ComponentSpec = grating_coupler_te,
     excluded_ports: list[str] | None = None,
     grating_separation: float = 127.0,
@@ -226,6 +223,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     cross_section: CrossSectionSpec = "xs_sc",
     select_ports: Callable = select_ports_optical,
     loopback_yspacing: float = 4.0,
+    optical_ports_direction: str = "S",
 ) -> Component:
     """Returns a component with grating_couplers and optional reference loopback.
 
@@ -255,8 +253,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     excluded_ports = excluded_ports or []
     gc = gf.get_component(grating_coupler)
 
-    direction = "S"
-    component_name = component_name or component.metadata_child.get("name")
+    component_name = component_name or component.name
 
     c = Component()
     c.copy_child_info(component)
@@ -267,14 +264,21 @@ def add_grating_couplers_with_loopback_fiber_array(
 
     # Find grating port name if not specified
     if gc_port_name is None:
-        gc_port_name = list(gc.ports.values())[0].name
+        gc_port_name = gc.ports[0].name
 
     # List the optical ports to connect
     optical_ports = select_ports(component.ports)
-    optical_ports = list(optical_ports.values())
+    optical_ports = list(optical_ports)
 
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
-    optical_ports = direction_ports_from_list_ports(optical_ports)[direction]
+    optical_ports = direction_ports_from_list_ports(optical_ports)[
+        optical_ports_direction
+    ]
+
+    if not optical_ports:
+        raise ValueError(
+            f"No optical ports to connect with direction = {optical_ports_direction}"
+        )
 
     # Check if the ports are equally spaced
     grating_separation_extracted = check_ports_have_equal_spacing(optical_ports)

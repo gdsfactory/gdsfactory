@@ -207,5 +207,5 @@ def _get_glyph(font, letter):  # noqa: C901
 if __name__ == "__main__":
     from gdsfactory.components.text_freetype import text_freetype
 
-    c = text_freetype("hello", font="Times New Roman")
+    c = text_freetype("hello")
     c.show()
