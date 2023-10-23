@@ -57,6 +57,7 @@ def get_input_label_text(
         component_name: optional name.
         component_prefix: component prefix.
         prefix: prefix to add to the label.
+        suffix: suffix to add to the label.
     """
     polarization = gc.info.get("polarization") or gc.metadata_child.get("polarization")
     wavelength = gc.info.get("wavelength") or gc.metadata_child.get("wavelength")
@@ -178,6 +179,7 @@ def add_labels(
         get_label_function: function to get label.
         layer_label: LayerSpec for the label.
         gc: Optional grating coupler.
+        kwargs: passed to get_ports_list.
 
     Keyword Args:
         layer: port GDS layer.
@@ -269,6 +271,7 @@ def add_labels_to_ports(
         component: to add labels.
         label_layer: layer spec for the label.
         port_type: to select ports.
+        kwargs: added to get_ports_list.
 
     Keyword Args:
         layer: select ports with GDS layer.
@@ -299,6 +302,7 @@ def add_labels_to_ports_x_y(
         component: to add labels.
         label_layer: layer spec for the label.
         port_type: to select ports.
+        kwargs: passed to get_ports_list.
 
     Keyword Args:
         layer: select ports with GDS layer.
@@ -353,6 +357,7 @@ def get_labels(
         layer_label: layer_label.
         gc: Optional grating coupler.
         component_name: optional component name.
+        kwargs: passed to get_ports_list.
 
     Keyword Args:
         layer: port GDS layer.

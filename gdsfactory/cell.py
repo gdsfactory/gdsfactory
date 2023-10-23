@@ -89,6 +89,8 @@ def cell(
 
     Args:
         func: function to decorate.
+
+    Keyword Args:
         autoname: True renames Component based on args and kwargs. True by default.
         max_name_length: truncates name beyond some characters with a hash. Defaults to CONF.max_name_length.
         include_module: True adds module name to the cell name.
