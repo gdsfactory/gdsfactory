@@ -36,13 +36,9 @@ settings:
       - -200
     - - 200
       - 200
-    finger_gap: 2.0
-    finger_length: 20.0
-    fingers: 4
     gap_layer: DEEPTRENCH
     gap_to_ground: 5
     metal_layer: WG
-    thickness: 5.0
   full:
     cpw_dimensions:
     - 10
@@ -52,13 +48,9 @@ settings:
       - -200
     - - 200
       - 200
-    finger_gap: 2.0
-    finger_length: 20.0
-    fingers: 4
     gap_layer: DEEPTRENCH
     gap_to_ground: 5
     metal_layer: WG
-    thickness: 5.0
   function_name: interdigital_capacitor_enclosed
   info: {}
   info_version: 2

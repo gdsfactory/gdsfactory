@@ -55,11 +55,6 @@ def test_name_shortened() -> None:
     assert len(c1.name) < 300
 
 
-def test_name_flatten() -> None:
-    c1 = gf.components.straight(flatten=True)
-    assert c1.name == "straight"
-
-
 def test_clean_name() -> None:
     c = gf.Component("hi:there")
     gdspath = c.write_gds()
@@ -67,27 +62,26 @@ def test_clean_name() -> None:
     assert ":" not in c.name, c.name
 
 
-# def test_name_different_signatures():
-#     c1 = gf.components.compass()
+def test_name_different_signatures():
+    c1 = gf.components.compass()
 
-#     @gf.cell
-#     def compass(layer=(2, 0)):
-#         return gf.components.compass(layer=layer)
+    @gf.cell(include_module=True)
+    def compass(layer=(2, 0)):
+        c = gf.Component()
+        c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=layer)
+        return c
 
-#     c2 = compass()
-#     print(c1.name)
-#     print(c2.name)
-
-#     assert c1.name != c2.name, f"{c1.name} should differ from {c2.name}"
+    c2 = compass()
+    assert c1.name != c2.name, f"{c1.name!r} should differ from {c2.name!r}"
 
 
 if __name__ == "__main__":
-    test_clean_name()
+    # test_clean_name()
     # test_name_shortened()
     # test_name_iterators()
     # test_name_partial_functions()
     # test_name_int_float()
-    # test_name_different_signatures()
+    test_name_different_signatures()
 
     # c1 = gf.components.compass()
 

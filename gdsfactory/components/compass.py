@@ -88,5 +88,6 @@ def compass(
 
 
 if __name__ == "__main__":
-    c = compass(size=(1, 2), layer="WG", port_type="optical", port_inclusion=0.5)
+    # c = compass(size=(1, 2), layer="WG", port_type="optical", port_inclusion=0.5)
+    c = compass()
     c.show(show_ports=True)
