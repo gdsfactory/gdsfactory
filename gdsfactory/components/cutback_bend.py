@@ -94,6 +94,7 @@ def cutback_bend90(
         straight_length: in um.
         rows: number of rows.
         cols: number of cols.
+        spacing: in um.
         kwargs: cross_section settings.
 
     .. code::
