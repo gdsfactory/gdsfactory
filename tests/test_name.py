@@ -65,7 +65,9 @@ def test_clean_name() -> None:
 def test_name_different_signatures():
     c1 = gf.components.compass()
 
-    @gf.cell(include_module=True)
+    from gdsfactory.cell import cell_with_module
+
+    @cell_with_module
     def compass(layer=(2, 0)):
         c = gf.Component()
         c.add_polygon([(0, 0), (1, 0), (1, 1), (0, 1)], layer=layer)

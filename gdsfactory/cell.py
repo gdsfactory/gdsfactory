@@ -5,6 +5,7 @@ import functools
 import hashlib
 import inspect
 from collections.abc import Callable
+from functools import partial
 from typing import Any, TypeVar
 
 from pydantic import BaseModel
@@ -174,7 +175,7 @@ def cell(
             name_signature = (
                 clean_name(f"{prefix}_{named_args_string}")
                 if named_args_string
-                else prefix
+                else clean_value_name(prefix)
             )
             # filter the changed dictionary to only keep entries which have truly changed
             changed_arg_names = [carg.split("=")[0] for carg in changed_arg_list]
@@ -272,6 +273,7 @@ def cell(
 
 
 cell_without_validator = cell
+cell_with_module = partial(cell, include_module=True)
 
 
 if __name__ == "__main__":
