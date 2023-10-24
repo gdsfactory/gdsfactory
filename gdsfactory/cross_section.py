@@ -87,8 +87,8 @@ class Section(BaseModel):
     hidden: bool = False
     simplify: float | None = None
 
-    width_function: Callable | None = Field(default=None, exclude=True)
-    offset_function: Callable | None = Field(default=None, exclude=True)
+    width_function: Callable | None = Field(default=None)
+    offset_function: Callable | None = Field(default=None)
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
