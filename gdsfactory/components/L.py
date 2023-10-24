@@ -9,7 +9,7 @@ from gdsfactory.typings import LayerSpec
 def L(
     width: int | float = 1,
     size: tuple[int, int] = (10, 20),
-    layer: LayerSpec = "M3",
+    layer: LayerSpec = "MTOP",
     port_type: str = "electrical",
 ) -> Component:
     """Generates an 'L' geometry with ports on both ends.

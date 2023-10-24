@@ -70,7 +70,7 @@ def text_rectangular(
 
 def text_rectangular_multi_layer(
     text: str = "abcd",
-    layers: LayerSpecs = ("WG", "M1", "M2", "M3"),
+    layers: LayerSpecs = ("WG", "M1", "M2", "MTOP"),
     text_factory: ComponentSpec = text_rectangular,
     **kwargs,
 ) -> Component:

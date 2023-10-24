@@ -12,7 +12,7 @@ def pads_shorted(
     pad: ComponentSpec = pad_function,
     columns: int = 8,
     pad_spacing: float = 150.0,
-    layer_metal: LayerSpec = "M3",
+    layer_metal: LayerSpec = "MTOP",
     metal_width: float = 10,
 ) -> Component:
     """Returns a 1D array of shorted_pads.
