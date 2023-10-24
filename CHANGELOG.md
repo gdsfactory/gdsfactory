@@ -1,12 +1,18 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.11...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.8.11](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.11) - 2023-10-24
 
-No significant changes.
-
+- remove get_capacitance_path [#2213](https://github.com/gdsfactory/gdsfactory/pull/2213)
+- add keep_ports flag to union [#2212](https://github.com/gdsfactory/gdsfactory/pull/2212)
+- Serialize width [#2211](https://github.com/gdsfactory/gdsfactory/pull/2211)
+- consistent cutback_bend [#2210](https://github.com/gdsfactory/gdsfactory/pull/2210)
+- Small fix to routing logic [#2208](https://github.com/gdsfactory/gdsfactory/pull/2208)
+- fixing gf watch for watching directories [#2207](https://github.com/gdsfactory/gdsfactory/pull/2207)
+- port_orientation can be tuple in ring heaters [#2206](https://github.com/gdsfactory/gdsfactory/pull/2206)
+- add cell_settings as a separate column for manifest [#2205](https://github.com/gdsfactory/gdsfactory/pull/2205)
 
 ## [7.8.10](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.10) - 2023-10-20
 
