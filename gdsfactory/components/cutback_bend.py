@@ -22,11 +22,11 @@ def _get_bend_size(bend90: Component) -> float64:
 
 @cell
 def cutback_bend(
-    bend90: ComponentSpec = bend_euler,
+    component: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight,
     straight_length: float = 5.0,
     rows: int = 6,
-    columns: int = 5,
+    cols: int = 5,
     **kwargs,
 ) -> Component:
     """Deprecated.
@@ -38,7 +38,7 @@ def cutback_bend(
         straight: straight spec.
         straight_length: in um.
         rows: number of rows.
-        columns: number of columns.
+        cols: number of cols.
         kwargs: cross_section settings.
 
     .. code::
@@ -52,7 +52,7 @@ def cutback_bend(
     """
     from gdsfactory.pdk import get_component
 
-    bend90 = get_component(bend90, **kwargs)
+    bend90 = get_component(component, **kwargs)
     straightx = straight(length=straight_length, **kwargs)
 
     # Define a map between symbols and (component, input port, output port)
@@ -64,7 +64,7 @@ def cutback_bend(
 
     # Generate the sequence of staircases
     s = ""
-    for i in range(columns):
+    for i in range(cols):
         s += "ASBS" * rows
         s += "ASAS" if i % 2 == 0 else "BSBS"
     s = s[:-4]
@@ -72,28 +72,28 @@ def cutback_bend(
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=90
     )
-    c.info["n_bends"] = rows * columns * 2 + columns * 2 - 2
+    c.info["n_bends"] = rows * cols * 2 + cols * 2 - 2
     return c
 
 
 @cell
 def cutback_bend90(
-    bend90: ComponentSpec = bend_euler,
+    component: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight,
     straight_length: float = 5.0,
     rows: int = 6,
-    columns: int = 6,
+    cols: int = 6,
     spacing: int = 5,
     **kwargs,
 ) -> Component:
     """Returns bend90 cutback.
 
     Args:
-        bend90: bend spec.
+        component: bend spec.
         straight: straight spec.
         straight_length: in um.
         rows: number of rows.
-        columns: number of columns.
+        cols: number of cols.
         kwargs: cross_section settings.
 
     .. code::
@@ -103,7 +103,7 @@ def cutback_bend90(
     """
     from gdsfactory.pdk import get_component
 
-    bend90 = get_component(bend90, **kwargs)
+    bend90 = get_component(component, **kwargs)
     straightx = straight(length=straight_length, **kwargs)
     straight_length = 2 * _get_bend_size(bend90) + spacing + straight_length
     straighty = straight(length=straight_length, **kwargs)
@@ -119,7 +119,7 @@ def cutback_bend90(
     # Generate the sequence of staircases
     s = "".join(
         "A-A-B-B-" * rows + "|" if i % 2 == 0 else "B-B-A-A-" * rows + "|"
-        for i in range(columns)
+        for i in range(cols)
     )
     s = s[:-1]
 
@@ -127,13 +127,13 @@ def cutback_bend90(
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
-    c.info["n_bends"] = rows * columns * 4
+    c.info["n_bends"] = rows * cols * 4
     return c
 
 
 @cell
 def staircase(
-    bend90: ComponentSpec = bend_euler,
+    component: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight,
     length_v: float = 5.0,
     length_h: float = 5.0,
@@ -148,10 +148,10 @@ def staircase(
         length_v: vertical length.
         length_h: vertical length.
         rows: number of rows.
-        columns: number of columns.
+        cols: number of cols.
         kwargs: cross_section settings.
     """
-    bend90 = bend90(**kwargs) if callable(bend90) else bend90
+    bend90 = component(**kwargs) if callable(component) else component
 
     wgh = straight(length=length_h, **kwargs)
     wgv = straight(length=length_v, **kwargs)
@@ -176,11 +176,11 @@ def staircase(
 
 @cell
 def cutback_bend180(
-    bend180: ComponentSpec = bend_euler180,
+    component: ComponentSpec = bend_euler180,
     straight: ComponentSpec = straight,
     straight_length: float = 5.0,
     rows: int = 6,
-    columns: int = 6,
+    cols: int = 6,
     spacing: int = 3,
     **kwargs,
 ) -> Component:
@@ -191,7 +191,7 @@ def cutback_bend180(
         straight: straight spec.
         straight_length: in um.
         rows: number of rows.
-        columns: number of columns.
+        cols: number of cols.
         spacing: in um.
         kwargs: cross_section settings.
 
@@ -204,7 +204,7 @@ def cutback_bend180(
     """
     from gdsfactory.pdk import get_component
 
-    bend180 = get_component(bend180, **kwargs)
+    bend180 = get_component(component, **kwargs)
     straightx = straight(length=straight_length, **kwargs)
     wg_vertical = straight(
         length=2 * bend180.size_info.width + straight_length + spacing,
@@ -221,8 +221,7 @@ def cutback_bend180(
 
     # Generate the sequence of staircases
     s = "".join(
-        "D-C-" * rows + "|" if i % 2 == 0 else "C-D-" * rows + "|"
-        for i in range(columns)
+        "D-C-" * rows + "|" if i % 2 == 0 else "C-D-" * rows + "|" for i in range(cols)
     )
 
     s = s[:-1]
@@ -230,22 +229,22 @@ def cutback_bend180(
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
-    c.info["n_bends"] = rows * columns * 2 + columns * 2 - 2
+    c.info["n_bends"] = rows * cols * 2 + cols * 2 - 2
     return c
 
 
-cutback_bend180circular = partial(cutback_bend180, bend180=bend_circular180)
-cutback_bend90circular = partial(cutback_bend90, bend90=bend_circular)
+cutback_bend180circular = partial(cutback_bend180, component=bend_circular180)
+cutback_bend90circular = partial(cutback_bend90, component=bend_circular)
 
 if __name__ == "__main__":
     # c = cutback_bend()
     # c = cutback_bend90()
-    # c = cutback_bend_circular(rows=7, columns=4, radius=5) #62
-    # c = cutback_bend_circular(rows=14, columns=4) #118
+    # c = cutback_bend_circular(rows=7, cols=4, radius=5) #62
+    # c = cutback_bend_circular(rows=14, cols=4) #118
     # c = cutback_bend90()
-    # c = cutback_bend180(rows=3, columns=1)
-    # c = cutback_bend(rows=3, columns=2)
-    # c = cutback_bend90(rows=3, columns=2)
-    c = cutback_bend180(rows=2, columns=2)
-    # c = cutback_bend(rows=3, columns=2)
-    c.show()
+    # c = cutback_bend180(rows=3, cols=1)
+    # c = cutback_bend(rows=3, cols=2)
+    # c = cutback_bend90(rows=3, cols=2)
+    c = cutback_bend180(rows=2, cols=2)
+    # c = cutback_bend(rows=3, cols=2)
+    c.show(show_ports=True)
