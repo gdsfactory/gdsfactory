@@ -10,7 +10,7 @@ settings:
     - - 3.0
       - 4.0
     die_name: null
-    layer: M3
+    layer: MTOP
     padding: 10.0
     street_length: 1000.0
     street_width: 100.0
@@ -23,7 +23,7 @@ settings:
     - - 3.0
       - 4.0
     die_name: null
-    layer: M3
+    layer: MTOP
     padding: 10.0
     street_length: 1000.0
     street_width: 100.0

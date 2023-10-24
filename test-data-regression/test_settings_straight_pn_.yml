@@ -139,7 +139,7 @@ settings:
         - SLAB90
         - M1
         - M2
-        - M3
+        - MTOP
         vias:
         - function: via
           settings:
@@ -167,7 +167,7 @@ settings:
         - SLAB90
         - M1
         - M2
-        - M3
+        - MTOP
         vias:
         - function: via
           settings:

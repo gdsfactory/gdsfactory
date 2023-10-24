@@ -143,14 +143,14 @@ via_stack_with_offset_ppp_m1 = partial(
 
 via_stack_with_offset_m1_m3 = partial(
     via_stack_with_offset,
-    layers=("M1", "M2", "M3"),
+    layers=("M1", "M2", "MTOP"),
     vias=(None, "via1", "via2"),
 )
 
 
 if __name__ == "__main__":
     c = via_stack_with_offset(
-        layers=("M1", "M2", "M3"),
+        layers=("M1", "M2", "MTOP"),
         sizes=((10, 10), (20, 20), (50, 30)),
         vias=(None, "via1", "via2"),
     )

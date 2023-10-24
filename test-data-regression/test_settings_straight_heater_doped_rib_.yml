@@ -172,7 +172,7 @@ settings:
         layers:
         - M1
         - M2
-        - M3
+        - MTOP
         vias:
         - function: via
           settings:
@@ -240,7 +240,7 @@ settings:
         layers:
         - M1
         - M2
-        - M3
+        - MTOP
         vias:
         - function: via
           settings:

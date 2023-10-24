@@ -172,7 +172,7 @@ settings:
         layers:
         - HEATER
         - M2
-        - M3
+        - MTOP
         size:
         - 4
         - 4
@@ -213,7 +213,7 @@ settings:
         layers:
         - HEATER
         - M2
-        - M3
+        - MTOP
         size:
         - 4
         - 4

@@ -8,7 +8,7 @@ from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.triangles import triangle
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec, LayerSpecs
 
-triangle_metal = partial(triangle, layer="M3", xtop=2)
+triangle_metal = partial(triangle, layer="MTOP", xtop=2)
 
 
 @gf.cell
