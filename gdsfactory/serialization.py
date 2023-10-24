@@ -43,10 +43,6 @@ def complex_encoder(obj, digits=DEFAULT_SERIALIZATION_MAX_DIGITS):
 def clean_value_json(value: Any) -> str | int | float | dict | list | bool | None:
     """Return JSON serializable object."""
     from gdsfactory.path import Path
-    from gdsfactory.pdk import get_active_pdk
-
-    active_pdk = get_active_pdk()
-    include_module = active_pdk.cell_decorator_settings.include_module
 
     if isinstance(value, pydantic.BaseModel):
         return clean_dict(value.model_dump())
@@ -71,7 +67,7 @@ def clean_value_json(value: Any) -> str | int | float | dict | list | bool | Non
         return orjson.loads(orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY))
 
     elif callable(value) and isinstance(value, functools.partial):
-        return clean_value_partial(value, include_module)
+        return clean_value_partial(value, include_module=False)
     elif hasattr(value, "to_dict"):
         return clean_dict(value.to_dict())
 
@@ -81,11 +77,7 @@ def clean_value_json(value: Any) -> str | int | float | dict | list | bool | Non
         ]
 
     elif callable(value) and hasattr(value, "__name__"):
-        return (
-            {"function": value.__name__, "module": value.__module__}
-            if include_module
-            else {"function": value.__name__}
-        )
+        return {"function": value.__name__}
 
     elif isinstance(value, Path):
         return value.hash_geometry()
