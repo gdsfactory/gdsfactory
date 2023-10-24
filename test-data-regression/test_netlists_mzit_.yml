@@ -51,6 +51,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -59,6 +60,7 @@ instances:
           - optical
           simplify: null
           width: 0.45
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -96,6 +98,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -104,6 +107,7 @@ instances:
           - optical
           simplify: null
           width: 0.45
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -141,6 +145,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -149,6 +154,7 @@ instances:
           - optical
           simplify: null
           width: 0.55
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -186,6 +192,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -194,6 +201,7 @@ instances:
           - optical
           simplify: null
           width: 0.55
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -237,6 +245,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -245,6 +254,7 @@ instances:
           - optical
           simplify: null
           width: 0.55
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -275,6 +285,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -283,6 +294,7 @@ instances:
           - optical
           simplify: null
           width: 0.55
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -309,6 +321,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -317,6 +330,7 @@ instances:
           - optical
           simplify: null
           width: 0.55
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -347,6 +361,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -355,6 +370,7 @@ instances:
           - optical
           simplify: null
           width: 0.55
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -381,6 +397,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -389,6 +406,7 @@ instances:
           - optical
           simplify: null
           width: 0.55
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -419,6 +437,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -427,6 +446,7 @@ instances:
           - optical
           simplify: null
           width: 0.55
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -453,6 +473,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -461,6 +482,7 @@ instances:
           - optical
           simplify: null
           width: 0.55
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -491,6 +513,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -499,6 +522,7 @@ instances:
           - optical
           simplify: null
           width: 0.55
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -525,6 +549,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -533,6 +558,7 @@ instances:
           - optical
           simplify: null
           width: 0.45
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
@@ -563,6 +589,7 @@ instances:
           layer: WG
           name: _default
           offset: 0.0
+          offset_function: null
           port_names:
           - o1
           - o2
@@ -571,6 +598,7 @@ instances:
           - optical
           simplify: null
           width: 0.45
+          width_function: null
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null

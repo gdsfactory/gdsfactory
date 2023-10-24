@@ -1,4 +1,4 @@
-name: mmi1x2_acfd9a92
+name: mmi1x2_916cd68e
 ports:
   o1:
     center:
@@ -62,6 +62,7 @@ settings:
         - 0
         name: _default
         offset: 0.0
+        offset_function: null
         port_names:
         - o1
         - o2
@@ -70,6 +71,7 @@ settings:
         - optical
         simplify: null
         width: 0.9
+        width_function: null
       start_straight_length: 0.01
       taper_length: 10.0
       width_wide: null
@@ -113,6 +115,7 @@ settings:
         - 0
         name: _default
         offset: 0.0
+        offset_function: null
         port_names:
         - o1
         - o2
@@ -121,6 +124,7 @@ settings:
         - optical
         simplify: null
         width: 0.9
+        width_function: null
       start_straight_length: 0.01
       taper_length: 10.0
       width_wide: null
@@ -139,4 +143,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_acfd9a92
+  name: mmi1x2_916cd68e

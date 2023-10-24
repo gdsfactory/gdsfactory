@@ -1,4 +1,4 @@
-name: straight_ddd5d58a_extend_ports_1361110e
+name: straight_0dd74e54_extend_ports_90a9fa88
 ports:
   o1:
     center:
@@ -39,6 +39,7 @@ settings:
               layer: SLAB90
               name: slab
               offset: 0
+              offset_function: null
               port_names:
               - null
               - null
@@ -47,6 +48,7 @@ settings:
               - optical
               simplify: 0.05
               width: 6.0
+              width_function: null
     extension:
       function: taper_strip_to_ridge
     port1: o2
@@ -63,6 +65,7 @@ settings:
             layer: SLAB90
             name: slab
             offset: 0
+            offset_function: null
             port_names:
             - null
             - null
@@ -71,6 +74,7 @@ settings:
             - optical
             simplify: 0.05
             width: 6.0
+            width_function: null
     child: null
     default:
       add_bbox: null
@@ -93,6 +97,7 @@ settings:
             layer: SLAB90
             name: slab
             offset: 0
+            offset_function: null
             port_names:
             - null
             - null
@@ -101,6 +106,7 @@ settings:
             - optical
             simplify: 0.05
             width: 6.0
+            width_function: null
       layer: null
       length: 10.0
       npoints: 2
@@ -117,6 +123,7 @@ settings:
             layer: SLAB90
             name: slab
             offset: 0
+            offset_function: null
             port_names:
             - null
             - null
@@ -125,6 +132,7 @@ settings:
             - optical
             simplify: 0.05
             width: 6.0
+            width_function: null
       length: 10.0
       route_info:
         length: 10.0
@@ -134,7 +142,7 @@ settings:
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
-    name: straight_ddd5d58a
+    name: straight_0dd74e54
   default:
     centered: false
     component:
@@ -162,6 +170,7 @@ settings:
               layer: SLAB90
               name: slab
               offset: 0
+              offset_function: null
               port_names:
               - null
               - null
@@ -170,6 +179,7 @@ settings:
               - optical
               simplify: 0.05
               width: 6.0
+              width_function: null
     cross_section: null
     extension:
       function: taper_strip_to_ridge
@@ -191,6 +201,7 @@ settings:
           layer: SLAB90
           name: slab
           offset: 0
+          offset_function: null
           port_names:
           - null
           - null
@@ -199,6 +210,7 @@ settings:
           - optical
           simplify: 0.05
           width: 6.0
+          width_function: null
     length: 10.0
     route_info:
       length: 10.0
@@ -208,4 +220,4 @@ settings:
     width: 0.5
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_ddd5d58a_extend_ports_1361110e
+  name: straight_0dd74e54_extend_ports_90a9fa88

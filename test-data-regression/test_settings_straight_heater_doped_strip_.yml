@@ -149,6 +149,7 @@ settings:
           layer: SLAB90
           name: slab
           offset: 0
+          offset_function: null
           port_names:
           - null
           - null
@@ -157,6 +158,7 @@ settings:
           - optical
           simplify: null
           width: 0.2
+          width_function: null
     cross_section_heater:
       function: rib_heater_doped
     heater_gap: 0.8
@@ -215,6 +217,7 @@ settings:
           layer: SLAB90
           name: slab
           offset: 0
+          offset_function: null
           port_names:
           - null
           - null
@@ -223,6 +226,7 @@ settings:
           - optical
           simplify: null
           width: 0.2
+          width_function: null
     cross_section_heater:
       function: strip_heater_doped
     heater_gap: 0.8
