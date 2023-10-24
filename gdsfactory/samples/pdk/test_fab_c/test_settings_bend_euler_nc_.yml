@@ -1,4 +1,4 @@
-name: bend_euler_decae8b0
+name: bend_euler_bf4cee07
 ports:
   o1:
     center:
@@ -50,6 +50,7 @@ settings:
         - 0
         name: _default
         offset: 0.0
+        offset_function: null
         port_names:
         - o1
         - o2
@@ -58,6 +59,7 @@ settings:
         - optical
         simplify: null
         width: 1.0
+        width_function: null
       start_straight_length: 0.01
       taper_length: 10.0
       width_wide: null
@@ -102,6 +104,7 @@ settings:
         - 0
         name: _default
         offset: 0.0
+        offset_function: null
         port_names:
         - o1
         - o2
@@ -110,6 +113,7 @@ settings:
         - optical
         simplify: null
         width: 1.0
+        width_function: null
       start_straight_length: 0.01
       taper_length: 10.0
       width_wide: null
@@ -135,4 +139,4 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_decae8b0
+  name: bend_euler_bf4cee07

@@ -38,6 +38,7 @@ settings:
           layer: SLAB90
           name: slab
           offset: 0
+          offset_function: null
           port_names:
           - null
           - null
@@ -46,6 +47,7 @@ settings:
           - optical
           simplify: null
           width: 0.2
+          width_function: null
     cross_section2: xs_rc
     length: 10
     linear: false
@@ -62,6 +64,7 @@ settings:
           layer: SLAB90
           name: slab
           offset: 0
+          offset_function: null
           port_names:
           - null
           - null
@@ -70,6 +73,7 @@ settings:
           - optical
           simplify: null
           width: 0.2
+          width_function: null
     cross_section2: xs_rc
     length: 10
     linear: false

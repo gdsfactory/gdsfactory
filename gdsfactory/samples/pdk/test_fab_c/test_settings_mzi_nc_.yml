@@ -1,4 +1,4 @@
-name: mzi_2e8d667d
+name: mzi_138e87bd
 ports:
   o1:
     center:
@@ -53,6 +53,7 @@ settings:
             - 0
             name: _default
             offset: 0.0
+            offset_function: null
             port_names:
             - o1
             - o2
@@ -61,6 +62,7 @@ settings:
             - optical
             simplify: null
             width: 1.0
+            width_function: null
           start_straight_length: 0.01
           taper_length: 10.0
           width_wide: null
@@ -88,6 +90,7 @@ settings:
         - 0
         name: _default
         offset: 0.0
+        offset_function: null
         port_names:
         - o1
         - o2
@@ -96,6 +99,7 @@ settings:
         - optical
         simplify: null
         width: 1.0
+        width_function: null
       start_straight_length: 0.01
       taper_length: 10.0
       width_wide: null
@@ -126,6 +130,7 @@ settings:
             - 0
             name: _default
             offset: 0.0
+            offset_function: null
             port_names:
             - o1
             - o2
@@ -134,6 +139,7 @@ settings:
             - optical
             simplify: null
             width: 1.0
+            width_function: null
           start_straight_length: 0.01
           taper_length: 10.0
           width_wide: null
@@ -166,6 +172,7 @@ settings:
             - 0
             name: _default
             offset: 0.0
+            offset_function: null
             port_names:
             - o1
             - o2
@@ -174,6 +181,7 @@ settings:
             - optical
             simplify: null
             width: 1.0
+            width_function: null
           start_straight_length: 0.01
           taper_length: 10.0
           width_wide: null
@@ -231,6 +239,7 @@ settings:
             - 0
             name: _default
             offset: 0.0
+            offset_function: null
             port_names:
             - o1
             - o2
@@ -239,6 +248,7 @@ settings:
             - optical
             simplify: null
             width: 1.0
+            width_function: null
           start_straight_length: 0.01
           taper_length: 10.0
           width_wide: null
@@ -267,6 +277,7 @@ settings:
         - 0
         name: _default
         offset: 0.0
+        offset_function: null
         port_names:
         - o1
         - o2
@@ -275,6 +286,7 @@ settings:
         - optical
         simplify: null
         width: 1.0
+        width_function: null
       start_straight_length: 0.01
       taper_length: 10.0
       width_wide: null
@@ -316,6 +328,7 @@ settings:
             - 0
             name: _default
             offset: 0.0
+            offset_function: null
             port_names:
             - o1
             - o2
@@ -324,6 +337,7 @@ settings:
             - optical
             simplify: null
             width: 1.0
+            width_function: null
           start_straight_length: 0.01
           taper_length: 10.0
           width_wide: null
@@ -356,6 +370,7 @@ settings:
             - 0
             name: _default
             offset: 0.0
+            offset_function: null
             port_names:
             - o1
             - o2
@@ -364,6 +379,7 @@ settings:
             - optical
             simplify: null
             width: 1.0
+            width_function: null
           start_straight_length: 0.01
           taper_length: 10.0
           width_wide: null
@@ -375,4 +391,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_2e8d667d
+  name: mzi_138e87bd
