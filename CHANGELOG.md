@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.8.11](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.11) - 2023-10-24
+
+No significant changes.
+
+
 ## [7.8.10](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.10) - 2023-10-20
 
 - Add straight function to ring dut [#2203](https://github.com/gdsfactory/gdsfactory/pull/2203)
