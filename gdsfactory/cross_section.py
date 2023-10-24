@@ -220,6 +220,13 @@ class CrossSection(BaseModel):
         sections = self.sections + tuple(sections)
         return self.model_copy(update={"sections": sections})
 
+    def __getitem__(self, key: str) -> Section:
+        key_to_section = {s.name: s for s in self.sections}
+        if key in key_to_section:
+            return key_to_section[key]
+        else:
+            raise KeyError(f"{key} not in {list(key_to_section.keys())}")
+
     def copy(
         self,
         width: float | None = None,
@@ -2346,7 +2353,7 @@ if __name__ == "__main__":
         bbox_offsets=[2],
     )
     # print(xs.name)
-    # xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0))])
+    xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0), name="slab")])
     # p = gf.path.straight()
     # c = p.extrude(xs)
     # c = gf.c.straight(cross_section=xs)
