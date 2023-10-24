@@ -201,6 +201,13 @@ class CrossSection(BaseModel):
             elif error_type == ErrorType.WARNING:
                 warnings.warn(message)
 
+    def __getitem__(self, key: str) -> Section:
+        key_to_section = {s.name: s for s in self.sections}
+        if key in key_to_section:
+            return key_to_section[key]
+        else:
+            raise KeyError(f"{key} not in {list(key_to_section.keys())}")
+
     @property
     def name(self) -> str:
         return f"xs_{self.__hash__()}"
