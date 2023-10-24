@@ -1,4 +1,4 @@
-name: text_rectangular_layerM3_copy_layers_a9798861
+name: text_rectangular_layerMTOP_copy_layers_716caf76
 ports: {}
 settings:
   changed:
@@ -10,10 +10,10 @@ settings:
     - WG
     - M1
     - M2
-    - M3
+    - MTOP
   child:
     changed:
-      layer: M3
+      layer: MTOP
     child: null
     default:
       font:
@@ -30,7 +30,7 @@ settings:
       font:
         function: rectangular_font
       justify: left
-      layer: M3
+      layer: MTOP
       layers: null
       position:
       - 0.0
@@ -41,7 +41,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.text_rectangular
-    name: text_rectangular_layerM3
+    name: text_rectangular_layerMTOP
   default:
     factory:
       function: cross
@@ -59,9 +59,9 @@ settings:
     - WG
     - M1
     - M2
-    - M3
+    - MTOP
   function_name: copy_layers
   info: {}
   info_version: 2
   module: gdsfactory.components.copy_layers
-  name: text_rectangular_layerM3_copy_layers_a9798861
+  name: text_rectangular_layerMTOP_copy_layers_716caf76

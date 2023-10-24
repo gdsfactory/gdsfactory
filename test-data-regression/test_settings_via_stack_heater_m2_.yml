@@ -67,7 +67,7 @@ settings:
     layers:
     - M1
     - M2
-    - M3
+    - MTOP
     size:
     - 11.0
     - 11.0

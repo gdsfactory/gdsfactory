@@ -171,7 +171,7 @@ if __name__ == "__main__":
     # xsection = gf.cross_section.cross_section(
     #     width=1,
     #     offset=0,
-    #     layer="M3",
+    #     layer="MTOP",
     #     bbox_layers = ("M1", "M2"),
     #     bbox_offsets = (1, 2),
     # )

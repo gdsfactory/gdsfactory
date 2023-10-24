@@ -9,7 +9,7 @@ settings:
     marker:
       function: triangle
       settings:
-        layer: M3
+        layer: MTOP
         xtop: 2
     size:
     - 50
@@ -20,7 +20,7 @@ settings:
     marker:
       function: triangle
       settings:
-        layer: M3
+        layer: MTOP
         xtop: 2
     size:
     - 50

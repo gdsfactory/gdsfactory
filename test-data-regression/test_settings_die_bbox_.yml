@@ -45,7 +45,7 @@ settings:
         - 1300
         - 2600
     die_name: null
-    layer: M3
+    layer: MTOP
     padding: 10.0
     street_length: null
     street_width: 100.0
@@ -59,7 +59,7 @@ settings:
         - 1300
         - 2600
     die_name: null
-    layer: M3
+    layer: MTOP
     padding: 10.0
     street_length: null
     street_width: 100.0

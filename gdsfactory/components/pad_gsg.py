@@ -9,14 +9,14 @@ from gdsfactory.components.pad import pad as pad_function
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
 
-rectangle_m3 = partial(rectangle, layer="M3")
+rectangle_m3 = partial(rectangle, layer="MTOP")
 
 
 @gf.cell
 def pad_gsg_short(
     via_stack: ComponentSpec = rectangle_m3,
     size: Float2 = (22, 7),
-    layer_metal: LayerSpec = "M3",
+    layer_metal: LayerSpec = "MTOP",
     metal_spacing: float = 5.0,
     short: bool = True,
     pad: ComponentSpec = pad_function,

@@ -151,7 +151,7 @@ def coh_rx_single_pol(
     c.add_port(
         name="i_out",
         port_type="placement",
-        layer="M3",
+        layer="MTOP",
         center=(x_max, (pd_i1.ports["bot_e3"].y + pd_i2.ports["top_e3"].y) / 2),
         orientation=0,
         width=2.0,
@@ -195,7 +195,7 @@ def coh_rx_single_pol(
                 size=14.0,
                 position=[x_pos + 55.0, y_pos],
                 justify="left",
-                layer="M3",
+                layer="MTOP",
             )
 
         # Connect to the pads. Need to do it manually to avoid crossings

@@ -28,14 +28,14 @@ settings:
   changed: {}
   child: null
   default:
-    layer: M3
+    layer: MTOP
     port_type: electrical
     size:
     - 10
     - 20
     width: 1
   full:
-    layer: M3
+    layer: MTOP
     port_type: electrical
     size:
     - 10

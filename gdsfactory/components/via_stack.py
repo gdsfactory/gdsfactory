@@ -15,7 +15,7 @@ from gdsfactory.typings import ComponentSpec, Float2, Floats, LayerSpec, LayerSp
 @gf.cell
 def via_stack(
     size=(11.0, 11.0),
-    layers: LayerSpecs = ("M1", "M2", "M3"),
+    layers: LayerSpecs = ("M1", "M2", "MTOP"),
     layer_offsets: Floats | None = None,
     vias: tuple[ComponentSpec | None, ...] | None = (via1, via2, None),
     layer_port: LayerSpec | None = None,
@@ -135,7 +135,7 @@ def via_stack_circular(
     angular_extent: float = 45,
     center_angle: float = 0,
     width: float = 5.0,
-    layers: LayerSpecs = ("M1", "M2", "M3"),
+    layers: LayerSpecs = ("M1", "M2", "MTOP"),
     vias: tuple[ComponentSpec | None, ...] = (via1, via2),
     layer_port: LayerSpec | None = None,
 ) -> Component:
@@ -276,7 +276,7 @@ def _smaller_angle(angle, angle1, angle2):
 @gf.cell
 def via_stack_from_rules(
     size: Float2 = (1.2, 1.2),
-    layers: LayerSpecs = ("M1", "M2", "M3"),
+    layers: LayerSpecs = ("M1", "M2", "MTOP"),
     layer_offsets: tuple[float, ...] | None = None,
     vias: tuple[ComponentSpec | None, ...] | None = (via1, via2),
     via_min_size: tuple[Float2, ...] = ((0.2, 0.2), (0.2, 0.2)),
@@ -399,7 +399,7 @@ def optimized_via(
 def test_via_stack_from_rules() -> None:
     # Check that vias are generated with larger than min dimensions if possible
     size = (1.2, 1.2)
-    layers = ("M1", "M2", "M3")
+    layers = ("M1", "M2", "MTOP")
     vias = (via1, via2)
     via_min_size = ((0.2, 0.2), (0.2, 0.2))
     via_min_gap = ((0.1, 0.1), (0.15, 0.15))
@@ -426,13 +426,13 @@ def test_via_stack_from_rules() -> None:
 
 via_stack_m1_m3 = partial(
     via_stack,
-    layers=("M1", "M2", "M3"),
+    layers=("M1", "M2", "MTOP"),
     vias=(via1, via2, None),
 )
 
 via_stack_slab_m3 = partial(
     via_stack,
-    layers=("SLAB90", "M1", "M2", "M3"),
+    layers=("SLAB90", "M1", "M2", "MTOP"),
     vias=(viac, via1, via2, None),
 )
 via_stack_slab_m2 = partial(
@@ -452,7 +452,7 @@ via_stack_slab_npp_m3 = partial(
 )
 via_stack_heater_m2 = partial(via_stack, layers=("HEATER", "M2"), vias=(None, via1))
 via_stack_heater_mtop = via_stack_heater_m3 = partial(
-    via_stack, layers=("HEATER", "M2", "M3"), vias=(None, via1, via2)
+    via_stack, layers=("HEATER", "M2", "MTOP"), vias=(None, via1, via2)
 )
 
 
@@ -487,7 +487,7 @@ if __name__ == "__main__":
     #     angular_extent=300,
     #     center_angle=0,
     #     width=5.0,
-    #     layers=("M1", "M2", "M3"),
+    #     layers=("M1", "M2", "MTOP"),
     #     vias=(via1, via2),
     #     layer_port=None,
     # )

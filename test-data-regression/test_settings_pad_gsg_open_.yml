@@ -5,7 +5,7 @@ settings:
     short: false
   child: null
   default:
-    layer_metal: M3
+    layer_metal: MTOP
     metal_spacing: 5.0
     pad:
       function: pad
@@ -17,9 +17,9 @@ settings:
     via_stack:
       function: rectangle
       settings:
-        layer: M3
+        layer: MTOP
   full:
-    layer_metal: M3
+    layer_metal: MTOP
     metal_spacing: 5.0
     pad:
       function: pad
@@ -31,7 +31,7 @@ settings:
     via_stack:
       function: rectangle
       settings:
-        layer: M3
+        layer: MTOP
   function_name: pad_gsg_short
   info: {}
   info_version: 2

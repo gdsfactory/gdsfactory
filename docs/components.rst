@@ -36,7 +36,7 @@ L
 
   import gdsfactory as gf
 
-  c = gf.components.L(width=1, size=[10, 20], layer='M3', port_type='electrical')
+  c = gf.components.L(width=1, size=[10, 20], layer='MTOP', port_type='electrical')
   c.plot()
 
 
@@ -1325,7 +1325,7 @@ die_bbox
 
   import gdsfactory as gf
 
-  c = gf.components.die_bbox(street_width=100.0, text_size=100.0, text_anchor='sw', layer='M3', padding=10.0)
+  c = gf.components.die_bbox(street_width=100.0, text_size=100.0, text_anchor='sw', layer='MTOP', padding=10.0)
   c.plot()
 
 
@@ -1340,7 +1340,7 @@ die_bbox_frame
 
   import gdsfactory as gf
 
-  c = gf.components.die_bbox_frame(bbox=[[-1.0, -1.0], [3.0, 4.0]], street_width=100.0, street_length=1000.0, text_size=100.0, text_anchor='sw', layer='M3', padding=10.0)
+  c = gf.components.die_bbox_frame(bbox=[[-1.0, -1.0], [3.0, 4.0]], street_width=100.0, street_length=1000.0, text_size=100.0, text_anchor='sw', layer='MTOP', padding=10.0)
   c.plot()
 
 
@@ -2554,7 +2554,7 @@ pad_gsg_open
 
   import gdsfactory as gf
 
-  c = gf.components.pad_gsg_open(size=[22, 7], layer_metal='M3', metal_spacing=5.0, short=False, pad_spacing=150)
+  c = gf.components.pad_gsg_open(size=[22, 7], layer_metal='MTOP', metal_spacing=5.0, short=False, pad_spacing=150)
   c.plot()
 
 
@@ -2569,7 +2569,7 @@ pad_gsg_short
 
   import gdsfactory as gf
 
-  c = gf.components.pad_gsg_short(size=[22, 7], layer_metal='M3', metal_spacing=5.0, short=True, pad_spacing=150)
+  c = gf.components.pad_gsg_short(size=[22, 7], layer_metal='MTOP', metal_spacing=5.0, short=True, pad_spacing=150)
   c.plot()
 
 
@@ -2599,7 +2599,7 @@ pads_shorted
 
   import gdsfactory as gf
 
-  c = gf.components.pads_shorted(columns=8, pad_spacing=150.0, layer_metal='M3', metal_width=10)
+  c = gf.components.pads_shorted(columns=8, pad_spacing=150.0, layer_metal='MTOP', metal_width=10)
   c.plot()
 
 
@@ -3814,7 +3814,7 @@ text_rectangular_multi_layer
 
   import gdsfactory as gf
 
-  c = gf.components.text_rectangular_multi_layer(text='abcd', layers=['WG', 'M1', 'M2', 'M3'])
+  c = gf.components.text_rectangular_multi_layer(text='abcd', layers=['WG', 'M1', 'M2', 'MTOP'])
   c.plot()
 
 
@@ -3949,7 +3949,7 @@ via_stack
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack(size=[11.0, 11.0], layers=['M1', 'M2', 'M3'], correct_size=True)
+  c = gf.components.via_stack(size=[11.0, 11.0], layers=['M1', 'M2', 'MTOP'], correct_size=True)
   c.plot()
 
 
@@ -3964,7 +3964,7 @@ via_stack_from_rules
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_from_rules(size=[1.2, 1.2], layers=['M1', 'M2', 'M3'], via_min_size=[[0.2, 0.2], [0.2, 0.2]], via_min_gap=[[0.1, 0.1], [0.1, 0.1]], via_min_enclosure=[0.15, 0.25])
+  c = gf.components.via_stack_from_rules(size=[1.2, 1.2], layers=['M1', 'M2', 'MTOP'], via_min_size=[[0.2, 0.2], [0.2, 0.2]], via_min_gap=[[0.1, 0.1], [0.1, 0.1]], via_min_enclosure=[0.15, 0.25])
   c.plot()
 
 
@@ -3994,7 +3994,7 @@ via_stack_heater_m3
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_heater_m3(size=[11.0, 11.0], layers=['HEATER', 'M2', 'M3'], correct_size=True)
+  c = gf.components.via_stack_heater_m3(size=[11.0, 11.0], layers=['HEATER', 'M2', 'MTOP'], correct_size=True)
   c.plot()
 
 
@@ -4009,7 +4009,7 @@ via_stack_heater_mtop
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_heater_mtop(size=[11.0, 11.0], layers=['HEATER', 'M2', 'M3'], correct_size=True)
+  c = gf.components.via_stack_heater_mtop(size=[11.0, 11.0], layers=['HEATER', 'M2', 'MTOP'], correct_size=True)
   c.plot()
 
 
@@ -4024,7 +4024,7 @@ via_stack_slab_m3
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_slab_m3(size=[11.0, 11.0], layers=['SLAB90', 'M1', 'M2', 'M3'], correct_size=True)
+  c = gf.components.via_stack_slab_m3(size=[11.0, 11.0], layers=['SLAB90', 'M1', 'M2', 'MTOP'], correct_size=True)
   c.plot()
 
 

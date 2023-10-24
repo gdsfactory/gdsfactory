@@ -58,7 +58,7 @@ settings:
     layers:
     - M1
     - M2
-    - M3
+    - MTOP
     size:
     - 11.0
     - 11.0
@@ -78,7 +78,7 @@ settings:
     layers:
     - M1
     - M2
-    - M3
+    - MTOP
     size:
     - 11.0
     - 11.0
@@ -93,7 +93,7 @@ settings:
     - null
   function_name: via_stack
   info:
-    layer: M3
+    layer: MTOP
     size:
     - 11.0
     - 11.0

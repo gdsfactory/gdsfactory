@@ -18,7 +18,7 @@ def die_bbox_frame(
     die_name: str | None = None,
     text_size: float = 100.0,
     text_anchor: Anchor = "sw",
-    layer: LayerSpec = "M3",
+    layer: LayerSpec = "MTOP",
     padding: float = 10.0,
 ) -> gf.Component:
     """Return boundary box frame.

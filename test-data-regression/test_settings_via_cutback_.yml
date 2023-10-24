@@ -14,7 +14,7 @@ settings:
         layers:
         - HEATER
         - M2
-        - M3
+        - MTOP
         vias:
         - null
         - function: via
@@ -43,7 +43,7 @@ settings:
         layers:
         - HEATER
         - M2
-        - M3
+        - MTOP
         vias:
         - null
         - function: via
