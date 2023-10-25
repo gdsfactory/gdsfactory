@@ -39,7 +39,7 @@ def invert(
 
     """
     Temp = Component()
-    if type(elements) is not list:
+    if not isinstance(elements, list | tuple):
         elements = [elements]
     for e in elements:
         if isinstance(e, Component):
