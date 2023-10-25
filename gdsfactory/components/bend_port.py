@@ -6,7 +6,7 @@ from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_child
 def bend_port(
     component: ComponentSpec = straight_heater_metal,
     port_name: str = "l_e1",

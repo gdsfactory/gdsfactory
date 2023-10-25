@@ -15,7 +15,7 @@ from omegaconf import OmegaConf
 from pydantic import validate_call
 
 from gdsfactory import ComponentReference
-from gdsfactory.cell import cell
+from gdsfactory.cell import cell_with_child
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
@@ -38,7 +38,7 @@ def add_port(component: Component, **kwargs) -> Component:
     return component
 
 
-@cell
+@cell_with_child
 def add_text(
     component: ComponentSpec,
     text: str = "",
@@ -96,7 +96,7 @@ def add_texts(
     ]
 
 
-@cell
+@cell_with_child
 def rotate(
     component: ComponentSpec, angle: float = 90, recenter: bool = False
 ) -> Component:
@@ -138,7 +138,7 @@ rotate90n = partial(rotate, angle=-90)
 rotate180 = partial(rotate, angle=180)
 
 
-@cell
+@cell_with_child
 def mirror(
     component: ComponentSpec, p1: Float2 = (0, 1), p2: Float2 = (0, 0)
 ) -> Component:
@@ -162,7 +162,7 @@ def mirror(
     return component_new
 
 
-@cell
+@cell_with_child
 def move(
     component: Component,
     origin=(0, 0),
@@ -186,7 +186,7 @@ def move(
     return component_new
 
 
-@cell
+@cell_with_child
 def transformed(ref: ComponentReference):
     """Returns flattened cell with reference transformations applied.
 

@@ -9,7 +9,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_child
 def cutback_splitter(
     component: ComponentSpec = mmi1x2,
     cols: int = 4,

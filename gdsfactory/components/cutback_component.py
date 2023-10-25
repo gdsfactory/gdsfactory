@@ -12,7 +12,7 @@ from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_child
 def cutback_component(
     component: ComponentSpec = taper_0p5_to_3_l36,
     cols: int = 4,

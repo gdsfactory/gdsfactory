@@ -10,7 +10,7 @@ from gdsfactory.components.pad import pad_small
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
-@gf.cell
+@gf.cell_with_child
 def add_fiber_array_optical_south_electrical_north(
     component: ComponentSpec = mzi_phase_shifter,
     pad: ComponentSpec = pad_small,

@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array
 from gdsfactory.typings import ComponentSpec, Coordinates, Float2
 
 
-@cell
+@gf.cell
 def add_fiducials(
     component: ComponentSpec = pad_array,
     gap: float = 50,
@@ -60,7 +59,7 @@ def add_fiducials(
     return c
 
 
-@cell
+@gf.cell
 def add_fiducials_offsets(
     component: ComponentSpec = pad_array,
     fiducial: ComponentSpec = "cross",

@@ -8,7 +8,7 @@ from gdsfactory.add_labels import (
     get_input_label_text_dash_loopback,
     get_input_label_text_loopback,
 )
-from gdsfactory.cell import cell
+from gdsfactory.cell import cell_with_child
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
@@ -21,7 +21,7 @@ from gdsfactory.routing.route_fiber_single import route_fiber_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
-@cell
+@cell_with_child
 def add_fiber_single(
     component: ComponentSpec = straight_function,
     grating_coupler=grating_coupler_te,

@@ -82,7 +82,7 @@ def extend_port(port: Port, length: float, layer: Layer | None = None) -> Compon
     return c
 
 
-@gf.cell
+@gf.cell_with_child
 def extend_ports(
     component: ComponentSpec = mmi1x2,
     port_names: tuple[str, ...] | None = None,

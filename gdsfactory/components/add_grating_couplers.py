@@ -8,7 +8,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.add_labels import get_input_label_text_loopback
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
@@ -30,7 +29,7 @@ from gdsfactory.typings import (
 )
 
 
-@cell
+@gf.cell_with_child
 def add_grating_couplers(
     component: ComponentSpec = straight,
     grating_coupler: ComponentSpec = grating_coupler_te,
@@ -85,7 +84,7 @@ def add_grating_couplers(
     return c
 
 
-@cell
+@gf.cell_with_child
 def add_grating_couplers_with_loopback_fiber_single(
     component: ComponentSpec = "spiral_inner_io_fiber_single",
     grating_coupler: ComponentSpec = grating_coupler_te,
@@ -207,7 +206,7 @@ def add_grating_couplers_with_loopback_fiber_single(
 _spiral_inner_io_2cm = dict(component="spiral_inner_io", settings=dict(length=2e4))
 
 
-@cell
+@gf.cell_with_child
 def add_grating_couplers_with_loopback_fiber_array(
     component: ComponentSpec = _spiral_inner_io_2cm,
     grating_coupler: ComponentSpec = grating_coupler_te,

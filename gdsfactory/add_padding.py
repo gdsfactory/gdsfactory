@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, LayerSpec
 
@@ -63,7 +62,7 @@ def add_padding(
     return component
 
 
-@cell
+@gf.cell_with_child
 def add_padding_container(
     component: ComponentSpec,
     layers: tuple[LayerSpec, ...] = ("PADDING",),
@@ -134,7 +133,7 @@ def add_padding_to_size(
     return component
 
 
-@cell
+@gf.cell_with_child
 def add_padding_to_size_container(
     component: ComponentSpec,
     layers: tuple[LayerSpec, ...] = ("PADDING",),

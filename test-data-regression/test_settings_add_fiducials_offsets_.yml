@@ -1,4 +1,4 @@
-name: pad_array_add_fiducials_offsets
+name: add_fiducials_offsets
 ports:
   e11:
     center:
@@ -126,4 +126,4 @@ settings:
     - 100.0
   info_version: 2
   module: gdsfactory.components.add_fiducials
-  name: pad_array_add_fiducials_offsets
+  name: add_fiducials_offsets
