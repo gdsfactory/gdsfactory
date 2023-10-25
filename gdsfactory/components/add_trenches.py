@@ -9,7 +9,7 @@ from gdsfactory.components.coupler import coupler
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_child
 def add_trenches(
     component: ComponentSpec = coupler,
     cross_section: CrossSectionSpec = "xs_rc_with_trenches",
@@ -53,7 +53,6 @@ def add_trenches(
     c.absorb(ref)
     xs.add_pins(c)
     xs.add_bbox(c)
-
     return c
 
 
