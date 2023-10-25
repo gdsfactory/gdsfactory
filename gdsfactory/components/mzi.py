@@ -105,6 +105,15 @@ def mzi(
     b5.mirror()
     b5.connect("o1", cp1.ports[port_e0_splitter])
 
+    straight_x_top = (
+        gf.get_component(
+            straight_x_top, length=length_x, cross_section=cross_section_x_top
+        )
+        if length_x
+        else gf.get_component(straight_x_top)
+    )
+    length_x = length_x or straight_x_top.get_ports_xsize()
+
     syl = c << gf.get_component(
         straight_y, length=delta_length / 2 + length_y, cross_section=cross_section
     )
@@ -134,13 +143,6 @@ def mzi(
 
     b2 = c << bend
     b2.connect("o2", sytl.ports["o2"])
-    straight_x_top = (
-        gf.get_component(
-            straight_x_top, length=length_x, cross_section=cross_section_x_top
-        )
-        if length_x
-        else gf.get_component(straight_x_top)
-    )
     sxt = c << straight_x_top
     sxt.connect("o1", b2.ports["o1"])
 
