@@ -1,4 +1,4 @@
-name: copy_layers_716caf76
+name: text_rectangular_layerMTOP_copy_layers_716caf76
 ports: {}
 settings:
   changed:
@@ -64,4 +64,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.copy_layers
-  name: copy_layers_716caf76
+  name: text_rectangular_layerMTOP_copy_layers_716caf76

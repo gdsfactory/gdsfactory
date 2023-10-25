@@ -1,4 +1,4 @@
-name: copy_layers
+name: cross_layer2__0_copy_layers
 ports: {}
 settings:
   changed: {}
@@ -47,4 +47,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.copy_layers
-  name: copy_layers
+  name: cross_layer2__0_copy_layers
