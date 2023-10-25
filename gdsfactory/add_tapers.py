@@ -3,7 +3,6 @@ from __future__ import annotations
 from collections.abc import Callable
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.port import Port, select_ports_optical
@@ -31,7 +30,7 @@ def get_ports_and_tapers(
     return ports, elements
 
 
-@cell
+@gf.cell_with_child
 def add_tapers(
     component: ComponentSpec,
     taper: ComponentFactory = taper_function,
