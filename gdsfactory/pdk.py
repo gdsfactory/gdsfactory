@@ -12,7 +12,7 @@ from typing import Any, Literal
 import numpy as np
 import omegaconf
 from omegaconf import DictConfig
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, validate_call
 
 from gdsfactory.config import CONF, logger
 from gdsfactory.events import Event
@@ -460,9 +460,18 @@ class Pdk(BaseModel):
         self,
         component: ComponentSpec,
         cells: dict[str, Callable],
+        validate: bool = False,
         **kwargs,
     ) -> Component:
-        """Returns component from a component spec."""
+        """Returns component from a component spec.
+
+        Args:
+            component: ComponentSpec (Component, ComponentFactory, string or dict).
+            cells: dict of cells to search for component.
+            validate: validate component with pydantic.
+            kwargs: settings to override component settings.
+
+        """
         cells = set(cells.keys())
 
         if isinstance(component, Component):
@@ -470,7 +479,10 @@ class Pdk(BaseModel):
                 raise ValueError(f"Cannot apply kwargs {kwargs} to {component.name!r}")
             return component
         elif callable(component):
-            return component(**kwargs)
+            if validate:
+                return validate_call(component)(**kwargs)
+            else:
+                return component(**kwargs)
         elif isinstance(component, str):
             if component not in cells:
                 raise ValueError(
@@ -494,7 +506,11 @@ class Pdk(BaseModel):
                 raise ValueError(
                     f"{cell_name!r} from PDK {self.name!r} not in cells: {cells} "
                 )
-            return self.cells[cell_name](**settings)
+            cell = self.cells[cell_name]
+            if validate:
+                return validate_call(cell)(**settings)
+            else:
+                return cell(**settings)
         else:
             raise ValueError(
                 "get_component expects a ComponentSpec (Component, ComponentFactory, "

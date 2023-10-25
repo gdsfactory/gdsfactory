@@ -726,6 +726,7 @@ def _from_yaml(
     routing_strategy: dict[str, Callable],
     label_instance_function: Callable = add_instance_label,
     mode: str = "layout",
+    validate: bool = False,
 ) -> Component:
     """Returns component from YAML decorated with cell for caching and autonaming.
 
@@ -733,7 +734,7 @@ def _from_yaml(
         conf: dict.
         routing_strategy: for each route.
         label_instance_function: to label each instance.
-
+        mode: layout or schematic.
     """
     from gdsfactory.generic_tech import get_generic_pdk
     from gdsfactory.pdk import get_active_pdk
@@ -764,7 +765,11 @@ def _from_yaml(
 
     pdk = get_active_pdk()
     if mode == "layout":
-        component_getter = pdk.get_component
+        if validate:
+            component_getter = partial(pdk.get_component, validate=True)
+
+        else:
+            component_getter = pdk.get_component
     elif mode == "schematic":
         component_getter = pdk.get_symbol
     else:
@@ -1381,7 +1386,7 @@ placements:
 
 
 if __name__ == "__main__":
-    c = from_yaml(sample_doe_function)
+    # c = from_yaml(sample_doe_function)
     c = from_yaml(sample_mmis)
     n = c.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)

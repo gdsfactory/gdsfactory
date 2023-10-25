@@ -86,6 +86,7 @@ settings:
     label_instance_function:
       function: add_instance_label
     mode: layout
+    validate: false
   full:
     conf:
       instances:
@@ -133,6 +134,7 @@ settings:
         function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
+    validate: false
   function_name: _from_yaml
   info:
     instances:
