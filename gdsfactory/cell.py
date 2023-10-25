@@ -118,10 +118,10 @@ def cell(
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
-        info = kwargs.pop("info", {})
-        cache = kwargs.pop("cache", True)
-        name = kwargs.pop("name", None)
-        prefix = kwargs.pop("prefix", func.__name__)
+        info = kwargs.pop("info", {})  # TODO: remove info
+        cache = kwargs.pop("cache", True)  # TODO: remove cache
+        name = kwargs.pop("name", None)  # TODO: remove name
+        prefix = kwargs.pop("prefix", func.__name__)  # TODO: remove prefix
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
         args_as_kwargs.update(kwargs)

@@ -36,6 +36,12 @@ def diff(
         raise e
     ref = read_top_cell(ref_file)
     run = read_top_cell(run_file)
+
+    if ref.kcl.dbu != run.kcl.dbu:
+        raise ValueError(
+            f"dbu is different in ref {ref.kcl.dbu} and run {run.kcl.dbu} files"
+        )
+
     ld = kdb.LayoutDiff()
 
     a_regions: dict[int, kdb.Region] = {}
