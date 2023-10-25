@@ -6,14 +6,14 @@ import gdstk
 import numpy as np
 from omegaconf import OmegaConf
 
-from gdsfactory.cell import Settings, cell
+from gdsfactory.cell import Settings, cell_import_gds
 from gdsfactory.component import Component
 from gdsfactory.component_reference import ComponentReference
 from gdsfactory.config import logger
 from gdsfactory.name import get_name_short
 
 
-@cell
+@cell_import_gds
 def import_gds(
     gdspath: str | Path,
     cellname: str | None = None,
@@ -155,12 +155,11 @@ def import_gds_raw(gdspath, top_cellname: str | None = None):
 
 
 if __name__ == "__main__":
-    # import gdsfactory as gf
-    # gf.CONF.max_name_length = 250
+    import gdsfactory as gf
 
-    # c = gf.Component(name='a'*250)
-    # _ = c << gf.components.mzi()
-    # gdspath = c.write_gds('a.gds')
+    c = gf.Component(name="a" * 250)
+    _ = c << gf.components.mzi()
+    gdspath = c.write_gds("a.gds")
 
     # c = import_gds(gdspath)
     c = import_gds("a.gds")

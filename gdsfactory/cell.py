@@ -16,6 +16,7 @@ from gdsfactory.name import clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
 CACHE: dict[str, Component] = {}
+CACHE_IDS = set()
 
 INFO_VERSION = 2
 
@@ -67,6 +68,7 @@ def cell(
     flatten: bool = False,
     naming_style: str = "default",
     default_decorator: Callable[[Component], Component] | None = None,
+    add_settings: bool = True,
 ) -> Callable[[_F], _F]:
     """Parametrized Decorator for Component functions.
 
@@ -82,10 +84,7 @@ def cell(
         flatten: False by default. True flattens component hierarchy.
         naming_style: "default" or "updk". "default" is the default naming style.
         default_decorator: default decorator to apply to the component. None by default.
-
-    kwargs:
-        cache: avoids creating duplicated Components.
-        name: names Components uniquely name based on parameters.
+        add_settings: True by default. Adds settings to the component.
 
     Implements a cache so that if a component has already been build it returns the component from the cache directly.
     This avoids creating two exact Components that have the same name.
@@ -119,8 +118,9 @@ def cell(
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
-        name = kwargs.pop("name", None)
+        info = kwargs.pop("info", {})
         cache = kwargs.pop("cache", True)
+        name = kwargs.pop("name", None)
         prefix = kwargs.pop("prefix", func.__name__)
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -188,18 +188,6 @@ def cell(
         name = get_name_short(name, max_name_length=max_name_length)
         decorator = kwargs.pop("decorator", default_decorator)
 
-        if (
-            "args" not in sig.parameters
-            and "kwargs" not in sig.parameters
-            and "settings" not in sig.parameters
-        ):
-            for key in kwargs:
-                if key not in sig.parameters.keys():
-                    raise TypeError(
-                        f"{func.__name__!r}() got invalid argument {key!r}\n"
-                        f"valid arguments are {list(sig.parameters.keys())}"
-                    )
-
         if cache and name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
@@ -221,7 +209,7 @@ def cell(
 
         # if the component is already in the cache, but under a different alias,
         # make sure we use a copy, so we don't run into mutability errors
-        if id(component) in [id(v) for v in CACHE.values()]:
+        if id(component) in CACHE_IDS:
             component = component.copy()
 
         metadata_child = (
@@ -242,10 +230,12 @@ def cell(
         else:
             component_name = name
 
-        if autoname and not hasattr(component, "imported_gds"):
+        if autoname:
             component.name = component_name
 
-        if not hasattr(component, "imported_gds"):
+        info = info or {}
+        component.info.update(**info)
+        if add_settings:
             component.settings = Settings(
                 name=component_name,
                 function_name=func.__name__,
@@ -266,17 +256,37 @@ def cell(
 
         component.lock()
         CACHE[name] = component
+        CACHE_IDS.add(id(component))
         return component
 
-    return wrapper if func is not None else cell
+    return (
+        wrapper
+        if func is not None
+        else partial(
+            cell,
+            autoname=autoname,
+            max_name_length=max_name_length,
+            include_module=include_module,
+            with_hash=with_hash,
+            ports_off_grid=ports_off_grid,
+            ports_not_manhattan=ports_not_manhattan,
+            flatten=flatten,
+            naming_style=naming_style,
+            default_decorator=default_decorator,
+            add_settings=add_settings,
+        )
+    )
 
 
 cell_without_validator = cell
 cell_with_module = partial(cell, include_module=True)
+cell_import_gds = partial(cell, autoname=False, add_settings=False)
 
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.straight()
+    c = gf.components.straight(info={"simulation": "eme"}, name="hi")
+    print(c.name)
+    # print(c.info["simulation"])
     c.show()
