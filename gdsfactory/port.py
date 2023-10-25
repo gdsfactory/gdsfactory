@@ -52,7 +52,7 @@ if typing.TYPE_CHECKING:
 
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
-LayerSpec = Layer | int | str | None
+LayerSpec = Layer | str
 LayerSpecs = tuple[LayerSpec, ...]
 Float2 = tuple[float, float]
 valid_error_types = ["error", "warn", "ignore"]
@@ -516,12 +516,12 @@ def sort_ports_counter_clockwise(ports: dict[str, Port]) -> dict[str, Port]:
 
 def select_ports(
     ports: dict[str, Port],
-    layer: tuple[int, int] | None = None,
+    layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
     orientation: int | None = None,
     width: float | None = None,
-    layers_excluded: tuple[tuple[int, int], ...] | None = None,
+    layers_excluded: LayerSpecs | None = None,
     port_type: str | None = None,
     names: list[str] | None = None,
     clockwise: bool = True,
@@ -544,12 +544,14 @@ def select_ports(
 
     """
     from gdsfactory.component import Component, ComponentReference
+    from gdsfactory.pdk import get_layer
 
     # Make it accept Component or ComponentReference
     if isinstance(ports, Component | ComponentReference):
         ports = ports.ports
 
     if layer:
+        layer = get_layer(layer)
         ports = {p_name: p for p_name, p in ports.items() if p.layer == layer}
     if prefix:
         ports = {
@@ -565,6 +567,7 @@ def select_ports(
         }
 
     if layers_excluded:
+        layers_excluded = [get_layer(layer) for layer in layers_excluded]
         ports = {
             p_name: p for p_name, p in ports.items() if p.layer not in layers_excluded
         }

@@ -10,8 +10,8 @@ def wg(length: int = 3, layer: tuple[int, int] = (1, 0)) -> Component:
     width = 0.5
     w = width / 2
     c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
-    c.add_port(name="o1", center=[0, 0], width=width, orientation=180, layer=layer)
-    c.add_port(name="o2", center=[length, 0], width=width, orientation=0, layer=layer)
+    c.add_port(name="o1", center=(0, 0), width=width, orientation=180, layer=layer)
+    c.add_port(name="o2", center=(length, 0), width=width, orientation=0, layer=layer)
     return c
 
 

@@ -598,6 +598,7 @@ def from_yaml(
     label_instance_function: Callable = add_instance_label,
     name: str | None = None,
     prefix: str | None = None,
+    validate: bool = False,
     **kwargs,
 ) -> Component:
     """Returns Component from YAML string or file.
@@ -610,6 +611,7 @@ def from_yaml(
         label_instance_function: to label each instance.
         name: Optional name.
         prefix: name prefix.
+        validate: validate component.
         kwargs: function settings for creating YAML PCells.
 
     .. code::
@@ -717,6 +719,7 @@ def from_yaml(
         prefix=prefix or conf.get("name", "Unnamed"),
         name=name,
         mode=mode,
+        validate=validate,
     )
 
 
@@ -735,6 +738,7 @@ def _from_yaml(
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         mode: layout or schematic.
+        validate: validate component.
     """
     from gdsfactory.generic_tech import get_generic_pdk
     from gdsfactory.pdk import get_active_pdk

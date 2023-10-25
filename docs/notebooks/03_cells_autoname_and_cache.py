@@ -164,9 +164,10 @@ c.pprint()
 
 # %%
 # thanks to `gf.cell` you can also add any metadata `info` relevant to the cell
-c = wg(length=3, info=dict(polarization="te", wavelength=1.55))
-c.pprint()
-print(c.metadata["info"]["wavelength"])
+c = wg(length=3)
+c.info["polarization"] = "te"
+c.info["wavelength"] = 1.55
+print(c.info)
 
 
 # %% [markdown]

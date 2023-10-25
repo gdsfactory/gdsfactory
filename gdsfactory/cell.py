@@ -70,6 +70,7 @@ def cell(
     default_decorator: Callable[[Component], Component] | None = None,
     add_settings: bool = True,
     validate: bool = False,
+    get_child_name: bool = False,
 ) -> Callable[[_F], _F]:
     """Parametrized Decorator for Component functions.
 
@@ -86,6 +87,7 @@ def cell(
         default_decorator: default decorator to apply to the component. None by default.
         add_settings: True by default. Adds settings to the component.
         validate: validate the function call. Does not work with annotations that have None | Callable.
+        get_child_name: Use child name as component name prefix.
 
     Implements a cache so that if a component has already been build it returns the component from the cache directly.
     This avoids creating two exact Components that have the same name.
@@ -228,7 +230,7 @@ def cell(
                 "make sure that functions with @cell decorator return a Component",
             )
 
-        if metadata_child and component._get_child_name:
+        if get_child_name and metadata_child:
             component_name = f"{metadata_child.get('name')}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length
@@ -281,6 +283,7 @@ def cell(
             default_decorator=default_decorator,
             add_settings=add_settings,
             validate=validate,
+            get_child_name=get_child_name,
         )
     )
 
@@ -288,6 +291,7 @@ def cell(
 cell_without_validator = cell
 cell_with_module = partial(cell, include_module=True)
 cell_import_gds = partial(cell, autoname=False, add_settings=False)
+cell_with_child = partial(cell, get_child_name=True)
 
 
 if __name__ == "__main__":

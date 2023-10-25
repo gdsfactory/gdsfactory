@@ -1,4 +1,4 @@
-name: mmi2x2_cutback_2x2
+name: cutback_2x2
 ports:
   o1:
     center:
@@ -121,4 +121,4 @@ settings:
     components: 80
   info_version: 2
   module: gdsfactory.components.cutback_2x2
-  name: mmi2x2_cutback_2x2
+  name: cutback_2x2

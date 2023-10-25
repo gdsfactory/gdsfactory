@@ -10,7 +10,7 @@ from gdsfactory.port import select_ports_optical
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_child
 def fanout2x2(
     component: ComponentSpec = straight,
     port_spacing: float = 20.0,
