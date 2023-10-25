@@ -192,11 +192,7 @@ def ring_section_based(
             )
         sections_dict["1"] = (b, "o1", "o2")
 
-    # Now we just need to generate a chain of characters
-    # to creae the sequence
-
     sequence = ""
-
     if start_cross_section is not None:
         sequence += "0"
 

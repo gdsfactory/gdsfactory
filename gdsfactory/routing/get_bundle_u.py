@@ -376,7 +376,7 @@ def _get_bundle_uindirect_waypoints(
     if len(ports2) != nb_ports:
         raise ValueError(
             "Number of start ports should match number of end ports."
-            "Got {} {}".format(len(ports1), len(ports2))
+            f"Got {len(ports1)} {len(ports2)}"
         )
 
     if len({p.orientation for p in ports1}) > 1:
