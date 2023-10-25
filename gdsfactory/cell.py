@@ -72,9 +72,8 @@ def cell(
 ) -> Callable[[_F], _F]:
     """Parametrized Decorator for Component functions.
 
-    decorator_kwargs are the default settings that the decorator will use, they can be overridden by the decorated function's kwargs.
-
     Args:
+        func: function to decorate.
         autoname: True renames Component based on args and kwargs. True by default.
         max_name_length: truncates name beyond some characters with a hash.
         include_module: True adds module name to the cell name.
@@ -88,6 +87,7 @@ def cell(
 
     Implements a cache so that if a component has already been build it returns the component from the cache directly.
     This avoids creating two exact Components that have the same name.
+    Can autoname components based on the function name and arguments.
 
     A decorator is a function that runs over a function, so when you do.
 
