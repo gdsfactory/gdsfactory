@@ -1,4 +1,4 @@
-name: spiral_inner_io_length20000p0_add_grating_couplers_with_loopback_fiber_array_with_loopbackFalse
+name: add_grating_couplers_with_loopback_fiber_array_with_loopbackFalse
 ports:
   o1:
     center:
@@ -146,4 +146,4 @@ settings:
     wavelength: 1.53
   info_version: 2
   module: gdsfactory.components.add_grating_couplers
-  name: spiral_inner_io_length20000p0_add_grating_couplers_with_loopback_fiber_array_with_loopbackFalse
+  name: add_grating_couplers_with_loopback_fiber_array_with_loopbackFalse

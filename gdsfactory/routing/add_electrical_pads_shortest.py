@@ -12,7 +12,7 @@ from gdsfactory.typings import Callable, ComponentSpec, Strs
 _wire_long = partial(wire_straight, length=200.0)
 
 
-@gf.cell
+@gf.cell_with_child
 def add_electrical_pads_shortest(
     component: ComponentSpec = _wire_long,
     pad: ComponentSpec = "pad",

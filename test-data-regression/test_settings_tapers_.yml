@@ -1,4 +1,4 @@
-name: straight_length20_width2_add_tapers_b2a8d58e_add_fiber_array_09a0105a
+name: add_tapers_b2a8d58e_add_fiber_array_09a0105a
 ports:
   opt-grating_coupler_elliptical_trenches_taper_angle35-straight_length20_width2-loopback_1:
     center:
@@ -137,7 +137,7 @@ settings:
       width: 2
     info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_length20_width2_add_tapers_b2a8d58e
+    name: add_tapers_b2a8d58e
   default:
     component:
       function: straight
@@ -205,4 +205,4 @@ settings:
     width: 2
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_length20_width2_add_tapers_b2a8d58e_add_fiber_array_09a0105a
+  name: add_tapers_b2a8d58e_add_fiber_array_09a0105a

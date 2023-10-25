@@ -1,4 +1,4 @@
-name: mzi_7a18d033_add_fiber_array_889fae23_add_fiber_array_optical_south_electrical_north
+name: add_fiber_array_optical_south_electrical_north
 ports:
   e4_1_1:
     center:
@@ -262,4 +262,4 @@ settings:
       wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.add_fiber_array_optical_south_electrical_north
-  name: mzi_7a18d033_add_fiber_array_889fae23_add_fiber_array_optical_south_electrical_north
+  name: add_fiber_array_optical_south_electrical_north

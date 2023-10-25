@@ -1,4 +1,4 @@
-name: mmi1x2_extend_ports
+name: extend_ports
 ports:
   o1:
     center:
@@ -100,4 +100,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.extension
-  name: mmi1x2_extend_ports
+  name: extend_ports

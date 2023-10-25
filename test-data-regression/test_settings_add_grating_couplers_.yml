@@ -1,4 +1,4 @@
-name: straight_add_grating_couplers
+name: add_grating_couplers
 ports: {}
 settings:
   changed: {}
@@ -82,4 +82,4 @@ settings:
     width: 0.5
   info_version: 2
   module: gdsfactory.components.add_grating_couplers
-  name: straight_add_grating_couplers
+  name: add_grating_couplers

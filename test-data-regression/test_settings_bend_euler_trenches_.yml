@@ -1,4 +1,4 @@
-name: bend_euler_add_trenches_cb24b746
+name: add_trenches_cb24b746
 ports:
   o1:
     center:
@@ -104,4 +104,4 @@ settings:
     width: 0.5
   info_version: 2
   module: gdsfactory.components.add_trenches
-  name: bend_euler_add_trenches_cb24b746
+  name: add_trenches_cb24b746

@@ -3,7 +3,6 @@ from __future__ import annotations
 from collections.abc import Callable
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_rectangular
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
@@ -18,7 +17,7 @@ from gdsfactory.typings import (
 )
 
 
-@cell
+@gf.cell_with_child
 def add_pads_bot(
     component: ComponentSpec = straight_heater_metal,
     select_ports: Callable = select_ports_electrical,
@@ -186,7 +185,7 @@ def add_pads_bot(
     return component_new
 
 
-@gf.cell
+@gf.cell_with_child
 def add_pads_top(
     component: ComponentSpec = straight_heater_metal, **kwargs
 ) -> Component:

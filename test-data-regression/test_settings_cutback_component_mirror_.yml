@@ -1,4 +1,4 @@
-name: taper_from_csv_cutback_component_mirrorTrue
+name: cutback_component_mirrorTrue
 ports:
   o1:
     center:
@@ -84,4 +84,4 @@ settings:
     components: 80
   info_version: 2
   module: gdsfactory.components.cutback_component
-  name: taper_from_csv_cutback_component_mirrorTrue
+  name: cutback_component_mirrorTrue
