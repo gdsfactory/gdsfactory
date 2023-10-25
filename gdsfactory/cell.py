@@ -215,8 +215,7 @@ def cell(
         if ports_off_grid in ("warn", "error"):
             component.assert_ports_on_grid(error_type=ports_off_grid)
         if ports_not_manhattan in ("warn", "error"):
-            component.assert_ports_manhattan(error_type=ports_off_grid)
-
+            component.assert_ports_manhattan(error_type=ports_not_manhattan)
         if flatten:
             component = component.flatten()
 
