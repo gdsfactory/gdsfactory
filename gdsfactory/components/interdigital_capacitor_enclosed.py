@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import inspect
 from collections.abc import Sequence
 
 import numpy as np
@@ -10,23 +9,15 @@ from gdsfactory.component import Component
 from gdsfactory.components.interdigital_capacitor import interdigital_capacitor
 from gdsfactory.typings import LayerSpec
 
-INTERDIGITAL_DEFAULTS = {
-    k: v.default
-    for k, v in inspect.signature(interdigital_capacitor).parameters.items()
-}
-
 
 @gf.cell
 def interdigital_capacitor_enclosed(
     enclosure_box: Sequence[Sequence[float | int]] = [[-200, -200], [200, 200]],
-    fingers: int = INTERDIGITAL_DEFAULTS["fingers"],
-    finger_length: float | int = INTERDIGITAL_DEFAULTS["finger_length"],
-    finger_gap: float | int = INTERDIGITAL_DEFAULTS["finger_gap"],
-    thickness: float | int = INTERDIGITAL_DEFAULTS["thickness"],
     cpw_dimensions: tuple[float | int, float | int] = (10, 6),
     gap_to_ground: float | int = 5,
-    metal_layer: LayerSpec = INTERDIGITAL_DEFAULTS["layer"],
     gap_layer: LayerSpec = "DEEPTRENCH",
+    metal_layer: LayerSpec = "WG",
+    **kwargs,
 ) -> Component:
     """Generates an interdigital capacitor surrounded by a ground plane and \
             coplanar waveguides with ports on both ends. \
@@ -37,19 +28,19 @@ def interdigital_capacitor_enclosed(
 
     Args:
         enclosure_box: Bounding box dimensions for a ground metal enclosure.
+        cpw_dimensions: Dimensions for the trace width and gap width of connecting coplanar waveguides.
+        gap_to_ground: Size of gap from capacitor to ground metal.
+        gap_layer: layer for trenching.
+        metal_layer: layer for metalization.
+
+    Keyword Args:
         fingers: total fingers of the capacitor.
         finger_length: length of the probing fingers.
         finger_gap: length of gap between the fingers.
         thickness: Thickness of fingers and section before the fingers.
-        gap_to_ground: Size of gap from capacitor to ground metal.
-        cpw_dimensions: Dimensions for the trace width and gap width of connecting coplanar waveguides.
-        metal_layer: layer for metalization.
-        gap_layer: layer for trenching.
     """
     c = Component()
-    cap = interdigital_capacitor(
-        fingers, finger_length, finger_gap, thickness, metal_layer
-    ).ref_center()
+    cap = interdigital_capacitor(**kwargs).ref_center()
     c.add(cap)
 
     gap = Component()

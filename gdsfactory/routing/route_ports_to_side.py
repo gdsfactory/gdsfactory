@@ -557,7 +557,7 @@ def _sample_route_sides() -> Component:
 
 if __name__ == "__main__":
     c = Component("sample_route_sides")
-    dummy = gf.components.nxn(north=2, south=2, west=2, east=2, cross_section="nitride")
+    dummy = gf.components.nxn(north=2, south=2, west=2, east=2, cross_section="xs_sc")
     sides = ["north", "south", "east", "west"]
     d = 100
     positions = [(0, 0), (d, 0), (d, d), (0, d)]
