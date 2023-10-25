@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # c = mzi_phase_shifter()
 
     # c = mzi_phase_shifter()
-    c = mzi_phase_shifter()
+    c = mzi_phase_shifter(length_x=None)
     c.show(show_ports=True)
     print(c.name)
 
