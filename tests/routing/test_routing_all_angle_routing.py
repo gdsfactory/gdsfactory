@@ -6,6 +6,8 @@ import gdsfactory.samples.all_angle_routing as aar_samples
 from gdsfactory.difftest import difftest
 from gdsfactory.pdk import get_active_pdk
 
+pytestmark = pytest.mark.filterwarnings("ignore:Port")
+
 
 @pytest.fixture(autouse=True)
 def setup_and_teardown():
