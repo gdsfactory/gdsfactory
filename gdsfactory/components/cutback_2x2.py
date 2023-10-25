@@ -9,7 +9,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell_with_child
 def bendu_double(
     component: ComponentSpec,
     cross_section: CrossSectionSpec = "xs_sc",

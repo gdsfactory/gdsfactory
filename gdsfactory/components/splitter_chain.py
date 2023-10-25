@@ -7,7 +7,7 @@ from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.typings import ComponentSpec
 
 
-@gf.cell
+@gf.cell_with_child
 def splitter_chain(
     splitter: ComponentSpec = mmi1x2,
     columns: int = 3,

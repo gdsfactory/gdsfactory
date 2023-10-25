@@ -224,7 +224,7 @@ def cell(
                 "make sure that functions with @cell decorator return a Component",
             )
 
-        if get_child_name:
+        if get_child_name and metadata_child:
             component_name = f"{metadata_child.get('name')}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length

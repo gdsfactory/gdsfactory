@@ -13,7 +13,7 @@ from gdsfactory.typings import Anchor, ComponentSpec, LayerSpec
 big_square = partial(rectangle, size=(1300, 2600))
 
 
-@gf.cell
+@gf.cell_with_child
 def die_bbox(
     component: ComponentSpec = big_square,
     street_width: float = 100.0,
