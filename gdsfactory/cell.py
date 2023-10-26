@@ -8,7 +8,7 @@ from collections.abc import Callable
 from functools import partial
 from typing import Any, TypeVar
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validate_call
 
 from gdsfactory.component import Component, name_counters
 from gdsfactory.config import CONF
@@ -69,6 +69,7 @@ def cell(
     naming_style: str = "default",
     default_decorator: Callable[[Component], Component] | None = None,
     add_settings: bool = True,
+    validate: bool = False,
     get_child_name: bool = False,
 ) -> Callable[[_F], _F]:
     """Parametrized Decorator for Component functions.
@@ -85,6 +86,7 @@ def cell(
         naming_style: "default" or "updk". "default" is the default naming style.
         default_decorator: default decorator to apply to the component. None by default.
         add_settings: True by default. Adds settings to the component.
+        validate: validate the function call. Does not work with annotations that have None | Callable.
         get_child_name: Use child name as component name prefix.
 
     Implements a cache so that if a component has already been build it returns the component from the cache directly.
@@ -200,7 +202,11 @@ def cell(
                 f"{func!r} is not callable! @cell decorator is only for functions"
             )
 
-        component = func(*args, **kwargs)
+        if validate:
+            component = validate_call(func)(*args, **kwargs)
+
+        else:
+            component = func(*args, **kwargs)
 
         if ports_off_grid in ("warn", "error"):
             component.assert_ports_on_grid(error_type=ports_off_grid)
@@ -276,6 +282,7 @@ def cell(
             naming_style=naming_style,
             default_decorator=default_decorator,
             add_settings=add_settings,
+            validate=validate,
             get_child_name=get_child_name,
         )
     )

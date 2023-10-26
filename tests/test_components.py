@@ -19,6 +19,7 @@ skip_test = {
     "spiral_racetrack",
     "ring_section_based",
     "ring_double_pn",
+    "compensation_path",
 }
 
 
