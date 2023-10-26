@@ -1046,11 +1046,9 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    my_cross_section = gf.CrossSection(sections=[gf.Section(layer=(1, 1), width=2)])
+    xs = gf.CrossSection(sections=(gf.Section(layer=(1, 1), width=2),))
     c = gf.Component()
-    c.add_port(
-        name="o1", center=(0, 0), width=1, orientation=0, cross_section=my_cross_section
-    )
+    c.add_port(name="o1", center=(0, 0), width=1, orientation=0, cross_section=xs)
     c.add_port(
         name="o2",
         port=gf.Port(
@@ -1058,7 +1056,7 @@ if __name__ == "__main__":
             center=(0, 0),
             width=1,
             orientation=0,
-            cross_section=my_cross_section,
+            cross_section=xs,
         ),
     )
     print(c["o2"].cross_section)
