@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 
-# from gdsfactory.difftest import difftest
+pytestmark = pytest.mark.filterwarnings("ignore:Port")
 
 
 def test_get_bundle_all_angle(
