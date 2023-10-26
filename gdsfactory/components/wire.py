@@ -42,6 +42,7 @@ def wire_corner(
         orientation=180,
         layer=layer,
         port_type="electrical",
+        cross_section=x,
     )
     c.add_port(
         name="e2",
@@ -50,6 +51,7 @@ def wire_corner(
         orientation=90,
         layer=layer,
         port_type="electrical",
+        cross_section=x,
     )
     c.info["length"] = width
     c.info["dy"] = width

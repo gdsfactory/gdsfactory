@@ -1046,7 +1046,24 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.straight()
-    p2 = c["o2"]
-    p2.x = 20
+    my_cross_section = gf.CrossSection(sections=[gf.Section(layer=(1, 1), width=2)])
+    c = gf.Component()
+    c.add_port(
+        name="o1", center=(0, 0), width=1, orientation=0, cross_section=my_cross_section
+    )
+    c.add_port(
+        name="o2",
+        port=gf.Port(
+            name="o2",
+            center=(0, 0),
+            width=1,
+            orientation=0,
+            cross_section=my_cross_section,
+        ),
+    )
+    print(c["o2"].cross_section)
+
+    # c = gf.c.straight()
+    # p2 = c["o2"]
+    # p2.x = 20
     c.show()
