@@ -905,9 +905,7 @@ def extrude(
                     width=port_width,
                     orientation=port_orientation,
                     center=center,
-                    cross_section=x.cross_section1
-                    if hasattr(x, "cross_section1")
-                    else x,
+                    cross_section=x,
                     shear_angle=shear_angle_start,
                     enforce_ports_on_grid=enforce_ports_on_grid,
                 )
@@ -928,9 +926,7 @@ def extrude(
                     width=port_width,
                     center=center,
                     orientation=port_orientation,
-                    cross_section=x.cross_section2
-                    if hasattr(x, "cross_section2")
-                    else x,
+                    cross_section=x,
                     shear_angle=shear_angle_end,
                     enforce_ports_on_grid=enforce_ports_on_grid,
                 )
