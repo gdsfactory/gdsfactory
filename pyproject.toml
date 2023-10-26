@@ -164,6 +164,7 @@ select = [
   "I",  # isort
   "C",  # flake8-comprehensions
   "B",  # flake8-bugbear
+  "T10",  # flake8-debugger
   "UP"
 ]
 
