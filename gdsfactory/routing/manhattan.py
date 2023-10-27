@@ -34,6 +34,7 @@ nm = 1e-3
 TOLERANCE = 1 * nm
 DEG2RAD = np.pi / 180
 RAD2DEG = 1 / DEG2RAD
+default_straight_length = 0.01
 
 O2D = {0: "East", 180: "West", 90: "North", 270: "South"}
 
@@ -607,7 +608,7 @@ def round_corners(
     straight_fall_back_no_taper: ComponentSpec | None = None,
     mirror_straight: bool = False,
     straight_ports: list[str] | None = None,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
+    cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     on_route_error: Callable = get_route_error,
     with_point_markers: bool = False,
     with_sbend: bool = False,
@@ -634,57 +635,64 @@ def round_corners(
         kwargs: cross_section settings.
 
     """
-    from gdsfactory.pdk import get_layer
 
     multi_cross_section = isinstance(cross_section, list)
     if multi_cross_section:
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
         layer = [_x.layer for _x in x]
-    else:
+    elif cross_section:
         x = gf.get_cross_section(cross_section, **kwargs)
         layer = x.layer
 
-    layer = get_layer(layer)
     references = []
 
-    bend90 = (
-        bend
-        if isinstance(bend, Component)
-        else gf.get_component(bend, cross_section=cross_section, **kwargs)
-    )
-
-    # bsx = bsy = _get_bend_size(bend90)
-    auto_widen = [_x.auto_widen for _x in x] if isinstance(x, list) else x.auto_widen
-
-    auto_widen_minimum_length = (
-        [_x.auto_widen_minimum_length for _x in x]
-        if isinstance(x, list)
-        else x.auto_widen_minimum_length
-    )
-
-    taper_length = (
-        [_x.taper_length for _x in x] if isinstance(x, list) else x.taper_length
-    )
-
-    width = [_x.width for _x in x] if isinstance(x, list) else x.width
-    width_wide = [_x.width_wide for _x in x] if isinstance(x, list) else x.width_wide
-
-    if isinstance(cross_section, list):
-        taper = None
-    elif taper is None:
-        taper = taper_function(
-            cross_section=cross_section,
-            width1=width,
-            width2=width_wide,
-            length=taper_length,
+    if cross_section:
+        bend90 = (
+            bend
+            if isinstance(bend, Component)
+            else gf.get_component(bend, cross_section=cross_section, **kwargs)
         )
-    elif not isinstance(taper, Component):
-        taper = gf.get_component(taper, cross_section=cross_section, **kwargs)
+    else:
+        bend90 = gf.get_component(bend)
 
-    # If there is a taper, make sure its length is known
-    if taper and isinstance(taper, Component) and "length" not in taper.info:
-        _taper_ports = list(taper.ports.values())
-        taper.info["length"] = _taper_ports[-1].x - _taper_ports[0].x
+    if cross_section is None:
+        layer = list(bend90.ports.values())[0].layer
+
+    if cross_section:
+        auto_widen = (
+            [_x.auto_widen for _x in x] if isinstance(x, list) else x.auto_widen
+        )
+        auto_widen_minimum_length = (
+            [_x.auto_widen_minimum_length for _x in x]
+            if isinstance(x, list)
+            else x.auto_widen_minimum_length
+        )
+
+        taper_length = (
+            [_x.taper_length for _x in x] if isinstance(x, list) else x.taper_length
+        )
+
+        width = [_x.width for _x in x] if isinstance(x, list) else x.width
+        width_wide = (
+            [_x.width_wide for _x in x] if isinstance(x, list) else x.width_wide
+        )
+
+        if isinstance(cross_section, list):
+            taper = None
+        elif taper is None:
+            taper = taper_function(
+                cross_section=cross_section,
+                width1=width,
+                width2=width_wide,
+                length=taper_length,
+            )
+        elif not isinstance(taper, Component):
+            taper = gf.get_component(taper, cross_section=cross_section, **kwargs)
+
+        # If there is a taper, make sure its length is known
+        if taper and isinstance(taper, Component) and "length" not in taper.info:
+            _taper_ports = list(taper.ports.values())
+            taper.info["length"] = _taper_ports[-1].x - _taper_ports[0].x
 
     straight_fall_back_no_taper = straight_fall_back_no_taper or straight
 
@@ -831,9 +839,14 @@ def round_corners(
                 if angle in angles:
                     xsection = section
                     break
-        else:
+            x = gf.get_cross_section(xsection, **kwargs)
+        elif cross_section:
             xsection = cross_section
-        x = gf.get_cross_section(xsection, **kwargs)
+            x = gf.get_cross_section(xsection, **kwargs)
+
+        else:
+            auto_widen = False
+            x = None
 
         with_taper = False
         # wg_width = list(bend90.ports.values())[0].width
@@ -845,11 +858,14 @@ def round_corners(
             or length <= auto_widen_minimum_length
             or not width_wide
         ):
-            wg = gf.get_component(
-                straight_fall_back_no_taper,
-                length=length,
-                cross_section=x,
-            )
+            if cross_section:
+                wg = gf.get_component(
+                    straight_fall_back_no_taper,
+                    length=length,
+                    cross_section=x,
+                )
+            else:
+                wg = gf.get_component(straight_fall_back_no_taper, length=length)
         else:
             # Taper starts where straight would have started
             with_taper = True
@@ -875,11 +891,15 @@ def round_corners(
 
             if callable(cross_section):
                 cross_section_wide = partial(cross_section, **kwargs_wide)
-            else:
+            elif cross_section:
                 cross_section_wide = x.copy(width=width_wide)
-            wg = gf.get_component(
-                straight, length=length, cross_section=cross_section_wide
-            )
+
+            if cross_section:
+                wg = gf.get_component(
+                    straight, length=length, cross_section=cross_section_wide
+                )
+            else:
+                wg = gf.get_component(straight, length=length)
         if straight_ports is None:
             straight_ports = [p.name for p in _get_straight_ports(wg, layer=layer)]
 
@@ -945,7 +965,7 @@ def generate_manhattan_waypoints(
     end_straight_length: float | None = None,
     min_straight_length: float | None = None,
     bend: ComponentSpec = bend_euler,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
+    cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     **kwargs,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports.
@@ -964,11 +984,14 @@ def generate_manhattan_waypoints(
     if "straight" in kwargs:
         _ = kwargs.pop("straight")
 
-    bend90 = (
-        bend
-        if isinstance(bend, Component)
-        else gf.get_component(bend, cross_section=cross_section, **kwargs)
-    )
+    if cross_section:
+        bend90 = (
+            bend
+            if isinstance(bend, Component)
+            else gf.get_component(bend, cross_section=cross_section, **kwargs)
+        )
+    else:
+        bend90 = gf.get_component(bend)
 
     if isinstance(cross_section, tuple | list):
         x = [gf.get_cross_section(xsection[0]) for xsection in cross_section]
@@ -976,12 +999,16 @@ def generate_manhattan_waypoints(
         start_straight_length = start_straight_length or min(_x.min_length for _x in x)
         end_straight_length = end_straight_length or min(_x.min_length for _x in x)
         min_straight_length = min_straight_length or min(_x.min_length for _x in x)
-    else:
+    elif cross_section:
         x = gf.get_cross_section(cross_section)
         x = x.copy(**kwargs)
         start_straight_length = start_straight_length or x.min_length
         end_straight_length = end_straight_length or x.min_length
         min_straight_length = min_straight_length or x.min_length
+    else:
+        start_straight_length = default_straight_length
+        end_straight_length = default_straight_length
+        min_straight_length = default_straight_length
 
     bsx = bsy = _get_bend_size(bend90)
     return _generate_route_manhattan_points(
@@ -1012,7 +1039,7 @@ def route_manhattan(
     min_straight_length: float | None = None,
     bend: ComponentSpec = bend_euler,
     with_sbend: bool = True,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
+    cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     with_point_markers: bool = False,
     on_route_error: Callable = get_route_error,
     **kwargs,
@@ -1043,11 +1070,16 @@ def route_manhattan(
         end_straight_length = end_straight_length or min(_x.min_length for _x in x)
         min_straight_length = min_straight_length or min(_x.min_length for _x in x)
         x = cross_section
-    else:
+    elif cross_section:
         x = gf.get_cross_section(cross_section, **kwargs)
         start_straight_length = start_straight_length or x.min_length
         end_straight_length = end_straight_length or x.min_length
         min_straight_length = min_straight_length or x.min_length
+    else:
+        start_straight_length = default_straight_length
+        end_straight_length = default_straight_length
+        min_straight_length = default_straight_length
+        x = cross_section = None
 
     try:
         points = generate_manhattan_waypoints(
