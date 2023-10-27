@@ -191,7 +191,7 @@ def get_route_from_waypoints(
     bend: Callable = bend_euler,
     straight: Callable = straight_function,
     taper: Callable | None = taper_function,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec | None = "xs_sc",
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints with bends instead of \
@@ -257,13 +257,13 @@ def get_route_from_waypoints(
             xs_list.append((xs, angles))
         x = cross_section = xs_list
 
-    else:
+    elif cross_section:
         cross_section = gf.get_cross_section(cross_section)
         x = cross_section = cross_section.copy(**kwargs)
 
     if isinstance(cross_section, list):
         taper = None
-    elif taper:
+    elif cross_section and taper:
         x = gf.get_cross_section(cross_section, **kwargs)
         auto_widen = x.auto_widen
         width1 = x.width
@@ -282,6 +282,9 @@ def get_route_from_waypoints(
             )
         else:
             taper = None
+    else:
+        taper = None
+        x = None
     waypoints = np.array(waypoints)
     kwargs.pop("route_filter", "")
 
@@ -342,7 +345,6 @@ if __name__ == "__main__":
     route = gf.routing.get_route(
         mmi1.ports["o3"],
         mmi2.ports["o1"],
-        # cross_section=gf.cross_section.strip(),
         bend=bend,
         straight=straight,
         auto_widen=True,
@@ -352,5 +354,4 @@ if __name__ == "__main__":
         cross_section=None,
     )
     c.add(route.references)
-    print([i.name for i in c.get_dependencies()])
     c.show()
