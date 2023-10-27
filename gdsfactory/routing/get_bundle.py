@@ -155,7 +155,7 @@ def get_bundle(
             )
             separation = xs.width + xs.gap
         else:
-            separation = 5.0
+            separation = gf.get_component(straight).ysize * 2
 
     if isinstance(cross_section, list | tuple):
         xs_list = []
@@ -785,6 +785,8 @@ if __name__ == "__main__":
         straight=straight,
         bend=bend,
         cross_section=None,
+        # separation=20,
+        # separation=10
         # layer=(2, 0),
         # straight=partial(gf.components.straight, layer=(2, 0), width=1),
     )
