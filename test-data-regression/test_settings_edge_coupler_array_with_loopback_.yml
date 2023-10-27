@@ -52,6 +52,8 @@ settings:
   changed: {}
   child: null
   default:
+    bend:
+      function: bend_euler
     cross_section: xs_sc
     edge_coupler:
       function: taper
@@ -64,6 +66,9 @@ settings:
     pitch: 127.0
     radius: 30
     right_loopback: true
+    straight:
+      function: straight
+    taper: null
     text:
       function: text_rectangular
     text_offset:
@@ -72,6 +77,8 @@ settings:
     text_rotation: 0
     x_reflection: false
   full:
+    bend:
+      function: bend_euler
     cross_section: xs_sc
     edge_coupler:
       function: taper
@@ -84,6 +91,9 @@ settings:
     pitch: 127.0
     radius: 30
     right_loopback: true
+    straight:
+      function: straight
+    taper: null
     text:
       function: text_rectangular
     text_offset:
