@@ -46,6 +46,7 @@ from gdsfactory.routing.get_route_from_steps import (
     get_route_from_steps,
     get_route_from_steps_electrical,
     get_route_from_steps_electrical_multilayer,
+    place_route_from_steps,
 )
 from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.routing.get_routes_bend180 import get_routes_bend180
@@ -101,6 +102,7 @@ __all__ = [
     "utils",
     "place_route",
     "place_bundle",
+    "place_route_from_steps",
 ]
 
 

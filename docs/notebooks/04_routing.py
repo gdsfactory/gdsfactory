@@ -22,15 +22,15 @@
 # we have routing functions that route:
 #
 # - single route between 2 ports
-#     - `get_route`
-#     - `get_route_from_steps`
-#     - `get_route_astar`
+#     - `place_route`
+#     - `place_route_from_steps`
+#     - `place_route_astar`
 # - group of routes between 2 groups of ports using a river/bundle/bus router. At the moment it works only when all ports on each group have the same orientation.
-#     - `get_bundle`
-#     - `get_bundle_from_steps`
+#     - `place_bundle`
+#     - `place_bundle_from_steps`
 #
 #
-# The most useful function is `get_bundle` which supports both single and groups of routes, and can also route with length matching, which ensures that all routes have the same length.
+# The most useful function is `place_bundle` which supports both single and groups of routes, and can also route with length matching, which ensures that all routes have the same length.
 #
 # The biggest limitation is that it requires to have all the ports with the same orientation, for that you can use `gf.routing.route_ports_to_side`
 
@@ -49,10 +49,10 @@ PDK = get_generic_pdk()
 PDK.activate()
 
 # %%
-c = gf.Component("sample_no_routes")
+c = gf.Component()
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
-mmi2.move((100, 50))
+mmi2.d.move((100, 50))
 c.plot()
 
 # %% [markdown]
@@ -64,12 +64,11 @@ c.plot()
 help(gf.routing.get_route)
 
 # %%
-c = gf.Component("sample_connect")
+c = gf.Component()
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
-mmi2.move((100, 50))
-route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o1"])
-c.add(route.references)
+mmi2.d.move((100, 50))
+route = gf.routing.place_route(c, port1=mmi1.ports["o2"], port2=mmi2.ports["o1"])
 c.plot()
 
 # %%
@@ -81,14 +80,13 @@ route
 # sometimes there are obstacles that connect strip does not see!
 
 # %%
-c = gf.Component("sample_problem")
+c = gf.Component()
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
-mmi2.move((110, 50))
+mmi2.d.move((110, 50))
 x = c << gf.components.cross(length=20)
-x.move((135, 20))
-route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o2"])
-c.add(route.references)
+x.d.move((135, 20))
+route = gf.routing.place_route(c, mmi1.ports["o2"], mmi2.ports["o2"])
 c.plot()
 
 # %% [markdown]
@@ -96,27 +94,28 @@ c.plot()
 #
 # - specify the route steps
 #
-# ## get_route_from_steps
+# ## place_route_from_steps
 #
-# `get_route_from_steps` is a manual version of `get_route` where you can define only the new steps `x` or `y` together with increments `dx` or `dy`
+# `place_route_from_steps` is a manual version of `place_route` where you can define only the new steps `x` or `y` together with increments `dx` or `dy`
 
 # %%
-c = gf.Component("get_route_from_steps")
+c = gf.Component()
 w = gf.components.straight()
 left = c << w
 right = c << w
-right.move((100, 80))
+right.d.move((100, 80))
 
 obstacle = gf.components.rectangle(size=(100, 10))
 obstacle1 = c << obstacle
 obstacle2 = c << obstacle
-obstacle1.ymin = 40
-obstacle2.xmin = 25
+obstacle1.d.ymin = 40
+obstacle2.d.xmin = 25
 
 port1 = left.ports["o2"]
 port2 = right.ports["o2"]
 
-routes = gf.routing.get_route_from_steps(
+routes = gf.routing.place_route_from_steps(
+    c,
     port1=port1,
     port2=port2,
     steps=[
@@ -126,26 +125,26 @@ routes = gf.routing.get_route_from_steps(
         {"x": 120, "y": 80},
     ],
 )
-c.add(routes.references)
 c.plot()
 
 # %%
-c = gf.Component("get_route_from_steps_shorter_syntax")
+c = gf.Component()
 w = gf.components.straight()
 left = c << w
 right = c << w
-right.move((100, 80))
+right.d.move((100, 80))
 
 obstacle = gf.components.rectangle(size=(100, 10))
 obstacle1 = c << obstacle
 obstacle2 = c << obstacle
-obstacle1.ymin = 40
-obstacle2.xmin = 25
+obstacle1.d.ymin = 40
+obstacle2.d.xmin = 25
 
 port1 = left.ports["o2"]
 port2 = right.ports["o2"]
 
-routes = gf.routing.get_route_from_steps(
+routes = gf.routing.place_route_from_steps(
+    c,
     port1=port1,
     port2=port2,
     steps=[
@@ -155,7 +154,6 @@ routes = gf.routing.get_route_from_steps(
         {"y": 80},
     ],
 )
-c.add(routes.references)
 c.plot()
 
 # %% [markdown]
@@ -187,16 +185,13 @@ left_ports = [
 # you can also mess up the port order and it will sort them by default
 left_ports.reverse()
 
-c = gf.Component(name="connect_bundle_v2")
-routes = gf.routing.get_bundle(
+c = gf.Component()
+routes = gf.routing.place_bundle(
+    c,
     left_ports,
     right_ports,
-    sort_ports=True,
-    start_straight_length=100,
-    enforce_port_ordering=False,
+    start_straight_length=50,
 )
-for route in routes:
-    c.add(route.references)
 c.plot()
 
 # %%
@@ -222,13 +217,11 @@ bot_ports = [
     for i in range(N)
 ]
 
-c = gf.Component(name="connect_bundle_separation")
-routes = gf.routing.get_bundle(
-    top_ports, bot_ports, separation=5.0, end_straight_length=100
+c = gf.Component()
+routes = gf.routing.place_bundle(
+    c, top_ports, bot_ports, separation=5.0, end_straight_length=100
 )
-for route in routes:
-    c.add(route.references)
-
+c.show()
 c.plot()
 
 # %% [markdown]
@@ -434,13 +427,13 @@ def test_connect_corner(N=6, config="A"):
 
     if config in ["A", "C"]:
         for ports1, ports2 in zip(ports_A, ports_B):
-            routes = gf.routing.get_bundle(ports1, ports2, layer=(2, 0), radius=5)
+            routes = gf.routing.place_bundle(c, ports1, ports2, layer=(2, 0), radius=5)
             for route in routes:
                 top_cell.add(route.references)
 
     elif config in ["B", "D"]:
         for ports1, ports2 in zip(ports_A, ports_B):
-            routes = gf.routing.get_bundle(ports2, ports1, layer=(2, 0), radius=5)
+            routes = gf.routing.place_bundle(c, ports2, ports1, layer=(2, 0), radius=5)
             for route in routes:
                 top_cell.add(route.references)
 
@@ -510,14 +503,11 @@ def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
             for i in range(N)
         ]
 
-    top_cell = Component()
-    routes = gf.routing.get_bundle(
-        ports1, ports2, radius=10.0, enforce_port_ordering=False
+    c = Component()
+    routes = gf.routing.place_bundle(
+        c, ports1, ports2, radius=10.0, enforce_port_ordering=False
     )
-    for route in routes:
-        top_cell.add(route.references)
-
-    return top_cell
+    return c
 
 
 c = test_connect_bundle_udirect(cache=False)
@@ -570,18 +560,17 @@ def test_connect_bundle_u_indirect(dy=-200, orientation=180, layer=(1, 0)):
             for i in range(N)
         ]
 
-    top_cell = Component()
-    routes = gf.routing.get_bundle(
+    c = Component()
+    routes = gf.routing.place_bundle(
+        c,
         ports1,
         ports2,
         bend=gf.components.bend_euler,
         radius=5,
         enforce_port_ordering=False,
     )
-    for route in routes:
-        top_cell.add(route.references)
 
-    return top_cell
+    return c
 
 
 c = test_connect_bundle_u_indirect(orientation=0)
@@ -613,10 +602,7 @@ def test_north_to_south(layer=(1, 0)):
     ]
 
     c = gf.Component()
-    routes = gf.routing.get_bundle(ports1, ports2, auto_widen=False)
-    for route in routes:
-        c.add(route.references)
-
+    routes = gf.routing.place_bundle(c, ports1, ports2, auto_widen=False)
     return c
 
 
@@ -660,23 +646,19 @@ c1 = c << gf.components.mmi2x2()
 c2 = c << gf.components.mmi2x2()
 
 c2.move((100, 50))
-routes = gf.routing.get_bundle(
-    [c1.ports["o4"], c1.ports["o3"]], [c2.ports["o1"], c2.ports["o2"]], radius=5
+routes = gf.routing.place_bundle(
+    c, [c1.ports["o4"], c1.ports["o3"]], [c2.ports["o1"], c2.ports["o2"]], radius=5
 )
-for route in routes:
-    c.add(route.references)
 c.plot()
 
 # %%
-c = gf.Component("electrical")
+c = gf.Component()
 c1 = c << gf.components.pad()
 c2 = c << gf.components.pad()
 c2.move((200, 100))
-routes = gf.routing.get_bundle(
-    [c1.ports["e3"]], [c2.ports["e1"]], cross_section=gf.cross_section.metal1
+routes = gf.routing.place_bundle(
+    c, [c1.ports["e3"]], [c2.ports["e1"]], cross_section=gf.cross_section.metal1
 )
-for route in routes:
-    c.add(route.references)
 c.plot()
 
 # %%

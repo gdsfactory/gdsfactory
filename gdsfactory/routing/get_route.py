@@ -38,7 +38,7 @@ import warnings
 from functools import partial
 
 import kfactory as kf
-from kfactory.routing.optical import place90, route
+from kfactory.routing.optical import OpticalManhattanRoute, place90, route
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -57,7 +57,7 @@ from gdsfactory.typings import (
 )
 
 
-def get_route(**kwargs) -> None:
+def get_route(*args, **kwargs) -> None:
     raise ValueError(
         "get_route is not supported in gdsfactory>=8. Use place_route instead!"
     )
@@ -113,11 +113,11 @@ def place_route(
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     waypoints: Coordinates | None = None,
     **kwargs,
-) -> None:
+) -> OpticalManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
 
     The references are straights, bends and tapers.
-    `get_route` is an automatic version of `get_route_from_steps`.
+    `place_route` is an automatic version of `place_route_from_steps`.
 
     Args:
         component: to place the route into.
@@ -189,7 +189,7 @@ def place_route(
             pts=waypoints,
         )
 
-    route(
+    return route(
         component,
         p1=p1,
         p2=p2,

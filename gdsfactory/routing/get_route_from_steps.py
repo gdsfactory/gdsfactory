@@ -3,6 +3,7 @@ from __future__ import annotations
 from functools import partial
 
 import numpy as np
+from kfactory.routing.optical import OpticalManhattanRoute
 
 import gdsfactory as gf
 from gdsfactory.components.via_corner import via_corner
@@ -32,7 +33,7 @@ def place_route_from_steps(
     taper: ComponentSpec | None = "taper",
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     **kwargs,
-) -> None:
+) -> OpticalManhattanRoute:
     """Places a route formed by the given waypoints steps.
 
     Uses smooth euler bends instead of corners and tapers in straight sections.
