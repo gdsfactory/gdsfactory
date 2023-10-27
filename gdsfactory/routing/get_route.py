@@ -342,6 +342,9 @@ if __name__ == "__main__":
     bend = partial(gf.components.bend_euler, cross_section="xs_rc")
     straight = partial(gf.components.straight, cross_section="xs_rc")
 
+    via_along_path = gf.cross_section.ComponentAlongPath(component=gf.c.via1, spacing=1)
+    xs_with_vias = gf.cross_section.strip(components_along_path=[via_along_path])
+
     route = gf.routing.get_route(
         mmi1.ports["o3"],
         mmi2.ports["o1"],
@@ -351,7 +354,8 @@ if __name__ == "__main__":
         width_wide=2,
         auto_widen_minimum_length=100,
         radius=30,
-        cross_section=None,
+        # cross_section=None,
+        cross_section=xs_with_vias,
     )
     c.add(route.references)
     c.show()

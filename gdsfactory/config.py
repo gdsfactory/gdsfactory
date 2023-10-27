@@ -193,7 +193,7 @@ class Settings(BaseSettings):
     """
 
     n_threads: int = get_number_of_cores()
-    display_type: Literal["widget", "klayout", "docs", "kweb"] = "kweb"
+    display_type: Literal["widget", "klayout", "docs", "kweb"] = "klayout"
     last_saved_files: list[PathType] = []
     max_name_length: int = 99
     model_config = SettingsConfigDict(
