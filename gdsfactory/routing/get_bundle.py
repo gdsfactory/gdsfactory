@@ -57,7 +57,7 @@ def get_bundle(
     bend: ComponentSpec = bend_euler,
     with_sbend: bool = False,
     sort_ports: bool = True,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
+    cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
     path_length_match_loops: int | None = None,
@@ -147,12 +147,15 @@ def get_bundle(
 
     """
     if separation is None:
-        xs = (
-            gf.get_cross_section(cross_section[0])
-            if isinstance(cross_section, list | tuple)
-            else gf.get_cross_section(cross_section)
-        )
-        separation = xs.width + xs.gap
+        if cross_section:
+            xs = (
+                gf.get_cross_section(cross_section[0])
+                if isinstance(cross_section, list | tuple)
+                else gf.get_cross_section(cross_section)
+            )
+            separation = xs.width + xs.gap
+        else:
+            separation = gf.get_component(straight).ysize * 2
 
     if isinstance(cross_section, list | tuple):
         xs_list = []
@@ -163,7 +166,7 @@ def get_bundle(
             xs_list.append((xs, angles))
         cross_section = xs_list
 
-    else:
+    elif cross_section:
         cross_section = gf.get_cross_section(cross_section)
         cross_section = cross_section.copy(**kwargs)
 
@@ -754,32 +757,39 @@ get_bundle_electrical_multilayer = partial(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
-    c = gf.Component("get_bundle_multi_layer")
-    columns = 2
-    ptop = c << gf.components.pad_array(columns=columns)
-    pbot = c << gf.components.pad_array(orientation=90, columns=columns)
+    # c = gf.Component("get_bundle_multi_layer")
+    # columns = 2
+    # ptop = c << gf.components.pad_array(columns=columns)
+    # pbot = c << gf.components.pad_array(orientation=90, columns=columns)
 
-    ptop.movex(300)
-    ptop.movey(300)
-    routes = gf.routing.get_bundle_electrical_multilayer(
-        ptop.ports, pbot.ports, end_straight_length=100, separation=20
-    )
-    for route in routes:
-        c.add(route.references)
-
-    c.show()
-    # c = gf.Component("demo")
-    # c1 = c << gf.components.mmi2x2()
-    # c2 = c << gf.components.mmi2x2()
-    # c2.move((100, 40))
-    # routes = get_bundle(
-    #     [c1.ports["o2"], c1.ports["o1"]],
-    #     [c2.ports["o1"], c2.ports["o2"]],
-    #     layer=(2, 0),
-    #     straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    # ptop.movex(300)
+    # ptop.movey(300)
+    # routes = gf.routing.get_bundle_electrical_multilayer(
+    #     ptop.ports, pbot.ports, end_straight_length=100, separation=20
     # )
     # for route in routes:
     #     c.add(route.references)
-    # c.show(show_ports=True)
+
+    # c.show()
+    c = gf.Component("demo")
+    c1 = c << gf.components.mmi2x2()
+    c2 = c << gf.components.mmi2x2()
+    c2.move((100, 40))
+    bend = partial(gf.components.bend_euler, cross_section="xs_rc")
+    straight = partial(gf.components.straight, cross_section="xs_rc")
+    routes = get_bundle(
+        [c1.ports["o2"], c1.ports["o1"]],
+        [c2.ports["o1"], c2.ports["o2"]],
+        straight=straight,
+        bend=bend,
+        cross_section=None,
+        # separation=20,
+        # separation=10
+        # layer=(2, 0),
+        # straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    )
+    for route in routes:
+        c.add(route.references)
+    c.show(show_ports=True)

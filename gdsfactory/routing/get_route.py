@@ -70,7 +70,7 @@ def get_route(
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
     min_straight_length: float | None = None,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
+    cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     **kwargs,
 ) -> Route:
     """Returns a Manhattan Route between 2 ports.
@@ -115,16 +115,22 @@ def get_route(
             xs_list.append((xs, angles))
         cross_section = xs_list
 
-    else:
+    elif cross_section:
         cross_section = gf.get_cross_section(cross_section)
         x = cross_section = cross_section.copy(**kwargs)
 
-    bend90 = (
-        bend
-        if isinstance(bend, Component)
-        else gf.get_component(bend, cross_section=cross_section)
-    )
-    if taper:
+    else:
+        x = cross_section = None
+
+    if cross_section:
+        bend90 = (
+            bend
+            if isinstance(bend, Component)
+            else gf.get_component(bend, cross_section=cross_section)
+        )
+    else:
+        bend90 = gf.get_component(bend)
+    if taper and cross_section:
         if isinstance(cross_section, tuple | list):
             raise ValueError(
                 "Tapers not implemented for routes made from multiple cross_sections."
@@ -141,6 +147,9 @@ def get_route(
             width2=width2,
             cross_section=cross_section,
         )
+
+    elif taper and cross_section is None:
+        taper = gf.get_component(taper)
 
     return route_manhattan(
         input_port=input_port,
@@ -182,7 +191,7 @@ def get_route_from_waypoints(
     bend: Callable = bend_euler,
     straight: Callable = straight_function,
     taper: Callable | None = taper_function,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec | None = "xs_sc",
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints with bends instead of \
@@ -248,13 +257,13 @@ def get_route_from_waypoints(
             xs_list.append((xs, angles))
         x = cross_section = xs_list
 
-    else:
+    elif cross_section:
         cross_section = gf.get_cross_section(cross_section)
         x = cross_section = cross_section.copy(**kwargs)
 
     if isinstance(cross_section, list):
         taper = None
-    elif taper:
+    elif cross_section and taper:
         x = gf.get_cross_section(cross_section, **kwargs)
         auto_widen = x.auto_widen
         width1 = x.width
@@ -273,6 +282,9 @@ def get_route_from_waypoints(
             )
         else:
             taper = None
+    else:
+        taper = None
+        x = None
     waypoints = np.array(waypoints)
     kwargs.pop("route_filter", "")
 
@@ -327,15 +339,19 @@ if __name__ == "__main__":
     mmi2 = c << gf.components.mmi1x2()
     mmi2.move((200, 50))
 
+    bend = partial(gf.components.bend_euler, cross_section="xs_rc")
+    straight = partial(gf.components.straight, cross_section="xs_rc")
+
     route = gf.routing.get_route(
         mmi1.ports["o3"],
         mmi2.ports["o1"],
-        cross_section=gf.cross_section.strip(),
+        bend=bend,
+        straight=straight,
         auto_widen=True,
         width_wide=2,
         auto_widen_minimum_length=100,
         radius=30,
+        cross_section=None,
     )
     c.add(route.references)
-    print([i.name for i in c.get_dependencies()])
     c.show()
