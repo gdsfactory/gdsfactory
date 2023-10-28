@@ -4,7 +4,8 @@ import pathlib
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.read import cell_from_yaml_template, from_yaml
+from gdsfactory.read.from_yaml import from_yaml
+from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.routing.factories import routing_strategy
 
 SAMPLE_DIR = pathlib.Path(__file__).parent / "all_angle_routing"
