@@ -33,6 +33,26 @@ def boolean_not(region1: kdb.Region, region2: kdb.Region) -> kdb.Region:
     return kdb.Region.__sub__(region1, region2)
 
 
+def boolean_xor(region1: kdb.Region, region2: kdb.Region) -> kdb.Region:
+    return kdb.Region.__xor__(region1, region2)
+
+
+def boolean_and(region1: kdb.Region, region2: kdb.Region) -> kdb.Region:
+    return kdb.Region.__and__(region1, region2)
+
+
+boolean_operations = {
+    "or": boolean_or,
+    "|": boolean_or,
+    "not": boolean_not,
+    "-": boolean_or,
+    "^": boolean_xor,
+    "xor": boolean_xor,
+    "&": boolean_and,
+    "and": boolean_and,
+}
+
+
 def copy(region: kdb.Region) -> kdb.Region:
     return region.dup()
 

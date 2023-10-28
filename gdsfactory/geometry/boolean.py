@@ -2,16 +2,15 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, boolean_operations
 from gdsfactory.typings import ComponentOrReference, LayerSpec
 
 
 @gf.cell
 def boolean(
-    A: ComponentOrReference | tuple[ComponentOrReference, ...],
-    B: ComponentOrReference | tuple[ComponentOrReference, ...],
+    A: ComponentOrReference,
+    B: ComponentOrReference,
     operation: str,
-    precision: float = 1e-4,
     layer1: LayerSpec | None = None,
     layer2: LayerSpec | None = None,
     layer: LayerSpec = (1, 0),
@@ -28,7 +27,8 @@ def boolean(
         A: Component(/Reference) or list of Component(/References).
         B: Component(/Reference) or list of Component(/References).
         operation: {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}.
-        precision: float Desired precision for rounding vertex coordinates.
+        layer1: Specific layer to get polygons.
+        layer2: Specific layer to get polygons.
         layer: Specific layer to put polygon geometry on.
 
     Returns: Component with polygon(s) of the boolean operations between
@@ -53,7 +53,28 @@ def boolean(
       c.plot()
 
     """
+    from gdsfactory import get_layer
+
+    if operation not in boolean_operations:
+        raise ValueError(
+            f"Boolean operation {operation} not supported. Choose from {list(boolean_operations.keys())}"
+        )
+
     c = Component()
+    layer1 = layer1 or layer
+    layer2 = layer2 or layer
+
+    layer_index1 = get_layer(layer1)
+    layer_index2 = get_layer(layer2)
+    layer_index = get_layer(layer)
+
+    for r1, r2 in zip(
+        A._kdb_cell.begin_shapes_rec(layer_index1),
+        B._kdb_cell.begin_shapes_rec(layer_index2),
+    ):
+        opration_function = boolean_operations[operation]
+        r = opration_function(r1, r2)
+        r = c.shapes(layer_index).insert(r)
 
     return c
 
@@ -70,17 +91,17 @@ def test_boolean() -> None:
 
 
 if __name__ == "__main__":
-    # c = gf.Component()
+    c = gf.Component()
     # e1 = c << gf.components.ellipse()
-    # e2 = c << gf.components.ellipse(radii=(10, 6))
-    # e3 = c << gf.components.ellipse(radii=(10, 4))
-    # e3.movex(5)
+    e2 = c << gf.components.ellipse(radii=(10, 6))
+    e3 = c << gf.components.ellipse(radii=(10, 4))
+    e3.d.movex(5)
     # e2.movex(2)
-    # c = boolean(A=[e1, e3], B=e2, operation="A-B")
+    c = boolean(A=e2, B=e3, operation="or")
 
-    n = 50
-    c1 = gf.c.array(gf.c.circle(radius=10), columns=n, rows=n)
-    c2 = gf.c.array(gf.c.circle(radius=9), columns=n, rows=n).ref()
-    c2.movex(5)
-    c = boolean(c1, c2, operation="xor")
+    # n = 50
+    # c1 = gf.c.array(gf.c.circle(radius=10), columns=n, rows=n)
+    # c2 = gf.c.array(gf.c.circle(radius=9), columns=n, rows=n)
+    # c2.movex(5)
+    # c = boolean(c1, c2, operation="xor")
     c.show()
