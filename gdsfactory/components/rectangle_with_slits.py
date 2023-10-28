@@ -71,7 +71,7 @@ def rectangle_with_slits(
     slits.ymin = slit_enclosure
 
     if layer_slit:
-        c << r
+        _ = c << r
         c.add(slits)
     else:
         r_with_slits = c << gf.geometry.boolean(r, slits, operation="not", layer=layer)
