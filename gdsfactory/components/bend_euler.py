@@ -221,5 +221,6 @@ def _compare_bend_euler90():
 
 if __name__ == "__main__":
     # c = bend_euler(cross_section="xs_rc", angle=90, radius=5)
+    bend_euler.clear_cache()
     c = bend_euler(cross_section="xs_rc", angle=90, radius=5)
     c.show()

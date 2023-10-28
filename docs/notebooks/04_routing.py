@@ -42,7 +42,10 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.port import Port
+import kfactory as kf
 
+
+kf.config.display_type = "image"
 gf.config.rich_output()
 gf.CONF.display_type = "klayout"
 PDK = get_generic_pdk()
@@ -428,14 +431,10 @@ def test_connect_corner(N=6, config="A"):
     if config in ["A", "C"]:
         for ports1, ports2 in zip(ports_A, ports_B):
             routes = gf.routing.place_bundle(c, ports1, ports2, layer=(2, 0), radius=5)
-            for route in routes:
-                top_cell.add(route.references)
 
     elif config in ["B", "D"]:
         for ports1, ports2 in zip(ports_A, ports_B):
             routes = gf.routing.place_bundle(c, ports2, ports1, layer=(2, 0), radius=5)
-            for route in routes:
-                top_cell.add(route.references)
 
     return top_cell
 

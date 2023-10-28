@@ -324,7 +324,7 @@ class Component(kf.KCell):
         for instance in instances:
             self._kdb_cell.insert(instance._instance)
 
-    def ref(self) -> kdb.DCellInstArray:
+    def ref(self, *args, **kwargs) -> kdb.DCellInstArray:
         """Returns a Component Instance."""
         raise ValueError("ref() is deprecated. Use add_ref() instead")
 

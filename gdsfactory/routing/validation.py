@@ -2,7 +2,6 @@ from warnings import warn
 
 import numpy as np
 
-from gdsfactory.component import ComponentReference
 from gdsfactory.config import CONF
 from gdsfactory.port import Port
 from gdsfactory.snap import snap_to_grid
@@ -37,8 +36,8 @@ def validate_connections(
 
 
 def make_error_traces(
-    ports1: list[Port], ports2: list[Port], message: str
-) -> list[Route]:
+    component, ports1: list[Port], ports2: list[Port], message: str
+) -> None:
     """
     Creates a set of error traces showing the intended connectivity between ports1 and ports2. The specified message will be included in the RouteWarning that is raised.
 
@@ -54,16 +53,10 @@ def make_error_traces(
     from gdsfactory.routing.manhattan import RouteWarning
 
     warn(message, RouteWarning)
-    error_routes = []
     for port1, port2 in zip(ports1, ports2):
-        path = gf.path.Path([port1.center, port2.center])
+        path = gf.path.Path([port1.d.center, port2.d.center])
         error_component = gf.path.extrude(path, layer=CONF.layer_error_path, width=1)
-        error_ref = ComponentReference(error_component)
-        error_route = Route(
-            references=[error_ref], ports=list(error_ref.ports.values()), length=np.nan
-        )
-        error_routes.append(error_route)
-    return error_routes
+        _ = component << error_component
 
 
 def _connection_tuple(port1: Port, port2: Port) -> tuple:

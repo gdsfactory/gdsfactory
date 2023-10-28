@@ -16,6 +16,7 @@ from functools import partial
 
 import numpy as np
 from kfactory.routing.manhattan import route_manhattan
+from kfactory.routing.optical import OpticalManhattanRoute, route_bundle
 from numpy import ndarray
 
 import gdsfactory as gf
@@ -29,7 +30,7 @@ from gdsfactory.routing.get_bundle_from_steps import get_bundle_from_steps
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 from gdsfactory.routing.get_bundle_sbend import get_bundle_sbend
 from gdsfactory.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
-from gdsfactory.routing.get_route import get_route, place_route
+from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.routing.validation import (
@@ -47,7 +48,7 @@ from gdsfactory.typings import (
 )
 
 
-def get_bundle(**kwargs) -> None:
+def get_bundle(*args, **kwargs) -> None:
     raise ValueError(
         "get_bundle is not supported in gdsfactory>=8. Use place_bundle instead!"
     )
@@ -79,7 +80,7 @@ def place_bundle(
     steps: list[Step] | None = None,
     waypoints: Coordinates | None = None,
     **kwargs,
-) -> None:
+) -> list[OpticalManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
 
     Routes connect a bundle of ports with a river router.
@@ -106,24 +107,6 @@ def place_bundle(
         enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
         steps: specify waypoint steps to route using get_bundle_from_steps.
         waypoints: specify waypoints to route using get_bundle_from_steps.
-
-    Keyword Args:
-        width: main layer waveguide width (um).
-        layer: main layer for waveguide.
-        width_wide: wide waveguides width (um) for low loss routing.
-        auto_widen: taper to wide waveguides for low loss routing.
-        auto_widen_minimum_length: minimum straight length for auto_widen.
-        taper_length: taper_length for auto_widen.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
-        cladding_layers: list of layers to extrude.
-        cladding_offsets: list of offset from main Section edge.
-        radius: bend radius (um).
-        sections: list of Sections(width, offset, layer, ports).
-        port_names: for input and output ('o1', 'o2').
-        port_types: for input and output: electrical, optical, vertical_te ...
-        min_length: defaults to 1nm = 10e-3um for routing.
-        snap_to_grid: can snap points to grid when extruding the path.
 
     .. plot::
         :include-source:
@@ -183,6 +166,16 @@ def place_bundle(
 
     if isinstance(ports2, dict):
         ports2 = list(ports2.values())
+
+    for p in ports1:
+        p.orientation = (
+            int(p.orientation) % 360 if p.orientation is not None else p.orientation
+        )
+
+    for p in ports2:
+        p.orientation = (
+            int(p.orientation) % 360 if p.orientation is not None else p.orientation
+        )
 
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
@@ -312,9 +305,6 @@ def place_bundle_same_axis(
     start_straight_length: float = 0.0,
     bend: ComponentSpec = bend_euler,
     sort_ports: bool = True,
-    path_length_match_loops: int | None = None,
-    path_length_match_extra_length: float = 0.0,
-    path_length_match_modify_segment_i: int = -2,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     enforce_port_ordering: bool = True,
     **kwargs,
@@ -329,12 +319,6 @@ def place_bundle_same_axis(
         start_straight_length: in um.
         bend: spec.
         sort_ports: sort the ports according to the axis.
-        path_length_match_loops: Integer number of loops to add to bundle \
-                for path length matching (won't try to match if None).
-        path_length_match_extra_length: Extra length to add to path length matching loops \
-                (requires path_length_match_loops != None).
-        path_length_match_modify_segment_i: Index of straight segment to add path
-            length matching loops to (requires path_length_match_loops != None).
         cross_section: CrossSection or function that returns a cross_section.
         enforce_port_ordering: If True, will enforce that the ports are conneceted as ordered.
         kwargs: cross_section settings.
@@ -388,61 +372,28 @@ def place_bundle_same_axis(
         )
 
     xs = gf.get_cross_section(cross_section, **kwargs)
-    radius = xs.radius
-    radius_dbu = round(radius / component.kcl.dbu)
-    # for port1, port2 in zip(ports1, ports2):
-    #     place_route(
-    #         component=component,
-    #         port1=port1,
-    #         port2=port2,
-    #         bend=bend,
-    #         cross_section=cross_section,
-    #         **kwargs,
-    #     )
+    bend90 = gf.get_component(bend)
+    width = xs.width
 
-    # routes = []
-    # for port1, port2 in zip(ports1, ports2):
-    #     waypoints = route_manhattan(
-    #         port1=port1,
-    #         port2=port2,
-    #         bend90_radius=radius,
-    #         start_straight=start_straight_length,
-    #         end_straight=end_straight_length,
-    #     )
-    #     routes.append(waypoints)
+    def straight_dbu(length: int, width: int = width) -> Component:
+        return straight_function(
+            length=round(length * component.kcl.dbu),
+            width=round(width * component.kcl.dbu),
+            cross_section=cross_section,
+            **kwargs,
+        )
 
-    routes = _get_bundle_waypoints(
+    routes = route_bundle(
+        component,
         ports1,
         ports2,
-        separation_dbu=round(separation / component.kcl.dbu),
-        end_straight_length_dbu=round(end_straight_length / component.kcl.dbu),
-        start_straight_length_dbu=round(start_straight_length / component.kcl.dbu),
-        radius_dbu=radius_dbu,
+        spacing=round(separation / component.kcl.dbu),
+        end_straight=round(end_straight_length / component.kcl.dbu),
+        start_straight=round(start_straight_length / component.kcl.dbu),
+        straight_factory=straight_dbu,
+        bend90_cell=bend90,
     )
-    # if path_length_match_loops:
-    #     routes = [np.array(route) for route in routes]
-    #     routes = path_length_matched_points(
-    #         routes,
-    #         extra_length=path_length_match_extra_length,
-    #         bend=bend,
-    #         nb_loops=path_length_match_loops,
-    #         modify_segment_i=path_length_match_modify_segment_i,
-    #         cross_section=cross_section,
-    #         **kwargs,
-    #     )
-
-    for route, port1, port2 in zip(routes, ports1, ports2):
-        print(np.array(route) / 1e3)
-        place_route(
-            component=component,
-            port2=port1,
-            port1=port2,
-            waypoints=route,
-            bend=bend,
-            cross_section=xs,
-        )
-    # if enforce_port_ordering:
-    #     return validate_connections(_p1, _p2, routes)
+    return routes
 
 
 def _get_bundle_waypoints(
@@ -463,7 +414,6 @@ def _get_bundle_waypoints(
         start_straight_length_dbu: length of straight.
         radius_dbu: radius of bend.
     """
-
 
     if not ports1 and not ports2:
         return []
@@ -551,16 +501,13 @@ def _get_bundle_waypoints(
     # Second pass - route the ports pairwise
     routes = []
     for i in range(len(ports1)):
-
-        # swap logic compared to old gdsfactory placing of routes because kfactory
-        # takes corners first vs trying to go straight as long as possible
         routes.append(
             route_manhattan(
-                port2=ports1[i],
-                port1=ports2[i],
+                port1=ports1[i],
+                port2=ports2[i],
                 bend90_radius=radius_dbu,
-                start_straight=end_straights[i],#start_straight_length_dbu,
-                end_straight=start_straight_length_dbu#end_straights[i],
+                start_straight=start_straight_length_dbu,
+                end_straight=end_straights[i],
             )
         )
     return routes

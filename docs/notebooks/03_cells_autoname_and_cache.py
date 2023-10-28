@@ -57,7 +57,6 @@
 
 # %%
 import gdsfactory as gf
-from gdsfactory.cell import print_cache
 
 
 def mzi_with_bend(radius: float = 10.0) -> gf.Component:
@@ -74,7 +73,7 @@ c.plot()
 
 # %%
 mzi_with_bend_decorated = gf.cell(mzi_with_bend)
-c = mzi_with_bend_decorated(radius=10)
+c = mzi_with_bend_decorated(radius=12)
 print(f"this cell {c.name!r} gets automatic name thanks to the `cell` decorator")
 c.plot()
 
