@@ -5,7 +5,21 @@
 
 ## [7.8.12](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.12) - 2023-10-28
 
-No significant changes.
+- add json formatted labels [#2237](https://github.com/gdsfactory/gdsfactory/pull/2237)
+- add best practices [#2236](https://github.com/gdsfactory/gdsfactory/pull/2236)
+- Allow different ComponentSpecs in edge coupler array [#2235](https://github.com/gdsfactory/gdsfactory/pull/2235)
+- Allow none cross sections [#2234](https://github.com/gdsfactory/gdsfactory/pull/2234)
+- Add flake8-debugger checks to ruff [#2233](https://github.com/gdsfactory/gdsfactory/pull/2233)
+- fix cross_section for paths [#2231](https://github.com/gdsfactory/gdsfactory/pull/2231)
+- add validate [#2221](https://github.com/gdsfactory/gdsfactory/pull/2221)
+- filter warnings [#2229](https://github.com/gdsfactory/gdsfactory/pull/2229)
+- pick good length_x for mzi length_x=None [#2228](https://github.com/gdsfactory/gdsfactory/pull/2228)
+- add get_child_name for cell that contain other cells [#2224](https://github.com/gdsfactory/gdsfactory/pull/2224)
+- fix get_layer [#2223](https://github.com/gdsfactory/gdsfactory/pull/2223)
+- update pre-commit [#2222](https://github.com/gdsfactory/gdsfactory/pull/2222)
+- Cell improved [#2219](https://github.com/gdsfactory/gdsfactory/pull/2219)
+- Rename layers [#2217](https://github.com/gdsfactory/gdsfactory/pull/2217)
+- allow to access cross_section by names [#2214](https://github.com/gdsfactory/gdsfactory/pull/2214)
 
 
 ## [7.8.11](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.11) - 2023-10-24
