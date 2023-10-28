@@ -324,18 +324,9 @@ class Component(kf.KCell):
         for instance in instances:
             self._kdb_cell.insert(instance._instance)
 
-    def ref(self) -> Instance:
+    def ref(self) -> kdb.DCellInstArray:
         """Returns a Component Instance."""
-
-        # trans = kdb.DTrans() # before
-        trans = kdb.DCplxTrans()  # after
-        na = 1
-        nb = 1
-        ci = self.cell_index()
-        a = kdb.DVector()
-        b = kdb.DVector()
-        dcellinst = kdb.DCellInstArray(ci, trans, a, b, na, nb)
-        return kf.Instance(self.kcl, dcellinst)
+        raise ValueError("ref() is deprecated. Use add_ref() instead")
 
     @classmethod
     def __get_validators__(cls):
@@ -462,10 +453,16 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.Component()
-    _ = c << gf.c.bend_euler(cross_section="xs_rc")
+    b1 = gf.components.bend_euler().ref()
+    b2 = gf.components.bend_euler().ref()
+    b2.connect("o1", b1.ports["o2"])
+    c.add(b1)
+    c.add(b2)
+
+    # _ = c << gf.c.bend_euler(cross_section="xs_rc")
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
     # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
-    c = c.extract(layers=[(1, 0)])
+    # c = c.extract(layers=[(1, 0)])
 
     # c = Component()
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))

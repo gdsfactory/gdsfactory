@@ -184,16 +184,6 @@ def place_bundle(
     if isinstance(ports2, dict):
         ports2 = list(ports2.values())
 
-    for p in ports1:
-        p.orientation = (
-            int(p.orientation) % 360 if p.orientation is not None else p.orientation
-        )
-
-    for p in ports2:
-        p.orientation = (
-            int(p.orientation) % 360 if p.orientation is not None else p.orientation
-        )
-
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
 
@@ -442,6 +432,7 @@ def place_bundle_same_axis(
     #     )
 
     for route, port1, port2 in zip(routes, ports1, ports2):
+        print(np.array(route) / 1e3)
         place_route(
             component=component,
             port1=port1,

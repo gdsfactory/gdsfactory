@@ -60,6 +60,12 @@ def ring_single(
     radius = radius or xs.radius
     cross_section = xs.copy(radius=radius, **kwargs)
 
+    if length_y <= 0:
+        raise ValueError(f"length_y={length_y} must be > 0")
+
+    if length_x <= 0:
+        raise ValueError(f"length_x={length_x} must be > 0")
+
     c = gf.Component()
     cb = c << coupler_ring(
         bend=bend,
@@ -72,16 +78,9 @@ def ring_single(
     b = bend(cross_section=cross_section)
     sx = straight(length=length_x, cross_section=cross_section)
 
-    sl = sy.ref()
-    sr = sy.ref()
-    st = sx.ref()
-
-    if length_y > 0:
-        c.add(sl)
-        c.add(sr)
-
-    if length_x > 0:
-        c.add(st)
+    sl = c << sy
+    sr = c << sy
+    st = c << sx
 
     bl = c << b
     br = c << b
@@ -99,15 +98,8 @@ def ring_single(
 
 
 if __name__ == "__main__":
-    c = gf.Component()
-    b1 = gf.components.bend_euler().ref()
-    # b2 = gf.components.bend_euler().ref()
-    # b2.connect("o1", b1.ports["o2"])
-    # c.add(b1)
-    # c.add(b2)
-
     # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
-    # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
+    c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
     # print(c.ports)
 
     # c = gf.routing.add_fiber_array(ring_single)

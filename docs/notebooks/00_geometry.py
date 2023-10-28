@@ -39,9 +39,6 @@ c.write_gds("demo.gds")  # write it to a GDS file. You can open it in klayout.
 c.show()  # show it in klayout
 c.plot()  # plot it in jupyter notebook
 
-# %%
-list(zip((-8, 6, 7, 9), (-6, 8, 17, 5)))
-
 # %% [markdown]
 # **Exercise** :
 #
@@ -71,7 +68,7 @@ c.plot()
 
 # %%
 c = gf.Component()
-p1 = c.add_polygon([(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0))
+p1 = c.add_polygon([(-8, -6), (6, 8), (7, 17), (9, 5)], layer=(1, 0))
 p2 = p1 + 2
 p2 = c.add_polygon(p2, layer=(2, 0))
 p3 = p2 - p1
