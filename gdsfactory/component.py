@@ -268,7 +268,7 @@ class Component(kf.KCell):
             length: length of the route.
             length_eff: effective length of the route.
             taper: if True adds taper information.
-            **kwargs: extra information to add to the component.
+            kwargs: extra information to add to the component.
         """
         from gdsfactory.pdk import get_active_pdk
 
@@ -289,6 +289,8 @@ class Component(kf.KCell):
         info["route_info_length"] = length_eff
         info["route_info_weight"] = length_eff
         info[f"route_info_{xs_name}_length"] = length_eff
+        for key, value in kwargs.items():
+            info[f"route_info_{key}"] = value
 
     def absorb(self, reference: Instance) -> Component:
         """Absorbs polygons from ComponentReference into Component.
@@ -453,11 +455,8 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.Component()
-    b1 = gf.components.bend_euler().ref()
-    b2 = gf.components.bend_euler().ref()
-    b2.connect("o1", b1.ports["o2"])
-    c.add(b1)
-    c.add(b2)
+    b1 = gf.components.circle(radius=10)
+    b2 = gf.components.circle(radius=11)
 
     # _ = c << gf.c.bend_euler(cross_section="xs_rc")
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
