@@ -444,8 +444,8 @@ def place_bundle_same_axis(
     for route, port1, port2 in zip(routes, ports1, ports2):
         place_route(
             component=component,
-            port1=port1,
-            port2=port2,
+            port2=port1,
+            port1=port2,
             waypoints=route,
             bend=bend,
             cross_section=xs,
@@ -472,6 +472,7 @@ def _get_bundle_waypoints(
         start_straight_length_dbu: length of straight.
         radius_dbu: radius of bend.
     """
+
 
     if not ports1 and not ports2:
         return []
@@ -559,13 +560,16 @@ def _get_bundle_waypoints(
     # Second pass - route the ports pairwise
     routes = []
     for i in range(len(ports1)):
+
+        # swap logic compared to old gdsfactory placing of routes because kfactory
+        # takes corners first vs trying to go straight as long as possible
         routes.append(
             route_manhattan(
-                port1=ports1[i],
-                port2=ports2[i],
+                port2=ports1[i],
+                port1=ports2[i],
                 bend90_radius=radius_dbu,
-                start_straight=start_straight_length_dbu,
-                end_straight=end_straights[i],
+                start_straight=end_straights[i],#start_straight_length_dbu,
+                end_straight=start_straight_length_dbu#end_straights[i],
             )
         )
     return routes
