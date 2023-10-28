@@ -4,9 +4,8 @@ from __future__ import annotations
 import gdstk
 
 import gdsfactory as gf
-from gdsfactory.component import Component
+from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_layout import Polygon
-from gdsfactory.component_reference import ComponentReference
 from gdsfactory.typings import ComponentOrReference, LayerSpec
 
 

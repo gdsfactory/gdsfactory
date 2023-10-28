@@ -2,7 +2,7 @@ from warnings import warn
 
 import numpy as np
 
-from gdsfactory.component_reference import ComponentReference
+from gdsfactory.component import ComponentReference
 from gdsfactory.config import CONF
 from gdsfactory.port import Port
 from gdsfactory.snap import snap_to_grid

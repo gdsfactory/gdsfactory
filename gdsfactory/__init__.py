@@ -18,7 +18,6 @@ modules:
 from __future__ import annotations
 from functools import partial
 from toolz import compose
-from gdsfactory.component_layout import Group
 from gdsfactory.path import Path
 
 
@@ -30,8 +29,6 @@ from gdsfactory.cell import cell, cell_without_validator
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section
-from gdsfactory.component_layout import Label
-from gdsfactory.polygon import Polygon
 from gdsfactory.difftest import difftest, diff
 
 from gdsfactory import decorators
@@ -46,7 +43,6 @@ from gdsfactory import snap
 from gdsfactory import read
 from gdsfactory import add_termination
 from gdsfactory import functions
-from gdsfactory import geometry
 from gdsfactory import add_ports
 from gdsfactory import write_cells
 from gdsfactory import add_pins
@@ -109,7 +105,6 @@ __all__ = (
     "fill",
     "fill_rectangle",
     "functions",
-    "geometry",
     "get_active_pdk",
     "get_cell",
     "get_cells",
