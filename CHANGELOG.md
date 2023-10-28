@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.8.12](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.12) - 2023-10-28
+
+No significant changes.
+
+
 ## [7.8.11](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.11) - 2023-10-24
 
 - remove get_capacitance_path [#2213](https://github.com/gdsfactory/gdsfactory/pull/2213)
