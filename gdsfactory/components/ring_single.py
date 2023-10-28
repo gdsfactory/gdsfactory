@@ -35,13 +35,24 @@ def ring_single(
 
     .. code::
 
-          bl-st-br
-          |      |
-          sl     sr length_y
-          |      |
-         --==cb==-- gap
 
-          length_x
+                    xxxxxxxxxxxxx
+                xxxxx           xxxx
+              xxx                   xxx
+            xxx                       xxx
+           xx                           xxx
+           x                             xxx
+          xx                              xx▲
+          xx                              xx│length_y
+          xx                              xx▼
+          xx                             xx
+           xx          length_x          x
+            xx     ◄───────────────►    x
+             xx                       xxx
+               xx                   xxx
+                xxx──────▲─────────xxx
+                         │gap
+                 o1──────▼─────────o2
     """
     gap = gf.snap.snap_to_grid2x(gap)
 
@@ -77,7 +88,6 @@ def ring_single(
 
     sl.connect(port="o1", other=cb.ports["o2"])
     bl.connect(port="o2", other=sl.ports["o2"])
-
     st.connect(port="o2", other=bl.ports["o1"])
     br.connect(port="o2", other=st.ports["o1"])
     sr.connect(port="o1", other=br.ports["o1"])
@@ -89,14 +99,21 @@ def ring_single(
 
 
 if __name__ == "__main__":
+    c = gf.Component()
+    b1 = gf.components.bend_euler().ref()
+    # b2 = gf.components.bend_euler().ref()
+    # b2.connect("o1", b1.ports["o2"])
+    # c.add(b1)
+    # c.add(b2)
+
     # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
     # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
     # print(c.ports)
 
     # c = gf.routing.add_fiber_array(ring_single)
     # c = ring_single(cross_section="xs_rc", width=2)
-    c = ring_single(length_y=0, length_x=0)
-    c.get_netlist()
+    # c = ring_single(length_y=0, length_x=0)
+    # c.get_netlist()
     c.show()
 
     # cc = gf.add_pins(c)

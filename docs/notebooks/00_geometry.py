@@ -31,23 +31,16 @@
 # %%
 import gdsfactory as gf
 
-
-def demo_polygons():
-    # Create a blank component (essentially an empty GDS cell with some special features)
-    c = gf.Component()
-
-    # Create and add a polygon from separate lists of x points and y points
-    # (Can also be added like [(x1,y1), (x2,y2), (x3,y3), ... ]
-    c.add_polygon(
-        [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
-    )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
-    return c
-
-
-c = demo_polygons()
+c = (
+    gf.Component()
+)  # Create a blank component (essentially an empty GDS cell with some special features)
+p1 = c.add_polygon([(-8, -6), (6, 8), (7, 17), (9, 5)], layer=(1, 0))
 c.write_gds("demo.gds")  # write it to a GDS file. You can open it in klayout.
 c.show()  # show it in klayout
 c.plot()  # plot it in jupyter notebook
+
+# %%
+list(zip((-8, 6, 7, 9), (-6, 8, 17, 5)))
 
 # %% [markdown]
 # **Exercise** :

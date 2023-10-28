@@ -851,7 +851,7 @@ def extrude(
                 width=port_width,
                 orientation=port_orientation,
                 center=center,
-                cross_section=x.cross_section1 if hasattr(x, "cross_section1") else x,
+                cross_section=x,
             )
         if port_names[1] is not None:
             port_width = width if np.isscalar(width) else width[-1]
@@ -867,7 +867,7 @@ def extrude(
                 width=port_width,
                 center=center,
                 orientation=port_orientation,
-                cross_section=x.cross_section2 if hasattr(x, "cross_section2") else x,
+                cross_section=x,
             )
 
     c.info["length"] = float(np.round(p.length(), 3))
@@ -1469,7 +1469,10 @@ if __name__ == "__main__":
     )
     s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
     x1 = gf.CrossSection(sections=(s0, s1))
+    c = gf.path.extrude(P, x1)
 
+    ref = c.ref()
+    print(ref)
     # s2 = gf.Section(
     #     width=0.5, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
     # )
@@ -1477,5 +1480,4 @@ if __name__ == "__main__":
     # x2 = gf.CrossSection(sections=(s2, s3))
     # t = gf.path.transition(x1, x2, width_type="linear")
     # c = gf.path.extrude(P, t)
-    c = gf.path.extrude(P, x1)
     c.show()
