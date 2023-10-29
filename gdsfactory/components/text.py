@@ -57,7 +57,8 @@ def text(
         elif justify == "right":
             label.xmax = position[0]
         elif justify == "center":
-            label.move(origin=label.center, other=position, axis="x")
+            xmin = position[0] - label.d.xsize / 2
+            label.d.xmin = xmin
         else:
             raise ValueError(
                 f"justify = {justify!r} not in ('center', 'right', 'left')"
@@ -94,7 +95,7 @@ if __name__ == "__main__":
     c = text(
         text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
         size=4.0,
-        justify="right",
+        justify="center",
         position=(0, 0),
     )
     # c = text_lines(text=["a", "b"], size=10)

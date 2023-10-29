@@ -31,6 +31,8 @@ from gdsfactory.technology.yaml_utils import (
 if typing.TYPE_CHECKING:
     from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
 
+    from gdsfactory.component import Component
+
 PathLike = pathlib.Path | str
 
 Layer = tuple[int, int]
@@ -940,7 +942,9 @@ class LayerViews(BaseModel):
         """Deletes all layers in the LayerViews."""
         self.layer_views = {}
 
-    def preview_layerset(self, size: float = 100.0, spacing: float = 100.0) -> object:
+    def preview_layerset(
+        self, size: float = 100.0, spacing: float = 100.0
+    ) -> Component:
         """Generates a Component with all the layers.
 
         Args:
@@ -950,7 +954,7 @@ class LayerViews(BaseModel):
         """
         import gdsfactory as gf
 
-        D = gf.Component(name="layerset", with_uuid=True)
+        D = gf.Component()
         scale = size / 100
         num_layers = len(self.get_layer_views())
         matrix_size = int(np.ceil(np.sqrt(num_layers)))
@@ -972,12 +976,12 @@ class LayerViews(BaseModel):
 
             xloc = n % matrix_size
             yloc = int(n // matrix_size)
-            D.add_ref(R).movex((100 + spacing) * xloc * scale).movey(
-                -(100 + spacing) * yloc * scale
-            )
-            D.add_ref(T).movex((100 + spacing) * xloc * scale).movey(
-                -(100 + spacing) * yloc * scale
-            )
+            ref = D.add_ref(R)
+            ref.d.movex((100 + spacing) * xloc * scale)
+            ref.d.movey(-(100 + spacing) * yloc * scale)
+            ref = D.add_ref(T)
+            ref.d.movex((100 + spacing) * xloc * scale)
+            ref.d.movey(-(100 + spacing) * yloc * scale)
         return D
 
     def to_lyp(
@@ -1234,12 +1238,13 @@ def test_load_lyp() -> None:
 if __name__ == "__main__":
     test_load_lyp()
     # import gdsfactory as gf
-    from gdsfactory.config import PATH
     from gdsfactory.generic_tech import get_generic_pdk
 
     PDK = get_generic_pdk()
     LAYER_VIEWS = PDK.layer_views
-    LAYER_VIEWS.to_yaml(PATH.repo / "extra" / "layers.yml")
+    # LAYER_VIEWS.to_yaml(PATH.repo / "extra" / "layers.yml")
+    c = LAYER_VIEWS.preview_layerset()
+    c.show()
 
     # LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
     # LAYER_VIEWS.to_lyp(PATH.klayout_lyp)

@@ -20,6 +20,7 @@ from functools import partial
 from toolz import compose
 from gdsfactory.path import Path
 import kfactory as kf
+from kfactory.kcell import LayerEnum, kcl
 import klayout.db as kdb
 
 # NOTE: import order matters. Only change the order if you know what you are doing
@@ -70,6 +71,7 @@ from gdsfactory.pdk import (
 )
 from gdsfactory.get_factories import get_cells
 from gdsfactory.cross_section import get_cross_sections
+from aenum import constant  # type: ignore[import-untyped]
 
 c = components
 
@@ -131,4 +133,7 @@ __all__ = (
     "PATH",
     "kf",
     "kdb",
+    "LayerEnum",
+    "constant",
+    "kcl",
 )

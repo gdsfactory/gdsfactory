@@ -1,10 +1,9 @@
-import kfactory as kf
-from kfactory.kcell import LayerEnum
+import gdsfactory as gf
 
 Layer = tuple[int, int]
 
 
-class LAYER(LayerEnum):
+class LAYER(gf.LayerEnum):
     """Generic layermap based on book.
 
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
@@ -12,7 +11,7 @@ class LAYER(LayerEnum):
     You will need to create a new LayerMap with your specific foundry layers.
     """
 
-    kcl = kf.constant(kf.kcl)
+    kcl = gf.constant(gf.kcl)
 
     WAFER: Layer = (99999, 0)
 
@@ -68,7 +67,7 @@ class LAYER(LayerEnum):
     MONITOR: Layer = (101, 0)
 
 
-kf.kcl.layers = LAYER
+gf.kcl.layers = LAYER
 
 
 if __name__ == "__main__":

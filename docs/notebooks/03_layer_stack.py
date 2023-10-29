@@ -67,7 +67,7 @@ PDK = get_generic_pdk()
 PDK.activate()
 
 
-class GenericLayerMap(LayerMap):
+class LAYER(gf.LayerEnum):
     """Generic layermap based on book.
 
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
@@ -75,12 +75,16 @@ class GenericLayerMap(LayerMap):
     You will need to create a new LayerMap with your specific foundry layers.
     """
 
+    kcl = gf.constant(gf.kcl)
+
     WAFER: Layer = (99999, 0)
 
     WG: Layer = (1, 0)
     WGCLAD: Layer = (111, 0)
     SLAB150: Layer = (2, 0)
+    SHALLOW_ETCH: Layer = (2, 6)
     SLAB90: Layer = (3, 0)
+    DEEP_ETCH: Layer = (3, 6)
     DEEPTRENCH: Layer = (4, 0)
     GE: Layer = (5, 0)
     UNDERCUT: Layer = (6, 0)
@@ -100,6 +104,7 @@ class GenericLayerMap(LayerMap):
     M1: Layer = (41, 0)
     M2: Layer = (45, 0)
     M3: Layer = (49, 0)
+    MTOP: Layer = (49, 0)
     VIAC: Layer = (40, 0)
     VIA1: Layer = (44, 0)
     VIA2: Layer = (43, 0)
@@ -112,19 +117,21 @@ class GenericLayerMap(LayerMap):
     FLOORPLAN: Layer = (64, 0)
     TEXT: Layer = (66, 0)
     PORT: Layer = (1, 10)
+    WG_PIN: Layer = (1, 10)
     PORTE: Layer = (1, 11)
     PORTH: Layer = (70, 0)
     SHOW_PORTS: Layer = (1, 12)
-    LABEL_SETTINGS: Layer = (202, 0)
-    DRC_MARKER: Layer = (205, 0)
     LABEL_INSTANCE: Layer = (206, 0)
+    LABEL_SETTINGS: Layer = (202, 0)
+    TE: Layer = (203, 0)
+    TM: Layer = (204, 0)
+    DRC_MARKER: Layer = (205, 0)
 
     SOURCE: Layer = (110, 0)
     MONITOR: Layer = (101, 0)
 
 
-LAYER = GenericLayerMap()
-LAYER
+gf.kcl.layers = LAYER
 
 # %%
 layer_wg = (1, 0)
