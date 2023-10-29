@@ -207,7 +207,7 @@ def cutback_bend180(
     bend180 = get_component(component, **kwargs)
     straightx = straight(length=straight_length, **kwargs)
     wg_vertical = straight(
-        length=2 * bend180.size_info.width + straight_length + spacing,
+        length=2 * bend180.d.xsize + straight_length + spacing,
         **kwargs,
     )
 
@@ -247,4 +247,4 @@ if __name__ == "__main__":
     # c = cutback_bend90(rows=3, cols=2)
     c = cutback_bend180(rows=2, cols=2)
     # c = cutback_bend(rows=3, cols=2)
-    c.show(show_ports=True)
+    c.show()
