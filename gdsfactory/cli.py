@@ -30,11 +30,12 @@ def layermap_to_dataclass(
 
 
 @app.command()
-def write_cells(gdspath: str, dirpath: str = None) -> None:
+def write_cells(gdspath: list[str], dirpath: str = None) -> None:
     """Write each all level cells into separate GDS files."""
     from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
-    write_cells_to_separate_gds(gdspath=gdspath, dirpath=dirpath)
+    for path in gdspath:
+        write_cells_to_separate_gds(gdspath=path, dirpath=dirpath)
 
 
 @app.command()
