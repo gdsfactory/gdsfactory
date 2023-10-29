@@ -470,6 +470,23 @@ class Component(kf.KCell):
                 self.shapes(layer_index).clear()
         return self
 
+    def remap_layers(self, layer_map: dict[LayerSpec, LayerSpec]) -> Component:
+        """Remaps a list of layers and returns the same Component.
+
+        Args:
+            layer_map: dictionary of layers to remap.
+        """
+        from gdsfactory import get_layer
+
+        for layer, new_layer in layer_map.items():
+            layer_index = get_layer(layer)
+            new_layer_index = get_layer(new_layer)
+            for r in self._kdb_cell.begin_shapes_rec(layer_index):
+                self.shapes(new_layer_index).insert(r)
+
+            self.remove_layers([layer_index], recursive=True)
+        return self
+
     def pprint_ports(self, **kwargs) -> None:
         """Pretty prints ports.
 
@@ -505,6 +522,7 @@ if __name__ == "__main__":
     text.mirror(
         p1=kf.kdb.Point(1, 1), p2=gf.kdb.Point(1, 3)
     )  # Reflects across the line formed by p1 and p2
+    c.remap_layers({(1, 0): (2, 0)})
     c.show()
 
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
