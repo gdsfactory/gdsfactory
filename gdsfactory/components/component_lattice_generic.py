@@ -10,7 +10,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.mzi import mzi2x2_2x2
 from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_electrical
-from gdsfactory.routing import get_route
+from gdsfactory.routing import place_route
 
 
 def find_largest_component(component_list: list) -> Component:
@@ -27,7 +27,7 @@ def find_largest_component(component_list: list) -> Component:
 
 @cell
 def component_lattice_generic(
-    network: list[list] | None = None,
+    network: list[list] | None = None, cross_section="xs_sc"
 ) -> Component:
     """
     The shape of the `network` matrix determines the physical interconnection.
@@ -110,7 +110,7 @@ def component_lattice_generic(
             "Check the dimensional structure of your network matrix."
         )
 
-    C = Component()
+    C = c = Component()
     # Estimate the size of the network fabric
     elements_list = np.vstack([np.nonzero(network), network[np.nonzero(network)]])
     largest_component = find_largest_component(elements_list[2])  # List of elements
@@ -119,11 +119,11 @@ def component_lattice_generic(
     inter_stage_clearance_x_offset = 40
     inter_stage_clearance_y_offset = 40
     x_length = (
-        mode_amount * largest_component.xsize
+        mode_amount * largest_component.d.xsize
         + mode_amount * inter_stage_clearance_x_offset
     )
     y_length = (
-        mode_amount * largest_component.ysize
+        mode_amount * largest_component.d.ysize
         + mode_amount * inter_stage_clearance_y_offset
     )
     x_component_pitch = x_length / mode_amount
@@ -141,8 +141,8 @@ def component_lattice_generic(
         for row_i in range(mode_amount):
             straight_i = C << straight(length=1, width=0.5)
             interconnection_ports_array[column_j].extend([straight_i])
-            interconnection_ports_array[column_j][row_i].move(
-                other=(x_mode_pitch * column_j, -y_mode_pitch * row_i)
+            interconnection_ports_array[column_j][row_i].d.move(
+                (x_mode_pitch * column_j, -y_mode_pitch * row_i)
             )
 
             if column_j == 0:
@@ -168,10 +168,10 @@ def component_lattice_generic(
             if element_i != 0:
                 element_references.append(C << element_i)
                 element_references[k].center = (0, 0)
-                element_references[k].move(
-                    other=(
+                element_references[k].d.move(
+                    (
                         x_component_pitch * j
-                        + largest_component.xsize / 2
+                        + largest_component.d.xsize / 2
                         + inter_stage_clearance_x_offset / 2,
                         -y_component_pitch * i - inter_stage_clearance_y_offset,
                     )
@@ -191,72 +191,72 @@ def component_lattice_generic(
             if element_i != 0:
                 # Connect the adjacent input waveguide ports to the first element columns
                 # if j == 0:
-                route_0 = get_route(
+                place_route(
+                    c,
                     interconnection_ports_array[j][i].ports["o2"],
                     element_references[k].ports["o2"],
-                    radius=5,
+                    cross_section=cross_section,
                 )
-                route_i = get_route(
+                place_route(
+                    c,
                     interconnection_ports_array[j][i + 1].ports["o2"],
                     element_references[k].ports["o1"],
-                    radius=5,
+                    cross_section=cross_section,
                 )
                 # Connect output of the component to the component
-                route_0_out = get_route(
+                place_route(
+                    c,
                     interconnection_ports_array[j + 1][i].ports["o1"],
                     element_references[k].ports["o3"],
-                    radius=5,
+                    cross_section=cross_section,
                 )
-                route_i_out = get_route(
+                place_route(
+                    c,
                     interconnection_ports_array[j + 1][i + 1].ports["o1"],
                     element_references[k].ports["o4"],
-                    radius=5,
+                    cross_section=cross_section,
                 )
-                C.add(route_0.references)
-                C.add(route_i.references)
-                C.add(route_0_out.references)
-                C.add(route_i_out.references)
                 k += 1
 
             elif element_i == 0:
                 # When no element at junction, connect straight ahead between
                 if i == 0:
                     # If at start top row then just connect top
-                    route_i = get_route(
+                    place_route(
+                        c,
                         interconnection_ports_array[j][i].ports["o2"],
                         interconnection_ports_array[j + 1][i].ports["o1"],
-                        radius=5,
+                        cross_section=cross_section,
                     )
-                    C.add(route_i.references)
                 elif i == (len(column_j) - 1):
                     # If at end then connect bottom
-                    route_i = get_route(
+                    place_route(
+                        c,
                         interconnection_ports_array[j][i + 1].ports["o2"],
                         interconnection_ports_array[j + 1][i + 1].ports["o1"],
-                        radius=5,
+                        cross_section=cross_section,
                     )
-                    C.add(route_i.references)
 
                     if column_j[i - 1] != 0:
                         # If previous element nonzero then pass
                         pass
                     elif column_j[i - 1] == 0:
                         # If previous element is zero then connect top straight
-                        route_i = get_route(
+                        place_route(
+                            c,
                             interconnection_ports_array[j][i].ports["o2"],
                             interconnection_ports_array[j + 1][i].ports["o1"],
-                            radius=5,
+                            cross_section=cross_section,
                         )
-                        C.add(route_i.references)
 
                 elif column_j[i - 1] == 0:
                     # If previous element is zero then connect top straight
-                    route_i = get_route(
+                    place_route(
+                        c,
                         interconnection_ports_array[j][i].ports["o2"],
                         interconnection_ports_array[j + 1][i].ports["o1"],
-                        radius=5,
+                        cross_section=cross_section,
                     )
-                    C.add(route_i.references)
 
                 elif column_j[i - 1] != 0:
                     # If previous element nonzero then pass
@@ -274,7 +274,7 @@ def component_lattice_generic(
             if element_i != 0:
                 electrical_ports_list_i = select_ports_electrical(
                     element_references[k].ports
-                ).items()
+                )
                 if len(electrical_ports_list_i) > 0:
                     # Electrical ports exist in component
                     for electrical_port_i in electrical_ports_list_i:
