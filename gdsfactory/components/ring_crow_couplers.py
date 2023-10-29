@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.coupler import coupler
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell

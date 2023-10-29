@@ -94,8 +94,12 @@ def coupler_ring(
     c.add_port("o3", port=cbr.ports["o3"])
     c.add_port("o4", port=s2.ports["o2"])
 
-    c.add_ports(gf.port.select_ports_list(ports=cbl.ports, port_type="electrical"), prefix="cbl")
-    c.add_ports(gf.port.select_ports_list(ports=cbr.ports, port_type="electrical"), prefix="cbr")
+    c.add_ports(
+        gf.port.select_ports_list(ports=cbl.ports, port_type="electrical"), prefix="cbl"
+    )
+    c.add_ports(
+        gf.port.select_ports_list(ports=cbr.ports, port_type="electrical"), prefix="cbr"
+    )
     c.auto_rename_ports()
     xs.add_pins(c)
     return c

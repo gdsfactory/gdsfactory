@@ -95,7 +95,6 @@ cutback_loss_bend180 = partial(
 )
 
 
-
 if __name__ == "__main__":
     # c = gf.pack(
     #     cutback_loss_spirals(
