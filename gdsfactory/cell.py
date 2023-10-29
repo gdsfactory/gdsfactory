@@ -5,6 +5,7 @@ import functools
 import hashlib
 import inspect
 from collections.abc import Callable
+from copy import deepcopy
 from functools import partial
 from typing import Any, TypeVar
 
@@ -252,7 +253,7 @@ def cell(
                 default=clean_dict(default),
                 full=clean_dict(full),
                 info=component.info,
-                child=metadata_child,
+                child=deepcopy(metadata_child) if metadata_child else None,
             )
             component.__doc__ = func.__doc__
 
