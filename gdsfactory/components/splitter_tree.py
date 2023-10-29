@@ -51,8 +51,8 @@ def splitter_tree(
 
     if bend_s:
         dy_coupler_ports = abs(
-            coupler.ports[e0_port_name].center[1]
-            - coupler.ports[e1_port_name].center[1]
+            coupler.ports[e0_port_name].d.center[1]
+            - coupler.ports[e1_port_name].d.center[1]
         )
         bend_s_ysize = dy / 4 - dy_coupler_ports / 2
         bend_s_xsize = bend_s_xsize or dx
@@ -61,7 +61,7 @@ def splitter_tree(
             cross_section=cross_section,
             size=(bend_s_xsize, bend_s_ysize),
         )
-        c.info["bend_s"] = bend_s.info
+        # c.info["bend_s"] = bend_s.info
     cols = int(np.log2(noutputs))
     i = 0
 
@@ -71,10 +71,10 @@ def splitter_tree(
         for row in range(ncouplers):
             x = col * dx
             y = y0 + (row + 0.5) * dy * 2 ** (cols - col - 1)
-            coupler_ref = c.add_ref(coupler, alias=f"coupler_{col}_{row}")
-            coupler_ref.move((x, y))
+            coupler_ref = c.add_ref(coupler, name=f"coupler_{col}_{row}")
+            coupler_ref.d.move((x, y))
             if col == 0:
-                for port in coupler_ref.get_ports_list():
+                for port in coupler_ref.ports:
                     if port.name not in [e0_port_name, e1_port_name]:
                         c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                         i += 1
@@ -83,17 +83,14 @@ def splitter_tree(
                     port_name = e0_port_name
                 if row % 2 == 1:
                     port_name = e1_port_name
-                c.add(
-                    gf.routing.get_route(
-                        c.named_references[f"coupler_{col-1}_{row//2}"].ports[
-                            port_name
-                        ],
-                        coupler_ref.ports["o1"],
-                        cross_section=cross_section,
-                    ).references
+                gf.routing.place_route(
+                    c,
+                    c.insts[f"coupler_{col-1}_{row//2}"].ports[port_name],
+                    coupler_ref.ports["o1"],
+                    cross_section=cross_section,
                 )
             if cols > col > 0:
-                for port in coupler_ref.get_ports_list():
+                for port in coupler_ref.ports:
                     if port.name not in [
                         "o1",
                         e0_port_name,
@@ -103,16 +100,15 @@ def splitter_tree(
                         c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                         i += 1
             if col == cols - 1 and bend_s is None:
-                for port in coupler_ref.get_ports_list():
+                for port in coupler_ref.ports:
                     if port.name in [e1_port_name, e0_port_name]:
                         c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                         i += 1
             if col == cols - 1 and bend_s:
                 btop = c << bend_s
                 bbot = c << bend_s
-                bbot.mirror()
                 btop.connect("o1", coupler_ref.ports[e1_port_name])
-                bbot.connect("o1", coupler_ref.ports[e0_port_name])
+                bbot.connect("o1", coupler_ref.ports[e0_port_name], mirror=True)
                 port = btop.ports["o2"]
                 c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                 i += 1
@@ -156,7 +152,7 @@ if __name__ == "__main__":
     #     # layer=(2, 0),
     # )
     c = splitter_tree(
-        noutputs=2**2,
+        noutputs=2**3,
         spacing=(120.0, 50.0),
         # bend_length=30,
         # bend_s=None,
