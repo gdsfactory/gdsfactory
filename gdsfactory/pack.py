@@ -170,7 +170,8 @@ def pack(
     # Convert Components to rectangles
     rect_dict = {}
     for n, D in enumerate(component_list):
-        w, h = (D.size + spacing) / precision
+        size = np.array([D.d.xsize, D.d.ysize])
+        w, h = (size + spacing) / precision
         w, h = int(w), int(h)
         if (w > max_size[0]) or (h > max_size[1]):
             raise ValueError(
@@ -195,19 +196,22 @@ def pack(
     index = 0
     for i, rect_dict in enumerate(packed_list):
         name = get_name_short(f"{name_prefix or 'pack'}_{i}")
-        packed = Component(name, with_uuid=True)
-        packed.info["components"] = {}
+        packed = Component(name)
         for n, rect in rect_dict.items():
             x, y, w, h = rect
             xcenter = x + w / 2 + spacing / 2
             ycenter = y + h / 2 + spacing / 2
             component = component_list[n]
-            d = component.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
-            packed.add(d)
-
-            if hasattr(component, "settings"):
-                packed.info["components"][component.name] = dict(component.settings)
-            d.center = snap_to_grid((xcenter * precision, ycenter * precision))
+            d = (
+                packed << component
+            )  # ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
+            if rotation:
+                d.d.rotate(rotation)
+            if h_mirror:
+                d.mirror_x()
+            if v_mirror:
+                d.mirror_y()
+            d.d.center = snap_to_grid((xcenter * precision, ycenter * precision))
             if add_ports_prefix:
                 packed.add_ports(d.ports, prefix=f"{index}_")
             elif add_ports_suffix:
@@ -287,10 +291,11 @@ def test_pack_with_settings() -> None:
 if __name__ == "__main__":
     # test_pack()
     component_list = [
-        gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(2)
+        gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(10)
     ]
     component_list += [
-        gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2)) for n in range(2)
+        gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2))
+        for n in range(10)
     ]
 
     components_packed_list = pack(
