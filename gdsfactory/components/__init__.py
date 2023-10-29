@@ -119,7 +119,7 @@ from gdsfactory.components.edge_coupler_array import (
 )
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.extend_ports_list import extend_ports_list
-from gdsfactory.components.extension import extend_port, extend_ports
+from gdsfactory.components.extension import extend_ports
 from gdsfactory.components.fiber import fiber
 from gdsfactory.components.fiber_array import fiber_array
 from gdsfactory.components.fiducial_squares import fiducial_squares
@@ -441,7 +441,6 @@ __all__ = [
     "edge_coupler_silicon",
     "ellipse",
     "ellipse_arc",
-    "extend_port",
     "extend_ports",
     "extend_ports_list",
     "fiber",

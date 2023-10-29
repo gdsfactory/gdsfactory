@@ -166,7 +166,7 @@ PortsList = dict[str, Port]
 Sparameters = dict[str, np.ndarray]
 
 ComponentSpec = (
-    str | ComponentFactory | Component | dict[str, Any]
+    str | ComponentFactory | dict[str, Any]
 )  # PCell function, function name, dict or Component
 
 ComponentSpecs = tuple[ComponentSpec, ...]

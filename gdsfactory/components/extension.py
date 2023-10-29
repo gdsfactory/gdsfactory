@@ -7,12 +7,11 @@ import numpy as np
 from numpy import ndarray
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.cross_section import cross_section as cross_section_function
 from gdsfactory.port import Port
-from gdsfactory.typings import ComponentSpec, Coordinate, CrossSectionSpec, Layer
+from gdsfactory.typings import ComponentSpec, Coordinate, CrossSectionSpec
 
 DEG2RAD = np.pi / 180
 
@@ -50,36 +49,6 @@ def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray
     c = np.cos(angle)
     s = np.sin(angle)
     return pos + length * np.array([c, s])
-
-
-@cell
-def extend_port(port: Port, length: float, layer: Layer | None = None) -> Component:
-    """Returns a straight extension component out of a port.
-
-    Args:
-        port: port to extend.
-        length: extension length in um.
-        layer: for the straight section.
-    """
-    c = Component()
-    layer = layer or port.layer
-
-    # Generate a port extension
-    p_start = port.center
-    angle = port.orientation
-    p_end = move_polar_rad_copy(p_start, angle * DEG2RAD, length)
-    w = port.width
-
-    _line = line(p_start, p_end, w)
-
-    c.add_polygon(_line, layer=layer)
-    c.add_port(name="original", port=port)
-
-    port_settings = port.to_dict()
-    port_settings.update(center=p_end)
-    c.add_port(**port_settings)
-
-    return c
 
 
 @gf.cell
@@ -131,10 +100,13 @@ def extend_ports(
         cref.x = 0
         cref.y = 0
 
-    ports_all = cref.get_ports_list()
+    ports_all = cref.ports
     port_names_all = [p.name for p in ports_all]
 
-    ports_to_extend = cref.get_ports_list(port_type=port_type, **kwargs)
+    ports_to_extend = cref.ports
+    ports_to_extend = gf.port.get_ports_list(
+        ports_to_extend, port_type=port_type, **kwargs
+    )
     ports_to_extend_names = [p.name for p in ports_to_extend]
     ports_to_extend_names = port_names or ports_to_extend_names
 
@@ -152,10 +124,8 @@ def extend_ports(
             if extension:
                 extension_component = gf.get_component(extension)
             else:
-                cross_section_extension = (
-                    cross_section
-                    or port.cross_section
-                    or cross_section_function(layer=port.layer, width=port.width)
+                cross_section_extension = cross_section or cross_section_function(
+                    layer=port.layer, width=port.d.width
                 )
 
                 if cross_section_extension is None:
@@ -165,7 +135,7 @@ def extend_ports(
                     length=length,
                     cross_section=cross_section_extension,
                 )
-            port_labels = list(extension_component.ports.keys())
+            port_labels = [p.name for p in extension_component.ports]
             port1 = port1 or port_labels[0]
             port2 = port2 or port_labels[-1]
 
@@ -221,13 +191,9 @@ def assert_polygons(component, n_polygons):
     return result
 
 
-__all__ = ["extend_ports", "extend_port"]
-
-
 if __name__ == "__main__":
-    test_extend_ports()
+    # test_extend_ports()
     c0 = gf.c.straight()
-    # p0 = c0["o1"]
-    # c = extend_port(p0, length=100)
+    p0 = c0["o1"]
     c = extend_ports(c0, length=100)
     c.show()
