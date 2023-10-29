@@ -313,12 +313,11 @@ class _GeometryHelper:
 
         Args:
             origin: array-like[2], Port, or key Origin point of the move.
-            destination: array-like[2], Port, key, or None Destination point of the move.
+            other: array-like[2], Port, key, or None Destination point of the move.
         """
-        if destination is None:
-            destination = origin
+        if other is None:
             origin = 0
-        return self.move(origin=(origin, 0), other=(destination, 0))
+        return self.move(origin=(origin, 0), other=(other, 0))
 
     def movey(self, origin=0, other=None):
         """Moves an object by a specified y-distance.
@@ -327,10 +326,9 @@ class _GeometryHelper:
             origin : array-like[2], Port, or key Origin point of the move.
             destination : array-like[2], Port, or key Destination point of the move.
         """
-        if destination is None:
-            destination = origin
+        if other is None:
             origin = 0
-        return self.move(origin=(0, origin), other=(0, destination))
+        return self.move(origin=(0, origin), other=(0, other))
 
     def __add__(self, element) -> Group:
         """Adds an element to a Group.
@@ -382,7 +380,8 @@ class Group(_GeometryHelper):
             raise ValueError("Group is empty, no bbox is available")
         bboxes = np.empty([len(self.elements), 4])
         for n, e in enumerate(self.elements):
-            bboxes[n] = e.bbox.flatten()
+            bb = e.bbox()
+            bboxes[n] = bb.left, bb.bottom, bb.right, bb.top
 
         bbox = (
             (bboxes[:, 0].min(), bboxes[:, 1].min()),
@@ -397,8 +396,7 @@ class Group(_GeometryHelper):
             element: Component, ComponentReference, Port, Polygon,
                 Label, or Group to add.
         """
-        from gdsfactory.component import Component
-        from gdsfactory.component_reference import ComponentReference
+        from gdsfactory.component import Component, ComponentReference
 
         if _is_iterable(element):
             [self.add(e) for e in element]
@@ -448,9 +446,9 @@ class Group(_GeometryHelper):
             axis : {'x', 'y'}
                 Direction of the move.
         """
-        destination = snap_to_grid(destination)
+        other = snap_to_grid(other)
         for e in self.elements:
-            e.move(origin=origin, other=destination, axis=axis)
+            e.move(origin=origin, other=other, axis=axis)
         return self
 
     def mirror(self, p1=(0, 1), p2=(0, 0)) -> Group:

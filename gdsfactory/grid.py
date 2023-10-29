@@ -113,7 +113,12 @@ def grid(
     for idx, d in np.ndenumerate(device_array):
         if d is not None:
             d = d() if callable(d) else d
-            ref = D.add_ref(d, rotation=rotation, x_reflection=h_mirror)
+            # ref = D.add_ref(d, rotation=rotation, x_reflection=h_mirror)
+            ref = D.add_ref(d)
+            if h_mirror:
+                ref.mirror_x()
+            if rotation:
+                ref.d.rotate(rotation)
             if v_mirror:
                 ref.mirror_y()
             ref_array[idx] = ref
@@ -263,7 +268,7 @@ if __name__ == "__main__":
     # c = [gf.components.triangle(x=i) for i in range(1, 10)]
     # print(len(c))
 
-    c = grid([gf.components.straight(length=i) for i in range(1, 5)])
+    c = grid(tuple(gf.components.straight(length=i) for i in range(1, 5)))
     # c = grid(
     #     c,
     #     shape=(2, 2),
