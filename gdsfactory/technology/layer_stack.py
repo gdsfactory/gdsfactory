@@ -7,7 +7,6 @@ import gdstk
 from pydantic import BaseModel, Field
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 
 if TYPE_CHECKING:
@@ -362,7 +361,6 @@ class LayerStack(BaseModel):
         return self
 
 
-@cell
 def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Component:
     """Returns a component with derived layers.
 

@@ -14,7 +14,14 @@ from gdsfactory.config import GDSDIR_TEMP
 from gdsfactory.port import pprint_ports, select_ports
 
 if TYPE_CHECKING:
-    from gdsfactory.typings import CrossSection, LayerSpec, PathType
+    from gdsfactory.typings import (
+        CrossSection,
+        Layer,
+        LayerSpec,
+        LayerStack,
+        LayerViews,
+        PathType,
+    )
 
 ComponentReference = Instance
 
@@ -509,6 +516,32 @@ class Component(kf.KCell):
         """
         ports = self.get_ports_list(**kwargs)
         pprint_ports(ports)
+
+    def to_3d(
+        self,
+        layer_views: LayerViews | None = None,
+        layer_stack: LayerStack | None = None,
+        exclude_layers: tuple[Layer, ...] | None = None,
+    ):
+        """Return Component 3D trimesh Scene.
+
+        Args:
+            component: to extrude in 3D.
+            layer_views: layer colors from Klayout Layer Properties file.
+                Defaults to active PDK.layer_views.
+            layer_stack: contains thickness and zmin for each layer.
+                Defaults to active PDK.layer_stack.
+            exclude_layers: layers to exclude.
+
+        """
+        from gdsfactory.export.to_3d import to_3d
+
+        return to_3d(
+            self,
+            layer_views=layer_views,
+            layer_stack=layer_stack,
+            exclude_layers=exclude_layers,
+        )
 
 
 if __name__ == "__main__":
