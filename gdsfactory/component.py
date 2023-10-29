@@ -429,6 +429,12 @@ class Component(kf.KCell):
         self.write(filename=str(gdspath), save_options=save_options)
         return gdspath
 
+    @property
+    def named_references(self):
+        """Returns a dictionary of named references."""
+        warnings.warn("named_references is deprecated. Use insts instead")
+        return self.insts
+
     def extract(
         self,
         layers: list[LayerSpec],

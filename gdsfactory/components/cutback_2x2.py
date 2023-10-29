@@ -29,7 +29,7 @@ def bendu_double(
     xs = gf.get_cross_section(cross_section)
 
     xs_r2 = xs.copy(
-        radius=xs.radius - (component.ports[port1].y - component.ports[port2].y)
+        radius=xs.radius - (component.ports[port1].d.y - component.ports[port2].d.y)
     )
 
     bendu = gf.Component()
@@ -164,10 +164,10 @@ def cutback_2x2(
 
     c = gf.Component()
     _ = c << seq
-    c.add_port("o1", port=seq.named_references["A1"]["o1"])
-    c.add_port("o2", port=seq.named_references["A1"]["o2"])
-    c.add_port("o3", port=seq.named_references[f"B{n}"]["o2"])
-    c.add_port("o4", port=seq.named_references[f"B{n}"]["o1"])
+    c.add_port("o1", port=seq.insts["A1"]["o1"])
+    c.add_port("o2", port=seq.insts["A1"]["o2"])
+    c.add_port("o3", port=seq.insts[f"B{n}"]["o2"])
+    c.add_port("o4", port=seq.insts[f"B{n}"]["o1"])
 
     c.copy_child_info(component)
     c.info["components"] = 2 * n

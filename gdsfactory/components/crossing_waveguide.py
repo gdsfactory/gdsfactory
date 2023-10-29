@@ -1,3 +1,4 @@
+"""FIXME or delete me"""
 from __future__ import annotations
 
 from functools import partial
@@ -111,7 +112,7 @@ def crossing(
             c.add_port(name=port_id, port=p)
             port_id += 1
 
-    c.autorename_ports()
+    c.auto_rename_ports()
     x.add_bbox(c)
     x.add_pins(c)
     return c
@@ -257,9 +258,6 @@ def crossing45(
 
     # Add bends
     p_e = x.ports["o3"].center
-    p_w = x.ports["o1"].center
-    p_n = x.ports["o2"].center
-    p_s = x.ports["o4"].center
 
     # Flatten the crossing - not an SRef anymore
     dx = dx or port_spacing
@@ -290,19 +288,15 @@ def crossing45(
     )
     assert abs(bend.info["end_angle"] - end_angle) < tol, bend.info["end_angle"]
 
-    b_tr = bend.ref(position=p_e, port_id="o1")
-    b_tl = bend.ref(position=p_n, port_id="o1", h_mirror=True)
-    b_bl = bend.ref(position=p_w, port_id="o1", rotation=180)
-    b_br = bend.ref(position=p_s, port_id="o1", v_mirror=True)
+    b_tr = c << bend
+    b_tl = c << bend
+    b_bl = c << bend
+    b_br = c << bend
 
-    for cmp_ref in [b_tr, b_br, b_tl, b_bl]:
-        # cmp_ref = _cmp.ref()
-        c.add(cmp_ref)
-        c.absorb(cmp_ref)
     c.absorb(x)
 
     c.info["bezier_length"] = bend.info["length"]
-    c.info["min_bend_radius"] = b_br.info["min_bend_radius"]
+    c.info["min_bend_radius"] = bend.info["min_bend_radius"]
     c.bezier = bend
     c.crossing = crossing
 
@@ -310,7 +304,6 @@ def crossing45(
     c.add_port("o2", port=b_tl.ports["o2"])
     c.add_port("o3", port=b_tr.ports["o2"])
     c.add_port("o4", port=b_br.ports["o2"])
-    c.snap_ports_to_grid()
 
     x = gf.get_cross_section(cross_section)
     x.add_bbox(c)
@@ -384,7 +377,7 @@ def compensation_path(
     x0 = (x_span_crossing45 - x_span_crossing) / 2
 
     def get_control_pts(x, y):
-        return [(0, 0), (x0 / 2, 0), (x0 / 2, y), (x0, y)]
+        return ((0, 0), (x0 / 2, 0), (x0 / 2, y), (x0, y))
 
     def f(y):
         control_points = get_control_pts(x0, y)
@@ -460,8 +453,8 @@ def _demo() -> None:
 
 
 if __name__ == "__main__":
-    # c = crossing45()
-    c = compensation_path()
+    c = crossing45()
+    # c = compensation_path()
     # c = crossing(
     #     cross_section=dict(
     #         cross_section="xs_sc",

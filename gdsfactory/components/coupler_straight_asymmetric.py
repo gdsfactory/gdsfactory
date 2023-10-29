@@ -13,6 +13,7 @@ def coupler_straight_asymmetric(
     width_top: float = 0.5,
     width_bot: float = 1,
     cross_section: CrossSectionSpec = "xs_sc",
+    **kwargs,
 ) -> Component:
     """Coupler with two parallel straights of different widths.
 
@@ -21,10 +22,12 @@ def coupler_straight_asymmetric(
         gap: between straights.
         width_top: of top straight.
         width_bot: of bottom straight.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings.
     """
     component = Component()
 
-    xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section, **kwargs)
     xs_top = xs.copy(width=width_top)
     xs_bot = xs.copy(width=width_bot)
 

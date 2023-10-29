@@ -24,7 +24,6 @@ def mode_converter(
     sm_width: float = 0.5,
     taper_length: float = 25,
     cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
 ) -> Component:
     r"""Returns Mode converter from TE0 to TE1.
 
@@ -40,7 +39,6 @@ def mode_converter(
         mc_mm_width: mode converter multimode waveguide width
         sm_width: single mode waveguide width.
         cross_section: cross_section spec.
-        kwargs: cross_section settings.
 
     .. code::
 
@@ -64,17 +62,15 @@ def mode_converter(
         gap=gap,
         width_bot=mc_mm_width,
         width_top=sm_width,
-        **kwargs,
     )
 
-    bend = gf.get_component(bend, **kwargs)
+    bend = gf.get_component(bend)
 
     bot_taper = gf.get_component(
         taper,
         width1=mc_mm_width,
         width2=mm_width,
         length=taper_length,
-        **kwargs,
     )
 
     # directional coupler
@@ -87,15 +83,12 @@ def mode_converter(
 
     l_bot_straight.connect("o1", dc.ports["o1"])
     r_bot_straight.connect("o1", dc.ports["o4"])
-    c.absorb(l_bot_straight)
-    c.absorb(r_bot_straight)
 
     # top right bend with termination
     r_bend = c << bend
     l_bend = c << bend
-    l_bend.mirror()
 
-    l_bend.connect("o1", dc.ports["o2"])
+    l_bend.connect("o1", dc.ports["o2"], mirror=True)
     r_bend.connect("o1", dc.ports["o3"])
 
     # define ports of mode converter
@@ -104,15 +97,17 @@ def mode_converter(
     c.add_port("o2", port=l_bend.ports["o2"])
     c.add_port("o4", port=r_bend.ports["o2"])
 
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section)
     if x.add_bbox:
-        c = x.add_bbox(c)
+        x.add_bbox(c)
     if x.add_pins:
-        c = x.add_pins(c)
+        x.add_pins(c)
+    c.flatten()
     return c
 
 
 if __name__ == "__main__":
-    c = mode_converter(bbox_offsets=[0.5], bbox_layers=[(111, 0)])
+    # c = mode_converter(bbox_offsets=(0.5,), bbox_layers=((111, 0),))
+    c = mode_converter()
     c.pprint_ports()
     c.show()

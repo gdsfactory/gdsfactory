@@ -101,7 +101,7 @@ def bend_euler(
 bend_euler180 = partial(bend_euler, angle=180)
 
 
-@gf.cell
+@gf.cell(check_instances=False)
 def bend_euler_s(**kwargs) -> Component:
     r"""Sbend made of 2 euler bends.
 
