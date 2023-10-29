@@ -261,7 +261,7 @@ def place_bundle(
         and end_angle == 90
         and y_start > y_end
     ):
-        print("get_bundle_same_axis")
+        # print("get_bundle_same_axis")
         if with_sbend:
             return get_bundle_sbend(
                 ports1,
@@ -272,11 +272,11 @@ def place_bundle(
         return place_bundle_same_axis(**params)
 
     elif start_angle == end_angle:
-        print("get_bundle_udirect")
+        # print("get_bundle_udirect")
         return get_bundle_udirect(**params)
 
     elif end_angle == (start_angle + 180) % 360:
-        print("get_bundle_uindirect")
+        # print("get_bundle_uindirect")
         params_without_pathlength = {
             k: v for k, v in params.items() if k not in path_length_match_params
         }
@@ -435,8 +435,8 @@ def place_bundle_same_axis(
     for route, port1, port2 in zip(routes, ports1, ports2):
         place_route(
             component=component,
-            port2=port1,
-            port1=port2,
+            port1=port1,
+            port2=port2,
             waypoints=route,
             bend=bend,
             cross_section=xs,
@@ -555,11 +555,12 @@ def _get_bundle_waypoints(
         # takes corners first vs trying to go straight as long as possible
         routes.append(
             route_manhattan(
-                port2=ports1[i],
-                port1=ports2[i],
+                port1=ports1[i],
+                port2=ports2[i],
                 bend90_radius=radius_dbu,
-                start_straight=end_straights[i],  # start_straight_length_dbu,
-                end_straight=start_straight_length_dbu,  # end_straights[i],
+                end_straight=end_straights[i],  # start_straight_length_dbu,
+                start_straight=start_straight_length_dbu,  # end_straights[i],
+                invert=True,
             )
         )
     return routes
