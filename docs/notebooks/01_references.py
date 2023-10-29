@@ -37,12 +37,12 @@
 import gdsfactory as gf
 
 # Create a blank Component
-p = gf.Component("component_with_polygon")
+p = gf.Component()
 
 # Add a polygon
 xpts = [0, 0, 5, 6, 9, 12]
 ypts = [0, 1, 1, 2, 2, 0]
-p.add_polygon([xpts, ypts], layer=(2, 0))
+p.add_polygon(list(zip(xpts, ypts)), layer=(2, 0))
 
 # plot the Component with the polygon in it
 p.plot()
@@ -55,7 +55,7 @@ p.plot()
 # In this new Component you *reference* our Component `p` which contains our polygon.
 
 # %%
-c = gf.Component("Component_with_references")  # Create a new blank Component
+c = gf.Component()  # Create a new blank Component
 poly_ref = c.add_ref(p)  # Reference the Component "p" that has the polygon in it
 c.plot()
 
@@ -97,7 +97,7 @@ c.plot()
 # Add a 2nd polygon to "p"
 xpts = [14, 14, 16, 16]
 ypts = [0, 2, 2, 0]
-p.add_polygon([xpts, ypts], layer=(1, 0))
+p.add_polygon(list(zip(xpts, ypts)), layer=(1, 0))
 p
 
 # %% [markdown]
@@ -119,7 +119,7 @@ c.plot()
 # exactly equivalent to using `add_ref()`
 
 # %%
-c2 = gf.Component("array_sample")  # Create a new blank Component
+c2 = gf.Component()  # Create a new blank Component
 d_ref1 = c2.add_ref(c)  # Reference the Component "c" that 3 references in it
 d_ref2 = c2 << c  # Use the "<<" operator to create a 2nd reference to c.plot()
 d_ref3 = c2 << c  # Use the "<<" operator to create a 3rd reference to c.plot()
@@ -135,17 +135,15 @@ c2
 # 1. create the reference and add it to the component
 
 # %%
-c = gf.Component("reference_sample")
-w = gf.components.straight(width=0.6)
-wr = w.ref()
-c.add(wr)
+c = gf.Component()
+wr = c.add_ref(gf.components.straight(width=0.6))
 c.plot()
 
 # %% [markdown]
 # 2. or do it in a single line
 
 # %%
-c = gf.Component("reference_sample_shorter_syntax")
+c = gf.Component()
 wr = c << gf.components.straight(width=0.6)
 c.plot()
 
@@ -153,15 +151,15 @@ c.plot()
 # in both cases you can move the reference `wr` after created
 
 # %%
-c = gf.Component("two_references")
+c = gf.Component()
 wr1 = c << gf.components.straight(width=0.6)
 wr2 = c << gf.components.straight(width=0.6)
-wr2.movey(10)
-c.add_ports(wr1.get_ports_list(), prefix="bot_")
-c.add_ports(wr2.get_ports_list(), prefix="top_")
+wr2.d.movey(10)
+c.add_ports(wr1.ports, prefix="bot_")
+c.add_ports(wr2.ports, prefix="top_")
 
 # %%
-c.ports
+c.pprint_ports()
 
 # %% [markdown]
 # You can also auto_rename ports using gdsfactory default convention, where ports are numbered clockwise starting from the bottom left
@@ -170,7 +168,7 @@ c.ports
 c.auto_rename_ports()
 
 # %%
-c.ports
+c.pprint_ports()
 
 # %%
 c.plot()
@@ -188,11 +186,11 @@ c.plot()
 # Let's make a new Component and put a big array of our Component `c` in it:
 
 # %%
-c3 = gf.Component("array_of_references")  # Create a new blank Component
+c3 = gf.Component()  # Create a new blank Component
 aref = c3.add_array(
     c, columns=6, rows=3, spacing=[20, 15]
 )  # Reference the Component "c" 3 references in it with a 3 rows, 6 columns array
-c3
+c3.plot()
 
 # %% [markdown]
 # CellArrays don't have ports and there is no way to access/modify individual elements in a GDS cellarray.
@@ -202,7 +200,7 @@ c3
 # %%
 c4 = gf.Component("demo_array")  # Create a new blank Component
 aref = c4 << gf.components.array(component=c, columns=3, rows=2)
-c4.add_ports(aref.get_ports_list())
+c4.add_ports(aref.ports)
 c4
 
 
@@ -222,7 +220,7 @@ def dbr_period(w1=0.5, w2=0.6, l1=0.2, l2=0.4, straight=gf.components.straight):
     c = gf.Component()
     r1 = c << straight(length=l1, width=w1)
     r2 = c << straight(length=l2, width=w2)
-    r2.connect(port="o1", other=r1.ports["o2"])
+    r2.connect(port="o1", other=r1.ports["o2"], allow_width_mismatch=True)
     c.add_port("o1", port=r1.ports["o1"])
     c.add_port("o2", port=r2.ports["o2"])
     return c
@@ -321,25 +319,23 @@ c.ports
 # You can get the optical ports by `layer`
 
 # %%
-c.get_ports_dict(layer=(1, 0))
+c.get_ports_list(layer=(1, 0))
+
+# %%
+c.pprint_ports(layer=(1, 0))
 
 # %% [markdown]
 # or by `width`
 
 # %%
-c.get_ports_dict(width=0.5)
+c.get_ports_list(width=500)
 
 # %%
 c0 = gf.components.straight_heater_metal()
 c0.ports
 
 # %%
-c1 = c0.copy()
-c1.auto_rename_ports_layer_orientation()
-c1.ports
-
-# %%
-c2 = c0.copy()
+c2 = c0.dup()
 c2.auto_rename_ports()
 c2.ports
 
@@ -373,11 +369,7 @@ c.add_ports(ref.ports)
 c.plot()
 
 # %%
-ref.get_ports_list()  # by default returns ports clockwise starting from bottom left west facing port
-
-# %%
-c.auto_rename_ports()
-c.plot()
+ref.ports
 
 # %% [markdown]
 # You can also get the ports counter-clockwise
@@ -394,20 +386,7 @@ c.plot()
 # ```
 
 # %%
-c.auto_rename_ports_counter_clockwise()
-c.plot()
-
-# %%
 c.get_ports_list(clockwise=False)
-
-# %%
-c.ports_layer
-
-# %%
-c.port_by_orientation_cw("W0")
-
-# %%
-c.port_by_orientation_ccw("W1")
 
 # %% [markdown]
 # Lets extend the East facing ports (orientation = 0 deg)

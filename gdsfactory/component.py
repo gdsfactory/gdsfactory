@@ -11,7 +11,7 @@ from kfactory import Instance, kdb
 from kfactory.kcell import default_save
 
 from gdsfactory.config import GDSDIR_TEMP
-from gdsfactory.port import select_ports
+from gdsfactory.port import pprint_ports, select_ports
 
 if TYPE_CHECKING:
     from gdsfactory.typings import CrossSection, LayerSpec, PathType
@@ -271,7 +271,7 @@ class Component(kf.KCell):
             port_type: select ports with port_type (optical, electrical, vertical_te).
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
-        return list(select_ports(self.ports, **kwargs).values())
+        return select_ports(self.ports, **kwargs)
 
     def add_route_info(
         self,
@@ -470,15 +470,35 @@ class Component(kf.KCell):
                 self.shapes(layer_index).clear()
         return self
 
+    def pprint_ports(self, **kwargs) -> None:
+        """Pretty prints ports.
+
+        Keyword Args:
+            layer: select ports with GDS layer.
+            prefix: select ports with prefix in port name.
+            suffix: select ports with port name suffix.
+            orientation: select ports with orientation in degrees.
+            orientation: select ports with orientation in degrees.
+            width: select ports with port width.
+            layers_excluded: List of layers to exclude.
+            port_type: select ports with port_type (optical, electrical, vertical_te).
+            clockwise: if True, sort ports clockwise, False: counter-clockwise.
+        """
+        ports = self.get_ports_list(**kwargs)
+        pprint_ports(ports)
+
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.Component()
-    b1 = gf.components.circle(radius=10)
-    b2 = gf.components.circle(radius=11)
+    # b1 = gf.components.circle(radius=10)
+    # b2 = gf.components.circle(radius=11)
 
-    # _ = c << gf.c.bend_euler(cross_section="xs_rc")
+    ref = c << gf.c.bend_euler(cross_section="xs_rc")
+    c.add_ports(ref.ports)
+    p = c.get_ports_list(sort_ports=True)
+    print(c.get_ports_list(sort_ports=True))
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
     # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
     # c = c.extract(layers=[(1, 0)])

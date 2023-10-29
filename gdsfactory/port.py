@@ -37,6 +37,8 @@ from functools import partial
 
 import kfactory as kf
 import numpy as np
+from rich.console import Console
+from rich.table import Table
 
 from gdsfactory.cross_section import CrossSectionSpec
 
@@ -61,6 +63,33 @@ class PortTypeError(ValueError):
 
 class PortOrientationError(ValueError):
     pass
+
+
+def pprint_ports(ports: list[Port] | kf.Ports) -> None:
+    """Prints ports in a rich table."""
+    console = Console()
+    table = Table(show_header=True, header_style="bold")
+
+    keys = ["name", "width", "orientation", "layer", "center", "port_type"]
+
+    for key in keys:
+        table.add_column(key)
+
+    for port in ports:
+        row = [
+            str(i)
+            for i in [
+                port.name,
+                port.d.width,
+                port.d.angle,
+                port.layer,
+                port.d.center,
+                port.port_type,
+            ]
+        ]
+        table.add_row(*row)
+
+    console.print(table)
 
 
 class Port(kf.Port):
@@ -197,7 +226,7 @@ def csv2port(csvpath) -> dict[str, Port]:
     return ports
 
 
-def sort_ports_clockwise(ports: dict[str, Port]) -> dict[str, Port]:
+def sort_ports_clockwise(ports: kf.Ports) -> kf.Ports:
     """Sort and return ports in the clockwise direction.
 
     .. code::
@@ -238,10 +267,10 @@ def sort_ports_clockwise(ports: dict[str, Port]) -> dict[str, Port]:
     south_ports.sort(key=lambda p: -p.x)  # sort east to west
 
     ports = west_ports + north_ports + east_ports + south_ports
-    return {port.name: port for port in ports}
+    return list(ports)
 
 
-def sort_ports_counter_clockwise(ports: dict[str, Port]) -> dict[str, Port]:
+def sort_ports_counter_clockwise(ports: kf.Ports) -> kf.Ports:
     """Sort and return ports in the counter-clockwise direction.
 
     .. code::
@@ -282,7 +311,7 @@ def sort_ports_counter_clockwise(ports: dict[str, Port]) -> dict[str, Port]:
     south_ports.sort(key=lambda p: +p.x)  # sort west to east
 
     ports = east_ports + north_ports + west_ports + south_ports
-    return {port.name: port for port in ports}
+    return list(ports)
 
 
 def select_ports(
@@ -297,7 +326,7 @@ def select_ports(
     names: list[str] | None = None,
     clockwise: bool = True,
     sort_ports: bool = False,
-) -> dict[str, Port]:
+) -> list[kf.Port]:
     """Returns a dict of ports from a list of ports.
 
     Args:
@@ -821,4 +850,5 @@ if __name__ == "__main__":
     # p = select_ports(c.ports, port_type="electrical")
     pd = select_ports(c.ports, port_type="optical")
     pl = select_ports_list(ports=c.ports, port_type="optical")
+    c.pprint_ports(orientation=180)
     c.show()
