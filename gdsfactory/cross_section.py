@@ -366,6 +366,78 @@ class Transition(BaseModel):
     cross_section1: CrossSectionSpec
     cross_section2: CrossSectionSpec
     width_type: WidthTypes = "sine"
+    radius: float | None = None
+    bbox_layers: LayerSpecs | None = None
+    bbox_offsets: Floats | None = None
+    add_pins_function_name: str | None = None
+    add_pins_function_module: str = "gdsfactory.add_pins"
+
+    def validate_radius(
+        self, radius: float, error_type: ErrorType | None = None
+    ) -> None:
+        if self.radius and radius < self.radius:
+            message = (
+                f"min_bend_radius {radius} < CrossSection.radius {self.radius}. "
+                "Increase CrossSection.radius or decrease the number of points"
+            )
+
+            error_type = error_type or CONF.bend_radius_error_type
+
+            if error_type == ErrorType.ERROR:
+                raise ValueError(message)
+
+            elif error_type == ErrorType.WARNING:
+                warnings.warn(message)
+
+    def add_bbox(
+        self,
+        component,
+        top: float | None = None,
+        bottom: float | None = None,
+        right: float | None = None,
+        left: float | None = None,
+    ) -> Component:
+        """Add bounding box layers to a component.
+
+        Args:
+            component: to add layers.
+            top: top padding.
+            bottom: bottom padding.
+            right: right padding.
+            left: left padding.
+        """
+        from gdsfactory.add_padding import get_padding_points
+
+        c = component
+        if self.bbox_layers and self.bbox_offsets:
+            padding = []
+            for offset in self.bbox_offsets:
+                points = get_padding_points(
+                    component=c,
+                    default=0,
+                    top=top or offset,
+                    bottom=bottom or offset,
+                    left=left or offset,
+                    right=right or offset,
+                )
+                padding.append(points)
+
+            for layer, points in zip(self.bbox_layers, padding):
+                c.add_polygon(points, layer=layer)
+        return c
+
+    def add_pins(self, component: Component) -> Component:
+        if self.add_pins_function_name is None:
+            return component
+
+        add_pins = importlib.import_module(self.add_pins_function_module)
+        if not hasattr(add_pins, self.add_pins_function_name):
+            raise ValueError(
+                f"add_pins_function_name = {self.add_pins_function_name} not found in"
+                f"add_pins_function_module = {self.add_pins_function_module}"
+            )
+        function = getattr(add_pins, self.add_pins_function_name)
+        return function(component=component)
 
 
 def cross_section(
