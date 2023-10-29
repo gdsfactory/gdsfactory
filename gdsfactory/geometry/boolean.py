@@ -1,6 +1,8 @@
 """Based on phidl.geometry."""
 from __future__ import annotations
 
+import kfactory as kf
+
 import gdsfactory as gf
 from gdsfactory.component import Component, boolean_operations
 from gdsfactory.typings import ComponentOrReference, LayerSpec
@@ -68,12 +70,21 @@ def boolean(
     layer_index2 = get_layer(layer2)
     layer_index = get_layer(layer)
 
+    a = A._kdb_cell if isinstance(A, Component) else A.cell
+    b = B._kdb_cell if isinstance(B, Component) else B.cell
+
     for r1, r2 in zip(
-        A._kdb_cell.begin_shapes_rec(layer_index1),
-        B._kdb_cell.begin_shapes_rec(layer_index2),
+        a.begin_shapes_rec(layer_index1),
+        b.begin_shapes_rec(layer_index2),
     ):
-        opration_function = boolean_operations[operation]
-        r = opration_function(r1, r2)
+        r1 = kf.kdb.Region(r1)
+        r2 = kf.kdb.Region(r2)
+        if isinstance(A, kf.Instance):
+            r1.transform(A.cplx_trans)
+        if isinstance(B, kf.Instance):
+            r1.transform(B.cplx_trans)
+        f = boolean_operations[operation]
+        r = f(r1, r2)
         r = c.shapes(layer_index).insert(r)
 
     return c
@@ -97,7 +108,7 @@ if __name__ == "__main__":
     e3 = c << gf.components.ellipse(radii=(10, 4))
     e3.d.movex(5)
     # e2.movex(2)
-    c = boolean(A=e2, B=e3, operation="or")
+    c = boolean(A=e2, B=e3, operation="and")
 
     # n = 50
     # c1 = gf.c.array(gf.c.circle(radius=10), columns=n, rows=n)
