@@ -51,7 +51,7 @@ def free_propagation_region(
     ypts = [y1, y2, -y2, -y1]
 
     c = gf.Component()
-    c.add_polygon((xpts, ypts), layer=layer)
+    c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
     if inputs == 1:
         c.add_port(
@@ -134,10 +134,10 @@ def awg(
     fpr_out_ref.rotate(90)
 
     fpr_out_ref.x += fpr_spacing
-    routes = gf.routing.get_bundle(
-        fpr_in_ref.get_ports_list(prefix="E"),
-        fpr_out_ref.get_ports_list(prefix="E"),
-        enforce_port_ordering=False,
+    routes = gf.routing.place_bundle(
+        c,
+        gf.port.get_ports_list(fpr_in_ref.ports, prefix="E"),
+        gf.port.get_ports_list(fpr_out_ref.ports, prefix="E"),
     )
 
     c.lengths = []
