@@ -392,6 +392,8 @@ c.get_ports_list(clockwise=False)
 # Lets extend the East facing ports (orientation = 0 deg)
 
 # %%
+import gdsfactory as gf
+
 cross_section = gf.cross_section.strip()
 
 nxn = gf.components.nxn(
@@ -401,14 +403,7 @@ c = gf.components.extension.extend_ports(component=nxn, orientation=0)
 c.plot()
 
 # %%
-c.ports
-
-# %%
-df = c.get_ports_pandas()
-df
-
-# %%
-df[df.port_type == "optical"]
+c.pprint_ports()
 
 # %% [markdown]
 # ## Port markers (Pins)
@@ -421,7 +416,6 @@ df[df.port_type == "optical"]
 # - path (SiEPIC).
 #
 #
-# by default Component.show() will add triangular pins, so you can see the direction of the port in Klayout.
 
 # %%
 gf.components.mmi1x2(decorator=gf.add_pins.add_pins)
@@ -455,7 +449,6 @@ sequence = "DC-P-P-P-P-CD"
 component = gf.components.component_sequence(
     sequence=sequence, symbol_to_component=symbol_to_component
 )
-component.name = "component_sequence"
 component.plot()
 
 # %% [markdown]
@@ -514,25 +507,25 @@ c.plot()
 
 
 # %%
-c = gf.Component("ellipse_moved")
+c = gf.Component()
 e = gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e1 = c << e
 e2 = c << e
-e2.move(origin=[5, 5], other=[10, 10])  # Translate by dx = 5, dy = 5
+e2.d.move((5, 5))  # Translate by dx = 5, dy = 5
 c.plot()
 
 
 # %%
-c = gf.Component("ellipse_moved_v2")
+c = gf.Component()
 e = gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e1 = c << e
 e2 = c << e
-e2.move([5, 5])  # Translate by dx = 5, dy = 5
+e2.move((5000, 5000))  # Translate by dx = 5000 dbu (nm), dy = 5000
 c.plot()
 
 # %%
 
-c = gf.Component("rectangles")
+c = gf.Component()
 r = gf.components.rectangle(size=(10, 5), layer=(2, 0))
 rect1 = c << r
 rect2 = c << r
@@ -544,16 +537,19 @@ rect2.rotate(
 c.plot()
 
 # %%
+import gdsfactory as gf
 
-c = gf.Component("mirror_demo")
+c = gf.Component()
 text = c << gf.components.text("hello")
-text.mirror(p1=[1, 1], p2=[1, 3])  # Reflects across the line formed by p1 and p2
+text.mirror(
+    p1=gf.kdb.Point(1, 1), p2=gf.kdb.Point(1, 3)
+)  # Reflects across the line formed by p1 and p2
 c.plot()
 
 
 # %%
 
-c = gf.Component("hello")
+c = gf.Component()
 text = c << gf.components.text("hello")
 c.plot()
 
@@ -593,7 +589,7 @@ print(text.xmax)  # Gives you the rightmost (+x) edge of the text bounding box
 
 
 # %%
-c = gf.Component("canvas")
+c = gf.Component()
 text = c << gf.components.text("hello")
 E = gf.components.ellipse(radii=(10, 5), layer=(3, 0))
 R = gf.components.rectangle(size=(10, 5), layer=(2, 0))
@@ -627,29 +623,16 @@ c.plot()
 
 
 # %%
-# In addition to working with the properties of the references inside the
-# Component,
-# we can also manipulate the whole Component if we want.  Let's try mirroring the
-# whole Component `c`:
-
-print(c.xmax)  # Prints out '10.0'
-
-c2 = c.mirror((0, 1))  # Mirror across line made by (0,0) and (0,1)
-c2.plot()
-
-
-# %%
 # A bounding box is the smallest enclosing box which contains all points of the geometry.
 
-c = gf.Component("hi_bbox")
+c = gf.Component()
 text = c << gf.components.text("hi")
-bbox = text.bbox
-c << gf.components.bbox(bbox=bbox, layer=(2, 0))
+c << gf.components.bbox(text, layer=(2, 0))
 c.plot()
 
 
 # %%
-c = gf.Component("sample_padding")
+c = gf.Component()
 text = c << gf.components.text("bye")
 device_bbox = text.bbox
 c.add_polygon(gf.get_padding_points(text, default=1), layer=(2, 0))
@@ -666,7 +649,7 @@ print("X-max of Component c:")
 print(c.xmax)
 
 # %%
-c = gf.Component("rect")
+c = gf.Component()
 R = gf.components.rectangle(size=(10, 3), layer=(2, 0))
 rect1 = c << R
 c.plot()
@@ -684,10 +667,8 @@ c.plot()
 # %%
 # ...into this single-line expression
 
-c = gf.Component("single_expression")
+c = gf.Component()
 R = gf.components.rectangle(size=(10, 3), layer=(2, 0))
 rect1 = c << R
 rect1.rotate(angle=37).move([10, 20])
 c.plot()
-
-# %%

@@ -19,7 +19,8 @@ from __future__ import annotations
 from functools import partial
 from toolz import compose
 from gdsfactory.path import Path
-
+import kfactory as kf
+import klayout.db as kdb
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from gdsfactory.component import Component, ComponentReference, Instance
@@ -128,4 +129,6 @@ __all__ = (
     "technology",
     "write_cells",
     "PATH",
+    "kf",
+    "kdb",
 )

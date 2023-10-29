@@ -491,14 +491,22 @@ class Component(kf.KCell):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component()
+    # c = gf.Component()
     # b1 = gf.components.circle(radius=10)
     # b2 = gf.components.circle(radius=11)
 
-    ref = c << gf.c.bend_euler(cross_section="xs_rc")
-    c.add_ports(ref.ports)
-    p = c.get_ports_list(sort_ports=True)
-    print(c.get_ports_list(sort_ports=True))
+    # ref = c << gf.c.bend_euler(cross_section="xs_rc")
+    # c.add_ports(ref.ports)
+    # p = c.get_ports_list(sort_ports=True)
+    # print(c.get_ports_list(sort_ports=True))
+
+    c = gf.Component()
+    text = c << gf.components.text("hello")
+    text.mirror(
+        p1=kf.kdb.Point(1, 1), p2=gf.kdb.Point(1, 3)
+    )  # Reflects across the line formed by p1 and p2
+    c.show()
+
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
     # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
     # c = c.extract(layers=[(1, 0)])

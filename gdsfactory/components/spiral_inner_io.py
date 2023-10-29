@@ -4,6 +4,7 @@ from __future__ import annotations
 from functools import partial
 
 import numpy as np
+from kfactory.routing.optical import place90
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -12,13 +13,12 @@ from gdsfactory.components.add_grating_couplers import (
 )
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
 def get_bend_port_distances(bend: Component) -> tuple[float, float]:
-    p0, p1 = bend.ports.values()
+    p0, p1 = bend.ports
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
 
@@ -70,6 +70,7 @@ def spiral_inner_io(
 
     xs_bend = gf.get_cross_section(cross_section_bend, **kwargs)
     xs = gf.get_cross_section(cross_section, **kwargs)
+    width = xs.width
 
     if length:
         x_straight_inner_left = get_straight_length(
@@ -90,19 +91,29 @@ def spiral_inner_io(
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
 
+    def straight_dbu(length: int, width: int = width) -> Component:
+        return straight(
+            length=round(length * component.kcl.dbu),
+            width=round(width * component.kcl.dbu),
+            cross_section=cross_section,
+            **kwargs,
+        )
+
     component = Component()
 
     p1 = gf.Port(
         name="o1",
+        width=xs.width,
         center=(0, y_straight_inner_top),
         orientation=270,
-        cross_section=xs_bend,
+        cross_section=xs,
     )
     p2 = gf.Port(
         name="o2",
+        width=xs.width,
         center=(grating_spacing, y_straight_inner_top),
         orientation=270,
-        cross_section=xs_bend,
+        cross_section=xs,
     )
 
     component.add_port(name="o1", port=p1)
@@ -129,8 +140,13 @@ def spiral_inner_io(
 
         pts_w += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
-    route_west = round_corners(
-        pts_w, bend=_bend90, straight=straight, cross_section=cross_section, **kwargs
+    route_west = place90(
+        component,
+        p1,
+        p2,
+        pts=pts_w,
+        bend90_cell=_bend90,
+        straight_factory=straight_dbu,
     )
     component.add(route_west.references)
 
@@ -162,10 +178,14 @@ def spiral_inner_io(
         cross_section_bend = xs
         _bend90 = gf.get_component(bend90, cross_section=cross_section_bend, **kwargs)
 
-    route_east = round_corners(
-        pts_e, bend=_bend90, straight=straight, cross_section=cross_section, **kwargs
+    route_east = place90(
+        component,
+        p1=p1,
+        p2=p2,
+        pts=pts_e,
+        bend90_cell=_bend90,
+        straight_factory=straight_dbu,
     )
-    component.add(route_east.references)
 
     length = route_east.length + route_west.length + _bend180.info["length"]
     component.info["length"] = snap_to_grid(length + 2 * y_straight_inner_top)
@@ -327,7 +347,7 @@ if __name__ == "__main__":
 
     c = gf.components.spiral_inner_io_fiber_array(
         cross_section=cross_section,
-        cross_section_bend=partial(cross_section, mirror=True),
+        cross_section_bend=partial(cross_section),
         # cross_section_bend180=partial(cross_section, mirror=True),
         waveguide_spacing=20,
         radius=30,
