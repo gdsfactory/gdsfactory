@@ -10,7 +10,7 @@ from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text import text
 from gdsfactory.typings import Anchor, ComponentSpec, LayerSpec
 
-big_square = partial(rectangle, size=(1300, 2600))
+big_square = partial(rectangle, size=(1300, 2600), centered=False)
 
 
 @gf.cell
@@ -40,15 +40,14 @@ def die_bbox(
         layer: Specific layer(s) to put polygon geometry on.
         padding: adds padding.
     """
-    D = gf.Component()
+    c = gf.Component()
     component = gf.get_component(component)
 
-    D.copy_child_info(component)
-    cref = D.add_ref(component)
-    cref.x = 0
-    cref.y = 0
-    size = cref.size
-    sx, sy = size[0] / 2, size[1] / 2
+    c.copy_child_info(component)
+    cref = c.add_ref(component)
+    cref.movex(-(cref.bbox().right + cref.bbox().left) // 2)
+    cref.movey(-(cref.bbox().bottom + cref.bbox().top) // 2)
+    sx, sy = component.d.xsize, component.d.ysize
 
     sx += street_width + padding
     sy += street_width + padding
@@ -75,33 +74,33 @@ def die_bbox(
             sy,
         ]
     )
-    D.add_polygon([+xpts, +ypts], layer=layer)
-    D.add_polygon([-xpts, +ypts], layer=layer)
-    D.add_polygon([+xpts, -ypts], layer=layer)
-    D.add_polygon([-xpts, -ypts], layer=layer)
+    c.add_polygon(list(zip(+xpts, +ypts)), layer=layer)
+    c.add_polygon(list(zip(-xpts, +ypts)), layer=layer)
+    c.add_polygon(list(zip(+xpts, -ypts)), layer=layer)
+    c.add_polygon(list(zip(-xpts, -ypts)), layer=layer)
 
     if die_name:
-        t = D.add_ref(text(text=die_name, size=text_size, layer=layer))
+        t = c.add_ref(text(text=die_name, size=text_size, layer=layer))
 
         d = street_width + 20
         if text_anchor == "nw":
-            t.xmin, t.ymax = [-sx + d, sy - d]
+            t.d.xmin, t.d.ymax = [-sx + d, sy - d]
         elif text_anchor == "nc":
-            t.x, t.ymax = [0, sy - d]
+            t.d.x, t.d.ymax = [0, sy - d]
         elif text_anchor == "ne":
-            t.xmax, t.ymax = [sx - d, sy - d]
+            t.d.xmax, t.d.ymax = [sx - d, sy - d]
         if text_anchor == "sw":
-            t.xmin, t.ymin = [-sx + d, -sy + d]
+            t.d.xmin, t.d.ymin = [-sx + d, -sy + d]
         elif text_anchor == "sc":
-            t.x, t.ymin = [0, -sy + d]
+            t.d.x, t.d.ymin = [0, -sy + d]
         elif text_anchor == "se":
-            t.xmax, t.ymin = [sx - d, -sy + d]
+            t.d.xmax, t.d.ymin = [sx - d, -sy + d]
 
-    return D
+    return c
 
 
 if __name__ == "__main__":
     mask = gf.components.array(rows=10, columns=10)
     # c = die_bbox(component=mask, die_name="chip99")
     c = die_bbox()
-    # c.show( )
+    c.show()
