@@ -64,10 +64,10 @@ def die(
                 sy,
             ]
         )
-        c.add_polygon([xpts, ypts], layer=layer)
-        c.add_polygon([-xpts, ypts], layer=layer)
-        c.add_polygon([xpts, -ypts], layer=layer)
-        c.add_polygon([-xpts, -ypts], layer=layer)
+        c.add_polygon(list(zip(xpts, ypts)), layer=layer)
+        c.add_polygon(list(zip(-xpts, ypts)), layer=layer)
+        c.add_polygon(list(zip(xpts, -ypts)), layer=layer)
+        c.add_polygon(list(zip(-xpts, -ypts)), layer=layer)
 
     if bbox_layer:
         c.add_polygon([[sx, sy], [sx, -sy], [-sx, -sy], [-sx, sy]], layer=bbox_layer)
@@ -79,23 +79,23 @@ def die(
         if isinstance(text_location, str):
             text_location = text_location.upper()
             if text_location == "N":
-                t.x, t.ymax = [0, sy - d]
+                t.d.x, t.d.ymax = [0, sy - d]
             elif text_location == "NE":
-                t.xmax, t.ymax = [sx - d, sy - d]
+                t.d.xmax, t.d.ymax = [sx - d, sy - d]
             elif text_location == "NW":
-                t.xmin, t.ymax = [-sx + d, sy - d]
+                t.d.xmin, t.d.ymax = [-sx + d, sy - d]
             elif text_location == "S":
-                t.x, t.ymin = [0, -sy + d]
+                t.d.x, t.d.ymin = [0, -sy + d]
             elif text_location == "SE":
-                t.xmax, t.ymin = [sx - d, -sy + d]
+                t.d.xmax, t.d.ymin = [sx - d, -sy + d]
             elif text_location == "SW":
-                t.xmin, t.ymin = [-sx + d, -sy + d]
+                t.d.xmin, t.d.ymin = [-sx + d, -sy + d]
             else:
                 raise ValueError(
                     f"Invalid text_location: {text_location} not in N, NE, NW, S, SE, SW"
                 )
         else:
-            t.x, t.y = text_location
+            t.d.x, t.d.y = text_location
 
     return c
 
