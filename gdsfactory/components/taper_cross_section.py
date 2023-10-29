@@ -57,8 +57,7 @@ def taper_cross_section(
     ref = c << gf.path.extrude_transition(taper_path, transition=transition)
     c.add_ports(ref.ports)
     c.absorb(ref)
-    if "type" in x1.info and x1.info["type"] == x2.info.get("type"):
-        c.add_route_info(cross_section=x1, length=length, taper=True)
+    c.add_route_info(cross_section=x1, length=length, taper=True)
     return c
 
 

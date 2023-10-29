@@ -355,9 +355,10 @@ class Transition(BaseModel):
                 are different between the two input CrossSections.
     """
 
-    cross_section1: CrossSectionSpec
-    cross_section2: CrossSectionSpec
+    cross_section1: CrossSection
+    cross_section2: CrossSection
     width_type: WidthTypes = "sine"
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
 
 @validate_call

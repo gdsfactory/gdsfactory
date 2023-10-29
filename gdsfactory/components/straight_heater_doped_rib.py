@@ -105,7 +105,7 @@ def straight_heater_doped_rib(
             if callable(taper)
             else taper
         )
-        length -= taper.get_ports_xsize() * 2
+        length -= taper.d.xsize * 2
 
     wg = c << gf.c.straight(
         cross_section=cross_section_heater,
@@ -149,18 +149,18 @@ def straight_heater_doped_rib(
         if via_stack:
             via_stack_top = c << via_stack(size=via_stack_size)
             via_stack_top.x = xi
-            via_stack_top.ymin = +(heater_gap + width / 2 + via_stack_gap)
+            via_stack_top.d.ymin = +(heater_gap + width / 2 + via_stack_gap)
 
             via_stack_bot = c << via_stack(size=via_stack_size)
-            via_stack_bot.x = xi
-            via_stack_bot.ymax = -(heater_gap + width / 2 + via_stack_gap)
+            via_stack_bot.d.x = xi
+            via_stack_bot.d.ymax = -(heater_gap + width / 2 + via_stack_gap)
 
     if via_stack:
         via_stack.xmax = x0 + length_section * nsections
-        via_stack_top.movex(xoffset_tip2)
+        via_stack_top.d.movex(xoffset_tip2)
     if via_stack:
         via_stack.xmax = x0 + length_section * nsections
-        via_stack_bot.movex(xoffset_tip2)
+        via_stack_bot.d.movex(xoffset_tip2)
 
     if via_stack_metal and via_stack:
         via_stack_length = length + via_stack_metal_size[0]
