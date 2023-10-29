@@ -78,7 +78,6 @@ Classes and functions for construction and manipulation of geometric objects.
 
    boolean
    boolean_klayout
-   boolean_polygons
    fillet
    functions
    invert
