@@ -708,9 +708,9 @@ def from_yaml(
             raise ValueError(f"{key!r} not in {settings.keys()}")
         else:
             conf["settings"][key] = value
-
+    conf = OmegaConf.to_container(conf, resolve=True)
     return _from_yaml(
-        conf=OmegaConf.to_container(conf, resolve=True),
+        conf=conf,
         routing_strategy=routing_strategy,
         label_instance_function=label_instance_function,
         # prefix=prefix or conf.get("name", "Unnamed"),
@@ -1381,8 +1381,8 @@ placements:
 
 
 if __name__ == "__main__":
-    # c = from_yaml(sample_doe_function)
-    c = from_yaml(sample_mmis)
+    c = from_yaml(sample_doe_function)
+    # c = from_yaml(sample_mmis)
     c.show()
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)

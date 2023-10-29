@@ -100,7 +100,7 @@ def clean_value_json(value: Any) -> str | int | float | dict | list | bool | Non
         return clean_dict(OmegaConf.to_container(value))
 
     elif isinstance(value, list | tuple | set | dict_keys):
-        return [clean_value_json(i) for i in value]
+        return tuple([clean_value_json(i) for i in value])
 
     elif isinstance(value, gdstk.Polygon):
         return np.round(value.points, DEFAULT_SERIALIZATION_MAX_DIGITS)

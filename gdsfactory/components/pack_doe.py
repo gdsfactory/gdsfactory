@@ -11,7 +11,7 @@ from gdsfactory.pack import pack
 from gdsfactory.typings import CellSpec, ComponentSpec
 
 _doe = "mmi1x2"
-_settings = dict(length_mmi=[2.5, 100], width_mmi=[4, 10])
+_settings = dict(length_mmi=(2.5, 100), width_mmi=(4, 10))
 
 
 def generate_doe(
@@ -52,7 +52,7 @@ def generate_doe(
 @cell
 def pack_doe(
     doe: ComponentSpec = _doe,
-    settings: dict[str, list[Any]] = _settings,
+    settings: dict[str, tuple[Any, ...]] = _settings,
     do_permutations: bool = False,
     function: CellSpec | None = None,
     **kwargs,
