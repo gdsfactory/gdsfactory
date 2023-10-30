@@ -12,7 +12,7 @@ install:
 dev: install
 
 update-pre:
-	pre-commit autoupdate --bleeding-edge
+	pre-commit autoupdate
 
 test-data:
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
