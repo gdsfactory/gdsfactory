@@ -109,6 +109,26 @@ def test_extrude_transition_multi_section():
     assert layer3_area == 1 * 10 * 2
 
 
+def test_get_cross_sections_single_module() -> None:
+    xs = gf.get_cross_sections(gf.cross_section)
+    assert isinstance(xs, dict)
+    assert len(xs) > 0
+    assert all(isinstance(x, gf.CrossSection) for x in xs.values())
+
+
+def test_get_cross_sections_multiple_modules() -> None:
+    xs = gf.get_cross_sections([gf.cross_section, gf.components])
+    assert isinstance(xs, dict)
+    assert len(xs) > 0
+    assert all(isinstance(x, gf.CrossSection) for x in xs.values())
+
+
+def test_get_cross_sections_empty_input() -> None:
+    xs = gf.get_cross_sections([])
+    assert isinstance(xs, dict)
+    assert len(xs) == 0
+
+
 if __name__ == "__main__":
     # test_transition_names()
     test_copy()

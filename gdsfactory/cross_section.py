@@ -12,6 +12,7 @@ import warnings
 from collections.abc import Callable, Iterable
 from functools import partial
 from inspect import getmembers
+from types import ModuleType
 from typing import TYPE_CHECKING, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -2286,7 +2287,7 @@ def pn_ge_detector_si_contacts(
 
 
 def get_cross_sections(
-    modules: list[str], verbose: bool = False
+    modules: Iterable[ModuleType] | ModuleType, verbose: bool = False
 ) -> dict[str, CrossSection]:
     """Returns cross_sections from a module or list of modules.
 
