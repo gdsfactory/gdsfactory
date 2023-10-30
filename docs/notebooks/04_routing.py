@@ -42,14 +42,6 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.port import Port
-import kfactory as kf
-
-
-kf.config.display_type = "image"
-gf.config.rich_output()
-gf.CONF.display_type = "klayout"
-PDK = get_generic_pdk()
-PDK.activate()
 
 # %%
 c = gf.Component()
@@ -640,7 +632,7 @@ c = demo_connect_bundle()
 c.plot()
 
 # %%
-c = gf.Component("route_bend_5um")
+c = gf.Component()
 c1 = c << gf.components.mmi2x2()
 c2 = c << gf.components.mmi2x2()
 
@@ -661,7 +653,7 @@ routes = gf.routing.place_bundle(
 c.plot()
 
 # %%
-c = gf.Component("get_bundle_with_ubends_bend_from_top")
+c = gf.Component()
 pad_array = gf.components.pad_array()
 
 c1 = c << pad_array
@@ -687,7 +679,7 @@ for route in routes:
 c.plot()
 
 # %%
-c = gf.Component("get_bundle_with_ubends_bend_from_bottom")
+c = gf.Component()
 pad_array = gf.components.pad_array()
 
 c1 = c << pad_array
@@ -706,7 +698,7 @@ routes_bend180 = gf.routing.get_routes_bend180(
 c.add(routes_bend180.references)
 
 routes = gf.routing.get_bundle(
-    c1.get_ports_list(), routes_bend180.ports, cross_section=gf.cross_section.metal1
+    c1.ports, routes_bend180.ports, cross_section=gf.cross_section.metal1
 )
 for route in routes:
     c.add(route.references)
@@ -718,14 +710,14 @@ c.plot()
 # Sometimes 90 degrees routes do not have enough space for a Manhattan route
 
 # %%
-c = gf.Component("route_fail_1")
+c = gf.Component()
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
-c2.move((80, 0))
+c2.d.move((80, 0))
 c.plot()
 
 # %%
-c = gf.Component("route_fail_v2")
+c = gf.Component()
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.move((80, 0))
@@ -739,7 +731,7 @@ for route in routes:
 c.plot()
 
 # %%
-c = gf.Component("route_fail_v3")
+c = gf.Component()
 pitch = 2.0
 ys_left = [0, 10, 20]
 N = len(ys_left)
@@ -767,7 +759,7 @@ c.plot()
 # Add Sbend routes using `get_bundle_sbend`
 
 # %%
-c = gf.Component("route_solution_1_get_bundle_sbend")
+c = gf.Component()
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.move((80, 0))
@@ -784,7 +776,7 @@ c.plot()
 # You can also `get_bundle` adding `with_sbend=True`
 
 # %%
-c = gf.Component("route_solution_2_get_bundle")
+c = gf.Component()
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.move((80, 0))
@@ -805,7 +797,7 @@ c.plot()
 # Sometimes you need to route two groups of ports keeping the same route lengths.
 
 # %%
-c = gf.Component("path_length_match_routing")
+c = gf.Component()
 dy = 2000.0
 xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
 
@@ -845,7 +837,7 @@ c.plot()
 # You can also add some extra length to all the routes
 
 # %%
-c = gf.Component("get_bundle_path_length_match_extra_length")
+c = gf.Component()
 
 dy = 2000.0
 xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -885,7 +877,7 @@ c.plot()
 # You can also increase the number of loops
 
 # %%
-c = gf.Component("get_route_path_length_match_nb_loops")
+c = gf.Component()
 
 dy = 2000.0
 xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -924,7 +916,7 @@ c.plot()
 # Sometimes you need to modify `separation` to ensure waveguides don't overlap.
 
 # %%
-c = gf.Component("problem_path_length_match")
+c = gf.Component()
 c1 = c << gf.components.straight_array(spacing=90)
 c2 = c << gf.components.straight_array(spacing=5)
 c2.movex(200)
@@ -947,7 +939,7 @@ for route in routes:
 c.plot()
 
 # %%
-c = gf.Component("solution_path_length_match")
+c = gf.Component()
 c1 = c << gf.components.straight_array(spacing=90)
 c2 = c << gf.components.straight_array(spacing=5)
 c2.movex(200)
@@ -981,7 +973,7 @@ c.plot()
 # %%
 from gdsfactory.samples.big_device import big_device
 
-c = gf.Component("sample_route")
+c = gf.Component()
 c1 = c << big_device()
 c2 = c << gf.components.grating_coupler_array(n=len(c1.ports), rotation=-90)
 
@@ -1004,7 +996,7 @@ c.plot()
 # This is a manual version of `get_bundle` that is more convenient than defining the waypoints.
 
 # %%
-c = gf.Component("get_route_from_steps_sample")
+c = gf.Component()
 w = gf.components.array(
     partial(gf.components.straight, layer=(2, 0)),
     rows=3,

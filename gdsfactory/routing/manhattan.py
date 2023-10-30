@@ -971,8 +971,8 @@ def generate_manhattan_waypoints(
         input_port,
         output_port,
         bend90_radius=int(bend90.info["radius"] * 1e3),
-        start_straight=int(start_straight_length * 1e3),
-        end_straight=int(end_straight_length * 1e3),
+        start_straight=int(start_straight_length),
+        end_straight=int(end_straight_length),
         invert=True,
     )
 
