@@ -209,26 +209,13 @@ def place_bundle(
         "path_length_match_modify_segment_i": path_length_match_modify_segment_i,
     }
 
-    width = cross_section.width
-    width_dbu = width / component.kcl.dbu
-
-    def straight_dbu(
-        length: int, width: int = width_dbu, cross_section=cross_section, **kwargs
-    ) -> Component:
-        return straight(
-            length=round(length * component.kcl.dbu),
-            width=round(width * component.kcl.dbu),
-            cross_section=cross_section,
-            **kwargs,
-        )
-
     params = {
         "component": component,
         "ports1": ports1,
         "ports2": ports2,
         "separation": separation,
         "bend": bend,
-        "straight": straight_dbu,
+        "straight": straight,
         "cross_section": cross_section,
         "enforce_port_ordering": enforce_port_ordering,
     }

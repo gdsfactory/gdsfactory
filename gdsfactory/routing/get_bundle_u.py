@@ -6,7 +6,6 @@ from typing import Any
 import numpy as np
 from numpy import float64, ndarray
 
-import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.geometry.functions import remove_identicals
@@ -20,11 +19,6 @@ from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.validation import validate_connections
 from gdsfactory.typings import ComponentSpec, Route
-
-
-@gf.cell
-def straight_dbu(length: int, width: int, **kwargs):
-    return straight_function(length=length / 1e3, width=width / 1e3, **kwargs)
 
 
 def _groups(
@@ -48,7 +42,7 @@ def get_bundle_udirect(
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     bend: ComponentSpec = bend_euler,
-    straight=straight_dbu,
+    straight=straight_function,
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
@@ -139,7 +133,7 @@ def get_bundle_udirect(
             port2=port2,
             waypoints=route,
             bend=bend,
-            # straight=straight,
+            straight=straight,
             **kwargs,
         )
         r.append(route)
