@@ -698,6 +698,20 @@ def along_path(
     return c
 
 
+def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
+    from gdsfactory.pdk import get_layer
+
+    named_sections = {}
+    for section in sections:
+        name = section.name or get_layer(section.layer)
+        if name in named_sections:
+            raise ValueError(
+                f"Duplicate name or layer '{name}' of section used for cross-section in transition. Cross-sections with multiple Sections for a single layer must have unique names for each section"
+            )
+        named_sections[name] = section
+    return named_sections
+
+
 @cell
 def extrude(
     p: Path,
@@ -746,23 +760,23 @@ def extrude(
     c = Component()
 
     x = get_cross_section(cross_section)
-    layer = layer or x.layer
-    layer = get_layer(layer)
 
     if isinstance(x, Transition):
         return extrude_transition(
             p,
             transition=x,
         )
+    layer = layer or x.layer
+    layer = get_layer(layer)
 
     for section in x.sections:
         p_sec = p.copy()
-        width = section.width
-        offset = section.offset
-        layer = get_layer(section.layer)
         port_names = section.port_names
         port_types = section.port_types
         hidden = section.hidden
+
+        offset = section.offset
+        width = section.width
         width_function = section.width_function
         offset_function = section.offset_function
 
@@ -901,29 +915,30 @@ def extrude_transition(
         transition: transition to extrude along.
     """
 
-    from gdsfactory.pdk import get_layer
+    from gdsfactory.pdk import get_cross_section, get_layer
 
     c = Component()
 
-    x1 = transition.cross_section1
-    x2 = transition.cross_section2
+    x1 = get_cross_section(transition.cross_section1)
+    x2 = get_cross_section(transition.cross_section2)
     width_type = transition.width_type
 
-    layers1 = {get_layer(section.layer) for section in x1.sections}
-    layers2 = {get_layer(section.layer) for section in x2.sections}
-    layers1.add(get_layer(x1.layer))
-    layers2.add(get_layer(x2.layer))
+    # if named, prefer name over layer
+    named_sections1 = _get_named_sections(x1.sections)
+    named_sections2 = _get_named_sections(x2.sections)
 
-    has_common_layers = bool(layers1.intersection(layers2))
-    if not has_common_layers:
+    names1 = list(named_sections1.keys())
+    names2 = list(named_sections2.keys())
+
+    common_sections = set(names1).intersection(names2)
+    if len(common_sections) == 0:
         raise ValueError(
-            f"transition() found no common layers X1 {layers1} and X2 {layers2}"
+            f"transition() found no common layers X1 {names1} and X2 {names2}"
         )
 
-    sections1 = x1.sections
-    sections2 = x2.sections
-
-    for section1, section2 in zip(sections1, sections2):
+    for section_name in common_sections:
+        section1 = named_sections1[section_name]
+        section2 = named_sections2[section_name]
         port_names = section1.port_names
         port_types = section1.port_types
 
@@ -1009,7 +1024,7 @@ def extrude_transition(
 
         # Add port_names if they were specified
         if port_names[0] is not None:
-            port_width = width if np.isscalar(width) else width[0]
+            port_width = width1
             port_orientation = (p_sec.start_angle + 180) % 360
             center = points[0]
             face = [points1[0], points2[0]]
@@ -1025,11 +1040,10 @@ def extrude_transition(
                 cross_section=x1,
             )
         if port_names[1] is not None:
-            port_width = width if np.isscalar(width) else width[-1]
+            port_width = width2
             port_orientation = (p_sec.end_angle) % 360
             center = points[-1]
             face = [points1[-1], points2[-1]]
-            face = [_rotated_delta(point, center, port_orientation) for point in face]
 
             c.add_port(
                 name=port_names[1],

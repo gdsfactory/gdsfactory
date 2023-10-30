@@ -79,7 +79,6 @@ def bend_euler(
     c.info["dy"] = np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3)
     c.info["radius_min"] = np.round(p.info["Rmin"], 3)
     c.info["radius"] = radius
-    c.info["width"] = x.width
 
     if direction == "cw":
         ref.mirror(p1=[0, 0], p2=[1, 0])
