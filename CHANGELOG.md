@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.8.13](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.13) - 2023-10-30
+
+No significant changes.
+
+
 ## [7.8.12](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.12) - 2023-10-28
 
 - add json formatted labels [#2237](https://github.com/gdsfactory/gdsfactory/pull/2237)
