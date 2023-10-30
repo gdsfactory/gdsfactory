@@ -5,7 +5,9 @@
 
 ## [7.8.13](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.13) - 2023-10-30
 
-No significant changes.
+- fix extrude_transition [#2243](https://github.com/gdsfactory/gdsfactory/pull/2243)
+- Write cells can take list [#2241](https://github.com/gdsfactory/gdsfactory/pull/2241)
+- fix add_electrical_pads_top_dc [#2239](https://github.com/gdsfactory/gdsfactory/pull/2239)
 
 
 ## [7.8.12](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.12) - 2023-10-28
