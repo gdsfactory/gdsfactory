@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 6306a48f7dae5861702d573c9c247e4e9498e867
+    rev: v4.5.0
     hooks:
       - id: check-yaml
         exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|conda/construct.yaml|.*\.pic\.yml|conda/constructor/Miniforge3/construct.yaml)
@@ -8,20 +8,20 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/psf/black
-    rev: 878937bcc3282319081057e2f1dbee5e24d69d68
+    rev: 23.10.1
     hooks:
       - id: black
         # exclude: '^gdsfactory/samples/notebooks/|^docs/notebooks/'
 
   - repo: https://github.com/codespell-project/codespell
-    rev: 8564d12c0d96ed796db19548d7f643c67bc5a1e7
+    rev: v2.2.6
     hooks:
       - id: codespell
         additional_dependencies:
           - tomli
 
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.1.2"
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: "v0.1.3"
     hooks:
       - id: ruff
         args: [ --fix, --exit-non-zero-on-fix ]
@@ -33,7 +33,7 @@ repos:
         args: [--autofix]
 
   - repo: https://github.com/aristanetworks/j2lint.git
-    rev: 15c63f96c9955c7167fa3ae5d1255a47f9f4ecc3
+    rev: v1.1.0
     hooks:
       - id: j2lint
         types: [file]
