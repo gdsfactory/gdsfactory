@@ -189,7 +189,8 @@ def spiral_inner_io_fiber_array(
     cross_section_bend: CrossSectionSpec | None = None,
     cross_section_bend180: CrossSectionSpec | None = None,
     asymmetric_cross_section: bool = False,
-    add_grating_couplers: ComponentFactory = add_grating_couplers_with_loopback_fiber_array,
+    add_grating_couplers: ComponentFactory
+    | None = add_grating_couplers_with_loopback_fiber_array,
     **kwargs,
 ) -> Component:
     """Returns Spiral with fiber array grating couplers.
@@ -212,8 +213,8 @@ def spiral_inner_io_fiber_array(
         cross_section_bend180: for 180 bend.
         asymmetric_cross_section: if the cross_section is asymmetric, it needs to be mirrored at the halfway point.
         add_grating_couplers: function to add grating couplers.
+        kwargs: cross_section settings.
 
-    Keyword Args:
     """
     spiral = spiral_inner_io(
         N=N,
@@ -233,7 +234,11 @@ def spiral_inner_io_fiber_array(
         asymmetric_cross_section=asymmetric_cross_section,
         **kwargs,
     )
-    return add_grating_couplers(spiral, cross_section=cross_section, **kwargs)
+    return (
+        add_grating_couplers(spiral, cross_section=cross_section, **kwargs)
+        if add_grating_couplers
+        else spiral
+    )
 
 
 @gf.cell
