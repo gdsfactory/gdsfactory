@@ -982,12 +982,12 @@ def extrude_transition(
         shear_angle_end: angle to shear the end of the path.
     """
 
-    from gdsfactory.pdk import get_layer
+    from gdsfactory.pdk import get_cross_section, get_layer
 
     c = Component()
 
-    x1 = transition.cross_section1
-    x2 = transition.cross_section2
+    x1 = get_cross_section(transition.cross_section1)
+    x2 = get_cross_section(transition.cross_section2)
     width_type = transition.width_type
 
     # if named, prefer name over layer

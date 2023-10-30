@@ -321,7 +321,7 @@ def add_grating_couplers_with_loopback_fiber_array(
         y_bot_align_route = -gsi.width - straight_separation
 
         points = np.array(
-            [
+            (
                 p0,
                 p0 + (0, a),
                 p0 + (b, a),
@@ -330,7 +330,7 @@ def add_grating_couplers_with_loopback_fiber_array(
                 p1 + (-b, a),
                 p1 + (0, a),
                 p1,
-            ]
+            )
         )
         bend90 = bend(cross_section=cross_section)
         loopback_route = round_corners(
