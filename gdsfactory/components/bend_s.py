@@ -34,6 +34,9 @@ def bend_s(
         add_pins: add pins to the component.
 
     Keyword Args:
+        with_manhattan_facing_angles: bool.
+        start_angle: optional start angle in deg.
+        end_angle: optional end angle in deg.
     """
     c = Component()
     dx, dy = size
@@ -53,7 +56,7 @@ def bend_s(
 
 
 def get_min_sbend_size(
-    size: Float2 = (None, 10.0),
+    size: tuple[float | None, float | None] = (None, 10.0),
     cross_section: CrossSectionSpec = "xs_sc",
     num_points: int = 100,
     **kwargs,

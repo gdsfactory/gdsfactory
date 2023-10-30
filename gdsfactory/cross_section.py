@@ -351,7 +351,7 @@ class CrossSection(BaseModel):
 CrossSectionSpec = CrossSection | str | dict[str, Any] | Callable[..., CrossSection]
 
 
-class Transition(BaseModel):
+class Transition(CrossSection):
     """Waveguide information to extrude a path between two CrossSection.
 
     cladding_layers follow path shape

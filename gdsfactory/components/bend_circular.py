@@ -76,14 +76,11 @@ bend_circular180 = partial(bend_circular, angle=180)
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import get_generic_pdk
+    import gdsfactory as gf
 
-    PDK = get_generic_pdk()
-    PDK.activate()
+    x1 = gf.cross_section.strip(width=1)
+    x2 = gf.cross_section.strip(width=2)
+    x = gf.cross_section.Transition(cross_section1=x1, cross_section2=x2)
 
-    c = bend_circular(
-        angle=180,
-        cross_section="xs_rc",
-        layer=(2, 0),
-    )
+    c = bend_circular(angle=180, cross_section=x, radius=10)
     c.show(show_ports=True)
