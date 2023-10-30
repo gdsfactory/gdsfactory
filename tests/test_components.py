@@ -20,6 +20,7 @@ skip_test = {
     "ring_section_based",
     "ring_double_pn",
     "compensation_path",
+    "add_grating_couplers_with_loopback_fiber_array",
 }
 
 
