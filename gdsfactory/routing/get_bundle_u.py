@@ -6,11 +6,12 @@ from typing import Any
 import numpy as np
 from numpy import float64, ndarray
 
+import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.geometry.functions import remove_identicals
 from gdsfactory.port import Port
-from gdsfactory.routing.get_route import get_route_from_waypoints
+from gdsfactory.routing.get_route import place_route
 from gdsfactory.routing.manhattan import (
     generate_manhattan_waypoints,
     remove_flat_angles,
@@ -19,6 +20,11 @@ from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.validation import validate_connections
 from gdsfactory.typings import ComponentSpec, Route
+
+
+@gf.cell
+def straight_dbu(length: int, width: int, **kwargs):
+    return straight_function(length=length / 1e3, width=width / 1e3, **kwargs)
 
 
 def _groups(
@@ -34,13 +40,15 @@ def _groups(
 
 
 def get_bundle_udirect(
+    component: ComponentSpec,
     ports1: list[Port],
     ports2: list[Port],
-    route_filter: Callable = get_route_from_waypoints,
+    route_filter: Callable = place_route,
     separation: float = 5.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     bend: ComponentSpec = bend_euler,
+    straight=straight_dbu,
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
@@ -102,8 +110,6 @@ def get_bundle_udirect(
                                   |
                            X------/
     """
-    _p1, _p2 = ports1.copy(), ports2.copy()
-    straight = kwargs.pop("straight", straight_function)
     routes = _get_bundle_udirect_waypoints(
         ports1,
         ports2,
@@ -112,7 +118,6 @@ def get_bundle_udirect(
         end_straight_offset=end_straight_length,
         routing_func=generate_manhattan_waypoints,
         bend=bend,
-        **kwargs,
     )
     if path_length_match_loops:
         routes = [np.array(route) for route in routes]
@@ -126,12 +131,22 @@ def get_bundle_udirect(
             **kwargs,
         )
 
-    routes = [
-        route_filter(route, bend=bend, straight=straight, **kwargs) for route in routes
-    ]
-    if enforce_port_ordering:
-        return validate_connections(_p1, _p2, routes)
-    return routes
+    r = []
+    for port1, port2, route in zip(ports1, ports2, routes):
+        route = route_filter(
+            component=component,
+            port1=port1,
+            port2=port2,
+            waypoints=route,
+            bend=bend,
+            # straight=straight,
+            **kwargs,
+        )
+        r.append(route)
+
+    # if enforce_port_ordering:
+    #     return validate_connections(_p1, _p2, r)
+    return r
 
 
 def _get_bundle_udirect_waypoints(
@@ -144,7 +159,6 @@ def _get_bundle_udirect_waypoints(
     end_straight_offset: float = 0.0,
     start_straight_offset: float = 0.0,
     bend: ComponentSpec = bend_euler,
-    **routing_func_params,
 ) -> list[ndarray]:
     nb_ports = len(ports1)
     for p in ports1:
@@ -238,7 +252,6 @@ def _get_bundle_udirect_waypoints(
             start_straight_length=straight_len_start,
             end_straight_length=straight_len_end,
             bend=bend,
-            **routing_func_params,
         )
         connections += [_c]
         straight_len_end += separation
@@ -253,7 +266,6 @@ def _get_bundle_udirect_waypoints(
             start_straight_length=straight_len_start,
             end_straight_length=straight_len_end,
             bend=bend,
-            **routing_func_params,
         )
         connections += [_c]
         straight_len_end += separation
@@ -263,9 +275,10 @@ def _get_bundle_udirect_waypoints(
 
 
 def get_bundle_uindirect(
+    component: ComponentSpec,
     ports1: list[Port],
     ports2: list[Port],
-    route_filter: Callable = get_route_from_waypoints,
+    route_filter: Callable = place_route,
     separation: float = 5.0,
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
@@ -552,3 +565,21 @@ def _get_bundle_uindirect_waypoints(
 
     connections = [_merge_connections(c) for c in dict_connections.values()]
     return connections
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.Component("demo")
+    c1 = c << gf.components.mmi2x2()
+    c2 = c << gf.components.mmi2x2()
+    c2.d.move((100, 40))
+    routes = gf.routing.place_bundle(
+        c,
+        [c1.ports["o2"], c1.ports["o1"]],
+        [c2.ports["o1"], c2.ports["o2"]],
+        enforce_port_ordering=False
+        # layer=(2, 0),
+        # straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    )
+    c.show()

@@ -157,11 +157,14 @@ def place_route(
 
     xs = gf.get_cross_section(cross_section, **kwargs)
     width = xs.width
+    width_dbu = width / component.kcl.dbu
     straight = partial(straight, width=width)
     bend90 = gf.get_component(bend_euler)
     taper_cell = gf.get_component(taper) if taper else None
 
-    def straight_dbu(length: int, width: int = width) -> Component:
+    def straight_dbu(
+        length: int, width: int = width_dbu, cross_section=cross_section, **kwargs
+    ) -> Component:
         return straight(
             length=round(length * component.kcl.dbu),
             width=round(width * component.kcl.dbu),

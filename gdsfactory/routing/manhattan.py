@@ -7,6 +7,8 @@ from functools import partial
 
 import kfactory as kf
 import numpy as np
+from kfactory import kdb
+from kfactory.routing.manhattan import route_manhattan as kroute
 from numpy import bool_, ndarray
 
 import gdsfactory as gf
@@ -17,7 +19,6 @@ from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import angles_deg
 from gdsfactory.port import Port, select_ports_list
-from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.typings import (
     ComponentSpec,
     Coordinate,
@@ -642,9 +643,7 @@ def round_corners(
         else gf.get_component(bend, cross_section=cross_section, **kwargs)
     )
 
-    # bsx = bsy = _get_bend_size(bend90)
     auto_widen = [_x.auto_widen for _x in x] if isinstance(x, list) else x.auto_widen
-
     auto_widen_minimum_length = (
         [_x.auto_widen_minimum_length for _x in x]
         if isinstance(x, list)
@@ -944,7 +943,6 @@ def generate_manhattan_waypoints(
         min_straight_length: in um.
         bend: bend spec.
         cross_section: spec.
-        kwargs: cross_section settings.
 
     """
     if "straight" in kwargs:
@@ -969,23 +967,14 @@ def generate_manhattan_waypoints(
         end_straight_length = end_straight_length or x.min_length
         min_straight_length = min_straight_length or x.min_length
 
-    bsx = bsy = _get_bend_size(bend90)
-    return _generate_route_manhattan_points(
+    return kroute(
         input_port,
         output_port,
-        bsx,
-        bsy,
-        start_straight_length,
-        end_straight_length,
-        min_straight_length,
+        bend90_radius=int(bend90.info["radius"] * 1e3),
+        start_straight=int(start_straight_length * 1e3),
+        end_straight=int(end_straight_length * 1e3),
+        invert=True,
     )
-
-
-def _get_bend_size(bend90: Component, port_name1: str = "o1", port_name2: str = "o2"):
-    p1, p2 = bend90.ports[port_name1], bend90.ports[port_name2]
-    bsx = abs(p2.d.x - p1.d.x)
-    bsy = abs(p2.d.y - p1.d.y)
-    return max(bsx, bsy)
 
 
 def route_manhattan(
@@ -999,10 +988,8 @@ def route_manhattan(
     bend: ComponentSpec = bend_euler,
     with_sbend: bool = True,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
-    with_point_markers: bool = False,
-    on_route_error: Callable = get_route_error,
     **kwargs,
-) -> Route:
+) -> list[kdb.Point]:
     """Generates the Manhattan waypoints for a route.
 
     Then creates the straight, taper and bend references that define the
@@ -1035,32 +1022,14 @@ def route_manhattan(
         end_straight_length = end_straight_length or x.min_length
         min_straight_length = min_straight_length or x.min_length
 
-    try:
-        points = generate_manhattan_waypoints(
-            input_port,
-            output_port,
-            start_straight_length=start_straight_length,
-            end_straight_length=end_straight_length,
-            min_straight_length=min_straight_length,
-            bend=bend,
-            cross_section=x,
-        )
-        return round_corners(
-            points=points,
-            straight=straight,
-            taper=taper,
-            bend=bend,
-            cross_section=x,
-            with_point_markers=with_point_markers,
-            with_sbend=with_sbend,
-            on_route_error=on_route_error,
-        )
-
-    except RouteError:
-        if with_sbend:
-            return get_route_sbend(input_port, output_port, cross_section=x)
-
-    return get_route_error(points=points, with_sbend=False)
+    return kroute(
+        input_port,
+        output_port,
+        bend90_radius=int(bend.info["radius"] * 1e3),
+        start_straight=int(start_straight_length * 1e3),
+        end_straight=int(end_straight_length * 1e3),
+        invert=True,
+    )
 
 
 if __name__ == "__main__":
@@ -1070,9 +1039,9 @@ if __name__ == "__main__":
     pb = c << s
     pt.d.move((50, 50))
     route = gf.routing.place_route(
+        c,
         pb.ports["o2"],
         pt.ports["o1"],
         cross_section="xs_sc_auto_widen",
     )
-    c.add(route.references)
     c.show()

@@ -208,13 +208,27 @@ def place_bundle(
         "path_length_match_extra_length": path_length_match_extra_length,
         "path_length_match_modify_segment_i": path_length_match_modify_segment_i,
     }
+
+    width = cross_section.width
+    width_dbu = width / component.kcl.dbu
+
+    def straight_dbu(
+        length: int, width: int = width_dbu, cross_section=cross_section, **kwargs
+    ) -> Component:
+        return straight(
+            length=round(length * component.kcl.dbu),
+            width=round(width * component.kcl.dbu),
+            cross_section=cross_section,
+            **kwargs,
+        )
+
     params = {
         "component": component,
         "ports1": ports1,
         "ports2": ports2,
         "separation": separation,
         "bend": bend,
-        "straight": straight,
+        "straight": straight_dbu,
         "cross_section": cross_section,
         "enforce_port_ordering": enforce_port_ordering,
     }
@@ -272,7 +286,7 @@ def place_bundle(
         return place_bundle_same_axis(**params)
 
     elif start_angle == end_angle:
-        # print("get_bundle_udirect")
+        print("get_bundle_udirect")
         return get_bundle_udirect(**params)
 
     elif end_angle == (start_angle + 180) % 360:
