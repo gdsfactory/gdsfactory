@@ -157,6 +157,8 @@ def place_bundle(
         )
         separation = xs.width + xs.gap
 
+    separation = int(separation / component.kcl.dbu)
+
     if isinstance(cross_section, list | tuple):
         xs_list = []
         for element in cross_section:
@@ -795,7 +797,8 @@ if __name__ == "__main__":
         c,
         [c1.ports["o2"], c1.ports["o1"]],
         [c2.ports["o1"], c2.ports["o2"]],
-        enforce_port_ordering=False
+        enforce_port_ordering=False,
+        separation=5,
         # layer=(2, 0),
         # straight=partial(gf.components.straight, layer=(2, 0), width=1),
     )

@@ -721,9 +721,10 @@ c = gf.Component()
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.move((80, 0))
-routes = gf.routing.get_bundle(
-    c1.get_ports_list(orientation=0),
-    c2.get_ports_list(orientation=180),
+routes = gf.routing.place_bundle(
+    c,
+    gf.port.get_ports_list(c1.ports, orientation=0),
+    gf.port.get_ports_list(c2.ports, orientation=180),
     auto_widen=False,
 )
 for route in routes:
@@ -747,10 +748,7 @@ left_ports = [
     for i in range(N)
 ]
 left_ports.reverse()
-routes = gf.routing.get_bundle(right_ports, left_ports, radius=5)
-
-for route in routes:
-    c.add(route.references)
+routes = gf.routing.place_bundle(c, right_ports, left_ports, radius=5)
 c.plot()
 
 # %% [markdown]
@@ -764,8 +762,8 @@ c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.move((80, 0))
 routes = gf.routing.get_bundle_sbend(
-    c1.get_ports_list(orientation=0),
-    c2.get_ports_list(orientation=180),
+    gf.port.get_ports_list(c1.ports, orientation=0),
+    gf.port.get_ports_list(c2.ports, orientation=180),
     enforce_port_ordering=False,
 )
 for route in routes:
@@ -780,14 +778,13 @@ c = gf.Component()
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.move((80, 0))
-routes = gf.routing.get_bundle(
-    c1.get_ports_list(orientation=0),
-    c2.get_ports_list(orientation=180),
+routes = gf.routing.place_bundle(
+    c,
+    gf.port.get_ports_list(c1.ports, orientation=0),
+    gf.port.get_ports_list(c2.ports, orientation=180),
     with_sbend=True,
     enforce_port_ordering=False,
 )
-for route in routes:
-    c.add(route.references)
 c.plot()
 
 
@@ -859,16 +856,14 @@ ports2 = [
     for i in range(N)
 ]
 
-routes = gf.routing.get_bundle(
+routes = gf.routing.place_bundle(
+    c,
     ports1,
     ports2,
     path_length_match_extra_length=44,
     path_length_match_loops=2,
     end_straight_length=800,
 )
-for route in routes:
-    c.add(route.references)
-    print(route.length)
 c.plot()
 
 # %% [markdown]
@@ -899,7 +894,8 @@ ports2 = [
     for i in range(N)
 ]
 
-routes = gf.routing.get_bundle(
+routes = gf.routing.place_bundle(
+    c,
     ports1,
     ports2,
     path_length_match_loops=2,
@@ -907,9 +903,6 @@ routes = gf.routing.get_bundle(
     end_straight_length=800,
     separation=30,
 )
-for route in routes:
-    c.add(route.references)
-    print(route.length)
 c.plot()
 
 # %% [markdown]
@@ -919,13 +912,14 @@ c.plot()
 c = gf.Component()
 c1 = c << gf.components.straight_array(spacing=90)
 c2 = c << gf.components.straight_array(spacing=5)
-c2.movex(200)
+c2.d.movex(200)
 c1.y = 0
 c2.y = 0
 
-routes = gf.routing.get_bundle(
-    c1.get_ports_list(orientation=0),
-    c2.get_ports_list(orientation=180),
+routes = gf.routing.place_bundle(
+    c,
+    gf.port.get_ports_list(c1.ports, orientation=0),
+    gf.port.get_ports_list(c2.ports, orientation=180),
     end_straight_length=0,
     start_straight_length=0,
     separation=30,  # not enough
@@ -934,21 +928,20 @@ routes = gf.routing.get_bundle(
     enforce_port_ordering=False,
 )
 
-for route in routes:
-    c.add(route.references)
 c.plot()
 
 # %%
 c = gf.Component()
 c1 = c << gf.components.straight_array(spacing=90)
 c2 = c << gf.components.straight_array(spacing=5)
-c2.movex(200)
+c2.d.movex(200)
 c1.y = 0
 c2.y = 0
 
-routes = gf.routing.get_bundle(
-    c1.get_ports_list(orientation=0),
-    c2.get_ports_list(orientation=180),
+routes = gf.routing.place_bundle(
+    c,
+    gf.port.get_ports_list(c1.ports, orientation=0),
+    gf.port.get_ports_list(c2.ports, orientation=180),
     end_straight_length=0,
     start_straight_length=0,
     separation=80,  # increased
@@ -957,8 +950,6 @@ routes = gf.routing.get_bundle(
     enforce_port_ordering=False,
 )
 
-for route in routes:
-    c.add(route.references)
 c.plot()
 
 # %% [markdown]
@@ -1010,13 +1001,14 @@ right.move((200, 100))
 p1 = left.get_ports_list(orientation=0)
 p2 = right.get_ports_list(orientation=180)
 
-routes = gf.routing.get_bundle_from_steps(
+routes = gf.routing.place_bundle_from_steps(
+    c,
     p1,
     p2,
     steps=[{"x": 150}],
 )
 
-for route in routes:
-    c.add(route.references)
 
 c.plot()
+
+# %%
