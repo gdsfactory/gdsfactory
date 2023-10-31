@@ -562,20 +562,84 @@ def _get_bundle_uindirect_waypoints(
 
 
 if __name__ == "__main__":
+    # import gdsfactory as gf
+
+    # c = gf.Component("demo")
+    # c1 = c << gf.components.mmi2x2()
+    # c2 = c << gf.components.mmi2x2()
+    # c2.d.move((100, 40))
+    # routes = gf.routing.place_bundle(
+    #     c,
+    #     [c1.ports["o2"], c1.ports["o1"]],
+    #     [c2.ports["o1"], c2.ports["o2"]],
+    #     enforce_port_ordering=False,
+    #     # start_straight_length=0.001,
+    #     # end_straight_length=0.01,
+    #     # layer=(2, 0),
+    #     # straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    # )
+
     import gdsfactory as gf
 
-    c = gf.Component("demo")
-    c1 = c << gf.components.mmi2x2()
-    c2 = c << gf.components.mmi2x2()
-    c2.d.move((100, 40))
+    dy = 200
+    orientation = 270
+    layer = (1, 0)
+    xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
+    axis = "X" if orientation in [0, 180] else "Y"
+    pitch = 10.0
+    N = len(xs1)
+    xs2 = [70 + i * pitch for i in range(N)]
+
+    if axis == "X":
+        ports1 = [
+            Port(
+                f"top_{i}",
+                center=(0, xs1[i]),
+                width=0.5,
+                orientation=orientation,
+                layer=layer,
+            )
+            for i in range(N)
+        ]
+
+        ports2 = [
+            Port(
+                f"bottom_{i}",
+                center=(dy, xs2[i]),
+                width=0.5,
+                orientation=orientation,
+                layer=layer,
+            )
+            for i in range(N)
+        ]
+
+    else:
+        ports1 = [
+            Port(
+                f"top_{i}",
+                center=(xs1[i], 0),
+                width=0.5,
+                orientation=orientation,
+                layer=layer,
+            )
+            for i in range(N)
+        ]
+
+        ports2 = [
+            Port(
+                f"bottom_{i}",
+                center=(xs2[i], dy),
+                width=0.5,
+                orientation=orientation,
+                layer=layer,
+            )
+            for i in range(N)
+        ]
+
+    c = gf.Component()
     routes = gf.routing.place_bundle(
-        c,
-        [c1.ports["o2"], c1.ports["o1"]],
-        [c2.ports["o1"], c2.ports["o2"]],
-        enforce_port_ordering=False,
-        # start_straight_length=0.001,
-        # end_straight_length=0.01,
-        # layer=(2, 0),
-        # straight=partial(gf.components.straight, layer=(2, 0), width=1),
+        c, ports1, ports2, radius=10.0, enforce_port_ordering=False
     )
+    c.add_ports(ports1)
+    c.add_ports(ports2)
     c.show()
