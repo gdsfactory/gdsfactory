@@ -1,8 +1,6 @@
 """Routes bundles of ports (river routing)."""
 from __future__ import annotations
 
-from collections.abc import Callable
-
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as _straight
@@ -13,7 +11,7 @@ from gdsfactory.routing.get_bundle import (
     _get_bundle_waypoints,
     compute_ports_max_displacement,
 )
-from gdsfactory.routing.get_route import get_route_from_waypoints
+from gdsfactory.routing.get_route import place_route
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.typings import (
@@ -24,7 +22,14 @@ from gdsfactory.typings import (
 )
 
 
-def get_bundle_path_length_match(
+def get_bundle_path_length_match(*args, **kwargs):
+    raise ValueError(
+        "get_bundle_path_length_match is deprecated. Use place_bundle instead"
+    )
+
+
+def place_bundle_path_length_match(
+    component: ComponentSpec,
     ports1: list[Port],
     ports2: list[Port],
     separation: float = 30.0,
@@ -36,7 +41,6 @@ def get_bundle_path_length_match(
     straight: ComponentSpec = _straight,
     taper: ComponentSpec | None = taper_function,
     start_straight_length: float = 0.0,
-    route_filter: Callable = get_route_from_waypoints,
     sort_ports: bool = True,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     enforce_port_ordering: bool = True,
@@ -45,6 +49,7 @@ def get_bundle_path_length_match(
     """Returns list of routes that are path length matched.
 
     Args:
+        component: to add the routes to.
         ports1: list of ports.
         ports2: list of ports.
         separation: between the loops.
@@ -97,6 +102,7 @@ def get_bundle_path_length_match(
     extra_length /= 2
     cross_section = gf.get_cross_section(cross_section)
     cross_section = cross_section.copy(**kwargs)
+    radius = cross_section.radius
 
     # Heuristic to get a correct default end_straight_offset to leave
     # enough space for path-length compensation
@@ -115,13 +121,18 @@ def get_bundle_path_length_match(
         else:
             end_straight_length = 0
 
+    separation_dbu = round(separation / component.kcl.dbu)
+    end_straight_length_dbu = round(end_straight_length / component.kcl.dbu)
+    start_straight_length_dbu = round(start_straight_length / component.kcl.dbu)
+    radius_dbu = round(radius / component.kcl.dbu)
+
     list_of_waypoints = _get_bundle_waypoints(
         ports1=ports1,
         ports2=ports2,
-        separation=separation,
-        end_straight_length=end_straight_length,
-        start_straight_length=start_straight_length,
-        cross_section=cross_section,
+        separation_dbu=separation_dbu,
+        end_straight_length_dbu=end_straight_length_dbu,
+        start_straight_length_dbu=start_straight_length_dbu,
+        radius_dbu=radius_dbu,
     )
 
     list_of_waypoints = path_length_matched_points(
@@ -132,35 +143,36 @@ def get_bundle_path_length_match(
         modify_segment_i=modify_segment_i,
         cross_section=cross_section,
     )
-    return [
-        route_filter(
-            waypoints,
+
+    for port1, port2, waypoints in zip(ports1, ports2, list_of_waypoints):
+        place_route(
+            port1=port1,
+            port2=port2,
+            waypoints=waypoints,
             bend=bend,
             straight=straight,
             taper=taper,
             cross_section=cross_section,
+            end_straight_length=end_straight_length,
+            start_straight_length=start_straight_length,
         )
-        for waypoints in list_of_waypoints
-    ]
 
 
 if __name__ == "__main__":
     c = gf.Component()
     c1 = c << gf.components.straight_array(spacing=50)
     c2 = c << gf.components.straight_array(spacing=5)
-    c2.movex(200)
+    c2.d.movex(200)
     c1.y = 0
     c2.y = 0
 
-    routes = gf.routing.get_bundle_path_length_match(
-        c1.get_ports_list(orientation=0),
-        c2.get_ports_list(orientation=180),
+    routes = gf.routing.place_bundle_path_length_match(
+        component=c,
+        ports1=gf.port.get_ports_list(c1.ports, orientation=0),
+        ports2=gf.port.get_ports_list(c2.ports, orientation=180),
         end_straight_length=0,
         start_straight_length=0,
         separation=50,
-        # layer=(2, 0),
     )
 
-    for route in routes:
-        c.add(route.references)
     c.show()

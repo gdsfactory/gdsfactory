@@ -64,25 +64,23 @@ def add_electrical_pads_top(
 
     ports = [ref[port_name] for port_name in port_names] if port_names else None
     ports_electrical = ports or select_ports(ref.ports, **kwargs)
-    ports_electrical = list(ports_electrical.values())
 
     if direction == "top":
         pads = c << gf.get_component(
-            pad_array, columns=len(ports_electrical), rows=1, orientation=270
+            pad_array, columns=len(ports_electrical), rows=1, port_orientation=270
         )
     elif direction == "right":
         pads = c << gf.get_component(
             pad_array, columns=1, rows=len(ports_electrical), orientation=270
         )
-    pads.x = ref.x + spacing[0]
-    pads.ymin = ref.ymax + spacing[1]
-    ports_pads = list(pads.ports.values())
+    pads.d.x = ref.x + spacing[0]
+    pads.d.ymin = ref.ymax + spacing[1]
 
-    ports_pads = gf.routing.sort_ports.sort_ports_x(ports_pads)
+    ports_pads = gf.routing.sort_ports.sort_ports_x(pads.ports)
     ports_component = gf.routing.sort_ports.sort_ports_x(ports_electrical)
 
     for p1, p2 in zip(ports_component, ports_pads):
-        c << route_quad(p1, p2, layer=layer)
+        route_quad(c, p1, p2, layer=layer)
 
     c.add_ports(ref.ports)
 

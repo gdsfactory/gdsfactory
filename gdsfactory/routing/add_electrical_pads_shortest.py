@@ -17,6 +17,7 @@ def add_electrical_pads_shortest(
     component: ComponentSpec = _wire_long,
     pad: ComponentSpec = "pad",
     pad_port_spacing: float = 50.0,
+    pad_size: tuple[float, float] = (100.0, 100.0),
     select_ports: Callable = select_ports_electrical,
     port_names: Strs | None = None,
     port_orientation: float = 90,
@@ -45,7 +46,7 @@ def add_electrical_pads_shortest(
     """
     c = Component()
     component = gf.get_component(component)
-    pad = gf.get_component(pad)
+    pad = gf.get_component(pad, size=pad_size)
 
     c.component = component
     ref = c << component
@@ -54,9 +55,6 @@ def add_electrical_pads_shortest(
         if port_names
         else select_ports(ref.ports)
     )
-    ports = list(ports.values())
-
-    pad_port_spacing += pad.metadata_child["full"]["size"][0] / 2
 
     for i, port in enumerate(ports):
         p = c << pad
@@ -64,26 +62,24 @@ def add_electrical_pads_shortest(
         if port_orientation == 0:
             p.x = port.x + pad_port_spacing
             p.y = port.y
-            c.add_ref(route_quad(port, p.ports["e1"], layer=layer))
+            route_quad(component=c, port1=port, port2=p.ports["e1"], layer=layer)
         elif port_orientation == 180:
             p.x = port.x - pad_port_spacing
             p.y = port.y
-            c.add_ref(route_quad(port, p.ports["e3"], layer=layer))
+            route_quad(c, port, p.ports["e3"], layer=layer)
         elif port_orientation == 90:
             p.y = port.y + pad_port_spacing
             p.x = port.x
-            c.add_ref(route_quad(port, p.ports["e4"], layer=layer))
+            route_quad(c, port, p.ports["e4"], layer=layer)
         elif port_orientation == 270:
             p.y = port.y - pad_port_spacing
             p.x = port.x
-            c.add_ref(route_quad(port, p.ports["e2"], layer=layer))
+            route_quad(c, port, p.ports["e2"], layer=layer)
 
         c.add_port(port=p.ports["pad"], name=f"elec-{component.name}-{i+1}")
 
     c.add_ports(ref.ports)
 
-    for port in ports:
-        c.ports.pop(port.name)
     c.copy_child_info(component)
     return c
 
