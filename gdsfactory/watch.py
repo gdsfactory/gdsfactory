@@ -14,7 +14,7 @@ from IPython.terminal.embed import embed
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
-from gdsfactory.cell import CACHE, clear_cache
+from gdsfactory.cell import CACHE, clear_cache, remove_from_cache
 from gdsfactory.config import cwd
 from gdsfactory.pdk import get_active_pdk, on_pdk_activated
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
@@ -137,9 +137,9 @@ class FileWatcher(FileSystemEventHandler):
             filepath = pathlib.Path(filepath)
             if filepath.is_file():
                 if str(filepath).endswith(".pic.yml"):
-                    clear_cache()
                     cell_func = self.update_cell(filepath, update=True)
                     c = cell_func()
+                    remove_from_cache(c.name)
                     c.show(show_ports=True)
                     # on_yaml_cell_modified.fire(c)
                     return c
@@ -152,6 +152,9 @@ class FileWatcher(FileSystemEventHandler):
         except Exception as e:
             traceback.print_exc(file=sys.stdout)
             print(e)
+
+    def clear_cache(self) -> None:
+        clear_cache()
 
 
 def watch(path: pathlib.Path | str | None = cwd, pdk: str | None = None) -> None:
