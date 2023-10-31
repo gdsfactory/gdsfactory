@@ -799,6 +799,7 @@ if __name__ == "__main__":
         [c2.ports["o1"], c2.ports["o2"]],
         enforce_port_ordering=False,
         separation=5,
+        cross_section="xs_rc"
         # layer=(2, 0),
         # straight=partial(gf.components.straight, layer=(2, 0), width=1),
     )

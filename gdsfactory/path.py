@@ -779,6 +779,7 @@ def extrude(
         width = section.width
         width_function = section.width_function
         offset_function = section.offset_function
+        layer = section.layer
 
         if isinstance(width, int | float) and isinstance(offset, int | float):
             xsection_points.append([width, offset])
@@ -1478,15 +1479,16 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     P = gf.path.arc(angle=30)
-    s0 = gf.Section(
-        width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    )
-    s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
-    x1 = gf.CrossSection(sections=(s0, s1))
+    # s0 = gf.Section(
+    #     width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    # )
+    # s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
+    # x1 = gf.CrossSection(sections=(s0, s1))
+    x1 = gf.cross_section.xs_rc
     c = gf.path.extrude(P, x1)
 
-    ref = c.ref()
-    print(ref)
+    # ref = c.ref()
+    # print(ref)
     # s2 = gf.Section(
     #     width=0.5, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
     # )

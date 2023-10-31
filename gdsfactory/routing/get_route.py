@@ -158,8 +158,8 @@ def place_route(
     xs = gf.get_cross_section(cross_section, **kwargs)
     width = xs.width
     width_dbu = width / component.kcl.dbu
-    straight = partial(straight, width=width)
-    bend90 = gf.get_component(bend_euler)
+    straight = partial(straight, width=width, cross_section=cross_section)
+    bend90 = gf.get_component(bend_euler, cross_section=cross_section)
     taper_cell = gf.get_component(taper) if taper else None
 
     def straight_dbu(
@@ -241,6 +241,7 @@ if __name__ == "__main__":
         c,
         p0,
         p1,
+        cross_section="xs_rc",
         waypoints=[
             (p0x + o, p0y),
             (p0x + o, ytop),
@@ -248,4 +249,5 @@ if __name__ == "__main__":
             (p1x + o, p1y),
         ],
     )
+
     c.show()

@@ -47,6 +47,7 @@ def get_bundle_udirect(
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     enforce_port_ordering: bool = True,
+    cross_section: str = "xs_sc",
     **kwargs,
 ) -> list[OpticalManhattanRoute]:
     r"""Returns list of routes.
@@ -130,6 +131,7 @@ def get_bundle_udirect(
             waypoints=route,
             bend=bend,
             straight=straight,
+            cross_section=cross_section,
             **kwargs,
         )
         r.append(route)
