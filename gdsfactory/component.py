@@ -1186,8 +1186,8 @@ class Component(_GeometryHelper):
 
         self._get_child_name = True
         self.child = component
-        self.info.update(component.info)
-        self.settings.update(component.settings)
+        self.info.update(deepcopy(component.info))
+        self.settings.update(deepcopy(component.settings))
 
     @property
     def size_info(self) -> SizeInfo:

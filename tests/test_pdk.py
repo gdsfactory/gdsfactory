@@ -32,3 +32,30 @@ def test_klayout_technology_write(pdk, tmp_path) -> None:
     tech.write_tech(tech_dir=tmp_path)
     assert (tmp_path / "layers.lyp").exists()
     assert (tmp_path / "tech.lyt").exists()
+
+
+def hello_info_decorator(component: gf.Component):
+    component.info["message"] = "hello from the PDK decorator!"
+    return component
+
+
+@pytest.mark.skip(reason="this test causes side effects")
+def test_default_decorator():
+    # let's get the currently active pdk so we can set things back as they were later
+    prev_active_pdk = gf.get_active_pdk()
+
+    # create a new pdk with a default_decorator defined and activate it
+    pdk_with_decorator = gf.Pdk(
+        name="pdk_with_decorator",
+        base_pdk=get_generic_pdk(),
+        default_decorator=hello_info_decorator,
+    )
+    pdk_with_decorator.activate()
+
+    # now get any component from the pdk and assert that the PDK's decorator has been applied
+    c_from_pdk = gf.get_component("straight")
+    assert "message" in c_from_pdk.info
+    assert c_from_pdk.info["message"] == "hello from the PDK decorator!"
+
+    # teardown: reset to the previously active pdk
+    prev_active_pdk.activate()
