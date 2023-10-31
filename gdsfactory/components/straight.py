@@ -60,7 +60,7 @@ def straight(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = straight(cross_section="xs_rc")
+    c = straight(cross_section="xs_rc", info=dict(simulation="eme"))
     # c = straight()
-    print(c.info)
+    print(c.info["simulation"])
     c.show(show_ports=True)

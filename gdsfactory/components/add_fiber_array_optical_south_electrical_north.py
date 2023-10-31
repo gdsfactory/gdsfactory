@@ -1,5 +1,4 @@
 import json
-from typing import Any
 
 import gdsfactory as gf
 from gdsfactory.components.grating_coupler_elliptical import (
@@ -7,7 +6,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
 )
 from gdsfactory.components.mzi_phase_shifter import mzi_phase_shifter
 from gdsfactory.components.pad import pad_small
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell_with_child
@@ -23,13 +22,6 @@ def add_fiber_array_optical_south_electrical_north(
     npads: int | None = None,
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     xs_metal: CrossSectionSpec = "xs_metal_routing",
-    layer_label: LayerSpec = "TEXT",
-    measurement: str = "optical_loopback2_heater_sweep",
-    measurement_settings: dict[str, Any] | None = None,
-    analysis: str = "",
-    analysis_settings: dict[str, Any] | None = None,
-    doe: str = "",
-    anchor: str = "sw",
     **kwargs,
 ) -> gf.Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
@@ -48,14 +40,6 @@ def add_fiber_array_optical_south_electrical_north(
         npads: number of pads. Defaults to one per electrical_port_names.
         grating_coupler: grating coupler function.
         xs_metal: metal cross section.
-        layer_label: layer for settings label.
-        measurement: measurement name.
-        measurement_settings: measurement settings.
-        analysis: analysis name.
-        analysis_settings: analysis settings.
-        doe: Design of Experiment.
-        anchor: anchor point for the label. Defaults to south-west "sw". \
-            Valid options are: "n", "s", "e", "w", "ne", "nw", "se", "sw", "c".
 
     Keyword Args:
         gc_port_name: grating coupler input port name.
@@ -129,28 +113,6 @@ def add_fiber_array_optical_south_electrical_north(
         c.add(route.references)
 
     c.add_ports(ports2)
-    xc, yc = getattr(r.size_info, anchor)
-
-    analysis_settings = analysis_settings or {}
-    # cell_settings = component.metadata.get("full", {})
-
-    # if layer_label:
-    #     settings = dict(
-    #         name=component.name,
-    #         measurement=measurement,
-    #         xopt=[int(optical_ports[0].x - xc)],
-    #         yopt=[int(optical_ports[0].y - yc)],
-    #         xelec=[int(ports2[0].x - xc)],
-    #         yelec=[int(ports2[0].y - yc)],
-    #         measurement_settings=measurement_settings,
-    #         analysis=analysis,
-    #         analysis_settings=analysis_settings,
-    #         doe=doe,
-    #         cell_settings=cell_settings,
-    #     )
-    #     info = json.dumps(settings)
-    #     c.add_label(layer=layer_label, text=info, position=(xc, yc))
-
     c.copy_child_info(r)
     return c
 

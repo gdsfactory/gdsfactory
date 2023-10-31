@@ -1202,11 +1202,11 @@ class Component(_GeometryHelper):
         )
 
     def is_unlocked(self) -> None:
-        """Raises error if Component is locked."""
+        """Raises warning if Component is locked."""
         if self._locked:
-            raise MutabilityError(
-                f"Component {self.name!r} cannot be modified as it's already on cache. "
-                + mutability_error_message
+            warnings.warn(
+                f"Component {self.name!r} is dangerous to modify as it's already "
+                "on cache and will change all of its references. "
             )
 
     def _add(self, element) -> None:

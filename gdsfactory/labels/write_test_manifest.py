@@ -4,7 +4,6 @@ import json
 import pathlib
 from functools import partial
 
-import numpy as np
 import pandas as pd
 
 import gdsfactory as gf
@@ -24,7 +23,8 @@ def write_test_manifest(
     Args:
         csvpath: path to CSV file with test site labels.
         gdspath: path to GDS file with test site labels.
-        marker: marker to use for test site labels.
+        marker_optical: marker to use for test site labels.
+        marker_electrical: marker to use for test site labels.
     """
     df_in = pd.read_csv(csvpath)
 
@@ -33,10 +33,9 @@ def write_test_manifest(
     columns = [
         "cell",
         "device",
-        "xopt",
-        "yopt",
-        "xelec",
-        "yelec",
+        "port_type",
+        "x",
+        "y",
         "measurement",
         "measurement_settings",
         "doe",
@@ -56,22 +55,21 @@ def write_test_manifest(
         d = json.loads(text)
 
         if gdspath:
-            if d["xopt"]:
+            if d["port_type"] == "optical":
                 ref = c << marker_optical
-                ref.x = d["xopt"][0] + x
-                ref.y = d["yopt"][0] + y
-            if d["xelec"]:
+                ref.x = x
+                ref.y = y
+            elif d["port_type"] == "electrical":
                 ref = c << marker_electrical
-                ref.x = d["xelec"][0] + x
-                ref.y = d["yelec"][0] + y
+                ref.x = x
+                ref.y = y
 
         row = [
             d["name"],
             d["name"] + f"_{int(x)}_{int(y)}",
-            [np.round(i + x, 3) for i in d["xopt"]],
-            [np.round(i + y, 3) for i in d["yopt"]],
-            [np.round(i + x, 3) for i in d["xelec"]],
-            [np.round(i + y, 3) for i in d["yelec"]],
+            d["port_type"],
+            x,
+            y,
             d["measurement"],
             d["measurement_settings"],
             d["doe"],
@@ -92,8 +90,8 @@ def write_test_manifest(
 
 if __name__ == "__main__":
     c = sample_reticle(grid=False)
-    c = c.mirror()
-    c.show(show_ports=True)
+    # c = c.mirror()
+    c.show(show_ports=False)
     gdspath = c.write_gds("sample_reticle.gds")
     csvpath = gf.labels.write_labels.write_labels_gdstk(
         gdspath, prefixes=("{",), layer_label="TEXT"

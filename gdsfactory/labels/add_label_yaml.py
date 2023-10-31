@@ -23,7 +23,7 @@ def add_label_yaml(
     doe: str | None = None,
     with_yaml_format: bool = True,
     port_index_optical: tuple[int, ...] | None = (0,),
-    port_index_electrical: tuple[int, ...] | None = (0,),
+    port_index_electrical: tuple[int, ...] | None = (-1,),
 ) -> gf.Component:
     """Returns Component with measurement label.
 
@@ -60,7 +60,7 @@ def add_label_yaml(
     port_index_optical = port_index_optical if optical_ports else ()
     port_index_electrical = port_index_electrical if electrical_ports else ()
 
-    d = dict(
+    settings = dict(
         name=component.name,
         doe=doe,
         measurement=measurement,
@@ -69,8 +69,9 @@ def add_label_yaml(
         measurement_settings=measurement_settings,
         analysis_settings=analysis_settings,
     )
-    text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
     for port_index in port_index_optical:
+        d = dict(port_type="optical", **settings)
+        text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
         x, y = optical_ports[port_index].center
         label = gf.Label(
             text=text,
@@ -81,6 +82,8 @@ def add_label_yaml(
         )
         component.add(label)
     for port_index in port_index_electrical:
+        d = dict(port_type="electrical", **settings)
+        text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
         x, y = electrical_ports[port_index].center
         label = gf.Label(
             text=text,

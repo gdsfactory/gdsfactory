@@ -50,7 +50,7 @@ def sample_reticle(grid: bool = True, **kwargs) -> gf.Component:
             mzi,
             electrical_port_names=["top_l_e2", "top_r_e2"],
             decorator=gf.labels.add_label_json,
-            **test_info_mzi_heaters,
+            info=test_info_mzi_heaters,
         )
         for mzi in mzis
     ]
@@ -59,7 +59,7 @@ def sample_reticle(grid: bool = True, **kwargs) -> gf.Component:
             ring,
             electrical_port_names=["l_e2", "r_e2"],
             decorator=gf.labels.add_label_json,
-            **test_info_ring_heaters,
+            info=test_info_ring_heaters,
         )
         for ring in rings
     ]
