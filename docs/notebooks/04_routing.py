@@ -5,16 +5,15 @@
 #     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       format_name: light
+#       format_version: '1.5'
+#       jupytext_version: 1.15.2
 #   kernelspec:
 #     display_name: base
 #     language: python
 #     name: python3
 # ---
 
-# %% [markdown]
 # # Routing
 #
 # Optical and high speed RF ports have an orientation that routes need to follow to avoid sharp turns that produce reflections.
@@ -34,7 +33,7 @@
 #
 # The biggest limitation is that it requires to have all the ports with the same orientation, for that you can use `gf.routing.route_ports_to_side`
 
-# %%
+# +
 from functools import partial
 
 import gdsfactory as gf
@@ -43,22 +42,24 @@ from gdsfactory.component import Component
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.port import Port
 
-# %%
+
+gf.config.rich_output()
+PDK = get_generic_pdk()
+PDK.activate()
+# -
+
 c = gf.Component()
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
 mmi2.d.move((100, 50))
 c.plot()
 
-# %% [markdown]
 # ## get_route
 #
 # `get_route` returns a Manhattan route between 2 ports
 
-# %%
 help(gf.routing.get_route)
 
-# %%
 c = gf.Component()
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
@@ -66,15 +67,12 @@ mmi2.d.move((100, 50))
 route = gf.routing.place_route(c, port1=mmi1.ports["o2"], port2=mmi2.ports["o1"])
 c.plot()
 
-# %%
 route
 
-# %% [markdown]
 # **Problem**: get_route with obstacles
 #
 # sometimes there are obstacles that connect strip does not see!
 
-# %%
 c = gf.Component()
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
@@ -84,7 +82,6 @@ x.d.move((135, 20))
 route = gf.routing.place_route(c, mmi1.ports["o2"], mmi2.ports["o2"])
 c.plot()
 
-# %% [markdown]
 # **Solutions:**
 #
 # - specify the route steps
@@ -93,7 +90,7 @@ c.plot()
 #
 # `place_route_from_steps` is a manual version of `place_route` where you can define only the new steps `x` or `y` together with increments `dx` or `dy`
 
-# %%
+# +
 c = gf.Component()
 w = gf.components.straight()
 left = c << w
@@ -122,7 +119,7 @@ routes = gf.routing.place_route_from_steps(
 )
 c.plot()
 
-# %%
+# +
 c = gf.Component()
 w = gf.components.straight()
 left = c << w
@@ -150,8 +147,8 @@ routes = gf.routing.place_route_from_steps(
     ],
 )
 c.plot()
+# -
 
-# %% [markdown]
 # ## get_bundle
 #
 # To route groups of ports avoiding waveguide collisions, you should use `get_bundle` instead of `get_route`.
@@ -161,7 +158,7 @@ c.plot()
 # At the moment it works only when each group of ports have the same orientation.
 #
 
-# %%
+# +
 ys_right = [0, 10, 20, 40, 50, 80]
 pitch = 127.0
 N = len(ys_right)
@@ -189,7 +186,7 @@ routes = gf.routing.place_bundle(
 )
 c.plot()
 
-# %%
+# +
 xs_top = [0, 10, 20, 40, 50, 80]
 pitch = 127.0
 N = len(xs_top)
@@ -218,13 +215,13 @@ routes = gf.routing.place_bundle(
 )
 c.show()
 c.plot()
+# -
 
-# %% [markdown]
 # `get_bundle` can also route bundles through corners
 #
 
 
-# %%
+# +
 @cell
 def test_connect_corner(N=6, config="A"):
     d = 10.0
@@ -433,13 +430,13 @@ def test_connect_corner(N=6, config="A"):
 
 c = test_connect_corner(config="A")
 c.plot()
+# -
 
-# %%
 c = test_connect_corner(config="C")
 c.plot()
 
 
-# %%
+# +
 @cell
 def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
@@ -501,12 +498,12 @@ def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
     return c
 
 
-c = test_connect_bundle_udirect(cache=False)
+c = test_connect_bundle_udirect()
 c.plot()
 
 
-# %%
-@cell
+# +
+@gf.cell
 def test_connect_bundle_u_indirect(dy=-200, orientation=180, layer=(1, 0)):
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
     axis = "X" if orientation in [0, 180] else "Y"
@@ -568,7 +565,7 @@ c = test_connect_bundle_u_indirect(orientation=0)
 c.plot()
 
 
-# %%
+# +
 @gf.cell
 def test_north_to_south(layer=(1, 0)):
     dy = 200.0
@@ -601,8 +598,8 @@ c = test_north_to_south()
 c.plot()
 
 
-# %%
-@gf.cell
+# +
+@gf.cell(cache={})
 def demo_connect_bundle():
     """combines all the connect_bundle tests"""
     y = 400.0
@@ -612,58 +609,60 @@ def demo_connect_bundle():
     c = gf.Component()
     for j, s in enumerate([-1, 1]):
         for i, orientation in enumerate([0, 90, 180, 270]):
-            ci = test_connect_bundle_u_indirect(dy=s * dy, orientation=orientation)
-            ref = ci.ref(position=(i * x, j * y))
-            c.add(ref)
+            ref = c << test_connect_bundle_u_indirect(
+                dy=s * dy, orientation=orientation
+            )
+            ref.d.center = (i * x, j * y)
 
-            ci = test_connect_bundle_udirect(dy=s * dy, orientation=orientation)
-            ref = ci.ref(position=(i * x, j * y + y0))
-            c.add(ref)
+            ref = c << test_connect_bundle_udirect(dy=s * dy, orientation=orientation)
+            ref.d.center = (i * x, j * y + y0)
 
     for i, config in enumerate(["A", "B", "C", "D"]):
-        ci = test_connect_corner(config=config)
-        ref = ci.ref(position=(i * x, 1700))
-        c.add(ref)
+        ref = c << test_connect_corner(config=config)
+        ref.center = (i * x, 1700)
 
     return c
 
 
 c = demo_connect_bundle()
 c.plot()
+# -
 
-# %%
+import gdsfactory as gf
+
+# +
 c = gf.Component()
 c1 = c << gf.components.mmi2x2()
 c2 = c << gf.components.mmi2x2()
 
-c2.move((100, 50))
+c2.d.move((100, 50))
 routes = gf.routing.place_bundle(
     c, [c1.ports["o4"], c1.ports["o3"]], [c2.ports["o1"], c2.ports["o2"]], radius=5
 )
 c.plot()
+# -
 
-# %%
 c = gf.Component()
 c1 = c << gf.components.pad()
 c2 = c << gf.components.pad()
-c2.move((200, 100))
+c2.d.move((200, 100))
 routes = gf.routing.place_bundle(
     c, [c1.ports["e3"]], [c2.ports["e1"]], cross_section=gf.cross_section.metal1
 )
 c.plot()
 
-# %%
+# +
 c = gf.Component()
 pad_array = gf.components.pad_array()
 
 c1 = c << pad_array
 c2 = c << pad_array
-c2.rotate(90)
-c2.movex(1000)
-c2.ymax = -200
+c2.d.rotate(90)
+c2.d.movex(1000)
+c2.d.ymax = -200
 
 routes_bend180 = gf.routing.get_routes_bend180(
-    ports=c2.get_ports_list(),
+    ports=c2.ports,
     radius=75 / 2,
     cross_section=gf.cross_section.metal1,
     bend_port1="e1",
@@ -671,22 +670,20 @@ routes_bend180 = gf.routing.get_routes_bend180(
 )
 c.add(routes_bend180.references)
 
-routes = gf.routing.get_bundle(
-    c1.get_ports_list(), routes_bend180.ports, cross_section=gf.cross_section.metal1
+routes = gf.routing.place_bundle(
+    c1.ports, routes_bend180.ports, cross_section=gf.cross_section.metal1
 )
-for route in routes:
-    c.add(route.references)
 c.plot()
 
-# %%
+# +
 c = gf.Component()
 pad_array = gf.components.pad_array()
 
 c1 = c << pad_array
 c2 = c << pad_array
 c2.rotate(90)
-c2.movex(1000)
-c2.ymax = -200
+c2.d.movex(1000)
+c2.d.ymax = -200
 
 routes_bend180 = gf.routing.get_routes_bend180(
     ports=c2.get_ports_list(),
@@ -696,42 +693,36 @@ routes_bend180 = gf.routing.get_routes_bend180(
     bend_port2="e1",
 )
 c.add(routes_bend180.references)
-
-routes = gf.routing.get_bundle(
-    c1.ports, routes_bend180.ports, cross_section=gf.cross_section.metal1
+routes = gf.routing.place_bundle(
+    c, c1.ports, routes_bend180.ports, cross_section=gf.cross_section.metal1
 )
-for route in routes:
-    c.add(route.references)
 c.plot()
+# -
 
-# %% [markdown]
 # **Problem**
 #
 # Sometimes 90 degrees routes do not have enough space for a Manhattan route
 
-# %%
 c = gf.Component()
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.d.move((80, 0))
 c.plot()
 
-# %%
 c = gf.Component()
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.move((80, 0))
-routes = gf.routing.place_bundle(
-    c,
-    gf.port.get_ports_list(c1.ports, orientation=0),
-    gf.port.get_ports_list(c2.ports, orientation=180),
+routes = gf.routing.get_bundle(
+    c1.get_ports_list(orientation=0),
+    c2.get_ports_list(orientation=180),
     auto_widen=False,
 )
 for route in routes:
     c.add(route.references)
 c.plot()
 
-# %%
+# +
 c = gf.Component()
 pitch = 2.0
 ys_left = [0, 10, 20]
@@ -748,52 +739,52 @@ left_ports = [
     for i in range(N)
 ]
 left_ports.reverse()
-routes = gf.routing.place_bundle(c, right_ports, left_ports, radius=5)
-c.plot()
+routes = gf.routing.get_bundle(right_ports, left_ports, radius=5)
 
-# %% [markdown]
+for route in routes:
+    c.add(route.references)
+c.plot()
+# -
+
 # **Solution**
 #
 # Add Sbend routes using `get_bundle_sbend`
 
-# %%
 c = gf.Component()
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.move((80, 0))
 routes = gf.routing.get_bundle_sbend(
-    gf.port.get_ports_list(c1.ports, orientation=0),
-    gf.port.get_ports_list(c2.ports, orientation=180),
+    c1.get_ports_list(orientation=0),
+    c2.get_ports_list(orientation=180),
     enforce_port_ordering=False,
 )
 for route in routes:
     c.add(route.references)
 c.plot()
 
-# %% [markdown]
 # You can also `get_bundle` adding `with_sbend=True`
 
-# %%
 c = gf.Component()
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.move((80, 0))
-routes = gf.routing.place_bundle(
-    c,
-    gf.port.get_ports_list(c1.ports, orientation=0),
-    gf.port.get_ports_list(c2.ports, orientation=180),
+routes = gf.routing.get_bundle(
+    c1.get_ports_list(orientation=0),
+    c2.get_ports_list(orientation=180),
     with_sbend=True,
     enforce_port_ordering=False,
 )
+for route in routes:
+    c.add(route.references)
 c.plot()
 
 
-# %% [markdown]
 # ### get_bundle with path_length_match
 #
 # Sometimes you need to route two groups of ports keeping the same route lengths.
 
-# %%
+# +
 c = gf.Component()
 dy = 2000.0
 xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -827,13 +818,13 @@ for route in routes:
     c.add(route.references)
     print(route.length)
 c.plot()
+# -
 
-# %% [markdown]
 # ### path_length_match with extra length
 #
 # You can also add some extra length to all the routes
 
-# %%
+# +
 c = gf.Component()
 
 dy = 2000.0
@@ -856,22 +847,24 @@ ports2 = [
     for i in range(N)
 ]
 
-routes = gf.routing.place_bundle(
-    c,
+routes = gf.routing.get_bundle(
     ports1,
     ports2,
     path_length_match_extra_length=44,
     path_length_match_loops=2,
     end_straight_length=800,
 )
+for route in routes:
+    c.add(route.references)
+    print(route.length)
 c.plot()
+# -
 
-# %% [markdown]
 # ### path length match with extra loops
 #
 # You can also increase the number of loops
 
-# %%
+# +
 c = gf.Component()
 
 dy = 2000.0
@@ -894,8 +887,7 @@ ports2 = [
     for i in range(N)
 ]
 
-routes = gf.routing.place_bundle(
-    c,
+routes = gf.routing.get_bundle(
     ports1,
     ports2,
     path_length_match_loops=2,
@@ -903,23 +895,25 @@ routes = gf.routing.place_bundle(
     end_straight_length=800,
     separation=30,
 )
+for route in routes:
+    c.add(route.references)
+    print(route.length)
 c.plot()
+# -
 
-# %% [markdown]
 # Sometimes you need to modify `separation` to ensure waveguides don't overlap.
 
-# %%
+# +
 c = gf.Component()
 c1 = c << gf.components.straight_array(spacing=90)
 c2 = c << gf.components.straight_array(spacing=5)
-c2.d.movex(200)
+c2.movex(200)
 c1.y = 0
 c2.y = 0
 
-routes = gf.routing.place_bundle(
-    c,
-    gf.port.get_ports_list(c1.ports, orientation=0),
-    gf.port.get_ports_list(c2.ports, orientation=180),
+routes = gf.routing.get_bundle(
+    c1.get_ports_list(orientation=0),
+    c2.get_ports_list(orientation=180),
     end_straight_length=0,
     start_straight_length=0,
     separation=30,  # not enough
@@ -928,20 +922,21 @@ routes = gf.routing.place_bundle(
     enforce_port_ordering=False,
 )
 
+for route in routes:
+    c.add(route.references)
 c.plot()
 
-# %%
+# +
 c = gf.Component()
 c1 = c << gf.components.straight_array(spacing=90)
 c2 = c << gf.components.straight_array(spacing=5)
-c2.d.movex(200)
+c2.movex(200)
 c1.y = 0
 c2.y = 0
 
-routes = gf.routing.place_bundle(
-    c,
-    gf.port.get_ports_list(c1.ports, orientation=0),
-    gf.port.get_ports_list(c2.ports, orientation=180),
+routes = gf.routing.get_bundle(
+    c1.get_ports_list(orientation=0),
+    c2.get_ports_list(orientation=180),
     end_straight_length=0,
     start_straight_length=0,
     separation=80,  # increased
@@ -950,9 +945,11 @@ routes = gf.routing.place_bundle(
     enforce_port_ordering=False,
 )
 
+for route in routes:
+    c.add(route.references)
 c.plot()
+# -
 
-# %% [markdown]
 # ### get bundle with different orientation ports
 #
 # When trying to route ports with different orientations you need to bring them to a common `x` or `y`
@@ -961,7 +958,7 @@ c.plot()
 # 1. Use `route_ports_to_side` to bring all the ports to a common angle orientation and x or y.
 # 2. Use `get_bundle` to connect to the other group of ports.
 
-# %%
+# +
 from gdsfactory.samples.big_device import big_device
 
 c = gf.Component()
@@ -980,13 +977,13 @@ for route in routes:
     c.add(route.references)
 
 c.plot()
+# -
 
-# %% [markdown]
 # ## get_bundle_from_steps
 #
 # This is a manual version of `get_bundle` that is more convenient than defining the waypoints.
 
-# %%
+# +
 c = gf.Component()
 w = gf.components.array(
     partial(gf.components.straight, layer=(2, 0)),
@@ -997,18 +994,17 @@ w = gf.components.array(
 
 left = c << w
 right = c << w
-right.move((200, 100))
+right.d.move((200, 100))
 p1 = left.get_ports_list(orientation=0)
 p2 = right.get_ports_list(orientation=180)
 
-routes = gf.routing.place_bundle_from_steps(
-    c,
+routes = gf.routing.get_bundle_from_steps(
     p1,
     p2,
     steps=[{"x": 150}],
 )
 
+for route in routes:
+    c.add(route.references)
 
 c.plot()
-
-# %%
