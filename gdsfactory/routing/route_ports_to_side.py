@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from collections.abc import Callable
 from typing import Any
 
+import kfactory as kf
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component
 from gdsfactory.port import Port, flipped
-from gdsfactory.routing.get_route import get_route
-from gdsfactory.typings import Route, RouteFactory
+from gdsfactory.routing.get_route import place_route
+from gdsfactory.typings import Route
 
 
 def sort_key_west_to_east(port: Port) -> float:
@@ -29,11 +29,11 @@ def sort_key_north_to_south(port: Port) -> float:
 
 
 def route_ports_to_side(
-    ports: dict[str, Port] | list[Port] | Component | ComponentReference,
+    component: Component,
+    ports: list[kf.Port] | Component | list[gf.Port] | None = None,
     side: str = "north",
     x: float | None = None,
     y: float | None = None,
-    routing_func: Callable = get_route,
     **kwargs,
 ) -> tuple[list[Route], list[Port]]:
     """Routes ports to a given side.
@@ -43,7 +43,6 @@ def route_ports_to_side(
         side: 'north', 'south', 'east' or 'west'.
         x: position to route ports for east/west. None, uses most east/west value.
         y: position to route ports for south/north. None, uses most north/south value.
-        routing_func: the routing function. By default uses `get_route`.
 
     Keyword Args:
       radius: in um.
@@ -81,14 +80,6 @@ def route_ports_to_side(
     if not ports:
         return [], []
 
-    # Accept list of ports, Component or dict of ports
-    if isinstance(ports, dict):
-        ports = list(ports.values())
-
-    elif isinstance(ports, Component | ComponentReference):
-        ports = list(ports.ports.values())
-
-    # Choose which
     if side in {"north", "south"}:
         func_route = route_ports_to_y
         xy = y if y is not None else side
@@ -98,7 +89,8 @@ def route_ports_to_side(
     else:
         raise ValueError(f"side = {side} not valid (north, south, west, east)")
 
-    return func_route(ports, xy, routing_func=routing_func, **kwargs)
+    ports = ports or component.ports
+    return func_route(component, ports, xy, **kwargs)
 
 
 def route_ports_to_north(list_ports, **kwargs):
@@ -118,6 +110,7 @@ def route_ports_to_east(list_ports, **kwargs):
 
 
 def route_ports_to_x(
+    component: Component,
     list_ports: list[Port],
     x: float | str = "east",
     separation: float = 10.0,
@@ -127,7 +120,6 @@ def route_ports_to_x(
     extension_length: float = 0.0,
     y0_bottom: float | None = None,
     y0_top: float | None = None,
-    routing_func: RouteFactory = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
     dx_start: float | None = None,
@@ -137,6 +129,7 @@ def route_ports_to_x(
     """Returns route to x.
 
     Args:
+        component: component to route.
         list_ports: reasonably well behaved list of ports.
            ports facing north ports are norther than any other ports
            ports facing south ports are souther ...
@@ -153,7 +146,6 @@ def route_ports_to_x(
         extension_length: in um.
         y0_bottom: in um.
         y0_top: in um.
-        routing_func: to route.
         backward_port_side_split_index: integer represents and index in the list of backwards ports (bottom to top)
                 all ports with an index strictly lower or equal are routed bottom
             all ports with an index larger or equal are routed top
@@ -237,11 +229,16 @@ def route_ports_to_x(
     def add_port(
         p, y, l_elements, l_ports, start_straight_length=start_straight_length
     ) -> None:
-        new_port = p.copy(name=f"{p.name}_new")
+        new_port = p.copy()
         new_port.orientation = angle
         new_port.center = (x + extension_length, y)
+
+        new_port2 = new_port.copy()
+        new_port2.orientation = new_port2.orientation + 180
+
         l_elements += [
-            routing_func(
+            place_route(
+                component,
                 p,
                 new_port,
                 start_straight_length=start_straight_length,
@@ -249,7 +246,7 @@ def route_ports_to_x(
                 **routing_func_args,
             )
         ]
-        l_ports += [new_port.flip()]
+        l_ports += [new_port2]
 
     y_optical_bot = y0_bottom
     for p in south_ports:
@@ -311,6 +308,7 @@ def route_ports_to_x(
 
 
 def route_ports_to_y(
+    component: Component,
     list_ports: list[Port],
     y: float | str = "north",
     separation: float = 10.0,
@@ -320,26 +318,24 @@ def route_ports_to_y(
     extension_length: float = 0.0,
     extend_left: float = 0.0,
     extend_right: float = 0.0,
-    routing_func: RouteFactory = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
     dx_start: float | None = None,
     dy_start: float | None = None,
     **routing_func_args: dict[Any, Any],
 ) -> tuple[list[Route], list[Port]]:
-    """Args are the following.
-
+    """
+    Args:
+        component: component to route.
         list_ports: reasonably well behaved list of ports.
            ports facing north ports are norther than any other ports
            ports facing south ports are souther ...
            ports facing west ports are the wester ...
            ports facing east ports are the easter ...
-
         y: float or string.
                if float: y coordinate to which the ports will be routed
                if string: "north" -> route to north
                if string: "south" -> route to south
-
         backward_port_side_split_index: integer
                this integer represents and index in the list of backwards ports
                    (sorted from left to right)
@@ -447,13 +443,14 @@ def route_ports_to_y(
         new_port.orientation = angle
         new_port.center = (x, y + extension_length)
 
-        if np.sum(np.abs((new_port.center - p.center) ** 2)) < 1e-12:
+        if np.sum(np.abs((np.array(new_port.center) - p.center) ** 2)) < 1e-12:
             l_ports += [flipped(new_port)]
             return
 
         try:
             l_elements += [
-                routing_func(
+                place_route(
+                    component,
                     p,
                     new_port,
                     start_straight_length=start_straight_length,
@@ -557,17 +554,15 @@ def _sample_route_sides() -> Component:
 
 if __name__ == "__main__":
     c = Component("sample_route_sides")
-    dummy = gf.components.nxn(north=2, south=2, west=2, east=2, cross_section="nitride")
+    dummy = gf.components.nxn(north=2, south=2, west=2, east=2, cross_section="xs_sc")
     sides = ["north", "south", "east", "west"]
     d = 100
     positions = [(0, 0), (d, 0), (d, d), (0, d)]
 
     for pos, side in zip(positions, sides):
-        dummy_ref = dummy.ref(position=pos)
-        c.add(dummy_ref)
-        routes, ports = route_ports_to_side(dummy_ref, side, layer=(1, 0))
-        for route in routes:
-            c.add(route.references)
+        dummy_ref = c << dummy
+        dummy_ref.d.center = pos
+        routes, ports = route_ports_to_side(c, dummy_ref.ports, side, layer=(1, 0))
         for i, p in enumerate(ports):
             c.add_port(name=f"{side[0]}{i}", port=p)
 

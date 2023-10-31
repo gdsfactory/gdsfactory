@@ -275,27 +275,59 @@ def _get_bundle_corner_waypoints(
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.routing import get_routes_bend180
 
-    c = gf.Component("get_routes_bend180")
-    pad_array = gf.components.pad_array(orientation=270)
-    c1 = c << pad_array
-    c2 = c << pad_array
-    c2.rotate(90)
-    c2.movex(1000)
-    c2.ymax = -200
+    dy = -200
+    orientation = 0
+    layer = (1, 0)
+    xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
+    axis = "X" if orientation in [0, 180] else "Y"
+    pitch = 10.0
+    N = len(xs1)
+    xs2 = [50 + i * pitch for i in range(N)]
 
-    routes_bend180 = get_routes_bend180(
-        ports=c2.get_ports_list(),
-        radius=75 / 2,
+    a1 = orientation
+    a2 = a1 + 180
+
+    if axis == "X":
+        ports1 = [
+            Port(f"top_{i}", center=(0, xs1[i]), width=0.5, orientation=a1, layer=layer)
+            for i in range(N)
+        ]
+
+        ports2 = [
+            Port(
+                f"bot_{i}",
+                center=(dy, xs2[i]),
+                width=0.5,
+                orientation=a2,
+                layer=layer,
+            )
+            for i in range(N)
+        ]
+
+    else:
+        ports1 = [
+            Port(f"top_{i}", center=(xs1[i], 0), width=0.5, orientation=a1, layer=layer)
+            for i in range(N)
+        ]
+
+        ports2 = [
+            Port(
+                f"bot_{i}",
+                center=(xs2[i], dy),
+                width=0.5,
+                orientation=a2,
+                layer=layer,
+            )
+            for i in range(N)
+        ]
+
+    c = gf.Component()
+    routes = gf.routing.place_bundle(
+        c,
+        ports1,
+        ports2,
+        bend=gf.components.bend_euler,
+        radius=5,
+        enforce_port_ordering=False,
     )
-    c.add(routes_bend180.references)
-
-    routes = gf.routing.get_bundle(
-        ports1=c1.get_ports_list(),
-        ports2=routes_bend180.ports,
-    )
-    for route in routes:
-        c.add(route.references)
-
-    c.show()

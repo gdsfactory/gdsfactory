@@ -5,7 +5,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.path import Path, transition
 from gdsfactory.port import Port
 from gdsfactory.routing.route_quad import _get_rotated_basis
@@ -54,8 +54,9 @@ def path_L(port1: Port, port2: Port) -> Path:
     if delta_orientation not in (90, 270):
         raise ValueError("path_L(): ports must be orthogonal.")
     e1, e2 = _get_rotated_basis(port1.orientation)
+
     # assemble waypoints
-    pt1 = port1.center
+    pt1 = np.array(port1.center)
     pt3 = port2.center
     delta_vec = pt3 - pt1
     pt2 = pt1 + np.dot(delta_vec, e1) * e1
@@ -261,8 +262,8 @@ def path_V(port1: Port, port2: Port) -> Path:
     return Path(np.array([pt1, pt2, pt3]))
 
 
-@gf.cell
 def route_sharp(
+    component: Component,
     port1: Port,
     port2: Port,
     width: float | None = None,
@@ -272,7 +273,7 @@ def route_sharp(
     cross_section: CrossSectionSpec | None = None,
     port_names: tuple[str, str] = ("o1", "o2"),
     **kwargs,
-) -> Component:
+) -> None:
     """Returns Component route between ports.
 
     Args:
@@ -347,14 +348,20 @@ def route_sharp(
         D = P.extrude(cross_section=cross_section)
     elif width is None:
         layer = layer or port1.layer
-        X1 = CrossSection(
-            width=port1.width, port_names=port_names, layer=layer, name="x1"
+        s1 = Section(
+            width=port1.width,
+            port_names=port_names,
+            layer=layer,
         )
-        X2 = CrossSection(
-            width=port2.width, port_names=port_names, layer=layer, name="x2"
+        s2 = Section(
+            width=port2.width,
+            port_names=port_names,
+            layer=layer,
         )
+        x1 = CrossSection(sections=(s1,))
+        x2 = CrossSection(sections=(s2,))
         cross_section = transition(
-            cross_section1=X1, cross_section2=X2, width_type="linear"
+            cross_section1=x1, cross_section2=x2, width_type="linear"
         )
         D = P.extrude(cross_section=cross_section)
     else:
@@ -368,16 +375,17 @@ def route_sharp(
             if np.size(width) == 2:
                 newport1.width = width[0]
                 newport2.width = width[1]
-    return D
+
+    component << D
 
 
 if __name__ == "__main__":
     c = gf.Component("pads")
-    c1 = c << gf.components.pad(port_orientation=None)
-    c2 = c << gf.components.pad(port_orientation=None)
+    c1 = c << gf.components.pad()
+    c2 = c << gf.components.pad()
 
-    c2.movex(400)
-    c2.movey(-200)
+    c2.d.movex(400)
+    c2.d.movey(-200)
 
-    route = c << route_sharp(c1.ports["e4"], c2.ports["e1"], path_type="L")
+    route_sharp(c, c1.ports["e4"], c2.ports["e1"], path_type="L")
     c.show()

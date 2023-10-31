@@ -7,6 +7,7 @@ import numpy as np
 from kfactory.routing.optical import OpticalManhattanRoute
 from numpy import float64, ndarray
 
+import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.geometry.functions import remove_identicals
@@ -16,7 +17,6 @@ from gdsfactory.routing.manhattan import (
     generate_manhattan_waypoints,
     remove_flat_angles,
 )
-from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.validation import validate_connections
 from gdsfactory.typings import ComponentSpec, Route
@@ -50,6 +50,7 @@ def get_bundle_udirect(
     path_length_match_modify_segment_i: int = -2,
     enforce_port_ordering: bool = True,
     cross_section: str = "xs_sc",
+    with_markers:bool=False,
     **kwargs,
 ) -> list[OpticalManhattanRoute]:
     r"""Returns list of routes.
@@ -103,6 +104,8 @@ def get_bundle_udirect(
                                   |
                            X------/
     """
+    _p1, _p2 = ports1.copy(), ports2.copy()
+
     routes = _get_bundle_udirect_waypoints(
         ports1,
         ports2,
@@ -112,22 +115,29 @@ def get_bundle_udirect(
         routing_func=generate_manhattan_waypoints,
         bend=bend,
     )
-    if path_length_match_loops:
-        routes = [np.array(route) for route in routes]
-        routes = path_length_matched_points(
-            routes,
-            extra_length=path_length_match_extra_length,
-            bend=bend,
-            nb_loops=path_length_match_loops,
-            modify_segment_i=path_length_match_modify_segment_i,
-            # cross_section=cross_section,
-            **kwargs,
-        )
+    # if path_length_match_loops:
+    #     routes = [np.array(route) for route in routes]
+    #     routes = path_length_matched_points(
+    #         routes,
+    #         extra_length=path_length_match_extra_length,
+    #         bend=bend,
+    #         nb_loops=path_length_match_loops,
+    #         modify_segment_i=path_length_match_modify_segment_i,
+    #         # cross_section=cross_section,
+    #         **kwargs,
+    #     )
 
     r = []
     for route in routes:
         port1 = next(filter(lambda port: kf.kdb.Point(*port.center) == route[0], ports1))
         port2 = next(filter(lambda port: kf.kdb.Point(*port.center) == route[-1], ports2))
+        if with_markers:
+            marker = gf.components.rectangle(size=(1, 1), layer=(2, 0), centered=True)
+        
+            for point in route:
+                ref = component.add_ref(marker)
+                ref.center = point
+
         route = place_route(
             component=component,
             port1=port1,
@@ -575,8 +585,6 @@ if __name__ == "__main__":
     #     # layer=(2, 0),
     #     # straight=partial(gf.components.straight, layer=(2, 0), width=1),
     # )
-
-    import gdsfactory as gf
 
     dy = 200
     orientation = 270

@@ -381,8 +381,8 @@ def place_bundle_same_axis(
     This method deals with different metal track/wg/wire widths too.
 
     """
-    _p1 = ports1.copy()
-    _p2 = ports2.copy()
+    # _p1 = ports1.copy()
+    # _p2 = ports2.copy()
     kwargs.pop("straight", None)
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
