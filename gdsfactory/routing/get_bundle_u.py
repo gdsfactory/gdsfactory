@@ -154,16 +154,20 @@ def _get_bundle_udirect_waypoints(
     start_straight_offset: float = 0.0,
     bend: ComponentSpec = bend_euler,
 ) -> list[ndarray]:
-    nb_ports = len(ports1)
-    for p in ports1:
-        p.orientation = (
-            p.orientation % 360 if p.orientation is not None else p.orientation
-        )
+    """Returns list of routes.
 
-    for p in ports2:
-        p.orientation = (
-            p.orientation % 360 if p.orientation is not None else p.orientation
-        )
+    Args:
+        ports1: list of start ports.
+        ports2: list of end ports.
+        routing_func: filter to apply to the manhattan waypoints
+        separation: between straights.
+        start_straight_length: in um.
+        end_straight_length: in um.
+        start_straight_offset: in um.
+        bend: bend spec.
+
+    """
+    nb_ports = len(ports1)
 
     if len(ports2) != nb_ports:
         raise ValueError(
@@ -283,6 +287,7 @@ def get_bundle_uindirect(
     r"""Returns list of routes.
 
     Args:
+        component: component to add the routes to.
         ports1: list of start ports.
         ports2: list of end ports.
         route_filter: filter to apply to the manhattan waypoints
@@ -369,16 +374,6 @@ def _get_bundle_uindirect_waypoints(
     nb_ports = len(ports1)
     ports1 = ports1.copy()
     ports2 = ports2.copy()
-
-    for p in ports1:
-        p.orientation = (
-            p.orientation % 360 if p.orientation is not None else p.orientation
-        )
-
-    for p in ports2:
-        p.orientation = (
-            p.orientation % 360 if p.orientation is not None else p.orientation
-        )
 
     if len(ports2) != nb_ports:
         raise ValueError(
