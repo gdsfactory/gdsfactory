@@ -27,6 +27,15 @@ class CellReturnTypeError(ValueError):
     pass
 
 
+def remove_from_cache(name: str) -> None:
+    """Removes Component from CACHE."""
+    global CACHE
+
+    if name in CACHE:
+        del CACHE[name]
+    name_counters[name] = 0
+
+
 def clear_cache() -> None:
     """Clears Component CACHE."""
     global CACHE
