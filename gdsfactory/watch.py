@@ -14,7 +14,7 @@ from IPython.terminal.embed import embed
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
-from gdsfactory.cell import CACHE
+from gdsfactory.cell import CACHE, clear_cache
 from gdsfactory.config import cwd
 from gdsfactory.pdk import get_active_pdk, on_pdk_activated
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
@@ -39,7 +39,7 @@ class FileWatcher(FileSystemEventHandler):
         on_pdk_activated.add_handler(self._on_pdk_activated)
 
     def _on_pdk_activated(self, new_pdk, old_pdk):
-        CACHE.clear()
+        clear_cache()
         new_pdk.register_cells_yaml(dirpath=self.path, update=True)
 
     def start(self) -> None:
@@ -137,6 +137,7 @@ class FileWatcher(FileSystemEventHandler):
             filepath = pathlib.Path(filepath)
             if filepath.is_file():
                 if str(filepath).endswith(".pic.yml"):
+                    clear_cache()
                     cell_func = self.update_cell(filepath, update=True)
                     c = cell_func()
                     c.show(show_ports=True)
