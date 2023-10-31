@@ -35,9 +35,9 @@ def show(
             "Component is None, make sure that your function returns the component"
         )
 
-    elif hasattr(component, "write_gds"):
+    elif hasattr(component, "write_oas"):
         # don't raise warnings for uncached cells when simply showing
-        gdspath = component.write_gds(
+        gdspath = component.write_oas(
             logging=False, on_uncached_component="ignore", **kwargs
         )
         klive.show(gdspath, technology=technology)
