@@ -5,8 +5,8 @@
 
 ## [7.8.14](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.14) - 2023-10-30
 
-No significant changes.
-
+- Write test manifest [#2247](https://github.com/gdsfactory/gdsfactory/pull/2247)
+- Fix cache [#2248](https://github.com/gdsfactory/gdsfactory/pull/2248)
 
 ## [7.8.13](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.13) - 2023-10-30
 
