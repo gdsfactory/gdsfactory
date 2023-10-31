@@ -132,24 +132,24 @@ def add_fiber_array_optical_south_electrical_north(
     xc, yc = getattr(r.size_info, anchor)
 
     analysis_settings = analysis_settings or {}
-    cell_settings = component.metadata.get("full", {})
+    # cell_settings = component.metadata.get("full", {})
 
-    if layer_label:
-        settings = dict(
-            name=component.name,
-            measurement=measurement,
-            xopt=[int(optical_ports[0].x - xc)],
-            yopt=[int(optical_ports[0].y - yc)],
-            xelec=[int(ports2[0].x - xc)],
-            yelec=[int(ports2[0].y - yc)],
-            measurement_settings=measurement_settings,
-            analysis=analysis,
-            analysis_settings=analysis_settings,
-            doe=doe,
-            cell_settings=cell_settings,
-        )
-        info = json.dumps(settings)
-        c.add_label(layer=layer_label, text=info, position=(xc, yc))
+    # if layer_label:
+    #     settings = dict(
+    #         name=component.name,
+    #         measurement=measurement,
+    #         xopt=[int(optical_ports[0].x - xc)],
+    #         yopt=[int(optical_ports[0].y - yc)],
+    #         xelec=[int(ports2[0].x - xc)],
+    #         yelec=[int(ports2[0].y - yc)],
+    #         measurement_settings=measurement_settings,
+    #         analysis=analysis,
+    #         analysis_settings=analysis_settings,
+    #         doe=doe,
+    #         cell_settings=cell_settings,
+    #     )
+    #     info = json.dumps(settings)
+    #     c.add_label(layer=layer_label, text=info, position=(xc, yc))
 
     c.copy_child_info(r)
     return c

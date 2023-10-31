@@ -92,7 +92,7 @@ def write_test_manifest(
 
 if __name__ == "__main__":
     c = sample_reticle(grid=False)
-    # c = c.mirror()
+    c = c.mirror()
     c.show(show_ports=True)
     gdspath = c.write_gds("sample_reticle.gds")
     csvpath = gf.labels.write_labels.write_labels_gdstk(
