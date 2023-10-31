@@ -21,6 +21,8 @@ from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.validation import validate_connections
 from gdsfactory.typings import ComponentSpec, Route
 
+import kfactory as kf
+
 
 def _groups(
     ports: list[Port], cut: float64, axis: str = "X"
@@ -123,7 +125,9 @@ def get_bundle_udirect(
         )
 
     r = []
-    for port1, port2, route in zip(ports1, ports2, routes):
+    for route in routes:
+        port1 = next(filter(lambda port: kf.kdb.Point(*port.center) == route[0], ports1))
+        port2 = next(filter(lambda port: kf.kdb.Point(*port.center) == route[-1], ports2))
         route = place_route(
             component=component,
             port1=port1,
