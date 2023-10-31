@@ -131,6 +131,10 @@ def cell(
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
+        from gdsfactory.pdk import get_active_pdk
+
+        active_pdk = get_active_pdk()
+
         info = kwargs.pop("info", {})  # TODO: remove info
         cache = kwargs.pop("cache", True)  # TODO: remove cache
         name = kwargs.pop("name", None)  # TODO: remove name
@@ -199,7 +203,11 @@ def cell(
             raise ValueError('naming_style must be "default" or "updk"')
 
         name = get_name_short(name, max_name_length=max_name_length)
+
         decorator = kwargs.pop("decorator", default_decorator)
+        # if no decorator is specified, but there is one specified for the active PDK, use the PDK's default decorator
+        if decorator is None and active_pdk.default_decorator is not None:
+            decorator = active_pdk.default_decorator
 
         if cache and name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
