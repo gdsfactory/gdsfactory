@@ -70,10 +70,11 @@ def taper(
     xpts = [0, length, length, 0]
     for section in x.sections[1:]:
         layer = section.layer
+        print(layer)
         y1 = section.width / 2
         y2 = y1 + (width2 - width1)
         ypts = [y1, y2, -y2, -y1]
-        c.add_polygon((xpts, ypts), layer=layer)
+        c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
     c.add_port(
         name=port_order_name[0],
@@ -241,8 +242,8 @@ taper_sc_nc = partial(
 
 if __name__ == "__main__":
     # c = taper_strip_to_ridge_trenches()
-    c = taper_strip_to_ridge()
+    # c = taper_strip_to_ridge()
     # c = taper(width1=1.5, width2=1, cross_section="xs_rc")
     # c = taper_sc_nc()
-    # c = taper()
+    c = taper(cross_section="xs_rc")
     c.show()

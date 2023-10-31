@@ -50,6 +50,7 @@ from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import metal2, metal3
 from gdsfactory.port import Port
 from gdsfactory.typings import (
+    ComponentFactory,
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
@@ -107,7 +108,7 @@ def place_route(
     port2: Port,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    taper: ComponentSpec | None = taper_function,
+    taper: ComponentFactory | None = taper_function,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
@@ -160,7 +161,7 @@ def place_route(
     width_dbu = width / component.kcl.dbu
     straight = partial(straight, width=width, cross_section=cross_section)
     bend90 = gf.get_component(bend_euler, cross_section=cross_section)
-    taper_cell = gf.get_component(taper) if taper else None
+    taper_cell = taper(cross_section=cross_section) if taper else None
 
     def straight_dbu(
         length: int, width: int = width_dbu, cross_section=cross_section, **kwargs
