@@ -176,10 +176,10 @@ def add_labels(
     Args:
         component: to add labels to.
         get_label_function: function to get label.
-        layer_label: layer_label.
+        layer_label: LayerSpec for the label.
         gc: Optional grating coupler.
 
-    keyword Args:
+    Keyword Args:
         layer: port GDS layer.
         prefix: with in port name.
         suffix: select ports with port name suffix.
