@@ -4,6 +4,7 @@ from collections.abc import Callable
 from typing import Any
 
 import numpy as np
+from kfactory.routing.optical import OpticalManhattanRoute
 from numpy import float64, ndarray
 
 from gdsfactory.components.bend_euler import bend_euler
@@ -37,7 +38,6 @@ def get_bundle_udirect(
     component: ComponentSpec,
     ports1: list[Port],
     ports2: list[Port],
-    route_filter: Callable = place_route,
     separation: float = 5.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
@@ -48,14 +48,12 @@ def get_bundle_udirect(
     path_length_match_modify_segment_i: int = -2,
     enforce_port_ordering: bool = True,
     **kwargs,
-) -> list[Route]:
+) -> list[OpticalManhattanRoute]:
     r"""Returns list of routes.
 
     Args:
         ports1: list of start ports.
         ports2: list of end ports.
-        route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip straight.
         separation: between straights.
         start_straight_length: in um.
         end_straight_length: in um.
@@ -69,9 +67,7 @@ def get_bundle_udirect(
         enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
 
     Returns:
-        [route_filter(r) for r in routes] where routes is a list of lists of coordinates
-        e.g with default `get_route_from_waypoints`,
-        returns list of elements which can be added to a component
+        list of optical routes.
 
 
     Used for routing multiple ports back to a bundled input in a component
@@ -127,7 +123,7 @@ def get_bundle_udirect(
 
     r = []
     for port1, port2, route in zip(ports1, ports2, routes):
-        route = route_filter(
+        route = place_route(
             component=component,
             port1=port1,
             port2=port2,
