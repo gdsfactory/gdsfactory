@@ -264,7 +264,7 @@ def place_bundle(
         and end_angle == 90
         and y_start > y_end
     ):
-        # print("get_bundle_same_axis")
+        print("get_bundle_same_axis")
         if with_sbend:
             return get_bundle_sbend(
                 ports1,
@@ -311,7 +311,7 @@ def place_bundle_same_axis(
     component: Component,
     ports1: list[Port],
     ports2: list[Port],
-    separation: float = 5.0,
+    separation: int = 5000,
     end_straight_length: float = 0.0,
     start_straight_length: float = 0.0,
     bend: ComponentSpec = bend_euler,
@@ -418,7 +418,7 @@ def place_bundle_same_axis(
     routes = _get_bundle_waypoints(
         ports1,
         ports2,
-        separation_dbu=round(separation / component.kcl.dbu),
+        separation_dbu=separation,
         end_straight_length_dbu=round(end_straight_length / component.kcl.dbu),
         start_straight_length_dbu=round(start_straight_length / component.kcl.dbu),
         radius_dbu=radius_dbu,
@@ -789,46 +789,48 @@ if __name__ == "__main__":
 
     # c.show()
 
-    c = gf.Component("demo")
-    c1 = c << gf.components.mmi2x2()
-    c2 = c << gf.components.mmi2x2()
-    c2.d.move((100, 40))
-    routes = place_bundle(
-        c,
-        [c1.ports["o2"], c1.ports["o1"]],
-        [c2.ports["o1"], c2.ports["o2"]],
-        enforce_port_ordering=False,
-        separation=5,
-        cross_section="xs_rc"
-        # layer=(2, 0),
-        # straight=partial(gf.components.straight, layer=(2, 0), width=1),
-    )
-    c.show()
-
-    # dy = 200.0
-    # xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
-
-    # pitch = 10.0
-    # N = len(xs1)
-    # xs2 = [-20 + i * pitch for i in range(N // 2)]
-    # xs2 += [400 + i * pitch for i in range(N // 2)]
-
-    # a1 = 90
-    # a2 = a1 + 180
-
-    # ports1 = [
-    #     gf.Port(
-    #         f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1, 0)
-    #     )
-    #     for i in range(N)
-    # ]
-    # ports2 = [
-    #     gf.Port(
-    #         f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1, 0)
-    #     )
-    #     for i in range(N)
-    # ]
-
-    # c = gf.Component()
-    # place_bundle(c, ports1, ports2)
+    # c = gf.Component("demo")
+    # c1 = c << gf.components.mmi2x2()
+    # c2 = c << gf.components.mmi2x2()
+    # c2.d.move((100, 40))
+    # routes = place_bundle(
+    #     c,
+    #     [c1.ports["o2"], c1.ports["o1"]],
+    #     [c2.ports["o1"], c2.ports["o2"]],
+    #     enforce_port_ordering=False,
+    #     separation=5,
+    #     cross_section="xs_rc"
+    #     # layer=(2, 0),
+    #     # straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    # )
     # c.show()
+
+    dy = 200.0
+    xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
+
+    pitch = 10.0
+    N = len(xs1)
+    xs2 = [-20 + i * pitch for i in range(N // 2)]
+    xs2 += [400 + i * pitch for i in range(N // 2)]
+
+    a1 = 90
+    a2 = a1 + 180
+
+    ports1 = [
+        gf.Port(
+            f"bot_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1, 0)
+        )
+        for i in range(N)
+    ]
+    ports2 = [
+        gf.Port(
+            f"top_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1, 0)
+        )
+        for i in range(N)
+    ]
+
+    c = gf.Component()
+    place_bundle(c, ports1, ports2)
+    c.add_ports(ports1)
+    c.add_ports(ports2)
+    c.show()
