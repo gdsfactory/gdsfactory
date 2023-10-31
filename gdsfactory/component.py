@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 import kfactory as kf
 import numpy as np
 from kfactory import Instance, kdb
-from kfactory.kcell import default_save
+from kfactory.kcell import save_layout_options
 
 from gdsfactory.config import GDSDIR_TEMP
 from gdsfactory.port import pprint_ports, select_ports
@@ -409,7 +409,7 @@ class Component(kf.KCell):
         self,
         gdspath: PathType | None = None,
         gdsdir: PathType | None = None,
-        save_options: kdb.SaveLayoutOptions = default_save(),
+        save_options: kdb.SaveLayoutOptions = save_layout_options(),
         **kwargs,
     ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
