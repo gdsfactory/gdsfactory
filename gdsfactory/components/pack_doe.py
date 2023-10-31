@@ -101,7 +101,7 @@ def pack_doe(
 @cell
 def pack_doe_grid(
     doe: ComponentSpec = _doe,
-    settings: dict[str, list[Any]] = _settings,
+    settings: dict[str, tuple[Any, ...]] = _settings,
     do_permutations: bool = False,
     function: CellSpec | None = None,
     with_text: bool = False,

@@ -61,6 +61,7 @@ from omegaconf import DictConfig, OmegaConf
 
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference
+from gdsfactory.serialization import clean_value_json
 from gdsfactory.typings import Route
 
 valid_placement_keys = [
@@ -776,6 +777,7 @@ def _from_yaml(
         instance_conf = instances_dict[instance_name]
         component = instance_conf["component"]
         settings = instance_conf.get("settings", {})
+        settings = clean_value_json(settings)
         component_spec = {"component": component, "settings": settings}
         component = component_getter(component_spec)
         ref = c.add_ref(component, alias=instance_name)
