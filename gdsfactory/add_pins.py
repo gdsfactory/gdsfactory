@@ -152,6 +152,7 @@ def add_pin_rectangle_inside(
     pin_length: float = 0.1,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
+    label_function: Callable[[Component, Port], str] | None = None,
 ) -> None:
     """Add square pin towards the inside of the port.
 
@@ -161,6 +162,7 @@ def add_pin_rectangle_inside(
         pin_length: length of the pin marker for the port.
         layer: for the pin marker.
         layer_label: for the label.
+        label_function: function to return label text according to the ``component`` and ``port``.
 
     .. code::
 
@@ -174,29 +176,28 @@ def add_pin_rectangle_inside(
           |      __       |
           |_______________|
     """
-    p = port
-    a = p.orientation
+    a = port.orientation
     ca = np.cos(a * np.pi / 180)
     sa = np.sin(a * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
-    d = p.width / 2
+    d = port.width / 2
 
     dbot = np.array([0, -d])
     dtop = np.array([0, +d])
     dbotin = np.array([-pin_length, -d])
     dtopin = np.array([-pin_length, +d])
 
-    p0 = p.center + _rotate(dbot, rot_mat)
-    p1 = p.center + _rotate(dtop, rot_mat)
-    ptopin = p.center + _rotate(dtopin, rot_mat)
-    pbotin = p.center + _rotate(dbotin, rot_mat)
+    p0 = port.center + _rotate(dbot, rot_mat)
+    p1 = port.center + _rotate(dtop, rot_mat)
+    ptopin = port.center + _rotate(dtopin, rot_mat)
+    pbotin = port.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
     if layer_label:
         component.add_label(
-            text=str(p.name),
-            position=p.center,
+            text=label_function(component, port) if label_function else str(port.name),
+            position=port.center,
             layer=layer_label,
         )
 
@@ -480,6 +481,7 @@ def add_pins(
         pin_length: length of the pin marker for the port.
         layer: layer for the pin marker.
         layer_label: add label for the pin marker.
+        label_function: function to return label text according to the ``component`` and ``port``.
     """
     reference = reference or component
     ports = (
