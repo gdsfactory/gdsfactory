@@ -290,7 +290,10 @@ def add_marker_layer(
             Args:
                 **kwargs: Keyword arguments provided to ``component``.
             """
-            _, component_new, ref = _get_component_in_container(component, **kwargs)
+            component_old, component_new, ref = _get_component_in_container(
+                component, **kwargs
+            )
+            component_new.info = component_old.info
             component_new.add_polygon(
                 ref.get_polygons(as_shapely_merged=True), layer=marker_layer
             )
