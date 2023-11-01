@@ -122,7 +122,7 @@ def grating_coupler_rectangular_arbitrary_slab(
     name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
         name=name,
-        port_type=name,
+        port_type="optical",
         center=(xport, 0),
         orientation=0,
         width=width_grating,

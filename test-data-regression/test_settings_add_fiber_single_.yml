@@ -9,7 +9,7 @@ ports:
     - 0
     name: opt_te_1530_15-mzi_2e88f57c-0-0
     orientation: 270.0
-    port_type: opt_te_1530_15
+    port_type: optical
     shear_angle: null
     width: 10
   opt_te_1530_15-mzi_2e88f57c-0-1:
@@ -21,7 +21,7 @@ ports:
     - 0
     name: opt_te_1530_15-mzi_2e88f57c-0-1
     orientation: 270.0
-    port_type: opt_te_1530_15
+    port_type: optical
     shear_angle: null
     width: 10
   opt_te_1530_15-mzi_2e88f57c-1-0:
@@ -33,7 +33,7 @@ ports:
     - 0
     name: opt_te_1530_15-mzi_2e88f57c-1-0
     orientation: 90.0
-    port_type: opt_te_1530_15
+    port_type: optical
     shear_angle: null
     width: 10
   opt_te_1530_15-mzi_2e88f57c-2-0:
@@ -45,7 +45,7 @@ ports:
     - 0
     name: opt_te_1530_15-mzi_2e88f57c-2-0
     orientation: 90.0
-    port_type: opt_te_1530_15
+    port_type: optical
     shear_angle: null
     width: 10
   opt_te_1530_15-mzi_2e88f57c-loopback1:
@@ -57,7 +57,7 @@ ports:
     - 0
     name: opt_te_1530_15-mzi_2e88f57c-loopback1
     orientation: 270.0
-    port_type: opt_te_1530_15
+    port_type: optical
     shear_angle: null
     width: 10
   opt_te_1530_15-mzi_2e88f57c-loopback2:
@@ -69,7 +69,7 @@ ports:
     - 0
     name: opt_te_1530_15-mzi_2e88f57c-loopback2
     orientation: 90.0
-    port_type: opt_te_1530_15
+    port_type: optical
     shear_angle: null
     width: 10
   top_l_e1:
