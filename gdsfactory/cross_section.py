@@ -90,7 +90,7 @@ class Section(BaseModel):
     width_function: Callable | None = Field(default=None)
     offset_function: Callable | None = Field(default=None)
 
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    model_config = ConfigDict(extra="forbid")
 
 
 class ComponentAlongPath(BaseModel):
@@ -274,6 +274,13 @@ class CrossSection(BaseModel):
             )
             return self.model_copy(update={"sections": tuple(sections), **kwargs})
         return self.model_copy(update=kwargs)
+
+    def mirror(self) -> CrossSection:
+        """Returns a mirrored copy of the cross_section."""
+        m = self.copy()
+        for section in m.sections:
+            section.offset = -section.offset
+        return m
 
     def add_pins(self, component: Component) -> Component:
         if self.add_pins_function_name is None:
