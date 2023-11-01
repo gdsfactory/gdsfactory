@@ -69,11 +69,11 @@ def cell(
     /,
     *,
     autoname: bool = True,
-    max_name_length: int = CONF.max_name_length,
+    max_name_length: int | None = None,
     include_module: bool = False,
     with_hash: bool = False,
-    ports_off_grid: str = CONF.ports_off_grid,
-    ports_not_manhattan: str = CONF.ports_not_manhattan,
+    ports_off_grid: str | None = None,
+    ports_not_manhattan: str | None = None,
     flatten: bool = False,
     naming_style: str = "default",
     default_decorator: Callable[[Component], Component] | None = None,
@@ -86,11 +86,11 @@ def cell(
     Args:
         func: function to decorate.
         autoname: True renames Component based on args and kwargs. True by default.
-        max_name_length: truncates name beyond some characters with a hash.
+        max_name_length: truncates name beyond some characters with a hash. Defaults to CONF.max_name_length.
         include_module: True adds module name to the cell name.
         with_hash: True adds a hash to the cell name.
-        ports_off_grid: "warn", "error" or "ignore". Checks if ports are on grid.
-        ports_not_manhattan: "warn", "error" or "ignore". Checks if ports are manhattan.
+        ports_off_grid: "warn", "error" or "ignore". Checks if ports are on grid. Defaults to CONF.ports_off_grid.
+        ports_not_manhattan: "warn", "error" or "ignore". Checks if ports are manhattan. Defaults to CONF.ports_non_manhattan.
         flatten: False by default. True flattens component hierarchy.
         naming_style: "default" or "updk". "default" is the default naming style.
         default_decorator: default decorator to apply to the component. None by default.
@@ -131,6 +131,7 @@ def cell(
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
+        nonlocal ports_not_manhattan, ports_off_grid, max_name_length
         from gdsfactory.pdk import get_active_pdk
 
         active_pdk = get_active_pdk()
@@ -142,6 +143,13 @@ def cell(
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
         args_as_kwargs.update(kwargs)
+
+        if max_name_length is None:
+            max_name_length = CONF.max_name_length
+        if ports_off_grid is None:
+            ports_off_grid = CONF.ports_off_grid
+        if ports_not_manhattan is None:
+            ports_not_manhattan = CONF.ports_not_manhattan
 
         default = {
             p.name: p.default
