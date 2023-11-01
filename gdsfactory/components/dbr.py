@@ -19,7 +19,7 @@ from gdsfactory.typings import CrossSectionSpec
 
 period = 318e-3
 w0 = 0.5
-dw = 50e-3
+dw = 100e-3
 w1 = w0 - dw / 2
 w2 = w0 + dw / 2
 
@@ -105,8 +105,6 @@ def dbr(
                |_________
     """
     c = Component()
-    l1 = snap_to_grid(l1)
-    l2 = snap_to_grid(l2)
     xs = gf.get_cross_section(cross_section, **kwargs)
     s1 = c << straight(cross_section=xs, length=straight_length)
     s2 = c << straight(cross_section=xs, length=straight_length)

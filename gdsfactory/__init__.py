@@ -49,7 +49,6 @@ from gdsfactory import add_ports
 from gdsfactory import write_cells
 from gdsfactory import add_pins
 from gdsfactory import technology
-from gdsfactory import fill
 
 from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
@@ -57,7 +56,6 @@ from gdsfactory.add_padding import (
     add_padding_container,
     get_padding_points,
 )
-from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pdk import (
@@ -103,8 +101,6 @@ __all__ = (
     "decorators",
     "diff",
     "difftest",
-    "fill",
-    "fill_rectangle",
     "functions",
     "get_active_pdk",
     "get_cell",
