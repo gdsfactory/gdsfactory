@@ -9,21 +9,24 @@ There are two types of functions:
 from __future__ import annotations
 
 import json
-from functools import lru_cache, partial
+from collections.abc import Callable
+from functools import lru_cache, partial, wraps
 
 import numpy as np
 from omegaconf import OmegaConf
 from pydantic import validate_call
 
+import gdsfactory as gf
 from gdsfactory import ComponentReference
 from gdsfactory.cell import cell_with_child
-from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.typings import (
     Anchor,
     Axis,
+    Component,
+    ComponentFactory,
     ComponentSpec,
     Float2,
     LayerSpec,
@@ -31,6 +34,24 @@ from gdsfactory.typings import (
 )
 
 cache = lru_cache(maxsize=None)
+
+
+def _get_component_in_container(
+    component: ComponentSpec, *args, **kwargs
+) -> tuple[Component, Component, ComponentReference]:
+    """Returns a new Component object that contains a reference to the original Component object.
+    This allows effectively _modifying_ a Component after it has been created.
+
+    Returns:
+        A tuple containing the original Component object, the new Component object, and a reference to the original Component object.
+    """
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component, *args, **kwargs)
+    component_new = Component()
+    component_new.component = component
+    ref = component_new.add_ref(component)
+    return component, component_new, ref
 
 
 def add_port(component: Component, **kwargs) -> Component:
@@ -57,12 +78,7 @@ def add_text(
         text_factory: function to add text labels.
 
     """
-    from gdsfactory.pdk import get_component
-
-    component = get_component(component)
-    component_new = Component()
-    component_new.component = component
-    ref = component_new.add_ref(component)
+    component, component_new, ref = _get_component_in_container(component)
 
     t = component_new << text_factory(text)
     t.move(np.array(text_offset) + getattr(ref.size_info, text_anchor))
@@ -112,12 +128,7 @@ def rotate(
         recenter: recenter component after rotating.
 
     """
-    from gdsfactory.pdk import get_component
-
-    component = get_component(component)
-    component_new = Component()
-    component_new.component = component
-    ref = component_new.add_ref(component)
+    component, component_new, ref = _get_component_in_container(component)
 
     origin_offset = ref.origin - np.array((ref.xmin, ref.ymin))
 
@@ -151,12 +162,7 @@ def mirror(
         p2: second point to define mirror axis.
 
     """
-    from gdsfactory.pdk import get_component
-
-    component = get_component(component)
-    component_new = Component()
-    component_new.component = component
-    ref = component_new.add_ref(component)
+    component, component_new, ref = _get_component_in_container(component)
     ref.mirror(p1=p1, p2=p2)
     component_new.add_ports(ref.ports)
     component_new.copy_child_info(component)
@@ -178,9 +184,7 @@ def move(
         destination: Optional x, y.
         axis: x or y axis.
     """
-    component_new = Component()
-    component_new.component = component
-    ref = component_new.add_ref(component)
+    component, component_new, ref = _get_component_in_container(component)
     ref.move(origin=origin, destination=destination, axis=axis)
     component_new.add_ports(ref.ports)
     component_new.copy_child_info(component)
@@ -257,10 +261,52 @@ def add_settings_label(
     return component
 
 
+def add_marker_layer(
+    marker_layer: LayerSpec, *, flatten: bool = False
+) -> Callable[[ComponentFactory], ComponentFactory]:
+    """Creates a new :class:`~ComponentFactory` with a marker layer from the convex hull of the input :class:`~ComponentFactory`.
+    May be used as a decorator.
+
+    Args:
+        marker_layer: The marker layer for LVS.
+        flatten: Whether to flatten the component. Should be done only for elementary components.
+
+    Returns:
+        Function that can decorate a component function and add a marker layer.
+    """
+
+    def _inner_decorator(component: ComponentFactory) -> ComponentFactory:
+        """Decorator for ``component`` with added polygon on marker layer.
+
+        Args:
+            component: The input function creating a component.
+        """
+
+        @cell_with_child
+        @wraps(component)
+        def wrapper(**kwargs) -> Component:
+            """Wrapper container for ``component``.
+
+            Args:
+                **kwargs: Keyword arguments provided to ``component``.
+            """
+            _, component_new, ref = _get_component_in_container(component, **kwargs)
+            component_new.add_polygon(
+                ref.get_polygons(as_shapely_merged=True), layer=marker_layer
+            )
+            component_new.add_ports(ref.ports)
+            return component_new.flatten() if flatten else component_new
+
+        return wrapper
+
+    return _inner_decorator
+
+
 __all__ = (
+    "add_marker_layer",
     "add_port",
-    "add_text",
     "add_settings_label",
+    "add_text",
     "auto_rename_ports",
     "cache",
     "mirror",
@@ -271,8 +317,6 @@ __all__ = (
 )
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     c = gf.components.mmi1x2(
         length_mmi=10,
         decorator=partial(add_settings_label, settings=["name", "length_mmi"]),
