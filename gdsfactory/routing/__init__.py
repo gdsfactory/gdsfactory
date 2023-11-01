@@ -10,7 +10,6 @@ from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.routing.add_fiber_single import add_fiber_single
 from gdsfactory.routing.add_pads import add_pads_bot, add_pads_top
 from gdsfactory.routing.all_angle import get_bundle_all_angle
-from gdsfactory.routing.fanout import fanout_component, fanout_ports
 from gdsfactory.routing.fanout2x2 import fanout2x2
 from gdsfactory.routing.get_bundle import (
     get_bundle,
@@ -99,8 +98,6 @@ __all__ = [
     "route_south",
     "route_quad",
     "route_sharp",
-    "fanout_component",
-    "fanout_ports",
     "sort_ports",
     "utils",
     "place_route",
