@@ -90,7 +90,7 @@ class Section(BaseModel):
     width_function: Callable | None = Field(default=None)
     offset_function: Callable | None = Field(default=None)
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
 
 class ComponentAlongPath(BaseModel):
@@ -277,10 +277,8 @@ class CrossSection(BaseModel):
 
     def mirror(self) -> CrossSection:
         """Returns a mirrored copy of the cross_section."""
-        m = self.copy()
-        for section in m.sections:
-            section.offset = -section.offset
-        return m
+        sections = [s.model_copy(update=dict(offset=-s.offset)) for s in self.sections]
+        return self.model_copy(update={"sections": tuple(sections)})
 
     def add_pins(self, component: Component) -> Component:
         if self.add_pins_function_name is None:
@@ -2318,8 +2316,8 @@ cross_sections = get_cross_sections(sys.modules[__name__])
 
 
 if __name__ == "__main__":
-    for name, xs in cross_sections.items():
-        print(name, xs.name)
+    # for name, xs in cross_sections.items():
+    #     print(name, xs.name)
     # print(xs_rc.__hash__())
     # import gdsfactory as gf
     # from gdsfactory.generic_tech import LAYER
@@ -2332,6 +2330,8 @@ if __name__ == "__main__":
     # )
     # print(xs.name)
     # xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0))])
+    xs = pn()
+    xs = xs.mirror()
     # p = gf.path.straight()
     # c = p.extrude(xs)
     # c = gf.c.straight(cross_section=xs)
