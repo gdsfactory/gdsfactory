@@ -59,10 +59,10 @@ from typing import IO, Any, Literal
 import numpy as np
 from omegaconf import DictConfig, OmegaConf
 
+import gdsfactory as gf
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.serialization import clean_value_json
-from gdsfactory.typings import Route
 
 valid_placement_keys = [
     "x",
@@ -292,11 +292,11 @@ def place(
                     "Valid keywords: \n"
                     f"{valid_anchor_point_keywords}",
                 )
-            ref.x -= a[0]
-            ref.y -= a[1]
+            ref.d.x -= a[0]
+            ref.d.y -= a[1]
 
         if x is not None:
-            ref.x += _move_ref(
+            ref.d.x += _move_ref(
                 x,
                 x_or_y="x",
                 placements_conf=placements_conf,
@@ -310,7 +310,7 @@ def place(
         # print(ymin, y or ymin or ymax)
 
         if y is not None:
-            ref.y += _move_ref(
+            ref.d.y += _move_ref(
                 y,
                 x_or_y="y",
                 placements_conf=placements_conf,
@@ -331,7 +331,7 @@ def place(
         if ymin is not None and ymax is not None:
             raise ValueError("You cannot set ymin and ymax")
         elif ymax is not None:
-            ref.ymax = _move_ref(
+            ref.d.ymax = _move_ref(
                 ymax,
                 x_or_y="y",
                 placements_conf=placements_conf,
@@ -364,7 +364,7 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
         elif xmax is not None:
-            ref.xmax = _move_ref(
+            ref.d.xmax = _move_ref(
                 xmax,
                 x_or_y="x",
                 placements_conf=placements_conf,
@@ -374,10 +374,10 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
         if dx:
-            ref.x += dx
+            ref.d.x += dx
 
         if dy:
-            ref.y += dy
+            ref.d.y += dy
 
     if instance_name in connections_by_transformed_inst:
         conn_info = connections_by_transformed_inst[instance_name]
@@ -720,6 +720,7 @@ def from_yaml(
     )
 
 
+@gf.cell(rec_dicts=True)
 def _from_yaml(
     conf,
     routing_strategy: dict[str, Callable],
@@ -829,7 +830,7 @@ def _from_yaml(
                     )
 
             settings = routes_dict.pop("settings", {})
-            routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
+            routing_strategy_name = routes_dict.pop("routing_strategy", "place_bundle")
             if routing_strategy_name not in routing_strategy:
                 routing_strategies = list(routing_strategy.keys())
                 raise ValueError(
@@ -943,22 +944,12 @@ def _from_yaml(
                     route_names.append(route_name)
 
             routing_function = routing_strategy[routing_strategy_name]
-            route_or_route_list = routing_function(
+            routing_function(
+                c,
                 ports1=ports1,
                 ports2=ports2,
                 **settings,
             )
-
-            # FIXME, be more consistent
-            if isinstance(route_or_route_list, list):
-                for route_name, route_dict in zip(route_names, route_or_route_list):
-                    c.add(route_dict.references)
-                    routes[route_name] = route_dict.length
-            elif isinstance(route_or_route_list, Route):
-                c.add(route_or_route_list.references)
-                routes[route_name] = route_or_route_list.length
-            else:
-                raise ValueError(f"{route_or_route_list} needs to be a Route or a list")
 
     if ports_conf:
         if not hasattr(ports_conf, "items"):
@@ -975,8 +966,9 @@ def _from_yaml(
                 instance = instances[instance_name]
 
                 if instance_port_name not in instance.ports:
+                    port_names = [p.name for p in instance.ports]
                     raise ValueError(
-                        f"{instance_port_name!r} not in {list(instance.ports.keys())} for"
+                        f"{instance_port_name!r} not in {port_names} for"
                         f" {instance_name!r} "
                     )
                 c.add_port(port_name, port=instance.ports[instance_port_name])
@@ -1017,7 +1009,7 @@ routes:
     route_bot:
         links:
             yl,opt3: yr,opt2
-        routing_strategy: get_bundle_from_steps
+        routing_strategy: place_bundle
 
 
 ports:
@@ -1055,7 +1047,7 @@ routes:
     route_bot:
         links:
             yl,opt3: yr,opt2
-        routing_strategy: get_bundle_from_steps
+        routing_strategy: place_bundle
         settings:
           steps: [dx: 30, dy: -40, dx: 20]
 
@@ -1101,7 +1093,7 @@ routes:
     route_bot:
         links:
             yl,opt3: yr,opt2
-        routing_strategy: get_bundle_from_steps
+        routing_strategy: place_bundle
         settings:
           steps: [dx: 30, dy: '${settings.dy}', dx: 20]
           cross_section: strip
@@ -1303,7 +1295,7 @@ placements:
 
 routes:
     electrical1:
-        routing_strategy: get_bundle
+        routing_strategy: place_bundle
         settings:
             separation: 20
             layer: [31, 0]
@@ -1313,7 +1305,7 @@ routes:
             mzi,e2: tr,e1
 
     electrical2:
-        routing_strategy: get_bundle
+        routing_strategy: place_bundle
         settings:
             separation: 20
             layer: [31, 0]
@@ -1383,8 +1375,8 @@ placements:
 
 
 if __name__ == "__main__":
-    c = from_yaml(sample_doe_function)
-    # c = from_yaml(sample_mmis)
+    # c = from_yaml(sample_doe_function)
+    c = from_yaml(sample_mmis)
     c.show()
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
