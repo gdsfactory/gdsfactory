@@ -2,17 +2,20 @@ from __future__ import annotations
 
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.port import Port
-from gdsfactory.typings import Route
+from gdsfactory.typings import ComponentFactory, Route
 
 
-def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
+def get_route_sbend(
+    port1: Port, port2: Port, *, bend_s: ComponentFactory = bend_s, **kwargs
+) -> Route:
     """Returns an Sbend Route to connect two ports.
 
     Args:
         port1: start port.
         port2: end port.
+        bend_s: S-bend component factory.
 
-    keyword Args:
+    Keyword Args:
         npoints: number of points.
         with_cladding_box: square bounding box to avoid DRC errors.
         cross_section: function.
