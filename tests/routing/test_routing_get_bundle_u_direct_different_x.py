@@ -10,7 +10,7 @@ def test_get_bundle_u_direct_different_x(
 ) -> None:
     """ """
 
-    c = gf.Component("test_get_bundle_u_direct_different_x")
+    c = gf.Component()
     w = c << gf.components.straight_array(n=4, spacing=200)
     d = c << gf.components.nxn(west=4, east=0, north=0, south=0)
     d.y = w.y
