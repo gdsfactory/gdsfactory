@@ -60,6 +60,9 @@ def add_label_yaml(
     port_index_optical = port_index_optical if optical_ports else ()
     port_index_electrical = port_index_electrical if electrical_ports else ()
 
+    port_names_optical = [p.name for p in optical_ports]
+    port_names_electrical = [p.name for p in electrical_ports]
+
     settings = dict(
         name=component.name,
         doe=doe,
@@ -70,7 +73,7 @@ def add_label_yaml(
         analysis_settings=analysis_settings,
     )
     for port_index in port_index_optical:
-        d = dict(port_type="optical", **settings)
+        d = dict(port_type="optical", port_names=port_names_optical, **settings)
         text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
         x, y = optical_ports[port_index].center
         label = gf.Label(
@@ -82,7 +85,7 @@ def add_label_yaml(
         )
         component.add(label)
     for port_index in port_index_electrical:
-        d = dict(port_type="electrical", **settings)
+        d = dict(port_type="electrical", port_names=port_names_electrical, **settings)
         text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
         x, y = electrical_ports[port_index].center
         label = gf.Label(

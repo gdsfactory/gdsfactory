@@ -1,6 +1,8 @@
 """Straight waveguide."""
 from __future__ import annotations
 
+from collections.abc import Callable
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSectionSpec
@@ -14,7 +16,7 @@ def straight(
     width: float | None = None,
     add_pins: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
-    add_bbox: callable | None = None,
+    add_bbox: Callable | None = None,
 ) -> Component:
     """Returns a Straight waveguide.
 
@@ -60,7 +62,9 @@ def straight(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = straight(cross_section="xs_rc", info=dict(simulation="eme"))
+    xs = gf.cross_section.pn()
+    xs = xs.mirror()
+    c = straight(cross_section=xs, info=dict(simulation="eme"))
     # c = straight()
     print(c.info["simulation"])
     c.show(show_ports=True)

@@ -1,8 +1,6 @@
 """Spiral with grating couplers inside to save space."""
 from __future__ import annotations
 
-from functools import partial
-
 import numpy as np
 
 import gdsfactory as gf
@@ -68,6 +66,7 @@ def spiral_inner_io(
     cross_section_bend = cross_section_bend or cross_section
     cross_section_bend180 = cross_section_bend180 or cross_section_bend
 
+    xs_bend180 = gf.get_cross_section(cross_section_bend180, **kwargs)
     xs_bend = gf.get_cross_section(cross_section_bend, **kwargs)
     xs = gf.get_cross_section(cross_section, **kwargs)
 
@@ -84,8 +83,8 @@ def spiral_inner_io(
             waveguide_spacing=waveguide_spacing,
         )
 
-    _bend180 = gf.get_component(bend180, cross_section=cross_section_bend180)
-    _bend90 = gf.get_component(bend90, cross_section=cross_section_bend)
+    _bend180 = gf.get_component(bend180, cross_section=xs_bend180)
+    _bend90 = gf.get_component(bend90, cross_section=xs_bend)
 
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
@@ -328,14 +327,15 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     cross_section = gf.cross_section.xs_rc2
-    cross_section = gf.cross_section.pn
+    xs1 = gf.cross_section.pn()
+    xs2 = xs1.mirror()
 
     c = gf.components.spiral_inner_io_fiber_array(
-        cross_section=cross_section,
-        cross_section_bend=partial(cross_section, mirror=True),
+        cross_section=xs1,
+        cross_section_bend=xs2,
         # cross_section_bend180=partial(cross_section, mirror=True),
         waveguide_spacing=20,
-        radius=30,
+        # radius=30,
         asymmetric_cross_section=True,
     )
     c.show()

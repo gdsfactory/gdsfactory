@@ -14,7 +14,7 @@ ports:
     width: 0.5
   loopback_4:
     center:
-    - -127.0
+    - 254.0
     - 46.0
     layer:
     - 1
@@ -32,7 +32,7 @@ ports:
     - 1
     - 0
     name: o1
-    orientation: 270.0
+    orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
@@ -44,7 +44,7 @@ ports:
     - 1
     - 0
     name: o2
-    orientation: 270.0
+    orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
