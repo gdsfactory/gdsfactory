@@ -26,15 +26,3 @@ For building large components can use a file-watcher and see your updates in KLa
 3. Thanks to the `cell` cache you can see your new component changes live updating the layout in Klayout.
 
 ![filewatcher](https://i.imgur.com/DNWgVRp.png)
-
-## 3. Webapp flow
-
-You can also use a webapp to:
-
-- visualize your PDK components and change the Parametric Cell (PCell) settings.
-- visualize the GDS layout of the last saved files in a particular directory.
-- turn on a file watcher and watch changing files in specific folders.
-
-To run the webapp you can just run `gf webapp` in the terminal. By default it will use the `generic_pdk` technology.
-
-To use a different PDK you can use the `--pdk` flag. For example `gf webapp --pdk ubcpdk`.

@@ -242,7 +242,7 @@ def grating_coupler_elliptical(
         width=10,
         orientation=0,
         layer=layer,
-        port_type=name,
+        port_type="optical",
     )
     return c
 

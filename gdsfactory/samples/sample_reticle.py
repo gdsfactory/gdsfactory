@@ -49,7 +49,8 @@ def sample_reticle(grid: bool = True, **kwargs) -> gf.Component:
         gf.components.add_fiber_array_optical_south_electrical_north(
             mzi,
             electrical_port_names=["top_l_e2", "top_r_e2"],
-            **test_info_mzi_heaters,
+            decorator=gf.labels.add_label_json,
+            info=test_info_mzi_heaters,
         )
         for mzi in mzis
     ]
@@ -57,7 +58,8 @@ def sample_reticle(grid: bool = True, **kwargs) -> gf.Component:
         gf.components.add_fiber_array_optical_south_electrical_north(
             ring,
             electrical_port_names=["l_e2", "r_e2"],
-            **test_info_ring_heaters,
+            decorator=gf.labels.add_label_json,
+            info=test_info_ring_heaters,
         )
         for ring in rings
     ]
@@ -81,4 +83,4 @@ if __name__ == "__main__":
 
     df = pd.read_csv(csvpath)
     print(df)
-    c.show(show_ports=True)
+    c.show(show_ports=False)

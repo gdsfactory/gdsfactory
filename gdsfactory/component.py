@@ -870,10 +870,22 @@ class Component(_GeometryHelper):
         except ImportError:
             print(yaml.dump(self.to_dict()))
 
-    def pprint_ports(self) -> None:
-        """Prints ports in a rich table."""
+    def pprint_ports(self, **kwargs) -> None:
+        """Prints ports in a rich table.
 
-        pprint_ports(self.ports)
+        Keyword Args:
+            layer: select ports with GDS layer.
+            prefix: select ports with prefix in port name.
+            suffix: select ports with port name suffix.
+            orientation: select ports with orientation in degrees.
+            orientation: select ports with orientation in degrees.
+            width: select ports with port width.
+            layers_excluded: List of layers to exclude.
+            port_type: select ports with port_type (optical, electrical, vertical_te).
+            clockwise: if True, sort ports clockwise, False: counter-clockwise.
+        """
+
+        pprint_ports(self.get_ports_list(**kwargs))
 
     @property
     def metadata_child(self) -> dict:
@@ -1202,11 +1214,11 @@ class Component(_GeometryHelper):
         )
 
     def is_unlocked(self) -> None:
-        """Raises error if Component is locked."""
+        """Raises warning if Component is locked."""
         if self._locked:
-            raise MutabilityError(
-                f"Component {self.name!r} cannot be modified as it's already on cache. "
-                + mutability_error_message
+            warnings.warn(
+                f"Component {self.name!r} is dangerous to modify as it's already "
+                "on cache and will change all of its references. "
             )
 
     def _add(self, element) -> None:

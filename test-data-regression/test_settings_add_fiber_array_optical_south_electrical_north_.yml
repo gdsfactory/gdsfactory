@@ -198,23 +198,16 @@ settings:
     module: gdsfactory.routing.add_fiber_array
     name: mzi_7a18d033_add_fiber_array_889fae23
   default:
-    analysis: ''
-    analysis_settings: null
-    anchor: sw
     component:
       function: mzi
       settings:
         length_x: 200
         straight_x_top: straight_heater_metal
-    doe: ''
     electrical_port_names: null
     electrical_port_orientation: 90
     fiber_spacing: 127.0
     grating_coupler:
       function: grating_coupler_elliptical
-    layer_label: TEXT
-    measurement: optical_loopback2_heater_sweep
-    measurement_settings: null
     npads: null
     pad:
       function: pad
@@ -227,23 +220,16 @@ settings:
     with_loopback: true
     xs_metal: xs_metal_routing
   full:
-    analysis: ''
-    analysis_settings: null
-    anchor: sw
     component:
       function: mzi
       settings:
         length_x: 200
         straight_x_top: straight_heater_metal
-    doe: ''
     electrical_port_names: null
     electrical_port_orientation: 90
     fiber_spacing: 127.0
     grating_coupler:
       function: grating_coupler_elliptical
-    layer_label: TEXT
-    measurement: optical_loopback2_heater_sweep
-    measurement_settings: null
     npads: null
     pad:
       function: pad

@@ -341,7 +341,7 @@ def add_grating_couplers_with_loopback_fiber_array(
         c.add([gca1, gca2])
         c.add(loopback_route.references)
         c.add_port(name="loopback_1", port=port0)
-        c.add_port(name=f"loopback_{len(component.ports)+2}", port=port0)
+        c.add_port(name=f"loopback_{len(component.ports)+2}", port=port1)
 
         component_name_loopback = f"loopback_{component_name}"
         if nlabels_loopback == 1:
@@ -367,7 +367,8 @@ def add_grating_couplers_with_loopback_fiber_array(
                 f"Invalid nlabels_loopback = {nlabels_loopback}, "
                 "valid (0: no labels, 1: first port, 2: both ports2)"
             )
-    c.add_ports(component.ports)
+    ports = [p.flip() for p in component.ports.values()]
+    c.add_ports(ports)
     c.copy_child_info(component)
     return c
 
@@ -392,4 +393,4 @@ if __name__ == "__main__":
     c = add_grating_couplers_with_loopback_fiber_array()
     c.pprint_ports()
     # c = add_grating_couplers_with_loopback_fiber_single()
-    c.show(show_ports=False)
+    c.show(show_ports=True)

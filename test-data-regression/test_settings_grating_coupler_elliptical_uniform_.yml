@@ -21,7 +21,7 @@ ports:
     - 0
     name: opt_te_1554_15
     orientation: 0
-    port_type: opt_te_1554_15
+    port_type: optical
     shear_angle: null
     width: 10
 settings:

@@ -52,7 +52,7 @@ from omegaconf import OmegaConf
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
-from gdsfactory.labels import add_label_ehva
+from gdsfactory.labels import add_label_ehva, add_label_json
 
 
 gf.CONF.display_type = "klayout"
@@ -73,13 +73,16 @@ PDK.activate()
 # The default settings can be stored in a separate [CSV file](https://docs.google.com/spreadsheets/d/1845m-XZM8tZ1tNd8GIvAaq7ZE-iha00XNWa0XrEOabc/edit#gid=0)
 
 # %%
-c = gf.components.mzi_phase_shifter()
-c = gf.components.add_fiber_array_optical_south_electrical_north(
-    c,
+info = dict(
     doe="mzis",
     analysis="mzi_phase_shifter",
     measurement="optical_loopback2_heater_sweep",
     measurement_settings=dict(v_max=5),
+)
+
+c = gf.components.mzi_phase_shifter()
+c = gf.components.add_fiber_array_optical_south_electrical_north(
+    c, info=info, decorator=add_label_json
 )
 c.plot()
 

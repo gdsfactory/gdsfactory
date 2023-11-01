@@ -8,7 +8,7 @@ from gdsfactory.routing.manhattan import RouteWarning
 
 def test_route_error() -> None:
     """Ensures that an impossible route raises RouteWarning."""
-    c = gf.Component("test_route_error")
+    c = gf.Component()
     w = gf.components.straight()
     left = c << w
     right = c << w
@@ -34,7 +34,7 @@ def test_route_error() -> None:
 
 def test_route_error2() -> None:
     """Impossible route."""
-    c = gf.Component("pads_route_from_steps")
+    c = gf.Component()
     pt = c << gf.components.pad_array(orientation=270, columns=3)
     pb = c << gf.components.pad_array(orientation=90, columns=3)
     pt.move((100, 200))

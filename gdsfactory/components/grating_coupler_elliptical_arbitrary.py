@@ -168,7 +168,7 @@ def grating_coupler_elliptical_arbitrary(
         width=10,
         orientation=0,
         layer=xs.layer,
-        port_type=name,
+        port_type="optical",
     )
     return c
 

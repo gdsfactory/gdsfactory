@@ -20,7 +20,9 @@ doe: null
 measurement: null
 measurement_settings: {}
 name: straight_7688267d_move_33512259_add_fiber_single_91204c7e_rotate_39dea194
-xelec: []
-xopt: []
-yelec: []
-yopt: []
+port_names:
+- opt_te_1530_15-straight_7688267d-loopback2
+- opt_te_1530_15-straight_7688267d-1-0
+- opt_te_1530_15-straight_7688267d-0-0
+- opt_te_1530_15-straight_7688267d-loopback1
+port_type: optical
