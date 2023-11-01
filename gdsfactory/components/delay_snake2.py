@@ -106,6 +106,6 @@ if __name__ == "__main__":
     # c = test_length_delay_snake2()
     # c.show( )
     # c = delay_snake2(n=2, length=500, layer=(2, 0), length0=100)
-    # c = delay_snake2()
-    c = gf.grid([gf.c.delay_snake, delay_snake2(length0=100), gf.c.delay_snake3])
+    c = delay_snake2()
+    # c = gf.grid((gf.c.delay_snake, delay_snake2(length0=100), gf.c.delay_snake3))
     c.show()

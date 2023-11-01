@@ -86,7 +86,7 @@ def delay_snake_sbend(
     bs.mirror()
 
     length23 = (
-        length - (2 * bend.info["length"] - bs.info["length"]) - length1 - length4
+        length - (2 * bend.info["length"] - sbend.info["length"]) - length1 - length4
     )
     length2 = length23 / 2
     length3 = length23 / 2
@@ -134,11 +134,12 @@ def test_delay_snake_sbend_length() -> None:
 
 
 if __name__ == "__main__":
-    c = test_delay_snake_sbend_length()
+    # test_delay_snake_sbend_length()
     # c = gf.grid(
     #     [
     #         delay_snake_sbend(length=length, cross_section="xs_rc")
     #         for length in [500, 3000]
     #     ]
     # )
+    c = delay_snake_sbend(length=200, cross_section="xs_sc_no_pins")
     c.show()
