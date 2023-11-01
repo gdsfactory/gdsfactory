@@ -1,23 +1,24 @@
 from __future__ import annotations
 
-import numpy as np
+import warnings
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.routing.manhattan import round_corners
+from gdsfactory.components.bend_euler import bend_euler180
+from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-diagram = """
+diagram = r"""
+                 | length0   |
 
-       | L0 |    L2        |
-
-            ->-------------|
-                           | pi * radius
-       |-------------------|
+                 >---------\
+                            \bend180.info['length']
+                            /
+       |-------------------/
        |
-       |------------------->
-
-       |        DL         |
+       |------------------->------->|
+                            length2
+       |   delta_length    |        |
 
 """
 
@@ -25,75 +26,90 @@ diagram = """
 @gf.cell
 def delay_snake(
     length: float = 1600.0,
-    L0: float = 5.0,
+    length0: float = 0.0,
+    length2: float = 0.0,
     n: int = 2,
-    bend: ComponentSpec = "bend_euler",
+    bend180: ComponentSpec = bend_euler180,
     cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
-    """Returns Snake with a starting straight and 90 bends.
-
-    Input faces west output faces east.
+    r"""Returns Snake with a starting bend and 180 bends.
 
     Args:
-        length: delay length in um.
-        L0: initial xoffset in um.
+        length: total length.
+        length0: start length.
+        length2: end length.
         n: number of loops.
-        bend: bend spec.
+        bend180: ubend spec.
         cross_section: cross_section spec.
         kwargs: cross_section settings.
 
     .. code::
 
-       | L0 |    L2        |
+                 | length0   |
 
-            ->-------------|
-                           | pi * radius
-       |-------------------|
+                 >---------\
+                            \bend180.info['length']
+                            /
+       |-------------------/
        |
-       |------------------->
+       |------------------->------->|
+                            length2
+       |   delta_length    |        |
 
-       |        DL         |
+
     """
-    epsilon = 0.1
-    bend90 = gf.get_component(bend, cross_section=cross_section, **kwargs)
-    dy = bend90.info["dy"]
-    DL = (length + L0 - n * (np.pi * dy + epsilon)) / (2 * n + 1)
-    L2 = DL - L0
-    if L2 < 0:
+    if n % 2:
+        warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
+        n = n // 2 * 2
+    bend180 = gf.get_component(bend180, cross_section=cross_section, **kwargs)
+
+    delta_length = (length - length0 - length2 - n * bend180.info["length"]) / n
+    if delta_length < 0:
         raise ValueError(
-            "Snake is too short: either reduce L0, increase "
-            "the total length, or decrease n \n" + diagram
+            "Snake is too short: either reduce length0, length2, "
+            f"increase the total length, or decrease the number of loops (n = {n}). "
+            f"delta_length = {int(delta_length)}\n" + diagram
         )
 
-    y = 0
-    path = [(0, y), (L2, y)]
-    for _i in range(n):
-        y -= 2 * dy + epsilon
-        path += [(L2, y), (-L0, y)]
-        y -= 2 * dy + epsilon
-        path += [(-L0, y), (L2, y)]
+    s0 = straight(cross_section=cross_section, length=length0, **kwargs)
+    sd = straight(cross_section=cross_section, length=delta_length, **kwargs)
+    s2 = straight(cross_section=cross_section, length=length2, **kwargs)
 
-    path = [(round(_x, 3), round(_y, 3)) for _x, _y in path]
+    symbol_to_component = {
+        "_": (s0, "o1", "o2"),
+        "-": (sd, "o1", "o2"),
+        ")": (bend180, "o2", "o1"),
+        "(": (bend180, "o1", "o2"),
+        ".": (s2, "o1", "o2"),
+    }
 
-    c = gf.Component()
-    route = round_corners(
-        points=path, bend=bend90, cross_section=cross_section, **kwargs
+    sequence = "_)" + n // 2 * "-(-)"
+    sequence = f"{sequence[:-1]}."
+    return gf.components.component_sequence(
+        sequence=sequence, symbol_to_component=symbol_to_component
     )
-    c.add(route.references)
-    c.add_port("o1", port=route.ports[0])
-    c.add_port("o2", port=route.ports[1])
-    return c
 
 
-def test_delay_snake_length() -> None:
+def test_length_delay_snake() -> None:
+    import numpy as np
+
     length = 200.0
-    c = delay_snake(n=1, length=length, cross_section="xs_sc_no_pins")
+    c = delay_snake(n=2, length=length, length0=50, cross_section="xs_sc_no_pins")
     length_computed = c.area() / 0.5
     np.isclose(length, length_computed)
 
 
 if __name__ == "__main__":
-    c = test_delay_snake_length()
-    # c = delay_snake(cross_section="strip_auto_widen", auto_widen_minimum_length=50)
+    # c = test_delay_snake3_length()
+
+    length = 1562
+    c = delay_snake(
+        n=2,
+        length=length,
+        length2=length - 120,
+        cross_section="xs_sc_no_pins",
+    )
+    # length_computed = c.area() / 0.5
+    # assert np.isclose(length, length_computed), length_computed
     c.show()
