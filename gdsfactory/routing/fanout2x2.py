@@ -54,33 +54,37 @@ def fanout2x2(
 
     y = port_spacing / 2.0
 
-    p_w0 = ref.ports["o1"].center
-    p_w1 = ref.ports["o2"].center
-    p_e1 = ref.ports["o3"].center
-    p_e0 = ref.ports["o4"].center
-    y0 = p_e1[1]
+    p_w0 = ref.ports["o1"]
+    p_w1 = ref.ports["o2"]
+    p_e1 = ref.ports["o3"]
+    p_e0 = ref.ports["o4"]
 
+    y0 = p_e1.d.center[1]
     dy = y - y0
 
     x = gf.get_cross_section(cross_section, **kwargs)
     bend = bend_s(size=(dx, dy), npoints=npoints, cross_section=x)
 
-    b_tr = bend.ref(port_id="o1", position=p_e1)
-    b_br = bend.ref(port_id="o1", position=p_e0, v_mirror=True)
-    b_tl = bend.ref(port_id="o1", position=p_w1, h_mirror=True)
-    b_bl = bend.ref(port_id="o1", position=p_w0, rotation=180)
+    b_tr = c << bend
+    b_br = c << bend
+    b_tl = c << bend
+    b_bl = c << bend
 
-    c.add([b_tr, b_br, b_tl, b_bl])
+    b_tr.connect(port="o1", other=p_e1)
+    b_br.connect(port="o1", other=p_e0, mirror=True)
+    b_tl.connect(port="o1", other=p_w1, mirror=True)
+    b_bl.connect(port="o1", other=p_w0)
 
     c.add_port("o1", port=b_bl.ports["o2"])
     c.add_port("o2", port=b_tl.ports["o2"])
     c.add_port("o3", port=b_tr.ports["o2"])
     c.add_port("o4", port=b_br.ports["o2"])
 
-    c.min_bend_radius = bend.info["min_bend_radius"]
+    c.info["min_bend_radius"] = bend.info["min_bend_radius"]
 
     optical_ports = select_ports(ref.ports)
-    for port_name in ref.ports.keys():
+    for port in ref.ports:
+        port_name = port.name
         if port_name not in optical_ports:
             c.add_port(port_name, port=ref.ports[port_name])
     c.copy_child_info(component)

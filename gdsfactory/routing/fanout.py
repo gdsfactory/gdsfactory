@@ -54,11 +54,11 @@ def fanout_component(
         if port_name not in ref.ports:
             raise ValueError(f"{port_name} not in {list(ref.ports.keys())}")
 
-    ports1 = [p for p in ref.ports.values() if p.name in port_names]
+    ports1 = [p for p in ref.ports if p.name in port_names]
     port = ports1[0]
-    port_extended_x = port.get_extended_center(dx)[0]
-    port_settings = port.to_dict().copy()
+    port_extended_x = dx
 
+    port_settings = port.to_dict().copy()
     port_settings.pop("name")
     port_settings.update(center=(port_extended_x, 0))
     port_settings.update(orientation=(port.orientation + 180) % 360)
