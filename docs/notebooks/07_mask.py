@@ -55,7 +55,6 @@ from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.labels import add_label_ehva, add_label_json
 
 
-gf.CONF.display_type = "klayout"
 gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
@@ -554,13 +553,17 @@ mzis_te = [
     gf.components.add_fiber_array_optical_south_electrical_north(
         mzi,
         electrical_port_names=["top_l_e2", "top_r_e2"],
-        **test_info_mzi_heaters,
+        info=test_info_mzi_heaters,
+        decorator=gf.labels.add_label_json,
     )
     for mzi in mzis
 ]
 rings_te = [
     gf.components.add_fiber_array_optical_south_electrical_north(
-        ring, electrical_port_names=["l_e2", "r_e2"], **test_info_ring_heaters
+        ring,
+        electrical_port_names=["l_e2", "r_e2"],
+        info=test_info_ring_heaters,
+        decorator=gf.labels.add_label_json,
     )
     for ring in rings
 ]
@@ -599,3 +602,5 @@ from gdsfactory.labels.write_test_manifest import write_test_manifest
 
 dm = write_test_manifest(csvpath)
 dm
+
+# %%

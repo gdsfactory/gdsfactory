@@ -34,7 +34,7 @@ def write_test_manifest(
         "cell",
         "device",
         "port_type",
-        "nports",
+        "port_names",
         "x",
         "y",
         "measurement",
