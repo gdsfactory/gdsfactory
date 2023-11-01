@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 import pathlib
 
 import typer
@@ -51,15 +50,6 @@ def merge_gds(dirpath: str = None, gdspath: str = None) -> None:
     c = from_gdsdir(dirpath=dirpath)
     c.write_gds(gdspath=gdspath)
     c.show(show_ports=True)
-
-
-@app.command()
-def web(pdk: str = "generic", host: str = "localhost", port: int = 8765) -> None:
-    """Opens web viewer."""
-    import uvicorn
-
-    os.environ["PDK"] = pdk
-    uvicorn.run("gplugins.web.main:app", host=host, port=port, reload=True)
 
 
 @app.command()
