@@ -32,7 +32,6 @@ from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.difftest import difftest, diff
 
-from gdsfactory import decorators
 from gdsfactory import cross_section
 from gdsfactory import labels
 from gdsfactory import asserts
@@ -92,7 +91,6 @@ __all__ = (
     "components",
     "compose",
     "cross_section",
-    "decorators",
     "diff",
     "difftest",
     "get_active_pdk",

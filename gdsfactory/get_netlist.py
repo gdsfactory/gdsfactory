@@ -634,7 +634,6 @@ DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.decorators import flatten_invalid_refs
 
     rotation_value = 35
     cname = "test_get_netlist_transformed"
@@ -643,9 +642,6 @@ if __name__ == "__main__":
     i2 = c.add_ref(gf.components.straight(), "i2")
     i1.rotate(rotation_value)
     i2.connect("o2", i1.ports["o1"])
-
-    # flatten the oddly rotated refs
-    c = flatten_invalid_refs(c)
 
     # perform the initial sanity checks on the netlist
     netlist = c.get_netlist()
