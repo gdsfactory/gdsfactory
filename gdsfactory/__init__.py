@@ -31,9 +31,9 @@ from gdsfactory.cell import cell, cell_without_validator
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.difftest import difftest, diff
+from gdsfactory.boolean import boolean
 
 from gdsfactory import cross_section
-from gdsfactory import labels
 from gdsfactory import asserts
 from gdsfactory import port
 from gdsfactory import components
@@ -84,6 +84,7 @@ __all__ = (
     "add_pins",
     "add_ports",
     "asserts",
+    "boolean",
     "c",
     "call_if_func",
     "cell",
@@ -105,7 +106,6 @@ __all__ = (
     "grid",
     "grid_with_text",
     "import_gds",
-    "labels",
     "logger",
     "pack",
     "partial",

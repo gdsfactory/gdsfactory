@@ -74,7 +74,7 @@ def rectangle_with_slits(
         _ = c << r
         c.add(slits)
     else:
-        r_with_slits = c << gf.geometry.boolean(r, slits, operation="not", layer=layer)
+        r_with_slits = c << gf.boolean(r, slits, operation="not", layer=layer)
         c.absorb(r_with_slits)
     return c
 

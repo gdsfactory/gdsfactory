@@ -94,8 +94,12 @@ def coupler_ring(
     c.add_port("o3", port=cbr.ports["o3"])
     c.add_port("o4", port=s2.ports["o2"])
 
-    c.add_ports(gf.port.select_ports_list(ports=cbl.ports, port_type="electrical"), prefix="cbl")
-    c.add_ports(gf.port.select_ports_list(ports=cbr.ports, port_type="electrical"), prefix="cbr")
+    c.add_ports(
+        gf.port.select_ports_list(ports=cbl.ports, port_type="electrical"), prefix="cbl"
+    )
+    c.add_ports(
+        gf.port.select_ports_list(ports=cbr.ports, port_type="electrical"), prefix="cbr"
+    )
     c.auto_rename_ports()
     xs.add_pins(c)
     return c
@@ -141,7 +145,7 @@ def coupler_ring_point(
     for layer, size in zip(open_layers, open_sizes):
         subcomponent = coupler_ring_component.extract(layers=[layer])
         rectangle = gf.components.rectangle(size=size, layer=layer, centered=True)
-        _ = c << gf.geometry.boolean(subcomponent, rectangle, "A-B", layer=layer)
+        _ = c << gf.boolean(subcomponent, rectangle, "A-B", layer=layer)
 
     coupler_ref = c << coupler_ring_component.extract(layers=untouched_layers)
     c.add_ports(coupler_ring_component.get_ports_list())

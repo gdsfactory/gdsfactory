@@ -46,7 +46,7 @@ def add_trenches(
     clad = bbox(
         core.bbox, layer=layer_trench, top=top, bottom=bot, left=left, right=right
     )
-    ref = c << gf.geometry.boolean(clad, core, operation="not", layer=layer_trench)
+    ref = c << gf.boolean(clad, core, operation="not", layer=layer_trench)
 
     c.add_ports(component.ports, cross_section=xs)
     c.copy_child_info(component)

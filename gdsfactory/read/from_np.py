@@ -3,9 +3,9 @@ from __future__ import annotations
 
 import numpy as np
 
+from gdsfactory.boolean import boolean
 from gdsfactory.cell import cell_without_validator
 from gdsfactory.component import Component
-from gdsfactory.geometry.boolean import boolean
 
 
 def compute_area_signed(pr) -> float:

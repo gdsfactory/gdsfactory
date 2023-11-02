@@ -27,14 +27,14 @@
 # ### Boolean
 #
 #
-# The ``gf.geometry.boolean()`` function can perform AND/OR/NOT/XOR operations, and will return a new geometry with the result of that operation.
+# The ``gf.boolean()`` function can perform AND/OR/NOT/XOR operations, and will return a new geometry with the result of that operation.
 
 # %%
 import gdsfactory as gf
 
 E = gf.components.ellipse(radii=(10, 5), layer=(1, 0))
 R = gf.components.rectangle(size=[15, 5], layer=(2, 0))
-C = gf.geometry.boolean(A=E, B=R, operation="not", precision=1e-6, layer=(3, 0))
+C = gf.boolean(A=E, B=R, operation="not", precision=1e-6, layer=(3, 0))
 # Other operations include 'and', 'or', 'xor', or equivalently 'A-B', 'B-A', 'A+B'
 
 # Plot the originals and the result
@@ -68,14 +68,14 @@ c2 = gf.components.ellipse(radii=r2, layer=(1, 0), angle_resolution=angle_resolu
 # %%
 # %time
 
-c3 = gf.geometry.boolean_klayout(
+c3 = gf.boolean_klayout(
     c1, c2, operation=operation, layer1=(1, 0), layer2=(1, 0), layer3=(1, 0)
 )  # KLayout booleans
 c3.plot()
 
 # %%
 # %time
-c4 = gf.geometry.boolean(c1, c2, operation=operation)
+c4 = gf.boolean(c1, c2, operation=operation)
 c4.plot()
 
 # %% [markdown]

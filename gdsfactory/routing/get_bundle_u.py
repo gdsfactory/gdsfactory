@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import Any
 
+import kfactory as kf
 import numpy as np
 from kfactory.routing.optical import OpticalManhattanRoute
 from numpy import float64, ndarray
@@ -10,7 +11,7 @@ from numpy import float64, ndarray
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.geometry.functions import remove_identicals
+from gdsfactory.functions import remove_identicals
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import place_route
 from gdsfactory.routing.manhattan import (
@@ -20,8 +21,6 @@ from gdsfactory.routing.manhattan import (
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.validation import validate_connections
 from gdsfactory.typings import ComponentSpec, Route
-
-import kfactory as kf
 
 
 def _groups(
@@ -50,7 +49,7 @@ def get_bundle_udirect(
     path_length_match_modify_segment_i: int = -2,
     enforce_port_ordering: bool = True,
     cross_section: str = "xs_sc",
-    with_markers:bool=False,
+    with_markers: bool = False,
     **kwargs,
 ) -> list[OpticalManhattanRoute]:
     r"""Returns list of routes.
@@ -129,11 +128,15 @@ def get_bundle_udirect(
 
     r = []
     for route in routes:
-        port1 = next(filter(lambda port: kf.kdb.Point(*port.center) == route[0], ports1))
-        port2 = next(filter(lambda port: kf.kdb.Point(*port.center) == route[-1], ports2))
+        port1 = next(
+            filter(lambda port: kf.kdb.Point(*port.center) == route[0], ports1)
+        )
+        port2 = next(
+            filter(lambda port: kf.kdb.Point(*port.center) == route[-1], ports2)
+        )
         if with_markers:
             marker = gf.components.rectangle(size=(1, 1), layer=(2, 0), centered=True)
-        
+
             for point in route:
                 ref = component.add_ref(marker)
                 ref.center = point

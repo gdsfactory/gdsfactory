@@ -17,7 +17,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
-from gdsfactory.geometry.functions import angles_deg
+from gdsfactory.functions import angles_deg
 from gdsfactory.port import Port, select_ports_list
 from gdsfactory.typings import (
     ComponentSpec,

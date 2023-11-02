@@ -49,7 +49,7 @@ def bend_circular_heater(
     )
     sections = list(x.sections) + [s1, s2]
 
-    xs = x.copy(sections=sections)
+    xs = x.copy(sections=tuple(sections))
     p = arc(radius=radius, angle=angle, npoints=npoints)
 
     c = Component()

@@ -289,7 +289,7 @@ e3 = c.add_ref(gf.components.ellipse(radii=(10, 4), layer=(2, 0))).movex(5)
 c.plot()
 
 # %%
-c2 = gf.geometry.boolean(A=[e1, e3], B=e2, operation="A-B", layer=(2, 0))
+c2 = gf.boolean(A=[e1, e3], B=e2, operation="A-B", layer=(2, 0))
 c2.plot()
 
 # %% [markdown]

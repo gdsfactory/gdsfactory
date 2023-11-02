@@ -90,12 +90,10 @@ def interdigital_capacitor_enclosed(
 
     gap.add_polygon(cap.get_polygon_enclosure(), layer=gap_layer)
     gap = gap.offset(gap_to_ground, layer=gap_layer)
-    gap = gf.geometry.boolean(A=gap, B=c, operation="A-B", layer=gap_layer)
+    gap = gf.boolean(A=gap, B=c, operation="A-B", layer=gap_layer)
 
     ground = gf.components.bbox(bbox=enclosure_box, layer=metal_layer)
-    ground = gf.geometry.boolean(
-        A=ground, B=[c, gap], operation="A-B", layer=metal_layer
-    )
+    ground = gf.boolean(A=ground, B=[c, gap], operation="A-B", layer=metal_layer)
     _ = c << ground
     return c.flatten()
 

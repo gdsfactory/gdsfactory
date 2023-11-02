@@ -16,7 +16,7 @@ from gdsfactory.components.bezier import (
 )
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.taper import taper
-from gdsfactory.geometry.functions import path_length
+from gdsfactory.functions import path_length
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 

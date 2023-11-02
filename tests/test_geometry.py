@@ -12,56 +12,20 @@ c2 = gf.components.ellipse(radii=r2, layer=(1, 0), angle_resolution=angle_resolu
 
 
 def test_boolean_not() -> None:
-    c4 = gf.geometry.boolean(c1, c2, operation="not", layer=(1, 0))
+    c4 = gf.boolean(c1, c2, operation="not", layer=(1, 0))
     assert int(c4.area()) == 87
 
 
-def test_boolean_not_klayout() -> None:
-    c3 = gf.geometry.boolean_klayout(c1, c2, operation="not", layer3=(1, 0))
-    assert int(c3.area()) == 87
-
-
 def test_boolean_or() -> None:
-    c4 = gf.geometry.boolean(c1, c2, operation="or", layer=(1, 0))
+    c4 = gf.boolean(c1, c2, operation="or", layer=(1, 0))
     assert int(c4.area()) == 225
 
 
-def test_boolean_or_klayout() -> None:
-    c3 = gf.geometry.boolean_klayout(c1, c2, operation="or", layer3=(1, 0))
-    assert int(c3.area()) == 225
-
-
 def test_boolean_xor() -> None:
-    c4 = gf.geometry.boolean(c1, c2, operation="xor", layer=(1, 0))
+    c4 = gf.boolean(c1, c2, operation="xor", layer=(1, 0))
     assert int(c4.area()) == 111
 
 
-def test_boolean_xor_klayout() -> None:
-    c3 = gf.geometry.boolean_klayout(c1, c2, operation="xor", layer3=(1, 0))
-    assert int(c3.area()) == 111
-
-
 def test_boolean_and() -> None:
-    c4 = gf.geometry.boolean(c1, c2, operation="and", layer=(1, 0))
+    c4 = gf.boolean(c1, c2, operation="and", layer=(1, 0))
     assert int(c4.area()) == 113
-
-
-def test_boolean_and_klayout() -> None:
-    c3 = gf.geometry.boolean_klayout(c1, c2, operation="and", layer3=(1, 0))
-    assert int(c3.area()) == 113
-
-
-def test_trim() -> None:
-    c = gf.components.straight_pin(length=10, taper=None)
-    rectangle = [[0, -5], [0, 5], [5, 5], [5, -5]]
-    trimmed_c = gf.geometry.trim(component=c, domain=rectangle)
-    assert trimmed_c.area() < c.area() and len(trimmed_c.get_layers()) > 1
-
-
-if __name__ == "__main__":
-    # test_boolean_xor()
-    test_trim()
-    # c3 = gf.geometry.boolean_klayout(c1, c2, operation="and", layer3=(1, 0))
-    # c4 = gf.geometry.boolean(c1, c2, operation="and", layer=(1, 0))
-    # print(int(c3.area()))
-    # c4.show()
