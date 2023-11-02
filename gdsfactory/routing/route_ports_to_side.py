@@ -8,8 +8,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.port import Port, flipped
-from gdsfactory.routing.get_route import place_route
-from gdsfactory.typings import Route
+from gdsfactory.routing.get_route import OpticalManhattanRoute, place_route
 
 
 def sort_key_west_to_east(port: Port) -> float:
@@ -35,7 +34,7 @@ def route_ports_to_side(
     x: float | None = None,
     y: float | None = None,
     **kwargs,
-) -> tuple[list[Route], list[Port]]:
+) -> list[OpticalManhattanRoute]:
     """Routes ports to a given side.
 
     Args:
@@ -125,7 +124,7 @@ def route_ports_to_x(
     dx_start: float | None = None,
     dy_start: float | None = None,
     **routing_func_args,
-) -> tuple[list[Route], list[Port]]:
+) -> list[OpticalManhattanRoute]:
     """Returns route to x.
 
     Args:
@@ -304,7 +303,8 @@ def route_ports_to_x(
         y_optical_bot -= separation
         start_straight_length += separation
 
-    return routes, ports
+    c.add_ports(ports, prefix="route_")
+    return routes
 
 
 def route_ports_to_y(
@@ -323,7 +323,7 @@ def route_ports_to_y(
     dx_start: float | None = None,
     dy_start: float | None = None,
     **routing_func_args: dict[Any, Any],
-) -> tuple[list[Route], list[Port]]:
+) -> list[OpticalManhattanRoute]:
     """
     Args:
         component: component to route.
@@ -502,7 +502,8 @@ def route_ports_to_y(
         x_optical_left -= separation
         start_straight_length_section += separation
 
-    return routes, ports
+    c.add_ports(ports, prefix="route_")
+    return routes
 
 
 @gf.cell
@@ -558,9 +559,7 @@ if __name__ == "__main__":
     for pos, side in zip(positions, sides):
         dummy_ref = c << dummy
         dummy_ref.d.center = pos
-        routes, ports = route_ports_to_side(c, dummy_ref.ports, side, layer=(1, 0))
-        for i, p in enumerate(ports):
-            c.add_port(name=f"{side[0]}{i}", port=p)
+        routes = route_ports_to_side(c, dummy_ref.ports, side, layer=(1, 0))
 
     # c.plot()
     c.show()
