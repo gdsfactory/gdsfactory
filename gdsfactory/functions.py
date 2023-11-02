@@ -284,12 +284,23 @@ def add_marker_layer(
 
         @cell_with_child
         @wraps(component)
-        def wrapper(**kwargs) -> Component:
+        def wrapper(*args, **kwargs) -> Component:
             """Wrapper container for ``component``.
 
             Args:
+                **args: Positional arguments provided to ``component``.
                 **kwargs: Keyword arguments provided to ``component``.
+
+            Raises:
+                UserWarning: If positional arguments are provided.
+
+            Returns:
+                The new component with the added marker layer.
             """
+            if args:
+                raise UserWarning(
+                    "Positional arguments are not supported, as `get_component` is used."
+                )
             component_old, component_new, ref = _get_component_in_container(
                 component, **kwargs
             )
