@@ -1,9 +1,15 @@
 from __future__ import annotations
 
-import os
 import pathlib
 
 import typer
+
+from gdsfactory import show as _show
+from gdsfactory.config import print_version_pdks, print_version_plugins
+from gdsfactory.difftest import diff
+from gdsfactory.install import install_gdsdiff, install_klayout_package
+from gdsfactory.read.from_updk import from_updk
+from gdsfactory.watch import watch as _watch
 
 app = typer.Typer()
 
@@ -49,39 +55,27 @@ def merge_gds(dirpath: str = None, gdspath: str = None) -> None:
 
 
 @app.command()
-def web(pdk: str = "generic", host: str = "localhost", port: int = 8765) -> None:
-    """Opens web viewer."""
-    import uvicorn
-
-    os.environ["PDK"] = pdk
-    uvicorn.run("gplugins.web.main:app", host=host, port=port, reload=True)
-
-
-@app.command()
 def watch(
     path: str = str(pathlib.Path.cwd()),
     pdk: str = typer.Option(None, "--pdk", "-pdk", help="PDK name"),
 ) -> None:
     """Filewatch a folder for changes in *.py or *.pic.yml files."""
-    from gdsfactory.watch import watch
 
     path = pathlib.Path(path)
     path = path.parent if path.is_dir() else path
-    watch(str(path), pdk=pdk)
+    _watch(str(path), pdk=pdk)
 
 
 @app.command()
 def show(filename: str) -> None:
     """Show a GDS file using klive."""
-    from gdsfactory.show import show
 
-    show(filename)
+    _show(filename)
 
 
 @app.command()
 def gds_diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
     """Show boolean difference between two GDS files."""
-    from gdsfactory.difftest import diff
 
     diff(gdspath1, gdspath2, xor=xor)
 
@@ -89,7 +83,6 @@ def gds_diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
 @app.command()
 def install_klayout_genericpdk() -> None:
     """Install Klayout generic PDK."""
-    from gdsfactory.install import install_klayout_package
 
     install_klayout_package()
 
@@ -97,7 +90,6 @@ def install_klayout_genericpdk() -> None:
 @app.command()
 def install_git_diff() -> None:
     """Install git diff."""
-    from gdsfactory.install import install_gdsdiff
 
     install_gdsdiff()
 
@@ -105,7 +97,6 @@ def install_git_diff() -> None:
 @app.command()
 def print_plugins() -> None:
     """Show installed plugin versions."""
-    from gdsfactory.config import print_version_plugins
 
     print_version_plugins()
 
@@ -113,7 +104,6 @@ def print_plugins() -> None:
 @app.command()
 def print_pdks() -> None:
     """Show installed PDK versions."""
-    from gdsfactory.config import print_version_pdks
 
     print_version_pdks()
 
@@ -121,7 +111,6 @@ def print_pdks() -> None:
 @app.command(name="from_updk")
 def from_updk_command(filepath: str, filepath_out: str = None) -> None:
     """Writes a PDK in python from uPDK YAML spec."""
-    from gdsfactory.read.from_updk import from_updk
 
     filepath = pathlib.Path(filepath)
     filepath_out = filepath_out or filepath.with_suffix(".py")

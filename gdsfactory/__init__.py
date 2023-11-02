@@ -20,7 +20,7 @@ from functools import partial
 from toolz import compose
 from gdsfactory.path import Path
 import kfactory as kf
-from kfactory.kcell import LayerEnum, kcl
+from kfactory.kcell import LayerEnum, kcl, show
 import klayout.db as kdb
 
 # NOTE: import order matters. Only change the order if you know what you are doing
@@ -28,7 +28,6 @@ from gdsfactory.component import Component, ComponentReference, Instance
 from gdsfactory.config import CONF, call_if_func, PATH, logger
 from gdsfactory.port import Port
 from gdsfactory.cell import cell, cell_without_validator
-from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.difftest import difftest, diff

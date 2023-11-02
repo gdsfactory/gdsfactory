@@ -16,10 +16,10 @@ from kfactory import LayerEnum
 from omegaconf import DictConfig
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from gdsfactory import show
 from gdsfactory.config import CONF, logger
 from gdsfactory.events import Event
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
-from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.typings import (
