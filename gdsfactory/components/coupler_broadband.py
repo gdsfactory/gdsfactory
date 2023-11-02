@@ -55,8 +55,8 @@ def coupler_broadband(
 
     coupler = coupler_straight(length=L_1, cross_section=cross_section, gap=gap_sc)
     coupler1 = c << coupler
-    coupler1.xmin = -L_2 / 2 - L_t - L_1
-    coupler1.y = y_coupler
+    coupler1.d.xmin = -L_2 / 2 - L_t - L_1
+    coupler1.d.y = y_coupler
 
     _bend = bend(radius=radius, cross_section=cross_section)
     bend_lt = c << _bend
