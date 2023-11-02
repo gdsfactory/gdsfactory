@@ -12,9 +12,9 @@ def grating_coupler_array(
     pitch: float = 127.0,
     n: int = 6,
     port_name: str = "o1",
-    rotation: int = 0,
+    rotation: int = -90,
     with_loopback: bool = False,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     """Array of grating couplers.
 
@@ -32,13 +32,13 @@ def grating_coupler_array(
 
     for i in range(n):
         gc = c << grating_coupler
-        gc.rotate(rotation)
+        gc.d.rotate(rotation)
         gc.d.x = i * pitch
         port_name_new = f"o{i}"
         c.add_port(port=gc.ports[port_name], name=port_name_new)
 
     if with_loopback:
-        if rotation != 90:
+        if rotation != -90:
             raise ValueError(
                 "with_loopback is currently only programmed to work with rotation = 90"
             )
@@ -47,22 +47,20 @@ def grating_coupler_array(
 
         steps = (
             {"dy": -radius},
-            {"dx": -gc.xsize / 2 - radius},
-            {"dy": gc.ysize + 2 * radius},
-            {"dx": c.xsize + 2 * radius},
-            {"dy": -gc.ysize - 2 * radius},
-            {"dx": -gc.xsize / 2 - radius},
+            {"dx": -gc.d.xsize / 2 - radius},
+            {"dy": gc.d.ysize + 2 * radius},
+            {"dx": c.d.xsize + 2 * radius},
+            {"dy": -gc.d.ysize - 2 * radius},
+            {"dx": -gc.d.xsize / 2 - radius},
         )
 
-        route = gf.routing.get_route_from_steps(
+        gf.routing.place_route_from_steps(
+            c,
             port1=c.ports["o0"],
             port2=c.ports[f"o{n-1}"],
             steps=steps,
             cross_section=routing_xs,
         )
-        c.add(route.references)
-        c.ports.pop("o0")
-        c.ports.pop(f"o{n-1}")
 
     return c
 

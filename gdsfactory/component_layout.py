@@ -16,8 +16,6 @@ from numpy.linalg import norm
 from rich.console import Console
 from rich.table import Table
 
-from gdsfactory.snap import snap_to_grid
-
 if typing.TYPE_CHECKING:
     from gdsfactory.port import Port
 
@@ -200,7 +198,7 @@ class _GeometryHelper:
         Args:
             destination : array-like[2] Coordinates of the new bounding box center.
         """
-        self.move(other=destination, origin=self.center)
+        self.center = destination
 
     @property
     def x(self):
@@ -214,8 +212,7 @@ class _GeometryHelper:
         Args:
             destination : int or float x-coordinate of the bbox center.
         """
-        destination = (destination, self.center[1])
-        self.move(other=destination, origin=self.center, axis="x")
+        self.d.center = destination
 
     @property
     def y(self):
@@ -446,9 +443,8 @@ class Group(_GeometryHelper):
             axis : {'x', 'y'}
                 Direction of the move.
         """
-        other = snap_to_grid(other)
         for e in self.elements:
-            e.move(origin=origin, other=other, axis=axis)
+            e.move(other)
         return self
 
     def mirror(self, p1=(0, 1), p2=(0, 0)) -> Group:

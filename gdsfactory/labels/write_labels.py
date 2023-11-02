@@ -7,9 +7,8 @@ import pathlib
 from collections.abc import Iterator
 from pathlib import Path
 
-import numpy as np
+import klayout.db as pya
 
-import gdsfactory as gf
 from gdsfactory.config import logger
 from gdsfactory.pdk import get_layer
 from gdsfactory.routing.add_fiber_single import add_fiber_single
@@ -35,7 +34,6 @@ def find_labels(
         angle: in degrees.
 
     """
-    import klayout.db as pya
 
     # Load the layout
     gdspath = str(gdspath)
@@ -63,7 +61,7 @@ def find_labels(
                 yield text.string, transformed.x * dbu, transformed.y * dbu, trans.angle
 
 
-def write_labels_klayout(
+def write_labels(
     gdspath: PathType,
     layer_label: LayerSpec = "TEXT",
     filepath: PathType | None = None,
@@ -93,57 +91,6 @@ def write_labels_klayout(
         writer = csv.writer(f)
         writer.writerows(labels)
     logger.info(f"Wrote {len(labels)} labels to CSV {filepath.absolute()}")
-    return filepath
-
-
-def write_labels_gdstk(
-    gdspath: Path,
-    prefixes: tuple[str, ...] = ("opt", "elec"),
-    layer_label: LayerSpec = "TEXT",
-    filepath: PathType | None = None,
-    debug: bool = False,
-) -> Path:
-    """Load GDS and extracts label text and coordinates.
-
-    Returns CSV filepath with each row:
-    - Text
-    - x
-    - y
-    - rotation (degrees)
-
-    Args:
-        gdspath: for the mask.
-        prefix: for the labels to write.
-        layer_label: for labels to write.
-        filepath: for CSV file. Defaults to gdspath with CSV suffix.
-        debug: prints the label.
-    """
-    gdspath = pathlib.Path(gdspath)
-    filepath = filepath or gdspath.with_suffix(".csv")
-    filepath = pathlib.Path(filepath)
-    c = gf.import_gds(gdspath)
-
-    labels = [("text", "x", "y", "rotation")]
-    layer_label = get_layer(layer_label)
-
-    for label in c.get_labels():
-        for prefix in prefixes:
-            if (
-                layer_label
-                and label.layer == layer_label[0]
-                and label.texttype == layer_label[1]
-                and label.text.startswith(prefix)
-            ):
-                x, y = np.round(label.origin, 3)
-                rot = np.rad2deg(label.rotation)
-                labels += [(label.text, x, y, rot)]
-                if debug:
-                    print(label.text)
-
-    with open(filepath, "w", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerows(labels)
-    logger.info(f"Wrote {len(labels)} labels to {filepath.absolute()}")
     return filepath
 
 
