@@ -65,6 +65,7 @@ settings:
     cross_section: xs_sc
     cross_section_bend: null
     cross_section_bend180: null
+    cross_section_loopback: xs_sc
     grating_spacing: 127.0
     length: 20000.0
     straight:
@@ -88,6 +89,7 @@ settings:
     cross_section: xs_sc
     cross_section_bend: null
     cross_section_bend180: null
+    cross_section_loopback: xs_sc
     grating_spacing: 127.0
     length: 20000.0
     straight:

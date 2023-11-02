@@ -187,6 +187,7 @@ def spiral_inner_io_fiber_array(
     cross_section: CrossSectionSpec = "xs_sc",
     cross_section_bend: CrossSectionSpec | None = None,
     cross_section_bend180: CrossSectionSpec | None = None,
+    cross_section_loopback: CrossSectionSpec = "xs_sc",
     asymmetric_cross_section: bool = False,
     add_grating_couplers: ComponentFactory
     | None = add_grating_couplers_with_loopback_fiber_array,
@@ -233,8 +234,9 @@ def spiral_inner_io_fiber_array(
         asymmetric_cross_section=asymmetric_cross_section,
         **kwargs,
     )
+
     return (
-        add_grating_couplers(spiral, cross_section=cross_section, **kwargs)
+        add_grating_couplers(spiral, cross_section=cross_section_loopback, **kwargs)
         if add_grating_couplers
         else spiral
     )
@@ -337,5 +339,6 @@ if __name__ == "__main__":
         waveguide_spacing=20,
         # radius=30,
         asymmetric_cross_section=True,
+        length=40e3,
     )
     c.show()
