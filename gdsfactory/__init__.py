@@ -42,7 +42,6 @@ from gdsfactory import typings
 from gdsfactory import path
 from gdsfactory import snap
 from gdsfactory import read
-from gdsfactory import functions
 from gdsfactory import add_ports
 from gdsfactory import write_cells
 from gdsfactory import add_pins
@@ -96,7 +95,6 @@ __all__ = (
     "decorators",
     "diff",
     "difftest",
-    "functions",
     "get_active_pdk",
     "get_cell",
     "get_cells",

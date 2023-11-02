@@ -8,7 +8,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.functions import move_port_to_zero
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
@@ -118,8 +117,6 @@ def add_fiber_single(
 
     if zero_port not in optical_port_names:
         raise ValueError(f"zero_port = {zero_port!r} not in {optical_port_names}")
-
-    component = move_port_to_zero(component, zero_port) if zero_port else component
 
     optical_ports = select_ports(component.ports)
     optical_ports = list(optical_ports.values())

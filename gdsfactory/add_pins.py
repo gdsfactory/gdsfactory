@@ -505,8 +505,9 @@ add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)
 
 def add_settings_label(
     component: Component,
-    reference: Instance,
+    reference: Instance | None = None,
     layer_label: LayerSpec = "LABEL_SETTINGS",
+    with_yaml_format: bool = False,
 ) -> None:
     """Add settings in label.
 
@@ -514,17 +515,23 @@ def add_settings_label(
         component: to add pins.
         reference: Instance.
         layer_label: layer spec.
+        with_yaml_format: add yaml format, False uses json.
     """
     from gdsfactory.pdk import get_layer
 
     layer_label = get_layer(layer_label)
 
-    settings_dict = OmegaConf.to_container(reference.settings.full)
-    settings_string = f"settings={json.dumps(settings_dict)}"
+    reference = reference or component
+    settings_dict = OmegaConf.to_container(reference.info)
+    settings_string = (
+        OmegaConf.to_yaml(settings_dict)
+        if with_yaml_format
+        else f"settings={json.dumps(settings_dict)}"
+    )
     if len(settings_string) > 1024:
         raise ValueError(f"label > 1024 characters: {settings_string}")
     component.add_label(
-        position=reference.center, text=settings_string, layer=layer_label
+        position=reference.d.center, text=settings_string, layer=layer_label
     )
 
 

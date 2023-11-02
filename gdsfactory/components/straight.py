@@ -62,8 +62,9 @@ if __name__ == "__main__":
     # ref.name = "straight"
     # print(c.insts['straight'].ports)
 
-    xs = gf.cross_section.pn()
-    xs = xs.mirror()
-    c = straight(cross_section=xs)
-    gdspath = c.write_gds()
+    # xs = gf.cross_section.pn()
+    # xs = xs.mirror()
+    # c = straight(cross_section=xs)
+    # gdspath = c.write_gds()
+    c = straight(length=10, cross_section="xs_rc")
     c.show()

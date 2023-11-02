@@ -353,6 +353,18 @@ class Component(kf.KCell):
         for instance in instances:
             self._kdb_cell.insert(instance._instance)
 
+    def area(self, layer: LayerSpec) -> float:
+        """Returns the area of the Component in um2."""
+        from gdsfactory import get_layer
+
+        layer_index = get_layer(layer)
+        area_um = 0
+        r = kdb.Region(self.begin_shapes_rec(layer_index))
+        r.merge()
+        for p in r.each():
+            area_um += p.area2() / 2 * self.kcl.dbu**2
+        return area_um
+
     def ref(self, *args, **kwargs) -> kdb.DCellInstArray:
         """Returns a Component Instance."""
         raise ValueError("ref() is deprecated. Use add_ref() instead")
@@ -548,6 +560,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.c.straight()
+    print(c.area(layer=(1, 0)))
     print(c.get_ports_list(prefix="o"))
 
     # c = gf.Component()

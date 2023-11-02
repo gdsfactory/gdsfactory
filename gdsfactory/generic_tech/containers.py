@@ -6,7 +6,6 @@ import sys
 
 from gdsfactory.add_padding import add_padding_container
 from gdsfactory.components.add_termination import add_termination
-from gdsfactory.functions import rotate
 from gdsfactory.get_factories import get_cells
 from gdsfactory.routing import add_pads_bot, add_pads_top
 from gdsfactory.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
@@ -23,7 +22,6 @@ __all__ = [
     "add_padding_container",
     "add_termination",
     "fanout2x2",
-    "rotate",
     "add_pads_top",
     "add_pads_bot",
 ]
