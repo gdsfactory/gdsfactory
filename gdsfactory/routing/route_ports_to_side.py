@@ -544,11 +544,7 @@ def _sample_route_sides() -> Component:
     for pos, side in zip(positions, sides):
         dummy_ref = dummy.ref(position=pos)
         c.add(dummy_ref)
-        routes, ports = route_ports_to_side(dummy_ref, side, layer=(1, 0))
-        for route in routes:
-            c.add(route.references)
-        for i, p in enumerate(ports):
-            c.add_port(name=f"{side[0]}{i}", port=p)
+        route_ports_to_side(c, dummy_ref, side, layer=(1, 0))
     return c
 
 

@@ -94,7 +94,6 @@ def spiral_external_io(
         _pt4 = np.array([x4, _pt3[1]])
         _pt5 = np.array([_pt4[0], 0])
         _pt = _pt5
-
         pts_w += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
     pts_w = pts_w[:-2]

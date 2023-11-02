@@ -44,7 +44,7 @@ def nxn(
             8   7
     """
     c = gf.Component()
-    c << gf.components.rectangle(size=(xsize, ysize), layer=layer)
+    _ = c << gf.components.rectangle(size=(xsize, ysize), layer=layer)
 
     if west > 0:
         x = 0
@@ -56,7 +56,6 @@ def nxn(
             )
         )
         orientation = 180
-        y = gf.snap.snap_to_grid(y)
 
         for i, yi in enumerate(y):
             c.add_port(
@@ -78,7 +77,6 @@ def nxn(
             )
         )
         orientation = 0
-        y = gf.snap.snap_to_grid(y)
 
         for i, yi in enumerate(y):
             c.add_port(
@@ -100,7 +98,6 @@ def nxn(
             )
         )
         orientation = 90
-        x = gf.snap.snap_to_grid(x)
 
         for i, xi in enumerate(x):
             c.add_port(
@@ -121,7 +118,6 @@ def nxn(
             )
         )
         orientation = 270
-        x = gf.snap.snap_to_grid(x)
 
         for i, xi in enumerate(x):
             c.add_port(
