@@ -61,10 +61,9 @@ def coupler_broadband(
     _bend = bend(radius=radius, cross_section=cross_section)
     bend_lt = c << _bend
     bend_lb = c << _bend
-    bend_lt.mirror_y()
 
     bend_lb.connect("o1", coupler1.ports["o1"])
-    bend_lt.connect("o1", coupler1.ports["o2"])
+    bend_lt.connect("o1", coupler1.ports["o2"], mirror=True)
 
     # define vertices of the top waveguide
     vertices_top = [
@@ -94,16 +93,15 @@ def coupler_broadband(
     c.add_polygon(vertices_bot, layer=layer)
 
     coupler2 = c << coupler
-    coupler2.xmax = L_2 / 2 + L_t + L_1
-    coupler2.y = y_coupler
+    coupler2.d.xmax = L_2 / 2 + L_t + L_1
+    coupler2.d.y = y_coupler
 
     _bend = bend(radius=radius, cross_section=cross_section)
     bend_rt = c << _bend
     bend_rb = c << _bend
-    bend_rt.mirror()
 
     bend_rb.connect("o1", coupler2.ports["o3"])
-    bend_rt.connect("o1", coupler2.ports["o4"])
+    bend_rt.connect("o1", coupler2.ports["o4"], mirror=True)
 
     c.add_port("o1", port=bend_lb.ports["o2"])
     c.add_port("o2", port=bend_lt.ports["o2"])
