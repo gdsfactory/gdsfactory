@@ -129,6 +129,14 @@ def test_get_cross_sections_empty_input() -> None:
     assert len(xs) == 0
 
 
+def test_cross_section_mirror() -> None:
+    xs_pn = gf.cross_section.xs_pn
+    xs_np = xs_pn.mirror()
+
+    for s1, s2 in zip(xs_pn.sections, xs_np.sections):
+        assert s1.offset == -s2.offset, f"{s1.offset} != {s2.offset}"
+
+
 if __name__ == "__main__":
     # test_transition_names()
     test_copy()
