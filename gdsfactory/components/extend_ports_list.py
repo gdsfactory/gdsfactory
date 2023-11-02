@@ -26,14 +26,15 @@ def extend_ports_list(
     c = Component()
     extension = get_component(extension)
 
-    extension_port_name = extension_port_name or list(extension.ports.keys())[0]
+    extension_port_name = extension_port_name or extension.ports[0]
     ignore_ports = ignore_ports or ()
 
     for i, port in enumerate(ports):
         extension_ref = c << extension
         extension_ref.connect(extension_port_name, port)
 
-        for port_name, port in extension_ref.ports.items():
+        for port in extension_ref.ports:
+            port_name = port.name
             if port_name not in ignore_ports:
                 c.add_port(f"{i}_{port_name}", port=port)
 
@@ -45,8 +46,8 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.Component("taper_extended")
-    c0 = gf.components.taper(width2=10)
-    e = extend_ports_list(c0.get_ports_list(), extension="straight")
+    c0 = gf.components.taper()
+    e = extend_ports_list(c0.ports, extension="straight")
     c << c0
     c << e
     c.show()

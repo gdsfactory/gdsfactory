@@ -40,9 +40,10 @@ def add_tapers(
     """
     c = gf.Component()
     ports_to_taper = select_ports(component.ports) if select_ports else component.ports
-    ports_to_taper_names = [p.name for p in ports_to_taper.values()]
+    ports_to_taper_names = [p.name for p in ports_to_taper]
 
-    for port_name, port in component.ports.items():
+    for port in component.ports:
+        port_name = port.name
         if port.name in ports_to_taper_names:
             taper_ref = c << taper(
                 cross_section1=port.cross_section,
