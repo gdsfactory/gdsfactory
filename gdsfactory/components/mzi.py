@@ -99,6 +99,7 @@ def mzi(
 
     if with_splitter:
         cp1 = c << cp1
+        cp1.name = "cp1"
 
     cp2 = c << cp2
     b5 = c << bend
@@ -172,7 +173,6 @@ def mzi(
     syl.name = "syl"
     sxt.name = "sxt"
     sxb.name = "sxb"
-    cp1.name = "cp1"
     cp2.name = "cp2"
 
     if with_splitter:

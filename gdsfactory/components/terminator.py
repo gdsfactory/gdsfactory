@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.cross_section import strip
@@ -40,11 +41,11 @@ def terminator(
         cross_section2=cross_section_tip,
     )
 
+    points = get_padding_points(
+        taper, default=0, top=doping_offset, bottom=doping_offset
+    )
     for layer in doping_layers:
-        _ = c << gf.components.bbox(
-            bbox=taper.bbox, layer=layer, top=doping_offset, bottom=doping_offset
-        )
-
+        c.add_polygon(points, layer=layer)
     c.add_port(name="o1", port=taper.ports["o1"])
     return c
 

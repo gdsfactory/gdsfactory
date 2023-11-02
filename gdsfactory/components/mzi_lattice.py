@@ -9,7 +9,7 @@ from gdsfactory.components.mzi import mzi2x2_2x2 as mmi_coupler_function
 from gdsfactory.components.mzi import mzi_coupler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentFactory
 
 
 @cell
@@ -17,8 +17,8 @@ def mzi_lattice(
     coupler_lengths: tuple[float, ...] = (10.0, 20.0),
     coupler_gaps: tuple[float, ...] = (0.2, 0.3),
     delta_lengths: tuple[float, ...] = (10.0,),
-    mzi: ComponentSpec = mzi_coupler,
-    splitter: ComponentSpec = coupler_function,
+    mzi: ComponentFactory = mzi_coupler,
+    splitter: ComponentFactory = coupler_function,
     **kwargs,
 ) -> Component:
     r"""Mzi lattice filter.
@@ -82,7 +82,7 @@ def mzi_lattice(
         delta_length=delta_lengths[0],
         **kwargs,
     )
-    c.add_ports(sprevious.get_ports_list(port_type="electrical"))
+    c.add_ports(sprevious.ports)
 
     stages = []
 
@@ -105,17 +105,19 @@ def mzi_lattice(
         splitter_settings = combiner_settings
 
         stages.append(stage)
-        c.add_ports(stage.get_ports_list(port_type="electrical"))
+        c.add_ports(stage.ports)
 
     for stage in stages:
         stage.connect("o1", sprevious.ports["o4"])
         # stage.connect('o2', sprevious.ports['o1'])
         sprevious = stage
 
-    for port in cp1.get_ports_list(orientation=180, port_type="optical"):
+    for port in gf.port.get_ports_list(cp1.ports, orientation=180, port_type="optical"):
         c.add_port(port.name, port=port)
 
-    for port in sprevious.get_ports_list(orientation=0, port_type="optical"):
+    for port in gf.port.get_ports_list(
+        sprevious.ports, orientation=0, port_type="optical"
+    ):
         c.add_port(f"o_{port.name}", port=port)
 
     c.auto_rename_ports()
@@ -246,15 +248,14 @@ def mzi_lattice_mmi(
     cp1 = splitter1 = gf.get_component(splitter, **splitter_settings)
     combiner1 = gf.get_component(splitter, **combiner_settings)
 
-    sprevious = c << gf.get_component(
-        mzi,
+    sprevious = c << mzi(
         splitter=splitter1,
         combiner=combiner1,
         with_splitter=True,
         delta_length=delta_lengths[0],
         **kwargs,
     )
-    c.add_ports(sprevious.get_ports_list(port_type="electrical"))
+    c.add_ports(gf.port.get_ports_list(sprevious.ports, port_type="electrical"))
 
     stages = []
 
@@ -317,17 +318,19 @@ def mzi_lattice_mmi(
         splitter_settings = combiner_settings
 
         stages.append(stage)
-        c.add_ports(stage.get_ports_list(port_type="electrical"))
+        c.add_ports(gf.port.get_ports_list(stage.ports, port_type="electrical"))
 
     for stage in stages:
         stage.connect("o1", sprevious.ports["o4"])
         # stage.connect('o2', sprevious.ports['o1'])
         sprevious = stage
 
-    for port in cp1.get_ports_list(orientation=180, port_type="optical"):
+    for port in gf.port.get_ports_list(cp1.ports, orientation=180, port_type="optical"):
         c.add_port(port.name, port=port)
 
-    for port in sprevious.get_ports_list(orientation=0, port_type="optical"):
+    for port in gf.port.get_ports_list(
+        sprevious.ports, orientation=0, port_type="optical"
+    ):
         c.add_port(f"o_{port.name}", port=port)
 
     c.auto_rename_ports()

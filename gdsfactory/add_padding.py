@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
-from gdsfactory.component import Component
+from gdsfactory.component import Component, Instance
 from gdsfactory.typings import ComponentSpec, LayerSpec
 
 
 def get_padding_points(
-    component: Component,
+    component: Component | Instance,
     default: float = 50.0,
     top: float | None = None,
     bottom: float | None = None,
