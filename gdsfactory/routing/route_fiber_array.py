@@ -3,19 +3,14 @@ from __future__ import annotations
 from collections.abc import Callable
 
 import gdsfactory as gf
-from gdsfactory.add_labels import (
-    get_input_label_text_dash,
-    get_input_label_text_dash_loopback,
-)
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
-from gdsfactory.port import Port, select_ports_optical
+from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_bundle import get_bundle, get_min_spacing
-from gdsfactory.routing.get_input_labels import get_input_labels_dash
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints, round_corners
 from gdsfactory.routing.route_south import route_south
@@ -25,7 +20,6 @@ from gdsfactory.typings import (
     ComponentSpec,
     ComponentSpecOrList,
     CrossSectionSpec,
-    Label,
     LayerSpec,
     Strs,
 )
@@ -58,22 +52,17 @@ def route_fiber_array(
     component_name: str | None = None,
     x_grating_offset: int = 0,
     port_names: Strs | None = None,
-    get_input_label_text_loopback_function: Callable = get_input_label_text_dash_loopback,
-    get_input_label_text_function: Callable | None = get_input_label_text_dash,
-    get_input_labels_function: Callable | None = get_input_labels_dash,
+    get_input_label_text_loopback_function: Callable | None = None,
+    get_input_label_text_function: Callable | None = None,
+    get_input_labels_function: Callable | None = None,
     select_ports: Callable = select_ports_optical,
     radius: float | None = None,
     cross_section: CrossSectionSpec = strip,
-) -> tuple[
-    list[ComponentReference | Label],
-    list[list[ComponentReference]],
-    list[Port],
-    list[Port],
-]:
-    """Returns component I/O elements for adding grating couplers with a fiber array Many components are fine with the defaults.
+) -> Component:
+    """Returns new component with fiber array.
 
     Args:
-        component: component spec to connect to.
+        component: component to connect to fiber array.
         fiber_spacing: spacing between the optical fibers.
         grating_coupler: grating coupler instance, function or list of functions.
         bend: for bends.
@@ -131,6 +120,7 @@ def route_fiber_array(
         ports_component: list of optical ports.
 
     """
+    c = gf.Component()
     fiber_spacing = gf.get_constant(fiber_spacing)
     cross_section = x = gf.get_cross_section(cross_section)
     if radius:
@@ -151,11 +141,7 @@ def route_fiber_array(
     if N == 0:
         return [], [], 0
 
-    elements = []
-
-    # grating_coupler can either be a component/function
-    # or a list of components/functions
-
+    # grating_coupler can either be a component/function or a list of components/functions
     if isinstance(grating_coupler, list):
         grating_couplers = [gf.call_if_func(g) for g in grating_coupler]
         grating_coupler = grating_couplers[0]
@@ -163,7 +149,7 @@ def route_fiber_array(
         grating_coupler = gf.call_if_func(grating_coupler)
         grating_couplers = [grating_coupler] * N
 
-    if gc_port_name not in grating_coupler.ports:
+    if gc_port_name not in grating_coupler:
         raise ValueError(
             f"{gc_port_name!r} not in {list(grating_coupler.ports.keys())}"
         )
@@ -197,7 +183,7 @@ def route_fiber_array(
     is_big_component = (
         (K > 2)
         or (max(pxs) - min(pxs) > fiber_spacing - delta_gr_min)
-        or (component.xsize > fiber_spacing)
+        or (component.d.xsize > fiber_spacing)
     )
     if optical_routing_type is None:
         optical_routing_type = 1 if is_big_component else 0
@@ -283,18 +269,15 @@ def route_fiber_array(
     else:
         assert len(grating_indices) == nb_ports_per_line
 
+    io_gratings = []
     for j in range(nb_optical_ports_lines):
-        io_gratings = [
-            gc.ref(
-                position=(
-                    x_c - offset + i * fiber_spacing,
-                    y0_optical - j * gr_coupler_y_sep,
-                ),
-                rotation=gc_rotation,
-                port_id=gc_port_name,
+        for i, gc in zip(grating_indices, grating_couplers):
+            gc_ref = c << gc
+            gc_ref.d.center = (
+                x_c - offset + i * fiber_spacing,
+                y0_optical - j * gr_coupler_y_sep,
             )
-            for i, gc in zip(grating_indices, grating_couplers)
-        ]
+            gc.d.rotate(gc_rotation)
 
         io_gratings_lines += [io_gratings[:]]
         ports += [grating.ports[gc_port_name] for grating in io_gratings]
@@ -332,7 +315,8 @@ def route_fiber_array(
 
     elif optical_routing_type in [1, 2]:
         route = route_south(
-            component=component,
+            c,
+            component,
             optical_routing_type=optical_routing_type,
             excluded_ports=excluded_ports,
             straight_separation=straight_separation,
@@ -467,49 +451,7 @@ def route_fiber_array(
         # gca1.connect(gc_port_name, route.ports[0])
         # gca2.connect(gc_port_name, route.ports[1])
 
-        elements.extend(route.references)
-        if nlabels_loopback == 1:
-            io_gratings_loopback = [gca1]
-            ordered_ports_loopback = [port0]
-        if nlabels_loopback == 2:
-            io_gratings_loopback = [gca1, gca2]
-            ordered_ports_loopback = [port0, port1]
-        elif nlabels_loopback > 2:
-            raise ValueError(
-                f"Invalid nlabels_loopback = {nlabels_loopback}, "
-                "valid (0: no labels, 1: first port, 2: both ports2)"
-            )
-        if (
-            nlabels_loopback > 0
-            and get_input_labels_function
-            and get_input_label_text_function
-            and layer_label
-            and layer_label_loopback
-        ):
-            elements.extend(
-                get_input_labels_function(
-                    io_gratings=io_gratings_loopback,
-                    ordered_ports=ordered_ports_loopback,
-                    component_name=component_name,
-                    layer_label=layer_label_loopback,
-                    gc_port_name=gc_port_name,
-                    get_input_label_text_function=get_input_label_text_loopback_function,
-                )
-            )
-
-    if get_input_labels_function and get_input_label_text_function and layer_label:
-        elements.extend(
-            get_input_labels_function(
-                io_gratings=io_gratings,
-                ordered_ports=ordered_ports,
-                component_name=component_name,
-                layer_label=layer_label,
-                gc_port_name=gc_port_name,
-                get_input_label_text_function=get_input_label_text_function,
-            )
-        )
-
-    return elements, io_gratings_lines, ports, ports_loopback, optical_ports
+    return c
 
 
 def demo() -> None:
@@ -540,8 +482,6 @@ def demo() -> None:
 
 
 if __name__ == "__main__":
-    from gdsfactory.routing.get_input_labels import get_input_labels_dash
-
     # layer = (2, 0)
     # c = gf.components.straight(layer=layer)
     # gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)

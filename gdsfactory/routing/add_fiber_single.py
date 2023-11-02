@@ -3,11 +3,6 @@ from __future__ import annotations
 from collections.abc import Callable
 
 import gdsfactory as gf
-from gdsfactory.add_labels import (
-    get_input_label_text_dash,
-    get_input_label_text_dash_loopback,
-    get_input_label_text_loopback,
-)
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -15,7 +10,6 @@ from gdsfactory.components.grating_coupler_elliptical_trenches import grating_co
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.functions import move_port_to_zero
 from gdsfactory.port import select_ports_optical
-from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
@@ -37,9 +31,8 @@ def add_fiber_single(
     component_name: str | None = None,
     gc_port_name: str = "o1",
     zero_port: str | None = "o1",
-    get_input_label_text_loopback_function: None
-    | (Callable) = get_input_label_text_dash_loopback,
-    get_input_label_text_function: Callable | None = get_input_label_text_dash,
+    get_input_label_text_loopback_function: None | (Callable) = None,
+    get_input_label_text_function: Callable | None = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
@@ -179,16 +172,6 @@ def add_fiber_single(
                 gc_ref.connect(gc_port_name, port)
                 grating_couplers.append(gc_ref)
 
-        if get_input_label_text_function and layer_label:
-            elements = get_input_labels(
-                io_gratings=grating_couplers,
-                ordered_ports=list(cr.ports.values()),
-                component_name=component_name,
-                layer_label=layer_label,
-                gc_port_name=gc_port_name,
-                get_input_label_text_function=get_input_label_text_function,
-            )
-
     else:
         elements, grating_couplers, ports_grating, ports_component = route_fiber_single(
             component,
@@ -205,7 +188,7 @@ def add_fiber_single(
             cross_section=cross_section,
             select_ports=select_ports,
             get_input_label_text_function=get_input_label_text_function,
-            get_input_label_text_loopback_function=get_input_label_text_loopback,
+            get_input_label_text_loopback_function=None,
             **kwargs,
         )
 

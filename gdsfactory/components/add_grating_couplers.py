@@ -7,7 +7,7 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.add_labels import get_input_label_text_loopback
+from gdsfactory.add_labels import get_text_dash, get_text_dash_loopback
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -15,7 +15,6 @@ from gdsfactory.components.grating_coupler_elliptical_trenches import grating_co
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
-from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.routing.utils import (
     check_ports_have_equal_spacing,
@@ -36,7 +35,6 @@ def add_grating_couplers(
     grating_coupler: ComponentSpec = grating_coupler_te,
     layer_label: LayerSpec | None = None,
     gc_port_name: str = "o1",
-    get_input_labels_function: LabelListFactory | None = get_input_labels,
     select_ports: Callable[..., PortsDict] = select_ports_optical,
     component_name: str | None = None,
 ) -> Component:
@@ -47,7 +45,6 @@ def add_grating_couplers(
         grating_coupler: grating_coupler spec.
         layer_label: for label.
         gc_port_name: where to add label.
-        get_input_labels_function: function to get label.
         select_ports: for selecting optical_ports.
         component_name: optional component name.
     """
@@ -72,15 +69,6 @@ def add_grating_couplers(
         io_gratings.append(gc_ref)
         c.add(gc_ref)
 
-    if layer_label and get_input_labels_function:
-        labels = get_input_labels_function(
-            io_gratings,
-            component.ports,
-            component_name=component_name,
-            layer_label=layer_label,
-            gc_port_name=gc_port_name,
-        )
-        c.add(labels)
     c.copy_child_info(component)
     return c
 
@@ -91,8 +79,8 @@ def add_grating_couplers_with_loopback_fiber_single(
     grating_coupler: ComponentSpec = grating_coupler_te,
     layer_label: tuple[int, int] | None = None,
     gc_port_name: str = "o1",
-    get_input_labels_function: LabelListFactory | None = get_input_labels,
-    get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
+    get_input_labels_function: LabelListFactory | None = get_text_dash,
+    get_input_label_text_loopback_function: Callable = get_text_dash_loopback,
     select_ports: Callable[..., PortsDict] = select_ports_optical,
     with_loopback: bool = True,
     cross_section: CrossSectionSpec = strip,
@@ -184,7 +172,6 @@ def add_grating_couplers_with_loopback_fiber_single(
             c.add_label(
                 text=text,
                 position=port.center,
-                anchor="o",
                 layer=layer_label,
             )
 
@@ -195,7 +182,6 @@ def add_grating_couplers_with_loopback_fiber_single(
             c.add_label(
                 text=text,
                 position=port.center,
-                anchor="o",
                 layer=layer_label,
             )
 
@@ -213,12 +199,8 @@ def add_grating_couplers_with_loopback_fiber_array(
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
     bend: ComponentSpec = bend_euler,
-    layer_label: LayerSpec | None = None,
-    layer_label_loopback: LayerSpec | None = None,
     component_name: str | None = None,
     with_loopback: bool = True,
-    nlabels_loopback: int = 2,
-    get_input_labels_function: LabelListFactory | None = get_input_labels,
     cross_section: CrossSectionSpec = "xs_sc",
     select_ports: Callable = select_ports_optical,
     loopback_yspacing: float = 4.0,
@@ -241,7 +223,6 @@ def add_grating_couplers_with_loopback_fiber_array(
         with_loopback: If True, add compact loopback alignment ports.
         nlabels_loopback: number of ports to label \
                 (0: no labels, 1: first port, 2: both ports).
-        get_input_labels_function: for getting test labels.
         cross_section: CrossSectionSpec.
         select_ports: function to select ports.
         loopback_yspacing: in um.
@@ -294,16 +275,6 @@ def add_grating_couplers_with_loopback_fiber_array(
         gc_ref.connect(gc.ports[gc_port_name].name, port)
         references += [gc_ref]
 
-    if layer_label and get_input_labels_function:
-        labels = get_input_labels_function(
-            io_gratings=references,
-            ordered_ports=optical_ports,
-            component_name=component_name,
-            layer_label=layer_label,
-            gc_port_name=gc_port_name,
-        )
-        c.add(labels)
-
     if with_loopback:
         y0 = references[0].ports[gc_port_name].y - loopback_yspacing
         xs = [p.x for p in optical_ports]
@@ -347,30 +318,6 @@ def add_grating_couplers_with_loopback_fiber_array(
         c.add_port(name="loopback_1", port=port0)
         c.add_port(name=f"loopback_{len(component.ports)+2}", port=port0)
 
-        component_name_loopback = f"loopback_{component_name}"
-        if nlabels_loopback == 1:
-            io_gratings_loopback = [gca1]
-            ordered_ports_loopback = [port0]
-        elif nlabels_loopback == 2:
-            io_gratings_loopback = [gca1, gca2]
-            ordered_ports_loopback = [port0, port1]
-        if nlabels_loopback == 0 or layer_label is None:
-            pass
-        elif 0 < nlabels_loopback <= 2 and get_input_labels_function:
-            c.add(
-                get_input_labels_function(
-                    io_gratings=io_gratings_loopback,
-                    ordered_ports=ordered_ports_loopback,
-                    component_name=component_name_loopback,
-                    layer_label=layer_label_loopback or layer_label,
-                    gc_port_name=gc_port_name,
-                )
-            )
-        else:
-            raise ValueError(
-                f"Invalid nlabels_loopback = {nlabels_loopback}, "
-                "valid (0: no labels, 1: first port, 2: both ports2)"
-            )
     c.add_ports(component.ports)
     c.copy_child_info(component)
     return c

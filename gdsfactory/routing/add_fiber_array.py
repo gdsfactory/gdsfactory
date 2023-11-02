@@ -8,7 +8,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import select_ports_optical
-from gdsfactory.routing.get_input_labels import get_input_labels_dash
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.typings import (
@@ -28,7 +27,7 @@ def add_fiber_array(
     component_name: str | None = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "xs_sc",
-    get_input_labels_function: Callable | None = get_input_labels_dash,
+    get_input_labels_function: Callable | None = None,
     layer_label: LayerSpec | None = None,
     **kwargs,
 ) -> Component:
@@ -208,8 +207,6 @@ def demo_te_and_tm():
 
 
 if __name__ == "__main__":
-    from gdsfactory.routing.get_input_labels import get_input_labels_dash
-
     # test_type0()
     gcte = gf.components.grating_coupler_te
     gctm = gf.components.grating_coupler_tm

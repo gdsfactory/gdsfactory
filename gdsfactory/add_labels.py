@@ -7,12 +7,11 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.component_layout import _parse_layer
 from gdsfactory.port import Port
 from gdsfactory.typings import ComponentOrReference, Label, LayerSpec
 
 
-def get_input_label_text_dash(
+def get_text_dash(
     port: Port,
     gc: ComponentReference | Component,
     gc_index: int | None = None,
@@ -25,7 +24,7 @@ def get_input_label_text_dash(
     return f"{prefix}{gc_name}-{component_name or port.parent.name}-{port.name}{suffix}"
 
 
-def get_input_label_text_dash_loopback(
+def get_text_dash_loopback(
     port: Port,
     gc: ComponentReference | Component,
     gc_index: int | None = None,
@@ -37,7 +36,7 @@ def get_input_label_text_dash_loopback(
     return f"{prefix}{gc_name}-{component_name or port.parent.name}-loopback_{gc_index}"
 
 
-def get_input_label_text(
+def get_text_underscore(
     port: Port,
     gc: ComponentReference | Component,
     gc_index: int | None = None,
@@ -79,94 +78,12 @@ def get_input_label_text(
     return text
 
 
-get_input_label_text_loopback = partial(get_input_label_text, prefix="loopback_")
-
-
-def get_input_label(
-    port: Port,
-    gc: ComponentReference,
-    gc_index: int | None = None,
-    gc_port_name: str = "o1",
-    layer_label: LayerSpec = "TEXT",
-    component_name: str | None = None,
-    get_input_label_text_function=get_input_label_text,
-) -> Label:
-    """Returns a label with component info for a given grating coupler.
-
-    Test equipment to extract grating coupler coordinates and match it to the component.
-
-    Args:
-        port: port to label.
-        gc: grating coupler reference.
-        gc_index: grating coupler index.
-        gc_port_name: name of grating coupler port.
-        layer_label: layer of the label.
-        component_name: for the label.
-        get_input_label_text_function: function to get input label.
-    """
-    text = get_input_label_text_function(
-        port=port, gc=gc, gc_index=gc_index, component_name=component_name
-    )
-
-    if gc_port_name is None:
-        gc_port_name = list(gc.ports.values())[0].name
-
-    layer, texttype = gf.get_layer(layer_label)
-    return Label(
-        text=text,
-        origin=gc.ports[gc_port_name].center,
-        anchor="o",
-        layer=layer,
-        texttype=texttype,
-    )
-
-
-get_input_label_dash = partial(
-    get_input_label, get_input_label_text_function=get_input_label_text_dash
-)
-
-
-def get_input_label_electrical(
-    port: Port,
-    gc_index: int = 0,
-    component_name: str | None = None,
-    layer_label: LayerSpec = "TEXT",
-    gc: ComponentReference | None = None,
-) -> Label:
-    """Returns a label to test component info for a given electrical port.
-
-    This is the label used by T&M to extract grating coupler coordinates
-    and match it to the component.
-
-    Args:
-        port: to label.
-        gc_index: index of the label.
-        component_name: Optional component_name.
-        layer_label: for label.
-        gc: ignored.
-    """
-    if component_name:
-        name = component_name
-    elif isinstance(port.parent, gf.Component):
-        name = port.parent.name
-    else:
-        name = port.parent.ref_cell.name
-
-    text = f"elec_{gc_index}_({name})_{port.name}"
-    layer_label = gf.get_layer(layer_label)
-    layer, texttype = _parse_layer(layer_label)
-    return Label(
-        text=text,
-        origin=port.center,
-        anchor="o",
-        layer=layer,
-        texttype=texttype,
-    )
+get_input_label_text_loopback = partial(get_text_underscore, prefix="loopback_")
 
 
 def add_labels(
     component: Component,
-    get_label_function: Callable = get_input_label_electrical,
+    get_label_function: Callable = get_text_underscore,
     layer_label: LayerSpec = "TEXT",
     gc: Component | None = None,
     **kwargs,
@@ -339,7 +256,7 @@ add_labels_to_ports_opt = partial(add_labels_to_ports, prefix="opt", port_type=N
 
 def get_labels(
     component: ComponentOrReference,
-    get_label_function: Callable = get_input_label_electrical,
+    get_text_function: Callable = get_text_dash,
     layer_label: LayerSpec = "TEXT",
     gc: Component | None = None,
     component_name: str | None = None,
@@ -349,7 +266,7 @@ def get_labels(
 
     Args:
         component: to add labels to.
-        get_label_function: function to get label.
+        get_label_text: function to get label.
         layer_label: layer_label.
         gc: Optional grating coupler.
         component_name: optional component name.
@@ -372,7 +289,7 @@ def get_labels(
     component_name = component_name or component.name
 
     for i, port in enumerate(ports):
-        label = get_label_function(
+        label = get_text_function(
             port=port,
             gc=gc,
             gc_index=i,
