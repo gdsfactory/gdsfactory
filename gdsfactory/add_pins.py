@@ -14,7 +14,7 @@ from collections.abc import Callable
 from functools import partial
 from typing import TYPE_CHECKING
 
-import gdstk
+import kfactory as kf
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
@@ -22,8 +22,7 @@ from omegaconf import OmegaConf
 from gdsfactory.port import select_ports
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component
-    from gdsfactory.component_reference import ComponentReference
+    from gdsfactory.component import Component, Instance
     from gdsfactory.port import Port
 
 Layer = tuple[int, int]
@@ -40,6 +39,10 @@ def _rotate(v: ndarray, m: ndarray) -> ndarray:
 def add_bbox(
     component: Component,
     bbox_layer: LayerSpec = "DEVREC",
+    top: float = 0,
+    bottom: float = 0,
+    left: float = 0,
+    right: float = 0,
 ) -> Component:
     """Add bbox on outline.
 
@@ -49,14 +52,16 @@ def add_bbox(
     """
     from gdsfactory.pdk import get_layer
 
-    bbox_layer = get_layer(bbox_layer)
-    polygons = component.get_polygons(as_array=False)
-    polygons_ = gdstk.boolean(
-        polygons, [], "or", layer=bbox_layer[0], datatype=bbox_layer[1]
-    )
-
-    component.add(polygons_)
-
+    layer = get_layer(bbox_layer)
+    bbox = component.dbbox()
+    xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
+    points = [
+        [xmin - left, ymin - bottom],
+        [xmax + right, ymin - bottom],
+        [xmax + right, ymax + top],
+        [xmin - left, ymax + top],
+    ]
+    component.add_polygon(points, layer=layer)
     return component
 
 
@@ -381,24 +386,17 @@ def add_pin_path(
 
     points = [p0, p1]
     layer = get_layer(layer)
-    path = gdstk.FlexPath(
-        points,
-        width=p.width,
-        layer=layer[0],
-        datatype=layer[1],
-        simple_path=True,
-        tolerance=1e-3,
-    )
-    component.add(path)
 
-    component.add_label(
-        text=str(p.name), position=p.center, layer=layer_label, anchor="sw"
+    kf.kdb.Path(
+        points,
+        p.width,
     )
+    component.add_label(text=str(p.name), position=p.center, layer=layer_label)
 
 
 def add_outline(
     component: Component,
-    reference: ComponentReference | None = None,
+    reference: Instance | None = None,
     layer: LayerSpec = "DEVREC",
     **kwargs,
 ) -> None:
@@ -507,14 +505,14 @@ add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)
 
 def add_settings_label(
     component: Component,
-    reference: ComponentReference,
+    reference: Instance,
     layer_label: LayerSpec = "LABEL_SETTINGS",
 ) -> None:
     """Add settings in label.
 
     Args:
         component: to add pins.
-        reference: ComponentReference.
+        reference: Instance.
         layer_label: layer spec.
     """
     from gdsfactory.pdk import get_layer
@@ -532,7 +530,7 @@ def add_settings_label(
 
 def add_instance_label(
     component: Component,
-    reference: ComponentReference,
+    reference: Instance,
     instance_name: str | None = None,
     layer: LayerSpec = "LABEL_INSTANCE",
 ) -> None:
@@ -551,7 +549,7 @@ def add_instance_label(
 
 def add_pins_and_outline(
     component: Component,
-    reference: ComponentReference | None = None,
+    reference: Instance | None = None,
     add_outline_function: Callable | None = add_outline,
     add_pins_function: Callable | None = add_pins,
     add_settings_function: Callable | None = add_settings_label,
