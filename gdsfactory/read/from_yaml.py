@@ -330,9 +330,8 @@ def place(
             if port:
                 ref.d.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
             else:
-                ref.d.rotate(rotation)
-                # x, y = ref.d.center.x, ref.d.center.y
-                # ref.rotate(rotation, center=(ref.x, ref.y))
+                x, y = ref.d.center.x, ref.d.center.y
+                ref.rotate(rotation, center=ref.center)
 
         if ymin is not None and ymax is not None:
             raise ValueError("You cannot set ymin and ymax")
