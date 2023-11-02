@@ -119,13 +119,13 @@ def add_padding_to_size(
     component = gf.get_component(component)
 
     c = component
-    top = abs(ysize - component.ysize) if ysize else 0
-    right = abs(xsize - component.xsize) if xsize else 0
+    top = abs(ysize - component.d.ysize) if ysize else 0
+    right = abs(xsize - component.d.xsize) if xsize else 0
     points = [
-        [c.xmin - left, c.ymin - bottom],
-        [c.xmax + right, c.ymin - bottom],
-        [c.xmax + right, c.ymax + top],
-        [c.xmin - left, c.ymax + top],
+        [c.d.xmin - left, c.d.ymin - bottom],
+        [c.d.xmax + right, c.d.ymin - bottom],
+        [c.d.xmax + right, c.d.ymax + top],
+        [c.d.xmin - left, c.d.ymax + top],
     ]
 
     for layer in layers:
@@ -156,17 +156,16 @@ def add_padding_to_size_container(
         bottom: bottom padding in um to fill up in um.
     """
     component = gf.get_component(component)
-
     c = Component()
     cref = c << component
 
-    top = abs(ysize - component.ysize) if ysize else 0
-    right = abs(xsize - component.xsize) if xsize else 0
+    top = abs(ysize - component.d.ysize) if ysize else 0
+    right = abs(xsize - component.d.xsize) if xsize else 0
     points = [
-        [cref.xmin - left, cref.ymin - bottom],
-        [cref.xmax + right, cref.ymin - bottom],
-        [cref.xmax + right, cref.ymax + top],
-        [cref.xmin - left, cref.ymax + top],
+        [c.d.xmin - left, c.d.ymin - bottom],
+        [c.d.xmax + right, c.d.ymin - bottom],
+        [c.d.xmax + right, c.d.ymax + top],
+        [c.d.xmin - left, c.d.ymax + top],
     ]
 
     for layer in layers:
