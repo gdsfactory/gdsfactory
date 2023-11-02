@@ -6,7 +6,7 @@ from collections.abc import Callable
 import gdstk
 from pydantic import validate_call
 
-from gdsfactory.cell import cell_without_validator
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpecs
 
@@ -16,7 +16,7 @@ _F = Callable[..., Component]
 def symbol(func: Callable, *args, **kwargs) -> Callable:
     """Decorator for Component symbols.
 
-    Wraps cell_without_validator
+    Wraps cell
     Validates type annotations with pydantic.
 
     Implements a cache so that if a symbol has already been built
@@ -44,7 +44,7 @@ def symbol(func: Callable, *args, **kwargs) -> Callable:
     if "prefix" not in kwargs:
         prefix = f"SYMBOL_{func.__name__}"
         kwargs["prefix"] = prefix
-    _wrapped = functools.partial(cell_without_validator(validate_call(func)), **kwargs)
+    _wrapped = functools.partial(cell(validate_call(func)), **kwargs)
     _wrapped._symbol = True
     return _wrapped
 

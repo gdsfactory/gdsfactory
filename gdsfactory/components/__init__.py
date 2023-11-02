@@ -110,7 +110,6 @@ from gdsfactory.components.delay_snake_sbend import delay_snake_sbend
 from gdsfactory.components.dicing_lane import dicing_lane
 from gdsfactory.components.die import die
 from gdsfactory.components.die_bbox import die_bbox
-from gdsfactory.components.die_bbox_frame import die_bbox_frame
 from gdsfactory.components.disk import disk, disk_heater
 from gdsfactory.components.edge_coupler_array import (
     edge_coupler_array,
@@ -432,7 +431,6 @@ __all__ = [
     "dicing_lane",
     "die",
     "die_bbox",
-    "die_bbox_frame",
     "disk",
     "disk_heater",
     "edge_coupler_array",

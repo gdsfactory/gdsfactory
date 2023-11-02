@@ -4,7 +4,7 @@ from __future__ import annotations
 import numpy as np
 
 from gdsfactory.boolean import boolean
-from gdsfactory.cell import cell_without_validator
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 
 
@@ -21,9 +21,9 @@ def compute_area_signed(pr) -> float:
     return sum(xs[i] * (ys[i + 1] - ys[i - 1]) for i in range(1, len(pr))) / 2.0
 
 
-@cell_without_validator
+# @cell
 def from_np(
-    ndarray: np.ndarray,
+    ndarray,
     nm_per_pixel: int = 20,
     layer: tuple[int, int] = (1, 0),
     threshold: float = 0.99,
@@ -63,7 +63,7 @@ def from_np(
     return boolean(c, d, operation="not", layer=layer) if invert else d
 
 
-@cell_without_validator
+@cell
 def from_image(image_path: str, **kwargs) -> Component:
     """Returns Component from a png image.
 
