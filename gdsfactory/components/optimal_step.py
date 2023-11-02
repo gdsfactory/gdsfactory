@@ -155,7 +155,7 @@ def optimal_step(
             )
         )
 
-    D.add_polygon([xpts, ypts], layer=layer)
+    D.add_polygon(list(zip(xpts, ypts)), layer=layer)
     if not symmetric:
         D.add_port(
             name="e1",
@@ -192,7 +192,4 @@ def optimal_step(
 
 if __name__ == "__main__":
     c = optimal_step()
-    print(c.to_dict())
-    # c = optimal_step()
-    # print(c.to_dict())
     c.show()
