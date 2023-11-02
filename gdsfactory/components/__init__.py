@@ -18,6 +18,7 @@ from gdsfactory.components.add_grating_couplers import (
     add_grating_couplers_with_loopback_fiber_array,
     add_grating_couplers_with_loopback_fiber_single,
 )
+from gdsfactory.components.add_termination import add_termination
 from gdsfactory.components.add_trenches import add_trenches, add_trenches90
 from gdsfactory.components.align import add_frame, align_wafer
 from gdsfactory.components.array_component import array
@@ -340,6 +341,7 @@ ring_double_trenches = partial(add_trenches, component=ring_double)
 
 
 __all__ = [
+    "add_termination",
     "C",
     "L",
     "add_fiber_array_optical_south_electrical_north",

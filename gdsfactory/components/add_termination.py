@@ -13,7 +13,7 @@ terminator_function = partial(taper_function, width2=0.1)
 
 @cell
 def add_termination(
-    component: Component,
+    component: Component = "straight",
     port_names: tuple[str, ...] | None = None,
     terminator: ComponentSpec = terminator_function,
     terminator_port_name: str | None = None,

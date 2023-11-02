@@ -13,7 +13,7 @@ def extend_ports_list(
     extension_port_name: str | None = None,
     ignore_ports: Strs | None = None,
 ) -> Component:
-    """Returns a component with the extensions for a list of ports.
+    """Returns a component with an extension attached to a list of ports.
 
     Args:
         ports: list of ports.

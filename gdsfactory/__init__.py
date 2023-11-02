@@ -42,14 +42,12 @@ from gdsfactory import typings
 from gdsfactory import path
 from gdsfactory import snap
 from gdsfactory import read
-from gdsfactory import add_termination
 from gdsfactory import functions
 from gdsfactory import add_ports
 from gdsfactory import write_cells
 from gdsfactory import add_pins
 from gdsfactory import technology
 
-from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
     add_padding,
     add_padding_container,
@@ -87,8 +85,6 @@ __all__ = (
     "add_padding_container",
     "add_pins",
     "add_ports",
-    "add_tapers",
-    "add_termination",
     "asserts",
     "c",
     "call_if_func",

@@ -5,7 +5,7 @@ from __future__ import annotations
 import sys
 
 from gdsfactory.add_padding import add_padding_container
-from gdsfactory.add_termination import add_termination
+from gdsfactory.components.add_termination import add_termination
 from gdsfactory.functions import rotate
 from gdsfactory.get_factories import get_cells
 from gdsfactory.routing import add_pads_bot, add_pads_top
