@@ -127,6 +127,10 @@ valid_route_keys = [
 # Recognized keys within a YAML route definition
 
 
+def to_um(ref, value):
+    return round(value / ref.kcl.dbu)
+
+
 def _get_anchor_point_from_name(
     ref: ComponentReference, anchor_name: str
 ) -> np.ndarray | None:
@@ -263,10 +267,11 @@ def place(
 
         if mirror:
             if mirror is True and port:
-                ref.mirror_x(x0=_get_anchor_value_from_name(ref, port, "x"))
+                ref.mirror_x(x=_get_anchor_value_from_name(ref, port, "x"))
             elif mirror is True:
                 if x:
-                    ref.mirror_x(x0=x)
+                    x = to_um(ref, x)
+                    ref.mirror_x(x=x)
                 else:
                     ref.mirror_x()
             elif mirror is False:
@@ -274,7 +279,8 @@ def place(
             elif isinstance(mirror, str):
                 ref.mirror_x(port_name=mirror)
             elif isinstance(mirror, int | float):
-                ref.mirror_x(x0=mirror)
+                x = to_um(ref, x)
+                ref.mirror_x(x=x)
             else:
                 raise ValueError(
                     f"{mirror!r} can only be a port name {ref.ports.keys()}, "
@@ -752,7 +758,10 @@ def _from_yaml(
     connections_conf = conf.get("connections")
     instances_dict = conf["instances"]
     pdk = conf.get("pdk")
-    c.info = conf.get("info", {})
+    info = conf.get("info", {})
+
+    for key, value in info.items():
+        c.info[key] = value
 
     if pdk and pdk == "generic":
         GENERIC.activate()
@@ -965,8 +974,8 @@ def _from_yaml(
                     )
                 instance = instances[instance_name]
 
-                if instance_port_name not in instance.ports:
-                    port_names = [p.name for p in instance.ports]
+                port_names = [p.name for p in instance.ports]
+                if instance_port_name not in port_names:
                     raise ValueError(
                         f"{instance_port_name!r} not in {port_names} for"
                         f" {instance_name!r} "
@@ -976,7 +985,6 @@ def _from_yaml(
                 c.add_port(**instance_comma_port)
 
     c.routes = routes
-    c.info["instances"] = list(instances.keys())
     return c
 
 
