@@ -16,8 +16,8 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 def get_bend_port_distances(bend: Component) -> tuple[float64, float64]:
     """Returns distance between bend ports."""
-    p0, p1 = bend.ports.values()
-    return abs(p0.x - p1.x), abs(p0.y - p1.y)
+    p0, p1 = bend.ports[0], bend.ports[1]
+    return abs(p0.d.x - p1.d.x), abs(p0.d.y - p1.d.y)
 
 
 @cell

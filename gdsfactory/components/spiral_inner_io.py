@@ -4,7 +4,6 @@ from __future__ import annotations
 from functools import partial
 
 import numpy as np
-from kfactory.routing.optical import place90
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -13,7 +12,7 @@ from gdsfactory.components.add_grating_couplers import (
 )
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.snap import snap_to_grid
+from gdsfactory.routing.get_route import place_route
 from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
@@ -68,9 +67,8 @@ def spiral_inner_io(
     cross_section_bend = cross_section_bend or cross_section
     cross_section_bend180 = cross_section_bend180 or cross_section_bend
 
-    xs_bend = gf.get_cross_section(cross_section_bend, **kwargs)
+    gf.get_cross_section(cross_section_bend, **kwargs)
     xs = gf.get_cross_section(cross_section, **kwargs)
-    width = xs.width
 
     if length:
         x_straight_inner_left = get_straight_length(
@@ -90,14 +88,6 @@ def spiral_inner_io(
 
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
-
-    def straight_dbu(length: int, width: int = width) -> Component:
-        return straight(
-            length=round(length * component.kcl.dbu),
-            width=round(width * component.kcl.dbu),
-            cross_section=cross_section,
-            **kwargs,
-        )
 
     component = Component()
 
@@ -140,55 +130,63 @@ def spiral_inner_io(
 
         pts_w += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
-    route_west = place90(
+    place_route(
         component,
         p1,
         p2,
-        pts=pts_w,
-        bend90_cell=_bend90,
-        straight_factory=straight_dbu,
-    )
-    component.add(route_west.references)
-
-    # Add loop back
-    bend180_ref = _bend180.ref(port_id="o2", position=route_west.ports[1], rotation=90)
-    component.add(bend180_ref)
-
-    # Create manhattan path going from east grating to eastmost port of bend 180
-    _pt = np.array(p2.center)
-    pts_e = [_pt]
-
-    for i in range(N):
-        y1 = y_straight_inner_top + ry + (2 * i) * dy
-        x2 = grating_spacing + 2 * rx + x_straight_inner_right + 2 * i * dx
-        y3 = -y_straight_inner_bottom - ry - (2 * i + 2) * dy
-        x4 = -x_straight_inner_left - (2 * i) * dx
-
-        _pt1 = np.array([_pt[0], y1])
-        _pt2 = np.array([x2, _pt1[1]])
-        _pt3 = np.array([_pt2[0], y3])
-        _pt4 = np.array([x4, _pt3[1]])
-        _pt5 = np.array([_pt4[0], 0])
-        _pt = _pt5
-
-        pts_e += [_pt1, _pt2, _pt3, _pt4, _pt5]
-
-    if asymmetric_cross_section:
-        cross_section = xs_bend
-        cross_section_bend = xs
-        _bend90 = gf.get_component(bend90, cross_section=cross_section_bend, **kwargs)
-
-    route_east = place90(
-        component,
-        p1=p1,
-        p2=p2,
-        pts=pts_e,
-        bend90_cell=_bend90,
-        straight_factory=straight_dbu,
+        waypoints=pts_w,
+        bend=bend90,
+        straight=straight,
     )
 
-    length = route_east.length + route_west.length + _bend180.info["length"]
-    component.info["length"] = snap_to_grid(length + 2 * y_straight_inner_top)
+    # route_west = place90(
+    #     component,
+    #     p1,
+    #     p2,
+    #     pts=pts_w,
+    #     bend90_cell=_bend90,
+    #     straight_factory=straight_dbu,
+    # )
+
+    # # Add loop back
+    # bend180_ref = _bend180.ref(port_id="o2", position=route_west.ports[1], rotation=90)
+    # component.add(bend180_ref)
+
+    # # Create manhattan path going from east grating to eastmost port of bend 180
+    # _pt = np.array(p2.center)
+    # pts_e = [_pt]
+
+    # for i in range(N):
+    #     y1 = y_straight_inner_top + ry + (2 * i) * dy
+    #     x2 = grating_spacing + 2 * rx + x_straight_inner_right + 2 * i * dx
+    #     y3 = -y_straight_inner_bottom - ry - (2 * i + 2) * dy
+    #     x4 = -x_straight_inner_left - (2 * i) * dx
+
+    #     _pt1 = np.array([_pt[0], y1])
+    #     _pt2 = np.array([x2, _pt1[1]])
+    #     _pt3 = np.array([_pt2[0], y3])
+    #     _pt4 = np.array([x4, _pt3[1]])
+    #     _pt5 = np.array([_pt4[0], 0])
+    #     _pt = _pt5
+
+    #     pts_e += [_pt1, _pt2, _pt3, _pt4, _pt5]
+
+    # if asymmetric_cross_section:
+    #     cross_section = xs_bend
+    #     cross_section_bend = xs
+    #     _bend90 = gf.get_component(bend90, cross_section=cross_section_bend, **kwargs)
+
+    # route_east = place90(
+    #     component,
+    #     p1=p1,
+    #     p2=p2,
+    #     pts=pts_e,
+    #     bend90_cell=_bend90,
+    #     straight_factory=straight_dbu,
+    # )
+
+    # length = route_east.length + route_west.length + _bend180.info["length"]
+    # component.info["length"] = snap_to_grid(length + 2 * y_straight_inner_top)
     return component
 
 
