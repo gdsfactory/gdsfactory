@@ -67,28 +67,28 @@ def coupler_broadband(
 
     # define vertices of the top waveguide
     vertices_top = [
-        (L_2 / 2 + L_t + L_1, 0),
-        (L_2 / 2 + L_t + L_1, w_sc),
+        (L_2 / 2 + L_t, 0),
+        (L_2 / 2 + L_t, w_sc),
         (L_2 / 2 + L_t, w_sc),
         (L_2 / 2, w_top),
         (-L_2 / 2, w_top),
         (-L_2 / 2 - L_t, w_sc),
-        (-L_2 / 2 - L_t - L_1, w_sc),
-        (-L_2 / 2 - L_t - L_1, 0),
+        (-L_2 / 2 - L_t, w_sc),
+        (-L_2 / 2 - L_t, 0),
     ]
 
     c.add_polygon(vertices_top, layer=layer)
 
     # define vertices of the bottom waveguide
     vertices_bot = [
-        (L_2 / 2 + L_t + L_1, -gap_sc - w_sc),
-        (L_2 / 2 + L_t + L_1, -gap_sc),
+        (L_2 / 2 + L_t, -gap_sc - w_sc),
+        (L_2 / 2 + L_t, -gap_sc),
         (L_2 / 2 + L_t, -gap_sc),
         (L_2 / 2, -gap_pc),
         (-L_2 / 2, -gap_pc),
         (-L_2 / 2 - L_t, -gap_sc),
-        (-L_2 / 2 - L_t - L_1, -gap_sc),
-        (-L_2 / 2 - L_t - L_1, -gap_sc - w_sc),
+        (-L_2 / 2 - L_t, -gap_sc),
+        (-L_2 / 2 - L_t, -gap_sc - w_sc),
     ]
     c.add_polygon(vertices_bot, layer=layer)
 
