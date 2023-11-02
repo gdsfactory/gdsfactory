@@ -95,7 +95,12 @@ def test_add_pin_rectangle_inside_with_label_function() -> None:
     )
     c.add_port(port)
 
-    def label_function(component: Component, port: Port) -> str:
+    def label_function(
+        component: Component, rough_component_name: str, port: Port
+    ) -> str:
+        assert (
+            rough_component_name == "test_add_pin_rectangle_inside_with_label_function"
+        ), rough_component_name
         return f"{component.name}_{port.name}_test"
 
     add_pin_rectangle_inside(
