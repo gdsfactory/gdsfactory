@@ -9,6 +9,8 @@ They without modifying the cell name
 """
 from __future__ import annotations
 
+import inspect
+import itertools
 import json
 from collections.abc import Callable
 from functools import partial
@@ -152,7 +154,7 @@ def add_pin_rectangle_inside(
     pin_length: float = 0.1,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
-    label_function: Callable[[Component, Port], str] | None = None,
+    label_function: Callable[[Component, str, Port], str] | None = None,
 ) -> None:
     """Add square pin towards the inside of the port.
 
@@ -195,8 +197,35 @@ def add_pin_rectangle_inside(
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
     if layer_label:
+        # Find name of function that called add_pins or alternatively add_pin_rectangle_inside (in this preference)
+        # TODO: very hacky, find a better way in the future
+        rough_component_name = (
+            next(
+                itertools.chain(
+                    itertools.islice(
+                        itertools.dropwhile(
+                            lambda f: "add_pins" not in f.function, inspect.stack()
+                        ),
+                        2,
+                        None,
+                    ),
+                    itertools.islice(
+                        itertools.dropwhile(
+                            lambda f: "add_pin_rectangle_inside" not in f.function,
+                            inspect.stack(),
+                        ),
+                        1,
+                        None,
+                    ),
+                )
+            ).function
+            if label_function
+            else None
+        )  # don't compute if not needed
         component.add_label(
-            text=label_function(component, port) if label_function else str(port.name),
+            text=label_function(component, rough_component_name, port)
+            if label_function
+            else str(port.name),
             position=port.center,
             layer=layer_label,
         )
