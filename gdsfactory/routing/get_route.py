@@ -1,6 +1,6 @@
-"""`get_route` returns a Manhattan route between two ports.
+"""`place_route` returns a Manhattan route between two ports.
 
-`get_route` only works for an individual routes. For routing groups of ports you need to use `get_bundle` instead
+`place_route` only works for an individual routes. For routing groups of ports you need to use `place_bundle` instead
 
 To make a route, you need to supply:
 
@@ -10,8 +10,7 @@ To make a route, you need to supply:
  - straight
  - taper to taper to wider straights and reduce straight loss (Optional)
 
-
-To generate a straight route:
+To generate a route:
 
  1. Generate the backbone of the route.
  This is a list of manhattan coordinates that the route would pass through
@@ -23,13 +22,6 @@ To generate a straight route:
  3. Add tapers if needed and if space permits
 
  4. generate straight portions in between tapers or bends
-
-
- A `Route` is a dataclass with:
-
-- references: list of references for tapers, bends and straight waveguides
-- ports: a dict of port name to Port, usually two ports "input" and "output"
-- length: a float with the length of the route
 
 """
 from __future__ import annotations

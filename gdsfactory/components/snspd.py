@@ -45,7 +45,7 @@ def snspd(
         (size is None) or ((size[0] is None) and (size[1]) is None)
     ):
         xy = np.sqrt(num_squares * wire_pitch * wire_width)
-        size = [xy, xy]
+        size = (xy, xy)
         num_squares = None
     if [size[0], size[1], num_squares].count(None) != 1:
         raise ValueError(
@@ -81,31 +81,31 @@ def snspd(
     elif terminals_same_side and (num_meanders % 2) == 1:
         num_meanders += 1
 
-    start_nw = D.add_ref(compass(size=[xsize / 2, wire_width], layer=layer))
-
+    port_type = "optical"
+    start_nw = D.add_ref(compass(size=(xsize / 2, wire_width), layer=layer, port_type=port_type))
     hp_prev = D.add_ref(hairpin)
-    hp_prev.connect("e1", start_nw.ports["e3"])
+    hp_prev.connect("o1", start_nw.ports["o3"])
     alternate = True
     for _n in range(2, num_meanders):
         hp = D.add_ref(hairpin)
         if alternate:
-            hp.connect("e2", hp_prev.ports["e2"])
+            hp.connect("o2", hp_prev.ports["o2"])
         else:
-            hp.connect("e1", hp_prev.ports["e1"])
-        last_port = hp.ports["e1"]
+            hp.connect("o1", hp_prev.ports["o1"])
+        last_port = hp.ports["o1"]
         hp_prev = hp
         alternate = not alternate
 
-    finish_se = D.add_ref(compass(size=[xsize / 2, wire_width], layer=layer))
-    finish_se.connect("e3", last_port)
+    finish_se = D.add_ref(compass(size=(xsize / 2, wire_width), layer=layer, port_type=port_type))
+    finish_se.connect("o3", last_port)
 
-    D.add_port(port=start_nw.ports["e1"], name="e1")
-    D.add_port(port=finish_se.ports["e1"], name="e2")
+    D.add_port(port=start_nw.ports["o1"], name="o1")
+    D.add_port(port=finish_se.ports["o1"], name="o2")
 
     D.info["num_squares"] = num_meanders * (xsize / wire_width)
     D.info["area"] = xsize * ysize
-    D.info["size"] = (xsize, ysize)
-
+    D.info["xsize"] = xsize
+    D.info["ysize"] = ysize
     return D
 
 

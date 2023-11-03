@@ -127,7 +127,7 @@ def get_bundle_from_steps(
         waypoints += [(x, y)]
 
     port2 = ports2[0]
-    x2, y2 = port2.center
+    x2, y2 = port2.d.center
     orientation = port2.orientation
     if orientation is None:
         p1 = waypoints[-2]
@@ -211,9 +211,6 @@ def _demo() -> None:
         steps=[{"x": 150}],
     )
 
-    for route in routes:
-        c.add(route.references)
-
     c.show()
 
 
@@ -223,11 +220,11 @@ if __name__ == "__main__":
     c = gf.Component("pads_bundle_steps")
     pt = c << gf.components.pad_array(
         partial(gf.components.pad, size=(30, 30)),
-        orientation=270,
+        port_orientation=270,
         columns=3,
         spacing=(50, 0),
     )
-    pb = c << gf.components.pad_array(orientation=90, columns=3)
+    pb = c << gf.components.pad_array(port_orientation=90, columns=3)
     pt.move((300, 500))
 
     routes = get_bundle_from_steps_electrical(

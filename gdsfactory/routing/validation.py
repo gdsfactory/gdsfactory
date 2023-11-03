@@ -12,7 +12,9 @@ def validate_connections(
     ports1: list[Port], ports2: list[Port], routes: list[Route]
 ) -> list[Route]:
     """
-    Validates that a set of Routes indeed connects the port-pairs listed in ports1 and ports2. If the Routes form valid connections between ports1 and ports2, the original Routes will be returned. If not, a RouteWarning will be raised, and a set of error traces will be returned instead.
+    Validates that a set of Routes indeed connects the port-pairs listed in ports1 and ports2.
+    If the Routes form valid connections between ports1 and ports2, the original Routes will be returned.
+    If not, a RouteWarning will be raised, and a set of error traces will be returned instead.
 
     Args:
         ports1: the list of starting ports.
@@ -20,7 +22,8 @@ def validate_connections(
         routes: the list of Route objects, purportedly between ports1 and ports2.
 
     Returns:
-        A list of Routes. If the input routes are valid, they will be returned as-is. Otherwise, a list of error traces will be returned and a RouteWarning will be raised.
+        when valid, returns a list of Routes
+        Otherwise, returns error traces and raises RouteWarning.
     """
     connections_expected = {_connection_tuple(p1, p2) for p1, p2 in zip(ports1, ports2)}
 
@@ -39,7 +42,8 @@ def make_error_traces(
     component, ports1: list[Port], ports2: list[Port], message: str
 ) -> None:
     """
-    Creates a set of error traces showing the intended connectivity between ports1 and ports2. The specified message will be included in the RouteWarning that is raised.
+    Creates a set of error traces showing the intended connectivity between ports1 and ports2.
+    The specified message will be included in the RouteWarning that is raised.
 
     Args:
         ports1: the list of starting ports.
