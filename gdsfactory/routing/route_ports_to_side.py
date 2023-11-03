@@ -166,6 +166,14 @@ def route_ports_to_x(
     east_ports = [p for p in list_ports if p.orientation == 0]
     west_ports = [p for p in list_ports if p.orientation == 180]
 
+    y0_bottom = round(y0_bottom / component.kcl.dbu) if y0_bottom else None
+    y0_top = round(y0_top / component.kcl.dbu) if y0_top else None
+    extension_length = round(extension_length / component.kcl.dbu)
+    extend_top = round(extend_top / component.kcl.dbu)
+    extend_bottom = round(extend_bottom / component.kcl.dbu)
+    radius = round(radius / component.kcl.dbu)
+    separation = round(separation / component.kcl.dbu)
+
     epsilon = 1.0
     a = epsilon + max(radius, separation)
     bx = epsilon + max(radius, dx_start) if dx_start else a
@@ -241,7 +249,7 @@ def route_ports_to_x(
                 p,
                 new_port,
                 start_straight_length=start_straight_length,
-                radius=radius,
+                radius=radius * component.kcl.dbu,
                 **routing_func_args,
             )
         ]
@@ -371,6 +379,14 @@ def route_ports_to_y(
         p for p in list_ports if p.orientation < 180 + da and p.orientation > 180 - da
     ]
 
+    x0_right = round(x0_right / component.kcl.dbu) if x0_right else None
+    x0_left = round(x0_left / component.kcl.dbu) if x0_left else None
+    extension_length = round(extension_length / component.kcl.dbu)
+    extend_right = round(extend_right / component.kcl.dbu)
+    extend_left = round(extend_left / component.kcl.dbu)
+    radius = round(radius / component.kcl.dbu)
+    separation = round(separation / component.kcl.dbu)
+
     epsilon = 1.0
     a = radius + max(radius, separation)
     bx = epsilon + max(radius, dx_start) if dx_start else a
@@ -454,7 +470,7 @@ def route_ports_to_y(
                     p,
                     new_port,
                     start_straight_length=start_straight_length,
-                    radius=radius,
+                    radius=radius * component.kcl.dbu,
                     **routing_func_args,
                 )
             ]
