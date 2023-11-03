@@ -238,7 +238,7 @@ if __name__ == "__main__":
     o = 10  # vertical offset to overcome bottom obstacle
     ytop = 20
 
-    routes = gf.routing.place_route(
+    r = gf.routing.place_route(
         c,
         p0,
         p1,
