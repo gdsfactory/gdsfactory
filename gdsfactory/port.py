@@ -391,9 +391,9 @@ get_ports_list = select_ports_list
 def flipped(port: Port) -> Port:
     if port.orientation is None:
         raise ValueError(f"port {port.name!r} has None orientation")
-    _port = port.copy()
-    _port.orientation = (_port.orientation + 180) % 360
-    return _port
+    p = port.copy()
+    p.trans *= kf.kdb.Trans.R180
+    return p
 
 
 def move_copy(port, x=0, y=0) -> Port:

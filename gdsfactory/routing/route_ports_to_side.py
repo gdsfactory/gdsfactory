@@ -240,10 +240,11 @@ def route_ports_to_x(
     ) -> None:
         new_port = p.copy()
         new_port.orientation = angle
-        new_port.center = (x + extension_length, y)
+        new_port.x = x + extension_length
+        new_port.y= y
 
         new_port2 = new_port.copy()
-        new_port2.orientation = new_port2.orientation + 180
+        new_port2.trans *= gf.kdb.Trans.R180
 
         l_elements += [
             place_route(
@@ -482,7 +483,7 @@ def route_ports_to_y(
 
         except Exception as error:
             raise ValueError(
-                f"Could not connect {p.name!r} to {new_port.name!r}"
+                f"Could not connect {p.name!r} to {new_port.name!r} {error}"
             ) from error
 
     x_optical_left = x0_left
