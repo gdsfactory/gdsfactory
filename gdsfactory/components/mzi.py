@@ -37,6 +37,7 @@ def mzi(
     cross_section_x_bot: CrossSectionSpec | None = None,
     mirror_bot: bool = False,
     add_optical_ports_arms: bool = False,
+    add_electrical_ports_bot: bool = True,
 ) -> Component:
     """Mzi.
 
@@ -63,6 +64,7 @@ def mzi(
         mirror_bot: if true, mirrors the bottom arm.
         add_optical_ports_arms: add all other optical ports in the arms
             with top_ and bot_ prefix.
+        add_electrical_ports_bot: add electrical ports to the bottom arm.
 
     .. code::
 
@@ -184,9 +186,11 @@ def mzi(
     c.add_ports(cp2.get_ports_list(orientation=0), prefix="ou_")
 
     c.add_ports(sxt.get_ports_list(port_type="electrical"), prefix="top_")
-    c.add_ports(sxb.get_ports_list(port_type="electrical"), prefix="bot_")
     c.add_ports(sxt.get_ports_list(port_type="placement"), prefix="top_")
-    c.add_ports(sxb.get_ports_list(port_type="placement"), prefix="bot_")
+
+    if add_electrical_ports_bot:
+        c.add_ports(sxb.get_ports_list(port_type="electrical"), prefix="bot_")
+        c.add_ports(sxb.get_ports_list(port_type="placement"), prefix="bot_")
 
     c.auto_rename_ports(port_type="optical", prefix="o")
 
