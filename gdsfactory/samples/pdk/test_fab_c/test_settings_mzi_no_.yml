@@ -186,6 +186,7 @@ settings:
           width_wide: null
   child: null
   default:
+    add_electrical_ports_bot: true
     add_optical_ports_arms: false
     bend:
       function: bend_euler
@@ -210,6 +211,7 @@ settings:
     straight_y: null
     with_splitter: true
   full:
+    add_electrical_ports_bot: true
     add_optical_ports_arms: false
     bend:
       function: bend_euler
