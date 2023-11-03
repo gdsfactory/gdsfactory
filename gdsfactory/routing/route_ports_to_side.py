@@ -469,7 +469,7 @@ def route_ports_to_y(
                     component,
                     p,
                     new_port,
-                    start_straight_length=start_straight_length,
+                    start_straight_length=start_straight_length * component.kcl.dbu,
                     radius=radius * component.kcl.dbu,
                     **routing_func_args,
                 )
@@ -522,60 +522,19 @@ def route_ports_to_y(
     return routes
 
 
-@gf.cell
-def _sample_route_side() -> Component:
-    c = Component()
-    xs = [0.0, 10.0, 25.0, 50.0]
-    ys = [0.0, 10.0, 25.0, 50.0]
-    a = 5
-    xl = min(xs) - a
-    xr = max(xs) + a
-    yb = min(ys) - a
-    yt = max(ys) + a
-
-    layer = (1, 0)
-
-    c.add_polygon([(xl, yb), (xl, yt), (xr, yt), (xr, yb)], layer)
-
-    for i, y in enumerate(ys):
-        p0 = (xl, y)
-        p1 = (xr, y)
-        c.add_port(name=f"W{i}", center=p0, orientation=180, width=0.5, layer=layer)
-        c.add_port(name=f"E{i}", center=p1, orientation=0, width=0.5, layer=layer)
-
-    for i, x in enumerate(xs):
-        p0 = (x, yb)
-        p1 = (x, yt)
-        c.add_port(name=f"S{i}", center=p0, orientation=270, width=0.5, layer=layer)
-        c.add_port(name=f"N{i}", center=p1, orientation=90, width=0.5, layer=layer)
-
-    return c
-
-
-@gf.cell
-def _sample_route_sides() -> Component:
-    c = Component()
-    dummy = _sample_route_side()
-    sides = ["north", "south", "east", "west"]
-    positions = [(0, 0), (400, 0), (400, 400), (0, 400)]
-    for pos, side in zip(positions, sides):
-        dummy_ref = dummy.ref(position=pos)
-        c.add(dummy_ref)
-        route_ports_to_side(c, dummy_ref, side, layer=(1, 0))
-    return c
-
-
 if __name__ == "__main__":
     c = Component("sample_route_sides")
     dummy = gf.components.nxn(north=2, south=2, west=2, east=2, cross_section="xs_sc")
-    sides = ["north", "south", "east", "west"]
-    d = 100
-    positions = [(0, 0), (d, 0), (d, d), (0, d)]
+    dummy_ref = c << dummy
+    routes = route_ports_to_side(c, dummy_ref.ports, "north", layer=(1, 0))
 
-    for pos, side in zip(positions, sides):
-        dummy_ref = c << dummy
-        dummy_ref.d.center = pos
-        routes = route_ports_to_side(c, dummy_ref.ports, side, layer=(1, 0))
+    # sides = ["north", "south", "east", "west"]
+    # d = 100
+    # positions = [(0, 0), (d, 0), (d, d), (0, d)]
 
-    # c.plot()
+    # for pos, side in zip(positions, sides):
+    #     dummy_ref = c << dummy
+    #     dummy_ref.d.center = pos
+    #     routes = route_ports_to_side(c, dummy_ref.ports, side, layer=(1, 0))
+
     c.show()
