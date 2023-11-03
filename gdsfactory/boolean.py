@@ -102,17 +102,13 @@ def test_boolean() -> None:
 
 
 if __name__ == "__main__":
-    c = gf.Component()
-    # e1 = c << gf.components.ellipse()
-    e2 = c << gf.components.ellipse(radii=(10, 6))
-    e3 = c << gf.components.ellipse(radii=(10, 4))
-    e3.d.movex(5)
-    # e2.movex(2)
-    c = boolean(A=e2, B=e3, operation="and")
+    # c = gf.Component()
+    # e2 = c << gf.components.ellipse(radii=(10, 6))
+    # e3 = c << gf.components.ellipse(radii=(10, 4))
+    # e3.d.movex(5)
+    # c = boolean(A=e2, B=e3, operation="and")
 
-    # n = 50
-    # c1 = gf.c.array(gf.c.circle(radius=10), columns=n, rows=n)
-    # c2 = gf.c.array(gf.c.circle(radius=9), columns=n, rows=n)
-    # c2.movex(5)
-    # c = boolean(c1, c2, operation="xor")
+    core = gf.c.coupler()
+    clad = gf.c.bbox(core, layer=(2,0))
+    c = boolean(clad, core, operation="not", layer=(3, 0), layer1=(2, 0), layer2=(1, 0))
     c.show()

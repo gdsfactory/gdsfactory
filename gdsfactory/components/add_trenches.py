@@ -6,12 +6,15 @@ import gdsfactory as gf
 from gdsfactory.components.bbox import bbox
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler import coupler
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 @gf.cell
 def add_trenches(
     component: ComponentSpec = coupler,
+    layer_component: LayerSpec = "WG",
+    layer_trench: LayerSpec = "DEEP_ETCH",
+    width_trench: float = 2.0,
     cross_section: CrossSectionSpec = "xs_rc_with_trenches",
     top: bool = True,
     bot: bool = True,
@@ -34,26 +37,27 @@ def add_trenches(
     component = gf.get_component(component, **kwargs)
     xs = gf.get_cross_section(cross_section)
 
-    layer_trench = gf.get_layer(xs.info.get("layer_trench"))
-    width_trench = xs.info.get("width_trench")
-
     top = width_trench if top else 0
     bot = width_trench if bot else 0
     left = width_trench if left else 0
     right = width_trench if right else 0
 
     core = component
-    clad = bbox(
-        core.bbox, layer=layer_trench, top=top, bottom=bot, left=left, right=right
+    clad = bbox(core, layer=layer_trench, top=top, bottom=bot, left=left, right=right)
+    trenches = gf.boolean(
+        clad,
+        core,
+        operation="not",
+        layer=layer_trench,
+        layer1=layer_trench,
+        layer2=layer_component,
     )
-    ref = c << gf.boolean(clad, core, operation="not", layer=layer_trench)
 
-    c.add_ports(component.ports, cross_section=xs)
+    _ = c << trenches
+    c.add_ports(component.ports)
     c.copy_child_info(component)
-    c.absorb(ref)
     xs.add_pins(c)
     xs.add_bbox(c)
-
     return c
 
 
