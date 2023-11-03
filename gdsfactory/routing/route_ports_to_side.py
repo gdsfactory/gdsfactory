@@ -168,6 +168,8 @@ def route_ports_to_x(
 
     y0_bottom = round(y0_bottom / component.kcl.dbu) if y0_bottom else None
     y0_top = round(y0_top / component.kcl.dbu) if y0_top else None
+    dx_start = round(dx_start / component.kcl.dbu) if dx_start else None
+    dy_start = round(dy_start / component.kcl.dbu) if dy_start else None
     extension_length = round(extension_length / component.kcl.dbu)
     extend_top = round(extend_top / component.kcl.dbu)
     extend_bottom = round(extend_bottom / component.kcl.dbu)
@@ -386,6 +388,8 @@ def route_ports_to_y(
     extend_left = round(extend_left / component.kcl.dbu)
     radius = round(radius / component.kcl.dbu)
     separation = round(separation / component.kcl.dbu)
+    dx_start = round(dx_start / component.kcl.dbu) if dx_start else None
+    dy_start = round(dy_start / component.kcl.dbu) if dy_start else None
 
     epsilon = 1.0
     a = radius + max(radius, separation)
