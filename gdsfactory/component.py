@@ -13,7 +13,7 @@ import pathlib
 import uuid
 import warnings
 from collections import Counter
-from collections.abc import Callable, Iterable, Mapping
+from collections.abc import Callable, Iterable, Iterator, Mapping
 from copy import deepcopy
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal
@@ -2594,6 +2594,24 @@ def recurse_structures(
             output.update(recurse_structures(reference.ref_cell))
 
     return output
+
+
+def get_base_components(
+    component: gf.Component, allow_empty: bool = True
+) -> Iterator[gf.Component]:
+    """Generator function that yields base components of a given component.
+
+    Parameters:
+        component (gf.Component): The component whose base components are to be found.
+        allow_empty (bool): If True, allows yielding of components without polygons.
+
+    Yields:
+        gf.Component: The base components of the given component.
+    """
+    if not component.references and (component.polygons or allow_empty):
+        yield component
+    for ref in component.references:
+        yield from get_base_components(ref.parent, allow_empty)
 
 
 def flatten_invalid_refs_recursive(
