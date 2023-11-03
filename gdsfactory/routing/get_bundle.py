@@ -548,24 +548,20 @@ def _get_bundle_waypoints(
 
     # Append the last group
     L = min(end_straights_in_group)
-
     end_straights += [max(x - L, 0) + Le for x in end_straights_in_group]
 
     # Second pass - route the ports pairwise
     routes = []
     for i in range(len(ports1)):
-        # swap logic compared to old gdsfactory placing of routes because kfactory
-        # takes corners first vs trying to go straight as long as possible
-        routes.append(
-            route_manhattan(
-                port1=ports1[i],
-                port2=ports2[i],
-                bend90_radius=radius_dbu,
-                end_straight=end_straights[i],  # start_straight_length_dbu,
-                start_straight=start_straight_length_dbu,  # end_straights[i],
-                invert=True,
-            )
+        route = route_manhattan(
+            port1=ports1[i],
+            port2=ports2[i],
+            bend90_radius=radius_dbu,
+            end_straight=end_straights[i],
+            start_straight=start_straight_length_dbu,
+            invert=True,
         )
+        routes.append(route)
     return routes
 
 

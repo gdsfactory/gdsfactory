@@ -193,7 +193,7 @@ def route_south(
     # This ensures that north ports are routed above the top west one
     north_start.reverse()  # We need them from left to right
     if len(north_start) > 0:
-        y_max = max(p.y for p in west_ports + north_start)
+        y_max = max(p.d.y for p in west_ports + north_start)
         for p in north_start:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
 
@@ -201,7 +201,7 @@ def route_south(
                 component=c,
                 port1=p,
                 port2=tmp_port,
-                start_straight_length=start_straight_length + y_max - p.y,
+                start_straight_length=start_straight_length + y_max - p.d.y,
                 **conn_params,
             )
 
@@ -255,15 +255,15 @@ def route_south(
     # Route the remaining north ports
     start_straight_length = 0.5
     if len(north_finish) > 0:
-        y_max = max(p.y for p in east_ports + north_finish)
+        y_max = max(p.d.y for p in east_ports + north_finish)
         for p in north_finish:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
             ports_to_route.append(tmp_port)
             route = place_route(
                 c,
-                input_port=p,
-                output_port=tmp_port,
-                start_straight_length=start_straight_length + y_max - p.y,
+                p,
+                tmp_port,
+                start_straight_length=start_straight_length + y_max - p.d.y,
                 **conn_params,
             )
             x += sep
@@ -278,13 +278,10 @@ def route_south(
 
 
 if __name__ == "__main__":
-    # c = gf.components.mmi2x2()
-    # c = gf.components.ring_single()
-
-    c = gf.components.ring_double()
     layer = (2, 0)
     c = gf.Component()
     component = gf.components.ring_double(layer=layer)
+    component = gf.components.nxn(north=2, south=2)
     ref = c << component
     r = route_south(c, ref)
     # print(r.lengths)
