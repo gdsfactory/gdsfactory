@@ -10,7 +10,14 @@ from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 
 
-def test_append() -> None:
+def test_path_zero_length() -> None:
+    c = gf.components.straight(
+        length=0.5e-3, cross_section=gf.cross_section.cross_section
+    )
+    assert c.area((1, 0)) == 0
+
+
+def test_path_append() -> None:
     """Append paths."""
     P = gf.Path()
     P.append(gf.path.arc(radius=10, angle=90))  # Circular arc

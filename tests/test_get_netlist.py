@@ -7,6 +7,35 @@ from gdsfactory.decorators import flatten_invalid_refs
 from gdsfactory.get_netlist import get_netlist_recursive
 
 
+def test_netlist_simple() -> None:
+    c = gf.Component()
+    c1 = c << gf.components.straight(length=1, width=2)
+    c2 = c << gf.components.straight(length=2, width=2)
+    c2.connect(port="o1", other=c1.ports["o2"])
+    c.add_port("o1", port=c1.ports["o1"])
+    c.add_port("o2", port=c2.ports["o2"])
+    netlist = c.get_netlist()
+    assert len(netlist["instances"]) == 2
+
+
+def test_netlist_simple_width_mismatch_throws_error() -> None:
+    c = gf.Component()
+    c1 = c << gf.components.straight(length=1, width=1)
+    c2 = c << gf.components.straight(length=2, width=2)
+    c2.connect(port="o1", other=c1.ports["o2"])
+    c.add_port("o1", port=c1.ports["o1"])
+    c.add_port("o2", port=c2.ports["o2"])
+    with pytest.raises(ValueError):
+        c.get_netlist()
+
+
+def test_netlist_complex() -> None:
+    c = gf.components.mzi_arms()
+    netlist = c.get_netlist()
+    # print(netlist.pretty())
+    assert len(netlist["instances"]) == 4, len(netlist["instances"])
+
+
 def test_get_netlist_cell_array() -> None:
     c = gf.components.array(
         gf.components.straight(length=10), spacing=(0, 100), columns=1, rows=5

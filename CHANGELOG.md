@@ -532,7 +532,7 @@ grep -rl 'gdsfactory.simulation.' /path/to/your/files | xargs sed -i 's/gdsfacto
 
 ## 6.68.0
 
-- add gf.geometry.fillet and gf.geometry.boolean_polygons [PR](https://github.com/gdsfactory/gdsfactory/pull/1464)
+- add gf.geometry.fillet and gf.boolean_polygons [PR](https://github.com/gdsfactory/gdsfactory/pull/1464)
 
 ## 6.67.0
 
@@ -2784,7 +2784,7 @@ from functools import partial to all files and makes the docs cleaner by renderi
 - use holoviews as the default plotting backend
 - remove clear_cache from Component.plot() and Component.show(), it's easier to just do `gf.clear_cache()`
 - remove `Component.plotqt` as the qt plotter is now available with `Component.plot(plotter='qt')`
-- gf.geometry.boolean works with tuples of components or references as well as single component or Reference. Overcome phidl bug, where tuples are not trated as lists.
+- gf.boolean works with tuples of components or references as well as single component or Reference. Overcome phidl bug, where tuples are not trated as lists.
 - Before plotting make sure we recompute the bounding box
 - YAML mask definition allows using `settings` for global variables
 - grating_coupler_rectangular first teeth starts next to the taper
@@ -3244,12 +3244,12 @@ from functools import partial to all files and makes the docs cleaner by renderi
 
 - enable `Component.move()` which returns a new Component that contains a moved reference of the original component
 - add `Port._copy()` that is the same as `Port.copy` to keep backwards compatibility with phidl components
-- adapt some phidl.geometry boolean operations into `gdsfactory.geometry`
+- adapt some phidl.boolean operations into `gdsfactory.geometry`
 - move some functions (boolean, compute_area, offset, check_width ... ) into `gdsfactory.geometry`
-- add `gdsfactory.geometry.boolean` for klayout based boolean operations
+- add `gdsfactory.boolean` for klayout based boolean operations
 - add pydantic validator for `ComponentReference`
 - max_name_length is a cell decorator argument used when importing gds cells
-- add `geometry.boolean_klayout`
+- add `boolean_klayout`
 
 ## 3.4.2
 

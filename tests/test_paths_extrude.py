@@ -39,15 +39,12 @@ def test_extrude_transition() -> None:
     transition = gf.path.transition(cs1, cs2)
     p = gf.path.straight(length)
     c = gf.path.extrude(p, transition)
-    assert c.ports["o1"].cross_section == cs1
-    assert c.ports["o2"].cross_section == cs2
-    assert c.ports["o1"].width == w1
-    assert c.ports["o2"].width == w2
-    assert c.ports["o1"].cross_section.width == w1
-    assert c.ports["o2"].cross_section.width == w2
+
+    assert c.ports["o1"].width == w1 / c.kcl.dbu
+    assert c.ports["o2"].width == w2 / c.kcl.dbu
 
     expected_area = (w1 + w2) / 2 * length
-    actual_area = c._cell.area(True)[(1, 0)]
+    actual_area = c.area((1, 0))
     assert actual_area == expected_area
 
 
