@@ -311,7 +311,7 @@ def route_ports_to_x(
         y_optical_bot -= separation
         start_straight_length += separation
 
-    c.add_ports(ports, prefix="route_")
+    c.add_ports(ports)
     return routes
 
 
@@ -518,7 +518,7 @@ def route_ports_to_y(
         x_optical_left -= separation
         start_straight_length_section += separation
 
-    c.add_ports(ports, prefix="route_")
+    c.add_ports(ports)
     return routes
 
 
