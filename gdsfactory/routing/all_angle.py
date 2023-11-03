@@ -104,7 +104,8 @@ def _line_intercept(p1, a1, p2, a2):
 
 def _get_bend_ports(bend):
     # this is a bit of a hack, but o1 < o2, in0 < out0, hopefully there are no other wacky conventions!
-    sorted_port_names = sorted(bend.ports.keys())
+    bend_port_names = [port.name for port in bend.ports]
+    sorted_port_names = sorted(bend_port_names)
     return [bend.ports[n] for n in sorted_port_names]
 
 
@@ -478,6 +479,7 @@ def _get_minimum_separation(refs: list[ComponentReference], *ports) -> float:
 def _points_approx_equal(
     point1: np.ndarray, point2: np.ndarray, tolerance: float = 5e-4
 ) -> bool:
+    point1 = np.array(point1)
     return np.sqrt(np.sum(np.square(point1 - point2))) < tolerance
 
 
@@ -941,7 +943,7 @@ if __name__ == "__main__":
         mmi2.rotate(30)
 
         routes = gf.routing.get_bundle_all_angle(
-            mmi1.get_ports_list(orientation=0),
+            gf.port.get_ports_list(mmi1.ports, orientation=0),
             [mmi2.ports["o2"], mmi2.ports["o1"]],
             connector=None,
         )
