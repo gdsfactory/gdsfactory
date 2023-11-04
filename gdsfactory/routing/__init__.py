@@ -1,6 +1,9 @@
 """Functions to create routes between components."""
 
+
 from __future__ import annotations
+
+import warnings
 
 from gdsfactory.routing import sort_ports, utils
 from gdsfactory.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
@@ -50,13 +53,20 @@ from gdsfactory.routing.get_route_from_steps import (
     get_route_from_steps_electrical_multilayer,
     place_route_from_steps,
 )
-from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.routing.get_routes_bend180 import get_routes_bend180
 from gdsfactory.routing.get_routes_straight import get_routes_straight
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.routing.route_sharp import route_sharp
 from gdsfactory.routing.route_south import route_south
+
+
+def get_route_sbend(*args, **kwargs):
+    warnings.warn(
+        "get_route_sbend is deprecated, use place_route_sbend instead",
+        DeprecationWarning,
+    )
+
 
 __all__ = [
     "add_electrical_pads_shortest",

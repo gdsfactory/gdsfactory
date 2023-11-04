@@ -382,6 +382,8 @@ def route_fiber_array(
     else:
         raise ValueError(f"optical_routing_type={optical_routing_type} not supported")
 
+    c.ports = gc_ports
+
     ports_loopback = []
     if with_loopback:
         ii = [grating_indices[0] - 1, grating_indices[-1] + 1]
