@@ -6,7 +6,56 @@ import pathlib
 import gdstk
 import numpy as np
 
+import gdsfactory as gf
+from gdsfactory.cross_section import strip
 from gdsfactory.serialization import clean_value_json
+
+
+@gf.cell
+def demo_cross_section_setting(cross_section=strip) -> gf.Component:
+    return gf.components.straight(cross_section=cross_section)
+
+
+@gf.cell
+def demo_dict_keys(port_names: tuple[str, ...]):
+    return gf.Component()
+
+
+def test_settings(data_regression, check: bool = True) -> None:
+    """Avoid regressions when exporting settings."""
+    component = demo_cross_section_setting()
+    settings = component.to_dict()
+    if data_regression:
+        data_regression.check(settings)
+
+
+@gf.cell
+def wrap_polygon(polygon) -> gf.Component:
+    return gf.Component()
+
+
+@gf.cell
+def wrap_polygons(polygons) -> gf.Component:
+    return gf.Component()
+
+
+def test_serialize_polygons() -> None:
+    wrap_polygon(gdstk.rectangle((0, 0), (1, 1)))  # FAILS
+
+    s = gf.components.straight()
+    wrap_polygons(s.get_polygons(as_array=False))  # FAILS
+    wrap_polygons(s.get_polygons(by_spec=False, as_array=True))  # WORKS
+    wrap_polygons(s.get_polygons(by_spec=True, as_array=True))  # WORKS
+
+    s = gf.components.ring_double_heater()
+    wrap_polygons(s.get_polygons(by_spec=False, as_array=True))  # FAILS
+    wrap_polygons(s.get_polygons(by_spec=(1, 0), as_array=True))  # FAILS
+    wrap_polygons(s.get_polygons(by_spec=True, as_array=True))  # FAILS
+
+
+def test_serialize_dict_keys():
+    c1 = gf.c.straight()
+    demo_dict_keys(port_names=c1.ports.keys())
 
 
 def test_clean_value_json_bool() -> None:
@@ -98,16 +147,3 @@ def test_clean_value_json():
     # unsupported = Unsupported()
     # with pytest.raises(TypeError):
     #     clean_value_json(unsupported)
-
-
-if __name__ == "__main__":
-    test_clean_value_json()
-    # test_clean_value_json_callable()
-    # test_clean_value_json_gdstk_polygon()
-    # test_clean_value_json_numpy_array()
-    # def func(a: int, b: int) -> int:
-    #     return a + b
-
-    # partial_func = functools.partial(func, b=2)
-    # expected = {"function": "func", "settings": {"b": 2}}
-    # assert clean_value_json(partial_func) == expected
