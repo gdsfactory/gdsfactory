@@ -6,7 +6,6 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.text_rectangular import text_rectangular
@@ -15,7 +14,7 @@ from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 text_rectangular_mini = partial(text_rectangular, size=1)
 
 
-@cell
+@gf.cell
 def cdsem_coupler(
     length: float = 420.0,
     gaps: tuple[float, ...] = (0.15, 0.2, 0.25),

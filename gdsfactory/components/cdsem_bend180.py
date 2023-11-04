@@ -4,7 +4,6 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
@@ -14,7 +13,7 @@ LINE_LENGTH = 420.0
 text_rectangular_mini = partial(text_rectangular, size=1)
 
 
-@cell
+@gf.cell
 def cdsem_bend180(
     width: float = 0.5,
     radius: float = 10.0,
