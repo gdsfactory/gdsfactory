@@ -7,10 +7,6 @@ from kfactory import cell
 
 cell_without_validator = cell
 
-warnings.warn(
-    "gdsfactory.cell is deprecated and will removed in future versions of gdsfactory."
-)
-
 
 def clear_cache() -> None:
     """Clear the cache of the cell decorator."""
