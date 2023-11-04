@@ -140,7 +140,8 @@ def place_route(
     """
     p1 = port1
     p2 = port2
-    with_sbend = kwargs.pop("min_straight_length", None)
+
+    with_sbend = kwargs.pop("with_sbend", None)
     min_straight_length = kwargs.pop("min_straight_length", None)
 
     if with_sbend:

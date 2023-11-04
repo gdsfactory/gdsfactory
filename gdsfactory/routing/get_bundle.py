@@ -314,6 +314,7 @@ def place_bundle_same_axis(
     end_straight_length: float = 0.0,
     start_straight_length: float = 0.0,
     bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight_function,
     sort_ports: bool = True,
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
@@ -382,7 +383,6 @@ def place_bundle_same_axis(
     """
     # _p1 = ports1.copy()
     # _p2 = ports2.copy()
-    kwargs.pop("straight", None)
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
     if sort_ports:
@@ -421,7 +421,6 @@ def place_bundle_same_axis(
         end_straight_length_dbu=round(end_straight_length / component.kcl.dbu),
         start_straight_length_dbu=round(start_straight_length / component.kcl.dbu),
         radius_dbu=radius_dbu,
-        invert=True,
     )
     # if path_length_match_loops:
     #     routes = [np.array(route) for route in routes]
@@ -512,7 +511,6 @@ def _get_bundle_waypoints(
 
     s = sign(y0 - y1)
     curr_end_straight = 0
-
     end_straight_length = end_straight_length_dbu or 15000
 
     Le = end_straight_length
@@ -548,6 +546,7 @@ def _get_bundle_waypoints(
         x2_prev = x2
 
     # Append the last group
+    # print(end_straights_in_group)
     L = min(end_straights_in_group)
     end_straights += [max(x - L, 0) + Le for x in end_straights_in_group]
 
@@ -812,12 +811,10 @@ if __name__ == "__main__":
 
     dy = 200.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
-
     pitch = 10.0
     N = len(xs1)
     xs2 = [-20 + i * pitch for i in range(N // 2)]
     xs2 += [400 + i * pitch for i in range(N // 2)]
-
     a1 = 90
     a2 = a1 + 180
 

@@ -272,7 +272,6 @@ def route_south(
             start_straight_length += sep
             routes.append(route)
 
-    # Add south ports
     flipped_ports = [p.copy() for p in ports_to_route]
     for p in flipped_ports:
         p.trans *= gf.kdb.Trans.R180
@@ -285,7 +284,7 @@ if __name__ == "__main__":
     layer = (2, 0)
     c = gf.Component()
     component = gf.components.ring_double(layer=layer)
-    component = gf.components.nxn(north=2, south=2)
+    component = gf.components.nxn(north=2, south=2, west=1)
     ref = c << component
     r = route_south(c, ref, optical_routing_type=2)
     # print(r.lengths)
