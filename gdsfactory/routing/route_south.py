@@ -31,6 +31,7 @@ def route_south(
     select_ports: Callable = select_ports_optical,
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = strip,
+    start_straight_length: float = 0.5,
     **kwargs,
 ) -> list[OpticalManhattanRoute]:
     """Places routes to route a component ports to the south.
@@ -77,13 +78,18 @@ def route_south(
     """
     c = component
     component = component_to_route
-
     xs = gf.get_cross_section(cross_section)
-    excluded_ports = excluded_ports or []
-    assert optical_routing_type in {
+    excluded_ports = excluded_ports or tuple()
+    start_straight_length0 = start_straight_length
+    routes = []
+
+    if optical_routing_type not in {
         1,
         2,
-    }, f"optical_routing_type = {optical_routing_type}, not supported "
+    }:
+        raise ValueError(
+            f"optical_routing_type = {optical_routing_type} not in supported [1, 2]"
+        )
 
     if port_names:
         optical_ports = [component[port_name] for port_name in port_names]
@@ -110,7 +116,6 @@ def route_south(
     # Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * dy
     delta_gr_min = 2 * dy + 1
-
     sep = straight_separation
 
     # Get lists of optical ports by orientation
@@ -143,12 +148,9 @@ def route_south(
         )
 
     west_ports.reverse()
-
     y0 = min(p.y for p in ordered_ports) - dy - 0.5
-
     ports_to_route = []
 
-    i = 0
     optical_xs_tmp = [p.d.x for p in ordered_ports]
     x_optical_min = min(optical_xs_tmp)
     x_optical_max = max(optical_xs_tmp)
@@ -187,13 +189,11 @@ def route_south(
         ports_to_route.append(tmp_port)
         route = place_route(c, p, tmp_port, **conn_params)
         x -= sep
-        i += 1
 
-    start_straight_length = 0.5
-
-    # First-half of north ports
-    # This ensures that north ports are routed above the top west one
+    # route first halft of north ports above the top west one
     north_start.reverse()  # We need them from left to right
+
+    start_straight_length = start_straight_length0
     if len(north_start) > 0:
         y_max = max(p.d.y for p in west_ports + north_start)
         for p in north_start:
@@ -210,6 +210,7 @@ def route_south(
             ports_to_route.append(tmp_port)
             x -= sep
             start_straight_length += sep
+            routes.append(route)
 
     # Set starting ``x`` on the east side
     if optical_routing_type == 1:
@@ -222,14 +223,12 @@ def route_south(
         raise ValueError(
             f"Invalid optical routing type. Got {optical_routing_type}, only (1, 2 supported) "
         )
-    i = 0
 
     # Route the east ports
     # In case we have to connect these ports to a line of gratings,
     # Ensure that the port is aligned with the grating port or
     # has enough space for manhattan routing (at least two bend radius)
-    routes = []
-    start_straight_length = 0.5
+    start_straight_length = start_straight_length0
     for p in east_ports:
         if io_gratings_lines:
             i_grating = get_index_port_closest_to_x(x, io_gratings_lines[-1])
@@ -249,13 +248,11 @@ def route_south(
             **conn_params,
         )
         routes.append(route)
-
         ports_to_route.append(tmp_port)
         x += sep
-        i += 1
 
     # Route the remaining north ports
-    start_straight_length = 0.5
+    start_straight_length = start_straight_length0
     if len(north_finish) > 0:
         y_max = max(p.d.y for p in east_ports + north_finish)
         for p in north_finish:
@@ -284,8 +281,8 @@ if __name__ == "__main__":
     layer = (2, 0)
     c = gf.Component()
     component = gf.components.ring_double(layer=layer)
-    component = gf.components.nxn(north=2, south=2, west=1)
+    component = gf.components.nxn(north=2, south=2, west=2)
     ref = c << component
-    r = route_south(c, ref, optical_routing_type=2)
+    r = route_south(c, ref, optical_routing_type=1, start_straight_length=0)
     # print(r.lengths)
     c.show()

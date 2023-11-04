@@ -158,7 +158,6 @@ def spiral_external_io(
         length = route_west.length + route_east.length
 
     component.info["length"] = length
-
     return component
 
 

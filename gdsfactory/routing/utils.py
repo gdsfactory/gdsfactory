@@ -5,16 +5,11 @@ from numpy import float64
 from gdsfactory.port import Port
 
 
-def flip(port: Port) -> Port:
-    """Returns port copy with Flip Port orientation."""
-    return port.flip()
-
-
 def direction_ports_from_list_ports(optical_ports: list[Port]) -> dict[str, list[Port]]:
     """Returns a dict of WENS ports."""
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
     for p in optical_ports:
-        orientation = (p.d.angle + 360.0) % 360
+        orientation = (p.orientation + 360.0) % 360
         if orientation <= 45.0 or orientation >= 315:
             direction_ports["E"].append(p)
         elif orientation <= 135.0 and orientation >= 45.0:
@@ -26,10 +21,10 @@ def direction_ports_from_list_ports(optical_ports: list[Port]) -> dict[str, list
 
     for direction, list_ports in list(direction_ports.items()):
         if direction in ["E", "W"]:
-            list_ports.sort(key=lambda p: p.y)
+            list_ports.sort(key=lambda p: p.d.y)
 
         if direction in ["S", "N"]:
-            list_ports.sort(key=lambda p: p.x)
+            list_ports.sort(key=lambda p: p.d.x)
 
     return direction_ports
 
