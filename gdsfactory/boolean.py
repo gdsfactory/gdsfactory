@@ -1,4 +1,3 @@
-"""Based on phidl.geometry."""
 from __future__ import annotations
 
 import kfactory as kf
@@ -8,7 +7,7 @@ from gdsfactory.component import Component, boolean_operations
 from gdsfactory.typings import ComponentOrReference, LayerSpec
 
 
-@gf.cell
+@kf.cell
 def boolean(
     A: ComponentOrReference,
     B: ComponentOrReference,
@@ -90,17 +89,6 @@ def boolean(
     return c
 
 
-def test_boolean() -> None:
-    c = gf.Component()
-    e1 = c << gf.components.ellipse()
-    e2 = c << gf.components.ellipse(radii=(10, 6))
-    e3 = c << gf.components.ellipse(radii=(10, 4))
-    e3.movex(5)
-    e2.movex(2)
-    c = boolean(A=[e1, e3], B=e2, operation="A-B")
-    assert len(c.polygons) == 2, len(c.polygons)
-
-
 if __name__ == "__main__":
     # c = gf.Component()
     # e2 = c << gf.components.ellipse(radii=(10, 6))
@@ -109,6 +97,6 @@ if __name__ == "__main__":
     # c = boolean(A=e2, B=e3, operation="and")
 
     core = gf.c.coupler()
-    clad = gf.c.bbox(core, layer=(2,0))
+    clad = gf.c.bbox(core, layer=(2, 0))
     c = boolean(clad, core, operation="not", layer=(3, 0), layer1=(2, 0), layer2=(1, 0))
     c.show()

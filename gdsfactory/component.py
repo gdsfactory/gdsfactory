@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 import kfactory as kf
 import numpy as np
 from kfactory import Instance, kdb
-from kfactory.kcell import save_layout_options
+from kfactory.kcell import cell, save_layout_options
 
 from gdsfactory.config import GDSDIR_TEMP
 from gdsfactory.port import pprint_ports, select_ports
@@ -23,6 +23,7 @@ if TYPE_CHECKING:
         PathType,
     )
 
+cell_without_validator = cell
 ComponentReference = Instance
 
 ORPHANAGE = kf.KCell()
