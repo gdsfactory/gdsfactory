@@ -3,7 +3,6 @@ from __future__ import annotations
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.decorators import flatten_invalid_refs
 from gdsfactory.get_netlist import get_netlist_recursive
 
 
@@ -304,9 +303,6 @@ def test_get_netlist_transformed() -> None:
     i2 = c.add_ref(gf.components.straight(), "i2")
     i1.rotate(rotation_value)
     i2.connect("o2", i1.ports["o1"])
-
-    # flatten the oddly rotated refs
-    c = flatten_invalid_refs(c)
 
     # perform the initial sanity checks on the netlist
     netlist = c.get_netlist()
