@@ -298,12 +298,12 @@ def are_decoupled(
     x1p: float,
     x2: float,
     x2p: float,
-    sep: str | float = "metal_spacing",
+    separation: str | float = "metal_spacing",
 ) -> bool:
-    sep = gf.get_constant(sep)
-    if x2p + sep > x1:
+    separation = gf.get_constant(separation)
+    if x2p + separation > x1:
         return False
-    return False if x2 < x1p + sep else x2 >= x1p - sep
+    return False if x2 < x1p + separation else x2 >= x1p - separation
 
 
 def place_bundle_same_axis(
@@ -529,7 +529,7 @@ def _get_bundle_waypoints(
             x2 = get_port_x(ports2[i])
             y = get_port_y(ports2[i])
 
-        if are_decoupled(x2, x2_prev, x1, x1_prev, sep=separation):
+        if are_decoupled(x2, x2_prev, x1, x1_prev, separation=separation):
             # If this metal track does not impact the previous one, then start a new group.
             L = min(end_straights_in_group)
             end_straights += [max(x - L, 0) + Le for x in end_straights_in_group]
@@ -584,7 +584,7 @@ def sign(x: float) -> int:
 def get_min_spacing(
     ports1: list[Port],
     ports2: list[Port],
-    sep: float = 5.0,
+    separation: float = 5.0,
     radius: float = 5.0,
     sort_ports: bool = True,
 ) -> float:
@@ -593,7 +593,7 @@ def get_min_spacing(
     Args:
         ports1: first list of ports.
         ports2: second list of ports.
-        sep: minimum separation between two straights in um.
+        separation: minimum separation between two straights in um.
         radius: bend radius in um.
         sort_ports: sort the ports according to the axis.
 
@@ -627,14 +627,14 @@ def get_min_spacing(
             max_j = j
     j = 0
 
-    return (max_j - min_j) * sep + 2 * radius + 1.0
+    return (max_j - min_j) * separation + 2 * radius + 1.0
 
 
 def place_bundle_same_axis_no_grouping(
     component: Component,
     ports1: list[Port],
     ports2: list[Port],
-    sep: float = 5.0,
+    separation: float = 5.0,
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
     sort_ports: bool = True,
@@ -728,8 +728,8 @@ def place_bundle_same_axis_no_grouping(
     if end_straight_length is None:
         end_straight_length = 0.2
 
-    start_straight_length += max_j * sep
-    end_straight_length += -min_j * sep
+    start_straight_length += max_j * separation
+    end_straight_length += -min_j * separation
 
     # Do case with wire direct if the ys are close to each other
     for i, _ in enumerate(ports1):
@@ -740,8 +740,8 @@ def place_bundle_same_axis_no_grouping(
             x1 = ports1[i].center[0]
             x2 = ports2[i].center[0]
 
-        s_straight = start_straight_length - j * sep
-        e_straight = j * sep + end_straight_length
+        s_straight = start_straight_length - j * separation
+        e_straight = j * separation + end_straight_length
 
         routes += [
             place_route(

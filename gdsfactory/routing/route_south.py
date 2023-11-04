@@ -129,7 +129,9 @@ def route_south(
     ordered_ports = north_start + west_ports + south_ports + east_ports + north_finish
 
     def get_index_port_closest_to_x(x, list_ports):
-        return np.array([abs(x - p.ports[gc_port_name].x) for p in list_ports]).argmin()
+        return np.array(
+            [abs(x - p.ports[gc_port_name].d.x) for p in list_ports]
+        ).argmin()
 
     def gen_port_from_port(x, y, p, cross_section):
         return Port(
@@ -147,7 +149,7 @@ def route_south(
     ports_to_route = []
 
     i = 0
-    optical_xs_tmp = [p.x for p in ordered_ports]
+    optical_xs_tmp = [p.d.x for p in ordered_ports]
     x_optical_min = min(optical_xs_tmp)
     x_optical_max = max(optical_xs_tmp)
 
@@ -185,8 +187,8 @@ def route_south(
         ports_to_route.append(tmp_port)
         route = place_route(c, p, tmp_port, **conn_params)
         x -= sep
-
         i += 1
+
     start_straight_length = 0.5
 
     # First-half of north ports
@@ -285,6 +287,6 @@ if __name__ == "__main__":
     component = gf.components.ring_double(layer=layer)
     component = gf.components.nxn(north=2, south=2)
     ref = c << component
-    r = route_south(c, ref)
+    r = route_south(c, ref, optical_routing_type=2)
     # print(r.lengths)
     c.show()

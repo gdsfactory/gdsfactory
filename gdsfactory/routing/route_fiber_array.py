@@ -13,7 +13,7 @@ from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_bundle import get_min_spacing, place_bundle
-from gdsfactory.routing.get_route import get_route_from_waypoints, place_route
+from gdsfactory.routing.get_route import place_route
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
@@ -44,7 +44,6 @@ def route_fiber_array(
     force_manhattan: bool = False,
     excluded_ports: list[str] | None = None,
     grating_indices: list[int] | None = None,
-    route_filter: Callable = get_route_from_waypoints,
     gc_port_name: str = "o1",
     gc_rotation: int = -90,
     component_name: str | None = None,
@@ -93,7 +92,6 @@ def route_fiber_array(
         grating_indices: allows to fine skip some grating slots.
             e.g [0,1,4,5] will put two gratings separated by the pitch.
             Then there will be two empty grating slots, and after that an additional two gratings.
-        route_filter: straight and bend factories
         gc_port_name: grating_coupler port name, where to route straights.
         gc_rotation: grating_coupler rotation (deg).
         layer_label: for measurement labels.
@@ -155,7 +153,7 @@ def route_fiber_array(
 
     # Sort the list of optical ports:
     direction_ports = direction_ports_from_list_ports(optical_ports)
-    sep = straight_separation
+    separation = straight_separation
 
     K = len(optical_ports)
     K = K + 1 if K % 2 else K
@@ -209,7 +207,7 @@ def route_fiber_array(
     y0_optical = (
         component.d.ymin - fanout_length - grating_coupler.ports[gc_port_name].d.x
     )
-    y0_optical += -K / 2 * sep
+    y0_optical += -K / 2 * separation
     y0_optical = round(y0_optical, 1)
 
     if max_y0_optical is not None:
@@ -236,7 +234,7 @@ def route_fiber_array(
     ordered_ports = north_start + west_ports + south_ports + east_ports + north_finish
 
     nb_ports_per_line = N // nb_optical_ports_lines
-    y_gr_gap = (K / nb_optical_ports_lines + 1) * sep
+    y_gr_gap = (K / nb_optical_ports_lines + 1) * separation
     gr_coupler_y_sep = grating_coupler.d.ysize + y_gr_gap + dy
 
     offset = (nb_ports_per_line - 1) * fiber_spacing / 2 - x_grating_offset
@@ -335,7 +333,9 @@ def route_fiber_array(
         gc_ports_tmp = []
         for io_gratings in io_gratings_lines:
             gc_ports_tmp += [gc.ports[gc_port_name] for gc in io_gratings]
-        min_y = get_min_spacing(to_route, gc_ports_tmp, sep=sep, radius=dy)
+        min_y = get_min_spacing(
+            to_route, gc_ports_tmp, separation=separation, radius=dy
+        )
         delta_y = abs(to_route[0].y - gc_ports_tmp[0].y)
 
         if min_y > delta_y:
@@ -352,7 +352,7 @@ def route_fiber_array(
                 c,
                 ports1=to_route,
                 ports2=gc_ports,
-                separation=sep,
+                separation=separation,
                 end_straight_length=end_straight_offset,
                 straight=straight,
                 bend=bend90,
@@ -371,7 +371,7 @@ def route_fiber_array(
                     c,
                     ports1=to_route[n0 - dn : n0 + dn],
                     ports2=gc_ports,
-                    separation=sep,
+                    separation=separation,
                     end_straight_length=end_straight_offset,
                     bend=bend90,
                     straight=straight,
