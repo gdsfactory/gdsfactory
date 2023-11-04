@@ -3,15 +3,14 @@
 get bundle is the generic river routing function
 get_bundle calls different function depending on the port orientation.
 
- - get_bundle_same_axis: ports facing each other with arbitrary pitch on each side
- - get_bundle_corner: 90Deg / 270Deg between ports with arbitrary pitch
- - get_bundle_udirect: ports with direct U-turns
- - get_bundle_uindirect: ports with indirect U-turns
+ - place_bundle_same_axis: ports facing each other with arbitrary pitch on each side
+ - place_bundle_corner: 90Deg / 270Deg between ports with arbitrary pitch
+ - place_bundle_udirect: ports with direct U-turns
+ - place_bundle_uindirect: ports with indirect U-turns
 
 """
 from __future__ import annotations
 
-from collections.abc import Callable
 from functools import partial
 
 import numpy as np
@@ -30,7 +29,7 @@ from gdsfactory.routing.get_bundle_from_steps import get_bundle_from_steps
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 from gdsfactory.routing.get_bundle_sbend import get_bundle_sbend
 from gdsfactory.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
-from gdsfactory.routing.get_route import get_route, place_route
+from gdsfactory.routing.get_route import place_route
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.routing.validation import (
@@ -328,7 +327,7 @@ def place_bundle_same_axis(
     Args:
         ports1: first list of ports.
         ports2: second list of ports.
-        separation: minimum separation between two straights.
+        separation: minimum separation between two straights in dbu.
         end_straight_length: offset to add at the end of each straight.
         start_straight_length: in um.
         bend: spec.
@@ -589,8 +588,16 @@ def get_min_spacing(
     radius: float = 5.0,
     sort_ports: bool = True,
 ) -> float:
-    """Returns the minimum amount of spacing in um required to create a \
-    fanout."""
+    """Returns the minimum amount of spacing in um required to create a fanout.
+
+    Args:
+        ports1: first list of ports.
+        ports2: second list of ports.
+        sep: minimum separation between two straights in um.
+        radius: bend radius in um.
+        sort_ports: sort the ports according to the axis.
+
+    """
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     j = 0
     min_j = 0
@@ -628,7 +635,6 @@ def place_bundle_same_axis_no_grouping(
     ports1: list[Port],
     ports2: list[Port],
     sep: float = 5.0,
-    route_filter: Callable = get_route,
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
     sort_ports: bool = True,
@@ -683,7 +689,7 @@ def place_bundle_same_axis_no_grouping(
 
     """
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"
-    elems = []
+    routes = []
     j = 0
 
     # min and max offsets needed for avoiding collisions between straights
@@ -737,8 +743,9 @@ def place_bundle_same_axis_no_grouping(
         s_straight = start_straight_length - j * sep
         e_straight = j * sep + end_straight_length
 
-        elems += [
-            route_filter(
+        routes += [
+            place_route(
+                component,
                 ports1[i],
                 ports2[i],
                 start_straight_length=s_straight,
@@ -752,7 +759,7 @@ def place_bundle_same_axis_no_grouping(
             j += 1
         else:
             j -= 1
-    return elems
+    return routes
 
 
 get_bundle_electrical = partial(
@@ -828,7 +835,13 @@ if __name__ == "__main__":
     ]
 
     c = gf.Component()
-    place_bundle(c, ports1, ports2)
+    place_bundle(
+        c,
+        ports1,
+        ports2,
+        end_straight_length=1,
+        start_straight_length=100,
+    )
     c.add_ports(ports1)
     c.add_ports(ports2)
     c.show()
