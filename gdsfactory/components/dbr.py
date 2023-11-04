@@ -11,7 +11,6 @@ Period: 318nm, width: 500nm, dw: 20 ~ 120 nm.
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.snap import snap_to_grid
@@ -24,7 +23,7 @@ w1 = w0 - dw / 2
 w2 = w0 + dw / 2
 
 
-@cell
+@gf.cell
 def dbr_cell(
     w1: float = w1,
     w2: float = w2,
@@ -71,7 +70,7 @@ def dbr_cell(
     return c
 
 
-@cell
+@gf.cell
 def dbr(
     w1: float = w1,
     w2: float = w2,

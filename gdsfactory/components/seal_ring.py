@@ -11,7 +11,7 @@ Float2 = tuple[float, float]
 Coordinate = tuple[Float2, Float2]
 
 
-@gf.cell_without_validator
+@gf.cell
 def seal_ring(
     bbox: tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
     seal: gf.typings.ComponentSpec = via_stack,
