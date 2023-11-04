@@ -422,6 +422,7 @@ def place_bundle_same_axis(
         end_straight_length_dbu=round(end_straight_length / component.kcl.dbu),
         start_straight_length_dbu=round(start_straight_length / component.kcl.dbu),
         radius_dbu=radius_dbu,
+        invert=True,
     )
     # if path_length_match_loops:
     #     routes = [np.array(route) for route in routes]
@@ -455,6 +456,7 @@ def _get_bundle_waypoints(
     end_straight_length_dbu: int = 0,
     start_straight_length_dbu: int = 0,
     radius_dbu: int = 10000,
+    invert: bool = True,
 ) -> list[ndarray]:
     """Returns route coordinates List.
 
@@ -487,7 +489,7 @@ def _get_bundle_waypoints(
                 bend90_radius=radius_dbu,
                 start_straight=start_straight_length_dbu,
                 end_straight=end_straight_length_dbu,
-                invert=True,
+                invert=invert,
             )
         ]
 
@@ -559,7 +561,7 @@ def _get_bundle_waypoints(
             bend90_radius=radius_dbu,
             end_straight=end_straights[i],
             start_straight=start_straight_length_dbu,
-            invert=True,
+            invert=invert,
         )
         routes.append(route)
     return routes

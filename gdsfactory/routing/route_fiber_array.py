@@ -271,26 +271,27 @@ def route_fiber_array(
 
         If specified ports to connect in a specific order (i.e if
         connected_port_names is not None and not empty) then grab these ports
-
         """
         if connected_port_names:
             ordered_ports = [component.ports[i] for i in connected_port_names]
 
         for io_gratings in io_gratings_lines:
             for i in range(N):
-                p0 = io_gratings[i].ports[gc_port_name]
-                p1 = ordered_ports[i]
+                p1 = io_gratings[i].ports[gc_port_name]
+                p2 = ordered_ports[i]
                 waypoints = generate_manhattan_waypoints(
-                    input_port=p0,
-                    output_port=p1,
+                    input_port=p1,
+                    output_port=p2,
                     bend=bend90,
                     straight=straight,
                     cross_section=cross_section,
+                    dbu=c.kcl.dbu,
+                    invert=False,
                 )
                 place_route(
                     c,
-                    port1=p0,
-                    port2=p1,
+                    port1=p1,
+                    port2=p2,
                     waypoints=waypoints,
                     bend=bend90,
                     straight=straight,
@@ -316,13 +317,8 @@ def route_fiber_array(
         to_route = c.ports
 
         if force_manhattan:
-            """1) find the min x_distance between each grating port and each
-            component port.
-
-            2) If abs(min distance) < 2* bend radius     then offset
-            io_gratings by -min_distance
-
-            """
+            # 1) find the min x_distance between each grating and component port.
+            # 2) If abs(min distance) < 2* bend radius then offset io_gratings by -min_distance
             min_dist = 2 * dy + 10.0
             min_dist_threshold = 2 * dy + 1.0
             for io_gratings in io_gratings_lines:
@@ -355,7 +351,7 @@ def route_fiber_array(
             place_bundle(
                 c,
                 ports1=to_route,
-                ports2=gc_ports[1:-1],
+                ports2=gc_ports,
                 separation=sep,
                 end_straight_length=end_straight_offset,
                 straight=straight,
@@ -383,6 +379,8 @@ def route_fiber_array(
                     enforce_port_ordering=False,
                 )
                 del to_route[n0 - dn : n0 + dn]
+    else:
+        raise ValueError(f"optical_routing_type={optical_routing_type} not supported")
 
     ports_loopback = []
     if with_loopback:
@@ -501,6 +499,7 @@ if __name__ == "__main__":
         # with_loopback=False,
         radius=5,
         with_loopback=False,
+        optical_routing_type=2,
         # get_input_labels_function=get_input_labels_dash
         # get_input_labels_function=None
         # optical_routing_type=2,

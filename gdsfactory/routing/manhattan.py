@@ -931,6 +931,8 @@ def generate_manhattan_waypoints(
     min_straight_length: float | None = None,
     bend: ComponentSpec = bend_euler,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
+    dbu: float = 1e3,
+    invert: bool = True,
     **kwargs,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports.
@@ -943,6 +945,9 @@ def generate_manhattan_waypoints(
         min_straight_length: in um.
         bend: bend spec.
         cross_section: spec.
+        dbu: database units.
+        invert: invert the route.
+        kwargs: cross_section settings.
 
     """
     if "straight" in kwargs:
@@ -970,10 +975,10 @@ def generate_manhattan_waypoints(
     return kroute(
         input_port,
         output_port,
-        bend90_radius=int(bend90.info["radius"] * 1e3),
+        bend90_radius=round(bend90.info["radius"] / dbu),
         start_straight=int(start_straight_length),
         end_straight=int(end_straight_length),
-        invert=True,
+        invert=invert,
     )
 
 

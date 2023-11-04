@@ -270,10 +270,12 @@ def route_south(
             start_straight_length += sep
             routes.append(route)
 
+    # Add south ports
     flipped_ports = [p.copy() for p in ports_to_route]
     for p in flipped_ports:
         p.trans *= gf.kdb.Trans.R180
     c.add_ports(flipped_ports)
+    c.add_ports(south_ports)
     return routes
 
 
