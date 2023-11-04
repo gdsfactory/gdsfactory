@@ -15,7 +15,6 @@ from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints, round_corners
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import (
     ComponentSpec,
     ComponentSpecOrList,
@@ -47,7 +46,7 @@ def route_fiber_array(
     gc_port_name: str = "o1",
     gc_rotation: int = -90,
     component_name: str | None = None,
-    x_grating_offset: int = 0,
+    x_grating_offset: float = 0,
     port_names: Strs | None = None,
     select_ports: Callable = select_ports_optical,
     radius: float | None = None,
@@ -127,10 +126,10 @@ def route_fiber_array(
 
     # grating_coupler can either be a component/function or a list of components/functions
     if isinstance(grating_coupler, list):
-        grating_couplers = [gf.call_if_func(g) for g in grating_coupler]
+        grating_couplers = [gf.get_component(g) for g in grating_coupler]
         grating_coupler = grating_couplers[0]
     else:
-        grating_coupler = gf.call_if_func(grating_coupler)
+        grating_coupler = gf.get_component(grating_coupler)
         grating_couplers = [grating_coupler] * N
 
     gc_port_names = [port.name for port in grating_coupler.ports]
@@ -147,12 +146,11 @@ def route_fiber_array(
     # `delta_gr_min` Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * radius
 
-    dy = bend90.info["dy"]
+    dy = bend90.d.ysize
     delta_gr_min = 2 * dy + 1
 
     # Get the center along x axis
     x_c = round(sum(p.x for p in optical_ports) / N, 1)
-    y_min = component.ymin  # min([p.y for p in optical_ports])
 
     # Sort the list of optical ports:
     direction_ports = direction_ports_from_list_ports(optical_ports)
@@ -166,7 +164,7 @@ def route_fiber_array(
     is_big_component = (
         (K > 2)
         or (max(pxs) - min(pxs) > fiber_spacing - delta_gr_min)
-        or (component.d.xsize > fiber_spacing)
+        or (component.xsize > fiber_spacing)
     )
     if optical_routing_type is None:
         optical_routing_type = 1 if is_big_component else 0
@@ -208,7 +206,9 @@ def route_fiber_array(
     fanout_length += dy
 
     # use x for grating coupler since we rotate it
-    y0_optical = y_min - fanout_length - grating_coupler.ports[gc_port_name].x
+    y0_optical = (
+        component.d.ymin - fanout_length - grating_coupler.ports[gc_port_name].d.x
+    )
     y0_optical += -K / 2 * sep
     y0_optical = round(y0_optical, 1)
 
@@ -240,10 +240,11 @@ def route_fiber_array(
     gr_coupler_y_sep = grating_coupler.d.ysize + y_gr_gap + dy
 
     offset = (nb_ports_per_line - 1) * fiber_spacing / 2 - x_grating_offset
-    offset = snap_to_grid(offset)
-    x_c = snap_to_grid(x_c)
-    y0_optical = snap_to_grid(y0_optical)
-    gr_coupler_y_sep = snap_to_grid(gr_coupler_y_sep)
+    offset = round(offset / c.kcl.dbu)
+    y0_optical = round(y0_optical / c.kcl.dbu)
+    fiber_spacing = round(fiber_spacing / c.kcl.dbu)
+    gr_coupler_y_sep = round(gr_coupler_y_sep / c.kcl.dbu)
+
     io_gratings_lines = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]
 
     if grating_indices is None:
@@ -255,11 +256,10 @@ def route_fiber_array(
     for j in range(nb_optical_ports_lines):
         for i, gc in zip(grating_indices, grating_couplers):
             gc_ref = c << gc
-            gc_ref.d.center = (
-                x_c - offset + i * fiber_spacing,
-                y0_optical - j * gr_coupler_y_sep,
-            )
             gc_ref.d.rotate(gc_rotation)
+            gc_ref.x = x_c - offset + i * fiber_spacing
+            gc_ref.ymax = round(y0_optical - j * gr_coupler_y_sep)
+            io_gratings += [gc_ref]
 
         io_gratings_lines += [io_gratings[:]]
         ports += [grating.ports[gc_port_name] for grating in io_gratings]
@@ -269,8 +269,7 @@ def route_fiber_array(
         heuristic to avoid collisions between connectors.
 
         If specified ports to connect in a specific order (i.e if
-        connected_port_names is not None and not empty) then grab these
-        ports
+        connected_port_names is not None and not empty) then grab these ports
 
         """
         if connected_port_names:
@@ -352,7 +351,7 @@ def route_fiber_array(
             place_bundle(
                 c,
                 ports1=to_route,
-                ports2=gc_ports,
+                ports2=gc_ports[1:-1],
                 separation=sep,
                 end_straight_length=end_straight_offset,
                 straight=straight,
@@ -485,14 +484,15 @@ if __name__ == "__main__":
     c = gf.Component()
 
     # ci = gf.components.straight()
-    ci = gf.components.mmi2x2()
+    # ci = gf.components.mmi2x2()
     # ci = gf.components.straight_heater_metal()
     gc = gf.components.grating_coupler_elliptical_te(taper_length=30)
 
-    _ = c << ci
+    component = gf.components.nxn(north=2, south=2)
+    ref = c << component
     routes = route_fiber_array(
         c,
-        component=ci,
+        component=ref,
         grating_coupler=gc,
         # with_loopback=False,
         radius=5,

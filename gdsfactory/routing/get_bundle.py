@@ -595,11 +595,11 @@ def get_min_spacing(
     max_j = 0
     if sort_ports:
         if axis in {"X", "x"}:
-            ports1.sort(key=get_port_y)
-            ports2.sort(key=get_port_y)
+            sorted(ports1, key=get_port_y)
+            sorted(ports2, key=get_port_y)
         else:
-            ports1.sort(key=get_port_x)
-            ports2.sort(key=get_port_x)
+            sorted(ports1, key=get_port_x)
+            sorted(ports2, key=get_port_x)
 
     for port1, port2 in zip(ports1, ports2):
         if axis in {"X", "x"}:
