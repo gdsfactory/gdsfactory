@@ -30,6 +30,7 @@ import warnings
 from functools import partial
 
 import kfactory as kf
+from kfactory.routing.electrical import route_elec
 from kfactory.routing.optical import OpticalManhattanRoute, place90, route
 
 import gdsfactory as gf
@@ -169,32 +170,61 @@ def place_route(
     end_straight = round(end_straight_length / dbu)
     start_straight = round(start_straight_length / dbu)
 
+    if p1.port_type == "electrical":
+        return route_elec(
+            component,
+            p1,
+            p2,
+            start_straight=start_straight,
+            end_straight=end_straight,
+        )
+
     if waypoints is not None:
         if not isinstance(waypoints[0], kf.kdb.Point):
             w = [kf.kdb.Point(*p1.center)]
             w += [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
             w += [kf.kdb.Point(*p2.center)]
             waypoints = w
-        return place90(
+
+        if p1.port_type == "electrical":
+            return route_elec(
+                component,
+                p1,
+                p2,
+                start_straight=start_straight,
+                end_straight=end_straight,
+                route_path_function=waypoints,
+            )
+        else:
+            return place90(
+                component,
+                p1=p1,
+                p2=p2,
+                straight_factory=straight_dbu,
+                bend90_cell=bend90,
+                taper_cell=taper_cell,
+                pts=waypoints,
+            )
+
+    if p1.port_type == "electrical":
+        return route_elec(
+            component,
+            p1,
+            p2,
+            start_straight=start_straight,
+            end_straight=end_straight,
+        )
+    else:
+        return route(
             component,
             p1=p1,
             p2=p2,
             straight_factory=straight_dbu,
             bend90_cell=bend90,
             taper_cell=taper_cell,
-            pts=waypoints,
+            start_straight=start_straight,
+            end_straight=end_straight,
         )
-
-    return route(
-        component,
-        p1=p1,
-        p2=p2,
-        straight_factory=straight_dbu,
-        bend90_cell=bend90,
-        taper_cell=taper_cell,
-        start_straight=start_straight,
-        end_straight=end_straight,
-    )
 
 
 if __name__ == "__main__":
@@ -210,9 +240,42 @@ if __name__ == "__main__":
     #     cross_section="xs_sc_auto_widen",
     # )
     # c.show()
-    c = gf.Component("waypoints_sample")
 
-    w = gf.components.straight()
+    # c = gf.Component("waypoints_sample")
+    # w = gf.components.straight()
+    # left = c << w
+    # right = c << w
+    # right.d.move((100, 80))
+
+    # obstacle = gf.components.rectangle(size=(100, 10))
+    # obstacle1 = c << obstacle
+    # obstacle2 = c << obstacle
+    # obstacle1.d.ymin = 40
+    # obstacle2.d.xmin = 25
+
+    # p0 = left.ports["o2"]
+    # p1 = right.ports["o2"]
+    # p0x, p0y = left.ports["o2"].d.center
+    # p1x, p1y = right.ports["o2"].d.center
+    # o = 10  # vertical offset to overcome bottom obstacle
+    # ytop = 20
+
+    # r = gf.routing.place_route(
+    #     c,
+    #     p0,
+    #     p1,
+    #     cross_section="xs_rc",
+    #     waypoints=[
+    #         (p0x + o, p0y),
+    #         (p0x + o, ytop),
+    #         (p1x + o, ytop),
+    #         (p1x + o, p1y),
+    #     ],
+    # )
+    # c.show()
+
+    c = gf.Component("electrical")
+    w = gf.components.wire_straight()
     left = c << w
     right = c << w
     right.d.move((100, 80))
@@ -223,10 +286,10 @@ if __name__ == "__main__":
     obstacle1.d.ymin = 40
     obstacle2.d.xmin = 25
 
-    p0 = left.ports["o2"]
-    p1 = right.ports["o2"]
-    p0x, p0y = left.ports["o2"].d.center
-    p1x, p1y = right.ports["o2"].d.center
+    p0 = left.ports["e2"]
+    p1 = right.ports["e2"]
+    p0x, p0y = left.ports["e2"].d.center
+    p1x, p1y = right.ports["e2"].d.center
     o = 10  # vertical offset to overcome bottom obstacle
     ytop = 20
 
@@ -234,7 +297,7 @@ if __name__ == "__main__":
         c,
         p0,
         p1,
-        cross_section="xs_rc",
+        cross_section="xs_metal_routing",
         waypoints=[
             (p0x + o, p0y),
             (p0x + o, ytop),
@@ -242,5 +305,4 @@ if __name__ == "__main__":
             (p1x + o, p1y),
         ],
     )
-
     c.show()

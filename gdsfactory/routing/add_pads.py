@@ -9,11 +9,9 @@ from gdsfactory.components.pad import pad_rectangular
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
-from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
-    LayerSpec,
     Strs,
 )
 
@@ -25,10 +23,7 @@ def add_pads_bot(
     port_names: Strs | None = None,
     component_name: str | None = None,
     cross_section: CrossSectionSpec = "xs_metal_routing",
-    get_input_labels_function: Callable | None = None,
-    layer_label: LayerSpec = "TEXT",
     pad_port_name: str = "e1",
-    pad_port_labels: tuple[str, ...] | None = None,
     pad: ComponentSpec = pad_rectangular,
     bend: ComponentSpec = "wire_corner",
     straight_separation: float | None = None,
@@ -120,21 +115,14 @@ def add_pads_bot(
             f"select_ports or port_names did not match any ports in {list(component.ports.keys())}"
         )
 
-    (
-        elements,
-        io_gratings_lines,
-        ports_grating_input_waveguide,
-        ports_loopback,
-        ports_component,
-    ) = route_fiber_array(
-        component=component,
+    route_fiber_array(
+        component_new,
+        component,
         grating_coupler=pad,
         gc_port_name=pad_port_name,
         component_name=component_name,
         cross_section=cross_section,
         select_ports=select_ports,
-        get_input_labels_function=get_input_labels_function,
-        layer_label=layer_label,
         with_loopback=False,
         bend=bend,
         straight_separation=straight_separation,
@@ -143,44 +131,34 @@ def add_pads_bot(
         optical_routing_type=optical_routing_type,
         **kwargs,
     )
-    if len(elements) == 0:
-        return component
-
-    for e in elements:
-        component_new.add(e)
-    for io_gratings in io_gratings_lines:
-        component_new.add(io_gratings)
-
     component_new.add_ref(component)
 
     for port in component.ports.values():
         if port not in ports:
             component_new.add_port(port.name, port=port)
 
-    ports = sort_ports_x(ports_grating_input_waveguide + ports_loopback)
+    # if pad_port_labels:
+    #     for gc_port_label, port in zip(pad_port_labels, ports):
+    #         if layer_label:
+    #             component_new.add_label(
+    #                 text=gc_port_label, layer=layer_label, position=port.center
+    #             )
 
-    if pad_port_labels:
-        for gc_port_label, port in zip(pad_port_labels, ports):
-            if layer_label:
-                component_new.add_label(
-                    text=gc_port_label, layer=layer_label, position=port.center
-                )
+    # for port_component, port_grating in zip(
+    #     ports_component, ports_grating_input_waveguide
+    # ):
+    #     grating_ref = port_grating.parent
+    #     component_new.add_port(
+    #         f"elec-{grating_ref.parent.name}-{component_name}-{port_component.name}",
+    #         port=port_grating,
+    #     )
 
-    for port_component, port_grating in zip(
-        ports_component, ports_grating_input_waveguide
-    ):
-        grating_ref = port_grating.parent
-        component_new.add_port(
-            f"elec-{grating_ref.parent.name}-{component_name}-{port_component.name}",
-            port=port_grating,
-        )
-
-    for i, port in enumerate(ports_loopback):
-        grating_ref = port_grating.parent
-        component_new.add_port(
-            f"elec-{grating_ref.parent.name}-{component_name}-loopback{i}",
-            port=port,
-        )
+    # for i, port in enumerate(ports_loopback):
+    #     grating_ref = port_grating.parent
+    #     component_new.add_port(
+    #         f"elec-{grating_ref.parent.name}-{component_name}-loopback{i}",
+    #         port=port,
+    #     )
 
     component_new.copy_child_info(component)
     return component_new
