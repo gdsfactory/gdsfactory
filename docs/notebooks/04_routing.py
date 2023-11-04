@@ -222,7 +222,7 @@ c.plot()
 
 
 # +
-@cell
+@gf.cell
 def test_connect_corner(N=6, config="A"):
     d = 10.0
     sep = 5.0
@@ -437,7 +437,7 @@ c.plot()
 
 
 # +
-@cell
+@gf.cell
 def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
     axis = "X" if orientation in [0, 180] else "Y"

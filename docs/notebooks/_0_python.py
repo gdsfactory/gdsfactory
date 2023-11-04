@@ -87,10 +87,10 @@ component.plot()
 # - validate input arguments based on type annotations
 # - cache the Component that the function returns for speed and reuse cells.
 #
-# For that you will see a `@cell` decorator on many component functions.
+# For that you will see a `@gf.cell` decorator on many component functions.
 #
 # The validation functionality comes from the [pydantic](https://pydantic-docs.helpmanual.io/) package
-# and is available to you automatically when using the `@cell` decorator
+# and is available to you automatically when using the `@gf.cell` decorator
 #
 
 

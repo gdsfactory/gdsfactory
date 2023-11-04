@@ -17,14 +17,14 @@
 # %% [markdown]
 # # Cell
 #
-# A `@cell` is a decorator for functions that return a Component. Make sure you add the `@cell` decorator to each function that returns a Component so you avoid having multiple components with the same name.
+# A `@gf.cell` is a decorator for functions that return a Component. Make sure you add the `@gf.cell` decorator to each function that returns a Component so you avoid having multiple components with the same name.
 #
-# Why do you need to add the `@cell` decorator?
+# Why do you need to add the `@gf.cell` decorator?
 #
 # - In GDS each component must have a unique name. Ideally the name is also consistent from run to run, in case you want to merge GDS files that were created at different times or computers.
 # - Two components stored in the GDS file cannot have the same name. They need to be references (instances) of the same component. See `References tutorial`. That way we only have to store the component in memory once and all the references are just pointers to that component.
 #
-# What does the `@cell` decorator does?
+# What does the `@gf.cell` decorator does?
 #
 # 1. Gives the component a unique name depending on the parameters that you pass to it.
 # 2. Creates a cache of components where we use the name as the key. The first time the function runs, the cache stores the component, so the second time, you get the component directly from the cache, so you don't create the same component twice.
@@ -349,7 +349,7 @@ for component in c.get_dependencies(recursive=True):
     if not component._locked:
         print(
             f"Component {component.name!r} was NOT properly locked. "
-            "You need to write it into a function that has the @cell decorator."
+            "You need to write it into a function that has the @gf.cell decorator."
         )
 
 # %%
