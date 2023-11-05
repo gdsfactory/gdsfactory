@@ -273,6 +273,7 @@ def route_south(
         p.trans *= gf.kdb.Trans.R180
     c.add_ports(flipped_ports)
     c.add_ports(south_ports)
+    c.auto_rename_ports()
     return routes
 
 
