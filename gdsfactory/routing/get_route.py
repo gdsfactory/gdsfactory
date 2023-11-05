@@ -30,7 +30,6 @@ import warnings
 from functools import partial
 
 import kfactory as kf
-from kfactory.routing.electrical import route_elec
 from kfactory.routing.optical import OpticalManhattanRoute, place90, route
 
 import gdsfactory as gf
@@ -150,12 +149,20 @@ def place_route(
     if min_straight_length:
         warnings.warn("minimum straight length not implemented yet")
 
+    port_type = (
+        "electrical" if "electrical" in (p1.port_type, p2.port_type) else "optical"
+    )
+
     xs = gf.get_cross_section(cross_section, **kwargs)
     width = xs.width
     width_dbu = width / component.kcl.dbu
     straight = partial(straight, width=width, cross_section=cross_section)
-    bend90 = gf.get_component(bend_euler, cross_section=cross_section)
     taper_cell = taper(cross_section=cross_section) if taper else None
+    bend90 = (
+        gf.get_component(bend, cross_section=cross_section)
+        if not isinstance(bend, Component)
+        else bend
+    )
 
     def straight_dbu(
         length: int, width: int = width_dbu, cross_section=cross_section, **kwargs
@@ -171,15 +178,6 @@ def place_route(
     end_straight = round(end_straight_length / dbu)
     start_straight = round(start_straight_length / dbu)
 
-    if "electrical" in (p1.port_type, p2.port_type):
-        return route_elec(
-            component,
-            p1,
-            p2,
-            start_straight=start_straight,
-            end_straight=end_straight,
-        )
-
     if waypoints is not None:
         if not isinstance(waypoints[0], kf.kdb.Point):
             w = [kf.kdb.Point(*p1.center)]
@@ -187,16 +185,6 @@ def place_route(
             w += [kf.kdb.Point(*p2.center)]
             waypoints = w
 
-        if "electrical" in (p1.port_type, p2.port_type):
-            return route_elec(
-                component,
-                p1,
-                p2,
-                start_straight=start_straight,
-                end_straight=end_straight,
-                route_path_function=waypoints,
-            )
-        else:
             return place90(
                 component,
                 p1=p1,
@@ -205,16 +193,9 @@ def place_route(
                 bend90_cell=bend90,
                 taper_cell=taper_cell,
                 pts=waypoints,
+                port_type=port_type,
             )
 
-    if "electrical" in (p1.port_type, p2.port_type):
-        return route_elec(
-            component,
-            p1,
-            p2,
-            start_straight=start_straight,
-            end_straight=end_straight,
-        )
     else:
         return route(
             component,
@@ -225,7 +206,13 @@ def place_route(
             taper_cell=taper_cell,
             start_straight=start_straight,
             end_straight=end_straight,
+            port_type=port_type,
         )
+
+
+place_route_electrical = partial(
+    place_route, bend=wire_corner, taper=None, cross_section="xs_metal_routing"
+)
 
 
 if __name__ == "__main__":
@@ -294,7 +281,7 @@ if __name__ == "__main__":
     o = 10  # vertical offset to overcome bottom obstacle
     ytop = 20
 
-    r = gf.routing.place_route(
+    r = place_route_electrical(
         c,
         p0,
         p1,

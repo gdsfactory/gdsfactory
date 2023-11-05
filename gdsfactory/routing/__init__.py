@@ -45,6 +45,7 @@ from gdsfactory.routing.get_route import (
     get_route_from_waypoints_electrical_m2,
     get_route_from_waypoints_electrical_multilayer,
     place_route,
+    place_route_electrical,
 )
 from gdsfactory.routing.get_route_astar import get_route_astar
 from gdsfactory.routing.get_route_from_steps import (
@@ -111,6 +112,7 @@ __all__ = [
     "sort_ports",
     "utils",
     "place_route",
+    "place_route_electrical",
     "place_bundle",
     "place_route_from_steps",
     "place_bundle_path_length_match",
