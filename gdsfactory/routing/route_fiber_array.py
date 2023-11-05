@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
-import numpy as np
+import kfactory as kf
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -219,7 +219,6 @@ def route_fiber_array(
     # - then connect south ports (left to right)
     # - then east ports (bottom to top)
     # - then second half of the north ports (right to left)
-
     ports = []
     north_ports = direction_ports["N"]
     north_start = north_ports[: len(north_ports) // 2]
@@ -252,6 +251,8 @@ def route_fiber_array(
         assert len(grating_indices) == nb_ports_per_line
 
     io_gratings = []
+    gc_ports = []
+
     for j in range(nb_optical_ports_lines):
         for i, gc in zip(grating_indices, grating_couplers):
             gc_ref = c << gc
@@ -295,6 +296,7 @@ def route_fiber_array(
                     straight=straight,
                     cross_section=cross_section,
                 )
+                gc_ports.append(p1)
 
     elif optical_routing_type in [1, 2]:
         route_south(
@@ -382,46 +384,33 @@ def route_fiber_array(
     else:
         raise ValueError(f"optical_routing_type={optical_routing_type} not supported")
 
-    c.ports = gc_ports
+    c.add_ports(gc_ports)
 
-    ports_loopback = []
     if with_loopback:
         ii = [grating_indices[0] - 1, grating_indices[-1] + 1]
         gca1 = c << grating_coupler
         gca2 = c << grating_coupler
         gca1.d.rotate(gc_rotation)
         gca2.d.rotate(gc_rotation)
-        gca1.d.center = (
-            x_c - offset + ii[0] * fiber_spacing,
-            io_gratings_lines[-1][0].ports[gc_port_name].y,
-        )
-        gca2.d.center = (
-            x_c - offset + ii[1] * fiber_spacing,
-            io_gratings_lines[-1][0].ports[gc_port_name].y,
-        )
+
+        gca1.x = x_c - offset + ii[0] * fiber_spacing_dbu
+        gca2.x = x_c - offset + ii[1] * fiber_spacing_dbu
+
+        gca1.ymax = round(y0_optical - j * gr_coupler_y_sep)
+        gca2.ymax = round(y0_optical - j * gr_coupler_y_sep)
 
         port0 = gca1.ports[gc_port_name]
         port1 = gca2.ports[gc_port_name]
-        ports_loopback.append(port0)
-        ports_loopback.append(port1)
+        radius_dbu = round(radius / c.kcl.dbu)
 
-        p0 = np.array(port0.d.center)
-        p1 = np.array(port1.d.center)
-
-        dy = bend90.d.ysize
-        dx = max(2 * dy, fiber_spacing / 2)
-
-        gc_east = max(gci.dbbox().left for gci in grating_couplers)
-        y_bot_align_route = gc_east + straight_to_grating_spacing
-
-        waypoints = [
-            p0 + (0, dy),
-            p0 + (dx, dy),
-            p0 + (dx, -y_bot_align_route),
-            p1 + (-dx, -y_bot_align_route),
-            p1 + (-dx, dy),
-            p1 + (0, dy),
-        ]
+        waypoints = kf.routing.optical.route_loopback(
+            port0,
+            port1,
+            bend90_radius=radius_dbu,
+            d_loop=round(straight_to_grating_spacing / c.kcl.dbu)
+            + radius_dbu
+            + gca1.ysize,
+        )
 
         place_route(
             c,
@@ -432,6 +421,8 @@ def route_fiber_array(
             bend=bend90,
             cross_section=cross_section,
         )
+        c.add_port(name="loopback1", port=port0)
+        c.add_port(name="loopback2", port=port1)
 
     return c
 
@@ -443,79 +434,41 @@ def demo() -> None:
     c = gf.components.straight(length=500)
     c = gf.components.mmi2x2()
 
-    elements, gc, _ = route_fiber_array(
+    route_fiber_array(
         component=c,
         grating_coupler=[gcte, gctm, gcte, gctm],
         with_loopback=True,
-        optical_routing_type=2,
+        optical_routing_type=0,
         # bend=gf.components.bend_euler,
         bend=gf.components.bend_circular,
         radius=20,
         # force_manhattan=True
     )
-    for e in elements:
-        # if isinstance(e, list):
-        # print(len(e))
-        # print(e)
-        c.add(e)
-    for e in gc:
-        c.add(e)
     c.show()
 
 
 if __name__ == "__main__":
-    # layer = (2, 0)
-    # c = gf.components.straight(layer=layer)
-    # gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
-    # gc.xmin = -20
-    # elements, gc, _ = route_fiber_array(
-    #     component=c,
-    #     grating_coupler=gc,
-    #     cladding_offset=6,
-    #     nlabels_loopback=1,
-    #     layer=layer,
-    # )
-    # # c = p.ring_single()
-    # # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)
-    # for e in elements:
-    #     # if isinstance(e, list):
-    #     # print(len(e))
-    #     # print(e)
-    #     c.add(e)
-    # for e in gc:
-    #     c.add(e)
-
     c = gf.Component()
 
-    # ci = gf.components.straight()
-    # ci = gf.components.mmi2x2()
-    # ci = gf.components.straight_heater_metal()
     gc = gf.components.grating_coupler_elliptical_te(taper_length=30)
 
-    component = gf.components.nxn(north=2, south=2)
+    # component = gf.components.nxn(north=2, south=2)
+    # component = gf.components.straight()
+    # component = gf.components.mmi2x2()
+    # component = gf.components.straight_heater_metal()
+    # component = gf.components.ring_single()
+    component = gf.components.ring_double()
+
     ref = c << component
     routes = route_fiber_array(
         c,
-        component=ref,
+        ref,
         grating_coupler=gc,
+        with_loopback=True,
+        radius=10,
         # with_loopback=False,
-        radius=5,
-        with_loopback=False,
-        optical_routing_type=2,
-        # get_input_labels_function=get_input_labels_dash
-        # get_input_labels_function=None
+        optical_routing_type=1,
         # optical_routing_type=2,
-        # fanout_length=20,
-        # get_input_label_text_function=None,
+        # fanout_length=200,
     )
-    # c = p.ring_single()
-    # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)
-    # for e in elements:
-    #     # if isinstance(e, list):
-    #     # print(len(e))
-    #     # print(e)
-    #     c.add(e)
-    # for e in gc:
-    #     c.add(e)
-    # c.add_ports(ports)
     c.show()

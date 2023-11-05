@@ -185,16 +185,16 @@ def place_route(
             w += [kf.kdb.Point(*p2.center)]
             waypoints = w
 
-            return place90(
-                component,
-                p1=p1,
-                p2=p2,
-                straight_factory=straight_dbu,
-                bend90_cell=bend90,
-                taper_cell=taper_cell,
-                pts=waypoints,
-                port_type=port_type,
-            )
+        return place90(
+            component,
+            p1=p1,
+            p2=p2,
+            straight_factory=straight_dbu,
+            bend90_cell=bend90,
+            taper_cell=taper_cell,
+            pts=waypoints,
+            port_type=port_type,
+        )
 
     else:
         return route(
@@ -216,18 +216,18 @@ place_route_electrical = partial(
 
 
 if __name__ == "__main__":
-    # c = gf.Component("demo")
-    # s = gf.c.straight()
-    # pt = c << s
-    # pb = c << s
-    # pt.d.move((50, 50))
-    # gf.routing.place_route(
-    #     c,
-    #     pb.ports["o2"],
-    #     pt.ports["o1"],
-    #     cross_section="xs_sc_auto_widen",
-    # )
-    # c.show()
+    c = gf.Component("demo")
+    s = gf.c.straight()
+    pt = c << s
+    pb = c << s
+    pt.d.move((50, 50))
+    gf.routing.place_route(
+        c,
+        pb.ports["o2"],
+        pt.ports["o1"],
+        cross_section="xs_sc_auto_widen",
+    )
+    c.show()
 
     # c = gf.Component("waypoints_sample")
     # w = gf.components.straight()
@@ -262,35 +262,35 @@ if __name__ == "__main__":
     # )
     # c.show()
 
-    c = gf.Component("electrical")
-    w = gf.components.wire_straight()
-    left = c << w
-    right = c << w
-    right.d.move((100, 80))
+    # c = gf.Component("electrical")
+    # w = gf.components.wire_straight()
+    # left = c << w
+    # right = c << w
+    # right.d.move((100, 80))
 
-    obstacle = gf.components.rectangle(size=(100, 10))
-    obstacle1 = c << obstacle
-    obstacle2 = c << obstacle
-    obstacle1.d.ymin = 40
-    obstacle2.d.xmin = 25
+    # obstacle = gf.components.rectangle(size=(100, 10))
+    # obstacle1 = c << obstacle
+    # obstacle2 = c << obstacle
+    # obstacle1.d.ymin = 40
+    # obstacle2.d.xmin = 25
 
-    p0 = left.ports["e2"]
-    p1 = right.ports["e2"]
-    p0x, p0y = left.ports["e2"].d.center
-    p1x, p1y = right.ports["e2"].d.center
-    o = 10  # vertical offset to overcome bottom obstacle
-    ytop = 20
+    # p0 = left.ports["e2"]
+    # p1 = right.ports["e2"]
+    # p0x, p0y = left.ports["e2"].d.center
+    # p1x, p1y = right.ports["e2"].d.center
+    # o = 10  # vertical offset to overcome bottom obstacle
+    # ytop = 20
 
-    r = place_route_electrical(
-        c,
-        p0,
-        p1,
-        cross_section="xs_metal_routing",
-        waypoints=[
-            (p0x + o, p0y),
-            (p0x + o, ytop),
-            (p1x + o, ytop),
-            (p1x + o, p1y),
-        ],
-    )
-    c.show()
+    # r = place_route_electrical(
+    #     c,
+    #     p0,
+    #     p1,
+    #     cross_section="xs_metal_routing",
+    #     waypoints=[
+    #         (p0x + o, p0y),
+    #         (p0x + o, ytop),
+    #         (p1x + o, ytop),
+    #         (p1x + o, p1y),
+    #     ],
+    # )
+    # c.show()

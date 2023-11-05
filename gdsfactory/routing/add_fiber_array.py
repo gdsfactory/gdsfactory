@@ -112,9 +112,11 @@ def add_fiber_array(
     if not optical_ports:
         raise ValueError(f"No optical ports found in {component.name!r}")
 
+    ref = component_new.add_ref(component)
+
     route_fiber_array(
         component_new,
-        component,
+        ref,
         grating_coupler=grating_coupler,
         gc_port_name=gc_port_name,
         component_name=component_name,
@@ -123,7 +125,6 @@ def add_fiber_array(
         **kwargs,
     )
 
-    component_new.add_ref(component)
     # for port in component.ports:
     #     if port.name not in optical_ports_names:
     #         component_new.add_port(port.name, port=port)
@@ -188,14 +189,20 @@ if __name__ == "__main__":
     # pprint(cc.get_json())
     # c = gf.components.coupler(gap=0.2, length=5.6)
     # c = gf.components.straight()
-    c = gf.components.mmi2x2()
-    c = gf.components.nxn(north=2, south=2)
+    # c = gf.components.mmi2x2()
+    # c = gf.components.nxn(north=2, south=2)
     # c = gf.components.ring_single()
     # c = gf.components.straight_heater_metal()
     # c = gf.components.spiral(direction="NORTH")
 
-    # c = gf.components.bend_euler(info=dict(doe="bends"))
-    cc = add_fiber_array(c, with_loopback=False)
+    c = gf.components.mmi1x2()
+    c = add_fiber_array(c, with_loopback=False)
+
+    # c1 = partial(add_fiber_array, component=gf.c.mmi1x2)
+    # c2 = partial(add_fiber_array, component=gf.c.nxn)
+    # c = gf.pack((c1,c2))[0]
+    # c = c2()
+    c.show()
 
     # cc = add_fiber_array(
     #     component=c,
@@ -214,5 +221,5 @@ if __name__ == "__main__":
     #     cross_section=strip,
     #     info=dict(a=1),
     # )
-    cc.pprint_ports()
-    cc.show()
+    # cc.pprint_ports()
+    # cc.show()

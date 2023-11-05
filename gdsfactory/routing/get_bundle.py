@@ -27,7 +27,6 @@ from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_corner import get_bundle_corner
 from gdsfactory.routing.get_bundle_from_steps import get_bundle_from_steps
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
-from gdsfactory.routing.get_bundle_sbend import get_bundle_sbend
 from gdsfactory.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
 from gdsfactory.routing.get_route import place_route
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
@@ -264,13 +263,13 @@ def place_bundle(
         and y_start > y_end
     ):
         # print("get_bundle_same_axis")
-        if with_sbend:
-            return get_bundle_sbend(
-                ports1,
-                ports2,
-                sort_ports=sort_ports,
-                cross_section=cross_section,
-            )
+        # if with_sbend:
+        #     return get_bundle_sbend(
+        #         ports1,
+        #         ports2,
+        #         sort_ports=sort_ports,
+        #         cross_section=cross_section,
+        #     )
         return place_bundle_same_axis(**params)
 
     elif start_angle == end_angle:

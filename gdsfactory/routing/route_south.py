@@ -278,7 +278,7 @@ if __name__ == "__main__":
     layer = (2, 0)
     c = gf.Component()
     component = gf.components.ring_double(layer=layer)
-    component = gf.components.nxn(north=0, south=0, west=1, east=0)
+    component = gf.components.nxn(north=2, south=2, west=2, east=2)
     ref = c << component
     r = route_south(c, ref, optical_routing_type=1, start_straight_length=0)
     # print(r.lengths)
