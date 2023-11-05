@@ -161,8 +161,8 @@ def place_route(
         length: int, width: int = width_dbu, cross_section=cross_section, **kwargs
     ) -> Component:
         return straight(
-            length=round(length * component.kcl.dbu),
-            width=round(width * component.kcl.dbu),
+            length=length * component.kcl.dbu,
+            width=width * component.kcl.dbu,
             cross_section=cross_section,
             **kwargs,
         )
@@ -310,7 +310,8 @@ if __name__ == "__main__":
 
     c = gf.Component()
     ref = c << gf.components.nxn(north=0, south=0, west=1, east=0)
-    p = gf.Port(
+
+    p2 = gf.Port(
         name="o2",
         center=(-11, -6.5),
         width=0.5,
@@ -320,8 +321,9 @@ if __name__ == "__main__":
     )
     gf.routing.place_route(
         c,
-        p,
+        p2,
         ref.ports["o1"],
         cross_section="xs_sc",
     )
-    c.add_port(name="o1", port=p)
+    c.add_port(name="o1", port=p2)
+    c.show()

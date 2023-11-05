@@ -263,7 +263,7 @@ def place_bundle(
         and end_angle == 90
         and y_start > y_end
     ):
-        print("get_bundle_same_axis")
+        # print("get_bundle_same_axis")
         if with_sbend:
             return get_bundle_sbend(
                 ports1,
@@ -274,11 +274,11 @@ def place_bundle(
         return place_bundle_same_axis(**params)
 
     elif start_angle == end_angle:
-        print("get_bundle_udirect")
+        # print("get_bundle_udirect")
         return get_bundle_udirect(**params)
 
     elif end_angle == (start_angle + 180) % 360:
-        print("get_bundle_uindirect")
+        # print("get_bundle_uindirect")
         params_without_pathlength = {
             k: v for k, v in params.items() if k not in path_length_match_params
         }

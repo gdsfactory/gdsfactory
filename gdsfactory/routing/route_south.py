@@ -183,7 +183,6 @@ def route_south(
                     x = x_gr - delta_gr_min
 
         tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
-        print(tmp_port.center)
         ports_to_route.append(tmp_port)
         route = place_route(c, p, tmp_port, **conn_params)
         x -= sep
