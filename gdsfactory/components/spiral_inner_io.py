@@ -12,7 +12,7 @@ from gdsfactory.components.add_grating_couplers import (
 )
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.routing.get_route import place_route
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
@@ -130,7 +130,7 @@ def spiral_inner_io(
 
         pts_w += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
-    place_route(
+    route_single(
         component,
         p1,
         p2,

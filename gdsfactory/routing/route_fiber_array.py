@@ -12,9 +12,9 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
-from gdsfactory.routing.get_bundle import get_min_spacing, place_bundle
-from gdsfactory.routing.get_route import place_route
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
+from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typings import (
@@ -287,7 +287,7 @@ def route_fiber_array(
                     dbu=c.kcl.dbu,
                     invert=False,
                 )
-                place_route(
+                route_single(
                     c,
                     port1=p1,
                     port2=p2,
@@ -350,7 +350,7 @@ def route_fiber_array(
         if len(io_gratings_lines) == 1:
             io_gratings = io_gratings_lines[0]
             gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
-            place_bundle(
+            route_bundle(
                 c,
                 ports1=to_route,
                 ports2=gc_ports,
@@ -369,7 +369,7 @@ def route_fiber_array(
                 nb_ports_to_route = len(to_route)
                 n0 = nb_ports_to_route / 2
                 dn = nb_gc_ports / 2
-                place_bundle(
+                route_bundle(
                     c,
                     ports1=to_route[n0 - dn : n0 + dn],
                     ports2=gc_ports,
@@ -412,7 +412,7 @@ def route_fiber_array(
             + gca1.ysize,
         )
 
-        place_route(
+        route_single(
             c,
             port1=port0,
             port2=port1,

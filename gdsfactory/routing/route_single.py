@@ -1,6 +1,6 @@
-"""`place_route` returns a Manhattan route between two ports.
+"""`route_single` returns a Manhattan route between two ports.
 
-`place_route` only works for an individual routes. For routing groups of ports you need to use `place_bundle` instead
+`route_single` only works for an individual routes. For routing groups of ports you need to use `route_bundle` instead
 
 To make a route, you need to supply:
 
@@ -50,51 +50,7 @@ from gdsfactory.typings import (
 )
 
 
-def get_route(*args, **kwargs) -> None:
-    raise ValueError(
-        "get_route is not supported in gdsfactory>=8. Use place_route instead!"
-    )
-
-
-get_route_from_waypoints = get_route
-
-
-get_route_electrical = partial(
-    get_route,
-    bend=wire_corner,
-    cross_section="xs_metal_routing",
-    taper=None,
-)
-
-get_route_electrical_m2 = partial(
-    get_route,
-    bend=wire_corner,
-    cross_section=metal2,
-    taper=None,
-)
-
-get_route_electrical_multilayer = partial(
-    get_route_electrical,
-    bend=via_corner,
-    cross_section=[(metal2, (0, 180)), (metal3, (90, 270))],
-)
-
-get_route_from_waypoints_electrical = partial(
-    get_route_from_waypoints, bend=wire_corner, cross_section="xs_metal_routing"
-)
-
-get_route_from_waypoints_electrical_m2 = partial(
-    get_route_from_waypoints, bend=wire_corner, cross_section=metal2
-)
-
-get_route_from_waypoints_electrical_multilayer = partial(
-    get_route_from_waypoints,
-    bend=via_corner,
-    cross_section=[(metal2, (0, 180)), (metal3, (90, 270))],
-)
-
-
-def place_route(
+def route_single(
     component: Component,
     port1: Port,
     port2: Port,
@@ -110,7 +66,7 @@ def place_route(
     """Returns a Manhattan Route between 2 ports.
 
     The references are straights, bends and tapers.
-    `place_route` is an automatic version of `place_route_from_steps`.
+    `route_single` is an automatic version of `route_single_from_steps`.
 
     Args:
         component: to place the route into.
@@ -134,7 +90,7 @@ def place_route(
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
         mmi2.move((40, 20))
-        gf.routing.place_route(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
+        gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
         c.plot()
     """
     p1 = port1
@@ -210,8 +166,24 @@ def place_route(
         )
 
 
-place_route_electrical = partial(
-    place_route, bend=wire_corner, taper=None, cross_section="xs_metal_routing"
+route_single_electrical = partial(
+    route_single,
+    bend=wire_corner,
+    cross_section="xs_metal_routing",
+    taper=None,
+)
+
+route_single_electrical_m2 = partial(
+    route_single,
+    bend=wire_corner,
+    cross_section=metal2,
+    taper=None,
+)
+
+route_single_electrical_multilayer = partial(
+    route_single_electrical,
+    bend=via_corner,
+    cross_section=[(metal2, (0, 180)), (metal3, (90, 270))],
 )
 
 
@@ -221,7 +193,7 @@ if __name__ == "__main__":
     pt = c << s
     pb = c << s
     pt.d.move((50, 50))
-    gf.routing.place_route(
+    gf.routing.route_single(
         c,
         pb.ports["o2"],
         pt.ports["o1"],
@@ -248,7 +220,7 @@ if __name__ == "__main__":
     # o = 10  # vertical offset to overcome bottom obstacle
     # ytop = 20
 
-    # r = gf.routing.place_route(
+    # r = gf.routing.route_single(
     #     c,
     #     p0,
     #     p1,
@@ -281,7 +253,7 @@ if __name__ == "__main__":
     # o = 10  # vertical offset to overcome bottom obstacle
     # ytop = 20
 
-    # r = place_route_electrical(
+    # r = route_single_electrical(
     #     c,
     #     p0,
     #     p1,

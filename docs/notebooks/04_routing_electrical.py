@@ -23,12 +23,12 @@
 # You can also define `port.orientation = None` to ignore the port orientation for low speed DC ports.
 
 # %% [markdown]
-# For single route between ports you can use `get_route_electrical`
+# For single route between ports you can use `route_single_electrical`
 #
-# ### get_route_electrical
+# ### route_single_electrical
 #
 #
-# `get_route_electrical` has `bend = wire_corner` with a 90deg bend corner.
+# `route_single_electrical` has `bend = wire_corner` with a 90deg bend corner.
 
 # %%
 from functools import partial
@@ -53,7 +53,7 @@ c = gf.Component("pads_with_routes_with_bends")
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((70, 200))
-route = gf.routing.get_route_electrical(
+route = gf.routing.route_single_electrical(
     pt.ports["e11"], pb.ports["e11"], bend="bend_euler", radius=30
 )
 c.add(route.references)
@@ -64,7 +64,7 @@ c = gf.Component("pads_with_routes_with_wire_corners")
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((70, 200))
-route = gf.routing.get_route_electrical(
+route = gf.routing.route_single_electrical(
     pt.ports["e11"], pb.ports["e11"], bend="wire_corner"
 )
 c.add(route.references)
@@ -75,7 +75,7 @@ c = gf.Component("pads_with_routes_with_wire_corners_no_orientation")
 pt = c << gf.components.pad_array(orientation=None, columns=3)
 pb = c << gf.components.pad_array(orientation=None, columns=3)
 pt.move((70, 200))
-route = gf.routing.get_route_electrical(
+route = gf.routing.route_single_electrical(
     pt.ports["e11"], pb.ports["e11"], bend="wire_corner"
 )
 c.add(route.references)
@@ -89,7 +89,7 @@ pbot = c << gf.components.pad_array(orientation=90, columns=columns)
 
 ptop.movex(300)
 ptop.movey(300)
-route = gf.routing.get_route_electrical_multilayer(
+route = gf.routing.route_single_electrical_multilayer(
     ptop.ports["e11"],
     pbot.ports["e11"],
     end_straight_length=100,
@@ -105,7 +105,7 @@ c = gf.Component("pads_with_routes_with_wire_corner45")
 pt = c << gf.components.pad_array(orientation=270, columns=1)
 pb = c << gf.components.pad_array(orientation=90, columns=1)
 pt.move((300, 300))
-route = gf.routing.get_route_electrical(
+route = gf.routing.route_single_electrical(
     pt.ports["e11"], pb.ports["e11"], bend="wire_corner45", radius=30
 )
 c.add(route.references)
@@ -116,7 +116,7 @@ c = gf.Component("pads_with_routes_with_wire_corner45")
 pt = c << gf.components.pad_array(orientation=270, columns=1)
 pb = c << gf.components.pad_array(orientation=90, columns=1)
 pt.move((300, 300))
-route = gf.routing.get_route_electrical(
+route = gf.routing.route_single_electrical(
     pt.ports["e11"], pb.ports["e11"], bend="wire_corner45", radius=100
 )
 c.add(route.references)
@@ -134,14 +134,14 @@ route = c << gf.routing.route_quad(pt.ports["e11"], pb.ports["e11"], layer=(49, 
 c.plot()
 
 # %% [markdown]
-# ### get_route_from_steps
+# ### route_single_from_steps
 
 # %%
 c = gf.Component("pads_route_from_steps")
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((100, 200))
-route = gf.routing.get_route_from_steps(
+route = gf.routing.route_single_from_steps(
     pb.ports["e11"],
     pt.ports["e11"],
     steps=[
@@ -158,7 +158,7 @@ c = gf.Component("pads_route_from_steps_None_orientation")
 pt = c << gf.components.pad_array(orientation=None, columns=3)
 pb = c << gf.components.pad_array(orientation=None, columns=3)
 pt.move((100, 200))
-route = gf.routing.get_route_from_steps(
+route = gf.routing.route_single_from_steps(
     pb.ports["e11"],
     pt.ports["e11"],
     steps=[
@@ -171,9 +171,9 @@ c.add(route.references)
 c.plot()
 
 # %% [markdown]
-# ### get_bundle_electrical
+# ### route_bundle_electrical
 #
-# For routing groups of ports you can use `get_bundle` that returns a bundle of routes using a bundle router (also known as bus or river router)
+# For routing groups of ports you can use `route_bundle` that returns a bundle of routes using a bundle router (also known as bus or river router)
 
 # %%
 c = gf.Component("pads_bundle")
@@ -181,7 +181,7 @@ pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((100, 200))
 
-routes = gf.routing.get_bundle_electrical(
+routes = gf.routing.route_bundle_electrical(
     pb.ports, pt.ports, end_straight_length=60, separation=30
 )
 
@@ -190,7 +190,7 @@ for route in routes:
 c.plot()
 
 # %% [markdown]
-# ### get_bundle_from_steps_electrical
+# ### route_bundle_from_steps_electrical
 
 # %%
 c = gf.Component("pads_bundle_steps")
@@ -203,7 +203,7 @@ pt = c << gf.components.pad_array(
 pb = c << gf.components.pad_array(orientation=90, columns=3)
 pt.move((300, 500))
 
-routes = gf.routing.get_bundle_from_steps_electrical(
+routes = gf.routing.route_bundle_from_steps_electrical(
     pb.ports, pt.ports, end_straight_length=60, separation=30, steps=[{"dy": 100}]
 )
 
@@ -213,19 +213,19 @@ for route in routes:
 c.plot()
 
 # %% [markdown]
-# ### get_bundle_electrical_multilayer
+# ### route_bundle_electrical_multilayer
 #
 # To avoid metal crossings you can use one metal layer.
 
 # %%
-c = gf.Component("get_bundle_multi_layer")
+c = gf.Component("route_bundle_multi_layer")
 columns = 2
 ptop = c << gf.components.pad_array(columns=columns)
 pbot = c << gf.components.pad_array(orientation=90, columns=columns)
 
 ptop.movex(300)
 ptop.movey(300)
-routes = gf.routing.get_bundle_electrical_multilayer(
+routes = gf.routing.route_bundle_electrical_multilayer(
     ptop.ports, pbot.ports, end_straight_length=100, separation=20
 )
 for route in routes:

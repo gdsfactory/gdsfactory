@@ -8,7 +8,7 @@ from kfactory.routing.optical import OpticalManhattanRoute
 import gdsfactory as gf
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.port import Port
-from gdsfactory.routing.get_route import place_route
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     Component,
@@ -18,13 +18,7 @@ from gdsfactory.typings import (
 )
 
 
-def get_route_from_steps(**kwargs) -> None:
-    raise ValueError(
-        "get_route is not supported in gdsfactory >=8. Use place_route instead!"
-    )
-
-
-def place_route_from_steps(
+def route_single_from_steps(
     component: Component,
     port1: Port,
     port2: Port,
@@ -38,8 +32,8 @@ def place_route_from_steps(
 
     Uses smooth euler bends instead of corners and tapers in straight sections.
     Tapering to wider straights reduces the optical loss when auto_widen=True.
-    `get_route_from_steps` is a manual version of `get_route`
-    and a more concise and convenient version of `get_route_from_waypoints`
+    `route_single_from_steps` is a manual version of `route_single`
+    and a more concise and convenient version of `route_single_from_waypoints`
 
     Args:
         port1: start port.
@@ -56,7 +50,7 @@ def place_route_from_steps(
 
         import gdsfactory as gf
 
-        c = gf.Component("get_route_from_steps_sample")
+        c = gf.Component("route_single_from_steps_sample")
         w = gf.components.straight()
         left = c << w
         right = c << w
@@ -70,7 +64,7 @@ def place_route_from_steps(
 
         p1 = left.ports['o2']
         p2 = right.ports['o2']
-        gf.routing.place_route_from_steps(
+        gf.routing.route_single_from_steps(
             c,
             port1=p1,
             port2=p2,
@@ -130,7 +124,7 @@ def place_route_from_steps(
         else:
             taper = None
 
-    return place_route(
+    return route_single(
         component=component,
         port1=port1,
         port2=port2,
@@ -142,12 +136,12 @@ def place_route_from_steps(
     )
 
 
-get_route_from_steps_electrical = partial(
-    get_route_from_steps, bend="wire_corner", taper=None, cross_section="xs_m3"
+route_single_from_steps_electrical = partial(
+    route_single_from_steps, bend="wire_corner", taper=None, cross_section="xs_m3"
 )
 
-get_route_from_steps_electrical_multilayer = partial(
-    get_route_from_steps,
+route_single_from_steps_electrical_multilayer = partial(
+    route_single_from_steps,
     bend=via_corner,
     taper=None,
     cross_section=[
@@ -172,7 +166,7 @@ def test_route_from_steps():
 
     p1 = left.ports["o2"]
     p2 = right.ports["o2"]
-    place_route_from_steps(
+    route_single_from_steps(
         c,
         port1=p1,
         port2=p2,
@@ -190,7 +184,7 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.Component("get_route_from_steps_sample")
+    c = gf.Component("route_single_from_steps_sample")
     w = gf.components.straight()
     left = c << w
     right = c << w
@@ -204,7 +198,7 @@ if __name__ == "__main__":
 
     p1 = left.ports["o2"]
     p2 = right.ports["o2"]
-    place_route_from_steps(
+    route_single_from_steps(
         c,
         port1=p1,
         port2=p2,
@@ -221,7 +215,7 @@ if __name__ == "__main__":
     # pt = c << gf.components.pad_array(orientation=270, columns=3)
     # pb = c << gf.components.pad_array(orientation=90, columns=3)
     # pt.move((100, 200))
-    # route = gf.routing.get_route_from_steps_electrical(
+    # route = gf.routing.route_single_from_steps_electrical(
     #     pb.ports["e11"],
     #     pt.ports["e11"],
     #     steps=[

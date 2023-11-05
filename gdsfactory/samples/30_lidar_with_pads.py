@@ -42,7 +42,7 @@ if __name__ == "__main__":
     antennas.xmin = ref.xmax + 50
     antennas.y = 0
 
-    routes = gf.routing.get_bundle(
+    routes = gf.routing.route_bundle(
         ports1=antennas.get_ports_list(orientation=180),
         ports2=phase_shifter_optical_ports,
         radius=5,
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     pads1.xmax = splitter_tree.xmin - 10
     pads1.y = 0
     ports1 = pads1.get_ports_list(orientation=0)
-    routes = gf.routing.get_bundle_electrical(
+    routes = gf.routing.route_bundle_electrical(
         ports1=ports1, ports2=phase_shifter_electrical_ports_west, separation=20
     )
     for route in routes:

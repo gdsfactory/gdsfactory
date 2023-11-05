@@ -487,7 +487,7 @@ def _angles_approx_opposing(angle1: float, angle2: float, tolerance: float = 1e-
     return abs(difference_between_angles(angle1 + 180, angle2)) < tolerance
 
 
-def get_bundle_all_angle(
+def route_bundle_all_angle(
     ports1: list[Port],
     ports2: list[Port],
     steps: list[StepAllAngle] | None = None,
@@ -541,7 +541,7 @@ def get_bundle_all_angle(
         mmi2.move((100, 30))
         mmi2.rotate(30)
 
-        routes = gf.routing.get_bundle_all_angle(
+        routes = gf.routing.route_bundle_all_angle(
             mmi1.get_ports_list(orientation=0),
             [mmi2.ports["o2"], mmi2.ports["o1"]],
             connector=None,
@@ -942,7 +942,7 @@ if __name__ == "__main__":
         mmi2.move((100, 30))
         mmi2.rotate(30)
 
-        routes = gf.routing.get_bundle_all_angle(
+        routes = gf.routing.route_bundle_all_angle(
             gf.port.get_ports_list(mmi1.ports, orientation=0),
             [mmi2.ports["o2"], mmi2.ports["o1"]],
             connector=None,

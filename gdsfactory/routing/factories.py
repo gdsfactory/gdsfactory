@@ -1,25 +1,27 @@
 from __future__ import annotations
 
-from gdsfactory.routing.all_angle import get_bundle_all_angle
-from gdsfactory.routing.get_bundle import (
-    get_bundle_electrical,
-    get_bundle_same_axis_no_grouping,
-    place_bundle,
+from gdsfactory.routing.all_angle import route_bundle_all_angle
+from gdsfactory.routing.route_bundle import (
+    route_bundle,
+    route_bundle_electrical,
+    route_bundle_same_axis_no_grouping,
 )
-from gdsfactory.routing.get_bundle_from_steps import (
-    get_bundle_from_steps,
-    get_bundle_from_steps_electrical,
+from gdsfactory.routing.route_bundle_from_steps import (
+    route_bundle_from_steps,
+    route_bundle_from_steps_electrical,
 )
-from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
-from gdsfactory.routing.get_bundle_path_length_match import get_bundle_path_length_match
+from gdsfactory.routing.route_bundle_from_waypoints import route_bundle_from_waypoints
+from gdsfactory.routing.route_bundle_path_length_match import (
+    route_bundle_path_length_match,
+)
 
 routing_strategy = dict(
-    place_bundle=place_bundle,
-    get_bundle_electrical=get_bundle_electrical,
-    get_bundle_path_length_match=get_bundle_path_length_match,
-    get_bundle_same_axis_no_grouping=get_bundle_same_axis_no_grouping,
-    get_bundle_from_waypoints=get_bundle_from_waypoints,
-    get_bundle_from_steps=get_bundle_from_steps,
-    get_bundle_from_steps_electrical=get_bundle_from_steps_electrical,
-    get_bundle_all_angle=get_bundle_all_angle,
+    route_bundle=route_bundle,
+    route_bundle_electrical=route_bundle_electrical,
+    route_bundle_path_length_match=route_bundle_path_length_match,
+    route_bundle_same_axis_no_grouping=route_bundle_same_axis_no_grouping,
+    route_bundle_from_waypoints=route_bundle_from_waypoints,
+    route_bundle_from_steps=route_bundle_from_steps,
+    route_bundle_from_steps_electrical=route_bundle_from_steps_electrical,
+    route_bundle_all_angle=route_bundle_all_angle,
 )

@@ -136,7 +136,7 @@ def greek_cross_with_pads(
         else:
             via_ref.connect("e4", other=pad_ref.ports["e2"])
 
-        route = gf.routing.get_route(
+        route = gf.routing.route_single(
             cross_ref[cross_pad_via_port_pairs[index][0]],
             via_ref[cross_pad_via_port_pairs[index][1]],
             cross_section=xs_metal,

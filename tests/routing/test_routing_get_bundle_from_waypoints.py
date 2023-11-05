@@ -5,10 +5,10 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 from gdsfactory.port import Port
-from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
+from gdsfactory.routing.route_bundle_from_waypoints import route_bundle_from_waypoints
 
 
-def test_get_bundle_from_waypointsB(
+def test_route_bundle_from_waypointsB(
     data_regression: DataRegressionFixture,
     check: bool = True,
 ) -> None:
@@ -44,7 +44,7 @@ def test_get_bundle_from_waypointsB(
         (p0[0] + 400, ports2[0].y),
     ]
 
-    routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
+    routes = route_bundle_from_waypoints(ports1, ports2, waypoints)
     lengths = {}
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -54,7 +54,7 @@ def test_get_bundle_from_waypointsB(
         data_regression.check(lengths)
 
 
-def test_get_bundle_from_waypointsC(
+def test_route_bundle_from_waypointsC(
     data_regression: DataRegressionFixture,
     check: bool = True,
 ) -> None:
@@ -89,7 +89,7 @@ def test_get_bundle_from_waypointsC(
         ports2[0].center,
     ]
 
-    routes = get_bundle_from_waypoints(ports1, ports2, waypoints)
+    routes = route_bundle_from_waypoints(ports1, ports2, waypoints)
     lengths = {}
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -99,7 +99,7 @@ def test_get_bundle_from_waypointsC(
         data_regression.check(lengths)
 
 
-def test_get_bundle_from_waypoints_staggered(
+def test_route_bundle_from_waypoints_staggered(
     data_regression: DataRegressionFixture,
     check: bool = True,
 ) -> None:
@@ -122,7 +122,7 @@ def test_get_bundle_from_waypoints_staggered(
     p1 = (ports1[0].center[0] + dx, ports2[0].center[1])
     waypoints = (p0, p1)
 
-    routes = gf.routing.get_bundle_from_waypoints(ports1, ports2, waypoints=waypoints)
+    routes = gf.routing.route_bundle_from_waypoints(ports1, ports2, waypoints=waypoints)
     lengths = {}
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -133,6 +133,6 @@ def test_get_bundle_from_waypoints_staggered(
 
 
 if __name__ == "__main__":
-    # test_get_bundle_from_waypointsC(None, check=False)
-    # test_get_bundle_from_waypointsB(None, check=False)
-    test_get_bundle_from_waypoints_staggered(None, check=False)
+    # test_route_bundle_from_waypointsC(None, check=False)
+    # test_route_bundle_from_waypointsB(None, check=False)
+    test_route_bundle_from_waypoints_staggered(None, check=False)

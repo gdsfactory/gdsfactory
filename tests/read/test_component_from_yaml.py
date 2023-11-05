@@ -203,7 +203,7 @@ placements:
 
 routes:
     route1:
-        routing_strategy: get_bundle_path_length_match
+        routing_strategy: route_bundle_path_length_match
         settings:
             radius: 10
             extra_length: 500
@@ -241,7 +241,7 @@ placements:
         y: 1000
 routes:
     route1:
-        routing_strategy: get_bundle_from_waypoints
+        routing_strategy: route_bundle_from_waypoints
         settings:
             waypoints:
                 - [0, 300]

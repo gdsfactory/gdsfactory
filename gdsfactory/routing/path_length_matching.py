@@ -291,7 +291,7 @@ if __name__ == "__main__":
     c2.y = 0
     c2.x = 300
 
-    routes = gf.routing.get_bundle_path_length_match(
+    routes = gf.routing.route_bundle_path_length_match(
         c1.get_ports_list(prefix="E"),
         c2.get_ports_list(prefix="W"),
         radius=5,

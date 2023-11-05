@@ -5,7 +5,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 
 
-def test_get_bundle_optical(
+def test_route_bundle_optical(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     lengths = {}
@@ -26,7 +26,7 @@ def test_get_bundle_optical(
         d.ports["o1"],
     ]
 
-    routes = gf.routing.get_bundle(ports1, ports2, sort_ports=True, radius=10)
+    routes = gf.routing.route_bundle(ports1, ports2, sort_ports=True, radius=10)
     for i, route in enumerate(routes):
         c.add(route.references)
         lengths[i] = route.length
@@ -35,7 +35,7 @@ def test_get_bundle_optical(
         data_regression.check(lengths)
 
 
-def test_get_bundle_optical2(
+def test_route_bundle_optical2(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     lengths = {}
@@ -50,7 +50,7 @@ def test_get_bundle_optical2(
     ports2 = d.get_ports_list(orientation=180)
     ports2.reverse()
 
-    routes = gf.routing.get_bundle(ports1, ports2, sort_ports=True)
+    routes = gf.routing.route_bundle(ports1, ports2, sort_ports=True)
 
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -61,5 +61,5 @@ def test_get_bundle_optical2(
 
 
 if __name__ == "__main__":
-    # test_get_bundle_optical(None, check=False)
-    test_get_bundle_optical2(None, check=False)
+    # test_route_bundle_optical(None, check=False)
+    test_route_bundle_optical2(None, check=False)

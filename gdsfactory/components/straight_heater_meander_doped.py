@@ -87,7 +87,7 @@ def straight_heater_meander_doped(
         layer=x.layer,
         width=x.width,
     )
-    route = gf.routing.get_route(p1, p2, radius=radius)
+    route = gf.routing.route_single(p1, p2, radius=radius)
 
     cross_section2 = cross_section
 
@@ -135,7 +135,7 @@ def straight_heater_meander_doped(
         )
         extra_straight2.connect("o1", ports[f"o1_{row+2}"])
 
-        route = gf.routing.get_route(
+        route = gf.routing.route_single(
             extra_straight1.ports["o2"],
             extra_straight2.ports["o2"],
             radius=radius,
@@ -153,7 +153,7 @@ def straight_heater_meander_doped(
         )
         extra_straight2.connect("o1", ports[f"o2_{row}"])
 
-        route = gf.routing.get_route(
+        route = gf.routing.route_single(
             extra_straight1.ports["o2"],
             extra_straight2.ports["o2"],
             radius=radius,
@@ -226,17 +226,17 @@ if __name__ == "__main__":
     # c = gf.Component()
     # p1 = gf.Port(center=(0, 0), orientation=0)
     # p2 = gf.Port(center=(0, spacing), orientation=0)
-    # route = gf.routing.get_route(p1, p2)
+    # route = gf.routing.route_single(p1, p2)
     # straight_length = gf.snap.snap_to_grid((length - (rows - 1) * route.length) / rows)
     # straight_array = c << gf.components.array(spacing=(0, spacing), columns=1, rows=rows)
 
     # for row in range(1, rows, 2):
-    #     route = gf.routing.get_route(
+    #     route = gf.routing.route_single(
     #         straight_array.ports[f"o2_{row+1}_1"], straight_array.ports[f"o2_{row}_1"]
     #     )
     #     c.add(route.references)
 
-    #     route = gf.routing.get_route(
+    #     route = gf.routing.route_single(
     #         straight_array.ports[f"o1_{row+1}_1"], straight_array.ports[f"o1_{row+2}_1"]
     #     )
     #     c.add(route.references)

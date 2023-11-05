@@ -11,8 +11,8 @@ from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
-from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 from gdsfactory.routing.manhattan import _is_horizontal, _is_vertical
+from gdsfactory.routing.route_bundle_from_waypoints import route_bundle_from_waypoints
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
@@ -24,7 +24,7 @@ from gdsfactory.typings import (
 )
 
 
-def get_bundle_from_steps(
+def route_bundle_from_steps(
     ports1: list[Port],
     ports2: list[Port],
     steps: list[Step] | None = None,
@@ -44,8 +44,8 @@ def get_bundle_from_steps(
 
     Can add bends instead of corners and optionally tapers in straight sections.
     Tapering to wider straights reduces the optical loss and phase errors.
-    `get_bundle_from_steps` is a manual version of `get_bundle`
-    and a more convenient version of `get_bundle_from_waypoints`.
+    `route_bundle_from_steps` is a manual version of `route_bundle`
+    and a more convenient version of `route_bundle_from_waypoints`.
 
     Args:
         port1: start ports (list or dict).
@@ -65,7 +65,7 @@ def get_bundle_from_steps(
         from functools import partial
         import gdsfactory as gf
 
-        c = gf.Component("get_route_from_steps_sample")
+        c = gf.Component("route_single_from_steps_sample")
         w = gf.components.array(
             partial(gf.components.straight, layer=(2, 0)),
             rows=3,
@@ -79,7 +79,7 @@ def get_bundle_from_steps(
         p1 = left.get_ports_list(orientation=0)
         p2 = right.get_ports_list(orientation=180)
 
-        routes = gf.routing.get_bundle_from_steps(
+        routes = gf.routing.route_bundle_from_steps(
             p1,
             p2,
             steps=[{"x": 150}],
@@ -160,7 +160,7 @@ def get_bundle_from_steps(
     else:
         taper = None
 
-    return get_bundle_from_waypoints(
+    return route_bundle_from_waypoints(
         ports1=ports1,
         ports2=ports2,
         waypoints=waypoints,
@@ -175,12 +175,12 @@ def get_bundle_from_steps(
     )
 
 
-get_bundle_from_steps_electrical = partial(
-    get_bundle_from_steps, bend=wire_corner, cross_section="xs_metal_routing"
+route_bundle_from_steps_electrical = partial(
+    route_bundle_from_steps, bend=wire_corner, cross_section="xs_metal_routing"
 )
 
-get_bundle_from_steps_electrical_multilayer = partial(
-    get_bundle_from_steps,
+route_bundle_from_steps_electrical_multilayer = partial(
+    route_bundle_from_steps,
     bend=via_corner,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
@@ -190,7 +190,7 @@ get_bundle_from_steps_electrical_multilayer = partial(
 
 
 def _demo() -> None:
-    c = gf.Component("get_route_from_steps_sample")
+    c = gf.Component("route_single_from_steps_sample")
 
     w = gf.components.array(
         partial(gf.components.straight, layer=(2, 0)),
@@ -205,7 +205,7 @@ def _demo() -> None:
     p1 = left.get_ports_list(orientation=0)
     p2 = right.get_ports_list(orientation=180)
 
-    routes = get_bundle_from_steps_electrical(
+    route_bundle_from_steps_electrical(
         p1,
         p2,
         steps=[{"x": 150}],
@@ -227,7 +227,7 @@ if __name__ == "__main__":
     pb = c << gf.components.pad_array(port_orientation=90, columns=3)
     pt.move((300, 500))
 
-    routes = get_bundle_from_steps_electrical(
+    routes = route_bundle_from_steps_electrical(
         pb.ports, pt.ports, end_straight_length=60, separation=30, steps=[{"dy": 100}]
     )
 

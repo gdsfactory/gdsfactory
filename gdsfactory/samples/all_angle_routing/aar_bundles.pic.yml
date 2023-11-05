@@ -122,7 +122,7 @@ placements:
 
 routes:
   r1:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       start_angle: 10
       end_angle: 200
@@ -142,7 +142,7 @@ routes:
       wg_a1{{ i }},o2: wg_a2{{ i }},o1
       {% endfor %}
   r2:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       start_angle: 10
       steps:
@@ -165,7 +165,7 @@ routes:
       {% endfor %}
 
   r3:  # an s-like bundle can be created by setting an appropriate start or end angle. you will get usual benefits of bundle routing
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       bend:
         component: bend_euler
@@ -190,7 +190,7 @@ routes:
       {% endfor %}
 
   r4:  # a step-free bundle with non-intersecting, opposing ports creates s-bends
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       end_cross_section: # this will take effect for the route, since it is, after all, the last section
         cross_section: xs_sc
@@ -202,14 +202,14 @@ routes:
       {% endfor %}
 
   r5: # example of direct (straight) routes... also a clear demonstration of low_loss cross_section behavior with varied distance
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     links:
       {% for i in range(5) %}
       wg_e1{{ i }},o2: wg_e2{{ i }},o1
       {% endfor %}
 
   r6:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       start_angle: 10
       end_angle: 200
@@ -230,7 +230,7 @@ routes:
       {% endfor %}
 
   r7:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       start_angle: 10
       end_angle: 200

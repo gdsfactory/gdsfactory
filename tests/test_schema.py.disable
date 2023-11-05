@@ -56,7 +56,7 @@ routes:
     route_bot:
         links:
             yl,opt3: yr,opt2
-        routing_strategy: get_bundle_from_steps
+        routing_strategy: route_bundle_from_steps
         settings:
           steps: [dx: 30, dy: '${settings.dy}', dx: 20]
           cross_section: strip

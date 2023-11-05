@@ -68,7 +68,7 @@ def interdigital_capacitor_enclosed(
         s1 = gf.Section(width=cpw_b, offset=(cpw_a + cpw_b) / 2, layer=gap_layer)
         s2 = gf.Section(width=cpw_b, offset=-(cpw_a + cpw_b) / 2, layer=gap_layer)
         x = gf.CrossSection(sections=[s0, s1, s2])
-        route = gf.routing.get_route(
+        route = gf.routing.route_single(
             port,
             port2,
             cross_section=x,

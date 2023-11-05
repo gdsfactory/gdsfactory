@@ -8,7 +8,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.port import Port, flipped
-from gdsfactory.routing.get_route import OpticalManhattanRoute, place_route
+from gdsfactory.routing.route_single import OpticalManhattanRoute, route_single
 
 
 def sort_key_west_to_east(port: Port) -> float:
@@ -241,13 +241,13 @@ def route_ports_to_x(
         new_port = p.copy()
         new_port.orientation = angle
         new_port.x = x + extension_length
-        new_port.y= y
+        new_port.y = y
 
         new_port2 = new_port.copy()
         new_port2.trans *= gf.kdb.Trans.R180
 
         l_elements += [
-            place_route(
+            route_single(
                 component,
                 p,
                 new_port,
@@ -470,7 +470,7 @@ def route_ports_to_y(
 
         try:
             l_elements += [
-                place_route(
+                route_single(
                     component,
                     p,
                     new_port,

@@ -13,12 +13,12 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.functions import remove_identicals
 from gdsfactory.port import Port
-from gdsfactory.routing.get_route import place_route
 from gdsfactory.routing.manhattan import (
     generate_manhattan_waypoints,
     remove_flat_angles,
 )
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.validation import validate_connections
 from gdsfactory.typings import ComponentSpec, Route
 
@@ -35,7 +35,7 @@ def _groups(
     return group1, group2
 
 
-def get_bundle_udirect(
+def route_bundle_udirect(
     component: ComponentSpec,
     ports1: list[Port],
     ports2: list[Port],
@@ -105,7 +105,7 @@ def get_bundle_udirect(
     """
     _p1, _p2 = ports1.copy(), ports2.copy()
 
-    routes = _get_bundle_udirect_waypoints(
+    routes = _route_bundle_udirect_waypoints(
         ports1,
         ports2,
         separation=separation,
@@ -141,7 +141,7 @@ def get_bundle_udirect(
                 ref = component.add_ref(marker)
                 ref.center = point
 
-        route = place_route(
+        route = route_single(
             component=component,
             port1=port1,
             port2=port2,
@@ -158,7 +158,7 @@ def get_bundle_udirect(
     return r
 
 
-def _get_bundle_udirect_waypoints(
+def _route_bundle_udirect_waypoints(
     ports1: list[Port],
     ports2: list[Port],
     routing_func: Callable = generate_manhattan_waypoints,
@@ -287,11 +287,11 @@ def _get_bundle_udirect_waypoints(
     return connections
 
 
-def get_bundle_uindirect(
+def route_bundle_uindirect(
     component: ComponentSpec,
     ports1: list[Port],
     ports2: list[Port],
-    route_filter: Callable = place_route,
+    route_filter: Callable = route_single,
     separation: float = 5.0,
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
@@ -306,7 +306,7 @@ def get_bundle_uindirect(
         ports1: list of start ports.
         ports2: list of end ports.
         route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip straight
+            e.g `route_single_from_waypoints` for deep etch strip straight
         separation: center to center waveguide spacing.
         extension_length: in um.
         start_straight_length: extends in um.
@@ -359,7 +359,7 @@ def get_bundle_uindirect(
 
     """
     _p1, _p2 = ports1.copy(), ports2.copy()
-    routes = _get_bundle_uindirect_waypoints(
+    routes = _route_bundle_uindirect_waypoints(
         ports1,
         ports2,
         separation=separation,
@@ -376,7 +376,7 @@ def get_bundle_uindirect(
     return routes
 
 
-def _get_bundle_uindirect_waypoints(
+def _route_bundle_uindirect_waypoints(
     ports1: list[Port],
     ports2: list[Port],
     routing_func: Callable = generate_manhattan_waypoints,
@@ -543,12 +543,12 @@ def _get_bundle_uindirect_waypoints(
     ports2.sort(key=lambda p: p.y)
     conns = []
     if tmp_ports1:
-        conn1 = _get_bundle_udirect_waypoints(
+        conn1 = _route_bundle_udirect_waypoints(
             tmp_ports1, ports2[: len(tmp_ports1)], **bundle_params
         )
         conns.append(conn1)
     if tmp_ports2:
-        conn2 = _get_bundle_udirect_waypoints(
+        conn2 = _route_bundle_udirect_waypoints(
             tmp_ports2, ports2[len(tmp_ports1) :], **bundle_params
         )
         conns.append(conn2)
@@ -578,7 +578,7 @@ if __name__ == "__main__":
     # c1 = c << gf.components.mmi2x2()
     # c2 = c << gf.components.mmi2x2()
     # c2.d.move((100, 40))
-    # routes = gf.routing.place_bundle(
+    # routes = gf.routing.route_bundle(
     #     c,
     #     [c1.ports["o2"], c1.ports["o1"]],
     #     [c2.ports["o1"], c2.ports["o2"]],
@@ -645,7 +645,7 @@ if __name__ == "__main__":
         ]
 
     c = gf.Component()
-    routes = gf.routing.place_bundle(
+    routes = gf.routing.route_bundle(
         c, ports1, ports2, radius=10.0, enforce_port_ordering=False
     )
     c.add_ports(ports1)

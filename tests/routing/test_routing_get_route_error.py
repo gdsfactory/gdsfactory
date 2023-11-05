@@ -18,7 +18,7 @@ def test_route_error() -> None:
     p2 = right.ports["o2"]
 
     with pytest.warns(RouteWarning):
-        route = gf.routing.get_route_from_steps(
+        route = gf.routing.route_single_from_steps(
             port1=p2,
             port2=p1,
             steps=[
@@ -38,7 +38,7 @@ def test_route_error2() -> None:
     pt = c << gf.components.pad_array(orientation=270, columns=3)
     pb = c << gf.components.pad_array(orientation=90, columns=3)
     pt.move((100, 200))
-    route = gf.routing.get_route_from_steps(
+    route = gf.routing.route_single_from_steps(
         pt.ports["e11"],
         pb.ports["e11"],
         steps=[

@@ -8,12 +8,12 @@ import gdsfactory as gf
 from gdsfactory.port import port_array
 
 
-def test_get_bundle_west_to_north(
+def test_route_bundle_west_to_north(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     lengths = {}
 
-    c = gf.Component("test_get_bundle_west_to_north")
+    c = gf.Component("test_route_bundle_west_to_north")
     pad = partial(gf.components.pad, size=(10, 10))
     c = gf.Component()
     pad_south = gf.components.pad_array(orientation=270, spacing=(15.0, 0.0), pad=pad)
@@ -29,7 +29,7 @@ def test_get_bundle_west_to_north(
     c.add_ports(pbports, prefix="N")
     c.add_ports(ptports, prefix="S")
 
-    routes = gf.routing.get_bundle(
+    routes = gf.routing.route_bundle(
         pbports,
         ptports,
         bend=gf.components.wire_corner,
@@ -43,13 +43,13 @@ def test_get_bundle_west_to_north(
         data_regression.check(lengths)
 
 
-def test_get_bundle_west_to_north2(
+def test_route_bundle_west_to_north2(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     layer = (1, 0)
 
     lengths = {}
-    c = gf.Component("test_get_bundle_west_to_north2")
+    c = gf.Component("test_route_bundle_west_to_north2")
     pbottom_facing_north = port_array(
         center=(0, 0), orientation=90, pitch=(30, 0), layer=layer
     )
@@ -57,7 +57,7 @@ def test_get_bundle_west_to_north2(
         center=(100, 100), orientation=180, pitch=(0, -30), layer=layer
     )
 
-    routes = gf.routing.get_bundle(
+    routes = gf.routing.route_bundle(
         pbottom_facing_north,
         ptop_facing_west,
         bend=gf.components.wire_corner,
@@ -72,5 +72,5 @@ def test_get_bundle_west_to_north2(
 
 
 if __name__ == "__main__":
-    test_get_bundle_west_to_north(None, check=False)
-    # test_get_bundle_west_to_north2(None, check=False)
+    test_route_bundle_west_to_north(None, check=False)
+    # test_route_bundle_west_to_north2(None, check=False)

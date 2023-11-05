@@ -10,7 +10,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.mzi import mzi2x2_2x2
 from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_electrical
-from gdsfactory.routing import place_route
+from gdsfactory.routing import route_single
 
 
 def find_largest_component(component_list: list) -> Component:
@@ -191,26 +191,26 @@ def component_lattice_generic(
             if element_i != 0:
                 # Connect the adjacent input waveguide ports to the first element columns
                 # if j == 0:
-                place_route(
+                route_single(
                     c,
                     interconnection_ports_array[j][i].ports["o2"],
                     element_references[k].ports["o2"],
                     cross_section=cross_section,
                 )
-                place_route(
+                route_single(
                     c,
                     interconnection_ports_array[j][i + 1].ports["o2"],
                     element_references[k].ports["o1"],
                     cross_section=cross_section,
                 )
                 # Connect output of the component to the component
-                place_route(
+                route_single(
                     c,
                     interconnection_ports_array[j + 1][i].ports["o1"],
                     element_references[k].ports["o3"],
                     cross_section=cross_section,
                 )
-                place_route(
+                route_single(
                     c,
                     interconnection_ports_array[j + 1][i + 1].ports["o1"],
                     element_references[k].ports["o4"],
@@ -222,7 +222,7 @@ def component_lattice_generic(
                 # When no element at junction, connect straight ahead between
                 if i == 0:
                     # If at start top row then just connect top
-                    place_route(
+                    route_single(
                         c,
                         interconnection_ports_array[j][i].ports["o2"],
                         interconnection_ports_array[j + 1][i].ports["o1"],
@@ -230,7 +230,7 @@ def component_lattice_generic(
                     )
                 elif i == (len(column_j) - 1):
                     # If at end then connect bottom
-                    place_route(
+                    route_single(
                         c,
                         interconnection_ports_array[j][i + 1].ports["o2"],
                         interconnection_ports_array[j + 1][i + 1].ports["o1"],
@@ -242,7 +242,7 @@ def component_lattice_generic(
                         pass
                     elif column_j[i - 1] == 0:
                         # If previous element is zero then connect top straight
-                        place_route(
+                        route_single(
                             c,
                             interconnection_ports_array[j][i].ports["o2"],
                             interconnection_ports_array[j + 1][i].ports["o1"],
@@ -251,7 +251,7 @@ def component_lattice_generic(
 
                 elif column_j[i - 1] == 0:
                     # If previous element is zero then connect top straight
-                    place_route(
+                    route_single(
                         c,
                         interconnection_ports_array[j][i].ports["o2"],
                         interconnection_ports_array[j + 1][i].ports["o1"],

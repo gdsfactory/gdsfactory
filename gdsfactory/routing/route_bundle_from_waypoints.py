@@ -16,9 +16,9 @@ from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import (
     RouteError,
-    get_route_error,
     remove_flat_angles,
     round_corners,
+    route_single_error,
 )
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.utils import get_list_ports_angle
@@ -78,7 +78,7 @@ def _distance(port1, port2):
     return np.sqrt(dx**2 + dy**2)
 
 
-def get_bundle_from_waypoints(
+def route_bundle_from_waypoints(
     ports1: list[Port],
     ports2: list[Port],
     waypoints: Coordinates,
@@ -88,7 +88,7 @@ def get_bundle_from_waypoints(
     sort_ports: bool = True,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     separation: float | None = None,
-    on_route_error: Callable = get_route_error,
+    on_route_error: Callable = route_single_error,
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
@@ -97,7 +97,7 @@ def get_bundle_from_waypoints(
     """Returns list of routes that connect bundle of ports with bundle of routes.
 
     Routes follow a list of waypoints.
-    Take a look at get_bundle_from_steps for easier definition.
+    Take a look at route_bundle_from_steps for easier definition.
 
     Args:
         ports1: list of ports.
@@ -256,12 +256,12 @@ def sort_ports_function(ports1, ports2) -> None:
     ports2.sort(key=end_port_sort)
 
 
-get_bundle_from_waypoints_electrical = partial(
-    get_bundle_from_waypoints, bend=wire_corner, cross_section="xs_metal_routing"
+route_bundle_from_waypoints_electrical = partial(
+    route_bundle_from_waypoints, bend=wire_corner, cross_section="xs_metal_routing"
 )
 
-get_bundle_from_waypoints_electrical_multilayer = partial(
-    get_bundle_from_waypoints_electrical,
+route_bundle_from_waypoints_electrical_multilayer = partial(
+    route_bundle_from_waypoints_electrical,
     bend=via_corner,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),

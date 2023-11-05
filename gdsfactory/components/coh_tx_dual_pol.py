@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.routing.get_route import get_route
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -62,7 +62,7 @@ def coh_tx_dual_pol(
     sp.x = single_tx_1.xmin - xspacing
     sp.y = (single_tx_1.ports["o1"].y + single_tx_2.ports["o1"].y) / 2
 
-    route = get_route(
+    route = route_single(
         sp.ports["o2"],
         single_tx_1.ports["o1"],
         cross_section=cross_section,
@@ -71,7 +71,7 @@ def coh_tx_dual_pol(
     )
     c.add(route.references)
 
-    route = get_route(
+    route = route_single(
         sp.ports["o3"],
         single_tx_2.ports["o1"],
         cross_section=cross_section,
@@ -88,7 +88,7 @@ def coh_tx_dual_pol(
         comb.x = single_tx_1.xmax + xspacing
         comb.y = (single_tx_1.ports["o2"].y + single_tx_2.ports["o2"].y) / 2
 
-        route = get_route(
+        route = route_single(
             comb.ports["o2"],
             single_tx_1.ports["o2"],
             cross_section=cross_section,
@@ -97,7 +97,7 @@ def coh_tx_dual_pol(
         )
         c.add(route.references)
 
-        route = get_route(
+        route = route_single(
             comb.ports["o3"],
             single_tx_2.ports["o2"],
             cross_section=cross_section,
@@ -127,7 +127,7 @@ def coh_tx_dual_pol(
             out_coup.y = (single_tx_1.y + single_tx_2.y) / 2
             out_coup.xmin = single_tx_1.xmax + 40.0
 
-            route = get_route(
+            route = route_single(
                 single_tx_1.ports["o2"],
                 out_coup.ports["o1"],
                 cross_section=cross_section,
@@ -136,7 +136,7 @@ def coh_tx_dual_pol(
             )
             c.add(route.references)
 
-            route = get_route(
+            route = route_single(
                 single_tx_2.ports["o2"],
                 out_coup.ports["o2"],
                 cross_section=cross_section,

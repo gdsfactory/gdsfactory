@@ -53,7 +53,7 @@ def add_fiber_array(
         excluded_ports: list of port names to exclude when adding gratings.
         grating_indices: list of grating coupler indices.
         routing_straight: function to route.
-        routing_method: get_route.
+        routing_method: route_single.
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
@@ -210,8 +210,8 @@ if __name__ == "__main__":
     #     # optical_routing_type=1,
     #     # optical_routing_type=2,
     #     # layer_label=layer_label,
-    #     # get_route_factory=route_fiber_single,
-    #     # get_route_factory=route_fiber_array,
+    #     # route_single_factory=route_fiber_single,
+    #     # route_single_factory=route_fiber_array,
     #     grating_coupler=gctm,
     #     # grating_coupler=[gcte, gctm, gcte, gctm],
     #     # grating_coupler=gf.functions.rotate(gcte, angle=180),

@@ -35,9 +35,9 @@ def taper_pin(length: float = 5) -> gf.Component:
     return gf.path.extrude_transition(path, trans)
 
 
-def test_get_route_auto_widen() -> None:
-    c = gf.Component("test_get_route_auto_widen")
-    route = gf.routing.get_route_from_waypoints(
+def test_route_single_auto_widen() -> None:
+    c = gf.Component("test_route_single_auto_widen")
+    route = gf.routing.route_single_from_waypoints(
         [(0, 0), (300, 0), (300, 300), (-600, 300), (-600, -300)],
         cross_section=xs_pin_m1,
         bend=partial(gf.components.bend_euler, cross_section=xs_pin),
@@ -49,9 +49,9 @@ def test_get_route_auto_widen() -> None:
 
 
 if __name__ == "__main__":
-    test_get_route_auto_widen()
+    test_route_single_auto_widen()
     # c = gf.Component()
-    # route = gf.routing.get_route_from_waypoints(
+    # route = gf.routing.route_single_from_waypoints(
     #     [(0, 0), (300, 0), (300, 300), (300, 600), (600, 600)],
     #     cross_section="xs_sc_auto_widen",
     #     radius=30,

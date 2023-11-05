@@ -38,7 +38,7 @@ placements:
 
 routes:
     optical:
-        routing_strategy: get_bundle_all_angle
+        routing_strategy: route_bundle_all_angle
         settings:
           separation: 3  # the separation between routes in the bundle. by default uses what is defined in the cross-section
           steps:

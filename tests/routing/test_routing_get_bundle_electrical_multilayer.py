@@ -5,7 +5,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 
 
-def test_get_bundle_electrical_multilayer(
+def test_route_bundle_electrical_multilayer(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     lengths = {}
@@ -16,7 +16,7 @@ def test_get_bundle_electrical_multilayer(
 
     ptop.movex(300)
     ptop.movey(300)
-    routes = gf.routing.get_bundle_electrical_multilayer(
+    routes = gf.routing.route_bundle_electrical_multilayer(
         ptop.ports, pbot.ports, end_straight_length=100, separation=20
     )
 
@@ -29,4 +29,4 @@ def test_get_bundle_electrical_multilayer(
 
 
 if __name__ == "__main__":
-    test_get_bundle_electrical_multilayer(None, check=False)
+    test_route_bundle_electrical_multilayer(None, check=False)

@@ -5,12 +5,14 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 
 
-def test_get_route(data_regression: DataRegressionFixture, check: bool = True) -> None:
+def test_route_single(
+    data_regression: DataRegressionFixture, check: bool = True
+) -> None:
     c = gf.Component()
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
     mmi2.move((100, 50))
-    route = gf.routing.get_route(
+    route = gf.routing.route_single(
         mmi1.ports["o3"],
         mmi2.ports["o1"],
         cross_section=gf.cross_section.metal1,
@@ -22,7 +24,7 @@ def test_get_route(data_regression: DataRegressionFixture, check: bool = True) -
         data_regression.check(lengths)
 
 
-def test_get_route_electrical_multilayer(
+def test_route_single_electrical_multilayer(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     c = gf.Component()
@@ -31,7 +33,7 @@ def test_get_route_electrical_multilayer(
 
     ptop.movex(300)
     ptop.movey(300)
-    route = gf.routing.get_route_electrical_multilayer(
+    route = gf.routing.route_single_electrical_multilayer(
         ptop.ports["e11"],
         pbot.ports["e11"],
         end_straight_length=100,
@@ -47,7 +49,7 @@ if __name__ == "__main__":
     # mmi1 = c << gf.components.mmi1x2()
     # mmi2 = c << gf.components.mmi1x2()
     # mmi2.move((100, 50))
-    # route = gf.routing.get_route(
+    # route = gf.routing.route_single(
     #     mmi1.ports["o3"],
     #     mmi2.ports["o1"],
     #     cross_section=gf.cross_section.metal1,
@@ -62,7 +64,7 @@ if __name__ == "__main__":
 
     ptop.movex(300)
     ptop.movey(300)
-    route = gf.routing.get_route_electrical_multilayer(
+    route = gf.routing.route_single_electrical_multilayer(
         ptop.ports["e11"],
         pbot.ports["e11"],
         end_straight_length=100,

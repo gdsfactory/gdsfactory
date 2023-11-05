@@ -34,7 +34,7 @@ placements:
 
 routes:
     optical:
-        routing_strategy: get_bundle_all_angle
+        routing_strategy: route_bundle_all_angle
         settings:
           steps:
             - ds: 50  # proceed out of the start port by 50 um

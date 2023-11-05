@@ -40,7 +40,7 @@ if __name__ == "__main__":
     antennas.xmin = ref.xmax + 50
     antennas.y = 0
 
-    routes = gf.routing.get_bundle(
+    routes = gf.routing.route_bundle(
         ports1=antennas.get_ports_list(orientation=180),
         ports2=phase_shifter_optical_ports,
         radius=5,

@@ -110,7 +110,7 @@ def edge_coupler_array_with_loopback(
         )
 
     ec_ref = c << ec
-    route1 = gf.routing.get_route(
+    route1 = gf.routing.route_single(
         ec_ref.ports["o1"],
         ec_ref.ports["o2"],
         cross_section=cross_section,
@@ -119,7 +119,7 @@ def edge_coupler_array_with_loopback(
     c.add(route1.references)
 
     if n > 4 and right_loopback:
-        route2 = gf.routing.get_route(
+        route2 = gf.routing.route_single(
             ec_ref.ports[f"o{n-1}"],
             ec_ref.ports[f"o{n}"],
             cross_section=cross_section,

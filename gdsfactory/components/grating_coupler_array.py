@@ -54,7 +54,7 @@ def grating_coupler_array(
             {"dx": -gc.d.xsize / 2 - radius},
         )
 
-        gf.routing.place_route_from_steps(
+        gf.routing.route_single_from_steps(
             c,
             port1=c.ports["o0"],
             port2=c.ports[f"o{n-1}"],

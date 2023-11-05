@@ -5,8 +5,8 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.port import Port
-from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.manhattan import round_corners
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -83,7 +83,7 @@ def loss_deembedding_ch13_24(
     c.add(gcs)
 
     c.add(
-        get_route(
+        route_single(
             gc_ports[0],
             gc_ports[2],
             start_straight_length=40.0,
@@ -144,7 +144,7 @@ def loss_deembedding_ch12_34(
     c.add(gcs)
 
     c.add(
-        get_route(
+        route_single(
             gc_ports[0],
             gc_ports[1],
             start_straight_length=40.0,
@@ -154,7 +154,7 @@ def loss_deembedding_ch12_34(
         ).references
     )
     c.add(
-        get_route(
+        route_single(
             gc_ports[2],
             gc_ports[3],
             start_straight_length=40.0,
@@ -199,7 +199,7 @@ def loss_deembedding_ch14_23(
     c.add(gcs)
 
     c.add(
-        get_route(
+        route_single(
             gc_ports[0],
             gc_ports[3],
             start_straight_length=40.0,
@@ -209,7 +209,7 @@ def loss_deembedding_ch14_23(
         ).references
     )
     c.add(
-        get_route(
+        route_single(
             gc_ports[1],
             gc_ports[2],
             start_straight_length=30.0,
@@ -252,7 +252,7 @@ def grating_coupler_loss_fiber_array(
     c.add(gcs)
 
     c.add(
-        get_route(
+        route_single(
             gc_ports[0],
             gc_ports[1],
             start_straight_length=40.0,

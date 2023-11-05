@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.bend_s import bend_s, get_min_sbend_size
 from gdsfactory.components.straight import straight
-from gdsfactory.routing.get_route import get_route
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Floats
 
 
@@ -204,7 +204,7 @@ def spiral_racetrack_fixed_length(
         cross_section=gf.get_cross_section(xs_s_bend),
     )
 
-    route = get_route(
+    route = route_single(
         spiral.ports["o2"],
         c.ports["o2_temp"],
         straight=straight,
@@ -296,7 +296,7 @@ def _req_straight_len(
             cross_section=gf.get_cross_section(cross_section_s_bend),
         )
 
-        route = get_route(
+        route = route_single(
             spiral.ports["o2"],
             c.ports["o2"],
             straight=straight,

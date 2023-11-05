@@ -3,7 +3,7 @@ from __future__ import annotations
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.routing.get_bundle import get_bundle_same_axis_no_grouping
+from gdsfactory.routing.route_bundle import route_bundle_same_axis_no_grouping
 
 
 def test_link_optical_ports_no_grouping(
@@ -24,8 +24,8 @@ def test_link_optical_ports_no_grouping(
         d.ports["o1"],
     ]
 
-    routes = get_bundle_same_axis_no_grouping(ports1, ports2, sort_ports=True)
-    # routes = gf.routing.get_bundle(ports1, ports2, sort_ports=True)
+    routes = route_bundle_same_axis_no_grouping(ports1, ports2, sort_ports=True)
+    # routes = gf.routing.route_bundle(ports1, ports2, sort_ports=True)
 
     lengths = {}
     for i, route in enumerate(routes):

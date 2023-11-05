@@ -5,7 +5,7 @@ from gdsfactory.port import Port
 from gdsfactory.typings import Component
 
 
-def place_route_sbend(
+def route_single_sbend(
     component: Component, port1: Port, port2: Port, **kwargs
 ) -> Component:
     """Returns an Sbend to connect two ports.
@@ -31,7 +31,7 @@ def place_route_sbend(
         mmi2 = c << gf.components.mmi1x2()
         mmi2.movex(50)
         mmi2.movey(5)
-        route = gf.routing.place_route_sbend(c, mmi1.ports['o2'], mmi2.ports['o1'])
+        route = gf.routing.route_single_sbend(c, mmi1.ports['o2'], mmi2.ports['o1'])
         c.plot()
 
     """
@@ -64,5 +64,5 @@ if __name__ == "__main__":
     mmi2 = c << gf.components.mmi1x2()
     mmi2.d.movex(50)
     mmi2.d.movey(5)
-    route = place_route_sbend(c, mmi1.ports["o2"], mmi2.ports["o1"])
+    route = route_single_sbend(c, mmi1.ports["o2"], mmi2.ports["o1"])
     c.show()

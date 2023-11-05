@@ -83,7 +83,7 @@ def splitter_tree(
                     port_name = e0_port_name
                 if row % 2 == 1:
                     port_name = e1_port_name
-                gf.routing.place_route(
+                gf.routing.route_single(
                     c,
                     c.insts[f"coupler_{col-1}_{row//2}"].ports[port_name],
                     coupler_ref.ports["o1"],

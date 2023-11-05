@@ -133,15 +133,12 @@ def coh_rx_single_pol(
         det_ports.append(det.ports["o1"])
         ports_hybrid.append(hybrid.ports[port_name])
 
-    routes = gf.routing.get_bundle(ports_hybrid, det_ports, enforce_port_ordering=True)
-    for route in routes:
-        c.add(route.references)
+    gf.routing.route_bundle(c, ports_hybrid, det_ports, enforce_port_ordering=True)
 
     # --- Draw metal connections ----
-    route = gf.routing.get_route_electrical(
-        pd_i1.ports["bot_e3"], pd_i2.ports["top_e3"]
+    route = gf.routing.route_single_electrical(
+        c, pd_i1.ports["bot_e3"], pd_i2.ports["top_e3"]
     )
-    c.add(route.references)
 
     # Add a port at the center
     x_max = -np.inf
@@ -157,10 +154,9 @@ def coh_rx_single_pol(
         width=2.0,
     )
 
-    route = gf.routing.get_route_electrical_m2(
-        pd_q1.ports["bot_e3"], pd_q2.ports["top_e3"]
+    route = gf.routing.route_single_electrical_m2(
+        c, pd_q1.ports["bot_e3"], pd_q2.ports["top_e3"]
     )
-    c.add(route.references)
 
     # Add a port
     x_max = -np.inf
@@ -203,20 +199,21 @@ def coh_rx_single_pol(
         # V- pad (connected to positive side of one of the diodes)
         p0x, p0y = pd_i1.ports["top_e2"].center
         p1x, p1y = pad_array.ports["e41"].center
-        route = gf.routing.get_route_from_waypoints_electrical(
-            [(p0x, p0y), (p0x, p1y), (p1x, p1y)]
+        route = gf.routing.route_single_electrical(
+            c, waypoints=[(p0x, p0y), (p0x, p1y), (p1x, p1y)]
         )
 
         c.add(route.references)
 
         p0x, p0y = pd_q1.ports["top_e3"].center
         p1x, p1y = pad_array.ports["e41"].center
-        route = gf.routing.get_route_from_waypoints_electrical_multilayer(
-            [
+        route = gf.routing.route_single_electrical_multilayer(
+            c,
+            waypoints=[
                 (p0x, p0y),
                 (p0x + 0.5 * (p1x - p0x), p0y),
                 (p0x + 0.5 * (p1x - p0x), p1y),
-            ]
+            ],
         )
 
         c.add(route.references)
@@ -224,15 +221,15 @@ def coh_rx_single_pol(
         # V+ pad (connected to negative side of the other diode)
         p0x, p0y = pd_i2.ports["bot_e2"].center
         p1x, p1y = pad_array.ports["e11"].center
-        route = gf.routing.get_route_from_waypoints_electrical(
-            [(p0x, p0y), (p0x, p1y), (p1x, p1y)]
+        route = gf.routing.route_single_electrical(
+            c, waypoints=[(p0x, p0y), (p0x, p1y), (p1x, p1y)]
         )
         c.add(route.references)
 
         p0x, p0y = pd_q2.ports["bot_e3"].center
         p1x, p1y = pad_array.ports["e11"].center
-        route = gf.routing.get_route_from_waypoints_electrical_multilayer(
-            [
+        route = gf.routing.route_single_electrical_multilayer(
+            waypoints=[
                 (p0x, p0y),
                 (p0x + 0.5 * (p1x - p0x), p0y),
                 (p0x + 0.5 * (p1x - p0x), p1y),
@@ -242,13 +239,13 @@ def coh_rx_single_pol(
         c.add(route.references)
 
         # I out pad
-        route = gf.routing.get_route_electrical(
+        route = gf.routing.route_single_electrical(
             pad_array.ports["e31"], c.ports["i_out"]
         )
         c.add(route.references)
 
         # Q out pad
-        route = gf.routing.get_route_electrical_multilayer(
+        route = gf.routing.route_single_electrical_multilayer(
             pad_array.ports["e21"], c.ports["q_out"]
         )
         c.add(route.references)

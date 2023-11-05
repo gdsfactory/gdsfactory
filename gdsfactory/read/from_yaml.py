@@ -838,7 +838,7 @@ def _from_yaml(
                     )
 
             settings = routes_dict.pop("settings", {})
-            routing_strategy_name = routes_dict.pop("routing_strategy", "place_bundle")
+            routing_strategy_name = routes_dict.pop("routing_strategy", "route_bundle")
             if routing_strategy_name not in routing_strategy:
                 routing_strategies = list(routing_strategy.keys())
                 raise ValueError(
@@ -1016,7 +1016,7 @@ routes:
     route_bot:
         links:
             yl,opt3: yr,opt2
-        routing_strategy: place_bundle
+        routing_strategy: route_bundle
 
 
 ports:
@@ -1054,7 +1054,7 @@ routes:
     route_bot:
         links:
             yl,opt3: yr,opt2
-        routing_strategy: place_bundle
+        routing_strategy: route_bundle
         settings:
           steps: [dx: 30, dy: -40, dx: 20]
 
@@ -1100,7 +1100,7 @@ routes:
     route_bot:
         links:
             yl,opt3: yr,opt2
-        routing_strategy: place_bundle
+        routing_strategy: route_bundle
         settings:
           steps: [dx: 30, dy: '${settings.dy}', dx: 20]
           cross_section: strip
@@ -1302,7 +1302,7 @@ placements:
 
 routes:
     electrical1:
-        routing_strategy: place_bundle
+        routing_strategy: route_bundle
         settings:
             separation: 20
             layer: [31, 0]
@@ -1312,7 +1312,7 @@ routes:
             mzi,e2: tr,e1
 
     electrical2:
-        routing_strategy: place_bundle
+        routing_strategy: route_bundle
         settings:
             separation: 20
             layer: [31, 0]

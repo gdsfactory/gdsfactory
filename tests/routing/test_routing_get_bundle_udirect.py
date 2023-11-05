@@ -7,10 +7,10 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 
 
-def test_get_bundle_udirect_pads(
+def test_route_bundle_udirect_pads(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    c = gf.Component("test_get_bundle_udirect_pads")
+    c = gf.Component("test_route_bundle_udirect_pads")
 
     pad = partial(gf.components.pad, size=(10, 10))
     pad_south = gf.components.pad_array(orientation=270, spacing=(15.0, 0), pad=pad)
@@ -25,7 +25,7 @@ def test_get_bundle_udirect_pads(
 
     pbports.reverse()
 
-    routes = gf.routing.get_bundle(pbports, ptports, radius=5)
+    routes = gf.routing.route_bundle(pbports, ptports, radius=5)
 
     lengths = {}
     for i, route in enumerate(routes):
@@ -37,4 +37,4 @@ def test_get_bundle_udirect_pads(
 
 
 if __name__ == "__main__":
-    test_get_bundle_udirect_pads(None, check=False)
+    test_route_bundle_udirect_pads(None, check=False)

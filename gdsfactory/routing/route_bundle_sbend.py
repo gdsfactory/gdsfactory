@@ -6,7 +6,7 @@ from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.typings import Route
 
 
-def get_bundle_sbend(
+def route_bundle_sbend(
     ports1: Port,
     ports2: Port,
     sort_ports: bool = True,
@@ -52,7 +52,7 @@ def get_bundle_sbend(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("test_get_route_sbend")
+    c = gf.Component("test_route_single_sbend")
     pitch = 2.0
     ys_left = [0, 10, 20]
     N = len(ys_left)
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     ]
     left_ports.reverse()
 
-    routes = gf.routing.get_bundle(right_ports, left_ports, with_sbend=False)
+    routes = gf.routing.route_bundle(right_ports, left_ports, with_sbend=False)
     for route in routes:
         c.add(route.references)
     c.show()

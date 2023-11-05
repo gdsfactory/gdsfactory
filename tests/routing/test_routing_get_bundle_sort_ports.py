@@ -5,11 +5,11 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 
 
-def test_get_bundle_sort_ports(
+def test_route_bundle_sort_ports(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     lengths = {}
-    c = gf.Component("test_get_bundle_sort_ports")
+    c = gf.Component("test_route_bundle_sort_ports")
     ys_right = [0, 10, 20, 40, 50, 80]
     pitch = 127.0
     N = len(ys_right)
@@ -29,7 +29,7 @@ def test_get_bundle_sort_ports(
         for i in range(N)
     ]
     left_ports.reverse()
-    routes = gf.routing.get_bundle(
+    routes = gf.routing.route_bundle(
         right_ports, left_ports, sort_ports=True, enforce_port_ordering=False
     )
 
@@ -42,4 +42,4 @@ def test_get_bundle_sort_ports(
 
 
 if __name__ == "__main__":
-    test_get_bundle_sort_ports(None, check=False)
+    test_route_bundle_sort_ports(None, check=False)

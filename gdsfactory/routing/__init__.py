@@ -3,69 +3,49 @@
 
 from __future__ import annotations
 
-import warnings
-
 from gdsfactory.routing import sort_ports, utils
 from gdsfactory.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from gdsfactory.routing.add_electrical_pads_top import add_electrical_pads_top
 from gdsfactory.routing.add_electrical_pads_top_dc import add_electrical_pads_top_dc
 from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.routing.add_pads import add_pads_bot, add_pads_top
-from gdsfactory.routing.all_angle import get_bundle_all_angle
+from gdsfactory.routing.all_angle import route_bundle_all_angle
 from gdsfactory.routing.fanout2x2 import fanout2x2
-from gdsfactory.routing.get_bundle import (
-    get_bundle,
-    get_bundle_electrical,
-    get_bundle_electrical_multilayer,
-    place_bundle,
+from gdsfactory.routing.route_bundle import (
+    route_bundle,
+    route_bundle_electrical,
+    route_bundle_electrical_multilayer,
 )
-from gdsfactory.routing.get_bundle_from_steps import (
-    get_bundle_from_steps,
-    get_bundle_from_steps_electrical,
-    get_bundle_from_steps_electrical_multilayer,
+from gdsfactory.routing.route_bundle_from_steps import (
+    route_bundle_from_steps,
+    route_bundle_from_steps_electrical,
+    route_bundle_from_steps_electrical_multilayer,
 )
-from gdsfactory.routing.get_bundle_from_waypoints import (
-    get_bundle_from_waypoints,
-    get_bundle_from_waypoints_electrical,
-    get_bundle_from_waypoints_electrical_multilayer,
+from gdsfactory.routing.route_bundle_from_waypoints import (
+    route_bundle_from_waypoints,
+    route_bundle_from_waypoints_electrical,
+    route_bundle_from_waypoints_electrical_multilayer,
 )
-from gdsfactory.routing.get_bundle_path_length_match import (
-    get_bundle_path_length_match,
-    place_bundle_path_length_match,
+from gdsfactory.routing.route_bundle_path_length_match import (
+    route_bundle_path_length_match,
 )
-from gdsfactory.routing.get_bundle_sbend import get_bundle_sbend
-from gdsfactory.routing.get_route import (
-    get_route,
-    get_route_electrical,
-    get_route_electrical_m2,
-    get_route_electrical_multilayer,
-    get_route_from_waypoints,
-    get_route_from_waypoints_electrical,
-    get_route_from_waypoints_electrical_m2,
-    get_route_from_waypoints_electrical_multilayer,
-    place_route,
-    place_route_electrical,
-)
-from gdsfactory.routing.get_route_from_steps import (
-    get_route_from_steps,
-    get_route_from_steps_electrical,
-    get_route_from_steps_electrical_multilayer,
-    place_route_from_steps,
-)
-from gdsfactory.routing.get_routes_bend180 import get_routes_bend180
-from gdsfactory.routing.get_routes_straight import get_routes_straight
+from gdsfactory.routing.route_bundle_sbend import route_bundle_sbend
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.routing.route_sharp import route_sharp
+from gdsfactory.routing.route_single import (
+    route_single,
+    route_single_electrical,
+    route_single_electrical_m2,
+    route_single_electrical_multilayer,
+)
+from gdsfactory.routing.route_single_from_steps import (
+    route_single_from_steps,
+    route_single_from_steps_electrical,
+    route_single_from_steps_electrical_multilayer,
+)
+from gdsfactory.routing.route_single_sbend import route_single_sbend
 from gdsfactory.routing.route_south import route_south
-
-
-def get_route_sbend(*args, **kwargs):
-    warnings.warn(
-        "get_route_sbend is deprecated, use place_route_sbend instead",
-        DeprecationWarning,
-    )
-
 
 __all__ = [
     "add_electrical_pads_shortest",
@@ -74,32 +54,25 @@ __all__ = [
     "add_pads_top",
     "add_pads_bot",
     "add_fiber_array",
-    "get_bundle",
-    "get_bundle_all_angle",
-    "get_bundle_from_steps",
-    "get_bundle_from_steps_electrical",
-    "get_bundle_from_steps_electrical_multilayer",
-    "get_bundle_electrical",
-    "get_bundle_electrical_multilayer",
-    "get_bundle_path_length_match",
-    "get_bundle_from_waypoints",
-    "get_bundle_from_waypoints_electrical",
-    "get_bundle_from_waypoints_electrical_multilayer",
-    "get_route",
-    "get_route_electrical",
-    "get_route_electrical_m2",
-    "get_route_electrical_multilayer",
-    "get_routes_bend180",
-    "get_routes_straight",
-    "get_route_sbend",
-    "get_bundle_sbend",
-    "get_route_from_waypoints",
-    "get_route_from_waypoints_electrical",
-    "get_route_from_waypoints_electrical_m2",
-    "get_route_from_waypoints_electrical_multilayer",
-    "get_route_from_steps",
-    "get_route_from_steps_electrical",
-    "get_route_from_steps_electrical_multilayer",
+    "route_bundle",
+    "route_bundle_all_angle",
+    "route_bundle_from_steps",
+    "route_bundle_from_steps_electrical",
+    "route_bundle_from_steps_electrical_multilayer",
+    "route_bundle_electrical",
+    "route_bundle_electrical_multilayer",
+    "route_bundle_path_length_match",
+    "route_bundle_from_waypoints",
+    "route_bundle_from_waypoints_electrical",
+    "route_bundle_from_waypoints_electrical_multilayer",
+    "route_single",
+    "route_single_electrical",
+    "route_single_electrical_m2",
+    "route_single_electrical_multilayer",
+    "route_bundle_sbend",
+    "route_single_from_steps",
+    "route_single_from_steps_electrical",
+    "route_single_from_steps_electrical_multilayer",
     "fanout2x2",
     "route_ports_to_side",
     "route_south",
@@ -107,11 +80,11 @@ __all__ = [
     "route_sharp",
     "sort_ports",
     "utils",
-    "place_route",
-    "place_route_electrical",
-    "place_bundle",
-    "place_route_from_steps",
-    "place_bundle_path_length_match",
+    "route_single_electrical",
+    "route_bundle",
+    "route_single_from_steps",
+    "route_bundle_path_length_match",
+    "route_single_sbend",
 ]
 
 

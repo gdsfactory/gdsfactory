@@ -1,14 +1,12 @@
 from __future__ import annotations
 
-from collections.abc import Callable
-
 import numpy as np
 
 from gdsfactory.component_layout import _rotate_points
 from gdsfactory.port import Port
-from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import RouteError, generate_manhattan_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.validation import make_error_traces, validate_connections
 from gdsfactory.typings import Route
 
@@ -57,10 +55,9 @@ def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
     return ports_transformed
 
 
-def get_bundle_corner(
+def route_bundle_corner(
     ports1: list[Port],
     ports2: list[Port],
-    route_filter: Callable[..., Route] = get_route_from_waypoints,
     separation: float = 5.0,
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
@@ -73,8 +70,6 @@ def get_bundle_corner(
     Args:
         ports1: list of start ports.
         ports2: list of end ports.
-        route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip straight.
         separation: in um.
         path_length_match_loops: optional number of loops for path length matching.
         path_length_match_extra_length: extra length (um) for path length matching.
@@ -83,8 +78,7 @@ def get_bundle_corner(
 
     Returns:
         returns a list of elements which can be added to a component.
-        `[route_filter(r) for r in routes]` where routes is a list of coordinates list
-        e.g with default `get_route_from_waypoints`.
+        e.g with default `route_single_from_waypoints`.
 
 
     ::
@@ -125,7 +119,7 @@ def get_bundle_corner(
         _ = kwargs.pop("straight")
 
     try:
-        routes = _get_bundle_corner_waypoints(
+        routes = _route_bundle_corner_waypoints(
             ports1,
             ports2,
             routing_func=generate_manhattan_waypoints,
@@ -144,13 +138,13 @@ def get_bundle_corner(
             **kwargs,
         )
 
-    routes = [route_filter(r, **kwargs) for r in routes]
+    routes = [route_single(r, **kwargs) for r in routes]
     if enforce_port_ordering:
         routes = validate_connections(_p1, _p2, routes)
     return routes
 
 
-def _get_bundle_corner_waypoints(
+def _route_bundle_corner_waypoints(
     ports1,
     ports2,
     routing_func=generate_manhattan_waypoints,
@@ -323,7 +317,7 @@ if __name__ == "__main__":
         ]
 
     c = gf.Component()
-    routes = gf.routing.place_bundle(
+    routes = gf.routing.route_bundle(
         c,
         ports1,
         ports2,

@@ -16,7 +16,7 @@ placements:
         y: 1000
 routes:
     route1:
-        routing_strategy: get_bundle_path_length_match
+        routing_strategy: route_bundle_path_length_match
         settings:
             extra_length: 500
             width: 2

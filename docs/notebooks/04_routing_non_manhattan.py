@@ -416,7 +416,7 @@ mmi2 = c << mmi
 mmi2.move((100, 10))
 mmi2.rotate(30)
 
-routes = gf.routing.get_bundle_all_angle(
+routes = gf.routing.route_bundle_all_angle(
     mmi1.get_ports_list(orientation=0),
     [mmi2.ports["o2"], mmi2.ports["o1"]],
     connector=None,
@@ -435,7 +435,7 @@ mmi2 = c << mmi
 mmi2.move((100, 10))
 mmi2.rotate(30)
 
-routes = gf.routing.get_bundle_all_angle(
+routes = gf.routing.route_bundle_all_angle(
     mmi1.get_ports_list(orientation=0),
     [mmi2.ports["o2"], mmi2.ports["o1"]],
     connector="low_loss",
@@ -446,7 +446,7 @@ c.plot()
 
 # %%
 import gdsfactory as gf
-from gdsfactory.routing.all_angle import get_bundle_all_angle
+from gdsfactory.routing.all_angle import route_bundle_all_angle
 
 NUM_WIRES = 10
 
@@ -480,7 +480,7 @@ def chip():
     inner_ports = inner.get_ports_list()
     outer_ports = outer.get_ports_list()
     for n_route in range(NUM_WIRES):
-        routes = get_bundle_all_angle(
+        routes = route_bundle_all_angle(
             ports1=[inner_ports[n_route]],
             ports2=[outer_ports[n_route]],
             cross_section=gf.cross_section.strip,

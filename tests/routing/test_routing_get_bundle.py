@@ -8,10 +8,12 @@ import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
-from gdsfactory.routing.get_bundle import get_bundle
+from gdsfactory.routing.route_bundle import route_bundle
 
 
-def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True) -> None:
+def test_route_bundle(
+    data_regression: DataRegressionFixture, check: bool = True
+) -> None:
     xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
     pitch = 127.0
     layer = (1, 0)
@@ -35,8 +37,8 @@ def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True) 
         for i in range(N)
     ]
 
-    c = gf.Component("test_get_bundle")
-    routes = get_bundle(
+    c = gf.Component("test_route_bundle")
+    routes = route_bundle(
         top_ports, bot_ports, start_straight_length=5, end_straight_length=10
     )
     lengths = {}
@@ -250,14 +252,14 @@ def test_connect_corner(
     i = 0
     for ports1, ports2 in zip(ports_A, ports_B):
         if config in {"A", "C"}:
-            routes = get_bundle(ports1, ports2)
+            routes = route_bundle(ports1, ports2)
             for route in routes:
                 c.add(route.references)
                 lengths[i] = route.length
                 i += 1
 
         elif config in {"B", "D"}:
-            routes = get_bundle(ports2, ports1)
+            routes = route_bundle(ports2, ports1)
             for route in routes:
                 c.add(route.references)
                 lengths[i] = route.length
@@ -268,7 +270,7 @@ def test_connect_corner(
         difftest(c)
 
 
-def test_get_bundle_udirect(
+def test_route_bundle_udirect(
     data_regression: DataRegressionFixture, check: bool = True, dy=200, angle=270
 ) -> None:
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
@@ -323,8 +325,8 @@ def test_get_bundle_udirect(
             for i in range(N)
         ]
 
-    c = gf.Component(name="test_get_bundle_udirect")
-    routes = get_bundle(
+    c = gf.Component(name="test_route_bundle_udirect")
+    routes = route_bundle(
         ports1,
         ports2,
         bend=gf.components.bend_circular,
@@ -342,7 +344,7 @@ def test_get_bundle_udirect(
 
 
 @pytest.mark.parametrize("angle", [0, 90, 180, 270])
-def test_get_bundle_u_indirect(
+def test_route_bundle_u_indirect(
     data_regression: DataRegressionFixture, angle: int, check: bool = True, dy=-200
 ) -> None:
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
@@ -389,9 +391,9 @@ def test_get_bundle_u_indirect(
             for i in range(N)
         ]
 
-    c = gf.Component(f"test_get_bundle_u_indirect_{angle}_{dy}")
+    c = gf.Component(f"test_route_bundle_u_indirect_{angle}_{dy}")
 
-    routes = get_bundle(
+    routes = route_bundle(
         ports1,
         ports2,
         bend=gf.components.bend_circular,
@@ -436,7 +438,7 @@ def test_facing_ports(
     ]
 
     c = gf.Component("test_facing_ports")
-    routes = get_bundle(ports1, ports2)
+    routes = route_bundle(ports1, ports2)
     lengths = {}
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -447,12 +449,12 @@ def test_facing_ports(
         difftest(c)
 
 
-def test_get_bundle_small() -> None:
+def test_route_bundle_small() -> None:
     c = gf.Component()
     c1 = c << gf.components.mmi2x2()
     c2 = c << gf.components.mmi2x2()
     c2.move((100, 40))
-    routes = get_bundle(
+    routes = route_bundle(
         [c1.ports["o3"], c1.ports["o4"]],
         [c2.ports["o2"], c2.ports["o1"]],
         separation=5.0,
@@ -465,11 +467,11 @@ def test_get_bundle_small() -> None:
 
 
 if __name__ == "__main__":
-    # test_get_bundle(None, check=False)
+    # test_route_bundle(None, check=False)
     # test_connect_corner(config="A", data_regression=None, check=False)
-    # test_get_bundle_udirect(None, check=False)
-    # test_get_bundle_u_indirect(None, check=False, angle=90)
-    # test_get_bundle_u_indirect(None, angle=0, check=False)
+    # test_route_bundle_udirect(None, check=False)
+    # test_route_bundle_u_indirect(None, check=False, angle=90)
+    # test_route_bundle_u_indirect(None, angle=0, check=False)
     # test_facing_ports(None, check=False)
 
     angle = 90
@@ -518,9 +520,9 @@ if __name__ == "__main__":
             for i in range(N)
         ]
 
-    c = gf.Component(f"test_get_bundle_u_indirect_{angle}_{dy}")
+    c = gf.Component(f"test_route_bundle_u_indirect_{angle}_{dy}")
 
-    routes = get_bundle(
+    routes = route_bundle(
         ports1,
         ports2,
         bend=gf.components.bend_circular,

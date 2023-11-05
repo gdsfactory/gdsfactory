@@ -12,7 +12,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
-from gdsfactory.routing.get_route import place_route
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Strs
 
@@ -184,7 +184,7 @@ def route_south(
 
         tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
         ports_to_route.append(tmp_port)
-        route = place_route(c, p, tmp_port, **conn_params)
+        route = route_single(c, p, tmp_port, **conn_params)
         x -= sep
 
     # route first halft of north ports above the top west one
@@ -195,7 +195,7 @@ def route_south(
         y_max = max(p.d.y for p in west_ports + north_start)
         for p in north_start:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
-            route = place_route(
+            route = route_single(
                 component=c,
                 port1=p,
                 port2=tmp_port,
@@ -236,7 +236,7 @@ def route_south(
                     x = x_gr + delta_gr_min
 
         tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
-        route = place_route(
+        route = route_single(
             c,
             p,
             tmp_port,
@@ -254,7 +254,7 @@ def route_south(
         for p in north_finish:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
             ports_to_route.append(tmp_port)
-            route = place_route(
+            route = route_single(
                 c,
                 p,
                 tmp_port,

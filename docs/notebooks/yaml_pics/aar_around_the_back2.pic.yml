@@ -23,7 +23,7 @@ placements:
 
 routes:
     optical:
-        routing_strategy: get_bundle_all_angle
+        routing_strategy: route_bundle_all_angle
         settings:
           start_angle: 90  # exit out of the starting port at this angle
           end_angle: 180  # exit out of the ending port at this angle

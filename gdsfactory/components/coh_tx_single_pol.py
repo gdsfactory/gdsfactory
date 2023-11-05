@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.routing.get_route import get_route
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 default_mzm = dict(
@@ -115,7 +115,7 @@ def coh_tx_single_pol(
     sp.x = mzm_q.xmin - xspacing
     sp.y = (mzm_i.ports["o1"].y + mzm_q.ports["o1"].y) / 2
 
-    route = get_route(
+    route = route_single(
         sp.ports["o2"],
         mzm_i.ports["o1"],
         cross_section=cross_section,
@@ -124,7 +124,7 @@ def coh_tx_single_pol(
     )
     c.add(route.references)
 
-    route = get_route(
+    route = route_single(
         sp.ports["o3"],
         mzm_q.ports["o1"],
         cross_section=cross_section,
@@ -140,7 +140,7 @@ def coh_tx_single_pol(
     comb.x = ps_q.xmax + xspacing
     comb.y = (mzm_i.ports["o2"].y + mzm_q.ports["o2"].y) / 2
 
-    route = get_route(
+    route = route_single(
         comb.ports["o2"],
         ps_i.ports["o2"],
         cross_section=cross_section,
@@ -149,7 +149,7 @@ def coh_tx_single_pol(
     )
     c.add(route.references)
 
-    route = get_route(
+    route = route_single(
         comb.ports["o3"],
         ps_q.ports["o2"],
         cross_section=cross_section,

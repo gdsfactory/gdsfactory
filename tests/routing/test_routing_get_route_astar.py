@@ -4,7 +4,7 @@ import gdsfactory as gf
 
 
 def test_astar_pass() -> None:
-    c = gf.Component("get_route_astar")
+    c = gf.Component("route_single_astar")
     w = gf.components.straight()
     left = c << w
     right = c << w
@@ -19,7 +19,7 @@ def test_astar_pass() -> None:
     port1 = left.ports["o2"]
     port2 = right.ports["o2"]
 
-    route = gf.routing.get_route_astar(
+    route = gf.routing.route_single_astar(
         component=c,
         port1=port1,
         port2=port2,
@@ -49,7 +49,7 @@ def test_astar_pass() -> None:
 #     port2.center = rect2.center + (0, -3)
 #     c.add_ports([port1, port2])
 
-#     route = get_route_astar(c, port1, port2, radius=0.9, width=0.5)
+#     route = route_single_astar(c, port1, port2, radius=0.9, width=0.5)
 #     c.add(route.references)
 #     return c
 

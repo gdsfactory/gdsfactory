@@ -527,7 +527,7 @@ def remove_flat_angles(points: ndarray) -> ndarray:
     return points
 
 
-def get_route_error(
+def route_single_error(
     points,
     cross_section: CrossSection | None = None,
     layer_path: LayerSpec = (208, 0),
@@ -598,7 +598,7 @@ def round_corners(
     mirror_straight: bool = False,
     straight_ports: list[str] | None = None,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
-    on_route_error: Callable = get_route_error,
+    on_route_error: Callable = route_single_error,
     with_point_markers: bool = False,
     with_sbend: bool = False,
     **kwargs,
@@ -905,7 +905,7 @@ def round_corners(
     labels = []
 
     if with_point_markers:
-        route = get_route_error(
+        route = route_single_error(
             points, cross_section=None if multi_cross_section else x
         )
 
@@ -1043,7 +1043,7 @@ if __name__ == "__main__":
     pt = c << s
     pb = c << s
     pt.d.move((50, 50))
-    route = gf.routing.place_route(
+    route = gf.routing.route_single(
         c,
         pb.ports["o2"],
         pt.ports["o1"],

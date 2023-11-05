@@ -11,7 +11,7 @@ from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.straight_pin import straight_pin
-from gdsfactory.routing.get_route import get_route
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -115,7 +115,7 @@ def mzm(
         xs = gf.get_cross_section(cross_section)
         cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 2 * xs.min_length
 
-        route = get_route(
+        route = route_single(
             sxt.ports["o2"],
             cp2.ports[port_e1_combiner],
             straight=straight,
@@ -124,7 +124,7 @@ def mzm(
             with_sbend=False,
         )
         c.add(route.references)
-        route = get_route(
+        route = route_single(
             sxb.ports["o2"],
             cp2.ports[port_e0_combiner],
             straight=straight,

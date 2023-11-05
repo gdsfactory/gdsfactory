@@ -26,7 +26,7 @@ def test_route_error_bundle() -> None:
     p2 = right.get_ports_list(orientation=180)
 
     with pytest.warns(RouteWarning):
-        routes = gf.routing.get_bundle_from_steps(
+        routes = gf.routing.route_bundle_from_steps(
             p1,
             p2,
             steps=[{"x": 300}, {"x": 301}],

@@ -7,7 +7,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 
 
-def test_get_bundle_electrical(
+def test_route_bundle_electrical(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     lengths = {}
@@ -17,7 +17,7 @@ def test_get_bundle_electrical(
     c2 = c << gf.components.pad()
     c2.move((200, 100))
 
-    routes = gf.routing.get_bundle(
+    routes = gf.routing.route_bundle(
         [c1.ports["e3"]],
         [c2.ports["e1"]],
         bend=gf.components.wire_corner,
@@ -29,7 +29,7 @@ def test_get_bundle_electrical(
         c.add(route.references)
         lengths[i] = route.length
 
-    routes = gf.routing.get_bundle(
+    routes = gf.routing.route_bundle(
         [c1.ports["e4"]],
         [c2.ports["e3"]],
         start_straight_length=20.0,
@@ -44,7 +44,7 @@ def test_get_bundle_electrical(
         data_regression.check(lengths)
 
 
-def test_get_bundle_electrical2(
+def test_route_bundle_electrical2(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     lengths = {}
@@ -59,7 +59,7 @@ def test_get_bundle_electrical2(
     pb = c << gf.components.pad_array(orientation=0, columns=1, rows=3)
     pt.move((500, 500))
 
-    routes = gf.routing.get_bundle_from_steps_electrical(
+    routes = gf.routing.route_bundle_from_steps_electrical(
         pt.ports,
         pb.ports,
         end_straight_length=60,
@@ -76,5 +76,5 @@ def test_get_bundle_electrical2(
 
 
 if __name__ == "__main__":
-    # test_get_bundle_electrical(None, check=False)
-    test_get_bundle_electrical2(None, check=False)
+    # test_route_bundle_electrical(None, check=False)
+    test_route_bundle_electrical2(None, check=False)

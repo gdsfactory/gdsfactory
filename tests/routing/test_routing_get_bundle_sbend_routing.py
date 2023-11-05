@@ -5,14 +5,14 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 
 
-def demo_get_bundle_sbend_routing(
+def demo_route_bundle_sbend_routing(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     """FIXME."""
 
     lengths = {}
 
-    c = gf.Component("test_get_bundle_sort_ports")
+    c = gf.Component("test_route_bundle_sort_ports")
     pitch = 2.0
     ys_left = [0, 10, 20]
     N = len(ys_left)
@@ -27,7 +27,7 @@ def demo_get_bundle_sbend_routing(
         for i in range(N)
     ]
     left_ports.reverse()
-    routes = gf.routing.get_bundle(right_ports, left_ports, bend_radius=5)
+    routes = gf.routing.route_bundle(right_ports, left_ports, bend_radius=5)
 
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -38,4 +38,4 @@ def demo_get_bundle_sbend_routing(
 
 
 if __name__ == "__main__":
-    demo_get_bundle_sbend_routing(None, check=False)
+    demo_route_bundle_sbend_routing(None, check=False)

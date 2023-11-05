@@ -31,7 +31,7 @@ def pads_correct(pad=gf.components.pad, cross_section="xs_m3") -> gf.Component:
 
     ports1 = [bl.ports["e3"], tl.ports["e3"]]
     ports2 = [br.ports["e1"], tr.ports["e1"]]
-    routes = gf.routing.get_bundle(ports1, ports2, cross_section=cross_section)
+    routes = gf.routing.route_bundle(ports1, ports2, cross_section=cross_section)
 
     for route in routes:
         c.add(route.references)
@@ -65,12 +65,12 @@ def pads_shorted(pad=gf.components.pad, cross_section="xs_m3") -> gf.Component:
 
     ports1 = [bl.ports["e3"], tl.ports["e3"]]
     ports2 = [br.ports["e1"], tr.ports["e1"]]
-    routes = gf.routing.get_bundle(ports1, ports2, cross_section=cross_section)
+    routes = gf.routing.route_bundle(ports1, ports2, cross_section=cross_section)
 
     for route in routes:
         c.add(route.references)
 
-    route = gf.routing.get_route(
+    route = gf.routing.route_single(
         bl.ports["e2"], tl.ports["e4"], cross_section=cross_section
     )
     c.add(route.references)

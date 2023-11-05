@@ -7,12 +7,12 @@ from gdsfactory.components.straight import straight as _straight
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
-from gdsfactory.routing.get_bundle import (
-    _get_bundle_waypoints,
+from gdsfactory.routing.path_length_matching import path_length_matched_points
+from gdsfactory.routing.route_bundle import (
+    _route_bundle_waypoints,
     compute_ports_max_displacement,
 )
-from gdsfactory.routing.get_route import place_route
-from gdsfactory.routing.path_length_matching import path_length_matched_points
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.typings import (
     ComponentSpec,
@@ -22,14 +22,9 @@ from gdsfactory.typings import (
 )
 
 
-def get_bundle_path_length_match(*args, **kwargs):
-    raise ValueError(
-        "get_bundle_path_length_match is deprecated. Use place_bundle instead"
-    )
-
-
-def place_bundle_path_length_match(
-    component: ComponentSpec,
+def route_bundle_path_length_match(
+    component,
+    component_to_route: ComponentSpec,
     ports1: list[Port],
     ports2: list[Port],
     separation: float = 30.0,
@@ -50,6 +45,7 @@ def place_bundle_path_length_match(
 
     Args:
         component: to add the routes to.
+        component_to_route: component to route.
         ports1: list of ports.
         ports2: list of ports.
         separation: between the loops.
@@ -61,7 +57,7 @@ def place_bundle_path_length_match(
         straight: for straights.
         taper: spec.
         start_straight_length: in um.
-        route_filter: get_route_from_waypoints.
+        route_filter: route_single_from_waypoints.
         sort_ports: sorts ports before routing.
         cross_section: factory.
         kwargs: cross_section settings.
@@ -91,7 +87,7 @@ def place_bundle_path_length_match(
       ports1 = [gf.Port(name=f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer="WG") for i in range(N)]
       ports2 = [gf.Port(name=f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer="WG") for i in range(N)]
 
-      routes = gf.routing.get_bundle_path_length_match(ports1, ports2, extra_length=44)
+      routes = gf.routing.route_bundle_path_length_match(ports1, ports2, extra_length=44)
       for route in routes:
           c.add(route.references)
 
@@ -126,7 +122,7 @@ def place_bundle_path_length_match(
     start_straight_length_dbu = round(start_straight_length / component.kcl.dbu)
     radius_dbu = round(radius / component.kcl.dbu)
 
-    list_of_waypoints = _get_bundle_waypoints(
+    list_of_waypoints = _route_bundle_waypoints(
         ports1=ports1,
         ports2=ports2,
         separation_dbu=separation_dbu,
@@ -145,7 +141,7 @@ def place_bundle_path_length_match(
     )
 
     for port1, port2, waypoints in zip(ports1, ports2, list_of_waypoints):
-        place_route(
+        route_single(
             port1=port1,
             port2=port2,
             waypoints=waypoints,
@@ -166,7 +162,7 @@ if __name__ == "__main__":
     c1.y = 0
     c2.y = 0
 
-    routes = gf.routing.place_bundle_path_length_match(
+    routes = gf.routing.route_bundle_path_length_match(
         component=c,
         ports1=gf.port.get_ports_list(c1.ports, orientation=0),
         ports2=gf.port.get_ports_list(c2.ports, orientation=180),

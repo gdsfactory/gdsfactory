@@ -7,7 +7,7 @@ import gdsfactory as gf
 # from gdsfactory.difftest import difftest
 
 
-def test_get_bundle_all_angle(
+def test_route_bundle_all_angle(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     c = gf.Component()
@@ -19,7 +19,7 @@ def test_get_bundle_all_angle(
     mmi2.move((100, 10))
     mmi2.rotate(30)
 
-    routes = gf.routing.get_bundle_all_angle(
+    routes = gf.routing.route_bundle_all_angle(
         mmi1.get_ports_list(orientation=0),
         [mmi2.ports["o2"], mmi2.ports["o1"]],
         connector=None,
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     mmi2.move((100, 10))
     mmi2.rotate(30)
 
-    routes = gf.routing.get_bundle_all_angle(
+    routes = gf.routing.route_bundle_all_angle(
         mmi1.get_ports_list(orientation=0),
         [mmi2.ports["o2"], mmi2.ports["o1"]],
         connector=None,

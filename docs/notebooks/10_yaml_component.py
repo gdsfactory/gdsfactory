@@ -168,7 +168,7 @@ c.plot()
 # change the position of the `instance_destination`
 
 # %% [markdown]
-# You can define several routes that will be connected using `gf.routing.get_bundle`
+# You can define several routes that will be connected using `gf.routing.route_bundle`
 
 # %%
 filepath = "yaml_pics/routes_mmi.pic.yml"
@@ -350,7 +350,7 @@ placements:
 routes:
 {% for i in range(1, length_mmis|length)%}
     r{{ i }}:
-      routing_strategy: get_bundle_all_angle
+      routing_strategy: route_bundle_all_angle
       links:
         mmi_{{ i-1 }},o2: mmi_{{ i }},o1
 {% endfor %}

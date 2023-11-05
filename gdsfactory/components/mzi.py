@@ -10,7 +10,7 @@ from gdsfactory.components.coupler import coupler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.routing.get_route import place_route
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -152,7 +152,7 @@ def mzi(
     xs = gf.get_cross_section(cross_section)
     cp2.d.xmin = sxt.ports["o2"].d.x + bend.info["radius"] * nbends + 2 * xs.min_length
 
-    place_route(
+    route_single(
         c,
         sxt.ports["o2"],
         cp2.ports[port_e1_combiner],
@@ -160,7 +160,7 @@ def mzi(
         bend=bend_spec,
         cross_section=cross_section,
     )
-    place_route(
+    route_single(
         c,
         sxb.ports["o2"],
         cp2.ports[port_e0_combiner],

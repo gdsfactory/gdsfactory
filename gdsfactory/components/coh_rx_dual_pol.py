@@ -5,7 +5,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coh_rx_single_pol import coh_rx_single_pol
-from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -59,7 +59,7 @@ def coh_rx_dual_pol(
         signal_spl.xmax = single_rx_1.xmin - splitter_coh_rx_spacing
         signal_spl.y = (single_rx_1.y + single_rx_2.y) / 2
 
-        route = get_route(
+        route = route_single(
             signal_spl.ports["o2"],
             single_rx_1.ports["signal_in"],
             bend=bend_spec,
@@ -68,7 +68,7 @@ def coh_rx_dual_pol(
         )
         c.add(route.references)
 
-        route = get_route(
+        route = route_single(
             signal_spl.ports["o3"],
             single_rx_2.ports["signal_in"],
             bend=bend_spec,
@@ -88,23 +88,23 @@ def coh_rx_dual_pol(
             signal_coup.xmax = single_rx_1.xmin - splitter_coh_rx_spacing
             signal_coup.y = (single_rx_1.y + single_rx_2.y) / 2
 
-            route = get_route(
+            route = route_single(
+                c,
                 signal_coup.ports["o1"],
                 single_rx_1.ports["signal_in"],
                 bend=bend_spec,
                 cross_section=cross_section,
                 with_sbend=False,
             )
-            c.add(route.references)
 
-            route = get_route(
+            route = route_single(
+                c,
                 signal_coup.ports["o2"],
                 single_rx_2.ports["signal_in"],
                 bend=bend_spec,
                 cross_section=cross_section,
                 with_sbend=False,
             )
-            c.add(route.references)
 
     # ------------ LO splitter and input coupler ---------------
 
@@ -121,30 +121,36 @@ def coh_rx_dual_pol(
     lo_split.xmax = xlim - splitter_coh_rx_spacing
     lo_split.y = (single_rx_1.y + single_rx_2.y) / 2
 
-    p0x, p0y = lo_split.ports["o2"].center
-    p1x, p1y = single_rx_1.ports["LO_in"].center
+    p0 = lo_split.ports["o2"]
+    p1 = single_rx_1.ports["LO_in"]
 
-    route = get_route_from_waypoints(
-        [
-            (p0x, p0y),
+    p0x, p0y = p0.d.center
+    p1x, p1y = p1.d.center
+
+    route = route_single(
+        c,
+        port1=p0,
+        port2=p1,
+        waypoints=[
             (p0x + splitter_coh_rx_spacing / 4, p0y),
             (p0x + splitter_coh_rx_spacing / 4, p1y),
-            (p1x, p1y),
         ],
         bend=bend_spec,
         cross_section=cross_section,
     )
-    c.add(route.references)
 
-    p0x, p0y = lo_split.ports["o3"].center
-    p1x, p1y = single_rx_2.ports["LO_in"].center
+    p0 = lo_split.ports["o3"]
+    p1 = single_rx_2.ports["LO_in"]
+    p0x, p0y = lo_split.ports["o3"].d.center
+    p1x, p1y = single_rx_2.ports["LO_in"].d.center
 
-    route = get_route_from_waypoints(
-        [
-            (p0x, p0y),
+    route = route_single(
+        c,
+        port1=p0,
+        port2=p1,
+        waypoints=[
             (p0x + splitter_coh_rx_spacing / 4, p0y),
             (p0x + splitter_coh_rx_spacing / 4, p1y),
-            (p1x, p1y),
         ],
         bend=bend_spec,
         cross_section=cross_section,

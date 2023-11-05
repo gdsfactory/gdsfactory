@@ -50,7 +50,7 @@ def make_bundle(
     port1_lookup = {tuple(p.center): p.name for p in ports1}
     port2_lookup = {tuple(p.center): p.name for p in ports2}
     connections_expected = {connection_tuple(p1, p2) for p1, p2 in zip(ports1, ports2)}
-    bundle = gf.routing.get_bundle(ports1, ports2, sort_ports=sort_ports)
+    bundle = gf.routing.route_bundle(ports1, ports2, sort_ports=sort_ports)
 
     for route in bundle:
         c.add(route.references)
