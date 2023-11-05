@@ -498,8 +498,6 @@ def cross_section(
 
 radius_nitride = 20
 radius_rib = 20
-
-# strip = partial(cross_section, add_pins_function_name="add_pins_inside1nm")
 strip = cross_section
 strip_auto_widen = partial(strip, auto_widen=True)
 strip_no_pins = cross_section
