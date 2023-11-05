@@ -171,7 +171,7 @@ def place_route(
     end_straight = round(end_straight_length / dbu)
     start_straight = round(start_straight_length / dbu)
 
-    if p1.port_type == "electrical":
+    if "electrical" in (p1.port_type, p2.port_type):
         return route_elec(
             component,
             p1,
@@ -187,7 +187,7 @@ def place_route(
             w += [kf.kdb.Point(*p2.center)]
             waypoints = w
 
-        if p1.port_type == "electrical":
+        if "electrical" in (p1.port_type, p2.port_type):
             return route_elec(
                 component,
                 p1,
@@ -207,7 +207,7 @@ def place_route(
                 pts=waypoints,
             )
 
-    if p1.port_type == "electrical":
+    if "electrical" in (p1.port_type, p2.port_type):
         return route_elec(
             component,
             p1,
@@ -275,55 +275,35 @@ if __name__ == "__main__":
     # )
     # c.show()
 
-    # c = gf.Component("electrical")
-    # w = gf.components.wire_straight()
-    # left = c << w
-    # right = c << w
-    # right.d.move((100, 80))
+    c = gf.Component("electrical")
+    w = gf.components.wire_straight()
+    left = c << w
+    right = c << w
+    right.d.move((100, 80))
 
-    # obstacle = gf.components.rectangle(size=(100, 10))
-    # obstacle1 = c << obstacle
-    # obstacle2 = c << obstacle
-    # obstacle1.d.ymin = 40
-    # obstacle2.d.xmin = 25
+    obstacle = gf.components.rectangle(size=(100, 10))
+    obstacle1 = c << obstacle
+    obstacle2 = c << obstacle
+    obstacle1.d.ymin = 40
+    obstacle2.d.xmin = 25
 
-    # p0 = left.ports["e2"]
-    # p1 = right.ports["e2"]
-    # p0x, p0y = left.ports["e2"].d.center
-    # p1x, p1y = right.ports["e2"].d.center
-    # o = 10  # vertical offset to overcome bottom obstacle
-    # ytop = 20
+    p0 = left.ports["e2"]
+    p1 = right.ports["e2"]
+    p0x, p0y = left.ports["e2"].d.center
+    p1x, p1y = right.ports["e2"].d.center
+    o = 10  # vertical offset to overcome bottom obstacle
+    ytop = 20
 
-    # r = gf.routing.place_route(
-    #     c,
-    #     p0,
-    #     p1,
-    #     cross_section="xs_metal_routing",
-    #     waypoints=[
-    #         (p0x + o, p0y),
-    #         (p0x + o, ytop),
-    #         (p1x + o, ytop),
-    #         (p1x + o, p1y),
-    #     ],
-    # )
-    # c.show()
-
-    c = gf.Component()
-    ref = c << gf.components.nxn(north=0, south=0, west=1, east=0)
-
-    p2 = gf.Port(
-        name="o2",
-        center=(-11, -6.5),
-        width=0.5,
-        orientation=270,
-        port_type="optical",
-        layer=(1, 0),
-    )
-    gf.routing.place_route(
+    r = gf.routing.place_route(
         c,
-        p2,
-        ref.ports["o1"],
-        cross_section="xs_sc",
+        p0,
+        p1,
+        cross_section="xs_metal_routing",
+        waypoints=[
+            (p0x + o, p0y),
+            (p0x + o, ytop),
+            (p1x + o, ytop),
+            (p1x + o, p1y),
+        ],
     )
-    c.add_port(name="o1", port=p2)
     c.show()

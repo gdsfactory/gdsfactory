@@ -111,14 +111,14 @@ def route_fiber_array(
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
     if port_names is None:
-        optical_ports = list(select_ports(component.ports))
+        ports = list(select_ports(component.ports))
     else:
-        optical_ports = [component.ports[lbl] for lbl in port_names]
+        ports = [component.ports[lbl] for lbl in port_names]
 
-    optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
-    N = len(optical_ports)
+    ports = [p for p in ports if p.name not in excluded_ports]
+    N = len(ports)
 
-    # optical_ports_labels = [p.name for p in optical_ports]
+    # optical_ports_labels = [p.name for p in ports]
     # print(optical_ports_labels)
     if N == 0:
         return [], [], 0
@@ -149,17 +149,17 @@ def route_fiber_array(
     delta_gr_min = 2 * dy + 1
 
     # Get the center along x axis
-    x_c = round(sum(p.d.x for p in optical_ports) / N, 1)
+    x_c = round(sum(p.d.x for p in ports) / N, 1)
 
     # Sort the list of optical ports:
-    direction_ports = direction_ports_from_list_ports(optical_ports)
+    direction_ports = direction_ports_from_list_ports(ports)
     separation = straight_separation
 
-    K = len(optical_ports)
+    K = len(ports)
     K = K + 1 if K % 2 else K
 
     # Set routing type if not specified
-    pxs = [p.x for p in optical_ports]
+    pxs = [p.x for p in ports]
     is_big_component = (
         (K > 2)
         or (max(pxs) - min(pxs) > fiber_spacing - delta_gr_min)

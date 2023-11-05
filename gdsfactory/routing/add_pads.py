@@ -133,7 +133,7 @@ def add_pads_bot(
     )
     component_new.add_ref(component)
 
-    for port in component.ports.values():
+    for port in component.ports:
         if port not in ports:
             component_new.add_port(port.name, port=port)
 
@@ -246,5 +246,5 @@ if __name__ == "__main__":
         layer="M3",
         port_type="electrical",
     )
-    cc = add_pads_top(component=c)
+    cc = add_pads_bot(component=c)
     cc.show()

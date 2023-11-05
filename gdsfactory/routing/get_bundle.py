@@ -392,7 +392,7 @@ def place_bundle_same_axis(
 
     xs = gf.get_cross_section(cross_section, **kwargs)
     radius = xs.radius
-    radius_dbu = round(radius / component.kcl.dbu)
+    radius_dbu = round(radius / component.kcl.dbu) if radius else xs.width
     # for port1, port2 in zip(ports1, ports2):
     #     place_route(
     #         component=component,
