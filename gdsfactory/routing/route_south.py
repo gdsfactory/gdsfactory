@@ -148,7 +148,7 @@ def route_south(
         )
 
     west_ports.reverse()
-    y0 = min(p.y for p in ordered_ports) - dy - 0.5
+    y0 = min(p.d.y for p in ordered_ports) - dy - 0.5
     ports_to_route = []
 
     optical_xs_tmp = [p.d.x for p in ordered_ports]
@@ -178,7 +178,7 @@ def route_south(
     for p in west_ports:
         if io_gratings_lines:
             i_grating = get_index_port_closest_to_x(x, io_gratings_lines[-1])
-            x_gr = io_gratings_lines[-1][i_grating].ports[gc_port_name].x
+            x_gr = io_gratings_lines[-1][i_grating].ports[gc_port_name].d.x
             if abs(x - x_gr) < delta_gr_min:
                 if x > x_gr:
                     x = x_gr
@@ -198,7 +198,6 @@ def route_south(
         y_max = max(p.d.y for p in west_ports + north_start)
         for p in north_start:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
-
             route = place_route(
                 component=c,
                 port1=p,
@@ -232,7 +231,7 @@ def route_south(
     for p in east_ports:
         if io_gratings_lines:
             i_grating = get_index_port_closest_to_x(x, io_gratings_lines[-1])
-            x_gr = io_gratings_lines[-1][i_grating].ports[gc_port_name].x
+            x_gr = io_gratings_lines[-1][i_grating].ports[gc_port_name].d.x
             if abs(x - x_gr) < delta_gr_min:
                 if x < x_gr:
                     x = x_gr
