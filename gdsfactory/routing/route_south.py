@@ -183,6 +183,7 @@ def route_south(
                     x = x_gr - delta_gr_min
 
         tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
+        print(tmp_port.center)
         ports_to_route.append(tmp_port)
         route = place_route(c, p, tmp_port, **conn_params)
         x -= sep
@@ -278,7 +279,7 @@ if __name__ == "__main__":
     layer = (2, 0)
     c = gf.Component()
     component = gf.components.ring_double(layer=layer)
-    component = gf.components.nxn(north=2, south=2, west=2)
+    component = gf.components.nxn(north=0, south=0, west=1, east=0)
     ref = c << component
     r = route_south(c, ref, optical_routing_type=1, start_straight_length=0)
     # print(r.lengths)

@@ -122,7 +122,7 @@ class Port(kf.Port):
         orientation = np.mod(orientation, 360) if orientation else orientation
 
         if cross_section is None and layer is None:
-            warnings.warn("You need to define Port cross_section or layer")
+            raise ValueError("You need to define Port cross_section or layer")
 
         if cross_section is None and width is None:
             raise ValueError("You need Port to define cross_section or width")
