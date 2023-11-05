@@ -35,7 +35,7 @@ from gdsfactory.component_layout import (
 )
 from gdsfactory.component_reference import ComponentReference, SizeInfo
 from gdsfactory.config import CONF, GDSDIR_TEMP, logger
-from gdsfactory.name import clean_name, get_name_short
+from gdsfactory.name import get_name_short
 from gdsfactory.polygon import Polygon
 from gdsfactory.port import (
     Port,
@@ -226,7 +226,6 @@ class Component(_GeometryHelper):
 
     @name.setter
     def name(self, name) -> None:
-        name = clean_name(name)
         if len(name) > self.max_name_length:
             name_short = get_name_short(name, max_name_length=self.max_name_length)
             warnings.warn(
