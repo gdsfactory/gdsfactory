@@ -85,7 +85,6 @@ def place_route_from_steps(
 
     """
     x, y = port1.d.center
-    x2, y2 = port2.d.center
 
     waypoints = []
     steps = steps or []

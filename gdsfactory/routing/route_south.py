@@ -14,7 +14,7 @@ from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_route import place_route
 from gdsfactory.routing.utils import direction_ports_from_list_ports
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Number, Strs
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Strs
 
 
 def route_south(
@@ -22,7 +22,7 @@ def route_south(
     component_to_route: Component | ComponentReference,
     optical_routing_type: int = 1,
     excluded_ports: tuple[str, ...] | None = None,
-    straight_separation: Number = 4.0,
+    straight_separation: float = 4.0,
     io_gratings_lines: list[list[ComponentReference]] | None = None,
     gc_port_name: str = "o1",
     bend: ComponentSpec = bend_euler,
@@ -32,29 +32,27 @@ def route_south(
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = strip,
     start_straight_length: float = 0.5,
-    **kwargs,
 ) -> list[OpticalManhattanRoute]:
     """Places routes to route a component ports to the south.
 
     Args:
         component: top level component to add the routes.
-        component_to_route: component or reference to route.
+        component_to_route: component or reference to route ports to south.
         optical_routing_type: routing heuristic `1` or `2` \
-                `1` uses the component size info to estimate the box size.\
-                `2` only looks at the optical port positions to estimate the size.
+            1: uses the component size info to estimate the box size.\
+            2: only looks at the optical port positions to estimate the size.
         excluded_ports: list of port names to NOT route.
         straight_separation: in um.
         io_gratings_lines: list of ports to which the ports produced by this function will be connected. \
                 Supplying this information helps avoiding straight collisions.
-        gc_port_name: grating coupler port name.
+        gc_port_name: grating coupler port name. Used only if io_gratings_lines is supplied.
         bend: spec.
         straight: spec.
         taper: spec.
         select_ports: function to select_ports.
         port_names: optional port names. Overrides select_ports.
         cross_section: cross_section spec.
-        kwargs: cross_section settings.
-
+        start_straight_length: in um.
 
     Works well if the component looks roughly like a rectangular box with:
         north ports on the north of the box.
@@ -97,7 +95,7 @@ def route_south(
         optical_ports = select_ports(component.ports)
         optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
 
-    bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
+    bend90 = bend(cross_section=cross_section) if callable(bend) else bend
     bend90 = gf.get_component(bend90)
     dy = abs(bend90.info["dy"])
 
@@ -110,7 +108,6 @@ def route_south(
         straight=straight,
         taper=taper,
         cross_section=cross_section,
-        **kwargs,
     )
 
     # Used to avoid crossing between straights in special cases
