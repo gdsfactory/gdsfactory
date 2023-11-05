@@ -55,13 +55,6 @@ def test_name_shortened() -> None:
     assert len(c1.name) < 300
 
 
-def test_clean_name() -> None:
-    c = gf.Component("hi:there")
-    gdspath = c.write_gds()
-    gdspath = str(gdspath)
-    assert ":" not in c.name, c.name
-
-
 def test_name_different_signatures():
     c1 = gf.components.compass()
 

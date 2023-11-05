@@ -4,20 +4,19 @@ import gdsfactory as gf
 
 
 def test_get_route_sbend():
-    c = gf.Component()
+    c = gf.Component("demo_route_sbend")
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
     mmi2.move((100, 50))
     route = gf.routing.get_route_sbend(mmi1.ports["o3"], mmi2.ports["o1"])
     c.add(route.references)
-    c.show()
     assert len(route.references) == 1
     assert route.length > 0
     assert route.ports == (mmi1.ports["o3"], mmi2.ports["o1"])
 
 
 def test_get_route_sbend_custom_factory():
-    c = gf.Component()
+    c = gf.Component("demo_route_sbend_custom_factory")
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
     mmi2.move((100, 50))
@@ -30,7 +29,6 @@ def test_get_route_sbend_custom_factory():
         ),
     )
     c.add(route.references)
-    c.show()
     assert len(route.references) == 1
     assert route.length > 0
     assert route.ports == (mmi1.ports["o3"], mmi2.ports["o1"])

@@ -206,11 +206,10 @@ def cell(
             changed_arg_names = [carg.split("=")[0] for carg in changed_arg_list]
             changed = {k: changed[k] for k in changed_arg_names}
             name = name or name_signature
+            name = get_name_short(name, max_name_length=max_name_length)
 
         else:
             raise ValueError('naming_style must be "default" or "updk"')
-
-        name = get_name_short(name, max_name_length=max_name_length)
 
         decorator = kwargs.pop("decorator", default_decorator)
         # if no decorator is specified, but there is one specified for the active PDK, use the PDK's default decorator
