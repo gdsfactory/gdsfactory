@@ -212,7 +212,7 @@ class _GeometryHelper:
         Args:
             destination : int or float x-coordinate of the bbox center.
         """
-        self.d.center = destination
+        self.x = destination
 
     @property
     def y(self):
@@ -285,24 +285,24 @@ class _GeometryHelper:
         Args:
             destination : int or float y-coordinate of the minimum edge of the bbox.
         """
-        self.move(other=(0, destination), origin=self.bbox[0], axis="y")
+        self.move((0, destination))
 
     @property
     def size(self):
         """Returns the (x, y) size of the bounding box."""
-        bbox = self.dbbox
+        bbox = self.bbox
         return bbox[1] - bbox[0]
 
     @property
     def xsize(self):
         """Returns the horizontal size of the bounding box."""
-        bbox = self.dbbox
+        bbox = self.bbox
         return bbox[1][0] - bbox[0][0]
 
     @property
     def ysize(self):
         """Returns the vertical size of the bounding box."""
-        bbox = self.dbbox
+        bbox = self.bbox
         return bbox[1][1] - bbox[0][1]
 
     def movex(self, origin=0, other=None):
@@ -313,8 +313,8 @@ class _GeometryHelper:
             other: array-like[2], Port, key, or None Destination point of the move.
         """
         if other is None:
-            origin = 0
-        return self.move(origin=(origin, 0), other=(other, 0))
+            pass
+        return self.move((other, 0))
 
     def movey(self, origin=0, other=None):
         """Moves an object by a specified y-distance.
@@ -324,8 +324,8 @@ class _GeometryHelper:
             destination : array-like[2], Port, or key Destination point of the move.
         """
         if other is None:
-            origin = 0
-        return self.move(origin=(0, origin), other=(0, other))
+            pass
+        return self.move((0, other))
 
     def __add__(self, element) -> Group:
         """Adds an element to a Group.
@@ -364,8 +364,7 @@ class Group(_GeometryHelper):
         """Adds an element to the Group.
 
         Args:
-            element: Component, ComponentReference, Port, Polygon,
-                Label, or Group to add.
+            element: Component, Instance, Port, Polygon, Label, or Group to add.
 
         """
         return self.add(element)
@@ -760,5 +759,7 @@ def _simplify(points, tolerance=0):
 
 if __name__ == "__main__":
     import gdsfactory as gf
+
+    # c = gf.c.straight()
 
     c = gf.grid(tuple(gf.components.straight(length=i) for i in range(1, 5)))
