@@ -3,17 +3,9 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.components.mzi import mzi_pin
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
-
-default_mzm = dict(
-    component="mzi",
-    settings=dict(
-        straight_x_top="straight_pin",
-        cross_section_x_top="xs_pin",
-        delta_length=10.0,
-    ),
-)
 
 
 @cell
@@ -25,7 +17,7 @@ def coh_tx_single_pol(
     mzm_ps_spacing: float = 40.0,
     splitter: ComponentSpec = "mmi1x2",
     combiner: ComponentSpec | None = None,
-    mzm: ComponentSpec = default_mzm,
+    mzm: ComponentSpec = mzi_pin,
     mzm_length: float = 200.0,
     with_pads: bool = False,
     xspacing: float = 40.0,
@@ -72,15 +64,12 @@ def coh_tx_single_pol(
     pad_array = dict(component=pad_array, settings=dict(columns=1, rows=1))
 
     c = Component()
-
     mzm_mod_p = gf.get_component(mzm, length_x=mzm_length)
-
     mzm_i = c << mzm_mod_p
     mzm_q = c << mzm_mod_p
 
     # Separate the two mzms so they don't overlap
-    mzm_q.movey(mzm_i.ymin - mzm_y_spacing - mzm_q.ymax)
-
+    mzm_q.d.movey(mzm_i.d.ymin - mzm_y_spacing - mzm_q.d.ymax)
     phase_shifter = gf.get_component(phase_shifter, length=phase_shifter_length)
 
     if balanced_phase_shifters:
@@ -112,51 +101,51 @@ def coh_tx_single_pol(
 
     splitter = gf.get_component(splitter)
     sp = c << splitter
-    sp.x = mzm_q.xmin - xspacing
-    sp.y = (mzm_i.ports["o1"].y + mzm_q.ports["o1"].y) / 2
+    sp.d.x = mzm_q.d.xmin - xspacing
+    sp.d.y = (mzm_i.ports["o1"].d.y + mzm_q.ports["o1"].d.y) / 2
 
-    route = route_single(
+    route_single(
+        c,
         sp.ports["o2"],
         mzm_i.ports["o1"],
         cross_section=cross_section,
         with_sbend=False,
         **kwargs,
     )
-    c.add(route.references)
 
-    route = route_single(
+    route_single(
+        c,
         sp.ports["o3"],
         mzm_q.ports["o1"],
         cross_section=cross_section,
         with_sbend=False,
         **kwargs,
     )
-    c.add(route.references)
 
     combiner = gf.get_component(combiner)
     comb = c << combiner
-    comb.mirror()
+    comb.mirror_x()
 
-    comb.x = ps_q.xmax + xspacing
-    comb.y = (mzm_i.ports["o2"].y + mzm_q.ports["o2"].y) / 2
+    comb.d.x = ps_q.d.xmax + xspacing
+    comb.d.y = (mzm_i.ports["o2"].d.y + mzm_q.ports["o2"].d.y) / 2
 
-    route = route_single(
+    route_single(
+        c,
         comb.ports["o2"],
         ps_i.ports["o2"],
         cross_section=cross_section,
         with_sbend=False,
         **kwargs,
     )
-    c.add(route.references)
 
-    route = route_single(
+    route_single(
+        c,
         comb.ports["o3"],
         ps_q.ports["o2"],
         cross_section=cross_section,
         with_sbend=False,
         **kwargs,
     )
-    c.add(route.references)
 
     if input_coupler is not None:
         # Add input coupler
@@ -175,10 +164,18 @@ def coh_tx_single_pol(
     else:
         c.add_port("o2", port=comb.ports["o1"])
 
-    c.add_ports(ps_i.get_ports_list(port_type="electrical"), prefix="ps_i_")
-    c.add_ports(ps_q.get_ports_list(port_type="electrical"), prefix="ps_q_")
-    c.add_ports(mzm_i.get_ports_list(port_type="electrical"), prefix="mzm_i_")
-    c.add_ports(mzm_q.get_ports_list(port_type="electrical"), prefix="mzm_q_")
+    c.add_ports(
+        gf.port.get_ports_list(ps_i.ports, port_type="electrical"), prefix="ps_i_"
+    )
+    c.add_ports(
+        gf.port.get_ports_list(ps_q.ports, port_type="electrical"), prefix="ps_q_"
+    )
+    c.add_ports(
+        gf.port.get_ports_list(mzm_i.ports, port_type="electrical"), prefix="mzm_i_"
+    )
+    c.add_ports(
+        gf.port.get_ports_list(mzm_q.ports, port_type="electrical"), prefix="mzm_q_"
+    )
     return c
 
 

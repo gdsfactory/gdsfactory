@@ -229,6 +229,10 @@ mzi_coupler = partial(
     combiner=coupler,
 )
 
+mzi_pin = partial(
+    mzi, straight_x_top="straight_pin", cross_section_x_top="xs_pin", delta_length=0.0
+)
+
 
 if __name__ == "__main__":
     c = mzi()
