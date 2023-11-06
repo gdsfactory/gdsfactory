@@ -290,19 +290,19 @@ class _GeometryHelper:
     @property
     def size(self):
         """Returns the (x, y) size of the bounding box."""
-        bbox = self.bbox
+        bbox = self.dbbox
         return bbox[1] - bbox[0]
 
     @property
     def xsize(self):
         """Returns the horizontal size of the bounding box."""
-        bbox = self.bbox
+        bbox = self.dbbox
         return bbox[1][0] - bbox[0][0]
 
     @property
     def ysize(self):
         """Returns the vertical size of the bounding box."""
-        bbox = self.bbox
+        bbox = self.dbbox
         return bbox[1][1] - bbox[0][1]
 
     def movex(self, origin=0, other=None):
@@ -761,17 +761,4 @@ def _simplify(points, tolerance=0):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.Component()
-    # label = c.add_label("hi")
-    # print(c.labels[0])
-    # _demo()
-    # s = Step()
-
-    c = gf.Component("bend")
-    b = c << gf.components.bend_circular(angle=30)
-    s = c << gf.components.straight(length=5)
-    s.connect("o1", b.ports["o2"])
-    p = c.get_polygons(as_shapely_merged=True)
-    c2 = gf.Component()
-    c2.add_polygon(p, layer=(1, 0))
-    c2.show()
+    c = gf.grid(tuple(gf.components.straight(length=i) for i in range(1, 5)))
