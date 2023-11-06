@@ -6,11 +6,12 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.components.pad import pad_array270
 from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_bundle import route_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.typings import ComponentSpec, Float2, Strs
+from gdsfactory.typings import ComponentFactory, ComponentSpec, Float2, Strs
 
 _wire_long = partial(wire_straight, length=200.0)
 
@@ -19,9 +20,8 @@ _wire_long = partial(wire_straight, length=200.0)
 def add_electrical_pads_top_dc(
     component: ComponentSpec = _wire_long,
     spacing: Float2 = (0.0, 100.0),
-    pad_array: ComponentSpec = "pad_array",
+    pad_array: ComponentFactory = pad_array270,
     select_ports: Callable = select_ports_electrical,
-    route_bundle_function: Callable = route_bundle_electrical,
     port_names: Strs | None = None,
     **kwargs,
 ) -> Component:
@@ -61,26 +61,22 @@ def add_electrical_pads_top_dc(
     ports_component = [port.copy() for port in ports_component]
 
     for port in ports_component:
-        port.orientation = 90
+        port.d.angle = 90
 
-    pad_array = gf.get_component(pad_array, columns=len(ports))
+    pad_array = pad_array(columns=len(ports))
     pads = c << pad_array
-    pads.x = cref.x + spacing[0]
-    pads.ymin = cref.ymax + spacing[1]
+    pads.d.x = cref.d.x + spacing[0]
+    pads.d.ymin = cref.d.ymax + spacing[1]
 
-    ports_pads = pads.get_ports_list(orientation=270)
+    ports_pads = gf.port.get_ports_list(pads.ports, orientation=270)
     ports_component = sort_ports_x(ports_component)
     ports_pads = sort_ports_x(ports_pads)
 
-    routes = route_bundle_function(ports_component, ports_pads, **kwargs)
-    for route in routes:
-        c.add(route.references)
+    route_bundle_electrical(c, ports_component, ports_pads, **kwargs)
 
-    c.add_ports(cref.ports)
-
-    # remove electrical ports
-    for port in ports_component:
-        c.ports.pop(port.name)
+    for port in cref.ports:
+        if port not in ports_component:
+            c.add_port(name=port.name, port=port)
 
     for i, port_pad in enumerate(ports_pads):
         c.add_port(port=port_pad, name=f"elec-{component.name}-{i}")

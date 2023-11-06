@@ -29,6 +29,7 @@ def add_pads_bot(
     straight_separation: float | None = None,
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
+    taper: ComponentSpec | None = None,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -48,10 +49,10 @@ def add_pads_bot(
         straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
         pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
+        taper: taper spec.
 
     Keyword Args:
         straight: straight spec.
-        taper: taper spec.
         get_input_label_text_loopback_function: function to get input label test.
         get_input_label_text_function: for labels.
         fanout_length: if None, automatic calculation of fanout length.
@@ -129,6 +130,7 @@ def add_pads_bot(
         port_names=port_names,
         fiber_spacing=pad_spacing,
         optical_routing_type=optical_routing_type,
+        taper=taper,
         **kwargs,
     )
     component_new.add_ref(component)

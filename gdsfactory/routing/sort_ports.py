@@ -14,12 +14,14 @@ def get_port_y(port: Port) -> float:
 
 
 def sort_ports_x(ports: list[Port]) -> list[Port]:
+    ports = list(ports)
     f_key = get_port_x
     ports.sort(key=f_key)
     return ports
 
 
 def sort_ports_y(ports: list[Port]) -> list[Port]:
+    ports = list(ports)
     f_key = get_port_y
     ports.sort(key=f_key)
     return ports

@@ -8,6 +8,7 @@ from gdsfactory.components.pad import pad_array as pad_array_function
 from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
+from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.typings import Callable, ComponentSpec, Float2, LayerSpec, Strs
 
 _wire_long = partial(wire_straight, length=200.0)
@@ -73,24 +74,22 @@ def add_electrical_pads_top(
         pads = c << gf.get_component(
             pad_array, columns=1, rows=len(ports_electrical), orientation=270
         )
-    pads.d.x = ref.x + spacing[0]
-    pads.d.ymin = ref.ymax + spacing[1]
+    pads.d.x = ref.d.x + spacing[0]
+    pads.d.ymin = ref.d.ymax + spacing[1]
 
-    ports_pads = gf.routing.sort_ports.sort_ports_x(pads.ports)
-    ports_component = gf.routing.sort_ports.sort_ports_x(ports_electrical)
+    ports_pads = sort_ports_x(pads.ports)
+    ports_component = sort_ports_x(ports_electrical)
 
     for p1, p2 in zip(ports_component, ports_pads):
         route_quad(c, p1, p2, layer=layer)
 
-    c.add_ports(ref.ports)
-
-    # remove electrical ports
-    for port in ports_electrical:
-        c.ports.pop(port.name)
+    for port in ref.ports:
+        if port not in ports_electrical:
+            c.add_port(name=port.name, port=port)
 
     c.add_ports(pads.ports)
     c.copy_child_info(component)
-    c.auto_rename_ports(prefix_electrical=f"elec-{component.name}-")
+    c.auto_rename_ports()
     return c
 
 
