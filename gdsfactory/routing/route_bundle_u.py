@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from collections.abc import Callable
 from typing import Any
 
 import kfactory as kf
@@ -20,7 +19,7 @@ from gdsfactory.routing.manhattan import (
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.validation import validate_connections
-from gdsfactory.typings import ComponentSpec, Route
+from gdsfactory.typings import Component, ComponentSpec, Route
 
 
 def _groups(
@@ -36,7 +35,7 @@ def _groups(
 
 
 def route_bundle_udirect(
-    component: ComponentSpec,
+    component: Component,
     ports1: list[Port],
     ports2: list[Port],
     separation: float = 5.0,
@@ -111,7 +110,6 @@ def route_bundle_udirect(
         separation=separation,
         start_straight_length=start_straight_length,
         end_straight_offset=end_straight_length,
-        routing_func=generate_manhattan_waypoints,
         bend=bend,
     )
     # if path_length_match_loops:
@@ -161,7 +159,6 @@ def route_bundle_udirect(
 def _route_bundle_udirect_waypoints(
     ports1: list[Port],
     ports2: list[Port],
-    routing_func: Callable = generate_manhattan_waypoints,
     separation: float = 5.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
@@ -174,7 +171,6 @@ def _route_bundle_udirect_waypoints(
     Args:
         ports1: list of start ports.
         ports2: list of end ports.
-        routing_func: filter to apply to the manhattan waypoints
         separation: between straights.
         start_straight_length: in um.
         end_straight_length: in um.
@@ -259,7 +255,7 @@ def _route_bundle_udirect_waypoints(
     straight_len_end = end_straight_length
     straight_len_start = start_straight_length
     for p_start, p_end in zip(group1, end_group1):
-        _c = routing_func(
+        _c = generate_manhattan_waypoints(
             p_start,
             p_end,
             start_straight_length=straight_len_start,
@@ -273,7 +269,7 @@ def _route_bundle_udirect_waypoints(
     straight_len_end = end_straight_length
     straight_len_start = start_straight_length
     for p_start, p_end in zip(group2, end_group2):
-        _c = routing_func(
+        _c = generate_manhattan_waypoints(
             p_start,
             p_end,
             start_straight_length=straight_len_start,
@@ -288,10 +284,9 @@ def _route_bundle_udirect_waypoints(
 
 
 def route_bundle_uindirect(
-    component: ComponentSpec,
+    component: Component,
     ports1: list[Port],
     ports2: list[Port],
-    route_filter: Callable = route_single,
     separation: float = 5.0,
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
@@ -305,8 +300,6 @@ def route_bundle_uindirect(
         component: component to add the routes to.
         ports1: list of start ports.
         ports2: list of end ports.
-        route_filter: filter to apply to the manhattan waypoints
-            e.g `route_single_from_waypoints` for deep etch strip straight
         separation: center to center waveguide spacing.
         extension_length: in um.
         start_straight_length: extends in um.
@@ -365,12 +358,13 @@ def route_bundle_uindirect(
         separation=separation,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
-        routing_func=generate_manhattan_waypoints,
         extension_length=extension_length,
         **routing_params,
     )
 
-    routes = [route_filter(route, **routing_params) for route in routes]
+    routes = [
+        route_single(component, waypoints=route, **routing_params) for route in routes
+    ]
     if enforce_port_ordering:
         routes = validate_connections(_p1, _p2, routes)
     return routes
@@ -379,7 +373,6 @@ def route_bundle_uindirect(
 def _route_bundle_uindirect_waypoints(
     ports1: list[Port],
     ports2: list[Port],
-    routing_func: Callable = generate_manhattan_waypoints,
     separation: float = 5.0,
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
@@ -478,7 +471,6 @@ def _route_bundle_uindirect_waypoints(
     # Do the routing directives to get back to a u_bundle direct case
 
     routing_param = {
-        "routing_func": routing_func,
         "separation": separation,
         **routing_func_params,
     }
@@ -506,7 +498,6 @@ def _route_bundle_uindirect_waypoints(
                     break
 
     # First part
-    # print(group1_route_directives)
     conn1, tmp_ports1 = route_ports_to_side(
         group1,
         group1_route_directives[0],

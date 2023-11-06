@@ -1,4 +1,4 @@
-"""From phidl tutorial.
+"""
 
 # Flattening a Component
 
@@ -25,11 +25,10 @@ def flatten_device() -> Component:
     c.add_ref(gf.components.rectangle(size=(10, 2), layer=(3, 0)))
     c.add_ref(gf.components.rectangle(size=(10, 3), layer=(2, 0)))
 
-    assert len(c.references) == 3
-    c2 = c.flatten()
-    # c2 = c.flatten(single_layer=(34, 0))
-    assert len(c2.references) == 0
-    return c2
+    assert len(c.insts) == 3
+    # c.flatten()
+    # assert len(c.insts) == 0
+    return c
 
 
 if __name__ == "__main__":

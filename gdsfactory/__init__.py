@@ -20,6 +20,7 @@ modules:
 from __future__ import annotations
 from functools import partial
 from toolz import compose
+from aenum import constant  # type: ignore[import-untyped]
 
 import kfactory as kf
 from kfactory.kcell import LayerEnum, kcl, show
@@ -52,6 +53,7 @@ from gdsfactory import add_ports
 from gdsfactory import write_cells
 from gdsfactory import add_pins
 from gdsfactory import technology
+from gdsfactory import routing
 
 from gdsfactory.add_padding import (
     add_padding,
@@ -71,7 +73,6 @@ from gdsfactory.pdk import (
 )
 from gdsfactory.get_factories import get_cells
 from gdsfactory.cross_section import get_cross_sections
-from aenum import constant  # type: ignore[import-untyped]
 
 c = components
 
@@ -82,6 +83,8 @@ __all__ = (
     "ComponentReference",
     "CrossSection",
     "Instance",
+    "LayerEnum",
+    "PATH",
     "Path",
     "Pdk",
     "Port",
@@ -98,6 +101,7 @@ __all__ = (
     "cell_without_validator",
     "components",
     "compose",
+    "constant",
     "cross_section",
     "diff",
     "difftest",
@@ -113,21 +117,19 @@ __all__ = (
     "grid",
     "grid_with_text",
     "import_gds",
+    "kcl",
+    "kdb",
+    "kf",
     "logger",
     "pack",
     "partial",
     "path",
     "port",
     "read",
+    "routing",
     "show",
     "snap",
-    "typings",
     "technology",
+    "typings",
     "write_cells",
-    "PATH",
-    "kf",
-    "kdb",
-    "LayerEnum",
-    "constant",
-    "kcl",
 )

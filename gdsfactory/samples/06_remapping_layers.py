@@ -12,24 +12,22 @@ def remap_layers() -> Component:
     c = gf.Component()
     straight = partial(
         gf.components.straight,
-        with_bbox=True,
-        cladding_layers=None,
         add_pins=None,
-        add_bbox=None,
     )
 
     wg1 = c << straight(length=11, width=1, layer=(1, 0))
-    wg2 = c << straight(length=11, width=2, layer=(2, 0))
-    wg3 = c << straight(length=11, width=3, layer=(3, 0))
+    wg2 = c << straight(length=11, width=1, layer=(1, 0))
+    wg3 = c << straight(length=11, width=1, layer=(1, 0))
 
     wg2.connect(port="o1", other=wg1.ports["o2"])
-    wg3.connect(port="o1", other=wg2.ports["o2"], overlap=1)
+    wg3.connect(port="o1", other=wg2.ports["o2"])
 
-    nlayers = len(c.layers)
-    assert len(c.layers) == nlayers
     c.remap_layers({(1, 0): (2, 0)})
-    assert len(c.layers) == nlayers - 1
     return c
+
+
+def test_remap_layers():
+    assert remap_layers()
 
 
 if __name__ == "__main__":

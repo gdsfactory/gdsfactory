@@ -34,7 +34,7 @@ def route_ports_to_side(
     x: float | None = None,
     y: float | None = None,
     **kwargs,
-) -> list[OpticalManhattanRoute]:
+) -> tuple[list[OpticalManhattanRoute], list[kf.Port]]:
     """Routes ports to a given side.
 
     Args:
@@ -124,7 +124,7 @@ def route_ports_to_x(
     dx_start: float | None = None,
     dy_start: float | None = None,
     **routing_func_args,
-) -> list[OpticalManhattanRoute]:
+) -> tuple[list[OpticalManhattanRoute], list[kf.Port]]:
     """Returns route to x.
 
     Args:
@@ -314,8 +314,7 @@ def route_ports_to_x(
         y_optical_bot -= separation
         start_straight_length += separation
 
-    c.add_ports(ports)
-    return routes
+    return routes, ports
 
 
 def route_ports_to_y(
@@ -334,7 +333,7 @@ def route_ports_to_y(
     dx_start: float | None = None,
     dy_start: float | None = None,
     **routing_func_args: dict[Any, Any],
-) -> list[OpticalManhattanRoute]:
+) -> tuple[list[OpticalManhattanRoute], list[kf.Port]]:
     """
     Args:
         component: component to route.
@@ -523,8 +522,7 @@ def route_ports_to_y(
         x_optical_left -= separation
         start_straight_length_section += separation
 
-    c.add_ports(ports)
-    return routes
+    return routes, ports
 
 
 if __name__ == "__main__":
