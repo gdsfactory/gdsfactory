@@ -40,7 +40,7 @@ def clear_cache() -> None:
     """Clears Component CACHE."""
     global CACHE
 
-    CACHE = {}
+    CACHE.clear()
     name_counters.clear()
 
 
@@ -216,7 +216,7 @@ def cell(
         if decorator is None and active_pdk.default_decorator is not None:
             decorator = active_pdk.default_decorator
 
-        if cache and name in CACHE:
+        if cache and name in CACHE and not get_child_name:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
 
@@ -254,16 +254,24 @@ def cell(
                 "make sure that functions with @cell decorator return a Component",
             )
 
-        if get_child_name and metadata_child:
+        if get_child_name:
+            if metadata_child is None:
+                raise ValueError(
+                    f"{name}: get_child_name was defined, but component has no child! Be sure to assign the component a child attribute."
+                )
             component_name = f"{metadata_child.get('name')}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length
             )
+            if cache and component_name in CACHE:
+                return CACHE[component_name]
         else:
             component_name = name
 
         if autoname:
-            component.name = component_name
+            component.rename(
+                component_name, cache=cache, max_name_length=max_name_length
+            )
 
         info = info or {}
         component.info.update(**info)
@@ -287,8 +295,8 @@ def cell(
             component = component_new or component
 
         component.lock()
-        CACHE[name] = component
-        CACHE_IDS.add(id(component))
+        if cache:
+            CACHE_IDS.add(id(component))
         return component
 
     return (

@@ -171,12 +171,11 @@ class Component(_GeometryHelper):
         """Initialize the Component object."""
 
         self.uid = str(uuid.uuid4())[:8]
-        self.max_name_length = max_name_length or CONF.max_name_length
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
         self._cell = gdstk.Cell("Unnamed")
-        self.name = name
+        self.rename(name, max_name_length=max_name_length)
         self.info: dict[str, Any] = {}
 
         self.settings: dict[str, Any] = {}
@@ -226,18 +225,33 @@ class Component(_GeometryHelper):
 
     @name.setter
     def name(self, name) -> None:
-        if len(name) > self.max_name_length:
-            name_short = get_name_short(name, max_name_length=self.max_name_length)
+        self.rename(name)
+
+    def rename(self, name: str, cache: bool = True, max_name_length: int | None = None):
+        from gdsfactory.cell import CACHE, remove_from_cache
+
+        if max_name_length is None:
+            max_name_length = CONF.max_name_length
+
+        if len(name) > max_name_length:
+            name_short = get_name_short(name, max_name_length=max_name_length)
             warnings.warn(
-                f" {name} is too long. Max length is {self.max_name_length}. Renaming to {name_short}",
+                f" {name} is too long. Max length is {max_name_length}. Renaming to {name_short}",
                 stacklevel=2,
             )
             name = name_short
 
         if self.name != name:
-            name_counters[name] += 1
-            if name_counters[name] > 1:
-                name = f"{name}${name_counters[name]-1}"
+            # remove the old name from the cache, if it exists
+            if self.name in CACHE:
+                remove_from_cache(self.name)
+
+            # cache the new name and add to counter if specified
+            if cache is True:
+                name_counters[name] += 1
+                if name_counters[name] > 1:
+                    name = f"{name}${name_counters[name]-1}"
+                CACHE[name] = self
 
         self._cell.name = name
 
