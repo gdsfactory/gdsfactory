@@ -25,46 +25,7 @@ instances:
                 length_x: 1
                 radius: 20
             fanout_length: 200
-          child:
-            changed:
-              length_x: 1
-              radius: 20
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 1
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 20
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x1_radius20
+          child: null
           default:
             component:
               function: straight
@@ -130,46 +91,7 @@ instances:
                 length_x: 1
                 radius: 30
             fanout_length: 200
-          child:
-            changed:
-              length_x: 1
-              radius: 30
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 1
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 30
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x1_radius30
+          child: null
           default:
             component:
               function: straight
@@ -235,46 +157,7 @@ instances:
                 length_x: 1
                 radius: 40
             fanout_length: 200
-          child:
-            changed:
-              length_x: 1
-              radius: 40
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 1
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 40
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x1_radius40
+          child: null
           default:
             component:
               function: straight
@@ -340,46 +223,7 @@ instances:
                 length_x: 1
                 radius: 50
             fanout_length: 200
-          child:
-            changed:
-              length_x: 1
-              radius: 50
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 1
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 50
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x1_radius50
+          child: null
           default:
             component:
               function: straight
@@ -445,46 +289,7 @@ instances:
                 length_x: 2
                 radius: 20
             fanout_length: 200
-          child:
-            changed:
-              length_x: 2
-              radius: 20
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 2
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 20
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x2_radius20
+          child: null
           default:
             component:
               function: straight
@@ -550,46 +355,7 @@ instances:
                 length_x: 2
                 radius: 30
             fanout_length: 200
-          child:
-            changed:
-              length_x: 2
-              radius: 30
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 2
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 30
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x2_radius30
+          child: null
           default:
             component:
               function: straight
@@ -655,46 +421,7 @@ instances:
                 length_x: 2
                 radius: 40
             fanout_length: 200
-          child:
-            changed:
-              length_x: 2
-              radius: 40
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 2
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 40
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x2_radius40
+          child: null
           default:
             component:
               function: straight
@@ -760,46 +487,7 @@ instances:
                 length_x: 2
                 radius: 50
             fanout_length: 200
-          child:
-            changed:
-              length_x: 2
-              radius: 50
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 2
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 50
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x2_radius50
+          child: null
           default:
             component:
               function: straight
@@ -865,46 +553,7 @@ instances:
                 length_x: 3
                 radius: 20
             fanout_length: 200
-          child:
-            changed:
-              length_x: 3
-              radius: 20
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 3
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 20
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x3_radius20
+          child: null
           default:
             component:
               function: straight
@@ -970,46 +619,7 @@ instances:
                 length_x: 3
                 radius: 30
             fanout_length: 200
-          child:
-            changed:
-              length_x: 3
-              radius: 30
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 3
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 30
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x3_radius30
+          child: null
           default:
             component:
               function: straight
@@ -1075,46 +685,7 @@ instances:
                 length_x: 3
                 radius: 40
             fanout_length: 200
-          child:
-            changed:
-              length_x: 3
-              radius: 40
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 3
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 40
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x3_radius40
+          child: null
           default:
             component:
               function: straight
@@ -1180,46 +751,7 @@ instances:
                 length_x: 3
                 radius: 50
             fanout_length: 200
-          child:
-            changed:
-              length_x: 3
-              radius: 50
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              bend_coupler:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: xs_sc
-              gap: 0.2
-              length_x: 3
-              length_y: 0.6
-              pass_cross_section_to_bend: true
-              radius: 50
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x3_radius50
+          child: null
           default:
             component:
               function: straight

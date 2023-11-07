@@ -27,9 +27,11 @@ class CellReturnTypeError(ValueError):
     pass
 
 
-def remove_from_cache(name: str) -> None:
-    """Removes Component from CACHE."""
-    global CACHE
+def remove_from_cache(name: str | Component) -> None:
+    """Removes Component name from CACHE and resets the name counter."""
+
+    if not isinstance(name, str):
+        name = name.name
 
     if name in CACHE:
         del CACHE[name]
@@ -37,10 +39,9 @@ def remove_from_cache(name: str) -> None:
 
 
 def clear_cache() -> None:
-    """Clears Component CACHE."""
-    global CACHE
+    """Clears Component CACHE and reset the name counters."""
 
-    CACHE = {}
+    CACHE.clear()
     name_counters.clear()
 
 
@@ -80,6 +81,7 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
+    cache: bool = True,
 ) -> Callable[[_F], _F]:
     """Parametrized Decorator for Component functions.
 
@@ -137,7 +139,6 @@ def cell(
         active_pdk = get_active_pdk()
 
         info = kwargs.pop("info", {})  # TODO: remove info
-        cache = kwargs.pop("cache", True)  # TODO: remove cache
         name = kwargs.pop("name", None)  # TODO: remove name
         prefix = kwargs.pop("prefix", func.__name__)  # TODO: remove prefix
         sig = inspect.signature(func)
@@ -206,11 +207,11 @@ def cell(
             changed_arg_names = [carg.split("=")[0] for carg in changed_arg_list]
             changed = {k: changed[k] for k in changed_arg_names}
             name = name or name_signature
-            name = get_name_short(name, max_name_length=max_name_length)
 
         else:
             raise ValueError('naming_style must be "default" or "updk"')
 
+        name = get_name_short(name, max_name_length=max_name_length)
         decorator = kwargs.pop("decorator", default_decorator)
         # if no decorator is specified, but there is one specified for the active PDK, use the PDK's default decorator
         if decorator is None and active_pdk.default_decorator is not None:
@@ -219,6 +220,8 @@ def cell(
         if cache and name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
+        elif name in CACHE:
+            remove_from_cache(name)
 
         # print(f"BUILD {name} {func.__name__}({named_args_string})")
         if not callable(func):
@@ -244,18 +247,14 @@ def cell(
         if id(component) in CACHE_IDS:
             component = component.copy()
 
-        metadata_child = (
-            dict(component.child.settings) if hasattr(component, "child") else None
-        )
-
         if not isinstance(component, Component):
             raise CellReturnTypeError(
                 f"function {func.__name__!r} return type = {type(component)}",
                 "make sure that functions with @cell decorator return a Component",
             )
 
-        if get_child_name and metadata_child:
-            component_name = f"{metadata_child.get('name')}_{name}"
+        if get_child_name and hasattr(component, "child"):
+            component_name = f"{component.child.name}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length
             )
@@ -276,7 +275,6 @@ def cell(
                 default=clean_dict(default),
                 full=clean_dict(full),
                 info=component.info,
-                child=metadata_child if metadata_child else None,
             )
             component.__doc__ = func.__doc__
 
@@ -308,6 +306,7 @@ def cell(
             add_settings=add_settings,
             validate=validate,
             get_child_name=get_child_name,
+            cache=cache,
         )
     )
 

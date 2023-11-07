@@ -73,6 +73,7 @@ def text_rectangular(
     return c
 
 
+@gf.cell
 def text_rectangular_multi_layer(
     text: str = "abcd",
     layers: LayerSpecs = ("WG", "M1", "M2", "MTOP"),

@@ -80,38 +80,7 @@ settings:
         gap: 0.2
         length: 5.99
     optical_routing_type: 0
-  child:
-    changed:
-      gap: 0.2
-      length: 5.99
-    child: null
-    default:
-      coupler_straight:
-        function: coupler_straight
-      coupler_symmetric:
-        function: coupler_symmetric
-      cross_section: xs_sc
-      dx: 10.0
-      dy: 4.0
-      gap: 0.236
-      length: 20.0
-    full:
-      coupler_straight:
-        function: coupler_straight
-      coupler_symmetric:
-        function: coupler_symmetric
-      cross_section: xs_sc
-      dx: 10.0
-      dy: 4.0
-      gap: 0.2
-      length: 5.99
-    function_name: coupler
-    info:
-      length: 10.19
-      min_bend_radius: 11.744
-    info_version: 2
-    module: gdsfactory.components.coupler
-    name: coupler_gap0p2_length5p99
+  child: null
   default:
     component:
       function: straight

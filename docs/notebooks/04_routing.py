@@ -520,7 +520,7 @@ def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
     return top_cell
 
 
-c = test_connect_bundle_udirect(cache=False)
+c = test_connect_bundle_udirect()
 c.plot()
 
 

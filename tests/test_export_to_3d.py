@@ -67,6 +67,5 @@ if __name__ == "__main__":
     # test_invisible_layers()
     # c = gf.components.rectangle(layer=(0,0))
     # to_3d(c, layer_views=None, layer_stack=None)
-    c = gf.components.rectangle()
-    layer_stack = get_layer_stack()
-    to_3d(c, layer_stack=layer_stack)
+    c = gf.components.rectangle(layer=(1, 0))
+    to_3d(c)

@@ -1,5 +1,3 @@
-import json
-
 import gdsfactory as gf
 from gdsfactory.components.grating_coupler_elliptical import (
     grating_coupler_elliptical_te,
@@ -118,13 +116,12 @@ def add_fiber_array_optical_south_electrical_north(
 
 
 if __name__ == "__main__":
-    gf.config.rich_output()
     c = add_fiber_array_optical_south_electrical_north(
-        measurement_settings={"wavelength_min": 1550}
+        info=dict(measurement_settings={"wavelength_min": 1550})
     )
 
-    d = json.loads(c.labels[0].text)
-    print(d)
+    # d = json.loads(c.labels[0].text)
+    # print(d)
     # import gdsfactory as gf
     # from functools import partial
 
@@ -140,4 +137,5 @@ if __name__ == "__main__":
     #     electrical_port_names=["l_e2", "r_e2"],
     #     npads=5,
     # )
+    print(c.name)
     c.show(show_ports=False)

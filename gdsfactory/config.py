@@ -334,12 +334,14 @@ def get_git_hash():
 
 
 def enable_off_grid_ports() -> None:
+    """Ignore off grid port warnings."""
     CONF.enforce_ports_on_grid = False
     CONF.ports_off_grid = "ignore"
     CONF.ports_not_manhattan = "ignore"
 
 
 def disable_off_grid_ports(error_type: str = "warn") -> None:
+    """Enable off grid port warnings."""
     CONF.enforce_ports_on_grid = True
     CONF.ports_off_grid = error_type
     CONF.ports_not_manhattan = error_type
