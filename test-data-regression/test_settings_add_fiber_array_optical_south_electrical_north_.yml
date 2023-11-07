@@ -1,4 +1,4 @@
-name: mzi_7a18d033_add_fiber_array_889fae23_add_fiber_array_optical_south_electrical_north
+name: add_fiber_array_optical_south_electrical_north
 ports:
   e4_1_1:
     center:
@@ -74,131 +74,7 @@ ports:
     width: 0.5
 settings:
   changed: {}
-  child:
-    changed:
-      component:
-        component: mzi
-        settings:
-          length_x: 200
-          straight_x_top: straight_heater_metal
-      fiber_spacing: 127.0
-      grating_coupler:
-        function: grating_coupler_elliptical
-      with_loopback: true
-    child:
-      changed:
-        length_x: 200
-        straight_x_top: straight_heater_metal
-      child: null
-      default:
-        add_electrical_ports_bot: true
-        add_optical_ports_arms: false
-        bend:
-          function: bend_euler
-        combiner: null
-        cross_section: xs_sc
-        cross_section_x_bot: null
-        cross_section_x_top: null
-        delta_length: 10.0
-        length_x: 0.1
-        length_y: 2.0
-        mirror_bot: false
-        nbends: 2
-        port_e0_combiner: o3
-        port_e0_splitter: o3
-        port_e1_combiner: o2
-        port_e1_splitter: o2
-        splitter: mmi1x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top: null
-        straight_y: null
-        with_splitter: true
-      full:
-        add_electrical_ports_bot: true
-        add_optical_ports_arms: false
-        bend:
-          function: bend_euler
-        combiner: null
-        cross_section: xs_sc
-        cross_section_x_bot: null
-        cross_section_x_top: null
-        delta_length: 10.0
-        length_x: 200
-        length_y: 2.0
-        mirror_bot: false
-        nbends: 2
-        port_e0_combiner: o3
-        port_e0_splitter: o3
-        port_e1_combiner: o2
-        port_e1_splitter: o2
-        splitter: mmi1x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top: straight_heater_metal
-        straight_y: null
-        with_splitter: true
-      function_name: mzi
-      info: {}
-      info_version: 2
-      module: gdsfactory.components.mzi
-      name: mzi_7a18d033
-    default:
-      component:
-        function: straight
-      component_name: null
-      cross_section: xs_sc
-      gc_port_labels: null
-      gc_port_name: o1
-      get_input_labels_function:
-        function: get_input_labels
-        settings:
-          get_input_label_text_function:
-            function: get_input_label_text_dash
-      grating_coupler:
-        function: grating_coupler_elliptical_trenches
-        settings:
-          polarization: te
-          taper_angle: 35
-      layer_label: null
-      select_ports:
-        function: select_ports
-        settings:
-          port_type: optical
-    full:
-      component:
-        component: mzi
-        settings:
-          length_x: 200
-          straight_x_top: straight_heater_metal
-      component_name: null
-      cross_section: xs_sc
-      fiber_spacing: 127.0
-      gc_port_labels: null
-      gc_port_name: o1
-      get_input_labels_function:
-        function: get_input_labels
-        settings:
-          get_input_label_text_function:
-            function: get_input_label_text_dash
-      grating_coupler:
-        function: grating_coupler_elliptical
-      layer_label: null
-      select_ports:
-        function: select_ports
-        settings:
-          port_type: optical
-      with_loopback: true
-    function_name: add_fiber_array
-    info:
-      grating_coupler:
-        polarization: te
-        wavelength: 1.554
-    info_version: 2
-    module: gdsfactory.routing.add_fiber_array
-    name: mzi_7a18d033_add_fiber_array_889fae23
+  child: null
   default:
     component:
       function: mzi
@@ -250,4 +126,4 @@ settings:
       wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.add_fiber_array_optical_south_electrical_north
-  name: mzi_7a18d033_add_fiber_array_889fae23_add_fiber_array_optical_south_electrical_north
+  name: add_fiber_array_optical_south_electrical_north

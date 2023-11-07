@@ -3,6 +3,7 @@ from __future__ import annotations
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
+import gdsfactory as gf
 from gdsfactory.components import cells
 from gdsfactory.config import PATH
 from gdsfactory.difftest import difftest
@@ -25,6 +26,8 @@ skip_test = {
 
 
 cells_to_test = set(cells.keys()) - skip_test
+
+gf.clear_cache()
 
 
 @pytest.fixture(params=cells_to_test, scope="function")
