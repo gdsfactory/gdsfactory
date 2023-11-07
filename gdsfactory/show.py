@@ -4,6 +4,7 @@ import pathlib
 
 from gdsfactory import klive
 from gdsfactory.component import Component
+from gdsfactory.config import CONF
 
 
 def show(
@@ -35,9 +36,15 @@ def show(
             "Component is None, make sure that your function returns the component"
         )
 
-    elif hasattr(component, "write_oas"):
+    elif hasattr(component, "write_oas") and CONF.default_show_suffix == ".oas":
         # don't raise warnings for uncached cells when simply showing
         gdspath = component.write_oas(
+            logging=False, on_uncached_component="ignore", **kwargs
+        )
+        klive.show(gdspath, technology=technology)
+    elif hasattr(component, "write_gds") and CONF.default_show_suffix == ".gds":
+        # don't raise warnings for uncached cells when simply showing
+        gdspath = component.write_gds(
             logging=False, on_uncached_component="ignore", **kwargs
         )
         klive.show(gdspath, technology=technology)
