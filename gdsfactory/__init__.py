@@ -26,7 +26,12 @@ from gdsfactory.path import Path
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.config import CONF, call_if_func, PATH, logger
 from gdsfactory.port import Port
-from gdsfactory.cell import cell, cell_without_validator, cell_with_child
+from gdsfactory.cell import (
+    cell,
+    cell_without_validator,
+    cell_with_child,
+    remove_from_cache,
+)
 from gdsfactory.cell import clear_cache
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
@@ -137,5 +142,6 @@ __all__ = (
     "typings",
     "technology",
     "write_cells",
+    "remove_from_cache",
     "PATH",
 )

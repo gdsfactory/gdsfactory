@@ -219,6 +219,8 @@ def cell(
         if cache and name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
+        elif name in CACHE:
+            remove_from_cache(name)
 
         # print(f"BUILD {name} {func.__name__}({named_args_string})")
         if not callable(func):
