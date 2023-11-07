@@ -10,7 +10,7 @@ from typing import Any, TypeVar
 
 from pydantic import BaseModel, validate_call
 
-from gdsfactory.component import Component, name_counters
+from gdsfactory.component import Component
 from gdsfactory.config import CONF
 from gdsfactory.name import clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
@@ -30,6 +30,7 @@ class CellReturnTypeError(ValueError):
 def remove_from_cache(name: str) -> None:
     """Removes Component from CACHE."""
     global CACHE
+    global name_counters
 
     if name in CACHE:
         del CACHE[name]
@@ -39,8 +40,9 @@ def remove_from_cache(name: str) -> None:
 def clear_cache() -> None:
     """Clears Component CACHE."""
     global CACHE
+    global name_counters
 
-    CACHE = {}
+    CACHE.clear()
     name_counters.clear()
 
 

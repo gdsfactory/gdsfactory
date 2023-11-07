@@ -8,18 +8,6 @@ from gdsfactory.pdk import get_active_pdk
 
 pytestmark = pytest.mark.filterwarnings("ignore:Port")
 
-
-@pytest.fixture(autouse=True)
-def setup_and_teardown():
-    # Setup: Code before the yield is the setup code
-    gf.config.enable_off_grid_ports()
-
-    yield  # This is where the test function gets executed
-
-    # Teardown: Code after the yield is the teardown code
-    gf.config.disable_off_grid_ports()
-
-
 AAR_YAML_PICS = aar_samples.get_yaml_pics()
 
 cells_to_test = [
@@ -49,6 +37,7 @@ def test_gds(component_name: str) -> None:
     get_active_pdk().gds_write_settings.flatten_invalid_refs = True
 
     try:
+        gf.config.enable_off_grid_ports()
         component = AAR_YAML_PICS[component_name]()
         difftest(component, test_name=component_name)
     finally:
@@ -56,6 +45,7 @@ def test_gds(component_name: str) -> None:
         get_active_pdk().gds_write_settings.flatten_invalid_refs = (
             flatten_invalid_refs_default
         )
+        gf.config.disable_off_grid_ports()
 
 
 def test_bad_cells_throw_errors(bad_component_name):
@@ -66,8 +56,10 @@ def test_bad_cells_throw_errors(bad_component_name):
 
 def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
+    gf.config.enable_off_grid_ports()
     component = AAR_YAML_PICS[component_name]()
     data_regression.check(component.to_dict())
+    gf.config.disable_off_grid_ports()
 
 
 if __name__ == "__main__":

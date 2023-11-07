@@ -104,6 +104,7 @@ def diff(
         refdiff = KCell(f"{test_name}_old")
         rundiff = KCell(f"{test_name}_new")
 
+        # TODO: add suffix new and old
         refdiff.copy_tree(ref._kdb_cell)
         rundiff.copy_tree(run._kdb_cell)
         _ = c << refdiff
