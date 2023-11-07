@@ -67,11 +67,10 @@ def rectangle_with_slits(
     columns = np.floor((size[0] - 2 * slit_enclosure) / slit_spacing[0])
     rows = np.floor((size[1] - 2 * slit_enclosure) / slit_spacing[1])
     slits = array(slit, columns=columns, rows=rows, spacing=slit_spacing).ref()
-    slits.xmin = slit_enclosure
-    slits.ymin = slit_enclosure
+    slits.center = r.center
 
     if layer_slit:
-        c << r
+        _ = c << r
         c.add(slits)
     else:
         r_with_slits = c << gf.geometry.boolean(r, slits, operation="not", layer=layer)
@@ -81,5 +80,5 @@ def rectangle_with_slits(
 
 if __name__ == "__main__":
     # c = rectangle_with_slits(layer_slit=None)
-    c = rectangle_with_slits(layer_slit=(2, 0), slit_size=(10, 10))
+    c = rectangle_with_slits(layer_slit=(2, 0), slit_size=(10, 10), centered=True)
     c.show(show_ports=True)
