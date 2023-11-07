@@ -27,6 +27,7 @@ def straight(
         width: width to use. Defaults to cross_section.width.
         add_pins: add pins to the component.
         cross_section: specification (CrossSection, string or dict).
+        add_bbox: add bounding box to the component.
 
     .. code::
 
@@ -62,9 +63,14 @@ def straight(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    xs = gf.cross_section.pn()
-    xs = xs.mirror()
-    c = straight(cross_section=xs, info=dict(simulation="eme"))
-    # c = straight()
-    print(c.info["simulation"])
+    # xs = gf.cross_section.pn()
+    # xs = xs.mirror()
+    # c = straight(cross_section=xs, info=dict(simulation="eme"))
+    # print(c.info["simulation"])
+    c = straight()
+    c.show()
+    print(c.bbox)
+    # c._repr_html_()
+    # c.show()
     c.show(show_ports=True)
+    print(c.bbox)
