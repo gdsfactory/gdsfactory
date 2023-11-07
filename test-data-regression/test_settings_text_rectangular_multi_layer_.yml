@@ -1,37 +1,28 @@
-name: text_rectangular_layerMTOP_copy_layers_716caf76
+name: text_rectangular_multi_layer
 ports: {}
 settings:
-  changed:
-    factory:
-      function: text_rectangular
-      settings:
-        text: abcd
-    layers:
-    - WG
-    - M1
-    - M2
-    - MTOP
+  changed: {}
   child: null
   default:
-    factory:
-      function: cross
-    layers:
-    - - 1
-      - 0
-    - - 2
-      - 0
-  full:
-    factory:
-      function: text_rectangular
-      settings:
-        text: abcd
     layers:
     - WG
     - M1
     - M2
     - MTOP
-  function_name: copy_layers
+    text: abcd
+    text_factory:
+      function: text_rectangular
+  full:
+    layers:
+    - WG
+    - M1
+    - M2
+    - MTOP
+    text: abcd
+    text_factory:
+      function: text_rectangular
+  function_name: text_rectangular_multi_layer
   info: {}
   info_version: 2
-  module: gdsfactory.components.copy_layers
-  name: text_rectangular_layerMTOP_copy_layers_716caf76
+  module: gdsfactory.components.text_rectangular
+  name: text_rectangular_multi_layer
