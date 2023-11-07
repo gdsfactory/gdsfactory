@@ -223,6 +223,7 @@ class Settings(BaseSettings):
     on_type_missmatch: Literal["warn", "error", "ignore"] = Field(
         default="warn", description="When connecting ports with different types."
     )
+    default_show_suffix: Literal[".oas", ".gds"] = ".gds"
 
     @classmethod
     def from_config(cls) -> Settings:
