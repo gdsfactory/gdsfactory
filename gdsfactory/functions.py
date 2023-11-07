@@ -262,13 +262,14 @@ def add_settings_label(
 
 
 def add_marker_layer(
-    marker_layer: LayerSpec, *, flatten: bool = False
+    marker_layer: LayerSpec, *, marker_label: str | None = None, flatten: bool = False
 ) -> Callable[[ComponentFactory], ComponentFactory]:
     """Creates a new :class:`~ComponentFactory` with a marker layer from the convex hull of the input :class:`~ComponentFactory`.
     May be used as a decorator.
 
     Args:
         marker_layer: The marker layer for LVS.
+        marker_label: An optional text label to add to the marker layer.
         flatten: Whether to flatten the component. Should be done only for elementary components.
 
     Returns:
@@ -282,7 +283,7 @@ def add_marker_layer(
             component: The input function creating a component.
         """
 
-        @cell_with_child
+        @cell_with_child(cache=False)
         @wraps(component)
         def wrapper(*args, **kwargs) -> Component:
             """Wrapper container for ``component``.
@@ -305,10 +306,18 @@ def add_marker_layer(
                 component, **kwargs
             )
             component_new.info = component_old.info
-            component_new.add_polygon(
-                ref.get_polygons(as_shapely_merged=True), layer=marker_layer
-            )
+            polygon_new = ref.get_polygons(as_shapely_merged=True)
+            component_new.add_polygon(polygon_new, layer=marker_layer)
             component_new.add_ports(ref.ports)
+            if marker_label:
+                component_new.add_label(
+                    marker_label,
+                    position=(
+                        (point := polygon_new.representative_point()).x,
+                        point.y,
+                    ),
+                    layer=marker_layer,
+                )
             return component_new.flatten() if flatten else component_new
 
         return wrapper
