@@ -244,18 +244,14 @@ def cell(
         if id(component) in CACHE_IDS:
             component = component.copy()
 
-        metadata_child = (
-            dict(component.child.settings) if hasattr(component, "child") else None
-        )
-
         if not isinstance(component, Component):
             raise CellReturnTypeError(
                 f"function {func.__name__!r} return type = {type(component)}",
                 "make sure that functions with @cell decorator return a Component",
             )
 
-        if get_child_name and metadata_child:
-            component_name = f"{metadata_child.get('name')}_{name}"
+        if get_child_name and hasattr(component, "child"):
+            component_name = f"{component.child.name}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length
             )
@@ -276,7 +272,6 @@ def cell(
                 default=clean_dict(default),
                 full=clean_dict(full),
                 info=component.info,
-                child=metadata_child if metadata_child else None,
             )
             component.__doc__ = func.__doc__
 

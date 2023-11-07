@@ -11,37 +11,7 @@ settings:
     - M1
     - M2
     - MTOP
-  child:
-    changed:
-      layer: MTOP
-    child: null
-    default:
-      font:
-        function: rectangular_font
-      justify: left
-      layer: WG
-      layers: null
-      position:
-      - 0.0
-      - 0.0
-      size: 10.0
-      text: abcd
-    full:
-      font:
-        function: rectangular_font
-      justify: left
-      layer: MTOP
-      layers: null
-      position:
-      - 0.0
-      - 0.0
-      size: 10.0
-      text: abcd
-    function_name: text_rectangular
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.text_rectangular
-    name: text_rectangular_layerMTOP
+  child: null
   default:
     factory:
       function: cross
