@@ -47,5 +47,5 @@ if __name__ == "__main__":
     assert c1.uid == c2.uid
     c2.show()
 
-    # c3 = gf.read.from_yaml(mirror_port, cache=False)
+    # c3 = gf.read.from_yaml(mirror_port)
     # assert c3.uid != c2.uid
