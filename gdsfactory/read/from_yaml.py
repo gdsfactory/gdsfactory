@@ -601,8 +601,7 @@ def from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
-    name: str | None = None,
-    prefix: str | None = None,
+    name: str = "Unnamed",
     **kwargs,
 ) -> Component:
     """Returns Component from YAML string or file.
@@ -614,7 +613,6 @@ def from_yaml(
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
-        prefix: name prefix.
         kwargs: function settings for creating YAML PCells.
 
     .. code::
@@ -715,24 +713,23 @@ def from_yaml(
         else:
             conf["settings"][key] = value
     conf = OmegaConf.to_container(conf, resolve=True)
+    name = conf.get("name", None)
     return _from_yaml(
         conf=conf,
         routing_strategy=routing_strategy,
         label_instance_function=label_instance_function,
-        # prefix=prefix or conf.get("name", "Unnamed"),
-        # name=name,
+        name=name,
         mode=mode,
     )
 
 
-@gf.cell(rec_dicts=True)
+@gf.cell(rec_dicts=True, set_name=False)
 def _from_yaml(
     conf,
     routing_strategy: dict[str, Callable],
     label_instance_function: Callable = add_instance_label,
     mode: str = "layout",
-    # prefix: str="Unnamed",
-    # name: str | None = None,
+    name: str = "Unnamed",
 ) -> Component:
     """Returns component from YAML decorated with cell for caching and autonaming.
 
@@ -740,6 +737,7 @@ def _from_yaml(
         conf: dict.
         routing_strategy: for each route.
         label_instance_function: to label each instance.
+        name: cell name.
 
     """
     from gdsfactory.generic_tech import get_generic_pdk
@@ -747,7 +745,7 @@ def _from_yaml(
 
     GENERIC = get_generic_pdk()
 
-    c = Component()
+    c = Component(name)
     instances = {}
     routes = {}
 
