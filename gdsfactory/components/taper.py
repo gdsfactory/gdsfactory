@@ -146,8 +146,8 @@ def taper_strip_to_ridge(
 
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
-    xs_wg = xs.copy(layer=layer_wg)
-    xs_slab = xs.copy(layer=layer_slab)
+    xs_wg = xs.copy(layer=layer_wg, add_pins_function_name=None)
+    xs_slab = xs.copy(layer=layer_slab, add_pins_function_name=None)
 
     taper_wg = taper(
         length=length,
@@ -171,6 +171,9 @@ def taper_strip_to_ridge(
     c.info["length"] = length
     c.add_port(name="o1", port=taper_wg.ports["o1"])
     c.add_port(name="o2", port=taper_slab.ports["o2"])
+    # Add pins instead only on the final component
+    if xs.add_pins:
+        xs.add_pins(c)
 
     if length:
         xs.add_bbox(c)

@@ -22,7 +22,6 @@ def wire_corner(
 
     Args:
         cross_section: spec.
-        with_bbox: if True, includes the bbox layer and bbox offsets of the cross_section
     """
     x = gf.get_cross_section(cross_section)
     layer = x.layer
