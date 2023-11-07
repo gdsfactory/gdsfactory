@@ -1497,7 +1497,7 @@ class Component(_GeometryHelper):
 
     def _repr_html_(self):
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
-        self.show(show_ports=True)  # show in klayout
+        self.show()
         fig = self.plot()
         if fig and hasattr(fig, "_repr_html_"):
             return fig._repr_html_()
@@ -1513,10 +1513,8 @@ class Component(_GeometryHelper):
 
         if make_copy:
             component = self.copy()
-            component.name = self.name
         else:
             component = self
-            component.unlock()
         add_pins_triangle(
             component=component, layer=port_marker_layer, layer_label=layer_label
         )
@@ -1720,17 +1718,21 @@ class Component(_GeometryHelper):
             timestamp: Defaults to 2019-10-25. If None uses current time.
         """
         from gdsfactory.add_pins import add_pins_triangle
+        from gdsfactory.cell import remove_from_cache
         from gdsfactory.show import show
 
         component = (
             self.add_pins_triangle(
                 port_marker_layer=port_marker_layer,
                 layer_label=port_marker_layer,
-                make_copy=False,
+                make_copy=True,
             )
             if show_ports
             else self
         )
+
+        remove_from_cache(component)
+        component.name = self.name
 
         if show_subports:
             component = self.copy()
