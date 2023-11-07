@@ -231,7 +231,7 @@ add_tapers = gf.add_tapers
 
 # pipe is more readable than the equivalent add_fiber_array(add_tapers(c1))
 c3 = toolz.pipe(c1, add_tapers, add_fiber_array)
-c3
+c3.plot()
 
 # %% [markdown]
 # we can even combine `add_tapers` and `add_fiber_array` thanks to `toolz.compose` or `toolz.compose`
@@ -269,14 +269,4 @@ c7.plot()
 c7.metadata_child["changed"]  # You can still access the child metadata
 
 # %%
-c7.metadata["child"]["child"]["name"]
-
-# %%
-c7.metadata["child"]["child"]["function_name"]
-
-# %%
-c7.metadata["changed"].keys()
-
-# %%
-
-# %%
+c7.child.name

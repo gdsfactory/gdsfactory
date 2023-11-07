@@ -27,8 +27,11 @@ class CellReturnTypeError(ValueError):
     pass
 
 
-def remove_from_cache(name: str) -> None:
-    """Removes Component from CACHE."""
+def remove_from_cache(name: str | Component) -> None:
+    """Removes Component name from CACHE and resets the name counter."""
+
+    if not isinstance(name, str):
+        name = name.name
 
     if name in CACHE:
         del CACHE[name]
@@ -36,7 +39,7 @@ def remove_from_cache(name: str) -> None:
 
 
 def clear_cache() -> None:
-    """Clears Component CACHE."""
+    """Clears Component CACHE and reset the name counters."""
 
     CACHE.clear()
     name_counters.clear()
@@ -78,6 +81,7 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
+    cache: bool = True,
 ) -> Callable[[_F], _F]:
     """Parametrized Decorator for Component functions.
 
@@ -135,7 +139,6 @@ def cell(
         active_pdk = get_active_pdk()
 
         info = kwargs.pop("info", {})  # TODO: remove info
-        cache = kwargs.pop("cache", True)  # TODO: remove cache
         name = kwargs.pop("name", None)  # TODO: remove name
         prefix = kwargs.pop("prefix", func.__name__)  # TODO: remove prefix
         sig = inspect.signature(func)
@@ -303,6 +306,7 @@ def cell(
             add_settings=add_settings,
             validate=validate,
             get_child_name=get_child_name,
+            cache=cache,
         )
     )
 

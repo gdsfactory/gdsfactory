@@ -5,7 +5,7 @@ from __future__ import annotations
 import gdsfactory as gf
 
 
-@gf.cell
+@gf.cell(cache=False)
 def mzi_with_bend(radius: float = 10):
     """Returns MZI interferometer with bend."""
     c = gf.Component()
