@@ -153,7 +153,7 @@ def add_pin_rectangle_inside(
     port: Port,
     pin_length: float = 0.1,
     layer: LayerSpec = "PORT",
-    layer_label: LayerSpec = "TEXT",
+    layer_label: LayerSpec | None = "TEXT",
     label_function: Callable[[Component, str, Port], str] | None = None,
 ) -> None:
     """Add square pin towards the inside of the port.
@@ -163,8 +163,11 @@ def add_pin_rectangle_inside(
         port: Port.
         pin_length: length of the pin marker for the port.
         layer: for the pin marker.
-        layer_label: for the label.
+        layer_label: layer for the label. None will use the port layer.
         label_function: function to return label text according to the ``component`` and ``port``.
+
+    Note:
+        Either ``layer_label`` or ``label_function`` must be something else than None for labels to be added.
 
     .. code::
 
@@ -196,7 +199,7 @@ def add_pin_rectangle_inside(
     pbotin = port.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
-    if layer_label:
+    if any((layer_label, label_function)):
         # Find name of function that called add_pins or alternatively add_pin_rectangle_inside (in this preference)
         # TODO: very hacky, find a better way in the future
         rough_component_name = (
@@ -227,7 +230,7 @@ def add_pin_rectangle_inside(
             if label_function
             else str(port.name),
             position=port.center,
-            layer=layer_label,
+            layer=layer_label if layer_label else port.layer,
         )
 
 
