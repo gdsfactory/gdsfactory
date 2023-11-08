@@ -31,6 +31,7 @@ from gdsfactory.cell import (
     cell_without_validator,
     cell_with_child,
     remove_from_cache,
+    container,
 )
 from gdsfactory.cell import clear_cache
 from gdsfactory.show import show
@@ -106,6 +107,7 @@ __all__ = (
     "cell",
     "cell_without_validator",
     "cell_with_child",
+    "container",
     "clear_cache",
     "components",
     "compose",

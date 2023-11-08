@@ -317,6 +317,27 @@ cell_import_gds = partial(cell, autoname=False, add_settings=False)
 cell_with_child = partial(cell, get_child_name=True)
 
 
+@cell_with_child
+def container(component, function, **kwargs) -> gf.Component:
+    """Returns new component with a component reference.
+
+    Args:
+        component: to add to container.
+        function: function to apply to component.
+        kwargs: keyword arguments to pass to function.
+
+    """
+    import gdsfactory as gf
+
+    component = gf.get_component(component)
+    c = Component()
+    cref = c << component
+    function(c, **kwargs)
+    c.ports = cref.ports
+    c.copy_child_info(component)
+    return c
+
+
 if __name__ == "__main__":
     import gdsfactory as gf
 
