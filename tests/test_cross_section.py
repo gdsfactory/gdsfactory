@@ -137,6 +137,18 @@ def test_cross_section_mirror() -> None:
         assert s1.offset == -s2.offset, f"{s1.offset} != {s2.offset}"
 
 
+def test_extrude_transition_component():
+    w1 = 1
+    w2 = 5
+    x1 = gf.get_cross_section("xs_sc", width=w1)
+    x2 = gf.get_cross_section("xs_sc", width=w2)
+    trans = gf.path.transition(x1, x2)
+    c = gf.components.bend_euler(radius=10, cross_section=trans)
+    assert c["o1"].width == w1
+    assert c["o2"].width == w2
+
+
 if __name__ == "__main__":
     # test_transition_names()
-    test_copy()
+    # test_copy()
+    test_extrude_transition_component()

@@ -1592,7 +1592,6 @@ if __name__ == "__main__":
 
     w1 = 1
     w2 = 5
-    length = 10
     x1 = gf.get_cross_section("xs_sc", width=w1)
     x2 = gf.get_cross_section("xs_sc", width=w2)
     trans = gf.path.transition(x1, x2)
