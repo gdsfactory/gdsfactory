@@ -1063,32 +1063,25 @@ class Component(_GeometryHelper):
 
     def extract(
         self,
-        layers: list[tuple[int, int] | str],
+        layers: list[LayerSpec],
+        include_labels: bool = True,
+        recursive: bool = True,
     ) -> Component:
-        """Extract polygons from a Component and returns a new Component."""
-        from gdsfactory.pdk import get_layer
+        """Extract polygons from a Component and returns a new Component.
 
-        if type(layers) not in (list, tuple):
-            raise ValueError(f"layers {layers!r} needs to be a list or tuple")
+        Args:
+            layers: list of layers to extract.
+            include_labels: extract labels on those layers.
+            recursive: operate on the cells included in this cell.
+        """
+        c = self.copy()
 
-        layers = [get_layer(layer) for layer in layers]
-        # component = self.copy()
-        # component._cell.filter(spec=layers, remove=False)
-
-        component = Component()
-        poly_dict = self.get_polygons(by_spec=True, include_paths=False)
-
-        for layer in layers:
-            if layer in poly_dict:
-                polygons = poly_dict[layer]
-                for polygon in polygons:
-                    component.add_polygon(polygon, layer)
-
-        for layer in layers:
-            for path in self._cell.get_paths(layer=layer):
-                component.add(path)
-
-        return component
+        return c.remove_layers(
+            layers,
+            invert_selection=True,
+            recursive=recursive,
+            include_labels=include_labels,
+        )
 
     def add_polygon(
         self,
