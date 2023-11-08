@@ -1,11 +1,22 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.15...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.16...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.8.16](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.16) - 2023-11-08
 
-No significant changes.
+- Bump kweb from 1.1.9 to 1.1.10 [#2277](https://github.com/gdsfactory/gdsfactory/pull/2277)
+- Components can extrude transitions [#2293](https://github.com/gdsfactory/gdsfactory/pull/2293)
+- Fix mutability issues [#2291](https://github.com/gdsfactory/gdsfactory/pull/2291)
+- fix zero length polygons [#2290](https://github.com/gdsfactory/gdsfactory/pull/2290)
+- Add labels along with add_marker_layer and write pin to port layer on None [#2286](https://github.com/gdsfactory/gdsfactory/pull/2286)
+- simpler container [#2287](https://github.com/gdsfactory/gdsfactory/pull/2287)
+- default_show_to_gds [#2283](https://github.com/gdsfactory/gdsfactory/pull/2283)
+- [pre-commit.ci] pre-commit autoupdate [#2278](https://github.com/gdsfactory/gdsfactory/pull/2278)
+- remove show ports side effects [#2282](https://github.com/gdsfactory/gdsfactory/pull/2282)
+- fix remove_from_cache [#2280](https://github.com/gdsfactory/gdsfactory/pull/2280)
+- fix rectangle_with_slits [#2279](https://github.com/gdsfactory/gdsfactory/pull/2279)
+- add edX course training link [#2276](https://github.com/gdsfactory/gdsfactory/pull/2276)
 
 
 ## [7.8.15](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.15) - 2023-11-05
