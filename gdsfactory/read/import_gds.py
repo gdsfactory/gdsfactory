@@ -10,7 +10,6 @@ from gdsfactory.cell import Settings, cell_import_gds
 from gdsfactory.component import Component
 from gdsfactory.component_reference import ComponentReference
 from gdsfactory.config import logger
-from gdsfactory.name import get_name_short
 
 
 @cell_import_gds
@@ -64,13 +63,11 @@ def import_gds(
 
     # create a new Component for each gdstk Cell
     for c in gdsii_lib.cells:
-        D = Component(name=c.name, max_name_length=max_name_length)
+        D = Component()
         D._cell = c
-        if not unique_names:
-            D._cell.name = c.name
-
-        elif keep_name_short:
-            D.name = get_name_short(D.name)
+        if not keep_name_short:
+            max_name_length = 10000000000000
+        D.rename(c.name, cache=unique_names, max_name_length=max_name_length)
 
         cell_name_to_component[c.name] = D
         cell_to_component[c] = D

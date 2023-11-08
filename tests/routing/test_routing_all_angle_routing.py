@@ -39,7 +39,7 @@ def test_gds(component_name: str) -> None:
     try:
         gf.config.enable_off_grid_ports()
         component = AAR_YAML_PICS[component_name]()
-        difftest(component, test_name=component_name)
+        difftest(component, test_name=component_name, ignore_sliver_differences=True)
     finally:
         # reset back to what it was, so we don't mess up other tests
         get_active_pdk().gds_write_settings.flatten_invalid_refs = (

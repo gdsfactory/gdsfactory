@@ -171,12 +171,11 @@ class Component(_GeometryHelper):
         """Initialize the Component object."""
 
         self.uid = str(uuid.uuid4())[:8]
-        self.max_name_length = max_name_length or CONF.max_name_length
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
         self._cell = gdstk.Cell("Unnamed")
-        self.name = name
+        self.rename(name, max_name_length=max_name_length)
         self.info: dict[str, Any] = {}
 
         self.settings: dict[str, Any] = {}
@@ -188,6 +187,7 @@ class Component(_GeometryHelper):
         self._references = []
 
         self.ports = {}
+        self.child = None
 
     @property
     def references(self):
@@ -226,18 +226,34 @@ class Component(_GeometryHelper):
 
     @name.setter
     def name(self, name) -> None:
-        if len(name) > self.max_name_length:
-            name_short = get_name_short(name, max_name_length=self.max_name_length)
+        self.rename(name)
+
+    def rename(self, name: str, cache: bool = True, max_name_length: int | None = None):
+        from gdsfactory.cell import CACHE, remove_from_cache
+
+        if max_name_length is None:
+            max_name_length = CONF.max_name_length
+
+        if len(name) > max_name_length:
+            name_short = get_name_short(name, max_name_length=max_name_length)
             warnings.warn(
-                f" {name} is too long. Max length is {self.max_name_length}. Renaming to {name_short}",
+                f" {name} is too long. Max length is {max_name_length}. Renaming to {name_short}",
                 stacklevel=2,
             )
             name = name_short
 
         if self.name != name:
-            name_counters[name] += 1
-            if name_counters[name] > 1:
-                name = f"{name}${name_counters[name]-1}"
+            # if this component is registered under its old name in the cache, remove it
+            old_name = self.name
+            if CACHE.get(old_name) is self:
+                remove_from_cache(self.name)
+
+            # cache the new name and add to counter if specified
+            if cache is True:
+                name_counters[name] += 1
+                if name_counters[name] > 1:
+                    name = f"{name}${name_counters[name]-1}"
+                CACHE[name] = self
 
         self._cell.name = name
 
@@ -1365,6 +1381,7 @@ class Component(_GeometryHelper):
 
         component_flat.info = self.info.copy()
         component_flat.add_ports(self.ports)
+        component_flat.child = self.child
         return component_flat
 
     def flatten_reference(self, ref: ComponentReference) -> None:
@@ -2499,6 +2516,7 @@ def copy(
     """
     c = Component()
     c.info = D.info
+    c.child = D.child
 
     for ref in references if references is not None else D.references:
         c.add(copy_reference(ref))
@@ -2666,8 +2684,9 @@ def flatten_invalid_refs_recursive(
             if ref.parent.name in updated_components:
                 subcell_modified = True
     if invalid_refs or subcell_modified:
+        # if the cell or subcells need to have references flattened, create an uncached copy of this cell for export
         new_component = component.copy()
-        new_component.name = f"{component.name}_t"
+        new_component.rename(component.name, cache=False)
         # make sure all modified cells have their references updated
         new_refs = new_component.references.copy()
         for ref in new_refs:

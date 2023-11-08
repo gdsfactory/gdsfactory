@@ -35,13 +35,16 @@ def remove_from_cache(name: str | Component) -> None:
 
     if name in CACHE:
         del CACHE[name]
-    name_counters[name] = 0
+
+    if name_counters[name] == 1:
+        name_counters[name] = 0
 
 
 def clear_cache() -> None:
     """Clears Component CACHE and reset the name counters."""
 
     CACHE.clear()
+    CACHE_IDS.clear()
     name_counters.clear()
 
 
@@ -220,8 +223,6 @@ def cell(
         if cache and name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
-        elif name in CACHE:
-            remove_from_cache(name)
 
         # print(f"BUILD {name} {func.__name__}({named_args_string})")
         if not callable(func):
@@ -253,16 +254,28 @@ def cell(
                 "make sure that functions with @cell decorator return a Component",
             )
 
-        if get_child_name and hasattr(component, "child"):
-            component_name = f"{component.child.name}_{name}"
+        metadata_child = None
+        if get_child_name:
+            if component.child is None:
+                raise ValueError(
+                    f"{name}: get_child_name was defined, but component has no child! Be sure to assign the component a child attribute."
+                )
+            metadata_child = dict(component.child.settings)
+            component_name = f"{metadata_child.get('name')}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length
             )
+            # if cache and component_name in CACHE:
+            # return CACHE[component_name]
         else:
             component_name = name
 
         if autoname:
-            component.name = component_name
+            component.rename(
+                component_name, cache=cache, max_name_length=max_name_length
+            )
+        if get_child_name and cache:
+            CACHE[name] = component
 
         info = info or {}
         component.info.update(**info)
@@ -285,8 +298,8 @@ def cell(
             component = component_new or component
 
         component.lock()
-        CACHE[name] = component
-        CACHE_IDS.add(id(component))
+        if cache:
+            CACHE_IDS.add(id(component))
         return component
 
     return (
