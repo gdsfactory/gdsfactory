@@ -67,3 +67,31 @@ def test_names() -> None:
     name_args = demo(3).name
     name_kwargs = demo(length=3).name
     assert name_args == name_kwargs, name_with_prefix
+
+
+@cell(cache=False)
+def demo_uncached(length: int = 3, wg_width: float = 0.5) -> Component:
+    """Demo Dummy cell."""
+    c = Component()
+    w = length
+    h = wg_width
+    points = [
+        [-w / 2.0, -h / 2.0],
+        [-w / 2.0, h / 2],
+        [w / 2, h / 2],
+        [w / 2, -h / 2.0],
+    ]
+    c.add_polygon(points)
+    return c
+
+
+def test_uncached() -> None:
+    c1 = demo_uncached()
+    c2 = demo_uncached()
+    assert c1.name == c2.name, f"{c1.name} == {c2.name}"
+
+
+if __name__ == "__main__":
+    c = demo_uncached()
+    c = demo_uncached()
+    print(c.name)
