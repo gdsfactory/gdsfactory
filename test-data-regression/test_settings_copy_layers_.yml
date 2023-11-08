@@ -2,31 +2,7 @@ name: cross_layer2__0_copy_layers
 ports: {}
 settings:
   changed: {}
-  child:
-    changed:
-      layer:
-      - 2
-      - 0
-    child: null
-    default:
-      layer: WG
-      layers: null
-      length: 10.0
-      port_type: null
-      width: 3.0
-    full:
-      layer:
-      - 2
-      - 0
-      layers: null
-      length: 10.0
-      port_type: null
-      width: 3.0
-    function_name: cross
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.cross
-    name: cross_layer2__0
+  child: null
   default:
     factory:
       function: cross

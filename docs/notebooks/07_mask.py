@@ -379,7 +379,7 @@ def mask():
     return c
 
 
-c = mask(cache=False)
+c = mask()
 c.plot()
 
 # %% [markdown]

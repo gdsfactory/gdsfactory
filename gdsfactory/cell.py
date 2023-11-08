@@ -27,9 +27,11 @@ class CellReturnTypeError(ValueError):
     pass
 
 
-def remove_from_cache(name: str) -> None:
-    """Removes Component from CACHE."""
-    global CACHE
+def remove_from_cache(name: str | Component) -> None:
+    """Removes Component name from CACHE and resets the name counter."""
+
+    if not isinstance(name, str):
+        name = name.name
 
     if name in CACHE:
         del CACHE[name]
@@ -39,8 +41,7 @@ def remove_from_cache(name: str) -> None:
 
 
 def clear_cache() -> None:
-    """Clears Component CACHE."""
-    global CACHE
+    """Clears Component CACHE and reset the name counters."""
 
     CACHE.clear()
     CACHE_IDS.clear()
@@ -83,6 +84,7 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
+    cache: bool = True,
 ) -> Callable[[_F], _F]:
     """Parametrized Decorator for Component functions.
 
@@ -140,7 +142,6 @@ def cell(
         active_pdk = get_active_pdk()
 
         info = kwargs.pop("info", {})  # TODO: remove info
-        cache = kwargs.pop("cache", True)  # TODO: remove cache
         name = kwargs.pop("name", None)  # TODO: remove name
         prefix = kwargs.pop("prefix", func.__name__)  # TODO: remove prefix
         sig = inspect.signature(func)
@@ -209,11 +210,11 @@ def cell(
             changed_arg_names = [carg.split("=")[0] for carg in changed_arg_list]
             changed = {k: changed[k] for k in changed_arg_names}
             name = name or name_signature
-            name = get_name_short(name, max_name_length=max_name_length)
 
         else:
             raise ValueError('naming_style must be "default" or "updk"')
 
+        name = get_name_short(name, max_name_length=max_name_length)
         decorator = kwargs.pop("decorator", default_decorator)
         # if no decorator is specified, but there is one specified for the active PDK, use the PDK's default decorator
         if decorator is None and active_pdk.default_decorator is not None:
@@ -287,7 +288,6 @@ def cell(
                 default=clean_dict(default),
                 full=clean_dict(full),
                 info=component.info,
-                child=metadata_child if metadata_child else None,
             )
             component.__doc__ = func.__doc__
 
@@ -319,6 +319,7 @@ def cell(
             add_settings=add_settings,
             validate=validate,
             get_child_name=get_child_name,
+            cache=cache,
         )
     )
 
@@ -327,6 +328,27 @@ cell_without_validator = cell
 cell_with_module = partial(cell, include_module=True)
 cell_import_gds = partial(cell, autoname=False, add_settings=False)
 cell_with_child = partial(cell, get_child_name=True)
+
+
+@cell_with_child
+def container(component, function, **kwargs) -> gf.Component:
+    """Returns new component with a component reference.
+
+    Args:
+        component: to add to container.
+        function: function to apply to component.
+        kwargs: keyword arguments to pass to function.
+
+    """
+    import gdsfactory as gf
+
+    component = gf.get_component(component)
+    c = Component()
+    cref = c << component
+    function(c, **kwargs)
+    c.ports = cref.ports
+    c.copy_child_info(component)
+    return c
 
 
 if __name__ == "__main__":

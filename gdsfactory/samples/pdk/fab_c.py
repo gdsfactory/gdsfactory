@@ -135,7 +135,7 @@ pdk = gf.Pdk(
 
 
 if __name__ == "__main__":
-    # c2 = mmi1x2_nc(cache=False)
+    # c2 = mmi1x2_nc()
     # d2 = c2.to_dict()
 
     # from jsondiff import diff

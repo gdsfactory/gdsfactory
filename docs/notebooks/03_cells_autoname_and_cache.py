@@ -66,7 +66,7 @@ gf.CONF.display_type = "klayout"
 
 
 def mzi_with_bend(radius: float = 10.0) -> gf.Component:
-    c = gf.Component("Unnamed_cells_can_cause_issues")
+    c = gf.Component()
     mzi = c << gf.components.mzi()
     bend = c << gf.components.bend_euler(radius=radius)
     bend.connect("o1", mzi.ports["o2"])
@@ -97,9 +97,29 @@ def mzi_with_bend(radius: float = 10.0) -> gf.Component:
 print(f"this cell {c.name!r} gets automatic name thanks to the `cell` decorator")
 c.plot()
 
+# %%
+# See how the cells get the name from the parameters that you pass them
+
+c = mzi_with_bend()
+print(c)
+
+print("second time you get this cell from the cache")
+c = mzi_with_bend()
+print(c)
+
+print("If you call the cell with different parameters, the cell gets a different name")
+c = mzi_with_bend(radius=20)
+print(c)
+
+
+# %% [markdown]
+# Sometimes when you are changing the inside code of the function, you need to use `cache=False` to **ignore** the cache.
+#
+# Then make sure you remove `cache=False` once you are happy with the code inside the function.
+
 
 # %%
-@gf.cell
+@gf.cell(cache=False)
 def wg(length=10, width=1, layer=(1, 0)):
     print("BUILDING waveguide")
     c = gf.Component()
@@ -113,24 +133,11 @@ def wg(length=10, width=1, layer=(1, 0)):
     return c
 
 
-# See how the cells get the name from the parameters that you pass them
-
-c = wg()
-print(c)
-
-print("second time you get this cell from the cache")
-c = wg()
-print(c)
-
-print("If you call the cell with different parameters, the cell gets a different name")
-c = wg(width=0.5)
-print(c)
-
-
 # %%
-# Sometimes when you are changing the inside code of the function, you need to use `cache=False` to **ignore** the cache.
 
-c = wg(cache=False)
+c = wg()
+c = wg()
+c = wg()
 
 
 # %% [markdown]
@@ -310,7 +317,7 @@ def die_bad():
     return gf.components.die_bbox(c1, street_width=10)
 
 
-c = die_bad(cache=False)
+c = die_bad()
 print(c.references)
 c.plot()
 
@@ -328,7 +335,7 @@ def die_good():
     return c
 
 
-c = die_good(cache=False)
+c = die_good()
 print(c.references)
 c.plot()
 
@@ -348,7 +355,7 @@ def die_flat():
     return c2
 
 
-c = die_flat(cache=False)
+c = die_flat()
 print(c.references)
 c.plot()
 

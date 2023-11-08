@@ -169,7 +169,7 @@ def demo_non_manhattan_merge_polygons():
     return c2
 
 
-c1 = demo_non_manhattan_merge_polygons(cache=False)
+c1 = demo_non_manhattan_merge_polygons()
 c1.plot()
 
 # %% [markdown]

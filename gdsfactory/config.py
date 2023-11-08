@@ -223,6 +223,7 @@ class Settings(BaseSettings):
     on_type_missmatch: Literal["warn", "error", "ignore"] = Field(
         default="warn", description="When connecting ports with different types."
     )
+    default_show_suffix: Literal[".oas", ".gds"] = ".gds"
 
     @classmethod
     def from_config(cls) -> Settings:
@@ -334,12 +335,14 @@ def get_git_hash():
 
 
 def enable_off_grid_ports() -> None:
+    """Ignore off grid port warnings."""
     CONF.enforce_ports_on_grid = False
     CONF.ports_off_grid = "ignore"
     CONF.ports_not_manhattan = "ignore"
 
 
 def disable_off_grid_ports(error_type: str = "warn") -> None:
+    """Enable off grid port warnings."""
     CONF.enforce_ports_on_grid = True
     CONF.ports_off_grid = error_type
     CONF.ports_not_manhattan = error_type

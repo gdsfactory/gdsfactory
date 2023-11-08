@@ -522,5 +522,5 @@ def litho_ruler(
     return D
 
 
-c = litho_ruler(cache=False)
+c = litho_ruler()
 c.plot()

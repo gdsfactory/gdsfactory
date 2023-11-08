@@ -52,40 +52,7 @@ settings:
   changed:
     component:
       function: ring_double
-  child:
-    changed: {}
-    child: null
-    default:
-      bend:
-        function: bend_euler
-      coupler_ring:
-        function: coupler_ring
-      cross_section: xs_sc
-      gap: 0.2
-      gap_top: null
-      length_x: 0.01
-      length_y: 0.01
-      radius: 10.0
-      straight:
-        function: straight
-    full:
-      bend:
-        function: bend_euler
-      coupler_ring:
-        function: coupler_ring
-      cross_section: xs_sc
-      gap: 0.2
-      gap_top: null
-      length_x: 0.01
-      length_y: 0.01
-      radius: 10.0
-      straight:
-        function: straight
-    function_name: ring_double
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.ring_double
-    name: ring_double
+  child: null
   default:
     bot: true
     component:

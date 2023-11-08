@@ -104,6 +104,7 @@ def diff(
         refdiff = KCell(f"{test_name}_old")
         rundiff = KCell(f"{test_name}_new")
 
+        # TODO: add suffix new and old
         refdiff.copy_tree(ref._kdb_cell)
         rundiff.copy_tree(run._kdb_cell)
         _ = c << refdiff
@@ -204,7 +205,7 @@ def difftest(
         print(
             f"\ngds_run {filename!r} changed from gds_ref {str(ref_file)!r}\n"
             "You can check the differences in Klayout GUI or run XOR with\n"
-            f"gf gds diff --xor {ref_file} {run_file}\n"
+            f"gf gds-diff --xor {ref_file} {run_file}\n"
         )
         try:
             overwrite(ref_file, run_file)
