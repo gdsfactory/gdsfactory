@@ -9,8 +9,7 @@ There are two types of functions:
 from __future__ import annotations
 
 import json
-from collections.abc import Callable
-from functools import lru_cache, partial, wraps
+from functools import lru_cache, partial
 
 import numpy as np
 from omegaconf import OmegaConf
@@ -26,7 +25,6 @@ from gdsfactory.typings import (
     Anchor,
     Axis,
     Component,
-    ComponentFactory,
     ComponentSpec,
     Float2,
     LayerSpec,
@@ -262,67 +260,39 @@ def add_settings_label(
 
 
 def add_marker_layer(
-    marker_layer: LayerSpec, *, marker_label: str | None = None, flatten: bool = False
-) -> Callable[[ComponentFactory], ComponentFactory]:
-    """Creates a new :class:`~ComponentFactory` with a marker layer from the convex hull of the input :class:`~ComponentFactory`.
-    May be used as a decorator.
+    component: ComponentSpec,
+    marker_layer: LayerSpec,
+    *,
+    marker_label: str | None = None,
+    flatten: bool = False,
+    **kwargs,
+) -> Component:
+    """Adds a marker layer from the convex hull of the input component.
+    Used as a decorator for `@gf.cell(decorator=partial(add_marker_layer, marker_layer=...)))`
 
     Args:
-        marker_layer: The marker layer for LVS.
+        marker_layer: The marker layer.
         marker_label: An optional text label to add to the marker layer.
         flatten: Whether to flatten the component. Should be done only for elementary components.
 
+    Keyword Args:
+        **kwargs: Keyword arguments provided to ``component``.
+
     Returns:
-        Function that can decorate a component function and add a marker layer.
+        Same component with marker layer applied.
     """
-
-    def _inner_decorator(component: ComponentFactory) -> ComponentFactory:
-        """Decorator for ``component`` with added polygon on marker layer.
-
-        Args:
-            component: The input function creating a component.
-        """
-
-        @cell_with_child(cache=False)
-        @wraps(component)
-        def wrapper(*args, **kwargs) -> Component:
-            """Wrapper container for ``component``.
-
-            Args:
-                **args: Positional arguments provided to ``component``.
-                **kwargs: Keyword arguments provided to ``component``.
-
-            Raises:
-                UserWarning: If positional arguments are provided.
-
-            Returns:
-                The new component with the added marker layer.
-            """
-            if args:
-                raise UserWarning(
-                    "Positional arguments are not supported, as `get_component` is used."
-                )
-            component_old, component_new, ref = _get_component_in_container(
-                component, **kwargs
-            )
-            component_new.info = component_old.info
-            polygon_new = ref.get_polygons(as_shapely_merged=True)
-            component_new.add_polygon(polygon_new, layer=marker_layer)
-            component_new.add_ports(ref.ports)
-            if marker_label:
-                component_new.add_label(
-                    marker_label,
-                    position=(
-                        (point := polygon_new.representative_point()).x,
-                        point.y,
-                    ),
-                    layer=marker_layer,
-                )
-            return component_new.flatten() if flatten else component_new
-
-        return wrapper
-
-    return _inner_decorator
+    polygon = component.get_polygons(as_shapely_merged=True)
+    component.add_polygon(polygon, layer=marker_layer)
+    if marker_label:
+        component.add_label(
+            marker_label,
+            position=(
+                (point := polygon.representative_point()).x,
+                point.y,
+            ),
+            layer=marker_layer,
+        )
+    return component.flatten() if flatten else component
 
 
 __all__ = (

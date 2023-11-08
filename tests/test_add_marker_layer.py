@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.functions import add_marker_layer
 from gdsfactory.typings import Component
@@ -8,8 +10,7 @@ RANDOM_MARKER_LAYER = (111, 111)
 RANDOM_MARKER_LABEL = "TEST_LABEL"
 
 
-# @pytest.fixture(scope="function")
-@gf.cell_with_child(cache=False)
+@gf.cell
 def component(width=10, height=20) -> Component:
     c = gf.Component()
     c.add_polygon([(0, 0), (width, 0), (width, height), (0, height)], layer=(1, 0))
@@ -17,16 +18,23 @@ def component(width=10, height=20) -> Component:
 
 
 def test_add_marker_layer() -> None:
-    my_component = add_marker_layer(marker_layer=RANDOM_MARKER_LAYER)(component)
+    my_component = partial(
+        component, decorator=partial(add_marker_layer, marker_layer=RANDOM_MARKER_LAYER)
+    )
 
     c = my_component()
     assert RANDOM_MARKER_LAYER in c.layers
 
 
 def test_add_marker_layer_label_added() -> None:
-    my_component = add_marker_layer(
-        marker_layer=RANDOM_MARKER_LAYER, marker_label=RANDOM_MARKER_LABEL
-    )(component)
+    my_component = partial(
+        component,
+        decorator=partial(
+            add_marker_layer,
+            marker_layer=RANDOM_MARKER_LAYER,
+            marker_label=RANDOM_MARKER_LABEL,
+        ),
+    )
 
     c = my_component()
     assert RANDOM_MARKER_LAYER in c.layers
@@ -35,7 +43,9 @@ def test_add_marker_layer_label_added() -> None:
 
 
 def test_add_marker_layer_kwargs_passed() -> None:
-    my_component = add_marker_layer(marker_layer=RANDOM_MARKER_LAYER)(component)
+    my_component = partial(
+        component, decorator=partial(add_marker_layer, marker_layer=RANDOM_MARKER_LAYER)
+    )
 
     c = my_component(height=50)
     assert RANDOM_MARKER_LAYER in c.layers
