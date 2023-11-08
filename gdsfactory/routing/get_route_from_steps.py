@@ -23,6 +23,7 @@ def get_route_from_steps(
     port2: Port,
     steps: list[Step] | None = None,
     bend: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
     taper: ComponentSpec | None = "taper",
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     **kwargs,
@@ -129,6 +130,7 @@ def get_route_from_steps(
     return round_corners(
         points=waypoints,
         bend=bend,
+        straight=straight,
         taper=taper,
         cross_section=cross_section,
         with_sbend=False,
