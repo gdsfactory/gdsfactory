@@ -189,7 +189,7 @@ def move(
     return component_new
 
 
-@cell_with_child(cache=False)
+@cell_with_child
 def transformed(ref: ComponentReference):
     """Returns flattened cell with reference transformations applied.
 
