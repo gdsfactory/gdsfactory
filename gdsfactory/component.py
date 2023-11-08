@@ -2683,8 +2683,9 @@ def flatten_invalid_refs_recursive(
             if ref.parent.name in updated_components:
                 subcell_modified = True
     if invalid_refs or subcell_modified:
+        # if the cell or subcells need to have references flattened, create an uncached copy of this cell for export
         new_component = component.copy()
-        new_component.name = f"{component.name}_t"
+        new_component.rename(component.name, cache=False)
         # make sure all modified cells have their references updated
         new_refs = new_component.references.copy()
         for ref in new_refs:
