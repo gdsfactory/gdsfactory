@@ -373,6 +373,17 @@ class Transition(CrossSection):
     cross_section2: CrossSectionSpec
     width_type: WidthTypes = "sine"
 
+    @property
+    def width(self) -> tuple[float, float]:
+        return (
+            self.cross_section1.sections[0].width,
+            self.cross_section2.sections[0].width,
+        )
+
+    @property
+    def layer(self) -> LayerSpec:
+        return self.cross_section1.sections[0].layer
+
 
 def cross_section(
     width: float = 0.5,

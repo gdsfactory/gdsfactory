@@ -1576,20 +1576,25 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    P = gf.path.straight(length=10)
+    # P = gf.path.straight(length=10)
+    # s0 = gf.Section(
+    #     width=0.415, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    # )
+    # s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
+    # X1 = gf.CrossSection(sections=(s0, s1))
+    # s2 = gf.Section(
+    #     width=0.5, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    # )
+    # s3 = gf.Section(width=2.0, offset=0, layer=(3, 0), name="slab")
+    # X2 = gf.CrossSection(sections=(s2, s3))
+    # t = gf.path.transition(X1, X2, width_type="linear")
+    # c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
 
-    s0 = gf.Section(
-        width=0.415, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    )
-    s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
-    X1 = gf.CrossSection(sections=(s0, s1))
-
-    s2 = gf.Section(
-        width=0.5, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    )
-    s3 = gf.Section(width=2.0, offset=0, layer=(3, 0), name="slab")
-    X2 = gf.CrossSection(sections=(s2, s3))
-    t = gf.path.transition(X1, X2, width_type="linear")
-    c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
-
+    w1 = 1
+    w2 = 5
+    length = 10
+    x1 = gf.get_cross_section("xs_sc", width=w1)
+    x2 = gf.get_cross_section("xs_sc", width=w2)
+    trans = gf.path.transition(x1, x2)
+    c = gf.components.bend_euler(radius=10, cross_section=trans)
     c.show(show_ports=True)

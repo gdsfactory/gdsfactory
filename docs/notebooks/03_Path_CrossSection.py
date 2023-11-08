@@ -146,8 +146,9 @@ b = gf.path.extrude(p, cross_section=x)
 b.plot()
 
 # %% [markdown]
-# An arbitrary cross-section can also help place components along a path.
-# This component can be useful for defining wiring vias.
+# ### Option 3: CrossSection with ComponentAlongPath
+#
+# You can also place components along a path, which is useful for wiring vias.
 
 # %%
 import gdsfactory as gf
@@ -189,13 +190,12 @@ c = gf.path.extrude(p, cross_section=x)
 c.plot()
 
 # %% [markdown]
-# ## Building Paths quickly
+# ## Path
 #
-# You can pass `append()` lists of path segments.  This makes it easy to combine
-# paths very quickly.  Below we show 3 examples using this functionality:
+# You can pass `append()` lists of path segments.  This makes it easy to combine paths very quickly.
+# Below we show 3 examples using this functionality:
 #
-# **Example 1:** Assemble a complex path by making a list of Paths and passing it
-# to `append()`
+# **Example 1:** Assemble a complex path by making a list of Paths and passing it to `append()`
 
 # %%
 P = gf.Path()
@@ -602,6 +602,34 @@ wg2_ref.connect("o1", wgt_ref.ports["o2"])
 
 c.plot()
 
+
+# %% [markdown]
+# Since a Transition inherits from CrossSection you can also extrude an arbitrary Transition.
+#
+# 1. Extruding a Path
+
+# %%
+w1 = 1
+w2 = 5
+x1 = gf.get_cross_section("xs_sc", width=w1)
+x2 = gf.get_cross_section("xs_sc", width=w2)
+transition = gf.path.transition(x1, x2)
+p = gf.path.arc(radius=10)
+c = gf.path.extrude(p, transition)
+c.plot()
+
+# %% [markdown]
+# 2. Or as a CrossSection for a component
+
+# %%
+w1 = 1
+w2 = 5
+length = 10
+x1 = gf.get_cross_section("xs_sc", width=w1)
+x2 = gf.get_cross_section("xs_sc", width=w2)
+transition = gf.path.transition(x1, x2)
+c = gf.components.bend_euler(radius=10, cross_section=transition)
+c.plot()
 
 # %% [markdown]
 # ## Variable width / offset
