@@ -66,5 +66,5 @@ if __name__ == "__main__":
     # xs = xs.mirror()
     # c = straight(cross_section=xs)
     # gdspath = c.write_gds()
-    c = straight(length=10, cross_section="xs_rc")
+    c = straight(length=0, cross_section="xs_sc")
     c.show()

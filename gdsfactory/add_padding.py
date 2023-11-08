@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
-from gdsfactory.cell import cell
-from gdsfactory.component import Component, Instance
+from gdsfactory.component import Component, Instance, container
 from gdsfactory.typings import ComponentSpec, LayerSpec
 
 
@@ -63,39 +64,6 @@ def add_padding(
     return component
 
 
-@cell
-def add_padding_container(
-    component: ComponentSpec,
-    layers: tuple[LayerSpec, ...] = ("PADDING",),
-    **kwargs,
-) -> Component:
-    """Returns new component with padding added.
-
-    Args:
-        component: to add padding.
-        layers: list of layers.
-
-    Keyword Args:
-        default: default padding in um.
-        top: north padding in um.
-        bottom: south padding in um.
-        right: east padding in um.
-        left: west padding in um.
-    """
-    component = gf.get_component(component)
-
-    c = Component()
-    c.component = component
-    cref = c << component
-
-    points = get_padding_points(component, **kwargs)
-    for layer in layers:
-        c.add_polygon(points, layer=layer)
-    c.ports = cref.ports
-    c.copy_child_info(component)
-    return c
-
-
 def add_padding_to_size(
     component: ComponentSpec,
     layers: tuple[LayerSpec, ...] = ("PADDING",),
@@ -134,46 +102,8 @@ def add_padding_to_size(
     return component
 
 
-@cell
-def add_padding_to_size_container(
-    component: ComponentSpec,
-    layers: tuple[LayerSpec, ...] = ("PADDING",),
-    xsize: float | None = None,
-    ysize: float | None = None,
-    left: float = 0,
-    bottom: float = 0,
-) -> Component:
-    """Returns new component with padding layers on each side. New size is.
-
-    multiple of grid size.
-
-    Args:
-        component: to add padding.
-        layers: list of layers.
-        xsize: x size to fill up in um.
-        ysize: y size to fill up in um.
-        left: left padding in um to fill up in um.
-        bottom: bottom padding in um to fill up in um.
-    """
-    component = gf.get_component(component)
-    c = Component()
-    cref = c << component
-
-    top = abs(ysize - component.d.ysize) if ysize else 0
-    right = abs(xsize - component.d.xsize) if xsize else 0
-    points = [
-        [c.d.xmin - left, c.d.ymin - bottom],
-        [c.d.xmax + right, c.d.ymin - bottom],
-        [c.d.xmax + right, c.d.ymax + top],
-        [c.d.xmin - left, c.d.ymax + top],
-    ]
-
-    for layer in layers:
-        c.add_polygon(points, layer=layer)
-
-    c.ports = cref.ports
-    c.copy_child_info(component)
-    return c
+add_padding_container = partial(container, function=add_padding)
+add_padding_to_size_container = partial(container, function=add_padding_to_size)
 
 
 if __name__ == "__main__":

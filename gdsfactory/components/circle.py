@@ -21,6 +21,8 @@ def circle(
         angle_resolution: number of degrees per point.
         layer: layer.
     """
+    if radius <= 0:
+        raise ValueError(f"radius={radius} must be > 0")
     c = Component()
     t = np.linspace(0, 360, int(360 / angle_resolution) + 1) * pi / 180
     xpts = (radius * cos(t)).tolist()
