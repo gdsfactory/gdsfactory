@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.8.16](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.16) - 2023-11-08
+
+No significant changes.
+
+
 ## [7.8.15](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.15) - 2023-11-05
 
 - Fix typing for `get_cross_sections` and add tests [#2246](https://github.com/gdsfactory/gdsfactory/pull/2246)
