@@ -243,8 +243,9 @@ class Component(_GeometryHelper):
             name = name_short
 
         if self.name != name:
-            # remove the old name from the cache, if it exists
-            if self.name in CACHE:
+            # if this component is registered under its old name in the cache, remove it
+            old_name = self.name
+            if CACHE.get(old_name) is self:
                 remove_from_cache(self.name)
 
             # cache the new name and add to counter if specified
