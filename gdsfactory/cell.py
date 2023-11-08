@@ -33,7 +33,9 @@ def remove_from_cache(name: str) -> None:
 
     if name in CACHE:
         del CACHE[name]
-    name_counters[name] = 0
+
+    if name_counters[name] == 1:
+        name_counters[name] = 0
 
 
 def clear_cache() -> None:
@@ -41,6 +43,7 @@ def clear_cache() -> None:
     global CACHE
 
     CACHE.clear()
+    CACHE_IDS.clear()
     name_counters.clear()
 
 
@@ -216,7 +219,7 @@ def cell(
         if decorator is None and active_pdk.default_decorator is not None:
             decorator = active_pdk.default_decorator
 
-        if cache and name in CACHE and not get_child_name:
+        if cache and name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
 
@@ -244,27 +247,25 @@ def cell(
         if id(component) in CACHE_IDS:
             component = component.copy()
 
-        metadata_child = (
-            dict(component.child.settings) if hasattr(component, "child") else None
-        )
-
         if not isinstance(component, Component):
             raise CellReturnTypeError(
                 f"function {func.__name__!r} return type = {type(component)}",
                 "make sure that functions with @cell decorator return a Component",
             )
 
+        metadata_child = None
         if get_child_name:
-            if metadata_child is None:
+            if component.child is None:
                 raise ValueError(
                     f"{name}: get_child_name was defined, but component has no child! Be sure to assign the component a child attribute."
                 )
+            metadata_child = dict(component.child.settings)
             component_name = f"{metadata_child.get('name')}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length
             )
-            if cache and component_name in CACHE:
-                return CACHE[component_name]
+            # if cache and component_name in CACHE:
+            # return CACHE[component_name]
         else:
             component_name = name
 
@@ -272,6 +273,8 @@ def cell(
             component.rename(
                 component_name, cache=cache, max_name_length=max_name_length
             )
+        if get_child_name and cache:
+            CACHE[name] = component
 
         info = info or {}
         component.info.update(**info)

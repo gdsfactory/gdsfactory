@@ -45,6 +45,7 @@ def bendu_double(
     bendu.add_port("o2", port=bend_r2.ports["o1"])
     bendu.add_port("o3", port=bend_r2.ports["o2"])
     bendu.add_port("o4", port=bend_r.ports["o2"])
+    bendu.copy_child_info(component)
     return bendu
 
 

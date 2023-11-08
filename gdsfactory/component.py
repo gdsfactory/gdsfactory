@@ -187,6 +187,7 @@ class Component(_GeometryHelper):
         self._references = []
 
         self.ports = {}
+        self.child = None
 
     @property
     def references(self):
@@ -1379,6 +1380,7 @@ class Component(_GeometryHelper):
 
         component_flat.info = self.info.copy()
         component_flat.add_ports(self.ports)
+        component_flat.child = self.child
         return component_flat
 
     def flatten_reference(self, ref: ComponentReference) -> None:
@@ -2511,6 +2513,7 @@ def copy(
     """
     c = Component()
     c.info = D.info
+    c.child = D.child
 
     for ref in references if references is not None else D.references:
         c.add(copy_reference(ref))

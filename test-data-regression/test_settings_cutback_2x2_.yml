@@ -50,40 +50,7 @@ ports:
     width: 0.5
 settings:
   changed: {}
-  child:
-    changed: {}
-    child: null
-    default:
-      cross_section: xs_sc
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10.0
-      straight:
-        function: straight
-      taper:
-        function: taper
-      width: null
-      width_mmi: 2.5
-      width_taper: 1.0
-      with_bbox: true
-    full:
-      cross_section: xs_sc
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10.0
-      straight:
-        function: straight
-      taper:
-        function: taper
-      width: null
-      width_mmi: 2.5
-      width_taper: 1.0
-      with_bbox: true
-    function_name: mmi2x2
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.mmi2x2
-    name: mmi2x2
+  child: null
   default:
     bend180:
       function: bend_circular

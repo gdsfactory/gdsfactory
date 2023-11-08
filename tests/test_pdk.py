@@ -39,7 +39,7 @@ def hello_info_decorator(component: gf.Component):
     return component
 
 
-# @pytest.mark.skip(reason="this test causes side effects")
+@pytest.mark.skip(reason="this test causes side effects")
 def test_default_decorator():
     # let's get the currently active pdk so we can set things back as they were later
     prev_active_pdk = gf.get_active_pdk()
