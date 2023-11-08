@@ -96,9 +96,9 @@ def rectangles(
 
 
 if __name__ == "__main__":
-    layer = {(1, 0), (2, 0)}
+    layer = (1, 0)
     # c = rectangles(offsets=(0, 1), centered=False, layer=layer)
-    c = rectangle(size=(3, 2), centered=False, layer=layer)
+    c = rectangle(size=(0, 0), centered=False, layer=layer)
     # c = rectangle(size=(3, 2), centered=True, layer=(2, 3))
     print(c.ports)
     print(c.name)

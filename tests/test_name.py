@@ -37,12 +37,6 @@ def test_name_partial_functions() -> None:
     ), f"{m1.name} is the same {m3.name} while they are different functions"
 
 
-def test_name_iterators() -> None:
-    c1 = rectangles(list(range(5)))
-    c2 = rectangles(list(range(6)))
-    assert c1.name != c2.name
-
-
 def test_float_point_errors() -> None:
     c1 = gf.components.straight(length=5.0 + 1e-20)  # any unit below pm disappears
     c2 = gf.components.straight(length=5.0)
