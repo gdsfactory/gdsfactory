@@ -5,7 +5,7 @@ from __future__ import annotations
 import gdsfactory as gf
 
 
-@gf.cell(cache=False)
+@gf.cell
 def mzi_with_bend(radius: float = 10):
     """Returns MZI interferometer with bend."""
     c = gf.Component()
@@ -19,5 +19,6 @@ def mzi_with_bend(radius: float = 10):
 
 if __name__ == "__main__":
     c = mzi_with_bend(radius=50)
+    gf.remove_from_cache(c)
     # c = gf.routing.add_fiber_single(c)
     c.show(show_ports=True)
