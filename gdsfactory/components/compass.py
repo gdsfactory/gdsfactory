@@ -27,6 +27,9 @@ def compass(
     c = gf.Component()
     dx, dy = snap_to_grid2x(size)
 
+    if dx <= 0 or dy <= 0:
+        raise ValueError(f"dx and dy must be positive. Got {dx} and {dy}")
+
     points = [
         [-dx / 2.0, -dy / 2.0],
         [-dx / 2.0, dy / 2],
@@ -89,5 +92,5 @@ def compass(
 
 if __name__ == "__main__":
     # c = compass(size=(1, 2), layer="WG", port_type="optical", port_inclusion=0.5)
-    c = compass()
+    c = compass(size=(0, 0))
     c.show(show_ports=True)

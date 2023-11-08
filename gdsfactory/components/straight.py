@@ -34,6 +34,7 @@ def straight(
         o1 -------------- o2
                 length
     """
+
     p = gf.path.straight(length=length, npoints=npoints)
     x = gf.get_cross_section(cross_section)
 
@@ -67,7 +68,7 @@ if __name__ == "__main__":
     # xs = xs.mirror()
     # c = straight(cross_section=xs, info=dict(simulation="eme"))
     # print(c.info["simulation"])
-    c = straight()
+    c = straight(length=0)
     c.show()
     print(c.bbox)
     # c._repr_html_()

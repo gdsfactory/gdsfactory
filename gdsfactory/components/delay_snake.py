@@ -94,6 +94,6 @@ def test_delay_snake_length() -> None:
 
 
 if __name__ == "__main__":
-    c = test_delay_snake_length()
-    # c = delay_snake(cross_section="strip_auto_widen", auto_widen_minimum_length=50)
+    # test_delay_snake_length()
+    c = delay_snake()
     c.show(show_ports=True)
