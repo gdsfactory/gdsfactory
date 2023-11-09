@@ -265,18 +265,15 @@ def add_marker_layer(
     *,
     marker_label: str | None = None,
     flatten: bool = False,
-    **kwargs,
 ) -> Component:
     """Adds a marker layer from the convex hull of the input component.
     Used as a decorator for `@gf.cell(decorator=partial(add_marker_layer, marker_layer=...)))`
+    or as a decorator `c = gf.components.straight(decorator=partial(add_marker_layer, marker_layer=...))`
 
     Args:
         marker_layer: The marker layer.
         marker_label: An optional text label to add to the marker layer.
         flatten: Whether to flatten the component. Should be done only for elementary components.
-
-    Keyword Args:
-        **kwargs: Keyword arguments provided to ``component``.
 
     Returns:
         Same component with marker layer applied.
