@@ -261,7 +261,7 @@ class Component(_GeometryHelper):
         """You can iterate over polygons, paths, labels and references."""
         return itertools.chain(self.polygons, self.paths, self.labels, self.references)
 
-    def get_polygon_enclosure(self):
+    def get_polygon_enclosure(self) -> Polygon:
         """Returns shapely Polygon with enclosure."""
         import shapely
 
@@ -274,7 +274,7 @@ class Component(_GeometryHelper):
         bottom: float | None = None,
         right: float | None = None,
         left: float | None = None,
-    ):
+    ) -> Polygon:
         """Returns shapely Polygon with bounding box.
 
         Args:
