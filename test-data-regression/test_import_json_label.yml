@@ -11,11 +11,23 @@ cell_settings:
           cross_section: xs_sc_no_pins
           decorator:
             function: add_pins_siepic
+  cross_section: xs_sc_no_pins
   decorator:
     function: add_label_yaml
     settings:
       with_yaml_format: false
+  grating_coupler:
+    period: 0.6759999999999999
+    polarization: te
+    wavelength: 1.53
+  length: 10.0
   recenter: false
+  route_info:
+    length: 10.0
+    type: xs_sc_no_pins
+    weight: 10.0
+    xs_sc_no_pins_length: 10.0
+  width: 0.5
 doe: null
 measurement: null
 measurement_settings: {}
