@@ -53,6 +53,7 @@ def add_label_yaml(
     analysis_settings = analysis_settings or {}
     measurement_settings = measurement_settings or {}
     cell_settings = component.metadata.get("full", {})
+    cell_settings.update(component.metadata.get("info", {}))
 
     optical_ports = component.get_ports_list(port_type="optical")
     electrical_ports = component.get_ports_list(port_type="electrical")
