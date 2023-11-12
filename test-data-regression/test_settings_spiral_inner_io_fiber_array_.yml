@@ -12,14 +12,14 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
-  loopback_4:
+  loopback_2:
     center:
     - 254.0
     - 46.0
     layer:
     - 1
     - 0
-    name: loopback_4
+    name: loopback_2
     orientation: 90.0
     port_type: optical
     shear_angle: null

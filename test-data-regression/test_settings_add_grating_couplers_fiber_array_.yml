@@ -35,23 +35,17 @@ settings:
       component: spiral_inner_io
       settings:
         length: 20000.0
-    component_name: null
     cross_section: xs_sc
     excluded_ports: null
     gc_port_name: o1
     gc_rotation: -90
-    get_input_labels_function:
-      function: get_input_labels
     grating_coupler:
       function: grating_coupler_elliptical_trenches
       settings:
         polarization: te
         taper_angle: 35
     grating_separation: 127.0
-    layer_label: null
-    layer_label_loopback: null
     loopback_yspacing: 4.0
-    nlabels_loopback: 2
     select_ports:
       function: select_ports
       settings:
@@ -65,23 +59,17 @@ settings:
       component: spiral_inner_io
       settings:
         length: 20000.0
-    component_name: null
     cross_section: xs_sc
     excluded_ports: null
     gc_port_name: o1
     gc_rotation: -90
-    get_input_labels_function:
-      function: get_input_labels
     grating_coupler:
       function: grating_coupler_elliptical_trenches
       settings:
         polarization: te
         taper_angle: 35
     grating_separation: 127.0
-    layer_label: null
-    layer_label_loopback: null
     loopback_yspacing: 4.0
-    nlabels_loopback: 2
     select_ports:
       function: select_ports
       settings:

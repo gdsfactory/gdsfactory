@@ -29,7 +29,12 @@ def straight_narrow(
 
 
 if __name__ == "__main__":
-    wg = straight_narrow(decorator=gf.add_pins.add_pins)
+    from functools import partial
 
+    c = partial(
+        gf.c.spiral_inner_io,
+        decorator=gf.c.add_grating_couplers_with_loopback_fiber_array,
+    )
+    wg = c()
     # By default show adds pins, so you don't need it to show_ports
     wg.show(show_ports=False)
