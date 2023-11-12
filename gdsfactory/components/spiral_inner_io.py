@@ -236,7 +236,7 @@ def spiral_inner_io_fiber_array(
     )
 
     return (
-        add_grating_couplers(spiral, cross_section=cross_section_loopback, **kwargs)
+        add_grating_couplers(spiral, cross_section=cross_section_loopback)
         if add_grating_couplers
         else spiral
     )
