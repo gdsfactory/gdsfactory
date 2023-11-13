@@ -371,8 +371,11 @@ class Component(_GeometryHelper):
             else {"component": self.name, "settings": {}}
         )
 
-    def __getitem__(self, key) -> Port:
+    def __getitem__(self, key: str | int) -> Port:
         """Access reference ports."""
+        if isinstance(key, int):
+            key = list(self.ports.keys())[key]
+
         if key not in self.ports:
             ports = list(self.ports.keys())
             raise ValueError(f"{key!r} not in {ports}")
