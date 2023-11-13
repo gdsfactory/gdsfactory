@@ -475,8 +475,11 @@ class ComponentReference(_GeometryHelper):
         ), f"TypeError, Got {type(v)}, expecting ComponentReference"
         return v
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str | int):
         """Access reference ports."""
+        if isinstance(key, int):
+            key = list(self.ports.keys())[key]
+
         if key not in self.ports:
             ports = list(self.ports.keys())
             raise ValueError(f"{key!r} not in {ports}")
