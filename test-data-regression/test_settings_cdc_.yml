@@ -55,7 +55,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
     dc: 0.5
     dx: 10.0
     dy: 1.8
@@ -72,7 +72,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
     dc: 0.5
     dx: 10.0
     dy: 1.8

@@ -127,7 +127,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
     extension_length: 15.0
     heater_taper_length: 10.0
     heater_width: 2.5
@@ -147,7 +147,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
     extension_length: 15.0
     heater_taper_length: 10.0
     heater_width: 2.5

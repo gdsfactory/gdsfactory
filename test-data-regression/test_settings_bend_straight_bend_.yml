@@ -32,7 +32,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
     direction: ccw
     npoints: 720
     p: 0.5
@@ -43,7 +43,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
     direction: ccw
     npoints: 720
     p: 0.5

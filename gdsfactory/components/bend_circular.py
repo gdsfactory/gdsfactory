@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import Callable, CrossSectionSpec
 
 
 @gf.cell
@@ -18,7 +18,7 @@ def bend_circular(
     width: float | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
     add_pins: bool = True,
-    add_bbox: callable | None = None,
+    add_bbox: Callable | None = None,
 ) -> Component:
     """Returns a radial arc.
 

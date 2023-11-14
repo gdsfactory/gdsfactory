@@ -55,7 +55,7 @@ def cross(
                 width=width,
                 layer=layer,
                 orientation=90,
-                center=(0, length / 2),
+                center=(0, +length / 2),
                 port_type=port_type,
             )
             c.add_port(
