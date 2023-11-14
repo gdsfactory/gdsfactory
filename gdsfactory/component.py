@@ -1549,11 +1549,13 @@ class Component(_GeometryHelper):
             show_labels: shows labels.
         """
 
-        component = (
-            self.add_pins_triangle(port_marker_layer=port_marker_layer)
-            if show_ports
-            else self
-        )
+        if show_ports:
+            name = self.name
+            component = self.add_pins_triangle(port_marker_layer=port_marker_layer)
+            component.rename(name, cache=False)
+
+        else:
+            component = self
 
         try:
             from io import BytesIO
@@ -1603,7 +1605,9 @@ class Component(_GeometryHelper):
             return fig
 
         except ImportError:
-            print("You can install `pip install gdsfactory` for better visualization")
+            print(
+                "You can install `pip install gdsfactory[cad]` for better visualization"
+            )
             component.plot(plotter="matplotlib")
 
     def plot_kweb(self):
@@ -1731,7 +1735,6 @@ class Component(_GeometryHelper):
             timestamp: Defaults to 2019-10-25. If None uses current time.
         """
         from gdsfactory.add_pins import add_pins_triangle
-        from gdsfactory.cell import remove_from_cache
         from gdsfactory.show import show
 
         component = (
@@ -1744,9 +1747,6 @@ class Component(_GeometryHelper):
             else self
         )
 
-        remove_from_cache(component)
-        component.name = self.name
-
         if show_subports:
             component = self.copy()
             for reference in component.references:
@@ -1758,6 +1758,7 @@ class Component(_GeometryHelper):
                         layer_label=port_marker_layer,
                     )
 
+        component.rename(self.name, cache=False)
         show(component, **kwargs)
 
     def _write_library(
