@@ -32,7 +32,7 @@ settings:
     cross_section1:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         sections:
         - hidden: false
           insets: null
@@ -58,7 +58,7 @@ settings:
     cross_section1:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         sections:
         - hidden: false
           insets: null

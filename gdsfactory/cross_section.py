@@ -519,7 +519,8 @@ def cross_section(
 radius_nitride = 20
 radius_rib = 20
 
-strip = partial(cross_section, add_pins_function_name="add_pins_inside1nm")
+strip = partial(cross_section, add_pins_function_name=None)
+strip_pins = partial(cross_section, add_pins_function_name="add_pins_inside1nm")
 strip_auto_widen = partial(strip, auto_widen=True)
 strip_no_pins = cross_section
 
@@ -2324,6 +2325,7 @@ def get_cross_sections(
 xs_sc = strip()
 xs_sc_auto_widen = strip_auto_widen()
 xs_sc_no_pins = strip_no_pins()
+xs_sc_pins = strip_pins()
 
 xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
 xs_rc2 = rib2()

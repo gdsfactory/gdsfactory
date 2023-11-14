@@ -24,9 +24,9 @@ cell_settings:
   recenter: false
   route_info:
     length: 10.0
-    type: xs_sc_no_pins
+    type: xs_sc
     weight: 10.0
-    xs_sc_no_pins_length: 10.0
+    xs_sc_length: 10.0
   width: 0.5
 doe: null
 measurement: null

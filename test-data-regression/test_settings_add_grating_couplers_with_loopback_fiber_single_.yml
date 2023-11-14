@@ -56,7 +56,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
     gc_port_name: o1
     grating_coupler:
       function: grating_coupler_elliptical_trenches
@@ -75,7 +75,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
     gc_port_name: o1
     grating_coupler:
       function: grating_coupler_elliptical_trenches

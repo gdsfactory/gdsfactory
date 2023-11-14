@@ -60,20 +60,22 @@ def taper(
     y2 = width2 / 2
     x1 = x.model_copy(update=dict(width=width1))
     x2 = x.model_copy(update=dict(width=width2))
-    xpts = [0, length, length, 0]
-    ypts = [y1, y2, -y2, -y1]
-    c.add_polygon((xpts, ypts), layer=layer)
 
-    x1 = x.copy(width=width1)
-    x2 = x.copy(width=width2)
-
-    xpts = [0, length, length, 0]
-    for section in x.sections[1:]:
-        layer = section.layer
-        y1 = section.width / 2
-        y2 = y1 + (width2 - width1)
+    if length:
+        xpts = [0, length, length, 0]
         ypts = [y1, y2, -y2, -y1]
         c.add_polygon((xpts, ypts), layer=layer)
+
+        x1 = x.copy(width=width1)
+        x2 = x.copy(width=width2)
+
+        xpts = [0, length, length, 0]
+        for section in x.sections[1:]:
+            layer = section.layer
+            y1 = section.width / 2
+            y2 = y1 + (width2 - width1)
+            ypts = [y1, y2, -y2, -y1]
+            c.add_polygon((xpts, ypts), layer=layer)
 
     c.add_port(
         name=port_order_name[0],
@@ -208,18 +210,19 @@ def taper_strip_to_ridge_trenches(
     # straight
     x = [0, length, length, 0]
     yw = [y0, yL, -yL, -y0]
-    c.add_polygon((x, yw), layer=layer_wg)
+    if length:
+        c.add_polygon((x, yw), layer=layer_wg)
 
-    # top trench
-    ymin0 = width / 2
-    yminL = width / 2
-    ymax0 = width / 2 + trench_width
-    ymaxL = width / 2 + trench_width + slab_offset
-    x = [0, length, length, 0]
-    ytt = [ymin0, yminL, ymaxL, ymax0]
-    ytb = [-ymin0, -yminL, -ymaxL, -ymax0]
-    c.add_polygon((x, ytt), layer=trench_layer)
-    c.add_polygon((x, ytb), layer=trench_layer)
+        # top trench
+        ymin0 = width / 2
+        yminL = width / 2
+        ymax0 = width / 2 + trench_width
+        ymaxL = width / 2 + trench_width + slab_offset
+        x = [0, length, length, 0]
+        ytt = [ymin0, yminL, ymaxL, ymax0]
+        ytb = [-ymin0, -yminL, -ymaxL, -ymax0]
+        c.add_polygon((x, ytt), layer=trench_layer)
+        c.add_polygon((x, ytb), layer=trench_layer)
 
     c.add_port(name="o1", center=(0, 0), width=width, orientation=180, layer=layer_wg)
     c.add_port(
@@ -244,8 +247,9 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
+    c = taper(length=0)
     # c = taper_strip_to_ridge_trenches()
     # c = taper_strip_to_ridge()
     # c = taper(width1=1.5, width2=1, cross_section="xs_rc")
-    c = taper_sc_nc()
-    c.show(show_ports=True)
+    # c = taper_sc_nc()
+    c.show(show_ports=False)

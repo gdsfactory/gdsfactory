@@ -1,4 +1,4 @@
-name: straight_0dd74e54_extend_ports_90a9fa88
+name: straight_7d7b8106_extend_ports_2f59897c
 ports:
   o1:
     center:
@@ -32,7 +32,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_pins_function_name: add_pins_inside1nm
+            add_pins_function_name: null
             sections:
             - hidden: false
               insets: null
@@ -74,7 +74,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_pins_function_name: add_pins_inside1nm
+            add_pins_function_name: null
             sections:
             - hidden: false
               insets: null
@@ -105,7 +105,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         sections:
         - hidden: false
           insets: null
@@ -125,10 +125,10 @@ settings:
     length: 10.0
     route_info:
       length: 10.0
-      type: xs_f0722844
+      type: xs_6e41a64d
       weight: 10.0
-      xs_f0722844_length: 10.0
+      xs_6e41a64d_length: 10.0
     width: 0.5
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_0dd74e54_extend_ports_90a9fa88
+  name: straight_7d7b8106_extend_ports_2f59897c
