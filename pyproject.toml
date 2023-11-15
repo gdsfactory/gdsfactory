@@ -128,9 +128,34 @@ strict = true
 
 [tool.pyright]
 include = ["gdsfactory", "tests", "docs"]
+exclude = [
+    "gdsfactory/components",
+    "gdsfactory/export",
+    "gdsfactory/generic_tech",
+    "gdsfactory/geometry",
+    "gdsfactory/labels",
+    "gdsfactory/plugins",
+    "gdsfactory/read/labels.py",
+    "gdsfactory/routing",
+    "gdsfactory/samples",
+    "gdsfactory/technology",
+    # "gdsfactory/*.py",
+    "test-data",
+    "tests",
+    "docs",
+]
+# TODO enable incrementally
 pythonVersion = "3.10"
-reportMissingImports = true
+reportMissingImports = false
+strictListInference = true
+strictDictionaryInference = true
+strictSetInference = true
+reportUnnecessaryTypeIgnoreComment = true
 reportMissingTypeStubs = false
+useLibraryCodeForTypes = false
+typeCheckingMode = "basic"
+#disable until https://github.com/python/cpython/issues/80925 is fixed
+# Disable checking on partials until https://github.com/python/mypy/issues/1484 is fixed
 
 [tool.pytest.ini_options]
 # addopts = --tb=no

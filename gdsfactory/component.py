@@ -174,7 +174,7 @@ class Component(_GeometryHelper):
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
-        self._cell = gdstk.Cell("Unnamed")
+        self._cell: gdstk.Cell | gdstk.RawCell = gdstk.Cell("Unnamed")
         self.rename(name, max_name_length=max_name_length)
         self.info: dict[str, Any] = {}
 
@@ -194,7 +194,7 @@ class Component(_GeometryHelper):
         return self._references
 
     @property
-    def polygons(self) -> list[Polygon]:
+    def polygons(self) -> list[gdstk.Polygon]:
         return self._cell.polygons
 
     def area(self, layer: LayerSpec | None = None) -> float:

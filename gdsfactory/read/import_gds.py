@@ -1,6 +1,7 @@
 from __future__ import annotations
-
+import typing_extensions
 from pathlib import Path
+from typing import Mapping, Any, cast
 
 import gdstk
 import numpy as np
@@ -114,7 +115,7 @@ def import_gds(
         metadata = OmegaConf.load(metadata_filepath)
 
         if "settings" in metadata:
-            settings = OmegaConf.to_container(metadata.settings)
+            settings = cast(Mapping[str, Any], OmegaConf.to_container(metadata.settings))
             if settings:
                 component.settings = Settings(**settings)
 
@@ -131,7 +132,6 @@ def import_gds(
                     )
 
     component.info.update(**kwargs)
-    component.imported_gds = True
     return component
 
 
@@ -141,6 +141,8 @@ def import_gds_raw(gdspath, top_cellname: str | None = None):
             gdsii_lib = gdstk.read_gds(str(gdspath))
         elif gdspath.suffix.lower() == ".oas":
             gdsii_lib = gdstk.read_oas(str(gdspath))
+        else:
+            raise ValueError(f"{gdspath.suffix=} not .gds or .oas")
         top_level_cells = gdsii_lib.top_level()
         top_cellnames = [c.name for c in top_level_cells]
         top_cellname = top_cellnames[0]
