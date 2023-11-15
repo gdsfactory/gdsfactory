@@ -1,12 +1,23 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.16...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.17...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.8.17](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.17) - 2023-11-15
 
-No significant changes.
-
+- remove_zero_length_tapers_and_pins [#2312](https://github.com/gdsfactory/gdsfactory/pull/2312)
+- fix plot [#2310](https://github.com/gdsfactory/gdsfactory/pull/2310)
+- [pre-commit.ci] pre-commit autoupdate [#2308](https://github.com/gdsfactory/gdsfactory/pull/2308)
+- access ports by index [#2307](https://github.com/gdsfactory/gdsfactory/pull/2307)
+- fix spiral inner io with kwargs in grating couplers [#2306](https://github.com/gdsfactory/gdsfactory/pull/2306)
+- add info label to cell_settings [#2305](https://github.com/gdsfactory/gdsfactory/pull/2305)
+- simpler_add_grating_couplers [#2304](https://github.com/gdsfactory/gdsfactory/pull/2304)
+- remove unused kwargs [#2303](https://github.com/gdsfactory/gdsfactory/pull/2303)
+- faster extract [#2302](https://github.com/gdsfactory/gdsfactory/pull/2302)
+- simpler [#2300](https://github.com/gdsfactory/gdsfactory/pull/2300)
+- Fix `inspect.signature` bug for partials with partialed decorators [#2299](https://github.com/gdsfactory/gdsfactory/pull/2299)
+- Support giving straight spec in `get_route_from_steps` [#2298](https://github.com/gdsfactory/gdsfactory/pull/2298)
+- Update `gf install` command for KLayout integration [#2295](https://github.com/gdsfactory/gdsfactory/pull/2295)
 
 ## [7.8.16](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.16) - 2023-11-08
 
