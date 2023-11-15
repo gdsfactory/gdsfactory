@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.8.17](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.17) - 2023-11-15
+
+No significant changes.
+
+
 ## [7.8.16](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.16) - 2023-11-08
 
 - Bump kweb from 1.1.9 to 1.1.10 [#2277](https://github.com/gdsfactory/gdsfactory/pull/2277)
