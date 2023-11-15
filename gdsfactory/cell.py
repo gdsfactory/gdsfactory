@@ -6,7 +6,7 @@ import hashlib
 import inspect
 from collections.abc import Callable
 from functools import partial
-from typing import Any, TypeVar
+from typing import Any, ParamSpec, TypeVar, cast, Concatenate
 
 from pydantic import BaseModel, validate_call
 
@@ -20,7 +20,9 @@ CACHE_IDS = set()
 
 INFO_VERSION = 2
 
-_F = TypeVar("_F", bound=Callable)
+_P = ParamSpec("_P")
+_P2 = ParamSpec("_P2")
+_F = TypeVar("_F", bound=Callable[..., Component])
 
 
 class CellReturnTypeError(ValueError):
@@ -69,7 +71,7 @@ class Settings(BaseModel):
 
 
 def cell(
-    func: _F | None = None,
+    func: Callable[_P, Component],
     /,
     *,
     autoname: bool = True,
@@ -80,11 +82,16 @@ def cell(
     ports_not_manhattan: str | None = None,
     flatten: bool = False,
     naming_style: str = "default",
-    default_decorator: Callable[[Component], Component] | None = None,
+    default_decorator: Callable[..., Component] | None = None,
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
-) -> Callable[[_F], _F]:
+    # # ):
+# ) -> _F:
+) -> Callable[Concatenate[..., _P], Component]:
+# ) -> Callable[_P, Component]:
+# ) -> Callable[..., _F: #Callable[[_F], _F]:
+# ) -> Callable[[Callable[_P, _F]], Callable[[_F], _F]]:
     """Parametrized Decorator for Component functions.
 
     Args:
@@ -134,7 +141,7 @@ def cell(
     """
 
     @functools.wraps(func)
-    def wrapper(*args, **kwargs) -> Component:
+    def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> Component:
         nonlocal ports_not_manhattan, ports_off_grid, max_name_length
         from gdsfactory.pdk import get_active_pdk
 
@@ -298,7 +305,8 @@ def cell(
         CACHE_IDS.add(id(component))
         return component
 
-    return (
+    # return cast(_F, (
+    return (#cast(Callable[[Callable[..., _F]], Callable[[_F], Component]] ,(
         wrapper
         if func is not None
         else partial(
@@ -317,6 +325,7 @@ def cell(
             get_child_name=get_child_name,
         )
     )
+                    # )
 
 
 cell_without_validator = cell
