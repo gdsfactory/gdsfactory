@@ -379,6 +379,7 @@ __all__ = [
     "cdsem_coupler",
     "cdsem_bend180",
     "circle",
+    "cmos_side_gate_transistor",
     "coh_rx_dual_pol",
     "coh_rx_single_pol",
     "coh_tx_dual_pol",
