@@ -19,7 +19,7 @@ def cmos_side_gate(
     is_nmos: bool = True,
 ) -> Component:
     """
-    Returns an NMOS side-gate transistor.
+    Returns a CMOS side-gate transistor.
 
     Args:
         is_nmos: True if NMOS, False if PMOS (determines doping)
@@ -214,10 +214,17 @@ def cmos_side_gate(
     ref_metal_source.movey(-6.5)
     ref_metal_drain.movey(6.5)
 
+    gate_all_ports = ref_metal_gate.get_ports_list()
+    gate_ports = [gate_all_ports[0], gate_all_ports[2]]
+    drain_all_ports = ref_metal_drain.get_ports_list()
+    drain_ports = [drain_all_ports[0], drain_all_ports[1], drain_all_ports[2]]
+    source_all_ports = ref_metal_source.get_ports_list()
+    source_ports = [source_all_ports[0], source_all_ports[2], source_all_ports[3]]
+
     # connections to the metal layers
-    c.add_ports(ref_metal_source.get_ports_list(), prefix="source_")
-    c.add_ports(ref_metal_drain.get_ports_list(), prefix="drain_")
-    c.add_ports(ref_metal_gate.get_ports_list(), prefix="gate_")
+    c.add_ports(source_ports, prefix="source_")
+    c.add_ports(drain_ports, prefix="drain_")
+    c.add_ports(gate_ports, prefix="gate_")
 
     return c
 
@@ -229,6 +236,3 @@ if __name__ == "__main__":
 
     c2 = cmos_side_gate(is_nmos=False)
     c2.show(show_ports=True)
-
-    # scene = c1.to_3d()
-    # scene.show()
