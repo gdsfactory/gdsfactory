@@ -1590,10 +1590,12 @@ if __name__ == "__main__":
     # t = gf.path.transition(X1, X2, width_type="linear")
     # c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
 
-    w1 = 1
-    w2 = 5
-    x1 = gf.get_cross_section("xs_sc", width=w1)
-    x2 = gf.get_cross_section("xs_sc", width=w2)
-    trans = gf.path.transition(x1, x2)
-    c = gf.components.bend_euler(radius=10, cross_section=trans)
+    # w1 = 1
+    # w2 = 5
+    # x1 = gf.get_cross_section("xs_sc", width=w1)
+    # x2 = gf.get_cross_section("xs_sc", width=w2)
+    # trans = gf.path.transition(x1, x2)
+    # c = gf.components.bend_euler(radius=10, cross_section=trans)
+    xs = gf.cross_section.pn(slab_inset=-0.2)
+    c = gf.c.straight(cross_section=xs)
     c.show(show_ports=True)

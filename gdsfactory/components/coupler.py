@@ -48,7 +48,7 @@ def coupler(
 
 
     """
-    length = gf.snap.snap_to_grid(length)
+    length = gf.snap.snap_to_grid2x(length)
     gap = gf.snap.snap_to_grid2x(gap)
     c = Component()
 

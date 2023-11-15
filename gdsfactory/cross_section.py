@@ -959,6 +959,7 @@ def pn(
     cladding_layers: LayerSpecs | None = None,
     cladding_offsets: Floats | None = None,
     cladding_simplify: Floats | None = None,
+    slab_inset: float | None = None,
     **kwargs,
 ) -> CrossSection:
     """Rib PN doped cross_section.
@@ -990,6 +991,7 @@ def pn(
         cladding_simplify: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting\
                 polygon by more than the value listed here will be removed.
+        slab_inset: slab inset in um.
         kwargs: cross_section settings.
 
     .. code::
@@ -1022,7 +1024,9 @@ def pn(
         c = p.extrude(xs)
         c.plot()
     """
-    slab = Section(width=width_slab, offset=0, layer=layer_slab)
+    slab_insets = (slab_inset,) * 2 if slab_inset else None
+
+    slab = Section(width=width_slab, offset=0, layer=layer_slab, insets=slab_insets)
 
     sections = list(sections or [])
     sections += [slab]
@@ -2363,18 +2367,19 @@ cross_sections = get_cross_sections(sys.modules[__name__])
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    xs = gf.cross_section.strip(
-        # slab_offset=0
-        # offset=1,
-        # cladding_layers=[(2, 0)],
-        # cladding_offsets=[3],
-        bbox_layers=[(3, 0)],
-        bbox_offsets=[2],
-    )
-    xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0), name="slab")])
-    p = gf.path.straight()
-    c = p.extrude(xs)
-    c = gf.c.straight(cross_section=xs)
-    xs = pn()
+    # xs = gf.cross_section.pn(
+    #     # slab_offset=0
+    #     # offset=1,
+    #     # cladding_layers=[(2, 0)],
+    #     # cladding_offsets=[3],
+    #     # bbox_layers=[(3, 0)],
+    #     # bbox_offsets=[2],
+    #     # slab_inset=0.2,
+    # )
+    # xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0), name="slab")])
+    # p = gf.path.straight()
+    # c = p.extrude(xs)
+    # c = gf.c.straight(cross_section=xs)
+    xs = pn(slab_inset=0.2)
     c = gf.c.straight(cross_section=xs)
     c.show()
