@@ -115,7 +115,7 @@ def get_netlist(
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = False,
 ) -> dict[str, Any]:
-    """From Component returns instances, connections and placements dict.
+    """Returns instances, connections and placements from :class:`Component` as a dict.
 
     Does two sweeps over the connections:
 
@@ -148,12 +148,13 @@ def get_netlist(
                 if True, will return key: [value] pairs with [value] a list of all connected instances.
 
     Returns:
-        instances: Dict of instance name and settings.
-        connections: Dict of Instance1Name,portName: Instance2Name,portName.
-        placements: Dict of instance names and placements (x, y, rotation).
-        port: Dict portName: ComponentName,port.
-        name: name of component.
-        warnings: warning messages (disconnected pins).
+        Dictionary containing the following:
+            instances: Dict of instance name and settings.
+            connections: Dict of Instance1Name,portName: Instance2Name,portName.
+            placements: Dict of instance names and placements (x, y, rotation).
+            port: Dict portName: ComponentName,port.
+            name: name of component.
+            warnings: warning messages (disconnected pins).
 
     """
     placements = {}
