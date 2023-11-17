@@ -26,7 +26,7 @@ def get_route_from_steps(
     straight: ComponentSpec = "straight",
     taper: ComponentSpec | None = "taper",
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
-    with_sbend=False,
+    with_sbend: bool = False,
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints steps.
