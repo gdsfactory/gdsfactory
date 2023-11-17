@@ -26,7 +26,7 @@ def get_route_from_steps(
     straight: ComponentSpec = "straight",
     taper: ComponentSpec | None = "taper",
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
-    with_sbend=False,
+    with_sbend: bool = False,
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints steps.
@@ -44,6 +44,7 @@ def get_route_from_steps(
         straight: straight spec.
         taper: taper spec.
         cross_section: cross_section spec.
+        with_sbend: whether to add sbend for impossible manhattan routes.
         kwargs: cross_section settings.
 
     .. plot::
@@ -77,7 +78,6 @@ def get_route_from_steps(
         )
         c.add(route.references)
         c.plot()
-        c.show(show_ports=True)
 
     """
     x, y = port1.center
