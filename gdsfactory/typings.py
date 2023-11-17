@@ -184,7 +184,9 @@ MultiCrossSectionAngleSpec = list[tuple[CrossSectionSpec, tuple[int, ...]]]
 
 LabelListFactory = Callable[..., list[Label]]
 
-ConductorViaConductorName = tuple[str, str, str]
+ConductorConductorName = tuple[str, str]
+ConductorViaConductorName = tuple[str, str, str] | tuple[str, str]
+ConnectivitySpec = ConductorConductorName | ConductorViaConductorName
 
 
 class Route(BaseModel):

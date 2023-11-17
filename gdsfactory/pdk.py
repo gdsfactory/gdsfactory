@@ -25,7 +25,7 @@ from gdsfactory.typings import (
     Component,
     ComponentFactory,
     ComponentSpec,
-    ConductorViaConductorName,
+    ConnectivitySpec,
     CrossSection,
     CrossSectionOrFactory,
     CrossSectionSpec,
@@ -254,7 +254,7 @@ class Pdk(BaseModel):
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
     cell_decorator_settings: CellDecoratorSettings = CellDecoratorSettings()
     bend_points_distance: float = 20 * nm
-    connectivity: list[ConductorViaConductorName] | None = None
+    connectivity: list[ConnectivitySpec] | None = None
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
