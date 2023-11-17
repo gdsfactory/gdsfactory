@@ -11,7 +11,7 @@ from pydantic import BaseModel, ConfigDict
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.technology.xml_utils import make_pretty_xml
-from gdsfactory.typings import ConductorViaConductorName, Layer, PathType
+from gdsfactory.typings import ConnectivitySpec, Layer, PathType
 
 prefix_d25 = """<?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
@@ -56,7 +56,7 @@ class KLayoutTechnology(BaseModel):
     layer_map: dict[str, Layer]
     layer_views: LayerViews | None = None
     layer_stack: LayerStack | None = None
-    connectivity: list[ConductorViaConductorName] | None = None
+    connectivity: list[ConnectivitySpec] | None = None
 
     def write_tech(
         self,
@@ -156,12 +156,14 @@ class KLayoutTechnology(BaseModel):
             raise KeyError("Could not get a single index for the src element.")
         src_element = src_element[0]
         layers = set()
-        for layer_name_c1, layer_name_via, layer_name_c2 in self.connectivity:
-            connection = ",".join([layer_name_c1, layer_name_via, layer_name_c2])
+        for first_layer_name, *layer_names in self.connectivity:
+            connection = ",".join(
+                [first_layer_name]
+                + (layer_names if len(layer_names) == 2 else [""] + layer_names)
+            )
 
-            layers.add(layer_name_c1)
-            layers.add(layer_name_via)
-            layers.add(layer_name_c2)
+            for layer_name in layer_names:
+                layers.add(layer_name)
 
             ET.SubElement(src_element, "connection").text = connection
 
