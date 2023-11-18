@@ -16,14 +16,15 @@ wire_straight = partial(straight, cross_section="xs_metal_routing")
 
 @gf.cell
 def wire_corner(
-    cross_section: CrossSectionSpec = "xs_metal_routing",
+    cross_section: CrossSectionSpec = "xs_metal_routing", **kwargs
 ) -> Component:
     """Returns 45 degrees electrical corner wire.
 
     Args:
         cross_section: spec.
+        kwarg: cross_section settings.
     """
-    x = gf.get_cross_section(cross_section)
+    x = gf.get_cross_section(cross_section, **kwargs)
     layer = x.layer
     width = x.width
 
