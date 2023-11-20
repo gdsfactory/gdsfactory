@@ -171,7 +171,7 @@ def get_layer_stack(
             zmin=0.0,
             material="sio2",
             thickness=thickness_clad,
-            mesh_order=10,
+            mesh_order=9,
         ),
         slab150=LayerLevel(
             layer=layer_slab_shallow_etch,
@@ -278,6 +278,7 @@ WAFER_STACK = LayerStack(
             "substrate",
             "box",
             "core",
+            "clad",
         )
     }
 )
