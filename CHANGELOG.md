@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.17...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.18...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.8.18](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.18) - 2023-11-19
 
-No significant changes.
-
+- add wire corner kwargs [#2320](https://github.com/gdsfactory/gdsfactory/pull/2320)
+- enable sbend routes in get_route_from_steps [#2319](https://github.com/gdsfactory/gdsfactory/pull/2319)
+- Allow connections w/o vias in `KLayoutTechnology` [#2317](https://github.com/gdsfactory/gdsfactory/pull/2317)
+- snap detector to 2x grid [#2314](https://github.com/gdsfactory/gdsfactory/pull/2314)
 
 ## [7.8.17](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.17) - 2023-11-15
 
