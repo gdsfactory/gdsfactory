@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.8.18](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.18) - 2023-11-19
+
+No significant changes.
+
+
 ## [7.8.17](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.17) - 2023-11-15
 
 - remove_zero_length_tapers_and_pins [#2312](https://github.com/gdsfactory/gdsfactory/pull/2312)
