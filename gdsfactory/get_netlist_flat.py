@@ -234,7 +234,6 @@ def _flatten_hierarchy(
     component_instance_delimiter: str = ";",
 ):
     """Converts _flatten_netlist output str's to list of hierarchical (component, instance) tuples."""
-
     instance_dict = _flatten_hierarchy_recurse(
         netlist_name=netlist_name,
         all_netlists=all_netlists,

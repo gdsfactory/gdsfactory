@@ -43,8 +43,7 @@ def get_connector(name: str) -> Connector:
 def vector_intersection(
     p0, a0, p1, a1, max_distance=100000, raise_error=True
 ) -> np.ndarray | None:
-    """
-    Gets the intersection point between two vectors, specified by (point, angle) pairs, (p0, a0) and (p1, a1).
+    """Gets the intersection point between two vectors, specified by (point, angle) pairs, (p0, a0) and (p1, a1).
 
     Args:
         p0: x,y location of vector 0.
@@ -119,8 +118,7 @@ def low_loss_connector(
     prioritized_cross_sections: list[CrossSectionSpec] | None = None,
     **kwargs,
 ) -> list[ComponentReference]:
-    """
-    Routes between two ports, using the lowest-loss cross-section which will fit.
+    """Routes between two ports, using the lowest-loss cross-section which will fit.
 
     Args:
         port1: the starting port.
@@ -204,8 +202,7 @@ def _make_error_trace(port1: Port, port2: Port, message: str):
 def straight_connector(
     port1: Port, port2: Port, cross_section: CrossSectionSpec = "xs_sc"
 ) -> list[ComponentReference]:
-    """
-    Connects between the two ports with a straight of the given cross-section.
+    """Connects between the two ports with a straight of the given cross-section.
 
     Args:
         port1: the starting port.
@@ -239,8 +236,7 @@ def auto_taper_connector(
     cross_section: CrossSectionSpec = "xs_sc",
     inner_connector: Connector = straight_connector,
 ) -> list[ComponentReference]:
-    """
-    Connects the two ports with a straight in the specified cross_section, adding tapers at either end if necessary.
+    """Connects the two ports with a straight in the specified cross_section, adding tapers at either end if necessary.
 
     Args:
         port1: the first port.
@@ -277,8 +273,7 @@ CONNECTORS = {
 
 
 def _place_bend(bend_component: Component, position, rotation) -> ComponentReference:
-    """
-    Places a bend by its control point at a given position and rotation. The control point of a bend is the intersection of the inverted port vectors.
+    """Places a bend by its control point at a given position and rotation. The control point of a bend is the intersection of the inverted port vectors.
 
     Args:
         bend_component: the bend component
@@ -412,7 +407,7 @@ def _get_bend(
 
 
 def _get_bend_angles(p0, p1, a0, a1, bend):
-    """get the direct line between the two points."""
+    """Get the direct line between the two points."""
     import scipy.optimize
 
     from gdsfactory.pdk import get_component

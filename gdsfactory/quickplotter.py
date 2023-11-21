@@ -192,7 +192,7 @@ def quickplot(items, **kwargs):  # noqa: C901
         fontsize: for labels.
 
 
-    Examples
+    Examples:
     --------
     >>> import gdsfactory as gf
     >>> R = gf.components.rectangle()
@@ -346,7 +346,8 @@ def quickplot(items, **kwargs):  # noqa: C901
 
 def _use_interactive_zoom():
     """Checks whether the current matplotlib backend is compatible with \
-    interactive zoom."""
+    interactive zoom.
+    """
     import matplotlib
 
     if _quickplot_options["interactive_zoom"] is not None:

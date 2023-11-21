@@ -36,7 +36,7 @@ def using_dangerous_intermediate_cells() -> Component:
 
 
 def test_uncached_component_warning() -> None:
-    """Ensures that an UncachedComponentWarning is raised by default when a GDS with uncached cells is written"""
+    """Ensures that an UncachedComponentWarning is raised by default when a GDS with uncached cells is written."""
     c = using_dangerous_intermediate_cells()
 
     with pytest.warns(UncachedComponentWarning):

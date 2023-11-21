@@ -157,7 +157,7 @@ def straight_heater_metal_simple(
     ohms_per_square: float | None = None,
 ) -> Component:
     """Returns a thermal phase shifter that has properly fixed electrical connectivity to extract a suitable electrical netlist and models.
-    dimensions from https://doi.org/10.1364/OE.27.010456
+    dimensions from https://doi.org/10.1364/OE.27.010456.
 
     Args:
         length: of the waveguide.

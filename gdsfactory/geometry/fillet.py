@@ -35,7 +35,6 @@ def fillet(
       c.show()
 
     """
-
     if hasattr(operand, "get_polygons"):
         operand = operand.get_polygons(as_array=False)
 

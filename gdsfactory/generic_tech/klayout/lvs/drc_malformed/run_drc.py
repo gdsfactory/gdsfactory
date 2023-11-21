@@ -2,8 +2,7 @@
 # ------------------------------ GENERIC TECH DRC-malformed RULE DECK ---------------------------------------
 # ===========================================================================================================
 
-"""
-Run GENERIC TECH DRC-malformed runset.
+"""Run GENERIC TECH DRC-malformed runset.
 
 Usage:
     run_drc.py (--help| -h)
@@ -31,20 +30,18 @@ from docopt import docopt
 
 
 def get_rules_with_violations(results_database):
-    """
-    This function will find all the rules that has violated in a database.
+    """This function will find all the rules that has violated in a database.
 
     Parameters
     ----------
     results_database : string or Path object
         Path string to the results file
 
-    Returns
+    Returns:
     -------
     set
         A set that contains all rules in the database with violations
     """
-
     mytree = ET.parse(results_database)
     myroot = mytree.getroot()
 
@@ -57,8 +54,7 @@ def get_rules_with_violations(results_database):
 
 
 def check_drc_results(results_db_files: list) -> None:
-    """
-    check_drc_results Checks the results db generated from run and report at the end if the DRC run failed or passed.
+    """check_drc_results Checks the results db generated from run and report at the end if the DRC run failed or passed.
     This function will exit with 1 if there are violations.
 
     Parameters
@@ -66,7 +62,6 @@ def check_drc_results(results_db_files: list) -> None:
     results_db_files : list
         A list of strings that represent paths to results databases of all the DRC runs.
     """
-
     if len(results_db_files) < 1:
         logging.error("Klayout did not generate any rdb results. Please check run logs")
         exit(1)
@@ -86,15 +81,14 @@ def check_drc_results(results_db_files: list) -> None:
 
 
 def get_top_cell_names(gds_path):
-    """
-    get_top_cell_names get the top cell names from the GDS file.
+    """get_top_cell_names get the top cell names from the GDS file.
 
     Parameters
     ----------
     gds_path : string
         Path to the target GDS file.
 
-    Returns
+    Returns:
     -------
     List of string
         Names of the top cell in the layout.
@@ -107,8 +101,7 @@ def get_top_cell_names(gds_path):
 
 
 def get_run_top_cell_name(arguments, layout_path):
-    """
-    get_run_top_cell_name Get the top cell name to use for running. If it's provided by the user, we use the user input.
+    """get_run_top_cell_name Get the top cell name to use for running. If it's provided by the user, we use the user input.
     If not, we get it from the GDS file.
 
     Parameters
@@ -118,13 +111,12 @@ def get_run_top_cell_name(arguments, layout_path):
     layout_path : string
         Path to the target layout.
 
-    Returns
+    Returns:
     -------
     string
         Name of the topcell to use in run.
 
     """
-
     if arguments["--topcell"]:
         topcell = arguments["--topcell"]
     else:
@@ -141,8 +133,7 @@ def get_run_top_cell_name(arguments, layout_path):
 
 
 def generate_klayout_switches(arguments, layout_path):
-    """
-    parse_switches Function that parse all the args from input to prepare switches for DRC run.
+    """parse_switches Function that parse all the args from input to prepare switches for DRC run.
 
     Parameters
     ----------
@@ -151,7 +142,7 @@ def generate_klayout_switches(arguments, layout_path):
     layout_path : string
         Path to the layout file that we will run DRC on.
 
-    Returns
+    Returns:
     -------
     dict
         Dictionary that represent all run switches passed to klayout.
@@ -180,9 +171,7 @@ def generate_klayout_switches(arguments, layout_path):
 
 
 def check_klayout_version() -> None:
-    """
-    check_klayout_version checks klayout version and makes sure it would work with the DRC.
-    """
+    """check_klayout_version checks klayout version and makes sure it would work with the DRC."""
     # ======= Checking Klayout version =======
     klayout_v_ = os.popen("klayout -b -v").read()
     klayout_v_ = klayout_v_.split("\n")[0]
@@ -213,20 +202,18 @@ def check_klayout_version() -> None:
 
 
 def check_layout_path(layout_path):
-    """
-    check_layout_type checks if the layout provided is GDS or OAS. Otherwise, kill the process. We only support GDS or OAS now.
+    """check_layout_type checks if the layout provided is GDS or OAS. Otherwise, kill the process. We only support GDS or OAS now.
 
     Parameters
     ----------
     layout_path : string
         string that represent the path of the layout.
 
-    Returns
+    Returns:
     -------
     string
         string that represent full absolute layout path.
     """
-
     if not os.path.isfile(layout_path):
         logging.error("## GDS file path provided doesn't exist or not a file.")
         exit(1)
@@ -241,8 +228,7 @@ def check_layout_path(layout_path):
 
 
 def build_switches_string(sws: dict):
-    """
-    build_switches_string Build switches string from dictionary.
+    """build_switches_string Build switches string from dictionary.
 
     Parameters
     ----------
@@ -257,8 +243,7 @@ def build_switches_string(sws: dict):
 
 
 def run_check(drc_file: str, drc_name: str, path: str, run_dir: str, sws: dict):
-    """
-    run_antenna_check run DRC check based on DRC file provided.
+    """run_antenna_check run DRC check based on DRC file provided.
 
     Parameters
     ----------
@@ -271,13 +256,12 @@ def run_check(drc_file: str, drc_name: str, path: str, run_dir: str, sws: dict):
     sws : dict
         Dictionary that holds all switches that needs to be passed to the antenna checks.
 
-    Returns
+    Returns:
     -------
     string
         string that represent the path to the results output database for this run.
 
     """
-
     ## Using print because of the multiprocessing
     logging.info(
         "Running GENERIC TECH DRC-malformed {} checks on design {} on cell {}:".format(
@@ -306,8 +290,7 @@ def run_single_processor(
     switches: dict,
     drc_run_dir: str,
 ) -> None:
-    """
-    run_single_processor run the drc checks as single run.
+    """run_single_processor run the drc checks as single run.
 
     Parameters
     ----------
@@ -322,7 +305,6 @@ def run_single_processor(
     drc_run_dir : str
         Path to the run location.
     """
-
     list_res_db_files = []
 
     ## Generate run rule deck from template.
@@ -339,8 +321,7 @@ def run_single_processor(
 
 
 def main(drc_run_dir: str, now_str: str, arguments: dict) -> None:
-    """
-    main function to run the DRC.
+    """Main function to run the DRC.
 
     Parameters
     ----------
@@ -351,7 +332,6 @@ def main(drc_run_dir: str, now_str: str, arguments: dict) -> None:
     arguments : dict
         Dictionary that holds the arguments used by user in the run command. This is generated by docopt library.
     """
-
     # Check gds file existence
     if os.path.exists(arguments["--path"]):
         pass

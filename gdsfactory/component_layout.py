@@ -78,7 +78,7 @@ def get_polygons(
             polygon objects have more information (especially when by_spec=False) and are faster to retrieve.
         as_shapely: returns shapely polygons.
 
-    Returns
+    Returns:
         out: list of array-like[N][2] or dictionary
             List containing the coordinates of the vertices of each
             polygon, or dictionary with with the list of polygons (if
@@ -350,7 +350,8 @@ class _GeometryHelper:
 
 class Group(_GeometryHelper):
     """Group objects together so you can manipulate them as a single object \
-            (move/rotate/mirror)."""
+    (move/rotate/mirror).
+    """
 
     def __init__(self, *args) -> None:
         """Initialize Group."""
@@ -714,7 +715,7 @@ def _align(elements, alignment="ymax"):
             that all of their topmost points are aligned)
 
 
-    Returns
+    Returns:
         elements : array-like of gdsfactory objects
             Aligned elements.
     """

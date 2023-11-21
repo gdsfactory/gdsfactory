@@ -24,7 +24,7 @@ def mmi(
     input_positions: list[float] | None = None,
     output_positions: list[float] | None = None,
 ) -> Component:
-    r"""mxn MultiMode Interferometer (MMI).
+    r"""Mxn MultiMode Interferometer (MMI).
 
     Args:
         inputs: number of inputs.

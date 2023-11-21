@@ -112,7 +112,6 @@ def yaml_cell(yaml_definition, name: str, routing_strategy) -> Callable[..., Com
     Returns:
         a dynamically-generated function for the yaml file.
     """
-
     from gdsfactory.cell import cell
 
     yaml_body, default_settings_def = _split_yaml_definition(yaml_definition)

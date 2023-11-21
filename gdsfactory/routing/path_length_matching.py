@@ -171,7 +171,7 @@ def path_length_matched_points_add_waypoints(
         cross_section: factory
         **kwargs: cross_section settings
 
-    returns:
+    Returns:
         another list of waypoints where:
             - the path_length of each waypoints list are identical
             - the number of turns are identical

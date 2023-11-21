@@ -578,7 +578,8 @@ def get_min_spacing(
     sort_ports: bool = True,
 ) -> float:
     """Returns the minimum amount of spacing in um required to create a \
-    fanout."""
+    fanout.
+    """
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     j = 0
     min_j = 0

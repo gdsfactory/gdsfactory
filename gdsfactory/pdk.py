@@ -61,8 +61,7 @@ def evanescent_coupler_sample() -> None:
 
 
 def extract_args_from_docstring(docstring: str) -> dict[str, Any] | None:
-    """
-    This function extracts settings from a function's docstring for uPDK format.
+    """This function extracts settings from a function's docstring for uPDK format.
 
     Args:
         docstring: The function from which to extract YAML in the docstring.
@@ -375,7 +374,6 @@ class Pdk(BaseModel):
             cell_name: cell function. To update cells dict.
 
         """
-
         message = "Updated" if update else "Registered"
 
         if dirpath:

@@ -24,7 +24,7 @@ def polarization_splitter_rotator(
     dy: float = 5.0,
     cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
-    """Returns polarization splitter rotator
+    """Returns polarization splitter rotator.
 
     "Novel concept for ultracompact polarization splitter-rotator
     based on silicon nanowires." By D. Dai, and J. E. Bowers
@@ -46,7 +46,6 @@ def polarization_splitter_rotator(
         The length of third input taper is automatically determined
         if only two lengths are in arguments.
     """
-
     c = gf.Component()
     x = gf.get_cross_section(cross_section=cross_section)
 

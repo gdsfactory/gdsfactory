@@ -562,7 +562,6 @@ class LayerView(BaseModel):
         self, tag: str, name: str, custom_hatch_patterns: dict, custom_line_styles: dict
     ) -> ET.Element:
         """Get XML Element from attributes."""
-
         # If hatch pattern name matches a named (built-in) KLayout pattern, use 'I<idx>' notation
         hatch_name = getattr(self.hatch_pattern, "name", self.hatch_pattern)
         if hatch_name is None:
@@ -666,7 +665,6 @@ class LayerView(BaseModel):
             name: XML-formatted name entry.
             layer_pattern: Regex pattern to match layers with.
         """
-
         if not name:
             return None, None
 
@@ -989,7 +987,6 @@ class LayerViews(BaseModel):
             overwrite: Whether to overwrite an existing file located at the filepath.
 
         """
-
         filepath = pathlib.Path(filepath)
         dirpath = filepath.parent
         dirpath.mkdir(exist_ok=True, parents=True)
@@ -1104,7 +1101,6 @@ class LayerViews(BaseModel):
             layer_file: Name of the file to write LayerViews to.
             prefer_named_color: Write the name of a color instead of its hex representation when possible.
         """
-
         lf_path = pathlib.Path(layer_file)
         dirpath = lf_path.parent
         dirpath.mkdir(exist_ok=True, parents=True)
@@ -1150,7 +1146,6 @@ class LayerViews(BaseModel):
         Args:
             layer_file: Name of the file to read LayerViews, CustomDitherPatterns, and CustomLineStyles from.
         """
-
         layer_file = pathlib.Path(layer_file)
 
         properties = OmegaConf.to_container(OmegaConf.load(layer_file.open()))
@@ -1198,7 +1193,6 @@ def _name_to_short_name(name_str: str) -> str:
         - key - description
 
     """
-
     if name_str is None:
         raise OSError(f"layer {name_str} has no name")
     fields = name_str.split("-")

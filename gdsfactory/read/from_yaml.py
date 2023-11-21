@@ -507,7 +507,7 @@ def cell_from_yaml(
     YAML includes instances, placements, routes, ports and connections.
 
     Args:
-        yaml: YAML string or file.
+        yaml_str: YAML string or file.
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
@@ -606,7 +606,7 @@ def from_yaml(
     YAML includes instances, placements, routes, ports and connections.
 
     Args:
-        yaml: YAML string or file.
+        yaml_str: YAML string or file.
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.

@@ -34,7 +34,6 @@ def straight(
         o1 -------------- o2
                 length
     """
-
     p = gf.path.straight(length=length, npoints=npoints)
     x = gf.get_cross_section(cross_section)
 

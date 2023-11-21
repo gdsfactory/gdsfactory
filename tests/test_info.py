@@ -1,6 +1,4 @@
-"""
-
-info:
+"""info:
 
 - default
 - changed

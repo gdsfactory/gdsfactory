@@ -22,7 +22,7 @@ def test_non_manhattan_warn() -> None:
 
 @pytest.mark.skip("TODO: fix this test")
 def test_non_manhattan_error() -> None:
-    """TODO: fix this test"""
+    """TODO: fix this test."""
     default = gf.CONF.ports_not_manhattan
     gf.CONF.ports_not_manhattan = "error"
     with pytest.raises(PortOrientationError):

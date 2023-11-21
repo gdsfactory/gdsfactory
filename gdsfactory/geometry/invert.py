@@ -25,7 +25,7 @@ def invert(
         precision: Desired precision for rounding vertex coordinates.
         layer: Specific layer(s) to put polygon geometry on.
 
-    Returns
+    Returns:
         Component with inverted version of the input shape(s) and the border(s).
 
     .. plot::

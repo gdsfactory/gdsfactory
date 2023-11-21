@@ -47,7 +47,6 @@ def pads_shorted(
     cross_section_short: CrossSectionSpec | None = None,
 ) -> gf.Component:
     """Returns 2 pads connected with metal wires."""
-
     c = gf.Component()
     pad = gf.get_component(pad)
     cross_section_short = cross_section_short or cross_section

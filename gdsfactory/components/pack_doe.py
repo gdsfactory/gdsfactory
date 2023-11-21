@@ -65,7 +65,7 @@ def pack_doe(
         do_permutations: for each setting.
         function: to apply (add padding, grating couplers).
 
-    keyword Args:
+    Keyword Args:
         spacing: Minimum distance between adjacent shapes.
         aspect_ratio: (width, height) ratio of the rectangular bin.
         max_size: Limits the size into which the shapes will be packed.
@@ -116,7 +116,7 @@ def pack_doe_grid(
         function: to apply to component (add padding, grating couplers).
         with_text: includes text label.
 
-    keyword Args:
+    Keyword Args:
         spacing: between adjacent elements on the grid, can be a tuple for
             different distances in height and width.
         separation: If True, guarantees elements are separated with fixed spacing

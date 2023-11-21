@@ -38,6 +38,7 @@ def get_polygons_over_under(
           round joints, it indicates the curvature resolution in number of
           points per full circle.
         layer: Specific layer to put polygon geometry on.
+
     Returns:
         Component containing a polygon(s) with the specified offset applied.
     """

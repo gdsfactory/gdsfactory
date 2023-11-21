@@ -19,7 +19,7 @@ def xor_diff(A, B, precision: float = 1e-4) -> Component:
         B: Component(/Reference) or list of Component(/References).
         precision: Desired precision for rounding vertex coordinates.
 
-    Returns
+    Returns:
         Component: containing a polygon(s) defined by the XOR difference result
         between A and B.
 

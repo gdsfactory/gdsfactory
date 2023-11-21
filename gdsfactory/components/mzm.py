@@ -71,7 +71,6 @@ def mzm(
                      b6__sxbot__b7
                           Lx
     """
-
     bend_spec = bend
     bend = gf.get_component(bend, cross_section=cross_section)
 

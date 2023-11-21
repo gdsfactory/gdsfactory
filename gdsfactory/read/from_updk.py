@@ -47,7 +47,6 @@ def from_updk(
         prefix: optional prefix to add to the script.
         suffix: optional suffix to add to the script.
     """
-
     optical_xsections = optical_xsections or []
     electrical_xsections = electrical_xsections or []
 

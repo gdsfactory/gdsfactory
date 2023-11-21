@@ -39,7 +39,7 @@ def extract_layers(input_text: str) -> dict[str, Layer]:
 
 
 def read_from_layers_info(filepath: PathType) -> str:
-    """Returns a layermap python script from layers.info file"""
+    """Returns a layermap python script from layers.info file."""
     input_text = open(filepath).read()
     layer_mapping = extract_layers(input_text)
     output = "class LayerMap(BaseModel):\n"

@@ -12,7 +12,7 @@ def rectangular_ring(
     layer: LayerSpec = "WG",
     centered: bool = False,
 ) -> Component:
-    """Returns a Rectangular Ring
+    """Returns a Rectangular Ring.
 
     Args:
         enclosed_size: (width, height) of the enclosed area.

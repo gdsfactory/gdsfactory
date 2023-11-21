@@ -159,7 +159,8 @@ def rect_to_coords(r):
 
 def pixelate(pts, N=100, margin=0.4, **kwargs):
     """Pixelate shape defined by points Return rectangles [Rect1, Rect2, ...] \
-    ready to go in the quad tree."""
+    ready to go in the quad tree.
+    """
     pixels = _pixelate(pts, N=N, margin=margin, **kwargs)
     return [rect_to_coords(pixel) for pixel in pixels]
 

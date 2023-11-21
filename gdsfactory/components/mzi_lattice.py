@@ -30,7 +30,7 @@ def mzi_lattice(
         mzi: function for the mzi.
         splitter: splitter function.
 
-    keyword Args:
+    Keyword Args:
         length_y: vertical length for both and top arms.
         length_x: horizontal length.
         bend: 90 degrees bend library.
@@ -172,7 +172,7 @@ def mzi_lattice_mmi(
         mzi: function for the mzi.
         splitter: splitter function.
 
-    keyword Args:
+    Keyword Args:
         length_y: vertical length for both and top arms.
         length_x: horizontal length.
         bend: 90 degrees bend library.
