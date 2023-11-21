@@ -983,7 +983,6 @@ def extrude_transition(
         shear_angle_start: angle to shear the start of the path.
         shear_angle_end: angle to shear the end of the path.
     """
-
     from gdsfactory.pdk import get_cross_section, get_layer
 
     c = Component()

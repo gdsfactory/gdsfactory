@@ -901,7 +901,6 @@ class Component(_GeometryHelper):
             port_type: select ports with port_type (optical, electrical, vertical_te).
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
-
         pprint_ports(self.get_ports_list(**kwargs))
 
     @property
@@ -1547,7 +1546,6 @@ class Component(_GeometryHelper):
             port_marker_layer: for the ports.
             show_labels: shows labels.
         """
-
         if show_ports:
             name = self.name
             component = self.add_pins_triangle(port_marker_layer=port_marker_layer)

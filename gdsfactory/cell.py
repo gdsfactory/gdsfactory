@@ -29,7 +29,6 @@ class CellReturnTypeError(ValueError):
 
 def remove_from_cache(name: str | Component) -> None:
     """Removes Component name from CACHE and resets the name counter."""
-
     if not isinstance(name, str):
         name = name.name
 
@@ -42,7 +41,6 @@ def remove_from_cache(name: str | Component) -> None:
 
 def clear_cache() -> None:
     """Clears Component CACHE and reset the name counters."""
-
     CACHE.clear()
     CACHE_IDS.clear()
     name_counters.clear()

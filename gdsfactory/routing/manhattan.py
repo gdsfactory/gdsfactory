@@ -633,7 +633,6 @@ def round_corners(
         kwargs: cross_section settings.
 
     """
-
     multi_cross_section = isinstance(cross_section, list)
     if multi_cross_section:
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
