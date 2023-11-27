@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -13,7 +14,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 @cell
 def add_tapers(
-    component: Component,
+    component: ComponentSpec,
     taper: ComponentSpec = taper_cross_section,
     select_ports: Callable | None = select_ports_optical,
     taper_port_name1: str = "o1",
@@ -37,18 +38,31 @@ def add_tapers(
         npoints: number of points.
         linear: shape of the transition, sine when False.
         kwargs: cross_section settings for section2.
+
+    Note:
+        If ``taper`` is a partial function and ``cross_section2`` is None, then
+        ``cross_section2`` is inferred from the partial keywords.
     """
     c = gf.Component()
+    component = gf.get_component(component)
+
     ports_to_taper = select_ports(component.ports) if select_ports else component.ports
     ports_to_taper_names = [p.name for p in ports_to_taper.values()]
 
     for port_name, port in component.ports.items():
         if port.name in ports_to_taper_names:
-            taper_ref = c << taper(
-                cross_section1=port.cross_section,
-                cross_section2=cross_section2,
-                **kwargs,
-            )
+            if isinstance(taper, partial) and cross_section2 is None:
+                taper_ref = c << taper(
+                    cross_section2=partial(
+                        taper.keywords["cross_section2"], width=port.width
+                    ),
+                )
+            else:
+                taper_ref = c << taper(
+                    cross_section1=port.cross_section,
+                    cross_section2=cross_section2,
+                    **kwargs,
+                )
             taper_ref.connect(taper_ref.ports[taper_port_name1].name, port)
             c.add_port(name=port_name, port=taper_ref.ports[taper_port_name2])
         else:
