@@ -167,7 +167,7 @@ def get_input_label_electrical(
 def add_labels(
     component: Component,
     get_label_function: Callable = get_input_label_electrical,
-    layer_label: LayerSpec = "TEXT",
+    layer_label: LayerSpec | None = "TEXT",
     gc: Component | None = None,
     **kwargs,
 ) -> Component:
@@ -176,7 +176,7 @@ def add_labels(
     Args:
         component: to add labels to.
         get_label_function: function to get label.
-        layer_label: LayerSpec for the label.
+        layer_label: LayerSpec for the label. None will use the port layer.
         gc: Optional grating coupler.
 
     Keyword Args:
@@ -200,7 +200,7 @@ def add_labels(
             gc=gc,
             gc_index=i,
             component_name=component.name,
-            layer_label=layer_label,
+            layer_label=layer_label if layer_label else port.layer,
         )
         component.add(label)
 
@@ -259,7 +259,7 @@ def add_siepic_labels(
 
 def add_labels_to_ports(
     component: Component,
-    label_layer: LayerSpec = "TEXT",
+    label_layer: LayerSpec | None = "TEXT",
     port_type: str | None = None,
     **kwargs,
 ) -> Component:
@@ -267,10 +267,10 @@ def add_labels_to_ports(
 
     Args:
         component: to add labels.
-        label_layer: layer spec for the label.
+        label_layer: layer spec for the label. None will use the port layer.
         port_type: to select ports.
 
-    keyword Args:
+    Keyword Args:
         layer: select ports with GDS layer.
         prefix: select ports with prefix in port name.
         suffix: select ports with port name suffix.
@@ -282,14 +282,18 @@ def add_labels_to_ports(
     """
     ports = component.get_ports_list(port_type=port_type, **kwargs)
     for port in ports:
-        component.add_label(text=port.name, position=port.center, layer=label_layer)
+        component.add_label(
+            text=port.name,
+            position=port.center,
+            layer=label_layer if label_layer else port.layer,
+        )
 
     return component
 
 
 def add_labels_to_ports_x_y(
     component: Component,
-    label_layer: LayerSpec = "TEXT",
+    label_layer: LayerSpec | None = "TEXT",
     port_type: str | None = None,
     **kwargs,
 ) -> Component:
@@ -297,7 +301,7 @@ def add_labels_to_ports_x_y(
 
     Args:
         component: to add labels.
-        label_layer: layer spec for the label.
+        label_layer: layer spec for the label. None will use the port layer.
         port_type: to select ports.
 
     keyword Args:
@@ -316,7 +320,7 @@ def add_labels_to_ports_x_y(
         component.add_label(
             text=f"{port.name}/{int(x)}/{int(y)}",
             position=port.center,
-            layer=label_layer,
+            layer=label_layer if label_layer else port.layer,
         )
 
     return component
