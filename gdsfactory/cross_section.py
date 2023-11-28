@@ -289,7 +289,10 @@ class CrossSection(BaseModel):
         sections = [s.model_copy(update=dict(offset=-s.offset)) for s in self.sections]
         return self.model_copy(update={"sections": tuple(sections)})
 
-    def add_pins(self, component: Component) -> Component:
+    def add_pins(self, component: Component, *args, **kwargs) -> Component:
+        """Add pins to a target component according to :class:`CrossSection`.
+        Args and kwargs are passed to the function defined by the `add_pins_function_name`.
+        """
         if self.add_pins_function_name is None:
             return component
 
@@ -300,7 +303,7 @@ class CrossSection(BaseModel):
                 f"add_pins_function_module = {self.add_pins_function_module}"
             )
         function = getattr(add_pins, self.add_pins_function_name)
-        return function(component=component)
+        return function(*args, component=component, **kwargs)
 
     def add_bbox(
         self,
