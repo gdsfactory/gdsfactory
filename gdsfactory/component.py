@@ -934,6 +934,7 @@ class Component(_GeometryHelper):
         port_type: str | None = None,
         cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
+        info: dict[str, Any] | None = None,
     ) -> Port:
         """Add port to component.
 
@@ -952,6 +953,7 @@ class Component(_GeometryHelper):
             port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm. Defaults to optical.
             cross_section: port cross_section.
             shear_angle: an optional angle to shear port face in degrees.
+            info: Dict containing arbitrary information about the port.
         """
         from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -977,6 +979,8 @@ class Component(_GeometryHelper):
                 p.shear_angle = shear_angle
             if cross_section is not None:
                 p.cross_section = cross_section
+            if info is not None:
+                p.info = info
             p.parent = self
 
         elif isinstance(name, Port):
@@ -1001,6 +1005,8 @@ class Component(_GeometryHelper):
                 shear_angle=shear_angle,
             )
             p.parent = self
+            if info is not None:
+                p.info = info
         if name is not None:
             p.name = name
         if p.name in self.ports:
