@@ -888,7 +888,7 @@ class Component(_GeometryHelper):
         except ImportError:
             print(yaml.dump(self.to_dict()))
 
-    def pprint_ports(self, **kwargs) -> None:
+    def pprint_ports(self, sort_by_name: bool = True, **kwargs) -> None:
         """Prints ports in a rich table.
 
         Keyword Args:
@@ -903,7 +903,7 @@ class Component(_GeometryHelper):
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
 
-        pprint_ports(self.get_ports_list(**kwargs))
+        pprint_ports(self.get_ports_list(sort_by_name=sort_by_name, **kwargs))
 
     @property
     def metadata_child(self) -> dict:

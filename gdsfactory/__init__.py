@@ -68,7 +68,7 @@ from gdsfactory.add_padding import (
 )
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
-from gdsfactory.grid import grid, grid_with_text
+from gdsfactory.grid import grid, grid_with_text, grid_with_component_name
 from gdsfactory.pdk import (
     Pdk,
     get_component,
@@ -130,6 +130,7 @@ __all__ = (
     "get_padding_points",
     "grid",
     "grid_with_text",
+    "grid_with_component_name",
     "import_gds",
     "labels",
     "logger",
