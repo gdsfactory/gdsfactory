@@ -23,24 +23,13 @@
 #
 # ## Design for test
 #
-# To measure your chips after fabrication you need to decide your test configurations. This includes things like:
+# To measure your chips after fabrication you need to decide your test configurations. This includes Design For Testing Rules like:
 #
 # - `Individual input and output fibers` versus `fiber array`. You can use `add_fiber_array` for easier testing and higher throughput, or `add_fiber_single` for the flexibility of single fibers.
 # - Fiber array pitch (127um or 250um) if using a fiber array.
 # - Pad pitch for DC and RF high speed probes (100, 125, 150, 200um). Probe configuration (GSG, GS ...)
 # - Test layout for DC, RF and optical fibers.
 #
-#
-# To enable automatic testing you can add labels the devices that you want to test. GDS labels are not fabricated and are only visible in the GDS file.
-#
-# Lets review some different automatic labeling schemas:
-#
-# 1. One label per test site or Device under test (Component) that includes settings, electrical ports and optical ports.
-# 2. SiEPIC labels: only the laser input grating coupler from the fiber array has a label, which is the second from left to right.
-# 3. EHVA automatic testers, include a Label component declaration as described in this [doc](https://drive.google.com/file/d/1kbQNrVLzPbefh3by7g2s865bcsA2vl5l/view)
-#
-#
-# Most gdsfactory examples add south grating couplers on the south and RF or DC signals to the north. However if you need RF and DC pads, you have to make sure RF pads are orthogonal to the DC Pads. For example, you can use EAST/WEST for RF and NORTH for DC.
 
 # %%
 from functools import partial
@@ -59,10 +48,109 @@ gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
 
+
 # %% [markdown]
+# ## Automated testing exposing all ports
+#
+# You can promote all the ports that need to be tested to the top level component and then write a CSV test manifest.
+#
+# This is the recommended way for measuring components that have electrical and optical port.
+
+
+# %%
+def sample_reticle() -> gf.Component:
+    """Returns MZI with TE grating couplers."""
+    test_info_mzi_heaters = dict(
+        doe="mzis_heaters",
+        analysis="mzi_heater",
+        measurement="optical_loopback4_heater_sweep",
+    )
+    test_info_ring_heaters = dict(
+        doe="ring_heaters",
+        analysis="ring_heater",
+        measurement="optical_loopback2_heater_sweep",
+    )
+
+    mzis = [
+        gf.components.mzi2x2_2x2_phase_shifter(
+            length_x=length, name=f"mzi_heater_{length}"
+        )
+        for length in [100, 200, 300]
+    ]
+    rings = [
+        gf.components.ring_single_heater(
+            length_x=length_x, name=f"ring_single_heater_{length_x}"
+        )
+        for length_x in [10, 20, 30]
+    ]
+
+    spirals_sc = [
+        gf.components.spiral_inner_io_fiber_array(
+            name=f"spiral_sc_{int(length/1e3)}mm",
+            length=length,
+            info=dict(
+                doe="spirals_sc",
+                measurement="optical_loopback4",
+                analysis="optical_loopback4_spirals",
+            ),
+        )
+        for length in [20e3, 40e3, 60e3]
+    ]
+
+    mzis_te = [
+        gf.components.add_fiber_array_optical_south_electrical_north(
+            mzi,
+            electrical_port_names=["top_l_e2", "top_r_e2"],
+            info=test_info_mzi_heaters,
+            name=f"{mzi.name}_te",
+        )
+        for mzi in mzis
+    ]
+    rings_te = [
+        gf.components.add_fiber_array_optical_south_electrical_north(
+            ring,
+            electrical_port_names=["l_e2", "r_e2"],
+            info=test_info_ring_heaters,
+            name=f"{ring.name}_te",
+        )
+        for ring in rings
+    ]
+
+    components = mzis_te + rings_te + spirals_sc
+
+    c = gf.pack(components)
+    if len(c) > 1:
+        raise ValueError(f"failed to pack into single group. Made {len(c)} groups.")
+    return c[0]
+
+
+c = sample_reticle()
+c.plot()
+
+# %%
+c.pprint_ports()
+
+# %% [markdown]
+# ## Automated testing using labels (deprecated)
+#
+# This is deprecated, we recommend exposing all ports and writing the test manifest directly.
+# Another option to enable automatic testing you can add labels the devices that you want to test.
+# GDS labels are not fabricated and are only visible in the GDS file.
+#
+# Lets review some different automatic labeling schemas:
+#
+# 1. One label per test alignment that includes settings, electrical ports and optical ports.
+# 2. SiEPIC labels: only the laser input grating coupler from the fiber array has a label, which is the second port from left to right.
+# 3. EHVA automatic testers, include a Label component declaration as described in this [doc](https://drive.google.com/file/d/1kbQNrVLzPbefh3by7g2s865bcsA2vl5l/view)
+#
+# Most gdsfactory examples add south grating couplers on the south and RF or DC signals to the north. However if you need RF and DC pads, you have to make sure RF pads are orthogonal to the DC Pads. For example, you can use EAST/WEST for RF and NORTH for DC.
+#
+#
+# You can also use code in `gf.labels.write_labels` to store the labels into CSV and `gf.labels.write_test_manifest`
+#
 # ### 1. Test Sites Labels
 #
-# Each test site includes a label with the measurement and analysis settings:
+# Each alignment site includes a label with the measurement and analysis settings:
 #
 # - Optical and electrical port locations for each alignment.
 # - measurement settings.
@@ -284,15 +372,15 @@ c.plot()
 # You can also pack components with a constant spacing.
 
 # %%
-g = gf.grid(sweep)
+g = gf.grid_with_component_name(sweep)
 g.plot()
 
 # %%
-gh = gf.grid(sweep, shape=(1, len(sweep)))
+gh = gf.grid_with_component_name(sweep, shape=(1, len(sweep)))
 gh.plot()
 
 # %%
-gh_ymin = gf.grid(sweep, shape=(len(sweep), 1), align_x="xmin")
+gh_ymin = gf.grid_with_component_name(sweep, shape=(len(sweep), 1), align_x="xmin")
 gh_ymin.plot()
 
 # %% [markdown]
@@ -494,7 +582,7 @@ c.plot()
 #
 # We recommend storing all the device metadata in GDS labels but you can also store it in a separate YAML file.
 #
-# ### Metadata in separate YAML file (not recommended)
+# ### Metadata in separate YAML file
 
 # %%
 import gdsfactory as gf
@@ -572,7 +660,7 @@ c.show()
 c.plot()
 
 # %% [markdown]
-# ## Test manifest
+# ## Test manifest from labels
 #
 # Each Device Under Test (test site) has a JSON test label with all the settings.
 #
