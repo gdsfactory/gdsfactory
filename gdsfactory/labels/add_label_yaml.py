@@ -22,8 +22,6 @@ def add_label_yaml(
     analysis_settings: dict[str, Any] | None = None,
     doe: str | None = None,
     with_yaml_format: bool = True,
-    port_index_optical: tuple[int, ...] | None = (0,),
-    port_index_electrical: tuple[int, ...] | None = (-1,),
 ) -> gf.Component:
     """Returns Component with measurement label.
 
@@ -36,8 +34,6 @@ def add_label_yaml(
         analysis_settings: Extra analysis settings. Defaults to component settings.
         doe: Design of Experiment name. Defaults to component['info']['doe'].
         with_yaml_format: whether to use yaml or json format.
-        port_index_optical: port index to add to the label. None adds it to all, 0 to first, -1 to last.
-        port_index_electrical: port index to add to the label. None adds it to all, 0 to first, -1 to last.
     """
     from gdsfactory.pdk import get_layer
 
@@ -55,16 +51,7 @@ def add_label_yaml(
     cell_settings = component.metadata.get("full", {})
     cell_settings.update(component.metadata.get("info", {}))
 
-    optical_ports = component.get_ports_list(port_type="optical")
-    electrical_ports = component.get_ports_list(port_type="electrical")
-
-    port_index_optical = port_index_optical if optical_ports else ()
-    port_index_electrical = port_index_electrical if electrical_ports else ()
-
-    port_names_optical = [p.name for p in optical_ports]
-    port_names_electrical = [p.name for p in electrical_ports]
-
-    settings = dict(
+    d = dict(
         name=component.name,
         doe=doe,
         measurement=measurement,
@@ -73,30 +60,15 @@ def add_label_yaml(
         measurement_settings=measurement_settings,
         analysis_settings=analysis_settings,
     )
-    for port_index in port_index_optical:
-        d = dict(port_type="optical", port_names=port_names_optical, **settings)
-        text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
-        x, y = optical_ports[port_index].center
-        label = gf.Label(
-            text=text,
-            origin=(x, y),
-            anchor="o",
-            layer=layer[0],
-            texttype=layer[1],
-        )
-        component.add(label)
-    for port_index in port_index_electrical:
-        d = dict(port_type="electrical", port_names=port_names_electrical, **settings)
-        text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
-        x, y = electrical_ports[port_index].center
-        label = gf.Label(
-            text=text,
-            origin=(x, y),
-            anchor="o",
-            layer=layer[0],
-            texttype=layer[1],
-        )
-        component.add(label)
+    text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
+    label = gf.Label(
+        text=text,
+        origin=component.center,
+        anchor="o",
+        layer=layer[0],
+        texttype=layer[1],
+    )
+    component.add(label)
     return component
 
 
