@@ -1,73 +1,73 @@
 name: coupler_gap0p2_length5p99_add_fiber_array_b848e192
 ports:
-  opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p2_length5p99-loopback_1:
+  loopback1:
     center:
     - -314.5
     - -55.4
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p2_length5p99-loopback_1
+    name: loopback1
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p2_length5p99-loopback_6:
+  loopback2:
     center:
     - 320.5
     - -55.4
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p2_length5p99-loopback_6
+    name: loopback2
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p2_length5p99-o1:
+  o1:
     center:
     - -187.5
     - -55.4
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p2_length5p99-o1
+    name: o1
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p2_length5p99-o2:
+  o2:
     center:
     - -60.5
     - -55.4
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p2_length5p99-o2
+    name: o2
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p2_length5p99-o3:
+  o3:
     center:
     - 66.5
     - -55.4
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p2_length5p99-o3
+    name: o3
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p2_length5p99-o4:
+  o4:
     center:
     - 193.5
     - -55.4
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_elliptical_trenches_taper_angle35-coupler_gap0p2_length5p99-o4
+    name: o4
     orientation: 90.0
     port_type: optical
     shear_angle: null

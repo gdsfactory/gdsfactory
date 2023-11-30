@@ -171,18 +171,18 @@ warnings:
     unconnected_ports:
     - message: 12 unconnected optical ports!
       ports:
-      - mmi1x2_sweep,0_o1
-      - mmi1x2_sweep,0_o2
-      - mmi1x2_sweep,0_o3
-      - mmi1x2_sweep,1_o1
-      - mmi1x2_sweep,1_o2
-      - mmi1x2_sweep,1_o3
-      - mmi1x2_sweep,2_o1
-      - mmi1x2_sweep,2_o2
-      - mmi1x2_sweep,2_o3
-      - mmi1x2_sweep,3_o1
-      - mmi1x2_sweep,3_o2
-      - mmi1x2_sweep,3_o3
+      - mmi1x2_sweep,mmi1x2_length_mmi100_width_mmi10-o1
+      - mmi1x2_sweep,mmi1x2_length_mmi100_width_mmi10-o2
+      - mmi1x2_sweep,mmi1x2_length_mmi100_width_mmi10-o3
+      - mmi1x2_sweep,mmi1x2_length_mmi100_width_mmi4-o1
+      - mmi1x2_sweep,mmi1x2_length_mmi100_width_mmi4-o2
+      - mmi1x2_sweep,mmi1x2_length_mmi100_width_mmi4-o3
+      - mmi1x2_sweep,mmi1x2_length_mmi2_width_mmi10-o1
+      - mmi1x2_sweep,mmi1x2_length_mmi2_width_mmi10-o2
+      - mmi1x2_sweep,mmi1x2_length_mmi2_width_mmi10-o3
+      - mmi1x2_sweep,mmi1x2_length_mmi2_width_mmi4-o1
+      - mmi1x2_sweep,mmi1x2_length_mmi2_width_mmi4-o2
+      - mmi1x2_sweep,mmi1x2_length_mmi2_width_mmi4-o3
       values:
       - - 50.5
         - 55.5

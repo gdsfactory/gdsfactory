@@ -24,50 +24,50 @@ ports:
     port_type: electrical
     shear_angle: null
     width: 80.0
-  opt-grating_coupler_elliptical-mzi_7a18d033-loopback_1:
+  loopback1:
     center:
     - -55.0
     - -74.9
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_elliptical-mzi_7a18d033-loopback_1
+    name: loopback1
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_elliptical-mzi_7a18d033-loopback_4:
+  loopback2:
     center:
     - 326.0
     - -74.9
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_elliptical-mzi_7a18d033-loopback_4
+    name: loopback2
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_elliptical-mzi_7a18d033-o1:
+  o1:
     center:
     - 72.0
     - -74.9
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_elliptical-mzi_7a18d033-o1
+    name: o1
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  opt-grating_coupler_elliptical-mzi_7a18d033-o2:
+  o2:
     center:
     - 199.0
     - -74.9
     layer:
     - 1
     - 0
-    name: opt-grating_coupler_elliptical-mzi_7a18d033-o2
+    name: o2
     orientation: 90.0
     port_type: optical
     shear_angle: null
