@@ -119,7 +119,9 @@ def diff(
         _ = c << rundiff
 
         if xor:
-            equivalent = False
+            print("Running XOR on differences...")
+            # assume equivalence until we find XOR differences, determined significant by the settings
+            equivalent = True
             diff = KCell(f"{test_name}_xor")
 
             for layer in c.kcl.layer_infos():
@@ -141,8 +143,8 @@ def diff(
                         message = f"{test_name}: XOR difference on layer {layer}"
                         if is_sliver:
                             message += " (sliver or label)"
-                            if ignore_sliver_differences:
-                                equivalent = True
+                            if not ignore_sliver_differences:
+                                equivalent = False
                         else:
                             equivalent = False
                         print(message)
@@ -163,6 +165,11 @@ def diff(
                     equivalent = False
 
             _ = c << diff
+            if equivalent:
+                print("No significant XOR differences between layouts!")
+        else:
+            # if no additional xor verificaiton, the two files are not equivalent
+            equivalent = False
 
         c.show()
         if equivalent:
