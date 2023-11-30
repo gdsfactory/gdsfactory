@@ -27,15 +27,22 @@ def get_test_manifest(component: gf.Component) -> pd.DataFrame:
         "doe",
     ]
     ports = component.get_ports_list(sort_by_name=True)
-    name_to_ports = defaultdict(list)
+    name_to_ports = defaultdict(dict)
     name_to_settings = {}
 
     for port in ports:
+        port_settings = port.to_dict()
+
         p = port.name.split("-")
         port_name = p[-1]
-        name = "-".join(p[:-1])
-        name_to_ports[name].append(port_name)
-        name_to_settings[name] = component.info.get("components", {}).get(name, {})
+        instance_name = "-".join(p[:-1])
+
+        name_to_ports[instance_name][port_name] = {
+            key: port_settings[key] for key in ["center", "orientation", "port_type"]
+        }
+        name_to_settings[instance_name] = component.info.get("components", {}).get(
+            instance_name, {}
+        )
 
     for name, d in name_to_settings.items():
         row = [
@@ -62,4 +69,5 @@ if __name__ == "__main__":
     c.show(show_ports=False)
     df = get_test_manifest(c)
     df.to_csv("test_manifest.csv")
+    print(df["ports"][0])
     print(df)
