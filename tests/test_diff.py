@@ -1,3 +1,4 @@
+import itertools
 from pathlib import Path
 
 import pytest
@@ -64,5 +65,74 @@ def test_cell_name_changed_ignored_passes(xor: bool):
         test_name=f"test_cell_name_changed_ignored_passes_xor{int(xor)}",
         ignore_cell_name_differences=True,
         xor=xor,
+    )
+    assert not has_diff
+
+
+@pytest.mark.parametrize(["xor"], [[True], [False]])
+def test_sliver_xor_fails(xor: bool):
+    ref_gds = _gds_dir / "big_rect_named_bob.gds"
+    run_gds = _gds_dir / "almost_big_rect_named_bob.gds"
+    has_diff = diff(
+        ref_file=ref_gds,
+        run_file=run_gds,
+        test_name=f"test_sliver_xor_fails_xor{int(xor)}",
+        ignore_cell_name_differences=True,
+        xor=xor,
+        ignore_sliver_differences=False,
+    )
+    assert has_diff
+
+
+def test_sliver_xor_ignored_passes():
+    ref_gds = _gds_dir / "big_rect_named_bob.gds"
+    run_gds = _gds_dir / "almost_big_rect_named_bob.gds"
+    has_diff = diff(
+        ref_file=ref_gds,
+        run_file=run_gds,
+        test_name="test_sliver_xor_ignored_passes",
+        ignore_cell_name_differences=True,
+        xor=True,
+        ignore_sliver_differences=True,
+    )
+    assert not has_diff
+
+
+@pytest.mark.parametrize(
+    ["ignore_cell_name_differences", "ignore_sliver_differences"],
+    itertools.product([True, False], repeat=2),
+)
+def test_non_xor_diff_fails_no_xor(
+    ignore_cell_name_differences: bool, ignore_sliver_differences: bool
+):
+    ref_gds = _gds_dir / "big_rect.gds"
+    run_gds = _gds_dir / "big_rect_in_spirit.gds"
+    has_diff = diff(
+        ref_file=ref_gds,
+        run_file=run_gds,
+        test_name=f"test_non_xor_diff_fails_no_xor_cellnames{int(ignore_cell_name_differences)}_slivers{int(ignore_sliver_differences)}",
+        ignore_cell_name_differences=ignore_cell_name_differences,
+        xor=False,
+        ignore_sliver_differences=ignore_sliver_differences,
+    )
+    assert has_diff
+
+
+@pytest.mark.parametrize(
+    ["ignore_cell_name_differences", "ignore_sliver_differences"],
+    itertools.product([True, False], repeat=2),
+)
+def test_non_xor_diff_passes_xor(
+    ignore_cell_name_differences: bool, ignore_sliver_differences: bool
+):
+    ref_gds = _gds_dir / "big_rect.gds"
+    run_gds = _gds_dir / "big_rect_in_spirit.gds"
+    has_diff = diff(
+        ref_file=ref_gds,
+        run_file=run_gds,
+        test_name=f"test_non_xor_diff_passes_xor_cellnames{int(ignore_cell_name_differences)}_slivers{int(ignore_sliver_differences)}",
+        ignore_cell_name_differences=ignore_cell_name_differences,
+        xor=True,
+        ignore_sliver_differences=ignore_sliver_differences,
     )
     assert not has_diff
