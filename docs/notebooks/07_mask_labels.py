@@ -279,5 +279,3 @@ from gdsfactory.labels.write_test_manifest import write_test_manifest
 
 dm = write_test_manifest(csvpath)
 dm
-
-# %%
