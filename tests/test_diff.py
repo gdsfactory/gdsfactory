@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from gdsfactory.difftest import diff
 
 _gds_dir = Path(__file__).parent / "gds"
@@ -36,3 +38,31 @@ def test_xor2(capsys):
         capsys=capsys,
         layers_with_xor=["2/0"],
     )
+
+
+@pytest.mark.parametrize(["xor"], [[True], [False]])
+def test_cell_name_changed_fails(xor: bool):
+    ref_gds = _gds_dir / "big_rect.gds"
+    run_gds = _gds_dir / "big_rect_named_bob.gds"
+    has_diff = diff(
+        ref_file=ref_gds,
+        run_file=run_gds,
+        test_name=f"test_cell_name_changed_fails_xor{int(xor)}",
+        ignore_cell_name_differences=False,
+        xor=xor,
+    )
+    assert has_diff
+
+
+@pytest.mark.parametrize(["xor"], [[True], [False]])
+def test_cell_name_changed_ignored_passes(xor: bool):
+    ref_gds = _gds_dir / "big_rect.gds"
+    run_gds = _gds_dir / "big_rect_named_bob.gds"
+    has_diff = diff(
+        ref_file=ref_gds,
+        run_file=run_gds,
+        test_name=f"test_cell_name_changed_ignored_passes_xor{int(xor)}",
+        ignore_cell_name_differences=True,
+        xor=xor,
+    )
+    assert not has_diff

@@ -21,6 +21,7 @@ def diff(
     xor: bool = True,
     test_name: str = "",
     ignore_sliver_differences: bool | None = None,
+    ignore_cell_name_differences: bool | None = None,
 ) -> bool:
     """Returns True if files are different, prints differences and shows them in klayout.
 
@@ -30,6 +31,7 @@ def diff(
         xor: runs xor on every layer between ref and run files.
         test_name: prefix for the new cell.
         ignore_sliver_differences: if True, ignores any sliver differences in the XOR result. If None (default), defers to the value set in CONF.difftest_ignore_sliver_differences
+        ignore_cell_name_differences: if True, ignores any cell name differences. If None (default), defers to the value set in CONF.difftest_ignore_sliver_differences
     """
     try:
         from kfactory import KCell, kdb
@@ -45,11 +47,15 @@ def diff(
     if ignore_sliver_differences is None:
         ignore_sliver_differences = CONF.difftest_ignore_sliver_differences
 
+    if ignore_cell_name_differences is None:
+        ignore_cell_name_differences = CONF.difftest_ignore_cell_name_differences
+
     if ref.kcl.dbu != run.kcl.dbu:
         raise ValueError(
             f"dbu is different in ref {ref.kcl.dbu} and run {run.kcl.dbu} files"
         )
 
+    equivalent = True
     ld = kdb.LayoutDiff()
 
     a_regions: dict[int, kdb.Region] = {}
@@ -80,10 +86,16 @@ def diff(
         get_region(ld.layer_index_b(), b_regions).insert(bnota)
 
     def cell_diff_a(cell: kdb.Cell):
+        nonlocal equivalent
         print(f"{cell.name} only in old")
+        if not ignore_cell_name_differences:
+            equivalent = False
 
     def cell_diff_b(cell: kdb.Cell):
+        nonlocal equivalent
         print(f"{cell.name} only in new")
+        if not ignore_cell_name_differences:
+            equivalent = False
 
     def text_diff_a(anotb: kdb.Text, prop_id: int):
         get_texts(ld.layer_index_a(), a_texts).insert(anotb)
@@ -99,7 +111,7 @@ def diff(
     ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)
     ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)
 
-    if CONF.difftest_ignore_cell_name_differences:
+    if ignore_cell_name_differences:
         ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")
         equal = ld.compare(
             ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.SmartCellMapping, 1
@@ -121,7 +133,6 @@ def diff(
         if xor:
             print("Running XOR on differences...")
             # assume equivalence until we find XOR differences, determined significant by the settings
-            equivalent = True
             diff = KCell(f"{test_name}_xor")
 
             for layer in c.kcl.layer_infos():
