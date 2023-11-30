@@ -177,17 +177,19 @@ def diff(
                 elif layer in run.kcl.layer_infos():
                     layer_id = run.layer(layer)
                     region = kdb.Region(run.begin_shapes_rec(layer_id))
-                    diff.shapes(c.kcl.layer(layer)).insert(region)
-                    print(f"{test_name}: layer {layer} only exists in updated cell")
-                    equivalent = False
+                    if not ignore_label_differences or region.area() > 0:
+                        diff.shapes(c.kcl.layer(layer)).insert(region)
+                        print(f"{test_name}: layer {layer} only exists in updated cell")
+                        equivalent = False
 
                 # only in ref
                 elif layer in ref.kcl.layer_infos():
                     layer_id = ref.layer(layer)
                     region = kdb.Region(ref.begin_shapes_rec(layer_id))
-                    diff.shapes(c.kcl.layer(layer)).insert(region)
-                    print(f"{test_name}: layer {layer} missing from updated cell")
-                    equivalent = False
+                    if not ignore_label_differences or region.area() > 0:
+                        diff.shapes(c.kcl.layer(layer)).insert(region)
+                        print(f"{test_name}: layer {layer} missing from updated cell")
+                        equivalent = False
 
             _ = c << diff
             if equivalent:
