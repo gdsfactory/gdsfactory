@@ -11,13 +11,15 @@ import numpy as np
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.component_layout import Group
+from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text_rectangular import text_rectangular
+from gdsfactory.components.triangles import triangle
 from gdsfactory.typings import Anchor, ComponentSpec, Float2
 
 
 @cell
 def grid(
-    components: tuple[ComponentSpec, ...] = ("rectangle", "rectangle"),
+    components: tuple[ComponentSpec, ...] = (rectangle, triangle),
     spacing: tuple[float, float] = (5.0, 5.0),
     separation: bool = True,
     shape: tuple[int, int] | None = None,
@@ -163,7 +165,7 @@ grid_with_component_name = partial(grid, name_ports_with_component_name=True)
 
 @cell
 def grid_with_text(
-    components: tuple[ComponentSpec, ...] = ("rectangle", "rectangle"),
+    components: tuple[ComponentSpec, ...] = (rectangle, triangle),
     text_prefix: str = "",
     text_offsets: tuple[Float2, ...] = ((0, 0),),
     text_anchors: tuple[Anchor, ...] = ("cc",),
