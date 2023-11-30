@@ -163,7 +163,7 @@ grid_with_component_name = partial(grid, name_ports_with_component_name=True)
 
 @cell
 def grid_with_text(
-    components: tuple[ComponentSpec, ...] | None = None,
+    components: tuple[ComponentSpec, ...] = ("rectangle", "rectangle"),
     text_prefix: str = "",
     text_offsets: tuple[Float2, ...] = ((0, 0),),
     text_anchors: tuple[Anchor, ...] = ("cc",),
