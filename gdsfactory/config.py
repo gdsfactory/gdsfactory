@@ -206,6 +206,7 @@ class Settings(BaseSettings):
     pdk: str | None = None
     difftest_ignore_cell_name_differences: bool = True
     difftest_ignore_sliver_differences: bool = False
+    difftest_ignore_label_differences: bool = False
     layer_error_path: tuple[int, int] = (1000, 0)
     ports_off_grid: Literal["warn", "error", "ignore"] = Field(
         default="warn", description="Ensures ports are on grid."
