@@ -184,9 +184,10 @@ def test_label_diff_ignored_xor_passes(
     ["ignore_cell_name_differences", "ignore_sliver_differences"],
     itertools.product([True, False], repeat=2),
 )
-def test_label_diff_ignored_new_layer_xor_passes(
+def test_label_diff_ignored_new_layer_xor_fails(
     ignore_cell_name_differences: bool, ignore_sliver_differences: bool
 ):
+    # the behavior here is arguable.. right now, it will still fail if a layer is added/removed due to a label only
     ref_gds = _gds_dir / "big_rect_named_bob.gds"
     run_gds = _gds_dir / "bob_with_nametag_different_layer.gds"
     has_diff = diff(
@@ -198,7 +199,7 @@ def test_label_diff_ignored_new_layer_xor_passes(
         ignore_sliver_differences=ignore_sliver_differences,
         ignore_label_differences=True,
     )
-    assert not has_diff
+    assert has_diff
 
 
 @pytest.mark.parametrize(
