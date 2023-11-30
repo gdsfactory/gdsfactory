@@ -141,7 +141,7 @@ def cell(
         active_pdk = get_active_pdk()
 
         info = kwargs.pop("info", {})  # TODO: remove info
-        name = kwargs.pop("name", None)  # TODO: remove name
+        name = _name = kwargs.pop("name", None)  # TODO: remove name
         prefix = kwargs.pop("prefix", func.__name__)  # TODO: remove prefix
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -254,7 +254,7 @@ def cell(
             )
 
         metadata_child = None
-        if get_child_name:
+        if get_child_name and _name is None:
             if component.child is None:
                 raise ValueError(
                     f"{name}: get_child_name was defined, but component has no child! Be sure to assign the component a child attribute."

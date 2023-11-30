@@ -2,12 +2,12 @@
 
 import json
 import pathlib
+import warnings
 from functools import partial
 
 import pandas as pd
 
 import gdsfactory as gf
-from gdsfactory.samples.sample_reticle import sample_reticle
 
 marker = partial(gf.components.rectangle, layer="TEXT", centered=True, size=(10, 10))
 
@@ -26,6 +26,12 @@ def write_test_manifest(
         marker_optical: marker to use for test site labels.
         marker_electrical: marker to use for test site labels.
     """
+
+    warnings.warn(
+        "This function is deprecated. Use gf.labels.get_test_manifest instead",
+        DeprecationWarning,
+    )
+
     df_in = pd.read_csv(csvpath)
 
     # Initialize an empty list to collect the rows
@@ -91,8 +97,45 @@ def write_test_manifest(
 
 
 if __name__ == "__main__":
-    c = sample_reticle(grid=False)
-    # c = c.mirror()
+    test_info_mzi_heaters = dict(
+        doe="mzis_heaters",
+        analysis="mzi_heater_phase_shifter_length",
+        measurement="optical_loopback4_heater_sweep",
+    )
+    test_info_ring_heaters = dict(
+        doe="ring_heaters_coupling_length",
+        analysis="ring_heater",
+        measurement="optical_loopback2_heater_sweep",
+    )
+
+    mzis = [
+        gf.components.mzi2x2_2x2_phase_shifter(length_x=lengths)
+        for lengths in [100, 200, 300]
+    ]
+
+    rings = [
+        gf.components.ring_single_heater(length_x=length_x) for length_x in [10, 20, 30]
+    ]
+
+    mzis_te = [
+        gf.components.add_fiber_array_optical_south_electrical_north(
+            mzi,
+            electrical_port_names=["top_l_e2", "top_r_e2"],
+            info=test_info_mzi_heaters,
+            decorator=gf.labels.add_label_json,
+        )
+        for mzi in mzis
+    ]
+    rings_te = [
+        gf.components.add_fiber_array_optical_south_electrical_north(
+            ring,
+            electrical_port_names=["l_e2", "r_e2"],
+            info=test_info_ring_heaters,
+            decorator=gf.labels.add_label_json,
+        )
+        for ring in rings
+    ]
+    c = gf.pack(mzis_te + rings_te)[0]
     c.show(show_ports=False)
     gdspath = c.write_gds("sample_reticle.gds")
     csvpath = gf.labels.write_labels.write_labels_gdstk(

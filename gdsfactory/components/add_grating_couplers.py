@@ -253,8 +253,8 @@ def add_grating_couplers_with_loopback_fiber_array(
         )
         c.add([gca1, gca2])
         c.add(loopback_route.references)
-        c.add_port(name="loopback_1", port=port0)
-        c.add_port(name="loopback_2", port=port1)
+        c.add_port(name="loopback1", port=port0)
+        c.add_port(name="loopback2", port=port1)
 
     ports = [p.flip() for p in component.ports.values()]
     c.add_ports(ports)
