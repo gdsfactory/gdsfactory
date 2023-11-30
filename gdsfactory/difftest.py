@@ -22,6 +22,7 @@ def diff(
     test_name: str = "",
     ignore_sliver_differences: bool | None = None,
     ignore_cell_name_differences: bool | None = None,
+    ignore_label_differences: bool | None = None,
 ) -> bool:
     """Returns True if files are different, prints differences and shows them in klayout.
 
@@ -31,7 +32,8 @@ def diff(
         xor: runs xor on every layer between ref and run files.
         test_name: prefix for the new cell.
         ignore_sliver_differences: if True, ignores any sliver differences in the XOR result. If None (default), defers to the value set in CONF.difftest_ignore_sliver_differences
-        ignore_cell_name_differences: if True, ignores any cell name differences. If None (default), defers to the value set in CONF.difftest_ignore_sliver_differences
+        ignore_cell_name_differences: if True, ignores any cell name differences. If None (default), defers to the value set in CONF.difftest_ignore_cell_name_differences
+        ignore_label_differences: if True, ignores any label differences when run in XOR mode. If None (default) defers to the value set in CONF.difftest_ignore_label_differences
     """
     try:
         from kfactory import KCell, kdb
@@ -49,6 +51,9 @@ def diff(
 
     if ignore_cell_name_differences is None:
         ignore_cell_name_differences = CONF.difftest_ignore_cell_name_differences
+
+    if ignore_label_differences is None:
+        ignore_label_differences = CONF.difftest_ignore_label_differences
 
     if ref.kcl.dbu != run.kcl.dbu:
         raise ValueError(
@@ -98,9 +103,11 @@ def diff(
             equivalent = False
 
     def text_diff_a(anotb: kdb.Text, prop_id: int):
+        print("Text only in old")
         get_texts(ld.layer_index_a(), a_texts).insert(anotb)
 
     def text_diff_b(bnota: kdb.Text, prop_id: int):
+        print("Text only in new")
         get_texts(ld.layer_index_b(), b_texts).insert(bnota)
 
     ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)
@@ -114,10 +121,17 @@ def diff(
     if ignore_cell_name_differences:
         ld.on_cell_name_differs = lambda anotb: print(f"cell name differs {anotb.name}")
         equal = ld.compare(
-            ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.SmartCellMapping, 1
+            ref._kdb_cell,
+            run._kdb_cell,
+            kdb.LayoutDiff.SmartCellMapping | kdb.LayoutDiff.Verbose,
+            1,
         )
     else:
         equal = ld.compare(ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.Verbose, 1)
+
+    if not ignore_label_differences:
+        if a_texts or b_texts:
+            equivalent = False
 
     if not equal:
         c = KCell(f"{test_name}_difftest")
@@ -153,7 +167,7 @@ def diff(
                         is_sliver = xor_w_tolerance.is_empty()
                         message = f"{test_name}: XOR difference on layer {layer}"
                         if is_sliver:
-                            message += " (sliver or label)"
+                            message += " (sliver)"
                             if not ignore_sliver_differences:
                                 equivalent = False
                         else:
