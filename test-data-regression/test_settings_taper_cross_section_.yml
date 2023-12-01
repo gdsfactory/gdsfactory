@@ -84,7 +84,8 @@ settings:
     npoints: 100
     width_type: sine
   function_name: taper_cross_section
-  info: {}
+  info:
+    length: 10
   info_version: 2
   module: gdsfactory.components.taper_cross_section
   name: taper_cross_section
