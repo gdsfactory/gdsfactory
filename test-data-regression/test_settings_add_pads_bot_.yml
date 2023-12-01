@@ -183,6 +183,7 @@ settings:
       settings:
         port_type: electrical
     straight_separation: null
+    with_loopback: false
   full:
     bend: wire_corner
     component:
@@ -215,6 +216,7 @@ settings:
       settings:
         port_type: electrical
     straight_separation: null
+    with_loopback: false
   function_name: add_pads_bot
   info: {}
   info_version: 2

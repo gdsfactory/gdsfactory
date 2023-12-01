@@ -33,6 +33,7 @@ def add_pads_bot(
     straight_separation: float | None = None,
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
+    with_loopback: bool = False,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -52,6 +53,7 @@ def add_pads_bot(
         straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
         pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
+        with_loopback: True, adds loopback structures.
 
     Keyword Args:
         straight: straight spec.
@@ -60,7 +62,6 @@ def add_pads_bot(
         get_input_label_text_function: for labels.
         fanout_length: if None, automatic calculation of fanout length.
         max_y0_optical: in um.
-        with_loopback: True, adds loopback structures.
         list_port_labels: None, adds TM labels to port indices in this list.
         connected_port_list_ids: names of ports only for type 0 optical routing.
         nb_optical_ports_lines: number of grating coupler lines.
@@ -134,7 +135,7 @@ def add_pads_bot(
         select_ports=select_ports,
         get_input_labels_function=get_input_labels_function,
         layer_label=layer_label,
-        with_loopback=False,
+        with_loopback=with_loopback,
         bend=bend,
         straight_separation=straight_separation,
         port_names=port_names,
@@ -257,7 +258,7 @@ if __name__ == "__main__":
     c = gf.components.ring_single_heater(
         gap=0.2, radius=10, length_x=4, via_stack_offset=(2, 0)
     )
-    cc = add_pads_top(component=c)
+    cc = add_pads_top(component=c, with_loopback=True, straight_to_grating_spacing=100)
     cc = gf.routing.add_fiber_array(cc)
     cc.pprint_ports()
     cc.show(show_ports=True)
