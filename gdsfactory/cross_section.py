@@ -565,7 +565,18 @@ strip_rib_tip = partial(
     strip,
     sections=(Section(width=0.2, layer="SLAB90", name="slab"),),
 )
-
+strip_nitride_tip = partial(
+    nitride,
+    sections=(Section(width=0.2, layer="WGN", name="tip_nitride"),),
+)
+strip_nitride_silicon_tip = partial(
+    strip,
+    sections=(Section(width=0.2, layer="WG", name="tip_silicon"),),
+)
+strip_sc_tip = partial(
+    nitride,
+    sections=(Section(width=0.2, layer="WG", name="tip"),),
+)
 # L shaped waveguide (slab only on one side of the core)
 l_wg = partial(
     strip,
@@ -2357,9 +2368,12 @@ xs_rc2 = rib2()
 xs_rc_bbox = rib_bbox()
 
 xs_sc_rc_tip = strip_rib_tip()
+xs_sc_nc_tip = strip_nitride_tip()
+xs_nc_sc_tip = strip_nitride_silicon_tip()
 xs_sc_heater_metal = strip_heater_metal()
 xs_sc_heater_metal_undercut = strip_heater_metal_undercut()
 xs_slot = slot()
+xs_nc = nitride()
 
 xs_heater_metal = heater_metal()
 xs_sc_heater_doped = strip_heater_doped()
@@ -2401,6 +2415,7 @@ if __name__ == "__main__":
     # p = gf.path.straight()
     # c = p.extrude(xs)
     # c = gf.c.straight(cross_section=xs)
-    xs = pn(slab_inset=0.2)
+    # xs = pn(slab_inset=0.2)
+    xs = xs_sc.copy(width=1)
     c = gf.c.straight(cross_section=xs)
     c.show()

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -9,16 +8,17 @@ from gdsfactory.component import Component
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
 @cell
 def add_tapers(
     component: ComponentSpec,
-    taper: ComponentSpec = taper_cross_section,
+    taper: ComponentFactory | Component = taper_cross_section,
     select_ports: Callable | None = select_ports_optical,
     taper_port_name1: str = "o1",
     taper_port_name2: str = "o2",
+    cross_section1: CrossSectionSpec | None = None,
     cross_section2: CrossSectionSpec = strip,
     **kwargs,
 ) -> Component:
@@ -30,10 +30,10 @@ def add_tapers(
         select_ports: function to select ports.
         taper_port_name1: name.
         taper_port_name2: name.
+        cross_section1: optional start cross_section factory. Defaults to port.
         cross_section2: end cross_section factory (cross_section).
 
     Keyword Args:
-        cross_section1: start cross_section factory.
         length: transition length.
         npoints: number of points.
         linear: shape of the transition, sine when False.
@@ -51,18 +51,17 @@ def add_tapers(
 
     for port_name, port in component.ports.items():
         if port.name in ports_to_taper_names:
-            if isinstance(taper, partial) and cross_section2 is None:
-                taper_ref = c << taper(
-                    cross_section2=partial(
-                        taper.keywords["cross_section2"], width=port.width
-                    ),
-                )
-            else:
-                taper_ref = c << taper(
-                    cross_section1=port.cross_section,
+            _taper = (
+                taper
+                if isinstance(taper, Component)
+                else gf.get_component(
+                    taper,
+                    cross_section1=cross_section1 or port.cross_section,
                     cross_section2=cross_section2,
                     **kwargs,
                 )
+            )
+            taper_ref = c << _taper
             taper_ref.connect(taper_ref.ports[taper_port_name1].name, port)
             c.add_port(name=port_name, port=taper_ref.ports[taper_port_name2])
         else:
