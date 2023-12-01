@@ -65,10 +65,14 @@ settings:
       function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     output_straight_cross_section:
       function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     radius:
     - 10.0
     - 10.0
@@ -77,12 +81,18 @@ settings:
     - function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     - function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     - function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
   full:
     bends:
     - function: bend_circular
@@ -97,10 +107,14 @@ settings:
       function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     output_straight_cross_section:
       function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     radius:
     - 10.0
     - 10.0
@@ -109,12 +123,18 @@ settings:
     - function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     - function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     - function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
   function_name: ring_crow
   info: {}
   info_version: 2

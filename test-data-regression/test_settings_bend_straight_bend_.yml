@@ -33,6 +33,8 @@ settings:
       function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     direction: ccw
     npoints: 720
     p: 0.5
@@ -44,6 +46,8 @@ settings:
       function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     direction: ccw
     npoints: 720
     p: 0.5

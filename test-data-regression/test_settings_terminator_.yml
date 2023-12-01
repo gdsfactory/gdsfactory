@@ -20,6 +20,8 @@ settings:
       function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     cross_section_tip: null
     doping_layers:
     - NPP
@@ -31,6 +33,8 @@ settings:
       function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     cross_section_tip: null
     doping_layers:
     - NPP

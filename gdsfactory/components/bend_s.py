@@ -83,7 +83,7 @@ def get_min_sbend_size(
     else:
         raise ValueError("One of the two elements in size has to be None")
 
-    min_radius = cross_section_f.radius
+    min_radius = cross_section_f.radius_min or cross_section_f.radius
 
     if min_radius is None:
         raise ValueError("The min radius for the specified layer is not known!")
@@ -116,7 +116,7 @@ def get_min_sbend_size(
 
 
 if __name__ == "__main__":
-    c = bend_s()
+    c = bend_s(size=(10, 2.5))
     # c = bend_s(bbox_offsets=[0.5], bbox_layers=[(111, 0)], width=2)
     # c = bend_s(size=[10, 2.5])  # 10um bend radius
     # c = bend_s(size=[20, 3], cross_section="xs_rc")  # 10um bend radius
