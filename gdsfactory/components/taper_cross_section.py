@@ -84,6 +84,14 @@ taper_cross_section_parabolic = partial(
     taper_cross_section, linear=False, width_type="parabolic", npoints=101
 )
 
+taper_sc_nc_sine = partial(
+    taper_cross_section,
+    linear=False,
+    npoints=101,
+    cross_section1="xs_nc_sc_tip",
+    cross_section2="xs_sc_nc_tip",
+)  # FIXME
+
 if __name__ == "__main__":
     # x1 = partial(strip, width=0.5)
     # x2 = partial(strip, width=2.5)
@@ -97,7 +105,8 @@ if __name__ == "__main__":
     # c = taper_cross_section_sine()
     # c = taper_cross_section_linear()
     # print([i.name for i in c.get_dependencies()])
-    cross_section1 = gf.cross_section.rib_heater_doped
-    cross_section2 = gf.cross_section.strip_rib_tip
-    c = taper_cross_section(cross_section1, cross_section2)
+    # cross_section1 = gf.cross_section.rib_heater_doped(width=2)
+    # cross_section2 = gf.cross_section.strip_rib_tip
+    # c = taper_cross_section(cross_section1, cross_section2)
+    c = taper_sc_nc_sine()
     c.show(show_ports=True)

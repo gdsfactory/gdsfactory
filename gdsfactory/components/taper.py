@@ -247,9 +247,9 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
-    c = taper(length=0)
+    # c = taper(length=0)
     # c = taper_strip_to_ridge_trenches()
     # c = taper_strip_to_ridge()
     # c = taper(width1=1.5, width2=1, cross_section="xs_rc")
-    # c = taper_sc_nc()
+    c = taper_sc_nc()
     c.show(show_ports=False)

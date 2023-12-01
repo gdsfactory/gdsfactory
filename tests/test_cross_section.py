@@ -151,4 +151,7 @@ def test_extrude_transition_component():
 if __name__ == "__main__":
     # test_transition_names()
     # test_copy()
-    test_extrude_transition_component()
+    # test_extrude_transition_component()
+    xs = gf.cross_section.xs_sc_rc_tip.copy(width=1)
+    c = gf.c.straight(cross_section=xs)
+    c.show()
