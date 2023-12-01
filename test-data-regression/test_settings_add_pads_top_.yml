@@ -1,101 +1,5 @@
 name: mzi_2e88f57c_add_pads_bot_564dd830_add_pads_top_564dd830
 ports:
-  elec-pad_sizepad_size-mzi_2e88f57c-top_l_e1:
-    center:
-    - -296.4
-    - 88.9
-    layer:
-    - 49
-    - 0
-    name: elec-pad_sizepad_size-mzi_2e88f57c-top_l_e1
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 80.0
-  elec-pad_sizepad_size-mzi_2e88f57c-top_l_e2:
-    center:
-    - -96.4
-    - 88.9
-    layer:
-    - 49
-    - 0
-    name: elec-pad_sizepad_size-mzi_2e88f57c-top_l_e2
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 80.0
-  elec-pad_sizepad_size-mzi_2e88f57c-top_l_e3:
-    center:
-    - 103.6
-    - 88.9
-    layer:
-    - 49
-    - 0
-    name: elec-pad_sizepad_size-mzi_2e88f57c-top_l_e3
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 80.0
-  elec-pad_sizepad_size-mzi_2e88f57c-top_l_e4:
-    center:
-    - 403.6
-    - 88.9
-    layer:
-    - 49
-    - 0
-    name: elec-pad_sizepad_size-mzi_2e88f57c-top_l_e4
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 80.0
-  elec-pad_sizepad_size-mzi_2e88f57c-top_r_e1:
-    center:
-    - -196.4
-    - 88.9
-    layer:
-    - 49
-    - 0
-    name: elec-pad_sizepad_size-mzi_2e88f57c-top_r_e1
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 80.0
-  elec-pad_sizepad_size-mzi_2e88f57c-top_r_e2:
-    center:
-    - 3.6
-    - 88.9
-    layer:
-    - 49
-    - 0
-    name: elec-pad_sizepad_size-mzi_2e88f57c-top_r_e2
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 80.0
-  elec-pad_sizepad_size-mzi_2e88f57c-top_r_e3:
-    center:
-    - 203.6
-    - 88.9
-    layer:
-    - 49
-    - 0
-    name: elec-pad_sizepad_size-mzi_2e88f57c-top_r_e3
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 80.0
-  elec-pad_sizepad_size-mzi_2e88f57c-top_r_e4:
-    center:
-    - 303.6
-    - 88.9
-    layer:
-    - 49
-    - 0
-    name: elec-pad_sizepad_size-mzi_2e88f57c-top_r_e4
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 80.0
   o1:
     center:
     - -10.0
@@ -144,102 +48,102 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
-  top_l_e1:
+  pad_1:
     center:
-    - 19.6
-    - -22.625
+    - -296.4
+    - 88.9
     layer:
     - 49
     - 0
-    name: top_l_e1
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  top_l_e2:
-    center:
-    - 25.1
-    - -28.125
-    layer:
-    - 49
-    - 0
-    name: top_l_e2
+    name: pad_1
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 11.0
-  top_l_e3:
+    width: 80.0
+  pad_2:
     center:
-    - 30.6
-    - -22.625
+    - -196.4
+    - 88.9
     layer:
     - 49
     - 0
-    name: top_l_e3
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  top_l_e4:
-    center:
-    - 25.1
-    - -17.125
-    layer:
-    - 49
-    - 0
-    name: top_l_e4
-    orientation: 90.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  top_r_e1:
-    center:
-    - 76.5
-    - -22.625
-    layer:
-    - 49
-    - 0
-    name: top_r_e1
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  top_r_e2:
-    center:
-    - 82.0
-    - -28.125
-    layer:
-    - 49
-    - 0
-    name: top_r_e2
+    name: pad_2
     orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 11.0
-  top_r_e3:
+    width: 80.0
+  pad_3:
     center:
-    - 87.5
-    - -22.625
+    - -96.4
+    - 88.9
     layer:
     - 49
     - 0
-    name: top_r_e3
-    orientation: 0.0
+    name: pad_3
+    orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 11.0
-  top_r_e4:
+    width: 80.0
+  pad_4:
     center:
-    - 82.0
-    - -17.125
+    - 3.6
+    - 88.9
     layer:
     - 49
     - 0
-    name: top_r_e4
-    orientation: 90.0
+    name: pad_4
+    orientation: 270.0
     port_type: electrical
     shear_angle: null
-    width: 11.0
+    width: 80.0
+  pad_5:
+    center:
+    - 103.6
+    - 88.9
+    layer:
+    - 49
+    - 0
+    name: pad_5
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 80.0
+  pad_6:
+    center:
+    - 203.6
+    - 88.9
+    layer:
+    - 49
+    - 0
+    name: pad_6
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 80.0
+  pad_7:
+    center:
+    - 303.6
+    - 88.9
+    layer:
+    - 49
+    - 0
+    name: pad_7
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 80.0
+  pad_8:
+    center:
+    - 403.6
+    - 88.9
+    layer:
+    - 49
+    - 0
+    name: pad_8
+    orientation: 270.0
+    port_type: electrical
+    shear_angle: null
+    width: 80.0
 settings:
   changed:
     component:
