@@ -125,9 +125,9 @@ settings:
     length: 10.0
     route_info:
       length: 10.0
-      type: xs_6e41a64d
+      type: xs_a7f7bc00
       weight: 10.0
-      xs_6e41a64d_length: 10.0
+      xs_a7f7bc00_length: 10.0
     width: 0.5
   info_version: 2
   module: gdsfactory.components.extension

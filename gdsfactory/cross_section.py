@@ -120,7 +120,8 @@ class CrossSection(BaseModel):
     Parameters:
         sections: tuple of Sections(width, offset, layer, ports).
         components_along_path: tuple of ComponentAlongPaths.
-        radius: route bend radius (um).
+        radius: default bend radius for routing (um).
+        radius_min: minimum acceptable bend radius.
         bbox_layers: layer to add as bounding box.
         bbox_offsets: offset to add to the bounding box.
         info: dictionary with extra information.
@@ -169,6 +170,7 @@ class CrossSection(BaseModel):
     sections: tuple[Section, ...] = Field(default_factory=tuple)
     components_along_path: tuple[ComponentAlongPath, ...] = Field(default_factory=tuple)
     radius: float | None = None
+    radius_min: float | None = None
     bbox_layers: LayerSpecs | None = None
     bbox_offsets: Floats | None = None
 
@@ -190,10 +192,11 @@ class CrossSection(BaseModel):
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
     ) -> None:
-        if self.radius and radius < self.radius:
+        radius_min = self.radius_min or self.radius
+
+        if radius_min and radius < radius_min:
             message = (
-                f"min_bend_radius {radius} < CrossSection.radius {self.radius}. "
-                "Increase CrossSection.radius or decrease the number of points"
+                f"min_bend_radius {radius} < CrossSection.radius_min {radius_min}. "
             )
 
             error_type = error_type or CONF.bend_radius_error_type
@@ -401,6 +404,7 @@ def cross_section(
     cladding_offsets: Floats | None = None,
     cladding_simplify: Floats | None = None,
     radius: float | None = 10.0,
+    radius_min: float | None = 5.0,
     add_pins_function_name: str | None = None,
     **kwargs,
 ) -> CrossSection:
@@ -421,6 +425,7 @@ def cross_section(
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
         radius: routing bend radius (um).
+        radius_min: min acceptable bend radius.
         add_pins_function_name: name of the function to add pins to the component.
 
 
@@ -512,6 +517,7 @@ def cross_section(
     return CrossSection(
         sections=tuple(s),
         radius=radius,
+        radius_min=radius_min,
         bbox_layers=bbox_layers,
         bbox_offsets=bbox_offsets,
         add_pins_function_name=add_pins_function_name,
