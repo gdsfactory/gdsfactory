@@ -404,7 +404,7 @@ def cross_section(
     cladding_offsets: Floats | None = None,
     cladding_simplify: Floats | None = None,
     radius: float | None = 10.0,
-    radius_min: float | None = 5.0,
+    radius_min: float | None = None,
     add_pins_function_name: str | None = None,
     **kwargs,
 ) -> CrossSection:
@@ -528,27 +528,39 @@ def cross_section(
 radius_nitride = 20
 radius_rib = 20
 
-strip = partial(cross_section, add_pins_function_name=None)
-strip_pins = partial(cross_section, add_pins_function_name="add_pins_inside1nm")
+strip = partial(cross_section, add_pins_function_name=None, radius=10, radius_min=5)
+strip_pins = partial(strip, add_pins_function_name="add_pins_inside1nm")
 strip_auto_widen = partial(strip, auto_widen=True)
-strip_no_pins = cross_section
+strip_no_pins = strip
 
 rib = partial(
     strip,
     sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),
+    radius=radius_rib,
+    radius_min=radius_rib,
 )
 rib2 = partial(
     strip,
     cladding_layers=("SLAB90",),
     cladding_offsets=(3,),
     cladding_simplify=(50 * nm,),
+    radius=radius_rib,
+    radius_min=radius_rib,
 )
 rib_bbox = partial(
     strip,
     bbox_layers=("SLAB90",),
     bbox_offsets=(3,),
+    radius=radius_rib,
+    radius_min=radius_rib,
 )
-nitride = partial(strip, layer="WGN", width=1.0)
+nitride = partial(
+    strip,
+    layer="WGN",
+    width=1.0,
+    radius=radius_nitride,
+    radius_min=radius_nitride,
+)
 strip_rib_tip = partial(
     strip,
     sections=(Section(width=0.2, layer="SLAB90", name="slab"),),

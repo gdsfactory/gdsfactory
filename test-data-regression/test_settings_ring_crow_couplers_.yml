@@ -69,12 +69,18 @@ settings:
     - function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     - function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     - function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
   full:
     bends:
     - function: bend_circular
@@ -93,12 +99,18 @@ settings:
     - function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     - function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     - function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
   function_name: ring_crow_couplers
   info: {}
   info_version: 2
