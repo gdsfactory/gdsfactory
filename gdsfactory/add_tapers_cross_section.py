@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -9,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, ComponentFactory
+from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
 @cell
