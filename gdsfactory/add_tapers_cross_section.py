@@ -51,16 +51,26 @@ def add_tapers(
 
     for port_name, port in component.ports.items():
         if port.name in ports_to_taper_names:
-            _taper = (
-                taper
-                if isinstance(taper, Component)
-                else gf.get_component(
+            if (
+                isinstance(taper, gf.partial)
+                and "cross_section2" in taper.keywords
+                and cross_section2 is None
+            ):
+                _taper = gf.get_component(
+                    taper,
+                    cross_section2=gf.partial(
+                        taper.keywords["cross_section2"], width=port.width
+                    ),
+                )
+            elif isinstance(taper, Component):
+                _taper = taper
+            else:
+                _taper = gf.get_component(
                     taper,
                     cross_section1=cross_section1 or port.cross_section,
                     cross_section2=cross_section2,
                     **kwargs,
                 )
-            )
             taper_ref = c << _taper
             taper_ref.connect(taper_ref.ports[taper_port_name1].name, port)
             c.add_port(name=port_name, port=taper_ref.ports[taper_port_name2])
