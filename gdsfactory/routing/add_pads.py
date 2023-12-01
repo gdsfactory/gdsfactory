@@ -121,7 +121,7 @@ def add_pads_bot(
 
     (
         elements,
-        io_gratings_lines,
+        pads,
         ports_grating_input_waveguide,
         ports_loopback,
         ports_component,
@@ -147,13 +147,13 @@ def add_pads_bot(
 
     for e in elements:
         component_new.add(e)
-    for io_gratings in io_gratings_lines:
-        component_new.add(io_gratings)
+    for i in pads:
+        component_new.add(i)
 
     component_new.add_ref(component)
 
     for port in component.ports.values():
-        if port not in ports:
+        if port not in ports_component:
             component_new.add_port(port.name, port=port)
 
     ports = sort_ports_x(ports_grating_input_waveguide + ports_loopback)
@@ -165,21 +165,8 @@ def add_pads_bot(
                     text=gc_port_label, layer=layer_label, position=port.center
                 )
 
-    for port_component, port_grating in zip(
-        ports_component, ports_grating_input_waveguide
-    ):
-        grating_ref = port_grating.parent
-        component_new.add_port(
-            f"elec-{grating_ref.parent.name}-{component_name}-{port_component.name}",
-            port=port_grating,
-        )
-
-    for i, port in enumerate(ports_loopback):
-        grating_ref = port_grating.parent
-        component_new.add_port(
-            f"elec-{grating_ref.parent.name}-{component_name}-loopback{i}",
-            port=port,
-        )
+    for i, pad in enumerate(pads[0]):
+        component_new.add_port(f"pad_{i+1}", port=pad[pad_port_name])
 
     component_new.copy_child_info(component)
     return component_new
@@ -258,14 +245,19 @@ if __name__ == "__main__":
 
     # cc = add_pads_top(component=c, port_names=("e1",))
     # cc = add_pads_top(component=c, port_names=("e1", "e2"), fanout_length=50)
-    c = gf.c.nxn(
-        xsize=600,
-        ysize=200,
-        north=2,
-        south=3,
-        wg_width=10,
-        layer="M3",
-        port_type="electrical",
+    # c = gf.c.nxn(
+    #     xsize=600,
+    #     ysize=200,
+    #     north=2,
+    #     south=3,
+    #     wg_width=10,
+    #     layer="M3",
+    #     port_type="electrical",
+    # )
+    c = gf.components.ring_single_heater(
+        gap=0.2, radius=10, length_x=4, via_stack_offset=(2, 0)
     )
     cc = add_pads_top(component=c)
+    cc = gf.routing.add_fiber_array(cc)
+    cc.pprint_ports()
     cc.show(show_ports=True)
