@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.9.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.0) - 2023-12-02
+
+No significant changes.
+
+
 ## [7.8.18](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.18) - 2023-11-19
 
 - add wire corner kwargs [#2320](https://github.com/gdsfactory/gdsfactory/pull/2320)
