@@ -356,6 +356,8 @@ class Port:
                 f"Port {self.name!r} orientation {self.orientation} "
                 "is not manhattan (0, 90, 180, 270).\n Non-manhattan ports can cause "
                 f"1nm snapping errors in Component {component_name}.\n"
+                "You can use Component.flatten_invalid_refs() to snap to grid."
+                "and use gf.config.enable_off_grid_ports() to disable this check."
             )
             if error_type not in valid_error_types:
                 raise ValueError(
