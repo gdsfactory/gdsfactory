@@ -29,10 +29,12 @@ version-resolver:
     labels:
       - 'type: breaking'
       - 'type: major'
+      - 'major'
   minor:
     labels:
       - 'type: feature'
       - 'type: minor'
+      - 'minor'
   patch:
     labels:
       - 'type: bug'
