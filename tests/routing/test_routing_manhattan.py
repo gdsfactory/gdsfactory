@@ -50,7 +50,7 @@ def test_manhattan() -> None:
             radius=5.0,
             auto_widen=True,
             width_wide=2,
-            layer=layer
+            layer=layer,
             # width=0.2,
         )
 
