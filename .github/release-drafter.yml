@@ -28,14 +28,13 @@ version-resolver:
   major:
     labels:
       - 'type: breaking'
-      - 'major'
+      - 'type: major'
   minor:
     labels:
-      - 'minor'
       - 'type: feature'
+      - 'type: minor'
   patch:
     labels:
-      - 'patch'
       - 'type: bug'
       - 'type: maintenance'
       - 'type: docs'

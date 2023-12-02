@@ -52,6 +52,7 @@ settings:
   changed: {}
   child: null
   default:
+    angle: 0
     bend:
       function: bend_euler
     cross_section: xs_sc
@@ -77,6 +78,7 @@ settings:
     text_rotation: 0
     x_reflection: false
   full:
+    angle: 0
     bend:
       function: bend_euler
     cross_section: xs_sc
