@@ -90,7 +90,7 @@ taper_sc_nc_sine = partial(
     npoints=101,
     cross_section1="xs_nc_sc_tip",
     cross_section2="xs_sc_nc_tip",
-)  # FIXME
+)
 
 if __name__ == "__main__":
     # x1 = partial(strip, width=0.5)

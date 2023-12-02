@@ -610,7 +610,7 @@ def transition(
     """Returns a smoothly-transitioning between two CrossSections.
 
     Only cross-sectional elements that have the `name` (as in X.add(..., name = 'wg') )
-    parameter specified in both input CrosSections will be created.
+    parameter specified in both input CrossSections will be created.
     Port names will be cloned from the input CrossSections in reverse.
 
     Args:
