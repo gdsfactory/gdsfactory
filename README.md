@@ -31,7 +31,7 @@ We facilitate an end-to-end design flow for you to:
 
 - **Design (Layout, Simulation, Optimization)**: Utilize parametric cell functions in Python or YAML to define components. Test component settings, ports, and geometry to avoid unwanted regressions, and capture design intent in a schematic.
 - **Verify (DRC, DFM, LVS)**: Run simulations directly from the layout using our simulation interfaces, removing the need to duplicate geometry drawings. Conduct component and circuit simulations, study design for manufacturing, and ensure complex layouts match their design intent through Layout Versus Schematic verification.
-- **Validate**: Define layout and test protocols simultaneously for efficient chip analysis post-fabrication. Extract essential component parameters, and build a data pipeline from raw data to structured data, and dashboards for monitoring chip performance.
+- **Validate**: Define layout and test protocols simultaneously for automated chip analysis post-fabrication. This allows you to extract essential component parameters, and build data pipelines from raw data to structured data to monitor chip performance.
 
 Your input: Python or YAML text.
 Your output: A GDSII or OASIS file for fabrication, alongside component settings (for measurement and data analysis) and netlists (for circuit simulations) in YAML.
