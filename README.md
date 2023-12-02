@@ -15,8 +15,14 @@
 
 gdsfactory: Your open source platform for end to-end chip design and validation.
 
+Highlights:
+
+- > 1M downloads
+- > 50 Contributors
+- > 10 PDKs available
+
 Welcome to gdsfactory, a Python library designed for crafting chips (Photonics, Analog, Quantum, MEMs, and more), 3D printed objects, and PCBs.
-Here, you can code your hardware design in Python or YAML, perform verification through DRC, simulation, and extraction, and validate in the lab to ensure your fabricated chip meets your specifications.
+Here, you can code your hardware design in Python or YAML, perform verification (DRC, simulation, and extraction), and enable automated testing in the lab to ensure your fabricated chip meets your specifications.
 
 ![workflow](https://i.imgur.com/abvxJJw.png)
 
