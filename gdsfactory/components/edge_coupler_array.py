@@ -38,6 +38,24 @@ def edge_coupler_array(
         text: text spec.
         text_offset: from edge coupler.
         text_rotation: text rotation in degrees.
+
+    Requires edge coupler waveguide port to face left.
+
+    .. code::
+                                          ┌─────────────────┐
+                                          │                 │
+                                          │                 │
+                                          │                 │
+           ───────────────                │                 │
+                          ─────────────── │                 │
+           o1             edge_coupler_tip│      fiber      │
+                          ─────────────── │                 │
+           ───────────────                │                 │
+                                          │                 │
+                                          │                 │
+                                          │                 │
+                                          └─────────────────┘
+
     """
     edge_coupler = gf.get_component(edge_coupler)
 
@@ -153,8 +171,8 @@ def edge_coupler_array_with_loopback(
 
 
 if __name__ == "__main__":
-    c = edge_coupler_array_with_loopback(text_rotation=90)
-    # c = edge_coupler_silicon()
+    # c = edge_coupler_array_with_loopback(text_rotation=90)
+    c = edge_coupler_silicon()
     # c = edge_coupler_array(x_reflection=False)
     # c = edge_coupler_array_with_loopback(x_reflection=False)
     c.show(show_ports=True)
