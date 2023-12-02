@@ -49,13 +49,11 @@ def edge_coupler_array(
                                           ┌─────────────────┐
                                           │                 │
                                           │                 │
-                                          │                 │
            ───────────────                │                 │
                           ─────────────── │                 │
            o1             edge_coupler_tip│      fiber      │
                           ─────────────── │                 │
            ───────────────                │                 │
-                                          │                 │
                                           │                 │
                                           │                 │
                                           └─────────────────┘
@@ -74,9 +72,10 @@ def edge_coupler_array(
             ref.mirror()
 
         if angle:
+            # straighten the port to a manhattan 180 degree angle to avoid grid errors
             b = c << bend(angle=angle)
             b.connect("o2", ref.ports["o1"])
-            c.add_port(f"o{i}", port=b['o1'])
+            c.add_port(f"o{i}", port=b["o1"])
 
         else:
             for port in ref.get_ports_list():
@@ -87,7 +86,8 @@ def edge_coupler_array(
             t.rotate(text_rotation)
             t.move(np.array(text_offset) + (0, i * pitch))
 
-    c = c.flatten_invalid_refs()
+    if angle:
+        c = c.flatten_invalid_refs()
     c.auto_rename_ports()
     return c
 
@@ -193,5 +193,5 @@ if __name__ == "__main__":
     # c = edge_coupler_array(x_reflection=False)
     # c = edge_coupler_array_with_loopback(x_reflection=False)
     # c = edge_coupler_array(angle=8)
-    c = edge_coupler_array_with_loopback(angle=8)
+    c = edge_coupler_array_with_loopback(angle=0)
     c.show(show_ports=True)
