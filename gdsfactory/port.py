@@ -358,7 +358,6 @@ class Port:
                 f"1nm snapping errors in Component {component_name}.\n"
                 "You can use Component.flatten_invalid_refs() to snap to grid."
                 "and use gf.config.enable_off_grid_ports() to disable this check."
-
             )
             if error_type not in valid_error_types:
                 raise ValueError(
