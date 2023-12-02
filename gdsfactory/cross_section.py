@@ -565,13 +565,20 @@ strip_rib_tip = partial(
     strip,
     sections=(Section(width=0.2, layer="SLAB90", name="slab"),),
 )
+# fix under hre
 strip_nitride_tip = partial(
     nitride,
-    sections=(Section(width=0.2, layer="WGN", name="tip_nitride"),),
+    sections=(
+        Section(width=0.2, layer="WGN", name="tip_nitride"),
+        Section(width=0.1, layer="WG", name="tip_silicon"),
+    ),
 )
 strip_nitride_silicon_tip = partial(
     strip,
-    sections=(Section(width=0.2, layer="WG", name="tip_silicon"),),
+    sections=(
+        Section(width=0.1, layer="WGN", name="tip_nitride"),
+        Section(width=0.2, layer="WG", name="tip_silicon"),
+    ),
 )
 strip_sc_tip = partial(
     nitride,
