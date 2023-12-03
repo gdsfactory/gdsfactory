@@ -33,16 +33,26 @@ def rectangle(
         round_corners_north_south: if True adds rounded north / south corners using circles at the edges.
     """
     c = Component()
+    xsize, ysize = size
+
+    if round_corners_east_west:
+        xsize -= ysize
+    if round_corners_north_south:
+        ysize -= xsize
+
     ref = c << compass(
-        size=size, layer=layer, port_type=port_type, port_orientations=port_orientations
+        size=(xsize, ysize),
+        layer=layer,
+        port_type=port_type,
+        port_orientations=port_orientations,
     )
     if not centered:
-        ref.move((size[0] / 2, size[1] / 2))
+        ref.move((xsize / 2, ysize / 2))
     if port_type:
         c.add_ports(ref.ports)
 
     if round_corners_east_west:
-        _circle = circle(radius=size[1] / 2, layer=layer)
+        _circle = circle(radius=ysize / 2, layer=layer)
         cl = c << _circle
         cr = c << _circle
         cl.x = ref.xmin
@@ -51,7 +61,7 @@ def rectangle(
         cl.y = ref.y
 
     if round_corners_north_south:
-        _circle = circle(radius=size[0] / 2, layer=layer)
+        _circle = circle(radius=xsize / 2, layer=layer)
         ct = c << _circle
         cb = c << _circle
         ct.x = ref.x
@@ -122,7 +132,7 @@ if __name__ == "__main__":
     layer = (1, 0)
     # c = rectangles(offsets=(0, 1), centered=False, layer=layer)
     c = rectangle(
-        size=(10, 2), centered=False, layer=layer, round_corners_north_south=True
+        size=(20, 30), centered=False, layer=layer, round_corners_north_south=True
     )
     # c = rectangle(size=(3, 2), centered=True, layer=(2, 3))
     print(c.ports)
