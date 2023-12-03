@@ -60,6 +60,8 @@ settings:
     - 0
     - -90
     port_type: electrical
+    round_corners_east_west: false
+    round_corners_north_south: false
     size:
     - 4.0
     - 2.0
@@ -72,6 +74,8 @@ settings:
     - 0
     - -90
     port_type: electrical
+    round_corners_east_west: false
+    round_corners_north_south: false
     size:
     - 4.0
     - 2.0
