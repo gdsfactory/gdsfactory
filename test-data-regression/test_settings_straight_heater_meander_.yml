@@ -62,7 +62,7 @@ ports:
     width: 0.5
   o2:
     center:
-    - 74.778
+    - 45.928
     - 4.0
     layer:
     - 1
@@ -74,7 +74,7 @@ ports:
     width: 0.5
   r_e1:
     center:
-    - 79.778
+    - 50.928
     - 2.0
     layer:
     - 49
@@ -86,7 +86,7 @@ ports:
     width: 11.0
   r_e2:
     center:
-    - 85.278
+    - 56.428
     - 7.5
     layer:
     - 49
@@ -98,7 +98,7 @@ ports:
     width: 11.0
   r_e3:
     center:
-    - 90.778
+    - 61.928
     - 2.0
     layer:
     - 49
@@ -110,7 +110,7 @@ ports:
     width: 11.0
   r_e4:
     center:
-    - 85.278
+    - 56.428
     - -3.5
     layer:
     - 49
@@ -135,9 +135,10 @@ settings:
     heater_width: 2.5
     layer_heater: HEATER
     length: 300.0
+    n: null
     port_orientation1: null
     port_orientation2: null
-    radius: 5.0
+    radius: null
     spacing: 2.0
     straight_widths:
     - 0.8
@@ -157,9 +158,10 @@ settings:
     heater_width: 2.5
     layer_heater: HEATER
     length: 300.0
+    n: null
     port_orientation1: null
     port_orientation2: null
-    radius: 5.0
+    radius: null
     spacing: 2.0
     straight_widths:
     - 0.8
