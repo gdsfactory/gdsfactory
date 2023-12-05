@@ -166,12 +166,12 @@ def spiral_external_io(
 if __name__ == "__main__":
     spacing = 3
     c = spiral_external_io(
-        N=15,
-        xspacing=spacing,
-        yspacing=spacing,
-        with_inner_ports=True,
-        x_inner_length_cutback=0,
-        y_straight_inner_top=0,
-        x_inner_offset=0,
+        # N=15,
+        # xspacing=spacing,
+        # yspacing=spacing,
+        # with_inner_ports=True,
+        # x_inner_length_cutback=0,
+        # y_straight_inner_top=0,
+        # x_inner_offset=0,
     )
     c.show(show_ports=True)
