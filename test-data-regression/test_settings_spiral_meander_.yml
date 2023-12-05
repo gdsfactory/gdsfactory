@@ -1,4 +1,4 @@
-name: straight_heater_meander_layer_heaterNone
+name: straight_heater_meander_53d8448c
 ports:
   o1:
     center:
@@ -14,7 +14,7 @@ ports:
     width: 0.5
   o2:
     center:
-    - 74.778
+    - 279.262
     - 4.0
     layer:
     - 1
@@ -27,6 +27,8 @@ ports:
 settings:
   changed:
     layer_heater: null
+    length: 1000.0
+    n: 3
   child: null
   default:
     cross_section:
@@ -40,9 +42,10 @@ settings:
     heater_width: 2.5
     layer_heater: HEATER
     length: 300.0
+    n: null
     port_orientation1: null
     port_orientation2: null
-    radius: 5.0
+    radius: null
     spacing: 2.0
     straight_widths:
     - 0.8
@@ -61,10 +64,11 @@ settings:
     heater_taper_length: 10.0
     heater_width: 2.5
     layer_heater: null
-    length: 300.0
+    length: 1000.0
+    n: 3
     port_orientation1: null
     port_orientation2: null
-    radius: 5.0
+    radius: null
     spacing: 2.0
     straight_widths:
     - 0.8
@@ -76,4 +80,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.straight_heater_meander
-  name: straight_heater_meander_layer_heaterNone
+  name: straight_heater_meander_53d8448c
