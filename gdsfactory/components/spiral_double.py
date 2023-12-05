@@ -59,7 +59,7 @@ if __name__ == "__main__":
         separation=2,
         number_of_loops=3,
         npoints=1000,
-        cross_section="rib_with_trenches",
+        cross_section="xs_sc",
     )
     print(c.ports["o1"].orientation)
     print(c.ports["o2"].orientation)

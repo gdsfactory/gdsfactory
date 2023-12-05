@@ -203,10 +203,11 @@ def straight_heater_meander(
 
 if __name__ == "__main__":
     c = straight_heater_meander(
-        # straight_widths=(0.5,) * 7,
+        straight_widths=(0.5,) * 7,
         taper_length=10,
         # taper_length=10,
-        # length=1000,
+        length=10000,
+        layer_heater=None,
         # port_orientation1=0
         # cross_section=partial(gf.cross_section.strip, width=0.8),
     )
