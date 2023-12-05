@@ -48,13 +48,15 @@ def straight_heater_meander(
         taper_length: from the cross_section.
         n: Optional number of passes. If None, it is calculated from the straight_widths.
     """
-    rows = len(straight_widths)
+    rows = n or len(straight_widths)
     c = gf.Component()
     x = gf.get_cross_section(cross_section)
 
     radius = radius or x.radius
 
     if n:
+        if n % 2 == 0:
+            raise ValueError(f"n={n} should be odd")
         straight_widths = [x.width] * n
 
     p1 = gf.Port(
@@ -212,6 +214,7 @@ def straight_heater_meander(
 if __name__ == "__main__":
     c = straight_heater_meander(
         straight_widths=(0.5,) * 7,
+        n=5,
         taper_length=10,
         # taper_length=10,
         length=10000,
