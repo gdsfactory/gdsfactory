@@ -43,7 +43,7 @@ def spiral_racetrack(
     """
     c = gf.Component()
     xs = gf.get_cross_section(cross_section)
-    min_radius = min_radius or xs.radius
+    min_radius = min_radius or xs.radius or 5.0
 
     if with_inner_ports:
         bend_s_component = bend_s_factory(
@@ -150,6 +150,8 @@ def spiral_racetrack_fixed_length(
 
     c = gf.Component()
 
+    xs = gf.get_cross_section(cross_section)
+    min_radius = min_radius or xs.radius or 5.0
     xs_s_bend = cross_section_s or cross_section
 
     if np.mod(n_straight_sections, 2) != 0:
@@ -337,7 +339,7 @@ def spiral_racetrack_heater_metal(
         min_radius: smallest radius.
         straight_length: length of the straight segments.
         spacing: space between the center of neighboring waveguides.
-        num: number of straight sections.
+        num: number of straight sections on each spiral side.
         straight_factory: factory to generate the straight segments.
         bend_factory: factory to generate the bend segments.
         bend_s_factory: factory to generate the s-bend segments.
@@ -407,7 +409,7 @@ def spiral_racetrack_heater_doped(
         min_radius: smallest radius in um.
         straight_length: length of the straight segments in um.
         spacing: space between the center of neighboring waveguides in um.
-        num: number of straight sections.
+        num: half number of straight sections on each spiral side.
         straight_factory: factory to generate the straight segments.
         bend_factory: factory to generate the bend segments.
         bend_s_factory: factory to generate the s-bend segments.
@@ -464,5 +466,6 @@ def test_length_spiral_racetrack() -> None:
 if __name__ == "__main__":
     # c = spiral_racetrack(cross_section="xs_rc")
     # c = spiral_racetrack(num=4)
-    c = spiral_racetrack_heater_doped(num=8)
+    # c = spiral_racetrack_heater_doped(num=4)
+    c = spiral_racetrack_fixed_length()
     c.show(show_ports=True)
