@@ -1233,10 +1233,14 @@ class Component(_GeometryHelper):
     def is_unlocked(self) -> None:
         """Raises warning if Component is locked."""
         if self._locked:
-            warnings.warn(
+            message = (
                 f"Component {self.name!r} is dangerous to modify as it's already "
                 "on cache and will change all of its references. "
             )
+            if CONF.raise_error_on_mutation:
+                raise MutabilityError(message)
+            else:
+                warnings.warn(message)
 
     def _add(self, element) -> None:
         """Add a new element or list of elements to this Component.

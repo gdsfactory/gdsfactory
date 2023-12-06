@@ -226,6 +226,7 @@ class Settings(BaseSettings):
         default="warn", description="When connecting ports with different types."
     )
     default_show_suffix: Literal[".oas", ".gds"] = ".gds"
+    raise_error_on_mutation: bool = True
 
     @classmethod
     def from_config(cls) -> Settings:
