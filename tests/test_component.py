@@ -89,5 +89,13 @@ def test_import_gds_settings() -> None:
     assert c3
 
 
+def test_avoid_zero_area_polygons() -> None:
+    c = gf.Component("pads")
+    xs = gf.cross_section.pn(width_slab=0)
+    c = gf.c.straight(cross_section=xs)
+    assert c.get_polygons(by_spec=True)[(3, 0)] == []
+
+
 if __name__ == "__main__":
-    test_extract()
+    # test_extract()
+    test_avoid_zero_area_polygons()
