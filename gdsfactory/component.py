@@ -1127,7 +1127,8 @@ class Component(_GeometryHelper):
             if hasattr(points, "properties"):
                 polygon.properties = deepcopy(points.properties)
 
-            self._add_polygons(polygon)
+            if polygon.area() > 0:
+                self._add_polygons(polygon)
             return polygon
 
         elif hasattr(points, "geoms"):
@@ -1151,11 +1152,18 @@ class Component(_GeometryHelper):
             points = snap.snap_to_grid(points) if snap_to_grid else points
             layer, datatype = _parse_layer(layer)
             polygon = Polygon(points, (layer, datatype))
-            self._add_polygons(polygon)
+            if polygon.area() > 0:
+                self._add_polygons(polygon)
             return polygon
         elif points.ndim == 3:
             layer, datatype = _parse_layer(layer)
-            polygons = [Polygon(ppoints, (layer, datatype)) for ppoints in points]
+
+            polygons = []
+            for polygon_points in points:
+                polygon = Polygon(polygon_points, (layer, datatype))
+                if polygon.area() > 0:
+                    polygons.append(polygon)
+
             self._add_polygons(*polygons)
             return polygons
         else:
@@ -1186,7 +1194,8 @@ class Component(_GeometryHelper):
             datatype=datatype,
         )
         for polygon in polygons:
-            self._add_polygons(polygon)
+            if polygon.area() > 0:
+                self._add_polygons(polygon)
         return polygon
 
     def _add_polygons(self, *polygons: list[Polygon]) -> None:

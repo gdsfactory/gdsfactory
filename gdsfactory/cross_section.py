@@ -2423,6 +2423,6 @@ if __name__ == "__main__":
     # c = p.extrude(xs)
     # c = gf.c.straight(cross_section=xs)
     # xs = pn(slab_inset=0.2)
-    xs = xs_sc.copy(width=1)
+    xs = pn(width_slab=0)
     c = gf.c.straight(cross_section=xs)
     c.show()
