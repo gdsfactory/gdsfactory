@@ -23,12 +23,6 @@ test-data-ssh:
 data-download: test-data
 	echo 'Make sure you git pull inside test-data folder'
 
-data-download-old:
-	aws s3 sync s3://gdslib data --no-sign-request
-
-data-clean:
-	aws s3 rm data s3://gdslib/gds
-
 test:
 	pytest -s
 
@@ -71,7 +65,7 @@ release:
 autopep8:
 	autopep8 --in-place --aggressive --aggressive **/*.py
 
-doc:
+docs-generic-pdk:
 	python .github/write_components_doc.py
 
 docs:
