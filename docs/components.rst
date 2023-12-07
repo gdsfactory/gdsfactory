@@ -2004,36 +2004,6 @@ loss_deembedding_ch14_23
 
 
 
-marker_te
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.marker_te
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.marker_te(layer='TE', centered=True, port_type='electrical', port_orientations=[180, 90, 0, -90], round_corners_east_west=False, round_corners_north_south=False)
-  c.plot()
-
-
-
-marker_tm
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.marker_tm
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.marker_tm(layer='TM', centered=True, port_type='electrical', port_orientations=[180, 90, 0, -90], round_corners_east_west=False, round_corners_north_south=False)
-  c.plot()
-
-
-
 mmi
 ----------------------------------------------------
 
