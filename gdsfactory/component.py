@@ -1767,7 +1767,7 @@ class Component(_GeometryHelper):
         )
 
         if show_subports:
-            component = self.copy()
+            component = component.copy()
             for reference in component.references:
                 if isinstance(component, ComponentReference):
                     add_pins_triangle(
