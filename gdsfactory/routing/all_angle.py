@@ -4,16 +4,21 @@ from collections.abc import Callable
 import numpy as np
 
 from gdsfactory.component import Component, ComponentReference, Port
-from gdsfactory.components.straight import straight
 from gdsfactory.config import CONF
 from gdsfactory.get_netlist import difference_between_angles
 from gdsfactory.path import Path, extrude
+from gdsfactory.pdk import get_component
 from gdsfactory.routing.auto_taper import (
     _get_taper_io_port_names,
     taper_to_cross_section,
 )
 from gdsfactory.typings import STEP_DIRECTIVES_ALL_ANGLE as STEP_DIRECTIVES
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Route, StepAllAngle
+from gdsfactory.typings import (
+    ComponentSpec,
+    CrossSectionSpec,
+    Route,
+    StepAllAngle,
+)
 
 BEND_PATH_FUNCS = {
     # 'euler_bend': euler_path,
@@ -202,7 +207,10 @@ def _make_error_trace(port1: Port, port2: Port, message: str):
 
 
 def straight_connector(
-    port1: Port, port2: Port, cross_section: CrossSectionSpec = "xs_sc"
+    port1: Port,
+    port2: Port,
+    cross_section: CrossSectionSpec = "xs_sc",
+    straight: ComponentSpec = "straight",
 ) -> list[ComponentReference]:
     """
     Connects between the two ports with a straight of the given cross-section.
@@ -211,6 +219,7 @@ def straight_connector(
         port1: the starting port.
         port2: the ending port.
         cross_section: the cross-section to use.
+        straight: ComponentSpec for straights to use
 
     Returns:
         A list of component references comprising the connection.
@@ -227,7 +236,9 @@ def straight_connector(
         )
 
     length = np.linalg.norm(port1.center - port2.center)
-    straight_component = straight(length=length, cross_section=cross_section)
+    straight_component = get_component(
+        straight, length=length, cross_section=cross_section
+    )
     straight_ref = ComponentReference(straight_component)
     straight_ref.connect(list(straight_component.ports.keys())[0], port1)
     return [straight_ref]
@@ -490,10 +501,10 @@ def get_bundle_all_angle(
     steps: list[StepAllAngle] | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
     bend: ComponentSpec = "bend_euler",
-    connector: str = "low_loss",
+    connector: str | Callable[..., list[ComponentReference]] = "low_loss",
     start_angle: float | None = None,
     end_angle: float | None = None,
-    end_connector: str | None = None,
+    end_connector: str | Callable[..., list[ComponentReference]] | None = None,
     end_cross_section: CrossSectionSpec | None = None,
     separation: float | None = None,
     **kwargs,
@@ -556,7 +567,7 @@ def get_bundle_all_angle(
             f"Unrecognized arguments for all-angle route will be ignored: {kwargs}"
         )
 
-    connector_func = get_connector(connector)
+    connector_func = connector if callable(connector) else get_connector(connector)
     routes = []
     is_primary_route = True
     final_connector_func = connector_func
@@ -584,7 +595,11 @@ def get_bundle_all_angle(
             final_cross_section = end_cross_section
             final_connector_func = auto_taper_connector
         if end_connector:
-            final_connector_func = get_connector(end_connector)
+            final_connector_func = (
+                end_connector
+                if callable(end_connector)
+                else get_connector(end_connector)
+            )
 
     for port1, port2 in zip(ports1, ports2):
         if _points_approx_equal(port1.center, port2.center) and _angles_approx_opposing(
