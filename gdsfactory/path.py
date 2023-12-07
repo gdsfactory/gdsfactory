@@ -433,6 +433,7 @@ class Path(_GeometryHelper):
         simplify: float | None = None,
         shear_angle_start: float | None = None,
         shear_angle_end: float | None = None,
+        add_pins: bool = False,
         **kwargs,
     ) -> Component:
         """Returns Component by extruding a Path with a CrossSection.
@@ -449,6 +450,7 @@ class Path(_GeometryHelper):
                     by more than the value listed here will be removed.
             shear_angle_start: an optional angle to shear the starting face by (in degrees).
             shear_angle_end: an optional angle to shear the ending face by (in degrees).
+            add_pins: if True adds pins to the ports of the component according to `cross_section`.
 
         Keyword Args:
             Supplied to :func:`gf.cell`.
@@ -470,6 +472,7 @@ class Path(_GeometryHelper):
             simplify=simplify,
             shear_angle_start=shear_angle_start,
             shear_angle_end=shear_angle_end,
+            add_pins=add_pins,
             **kwargs,
         )
 
@@ -721,6 +724,7 @@ def extrude(
     shear_angle_start: float | None = None,
     shear_angle_end: float | None = None,
     enforce_ports_on_grid: bool | None = None,
+    add_pins: bool = False,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
 
@@ -737,6 +741,7 @@ def extrude(
                 by more than the value listed here will be removed.
         shear_angle_start: an optional angle to shear the starting face by (in degrees).
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
+        add_pins: if True adds pins to the ports of the component according to `cross_section`.
     """
     from gdsfactory.pdk import (
         get_cross_section,
@@ -954,6 +959,8 @@ def extrude(
         _ = c << along_path(
             p=_p, component=via.component, spacing=via.spacing, padding=via.padding
         )
+    if add_pins:
+        x.add_pins(c)
     return c
 
 
