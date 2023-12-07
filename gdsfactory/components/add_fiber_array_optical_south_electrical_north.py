@@ -2,7 +2,7 @@ import gdsfactory as gf
 from gdsfactory.components.grating_coupler_elliptical import (
     grating_coupler_elliptical_te,
 )
-from gdsfactory.components.mzi_phase_shifter import mzi_phase_shifter
+from gdsfactory.components.mzi import mzi_phase_shifter
 from gdsfactory.components.pad import pad_small
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 

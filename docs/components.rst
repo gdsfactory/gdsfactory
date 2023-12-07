@@ -326,21 +326,6 @@ bend_circular
 
 
 
-bend_circular180
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.bend_circular180
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.bend_circular180(angle=180, cross_section='xs_sc', add_pins=True)
-  c.plot()
-
-
-
 bend_circular_heater
 ----------------------------------------------------
 
@@ -367,21 +352,6 @@ bend_euler
   import gdsfactory as gf
 
   c = gf.components.bend_euler(angle=90.0, p=0.5, with_arc_floorplan=True, direction='ccw', cross_section='xs_sc', add_pins=True)
-  c.plot()
-
-
-
-bend_euler180
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.bend_euler180
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.bend_euler180(angle=180, p=0.5, with_arc_floorplan=True, direction='ccw', cross_section='xs_sc', add_pins=True)
   c.plot()
 
 
@@ -2184,21 +2154,6 @@ mzi_phase_shifter
 
 
 
-mzi_phase_shifter_top_heater_metal
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.mzi_phase_shifter_top_heater_metal
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.mzi_phase_shifter_top_heater_metal(delta_length=10.0, length_y=2.0, length_x=200, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='xs_sc', mirror_bot=False, add_optical_ports_arms=False, add_electrical_ports_bot=True)
-  c.plot()
-
-
-
 mzit
 ----------------------------------------------------
 
@@ -3380,21 +3335,6 @@ taper
   import gdsfactory as gf
 
   c = gf.components.taper(length=10.0, width1=0.5, with_bbox=True, with_two_ports=True, cross_section='xs_sc', port_order_name=['o1', 'o2'], port_order_types=['optical', 'optical'], add_pins=True)
-  c.plot()
-
-
-
-taper2
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.taper2
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.taper2(length=10.0, width1=0.5, width2=3, with_bbox=True, with_two_ports=True, cross_section='xs_sc', port_order_name=['o1', 'o2'], port_order_types=['optical', 'optical'], add_pins=True)
   c.plot()
 
 

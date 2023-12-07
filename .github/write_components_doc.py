@@ -1,3 +1,4 @@
+import functools
 import inspect
 
 import gdsfactory as gf
@@ -24,6 +25,8 @@ skip = {
     "via_stack_heater_mtop",
     "via_stack_slab_m3",
     "via_stack_slot_m1_m2",
+    "bend_euler180",
+    "bend_circular180",
 }
 
 skip_plot = [
@@ -34,6 +37,7 @@ skip_plot = [
 ]
 
 skip_settings = {"vias"}
+skip_partials = False
 
 
 with open(filepath, "w+") as f:
@@ -53,10 +57,20 @@ By doing so, you'll possess a versatile, retargetable PDK, empowering you to des
     )
 
     for name in sorted(gf.components.cells.keys()):
+        # Skip if the name is in the skip list or starts with "_"
         if name in skip or name.startswith("_"):
             continue
+
+        # Get the cell function or object
+        cell = gf.components.cells[name]
+
+        # Skip if it's an instance of functools.partial
+        if skip_partials and isinstance(cell, functools.partial):
+            continue
+
         print(name)
-        sig = inspect.signature(gf.components.cells[name])
+        sig = inspect.signature(cell)
+
         kwargs = ", ".join(
             [
                 f"{p}={repr(clean_value_json(sig.parameters[p].default))}"

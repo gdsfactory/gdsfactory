@@ -14,7 +14,6 @@ skip_test = {
     "component_sequence",
     "straight_heater_metal_90_90",
     "straight_heater_metal_undercut_90_90",
-    "mzi_phase_shifter_top_heater_metal",
 }
 
 components_to_test = set(cells.keys()) - skip_test

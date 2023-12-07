@@ -1292,7 +1292,7 @@ instances:
       component: pad
 
     mzi:
-      component: mzi_phase_shifter_top_heater_metal
+      component: mzi_phase_shifter
 
 placements:
     mzi:

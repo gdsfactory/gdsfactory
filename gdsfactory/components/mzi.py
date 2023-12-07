@@ -225,6 +225,12 @@ mzi_coupler = partial(
     combiner=coupler,
 )
 
+mzi_phase_shifter = partial(mzi, straight_x_top="straight_heater_metal", length_x=200)
+
+mzi2x2_2x2_phase_shifter = partial(
+    mzi2x2_2x2, straight_x_top="straight_heater_metal", length_x=200
+)
+
 
 if __name__ == "__main__":
     c = mzi()

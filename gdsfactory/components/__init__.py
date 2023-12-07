@@ -191,16 +191,18 @@ from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mmi2x2_with_sbend import mmi2x2_with_sbend
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
 from gdsfactory.components.mode_converter import mode_converter
-from gdsfactory.components.mzi import mzi, mzi1x2_2x2, mzi2x2_2x2, mzi_coupler
+from gdsfactory.components.mzi import (
+    mzi,
+    mzi1x2_2x2,
+    mzi2x2_2x2,
+    mzi2x2_2x2_phase_shifter,
+    mzi_coupler,
+    mzi_phase_shifter,
+)
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.mzi_arms import mzi_arms
 from gdsfactory.components.mzi_lattice import mzi_lattice, mzi_lattice_mmi
 from gdsfactory.components.mzi_pads_center import mzi_pads_center
-from gdsfactory.components.mzi_phase_shifter import (
-    mzi2x2_2x2_phase_shifter,
-    mzi_phase_shifter,
-    mzi_phase_shifter_top_heater_metal,
-)
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
 from gdsfactory.components.mzm import mzm
@@ -243,7 +245,7 @@ from gdsfactory.components.ring_single_bend_coupler import (
     coupler_bend,
     ring_single_bend_coupler,
 )
-from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
+from gdsfactory.components.ring_single_dut import ring_single_dut
 from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.ring_single_pn import ring_single_pn
 from gdsfactory.components.seal_ring import seal_ring
@@ -496,7 +498,6 @@ __all__ = [
     "mzi_lattice_mmi",
     "mzi_pads_center",
     "mzi_phase_shifter",
-    "mzi_phase_shifter_top_heater_metal",
     "mzit",
     "mzit_lattice",
     "mzm",
@@ -575,7 +576,6 @@ __all__ = [
     "straight_rib_tapered",
     "switch_tree",
     "taper",
-    "taper2",
     "taper_adiabatic",
     "taper_cross_section",
     "taper_cross_section_linear",
