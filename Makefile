@@ -1,5 +1,5 @@
 help:
-	@echo 'make install:          Install package, hook, notebooks and gdslib'
+	@echo 'make install:          Install package'
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
@@ -20,10 +20,7 @@ test-data:
 test-data-ssh:
 	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test-data test-data
 
-data-download: test-data
-	echo 'Make sure you git pull inside test-data folder'
-
-test:
+test: test-data
 	pytest -s
 
 test-force:
@@ -57,10 +54,6 @@ upload-devpi:
 upload-twine: build
 	pip install twine
 	twine upload dist/*
-
-release:
-	git push
-	git push origin --tags
 
 autopep8:
 	autopep8 --in-place --aggressive --aggressive **/*.py
