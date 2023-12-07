@@ -35,6 +35,7 @@ dependencies = [
   "tqdm",
   "types-PyYAML",
   "typer",
+  "trimesh",
   "watchdog"
 ]
 description = "python library to generate GDS layouts"
@@ -60,7 +61,6 @@ cad = [
   "networkx",
   "pyglet<2",
   "scikit-image",
-  "trimesh"
 ]
 dev = [
   "ipykernel",

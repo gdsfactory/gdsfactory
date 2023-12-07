@@ -15,12 +15,12 @@ update-pre:
 	pre-commit autoupdate --bleeding-edge
 
 test-data:
-	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
+	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data
 
 test-data-ssh:
-	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
+	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test_klayout test-data
 
-test:test-data
+test: test-data
 	pytest -s
 
 test-force:
