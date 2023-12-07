@@ -1,5 +1,5 @@
 help:
-	@echo 'make install:          Install package, hook, notebooks and gdslib'
+	@echo 'make install:          Install package'
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
@@ -20,16 +20,7 @@ test-data:
 test-data-ssh:
 	git clone git@github.com:gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
-data-download: test-data
-	echo 'Make sure you git pull inside test-data folder'
-
-data-download-old:
-	aws s3 sync s3://gdslib data --no-sign-request
-
-data-clean:
-	aws s3 rm data s3://gdslib/gds
-
-test:
+test:test-data
 	pytest -s
 
 test-force:
@@ -64,17 +55,10 @@ upload-twine: build
 	pip install twine
 	twine upload dist/*
 
-release:
-	git push
-	git push origin --tags
-
-lintdocs:
-	flake8 --select RST
-
 autopep8:
 	autopep8 --in-place --aggressive --aggressive **/*.py
 
-doc:
+docs-generic-pdk:
 	python .github/write_components_doc.py
 
 docs:
@@ -82,10 +66,6 @@ docs:
 
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
-
-constructor:
-	conda install constructor -y
-	constructor conda
 
 notebooks:
 	jupytext gdsfactory/samples/notebooks/*.md --to ipynb notebooks/
