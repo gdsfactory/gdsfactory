@@ -259,7 +259,7 @@ LayerViews:
     layer: [64, 0]
     layer_in_name: true
     hatch_pattern: hollow
-    color: "black"
+    color: "pink"
   simulation:
     group_members:
       SIM_REGION:

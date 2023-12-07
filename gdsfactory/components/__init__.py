@@ -227,7 +227,7 @@ from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import rectangle, rectangles
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
 from gdsfactory.components.rectangular_ring import rectangular_ring
-from gdsfactory.components.regular_polygon import regular_polygon
+from gdsfactory.components.regular_polygon import hexagon, octagon, regular_polygon
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
 from gdsfactory.components.ring import ring
@@ -297,15 +297,7 @@ from gdsfactory.components.taper_cross_section import (
     taper_cross_section_parabolic,
     taper_cross_section_sine,
 )
-from gdsfactory.components.taper_from_csv import (
-    taper_0p5_to_3_l36,
-    taper_from_csv,
-    taper_w10_l100,
-    taper_w10_l150,
-    taper_w10_l200,
-    taper_w11_l200,
-    taper_w12_l200,
-)
+from gdsfactory.components.taper_from_csv import taper_from_csv
 from gdsfactory.components.taper_parabolic import taper_parabolic
 from gdsfactory.components.terminator import terminator
 from gdsfactory.components.text import text, text_lines
@@ -584,7 +576,6 @@ __all__ = [
     "switch_tree",
     "taper",
     "taper2",
-    "taper_0p5_to_3_l36",
     "taper_adiabatic",
     "taper_cross_section",
     "taper_cross_section_linear",
@@ -595,11 +586,6 @@ __all__ = [
     "taper_sc_nc",
     "taper_strip_to_ridge",
     "taper_strip_to_ridge_trenches",
-    "taper_w10_l100",
-    "taper_w10_l150",
-    "taper_w10_l200",
-    "taper_w11_l200",
-    "taper_w12_l200",
     "terminator",
     "text",
     "text_freetype",
@@ -631,7 +617,8 @@ __all__ = [
     "wire_corner45",
     "wire_sbend",
     "wire_straight",
-    "hexagon" "octagon",
+    "hexagon",
+    "octagon",
 ]
 
 cells = get_cells(sys.modules[__name__])

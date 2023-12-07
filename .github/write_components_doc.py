@@ -6,7 +6,25 @@ from gdsfactory.serialization import clean_value_json
 
 filepath = PATH.repo / "docs" / "components.rst"
 
-skip = {}
+skip = {
+    "grating_coupler_elliptical_te",
+    "grating_coupler_elliptical_tm",
+    "grating_coupler_te",
+    "grating_coupler_tm",
+    "mzi_arms",
+    "mzi1x2",
+    "mzi2x2_2x2",
+    "mzi_coupler",
+    "via",
+    "via1",
+    "via2",
+    "viac",
+    "via_stack_heater_m2",
+    "via_stack_heater_m3",
+    "via_stack_heater_mtop",
+    "via_stack_slab_m3",
+    "via_stack_slot_m1_m2",
+}
 
 skip_plot = [
     "component_lattice",

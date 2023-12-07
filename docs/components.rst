@@ -1599,36 +1599,6 @@ grating_coupler_elliptical_lumerical
 
 
 
-grating_coupler_elliptical_te
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.grating_coupler_elliptical_te
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.grating_coupler_elliptical_te(polarization='te', taper_length=16.6, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.343, neff=2.638, nclad=1.443, n_periods=30, big_last_tooth=False, layer_slab='SLAB150', slab_xmin=-1.0, slab_offset=2.0, spiked=True, cross_section='xs_sc')
-  c.plot()
-
-
-
-grating_coupler_elliptical_tm
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.grating_coupler_elliptical_tm
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.grating_coupler_elliptical_tm(polarization='tm', taper_length=30, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.707, neff=1.8, nclad=1.443, n_periods=16, big_last_tooth=False, layer_slab='SLAB150', slab_xmin=-2, slab_offset=2.0, spiked=True, cross_section='xs_sc')
-  c.plot()
-
-
-
 grating_coupler_elliptical_trenches
 ----------------------------------------------------
 
@@ -1749,36 +1719,6 @@ grating_coupler_rectangular_arbitrary_slab
 
 
 
-grating_coupler_te
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.grating_coupler_te
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.grating_coupler_te(polarization='te', taper_length=16.6, taper_angle=35, trenches_extra_angle=9.0, wavelength=1.53, fiber_angle=15.0, grating_line_width=0.343, neff=2.638, ncladding=1.443, layer_trench='SHALLOW_ETCH', p_start=26, n_periods=30, end_straight_length=0.2, cross_section='xs_sc')
-  c.plot()
-
-
-
-grating_coupler_tm
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.grating_coupler_tm
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.grating_coupler_tm(polarization='tm', taper_length=16.6, taper_angle=30.0, trenches_extra_angle=9.0, wavelength=1.53, fiber_angle=15.0, grating_line_width=0.6, neff=1.8, ncladding=1.443, layer_trench='SHALLOW_ETCH', p_start=26, n_periods=30, end_straight_length=0.2, cross_section='xs_sc')
-  c.plot()
-
-
-
 grating_coupler_tree
 ----------------------------------------------------
 
@@ -1835,6 +1775,21 @@ greek_cross_with_pads
   import gdsfactory as gf
 
   c = gf.components.greek_cross_with_pads(pad_spacing=150.0)
+  c.plot()
+
+
+
+hexagon
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.hexagon
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.hexagon(sides=6, side_length=10, layer='WG', port_type='placement')
   c.plot()
 
 
@@ -2139,21 +2094,6 @@ mzi1x2_2x2
 
 
 
-mzi2x2_2x2
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.mzi2x2_2x2
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.mzi2x2_2x2(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='xs_sc', mirror_bot=False, add_optical_ports_arms=False, add_electrical_ports_bot=True)
-  c.plot()
-
-
-
 mzi2x2_2x2_phase_shifter
 ----------------------------------------------------
 
@@ -2180,36 +2120,6 @@ mzi_arm
   import gdsfactory as gf
 
   c = gf.components.mzi_arm(length_y_left=0.8, length_y_right=0.8, length_x=0.1)
-  c.plot()
-
-
-
-mzi_arms
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.mzi_arms
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.mzi_arms(delta_length=10.0, length_y=0.8, length_x=0.1, with_splitter=True, delta_yright=0)
-  c.plot()
-
-
-
-mzi_coupler
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.mzi_coupler
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.mzi_coupler(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='xs_sc', mirror_bot=False, add_optical_ports_arms=False, add_electrical_ports_bot=True)
   c.plot()
 
 
@@ -2345,6 +2255,21 @@ nxn
   import gdsfactory as gf
 
   c = gf.components.nxn(west=1, east=4, north=0, south=0, xsize=8.0, ysize=8.0, wg_width=0.5, layer='WG', wg_margin=1.0)
+  c.plot()
+
+
+
+octagon
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.octagon
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.octagon(sides=8, side_length=10, layer='WG', port_type='placement')
   c.plot()
 
 
@@ -3474,21 +3399,6 @@ taper2
 
 
 
-taper_0p5_to_3_l36
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.taper_0p5_to_3_l36
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.taper_0p5_to_3_l36(cross_section='xs_sc')
-  c.plot()
-
-
-
 taper_adiabatic
 ----------------------------------------------------
 
@@ -3639,81 +3549,6 @@ taper_strip_to_ridge_trenches
 
 
 
-taper_w10_l100
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.taper_w10_l100
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.taper_w10_l100(cross_section='xs_sc')
-  c.plot()
-
-
-
-taper_w10_l150
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.taper_w10_l150
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.taper_w10_l150(cross_section='xs_sc')
-  c.plot()
-
-
-
-taper_w10_l200
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.taper_w10_l200
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.taper_w10_l200(cross_section='xs_sc')
-  c.plot()
-
-
-
-taper_w11_l200
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.taper_w11_l200
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.taper_w11_l200(cross_section='xs_sc')
-  c.plot()
-
-
-
-taper_w12_l200
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.taper_w12_l200
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.taper_w12_l200(cross_section='xs_sc')
-  c.plot()
-
-
-
 terminator
 ----------------------------------------------------
 
@@ -3849,51 +3684,6 @@ version_stamp
 
 
 
-via
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via(size=[0.7, 0.7], spacing=[2.0, 2.0], enclosure=1.0, layer='VIAC', bbox_offset=0)
-  c.plot()
-
-
-
-via1
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via1
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via1(size=[0.7, 0.7], spacing=[2.0, 2.0], enclosure=2, layer='VIA1', bbox_offset=0)
-  c.plot()
-
-
-
-via2
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via2
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via2(size=[0.7, 0.7], spacing=[2.0, 2.0], enclosure=1.0, layer='VIA2', bbox_offset=0)
-  c.plot()
-
-
-
 via_corner
 ----------------------------------------------------
 
@@ -3954,66 +3744,6 @@ via_stack_from_rules
 
 
 
-via_stack_heater_m2
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack_heater_m2
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack_heater_m2(size=[11.0, 11.0], layers=['HEATER', 'M2'], correct_size=True)
-  c.plot()
-
-
-
-via_stack_heater_m3
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack_heater_m3
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack_heater_m3(size=[11.0, 11.0], layers=['HEATER', 'M2', 'MTOP'], correct_size=True)
-  c.plot()
-
-
-
-via_stack_heater_mtop
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack_heater_mtop
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack_heater_mtop(size=[11.0, 11.0], layers=['HEATER', 'M2', 'MTOP'], correct_size=True)
-  c.plot()
-
-
-
-via_stack_slab_m3
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack_slab_m3
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack_slab_m3(size=[11.0, 11.0], layers=['SLAB90', 'M1', 'M2', 'MTOP'], correct_size=True)
-  c.plot()
-
-
-
 via_stack_slot
 ----------------------------------------------------
 
@@ -4029,21 +3759,6 @@ via_stack_slot
 
 
 
-via_stack_slot_m1_m2
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.via_stack_slot_m1_m2
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.via_stack_slot_m1_m2(size=[11.0, 11.0], layers=['M1', 'M2'], layer_offsets=[0, 1.0], enclosure=1.0, ysize=0.5, yspacing=2.0)
-  c.plot()
-
-
-
 via_stack_with_offset
 ----------------------------------------------------
 
@@ -4055,21 +3770,6 @@ via_stack_with_offset
   import gdsfactory as gf
 
   c = gf.components.via_stack_with_offset(layers=['PPP', 'M1'], size=[10, 10])
-  c.plot()
-
-
-
-viac
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.viac
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.viac(size=[0.7, 0.7], spacing=[2.0, 2.0], enclosure=1.0, layer='VIAC', bbox_offset=0)
   c.plot()
 
 
