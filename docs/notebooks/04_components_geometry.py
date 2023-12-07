@@ -104,7 +104,7 @@ t1 = offsets.add_ref(T)
 t2 = offsets.add_ref(Texpanded)
 t3 = offsets.add_ref(Tshrink)
 offsets.distribute([t1, t2, t3], direction="x", spacing=5)
-offsets
+offsets.plot()
 
 # %% [markdown]
 # `gf.geometry.offset` is also useful for remove acute angle DRC errors.

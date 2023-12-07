@@ -3,6 +3,7 @@ add_type_hints.xonsh
 gdsfactory/generic_tech/klayout/klayoutrc
 gdsfactory/plugins/dagster/tmp*
 docs/notebooks/sax/fdtd_vs_model.png
+gdsfactory/generic_tech/klayout/layers.py
 gdsfactory/generic_tech/klayout/tech/generic_tech.py
 test-data
 tests/test_pathlength_reporting/
@@ -319,3 +320,6 @@ gdsfactory/generic_tech/klayout/tech/layers.py
 tune/
 gdsfactory/generic_tech/xsection_planarized.pyxs
 gdsfactory/plugins/pso/wrk_dir/
+
+# keep reference gds files
+!tests/gds/*.gds

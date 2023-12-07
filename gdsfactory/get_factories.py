@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from functools import partial
 from inspect import getmembers, signature
 
+from gdsfactory.config import logger
 from gdsfactory.typings import Component, ComponentFactory
 
 
@@ -21,14 +23,16 @@ def get_cells(modules, verbose: bool = False) -> dict[str, ComponentFactory]:
         for t in getmembers(module):
             if callable(t[1]) and t[0] != "partial":
                 try:
-                    r = signature(t[1]).return_annotation
+                    r = signature(
+                        t[1] if not isinstance(t[1], partial) else t[1].func
+                    ).return_annotation
                     if r == Component or (
                         isinstance(r, str) and r.endswith("Component")
                     ):
                         cells[t[0]] = t[1]
-                except ValueError:
+                except ValueError as e:
                     if verbose:
-                        print(f"error in {t[0]}")
+                        logger.warn(f"error in {t[0]}: {e}")
     return cells
 
 

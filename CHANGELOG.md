@@ -1,7 +1,53 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.16...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.9.0...main)
 
 <!-- towncrier release notes start -->
+
+## [7.9.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.0) - 2023-12-02
+
+- improve readme [#2348](https://github.com/gdsfactory/gdsfactory/pull/2348)
+- use ruff instead of black [#2347](https://github.com/gdsfactory/gdsfactory/pull/2347)
+- add angle to edge_coupler_array [#2346](https://github.com/gdsfactory/gdsfactory/pull/2346)
+- preparing for minor release [#2345](https://github.com/gdsfactory/gdsfactory/pull/2345)
+- improve docstrings [#2344](https://github.com/gdsfactory/gdsfactory/pull/2344)
+- Support adding partialed cross_sections in taper cross section again [#2343](https://github.com/gdsfactory/gdsfactory/pull/2343)
+- fix add_tapers_cross_section [#2342](https://github.com/gdsfactory/gdsfactory/pull/2342)
+- Add info length taper cross section [#2341](https://github.com/gdsfactory/gdsfactory/pull/2341)
+- fix add_pads [#2340](https://github.com/gdsfactory/gdsfactory/pull/2340)
+- add radius_min [#2339](https://github.com/gdsfactory/gdsfactory/pull/2339)
+- Fix difftest bugs [#2337](https://github.com/gdsfactory/gdsfactory/pull/2337)
+- add functions for writing test_manifest [#2336](https://github.com/gdsfactory/gdsfactory/pull/2336)
+- Use shutil.copytree to install KLayout tech on Windows [#2332](https://github.com/gdsfactory/gdsfactory/pull/2332)
+- add_port can set the port info [#2333](https://github.com/gdsfactory/gdsfactory/pull/2333)
+- Allow labels on different layers when `label_layer=None` in `add_labels` [#2331](https://github.com/gdsfactory/gdsfactory/pull/2331)
+- Add pins in `taper_cross_section` [#2330](https://github.com/gdsfactory/gdsfactory/pull/2330)
+- [pre-commit.ci] pre-commit autoupdate [#2322](https://github.com/gdsfactory/gdsfactory/pull/2322)
+- Improve docstrings for `add_pins` [#2325](https://github.com/gdsfactory/gdsfactory/pull/2325)
+- Update pydantic requirement from <2.5,>=2 to >=2,<2.6 [#2321](https://github.com/gdsfactory/gdsfactory/pull/2321)
+
+
+## [7.8.18](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.18) - 2023-11-19
+
+- add wire corner kwargs [#2320](https://github.com/gdsfactory/gdsfactory/pull/2320)
+- enable sbend routes in get_route_from_steps [#2319](https://github.com/gdsfactory/gdsfactory/pull/2319)
+- Allow connections w/o vias in `KLayoutTechnology` [#2317](https://github.com/gdsfactory/gdsfactory/pull/2317)
+- snap detector to 2x grid [#2314](https://github.com/gdsfactory/gdsfactory/pull/2314)
+
+## [7.8.17](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.17) - 2023-11-15
+
+- remove_zero_length_tapers_and_pins [#2312](https://github.com/gdsfactory/gdsfactory/pull/2312)
+- fix plot [#2310](https://github.com/gdsfactory/gdsfactory/pull/2310)
+- [pre-commit.ci] pre-commit autoupdate [#2308](https://github.com/gdsfactory/gdsfactory/pull/2308)
+- access ports by index [#2307](https://github.com/gdsfactory/gdsfactory/pull/2307)
+- fix spiral inner io with kwargs in grating couplers [#2306](https://github.com/gdsfactory/gdsfactory/pull/2306)
+- add info label to cell_settings [#2305](https://github.com/gdsfactory/gdsfactory/pull/2305)
+- simpler_add_grating_couplers [#2304](https://github.com/gdsfactory/gdsfactory/pull/2304)
+- remove unused kwargs [#2303](https://github.com/gdsfactory/gdsfactory/pull/2303)
+- faster extract [#2302](https://github.com/gdsfactory/gdsfactory/pull/2302)
+- simpler [#2300](https://github.com/gdsfactory/gdsfactory/pull/2300)
+- Fix `inspect.signature` bug for partials with partialed decorators [#2299](https://github.com/gdsfactory/gdsfactory/pull/2299)
+- Support giving straight spec in `get_route_from_steps` [#2298](https://github.com/gdsfactory/gdsfactory/pull/2298)
+- Update `gf install` command for KLayout integration [#2295](https://github.com/gdsfactory/gdsfactory/pull/2295)
 
 ## [7.8.16](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.16) - 2023-11-08
 

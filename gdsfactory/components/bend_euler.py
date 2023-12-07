@@ -10,7 +10,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import Callable, CrossSectionSpec
 
 
 @gf.cell
@@ -25,7 +25,7 @@ def bend_euler(
     direction: str = "ccw",
     cross_section: CrossSectionSpec = "xs_sc",
     add_pins: bool = True,
-    add_bbox: callable | None = None,
+    add_bbox: Callable | None = None,
 ) -> Component:
     """Euler bend with changing bend radius.
 

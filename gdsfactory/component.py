@@ -261,7 +261,7 @@ class Component(_GeometryHelper):
         """You can iterate over polygons, paths, labels and references."""
         return itertools.chain(self.polygons, self.paths, self.labels, self.references)
 
-    def get_polygon_enclosure(self):
+    def get_polygon_enclosure(self) -> Polygon:
         """Returns shapely Polygon with enclosure."""
         import shapely
 
@@ -274,7 +274,7 @@ class Component(_GeometryHelper):
         bottom: float | None = None,
         right: float | None = None,
         left: float | None = None,
-    ):
+    ) -> Polygon:
         """Returns shapely Polygon with bounding box.
 
         Args:
@@ -371,8 +371,11 @@ class Component(_GeometryHelper):
             else {"component": self.name, "settings": {}}
         )
 
-    def __getitem__(self, key) -> Port:
+    def __getitem__(self, key: str | int) -> Port:
         """Access reference ports."""
+        if isinstance(key, int):
+            key = list(self.ports.keys())[key]
+
         if key not in self.ports:
             ports = list(self.ports.keys())
             raise ValueError(f"{key!r} not in {ports}")
@@ -885,7 +888,7 @@ class Component(_GeometryHelper):
         except ImportError:
             print(yaml.dump(self.to_dict()))
 
-    def pprint_ports(self, **kwargs) -> None:
+    def pprint_ports(self, sort_by_name: bool = True, **kwargs) -> None:
         """Prints ports in a rich table.
 
         Keyword Args:
@@ -900,7 +903,7 @@ class Component(_GeometryHelper):
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
 
-        pprint_ports(self.get_ports_list(**kwargs))
+        pprint_ports(self.get_ports_list(sort_by_name=sort_by_name, **kwargs))
 
     @property
     def metadata_child(self) -> dict:
@@ -931,6 +934,7 @@ class Component(_GeometryHelper):
         port_type: str | None = None,
         cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
+        info: dict[str, Any] | None = None,
     ) -> Port:
         """Add port to component.
 
@@ -949,6 +953,7 @@ class Component(_GeometryHelper):
             port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm. Defaults to optical.
             cross_section: port cross_section.
             shear_angle: an optional angle to shear port face in degrees.
+            info: Dict containing arbitrary information about the port.
         """
         from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -974,6 +979,8 @@ class Component(_GeometryHelper):
                 p.shear_angle = shear_angle
             if cross_section is not None:
                 p.cross_section = cross_section
+            if info is not None:
+                p.info = info
             p.parent = self
 
         elif isinstance(name, Port):
@@ -998,6 +1005,8 @@ class Component(_GeometryHelper):
                 shear_angle=shear_angle,
             )
             p.parent = self
+            if info is not None:
+                p.info = info
         if name is not None:
             p.name = name
         if p.name in self.ports:
@@ -1063,32 +1072,25 @@ class Component(_GeometryHelper):
 
     def extract(
         self,
-        layers: list[tuple[int, int] | str],
+        layers: list[LayerSpec],
+        include_labels: bool = True,
+        recursive: bool = True,
     ) -> Component:
-        """Extract polygons from a Component and returns a new Component."""
-        from gdsfactory.pdk import get_layer
+        """Extract polygons from a Component and returns a new Component.
 
-        if type(layers) not in (list, tuple):
-            raise ValueError(f"layers {layers!r} needs to be a list or tuple")
+        Args:
+            layers: list of layers to extract.
+            include_labels: extract labels on those layers.
+            recursive: operate on the cells included in this cell.
+        """
+        c = self.copy()
 
-        layers = [get_layer(layer) for layer in layers]
-        # component = self.copy()
-        # component._cell.filter(spec=layers, remove=False)
-
-        component = Component()
-        poly_dict = self.get_polygons(by_spec=True, include_paths=False)
-
-        for layer in layers:
-            if layer in poly_dict:
-                polygons = poly_dict[layer]
-                for polygon in polygons:
-                    component.add_polygon(polygon, layer)
-
-        for layer in layers:
-            for path in self._cell.get_paths(layer=layer):
-                component.add(path)
-
-        return component
+        return c.remove_layers(
+            layers,
+            invert_selection=True,
+            recursive=recursive,
+            include_labels=include_labels,
+        )
 
     def add_polygon(
         self,
@@ -1125,7 +1127,8 @@ class Component(_GeometryHelper):
             if hasattr(points, "properties"):
                 polygon.properties = deepcopy(points.properties)
 
-            self._add_polygons(polygon)
+            if polygon.area() > 0:
+                self._add_polygons(polygon)
             return polygon
 
         elif hasattr(points, "geoms"):
@@ -1149,11 +1152,18 @@ class Component(_GeometryHelper):
             points = snap.snap_to_grid(points) if snap_to_grid else points
             layer, datatype = _parse_layer(layer)
             polygon = Polygon(points, (layer, datatype))
-            self._add_polygons(polygon)
+            if polygon.area() > 0:
+                self._add_polygons(polygon)
             return polygon
         elif points.ndim == 3:
             layer, datatype = _parse_layer(layer)
-            polygons = [Polygon(ppoints, (layer, datatype)) for ppoints in points]
+
+            polygons = []
+            for polygon_points in points:
+                polygon = Polygon(polygon_points, (layer, datatype))
+                if polygon.area() > 0:
+                    polygons.append(polygon)
+
             self._add_polygons(*polygons)
             return polygons
         else:
@@ -1184,7 +1194,8 @@ class Component(_GeometryHelper):
             datatype=datatype,
         )
         for polygon in polygons:
-            self._add_polygons(polygon)
+            if polygon.area() > 0:
+                self._add_polygons(polygon)
         return polygon
 
     def _add_polygons(self, *polygons: list[Polygon]) -> None:
@@ -1231,10 +1242,14 @@ class Component(_GeometryHelper):
     def is_unlocked(self) -> None:
         """Raises warning if Component is locked."""
         if self._locked:
-            warnings.warn(
+            message = (
                 f"Component {self.name!r} is dangerous to modify as it's already "
                 "on cache and will change all of its references. "
             )
+            if CONF.raise_error_on_mutation:
+                raise MutabilityError(message)
+            else:
+                warnings.warn(message)
 
     def _add(self, element) -> None:
         """Add a new element or list of elements to this Component.
@@ -1553,11 +1568,13 @@ class Component(_GeometryHelper):
             show_labels: shows labels.
         """
 
-        component = (
-            self.add_pins_triangle(port_marker_layer=port_marker_layer)
-            if show_ports
-            else self
-        )
+        if show_ports:
+            name = self.name
+            component = self.add_pins_triangle(port_marker_layer=port_marker_layer)
+            component.rename(name, cache=False)
+
+        else:
+            component = self
 
         try:
             from io import BytesIO
@@ -1607,7 +1624,9 @@ class Component(_GeometryHelper):
             return fig
 
         except ImportError:
-            print("You can install `pip install gdsfactory` for better visualization")
+            print(
+                "You can install `pip install gdsfactory[cad]` for better visualization"
+            )
             component.plot(plotter="matplotlib")
 
     def plot_kweb(self):
@@ -1735,7 +1754,6 @@ class Component(_GeometryHelper):
             timestamp: Defaults to 2019-10-25. If None uses current time.
         """
         from gdsfactory.add_pins import add_pins_triangle
-        from gdsfactory.cell import remove_from_cache
         from gdsfactory.show import show
 
         component = (
@@ -1748,9 +1766,6 @@ class Component(_GeometryHelper):
             else self
         )
 
-        remove_from_cache(component)
-        component.name = self.name
-
         if show_subports:
             component = self.copy()
             for reference in component.references:
@@ -1762,6 +1777,7 @@ class Component(_GeometryHelper):
                         layer_label=port_marker_layer,
                     )
 
+        component.rename(self.name, cache=False)
         show(component, **kwargs)
 
     def _write_library(

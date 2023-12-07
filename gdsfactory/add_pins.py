@@ -500,16 +500,16 @@ def add_pins(
 ) -> Component:
     """Add Pin port markers.
 
-    Be careful with this function as it modifies the component.
+    Warning:
+        Be careful with this function as it modifies the component in-place.
 
     Args:
-        component: to add ports to.
-        reference: to add pins.
-        function: to add each pin.
-        select_ports: function to select_ports.
+        component: :class:`Component` to add pins to in-place.
+        reference: Optional :class:`ComponentReference` to infer ports from instead of given ``component``.
+        function: Function that adds pins to a component given a ``component`` and ``port`` combination.
+        select_ports: Function to filter ports to a selection
 
     Keyword Args:
-        kwargs: add pins function settings.
         pin_length: length of the pin marker for the port.
         layer: layer for the pin marker.
         layer_label: add label for the pin marker.

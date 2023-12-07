@@ -25,6 +25,8 @@ def edge_coupler_array(
     text: ComponentSpec | None = text_rectangular,
     text_offset: Float2 = (10, 20),
     text_rotation: float = 0,
+    angle: float = 0,
+    bend: ComponentSpec = bend_euler,
 ) -> Component:
     """Fiber array edge coupler based on an inverse taper.
 
@@ -38,6 +40,24 @@ def edge_coupler_array(
         text: text spec.
         text_offset: from edge coupler.
         text_rotation: text rotation in degrees.
+        angle: rotation in degrees.
+        bend: bend spec. Used only if angle > 0.
+
+    Requires edge coupler waveguide port to face left.
+
+    .. code::
+                                          ┌─────────────────┐
+                                          │                 │
+                                          │                 │
+           ───────────────                │                 │
+                          ─────────────── │                 │
+           o1             edge_coupler_tip│      fiber      │
+                          ─────────────── │                 │
+           ───────────────                │                 │
+                                          │                 │
+                                          │                 │
+                                          └─────────────────┘
+
     """
     edge_coupler = gf.get_component(edge_coupler)
 
@@ -45,19 +65,29 @@ def edge_coupler_array(
     for i in range(n):
         alias = f"ec_{i}"
         ref = c.add_ref(edge_coupler, alias=alias)
+        ref.rotate(angle)
         ref.y = i * pitch
 
         if x_reflection:
             ref.mirror()
 
-        for port in ref.get_ports_list():
-            c.add_port(f"{port.name}_{i}", port=port)
+        if angle:
+            # straighten the port to a manhattan 180 degree angle to avoid grid errors
+            b = c << bend(angle=angle)
+            b.connect("o2", ref.ports["o1"])
+            c.add_port(f"o{i}", port=b["o1"])
+
+        else:
+            for port in ref.get_ports_list():
+                c.add_port(f"{port.name}_{i}", port=port)
 
         if text:
             t = c << gf.get_component(text, text=str(i + 1))
             t.rotate(text_rotation)
             t.move(np.array(text_offset) + (0, i * pitch))
 
+    if angle:
+        c = c.flatten_invalid_refs()
     c.auto_rename_ports()
     return c
 
@@ -78,6 +108,7 @@ def edge_coupler_array_with_loopback(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight,
     taper: ComponentSpec | None = None,
+    angle: float = 0,
 ) -> Component:
     """Fiber array edge coupler.
 
@@ -96,6 +127,7 @@ def edge_coupler_array_with_loopback(
         bend: bend spec.
         straight: straight spec.
         taper: taper spec.
+        angle: rotation in degrees.
     """
     c = Component()
     ec = edge_coupler_array(
@@ -106,6 +138,8 @@ def edge_coupler_array_with_loopback(
         text=text,
         text_offset=text_offset,
         text_rotation=text_rotation,
+        angle=angle,
+        bend=bend,
     )
     if extension_length > 0:
         ec = extend_ports(
@@ -153,8 +187,11 @@ def edge_coupler_array_with_loopback(
 
 
 if __name__ == "__main__":
-    c = edge_coupler_array_with_loopback(text_rotation=90)
+    gf.config.enable_off_grid_ports()
+    # c = edge_coupler_array_with_loopback(text_rotation=90)
     # c = edge_coupler_silicon()
     # c = edge_coupler_array(x_reflection=False)
     # c = edge_coupler_array_with_loopback(x_reflection=False)
+    # c = edge_coupler_array(angle=8)
+    c = edge_coupler_array_with_loopback(angle=0)
     c.show(show_ports=True)

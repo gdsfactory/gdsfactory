@@ -7,14 +7,12 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.add_labels import get_input_label_text_loopback
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
-from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.routing.utils import (
     check_ports_have_equal_spacing,
@@ -23,8 +21,6 @@ from gdsfactory.routing.utils import (
 from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
-    LabelListFactory,
-    LayerSpec,
     PortsDict,
 )
 
@@ -33,28 +29,20 @@ from gdsfactory.typings import (
 def add_grating_couplers(
     component: ComponentSpec = straight,
     grating_coupler: ComponentSpec = grating_coupler_te,
-    layer_label: LayerSpec | None = None,
     gc_port_name: str = "o1",
-    get_input_labels_function: LabelListFactory | None = get_input_labels,
     select_ports: Callable[..., PortsDict] = select_ports_optical,
-    component_name: str | None = None,
 ) -> Component:
     """Returns new component with grating couplers and labels.
 
     Args:
         component: to add grating_couplers.
         grating_coupler: grating_coupler spec.
-        layer_label: for label.
         gc_port_name: where to add label.
-        get_input_labels_function: function to get label.
         select_ports: for selecting optical_ports.
-        component_name: optional component name.
     """
     c = Component()
     component = gf.get_component(component)
 
-    c.component = component
-    component_name = component_name or component.metadata_child.get("name")
     c.add_ref(component)
     grating_coupler = gf.get_component(grating_coupler)
 
@@ -71,15 +59,6 @@ def add_grating_couplers(
         io_gratings.append(gc_ref)
         c.add(gc_ref)
 
-    if layer_label and get_input_labels_function:
-        labels = get_input_labels_function(
-            io_gratings,
-            list(component.ports.values()),
-            component_name=component_name,
-            layer_label=layer_label,
-            gc_port_name=gc_port_name,
-        )
-        c.add(labels)
     c.copy_child_info(component)
     return c
 
@@ -88,14 +67,10 @@ def add_grating_couplers(
 def add_grating_couplers_with_loopback_fiber_single(
     component: ComponentSpec = "spiral_inner_io_fiber_single",
     grating_coupler: ComponentSpec = grating_coupler_te,
-    layer_label: tuple[int, int] | None = None,
     gc_port_name: str = "o1",
-    get_input_labels_function: LabelListFactory | None = get_input_labels,
-    get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     select_ports: Callable[..., PortsDict] = select_ports_optical,
     with_loopback: bool = True,
     cross_section: CrossSectionSpec = strip,
-    component_name: str | None = None,
     loopback_xspacing: float = 5.0,
     rotation: int = 90,
 ) -> Component:
@@ -104,27 +79,21 @@ def add_grating_couplers_with_loopback_fiber_single(
     Args:
         component: to add grating_couplers.
         grating_coupler: grating_coupler spec function, string or dict.
-        layer_label: optional layer_label for the ports.
         gc_port_name: grating_coupler port name.
-        get_input_labels_function: function to get grating_coupler labels.
-        get_input_label_text_loopback_function:
         select_ports: function to select ports.
         with_loopback: adds a reference loopback.
         cross_section: for routing.
-        component_name: optional component name.
         loopback_xspacing: in um.
         rotation: in degrees, 90 for North South devices, 0 for East-West.
     """
     c = Component()
     component = gf.get_component(component)
 
-    c.component = component
     c.add_ref(component)
     grating_coupler = gf.get_component(grating_coupler)
 
     c.info["polarization"] = grating_coupler.info["polarization"]
     c.info["wavelength"] = grating_coupler.info["wavelength"]
-    component_name = component_name or component.metadata_child.get("name")
 
     io_gratings = []
     optical_ports = select_ports(component.ports)
@@ -137,16 +106,6 @@ def add_grating_couplers_with_loopback_fiber_single(
         io_gratings.append(gc_ref)
         c.add(gc_ref)
         c.add_port(name=port.name, port=port)
-
-    if layer_label and get_input_labels_function:
-        labels = get_input_labels_function(
-            io_gratings,
-            optical_ports,
-            component_name=component_name,
-            layer_label=layer_label,
-            gc_port_name=gc_port_name,
-        )
-        c.add(labels)
 
     p2 = optical_ports[0]
     p1 = optical_ports[-1]
@@ -175,30 +134,6 @@ def add_grating_couplers_with_loopback_fiber_single(
         p1.port_type = "loopback"
         p2.port_type = "loopback"
 
-        if layer_label and get_input_labels_function:
-            port = wg.ports["o2"]
-            text = get_input_label_text_loopback_function(
-                port=port, gc=grating_coupler, gc_index=0, component_name=component_name
-            )
-
-            c.add_label(
-                text=text,
-                position=port.center,
-                anchor="o",
-                layer=layer_label,
-            )
-
-            port = wg.ports["o1"]
-            text = get_input_label_text_loopback_function(
-                port=port, gc=grating_coupler, gc_index=1, component_name=component_name
-            )
-            c.add_label(
-                text=text,
-                position=port.center,
-                anchor="o",
-                layer=layer_label,
-            )
-
     c.copy_child_info(component)
     return c
 
@@ -216,12 +151,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
     bend: ComponentSpec = bend_euler,
-    layer_label: LayerSpec | None = None,
-    layer_label_loopback: LayerSpec | None = None,
-    component_name: str | None = None,
     with_loopback: bool = True,
-    nlabels_loopback: int = 2,
-    get_input_labels_function: LabelListFactory | None = get_input_labels,
     cross_section: CrossSectionSpec = "xs_sc",
     select_ports: Callable = select_ports_optical,
     loopback_yspacing: float = 4.0,
@@ -237,13 +167,7 @@ def add_grating_couplers_with_loopback_fiber_array(
         gc_rotation: grating coupler rotation in degrees.
         straight_separation: in um.
         bend: bend spec.
-        layer_label: for testing label.
-        layer_label_loopback: for testing label alignment loopback.
-        component_name: optional component name.
         with_loopback: If True, add compact loopback alignment ports.
-        nlabels_loopback: number of ports to label \
-                (0: no labels, 1: first port, 2: both ports).
-        get_input_labels_function: for getting test labels.
         cross_section: CrossSectionSpec.
         select_ports: function to select ports.
         loopback_yspacing: in um.
@@ -255,7 +179,6 @@ def add_grating_couplers_with_loopback_fiber_array(
     gc = gf.get_component(grating_coupler)
 
     direction = "S"
-    component_name = component_name or component.metadata_child.get("name")
 
     c = Component()
     c.copy_child_info(component)
@@ -289,16 +212,6 @@ def add_grating_couplers_with_loopback_fiber_array(
         gc_ref = c.add_ref(gc)
         gc_ref.connect(gc.ports[gc_port_name].name, port)
         references += [gc_ref]
-
-    if layer_label and get_input_labels_function:
-        labels = get_input_labels_function(
-            io_gratings=references,
-            ordered_ports=optical_ports,
-            component_name=component_name,
-            layer_label=layer_label,
-            gc_port_name=gc_port_name,
-        )
-        c.add(labels)
 
     if with_loopback:
         y0 = references[0].ports[gc_port_name].y - loopback_yspacing
@@ -340,33 +253,9 @@ def add_grating_couplers_with_loopback_fiber_array(
         )
         c.add([gca1, gca2])
         c.add(loopback_route.references)
-        c.add_port(name="loopback_1", port=port0)
-        c.add_port(name=f"loopback_{len(component.ports)+2}", port=port1)
+        c.add_port(name="loopback1", port=port0)
+        c.add_port(name="loopback2", port=port1)
 
-        component_name_loopback = f"loopback_{component_name}"
-        if nlabels_loopback == 1:
-            io_gratings_loopback = [gca1]
-            ordered_ports_loopback = [port0]
-        elif nlabels_loopback == 2:
-            io_gratings_loopback = [gca1, gca2]
-            ordered_ports_loopback = [port0, port1]
-        if nlabels_loopback == 0 or layer_label is None:
-            pass
-        elif 0 < nlabels_loopback <= 2 and get_input_labels_function:
-            c.add(
-                get_input_labels_function(
-                    io_gratings=io_gratings_loopback,
-                    ordered_ports=ordered_ports_loopback,
-                    component_name=component_name_loopback,
-                    layer_label=layer_label_loopback or layer_label,
-                    gc_port_name=gc_port_name,
-                )
-            )
-        else:
-            raise ValueError(
-                f"Invalid nlabels_loopback = {nlabels_loopback}, "
-                "valid (0: no labels, 1: first port, 2: both ports2)"
-            )
     ports = [p.flip() for p in component.ports.values()]
     c.add_ports(ports)
     c.copy_child_info(component)

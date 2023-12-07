@@ -1,0 +1,83 @@
+name: straight_heater_meander_53d8448c
+ports:
+  o1:
+    center:
+    - -25.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 279.262
+    - 4.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+settings:
+  changed:
+    layer_heater: null
+    length: 1000.0
+    n: 3
+  child: null
+  default:
+    cross_section:
+      function: cross_section
+      settings:
+        add_pins_function_name: null
+        radius: 10
+        radius_min: 5
+    extension_length: 15.0
+    heater_taper_length: 10.0
+    heater_width: 2.5
+    layer_heater: HEATER
+    length: 300.0
+    n: null
+    port_orientation1: null
+    port_orientation2: null
+    radius: null
+    spacing: 2.0
+    straight_widths:
+    - 0.8
+    - 0.9
+    - 0.8
+    taper_length: 10
+    via_stack: via_stack_heater_mtop
+  full:
+    cross_section:
+      function: cross_section
+      settings:
+        add_pins_function_name: null
+        radius: 10
+        radius_min: 5
+    extension_length: 15.0
+    heater_taper_length: 10.0
+    heater_width: 2.5
+    layer_heater: null
+    length: 1000.0
+    n: 3
+    port_orientation1: null
+    port_orientation2: null
+    radius: null
+    spacing: 2.0
+    straight_widths:
+    - 0.8
+    - 0.9
+    - 0.8
+    taper_length: 10
+    via_stack: via_stack_heater_mtop
+  function_name: straight_heater_meander
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.straight_heater_meander
+  name: straight_heater_meander_53d8448c

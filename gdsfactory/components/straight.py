@@ -27,7 +27,7 @@ def straight(
         width: width to use. Defaults to cross_section.width.
         add_pins: add pins to the component.
         cross_section: specification (CrossSection, string or dict).
-        add_bbox: add bounding box to the component.
+        add_bbox: function to add bounding box to the component.
 
     .. code::
 

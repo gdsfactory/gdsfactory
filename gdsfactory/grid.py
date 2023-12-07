@@ -4,11 +4,14 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
+from functools import partial
+
 import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.component_layout import Group
+from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangles import triangle
 from gdsfactory.typings import Anchor, ComponentSpec, Float2
@@ -16,7 +19,7 @@ from gdsfactory.typings import Anchor, ComponentSpec, Float2
 
 @cell
 def grid(
-    components: tuple[ComponentSpec, ...] | None = None,
+    components: tuple[ComponentSpec, ...] = (rectangle, triangle),
     spacing: tuple[float, float] = (5.0, 5.0),
     separation: bool = True,
     shape: tuple[int, int] | None = None,
@@ -28,7 +31,7 @@ def grid(
     h_mirror: bool = False,
     v_mirror: bool = False,
     add_ports_prefix: bool = True,
-    add_ports_suffix: bool = False,
+    name_ports_with_component_name: bool = False,
 ) -> Component:
     """Returns Component with a 1D or 2D grid of components.
 
@@ -47,8 +50,8 @@ def grid(
         rotation: for each component in degrees.
         h_mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
-        add_ports_prefix: adds port names with prefix.
-        add_ports_suffix: adds port names with suffix.
+        add_ports_prefix: adds prefix to port names. False adds suffix.
+        name_ports_with_component_name: if True uses component.name as unique id. False uses index.
 
     Returns:
         Component containing components grid.
@@ -70,7 +73,8 @@ def grid(
         c.plot()
 
     """
-    components = components or [triangle(x=i) for i in range(1, 10)]
+    from gdsfactory.pdk import get_component
+
     device_array = np.asarray(components)
 
     # Check arguments
@@ -108,16 +112,18 @@ def grid(
     prefix_to_ref = {}
 
     D = Component()
+    D.info["components"] = {}
     ref_array = np.empty(device_array.shape, dtype=object)
     dummy = Component()
     for idx, d in np.ndenumerate(device_array):
         if d is not None:
-            d = d() if callable(d) else d
+            d = get_component(d)
+            D.info["components"][d.name] = dict(d.settings)
             ref = D.add_ref(d, rotation=rotation, x_reflection=h_mirror)
             if v_mirror:
                 ref.mirror_y()
             ref_array[idx] = ref
-            prefix = f"{idx}"
+            prefix = d.name if name_ports_with_component_name else str(idx)
             prefix = prefix.replace(" ", "")
             prefix = prefix.replace(",", "_")
             prefix = prefix.replace("(", "")
@@ -147,18 +153,19 @@ def grid(
 
     for prefix, ref in prefix_to_ref.items():
         if add_ports_prefix:
-            D.add_ports(ref.ports, prefix=f"{prefix}_")
-        elif add_ports_suffix:
-            D.add_ports(ref.ports, suffix=f"_{prefix}")
+            D.add_ports(ref.ports, prefix=f"{prefix}-")
         else:
-            D.add_ports(ref.ports)
+            D.add_ports(ref.ports, suffix=f"-{prefix}")
 
     return D
 
 
+grid_with_component_name = partial(grid, name_ports_with_component_name=True)
+
+
 @cell
 def grid_with_text(
-    components: tuple[ComponentSpec, ...] | None = None,
+    components: tuple[ComponentSpec, ...] = (rectangle, triangle),
     text_prefix: str = "",
     text_offsets: tuple[Float2, ...] = ((0, 0),),
     text_anchors: tuple[Anchor, ...] = ("cc",),
@@ -194,6 +201,10 @@ def grid_with_text(
         edge_y: {'y', 'ymin', 'ymax'} to perform the y (row) distribution along \
                 ignored if separation = True.
         rotation: for each reference in degrees.
+        h_mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
+        v_mirror: vertical mirror using x axis (1, y) (0, y).
+        add_ports_prefix: adds prefix to port names. False adds suffix.
+        name_ports_with_component_name: if True uses component.name as unique id. False uses index.
 
 
     .. plot::
@@ -216,8 +227,8 @@ def grid_with_text(
 
     """
     c = Component()
-    g = grid(components=components, **kwargs)
-    c << g
+    g = grid_with_component_name(components=components, **kwargs)
+    _ = c << g
     if text:
         for i, ref in enumerate(g.named_references.values()):
             for text_offset, text_anchor in zip(text_offsets, text_anchors):
@@ -256,14 +267,14 @@ def test_grid() -> None:
 
 if __name__ == "__main__":
     # test_grid()
-    import gdsfactory as gf
 
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # c = [gf.components.triangle(x=i) for i in range(1, 10)]
     # print(len(c))
 
-    c = grid([gf.components.straight(length=i) for i in range(1, 5)])
+    c = grid_with_component_name()
+    # c = grid_with_component_name([gf.components.straight(length=i) for i in range(1, 5)])
     # c = grid(
     #     c,
     #     shape=(2, 2),

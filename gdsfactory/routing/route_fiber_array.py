@@ -600,7 +600,7 @@ if __name__ == "__main__":
         # with_loopback=False,
         layer_label="TEXT",
         layer_label_loopback="TEXT",
-        radius=5
+        radius=5,
         # get_input_labels_function=get_input_labels_dash
         # get_input_labels_function=None
         # optical_routing_type=2,

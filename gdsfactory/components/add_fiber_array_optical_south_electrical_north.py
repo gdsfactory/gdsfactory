@@ -117,7 +117,7 @@ def add_fiber_array_optical_south_electrical_north(
 
 if __name__ == "__main__":
     c = add_fiber_array_optical_south_electrical_north(
-        info=dict(measurement_settings={"wavelength_min": 1550})
+        info=dict(measurement_settings={"wavelength_min": 1550}), name="my_mzi"
     )
 
     # d = json.loads(c.labels[0].text)

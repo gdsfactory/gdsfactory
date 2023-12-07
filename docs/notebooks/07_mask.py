@@ -23,33 +23,18 @@
 #
 # ## Design for test
 #
-# To measure your chips after fabrication you need to decide your test configurations. This includes things like:
+# To measure your chips after fabrication you need to decide your test configurations. This includes Design For Testing Rules like:
 #
 # - `Individual input and output fibers` versus `fiber array`. You can use `add_fiber_array` for easier testing and higher throughput, or `add_fiber_single` for the flexibility of single fibers.
 # - Fiber array pitch (127um or 250um) if using a fiber array.
 # - Pad pitch for DC and RF high speed probes (100, 125, 150, 200um). Probe configuration (GSG, GS ...)
 # - Test layout for DC, RF and optical fibers.
 #
-#
-# To enable automatic testing you can add labels the devices that you want to test. GDS labels are not fabricated and are only visible in the GDS file.
-#
-# Lets review some different automatic labeling schemas:
-#
-# 1. One label per test site or Device under test (Component) that includes settings, electrical ports and optical ports.
-# 2. SiEPIC labels: only the laser input grating coupler from the fiber array has a label, which is the second from left to right.
-# 3. EHVA automatic testers, include a Label component declaration as described in this [doc](https://drive.google.com/file/d/1kbQNrVLzPbefh3by7g2s865bcsA2vl5l/view)
-#
-#
-# Most gdsfactory examples add south grating couplers on the south and RF or DC signals to the north. However if you need RF and DC pads, you have to make sure RF pads are orthogonal to the DC Pads. For example, you can use EAST/WEST for RF and NORTH for DC.
 
 # %%
 from functools import partial
 
 import json
-import ipywidgets
-from IPython.display import display
-from omegaconf import OmegaConf
-
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.labels import add_label_ehva, add_label_json
@@ -58,122 +43,6 @@ from gdsfactory.labels import add_label_ehva, add_label_json
 gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
-
-# %% [markdown]
-# ### 1. Test Sites Labels
-#
-# Each test site includes a label with the measurement and analysis settings:
-#
-# - Optical and electrical port locations for each alignment.
-# - measurement settings.
-# - Component settings for the analysis and test and data analysis information. Such as Design of Experiment (DOE) id.
-#
-#
-# The default settings can be stored in a separate [CSV file](https://docs.google.com/spreadsheets/d/1845m-XZM8tZ1tNd8GIvAaq7ZE-iha00XNWa0XrEOabc/edit#gid=0)
-
-# %%
-info = dict(
-    doe="mzis",
-    analysis="mzi_phase_shifter",
-    measurement="optical_loopback2_heater_sweep",
-    measurement_settings=dict(v_max=5),
-)
-
-c = gf.components.mzi_phase_shifter()
-c = gf.components.add_fiber_array_optical_south_electrical_north(
-    c, info=info, decorator=add_label_json
-)
-c.plot()
-
-# %%
-c.labels
-
-# %%
-json.loads(c.labels[0].text)
-
-# %%
-c = gf.components.spiral_inner_io_fiber_array(
-    length=20e3,
-    decorator=gf.labels.add_label_json,
-    info=dict(
-        measurement="optical_loopback2",
-        doe="spiral_sc",
-        measurement_settings=dict(wavelength_alignment=1560),
-    ),
-)
-c.plot()
-
-# %%
-json.loads(c.labels[0].text)
-
-# %% [markdown]
-# ### 2. SiEPIC labels
-#
-# Labels follow format `opt_in_{polarization}_{wavelength}_device_{username}_({component_name})-{gc_index}-{port.name}` and you only need to label the laser input port of the fiber array.
-# This also includes one label per test site.
-
-# %%
-mmi = gf.components.mmi2x2()
-mmi_te_siepic = gf.labels.add_fiber_array_siepic(component=mmi)
-mmi_te_siepic.plot()
-
-# %%
-mmi_te_siepic.ports
-
-# %%
-labels = mmi_te_siepic.get_labels()
-
-for label in labels:
-    print(label.text)
-
-# %% [markdown]
-# ### 3. EHVA labels
-
-# %%
-add_label_ehva_demo = partial(add_label_ehva, die="demo_die")
-mmi = gf.c.mmi2x2(length_mmi=2.2)
-mmi_te_ehva = gf.routing.add_fiber_array(
-    mmi, get_input_labels_function=None, decorator=add_label_ehva_demo
-)
-mmi_te_ehva.plot()
-
-# %%
-labels = mmi_te_ehva.get_labels(depth=0)
-
-for label in labels:
-    print(label.text)
-
-# %% [markdown]
-# One advantage of the EHVA formats is that you can track any changes on the components directly from the GDS label, as the label already stores any changes of the child device, as well as any settings that you specify.
-#
-# Settings can have many levels of hierarchy, but you can still access any children setting with `:` notation.
-#
-# ```
-# grating_coupler:
-#     function: grating_coupler_elliptical_trenches
-#     settings:
-#         polarization: te
-#         taper_angle: 35
-#
-# ```
-
-# %%
-add_label_ehva_demo = partial(
-    add_label_ehva,
-    die="demo_die",
-    metadata_include_parent=["grating_coupler:settings:polarization"],
-)
-mmi = gf.components.mmi2x2(length_mmi=10)
-mmi_te_ehva = gf.routing.add_fiber_array(
-    mmi, get_input_labels_function=None, decorator=add_label_ehva_demo
-)
-mmi_te_ehva.plot()
-
-# %%
-labels = mmi_te_ehva.get_labels(depth=0)
-
-for label in labels:
-    print(label.text)
 
 # %% [markdown]
 # ## Pack
@@ -199,7 +68,6 @@ c = gf.components.spiral_inner_io_fiber_array(
     decorator=gf.labels.add_label_json,
     info=dict(measurement="optical_loopback2"),
 )
-c.show()
 c.plot()
 
 # %%
@@ -236,7 +104,6 @@ spiral_te = gf.compose(
 sweep = [spiral_te(length=length) for length in [10e3, 20e3, 30e3]]
 m = gf.pack(sweep)
 c = m[0]
-c.show()
 c.plot()
 
 # %%
@@ -284,15 +151,15 @@ c.plot()
 # You can also pack components with a constant spacing.
 
 # %%
-g = gf.grid(sweep)
+g = gf.grid_with_component_name(sweep)
 g.plot()
 
 # %%
-gh = gf.grid(sweep, shape=(1, len(sweep)))
+gh = gf.grid_with_component_name(sweep, shape=(1, len(sweep)))
 gh.plot()
 
 # %%
-gh_ymin = gf.grid(sweep, shape=(len(sweep), 1), align_x="xmin")
+gh_ymin = gf.grid_with_component_name(sweep, shape=(len(sweep), 1), align_x="xmin")
 gh_ymin.plot()
 
 # %% [markdown]
@@ -487,120 +354,169 @@ placements:
 )
 c.plot()
 
+
 # %% [markdown]
-# ## Metadata
+# ## Automated testing exposing all ports
 #
-# When saving GDS files is also convenient to store the metadata settings that you used to generate the GDS file.
+# You can promote all the ports that need to be tested to the top level component and then write a CSV test manifest.
 #
-# We recommend storing all the device metadata in GDS labels but you can also store it in a separate YAML file.
-#
-# ### Metadata in separate YAML file (not recommended)
+# This is the recommended way for measuring components that have electrical and optical port.
+
 
 # %%
-import gdsfactory as gf
+def sample_reticle() -> gf.Component:
+    """Returns MZI with TE grating couplers."""
+    test_info_mzi_heaters = dict(
+        doe="mzis_heaters",
+        analysis="mzi_heater",
+        measurement="optical_loopback4_heater_sweep",
+    )
+    test_info_ring_heaters = dict(
+        doe="ring_heaters",
+        analysis="ring_heater",
+        measurement="optical_loopback2_heater_sweep",
+    )
 
-
-@gf.cell
-def wg():
-    c = gf.Component()
-    c.info["doe"] = ["rings", 1550, "te", "phase_shifter"]
-    c.info["test_sequence"] = ["optical", "electrical_sweep"]
-    c.info["data_analysis"] = [
-        "remove_baseline",
-        "extract_fsr",
-        "extract_loss",
-        "extract_power_per_pi",
+    mzis = [
+        gf.components.mzi2x2_2x2_phase_shifter(
+            length_x=length, name=f"mzi_heater_{length}"
+        )
+        for length in [100, 200, 300]
     ]
-    return c
+    rings = [
+        gf.components.ring_single_heater(
+            length_x=length_x, name=f"ring_single_heater_{length_x}"
+        )
+        for length_x in [10, 20, 30]
+    ]
+
+    spirals_sc = [
+        gf.components.spiral_inner_io_fiber_array(
+            name=f"spiral_sc_{int(length/1e3)}mm",
+            length=length,
+            info=dict(
+                doe="spirals_sc",
+                measurement="optical_loopback4",
+                analysis="optical_loopback4_spirals",
+            ),
+        )
+        for length in [20e3, 40e3, 60e3]
+    ]
+
+    mzis_te = [
+        gf.components.add_fiber_array_optical_south_electrical_north(
+            mzi,
+            electrical_port_names=["top_l_e2", "top_r_e2"],
+            info=test_info_mzi_heaters,
+            name=f"{mzi.name}_te",
+        )
+        for mzi in mzis
+    ]
+    rings_te = [
+        gf.components.add_fiber_array_optical_south_electrical_north(
+            ring,
+            electrical_port_names=["l_e2", "r_e2"],
+            info=test_info_ring_heaters,
+            name=f"{ring.name}_te",
+        )
+        for ring in rings
+    ]
+
+    components = mzis_te + rings_te + spirals_sc
+
+    c = gf.pack(components)
+    if len(c) > 1:
+        raise ValueError(f"failed to pack into single group. Made {len(c)} groups.")
+    return c[0]
 
 
-c = wg()
-c.pprint()
-gdspath = c.write_gds("demo.gds", with_metadata=True)
-
-
-# %% [markdown]
-# ### Metadata in the GDS file
-#
-# You can use GDS labels to store device information such as settings and port locations.
-#
-# The advantage of GDS labels is that they are all stored in the same file.
-#
-# We define a single label for each test site (Device Under Test), and the label contains all the measurement and data analysis information.
-
-# %%
-test_info_mzi_heaters = dict(
-    doe="mzis_heaters",
-    analysis="mzi_heater_phase_shifter_length",
-    measurement="optical_loopback4_heater_sweep",
-)
-test_info_ring_heaters = dict(
-    doe="ring_heaters_coupling_length",
-    analysis="ring_heater",
-    measurement="optical_loopback2_heater_sweep",
-)
-
-mzis = [
-    gf.components.mzi2x2_2x2_phase_shifter(length_x=lengths)
-    for lengths in [100, 200, 300]
-]
-
-rings = [
-    gf.components.ring_single_heater(length_x=length_x) for length_x in [10, 20, 30]
-]
-
-mzis_te = [
-    gf.components.add_fiber_array_optical_south_electrical_north(
-        mzi,
-        electrical_port_names=["top_l_e2", "top_r_e2"],
-        info=test_info_mzi_heaters,
-        decorator=gf.labels.add_label_json,
-    )
-    for mzi in mzis
-]
-rings_te = [
-    gf.components.add_fiber_array_optical_south_electrical_north(
-        ring,
-        electrical_port_names=["l_e2", "r_e2"],
-        info=test_info_ring_heaters,
-        decorator=gf.labels.add_label_json,
-    )
-    for ring in rings
-]
-c = gf.pack(mzis_te + rings_te)[0]
-c.show()
+c = sample_reticle()
 c.plot()
 
-# %% [markdown]
-# ## Test manifest
-#
-# Each Device Under Test (test site) has a JSON test label with all the settings.
-#
-# You can define a [Test manifest](https://docs.google.com/spreadsheets/d/1845m-XZM8tZ1tNd8GIvAaq7ZE-iha00XNWa0XrEOabc/edit#gid=0) (also known as Test sequence) in CSV automatically from the labels.
+# %%
+c.pprint_ports()
 
 # %%
-import pandas as pd
-
-gdspath = c.write_gds()
-csvpath = gf.labels.write_labels.write_labels_gdstk(
-    gdspath, debug=True, prefixes=["{"], layer_label="TEXT"
-)
-df = pd.read_csv(csvpath)
+df = gf.labels.get_test_manifest(c)
 df
 
+# %%
+df.to_csv("test_manifest.csv")
+
+
+# %%
+def sample_reticle_grid() -> gf.Component:
+    """Returns MZI with TE grating couplers."""
+    test_info_mzi_heaters = dict(
+        doe="mzis_heaters",
+        analysis="mzi_heater",
+        measurement="optical_loopback4_heater_sweep",
+    )
+    test_info_ring_heaters = dict(
+        doe="ring_heaters",
+        analysis="ring_heater",
+        measurement="optical_loopback2_heater_sweep",
+    )
+
+    mzis = [
+        gf.components.mzi2x2_2x2_phase_shifter(
+            length_x=length, name=f"mzi_heater_{length}"
+        )
+        for length in [100, 200, 300]
+    ]
+    rings = [
+        gf.components.ring_single_heater(
+            length_x=length_x, name=f"ring_single_heater_{length_x}"
+        )
+        for length_x in [10, 20, 30]
+    ]
+
+    spirals_sc = [
+        gf.components.spiral_inner_io_fiber_array(
+            name=f"spiral_sc_{int(length/1e3)}mm",
+            length=length,
+            info=dict(
+                doe="spirals_sc",
+                measurement="optical_loopback4",
+                analysis="optical_loopback4_spirals",
+            ),
+        )
+        for length in [20e3, 40e3, 60e3]
+    ]
+
+    mzis_te = [
+        gf.components.add_fiber_array_optical_south_electrical_north(
+            mzi,
+            electrical_port_names=["top_l_e2", "top_r_e2"],
+            info=test_info_mzi_heaters,
+            name=f"{mzi.name}_te",
+        )
+        for mzi in mzis
+    ]
+    rings_te = [
+        gf.components.add_fiber_array_optical_south_electrical_north(
+            ring,
+            electrical_port_names=["l_e2", "r_e2"],
+            info=test_info_ring_heaters,
+            name=f"{ring.name}_te",
+        )
+        for ring in rings
+    ]
+
+    components = mzis_te + rings_te + spirals_sc
+
+    return gf.grid_with_component_name(components)
+
+
+c = sample_reticle_grid()
+c.plot()
+
+# %%
+df = gf.labels.get_test_manifest(c)
+df
+
+# %%
+df.to_csv("test_manifest.csv")
+
 # %% [markdown]
-# As you can see there are 6 devices with optical and electrical ports.
-#
-# You can turn each label into a test manifest CSV file to interface with your lab instrumentation functions.
-#
-# Each measurement will use a different `measurement` procedure and settings `measurement_settings`
-#
-# The default measurement settings for each functions can also be defined in a separate [CSV file](https://docs.google.com/spreadsheets/d/1845m-XZM8tZ1tNd8GIvAaq7ZE-iha00XNWa0XrEOabc/edit#gid=138229318) and easily editable with Excel or LibreOffice.
-
-# %%
-from gdsfactory.labels.write_test_manifest import write_test_manifest
-
-dm = write_test_manifest(csvpath)
-dm
-
-# %%
+# You can see a test manifest example [here](https://docs.google.com/spreadsheets/d/1845m-XZM8tZ1tNd8GIvAaq7ZE-iha00XNWa0XrEOabc/edit#gid=233591479)

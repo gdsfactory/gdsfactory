@@ -13,7 +13,7 @@ classifiers = [
 ]
 dependencies = [
   "flatdict",
-  "gdstk>=0.9.44,<0.10",
+  "gdstk<0.10",
   "jinja2<4",
   "loguru<1",
   "matplotlib<4",
@@ -21,7 +21,7 @@ dependencies = [
   "omegaconf<3",
   "orjson<4",
   "pandas<3",
-  "pydantic>=2,<2.5",
+  "pydantic>=2,<2.6",
   "pydantic-settings<3",
   "pydantic-extra-types<3",
   "pyyaml",
@@ -41,7 +41,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "7.8.16"
+version = "7.9.0"
 
 [project.optional-dependencies]
 cad = [
@@ -80,39 +80,20 @@ docs = [
   "plotly"
 ]
 full = [
-  "gplugins[devsim,femwell,gmsh,meow,meshwell,ray,sax,schematic,tidy3d,web]"
+  "gplugins[devsim,femwell,gmsh,meow,meshwell,ray,sax,schematic,tidy3d]"
 ]
 maintainer = [
-  "black>=21",
+  "ruff",
   "doc8",
   "xdoctest",
   "mypy",
   "tbump",
-  "autotyping"
+  "autotyping",
+  "towncrier"
 ]
 
 [project.scripts]
 gf = "gdsfactory.cli:app"
-
-[tool.black]
-exclude = '''  # Specify the files/dirs that should be ignored by the black formatter
-/(
-    \.eggs
-    | \.git
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | env
-    | _build
-    | buck-out
-    | build
-    | dist
- )/
-'''
-include = '\.pyi?$'
-line-length = 88
-target-version = ['py310']
 
 [tool.codespell]
 ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
@@ -226,7 +207,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "7.8.16"
+current = "7.9.0"
 regex = '''
   (?P<major>\d+)
   \.

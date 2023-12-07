@@ -31,18 +31,24 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
+        radius: 10
+        radius_min: 5
   full:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
+        radius: 10
+        radius_min: 5
   function_name: demo_cross_section_setting
   info:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
+        radius: 10
+        radius_min: 5
     length: 10.0
     route_info:
       length: 10.0

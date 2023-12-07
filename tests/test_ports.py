@@ -30,5 +30,16 @@ def test_ports_add() -> None:
     assert p1.orientation == p2.orientation
 
 
+def test_port_get_item():
+    wg = gf.components.straight()
+
+    assert wg["o1"] == wg[0]
+    assert wg["o2"] == wg[1]
+
+    wg_ref = wg.ref()
+    assert wg_ref["o1"] == wg_ref[0]
+    assert wg_ref["o2"] == wg_ref[1]
+
+
 if __name__ == "__main__":
     test_ports_add()

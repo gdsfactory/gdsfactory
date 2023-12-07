@@ -18,6 +18,7 @@ class LayerLevel(BaseModel):
     """Level for 3D LayerStack.
 
     Parameters:
+        name: layer name.
         layer: (GDSII Layer number, GDSII datatype).
         thickness: layer thickness in um.
         thickness_tolerance: layer thickness tolerance in um.
@@ -32,8 +33,7 @@ class LayerLevel(BaseModel):
                 Defaults no buffering [[0, 1], [0, 0]].
         mesh_order: lower mesh order (1) will have priority over higher \
                 mesh order (2) in the regions where materials overlap.
-        refractive_index: int, complex or function that depends on wavelength (um).
-        type: grow, etch, implant, or background.
+        layer_type: grow, etch, implant, or background.
         mode: octagon, taper, round. https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
         into: etch into another layer. https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
         resistivity: for metals.
@@ -442,7 +442,6 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
         )
         component_derived.add(unetched_polys)
 
-    component_derived.add_ports(component.ports)
     return component_derived
 
 

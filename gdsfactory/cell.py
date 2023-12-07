@@ -84,7 +84,6 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
-    cache: bool = True,
 ) -> Callable[[_F], _F]:
     """Parametrized Decorator for Component functions.
 
@@ -142,7 +141,7 @@ def cell(
         active_pdk = get_active_pdk()
 
         info = kwargs.pop("info", {})  # TODO: remove info
-        name = kwargs.pop("name", None)  # TODO: remove name
+        name = _name = kwargs.pop("name", None)  # TODO: remove name
         prefix = kwargs.pop("prefix", func.__name__)  # TODO: remove prefix
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -220,7 +219,7 @@ def cell(
         if decorator is None and active_pdk.default_decorator is not None:
             decorator = active_pdk.default_decorator
 
-        if cache and name in CACHE:
+        if name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
 
@@ -255,7 +254,7 @@ def cell(
             )
 
         metadata_child = None
-        if get_child_name:
+        if get_child_name and _name is None:
             if component.child is None:
                 raise ValueError(
                     f"{name}: get_child_name was defined, but component has no child! Be sure to assign the component a child attribute."
@@ -271,10 +270,8 @@ def cell(
             component_name = name
 
         if autoname:
-            component.rename(
-                component_name, cache=cache, max_name_length=max_name_length
-            )
-        if get_child_name and cache:
+            component.rename(component_name, max_name_length=max_name_length)
+        if get_child_name:
             CACHE[name] = component
 
         info = info or {}
@@ -298,8 +295,7 @@ def cell(
             component = component_new or component
 
         component.lock()
-        if cache:
-            CACHE_IDS.add(id(component))
+        CACHE_IDS.add(id(component))
         return component
 
     return (
@@ -319,7 +315,6 @@ def cell(
             add_settings=add_settings,
             validate=validate,
             get_child_name=get_child_name,
-            cache=cache,
         )
     )
 

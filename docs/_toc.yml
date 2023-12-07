@@ -26,12 +26,13 @@ parts:
           - file: notebooks/04_components_geometry
           - file: notebooks/04_components_pack
           - file: notebooks/04_components_hierarchy
-          - file: notebooks/07_mask
           - file: notebooks/04_routing
           - file: notebooks/04_routing_electrical
           - file: notebooks/04_routing_non_manhattan
           - file: notebooks/rib_strip_autotransition
           - file: notebooks/10_yaml_component
+          - file: notebooks/07_mask
+          - file: notebooks/07_mask_labels
           - file: notebooks/11_best_practices
       - file: pdk
         sections:

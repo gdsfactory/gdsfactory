@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import partial
+from itertools import islice
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -57,8 +58,23 @@ def taper_cross_section(
     ref = c << gf.path.extrude_transition(taper_path, transition=transition)
     c.add_ports(ref.ports)
     c.absorb(ref)
+
+    # set one pin for each cross section
+    x1.add_pins(
+        c,
+        select_ports=lambda ports: {(port_name := next(iter(ports))): ports[port_name]},
+    )
+    x2.add_pins(
+        c,
+        select_ports=lambda ports: {
+            (port_name := next(islice(iter(ports), 1, None))): ports[port_name],
+        },
+    )
+
     if "type" in x1.info and x1.info["type"] == x2.info.get("type"):
         c.add_route_info(cross_section=x1, length=length, taper=True)
+
+    c.info["length"] = length
     return c
 
 
@@ -68,6 +84,13 @@ taper_cross_section_parabolic = partial(
     taper_cross_section, linear=False, width_type="parabolic", npoints=101
 )
 
+taper_sc_nc_sine = partial(
+    taper_cross_section,
+    linear=False,
+    npoints=101,
+    cross_section1="xs_nc_sc_tip",
+    cross_section2="xs_sc_nc_tip",
+)
 
 if __name__ == "__main__":
     # x1 = partial(strip, width=0.5)
@@ -82,7 +105,8 @@ if __name__ == "__main__":
     # c = taper_cross_section_sine()
     # c = taper_cross_section_linear()
     # print([i.name for i in c.get_dependencies()])
-    cross_section1 = gf.cross_section.rib_heater_doped
-    cross_section2 = gf.cross_section.strip_rib_tip
-    c = taper_cross_section(cross_section1, cross_section2)
+    # cross_section1 = gf.cross_section.rib_heater_doped(width=2)
+    # cross_section2 = gf.cross_section.strip_rib_tip
+    # c = taper_cross_section(cross_section1, cross_section2)
+    c = taper_sc_nc_sine()
     c.show(show_ports=True)

@@ -48,7 +48,7 @@ def coupler(
 
 
     """
-    length = gf.snap.snap_to_grid(length)
+    length = gf.snap.snap_to_grid2x(length)
     gap = gf.snap.snap_to_grid2x(gap)
     c = Component()
 
@@ -82,6 +82,6 @@ def coupler(
 
 
 if __name__ == "__main__":
-    c = coupler(gap=0.2)
+    c = coupler(gap=0.2, dx=7)
     c = gf.routing.add_fiber_array(c)
     c.show(show_ports=False)

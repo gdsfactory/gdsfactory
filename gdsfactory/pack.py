@@ -109,7 +109,7 @@ def pack(
     h_mirror: bool = False,
     v_mirror: bool = False,
     add_ports_prefix: bool = True,
-    add_ports_suffix: bool = False,
+    name_ports_with_component_name: bool = True,
 ) -> list[Component]:
     """Pack a list of components into as few Components as possible.
 
@@ -132,8 +132,8 @@ def pack(
         rotation: optional component rotation in degrees.
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
-        add_ports_prefix: adds port names with prefix.
-        add_ports_suffix: adds port names with suffix.
+        add_ports_prefix: adds prefix to port names. False adds suffix.
+        name_ports_with_component_name: if True uses component.name as unique id. False uses index.
 
     .. plot::
         :include-source:
@@ -210,15 +210,13 @@ def pack(
             if hasattr(component, "settings"):
                 packed.info["components"][component.name] = dict(component.settings)
             d.center = snap_to_grid((xcenter * precision, ycenter * precision))
+
+            component_id = component.name if name_ports_with_component_name else index
+
             if add_ports_prefix:
-                packed.add_ports(d.ports, prefix=f"{index}_")
-            elif add_ports_suffix:
-                packed.add_ports(d.ports, suffix=f"_{index}")
+                packed.add_ports(d.ports, prefix=f"{component_id}-")
             else:
-                try:
-                    packed.add_ports(d.ports)
-                except ValueError:
-                    packed.add_ports(d.ports, suffix=f"_{index}")
+                packed.add_ports(d.ports, suffix=f"-{component_id}")
 
             index += 1
 
@@ -287,13 +285,15 @@ def test_pack_with_settings() -> None:
 
 
 if __name__ == "__main__":
-    # test_pack()
+    # # test_pack()
     component_list = [
         gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(2)
     ]
     component_list += [
-        gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2)) for n in range(2)
+        gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2), name=f"r{n}")
+        for n in range(2)
     ]
+    # component_list = [gf.c.straight, gf.c.straight]
 
     components_packed_list = pack(
         component_list,  # Must be a list or tuple of Components

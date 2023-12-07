@@ -113,13 +113,13 @@ print(c)
 
 
 # %% [markdown]
-# Sometimes when you are changing the inside code of the function, you need to use `cache=False` to **ignore** the cache.
+# Sometimes when you are changing the inside code of the function, you need to remove the component from the cache to make sure the code runs again.
 #
-# Then make sure you remove `cache=False` once you are happy with the code inside the function.
+# This is useful when using jupyter notebooks or the file watcher.
 
 
 # %%
-@gf.cell(cache=False)
+@gf.cell
 def wg(length=10, width=1, layer=(1, 0)):
     print("BUILDING waveguide")
     c = gf.Component()
@@ -136,8 +136,11 @@ def wg(length=10, width=1, layer=(1, 0)):
 # %%
 
 c = wg()
+gf.remove_from_cache(c)
 c = wg()
+gf.remove_from_cache(c)
 c = wg()
+gf.remove_from_cache(c)
 
 
 # %% [markdown]

@@ -27,14 +27,14 @@ instances:
       route_info:
         length: 16.637
         n_bend_90: 1.0
-        type: xs_5d28b726
+        type: xs_7eb5a512
         weight: 16.637
-        xs_5d28b726_length: 16.637
+        xs_7eb5a512_length: 16.637
       width: 0.45
     settings:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -45,6 +45,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -74,14 +75,14 @@ instances:
       route_info:
         length: 16.637
         n_bend_90: 1.0
-        type: xs_5d28b726
+        type: xs_7eb5a512
         weight: 16.637
-        xs_5d28b726_length: 16.637
+        xs_7eb5a512_length: 16.637
       width: 0.45
     settings:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -92,6 +93,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -121,14 +123,14 @@ instances:
       route_info:
         length: 16.637
         n_bend_90: 1.0
-        type: xs_c75e0198
+        type: xs_5aa9fe91
         weight: 16.637
-        xs_c75e0198_length: 16.637
+        xs_5aa9fe91_length: 16.637
       width: 0.55
     settings:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -139,6 +141,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -168,14 +171,14 @@ instances:
       route_info:
         length: 16.637
         n_bend_90: 1.0
-        type: xs_c75e0198
+        type: xs_5aa9fe91
         weight: 16.637
-        xs_c75e0198_length: 16.637
+        xs_5aa9fe91_length: 16.637
       width: 0.55
     settings:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -186,6 +189,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -228,7 +232,7 @@ instances:
     info:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -239,6 +243,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -261,14 +266,14 @@ instances:
       length: 1.0
       route_info:
         length: 1.0
-        type: xs_c75e0198
+        type: xs_5aa9fe91
         weight: 1.0
-        xs_c75e0198_length: 1.0
+        xs_5aa9fe91_length: 1.0
       width: 0.55
     settings:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -279,6 +284,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -304,7 +310,7 @@ instances:
     info:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -315,6 +321,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -337,14 +344,14 @@ instances:
       length: 3.0
       route_info:
         length: 3.0
-        type: xs_c75e0198
+        type: xs_5aa9fe91
         weight: 3.0
-        xs_c75e0198_length: 3.0
+        xs_5aa9fe91_length: 3.0
       width: 0.55
     settings:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -355,6 +362,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -380,7 +388,7 @@ instances:
     info:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -391,6 +399,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -413,14 +422,14 @@ instances:
       length: 4.0
       route_info:
         length: 4.0
-        type: xs_c75e0198
+        type: xs_5aa9fe91
         weight: 4.0
-        xs_c75e0198_length: 4.0
+        xs_5aa9fe91_length: 4.0
       width: 0.55
     settings:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -431,6 +440,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -456,7 +466,7 @@ instances:
     info:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -467,6 +477,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -489,14 +500,14 @@ instances:
       length: 3.0
       route_info:
         length: 3.0
-        type: xs_c75e0198
+        type: xs_5aa9fe91
         weight: 3.0
-        xs_c75e0198_length: 3.0
+        xs_5aa9fe91_length: 3.0
       width: 0.55
     settings:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -507,6 +518,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -532,7 +544,7 @@ instances:
     info:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -543,6 +555,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -565,14 +578,14 @@ instances:
       length: 1.0
       route_info:
         length: 1.0
-        type: xs_5d28b726
+        type: xs_7eb5a512
         weight: 1.0
-        xs_5d28b726_length: 1.0
+        xs_7eb5a512_length: 1.0
       width: 0.45
     settings:
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -583,6 +596,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null

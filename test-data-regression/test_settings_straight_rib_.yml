@@ -1,4 +1,4 @@
-name: straight_0dd74e54
+name: straight_2f9e04e8
 ports:
   o1:
     center:
@@ -29,7 +29,9 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
+        radius: 20
+        radius_min: 20
         sections:
         - hidden: false
           insets: null
@@ -61,7 +63,9 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
+        radius: 20
+        radius_min: 20
         sections:
         - hidden: false
           insets: null
@@ -87,7 +91,9 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
+        radius: 20
+        radius_min: 20
         sections:
         - hidden: false
           insets: null
@@ -107,10 +113,10 @@ settings:
     length: 10.0
     route_info:
       length: 10.0
-      type: xs_f0722844
+      type: xs_f1ca4cff
       weight: 10.0
-      xs_f0722844_length: 10.0
+      xs_f1ca4cff_length: 10.0
     width: 0.5
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_0dd74e54
+  name: straight_2f9e04e8

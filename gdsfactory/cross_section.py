@@ -120,7 +120,8 @@ class CrossSection(BaseModel):
     Parameters:
         sections: tuple of Sections(width, offset, layer, ports).
         components_along_path: tuple of ComponentAlongPaths.
-        radius: route bend radius (um).
+        radius: default bend radius for routing (um).
+        radius_min: minimum acceptable bend radius.
         bbox_layers: layer to add as bounding box.
         bbox_offsets: offset to add to the bounding box.
         info: dictionary with extra information.
@@ -169,6 +170,7 @@ class CrossSection(BaseModel):
     sections: tuple[Section, ...] = Field(default_factory=tuple)
     components_along_path: tuple[ComponentAlongPath, ...] = Field(default_factory=tuple)
     radius: float | None = None
+    radius_min: float | None = None
     bbox_layers: LayerSpecs | None = None
     bbox_offsets: Floats | None = None
 
@@ -190,10 +192,11 @@ class CrossSection(BaseModel):
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
     ) -> None:
-        if self.radius and radius < self.radius:
+        radius_min = self.radius_min or self.radius
+
+        if radius_min and radius < radius_min:
             message = (
-                f"min_bend_radius {radius} < CrossSection.radius {self.radius}. "
-                "Increase CrossSection.radius or decrease the number of points"
+                f"min_bend_radius {radius} < CrossSection.radius_min {radius_min}. "
             )
 
             error_type = error_type or CONF.bend_radius_error_type
@@ -289,7 +292,10 @@ class CrossSection(BaseModel):
         sections = [s.model_copy(update=dict(offset=-s.offset)) for s in self.sections]
         return self.model_copy(update={"sections": tuple(sections)})
 
-    def add_pins(self, component: Component) -> Component:
+    def add_pins(self, component: Component, *args, **kwargs) -> Component:
+        """Add pins to a target component according to :class:`CrossSection`.
+        Args and kwargs are passed to the function defined by the `add_pins_function_name`.
+        """
         if self.add_pins_function_name is None:
             return component
 
@@ -300,7 +306,7 @@ class CrossSection(BaseModel):
                 f"add_pins_function_module = {self.add_pins_function_module}"
             )
         function = getattr(add_pins, self.add_pins_function_name)
-        return function(component=component)
+        return function(*args, component=component, **kwargs)
 
     def add_bbox(
         self,
@@ -398,6 +404,7 @@ def cross_section(
     cladding_offsets: Floats | None = None,
     cladding_simplify: Floats | None = None,
     radius: float | None = 10.0,
+    radius_min: float | None = None,
     add_pins_function_name: str | None = None,
     **kwargs,
 ) -> CrossSection:
@@ -418,6 +425,7 @@ def cross_section(
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
         radius: routing bend radius (um).
+        radius_min: min acceptable bend radius.
         add_pins_function_name: name of the function to add pins to the component.
 
 
@@ -509,6 +517,7 @@ def cross_section(
     return CrossSection(
         sections=tuple(s),
         radius=radius,
+        radius_min=radius_min,
         bbox_layers=bbox_layers,
         bbox_offsets=bbox_offsets,
         add_pins_function_name=add_pins_function_name,
@@ -519,31 +528,62 @@ def cross_section(
 radius_nitride = 20
 radius_rib = 20
 
-strip = partial(cross_section, add_pins_function_name="add_pins_inside1nm")
+strip = partial(cross_section, add_pins_function_name=None, radius=10, radius_min=5)
+strip_pins = partial(strip, add_pins_function_name="add_pins_inside1nm")
 strip_auto_widen = partial(strip, auto_widen=True)
-strip_no_pins = cross_section
+strip_no_pins = strip
 
 rib = partial(
     strip,
     sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),
+    radius=radius_rib,
+    radius_min=radius_rib,
 )
 rib2 = partial(
     strip,
     cladding_layers=("SLAB90",),
     cladding_offsets=(3,),
     cladding_simplify=(50 * nm,),
+    radius=radius_rib,
+    radius_min=radius_rib,
 )
 rib_bbox = partial(
     strip,
     bbox_layers=("SLAB90",),
     bbox_offsets=(3,),
+    radius=radius_rib,
+    radius_min=radius_rib,
 )
-nitride = partial(strip, layer="WGN", width=1.0)
+nitride = partial(
+    strip,
+    layer="WGN",
+    width=1.0,
+    radius=radius_nitride,
+    radius_min=radius_nitride,
+)
 strip_rib_tip = partial(
     strip,
     sections=(Section(width=0.2, layer="SLAB90", name="slab"),),
 )
-
+# fix under hre
+strip_nitride_tip = partial(
+    nitride,
+    sections=(
+        Section(width=0.2, layer="WGN", name="tip_nitride"),
+        Section(width=0.1, layer="WG", name="tip_silicon"),
+    ),
+)
+strip_nitride_silicon_tip = partial(
+    strip,
+    sections=(
+        Section(width=0.1, layer="WGN", name="tip_nitride"),
+        Section(width=0.2, layer="WG", name="tip_silicon"),
+    ),
+)
+strip_sc_tip = partial(
+    nitride,
+    sections=(Section(width=0.2, layer="WG", name="tip"),),
+)
 # L shaped waveguide (slab only on one side of the core)
 l_wg = partial(
     strip,
@@ -958,6 +998,7 @@ def pn(
     cladding_layers: LayerSpecs | None = None,
     cladding_offsets: Floats | None = None,
     cladding_simplify: Floats | None = None,
+    slab_inset: float | None = None,
     **kwargs,
 ) -> CrossSection:
     """Rib PN doped cross_section.
@@ -989,6 +1030,7 @@ def pn(
         cladding_simplify: Optional Tolerance value for the simplification algorithm. \
                 All points that can be removed without changing the resulting\
                 polygon by more than the value listed here will be removed.
+        slab_inset: slab inset in um.
         kwargs: cross_section settings.
 
     .. code::
@@ -1021,7 +1063,9 @@ def pn(
         c = p.extrude(xs)
         c.plot()
     """
-    slab = Section(width=width_slab, offset=0, layer=layer_slab)
+    slab_insets = (slab_inset,) * 2 if slab_inset else None
+
+    slab = Section(width=width_slab, offset=0, layer=layer_slab, insets=slab_insets)
 
     sections = list(sections or [])
     sections += [slab]
@@ -2324,15 +2368,19 @@ def get_cross_sections(
 xs_sc = strip()
 xs_sc_auto_widen = strip_auto_widen()
 xs_sc_no_pins = strip_no_pins()
+xs_sc_pins = strip_pins()
 
 xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
 xs_rc2 = rib2()
 xs_rc_bbox = rib_bbox()
 
 xs_sc_rc_tip = strip_rib_tip()
+xs_sc_nc_tip = strip_nitride_tip()
+xs_nc_sc_tip = strip_nitride_silicon_tip()
 xs_sc_heater_metal = strip_heater_metal()
 xs_sc_heater_metal_undercut = strip_heater_metal_undercut()
 xs_slot = slot()
+xs_nc = nitride()
 
 xs_heater_metal = heater_metal()
 xs_sc_heater_doped = strip_heater_doped()
@@ -2361,18 +2409,20 @@ cross_sections = get_cross_sections(sys.modules[__name__])
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    xs = gf.cross_section.strip(
-        # slab_offset=0
-        # offset=1,
-        # cladding_layers=[(2, 0)],
-        # cladding_offsets=[3],
-        bbox_layers=[(3, 0)],
-        bbox_offsets=[2],
-    )
-    xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0), name="slab")])
-    p = gf.path.straight()
-    c = p.extrude(xs)
-    c = gf.c.straight(cross_section=xs)
-    xs = pn()
+    # xs = gf.cross_section.pn(
+    #     # slab_offset=0
+    #     # offset=1,
+    #     # cladding_layers=[(2, 0)],
+    #     # cladding_offsets=[3],
+    #     # bbox_layers=[(3, 0)],
+    #     # bbox_offsets=[2],
+    #     # slab_inset=0.2,
+    # )
+    # xs = xs.append_sections(sections=[gf.Section(width=1.0, layer=(2, 0), name="slab")])
+    # p = gf.path.straight()
+    # c = p.extrude(xs)
+    # c = gf.c.straight(cross_section=xs)
+    # xs = pn(slab_inset=0.2)
+    xs = pn(width_slab=0)
     c = gf.c.straight(cross_section=xs)
     c.show()

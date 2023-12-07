@@ -127,7 +127,9 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
+        radius: 10
+        radius_min: 5
         sections:
         - hidden: false
           insets: null
@@ -195,7 +197,9 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_pins_function_name: add_pins_inside1nm
+        add_pins_function_name: null
+        radius: 10
+        radius_min: 5
         sections:
         - hidden: false
           insets: null

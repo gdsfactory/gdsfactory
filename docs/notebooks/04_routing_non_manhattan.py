@@ -85,6 +85,18 @@ c2.plot()
 # ![no gap](https://i.imgur.com/VbSgIjP.png)
 
 # %% [markdown]
+# ### Local flattening references.
+#
+# Sometimes this global `flatten_invalid_refs` can change your vias or other components by 1nm.
+#
+# You can also create a copy of the cell after applying `flatten_references`. This can be applied to a single cell.
+#
+
+# %%
+c3 = c1.flatten_invalid_refs()
+c3.plot()
+
+# %% [markdown]
 # ### Default PDK `GdsWriteSettings`
 # If you are frequently (or even sometimes!) creating geometries like this, with non-manhattan ports and/or references with non-90-degree rotations, I highly recommend that you set `flatten_invalid_refs=True` in your PDK's `GdsWriteSettings`. If you are the PDK author, you can do this in the definition of the pdk. Or, you can modify the PDK at runtime like.
 
