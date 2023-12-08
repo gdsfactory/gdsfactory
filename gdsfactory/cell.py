@@ -70,7 +70,8 @@ class Settings(BaseModel):
 
 # Type signature when calling as a decorator on a function
 @overload
-def cell(func: _F) -> _F: ...
+def cell(func: _F) -> _F:
+    ...
 
 
 # Type signature when calling the decorator itself (i.e., decorator factory)
@@ -89,8 +90,9 @@ def cell(
     default_decorator: Callable[[Component], Component] | None = None,
     add_settings: bool = True,
     validate: bool = False,
-    get_child_name: bool = False
-) -> Callable[[_F], _F]: ...
+    get_child_name: bool = False,
+) -> Callable[[_F], _F]:
+    ...
 
 
 def cell(
