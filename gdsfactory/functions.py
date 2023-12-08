@@ -278,6 +278,7 @@ def add_marker_layer(
     Returns:
         Same component with marker layer applied.
     """
+    component = gf.get_component(component)
     polygon = component.get_polygons(as_shapely_merged=True)
     component.add_polygon(polygon, layer=marker_layer)
     if marker_label:
