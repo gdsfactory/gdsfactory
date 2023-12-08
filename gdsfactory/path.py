@@ -517,7 +517,11 @@ def transition_exponential(y1, y2, exp=0.5):
         exp: exponent.
 
     """
-    return lambda t: y1 + (y2 - y1) * t**exp
+
+    def exponential(t):
+        return y1 + (y2 - y1) * t**exp
+
+    return exponential
 
 
 adiabatic_polyfit_TE1550SOI_220nm = np.array(
