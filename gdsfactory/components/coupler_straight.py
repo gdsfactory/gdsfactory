@@ -12,7 +12,7 @@ def coupler_straight(
     gap: float = 0.27,
     straight: Component = straight,
     cross_section: CrossSectionSpec = "xs_sc_no_pins",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Coupler_straight with two parallel straights.
 
@@ -34,7 +34,9 @@ def coupler_straight(
     x = gf.get_cross_section(cross_section, **kwargs)
 
     straight_component = straight(
-        length=length, cross_section=x, add_pins=False,
+        length=length,
+        cross_section=x,
+        add_pins=False,
     )
 
     top = component << straight_component
