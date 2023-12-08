@@ -6,7 +6,7 @@ import hashlib
 import inspect
 from collections.abc import Callable
 from functools import partial
-from typing import Any, TypeVar
+from typing import Any, TypeVar, overload
 
 from pydantic import BaseModel, validate_call
 
@@ -68,6 +68,31 @@ class Settings(BaseModel):
     child: dict[str, Any] | None = None
 
 
+# Type signature when calling as a decorator on a function
+@overload
+def cell(func: _F) -> _F: ...
+
+
+# Type signature when calling the decorator itself (i.e., decorator factory)
+# This one just returns a new decorator
+@overload
+def cell(
+    *,
+    autoname: bool = True,
+    max_name_length: int | None = None,
+    include_module: bool = False,
+    with_hash: bool = False,
+    ports_off_grid: str | None = None,
+    ports_not_manhattan: str | None = None,
+    flatten: bool = False,
+    naming_style: str = "default",
+    default_decorator: Callable[[Component], Component] | None = None,
+    add_settings: bool = True,
+    validate: bool = False,
+    get_child_name: bool = False
+) -> Callable[[_F], _F]: ...
+
+
 def cell(
     func: _F | None = None,
     /,
@@ -84,7 +109,7 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
-) -> Callable[[_F], _F]:
+):
     """Parametrized Decorator for Component functions.
 
     Args:
