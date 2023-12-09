@@ -1,12 +1,25 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.9.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.9.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.9.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.1) - 2023-12-09
 
-No significant changes.
-
+- Pass cross_section kwargs through coupler_straight [#2369](https://github.com/gdsfactory/gdsfactory/pull/2369)
+- Support `**kwargs` in `Path.extrude` [#2367](https://github.com/gdsfactory/gdsfactory/pull/2367)
+- Improve type annotations for gf.cell [#2368](https://github.com/gdsfactory/gdsfactory/pull/2368)
+- Actually support ComponentSpec in `add_marker_layer` [#2365](https://github.com/gdsfactory/gdsfactory/pull/2365)
+- Fixes show_subports not showing top-level Component ports [#2363](https://github.com/gdsfactory/gdsfactory/pull/2363)
+- clean up generic pdk cells and docs [#2362](https://github.com/gdsfactory/gdsfactory/pull/2362)
+- Exclude layers [#2358](https://github.com/gdsfactory/gdsfactory/pull/2358)
+- More flexible support for different connectors in `get_bundle_all_angle` [#2360](https://github.com/gdsfactory/gdsfactory/pull/2360)
+- avoid zero length polygons [#2356](https://github.com/gdsfactory/gdsfactory/pull/2356)
+- raise error on mutation [#2354](https://github.com/gdsfactory/gdsfactory/pull/2354)
+- improve non manhattan router docs [#2353](https://github.com/gdsfactory/gdsfactory/pull/2353)
+- better default settings and docs [#2352](https://github.com/gdsfactory/gdsfactory/pull/2352)
+- better straight_heater_meander [#2351](https://github.com/gdsfactory/gdsfactory/pull/2351)
+- add spiral_meander [#2350](https://github.com/gdsfactory/gdsfactory/pull/2350)
+- add round_corners_east_west and round_corners_north_south to rectangle [#2349](https://github.com/gdsfactory/gdsfactory/pull/2349)
 
 ## [7.9.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.0) - 2023-12-02
 
