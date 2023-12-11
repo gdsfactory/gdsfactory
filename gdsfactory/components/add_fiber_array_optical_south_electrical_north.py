@@ -85,6 +85,13 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_ports = r.get_ports_list(
         port_type="electrical", orientation=electrical_port_orientation
     )
+
+    if not electrical_ports:
+        raise ValueError(
+            f"No electrical ports found with orientation {electrical_port_orientation}. "
+            f"{r.pprint_ports()}"
+        )
+
     electrical_port_names = electrical_port_names or [p.name for p in electrical_ports]
 
     npads = npads or len(electrical_port_names)
