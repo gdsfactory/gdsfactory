@@ -15,7 +15,7 @@ from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, LayerSpecs
 @gf.cell
 def via_stack_slot(
     size=(11.0, 11.0),
-    layers: LayerSpecs = ("M1", "M2"),
+    layers: tuple[LayerSpecs | None, ...] = ("M1", "M2"),
     layer_offsets: Floats | None = (0, 1.0),
     layer_offsetsx: Floats | None = None,
     layer_offsetsy: Floats | None = None,
@@ -95,14 +95,15 @@ def via_stack_slot(
         )
 
     for layer, offsetx, offsety in zip(layers, layer_offsetsx, layer_offsetsy):
-        ref = c << compass(
-            size=(size[0] + 2 * offsetx, size[1] + 2 * offsety),
-            layer=layer,
-            port_type="electrical",
-        )
+        if layer:
+            ref = c << compass(
+                size=(size[0] + 2 * offsetx, size[1] + 2 * offsety),
+                layer=layer,
+                port_type="electrical",
+            )
 
-        if layer == layer_port:
-            c.add_ports(ref.ports)
+            if layer == layer_port:
+                c.add_ports(ref.ports)
 
     via = gf.get_component(via, size=(size[0] - 2 * enclosure, ysize))
 
@@ -122,7 +123,7 @@ via_stack_slot_slab_m1 = partial(
 
 
 if __name__ == "__main__":
-    c = via_stack_slot()
+    c = via_stack_slot(layers=[None] * 3)
     # c = via_stack_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=1, size=(3, 3))
     # c = via_stack_slot_m1_m2()
     # c = via_stack_slot_slab_m1()

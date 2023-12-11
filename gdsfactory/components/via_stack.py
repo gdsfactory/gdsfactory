@@ -15,7 +15,7 @@ from gdsfactory.typings import ComponentSpec, Float2, Floats, LayerSpec, LayerSp
 @gf.cell
 def via_stack(
     size=(11.0, 11.0),
-    layers: LayerSpecs = ("M1", "M2", "MTOP"),
+    layers: tuple[LayerSpec | None, ...] = ("M1", "M2", "MTOP"),
     layer_offsets: Floats | None = None,
     vias: tuple[ComponentSpec | None, ...] | None = (via1, via2, None),
     layer_port: LayerSpec | None = None,
@@ -67,10 +67,10 @@ def via_stack(
 
     for layer, offset in zip(layers, layer_offsets):
         size_m = (width_m + 2 * offset, height_m + 2 * offset)
-        if layer == layer_port:
+        if layer and layer == layer_port:
             ref = c << compass(size=size_m, layer=layer, port_type="electrical")
             c.add_ports(ref.ports)
-        else:
+        elif layer is not None:
             ref = c << compass(size=size_m, layer=layer, port_type="electrical")
 
     vias = vias or []
@@ -199,10 +199,10 @@ def via_stack_from_rules(
 
     for layer, offset in zip(layers, layer_offsets):
         size = (width + 2 * offset, height + 2 * offset)
-        if layer == layer_port:
+        if layer and layer == layer_port:
             ref = c << compass(size=size, layer=layer, port_type="electrical")
             c.add_ports(ref.ports)
-        else:
+        elif layer:
             ref = c << compass(size=size, layer=layer, port_type="electrical")
 
     vias = vias or []
@@ -338,5 +338,6 @@ via_stack_heater_mtop = via_stack_heater_m3 = partial(
 
 
 if __name__ == "__main__":
-    c = gf.pack([via_stack_slab_m3, via_stack_heater_mtop])[0]
+    # c = gf.pack([via_stack_slab_m3, via_stack_heater_mtop])[0]
+    c = via_stack_slab_m3(layers=[None] * 4)
     c.show(show_ports=True)
