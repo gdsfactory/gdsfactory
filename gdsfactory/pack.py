@@ -172,6 +172,8 @@ def pack(
     # Convert Components to rectangles
     rect_dict = {}
     for n, D in enumerate(component_list):
+        if not isinstance(D, Component):
+            raise ValueError(f"pack() failed because {D} is not a Component")
         w, h = (D.size + spacing) / precision
         w, h = int(w), int(h)
         if (w > max_size[0]) or (h > max_size[1]):
