@@ -106,6 +106,16 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_ports = [r[por_name] for por_name in electrical_port_names]
     nroutes = min(len(electrical_ports), npads)
 
+    if electrical_port_orientation and int(electrical_port_orientation) != 90:
+        routes, electrical_ports = gf.routing.route_ports_to_side(
+            ports=electrical_ports,
+            side="north",
+            cross_section=xs_metal,
+            separation=pad_spacing,
+        )
+        for route in routes:
+            c.add(route.references)
+
     ports1 = electrical_ports[:nroutes]
     ports2 = pads.get_ports_list(orientation=270)[:nroutes]
     routes = gf.routing.get_bundle_electrical(
