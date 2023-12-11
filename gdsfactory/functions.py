@@ -264,6 +264,7 @@ def add_marker_layer(
     marker_layer: LayerSpec,
     *,
     marker_label: str | None = None,
+    layers_to_mark: list[LayerSpec] | None = None,
     flatten: bool = False,
 ) -> Component:
     """Adds a marker layer from the convex hull of the input component.
@@ -273,13 +274,21 @@ def add_marker_layer(
     Args:
         marker_layer: The marker layer.
         marker_label: An optional text label to add to the marker layer.
+        layers_to_mark: Layers to use from component before taking convex hull. Defaults to all.
         flatten: Whether to flatten the component. Should be done only for elementary components.
 
     Returns:
         Same component with marker layer applied.
     """
     component = gf.get_component(component)
-    polygon = component.get_polygons(as_shapely_merged=True)
+
+    if layers_to_mark:
+        c = gf.Component()
+        c.add_ref(component.extract(layers_to_mark))
+    else:
+        c = component
+    polygon = c.get_polygons(as_shapely_merged=True)
+
     component.add_polygon(polygon, layer=marker_layer)
     if marker_label:
         component.add_label(
