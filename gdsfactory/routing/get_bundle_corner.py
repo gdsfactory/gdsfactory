@@ -4,7 +4,7 @@ from collections.abc import Callable
 
 import numpy as np
 
-from gdsfactory.component_layout import _rotate_points
+from gdsfactory.component_layout import _rotate_points, pprint_ports
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import RouteError, generate_manhattan_waypoints
@@ -208,8 +208,17 @@ def _get_bundle_corner_waypoints(
     are_right = max(xs) < min(xe)
     are_left = min(xs) > max(xe)
 
-    assert are_above or are_below, "corner_bundle - ports should be below or above"
-    assert are_right or are_left, "corner_bundle - ports should be left or right"
+    if not (are_above or are_below):
+        raise ValueError(
+            f"corner_bundle error: Ports must be either above or below. "
+            f"{pprint_ports(ports1)}, {pprint_ports(ports2)}"
+        )
+
+    if not (are_right or are_left):
+        raise ValueError(
+            f"corner_bundle error: Ports must be either right or left. "
+            f"{pprint_ports(ports1)}, {pprint_ports(ports2)}"
+        )
 
     start_sort_type = ["Y", "-X", "-Y", "X"]
 

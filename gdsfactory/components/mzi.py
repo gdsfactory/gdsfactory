@@ -24,6 +24,7 @@ def mzi(
     straight_y: ComponentSpec | None = None,
     straight_x_top: ComponentSpec | None = None,
     straight_x_bot: ComponentSpec | None = None,
+    extend_ports_straight_x: float | None = None,
     splitter: ComponentSpec = "mmi1x2",
     combiner: ComponentSpec | None = None,
     with_splitter: bool = True,
@@ -50,6 +51,7 @@ def mzi(
         straight_y: straight for length_y and delta_length.
         straight_x_top: top straight for length_x.
         straight_x_bot: bottom straight for length_x.
+        extend_ports_straight_x: optional extend ports for straight_x_bot/top.
         splitter: splitter function.
         combiner: combiner function.
         with_splitter: if False removes splitter.
@@ -114,6 +116,12 @@ def mzi(
         if length_x
         else gf.get_component(straight_x_top)
     )
+
+    if extend_ports_straight_x:
+        straight_x_top = gf.c.extend_ports(
+            straight_x_top, length=extend_ports_straight_x
+        )
+
     length_x = length_x or straight_x_top.get_ports_xsize()
 
     syl = c << gf.get_component(
@@ -130,6 +138,10 @@ def mzi(
         if length_x
         else gf.get_component(straight_x_bot)
     )
+    if extend_ports_straight_x:
+        straight_x_bot = gf.c.extend_ports(
+            straight_x_bot, length=extend_ports_straight_x
+        )
     sxb = c << straight_x_bot
     if mirror_bot:
         sxb.mirror()

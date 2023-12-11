@@ -3671,7 +3671,7 @@ from functools import partial to all files and makes the docs cleaner by renderi
 - `xs2 = partial(cross_section)` does not require defining `xs2.__name__`
 - replace gf.extend[.] with gf.components.extension.
 - Component.show() uses `add_pins_triangle` as default to show port orientation
-- add gf.comtainers.bend_port
+- add gf.containers.bend_port
 - get_netlist considers x,y,width to extract port connectivity
 
 ## 3.0.1
