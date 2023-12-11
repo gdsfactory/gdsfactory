@@ -8,13 +8,13 @@ from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper
-from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
+from gdsfactory.components.taper_from_csv import taper_from_csv
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell_with_child
 def cutback_component(
-    component: ComponentSpec = taper_0p5_to_3_l36,
+    component: ComponentSpec = taper_from_csv,
     cols: int = 4,
     rows: int = 5,
     port1: str = "o1",

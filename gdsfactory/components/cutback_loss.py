@@ -17,6 +17,7 @@ def cutback_loss(
     loss_dB: float = 10e-3,
     cols: int | None = 4,
     rows: int | None = None,
+    decorator: ComponentFactory | None = None,
     **kwargs,
 ) -> list[gf.Component]:
     """Returns a list of component cutbacks.
@@ -49,18 +50,23 @@ def cutback_loss(
     elif rows is None:
         rows_list = loss / loss_dB / cols
         rows_list = rows_list // 2 * 2 + 1
-        return [
+        components = [
             cutback(component=component, rows=int(rows), cols=cols, **kwargs)
             for rows in rows_list
         ]
     elif cols is None:
         cols_list = loss / loss_dB / rows
-        return [
+        components = [
             cutback(component=component, rows=rows, cols=int(cols), **kwargs)
             for cols in cols_list
         ]
+
     else:
         raise ValueError("Specify either cols or rows")
+
+    if decorator:
+        components = [decorator(component) for component in components]
+    return components
 
 
 def cutback_loss_spirals(

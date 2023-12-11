@@ -1127,7 +1127,8 @@ class Component(_GeometryHelper):
             if hasattr(points, "properties"):
                 polygon.properties = deepcopy(points.properties)
 
-            self._add_polygons(polygon)
+            if polygon.area() > 0:
+                self._add_polygons(polygon)
             return polygon
 
         elif hasattr(points, "geoms"):
@@ -1151,11 +1152,18 @@ class Component(_GeometryHelper):
             points = snap.snap_to_grid(points) if snap_to_grid else points
             layer, datatype = _parse_layer(layer)
             polygon = Polygon(points, (layer, datatype))
-            self._add_polygons(polygon)
+            if polygon.area() > 0:
+                self._add_polygons(polygon)
             return polygon
         elif points.ndim == 3:
             layer, datatype = _parse_layer(layer)
-            polygons = [Polygon(ppoints, (layer, datatype)) for ppoints in points]
+
+            polygons = []
+            for polygon_points in points:
+                polygon = Polygon(polygon_points, (layer, datatype))
+                if polygon.area() > 0:
+                    polygons.append(polygon)
+
             self._add_polygons(*polygons)
             return polygons
         else:
@@ -1186,7 +1194,8 @@ class Component(_GeometryHelper):
             datatype=datatype,
         )
         for polygon in polygons:
-            self._add_polygons(polygon)
+            if polygon.area() > 0:
+                self._add_polygons(polygon)
         return polygon
 
     def _add_polygons(self, *polygons: list[Polygon]) -> None:
@@ -1233,10 +1242,14 @@ class Component(_GeometryHelper):
     def is_unlocked(self) -> None:
         """Raises warning if Component is locked."""
         if self._locked:
-            warnings.warn(
+            message = (
                 f"Component {self.name!r} is dangerous to modify as it's already "
                 "on cache and will change all of its references. "
             )
+            if CONF.raise_error_on_mutation:
+                raise MutabilityError(message)
+            else:
+                warnings.warn(message)
 
     def _add(self, element) -> None:
         """Add a new element or list of elements to this Component.
@@ -1754,7 +1767,7 @@ class Component(_GeometryHelper):
         )
 
         if show_subports:
-            component = self.copy()
+            component = component.copy()
             for reference in component.references:
                 if isinstance(component, ComponentReference):
                     add_pins_triangle(

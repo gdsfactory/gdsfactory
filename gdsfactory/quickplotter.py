@@ -60,6 +60,7 @@ _quickplot_options = {
     "zoom_factor": 1.4,
     "interactive_zoom": None,
     "fontsize": 14,
+    "hide_layers": [],
 }
 
 
@@ -217,6 +218,7 @@ def quickplot(items, **kwargs):  # noqa: C901
     label_aliases = quickplot_options["label_aliases"]
     new_window = quickplot_options["new_window"]
     blocking = quickplot_options["blocking"]
+    hide_layers = quickplot_options["hide_layers"]
 
     if new_window:
         fig, ax = plt.subplots(1)
@@ -243,21 +245,22 @@ def quickplot(items, **kwargs):  # noqa: C901
         if isinstance(item, Component | ComponentReference):
             polygons_spec = item.get_polygons(by_spec=True, depth=None)
             for key in sorted(polygons_spec):
-                polygons = polygons_spec[key]
-                layer_view = (
-                    LAYER_VIEWS.get_from_tuple(key)
-                    if key in all_lv_tuples
-                    else LayerView(layer=key)
-                )
-                colors = layer_view.get_color_dict()
-                new_bbox = _draw_polygons(
-                    polygons,
-                    ax,
-                    facecolor=colors["fill_color"],
-                    edgecolor=colors["frame_color"],
-                    alpha=layer_view.get_alpha(),
-                )
-                bbox = _update_bbox(bbox, new_bbox)
+                if key not in hide_layers:
+                    polygons = polygons_spec[key]
+                    layer_view = (
+                        LAYER_VIEWS.get_from_tuple(key)
+                        if key in all_lv_tuples
+                        else LayerView(layer=key)
+                    )
+                    colors = layer_view.get_color_dict()
+                    new_bbox = _draw_polygons(
+                        polygons,
+                        ax,
+                        facecolor=colors["fill_color"],
+                        edgecolor=colors["frame_color"],
+                        alpha=layer_view.get_alpha(),
+                    )
+                    bbox = _update_bbox(bbox, new_bbox)
             # If item is a Component or ComponentReference, draw ports
             if isinstance(item, Component | ComponentReference) and show_ports is True:
                 for port in item.ports.values():

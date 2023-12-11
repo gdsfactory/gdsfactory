@@ -27,7 +27,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "7.9.0"
+__version__ = "7.9.1"
 PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
@@ -226,6 +226,7 @@ class Settings(BaseSettings):
         default="warn", description="When connecting ports with different types."
     )
     default_show_suffix: Literal[".oas", ".gds"] = ".gds"
+    raise_error_on_mutation: bool = True
 
     @classmethod
     def from_config(cls) -> Settings:

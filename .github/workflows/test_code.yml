@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
           make install
-          make data-download
+          make test-data
           pip freeze > requirements.txt
           pip freeze
       - name: Test with pytest
@@ -64,7 +64,7 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: |
-          make install data-download
+          make install test-data
       - name: Test with pytest
         run: |
           pytest --cov=gdsfactory

@@ -35,8 +35,6 @@ settings:
     cols: 4
     component:
       function: taper_from_csv
-      settings:
-        filepath: taper_strip_0p5_3_36
     cross_section: xs_sc
     mirror: false
     mirror1: false
@@ -54,8 +52,6 @@ settings:
     cols: 4
     component:
       function: taper_from_csv
-      settings:
-        filepath: taper_strip_0p5_3_36
     cross_section: xs_sc
     mirror: false
     mirror1: false
