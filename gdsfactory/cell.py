@@ -320,6 +320,7 @@ def cell(
                 raise ValueError(f"decorator = {type(decorator)} needs to be callable")
             component_new = decorator(component)
             component = component_new or component
+            CACHE[component_name] = component
 
         component.lock()
         CACHE_IDS.add(id(component))

@@ -1,6 +1,13 @@
 import functools
 
+import gdsfactory as gf
 from gdsfactory import Component, cell
+
+
+def test_cell_decorator():
+    c1 = gf.c.straight(length=11.123, decorator=gf.routing.add_fiber_array)
+    c2 = gf.c.straight(length=11.123, decorator=gf.routing.add_fiber_array)
+    assert c1 is c2
 
 
 @cell
