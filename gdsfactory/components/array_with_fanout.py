@@ -61,7 +61,13 @@ def array_with_fanout(
         )
         port_s1, port_s2 = straight_ref.get_ports_list()
 
-        straight_ref.connect(port_s2.name, ref.ports[component_port_name])
+        straight_ref.connect(
+            port_s2.name,
+            ref.ports[component_port_name],
+            allow_width_mismatch=True,
+            allow_layer_mismatch=True,
+            allow_type_mismatch=True,
+        )
 
         bend_ref = c.add_ref(bend)
         bend_ref.connect(bend_port_name1, straight_ref.ports[port_s1.name])

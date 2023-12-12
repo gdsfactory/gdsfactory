@@ -767,10 +767,17 @@ class ComponentReference(_GeometryHelper):
             overlap: how deep does the port go inside.
             preserve_orientation: True, does not rotate the reference to align port
                 orientation and reference keep its orientation pre-connection.
+            allow_width_mismatch: if True, does not check if port width matches destination.
+            allow_layer_mismatch: if True, does not check if port layer matches destination.
+            allow_type_mismatch: if True, does not check if port type matches destination.
 
         Returns:
             ComponentReference: with correct rotation to connect to destination.
         """
+        from gdsfactory.pdk import get_active_pdk
+
+        pdk = get_active_pdk()
+
         # port can either be a string with the name, port index, or an actual Port
         if port in self.ports:
             p = self.ports[port]
@@ -781,6 +788,10 @@ class ComponentReference(_GeometryHelper):
             raise ValueError(
                 f"port = {port!r} not in {self.parent.name!r} ports {ports}"
             )
+
+        allow_width_mismatch = (
+            p.layer in pdk.allow_width_mismatch_layers or allow_width_mismatch
+        )
 
         if (
             destination.orientation is not None

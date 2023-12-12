@@ -220,10 +220,10 @@ class Settings(BaseSettings):
         default="warn", description="When connecting ports with different width."
     )
     on_layer_missmatch: Literal["warn", "error", "ignore"] = Field(
-        default="warn", description="When connecting ports with different layers."
+        default="ignore", description="When connecting ports with different layers."
     )
     on_type_missmatch: Literal["warn", "error", "ignore"] = Field(
-        default="warn", description="When connecting ports with different types."
+        default="ignore", description="When connecting ports with different types."
     )
     default_show_suffix: Literal[".oas", ".gds"] = ".gds"
     raise_error_on_mutation: bool = True

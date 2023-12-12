@@ -256,6 +256,7 @@ class Pdk(BaseModel):
     cell_decorator_settings: CellDecoratorSettings = CellDecoratorSettings()
     bend_points_distance: float = 20 * nm
     connectivity: list[ConnectivitySpec] | None = None
+    allow_width_mismatch_layers: list[Layer] = Field(default_factory=list)
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
