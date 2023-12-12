@@ -5,8 +5,15 @@
 
 ## [7.9.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.2) - 2023-12-11
 
-No significant changes.
-
+- Remove warnings [#2380](https://github.com/gdsfactory/gdsfactory/pull/2380)
+- Support straight, bend & taper factories in heater meander [#2378](https://github.com/gdsfactory/gdsfactory/pull/2378)
+- fix cell decorator [#2379](https://github.com/gdsfactory/gdsfactory/pull/2379)
+- Select layers to extract in `add_marker_layer` [#2375](https://github.com/gdsfactory/gdsfactory/pull/2375)
+- make via_stack layers optional [#2374](https://github.com/gdsfactory/gdsfactory/pull/2374)
+- better error message for pack [#2373](https://github.com/gdsfactory/gdsfactory/pull/2373)
+- Improve routing [#2372](https://github.com/gdsfactory/gdsfactory/pull/2372)
+- [pre-commit.ci] pre-commit autoupdate [#2371](https://github.com/gdsfactory/gdsfactory/pull/2371)
+- Update kfactory[git,ipy] requirement from <0.10,>=0.9.1 to >=0.9.1,<0.11 [#2370](https://github.com/gdsfactory/gdsfactory/pull/2370)
 
 ## [7.9.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.1) - 2023-12-09
 
