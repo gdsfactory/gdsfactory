@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import warnings
+
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.cross_section import strip
@@ -52,6 +54,9 @@ def get_routes_bend180(
         c.plot()
 
     """
+    warnings.warn(
+        "This function is deprecated and will be removed in next major release."
+    )
     ports = list(ports.values()) if isinstance(ports, dict) else ports
     bend = bend(angle=180, cross_section=cross_section, **kwargs)
 

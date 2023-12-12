@@ -77,8 +77,6 @@ fanout
 .. autosummary::
    :toctree: _autosummary/
 
-   get_routes_bend180
-   get_routes_straight
    get_route_sbend
    get_bundle_sbend
    fanout2x2
