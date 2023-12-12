@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import warnings
+
 import gdsfactory as gf
 from gdsfactory.components.straight import straight
 from gdsfactory.difftest import difftest
@@ -35,6 +37,9 @@ def get_routes_straight(
         c.plot()
 
     """
+    warnings.warn(
+        "This function is deprecated and will be removed in next major release."
+    )
     ports = list(ports.values()) if isinstance(ports, dict) else ports
     straight = straight(**kwargs)
     references = [straight.ref() for _ in ports]

@@ -789,9 +789,8 @@ class ComponentReference(_GeometryHelper):
                 f"port = {port!r} not in {self.parent.name!r} ports {ports}"
             )
 
-        allow_width_mismatch = (
-            p.layer in pdk.allow_width_mismatch_layers or allow_width_mismatch
-        )
+        enforce_width_mismatch = p.layer in pdk.enforce_width_mismatch_layers
+        allow_width_mismatch = allow_width_mismatch or not enforce_width_mismatch
 
         if (
             destination.orientation is not None
@@ -805,7 +804,7 @@ class ComponentReference(_GeometryHelper):
         self.move(origin=p, destination=destination)
 
         if not np.isclose(p.width, destination.width) and not allow_width_mismatch:
-            message = f"Port width mismatch: {p.width} != {destination.width} in {self.parent.name}"
+            message = f"Port width mismatch: {p.width} != {destination.width} in {self.parent.name} on layer {p.layer}"
             if CONF.on_width_missmatch == "error":
                 raise ValueError(message)
             elif CONF.on_width_missmatch == "warn":
