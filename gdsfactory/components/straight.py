@@ -62,20 +62,16 @@ def straight(
 
 
 if __name__ == "__main__":
-    from functools import partial
-
     import gdsfactory as gf
-
-    # pdk = gf.get_active_pdk()
-    # pdk.default_decorator = gf.routing.add_fiber_array
-    f = partial(straight, length=100, decorator=gf.routing.add_fiber_array)
-    c = f()
-    # c = gf.routing.add_fiber_array(straight(length=10))
-    # c = straight(length=10)
-    c.show()
 
     # xs = gf.cross_section.pn()
     # xs = xs.mirror()
     # c = straight(cross_section=xs, info=dict(simulation="eme"))
     # print(c.info["simulation"])
-    # c = straight(length=10, decorator=gf.routing.add_fiber_array)
+    c = straight(length=0)
+    c.show()
+    print(c.bbox)
+    # c._repr_html_()
+    # c.show()
+    c.show(show_ports=True)
+    print(c.bbox)
