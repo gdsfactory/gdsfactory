@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.9.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.2) - 2023-12-11
+
+No significant changes.
+
+
 ## [7.9.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.1) - 2023-12-09
 
 - Pass cross_section kwargs through coupler_straight [#2369](https://github.com/gdsfactory/gdsfactory/pull/2369)
