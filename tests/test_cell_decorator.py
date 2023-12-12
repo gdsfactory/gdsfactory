@@ -1,6 +1,13 @@
 import functools
 
+import gdsfactory as gf
 from gdsfactory import Component, cell
+
+
+def test_cell_decorator():
+    c1 = gf.c.straight(length=11.123, decorator=gf.routing.add_fiber_array)
+    c2 = gf.c.straight(length=11.123, decorator=gf.routing.add_fiber_array)
+    assert c1 is c2
 
 
 @cell
@@ -67,3 +74,7 @@ def test_names() -> None:
     name_args = demo(3).name
     name_kwargs = demo(length=3).name
     assert name_args == name_kwargs, name_with_prefix
+
+
+if __name__ == "__main__":
+    test_cell_decorator()
