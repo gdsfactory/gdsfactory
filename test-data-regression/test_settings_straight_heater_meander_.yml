@@ -124,6 +124,8 @@ settings:
   changed: {}
   child: null
   default:
+    bend:
+      function: bend_euler
     cross_section:
       function: cross_section
       settings:
@@ -140,13 +142,22 @@ settings:
     port_orientation2: null
     radius: null
     spacing: 2.0
+    straight:
+      function: straight
     straight_widths:
     - 0.8
     - 0.9
     - 0.8
+    taper:
+      function: taper_cross_section
+      settings:
+        linear: true
+        npoints: 2
     taper_length: 10
     via_stack: via_stack_heater_mtop
   full:
+    bend:
+      function: bend_euler
     cross_section:
       function: cross_section
       settings:
@@ -163,10 +174,17 @@ settings:
     port_orientation2: null
     radius: null
     spacing: 2.0
+    straight:
+      function: straight
     straight_widths:
     - 0.8
     - 0.9
     - 0.8
+    taper:
+      function: taper_cross_section
+      settings:
+        linear: true
+        npoints: 2
     taper_length: 10
     via_stack: via_stack_heater_mtop
   function_name: straight_heater_meander
