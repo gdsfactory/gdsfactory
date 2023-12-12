@@ -43,7 +43,10 @@ def get_routes_straight(
     ports = list(ports.values()) if isinstance(ports, dict) else ports
     straight = straight(**kwargs)
     references = [straight.ref() for _ in ports]
-    references = [ref.connect("o1", port) for port, ref in zip(ports, references)]
+    references = [
+        ref.connect("o1", port, allow_width_mismatch=True)
+        for port, ref in zip(ports, references)
+    ]
     ports = [ref.ports["o2"] for ref in references]
     lengths = [straight.info["length"]] * len(ports)
     return Routes(references=references, ports=ports, lengths=lengths)
@@ -63,4 +66,12 @@ def test_get_routes_straight(check: bool = True) -> None:
 
 
 if __name__ == "__main__":
-    test_get_routes_straight(False)
+    c = gf.Component("get_routes_straight")
+    pad_array = gf.components.pad_array()
+    c1 = c << pad_array
+    c2 = c << pad_array
+    c2.ymax = -200
+
+    routes = get_routes_straight(ports=c1.get_ports_list(), length=200)
+    c.add(routes.references)
+    c.show()
