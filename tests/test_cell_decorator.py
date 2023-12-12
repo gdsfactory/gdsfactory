@@ -74,7 +74,3 @@ def test_names() -> None:
     name_args = demo(3).name
     name_kwargs = demo(length=3).name
     assert name_args == name_kwargs, name_with_prefix
-
-
-if __name__ == "__main__":
-    test_cell_decorator()
