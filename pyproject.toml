@@ -32,7 +32,6 @@ dependencies = [
   "scipy",
   "shapely<3",
   "toolz",
-  "tqdm",
   "types-PyYAML",
   "typer",
   "trimesh",
@@ -60,7 +59,7 @@ cad = [
   "mapbox_earcut",
   "networkx",
   "pyglet<2",
-  "scikit-image",
+  "scikit-image"
 ]
 dev = [
   "ipykernel",
