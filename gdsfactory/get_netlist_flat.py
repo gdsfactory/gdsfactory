@@ -163,7 +163,10 @@ def _map_connections_ports(
     # Starting point is ports of the leaf instance
     leaf_instance = hierarchy[-1][1]
     leaf_instance_name = hierarchy[-1][0].split(".")[-1]
-    leaf_instance_ports = list(gf.get_component(leaf_instance_name).ports.keys())
+    try:
+        leaf_instance_ports = list(gf.get_component(leaf_instance_name).ports.keys())
+    except ValueError:
+        leaf_instance_ports = []
 
     for leaf_portname in leaf_instance_ports:
         current_connections = []
@@ -211,9 +214,14 @@ def _accumulate_placements(
         hierarchy[:-1], hierarchy[1:]
     ):
         for key in ["x", "y", "mirror", "rotation"]:
-            placements[key] += all_netlists[higher_component]["placements"][
-                lower_instance
-            ][key]
+            value = (
+                all_netlists.get(higher_component, {})
+                .get("placements", {})
+                .get(lower_instance, {})
+                .get(key, None)
+            )
+            if value is not None:
+                placements[key] += value
 
     return {_flat_name(hierarchy): placements}
 
