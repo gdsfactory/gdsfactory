@@ -4,16 +4,18 @@ from collections.abc import Callable
 import numpy as np
 
 from gdsfactory.component import Component, ComponentReference, Port
+from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.config import CONF
 from gdsfactory.get_netlist import difference_between_angles
 from gdsfactory.path import Path, extrude
-from gdsfactory.pdk import get_component
 from gdsfactory.routing.auto_taper import (
     _get_taper_io_port_names,
     taper_to_cross_section,
 )
 from gdsfactory.typings import STEP_DIRECTIVES_ALL_ANGLE as STEP_DIRECTIVES
 from gdsfactory.typings import (
+    ComponentFactory,
     ComponentSpec,
     CrossSectionSpec,
     Route,
@@ -210,7 +212,7 @@ def straight_connector(
     port1: Port,
     port2: Port,
     cross_section: CrossSectionSpec = "xs_sc",
-    straight: ComponentSpec = "straight",
+    straight: ComponentFactory = straight_function,
 ) -> list[ComponentReference]:
     """
     Connects between the two ports with a straight of the given cross-section.
@@ -219,7 +221,7 @@ def straight_connector(
         port1: the starting port.
         port2: the ending port.
         cross_section: the cross-section to use.
-        straight: ComponentSpec for straights to use
+        straight: Component function for straights to use.
 
     Returns:
         A list of component references comprising the connection.
@@ -236,9 +238,7 @@ def straight_connector(
         )
 
     length = np.linalg.norm(port1.center - port2.center)
-    straight_component = get_component(
-        straight, length=length, cross_section=cross_section
-    )
+    straight_component = straight(length=length, cross_section=cross_section)
     straight_ref = ComponentReference(straight_component)
     straight_ref.connect(list(straight_component.ports.keys())[0], port1)
     return [straight_ref]
@@ -330,7 +330,7 @@ def _all_angle_connector(
     port2: Port,
     bend_angle: float,
     intersect: np.ndarray,
-    bend: ComponentSpec = "euler_bend",
+    bend: ComponentFactory = bend_euler,
     cross_section: CrossSectionSpec = "xs_sc",
     connector1: Connector = straight_connector,
     cross_section1: CrossSectionSpec | None = None,
@@ -500,7 +500,7 @@ def get_bundle_all_angle(
     ports2: list[Port],
     steps: list[StepAllAngle] | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
-    bend: ComponentSpec = "bend_euler",
+    bend: ComponentFactory = bend_euler,
     connector: str | Callable[..., list[ComponentReference]] = "low_loss",
     start_angle: float | None = None,
     end_angle: float | None = None,
