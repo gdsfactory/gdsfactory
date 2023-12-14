@@ -172,7 +172,7 @@ def straight_heater_meander(
             gf.cross_section.cross_section, width=heater_width, layer=layer_heater
         )
 
-        heater = c << straight(
+        heater = c << gf.c.straight(
             length=straight_length,
             cross_section=heater_cross_section,
         )
