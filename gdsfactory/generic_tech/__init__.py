@@ -71,6 +71,7 @@ def get_generic_pdk() -> Pdk:
         materials_index=materials_index,
         constants=constants,
         connectivity=LAYER_CONNECTIVITY,
+        enforce_width_mismatch_layers=[LAYER.WG],
     )
 
 

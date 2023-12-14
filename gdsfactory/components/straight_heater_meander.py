@@ -4,8 +4,10 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components import bend_euler, straight
+from gdsfactory.components.taper_cross_section import taper_cross_section_linear
 from gdsfactory.cross_section import strip
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpec
+from gdsfactory.typings import ComponentFactory, ComponentSpec, Floats, LayerSpec
 
 
 @gf.cell
@@ -24,6 +26,9 @@ def straight_heater_meander(
     straight_widths: Floats = (0.8, 0.9, 0.8),
     taper_length: float = 10,
     n: int | None = None,
+    straight: ComponentFactory = straight,
+    bend: ComponentFactory = bend_euler,
+    taper: ComponentFactory = taper_cross_section_linear,
 ) -> Component:
     """Returns a meander based heater.
 
@@ -47,6 +52,9 @@ def straight_heater_meander(
         straight_widths: widths of the straight sections.
         taper_length: from the cross_section.
         n: Optional number of passes. If None, it is calculated from the straight_widths.
+        straight: ComponentFactory for the straight sections.
+        bend: ComponentFactory for the bend sections.
+        taper: ComponentFactory for the photonic taper sections.
     """
     rows = n or len(straight_widths)
     c = gf.Component()
@@ -89,18 +97,18 @@ def straight_heater_meander(
     ##############
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
-        straight = gf.c.straight(
+        straight_i = straight(
             length=straight_length - 2 * taper_length, cross_section=cross_section1
         )
 
-        taper = partial(
-            gf.c.taper_cross_section_linear,
+        taper_lin = partial(
+            taper,
             cross_section1=cross_section1,
             cross_section2=cross_section2,
             length=taper_length,
         )
 
-        straight_with_tapers = gf.c.extend_ports(straight, extension=taper)
+        straight_with_tapers = gf.c.extend_ports(straight_i, extension=taper_lin)
 
         straight_ref = c << straight_with_tapers
         straight_ref.y = row * spacing
@@ -112,11 +120,11 @@ def straight_heater_meander(
     ##############
     for row in range(1, rows, 2):
         extra_length = 3 * (rows - row - 1) / 2 * radius
-        extra_straight1 = c << gf.c.straight(
+        extra_straight1 = c << straight(
             length=extra_length, cross_section=cross_section
         )
         extra_straight1.connect("o1", ports[f"o1_{row+1}"])
-        extra_straight2 = c << gf.c.straight(
+        extra_straight2 = c << straight(
             length=extra_length, cross_section=cross_section
         )
         extra_straight2.connect("o1", ports[f"o1_{row+2}"])
@@ -126,15 +134,17 @@ def straight_heater_meander(
             extra_straight2.ports["o2"],
             radius=radius,
             cross_section=cross_section,
+            straight=straight,
+            bend=bend,
         )
         c.add(route.references)
 
         extra_length = 3 * (row - 1) / 2 * radius
-        extra_straight1 = c << gf.c.straight(
+        extra_straight1 = c << straight(
             length=extra_length, cross_section=cross_section
         )
         extra_straight1.connect("o1", ports[f"o2_{row+1}"])
-        extra_straight2 = c << gf.c.straight(
+        extra_straight2 = c << straight(
             length=extra_length, cross_section=cross_section
         )
         extra_straight2.connect("o1", ports[f"o2_{row}"])
@@ -144,11 +154,13 @@ def straight_heater_meander(
             extra_straight2.ports["o2"],
             radius=radius,
             cross_section=cross_section,
+            straight=straight,
+            bend=bend,
         )
         c.add(route.references)
 
-    straight1 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
-    straight2 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
+    straight1 = c << straight(length=extension_length, cross_section=cross_section)
+    straight2 = c << straight(length=extension_length, cross_section=cross_section)
     straight1.connect("o2", ports["o1_1"])
     straight2.connect("o1", ports[f"o2_{rows}"])
 
