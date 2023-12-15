@@ -1,10 +1,13 @@
 """Read component from a numpy.ndarray."""
 from __future__ import annotations
 
+import pathlib
+
 import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.config import PATH
 from gdsfactory.geometry.boolean import boolean
 
 
@@ -64,17 +67,21 @@ def from_np(
 
 
 @cell
-def from_image(image_path: str, **kwargs) -> Component:
+def from_image(
+    image_path: str | pathlib.Path = PATH.module / "samples" / "images" / "logo.png",
+    nm_per_pixel: int = 20,
+    layer: tuple[int, int] = (1, 0),
+    threshold: float = 0.99,
+    invert: bool = True,
+) -> Component:
     """Returns Component from a png image.
 
     Args:
         image_path: png file path.
-
-    Keyword Args:
         nm_per_pixel: scale_factor.
         layer: layer tuple to output gds.
         threshold: value along which to find contours in the array.
-
+        invert: invert the mask. True by default.
     """
     import matplotlib.pyplot as plt
 
@@ -87,12 +94,16 @@ def from_image(image_path: str, **kwargs) -> Component:
     # Convert image to numpy array (in fact, plt.imread already returns a numpy array)
     img_array = np.array(img)
 
-    return from_np(img_array, **kwargs)
+    return from_np(
+        img_array,
+        nm_per_pixel=nm_per_pixel,
+        layer=layer,
+        threshold=threshold,
+        invert=invert,
+    )
 
 
 if __name__ == "__main__":
-    from gdsfactory.config import PATH
-
     # import gdsfactory as gf
     # c1 = gf.components.straight()
     # c1 = gf.components.bend_circular()

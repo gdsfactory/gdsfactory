@@ -20,6 +20,8 @@ def via_stack(
     vias: tuple[ComponentSpec | None, ...] | None = (via1, via2, None),
     layer_port: LayerSpec | None = None,
     correct_size: bool = True,
+    slot_horizontal: bool = False,
+    slot_vertical: bool = False,
 ) -> Component:
     """Rectangular via array stack.
 
@@ -42,6 +44,8 @@ def via_stack(
         layer_port: if None assumes port is on the last layer.
         correct_size: if True, if the specified dimensions are too small it increases
             them to the minimum possible to fit a via.
+        slot_horizontal: if True, then vias are horizontal.
+        slot_vertical: if True, then vias are vertical.
     """
     width_m, height_m = size
     a = width_m / 2
@@ -79,10 +83,26 @@ def via_stack(
             width, height = size
             width += 2 * offset
             height += 2 * offset
-            via = gf.get_component(via)
-            w, h = via.info["size"]
-            enclosure = via.info["enclosure"]
-            pitch_x, pitch_y = via.info["spacing"]
+            _via = gf.get_component(via)
+            w, h = _via.info["size"]
+            enclosure = _via.info["enclosure"]
+            pitch_x, pitch_y = _via.info["spacing"]
+
+            if slot_horizontal:
+                width = size[0] - 2 * enclosure
+                via = gf.get_component(via, size=(width, h))
+                nb_vias_x = 1
+                nb_vias_y = abs(height - h - 2 * enclosure) / pitch_y + 1
+
+            elif slot_vertical:
+                height = size[1] - 2 * enclosure
+                via = gf.get_component(via, size=(w, height))
+                nb_vias_x = abs(width - w - 2 * enclosure) / pitch_x + 1
+                nb_vias_y = 1
+            else:
+                via = _via
+                nb_vias_x = abs(width - w - 2 * enclosure) / pitch_x + 1
+                nb_vias_y = abs(height - h - 2 * enclosure) / pitch_y + 1
 
             min_width = w + enclosure
             min_height = h + enclosure
@@ -102,9 +122,6 @@ def via_stack(
                 height = max(min_height, height)
             elif min_width > width or min_height > height:
                 raise ValueError(f"size {size} is too small to fit a {(w, h)} um via")
-
-            nb_vias_x = abs(width - w - 2 * enclosure) / pitch_x + 1
-            nb_vias_y = abs(height - h - 2 * enclosure) / pitch_y + 1
 
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
@@ -338,6 +355,7 @@ via_stack_heater_mtop = via_stack_heater_m3 = partial(
 
 
 if __name__ == "__main__":
+    c = via_stack()
     # c = gf.pack([via_stack_slab_m3, via_stack_heater_mtop])[0]
-    c = via_stack_slab_m3(layers=[None] * 4)
+    # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
     c.show(show_ports=True)

@@ -66,6 +66,11 @@ def via_stack_slot(
         |_________________________________________|
 
     """
+
+    warnings.warn(
+        "via_stack_slot is deprecated, use via_stack instead", DeprecationWarning
+    )
+
     if size[0] - 2 * enclosure < 0:
         raise ValueError(
             f"via_stack length (size[0] = {size[0]}) < 2*enclosure ({2*enclosure}). "
