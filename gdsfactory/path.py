@@ -1049,10 +1049,14 @@ def extrude_transition(
         elif width_type == "parabolic":
             width = _parabolic_transition(width1, width2)
         elif callable(width_type):
-            width = width_type
+
+            def width_func(t):
+                return width_type(t, width1, width2)  # noqa: B023
+
+            width = width_func
         else:
             raise ValueError(
-                f"width_type={width_type!r} must be {'sine','linear','parabolic'}, or a Callable w(t) returning the width as a function of path position t."
+                f"width_type={width_type!r} must be {'sine','linear','parabolic'}, or a Callable w(t, width1, width2) returning the transition profile as a function of path position t."
             )
 
         if section1.layer != section2.layer:
