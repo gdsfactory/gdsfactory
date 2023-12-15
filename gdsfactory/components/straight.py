@@ -53,7 +53,10 @@ def straight(
     if add_pins:
         x.add_pins(c)
     c.info["length"] = length
-    c.info["width"] = x.sections[0].width
+    if len(x.sections) == 0:
+        c.info["width"] = x.width
+    else:
+        c.info["width"] = x.sections[0].width
     c.info["cross_section"] = cross_section
 
     c.add_route_info(cross_section=x, length=length)

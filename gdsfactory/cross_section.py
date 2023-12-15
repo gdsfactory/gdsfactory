@@ -377,7 +377,7 @@ class Transition(CrossSection):
 
     cross_section1: CrossSectionSpec
     cross_section2: CrossSectionSpec
-    width_type: WidthTypes = "sine"
+    width_type: WidthTypes | Callable = "sine"
 
     @property
     def width(self) -> tuple[float, float]:

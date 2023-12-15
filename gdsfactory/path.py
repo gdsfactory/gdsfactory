@@ -1048,9 +1048,15 @@ def extrude_transition(
             width = _sinusoidal_transition(width1, width2)
         elif width_type == "parabolic":
             width = _parabolic_transition(width1, width2)
+        elif callable(width_type):
+
+            def width_func(t):
+                return width_type(t, width1, width2)  # noqa: B023
+
+            width = width_func
         else:
             raise ValueError(
-                f"width_type={width_type!r} must be {'sine','linear','parabolic'}"
+                f"width_type={width_type!r} must be {'sine','linear','parabolic'}, or a Callable w(t, width1, width2) returning the transition profile as a function of path position t."
             )
 
         if section1.layer != section2.layer:
@@ -1592,26 +1598,33 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # P = gf.path.straight(length=10)
-    # s0 = gf.Section(
-    #     width=0.415, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    # )
-    # s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
-    # X1 = gf.CrossSection(sections=(s0, s1))
-    # s2 = gf.Section(
-    #     width=0.5, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    # )
-    # s3 = gf.Section(width=2.0, offset=0, layer=(3, 0), name="slab")
-    # X2 = gf.CrossSection(sections=(s2, s3))
-    # t = gf.path.transition(X1, X2, width_type="linear")
-    # c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
+    P = gf.path.straight(length=10)
+    s0 = gf.Section(
+        width=0.415, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    )
+    s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
+    X1 = gf.CrossSection(sections=(s0, s1))
+    s2 = gf.Section(
+        width=0.5, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    )
+    s3 = gf.Section(width=2.0, offset=0, layer=(3, 0), name="slab")
+    X2 = gf.CrossSection(sections=(s2, s3))
 
-    # w1 = 1
-    # w2 = 5
-    # x1 = gf.get_cross_section("xs_sc", width=w1)
-    # x2 = gf.get_cross_section("xs_sc", width=w2)
-    # trans = gf.path.transition(x1, x2)
-    # c = gf.components.bend_euler(radius=10, cross_section=trans)
-    xs = gf.cross_section.pn(slab_inset=-0.2)
-    c = gf.c.straight(cross_section=xs)
+    def width_type_function(t, w1, w2):
+        return w1 + (w2 - w1) * (t + 1) / 2
+
+    # t = gf.path.transition(X1, X2, width_type=width_type_function)
+    # c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
+    # c = gf.path.extrude(P, t)
+
+    w1 = 1
+    w2 = 5
+    x1 = gf.get_cross_section("xs_sc", width=w1)
+    x2 = gf.get_cross_section("xs_sc", width=w2)
+    trans = gf.path.transition(
+        x1, x2, width_type=lambda t: width_type_function(t, w1, w2)
+    )
+    c = gf.components.bend_euler(radius=10, cross_section=trans)
+    # xs = gf.cross_section.pn(slab_inset=-0.2)
+    # c = gf.c.straight(cross_section=xs)
     c.show(show_ports=True)
