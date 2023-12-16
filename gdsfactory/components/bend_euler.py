@@ -177,17 +177,23 @@ def bend_straight_bend(
         p=p,
         with_arc_floorplan=with_arc_floorplan,
         npoints=npoints,
-        direction=direction,
+        direction="ccw",
         cross_section=cross_section,
     )
     b1 = c.add_ref(b)
+    if direction == "cw":
+        b1.mirror_y()
     b2 = c.add_ref(b)
+    if direction == "cw":
+        b2.mirror_y()
     s = c << straight(length=straight_length, cross_section=cross_section)
     s.connect("o1", b1.ports["o2"])
     b2.mirror()
     b2.connect("o1", s.ports["o2"])
-    c.add_port("o1", port=b1.ports["o1"])
+
     c.add_port("o2", port=b2.ports["o2"])
+    c.add_port("o1", port=b1.ports["o1"])
+
     return c
 
 
@@ -226,5 +232,5 @@ def _compare_bend_euler90():
 
 
 if __name__ == "__main__":
-    c = bend_euler(cross_section="xs_rc", angle=30, radius=5)
+    c = bend_straight_bend(direction="cw")
     c.show(show_ports=True)
