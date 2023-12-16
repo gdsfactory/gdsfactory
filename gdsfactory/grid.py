@@ -9,7 +9,7 @@ from functools import partial
 import numpy as np
 
 from gdsfactory.cell import cell
-from gdsfactory.component import Component
+from gdsfactory.component import Component, valid_anchors
 from gdsfactory.component_layout import Group
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text_rectangular import text_rectangular
@@ -232,6 +232,10 @@ def grid_with_text(
     if text:
         for i, ref in enumerate(g.named_references.values()):
             for text_offset, text_anchor in zip(text_offsets, text_anchors):
+                if text_anchor not in valid_anchors:
+                    raise ValueError(
+                        f"Invalid anchor {text_anchor}. Valid anchors are {valid_anchors}"
+                    )
                 if labels:
                     if len(labels) > i:
                         label = labels[i]
@@ -266,23 +270,25 @@ def test_grid() -> None:
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
+
     # test_grid()
 
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
-    # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
+    c = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 10)]
     # c = [gf.components.triangle(x=i) for i in range(1, 10)]
     # print(len(c))
 
-    c = grid_with_component_name()
+    # c = grid_with_component_name()
     # c = grid_with_component_name([gf.components.straight(length=i) for i in range(1, 5)])
-    # c = grid(
-    #     c,
-    #     shape=(2, 2),
-    #     rotation=0,
-    #     h_mirror=False,
-    #     v_mirror=False,
-    #     spacing=(10, 10),
-    #     # text_offsets=((0, 100), (0, -100)),
-    #     # text_anchors=("nc", "sc"),
-    # )
+    c = grid_with_text(
+        c,
+        shape=(2, 2),
+        rotation=0,
+        h_mirror=False,
+        v_mirror=False,
+        spacing=(10, 10),
+        # text_offsets=((0, 100), (0, -100)),
+        text_anchors=("south",),
+    )
     c.show(show_ports=True)

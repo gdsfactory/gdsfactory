@@ -125,6 +125,30 @@ _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 name_counters = Counter()
 
 
+valid_anchor_point_keywords = [
+    "ce",
+    "cw",
+    "nc",
+    "ne",
+    "nw",
+    "sc",
+    "se",
+    "sw",
+    "center",
+    "cc",
+]
+valid_anchor_value_keywords = [
+    "south",
+    "west",
+    "east",
+    "north",
+]
+# refer to a singular (x or y) value
+
+valid_anchors = valid_anchor_point_keywords + valid_anchor_value_keywords
+# full set of valid anchor keywords (either referring to points or values)
+
+
 def _rnd(arr, precision=1e-4):
     arr = np.ascontiguousarray(arr)
     ndigits = round(-math.log10(precision))
