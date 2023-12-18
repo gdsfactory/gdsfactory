@@ -61,7 +61,13 @@ from omegaconf import DictConfig, OmegaConf
 
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import cell
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import (
+    Component,
+    ComponentReference,
+    valid_anchor_point_keywords,
+    valid_anchor_value_keywords,
+    valid_anchors,
+)
 from gdsfactory.typings import Route
 
 valid_placement_keys = [
@@ -93,31 +99,6 @@ valid_top_level_keys = [
     "schema",
     "schema_version",
 ]
-
-valid_anchor_point_keywords = [
-    "ce",
-    "cw",
-    "nc",
-    "ne",
-    "nw",
-    "sc",
-    "se",
-    "sw",
-    "center",
-    "cc",
-]
-# refer to an (x,y) Point
-
-valid_anchor_value_keywords = [
-    "south",
-    "west",
-    "east",
-    "north",
-]
-# refer to a singular (x or y) value
-
-valid_anchor_keywords = valid_anchor_point_keywords + valid_anchor_value_keywords
-# full set of valid anchor keywords (either referring to points or values)
 
 valid_route_keys = [
     "links",
@@ -186,12 +167,12 @@ def _move_ref(
         )
     if (
         port_name not in instances[instance_name_ref].ports
-        and port_name not in valid_anchor_keywords
+        and port_name not in valid_anchors
     ):
         ports = list(instances[instance_name_ref].ports.keys())
         raise ValueError(
             f"port = {port_name!r} can be a port_name in {ports}, "
-            f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
+            f"an anchor {valid_anchors} for {instance_name_ref!r}, "
             f"or `{x_or_y}: instanceName,portName`, got `{x_or_y}: {x!r}`"
         )
 
