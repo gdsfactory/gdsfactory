@@ -73,35 +73,3 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
-  test_docs:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      max-parallel: 12
-      matrix:
-        python-version: ["3.11"]
-        os: [ubuntu-latest]
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gdsfactory/
-          key: 0.0.1
-          restore-keys: 0.0.1
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          make dev
-      - name: Test documentation
-        env:
-          GDSFACTORY_DISPLAY_TYPE: klayout
-          KFACTORY_DISPLAY_TYPE: image
-        run: |
-          make docs
-      - name: Expose docs artifact
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: docs
-          path: docs/_build/html/

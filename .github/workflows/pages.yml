@@ -1,6 +1,7 @@
 name: Sphinx docs to gh-pages
 
 on:
+  pull_request:
   push:
     branches:
       - main
@@ -47,5 +48,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
+        if: ${{ github.ref == 'refs/heads/main' }}
         id: deployment
         uses: actions/deploy-pages@v2
