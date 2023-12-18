@@ -188,7 +188,9 @@ def component_sequence(
 
     # Add any extra port specified in ports_map
     for name, (alias, alias_port_name) in ports_map.items():
-        component.add_port(name=name, port=component[alias].ports[alias_port_name])
+        component.add_port(
+            name=name, port=component.named_references[alias].ports[alias_port_name]
+        )
 
     return component
 
