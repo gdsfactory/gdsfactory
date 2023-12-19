@@ -51,8 +51,8 @@ def offset(
       c2 = gf.geometry.offset(c1, distance=+d, layer=layer_slab)
       c3 = gf.geometry.offset(c2, distance=-d, layer=layer_slab)
 
-      c << c1.extract(layers=("WG",))
-      c << c3
+      _ = c << c1.extract(layers=("WG",))
+      _ = c << c3
       c.plot_matplotlib()
 
     """
@@ -103,6 +103,6 @@ if __name__ == "__main__":
     c2 = gf.geometry.offset(c1, distance=+d, layer=layer_slab)
     c3 = gf.geometry.offset(c2, distance=-d, layer=layer_slab)
 
-    c << c1.extract(layers=("WG",))
-    c << c3
+    _ = c << c1.extract(layers=("WG",))
+    _ = c << c3
     c.show()

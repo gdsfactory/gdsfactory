@@ -28,7 +28,7 @@ def taper_cross_section(
         length: transition length.
         npoints: number of points.
         linear: shape of the transition, sine when False.
-        width_type: shape of the transition ONLY IF linear is False
+        width_type: shape of the transition ONLY IF linear is False.
         kwargs: cross_section settings for both cross_sections.
 
 
