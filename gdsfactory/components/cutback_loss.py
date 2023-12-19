@@ -19,6 +19,7 @@ def cutback_loss(
     loss_dB: float = 10e-3,
     cols: int | None = 4,
     rows: int | None = None,
+    enforce_odd_rows: bool = True,
     decorator: ComponentFactory | None = None,
     **kwargs,
 ) -> list[gf.Component]:
@@ -35,6 +36,8 @@ def cutback_loss(
         loss_dB: loss per component.
         cols: number of columns.
         rows: number of rows.
+        enforce_odd_rows: if True, forces odd number of rows.
+        decorator: optional decorator function.
 
     Keyword Args:
         port1: name of first optical port.
@@ -49,22 +52,24 @@ def cutback_loss(
         kwargs: component settings.
 
     """
-    loss = np.array(list(loss))
+    loss = np.array(loss)
 
     if rows and cols:
         raise ValueError("Specify either cols or rows")
     elif rows is None:
-        rows_list = (loss / loss_dB) / 4 / cols
-        rows_list = rows_list // 2 * 2 + 1
+        rows_list = np.round(loss / loss_dB / 4 / cols)
+        if enforce_odd_rows:
+            rows_list = rows_list // 2 * 2 + 1
+
         components = [
-            cutback(component=component, rows=int(rows), cols=cols, **kwargs)
-            for rows in rows_list
+            cutback(component=component, rows=int(rows) or 1, cols=cols, **kwargs)
+            for rows in set(rows_list)
         ]
     elif cols is None:
-        cols_list = (loss / loss_dB) / 4 / rows
+        cols_list = np.round(loss / loss_dB / 4 / rows)
         components = [
-            cutback(component=component, rows=rows, cols=int(cols), **kwargs)
-            for cols in cols_list
+            cutback(component=component, rows=rows, cols=int(cols) or 1, **kwargs)
+            for cols in set(cols_list)
         ]
 
     else:
