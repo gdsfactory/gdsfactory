@@ -60,12 +60,12 @@ def taper_from_csv(
         cross_section=x,
     )
     if x.add_bbox:
-        c = x.add_bbox(c)
+        x.add_bbox(c)
     if x.add_pins:
         c = x.add_pins(c)
     return c
 
 
 if __name__ == "__main__":
-    c = taper_from_csv(cross_section="xs_rc")
+    c = taper_from_csv(cross_section=gf.cross_section.xs_rc_bbox)
     c.show(show_ports=True)
