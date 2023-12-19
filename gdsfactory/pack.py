@@ -6,6 +6,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import warnings
+from collections import Counter
 from typing import Any
 
 import numpy as np
@@ -16,6 +17,8 @@ from gdsfactory.component import Component, valid_anchors
 from gdsfactory.name import get_name_short
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import Anchor, ComponentSpec, Float2, Number
+
+name_counters = Counter()
 
 
 def _pack_single_bin(
@@ -196,6 +199,7 @@ def pack(
         packed_list.append(packed_rect_dict)
 
     components_packed_list = []
+    name_counter = Counter()
     index = 0
     for i, rect_dict in enumerate(packed_list):
         name = get_name_short(f"{name_prefix or 'pack'}_{i}")
@@ -214,6 +218,11 @@ def pack(
             d.center = snap_to_grid((xcenter * precision, ycenter * precision))
 
             component_id = component.name if name_ports_with_component_name else index
+
+            name_counter[component_id] += 1
+
+            if name_counter[component_id] > 1:
+                component_id = f"{component_id}${name_counter[component_id]}"
 
             if add_ports_prefix:
                 packed.add_ports(d.ports, prefix=f"{component_id}-")
