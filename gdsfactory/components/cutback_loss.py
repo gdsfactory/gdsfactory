@@ -22,11 +22,11 @@ def cutback_loss(
     decorator: ComponentFactory | None = None,
     **kwargs,
 ) -> list[gf.Component]:
-    """Returns a list of component cutbacks.
+    """Returns a list of component cutbacks with specified rows and columns to achieve the desired losses.
 
-    function is designed to create a list of photonic components with number of components to achieve specific optical losses.
+    Creates a list of components with number of components to achieve a list of specific optical losses.
     The function takes a base component and a cutback component factory as inputs, along with a list of target losses,
-    and generates a grid of these components with specified rows and columns to achieve the desired losses.
+    and returns a list of these components with specified rows and columns to achieve the desired losses.
 
     Args:
         component: component factory.
