@@ -179,4 +179,10 @@ def cutback_2x2(
 
 if __name__ == "__main__":
     c = cutback_2x2(cols=3, rows=2, mirror=True)
+    cols = range(1, 3)
+    rows = range(1, 3)
+    cs = [cutback_2x2(cols=col, rows=row) for col in cols for row in rows]
+    ncomponent_expected = [4 * col * row for col in cols for row in rows]
+    ncomponents = [c.info["components"] for c in cs]
+    print(ncomponents, ncomponent_expected)
     c.show(show_ports=True)

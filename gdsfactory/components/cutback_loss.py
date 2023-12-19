@@ -9,18 +9,24 @@ from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.spiral_inner_io import spiral_inner_io
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
+_loss_target = tuple(1 + 1 * i for i in range(3))
+
 
 def cutback_loss(
     component: ComponentFactory = mmi1x2,
     cutback: ComponentFactory = cutback_component,
-    loss: tuple[float, ...] = tuple(1 + 1 * i for i in range(3)),
+    loss: tuple[float, ...] = _loss_target,
     loss_dB: float = 10e-3,
     cols: int | None = 4,
     rows: int | None = None,
     decorator: ComponentFactory | None = None,
     **kwargs,
 ) -> list[gf.Component]:
-    """Returns a list of component cutbacks.
+    """Returns a list of component cutbacks with specified rows and columns to achieve the desired losses.
+
+    Creates a list of components with number of components to achieve a list of specific optical losses.
+    The function takes a base component and a cutback component factory as inputs, along with a list of target losses,
+    and returns a list of these components with specified rows and columns to achieve the desired losses.
 
     Args:
         component: component factory.
@@ -48,14 +54,14 @@ def cutback_loss(
     if rows and cols:
         raise ValueError("Specify either cols or rows")
     elif rows is None:
-        rows_list = loss / loss_dB / cols
+        rows_list = (loss / loss_dB) / 4 / cols
         rows_list = rows_list // 2 * 2 + 1
         components = [
             cutback(component=component, rows=int(rows), cols=cols, **kwargs)
             for rows in rows_list
         ]
     elif cols is None:
-        cols_list = loss / loss_dB / rows
+        cols_list = (loss / loss_dB) / 4 / rows
         components = [
             cutback(component=component, rows=rows, cols=int(cols), **kwargs)
             for cols in cols_list
@@ -111,6 +117,7 @@ if __name__ == "__main__":
     #     component=gf.c.mmi2x2, decorator=gf.routing.add_fiber_array
     # )
     # components = cutback_loss_mmi1x2(decorator=gf.routing.add_fiber_array)
-    components = cutback_loss_bend180(decorator=gf.routing.add_fiber_array)
-    c = gf.pack(components)[0]
+    components = cutback_loss_bend180()
+    # c = gf.pack(components)[0]
+    c = components[0]
     c.show()
