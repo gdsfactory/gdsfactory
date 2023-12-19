@@ -32,6 +32,8 @@ def cutback_component(
 
     Works only for components with 2 ports (input, output).
 
+    The number of components is given by cols * rows * 4.
+
     Args:
         component: for cutback.
         cols: number of columns.
@@ -95,7 +97,7 @@ def cutback_component(
     ref = c << seq
     c.add_ports(ref.ports)
 
-    n = 2 * s.count("A")
+    n = s.count("A") + s.count("B")
     c.copy_child_info(component)
     c.info["components"] = n
     return c
@@ -112,4 +114,12 @@ if __name__ == "__main__":
     c = cutback_component()
     # c = cutback_component_mirror(component=component_flipped)
     # c = gf.routing.add_fiber_single(c)
+
+    cols = range(1, 3)
+    rows = range(1, 3)
+    cs = [cutback_component(cols=col, rows=row) for col in cols for row in rows]
+    ncomponent_expected = [4 * col * row for col in cols for row in rows]
+    ncomponents = [c.info["components"] for c in cs]
+    print(ncomponents, ncomponent_expected)
+
     c.show(show_ports=True)
