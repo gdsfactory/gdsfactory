@@ -4,7 +4,7 @@ import gdsfactory as gf
 
 
 def test_get_ports() -> None:
-    c = gf.components.mzi_phase_shifter_top_heater_metal(length_x=123)
+    c = gf.components.mzi_phase_shifter(length_x=123)
 
     p = c.get_ports_dict()
     assert len(p) == 10, len(p)

@@ -356,6 +356,8 @@ class Port:
                 f"Port {self.name!r} orientation {self.orientation} "
                 "is not manhattan (0, 90, 180, 270).\n Non-manhattan ports can cause "
                 f"1nm snapping errors in Component {component_name}.\n"
+                "You can use Component.flatten_invalid_refs() to snap to grid."
+                "and use gf.config.enable_off_grid_ports() to disable this check."
             )
             if error_type not in valid_error_types:
                 raise ValueError(
@@ -525,6 +527,7 @@ def select_ports(
     port_type: str | None = None,
     names: list[str] | None = None,
     clockwise: bool = True,
+    sort_by_name: bool = False,
 ) -> dict[str, Port]:
     """Returns a dict of ports from a dict of ports.
 
@@ -538,6 +541,7 @@ def select_ports(
         layers_excluded: List of layers to exclude.
         port_type: select ports with port type (optical, electrical, vertical_te).
         clockwise: if True, sort ports clockwise, False: counter-clockwise.
+        sort_by_name: if True, sort ports by name.
 
     Returns:
         Dict containing the selected ports {port name: port}.
@@ -582,6 +586,10 @@ def select_ports(
         ports = sort_ports_clockwise(ports)
     else:
         ports = sort_ports_counter_clockwise(ports)
+
+    if sort_by_name:
+        ports = {name: ports[name] for name in sorted(ports)}
+
     return ports
 
 

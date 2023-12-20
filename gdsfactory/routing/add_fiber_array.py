@@ -170,22 +170,14 @@ def add_fiber_array(
     for port_component, port_grating in zip(
         ports_component, ports_grating_input_waveguide
     ):
-        grating_ref = port_grating.parent
         component_new.add_port(
-            f"opt-{grating_ref.parent.name}-{component_name}-{port_component.name}",
+            port_component.name,
             port=port_grating,
         )
 
     if ports_loopback:
-        grating_ref = ports_loopback[0].parent
-        component_new.add_port(
-            f"opt-{grating_ref.parent.name}-{component_name}-loopback_1",
-            port=ports_loopback[0],
-        )
-        component_new.add_port(
-            f"opt-{grating_ref.parent.name}-{component_name}-loopback_{len(ports)}",
-            port=ports_loopback[1],
-        )
+        component_new.add_port("loopback1", port=ports_loopback[0])
+        component_new.add_port("loopback2", port=ports_loopback[1])
 
     component_new.copy_child_info(component)
     component_new.info["grating_coupler"] = gc.info
@@ -232,9 +224,9 @@ if __name__ == "__main__":
     # pprint(cc.get_json())
     # c = gf.components.coupler(gap=0.2, length=5.6)
     # c = gf.components.straight()
-    c = gf.components.mmi2x2()
+    # c = gf.components.mmi2x2()
     # c = gf.components.ring_single()
-    # c = gf.components.straight_heater_metal()
+    c = gf.components.straight_heater_metal()
     # c = gf.components.spiral(direction="NORTH")
 
     # c = gf.components.bend_euler(info=dict(doe="bends"))

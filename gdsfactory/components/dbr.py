@@ -65,7 +65,7 @@ def dbr_cell(
     c = Component()
     c1 = c << straight(length=l1, cross_section=xs1)
     c2 = c << straight(length=l2, cross_section=xs2)
-    c2.connect(port="o1", destination=c1.ports["o2"])
+    c2.connect(port="o1", destination=c1.ports["o2"], allow_width_mismatch=True)
     c.add_port("o1", port=c1.ports["o1"])
     c.add_port("o2", port=c2.ports["o2"])
     return c

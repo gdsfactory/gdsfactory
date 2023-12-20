@@ -79,6 +79,8 @@ settings:
     size:
     - 11.0
     - 11.0
+    slot_horizontal: false
+    slot_vertical: false
     vias:
     - function: via
       settings:
@@ -100,6 +102,8 @@ settings:
     size:
     - 11.0
     - 11.0
+    slot_horizontal: false
+    slot_vertical: false
     vias:
     - function: via
       settings:

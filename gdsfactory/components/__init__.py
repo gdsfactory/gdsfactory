@@ -36,7 +36,6 @@ from gdsfactory.components.bend_euler import (
     bend_euler_s,
     bend_straight_bend,
 )
-from gdsfactory.components.bend_port import bend_port
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.bezier import bezier
 from gdsfactory.components.C import C
@@ -191,16 +190,18 @@ from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mmi2x2_with_sbend import mmi2x2_with_sbend
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
 from gdsfactory.components.mode_converter import mode_converter
-from gdsfactory.components.mzi import mzi, mzi1x2_2x2, mzi2x2_2x2, mzi_coupler
+from gdsfactory.components.mzi import (
+    mzi,
+    mzi1x2_2x2,
+    mzi2x2_2x2,
+    mzi2x2_2x2_phase_shifter,
+    mzi_coupler,
+    mzi_phase_shifter,
+)
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.mzi_arms import mzi_arms
 from gdsfactory.components.mzi_lattice import mzi_lattice, mzi_lattice_mmi
 from gdsfactory.components.mzi_pads_center import mzi_pads_center
-from gdsfactory.components.mzi_phase_shifter import (
-    mzi2x2_2x2_phase_shifter,
-    mzi_phase_shifter,
-    mzi_phase_shifter_top_heater_metal,
-)
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
 from gdsfactory.components.mzm import mzm
@@ -224,10 +225,10 @@ from gdsfactory.components.polarization_splitter_rotator import (
     polarization_splitter_rotator,
 )
 from gdsfactory.components.ramp import ramp
-from gdsfactory.components.rectangle import marker_te, marker_tm, rectangle, rectangles
+from gdsfactory.components.rectangle import rectangle, rectangles
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
 from gdsfactory.components.rectangular_ring import rectangular_ring
-from gdsfactory.components.regular_polygon import regular_polygon
+from gdsfactory.components.regular_polygon import hexagon, octagon, regular_polygon
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
 from gdsfactory.components.ring import ring
@@ -243,7 +244,7 @@ from gdsfactory.components.ring_single_bend_coupler import (
     coupler_bend,
     ring_single_bend_coupler,
 )
-from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
+from gdsfactory.components.ring_single_dut import ring_single_dut
 from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.ring_single_pn import ring_single_pn
 from gdsfactory.components.seal_ring import seal_ring
@@ -297,15 +298,7 @@ from gdsfactory.components.taper_cross_section import (
     taper_cross_section_parabolic,
     taper_cross_section_sine,
 )
-from gdsfactory.components.taper_from_csv import (
-    taper_0p5_to_3_l36,
-    taper_from_csv,
-    taper_w10_l100,
-    taper_w10_l150,
-    taper_w10_l200,
-    taper_w11_l200,
-    taper_w12_l200,
-)
+from gdsfactory.components.taper_from_csv import taper_from_csv
 from gdsfactory.components.taper_parabolic import taper_parabolic
 from gdsfactory.components.terminator import terminator
 from gdsfactory.components.text import text, text_lines
@@ -340,6 +333,8 @@ coupler_trenches = partial(add_trenches, component=coupler)
 ring_single_trenches = partial(add_trenches, component=ring_single)
 ring_double_trenches = partial(add_trenches, component=ring_double)
 
+spiral_meander = partial(straight_heater_meander, layer_heater=None, n=3, length=1e3)
+
 
 __all__ = [
     "C",
@@ -367,7 +362,6 @@ __all__ = [
     "bend_euler",
     "bend_euler180",
     "bend_euler_s",
-    "bend_port",
     "bend_s",
     "bend_straight_bend",
     "bezier",
@@ -485,8 +479,6 @@ __all__ = [
     "loss_deembedding_ch12_34",
     "loss_deembedding_ch13_24",
     "loss_deembedding_ch14_23",
-    "marker_te",
-    "marker_tm",
     "mmi",
     "mmi1x2",
     "mmi1x2_with_sbend",
@@ -505,7 +497,6 @@ __all__ = [
     "mzi_lattice_mmi",
     "mzi_pads_center",
     "mzi_phase_shifter",
-    "mzi_phase_shifter_top_heater_metal",
     "mzit",
     "mzit_lattice",
     "mzm",
@@ -564,6 +555,7 @@ __all__ = [
     "spiral_racetrack_heater_metal",
     "splitter_chain",
     "splitter_tree",
+    "spiral_meander",
     "staircase",
     "straight",
     "straight_array",
@@ -583,8 +575,6 @@ __all__ = [
     "straight_rib_tapered",
     "switch_tree",
     "taper",
-    "taper2",
-    "taper_0p5_to_3_l36",
     "taper_adiabatic",
     "taper_cross_section",
     "taper_cross_section_linear",
@@ -595,11 +585,6 @@ __all__ = [
     "taper_sc_nc",
     "taper_strip_to_ridge",
     "taper_strip_to_ridge_trenches",
-    "taper_w10_l100",
-    "taper_w10_l150",
-    "taper_w10_l200",
-    "taper_w11_l200",
-    "taper_w12_l200",
     "terminator",
     "text",
     "text_freetype",
@@ -631,7 +616,8 @@ __all__ = [
     "wire_corner45",
     "wire_sbend",
     "wire_straight",
-    "hexagon" "octagon",
+    "hexagon",
+    "octagon",
 ]
 
 cells = get_cells(sys.modules[__name__])

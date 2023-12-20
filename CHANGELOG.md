@@ -1,7 +1,67 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.8.17...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.9.1...main)
 
 <!-- towncrier release notes start -->
+
+## [7.9.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.2) - 2023-12-11
+
+- Remove warnings [#2380](https://github.com/gdsfactory/gdsfactory/pull/2380)
+- Support straight, bend & taper factories in heater meander [#2378](https://github.com/gdsfactory/gdsfactory/pull/2378)
+- fix cell decorator [#2379](https://github.com/gdsfactory/gdsfactory/pull/2379)
+- Select layers to extract in `add_marker_layer` [#2375](https://github.com/gdsfactory/gdsfactory/pull/2375)
+- make via_stack layers optional [#2374](https://github.com/gdsfactory/gdsfactory/pull/2374)
+- better error message for pack [#2373](https://github.com/gdsfactory/gdsfactory/pull/2373)
+- Improve routing [#2372](https://github.com/gdsfactory/gdsfactory/pull/2372)
+- [pre-commit.ci] pre-commit autoupdate [#2371](https://github.com/gdsfactory/gdsfactory/pull/2371)
+- Update kfactory[git,ipy] requirement from <0.10,>=0.9.1 to >=0.9.1,<0.11 [#2370](https://github.com/gdsfactory/gdsfactory/pull/2370)
+
+## [7.9.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.1) - 2023-12-09
+
+- Pass cross_section kwargs through coupler_straight [#2369](https://github.com/gdsfactory/gdsfactory/pull/2369)
+- Support `**kwargs` in `Path.extrude` [#2367](https://github.com/gdsfactory/gdsfactory/pull/2367)
+- Improve type annotations for gf.cell [#2368](https://github.com/gdsfactory/gdsfactory/pull/2368)
+- Actually support ComponentSpec in `add_marker_layer` [#2365](https://github.com/gdsfactory/gdsfactory/pull/2365)
+- Fixes show_subports not showing top-level Component ports [#2363](https://github.com/gdsfactory/gdsfactory/pull/2363)
+- clean up generic pdk cells and docs [#2362](https://github.com/gdsfactory/gdsfactory/pull/2362)
+- Exclude layers [#2358](https://github.com/gdsfactory/gdsfactory/pull/2358)
+- More flexible support for different connectors in `get_bundle_all_angle` [#2360](https://github.com/gdsfactory/gdsfactory/pull/2360)
+- avoid zero length polygons [#2356](https://github.com/gdsfactory/gdsfactory/pull/2356)
+- raise error on mutation [#2354](https://github.com/gdsfactory/gdsfactory/pull/2354)
+- improve non manhattan router docs [#2353](https://github.com/gdsfactory/gdsfactory/pull/2353)
+- better default settings and docs [#2352](https://github.com/gdsfactory/gdsfactory/pull/2352)
+- better straight_heater_meander [#2351](https://github.com/gdsfactory/gdsfactory/pull/2351)
+- add spiral_meander [#2350](https://github.com/gdsfactory/gdsfactory/pull/2350)
+- add round_corners_east_west and round_corners_north_south to rectangle [#2349](https://github.com/gdsfactory/gdsfactory/pull/2349)
+
+## [7.9.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.0) - 2023-12-02
+
+- improve readme [#2348](https://github.com/gdsfactory/gdsfactory/pull/2348)
+- use ruff instead of black [#2347](https://github.com/gdsfactory/gdsfactory/pull/2347)
+- add angle to edge_coupler_array [#2346](https://github.com/gdsfactory/gdsfactory/pull/2346)
+- preparing for minor release [#2345](https://github.com/gdsfactory/gdsfactory/pull/2345)
+- improve docstrings [#2344](https://github.com/gdsfactory/gdsfactory/pull/2344)
+- Support adding partialed cross_sections in taper cross section again [#2343](https://github.com/gdsfactory/gdsfactory/pull/2343)
+- fix add_tapers_cross_section [#2342](https://github.com/gdsfactory/gdsfactory/pull/2342)
+- Add info length taper cross section [#2341](https://github.com/gdsfactory/gdsfactory/pull/2341)
+- fix add_pads [#2340](https://github.com/gdsfactory/gdsfactory/pull/2340)
+- add radius_min [#2339](https://github.com/gdsfactory/gdsfactory/pull/2339)
+- Fix difftest bugs [#2337](https://github.com/gdsfactory/gdsfactory/pull/2337)
+- add functions for writing test_manifest [#2336](https://github.com/gdsfactory/gdsfactory/pull/2336)
+- Use shutil.copytree to install KLayout tech on Windows [#2332](https://github.com/gdsfactory/gdsfactory/pull/2332)
+- add_port can set the port info [#2333](https://github.com/gdsfactory/gdsfactory/pull/2333)
+- Allow labels on different layers when `label_layer=None` in `add_labels` [#2331](https://github.com/gdsfactory/gdsfactory/pull/2331)
+- Add pins in `taper_cross_section` [#2330](https://github.com/gdsfactory/gdsfactory/pull/2330)
+- [pre-commit.ci] pre-commit autoupdate [#2322](https://github.com/gdsfactory/gdsfactory/pull/2322)
+- Improve docstrings for `add_pins` [#2325](https://github.com/gdsfactory/gdsfactory/pull/2325)
+- Update pydantic requirement from <2.5,>=2 to >=2,<2.6 [#2321](https://github.com/gdsfactory/gdsfactory/pull/2321)
+
+
+## [7.8.18](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.18) - 2023-11-19
+
+- add wire corner kwargs [#2320](https://github.com/gdsfactory/gdsfactory/pull/2320)
+- enable sbend routes in get_route_from_steps [#2319](https://github.com/gdsfactory/gdsfactory/pull/2319)
+- Allow connections w/o vias in `KLayoutTechnology` [#2317](https://github.com/gdsfactory/gdsfactory/pull/2317)
+- snap detector to 2x grid [#2314](https://github.com/gdsfactory/gdsfactory/pull/2314)
 
 ## [7.8.17](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.8.17) - 2023-11-15
 
@@ -3623,7 +3683,7 @@ from functools import partial to all files and makes the docs cleaner by renderi
 - `xs2 = partial(cross_section)` does not require defining `xs2.__name__`
 - replace gf.extend[.] with gf.components.extension.
 - Component.show() uses `add_pins_triangle` as default to show port orientation
-- add gf.comtainers.bend_port
+- add gf.containers.bend_port
 - get_netlist considers x,y,width to extract port connectivity
 
 ## 3.0.1

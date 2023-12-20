@@ -1,25 +1,25 @@
 name: spiral_inner_io_fiber_array
 ports:
-  loopback_1:
+  loopback1:
     center:
     - -127.0
     - 46.0
     layer:
     - 1
     - 0
-    name: loopback_1
+    name: loopback1
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 0.5
-  loopback_2:
+  loopback2:
     center:
     - 254.0
     - 46.0
     layer:
     - 1
     - 0
-    name: loopback_2
+    name: loopback2
     orientation: 90.0
     port_type: optical
     shear_angle: null

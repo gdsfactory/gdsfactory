@@ -34,6 +34,8 @@ settings:
       function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
         sections:
         - hidden: false
           insets: null
@@ -60,6 +62,8 @@ settings:
       function: cross_section
       settings:
         add_pins_function_name: null
+        radius: 10
+        radius_min: 5
         sections:
         - hidden: false
           insets: null
@@ -82,7 +86,8 @@ settings:
     npoints: 2
     width_type: sine
   function_name: taper_cross_section
-  info: {}
+  info:
+    length: 10
   info_version: 2
   module: gdsfactory.components.taper_cross_section
   name: taper_cross_section_linearTrue_npoints2

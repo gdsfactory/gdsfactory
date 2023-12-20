@@ -2,7 +2,7 @@ import gdsfactory as gf
 from gdsfactory.components.grating_coupler_elliptical import (
     grating_coupler_elliptical_te,
 )
-from gdsfactory.components.mzi_phase_shifter import mzi_phase_shifter
+from gdsfactory.components.mzi import mzi_phase_shifter
 from gdsfactory.components.pad import pad_small
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -85,6 +85,13 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_ports = r.get_ports_list(
         port_type="electrical", orientation=electrical_port_orientation
     )
+
+    if not electrical_ports:
+        raise ValueError(
+            f"No electrical ports found with orientation {electrical_port_orientation}. "
+            f"{r.pprint_ports()}"
+        )
+
     electrical_port_names = electrical_port_names or [p.name for p in electrical_ports]
 
     npads = npads or len(electrical_port_names)
@@ -98,6 +105,16 @@ def add_fiber_array_optical_south_electrical_north(
 
     electrical_ports = [r[por_name] for por_name in electrical_port_names]
     nroutes = min(len(electrical_ports), npads)
+
+    if electrical_port_orientation and int(electrical_port_orientation) != 90:
+        routes, electrical_ports = gf.routing.route_ports_to_side(
+            ports=electrical_ports,
+            side="north",
+            cross_section=xs_metal,
+            separation=pad_spacing,
+        )
+        for route in routes:
+            c.add(route.references)
 
     ports1 = electrical_ports[:nroutes]
     ports2 = pads.get_ports_list(orientation=270)[:nroutes]
@@ -117,7 +134,7 @@ def add_fiber_array_optical_south_electrical_north(
 
 if __name__ == "__main__":
     c = add_fiber_array_optical_south_electrical_north(
-        info=dict(measurement_settings={"wavelength_min": 1550})
+        info=dict(measurement_settings={"wavelength_min": 1550}), name="my_mzi"
     )
 
     # d = json.loads(c.labels[0].text)

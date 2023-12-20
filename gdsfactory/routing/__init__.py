@@ -89,7 +89,6 @@ __all__ = [
     "get_route_from_steps_electrical",
     "get_route_from_steps_electrical_multilayer",
     "fanout2x2",
-    "fanout",
     "route_ports_to_side",
     "route_south",
     "route_quad",

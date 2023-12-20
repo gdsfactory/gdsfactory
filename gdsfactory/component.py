@@ -125,6 +125,30 @@ _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 name_counters = Counter()
 
 
+valid_anchor_point_keywords = [
+    "ce",
+    "cw",
+    "nc",
+    "ne",
+    "nw",
+    "sc",
+    "se",
+    "sw",
+    "center",
+    "cc",
+]
+valid_anchor_value_keywords = [
+    "south",
+    "west",
+    "east",
+    "north",
+]
+# refer to a singular (x or y) value
+
+valid_anchors = valid_anchor_point_keywords + valid_anchor_value_keywords
+# full set of valid anchor keywords (either referring to points or values)
+
+
 def _rnd(arr, precision=1e-4):
     arr = np.ascontiguousarray(arr)
     ndigits = round(-math.log10(precision))
@@ -888,7 +912,7 @@ class Component(_GeometryHelper):
         except ImportError:
             print(yaml.dump(self.to_dict()))
 
-    def pprint_ports(self, **kwargs) -> None:
+    def pprint_ports(self, sort_by_name: bool = True, **kwargs) -> None:
         """Prints ports in a rich table.
 
         Keyword Args:
@@ -903,7 +927,7 @@ class Component(_GeometryHelper):
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
 
-        pprint_ports(self.get_ports_list(**kwargs))
+        pprint_ports(self.get_ports_list(sort_by_name=sort_by_name, **kwargs))
 
     @property
     def metadata_child(self) -> dict:
@@ -934,6 +958,7 @@ class Component(_GeometryHelper):
         port_type: str | None = None,
         cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
+        info: dict[str, Any] | None = None,
     ) -> Port:
         """Add port to component.
 
@@ -952,6 +977,7 @@ class Component(_GeometryHelper):
             port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm. Defaults to optical.
             cross_section: port cross_section.
             shear_angle: an optional angle to shear port face in degrees.
+            info: Dict containing arbitrary information about the port.
         """
         from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -977,6 +1003,8 @@ class Component(_GeometryHelper):
                 p.shear_angle = shear_angle
             if cross_section is not None:
                 p.cross_section = cross_section
+            if info is not None:
+                p.info = info
             p.parent = self
 
         elif isinstance(name, Port):
@@ -1001,6 +1029,8 @@ class Component(_GeometryHelper):
                 shear_angle=shear_angle,
             )
             p.parent = self
+            if info is not None:
+                p.info = info
         if name is not None:
             p.name = name
         if p.name in self.ports:
@@ -1121,7 +1151,8 @@ class Component(_GeometryHelper):
             if hasattr(points, "properties"):
                 polygon.properties = deepcopy(points.properties)
 
-            self._add_polygons(polygon)
+            if polygon.area() > 0:
+                self._add_polygons(polygon)
             return polygon
 
         elif hasattr(points, "geoms"):
@@ -1145,11 +1176,18 @@ class Component(_GeometryHelper):
             points = snap.snap_to_grid(points) if snap_to_grid else points
             layer, datatype = _parse_layer(layer)
             polygon = Polygon(points, (layer, datatype))
-            self._add_polygons(polygon)
+            if polygon.area() > 0:
+                self._add_polygons(polygon)
             return polygon
         elif points.ndim == 3:
             layer, datatype = _parse_layer(layer)
-            polygons = [Polygon(ppoints, (layer, datatype)) for ppoints in points]
+
+            polygons = []
+            for polygon_points in points:
+                polygon = Polygon(polygon_points, (layer, datatype))
+                if polygon.area() > 0:
+                    polygons.append(polygon)
+
             self._add_polygons(*polygons)
             return polygons
         else:
@@ -1180,7 +1218,8 @@ class Component(_GeometryHelper):
             datatype=datatype,
         )
         for polygon in polygons:
-            self._add_polygons(polygon)
+            if polygon.area() > 0:
+                self._add_polygons(polygon)
         return polygon
 
     def _add_polygons(self, *polygons: list[Polygon]) -> None:
@@ -1227,10 +1266,14 @@ class Component(_GeometryHelper):
     def is_unlocked(self) -> None:
         """Raises warning if Component is locked."""
         if self._locked:
-            warnings.warn(
+            message = (
                 f"Component {self.name!r} is dangerous to modify as it's already "
                 "on cache and will change all of its references. "
             )
+            if CONF.raise_error_on_mutation:
+                raise MutabilityError(message)
+            else:
+                warnings.warn(message)
 
     def _add(self, element) -> None:
         """Add a new element or list of elements to this Component.
@@ -1748,7 +1791,7 @@ class Component(_GeometryHelper):
         )
 
         if show_subports:
-            component = self.copy()
+            component = component.copy()
             for reference in component.references:
                 if isinstance(component, ComponentReference):
                     add_pins_triangle(

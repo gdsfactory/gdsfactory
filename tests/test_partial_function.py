@@ -34,15 +34,3 @@ def test_partial_function_without_kwargs() -> None:
     c3 = r3()
 
     assert c1.name == c2.name == c3.name, f"{c1.name} == {c2.name} == {c3.name}"
-
-
-if __name__ == "__main__":
-    # test_partial_function_with_kwargs()
-    test_partial_function_without_kwargs()
-    # mmi400 = partial(gf.components.mmi1x2, width=0.4)
-    # mmi600 = partial(gf.components.mmi1x2, width=0.6)
-    # mzi400 = partial(gf.components.mzi, splitter=mmi400)
-    # mzi600 = partial(gf.components.mzi, splitter=mmi600)
-    # c400 = mzi400()
-    # c600 = mzi600()
-    # print(c400.name, c600.name)

@@ -7,11 +7,6 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
 
-  - repo: https://github.com/psf/black
-    rev: 23.11.0
-    hooks:
-      - id: black
-        # exclude: '^gdsfactory/samples/notebooks/|^docs/notebooks/'
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.6
@@ -21,10 +16,11 @@ repos:
           - tomli
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.1.5"
+    rev: "v0.1.8"
     hooks:
       - id: ruff
         args: [ --fix, --exit-non-zero-on-fix ]
+      - id: ruff-format
 
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
     rev: v2.11.0

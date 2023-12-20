@@ -1,4 +1,4 @@
-name: mmi1x2_d48edddc
+name: mmi1x2_44e6dc12
 ports:
   o1:
     center:
@@ -54,6 +54,7 @@ settings:
       info: {}
       min_length: 0.01
       radius: 10.0
+      radius_min: 5.0
       sections:
       - hidden: false
         insets: null
@@ -108,6 +109,7 @@ settings:
       info: {}
       min_length: 0.01
       radius: 10.0
+      radius_min: 5.0
       sections:
       - hidden: false
         insets: null
@@ -144,4 +146,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_d48edddc
+  name: mmi1x2_44e6dc12

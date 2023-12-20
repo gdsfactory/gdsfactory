@@ -24,7 +24,7 @@ def via_stack_with_offset(
     """Rectangular layer transition with offset between layers.
 
     Args:
-        layers: layer specs between vias.
+        layers: layer specs between vias. None for no layer.
         size: for all vias array.
         sizes: Optional size for each via array. Overrides size.
         layer_offsets: Optional offsets for each layer with respect to size.

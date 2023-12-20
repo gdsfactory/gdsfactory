@@ -34,6 +34,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -81,6 +82,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -126,6 +128,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -166,6 +169,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -202,6 +206,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -242,6 +247,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -278,6 +284,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null
@@ -318,6 +325,7 @@ instances:
         info: {}
         min_length: 0.01
         radius: 10.0
+        radius_min: 5.0
         sections:
         - hidden: false
           insets: null

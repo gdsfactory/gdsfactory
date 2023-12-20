@@ -679,58 +679,6 @@ for route in routes:
     c.add(route.references)
 c.plot()
 
-# %%
-c = gf.Component("get_bundle_with_ubends_bend_from_top")
-pad_array = gf.components.pad_array()
-
-c1 = c << pad_array
-c2 = c << pad_array
-c2.rotate(90)
-c2.movex(1000)
-c2.ymax = -200
-
-routes_bend180 = gf.routing.get_routes_bend180(
-    ports=c2.get_ports_list(),
-    radius=75 / 2,
-    cross_section=gf.cross_section.metal1,
-    bend_port1="e1",
-    bend_port2="e2",
-)
-c.add(routes_bend180.references)
-
-routes = gf.routing.get_bundle(
-    c1.get_ports_list(), routes_bend180.ports, cross_section=gf.cross_section.metal1
-)
-for route in routes:
-    c.add(route.references)
-c.plot()
-
-# %%
-c = gf.Component("get_bundle_with_ubends_bend_from_bottom")
-pad_array = gf.components.pad_array()
-
-c1 = c << pad_array
-c2 = c << pad_array
-c2.rotate(90)
-c2.movex(1000)
-c2.ymax = -200
-
-routes_bend180 = gf.routing.get_routes_bend180(
-    ports=c2.get_ports_list(),
-    radius=75 / 2,
-    cross_section=gf.cross_section.metal1,
-    bend_port1="e2",
-    bend_port2="e1",
-)
-c.add(routes_bend180.references)
-
-routes = gf.routing.get_bundle(
-    c1.get_ports_list(), routes_bend180.ports, cross_section=gf.cross_section.metal1
-)
-for route in routes:
-    c.add(route.references)
-c.plot()
-
 # %% [markdown]
 # **Problem**
 #

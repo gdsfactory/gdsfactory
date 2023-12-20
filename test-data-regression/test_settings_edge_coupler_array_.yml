@@ -64,6 +64,9 @@ settings:
   changed: {}
   child: null
   default:
+    angle: 0
+    bend:
+      function: bend_euler
     edge_coupler:
       function: taper
       settings:
@@ -80,6 +83,9 @@ settings:
     text_rotation: 0
     x_reflection: false
   full:
+    angle: 0
+    bend:
+      function: bend_euler
     edge_coupler:
       function: taper
       settings:

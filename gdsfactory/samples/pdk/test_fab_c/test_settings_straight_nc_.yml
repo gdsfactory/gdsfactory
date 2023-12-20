@@ -1,4 +1,4 @@
-name: straight_bf4cee07
+name: straight_1da7fd5c
 ports:
   o1:
     center:
@@ -42,6 +42,7 @@ settings:
       info: {}
       min_length: 0.01
       radius: 10.0
+      radius_min: 5.0
       sections:
       - hidden: false
         insets: null
@@ -91,6 +92,7 @@ settings:
       info: {}
       min_length: 0.01
       radius: 10.0
+      radius_min: 5.0
       sections:
       - hidden: false
         insets: null
@@ -134,6 +136,7 @@ settings:
       info: {}
       min_length: 0.01
       radius: 10.0
+      radius_min: 5.0
       sections:
       - hidden: false
         insets: null
@@ -158,10 +161,10 @@ settings:
     length: 10.0
     route_info:
       length: 10.0
-      type: xs_7269f467
+      type: xs_7c0f28d3
       weight: 10.0
-      xs_7269f467_length: 10.0
+      xs_7c0f28d3_length: 10.0
     width: 1.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_bf4cee07
+  name: straight_1da7fd5c

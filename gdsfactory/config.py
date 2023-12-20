@@ -27,7 +27,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "7.8.17"
+__version__ = "7.9.2"
 PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
@@ -206,6 +206,7 @@ class Settings(BaseSettings):
     pdk: str | None = None
     difftest_ignore_cell_name_differences: bool = True
     difftest_ignore_sliver_differences: bool = False
+    difftest_ignore_label_differences: bool = False
     layer_error_path: tuple[int, int] = (1000, 0)
     ports_off_grid: Literal["warn", "error", "ignore"] = Field(
         default="warn", description="Ensures ports are on grid."
@@ -219,12 +220,13 @@ class Settings(BaseSettings):
         default="warn", description="When connecting ports with different width."
     )
     on_layer_missmatch: Literal["warn", "error", "ignore"] = Field(
-        default="warn", description="When connecting ports with different layers."
+        default="ignore", description="When connecting ports with different layers."
     )
     on_type_missmatch: Literal["warn", "error", "ignore"] = Field(
-        default="warn", description="When connecting ports with different types."
+        default="ignore", description="When connecting ports with different types."
     )
     default_show_suffix: Literal[".oas", ".gds"] = ".gds"
+    raise_error_on_mutation: bool = True
 
     @classmethod
     def from_config(cls) -> Settings:

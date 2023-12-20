@@ -23,7 +23,7 @@ def add_label_yaml(
     doe: str | None = None,
     with_yaml_format: bool = True,
     port_index_optical: tuple[int, ...] | None = (0,),
-    port_index_electrical: tuple[int, ...] | None = (-1,),
+    port_index_electrical: tuple[int, ...] | None = (0,),
 ) -> gf.Component:
     """Returns Component with measurement label.
 

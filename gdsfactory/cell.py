@@ -6,7 +6,7 @@ import hashlib
 import inspect
 from collections.abc import Callable
 from functools import partial
-from typing import Any, TypeVar
+from typing import Any, TypeVar, overload
 
 from pydantic import BaseModel, validate_call
 
@@ -68,6 +68,33 @@ class Settings(BaseModel):
     child: dict[str, Any] | None = None
 
 
+# Type signature when calling as a decorator on a function
+@overload
+def cell(func: _F) -> _F:
+    ...
+
+
+# Type signature when calling the decorator itself (i.e., decorator factory)
+# This one just returns a new decorator
+@overload
+def cell(
+    *,
+    autoname: bool = True,
+    max_name_length: int | None = None,
+    include_module: bool = False,
+    with_hash: bool = False,
+    ports_off_grid: str | None = None,
+    ports_not_manhattan: str | None = None,
+    flatten: bool = False,
+    naming_style: str = "default",
+    default_decorator: Callable[[Component], Component] | None = None,
+    add_settings: bool = True,
+    validate: bool = False,
+    get_child_name: bool = False,
+) -> Callable[[_F], _F]:
+    ...
+
+
 def cell(
     func: _F | None = None,
     /,
@@ -84,7 +111,7 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
-) -> Callable[[_F], _F]:
+):
     """Parametrized Decorator for Component functions.
 
     Args:
@@ -141,7 +168,7 @@ def cell(
         active_pdk = get_active_pdk()
 
         info = kwargs.pop("info", {})  # TODO: remove info
-        name = kwargs.pop("name", None)  # TODO: remove name
+        name = _name = kwargs.pop("name", None)  # TODO: remove name
         prefix = kwargs.pop("prefix", func.__name__)  # TODO: remove prefix
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -254,7 +281,7 @@ def cell(
             )
 
         metadata_child = None
-        if get_child_name:
+        if get_child_name and _name is None:
             if component.child is None:
                 raise ValueError(
                     f"{name}: get_child_name was defined, but component has no child! Be sure to assign the component a child attribute."
@@ -293,6 +320,7 @@ def cell(
                 raise ValueError(f"decorator = {type(decorator)} needs to be callable")
             component_new = decorator(component)
             component = component_new or component
+            CACHE[component_name] = component
 
         component.lock()
         CACHE_IDS.add(id(component))
