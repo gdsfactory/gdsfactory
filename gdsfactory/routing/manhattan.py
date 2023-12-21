@@ -699,6 +699,7 @@ def round_corners(
     # Remove any flat angle, otherwise the algorithm won't work
     points = remove_flat_angles(points)
     points = np.array(points)
+    points = np.round(points, 3)
 
     straight_sections = []  # (p0, angle, length)
     p0_straight = points[0]

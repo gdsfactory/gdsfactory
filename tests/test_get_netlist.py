@@ -269,8 +269,7 @@ def test_get_netlist_electrical_different_widths() -> None:
 
 def test_get_netlist_transformed() -> None:
     rotation_value = 35
-    cname = "test_get_netlist_transformed"
-    c = gf.Component(cname)
+    c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i1.rotate(rotation_value)
@@ -282,12 +281,13 @@ def test_get_netlist_transformed() -> None:
     # perform the initial sanity checks on the netlist
     netlist = c.get_netlist()
     connections = netlist["connections"]
-    assert len(connections) == 1
+    assert len(connections) == 1, len(connections)
     cpairs = list(connections.items())
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
 
+    cname = c.name
     recursive_netlist = get_netlist_recursive(c)
     top_netlist = recursive_netlist[cname]
     # the recursive netlist should have 3 entries, for the top level and two rotated straights
@@ -306,21 +306,4 @@ def test_get_netlist_transformed() -> None:
 
 
 if __name__ == "__main__":
-    # c = gf.c.array()
-    # n = c.get_netlist()
-    # print(len(n.keys()))
-    # c = test_get_netlist_cell_array()
-    # c = test_get_netlist_cell_array_connecting()
-    # c = test_get_netlist_simple()
-    # c = test_get_netlist_promoted()
-    # c = test_get_netlist_close_enough()
-    # c = test_get_netlist_close_enough_orthogonal()
-    # c = test_get_netlist_close_enough_fails()
-    # c = test_get_netlist_close_enough_orthogonal_fails()
-    # c = test_get_netlist_close_enough_both()
-    # c = test_get_netlist_close_enough_rotated()
-    # c = test_get_netlist_throws_error_bad_rotation()
-    # c = test_get_netlist_tiny()
-    # c = test_get_netlist_metal()
-    c = test_get_netlist_electrical_different_widths()
-    c.show()
+    test_get_netlist_transformed()
