@@ -1,5 +1,5 @@
-FROM jupyter/base-notebook:python-3.10
-# FROM jupyter/base-notebook
+FROM python:3.11-slim
+# FROM jupyter/base-notebook:python-3.10
 # FROM continuumio/miniconda3
 
 # expose klive and Jupyter Notebook ports
