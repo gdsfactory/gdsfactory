@@ -101,7 +101,7 @@ settings:
     y_straight_inner_top: 50.0
   function_name: spiral_inner_io_fiber_array
   info:
-    length: 19999.999
+    length: 20000.009
     polarization: te
     wavelength: 1.53
   info_version: 2
