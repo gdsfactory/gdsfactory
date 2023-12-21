@@ -13,7 +13,7 @@ import pathlib
 import uuid
 import warnings
 from collections import Counter
-from collections.abc import Callable, Iterable, Iterator, Mapping
+from collections.abc import Callable, Iterable, Iterator
 from copy import deepcopy
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal
@@ -1055,10 +1055,15 @@ class Component(_GeometryHelper):
             prefix: to prepend to each port name.
             suffix: to append to each port name.
         """
-        ports = ports.values() if isinstance(ports, Mapping) else ports
-        for port in ports:
-            name = f"{prefix}{port.name}{suffix}"
-            self.add_port(name=name, port=port, **kwargs)
+        if hasattr(ports, "values"):
+            for port_name, port in ports.items():
+                name = f"{prefix}{port_name}{suffix}"
+                self.add_port(name=name, port=port, **kwargs)
+
+        else:
+            for port in ports:
+                name = f"{prefix}{port.name}{suffix}"
+                self.add_port(name=name, port=port, **kwargs)
 
     def snap_ports_to_grid(self, grid_factor: int = 1) -> None:
         for port in self.ports.values():
@@ -1418,7 +1423,7 @@ class Component(_GeometryHelper):
                 path.set_layers(layer)
                 path.set_datatypes(datatype)
 
-        component_flat.info = self.info.copy()
+        component_flat.copy_child_info(self)
         component_flat.add_ports(self.ports)
         component_flat.child = self.child
         return component_flat

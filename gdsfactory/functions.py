@@ -190,7 +190,7 @@ def move(
 
 
 @cell_with_child
-def transformed(ref: ComponentReference):
+def transformed(ref: ComponentReference) -> Component:
     """Returns flattened cell with reference transformations applied.
 
     Args:
@@ -200,10 +200,11 @@ def transformed(ref: ComponentReference):
     from gdsfactory.component import copy_reference
 
     c = Component()
-    c.add(copy_reference(ref))
+    ref = copy_reference(ref)
+    c.add(ref)
+    c.add_ports(ref.ports)
     c = c.flatten()
     c.copy_child_info(ref.ref_cell)
-    c.add_ports(ref.ports)
     c.info["transformed_cell"] = ref.ref_cell.name
     return c
 
