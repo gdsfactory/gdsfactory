@@ -20,6 +20,7 @@ from gdsfactory import ComponentReference
 from gdsfactory.cell import cell_with_child
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
+from gdsfactory.config import logger
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.typings import (
     Anchor,
@@ -290,15 +291,21 @@ def add_marker_layer(
         c = component
     polygon = c.get_polygons(as_shapely_merged=True)
 
-    component.add_polygon(polygon, layer=marker_layer)
-    if marker_label:
-        component.add_label(
-            marker_label,
-            position=(
-                (point := polygon.representative_point()).x,
-                point.y,
-            ),
-            layer=marker_layer,
+    if not polygon.is_empty:
+        component.add_polygon(polygon, layer=marker_layer)
+        if marker_label:
+            component.add_label(
+                marker_label,
+                position=(
+                    (point := polygon.representative_point()).x,
+                    point.y,
+                ),
+                layer=marker_layer,
+            )
+    else:
+        logger.warning(
+            f"Could not add marker layer {marker_layer} to {component.name} because it is empty."
+            f"Supplied {layers_to_mark=!r}."
         )
     return component.flatten() if flatten else component
 
