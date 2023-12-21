@@ -1445,7 +1445,13 @@ class Component(_GeometryHelper):
         updated_components=None,
         traversed_components=None,
     ) -> Component:
-        """Returns new component with flattened references."""
+        """Returns new component with flattened references.
+
+        Args:
+            grid_size: snap to grid size.
+            updated_components: set of updated components.
+            traversed_components: set of traversed components.
+        """
         return flatten_invalid_refs_recursive(
             self,
             grid_size=grid_size,
@@ -2702,10 +2708,9 @@ def flatten_invalid_refs_recursive(
     invalid_refs = []
     refs = component.references
     subcell_modified = False
-    if updated_components is None:
-        updated_components = {}
-    if traversed_components is None:
-        traversed_components = set()
+    updated_components = updated_components or {}
+    traversed_components = traversed_components or set()
+
     for ref in refs:
         # mark any invalid refs for flattening
         # otherwise, check if there are any modified cells beneath (we need not do this if the ref will be flattened anyways)
@@ -2727,6 +2732,7 @@ def flatten_invalid_refs_recursive(
         # if the cell or subcells need to have references flattened, create an uncached copy of this cell for export
         new_component = component.copy()
         new_component.rename(component.name, cache=False)
+
         # make sure all modified cells have their references updated
         new_refs = new_component.references.copy()
         for ref in new_refs:
