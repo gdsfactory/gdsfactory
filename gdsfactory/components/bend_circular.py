@@ -41,10 +41,13 @@ def bend_circular(
                /
        o1_____/
     """
-    x = gf.get_cross_section(cross_section)
+    kwargs = dict()
+    if layer:
+        kwargs["layer"] = layer
+    if width:
+        kwargs["width"] = width
+    x = gf.get_cross_section(cross_section, **kwargs)
     radius = radius or x.radius
-    if layer or width:
-        x = x.copy(layer=layer or x.layer, width=width or x.width)
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = Component()

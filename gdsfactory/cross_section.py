@@ -284,6 +284,10 @@ class CrossSection(BaseModel):
                     "layer": layer or self.layer,
                 }
             )
+            if len(sections) > 1:
+                warnings.warn(
+                    "CrossSection.copy() only modifies the attributes of the first section."
+                )
             return self.model_copy(update={"sections": tuple(sections), **kwargs})
         return self.model_copy(update=kwargs)
 
