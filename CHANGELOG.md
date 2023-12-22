@@ -1,11 +1,29 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.9.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.9.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.9.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.3) - 2023-12-22
 
-No significant changes.
+- fix cicd docker flow [#2407](https://github.com/gdsfactory/gdsfactory/pull/2407)
+- Raise warning on empty add marker layer instead of failing [#2406](https://github.com/gdsfactory/gdsfactory/pull/2406)
+- More robust add ports [#2404](https://github.com/gdsfactory/gdsfactory/pull/2404)
+- Fix 1nm gaps in manhattan routes due to snapping issues [#2403](https://github.com/gdsfactory/gdsfactory/pull/2403)
+- allow pack components with same name [#2401](https://github.com/gdsfactory/gdsfactory/pull/2401)
+- fix cutback_loss [#2399](https://github.com/gdsfactory/gdsfactory/pull/2399)
+- fix taper from csv [#2398](https://github.com/gdsfactory/gdsfactory/pull/2398)
+- Update kweb requirement from <1.2,>=1.1.9 to >=1.1.9,<1.3 [#2396](https://github.com/gdsfactory/gdsfactory/pull/2396)
+- [pre-commit.ci] pre-commit autoupdate [#2397](https://github.com/gdsfactory/gdsfactory/pull/2397)
+- simpler cicd [#2395](https://github.com/gdsfactory/gdsfactory/pull/2395)
+- Validate anchors [#2391](https://github.com/gdsfactory/gdsfactory/pull/2391)
+- Fix access to references in component_sequence [#2394](https://github.com/gdsfactory/gdsfactory/pull/2394)
+- improve cicd [#2392](https://github.com/gdsfactory/gdsfactory/pull/2392)
+- fix direction parameter bend_straight_bend [#2390](https://github.com/gdsfactory/gdsfactory/pull/2390)
+- improve via_stack to support slots and deprecate via_stack_slot [#2388](https://github.com/gdsfactory/gdsfactory/pull/2388)
+- Custom transition [#2387](https://github.com/gdsfactory/gdsfactory/pull/2387)
+- use functions instead of strings for routing [#2385](https://github.com/gdsfactory/gdsfactory/pull/2385)
+- fix issues in flat netlist export [#2386](https://github.com/gdsfactory/gdsfactory/pull/2386)
+- No straight factory to metal heater meander [#2382](https://github.com/gdsfactory/gdsfactory/pull/2382)
 
 
 ## [7.9.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.2) - 2023-12-11
