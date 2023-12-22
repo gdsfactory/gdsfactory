@@ -161,8 +161,7 @@ def get_bundle(
         xs_list = []
         for element in cross_section:
             xs, angles = element
-            xs = gf.get_cross_section(xs)
-            xs = xs.copy(**kwargs)  # Shallow copy
+            xs = gf.get_cross_section(xs, **kwargs)
             xs_list.append((xs, angles))
         cross_section = xs_list
 
