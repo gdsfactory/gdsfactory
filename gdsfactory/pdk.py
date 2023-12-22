@@ -478,7 +478,10 @@ class Pdk(BaseModel):
 
         if isinstance(component, Component):
             if kwargs:
-                raise ValueError(f"Cannot apply kwargs {kwargs} to {component.name!r}")
+                warnings.warn(
+                    f"Cannot apply settings {kwargs} to already created component {component.name!r}."
+                    "Try passing a function instead of a Component."
+                )
             return component
         elif callable(component):
             if validate:

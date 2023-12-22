@@ -62,14 +62,16 @@ def bend_euler(
                /
        o1_____/
     """
-    x = gf.get_cross_section(cross_section)
+    kwargs = dict()
+    if layer:
+        kwargs["layer"] = layer
+    if width:
+        kwargs["width"] = width
+    x = gf.get_cross_section(cross_section, **kwargs)
     radius = radius or x.radius
 
     if radius is None:
         return wire_corner(cross_section=x)
-
-    if layer or width:
-        x = x.copy(layer=layer or x.layer, width=width or x.width)
 
     c = Component()
     p = euler(
