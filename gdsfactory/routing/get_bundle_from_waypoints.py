@@ -130,14 +130,12 @@ def get_bundle_from_waypoints(
         xs_list = []
         for element in cross_section:
             xs, angles = element
-            xs = gf.get_cross_section(xs)
-            xs = xs.copy(**kwargs)  # Shallow copy
+            xs = gf.get_cross_section(xs, **kwargs)
             xs_list.append((xs, angles))
         cross_section = xs_list
 
     else:
-        cross_section = gf.get_cross_section(cross_section)
-        xs = cross_section = cross_section.copy(**kwargs)
+        xs = cross_section = gf.get_cross_section(cross_section, **kwargs)
 
     waypoints = [ports1[0].center] + list(waypoints) + [ports2[0].center]
     for p in ports1:

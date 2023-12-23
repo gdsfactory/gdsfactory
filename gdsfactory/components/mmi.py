@@ -66,7 +66,7 @@ def mmi(
     w_mmi = width_mmi
     w_taper = width_taper
     x = gf.get_cross_section(cross_section)
-    xs_mmi = x.copy(width=w_mmi)
+    xs_mmi = gf.get_cross_section(cross_section, width=w_mmi)
     width = width or x.width
 
     _taper = taper(

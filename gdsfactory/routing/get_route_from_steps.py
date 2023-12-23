@@ -107,14 +107,13 @@ def get_route_from_steps(
         for element in cross_section:
             xs, angles = element
             xs = gf.get_cross_section(xs)
-            xs = xs.copy(**kwargs)  # Shallow copy
+            xs = gf.get_cross_section(xs, **kwargs)
             xs_list.append((xs, angles))
         cross_section = xs_list
 
     else:
-        cross_section = gf.get_cross_section(cross_section)
-        x = cross_section = cross_section.copy(**kwargs)
-        auto_widen = x.auto_widen
+        cross_section = gf.get_cross_section(cross_section, **kwargs)
+        auto_widen = cross_section.auto_widen
 
         if auto_widen:
             taper = gf.get_component(

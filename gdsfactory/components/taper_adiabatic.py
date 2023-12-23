@@ -63,6 +63,8 @@ def taper_adiabatic(
         npoints: number of points for sampling
     """
     xs = gf.get_cross_section(cross_section)
+    xs1 = gf.get_cross_section(cross_section, width=width1)
+    xs2 = gf.get_cross_section(cross_section, width=width2)
     layer = xs.layer
 
     # Obtain optimal curve
@@ -88,11 +90,6 @@ def taper_adiabatic(
     c.add_polygon(
         list(zip(x_array, y_array)) + list(zip(x_array, -y_array))[::-1], layer=layer
     )
-
-    # Define ports
-    xs1 = xs.copy(width=width1)
-    xs2 = xs.copy(width=width2)
-
     c.add_port(
         name="o1",
         center=(0, 0),
