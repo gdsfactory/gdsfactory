@@ -180,9 +180,6 @@ For questions join the [![Join the chat at https://gitter.im/gdsfactory-dev/comm
 
 ## Running notebooks
 
-You can find the tutorial jupyter notebooks in `docs/notebooks` and open them with [jupytext](https://jupytext.readthedocs.io/en/latest/).
-Jupytext is a python package to open and edit jupyter notebooks as python or markdown files, so they are easier to read and version control with GIT.
+You can find the tutorial jupyter notebooks in `notebooks` and open them with VSCode.
 
-You can use [VSCode gdsfactory extension](https://marketplace.visualstudio.com/items?itemName=gdsfactory.gdsfactory) to open the notebooks from the markdown files.
-
-<img src=https://raw.githubusercontent.com/notebookPowerTools/vscode-jupytext/main/images/main.gif>
+You can use [VSCode gdsfactory extension](https://marketplace.visualstudio.com/items?itemName=gdsfactory.gdsfactory) to open and run the notebooks.

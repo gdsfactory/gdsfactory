@@ -40,3 +40,8 @@ repos:
   #   rev: v1.1.333
   #   hooks:
   #   - id: pyright
+  - repo: https://github.com/kynan/nbstripout
+    rev: e4c5b4dcbab4afa0b88b7a9243db42b1a8d95dde
+    hooks:
+      - id: nbstripout
+        files: ".ipynb"
