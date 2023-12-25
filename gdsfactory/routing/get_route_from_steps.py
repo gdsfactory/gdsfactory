@@ -112,15 +112,15 @@ def get_route_from_steps(
         cross_section = xs_list
 
     else:
-        cross_section = gf.get_cross_section(cross_section, **kwargs)
+        xs = cross_section = gf.get_cross_section(cross_section, **kwargs)
         auto_widen = cross_section.auto_widen
 
         if auto_widen:
             taper = gf.get_component(
                 taper,
-                length=x.taper_length,
-                width1=x.width,
-                width2=x.width_wide,
+                length=xs.taper_length,
+                width1=xs.width,
+                width2=xs.width_wide,
                 cross_section=cross_section,
                 **kwargs,
             )
