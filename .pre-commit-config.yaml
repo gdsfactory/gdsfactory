@@ -16,14 +16,14 @@ repos:
           - tomli
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.1.8"
+    rev: "v0.1.9"
     hooks:
       - id: ruff
         args: [ --fix, --exit-non-zero-on-fix ]
       - id: ruff-format
 
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-    rev: v2.11.0
+    rev: v2.12.0
     hooks:
       - id: pretty-format-toml
         args: [--autofix]
@@ -41,7 +41,7 @@ repos:
   #   hooks:
   #   - id: pyright
   - repo: https://github.com/kynan/nbstripout
-    rev: e4c5b4dcbab4afa0b88b7a9243db42b1a8d95dde
+    rev: 0.6.1
     hooks:
       - id: nbstripout
         files: ".ipynb"
