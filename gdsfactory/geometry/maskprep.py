@@ -108,6 +108,7 @@ def get_polygons_underplot(
     layers_extended: LayerSpecs,
     layer_reference: LayerSpec,
     distance: Floats,
+    keep_overplot: bool = True,
     use_union: bool = True,
     precision: float = 1e-4,
     join: str = "miter",
@@ -166,16 +167,17 @@ def get_polygons_underplot(
                 datatype=gds_datatype,
             )
             polygons.append(p)
-            # Also add portion of the polygons outside the reference
-            p = gdstk.boolean(
-                polygons_to_trim,
-                reference_polygons,
-                operation="not",
-                precision=precision,
-                layer=gds_layer,
-                datatype=gds_datatype,
-            )
-            polygons.append(p)
+            # Optionally add portion of the polygons outside the reference
+            if keep_overplot:
+                p = gdstk.boolean(
+                    polygons_to_trim,
+                    reference_polygons,
+                    operation="not",
+                    precision=precision,
+                    layer=gds_layer,
+                    datatype=gds_datatype,
+                )
+                polygons.append(p)
     return polygons
 
 
@@ -185,6 +187,7 @@ def fix_underplot(
     layers_extended: LayerSpecs,
     layer_reference: LayerSpecs,
     distance: Floats,
+    keep_overplot: bool = True,
     **kwargs,
 ) -> Component:
     """Returns component with polygon underplots.
@@ -206,6 +209,7 @@ def fix_underplot(
         layers_extended=layers_extended,
         layer_reference=layer_reference,
         distance=distance,
+        keep_overplot=keep_overplot,
         **kwargs,
     )
     c.add(p)
@@ -257,5 +261,6 @@ if __name__ == "__main__":
         layers_extended=("SLAB150", "SLAB90"),
         layer_reference="WG",
         distance=0.1,
+        keep_overplot=False,
     )
     c2.show(show_ports=True)

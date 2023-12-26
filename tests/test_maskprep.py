@@ -19,6 +19,15 @@ def test_fix_underplot():
         distance=0.1,
     )
 
+    c3 = gf.Component("component_clean")
+    c3 = fix_underplot(
+        component=c1,
+        layers_extended=((2, 0), (3, 0)),
+        layer_reference=(1, 0),
+        distance=0.1,
+        keep_overplot=False,
+    )
+
     # leaves reference untouched
     c1_WG = c1.extract(layers=((1, 0),))
     c2_WG = c2.extract(layers=((1, 0),))
@@ -27,10 +36,13 @@ def test_fix_underplot():
     c1_SLAB150 = c1.extract(layers=((2, 0),))
     c2_SLAB150 = c2.extract(layers=((2, 0),))
     assert np.isclose(c1_SLAB150.area() - c2_SLAB150.area(), 0.39)
-    # Splits (3,0)
+    # Splits (3,0) if keep overplots
     c1_SLAB90 = c1.extract(layers=((3, 0),)).get_polygons()
     c2_SLAB90 = c2.extract(layers=((3, 0),)).get_polygons()
     assert len(c2_SLAB90) - len(c1_SLAB90) == 1
+    # Otherwise doesn't
+    c3_SLAB90 = c3.extract(layers=((3, 0),)).get_polygons()
+    assert len(c3_SLAB90) == len(c1_SLAB90)
 
 
 if __name__ == "__main__":
