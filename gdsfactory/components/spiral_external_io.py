@@ -34,6 +34,7 @@ def spiral_external_io(
     with_inner_ports: bool = False,
     y_straight_outer_offset: float = 0.0,
     inner_loop_spacing_offset: float = 0.0,
+    mirror_straight: bool = False,
     **kwargs,
 ) -> Component:
     """Returns spiral with input and output ports outside the spiral.
@@ -51,6 +52,7 @@ def spiral_external_io(
         with_inner_ports: if True, removes the internal S-bend and exposes new ports
         y_straight_outer_offset: amount to add/remove to the last points at the outer output of the spiral
         inner_loop_spacing_offset: extra difference between the inner ports
+        mirror_straight: if True, mirrors the straight cross section in round_corners (can help when xs is asymmetric)
         kwargs: cross_section settings.
     """
     if length:
@@ -142,12 +144,14 @@ def spiral_external_io(
             pts_w[1:],
             bend=bend,
             cross_section=cross_section,
+            mirror_straight=mirror_straight,
             **kwargs,
         )
         route_east = round_corners(
             pts_e[1:],
             bend=bend,
             cross_section=cross_section,
+            mirror_straight=mirror_straight,
             **kwargs,
         )
         component.add(route_west.references)
