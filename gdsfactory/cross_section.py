@@ -410,6 +410,7 @@ def cross_section(
     radius: float | None = 10.0,
     radius_min: float | None = None,
     add_pins_function_name: str | None = None,
+    main_section_name: str = "_default",
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection.
@@ -431,6 +432,7 @@ def cross_section(
         radius: routing bend radius (um).
         radius_min: min acceptable bend radius.
         add_pins_function_name: name of the function to add pins to the component.
+        main_section_name: name of the main section. Defaults to _default
 
 
     Keyword Args:
@@ -507,7 +509,7 @@ def cross_section(
             layer=layer,
             port_names=port_names,
             port_types=port_types,
-            name="_default",
+            name=main_section_name,
         )
     ] + sections
 
