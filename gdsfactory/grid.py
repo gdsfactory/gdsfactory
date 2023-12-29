@@ -112,13 +112,11 @@ def grid(
     prefix_to_ref = {}
 
     D = Component()
-    D.info["components"] = {}
     ref_array = np.empty(device_array.shape, dtype=object)
     dummy = Component()
     for idx, d in np.ndenumerate(device_array):
         if d is not None:
             d = get_component(d)
-            D.info["components"][d.name] = dict(d.settings)
             ref = D.add_ref(d, rotation=rotation, x_reflection=h_mirror)
             if v_mirror:
                 ref.mirror_y()

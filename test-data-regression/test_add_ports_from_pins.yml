@@ -1,4 +1,6 @@
+function_name: null
 info: {}
+module: null
 name: straight_1514d1a3
 ports:
   o1:
