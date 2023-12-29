@@ -13,20 +13,7 @@ ports:
     shear_angle: null
     width: 10
 settings:
-  changed: {}
-  child: null
-  default:
-    cladding_diameter: 125
-    core_diameter: 10
-    layer_cladding: WGCLAD
-    layer_core: WG
-  full:
-    cladding_diameter: 125
-    core_diameter: 10
-    layer_cladding: WGCLAD
-    layer_core: WG
-  function_name: fiber
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.fiber
-  name: fiber
+  cladding_diameter: 125
+  core_diameter: 10
+  layer_cladding: WGCLAD
+  layer_core: WG

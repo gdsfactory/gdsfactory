@@ -25,30 +25,12 @@ ports:
     shear_angle: null
     width: 5.0
 settings:
-  changed: {}
-  child: null
-  default:
-    alpha: 1
-    cross_section: xs_sc
-    length: 0
-    neff_w:
-      function: <lambda>
-    npoints: 200
-    wavelength: 1.55
-    width1: 0.5
-    width2: 5.0
-  full:
-    alpha: 1
-    cross_section: xs_sc
-    length: 0
-    neff_w:
-      function: <lambda>
-    npoints: 200
-    wavelength: 1.55
-    width1: 0.5
-    width2: 5.0
-  function_name: taper_adiabatic
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.taper_adiabatic
-  name: taper_adiabatic
+  alpha: 1
+  cross_section: xs_sc
+  length: 0
+  neff_w:
+    function: <lambda>
+  npoints: 200
+  wavelength: 1.55
+  width1: 0.5
+  width2: 5.0

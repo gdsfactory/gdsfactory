@@ -37,108 +37,50 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed:
-    conf:
-      instances:
-        mmi_long:
-          component: mmi1x2
-          settings:
-            length_mmi: 5
-            width_mmi: 4.5
-      name: rotation
-      placements:
-        mmi_long:
-          port: o1
-          rotation: 90
-          x: 10
-          y: 20
-      ports:
-        o1: mmi_long,o3
-        o2: mmi_long,o2
-        o3: mmi_long,o1
-    routing_strategy:
-      get_bundle:
-        function: get_bundle
-      get_bundle_all_angle:
-        function: get_bundle_all_angle
-      get_bundle_electrical:
-        function: get_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_steps:
-        function: get_bundle_from_steps
-      get_bundle_from_steps_electrical:
-        function: get_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_waypoints:
-        function: get_bundle_from_waypoints
-      get_bundle_path_length_match:
-        function: get_bundle_path_length_match
-      get_bundle_same_axis_no_grouping:
-        function: get_bundle_same_axis_no_grouping
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-    validate: false
-  full:
-    conf:
-      instances:
-        mmi_long:
-          component: mmi1x2
-          settings:
-            length_mmi: 5
-            width_mmi: 4.5
-      name: rotation
-      placements:
-        mmi_long:
-          port: o1
-          rotation: 90
-          x: 10
-          y: 20
-      ports:
-        o1: mmi_long,o3
-        o2: mmi_long,o2
-        o3: mmi_long,o1
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-    routing_strategy:
-      get_bundle:
-        function: get_bundle
-      get_bundle_all_angle:
-        function: get_bundle_all_angle
-      get_bundle_electrical:
-        function: get_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_steps:
-        function: get_bundle_from_steps
-      get_bundle_from_steps_electrical:
-        function: get_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_waypoints:
-        function: get_bundle_from_waypoints
-      get_bundle_path_length_match:
-        function: get_bundle_path_length_match
-      get_bundle_same_axis_no_grouping:
-        function: get_bundle_same_axis_no_grouping
-    validate: false
-  function_name: _from_yaml
-  info:
+  conf:
     instances:
-    - mmi_long
-  info_version: 2
-  module: gdsfactory.read.from_yaml
-  name: rotation_c5815660
+      mmi_long:
+        component: mmi1x2
+        settings:
+          length_mmi: 5
+          width_mmi: 4.5
+    name: rotation
+    placements:
+      mmi_long:
+        port: o1
+        rotation: 90
+        x: 10
+        y: 20
+    ports:
+      o1: mmi_long,o3
+      o2: mmi_long,o2
+      o3: mmi_long,o1
+  label_instance_function:
+    function: add_instance_label
+  mode: layout
+  routing_strategy:
+    get_bundle:
+      function: get_bundle
+    get_bundle_all_angle:
+      function: get_bundle_all_angle
+    get_bundle_electrical:
+      function: get_bundle
+      settings:
+        bend:
+          function: wire_corner
+        cross_section: xs_metal_routing
+    get_bundle_from_steps:
+      function: get_bundle_from_steps
+    get_bundle_from_steps_electrical:
+      function: get_bundle_from_steps
+      settings:
+        bend:
+          function: wire_corner
+        cross_section: xs_metal_routing
+    get_bundle_from_waypoints:
+      function: get_bundle_from_waypoints
+    get_bundle_path_length_match:
+      function: get_bundle_path_length_match
+    get_bundle_same_axis_no_grouping:
+      function: get_bundle_same_axis_no_grouping
+  validate: false

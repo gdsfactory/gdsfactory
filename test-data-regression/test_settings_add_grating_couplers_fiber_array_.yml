@@ -1,4 +1,4 @@
-name: spiral_inner_io_length20000p0_add_grating_couplers_with_loopback_fiber_array_with_loopbackFalse
+name: None_add_grating_couplers_with_loopback_fiber_array_with_loopbackFalse
 ports:
   o1:
     center:
@@ -25,62 +25,26 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed:
-    with_loopback: false
-  child: null
-  default:
-    bend:
-      function: bend_euler
-    component:
-      component: spiral_inner_io
-      settings:
-        length: 20000.0
-    cross_section: xs_sc
-    excluded_ports: null
-    gc_port_name: o1
-    gc_rotation: -90
-    grating_coupler:
-      function: grating_coupler_elliptical_trenches
-      settings:
-        polarization: te
-        taper_angle: 35
-    grating_separation: 127.0
-    loopback_yspacing: 4.0
-    select_ports:
-      function: select_ports
-      settings:
-        port_type: optical
-    straight_separation: 5.0
-    with_loopback: true
-  full:
-    bend:
-      function: bend_euler
-    component:
-      component: spiral_inner_io
-      settings:
-        length: 20000.0
-    cross_section: xs_sc
-    excluded_ports: null
-    gc_port_name: o1
-    gc_rotation: -90
-    grating_coupler:
-      function: grating_coupler_elliptical_trenches
-      settings:
-        polarization: te
-        taper_angle: 35
-    grating_separation: 127.0
-    loopback_yspacing: 4.0
-    select_ports:
-      function: select_ports
-      settings:
-        port_type: optical
-    straight_separation: 5.0
-    with_loopback: false
-  function_name: add_grating_couplers_with_loopback_fiber_array
-  info:
-    length: 20000.009
-    polarization: te
-    wavelength: 1.53
-  info_version: 2
-  module: gdsfactory.components.add_grating_couplers
-  name: spiral_inner_io_length20000p0_add_grating_couplers_with_loopback_fiber_array_with_loopbackFalse
+  bend:
+    function: bend_euler
+  component:
+    component: spiral_inner_io
+    settings:
+      length: 20000.0
+  cross_section: xs_sc
+  excluded_ports: null
+  gc_port_name: o1
+  gc_rotation: -90
+  grating_coupler:
+    function: grating_coupler_elliptical_trenches
+    settings:
+      polarization: te
+      taper_angle: 35
+  grating_separation: 127.0
+  loopback_yspacing: 4.0
+  select_ports:
+    function: select_ports
+    settings:
+      port_type: optical
+  straight_separation: 5.0
+  with_loopback: false

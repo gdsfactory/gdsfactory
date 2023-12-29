@@ -25,27 +25,10 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    component:
-      function: bend_euler
-    length_h: 5.0
-    length_v: 5.0
-    rows: 4
-    straight:
-      function: straight
-  full:
-    component:
-      function: bend_euler
-    length_h: 5.0
-    length_v: 5.0
-    rows: 4
-    straight:
-      function: straight
-  function_name: staircase
-  info:
-    n_bends: 8
-  info_version: 2
-  module: gdsfactory.components.cutback_bend
-  name: staircase
+  component:
+    function: bend_euler
+  length_h: 5.0
+  length_v: 5.0
+  rows: 4
+  straight:
+    function: straight

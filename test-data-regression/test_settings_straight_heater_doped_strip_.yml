@@ -121,165 +121,72 @@ ports:
     shear_angle: null
     width: 310.0
 settings:
-  changed:
-    cross_section_heater:
-      function: strip_heater_doped
-    via_stack:
-      function: via_stack
-      settings:
-        layers:
-        - WG
-        - NPP
-        - M1
-        vias:
+  cross_section:
+    function: cross_section
+    settings:
+      add_pins_function_name: null
+      radius: 10
+      radius_min: 5
+      sections:
+      - hidden: false
+        insets: null
+        layer: SLAB90
+        name: slab
+        offset: 0
+        offset_function: null
+        port_names:
         - null
         - null
-        - function: via
-          settings:
-            layer: VIAC
-  child: null
-  default:
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          offset_function: null
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.2
-          width_function: null
-    cross_section_heater:
-      function: rib_heater_doped
-    heater_gap: 0.8
-    heater_width: 2.0
-    length: 320.0
-    nsections: 3
-    taper:
-      function: taper_cross_section
-    via_stack:
-      function: via_stack
-      settings:
-        layers:
-        - SLAB90
-        - NPP
-        - M1
-        vias:
-        - null
-        - null
-        - function: via
-          settings:
-            layer: VIAC
-    via_stack_gap: 0.0
-    via_stack_metal:
-      function: via_stack
-      settings:
-        layers:
-        - M1
-        - M2
-        - MTOP
-        vias:
-        - function: via
-          settings:
-            enclosure: 2
-            layer: VIA1
-        - function: via
-          settings:
-            layer: VIA2
-        - null
-    via_stack_metal_size:
-    - 10.0
-    - 10.0
-    via_stack_size:
-    - 10.0
-    - 10.0
-    width: 0.5
-    xoffset_tip1: 0.2
-    xoffset_tip2: 0.4
-  full:
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          offset_function: null
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.2
-          width_function: null
-    cross_section_heater:
-      function: strip_heater_doped
-    heater_gap: 0.8
-    heater_width: 2.0
-    length: 320.0
-    nsections: 3
-    taper:
-      function: taper_cross_section
-    via_stack:
-      function: via_stack
-      settings:
-        layers:
-        - WG
-        - NPP
-        - M1
-        vias:
-        - null
-        - null
-        - function: via
-          settings:
-            layer: VIAC
-    via_stack_gap: 0.0
-    via_stack_metal:
-      function: via_stack
-      settings:
-        layers:
-        - M1
-        - M2
-        - MTOP
-        vias:
-        - function: via
-          settings:
-            enclosure: 2
-            layer: VIA1
-        - function: via
-          settings:
-            layer: VIA2
-        - null
-    via_stack_metal_size:
-    - 10.0
-    - 10.0
-    via_stack_size:
-    - 10.0
-    - 10.0
-    width: 0.5
-    xoffset_tip1: 0.2
-    xoffset_tip2: 0.4
-  function_name: straight_heater_doped_rib
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.straight_heater_doped_rib
-  name: straight_heater_doped_rib_39844888
+        port_types:
+        - optical
+        - optical
+        simplify: null
+        width: 0.2
+        width_function: null
+  cross_section_heater:
+    function: strip_heater_doped
+  heater_gap: 0.8
+  heater_width: 2.0
+  length: 320.0
+  nsections: 3
+  taper:
+    function: taper_cross_section
+  via_stack:
+    function: via_stack
+    settings:
+      layers:
+      - WG
+      - NPP
+      - M1
+      vias:
+      - null
+      - null
+      - function: via
+        settings:
+          layer: VIAC
+  via_stack_gap: 0.0
+  via_stack_metal:
+    function: via_stack
+    settings:
+      layers:
+      - M1
+      - M2
+      - MTOP
+      vias:
+      - function: via
+        settings:
+          enclosure: 2
+          layer: VIA1
+      - function: via
+        settings:
+          layer: VIA2
+      - null
+  via_stack_metal_size:
+  - 10.0
+  - 10.0
+  via_stack_size:
+  - 10.0
+  - 10.0
+  width: 0.5
+  xoffset_tip1: 0.2
+  xoffset_tip2: 0.4

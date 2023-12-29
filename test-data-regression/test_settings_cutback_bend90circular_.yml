@@ -25,31 +25,11 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed:
-    component:
-      function: bend_circular
-  child: null
-  default:
-    cols: 6
-    component:
-      function: bend_euler
-    rows: 6
-    spacing: 5
-    straight:
-      function: straight
-    straight_length: 5.0
-  full:
-    cols: 6
-    component:
-      function: bend_circular
-    rows: 6
-    spacing: 5
-    straight:
-      function: straight
-    straight_length: 5.0
-  function_name: cutback_bend90
-  info:
-    n_bends: 144
-  info_version: 2
-  module: gdsfactory.components.cutback_bend
-  name: cutback_bend90_d89ef24e
+  cols: 6
+  component:
+    function: bend_circular
+  rows: 6
+  spacing: 5
+  straight:
+    function: straight
+  straight_length: 5.0

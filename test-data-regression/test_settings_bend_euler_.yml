@@ -25,45 +25,14 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    add_bbox: null
-    add_pins: true
-    angle: 90.0
-    cross_section: xs_sc
-    direction: ccw
-    layer: null
-    npoints: null
-    p: 0.5
-    radius: null
-    width: null
-    with_arc_floorplan: true
-  full:
-    add_bbox: null
-    add_pins: true
-    angle: 90.0
-    cross_section: xs_sc
-    direction: ccw
-    layer: null
-    npoints: null
-    p: 0.5
-    radius: null
-    width: null
-    with_arc_floorplan: true
-  function_name: bend_euler
-  info:
-    dy: 10.0
-    length: 16.637
-    radius: 10.0
-    radius_min: 7.061
-    route_info:
-      length: 16.637
-      n_bend_90: 1.0
-      type: xs_sc
-      weight: 16.637
-      xs_sc_length: 16.637
-    width: 0.5
-  info_version: 2
-  module: gdsfactory.components.bend_euler
-  name: bend_euler
+  add_bbox: null
+  add_pins: true
+  angle: 90.0
+  cross_section: xs_sc
+  direction: ccw
+  layer: null
+  npoints: null
+  p: 0.5
+  radius: null
+  width: null
+  with_arc_floorplan: true

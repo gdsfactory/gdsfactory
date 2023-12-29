@@ -25,24 +25,9 @@ ports:
     shear_angle: null
     width: 5.0
 settings:
-  changed: {}
-  child: null
-  default:
-    exp: 0.5
-    layer: WG
-    length: 20
-    npoints: 100
-    width1: 0.5
-    width2: 5.0
-  full:
-    exp: 0.5
-    layer: WG
-    length: 20
-    npoints: 100
-    width1: 0.5
-    width2: 5.0
-  function_name: taper_parabolic
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.taper_parabolic
-  name: taper_parabolic
+  exp: 0.5
+  layer: WG
+  length: 20
+  npoints: 100
+  width1: 0.5
+  width2: 5.0

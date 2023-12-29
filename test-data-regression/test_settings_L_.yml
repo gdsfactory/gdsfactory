@@ -25,24 +25,9 @@ ports:
     shear_angle: null
     width: 1
 settings:
-  changed: {}
-  child: null
-  default:
-    layer: MTOP
-    port_type: electrical
-    size:
-    - 10
-    - 20
-    width: 1
-  full:
-    layer: MTOP
-    port_type: electrical
-    size:
-    - 10
-    - 20
-    width: 1
-  function_name: L
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.L
-  name: L
+  layer: MTOP
+  port_type: electrical
+  size:
+  - 10
+  - 20
+  width: 1

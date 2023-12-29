@@ -49,30 +49,11 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed:
-    bend:
-      function: bend_circular
-  child: null
-  default:
-    bend:
-      function: bend_euler
-    cross_section: xs_sc
-    cross_section_bend: null
-    gap: 0.2
-    radius: 10.0
-    straight:
-      function: straight
-  full:
-    bend:
-      function: bend_circular
-    cross_section: xs_sc
-    cross_section_bend: null
-    gap: 0.2
-    radius: 10.0
-    straight:
-      function: straight
-  function_name: coupler90
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.coupler90
-  name: coupler90_528aa9f7
+  bend:
+    function: bend_circular
+  cross_section: xs_sc
+  cross_section_bend: null
+  gap: 0.2
+  radius: 10.0
+  straight:
+    function: straight

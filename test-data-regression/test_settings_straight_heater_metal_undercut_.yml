@@ -121,43 +121,18 @@ ports:
     shear_angle: null
     width: 11.0
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    cross_section_heater: xs_heater_metal
-    cross_section_heater_undercut: xs_sc_heater_metal_undercut
-    cross_section_waveguide_heater: xs_sc_heater_metal
-    heater_taper_length: 5.0
-    length: 320.0
-    length_straight: 0.1
-    length_straight_input: 15.0
-    length_undercut: 30.0
-    length_undercut_spacing: 6.0
-    ohms_per_square: null
-    port_orientation1: null
-    port_orientation2: null
-    via_stack: via_stack_heater_mtop
-    with_undercut: true
-  full:
-    cross_section: xs_sc
-    cross_section_heater: xs_heater_metal
-    cross_section_heater_undercut: xs_sc_heater_metal_undercut
-    cross_section_waveguide_heater: xs_sc_heater_metal
-    heater_taper_length: 5.0
-    length: 320.0
-    length_straight: 0.1
-    length_straight_input: 15.0
-    length_undercut: 30.0
-    length_undercut_spacing: 6.0
-    ohms_per_square: null
-    port_orientation1: null
-    port_orientation2: null
-    via_stack: via_stack_heater_mtop
-    with_undercut: true
-  function_name: straight_heater_metal_undercut
-  info:
-    resistance: null
-  info_version: 2
-  module: gdsfactory.components.straight_heater_metal
-  name: straight_heater_metal_undercut
+  cross_section: xs_sc
+  cross_section_heater: xs_heater_metal
+  cross_section_heater_undercut: xs_sc_heater_metal_undercut
+  cross_section_waveguide_heater: xs_sc_heater_metal
+  heater_taper_length: 5.0
+  length: 320.0
+  length_straight: 0.1
+  length_straight_input: 15.0
+  length_undercut: 30.0
+  length_undercut_spacing: 6.0
+  ohms_per_square: null
+  port_orientation1: null
+  port_orientation2: null
+  via_stack: via_stack_heater_mtop
+  with_undercut: true

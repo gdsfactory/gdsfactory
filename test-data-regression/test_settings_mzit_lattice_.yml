@@ -49,32 +49,13 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    coupler_gaps:
-    - 0.2
-    - 0.3
-    coupler_lengths:
-    - 10.0
-    - 20.0
-    delta_lengths:
-    - 10.0
-    mzi:
-      function: mzit
-  full:
-    coupler_gaps:
-    - 0.2
-    - 0.3
-    coupler_lengths:
-    - 10.0
-    - 20.0
-    delta_lengths:
-    - 10.0
-    mzi:
-      function: mzit
-  function_name: mzit_lattice
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.mzit_lattice
-  name: mzit_lattice
+  coupler_gaps:
+  - 0.2
+  - 0.3
+  coupler_lengths:
+  - 10.0
+  - 20.0
+  delta_lengths:
+  - 10.0
+  mzi:
+    function: mzit

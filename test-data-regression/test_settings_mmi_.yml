@@ -61,44 +61,19 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    gap_input_tapers: 0.25
-    gap_output_tapers: 0.25
-    input_positions: null
-    inputs: 1
-    length_mmi: 5.5
-    length_taper: 10.0
-    output_positions: null
-    outputs: 4
-    straight:
-      function: straight
-    taper:
-      function: taper
-    width: null
-    width_mmi: 5
-    width_taper: 1.0
-  full:
-    cross_section: xs_sc
-    gap_input_tapers: 0.25
-    gap_output_tapers: 0.25
-    input_positions: null
-    inputs: 1
-    length_mmi: 5.5
-    length_taper: 10.0
-    output_positions: null
-    outputs: 4
-    straight:
-      function: straight
-    taper:
-      function: taper
-    width: null
-    width_mmi: 5
-    width_taper: 1.0
-  function_name: mmi
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.mmi
-  name: mmi
+  cross_section: xs_sc
+  gap_input_tapers: 0.25
+  gap_output_tapers: 0.25
+  input_positions: null
+  inputs: 1
+  length_mmi: 5.5
+  length_taper: 10.0
+  output_positions: null
+  outputs: 4
+  straight:
+    function: straight
+  taper:
+    function: taper
+  width: null
+  width_mmi: 5
+  width_taper: 1.0

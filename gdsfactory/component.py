@@ -90,7 +90,7 @@ class Info(BaseModel, extra="allow", validate_assignment=True):
         cls, data: dict[str, int | float | str | tuple[float | int, ...]]
     ) -> dict[str, int | float | str]:
         for name, value in data.items():
-            if not isinstance(value, str | int | float | tuple[int | float, ...]):
+            if not isinstance(value, str | int | float | tuple):
                 raise ValueError(
                     "Values of the info dict only support int, float, string or tuple."
                     f"{name}: {value}, {type(value)}"
@@ -2085,6 +2085,7 @@ class Component(_GeometryHelper):
 
         d["name"] = self.name
         d["settings"] = clean_dict(dict(self.settings))
+        d["info"] = clean_dict(dict(self.info))
         return d
 
     def to_yaml(self, **kwargs) -> str:

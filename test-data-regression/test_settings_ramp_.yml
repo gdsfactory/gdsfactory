@@ -25,20 +25,7 @@ ports:
     shear_angle: null
     width: 8.0
 settings:
-  changed: {}
-  child: null
-  default:
-    layer: WG
-    length: 10.0
-    width1: 5.0
-    width2: 8.0
-  full:
-    layer: WG
-    length: 10.0
-    width1: 5.0
-    width2: 8.0
-  function_name: ramp
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.ramp
-  name: ramp
+  layer: WG
+  length: 10.0
+  width1: 5.0
+  width2: 8.0

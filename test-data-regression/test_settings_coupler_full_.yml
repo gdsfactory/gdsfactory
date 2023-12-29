@@ -49,24 +49,9 @@ ports:
     shear_angle: null
     width: 0.6
 settings:
-  changed: {}
-  child: null
-  default:
-    coupling_length: 40.0
-    cross_section: xs_sc
-    dw: 0.1
-    dx: 10.0
-    dy: 4.8
-    gap: 0.5
-  full:
-    coupling_length: 40.0
-    cross_section: xs_sc
-    dw: 0.1
-    dx: 10.0
-    dy: 4.8
-    gap: 0.5
-  function_name: coupler_full
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.coupler_full
-  name: coupler_full
+  coupling_length: 40.0
+  cross_section: xs_sc
+  dw: 0.1
+  dx: 10.0
+  dy: 4.8
+  gap: 0.5

@@ -73,35 +73,13 @@ ports:
     shear_angle: null
     width: 100.0
 settings:
-  changed: {}
-  child: null
-  default:
-    bottom: null
-    component:
-      function: pad_array
-    gap: 50
-    left: cross
-    offset:
-    - 0
-    - 0
-    right: cross
-    top: null
-  full:
-    bottom: null
-    component:
-      function: pad_array
-    gap: 50
-    left: cross
-    offset:
-    - 0
-    - 0
-    right: cross
-    top: null
-  function_name: add_fiducials
-  info:
-    size:
-    - 100.0
-    - 100.0
-  info_version: 2
-  module: gdsfactory.components.add_fiducials
-  name: add_fiducials
+  bottom: null
+  component:
+    function: pad_array
+  gap: 50
+  left: cross
+  offset:
+  - 0
+  - 0
+  right: cross
+  top: null

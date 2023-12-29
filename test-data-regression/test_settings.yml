@@ -25,37 +25,9 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-  full:
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-  function_name: demo_cross_section_setting
-  info:
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-    length: 10.0
-    route_info:
-      length: 10.0
-      type: xs_sc
-      weight: 10.0
-      xs_sc_length: 10.0
-    width: 0.5
-  info_version: 2
-  module: test_serialize
-  name: demo_cross_section_setting
+  cross_section:
+    function: cross_section
+    settings:
+      add_pins_function_name: null
+      radius: 10
+      radius_min: 5

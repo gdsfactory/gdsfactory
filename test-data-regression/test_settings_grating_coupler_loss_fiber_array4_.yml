@@ -1,24 +1,9 @@
 name: grating_coupler_loss_fiber_array4
 ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    grating_coupler:
-      function: grating_coupler_elliptical_trenches
-      settings:
-        polarization: te
-        taper_angle: 35
-    pitch: 127.0
-  full:
-    grating_coupler:
-      function: grating_coupler_elliptical_trenches
-      settings:
-        polarization: te
-        taper_angle: 35
-    pitch: 127.0
-  function_name: grating_coupler_loss_fiber_array4
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.grating_coupler_loss
-  name: grating_coupler_loss_fiber_array4
+  grating_coupler:
+    function: grating_coupler_elliptical_trenches
+    settings:
+      polarization: te
+      taper_angle: 35
+  pitch: 127.0

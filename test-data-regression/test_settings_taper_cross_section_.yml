@@ -25,67 +25,30 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section1:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          offset_function: null
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.2
-          width_function: null
-    cross_section2: xs_rc
-    length: 10
-    linear: false
-    npoints: 100
-    width_type: sine
-  full:
-    cross_section1:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          offset_function: null
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.2
-          width_function: null
-    cross_section2: xs_rc
-    length: 10
-    linear: false
-    npoints: 100
-    width_type: sine
-  function_name: taper_cross_section
-  info:
-    length: 10
-  info_version: 2
-  module: gdsfactory.components.taper_cross_section
-  name: taper_cross_section
+  cross_section1:
+    function: cross_section
+    settings:
+      add_pins_function_name: null
+      radius: 10
+      radius_min: 5
+      sections:
+      - hidden: false
+        insets: null
+        layer: SLAB90
+        name: slab
+        offset: 0
+        offset_function: null
+        port_names:
+        - null
+        - null
+        port_types:
+        - optical
+        - optical
+        simplify: null
+        width: 0.2
+        width_function: null
+  cross_section2: xs_rc
+  length: 10
+  linear: false
+  npoints: 100
+  width_type: sine

@@ -25,30 +25,10 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    add_pins: true
-    cross_section: xs_sc
-    npoints: 99
-    size:
-    - 11.0
-    - 1.8
-    with_bbox: true
-  full:
-    add_pins: true
-    cross_section: xs_sc
-    npoints: 99
-    size:
-    - 11.0
-    - 1.8
-    with_bbox: true
-  function_name: bend_s
-  info:
-    end_angle: 0
-    length: 11.206
-    min_bend_radius: 13.012
-    start_angle: 0
-  info_version: 2
-  module: gdsfactory.components.bend_s
-  name: bend_s
+  add_pins: true
+  cross_section: xs_sc
+  npoints: 99
+  size:
+  - 11.0
+  - 1.8
+  with_bbox: true

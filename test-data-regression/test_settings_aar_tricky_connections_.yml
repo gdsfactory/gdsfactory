@@ -1,31 +1,3 @@
 name: aar_tricky_connections
 ports: {}
-settings:
-  changed: {}
-  child: null
-  default: {}
-  full: {}
-  function_name: aar_tricky_connections
-  info:
-    instances:
-    - wg_a1
-    - wg_a2
-    - wg_b1
-    - wg_b2
-    - wg_c1
-    - wg_c2
-    - wg_d1
-    - wg_d2
-    - wg_e1
-    - wg_e2
-    - wg_f1
-    - wg_f2
-    - wg_g1
-    - wg_g2
-    - wg_h1
-    - wg_h2
-    - wg_i1
-    - wg_i2
-  info_version: 2
-  module: yaml_jinja
-  name: aar_tricky_connections
+settings: {}

@@ -25,17 +25,5 @@ ports:
     shear_angle: null
     width: 10.0
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_metal_routing
-    radius: 10
-  full:
-    cross_section: xs_metal_routing
-    radius: 10
-  function_name: wire_corner45
-  info:
-    length: 14.142
-  info_version: 2
-  module: gdsfactory.components.wire
-  name: wire_corner45
+  cross_section: xs_metal_routing
+  radius: 10

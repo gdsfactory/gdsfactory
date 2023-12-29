@@ -1,36 +1,15 @@
 name: cdsem_coupler
 ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    gaps:
-    - 0.15
-    - 0.2
-    - 0.25
-    length: 420.0
-    positions: null
-    spacing: 7.0
-    text:
-      function: text_rectangular
-      settings:
-        size: 1
-  full:
-    cross_section: xs_sc
-    gaps:
-    - 0.15
-    - 0.2
-    - 0.25
-    length: 420.0
-    positions: null
-    spacing: 7.0
-    text:
-      function: text_rectangular
-      settings:
-        size: 1
-  function_name: cdsem_coupler
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.cdsem_coupler
-  name: cdsem_coupler
+  cross_section: xs_sc
+  gaps:
+  - 0.15
+  - 0.2
+  - 0.25
+  length: 420.0
+  positions: null
+  spacing: 7.0
+  text:
+    function: text_rectangular
+    settings:
+      size: 1

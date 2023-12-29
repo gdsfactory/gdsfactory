@@ -25,34 +25,14 @@ ports:
     shear_angle: null
     width: 10.0
 settings:
-  changed: {}
-  child: null
-  default:
-    cpw_dimensions:
-    - 10
-    - 6
-    enclosure_box:
-    - - -200
-      - -200
-    - - 200
-      - 200
-    gap_layer: DEEPTRENCH
-    gap_to_ground: 5
-    metal_layer: WG
-  full:
-    cpw_dimensions:
-    - 10
-    - 6
-    enclosure_box:
-    - - -200
-      - -200
-    - - 200
-      - 200
-    gap_layer: DEEPTRENCH
-    gap_to_ground: 5
-    metal_layer: WG
-  function_name: interdigital_capacitor_enclosed
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.interdigital_capacitor_enclosed
-  name: interdigital_capacitor_enclosed
+  cpw_dimensions:
+  - 10
+  - 6
+  enclosure_box:
+  - - -200
+    - -200
+  - - 200
+    - 200
+  gap_layer: DEEPTRENCH
+  gap_to_ground: 5
+  metal_layer: WG

@@ -25,20 +25,6 @@ ports:
     shear_angle: null
     width: 10
 settings:
-  changed: {}
-  child: null
-  default:
-    fill_factor: 0.5
-    n_periods: 20
-    period: 0.75
-  full:
-    fill_factor: 0.5
-    n_periods: 20
-    period: 0.75
-  function_name: grating_coupler_elliptical_uniform
-  info:
-    polarization: te
-    wavelength: 1.554
-  info_version: 2
-  module: gdsfactory.components.grating_coupler_elliptical_arbitrary
-  name: grating_coupler_elliptical_uniform
+  fill_factor: 0.5
+  n_periods: 20
+  period: 0.75

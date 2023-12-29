@@ -1,16 +1,5 @@
 name: logo
 ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    layer: null
-    text: GDSFACTORY
-  full:
-    layer: null
-    text: GDSFACTORY
-  function_name: logo
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.logo
-  name: logo
+  layer: null
+  text: GDSFACTORY

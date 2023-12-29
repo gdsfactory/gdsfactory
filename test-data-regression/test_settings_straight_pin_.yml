@@ -121,66 +121,30 @@ ports:
     shear_angle: null
     width: 480.0
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section:
-      function: pin
-    length: 500.0
-    taper:
-      function: taper_strip_to_ridge
-    via_stack:
-      function: via_stack
-      settings:
-        layers:
-        - SLAB90
-        - M1
-        - M2
-        - MTOP
-        vias:
-        - function: via
-          settings:
-            layer: VIAC
-        - function: via
-          settings:
-            enclosure: 2
-            layer: VIA1
-        - function: via
-          settings:
-            layer: VIA2
-        - null
-    via_stack_spacing: 2
-    via_stack_width: 10.0
-  full:
-    cross_section:
-      function: pin
-    length: 500.0
-    taper:
-      function: taper_strip_to_ridge
-    via_stack:
-      function: via_stack
-      settings:
-        layers:
-        - SLAB90
-        - M1
-        - M2
-        - MTOP
-        vias:
-        - function: via
-          settings:
-            layer: VIAC
-        - function: via
-          settings:
-            enclosure: 2
-            layer: VIA1
-        - function: via
-          settings:
-            layer: VIA2
-        - null
-    via_stack_spacing: 2
-    via_stack_width: 10.0
-  function_name: straight_pin
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.straight_pin
-  name: straight_pin
+  cross_section:
+    function: pin
+  length: 500.0
+  taper:
+    function: taper_strip_to_ridge
+  via_stack:
+    function: via_stack
+    settings:
+      layers:
+      - SLAB90
+      - M1
+      - M2
+      - MTOP
+      vias:
+      - function: via
+        settings:
+          layer: VIAC
+      - function: via
+        settings:
+          enclosure: 2
+          layer: VIA1
+      - function: via
+        settings:
+          layer: VIA2
+      - null
+  via_stack_spacing: 2
+  via_stack_width: 10.0

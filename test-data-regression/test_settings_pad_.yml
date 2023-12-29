@@ -61,34 +61,11 @@ ports:
     shear_angle: null
     width: 100.0
 settings:
-  changed: {}
-  child: null
-  default:
-    bbox_layers: null
-    bbox_offsets: null
-    layer: MTOP
-    port_inclusion: 0
-    port_orientation: null
-    size:
-    - 100.0
-    - 100.0
-  full:
-    bbox_layers: null
-    bbox_offsets: null
-    layer: MTOP
-    port_inclusion: 0
-    port_orientation: null
-    size:
-    - 100.0
-    - 100.0
-  function_name: pad
-  info:
-    layer:
-    - 49
-    - 0
-    size:
-    - 100.0
-    - 100.0
-  info_version: 2
-  module: gdsfactory.components.pad
-  name: pad
+  bbox_layers: null
+  bbox_offsets: null
+  layer: MTOP
+  port_inclusion: 0
+  port_orientation: null
+  size:
+  - 100.0
+  - 100.0

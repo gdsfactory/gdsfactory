@@ -49,54 +49,24 @@ ports:
     shear_angle: null
     width: 11.0
 settings:
-  changed: {}
-  child: null
-  default:
-    layers:
-    - WG
-    - N
-    length: 30
-    offsets: null
-    via_stack:
-      function: via_stack
-      settings:
-        layers:
-        - WG
-        - NPP
-        - M1
-        vias:
-        - null
-        - null
-        - function: via
-          settings:
-            layer: VIAC
-    widths:
-    - 2.0
-    - 3.0
-  full:
-    layers:
-    - WG
-    - N
-    length: 30
-    offsets: null
-    via_stack:
-      function: via_stack
-      settings:
-        layers:
-        - WG
-        - NPP
-        - M1
-        vias:
-        - null
-        - null
-        - function: via
-          settings:
-            layer: VIAC
-    widths:
-    - 2.0
-    - 3.0
-  function_name: greek_cross
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.greek_cross
-  name: greek_cross
+  layers:
+  - WG
+  - N
+  length: 30
+  offsets: null
+  via_stack:
+    function: via_stack
+    settings:
+      layers:
+      - WG
+      - NPP
+      - M1
+      vias:
+      - null
+      - null
+      - function: via
+        settings:
+          layer: VIAC
+  widths:
+  - 2.0
+  - 3.0

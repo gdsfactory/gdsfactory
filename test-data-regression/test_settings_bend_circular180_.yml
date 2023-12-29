@@ -25,38 +25,11 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed:
-    angle: 180
-  child: null
-  default:
-    add_bbox: null
-    add_pins: true
-    angle: 90.0
-    cross_section: xs_sc
-    layer: null
-    npoints: null
-    radius: null
-    width: null
-  full:
-    add_bbox: null
-    add_pins: true
-    angle: 180
-    cross_section: xs_sc
-    layer: null
-    npoints: null
-    radius: null
-    width: null
-  function_name: bend_circular
-  info:
-    dy: 0.0
-    length: 31.415
-    radius: 10.0
-    route_info:
-      length: 31.415
-      n_bend_90: 2.0
-      type: xs_sc
-      weight: 31.415
-      xs_sc_length: 31.415
-  info_version: 2
-  module: gdsfactory.components.bend_circular
-  name: bend_circular_angle180
+  add_bbox: null
+  add_pins: true
+  angle: 180
+  cross_section: xs_sc
+  layer: null
+  npoints: null
+  radius: null
+  width: null

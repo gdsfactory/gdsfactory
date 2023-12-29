@@ -1,30 +1,12 @@
 name: litho_calipers
 ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    layer1: WG
-    layer2: SLAB150
-    notch_size:
-    - 2.0
-    - 5.0
-    notch_spacing: 2.0
-    num_notches: 11
-    offset_per_notch: 0.1
-    row_spacing: 0.0
-  full:
-    layer1: WG
-    layer2: SLAB150
-    notch_size:
-    - 2.0
-    - 5.0
-    notch_spacing: 2.0
-    num_notches: 11
-    offset_per_notch: 0.1
-    row_spacing: 0.0
-  function_name: litho_calipers
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.litho_calipers
-  name: litho_calipers
+  layer1: WG
+  layer2: SLAB150
+  notch_size:
+  - 2.0
+  - 5.0
+  notch_spacing: 2.0
+  num_notches: 11
+  offset_per_notch: 0.1
+  row_spacing: 0.0

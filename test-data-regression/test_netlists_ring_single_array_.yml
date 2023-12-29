@@ -4,26 +4,57 @@ connections:
 instances:
   ring_single_1:
     component: ring_single
+    info: {}
     settings:
+      bend:
+        function: bend_euler
+      bend_coupler:
+        function: bend_euler
+      coupler_ring:
+        function: coupler_ring
+      cross_section: xs_sc
+      gap: 0.2
       length_x: 10.0
+      length_y: 0.6
+      pass_cross_section_to_bend: true
       radius: 5.0
+      straight:
+        function: straight
   ring_single_2:
     component: ring_single
+    info: {}
     settings:
+      bend:
+        function: bend_euler
+      bend_coupler:
+        function: bend_euler
+      coupler_ring:
+        function: coupler_ring
+      cross_section: xs_sc
+      gap: 0.2
       length_x: 20.0
+      length_y: 0.6
+      pass_cross_section_to_bend: true
+      radius: 10.0
+      straight:
+        function: straight
   straight_1:
     component: straight
     info:
-      cross_section: xs_sc
       length: 5.0
-      route_info:
-        length: 5.0
-        type: xs_sc
-        weight: 5.0
-        xs_sc_length: 5.0
+      route_info_length: 5.0
+      route_info_type: xs_sc
+      route_info_weight: 5.0
+      route_info_xs_sc_length: 5.0
       width: 0.5
     settings:
+      add_bbox: null
+      add_pins: true
+      cross_section: xs_sc
+      layer: null
       length: 5.0
+      npoints: 2
+      width: null
 name: ring_single_array
 placements:
   ring_single_1:

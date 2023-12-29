@@ -1,43 +1,14 @@
 name: via_enclosure2_layerVIA1
 ports: {}
 settings:
-  changed:
-    enclosure: 2
-    layer: VIA1
-  child: null
-  default:
-    bbox_layers: null
-    bbox_offset: 0
-    enclosure: 1.0
-    gap: null
-    layer: VIAC
-    size:
-    - 0.7
-    - 0.7
-    spacing:
-    - 2.0
-    - 2.0
-  full:
-    bbox_layers: null
-    bbox_offset: 0
-    enclosure: 2
-    gap: null
-    layer: VIA1
-    size:
-    - 0.7
-    - 0.7
-    spacing:
-    - 2.0
-    - 2.0
-  function_name: via
-  info:
-    enclosure: 2
-    size:
-    - 0.7
-    - 0.7
-    spacing:
-    - 2.0
-    - 2.0
-  info_version: 2
-  module: gdsfactory.components.via
-  name: via_enclosure2_layerVIA1
+  bbox_layers: null
+  bbox_offset: 0
+  enclosure: 2
+  gap: null
+  layer: VIA1
+  size:
+  - 0.7
+  - 0.7
+  spacing:
+  - 2.0
+  - 2.0

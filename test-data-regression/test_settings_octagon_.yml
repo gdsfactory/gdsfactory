@@ -97,21 +97,7 @@ ports:
     shear_angle: null
     width: 10
 settings:
-  changed:
-    sides: 8
-  child: null
-  default:
-    layer: WG
-    port_type: placement
-    side_length: 10
-    sides: 6
-  full:
-    layer: WG
-    port_type: placement
-    side_length: 10
-    sides: 8
-  function_name: regular_polygon
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.regular_polygon
-  name: regular_polygon_sides8
+  layer: WG
+  port_type: placement
+  side_length: 10
+  sides: 8

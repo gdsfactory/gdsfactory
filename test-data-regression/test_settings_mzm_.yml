@@ -217,50 +217,22 @@ ports:
     shear_angle: null
     width: 480.0
 settings:
-  changed: {}
-  child: null
-  default:
-    bend:
-      function: bend_euler
-    combiner: mmi1x2
-    cross_section: xs_sc
-    delta_length: 0.0
-    length_x: 500
-    length_y: 2.0
-    mirror_bot: false
-    nbends: 2
-    phase_shifter:
-      function: straight_pin
-    port_e0_combiner: o3
-    port_e0_splitter: o3
-    port_e1_combiner: o2
-    port_e1_splitter: o2
-    splitter: mmi1x2
-    straight:
-      function: straight
-    with_splitter: true
-  full:
-    bend:
-      function: bend_euler
-    combiner: mmi1x2
-    cross_section: xs_sc
-    delta_length: 0.0
-    length_x: 500
-    length_y: 2.0
-    mirror_bot: false
-    nbends: 2
-    phase_shifter:
-      function: straight_pin
-    port_e0_combiner: o3
-    port_e0_splitter: o3
-    port_e1_combiner: o2
-    port_e1_splitter: o2
-    splitter: mmi1x2
-    straight:
-      function: straight
-    with_splitter: true
-  function_name: mzm
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.mzm
-  name: mzm
+  bend:
+    function: bend_euler
+  combiner: mmi1x2
+  cross_section: xs_sc
+  delta_length: 0.0
+  length_x: 500
+  length_y: 2.0
+  mirror_bot: false
+  nbends: 2
+  phase_shifter:
+    function: straight_pin
+  port_e0_combiner: o3
+  port_e0_splitter: o3
+  port_e1_combiner: o2
+  port_e1_splitter: o2
+  splitter: mmi1x2
+  straight:
+    function: straight
+  with_splitter: true

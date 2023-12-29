@@ -25,22 +25,8 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    L0: 5.0
-    bend: bend_euler
-    cross_section: xs_sc
-    length: 1600.0
-    n: 2
-  full:
-    L0: 5.0
-    bend: bend_euler
-    cross_section: xs_sc
-    length: 1600.0
-    n: 2
-  function_name: delay_snake
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.delay_snake
-  name: delay_snake
+  L0: 5.0
+  bend: bend_euler
+  cross_section: xs_sc
+  length: 1600.0
+  n: 2

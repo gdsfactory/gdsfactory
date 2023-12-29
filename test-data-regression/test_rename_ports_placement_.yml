@@ -61,32 +61,13 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed:
-    port_type: placement
-  child: null
-  default:
-    east: 4
-    layer: WG
-    north: 0
-    south: 0
-    west: 1
-    wg_margin: 1.0
-    wg_width: 0.5
-    xsize: 8.0
-    ysize: 8.0
-  full:
-    east: 4
-    layer: WG
-    north: 0
-    port_type: placement
-    south: 0
-    west: 1
-    wg_margin: 1.0
-    wg_width: 0.5
-    xsize: 8.0
-    ysize: 8.0
-  function_name: nxn
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.nxn
-  name: nxn_port_typeplacement
+  east: 4
+  layer: WG
+  north: 0
+  port_type: placement
+  south: 0
+  west: 1
+  wg_margin: 1.0
+  wg_width: 0.5
+  xsize: 8.0
+  ysize: 8.0

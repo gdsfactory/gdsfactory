@@ -1,4 +1,4 @@
-name: ring_single_add_trenches_06939900
+name: None_add_trenches_06939900
 ports:
   o1:
     center:
@@ -25,28 +25,10 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed:
-    component:
-      function: ring_single
-  child: null
-  default:
-    bot: true
-    component:
-      function: coupler
-    cross_section: xs_rc_with_trenches
-    left: false
-    right: false
-    top: true
-  full:
-    bot: true
-    component:
-      function: ring_single
-    cross_section: xs_rc_with_trenches
-    left: false
-    right: false
-    top: true
-  function_name: add_trenches
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.add_trenches
-  name: ring_single_add_trenches_06939900
+  bot: true
+  component:
+    function: ring_single
+  cross_section: xs_rc_with_trenches
+  left: false
+  right: false
+  top: true

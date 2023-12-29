@@ -1,28 +1,11 @@
 name: text_rectangular_multi_layer
 ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    layers:
-    - WG
-    - M1
-    - M2
-    - MTOP
-    text: abcd
-    text_factory:
-      function: text_rectangular
-  full:
-    layers:
-    - WG
-    - M1
-    - M2
-    - MTOP
-    text: abcd
-    text_factory:
-      function: text_rectangular
-  function_name: text_rectangular_multi_layer
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.text_rectangular
-  name: text_rectangular_multi_layer
+  layers:
+  - WG
+  - M1
+  - M2
+  - MTOP
+  text: abcd
+  text_factory:
+    function: text_rectangular

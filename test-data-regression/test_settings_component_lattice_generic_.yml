@@ -97,14 +97,4 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    network: null
-  full:
-    network: null
-  function_name: component_lattice_generic
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.component_lattice_generic
-  name: component_lattice_generic
+  network: null

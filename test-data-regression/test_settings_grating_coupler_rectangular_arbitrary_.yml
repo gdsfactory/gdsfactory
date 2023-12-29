@@ -25,82 +25,37 @@ ports:
     shear_angle: null
     width: 11.0
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    fiber_angle: 15
-    gaps:
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    layer_grating: null
-    layer_slab: SLAB150
-    length_taper: 150.0
-    polarization: te
-    slab_offset: 1.0
-    slab_xmin: -1.0
-    taper:
-      function: taper
-    wavelength: 1.55
-    width_grating: 11.0
-    widths:
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-  full:
-    cross_section: xs_sc
-    fiber_angle: 15
-    gaps:
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    - 0.2
-    layer_grating: null
-    layer_slab: SLAB150
-    length_taper: 150.0
-    polarization: te
-    slab_offset: 1.0
-    slab_xmin: -1.0
-    taper:
-      function: taper
-    wavelength: 1.55
-    width_grating: 11.0
-    widths:
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-    - 0.5
-  function_name: grating_coupler_rectangular_arbitrary
-  info:
-    polarization: te
-    wavelength: 1.55
-  info_version: 2
-  module: gdsfactory.components.grating_coupler_rectangular_arbitrary
-  name: grating_coupler_rectangular_arbitrary
+  cross_section: xs_sc
+  fiber_angle: 15
+  gaps:
+  - 0.2
+  - 0.2
+  - 0.2
+  - 0.2
+  - 0.2
+  - 0.2
+  - 0.2
+  - 0.2
+  - 0.2
+  - 0.2
+  layer_grating: null
+  layer_slab: SLAB150
+  length_taper: 150.0
+  polarization: te
+  slab_offset: 1.0
+  slab_xmin: -1.0
+  taper:
+    function: taper
+  wavelength: 1.55
+  width_grating: 11.0
+  widths:
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5

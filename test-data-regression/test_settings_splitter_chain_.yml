@@ -1,4 +1,4 @@
-name: mmi1x2_splitter_chain
+name: None_splitter_chain
 ports:
   o1:
     center:
@@ -61,22 +61,8 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    bend:
-      function: bend_s
-    columns: 3
-    splitter:
-      function: mmi1x2
-  full:
-    bend:
-      function: bend_s
-    columns: 3
-    splitter:
-      function: mmi1x2
-  function_name: splitter_chain
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.splitter_chain
-  name: mmi1x2_splitter_chain
+  bend:
+    function: bend_s
+  columns: 3
+  splitter:
+    function: mmi1x2

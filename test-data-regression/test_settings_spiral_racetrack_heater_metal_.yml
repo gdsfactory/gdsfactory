@@ -49,36 +49,15 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    bend_factory:
-      function: bend_euler
-    bend_s_factory:
-      function: bend_s
-    heater_cross_section: xs_heater_metal
-    min_radius: null
-    num: 8
-    spacing: 2
-    straight_factory:
-      function: straight
-    straight_length: 30
-    waveguide_cross_section: xs_sc
-  full:
-    bend_factory:
-      function: bend_euler
-    bend_s_factory:
-      function: bend_s
-    heater_cross_section: xs_heater_metal
-    min_radius: null
-    num: 8
-    spacing: 2
-    straight_factory:
-      function: straight
-    straight_length: 30
-    waveguide_cross_section: xs_sc
-  function_name: spiral_racetrack_heater_metal
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.spiral_heater
-  name: spiral_racetrack_heater_metal
+  bend_factory:
+    function: bend_euler
+  bend_s_factory:
+    function: bend_s
+  heater_cross_section: xs_heater_metal
+  min_radius: null
+  num: 8
+  spacing: 2
+  straight_factory:
+    function: straight
+  straight_length: 30
+  waveguide_cross_section: xs_sc
