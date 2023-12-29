@@ -385,16 +385,6 @@ class Component(_GeometryHelper):
         _get_dependencies(self, references_set=references_set)
         return list(references_set)
 
-    def get_component_spec(self):
-        return (
-            {
-                "component": self.settings.function_name,
-                "settings": self.settings.changed,
-            }
-            if self.settings
-            else {"component": self.name, "settings": {}}
-        )
-
     def __getitem__(self, key: str | int) -> Port:
         """Access reference ports."""
         if isinstance(key, int):
@@ -409,20 +399,6 @@ class Component(_GeometryHelper):
     def __lshift__(self, element) -> ComponentReference:
         """Convenience operator equivalent to add_ref()."""
         return self.add_ref(element)
-
-    def unlock(self) -> None:
-        """Only do this if you know what you are doing."""
-        warnings.warn("DeprecationWarning, we will remove this to discourage use")
-        self._locked = False
-
-    def lock(self) -> None:
-        """Makes sure components can't add new elements or move existing ones.
-
-        Components lock automatically when going into the CACHE to
-        ensure one component does not change others
-        """
-        warnings.warn("DeprecationWarning, we will remove this to discourage use")
-        self._locked = True
 
     def __setitem__(self, key, element):
         """Allow adding polygons and cell references.
@@ -931,24 +907,6 @@ class Component(_GeometryHelper):
 
         pprint_ports(self.get_ports_list(sort_by_name=sort_by_name, **kwargs))
 
-    @property
-    def metadata_child(self) -> dict:
-        """Returns metadata from child if any, Otherwise returns component own.
-
-        metadata Great to access the children metadata at the bottom of the
-        hierarchy.
-        """
-        settings = dict(self.settings)
-
-        while settings.get("child"):
-            settings = settings.get("child")
-
-        return dict(settings)
-
-    @property
-    def metadata(self) -> dict:
-        return dict(self.settings)
-
     def add_port(
         self,
         name: str | object | None = None,
@@ -1262,13 +1220,6 @@ class Component(_GeometryHelper):
     def size_info(self) -> SizeInfo:
         """Size info of the component."""
         return SizeInfo(self.bbox)
-
-    def get_setting(self, setting: str) -> str | int | float:
-        return (
-            self.info.get(setting)
-            or self.settings.full.get(setting)
-            or self.metadata_child.get(setting)
-        )
 
     def is_unlocked(self) -> None:
         """Raises warning if Component is locked."""
@@ -2306,22 +2257,6 @@ class Component(_GeometryHelper):
         """Remove labels."""
         self._cell.remove(*self.labels)
 
-    # Deprecated
-    def get_info(self):
-        """Gathers the .info dictionaries from every sub-Component and returns them in a list.
-
-        Args:
-            depth: int or None
-                If not None, defines from how many reference levels to
-                retrieve Ports from.
-
-        Returns:
-            list of dictionaries
-                List of the ".info" property dictionaries from all sub-Components
-        """
-        D_list = self.get_dependencies(recursive=True)
-        return [D.info.copy() for D in D_list]
-
     def remap_layers(self, layermap, **kwargs) -> Component:
         """Returns a copy of the component with remapped layers.
 
@@ -2544,8 +2479,81 @@ class Component(_GeometryHelper):
         d |= kwargs
         self.info["route_info"] = d
 
+    def get_component_spec(self):
+        return (
+            {
+                "component": self.settings.function_name,
+                "settings": self.settings.changed,
+            }
+            if self.settings
+            else {"component": self.name, "settings": {}}
+        )
 
-# Component methods
+    @property
+    def metadata_child(self) -> dict:
+        """Returns metadata from child if any, Otherwise returns component own.
+        metadata can access the children metadata at the bottom of the hierarchy.
+        """
+        settings = dict(self.settings)
+
+        while settings.get("child"):
+            settings = settings.get("child")
+
+        return dict(settings)
+
+    # Deprecated
+    def get_info(self):
+        """Gathers the .info dictionaries from every sub-Component and returns them in a list.
+
+        Args:
+            depth: int or None
+                If not None, defines from how many reference levels to
+                retrieve Ports from.
+
+        Returns:
+            list of dictionaries
+                List of the ".info" property dictionaries from all sub-Components
+        """
+        warnings.warn(
+            "get_info is deprecated and will be removed in future versions of gdsfactory"
+        )
+        D_list = self.get_dependencies(recursive=True)
+        return [D.info.copy() for D in D_list]
+
+    def get_setting(self, setting: str) -> str | int | float:
+        warnings.warn(
+            "get_setting is deprecated and will be removed in future versions of gdsfactory"
+        )
+        return (
+            self.info.get(setting)
+            or self.settings.full.get(setting)
+            or self.metadata_child.get(setting)
+        )
+
+    def unlock(self) -> None:
+        """Only do this if you know what you are doing."""
+        warnings.warn("we will remove unlock to discourage use")
+        self._locked = False
+
+    def lock(self) -> None:
+        """Makes sure components can't add new elements or move existing ones.
+
+        Components lock automatically when going into the CACHE to
+        ensure one component does not change others
+        """
+        warnings.warn("we will remove lock to discourage use")
+        self._locked = True
+
+    @property
+    def metadata(self) -> dict:
+        warnings.warn(
+            "metadata is deprecated and will be removed in future versions of gdsfactory. "
+            "Use component.settings for accessing component settings or component.info for component info."
+        )
+        return dict(self.settings)
+
+
+# Component functions
 
 
 def copy(
@@ -2784,10 +2792,12 @@ if __name__ == "__main__":
     # from functools import partial
     import gdsfactory as gf
 
-    c = gf.Component()
-    wg1 = c << gf.components.straight(width=0.5, layer=(1, 0))
-    wg2 = c << gf.components.straight(width=0.5, layer=(2, 0))
-    wg2.connect("o1", wg1.ports["o2"])
+    c = gf.components.straight()
+
+    # c = gf.Component()
+    # wg1 = c << gf.components.straight(width=0.5, layer=(1, 0))
+    # wg2 = c << gf.components.straight(width=0.5, layer=(2, 0))
+    # wg2.connect("o1", wg1.ports["o2"])
     c.show()
     # custom_padding = partial(gf.add_padding, layers=("WG",))
     # c = gf.c.mzi(decorator=custom_padding)

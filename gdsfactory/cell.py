@@ -322,7 +322,7 @@ def cell(
             component = component_new or component
             CACHE[component_name] = component
 
-        component.lock()
+        component._locked = True
         CACHE_IDS.add(id(component))
         return component
 
