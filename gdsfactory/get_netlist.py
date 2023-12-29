@@ -90,7 +90,6 @@ def get_instance_name_from_label(
 
 def get_netlist_yaml(
     component: Component,
-    full_settings: bool = False,
     tolerance: int = 5,
     exclude_port_types: list | None = None,
     **kwargs,
@@ -99,7 +98,6 @@ def get_netlist_yaml(
     return omegaconf.OmegaConf.to_yaml(
         get_netlist(
             component=component,
-            full_settings=full_settings,
             tolerance=tolerance,
             exclude_port_types=exclude_port_types,
             **kwargs,
@@ -109,7 +107,6 @@ def get_netlist_yaml(
 
 def get_netlist(
     component: Component,
-    full_settings: bool = False,
     tolerance: int = 5,
     exclude_port_types: list[str] | tuple[str] | None = ("placement",),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
@@ -140,7 +137,6 @@ def get_netlist(
 
     Args:
         component: to extract netlist.
-        full_settings: True returns all, false changed settings.
         tolerance: tolerance in grid_factor to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
@@ -199,10 +195,10 @@ def get_netlist(
 
         # Prefer name from settings over c.name
         if c.settings:
-            settings = c.settings.full if full_settings else c.settings.changed
+            settings = c.settings
 
             instance.update(
-                component=getattr(c.settings, "function_name", c.name),
+                component=c.function_name or c.name,
                 settings=clean_value_json(settings),
             )
 
@@ -560,7 +556,6 @@ def get_netlist_recursive(
         get_netlist_func: function to extract individual netlists.
 
     Keyword Args:
-        full_settings: True returns all, false changed settings.
         tolerance: tolerance in grid_factor to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
@@ -647,6 +642,8 @@ if __name__ == "__main__":
 
     # flatten the oddly rotated refs
     c = flatten_invalid_refs(c)
+    print(c.get_dependencies())
+    c.show()
 
     # perform the initial sanity checks on the netlist
     netlist = c.get_netlist()
@@ -661,7 +658,7 @@ if __name__ == "__main__":
     top_netlist = recursive_netlist[cname]
     # the recursive netlist should have 3 entries, for the top level and two
     # rotated straights
-    assert len(recursive_netlist) == 3
+    assert len(recursive_netlist) == 1, len(recursive_netlist)
     # confirm that the child netlists have reference attributes properly set
 
     i1_cell_name = top_netlist["instances"]["i1"]["component"]

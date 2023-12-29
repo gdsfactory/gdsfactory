@@ -98,7 +98,7 @@ def floorplan_with_block_letters(
     max_w, max_h = w * (1 - margin), h * (1 - margin)
     text_init_size = 3.0
     text_init = text(
-        component.settings.function_name,
+        component.function_name,
         size=text_init_size,
         layer=(2, 0),
         justify="center",
@@ -109,7 +109,7 @@ def floorplan_with_block_letters(
     scaling = min(w_scaling, h_scaling)
     text_size = text_init_size * scaling
     text_component = text(
-        component.settings.function_name, size=text_size, layer=(2, 0), justify="center"
+        component.function_name, size=text_size, layer=(2, 0), justify="center"
     )
 
     text = sym << text_component

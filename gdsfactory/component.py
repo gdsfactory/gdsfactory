@@ -1504,9 +1504,8 @@ class Component(_GeometryHelper):
                 alias = reference.name
             else:
                 prefix = (
-                    component.settings.function_name
-                    if hasattr(component, "settings")
-                    and hasattr(component.settings, "function_name")
+                    component.function_name
+                    if component.function_name
                     else component.name
                 )
                 self._reference_names_counter.update({prefix: 1})
@@ -2698,10 +2697,7 @@ def recurse_structures(
     ignore_functions_prefix = ignore_functions_prefix or []
     ignore_components_prefix = ignore_components_prefix or []
 
-    if (
-        hasattr(component, "function_name")
-        and component.function_name in ignore_functions_prefix
-    ):
+    if component.function_name and component.function_name in ignore_functions_prefix:
         return {}
 
     if hasattr(component, "name") and any(
