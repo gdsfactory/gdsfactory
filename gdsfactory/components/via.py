@@ -56,8 +56,8 @@ def via(
     c.info["xspacing"], c.info["yspacing"] = spacing
     c.info["enclosure"] = enclosure
     c.info["xsize"], c.info["ysize"] = size
-    c.info["size"] = size
-    c.info["spacing"] = spacing
+    c.info["size"] = tuple(size)
+    c.info["spacing"] = tuple(spacing)
 
     width, height = size
     a = width / 2

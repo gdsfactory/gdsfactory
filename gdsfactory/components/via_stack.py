@@ -200,7 +200,6 @@ def via_stack_from_rules(
             ref = c << compass(size=size, layer=layer, port_type="electrical")
 
     vias = vias or []
-    c.info["vias"] = []
     for current_via, min_size, min_gap, min_enclosure in zip(
         vias, via_min_size, via_min_gap, via_min_enclosure
     ):
@@ -209,7 +208,6 @@ def via_stack_from_rules(
             via = gf.get_component(
                 optimized_via(current_via, size, min_size, min_gap, min_enclosure)
             )
-            c.info["vias"].append(via.info)
 
             w, h = via.info["size"]
             g = via.info["enclosure"]
@@ -334,5 +332,6 @@ via_stack_heater_mtop = via_stack_heater_m3 = partial(
 if __name__ == "__main__":
     # c = via_stack()
     # c = gf.pack([via_stack_slab_m3, via_stack_heater_mtop])[0]
-    c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
+    # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
+    c = via_stack_from_rules()
     c.show(show_ports=True)
