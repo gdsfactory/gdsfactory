@@ -19,17 +19,26 @@ straight = partial(
 def test_add_labels_optical() -> None:
     c = Component()
     wg = c << straight(length=1.467)
+    component_name = wg.parent.name
 
     gc = gf.components.grating_coupler_elliptical_te()
     label1 = get_input_label(
-        port=wg.ports["o1"], gc=gc, gc_index=0, layer_label=(201, 0)
+        port=wg.ports["o1"],
+        gc=gc,
+        gc_index=0,
+        layer_label=(201, 0),
+        component_name=component_name,
     )
     label2 = get_input_label(
-        port=wg.ports["o2"], gc=gc, gc_index=1, layer_label=(201, 0)
+        port=wg.ports["o2"],
+        gc=gc,
+        gc_index=1,
+        layer_label=(201, 0),
+        component_name=component_name,
     )
 
     labels = get_labels(
-        wg, component_name=wg.parent.name, get_label_function=get_input_label, gc=gc
+        wg, component_name=component_name, get_label_function=get_input_label, gc=gc
     )
 
     c.add(labels)
@@ -54,6 +63,38 @@ def test_add_labels_electrical() -> None:
     )
     c.add(labels)
 
+    labels_text = [c.labels[0].text, c.labels[1].text]
+
+    assert label1.text in labels_text, f"{label1.text} not in {labels_text}"
+    assert label2.text in labels_text, f"{label2.text} not in {labels_text}"
+
+
+if __name__ == "__main__":
+    c = Component()
+    wg = c << straight(length=1.467)
+    component_name = wg.parent.name
+
+    gc = gf.components.grating_coupler_elliptical_te()
+    label1 = get_input_label(
+        port=wg.ports["o1"],
+        gc=gc,
+        gc_index=0,
+        layer_label=(201, 0),
+        component_name=component_name,
+    )
+    label2 = get_input_label(
+        port=wg.ports["o2"],
+        gc=gc,
+        gc_index=1,
+        layer_label=(201, 0),
+        component_name=component_name,
+    )
+
+    labels = get_labels(
+        wg, component_name=component_name, get_label_function=get_input_label, gc=gc
+    )
+
+    c.add(labels)
     labels_text = [c.labels[0].text, c.labels[1].text]
 
     assert label1.text in labels_text, f"{label1.text} not in {labels_text}"

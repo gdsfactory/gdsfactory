@@ -84,6 +84,26 @@ class CellSettings(BaseModel, extra="allow", validate_assignment=True, frozen=Tr
         return getattr(self, __key) if hasattr(self, __key) else default
 
 
+class ComponentSpec(BaseModel, extra="allow", validate_assignment=True, frozen=True):
+    """ComponentSpec is a dataclass that stores the settings used to create a component."""
+
+    settings: CellSettings = CellSettings()
+    function: str
+    module: str
+
+    @model_validator(mode="before")
+    def restrict_types(cls, data: dict[str, Any]) -> dict[str, int | float | str]:
+        for name, value in data.items():
+            data[name] = clean_value_json(value)
+        return data
+
+    def __getitem__(self, key: str) -> Any:
+        return getattr(self, key)
+
+    def get(self, __key: str, default: Any | None = None) -> Any:
+        return getattr(self, __key) if hasattr(self, __key) else default
+
+
 class Info(BaseModel, extra="allow", validate_assignment=True):
     @model_validator(mode="before")
     def restrict_types(
@@ -248,8 +268,8 @@ class Component(_GeometryHelper):
         self._reference_names_used = set()
         self._named_references = {}
         self._references = []
-        self.function_name = None
-        self.module = None
+        self.function_name = ""
+        self.module = ""
 
         self.ports = {}
         self.child = None
@@ -2524,15 +2544,11 @@ class Component(_GeometryHelper):
         for key, value in kwargs.items():
             info[f"route_info_{key}"] = value
 
-    def get_component_spec(self):
-        return (
-            {
-                "function": self.function_name,
-                "module": self.module,
-                "settings": self.settings,
-            }
-            if self.settings
-            else {"component": self.name, "settings": {}}
+    def get_component_spec(self) -> ComponentSpec:
+        return ComponentSpec(
+            function=self.function_name,
+            module=self.module,
+            settings=self.settings,
         )
 
     @property
@@ -2623,6 +2639,7 @@ def copy(
         labels: labels to copy.
     """
     c = Component()
+    c.settings = D.settings
     c.info = D.info
     c.child = D.child
 
@@ -2836,6 +2853,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.straight()
+    c = gf.routing.add_fiber_single(c)
 
     # c = gf.Component()
     # wg1 = c << gf.components.straight(width=0.5, layer=(1, 0))

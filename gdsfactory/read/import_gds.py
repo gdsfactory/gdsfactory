@@ -120,6 +120,8 @@ def import_gds(
             info = OmegaConf.to_container(metadata.info)
             if info:
                 component.info = Info(**info)
+            component.function_name = metadata.function_name
+            component.module = metadata.module
 
         if "ports" in metadata:
             for port_name, port in metadata.ports.items():

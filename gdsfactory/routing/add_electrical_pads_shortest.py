@@ -56,7 +56,7 @@ def add_electrical_pads_shortest(
     )
     ports = list(ports.values())
 
-    pad_port_spacing += pad.metadata_child["full"]["size"][0] / 2
+    pad_port_spacing += pad.info["xsize"] / 2
 
     for i, port in enumerate(ports):
         p = c << pad

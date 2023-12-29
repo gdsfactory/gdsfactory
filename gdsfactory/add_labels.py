@@ -68,7 +68,7 @@ def get_input_label_text(
             f"{wavelength} needs to be > 0.5um and < 5um. Make sure it's in um"
         )
 
-    component_name = component_name or port.parent.metadata_child.get("name")
+    component_name = component_name or port.parent.name
 
     text = f"{prefix}_{polarization}_{int(wavelength*1e3)}_({component_prefix}{component_name}){suffix}"
     if isinstance(gc_index, int):

@@ -22,16 +22,10 @@ def test_copied_cell_keeps_info() -> None:
     c1 = gf.components.straight()
     c2 = c1.copy()
     assert (
-        len(c1.info) > 0
+        len(dict(c1.info)) > 0
     ), "This test doesn't make any sense unless there is some info to copy"
     assert c1.info == c2.info
-
-
-if __name__ == "__main__":
-    c = gf.Component()
-    c1 = gf.components.straight()
-    c2 = c1.copy()
-
-    _ = c << c1
-    _ = c << c2
-    c.show(show_ports=True)
+    assert (
+        len(dict(c1.settings)) > 0
+    ), "This test doesn't make any sense unless there is some info to copy"
+    assert c1.settings == c2.settings
