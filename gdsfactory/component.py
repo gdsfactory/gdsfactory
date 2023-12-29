@@ -412,6 +412,7 @@ class Component(_GeometryHelper):
 
     def unlock(self) -> None:
         """Only do this if you know what you are doing."""
+        warnings.warn("DeprecationWarning, we will remove this to discourage use")
         self._locked = False
 
     def lock(self) -> None:
@@ -420,6 +421,7 @@ class Component(_GeometryHelper):
         Components lock automatically when going into the CACHE to
         ensure one component does not change others
         """
+        warnings.warn("DeprecationWarning, we will remove this to discourage use")
         self._locked = True
 
     def __setitem__(self, key, element):
@@ -1274,6 +1276,7 @@ class Component(_GeometryHelper):
             message = (
                 f"Component {self.name!r} is dangerous to modify as it's already "
                 "on cache and will change all of its references. "
+                + mutability_error_message
             )
             if CONF.raise_error_on_mutation:
                 raise MutabilityError(message)
