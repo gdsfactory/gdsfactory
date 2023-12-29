@@ -6,14 +6,14 @@ import hashlib
 import inspect
 from collections.abc import Callable
 from functools import partial
-from typing import Any, TypeVar, overload
+from typing import TypeVar, overload
 
-from pydantic import BaseModel, validate_call
+from pydantic import validate_call
 
-from gdsfactory.component import Component, name_counters
+from gdsfactory.component import CellSettings, Component, name_counters
 from gdsfactory.config import CONF
 from gdsfactory.name import clean_name, get_name_short
-from gdsfactory.serialization import clean_dict, clean_value_name
+from gdsfactory.serialization import clean_value_name
 
 CACHE: dict[str, Component] = {}
 CACHE_IDS = set()
@@ -51,21 +51,6 @@ def clear_cache() -> None:
 def print_cache() -> None:
     for k in CACHE:
         print(k)
-
-
-class Settings(BaseModel):
-    name: str
-    function_name: str | None = None
-    module: str | None = None
-
-    info: dict[str, Any] = {}  # derived properties (length, resistance)
-    info_version: int = INFO_VERSION
-
-    full: dict[str, Any] = {}
-    changed: dict[str, Any] = {}
-    default: dict[str, Any] = {}
-
-    child: dict[str, Any] | None = None
 
 
 # Type signature when calling as a decorator on a function
@@ -302,17 +287,13 @@ def cell(
             CACHE[name] = component
 
         info = info or {}
-        component.info.update(**info)
+
+        for k, v in info.items():
+            component.info[k] = v
         if add_settings:
-            component.settings = Settings(
-                name=component_name,
-                function_name=func.__name__,
-                module=func.__module__,
-                changed=clean_dict(changed),
-                default=clean_dict(default),
-                full=clean_dict(full),
-                info=component.info,
-            )
+            component.settings = CellSettings(**full)
+            component.function_name = func.__name__
+            component.module = func.__module__
             component.__doc__ = func.__doc__
 
         if decorator:

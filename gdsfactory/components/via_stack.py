@@ -66,7 +66,8 @@ def via_stack(
 
     c = Component()
     c.height = height_m
-    c.info["size"] = (float(size[0]), float(size[1]))
+    c.info["xsize"] = size[0]
+    c.info["ysize"] = size[1]
     c.info["layer"] = layer_port
 
     for layer, offset in zip(layers, layer_offsets):
@@ -84,9 +85,9 @@ def via_stack(
             width += 2 * offset
             height += 2 * offset
             _via = gf.get_component(via)
-            w, h = _via.info["size"]
+            w, h = _via.info["xsize"], _via.info["ysize"]
             enclosure = _via.info["enclosure"]
-            pitch_x, pitch_y = _via.info["spacing"]
+            pitch_x, pitch_y = _via.info["xspacing"], _via.info["yspacing"]
 
             if slot_horizontal:
                 width = size[0] - 2 * enclosure
@@ -184,7 +185,8 @@ def via_stack_from_rules(
 
     c = Component()
     c.height = height
-    c.info["size"] = (float(size[0]), float(size[1]))
+    c.info["xsize"] = size[0]
+    c.info["ysize"] = size[1]
     c.info["layer"] = layer_port
 
     layer_offsets = layer_offsets or [0] * len(layers)

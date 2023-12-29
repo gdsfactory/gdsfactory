@@ -22,6 +22,7 @@ import gdstk
 import numpy as np
 import yaml
 from omegaconf import DictConfig
+from pydantic import BaseModel, model_validator
 
 from gdsfactory import snap
 from gdsfactory.component_layout import (
@@ -48,7 +49,7 @@ from gdsfactory.port import (
     map_ports_to_orientation_cw,
     select_ports,
 )
-from gdsfactory.serialization import clean_dict
+from gdsfactory.serialization import clean_dict, clean_value_json
 from gdsfactory.snap import snap_to_grid
 
 if TYPE_CHECKING:
@@ -67,6 +68,44 @@ if TYPE_CHECKING:
 valid_plotters = ["matplotlib", "klayout", "kweb"]
 Axis = Literal["x", "y"]
 os.environ["KWEB_FILESLOCATION"] = str(GDSDIR_TEMP)
+
+
+class CellSettings(BaseModel, extra="allow", validate_assignment=True, frozen=True):
+    @model_validator(mode="before")
+    def restrict_types(cls, data: dict[str, Any]) -> dict[str, int | float | str]:
+        for name, value in data.items():
+            data[name] = clean_value_json(value)
+        return data
+
+    def __getitem__(self, key: str) -> Any:
+        return getattr(self, key)
+
+    def get(self, __key: str, default: Any | None = None) -> Any:
+        return getattr(self, __key) if hasattr(self, __key) else default
+
+
+class Info(BaseModel, extra="allow", validate_assignment=True):
+    @model_validator(mode="before")
+    def restrict_types(
+        cls, data: dict[str, int | float | str | tuple[float | int, ...]]
+    ) -> dict[str, int | float | str]:
+        for name, value in data.items():
+            if not isinstance(value, str | int | float | tuple[int | float, ...]):
+                raise ValueError(
+                    "Values of the info dict only support int, float, string or tuple."
+                    f"{name}: {value}, {type(value)}"
+                )
+
+        return data
+
+    def __getitem__(self, __key: str) -> Any:
+        return getattr(self, __key)
+
+    def get(self, __key: str, default: Any | None = None) -> Any:
+        return getattr(self, __key) if hasattr(self, __key) else default
+
+    def __setitem__(self, __key: str, __val: str | int | float) -> None:
+        setattr(self, __key, __val)
 
 
 class UncachedComponentWarning(UserWarning):
@@ -200,15 +239,17 @@ class Component(_GeometryHelper):
 
         self._cell = gdstk.Cell("Unnamed")
         self.rename(name, max_name_length=max_name_length)
-        self.info: dict[str, Any] = {}
+        self.info: Info = Info()
 
-        self.settings: dict[str, Any] = {}
+        self.settings: CellSettings = CellSettings()
         self._locked = False
         self._get_child_name = False
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
         self._named_references = {}
         self._references = []
+        self.function_name = None
+        self.module = None
 
         self.ports = {}
         self.child = None
@@ -1213,8 +1254,9 @@ class Component(_GeometryHelper):
             )
 
         self.child = component
-        self.info.update(component.info)
-        self.settings.update(component.settings)
+        for k, v in component.info:
+            if k not in self.info:
+                self.info[k] = v
 
     @property
     def size_info(self) -> SizeInfo:
@@ -2468,22 +2510,23 @@ class Component(_GeometryHelper):
             else pdk.get_cross_section_name(cross_section)
         )
 
-        d = {
-            "type": xs_name,
-            "length": length_eff,
-            f"{xs_name}_length": length_eff,
-            "weight": length_eff,
-        }
+        info = self.info
         if taper:
-            d[f"{xs_name}_taper_length"] = length
-        d |= kwargs
-        self.info["route_info"] = d
+            info[f"route_info_{xs_name}_taper_length"] = length
+
+        info["route_info_type"] = xs_name
+        info["route_info_length"] = length_eff
+        info["route_info_weight"] = length_eff
+        info[f"route_info_{xs_name}_length"] = length_eff
+        for key, value in kwargs.items():
+            info[f"route_info_{key}"] = value
 
     def get_component_spec(self):
         return (
             {
-                "component": self.settings.function_name,
-                "settings": self.settings.changed,
+                "function": self.function_name,
+                "module": self.module,
+                "settings": self.settings,
             }
             if self.settings
             else {"component": self.name, "settings": {}}
@@ -2526,7 +2569,7 @@ class Component(_GeometryHelper):
         )
         return (
             self.info.get(setting)
-            or self.settings.full.get(setting)
+            or self.settings.get(setting)
             or self.metadata_child.get(setting)
         )
 

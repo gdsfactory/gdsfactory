@@ -59,7 +59,6 @@ def straight(
         c.info["width"] = x.width
     else:
         c.info["width"] = x.sections[0].width
-    c.info["cross_section"] = cross_section
 
     c.add_route_info(cross_section=x, length=length)
     c.absorb(ref)

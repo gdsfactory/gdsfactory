@@ -37,7 +37,8 @@ def pad(
     )
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
-    c.info["size"] = (float(size[0]), float(size[1]))
+    c.info["xsize"] = size[0]
+    c.info["ysize"] = size[1]
     c.info["layer"] = layer
     c.absorb(c_ref)
 
@@ -92,11 +93,13 @@ def pad_array(
     """
     c = Component()
     pad = gf.get_component(pad)
-    size = pad.settings.full["size"]
-    c.info["size"] = size
+    xsize = pad.info["xsize"]
+    ysize = pad.info["ysize"]
+    c.info["xsize"] = xsize
+    c.info["ysize"] = ysize
 
     c.add_array(pad, columns=columns, rows=rows, spacing=spacing)
-    width = size[0] if orientation in [90, 270] else size[1]
+    width = xsize if orientation in [90, 270] else ysize
 
     for col in range(columns):
         for row in range(rows):

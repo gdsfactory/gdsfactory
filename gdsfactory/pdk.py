@@ -628,7 +628,7 @@ class Pdk(BaseModel):
                         .get(sname, {})
                         .get("unit", None),
                     }
-                    for sname, svalue in c.settings.full.items()
+                    for sname, svalue in c.settings.items()
                     if isinstance(svalue, str | float | int)
                 },
                 pins={

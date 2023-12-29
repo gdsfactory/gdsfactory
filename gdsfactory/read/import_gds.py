@@ -6,8 +6,8 @@ import gdstk
 import numpy as np
 from omegaconf import OmegaConf
 
-from gdsfactory.cell import Settings, cell_import_gds
-from gdsfactory.component import Component
+from gdsfactory.cell import cell_import_gds
+from gdsfactory.component import CellSettings, Component
 from gdsfactory.component_reference import ComponentReference
 from gdsfactory.config import logger
 
@@ -116,7 +116,7 @@ def import_gds(
         if "settings" in metadata:
             settings = OmegaConf.to_container(metadata.settings)
             if settings:
-                component.settings = Settings(**settings)
+                component.settings = CellSettings(**settings)
 
         if "ports" in metadata:
             for port_name, port in metadata.ports.items():

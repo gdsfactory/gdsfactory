@@ -276,7 +276,6 @@ def add_fiber_single(
             )
 
     c.copy_child_info(component)
-    c.info["grating_coupler"] = gc.info
     return c
 
 
@@ -287,7 +286,7 @@ if __name__ == "__main__":
     # gc = gf.functions.rotate90(gf.components.grating_coupler_elliptical_arbitrary)
 
     gc = gf.components.grating_coupler_elliptical_arbitrary
-    c = gf.c.mmi2x2()
+    c = gf.c.bend_euler()
     cc = gf.routing.add_fiber_single(
         component=c,
         grating_coupler=gc,
