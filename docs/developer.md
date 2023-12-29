@@ -8,7 +8,7 @@ Upon Python installation, open Anaconda Prompt as Administrator and install the 
 
 
 ```
-conda install -c conda-forge gdsfactory -y
+conda install -c conda-forge gdstk -y
 pip install "gdsfactory[cad]"--upgrade
 ```
 
