@@ -54,7 +54,7 @@ def straight(
         x.add_bbox(c, right=0, left=0)
     if add_pins:
         x.add_pins(c)
-    c.info["length"] = length
+    c.info["length"] = float(length)
     if len(x.sections) == 0:
         c.info["width"] = x.width
     else:

@@ -2506,6 +2506,7 @@ class Component(_GeometryHelper):
         pdk = get_active_pdk()
 
         length_eff = length_eff or length
+        length_eff = float(length_eff)
         xs_name = (
             cross_section
             if isinstance(cross_section, str)
