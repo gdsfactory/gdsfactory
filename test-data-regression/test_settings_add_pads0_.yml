@@ -2,7 +2,7 @@ function_name: add_pads_top
 info:
   resistance: 0
 module: gdsfactory.routing.add_pads
-name: add_pads_bot_add_pads_top_2c1bc3da
+name: add_pads_bot_add_pads_top_95b11471
 ports:
   l_e2:
     center:

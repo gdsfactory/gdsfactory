@@ -14,5 +14,15 @@ settings:
   spacing: 7.0
   text:
     function: text_rectangular
+    module: gdsfactory.components.text_rectangular
     settings:
+      font:
+        function: rectangular_font
+      justify: left
+      layer: WG
+      layers: null
+      position:
+      - 0.0
+      - 0.0
       size: 1
+      text: abcd

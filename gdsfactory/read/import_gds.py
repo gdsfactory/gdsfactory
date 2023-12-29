@@ -117,10 +117,13 @@ def import_gds(
             settings = OmegaConf.to_container(metadata.settings)
             if settings:
                 component.settings = CellSettings(**settings)
+        if "info" in metadata:
             info = OmegaConf.to_container(metadata.info)
             if info:
                 component.info = Info(**info)
+        if "function_name" in metadata:
             component.function_name = metadata.function_name
+        if "module" in metadata:
             component.module = metadata.module
 
         if "ports" in metadata:

@@ -1,6 +1,6 @@
-function_name: null
+function_name: ''
 info: {}
-module: null
+module: ''
 name: straight_0c623a86
 ports:
   o1:

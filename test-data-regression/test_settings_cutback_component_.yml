@@ -31,8 +31,19 @@ ports:
 settings:
   bend180:
     function: bend_euler
+    module: gdsfactory.components.bend_euler
     settings:
+      add_bbox: null
+      add_pins: true
       angle: 180
+      cross_section: xs_sc
+      direction: ccw
+      layer: null
+      npoints: null
+      p: 0.5
+      radius: null
+      width: null
+      with_arc_floorplan: true
   cols: 4
   component:
     function: taper_from_csv

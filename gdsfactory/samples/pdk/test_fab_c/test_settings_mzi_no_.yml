@@ -1,7 +1,7 @@
 function_name: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_3bf7917f
+name: mzi_a6af9e98
 ports:
   o1:
     center:
@@ -32,7 +32,11 @@ settings:
   add_optical_ports_arms: false
   bend:
     function: bend_euler
+    module: gdsfactory.components.bend_euler
     settings:
+      add_bbox: null
+      add_pins: true
+      angle: 90.0
       cross_section:
         add_pins_function_module: gdsfactory.samples.pdk.fab_c
         add_pins_function_name: add_pins
@@ -71,6 +75,13 @@ settings:
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
+      direction: ccw
+      layer: null
+      npoints: null
+      p: 0.5
+      radius: null
+      width: null
+      with_arc_floorplan: true
   combiner: null
   cross_section:
     add_pins_function_module: gdsfactory.samples.pdk.fab_c
@@ -124,6 +135,7 @@ settings:
   port_e1_splitter: o2
   splitter:
     function: mmi1x2
+    module: gdsfactory.components.mmi1x2
     settings:
       cross_section:
         add_pins_function_module: gdsfactory.samples.pdk.fab_c
@@ -163,10 +175,24 @@ settings:
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
+      gap_mmi: 0.25
+      kwargs: {}
+      length_mmi: 5.5
+      length_taper: 10.0
+      straight:
+        function: straight
+      taper:
+        function: taper
       width: 0.9
+      width_mmi: 2.5
+      width_taper: 1.0
+      with_bbox: true
   straight:
     function: straight
+    module: gdsfactory.components.straight
     settings:
+      add_bbox: null
+      add_pins: true
       cross_section:
         add_pins_function_module: gdsfactory.samples.pdk.fab_c
         add_pins_function_name: add_pins
@@ -205,6 +231,10 @@ settings:
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
+      layer: null
+      length: 10.0
+      npoints: 2
+      width: null
   straight_x_bot: null
   straight_x_top: null
   straight_y: null

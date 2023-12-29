@@ -1,7 +1,7 @@
 function_name: component_sequence
 info: {}
 module: gdsfactory.components.component_sequence
-name: component_sequence_5d21bddd
+name: component_sequence_5613c7bc
 ports:
   o1:
     center:
@@ -86,23 +86,64 @@ settings:
           function: taper_strip_to_ridge
         via_stack:
           function: via_stack
+          module: gdsfactory.components.via_stack
           settings:
+            correct_size: true
+            layer_offsets: null
+            layer_port: null
             layers:
             - SLAB90
             - M1
             - M2
             - MTOP
+            size:
+            - 11.0
+            - 11.0
+            slot_horizontal: false
+            slot_vertical: false
             vias:
             - function: via
+              module: gdsfactory.components.via
               settings:
+                bbox_layers: null
+                bbox_offset: 0
+                enclosure: 1.0
+                gap: null
                 layer: VIAC
+                size:
+                - 0.7
+                - 0.7
+                spacing:
+                - 2.0
+                - 2.0
             - function: via
+              module: gdsfactory.components.via
               settings:
+                bbox_layers: null
+                bbox_offset: 0
                 enclosure: 2
+                gap: null
                 layer: VIA1
+                size:
+                - 0.7
+                - 0.7
+                spacing:
+                - 2.0
+                - 2.0
             - function: via
+              module: gdsfactory.components.via
               settings:
+                bbox_layers: null
+                bbox_offset: 0
+                enclosure: 1.0
+                gap: null
                 layer: VIA2
+                size:
+                - 0.7
+                - 0.7
+                spacing:
+                - 2.0
+                - 2.0
             - null
         via_stack_spacing: 2
         via_stack_width: 10.0

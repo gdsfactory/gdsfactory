@@ -58,20 +58,61 @@ settings:
   component: spiral_inner_io_fiber_single
   cross_section:
     function: cross_section
+    module: gdsfactory.cross_section
     settings:
       add_pins_function_name: null
+      bbox_layers: null
+      bbox_offsets: null
+      cladding_layers: null
+      cladding_offsets: null
+      cladding_simplify: null
+      kwargs: {}
+      layer: WG
+      offset: 0
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       radius: 10
       radius_min: 5
+      sections: null
+      width: 0.5
   gc_port_name: o1
   grating_coupler:
     function: grating_coupler_elliptical_trenches
+    module: gdsfactory.components.grating_coupler_elliptical_trenches
     settings:
+      cross_section: xs_sc
+      end_straight_length: 0.2
+      fiber_angle: 15.0
+      grating_line_width: 0.343
+      kwargs: {}
+      layer_trench: SHALLOW_ETCH
+      n_periods: 30
+      ncladding: 1.443
+      neff: 2.638
+      p_start: 26
       polarization: te
       taper_angle: 35
+      taper_length: 16.6
+      trenches_extra_angle: 9.0
+      wavelength: 1.53
   loopback_xspacing: 5.0
   rotation: 90
   select_ports:
     function: select_ports
+    module: gdsfactory.port
     settings:
+      clockwise: true
+      layer: null
+      layers_excluded: null
+      names: null
+      orientation: null
       port_type: optical
+      prefix: null
+      sort_by_name: false
+      suffix: null
+      width: null
   with_loopback: true

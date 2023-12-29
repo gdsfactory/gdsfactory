@@ -128,10 +128,27 @@ settings:
     function: bend_euler
   cross_section:
     function: cross_section
+    module: gdsfactory.cross_section
     settings:
       add_pins_function_name: null
+      bbox_layers: null
+      bbox_offsets: null
+      cladding_layers: null
+      cladding_offsets: null
+      cladding_simplify: null
+      kwargs: {}
+      layer: WG
+      offset: 0
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       radius: 10
       radius_min: 5
+      sections: null
+      width: 0.5
   extension_length: 15.0
   heater_taper_length: 10.0
   heater_width: 2.5
@@ -150,8 +167,51 @@ settings:
   - 0.8
   taper:
     function: taper_cross_section
+    module: gdsfactory.components.taper_cross_section
     settings:
+      cross_section1:
+        function: cross_section
+        module: gdsfactory.cross_section
+        settings:
+          add_pins_function_name: null
+          bbox_layers: null
+          bbox_offsets: null
+          cladding_layers: null
+          cladding_offsets: null
+          cladding_simplify: null
+          kwargs: {}
+          layer: WG
+          offset: 0
+          port_names:
+          - o1
+          - o2
+          port_types:
+          - optical
+          - optical
+          radius: 10
+          radius_min: 5
+          sections:
+          - hidden: false
+            insets: null
+            layer: SLAB90
+            name: slab
+            offset: 0
+            offset_function: null
+            port_names:
+            - null
+            - null
+            port_types:
+            - optical
+            - optical
+            simplify: null
+            width: 0.2
+            width_function: null
+          width: 0.5
+      cross_section2: xs_rc
+      kwargs: {}
+      length: 10
       linear: true
       npoints: 2
+      width_type: sine
   taper_length: 10
   via_stack: via_stack_heater_mtop

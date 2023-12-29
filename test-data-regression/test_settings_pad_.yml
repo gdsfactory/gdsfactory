@@ -3,6 +3,9 @@ info:
   layer:
   - 49
   - 0
+  size:
+  - 100.0
+  - 100.0
   xsize: 100.0
   ysize: 100.0
 module: gdsfactory.components.pad

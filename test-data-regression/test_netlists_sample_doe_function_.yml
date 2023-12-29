@@ -35,7 +35,7 @@ instances:
         - 50
         - 20
         - 40
-name: mask_compact_5c33d3f0
+name: mask_compact_cc2e2817
 placements:
   mzis:
     mirror: 0
@@ -53,54 +53,54 @@ warnings:
     unconnected_ports:
     - message: 56 unconnected optical ports!
       ports:
-      - rings,ring_single_add_fiber_array_fe0ab77e-o1
-      - rings,ring_single_add_fiber_array_fe0ab77e-o2
-      - rings,ring_single_add_fiber_array_fe0ab77e-loopback1
-      - rings,ring_single_add_fiber_array_fe0ab77e-loopback2
-      - rings,ring_single_add_fiber_array_a7411863-o1
-      - rings,ring_single_add_fiber_array_a7411863-o2
-      - rings,ring_single_add_fiber_array_a7411863-loopback1
-      - rings,ring_single_add_fiber_array_a7411863-loopback2
-      - rings,ring_single_add_fiber_array_84f7cdae-o1
-      - rings,ring_single_add_fiber_array_84f7cdae-o2
-      - rings,ring_single_add_fiber_array_84f7cdae-loopback1
-      - rings,ring_single_add_fiber_array_84f7cdae-loopback2
-      - rings,ring_single_add_fiber_array_ad98dde7-o1
-      - rings,ring_single_add_fiber_array_ad98dde7-o2
-      - rings,ring_single_add_fiber_array_ad98dde7-loopback1
-      - rings,ring_single_add_fiber_array_ad98dde7-loopback2
-      - rings,ring_single_add_fiber_array_03975c05-o1
-      - rings,ring_single_add_fiber_array_03975c05-o2
-      - rings,ring_single_add_fiber_array_03975c05-loopback1
-      - rings,ring_single_add_fiber_array_03975c05-loopback2
-      - rings,ring_single_add_fiber_array_8b935e82-o1
-      - rings,ring_single_add_fiber_array_8b935e82-o2
-      - rings,ring_single_add_fiber_array_8b935e82-loopback1
-      - rings,ring_single_add_fiber_array_8b935e82-loopback2
-      - rings,ring_single_add_fiber_array_4eb69095-o1
-      - rings,ring_single_add_fiber_array_4eb69095-o2
-      - rings,ring_single_add_fiber_array_4eb69095-loopback1
-      - rings,ring_single_add_fiber_array_4eb69095-loopback2
-      - rings,ring_single_add_fiber_array_4bb8d83d-o1
-      - rings,ring_single_add_fiber_array_4bb8d83d-o2
-      - rings,ring_single_add_fiber_array_4bb8d83d-loopback1
-      - rings,ring_single_add_fiber_array_4bb8d83d-loopback2
-      - rings,ring_single_add_fiber_array_f27cf02a-o1
-      - rings,ring_single_add_fiber_array_f27cf02a-o2
-      - rings,ring_single_add_fiber_array_f27cf02a-loopback1
-      - rings,ring_single_add_fiber_array_f27cf02a-loopback2
-      - rings,ring_single_add_fiber_array_ba8efa28-o1
-      - rings,ring_single_add_fiber_array_ba8efa28-o2
-      - rings,ring_single_add_fiber_array_ba8efa28-loopback1
-      - rings,ring_single_add_fiber_array_ba8efa28-loopback2
-      - rings,ring_single_add_fiber_array_688363c2-o1
-      - rings,ring_single_add_fiber_array_688363c2-o2
-      - rings,ring_single_add_fiber_array_688363c2-loopback1
-      - rings,ring_single_add_fiber_array_688363c2-loopback2
-      - rings,ring_single_add_fiber_array_91e4da84-o1
-      - rings,ring_single_add_fiber_array_91e4da84-o2
-      - rings,ring_single_add_fiber_array_91e4da84-loopback1
-      - rings,ring_single_add_fiber_array_91e4da84-loopback2
+      - rings,ring_single_add_fiber_array_6346f715-o1
+      - rings,ring_single_add_fiber_array_6346f715-o2
+      - rings,ring_single_add_fiber_array_6346f715-loopback1
+      - rings,ring_single_add_fiber_array_6346f715-loopback2
+      - rings,ring_single_add_fiber_array_92d96161-o1
+      - rings,ring_single_add_fiber_array_92d96161-o2
+      - rings,ring_single_add_fiber_array_92d96161-loopback1
+      - rings,ring_single_add_fiber_array_92d96161-loopback2
+      - rings,ring_single_add_fiber_array_61c76585-o1
+      - rings,ring_single_add_fiber_array_61c76585-o2
+      - rings,ring_single_add_fiber_array_61c76585-loopback1
+      - rings,ring_single_add_fiber_array_61c76585-loopback2
+      - rings,ring_single_add_fiber_array_2c7102f4-o1
+      - rings,ring_single_add_fiber_array_2c7102f4-o2
+      - rings,ring_single_add_fiber_array_2c7102f4-loopback1
+      - rings,ring_single_add_fiber_array_2c7102f4-loopback2
+      - rings,ring_single_add_fiber_array_adb8a7e9-o1
+      - rings,ring_single_add_fiber_array_adb8a7e9-o2
+      - rings,ring_single_add_fiber_array_adb8a7e9-loopback1
+      - rings,ring_single_add_fiber_array_adb8a7e9-loopback2
+      - rings,ring_single_add_fiber_array_ade06912-o1
+      - rings,ring_single_add_fiber_array_ade06912-o2
+      - rings,ring_single_add_fiber_array_ade06912-loopback1
+      - rings,ring_single_add_fiber_array_ade06912-loopback2
+      - rings,ring_single_add_fiber_array_01e74044-o1
+      - rings,ring_single_add_fiber_array_01e74044-o2
+      - rings,ring_single_add_fiber_array_01e74044-loopback1
+      - rings,ring_single_add_fiber_array_01e74044-loopback2
+      - rings,ring_single_add_fiber_array_c89022c2-o1
+      - rings,ring_single_add_fiber_array_c89022c2-o2
+      - rings,ring_single_add_fiber_array_c89022c2-loopback1
+      - rings,ring_single_add_fiber_array_c89022c2-loopback2
+      - rings,ring_single_add_fiber_array_a32773ae-o1
+      - rings,ring_single_add_fiber_array_a32773ae-o2
+      - rings,ring_single_add_fiber_array_a32773ae-loopback1
+      - rings,ring_single_add_fiber_array_a32773ae-loopback2
+      - rings,ring_single_add_fiber_array_5b587411-o1
+      - rings,ring_single_add_fiber_array_5b587411-o2
+      - rings,ring_single_add_fiber_array_5b587411-loopback1
+      - rings,ring_single_add_fiber_array_5b587411-loopback2
+      - rings,ring_single_add_fiber_array_0399c8ff-o1
+      - rings,ring_single_add_fiber_array_0399c8ff-o2
+      - rings,ring_single_add_fiber_array_0399c8ff-loopback1
+      - rings,ring_single_add_fiber_array_0399c8ff-loopback2
+      - rings,ring_single_add_fiber_array_b344c542-o1
+      - rings,ring_single_add_fiber_array_b344c542-o2
+      - rings,ring_single_add_fiber_array_b344c542-loopback1
+      - rings,ring_single_add_fiber_array_b344c542-loopback2
       - mzis,0_0-o1
       - mzis,0_0-o2
       - mzis,0_0-loopback1

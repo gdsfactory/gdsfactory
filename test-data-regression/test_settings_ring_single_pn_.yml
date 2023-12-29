@@ -30,8 +30,23 @@ ports:
 settings:
   cross_section:
     function: cross_section
+    module: gdsfactory.cross_section
     settings:
       add_pins_function_name: null
+      bbox_layers: null
+      bbox_offsets: null
+      cladding_layers: null
+      cladding_offsets: null
+      cladding_simplify: null
+      kwargs: {}
+      layer: WG
+      offset: 0
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       radius: 10
       radius_min: 5
       sections:
@@ -50,6 +65,7 @@ settings:
         simplify: null
         width: 4.85
         width_function: null
+      width: 0.5
   doped_heater: true
   doped_heater_angle_buffer: 10
   doped_heater_layer: NPP
@@ -59,17 +75,27 @@ settings:
   gap: 0.3
   heater_vias:
     function: via_stack
+    module: gdsfactory.components.via_stack
     settings:
+      correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - M1
       - M2
       size:
       - 0.5
       - 0.5
+      slot_horizontal: false
+      slot_vertical: false
       vias:
       - function: via
+        module: gdsfactory.components.via
         settings:
+          bbox_layers: null
+          bbox_offset: 0
           enclosure: 0.1
+          gap: null
           layer: VIAC
           size:
           - 0.1
@@ -78,8 +104,12 @@ settings:
           - 0.2
           - 0.2
       - function: via
+        module: gdsfactory.components.via
         settings:
+          bbox_layers: null
+          bbox_offset: 0
           enclosure: 0.1
+          gap: null
           layer: VIA1
           size:
           - 0.1
@@ -89,9 +119,32 @@ settings:
           - 0.2
   pn_cross_section:
     function: pn
+    module: gdsfactory.cross_section
     settings:
+      cladding_layers: null
+      cladding_offsets: null
+      cladding_simplify: null
+      gap_high_doping: 1.0
+      gap_low_doping: 0.0
+      gap_medium_doping: 0.5
+      kwargs: {}
+      layer: WG
       layer_metal: M1
+      layer_n: N
+      layer_np: NP
+      layer_npp: NPP
+      layer_p: P
+      layer_pp: PP
+      layer_ppp: PPP
+      layer_slab: SLAB90
       layer_via: VIAC
+      offset_low_doping: 0.0
+      port_names:
+      - o1
+      - o2
+      sections: null
+      slab_inset: null
+      width: 0.5
       width_doping: 2.425
       width_metal: 0.5
       width_slab: 4.85

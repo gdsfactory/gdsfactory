@@ -1,7 +1,7 @@
-function_name: null
+function_name: ''
 info: {}
-module: null
-name: straight_208aa46a
+module: ''
+name: straight_1f8d834d
 ports:
   o1:
     center:

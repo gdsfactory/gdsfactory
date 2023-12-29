@@ -7,7 +7,7 @@ info:
   polarization: te
   wavelength: 1.55
 module: gdsfactory.read.from_yaml
-name: sample_mmis_4c1ceb94
+name: sample_mmis_67d76254
 ports:
   o1:
     center:
@@ -89,18 +89,47 @@ settings:
       function: get_bundle_all_angle
     get_bundle_electrical:
       function: get_bundle
+      module: gdsfactory.routing.get_bundle
       settings:
         bend:
           function: wire_corner
         cross_section: xs_metal_routing
+        end_straight_length: null
+        enforce_port_ordering: true
+        extension_length: 0.0
+        kwargs: {}
+        path_length_match_extra_length: 0.0
+        path_length_match_loops: null
+        path_length_match_modify_segment_i: -2
+        separation: null
+        sort_ports: true
+        start_straight_length: null
+        steps: null
+        straight:
+          function: straight
+        waypoints: null
+        with_sbend: false
     get_bundle_from_steps:
       function: get_bundle_from_steps
     get_bundle_from_steps_electrical:
       function: get_bundle_from_steps
+      module: gdsfactory.routing.get_bundle_from_steps
       settings:
         bend:
           function: wire_corner
         cross_section: xs_metal_routing
+        enforce_port_ordering: true
+        kwargs: {}
+        path_length_match_extra_length: 0.0
+        path_length_match_loops: null
+        path_length_match_modify_segment_i: -2
+        separation: null
+        sort_ports: true
+        steps: null
+        straight:
+          function: straight
+        taper:
+          function: taper
     get_bundle_from_waypoints:
       function: get_bundle_from_waypoints
     get_bundle_path_length_match:

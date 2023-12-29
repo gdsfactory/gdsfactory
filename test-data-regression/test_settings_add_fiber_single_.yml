@@ -1,7 +1,7 @@
 function_name: add_fiber_single
 info: {}
 module: gdsfactory.routing.add_fiber_single
-name: mzi_add_fiber_single_67ba37bb
+name: mzi_add_fiber_single_4f22d476
 ports:
   opt_te_1530_15-mzi_2e88f57c-0-0:
     center:
@@ -215,9 +215,23 @@ settings:
     function: get_input_label_text_dash_loopback
   grating_coupler:
     function: grating_coupler_elliptical_trenches
+    module: gdsfactory.components.grating_coupler_elliptical_trenches
     settings:
+      cross_section: xs_sc
+      end_straight_length: 0.2
+      fiber_angle: 15.0
+      grating_line_width: 0.343
+      kwargs: {}
+      layer_trench: SHALLOW_ETCH
+      n_periods: 30
+      ncladding: 1.443
+      neff: 2.638
+      p_start: 26
       polarization: te
       taper_angle: 35
+      taper_length: 16.6
+      trenches_extra_angle: 9.0
+      wavelength: 1.53
   layer_label: null
   loopback_xspacing: 50.0
   min_input_to_output_spacing: 200.0
@@ -226,8 +240,18 @@ settings:
     function: get_route_from_waypoints
   select_ports:
     function: select_ports
+    module: gdsfactory.port
     settings:
+      clockwise: true
+      layer: null
+      layers_excluded: null
+      names: null
+      orientation: null
       port_type: optical
+      prefix: null
+      sort_by_name: false
+      suffix: null
+      width: null
   straight:
     function: straight
   with_loopback: true

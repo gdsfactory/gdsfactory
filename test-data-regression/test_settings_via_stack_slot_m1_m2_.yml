@@ -70,8 +70,18 @@ settings:
   - 11.0
   via:
     function: via
+    module: gdsfactory.components.via
     settings:
+      bbox_layers: null
+      bbox_offset: 0
       enclosure: 2
+      gap: null
       layer: VIA1
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2.0
+      - 2.0
   ysize: 0.5
   yspacing: 2.0

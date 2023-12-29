@@ -1,7 +1,7 @@
 function_name: add_electrical_pads_top
 info: {}
 module: gdsfactory.routing.add_electrical_pads_top
-name: mzi_add_electrical_pads_top_67ba37bb
+name: mzi_add_electrical_pads_top_4f22d476
 ports:
   elec-mzi_2e88f57c-1:
     center:
@@ -186,8 +186,18 @@ settings:
   port_names: null
   select_ports:
     function: select_ports
+    module: gdsfactory.port
     settings:
+      clockwise: true
+      layer: null
+      layers_excluded: null
+      names: null
+      orientation: null
       port_type: electrical
+      prefix: null
+      sort_by_name: false
+      suffix: null
+      width: null
   spacing:
   - 0.0
   - 100.0

@@ -126,8 +126,23 @@ ports:
 settings:
   cross_section:
     function: cross_section
+    module: gdsfactory.cross_section
     settings:
       add_pins_function_name: null
+      bbox_layers: null
+      bbox_offsets: null
+      cladding_layers: null
+      cladding_offsets: null
+      cladding_simplify: null
+      kwargs: {}
+      layer: WG
+      offset: 0
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       radius: 10
       radius_min: 5
       sections:
@@ -146,6 +161,7 @@ settings:
         simplify: null
         width: 0.2
         width_function: null
+      width: 0.5
   cross_section_heater:
     function: rib_heater_doped
   heater_gap: 0.8
@@ -156,33 +172,83 @@ settings:
     function: taper_cross_section
   via_stack:
     function: via_stack
+    module: gdsfactory.components.via_stack
     settings:
+      correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - SLAB90
       - NPP
       - M1
+      size:
+      - 11.0
+      - 11.0
+      slot_horizontal: false
+      slot_vertical: false
       vias:
       - null
       - null
       - function: via
+        module: gdsfactory.components.via
         settings:
+          bbox_layers: null
+          bbox_offset: 0
+          enclosure: 1.0
+          gap: null
           layer: VIAC
+          size:
+          - 0.7
+          - 0.7
+          spacing:
+          - 2.0
+          - 2.0
   via_stack_gap: 0.0
   via_stack_metal:
     function: via_stack
+    module: gdsfactory.components.via_stack
     settings:
+      correct_size: true
+      layer_offsets: null
+      layer_port: null
       layers:
       - M1
       - M2
       - MTOP
+      size:
+      - 11.0
+      - 11.0
+      slot_horizontal: false
+      slot_vertical: false
       vias:
       - function: via
+        module: gdsfactory.components.via
         settings:
+          bbox_layers: null
+          bbox_offset: 0
           enclosure: 2
+          gap: null
           layer: VIA1
+          size:
+          - 0.7
+          - 0.7
+          spacing:
+          - 2.0
+          - 2.0
       - function: via
+        module: gdsfactory.components.via
         settings:
+          bbox_layers: null
+          bbox_offset: 0
+          enclosure: 1.0
+          gap: null
           layer: VIA2
+          size:
+          - 0.7
+          - 0.7
+          spacing:
+          - 2.0
+          - 2.0
       - null
   via_stack_metal_size:
   - 10.0

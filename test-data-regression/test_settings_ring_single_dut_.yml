@@ -32,8 +32,23 @@ settings:
     function: bend_euler
   component:
     function: taper
+    module: gdsfactory.components.taper
     settings:
+      add_pins: true
+      cross_section: xs_sc
+      kwargs: {}
+      length: 10.0
+      port: null
+      port_order_name:
+      - o1
+      - o2
+      port_order_types:
+      - optical
+      - optical
+      width1: 0.5
       width2: 3
+      with_bbox: true
+      with_two_ports: true
   coupler:
     function: coupler_ring
   gap: 0.2

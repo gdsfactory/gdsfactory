@@ -1,7 +1,7 @@
 function_name: fanout2x2
 info: {}
 module: gdsfactory.routing.fanout2x2
-name: mzi_fanout2x2_67ba37bb
+name: mzi_fanout2x2_4f22d476
 ports:
   o1:
     center:
@@ -185,5 +185,15 @@ settings:
   port_spacing: 20.0
   select_ports:
     function: select_ports
+    module: gdsfactory.port
     settings:
+      clockwise: true
+      layer: null
+      layers_excluded: null
+      names: null
+      orientation: null
       port_type: optical
+      prefix: null
+      sort_by_name: false
+      suffix: null
+      width: null

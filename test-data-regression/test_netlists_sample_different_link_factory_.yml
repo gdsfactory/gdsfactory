@@ -710,6 +710,9 @@ instances:
       layer:
       - 49
       - 0
+      size:
+      - 100.0
+      - 100.0
       xsize: 100.0
       ysize: 100.0
     settings:
@@ -727,6 +730,9 @@ instances:
       layer:
       - 49
       - 0
+      size:
+      - 100.0
+      - 100.0
       xsize: 100.0
       ysize: 100.0
     settings:
@@ -1234,6 +1240,9 @@ instances:
       layer:
       - 49
       - 0
+      size:
+      - 100.0
+      - 100.0
       xsize: 100.0
       ysize: 100.0
     settings:
@@ -1251,6 +1260,9 @@ instances:
       layer:
       - 49
       - 0
+      size:
+      - 100.0
+      - 100.0
       xsize: 100.0
       ysize: 100.0
     settings:
@@ -1262,7 +1274,7 @@ instances:
       size:
       - 100.0
       - 100.0
-name: sample_path_length_matching_a27584d3
+name: sample_path_length_matching_7335c58e
 placements:
   bend_euler_1:
     mirror: 0

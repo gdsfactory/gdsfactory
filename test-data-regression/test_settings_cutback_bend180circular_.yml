@@ -2,7 +2,7 @@ function_name: cutback_bend180
 info:
   n_bends: 82
 module: gdsfactory.components.cutback_bend
-name: cutback_bend180_4bdd1d43
+name: cutback_bend180_163a79cb
 ports:
   o1:
     center:
@@ -32,8 +32,16 @@ settings:
   cols: 6
   component:
     function: bend_circular
+    module: gdsfactory.components.bend_circular
     settings:
+      add_bbox: null
+      add_pins: true
       angle: 180
+      cross_section: xs_sc
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   rows: 6
   spacing: 3
   straight:

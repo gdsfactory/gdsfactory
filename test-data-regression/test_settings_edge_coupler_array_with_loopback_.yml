@@ -58,9 +58,22 @@ settings:
   cross_section: xs_sc
   edge_coupler:
     function: taper
+    module: gdsfactory.components.taper
     settings:
+      add_pins: true
+      cross_section: xs_sc
+      kwargs: {}
       length: 100
+      port: null
+      port_order_name:
+      - o1
+      - o2
+      port_order_types:
+      - optical
+      - optical
+      width1: 0.5
       width2: 0.2
+      with_bbox: true
       with_two_ports: false
   extension_length: 1.0
   n: 8
