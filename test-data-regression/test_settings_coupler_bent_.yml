@@ -1,3 +1,6 @@
+function_name: coupler_bent
+info: {}
+module: gdsfactory.components.coupler_bent
 name: coupler_bent
 ports:
   o1:

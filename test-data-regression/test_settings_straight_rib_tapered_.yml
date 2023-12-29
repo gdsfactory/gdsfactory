@@ -1,4 +1,13 @@
-name: None_extend_ports_c93f6e35
+function_name: extend_ports
+info:
+  length: 10.0
+  route_info_length: 10.0
+  route_info_type: xs_f1ca4cff
+  route_info_weight: 10.0
+  route_info_xs_f1ca4cff_length: 10.0
+  width: 0.5
+module: gdsfactory.components.extension
+name: straight_extend_ports_c93f6e35
 ports:
   o1:
     center:

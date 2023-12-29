@@ -1,3 +1,6 @@
+function_name: fiducial_squares
+info: {}
+module: gdsfactory.components.fiducial_squares
 name: fiducial_squares
 ports: {}
 settings:

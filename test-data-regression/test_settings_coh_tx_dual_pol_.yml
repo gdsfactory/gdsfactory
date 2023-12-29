@@ -1,3 +1,6 @@
+function_name: coh_tx_dual_pol
+info: {}
+module: gdsfactory.components.coh_tx_dual_pol
 name: coh_tx_dual_pol
 ports:
   o1:

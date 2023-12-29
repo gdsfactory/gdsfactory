@@ -1,4 +1,7 @@
-name: None_add_electrical_pads_top_67ba37bb
+function_name: add_electrical_pads_top
+info: {}
+module: gdsfactory.routing.add_electrical_pads_top
+name: mzi_add_electrical_pads_top_67ba37bb
 ports:
   elec-mzi_2e88f57c-1:
     center:

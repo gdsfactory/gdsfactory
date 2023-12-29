@@ -1,73 +1,76 @@
-name: None_add_fiber_single_67ba37bb
+function_name: add_fiber_single
+info: {}
+module: gdsfactory.routing.add_fiber_single
+name: mzi_add_fiber_single_67ba37bb
 ports:
-  opt_te_1530_15-None_move_2b19e18c-0-0:
+  opt_te_1530_15-mzi_2e88f57c-0-0:
     center:
     - -25.6
     - -59.169
     layer:
     - 1
     - 0
-    name: opt_te_1530_15-None_move_2b19e18c-0-0
+    name: opt_te_1530_15-mzi_2e88f57c-0-0
     orientation: 270.0
     port_type: optical
     shear_angle: null
     width: 10
-  opt_te_1530_15-None_move_2b19e18c-0-1:
+  opt_te_1530_15-mzi_2e88f57c-0-1:
     center:
     - 24.4
     - -59.169
     layer:
     - 1
     - 0
-    name: opt_te_1530_15-None_move_2b19e18c-0-1
+    name: opt_te_1530_15-mzi_2e88f57c-0-1
     orientation: 270.0
     port_type: optical
     shear_angle: null
     width: 10
-  opt_te_1530_15-None_move_2b19e18c-1-0:
+  opt_te_1530_15-mzi_2e88f57c-1-0:
     center:
     - 24.4
     - 186.269
     layer:
     - 1
     - 0
-    name: opt_te_1530_15-None_move_2b19e18c-1-0
+    name: opt_te_1530_15-mzi_2e88f57c-1-0
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 10
-  opt_te_1530_15-None_move_2b19e18c-2-0:
+  opt_te_1530_15-mzi_2e88f57c-2-0:
     center:
     - -25.6
     - 186.269
     layer:
     - 1
     - 0
-    name: opt_te_1530_15-None_move_2b19e18c-2-0
+    name: opt_te_1530_15-mzi_2e88f57c-2-0
     orientation: 90.0
     port_type: optical
     shear_angle: null
     width: 10
-  opt_te_1530_15-None_move_2b19e18c-loopback1:
+  opt_te_1530_15-mzi_2e88f57c-loopback1:
     center:
     - -88.823
     - -59.169
     layer:
     - 1
     - 0
-    name: opt_te_1530_15-None_move_2b19e18c-loopback1
+    name: opt_te_1530_15-mzi_2e88f57c-loopback1
     orientation: 270.0
     port_type: optical
     shear_angle: null
     width: 10
-  opt_te_1530_15-None_move_2b19e18c-loopback2:
+  opt_te_1530_15-mzi_2e88f57c-loopback2:
     center:
     - -88.823
     - 186.269
     layer:
     - 1
     - 0
-    name: opt_te_1530_15-None_move_2b19e18c-loopback2
+    name: opt_te_1530_15-mzi_2e88f57c-loopback2
     orientation: 90.0
     port_type: optical
     shear_angle: null

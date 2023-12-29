@@ -1,3 +1,6 @@
+function_name: ring_crow_couplers
+info: {}
+module: gdsfactory.components.ring_crow_couplers
 name: ring_crow_couplers
 ports:
   o1:

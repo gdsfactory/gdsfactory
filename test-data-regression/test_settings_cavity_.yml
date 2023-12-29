@@ -1,4 +1,7 @@
-name: None_cavity
+function_name: cavity
+info: {}
+module: gdsfactory.components.cavity
+name: dbr_cavity
 ports:
   o1:
     center:

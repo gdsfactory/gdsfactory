@@ -1,3 +1,8 @@
+function_name: polarization_splitter_rotator
+info:
+  length: 15.484
+  min_bend_radius: 9.391
+module: gdsfactory.components.polarization_splitter_rotator
 name: polarization_splitter_rotator
 ports:
   o1:

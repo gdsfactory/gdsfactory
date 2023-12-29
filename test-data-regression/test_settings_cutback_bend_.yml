@@ -1,3 +1,7 @@
+function_name: cutback_bend
+info:
+  n_bends: 68
+module: gdsfactory.components.cutback_bend
 name: cutback_bend
 ports:
   o1:

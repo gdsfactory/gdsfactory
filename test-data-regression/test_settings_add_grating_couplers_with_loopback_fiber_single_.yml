@@ -1,4 +1,10 @@
-name: None_add_grating_couplers_with_loopback_fiber_single
+function_name: add_grating_couplers_with_loopback_fiber_single
+info:
+  length: 9973.393
+  polarization: te
+  wavelength: 1.53
+module: gdsfactory.components.add_grating_couplers
+name: spiral_inner_io_fiber_single_add_grating_couplers_with_loopback_fiber_single
 ports:
   loopback1:
     center:

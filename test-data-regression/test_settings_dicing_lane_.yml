@@ -1,3 +1,6 @@
+function_name: dicing_lane
+info: {}
+module: gdsfactory.components.dicing_lane
 name: dicing_lane
 ports: {}
 settings:

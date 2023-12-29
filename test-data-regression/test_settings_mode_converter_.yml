@@ -1,3 +1,6 @@
+function_name: mode_converter
+info: {}
+module: gdsfactory.components.mode_converter
 name: mode_converter
 ports:
   o1:

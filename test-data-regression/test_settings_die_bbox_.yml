@@ -1,4 +1,7 @@
-name: None_die_bbox
+function_name: die_bbox
+info: {}
+module: gdsfactory.components.die_bbox
+name: rectangle_die_bbox
 ports: {}
 settings:
   component:

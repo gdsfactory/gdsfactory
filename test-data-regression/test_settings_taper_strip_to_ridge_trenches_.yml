@@ -1,3 +1,6 @@
+function_name: taper_strip_to_ridge_trenches
+info: {}
+module: gdsfactory.components.taper
 name: taper_strip_to_ridge_trenches
 ports:
   o1:

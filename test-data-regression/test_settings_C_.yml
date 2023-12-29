@@ -1,3 +1,6 @@
+function_name: C
+info: {}
+module: gdsfactory.components.C
 name: C
 ports:
   o1:

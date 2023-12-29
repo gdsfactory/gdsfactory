@@ -1,3 +1,6 @@
+function_name: crossing_etched
+info: {}
+module: gdsfactory.components.crossing_waveguide
 name: crossing_etched
 ports:
   o1:

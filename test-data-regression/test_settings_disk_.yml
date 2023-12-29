@@ -1,3 +1,6 @@
+function_name: disk
+info: {}
+module: gdsfactory.components.disk
 name: disk
 ports:
   o1:

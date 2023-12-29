@@ -1,3 +1,6 @@
+function_name: cross
+info: {}
+module: gdsfactory.components.cross
 name: cross
 ports: {}
 settings:

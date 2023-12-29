@@ -1,3 +1,8 @@
+function_name: grating_coupler_elliptical
+info:
+  polarization: te
+  wavelength: 1.554
+module: gdsfactory.components.grating_coupler_elliptical
 name: grating_coupler_elliptical_9bc42286
 ports:
   o1:

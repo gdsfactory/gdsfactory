@@ -1,3 +1,9 @@
+function_name: grating_coupler_elliptical_lumerical
+info:
+  polarization: te
+  wavelength: 1.554
+  xinput: -2.43
+module: gdsfactory.components.grating_coupler_elliptical_lumerical
 name: grating_coupler_elliptical_lumerical
 ports:
   o1:

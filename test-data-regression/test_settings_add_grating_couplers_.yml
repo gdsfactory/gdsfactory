@@ -1,4 +1,15 @@
-name: None_add_grating_couplers
+function_name: add_grating_couplers
+info:
+  length: 10.0
+  polarization: te
+  route_info_length: 10.0
+  route_info_type: xs_sc
+  route_info_weight: 10.0
+  route_info_xs_sc_length: 10.0
+  wavelength: 1.53
+  width: 0.5
+module: gdsfactory.components.add_grating_couplers
+name: straight_add_grating_couplers
 ports: {}
 settings:
   component:

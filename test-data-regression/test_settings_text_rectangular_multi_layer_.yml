@@ -1,3 +1,6 @@
+function_name: text_rectangular_multi_layer
+info: {}
+module: gdsfactory.components.text_rectangular
 name: text_rectangular_multi_layer
 ports: {}
 settings:

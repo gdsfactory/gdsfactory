@@ -1,3 +1,6 @@
+function_name: dbr
+info: {}
+module: gdsfactory.components.dbr
 name: dbr
 ports:
   o1:

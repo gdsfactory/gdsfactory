@@ -1,3 +1,6 @@
+function_name: ring_single
+info: {}
+module: gdsfactory.components.ring_single
 name: ring_single
 ports:
   o1:

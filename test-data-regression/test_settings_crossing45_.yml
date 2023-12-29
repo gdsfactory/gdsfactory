@@ -1,3 +1,8 @@
+function_name: crossing45
+info:
+  bezier_length: 42.085
+  min_bend_radius: 44.312
+module: gdsfactory.components.crossing_waveguide
 name: crossing45
 ports:
   o1:

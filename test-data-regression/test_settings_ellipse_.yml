@@ -1,3 +1,6 @@
+function_name: ellipse
+info: {}
+module: gdsfactory.components.ellipse
 name: ellipse
 ports: {}
 settings:

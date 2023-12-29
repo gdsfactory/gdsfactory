@@ -1,3 +1,6 @@
+function_name: ring
+info: {}
+module: gdsfactory.components.ring
 name: ring
 ports: {}
 settings:

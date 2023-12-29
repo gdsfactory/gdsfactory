@@ -1,3 +1,11 @@
+function_name: pad
+info:
+  layer:
+  - 49
+  - 0
+  xsize: 80
+  ysize: 80
+module: gdsfactory.components.pad
 name: pad_sizepad_size
 ports:
   e1:

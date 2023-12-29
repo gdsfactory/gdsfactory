@@ -1,3 +1,6 @@
+function_name: coupler_asymmetric
+info: {}
+module: gdsfactory.components.coupler_asymmetric
 name: coupler_asymmetric
 ports:
   o1:

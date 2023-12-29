@@ -1,3 +1,6 @@
+function_name: mmi_90degree_hybrid
+info: {}
+module: gdsfactory.components.mmi_90degree_hybrid
 name: mmi_90degree_hybrid
 ports:
   I_out1:

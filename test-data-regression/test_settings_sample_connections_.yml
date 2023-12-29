@@ -1,3 +1,9 @@
+function_name: _from_yaml
+info:
+  instances:
+  - wgw
+  - wgn
+module: gdsfactory.read.from_yaml
 name: sample_connections_dd1d97b8
 ports: {}
 settings:

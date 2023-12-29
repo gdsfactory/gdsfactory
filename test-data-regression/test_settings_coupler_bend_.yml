@@ -1,3 +1,6 @@
+function_name: coupler_bend
+info: {}
+module: gdsfactory.components.ring_single_bend_coupler
 name: coupler_bend
 ports:
   o1:

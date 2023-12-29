@@ -1,3 +1,6 @@
+function_name: litho_steps
+info: {}
+module: gdsfactory.components.litho_steps
 name: litho_steps
 ports: {}
 settings:

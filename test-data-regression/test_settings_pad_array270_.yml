@@ -1,3 +1,8 @@
+function_name: pad_array
+info:
+  xsize: 100.0
+  ysize: 100.0
+module: gdsfactory.components.pad
 name: pad_array
 ports:
   e11:

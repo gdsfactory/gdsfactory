@@ -1,3 +1,6 @@
+function_name: taper_adiabatic
+info: {}
+module: gdsfactory.components.taper_adiabatic
 name: taper_adiabatic
 ports:
   o1:

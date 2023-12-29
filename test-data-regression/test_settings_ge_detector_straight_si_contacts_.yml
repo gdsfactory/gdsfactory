@@ -1,3 +1,6 @@
+function_name: ge_detector_straight_si_contacts
+info: {}
+module: gdsfactory.components.ge_detector_straight_si_contacts
 name: ge_detector_straight_si_contacts
 ports:
   bot_e1:

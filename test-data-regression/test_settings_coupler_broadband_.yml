@@ -1,3 +1,6 @@
+function_name: coupler_broadband
+info: {}
+module: gdsfactory.components.coupler_broadband
 name: coupler_broadband
 ports:
   o1:

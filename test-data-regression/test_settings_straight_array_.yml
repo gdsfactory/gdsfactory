@@ -1,3 +1,6 @@
+function_name: straight_array
+info: {}
+module: gdsfactory.components.straight_array
 name: straight_array
 ports:
   o1:

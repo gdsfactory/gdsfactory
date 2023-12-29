@@ -1,3 +1,6 @@
+function_name: straight_heater_meander
+info: {}
+module: gdsfactory.components.straight_heater_meander
 name: straight_heater_meander_53d8448c
 ports:
   o1:

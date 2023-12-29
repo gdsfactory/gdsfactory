@@ -1,3 +1,6 @@
+function_name: via_cutback
+info: {}
+module: gdsfactory.components.via_cutback
 name: via_cutback
 ports: {}
 settings:

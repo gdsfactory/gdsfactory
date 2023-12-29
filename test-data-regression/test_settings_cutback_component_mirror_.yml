@@ -1,3 +1,7 @@
+function_name: cutback_component
+info:
+  components: 80
+module: gdsfactory.components.cutback_component
 name: cutback_component_mirrorTrue
 ports:
   o1:

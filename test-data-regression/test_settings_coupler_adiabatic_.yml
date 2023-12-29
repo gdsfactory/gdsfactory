@@ -1,3 +1,6 @@
+function_name: coupler_adiabatic
+info: {}
+module: gdsfactory.components.coupler_adiabatic
 name: coupler_adiabatic
 ports:
   o1:

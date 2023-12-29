@@ -1,3 +1,6 @@
+function_name: text
+info: {}
+module: gdsfactory.components.text
 name: text
 ports: {}
 settings:

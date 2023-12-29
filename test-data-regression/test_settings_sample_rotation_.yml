@@ -1,3 +1,9 @@
+function_name: _from_yaml
+info:
+  instances:
+  - r1
+  - r2
+module: gdsfactory.read.from_yaml
 name: sample_rotation_3c546328
 ports: {}
 settings:

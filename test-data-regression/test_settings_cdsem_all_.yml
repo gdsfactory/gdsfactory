@@ -1,3 +1,6 @@
+function_name: cdsem_all
+info: {}
+module: gdsfactory.components.cdsem_all
 name: cdsem_all
 ports: {}
 settings:

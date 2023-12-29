@@ -1,3 +1,6 @@
+function_name: mzi_pads_center
+info: {}
+module: gdsfactory.components.mzi_pads_center
 name: mzi_pads_center
 ports:
   bot_l_e1:

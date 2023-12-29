@@ -1,3 +1,6 @@
+function_name: fiber_array
+info: {}
+module: gdsfactory.components.fiber_array
 name: fiber_array
 ports:
   F0:

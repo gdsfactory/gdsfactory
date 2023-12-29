@@ -1,3 +1,6 @@
+function_name: array_with_fanout
+info: {}
+module: gdsfactory.components.array_with_fanout
 name: array_with_fanout
 ports:
   o1:

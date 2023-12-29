@@ -1,3 +1,10 @@
+function_name: aar_slalom
+info:
+  instances:
+  - wg_d1
+  - wg_d2
+  message: hello from the PDK decorator!
+module: yaml_jinja
 name: aar_slalom
 ports: {}
 settings: {}

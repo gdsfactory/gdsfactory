@@ -1,3 +1,6 @@
+function_name: ramp
+info: {}
+module: gdsfactory.components.ramp
 name: ramp
 ports:
   o1:

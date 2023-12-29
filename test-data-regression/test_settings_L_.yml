@@ -1,3 +1,6 @@
+function_name: L
+info: {}
+module: gdsfactory.components.L
 name: L
 ports:
   e1:

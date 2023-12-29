@@ -1,3 +1,6 @@
+function_name: dbr_tapered
+info: {}
+module: gdsfactory.components.dbr_tapered
 name: dbr_tapered
 ports:
   o1:

@@ -1,3 +1,6 @@
+function_name: component_sequence
+info: {}
+module: gdsfactory.components.component_sequence
 name: component_sequence_33d40ce6
 ports:
   o1:

@@ -1,3 +1,6 @@
+function_name: mzit
+info: {}
+module: gdsfactory.components.mzit
 name: mzit
 ports:
   o1:

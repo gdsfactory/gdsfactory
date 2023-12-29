@@ -1,3 +1,7 @@
+function_name: cutback_bend90
+info:
+  n_bends: 144
+module: gdsfactory.components.cutback_bend
 name: cutback_bend90_d89ef24e
 ports:
   o1:

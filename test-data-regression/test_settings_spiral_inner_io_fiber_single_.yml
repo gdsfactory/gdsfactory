@@ -1,3 +1,7 @@
+function_name: spiral_inner_io_fiber_single
+info:
+  length: 9973.393
+module: gdsfactory.components.spiral_inner_io
 name: spiral_inner_io_fiber_single
 ports:
   o1:

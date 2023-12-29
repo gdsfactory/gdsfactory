@@ -1,3 +1,6 @@
+function_name: wire_sbend
+info: {}
+module: gdsfactory.components.wire_sbend
 name: wire_sbend
 ports:
   e1:

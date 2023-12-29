@@ -1,4 +1,7 @@
-name: None_container_360a45f0
+function_name: container
+info: {}
+module: gdsfactory.cell
+name: mzi_container_360a45f0
 ports:
   o1:
     center:

@@ -1,3 +1,6 @@
+function_name: mmi1x2
+info: {}
+module: gdsfactory.components.mmi1x2
 name: mmi1x2_44e6dc12
 ports:
   o1:

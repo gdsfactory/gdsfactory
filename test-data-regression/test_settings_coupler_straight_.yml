@@ -1,3 +1,6 @@
+function_name: coupler_straight
+info: {}
+module: gdsfactory.components.coupler_straight
 name: coupler_straight
 ports:
   o1:

@@ -39,7 +39,7 @@ def resistance_sheet(
     c = Component()
 
     pad = pad()
-    length = pad_pitch - pad.get_setting("size")[0]
+    length = pad_pitch - pad.info.xsize
 
     pad1 = c << pad
     pad2 = c << pad

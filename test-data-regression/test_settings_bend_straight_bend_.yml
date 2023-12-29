@@ -1,3 +1,6 @@
+function_name: bend_straight_bend
+info: {}
+module: gdsfactory.components.bend_euler
 name: bend_straight_bend
 ports:
   o1:

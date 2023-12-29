@@ -1,3 +1,6 @@
+function_name: disk_heater
+info: {}
+module: gdsfactory.components.disk
 name: disk_heater
 ports:
   e1:

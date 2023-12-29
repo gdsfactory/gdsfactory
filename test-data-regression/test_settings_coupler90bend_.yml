@@ -1,3 +1,6 @@
+function_name: coupler90bend
+info: {}
+module: gdsfactory.components.coupler90bend
 name: coupler90bend
 ports:
   o1:

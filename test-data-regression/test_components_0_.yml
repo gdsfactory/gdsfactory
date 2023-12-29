@@ -1,3 +1,8 @@
+function_name: _from_yaml
+info:
+  instances:
+  - mmi_long
+module: gdsfactory.read.from_yaml
 name: mirror_port_bb8620c3
 ports:
   o1:

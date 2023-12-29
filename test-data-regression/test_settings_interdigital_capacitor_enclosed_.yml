@@ -1,3 +1,6 @@
+function_name: interdigital_capacitor_enclosed
+info: {}
+module: gdsfactory.components.interdigital_capacitor_enclosed
 name: interdigital_capacitor_enclosed
 ports:
   o1:

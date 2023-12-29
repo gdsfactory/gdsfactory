@@ -1,3 +1,6 @@
+function_name: ring_single_array
+info: {}
+module: gdsfactory.components.ring_single_array
 name: ring_single_array
 ports:
   o1:

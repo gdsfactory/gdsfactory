@@ -1,3 +1,6 @@
+function_name: regular_polygon
+info: {}
+module: gdsfactory.components.regular_polygon
 name: regular_polygon
 ports:
   p1:

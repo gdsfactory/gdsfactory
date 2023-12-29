@@ -1,3 +1,6 @@
+function_name: terminator
+info: {}
+module: gdsfactory.components.terminator
 name: terminator
 ports:
   o1:

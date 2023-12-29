@@ -1,3 +1,6 @@
+function_name: greek_cross
+info: {}
+module: gdsfactory.components.greek_cross
 name: greek_cross
 ports:
   e1:

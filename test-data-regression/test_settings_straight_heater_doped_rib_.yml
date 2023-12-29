@@ -1,3 +1,6 @@
+function_name: straight_heater_doped_rib
+info: {}
+module: gdsfactory.components.straight_heater_doped_rib
 name: straight_heater_doped_rib
 ports:
   bot_e1:

@@ -1,3 +1,6 @@
+function_name: coupler_ring
+info: {}
+module: gdsfactory.components.coupler_ring
 name: coupler_ring
 ports:
   o1:

@@ -1,3 +1,6 @@
+function_name: qrcode
+info: {}
+module: gdsfactory.components.version_stamp
 name: qrcode
 ports: {}
 settings:

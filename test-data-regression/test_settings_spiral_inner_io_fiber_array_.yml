@@ -1,3 +1,9 @@
+function_name: spiral_inner_io_fiber_array
+info:
+  length: 20000.009
+  polarization: te
+  wavelength: 1.53
+module: gdsfactory.components.spiral_inner_io
 name: spiral_inner_io_fiber_array
 ports:
   loopback1:

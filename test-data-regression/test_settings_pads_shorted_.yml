@@ -1,3 +1,6 @@
+function_name: pads_shorted
+info: {}
+module: gdsfactory.components.pads_shorted
 name: pads_shorted
 ports: {}
 settings:

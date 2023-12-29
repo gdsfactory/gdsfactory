@@ -1,3 +1,6 @@
+function_name: rectangular_ring
+info: {}
+module: gdsfactory.components.rectangular_ring
 name: rectangular_ring
 ports: {}
 settings:

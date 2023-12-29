@@ -1,3 +1,6 @@
+function_name: rectangle
+info: {}
+module: gdsfactory.components.rectangle
 name: rectangle
 ports:
   e1:

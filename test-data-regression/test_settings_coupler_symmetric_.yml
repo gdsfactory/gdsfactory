@@ -1,3 +1,8 @@
+function_name: coupler_symmetric
+info:
+  length: 10.187
+  min_bend_radius: 11.851
+module: gdsfactory.components.coupler_symmetric
 name: coupler_symmetric
 ports:
   o1:

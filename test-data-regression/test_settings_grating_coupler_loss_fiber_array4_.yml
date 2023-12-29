@@ -1,3 +1,6 @@
+function_name: grating_coupler_loss_fiber_array4
+info: {}
+module: gdsfactory.components.grating_coupler_loss
 name: grating_coupler_loss_fiber_array4
 ports: {}
 settings:

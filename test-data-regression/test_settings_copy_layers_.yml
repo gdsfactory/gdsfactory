@@ -1,4 +1,7 @@
-name: None_copy_layers
+function_name: copy_layers
+info: {}
+module: gdsfactory.components.copy_layers
+name: cross_copy_layers
 ports: {}
 settings:
   factory:

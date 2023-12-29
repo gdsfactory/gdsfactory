@@ -1,3 +1,6 @@
+function_name: array
+info: {}
+module: gdsfactory.components.array_component
 name: array
 ports:
   e1_1_1:

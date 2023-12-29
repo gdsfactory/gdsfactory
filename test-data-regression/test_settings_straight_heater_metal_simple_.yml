@@ -1,3 +1,7 @@
+function_name: straight_heater_metal_simple
+info:
+  resistance: 0
+module: gdsfactory.components.straight_heater_metal
 name: straight_heater_metal_simple
 ports:
   e1:

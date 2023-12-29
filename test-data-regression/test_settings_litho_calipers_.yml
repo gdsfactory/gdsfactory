@@ -1,3 +1,6 @@
+function_name: litho_calipers
+info: {}
+module: gdsfactory.components.litho_calipers
 name: litho_calipers
 ports: {}
 settings:

@@ -1,3 +1,6 @@
+function_name: ring_crow
+info: {}
+module: gdsfactory.components.ring_crow
 name: ring_crow
 ports:
   o1:

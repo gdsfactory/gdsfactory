@@ -1,3 +1,6 @@
+function_name: cdc
+info: {}
+module: gdsfactory.components.cdc
 name: cdc
 ports:
   o1:

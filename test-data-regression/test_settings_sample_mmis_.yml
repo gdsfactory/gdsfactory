@@ -1,3 +1,12 @@
+function_name: _from_yaml
+info:
+  description: just a demo on adding metadata
+  instances:
+  - mmi_long
+  - mmi_short
+  polarization: te
+  wavelength: 1.55
+module: gdsfactory.read.from_yaml
 name: sample_mmis_4c1ceb94
 ports:
   o1:

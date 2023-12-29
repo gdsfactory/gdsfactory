@@ -1,3 +1,7 @@
+function_name: bend_euler_s
+info:
+  length: 33.274
+module: gdsfactory.components.bend_euler
 name: bend_euler_s
 ports:
   o1:

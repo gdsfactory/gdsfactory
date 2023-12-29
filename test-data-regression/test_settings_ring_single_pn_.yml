@@ -1,3 +1,6 @@
+function_name: ring_single_pn
+info: {}
+module: gdsfactory.components.ring_single_pn
 name: ring_single_pn
 ports:
   o1:

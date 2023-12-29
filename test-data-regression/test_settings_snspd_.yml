@@ -1,3 +1,11 @@
+function_name: snspd
+info:
+  area: 80
+  num_squares: 750.0
+  size:
+  - 10
+  - 8
+module: gdsfactory.components.snspd
 name: snspd
 ports:
   e1:

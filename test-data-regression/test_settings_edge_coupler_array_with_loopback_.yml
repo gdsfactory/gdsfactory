@@ -1,3 +1,6 @@
+function_name: edge_coupler_array_with_loopback
+info: {}
+module: gdsfactory.components.edge_coupler_array
 name: edge_coupler_array_with_loopback
 ports:
   o1:

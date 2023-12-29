@@ -1,3 +1,9 @@
+function_name: grating_coupler_elliptical_trenches
+info:
+  period: 0.676
+  polarization: te
+  wavelength: 1.53
+module: gdsfactory.components.grating_coupler_elliptical_trenches
 name: grating_coupler_elliptical_trenches
 ports:
   o1:

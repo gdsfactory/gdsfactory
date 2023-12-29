@@ -1,3 +1,6 @@
+function_name: optimal_hairpin
+info: {}
+module: gdsfactory.components.optimal_hairpin
 name: optimal_hairpin
 ports:
   e1:

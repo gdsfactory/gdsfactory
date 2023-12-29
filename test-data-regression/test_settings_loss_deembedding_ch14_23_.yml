@@ -1,3 +1,6 @@
+function_name: loss_deembedding_ch14_23
+info: {}
+module: gdsfactory.components.grating_coupler_loss
 name: loss_deembedding_ch14_23
 ports: {}
 settings:

@@ -1,3 +1,9 @@
+function_name: via_stack
+info:
+  layer: M2
+  xsize: 11.0
+  ysize: 11.0
+module: gdsfactory.components.via_stack
 name: via_stack_2f27d917
 ports:
   e1:

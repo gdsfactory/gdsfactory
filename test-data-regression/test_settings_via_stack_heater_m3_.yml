@@ -1,3 +1,9 @@
+function_name: via_stack
+info:
+  layer: MTOP
+  xsize: 11.0
+  ysize: 11.0
+module: gdsfactory.components.via_stack
 name: via_stack_64ed2af4
 ports:
   e1:

@@ -1,3 +1,17 @@
+function_name: via
+info:
+  enclosure: 2
+  size:
+  - 0.7
+  - 0.7
+  spacing:
+  - 2.0
+  - 2.0
+  xsize: 0.7
+  xspacing: 2.0
+  ysize: 0.7
+  yspacing: 2.0
+module: gdsfactory.components.via
 name: via_enclosure2_layerVIA1
 ports: {}
 settings:

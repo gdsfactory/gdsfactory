@@ -1,3 +1,6 @@
+function_name: taper_parabolic
+info: {}
+module: gdsfactory.components.taper_parabolic
 name: taper_parabolic
 ports:
   o1:

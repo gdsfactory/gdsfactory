@@ -1,3 +1,6 @@
+function_name: mmi
+info: {}
+module: gdsfactory.components.mmi
 name: mmi
 ports:
   o1:

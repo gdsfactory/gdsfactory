@@ -1,3 +1,7 @@
+function_name: taper_cross_section
+info:
+  length: 10
+module: gdsfactory.components.taper_cross_section
 name: taper_cross_section_npoints101
 ports:
   o1:

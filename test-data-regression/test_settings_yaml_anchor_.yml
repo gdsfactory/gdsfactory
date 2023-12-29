@@ -1,3 +1,9 @@
+function_name: _from_yaml
+info:
+  instances:
+  - mmi_long
+  - mmi_short
+module: gdsfactory.read.from_yaml
 name: yaml_anchor_18adfe0a
 ports: {}
 settings:

@@ -1,3 +1,7 @@
+function_name: resistance_sheet
+info:
+  resistance: 0
+module: gdsfactory.components.resistance_sheet
 name: resistance_sheet
 ports:
   pad1:

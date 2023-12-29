@@ -1,3 +1,6 @@
+function_name: pad_gsg_short
+info: {}
+module: gdsfactory.components.pad_gsg
 name: pad_gsg_short
 ports: {}
 settings:

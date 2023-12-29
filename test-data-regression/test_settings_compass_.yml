@@ -1,3 +1,6 @@
+function_name: compass
+info: {}
+module: gdsfactory.components.compass
 name: compass
 ports:
   e1:

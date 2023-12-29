@@ -1,3 +1,9 @@
+function_name: taper
+info:
+  length: 100.0
+  width1: 0.5
+  width2: 0.2
+module: gdsfactory.components.taper
 name: taper_abf5825d
 ports:
   o1:

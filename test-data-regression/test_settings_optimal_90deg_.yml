@@ -1,3 +1,6 @@
+function_name: optimal_90deg
+info: {}
+module: gdsfactory.components.optimal_90deg
 name: optimal_90deg
 ports:
   e1:

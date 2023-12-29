@@ -1,3 +1,6 @@
+function_name: mzi
+info: {}
+module: gdsfactory.components.mzi
 name: mzi_7a18d033
 ports:
   o1:

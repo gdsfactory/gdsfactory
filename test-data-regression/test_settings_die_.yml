@@ -1,3 +1,6 @@
+function_name: die
+info: {}
+module: gdsfactory.components.die
 name: die
 ports: {}
 settings:

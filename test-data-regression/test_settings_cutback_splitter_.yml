@@ -1,4 +1,8 @@
-name: None_cutback_splitter
+function_name: cutback_splitter
+info:
+  components: 88
+module: gdsfactory.components.cutback_splitter
+name: mmi1x2_cutback_splitter
 ports:
   o1:
     center:

@@ -1,3 +1,6 @@
+function_name: coupler_full
+info: {}
+module: gdsfactory.components.coupler_full
 name: coupler_full
 ports:
   o1:

@@ -1,3 +1,6 @@
+function_name: nxn
+info: {}
+module: gdsfactory.components.nxn
 name: nxn
 ports:
   o1:

@@ -1,3 +1,6 @@
+function_name: straight_heater_meander_doped
+info: {}
+module: gdsfactory.components.straight_heater_meander_doped
 name: straight_heater_meander_doped
 ports:
   l_e1:

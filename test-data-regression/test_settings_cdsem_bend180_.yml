@@ -1,3 +1,6 @@
+function_name: cdsem_bend180
+info: {}
+module: gdsfactory.components.cdsem_bend180
 name: cdsem_bend180
 ports: {}
 settings:

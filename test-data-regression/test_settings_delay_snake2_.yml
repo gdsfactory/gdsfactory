@@ -1,3 +1,6 @@
+function_name: delay_snake2
+info: {}
+module: gdsfactory.components.delay_snake2
 name: delay_snake2
 ports:
   o1:

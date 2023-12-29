@@ -1,4 +1,9 @@
-name: None_add_fiber_array_ddbd31ad
+function_name: add_fiber_array
+info:
+  length: 10.19
+  min_bend_radius: 11.744
+module: gdsfactory.routing.add_fiber_array
+name: coupler_add_fiber_array_ddbd31ad
 ports:
   loopback1:
     center:

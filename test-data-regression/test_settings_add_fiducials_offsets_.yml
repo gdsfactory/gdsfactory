@@ -1,3 +1,8 @@
+function_name: add_fiducials_offsets
+info:
+  xsize: 100.0
+  ysize: 100.0
+module: gdsfactory.components.add_fiducials
 name: add_fiducials_offsets
 ports:
   e11:

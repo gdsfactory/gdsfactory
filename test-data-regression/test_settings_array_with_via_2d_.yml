@@ -1,3 +1,6 @@
+function_name: array_with_via_2d
+info: {}
+module: gdsfactory.components.array_with_via
 name: array_with_via_2d
 ports:
   e0_1_1:

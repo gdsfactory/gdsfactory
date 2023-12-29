@@ -1,3 +1,9 @@
+function_name: grating_coupler_loss_fiber_single
+info:
+  period: 0.676
+  polarization: te
+  wavelength: 1.53
+module: gdsfactory.components.grating_coupler_loss_fiber_single
 name: grating_coupler_loss_fiber_single
 ports: {}
 settings:

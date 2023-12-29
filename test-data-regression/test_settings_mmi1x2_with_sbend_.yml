@@ -1,3 +1,6 @@
+function_name: mmi1x2_with_sbend
+info: {}
+module: gdsfactory.components.mmi1x2_with_sbend
 name: mmi1x2_with_sbend
 ports:
   o1:

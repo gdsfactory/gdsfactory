@@ -1,3 +1,7 @@
+function_name: spiral_inner_io
+info:
+  length: 11584.393
+module: gdsfactory.components.spiral_inner_io
 name: spiral_inner_io
 ports:
   o1:

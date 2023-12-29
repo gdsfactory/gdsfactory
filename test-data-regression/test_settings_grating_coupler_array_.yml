@@ -1,3 +1,6 @@
+function_name: grating_coupler_array
+info: {}
+module: gdsfactory.components.grating_coupler_array
 name: grating_coupler_array
 ports:
   o0:

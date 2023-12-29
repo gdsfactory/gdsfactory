@@ -1,3 +1,6 @@
+function_name: circle
+info: {}
+module: gdsfactory.components.circle
 name: circle
 ports: {}
 settings:

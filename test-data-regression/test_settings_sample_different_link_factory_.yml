@@ -1,3 +1,11 @@
+function_name: _from_yaml
+info:
+  instances:
+  - bl
+  - tl
+  - br
+  - tr
+module: gdsfactory.read.from_yaml
 name: sample_path_length_matching_a27584d3
 ports: {}
 settings:

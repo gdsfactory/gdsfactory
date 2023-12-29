@@ -1,4 +1,7 @@
-name: None_add_trenches_e76d6c77
+function_name: add_trenches
+info: {}
+module: gdsfactory.components.add_trenches
+name: ring_double_add_trenches_e76d6c77
 ports:
   o1:
     center:

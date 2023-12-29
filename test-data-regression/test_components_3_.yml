@@ -1,3 +1,9 @@
+function_name: _from_yaml
+info:
+  instances:
+  - mmi_long
+  - mmi_short
+module: gdsfactory.read.from_yaml
 name: dxdy_bb34f332
 ports:
   o1:

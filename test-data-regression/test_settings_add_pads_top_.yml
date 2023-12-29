@@ -1,4 +1,7 @@
-name: None_add_pads_top_67ba37bb
+function_name: add_pads_top
+info: {}
+module: gdsfactory.routing.add_pads
+name: add_pads_bot_add_pads_top_67ba37bb
 ports:
   o1:
     center:

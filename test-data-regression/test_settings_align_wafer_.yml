@@ -1,3 +1,6 @@
+function_name: align_wafer
+info: {}
+module: gdsfactory.components.align
 name: align_wafer
 ports: {}
 settings:

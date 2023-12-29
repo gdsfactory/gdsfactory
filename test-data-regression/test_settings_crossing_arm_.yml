@@ -1,3 +1,6 @@
+function_name: crossing_arm
+info: {}
+module: gdsfactory.components.crossing_waveguide
 name: crossing_arm
 ports:
   o1:

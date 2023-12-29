@@ -1,4 +1,7 @@
-name: None_splitter_chain
+function_name: splitter_chain
+info: {}
+module: gdsfactory.components.splitter_chain
+name: mmi1x2_splitter_chain
 ports:
   o1:
     center:

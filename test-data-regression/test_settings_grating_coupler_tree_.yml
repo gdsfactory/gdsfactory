@@ -1,3 +1,6 @@
+function_name: grating_coupler_tree
+info: {}
+module: gdsfactory.components.grating_coupler_tree
 name: grating_coupler_tree
 ports:
   o1:

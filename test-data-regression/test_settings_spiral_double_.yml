@@ -1,3 +1,7 @@
+function_name: spiral_double
+info:
+  length: 635.09
+module: gdsfactory.components.spiral_double
 name: spiral_double
 ports:
   o1:

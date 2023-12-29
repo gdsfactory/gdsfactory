@@ -552,7 +552,7 @@ def add_settings_label(
 
     layer_label = get_layer(layer_label)
 
-    settings_dict = OmegaConf.to_container(reference.settings.full)
+    settings_dict = OmegaConf.to_container(reference.settings)
     settings_string = f"settings={json.dumps(settings_dict)}"
     if len(settings_string) > 1024:
         raise ValueError(f"label > 1024 characters: {settings_string}")

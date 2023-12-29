@@ -1,3 +1,6 @@
+function_name: mzm
+info: {}
+module: gdsfactory.components.mzm
 name: mzm
 ports:
   bot_bot_e1:

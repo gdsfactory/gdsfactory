@@ -1,3 +1,6 @@
+function_name: triangle
+info: {}
+module: gdsfactory.components.triangles
 name: triangle
 ports: {}
 settings:

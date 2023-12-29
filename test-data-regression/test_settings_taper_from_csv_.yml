@@ -1,3 +1,6 @@
+function_name: taper_from_csv
+info: {}
+module: gdsfactory.components.taper_from_csv
 name: taper_from_csv
 ports:
   o1:

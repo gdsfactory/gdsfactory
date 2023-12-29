@@ -1,3 +1,6 @@
+function_name: ring_single_heater
+info: {}
+module: gdsfactory.components.ring_single_heater
 name: ring_single_heater
 ports:
   l_e1:

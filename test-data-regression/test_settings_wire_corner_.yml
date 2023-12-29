@@ -1,3 +1,8 @@
+function_name: wire_corner
+info:
+  dy: 10.0
+  length: 10.0
+module: gdsfactory.components.wire
 name: wire_corner
 ports:
   e1:

@@ -1,3 +1,9 @@
+function_name: _from_yaml
+info:
+  instances:
+  - s
+  - b
+module: gdsfactory.read.from_yaml
 name: sample_mirror_simple_0e62769d
 ports: {}
 settings:

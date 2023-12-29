@@ -1,3 +1,6 @@
+function_name: add_frame
+info: {}
+module: gdsfactory.components.align
 name: add_frame
 ports: {}
 settings:

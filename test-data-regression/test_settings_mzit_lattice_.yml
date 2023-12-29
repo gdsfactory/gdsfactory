@@ -1,3 +1,6 @@
+function_name: mzit_lattice
+info: {}
+module: gdsfactory.components.mzit_lattice
 name: mzit_lattice
 ports:
   o1:

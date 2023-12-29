@@ -1,3 +1,9 @@
+function_name: bend_circular_heater
+info:
+  dx: 10.0
+  dy: 10.0
+  length: 15.708
+module: gdsfactory.components.bend_circular_heater
 name: bend_circular_heater
 ports:
   o1:

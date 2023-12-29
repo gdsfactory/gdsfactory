@@ -21,11 +21,11 @@ instances:
   wgw:
     component: straight
     info:
-      length: 1
-      route_info_length: 1
+      length: 1.0
+      route_info_length: 1.0
       route_info_type: xs_sc
-      route_info_weight: 1
-      route_info_xs_sc_length: 1
+      route_info_weight: 1.0
+      route_info_xs_sc_length: 1.0
       width: 0.5
     settings:
       add_bbox: null

@@ -1,3 +1,6 @@
+function_name: wafer
+info: {}
+module: gdsfactory.components.wafer
 name: wafer
 ports: {}
 settings:

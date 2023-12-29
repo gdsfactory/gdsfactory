@@ -1,3 +1,6 @@
+function_name: coupler90
+info: {}
+module: gdsfactory.components.coupler90
 name: coupler90
 ports:
   o1:

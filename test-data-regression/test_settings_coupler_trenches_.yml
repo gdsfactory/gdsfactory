@@ -1,4 +1,9 @@
-name: None_add_trenches
+function_name: add_trenches
+info:
+  length: 10.186
+  min_bend_radius: 11.857
+module: gdsfactory.components.add_trenches
+name: coupler_add_trenches
 ports:
   o1:
     center:

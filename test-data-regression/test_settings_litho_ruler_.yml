@@ -1,3 +1,6 @@
+function_name: litho_ruler
+info: {}
+module: gdsfactory.components.litho_ruler
 name: litho_ruler
 ports: {}
 settings:

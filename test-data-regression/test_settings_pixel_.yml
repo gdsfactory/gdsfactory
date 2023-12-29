@@ -1,3 +1,6 @@
+function_name: pixel
+info: {}
+module: gdsfactory.components.version_stamp
 name: pixel
 ports: {}
 settings:

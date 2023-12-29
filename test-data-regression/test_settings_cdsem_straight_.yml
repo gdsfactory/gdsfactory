@@ -1,3 +1,6 @@
+function_name: cdsem_straight
+info: {}
+module: gdsfactory.components.cdsem_straight
 name: cdsem_straight
 ports: {}
 settings:

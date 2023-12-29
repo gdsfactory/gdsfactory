@@ -1,3 +1,8 @@
+function_name: add_fiducials
+info:
+  xsize: 100.0
+  ysize: 100.0
+module: gdsfactory.components.add_fiducials
 name: add_fiducials
 ports:
   e11:

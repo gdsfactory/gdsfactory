@@ -1,3 +1,6 @@
+function_name: transition
+info: {}
+module: test_paths
 name: transition
 ports: {}
 settings: {}

@@ -1,3 +1,6 @@
+function_name: spiral_racetrack_heater_metal
+info: {}
+module: gdsfactory.components.spiral_heater
 name: spiral_racetrack_heater_metal
 ports:
   e1:

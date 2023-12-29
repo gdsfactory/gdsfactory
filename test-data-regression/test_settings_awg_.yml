@@ -1,3 +1,6 @@
+function_name: awg
+info: {}
+module: gdsfactory.components.awg
 name: awg
 ports:
   E0:

@@ -1,3 +1,6 @@
+function_name: cdsem_coupler
+info: {}
+module: gdsfactory.components.cdsem_coupler
 name: cdsem_coupler
 ports: {}
 settings:

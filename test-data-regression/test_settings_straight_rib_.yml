@@ -1,3 +1,12 @@
+function_name: straight
+info:
+  length: 10.0
+  route_info_length: 10.0
+  route_info_type: xs_f1ca4cff
+  route_info_weight: 10.0
+  route_info_xs_f1ca4cff_length: 10.0
+  width: 0.5
+module: gdsfactory.components.straight
 name: straight_2f9e04e8
 ports:
   o1:

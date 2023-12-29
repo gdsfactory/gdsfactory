@@ -1,3 +1,6 @@
+function_name: ring_double
+info: {}
+module: gdsfactory.components.ring_double
 name: ring_double
 ports:
   o1:

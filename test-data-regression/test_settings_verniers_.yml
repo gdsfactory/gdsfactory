@@ -1,3 +1,6 @@
+function_name: verniers
+info: {}
+module: gdsfactory.components.verniers
 name: verniers
 ports: {}
 settings:

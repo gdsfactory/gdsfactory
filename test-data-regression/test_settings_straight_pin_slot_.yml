@@ -1,3 +1,6 @@
+function_name: straight_pin_slot
+info: {}
+module: gdsfactory.components.straight_pin_slot
 name: straight_pin_slot
 ports:
   bot_e1:

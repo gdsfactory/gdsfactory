@@ -1,3 +1,6 @@
+function_name: coh_tx_single_pol
+info: {}
+module: gdsfactory.components.coh_tx_single_pol
 name: coh_tx_single_pol
 ports:
   mzm_i_top_bot_e1:
