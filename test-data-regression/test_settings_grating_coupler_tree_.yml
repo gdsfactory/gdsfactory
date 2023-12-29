@@ -118,10 +118,7 @@ settings:
     straight_spacing: 4.0
     with_loopback: false
   function_name: grating_coupler_tree
-  info:
-    grating_coupler:
-      polarization: te
-      wavelength: 1.554
+  info: {}
   info_version: 2
   module: gdsfactory.components.grating_coupler_tree
   name: grating_coupler_tree

@@ -58,11 +58,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: mzi_delta_length100_add_fiber_array_64b60dfc
@@ -120,11 +116,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: mzi_delta_length10_add_fiber_array_37606d0f
@@ -201,11 +193,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x1_radius20_add_fiber_array_6cc4522c
@@ -267,11 +255,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x1_radius30_add_fiber_array_4a913d16
@@ -333,11 +317,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x1_radius40_add_fiber_array_6fd7fc6d
@@ -399,11 +379,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x1_radius50_add_fiber_array_1f091694
@@ -465,11 +441,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x2_radius20_add_fiber_array_5f5eee5f
@@ -531,11 +503,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x2_radius30_add_fiber_array_f2b372dc
@@ -597,11 +565,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x2_radius40_add_fiber_array_3df94b92
@@ -663,11 +627,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x2_radius50_add_fiber_array_79f726fe
@@ -729,11 +689,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x3_radius20_add_fiber_array_720a4c68
@@ -795,11 +751,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x3_radius30_add_fiber_array_746436f8
@@ -861,11 +813,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x3_radius40_add_fiber_array_86dad751
@@ -927,11 +875,7 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.676
-              polarization: te
-              wavelength: 1.53
+          info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x3_radius50_add_fiber_array_cc358e76

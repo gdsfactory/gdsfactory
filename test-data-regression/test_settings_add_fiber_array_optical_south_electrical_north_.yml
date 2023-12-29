@@ -120,10 +120,7 @@ settings:
     with_loopback: true
     xs_metal: xs_metal_routing
   function_name: add_fiber_array_optical_south_electrical_north
-  info:
-    grating_coupler:
-      polarization: te
-      wavelength: 1.554
+  info: {}
   info_version: 2
   module: gdsfactory.components.add_fiber_array_optical_south_electrical_north
   name: mzi_7a18d033_add_fiber_array_889fae23_add_fiber_array_optical_south_electrical_north

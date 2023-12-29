@@ -131,10 +131,6 @@ settings:
         port_type: optical
   function_name: add_fiber_array
   info:
-    grating_coupler:
-      period: 0.676
-      polarization: te
-      wavelength: 1.53
     length: 10.19
     min_bend_radius: 11.744
   info_version: 2

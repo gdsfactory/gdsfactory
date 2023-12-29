@@ -114,10 +114,6 @@ settings:
   function_name: add_fiber_array
   info:
     cross_section: xs_sc
-    grating_coupler:
-      period: 0.676
-      polarization: te
-      wavelength: 1.53
     length: 20
     route_info:
       length: 20
