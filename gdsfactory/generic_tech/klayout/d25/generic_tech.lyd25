@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description/>
+ <version/>
+ <category>d25</category>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <priority>0</priority>
+ <shortcut/>
+ <show-in-menu>true</show-in-menu>
+ <group-name>d25_scripts</group-name>
+ <menu-path>tools_menu.d25.end</menu-path>
+ <interpreter>dsl</interpreter>
+ <dsl-interpreter-name>d25-dsl-xml</dsl-interpreter-name>
+ <text>
+
+substrate = input(99999, 0)
+box = input(99999, 0)
+core = input(1, 0)
+shallow_etch = input(2, 6)
+deep_etch = input(3, 6)
+clad = input(99999, 0)
+slab150 = input(2, 0)
+slab90 = input(3, 0)
+nitride = input(34, 0)
+ge = input(5, 0)
+undercut = input(6, 0)
+via_contact = input(40, 0)
+metal1 = input(41, 0)
+heater = input(47, 0)
+via1 = input(44, 0)
+metal2 = input(45, 0)
+via2 = input(43, 0)
+metal3 = input(49, 0)
+
+unetched_core = core - shallow_etch - deep_etch
+
+slab_core_shallow_etch_0 = core &amp; shallow_etch
+slab_core_deep_etch_0 = core &amp; deep_etch
+
+z(substrate, zstart: -13.0, zstop: -3.0, name: 'substrate: si 99999/0', )
+z(box, zstart: -3.0, zstop: 0.0, name: 'box: sio2 99999/0', )
+z(slab_core_shallow_etch_0, zstart: 0.0, zstop: 0.15, name: 'slab_core_shallow_etch_0: si 2/6', )
+z(slab_core_deep_etch_0, zstart: 0.0, zstop: 0.09, name: 'slab_core_deep_etch_0: si 3/6', )
+z(clad, zstart: 0.0, zstop: 3.0, name: 'clad: sio2 99999/0', )
+z(slab150, zstart: 0.0, zstop: 0.1, name: 'slab150: si 2/0', )
+z(slab90, zstart: 0.0, zstop: 0.1, name: 'slab90: si 3/0', )
+z(nitride, zstart: 0.3, zstop: 0.7, name: 'nitride: sin 34/0', )
+z(ge, zstart: 0.2, zstop: 0.7, name: 'ge: ge 5/0', )
+z(undercut, zstart: -3.0, zstop: -8.0, name: 'undercut: air 6/0', )
+z(via_contact, zstart: 0.1, zstop: 1.1, name: 'via_contact: Aluminum 40/0', )
+z(metal1, zstart: 1.1, zstop: 1.8, name: 'metal1: Aluminum 41/0', )
+z(heater, zstart: 1.1, zstop: 1.9, name: 'heater: TiN 47/0', )
+z(via1, zstart: 1.8, zstop: 2.3, name: 'via1: Aluminum 44/0', )
+z(metal2, zstart: 2.3, zstop: 3.0, name: 'metal2: Aluminum 45/0', )
+z(via2, zstart: 3.0, zstop: 3.2, name: 'via2: Aluminum 43/0', )
+z(metal3, zstart: 3.2, zstop: 5.2, name: 'metal3: Aluminum 49/0', )
+
+z(unetched_core, zstart: 0.0, zstop: 0.22, name: 'unetched_core: si 1/0', )
+
+</text>
+</klayout-macro>

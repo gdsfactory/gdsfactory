@@ -226,7 +226,7 @@ def check_lvs_results(results_db_files: list) -> None:
         A list of strings that represent paths to results databases of all the LVS runs.
     """
 
-    if len(results_db_files) < 1:
+    if not results_db_files:
         logging.error("Klayout did not generate any db results. Please check run logs")
         exit(1)
 

@@ -103,4 +103,4 @@ if __name__ == "__main__":
     c = errors()
     c = gf.add_padding_container(c, layers=((64, 0),), default=5)
     c.write_gds("errors.gds")
-    c.show()
+    c.show(show_ports=True)
