@@ -146,31 +146,6 @@ def via_stack(
     return c
 
 
-def _smaller_angle(angle, angle1, angle2):
-    """Returns False if angle is outside the
-     bounds of the arc angle defined between
-     angle 1 and angle2.
-
-    But it does so assuming that angle1 and angle2 are between [-pi, pi]
-    and that we are trying to fill an arc
-    """
-
-    if angle2 >= 0 and angle1 >= 0:
-        if angle2 > angle1:
-            return angle < angle2
-        # Convert angle to 0, 2pi and see if out of bounds
-        angle = angle + 2 * np.pi * (angle < 0)
-        return not (angle2 < angle < angle1)
-
-    elif angle2 < 0 and angle1 < 0:
-        return angle < angle2 if angle2 > angle1 else not (angle2 < angle < angle1)
-    else:
-        if angle2 < 0 and angle > 0 or angle2 >= 0 and angle < 0:
-            return True
-        else:
-            return angle < angle2
-
-
 @gf.cell
 def via_stack_from_rules(
     size: Float2 = (1.2, 1.2),
@@ -355,7 +330,7 @@ via_stack_heater_mtop = via_stack_heater_m3 = partial(
 
 
 if __name__ == "__main__":
-    c = via_stack()
+    # c = via_stack()
     # c = gf.pack([via_stack_slab_m3, via_stack_heater_mtop])[0]
-    # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
+    c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
     c.show(show_ports=True)
