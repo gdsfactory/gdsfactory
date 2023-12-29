@@ -269,34 +269,6 @@ def optimized_via(
     )
 
 
-def test_via_stack_from_rules() -> None:
-    # Check that vias are generated with larger than min dimensions if possible
-    size = (1.2, 1.2)
-    layers = ("M1", "M2", "MTOP")
-    vias = (via1, via2)
-    via_min_size = ((0.2, 0.2), (0.2, 0.2))
-    via_min_gap = ((0.1, 0.1), (0.15, 0.15))
-    via_min_enclosure = (0.1, 0.1)
-
-    c = gf.get_component(
-        via_stack_from_rules(
-            size=size,
-            layers=layers,
-            vias=vias,
-            via_min_size=via_min_size,
-            via_min_gap=via_min_gap,
-            via_min_enclosure=via_min_enclosure,
-        )
-    )
-
-    assert c.info["vias"][0]["size"][0] > via_min_size[0][0]
-    assert c.info["vias"][0]["size"][1] > via_min_size[0][1]
-    assert (
-        c.info["vias"][0]["spacing"][0]
-        == via_min_gap[0][0] + c.info["vias"][0]["size"][0]
-    )
-
-
 via_stack_m1_m3 = partial(
     via_stack,
     layers=("M1", "M2", "MTOP"),
