@@ -303,16 +303,21 @@ via_stack_m1_m3 = partial(
     layers=("M1", "M2", "MTOP"),
     vias=(via1, via2, None),
 )
-
-via_stack_slab_m3 = partial(
+via_stack_slab_m1 = partial(
     via_stack,
-    layers=("SLAB90", "M1", "M2", "MTOP"),
-    vias=(viac, via1, via2, None),
+    layers=("SLAB90", "M1"),
+    vias=(viac, via1),
 )
 via_stack_slab_m2 = partial(
     via_stack,
     layers=("SLAB90", "M1", "M2"),
     vias=(viac, via1, None),
+)
+
+via_stack_slab_m3 = partial(
+    via_stack,
+    layers=("SLAB90", "M1", "M2", "MTOP"),
+    vias=(viac, via1, via2, None),
 )
 via_stack_npp_m1 = partial(
     via_stack,
@@ -327,6 +332,10 @@ via_stack_slab_npp_m3 = partial(
 via_stack_heater_mtop = via_stack_heater_m3 = partial(
     via_stack, layers=("HEATER", "M2", "MTOP"), vias=(None, via1, via2)
 )
+
+via_stack_heater_m2 = partial(via_stack, layers=("HEATER", "M2"), vias=(None, via1))
+
+via_stack_slab_m1_horizontal = partial(via_stack_slab_m1, slot_horizontal=True)
 
 
 if __name__ == "__main__":

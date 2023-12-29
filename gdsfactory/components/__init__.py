@@ -325,7 +325,6 @@ from gdsfactory.components.via_stack import (
     via_stack_heater_mtop,
     via_stack_slab_m3,
 )
-from gdsfactory.components.via_stack_slot import via_stack_slot, via_stack_slot_m1_m2
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.wafer import wafer
 from gdsfactory.components.wire import wire_corner, wire_corner45, wire_straight
@@ -612,8 +611,6 @@ __all__ = [
     "via_stack_heater_m3",
     "via_stack_heater_mtop",
     "via_stack_slab_m3",
-    "via_stack_slot",
-    "via_stack_slot_m1_m2",
     "via_stack_with_offset",
     "viac",
     "wafer",

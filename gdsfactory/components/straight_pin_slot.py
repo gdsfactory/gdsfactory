@@ -6,8 +6,10 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper_strip_to_ridge
-from gdsfactory.components.via_stack import via_stack_m1_m3
-from gdsfactory.components.via_stack_slot import via_stack_slot_slab_m1
+from gdsfactory.components.via_stack import (
+    via_stack_m1_m3,
+    via_stack_slab_m1_horizontal,
+)
 from gdsfactory.cross_section import pin, pn
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -18,7 +20,7 @@ def straight_pin_slot(
     cross_section: CrossSectionSpec = pin,
     via_stack: ComponentSpec | None = via_stack_m1_m3,
     via_stack_width: float = 10.0,
-    via_stack_slab: ComponentSpec | None = via_stack_slot_slab_m1,
+    via_stack_slab: ComponentSpec | None = via_stack_slab_m1_horizontal,
     via_stack_slab_top: ComponentSpec | None = None,
     via_stack_slab_bot: ComponentSpec | None = None,
     via_stack_slab_width: float | None = None,
