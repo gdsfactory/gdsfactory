@@ -1,40 +1,13 @@
 analysis: null
 analysis_settings: {}
-cell_settings:
-  angle: 90
-  component:
-    component: add_fiber_single
-    settings:
-      component:
-        component: straight
-        settings:
-          cross_section: xs_sc_no_pins
-          decorator:
-            function: add_pins_siepic
-  cross_section: xs_sc_no_pins
-  decorator:
-    function: add_label_yaml
-    settings:
-      with_yaml_format: false
-  grating_coupler:
-    period: 0.6759999999999999
-    polarization: te
-    wavelength: 1.53
-  length: 10.0
-  recenter: false
-  route_info:
-    length: 10.0
-    type: xs_sc
-    weight: 10.0
-    xs_sc_length: 10.0
-  width: 0.5
+cell_settings: {}
 doe: null
 measurement: null
 measurement_settings: {}
-name: straight_7688267d_move_33512259_add_fiber_single_91204c7e_rotate_39dea194
+name: None_rotate_9815550d
 port_names:
-- opt_te_1530_15-straight_7688267d_move_33512259-loopback2
-- opt_te_1530_15-straight_7688267d_move_33512259-1-0
-- opt_te_1530_15-straight_7688267d_move_33512259-0-0
-- opt_te_1530_15-straight_7688267d_move_33512259-loopback1
+- opt_te_1530_15-None_move_15fcdc2d-loopback2
+- opt_te_1530_15-None_move_15fcdc2d-1-0
+- opt_te_1530_15-None_move_15fcdc2d-0-0
+- opt_te_1530_15-None_move_15fcdc2d-loopback1
 port_type: optical

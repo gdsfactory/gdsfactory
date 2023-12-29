@@ -265,19 +265,12 @@ def cell(
                 "make sure that functions with @cell decorator return a Component",
             )
 
-        metadata_child = None
         if get_child_name and _name is None:
-            if component.child is None:
-                raise ValueError(
-                    f"{name}: get_child_name was defined, but component has no child! Be sure to assign the component a child attribute."
-                )
-            metadata_child = dict(component.child.settings)
-            component_name = f"{metadata_child.get('name')}_{name}"
+            child_name = component.child.function_name
+            component_name = f"{child_name}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length
             )
-            # if cache and component_name in CACHE:
-            # return CACHE[component_name]
         else:
             component_name = name
 

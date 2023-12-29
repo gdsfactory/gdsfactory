@@ -2086,6 +2086,8 @@ class Component(_GeometryHelper):
         d["name"] = self.name
         d["settings"] = clean_dict(dict(self.settings))
         d["info"] = clean_dict(dict(self.info))
+        d["function_name"] = self.function_name
+        d["module"] = self.module
         return d
 
     def to_yaml(self, **kwargs) -> str:
