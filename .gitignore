@@ -2,6 +2,7 @@ py[cod]
 add_type_hints.xonsh
 gdsfactory/generic_tech/klayout/klayoutrc
 gdsfactory/plugins/dagster/tmp*
+gdsfactory/generic_tech/klayout/layers.py
 docs/notebooks/sax/fdtd_vs_model.png
 gdsfactory/generic_tech/klayout/tech/generic_tech.py
 test-data
