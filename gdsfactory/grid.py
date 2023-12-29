@@ -153,10 +153,9 @@ def grid(
 
     for prefix, ref in prefix_to_ref.items():
         if add_ports_prefix:
-            D.add_ports(ref.ports, prefix=f"{prefix}-")
+            D.add_ports(ref.ports, prefix=f"{prefix}-", info=ref.parent.info)
         else:
-            D.add_ports(ref.ports, suffix=f"-{prefix}")
-
+            D.add_ports(ref.ports, suffix=f"-{prefix}", info=ref.parent.info)
     return D
 
 
@@ -250,6 +249,7 @@ def grid_with_text(
                 if text_rotation:
                     t.rotate(text_rotation)
                 t.move(np.array(text_offset) + getattr(ref.size_info, text_anchor))
+    c.add_ports(g.ports)
     return c
 
 

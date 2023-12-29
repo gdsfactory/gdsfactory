@@ -1,6 +1,5 @@
 """Converts CSV of test site labels into a CSV test manifest."""
 
-
 from collections import defaultdict
 
 import pandas as pd
@@ -9,7 +8,9 @@ import gdsfactory as gf
 from gdsfactory.samples.sample_reticle import sample_reticle
 
 
-def get_test_manifest(component: gf.Component) -> pd.DataFrame:
+def get_test_manifest(
+    component: gf.Component,
+) -> pd.DataFrame:
     """Returns a pandas DataFrame with test manifest.
 
     Args:
@@ -35,14 +36,15 @@ def get_test_manifest(component: gf.Component) -> pd.DataFrame:
 
         p = port.name.split("-")
         port_name = p[-1]
-        instance_name = "-".join(p[:-1])
+        instance_name = "-".join(p[1:-1])
 
         name_to_ports[instance_name][port_name] = {
             key: port_settings[key] for key in ["center", "orientation", "port_type"]
         }
-        name_to_settings[instance_name] = component.info.get("components", {}).get(
-            instance_name, {}
-        )
+
+        component = port.parent
+        settings = component.metadata_child
+        name_to_settings[instance_name] = settings
 
     for name, d in name_to_settings.items():
         row = [

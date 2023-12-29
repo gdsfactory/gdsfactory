@@ -1027,6 +1027,7 @@ class Component(_GeometryHelper):
                 if cross_section
                 else None,
                 shear_angle=shear_angle,
+                info=info,
             )
             p.parent = self
             if info is not None:
@@ -1251,10 +1252,9 @@ class Component(_GeometryHelper):
                 f"{type(component)}" "is not a Component or ComponentReference"
             )
 
-        self._get_child_name = True
         self.child = component
-        self.info.update(deepcopy(component.info))
-        self.settings.update(deepcopy(component.settings))
+        self.info.update(component.info)
+        self.settings.update(component.settings)
 
     @property
     def size_info(self) -> SizeInfo:

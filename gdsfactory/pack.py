@@ -215,10 +215,9 @@ def pack(
 
             if hasattr(component, "settings"):
                 packed.info["components"][component.name] = dict(component.settings)
+
             d.center = snap_to_grid((xcenter * precision, ycenter * precision))
-
             component_id = component.name if name_ports_with_component_name else index
-
             name_counter[component_id] += 1
 
             if name_counter[component_id] > 1:
@@ -230,7 +229,6 @@ def pack(
                 packed.add_ports(d.ports, suffix=f"-{component_id}")
 
             index += 1
-
             if text:
                 for text_offset, text_anchor in zip(text_offsets, text_anchors):
                     if text_anchor not in valid_anchors:

@@ -123,6 +123,6 @@ if __name__ == "__main__":
     # )
     # components = cutback_loss_mmi1x2(decorator=gf.routing.add_fiber_array)
     components = cutback_loss_bend180()
-    # c = gf.pack(components)[0]
-    c = components[0]
+    c = gf.pack(components)[0]
+    # c = components[0]
     c.show()

@@ -180,7 +180,6 @@ def add_fiber_array(
         component_new.add_port("loopback2", port=ports_loopback[1])
 
     component_new.copy_child_info(component)
-    component_new.info["grating_coupler"] = gc.info
     return component_new
 
 
