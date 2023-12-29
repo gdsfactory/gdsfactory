@@ -61,7 +61,6 @@ def splitter_tree(
             cross_section=cross_section,
             size=(bend_s_xsize, bend_s_ysize),
         )
-        c.info["bend_s"] = bend_s.info
     cols = int(np.log2(noutputs))
     i = 0
 

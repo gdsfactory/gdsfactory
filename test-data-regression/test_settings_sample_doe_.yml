@@ -1,104 +1,53 @@
+function_name: _from_yaml
+info:
+  instances:
+  - mmi1x2_sweep
+module: gdsfactory.read.from_yaml
 name: mask_93e227fa
 ports: {}
 settings:
-  changed:
-    conf:
-      instances:
-        mmi1x2_sweep:
-          component: pack_doe
-          settings:
-            do_permutations: true
-            doe: mmi1x2
-            settings:
-              length_mmi:
-              - 2
-              - 100
-              width_mmi:
-              - 4
-              - 10
-            spacing: 100
-      name: mask
-    routing_strategy:
-      get_bundle:
-        function: get_bundle
-      get_bundle_all_angle:
-        function: get_bundle_all_angle
-      get_bundle_electrical:
-        function: get_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_steps:
-        function: get_bundle_from_steps
-      get_bundle_from_steps_electrical:
-        function: get_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_waypoints:
-        function: get_bundle_from_waypoints
-      get_bundle_path_length_match:
-        function: get_bundle_path_length_match
-      get_bundle_same_axis_no_grouping:
-        function: get_bundle_same_axis_no_grouping
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-    validate: false
-  full:
-    conf:
-      instances:
-        mmi1x2_sweep:
-          component: pack_doe
-          settings:
-            do_permutations: true
-            doe: mmi1x2
-            settings:
-              length_mmi:
-              - 2
-              - 100
-              width_mmi:
-              - 4
-              - 10
-            spacing: 100
-      name: mask
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-    routing_strategy:
-      get_bundle:
-        function: get_bundle
-      get_bundle_all_angle:
-        function: get_bundle_all_angle
-      get_bundle_electrical:
-        function: get_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_steps:
-        function: get_bundle_from_steps
-      get_bundle_from_steps_electrical:
-        function: get_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_waypoints:
-        function: get_bundle_from_waypoints
-      get_bundle_path_length_match:
-        function: get_bundle_path_length_match
-      get_bundle_same_axis_no_grouping:
-        function: get_bundle_same_axis_no_grouping
-    validate: false
-  function_name: _from_yaml
-  info:
+  conf:
     instances:
-    - mmi1x2_sweep
-  info_version: 2
-  module: gdsfactory.read.from_yaml
-  name: mask_93e227fa
+      mmi1x2_sweep:
+        component: pack_doe
+        settings:
+          do_permutations: true
+          doe: mmi1x2
+          settings:
+            length_mmi:
+            - 2
+            - 100
+            width_mmi:
+            - 4
+            - 10
+          spacing: 100
+    name: mask
+  label_instance_function:
+    function: add_instance_label
+  mode: layout
+  routing_strategy:
+    get_bundle:
+      function: get_bundle
+    get_bundle_all_angle:
+      function: get_bundle_all_angle
+    get_bundle_electrical:
+      function: get_bundle
+      settings:
+        bend:
+          function: wire_corner
+        cross_section: xs_metal_routing
+    get_bundle_from_steps:
+      function: get_bundle_from_steps
+    get_bundle_from_steps_electrical:
+      function: get_bundle_from_steps
+      settings:
+        bend:
+          function: wire_corner
+        cross_section: xs_metal_routing
+    get_bundle_from_waypoints:
+      function: get_bundle_from_waypoints
+    get_bundle_path_length_match:
+      function: get_bundle_path_length_match
+    get_bundle_same_axis_no_grouping:
+      function: get_bundle_same_axis_no_grouping
+  validate: false
