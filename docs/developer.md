@@ -22,11 +22,14 @@ pip install gdsfactory[cad] --upgrade
 
 Please note that some PDKs may only work for a specific version of gdsfactory. Ensure you install the correct gdsfactory version specified in the pyproject.toml file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example, pip install gf180 will install the latest gdsfactory version tested for the GlobalFoundries180 PDK.
 
-To determine your current gdsfactory version, use the following code:
+To determine your python and gdsfactory versions, use the following code:
 
 ```
-import gdsfactory as gf
+import sys
+print(sys.version)
+print(sys.executable)
 
+import gdsfactory as gf
 gf.config.print_version_plugins()
 ```
 
