@@ -125,11 +125,9 @@ def via_stack(
             elif min_width > width or min_height > height:
                 raise ValueError(f"size {size} is too small to fit a {(w, h)} um via")
 
-            nb_vias_x = abs(width - w - 2 * enclosure) / pitch_x + 1
-            nb_vias_y = abs(height - h - 2 * enclosure) / pitch_y + 1
-
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
+
             ref = c.add_array(
                 via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
@@ -332,6 +330,6 @@ via_stack_heater_mtop = via_stack_heater_m3 = partial(
 
 
 if __name__ == "__main__":
-    c = via_stack_slab_m3(size=(100, 10), slot_horizontal=True)
+    c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
     # c = via_stack()
     c.show()

@@ -248,8 +248,7 @@ class Component(kf.KCell):
             component: The referenced component.
             columns: Number of columns in the array.
             rows: Number of rows in the array.
-            spacing: array-like[2] of int or float.
-                Distance between adjacent columns and adjacent rows.
+            spacing: x, y distance between adjacent columns and adjacent rows.
 
         """
         if not isinstance(component, Component):
