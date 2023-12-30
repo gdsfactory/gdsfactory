@@ -1,12 +1,5 @@
 function_name: aar_implicit_final_angle
-info:
-  instances:
-  - wg_c1
-  - wg_c2
-  - wg_f1
-  - wg_f2
-  - wg_a1
-  - wg_a2
+info: {}
 module: yaml_jinja
 name: aar_implicit_final_angle
 ports: {}

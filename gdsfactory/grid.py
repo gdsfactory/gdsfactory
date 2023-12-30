@@ -150,10 +150,13 @@ def grid(
     )
 
     for prefix, ref in prefix_to_ref.items():
+        component = ref.parent
+        info = dict(component.info)
+        info.update(parent=component.name)
         if add_ports_prefix:
-            D.add_ports(ref.ports, prefix=f"{prefix}-", info=ref.parent.info)
+            D.add_ports(ref.ports, prefix=f"{prefix}-", info=info)
         else:
-            D.add_ports(ref.ports, suffix=f"-{prefix}", info=ref.parent.info)
+            D.add_ports(ref.ports, suffix=f"-{prefix}", info=info)
     return D
 
 

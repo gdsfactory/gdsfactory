@@ -219,14 +219,12 @@ def pack(
             if name_counter[component_id] > 1:
                 component_id = f"{component_id}${name_counter[component_id]}"
 
+            info = component.info
+            info["parent"] = component.name
             if add_ports_prefix:
-                packed.add_ports(
-                    d.ports, prefix=f"{component_id}-", info=component.info
-                )
+                packed.add_ports(d.ports, prefix=f"{component_id}-", info=info)
             else:
-                packed.add_ports(
-                    d.ports, suffix=f"-{component_id}", info=component.info
-                )
+                packed.add_ports(d.ports, suffix=f"-{component_id}", info=info)
 
             index += 1
             if text:

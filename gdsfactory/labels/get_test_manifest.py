@@ -1,7 +1,5 @@
 """Converts CSV of test site labels into a CSV test manifest."""
 
-from collections import defaultdict
-
 import pandas as pd
 
 import gdsfactory as gf
@@ -20,7 +18,6 @@ def get_test_manifest(
     columns = [
         "cell",
         "cell_settings",
-        "ports",
         "measurement",
         "measurement_settings",
         "analysis",
@@ -28,31 +25,24 @@ def get_test_manifest(
         "doe",
     ]
     ports = component.get_ports_list(sort_by_name=True)
-    name_to_ports = defaultdict(dict)
     name_to_settings = {}
 
     for port in ports:
-        port_settings = port.to_dict()
-
-        p = port.name.split("-")
-        port_name = p[-1]
-        instance_name = "-".join(p[1:-1])
-
-        name_to_ports[instance_name][port_name] = {
-            key: port_settings[key] for key in ["center", "orientation", "port_type"]
-        }
+        try:
+            instance_name = port.info.parent
+        except AttributeError:
+            raise AttributeError(f"port {port.name} has no `parent` in info dict.")
         name_to_settings[instance_name] = port.info
 
     for name, d in name_to_settings.items():
         row = [
             name,
             d,
-            name_to_ports[name],
-            d.get("info", {}).get("measurement", None),
-            d.get("info", {}).get("measurement_settings", None),
-            d.get("info", {}).get("analysis", None),
-            d.get("info", {}).get("analysis_settings", None),
-            d.get("info", {}).get("doe", None),
+            d.get("measurement", None),
+            d.get("measurement_settings", None),
+            d.get("analysis", None),
+            d.get("analysis_settings", None),
+            d.get("doe", None),
         ]
         rows.append(row)
 
@@ -68,5 +58,4 @@ if __name__ == "__main__":
     c.show(show_ports=False)
     df = get_test_manifest(c)
     df.to_csv("test_manifest.csv")
-    print(df["ports"][0])
     print(df)

@@ -10,7 +10,8 @@ from typing import TypeVar, overload
 
 from pydantic import validate_call
 
-from gdsfactory.component import CellSettings, Component, name_counters
+from gdsfactory.component import Component, name_counters
+from gdsfactory.component_layout import CellSettings
 from gdsfactory.config import CONF
 from gdsfactory.name import clean_name, get_name_short
 from gdsfactory.serialization import clean_value_name
@@ -274,15 +275,14 @@ def cell(
         else:
             component_name = name
 
+        for k, v in dict(info).items():
+            component.info[k] = v
+
         if autoname:
             component.rename(component_name, max_name_length=max_name_length)
         if get_child_name:
             CACHE[name] = component
 
-        info = info or {}
-
-        for k, v in info.items():
-            component.info[k] = v
         if add_settings:
             component.settings = CellSettings(**full)
             component.function_name = func.__name__
@@ -351,7 +351,10 @@ def container(component, function, **kwargs) -> gf.Component:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.straight(info={"simulation": "eme"}, name="hi")
-    print(c.name)
+    # c = gf.components.straight(info={"simulation": "eme"}, name="hi")
+    # c = gf.components.straight()
+    c = gf.Component()
+    print(type(c.info))
+    # print(c.name)
     # print(c.info["simulation"])
-    c.show()
+    # c.show()

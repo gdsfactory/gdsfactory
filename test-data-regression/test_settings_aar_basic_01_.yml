@@ -1,8 +1,5 @@
 function_name: aar_basic_01
-info:
-  instances:
-  - mmi_long
-  - mmi_short
+info: {}
 module: yaml_jinja
 name: aar_basic_01
 ports:

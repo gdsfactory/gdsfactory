@@ -923,7 +923,7 @@ class Component(_GeometryHelper):
         port_type: str | None = None,
         cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
-        info: dict[str, Any] | None = None,
+        info: Info | None = None,
     ) -> Port:
         """Add port to component.
 
@@ -942,7 +942,7 @@ class Component(_GeometryHelper):
             port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm. Defaults to optical.
             cross_section: port cross_section.
             shear_angle: an optional angle to shear port face in degrees.
-            info: Dict containing arbitrary information about the port.
+            info: contains arbitrary information about the port.
         """
         from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -1219,7 +1219,7 @@ class Component(_GeometryHelper):
             )
 
         self.child = component
-        for k, v in component.info:
+        for k, v in dict(component.info).items():
             if k not in self.info:
                 self.info[k] = v
 
@@ -2597,9 +2597,11 @@ def copy(
         labels: labels to copy.
     """
     c = Component()
-    c.settings = D.settings
-    c.info = D.info
+    c.settings = D.settings.model_copy()
+    c.info = D.info.model_copy()
     c.child = D.child
+    c.function_name = D.function_name
+    c.module = D.module
 
     for ref in references if references is not None else D.references:
         c.add(copy_reference(ref))
@@ -2810,12 +2812,15 @@ if __name__ == "__main__":
     # from functools import partial
     import gdsfactory as gf
 
+    c = Component()
+
     # c = gf.components.straight()
     # c = gf.routing.add_fiber_single(c)
-    c = gf.components.mzi()
-    yaml_netlist = c.to_yaml()
-    c2 = gf.read.from_yaml(yaml_netlist)
-    c2.show()
+    # c = gf.components.mzi(info=dict(hi=3))
+    # print(type(c.info))
+    # yaml_netlist = c.to_yaml()
+    # c2 = gf.read.from_yaml(yaml_netlist)
+    # c2.show()
 
     # c = gf.Component()
     # wg1 = c << gf.components.straight(width=0.5, layer=(1, 0))

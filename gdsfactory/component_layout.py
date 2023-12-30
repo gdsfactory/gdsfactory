@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import numbers
 from collections import defaultdict
+from collections.abc import Iterable
 from typing import TYPE_CHECKING, Any
 
 import numpy as np
@@ -69,7 +70,6 @@ class Info(BaseModel, extra="allow", validate_assignment=True):
                     "Values of the info dict only support int, float, string or tuple."
                     f"{name}: {value}, {type(value)}"
                 )
-
         return data
 
     def __getitem__(self, __key: str) -> Any:
@@ -80,6 +80,19 @@ class Info(BaseModel, extra="allow", validate_assignment=True):
 
     def __setitem__(self, __key: str, __val: str | int | float) -> None:
         setattr(self, __key, __val)
+
+    def update(self, data: Info | dict | Iterable[tuple[str, Any]]) -> None:
+        if isinstance(data, dict):
+            for key, value in data.items():
+                self.__setitem__(key, value)
+        elif isinstance(data, Info):
+            for key, value in data.model_dump().items():
+                self.__setitem__(key, value)
+        elif isinstance(data, Iterable):
+            for key, value in data:
+                self.__setitem__(key, value)
+        else:
+            raise TypeError("Unsupported data type for update")
 
 
 def pprint_ports(ports: dict[str, Port] or list[Port]) -> None:

@@ -1,12 +1,5 @@
 function_name: aar_step_definitions
-info:
-  instances:
-  - wg_a1
-  - wg_a2
-  - wg_b1
-  - wg_b2
-  - wg_c1
-  - wg_c2
+info: {}
 module: yaml_jinja
 name: aar_step_definitions
 ports: {}
