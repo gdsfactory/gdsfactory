@@ -682,7 +682,7 @@ class Component(_GeometryHelper):
         )
         return G
 
-    def get_netlist_yaml(self, **kwargs) -> dict[str, Any]:
+    def to_yaml(self, **kwargs) -> dict[str, Any]:
         from gdsfactory.get_netlist import get_netlist_yaml
 
         return get_netlist_yaml(self, **kwargs)
@@ -1982,7 +1982,7 @@ class Component(_GeometryHelper):
             logger.info(f"Wrote to {str(gdspath)!r}")
         if with_metadata:
             metadata = gdspath.with_suffix(".yml")
-            metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
+            metadata.write_text(self.to_dict_yaml(with_cells=True, with_ports=True))
             logger.info(f"Write YAML metadata to {str(metadata)!r}")
 
         if with_netlist:
@@ -2110,7 +2110,7 @@ class Component(_GeometryHelper):
         d["module"] = self.module
         return d
 
-    def to_yaml(self, **kwargs) -> str:
+    def to_dict_yaml(self, **kwargs) -> str:
         """Write Dict representation of a component in YAML format.
 
         Args:
@@ -2852,14 +2852,17 @@ if __name__ == "__main__":
     # from functools import partial
     import gdsfactory as gf
 
-    c = gf.components.straight()
-    c = gf.routing.add_fiber_single(c)
+    # c = gf.components.straight()
+    # c = gf.routing.add_fiber_single(c)
+    c = gf.components.mzi()
+    yaml_netlist = c.to_yaml()
+    c2 = gf.read.from_yaml(yaml_netlist)
+    c2.show()
 
     # c = gf.Component()
     # wg1 = c << gf.components.straight(width=0.5, layer=(1, 0))
     # wg2 = c << gf.components.straight(width=0.5, layer=(2, 0))
     # wg2.connect("o1", wg1.ports["o2"])
-    c.show()
     # custom_padding = partial(gf.add_padding, layers=("WG",))
     # c = gf.c.mzi(decorator=custom_padding)
 
