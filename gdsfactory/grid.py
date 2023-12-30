@@ -287,6 +287,6 @@ if __name__ == "__main__":
         v_mirror=False,
         spacing=(10, 10),
         # text_offsets=((0, 100), (0, -100)),
-        text_anchors=("south",),
+        # text_anchors=("south",),
     )
     c.show(show_ports=True)

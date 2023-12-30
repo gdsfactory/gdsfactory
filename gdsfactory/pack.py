@@ -220,9 +220,13 @@ def pack(
                 component_id = f"{component_id}${name_counter[component_id]}"
 
             if add_ports_prefix:
-                packed.add_ports(d.ports, prefix=f"{component_id}-")
+                packed.add_ports(
+                    d.ports, prefix=f"{component_id}-", info=component.info
+                )
             else:
-                packed.add_ports(d.ports, suffix=f"-{component_id}")
+                packed.add_ports(
+                    d.ports, suffix=f"-{component_id}", info=component.info
+                )
 
             index += 1
             if text:
@@ -328,5 +332,6 @@ if __name__ == "__main__":
         text_mirror=True,
         v_mirror=True,
     )
-    c = p[0]
+    # c = p[0]
+    c = pack(p)[0]
     c.show(show_ports=True)

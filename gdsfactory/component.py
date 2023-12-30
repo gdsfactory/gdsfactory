@@ -1025,7 +1025,8 @@ class Component(_GeometryHelper):
             if cross_section is not None:
                 p.cross_section = cross_section
             if info is not None:
-                p.info = info
+                for k, v in dict(info).items():
+                    p.info[k] = v
             p.parent = self
 
         elif isinstance(name, Port):

@@ -41,10 +41,7 @@ def get_test_manifest(
         name_to_ports[instance_name][port_name] = {
             key: port_settings[key] for key in ["center", "orientation", "port_type"]
         }
-
-        component = port.parent
-        settings = component.metadata_child
-        name_to_settings[instance_name] = settings
+        name_to_settings[instance_name] = port.info
 
     for name, d in name_to_settings.items():
         row = [
