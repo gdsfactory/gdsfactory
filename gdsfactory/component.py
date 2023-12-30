@@ -2496,11 +2496,15 @@ class Component(_GeometryHelper):
             settings=self.settings,
         )
 
+    # Deprecated
     @property
     def metadata_child(self) -> dict:
         """Returns metadata from child if any, Otherwise returns component own.
         metadata can access the children metadata at the bottom of the hierarchy.
         """
+        warnings.warn(
+            "metadata_child is deprecated and will be removed in future versions of gdsfactory"
+        )
         settings = dict(self.settings)
 
         while settings.get("child"):
@@ -2508,7 +2512,6 @@ class Component(_GeometryHelper):
 
         return dict(settings)
 
-    # Deprecated
     def get_info(self):
         """Gathers the .info dictionaries from every sub-Component and returns them in a list.
 

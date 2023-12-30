@@ -58,8 +58,8 @@ def get_input_label_text(
         component_prefix: component prefix.
         prefix: prefix to add to the label.
     """
-    polarization = gc.info.get("polarization") or gc.metadata_child.get("polarization")
-    wavelength = gc.info.get("wavelength") or gc.metadata_child.get("wavelength")
+    polarization = gc.info.polarization
+    wavelength = gc.info.wavelength
 
     if polarization not in ["te", "tm"]:
         raise ValueError(f"polarization {polarization!r} needs to be [te, tm]")

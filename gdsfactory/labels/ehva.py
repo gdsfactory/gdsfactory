@@ -59,7 +59,8 @@ CIRCUIT NAME:{component.name}
 """
     info = []
 
-    metadata = component.metadata_child["changed"]
+    metadata = dict(component.info)
+    metadata = flatdict.FlatDict(metadata)
     if metadata:
         info += [
             f"CIRCUITINFO NAME: {k}, VALUE: {v}"
@@ -67,14 +68,13 @@ CIRCUIT NAME:{component.name}
             if k not in metadata_ignore and isinstance(v, int | float | str)
         ]
 
-    metadata = flatdict.FlatDict(component.metadata["full"])
     info += [
         f"CIRCUITINFO NAME: {clean_name(k)}, VALUE: {metadata.get(k)}"
         for k in metadata_include_parent
         if metadata.get(k)
     ]
 
-    metadata = flatdict.FlatDict(component.metadata_child["full"])
+    metadata = flatdict.FlatDict(dict(component.info))
     info += [
         f"CIRCUITINFO NAME: {k}, VALUE: {metadata.get(k)}"
         for k in metadata_include_child
