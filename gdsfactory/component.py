@@ -2582,6 +2582,16 @@ class Component(_GeometryHelper):
         D_list = self.get_dependencies(recursive=True)
         return [D.info.copy() for D in D_list]
 
+    def get_netlist_yaml(self, **kwargs) -> dict[str, Any]:
+        from gdsfactory.get_netlist import get_netlist_yaml
+
+        warnings.warn(
+            "get_netlist_yaml is deprecated and will be removed in future versions of gdsfactory"
+            "Use to_yaml instead"
+        )
+
+        return get_netlist_yaml(self, **kwargs)
+
     def get_setting(self, setting: str) -> str | int | float:
         warnings.warn(
             "get_setting is deprecated and will be removed in future versions of gdsfactory"
