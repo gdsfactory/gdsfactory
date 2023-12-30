@@ -1,8 +1,5 @@
 function_name: _from_yaml
-info:
-  instances:
-  - s
-  - b
+info: {}
 module: gdsfactory.read.from_yaml
 name: sample_mirror_simple_99ac17ad
 ports: {}

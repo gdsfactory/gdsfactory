@@ -1,8 +1,5 @@
 function_name: _from_yaml
-info:
-  instances:
-  - mmi_bot
-  - mmi_top
+info: {}
 module: gdsfactory.read.from_yaml
 name: sample_docstring_daf32f78
 ports: {}

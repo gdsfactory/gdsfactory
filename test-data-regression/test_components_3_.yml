@@ -1,8 +1,5 @@
 function_name: _from_yaml
-info:
-  instances:
-  - mmi_long
-  - mmi_short
+info: {}
 module: gdsfactory.read.from_yaml
 name: dxdy_fa9c34bd
 ports:

@@ -1,7 +1,5 @@
 function_name: _from_yaml
-info:
-  instances:
-  - mmi1x2_sweep
+info: {}
 module: gdsfactory.read.from_yaml
 name: mask_819caee8
 ports: {}

@@ -1,7 +1,5 @@
 function_name: _from_yaml
-info:
-  instances:
-  - mmi_long
+info: {}
 module: gdsfactory.read.from_yaml
 name: mirror_port_d3694a81
 ports:

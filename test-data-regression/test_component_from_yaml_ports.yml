@@ -1,7 +1,5 @@
 function_name: _from_yaml
-info:
-  instances:
-  - mmi_bot
+info: {}
 module: gdsfactory.read.from_yaml
 name: component_yaml_ports_d45b5cd4
 ports:
