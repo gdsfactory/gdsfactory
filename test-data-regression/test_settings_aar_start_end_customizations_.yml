@@ -13,7 +13,6 @@ info:
   - wg_e2
   - wg_f1
   - wg_f2
-  message: hello from the PDK decorator!
 module: yaml_jinja
 name: aar_start_end_customizations
 ports: {}

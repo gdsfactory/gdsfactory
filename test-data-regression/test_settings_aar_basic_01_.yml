@@ -3,7 +3,6 @@ info:
   instances:
   - mmi_long
   - mmi_short
-  message: hello from the PDK decorator!
 module: yaml_jinja
 name: aar_basic_01
 ports:

@@ -1,6 +1,5 @@
 function_name: nxn
-info:
-  message: hello from the PDK decorator!
+info: {}
 module: gdsfactory.components.nxn
 name: nxn_port_typeplacement
 ports:

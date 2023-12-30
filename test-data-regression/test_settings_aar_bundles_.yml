@@ -71,7 +71,6 @@ info:
   - wg_f24
   - wg_g14
   - wg_g24
-  message: hello from the PDK decorator!
 module: yaml_jinja
 name: aar_bundles
 ports: {}

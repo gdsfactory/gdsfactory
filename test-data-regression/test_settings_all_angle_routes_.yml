@@ -30,7 +30,6 @@ info:
   - wg_c3
   - wg_d1
   - wg_d2
-  message: hello from the PDK decorator!
 module: yaml_jinja
 name: all_angle_routes
 ports: {}

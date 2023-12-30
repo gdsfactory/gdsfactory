@@ -19,7 +19,6 @@ info:
   - wg_h2
   - wg_i1
   - wg_i2
-  message: hello from the PDK decorator!
 module: yaml_jinja
 name: aar_tricky_connections
 ports: {}

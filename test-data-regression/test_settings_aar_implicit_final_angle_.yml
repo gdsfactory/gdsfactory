@@ -7,7 +7,6 @@ info:
   - wg_f2
   - wg_a1
   - wg_a2
-  message: hello from the PDK decorator!
 module: yaml_jinja
 name: aar_implicit_final_angle
 ports: {}
