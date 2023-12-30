@@ -7,7 +7,7 @@ info:
   route_info_xs_f1ca4cff_length: 10.0
   width: 0.5
 module: gdsfactory.components.extension
-name: straight_extend_ports_a6d33611
+name: straight_extend_ports_bdf03505
 ports:
   o1:
     center:
@@ -53,6 +53,7 @@ settings:
           cladding_simplify: null
           kwargs: {}
           layer: WG
+          main_section_name: _default
           offset: 0
           port_names:
           - o1

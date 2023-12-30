@@ -2413,8 +2413,6 @@ cross_sections = get_cross_sections(sys.modules[__name__])
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     # xs = gf.cross_section.pn(
     #     # slab_offset=0
     #     # offset=1,
@@ -2430,5 +2428,5 @@ if __name__ == "__main__":
     # c = gf.c.straight(cross_section=xs)
     # xs = pn(slab_inset=0.2)
     xs = pn(width_slab=0)
-    c = gf.c.straight(cross_section=xs)
-    c.show()
+    # c = gf.c.straight(cross_section=xs)
+    # c.show()

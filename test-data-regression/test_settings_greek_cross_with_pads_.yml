@@ -69,6 +69,7 @@ settings:
         gap: 5
         min_length: 5
       layer: M1
+      main_section_name: _default
       offset: 0
       port_names:
       - e1

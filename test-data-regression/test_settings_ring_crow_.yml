@@ -73,6 +73,7 @@ settings:
       cladding_simplify: null
       kwargs: {}
       layer: WG
+      main_section_name: _default
       offset: 0
       port_names:
       - o1
@@ -96,6 +97,7 @@ settings:
       cladding_simplify: null
       kwargs: {}
       layer: WG
+      main_section_name: _default
       offset: 0
       port_names:
       - o1
@@ -123,6 +125,7 @@ settings:
       cladding_simplify: null
       kwargs: {}
       layer: WG
+      main_section_name: _default
       offset: 0
       port_names:
       - o1
@@ -145,6 +148,7 @@ settings:
       cladding_simplify: null
       kwargs: {}
       layer: WG
+      main_section_name: _default
       offset: 0
       port_names:
       - o1
@@ -167,6 +171,7 @@ settings:
       cladding_simplify: null
       kwargs: {}
       layer: WG
+      main_section_name: _default
       offset: 0
       port_names:
       - o1
