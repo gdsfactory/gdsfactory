@@ -9,6 +9,7 @@ import importlib
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 import tempfile
@@ -17,15 +18,18 @@ from enum import Enum, auto
 from itertools import takewhile
 from pathlib import Path
 from pprint import pprint
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, ClassVar, Literal
 
 import loguru
-import yaml
+from dotenv import find_dotenv
 from loguru import logger as logger
-from pydantic import Field
+from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich.console import Console
 from rich.table import Table
+
+if TYPE_CHECKING:
+    from loguru import Logger
 
 __version__ = "7.9.3"
 PathType = str | pathlib.Path
@@ -41,6 +45,7 @@ logpath = home_path / "log.log"
 yamlpath_cwd = cwd / "config.yml"
 yamlpath_default = module_path / "config.yml"
 yamlpath_home = home_path / "config.yml"
+dotenv_path = find_dotenv(usecwd=True)
 
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 
@@ -69,6 +74,36 @@ pdks = [
     "ubcpdk",
     "gvtt",
 ]
+
+
+class LogLevel(str, Enum):
+    TRACE = "TRACE"
+    DEBUG = "DEBUG"
+    INFO = "INFO"
+    SUCCESS = "SUCCESS"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    CRITICAL = "CRITICAL"
+
+
+class LogFilter(BaseModel):
+    """Filter certain messages by log level or regex.
+
+    Filtered messages are not evaluated and discarded.
+    """
+
+    level: LogLevel = LogLevel.INFO
+    regex: str | None = None
+
+    def __call__(self, record: loguru.Record) -> bool:
+        """Loguru needs the filter to be callable."""
+        levelno = logger.level(self.level).no
+        if self.regex is None:
+            return record["level"].no >= levelno
+        else:
+            return record["level"].no >= levelno and not bool(
+                re.search(self.regex, record["message"])
+            )
 
 
 class ErrorType(Enum):
@@ -201,8 +236,9 @@ class Settings(BaseSettings):
         arbitrary_types_allowed=True,
         env_prefix="gdsfactory_",
         env_nested_delimiter="_",
+        env_file=dotenv_path,
+        extra="ignore",
     )
-    loglevel: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
     pdk: str | None = None
     difftest_ignore_cell_name_differences: bool = True
     difftest_ignore_sliver_differences: bool = False
@@ -227,21 +263,15 @@ class Settings(BaseSettings):
     )
     default_show_suffix: Literal[".oas", ".gds"] = ".gds"
     raise_error_on_mutation: bool = True
+    logger: ClassVar[Logger] = logger
+    logfilter: LogFilter = Field(default_factory=LogFilter)
 
-    @classmethod
-    def from_config(cls) -> Settings:
-        """Load settings from YAML config file.
-        Recursively search for a `gfconfig.yml` file in the current working directory.
-        """
-        path = cwd
-
-        while path.parent != path:
-            path_config = path / "gfconfig.yml"
-            if path_config.is_file():
-                logger.info(f"Loading settings from {path_config}")
-                return Settings(**yaml.safe_load(path_config.read_text()))
-            path = path.parent
-        return Settings()
+    def __init__(self, **data: Any):
+        """Set log filter and run pydantic."""
+        super().__init__(**data)
+        self.logger.remove()
+        self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
+        self.logger.debug("LogLevel: {}", self.logfilter.level)
 
 
 class Paths:
@@ -274,7 +304,7 @@ class Paths:
     font_ocr = fonts / "OCR-A.ttf"
 
 
-CONF = Settings.from_config()
+CONF = Settings()
 PATH = Paths()
 sparameters_path = PATH.sparameters
 
