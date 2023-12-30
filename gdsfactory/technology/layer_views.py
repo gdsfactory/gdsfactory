@@ -782,12 +782,12 @@ class LayerViews(BaseModel):
             filepath = pathlib.Path(filepath)
             if filepath.suffix == ".lyp":
                 lvs = LayerViews.from_lyp(filepath=filepath)
-                logger.info(
+                logger.debug(
                     f"Importing LayerViews from KLayout layer properties file: {str(filepath)!r}."
                 )
             elif filepath.suffix in {".yaml", ".yml"}:
                 lvs = LayerViews.from_yaml(layer_file=filepath)
-                logger.info(f"Importing LayerViews from YAML file: {str(filepath)!r}.")
+                logger.debug(f"Importing LayerViews from YAML file: {str(filepath)!r}.")
             else:
                 raise ValueError(f"Unable to load LayerViews from {str(filepath)!r}.")
 
