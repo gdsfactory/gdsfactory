@@ -3,7 +3,8 @@ connections:
 instances:
   r1:
     component: rectangle
-    info: {}
+    info:
+      area: 8
     settings:
       centered: false
       layer: WG
@@ -20,7 +21,8 @@ instances:
       - 2
   r2:
     component: rectangle
-    info: {}
+    info:
+      area: 8
     settings:
       centered: false
       layer: WG

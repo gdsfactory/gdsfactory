@@ -41,7 +41,7 @@ from numpy import ndarray
 from omegaconf import OmegaConf
 
 from gdsfactory import snap
-from gdsfactory.component_layout import _rotate_points
+from gdsfactory.component_layout import Info, _rotate_points
 from gdsfactory.config import CONF
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.serialization import clean_value_json
@@ -99,7 +99,7 @@ class Port:
         cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
         enforce_ports_on_grid: bool | None = None,
-        info: dict[str, Any] | None = None,
+        info: Info | None = None,
     ) -> None:
         from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -111,7 +111,7 @@ class Port:
         self.center = np.array(center, dtype="float64")
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
-        self.info = info or {}
+        self.info = info or Info()
         self.port_type = port_type
         self.cross_section = cross_section
         self.shear_angle = shear_angle

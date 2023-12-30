@@ -1,5 +1,6 @@
 function_name: rectangle
-info: {}
+info:
+  area: 8.0
 module: gdsfactory.components.rectangle
 name: rectangle
 ports:

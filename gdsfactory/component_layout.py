@@ -5,21 +5,81 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import numbers
-import typing
 from collections import defaultdict
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 from gdstk import Label as _Label
 from gdstk import Polygon
 from numpy import cos, pi, sin
 from numpy.linalg import norm
+from pydantic import BaseModel, model_validator
 from rich.console import Console
 from rich.table import Table
 
+from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from gdsfactory.port import Port
+
+
+class CellSettings(BaseModel, extra="allow", validate_assignment=True, frozen=True):
+    @model_validator(mode="before")
+    def restrict_types(cls, data: dict[str, Any]) -> dict[str, int | float | str]:
+        for name, value in data.items():
+            data[name] = clean_value_json(value)
+        return data
+
+    def __getitem__(self, key: str) -> Any:
+        return getattr(self, key)
+
+    def get(self, __key: str, default: Any | None = None) -> Any:
+        return getattr(self, __key) if hasattr(self, __key) else default
+
+
+class ComponentSpec(BaseModel, extra="allow", validate_assignment=True, frozen=True):
+    """ComponentSpec is a dataclass that stores the settings used to create a component."""
+
+    settings: CellSettings = CellSettings()
+    function: str
+    module: str
+
+    @model_validator(mode="before")
+    def restrict_types(cls, data: dict[str, Any]) -> dict[str, int | float | str]:
+        for name, value in data.items():
+            data[name] = clean_value_json(value)
+        return data
+
+    def __getitem__(self, key: str) -> Any:
+        return getattr(self, key)
+
+    def get(self, __key: str, default: Any | None = None) -> Any:
+        return getattr(self, __key) if hasattr(self, __key) else default
+
+
+class Info(BaseModel, extra="allow", validate_assignment=True):
+    @model_validator(mode="before")
+    def restrict_types(
+        cls, data: dict[str, int | float | str | tuple[float | int, ...]]
+    ) -> dict[str, int | float | str]:
+        for name, value in data.items():
+            if not isinstance(value, str | int | float | tuple):
+                raise ValueError(
+                    "Values of the info dict only support int, float, string or tuple."
+                    f"{name}: {value}, {type(value)}"
+                )
+
+        return data
+
+    def __getitem__(self, __key: str) -> Any:
+        return getattr(self, __key)
+
+    def get(self, __key: str, default: Any | None = None) -> Any:
+        return getattr(self, __key) if hasattr(self, __key) else default
+
+    def __setitem__(self, __key: str, __val: str | int | float) -> None:
+        setattr(self, __key, __val)
 
 
 def pprint_ports(ports: dict[str, Port] or list[Port]) -> None:

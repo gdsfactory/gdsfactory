@@ -9,7 +9,7 @@ _gds_dir = Path(__file__).parent / "gds"
 
 
 def assert_xor_fails(ref_gds, run_gds, test_name, capsys, layers_with_xor):
-    assert diff(ref_gds, run_gds, xor=True, test_name=test_name) is True
+    assert diff(ref_gds, run_gds, xor=True, test_name=test_name, show=False) is True
     captured = capsys.readouterr()
     for layer in layers_with_xor:
         assert f"XOR difference on layer {layer}" in captured.out
@@ -51,6 +51,7 @@ def test_cell_name_changed_fails(xor: bool):
         test_name=f"test_cell_name_changed_fails_xor{int(xor)}",
         ignore_cell_name_differences=False,
         xor=xor,
+        show=False,
     )
     assert has_diff
 
@@ -65,6 +66,7 @@ def test_cell_name_changed_ignored_passes(xor: bool):
         test_name=f"test_cell_name_changed_ignored_passes_xor{int(xor)}",
         ignore_cell_name_differences=True,
         xor=xor,
+        show=False,
     )
     assert not has_diff
 
@@ -80,6 +82,7 @@ def test_sliver_xor_fails(xor: bool):
         ignore_cell_name_differences=True,
         xor=xor,
         ignore_sliver_differences=False,
+        show=False,
     )
     assert has_diff
 
@@ -94,6 +97,7 @@ def test_sliver_xor_ignored_passes():
         ignore_cell_name_differences=True,
         xor=True,
         ignore_sliver_differences=True,
+        show=False,
     )
     assert not has_diff
 
@@ -114,6 +118,7 @@ def test_non_xor_diff_fails_no_xor(
         ignore_cell_name_differences=ignore_cell_name_differences,
         xor=False,
         ignore_sliver_differences=ignore_sliver_differences,
+        show=False,
     )
     assert has_diff
 
@@ -134,6 +139,7 @@ def test_non_xor_diff_passes_xor(
         ignore_cell_name_differences=ignore_cell_name_differences,
         xor=True,
         ignore_sliver_differences=ignore_sliver_differences,
+        show=False,
     )
     assert not has_diff
 
@@ -155,6 +161,7 @@ def test_label_diff_fails(
         xor=xor,
         ignore_sliver_differences=ignore_sliver_differences,
         ignore_label_differences=False,
+        show=False,
     )
     assert has_diff
 
@@ -176,6 +183,7 @@ def test_label_diff_ignored_xor_passes(
         xor=True,
         ignore_sliver_differences=ignore_sliver_differences,
         ignore_label_differences=True,
+        show=False,
     )
     assert not has_diff
 
@@ -198,6 +206,7 @@ def test_label_diff_ignored_new_layer_xor_fails(
         xor=True,
         ignore_sliver_differences=ignore_sliver_differences,
         ignore_label_differences=True,
+        show=False,
     )
     assert has_diff
 
@@ -220,5 +229,6 @@ def test_label_diff_ignored_no_xor_fails(
         xor=False,
         ignore_sliver_differences=ignore_sliver_differences,
         ignore_label_differences=True,
+        show=False,
     )
     assert has_diff

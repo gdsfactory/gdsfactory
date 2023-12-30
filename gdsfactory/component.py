@@ -22,10 +22,12 @@ import gdstk
 import numpy as np
 import yaml
 from omegaconf import DictConfig
-from pydantic import BaseModel, model_validator
 
 from gdsfactory import snap
 from gdsfactory.component_layout import (
+    CellSettings,
+    ComponentSpec,
+    Info,
     Label,
     _align,
     _distribute,
@@ -49,7 +51,7 @@ from gdsfactory.port import (
     map_ports_to_orientation_cw,
     select_ports,
 )
-from gdsfactory.serialization import clean_dict, clean_value_json
+from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
 
 if TYPE_CHECKING:
@@ -68,64 +70,6 @@ if TYPE_CHECKING:
 valid_plotters = ["matplotlib", "klayout", "kweb"]
 Axis = Literal["x", "y"]
 os.environ["KWEB_FILESLOCATION"] = str(GDSDIR_TEMP)
-
-
-class CellSettings(BaseModel, extra="allow", validate_assignment=True, frozen=True):
-    @model_validator(mode="before")
-    def restrict_types(cls, data: dict[str, Any]) -> dict[str, int | float | str]:
-        for name, value in data.items():
-            data[name] = clean_value_json(value)
-        return data
-
-    def __getitem__(self, key: str) -> Any:
-        return getattr(self, key)
-
-    def get(self, __key: str, default: Any | None = None) -> Any:
-        return getattr(self, __key) if hasattr(self, __key) else default
-
-
-class ComponentSpec(BaseModel, extra="allow", validate_assignment=True, frozen=True):
-    """ComponentSpec is a dataclass that stores the settings used to create a component."""
-
-    settings: CellSettings = CellSettings()
-    function: str
-    module: str
-
-    @model_validator(mode="before")
-    def restrict_types(cls, data: dict[str, Any]) -> dict[str, int | float | str]:
-        for name, value in data.items():
-            data[name] = clean_value_json(value)
-        return data
-
-    def __getitem__(self, key: str) -> Any:
-        return getattr(self, key)
-
-    def get(self, __key: str, default: Any | None = None) -> Any:
-        return getattr(self, __key) if hasattr(self, __key) else default
-
-
-class Info(BaseModel, extra="allow", validate_assignment=True):
-    @model_validator(mode="before")
-    def restrict_types(
-        cls, data: dict[str, int | float | str | tuple[float | int, ...]]
-    ) -> dict[str, int | float | str]:
-        for name, value in data.items():
-            if not isinstance(value, str | int | float | tuple):
-                raise ValueError(
-                    "Values of the info dict only support int, float, string or tuple."
-                    f"{name}: {value}, {type(value)}"
-                )
-
-        return data
-
-    def __getitem__(self, __key: str) -> Any:
-        return getattr(self, __key)
-
-    def get(self, __key: str, default: Any | None = None) -> Any:
-        return getattr(self, __key) if hasattr(self, __key) else default
-
-    def __setitem__(self, __key: str, __val: str | int | float) -> None:
-        setattr(self, __key, __val)
 
 
 class UncachedComponentWarning(UserWarning):

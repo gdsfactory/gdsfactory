@@ -23,6 +23,7 @@ def diff(
     ignore_sliver_differences: bool | None = None,
     ignore_cell_name_differences: bool | None = None,
     ignore_label_differences: bool | None = None,
+    show: bool = True,
 ) -> bool:
     """Returns True if files are different, prints differences and shows them in klayout.
 
@@ -34,6 +35,7 @@ def diff(
         ignore_sliver_differences: if True, ignores any sliver differences in the XOR result. If None (default), defers to the value set in CONF.difftest_ignore_sliver_differences
         ignore_cell_name_differences: if True, ignores any cell name differences. If None (default), defers to the value set in CONF.difftest_ignore_cell_name_differences
         ignore_label_differences: if True, ignores any label differences when run in XOR mode. If None (default) defers to the value set in CONF.difftest_ignore_label_differences
+        show: shows diff in klayout.
     """
     try:
         from kfactory import KCell, kdb
@@ -196,7 +198,8 @@ def diff(
             # if no additional xor verificaiton, the two files are not equivalent
             equivalent = False
 
-        c.show()
+        if show:
+            c.show()
         if equivalent:
             return False
         else:
