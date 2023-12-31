@@ -1,6 +1,67 @@
 analysis: null
 analysis_settings: {}
-cell_settings: {}
+cell_settings:
+  angle: 90
+  component:
+    function: add_fiber_single
+    module: gdsfactory.routing.add_fiber_single
+    settings:
+      bend:
+        function: bend_euler
+      component:
+        function: straight
+        module: gdsfactory.components.straight
+        settings:
+          add_bbox: null
+          add_pins: true
+          cross_section: xs_sc_no_pins
+          decorator:
+            function: add_pins_siepic
+          layer: null
+          length: 10.0
+          npoints: 2
+          width: null
+      component_name: null
+      cross_section: xs_sc
+      fiber_spacing: 50
+      gc_port_name: o1
+      get_input_label_text_function:
+        function: get_input_label_text_dash
+      get_input_label_text_loopback_function:
+        function: get_input_label_text_dash_loopback
+      grating_coupler:
+        function: grating_coupler_elliptical_trenches
+        module: gdsfactory.components.grating_coupler_elliptical_trenches
+        settings:
+          polarization: te
+          taper_angle: 35
+      layer_label: null
+      loopback_xspacing: 50.0
+      min_input_to_output_spacing: 200.0
+      optical_routing_type: 2
+      route_filter:
+        function: get_route_from_waypoints
+      select_ports:
+        function: select_ports
+        module: gdsfactory.port
+        settings:
+          port_type: optical
+      straight:
+        function: straight
+      with_loopback: true
+      zero_port: o1
+  decorator:
+    function: add_label_yaml
+    module: gdsfactory.labels.add_label_yaml
+    settings:
+      with_yaml_format: false
+  length: 10.0
+  recenter: false
+  route_info_length: 10.0
+  route_info_type: xs_sc
+  route_info_weight: 10.0
+  route_info_xs_sc_length: 10.0
+  width: 0.5
 doe: null
 measurement: null
 measurement_settings: {}
