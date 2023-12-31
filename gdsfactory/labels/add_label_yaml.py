@@ -5,14 +5,14 @@ import json
 from functools import partial
 from typing import Any
 
-import pydantic
 from omegaconf import OmegaConf
 
 import gdsfactory as gf
+from gdsfactory.serialization import clean_dict
 from gdsfactory.typings import LayerSpec
 
 
-@pydantic.validate_call
+@gf.cell_with_child
 def add_label_yaml(
     component: gf.Component,
     layer: LayerSpec = "TEXT",
@@ -41,6 +41,10 @@ def add_label_yaml(
     """
     from gdsfactory.pdk import get_layer
 
+    c = gf.Component()
+    ref = c << gf.get_component(component)
+    c.add_ports(ref.ports)
+
     measurement = measurement or component.info.get("measurement")
     measurement_settings = measurement_settings or component.info.get(
         "measurement_settings"
@@ -52,8 +56,9 @@ def add_label_yaml(
     layer = get_layer(layer)
     analysis_settings = analysis_settings or {}
     measurement_settings = measurement_settings or {}
-    cell_settings = component.metadata.get("full", {})
-    cell_settings.update(component.metadata.get("info", {}))
+    cell_settings = dict(component.settings)
+    cell_settings.update(dict(component.info))
+    cell_settings = clean_dict(cell_settings)
 
     optical_ports = component.get_ports_list(port_type="optical")
     electrical_ports = component.get_ports_list(port_type="electrical")
@@ -84,7 +89,7 @@ def add_label_yaml(
             layer=layer[0],
             texttype=layer[1],
         )
-        component.add(label)
+        c.add(label)
     for port_index in port_index_electrical:
         d = dict(port_type="electrical", port_names=port_names_electrical, **settings)
         text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
@@ -96,23 +101,20 @@ def add_label_yaml(
             layer=layer[0],
             texttype=layer[1],
         )
-        component.add(label)
-    return component
+        c.add(label)
+    c.copy_child_info(component)
+    return c
 
 
 add_label_json = partial(add_label_yaml, with_yaml_format=False)
 
 
 if __name__ == "__main__":
-    import yaml
-
     measurement_settings = dict(
         wavelenth_min=1550, wavelenth_max=1570, wavelength_steps=10
     )
     with_yaml_format = False
     with_yaml_format = True
-
-    decorator = add_label_yaml if with_yaml_format else add_label_json
 
     info = dict(
         measurement_settings=measurement_settings,
@@ -125,21 +127,26 @@ if __name__ == "__main__":
         c,
         get_input_labels_function=None,
         grating_coupler=gf.components.grating_coupler_te,
-        decorator=decorator,
-        info=info,
     )
+    c = add_label_json(c)
+    info = dict(
+        measurement="optical_loopback2",
+        doe="spiral_sc",
+        wavelenth_min=1560,
+    )
+    c.info.update(info)
 
-    c = gf.components.spiral_inner_io_fiber_array(
-        length=20e3,
-        decorator=decorator,
-        info=dict(
-            measurement="optical_loopback2",
-            doe="spiral_sc",
-            measurement_settings=dict(wavelength_alignment=1560),
-        ),
-    )
-    print(len(c.labels[0].text))
-    print(c.labels[0].text)
-    d = yaml.safe_load(c.labels[0].text) if yaml else json.loads(c.labels[0].text)
-    print(d)
+    # c = gf.components.spiral_inner_io_fiber_array(
+    #     length=20e3,
+    #     decorator=decorator,
+    #     info=dict(
+    #         measurement="optical_loopback2",
+    #         doe="spiral_sc",
+    #         measurement_settings=dict(wavelength_alignment=1560),
+    #     ),
+    # )
+    # print(len(c.labels[0].text))
+    # print(c.labels[0].text)
+    # d = yaml.safe_load(c.labels[0].text) if yaml else json.loads(c.labels[0].text)
+    # print(d)
     c.show(show_ports=False)
