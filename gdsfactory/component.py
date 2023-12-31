@@ -968,7 +968,7 @@ class Component(_GeometryHelper):
                 p.shear_angle = shear_angle
             if cross_section is not None:
                 p.cross_section = cross_section
-            if info is not None:
+            if info:
                 for k, v in dict(info).items():
                     p.info[k] = v
             p.parent = self
@@ -997,7 +997,8 @@ class Component(_GeometryHelper):
             )
             p.parent = self
             if info is not None:
-                p.info = info
+                for k, v in dict(info).items():
+                    p.info[k] = v
         if name is not None:
             p.name = name
         if p.name in self.ports:
