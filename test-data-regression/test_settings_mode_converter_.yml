@@ -56,8 +56,7 @@ settings:
     function: bend_euler_s
     module: gdsfactory.components.bend_euler
     settings:
-      kwargs:
-        angle: 45
+      angle: 45
   coupler_straight_asymmetric:
     function: coupler_straight_asymmetric
   cross_section: xs_sc

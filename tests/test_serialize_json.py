@@ -44,7 +44,8 @@ def test_clean_value_json_callable() -> None:
     expected = {
         "function": "func",
         "module": "test_serialize_json",
-        "settings": {"b": 2, "a": 10},
+        # "settings": {"b": 2, "a": 10},
+        "settings": {"b": 2},
     }
     assert clean_value_json(partial_func) == expected, clean_value_json(partial_func)
 

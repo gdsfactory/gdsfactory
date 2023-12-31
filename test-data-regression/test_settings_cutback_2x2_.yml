@@ -57,14 +57,7 @@ settings:
     function: bend_circular
     module: gdsfactory.components.bend_circular
     settings:
-      add_bbox: null
-      add_pins: true
       angle: 180
-      cross_section: xs_sc
-      layer: null
-      npoints: null
-      radius: null
-      width: null
   cols: 4
   component:
     function: mmi2x2

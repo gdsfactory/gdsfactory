@@ -145,25 +145,17 @@ settings:
     function: via_stack
     module: gdsfactory.components.via_stack
     settings:
-      correct_size: true
-      layer_offsets: null
-      layer_port: null
       layers:
       - M1
       - M2
       size:
       - 1.5
       - 1.5
-      slot_horizontal: false
-      slot_vertical: false
       vias:
       - function: via
         module: gdsfactory.components.via
         settings:
-          bbox_layers: null
-          bbox_offset: 0
           enclosure: 0.1
-          gap: null
           layer: VIAC
           size:
           - 0.1
@@ -174,10 +166,7 @@ settings:
       - function: via
         module: gdsfactory.components.via
         settings:
-          bbox_layers: null
-          bbox_offset: 0
           enclosure: 0.1
-          gap: null
           layer: VIA1
           size:
           - 0.1

@@ -36,18 +36,9 @@ settings:
   - - function: cross_section
       module: gdsfactory.cross_section
       settings:
-        add_pins_function_name: null
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        kwargs:
-          gap: 5
-          min_length: 5
+        gap: 5
         layer: M2
-        main_section_name: _default
-        offset: 0
+        min_length: 5
         port_names:
         - e1
         - e2
@@ -55,26 +46,15 @@ settings:
         - electrical
         - electrical
         radius: null
-        radius_min: null
-        sections: null
         width: 10.0
     - - 0
       - 180
   - - function: cross_section
       module: gdsfactory.cross_section
       settings:
-        add_pins_function_name: null
-        bbox_layers: null
-        bbox_offsets: null
-        cladding_layers: null
-        cladding_offsets: null
-        cladding_simplify: null
-        kwargs:
-          gap: 5
-          min_length: 5
+        gap: 5
         layer: M3
-        main_section_name: _default
-        offset: 0
+        min_length: 5
         port_names:
         - e1
         - e2
@@ -82,8 +62,6 @@ settings:
         - electrical
         - electrical
         radius: null
-        radius_min: null
-        sections: null
         width: 10.0
     - - 90
       - 270
@@ -94,14 +72,5 @@ settings:
   - function: via
     module: gdsfactory.components.via
     settings:
-      bbox_layers: null
-      bbox_offset: 0
       enclosure: 2
-      gap: null
       layer: VIA1
-      size:
-      - 0.7
-      - 0.7
-      spacing:
-      - 2.0
-      - 2.0

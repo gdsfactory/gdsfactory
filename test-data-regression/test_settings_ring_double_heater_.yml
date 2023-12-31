@@ -170,9 +170,6 @@ settings:
     function: via_stack
     module: gdsfactory.components.via_stack
     settings:
-      correct_size: true
-      layer_offsets: null
-      layer_port: null
       layers:
       - HEATER
       - M2
@@ -180,38 +177,17 @@ settings:
       size:
       - 4
       - 4
-      slot_horizontal: false
-      slot_vertical: false
       vias:
       - null
       - function: via
         module: gdsfactory.components.via
         settings:
-          bbox_layers: null
-          bbox_offset: 0
           enclosure: 2
-          gap: null
           layer: VIA1
-          size:
-          - 0.7
-          - 0.7
-          spacing:
-          - 2.0
-          - 2.0
       - function: via
         module: gdsfactory.components.via
         settings:
-          bbox_layers: null
-          bbox_offset: 0
-          enclosure: 1.0
-          gap: null
           layer: VIA2
-          size:
-          - 0.7
-          - 0.7
-          spacing:
-          - 2.0
-          - 2.0
   via_stack_offset:
   - 1
   - 0

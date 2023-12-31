@@ -80,31 +80,8 @@ settings:
     function: mzi
     module: gdsfactory.components.mzi
     settings:
-      add_electrical_ports_bot: true
-      add_optical_ports_arms: false
-      bend:
-        function: bend_euler
-      combiner: null
-      cross_section: xs_sc
-      cross_section_x_bot: null
-      cross_section_x_top: null
-      delta_length: 10.0
-      extend_ports_straight_x: null
       length_x: 200
-      length_y: 2.0
-      mirror_bot: false
-      nbends: 2
-      port_e0_combiner: o3
-      port_e0_splitter: o3
-      port_e1_combiner: o2
-      port_e1_splitter: o2
-      splitter: mmi1x2
-      straight:
-        function: straight
-      straight_x_bot: null
       straight_x_top: straight_heater_metal
-      straight_y: null
-      with_splitter: true
   electrical_port_names: null
   electrical_port_orientation: 90
   fiber_spacing: 127.0
@@ -115,11 +92,6 @@ settings:
     function: pad
     module: gdsfactory.components.pad
     settings:
-      bbox_layers: null
-      bbox_offsets: null
-      layer: MTOP
-      port_inclusion: 0
-      port_orientation: null
       size:
       - 80
       - 80

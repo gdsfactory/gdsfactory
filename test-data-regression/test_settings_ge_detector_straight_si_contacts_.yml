@@ -119,81 +119,33 @@ settings:
     function: taper
     module: gdsfactory.components.taper
     settings:
-      add_pins: true
       cross_section: xs_sc
-      kwargs: {}
       length: 20.0
-      port: null
-      port_order_name:
-      - o1
-      - o2
-      port_order_types:
-      - optical
-      - optical
       width1: 0.5
       width2: 0.8
-      with_bbox: true
-      with_two_ports: true
   via_stack:
     function: via_stack
     module: gdsfactory.components.via_stack
     settings:
-      correct_size: true
-      layer_offsets: null
-      layer_port: null
       layers:
       - SLAB90
       - M1
       - M2
       - MTOP
-      size:
-      - 11.0
-      - 11.0
-      slot_horizontal: false
-      slot_vertical: false
       vias:
       - function: via
         module: gdsfactory.components.via
         settings:
-          bbox_layers: null
-          bbox_offset: 0
-          enclosure: 1.0
-          gap: null
           layer: VIAC
-          size:
-          - 0.7
-          - 0.7
-          spacing:
-          - 2.0
-          - 2.0
       - function: via
         module: gdsfactory.components.via
         settings:
-          bbox_layers: null
-          bbox_offset: 0
           enclosure: 2
-          gap: null
           layer: VIA1
-          size:
-          - 0.7
-          - 0.7
-          spacing:
-          - 2.0
-          - 2.0
       - function: via
         module: gdsfactory.components.via
         settings:
-          bbox_layers: null
-          bbox_offset: 0
-          enclosure: 1.0
-          gap: null
           layer: VIA2
-          size:
-          - 0.7
-          - 0.7
-          spacing:
-          - 2.0
-          - 2.0
       - null
   via_stack_offset: 0.0
   via_stack_spacing: 5.0

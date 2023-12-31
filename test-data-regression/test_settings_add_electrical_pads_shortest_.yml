@@ -188,13 +188,4 @@ settings:
     function: select_ports
     module: gdsfactory.port
     settings:
-      clockwise: true
-      layer: null
-      layers_excluded: null
-      names: null
-      orientation: null
       port_type: electrical
-      prefix: null
-      sort_by_name: false
-      suffix: null
-      width: null

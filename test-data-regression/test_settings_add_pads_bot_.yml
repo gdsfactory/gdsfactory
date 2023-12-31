@@ -189,11 +189,6 @@ settings:
     function: pad
     module: gdsfactory.components.pad
     settings:
-      bbox_layers: null
-      bbox_offsets: null
-      layer: MTOP
-      port_inclusion: 0
-      port_orientation: null
       size: pad_size
   pad_port_labels: null
   pad_port_name: e1
@@ -203,15 +198,6 @@ settings:
     function: select_ports
     module: gdsfactory.port
     settings:
-      clockwise: true
-      layer: null
-      layers_excluded: null
-      names: null
-      orientation: null
       port_type: electrical
-      prefix: null
-      sort_by_name: false
-      suffix: null
-      width: null
   straight_separation: null
   with_loopback: false

@@ -109,6 +109,25 @@ def clean_value_json(value: Any) -> str | int | float | dict | list | bool | Non
 
 
 def clean_value_partial(value, include_module: bool = True):
+    sig = inspect.signature(value.func)
+    args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
+    args_as_kwargs |= value.keywords
+    args_as_kwargs = clean_dict(args_as_kwargs)
+
+    func = value.func
+    while hasattr(func, "func"):
+        func = func.func
+    v = {
+        "function": func.__name__,
+        "settings": args_as_kwargs,
+    }
+    if include_module:
+        v.update(module=func.__module__)
+    return v
+
+
+def clean_value_partial_all(value, include_module: bool = True):
+    """Does not work with cell magic decorator and info."""
     # Retrieve the function signature
     sig = inspect.signature(value.func)
 

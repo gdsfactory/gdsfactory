@@ -4,6 +4,7 @@ from __future__ import annotations
 import functools
 import hashlib
 import inspect
+import warnings
 from collections.abc import Callable
 from functools import partial
 from typing import TypeVar, overload
@@ -153,9 +154,19 @@ def cell(
 
         active_pdk = get_active_pdk()
 
-        info = kwargs.pop("info", {})  # TODO: remove info
-        name = _name = kwargs.pop("name", None)  # TODO: remove name
-        prefix = kwargs.pop("prefix", func.__name__)  # TODO: remove prefix
+        info = kwargs.pop("info", {})
+        name = _name = kwargs.pop("name", None)
+        prefix = kwargs.pop("prefix", None)
+
+        if name:
+            warnings.warn("name is deprecated and will be removed soon.")
+        if prefix:
+            warnings.warn("prefix is deprecated and will be removed soon.")
+        if info:
+            warnings.warn("info is deprecated and will be removed soon.")
+
+        prefix = prefix or func.__name__
+
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
         args_as_kwargs.update(kwargs)
@@ -231,6 +242,9 @@ def cell(
         # if no decorator is specified, but there is one specified for the active PDK, use the PDK's default decorator
         if decorator is None and active_pdk.default_decorator is not None:
             decorator = active_pdk.default_decorator
+
+        if decorator:
+            warnings.warn("decorator is deprecated and will be removed soon.")
 
         if name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
@@ -349,12 +363,18 @@ def container(component, function, **kwargs) -> gf.Component:
 
 
 if __name__ == "__main__":
+    from functools import partial
+
     import gdsfactory as gf
+
+    c = partial(gf.components.mzi, decorator=gf.add_padding)
+    c = gf.routing.add_fiber_array(c)
+    c.show()
 
     # c = gf.components.straight(info={"simulation": "eme"}, name="hi")
     # c = gf.components.straight()
-    c = gf.Component()
-    print(type(c.info))
+    # c = gf.Component()
+    # print(type(c.info))
     # print(c.name)
     # print(c.info["simulation"])
     # c.show()

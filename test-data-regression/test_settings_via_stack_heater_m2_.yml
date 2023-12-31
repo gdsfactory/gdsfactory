@@ -4,7 +4,7 @@ info:
   xsize: 11.0
   ysize: 11.0
 module: gdsfactory.components.via_stack
-name: via_stack_035f445d
+name: via_stack_299d6cc0
 ports:
   e1:
     center:
@@ -71,14 +71,5 @@ settings:
   - function: via
     module: gdsfactory.components.via
     settings:
-      bbox_layers: null
-      bbox_offset: 0
       enclosure: 2
-      gap: null
       layer: VIA1
-      size:
-      - 0.7
-      - 0.7
-      spacing:
-      - 2.0
-      - 2.0

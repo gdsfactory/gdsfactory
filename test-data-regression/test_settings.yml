@@ -39,22 +39,5 @@ settings:
     module: gdsfactory.cross_section
     settings:
       add_pins_function_name: null
-      bbox_layers: null
-      bbox_offsets: null
-      cladding_layers: null
-      cladding_offsets: null
-      cladding_simplify: null
-      kwargs: {}
-      layer: WG
-      main_section_name: _default
-      offset: 0
-      port_names:
-      - o1
-      - o2
-      port_types:
-      - optical
-      - optical
       radius: 10
       radius_min: 5
-      sections: null
-      width: 0.5

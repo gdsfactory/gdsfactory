@@ -38,7 +38,7 @@ instances:
       length: 10.0
       npoints: 2
       width: null
-name: sample_mirror_simple_99ac17ad
+name: sample_mirror_simple_a2dbfa91
 placements:
   b:
     mirror: true

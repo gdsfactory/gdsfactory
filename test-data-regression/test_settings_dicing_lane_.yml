@@ -11,11 +11,7 @@ settings:
     module: gdsfactory.components.triangles
     settings:
       layer: MTOP
-      layers: null
-      x: 10
       xtop: 2
-      y: 20
-      ybot: 0
   size:
   - 50
   - 300

@@ -32,7 +32,7 @@ instances:
       width_mmi: 4.5
       width_taper: 1.0
       with_bbox: true
-name: yaml_anchor_12dd6a19
+name: yaml_anchor_8731fb27
 placements:
   mmi_long:
     mirror: 0

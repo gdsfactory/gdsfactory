@@ -58,22 +58,12 @@ settings:
     function: free_propagation_region
     module: gdsfactory.components.awg
     settings:
-      cross_section: xs_sc
       inputs: 1
-      length: 20.0
-      outputs: 10
-      wg_width: 0.5
-      width1: 2.0
-      width2: 20.0
   free_propagation_region_output_function:
     function: free_propagation_region
     module: gdsfactory.components.awg
     settings:
-      cross_section: xs_sc
       inputs: 10
-      length: 20.0
-      outputs: 10
-      wg_width: 0.5
       width1: 10
       width2: 20.0
   outputs: 3

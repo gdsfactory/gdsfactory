@@ -7,7 +7,7 @@ info:
   route_info_xs_f1ca4cff_length: 10.0
   width: 0.5
 module: gdsfactory.components.straight
-name: straight_3652c7ae
+name: straight_7da770de
 ports:
   o1:
     center:
@@ -41,21 +41,6 @@ settings:
     module: gdsfactory.cross_section
     settings:
       add_pins_function_name: null
-      bbox_layers: null
-      bbox_offsets: null
-      cladding_layers: null
-      cladding_offsets: null
-      cladding_simplify: null
-      kwargs: {}
-      layer: WG
-      main_section_name: _default
-      offset: 0
-      port_names:
-      - o1
-      - o2
-      port_types:
-      - optical
-      - optical
       radius: 20
       radius_min: 20
       sections:
@@ -74,7 +59,6 @@ settings:
         simplify: 0.05
         width: 6.0
         width_function: null
-      width: 0.5
   layer: null
   length: 10.0
   npoints: 2

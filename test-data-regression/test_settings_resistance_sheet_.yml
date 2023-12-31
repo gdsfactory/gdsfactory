@@ -40,9 +40,6 @@ settings:
     function: via_stack
     module: gdsfactory.components.via_stack
     settings:
-      correct_size: true
-      layer_offsets: null
-      layer_port: null
       layers:
       - SLAB90
       - NPP
@@ -50,25 +47,13 @@ settings:
       size:
       - 80
       - 80
-      slot_horizontal: false
-      slot_vertical: false
       vias:
       - null
       - null
       - function: via
         module: gdsfactory.components.via
         settings:
-          bbox_layers: null
-          bbox_offset: 0
-          enclosure: 1.0
-          gap: null
           layer: VIAC
-          size:
-          - 0.7
-          - 0.7
-          spacing:
-          - 2.0
-          - 2.0
   pad_pitch: 100.0
   port_orientation1: 180
   port_orientation2: 0
