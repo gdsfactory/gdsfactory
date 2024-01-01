@@ -356,8 +356,8 @@ def container(component, function, **kwargs) -> gf.Component:
     component = gf.get_component(component)
     c = Component()
     cref = c << component
+    c.add_ports(cref.ports)
     function(c, **kwargs)
-    c.ports = cref.ports
     c.copy_child_info(component)
     return c
 

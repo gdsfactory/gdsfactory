@@ -35,7 +35,7 @@ class CellSettings(BaseModel, extra="allow", validate_assignment=True, frozen=Tr
     def __getitem__(self, key: str) -> Any:
         return getattr(self, key)
 
-    def get(self, __key: str, default: Any | None = None) -> Any:
+    def get(self, __key: str, default: Any = None) -> Any:
         return getattr(self, __key) if hasattr(self, __key) else default
 
 
@@ -55,7 +55,7 @@ class ComponentSpec(BaseModel, extra="allow", validate_assignment=True, frozen=T
     def __getitem__(self, key: str) -> Any:
         return getattr(self, key)
 
-    def get(self, __key: str, default: Any | None = None) -> Any:
+    def get(self, __key: str, default: Any = None) -> Any:
         return getattr(self, __key) if hasattr(self, __key) else default
 
 
@@ -75,7 +75,7 @@ class Info(BaseModel, extra="allow", validate_assignment=True):
     def __getitem__(self, __key: str) -> Any:
         return getattr(self, __key)
 
-    def get(self, __key: str, default: Any | None = None) -> Any:
+    def get(self, __key: str, default: Any = None) -> Any:
         return getattr(self, __key) if hasattr(self, __key) else default
 
     def __setitem__(self, __key: str, __val: str | int | float) -> None:

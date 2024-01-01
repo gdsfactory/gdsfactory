@@ -14,7 +14,7 @@ from gdsfactory.typings import LayerSpec
 
 def add_ports_from_markers_square(
     component: Component,
-    pin_layer: LayerSpec = "DEVREC",
+    pin_layer: LayerSpec = "PORT",
     port_layer: LayerSpec | None = None,
     orientation: int | None = 90,
     min_pin_area_um2: float = 0,

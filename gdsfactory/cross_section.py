@@ -284,7 +284,10 @@ class CrossSection(BaseModel):
                     "layer": layer or self.layer,
                 }
             )
-            if len(sections) > 1:
+            changed_width_layer_or_offset = (
+                width_function or offset_function or width or layer
+            )
+            if changed_width_layer_or_offset and len(sections) > 1:
                 warnings.warn(
                     "CrossSection.copy() only modifies the attributes of the first section."
                 )

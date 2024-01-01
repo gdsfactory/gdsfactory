@@ -21,6 +21,9 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
+from gdsfactory.cell import container
+from gdsfactory.port import select_ports_electrical, select_ports_optical
+
 if TYPE_CHECKING:
     from gdsfactory.component import Component
     from gdsfactory.component_reference import ComponentReference
@@ -526,6 +529,10 @@ def add_pins(
     return component
 
 
+add_pins_optical = partial(add_pins, select_ports=select_ports_optical)
+add_pins_electrical = partial(add_pins, select_ports=select_ports_electrical)
+add_pins_container = partial(container, function=add_pins)
+
 add_pins_triangle = partial(add_pins, function=add_pin_triangle)
 add_pins_center = partial(add_pins, function=add_pin_rectangle)
 add_pin_inside1nm = partial(
@@ -624,7 +631,7 @@ if __name__ == "__main__":
     # p2 = len(c2.get_polygons())
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
-    c = gf.components.straight(decorator=add_pins)
+    c = gf.components.straight()
+    c2 = add_pins_container(component=c)
     # cc.show(show_ports=False)
-    c.show(show_subports=True)
-    c.show(show_ports=True)
+    c2.show(show_ports=False)
