@@ -98,7 +98,6 @@ def test_extrude_transition_multi_section():
     p = gf.path.straight(10)
 
     c = gf.path.extrude_transition(transition=transition, p=p)
-    c.show()
 
     layer1_area = c.extract([(2, 21)]).area()
     layer2_area = c.extract([(5, 21)]).area()
