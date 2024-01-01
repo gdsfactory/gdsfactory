@@ -1,3 +1,6 @@
+function_name: mmi1x2_with_sbend
+info: {}
+module: gdsfactory.components.mmi1x2_with_sbend
 name: mmi1x2_with_sbend
 ports:
   o1:
@@ -37,20 +40,7 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    s_bend:
-      function: bend_s
-    with_sbend: true
-  full:
-    cross_section: xs_sc
-    s_bend:
-      function: bend_s
-    with_sbend: true
-  function_name: mmi1x2_with_sbend
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.mmi1x2_with_sbend
-  name: mmi1x2_with_sbend
+  cross_section: xs_sc
+  s_bend:
+    function: bend_s
+  with_sbend: true

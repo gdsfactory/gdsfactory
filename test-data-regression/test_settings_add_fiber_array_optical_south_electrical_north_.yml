@@ -1,4 +1,7 @@
-name: mzi_7a18d033_add_fiber_array_889fae23_add_fiber_array_optical_south_electrical_north
+function_name: add_fiber_array_optical_south_electrical_north
+info: {}
+module: gdsfactory.components.add_fiber_array_optical_south_electrical_north
+name: mzi_add_fiber_array_optical_south_electrical_north
 ports:
   e4_1_1:
     center:
@@ -73,57 +76,26 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    component:
-      function: mzi
-      settings:
-        length_x: 200
-        straight_x_top: straight_heater_metal
-    electrical_port_names: null
-    electrical_port_orientation: 90
-    fiber_spacing: 127.0
-    grating_coupler:
-      function: grating_coupler_elliptical
-    npads: null
-    pad:
-      function: pad
-      settings:
-        size:
-        - 80
-        - 80
-    pad_gc_spacing: 250.0
-    pad_spacing: 100.0
-    with_loopback: true
-    xs_metal: xs_metal_routing
-  full:
-    component:
-      function: mzi
-      settings:
-        length_x: 200
-        straight_x_top: straight_heater_metal
-    electrical_port_names: null
-    electrical_port_orientation: 90
-    fiber_spacing: 127.0
-    grating_coupler:
-      function: grating_coupler_elliptical
-    npads: null
-    pad:
-      function: pad
-      settings:
-        size:
-        - 80
-        - 80
-    pad_gc_spacing: 250.0
-    pad_spacing: 100.0
-    with_loopback: true
-    xs_metal: xs_metal_routing
-  function_name: add_fiber_array_optical_south_electrical_north
-  info:
-    grating_coupler:
-      polarization: te
-      wavelength: 1.554
-  info_version: 2
-  module: gdsfactory.components.add_fiber_array_optical_south_electrical_north
-  name: mzi_7a18d033_add_fiber_array_889fae23_add_fiber_array_optical_south_electrical_north
+  component:
+    function: mzi
+    module: gdsfactory.components.mzi
+    settings:
+      length_x: 200
+      straight_x_top: straight_heater_metal
+  electrical_port_names: null
+  electrical_port_orientation: 90
+  fiber_spacing: 127.0
+  grating_coupler:
+    function: grating_coupler_elliptical
+  npads: null
+  pad:
+    function: pad
+    module: gdsfactory.components.pad
+    settings:
+      size:
+      - 80
+      - 80
+  pad_gc_spacing: 250.0
+  pad_spacing: 100.0
+  with_loopback: true
+  xs_metal: xs_metal_routing

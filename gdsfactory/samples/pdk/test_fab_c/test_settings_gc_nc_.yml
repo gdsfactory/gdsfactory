@@ -1,3 +1,8 @@
+function_name: grating_coupler_elliptical
+info:
+  polarization: te
+  wavelength: 1.554
+module: gdsfactory.components.grating_coupler_elliptical
 name: grating_coupler_elliptical_9bc42286
 ports:
   o1:
@@ -25,121 +30,55 @@ ports:
     shear_angle: null
     width: 10
 settings:
-  changed:
-    cross_section:
-      add_pins_function_module: gdsfactory.samples.pdk.fab_c
-      add_pins_function_name: add_pins
-      auto_widen: false
-      auto_widen_minimum_length: 200.0
-      bbox_layers:
-      - - 36
-        - 0
-      bbox_offsets:
-      - 3.0
-      components_along_path: []
-      end_straight_length: 0.01
-      gap: 3.0
-      info: {}
-      min_length: 0.01
-      radius: 10.0
-      radius_min: 5.0
-      sections:
-      - hidden: false
-        insets: null
-        layer:
-        - 34
-        - 0
-        name: _default
-        offset: 0.0
-        offset_function: null
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        simplify: null
-        width: 1.0
-        width_function: null
-      start_straight_length: 0.01
-      taper_length: 10.0
-      width_wide: null
-    grating_line_width: 0.6
-    layer_slab: null
-  child: null
-  default:
-    big_last_tooth: false
-    cross_section: xs_sc
-    fiber_angle: 15.0
-    grating_line_width: 0.343
-    layer_slab: SLAB150
-    n_periods: 30
-    nclad: 1.443
-    neff: 2.638
-    polarization: te
-    slab_offset: 2.0
-    slab_xmin: -1.0
-    spiked: true
-    taper_angle: 40.0
-    taper_length: 16.6
-    wavelength: 1.554
-  full:
-    big_last_tooth: false
-    cross_section:
-      add_pins_function_module: gdsfactory.samples.pdk.fab_c
-      add_pins_function_name: add_pins
-      auto_widen: false
-      auto_widen_minimum_length: 200.0
-      bbox_layers:
-      - - 36
-        - 0
-      bbox_offsets:
-      - 3.0
-      components_along_path: []
-      end_straight_length: 0.01
-      gap: 3.0
-      info: {}
-      min_length: 0.01
-      radius: 10.0
-      radius_min: 5.0
-      sections:
-      - hidden: false
-        insets: null
-        layer:
-        - 34
-        - 0
-        name: _default
-        offset: 0.0
-        offset_function: null
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        simplify: null
-        width: 1.0
-        width_function: null
-      start_straight_length: 0.01
-      taper_length: 10.0
-      width_wide: null
-    fiber_angle: 15.0
-    grating_line_width: 0.6
-    layer_slab: null
-    n_periods: 30
-    nclad: 1.443
-    neff: 2.638
-    polarization: te
-    slab_offset: 2.0
-    slab_xmin: -1.0
-    spiked: true
-    taper_angle: 40.0
-    taper_length: 16.6
-    wavelength: 1.554
-  function_name: grating_coupler_elliptical
-  info:
-    polarization: te
-    wavelength: 1.554
-  info_version: 2
-  module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_elliptical_9bc42286
+  big_last_tooth: false
+  cross_section:
+    add_pins_function_module: gdsfactory.samples.pdk.fab_c
+    add_pins_function_name: add_pins
+    auto_widen: false
+    auto_widen_minimum_length: 200.0
+    bbox_layers:
+    - - 36
+      - 0
+    bbox_offsets:
+    - 3.0
+    components_along_path: []
+    end_straight_length: 0.01
+    gap: 3.0
+    info: {}
+    min_length: 0.01
+    radius: 10.0
+    radius_min: 5.0
+    sections:
+    - hidden: false
+      insets: null
+      layer:
+      - 34
+      - 0
+      name: _default
+      offset: 0.0
+      offset_function: null
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      simplify: null
+      width: 1.0
+      width_function: null
+    start_straight_length: 0.01
+    taper_length: 10.0
+    width_wide: null
+  fiber_angle: 15.0
+  grating_line_width: 0.6
+  layer_slab: null
+  n_periods: 30
+  nclad: 1.443
+  neff: 2.638
+  polarization: te
+  slab_offset: 2.0
+  slab_xmin: -1.0
+  spiked: true
+  taper_angle: 40.0
+  taper_length: 16.6
+  wavelength: 1.554

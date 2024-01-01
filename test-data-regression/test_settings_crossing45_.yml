@@ -1,3 +1,8 @@
+function_name: crossing45
+info:
+  bezier_length: 42.085
+  min_bend_radius: 44.312
+module: gdsfactory.components.crossing_waveguide
 name: crossing45
 ports:
   o1:
@@ -49,30 +54,11 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    alpha: 0.08
-    cross_section: xs_sc
-    cross_section_bends: xs_sc_no_pins
-    crossing:
-      function: crossing
-    dx: null
-    npoints: 101
-    port_spacing: 40.0
-  full:
-    alpha: 0.08
-    cross_section: xs_sc
-    cross_section_bends: xs_sc_no_pins
-    crossing:
-      function: crossing
-    dx: null
-    npoints: 101
-    port_spacing: 40.0
-  function_name: crossing45
-  info:
-    bezier_length: 42.085
-    min_bend_radius: 44.312
-  info_version: 2
-  module: gdsfactory.components.crossing_waveguide
-  name: crossing45
+  alpha: 0.08
+  cross_section: xs_sc
+  cross_section_bends: xs_sc_no_pins
+  crossing:
+    function: crossing
+  dx: null
+  npoints: 101
+  port_spacing: 40.0

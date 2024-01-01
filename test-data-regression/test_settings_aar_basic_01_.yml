@@ -1,3 +1,6 @@
+function_name: aar_basic_01
+info: {}
+module: yaml_jinja
 name: aar_basic_01
 ports:
   o1:
@@ -24,16 +27,4 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
-settings:
-  changed: {}
-  child: null
-  default: {}
-  full: {}
-  function_name: aar_basic_01
-  info:
-    instances:
-    - mmi_long
-    - mmi_short
-  info_version: 2
-  module: yaml_jinja
-  name: aar_basic_01
+settings: {}

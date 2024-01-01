@@ -1,3 +1,6 @@
+function_name: coupler_adiabatic
+info: {}
+module: gdsfactory.components.coupler_adiabatic
 name: coupler_adiabatic
 ports:
   o1:
@@ -49,28 +52,11 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    dw: 0.1
-    input_wg_sep: 3.0
-    length1: 20.0
-    length2: 50.0
-    length3: 30.0
-    output_wg_sep: 3.0
-    wg_sep: 1.0
-  full:
-    cross_section: xs_sc
-    dw: 0.1
-    input_wg_sep: 3.0
-    length1: 20.0
-    length2: 50.0
-    length3: 30.0
-    output_wg_sep: 3.0
-    wg_sep: 1.0
-  function_name: coupler_adiabatic
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.coupler_adiabatic
-  name: coupler_adiabatic
+  cross_section: xs_sc
+  dw: 0.1
+  input_wg_sep: 3.0
+  length1: 20.0
+  length2: 50.0
+  length3: 30.0
+  output_wg_sep: 3.0
+  wg_sep: 1.0

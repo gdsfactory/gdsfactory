@@ -1,3 +1,6 @@
+function_name: optimal_90deg
+info: {}
+module: gdsfactory.components.optimal_90deg
 name: optimal_90deg
 ports:
   e1:
@@ -25,24 +28,9 @@ ports:
     shear_angle: null
     width: 100.0
 settings:
-  changed: {}
-  child: null
-  default:
-    layer:
-    - 1
-    - 0
-    length_adjust: 1
-    num_pts: 15
-    width: 100
-  full:
-    layer:
-    - 1
-    - 0
-    length_adjust: 1
-    num_pts: 15
-    width: 100
-  function_name: optimal_90deg
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.optimal_90deg
-  name: optimal_90deg
+  layer:
+  - 1
+  - 0
+  length_adjust: 1
+  num_pts: 15
+  width: 100

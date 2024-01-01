@@ -1,3 +1,6 @@
+function_name: edge_coupler_array_with_loopback
+info: {}
+module: gdsfactory.components.edge_coupler_array
 name: edge_coupler_array_with_loopback
 ports:
   o1:
@@ -49,62 +52,29 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    angle: 0
-    bend:
-      function: bend_euler
-    cross_section: xs_sc
-    edge_coupler:
-      function: taper
-      settings:
-        length: 100
-        width2: 0.2
-        with_two_ports: false
-    extension_length: 1.0
-    n: 8
-    pitch: 127.0
-    radius: 30
-    right_loopback: true
-    straight:
-      function: straight
-    taper: null
-    text:
-      function: text_rectangular
-    text_offset:
-    - 0
-    - 0
-    text_rotation: 0
-    x_reflection: false
-  full:
-    angle: 0
-    bend:
-      function: bend_euler
-    cross_section: xs_sc
-    edge_coupler:
-      function: taper
-      settings:
-        length: 100
-        width2: 0.2
-        with_two_ports: false
-    extension_length: 1.0
-    n: 8
-    pitch: 127.0
-    radius: 30
-    right_loopback: true
-    straight:
-      function: straight
-    taper: null
-    text:
-      function: text_rectangular
-    text_offset:
-    - 0
-    - 0
-    text_rotation: 0
-    x_reflection: false
-  function_name: edge_coupler_array_with_loopback
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.edge_coupler_array
-  name: edge_coupler_array_with_loopback
+  angle: 0
+  bend:
+    function: bend_euler
+  cross_section: xs_sc
+  edge_coupler:
+    function: taper
+    module: gdsfactory.components.taper
+    settings:
+      length: 100
+      width2: 0.2
+      with_two_ports: false
+  extension_length: 1.0
+  n: 8
+  pitch: 127.0
+  radius: 30
+  right_loopback: true
+  straight:
+    function: straight
+  taper: null
+  text:
+    function: text_rectangular
+  text_offset:
+  - 0
+  - 0
+  text_rotation: 0
+  x_reflection: false

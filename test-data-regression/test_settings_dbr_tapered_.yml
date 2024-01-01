@@ -1,3 +1,6 @@
+function_name: dbr_tapered
+info: {}
+module: gdsfactory.components.dbr_tapered
 name: dbr_tapered
 ports:
   o1:
@@ -25,34 +28,14 @@ ports:
     shear_angle: null
     width: 1.0
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    dc: 0.5
-    fin_size:
-    - 0.2
-    - 0.05
-    fins: false
-    length: 10.0
-    period: 0.85
-    taper_length: 20.0
-    w1: 0.4
-    w2: 1.0
-  full:
-    cross_section: xs_sc
-    dc: 0.5
-    fin_size:
-    - 0.2
-    - 0.05
-    fins: false
-    length: 10.0
-    period: 0.85
-    taper_length: 20.0
-    w1: 0.4
-    w2: 1.0
-  function_name: dbr_tapered
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.dbr_tapered
-  name: dbr_tapered
+  cross_section: xs_sc
+  dc: 0.5
+  fin_size:
+  - 0.2
+  - 0.05
+  fins: false
+  length: 10.0
+  period: 0.85
+  taper_length: 20.0
+  w1: 0.4
+  w2: 1.0

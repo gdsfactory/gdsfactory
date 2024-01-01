@@ -1,3 +1,7 @@
+function_name: cutback_bend180
+info:
+  n_bends: 82
+module: gdsfactory.components.cutback_bend
 name: cutback_bend180
 ports:
   o1:
@@ -25,33 +29,14 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    cols: 6
-    component:
-      function: bend_euler
-      settings:
-        angle: 180
-    rows: 6
-    spacing: 3
-    straight:
-      function: straight
-    straight_length: 5.0
-  full:
-    cols: 6
-    component:
-      function: bend_euler
-      settings:
-        angle: 180
-    rows: 6
-    spacing: 3
-    straight:
-      function: straight
-    straight_length: 5.0
-  function_name: cutback_bend180
-  info:
-    n_bends: 82
-  info_version: 2
-  module: gdsfactory.components.cutback_bend
-  name: cutback_bend180
+  cols: 6
+  component:
+    function: bend_euler
+    module: gdsfactory.components.bend_euler
+    settings:
+      angle: 180
+  rows: 6
+  spacing: 3
+  straight:
+    function: straight
+  straight_length: 5.0

@@ -1,4 +1,8 @@
-name: taper_from_csv_cutback_component_mirrorTrue
+function_name: cutback_component
+info:
+  components: 80
+module: gdsfactory.components.cutback_component
+name: cutback_component_mirrorTrue
 ports:
   o1:
     center:
@@ -25,46 +29,20 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed:
-    mirror: true
-  child: null
-  default:
-    bend180:
-      function: bend_euler
-      settings:
-        angle: 180
-    cols: 4
-    component:
-      function: taper_from_csv
-    cross_section: xs_sc
-    mirror: false
-    mirror1: false
-    mirror2: false
-    port1: o1
-    port2: o2
-    rows: 5
-    straight_length: null
-    straight_length_pair: null
-  full:
-    bend180:
-      function: bend_euler
-      settings:
-        angle: 180
-    cols: 4
-    component:
-      function: taper_from_csv
-    cross_section: xs_sc
-    mirror: true
-    mirror1: false
-    mirror2: false
-    port1: o1
-    port2: o2
-    rows: 5
-    straight_length: null
-    straight_length_pair: null
-  function_name: cutback_component
-  info:
-    components: 80
-  info_version: 2
-  module: gdsfactory.components.cutback_component
-  name: taper_from_csv_cutback_component_mirrorTrue
+  bend180:
+    function: bend_euler
+    module: gdsfactory.components.bend_euler
+    settings:
+      angle: 180
+  cols: 4
+  component:
+    function: taper_from_csv
+  cross_section: xs_sc
+  mirror: true
+  mirror1: false
+  mirror2: false
+  port1: o1
+  port2: o2
+  rows: 5
+  straight_length: null
+  straight_length_pair: null

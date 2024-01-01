@@ -53,7 +53,7 @@ def test_default_decorator():
 
     # now get any component from the pdk and assert that the PDK's decorator has been applied
     c_from_pdk = gf.get_component("straight")
-    assert "message" in c_from_pdk.info
+    assert "message" in dict(c_from_pdk.info)
     assert c_from_pdk.info["message"] == "hello from the PDK decorator!"
 
     # teardown: reset to the previously active pdk

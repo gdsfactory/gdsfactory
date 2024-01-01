@@ -1,24 +1,12 @@
+function_name: text_freetype
+info: {}
+module: gdsfactory.components.text_freetype
 name: text_freetype
 ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    font: OCR-A
-    justify: left
-    layer: WG
-    layers: null
-    size: 10
-    text: abcd
-  full:
-    font: OCR-A
-    justify: left
-    layer: WG
-    layers: null
-    size: 10
-    text: abcd
-  function_name: text_freetype
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.text_freetype
-  name: text_freetype
+  font: OCR-A
+  justify: left
+  layer: WG
+  layers: null
+  size: 10
+  text: abcd

@@ -911,7 +911,7 @@ def extrude(
             face = [points1[0], points2[0]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            port1 = c.add_port(
+            c.add_port(
                 port=Port(
                     name=port_names[0],
                     layer=get_layer(layers[0]),
@@ -924,7 +924,7 @@ def extrude(
                     enforce_ports_on_grid=enforce_ports_on_grid,
                 )
             )
-            port1.info["face"] = face
+            # port1.info["face"] = face
         if port_names[1] is not None:
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p_sec.end_angle) % 360
@@ -932,7 +932,7 @@ def extrude(
             face = [points1[-1], points2[-1]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            port2 = c.add_port(
+            c.add_port(
                 port=Port(
                     name=port_names[1],
                     layer=get_layer(layers[1]),
@@ -945,7 +945,7 @@ def extrude(
                     enforce_ports_on_grid=enforce_ports_on_grid,
                 )
             )
-            port2.info["face"] = face
+            # port2.info["face"] = face
 
     c.info["length"] = float(np.round(p.length(), 3))
 
@@ -1142,7 +1142,7 @@ def extrude_transition(
             face = [points1[0], points2[0]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            port1 = c.add_port(
+            c.add_port(
                 port=Port(
                     name=port_names[0],
                     layer=get_layer(layers[0]),
@@ -1154,7 +1154,7 @@ def extrude_transition(
                     shear_angle=shear_angle_start,
                 )
             )
-            port1.info["face"] = face
+            # port1.info["face"] = face
         if port_names[1] is not None:
             port_width = width2
             port_orientation = (p_sec.end_angle) % 360
@@ -1162,7 +1162,7 @@ def extrude_transition(
             face = [points1[-1], points2[-1]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            port2 = c.add_port(
+            c.add_port(
                 port=Port(
                     name=port_names[1],
                     layer=get_layer(layers[1]),
@@ -1174,7 +1174,7 @@ def extrude_transition(
                     shear_angle=shear_angle_end,
                 )
             )
-            port2.info["face"] = face
+            # port2.info["face"] = face
 
     c.info["length"] = float(np.round(p.length(), 3))
     return c

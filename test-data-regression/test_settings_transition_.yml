@@ -1,12 +1,6 @@
+function_name: transition
+info: {}
+module: test_paths
 name: transition
 ports: {}
-settings:
-  changed: {}
-  child: null
-  default: {}
-  full: {}
-  function_name: transition
-  info: {}
-  info_version: 2
-  module: test_paths
-  name: transition
+settings: {}

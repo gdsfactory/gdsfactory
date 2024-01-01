@@ -1,3 +1,8 @@
+function_name: wire_corner
+info:
+  dy: 10.0
+  length: 10.0
+module: gdsfactory.components.wire
 name: wire_corner
 ports:
   e1:
@@ -25,16 +30,4 @@ ports:
     shear_angle: null
     width: 10.0
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_metal_routing
-  full:
-    cross_section: xs_metal_routing
-  function_name: wire_corner
-  info:
-    dy: 10.0
-    length: 10.0
-  info_version: 2
-  module: gdsfactory.components.wire
-  name: wire_corner
+  cross_section: xs_metal_routing

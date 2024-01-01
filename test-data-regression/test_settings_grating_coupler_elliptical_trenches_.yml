@@ -1,3 +1,9 @@
+function_name: grating_coupler_elliptical_trenches
+info:
+  period: 0.676
+  polarization: te
+  wavelength: 1.53
+module: gdsfactory.components.grating_coupler_elliptical_trenches
 name: grating_coupler_elliptical_trenches
 ports:
   o1:
@@ -25,43 +31,17 @@ ports:
     shear_angle: null
     width: 10
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    end_straight_length: 0.2
-    fiber_angle: 15.0
-    grating_line_width: 0.343
-    layer_trench: SHALLOW_ETCH
-    n_periods: 30
-    ncladding: 1.443
-    neff: 2.638
-    p_start: 26
-    polarization: te
-    taper_angle: 30.0
-    taper_length: 16.6
-    trenches_extra_angle: 9.0
-    wavelength: 1.53
-  full:
-    cross_section: xs_sc
-    end_straight_length: 0.2
-    fiber_angle: 15.0
-    grating_line_width: 0.343
-    layer_trench: SHALLOW_ETCH
-    n_periods: 30
-    ncladding: 1.443
-    neff: 2.638
-    p_start: 26
-    polarization: te
-    taper_angle: 30.0
-    taper_length: 16.6
-    trenches_extra_angle: 9.0
-    wavelength: 1.53
-  function_name: grating_coupler_elliptical_trenches
-  info:
-    period: 0.676
-    polarization: te
-    wavelength: 1.53
-  info_version: 2
-  module: gdsfactory.components.grating_coupler_elliptical_trenches
-  name: grating_coupler_elliptical_trenches
+  cross_section: xs_sc
+  end_straight_length: 0.2
+  fiber_angle: 15.0
+  grating_line_width: 0.343
+  layer_trench: SHALLOW_ETCH
+  n_periods: 30
+  ncladding: 1.443
+  neff: 2.638
+  p_start: 26
+  polarization: te
+  taper_angle: 30.0
+  taper_length: 16.6
+  trenches_extra_angle: 9.0
+  wavelength: 1.53

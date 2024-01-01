@@ -44,8 +44,6 @@ def to_3d(
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
     component_layers = component_with_booleans.get_layers()
-    component_with_booleans.show()
-
     has_polygons = False
 
     for layer, polygons in component_with_booleans.get_polygons(

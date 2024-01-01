@@ -42,7 +42,7 @@ def via(
         |     |      |        |      |  size[1] |
         |     |______|        |______|          |
         |      <------------->                  |
-        |         spacing[0]                    |
+        |         xspacing                      |
         |_______________________________________|
     """
     if spacing is None and gap is None:
@@ -53,9 +53,11 @@ def via(
         spacing = (size[0] + gap[0], size[1] + gap[1])
 
     c = Component()
-    c.info["spacing"] = spacing
+    c.info["xspacing"], c.info["yspacing"] = spacing
     c.info["enclosure"] = enclosure
-    c.info["size"] = size
+    c.info["xsize"], c.info["ysize"] = size
+    c.info["size"] = tuple(size)
+    c.info["spacing"] = tuple(spacing)
 
     width, height = size
     a = width / 2

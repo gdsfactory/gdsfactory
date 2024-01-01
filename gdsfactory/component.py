@@ -25,6 +25,9 @@ from omegaconf import DictConfig
 
 from gdsfactory import snap
 from gdsfactory.component_layout import (
+    CellSettings,
+    ComponentSpec,
+    Info,
     Label,
     _align,
     _distribute,
@@ -200,15 +203,17 @@ class Component(_GeometryHelper):
 
         self._cell = gdstk.Cell("Unnamed")
         self.rename(name, max_name_length=max_name_length)
-        self.info: dict[str, Any] = {}
+        self.info: Info = Info()
 
-        self.settings: dict[str, Any] = {}
+        self.settings: CellSettings = CellSettings()
         self._locked = False
         self._get_child_name = False
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
         self._named_references = {}
         self._references = []
+        self.function_name = ""
+        self.module = ""
 
         self.ports = {}
         self.child = None
@@ -385,16 +390,6 @@ class Component(_GeometryHelper):
         _get_dependencies(self, references_set=references_set)
         return list(references_set)
 
-    def get_component_spec(self):
-        return (
-            {
-                "component": self.settings.function_name,
-                "settings": self.settings.changed,
-            }
-            if self.settings
-            else {"component": self.name, "settings": {}}
-        )
-
     def __getitem__(self, key: str | int) -> Port:
         """Access reference ports."""
         if isinstance(key, int):
@@ -409,18 +404,6 @@ class Component(_GeometryHelper):
     def __lshift__(self, element) -> ComponentReference:
         """Convenience operator equivalent to add_ref()."""
         return self.add_ref(element)
-
-    def unlock(self) -> None:
-        """Only do this if you know what you are doing."""
-        self._locked = False
-
-    def lock(self) -> None:
-        """Makes sure components can't add new elements or move existing ones.
-
-        Components lock automatically when going into the CACHE to
-        ensure one component does not change others
-        """
-        self._locked = True
 
     def __setitem__(self, key, element):
         """Allow adding polygons and cell references.
@@ -643,7 +626,7 @@ class Component(_GeometryHelper):
         )
         return G
 
-    def get_netlist_yaml(self, **kwargs) -> dict[str, Any]:
+    def to_yaml(self, **kwargs) -> dict[str, Any]:
         from gdsfactory.get_netlist import get_netlist_yaml
 
         return get_netlist_yaml(self, **kwargs)
@@ -929,24 +912,6 @@ class Component(_GeometryHelper):
 
         pprint_ports(self.get_ports_list(sort_by_name=sort_by_name, **kwargs))
 
-    @property
-    def metadata_child(self) -> dict:
-        """Returns metadata from child if any, Otherwise returns component own.
-
-        metadata Great to access the children metadata at the bottom of the
-        hierarchy.
-        """
-        settings = dict(self.settings)
-
-        while settings.get("child"):
-            settings = settings.get("child")
-
-        return dict(settings)
-
-    @property
-    def metadata(self) -> dict:
-        return dict(self.settings)
-
     def add_port(
         self,
         name: str | object | None = None,
@@ -958,7 +923,7 @@ class Component(_GeometryHelper):
         port_type: str | None = None,
         cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
-        info: dict[str, Any] | None = None,
+        info: Info | None = None,
     ) -> Port:
         """Add port to component.
 
@@ -977,7 +942,7 @@ class Component(_GeometryHelper):
             port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm. Defaults to optical.
             cross_section: port cross_section.
             shear_angle: an optional angle to shear port face in degrees.
-            info: Dict containing arbitrary information about the port.
+            info: contains arbitrary information about the port.
         """
         from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -1003,8 +968,9 @@ class Component(_GeometryHelper):
                 p.shear_angle = shear_angle
             if cross_section is not None:
                 p.cross_section = cross_section
-            if info is not None:
-                p.info = info
+            if info:
+                for k, v in dict(info).items():
+                    p.info[k] = v
             p.parent = self
 
         elif isinstance(name, Port):
@@ -1030,7 +996,8 @@ class Component(_GeometryHelper):
             )
             p.parent = self
             if info is not None:
-                p.info = info
+                for k, v in dict(info).items():
+                    p.info[k] = v
         if name is not None:
             p.name = name
         if p.name in self.ports:
@@ -1251,22 +1218,15 @@ class Component(_GeometryHelper):
                 f"{type(component)}" "is not a Component or ComponentReference"
             )
 
-        self._get_child_name = True
         self.child = component
-        self.info.update(deepcopy(component.info))
-        self.settings.update(deepcopy(component.settings))
+        for k, v in dict(component.info).items():
+            if k not in self.info:
+                self.info[k] = v
 
     @property
     def size_info(self) -> SizeInfo:
         """Size info of the component."""
         return SizeInfo(self.bbox)
-
-    def get_setting(self, setting: str) -> str | int | float:
-        return (
-            self.info.get(setting)
-            or self.settings.full.get(setting)
-            or self.metadata_child.get(setting)
-        )
 
     def is_unlocked(self) -> None:
         """Raises warning if Component is locked."""
@@ -1274,6 +1234,7 @@ class Component(_GeometryHelper):
             message = (
                 f"Component {self.name!r} is dangerous to modify as it's already "
                 "on cache and will change all of its references. "
+                + mutability_error_message
             )
             if CONF.raise_error_on_mutation:
                 raise MutabilityError(message)
@@ -1508,9 +1469,8 @@ class Component(_GeometryHelper):
                 alias = reference.name
             else:
                 prefix = (
-                    component.settings.function_name
-                    if hasattr(component, "settings")
-                    and hasattr(component.settings, "function_name")
+                    component.function_name
+                    if component.function_name
                     else component.name
                 )
                 self._reference_names_counter.update({prefix: 1})
@@ -1752,7 +1712,7 @@ class Component(_GeometryHelper):
             raise ValueError(f"{plotter!r} not in {valid_plotters}")
 
         if plotter == "klayout":
-            self.plot_klayout()
+            self.plot_klayout(**kwargs)
             return
         elif plotter == "kweb":
             return self.plot_kweb()
@@ -1967,7 +1927,7 @@ class Component(_GeometryHelper):
             logger.info(f"Wrote to {str(gdspath)!r}")
         if with_metadata:
             metadata = gdspath.with_suffix(".yml")
-            metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
+            metadata.write_text(self.to_dict_yaml(with_cells=True, with_ports=True))
             logger.info(f"Write YAML metadata to {str(metadata)!r}")
 
         if with_netlist:
@@ -2090,9 +2050,12 @@ class Component(_GeometryHelper):
 
         d["name"] = self.name
         d["settings"] = clean_dict(dict(self.settings))
+        d["info"] = clean_dict(dict(self.info))
+        d["function_name"] = self.function_name
+        d["module"] = self.module
         return d
 
-    def to_yaml(self, **kwargs) -> str:
+    def to_dict_yaml(self, **kwargs) -> str:
         """Write Dict representation of a component in YAML format.
 
         Args:
@@ -2123,15 +2086,12 @@ class Component(_GeometryHelper):
                   |  |
                   8  7
         """
-        self.is_unlocked()
         auto_rename_ports(self, **kwargs)
 
     def auto_rename_ports_counter_clockwise(self, **kwargs) -> None:
-        self.is_unlocked()
         auto_rename_ports_counter_clockwise(self, **kwargs)
 
     def auto_rename_ports_layer_orientation(self, **kwargs) -> None:
-        self.is_unlocked()
         auto_rename_ports_layer_orientation(self, **kwargs)
 
     def auto_rename_ports_orientation(self, **kwargs) -> None:
@@ -2154,7 +2114,6 @@ class Component(_GeometryHelper):
                  |   |
                 S0   S1
         """
-        self.is_unlocked()
         auto_rename_ports_orientation(self, **kwargs)
 
     def move(self, *args, **kwargs) -> Component:
@@ -2302,22 +2261,6 @@ class Component(_GeometryHelper):
     def remove_labels(self) -> None:
         """Remove labels."""
         self._cell.remove(*self.labels)
-
-    # Deprecated
-    def get_info(self):
-        """Gathers the .info dictionaries from every sub-Component and returns them in a list.
-
-        Args:
-            depth: int or None
-                If not None, defines from how many reference levels to
-                retrieve Ports from.
-
-        Returns:
-            list of dictionaries
-                List of the ".info" property dictionaries from all sub-Components
-        """
-        D_list = self.get_dependencies(recursive=True)
-        return [D.info.copy() for D in D_list]
 
     def remap_layers(self, layermap, **kwargs) -> Component:
         """Returns a copy of the component with remapped layers.
@@ -2524,25 +2467,109 @@ class Component(_GeometryHelper):
         pdk = get_active_pdk()
 
         length_eff = length_eff or length
+        length_eff = float(length_eff)
         xs_name = (
             cross_section
             if isinstance(cross_section, str)
             else pdk.get_cross_section_name(cross_section)
         )
 
-        d = {
-            "type": xs_name,
-            "length": length_eff,
-            f"{xs_name}_length": length_eff,
-            "weight": length_eff,
-        }
+        info = self.info
         if taper:
-            d[f"{xs_name}_taper_length"] = length
-        d |= kwargs
-        self.info["route_info"] = d
+            info[f"route_info_{xs_name}_taper_length"] = length
+
+        info["route_info_type"] = xs_name
+        info["route_info_length"] = length_eff
+        info["route_info_weight"] = length_eff
+        info[f"route_info_{xs_name}_length"] = length_eff
+        for key, value in kwargs.items():
+            info[f"route_info_{key}"] = value
+
+    def get_component_spec(self) -> ComponentSpec:
+        return ComponentSpec(
+            function=self.function_name,
+            module=self.module,
+            settings=self.settings,
+        )
+
+    # Deprecated
+    @property
+    def metadata_child(self) -> dict:
+        """Returns metadata from child if any, Otherwise returns component own.
+        metadata can access the children metadata at the bottom of the hierarchy.
+        """
+        warnings.warn(
+            "metadata_child is deprecated and will be removed in future versions of gdsfactory"
+        )
+        settings = dict(self.settings)
+
+        while settings.get("child"):
+            settings = settings.get("child")
+
+        return dict(settings)
+
+    def get_info(self):
+        """Gathers the .info dictionaries from every sub-Component and returns them in a list.
+
+        Args:
+            depth: int or None
+                If not None, defines from how many reference levels to
+                retrieve Ports from.
+
+        Returns:
+            list of dictionaries
+                List of the ".info" property dictionaries from all sub-Components
+        """
+        warnings.warn(
+            "get_info is deprecated and will be removed in future versions of gdsfactory"
+        )
+        D_list = self.get_dependencies(recursive=True)
+        return [D.info.copy() for D in D_list]
+
+    def get_netlist_yaml(self, **kwargs) -> dict[str, Any]:
+        from gdsfactory.get_netlist import get_netlist_yaml
+
+        warnings.warn(
+            "get_netlist_yaml is deprecated and will be removed in future versions of gdsfactory"
+            "Use to_yaml instead"
+        )
+
+        return get_netlist_yaml(self, **kwargs)
+
+    def get_setting(self, setting: str) -> str | int | float:
+        warnings.warn(
+            "get_setting is deprecated and will be removed in future versions of gdsfactory"
+        )
+        return (
+            self.info.get(setting)
+            or self.settings.get(setting)
+            or self.metadata_child.get(setting)
+        )
+
+    def unlock(self) -> None:
+        """Only do this if you know what you are doing."""
+        warnings.warn("we will remove unlock to discourage use")
+        self._locked = False
+
+    def lock(self) -> None:
+        """Makes sure components can't add new elements or move existing ones.
+
+        Components lock automatically when going into the CACHE to
+        ensure one component does not change others
+        """
+        warnings.warn("we will remove lock to discourage use")
+        self._locked = True
+
+    @property
+    def metadata(self) -> dict:
+        warnings.warn(
+            "metadata is deprecated and will be removed in future versions of gdsfactory. "
+            "Use component.settings for accessing component settings or component.info for component info."
+        )
+        return dict(self.settings)
 
 
-# Component methods
+# Component functions
 
 
 def copy(
@@ -2566,8 +2593,11 @@ def copy(
         labels: labels to copy.
     """
     c = Component()
-    c.info = D.info
+    c.settings = D.settings.model_copy()
+    c.info = D.info.model_copy()
     c.child = D.child
+    c.function_name = D.function_name
+    c.module = D.module
 
     for ref in references if references is not None else D.references:
         c.add(copy_reference(ref))
@@ -2644,10 +2674,7 @@ def recurse_structures(
     ignore_functions_prefix = ignore_functions_prefix or []
     ignore_components_prefix = ignore_components_prefix or []
 
-    if (
-        hasattr(component, "function_name")
-        and component.function_name in ignore_functions_prefix
-    ):
+    if component.function_name and component.function_name in ignore_functions_prefix:
         return {}
 
     if hasattr(component, "name") and any(
@@ -2781,11 +2808,20 @@ if __name__ == "__main__":
     # from functools import partial
     import gdsfactory as gf
 
-    c = gf.Component()
-    wg1 = c << gf.components.straight(width=0.5, layer=(1, 0))
-    wg2 = c << gf.components.straight(width=0.5, layer=(2, 0))
-    wg2.connect("o1", wg1.ports["o2"])
-    c.show()
+    c = Component()
+
+    # c = gf.components.straight()
+    # c = gf.routing.add_fiber_single(c)
+    # c = gf.components.mzi(info=dict(hi=3))
+    # print(type(c.info))
+    # yaml_netlist = c.to_yaml()
+    # c2 = gf.read.from_yaml(yaml_netlist)
+    # c2.show()
+
+    # c = gf.Component()
+    # wg1 = c << gf.components.straight(width=0.5, layer=(1, 0))
+    # wg2 = c << gf.components.straight(width=0.5, layer=(2, 0))
+    # wg2.connect("o1", wg1.ports["o2"])
     # custom_padding = partial(gf.add_padding, layers=("WG",))
     # c = gf.c.mzi(decorator=custom_padding)
 

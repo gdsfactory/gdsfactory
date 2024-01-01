@@ -6,8 +6,8 @@ import gdstk
 import numpy as np
 from omegaconf import OmegaConf
 
-from gdsfactory.cell import Settings, cell_import_gds
-from gdsfactory.component import Component
+from gdsfactory.cell import cell_import_gds
+from gdsfactory.component import CellSettings, Component, Info
 from gdsfactory.component_reference import ComponentReference
 from gdsfactory.config import logger
 
@@ -116,7 +116,15 @@ def import_gds(
         if "settings" in metadata:
             settings = OmegaConf.to_container(metadata.settings)
             if settings:
-                component.settings = Settings(**settings)
+                component.settings = CellSettings(**settings)
+        if "info" in metadata:
+            info = OmegaConf.to_container(metadata.info)
+            if info:
+                component.info = Info(**info)
+        if "function_name" in metadata:
+            component.function_name = metadata.function_name
+        if "module" in metadata:
+            component.module = metadata.module
 
         if "ports" in metadata:
             for port_name, port in metadata.ports.items():
@@ -130,7 +138,8 @@ def import_gds(
                         port_type=port.port_type,
                     )
 
-    component.info.update(**kwargs)
+    for k, v in kwargs.items():
+        component.info[k] = v
     component.imported_gds = True
     return component
 
@@ -154,12 +163,13 @@ def import_gds_raw(gdspath, top_cellname: str | None = None):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component(name="a" * 250)
-    _ = c << gf.components.mzi()
-    gdspath = c.write_gds("a.gds")
+    # c = gf.Component(name="a" * 250)
+    # _ = c << gf.components.mzi()
+    c = gf.c.straight()
+    gdspath = c.write_gds("a.gds", with_metadata=True)
 
     # c = import_gds(gdspath)
-    c = import_gds("a.gds")
+    c = import_gds("a.gds", read_metadata=True)
     c.show(show_ports=False)
 
     # gdspath = PATH.gdsdir / "mzi2x2.gds"

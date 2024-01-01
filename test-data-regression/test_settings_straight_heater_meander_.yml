@@ -1,3 +1,6 @@
+function_name: straight_heater_meander
+info: {}
+module: gdsfactory.components.straight_heater_meander
 name: straight_heater_meander
 ports:
   l_e1:
@@ -121,74 +124,36 @@ ports:
     shear_angle: null
     width: 11.0
 settings:
-  changed: {}
-  child: null
-  default:
-    bend:
-      function: bend_euler
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-    extension_length: 15.0
-    heater_taper_length: 10.0
-    heater_width: 2.5
-    layer_heater: HEATER
-    length: 300.0
-    n: null
-    port_orientation1: null
-    port_orientation2: null
-    radius: null
-    spacing: 2.0
-    straight:
-      function: straight
-    straight_widths:
-    - 0.8
-    - 0.9
-    - 0.8
-    taper:
-      function: taper_cross_section
-      settings:
-        linear: true
-        npoints: 2
-    taper_length: 10
-    via_stack: via_stack_heater_mtop
-  full:
-    bend:
-      function: bend_euler
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-    extension_length: 15.0
-    heater_taper_length: 10.0
-    heater_width: 2.5
-    layer_heater: HEATER
-    length: 300.0
-    n: null
-    port_orientation1: null
-    port_orientation2: null
-    radius: null
-    spacing: 2.0
-    straight:
-      function: straight
-    straight_widths:
-    - 0.8
-    - 0.9
-    - 0.8
-    taper:
-      function: taper_cross_section
-      settings:
-        linear: true
-        npoints: 2
-    taper_length: 10
-    via_stack: via_stack_heater_mtop
-  function_name: straight_heater_meander
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.straight_heater_meander
-  name: straight_heater_meander
+  bend:
+    function: bend_euler
+  cross_section:
+    function: cross_section
+    module: gdsfactory.cross_section
+    settings:
+      add_pins_function_name: null
+      radius: 10
+      radius_min: 5
+  extension_length: 15.0
+  heater_taper_length: 10.0
+  heater_width: 2.5
+  layer_heater: HEATER
+  length: 300.0
+  n: null
+  port_orientation1: null
+  port_orientation2: null
+  radius: null
+  spacing: 2.0
+  straight:
+    function: straight
+  straight_widths:
+  - 0.8
+  - 0.9
+  - 0.8
+  taper:
+    function: taper_cross_section
+    module: gdsfactory.components.taper_cross_section
+    settings:
+      linear: true
+      npoints: 2
+  taper_length: 10
+  via_stack: via_stack_heater_mtop

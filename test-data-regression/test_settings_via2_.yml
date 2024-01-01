@@ -1,42 +1,28 @@
+function_name: via
+info:
+  enclosure: 1.0
+  size:
+  - 0.7
+  - 0.7
+  spacing:
+  - 2.0
+  - 2.0
+  xsize: 0.7
+  xspacing: 2.0
+  ysize: 0.7
+  yspacing: 2.0
+module: gdsfactory.components.via
 name: via_layerVIA2
 ports: {}
 settings:
-  changed:
-    layer: VIA2
-  child: null
-  default:
-    bbox_layers: null
-    bbox_offset: 0
-    enclosure: 1.0
-    gap: null
-    layer: VIAC
-    size:
-    - 0.7
-    - 0.7
-    spacing:
-    - 2.0
-    - 2.0
-  full:
-    bbox_layers: null
-    bbox_offset: 0
-    enclosure: 1.0
-    gap: null
-    layer: VIA2
-    size:
-    - 0.7
-    - 0.7
-    spacing:
-    - 2.0
-    - 2.0
-  function_name: via
-  info:
-    enclosure: 1.0
-    size:
-    - 0.7
-    - 0.7
-    spacing:
-    - 2.0
-    - 2.0
-  info_version: 2
-  module: gdsfactory.components.via
-  name: via_layerVIA2
+  bbox_layers: null
+  bbox_offset: 0
+  enclosure: 1.0
+  gap: null
+  layer: VIA2
+  size:
+  - 0.7
+  - 0.7
+  spacing:
+  - 2.0
+  - 2.0

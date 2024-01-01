@@ -1,3 +1,6 @@
+function_name: ring_double_heater
+info: {}
+module: gdsfactory.components.ring_double_heater
 name: ring_double_heater
 ports:
   l_e1:
@@ -145,92 +148,46 @@ ports:
     shear_angle: null
     width: 4.0
 settings:
-  changed: {}
-  child: null
-  default:
-    bend:
-      function: bend_euler
-    coupler_ring:
-      function: coupler_ring
-    coupler_ring_top: null
-    cross_section: xs_sc
-    cross_section_heater: xs_heater_metal
-    cross_section_waveguide_heater: xs_sc_heater_metal
-    gap: 0.2
-    gap_top: null
-    length_x: 1.0
-    length_y: 0.01
-    port_orientation: null
-    radius: 10.0
-    straight:
-      function: straight
-    straight_heater:
-      function: straight
-    via_stack:
-      function: via_stack
-      settings:
-        layers:
-        - HEATER
-        - M2
-        - MTOP
-        size:
-        - 4
-        - 4
-        vias:
-        - null
-        - function: via
-          settings:
-            enclosure: 2
-            layer: VIA1
-        - function: via
-          settings:
-            layer: VIA2
-    via_stack_offset:
-    - 1
-    - 0
-  full:
-    bend:
-      function: bend_euler
-    coupler_ring:
-      function: coupler_ring
-    coupler_ring_top: null
-    cross_section: xs_sc
-    cross_section_heater: xs_heater_metal
-    cross_section_waveguide_heater: xs_sc_heater_metal
-    gap: 0.2
-    gap_top: null
-    length_x: 1.0
-    length_y: 0.01
-    port_orientation: null
-    radius: 10.0
-    straight:
-      function: straight
-    straight_heater:
-      function: straight
-    via_stack:
-      function: via_stack
-      settings:
-        layers:
-        - HEATER
-        - M2
-        - MTOP
-        size:
-        - 4
-        - 4
-        vias:
-        - null
-        - function: via
-          settings:
-            enclosure: 2
-            layer: VIA1
-        - function: via
-          settings:
-            layer: VIA2
-    via_stack_offset:
-    - 1
-    - 0
-  function_name: ring_double_heater
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.ring_double_heater
-  name: ring_double_heater
+  bend:
+    function: bend_euler
+  coupler_ring:
+    function: coupler_ring
+  coupler_ring_top: null
+  cross_section: xs_sc
+  cross_section_heater: xs_heater_metal
+  cross_section_waveguide_heater: xs_sc_heater_metal
+  gap: 0.2
+  gap_top: null
+  length_x: 1.0
+  length_y: 0.01
+  port_orientation: null
+  radius: 10.0
+  straight:
+    function: straight
+  straight_heater:
+    function: straight
+  via_stack:
+    function: via_stack
+    module: gdsfactory.components.via_stack
+    settings:
+      layers:
+      - HEATER
+      - M2
+      - MTOP
+      size:
+      - 4
+      - 4
+      vias:
+      - null
+      - function: via
+        module: gdsfactory.components.via
+        settings:
+          enclosure: 2
+          layer: VIA1
+      - function: via
+        module: gdsfactory.components.via
+        settings:
+          layer: VIA2
+  via_stack_offset:
+  - 1
+  - 0

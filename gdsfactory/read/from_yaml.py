@@ -736,7 +736,7 @@ def _from_yaml(
     connections_conf = conf.get("connections")
     instances_dict = conf["instances"]
     pdk = conf.get("pdk")
-    c.info = conf.get("info", {})
+    c.info.update(conf.get("info", {}))
 
     if pdk and pdk == "generic":
         GENERIC.activate()
@@ -972,7 +972,6 @@ def _from_yaml(
                 c.add_port(**instance_comma_port)
 
     c.routes = routes
-    c.info["instances"] = list(instances.keys())
     return c
 
 

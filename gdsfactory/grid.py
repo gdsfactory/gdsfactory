@@ -112,13 +112,11 @@ def grid(
     prefix_to_ref = {}
 
     D = Component()
-    D.info["components"] = {}
     ref_array = np.empty(device_array.shape, dtype=object)
     dummy = Component()
     for idx, d in np.ndenumerate(device_array):
         if d is not None:
             d = get_component(d)
-            D.info["components"][d.name] = dict(d.settings)
             ref = D.add_ref(d, rotation=rotation, x_reflection=h_mirror)
             if v_mirror:
                 ref.mirror_y()
@@ -152,11 +150,13 @@ def grid(
     )
 
     for prefix, ref in prefix_to_ref.items():
+        component = ref.parent
+        info = dict(component.info)
+        info.update(parent=component.name)
         if add_ports_prefix:
-            D.add_ports(ref.ports, prefix=f"{prefix}-")
+            D.add_ports(ref.ports, prefix=f"{prefix}-", info=info)
         else:
-            D.add_ports(ref.ports, suffix=f"-{prefix}")
-
+            D.add_ports(ref.ports, suffix=f"-{prefix}", info=info)
     return D
 
 
@@ -250,6 +250,7 @@ def grid_with_text(
                 if text_rotation:
                     t.rotate(text_rotation)
                 t.move(np.array(text_offset) + getattr(ref.size_info, text_anchor))
+    c.add_ports(g.ports)
     return c
 
 
@@ -289,6 +290,6 @@ if __name__ == "__main__":
         v_mirror=False,
         spacing=(10, 10),
         # text_offsets=((0, 100), (0, -100)),
-        text_anchors=("south",),
+        # text_anchors=("south",),
     )
     c.show(show_ports=True)

@@ -5,21 +5,98 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import numbers
-import typing
 from collections import defaultdict
+from collections.abc import Iterable, Sequence
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 from gdstk import Label as _Label
 from gdstk import Polygon
 from numpy import cos, pi, sin
 from numpy.linalg import norm
+from pydantic import BaseModel, model_validator
 from rich.console import Console
 from rich.table import Table
 
+from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from gdsfactory.port import Port
+
+
+class CellSettings(BaseModel, extra="allow", validate_assignment=True, frozen=True):
+    @model_validator(mode="before")
+    def restrict_types(cls, data: dict[str, Any]) -> dict[str, int | float | str]:
+        for name, value in data.items():
+            data[name] = clean_value_json(value)
+        return data
+
+    def __getitem__(self, key: str) -> Any:
+        return getattr(self, key)
+
+    def get(self, __key: str, default: Any = None) -> Any:
+        return getattr(self, __key) if hasattr(self, __key) else default
+
+
+class ComponentSpec(BaseModel, extra="allow", validate_assignment=True, frozen=True):
+    """ComponentSpec is a dataclass that stores the settings used to create a component."""
+
+    settings: CellSettings = CellSettings()
+    function: str
+    module: str
+
+    @model_validator(mode="before")
+    def restrict_types(cls, data: dict[str, Any]) -> dict[str, int | float | str]:
+        for name, value in data.items():
+            data[name] = clean_value_json(value)
+        return data
+
+    def __getitem__(self, key: str) -> Any:
+        return getattr(self, key)
+
+    def get(self, __key: str, default: Any = None) -> Any:
+        return getattr(self, __key) if hasattr(self, __key) else default
+
+
+class Info(BaseModel, extra="allow", validate_assignment=True):
+    @model_validator(mode="before")
+    def restrict_types(
+        cls, data: dict[str, int | float | Sequence | str]
+    ) -> dict[str, int | float | Sequence | str]:
+        for name, value in data.items():
+            if not isinstance(value, str | int | float | Sequence):
+                raise ValueError(
+                    "Values of the info dict only support int, float, string or tuple."
+                    f"{name}: {value}, {type(value)}"
+                )
+
+        return data
+
+    def __getitem__(self, __key: str) -> Any:
+        return getattr(self, __key)
+
+    def __setitem__(
+        self, __key: str, __val: str | int | float | Sequence | None
+    ) -> None:
+        if __val is not None:
+            setattr(self, __key, __val)
+
+    def get(self, __key: str, default: Any | None = None) -> Any:
+        return getattr(self, __key) if hasattr(self, __key) else default
+
+    def update(self, data: Info | dict | Iterable[tuple[str, Any]]) -> None:
+        if isinstance(data, dict):
+            for key, value in data.items():
+                self.__setitem__(key, value)
+        elif isinstance(data, Info):
+            for key, value in data.model_dump().items():
+                self.__setitem__(key, value)
+        elif isinstance(data, Iterable):
+            for key, value in data:
+                self.__setitem__(key, value)
+        else:
+            raise TypeError("Unsupported data type for update")
 
 
 def pprint_ports(ports: dict[str, Port] or list[Port]) -> None:
@@ -780,4 +857,5 @@ if __name__ == "__main__":
     p = c.get_polygons(as_shapely_merged=True)
     c2 = gf.Component()
     c2.add_polygon(p, layer=(1, 0))
+    c2.info["a"] = None
     c2.show()

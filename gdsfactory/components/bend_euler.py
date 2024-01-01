@@ -212,7 +212,6 @@ def _compare_bend_euler180() -> None:
     c1.name = "two_90_euler"
     c2 = gf.path.extrude(p2, x)
     c2.name = "one_180_euler"
-    c1.add_ref(c2)
     c1.show()
 
 
@@ -234,5 +233,5 @@ def _compare_bend_euler90():
 
 
 if __name__ == "__main__":
-    c = bend_straight_bend(direction="cw")
+    c = bend_euler()
     c.show(show_ports=True)

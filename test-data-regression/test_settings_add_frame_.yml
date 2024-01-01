@@ -1,24 +1,12 @@
+function_name: add_frame
+info: {}
+module: gdsfactory.components.align
 name: add_frame
 ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    component:
-      function: rectangle
-    layer: WG
-    layers: null
-    spacing: 10.0
-    width: 10.0
-  full:
-    component:
-      function: rectangle
-    layer: WG
-    layers: null
-    spacing: 10.0
-    width: 10.0
-  function_name: add_frame
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.align
-  name: add_frame
+  component:
+    function: rectangle
+  layer: WG
+  layers: null
+  spacing: 10.0
+  width: 10.0

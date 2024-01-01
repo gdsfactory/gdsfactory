@@ -110,8 +110,8 @@ class PicYamlConfiguration(BaseModel):
     def add_instance(
         self, name: str, component: gf.Component, placement: Placement | None = None
     ) -> None:
-        component_name = component.settings.function_name
-        component_settings = component.settings.changed
+        component_name = component.function_name
+        component_settings = component.settings
         self.instances[name] = Instance(
             component=component_name, settings=component_settings
         )
@@ -159,8 +159,8 @@ class SchematicConfiguration(BaseModel):
         settings: dict[str, Any] | None = None,
     ) -> None:
         if isinstance(component, gf.Component):
-            component_name = component.settings.function_name
-            component_settings = component.settings.changed
+            component_name = component.function_name
+            component_settings = component.settings
             if settings:
                 component_settings = component_settings | settings
             self.instances[name] = Instance(

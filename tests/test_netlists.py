@@ -63,7 +63,7 @@ def test_netlists(
 
 def demo_netlist(component_type) -> None:
     c1 = components[component_type]()
-    yaml_str = c1.get_netlist_yaml()
+    yaml_str = c1.to_yaml()
     c2 = gf.read.from_yaml(yaml_str, name=c1.name)
     gf.show(c2)
 

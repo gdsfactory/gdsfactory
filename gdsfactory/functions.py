@@ -242,7 +242,7 @@ def add_settings_label(
     Args:
         component: spec.
         layer_label: for label.
-        settings: list of settings to include. if None, adds all changed settings.
+        settings: list of settings to include. if None, adds all settings.
         ignore: list of settings to ignore.
         with_yaml_format: if True, uses yaml format, otherwise json.
 
@@ -252,10 +252,11 @@ def add_settings_label(
     component = get_component(component)
 
     ignore = ignore or []
-    settings = settings or component.settings.changed.keys()
+    settings = settings or dict(component.settings).keys()
     settings = set(settings) - set(ignore)
 
-    d = {setting: component.get_setting(setting) for setting in settings}
+    d = dict(component.settings)
+    d = {setting: d[setting] for setting in settings}
     text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
     component.add_label(text=text, layer=layer_label)
     return component

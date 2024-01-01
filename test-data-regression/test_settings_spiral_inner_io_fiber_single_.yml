@@ -1,3 +1,7 @@
+function_name: spiral_inner_io_fiber_single
+info:
+  length: 9973.393
+module: gdsfactory.components.spiral_inner_io
 name: spiral_inner_io_fiber_single
 ports:
   o1:
@@ -25,29 +29,11 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    cross_section_bend: null
-    cross_section_ports: null
-    grating_spacing: 200.0
-    x_straight_inner_left: 75.0
-    x_straight_inner_right: 40.0
-    y_straight_inner_bottom: 0.0
-    y_straight_inner_top: 10.0
-  full:
-    cross_section: xs_sc
-    cross_section_bend: null
-    cross_section_ports: null
-    grating_spacing: 200.0
-    x_straight_inner_left: 75.0
-    x_straight_inner_right: 40.0
-    y_straight_inner_bottom: 0.0
-    y_straight_inner_top: 10.0
-  function_name: spiral_inner_io_fiber_single
-  info:
-    length: 9973.393
-  info_version: 2
-  module: gdsfactory.components.spiral_inner_io
-  name: spiral_inner_io_fiber_single
+  cross_section: xs_sc
+  cross_section_bend: null
+  cross_section_ports: null
+  grating_spacing: 200.0
+  x_straight_inner_left: 75.0
+  x_straight_inner_right: 40.0
+  y_straight_inner_bottom: 0.0
+  y_straight_inner_top: 10.0

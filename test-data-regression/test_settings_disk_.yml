@@ -1,3 +1,6 @@
+function_name: disk
+info: {}
+module: gdsfactory.components.disk
 name: disk
 ports:
   o1:
@@ -25,22 +28,8 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    gap: 0.2
-    parity: 1
-    radius: 10.0
-    wrap_angle_deg: 180.0
-  full:
-    cross_section: xs_sc
-    gap: 0.2
-    parity: 1
-    radius: 10.0
-    wrap_angle_deg: 180.0
-  function_name: disk
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.disk
-  name: disk
+  cross_section: xs_sc
+  gap: 0.2
+  parity: 1
+  radius: 10.0
+  wrap_angle_deg: 180.0

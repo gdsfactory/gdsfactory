@@ -1,18 +1,9 @@
+function_name: pixel
+info: {}
+module: gdsfactory.components.version_stamp
 name: pixel
 ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    layer: WG
-    layers: null
-    size: 1.0
-  full:
-    layer: WG
-    layers: null
-    size: 1.0
-  function_name: pixel
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.version_stamp
-  name: pixel
+  layer: WG
+  layers: null
+  size: 1.0

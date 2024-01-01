@@ -187,7 +187,6 @@ def spiral_racetrack_fixed_length(
 
     c.info["length"] = spiral.info["length"]
     c.info["straight_length"] = straight_length
-    c.info["spiral_center"] = spiral.center
 
     if spiral.ports["o1"].x > spiral.ports["o2"].x:
         spiral.mirror_x()
@@ -316,7 +315,7 @@ def _req_straight_len(
 
     # get the required spacing to achieve the required length (interpolate)
     f = interp1d(lens, straight_lengths)
-    return f(length)
+    return float(f(length))
 
 
 @gf.cell

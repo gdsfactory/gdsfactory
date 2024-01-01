@@ -1,3 +1,6 @@
+function_name: crossing_from_taper
+info: {}
+module: gdsfactory.components.crossing_waveguide
 name: crossing_from_taper
 ports:
   o1:
@@ -49,16 +52,5 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    taper:
-      function: <lambda>
-  full:
-    taper:
-      function: <lambda>
-  function_name: crossing_from_taper
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.crossing_waveguide
-  name: crossing_from_taper
+  taper:
+    function: <lambda>

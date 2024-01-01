@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
+from gdsfactory.cell import cell_with_child
 from gdsfactory.component import Component
 from gdsfactory.component_layout import Label
 from gdsfactory.components import grating_coupler_te
@@ -46,7 +46,7 @@ def get_input_label_text(
         isinstance(wavelength, int | float) and 1.0 < wavelength < 2.0
     ), f"{wavelength} is Not valid 1000 < wavelength < 2000"
 
-    name = component_name or port.parent.metadata_child.get("name")
+    name = component_name or port.parent.name
     return f"opt_in_{polarization.upper()}_{int(wavelength * 1000.0)}_device_{username}_({name})-{gc_index}-{port.name}"
 
 
@@ -88,7 +88,7 @@ def get_input_labels(
     return [label]
 
 
-@cell
+@cell_with_child
 def add_fiber_array_siepic(
     component: ComponentSpec = straight,
     component_name: str | None = None,
@@ -121,6 +121,7 @@ def add_fiber_array_siepic(
 
     """
     c = gf.Component()
+    _component = gf.get_component(component)
 
     component = gf.routing.add_fiber_array(
         component=component,
@@ -139,7 +140,7 @@ def add_fiber_array_siepic(
     ref = c << component
     ref.rotate(-90)
     c.add_ports(ref.ports)
-    c.copy_child_info(component)
+    c.copy_child_info(_component)
     return c
 
 

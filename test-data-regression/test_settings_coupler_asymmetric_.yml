@@ -1,3 +1,6 @@
+function_name: coupler_asymmetric
+info: {}
+module: gdsfactory.components.coupler_asymmetric
 name: coupler_asymmetric
 ports:
   o1:
@@ -37,24 +40,9 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    bend:
-      function: bend_s
-    cross_section: xs_sc_no_pins
-    dx: 10.0
-    dy: 2.5
-    gap: 0.234
-  full:
-    bend:
-      function: bend_s
-    cross_section: xs_sc_no_pins
-    dx: 10.0
-    dy: 2.5
-    gap: 0.234
-  function_name: coupler_asymmetric
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.coupler_asymmetric
-  name: coupler_asymmetric
+  bend:
+    function: bend_s
+  cross_section: xs_sc_no_pins
+  dx: 10.0
+  dy: 2.5
+  gap: 0.234

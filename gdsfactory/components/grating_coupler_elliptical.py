@@ -72,6 +72,17 @@ def grating_taper_points(
     wg_width: float,
     angle_step: float = 1.0,
 ) -> ndarray:
+    """Returns an elliptical taper.
+
+    Args:
+        a: ellipse semi-major axis.
+        b: semi-minor axis.
+        x0: in um.
+        taper_length: in um.
+        taper_angle: in degrees.
+        wg_width: in um.
+        angle_step: in degrees.
+    """
     taper_arc = ellipse_arc(
         a=a,
         b=b,
@@ -177,6 +188,17 @@ def grating_coupler_elliptical(
     )
     c.add_polygon(pts, layer)
 
+    for section in xs.sections[1:]:
+        pts = grating_taper_points(
+            a=a_taper,
+            b=b_taper,
+            x0=x_output,
+            taper_length=x_taper,
+            taper_angle=taper_angle,
+            wg_width=section.width,
+        )
+        c.add_polygon(pts, section.layer)
+
     width = gf.snap.snap_to_grid(grating_line_width)
     gap = gf.snap.snap_to_grid(period - grating_line_width)
 
@@ -231,9 +253,9 @@ def grating_coupler_elliptical(
         )
 
     if xs.add_bbox:
-        c = xs.add_bbox(c)
+        xs.add_bbox(c)
     if xs.add_pins:
-        c = xs.add_pins(c)
+        xs.add_pins(c)
 
     name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
@@ -273,5 +295,5 @@ if __name__ == "__main__":
     # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical, with_loopback=False)
 
     # c = gf.components.grating_coupler_elliptical_te()
-    c = gf.components.grating_coupler_elliptical_tm()
+    c = gf.components.grating_coupler_elliptical_tm(cross_section="xs_rc")
     c.show(show_ports=True)

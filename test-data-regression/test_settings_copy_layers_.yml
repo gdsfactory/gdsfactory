@@ -1,26 +1,13 @@
-name: cross_layer2__0_copy_layers
+function_name: copy_layers
+info: {}
+module: gdsfactory.components.copy_layers
+name: cross_copy_layers
 ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    factory:
-      function: cross
-    layers:
-    - - 1
-      - 0
-    - - 2
-      - 0
-  full:
-    factory:
-      function: cross
-    layers:
-    - - 1
-      - 0
-    - - 2
-      - 0
-  function_name: copy_layers
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.copy_layers
-  name: cross_layer2__0_copy_layers
+  factory:
+    function: cross
+  layers:
+  - - 1
+    - 0
+  - - 2
+    - 0

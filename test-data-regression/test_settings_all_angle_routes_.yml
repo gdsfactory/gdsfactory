@@ -1,42 +1,6 @@
+function_name: all_angle_routes
+info: {}
+module: yaml_jinja
 name: all_angle_routes
 ports: {}
-settings:
-  changed: {}
-  child: null
-  default: {}
-  full: {}
-  function_name: all_angle_routes
-  info:
-    instances:
-    - wg_ra0
-    - wg_rb0
-    - wg_ra1
-    - wg_rb1
-    - wg_ra2
-    - wg_rb2
-    - wg_ra3
-    - wg_rb3
-    - wg_ra4
-    - wg_rb4
-    - wg_ma0
-    - wg_mb0
-    - wg_ma1
-    - wg_mb1
-    - wg_ma2
-    - wg_mb2
-    - wg_ma3
-    - wg_mb3
-    - wg_ma4
-    - wg_mb4
-    - wg_a1
-    - wg_a2
-    - wg_b1
-    - wg_b2
-    - wg_c1
-    - wg_c2
-    - wg_c3
-    - wg_d1
-    - wg_d2
-  info_version: 2
-  module: yaml_jinja
-  name: all_angle_routes
+settings: {}

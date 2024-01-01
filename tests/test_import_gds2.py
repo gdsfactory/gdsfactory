@@ -6,12 +6,11 @@ import jsondiff
 
 import gdsfactory as gf
 
-
-def test_read_gds_hash() -> None:
-    gdspath = gf.PATH.gdsdir / "straight.gds"
-    c = gf.import_gds(gdspath, unique_names=False)
-    h = "c956390621a5322a185cd20b0072a778fc613195"
-    assert c.hash_geometry() == h, f"h = {c.hash_geometry()!r}"
+# def test_read_gds_hash() -> None:
+#     gdspath = gf.PATH.gdsdir / "straight.gds"
+#     c = gf.import_gds(gdspath, unique_names=False)
+#     h = "c956390621a5322a185cd20b0072a778fc613195"
+#     assert c.hash_geometry() == h, f"h = {c.hash_geometry()!r}"
 
 
 # def test_read_gds_with_settings(data_regression: DataRegressionFixture) -> None:

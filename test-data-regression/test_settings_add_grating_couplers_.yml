@@ -1,46 +1,28 @@
+function_name: add_grating_couplers
+info:
+  length: 10.0
+  polarization: te
+  route_info_length: 10.0
+  route_info_type: xs_sc
+  route_info_weight: 10.0
+  route_info_xs_sc_length: 10.0
+  wavelength: 1.53
+  width: 0.5
+module: gdsfactory.components.add_grating_couplers
 name: straight_add_grating_couplers
 ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    component:
-      function: straight
-    gc_port_name: o1
-    grating_coupler:
-      function: grating_coupler_elliptical_trenches
-      settings:
-        polarization: te
-        taper_angle: 35
-    select_ports:
-      function: select_ports
-      settings:
-        port_type: optical
-  full:
-    component:
-      function: straight
-    gc_port_name: o1
-    grating_coupler:
-      function: grating_coupler_elliptical_trenches
-      settings:
-        polarization: te
-        taper_angle: 35
-    select_ports:
-      function: select_ports
-      settings:
-        port_type: optical
-  function_name: add_grating_couplers
-  info:
-    cross_section: xs_sc
-    length: 10.0
-    polarization: te
-    route_info:
-      length: 10.0
-      type: xs_sc
-      weight: 10.0
-      xs_sc_length: 10.0
-    wavelength: 1.53
-    width: 0.5
-  info_version: 2
-  module: gdsfactory.components.add_grating_couplers
-  name: straight_add_grating_couplers
+  component:
+    function: straight
+  gc_port_name: o1
+  grating_coupler:
+    function: grating_coupler_elliptical_trenches
+    module: gdsfactory.components.grating_coupler_elliptical_trenches
+    settings:
+      polarization: te
+      taper_angle: 35
+  select_ports:
+    function: select_ports
+    module: gdsfactory.port
+    settings:
+      port_type: optical

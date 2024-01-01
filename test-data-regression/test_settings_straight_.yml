@@ -1,3 +1,12 @@
+function_name: straight
+info:
+  length: 10.0
+  route_info_length: 10.0
+  route_info_type: xs_sc
+  route_info_weight: 10.0
+  route_info_xs_sc_length: 10.0
+  width: 0.5
+module: gdsfactory.components.straight
 name: straight
 ports:
   o1:
@@ -25,34 +34,10 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    add_bbox: null
-    add_pins: true
-    cross_section: xs_sc
-    layer: null
-    length: 10.0
-    npoints: 2
-    width: null
-  full:
-    add_bbox: null
-    add_pins: true
-    cross_section: xs_sc
-    layer: null
-    length: 10.0
-    npoints: 2
-    width: null
-  function_name: straight
-  info:
-    cross_section: xs_sc
-    length: 10.0
-    route_info:
-      length: 10.0
-      type: xs_sc
-      weight: 10.0
-      xs_sc_length: 10.0
-    width: 0.5
-  info_version: 2
-  module: gdsfactory.components.straight
-  name: straight
+  add_bbox: null
+  add_pins: true
+  cross_section: xs_sc
+  layer: null
+  length: 10.0
+  npoints: 2
+  width: null

@@ -12,7 +12,7 @@ from gdsfactory.components.taper_from_csv import taper_from_csv
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell_with_child
+@gf.cell
 def cutback_component(
     component: ComponentSpec = taper_from_csv,
     cols: int = 4,
@@ -98,7 +98,6 @@ def cutback_component(
     c.add_ports(ref.ports)
 
     n = s.count("A") + s.count("B")
-    c.copy_child_info(component)
     c.info["components"] = n
     return c
 

@@ -1,4 +1,13 @@
-name: straight_2f9e04e8_extend_ports_c93f6e35
+function_name: extend_ports
+info:
+  length: 10.0
+  route_info_length: 10.0
+  route_info_type: xs_f1ca4cff
+  route_info_weight: 10.0
+  route_info_xs_f1ca4cff_length: 10.0
+  width: 0.5
+module: gdsfactory.components.extension
+name: straight_extend_ports_ef48795a
 ports:
   o1:
     center:
@@ -25,116 +34,40 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed:
-    component:
-      function: straight
-      settings:
-        cross_section:
-          function: cross_section
-          settings:
-            add_pins_function_name: null
-            radius: 20
-            radius_min: 20
-            sections:
-            - hidden: false
-              insets: null
-              layer: SLAB90
-              name: slab
-              offset: 0
-              offset_function: null
-              port_names:
-              - null
-              - null
-              port_types:
-              - optical
-              - optical
-              simplify: 0.05
-              width: 6.0
-              width_function: null
-    extension:
-      function: taper_strip_to_ridge
-    port1: o2
-    port2: o1
-  child: null
-  default:
-    centered: false
-    component:
-      function: mmi1x2
-    cross_section: null
-    extension: null
-    extension_port_names: null
-    length: 5.0
-    port1: null
-    port2: null
-    port_names: null
-    port_type: optical
-  full:
-    centered: false
-    component:
-      function: straight
-      settings:
-        cross_section:
-          function: cross_section
-          settings:
-            add_pins_function_name: null
-            radius: 20
-            radius_min: 20
-            sections:
-            - hidden: false
-              insets: null
-              layer: SLAB90
-              name: slab
-              offset: 0
-              offset_function: null
-              port_names:
-              - null
-              - null
-              port_types:
-              - optical
-              - optical
-              simplify: 0.05
-              width: 6.0
-              width_function: null
-    cross_section: null
-    extension:
-      function: taper_strip_to_ridge
-    extension_port_names: null
-    length: 5.0
-    port1: o2
-    port2: o1
-    port_names: null
-    port_type: optical
-  function_name: extend_ports
-  info:
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 20
-        radius_min: 20
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          offset_function: null
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: 0.05
-          width: 6.0
-          width_function: null
-    length: 10.0
-    route_info:
-      length: 10.0
-      type: xs_f1ca4cff
-      weight: 10.0
-      xs_f1ca4cff_length: 10.0
-    width: 0.5
-  info_version: 2
-  module: gdsfactory.components.extension
-  name: straight_2f9e04e8_extend_ports_c93f6e35
+  centered: false
+  component:
+    function: straight
+    module: gdsfactory.components.straight
+    settings:
+      cross_section:
+        function: cross_section
+        module: gdsfactory.cross_section
+        settings:
+          add_pins_function_name: null
+          radius: 20
+          radius_min: 20
+          sections:
+          - hidden: false
+            insets: null
+            layer: SLAB90
+            name: slab
+            offset: 0
+            offset_function: null
+            port_names:
+            - null
+            - null
+            port_types:
+            - optical
+            - optical
+            simplify: 0.05
+            width: 6.0
+            width_function: null
+  cross_section: null
+  extension:
+    function: taper_strip_to_ridge
+  extension_port_names: null
+  length: 5.0
+  port1: o2
+  port2: o1
+  port_names: null
+  port_type: optical

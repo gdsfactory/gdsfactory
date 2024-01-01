@@ -1,3 +1,8 @@
+function_name: grating_coupler_elliptical
+info:
+  polarization: tm
+  wavelength: 1.554
+module: gdsfactory.components.grating_coupler_elliptical
 name: grating_coupler_elliptical_def98097
 ports:
   o1:
@@ -25,50 +30,18 @@ ports:
     shear_angle: null
     width: 10
 settings:
-  changed:
-    grating_line_width: 0.707
-    n_periods: 16
-    neff: 1.8
-    polarization: tm
-    slab_xmin: -2
-    taper_length: 30
-  child: null
-  default:
-    big_last_tooth: false
-    cross_section: xs_sc
-    fiber_angle: 15.0
-    grating_line_width: 0.343
-    layer_slab: SLAB150
-    n_periods: 30
-    nclad: 1.443
-    neff: 2.638
-    polarization: te
-    slab_offset: 2.0
-    slab_xmin: -1.0
-    spiked: true
-    taper_angle: 40.0
-    taper_length: 16.6
-    wavelength: 1.554
-  full:
-    big_last_tooth: false
-    cross_section: xs_sc
-    fiber_angle: 15.0
-    grating_line_width: 0.707
-    layer_slab: SLAB150
-    n_periods: 16
-    nclad: 1.443
-    neff: 1.8
-    polarization: tm
-    slab_offset: 2.0
-    slab_xmin: -2
-    spiked: true
-    taper_angle: 40.0
-    taper_length: 30
-    wavelength: 1.554
-  function_name: grating_coupler_elliptical
-  info:
-    polarization: tm
-    wavelength: 1.554
-  info_version: 2
-  module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_elliptical_def98097
+  big_last_tooth: false
+  cross_section: xs_sc
+  fiber_angle: 15.0
+  grating_line_width: 0.707
+  layer_slab: SLAB150
+  n_periods: 16
+  nclad: 1.443
+  neff: 1.8
+  polarization: tm
+  slab_offset: 2.0
+  slab_xmin: -2
+  spiked: true
+  taper_angle: 40.0
+  taper_length: 30
+  wavelength: 1.554

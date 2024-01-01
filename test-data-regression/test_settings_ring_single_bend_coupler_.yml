@@ -1,3 +1,6 @@
+function_name: ring_single_bend_coupler
+info: {}
+module: gdsfactory.components.ring_single_bend_coupler
 name: ring_single_bend_coupler
 ports:
   o1:
@@ -25,30 +28,12 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    bend:
-      function: bend_circular
-    coupling_angle_coverage: 180.0
-    cross_section_inner: xs_sc
-    cross_section_outer: xs_sc
-    gap: 0.2
-    length_x: 0.6
-    length_y: 0.6
-    radius: 5.0
-  full:
-    bend:
-      function: bend_circular
-    coupling_angle_coverage: 180.0
-    cross_section_inner: xs_sc
-    cross_section_outer: xs_sc
-    gap: 0.2
-    length_x: 0.6
-    length_y: 0.6
-    radius: 5.0
-  function_name: ring_single_bend_coupler
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.ring_single_bend_coupler
-  name: ring_single_bend_coupler
+  bend:
+    function: bend_circular
+  coupling_angle_coverage: 180.0
+  cross_section_inner: xs_sc
+  cross_section_outer: xs_sc
+  gap: 0.2
+  length_x: 0.6
+  length_y: 0.6
+  radius: 5.0

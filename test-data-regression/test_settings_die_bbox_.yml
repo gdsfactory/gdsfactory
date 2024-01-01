@@ -1,38 +1,21 @@
-name: rectangle_size1300__2600_die_bbox
+function_name: die_bbox
+info:
+  area: 3380000
+module: gdsfactory.components.die_bbox
+name: rectangle_die_bbox
 ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    component:
-      function: rectangle
-      settings:
-        size:
-        - 1300
-        - 2600
-    die_name: null
-    layer: MTOP
-    padding: 10.0
-    street_length: null
-    street_width: 100.0
-    text_anchor: sw
-    text_size: 100.0
-  full:
-    component:
-      function: rectangle
-      settings:
-        size:
-        - 1300
-        - 2600
-    die_name: null
-    layer: MTOP
-    padding: 10.0
-    street_length: null
-    street_width: 100.0
-    text_anchor: sw
-    text_size: 100.0
-  function_name: die_bbox
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.die_bbox
-  name: rectangle_size1300__2600_die_bbox
+  component:
+    function: rectangle
+    module: gdsfactory.components.rectangle
+    settings:
+      size:
+      - 1300
+      - 2600
+  die_name: null
+  layer: MTOP
+  padding: 10.0
+  street_length: null
+  street_width: 100.0
+  text_anchor: sw
+  text_size: 100.0
