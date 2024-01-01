@@ -280,7 +280,12 @@ def cell(
                 "make sure that functions with @cell decorator return a Component",
             )
 
-        if get_child_name and _name is None:
+        if get_child_name:
+            if not component.child:
+                raise ValueError(
+                    f"component {component.name} does not have a child component. "
+                    "Make sure you use component_new.copy_child_info(component)"
+                )
             child_name = component.child.function_name
             component_name = f"{child_name}_{name}"
             component_name = get_name_short(

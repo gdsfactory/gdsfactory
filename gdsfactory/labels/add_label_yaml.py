@@ -25,7 +25,7 @@ def add_label_yaml(
     port_index_optical: tuple[int, ...] | None = (0,),
     port_index_electrical: tuple[int, ...] | None = (0,),
 ) -> gf.Component:
-    """Returns Component with measurement label.
+    """Returns new Component with measurement label.
 
     Args:
         component: to add labels to.
