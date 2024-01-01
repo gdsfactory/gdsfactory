@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import numbers
 from collections import defaultdict
-from collections.abc import Iterable
+from collections.abc import Iterable, Sequence
 from typing import TYPE_CHECKING, Any
 
 import numpy as np
@@ -62,24 +62,25 @@ class ComponentSpec(BaseModel, extra="allow", validate_assignment=True, frozen=T
 class Info(BaseModel, extra="allow", validate_assignment=True):
     @model_validator(mode="before")
     def restrict_types(
-        cls, data: dict[str, int | float | str | tuple[float | int, ...]]
-    ) -> dict[str, int | float | str]:
+        cls, data: dict[str, int | float | Sequence | str]
+    ) -> dict[str, int | float | Sequence | str]:
         for name, value in data.items():
-            if not isinstance(value, str | int | float | tuple):
+            if not isinstance(value, str | int | float | Sequence):
                 raise ValueError(
                     "Values of the info dict only support int, float, string or tuple."
                     f"{name}: {value}, {type(value)}"
                 )
+
         return data
 
     def __getitem__(self, __key: str) -> Any:
         return getattr(self, __key)
 
-    def get(self, __key: str, default: Any = None) -> Any:
-        return getattr(self, __key) if hasattr(self, __key) else default
-
-    def __setitem__(self, __key: str, __val: str | int | float) -> None:
+    def __setitem__(self, __key: str, __val: str | int | float | Sequence) -> None:
         setattr(self, __key, __val)
+
+    def get(self, __key: str, default: Any | None = None) -> Any:
+        return getattr(self, __key) if hasattr(self, __key) else default
 
     def update(self, data: Info | dict | Iterable[tuple[str, Any]]) -> None:
         if isinstance(data, dict):

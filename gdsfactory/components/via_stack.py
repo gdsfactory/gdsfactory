@@ -68,7 +68,8 @@ def via_stack(
     c.height = height_m
     c.info["xsize"] = size[0]
     c.info["ysize"] = size[1]
-    c.info["layer"] = layer_port
+    if layer_port:
+        c.info["layer"] = layer_port
 
     for layer, offset in zip(layers, layer_offsets):
         size_m = (width_m + 2 * offset, height_m + 2 * offset)
