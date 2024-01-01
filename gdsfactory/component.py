@@ -993,7 +993,6 @@ class Component(_GeometryHelper):
                 if cross_section
                 else None,
                 shear_angle=shear_angle,
-                info=info,
             )
             p.parent = self
             if info is not None:

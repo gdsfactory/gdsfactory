@@ -66,6 +66,7 @@ def via_stack(
 
     c = Component()
     c.height = height_m
+    c.info["size"] = tuple(size)
     c.info["xsize"] = size[0]
     c.info["ysize"] = size[1]
     if layer_port:
