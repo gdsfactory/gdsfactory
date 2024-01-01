@@ -197,7 +197,7 @@ src = "pyproject.toml"
 src = "gdsfactory/config.py"
 
 [[tool.tbump.file]]
-src = "docs/notebooks/08_pdk.py"
+src = "notebooks/08_pdk.ipynb"
 
 [[tool.tbump.file]]
 src = "gdsfactory/generic_tech/klayout/grain.xml"
