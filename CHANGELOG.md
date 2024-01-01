@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.9.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.4) - 2024-01-01
+
+No significant changes.
+
+
 ## [7.9.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.3) - 2023-12-22
 
 - fix cicd docker flow [#2407](https://github.com/gdsfactory/gdsfactory/pull/2407)
