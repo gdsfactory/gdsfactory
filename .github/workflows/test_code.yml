@@ -53,7 +53,7 @@ jobs:
         run: |
           pip install pytest
           pytest
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: requirements
           path: requirements.txt
