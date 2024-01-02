@@ -1,35 +1,10 @@
-function_name: taper
+function: taper
 info:
   length: 10.0
   width1: 0.5
   width2: 0.5
 module: gdsfactory.components.taper
 name: taper
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   add_pins: true
   cross_section: xs_sc

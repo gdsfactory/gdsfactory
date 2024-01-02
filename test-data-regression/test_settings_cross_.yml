@@ -1,8 +1,7 @@
-function_name: cross
+function: cross
 info: {}
 module: gdsfactory.components.cross
 name: cross
-ports: {}
 settings:
   layer: WG
   layers: null

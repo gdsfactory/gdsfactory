@@ -1,56 +1,7 @@
-function_name: mmi2x2_with_sbend
+function: mmi2x2_with_sbend
 info: {}
 module: gdsfactory.components.mmi2x2_with_sbend
 name: mmi2x2_with_sbend
-ports:
-  o1:
-    center:
-    - -12.0
-    - -2.25
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - -12.0
-    - 2.25
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 20.0
-    - 2.25
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4:
-    center:
-    - 20.0
-    - -2.25
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   cross_section: xs_sc
   s_bend:

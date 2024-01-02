@@ -1,8 +1,7 @@
-function_name: text_rectangular
+function: text_rectangular
 info: {}
 module: gdsfactory.components.text_rectangular
 name: text_rectangular
-ports: {}
 settings:
   font:
     function: rectangular_font

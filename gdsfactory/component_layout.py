@@ -40,7 +40,7 @@ class CellSettings(BaseModel, extra="allow", validate_assignment=True, frozen=Tr
 
 
 class ComponentSpec(BaseModel, extra="allow", validate_assignment=True, frozen=True):
-    """ComponentSpec is a dataclass that stores the settings used to create a component."""
+    """ComponentSpec stores the settings used to create a component."""
 
     settings: CellSettings = CellSettings()
     function: str

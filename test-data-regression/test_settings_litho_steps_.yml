@@ -1,8 +1,7 @@
-function_name: litho_steps
+function: litho_steps
 info: {}
 module: gdsfactory.components.litho_steps
 name: litho_steps
-ports: {}
 settings:
   height: 100.0
   layer: WG

@@ -199,7 +199,7 @@ def spiral_racetrack_fixed_length(
         in_wg.mirror_y()
     in_wg.connect("o1", spiral.ports["o1"])
 
-    c.info["length"] += spiral.ports["o1"].x - spiral.xmin
+    c.info["length"] += float(spiral.ports["o1"].x - spiral.xmin)
 
     c.add_port(
         "o2_temp",
@@ -226,7 +226,7 @@ def spiral_racetrack_fixed_length(
         cross_section=gf.get_cross_section(xs_s_bend),
     )
 
-    c.info["length"] += np.sum([r.info["length"] for r in route.references])
+    c.info["length"] += float(np.sum([r.info["length"] for r in route.references]))
     c.add_port("o1", port=in_wg.ports["o2"])
     return c
 
@@ -309,7 +309,7 @@ def _req_straight_len(
         )
         c.add(route.references)
 
-        c.info["length"] += np.sum([r.info["length"] for r in route.references])
+        c.info["length"] += float(np.sum([r.info["length"] for r in route.references]))
 
         lens.append(c.info["length"])
 

@@ -1,44 +1,7 @@
-function_name: array_with_via
+function: array_with_via
 info: {}
 module: gdsfactory.components.array_with_via
 name: array_with_via
-ports:
-  e0:
-    center:
-    - -65.5
-    - 0.0
-    layer:
-    - 45
-    - 0
-    name: e0
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
-  e1:
-    center:
-    - -65.5
-    - 10.0
-    layer:
-    - 45
-    - 0
-    name: e1
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
-  e2:
-    center:
-    - -65.5
-    - 20.0
-    layer:
-    - 45
-    - 0
-    name: e2
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
 settings:
   columns: 3
   component:

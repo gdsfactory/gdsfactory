@@ -1,33 +1,8 @@
-function_name: spiral_double
+function: spiral_double
 info:
-  length: 635.09
+  length: 635.0904965875375
 module: gdsfactory.components.spiral_double
 name: spiral_double
-ports:
-  o1:
-    center:
-    - 0.0
-    - 22.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 0.0
-    - -22.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   bend:
     function: bend_circular

@@ -1,33 +1,8 @@
-function_name: taper_cross_section
+function: taper_cross_section
 info:
   length: 10
 module: gdsfactory.components.taper_cross_section
 name: taper_cross_section_npoints101
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   cross_section1:
     function: cross_section

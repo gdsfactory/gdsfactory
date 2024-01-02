@@ -1,8 +1,7 @@
-function_name: litho_calipers
+function: litho_calipers
 info: {}
 module: gdsfactory.components.litho_calipers
 name: litho_calipers
-ports: {}
 settings:
   layer1: WG
   layer2: SLAB150

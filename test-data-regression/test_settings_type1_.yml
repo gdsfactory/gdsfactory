@@ -1,82 +1,9 @@
-function_name: add_fiber_array
+function: add_fiber_array
 info:
   length: 10.19
   min_bend_radius: 11.744
 module: gdsfactory.routing.add_fiber_array
-name: coupler_add_fiber_array_2b02f056
-ports:
-  loopback1:
-    center:
-    - -315.0
-    - -55.4
-    layer:
-    - 1
-    - 0
-    name: loopback1
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  loopback2:
-    center:
-    - 320.0
-    - -55.4
-    layer:
-    - 1
-    - 0
-    name: loopback2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o1:
-    center:
-    - -188.0
-    - -55.4
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - -61.0
-    - -55.4
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 90
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 66.0
-    - -55.4
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 90
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4:
-    center:
-    - 193.0
-    - -55.4
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 90
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+name: coupler_add_fiber_array_4ba71ee9
 settings:
   component:
     function: coupler

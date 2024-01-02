@@ -1,8 +1,7 @@
-function_name: logo
+function: logo
 info: {}
 module: gdsfactory.components.logo
 name: logo
-ports: {}
 settings:
   layer: null
   text: GDSFACTORY

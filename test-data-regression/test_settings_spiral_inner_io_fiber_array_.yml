@@ -1,59 +1,10 @@
-function_name: spiral_inner_io_fiber_array
+function: spiral_inner_io_fiber_array
 info:
   length: 20000.009
   polarization: te
   wavelength: 1.53
 module: gdsfactory.components.spiral_inner_io
 name: spiral_inner_io_fiber_array
-ports:
-  loopback1:
-    center:
-    - -127.0
-    - 46.0
-    layer:
-    - 1
-    - 0
-    name: loopback1
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  loopback2:
-    center:
-    - 254.0
-    - 46.0
-    layer:
-    - 1
-    - 0
-    name: loopback2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o1:
-    center:
-    - 0.0
-    - 50.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 127.0
-    - 50.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   N: 6
   add_grating_couplers:

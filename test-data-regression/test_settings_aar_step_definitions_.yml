@@ -1,6 +1,5 @@
-function_name: aar_step_definitions
+function: aar_step_definitions
 info: {}
 module: yaml_jinja
 name: aar_step_definitions
-ports: {}
 settings: {}

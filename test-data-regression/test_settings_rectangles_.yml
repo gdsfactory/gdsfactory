@@ -1,8 +1,7 @@
-function_name: rectangles
+function: rectangles
 info: {}
 module: gdsfactory.components.rectangle
 name: rectangles
-ports: {}
 settings:
   centered: true
   layers:

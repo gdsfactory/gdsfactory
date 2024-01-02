@@ -1,8 +1,7 @@
-function_name: greek_cross_with_pads
+function: greek_cross_with_pads
 info: {}
 module: gdsfactory.components.greek_cross
 name: greek_cross_with_pads
-ports: {}
 settings:
   greek_cross_component:
     function: greek_cross

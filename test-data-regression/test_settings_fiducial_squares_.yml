@@ -1,8 +1,7 @@
-function_name: fiducial_squares
+function: fiducial_squares
 info: {}
 module: gdsfactory.components.fiducial_squares
 name: fiducial_squares
-ports: {}
 settings:
   layer: WG
   layers: null

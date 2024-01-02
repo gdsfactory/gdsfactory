@@ -4,6 +4,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
+import base64
 import datetime
 import hashlib
 import itertools
@@ -2025,17 +2026,17 @@ class Component(_GeometryHelper):
         ignore_components_prefix: list[str] | None = None,
         ignore_functions_prefix: list[str] | None = None,
         with_cells: bool = False,
-        with_ports: bool = True,
+        with_ports: bool = False,
     ) -> dict[str, Any]:
         """Returns Dict representation of a component.
 
         Args:
             ignore_components_prefix: for components to ignore when exporting.
             ignore_functions_prefix: for functions to ignore when exporting.
-            with_cells: write cells recursively.
-            with_ports: write port information dict.
+            with_cells: write cell info recursively.
+            with_ports: write ports.
         """
-        d = {}
+        d = self.get_component_spec().model_dump()
         if with_ports:
             ports = {port.name: port.to_dict() for port in self.get_ports_list()}
             d["ports"] = ports
@@ -2049,10 +2050,7 @@ class Component(_GeometryHelper):
             d["cells"] = clean_dict(cells)
 
         d["name"] = self.name
-        d["settings"] = clean_dict(dict(self.settings))
-        d["info"] = clean_dict(dict(self.info))
-        d["function_name"] = self.function_name
-        d["module"] = self.module
+        d["info"] = self.info.model_dump()
         return d
 
     def to_dict_yaml(self, **kwargs) -> str:
@@ -2206,34 +2204,17 @@ class Component(_GeometryHelper):
         self._bb_valid = False
         return self
 
-    def hash_geometry(self, precision: float = 1e-4) -> str:
-        """Returns an SHA1 hash of the geometry in the Component.
+    def hash_geometry(self, precision: float | None = None) -> str:
+        """Returns an SHA1 hash of the geometry in the Component."""
+        if precision:
+            warnings.warn("precision is deprecated", DeprecationWarning)
 
-        For each layer, each polygon is individually hashed and then the polygon hashes
-        are sorted, to ensure the hash stays constant regardless of the ordering
-        the polygons.  Similarly, the layers are sorted by (layer, datatype).
-
-        Args:
-            precision: Rounding precision for the the objects in the Component.
-                For instance, a precision of 1e-2 will round a point at
-                (0.124, 1.748) to (0.12, 1.75).
-
-        """
-        polygons_by_spec = self.get_polygons(by_spec=True, as_array=False)
-        layers = np.array(list(polygons_by_spec.keys()))
-        sorted_layers = layers[np.lexsort((layers[:, 0], layers[:, 1]))]
-
-        final_hash = hashlib.sha1()
-        for layer in sorted_layers:
-            layer_hash = hashlib.sha1(layer.astype(np.int64)).digest()
-            polygons = polygons_by_spec[tuple(layer)]
-            polygons = [_rnd(p.points, precision) for p in polygons]
-            polygon_hashes = np.sort([hashlib.sha1(p).digest() for p in polygons])
-            final_hash.update(layer_hash)
-            for ph in polygon_hashes:
-                final_hash.update(ph)
-
-        return final_hash.hexdigest()
+        gdspath = self.write_gds(logging=False)
+        with open(gdspath, "rb") as file:
+            binary_data = file.read()
+        base64_encoded_data = base64.b64encode(binary_data)
+        hash_object = hashlib.sha256(base64_encoded_data)
+        return hash_object.hexdigest()
 
     def get_labels(
         self, apply_repetitions=True, depth: int | None = None, layer=None
@@ -2524,7 +2505,7 @@ class Component(_GeometryHelper):
             "get_info is deprecated and will be removed in future versions of gdsfactory"
         )
         D_list = self.get_dependencies(recursive=True)
-        return [D.info.copy() for D in D_list]
+        return [D.info.model_copy() for D in D_list]
 
     def get_netlist_yaml(self, **kwargs) -> dict[str, Any]:
         from gdsfactory.get_netlist import get_netlist_yaml
@@ -2808,9 +2789,11 @@ if __name__ == "__main__":
     # from functools import partial
     import gdsfactory as gf
 
-    c = Component()
+    c = gf.components.straight(length=1)
+    cc = gf.routing.add_fiber_array(c)
+    # print(c.hash_geometry())
+    # c2 = c.flatten()
 
-    # c = gf.components.straight()
     # c = gf.routing.add_fiber_single(c)
     # c = gf.components.mzi(info=dict(hi=3))
     # print(type(c.info))

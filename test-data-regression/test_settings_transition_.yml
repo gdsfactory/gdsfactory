@@ -1,6 +1,5 @@
-function_name: transition
+function: transition
 info: {}
 module: test_paths
 name: transition
-ports: {}
 settings: {}

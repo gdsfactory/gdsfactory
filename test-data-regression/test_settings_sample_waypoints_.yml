@@ -1,8 +1,7 @@
-function_name: _from_yaml
+function: _from_yaml
 info: {}
 module: gdsfactory.read.from_yaml
 name: sample_waypoints_f04e1be3
-ports: {}
 settings:
   conf:
     instances:

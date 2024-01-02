@@ -1,8 +1,7 @@
-function_name: align_wafer
+function: align_wafer
 info: {}
 module: gdsfactory.components.align
 name: align_wafer
-ports: {}
 settings:
   cross_length: 80.0
   layer: WG

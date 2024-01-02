@@ -1,8 +1,7 @@
-function_name: loss_deembedding_ch12_34
+function: loss_deembedding_ch12_34
 info: {}
 module: gdsfactory.components.grating_coupler_loss
 name: loss_deembedding_ch12_34
-ports: {}
 settings:
   cross_section: xs_sc
   grating_coupler:

@@ -18,5 +18,5 @@ def test_metadata_export_compose() -> None:
     straight_wide = toolz.compose(gf.components.extend_ports, gf.components.straight)
     c = straight_wide()
     d = c.to_dict()
-    assert d["function_name"] == "extend_ports"
+    assert d["function"] == "extend_ports"
     assert d["settings"]["length"] == 5

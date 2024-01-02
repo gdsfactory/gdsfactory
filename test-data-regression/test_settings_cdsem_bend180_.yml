@@ -1,8 +1,7 @@
-function_name: cdsem_bend180
+function: cdsem_bend180
 info: {}
 module: gdsfactory.components.cdsem_bend180
 name: cdsem_bend180
-ports: {}
 settings:
   bend90: bend_circular
   cross_section: xs_sc

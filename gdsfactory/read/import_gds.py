@@ -121,8 +121,8 @@ def import_gds(
             info = OmegaConf.to_container(metadata.info)
             if info:
                 component.info = Info(**info)
-        if "function_name" in metadata:
-            component.function_name = metadata.function_name
+        if "function" in metadata:
+            component.function_name = metadata.function
         if "module" in metadata:
             component.module = metadata.module
 

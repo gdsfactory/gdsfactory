@@ -1,6 +1,5 @@
-function_name: aar_tricky_connections
+function: aar_tricky_connections
 info: {}
 module: yaml_jinja
 name: aar_tricky_connections
-ports: {}
 settings: {}

@@ -1,34 +1,9 @@
-function_name: grating_coupler_elliptical_uniform
+function: grating_coupler_elliptical_uniform
 info:
   polarization: te
   wavelength: 1.554
 module: gdsfactory.components.grating_coupler_elliptical_arbitrary
 name: grating_coupler_elliptical_uniform
-ports:
-  o1:
-    center:
-    - 0.188
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  opt_te_1554_15:
-    center:
-    - 24.006
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: opt_te_1554_15
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 10
 settings:
   fill_factor: 0.5
   n_periods: 20

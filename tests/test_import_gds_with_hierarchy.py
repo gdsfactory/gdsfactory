@@ -14,7 +14,7 @@ gdspath = gf.PATH.gdsdir / "mzi2x2.gds"
 def test_read_gds_hash2() -> None:
     c = gf.import_gds(gdspath)
 
-    h = "2300f7a05e32689af867fb6aa7c6928a711ad474"
+    h = "7b4e39541c3886c9651b4bb37282f502ffc222eecc6fe116d85d8930815e51b6"
     assert c.hash_geometry() == h, f"h = {c.hash_geometry()!r}"
 
 
@@ -71,9 +71,8 @@ def _write() -> None:
 
 
 if __name__ == "__main__":
-    # _write()
+    _write()
     test_read_gds_hash2()
-    # test_read_gds_hash2()
     # test_import_gds_hierarchy()
     # test_read_gds_with_settings2()
     # splitter = gf.components.mmi1x2(cross_section=cross_section)

@@ -1,68 +1,7 @@
-function_name: coh_rx_dual_pol
+function: coh_rx_dual_pol
 info: {}
 module: gdsfactory.components.coh_rx_dual_pol
 name: coh_rx_dual_pol
-ports:
-  lo_o1:
-    center:
-    - -125.5
-    - -300.0
-    layer:
-    - 1
-    - 0
-    name: lo_o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  pol1_i_out:
-    center:
-    - 350.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: pol1_i_out
-    orientation: 0.0
-    port_type: placement
-    shear_angle: null
-    width: 2.0
-  pol1_q_out:
-    center:
-    - 350.0
-    - 15.0
-    layer:
-    - 45
-    - 0
-    name: pol1_q_out
-    orientation: 0.0
-    port_type: placement
-    shear_angle: null
-    width: 2.0
-  pol2_i_out:
-    center:
-    - 350.0
-    - -600.0
-    layer:
-    - 49
-    - 0
-    name: pol2_i_out
-    orientation: 0.0
-    port_type: placement
-    shear_angle: null
-    width: 2.0
-  pol2_q_out:
-    center:
-    - 350.0
-    - -615.0
-    layer:
-    - 45
-    - 0
-    name: pol2_q_out
-    orientation: 0.0
-    port_type: placement
-    shear_angle: null
-    width: 2.0
 settings:
   bend:
     function: bend_euler

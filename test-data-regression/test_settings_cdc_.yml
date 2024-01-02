@@ -1,56 +1,7 @@
-function_name: cdc
+function: cdc
 info: {}
 module: gdsfactory.components.cdc
 name: cdc
-ports:
-  o1:
-    center:
-    - -10.0
-    - 2.05
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 2.0
-  o2:
-    center:
-    - -10.0
-    - -3.425
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.75
-  o3:
-    center:
-    - 40.0
-    - 2.05
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 2.0
-  o4:
-    center:
-    - 40.0
-    - -3.425
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.75
 settings:
   cross_section:
     function: cross_section

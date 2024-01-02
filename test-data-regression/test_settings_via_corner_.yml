@@ -1,4 +1,4 @@
-function_name: via_corner
+function: via_corner
 info:
   length: 10.0
   size:
@@ -6,31 +6,6 @@ info:
   - 10.0
 module: gdsfactory.components.via_corner
 name: via_corner
-ports:
-  m2_e1:
-    center:
-    - -5.0
-    - 0.0
-    layer:
-    - 45
-    - 0
-    name: m2_e1
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
-  m3_e2:
-    center:
-    - 0.0
-    - 5.0
-    layer:
-    - 49
-    - 0
-    name: m3_e2
-    orientation: 90.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
 settings:
   cross_section:
   - - function: cross_section

@@ -1,34 +1,9 @@
-function_name: spiral_racetrack_fixed_length
+function: spiral_racetrack_fixed_length
 info:
-  length: 999.999
-  straight_length: 65.462
+  length: 999.9991273714644
+  straight_length: 65.46151592143306
 module: gdsfactory.components.spiral_heater
 name: spiral_racetrack_fixed_length
-ports:
-  o1:
-    center:
-    - -20.25
-    - 20.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 150.0
-    - 20.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   bend_factory:
     function: bend_euler

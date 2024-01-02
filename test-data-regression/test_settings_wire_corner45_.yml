@@ -1,33 +1,8 @@
-function_name: wire_corner45
+function: wire_corner45
 info:
-  length: 14.142
+  length: 14.142135623730951
 module: gdsfactory.components.wire
 name: wire_corner45
-ports:
-  e1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e1
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
-  e2:
-    center:
-    - 10.0
-    - 10.0
-    layer:
-    - 49
-    - 0
-    name: e2
-    orientation: 90
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
 settings:
   cross_section: xs_metal_routing
   radius: 10

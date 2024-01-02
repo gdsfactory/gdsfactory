@@ -1,33 +1,8 @@
-function_name: spiral_external_io
+function: spiral_external_io
 info:
   length: 9003.302
 module: gdsfactory.components.spiral_external_io
 name: spiral_external_io
-ports:
-  o1:
-    center:
-    - 383.0
-    - -43.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 270.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 386.0
-    - -46.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 270.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   N: 6
   bend:

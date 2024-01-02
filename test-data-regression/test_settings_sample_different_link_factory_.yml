@@ -1,8 +1,7 @@
-function_name: _from_yaml
+function: _from_yaml
 info: {}
 module: gdsfactory.read.from_yaml
 name: sample_path_length_matching_215cd1fb
-ports: {}
 settings:
   conf:
     instances:

@@ -1,32 +1,7 @@
-function_name: interdigital_capacitor
+function: interdigital_capacitor
 info: {}
 module: gdsfactory.components.interdigital_capacitor
 name: interdigital_capacitor
-ports:
-  o1:
-    center:
-    - 0.0
-    - 13.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 5.0
-  o2:
-    center:
-    - 32.0
-    - 13.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 5.0
 settings:
   finger_gap: 2.0
   finger_length: 20.0

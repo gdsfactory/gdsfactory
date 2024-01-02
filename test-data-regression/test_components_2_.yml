@@ -1,44 +1,7 @@
-function_name: _from_yaml
+function: _from_yaml
 info: {}
 module: gdsfactory.read.from_yaml
 name: rotation_99ea4645
-ports:
-  o1:
-    center:
-    - 10.625
-    - 45.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 9.375
-    - 45.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 10.0
-    - 20.0
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 270.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   conf:
     instances:

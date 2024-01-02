@@ -79,9 +79,9 @@ def bend_euler(
     )
     ref = c << p.extrude(x)
     c.add_ports(ref.ports)
-    c.info["length"] = np.round(p.length(), 3)
-    c.info["dy"] = np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3)
-    c.info["radius_min"] = np.round(p.info["Rmin"], 3)
+    c.info["length"] = float(np.round(p.length(), 3))
+    c.info["dy"] = float(np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3))
+    c.info["radius_min"] = float(np.round(p.info["Rmin"], 3))
     c.info["radius"] = radius
     c.info["width"] = x.width
 

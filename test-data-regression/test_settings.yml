@@ -1,4 +1,4 @@
-function_name: demo_cross_section_setting
+function: demo_cross_section_setting
 info:
   length: 10.0
   route_info_length: 10.0
@@ -8,31 +8,6 @@ info:
   width: 0.5
 module: test_serialize
 name: demo_cross_section_setting
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   cross_section:
     function: cross_section

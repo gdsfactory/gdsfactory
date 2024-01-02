@@ -1,8 +1,7 @@
-function_name: grating_coupler_loss_fiber_array
+function: grating_coupler_loss_fiber_array
 info: {}
 module: gdsfactory.components.grating_coupler_loss
 name: grating_coupler_loss_fiber_array
-ports: {}
 settings:
   cross_section: xs_sc
   grating_coupler:

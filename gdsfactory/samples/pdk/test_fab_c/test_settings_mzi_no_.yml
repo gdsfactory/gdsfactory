@@ -1,32 +1,7 @@
-function_name: mzi
+function: mzi
 info: {}
 module: gdsfactory.components.mzi
 name: mzi_3936406a
-ports:
-  o1:
-    center:
-    - -10.0
-    - 0.0
-    layer:
-    - 34
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.9
-  o2:
-    center:
-    - 87.12
-    - 0.0
-    layer:
-    - 34
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.9
 settings:
   add_electrical_ports_bot: true
   add_optical_ports_arms: false

@@ -1,33 +1,8 @@
-function_name: cutback_component
+function: cutback_component
 info:
   components: 80
 module: gdsfactory.components.cutback_component
 name: cutback_component_mirrorTrue
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 603.68
-    - -160.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   bend180:
     function: bend_euler

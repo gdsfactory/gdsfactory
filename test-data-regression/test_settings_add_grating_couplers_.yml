@@ -1,4 +1,4 @@
-function_name: add_grating_couplers
+function: add_grating_couplers
 info:
   length: 10.0
   polarization: te
@@ -10,7 +10,6 @@ info:
   width: 0.5
 module: gdsfactory.components.add_grating_couplers
 name: straight_add_grating_couplers
-ports: {}
 settings:
   component:
     function: straight

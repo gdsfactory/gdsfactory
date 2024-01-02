@@ -1,8 +1,7 @@
-function_name: cdsem_straight_density
+function: cdsem_straight_density
 info: {}
 module: gdsfactory.components.cdsem_straight_density
 name: cdsem_straight_density
-ports: {}
 settings:
   cross_section: xs_sc
   gaps:

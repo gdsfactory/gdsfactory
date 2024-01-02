@@ -1,8 +1,7 @@
-function_name: _from_yaml
+function: _from_yaml
 info: {}
 module: gdsfactory.read.from_yaml
 name: sample_mirror_simple_a2dbfa91
-ports: {}
 settings:
   conf:
     connections:

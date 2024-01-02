@@ -1,8 +1,7 @@
-function_name: text_lines
+function: text_lines
 info: {}
 module: gdsfactory.components.text
 name: text_lines
-ports: {}
 settings:
   layer: WG
   size: 0.4

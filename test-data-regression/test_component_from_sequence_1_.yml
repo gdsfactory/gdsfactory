@@ -1,32 +1,7 @@
-function_name: component_sequence
+function: component_sequence
 info: {}
 module: gdsfactory.components.component_sequence
 name: component_sequence_5c996edc
-ports:
-  o1:
-    center:
-    - -10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 70.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   port_name1: o1
   port_name2: o2

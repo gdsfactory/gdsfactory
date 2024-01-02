@@ -1,9 +1,8 @@
-function_name: die_bbox
+function: die_bbox
 info:
   area: 3380000
 module: gdsfactory.components.die_bbox
 name: rectangle_die_bbox
-ports: {}
 settings:
   component:
     function: rectangle

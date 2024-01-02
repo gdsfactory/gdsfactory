@@ -1,32 +1,7 @@
-function_name: taper_from_csv
+function: taper_from_csv
 info: {}
 module: gdsfactory.components.taper_from_csv
 name: taper_from_csv
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 35.23
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 3.0
 settings:
   cross_section: xs_sc
   filepath: taper_strip_0p5_3_36

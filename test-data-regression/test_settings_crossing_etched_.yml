@@ -1,56 +1,7 @@
-function_name: crossing_etched
+function: crossing_etched
 info: {}
 module: gdsfactory.components.crossing_waveguide
 name: crossing_etched
-ports:
-  o1:
-    center:
-    - -4.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 0.0
-    - 4.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 90
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 4.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4:
-    center:
-    - 0.0
-    - -4.0
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 270
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   L: 3.4
   layer_slab: SLAB150

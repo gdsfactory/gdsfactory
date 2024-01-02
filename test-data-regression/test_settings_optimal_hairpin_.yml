@@ -1,32 +1,7 @@
-function_name: optimal_hairpin
+function: optimal_hairpin
 info: {}
 module: gdsfactory.components.optimal_hairpin
 name: optimal_hairpin
-ports:
-  e1:
-    center:
-    - -9.11
-    - 0.3
-    layer:
-    - 1
-    - 0
-    name: e1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.2
-  e2:
-    center:
-    - -9.11
-    - -0.3
-    layer:
-    - 1
-    - 0
-    name: e2
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.2
 settings:
   layer:
   - 1

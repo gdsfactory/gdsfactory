@@ -1,4 +1,4 @@
-function_name: via
+function: via
 info:
   enclosure: 2
   size:
@@ -13,7 +13,6 @@ info:
   yspacing: 2.0
 module: gdsfactory.components.via
 name: via_enclosure2_layerVIA1
-ports: {}
 settings:
   bbox_layers: null
   bbox_offset: 0

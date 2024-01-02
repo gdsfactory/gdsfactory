@@ -1,46 +1,9 @@
-function_name: polarization_splitter_rotator
+function: polarization_splitter_rotator
 info:
   length: 15.484
   min_bend_radius: 9.391
 module: gdsfactory.components.polarization_splitter_rotator
 name: polarization_splitter_rotator
-ports:
-  o1:
-    center:
-    - -49.867
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.54
-  o2:
-    center:
-    - 21.33
-    - 5.802
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.54
-  o3:
-    center:
-    - 21.33
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.54
 settings:
   cross_section: xs_sc
   dy: 5.0

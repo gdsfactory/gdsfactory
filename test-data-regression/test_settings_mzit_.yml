@@ -1,56 +1,7 @@
-function_name: mzit
+function: mzit
 info: {}
 module: gdsfactory.components.mzit
 name: mzit
-ports:
-  o1:
-    center:
-    - -10.0
-    - -0.6
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - -10.0
-    - 1.4
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - -11.0
-    - 21.4
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4:
-    center:
-    - -11.0
-    - 23.4
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   bend90:
     function: bend_euler

@@ -7,7 +7,7 @@ cells:
     length: 1.234
     npoints: 2
     width: null
-function_name: straight
+function: straight
 info:
   length: 1.234
   route_info_length: 1.234

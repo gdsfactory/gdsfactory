@@ -65,7 +65,7 @@ cell_settings:
 doe: null
 measurement: null
 measurement_settings: {}
-name: add_fiber_single_rotate_b2c583b2
+name: add_fiber_single_rotate_20d7beaa
 port_names:
 - opt_te_1530_15-straight_7688267d-loopback2
 - opt_te_1530_15-straight_7688267d-1-0

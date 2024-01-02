@@ -1,32 +1,7 @@
-function_name: interdigital_capacitor_enclosed
+function: interdigital_capacitor_enclosed
 info: {}
 module: gdsfactory.components.interdigital_capacitor_enclosed
 name: interdigital_capacitor_enclosed
-ports:
-  o1:
-    center:
-    - -46.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 10.0
-  o2:
-    center:
-    - 46.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 10.0
 settings:
   cpw_dimensions:
   - 10

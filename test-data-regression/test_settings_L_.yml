@@ -1,32 +1,7 @@
-function_name: L
+function: L
 info: {}
 module: gdsfactory.components.L
 name: L
-ports:
-  e1:
-    center:
-    - 0.0
-    - 20.0
-    layer:
-    - 49
-    - 0
-    name: e1
-    orientation: 90
-    port_type: electrical
-    shear_angle: null
-    width: 1
-  e2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e2
-    orientation: 0
-    port_type: electrical
-    shear_angle: null
-    width: 1
 settings:
   layer: MTOP
   port_type: electrical

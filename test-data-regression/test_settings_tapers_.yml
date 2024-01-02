@@ -1,4 +1,4 @@
-function_name: add_fiber_array
+function: add_fiber_array
 info:
   length: 20.0
   route_info_length: 20.0
@@ -7,56 +7,7 @@ info:
   route_info_xs_05218737_length: 20.0
   width: 2
 module: gdsfactory.routing.add_fiber_array
-name: add_tapers_add_fiber_array_782d6dfa
-ports:
-  loopback1:
-    center:
-    - -180.5
-    - -28.5
-    layer:
-    - 1
-    - 0
-    name: loopback1
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  loopback2:
-    center:
-    - 200.5
-    - -28.5
-    layer:
-    - 1
-    - 0
-    name: loopback2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o1:
-    center:
-    - -53.5
-    - -28.5
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 73.5
-    - -28.5
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+name: add_tapers_add_fiber_array_bbcf0f5b
 settings:
   component:
     function: add_tapers

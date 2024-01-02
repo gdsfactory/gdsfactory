@@ -1,56 +1,7 @@
-function_name: ring_double
+function: ring_double
 info: {}
 module: gdsfactory.components.ring_double
 name: ring_double
-ports:
-  o1:
-    center:
-    - -13.01
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 13.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - -13.01
-    - 21.41
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4:
-    center:
-    - 13.0
-    - 21.41
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   bend:
     function: bend_euler

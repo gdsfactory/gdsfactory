@@ -1,33 +1,8 @@
-function_name: cutback_splitter
+function: cutback_splitter
 info:
   components: 88
 module: gdsfactory.components.cutback_splitter
 name: mmi1x2_cutback_splitter
-ports:
-  o1:
-    center:
-    - -10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 438.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   bend180:
     function: bend_euler

@@ -119,14 +119,14 @@ def test_diagonal_extrude_consistent_naming() -> None:
     p = gf.path.Path([(0, 0), (4.9932849, 6.328497)])
     c = p.extrude(cross_section="xs_sc")
     # This name was generated at the time of writing the test. We expect it to be the same across other platforms.
-    expected_name = "extrude_d442fd31"
+    expected_name = "extrude_0e019b8e"
     assert c.name == expected_name, c.name
 
 
 if __name__ == "__main__":
-    # test_diagonal_extrude_consistent_naming()
+    test_diagonal_extrude_consistent_naming()
     # test_transition_cross_section()
-    test_transition_cross_section_different_layers()
+    # test_transition_cross_section_different_layers()
     # test_extrude_transition()
 
     # P = gf.path.straight(length=10)

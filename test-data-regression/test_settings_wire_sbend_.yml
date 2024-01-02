@@ -1,32 +1,7 @@
-function_name: wire_sbend
+function: wire_sbend
 info: {}
 module: gdsfactory.components.wire_sbend
 name: wire_sbend
-ports:
-  e1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e1
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
-  e2:
-    center:
-    - 30.0
-    - 20.0
-    layer:
-    - 49
-    - 0
-    name: e2
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
 settings:
   dx: 20.0
   dy: 10.0

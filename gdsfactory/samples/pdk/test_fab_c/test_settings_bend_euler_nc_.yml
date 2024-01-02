@@ -1,4 +1,4 @@
-function_name: bend_euler
+function: bend_euler
 info:
   dy: 10.0
   length: 16.637
@@ -12,31 +12,6 @@ info:
   width: 1.0
 module: gdsfactory.components.bend_euler
 name: bend_euler_1da7fd5c
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 34
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 1.0
-  o2:
-    center:
-    - 10.0
-    - 10.0
-    layer:
-    - 34
-    - 0
-    name: o2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 1.0
 settings:
   add_bbox: null
   add_pins: true

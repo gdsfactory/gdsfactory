@@ -1,44 +1,7 @@
-function_name: _from_yaml
+function: _from_yaml
 info: {}
 module: gdsfactory.read.from_yaml
 name: mirror_port_f610a6e9
-ports:
-  o1:
-    center:
-    - -5.0
-    - 9.375
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - -5.0
-    - 10.625
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 20.0
-    - 10.0
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   conf:
     instances:

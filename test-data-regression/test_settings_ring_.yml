@@ -1,8 +1,7 @@
-function_name: ring
+function: ring
 info: {}
 module: gdsfactory.components.ring
 name: ring
-ports: {}
 settings:
   angle: 360
   angle_resolution: 2.5

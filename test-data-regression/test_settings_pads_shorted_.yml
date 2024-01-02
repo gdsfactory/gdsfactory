@@ -1,8 +1,7 @@
-function_name: pads_shorted
+function: pads_shorted
 info: {}
 module: gdsfactory.components.pads_shorted
 name: pads_shorted
-ports: {}
 settings:
   columns: 8
   layer_metal: MTOP

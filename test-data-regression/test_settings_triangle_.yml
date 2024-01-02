@@ -1,8 +1,7 @@
-function_name: triangle
+function: triangle
 info: {}
 module: gdsfactory.components.triangles
 name: triangle
-ports: {}
 settings:
   layer: WG
   layers: null

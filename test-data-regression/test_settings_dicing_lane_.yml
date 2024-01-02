@@ -1,8 +1,7 @@
-function_name: dicing_lane
+function: dicing_lane
 info: {}
 module: gdsfactory.components.dicing_lane
 name: dicing_lane
-ports: {}
 settings:
   layer_dicing: DICING
   layers: null
