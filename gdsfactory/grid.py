@@ -126,7 +126,6 @@ def grid(
             prefix = prefix.replace(",", "_")
             prefix = prefix.replace("(", "")
             prefix = prefix.replace(")", "")
-            ref.name = prefix
             prefix_to_ref[prefix] = ref
 
         else:
