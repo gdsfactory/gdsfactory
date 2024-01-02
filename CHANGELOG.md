@@ -1,16 +1,30 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.9.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.10.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.0) - 2024-01-02
 
-No significant changes.
-
+- add xsize, ysize and size to via_stack_slot and improve grid reference naming [#2431](https://github.com/gdsfactory/gdsfactory/pull/2431)
+- more robust serialization [#2430](https://github.com/gdsfactory/gdsfactory/pull/2430)
 
 ## [7.9.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.4) - 2024-01-01
 
-No significant changes.
+- Bump actions/setup-python from 4 to 5 [#2424](https://github.com/gdsfactory/gdsfactory/pull/2424)
+- Bump actions/stale from 8 to 9 [#2425](https://github.com/gdsfactory/gdsfactory/pull/2425)
+- Bump actions/upload-pages-artifact from 2 to 3 [#2428](https://github.com/gdsfactory/gdsfactory/pull/2428)
+- Bump actions/deploy-pages from 2 to 4 [#2427](https://github.com/gdsfactory/gdsfactory/pull/2427)
+- Improve component settings serialization [#2421](https://github.com/gdsfactory/gdsfactory/pull/2421)
+- update install instructions [#2419](https://github.com/gdsfactory/gdsfactory/pull/2419)
+- make main cross section name parametrizable [#2417](https://github.com/gdsfactory/gdsfactory/pull/2417)
+- expose mirror_straight in spiral_external_io [#2416](https://github.com/gdsfactory/gdsfactory/pull/2416)
+- 2414 underplotoverplot dataprep [#2415](https://github.com/gdsfactory/gdsfactory/pull/2415)
+- [pre-commit.ci] pre-commit autoupdate [#2413](https://github.com/gdsfactory/gdsfactory/pull/2413)
+- fix get_route_from_steps cross_section [#2412](https://github.com/gdsfactory/gdsfactory/pull/2412)
+- convert notebooks from python to jupyter [#2411](https://github.com/gdsfactory/gdsfactory/pull/2411)
+- run stale workflow once a month instead of daily [#2410](https://github.com/gdsfactory/gdsfactory/pull/2410)
+- use cross_section factories instead of copy [#2409](https://github.com/gdsfactory/gdsfactory/pull/2409)
+- better error messages for modifying CrossSections [#2408](https://github.com/gdsfactory/gdsfactory/pull/2408)
 
 
 ## [7.9.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.3) - 2023-12-22
