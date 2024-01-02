@@ -1,7 +1,7 @@
 function: add_pads_top
 info: {}
 module: gdsfactory.routing.add_pads
-name: add_pads_bot_add_pads_top_8688cee5
+name: add_pads_bot_add_pads_top_3da10764
 settings:
   component:
     function: mzi

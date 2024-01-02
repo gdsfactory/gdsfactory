@@ -4,7 +4,6 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
-import base64
 import datetime
 import hashlib
 import itertools
@@ -2204,17 +2203,33 @@ class Component(_GeometryHelper):
         self._bb_valid = False
         return self
 
-    def hash_geometry(self, precision: float | None = None) -> str:
-        """Returns an SHA1 hash of the geometry in the Component."""
-        if precision:
-            warnings.warn("precision is deprecated", DeprecationWarning)
+    def hash_geometry(self, precision: float = 1e-4) -> str:
+        """Returns an SHA1 hash of the geometry in the Component.
 
-        gdspath = self.write_gds(logging=False)
-        with open(gdspath, "rb") as file:
-            binary_data = file.read()
-        base64_encoded_data = base64.b64encode(binary_data)
-        hash_object = hashlib.sha256(base64_encoded_data)
-        return hash_object.hexdigest()
+        For each layer, each polygon is individually hashed and then the polygon hashes
+        are sorted, to ensure the hash stays constant regardless of the ordering
+        the polygons.  Similarly, the layers are sorted by (layer, datatype).
+
+        Args:
+            precision: Rounding precision for the the objects in the Component.
+                For instance, a precision of 1e-2 will round a point at
+                (0.124, 1.748) to (0.12, 1.75).
+
+        """
+        polygons_by_spec = self.get_polygons(by_spec=True, as_array=False)
+        layers = np.array(list(polygons_by_spec.keys()))
+
+        final_hash = hashlib.sha1()
+        for layer in layers:
+            layer_hash = hashlib.sha1(layer.astype(np.int64)).digest()
+            polygons = polygons_by_spec[tuple(layer)]
+            polygons = [_rnd(p.points, precision) for p in polygons]
+            polygon_hashes = np.sort([hashlib.sha1(p).digest() for p in polygons])
+            final_hash.update(layer_hash)
+            for ph in polygon_hashes:
+                final_hash.update(ph)
+
+        return final_hash.hexdigest()
 
     def get_labels(
         self, apply_repetitions=True, depth: int | None = None, layer=None

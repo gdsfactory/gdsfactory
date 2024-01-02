@@ -1,7 +1,7 @@
 function: add_electrical_pads_top
 info: {}
 module: gdsfactory.routing.add_electrical_pads_top
-name: mzi_add_electrical_pads_top_8688cee5
+name: mzi_add_electrical_pads_top_3da10764
 settings:
   component:
     function: mzi

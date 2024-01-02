@@ -1,7 +1,7 @@
 function: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_cf66827a
+name: mzi_9b71fb61
 settings:
   add_electrical_ports_bot: true
   add_optical_ports_arms: false
