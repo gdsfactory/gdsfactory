@@ -71,9 +71,8 @@ def _write() -> None:
 
 
 if __name__ == "__main__":
-    # _write()
+    _write()
     test_read_gds_hash2()
-    # test_read_gds_hash2()
     # test_import_gds_hierarchy()
     # test_read_gds_with_settings2()
     # splitter = gf.components.mmi1x2(cross_section=cross_section)

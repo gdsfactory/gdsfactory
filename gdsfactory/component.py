@@ -2025,17 +2025,17 @@ class Component(_GeometryHelper):
         ignore_components_prefix: list[str] | None = None,
         ignore_functions_prefix: list[str] | None = None,
         with_cells: bool = False,
-        with_ports: bool = True,
+        with_ports: bool = False,
     ) -> dict[str, Any]:
         """Returns Dict representation of a component.
 
         Args:
             ignore_components_prefix: for components to ignore when exporting.
             ignore_functions_prefix: for functions to ignore when exporting.
-            with_cells: write cells recursively.
-            with_ports: write port information dict.
+            with_cells: write cell info recursively.
+            with_ports: write ports.
         """
-        d = {}
+        d = self.get_component_spec().model_dump()
         if with_ports:
             ports = {port.name: port.to_dict() for port in self.get_ports_list()}
             d["ports"] = ports
@@ -2049,10 +2049,7 @@ class Component(_GeometryHelper):
             d["cells"] = clean_dict(cells)
 
         d["name"] = self.name
-        d["settings"] = clean_dict(dict(self.settings))
-        d["info"] = clean_dict(dict(self.info))
-        d["function_name"] = self.function_name
-        d["module"] = self.module
+        d["info"] = self.info.model_dump()
         return d
 
     def to_dict_yaml(self, **kwargs) -> str:
@@ -2221,10 +2218,9 @@ class Component(_GeometryHelper):
         """
         polygons_by_spec = self.get_polygons(by_spec=True, as_array=False)
         layers = np.array(list(polygons_by_spec.keys()))
-        sorted_layers = layers[np.lexsort((layers[:, 0], layers[:, 1]))]
 
         final_hash = hashlib.sha1()
-        for layer in sorted_layers:
+        for layer in layers:
             layer_hash = hashlib.sha1(layer.astype(np.int64)).digest()
             polygons = polygons_by_spec[tuple(layer)]
             polygons = [_rnd(p.points, precision) for p in polygons]
@@ -2524,7 +2520,7 @@ class Component(_GeometryHelper):
             "get_info is deprecated and will be removed in future versions of gdsfactory"
         )
         D_list = self.get_dependencies(recursive=True)
-        return [D.info.copy() for D in D_list]
+        return [D.info.model_copy() for D in D_list]
 
     def get_netlist_yaml(self, **kwargs) -> dict[str, Any]:
         from gdsfactory.get_netlist import get_netlist_yaml
@@ -2808,9 +2804,11 @@ if __name__ == "__main__":
     # from functools import partial
     import gdsfactory as gf
 
-    c = Component()
+    c = gf.components.straight(length=1)
+    cc = gf.routing.add_fiber_array(c)
+    # print(c.hash_geometry())
+    # c2 = c.flatten()
 
-    # c = gf.components.straight()
     # c = gf.routing.add_fiber_single(c)
     # c = gf.components.mzi(info=dict(hi=3))
     # print(type(c.info))

@@ -1,8 +1,7 @@
-function_name: die
+function: die
 info: {}
 module: gdsfactory.components.die
 name: die
-ports: {}
 settings:
   bbox_layer: FLOORPLAN
   bbox_layers: null

@@ -1,8 +1,7 @@
-function_name: litho_ruler
+function: litho_ruler
 info: {}
 module: gdsfactory.components.litho_ruler
 name: litho_ruler
-ports: {}
 settings:
   height: 2
   layer: WG

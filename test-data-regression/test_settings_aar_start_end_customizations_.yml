@@ -1,6 +1,5 @@
-function_name: aar_start_end_customizations
+function: aar_start_end_customizations
 info: {}
 module: yaml_jinja
 name: aar_start_end_customizations
-ports: {}
 settings: {}

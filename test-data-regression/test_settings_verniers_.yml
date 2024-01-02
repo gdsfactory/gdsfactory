@@ -1,8 +1,7 @@
-function_name: verniers
+function: verniers
 info: {}
 module: gdsfactory.components.verniers
 name: verniers
-ports: {}
 settings:
   gap: 0.1
   layer_label: TEXT

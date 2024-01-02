@@ -1,32 +1,7 @@
-function_name: ramp
+function: ramp
 info: {}
 module: gdsfactory.components.ramp
 name: ramp
-ports:
-  o1:
-    center:
-    - 0.0
-    - 2.5
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 5.0
-  o2:
-    center:
-    - 10.0
-    - 4.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 8.0
 settings:
   layer: WG
   length: 10.0

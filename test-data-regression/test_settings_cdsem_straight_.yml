@@ -1,8 +1,7 @@
-function_name: cdsem_straight
+function: cdsem_straight
 info: {}
 module: gdsfactory.components.cdsem_straight
 name: cdsem_straight
-ports: {}
 settings:
   cross_section: xs_sc
   length: 420.0

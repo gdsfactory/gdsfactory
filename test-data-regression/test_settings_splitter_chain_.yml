@@ -1,68 +1,7 @@
-function_name: splitter_chain
+function: splitter_chain
 info: {}
 module: gdsfactory.components.splitter_chain
 name: mmi1x2_splitter_chain
-ports:
-  o1:
-    center:
-    - -10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 15.5
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 52.0
-    - 1.8
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4:
-    center:
-    - 88.5
-    - 4.225
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o5:
-    center:
-    - 88.5
-    - 5.475
-    layer:
-    - 1
-    - 0
-    name: o5
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   bend:
     function: bend_s

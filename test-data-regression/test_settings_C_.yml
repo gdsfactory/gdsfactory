@@ -1,32 +1,7 @@
-function_name: C
+function: C
 info: {}
 module: gdsfactory.components.C
 name: C
-ports:
-  o1:
-    center:
-    - 10.0
-    - 20.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 1.0
-  o2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 1.0
 settings:
   layer: WG
   size:

@@ -1,8 +1,7 @@
-function_name: circle
+function: circle
 info: {}
 module: gdsfactory.components.circle
 name: circle
-ports: {}
 settings:
   angle_resolution: 2.5
   layer: WG

@@ -1,46 +1,9 @@
-function_name: pad_array
+function: pad_array
 info:
   xsize: 100.0
   ysize: 100.0
 module: gdsfactory.components.pad
 name: pad_array_3ceac6aa
-ports:
-  e11:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e11
-    orientation: 0
-    port_type: electrical
-    shear_angle: null
-    width: 100.0
-  e21:
-    center:
-    - 0.0
-    - 150.0
-    layer:
-    - 49
-    - 0
-    name: e21
-    orientation: 0
-    port_type: electrical
-    shear_angle: null
-    width: 100.0
-  e31:
-    center:
-    - 0.0
-    - 300.0
-    layer:
-    - 49
-    - 0
-    name: e31
-    orientation: 0
-    port_type: electrical
-    shear_angle: null
-    width: 100.0
 settings:
   columns: 1
   orientation: 0

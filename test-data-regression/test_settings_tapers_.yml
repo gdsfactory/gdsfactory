@@ -1,4 +1,4 @@
-function_name: add_fiber_array
+function: tapers
 info:
   length: 20.0
   route_info_length: 20.0
@@ -6,103 +6,6 @@ info:
   route_info_weight: 20.0
   route_info_xs_05218737_length: 20.0
   width: 2
-module: gdsfactory.routing.add_fiber_array
-name: add_tapers_add_fiber_array_782d6dfa
-ports:
-  loopback1:
-    center:
-    - -180.5
-    - -28.5
-    layer:
-    - 1
-    - 0
-    name: loopback1
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  loopback2:
-    center:
-    - 200.5
-    - -28.5
-    layer:
-    - 1
-    - 0
-    name: loopback2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o1:
-    center:
-    - -53.5
-    - -28.5
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 73.5
-    - -28.5
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-settings:
-  component:
-    function: add_tapers
-    module: gdsfactory.add_tapers
-    settings:
-      component:
-        function: straight
-        module: gdsfactory.components.straight
-        settings:
-          add_bbox: null
-          add_pins: true
-          cross_section: xs_sc
-          layer: null
-          length: 20
-          npoints: 2
-          width: 2
-      ports: null
-      select_ports:
-        function: select_ports
-        module: gdsfactory.port
-        settings:
-          port_type: optical
-      taper:
-        function: taper
-      taper_port_name1: o1
-      taper_port_name2: o2
-  component_name: null
-  cross_section: xs_sc
-  gc_port_labels: null
-  gc_port_name: o1
-  get_input_labels_function:
-    function: get_input_labels
-    module: gdsfactory.routing.get_input_labels
-    settings:
-      get_input_label_text_function:
-        function: get_input_label_text_dash
-  grating_coupler:
-    function: grating_coupler_elliptical_trenches
-    module: gdsfactory.components.grating_coupler_elliptical_trenches
-    settings:
-      polarization: te
-      taper_angle: 35
-  layer_label: null
-  optical_routing_type: 0
-  select_ports:
-    function: select_ports
-    module: gdsfactory.port
-    settings:
-      port_type: optical
+module: test_add_fiber_array
+name: tapers
+settings: {}

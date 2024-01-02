@@ -1,32 +1,7 @@
-function_name: delay_snake3
+function: delay_snake3
 info: {}
 module: gdsfactory.components.delay_snake3
 name: delay_snake3
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 0.0
-    - -40.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   bend180:
     function: bend_euler

@@ -1,4 +1,4 @@
-function_name: bend_s
+function: bend_s
 info:
   end_angle: 0
   length: 11.206
@@ -6,31 +6,6 @@ info:
   start_angle: 0
 module: gdsfactory.components.bend_s
 name: bend_s
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 11.0
-    - 1.8
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   add_pins: true
   cross_section: xs_sc

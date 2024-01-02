@@ -1,8 +1,7 @@
-function_name: bbox
+function: bbox
 info: {}
 module: gdsfactory.components.bbox
 name: bbox
-ports: {}
 settings:
   bbox:
   - - -1.0

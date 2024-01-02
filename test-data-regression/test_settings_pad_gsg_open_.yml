@@ -1,8 +1,7 @@
-function_name: pad_gsg_short
+function: pad_gsg_short
 info: {}
 module: gdsfactory.components.pad_gsg
 name: pad_gsg_short_shortFalse
-ports: {}
 settings:
   layer_metal: MTOP
   metal_spacing: 5.0

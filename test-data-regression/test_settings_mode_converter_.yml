@@ -1,56 +1,7 @@
-function_name: mode_converter
+function: mode_converter
 info: {}
 module: gdsfactory.components.mode_converter
 name: mode_converter
-ports:
-  o1:
-    center:
-    - -25.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 1.2
-  o2:
-    center:
-    - -14.142
-    - 6.908
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 35.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 1.2
-  o4:
-    center:
-    - 24.142
-    - 6.908
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   bend:
     function: bend_euler_s

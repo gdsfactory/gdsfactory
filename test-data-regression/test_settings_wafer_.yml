@@ -1,8 +1,7 @@
-function_name: wafer
+function: wafer
 info: {}
 module: gdsfactory.components.wafer
 name: wafer
-ports: {}
 settings:
   cols:
   - 2

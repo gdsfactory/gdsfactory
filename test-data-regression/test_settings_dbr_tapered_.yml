@@ -1,32 +1,7 @@
-function_name: dbr_tapered
+function: dbr_tapered
 info: {}
 module: gdsfactory.components.dbr_tapered
 name: dbr_tapered
-ports:
-  o1:
-    center:
-    - -25.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 1.0
-  o2:
-    center:
-    - 25.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 1.0
 settings:
   cross_section: xs_sc
   dc: 0.5

@@ -20,7 +20,8 @@ container_names = set(containers.keys()) - skip_test
 def test_settings(container_type: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
     c = containers[container_type](component=component)
-    data_regression.check(c.to_dict())
+    d = c.to_dict()
+    data_regression.check(d)
 
 
 @pytest.mark.parametrize("container_type", container_names)

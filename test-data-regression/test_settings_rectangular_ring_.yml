@@ -1,8 +1,7 @@
-function_name: rectangular_ring
+function: rectangular_ring
 info: {}
 module: gdsfactory.components.rectangular_ring
 name: rectangular_ring
-ports: {}
 settings:
   centered: false
   enclosed_size:

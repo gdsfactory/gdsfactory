@@ -1,6 +1,5 @@
-function_name: aar_slalom
+function: aar_slalom
 info: {}
 module: yaml_jinja
 name: aar_slalom
-ports: {}
 settings: {}

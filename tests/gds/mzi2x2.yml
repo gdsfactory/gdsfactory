@@ -70,7 +70,7 @@ cells:
     width_mmi: 2.5
     width_taper: 1.0
     with_bbox: true
-  mzi_7400271d:
+  mzi_9b71fb61:
     add_electrical_ports_bot: true
     add_optical_ports_arms: false
     bend:
@@ -260,10 +260,10 @@ cells:
     length: 2.0
     npoints: 2
     width: null
-function_name: mzi
+function: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_7400271d
+name: mzi_9b71fb61
 ports:
   o1:
     center:

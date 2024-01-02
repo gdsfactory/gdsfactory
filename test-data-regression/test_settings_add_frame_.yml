@@ -1,8 +1,7 @@
-function_name: add_frame
+function: add_frame
 info: {}
 module: gdsfactory.components.align
 name: add_frame
-ports: {}
 settings:
   component:
     function: rectangle

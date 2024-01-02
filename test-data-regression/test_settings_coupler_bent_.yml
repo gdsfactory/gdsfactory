@@ -1,56 +1,7 @@
-function_name: coupler_bent
+function: coupler_bent
 info: {}
 module: gdsfactory.components.coupler_bent
 name: coupler_bent
-ports:
-  o1:
-    center:
-    - -35.176
-    - -1.834
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.4
-  o2:
-    center:
-    - -35.176
-    - -4.503
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.4
-  o3:
-    center:
-    - 35.176
-    - -1.834
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 360.0
-    port_type: optical
-    shear_angle: null
-    width: 0.4
-  o4:
-    center:
-    - 35.176
-    - -4.503
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.4
 settings:
   cross_section: xs_sc
   gap: 0.2

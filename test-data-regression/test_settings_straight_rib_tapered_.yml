@@ -1,4 +1,4 @@
-function_name: extend_ports
+function: extend_ports
 info:
   length: 10.0
   route_info_length: 10.0
@@ -8,31 +8,6 @@ info:
   width: 0.5
 module: gdsfactory.components.extension
 name: straight_extend_ports_ef48795a
-ports:
-  o1:
-    center:
-    - -10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 20.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   centered: false
   component:

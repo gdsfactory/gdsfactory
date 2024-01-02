@@ -1,4 +1,4 @@
-function_name: bend_circular
+function: bend_circular
 info:
   dy: 10.0
   length: 15.708
@@ -10,31 +10,6 @@ info:
   route_info_xs_sc_length: 15.708
 module: gdsfactory.components.bend_circular
 name: bend_circular
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 10.0
-    - 10.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   add_bbox: null
   add_pins: true

@@ -1,34 +1,9 @@
-function_name: grating_coupler_rectangular_arbitrary_slab
+function: grating_coupler_rectangular_arbitrary_slab
 info:
   polarization: te
   wavelength: 1.55
 module: gdsfactory.components.grating_coupler_rectangular_arbitrary_slab
 name: grating_coupler_rectangular_arbitrary_slab
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  opt_te_1550_15:
-    center:
-    - 153.5
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: opt_te_1550_15
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 11.0
 settings:
   cross_section: xs_sc
   fiber_angle: 15

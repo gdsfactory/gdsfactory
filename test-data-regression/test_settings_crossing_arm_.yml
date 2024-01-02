@@ -1,32 +1,7 @@
-function_name: crossing_arm
+function: crossing_arm
 info: {}
 module: gdsfactory.components.crossing_waveguide
 name: crossing_arm
-ports:
-  o1:
-    center:
-    - -4.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 4.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   L: 3.4
   cross_section: xs_sc

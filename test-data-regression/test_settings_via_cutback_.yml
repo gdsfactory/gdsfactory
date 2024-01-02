@@ -1,8 +1,7 @@
-function_name: via_cutback
+function: via_cutback
 info: {}
 module: gdsfactory.components.via_cutback
 name: via_cutback
-ports: {}
 settings:
   layer1: HEATER
   layer2: M1

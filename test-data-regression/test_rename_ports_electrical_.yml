@@ -1,68 +1,7 @@
-function_name: nxn
+function: nxn
 info: {}
 module: gdsfactory.components.nxn
 name: nxn_port_typeelectrical
-ports:
-  e1:
-    center:
-    - 0.0
-    - 4.0
-    layer:
-    - 1
-    - 0
-    name: e1
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 0.5
-  e2:
-    center:
-    - 8.0
-    - 6.75
-    layer:
-    - 1
-    - 0
-    name: e2
-    orientation: 0
-    port_type: electrical
-    shear_angle: null
-    width: 0.5
-  e3:
-    center:
-    - 8.0
-    - 4.917
-    layer:
-    - 1
-    - 0
-    name: e3
-    orientation: 0
-    port_type: electrical
-    shear_angle: null
-    width: 0.5
-  e4:
-    center:
-    - 8.0
-    - 3.083
-    layer:
-    - 1
-    - 0
-    name: e4
-    orientation: 0
-    port_type: electrical
-    shear_angle: null
-    width: 0.5
-  e5:
-    center:
-    - 8.0
-    - 1.25
-    layer:
-    - 1
-    - 0
-    name: e5
-    orientation: 0
-    port_type: electrical
-    shear_angle: null
-    width: 0.5
 settings:
   east: 4
   layer: WG

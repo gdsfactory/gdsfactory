@@ -1,34 +1,9 @@
-function_name: hline
+function: hline
 info:
   length: 10.0
   width: 0.5
 module: gdsfactory.components.hline
 name: hline
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   layer: WG
   length: 10.0

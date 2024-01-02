@@ -1,8 +1,7 @@
-function_name: rectangle_with_slits
+function: rectangle_with_slits
 info: {}
 module: gdsfactory.components.rectangle_with_slits
 name: rectangle_with_slits
-ports: {}
 settings:
   centered: false
   layer: WG

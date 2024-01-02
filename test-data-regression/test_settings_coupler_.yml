@@ -1,58 +1,9 @@
-function_name: coupler
+function: coupler
 info:
   length: 10.186
   min_bend_radius: 11.857
 module: gdsfactory.components.coupler
 name: coupler
-ports:
-  o1:
-    center:
-    - -10.0
-    - -1.632
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - -10.0
-    - 2.368
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 30.0
-    - 2.368
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4:
-    center:
-    - 30.0
-    - -1.632
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   coupler_straight:
     function: coupler_straight

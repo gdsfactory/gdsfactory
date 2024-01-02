@@ -1,32 +1,7 @@
-function_name: taper_parabolic
+function: taper_parabolic
 info: {}
 module: gdsfactory.components.taper_parabolic
 name: taper_parabolic
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 20.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 5.0
 settings:
   exp: 0.5
   layer: WG

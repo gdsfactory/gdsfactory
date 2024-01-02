@@ -1,33 +1,8 @@
-function_name: spiral_inner_io_fiber_single
+function: spiral_inner_io_fiber_single
 info:
   length: 9973.393
 module: gdsfactory.components.spiral_inner_io
 name: spiral_inner_io_fiber_single
-ports:
-  o1:
-    center:
-    - 0.0
-    - -10.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 270.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 0.0
-    - 210.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   cross_section: xs_sc
   cross_section_bend: null

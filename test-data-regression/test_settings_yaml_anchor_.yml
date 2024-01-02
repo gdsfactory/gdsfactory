@@ -1,8 +1,7 @@
-function_name: _from_yaml
+function: _from_yaml
 info: {}
 module: gdsfactory.read.from_yaml
 name: yaml_anchor_8731fb27
-ports: {}
 settings:
   conf:
     instances:

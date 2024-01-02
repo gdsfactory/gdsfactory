@@ -1,8 +1,7 @@
-function_name: copy_layers
+function: copy_layers
 info: {}
 module: gdsfactory.components.copy_layers
 name: cross_copy_layers
-ports: {}
 settings:
   factory:
     function: cross

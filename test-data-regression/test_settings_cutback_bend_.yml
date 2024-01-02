@@ -1,33 +1,8 @@
-function_name: cutback_bend
+function: cutback_bend
 info:
   n_bends: 68
 module: gdsfactory.components.cutback_bend
 name: cutback_bend
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 270.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - -250.0
-    - 150.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   cols: 5
   component:

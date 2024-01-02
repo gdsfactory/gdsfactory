@@ -692,7 +692,7 @@ def round_corners(
         # If there is a taper, make sure its length is known
         if taper and isinstance(taper, Component) and "length" not in taper.info:
             _taper_ports = list(taper.ports.values())
-            taper.info["length"] = _taper_ports[-1].x - _taper_ports[0].x
+            taper.info["length"] = float(_taper_ports[-1].x - _taper_ports[0].x)
 
     straight_fall_back_no_taper = straight_fall_back_no_taper or straight
 

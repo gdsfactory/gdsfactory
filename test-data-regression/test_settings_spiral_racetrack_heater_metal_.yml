@@ -1,56 +1,7 @@
-function_name: spiral_racetrack_heater_metal
+function: spiral_racetrack_heater_metal
 info: {}
 module: gdsfactory.components.spiral_heater
 name: spiral_racetrack_heater_metal
-ports:
-  e1:
-    center:
-    - -5.625
-    - 11.0
-    layer:
-    - 47
-    - 0
-    name: e1
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 2.5
-  e2:
-    center:
-    - -5.625
-    - -29.0
-    layer:
-    - 47
-    - 0
-    name: e2
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 2.5
-  o1:
-    center:
-    - 0.0
-    - 16.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 30.0
-    - -34.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   bend_factory:
     function: bend_euler

@@ -1,4 +1,4 @@
-function_name: straight
+function: straight
 info:
   length: 10.0
   route_info_length: 10.0
@@ -8,31 +8,6 @@ info:
   width: 10.0
 module: gdsfactory.components.straight
 name: straight_299ab026
-ports:
-  e1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e1
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
-  e2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e2
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
 settings:
   add_bbox: null
   add_pins: true

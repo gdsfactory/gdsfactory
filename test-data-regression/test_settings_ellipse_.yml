@@ -1,8 +1,7 @@
-function_name: ellipse
+function: ellipse
 info: {}
 module: gdsfactory.components.ellipse
 name: ellipse
-ports: {}
 settings:
   angle_resolution: 2.5
   layer: WG

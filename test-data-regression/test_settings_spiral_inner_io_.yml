@@ -1,33 +1,8 @@
-function_name: spiral_inner_io
+function: spiral_inner_io
 info:
   length: 11584.393
 module: gdsfactory.components.spiral_inner_io
 name: spiral_inner_io
-ports:
-  o1:
-    center:
-    - 0.0
-    - 50.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 270
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 127.0
-    - 50.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 270
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   N: 6
   asymmetric_cross_section: false

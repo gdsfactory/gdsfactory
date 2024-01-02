@@ -1,8 +1,7 @@
-function_name: text_freetype
+function: text_freetype
 info: {}
 module: gdsfactory.components.text_freetype
 name: text_freetype
-ports: {}
 settings:
   font: OCR-A
   justify: left

@@ -1,35 +1,10 @@
-function_name: grating_coupler_elliptical_lumerical
+function: grating_coupler_elliptical_lumerical
 info:
   polarization: te
   wavelength: 1.554
-  xinput: -2.43
+  xinput: -2.4298362615732447
 module: gdsfactory.components.grating_coupler_elliptical_lumerical
 name: grating_coupler_elliptical_lumerical
-ports:
-  o1:
-    center:
-    - 0.24
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  opt_te_1554_5:
-    center:
-    - 19.67
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: opt_te_1554_5
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 10
 settings:
   bias_gap: 0
   fiber_angle: 5

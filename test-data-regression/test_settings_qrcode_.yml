@@ -1,8 +1,7 @@
-function_name: qrcode
+function: qrcode
 info: {}
 module: gdsfactory.components.version_stamp
 name: qrcode
-ports: {}
 settings:
   data: mask01
   layer: WG

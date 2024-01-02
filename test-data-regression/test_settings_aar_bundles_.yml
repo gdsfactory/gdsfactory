@@ -1,6 +1,5 @@
-function_name: aar_bundles
+function: aar_bundles
 info: {}
 module: yaml_jinja
 name: aar_bundles
-ports: {}
 settings: {}

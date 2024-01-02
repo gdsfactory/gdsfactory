@@ -1,8 +1,7 @@
-function_name: seal_ring
+function: seal_ring
 info: {}
 module: gdsfactory.components.seal_ring
 name: seal_ring
-ports: {}
 settings:
   bbox:
   - - -1.0

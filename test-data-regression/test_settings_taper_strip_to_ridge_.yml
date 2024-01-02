@@ -1,33 +1,8 @@
-function_name: taper_strip_to_ridge
+function: taper_strip_to_ridge
 info:
   length: 10.0
 module: gdsfactory.components.taper
 name: taper_strip_to_ridge
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 3
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 6.0
 settings:
   cross_section: xs_sc
   layer_slab: SLAB90

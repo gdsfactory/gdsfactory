@@ -1,68 +1,7 @@
-function_name: nxn
+function: nxn
 info: {}
 module: gdsfactory.components.nxn
 name: nxn_port_typeoptical
-ports:
-  o1:
-    center:
-    - 0.0
-    - 4.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 8.0
-    - 6.75
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 8.0
-    - 4.917
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4:
-    center:
-    - 8.0
-    - 3.083
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o5:
-    center:
-    - 8.0
-    - 1.25
-    layer:
-    - 1
-    - 0
-    name: o5
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   east: 4
   layer: WG

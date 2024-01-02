@@ -1,44 +1,7 @@
-function_name: _from_yaml
+function: _from_yaml
 info: {}
 module: gdsfactory.read.from_yaml
 name: component_yaml_ports_d68fa3aa
-ports:
-  o1:
-    center:
-    - -0.5
-    - 0.225
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.45
-  o2:
-    center:
-    - 13.0
-    - 3.675
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.45
-  o3:
-    center:
-    - 13.0
-    - -3.225
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.45
 settings:
   conf:
     instances:

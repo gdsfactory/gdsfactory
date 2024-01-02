@@ -40,12 +40,17 @@ def complex_encoder(obj, digits=DEFAULT_SERIALIZATION_MAX_DIGITS):
     return {"real": real_part, "imag": imag_part}
 
 
-def clean_value_json(value: Any) -> str | int | float | dict | list | bool | None:
+def clean_value_json(
+    value: Any, fast_serialization: bool = False
+) -> str | int | float | dict | list | bool | None:
     """Return JSON serializable object."""
     from gdsfactory.path import Path
 
     if isinstance(value, pydantic.BaseModel):
         return clean_dict(value.model_dump())
+
+    elif fast_serialization and hasattr(value, "hash_geometry"):
+        return value.hash_geometry()
 
     elif hasattr(value, "get_component_spec"):
         return value.get_component_spec()
@@ -68,6 +73,7 @@ def clean_value_json(value: Any) -> str | int | float | dict | list | bool | Non
 
     elif callable(value) and isinstance(value, functools.partial):
         return clean_value_partial(value, include_module=True)
+
     elif hasattr(value, "to_dict"):
         return clean_dict(value.to_dict())
 
@@ -159,7 +165,7 @@ def clean_value_partial_all(value, include_module: bool = True):
 def clean_value_name(value: Any) -> str:
     """Returns a string representation of an object."""
     # value1 = clean_value_json(value)
-    return str(clean_value_json(value))
+    return str(clean_value_json(value, fast_serialization=True))
 
 
 def get_hash(value: Any) -> str:

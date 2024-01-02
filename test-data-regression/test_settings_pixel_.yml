@@ -1,8 +1,7 @@
-function_name: pixel
+function: pixel
 info: {}
 module: gdsfactory.components.version_stamp
 name: pixel
-ports: {}
 settings:
   layer: WG
   layers: null

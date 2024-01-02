@@ -1,8 +1,7 @@
-function_name: die_bbox_frame
+function: die_bbox_frame
 info: {}
 module: gdsfactory.components.die_bbox_frame
 name: die_bbox_frame
-ports: {}
 settings:
   bbox:
   - - -1.0

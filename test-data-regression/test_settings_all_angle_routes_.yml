@@ -1,6 +1,5 @@
-function_name: all_angle_routes
+function: all_angle_routes
 info: {}
 module: yaml_jinja
 name: all_angle_routes
-ports: {}
 settings: {}

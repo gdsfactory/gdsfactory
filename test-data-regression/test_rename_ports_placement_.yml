@@ -1,68 +1,7 @@
-function_name: nxn
+function: nxn
 info: {}
 module: gdsfactory.components.nxn
 name: nxn_port_typeplacement
-ports:
-  p1:
-    center:
-    - 0.0
-    - 4.0
-    layer:
-    - 1
-    - 0
-    name: p1
-    orientation: 180
-    port_type: placement
-    shear_angle: null
-    width: 0.5
-  p2:
-    center:
-    - 8.0
-    - 6.75
-    layer:
-    - 1
-    - 0
-    name: p2
-    orientation: 0
-    port_type: placement
-    shear_angle: null
-    width: 0.5
-  p3:
-    center:
-    - 8.0
-    - 4.917
-    layer:
-    - 1
-    - 0
-    name: p3
-    orientation: 0
-    port_type: placement
-    shear_angle: null
-    width: 0.5
-  p4:
-    center:
-    - 8.0
-    - 3.083
-    layer:
-    - 1
-    - 0
-    name: p4
-    orientation: 0
-    port_type: placement
-    shear_angle: null
-    width: 0.5
-  p5:
-    center:
-    - 8.0
-    - 1.25
-    layer:
-    - 1
-    - 0
-    name: p5
-    orientation: 0
-    port_type: placement
-    shear_angle: null
-    width: 0.5
 settings:
   east: 4
   layer: WG

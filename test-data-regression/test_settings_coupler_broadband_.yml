@@ -1,56 +1,7 @@
-function_name: coupler_broadband
+function: coupler_broadband
 info: {}
 module: gdsfactory.components.coupler_broadband
 name: coupler_broadband
-ports:
-  o1:
-    center:
-    - -25.75
-    - -10.45
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 270.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - -25.75
-    - 10.25
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 25.75
-    - -10.45
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 270.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4:
-    center:
-    - 25.75
-    - 10.25
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
   bend:
     function: bend_euler
