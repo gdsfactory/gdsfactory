@@ -197,11 +197,16 @@ class Component(_GeometryHelper):
     ) -> None:
         """Initialize the Component object."""
 
-        self.uid = str(uuid.uuid4())[:8]
-        if with_uuid or name == "Unnamed":
+        if with_uuid:
+            warnings.warn("with_uuid is deprecated. Use @cell decorator instead.")
+            self.uid = str(uuid.uuid4())[:8]
             name += f"_{self.uid}"
 
-        self._cell = gdstk.Cell("Unnamed")
+        name_counters[name] += 1
+        if name_counters[name] > 1:
+            name = f"{name}${name_counters[name]-1}"
+
+        self._cell = gdstk.Cell(name)
         self.rename(name, max_name_length=max_name_length)
         self.info: Info = Info()
 
@@ -1369,24 +1374,12 @@ class Component(_GeometryHelper):
             single_layer: move all polygons are moved to the specified (optional).
         """
         component_flat = Component()
-
-        _cell = self._cell.copy(name=component_flat.name)
-        _cell = _cell.flatten()
-        component_flat._cell = _cell
+        component_flat._cell = self._cell.flatten()
         if single_layer is not None:
-            from gdsfactory import get_layer
-
-            layer, datatype = get_layer(single_layer)
-            for polygon in _cell.polygons:
-                polygon.layer = layer
-                polygon.datatype = datatype
-            for path in _cell.paths:
-                path.set_layers(layer)
-                path.set_datatypes(datatype)
+            warnings.warn("flatten on single layer is deprecated")
 
         component_flat.copy_child_info(self)
         component_flat.add_ports(self.ports)
-        component_flat.child = self.child
         return component_flat
 
     def flatten_reference(self, ref: ComponentReference) -> None:
@@ -1402,7 +1395,7 @@ class Component(_GeometryHelper):
         from gdsfactory.functions import transformed
 
         self.remove(ref)
-        new_component = transformed(ref, decorator=None)
+        new_component = transformed(ref)
         self.add_ref(new_component, alias=ref.name)
 
     def flatten_invalid_refs(
@@ -2810,8 +2803,13 @@ if __name__ == "__main__":
     # from functools import partial
     import gdsfactory as gf
 
-    c = gf.components.straight(length=1)
-    cc = gf.routing.add_fiber_array(c)
+    c1 = gf.Component()
+    c2 = gf.Component()
+    print(c1.name)
+    print(c2.name)
+
+    # c = gf.components.straight(length=1)
+    # cc = gf.routing.add_fiber_array(c)
     # print(c.hash_geometry())
     # c2 = c.flatten()
 
