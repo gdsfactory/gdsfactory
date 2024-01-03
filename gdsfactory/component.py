@@ -1619,18 +1619,19 @@ class Component(_GeometryHelper):
             return fig
 
         except ImportError:
-            print(
-                "You can install `pip install gdsfactory[cad]` for better visualization"
-            )
             component.plot(plotter="matplotlib")
 
     def plot_kweb(self):
         """Shows current gds in kweb."""
+        warnings.warn(
+            "Component.plot_kweb() is deprecated and will be removed in future versions of gdsfactory. "
+            "Use Component.plot() instead"
+        )
 
         try:
             import kweb.server_jupyter as kj
         except Exception:
-            print("You need to install kweb with `pip install gdsfactory[cad]`")
+            print("You need to install kweb with `pip install 'gdsfactory[cad]'`")
             return self.plot_klayout()
 
         from html import escape
@@ -1693,6 +1694,11 @@ class Component(_GeometryHelper):
             min_aspect: minimum aspect ratio.
         """
         from gdsfactory.quickplotter import quickplot
+
+        warnings.warn(
+            "Component.plot_matplotlib() is deprecated and will be removed in future versions of gdsfactory. "
+            "Use Component.plot() instead"
+        )
 
         quickplot(self, **kwargs)
 

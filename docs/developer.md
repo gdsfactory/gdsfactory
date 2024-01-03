@@ -2,14 +2,13 @@
 
 We support Python 3.10 or 3.11, and recommend [VSCode](https://code.visualstudio.com/) IDE. If you do not have Python installed, you can [download Anaconda](https://www.anaconda.com/download/).
 
-Upon Python installation, open Anaconda Prompt as Administrator and install the latest gdsfactory (from the conda-forge channel) and Optional `cad` visualization extras using pip.
+Upon Python installation, open Anaconda Prompt as Administrator and install the latest gdsfactory
 
 ![anaconda prompt](https://i.imgur.com/eKk2bbs.png)
 
 
 ```
-conda install -c conda-forge gdstk -y
-pip install "gdsfactory[cad]"--upgrade
+pip install gdsfactory --upgrade
 ```
 
 ## Update gdsfactory
@@ -17,7 +16,7 @@ pip install "gdsfactory[cad]"--upgrade
 You can upgrade gdsfactory using the following command:
 
 ```
-pip install gdsfactory[cad] --upgrade
+pip install gdsfactory --upgrade
 ```
 
 Please note that some PDKs may only work for a specific version of gdsfactory. Ensure you install the correct gdsfactory version specified in the pyproject.toml file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example, pip install gf180 will install the latest gdsfactory version tested for the GlobalFoundries180 PDK.
@@ -61,7 +60,6 @@ The following lines will:
 git clone git@github.com:YourUserName/gdsfactory.git
 cd gdsfactory
 git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
-conda install -c conda-forge gdstk -y
 pip install -e .[cad,dev]
 pre-commit install
 ```
