@@ -1620,7 +1620,7 @@ class Component(_GeometryHelper):
 
         except ImportError:
             print(
-                "You can install `pip install gdsfactory[cad]` for better visualization"
+                "You can install `pip install 'gdsfactory[cad]'` for better visualization"
             )
             component.plot(plotter="matplotlib")
 
@@ -1630,7 +1630,7 @@ class Component(_GeometryHelper):
         try:
             import kweb.server_jupyter as kj
         except Exception:
-            print("You need to install kweb with `pip install gdsfactory[cad]`")
+            print("You need to install kweb with `pip install 'gdsfactory[cad]'`")
             return self.plot_klayout()
 
         from html import escape
