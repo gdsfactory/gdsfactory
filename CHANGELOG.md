@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.10.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.1) - 2024-01-04
+
+No significant changes.
+
+
 ## [7.10.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.0) - 2024-01-02
 
 - add xsize, ysize and size to via_stack_slot and improve grid reference naming [#2431](https://github.com/gdsfactory/gdsfactory/pull/2431)
