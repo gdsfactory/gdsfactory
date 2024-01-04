@@ -47,7 +47,6 @@ def clear_cache() -> None:
 
     CACHE.clear()
     CACHE_IDS.clear()
-    name_counters.clear()
 
 
 def print_cache() -> None:

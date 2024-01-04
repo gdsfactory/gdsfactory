@@ -7,7 +7,7 @@ settings:
   cross_section: xs_sc
   length: 0
   neff_w:
-    function: neff_TE1550SOI_220nm
+    function: <lambda>
   npoints: 200
   wavelength: 1.55
   width1: 0.5

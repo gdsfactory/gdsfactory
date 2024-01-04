@@ -3,7 +3,7 @@ info: {}
 module: gdsfactory.components.text_freetype
 name: text_freetype
 settings:
-  font: OCR-A.ttf
+  font: OCR-A
   justify: left
   layer: WG
   layers: null

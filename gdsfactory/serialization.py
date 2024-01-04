@@ -50,7 +50,7 @@ def clean_value_json(
     if isinstance(value, pydantic.BaseModel):
         return clean_dict(value.model_dump())
 
-    elif hasattr(value, "name"):
+    elif fast_serialization and hasattr(value, "name"):
         return value.name
 
     elif hasattr(value, "get_component_spec"):
