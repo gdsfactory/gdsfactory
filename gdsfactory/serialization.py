@@ -6,6 +6,7 @@ import hashlib
 import inspect
 import pathlib
 from collections.abc import KeysView as dict_keys
+from types import FunctionType
 from typing import Any
 
 import gdstk
@@ -70,6 +71,16 @@ def clean_value_json(
     elif isinstance(value, np.ndarray):
         value = np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
         return orjson.loads(orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY))
+
+    # Add a condition to handle lambda functions specifically
+    elif (
+        callable(value)
+        and isinstance(value, FunctionType)
+        and value.__name__ == "<lambda>"
+    ):
+        raise ValueError(
+            "Unable to serialize lambda function. Use a named function instead."
+        )
 
     elif callable(value) and isinstance(value, functools.partial):
         return clean_value_partial(value, include_module=True)

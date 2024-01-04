@@ -30,12 +30,24 @@ adiabatic_polyfit_TE1550SOI_220nm = np.array(
 )
 
 
+def neff_TE1550SOI_220nm(w: float) -> float:
+    """Returns the effective index of the fundamental TE mode for a 220nm-thick core with 3.45 index, fully clad with 1.44 index.
+
+    Args:
+        w: width in um.
+
+    Returns:
+        effective index
+    """
+    return np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w)
+
+
 @gf.cell
 def taper_adiabatic(
     width1: float = 0.5,
     width2: float = 5.0,
     length: float = 0,
-    neff_w: Callable = lambda w: np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w),
+    neff_w: Callable = neff_TE1550SOI_220nm,
     alpha: float = 1,
     wavelength: float = 1.55,
     npoints: int = 200,
