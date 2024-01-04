@@ -1958,6 +1958,7 @@ class Component(_GeometryHelper):
         self,
         gdspath: PathType | None = None,
         gdsdir: PathType | None = None,
+        check_invalid_transformations: bool = True,
         **kwargs,
     ) -> Path:
         """Write component to GDS and returns gdspath.
@@ -1982,6 +1983,13 @@ class Component(_GeometryHelper):
             with_netlist: writes a netlist in JSON format.
             netlist_function: function to generate the netlist.
         """
+        from gdsfactory.decorators import has_valid_transformations
+
+        if check_invalid_transformations and not has_valid_transformations(self):
+            warnings.warn(
+                f"Component {self.name} has invalid transformations. "
+                "Try component.flatten_invalid_refs() first."
+            )
 
         return self._write_library(
             gdspath=gdspath, gdsdir=gdsdir, with_oasis=False, **kwargs

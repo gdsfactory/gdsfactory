@@ -245,10 +245,10 @@ class Settings(BaseSettings):
     difftest_ignore_label_differences: bool = False
     layer_error_path: tuple[int, int] = (1000, 0)
     ports_off_grid: Literal["warn", "error", "ignore"] = Field(
-        default="warn", description="Ensures ports are on grid."
+        default="ignore", description="Ensures ports are on grid."
     )
     ports_not_manhattan: Literal["warn", "error", "ignore"] = Field(
-        default="warn", description="Ensures ports are manhattan."
+        default="ignore", description="Ensures ports are manhattan."
     )
     enforce_ports_on_grid: bool = True
     bend_radius_error_type: ErrorType = ErrorType.WARNING
