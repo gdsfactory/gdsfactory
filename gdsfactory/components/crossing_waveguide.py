@@ -119,8 +119,11 @@ def crossing(
     return c
 
 
+_taper = partial(taper, width2=2.5, length=3)
+
+
 @cell
-def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)) -> Component:
+def crossing_from_taper(taper=_taper) -> Component:
     """Returns Crossing based on a taper.
 
     The default is a dummy taper.
