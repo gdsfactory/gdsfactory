@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.10.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.1) - 2024-01-04
 
-No significant changes.
-
+- replace multiple invalid transformations warnings by a single one [#2437](https://github.com/gdsfactory/gdsfactory/pull/2437)
+- avoid lambda functions [#2436](https://github.com/gdsfactory/gdsfactory/pull/2436)
+- Recommend pip instead of conda for installation [#2433](https://github.com/gdsfactory/gdsfactory/pull/2433)
 
 ## [7.10.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.0) - 2024-01-02
 
