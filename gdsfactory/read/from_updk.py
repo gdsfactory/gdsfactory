@@ -22,6 +22,8 @@ def from_updk(
     layer_label: tuple[int, int] | None = None,
     layer_pin_label: tuple[int, int] | None = None,
     layer_pin: tuple[int, int] | None = None,
+    layer_pin_optical: tuple[int, int] | None = None,
+    layer_pin_electrical: tuple[int, int] | None = None,
     optical_xsections: list[str] | None = None,
     electrical_xsections: list[str] | None = None,
     layers_text: list[LayerSpec] | None = None,
@@ -72,10 +74,13 @@ import gdsfactory as gf
 from gdsfactory.get_factories import get_cells
 from gdsfactory.add_pins import add_pins_inside2um
 
+cell = gf.partial(gf.cell, naming_style='updk', autoname=False)
 layer_bbox = {layer_bbox}
 layer_bbmetal = {layer_bbmetal}
 layer_pin_label = {layer_pin_label}
 layer_pin = {layer_pin}
+layer_pin_optical = {layer_pin_optical}
+layer_pin_electrical = {layer_pin_electrical}
 """
 
     if layer_label:
@@ -144,7 +149,7 @@ layer_pin = {layer_pin}
 
         points = str(block.bbox).replace("'", "")
         script += f"""
-@gf.cell
+@cell
 def {block_name}({parameters_string})->gf.Component:
     {doc}
     c = gf.Component()
@@ -202,6 +207,8 @@ if __name__ == "__main__":
     c.show(show_ports=True)
 """
     if filepath_out:
+        dirpath = filepath_out.parent
+        dirpath.mkdir(parents=True, exist_ok=True)
         filepath_out = pathlib.Path(filepath_out)
         filepath_out.write_text(script)
     return script
