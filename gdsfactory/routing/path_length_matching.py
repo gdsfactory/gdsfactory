@@ -289,14 +289,13 @@ if __name__ == "__main__":
     c2 = c << gf.components.straight_array(n=4, spacing=20)
     c1.y = 0
     c2.y = 0
-    c2.x = 300
+    c2.d.x = 300
 
     routes = gf.routing.route_bundle_path_length_match(
-        c1.get_ports_list(prefix="E"),
-        c2.get_ports_list(prefix="W"),
+        c,
+        gf.port.get_ports_list(c1.ports, orientation=0),
+        gf.port.get_ports_list(c2.ports, orientation=180),
         radius=5,
         layer=(2, 0),
     )
-    for route in routes:
-        c.add(route.references)
     c.show()

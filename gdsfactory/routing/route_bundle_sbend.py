@@ -1,29 +1,29 @@
 from __future__ import annotations
 
+from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.port import Port
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.typings import Route
 
 
 def route_bundle_sbend(
+    component: Component,
     ports1: Port,
     ports2: Port,
     sort_ports: bool = True,
     enforce_port_ordering: bool = True,
     **kwargs,
-) -> list[Route]:
-    """Returns a list of routes from ports1 to ports2.
+) -> None:
+    """Places sbend routes from ports1 to ports2.
 
     Args:
+        component: to place the route into.
         ports1: start ports.
         ports2: end ports.
         sort_ports: sort ports.
         enforce_port_ordering: enforces port ordering.
         kwargs: cross_section settings.
 
-    Returns:
-        list of routes.
 
     """
     if sort_ports:
@@ -31,22 +31,12 @@ def route_bundle_sbend(
             ports1, ports2, enforce_port_ordering=enforce_port_ordering
         )
 
-    routes = []
-
     for p1, p2 in zip(ports1, ports2):
         ysize = p2.center[1] - p1.center[1]
         xsize = p2.center[0] - p1.center[0]
         bend = bend_s(size=(xsize, ysize), **kwargs)
-        sbend = bend.ref()
+        sbend = component << bend
         sbend.connect("o1", p1)
-        routes.append(
-            Route(
-                references=[sbend],
-                ports=tuple(sbend.get_ports_list()),
-                length=bend.info["length"],
-            )
-        )
-    return routes
 
 
 if __name__ == "__main__":
@@ -74,7 +64,5 @@ if __name__ == "__main__":
     ]
     left_ports.reverse()
 
-    routes = gf.routing.route_bundle(right_ports, left_ports, with_sbend=False)
-    for route in routes:
-        c.add(route.references)
+    routes = gf.routing.route_bundle_sbend(c, right_ports, left_ports)
     c.show()

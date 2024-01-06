@@ -1,4 +1,4 @@
-"""`route_single` returns a Manhattan route between two ports.
+"""`route_single` places a Manhattan route between two ports.
 
 `route_single` only works for an individual routes. For routing groups of ports you need to use `route_bundle` instead
 

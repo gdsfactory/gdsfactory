@@ -24,7 +24,6 @@ from gdsfactory.typings import (
 
 def route_bundle_path_length_match(
     component,
-    component_to_route: ComponentSpec,
     ports1: list[Port],
     ports2: list[Port],
     separation: float = 30.0,
@@ -45,7 +44,6 @@ def route_bundle_path_length_match(
 
     Args:
         component: to add the routes to.
-        component_to_route: component to route.
         ports1: list of ports.
         ports2: list of ports.
         separation: between the loops.
