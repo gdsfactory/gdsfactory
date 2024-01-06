@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-import contextlib
-import os
+import pathlib
 import warnings
 
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.config import PATH
 from gdsfactory.constants import _glyph, _indent, _width
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpec, LayerSpecs, PathType
 
 
 @gf.cell
@@ -17,8 +17,9 @@ def text_freetype(
     text: str = "abcd",
     size: int = 10,
     justify: str = "left",
+    font: PathType = PATH.font_ocr,
     layer: LayerSpec = "WG",
-    font: str = "DEPLOF",
+    layers: LayerSpecs | None = None,
 ) -> Component:
     """Returns text Component.
 
@@ -34,6 +35,7 @@ def text_freetype(
     """
     t = Component()
     yoffset = 0
+    layers = layers or [layer]
 
     face = font
     xoffset = 0
@@ -50,7 +52,9 @@ def text_freetype(
                     for poly in _glyph[ascii_val]:
                         xpts = np.array(poly)[:, 0] * scaling + xoffset
                         ypts = np.array(poly)[:, 1] * scaling + yoffset
-                        char.add_polygon(xpts.tolist(), ypts.tolist(), layer=layer)
+                        points = list(zip(xpts, ypts))
+                        print(points)
+                        char.add_polygon(points, layer=layer)
                     xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
                 else:
                     valid_chars = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~µ"
@@ -64,17 +68,15 @@ def text_freetype(
     else:
         from gdsfactory.font import _get_font_by_file, _get_font_by_name, _get_glyph
 
-        # Load the font
-        # If we've passed a valid file, try to load that, otherwise search system fonts
-        font = None
-        if (face.endswith(".otf") or face.endswith(".ttf")) and os.path.exists(face):
-            font = _get_font_by_file(face)
+        font_path = pathlib.Path(font)
+        # Load the font. If we've passed a valid file, try to load that, otherwise search system fonts
+        if font_path.is_file() and font_path.suffix in (".otf", ".ttf"):
+            font = _get_font_by_file(str(font))
         else:
-            with contextlib.suppress(ValueError):
-                font = _get_font_by_name(face)
+            font = _get_font_by_name(font)
         if font is None:
             raise ValueError(
-                f"Failed to find font: {face!r}. "
+                f"Failed to find font: {font!r}. "
                 "Try specifying the exact (full) path to the .ttf or .otf file. "
             )
 
@@ -86,7 +88,8 @@ def text_freetype(
                 letter_dev = Component()
                 letter_template, advance_x = _get_glyph(font, letter)
                 for poly in letter_template.polygons:
-                    letter_dev.add_polygon(poly, layer=layer)
+                    for layer in layers:
+                        letter_dev.add_polygon(poly.points, layer=layer)
                 ref = char.add_ref(letter_dev)
                 ref.d.move(other=(xoffset, 0))
                 # ref.magnification = size
@@ -109,7 +112,7 @@ def text_freetype(
 
 
 if __name__ == "__main__":
-    c2 = text_freetype("hello", font="Times New Roman")
+    c2 = text_freetype("hello")
     # print(c2.name)
     # c2 = text_freetype()
     c2.show()

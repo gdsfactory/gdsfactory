@@ -197,7 +197,7 @@ def _get_glyph(font, letter):  # noqa: C901
         letter_polyline = polylines[0]
         for polyline in polylines[1:]:
             letter_polyline = gdstk.boolean(letter_polyline, polyline, "xor")
-        component.add_polygon(letter_polyline.points)
+        component.add_polygon(letter_polyline.points, layer=(1, 0))
 
     # Cache the return value and return it
     font.gds_glyphs[letter] = (component, glyph.advance.x / font.size.ascender)
