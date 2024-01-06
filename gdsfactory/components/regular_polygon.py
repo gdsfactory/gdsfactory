@@ -27,7 +27,7 @@ def regular_polygon(
     """
     c = Component()
     polygon = gdstk.regular_polygon((0, 0), side_length, sides)
-    c.add_polygon(polygon, layer=layer)
+    c.add_polygon(polygon.points, layer=layer)
     a = side_length / (2 * np.tan(np.pi / sides))
 
     if port_type:
