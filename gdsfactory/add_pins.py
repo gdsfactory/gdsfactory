@@ -245,15 +245,15 @@ def add_pin_rectangle_double(
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
     # outer square
-    d = p.width / 2
+    d = p.d.width / 2
     dbot = np.array([0, -d])
     dtop = np.array([0, d])
     dbotin = np.array([pin_length / 2, -d])
     dtopin = np.array([pin_length / 2, +d])
-    p0 = p.center + _rotate(dbot, rot_mat)
-    p1 = p.center + _rotate(dtop, rot_mat)
-    ptopin = p.center + _rotate(dtopin, rot_mat)
-    pbotin = p.center + _rotate(dbotin, rot_mat)
+    p0 = p.d.center + _rotate(dbot, rot_mat)
+    p1 = p.d.center + _rotate(dtop, rot_mat)
+    ptopin = p.d.center + _rotate(dtopin, rot_mat)
+    pbotin = p.d.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
@@ -317,7 +317,7 @@ def add_pin_rectangle(
     sa = np.sin(a * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
-    d = p.width / 2 + port_margin
+    d = p.d.width / 2 + port_margin
 
     dbot = np.array([pin_length / 2, -d])
     dtop = np.array([pin_length / 2, d])
@@ -326,15 +326,15 @@ def add_pin_rectangle(
 
     p0 = p.center + _rotate(dbot, rot_mat)
     p1 = p.center + _rotate(dtop, rot_mat)
-    ptopin = p.center + _rotate(dtopin, rot_mat)
-    pbotin = p.center + _rotate(dbotin, rot_mat)
+    ptopin = p.d.center + _rotate(dtopin, rot_mat)
+    pbotin = p.d.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
     if layer_label:
         component.add_label(
             text=str(p.name),
-            position=p.center,
+            position=p.d.center,
             layer=layer_label,
         )
 
@@ -599,7 +599,7 @@ if __name__ == "__main__":
     # p2 = len(c2.get_polygons())
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
-    c = gf.components.straight()
+    c = gf.components.bend_euler()
     c = add_pins(c)
     # cc.show()
     # c.show(show_subports=True)
