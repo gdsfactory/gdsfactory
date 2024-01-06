@@ -6,6 +6,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import typing
+import warnings
 from typing import Any, cast
 
 import gdstk
@@ -18,7 +19,7 @@ from gdsfactory.component_layout import (
     get_polygons,
     pprint_ports,
 )
-from gdsfactory.config import CONF, logger
+from gdsfactory.config import CONF
 from gdsfactory.port import (
     Port,
     map_ports_layer_to_orientation,
@@ -808,21 +809,21 @@ class ComponentReference(_GeometryHelper):
             if CONF.on_width_missmatch == "error":
                 raise ValueError(message)
             elif CONF.on_width_missmatch == "warn":
-                logger.warning(message)
+                warnings.warn(message)
 
         if p.layer != destination.layer and not allow_layer_mismatch:
             message = f"Port layer mismatch: {p.layer} != {destination.layer} in {self.parent.name}"
             if CONF.on_layer_missmatch == "error":
                 raise ValueError(message)
             elif CONF.on_layer_missmatch == "warn":
-                logger.warning(message)
+                warnings.warn(message)
 
         if p.port_type != destination.port_type and not allow_type_mismatch:
             message = f"Port type mismatch: {p.port_type} != {destination.port_type} in {self.parent.name}"
             if CONF.on_type_missmatch == "error":
                 raise ValueError(message)
             elif CONF.on_type_missmatch == "warn":
-                logger.warning(message)
+                warnings.warn(message)
 
         if destination.orientation is not None:
             self.move(

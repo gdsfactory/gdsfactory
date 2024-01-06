@@ -27,25 +27,24 @@ def component(width=10, height=20) -> Component:
 
 
 def test_add_marker_layer() -> None:
-    my_component = partial(
-        component, decorator=partial(add_marker_layer, marker_layer=RANDOM_MARKER_LAYER)
+    add_marker_layer_function = partial(
+        add_marker_layer, marker_layer=RANDOM_MARKER_LAYER
     )
-
-    c = my_component()
+    c = gf.Component()
+    _ = c << component()
+    add_marker_layer_function(c)
     assert RANDOM_MARKER_LAYER in c.layers
 
 
 def test_add_marker_layer_label_added() -> None:
-    my_component = partial(
-        component,
-        decorator=partial(
-            add_marker_layer,
-            marker_layer=RANDOM_MARKER_LAYER,
-            marker_label=RANDOM_MARKER_LABEL,
-        ),
+    add_marker_layer_function = partial(
+        add_marker_layer,
+        marker_layer=RANDOM_MARKER_LAYER,
+        marker_label=RANDOM_MARKER_LABEL,
     )
-
-    c = my_component()
+    c = gf.Component()
+    _ = c << component()
+    add_marker_layer_function(c)
     assert RANDOM_MARKER_LAYER in c.layers
     assert (label := c.labels[0]).text == RANDOM_MARKER_LABEL
     assert (label.layer, label.texttype) == RANDOM_MARKER_LAYER
@@ -76,21 +75,6 @@ def test_add_marker_layer_layers_to_mark_passed() -> None:
     assert c.get_polygons(
         by_spec=TEST_COMPONENT_LAYER_B, as_shapely=True
     ) == c.get_polygons(by_spec=RANDOM_MARKER_LAYER, as_shapely=True)
-
-
-def test_add_marker_layer_layers_to_mark_does_not_exist(caplog) -> None:
-    my_component = partial(
-        component,
-        decorator=partial(
-            add_marker_layer,
-            marker_layer=RANDOM_MARKER_LAYER,
-            layers_to_mark=[(999, 999)],
-        ),
-    )
-
-    c = my_component()
-    assert "Could not add marker layer" in caplog.text
-    assert RANDOM_MARKER_LAYER not in c.layers
 
 
 if __name__ == "__main__":

@@ -14,6 +14,7 @@ import subprocess
 import sys
 import tempfile
 import traceback
+import warnings
 from enum import Enum, auto
 from itertools import takewhile
 from pathlib import Path
@@ -272,6 +273,9 @@ class Settings(BaseSettings):
         self.logger.remove()
         self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
         self.logger.debug("LogLevel: {}", self.logfilter.level)
+        warnings.showwarning = lambda message, *args, **kwargs: logger.opt(
+            depth=2
+        ).warning(message)
 
 
 class Paths:
