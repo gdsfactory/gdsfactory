@@ -139,35 +139,35 @@ if __name__ == "__main__":
     LAYER = LayerMap()
 
     class PCBViews(LayerViews):
-        F_Cu = LayerView(
+        F_Cu: LayerView = LayerView(
             layer=LAYER.F_Cu,
             color="red",
         )
-        In1_Cu = LayerView(
+        In1_Cu: LayerView = LayerView(
             layer=LAYER.In1_Cu,
             color="limegreen",
         )
-        In2_Cu = LayerView(
+        In2_Cu: LayerView = LayerView(
             layer=LAYER.In2_Cu,
             color="goldenrod",
         )
-        B_Cu = LayerView(
+        B_Cu: LayerView = LayerView(
             layer=LAYER.B_Cu,
             color="blue",
         )
-        F_Silkscreen = LayerView(
+        F_Silkscreen: LayerView = LayerView(
             layer=LAYER.F_Silkscreen,
             color="khaki",
         )
-        F_Mask = LayerView(
+        F_Mask: LayerView = LayerView(
             layer=LAYER.F_Mask,
             color="violet",
         )
-        B_Mask = LayerView(
+        B_Mask: LayerView = LayerView(
             layer=LAYER.B_Mask,
             color="aqua",
         )
-        Edge_Cuts = LayerView(
+        Edge_Cuts: LayerView = LayerView(
             layer=LAYER.Edge_Cuts,
             color="gold",
         )
@@ -249,6 +249,7 @@ if __name__ == "__main__":
     c = LAYER_VIEWS.preview_layerset()
 
     gerber_path = PATH.repo / "extra" / "gerber"
+    gerber_path.mkdir(exist_ok=True, parents=True)
 
     # This requires that the PCB technology (commented-out code above) is installed
     c.show(technology="PCB")
