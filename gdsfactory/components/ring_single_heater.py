@@ -119,9 +119,9 @@ def ring_single_heater(
     c1.movey(via_stack_offset[1])
     c2.movey(via_stack_offset[1])
 
-    p1 = c1.get_ports_list(orientation=port_orientation)
-    p2 = c2.get_ports_list(orientation=port_orientation)
-    valid_orientations = {p.orientation for p in via.ports.values()}
+    p1 = gf.port.get_ports_list(c1.ports, orientation=port_orientation)
+    p2 = gf.port.get_ports_list(c2.ports, orientation=port_orientation)
+    valid_orientations = {p.orientation for p in via.ports}
 
     if not p1:
         raise ValueError(

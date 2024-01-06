@@ -40,7 +40,6 @@ def sample_reticle(grid: bool = True, **kwargs) -> gf.Component:
                 measurement="optical_loopback4",
                 analysis="optical_loopback4_spirals",
             ),
-            decorator=gf.labels.add_label_json,
         )
         for length in [20e3, 40e3, 60e3]
     ]
