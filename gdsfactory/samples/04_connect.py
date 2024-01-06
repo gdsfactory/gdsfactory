@@ -2,12 +2,7 @@
 
 # Connecting devices with connect()
 
-The connect command allows you to connect ComponentReference ports together like
-Lego blocks.
-
-There is an optional parameter called ``overlap`` which is
-useful if you have shapes you want to intersect with some overlap,
-or with a negative number if you want to separate the ports.
+The connect command allows you to connect ComponentReference ports together like Lego blocks.
 
 """
 
@@ -23,7 +18,14 @@ if __name__ == "__main__":
     wg2 = c << gf.components.straight(length=10, width=2, layer=(3, 0))
     wg3 = c << gf.components.straight(length=10, width=3, layer=(2, 0))
 
-    wg2.connect(port="o1", other=wg1.ports["o2"])
-    wg3.connect(port="o1", other=wg2.ports["o2"], overlap=1)
+    wg2.connect(
+        port="o1", other=wg1["o2"], allow_width_mismatch=True, allow_layer_mismatch=True
+    )
+    wg3.connect(
+        port="o1",
+        other=wg2["o2"],
+        allow_width_mismatch=True,
+        allow_layer_mismatch=True,
+    )
 
     c.show()  # show it in klayout

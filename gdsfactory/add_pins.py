@@ -19,6 +19,7 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
+from gdsfactory.cell import container
 from gdsfactory.port import select_ports
 
 if TYPE_CHECKING:
@@ -588,6 +589,8 @@ def add_pins_and_outline(
         add_instance_label_function(component=component, reference=reference)
 
 
+add_pins_container = partial(container, function=add_pins)
+
 if __name__ == "__main__":
     import gdsfactory as gf
 
@@ -600,7 +603,7 @@ if __name__ == "__main__":
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
     c = gf.components.bend_euler()
-    c = add_pins(c)
+    c = add_pins_container(c)
     # cc.show()
     # c.show(show_subports=True)
     # c.show( )

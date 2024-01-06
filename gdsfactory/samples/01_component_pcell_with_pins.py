@@ -29,7 +29,8 @@ def straight_narrow(
 
 
 if __name__ == "__main__":
-    wg = straight_narrow(decorator=gf.add_pins.add_pins)
+    wg = straight_narrow()
+    wg_pins = gf.add_pins.add_pins_container(wg)
 
     # By default show adds pins, so you don't need it to show_ports
-    wg.show()
+    wg_pins.show()
