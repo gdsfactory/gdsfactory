@@ -187,23 +187,24 @@ def add_pin_rectangle_inside(
     sa = np.sin(a * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
-    d = p.width / 2
+    d = p.d.width / 2
 
     dbot = np.array([0, -d])
     dtop = np.array([0, +d])
     dbotin = np.array([-pin_length, -d])
     dtopin = np.array([-pin_length, +d])
 
-    p0 = p.center + _rotate(dbot, rot_mat)
-    p1 = p.center + _rotate(dtop, rot_mat)
-    ptopin = p.center + _rotate(dtopin, rot_mat)
-    pbotin = p.center + _rotate(dbotin, rot_mat)
+    p0 = p.d.center + _rotate(dbot, rot_mat)
+    p1 = p.d.center + _rotate(dtop, rot_mat)
+    ptopin = p.d.center + _rotate(dtopin, rot_mat)
+    pbotin = p.d.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
+
     if layer_label:
         component.add_label(
             text=str(p.name),
-            position=p.center,
+            position=p.d.center,
             layer=layer_label,
         )
 
@@ -599,6 +600,7 @@ if __name__ == "__main__":
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
     c = gf.components.straight()
+    c = add_pins(c)
     # cc.show()
     # c.show(show_subports=True)
     # c.show( )

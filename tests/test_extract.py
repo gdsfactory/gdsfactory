@@ -6,8 +6,8 @@ import gdsfactory as gf
 def test_extract() -> None:
     xs = gf.cross_section.strip(
         width=0.5,
-        bbox_layers=[(111, 0)],
-        bbox_offsets=[3],
+        bbox_layers=((111, 0),),
+        bbox_offsets=(3,),
         add_pins_function_name="add_pins_siepic",
     )
 
