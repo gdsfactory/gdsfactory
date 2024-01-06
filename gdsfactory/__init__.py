@@ -32,7 +32,6 @@ from gdsfactory.component import (
     ComponentReference,
     Instance,
     cell,
-    cell_without_validator,
 )
 from gdsfactory.config import CONF, call_if_func, PATH, logger
 from gdsfactory.port import Port
@@ -98,7 +97,6 @@ __all__ = (
     "c",
     "call_if_func",
     "cell",
-    "cell_without_validator",
     "components",
     "compose",
     "constant",

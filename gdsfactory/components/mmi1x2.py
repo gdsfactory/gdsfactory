@@ -116,5 +116,5 @@ def mmi1x2(
 
 
 if __name__ == "__main__":
-    c = mmi1x2()
+    c = mmi1x2(cross_section="xs_rc")
     c.show()
