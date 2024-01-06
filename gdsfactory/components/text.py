@@ -85,7 +85,7 @@ def text_lines(
     for i, texti in enumerate(text):
         t = text_rectangular(text=texti, size=size, layer=layer)
         tref = c.add_ref(t)
-        tref.movey(-6 * size * (i + 1))
+        tref.d.movey(-6 * size * (i + 1))
     return c
 
 
@@ -98,7 +98,7 @@ if __name__ == "__main__":
         justify="center",
         position=(0, 0),
     )
-    # c = text_lines(text=["a", "b"], size=10)
+    c = text_lines(text=("a", "b"), size=10)
     # c = text_lines()
     # c2.show( )
     # c.plot()

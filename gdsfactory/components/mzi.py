@@ -10,6 +10,7 @@ from gdsfactory.components.coupler import coupler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -231,6 +232,16 @@ mzi_coupler = partial(
 
 mzi_pin = partial(
     mzi, straight_x_top="straight_pin", cross_section_x_top="xs_pin", delta_length=0.0
+)
+
+mzi_phase_shifter = partial(mzi, straight_x_top="straight_heater_metal", length_x=200)
+
+mzi2x2_2x2_phase_shifter = partial(
+    mzi2x2_2x2, straight_x_top="straight_heater_metal", length_x=200
+)
+
+mzi_phase_shifter_top_heater_metal = partial(
+    mzi_phase_shifter, straight_x_top=straight_heater_metal
 )
 
 
