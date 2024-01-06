@@ -43,12 +43,11 @@ def to_3d(
     # layers = layer_views.layer_map.values()
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
-    component_layers = component_with_booleans.get_layers()
+    polygons_per_layer = component_with_booleans.get_polygons()
+    component_layers = polygons_per_layer.keys()
     has_polygons = False
 
-    for layer, polygons in component_with_booleans.get_polygons(
-        by_spec=True, as_array=False
-    ).items():
+    for layer, polygons in polygons_per_layer.items():
         if (
             layer not in exclude_layers
             and layer in layer_to_zmin
@@ -65,8 +64,8 @@ def to_3d(
             # print(layer, height, zmin, opacity, layer_view.visible)
 
             if zmin is not None and layer_view.visible:
-                for polygon in polygons:
-                    p = shapely.geometry.Polygon(polygon.points)
+                for polygon in [polygons]:
+                    p = shapely.geometry.Polygon(polygon)
                     mesh = extrude_polygon(p, height=height)
                     mesh.apply_translation((0, 0, zmin))
                     mesh.visual.face_colors = (*color_rgb, 0.5)

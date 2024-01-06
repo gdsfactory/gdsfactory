@@ -351,6 +351,22 @@ class Component(kf.KCell):
         for instance in instances:
             self._kdb_cell.insert(instance._instance)
 
+    def get_polygons(self) -> dict[tuple[int, int], kf.kdb.Region]:
+        """Returns a dict of Polygons per layer."""
+        from gdsfactory import get_layer
+
+        polygons = dict()
+
+        for layer in self.kcl.layers:
+            layer_index = get_layer(layer)
+            r = kdb.Region(self.begin_shapes_rec(layer_index))
+            r.merge()
+            for p in r.each():
+                layer_tuple = (layer.layer, layer.datatype)
+                polygons[layer_tuple] = p
+
+        return polygons
+
     def area(self, layer: LayerSpec) -> float:
         """Returns the area of the Component in um2."""
         from gdsfactory import get_layer
@@ -577,9 +593,14 @@ def container(component, function, **kwargs) -> Component:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.straight()
-    print(c.area(layer=(1, 0)))
-    print(c.get_ports_list(prefix="o"))
+    c = gf.Component()
+    wg1 = c << gf.c.straight(length=10, cross_section="xs_rc")
+    wg2 = c << gf.c.straight(length=5, cross_section="xs_rc")
+    wg2.connect("o1", wg1["o2"])
+    wg2.d.movex(5)
+    p = c.get_polygons()
+    # print(c.area(layer=(1, 0)))
+    # print(c.get_ports_list(prefix="o"))
 
     # c = gf.Component()
     # b1 = gf.components.circle(radius=10)

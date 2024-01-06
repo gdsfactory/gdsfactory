@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import kfactory as kf
 
-import gdsfactory as gf
 from gdsfactory.component import Component, boolean_operations
-from gdsfactory.typings import ComponentOrReference, LayerSpec
+
+if TYPE_CHECKING:
+    from gdsfactory.typings import ComponentOrReference, LayerSpec
 
 
 @kf.cell
@@ -90,6 +93,8 @@ def boolean(
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
+
     # c = gf.Component()
     # e2 = c << gf.components.ellipse(radii=(10, 6))
     # e3 = c << gf.components.ellipse(radii=(10, 4))

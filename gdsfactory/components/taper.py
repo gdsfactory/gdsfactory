@@ -205,7 +205,7 @@ def taper_strip_to_ridge_trenches(
     # straight
     x = [0, length, length, 0]
     yw = [y0, yL, -yL, -y0]
-    c.add_polygon((x, yw), layer=layer_wg)
+    c.add_polygon(list(zip(x, yw)), layer=layer_wg)
 
     # top trench
     ymin0 = width / 2
@@ -215,8 +215,8 @@ def taper_strip_to_ridge_trenches(
     x = [0, length, length, 0]
     ytt = [ymin0, yminL, ymaxL, ymax0]
     ytb = [-ymin0, -yminL, -ymaxL, -ymax0]
-    c.add_polygon((x, ytt), layer=trench_layer)
-    c.add_polygon((x, ytb), layer=trench_layer)
+    c.add_polygon(list(zip(x, ytt)), layer=trench_layer)
+    c.add_polygon(list(zip(x, ytb)), layer=trench_layer)
 
     c.add_port(name="o1", center=(0, 0), width=width, orientation=180, layer=layer_wg)
     c.add_port(
@@ -241,9 +241,9 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
-    # c = taper_strip_to_ridge_trenches()
+    c = taper_strip_to_ridge_trenches()
     # c = taper_strip_to_ridge()
     # c = taper(width1=1.5, width2=1, cross_section="xs_rc")
     # c = taper_sc_nc()
-    c = taper(cross_section="xs_rc")
+    # c = taper(cross_section="xs_rc")
     c.show()
