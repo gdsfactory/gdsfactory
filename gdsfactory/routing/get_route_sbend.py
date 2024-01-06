@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import warnings
+
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.port import Port
 from gdsfactory.typings import ComponentFactory, Route
@@ -50,7 +52,7 @@ def get_route_sbend(
 
     orthogonality_error = abs(abs(port1.orientation - port2.orientation) - 180)
     if orthogonality_error > 0.1:
-        raise ValueError(
+        warnings.warn(
             f"Ports need to have orthogonal orientation {orthogonality_error}\n"
             f"port1 = {port1.orientation} deg and port2 = {port2.orientation}"
         )
