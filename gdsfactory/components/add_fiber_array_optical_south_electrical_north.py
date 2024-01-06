@@ -1,4 +1,3 @@
-import json
 from typing import Any
 
 import gdsfactory as gf
@@ -7,7 +6,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
 )
 from gdsfactory.components.mzi_phase_shifter import mzi_phase_shifter
 from gdsfactory.components.pad import pad_small
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -23,13 +22,7 @@ def add_fiber_array_optical_south_electrical_north(
     npads: int | None = None,
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     xs_metal: CrossSectionSpec = "xs_metal_routing",
-    layer_label: LayerSpec = "TEXT",
-    measurement: str = "optical_loopback2_heater_sweep",
-    measurement_settings: dict[str, Any] | None = None,
-    analysis: str = "",
     analysis_settings: dict[str, Any] | None = None,
-    doe: str = "",
-    anchor: str = "sw",
     **kwargs,
 ) -> gf.Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
@@ -94,14 +87,13 @@ def add_fiber_array_optical_south_electrical_north(
         grating_coupler=grating_coupler,
         with_loopback=with_loopback,
         fiber_spacing=fiber_spacing,
-        layer_label=None,
         **kwargs,
     )
-    optical_ports = r.get_ports_list(port_type="optical")
+    optical_ports = gf.port.get_ports_list(r.ports, port_type="optical")
     c.add_ports(optical_ports)
 
-    electrical_ports = r.get_ports_list(
-        port_type="electrical", orientation=electrical_port_orientation
+    electrical_ports = gf.port.get_ports_list(
+        r.ports, port_type="electrical", orientation=electrical_port_orientation
     )
     electrical_port_names = electrical_port_names or [p.name for p in electrical_ports]
 
@@ -112,55 +104,58 @@ def add_fiber_array_optical_south_electrical_north(
         spacing=(pad_spacing, 0),
     )
     pads.x = r.x
-    pads.ymin = r.ymin + pad_gc_spacing
+    pads.d.ymin = r.d.ymin + pad_gc_spacing
 
     electrical_ports = [r[por_name] for por_name in electrical_port_names]
     nroutes = min(len(electrical_ports), npads)
 
     ports1 = electrical_ports[:nroutes]
-    ports2 = pads.get_ports_list(orientation=270)[:nroutes]
-    routes = gf.routing.route_bundle_electrical(
+    ports2 = gf.port.get_ports_list(pads.ports, orientation=270)[:nroutes]
+    gf.routing.route_bundle_electrical(
+        c,
         ports1=ports1,
         ports2=ports2,
         cross_section=xs_metal,
         enforce_port_ordering=False,
     )
-    for route in routes:
-        c.add(route.references)
 
     c.add_ports(ports2)
-    xc, yc = getattr(r.size_info, anchor)
-
     analysis_settings = analysis_settings or {}
-
-    if layer_label:
-        settings = dict(
-            name=component.name,
-            measurement=measurement,
-            xopt=[int(optical_ports[0].x - xc)],
-            yopt=[int(optical_ports[0].y - yc)],
-            xelec=[int(ports2[0].x - xc)],
-            yelec=[int(ports2[0].y - yc)],
-            measurement_settings=measurement_settings,
-            analysis=analysis,
-            analysis_settings=analysis_settings,
-            doe=doe,
-        )
-        info = json.dumps(settings)
-        c.add_label(layer=layer_label, text=info, position=(xc, yc))
-
     c.copy_child_info(r)
     return c
 
 
 if __name__ == "__main__":
-    gf.config.rich_output()
-    c = add_fiber_array_optical_south_electrical_north(
-        measurement_settings={"wavelength_min": 1550}
-    )
+    c = add_fiber_array_optical_south_electrical_north()
 
-    d = json.loads(c.labels[0].text)
-    print(d)
+    # component = mzi_phase_shifter()
+    # grating_coupler=grating_coupler_elliptical_te()
+    # with_loopback: bool = True
+    # pad_spacing: float = 100.0
+    # fiber_spacing: float = 127.0
+    # pad_gc_spacing: float = 250.0
+    # electrical_port_names: list[str] | None = None
+    # electrical_port_orientation: float | None = 90
+    # npads: int | None = None
+
+    # c = gf.Component()
+    # component = gf.get_component(component)
+    # r = c << gf.routing.add_fiber_array(
+    #     component=component,
+    #     grating_coupler=grating_coupler,
+    #     with_loopback=with_loopback,
+    #     fiber_spacing=fiber_spacing,
+    # )
+    # optical_ports = gf.port.get_ports_list(r.ports, port_type="optical")
+    # c.add_ports(optical_ports)
+
+    # electrical_ports = gf.port.get_ports_list(
+    #     r.ports, port_type="electrical", orientation=electrical_port_orientation
+    # )
+    # electrical_port_names = electrical_port_names or [p.name for p in electrical_ports]
+
+    # d = json.loads(c.labels[0].text)
+    # print(d)
     # import gdsfactory as gf
     # from functools import partial
 

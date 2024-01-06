@@ -125,9 +125,11 @@ def add_fiber_array(
         **kwargs,
     )
 
-    # for port in component.ports:
-    #     if port.name not in optical_ports_names:
-    #         component_new.add_port(port.name, port=port)
+    optical_ports_names = [port.name for port in optical_ports]
+    for port in component.ports:
+        if port.name not in optical_ports_names:
+            component_new.add_port(port.name, port=port)
+
     # ports = sort_ports_x(component + ports_loopback)
     # for port_component, port_grating in zip(
     #     ports_component, ports_grating_input_waveguide
