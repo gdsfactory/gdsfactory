@@ -48,9 +48,9 @@ def text_freetype(
                     xoffset += 500 * scaling
                 elif (33 <= ascii_val <= 126) or (ascii_val == 181):
                     for poly in _glyph[ascii_val]:
-                        xpts = np.array(poly)[:, 0] * scaling
-                        ypts = np.array(poly)[:, 1] * scaling
-                        char.add_polygon([xpts + xoffset, ypts + yoffset], layer=layer)
+                        xpts = np.array(poly)[:, 0] * scaling + xoffset
+                        ypts = np.array(poly)[:, 1] * scaling + yoffset
+                        char.add_polygon(xpts.tolist(), ypts.tolist(), layer=layer)
                     xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
                 else:
                     valid_chars = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~µ"
@@ -89,7 +89,7 @@ def text_freetype(
                     letter_dev.add_polygon(poly, layer=layer)
                 ref = char.add_ref(letter_dev)
                 ref.d.move(other=(xoffset, 0))
-                ref.magnification = size
+                # ref.magnification = size
                 xoffset += size * advance_x
 
             ref = t.add_ref(char)
