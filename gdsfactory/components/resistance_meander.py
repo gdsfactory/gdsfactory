@@ -15,7 +15,6 @@ def resistance_meander(
     width: float = 1.0,
     res_layer: LayerSpec = "MTOP",
     pad_layer: LayerSpec = "MTOP",
-    gnd_layer: LayerSpec = "MTOP",
 ) -> Component:
     """Return meander to test resistance.
 
@@ -27,7 +26,6 @@ def resistance_meander(
         width: The width of the squares (microns).
         res_layer: resistance layer.
         pad_layer: pad layer.
-        gnd_layer: ground layer.
     """
     x = pad_size[0]
     z = pad_size[1]
@@ -81,6 +79,7 @@ def resistance_meander(
     ref.d.movex(-width)
     ref = N.add_ref(Col)
     ref.d.move((length_row, -(n - 2) * T.d.ysize))
+    ref.d.rotate(90)
 
     # Creating pads
     P = Component()
