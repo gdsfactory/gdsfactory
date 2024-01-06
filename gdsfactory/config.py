@@ -9,23 +9,28 @@ import importlib
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 import tempfile
 import traceback
+import warnings
 from enum import Enum, auto
 from itertools import takewhile
 from pathlib import Path
 from pprint import pprint
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, ClassVar, Literal
 
 import loguru
-import yaml
+from dotenv import find_dotenv
 from loguru import logger as logger
-from pydantic import Field
+from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich.console import Console
 from rich.table import Table
+
+if TYPE_CHECKING:
+    from loguru import Logger
 
 __version__ = "7.8.5"
 PathType = str | pathlib.Path
@@ -41,6 +46,7 @@ logpath = home_path / "log.log"
 yamlpath_cwd = cwd / "config.yml"
 yamlpath_default = module_path / "config.yml"
 yamlpath_home = home_path / "config.yml"
+dotenv_path = find_dotenv(usecwd=True)
 
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 
@@ -69,6 +75,36 @@ pdks = [
     "ubcpdk",
     "gvtt",
 ]
+
+
+class LogLevel(str, Enum):
+    TRACE = "TRACE"
+    DEBUG = "DEBUG"
+    INFO = "INFO"
+    SUCCESS = "SUCCESS"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    CRITICAL = "CRITICAL"
+
+
+class LogFilter(BaseModel):
+    """Filter certain messages by log level or regex.
+
+    Filtered messages are not evaluated and discarded.
+    """
+
+    level: LogLevel = LogLevel.INFO
+    regex: str | None = None
+
+    def __call__(self, record: loguru.Record) -> bool:
+        """Loguru needs the filter to be callable."""
+        levelno = logger.level(self.level).no
+        if self.regex is None:
+            return record["level"].no >= levelno
+        else:
+            return record["level"].no >= levelno and not bool(
+                re.search(self.regex, record["message"])
+            )
 
 
 class ErrorType(Enum):
@@ -193,7 +229,7 @@ class Settings(BaseSettings):
     """
 
     n_threads: int = get_number_of_cores()
-    display_type: Literal["widget", "klayout", "docs", "kweb"] = "kweb"
+    display_type: Literal["widget", "klayout", "docs", "kweb"] = "klayout"
     last_saved_files: list[PathType] = []
     max_name_length: int = 99
     model_config = SettingsConfigDict(
@@ -201,34 +237,45 @@ class Settings(BaseSettings):
         arbitrary_types_allowed=True,
         env_prefix="gdsfactory_",
         env_nested_delimiter="_",
+        env_file=dotenv_path,
+        extra="ignore",
     )
-    loglevel: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
     pdk: str | None = None
     difftest_ignore_cell_name_differences: bool = True
+    difftest_ignore_sliver_differences: bool = False
+    difftest_ignore_label_differences: bool = False
     layer_error_path: tuple[int, int] = (1000, 0)
     ports_off_grid: Literal["warn", "error", "ignore"] = Field(
-        default="warn", description="Ensures ports are on grid."
+        default="ignore", description="Ensures ports are on grid."
     )
     ports_not_manhattan: Literal["warn", "error", "ignore"] = Field(
-        default="warn", description="Ensures ports are manhattan."
+        default="ignore", description="Ensures ports are manhattan."
     )
     enforce_ports_on_grid: bool = True
     bend_radius_error_type: ErrorType = ErrorType.WARNING
+    on_width_missmatch: Literal["warn", "error", "ignore"] = Field(
+        default="warn", description="When connecting ports with different width."
+    )
+    on_layer_missmatch: Literal["warn", "error", "ignore"] = Field(
+        default="ignore", description="When connecting ports with different layers."
+    )
+    on_type_missmatch: Literal["warn", "error", "ignore"] = Field(
+        default="ignore", description="When connecting ports with different types."
+    )
+    default_show_suffix: Literal[".oas", ".gds"] = ".gds"
+    raise_error_on_mutation: bool = True
+    logger: ClassVar[Logger] = logger
+    logfilter: LogFilter = Field(default_factory=LogFilter)
 
-    @classmethod
-    def from_config(cls) -> Settings:
-        """Load settings from YAML config file.
-        Recursively search for a `gfconfig.yml` file in the current working directory.
-        """
-        path = cwd
-
-        while path.parent != path:
-            path_config = path / "gfconfig.yml"
-            if path_config.is_file():
-                logger.info(f"Loading settings from {path_config}")
-                return Settings(**yaml.safe_load(path_config.read_text()))
-            path = path.parent
-        return Settings()
+    def __init__(self, **data: Any):
+        """Set log filter and run pydantic."""
+        super().__init__(**data)
+        self.logger.remove()
+        self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
+        self.logger.debug("LogLevel: {}", self.logfilter.level)
+        warnings.showwarning = lambda message, *args, **kwargs: logger.opt(
+            depth=2
+        ).warning(message)
 
 
 class Paths:
@@ -237,7 +284,7 @@ class Paths:
     results_tidy3d = home / ".tidy3d"
     generic_tech = module / "generic_tech"
     klayout = generic_tech / "klayout"
-    klayout_tech = klayout / "tech"
+    klayout_tech = klayout
     klayout_lyp = klayout_tech / "layers.lyp"
     klayout_yaml = generic_tech / "layer_views.yaml"
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
@@ -251,7 +298,7 @@ class Paths:
     optimiser = repo_path / "tune"
     notebooks = repo_path / "docs" / "notebooks"
     plugins = module / "plugins"
-    test_data = repo / "test-data-gds"
+    test_data = repo / "test-data"
     gds_ref = test_data / "gds"
     gds_run = GDSDIR_TEMP / "gds_run"
     gds_diff = GDSDIR_TEMP / "gds_diff"
@@ -261,7 +308,7 @@ class Paths:
     font_ocr = fonts / "OCR-A.ttf"
 
 
-CONF = Settings.from_config()
+CONF = Settings()
 PATH = Paths()
 sparameters_path = PATH.sparameters
 
@@ -322,6 +369,48 @@ def get_git_hash():
             )
     except subprocess.CalledProcessError:
         return "not_a_git_repo"
+
+
+def enable_off_grid_ports() -> None:
+    """Ignore off grid port warnings."""
+    CONF.enforce_ports_on_grid = False
+    CONF.ports_off_grid = "ignore"
+    CONF.ports_not_manhattan = "ignore"
+
+
+def disable_off_grid_ports(error_type: str = "warn") -> None:
+    """Enable off grid port warnings."""
+    CONF.enforce_ports_on_grid = True
+    CONF.ports_off_grid = error_type
+    CONF.ports_not_manhattan = error_type
+
+
+def set_plot_options(
+    show_ports: bool = True,
+    show_subports: bool = False,
+    label_aliases: bool = False,
+    new_window: bool = False,
+    blocking: bool = False,
+    zoom_factor: float = 1.4,
+) -> None:
+    """Set plot options for matplotlib."""
+    from gdsfactory.quickplotter import set_quickplot_options
+
+    set_quickplot_options(
+        show_ports=show_ports,
+        show_subports=show_subports,
+        label_aliases=label_aliases,
+        new_window=new_window,
+        blocking=blocking,
+        zoom_factor=zoom_factor,
+    )
+
+    # print(PATH.sparameters)
+    # print_config()
+    # print_version()
+    # print_version_raw()
+    # print_version_pdks()
+    # write_tech("tech.json")
 
 
 if __name__ == "__main__":

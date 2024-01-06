@@ -712,7 +712,7 @@ def get_active_pdk(name: str | None = None) -> Pdk:
             pdk_module.PDK.activate()
 
         else:
-            logger.warning("No active PDK. Activating generic PDK.\n")
+            logger.debug("No active PDK. Activating generic PDK.\n")
             from gdsfactory.generic_tech import get_generic_pdk
 
             PDK = get_generic_pdk()
