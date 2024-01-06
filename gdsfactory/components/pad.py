@@ -38,6 +38,9 @@ def pad(
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
     c.absorb(c_ref)
+    c.info["size"] = size
+    c.info["xsize"] = size[0]
+    c.info["ysize"] = size[1]
 
     if bbox_layers and bbox_offsets:
         sizes = []

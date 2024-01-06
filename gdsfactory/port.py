@@ -284,7 +284,7 @@ def sort_ports_counter_clockwise(ports: kf.Ports) -> kf.Ports:
             7   8
 
     """
-    port_list = list(ports.values())
+    port_list = list(ports)
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in port_list:
@@ -345,6 +345,8 @@ def select_ports(
         Dict containing the selected ports {port name: port}.
 
     """
+    if isinstance(ports, dict):
+        ports = ports.values()
 
     if layer:
         from gdsfactory.pdk import get_layer
@@ -352,10 +354,11 @@ def select_ports(
         layer = get_layer(layer)
 
         ports = [p for p in ports if get_layer(p.layer) == layer]
+
     if prefix:
-        ports = [p for p in ports if str(p.name).startswith(prefix)]
+        ports = [p for p in ports if p.name.startswith(prefix)]
     if suffix:
-        ports = [p for p in ports if str(p.name).endswith(suffix)]
+        ports = [p for p in ports if p.name.endswith(suffix)]
     if orientation is not None:
         ports = [p for p in ports if np.isclose(p.d.angle, orientation)]
 
@@ -396,7 +399,7 @@ def flipped(port: Port) -> Port:
     return p
 
 
-def move_copy(port, x=0, y=0) -> Port:
+def move_copy(port, x: int = 0, y: int = 0) -> Port:
     warnings.warn(
         "Port.move_copy(...) should be used instead of move_copy(Port, ...).",
     )
@@ -414,9 +417,9 @@ def get_ports_facing(ports: list[Port], direction: str = "W") -> list[Port]:
         raise PortOrientationError(f"{direction} must be in {valid_directions} ")
 
     if isinstance(ports, dict):
-        ports = list(ports.values())
+        ports = list(ports)
     elif isinstance(ports, Component | ComponentReference):
-        ports = list(ports.ports.values())
+        ports = list(ports.ports)
 
     direction_ports: dict[str, list[Port]] = {x: [] for x in ["E", "N", "W", "S"]}
 
@@ -581,7 +584,7 @@ def rename_ports_by_orientation(
     ports = component.ports
     ports = select_ports(ports, **kwargs)
 
-    ports_on_layer = [p for p in ports.values() if p.layer not in layers_excluded]
+    ports_on_layer = [p for p in ports if p.layer not in layers_excluded]
 
     for p in ports_on_layer:
         # Make sure we can backtrack the parent component from the port
@@ -601,7 +604,6 @@ def rename_ports_by_orientation(
             direction_ports["S"].append(p)
 
     function(direction_ports, prefix=prefix)
-    component.ports = {p.name: p for p in component.ports.values()}
     return component
 
 
@@ -705,10 +707,10 @@ def map_ports_layer_to_orientation(
     """
     m = {}
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
-    layers = {port.layer for port in ports.values()}
+    layers = {port.layer for port in ports}
 
     for layer in layers:
-        ports_on_layer = [p.copy() for p in ports.values() if p.layer == layer]
+        ports_on_layer = [p.copy() for p in ports if p.layer == layer]
 
         for p in ports_on_layer:
             p.name_original = p.name
@@ -752,7 +754,7 @@ def map_ports_to_orientation_cw(
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     ports = select_ports(ports, **kwargs)
-    ports_on_layer = [p.copy() for p in ports.values()]
+    ports_on_layer = [p.copy() for p in ports]
 
     for p in ports_on_layer:
         p.name_original = p.name
@@ -796,10 +798,10 @@ def auto_rename_ports_layer_orientation(
     new_ports = {}
     ports = component.ports
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
-    layers = {port.layer for port in ports.values()}
+    layers = {port.layer for port in ports}
 
     for layer in layers:
-        ports_on_layer = [p for p in ports.values() if p.layer == layer]
+        ports_on_layer = [p for p in ports if p.layer == layer]
 
         for p in ports_on_layer:
             p.name_original = p.name
@@ -815,8 +817,6 @@ def auto_rename_ports_layer_orientation(
 
         function(direction_ports, prefix=f"{layer[0]}_{layer[1]}_")
         new_ports |= {p.name: p for p in ports_on_layer}
-
-    component.ports = new_ports
 
 
 __all__ = [
