@@ -1145,6 +1145,7 @@ class Component(_GeometryHelper):
             if len(points[0]) > 2:
                 # Convert to form [[1,2],[3,4],[5,6]]
                 points = np.column_stack(points)
+
             points = snap.snap_to_grid(points) if snap_to_grid else points
             layer, datatype = _parse_layer(layer)
             polygon = Polygon(points, (layer, datatype))
