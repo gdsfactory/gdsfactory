@@ -1,11 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.10.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.2) - 2024-01-07
 
-No significant changes.
+- Improve grid snapping docs, functions and names [#2446](https://github.com/gdsfactory/gdsfactory/pull/2446)
+- fixed flatten_offgrid_references return [#2445](https://github.com/gdsfactory/gdsfactory/pull/2445)
+- rename flatten_invalid_refs to flatten_offgrid_references [#2444](https://github.com/gdsfactory/gdsfactory/pull/2444)
+- make sbend router errors obvious [#2443](https://github.com/gdsfactory/gdsfactory/pull/2443)
+- Consolidate warnings [#2442](https://github.com/gdsfactory/gdsfactory/pull/2442)
+- improve tutorial avoid showing not recommended functions [#2438](https://github.com/gdsfactory/gdsfactory/pull/2438)
 
 
 ## [7.10.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.1) - 2024-01-04
