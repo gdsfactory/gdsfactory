@@ -1,7 +1,7 @@
 function: add_fiber_single
 info: {}
 module: gdsfactory.routing.add_fiber_single
-name: mzi_add_fiber_single_3da10764
+name: mzi_add_fiber_single_735a9dd9
 settings:
   bend:
     function: bend_euler
