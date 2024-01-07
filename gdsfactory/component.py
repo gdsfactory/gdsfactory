@@ -1405,13 +1405,13 @@ class Component(_GeometryHelper):
         new_component = transformed(ref, decorator=None)
         self.add_ref(new_component, alias=ref.name)
 
-    def flatten_invalid_refs(self, *args, **kwargs) -> None:
+    def flatten_invalid_refs(self, *args, **kwargs) -> Component:
         """Flatten all invalid references."""
         warnings.warn(
             "flatten_invalid_refs is deprecated, use flatten_offgrid_references",
             DeprecationWarning,
         )
-        self.flatten_offgrid_references(*args, **kwargs)
+        return self.flatten_offgrid_references(*args, **kwargs)
 
     def flatten_offgrid_references(
         self,
