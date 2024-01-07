@@ -159,11 +159,13 @@ def cell(
         prefix = kwargs.pop("prefix", None)
 
         if name:
-            warnings.warn("name is deprecated and will be removed soon.")
+            warnings.warn("name is deprecated and will be removed soon.", stacklevel=2)
         if prefix:
-            warnings.warn("prefix is deprecated and will be removed soon.")
+            warnings.warn(
+                "prefix is deprecated and will be removed soon.", stacklevel=2
+            )
         if info:
-            warnings.warn("info is deprecated and will be removed soon.")
+            warnings.warn("info is deprecated and will be removed soon.", stacklevel=2)
 
         prefix = prefix or func.__name__
 
@@ -244,7 +246,9 @@ def cell(
             decorator = active_pdk.default_decorator
 
         if decorator:
-            warnings.warn("decorator is deprecated and will be removed soon.")
+            warnings.warn(
+                "decorator is deprecated and will be removed soon.", stacklevel=2
+            )
 
         if name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")

@@ -269,13 +269,19 @@ class Settings(BaseSettings):
 
     def __init__(self, **data: Any):
         """Set log filter and run pydantic."""
+
         super().__init__(**data)
         self.logger.remove()
         self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
         self.logger.debug("LogLevel: {}", self.logfilter.level)
-        warnings.showwarning = lambda message, *args, **kwargs: logger.opt(
-            depth=2
-        ).warning(message)
+
+        showwarning_ = warnings.showwarning
+
+        def showwarning(message, *args, **kwargs):
+            self.logger.warning(message)
+            showwarning_(message, *args, **kwargs)
+
+        warnings.showwarning = showwarning
 
 
 class Paths:
