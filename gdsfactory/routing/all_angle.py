@@ -964,7 +964,7 @@ if __name__ == "__main__":
 
         return c
 
-    # c = demo_issue(decorator=gf.decorators.flatten_invalid_refs)
+    # c = demo_issue(decorator=gf.decorators.snap_references_to_grid)
     c = demo_issue()
-    # c = c.flatten_invalid_refs()
+    # c = c.snap_references_to_grid()
     c.show()

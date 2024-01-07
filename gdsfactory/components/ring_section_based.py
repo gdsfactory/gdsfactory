@@ -294,6 +294,6 @@ if __name__ == "__main__":
         drop_cross_section=partial(rib, width=0.55),
         bus_cross_section="xs_sc",
     )
-    c = c.flatten_invalid_refs()
+    c = c.snap_references_to_grid()
 
     c.show(show_ports=True)

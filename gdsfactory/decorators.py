@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import warnings
+
 import gdsfactory as gf
 from gdsfactory.snap import is_on_grid
 from gdsfactory.typings import Component, ComponentReference
@@ -30,7 +32,7 @@ def has_valid_transformations(component: Component) -> bool:
     return all(is_valid_transformation(ref) for ref in refs)
 
 
-def flatten_invalid_refs(component: Component, grid_size: float | None = None):
+def snap_references_to_grid(component: Component, grid_size: float | None = None):
     """Flattens component references which have invalid transformations.
 
     (i.e. non-90 deg rotations or sub-grid translations).
@@ -38,7 +40,7 @@ def flatten_invalid_refs(component: Component, grid_size: float | None = None):
     This is an in-place operation, so you should use it as a decorator.
     flattens only individual references with invalid transformations.
 
-    Deprecated Use Component.write_gds(flatten_invalid_refs=True)
+    Deprecated Use Component.write_gds(snap_references_to_grid=True)
 
     Args:
         component: the component to fix (in place).
@@ -50,6 +52,14 @@ def flatten_invalid_refs(component: Component, grid_size: float | None = None):
         if is_invalid_ref(ref, grid_size):
             component.flatten_reference(ref)
     return component
+
+
+def flatten_invalid_refs(component: Component, grid_size: float | None = None):
+    warnings.warn(
+        "flatten_invalid_refs is deprecated. Use snap_references_to_grid",
+        DeprecationWarning,
+    )
+    return snap_references_to_grid(component, grid_size)
 
 
 def is_invalid_ref(ref, grid_size: float | None = None) -> bool:
@@ -72,15 +82,15 @@ def _demo_non_manhattan() -> Component:
     return c
 
 
-def test_flatten_invalid_refs() -> None:
+def test_snap_references_to_grid() -> None:
     c1 = _demo_non_manhattan()
     assert not has_valid_transformations(c1)
 
-    c2 = _demo_non_manhattan(decorator=flatten_invalid_refs)
+    c2 = _demo_non_manhattan(decorator=snap_references_to_grid)
     assert has_valid_transformations(c2)
 
 
 if __name__ == "__main__":
-    test_flatten_invalid_refs()
-    # c = _demo_non_manhattan(decorator=flatten_invalid_refs)
+    test_snap_references_to_grid()
+    # c = _demo_non_manhattan(decorator=snap_references_to_grid)
     # c.show()

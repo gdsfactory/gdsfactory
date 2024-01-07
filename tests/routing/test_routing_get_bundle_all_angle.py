@@ -52,5 +52,5 @@ if __name__ == "__main__":
     )
     for route in routes:
         c.add(route.references)
-    c = c.flatten_invalid_refs()
+    c = c.snap_references_to_grid()
     c.show(show_ports=True)
