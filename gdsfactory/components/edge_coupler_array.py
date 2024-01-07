@@ -87,7 +87,7 @@ def edge_coupler_array(
             t.move(np.array(text_offset) + (0, i * pitch))
 
     if angle:
-        c = c.flatten_invalid_refs()
+        c = c.flatten_offgrid_references()
     c.auto_rename_ports()
     return c
 
