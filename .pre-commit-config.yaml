@@ -1,42 +1,46 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: d2bd9cd497c81622c3f5774b336ab451691f1c36
+    rev: v4.5.0
     hooks:
       - id: check-yaml
         exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|conda/construct.yaml|.*\.pic\.yml|conda/constructor/Miniforge3/construct.yaml)
       - id: end-of-file-fixer
       - id: trailing-whitespace
-
-  - repo: https://github.com/psf/black
-    rev: 1b028cc9d99c2c2e82f9b727742539173a92a373
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
     hooks:
-      - id: black
-        # exclude: '^gdsfactory/samples/notebooks/|^docs/notebooks/'
+      - id: nbstripout
+        files: ".ipynb"
 
   - repo: https://github.com/codespell-project/codespell
-    rev: 38bc4a97f6e22827e86526148efa38f1044a97f8
+    rev: v2.2.6
     hooks:
       - id: codespell
         additional_dependencies:
           - tomli
 
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "6c0ceaccffa1ebb1db1ea1a6d7289b50d29bfce2"
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: "v0.1.9"
     hooks:
       - id: ruff
         args: [ --fix, --exit-non-zero-on-fix ]
+      - id: ruff-format
 
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-    rev: v2.10.0
+    rev: v2.12.0
     hooks:
       - id: pretty-format-toml
         args: [--autofix]
 
   - repo: https://github.com/aristanetworks/j2lint.git
-    rev: 742a25ef5da996b9762f167ebae9bc8223e8382e
+    rev: v1.1.0
     hooks:
       - id: j2lint
         types: [file]
         files: \.(j2|yml|yaml)$
-        args: [--extensions, "j2,yml,yaml", --ignore, jinja-statements-delimiter, jinja-statements-indentation, --]
         exclude: .github/.*
+        # args: [--extensions, "j2,yml,yaml", --ignore, jinja-statements-delimiter, jinja-statements-indentation]
+  # - repo: https://github.com/RobertCraigie/pyright-python
+  #   rev: v1.1.333
+  #   hooks:
+  #   - id: pyright
