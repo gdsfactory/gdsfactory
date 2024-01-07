@@ -1,7 +1,7 @@
 function: fanout2x2
 info: {}
 module: gdsfactory.routing.fanout2x2
-name: mzi_fanout2x2_3da10764
+name: mzi_fanout2x2_735a9dd9
 settings:
   bend_length: null
   component:

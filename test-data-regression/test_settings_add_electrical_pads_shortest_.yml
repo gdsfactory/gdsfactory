@@ -1,7 +1,7 @@
 function: add_electrical_pads_shortest
 info: {}
 module: gdsfactory.routing.add_electrical_pads_shortest
-name: mzi_add_electrical_pads_shortest_3da10764
+name: mzi_add_electrical_pads_shortest_735a9dd9
 settings:
   component:
     function: mzi

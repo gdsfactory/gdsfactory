@@ -47,8 +47,13 @@ def taper(
     c = gf.Component()
 
     x = gf.get_cross_section(cross_section, **kwargs)
+    width1 = gf.snap.snap_to_grid2x(width1)
     x1 = x.copy(width=width1)
-    x2 = x.copy(width=width2)
+    if width2:
+        width2 = gf.snap.snap_to_grid2x(width2)
+        x2 = x.copy(width=width2)
+    else:
+        x2 = x1
     layer = x.layer
 
     if isinstance(port, gf.Port) and width1 is None:
