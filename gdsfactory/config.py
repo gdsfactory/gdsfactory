@@ -245,7 +245,7 @@ class Settings(BaseSettings):
     difftest_ignore_sliver_differences: bool = False
     difftest_ignore_label_differences: bool = False
     layer_error_path: tuple[int, int] = (1000, 0)
-    ports_off_grid: Literal["warn", "error", "ignore"] = Field(
+    ports_offgrid: Literal["warn", "error", "ignore"] = Field(
         default="ignore", description="Ensures ports are on grid."
     )
     ports_not_manhattan: Literal["warn", "error", "ignore"] = Field(
@@ -371,18 +371,34 @@ def get_git_hash():
         return "not_a_git_repo"
 
 
-def enable_off_grid_ports() -> None:
-    """Ignore off grid port warnings."""
+def enable_offgrid_ports() -> None:
+    """Ignore off grid port warnings and allow ports not to be snapped on creation."""
     CONF.enforce_ports_on_grid = False
-    CONF.ports_off_grid = "ignore"
+    CONF.ports_offgrid = "ignore"
     CONF.ports_not_manhattan = "ignore"
 
 
-def disable_off_grid_ports(error_type: str = "warn") -> None:
-    """Enable off grid port warnings."""
+def disable_offgrid_ports(error_type: str = "warn") -> None:
+    """Enable off grid port warnings and enforce ports to snap to 1nm grid."""
     CONF.enforce_ports_on_grid = True
-    CONF.ports_off_grid = error_type
+    CONF.ports_offgrid = error_type
     CONF.ports_not_manhattan = error_type
+
+
+def enable_off_grid_ports() -> None:
+    warnings.warn(
+        "enable_off_grid_ports is deprecated, use enable_offgrid_ports instead",
+        DeprecationWarning,
+    )
+    enable_offgrid_ports()
+
+
+def disable_off_grid_ports(error_type: str = "warn") -> None:
+    warnings.warn(
+        "disable_off_grid_ports is deprecated, use disable_offgrid_ports instead",
+        DeprecationWarning,
+    )
+    disable_offgrid_ports(error_type)
 
 
 def set_plot_options(

@@ -187,7 +187,7 @@ def edge_coupler_array_with_loopback(
 
 
 if __name__ == "__main__":
-    gf.config.enable_off_grid_ports()
+    gf.config.enable_offgrid_ports()
     # c = edge_coupler_array_with_loopback(text_rotation=90)
     # c = edge_coupler_silicon()
     # c = edge_coupler_array(x_reflection=False)

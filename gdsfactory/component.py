@@ -2857,7 +2857,7 @@ if __name__ == "__main__":
     # c._cell = c2
     # c.show()
 
-    # gf.config.enable_off_grid_ports()
+    # gf.config.enable_offgrid_ports()
 
     # c = gf.Component("bend")
     # b = c << gf.components.bend_circular(angle=30)

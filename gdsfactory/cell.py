@@ -70,7 +70,7 @@ def cell(
     max_name_length: int | None = None,
     include_module: bool = False,
     with_hash: bool = False,
-    ports_off_grid: str | None = None,
+    ports_offgrid: str | None = None,
     ports_not_manhattan: str | None = None,
     flatten: bool = False,
     naming_style: str = "default",
@@ -90,7 +90,7 @@ def cell(
     max_name_length: int | None = None,
     include_module: bool = False,
     with_hash: bool = False,
-    ports_off_grid: str | None = None,
+    ports_offgrid: str | None = None,
     ports_not_manhattan: str | None = None,
     flatten: bool = False,
     naming_style: str = "default",
@@ -107,7 +107,7 @@ def cell(
         max_name_length: truncates name beyond some characters with a hash. Defaults to CONF.max_name_length.
         include_module: True adds module name to the cell name.
         with_hash: True adds a hash to the cell name.
-        ports_off_grid: "warn", "error" or "ignore". Checks if ports are on grid. Defaults to CONF.ports_off_grid.
+        ports_offgrid: "warn", "error" or "ignore". Checks if ports are on grid. Defaults to CONF.ports_offgrid.
         ports_not_manhattan: "warn", "error" or "ignore". Checks if ports are manhattan. Defaults to CONF.ports_non_manhattan.
         flatten: False by default. True flattens component hierarchy.
         naming_style: "default" or "updk". "default" is the default naming style.
@@ -149,7 +149,7 @@ def cell(
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
-        nonlocal ports_not_manhattan, ports_off_grid, max_name_length
+        nonlocal ports_not_manhattan, ports_offgrid, max_name_length
         from gdsfactory.pdk import get_active_pdk
 
         active_pdk = get_active_pdk()
@@ -173,8 +173,8 @@ def cell(
 
         if max_name_length is None:
             max_name_length = CONF.max_name_length
-        if ports_off_grid is None:
-            ports_off_grid = CONF.ports_off_grid
+        if ports_offgrid is None:
+            ports_offgrid = CONF.ports_offgrid
         if ports_not_manhattan is None:
             ports_not_manhattan = CONF.ports_not_manhattan
 
@@ -262,8 +262,8 @@ def cell(
         else:
             component = func(*args, **kwargs)
 
-        if ports_off_grid in ("warn", "error"):
-            component.assert_ports_on_grid(error_type=ports_off_grid)
+        if ports_offgrid in ("warn", "error"):
+            component.assert_ports_on_grid(error_type=ports_offgrid)
         if ports_not_manhattan in ("warn", "error"):
             component.assert_ports_manhattan(error_type=ports_not_manhattan)
         if flatten:
@@ -328,7 +328,7 @@ def cell(
             max_name_length=max_name_length,
             include_module=include_module,
             with_hash=with_hash,
-            ports_off_grid=ports_off_grid,
+            ports_offgrid=ports_offgrid,
             ports_not_manhattan=ports_not_manhattan,
             flatten=flatten,
             naming_style=naming_style,
