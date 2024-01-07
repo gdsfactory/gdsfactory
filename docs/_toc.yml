@@ -20,6 +20,7 @@ parts:
         sections:
           - file: notebooks/00_geometry
           - file: notebooks/01_references
+          - file: notebooks/02_grid_snapping
           - file: notebooks/03_Path_CrossSection
           - file: notebooks/04_components_geometry
           - file: notebooks/04_components_pack
