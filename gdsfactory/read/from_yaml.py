@@ -479,7 +479,6 @@ def cell_from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
-    name: str | None = None,
     **kwargs,
 ) -> Callable:
     """Returns Component factory from YAML string or file.
@@ -565,7 +564,6 @@ def cell_from_yaml(
         yaml_str=yaml_str,
         routing_strategy=routing_strategy,
         label_instance_function=label_instance_function,
-        name=name,
         **kwargs,
     )
 
@@ -575,6 +573,7 @@ def from_yaml(
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
     name: str | None = None,
+    prefix: str | None = None,
     validate: bool = False,
     **kwargs,
 ) -> Component:
@@ -587,6 +586,7 @@ def from_yaml(
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
+        prefix: name prefix.
         validate: validate component.
         kwargs: function settings for creating YAML PCells.
 
@@ -693,10 +693,10 @@ def from_yaml(
         routing_strategy=routing_strategy,
         label_instance_function=label_instance_function,
         mode=mode,
+        prefix=prefix or conf.get("name", "Unnamed"),
+        name=name,
         validate=validate,
     )
-    if name:
-        c.rename(name)
     return c
 
 
@@ -1366,9 +1366,13 @@ placements:
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
+
     # c = from_yaml(sample_doe_function)
     c = from_yaml(sample_mmis)
     n = c.get_netlist()
+
+    gf.clear_cache()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     c2 = from_yaml(yaml_str)
     n2 = c2.get_netlist()
