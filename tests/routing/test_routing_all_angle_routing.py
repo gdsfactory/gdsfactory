@@ -31,10 +31,10 @@ def bad_component_name(request) -> str:
 def test_gds(component_name: str) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     # make sure we are flattening invalid refs
-    snap_references_to_grid_default = (
-        get_active_pdk().gds_write_settings.snap_references_to_grid
+    flatten_offgrid_references_default = (
+        get_active_pdk().gds_write_settings.flatten_offgrid_references
     )
-    get_active_pdk().gds_write_settings.snap_references_to_grid = True
+    get_active_pdk().gds_write_settings.flatten_offgrid_references = True
 
     try:
         gf.config.enable_off_grid_ports()
@@ -42,8 +42,8 @@ def test_gds(component_name: str) -> None:
         difftest(component, test_name=component_name, ignore_sliver_differences=True)
     finally:
         # reset back to what it was, so we don't mess up other tests
-        get_active_pdk().gds_write_settings.snap_references_to_grid = (
-            snap_references_to_grid_default
+        get_active_pdk().gds_write_settings.flatten_offgrid_references = (
+            flatten_offgrid_references_default
         )
         gf.config.disable_off_grid_ports()
 

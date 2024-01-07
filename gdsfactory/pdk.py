@@ -146,7 +146,7 @@ class GdsWriteSettings(BaseModel):
                         "error": throw a ValueError when attempting to write a gds with duplicate cells.
                         "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.""",
     )
-    snap_references_to_grid: bool = Field(
+    flatten_offgrid_references: bool = Field(
         default=False,
         description="If true, will auto-correct (and flatten) cell references which are off-grid or rotated by non-manhattan angles.",
     )

@@ -11,5 +11,5 @@ if __name__ == "__main__":
     s1 = c << gf.c.straight(length=1 + 1.5 * nm)
     s2 = c << gf.c.straight(length=1)
     s2.connect("o1", s1.ports["o2"])
-    c = c.snap_references_to_grid()
+    c = c.flatten_offgrid_references()
     c.show()

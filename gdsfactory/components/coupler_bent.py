@@ -95,7 +95,7 @@ def coupler_bent_half(
     c.absorb(outer_exit_bend)
     c.absorb(inner_exit_bend_down)
     c.absorb(inner_exit_bend_up)
-    c = c.snap_references_to_grid()
+    c = c.flatten_offgrid_references()
     return c
 
 

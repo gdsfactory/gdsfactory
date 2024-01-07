@@ -630,7 +630,7 @@ DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.decorators import snap_references_to_grid
+    from gdsfactory.decorators import flatten_offgrid_references
 
     rotation_value = 35
     cname = "test_get_netlist_transformed"
@@ -641,7 +641,7 @@ if __name__ == "__main__":
     i2.connect("o2", i1.ports["o1"])
 
     # flatten the oddly rotated refs
-    c = snap_references_to_grid(c)
+    c = flatten_offgrid_references(c)
     print(c.get_dependencies())
     c.show()
 

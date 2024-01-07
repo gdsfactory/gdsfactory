@@ -10,6 +10,6 @@ if __name__ == "__main__":
     b1 = c << gf.c.bend_euler(angle=37, add_pins=False)
     b2 = c << gf.c.bend_euler(angle=37, add_pins=False)
     b2.connect("o1", b1.ports["o2"])
-    c = c.snap_references_to_grid()
+    c = c.flatten_offgrid_references()
     print(b1["o2"].center)
     c.show()

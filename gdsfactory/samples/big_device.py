@@ -90,9 +90,9 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     pdk = gf.pdk.get_active_pdk()
-    pdk.gds_write_settings.snap_references_to_grid = False
+    pdk.gds_write_settings.flatten_offgrid_references = False
     c = big_device()
     c = gf.routing.add_fiber_array(c)
-    c = c.snap_references_to_grid()
+    c = c.flatten_offgrid_references()
     # c.write_gds("./test.gds")
     c.show(show_ports=False)

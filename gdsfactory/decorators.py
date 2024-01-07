@@ -32,7 +32,7 @@ def has_valid_transformations(component: Component) -> bool:
     return all(is_valid_transformation(ref) for ref in refs)
 
 
-def snap_references_to_grid(component: Component, grid_size: float | None = None):
+def flatten_offgrid_references(component: Component, grid_size: float | None = None):
     """Flattens component references which have invalid transformations.
 
     (i.e. non-90 deg rotations or sub-grid translations).
@@ -40,7 +40,7 @@ def snap_references_to_grid(component: Component, grid_size: float | None = None
     This is an in-place operation, so you should use it as a decorator.
     flattens only individual references with invalid transformations.
 
-    Deprecated Use Component.write_gds(snap_references_to_grid=True)
+    Deprecated Use Component.write_gds(flatten_offgrid_references=True)
 
     Args:
         component: the component to fix (in place).
@@ -56,10 +56,10 @@ def snap_references_to_grid(component: Component, grid_size: float | None = None
 
 def flatten_invalid_refs(component: Component, grid_size: float | None = None):
     warnings.warn(
-        "flatten_invalid_refs is deprecated. Use snap_references_to_grid",
+        "flatten_invalid_refs is deprecated. Use flatten_offgrid_references",
         DeprecationWarning,
     )
-    return snap_references_to_grid(component, grid_size)
+    return flatten_offgrid_references(component, grid_size)
 
 
 def is_invalid_ref(ref, grid_size: float | None = None) -> bool:
@@ -82,15 +82,15 @@ def _demo_non_manhattan() -> Component:
     return c
 
 
-def test_snap_references_to_grid() -> None:
+def test_flatten_offgrid_references() -> None:
     c1 = _demo_non_manhattan()
     assert not has_valid_transformations(c1)
 
-    c2 = _demo_non_manhattan(decorator=snap_references_to_grid)
+    c2 = _demo_non_manhattan(decorator=flatten_offgrid_references)
     assert has_valid_transformations(c2)
 
 
 if __name__ == "__main__":
-    test_snap_references_to_grid()
-    # c = _demo_non_manhattan(decorator=snap_references_to_grid)
+    test_flatten_offgrid_references()
+    # c = _demo_non_manhattan(decorator=flatten_offgrid_references)
     # c.show()
