@@ -480,7 +480,6 @@ def cell_from_yaml(
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
     name: str | None = None,
-    prefix: str | None = None,
     **kwargs,
 ) -> Callable:
     """Returns Component factory from YAML string or file.
@@ -492,7 +491,6 @@ def cell_from_yaml(
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
-        prefix: name prefix.
         kwargs: function settings for creating YAML PCells.
 
     .. code::
@@ -568,7 +566,6 @@ def cell_from_yaml(
         routing_strategy=routing_strategy,
         label_instance_function=label_instance_function,
         name=name,
-        prefix=prefix,
         **kwargs,
     )
 
@@ -578,7 +575,6 @@ def from_yaml(
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
     name: str | None = None,
-    prefix: str | None = None,
     validate: bool = False,
     **kwargs,
 ) -> Component:
@@ -591,7 +587,6 @@ def from_yaml(
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
-        prefix: name prefix.
         validate: validate component.
         kwargs: function settings for creating YAML PCells.
 
@@ -693,15 +688,16 @@ def from_yaml(
         else:
             conf["settings"][key] = value
 
-    return _from_yaml(
+    c = _from_yaml(
         conf=OmegaConf.to_container(conf, resolve=True),
         routing_strategy=routing_strategy,
         label_instance_function=label_instance_function,
-        prefix=prefix or conf.get("name", "Unnamed"),
-        name=name,
         mode=mode,
         validate=validate,
     )
+    if name:
+        c.rename(name)
+    return c
 
 
 @cell
