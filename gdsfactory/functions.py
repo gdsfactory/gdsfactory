@@ -10,7 +10,9 @@ from __future__ import annotations
 
 import json
 import warnings
+from collections.abc import Mapping
 from functools import lru_cache, partial
+from typing import Any
 
 import numpy as np
 from omegaconf import OmegaConf
@@ -312,6 +314,36 @@ def add_marker_layer(
     return component.flatten() if flatten else component
 
 
+def change_keywords_in_nested_partials(
+    func: gf.partial, config: Mapping[str, Any]
+) -> gf.partial:
+    """Change keywords in nested partials ``gf.partial or functools.partial``. Returns new partial.
+
+    Args:
+        func: Partialed function to change.
+        config: Nested dictionary with the keywords to change.
+            Key-value pairs correspond to function arguments in the partials.
+    """
+
+    if not config:
+        return func
+
+    if isinstance(func, gf.partial):
+        keyword_args = dict(func.keywords)
+        for key, value in config.items():
+            if isinstance(keyword_args.get(key, None), gf.partial):
+                # Recursively change keywords in nested partials
+                keyword_args[key] = change_keywords_in_nested_partials(
+                    keyword_args[key], value
+                )
+            else:
+                keyword_args[key] = value
+
+        return gf.partial(func.func, *func.args, **keyword_args)
+    else:
+        raise TypeError(f"{func=!r} is not a partial")
+
+
 __all__ = (
     "add_marker_layer",
     "add_port",
@@ -319,6 +351,7 @@ __all__ = (
     "add_text",
     "auto_rename_ports",
     "cache",
+    "change_keywords_in_nested_partials",
     "mirror",
     "move",
     "move_port_to_zero",
