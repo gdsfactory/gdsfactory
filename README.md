@@ -46,7 +46,7 @@ We provide a common syntax for design (KLayout, gdstk, Ansys Lumerical, tidy3d, 
 
 Numerous foundries have gdsfactory PDKs available. You may need to contact your foundry to access their gdsfactory PDK, as some are provided under NDA only.
 
-Available foundries include:
+Available PDKs under NDA:
 
 - AIM photonics PDK
 - AMF photonics PDK
@@ -54,6 +54,10 @@ Available foundries include:
 - GlobalFoundries 45SPCLO Photonics PDK
 - IMEC photonics PDK
 - HHI Photonics PDK
+- Compoundtek photonics PDK
+
+Available open source PDKs (no NDA required):
+
 - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
 - [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
 - [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130) (open source)
