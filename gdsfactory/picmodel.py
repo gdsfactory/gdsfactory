@@ -111,7 +111,7 @@ class PicYamlConfiguration(BaseModel):
         self, name: str, component: gf.Component, placement: Placement | None = None
     ) -> None:
         component_name = component.function_name
-        component_settings = component.settings
+        component_settings = component.settings.model_dump()
         self.instances[name] = Instance(
             component=component_name, settings=component_settings
         )
@@ -160,7 +160,7 @@ class SchematicConfiguration(BaseModel):
     ) -> None:
         if isinstance(component, gf.Component):
             component_name = component.function_name
-            component_settings = component.settings
+            component_settings = component.settings.model_dump()
             if settings:
                 component_settings = component_settings | settings
             self.instances[name] = Instance(
