@@ -26,6 +26,7 @@ def cutback_component(
     straight_length: float | None = None,
     straight_length_pair: float | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
+    ports_map: dict[str, tuple[str, str]] | None = None,
     **kwargs,
 ) -> Component:
     """Returns a daisy chain of components for measuring their loss.
@@ -47,6 +48,9 @@ def cutback_component(
         straight_length: length of the straight section between cutbacks.
         straight_length_pair: length of the straight section between each component pair.
         cross_section: specification (CrossSection, string or dict).
+        ports_map: (optional) extra port mapping for the underlying component_sequence using the convention.
+            {port_name: (alias_name, port_name)}
+            An and Bn are the aliases for the components here, with n integers.
         kwargs: component settings.
     """
     xs = gf.get_cross_section(cross_section)
@@ -92,7 +96,9 @@ def cutback_component(
 
     s = s[:-1]
 
-    seq = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
+    seq = component_sequence(
+        sequence=s, symbol_to_component=symbol_to_component, ports_map=ports_map
+    )
 
     c = gf.Component()
     ref = c << seq
