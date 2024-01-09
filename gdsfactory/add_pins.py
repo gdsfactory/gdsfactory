@@ -531,7 +531,6 @@ def add_pins(
 
 add_pins_optical = partial(add_pins, select_ports=select_ports_optical)
 add_pins_electrical = partial(add_pins, select_ports=select_ports_electrical)
-add_pins_container = partial(container, function=add_pins)
 
 add_pins_triangle = partial(add_pins, function=add_pin_triangle)
 add_pins_center = partial(add_pins, function=add_pin_rectangle)
@@ -541,6 +540,10 @@ add_pin_inside1nm = partial(
 add_pin_inside2um = partial(add_pin_rectangle_inside, pin_length=2, layer_label=None)
 add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)
 add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)
+
+add_pins_container = partial(container, function=add_pins)
+add_pins_container_center = partial(container, function=add_pins_center)
+add_pins_container_siepic = partial(container, function=add_pins_siepic)
 
 
 def add_settings_label(
