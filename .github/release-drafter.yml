@@ -18,9 +18,11 @@ categories:
   - title: 'Bug Fixes'
     label: 'bug'
   - title: 'Maintenance'
-    label: 'maintenance'
+    labels:
+    - 'maintenance'
+    - 'github_actions'
   - title: 'Documentation'
-    label: 'docs'
+    label: 'documentation'
   - title: 'Other changes'
   - title: 'Dependency Updates'
     label: 'dependencies'
@@ -39,7 +41,7 @@ version-resolver:
     labels:
       - 'bug'
       - 'maintenance'
-      - 'docs'
+      - 'documentation'
       - 'dependencies'
       - 'security'
   default: patch
