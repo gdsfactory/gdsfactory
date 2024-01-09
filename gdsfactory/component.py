@@ -2784,8 +2784,7 @@ def flatten_offgrid_references_recursive(
         if keep_names:
             new_component.rename(component.name, cache=False)
         else:
-            uid = str(uuid.uuid4())[:8]
-            new_component.rename(component.name + "_" + uid)
+            new_component.rename(component.name + "_offgrid")
         new_component.rename(component.name, cache=False)
 
         # make sure all modified cells have their references updated
