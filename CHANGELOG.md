@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.10.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.3) - 2024-01-09
+
+No significant changes.
+
+
 ## [7.10.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.2) - 2024-01-07
 
 - Improve grid snapping docs, functions and names [#2446](https://github.com/gdsfactory/gdsfactory/pull/2446)

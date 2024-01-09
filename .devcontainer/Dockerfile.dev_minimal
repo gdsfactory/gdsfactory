@@ -1,4 +1,4 @@
 FROM python:3.11-slim
 
 RUN apt update
-RUN pip install gdsfactory==7.10.2 klayout
+RUN pip install gdsfactory==7.10.3 klayout
