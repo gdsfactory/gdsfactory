@@ -257,7 +257,12 @@ class Component(_GeometryHelper):
     def name(self, name) -> None:
         self.rename(name)
 
-    def rename(self, name: str, cache: bool = True, max_name_length: int | None = None):
+    def rename(
+        self,
+        name: str,
+        cache: bool = True,
+        max_name_length: int | None = None,
+    ) -> None:
         from gdsfactory.cell import CACHE, remove_from_cache
 
         if max_name_length is None:
@@ -1201,6 +1206,12 @@ class Component(_GeometryHelper):
 
     def copy(self) -> Component:
         return copy(self)
+
+    def copy_as(self, name: str) -> Component:
+        """Returns a copy of the component with a new name."""
+        c = self.copy()
+        c.rename(name)
+        return c
 
     def add_ref_container(self, component: Component) -> ComponentReference:
         """Add reference, ports and copy_child_info."""
