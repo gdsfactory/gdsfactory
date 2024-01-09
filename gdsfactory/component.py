@@ -195,12 +195,22 @@ class Component(_GeometryHelper):
         with_uuid: bool = False,
         max_name_length: int | None = None,
     ) -> None:
-        """Initialize the Component object."""
+        """Initialize the Component object.
+
+        Args:
+            name: component_name. Use @cell decorator for auto-naming.
+            with_uuid: adds unique identifier.
+            max_name_length: maximum number of characters for component name.
+        """
+
+        self.uid = str(uuid.uuid4())[:8]
 
         if with_uuid:
             warnings.warn("with_uuid is deprecated. Use @cell decorator instead.")
-            self.uid = str(uuid.uuid4())[:8]
             name += f"_{self.uid}"
+
+        if name == "Unnamed":
+            name = f"Unnamed_{self.uid}"
 
         name_counters[name] += 1
         if name_counters[name] > 1:
@@ -1375,7 +1385,10 @@ class Component(_GeometryHelper):
             single_layer: move all polygons are moved to the specified (optional).
         """
         component_flat = Component()
-        component_flat._cell = self._cell.flatten()
+
+        _cell = self._cell.copy(name=component_flat.name)
+        _cell = _cell.flatten()
+        component_flat._cell = _cell
         if single_layer is not None:
             warnings.warn("flatten on single layer is deprecated")
 
