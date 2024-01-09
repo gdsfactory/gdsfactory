@@ -41,6 +41,7 @@ version-resolver:
     labels:
       - 'bug'
       - 'maintenance'
+      - 'github_actions'
       - 'documentation'
       - 'dependencies'
       - 'security'
