@@ -1,11 +1,18 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.10.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.3) - 2024-01-09
 
-No significant changes.
+- remove test warnings [#2455](https://github.com/gdsfactory/gdsfactory/pull/2455)
+- remove cad installation on CICD [#2454](https://github.com/gdsfactory/gdsfactory/pull/2454)
+- better naming [#2434](https://github.com/gdsfactory/gdsfactory/pull/2434)
+- Add helper function for changing nested partial parameters [#2450](https://github.com/gdsfactory/gdsfactory/pull/2450)
+- expose ports_map [#2449](https://github.com/gdsfactory/gdsfactory/pull/2449)
+- [pre-commit.ci] pre-commit autoupdate [#2448](https://github.com/gdsfactory/gdsfactory/pull/2448)
+- fix pic model settings [#2447](https://github.com/gdsfactory/gdsfactory/pull/2447)
+- improve updk [#2439](https://github.com/gdsfactory/gdsfactory/pull/2439)
 
 
 ## [7.10.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.2) - 2024-01-07
