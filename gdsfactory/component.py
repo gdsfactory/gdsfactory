@@ -1214,8 +1214,11 @@ class Component(_GeometryHelper):
         self.is_unlocked()
         self._cell.add(*polygons)
 
-    def copy(self) -> Component:
-        return copy(self)
+    def copy(self, name: str | None = None) -> Component:
+        c = copy(self)
+        if name:
+            c.rename(name)
+        return c
 
     def add_ref_container(self, component: Component) -> ComponentReference:
         """Add reference, ports and copy_child_info."""
