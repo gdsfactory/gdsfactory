@@ -195,13 +195,28 @@ class Component(_GeometryHelper):
         with_uuid: bool = False,
         max_name_length: int | None = None,
     ) -> None:
-        """Initialize the Component object."""
+        """Initialize the Component object.
+
+        Args:
+            name: component_name. Use @cell decorator for auto-naming.
+            with_uuid: adds unique identifier.
+            max_name_length: maximum number of characters for component name.
+        """
 
         self.uid = str(uuid.uuid4())[:8]
-        if with_uuid or name == "Unnamed":
+
+        if with_uuid:
+            warnings.warn("with_uuid is deprecated. Use @cell decorator instead.")
             name += f"_{self.uid}"
 
-        self._cell = gdstk.Cell("Unnamed")
+        if name == "Unnamed":
+            name = f"Unnamed_{self.uid}"
+
+        name_counters[name] += 1
+        if name_counters[name] > 1:
+            name = f"{name}${name_counters[name]-1}"
+
+        self._cell = gdstk.Cell(name)
         self.rename(name, max_name_length=max_name_length)
         self.info: Info = Info()
 
@@ -1199,8 +1214,11 @@ class Component(_GeometryHelper):
         self.is_unlocked()
         self._cell.add(*polygons)
 
-    def copy(self) -> Component:
-        return copy(self)
+    def copy(self, name: str | None = None) -> Component:
+        c = copy(self)
+        if name:
+            c.rename(name)
+        return c
 
     def add_ref_container(self, component: Component) -> ComponentReference:
         """Add reference, ports and copy_child_info."""
@@ -1375,19 +1393,10 @@ class Component(_GeometryHelper):
         _cell = _cell.flatten()
         component_flat._cell = _cell
         if single_layer is not None:
-            from gdsfactory import get_layer
-
-            layer, datatype = get_layer(single_layer)
-            for polygon in _cell.polygons:
-                polygon.layer = layer
-                polygon.datatype = datatype
-            for path in _cell.paths:
-                path.set_layers(layer)
-                path.set_datatypes(datatype)
+            warnings.warn("flatten on single layer is deprecated")
 
         component_flat.copy_child_info(self)
         component_flat.add_ports(self.ports)
-        component_flat.child = self.child
         return component_flat
 
     def flatten_reference(self, ref: ComponentReference) -> None:
@@ -1403,7 +1412,7 @@ class Component(_GeometryHelper):
         from gdsfactory.functions import transformed
 
         self.remove(ref)
-        new_component = transformed(ref, decorator=None)
+        new_component = transformed(ref)
         self.add_ref(new_component, alias=ref.name)
 
     def flatten_invalid_refs(self, *args, **kwargs) -> Component:
@@ -1419,6 +1428,7 @@ class Component(_GeometryHelper):
         grid_size: float | None = None,
         updated_components=None,
         traversed_components=None,
+        keep_names: bool = False,
     ) -> Component:
         """Returns new component with flattened references so that they snap to grid.
 
@@ -1426,12 +1436,14 @@ class Component(_GeometryHelper):
             grid_size: snap to grid size.
             updated_components: set of updated components.
             traversed_components: set of traversed components.
+            keep_names: True for writing to GDS, False for internal use.
         """
         return flatten_offgrid_references_recursive(
             self,
             grid_size=grid_size,
             updated_components=updated_components,
             traversed_components=traversed_components,
+            keep_names=keep_names,
         )
 
     def add_ref(
@@ -1870,7 +1882,7 @@ class Component(_GeometryHelper):
         )
 
         if write_settings.flatten_offgrid_references:
-            top_cell = flatten_offgrid_references_recursive(self)
+            top_cell = flatten_offgrid_references_recursive(self, keep_names=True)
         else:
             top_cell = self
             if not has_valid_transformations(self):
@@ -2732,6 +2744,7 @@ def flatten_offgrid_references_recursive(
     grid_size: float | None = None,
     updated_components=None,
     traversed_components=None,
+    keep_names: bool = False,
 ) -> Component:
     """Recursively flattens component references which have invalid transformations
     (i.e. non-90 deg rotations or sub-grid translations)
@@ -2750,6 +2763,7 @@ def flatten_offgrid_references_recursive(
             Should always be None, except for recursive.
         traversed_components: the set of component names which have been traversed.
             Should always be None, except for recursive invocations.
+        keep_names: True for writing to GDS, False for internal use.
     """
     from gdsfactory.decorators import is_invalid_ref
 
@@ -2779,7 +2793,10 @@ def flatten_offgrid_references_recursive(
     if invalid_refs or subcell_modified:
         # if the cell or subcells need to have references flattened, create an uncached copy of this cell for export
         new_component = component.copy()
-        new_component.rename(component.name, cache=False)
+        if keep_names:
+            new_component.rename(component.name, cache=False)
+        else:
+            new_component.rename(component.name + "_offgrid")
 
         # make sure all modified cells have their references updated
         new_refs = new_component.references.copy()
@@ -2824,8 +2841,13 @@ if __name__ == "__main__":
     # from functools import partial
     import gdsfactory as gf
 
-    c = gf.components.straight(length=1)
-    cc = gf.routing.add_fiber_array(c)
+    c1 = gf.Component()
+    c2 = gf.Component()
+    print(c1.name)
+    print(c2.name)
+
+    # c = gf.components.straight(length=1)
+    # cc = gf.routing.add_fiber_array(c)
     # print(c.hash_geometry())
     # c2 = c.flatten()
 

@@ -18,7 +18,7 @@ def test_path_port_types() -> None:
         width=2.0,
         offset=-4,
         layer=LAYER.HEATER,
-        port_names=["e1", "e2"],
+        port_names=("e1", "e2"),
         port_types=("electrical", "electrical"),
     )
     X = gf.CrossSection(sections=(s0, s1))
@@ -119,7 +119,7 @@ def test_diagonal_extrude_consistent_naming() -> None:
     p = gf.path.Path([(0, 0), (4.9932849, 6.328497)])
     c = p.extrude(cross_section="xs_sc")
     # This name was generated at the time of writing the test. We expect it to be the same across other platforms.
-    expected_name = "extrude_0e019b8e"
+    expected_name = "extrude_d442fd31"
     assert c.name == expected_name, c.name
 
 

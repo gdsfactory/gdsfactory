@@ -1,7 +1,7 @@
 function: rotate
 info: {}
 module: gdsfactory.functions
-name: mzi_rotate_735a9dd9
+name: mzi_rotate_componentmzi_2e88f57c
 settings:
   angle: 90
   component:

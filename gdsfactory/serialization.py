@@ -45,13 +45,14 @@ def clean_value_json(
     value: Any, fast_serialization: bool = False
 ) -> str | int | float | dict | list | bool | None:
     """Return JSON serializable object."""
+    from gdsfactory.component import Component
     from gdsfactory.path import Path
 
     if isinstance(value, pydantic.BaseModel):
         return clean_dict(value.model_dump())
 
-    elif fast_serialization and hasattr(value, "hash_geometry"):
-        return value.hash_geometry()
+    elif fast_serialization and isinstance(value, Component):
+        return value.name
 
     elif hasattr(value, "get_component_spec"):
         return value.get_component_spec()

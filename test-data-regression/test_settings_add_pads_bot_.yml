@@ -1,7 +1,7 @@
 function: add_pads_bot
 info: {}
 module: gdsfactory.routing.add_pads
-name: mzi_add_pads_bot_735a9dd9
+name: mzi_add_pads_bot_componentmzi_2e88f57c
 settings:
   bend: wire_corner
   component:
