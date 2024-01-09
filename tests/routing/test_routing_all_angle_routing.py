@@ -34,11 +34,12 @@ def test_gds(component_name: str) -> None:
     flatten_offgrid_references_default = (
         get_active_pdk().gds_write_settings.flatten_offgrid_references
     )
-    get_active_pdk().gds_write_settings.flatten_offgrid_references = True
+    # get_active_pdk().gds_write_settings.flatten_offgrid_references = True
 
     try:
         gf.config.enable_offgrid_ports()
         component = AAR_YAML_PICS[component_name]()
+        component = component.flatten_offgrid_references()
         difftest(component, test_name=component_name, ignore_sliver_differences=True)
     finally:
         # reset back to what it was, so we don't mess up other tests

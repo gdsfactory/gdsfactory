@@ -1870,7 +1870,7 @@ class Component(_GeometryHelper):
         )
 
         if write_settings.flatten_offgrid_references:
-            top_cell = flatten_offgrid_references_recursive(self)
+            top_cell = flatten_offgrid_references_recursive(self, keep_names=True)
         else:
             top_cell = self
             if not has_valid_transformations(self):
@@ -2732,6 +2732,7 @@ def flatten_offgrid_references_recursive(
     grid_size: float | None = None,
     updated_components=None,
     traversed_components=None,
+    keep_names: bool = False,
 ) -> Component:
     """Recursively flattens component references which have invalid transformations
     (i.e. non-90 deg rotations or sub-grid translations)
@@ -2750,6 +2751,7 @@ def flatten_offgrid_references_recursive(
             Should always be None, except for recursive.
         traversed_components: the set of component names which have been traversed.
             Should always be None, except for recursive invocations.
+        keep_names: True for writing to GDS, False for internal use.
     """
     from gdsfactory.decorators import is_invalid_ref
 
@@ -2779,6 +2781,11 @@ def flatten_offgrid_references_recursive(
     if invalid_refs or subcell_modified:
         # if the cell or subcells need to have references flattened, create an uncached copy of this cell for export
         new_component = component.copy()
+        if keep_names:
+            new_component.rename(component.name, cache=False)
+        else:
+            uid = str(uuid.uuid4())[:8]
+            new_component.rename(component.name + "_" + uid)
         new_component.rename(component.name, cache=False)
 
         # make sure all modified cells have their references updated
