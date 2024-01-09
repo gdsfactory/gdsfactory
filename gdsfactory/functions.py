@@ -20,7 +20,7 @@ from pydantic import validate_call
 
 import gdsfactory as gf
 from gdsfactory import ComponentReference
-from gdsfactory.cell import cell_with_child
+from gdsfactory.cell import cell_with_child, container
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
 from gdsfactory.port import auto_rename_ports
@@ -344,8 +344,12 @@ def change_keywords_in_nested_partials(
         raise TypeError(f"{func=!r} is not a partial")
 
 
+add_marker_layer_container = partial(container, function=add_marker_layer)
+
+
 __all__ = (
     "add_marker_layer",
+    "add_marker_layer_container",
     "add_port",
     "add_settings_label",
     "add_text",
