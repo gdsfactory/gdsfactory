@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.decorators import flatten_invalid_refs
+from gdsfactory.decorators import flatten_offgrid_references
 
 
 def test_get_netlist_cell_array() -> None:
@@ -275,7 +275,7 @@ def test_get_netlist_transformed() -> None:
     i2.connect("o2", i1.ports["o1"])
 
     # flatten the oddly rotated refs
-    c = flatten_invalid_refs(c)
+    c = flatten_offgrid_references(c)
 
     # perform the initial sanity checks on the netlist
     netlist = c.get_netlist()

@@ -6,6 +6,7 @@ import json
 import os
 import pathlib
 import socket
+import warnings
 from pathlib import Path
 
 from gdsfactory import config
@@ -45,7 +46,7 @@ def show(
         conn.sendall(enc_data)
         conn.settimeout(5)
     except OSError:
-        config.logger.warning(
+        warnings.warn(
             "Could not connect to klive server. Is klayout open and klive plugin installed?"
         )
     else:
@@ -54,7 +55,7 @@ def show(
             msg = conn.recv(1024).decode("utf-8")
             config.logger.info(f"Message from klive: {msg}")
         except OSError:
-            config.logger.warning("klive didn't send data, closing")
+            warnings.warn.warning("klive didn't send data, closing")
         finally:
             conn.close()
 

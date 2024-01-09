@@ -22,9 +22,11 @@ def from_updk(
     layer_label: tuple[int, int] | None = None,
     layer_pin_label: tuple[int, int] | None = None,
     layer_pin: tuple[int, int] | None = None,
+    layer_pin_optical: tuple[int, int] | None = None,
+    layer_pin_electrical: tuple[int, int] | None = None,
     optical_xsections: list[str] | None = None,
     electrical_xsections: list[str] | None = None,
-    layers_text: list[LayerSpec] | None = None,
+    layer_text: LayerSpec | None = None,
     text_size: float = 2.0,
     activate_pdk: bool = False,
     read_xsections: bool = True,
@@ -72,10 +74,19 @@ import gdsfactory as gf
 from gdsfactory.get_factories import get_cells
 from gdsfactory.add_pins import add_pins_inside2um
 
+cell = gf.partial(gf.cell, naming_style='updk', autoname=False)
 layer_bbox = {layer_bbox}
 layer_bbmetal = {layer_bbmetal}
 layer_pin_label = {layer_pin_label}
 layer_pin = {layer_pin}
+layer_pin_optical = {layer_pin_optical}
+layer_pin_electrical = {layer_pin_electrical}
+layer_label = {layer_label}
+
+layer_text = {layer_text or (1, 0)}
+text_function = gf.partial(gf.components.text, layer=layer_text, justify="center", size={text_size})
+
+add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_optical)
 """
 
     if layer_label:
@@ -144,7 +155,7 @@ layer_pin = {layer_pin}
 
         points = str(block.bbox).replace("'", "")
         script += f"""
-@gf.cell
+@cell
 def {block_name}({parameters_string})->gf.Component:
     {doc}
     c = gf.Component()
@@ -175,15 +186,16 @@ def {block_name}({parameters_string})->gf.Component:
                 d["name"] = port_name
                 text = OmegaConf.to_yaml(d)
                 script += f"    c.add_label(text={text!r}, position=({port.xya[0]}, {port.xya[1]}), layer=layer_pin_label)\n"
-        if layers_text:
-            for layer_text in layers_text:
-                script += f"    text = c << gf.c.text(text=name, size={text_size}, position=(xc, yc), layer={layer_text},justify='center')\n"
-                script += "    c.absorb(text)\n"
+        if layer_text:
+            script += "    text = c << text_function(text=name)\n"
+
+            script += "    text.center = (xc, yc)\n"
+            script += "    c.absorb(text)\n"
 
         script += """
     c.name = name
     if layer_pin:
-        add_pins_inside2um(c, layer=layer_pin)
+        add_pins(c, layer=layer_pin)
     return c
 """
 
@@ -202,6 +214,8 @@ if __name__ == "__main__":
     c.show(show_ports=True)
 """
     if filepath_out:
+        dirpath = filepath_out.parent
+        dirpath.mkdir(parents=True, exist_ok=True)
         filepath_out = pathlib.Path(filepath_out)
         filepath_out.write_text(script)
     return script

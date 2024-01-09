@@ -9,6 +9,7 @@ There are two types of functions:
 from __future__ import annotations
 
 import json
+import warnings
 from functools import lru_cache, partial
 
 import numpy as np
@@ -20,7 +21,6 @@ from gdsfactory import ComponentReference
 from gdsfactory.cell import cell_with_child
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
-from gdsfactory.config import logger
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.typings import (
     Anchor,
@@ -304,9 +304,10 @@ def add_marker_layer(
                 layer=marker_layer,
             )
     else:
-        logger.warning(
+        warnings.warn(
             f"Could not add marker layer {marker_layer} to {component.name} because it is empty."
-            f"Supplied {layers_to_mark=!r}."
+            f"Supplied {layers_to_mark=!r}.",
+            stacklevel=2,
         )
     return component.flatten() if flatten else component
 

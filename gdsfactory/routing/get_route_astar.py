@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from warnings import warn
+import warnings
 
 import numpy as np
 
@@ -49,6 +49,9 @@ def get_route_astar(
         cross_section: spec.
         kwargs: cross_section settings.
     """
+    warnings.warn(
+        'get_route_astar is deprecated. Use "get_route" or "get_bundle" instead.'
+    )
     cross_section = gf.get_cross_section(cross_section, **kwargs)
 
     grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
@@ -173,7 +176,9 @@ def get_route_astar(
             # Add the neighbour to open_list
             open_list.append(neighbour)
 
-    warn("A* algorithm failed, resorting to Manhattan routing. Watch for overlaps.")
+    warnings.warn(
+        "A* algorithm failed, resorting to Manhattan routing. Watch for overlaps."
+    )
     return route_manhattan(port1, port2, cross_section=cross_section)
 
 

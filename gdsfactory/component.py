@@ -1150,6 +1150,7 @@ class Component(_GeometryHelper):
             if len(points[0]) > 2:
                 # Convert to form [[1,2],[3,4],[5,6]]
                 points = np.column_stack(points)
+
             points = snap.snap_to_grid(points) if snap_to_grid else points
             layer, datatype = _parse_layer(layer)
             polygon = Polygon(points, (layer, datatype))
@@ -1398,20 +1399,28 @@ class Component(_GeometryHelper):
         new_component = transformed(ref)
         self.add_ref(new_component, alias=ref.name)
 
-    def flatten_invalid_refs(
+    def flatten_invalid_refs(self, *args, **kwargs) -> Component:
+        """Flatten all invalid references."""
+        warnings.warn(
+            "flatten_invalid_refs is deprecated, use flatten_offgrid_references",
+            DeprecationWarning,
+        )
+        return self.flatten_offgrid_references(*args, **kwargs)
+
+    def flatten_offgrid_references(
         self,
         grid_size: float | None = None,
         updated_components=None,
         traversed_components=None,
     ) -> Component:
-        """Returns new component with flattened references.
+        """Returns new component with flattened references so that they snap to grid.
 
         Args:
             grid_size: snap to grid size.
             updated_components: set of updated components.
             traversed_components: set of traversed components.
         """
-        return flatten_invalid_refs_recursive(
+        return flatten_offgrid_references_recursive(
             self,
             grid_size=grid_size,
             updated_components=updated_components,
@@ -1810,7 +1819,7 @@ class Component(_GeometryHelper):
                     "error": throw a ValueError when attempting to write a gds with duplicate cells.
                     "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                     None: do not try to resolve (at your own risk!)
-                flatten_invalid_refs: flattens component references which have invalid transformations.
+                flatten_offgrid_references: flattens component references which have invalid transformations.
                 max_points: Maximal number of vertices per polygon. Polygons with more vertices that this are automatically fractured.
 
             Oasis settings:
@@ -1823,7 +1832,7 @@ class Component(_GeometryHelper):
                 standard_properties: Store standard OASIS properties in the file.
 
         """
-
+        from gdsfactory.decorators import has_valid_transformations
         from gdsfactory.pdk import get_active_pdk
 
         if gdspath and gdsdir:
@@ -1853,10 +1862,15 @@ class Component(_GeometryHelper):
             component=self, mode=write_settings.on_uncached_component
         )
 
-        if write_settings.flatten_invalid_refs:
-            top_cell = flatten_invalid_refs_recursive(self)
+        if write_settings.flatten_offgrid_references:
+            top_cell = flatten_offgrid_references_recursive(self)
         else:
             top_cell = self
+            if not has_valid_transformations(self):
+                warnings.warn(
+                    f"Component {self.name} has invalid transformations. "
+                    "Try component.flatten_offgrid_references() first."
+                )
 
         gdsdir = gdsdir or GDSDIR_TEMP
         gdsdir = pathlib.Path(gdsdir)
@@ -1968,7 +1982,7 @@ class Component(_GeometryHelper):
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
             on_uncached_component: Literal["warn", "error"] = "warn"
-            flatten_invalid_refs: flattens component references which have invalid transformations.
+            flatten_offgrid_references: flattens component references which have invalid transformations.
             max_points: Maximal number of vertices per polygon.
                 Polygons with more vertices that this are automatically fractured.
             with_metadata: writes metadata in YAML format.
@@ -2002,7 +2016,7 @@ class Component(_GeometryHelper):
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
             on_uncached_component: Literal["warn", "error"] = "warn"
-            flatten_invalid_refs: flattens component references which have invalid transformations.
+            flatten_offgrid_references: flattens component references which have invalid transformations.
             compression_level: Level of compression for cells (between 0 and 9).
                 Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
             detect_rectangles: Store rectangles in compressed format.
@@ -2706,7 +2720,7 @@ def get_base_components(
         yield from get_base_components(ref.parent, allow_empty)
 
 
-def flatten_invalid_refs_recursive(
+def flatten_offgrid_references_recursive(
     component: Component,
     grid_size: float | None = None,
     updated_components=None,
@@ -2746,7 +2760,7 @@ def flatten_invalid_refs_recursive(
         else:
             # otherwise, recursively flatten refs if the subcell has not already been traversed
             if ref.parent.name not in traversed_components:
-                flatten_invalid_refs_recursive(
+                flatten_offgrid_references_recursive(
                     ref.parent,
                     grid_size=grid_size,
                     updated_components=updated_components,
@@ -2838,7 +2852,7 @@ if __name__ == "__main__":
     # c._cell = c2
     # c.show()
 
-    # gf.config.enable_off_grid_ports()
+    # gf.config.enable_offgrid_ports()
 
     # c = gf.Component("bend")
     # b = c << gf.components.bend_circular(angle=30)

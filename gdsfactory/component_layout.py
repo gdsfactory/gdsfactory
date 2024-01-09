@@ -672,7 +672,7 @@ def _parse_coordinate(c):
     if hasattr(c, "center"):
         return c.center
     elif np.array(c).size == 2:
-        return c
+        return np.round(c, 3)
     else:
         raise ValueError(
             "Could not parse coordinate, input should be array-like (e.g. [1.5,2.3] or a Port"

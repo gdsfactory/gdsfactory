@@ -1,7 +1,23 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.2...main)
 
 <!-- towncrier release notes start -->
+
+## [7.10.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.2) - 2024-01-07
+
+- Improve grid snapping docs, functions and names [#2446](https://github.com/gdsfactory/gdsfactory/pull/2446)
+- fixed flatten_offgrid_references return [#2445](https://github.com/gdsfactory/gdsfactory/pull/2445)
+- rename flatten_invalid_refs to flatten_offgrid_references [#2444](https://github.com/gdsfactory/gdsfactory/pull/2444)
+- make sbend router errors obvious [#2443](https://github.com/gdsfactory/gdsfactory/pull/2443)
+- Consolidate warnings [#2442](https://github.com/gdsfactory/gdsfactory/pull/2442)
+- improve tutorial avoid showing not recommended functions [#2438](https://github.com/gdsfactory/gdsfactory/pull/2438)
+
+
+## [7.10.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.1) - 2024-01-04
+
+- replace multiple invalid transformations warnings by a single one [#2437](https://github.com/gdsfactory/gdsfactory/pull/2437)
+- avoid lambda functions [#2436](https://github.com/gdsfactory/gdsfactory/pull/2436)
+- Recommend pip instead of conda for installation [#2433](https://github.com/gdsfactory/gdsfactory/pull/2433)
 
 ## [7.10.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.0) - 2024-01-02
 
@@ -369,7 +385,7 @@
 
 ## [7.3.0](https://github.com/gdsfactory/gdsfactory/compare/v7.2.1...v7.3.0)
 
-- make `flatten_invalid_refs=False` in GdsWriteSettings.
+- make `flatten_offgrid_references=False` in GdsWriteSettings.
 - add component flatten invalid refs.
 
 ## [7.2.1](https://github.com/gdsfactory/gdsfactory/compare/v7.2.0...v7.2.1)
@@ -602,7 +618,7 @@ grep -rl 'gdsfactory.simulation.' /path/to/your/files | xargs sed -i 's/gdsfacto
 
 ## 6.95.0
 
-- add pins and `flatten_invalid_refs` [PR](https://github.com/gdsfactory/gdsfactory/pull/1674)
+- add pins and `flatten_offgrid_references` [PR](https://github.com/gdsfactory/gdsfactory/pull/1674)
 
 ## 6.95.0
 
@@ -1052,8 +1068,8 @@ grep -rl 'gdsfactory.simulation.' /path/to/your/files | xargs sed -i 's/gdsfacto
 
 ## 6.28.0
 
-- add flatten_invalid_refs as a write_gds flag [PR](https://github.com/gdsfactory/gdsfactory/pull/1211)
-- add non-manhattan routing doc and document flatten_invalid_refs docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1214)
+- add flatten_offgrid_references as a write_gds flag [PR](https://github.com/gdsfactory/gdsfactory/pull/1211)
+- add non-manhattan routing doc and document flatten_offgrid_references docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1214)
 
 ## 6.27.0
 
@@ -1497,7 +1513,7 @@ from functools import partial to all files and makes the docs cleaner by renderi
 
 - add devsim from pypi [PR](https://github.com/gdsfactory/gdsfactory/pull/776)
 - dbr_tapered rewrite [PR](https://github.com/gdsfactory/gdsfactory/pull/775)
-- Recursively netlist transformed (flattened) references [PR](https://github.com/gdsfactory/gdsfactory/pull/772) enables recursive netlisting of references which have been transformed and flattened via the flatten_invalid_refs decorator, such that they can be properly simulated, i.e. with sax.
+- Recursively netlist transformed (flattened) references [PR](https://github.com/gdsfactory/gdsfactory/pull/772) enables recursive netlisting of references which have been transformed and flattened via the flatten_offgrid_references decorator, such that they can be properly simulated, i.e. with sax.
 - Don't re-apply PDK decorator in get_component [PR](https://github.com/gdsfactory/gdsfactory/pull/773)
 
 ## 5.42.0
@@ -1785,8 +1801,8 @@ from functools import partial to all files and makes the docs cleaner by renderi
 
 ## [5.16.0](https://github.com/gdsfactory/gdsfactory/pull/580)
 
-- rename `gdsfactory/flatten_invalid_refs.py` to `gdsfactory/decorators.py`
-- add test to flatten_invalid_refs and include documentation in the [PDK docs](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html#)
+- rename `gdsfactory/flatten_offgrid_references.py` to `gdsfactory/decorators.py`
+- add test to flatten_offgrid_references and include documentation in the [PDK docs](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html#)
 - pdk.activate clears cache
 
 ## [5.15.3](https://github.com/gdsfactory/gdsfactory/pull/579)

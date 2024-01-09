@@ -36,7 +36,7 @@ def test_components_ports() -> None:
     c2 = gf.read.from_yaml(mirror_port)
     # print(c1.uid)
     # print(c2.uid)
-    assert c1.uid == c2.uid
+    assert c1.uid == c2.uid, f"{c1.uid} != {c2.uid}"
 
 
 if __name__ == "__main__":
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     c2 = gf.read.from_yaml(mirror_port)
     print(c1.uid)
     print(c2.uid)
-    assert c1.uid == c2.uid
+    assert c1.uid == c2.uid, f"{c1.uid} != {c2.uid}"
     c2.show()
 
     # c3 = gf.read.from_yaml(mirror_port)
