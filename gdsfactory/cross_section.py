@@ -399,7 +399,9 @@ class Transition(CrossSection):
         if isinstance(width_type, str):
             return width_type
         t_values = np.linspace(0, 1, 10)
-        return ",".join([str(round(width, 3)) for width in width_type(t_values)])
+        return ",".join(
+            [str(round(width, 3)) for width in width_type(t_values, *self.width)]
+        )
 
     @property
     def width(self) -> tuple[float, float]:
