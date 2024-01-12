@@ -106,6 +106,9 @@ enabled = true
 live_mode = true
 strict = true
 
+[tool.pyright]
+reportUnusedExpression = false
+
 [tool.pytest.ini_options]
 # addopts = --tb=no
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
