@@ -21,6 +21,7 @@ def test_route_error() -> None:
         route = gf.routing.get_route_from_steps(
             port1=p2,
             port2=p1,
+            with_sbend=False,
             steps=[
                 {"x": 20, "y": 0},
                 {"x": 20, "y": 20},
@@ -46,6 +47,7 @@ def test_route_error2() -> None:
         ],
         cross_section="xs_metal_routing",
         bend=gf.components.wire_corner,
+        with_sbend=False,
     )
     c.add(route.references)
     c.add(route.labels)
