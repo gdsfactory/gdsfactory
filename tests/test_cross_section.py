@@ -147,6 +147,35 @@ def test_extrude_transition_component():
     assert c["o2"].width == w2
 
 
+def test_cross_section_variable_width_section():
+    """Make sure serialization for Section with variable width is different for different width functions.
+    This will fail if @gf.cell is reusing the first Component."""
+    import numpy as np
+
+    def get_custom_width_func(n: int = 1):
+        def _width_func(t):
+            return 3 + np.cos(2 * np.pi * t * n)
+
+        return _width_func
+
+    P = gf.path.straight(length=40, npoints=100)
+
+    s1 = gf.Section(
+        width=0, width_function=get_custom_width_func(n=1), offset=0, layer=(1, 0)
+    )
+    s2 = gf.Section(
+        width=0, width_function=get_custom_width_func(n=5), offset=0, layer=(1, 0)
+    )
+
+    X1 = gf.CrossSection(sections=(s1,))
+    X2 = gf.CrossSection(sections=(s2,))
+
+    p1 = gf.path.extrude(P, cross_section=X1)
+    p2 = gf.path.extrude(P, cross_section=X2)
+
+    assert p1 is not p2
+
+
 if __name__ == "__main__":
     # test_transition_names()
     # test_copy()
