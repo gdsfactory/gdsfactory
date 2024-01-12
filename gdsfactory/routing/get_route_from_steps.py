@@ -7,7 +7,8 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.port import Port
-from gdsfactory.routing.manhattan import round_corners
+from gdsfactory.routing.get_route_sbend import get_route_sbend
+from gdsfactory.routing.manhattan import RouteError, get_route_error, round_corners
 from gdsfactory.typings import (
     STEP_DIRECTIVES,
     ComponentSpec,
@@ -26,7 +27,7 @@ def get_route_from_steps(
     straight: ComponentSpec = "straight",
     taper: ComponentSpec | None = "taper",
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
-    with_sbend: bool = False,
+    with_sbend: bool = True,
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints steps.
@@ -127,15 +128,20 @@ def get_route_from_steps(
         else:
             taper = None
 
-    return round_corners(
-        points=waypoints,
-        bend=bend,
-        straight=straight,
-        taper=taper,
-        cross_section=cross_section,
-        with_sbend=with_sbend,
-        **kwargs,
-    )
+    try:
+        return round_corners(
+            points=waypoints,
+            bend=bend,
+            straight=straight,
+            taper=taper,
+            cross_section=cross_section,
+            with_sbend=with_sbend,
+            **kwargs,
+        )
+    except RouteError:
+        if with_sbend:
+            return get_route_sbend(port1, port2, cross_section=cross_section, **kwargs)
+    return get_route_error(points=waypoints, with_sbend=False)
 
 
 get_route_from_steps_electrical = partial(
