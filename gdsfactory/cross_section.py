@@ -396,12 +396,11 @@ class Transition(CrossSection):
 
     @field_serializer("width_type")
     def serialize_width(self, width_type: WidthTypes | Callable) -> str | None:
-        if isinstance(width_type, str):
+        if isinstance(width_type, str | int | float):
             return width_type
         t_values = np.linspace(0, 1, 10)
-        return ",".join(
-            [str(round(width, 3)) for width in width_type(t_values, *self.width)]
-        )
+        widths = width_type(t_values, *self.width)
+        return ",".join([str(round(width, 3)) for width in widths])
 
     @property
     def width(self) -> tuple[float, float]:
