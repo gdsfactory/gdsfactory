@@ -38,10 +38,17 @@ def text_rectangular(
     characters = font()
     layers = layers or [layer]
 
+    # Extract pixel width count from font definition.
+    # Example below is 5, and 7 for FONT_LITHO.
+    # A: 1 1 1 1 1
+    pixel_width_count  = len(characters["A"].split("\n")[0])
+
+    xoffset_factor = pixel_width_count + 1    
+
     for line in text.split("\n"):
         for character in line:
             if character == " ":
-                xoffset += pixel_size * 6
+                xoffset += pixel_size * xoffset_factor
             elif character.upper() not in characters:
                 print(f"skipping character {character!r} not in font")
             else:
@@ -52,9 +59,9 @@ def text_rectangular(
                     )
                     ref.move((xoffset, yoffset))
                     component.absorb(ref)
-                xoffset += pixel_size * 6
+                xoffset += pixel_size * xoffset_factor
 
-        yoffset -= pixel_size * 6
+        yoffset -= pixel_size * xoffset_factor
         xoffset = position[0]
 
     c = gf.Component()
