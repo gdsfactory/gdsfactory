@@ -622,6 +622,7 @@ _
 0	0	0	0	0   0   0
 """
 
+
 @cache
 def rectangular_font() -> dict[str, str]:
     """Returns a rectangular font dict The keys of the dictionary are the.
@@ -664,6 +665,7 @@ def rectangular_font_litho() -> dict[str, str]:
 
         characters[charac] = pixels
     return characters
+
 
 if __name__ == "__main__":
     c = pixel_array()

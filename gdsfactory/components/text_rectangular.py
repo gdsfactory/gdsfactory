@@ -41,9 +41,9 @@ def text_rectangular(
     # Extract pixel width count from font definition.
     # Example below is 5, and 7 for FONT_LITHO.
     # A: 1 1 1 1 1
-    pixel_width_count  = len(characters["A"].split("\n")[0])
+    pixel_width_count = len(characters["A"].split("\n")[0])
 
-    xoffset_factor = pixel_width_count + 1    
+    xoffset_factor = pixel_width_count + 1
 
     for line in text.split("\n"):
         for character in line:
