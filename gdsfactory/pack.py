@@ -203,7 +203,7 @@ def pack(
     index = 0
     for i, rect_dict in enumerate(packed_list):
         name = get_name_short(f"{name_prefix or 'pack'}_{i}")
-        packed = Component(name, with_uuid=True)
+        packed = Component(name)
         for n, rect in rect_dict.items():
             x, y, w, h = rect
             xcenter = x + w / 2 + spacing / 2
