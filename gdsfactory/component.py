@@ -1473,7 +1473,7 @@ class Component(_GeometryHelper):
 
         """
         if not isinstance(component, Component):
-            raise TypeError(f"type = {type(Component)} needs to be a Component.")
+            raise TypeError(f"type = {type(component)} needs to be a Component.")
         ref = ComponentReference(component, **kwargs)
         self._add(ref)
         self._register_reference(reference=ref, alias=alias)

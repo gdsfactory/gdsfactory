@@ -617,7 +617,7 @@ def transition_adiabatic(
 def transition(
     cross_section1: CrossSectionSpec,
     cross_section2: CrossSectionSpec,
-    width_type: WidthTypes = "sine",
+    width_type: WidthTypes | Callable = "sine",
 ) -> Transition:
     """Returns a smoothly-transitioning between two CrossSections.
 

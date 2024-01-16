@@ -82,6 +82,9 @@ class Info(BaseModel, extra="allow", validate_assignment=True):
         if __val is not None:
             setattr(self, __key, __val)
 
+    def __contains__(self, __key: str) -> bool:
+        return hasattr(self, __key)
+
     def get(self, __key: str, default: Any | None = None) -> Any:
         return getattr(self, __key) if hasattr(self, __key) else default
 
