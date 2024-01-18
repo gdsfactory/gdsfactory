@@ -1,11 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.5...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.10.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.5) - 2024-01-18
 
-No significant changes.
+
+- add get_netlist merge_info flag [#2476](https://github.com/gdsfactory/gdsfactory/pull/2476)
 
 
 ## [7.10.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.4) - 2024-01-16
