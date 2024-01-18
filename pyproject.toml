@@ -54,7 +54,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "7.10.3"
+version = "7.10.4"
 
 [project.optional-dependencies]
 cad = [
@@ -105,6 +105,9 @@ strict = true
 enabled = true
 live_mode = true
 strict = true
+
+[tool.pyright]
+reportUnusedExpression = false
 
 [tool.pytest.ini_options]
 # addopts = --tb=no
@@ -212,7 +215,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "7.10.3"
+current = "7.10.4"
 regex = '''
   (?P<major>\d+)
   \.
