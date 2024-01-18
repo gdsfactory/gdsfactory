@@ -57,7 +57,7 @@ class LayerLevel(BaseModel):
     width_to_z: float = 0.0
     z_to_bias: tuple[list[float], list[float]] | None = None
     mesh_order: int = 3
-    layer_type: Literal["grow", "etch", "implant", "background"] = "grow"
+    layer_type: Literal["grow", "etch", "doping", "background"] = "grow"
     mode: Literal["octagon", "taper", "round"] | None = None
     into: list[str] | None = None
     resistivity: float | None = None
