@@ -47,9 +47,9 @@ class LayerLevel(BaseModel):
 
     name: str | None = None
     layer: tuple[int, int] | None = None
-    thickness: float
+    thickness: float | None = None
     thickness_tolerance: float | None = None
-    zmin: float
+    zmin: float | None = None
     zmin_tolerance: float | None = None
     material: str | None = None
     sidewall_angle: float = 0.0
