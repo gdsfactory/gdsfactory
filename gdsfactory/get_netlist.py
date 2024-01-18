@@ -204,6 +204,7 @@ def get_netlist(
                     {k: v for k, v in dict(c.info).items() if k in settings}
                 )
 
+            settings = clean_value_json(settings)
             instance.update(
                 component=c.function_name or c.name,
                 settings=settings,
