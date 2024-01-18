@@ -111,6 +111,7 @@ def get_netlist(
     exclude_port_types: list[str] | tuple[str] | None = ("placement",),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = False,
+    merge_info: bool = False,
 ) -> dict[str, Any]:
     """Returns instances, connections and placements from :class:`Component` as a dict.
 
@@ -142,6 +143,7 @@ def get_netlist(
         get_instance_name: function to get instance name.
         allow_multiple: False to raise an error if more than two ports share the same connection. \
                 if True, will return key: [value] pairs with [value] a list of all connected instances.
+        merge_info: True to merge info and settings into the same dict.
 
     Returns:
         Dictionary containing the following:
@@ -195,11 +197,17 @@ def get_netlist(
 
         # Prefer name from settings over c.name
         if c.settings:
-            settings = c.settings
+            settings = dict(c.settings)
 
+            if merge_info:
+                settings.update(
+                    {k: v for k, v in dict(c.info).items() if k in settings}
+                )
+
+            settings = clean_value_json(settings)
             instance.update(
                 component=c.function_name or c.name,
-                settings=clean_value_json(settings),
+                settings=settings,
             )
 
         instances[reference_name] = instance
