@@ -5,7 +5,24 @@
 
 ## [7.10.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.4) - 2024-01-16
 
-No significant changes.
+### New
+
+- add gf.functions.add_marker_layer_container [#2458](https://github.com/gdsfactory/gdsfactory/pull/2458)
+
+### Maintenance
+
+- Fix release drafter to properly use gdsfactory project labels [#2457](https://github.com/gdsfactory/gdsfactory/pull/2457)
+
+### Other changes
+
+- Avoid pack deprecation warning [#2475](https://github.com/gdsfactory/gdsfactory/pull/2475)
+- [pre-commit.ci] pre-commit autoupdate [#2474](https://github.com/gdsfactory/gdsfactory/pull/2474)
+- fixing error message [#2473](https://github.com/gdsfactory/gdsfactory/pull/2473)
+- Add additional & optional font to existing text_rectangular(...) API [#2471](https://github.com/gdsfactory/gdsfactory/pull/2471)
+- Add additional reasonable default lumerical mappings [#2469](https://github.com/gdsfactory/gdsfactory/pull/2469)
+- fix with_sbend option in get_route_from_steps [#2468](https://github.com/gdsfactory/gdsfactory/pull/2468)
+- Serialize output for variable width/offsets in Section and CrossSection [#2466](https://github.com/gdsfactory/gdsfactory/pull/2466)
+- Add __contains__ method to Info [#2459](https://github.com/gdsfactory/gdsfactory/pull/2459)
 
 
 ## [7.10.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.3) - 2024-01-09
