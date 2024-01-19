@@ -190,6 +190,9 @@ src = ".devcontainer/Dockerfile.dev"
 src = ".devcontainer/Dockerfile.dev_minimal"
 
 [[tool.tbump.file]]
+src = ".github/workflows/release.yml"
+
+[[tool.tbump.file]]
 src = "README.md"
 
 [[tool.tbump.file]]

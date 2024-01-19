@@ -15,6 +15,7 @@ RUN apt-get update --yes && \
         python3-gmsh \
         htop \
         neovim \
+        klayout \
         software-properties-common \
         gnupg && \
     apt-add-repository ppa:elmer-csc-ubuntu/elmer-csc-ppa && \
@@ -34,7 +35,7 @@ RUN conda init bash
 # RUN apt install gcc
 # RUN conda install -c conda-forge pymeep -y
 
-RUN mamba install gdspy gdstk pymeep=*=mpi_mpich_* -y && \
+RUN mamba install pymeep=*=mpi_mpich_* -y && \
     mamba install -c conda-forge slepc4py=*=complex* -y
 
 
