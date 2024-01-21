@@ -65,6 +65,7 @@ if TYPE_CHECKING:
         Layers,
         LayerSpec,
         PathType,
+        Tuple,
     )
 
 valid_plotters = ["matplotlib", "klayout", "kweb"]
@@ -2596,8 +2597,29 @@ class Component(_GeometryHelper):
         )
         return dict(self.settings)
 
+    def __reduce__(self):
+        """Gdstk Cells cannot be directly pickled. This method overrides binary serialization with GDS serialization."""
+        return deserialize_gds, serialize_gds(self)
+
 
 # Component functions
+def serialize_gds(component: Component) -> Tuple[PathType]:
+    """Saves Component as GDS + YAML metadata in temporary files with unique name."""
+    gds_filepath = GDSDIR_TEMP / component.name
+    gds_filepath = gds_filepath.with_suffix(".gds")
+    component.write_gds(gds_filepath, with_metadata=True)
+    return (gds_filepath,)
+
+
+def deserialize_gds(gds_filepath: PathType) -> Component:
+    """Loads Component as GDS + YAML metadata from temporary files, and deletes them."""
+    from gdsfactory.read import import_gds
+
+    c = import_gds(gds_filepath, read_metadata=True)
+    metadata_filepath = gds_filepath.with_suffix(".yml")
+    metadata_filepath.unlink()
+    gds_filepath.unlink()
+    return c
 
 
 def copy(
