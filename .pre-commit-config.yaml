@@ -6,7 +6,11 @@ repos:
         exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|conda/construct.yaml|.*\.pic\.yml|conda/constructor/Miniforge3/construct.yaml)
       - id: end-of-file-fixer
       - id: trailing-whitespace
-
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
+    hooks:
+      - id: nbstripout
+        files: ".ipynb"
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.6
@@ -16,7 +20,7 @@ repos:
           - tomli
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.1.9"
+    rev: "v0.1.13"
     hooks:
       - id: ruff
         args: [ --fix, --exit-non-zero-on-fix ]
@@ -40,8 +44,3 @@ repos:
   #   rev: v1.1.333
   #   hooks:
   #   - id: pyright
-  - repo: https://github.com/kynan/nbstripout
-    rev: 0.6.1
-    hooks:
-      - id: nbstripout
-        files: ".ipynb"

@@ -112,13 +112,14 @@ def add_fiber_single(
         cc.plot()
 
     """
-    component = gf.get_component(component)
+    component_original = component = gf.get_component(component)
 
     optical_ports = select_ports(component.ports)
     optical_ports = list(optical_ports.values())
     optical_port_names = [p.name for p in optical_ports]
 
     zero_port = zero_port or optical_port_names[0]
+    component_name = component_name or component.name
 
     if not optical_ports:
         raise ValueError(f"No optical ports found in {component.name!r}")
@@ -134,10 +135,6 @@ def add_fiber_single(
 
     if not optical_ports:
         raise ValueError(f"No ports for {component.name}")
-
-    component_name = component_name or component.metadata_child.get(
-        "name", component.name
-    )
 
     gc = (
         grating_coupler[0]
@@ -275,8 +272,7 @@ def add_fiber_single(
                 layer=layer_label,
             )
 
-    c.copy_child_info(component)
-    c.info["grating_coupler"] = gc.info
+    c.copy_child_info(component_original)
     return c
 
 
@@ -287,7 +283,7 @@ if __name__ == "__main__":
     # gc = gf.functions.rotate90(gf.components.grating_coupler_elliptical_arbitrary)
 
     gc = gf.components.grating_coupler_elliptical_arbitrary
-    c = gf.c.mmi2x2()
+    c = gf.c.bend_euler()
     cc = gf.routing.add_fiber_single(
         component=c,
         grating_coupler=gc,

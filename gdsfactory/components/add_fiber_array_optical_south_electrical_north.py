@@ -128,14 +128,14 @@ def add_fiber_array_optical_south_electrical_north(
         c.add(route.references)
 
     c.add_ports(ports2)
-    c.copy_child_info(r)
+    c.copy_child_info(component)
     return c
 
 
 if __name__ == "__main__":
-    c = add_fiber_array_optical_south_electrical_north(
-        info=dict(measurement_settings={"wavelength_min": 1550}), name="my_mzi"
-    )
+    # c = add_fiber_array_optical_south_electrical_north(
+    #     info=dict(wavelength_min=1550), name="my_mzi"
+    # )
 
     # d = json.loads(c.labels[0].text)
     # print(d)
@@ -154,5 +154,6 @@ if __name__ == "__main__":
     #     electrical_port_names=["l_e2", "r_e2"],
     #     npads=5,
     # )
-    print(c.name)
+    # print(c.name)
+    c = add_fiber_array_optical_south_electrical_north()
     c.show(show_ports=False)

@@ -1,32 +1,15 @@
+function: rectangles
+info: {}
+module: gdsfactory.components.rectangle
 name: rectangles
-ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    centered: true
-    layers:
-    - WG
-    - SLAB150
-    offsets:
-    - 0
-    - 1
-    size:
-    - 4.0
-    - 2.0
-  full:
-    centered: true
-    layers:
-    - WG
-    - SLAB150
-    offsets:
-    - 0
-    - 1
-    size:
-    - 4.0
-    - 2.0
-  function_name: rectangles
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.rectangle
-  name: rectangles
+  centered: true
+  layers:
+  - WG
+  - SLAB150
+  offsets:
+  - 0
+  - 1
+  size:
+  - 4.0
+  - 2.0

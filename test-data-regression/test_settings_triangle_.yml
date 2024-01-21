@@ -1,24 +1,11 @@
+function: triangle
+info: {}
+module: gdsfactory.components.triangles
 name: triangle
-ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    layer: WG
-    layers: null
-    x: 10
-    xtop: 0
-    y: 20
-    ybot: 0
-  full:
-    layer: WG
-    layers: null
-    x: 10
-    xtop: 0
-    y: 20
-    ybot: 0
-  function_name: triangle
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.triangles
-  name: triangle
+  layer: WG
+  layers: null
+  x: 10
+  xtop: 0
+  y: 20
+  ybot: 0

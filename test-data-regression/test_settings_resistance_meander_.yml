@@ -1,28 +1,13 @@
+function: resistance_meander
+info: {}
+module: gdsfactory.components.resistance_meander
 name: resistance_meander
-ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    gnd_layer: MTOP
-    num_squares: 1000
-    pad_layer: MTOP
-    pad_size:
-    - 50.0
-    - 50.0
-    res_layer: MTOP
-    width: 1.0
-  full:
-    gnd_layer: MTOP
-    num_squares: 1000
-    pad_layer: MTOP
-    pad_size:
-    - 50.0
-    - 50.0
-    res_layer: MTOP
-    width: 1.0
-  function_name: resistance_meander
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.resistance_meander
-  name: resistance_meander
+  gnd_layer: MTOP
+  num_squares: 1000
+  pad_layer: MTOP
+  pad_size:
+  - 50.0
+  - 50.0
+  res_layer: MTOP
+  width: 1.0

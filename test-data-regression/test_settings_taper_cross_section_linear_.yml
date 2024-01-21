@@ -1,93 +1,34 @@
+function: taper_cross_section
+info:
+  length: 10
+module: gdsfactory.components.taper_cross_section
 name: taper_cross_section_linearTrue_npoints2
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
-  changed:
-    linear: true
-    npoints: 2
-  child: null
-  default:
-    cross_section1:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          offset_function: null
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.2
-          width_function: null
-    cross_section2: xs_rc
-    length: 10
-    linear: false
-    npoints: 100
-    width_type: sine
-  full:
-    cross_section1:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          offset_function: null
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 0.2
-          width_function: null
-    cross_section2: xs_rc
-    length: 10
-    linear: true
-    npoints: 2
-    width_type: sine
-  function_name: taper_cross_section
-  info:
-    length: 10
-  info_version: 2
-  module: gdsfactory.components.taper_cross_section
-  name: taper_cross_section_linearTrue_npoints2
+  cross_section1:
+    function: cross_section
+    module: gdsfactory.cross_section
+    settings:
+      add_pins_function_name: null
+      radius: 10
+      radius_min: 5
+      sections:
+      - hidden: false
+        insets: null
+        layer: SLAB90
+        name: slab
+        offset: 0
+        offset_function: null
+        port_names:
+        - null
+        - null
+        port_types:
+        - optical
+        - optical
+        simplify: null
+        width: 0.2
+        width_function: null
+  cross_section2: xs_rc
+  length: 10
+  linear: true
+  npoints: 2
+  width_type: sine

@@ -617,7 +617,7 @@ def transition_adiabatic(
 def transition(
     cross_section1: CrossSectionSpec,
     cross_section2: CrossSectionSpec,
-    width_type: WidthTypes = "sine",
+    width_type: WidthTypes | Callable = "sine",
 ) -> Transition:
     """Returns a smoothly-transitioning between two CrossSections.
 
@@ -837,6 +837,7 @@ def extrude(
         end_angle = p_sec.end_angle
         start_angle = p_sec.start_angle
         points = p_sec.points
+        points = np.round(points, 3)
         if callable(width_function):
             # Compute lengths
             dx = np.diff(p_sec.points[:, 0])
@@ -911,7 +912,7 @@ def extrude(
             face = [points1[0], points2[0]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            port1 = c.add_port(
+            c.add_port(
                 port=Port(
                     name=port_names[0],
                     layer=get_layer(layers[0]),
@@ -924,7 +925,7 @@ def extrude(
                     enforce_ports_on_grid=enforce_ports_on_grid,
                 )
             )
-            port1.info["face"] = face
+            # port1.info["face"] = face
         if port_names[1] is not None:
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p_sec.end_angle) % 360
@@ -932,7 +933,7 @@ def extrude(
             face = [points1[-1], points2[-1]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            port2 = c.add_port(
+            c.add_port(
                 port=Port(
                     name=port_names[1],
                     layer=get_layer(layers[1]),
@@ -945,7 +946,7 @@ def extrude(
                     enforce_ports_on_grid=enforce_ports_on_grid,
                 )
             )
-            port2.info["face"] = face
+            # port2.info["face"] = face
 
     c.info["length"] = float(np.round(p.length(), 3))
 
@@ -1073,6 +1074,7 @@ def extrude_transition(
         end_angle = p_sec.end_angle
         start_angle = p_sec.start_angle
         points = p_sec.points
+        points = np.round(points, 3)
         if callable(width):
             # Compute lengths
             dx = np.diff(p_sec.points[:, 0])
@@ -1142,7 +1144,7 @@ def extrude_transition(
             face = [points1[0], points2[0]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            port1 = c.add_port(
+            c.add_port(
                 port=Port(
                     name=port_names[0],
                     layer=get_layer(layers[0]),
@@ -1154,7 +1156,7 @@ def extrude_transition(
                     shear_angle=shear_angle_start,
                 )
             )
-            port1.info["face"] = face
+            # port1.info["face"] = face
         if port_names[1] is not None:
             port_width = width2
             port_orientation = (p_sec.end_angle) % 360
@@ -1162,7 +1164,7 @@ def extrude_transition(
             face = [points1[-1], points2[-1]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
-            port2 = c.add_port(
+            c.add_port(
                 port=Port(
                     name=port_names[1],
                     layer=get_layer(layers[1]),
@@ -1174,7 +1176,7 @@ def extrude_transition(
                     shear_angle=shear_angle_end,
                 )
             )
-            port2.info["face"] = face
+            # port2.info["face"] = face
 
     c.info["length"] = float(np.round(p.length(), 3))
     return c

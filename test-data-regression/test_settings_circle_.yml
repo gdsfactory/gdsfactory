@@ -1,18 +1,8 @@
+function: circle
+info: {}
+module: gdsfactory.components.circle
 name: circle
-ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    angle_resolution: 2.5
-    layer: WG
-    radius: 10.0
-  full:
-    angle_resolution: 2.5
-    layer: WG
-    radius: 10.0
-  function_name: circle
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.circle
-  name: circle
+  angle_resolution: 2.5
+  layer: WG
+  radius: 10.0

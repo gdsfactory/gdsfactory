@@ -1,91 +1,22 @@
+function: cutback_2x2
+info:
+  components: 80
+module: gdsfactory.components.cutback_2x2
 name: cutback_2x2
-ports:
-  o1:
-    center:
-    - -10.0
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - -10.0
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 438.0
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4:
-    center:
-    - 438.0
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    bend180:
-      function: bend_circular
-      settings:
-        angle: 180
-    cols: 4
-    component:
-      function: mmi2x2
-    cross_section: xs_sc
-    mirror: false
-    port1: o1
-    port2: o2
-    port3: o3
-    port4: o4
-    rows: 5
-    straight_length: null
-  full:
-    bend180:
-      function: bend_circular
-      settings:
-        angle: 180
-    cols: 4
-    component:
-      function: mmi2x2
-    cross_section: xs_sc
-    mirror: false
-    port1: o1
-    port2: o2
-    port3: o3
-    port4: o4
-    rows: 5
-    straight_length: null
-  function_name: cutback_2x2
-  info:
-    components: 80
-  info_version: 2
-  module: gdsfactory.components.cutback_2x2
-  name: cutback_2x2
+  bend180:
+    function: bend_circular
+    module: gdsfactory.components.bend_circular
+    settings:
+      angle: 180
+  cols: 4
+  component:
+    function: mmi2x2
+  cross_section: xs_sc
+  mirror: false
+  port1: o1
+  port2: o2
+  port3: o3
+  port4: o4
+  rows: 5
+  straight_length: null

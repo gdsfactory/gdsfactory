@@ -38,7 +38,6 @@ def get_netlist_flat(
     Keyword Args:
         component_suffix: suffix to append to each component name, useful if to save and reload a back-annotated netlist.
         get_netlist_func: function to extract individual netlists.
-        full_settings: True returns all, false changed settings.
         tolerance: tolerance in nm to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.

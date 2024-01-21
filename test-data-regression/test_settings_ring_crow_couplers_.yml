@@ -1,118 +1,37 @@
+function: ring_crow_couplers
+info: {}
+module: gdsfactory.components.ring_crow_couplers
 name: ring_crow_couplers
-ports:
-  o1:
-    center:
-    - -10.0
-    - -2.4
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.4
-  o2:
-    center:
-    - 50.0
-    - -2.4
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.6
-  o3:
-    center:
-    - -10.0
-    - 76.8
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.6
-  o4:
-    center:
-    - 50.0
-    - 76.8
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.4
 settings:
-  changed: {}
-  child: null
-  default:
-    bends:
-    - function: bend_circular
-    - function: bend_circular
-    - function: bend_circular
-    couplers:
-    - function: coupler_full
-    - function: coupler_full
-    - function: coupler_full
-    - function: coupler_full
-    radius:
-    - 10.0
-    - 10.0
-    - 10.0
-    ring_cross_sections:
-    - function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-    - function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-    - function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-  full:
-    bends:
-    - function: bend_circular
-    - function: bend_circular
-    - function: bend_circular
-    couplers:
-    - function: coupler_full
-    - function: coupler_full
-    - function: coupler_full
-    - function: coupler_full
-    radius:
-    - 10.0
-    - 10.0
-    - 10.0
-    ring_cross_sections:
-    - function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-    - function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-    - function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-  function_name: ring_crow_couplers
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.ring_crow_couplers
-  name: ring_crow_couplers
+  bends:
+  - function: bend_circular
+  - function: bend_circular
+  - function: bend_circular
+  couplers:
+  - function: coupler_full
+  - function: coupler_full
+  - function: coupler_full
+  - function: coupler_full
+  radius:
+  - 10.0
+  - 10.0
+  - 10.0
+  ring_cross_sections:
+  - function: cross_section
+    module: gdsfactory.cross_section
+    settings:
+      add_pins_function_name: null
+      radius: 10
+      radius_min: 5
+  - function: cross_section
+    module: gdsfactory.cross_section
+    settings:
+      add_pins_function_name: null
+      radius: 10
+      radius_min: 5
+  - function: cross_section
+    module: gdsfactory.cross_section
+    settings:
+      add_pins_function_name: null
+      radius: 10
+      radius_min: 5

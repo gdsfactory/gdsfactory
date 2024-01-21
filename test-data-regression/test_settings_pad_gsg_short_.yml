@@ -1,38 +1,19 @@
+function: pad_gsg_short
+info: {}
+module: gdsfactory.components.pad_gsg
 name: pad_gsg_short
-ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    layer_metal: MTOP
-    metal_spacing: 5.0
-    pad:
-      function: pad
-    pad_spacing: 150
-    short: true
-    size:
-    - 22
-    - 7
-    via_stack:
-      function: rectangle
-      settings:
-        layer: MTOP
-  full:
-    layer_metal: MTOP
-    metal_spacing: 5.0
-    pad:
-      function: pad
-    pad_spacing: 150
-    short: true
-    size:
-    - 22
-    - 7
-    via_stack:
-      function: rectangle
-      settings:
-        layer: MTOP
-  function_name: pad_gsg_short
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.pad_gsg
-  name: pad_gsg_short
+  layer_metal: MTOP
+  metal_spacing: 5.0
+  pad:
+    function: pad
+  pad_spacing: 150
+  short: true
+  size:
+  - 22
+  - 7
+  via_stack:
+    function: rectangle
+    module: gdsfactory.components.rectangle
+    settings:
+      layer: MTOP

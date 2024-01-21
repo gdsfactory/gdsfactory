@@ -53,6 +53,7 @@ def wire_corner(
         port_type="electrical",
         cross_section=x,
     )
+
     c.info["length"] = width
     c.info["dy"] = width
     x.add_bbox(c)
@@ -103,7 +104,7 @@ def wire_corner45(
         layer=layer,
         port_type="electrical",
     )
-    c.info["length"] = np.sqrt(2) * radius
+    c.info["length"] = float(np.sqrt(2) * radius)
     return c
 
 

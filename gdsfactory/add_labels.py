@@ -58,8 +58,8 @@ def get_input_label_text(
         component_prefix: component prefix.
         prefix: prefix to add to the label.
     """
-    polarization = gc.info.get("polarization") or gc.metadata_child.get("polarization")
-    wavelength = gc.info.get("wavelength") or gc.metadata_child.get("wavelength")
+    polarization = gc.info.polarization
+    wavelength = gc.info.wavelength
 
     if polarization not in ["te", "tm"]:
         raise ValueError(f"polarization {polarization!r} needs to be [te, tm]")
@@ -68,7 +68,7 @@ def get_input_label_text(
             f"{wavelength} needs to be > 0.5um and < 5um. Make sure it's in um"
         )
 
-    component_name = component_name or port.parent.metadata_child.get("name")
+    component_name = component_name or port.parent.name
 
     text = f"{prefix}_{polarization}_{int(wavelength*1e3)}_({component_prefix}{component_name}){suffix}"
     if isinstance(gc_index, int):

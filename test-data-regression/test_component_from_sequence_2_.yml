@@ -1,94 +1,89 @@
-name: component_sequence_1c90b562
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 0.0
-    - 40.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+function: component_sequence
+info: {}
+module: gdsfactory.components.component_sequence
+name: component_sequence_304ed733
 settings:
-  changed:
-    sequence: AB
-    symbol_to_component:
-      '-':
-      - component: straight
-        settings: {}
-      - o1
-      - o2
-      A:
-      - component: bend_circular
-        settings:
-          angle: 180
-      - o1
-      - o2
-      B:
-      - component: bend_circular
-        settings:
-          angle: 180
-      - o2
-      - o1
-      H:
-      - component: straight_pin
-        settings:
-          length: 40
-      - o1
-      - o2
-  child: null
-  default:
-    port_name1: o1
-    port_name2: o2
-    ports_map: null
-    start_orientation: 0.0
-  full:
-    port_name1: o1
-    port_name2: o2
-    ports_map: null
-    sequence: AB
-    start_orientation: 0.0
-    symbol_to_component:
-      '-':
-      - component: straight
-        settings: {}
-      - o1
-      - o2
-      A:
-      - component: bend_circular
-        settings:
-          angle: 180
-      - o1
-      - o2
-      B:
-      - component: bend_circular
-        settings:
-          angle: 180
-      - o2
-      - o1
-      H:
-      - component: straight_pin
-        settings:
-          length: 40
-      - o1
-      - o2
-  function_name: component_sequence
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.component_sequence
-  name: component_sequence_1c90b562
+  port_name1: o1
+  port_name2: o2
+  ports_map: null
+  sequence: AB
+  start_orientation: 0.0
+  symbol_to_component:
+    '-':
+    - function: straight
+      module: gdsfactory.components.straight
+      settings:
+        add_bbox: null
+        add_pins: true
+        cross_section: xs_sc
+        layer: null
+        length: 10.0
+        npoints: 2
+        width: null
+    - o1
+    - o2
+    A:
+    - function: bend_circular
+      module: gdsfactory.components.bend_circular
+      settings:
+        add_bbox: null
+        add_pins: true
+        angle: 180
+        cross_section: xs_sc
+        layer: null
+        npoints: null
+        radius: null
+        width: null
+    - o1
+    - o2
+    B:
+    - function: bend_circular
+      module: gdsfactory.components.bend_circular
+      settings:
+        add_bbox: null
+        add_pins: true
+        angle: 180
+        cross_section: xs_sc
+        layer: null
+        npoints: null
+        radius: null
+        width: null
+    - o2
+    - o1
+    H:
+    - function: straight_pin
+      module: gdsfactory.components.straight_pin
+      settings:
+        cross_section:
+          function: pin
+        length: 40
+        taper:
+          function: taper_strip_to_ridge
+        via_stack:
+          function: via_stack
+          module: gdsfactory.components.via_stack
+          settings:
+            layers:
+            - SLAB90
+            - M1
+            - M2
+            - MTOP
+            vias:
+            - function: via
+              module: gdsfactory.components.via
+              settings:
+                layer: VIAC
+            - function: via
+              module: gdsfactory.components.via
+              settings:
+                enclosure: 2
+                layer: VIA1
+            - function: via
+              module: gdsfactory.components.via
+              settings:
+                layer: VIA2
+            - null
+        via_stack_spacing: 2
+        via_stack_width: 10.0
+    - o1
+    - o2

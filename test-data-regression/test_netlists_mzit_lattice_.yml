@@ -2,9 +2,30 @@ connections: {}
 instances:
   mzit_1:
     component: mzit
+    info: {}
     settings:
+      bend90:
+        function: bend_euler
+      coupler1:
+        function: coupler
+      coupler2:
+        function: coupler
+      coupler_gap1: 0.2
+      coupler_gap2: 0.3
       coupler_length1: 10.0
       coupler_length2: 20.0
+      cross_section: xs_sc
+      delta_length: 10.0
+      dy: 2.0
+      length: 1.0
+      straight:
+        function: straight
+      taper:
+        function: taper
+      taper_length: 5.0
+      w0: 0.5
+      w1: 0.45
+      w2: 0.55
 name: mzit_lattice
 placements:
   mzit_1:

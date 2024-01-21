@@ -1,59 +1,18 @@
+function: straight
+info:
+  length: 10.0
+  route_info_length: 10.0
+  route_info_type: xs_m3
+  route_info_weight: 10.0
+  route_info_xs_m3_length: 10.0
+  width: 10.0
+module: gdsfactory.components.straight
 name: straight_299ab026
-ports:
-  e1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e1
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
-  e2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e2
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
 settings:
-  changed:
-    cross_section: xs_metal_routing
-  child: null
-  default:
-    add_bbox: null
-    add_pins: true
-    cross_section: xs_sc
-    layer: null
-    length: 10.0
-    npoints: 2
-    width: null
-  full:
-    add_bbox: null
-    add_pins: true
-    cross_section: xs_metal_routing
-    layer: null
-    length: 10.0
-    npoints: 2
-    width: null
-  function_name: straight
-  info:
-    cross_section: xs_metal_routing
-    length: 10.0
-    route_info:
-      length: 10.0
-      type: xs_m3
-      weight: 10.0
-      xs_m3_length: 10.0
-    width: 10.0
-  info_version: 2
-  module: gdsfactory.components.straight
-  name: straight_299ab026
+  add_bbox: null
+  add_pins: true
+  cross_section: xs_metal_routing
+  layer: null
+  length: 10.0
+  npoints: 2
+  width: null

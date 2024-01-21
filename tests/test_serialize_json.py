@@ -37,11 +37,16 @@ def test_clean_value_json_pathlib_path() -> None:
 
 # Tests the functionality of the clean_value_json() function when given a callable object.
 def test_clean_value_json_callable() -> None:
-    def func(a: int, b: int) -> int:
+    def func(a: int = 10, b: int = 11) -> int:
         return a + b
 
     partial_func = functools.partial(func, b=2)
-    expected = {"function": "func", "settings": {"b": 2}}
+    expected = {
+        "function": "func",
+        "module": "test_serialize_json",
+        # "settings": {"b": 2, "a": 10},
+        "settings": {"b": 2},
+    }
     assert clean_value_json(partial_func) == expected, clean_value_json(partial_func)
 
 
@@ -101,8 +106,8 @@ def test_clean_value_json():
 
 
 if __name__ == "__main__":
-    test_clean_value_json()
-    # test_clean_value_json_callable()
+    # test_clean_value_json()
+    test_clean_value_json_callable()
     # test_clean_value_json_gdstk_polygon()
     # test_clean_value_json_numpy_array()
     # def func(a: int, b: int) -> int:

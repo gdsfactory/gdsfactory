@@ -1,38 +1,18 @@
+function: seal_ring
+info: {}
+module: gdsfactory.components.seal_ring
 name: seal_ring
-ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    bbox:
-    - - -1.0
-      - -1.0
-    - - 3.0
-      - 4.0
-    padding: 10.0
-    seal:
-      function: via_stack
-    width: 10
-    with_east: true
-    with_north: true
-    with_south: true
-    with_west: true
-  full:
-    bbox:
-    - - -1.0
-      - -1.0
-    - - 3.0
-      - 4.0
-    padding: 10.0
-    seal:
-      function: via_stack
-    width: 10
-    with_east: true
-    with_north: true
-    with_south: true
-    with_west: true
-  function_name: seal_ring
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.seal_ring
-  name: seal_ring
+  bbox:
+  - - -1.0
+    - -1.0
+  - - 3.0
+    - 4.0
+  padding: 10.0
+  seal:
+    function: via_stack
+  width: 10
+  with_east: true
+  with_north: true
+  with_south: true
+  with_west: true

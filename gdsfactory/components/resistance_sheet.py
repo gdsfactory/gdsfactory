@@ -39,7 +39,7 @@ def resistance_sheet(
     c = Component()
 
     pad = pad()
-    length = pad_pitch - pad.get_setting("size")[0]
+    length = pad_pitch - pad.info.xsize
 
     pad1 = c << pad
     pad2 = c << pad
@@ -55,7 +55,7 @@ def resistance_sheet(
     pad1.connect("e3", r0.ports["e1"])
     pad2.connect("e1", r0.ports["e3"])
 
-    c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else None
+    c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else 0
 
     c.add_port(
         "pad1",

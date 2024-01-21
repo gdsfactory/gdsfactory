@@ -9,7 +9,10 @@ There are two types of functions:
 from __future__ import annotations
 
 import json
+import warnings
+from collections.abc import Mapping
 from functools import lru_cache, partial
+from typing import Any
 
 import numpy as np
 from omegaconf import OmegaConf
@@ -17,10 +20,9 @@ from pydantic import validate_call
 
 import gdsfactory as gf
 from gdsfactory import ComponentReference
-from gdsfactory.cell import cell_with_child
+from gdsfactory.cell import cell_with_child, container
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
-from gdsfactory.config import logger
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.typings import (
     Anchor,
@@ -242,7 +244,7 @@ def add_settings_label(
     Args:
         component: spec.
         layer_label: for label.
-        settings: list of settings to include. if None, adds all changed settings.
+        settings: list of settings to include. if None, adds all settings.
         ignore: list of settings to ignore.
         with_yaml_format: if True, uses yaml format, otherwise json.
 
@@ -252,10 +254,11 @@ def add_settings_label(
     component = get_component(component)
 
     ignore = ignore or []
-    settings = settings or component.settings.changed.keys()
+    settings = settings or dict(component.settings).keys()
     settings = set(settings) - set(ignore)
 
-    d = {setting: component.get_setting(setting) for setting in settings}
+    d = dict(component.settings)
+    d = {setting: d[setting] for setting in settings}
     text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
     component.add_label(text=text, layer=layer_label)
     return component
@@ -303,20 +306,56 @@ def add_marker_layer(
                 layer=marker_layer,
             )
     else:
-        logger.warning(
+        warnings.warn(
             f"Could not add marker layer {marker_layer} to {component.name} because it is empty."
-            f"Supplied {layers_to_mark=!r}."
+            f"Supplied {layers_to_mark=!r}.",
+            stacklevel=2,
         )
     return component.flatten() if flatten else component
 
 
+def change_keywords_in_nested_partials(
+    func: gf.partial, config: Mapping[str, Any]
+) -> gf.partial:
+    """Change keywords in nested partials ``gf.partial or functools.partial``. Returns new partial.
+
+    Args:
+        func: Partialed function to change.
+        config: Nested dictionary with the keywords to change.
+            Key-value pairs correspond to function arguments in the partials.
+    """
+
+    if not config:
+        return func
+
+    if isinstance(func, gf.partial):
+        keyword_args = dict(func.keywords)
+        for key, value in config.items():
+            if isinstance(keyword_args.get(key, None), gf.partial):
+                # Recursively change keywords in nested partials
+                keyword_args[key] = change_keywords_in_nested_partials(
+                    keyword_args[key], value
+                )
+            else:
+                keyword_args[key] = value
+
+        return gf.partial(func.func, *func.args, **keyword_args)
+    else:
+        raise TypeError(f"{func=!r} is not a partial")
+
+
+add_marker_layer_container = partial(container, function=add_marker_layer)
+
+
 __all__ = (
     "add_marker_layer",
+    "add_marker_layer_container",
     "add_port",
     "add_settings_label",
     "add_text",
     "auto_rename_ports",
     "cache",
+    "change_keywords_in_nested_partials",
     "mirror",
     "move",
     "move_port_to_zero",

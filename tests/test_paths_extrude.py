@@ -18,7 +18,7 @@ def test_path_port_types() -> None:
         width=2.0,
         offset=-4,
         layer=LAYER.HEATER,
-        port_names=["e1", "e2"],
+        port_names=("e1", "e2"),
         port_types=("electrical", "electrical"),
     )
     X = gf.CrossSection(sections=(s0, s1))
@@ -124,9 +124,9 @@ def test_diagonal_extrude_consistent_naming() -> None:
 
 
 if __name__ == "__main__":
-    # test_diagonal_extrude_consistent_naming()
+    test_diagonal_extrude_consistent_naming()
     # test_transition_cross_section()
-    test_transition_cross_section_different_layers()
+    # test_transition_cross_section_different_layers()
     # test_extrude_transition()
 
     # P = gf.path.straight(length=10)

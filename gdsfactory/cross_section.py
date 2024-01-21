@@ -15,7 +15,8 @@ from inspect import getmembers
 from types import ModuleType
 from typing import TYPE_CHECKING, Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+import numpy as np
+from pydantic import BaseModel, ConfigDict, Field, field_serializer
 
 from gdsfactory.config import CONF, ErrorType
 
@@ -92,6 +93,13 @@ class Section(BaseModel):
     offset_function: Callable | None = Field(default=None)
 
     model_config = ConfigDict(extra="forbid", frozen=True)
+
+    @field_serializer("width_function", "offset_function")
+    def serialize_functions(self, func: Callable | None) -> str | None:
+        if func is None:
+            return None
+        t_values = np.linspace(0, 1, 11)
+        return ",".join([str(round(width, 3)) for width in func(t_values)])
 
 
 class ComponentAlongPath(BaseModel):
@@ -284,7 +292,10 @@ class CrossSection(BaseModel):
                     "layer": layer or self.layer,
                 }
             )
-            if len(sections) > 1:
+            changed_width_layer_or_offset = (
+                width_function or offset_function or width or layer
+            )
+            if changed_width_layer_or_offset and len(sections) > 1:
                 warnings.warn(
                     "CrossSection.copy() only modifies the attributes of the first section."
                 )
@@ -382,6 +393,15 @@ class Transition(CrossSection):
     cross_section1: CrossSectionSpec
     cross_section2: CrossSectionSpec
     width_type: WidthTypes | Callable = "sine"
+
+    @field_serializer("width_type")
+    def serialize_width(self, width_type: WidthTypes | Callable) -> str | None:
+        if isinstance(width_type, str):
+            return width_type
+        t_values = np.linspace(0, 1, 10)
+        return ",".join(
+            [str(round(width, 3)) for width in width_type(t_values, *self.width)]
+        )
 
     @property
     def width(self) -> tuple[float, float]:
@@ -2413,8 +2433,6 @@ cross_sections = get_cross_sections(sys.modules[__name__])
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     # xs = gf.cross_section.pn(
     #     # slab_offset=0
     #     # offset=1,
@@ -2430,5 +2448,5 @@ if __name__ == "__main__":
     # c = gf.c.straight(cross_section=xs)
     # xs = pn(slab_inset=0.2)
     xs = pn(width_slab=0)
-    c = gf.c.straight(cross_section=xs)
-    c.show()
+    # c = gf.c.straight(cross_section=xs)
+    # c.show()

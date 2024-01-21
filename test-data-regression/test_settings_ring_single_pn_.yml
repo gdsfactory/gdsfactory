@@ -1,174 +1,79 @@
+function: ring_single_pn
+info: {}
+module: gdsfactory.components.ring_single_pn
 name: ring_single_pn
-ports:
-  o1:
-    center:
-    - -4.096
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 4.096
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          offset_function: null
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 4.85
-          width_function: null
-    doped_heater: true
-    doped_heater_angle_buffer: 10
-    doped_heater_layer: NPP
-    doped_heater_waveguide_offset: 2.175
-    doped_heater_width: 0.5
-    doping_angle: 250
-    gap: 0.3
-    heater_vias:
-      function: via_stack
-      settings:
-        layers:
-        - M1
-        - M2
-        size:
-        - 0.5
-        - 0.5
-        vias:
-        - function: via
-          settings:
-            enclosure: 0.1
-            layer: VIAC
-            size:
-            - 0.1
-            - 0.1
-            spacing:
-            - 0.2
-            - 0.2
-        - function: via
-          settings:
-            enclosure: 0.1
-            layer: VIA1
-            size:
-            - 0.1
-            - 0.1
-            spacing:
-            - 0.2
-            - 0.2
-    pn_cross_section:
-      function: pn
-      settings:
-        layer_metal: M1
-        layer_via: VIAC
-        width_doping: 2.425
-        width_metal: 0.5
-        width_slab: 4.85
-        width_via: 0.5
-    radius: 5.0
-  full:
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-        sections:
-        - hidden: false
-          insets: null
-          layer: SLAB90
-          name: slab
-          offset: 0
-          offset_function: null
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          simplify: null
-          width: 4.85
-          width_function: null
-    doped_heater: true
-    doped_heater_angle_buffer: 10
-    doped_heater_layer: NPP
-    doped_heater_waveguide_offset: 2.175
-    doped_heater_width: 0.5
-    doping_angle: 250
-    gap: 0.3
-    heater_vias:
-      function: via_stack
-      settings:
-        layers:
-        - M1
-        - M2
-        size:
-        - 0.5
-        - 0.5
-        vias:
-        - function: via
-          settings:
-            enclosure: 0.1
-            layer: VIAC
-            size:
-            - 0.1
-            - 0.1
-            spacing:
-            - 0.2
-            - 0.2
-        - function: via
-          settings:
-            enclosure: 0.1
-            layer: VIA1
-            size:
-            - 0.1
-            - 0.1
-            spacing:
-            - 0.2
-            - 0.2
-    pn_cross_section:
-      function: pn
-      settings:
-        layer_metal: M1
-        layer_via: VIAC
-        width_doping: 2.425
-        width_metal: 0.5
-        width_slab: 4.85
-        width_via: 0.5
-    radius: 5.0
-  function_name: ring_single_pn
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.ring_single_pn
-  name: ring_single_pn
+  cross_section:
+    function: cross_section
+    module: gdsfactory.cross_section
+    settings:
+      add_pins_function_name: null
+      radius: 10
+      radius_min: 5
+      sections:
+      - hidden: false
+        insets: null
+        layer: SLAB90
+        name: slab
+        offset: 0
+        offset_function: null
+        port_names:
+        - null
+        - null
+        port_types:
+        - optical
+        - optical
+        simplify: null
+        width: 4.85
+        width_function: null
+  doped_heater: true
+  doped_heater_angle_buffer: 10
+  doped_heater_layer: NPP
+  doped_heater_waveguide_offset: 2.175
+  doped_heater_width: 0.5
+  doping_angle: 250
+  gap: 0.3
+  heater_vias:
+    function: via_stack
+    module: gdsfactory.components.via_stack
+    settings:
+      layers:
+      - M1
+      - M2
+      size:
+      - 0.5
+      - 0.5
+      vias:
+      - function: via
+        module: gdsfactory.components.via
+        settings:
+          enclosure: 0.1
+          layer: VIAC
+          size:
+          - 0.1
+          - 0.1
+          spacing:
+          - 0.2
+          - 0.2
+      - function: via
+        module: gdsfactory.components.via
+        settings:
+          enclosure: 0.1
+          layer: VIA1
+          size:
+          - 0.1
+          - 0.1
+          spacing:
+          - 0.2
+          - 0.2
+  pn_cross_section:
+    function: pn
+    module: gdsfactory.cross_section
+    settings:
+      layer_metal: M1
+      layer_via: VIAC
+      width_doping: 2.425
+      width_metal: 0.5
+      width_slab: 4.85
+      width_via: 0.5
+  radius: 5.0

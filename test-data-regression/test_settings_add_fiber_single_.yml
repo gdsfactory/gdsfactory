@@ -1,268 +1,67 @@
-name: mzi_2e88f57c_move_3148af13_add_fiber_single_564dd830
-ports:
-  opt_te_1530_15-mzi_2e88f57c_move_3148af13-0-0:
-    center:
-    - -25.6
-    - -59.169
-    layer:
-    - 1
-    - 0
-    name: opt_te_1530_15-mzi_2e88f57c_move_3148af13-0-0
-    orientation: 270.0
-    port_type: optical
-    shear_angle: null
-    width: 10
-  opt_te_1530_15-mzi_2e88f57c_move_3148af13-0-1:
-    center:
-    - 24.4
-    - -59.169
-    layer:
-    - 1
-    - 0
-    name: opt_te_1530_15-mzi_2e88f57c_move_3148af13-0-1
-    orientation: 270.0
-    port_type: optical
-    shear_angle: null
-    width: 10
-  opt_te_1530_15-mzi_2e88f57c_move_3148af13-1-0:
-    center:
-    - 24.4
-    - 186.269
-    layer:
-    - 1
-    - 0
-    name: opt_te_1530_15-mzi_2e88f57c_move_3148af13-1-0
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 10
-  opt_te_1530_15-mzi_2e88f57c_move_3148af13-2-0:
-    center:
-    - -25.6
-    - 186.269
-    layer:
-    - 1
-    - 0
-    name: opt_te_1530_15-mzi_2e88f57c_move_3148af13-2-0
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 10
-  opt_te_1530_15-mzi_2e88f57c_move_3148af13-loopback1:
-    center:
-    - -88.823
-    - -59.169
-    layer:
-    - 1
-    - 0
-    name: opt_te_1530_15-mzi_2e88f57c_move_3148af13-loopback1
-    orientation: 270.0
-    port_type: optical
-    shear_angle: null
-    width: 10
-  opt_te_1530_15-mzi_2e88f57c_move_3148af13-loopback2:
-    center:
-    - -88.823
-    - 186.269
-    layer:
-    - 1
-    - 0
-    name: opt_te_1530_15-mzi_2e88f57c_move_3148af13-loopback2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 10
-  top_l_e1:
-    center:
-    - -23.25
-    - 29.6
-    layer:
-    - 49
-    - 0
-    name: top_l_e1
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  top_l_e2:
-    center:
-    - -28.75
-    - 35.1
-    layer:
-    - 49
-    - 0
-    name: top_l_e2
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  top_l_e3:
-    center:
-    - -23.25
-    - 40.6
-    layer:
-    - 49
-    - 0
-    name: top_l_e3
-    orientation: 90.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  top_l_e4:
-    center:
-    - -17.75
-    - 35.1
-    layer:
-    - 49
-    - 0
-    name: top_l_e4
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  top_r_e1:
-    center:
-    - -23.25
-    - 86.5
-    layer:
-    - 49
-    - 0
-    name: top_r_e1
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  top_r_e2:
-    center:
-    - -28.75
-    - 92.0
-    layer:
-    - 49
-    - 0
-    name: top_r_e2
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  top_r_e3:
-    center:
-    - -23.25
-    - 97.5
-    layer:
-    - 49
-    - 0
-    name: top_r_e3
-    orientation: 90.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  top_r_e4:
-    center:
-    - -17.75
-    - 92.0
-    layer:
-    - 49
-    - 0
-    name: top_r_e4
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
+function: add_fiber_single
+info: {}
+module: gdsfactory.routing.add_fiber_single
+name: mzi_add_fiber_single_componentmzi_2e88f57c
 settings:
-  changed:
-    component:
-      component: mzi
-      settings:
-        combiner:
-          function: mmi2x2
-        port_e0_combiner: o4
-        port_e0_splitter: o4
-        port_e1_combiner: o3
-        port_e1_splitter: o3
-        splitter:
-          function: mmi2x2
-        straight_x_top: straight_heater_metal
-  child: null
-  default:
-    bend:
-      function: bend_euler
-    component:
-      function: straight
-    component_name: null
-    cross_section: xs_sc
-    fiber_spacing: 50
-    gc_port_name: o1
-    get_input_label_text_function:
-      function: get_input_label_text_dash
-    get_input_label_text_loopback_function:
-      function: get_input_label_text_dash_loopback
-    grating_coupler:
-      function: grating_coupler_elliptical_trenches
-      settings:
-        polarization: te
-        taper_angle: 35
-    layer_label: null
-    loopback_xspacing: 50.0
-    min_input_to_output_spacing: 200.0
-    optical_routing_type: 2
-    route_filter:
-      function: get_route_from_waypoints
-    select_ports:
-      function: select_ports
-      settings:
-        port_type: optical
-    straight:
-      function: straight
-    with_loopback: true
-    zero_port: o1
-  full:
-    bend:
-      function: bend_euler
-    component:
-      component: mzi
-      settings:
-        combiner:
-          function: mmi2x2
-        port_e0_combiner: o4
-        port_e0_splitter: o4
-        port_e1_combiner: o3
-        port_e1_splitter: o3
-        splitter:
-          function: mmi2x2
-        straight_x_top: straight_heater_metal
-    component_name: null
-    cross_section: xs_sc
-    fiber_spacing: 50
-    gc_port_name: o1
-    get_input_label_text_function:
-      function: get_input_label_text_dash
-    get_input_label_text_loopback_function:
-      function: get_input_label_text_dash_loopback
-    grating_coupler:
-      function: grating_coupler_elliptical_trenches
-      settings:
-        polarization: te
-        taper_angle: 35
-    layer_label: null
-    loopback_xspacing: 50.0
-    min_input_to_output_spacing: 200.0
-    optical_routing_type: 2
-    route_filter:
-      function: get_route_from_waypoints
-    select_ports:
-      function: select_ports
-      settings:
-        port_type: optical
-    straight:
-      function: straight
-    with_loopback: true
-    zero_port: o1
-  function_name: add_fiber_single
-  info:
-    grating_coupler:
-      period: 0.676
+  bend:
+    function: bend_euler
+  component:
+    function: mzi
+    module: gdsfactory.components.mzi
+    settings:
+      add_electrical_ports_bot: true
+      add_optical_ports_arms: false
+      bend:
+        function: bend_euler
+      combiner:
+        function: mmi2x2
+      cross_section: xs_sc
+      cross_section_x_bot: null
+      cross_section_x_top: null
+      delta_length: 10.0
+      extend_ports_straight_x: null
+      length_x: 0.1
+      length_y: 2.0
+      mirror_bot: false
+      nbends: 2
+      port_e0_combiner: o4
+      port_e0_splitter: o4
+      port_e1_combiner: o3
+      port_e1_splitter: o3
+      splitter:
+        function: mmi2x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top: straight_heater_metal
+      straight_y: null
+      with_splitter: true
+  component_name: null
+  cross_section: xs_sc
+  fiber_spacing: 50
+  gc_port_name: o1
+  get_input_label_text_function:
+    function: get_input_label_text_dash
+  get_input_label_text_loopback_function:
+    function: get_input_label_text_dash_loopback
+  grating_coupler:
+    function: grating_coupler_elliptical_trenches
+    module: gdsfactory.components.grating_coupler_elliptical_trenches
+    settings:
       polarization: te
-      wavelength: 1.53
-  info_version: 2
-  module: gdsfactory.routing.add_fiber_single
-  name: mzi_2e88f57c_move_3148af13_add_fiber_single_564dd830
+      taper_angle: 35
+  layer_label: null
+  loopback_xspacing: 50.0
+  min_input_to_output_spacing: 200.0
+  optical_routing_type: 2
+  route_filter:
+    function: get_route_from_waypoints
+  select_ports:
+    function: select_ports
+    module: gdsfactory.port
+    settings:
+      port_type: optical
+  straight:
+    function: straight
+  with_loopback: true
+  zero_port: o1

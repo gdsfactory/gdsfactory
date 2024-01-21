@@ -3,17 +3,41 @@ connections:
 instances:
   r1:
     component: rectangle
+    info:
+      area: 8
     settings:
+      centered: false
+      layer: WG
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      round_corners_east_west: false
+      round_corners_north_south: false
       size:
       - 4
       - 2
   r2:
     component: rectangle
+    info:
+      area: 8
     settings:
+      centered: false
+      layer: WG
+      port_orientations:
+      - 180
+      - 90
+      - 0
+      - -90
+      port_type: electrical
+      round_corners_east_west: false
+      round_corners_north_south: false
       size:
       - 2
       - 4
-name: sample_rotation_3c546328
+name: sample_rotation_d458f45b
 placements:
   r1:
     mirror: 0

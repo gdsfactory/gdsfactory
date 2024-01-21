@@ -225,9 +225,10 @@ __all__ = ["extend_ports", "extend_port"]
 
 
 if __name__ == "__main__":
-    test_extend_ports()
+    # test_extend_ports()
     c0 = gf.c.straight()
     # p0 = c0["o1"]
     # c = extend_port(p0, length=100)
     c = extend_ports(c0, length=100)
+    print(c.name)
     c.show()

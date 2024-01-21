@@ -41,7 +41,7 @@ from numpy import ndarray
 from omegaconf import OmegaConf
 
 from gdsfactory import snap
-from gdsfactory.component_layout import _rotate_points
+from gdsfactory.component_layout import Info, _rotate_points
 from gdsfactory.config import CONF
 from gdsfactory.cross_section import CrossSectionSpec
 from gdsfactory.serialization import clean_value_json
@@ -99,6 +99,7 @@ class Port:
         cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
         enforce_ports_on_grid: bool | None = None,
+        info: Info | None = None,
     ) -> None:
         from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -110,7 +111,7 @@ class Port:
         self.center = np.array(center, dtype="float64")
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
-        self.info: dict[str, Any] = {}
+        self.info = info or Info()
         self.port_type = port_type
         self.cross_section = cross_section
         self.shear_angle = shear_angle
@@ -311,8 +312,8 @@ class Port:
             port_type=self.port_type,
             cross_section=self.cross_section,
             shear_angle=self.shear_angle,
+            info=self.info.model_copy(),
         )
-        new_port.info = self.info
         return new_port
 
     def get_extended_center(self, length: float = 1.0) -> ndarray:
@@ -333,7 +334,7 @@ class Port:
         if not np.isclose(center, center_snapped).all():
             message = (
                 f"port = {self.name!r}, center = {self.center} is not on grid.\n"
-                "You can use Component.flatten_invalid_refs() to snap to grid."
+                "You can use Component.flatten_offgrid_references() to snap to grid."
             )
             if error_type not in valid_error_types:
                 raise ValueError(
@@ -356,8 +357,8 @@ class Port:
                 f"Port {self.name!r} orientation {self.orientation} "
                 "is not manhattan (0, 90, 180, 270).\n Non-manhattan ports can cause "
                 f"1nm snapping errors in Component {component_name}.\n"
-                "You can use Component.flatten_invalid_refs() to snap to grid."
-                "and use gf.config.enable_off_grid_ports() to disable this check."
+                "You can use Component.flatten_offgrid_references() to snap to grid."
+                "and use gf.config.enable_offgrid_ports() to disable this check."
             )
             if error_type not in valid_error_types:
                 raise ValueError(

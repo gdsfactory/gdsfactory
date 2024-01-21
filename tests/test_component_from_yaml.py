@@ -599,7 +599,7 @@ if __name__ == "__main__":
     # test_connections_different_factory()
     # test_sample()
     # test_connections()
-    # test_netlists("sample_mmis", None, False)
+    test_netlists("sample_mmis", None, False)
     # yaml_key = "sample_doe_function"
     # yaml_key = "sample_mmis"
     # yaml_key = "yaml_anchor"

@@ -1,70 +1,16 @@
+function: extend_ports
+info: {}
+module: gdsfactory.components.extension
 name: mmi1x2_extend_ports
-ports:
-  o1:
-    center:
-    - -15.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 20.5
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 20.5
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    centered: false
-    component:
-      function: mmi1x2
-    cross_section: null
-    extension: null
-    extension_port_names: null
-    length: 5.0
-    port1: null
-    port2: null
-    port_names: null
-    port_type: optical
-  full:
-    centered: false
-    component:
-      function: mmi1x2
-    cross_section: null
-    extension: null
-    extension_port_names: null
-    length: 5.0
-    port1: null
-    port2: null
-    port_names: null
-    port_type: optical
-  function_name: extend_ports
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.extension
-  name: mmi1x2_extend_ports
+  centered: false
+  component:
+    function: mmi1x2
+  cross_section: null
+  extension: null
+  extension_port_names: null
+  length: 5.0
+  port1: null
+  port2: null
+  port_names: null
+  port_type: optical

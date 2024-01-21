@@ -73,7 +73,7 @@ def get_polygons_over_under(
     return polygons
 
 
-@gf.cell
+@gf.cell_with_child
 def over_under(
     component: ComponentSpec,
     layers: LayerSpecs,
@@ -181,7 +181,7 @@ def get_polygons_underplot(
     return polygons
 
 
-@gf.cell
+@gf.cell_with_child
 def fix_underplot(
     component: ComponentSpec,
     layers_extended: LayerSpecs,

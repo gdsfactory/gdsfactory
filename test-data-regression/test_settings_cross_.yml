@@ -1,22 +1,10 @@
+function: cross
+info: {}
+module: gdsfactory.components.cross
 name: cross
-ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    layer: WG
-    layers: null
-    length: 10.0
-    port_type: null
-    width: 3.0
-  full:
-    layer: WG
-    layers: null
-    length: 10.0
-    port_type: null
-    width: 3.0
-  function_name: cross
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.cross
-  name: cross
+  layer: WG
+  layers: null
+  length: 10.0
+  port_type: null
+  width: 3.0

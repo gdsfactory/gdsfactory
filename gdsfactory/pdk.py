@@ -146,7 +146,7 @@ class GdsWriteSettings(BaseModel):
                         "error": throw a ValueError when attempting to write a gds with duplicate cells.
                         "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.""",
     )
-    flatten_invalid_refs: bool = Field(
+    flatten_offgrid_references: bool = Field(
         default=False,
         description="If true, will auto-correct (and flatten) cell references which are off-grid or rotated by non-manhattan angles.",
     )
@@ -628,7 +628,7 @@ class Pdk(BaseModel):
                         .get(sname, {})
                         .get("unit", None),
                     }
-                    for sname, svalue in c.settings.full.items()
+                    for sname, svalue in dict(c.settings).items()
                     if isinstance(svalue, str | float | int)
                 },
                 pins={
@@ -736,7 +736,7 @@ def get_active_pdk(name: str | None = None) -> Pdk:
             pdk_module.PDK.activate()
 
         else:
-            logger.warning("No active PDK. Activating generic PDK.\n")
+            logger.debug("No active PDK. Activating generic PDK.\n")
             from gdsfactory.generic_tech import get_generic_pdk
 
             PDK = get_generic_pdk()

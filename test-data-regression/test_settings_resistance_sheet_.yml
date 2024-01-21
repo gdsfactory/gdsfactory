@@ -1,91 +1,35 @@
+function: resistance_sheet
+info:
+  resistance: 0
+module: gdsfactory.components.resistance_sheet
 name: resistance_sheet
-ports:
-  pad1:
-    center:
-    - -50.0
-    - 0.0
-    layer:
-    - 24
-    - 0
-    name: pad1
-    orientation: 180
-    port_type: vertical_dc
-    shear_angle: null
-    width: 10
-  pad2:
-    center:
-    - 50.0
-    - 0.0
-    layer:
-    - 24
-    - 0
-    name: pad2
-    orientation: 0
-    port_type: vertical_dc
-    shear_angle: null
-    width: 10
 settings:
-  changed: {}
-  child: null
-  default:
-    layer_offsets:
-    - 0
-    - 0.2
-    layers:
-    - SLAB90
-    - NPP
-    ohms_per_square: null
-    pad:
-      function: via_stack
-      settings:
-        layers:
-        - SLAB90
-        - NPP
-        - M1
-        size:
-        - 80
-        - 80
-        vias:
-        - null
-        - null
-        - function: via
-          settings:
-            layer: VIAC
-    pad_pitch: 100.0
-    port_orientation1: 180
-    port_orientation2: 0
-    width: 10
-  full:
-    layer_offsets:
-    - 0
-    - 0.2
-    layers:
-    - SLAB90
-    - NPP
-    ohms_per_square: null
-    pad:
-      function: via_stack
-      settings:
-        layers:
-        - SLAB90
-        - NPP
-        - M1
-        size:
-        - 80
-        - 80
-        vias:
-        - null
-        - null
-        - function: via
-          settings:
-            layer: VIAC
-    pad_pitch: 100.0
-    port_orientation1: 180
-    port_orientation2: 0
-    width: 10
-  function_name: resistance_sheet
-  info:
-    resistance: null
-  info_version: 2
-  module: gdsfactory.components.resistance_sheet
-  name: resistance_sheet
+  layer_offsets:
+  - 0
+  - 0.2
+  layers:
+  - SLAB90
+  - NPP
+  ohms_per_square: null
+  pad:
+    function: via_stack
+    module: gdsfactory.components.via_stack
+    settings:
+      layers:
+      - SLAB90
+      - NPP
+      - M1
+      size:
+      - 80
+      - 80
+      vias:
+      - null
+      - null
+      - function: via
+        module: gdsfactory.components.via
+        settings:
+          layer: VIAC
+  pad_pitch: 100.0
+  port_orientation1: 180
+  port_orientation2: 0
+  width: 10

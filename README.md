@@ -1,4 +1,4 @@
-# gdsfactory 7.9.3
+# gdsfactory 7.10.5
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -13,7 +13,7 @@
 
 ![logo](https://i.imgur.com/cN1ZWq8.png)
 
-gdsfactory: Your open source platform for end to-end chip design and validation.
+gdsfactory: An open source platform for end to-end chip design and validation.
 
 Highlights:
 
@@ -21,7 +21,7 @@ Highlights:
 - More than 50 Contributors
 - More than 10 PDKs available
 
-Welcome to gdsfactory, a Python library designed for crafting chips (Photonics, Analog, Quantum, MEMs, and more), 3D printed objects, and PCBs.
+Gdsfactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMs, and more), 3D printed objects, and PCBs.
 Here, you can code your hardware design in Python or YAML, perform verification (DRC, simulation, and extraction), and enable automated testing in the lab to ensure your fabricated chip meets your specifications.
 
 ![workflow](https://i.imgur.com/abvxJJw.png)
@@ -46,7 +46,7 @@ We provide a common syntax for design (KLayout, gdstk, Ansys Lumerical, tidy3d, 
 
 Numerous foundries have gdsfactory PDKs available. You may need to contact your foundry to access their gdsfactory PDK, as some are provided under NDA only.
 
-Available foundries include:
+Available PDKs under NDA:
 
 - AIM photonics PDK
 - AMF photonics PDK
@@ -54,6 +54,10 @@ Available foundries include:
 - GlobalFoundries 45SPCLO Photonics PDK
 - IMEC photonics PDK
 - HHI Photonics PDK
+- Compoundtek photonics PDK
+
+Available open source PDKs (no NDA required):
+
 - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
 - [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
 - [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130) (open source)

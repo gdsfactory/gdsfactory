@@ -1,7 +1,87 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.9.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.5...main)
 
 <!-- towncrier release notes start -->
+
+## [7.10.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.5) - 2024-01-18
+
+
+- add get_netlist merge_info flag [#2476](https://github.com/gdsfactory/gdsfactory/pull/2476)
+
+
+## [7.10.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.4) - 2024-01-16
+
+### New
+
+- add gf.functions.add_marker_layer_container [#2458](https://github.com/gdsfactory/gdsfactory/pull/2458)
+
+### Maintenance
+
+- Fix release drafter to properly use gdsfactory project labels [#2457](https://github.com/gdsfactory/gdsfactory/pull/2457)
+
+### Other changes
+
+- Avoid pack deprecation warning [#2475](https://github.com/gdsfactory/gdsfactory/pull/2475)
+- [pre-commit.ci] pre-commit autoupdate [#2474](https://github.com/gdsfactory/gdsfactory/pull/2474)
+- fixing error message [#2473](https://github.com/gdsfactory/gdsfactory/pull/2473)
+- Add additional & optional font to existing text_rectangular(...) API [#2471](https://github.com/gdsfactory/gdsfactory/pull/2471)
+- Add additional reasonable default lumerical mappings [#2469](https://github.com/gdsfactory/gdsfactory/pull/2469)
+- fix with_sbend option in get_route_from_steps [#2468](https://github.com/gdsfactory/gdsfactory/pull/2468)
+- Serialize output for variable width/offsets in Section and CrossSection [#2466](https://github.com/gdsfactory/gdsfactory/pull/2466)
+- Add __contains__ method to Info [#2459](https://github.com/gdsfactory/gdsfactory/pull/2459)
+
+
+## [7.10.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.3) - 2024-01-09
+
+- remove test warnings [#2455](https://github.com/gdsfactory/gdsfactory/pull/2455)
+- remove cad installation on CICD [#2454](https://github.com/gdsfactory/gdsfactory/pull/2454)
+- better naming [#2434](https://github.com/gdsfactory/gdsfactory/pull/2434)
+- Add helper function for changing nested partial parameters [#2450](https://github.com/gdsfactory/gdsfactory/pull/2450)
+- expose ports_map [#2449](https://github.com/gdsfactory/gdsfactory/pull/2449)
+- [pre-commit.ci] pre-commit autoupdate [#2448](https://github.com/gdsfactory/gdsfactory/pull/2448)
+- fix pic model settings [#2447](https://github.com/gdsfactory/gdsfactory/pull/2447)
+- improve updk [#2439](https://github.com/gdsfactory/gdsfactory/pull/2439)
+
+
+## [7.10.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.2) - 2024-01-07
+
+- Improve grid snapping docs, functions and names [#2446](https://github.com/gdsfactory/gdsfactory/pull/2446)
+- fixed flatten_offgrid_references return [#2445](https://github.com/gdsfactory/gdsfactory/pull/2445)
+- rename flatten_invalid_refs to flatten_offgrid_references [#2444](https://github.com/gdsfactory/gdsfactory/pull/2444)
+- make sbend router errors obvious [#2443](https://github.com/gdsfactory/gdsfactory/pull/2443)
+- Consolidate warnings [#2442](https://github.com/gdsfactory/gdsfactory/pull/2442)
+- improve tutorial avoid showing not recommended functions [#2438](https://github.com/gdsfactory/gdsfactory/pull/2438)
+
+
+## [7.10.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.1) - 2024-01-04
+
+- replace multiple invalid transformations warnings by a single one [#2437](https://github.com/gdsfactory/gdsfactory/pull/2437)
+- avoid lambda functions [#2436](https://github.com/gdsfactory/gdsfactory/pull/2436)
+- Recommend pip instead of conda for installation [#2433](https://github.com/gdsfactory/gdsfactory/pull/2433)
+
+## [7.10.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.0) - 2024-01-02
+
+- add xsize, ysize and size to via_stack_slot and improve grid reference naming [#2431](https://github.com/gdsfactory/gdsfactory/pull/2431)
+- more robust serialization [#2430](https://github.com/gdsfactory/gdsfactory/pull/2430)
+
+## [7.9.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.4) - 2024-01-01
+
+- Bump actions/setup-python from 4 to 5 [#2424](https://github.com/gdsfactory/gdsfactory/pull/2424)
+- Bump actions/stale from 8 to 9 [#2425](https://github.com/gdsfactory/gdsfactory/pull/2425)
+- Bump actions/upload-pages-artifact from 2 to 3 [#2428](https://github.com/gdsfactory/gdsfactory/pull/2428)
+- Bump actions/deploy-pages from 2 to 4 [#2427](https://github.com/gdsfactory/gdsfactory/pull/2427)
+- Improve component settings serialization [#2421](https://github.com/gdsfactory/gdsfactory/pull/2421)
+- update install instructions [#2419](https://github.com/gdsfactory/gdsfactory/pull/2419)
+- make main cross section name parametrizable [#2417](https://github.com/gdsfactory/gdsfactory/pull/2417)
+- expose mirror_straight in spiral_external_io [#2416](https://github.com/gdsfactory/gdsfactory/pull/2416)
+- 2414 underplotoverplot dataprep [#2415](https://github.com/gdsfactory/gdsfactory/pull/2415)
+- [pre-commit.ci] pre-commit autoupdate [#2413](https://github.com/gdsfactory/gdsfactory/pull/2413)
+- fix get_route_from_steps cross_section [#2412](https://github.com/gdsfactory/gdsfactory/pull/2412)
+- convert notebooks from python to jupyter [#2411](https://github.com/gdsfactory/gdsfactory/pull/2411)
+- run stale workflow once a month instead of daily [#2410](https://github.com/gdsfactory/gdsfactory/pull/2410)
+- use cross_section factories instead of copy [#2409](https://github.com/gdsfactory/gdsfactory/pull/2409)
+- better error messages for modifying CrossSections [#2408](https://github.com/gdsfactory/gdsfactory/pull/2408)
+
 
 ## [7.9.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.3) - 2023-12-22
 
@@ -345,7 +425,7 @@
 
 ## [7.3.0](https://github.com/gdsfactory/gdsfactory/compare/v7.2.1...v7.3.0)
 
-- make `flatten_invalid_refs=False` in GdsWriteSettings.
+- make `flatten_offgrid_references=False` in GdsWriteSettings.
 - add component flatten invalid refs.
 
 ## [7.2.1](https://github.com/gdsfactory/gdsfactory/compare/v7.2.0...v7.2.1)
@@ -578,7 +658,7 @@ grep -rl 'gdsfactory.simulation.' /path/to/your/files | xargs sed -i 's/gdsfacto
 
 ## 6.95.0
 
-- add pins and `flatten_invalid_refs` [PR](https://github.com/gdsfactory/gdsfactory/pull/1674)
+- add pins and `flatten_offgrid_references` [PR](https://github.com/gdsfactory/gdsfactory/pull/1674)
 
 ## 6.95.0
 
@@ -1028,8 +1108,8 @@ grep -rl 'gdsfactory.simulation.' /path/to/your/files | xargs sed -i 's/gdsfacto
 
 ## 6.28.0
 
-- add flatten_invalid_refs as a write_gds flag [PR](https://github.com/gdsfactory/gdsfactory/pull/1211)
-- add non-manhattan routing doc and document flatten_invalid_refs docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1214)
+- add flatten_offgrid_references as a write_gds flag [PR](https://github.com/gdsfactory/gdsfactory/pull/1211)
+- add non-manhattan routing doc and document flatten_offgrid_references docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1214)
 
 ## 6.27.0
 
@@ -1473,7 +1553,7 @@ from functools import partial to all files and makes the docs cleaner by renderi
 
 - add devsim from pypi [PR](https://github.com/gdsfactory/gdsfactory/pull/776)
 - dbr_tapered rewrite [PR](https://github.com/gdsfactory/gdsfactory/pull/775)
-- Recursively netlist transformed (flattened) references [PR](https://github.com/gdsfactory/gdsfactory/pull/772) enables recursive netlisting of references which have been transformed and flattened via the flatten_invalid_refs decorator, such that they can be properly simulated, i.e. with sax.
+- Recursively netlist transformed (flattened) references [PR](https://github.com/gdsfactory/gdsfactory/pull/772) enables recursive netlisting of references which have been transformed and flattened via the flatten_offgrid_references decorator, such that they can be properly simulated, i.e. with sax.
 - Don't re-apply PDK decorator in get_component [PR](https://github.com/gdsfactory/gdsfactory/pull/773)
 
 ## 5.42.0
@@ -1761,8 +1841,8 @@ from functools import partial to all files and makes the docs cleaner by renderi
 
 ## [5.16.0](https://github.com/gdsfactory/gdsfactory/pull/580)
 
-- rename `gdsfactory/flatten_invalid_refs.py` to `gdsfactory/decorators.py`
-- add test to flatten_invalid_refs and include documentation in the [PDK docs](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html#)
+- rename `gdsfactory/flatten_offgrid_references.py` to `gdsfactory/decorators.py`
+- add test to flatten_offgrid_references and include documentation in the [PDK docs](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html#)
 - pdk.activate clears cache
 
 ## [5.15.3](https://github.com/gdsfactory/gdsfactory/pull/579)

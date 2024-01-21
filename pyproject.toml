@@ -13,7 +13,7 @@ classifiers = [
 ]
 dependencies = [
   "flatdict",
-  "gdstk<0.10",
+  "gdstk>=0.9.49,<0.10",
   "jinja2<4",
   "loguru<1",
   "matplotlib<4",
@@ -33,7 +33,20 @@ dependencies = [
   "toolz<1",
   "types-PyYAML",
   "typer<1",
-  "watchdog<4"
+  "watchdog<4",
+  "kfactory[git,ipy]>=0.9.1,<0.11",
+  "freetype-py",
+  "mapbox_earcut",
+  "networkx",
+  "pyglet<2",
+  "scikit-image",
+  "trimesh>=4,<4.1",
+  "ipycytoscape",
+  "ipyevents",
+  "ipykernel",
+  "ipympl",
+  "ipytree",
+  "ipywidgets"
 ]
 description = "python library to generate GDS layouts"
 keywords = ["eda", "photonics", "python"]
@@ -41,25 +54,11 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "7.9.3"
+version = "7.10.5"
 
 [project.optional-dependencies]
 cad = [
-  "freetype-py",
-  "ipycytoscape",
-  "ipyevents",
-  "ipykernel",
-  "ipympl",
-  "ipytree",
-  "ipywidgets",
-  "jupytext",
-  "kweb>=1.1.9,<1.3",
-  "kfactory[git,ipy]>=0.9.1,<0.11",
-  "mapbox_earcut",
-  "networkx",
-  "pyglet<2",
-  "scikit-image",
-  "trimesh"
+  "kweb>=1.1.9,<1.3"
 ]
 dev = [
   "ipykernel",
@@ -106,6 +105,9 @@ strict = true
 enabled = true
 live_mode = true
 strict = true
+
+[tool.pyright]
+reportUnusedExpression = false
 
 [tool.pytest.ini_options]
 # addopts = --tb=no
@@ -188,6 +190,9 @@ src = ".devcontainer/Dockerfile.dev"
 src = ".devcontainer/Dockerfile.dev_minimal"
 
 [[tool.tbump.file]]
+src = ".github/workflows/release.yml"
+
+[[tool.tbump.file]]
 src = "README.md"
 
 [[tool.tbump.file]]
@@ -197,7 +202,7 @@ src = "pyproject.toml"
 src = "gdsfactory/config.py"
 
 [[tool.tbump.file]]
-src = "docs/notebooks/08_pdk.py"
+src = "notebooks/08_pdk.ipynb"
 
 [[tool.tbump.file]]
 src = "gdsfactory/generic_tech/klayout/grain.xml"
@@ -213,7 +218,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "7.9.3"
+current = "7.10.5"
 regex = '''
   (?P<major>\d+)
   \.

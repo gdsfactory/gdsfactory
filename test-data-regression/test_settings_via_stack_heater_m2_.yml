@@ -1,111 +1,29 @@
-name: via_stack_2f27d917
-ports:
-  e1:
-    center:
-    - -5.5
-    - 0.0
-    layer:
-    - 45
-    - 0
-    name: e1
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2:
-    center:
-    - 0.0
-    - 5.5
-    layer:
-    - 45
-    - 0
-    name: e2
-    orientation: 90.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e3:
-    center:
-    - 5.5
-    - 0.0
-    layer:
-    - 45
-    - 0
-    name: e3
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e4:
-    center:
-    - 0.0
-    - -5.5
-    layer:
-    - 45
-    - 0
-    name: e4
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
+function: via_stack
+info:
+  layer: M2
+  size:
+  - 11.0
+  - 11.0
+  xsize: 11.0
+  ysize: 11.0
+module: gdsfactory.components.via_stack
+name: via_stack_299d6cc0
 settings:
-  changed:
-    layers:
-    - HEATER
-    - M2
-    vias:
-    - null
-    - function: via
-      settings:
-        enclosure: 2
-        layer: VIA1
-  child: null
-  default:
-    correct_size: true
-    layer_offsets: null
-    layer_port: null
-    layers:
-    - M1
-    - M2
-    - MTOP
-    size:
-    - 11.0
-    - 11.0
-    slot_horizontal: false
-    slot_vertical: false
-    vias:
-    - function: via
-      settings:
-        enclosure: 2
-        layer: VIA1
-    - function: via
-      settings:
-        layer: VIA2
-    - null
-  full:
-    correct_size: true
-    layer_offsets: null
-    layer_port: null
-    layers:
-    - HEATER
-    - M2
-    size:
-    - 11.0
-    - 11.0
-    slot_horizontal: false
-    slot_vertical: false
-    vias:
-    - null
-    - function: via
-      settings:
-        enclosure: 2
-        layer: VIA1
-  function_name: via_stack
-  info:
-    layer: M2
-    size:
-    - 11.0
-    - 11.0
-  info_version: 2
-  module: gdsfactory.components.via_stack
-  name: via_stack_2f27d917
+  correct_size: true
+  layer_offsets: null
+  layer_port: null
+  layers:
+  - HEATER
+  - M2
+  size:
+  - 11.0
+  - 11.0
+  slot_horizontal: false
+  slot_vertical: false
+  vias:
+  - null
+  - function: via
+    module: gdsfactory.components.via
+    settings:
+      enclosure: 2
+      layer: VIA1

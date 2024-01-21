@@ -1,129 +1,28 @@
-name: mzi_7a18d033_add_fiber_array_889fae23_add_fiber_array_optical_south_electrical_north
-ports:
-  e4_1_1:
-    center:
-    - 85.5
-    - 129.656
-    layer:
-    - 49
-    - 0
-    name: e4_1_1
-    orientation: 270
-    port_type: electrical
-    shear_angle: null
-    width: 80.0
-  e4_1_2:
-    center:
-    - 185.5
-    - 129.656
-    layer:
-    - 49
-    - 0
-    name: e4_1_2
-    orientation: 270
-    port_type: electrical
-    shear_angle: null
-    width: 80.0
-  loopback1:
-    center:
-    - -55.0
-    - -74.9
-    layer:
-    - 1
-    - 0
-    name: loopback1
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  loopback2:
-    center:
-    - 326.0
-    - -74.9
-    layer:
-    - 1
-    - 0
-    name: loopback2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o1:
-    center:
-    - 72.0
-    - -74.9
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 199.0
-    - -74.9
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+function: add_fiber_array_optical_south_electrical_north
+info: {}
+module: gdsfactory.components.add_fiber_array_optical_south_electrical_north
+name: mzi_add_fiber_array_optical_south_electrical_north
 settings:
-  changed: {}
-  child: null
-  default:
-    component:
-      function: mzi
-      settings:
-        length_x: 200
-        straight_x_top: straight_heater_metal
-    electrical_port_names: null
-    electrical_port_orientation: 90
-    fiber_spacing: 127.0
-    grating_coupler:
-      function: grating_coupler_elliptical
-    npads: null
-    pad:
-      function: pad
-      settings:
-        size:
-        - 80
-        - 80
-    pad_gc_spacing: 250.0
-    pad_spacing: 100.0
-    with_loopback: true
-    xs_metal: xs_metal_routing
-  full:
-    component:
-      function: mzi
-      settings:
-        length_x: 200
-        straight_x_top: straight_heater_metal
-    electrical_port_names: null
-    electrical_port_orientation: 90
-    fiber_spacing: 127.0
-    grating_coupler:
-      function: grating_coupler_elliptical
-    npads: null
-    pad:
-      function: pad
-      settings:
-        size:
-        - 80
-        - 80
-    pad_gc_spacing: 250.0
-    pad_spacing: 100.0
-    with_loopback: true
-    xs_metal: xs_metal_routing
-  function_name: add_fiber_array_optical_south_electrical_north
-  info:
-    grating_coupler:
-      polarization: te
-      wavelength: 1.554
-  info_version: 2
-  module: gdsfactory.components.add_fiber_array_optical_south_electrical_north
-  name: mzi_7a18d033_add_fiber_array_889fae23_add_fiber_array_optical_south_electrical_north
+  component:
+    function: mzi
+    module: gdsfactory.components.mzi
+    settings:
+      length_x: 200
+      straight_x_top: straight_heater_metal
+  electrical_port_names: null
+  electrical_port_orientation: 90
+  fiber_spacing: 127.0
+  grating_coupler:
+    function: grating_coupler_elliptical
+  npads: null
+  pad:
+    function: pad
+    module: gdsfactory.components.pad
+    settings:
+      size:
+      - 80
+      - 80
+  pad_gc_spacing: 250.0
+  pad_spacing: 100.0
+  with_loopback: true
+  xs_metal: xs_metal_routing

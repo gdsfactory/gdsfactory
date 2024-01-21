@@ -1,107 +1,17 @@
+function: add_fiducials
+info:
+  xsize: 100.0
+  ysize: 100.0
+module: gdsfactory.components.add_fiducials
 name: add_fiducials
-ports:
-  e11:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e11
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 100.0
-  e12:
-    center:
-    - 150.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e12
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 100.0
-  e13:
-    center:
-    - 300.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e13
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 100.0
-  e14:
-    center:
-    - 450.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e14
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 100.0
-  e15:
-    center:
-    - 600.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e15
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 100.0
-  e16:
-    center:
-    - 750.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e16
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 100.0
 settings:
-  changed: {}
-  child: null
-  default:
-    bottom: null
-    component:
-      function: pad_array
-    gap: 50
-    left: cross
-    offset:
-    - 0
-    - 0
-    right: cross
-    top: null
-  full:
-    bottom: null
-    component:
-      function: pad_array
-    gap: 50
-    left: cross
-    offset:
-    - 0
-    - 0
-    right: cross
-    top: null
-  function_name: add_fiducials
-  info:
-    size:
-    - 100.0
-    - 100.0
-  info_version: 2
-  module: gdsfactory.components.add_fiducials
-  name: add_fiducials
+  bottom: null
+  component:
+    function: pad_array
+  gap: 50
+  left: cross
+  offset:
+  - 0
+  - 0
+  right: cross
+  top: null

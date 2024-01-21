@@ -1,137 +1,62 @@
-name: dxdy_bb34f332
-ports:
-  o1:
-    center:
-    - 65.0
-    - -10.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+function: _from_yaml
+info: {}
+module: gdsfactory.read.from_yaml
+name: dxdy_d4ff57bc
 settings:
-  changed:
-    conf:
-      instances:
-        mmi_long:
-          component: mmi1x2
-          settings:
-            length_mmi: 10
-            width_mmi: 4.5
-        mmi_short:
-          component: mmi1x2
-          settings:
-            length_mmi: 5
-            width_mmi: 4.5
-      name: dxdy
-      placements:
-        mmi_long:
-          dx: 10
-          dy: -10
-          port: o1
-          x: mmi_short,o2
-          y: mmi_short,o2
-        mmi_short:
-          port: o1
-          x: 0
-          y: 0
-      ports:
-        o1: mmi_long,o3
-    routing_strategy:
-      get_bundle:
-        function: get_bundle
-      get_bundle_all_angle:
-        function: get_bundle_all_angle
-      get_bundle_electrical:
-        function: get_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_steps:
-        function: get_bundle_from_steps
-      get_bundle_from_steps_electrical:
-        function: get_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_waypoints:
-        function: get_bundle_from_waypoints
-      get_bundle_path_length_match:
-        function: get_bundle_path_length_match
-      get_bundle_same_axis_no_grouping:
-        function: get_bundle_same_axis_no_grouping
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-    validate: false
-  full:
-    conf:
-      instances:
-        mmi_long:
-          component: mmi1x2
-          settings:
-            length_mmi: 10
-            width_mmi: 4.5
-        mmi_short:
-          component: mmi1x2
-          settings:
-            length_mmi: 5
-            width_mmi: 4.5
-      name: dxdy
-      placements:
-        mmi_long:
-          dx: 10
-          dy: -10
-          port: o1
-          x: mmi_short,o2
-          y: mmi_short,o2
-        mmi_short:
-          port: o1
-          x: 0
-          y: 0
-      ports:
-        o1: mmi_long,o3
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-    routing_strategy:
-      get_bundle:
-        function: get_bundle
-      get_bundle_all_angle:
-        function: get_bundle_all_angle
-      get_bundle_electrical:
-        function: get_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_steps:
-        function: get_bundle_from_steps
-      get_bundle_from_steps_electrical:
-        function: get_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_waypoints:
-        function: get_bundle_from_waypoints
-      get_bundle_path_length_match:
-        function: get_bundle_path_length_match
-      get_bundle_same_axis_no_grouping:
-        function: get_bundle_same_axis_no_grouping
-    validate: false
-  function_name: _from_yaml
-  info:
+  conf:
     instances:
-    - mmi_long
-    - mmi_short
-  info_version: 2
-  module: gdsfactory.read.from_yaml
-  name: dxdy_bb34f332
+      mmi_long:
+        component: mmi1x2
+        settings:
+          length_mmi: 10
+          width_mmi: 4.5
+      mmi_short:
+        component: mmi1x2
+        settings:
+          length_mmi: 5
+          width_mmi: 4.5
+    name: dxdy
+    placements:
+      mmi_long:
+        dx: 10
+        dy: -10
+        port: o1
+        x: mmi_short,o2
+        y: mmi_short,o2
+      mmi_short:
+        port: o1
+        x: 0
+        y: 0
+    ports:
+      o1: mmi_long,o3
+  label_instance_function:
+    function: add_instance_label
+  mode: layout
+  routing_strategy:
+    get_bundle:
+      function: get_bundle
+    get_bundle_all_angle:
+      function: get_bundle_all_angle
+    get_bundle_electrical:
+      function: get_bundle
+      module: gdsfactory.routing.get_bundle
+      settings:
+        bend:
+          function: wire_corner
+        cross_section: xs_metal_routing
+    get_bundle_from_steps:
+      function: get_bundle_from_steps
+    get_bundle_from_steps_electrical:
+      function: get_bundle_from_steps
+      module: gdsfactory.routing.get_bundle_from_steps
+      settings:
+        bend:
+          function: wire_corner
+        cross_section: xs_metal_routing
+    get_bundle_from_waypoints:
+      function: get_bundle_from_waypoints
+    get_bundle_path_length_match:
+      function: get_bundle_path_length_match
+    get_bundle_same_axis_no_grouping:
+      function: get_bundle_same_axis_no_grouping
+  validate: false

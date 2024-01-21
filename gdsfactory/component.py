@@ -25,6 +25,9 @@ from omegaconf import DictConfig
 
 from gdsfactory import snap
 from gdsfactory.component_layout import (
+    CellSettings,
+    ComponentSpec,
+    Info,
     Label,
     _align,
     _distribute,
@@ -62,6 +65,7 @@ if TYPE_CHECKING:
         Layers,
         LayerSpec,
         PathType,
+        Tuple,
     )
 
 valid_plotters = ["matplotlib", "klayout", "kweb"]
@@ -192,23 +196,40 @@ class Component(_GeometryHelper):
         with_uuid: bool = False,
         max_name_length: int | None = None,
     ) -> None:
-        """Initialize the Component object."""
+        """Initialize the Component object.
+
+        Args:
+            name: component_name. Use @cell decorator for auto-naming.
+            with_uuid: adds unique identifier.
+            max_name_length: maximum number of characters for component name.
+        """
 
         self.uid = str(uuid.uuid4())[:8]
-        if with_uuid or name == "Unnamed":
+
+        if with_uuid:
+            warnings.warn("with_uuid is deprecated. Use @cell decorator instead.")
             name += f"_{self.uid}"
 
-        self._cell = gdstk.Cell("Unnamed")
-        self.rename(name, max_name_length=max_name_length)
-        self.info: dict[str, Any] = {}
+        if name == "Unnamed":
+            name = f"Unnamed_{self.uid}"
 
-        self.settings: dict[str, Any] = {}
+        name_counters[name] += 1
+        if name_counters[name] > 1:
+            name = f"{name}${name_counters[name]-1}"
+
+        self._cell = gdstk.Cell(name)
+        self.rename(name, max_name_length=max_name_length)
+        self.info: Info = Info()
+
+        self.settings: CellSettings = CellSettings()
         self._locked = False
         self._get_child_name = False
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
         self._named_references = {}
         self._references = []
+        self.function_name = ""
+        self.module = ""
 
         self.ports = {}
         self.child = None
@@ -385,16 +406,6 @@ class Component(_GeometryHelper):
         _get_dependencies(self, references_set=references_set)
         return list(references_set)
 
-    def get_component_spec(self):
-        return (
-            {
-                "component": self.settings.function_name,
-                "settings": self.settings.changed,
-            }
-            if self.settings
-            else {"component": self.name, "settings": {}}
-        )
-
     def __getitem__(self, key: str | int) -> Port:
         """Access reference ports."""
         if isinstance(key, int):
@@ -409,18 +420,6 @@ class Component(_GeometryHelper):
     def __lshift__(self, element) -> ComponentReference:
         """Convenience operator equivalent to add_ref()."""
         return self.add_ref(element)
-
-    def unlock(self) -> None:
-        """Only do this if you know what you are doing."""
-        self._locked = False
-
-    def lock(self) -> None:
-        """Makes sure components can't add new elements or move existing ones.
-
-        Components lock automatically when going into the CACHE to
-        ensure one component does not change others
-        """
-        self._locked = True
 
     def __setitem__(self, key, element):
         """Allow adding polygons and cell references.
@@ -643,7 +642,7 @@ class Component(_GeometryHelper):
         )
         return G
 
-    def get_netlist_yaml(self, **kwargs) -> dict[str, Any]:
+    def to_yaml(self, **kwargs) -> dict[str, Any]:
         from gdsfactory.get_netlist import get_netlist_yaml
 
         return get_netlist_yaml(self, **kwargs)
@@ -929,24 +928,6 @@ class Component(_GeometryHelper):
 
         pprint_ports(self.get_ports_list(sort_by_name=sort_by_name, **kwargs))
 
-    @property
-    def metadata_child(self) -> dict:
-        """Returns metadata from child if any, Otherwise returns component own.
-
-        metadata Great to access the children metadata at the bottom of the
-        hierarchy.
-        """
-        settings = dict(self.settings)
-
-        while settings.get("child"):
-            settings = settings.get("child")
-
-        return dict(settings)
-
-    @property
-    def metadata(self) -> dict:
-        return dict(self.settings)
-
     def add_port(
         self,
         name: str | object | None = None,
@@ -958,7 +939,7 @@ class Component(_GeometryHelper):
         port_type: str | None = None,
         cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
-        info: dict[str, Any] | None = None,
+        info: Info | None = None,
     ) -> Port:
         """Add port to component.
 
@@ -977,7 +958,7 @@ class Component(_GeometryHelper):
             port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm. Defaults to optical.
             cross_section: port cross_section.
             shear_angle: an optional angle to shear port face in degrees.
-            info: Dict containing arbitrary information about the port.
+            info: contains arbitrary information about the port.
         """
         from gdsfactory.pdk import get_cross_section, get_layer
 
@@ -1003,8 +984,9 @@ class Component(_GeometryHelper):
                 p.shear_angle = shear_angle
             if cross_section is not None:
                 p.cross_section = cross_section
-            if info is not None:
-                p.info = info
+            if info:
+                for k, v in dict(info).items():
+                    p.info[k] = v
             p.parent = self
 
         elif isinstance(name, Port):
@@ -1030,7 +1012,8 @@ class Component(_GeometryHelper):
             )
             p.parent = self
             if info is not None:
-                p.info = info
+                for k, v in dict(info).items():
+                    p.info[k] = v
         if name is not None:
             p.name = name
         if p.name in self.ports:
@@ -1178,6 +1161,7 @@ class Component(_GeometryHelper):
             if len(points[0]) > 2:
                 # Convert to form [[1,2],[3,4],[5,6]]
                 points = np.column_stack(points)
+
             points = snap.snap_to_grid(points) if snap_to_grid else points
             layer, datatype = _parse_layer(layer)
             polygon = Polygon(points, (layer, datatype))
@@ -1231,8 +1215,11 @@ class Component(_GeometryHelper):
         self.is_unlocked()
         self._cell.add(*polygons)
 
-    def copy(self) -> Component:
-        return copy(self)
+    def copy(self, name: str | None = None) -> Component:
+        c = copy(self)
+        if name:
+            c.rename(name)
+        return c
 
     def add_ref_container(self, component: Component) -> ComponentReference:
         """Add reference, ports and copy_child_info."""
@@ -1251,22 +1238,15 @@ class Component(_GeometryHelper):
                 f"{type(component)}" "is not a Component or ComponentReference"
             )
 
-        self._get_child_name = True
         self.child = component
-        self.info.update(deepcopy(component.info))
-        self.settings.update(deepcopy(component.settings))
+        for k, v in dict(component.info).items():
+            if k not in self.info:
+                self.info[k] = v
 
     @property
     def size_info(self) -> SizeInfo:
         """Size info of the component."""
         return SizeInfo(self.bbox)
-
-    def get_setting(self, setting: str) -> str | int | float:
-        return (
-            self.info.get(setting)
-            or self.settings.full.get(setting)
-            or self.metadata_child.get(setting)
-        )
 
     def is_unlocked(self) -> None:
         """Raises warning if Component is locked."""
@@ -1274,6 +1254,7 @@ class Component(_GeometryHelper):
             message = (
                 f"Component {self.name!r} is dangerous to modify as it's already "
                 "on cache and will change all of its references. "
+                + mutability_error_message
             )
             if CONF.raise_error_on_mutation:
                 raise MutabilityError(message)
@@ -1413,19 +1394,10 @@ class Component(_GeometryHelper):
         _cell = _cell.flatten()
         component_flat._cell = _cell
         if single_layer is not None:
-            from gdsfactory import get_layer
-
-            layer, datatype = get_layer(single_layer)
-            for polygon in _cell.polygons:
-                polygon.layer = layer
-                polygon.datatype = datatype
-            for path in _cell.paths:
-                path.set_layers(layer)
-                path.set_datatypes(datatype)
+            warnings.warn("flatten on single layer is deprecated")
 
         component_flat.copy_child_info(self)
         component_flat.add_ports(self.ports)
-        component_flat.child = self.child
         return component_flat
 
     def flatten_reference(self, ref: ComponentReference) -> None:
@@ -1441,27 +1413,38 @@ class Component(_GeometryHelper):
         from gdsfactory.functions import transformed
 
         self.remove(ref)
-        new_component = transformed(ref, decorator=None)
+        new_component = transformed(ref)
         self.add_ref(new_component, alias=ref.name)
 
-    def flatten_invalid_refs(
+    def flatten_invalid_refs(self, *args, **kwargs) -> Component:
+        """Flatten all invalid references."""
+        warnings.warn(
+            "flatten_invalid_refs is deprecated, use flatten_offgrid_references",
+            DeprecationWarning,
+        )
+        return self.flatten_offgrid_references(*args, **kwargs)
+
+    def flatten_offgrid_references(
         self,
         grid_size: float | None = None,
         updated_components=None,
         traversed_components=None,
+        keep_names: bool = False,
     ) -> Component:
-        """Returns new component with flattened references.
+        """Returns new component with flattened references so that they snap to grid.
 
         Args:
             grid_size: snap to grid size.
             updated_components: set of updated components.
             traversed_components: set of traversed components.
+            keep_names: True for writing to GDS, False for internal use.
         """
-        return flatten_invalid_refs_recursive(
+        return flatten_offgrid_references_recursive(
             self,
             grid_size=grid_size,
             updated_components=updated_components,
             traversed_components=traversed_components,
+            keep_names=keep_names,
         )
 
     def add_ref(
@@ -1491,7 +1474,7 @@ class Component(_GeometryHelper):
 
         """
         if not isinstance(component, Component):
-            raise TypeError(f"type = {type(Component)} needs to be a Component.")
+            raise TypeError(f"type = {type(component)} needs to be a Component.")
         ref = ComponentReference(component, **kwargs)
         self._add(ref)
         self._register_reference(reference=ref, alias=alias)
@@ -1508,9 +1491,8 @@ class Component(_GeometryHelper):
                 alias = reference.name
             else:
                 prefix = (
-                    component.settings.function_name
-                    if hasattr(component, "settings")
-                    and hasattr(component.settings, "function_name")
+                    component.function_name
+                    if component.function_name
                     else component.name
                 )
                 self._reference_names_counter.update({prefix: 1})
@@ -1659,18 +1641,19 @@ class Component(_GeometryHelper):
             return fig
 
         except ImportError:
-            print(
-                "You can install `pip install gdsfactory[cad]` for better visualization"
-            )
             component.plot(plotter="matplotlib")
 
     def plot_kweb(self):
         """Shows current gds in kweb."""
+        warnings.warn(
+            "Component.plot_kweb() is deprecated and will be removed in future versions of gdsfactory. "
+            "Use Component.plot() instead"
+        )
 
         try:
             import kweb.server_jupyter as kj
         except Exception:
-            print("You need to install kweb with `pip install gdsfactory[cad]`")
+            print("You need to install kweb with `pip install 'gdsfactory[cad]'`")
             return self.plot_klayout()
 
         from html import escape
@@ -1734,6 +1717,11 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.quickplotter import quickplot
 
+        warnings.warn(
+            "Component.plot_matplotlib() is deprecated and will be removed in future versions of gdsfactory. "
+            "Use Component.plot() instead"
+        )
+
         quickplot(self, **kwargs)
 
     def plot(self, plotter: str | None = None, **kwargs):
@@ -1752,7 +1740,7 @@ class Component(_GeometryHelper):
             raise ValueError(f"{plotter!r} not in {valid_plotters}")
 
         if plotter == "klayout":
-            self.plot_klayout()
+            self.plot_klayout(**kwargs)
             return
         elif plotter == "kweb":
             return self.plot_kweb()
@@ -1851,7 +1839,7 @@ class Component(_GeometryHelper):
                     "error": throw a ValueError when attempting to write a gds with duplicate cells.
                     "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                     None: do not try to resolve (at your own risk!)
-                flatten_invalid_refs: flattens component references which have invalid transformations.
+                flatten_offgrid_references: flattens component references which have invalid transformations.
                 max_points: Maximal number of vertices per polygon. Polygons with more vertices that this are automatically fractured.
 
             Oasis settings:
@@ -1864,7 +1852,7 @@ class Component(_GeometryHelper):
                 standard_properties: Store standard OASIS properties in the file.
 
         """
-
+        from gdsfactory.decorators import has_valid_transformations
         from gdsfactory.pdk import get_active_pdk
 
         if gdspath and gdsdir:
@@ -1894,10 +1882,15 @@ class Component(_GeometryHelper):
             component=self, mode=write_settings.on_uncached_component
         )
 
-        if write_settings.flatten_invalid_refs:
-            top_cell = flatten_invalid_refs_recursive(self)
+        if write_settings.flatten_offgrid_references:
+            top_cell = flatten_offgrid_references_recursive(self, keep_names=True)
         else:
             top_cell = self
+            if not has_valid_transformations(self):
+                warnings.warn(
+                    f"Component {self.name} has invalid transformations. "
+                    "Try component.flatten_offgrid_references() first."
+                )
 
         gdsdir = gdsdir or GDSDIR_TEMP
         gdsdir = pathlib.Path(gdsdir)
@@ -1967,7 +1960,7 @@ class Component(_GeometryHelper):
             logger.info(f"Wrote to {str(gdspath)!r}")
         if with_metadata:
             metadata = gdspath.with_suffix(".yml")
-            metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
+            metadata.write_text(self.to_dict_yaml(with_cells=True, with_ports=True))
             logger.info(f"Write YAML metadata to {str(metadata)!r}")
 
         if with_netlist:
@@ -2009,7 +2002,7 @@ class Component(_GeometryHelper):
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
             on_uncached_component: Literal["warn", "error"] = "warn"
-            flatten_invalid_refs: flattens component references which have invalid transformations.
+            flatten_offgrid_references: flattens component references which have invalid transformations.
             max_points: Maximal number of vertices per polygon.
                 Polygons with more vertices that this are automatically fractured.
             with_metadata: writes metadata in YAML format.
@@ -2043,7 +2036,7 @@ class Component(_GeometryHelper):
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
             on_uncached_component: Literal["warn", "error"] = "warn"
-            flatten_invalid_refs: flattens component references which have invalid transformations.
+            flatten_offgrid_references: flattens component references which have invalid transformations.
             compression_level: Level of compression for cells (between 0 and 9).
                 Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
             detect_rectangles: Store rectangles in compressed format.
@@ -2065,17 +2058,17 @@ class Component(_GeometryHelper):
         ignore_components_prefix: list[str] | None = None,
         ignore_functions_prefix: list[str] | None = None,
         with_cells: bool = False,
-        with_ports: bool = True,
+        with_ports: bool = False,
     ) -> dict[str, Any]:
         """Returns Dict representation of a component.
 
         Args:
             ignore_components_prefix: for components to ignore when exporting.
             ignore_functions_prefix: for functions to ignore when exporting.
-            with_cells: write cells recursively.
-            with_ports: write port information dict.
+            with_cells: write cell info recursively.
+            with_ports: write ports.
         """
-        d = {}
+        d = self.get_component_spec().model_dump()
         if with_ports:
             ports = {port.name: port.to_dict() for port in self.get_ports_list()}
             d["ports"] = ports
@@ -2089,10 +2082,10 @@ class Component(_GeometryHelper):
             d["cells"] = clean_dict(cells)
 
         d["name"] = self.name
-        d["settings"] = clean_dict(dict(self.settings))
+        d["info"] = self.info.model_dump()
         return d
 
-    def to_yaml(self, **kwargs) -> str:
+    def to_dict_yaml(self, **kwargs) -> str:
         """Write Dict representation of a component in YAML format.
 
         Args:
@@ -2123,15 +2116,12 @@ class Component(_GeometryHelper):
                   |  |
                   8  7
         """
-        self.is_unlocked()
         auto_rename_ports(self, **kwargs)
 
     def auto_rename_ports_counter_clockwise(self, **kwargs) -> None:
-        self.is_unlocked()
         auto_rename_ports_counter_clockwise(self, **kwargs)
 
     def auto_rename_ports_layer_orientation(self, **kwargs) -> None:
-        self.is_unlocked()
         auto_rename_ports_layer_orientation(self, **kwargs)
 
     def auto_rename_ports_orientation(self, **kwargs) -> None:
@@ -2154,7 +2144,6 @@ class Component(_GeometryHelper):
                  |   |
                 S0   S1
         """
-        self.is_unlocked()
         auto_rename_ports_orientation(self, **kwargs)
 
     def move(self, *args, **kwargs) -> Component:
@@ -2262,10 +2251,9 @@ class Component(_GeometryHelper):
         """
         polygons_by_spec = self.get_polygons(by_spec=True, as_array=False)
         layers = np.array(list(polygons_by_spec.keys()))
-        sorted_layers = layers[np.lexsort((layers[:, 0], layers[:, 1]))]
 
         final_hash = hashlib.sha1()
-        for layer in sorted_layers:
+        for layer in layers:
             layer_hash = hashlib.sha1(layer.astype(np.int64)).digest()
             polygons = polygons_by_spec[tuple(layer)]
             polygons = [_rnd(p.points, precision) for p in polygons]
@@ -2302,22 +2290,6 @@ class Component(_GeometryHelper):
     def remove_labels(self) -> None:
         """Remove labels."""
         self._cell.remove(*self.labels)
-
-    # Deprecated
-    def get_info(self):
-        """Gathers the .info dictionaries from every sub-Component and returns them in a list.
-
-        Args:
-            depth: int or None
-                If not None, defines from how many reference levels to
-                retrieve Ports from.
-
-        Returns:
-            list of dictionaries
-                List of the ".info" property dictionaries from all sub-Components
-        """
-        D_list = self.get_dependencies(recursive=True)
-        return [D.info.copy() for D in D_list]
 
     def remap_layers(self, layermap, **kwargs) -> Component:
         """Returns a copy of the component with remapped layers.
@@ -2524,25 +2496,130 @@ class Component(_GeometryHelper):
         pdk = get_active_pdk()
 
         length_eff = length_eff or length
+        length_eff = float(length_eff)
         xs_name = (
             cross_section
             if isinstance(cross_section, str)
             else pdk.get_cross_section_name(cross_section)
         )
 
-        d = {
-            "type": xs_name,
-            "length": length_eff,
-            f"{xs_name}_length": length_eff,
-            "weight": length_eff,
-        }
+        info = self.info
         if taper:
-            d[f"{xs_name}_taper_length"] = length
-        d |= kwargs
-        self.info["route_info"] = d
+            info[f"route_info_{xs_name}_taper_length"] = length
+
+        info["route_info_type"] = xs_name
+        info["route_info_length"] = length_eff
+        info["route_info_weight"] = length_eff
+        info[f"route_info_{xs_name}_length"] = length_eff
+        for key, value in kwargs.items():
+            info[f"route_info_{key}"] = value
+
+    def get_component_spec(self) -> ComponentSpec:
+        return ComponentSpec(
+            function=self.function_name,
+            module=self.module,
+            settings=self.settings,
+        )
+
+    # Deprecated
+    @property
+    def metadata_child(self) -> dict:
+        """Returns metadata from child if any, Otherwise returns component own.
+        metadata can access the children metadata at the bottom of the hierarchy.
+        """
+        warnings.warn(
+            "metadata_child is deprecated and will be removed in future versions of gdsfactory"
+        )
+        settings = dict(self.settings)
+
+        while settings.get("child"):
+            settings = settings.get("child")
+
+        return dict(settings)
+
+    def get_info(self):
+        """Gathers the .info dictionaries from every sub-Component and returns them in a list.
+
+        Args:
+            depth: int or None
+                If not None, defines from how many reference levels to
+                retrieve Ports from.
+
+        Returns:
+            list of dictionaries
+                List of the ".info" property dictionaries from all sub-Components
+        """
+        warnings.warn(
+            "get_info is deprecated and will be removed in future versions of gdsfactory"
+        )
+        D_list = self.get_dependencies(recursive=True)
+        return [D.info.model_copy() for D in D_list]
+
+    def get_netlist_yaml(self, **kwargs) -> dict[str, Any]:
+        from gdsfactory.get_netlist import get_netlist_yaml
+
+        warnings.warn(
+            "get_netlist_yaml is deprecated and will be removed in future versions of gdsfactory"
+            "Use to_yaml instead"
+        )
+
+        return get_netlist_yaml(self, **kwargs)
+
+    def get_setting(self, setting: str) -> str | int | float:
+        warnings.warn(
+            "get_setting is deprecated and will be removed in future versions of gdsfactory"
+        )
+        return (
+            self.info.get(setting)
+            or self.settings.get(setting)
+            or self.metadata_child.get(setting)
+        )
+
+    def unlock(self) -> None:
+        """Only do this if you know what you are doing."""
+        warnings.warn("we will remove unlock to discourage use")
+        self._locked = False
+
+    def lock(self) -> None:
+        """Makes sure components can't add new elements or move existing ones.
+
+        Components lock automatically when going into the CACHE to
+        ensure one component does not change others
+        """
+        warnings.warn("we will remove lock to discourage use")
+        self._locked = True
+
+    @property
+    def metadata(self) -> dict:
+        warnings.warn(
+            "metadata is deprecated and will be removed in future versions of gdsfactory. "
+            "Use component.settings for accessing component settings or component.info for component info."
+        )
+        return dict(self.settings)
+
+    def __reduce__(self):
+        """Gdstk Cells cannot be directly pickled. This method overrides binary serialization with GDS serialization."""
+        return deserialize_gds, serialize_gds(self)
 
 
-# Component methods
+# Component functions
+def serialize_gds(component: Component) -> Tuple[PathType]:
+    """Saves Component as GDS + YAML metadata in temporary files with unique name."""
+    gds_filepath = GDSDIR_TEMP / component.name
+    gds_filepath = gds_filepath.with_suffix(".gds")
+    component.write_gds(gds_filepath, with_metadata=True)
+    return (gds_filepath,)
+
+
+def deserialize_gds(gds_filepath: PathType) -> Component:
+    """Loads Component as GDS + YAML metadata from temporary files, and deletes them."""
+    from gdsfactory.read import import_gds
+
+    c = import_gds(gds_filepath, read_metadata=True)
+    metadata_filepath = gds_filepath.with_suffix(".yml")
+    metadata_filepath.unlink()
+    gds_filepath.unlink()
+    return c
 
 
 def copy(
@@ -2566,8 +2643,11 @@ def copy(
         labels: labels to copy.
     """
     c = Component()
-    c.info = D.info
+    c.settings = D.settings.model_copy()
+    c.info = D.info.model_copy()
     c.child = D.child
+    c.function_name = D.function_name
+    c.module = D.module
 
     for ref in references if references is not None else D.references:
         c.add(copy_reference(ref))
@@ -2644,10 +2724,7 @@ def recurse_structures(
     ignore_functions_prefix = ignore_functions_prefix or []
     ignore_components_prefix = ignore_components_prefix or []
 
-    if (
-        hasattr(component, "function_name")
-        and component.function_name in ignore_functions_prefix
-    ):
+    if component.function_name and component.function_name in ignore_functions_prefix:
         return {}
 
     if hasattr(component, "name") and any(
@@ -2684,11 +2761,12 @@ def get_base_components(
         yield from get_base_components(ref.parent, allow_empty)
 
 
-def flatten_invalid_refs_recursive(
+def flatten_offgrid_references_recursive(
     component: Component,
     grid_size: float | None = None,
     updated_components=None,
     traversed_components=None,
+    keep_names: bool = False,
 ) -> Component:
     """Recursively flattens component references which have invalid transformations
     (i.e. non-90 deg rotations or sub-grid translations)
@@ -2707,6 +2785,7 @@ def flatten_invalid_refs_recursive(
             Should always be None, except for recursive.
         traversed_components: the set of component names which have been traversed.
             Should always be None, except for recursive invocations.
+        keep_names: True for writing to GDS, False for internal use.
     """
     from gdsfactory.decorators import is_invalid_ref
 
@@ -2724,7 +2803,7 @@ def flatten_invalid_refs_recursive(
         else:
             # otherwise, recursively flatten refs if the subcell has not already been traversed
             if ref.parent.name not in traversed_components:
-                flatten_invalid_refs_recursive(
+                flatten_offgrid_references_recursive(
                     ref.parent,
                     grid_size=grid_size,
                     updated_components=updated_components,
@@ -2736,7 +2815,10 @@ def flatten_invalid_refs_recursive(
     if invalid_refs or subcell_modified:
         # if the cell or subcells need to have references flattened, create an uncached copy of this cell for export
         new_component = component.copy()
-        new_component.rename(component.name, cache=False)
+        if keep_names:
+            new_component.rename(component.name, cache=False)
+        else:
+            new_component.rename(component.name + "_offgrid")
 
         # make sure all modified cells have their references updated
         new_refs = new_component.references.copy()
@@ -2781,11 +2863,27 @@ if __name__ == "__main__":
     # from functools import partial
     import gdsfactory as gf
 
-    c = gf.Component()
-    wg1 = c << gf.components.straight(width=0.5, layer=(1, 0))
-    wg2 = c << gf.components.straight(width=0.5, layer=(2, 0))
-    wg2.connect("o1", wg1.ports["o2"])
-    c.show()
+    c1 = gf.Component()
+    c2 = gf.Component()
+    print(c1.name)
+    print(c2.name)
+
+    # c = gf.components.straight(length=1)
+    # cc = gf.routing.add_fiber_array(c)
+    # print(c.hash_geometry())
+    # c2 = c.flatten()
+
+    # c = gf.routing.add_fiber_single(c)
+    # c = gf.components.mzi(info=dict(hi=3))
+    # print(type(c.info))
+    # yaml_netlist = c.to_yaml()
+    # c2 = gf.read.from_yaml(yaml_netlist)
+    # c2.show()
+
+    # c = gf.Component()
+    # wg1 = c << gf.components.straight(width=0.5, layer=(1, 0))
+    # wg2 = c << gf.components.straight(width=0.5, layer=(2, 0))
+    # wg2.connect("o1", wg1.ports["o2"])
     # custom_padding = partial(gf.add_padding, layers=("WG",))
     # c = gf.c.mzi(decorator=custom_padding)
 
@@ -2800,7 +2898,7 @@ if __name__ == "__main__":
     # c._cell = c2
     # c.show()
 
-    # gf.config.enable_off_grid_ports()
+    # gf.config.enable_offgrid_ports()
 
     # c = gf.Component("bend")
     # b = c << gf.components.bend_circular(angle=30)

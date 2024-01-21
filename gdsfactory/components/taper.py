@@ -44,7 +44,16 @@ def taper(
         add_pins: add pins to the component.
         kwargs: cross_section settings.
     """
+    c = gf.Component()
+
     x = gf.get_cross_section(cross_section, **kwargs)
+    width1 = gf.snap.snap_to_grid2x(width1)
+    x1 = x.copy(width=width1)
+    if width2:
+        width2 = gf.snap.snap_to_grid2x(width2)
+        x2 = x.copy(width=width2)
+    else:
+        x2 = x1
     layer = x.layer
 
     if isinstance(port, gf.Port) and width1 is None:
@@ -52,22 +61,14 @@ def taper(
 
     width2 = width2 or width1
 
-    c = gf.Component()
-
-    length = snap_to_grid(length)
-
+    length = float(snap_to_grid(length))
     y1 = width1 / 2
     y2 = width2 / 2
-    x1 = x.model_copy(update=dict(width=width1))
-    x2 = x.model_copy(update=dict(width=width2))
 
     if length:
         xpts = [0, length, length, 0]
         ypts = [y1, y2, -y2, -y1]
         c.add_polygon((xpts, ypts), layer=layer)
-
-        x1 = x.copy(width=width1)
-        x2 = x.copy(width=width2)
 
         xpts = [0, length, length, 0]
         for section in x.sections[1:]:
@@ -102,7 +103,7 @@ def taper(
     if add_pins and x.add_pins:
         x.add_pins(c)
 
-    c.info["length"] = length
+    c.info["length"] = float(length)
     c.info["width1"] = float(width1)
     c.info["width2"] = float(width2)
     return c
@@ -170,7 +171,7 @@ def taper_strip_to_ridge(
         c.add(taper_ref)
         c.absorb(taper_ref)
 
-    c.info["length"] = length
+    c.info["length"] = float(length)
     c.add_port(name="o1", port=taper_wg.ports["o1"])
     c.add_port(name="o2", port=taper_slab.ports["o2"])
     # Add pins instead only on the final component
@@ -247,9 +248,9 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
-    # c = taper(length=0)
+    c = taper(width2=10, length=10)
     # c = taper_strip_to_ridge_trenches()
     # c = taper_strip_to_ridge()
     # c = taper(width1=1.5, width2=1, cross_section="xs_rc")
-    c = taper_sc_nc()
+    # c = taper_sc_nc()
     c.show(show_ports=False)

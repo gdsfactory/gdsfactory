@@ -1,72 +1,11 @@
+function: coupler_full
+info: {}
+module: gdsfactory.components.coupler_full
 name: coupler_full
-ports:
-  o1:
-    center:
-    - -10.0
-    - -2.4
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.4
-  o2:
-    center:
-    - -10.0
-    - 2.4
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.6
-  o3:
-    center:
-    - 50.0
-    - 2.4
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.4
-  o4:
-    center:
-    - 50.0
-    - -2.4
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.6
 settings:
-  changed: {}
-  child: null
-  default:
-    coupling_length: 40.0
-    cross_section: xs_sc
-    dw: 0.1
-    dx: 10.0
-    dy: 4.8
-    gap: 0.5
-  full:
-    coupling_length: 40.0
-    cross_section: xs_sc
-    dw: 0.1
-    dx: 10.0
-    dy: 4.8
-    gap: 0.5
-  function_name: coupler_full
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.coupler_full
-  name: coupler_full
+  coupling_length: 40.0
+  cross_section: xs_sc
+  dw: 0.1
+  dx: 10.0
+  dy: 4.8
+  gap: 0.5

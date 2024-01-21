@@ -1,28 +1,13 @@
+function: text
+info: {}
+module: gdsfactory.components.text
 name: text
-ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    justify: left
-    layer: WG
-    layers: null
-    position:
-    - 0
-    - 0
-    size: 10.0
-    text: abcd
-  full:
-    justify: left
-    layer: WG
-    layers: null
-    position:
-    - 0
-    - 0
-    size: 10.0
-    text: abcd
-  function_name: text
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.text
-  name: text
+  justify: left
+  layer: WG
+  layers: null
+  position:
+  - 0
+  - 0
+  size: 10.0
+  text: abcd

@@ -10,38 +10,41 @@ template: |
 
 categories:
   - title: 'Breaking'
-    label: 'type: breaking'
+    label: 'breaking'
   - title: 'New'
-    label: 'type: feature'
+    labels:
+    - 'feature'
+    - 'enhancement'
   - title: 'Bug Fixes'
-    label: 'type: bug'
+    label: 'bug'
   - title: 'Maintenance'
-    label: 'type: maintenance'
+    labels:
+    - 'maintenance'
+    - 'github_actions'
   - title: 'Documentation'
-    label: 'type: docs'
+    label: 'documentation'
   - title: 'Other changes'
   - title: 'Dependency Updates'
-    label: 'type: dependencies'
+    label: 'dependencies'
     collapse-after: 5
 
 version-resolver:
   major:
     labels:
-      - 'type: breaking'
-      - 'type: major'
+      - 'breaking'
       - 'major'
   minor:
     labels:
-      - 'type: feature'
-      - 'type: minor'
+      - 'feature'
       - 'minor'
   patch:
     labels:
-      - 'type: bug'
-      - 'type: maintenance'
-      - 'type: docs'
-      - 'type: dependencies'
-      - 'type: security'
+      - 'bug'
+      - 'maintenance'
+      - 'github_actions'
+      - 'documentation'
+      - 'dependencies'
+      - 'security'
   default: patch
 
 exclude-labels:

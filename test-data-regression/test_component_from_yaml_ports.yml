@@ -1,192 +1,78 @@
-name: component_yaml_ports_173ce04f
-ports:
-  o1:
-    center:
-    - -0.5
-    - 0.225
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.45
-  o2:
-    center:
-    - 13.0
-    - 3.675
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.45
-  o3:
-    center:
-    - 13.0
-    - -3.225
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.45
+function: _from_yaml
+info: {}
+module: gdsfactory.read.from_yaml
+name: component_yaml_ports_d68fa3aa
 settings:
-  changed:
-    conf:
-      instances:
-        mmi_bot:
-          component: compass
-          settings:
-            port_type: None
-            size:
-            - 13.5
-            - 7
-      name: component_yaml_ports
-      ports:
-        o1:
-          center:
-          - -0.5
-          - 0.225
-          layer: WG
-          name: o1
-          orientation: 180
-          port_type: optical
-          width: 0.45
-        o2:
-          center:
-          - 13
-          - 3.675
-          layer:
-          - 1
-          - 0
-          name: o2
-          orientation: 0
-          port_type: optical
-          width: 0.45
-        o3:
-          center:
-          - 13
-          - -3.225
-          layer:
-          - 1
-          - 0
-          name: o3
-          orientation: 0
-          port_type: optical
-          width: 0.45
-    routing_strategy:
-      get_bundle:
-        function: get_bundle
-      get_bundle_all_angle:
-        function: get_bundle_all_angle
-      get_bundle_electrical:
-        function: get_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_steps:
-        function: get_bundle_from_steps
-      get_bundle_from_steps_electrical:
-        function: get_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_waypoints:
-        function: get_bundle_from_waypoints
-      get_bundle_path_length_match:
-        function: get_bundle_path_length_match
-      get_bundle_same_axis_no_grouping:
-        function: get_bundle_same_axis_no_grouping
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-    validate: false
-  full:
-    conf:
-      instances:
-        mmi_bot:
-          component: compass
-          settings:
-            port_type: None
-            size:
-            - 13.5
-            - 7
-      name: component_yaml_ports
-      ports:
-        o1:
-          center:
-          - -0.5
-          - 0.225
-          layer: WG
-          name: o1
-          orientation: 180
-          port_type: optical
-          width: 0.45
-        o2:
-          center:
-          - 13
-          - 3.675
-          layer:
-          - 1
-          - 0
-          name: o2
-          orientation: 0
-          port_type: optical
-          width: 0.45
-        o3:
-          center:
-          - 13
-          - -3.225
-          layer:
-          - 1
-          - 0
-          name: o3
-          orientation: 0
-          port_type: optical
-          width: 0.45
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-    routing_strategy:
-      get_bundle:
-        function: get_bundle
-      get_bundle_all_angle:
-        function: get_bundle_all_angle
-      get_bundle_electrical:
-        function: get_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_steps:
-        function: get_bundle_from_steps
-      get_bundle_from_steps_electrical:
-        function: get_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_waypoints:
-        function: get_bundle_from_waypoints
-      get_bundle_path_length_match:
-        function: get_bundle_path_length_match
-      get_bundle_same_axis_no_grouping:
-        function: get_bundle_same_axis_no_grouping
-    validate: false
-  function_name: _from_yaml
-  info:
+  conf:
     instances:
-    - mmi_bot
-  info_version: 2
-  module: gdsfactory.read.from_yaml
-  name: component_yaml_ports_173ce04f
+      mmi_bot:
+        component: compass
+        settings:
+          port_type: None
+          size:
+          - 13.5
+          - 7
+    name: component_yaml_ports
+    ports:
+      o1:
+        center:
+        - -0.5
+        - 0.225
+        layer: WG
+        name: o1
+        orientation: 180
+        port_type: optical
+        width: 0.45
+      o2:
+        center:
+        - 13
+        - 3.675
+        layer:
+        - 1
+        - 0
+        name: o2
+        orientation: 0
+        port_type: optical
+        width: 0.45
+      o3:
+        center:
+        - 13
+        - -3.225
+        layer:
+        - 1
+        - 0
+        name: o3
+        orientation: 0
+        port_type: optical
+        width: 0.45
+  label_instance_function:
+    function: add_instance_label
+  mode: layout
+  routing_strategy:
+    get_bundle:
+      function: get_bundle
+    get_bundle_all_angle:
+      function: get_bundle_all_angle
+    get_bundle_electrical:
+      function: get_bundle
+      module: gdsfactory.routing.get_bundle
+      settings:
+        bend:
+          function: wire_corner
+        cross_section: xs_metal_routing
+    get_bundle_from_steps:
+      function: get_bundle_from_steps
+    get_bundle_from_steps_electrical:
+      function: get_bundle_from_steps
+      module: gdsfactory.routing.get_bundle_from_steps
+      settings:
+        bend:
+          function: wire_corner
+        cross_section: xs_metal_routing
+    get_bundle_from_waypoints:
+      function: get_bundle_from_waypoints
+    get_bundle_path_length_match:
+      function: get_bundle_path_length_match
+    get_bundle_same_axis_no_grouping:
+      function: get_bundle_same_axis_no_grouping
+  validate: false

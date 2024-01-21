@@ -203,8 +203,7 @@ def pack(
     index = 0
     for i, rect_dict in enumerate(packed_list):
         name = get_name_short(f"{name_prefix or 'pack'}_{i}")
-        packed = Component(name, with_uuid=True)
-        packed.info["components"] = {}
+        packed = Component(name)
         for n, rect in rect_dict.items():
             x, y, w, h = rect
             xcenter = x + w / 2 + spacing / 2
@@ -213,24 +212,21 @@ def pack(
             d = component.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
             packed.add(d)
 
-            if hasattr(component, "settings"):
-                packed.info["components"][component.name] = dict(component.settings)
             d.center = snap_to_grid((xcenter * precision, ycenter * precision))
-
             component_id = component.name if name_ports_with_component_name else index
-
             name_counter[component_id] += 1
 
             if name_counter[component_id] > 1:
                 component_id = f"{component_id}${name_counter[component_id]}"
 
+            info = component.info
+            info["parent"] = component.name
             if add_ports_prefix:
-                packed.add_ports(d.ports, prefix=f"{component_id}-")
+                packed.add_ports(d.ports, prefix=f"{component_id}-", info=info)
             else:
-                packed.add_ports(d.ports, suffix=f"-{component_id}")
+                packed.add_ports(d.ports, suffix=f"-{component_id}", info=info)
 
             index += 1
-
             if text:
                 for text_offset, text_anchor in zip(text_offsets, text_anchors):
                     if text_anchor not in valid_anchors:
@@ -334,5 +330,6 @@ if __name__ == "__main__":
         text_mirror=True,
         v_mirror=True,
     )
-    c = p[0]
+    # c = p[0]
+    c = pack(p)[0]
     c.show(show_ports=True)

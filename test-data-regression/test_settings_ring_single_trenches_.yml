@@ -1,52 +1,12 @@
+function: add_trenches
+info: {}
+module: gdsfactory.components.add_trenches
 name: ring_single_add_trenches_06939900
-ports:
-  o1:
-    center:
-    - -17.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 13.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
-  changed:
-    component:
-      function: ring_single
-  child: null
-  default:
-    bot: true
-    component:
-      function: coupler
-    cross_section: xs_rc_with_trenches
-    left: false
-    right: false
-    top: true
-  full:
-    bot: true
-    component:
-      function: ring_single
-    cross_section: xs_rc_with_trenches
-    left: false
-    right: false
-    top: true
-  function_name: add_trenches
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.add_trenches
-  name: ring_single_add_trenches_06939900
+  bot: true
+  component:
+    function: ring_single
+  cross_section: xs_rc_with_trenches
+  left: false
+  right: false
+  top: true

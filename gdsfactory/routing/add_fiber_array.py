@@ -116,9 +116,7 @@ def add_fiber_array(
     if gc_port_name not in gc.ports:
         raise ValueError(f"gc_port_name={gc_port_name!r} not in {gc.ports.keys()}")
 
-    component_name = component_name or component.metadata_child.get(
-        "name", component.name
-    )
+    component_name = component_name or component.name
     component_new = Component()
     component_new.component = component
 
@@ -180,7 +178,6 @@ def add_fiber_array(
         component_new.add_port("loopback2", port=ports_loopback[1])
 
     component_new.copy_child_info(component)
-    component_new.info["grating_coupler"] = gc.info
     return component_new
 
 

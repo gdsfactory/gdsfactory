@@ -9,25 +9,30 @@ import importlib
 import json
 import os
 import pathlib
+import re
 import subprocess
 import sys
 import tempfile
 import traceback
+import warnings
 from enum import Enum, auto
 from itertools import takewhile
 from pathlib import Path
 from pprint import pprint
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, ClassVar, Literal
 
 import loguru
-import yaml
+from dotenv import find_dotenv
 from loguru import logger as logger
-from pydantic import Field
+from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "7.9.3"
+if TYPE_CHECKING:
+    from loguru import Logger
+
+__version__ = "7.10.5"
 PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
@@ -41,6 +46,7 @@ logpath = home_path / "log.log"
 yamlpath_cwd = cwd / "config.yml"
 yamlpath_default = module_path / "config.yml"
 yamlpath_home = home_path / "config.yml"
+dotenv_path = find_dotenv(usecwd=True)
 
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 
@@ -69,6 +75,36 @@ pdks = [
     "ubcpdk",
     "gvtt",
 ]
+
+
+class LogLevel(str, Enum):
+    TRACE = "TRACE"
+    DEBUG = "DEBUG"
+    INFO = "INFO"
+    SUCCESS = "SUCCESS"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    CRITICAL = "CRITICAL"
+
+
+class LogFilter(BaseModel):
+    """Filter certain messages by log level or regex.
+
+    Filtered messages are not evaluated and discarded.
+    """
+
+    level: LogLevel = LogLevel.INFO
+    regex: str | None = None
+
+    def __call__(self, record: loguru.Record) -> bool:
+        """Loguru needs the filter to be callable."""
+        levelno = logger.level(self.level).no
+        if self.regex is None:
+            return record["level"].no >= levelno
+        else:
+            return record["level"].no >= levelno and not bool(
+                re.search(self.regex, record["message"])
+            )
 
 
 class ErrorType(Enum):
@@ -201,18 +237,19 @@ class Settings(BaseSettings):
         arbitrary_types_allowed=True,
         env_prefix="gdsfactory_",
         env_nested_delimiter="_",
+        env_file=dotenv_path,
+        extra="ignore",
     )
-    loglevel: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
     pdk: str | None = None
     difftest_ignore_cell_name_differences: bool = True
     difftest_ignore_sliver_differences: bool = False
     difftest_ignore_label_differences: bool = False
     layer_error_path: tuple[int, int] = (1000, 0)
-    ports_off_grid: Literal["warn", "error", "ignore"] = Field(
-        default="warn", description="Ensures ports are on grid."
+    ports_offgrid: Literal["warn", "error", "ignore"] = Field(
+        default="ignore", description="Ensures ports are on grid."
     )
     ports_not_manhattan: Literal["warn", "error", "ignore"] = Field(
-        default="warn", description="Ensures ports are manhattan."
+        default="ignore", description="Ensures ports are manhattan."
     )
     enforce_ports_on_grid: bool = True
     bend_radius_error_type: ErrorType = ErrorType.WARNING
@@ -227,21 +264,24 @@ class Settings(BaseSettings):
     )
     default_show_suffix: Literal[".oas", ".gds"] = ".gds"
     raise_error_on_mutation: bool = True
+    logger: ClassVar[Logger] = logger
+    logfilter: LogFilter = Field(default_factory=LogFilter)
 
-    @classmethod
-    def from_config(cls) -> Settings:
-        """Load settings from YAML config file.
-        Recursively search for a `gfconfig.yml` file in the current working directory.
-        """
-        path = cwd
+    def __init__(self, **data: Any):
+        """Set log filter and run pydantic."""
 
-        while path.parent != path:
-            path_config = path / "gfconfig.yml"
-            if path_config.is_file():
-                logger.info(f"Loading settings from {path_config}")
-                return Settings(**yaml.safe_load(path_config.read_text()))
-            path = path.parent
-        return Settings()
+        super().__init__(**data)
+        self.logger.remove()
+        self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
+        self.logger.debug("LogLevel: {}", self.logfilter.level)
+
+        showwarning_ = warnings.showwarning
+
+        def showwarning(message, *args, **kwargs):
+            self.logger.warning(message)
+            showwarning_(message, *args, **kwargs)
+
+        warnings.showwarning = showwarning
 
 
 class Paths:
@@ -274,7 +314,7 @@ class Paths:
     font_ocr = fonts / "OCR-A.ttf"
 
 
-CONF = Settings.from_config()
+CONF = Settings()
 PATH = Paths()
 sparameters_path = PATH.sparameters
 
@@ -337,18 +377,34 @@ def get_git_hash():
         return "not_a_git_repo"
 
 
-def enable_off_grid_ports() -> None:
-    """Ignore off grid port warnings."""
+def enable_offgrid_ports() -> None:
+    """Ignore off grid port warnings and allow ports not to be snapped on creation."""
     CONF.enforce_ports_on_grid = False
-    CONF.ports_off_grid = "ignore"
+    CONF.ports_offgrid = "ignore"
     CONF.ports_not_manhattan = "ignore"
 
 
-def disable_off_grid_ports(error_type: str = "warn") -> None:
-    """Enable off grid port warnings."""
+def disable_offgrid_ports(error_type: str = "warn") -> None:
+    """Enable off grid port warnings and enforce ports to snap to 1nm grid."""
     CONF.enforce_ports_on_grid = True
-    CONF.ports_off_grid = error_type
+    CONF.ports_offgrid = error_type
     CONF.ports_not_manhattan = error_type
+
+
+def enable_off_grid_ports() -> None:
+    warnings.warn(
+        "enable_off_grid_ports is deprecated, use enable_offgrid_ports instead",
+        DeprecationWarning,
+    )
+    enable_offgrid_ports()
+
+
+def disable_off_grid_ports(error_type: str = "warn") -> None:
+    warnings.warn(
+        "disable_off_grid_ports is deprecated, use disable_offgrid_ports instead",
+        DeprecationWarning,
+    )
+    disable_offgrid_ports(error_type)
 
 
 def set_plot_options(

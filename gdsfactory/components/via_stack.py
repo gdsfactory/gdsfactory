@@ -66,8 +66,11 @@ def via_stack(
 
     c = Component()
     c.height = height_m
-    c.info["size"] = (float(size[0]), float(size[1]))
-    c.info["layer"] = layer_port
+    c.info["size"] = tuple(size)
+    c.info["xsize"] = size[0]
+    c.info["ysize"] = size[1]
+    if layer_port:
+        c.info["layer"] = layer_port
 
     for layer, offset in zip(layers, layer_offsets):
         size_m = (width_m + 2 * offset, height_m + 2 * offset)
@@ -84,9 +87,9 @@ def via_stack(
             width += 2 * offset
             height += 2 * offset
             _via = gf.get_component(via)
-            w, h = _via.info["size"]
+            w, h = _via.info["xsize"], _via.info["ysize"]
             enclosure = _via.info["enclosure"]
-            pitch_x, pitch_y = _via.info["spacing"]
+            pitch_x, pitch_y = _via.info["xspacing"], _via.info["yspacing"]
 
             if slot_horizontal:
                 width = size[0] - 2 * enclosure
@@ -146,31 +149,6 @@ def via_stack(
     return c
 
 
-def _smaller_angle(angle, angle1, angle2):
-    """Returns False if angle is outside the
-     bounds of the arc angle defined between
-     angle 1 and angle2.
-
-    But it does so assuming that angle1 and angle2 are between [-pi, pi]
-    and that we are trying to fill an arc
-    """
-
-    if angle2 >= 0 and angle1 >= 0:
-        if angle2 > angle1:
-            return angle < angle2
-        # Convert angle to 0, 2pi and see if out of bounds
-        angle = angle + 2 * np.pi * (angle < 0)
-        return not (angle2 < angle < angle1)
-
-    elif angle2 < 0 and angle1 < 0:
-        return angle < angle2 if angle2 > angle1 else not (angle2 < angle < angle1)
-    else:
-        if angle2 < 0 and angle > 0 or angle2 >= 0 and angle < 0:
-            return True
-        else:
-            return angle < angle2
-
-
 @gf.cell
 def via_stack_from_rules(
     size: Float2 = (1.2, 1.2),
@@ -209,7 +187,8 @@ def via_stack_from_rules(
 
     c = Component()
     c.height = height
-    c.info["size"] = (float(size[0]), float(size[1]))
+    c.info["xsize"] = size[0]
+    c.info["ysize"] = size[1]
     c.info["layer"] = layer_port
 
     layer_offsets = layer_offsets or [0] * len(layers)
@@ -223,7 +202,6 @@ def via_stack_from_rules(
             ref = c << compass(size=size, layer=layer, port_type="electrical")
 
     vias = vias or []
-    c.info["vias"] = []
     for current_via, min_size, min_gap, min_enclosure in zip(
         vias, via_min_size, via_min_gap, via_min_enclosure
     ):
@@ -232,7 +210,6 @@ def via_stack_from_rules(
             via = gf.get_component(
                 optimized_via(current_via, size, min_size, min_gap, min_enclosure)
             )
-            c.info["vias"].append(via.info)
 
             w, h = via.info["size"]
             g = via.info["enclosure"]
@@ -294,34 +271,6 @@ def optimized_via(
     )
 
 
-def test_via_stack_from_rules() -> None:
-    # Check that vias are generated with larger than min dimensions if possible
-    size = (1.2, 1.2)
-    layers = ("M1", "M2", "MTOP")
-    vias = (via1, via2)
-    via_min_size = ((0.2, 0.2), (0.2, 0.2))
-    via_min_gap = ((0.1, 0.1), (0.15, 0.15))
-    via_min_enclosure = (0.1, 0.1)
-
-    c = gf.get_component(
-        via_stack_from_rules(
-            size=size,
-            layers=layers,
-            vias=vias,
-            via_min_size=via_min_size,
-            via_min_gap=via_min_gap,
-            via_min_enclosure=via_min_enclosure,
-        )
-    )
-
-    assert c.info["vias"][0]["size"][0] > via_min_size[0][0]
-    assert c.info["vias"][0]["size"][1] > via_min_size[0][1]
-    assert (
-        c.info["vias"][0]["spacing"][0]
-        == via_min_gap[0][0] + c.info["vias"][0]["size"][0]
-    )
-
-
 via_stack_m1_m3 = partial(
     via_stack,
     layers=("M1", "M2", "MTOP"),
@@ -355,7 +304,8 @@ via_stack_heater_mtop = via_stack_heater_m3 = partial(
 
 
 if __name__ == "__main__":
-    c = via_stack()
+    # c = via_stack()
     # c = gf.pack([via_stack_slab_m3, via_stack_heater_mtop])[0]
     # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
+    c = via_stack_from_rules()
     c.show(show_ports=True)

@@ -1,24 +1,11 @@
+function: fiducial_squares
+info: {}
+module: gdsfactory.components.fiducial_squares
 name: fiducial_squares
-ports: {}
 settings:
-  changed: {}
-  child: null
-  default:
-    layer: WG
-    layers: null
-    offset: 0.14
-    size:
-    - 5.0
-    - 5.0
-  full:
-    layer: WG
-    layers: null
-    offset: 0.14
-    size:
-    - 5.0
-    - 5.0
-  function_name: fiducial_squares
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.fiducial_squares
-  name: fiducial_squares
+  layer: WG
+  layers: null
+  offset: 0.14
+  size:
+  - 5.0
+  - 5.0

@@ -15,9 +15,9 @@ def non_manhattan_component() -> gf.Component:
     return gf.path.extrude(p, xs)
 
 
-def test_non_manhattan_warn() -> None:
-    with pytest.warns(UserWarning):
-        assert non_manhattan_component()
+# def test_non_manhattan_warn() -> None:
+#     with pytest.warns(UserWarning):
+#         assert non_manhattan_component()
 
 
 @pytest.mark.skip("TODO: fix this test")

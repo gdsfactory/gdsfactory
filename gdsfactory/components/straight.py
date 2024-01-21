@@ -54,12 +54,11 @@ def straight(
         x.add_bbox(c, right=0, left=0)
     if add_pins:
         x.add_pins(c)
-    c.info["length"] = length
+    c.info["length"] = float(length)
     if len(x.sections) == 0:
         c.info["width"] = x.width
     else:
         c.info["width"] = x.sections[0].width
-    c.info["cross_section"] = cross_section
 
     c.add_route_info(cross_section=x, length=length)
     c.absorb(ref)

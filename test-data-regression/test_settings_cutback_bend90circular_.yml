@@ -1,55 +1,14 @@
+function: cutback_bend90
+info:
+  n_bends: 144
+module: gdsfactory.components.cutback_bend
 name: cutback_bend90_d89ef24e
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 150.0
-    - -0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
-  changed:
-    component:
-      function: bend_circular
-  child: null
-  default:
-    cols: 6
-    component:
-      function: bend_euler
-    rows: 6
-    spacing: 5
-    straight:
-      function: straight
-    straight_length: 5.0
-  full:
-    cols: 6
-    component:
-      function: bend_circular
-    rows: 6
-    spacing: 5
-    straight:
-      function: straight
-    straight_length: 5.0
-  function_name: cutback_bend90
-  info:
-    n_bends: 144
-  info_version: 2
-  module: gdsfactory.components.cutback_bend
-  name: cutback_bend90_d89ef24e
+  cols: 6
+  component:
+    function: bend_circular
+  rows: 6
+  spacing: 5
+  straight:
+    function: straight
+  straight_length: 5.0

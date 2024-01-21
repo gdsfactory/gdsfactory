@@ -9,6 +9,7 @@ import os
 import pathlib
 import re
 import typing
+import warnings
 import xml.etree.ElementTree as ET
 
 import numpy as np
@@ -572,7 +573,7 @@ class LayerView(BaseModel):
         elif hatch_name in custom_hatch_patterns:
             dither_pattern = f"C{list(custom_hatch_patterns).index(hatch_name)}"
         else:
-            logger.warning(
+            warnings.warn(
                 f"Dither pattern {hatch_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'solid' instead."
             )
             dither_pattern = "solid"
@@ -586,7 +587,7 @@ class LayerView(BaseModel):
         elif ls_name in custom_line_styles:
             line_style = f"C{list(custom_line_styles).index(ls_name)}"
         else:
-            logger.warning(
+            warnings.warn(
                 f"Line style {ls_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'solid' instead."
             )
             line_style = "solid"
@@ -782,12 +783,12 @@ class LayerViews(BaseModel):
             filepath = pathlib.Path(filepath)
             if filepath.suffix == ".lyp":
                 lvs = LayerViews.from_lyp(filepath=filepath)
-                logger.info(
+                logger.debug(
                     f"Importing LayerViews from KLayout layer properties file: {str(filepath)!r}."
                 )
             elif filepath.suffix in {".yaml", ".yml"}:
                 lvs = LayerViews.from_yaml(layer_file=filepath)
-                logger.info(f"Importing LayerViews from YAML file: {str(filepath)!r}.")
+                logger.debug(f"Importing LayerViews from YAML file: {str(filepath)!r}.")
             else:
                 raise ValueError(f"Unable to load LayerViews from {str(filepath)!r}.")
 
@@ -1051,7 +1052,7 @@ class LayerViews(BaseModel):
             )
 
             if name in dither_patterns:
-                logger.warning(
+                warnings.warn(
                     f"Dither pattern named {name!r} already exists. Keeping only the first defined."
                 )
                 continue
@@ -1070,7 +1071,7 @@ class LayerViews(BaseModel):
                 continue
 
             if name in line_styles:
-                logger.warning(
+                warnings.warn(
                     f"Line style named {name!r} already exists. Keeping only the first defined."
                 )
                 continue

@@ -1,119 +1,59 @@
-name: sample_rotation_3c546328
-ports: {}
+function: _from_yaml
+info: {}
+module: gdsfactory.read.from_yaml
+name: sample_rotation_d458f45b
 settings:
-  changed:
-    conf:
-      instances:
-        r1:
-          component: rectangle
-          settings:
-            size:
-            - 4
-            - 2
-        r2:
-          component: rectangle
-          settings:
-            size:
-            - 2
-            - 4
-      name: sample_rotation
-      placements:
-        r1:
-          xmin: 0
-          ymin: 0
-        r2:
-          rotation: -90
-          xmin: r1,east
-          ymin: 0
-    routing_strategy:
-      get_bundle:
-        function: get_bundle
-      get_bundle_all_angle:
-        function: get_bundle_all_angle
-      get_bundle_electrical:
-        function: get_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_steps:
-        function: get_bundle_from_steps
-      get_bundle_from_steps_electrical:
-        function: get_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_waypoints:
-        function: get_bundle_from_waypoints
-      get_bundle_path_length_match:
-        function: get_bundle_path_length_match
-      get_bundle_same_axis_no_grouping:
-        function: get_bundle_same_axis_no_grouping
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-    validate: false
-  full:
-    conf:
-      instances:
-        r1:
-          component: rectangle
-          settings:
-            size:
-            - 4
-            - 2
-        r2:
-          component: rectangle
-          settings:
-            size:
-            - 2
-            - 4
-      name: sample_rotation
-      placements:
-        r1:
-          xmin: 0
-          ymin: 0
-        r2:
-          rotation: -90
-          xmin: r1,east
-          ymin: 0
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-    routing_strategy:
-      get_bundle:
-        function: get_bundle
-      get_bundle_all_angle:
-        function: get_bundle_all_angle
-      get_bundle_electrical:
-        function: get_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_steps:
-        function: get_bundle_from_steps
-      get_bundle_from_steps_electrical:
-        function: get_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      get_bundle_from_waypoints:
-        function: get_bundle_from_waypoints
-      get_bundle_path_length_match:
-        function: get_bundle_path_length_match
-      get_bundle_same_axis_no_grouping:
-        function: get_bundle_same_axis_no_grouping
-    validate: false
-  function_name: _from_yaml
-  info:
+  conf:
     instances:
-    - r1
-    - r2
-  info_version: 2
-  module: gdsfactory.read.from_yaml
-  name: sample_rotation_3c546328
+      r1:
+        component: rectangle
+        settings:
+          size:
+          - 4
+          - 2
+      r2:
+        component: rectangle
+        settings:
+          size:
+          - 2
+          - 4
+    name: sample_rotation
+    placements:
+      r1:
+        xmin: 0
+        ymin: 0
+      r2:
+        rotation: -90
+        xmin: r1,east
+        ymin: 0
+  label_instance_function:
+    function: add_instance_label
+  mode: layout
+  routing_strategy:
+    get_bundle:
+      function: get_bundle
+    get_bundle_all_angle:
+      function: get_bundle_all_angle
+    get_bundle_electrical:
+      function: get_bundle
+      module: gdsfactory.routing.get_bundle
+      settings:
+        bend:
+          function: wire_corner
+        cross_section: xs_metal_routing
+    get_bundle_from_steps:
+      function: get_bundle_from_steps
+    get_bundle_from_steps_electrical:
+      function: get_bundle_from_steps
+      module: gdsfactory.routing.get_bundle_from_steps
+      settings:
+        bend:
+          function: wire_corner
+        cross_section: xs_metal_routing
+    get_bundle_from_waypoints:
+      function: get_bundle_from_waypoints
+    get_bundle_path_length_match:
+      function: get_bundle_path_length_match
+    get_bundle_same_axis_no_grouping:
+      function: get_bundle_same_axis_no_grouping
+  validate: false

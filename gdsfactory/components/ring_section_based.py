@@ -222,18 +222,9 @@ def ring_section_based(
             -start_angle / 2
         )  # also change the component for later bound extraction
         r.rotate(-start_angle / 2)
-        ring_center = [
-            -radius * np.sin(np.radians(-start_angle / 2)),
-            radius * np.cos(np.radians(-start_angle / 2)),
-        ]
     else:
         ring = ring.rotate(-cross_sections_angles[sequence[0]] / 2)
         r.rotate(-cross_sections_angles[sequence[0]] / 2)
-        ring_center = [
-            -radius * np.sin(np.radians(-cross_sections_angles[sequence[0]] / 2)),
-            radius * np.cos(np.radians(-cross_sections_angles[sequence[0]] / 2)),
-        ]
-    c.info["ring_center"] = gf.snap.snap_to_grid(ring_center)
     c.info["ring_radius"] = radius
 
     # Add bus waveguides
@@ -303,5 +294,6 @@ if __name__ == "__main__":
         drop_cross_section=partial(rib, width=0.55),
         bus_cross_section="xs_sc",
     )
+    c = c.flatten_offgrid_references()
 
     c.show(show_ports=True)

@@ -1,96 +1,24 @@
+function: cdc
+info: {}
+module: gdsfactory.components.cdc
 name: cdc
-ports:
-  o1:
-    center:
-    - -10.0
-    - 2.05
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 2.0
-  o2:
-    center:
-    - -10.0
-    - -3.425
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.75
-  o3:
-    center:
-    - 40.0
-    - 2.05
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 2.0
-  o4:
-    center:
-    - 40.0
-    - -3.425
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.75
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-    dc: 0.5
-    dx: 10.0
-    dy: 1.8
-    fin_size:
-    - 0.2
-    - 0.05
-    fins: false
-    gap: 0.5
-    length: 30.0
-    period: 0.22
-    width_bot: 0.75
-    width_top: 2.0
-  full:
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins_function_name: null
-        radius: 10
-        radius_min: 5
-    dc: 0.5
-    dx: 10.0
-    dy: 1.8
-    fin_size:
-    - 0.2
-    - 0.05
-    fins: false
-    gap: 0.5
-    length: 30.0
-    period: 0.22
-    width_bot: 0.75
-    width_top: 2.0
-  function_name: cdc
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.cdc
-  name: cdc
+  cross_section:
+    function: cross_section
+    module: gdsfactory.cross_section
+    settings:
+      add_pins_function_name: null
+      radius: 10
+      radius_min: 5
+  dc: 0.5
+  dx: 10.0
+  dy: 1.8
+  fin_size:
+  - 0.2
+  - 0.05
+  fins: false
+  gap: 0.5
+  length: 30.0
+  period: 0.22
+  width_bot: 0.75
+  width_top: 2.0

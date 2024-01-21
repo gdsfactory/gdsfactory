@@ -4,16 +4,18 @@ from __future__ import annotations
 import functools
 import hashlib
 import inspect
+import warnings
 from collections.abc import Callable
 from functools import partial
-from typing import Any, TypeVar, overload
+from typing import TypeVar, overload
 
-from pydantic import BaseModel, validate_call
+from pydantic import validate_call
 
 from gdsfactory.component import Component, name_counters
+from gdsfactory.component_layout import CellSettings
 from gdsfactory.config import CONF
 from gdsfactory.name import clean_name, get_name_short
-from gdsfactory.serialization import clean_dict, clean_value_name
+from gdsfactory.serialization import clean_value_name
 
 CACHE: dict[str, Component] = {}
 CACHE_IDS = set()
@@ -53,21 +55,6 @@ def print_cache() -> None:
         print(k)
 
 
-class Settings(BaseModel):
-    name: str
-    function_name: str | None = None
-    module: str | None = None
-
-    info: dict[str, Any] = {}  # derived properties (length, resistance)
-    info_version: int = INFO_VERSION
-
-    full: dict[str, Any] = {}
-    changed: dict[str, Any] = {}
-    default: dict[str, Any] = {}
-
-    child: dict[str, Any] | None = None
-
-
 # Type signature when calling as a decorator on a function
 @overload
 def cell(func: _F) -> _F:
@@ -83,7 +70,7 @@ def cell(
     max_name_length: int | None = None,
     include_module: bool = False,
     with_hash: bool = False,
-    ports_off_grid: str | None = None,
+    ports_offgrid: str | None = None,
     ports_not_manhattan: str | None = None,
     flatten: bool = False,
     naming_style: str = "default",
@@ -103,7 +90,7 @@ def cell(
     max_name_length: int | None = None,
     include_module: bool = False,
     with_hash: bool = False,
-    ports_off_grid: str | None = None,
+    ports_offgrid: str | None = None,
     ports_not_manhattan: str | None = None,
     flatten: bool = False,
     naming_style: str = "default",
@@ -120,7 +107,7 @@ def cell(
         max_name_length: truncates name beyond some characters with a hash. Defaults to CONF.max_name_length.
         include_module: True adds module name to the cell name.
         with_hash: True adds a hash to the cell name.
-        ports_off_grid: "warn", "error" or "ignore". Checks if ports are on grid. Defaults to CONF.ports_off_grid.
+        ports_offgrid: "warn", "error" or "ignore". Checks if ports are on grid. Defaults to CONF.ports_offgrid.
         ports_not_manhattan: "warn", "error" or "ignore". Checks if ports are manhattan. Defaults to CONF.ports_non_manhattan.
         flatten: False by default. True flattens component hierarchy.
         naming_style: "default" or "updk". "default" is the default naming style.
@@ -162,22 +149,34 @@ def cell(
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
-        nonlocal ports_not_manhattan, ports_off_grid, max_name_length
+        nonlocal ports_not_manhattan, ports_offgrid, max_name_length
         from gdsfactory.pdk import get_active_pdk
 
         active_pdk = get_active_pdk()
 
-        info = kwargs.pop("info", {})  # TODO: remove info
-        name = _name = kwargs.pop("name", None)  # TODO: remove name
-        prefix = kwargs.pop("prefix", func.__name__)  # TODO: remove prefix
+        info = kwargs.pop("info", {})
+        name = _name = kwargs.pop("name", None)
+        prefix = kwargs.pop("prefix", None)
+
+        if name:
+            warnings.warn("name is deprecated and will be removed soon.", stacklevel=2)
+        if prefix:
+            warnings.warn(
+                "prefix is deprecated and will be removed soon.", stacklevel=2
+            )
+        if info:
+            warnings.warn("info is deprecated and will be removed soon.", stacklevel=2)
+
+        prefix = prefix or func.__name__
+
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
         args_as_kwargs.update(kwargs)
 
         if max_name_length is None:
             max_name_length = CONF.max_name_length
-        if ports_off_grid is None:
-            ports_off_grid = CONF.ports_off_grid
+        if ports_offgrid is None:
+            ports_offgrid = CONF.ports_offgrid
         if ports_not_manhattan is None:
             ports_not_manhattan = CONF.ports_not_manhattan
 
@@ -246,6 +245,11 @@ def cell(
         if decorator is None and active_pdk.default_decorator is not None:
             decorator = active_pdk.default_decorator
 
+        if decorator:
+            warnings.warn(
+                "decorator is deprecated and will be removed soon.", stacklevel=2
+            )
+
         if name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
@@ -262,8 +266,8 @@ def cell(
         else:
             component = func(*args, **kwargs)
 
-        if ports_off_grid in ("warn", "error"):
-            component.assert_ports_on_grid(error_type=ports_off_grid)
+        if ports_offgrid in ("warn", "error"):
+            component.assert_ports_on_grid(error_type=ports_offgrid)
         if ports_not_manhattan in ("warn", "error"):
             component.assert_ports_manhattan(error_type=ports_not_manhattan)
         if flatten:
@@ -280,39 +284,32 @@ def cell(
                 "make sure that functions with @cell decorator return a Component",
             )
 
-        metadata_child = None
-        if get_child_name and _name is None:
-            if component.child is None:
+        if get_child_name:
+            if not component.child:
                 raise ValueError(
-                    f"{name}: get_child_name was defined, but component has no child! Be sure to assign the component a child attribute."
+                    f"component {component.name} does not have a child component. "
+                    "Make sure you use component_new.copy_child_info(component)"
                 )
-            metadata_child = dict(component.child.settings)
-            component_name = f"{metadata_child.get('name')}_{name}"
+            child_name = component.child.function_name
+            component_name = f"{child_name}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length
             )
-            # if cache and component_name in CACHE:
-            # return CACHE[component_name]
         else:
             component_name = name
+
+        for k, v in dict(info).items():
+            component.info[k] = v
 
         if autoname:
             component.rename(component_name, max_name_length=max_name_length)
         if get_child_name:
             CACHE[name] = component
 
-        info = info or {}
-        component.info.update(**info)
         if add_settings:
-            component.settings = Settings(
-                name=component_name,
-                function_name=func.__name__,
-                module=func.__module__,
-                changed=clean_dict(changed),
-                default=clean_dict(default),
-                full=clean_dict(full),
-                info=component.info,
-            )
+            component.settings = CellSettings(**full)
+            component.function_name = func.__name__
+            component.module = func.__module__
             component.__doc__ = func.__doc__
 
         if decorator:
@@ -322,7 +319,7 @@ def cell(
             component = component_new or component
             CACHE[component_name] = component
 
-        component.lock()
+        component._locked = True
         CACHE_IDS.add(id(component))
         return component
 
@@ -335,7 +332,7 @@ def cell(
             max_name_length=max_name_length,
             include_module=include_module,
             with_hash=with_hash,
-            ports_off_grid=ports_off_grid,
+            ports_offgrid=ports_offgrid,
             ports_not_manhattan=ports_not_manhattan,
             flatten=flatten,
             naming_style=naming_style,
@@ -368,16 +365,25 @@ def container(component, function, **kwargs) -> gf.Component:
     component = gf.get_component(component)
     c = Component()
     cref = c << component
+    c.add_ports(cref.ports)
     function(c, **kwargs)
-    c.ports = cref.ports
     c.copy_child_info(component)
     return c
 
 
 if __name__ == "__main__":
+    from functools import partial
+
     import gdsfactory as gf
 
-    c = gf.components.straight(info={"simulation": "eme"}, name="hi")
-    print(c.name)
-    # print(c.info["simulation"])
+    c = partial(gf.components.mzi, decorator=gf.add_padding)
+    c = gf.routing.add_fiber_array(c)
     c.show()
+
+    # c = gf.components.straight(info={"simulation": "eme"}, name="hi")
+    # c = gf.components.straight()
+    # c = gf.Component()
+    # print(type(c.info))
+    # print(c.name)
+    # print(c.info["simulation"])
+    # c.show()

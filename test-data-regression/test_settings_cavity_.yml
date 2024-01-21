@@ -1,46 +1,10 @@
+function: cavity
+info: {}
+module: gdsfactory.components.cavity
 name: dbr_cavity
-ports:
-  o1:
-    center:
-    - -10.0
-    - -1.65
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 10.1
-    - -1.65
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
 settings:
-  changed: {}
-  child: null
-  default:
-    component:
-      function: dbr
-    coupler: coupler
-    gap: 0.2
-    length: 0.1
-  full:
-    component:
-      function: dbr
-    coupler: coupler
-    gap: 0.2
-    length: 0.1
-  function_name: cavity
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.cavity
-  name: dbr_cavity
+  component:
+    function: dbr
+  coupler: coupler
+  gap: 0.2
+  length: 0.1

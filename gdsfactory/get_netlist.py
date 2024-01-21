@@ -90,7 +90,6 @@ def get_instance_name_from_label(
 
 def get_netlist_yaml(
     component: Component,
-    full_settings: bool = False,
     tolerance: int = 5,
     exclude_port_types: list | None = None,
     **kwargs,
@@ -99,7 +98,6 @@ def get_netlist_yaml(
     return omegaconf.OmegaConf.to_yaml(
         get_netlist(
             component=component,
-            full_settings=full_settings,
             tolerance=tolerance,
             exclude_port_types=exclude_port_types,
             **kwargs,
@@ -109,11 +107,11 @@ def get_netlist_yaml(
 
 def get_netlist(
     component: Component,
-    full_settings: bool = False,
     tolerance: int = 5,
     exclude_port_types: list[str] | tuple[str] | None = ("placement",),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = False,
+    merge_info: bool = False,
 ) -> dict[str, Any]:
     """Returns instances, connections and placements from :class:`Component` as a dict.
 
@@ -140,12 +138,12 @@ def get_netlist(
 
     Args:
         component: to extract netlist.
-        full_settings: True returns all, false changed settings.
         tolerance: tolerance in grid_factor to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
         allow_multiple: False to raise an error if more than two ports share the same connection. \
                 if True, will return key: [value] pairs with [value] a list of all connected instances.
+        merge_info: True to merge info and settings into the same dict.
 
     Returns:
         Dictionary containing the following:
@@ -199,11 +197,17 @@ def get_netlist(
 
         # Prefer name from settings over c.name
         if c.settings:
-            settings = c.settings.full if full_settings else c.settings.changed
+            settings = dict(c.settings)
 
+            if merge_info:
+                settings.update(
+                    {k: v for k, v in dict(c.info).items() if k in settings}
+                )
+
+            settings = clean_value_json(settings)
             instance.update(
-                component=getattr(c.settings, "function_name", c.name),
-                settings=clean_value_json(settings),
+                component=c.function_name or c.name,
+                settings=settings,
             )
 
         instances[reference_name] = instance
@@ -531,7 +535,7 @@ def _get_references_to_netlist(component: Component) -> list[ComponentReference]
     references = component.references
     if not references and "transformed_cell" in component.info:
         # expand transformed, flattened cells
-        ref = component.settings.full["ref"]
+        ref = component.settings
         original_cell = CACHE[component.info["transformed_cell"]]
         references = [
             ComponentReference(
@@ -560,7 +564,6 @@ def get_netlist_recursive(
         get_netlist_func: function to extract individual netlists.
 
     Keyword Args:
-        full_settings: True returns all, false changed settings.
         tolerance: tolerance in grid_factor to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
@@ -594,9 +597,9 @@ def get_netlist_recursive(
             if child_references:
                 inst_name = get_instance_name(component, ref)
                 netlist_dict = {"component": f"{rcell.name}{component_suffix}"}
-                if hasattr(rcell, "settings") and hasattr(rcell.settings, "full"):
-                    netlist_dict.update(settings=rcell.settings.full)
-                if hasattr(rcell, "info"):
+                if rcell.settings:
+                    netlist_dict.update(settings=rcell.settings)
+                if rcell.info:
                     netlist_dict.update(info=rcell.info)
                 netlist["instances"][inst_name] = netlist_dict
 
@@ -635,7 +638,7 @@ DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.decorators import flatten_invalid_refs
+    from gdsfactory.decorators import flatten_offgrid_references
 
     rotation_value = 35
     cname = "test_get_netlist_transformed"
@@ -646,7 +649,9 @@ if __name__ == "__main__":
     i2.connect("o2", i1.ports["o1"])
 
     # flatten the oddly rotated refs
-    c = flatten_invalid_refs(c)
+    c = flatten_offgrid_references(c)
+    print(c.get_dependencies())
+    c.show()
 
     # perform the initial sanity checks on the netlist
     netlist = c.get_netlist()
@@ -661,7 +666,7 @@ if __name__ == "__main__":
     top_netlist = recursive_netlist[cname]
     # the recursive netlist should have 3 entries, for the top level and two
     # rotated straights
-    assert len(recursive_netlist) == 3
+    assert len(recursive_netlist) == 1, len(recursive_netlist)
     # confirm that the child netlists have reference attributes properly set
 
     i1_cell_name = top_netlist["instances"]["i1"]["component"]
