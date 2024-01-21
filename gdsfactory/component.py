@@ -65,6 +65,7 @@ if TYPE_CHECKING:
         Layers,
         LayerSpec,
         PathType,
+        Tuple,
     )
 
 valid_plotters = ["matplotlib", "klayout", "kweb"]
@@ -2602,7 +2603,7 @@ class Component(_GeometryHelper):
 
 
 # Component functions
-def serialize_gds(component):
+def serialize_gds(component: Component) -> Tuple[PathType]:
     """Saves Component as GDS + YAML metadata in temporary files with unique name."""
     gds_filepath = GDSDIR_TEMP / component.name
     gds_filepath = gds_filepath.with_suffix(".gds")
@@ -2610,7 +2611,7 @@ def serialize_gds(component):
     return (gds_filepath,)
 
 
-def deserialize_gds(gds_filepath):
+def deserialize_gds(gds_filepath: PathType) -> Component:
     """Loads Component as GDS + YAML metadata from temporary files, and deletes them."""
     from gdsfactory.read import import_gds
 
