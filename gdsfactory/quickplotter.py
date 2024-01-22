@@ -136,6 +136,7 @@ def set_quickplot_options(
     zoom_factor: float | None = None,
     interactive_zoom: bool | None = None,
     fontsize: int | None = None,
+    show_fig: bool = True,
 ) -> None:
     """Sets plotting options for quickplot().
 
@@ -151,6 +152,7 @@ def set_quickplot_options(
             mousewheel/trackpad.
         interactive_zoom: Enables using mousewheel/trackpad to zoom.
         fontsize: for labels.
+        show_fig: automatically call plt.show to show resulting figure.
 
     """
     if show_ports is not None:
@@ -169,6 +171,7 @@ def set_quickplot_options(
         _quickplot_options["interactive_zoom"] = interactive_zoom
     if fontsize is not None:
         _quickplot_options["fontsize"] = fontsize
+    _quickplot_options["show_fig"] = show_fig
 
 
 def quickplot(items, **kwargs):  # noqa: C901
@@ -219,6 +222,7 @@ def quickplot(items, **kwargs):  # noqa: C901
     new_window = quickplot_options["new_window"]
     blocking = quickplot_options["blocking"]
     hide_layers = quickplot_options["hide_layers"]
+    show_fig = quickplot_options["show_fig"]
 
     if new_window:
         fig, ax = plt.subplots(1)
@@ -342,8 +346,9 @@ def quickplot(items, **kwargs):  # noqa: C901
     except Exception:
         pass
 
-    plt.draw()
-    plt.show(block=blocking)
+    if show_fig:
+        plt.draw()
+        plt.show(block=blocking)
     return fig
 
 
