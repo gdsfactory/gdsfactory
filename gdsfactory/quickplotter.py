@@ -61,6 +61,7 @@ _quickplot_options = {
     "interactive_zoom": None,
     "fontsize": 14,
     "hide_layers": [],
+    "show_fig": True,
 }
 
 
@@ -136,7 +137,7 @@ def set_quickplot_options(
     zoom_factor: float | None = None,
     interactive_zoom: bool | None = None,
     fontsize: int | None = None,
-    show_fig: bool = True,
+    show_fig: bool | None = None,
 ) -> None:
     """Sets plotting options for quickplot().
 
@@ -171,7 +172,8 @@ def set_quickplot_options(
         _quickplot_options["interactive_zoom"] = interactive_zoom
     if fontsize is not None:
         _quickplot_options["fontsize"] = fontsize
-    _quickplot_options["show_fig"] = show_fig
+    if show_fig is not None:
+        _quickplot_options["show_fig"] = show_fig
 
 
 def quickplot(items, **kwargs):  # noqa: C901
