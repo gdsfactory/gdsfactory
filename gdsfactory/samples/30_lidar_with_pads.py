@@ -20,7 +20,7 @@ if __name__ == "__main__":
     splitter_tree = c << gf.components.splitter_tree(
         noutputs=elements, spacing=splitter_tree_spacing
     )
-    phase_shifter = gf.components.straight_heater_meander()
+    phase_shifter = gf.components.straight_heater_meander(radius=5)
 
     phase_shifter_optical_ports = []
     phase_shifter_electrical_ports_west = []
@@ -30,11 +30,12 @@ if __name__ == "__main__":
         splitter_tree.get_ports_list(orientation=0, port_type="optical")
     ):
         ref = c.add_ref(phase_shifter, alias=f"ps{i}")
+        ref.mirror()
         ref.connect("o1", port)
         c.add_ports(ref.get_ports_list(port_type="electrical"), prefix=f"ps{i}")
-        phase_shifter_optical_ports.append(ref.ports["o2"])
-        phase_shifter_electrical_ports_west.append(ref.ports["e1"])
-        phase_shifter_electrical_ports_east.append(ref.ports["e2"])
+        phase_shifter_optical_ports.append(ref["o2"])
+        phase_shifter_electrical_ports_west.append(ref["l_e1"])
+        phase_shifter_electrical_ports_east.append(ref["r_e2"])
 
     antennas = c << gf.components.array(
         gf.components.dbr(n=200), rows=elements, columns=1, spacing=(0, antenna_pitch)
@@ -46,6 +47,7 @@ if __name__ == "__main__":
         ports1=antennas.get_ports_list(orientation=180),
         ports2=phase_shifter_optical_ports,
         radius=5,
+        enforce_port_ordering=False,
     )
 
     for route in routes:

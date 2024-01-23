@@ -30,7 +30,7 @@ def lidar(
     )
 
     # phase Shifters
-    phase_shifter = gf.components.straight_heater_meander()
+    phase_shifter = gf.components.straight_heater_meander(radius=5)
     phase_shifter_optical_ports = []
 
     for i, port in enumerate(
