@@ -3,17 +3,18 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular180
+from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, ComponentSpecOrList, CrossSectionSpec
 
 
 @gf.cell_with_child
 def bendu_double(
     component: ComponentSpec,
     cross_section: CrossSectionSpec = "xs_sc",
-    bend180: ComponentSpec = bend_circular180,
+    bend180: ComponentSpec | ComponentSpecOrList = bend_circular180,
     port1: str = "o1",
     port2: str = "o2",
 ) -> ComponentSpec:
@@ -22,7 +23,7 @@ def bendu_double(
     Args:
         component: for cutback.
         cross_section: specification (CrossSection, string or dict).
-        bend180: ubend.
+        bend180: ubend. If a list, each 180 bend is different.
         port1: name of first optical port.
         port2: name of second optical port.
     """
@@ -33,10 +34,15 @@ def bendu_double(
     )
 
     bendu = gf.Component()
-    bend_r = bendu << bend180(cross_section=xs)
-    bend_r2 = bendu << bend180(
-        cross_section=xs_r2,
-    )
+
+    if isinstance(bend180, list):
+        bend_r = bendu << bend180[0](cross_section=xs)
+        bend_r2 = bendu << bend180[1](cross_section=xs_r2)
+    else:
+        bend_r = bendu << bend180(cross_section=xs)
+        bend_r2 = bendu << bend180(
+            cross_section=xs_r2,
+        )
     bend_r2 = bend_r2.move(
         origin=(0, 0),
         destination=(0, component.ports[port1].y - component.ports[port2].y),
@@ -97,7 +103,7 @@ def cutback_2x2(
     port2: str = "o2",
     port3: str = "o3",
     port4: str = "o4",
-    bend180: ComponentSpec = bend_circular180,
+    bend180: ComponentSpec | ComponentSpecOrList = bend_circular180,
     mirror: bool = False,
     straight_length: float | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
@@ -110,7 +116,7 @@ def cutback_2x2(
         rows: number of rows.
         port1: name of first optical port.
         port2: name of second optical port.
-        bend180: ubend.
+        bend180: ubend. If a list, a different bend is used for each of the 2 ports.
         straight: waveguide spec to connect both sides.
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
         straight_length: length of the straight section between cutbacks.
@@ -178,7 +184,16 @@ def cutback_2x2(
 
 
 if __name__ == "__main__":
-    c = cutback_2x2(cols=3, rows=2, mirror=True)
+    # c = bendu_double(
+    #     component = gf.get_component(mmi2x2),
+    #     cross_section = "xs_sc",
+    #     bend180 =  [bend_circular180, bend_euler180],
+    #     port1 = "o1",
+    #     port2 = "o2",
+    # )
+    c = cutback_2x2(
+        cols=3, rows=2, mirror=True, bend180=[bend_circular180, bend_euler180]
+    )
     cols = range(1, 3)
     rows = range(1, 3)
     cs = [cutback_2x2(cols=col, rows=row) for col in cols for row in rows]
