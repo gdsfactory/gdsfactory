@@ -159,13 +159,20 @@ def cell(
         prefix = kwargs.pop("prefix", None)
 
         if name:
-            warnings.warn("name is deprecated and will be removed soon.", stacklevel=2)
+            warnings.warn(
+                f"name is deprecated and will be removed soon. {func.__name__}",
+                stacklevel=2,
+            )
         if prefix:
             warnings.warn(
-                "prefix is deprecated and will be removed soon.", stacklevel=2
+                f"prefix is deprecated and will be removed soon. {func.__name__}",
+                stacklevel=2,
             )
         if info:
-            warnings.warn("info is deprecated and will be removed soon.", stacklevel=2)
+            warnings.warn(
+                f"info is deprecated and will be removed soon. {func.__name__}",
+                stacklevel=2,
+            )
 
         prefix = prefix or func.__name__
 
@@ -247,7 +254,8 @@ def cell(
 
         if decorator:
             warnings.warn(
-                "decorator is deprecated and will be removed soon.", stacklevel=2
+                f"decorator is deprecated and will be removed soon. {func.__name__}",
+                stacklevel=2,
             )
 
         if name in CACHE:

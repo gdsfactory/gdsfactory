@@ -2586,7 +2586,9 @@ class Component(_GeometryHelper):
         Components lock automatically when going into the CACHE to
         ensure one component does not change others
         """
-        warnings.warn("we will remove lock to discourage use")
+        warnings.warn(
+            f"we will remove lock to discourage use. Using it in {self.name!r}"
+        )
         self._locked = True
 
     @property

@@ -307,7 +307,7 @@ def add_marker_layer(
             )
     else:
         warnings.warn(
-            f"Could not add marker layer {marker_layer} to {component.name} because it is empty."
+            f"Could not add marker layer {marker_layer} to {component.name!r} because it is empty."
             f"Supplied {layers_to_mark=!r}.",
             stacklevel=2,
         )
