@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING, Any, Literal
 
 import gdstk
 import numpy as np
+import orjson
 import yaml
 from omegaconf import DictConfig
 
@@ -1811,6 +1812,7 @@ class Component(_GeometryHelper):
         logging: bool = True,
         with_oasis: bool = False,
         with_metadata: bool = False,
+        with_metadata_json: bool = False,
         with_netlist: bool = False,
         netlist_function: Callable | None = None,
         **kwargs,
@@ -1825,6 +1827,7 @@ class Component(_GeometryHelper):
             logging: disable GDS path logging, for example for showing it in KLayout.
             with_oasis: If True, file will be written to OASIS. Otherwise, file will be written to GDS.
             with_metadata: writes metadata in YAML format.
+            with_metadata_json: writes metadata in JSON format.
             with_netlist: writes netlist in JSON format.
             netlist_function: The netlist function to use. You can compose a partial function with the `get_netlist` function for example with your parameters.
 
@@ -1962,6 +1965,12 @@ class Component(_GeometryHelper):
             metadata = gdspath.with_suffix(".yml")
             metadata.write_text(self.to_dict_yaml(with_cells=True, with_ports=True))
             logger.info(f"Write YAML metadata to {str(metadata)!r}")
+        if with_metadata_json:
+            metadata = gdspath.with_suffix(".json")
+            metadata.write_bytes(
+                orjson.dumps(self.to_dict(with_cells=True, with_ports=True))
+            )
+            logger.info(f"Write JSON metadata to {str(metadata)!r}")
 
         if with_netlist:
             """

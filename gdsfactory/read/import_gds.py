@@ -4,6 +4,7 @@ from pathlib import Path
 
 import gdstk
 import numpy as np
+import orjson
 from omegaconf import OmegaConf
 
 from gdsfactory.cell import cell_import_gds
@@ -18,6 +19,7 @@ def import_gds(
     cellname: str | None = None,
     gdsdir: str | Path | None = None,
     read_metadata: bool = False,
+    read_metadata_json: bool = False,
     keep_name_short: bool = False,
     unique_names: bool = True,
     max_name_length: int = 250,
@@ -32,6 +34,7 @@ def import_gds(
         cellname: cell of the name to import. None imports top cell.
         gdsdir: optional GDS directory.
         read_metadata: loads metadata (ports, settings) if it exists in YAML format.
+        read_metadata_json: loads metadata (ports, settings) if it exists in JSON format.
         keep_name_short: appends a hash to a shortened component name.
         unique_names: appends $ with a number to the name if the cell name is on CACHE. \
                 This avoids name collisions when importing multiple times the same cell name.
@@ -43,6 +46,7 @@ def import_gds(
         raise FileNotFoundError(f"No file {str(gdspath)!r} found")
 
     metadata_filepath = gdspath.with_suffix(".yml")
+    metadata_json_filepath = gdspath.with_suffix(".json")
 
     if gdspath.suffix.lower() == ".gds":
         gdsii_lib = gdstk.read_gds(str(gdspath))
@@ -136,6 +140,34 @@ def import_gds(
                         orientation=port.orientation,
                         layer=tuple(port.layer),
                         port_type=port.port_type,
+                    )
+
+    if read_metadata_json and metadata_json_filepath.exists():
+        logger.info(f"Read JSON metadata from {metadata_json_filepath}")
+        metadata = orjson.loads(open(metadata_json_filepath, "rb").read())
+
+        if "settings" in metadata:
+            if metadata.get("settings", {}):
+                component.settings = CellSettings(**metadata["settings"])
+
+        if "info" in metadata:
+            if metadata["info"]:
+                component.info = Info(**metadata["info"])
+        if "function" in metadata:
+            component.function_name = metadata["function"]
+        if "module" in metadata:
+            component.module = metadata["module"]
+
+        if "ports" in metadata:
+            for port_name, port in metadata["ports"].items():
+                if port_name not in component.ports:
+                    component.add_port(
+                        name=port_name,
+                        center=np.array(port["center"], dtype="float64"),
+                        width=port["width"],
+                        orientation=port["orientation"],
+                        layer=tuple(port["layer"]),
+                        port_type=port["port_type"],
                     )
 
     for k, v in kwargs.items():
