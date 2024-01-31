@@ -386,21 +386,6 @@ bend_euler_trenches
 
 
 
-bend_port
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.bend_port
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.bend_port(port_name='l_e1', port_name2='r_e1', cross_section='xs_m3_bend', angle=180)
-  c.plot()
-
-
-
 bend_s
 ----------------------------------------------------
 
@@ -2859,6 +2844,21 @@ seal_ring
 
 
 
+seal_ring_segmented
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.seal_ring_segmented
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.seal_ring_segmented(size=[1000, 1000], length_segment=10, width_segment=3, spacing_segment=2, with_north=True, with_south=True, with_east=True, with_west=True)
+  c.plot()
+
+
+
 snspd
 ----------------------------------------------------
 
@@ -2899,7 +2899,7 @@ spiral_external_io
 
   import gdsfactory as gf
 
-  c = gf.components.spiral_external_io(N=6, x_inner_length_cutback=300.0, x_inner_offset=0.0, y_straight_inner_top=0.0, xspacing=3.0, yspacing=3.0, cross_section='xs_sc', with_inner_ports=False, y_straight_outer_offset=0.0, inner_loop_spacing_offset=0.0)
+  c = gf.components.spiral_external_io(N=6, x_inner_length_cutback=300.0, x_inner_offset=0.0, y_straight_inner_top=0.0, xspacing=3.0, yspacing=3.0, cross_section='xs_sc', with_inner_ports=False, y_straight_outer_offset=0.0, inner_loop_spacing_offset=0.0, mirror_straight=False)
   c.plot()
 
 
@@ -3634,7 +3634,7 @@ via_corner
 
   import gdsfactory as gf
 
-  c = gf.components.via_corner(cross_section=[[{'function': 'cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [0, 180]], [{'function': 'cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [90, 270]]], layers_labels=['m2', 'm3'])
+  c = gf.components.via_corner(cross_section=[[{'function': 'cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}, 'module': 'gdsfactory.cross_section'}, [0, 180]], [{'function': 'cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}, 'module': 'gdsfactory.cross_section'}, [90, 270]]], layers_labels=['m2', 'm3'])
   c.plot()
 
 
@@ -3664,7 +3664,37 @@ via_stack
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack(size=[11.0, 11.0], layers=['M1', 'M2', 'MTOP'], correct_size=True)
+  c = gf.components.via_stack(size=[11.0, 11.0], layers=['M1', 'M2', 'MTOP'], correct_size=True, slot_horizontal=False, slot_vertical=False)
+  c.plot()
+
+
+
+via_stack_corner45
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_corner45
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_corner45(width=10, layers=['M1', 'M2', 'MTOP'], correct_size=True)
+  c.plot()
+
+
+
+via_stack_corner45_extended
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_corner45_extended
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_corner45_extended(width=3, length=10)
   c.plot()
 
 
