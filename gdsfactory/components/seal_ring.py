@@ -83,7 +83,7 @@ def seal_ring(
 
 @gf.cell
 def seal_ring_segmented(
-    size=(1000, 1000),
+    bbox=((-1.0, -1.0), (3.0, 4.0)),
     length_segment: float = 10,
     width_segment: float = 3,
     spacing_segment: float = 2,
@@ -93,6 +93,7 @@ def seal_ring_segmented(
     with_south: bool = True,
     with_east: bool = True,
     with_west: bool = True,
+    padding: float = 10.0,
 ) -> gf.Component:
     """Segmented Seal ring.
 
@@ -111,15 +112,22 @@ def seal_ring_segmented(
     c = gf.Component()
     corner = gf.get_component(corner, width=width_segment)
 
+    (xmin, ymin), (xmax, ymax) = bbox
+
+    xmin -= padding
+    xmax += padding
+    ymin -= padding
+    ymax += padding
+
     tl = c << corner
     tr = c << corner
 
-    tl.xmin = 0
-    tl.ymax = size[1]
+    tl.xmin = xmin
+    tl.ymax = ymax
 
     tr.mirror()
-    tr.xmax = size[0]
-    tr.ymax = size[1]
+    tr.xmax = xmax
+    tr.ymax = ymax
 
     bl = c << corner
     br = c << corner
@@ -127,11 +135,11 @@ def seal_ring_segmented(
     br.mirror_y()
     bl.mirror_y()
 
-    bl.xmin = 0
-    bl.ymin = 0
+    bl.xmin = xmin
+    bl.ymin = ymin
 
-    br.xmax = size[0]
-    br.ymin = 0
+    br.xmax = xmax
+    br.ymin = ymin
 
     pitch = length_segment + spacing_segment
 
@@ -157,7 +165,7 @@ def seal_ring_segmented(
 
     if with_south:
         bot = c << horizontal
-        bot.ymin = 0
+        bot.ymin = ymin
         bot.xmin = tl.xmax + spacing_segment
 
         boti = c << horizontal
@@ -177,7 +185,7 @@ def seal_ring_segmented(
 
     if with_east:
         right = c << vertical
-        right.xmax = size[0]
+        right.xmax = xmax
         right.ymin = bl.ymax
         righti = c << vertical
         righti.xmax = right.xmin - 2
@@ -185,7 +193,7 @@ def seal_ring_segmented(
 
     if with_west:
         left = c << vertical
-        left.xmin = 0
+        left.xmin = xmin
         left.ymin = bl.ymax
 
         # vertical inner
@@ -197,7 +205,10 @@ def seal_ring_segmented(
 
 
 if __name__ == "__main__":
-    c = seal_ring_segmented(with_south=False)
+    c = gf.Component()
+    ref = c << gf.c.rectangle(size=(500, 100), layer=(1, 0))
+    ref.move((500, 300))
+    c << seal_ring_segmented(c.bbox, with_south=False, padding=50)
     # big_square = partial(rectangle, size=(1300, 2600))
     # c = gf.Component("demo")
     # c << big_square()

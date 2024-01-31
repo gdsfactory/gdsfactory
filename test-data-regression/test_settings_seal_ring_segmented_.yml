@@ -3,12 +3,15 @@ info: {}
 module: gdsfactory.components.seal_ring
 name: seal_ring_segmented
 settings:
+  bbox:
+  - - -1.0
+    - -1.0
+  - - 3.0
+    - 4.0
   corner:
     function: via_stack_corner45_extended
   length_segment: 10
-  size:
-  - 1000
-  - 1000
+  padding: 10.0
   spacing_segment: 2
   via_stack:
     function: via_stack
