@@ -202,10 +202,14 @@ def via_stack_corner45(
 
     for layer in layers:
         if layer and layer == layer_port:
-            ref = c << wire_corner45(width=width, layer=layer)
+            ref = c << wire_corner45(
+                width=width, layer=layer, with_corner90_ports=False
+            )
             c.add_ports(ref.ports)
         elif layer is not None:
-            ref = c << wire_corner45(width=width, layer=layer)
+            ref = c << wire_corner45(
+                width=width, layer=layer, with_corner90_ports=False
+            )
 
     width_corner = width
     width, height = ref.size

@@ -66,6 +66,7 @@ def wire_corner45(
     width: float | None = None,
     layer: LayerSpec | None = None,
     radius: float = 10,
+    with_corner90_ports: bool = True,
 ) -> Component:
     """Returns 90 degrees electrical corner wire.
 
@@ -74,6 +75,7 @@ def wire_corner45(
         width: width of the wire.
         layer: layer of the wire.
         radius: radius of the corner.
+        with_corner90_ports: if True adds ports at 90 degrees.
     """
     if cross_section is None:
         if width is None or layer is None:
@@ -101,22 +103,41 @@ def wire_corner45(
 
     w = gf.snap.snap_to_grid(width * np.sqrt(2))
 
-    c.add_port(
-        name="e1",
-        center=(-w / 2, -a),
-        width=w,
-        orientation=270,
-        layer=layer,
-        port_type="electrical",
-    )
-    c.add_port(
-        name="e2",
-        center=(radius + a, radius + w / 2),
-        width=w,
-        orientation=0,
-        layer=layer,
-        port_type="electrical",
-    )
+    if with_corner90_ports:
+        c.add_port(
+            name="e1",
+            center=(0, 0),
+            width=width,
+            orientation=180,
+            layer=layer,
+            port_type="electrical",
+        )
+        c.add_port(
+            name="e2",
+            center=(radius, radius),
+            width=width,
+            orientation=90,
+            layer=layer,
+            port_type="electrical",
+        )
+
+    else:
+        c.add_port(
+            name="e1",
+            center=(-w / 2, -a),
+            width=w,
+            orientation=270,
+            layer=layer,
+            port_type="electrical",
+        )
+        c.add_port(
+            name="e2",
+            center=(radius + a, radius + w / 2),
+            width=w,
+            orientation=0,
+            layer=layer,
+            port_type="electrical",
+        )
     c.info["length"] = float(np.sqrt(2) * radius)
     return c
 
