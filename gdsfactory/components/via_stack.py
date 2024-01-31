@@ -9,7 +9,15 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, viac
-from gdsfactory.typings import ComponentSpec, Float2, Floats, LayerSpec, LayerSpecs
+from gdsfactory.components.wire import wire_corner45
+from gdsfactory.typings import (
+    ComponentFactory,
+    ComponentSpec,
+    Float2,
+    Floats,
+    LayerSpec,
+    LayerSpecs,
+)
 
 
 @gf.cell
@@ -150,6 +158,140 @@ def via_stack(
 
 
 @gf.cell
+def via_stack_corner45(
+    width: float = 10,
+    layers: tuple[LayerSpec | None, ...] = ("M1", "M2", "MTOP"),
+    layer_offsets: Floats | None = None,
+    vias: tuple[ComponentSpec | None, ...] | None = (via1, via2, None),
+    layer_port: LayerSpec | None = None,
+    correct_size: bool = True,
+) -> Component:
+    """Rectangular via array stack at a 45 degree angle.
+
+    spacing = via.info['spacing']
+    enclosure = via.info['enclosure']
+
+    Args:
+        width: of the corner45.
+        layers: layers on which to draw rectangles.
+        layer_offsets: Optional offsets for each layer with respect to size.
+            positive grows, negative shrinks the size.
+        vias: vias to use to fill the rectangles.
+        layer_port: if None assumes port is on the last layer.
+        correct_size: if True, if the specified dimensions are too small it increases
+            them to the minimum possible to fit a via.
+    """
+
+    height = width
+    layers = layers or []
+    layer_offsets = layer_offsets or [0] * len(layers)
+
+    elements = {len(layers), len(layer_offsets), len(vias)}
+    if len(elements) > 1:
+        warnings.warn(
+            f"Got {len(layers)} layers, {len(layer_offsets)} layer_offsets, {len(vias)} vias",
+            stacklevel=3,
+        )
+
+    if layers:
+        layer_port = layer_port or layers[-1]
+
+    c = Component()
+    if layer_port:
+        c.info["layer"] = layer_port
+
+    for layer in layers:
+        if layer and layer == layer_port:
+            ref = c << wire_corner45(width=width, layer=layer)
+            c.add_ports(ref.ports)
+        elif layer is not None:
+            ref = c << wire_corner45(width=width, layer=layer)
+
+    width_corner = width
+    width, height = ref.size
+    xmin = ref.xmin
+    ymin = ref.ymin
+
+    vias = vias or []
+    for via, offset in zip(vias, layer_offsets):
+        if via is not None:
+            width += 2 * offset
+            height += 2 * offset
+            _via = gf.get_component(via)
+            w, h = _via.info["xsize"], _via.info["ysize"]
+            enclosure = _via.info["enclosure"]
+            pitch_x, pitch_y = _via.info["xspacing"], _via.info["yspacing"]
+
+            via = _via
+            nb_vias_x = abs(width - w - 2 * enclosure) / pitch_x + 1
+            nb_vias_y = abs(height - h - 2 * enclosure) / pitch_y + 1
+
+            min_width = w + enclosure
+            min_height = h + enclosure
+
+            if (
+                min_width > width
+                and correct_size
+                or min_width <= width
+                and min_height > height
+                and correct_size
+            ):
+                warnings.warn(
+                    f"Changing size from ({width}, {height}) to ({min_width}, {min_height}) to fit a via!",
+                    stacklevel=3,
+                )
+                width = max(min_width, width)
+                height = max(min_height, height)
+            elif min_width > width or min_height > height:
+                raise ValueError(
+                    f"{min_width=} > {width=} or {min_height=} > {height=}"
+                )
+
+            nb_vias_x = int(np.floor(nb_vias_x)) or 1
+            nb_vias_y = int(np.floor(nb_vias_y)) or 1
+
+            nrows = (width_corner - 2 * enclosure) / pitch_x + 1
+
+            for i in range(nb_vias_x):
+                for j in range(nb_vias_y):
+                    x, y = (
+                        xmin + enclosure + i * pitch_x,
+                        ymin + enclosure + j * pitch_y,
+                    )
+
+                    for row in range(1, int(nrows) + 1):
+                        if i - row == j:
+                            ref = c << via
+                            ref.center = (x, y)
+    return c
+
+
+@gf.cell
+def via_stack_corner45_extended(
+    corner: ComponentSpec = via_stack_corner45,
+    via_stack: ComponentSpec = via_stack,
+    width: float = 3,
+    length: float = 10,
+) -> Component:
+    """Rectangular via array stack at a 45 degree angle.
+
+    Args:
+        corner: corner component.
+        straight: straight component.
+        width: of the corner45.
+        length: of the straight.
+    """
+    c = gf.Component()
+    corner = c << gf.get_component(corner, width=width / np.sqrt(2))
+    s = gf.get_component(via_stack, size=(length, width))
+    sr = c << s
+    sl = c << s
+    sr.connect("e1", corner.ports["e1"])
+    sl.connect("e1", corner.ports["e2"])
+    return c
+
+
+@gf.cell
 def via_stack_from_rules(
     size: Float2 = (1.2, 1.2),
     layers: LayerSpecs = ("M1", "M2", "MTOP"),
@@ -239,7 +381,7 @@ def optimized_via(
     min_via_size: tuple[float, float] = (0.3, 0.3),
     min_via_gap: tuple[float, float] = (0.1, 0.1),
     min_via_enclosure: float = 0.2,
-) -> Component:
+) -> ComponentFactory:
     """Given a target total inclusion size, returns an optimized dimension for the via.
 
     Uses inclusion, minimum width, and minimum spacing rules to place the maximum number of individual vias, with maximum via area.
@@ -307,5 +449,7 @@ if __name__ == "__main__":
     # c = via_stack()
     # c = gf.pack([via_stack_slab_m3, via_stack_heater_mtop])[0]
     # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
-    c = via_stack_from_rules()
+    # c = via_stack_from_rules()
+    # c = via_stack_corner45()
+    c = via_stack_corner45_extended()
     c.show(show_ports=True)

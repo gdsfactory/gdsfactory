@@ -247,7 +247,7 @@ from gdsfactory.components.ring_single_bend_coupler import (
 from gdsfactory.components.ring_single_dut import ring_single_dut
 from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.ring_single_pn import ring_single_pn
-from gdsfactory.components.seal_ring import seal_ring
+from gdsfactory.components.seal_ring import seal_ring, seal_ring_segmented
 from gdsfactory.components.snspd import snspd
 from gdsfactory.components.spiral_double import spiral_double
 from gdsfactory.components.spiral_external_io import spiral_external_io
@@ -315,6 +315,8 @@ from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.via_cutback import via_cutback
 from gdsfactory.components.via_stack import (
     via_stack,
+    via_stack_corner45,
+    via_stack_corner45_extended,
     via_stack_from_rules,
     via_stack_heater_m2,
     via_stack_heater_m3,
@@ -542,6 +544,7 @@ __all__ = [
     "ring_single_pn",
     "ring_single_trenches",
     "seal_ring",
+    "seal_ring_segmented",
     "snspd",
     "spiral_double",
     "spiral_external_io",
@@ -601,6 +604,8 @@ __all__ = [
     "via_corner",
     "via_cutback",
     "via_stack",
+    "via_stack_corner45",
+    "via_stack_corner45_extended",
     "via_stack_from_rules",
     "via_stack_heater_m2",
     "via_stack_heater_m3",

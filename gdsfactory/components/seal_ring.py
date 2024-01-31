@@ -3,17 +3,20 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.via_stack import via_stack
+from gdsfactory.components.via_stack import (
+    via_stack,
+    via_stack_corner45_extended,
+    via_stack_m1_m3,
+)
 from gdsfactory.snap import snap_to_grid
 
 Float2 = tuple[float, float]
 Coordinate = tuple[Float2, Float2]
 
 
-@gf.cell_without_validator
+@gf.cell
 def seal_ring(
-    bbox: tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
+    bbox=((-1.0, -1.0), (3.0, 4.0)),
     seal: gf.typings.ComponentSpec = via_stack,
     width: float = 10,
     padding: float = 10.0,
@@ -78,9 +81,125 @@ def seal_ring(
     return c
 
 
+@gf.cell
+def seal_ring_segmented(
+    size=(1000, 1000),
+    length_segment: float = 10,
+    width_segment: float = 3,
+    spacing_segment: float = 2,
+    corner: gf.Component = via_stack_corner45_extended,
+    via_stack: gf.Component = via_stack_m1_m3,
+    with_north: bool = True,
+    with_south: bool = True,
+    with_east: bool = True,
+    with_west: bool = True,
+) -> gf.Component:
+    """Segmented Seal ring.
+
+    Args:
+        size: size of the seal ring.
+        length_segment: length of each segment.
+        width_segment: width of each segment.
+        spacing_segment: spacing between segments.
+        corner: corner component.
+        via_stack: via_stack component.
+        with_north: includes seal.
+        with_south: includes seal.
+        with_east: includes seal.
+        with_west: includes seal.
+    """
+    c = gf.Component()
+    corner = gf.get_component(corner, width=width_segment)
+
+    tl = c << corner
+    tr = c << corner
+
+    tl.xmin = 0
+    tl.ymax = size[1]
+
+    tr.mirror()
+    tr.xmax = size[0]
+    tr.ymax = size[1]
+
+    bl = c << corner
+    br = c << corner
+    br.mirror()
+    br.mirror_y()
+    bl.mirror_y()
+
+    bl.xmin = 0
+    bl.ymin = 0
+
+    br.xmax = size[0]
+    br.ymin = 0
+
+    pitch = length_segment + spacing_segment
+
+    # horizontal
+    dx = abs(tl.xmax - tr.xmin)
+    segment_horizontal = via_stack(size=(length_segment, width_segment))
+
+    horizontal = gf.c.array(
+        component=segment_horizontal,
+        columns=int(dx / pitch),
+        spacing=(pitch, 0),
+    )
+
+    if with_north:
+        top = c << horizontal
+        top.ymax = tl.ymax
+        top.xmin = tl.xmax + spacing_segment
+
+        # horizontal inner
+        topi = c << horizontal
+        topi.ymax = top.ymin - 2
+        topi.xmin = top.xmin + pitch / 2
+
+    if with_south:
+        bot = c << horizontal
+        bot.ymin = 0
+        bot.xmin = tl.xmax + spacing_segment
+
+        boti = c << horizontal
+        boti.ymin = bot.ymax + 2
+        boti.xmin = bot.xmin + spacing_segment
+
+    # vertical
+    segment_vertical = via_stack(size=(width_segment, length_segment))
+    dy = abs(tl.ymin - bl.ymax)
+
+    vertical = gf.c.array(
+        component=segment_vertical,
+        rows=int(dy / pitch),
+        columns=1,
+        spacing=(0, pitch),
+    )
+
+    if with_east:
+        right = c << vertical
+        right.xmax = size[0]
+        right.ymin = bl.ymax
+        righti = c << vertical
+        righti.xmax = right.xmin - 2
+        righti.ymin = right.ymin + pitch / 2
+
+    if with_west:
+        left = c << vertical
+        left.xmin = 0
+        left.ymin = bl.ymax
+
+        # vertical inner
+        lefti = c << vertical
+        lefti.xmin = left.xmax + 2
+        lefti.ymin = left.ymin + pitch / 2
+
+    return c
+
+
 if __name__ == "__main__":
-    big_square = partial(rectangle, size=(1300, 2600))
-    c = gf.Component("demo")
-    c << big_square()
-    c << seal_ring(c.bbox + ((0, 0), (10, 0)), with_south=False)
+    c = seal_ring_segmented(with_south=False)
+    # big_square = partial(rectangle, size=(1300, 2600))
+    # c = gf.Component("demo")
+    # c << big_square()
+    # c << seal_ring(c.bbox + ((0, 0), (10, 0)), with_south=False)
     c.show(show_ports=True)
