@@ -8,3 +8,4 @@ settings:
   layer: null
   radius: 10
   width: null
+  with_corner90_ports: true
