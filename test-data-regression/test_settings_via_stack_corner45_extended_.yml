@@ -1,0 +1,11 @@
+function: via_stack_corner45_extended
+info: {}
+module: gdsfactory.components.via_stack
+name: via_stack_corner45_extended
+settings:
+  corner:
+    function: via_stack_corner45
+  length: 10
+  via_stack:
+    function: via_stack
+  width: 3

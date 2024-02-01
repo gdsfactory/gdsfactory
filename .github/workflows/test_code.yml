@@ -47,16 +47,10 @@ jobs:
         run: |
           make install
           make test-data
-          pip freeze > requirements.txt
-          pip freeze
       - name: Test with pytest
         run: |
           pip install pytest
           pytest
-      - uses: actions/upload-artifact@v4
-        with:
-          name: requirements
-          path: requirements.txt
   test_code_coverage:
     runs-on: ubuntu-latest
 

@@ -9,7 +9,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 wire_straight = partial(straight, cross_section="xs_metal_routing")
 
@@ -62,17 +62,30 @@ def wire_corner(
 
 @gf.cell
 def wire_corner45(
-    cross_section: CrossSectionSpec = "xs_metal_routing",
+    cross_section: CrossSectionSpec | None = "xs_metal_routing",
+    width: float | None = None,
+    layer: LayerSpec | None = None,
     radius: float = 10,
+    with_corner90_ports: bool = True,
 ) -> Component:
     """Returns 90 degrees electrical corner wire.
 
     Args:
         cross_section: spec.
+        width: width of the wire.
+        layer: layer of the wire.
+        radius: radius of the corner.
+        with_corner90_ports: if True adds ports at 90 degrees.
     """
+    if cross_section is None:
+        if width is None or layer is None:
+            raise ValueError(
+                "Either cross_section or width  and layer needs to be specified"
+            )
+
     x = gf.get_cross_section(cross_section)
-    layer = x.layer
-    width = x.width
+    layer = layer or x.layer
+    width = width if width else x.width
     radius = x.radius if radius is None else radius
     if radius is None:
         raise ValueError(
@@ -88,22 +101,43 @@ def wire_corner45(
 
     c.add_polygon([xpts, ypts], layer=layer)
 
-    c.add_port(
-        name="e1",
-        center=(0, 0),
-        width=width,
-        orientation=180,
-        layer=layer,
-        port_type="electrical",
-    )
-    c.add_port(
-        name="e2",
-        center=(radius, radius),
-        width=width,
-        orientation=90,
-        layer=layer,
-        port_type="electrical",
-    )
+    w = gf.snap.snap_to_grid(width * np.sqrt(2))
+
+    if with_corner90_ports:
+        c.add_port(
+            name="e1",
+            center=(0, 0),
+            width=width,
+            orientation=180,
+            layer=layer,
+            port_type="electrical",
+        )
+        c.add_port(
+            name="e2",
+            center=(radius, radius),
+            width=width,
+            orientation=90,
+            layer=layer,
+            port_type="electrical",
+        )
+
+    else:
+        c.add_port(
+            name="e1",
+            center=(-w / 2, -a),
+            width=w,
+            orientation=270,
+            layer=layer,
+            port_type="electrical",
+        )
+        c.add_port(
+            name="e2",
+            center=(radius + a, radius + w / 2),
+            width=w,
+            orientation=0,
+            layer=layer,
+            port_type="electrical",
+        )
     c.info["length"] = float(np.sqrt(2) * radius)
     return c
 
@@ -186,39 +220,39 @@ if __name__ == "__main__":
     # xsection = gf.cross_section.cross_section(
     #     width=0.4, offset=0, layer="M1", sections=[section1, section2]
     # )
-    from gdsfactory.cross_section import metal_slotted
 
     # # c = wire_corner_sections(cross_section=metal_slotted)
     # # c.show(show_ports=True)
     # # c.pprint_ports()
     # # c.pprint()
 
-    metal_slotted_bbox = metal_slotted(
-        bbox_layers=("M1", "M2"),
-        bbox_offsets=(2, 4),
-    )
+    # metal_slotted_bbox = metal_slotted(
+    #     bbox_layers=("M1", "M2"),
+    #     bbox_offsets=(2, 4),
+    # )
 
-    port1 = gf.Port(
-        name="init",
-        orientation=270,
-        center=(0, 0),
-        cross_section=gf.get_cross_section(metal_slotted),
-    )
-    port2 = gf.Port(
-        name="final",
-        orientation=0,
-        center=(-100, -100),
-        cross_section=gf.get_cross_section(metal_slotted),
-    )
+    # port1 = gf.Port(
+    #     name="init",
+    #     orientation=270,
+    #     center=(0, 0),
+    #     cross_section=gf.get_cross_section(metal_slotted),
+    # )
+    # port2 = gf.Port(
+    #     name="final",
+    #     orientation=0,
+    #     center=(-100, -100),
+    #     cross_section=gf.get_cross_section(metal_slotted),
+    # )
 
-    c = gf.Component()
-    route = gf.routing.get_route_electrical(
-        input_port=port1,
-        output_port=port2,
-        bend=wire_corner_sections(cross_section=metal_slotted_bbox),
-        cross_section=metal_slotted_bbox,
-    )
-    c.add(route.references)
-    c.show()
+    # c = gf.Component()
+    # route = gf.routing.get_route_electrical(
+    #     input_port=port1,
+    #     output_port=port2,
+    #     bend=wire_corner_sections(cross_section=metal_slotted_bbox),
+    #     cross_section=metal_slotted_bbox,
+    # )
+    # c.add(route.references)
+    c = wire_corner45(width=1)
+    c.show(show_ports=True)
 
     # print(yaml.dump(c.to_dict()))
