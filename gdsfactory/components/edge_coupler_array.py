@@ -18,8 +18,8 @@ from gdsfactory.typings import (
     Float2,
 )
 
-edge_coupler_silicon = partial(taper, width2=0.2, length=100, with_two_ports=False)
-edge_coupler_silicon_2 = partial(taper, width2=0.2, length=130, with_two_ports=False)
+edge_coupler_silicon = partial(taper, width2=0.2, length=100, with_two_ports=True)
+edge_coupler_silicon_2 = partial(taper, width2=0.2, length=130, with_two_ports=True)
 
 
 @gf.cell
@@ -33,7 +33,9 @@ def edge_coupler_array(
     text_rotation: float = 0,
     angle: float = 0,
     bend: ComponentSpec = bend_euler,
-    place_by_port: bool = True,
+    place_x_by_port: bool = True,
+    space_y_by_port: bool = False,
+    alignment_port: str = "o1",
 ) -> Component:
     """Fiber array edge coupler based on an inverse taper.
 
@@ -49,8 +51,11 @@ def edge_coupler_array(
         text_rotation: text rotation in degrees.
         angle: rotation in degrees.
         bend: bend spec. Used only if angle > 0.
-        place_by_port: If True it aligns the ports. If False it aligns the
-            right edge.
+        place_x_by_port: If True it aligns the ports in the x direction.
+         If False it aligns the right edge.
+        space_y_by_port: If True it spaces the edge couplers based on port.
+         If False it just places the y of the edge coupler at the given pitch
+        alignment_port: port that we use to align and space edge couplers
 
     Requires edge coupler waveguide port to face left.
 
@@ -80,13 +85,17 @@ def edge_coupler_array(
         edge_coupler_comp = gf.get_component(edge_coupler[i])
         ref = c.add_ref(edge_coupler_comp, alias=alias)
         ref.rotate(angle)
-        ref.y = i * pitch
 
         if x_reflection:
             ref.mirror()
 
-        if place_by_port:
-            ref.movex(-ref.ports["o1"].x)
+        if space_y_by_port:
+            ref.movey(i * pitch - ref.ports[alignment_port].y)
+        else:
+            ref.y = i * pitch
+
+        if place_x_by_port:
+            ref.movex(-ref.ports[alignment_port].x)
         else:
             ref.xmax = 0
 
@@ -103,7 +112,7 @@ def edge_coupler_array(
         if text:
             t = c << gf.get_component(text, text=str(i + 1))
             t.rotate(text_rotation)
-            t.move(np.array(text_offset) + (ref.ports["o1"].x, i * pitch))
+            t.move(np.array(text_offset) + (ref.ports[alignment_port].x, i * pitch))
 
     if angle:
         c = c.flatten_offgrid_references()
@@ -128,7 +137,9 @@ def edge_coupler_array_with_loopback(
     straight: ComponentSpec = straight,
     taper: ComponentSpec | None = None,
     angle: float = 0,
-    place_by_port: float = True,
+    place_x_by_port: bool = True,
+    space_y_by_port: bool = False,
+    alignment_port: str = "o1",
 ) -> Component:
     """Fiber array edge coupler.
 
@@ -160,7 +171,9 @@ def edge_coupler_array_with_loopback(
         text_rotation=text_rotation,
         angle=angle,
         bend=bend,
-        place_by_port=place_by_port,
+        place_x_by_port=place_x_by_port,
+        space_y_by_port=space_y_by_port,
+        alignment_port=alignment_port,
     )
     if extension_length > 0:
         ec = extend_ports(
@@ -218,18 +231,26 @@ if __name__ == "__main__":
     # c = edge_coupler_array(x_reflection=False)
     # c = edge_coupler_array_with_loopback(x_reflection=False)
     # c = edge_coupler_array(angle=8)
-    # c = edge_coupler_array(edge_coupler=
-    #    [edge_coupler_silicon, edge_coupler_silicon_2,
-    #     edge_coupler_silicon_2, edge_coupler_silicon],
-    #     angle=8, place_by_port=False)
-    c = edge_coupler_array_with_loopback(
+    c = edge_coupler_array(
         edge_coupler=[
             edge_coupler_silicon,
             edge_coupler_silicon_2,
             edge_coupler_silicon_2,
             edge_coupler_silicon,
         ],
-        angle=0,
-        place_by_port=False,
+        angle=8,
+        place_x_by_port=True,
+        space_y_by_port=True,
+        alignment_port="o2",
     )
+    # c = edge_coupler_array_with_loopback(
+    #     edge_coupler=[
+    #         edge_coupler_silicon,
+    #         edge_coupler_silicon_2,
+    #         edge_coupler_silicon_2,
+    #         edge_coupler_silicon,
+    #     ],
+    #     angle=0,
+    #     place_by_port=False,
+    # )
     c.show(show_ports=True)
