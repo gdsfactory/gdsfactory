@@ -3,6 +3,7 @@ info: {}
 module: gdsfactory.components.edge_coupler_array
 name: edge_coupler_array_with_loopback
 settings:
+  alignment_port: o1
   angle: 0
   bend:
     function: bend_euler
@@ -13,12 +14,14 @@ settings:
     settings:
       length: 100
       width2: 0.2
-      with_two_ports: false
+      with_two_ports: true
   extension_length: 1.0
   n: 8
   pitch: 127.0
+  place_x_by_port: true
   radius: 30
   right_loopback: true
+  space_y_by_port: false
   straight:
     function: straight
   taper: null

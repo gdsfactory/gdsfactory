@@ -4,7 +4,7 @@ info:
   width1: 0.5
   width2: 0.2
 module: gdsfactory.components.taper
-name: taper_abf5825d
+name: taper_length100_width20p2
 settings:
   add_pins: true
   cross_section: xs_sc
@@ -19,4 +19,4 @@ settings:
   width1: 0.5
   width2: 0.2
   with_bbox: true
-  with_two_ports: false
+  with_two_ports: true
