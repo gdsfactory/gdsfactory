@@ -1575,6 +1575,7 @@ class Component(_GeometryHelper):
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
         show_labels: bool = False,
+        show_ruler: bool = True,
     ):
         """Returns klayout image.
 
@@ -1584,6 +1585,7 @@ class Component(_GeometryHelper):
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
             show_labels: shows labels.
+            show_ruler: shows ruler.
         """
 
         if show_ports:
@@ -1615,6 +1617,7 @@ class Component(_GeometryHelper):
             layout_view.load_layer_props(str(lyp_path))
 
             layout_view.set_config("text-visible", "true" if show_labels else "false")
+            layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
 
             pixel_buffer = layout_view.get_pixels_with_options(800, 600)
             png_data = pixel_buffer.to_png_data()
