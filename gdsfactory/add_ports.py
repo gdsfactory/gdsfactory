@@ -157,9 +157,10 @@ def add_ports_from_markers_center(
 
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
+    nports = sum([s.startswith(port_name_prefix) for s in component.ports.keys()])
 
     for i, p in enumerate(port_markers.polygons):
-        port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
+        port_name = f"{port_name_prefix}{i+1+nports}" if port_name_prefix else str(i)
         (pxmin, pymin), (pxmax, pymax) = p.bounding_box()
         x, y = np.sum(p.bounding_box(), 0) / 2
 
