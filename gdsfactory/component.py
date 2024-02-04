@@ -247,10 +247,12 @@ class Component(_GeometryHelper):
                 the value listed here will be removed. Also known as `epsilon` here
                 https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
         """
-        c = Component()
+        c = Component(f"{self.name}_simplified_{tolerance:.0e}")
+        polygons = self.get_polygons(by_spec=True, as_array=True)
 
-        for points in self.get_polygons(as_array=True):
-            c.add_polygon(_simplify(points, tolerance=tolerance))
+        for layer, points in polygons.items():
+            for p in points:
+                c.add_polygon(points=_simplify(p, tolerance=tolerance), layer=layer)
 
         return c
 
