@@ -121,18 +121,24 @@ def add_fiber_array_optical_south_electrical_north(
     ports1 = electrical_ports[:nroutes]
     if pad_assigment_dict is None:
         ports2 = pads.get_ports_list(orientation=270)[:nroutes]
+        routes = gf.routing.get_bundle_electrical(
+            ports1=ports1,
+            ports2=ports2,
+            cross_section=xs_metal,
+            enforce_port_ordering=False,
+        )
     else:
+        ports2 = []
         ports2_dict = pads.get_ports_dict()
-        ports2 = [
-            ports2_dict[pad_assigment_dict[component_port.name]]
-            for component_port in ports1
-        ]
-    routes = gf.routing.get_bundle_electrical(
-        ports1=ports1,
-        ports2=ports2,
-        cross_section=xs_metal,
-        enforce_port_ordering=False,
-    )
+        routes = []
+        for component_port in ports1:
+            port2 = ports2_dict[pad_assigment_dict[component_port.name]]
+            route = gf.routing.get_route_electrical(
+                input_port=component_port, output_port=port2
+            )
+            routes.append(route)
+            ports2.append(port2)
+
     for route in routes:
         c.add(route.references)
 
