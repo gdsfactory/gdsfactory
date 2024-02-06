@@ -14,7 +14,7 @@ dev: install
 update-pre:
 	pre-commit autoupdate --bleeding-edge
 
-test-data-gds:
+test-data:
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test_klayout test-data-gds
 
 test-data-ssh:

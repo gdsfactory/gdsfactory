@@ -93,7 +93,7 @@ def resistance_meander(
     gnd1_ref.center = pad1_ref.center
     gnd2_ref = P.add_ref(gnd2)
     net = P.add_ref(N)
-    net.y = pad1_ref.y
+    net.ymax = gnd1_ref.ymax
     gnd2_ref.center = pad2_ref.center
     gnd2_ref.d.movex(2.5)
     P.flatten()
@@ -101,5 +101,5 @@ def resistance_meander(
 
 
 if __name__ == "__main__":
-    c = resistance_meander(res_layer="M1", width=0.5)
+    c = resistance_meander()
     c.show()
