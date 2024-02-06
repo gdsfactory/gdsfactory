@@ -19,7 +19,7 @@ def fill(
     fill_spacing: tuple[float, float] = (20, 20),
     fill_name: str | None = None,
     gdspath_out: PathType | None = None,
-) -> None:
+) -> str:
     """Write gds file with fill.
 
     Args:
@@ -39,17 +39,19 @@ def fill(
     """
     import kfactory as kf
     import klayout.db as kdb
+    from kfactory import KCLayout
 
-    lib = kf.kcl
-    lib.read(filename=str(gdspath))
-    cell = lib[cell_name or 0]
+    temp_kcl = KCLayout(name=str(gdspath))
+    temp_kcl.read(gdspath)
+    cellname = cell_name or temp_kcl.top_cell().name
+    cell = temp_kcl[cellname]
     fill_name = fill_name or f"{cell.name}_fill"
 
     c = kf.KCell(fill_name)
 
     if create_new_fill_cell:
-        if lib.has_cell(fill_cell_name):
-            raise ValueError(f"{fill_cell_name!r} already in {str(gdspath)!r}")
+        # if temp_kcl.has_cell(fill_cell_name):
+        #     raise ValueError(f"{fill_cell_name!r} already in {str(gdspath)!r}")
 
         if not fill_layers:
             raise ValueError(
@@ -63,7 +65,7 @@ def fill(
                 width=fill_size[0], length=fill_size[1], layer=layer
             )
     else:
-        fill_cell = lib[fill_cell_name]
+        fill_cell = temp_kcl[fill_cell_name]
 
     fill_cell_index = fill_cell.cell_index()  # fill cell index
     fill_cell_box = fill_cell.bbox().enlarged(
@@ -103,6 +105,7 @@ def fill(
 
     gdspath_out = gdspath_out or gdspath
     c.write(str(gdspath_out))
+    return fill_name
 
 
 @gf.cell
@@ -119,8 +122,8 @@ if __name__ == "__main__":
     c.show()
     gdspath = c.write_gds("mzi_fill.gds")
 
-    use_fill_cell = True
     use_fill_cell = False
+    use_fill_cell = True
     spacing = 50
 
     if use_fill_cell:
