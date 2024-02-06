@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.10.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.7) - 2024-02-06
+
+No significant changes.
+
+
 ## [7.10.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.6) - 2024-02-02
 
 - fix add_ports_from_markers_center [#2503](https://github.com/gdsfactory/gdsfactory/pull/2503)
