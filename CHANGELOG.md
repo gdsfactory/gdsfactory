@@ -1,11 +1,19 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.6...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.7...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.10.7](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.7) - 2024-02-06
 
-No significant changes.
+- Update kfactory latest [#2512](https://github.com/gdsfactory/gdsfactory/pull/2512)
+- add_fiber_array_electrical control pad assignment [#2499](https://github.com/gdsfactory/gdsfactory/pull/2499)
+- [pre-commit.ci] pre-commit autoupdate [#2510](https://github.com/gdsfactory/gdsfactory/pull/2510)
+- improve Component.simplify to keep layers and name [#2507](https://github.com/gdsfactory/gdsfactory/pull/2507)
+- add Component.simplify [#2505](https://github.com/gdsfactory/gdsfactory/pull/2505)
+
+Dependency Updates:
+
+- Update pydantic requirement from <2.6,>=2 to >=2,<2.7 [#2508](https://github.com/gdsfactory/gdsfactory/pull/2508)
 
 
 ## [7.10.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.6) - 2024-02-02
