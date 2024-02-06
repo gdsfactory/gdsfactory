@@ -30,6 +30,7 @@ import warnings
 from functools import partial
 
 import kfactory as kf
+from kfactory.routing.electrical import route_elec
 from kfactory.routing.optical import OpticalManhattanRoute, place90, route
 
 import gdsfactory as gf
@@ -37,15 +38,13 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.components.via_corner import via_corner
-from gdsfactory.components.wire import wire_corner
-from gdsfactory.cross_section import metal2, metal3
 from gdsfactory.port import Port
 from gdsfactory.typings import (
     ComponentFactory,
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
+    LayerSpec,
     MultiCrossSectionAngleSpec,
 )
 
@@ -70,14 +69,15 @@ def route_single(
 
     Args:
         component: to place the route into.
-        input_port: start port.
-        output_port: end port.
+        port1: start port.
+        port2: end port.
         bend: bend spec.
         straight: straight spec.
         taper: taper spec.
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
         cross_section: spec.
+        waypoints: list of points to pass through.
         kwargs: cross_section settings.
 
 
@@ -166,38 +166,63 @@ def route_single(
         )
 
 
-route_single_electrical = partial(
-    route_single,
-    bend=wire_corner,
-    cross_section="xs_metal_routing",
-    taper=None,
-)
+def route_single_electrical(
+    component: Component,
+    port1: Port,
+    port2: Port,
+    start_straight_length: float | None = None,
+    end_straight_length: float | None = None,
+    layer: LayerSpec | None = None,
+    width: float | None = None,
+    cross_section: CrossSectionSpec = "metal3",
+) -> None:
+    """Places a route between two electrical ports.
 
-route_single_electrical_m2 = partial(
-    route_single,
-    bend=wire_corner,
-    cross_section=metal2,
-    taper=None,
-)
+    Args:
+        component: The cell to place the route in.
+        port1: The first port.
+        port2: The second port.
+        start_straight_length: The length of the straight at the start of the route.
+        end_straight_length: The length of the straight at the end of the route.
+        layer: The layer of the route.
+        width: The width of the route.
+        cross_section: The cross section of the route.
 
-route_single_electrical_multilayer = partial(
-    route_single_electrical,
-    bend=via_corner,
-    cross_section=[(metal2, (0, 180)), (metal3, (90, 270))],
-)
+    """
+    xs = gf.get_cross_section(cross_section, width=width)
+    layer = layer or xs.layer
+    width = width or xs.width
+    layer = gf.get_layer(layer)
+    start_straight_length = (
+        start_straight_length / component.kcl.dbu if start_straight_length else None
+    )
+    end_straight_length = (
+        end_straight_length / component.kcl.dbu if end_straight_length else None
+    )
+    route_elec(
+        c=component,
+        p1=port1,
+        p2=port2,
+        layer=layer,
+        width=width / component.kcl.dbu,
+        start_straight=start_straight_length,
+        end_straight=end_straight_length,
+    )
 
 
 if __name__ == "__main__":
     c = gf.Component("demo")
-    s = gf.c.straight()
+    s = gf.c.wire_straight()
     pt = c << s
     pb = c << s
     pt.d.move((50, 50))
-    gf.routing.route_single(
+    gf.routing.route_single_electrical(
         c,
-        pb.ports["o2"],
-        pt.ports["o1"],
+        pb.ports["e2"],
+        pt.ports["e1"],
         cross_section="xs_sc_auto_widen",
+        start_straight_length=10,
+        end_straight_length=30,
     )
     c.show()
 

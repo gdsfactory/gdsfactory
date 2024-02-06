@@ -36,8 +36,6 @@ from gdsfactory.routing.route_sharp import route_sharp
 from gdsfactory.routing.route_single import (
     route_single,
     route_single_electrical,
-    route_single_electrical_m2,
-    route_single_electrical_multilayer,
 )
 from gdsfactory.routing.route_single_from_steps import (
     route_single_from_steps,
@@ -67,8 +65,6 @@ __all__ = [
     "route_bundle_from_waypoints_electrical_multilayer",
     "route_single",
     "route_single_electrical",
-    "route_single_electrical_m2",
-    "route_single_electrical_multilayer",
     "route_bundle_sbend",
     "route_single_from_steps",
     "route_single_from_steps_electrical",

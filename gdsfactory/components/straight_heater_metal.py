@@ -127,17 +127,19 @@ def straight_heater_metal_undercut(
         c.add_ports(p1, prefix="l_")
         c.add_ports(p2, prefix="r_")
 
-        # if heater_taper_length:
-        #     taper = gf.components.taper(
-        #         width1=p1[0].width*c.kcl.dbu,
-        #         width2=heater_width,
-        #         length=heater_taper_length,
-        #         cross_section=x,
-        #     )
-        #     taper1 = c << taper
-        #     taper2 = c << taper
-        #     taper1.connect("o1", via_stack_west.ports["e3"])
-        #     taper2.connect("o1", via_stack_east.ports["e1"])
+        if heater_taper_length:
+            taper = gf.components.taper(
+                width1=p1[0].width * c.kcl.dbu,
+                width2=heater_width,
+                length=heater_taper_length,
+                cross_section=x,
+                port_order_name=("e1", "e2"),
+                port_order_types=("electrical", "electrical"),
+            )
+            taper1 = c << taper
+            taper2 = c << taper
+            taper1.connect("e1", via_stack_west.ports["e3"], allow_layer_mismatch=True)
+            taper2.connect("e1", via_stack_east.ports["e1"], allow_layer_mismatch=True)
 
     c.info["resistance"] = (
         ohms_per_square * heater_width * length if ohms_per_square else 0
