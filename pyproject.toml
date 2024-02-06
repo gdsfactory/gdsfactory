@@ -21,7 +21,7 @@ dependencies = [
   "omegaconf<3",
   "orjson<4",
   "pandas<3",
-  "pydantic>=2,<2.6",
+  "pydantic>=2,<2.7",
   "pydantic-settings<3",
   "pydantic-extra-types<3",
   "pyyaml",
