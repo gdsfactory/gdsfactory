@@ -233,7 +233,28 @@ class Component(_GeometryHelper):
         self.module = ""
 
         self.ports = {}
+
         self.child = None
+
+    def simplify(self, tolerance: float = 1e-3):
+        """Removes points from the polygon but does not change the polygon
+        shape by more than `tolerance` from the original. Uses the
+        Ramer-Douglas-Peucker algorithm.
+
+        Args:
+            tolerance: Tolerance value for the simplification algorithm.  All points that
+                can be removed without changing the resulting polygon by more than
+                the value listed here will be removed. Also known as `epsilon` here
+                https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
+        """
+        c = Component(f"{self.name}_simplified_{tolerance:.0e}")
+        polygons = self.get_polygons(by_spec=True, as_array=True)
+
+        for layer, points in polygons.items():
+            for p in points:
+                c.add_polygon(points=_simplify(p, tolerance=tolerance), layer=layer)
+
+        return c
 
     @property
     def references(self):
@@ -1575,6 +1596,7 @@ class Component(_GeometryHelper):
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
         show_labels: bool = False,
+        show_ruler: bool = True,
     ):
         """Returns klayout image.
 
@@ -1584,6 +1606,7 @@ class Component(_GeometryHelper):
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
             show_labels: shows labels.
+            show_ruler: shows ruler.
         """
 
         if show_ports:
@@ -1615,6 +1638,7 @@ class Component(_GeometryHelper):
             layout_view.load_layer_props(str(lyp_path))
 
             layout_view.set_config("text-visible", "true" if show_labels else "false")
+            layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
 
             pixel_buffer = layout_view.get_pixels_with_options(800, 600)
             png_data = pixel_buffer.to_png_data()
@@ -2622,6 +2646,42 @@ def serialize_gds(component: Component) -> Tuple[PathType]:
     return (gds_filepath,)
 
 
+def _line_distances(points, start, end):
+    if np.all(start == end):
+        return np.linalg.norm(points - start, axis=1)
+
+    vec = end - start
+    cross = np.cross(vec, start - points)
+    return np.divide(abs(cross), np.linalg.norm(vec))
+
+
+def _simplify(points, tolerance=0):
+    """Ramer–Douglas–Peucker algorithm for line simplification. Takes an
+    array of points of shape (N,2) and removes excess points in the line. The
+    remaining points form a identical line to within `tolerance` from the
+    original
+    """
+    # From https://github.com/fhirschmann/rdp/issues/7
+    # originally written by Kirill Konevets https://github.com/kkonevets
+
+    M = np.asarray(points)
+    start, end = M[0], M[-1]
+    dists = _line_distances(M, start, end)
+
+    index = np.argmax(dists)
+    dmax = dists[index]
+
+    if dmax > tolerance:
+        result1 = _simplify(M[: index + 1], tolerance)
+        result2 = _simplify(M[index:], tolerance)
+
+        result = np.vstack((result1[:-1], result2))
+    else:
+        result = np.array([start, end])
+
+    return result
+
+
 def deserialize_gds(gds_filepath: PathType) -> Component:
     """Loads Component as GDS + YAML metadata from temporary files, and deletes them."""
     from gdsfactory.read import import_gds
@@ -2874,10 +2934,14 @@ if __name__ == "__main__":
     # from functools import partial
     import gdsfactory as gf
 
-    c1 = gf.Component()
-    c2 = gf.Component()
-    print(c1.name)
-    print(c2.name)
+    c = gf.c.mzi()
+    c = c.simplify(200e-3)
+    c.show()
+
+    # c1 = gf.Component()
+    # c2 = gf.Component()
+    # print(c1.name)
+    # print(c2.name)
 
     # c = gf.components.straight(length=1)
     # cc = gf.routing.add_fiber_array(c)

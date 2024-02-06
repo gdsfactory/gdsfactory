@@ -1,7 +1,29 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.5...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.6...main)
 
 <!-- towncrier release notes start -->
+
+## [7.10.6](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.6) - 2024-02-02
+
+- fix add_ports_from_markers_center [#2503](https://github.com/gdsfactory/gdsfactory/pull/2503)
+- Add possibility of different edge couplers in ec_array [#2502](https://github.com/gdsfactory/gdsfactory/pull/2502)
+- Add option to toggle KLayout's ruler when plotting [#2500](https://github.com/gdsfactory/gdsfactory/pull/2500)
+- Add seal ring segmented [#2493](https://github.com/gdsfactory/gdsfactory/pull/2493)
+- better warnings traceability [#2486](https://github.com/gdsfactory/gdsfactory/pull/2486)
+- export metadata as json [#2487](https://github.com/gdsfactory/gdsfactory/pull/2487)
+- Adding possibility of different bends in 2x2 cutback [#2485](https://github.com/gdsfactory/gdsfactory/pull/2485)
+- fixes some of the samples [#2484](https://github.com/gdsfactory/gdsfactory/pull/2484)
+- [pre-commit.ci] pre-commit autoupdate [#2482](https://github.com/gdsfactory/gdsfactory/pull/2482)
+- allow disabling automatic showing of figure in quickplotter [#2483](https://github.com/gdsfactory/gdsfactory/pull/2483)
+- Component reduce [#2480](https://github.com/gdsfactory/gdsfactory/pull/2480)
+- fix docker tag [#2479](https://github.com/gdsfactory/gdsfactory/pull/2479)
+- Better doping layers [#2477](https://github.com/gdsfactory/gdsfactory/pull/2477)
+
+- Bump styfle/cancel-workflow-action from 0.12.0 to 0.12.1 [#2495](https://github.com/gdsfactory/gdsfactory/pull/2495)
+- Bump codecov/codecov-action from 3 to 4 [#2496](https://github.com/gdsfactory/gdsfactory/pull/2496)
+- Bump actions/cache from 3 to 4 [#2494](https://github.com/gdsfactory/gdsfactory/pull/2494)
+- Bump actions/upload-artifact from 3 to 4 [#2426](https://github.com/gdsfactory/gdsfactory/pull/2426)
+
 
 ## [7.10.5](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.5) - 2024-01-18
 
