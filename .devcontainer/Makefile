@@ -1,5 +1,8 @@
 
 build:
+	docker build -t gdsfactory -f Dockerfile.dev .
+
+build-web:
 	docker build -t gdsfactory-web -f Dockerfile.web .
 
 run:
