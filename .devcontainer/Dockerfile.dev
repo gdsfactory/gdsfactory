@@ -1,13 +1,13 @@
+# Use Python 3.11 slim image as the base
 FROM python:3.11-slim
-# FROM jupyter/base-notebook:python-3.10
-# FROM continuumio/miniconda3
 
-# expose klive and Jupyter Notebook ports
-EXPOSE 8082
-EXPOSE 8083
-EXPOSE 8888
+# Expose the necessary ports
+EXPOSE 8082 8083 8888
 
+# Run as root to install packages
 USER root
+
+# Update and install dependencies
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
         make \
@@ -18,27 +18,17 @@ RUN apt-get update --yes && \
         klayout \
         software-properties-common \
         gnupg && \
-    apt-add-repository ppa:elmer-csc-ubuntu/elmer-csc-ppa && \
-    apt-get update --yes && \
-    apt-get install --yes elmerfem-csc && \
-    rm -rf /var/lib/apt/lists/*  # Undo apt-get update for final image
+    # apt-add-repository ppa:elmer-csc-ubuntu/elmer-csc-ppa && \
+    # apt-get update --yes && \
+    # apt-get install --yes elmerfem-csc && \
+    rm -rf /var/lib/apt/lists/*
 
+# Switch to jovyan user for non-root operations
 USER jovyan
-# COPY . /home/jovyan/gdfactory
-# COPY --chown=jovyan docs/notebooks /home/jovyan/notebooks
-# COPY docs/notebooks/00__git.ipynb /home/jovyan/
-RUN conda init bash
 
-# RUN git clone https://github.com/gdsfactory/gdsfactory.git
-# USER ${NB_UID}
-# RUN apt update
-# RUN apt install gcc
-# RUN conda install -c conda-forge pymeep -y
+# Using pip to install Python packages
+# Ensure your base image has all the necessary libraries or install them before switching users
+RUN pip install gdsfactory[full]==7.10.7
 
-RUN mamba install pymeep=*=mpi_mpich_* -y && \
-    mamba install -c conda-forge slepc4py=*=complex* -y
-
-
-RUN pip install gdsfactory[cad,full]==7.10.7
+# Set the working directory
 WORKDIR /home/jovyan
-# VOLUME /home/jovyan/work
