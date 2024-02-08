@@ -274,7 +274,7 @@ def via_stack_corner45(
                     pass
                 else:
                     vias_per_row = (
-                        xwidth - 2 * xoff_enc - h * np.tan(np.deg2rad(45))
+                        xwidth - 2 * xoff_enc - 2 * h * np.tan(np.deg2rad(45))
                     ) / (pitch_x) + 1
                     # Place the vias at the given x, y
                     for i in range(int(vias_per_row)):
