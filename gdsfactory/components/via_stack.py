@@ -200,15 +200,15 @@ def via_stack_corner45(
     if layer_port:
         c.info["layer"] = layer_port
 
-    for layer in layers:
+    for layer, offset in zip(layers, layer_offsets):
         if layer and layer == layer_port:
             ref = c << wire_corner45(
-                width=width, layer=layer, with_corner90_ports=False
+                width=width + 2 * offset, layer=layer, with_corner90_ports=False
             )
             c.add_ports(ref.ports)
         elif layer is not None:
             ref = c << wire_corner45(
-                width=width, layer=layer, with_corner90_ports=False
+                width=width + 2 * offset, layer=layer, with_corner90_ports=False
             )
 
     width_corner = width
@@ -219,24 +219,23 @@ def via_stack_corner45(
     vias = vias or []
     for via, offset in zip(vias, layer_offsets):
         if via is not None:
-            width += 2 * offset
-            height += 2 * offset
+            width45 = (
+                2 * (width_corner + 2 * offset) * np.cos(np.deg2rad(45))
+            )  # Width in the x direction
             _via = gf.get_component(via)
             w, h = _via.info["xsize"], _via.info["ysize"]
             enclosure = _via.info["enclosure"]
             pitch_x, pitch_y = _via.info["xspacing"], _via.info["yspacing"]
 
             via = _via
-            nb_vias_x = abs(width - w - 2 * enclosure) / pitch_x + 1
-            nb_vias_y = abs(height - h - 2 * enclosure) / pitch_y + 1
 
             min_width = w + enclosure
             min_height = h + enclosure
 
             if (
-                min_width > width
+                min_width > width45
                 and correct_size
-                or min_width <= width
+                or min_width <= width45
                 and min_height > height
                 and correct_size
             ):
@@ -244,34 +243,46 @@ def via_stack_corner45(
                     f"Changing size from ({width}, {height}) to ({min_width}, {min_height}) to fit a via!",
                     stacklevel=3,
                 )
-                width = max(min_width, width)
+                width45 = max(min_width, width45)
                 height = max(min_height, height)
-            elif min_width > width or min_height > height:
+            elif min_width > width45 or min_height > height:
                 raise ValueError(
                     f"{min_width=} > {width=} or {min_height=} > {height=}"
                 )
 
-            nb_vias_x = int(np.floor(nb_vias_x)) or 1
-            nb_vias_y = int(np.floor(nb_vias_y)) or 1
+            # Keep placing rows until we cover the whole height
+            y_covered = enclosure
 
-            nrows = (width_corner - 2 * enclosure) / pitch_x + 1
+            while y_covered + enclosure < height:
+                y = ymin + y_covered + h / 2  # Position of the via
 
-            vias_per_row = (width_corner - 2 * enclosure) / (pitch_x) + 1
-            extent_vias_x = vias_per_row * pitch_x + 2 * enclosure
-            width45 = 2 * width_corner * np.cos(np.deg2rad(45))
-            # print(extent_vias_x)
+                # x offset from the edge of the metal to make sure enclosure is fulfilled
+                xoff_enc = 2 * enclosure * np.cos(np.deg2rad(45))
+                xoff = (y_covered + h) * np.tan(np.deg2rad(45)) + xoff_enc
 
-            for i in range(nb_vias_x):
-                for j in range(nb_vias_y):
-                    x, y = (
-                        (width45 - extent_vias_x) / 2 + xmin + enclosure + i * pitch_x,
-                        ymin + enclosure + j * pitch_y,
-                    )
+                xpos0 = xmin + xoff
 
-                    for row in range(1, int(nrows) + 1):
-                        if i - row == j:
-                            ref = c << via
-                            ref.center = (x, y)
+                # Calculate the number of vias that fit in a given width
+                if (y_covered + h) < (height - width45):
+                    # The x width is width45
+                    xwidth = width45
+                else:
+                    # The x width is decreasing
+                    xwidth = (height - (y_covered + h)) * np.tan(np.deg2rad(45))
+
+                if min_width > xwidth:
+                    pass
+                else:
+                    vias_per_row = (
+                        xwidth - 2 * xoff_enc - h * np.tan(np.deg2rad(45))
+                    ) / (pitch_x) + 1
+                    # Place the vias at the given x, y
+                    for i in range(int(vias_per_row)):
+                        ref = c << via
+                        ref.center = (xpos0 + pitch_x * i + w / 2, y)
+
+                y_covered = y_covered + h + pitch_y
+
     return c
 
 
