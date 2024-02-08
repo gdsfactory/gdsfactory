@@ -256,10 +256,15 @@ def via_stack_corner45(
 
             nrows = (width_corner - 2 * enclosure) / pitch_x + 1
 
+            vias_per_row = (width_corner - 2 * enclosure) / (pitch_x) + 1
+            extent_vias_x = vias_per_row * pitch_x + 2 * enclosure
+            width45 = 2 * width_corner * np.cos(np.deg2rad(45))
+            # print(extent_vias_x)
+
             for i in range(nb_vias_x):
                 for j in range(nb_vias_y):
                     x, y = (
-                        xmin + enclosure + i * pitch_x,
+                        (width45 - extent_vias_x) / 2 + xmin + enclosure + i * pitch_x,
                         ymin + enclosure + j * pitch_y,
                     )
 
@@ -454,6 +459,6 @@ if __name__ == "__main__":
     # c = gf.pack([via_stack_slab_m3, via_stack_heater_mtop])[0]
     # c = via_stack_slab_m3(size=(100, 10), slot_vertical=True)
     # c = via_stack_from_rules()
-    # c = via_stack_corner45()
-    c = via_stack_corner45_extended()
+    c = via_stack_corner45()
+    # c = via_stack_corner45_extended()
     c.show(show_ports=True)
