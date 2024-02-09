@@ -24,6 +24,7 @@ RUN apt-get update --yes && \
     # apt-get install --yes elmerfem-csc && \
     rm -rf /var/lib/apt/lists/*
 
+USER ${USER}
 # Using pip to install Python packages
 # Ensure your base image has all the necessary libraries or install them before switching users
 RUN pip install .[full]
