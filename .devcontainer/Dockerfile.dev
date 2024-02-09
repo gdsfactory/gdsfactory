@@ -6,6 +6,7 @@ EXPOSE 8082 8083 8888
 
 # Run as root to install packages
 USER root
+COPY  --chmod=777 . ${HOME}
 
 # Update and install dependencies
 RUN apt-get update --yes && \
