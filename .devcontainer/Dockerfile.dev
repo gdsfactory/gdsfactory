@@ -28,7 +28,7 @@ USER jovyan
 
 # Using pip to install Python packages
 # Ensure your base image has all the necessary libraries or install them before switching users
-RUN pip install gdsfactory[full]==7.10.8
+RUN pip install .[full]
 
 # Set the working directory
 WORKDIR /home/jovyan
