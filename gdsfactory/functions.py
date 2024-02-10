@@ -292,7 +292,7 @@ def add_marker_layer(
         c.add_ref(component.extract(layers_to_mark))
     else:
         c = component
-    polygon = c.get_polygon_enclosure()
+    polygon = c.get_polygons(as_shapely_merged=True)
 
     if polygon and not polygon.is_empty:
         component.add_polygon(polygon, layer=marker_layer)

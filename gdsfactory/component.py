@@ -332,14 +332,8 @@ class Component(_GeometryHelper):
         """Returns Polygon enclosure."""
         import shapely
 
-        p = gdstk.Polygon(self._cell.bounding_box())
-
-        if p.area() == 0:
-            raise ValueError(f"Polygon area is 0 for {self.name}")
-        else:
-            p = shapely.Polygon(self._cell.convex_hull())
-
-        return p
+        points = self._cell.convex_hull()
+        return shapely.Polygon(points)
 
     def get_polygon_bbox(
         self,

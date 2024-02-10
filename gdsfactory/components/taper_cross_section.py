@@ -108,5 +108,6 @@ if __name__ == "__main__":
     # cross_section1 = gf.cross_section.rib_heater_doped(width=2)
     # cross_section2 = gf.cross_section.strip_rib_tip
     # c = taper_cross_section(cross_section1, cross_section2)
-    c = taper_sc_nc_sine()
+    c = taper_sc_nc_sine(length=10)
     c.show(show_ports=True)
+    print(c.get_polygon_enclosure())

@@ -46,7 +46,6 @@ def taper(
     """
     c = gf.Component()
 
-    x = gf.get_cross_section(cross_section, **kwargs)
     width1 = gf.snap.snap_to_grid2x(width1)
     x1 = gf.get_cross_section(cross_section, width=width1)
     if width2:
@@ -54,12 +53,16 @@ def taper(
         x2 = gf.get_cross_section(cross_section, width=width2)
     else:
         x2 = x1
+
+    width1 = x1.width
+    width2 = x2.width
+
+    width_max = max([width1, width2])
+    x = gf.get_cross_section(cross_section, width=width_max, **kwargs)
     layer = x.layer
 
     if isinstance(port, gf.Port) and width1 is None:
         width1 = port.width
-
-    width2 = width2 or width1
 
     length = float(snap_to_grid(length))
     y1 = width1 / 2
@@ -73,8 +76,10 @@ def taper(
         xpts = [0, length, length, 0]
         for section in x.sections[1:]:
             layer = section.layer
-            y1 = section.width / 2
-            y2 = y1 + (width2 - width1)
+            dw1 = width1 - section.width
+            dw2 = width2 - section.width
+            y1 = (section.width + dw1) / 2 + section.offset
+            y2 = (section.width + dw2) / 2 + section.offset
             ypts = [y1, y2, -y2, -y1]
             c.add_polygon((xpts, ypts), layer=layer)
 
