@@ -49,12 +49,13 @@ def test_get_route_auto_widen() -> None:
 
 
 if __name__ == "__main__":
-    test_get_route_auto_widen()
-    # c = gf.Component()
-    # route = gf.routing.get_route_from_waypoints(
-    #     [(0, 0), (300, 0), (300, 300), (300, 600), (600, 600)],
-    #     cross_section="xs_sc_auto_widen",
-    #     radius=30,
-    # )
-    # c.add(route.references)
-    # c.show(show_ports=True)
+    # test_get_route_auto_widen()
+    c = gf.Component()
+    route = gf.routing.get_route_from_waypoints(
+        [(0, 0), (300, 0), (300, 300), (300, 600), (600, 600)],
+        # cross_section="xs_sc_auto_widen",
+        cross_section=xs_pin_m1,
+        radius=30,
+    )
+    c.add(route.references)
+    c.show(show_ports=True)

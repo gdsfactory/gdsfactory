@@ -335,7 +335,9 @@ coupler_trenches = partial(add_trenches, component=coupler)
 ring_single_trenches = partial(add_trenches, component=ring_single)
 ring_double_trenches = partial(add_trenches, component=ring_double)
 
-spiral_meander = partial(straight_heater_meander, layer_heater=None, n=3, length=1e3)
+spiral_meander = partial(
+    straight_heater_meander, layer_heater=None, n=3, length=1e3, straight_widths=None
+)
 
 
 __all__ = [

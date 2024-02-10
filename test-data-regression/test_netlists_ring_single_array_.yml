@@ -54,6 +54,7 @@ instances:
       layer: null
       length: 5.0
       npoints: 2
+      post_process: null
       width: null
 name: ring_single_array
 placements:

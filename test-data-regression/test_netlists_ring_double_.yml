@@ -150,6 +150,7 @@ instances:
       layer: null
       length: 0.01
       npoints: 2
+      post_process: null
       width: null
   straight_2:
     component: straight
@@ -199,6 +200,7 @@ instances:
       layer: null
       length: 0.01
       npoints: 2
+      post_process: null
       width: null
 name: ring_double
 placements:

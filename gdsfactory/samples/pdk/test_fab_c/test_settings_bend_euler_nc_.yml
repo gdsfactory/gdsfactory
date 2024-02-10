@@ -58,6 +58,7 @@ settings:
   layer: null
   npoints: null
   p: 0.5
+  post_process: null
   radius: null
   width: null
   with_arc_floorplan: true

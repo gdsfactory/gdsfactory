@@ -23,13 +23,13 @@ def straight_heater_meander(
     cross_section: CrossSectionSpec = strip,
     heater_width: float = 2.5,
     extension_length: float = 15.0,
-    layer_heater: LayerSpec = "HEATER",
+    layer_heater: LayerSpec | None = "HEATER",
     radius: float | None = None,
     via_stack: ComponentSpec | None = "via_stack_heater_mtop",
     port_orientation1: int | None = None,
     port_orientation2: int | None = None,
     heater_taper_length: float | None = 10.0,
-    straight_widths: Floats | None = None,
+    straight_widths: Floats | None = (0.8, 0.9, 0.8),
     taper_length: float = 10,
     n: int | None = None,
     straight: ComponentFactory = straight,
@@ -62,6 +62,9 @@ def straight_heater_meander(
         bend: ComponentFactory for the bend sections.
         taper: ComponentFactory for the photonic taper sections.
     """
+    if n and straight_widths:
+        raise ValueError("n and straight_widths are mutually exclusive")
+
     rows = n or len(straight_widths)
     c = gf.Component()
     x = gf.get_cross_section(cross_section)
@@ -230,16 +233,17 @@ def straight_heater_meander(
 
 
 if __name__ == "__main__":
-    c = straight_heater_meander(
-        straight_widths=(0.5, 0.5, 0.5),
-        n=3,
-        taper_length=10,
-        # taper_length=10,
-        length=10000,
-        layer_heater=None,
-        # taper=gf.c.taper_cross_section_linear
-        taper=None,
-        # port_orientation1=0
-        # cross_section=partial(gf.cross_section.strip, width=0.8),
-    )
+    # c = straight_heater_meander(
+    #     straight_widths=(0.5, 0.5, 0.5),
+    #     n=3,
+    #     taper_length=10,
+    #     # taper_length=10,
+    #     length=10000,
+    #     layer_heater=None,
+    #     # taper=gf.c.taper_cross_section_linear
+    #     # taper=None,
+    #     # port_orientation1=0
+    #     # cross_section=partial(gf.cross_section.strip, width=0.8),
+    # )
+    c = straight_heater_meander()
     c.show(show_ports=True)

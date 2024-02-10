@@ -1,7 +1,7 @@
 function: straight_heater_meander
 info: {}
 module: gdsfactory.components.straight_heater_meander
-name: straight_heater_meander_53d8448c
+name: straight_heater_meander_f9764d28
 settings:
   bend:
     function: bend_euler
@@ -24,10 +24,7 @@ settings:
   spacing: 2.0
   straight:
     function: straight
-  straight_widths:
-  - 0.8
-  - 0.9
-  - 0.8
+  straight_widths: null
   taper:
     function: taper_cross_section
     module: gdsfactory.components.taper_cross_section

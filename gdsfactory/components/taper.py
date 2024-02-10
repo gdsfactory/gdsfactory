@@ -80,10 +80,17 @@ def taper(
             layer = section.layer
             dw1 = width1 - section.width
             dw2 = width2 - section.width
-            y1 = (section.width + dw1) / 2 + section.offset
-            y2 = (section.width + dw2) / 2 + section.offset
-            ypts = [y1, y2, -y2, -y1]
-            c.add_polygon((xpts, ypts), layer=layer)
+            if not section.offset:
+                y1 = (section.width + dw1) / 2
+                y2 = (section.width + dw2) / 2
+                ypts = [y1, y2, -y2, -y1]
+                c.add_polygon((xpts, ypts), layer=layer)
+            else:
+                y1 = section.offset + section.width / 2
+                y2 = section.offset - section.width / 2
+                xpts = [0, length]
+                ypts = [y2, y1]
+                c.add_polygon((xpts, ypts), layer=layer)
 
     c.add_port(
         name=port_order_name[0],
@@ -271,9 +278,26 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
-    c = taper(width2=10, length=10)
+    xs_pin_m1 = partial(
+        gf.cross_section.strip_auto_widen,
+        width=0.5,
+        width_wide=2,
+        sections=(
+            gf.Section(width=1, offset=2, layer=(24, 0), name="n+"),
+            gf.Section(width=1, offset=3, layer=(41, 0), name="m1"),
+        ),
+    )
+    # c = taper(width2=10, length=10)
     # c = taper_strip_to_ridge_trenches()
     # c = taper_strip_to_ridge()
     # c = taper(width1=1.5, width2=1, cross_section="xs_rc")
     # c = taper_sc_nc()
+    c = gf.Component("taper_with_offset")
+    route = gf.routing.get_route_from_waypoints(
+        [(0, 0), (300, 0), (300, 300), (300, 600), (600, 600)],
+        # cross_section="xs_sc_auto_widen",
+        cross_section=xs_pin_m1,
+        radius=30,
+    )
+    c.add(route.references)
     c.show(show_ports=False)

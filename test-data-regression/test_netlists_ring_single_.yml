@@ -60,6 +60,7 @@ instances:
       layer: null
       npoints: null
       p: 0.5
+      post_process: null
       radius: null
       width: null
       with_arc_floorplan: true
@@ -117,6 +118,7 @@ instances:
       layer: null
       npoints: null
       p: 0.5
+      post_process: null
       radius: null
       width: null
       with_arc_floorplan: true
@@ -217,6 +219,7 @@ instances:
       layer: null
       length: 0.6
       npoints: 2
+      post_process: null
       width: null
   straight_2:
     component: straight
@@ -266,6 +269,7 @@ instances:
       layer: null
       length: 0.6
       npoints: 2
+      post_process: null
       width: null
   straight_3:
     component: straight
@@ -315,6 +319,7 @@ instances:
       layer: null
       length: 4.0
       npoints: 2
+      post_process: null
       width: null
 name: ring_single
 placements:
