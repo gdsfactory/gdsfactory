@@ -17,6 +17,7 @@ def straight(
     add_pins: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
     add_bbox: Callable | None = None,
+    post_process: Callable | None = None,
 ) -> Component:
     """Returns a Straight waveguide.
 
@@ -28,6 +29,7 @@ def straight(
         add_pins: add pins to the component.
         cross_section: specification (CrossSection, string or dict).
         add_bbox: function to add bounding box to the component.
+        post_process: function to post process the component.
 
     .. code::
 
@@ -62,6 +64,8 @@ def straight(
 
     c.add_route_info(cross_section=x, length=length)
     c.absorb(ref)
+    if post_process:
+        post_process(c)
     return c
 
 

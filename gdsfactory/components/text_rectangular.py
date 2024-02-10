@@ -106,7 +106,8 @@ def text_rectangular_multi_layer(
         justify: left, right or center
         font: function that returns dictionary of characters
     """
-    c = copy_layers(
+    c = gf.Component()
+    _ = c << copy_layers(
         factory=partial(text_factory, text=text, **kwargs),
         layers=layers,
     )

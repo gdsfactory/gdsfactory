@@ -19,6 +19,7 @@ def bend_circular(
     cross_section: CrossSectionSpec = "xs_sc",
     add_pins: bool = True,
     add_bbox: Callable | None = None,
+    post_process: Callable | None = None,
 ) -> Component:
     """Returns a radial arc.
 
@@ -31,6 +32,7 @@ def bend_circular(
         cross_section: spec (CrossSection, string or dict).
         add_pins: add pins to the component.
         add_bbox: optional function to add bounding box to the component.
+        post_process: optional function to post process the component.
 
     .. code::
 
@@ -72,6 +74,8 @@ def bend_circular(
     c.add_route_info(
         cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
     )
+    if post_process:
+        post_process(c)
     return c
 
 
