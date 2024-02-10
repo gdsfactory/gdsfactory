@@ -519,7 +519,7 @@ def cross_section(
             > 1
         ):
             raise ValueError(
-                "cladding_layers, cladding_offsets, cladding_simplify must have same length"
+                f"{cladding_layers=}, {cladding_offsets=}, {cladding_simplify=} must have same length"
             )
 
     s = [
