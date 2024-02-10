@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.10.8...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.11.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.11.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.11.0) - 2024-02-10
 
-No significant changes.
-
+- Centering vias in 45degree via stack [#2518](https://github.com/gdsfactory/gdsfactory/pull/2518)
+- fix docker build [#2516](https://github.com/gdsfactory/gdsfactory/pull/2516)
+- add autolabeler [#2515](https://github.com/gdsfactory/gdsfactory/pull/2515)
 
 ## [7.10.8](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.8) - 2024-02-08
 
