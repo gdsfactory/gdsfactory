@@ -329,10 +329,17 @@ class Component(_GeometryHelper):
         return itertools.chain(self.polygons, self.paths, self.labels, self.references)
 
     def get_polygon_enclosure(self) -> Polygon:
-        """Returns shapely Polygon with enclosure."""
+        """Returns Polygon enclosure."""
         import shapely
 
-        return shapely.Polygon(self._cell.convex_hull())
+        p = gdstk.Polygon(self._cell.bounding_box())
+
+        if p.area() == 0:
+            raise ValueError(f"Polygon area is 0 for {self.name}")
+        else:
+            p = shapely.Polygon(self._cell.convex_hull())
+
+        return p
 
     def get_polygon_bbox(
         self,

@@ -48,10 +48,10 @@ def taper(
 
     x = gf.get_cross_section(cross_section, **kwargs)
     width1 = gf.snap.snap_to_grid2x(width1)
-    x1 = x.copy(width=width1)
+    x1 = gf.get_cross_section(cross_section, width=width1)
     if width2:
         width2 = gf.snap.snap_to_grid2x(width2)
-        x2 = x.copy(width=width2)
+        x2 = gf.get_cross_section(cross_section, width=width2)
     else:
         x2 = x1
     layer = x.layer
@@ -149,8 +149,10 @@ def taper_strip_to_ridge(
 
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
-    xs_wg = xs.copy(layer=layer_wg, add_pins_function_name=None)
-    xs_slab = xs.copy(layer=layer_slab, add_pins_function_name=None)
+    xs_wg = gf.get_constant(cross_section, layer=layer_wg, add_pins_function_name=None)
+    xs_slab = gf.get_cross_section(
+        cross_section, layer=layer_slab, add_pins_function_name=None
+    )
 
     taper_wg = taper(
         length=length,
