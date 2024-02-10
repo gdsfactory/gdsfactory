@@ -8,6 +8,7 @@ settings:
   - M1
   - M2
   - MTOP
+  post_process: null
   text: abcd
   text_factory:
     function: text_rectangular

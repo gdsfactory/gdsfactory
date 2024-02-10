@@ -297,7 +297,8 @@ class CrossSection(BaseModel):
             )
             if changed_width_layer_or_offset and len(sections) > 1:
                 warnings.warn(
-                    "CrossSection.copy() only modifies the attributes of the first section."
+                    "CrossSection.copy() only modifies the attributes of the first section.",
+                    stacklevel=2,
                 )
             return self.model_copy(update={"sections": tuple(sections), **kwargs})
         return self.model_copy(update=kwargs)
@@ -519,7 +520,7 @@ def cross_section(
             > 1
         ):
             raise ValueError(
-                "cladding_layers, cladding_offsets, cladding_simplify must have same length"
+                f"{cladding_layers=}, {cladding_offsets=}, {cladding_simplify=} must have same length"
             )
 
     s = [

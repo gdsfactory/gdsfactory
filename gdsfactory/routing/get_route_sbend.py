@@ -50,16 +50,17 @@ def get_route_sbend(
     bend_ref = bend.ref()
     bend_ref.connect(list(bend_ref.ports.keys())[0], port1)
 
-    orthogonality_error = abs(abs(port1.orientation - port2.orientation) - 180)
-    if orthogonality_error > 0.1:
-        from gdsfactory.routing.manhattan import get_route_error
+    if port1.orientation is not None and port2.orientation is not None:
+        orthogonality_error = abs(abs(port1.orientation - port2.orientation) - 180)
+        if orthogonality_error > 0.1:
+            from gdsfactory.routing.manhattan import get_route_error
 
-        warnings.warn(
-            f"Ports need to have orthogonal orientation {orthogonality_error}\n"
-            f"port1 = {port1.orientation} deg and port2 = {port2.orientation}"
-        )
-        points = [port1.center, port2.center]
-        return get_route_error(points)
+            warnings.warn(
+                f"Ports need to have orthogonal orientation {orthogonality_error}\n"
+                f"port1 = {port1.orientation} deg and port2 = {port2.orientation}"
+            )
+            points = [port1.center, port2.center]
+            return get_route_error(points)
 
     return Route(
         references=[bend_ref],

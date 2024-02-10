@@ -15,4 +15,5 @@ settings:
   layer: null
   length: 10.0
   npoints: 2
+  post_process: null
   width: null

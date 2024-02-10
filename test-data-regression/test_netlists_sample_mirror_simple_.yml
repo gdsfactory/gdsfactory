@@ -19,6 +19,7 @@ instances:
       cross_section: xs_sc
       layer: null
       npoints: null
+      post_process: null
       radius: null
       width: null
   s:
@@ -37,6 +38,7 @@ instances:
       layer: null
       length: 10.0
       npoints: 2
+      post_process: null
       width: null
 name: sample_mirror_simple_a2dbfa91
 placements:

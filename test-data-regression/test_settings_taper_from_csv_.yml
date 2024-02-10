@@ -5,3 +5,4 @@ name: taper_from_csv
 settings:
   cross_section: xs_sc
   filepath: taper_strip_0p5_3_36
+  post_process: null

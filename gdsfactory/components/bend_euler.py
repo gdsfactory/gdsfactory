@@ -26,6 +26,7 @@ def bend_euler(
     cross_section: CrossSectionSpec = "xs_sc",
     add_pins: bool = True,
     add_bbox: Callable | None = None,
+    post_process: Callable | None = None,
 ) -> Component:
     """Euler bend with changing bend radius.
 
@@ -52,6 +53,7 @@ def bend_euler(
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         add_pins: add pins to the component.
         add_bbox: optional function to add bounding box to the component.
+        post_process: optional function to post process the component.
 
     .. code::
 
@@ -102,6 +104,8 @@ def bend_euler(
     c.add_route_info(
         cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
     )
+    if post_process:
+        post_process(c)
     return c
 
 
@@ -159,6 +163,8 @@ def bend_straight_bend(
     npoints: int = 720,
     direction: str = "ccw",
     cross_section: CrossSectionSpec = strip,
+    post_process: Callable | None = None,
+    radius: float | None = None,
 ) -> Component:
     """Sbend made of 2 euler bends and straight section in between.
 
@@ -172,6 +178,8 @@ def bend_straight_bend(
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        post_process: optional function to post process the component.
+        radius: in um. Defaults to cross_section_radius.
     """
     c = Component()
     b = bend_euler(
@@ -181,6 +189,8 @@ def bend_straight_bend(
         npoints=npoints,
         direction="ccw",
         cross_section=cross_section,
+        post_process=post_process,
+        radius=radius,
     )
     b1 = c.add_ref(b)
     if direction == "cw":
@@ -188,7 +198,9 @@ def bend_straight_bend(
     b2 = c.add_ref(b)
     if direction == "cw":
         b2.mirror_y()
-    s = c << straight(length=straight_length, cross_section=cross_section)
+    s = c << straight(
+        length=straight_length, cross_section=cross_section, post_process=post_process
+    )
     s.connect("o1", b1.ports["o2"])
     b2.mirror()
     b2.connect("o1", s.ports["o2"])

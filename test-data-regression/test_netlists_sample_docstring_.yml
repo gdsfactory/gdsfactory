@@ -60,6 +60,7 @@ instances:
       layer: null
       npoints: null
       p: 0.5
+      post_process: null
       radius: null
       width: null
       with_arc_floorplan: true
@@ -117,6 +118,7 @@ instances:
       layer: null
       npoints: null
       p: 0.5
+      post_process: null
       radius: null
       width: null
       with_arc_floorplan: true
@@ -200,6 +202,7 @@ instances:
       layer: null
       length: 19.99
       npoints: 2
+      post_process: null
       width: null
   straight_2:
     component: straight
@@ -249,6 +252,7 @@ instances:
       layer: null
       length: 18.75
       npoints: 2
+      post_process: null
       width: null
   straight_3:
     component: straight
@@ -298,6 +302,7 @@ instances:
       layer: null
       length: 0.01
       npoints: 2
+      post_process: null
       width: null
 name: sample_docstring_e2d59879
 placements:

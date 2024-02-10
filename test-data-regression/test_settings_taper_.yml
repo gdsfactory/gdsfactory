@@ -16,6 +16,7 @@ settings:
   port_order_types:
   - optical
   - optical
+  post_process: null
   width1: 0.5
   width2: null
   with_bbox: true

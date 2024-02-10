@@ -31,4 +31,5 @@ settings:
   length: 10
   linear: true
   npoints: 2
+  post_process: null
   width_type: sine

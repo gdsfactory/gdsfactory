@@ -31,4 +31,5 @@ settings:
   length: 10
   linear: false
   npoints: 101
+  post_process: null
   width_type: parabolic

@@ -52,15 +52,6 @@ Dependency Updates:
 
 ## [7.10.4](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.4) - 2024-01-16
 
-### New
-
-- add gf.functions.add_marker_layer_container [#2458](https://github.com/gdsfactory/gdsfactory/pull/2458)
-
-### Maintenance
-
-- Fix release drafter to properly use gdsfactory project labels [#2457](https://github.com/gdsfactory/gdsfactory/pull/2457)
-
-### Other changes
 
 - Avoid pack deprecation warning [#2475](https://github.com/gdsfactory/gdsfactory/pull/2475)
 - [pre-commit.ci] pre-commit autoupdate [#2474](https://github.com/gdsfactory/gdsfactory/pull/2474)
@@ -70,6 +61,8 @@ Dependency Updates:
 - fix with_sbend option in get_route_from_steps [#2468](https://github.com/gdsfactory/gdsfactory/pull/2468)
 - Serialize output for variable width/offsets in Section and CrossSection [#2466](https://github.com/gdsfactory/gdsfactory/pull/2466)
 - Add __contains__ method to Info [#2459](https://github.com/gdsfactory/gdsfactory/pull/2459)
+- add gf.functions.add_marker_layer_container [#2458](https://github.com/gdsfactory/gdsfactory/pull/2458)
+- Fix release drafter to properly use gdsfactory project labels [#2457](https://github.com/gdsfactory/gdsfactory/pull/2457)
 
 
 ## [7.10.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.10.3) - 2024-01-09
@@ -122,6 +115,7 @@ Dependency Updates:
 - run stale workflow once a month instead of daily [#2410](https://github.com/gdsfactory/gdsfactory/pull/2410)
 - use cross_section factories instead of copy [#2409](https://github.com/gdsfactory/gdsfactory/pull/2409)
 - better error messages for modifying CrossSections [#2408](https://github.com/gdsfactory/gdsfactory/pull/2408)
+- [deprecate decorator](https://github.com/gdsfactory/gdsfactory/commit/9837dc14a9a16b5067516874ad0c3390abf1127c)
 
 
 ## [7.9.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.9.3) - 2023-12-22

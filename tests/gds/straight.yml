@@ -6,6 +6,7 @@ cells:
     layer: null
     length: 1.234
     npoints: 2
+    post_process: null
     width: null
 function: straight
 info:
@@ -49,4 +50,5 @@ settings:
   layer: null
   length: 1.234
   npoints: 2
+  post_process: null
   width: null

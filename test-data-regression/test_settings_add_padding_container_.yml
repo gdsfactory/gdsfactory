@@ -36,3 +36,4 @@ settings:
       with_splitter: true
   function:
     function: add_padding
+  function_kwargs: null

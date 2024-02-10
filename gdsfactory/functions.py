@@ -294,7 +294,7 @@ def add_marker_layer(
         c = component
     polygon = c.get_polygons(as_shapely_merged=True)
 
-    if not polygon.is_empty:
+    if polygon and not polygon.is_empty:
         component.add_polygon(polygon, layer=marker_layer)
         if marker_label:
             component.add_label(
@@ -307,7 +307,7 @@ def add_marker_layer(
             )
     else:
         warnings.warn(
-            f"Could not add marker layer {marker_layer} to {component.name!r} because it is empty."
+            f"Could not add {marker_layer=} to {component.name!r} because it is empty."
             f"Supplied {layers_to_mark=!r}.",
             stacklevel=2,
         )
