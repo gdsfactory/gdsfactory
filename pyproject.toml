@@ -184,12 +184,6 @@ cmd = "grep -q -F {new_version} CHANGELOG.md"
 name = "create & check changelog"
 
 [[tool.tbump.file]]
-src = ".devcontainer/Dockerfile.dev"
-
-[[tool.tbump.file]]
-src = ".devcontainer/Dockerfile.dev_minimal"
-
-[[tool.tbump.file]]
 src = ".github/workflows/release.yml"
 
 [[tool.tbump.file]]
