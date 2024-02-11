@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.11.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.11.1) - 2024-02-10
+
+No significant changes.
+
+
 ## [7.11.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.11.0) - 2024-02-10
 
 - Centering vias in 45degree via stack [#2518](https://github.com/gdsfactory/gdsfactory/pull/2518)
