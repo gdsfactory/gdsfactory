@@ -32,6 +32,6 @@ jobs:
         with:
           context: .
           file: .devcontainer/Dockerfile.dev
-          push: ${{ github.ref == 'refs/head/main' || startsWith(github.ref, 'refs/tags') }}
+          push: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags') }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
