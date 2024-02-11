@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.11.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.11.2) - 2024-02-10
+
+No significant changes.
+
+
 ## [7.11.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.11.1) - 2024-02-10
 
 No significant changes.
