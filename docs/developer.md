@@ -34,12 +34,7 @@ gf.config.print_version_plugins()
 
 ## Docker container
 
-As an alternative, you can use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with:
-
-
-```bash
-docker build -t joamatab/gdsfactory .
-```
+As an alternative, you can use the pre-built Docker image from [github](https://github.com/gdsfactory/gdsfactory/pkgs/container/gdsfactory) or [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory)
 
 For instance, VS Code supports development inside a container. See [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
 
@@ -60,7 +55,7 @@ The following lines will:
 git clone git@github.com:YourUserName/gdsfactory.git
 cd gdsfactory
 git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
-pip install -e .[cad,dev]
+pip install -e .[dev]
 pre-commit install
 ```
 
