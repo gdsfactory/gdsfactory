@@ -29,11 +29,12 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=semver,pattern={{version}}
+            type=ref,event=push
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: .devcontainer/Dockerfile.dev
-          push: ${{ startsWith(github.ref, 'refs/tags') }}
+          push: ${{ github.ref == 'refs/head/main' || startsWith(github.ref, 'refs/tags') }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
