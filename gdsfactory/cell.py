@@ -360,26 +360,26 @@ cell_with_child = partial(cell, get_child_name=True)
 
 @cell_with_child
 def container(
-    component, function, function_kwargs: dict | None = None, **kwargs
+    component,
+    function,
+    **kwargs,
 ) -> gf.Component:
     """Returns new component with a component reference.
 
     Args:
         component: to add to container.
         function: function to apply to component.
-        function_kwargs: keyword arguments to pass to function.
         kwargs: keyword arguments to pass to function.
-
     """
+
     import gdsfactory as gf
 
-    component = gf.get_component(component, **kwargs)
+    component = gf.get_component(component)
     c = Component()
     cref = c << component
     c.add_ports(cref.ports)
 
-    function_kwargs = function_kwargs or {}
-    function(c, **function_kwargs)
+    function(c, **kwargs)
     c.copy_child_info(component)
     return c
 
