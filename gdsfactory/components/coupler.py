@@ -8,7 +8,7 @@ from gdsfactory.components.coupler_straight import (
 from gdsfactory.components.coupler_symmetric import (
     coupler_symmetric as coupler_symmetric_function,
 )
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -20,6 +20,7 @@ def coupler(
     dy: float = 4.0,
     dx: float = 10.0,
     cross_section: CrossSectionSpec = "xs_sc",
+    post_process: Callable | None = None,
 ) -> Component:
     r"""Symmetric coupler.
 
@@ -31,6 +32,7 @@ def coupler(
         dy: port to port vertical spacing in um.
         dx: length of bend in x direction in um.
         cross_section: spec (CrossSection, string or dict).
+        post_process: function to call after the component is created.
 
     .. code::
 
@@ -78,6 +80,8 @@ def coupler(
     x = gf.get_cross_section(cross_section)
     x.add_bbox(c)
     x.add_pins(c)
+    if post_process:
+        post_process(c)
     return c
 
 

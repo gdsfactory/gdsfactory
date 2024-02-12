@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import CrossSectionSpec
 
 
@@ -10,7 +10,7 @@ from gdsfactory.cross_section import CrossSectionSpec
 def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,
-    straight: Component = straight,
+    straight: Component = straight_function,
     cross_section: CrossSectionSpec = "xs_sc_no_pins",
     **kwargs,
 ) -> Component:
@@ -31,12 +31,8 @@ def coupler_straight(
     """
     component = Component()
 
-    x = gf.get_cross_section(cross_section, **kwargs)
-
     straight_component = straight(
-        length=length,
-        cross_section=x,
-        add_pins=False,
+        length=length, cross_section=cross_section, add_pins=False, **kwargs
     )
 
     top = component << straight_component
