@@ -33,7 +33,7 @@ dependencies = [
   "toolz<1",
   "types-PyYAML",
   "typer<1",
-  "watchdog<4",
+  "watchdog<5",
   "kfactory[git,ipy]>=0.9.1,<0.12",
   "freetype-py",
   "mapbox_earcut",
