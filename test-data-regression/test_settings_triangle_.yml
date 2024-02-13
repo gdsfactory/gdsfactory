@@ -5,6 +5,7 @@ name: triangle
 settings:
   layer: WG
   layers: null
+  post_process: null
   x: 10
   xtop: 0
   y: 20
