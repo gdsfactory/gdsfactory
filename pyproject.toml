@@ -79,7 +79,7 @@ docs = [
   "plotly"
 ]
 full = [
-  "gplugins[devsim,femwell,gmsh,meow,meshwell,ray,sax,schematic,tidy3d]"
+  "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]"
 ]
 maintainer = [
   "ruff",
