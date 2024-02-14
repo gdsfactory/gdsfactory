@@ -25,6 +25,7 @@ instances:
       columns: 6
       orientation: 90
       pad: pad
+      post_process: null
       rows: 1
       spacing:
       - 150.0
@@ -1002,6 +1003,7 @@ instances:
       columns: 6
       orientation: 270
       pad: pad
+      post_process: null
       rows: 1
       spacing:
       - 150.0
