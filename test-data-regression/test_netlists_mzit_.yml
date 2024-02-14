@@ -264,6 +264,7 @@ instances:
       dy: 2.0
       gap: 0.3
       length: 10.0
+      post_process: null
   coupler_2:
     component: coupler
     info:
@@ -279,6 +280,7 @@ instances:
       dy: 2.0
       gap: 0.2
       length: 5.0
+      post_process: null
   straight_1:
     component: straight
     info:
