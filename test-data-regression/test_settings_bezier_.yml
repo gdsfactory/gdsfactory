@@ -21,6 +21,7 @@ settings:
   cross_section: xs_sc
   end_angle: null
   npoints: 201
+  post_process: null
   start_angle: null
   with_bbox: true
   with_manhattan_facing_angles: true
