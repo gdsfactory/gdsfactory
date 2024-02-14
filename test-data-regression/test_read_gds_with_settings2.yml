@@ -1,7 +1,7 @@
 function: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_9b71fb61
+name: mzi_a42a8e63
 settings:
   add_electrical_ports_bot: true
   add_optical_ports_arms: false
@@ -22,6 +22,7 @@ settings:
   port_e0_splitter: o3
   port_e1_combiner: o2
   port_e1_splitter: o2
+  post_process: null
   splitter:
     function: mmi1x2
     module: gdsfactory.components.mmi1x2
@@ -31,6 +32,7 @@ settings:
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10.0
+      post_process: null
       straight:
         function: straight
       taper:
