@@ -160,7 +160,7 @@ def seal_ring_segmented(
 
         # horizontal inner
         topi = c << horizontal
-        topi.ymax = top.ymin - 2
+        topi.ymax = top.ymin - spacing_segment
         topi.xmin = top.xmin + pitch / 2
 
     if with_south:
@@ -169,7 +169,7 @@ def seal_ring_segmented(
         bot.xmin = tl.xmax + spacing_segment
 
         boti = c << horizontal
-        boti.ymin = bot.ymax + 2
+        boti.ymin = bot.ymax + spacing_segment
         boti.xmin = bot.xmin + spacing_segment
 
     # vertical
@@ -188,7 +188,7 @@ def seal_ring_segmented(
         right.xmax = xmax
         right.ymin = bl.ymax
         righti = c << vertical
-        righti.xmax = right.xmin - 2
+        righti.xmax = right.xmin - spacing_segment
         righti.ymin = right.ymin + pitch / 2
 
     if with_west:
@@ -198,7 +198,7 @@ def seal_ring_segmented(
 
         # vertical inner
         lefti = c << vertical
-        lefti.xmin = left.xmax + 2
+        lefti.xmin = left.xmax + spacing_segment
         lefti.ymin = left.ymin + pitch / 2
 
     return c
@@ -208,7 +208,7 @@ if __name__ == "__main__":
     c = gf.Component()
     ref = c << gf.c.rectangle(size=(500, 100), layer=(1, 0))
     ref.move((500, 300))
-    c << seal_ring_segmented(c.bbox, with_south=False, padding=50)
+    c << seal_ring_segmented(c.bbox, with_south=False, padding=50, spacing_segment=5)
     # big_square = partial(rectangle, size=(1300, 2600))
     # c = gf.Component("demo")
     # c << big_square()
