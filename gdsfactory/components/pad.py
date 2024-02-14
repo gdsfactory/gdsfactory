@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
+from gdsfactory.typings import Callable, ComponentSpec, Float2, LayerSpec
 
 
 @cell
@@ -17,6 +17,7 @@ def pad(
     bbox_offsets: tuple[float, ...] | None = None,
     port_inclusion: float = 0,
     port_orientation: float | None = None,
+    post_process: Callable | None = None,
 ) -> Component:
     """Returns rectangular pad with ports.
 
@@ -28,6 +29,7 @@ def pad(
             positive grows, negative shrinks the size.
         port_inclusion: from edge.
         port_orientation: in degrees.
+        post_process: function to post process the component.
     """
     c = Component()
     layer = gf.get_layer(layer)
@@ -68,6 +70,8 @@ def pad(
         orientation=port_orientation,
         width=width,
     )
+    if post_process:
+        post_process(c)
     return c
 
 
@@ -82,6 +86,7 @@ def pad_array(
     columns: int = 6,
     rows: int = 1,
     orientation: float | None = 270,
+    post_process: Callable | None = None,
 ) -> Component:
     """Returns 2D array of pads.
 
@@ -91,6 +96,7 @@ def pad_array(
         columns: number of columns.
         rows: number of rows.
         orientation: port orientation in deg. None for low speed DC ports.
+        post_process: function to post process the component.
     """
     c = Component()
     pad = gf.get_component(pad)
@@ -112,6 +118,8 @@ def pad_array(
                 port_type="electrical",
                 layer=pad.info["layer"],
             )
+    if post_process:
+        post_process(c)
     return c
 
 
