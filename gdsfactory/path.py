@@ -839,7 +839,6 @@ def extrude(
         end_angle = p_sec.end_angle
         start_angle = p_sec.start_angle
         points = p_sec.points
-        points = np.round(points, 3)
         if callable(width_function):
             # Compute lengths
             dx = np.diff(p_sec.points[:, 0])
@@ -901,6 +900,7 @@ def extrude(
 
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
+        points_poly = np.round(points_poly, 3)
 
         layers = layer if hidden else [layer, layer]
         if not hidden and p_sec.length() > 1e-3:
@@ -1081,7 +1081,6 @@ def extrude_transition(
         end_angle = p_sec.end_angle
         start_angle = p_sec.start_angle
         points = p_sec.points
-        points = np.round(points, 3)
         if callable(width):
             # Compute lengths
             dx = np.diff(p_sec.points[:, 0])
