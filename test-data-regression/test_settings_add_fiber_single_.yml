@@ -28,6 +28,7 @@ settings:
       port_e0_splitter: o4
       port_e1_combiner: o3
       port_e1_splitter: o3
+      post_process: null
       splitter:
         function: mmi2x2
       straight:

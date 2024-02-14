@@ -130,6 +130,7 @@ instances:
       gap_mmi: 0.25
       length_mmi: 11
       length_taper: 10.0
+      post_process: null
       straight:
         function: straight
       taper:
@@ -146,6 +147,7 @@ instances:
       gap_mmi: 0.25
       length_mmi: 22
       length_taper: 10.0
+      post_process: null
       straight:
         function: straight
       taper:

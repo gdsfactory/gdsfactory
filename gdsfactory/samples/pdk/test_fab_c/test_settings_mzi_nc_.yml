@@ -98,6 +98,7 @@ settings:
   port_e0_splitter: o3
   port_e1_combiner: o2
   port_e1_splitter: o2
+  post_process: null
   splitter:
     function: mmi1x2
     module: gdsfactory.components.mmi1x2
