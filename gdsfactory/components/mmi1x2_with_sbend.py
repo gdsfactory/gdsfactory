@@ -3,7 +3,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec
 
 
 def mmi_widths(t):
@@ -23,6 +23,7 @@ def mmi1x2_with_sbend(
     with_sbend: bool = True,
     s_bend: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "xs_sc",
+    post_process: Callable | None = None,
 ) -> Component:
     """Returns 1x2 splitter for Cband.
 
@@ -76,6 +77,8 @@ def mmi1x2_with_sbend(
     c.absorb(sl)
     c.absorb(s_topr)
     c.absorb(s_botr)
+    if post_process:
+        post_process(c)
     return c
 
 

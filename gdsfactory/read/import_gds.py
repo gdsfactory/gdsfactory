@@ -11,6 +11,7 @@ from gdsfactory.cell import cell_import_gds
 from gdsfactory.component import CellSettings, Component, Info
 from gdsfactory.component_reference import ComponentReference
 from gdsfactory.config import logger
+from gdsfactory.typings import Callable
 
 
 @cell_import_gds
@@ -23,6 +24,7 @@ def import_gds(
     keep_name_short: bool = False,
     unique_names: bool = True,
     max_name_length: int = 250,
+    post_process: Callable | None = None,
     **kwargs,
 ) -> Component:
     """Returns a Component from a GDS file.
@@ -39,6 +41,7 @@ def import_gds(
         unique_names: appends $ with a number to the name if the cell name is on CACHE. \
                 This avoids name collisions when importing multiple times the same cell name.
         max_name_length: maximum length of the name.
+        post_process: function to post process the component after importing.
         kwargs: extra to add to component.info (polarization, wavelength ...).
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
@@ -173,6 +176,8 @@ def import_gds(
     for k, v in kwargs.items():
         component.info[k] = v
     component.imported_gds = True
+    if post_process:
+        post_process(component)
     return component
 
 

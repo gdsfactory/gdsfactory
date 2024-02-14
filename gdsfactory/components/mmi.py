@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -23,6 +23,7 @@ def mmi(
     cross_section: CrossSectionSpec = "xs_sc",
     input_positions: list[float] | None = None,
     output_positions: list[float] | None = None,
+    post_process: Callable | None = None,
 ) -> Component:
     r"""mxn MultiMode Interferometer (MMI).
 
@@ -41,6 +42,7 @@ def mmi(
         cross_section: specification (CrossSection, string or dict).
         input_positions: optional positions of the inputs.
         output_positions: optional positions of the outputs.
+        post_process: function to post process the component.
 
     .. code::
 
@@ -128,6 +130,8 @@ def mmi(
     if x.add_pins:
         c = x.add_pins(c)
     c.auto_rename_ports()
+    if post_process:
+        post_process(c)
     return c
 
 
