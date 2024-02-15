@@ -27,4 +27,4 @@ RUN apt-get update --yes && \
 USER ${USER}
 # Using pip to install Python packages
 # Ensure your base image has all the necessary libraries or install them before switching users
-RUN pip install .[full]
+RUN pip install .[dev,docs,full]
