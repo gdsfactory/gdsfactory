@@ -69,8 +69,7 @@ dev = [
   "pytest-cov",
   "pytest_regressions",
   "types-PyYAML",
-  "types-cachetools",
-  "towncrier"
+  "types-cachetools"
 ]
 docs = [
   "autodoc_pydantic>=2.0.1,<3",
