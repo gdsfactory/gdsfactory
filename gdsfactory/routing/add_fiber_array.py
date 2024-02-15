@@ -3,6 +3,8 @@ from __future__ import annotations
 from collections.abc import Callable
 from functools import partial
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
@@ -12,10 +14,12 @@ from gdsfactory.routing.get_input_labels import get_input_labels_dash
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.typings import (
+    AnchorSubset,
     ComponentSpec,
     ComponentSpecOrList,
     CrossSectionSpec,
     LayerSpec,
+    Literal,
 )
 
 
@@ -30,6 +34,9 @@ def add_fiber_array(
     cross_section: CrossSectionSpec = "xs_sc",
     get_input_labels_function: Callable | None = get_input_labels_dash,
     layer_label: LayerSpec | None = None,
+    dev_id: str | None = None,
+    text: ComponentSpec | None = None,
+    id_placement: Literal[AnchorSubset] = "center",
     **kwargs,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
@@ -46,7 +53,13 @@ def add_fiber_array(
         cross_section: cross_section function.
         get_input_labels_function: function to get input labels. None skips labels.
         layer_label: optional layer for grating coupler label.
-
+        dev_id: device if if we want to add a visible label for the device.
+        text: optional componentSpec to generate the text for the dev_id
+        id_placement: placement of the id.
+            "c" = center (in between the center grating couplers)
+            "r" = right of the right-most gc
+            "l" = left of the left-most gc
+            "s" = center and below the gc in y
     Keyword Args:
         bend: bend spec.
         straight: straight spec.
@@ -178,6 +191,38 @@ def add_fiber_array(
         component_new.add_port("loopback2", port=ports_loopback[1])
 
     component_new.copy_child_info(component)
+
+    # Add a visible label to the structure if indicated
+    if dev_id and text:
+        if id_placement == "center":
+            lab = component_new << text(text=dev_id, justify="center")
+            xs = [r.x for r in io_gratings_lines[0]]
+            ys = [r.y for r in io_gratings_lines[0]]
+            lab.center = (np.average(xs), ys[0])
+        elif id_placement == "r":
+            lab = component_new << text(text=dev_id, justify="left")
+            xmax = [r.xmax for r in io_gratings_lines[0]]
+            # Include the loopback ports for xmax, xmin calculation
+            if ports_loopback:
+                xmax += [r.xmax for r in io_gratings_lines[-1] + io_gratings_lines[-2]]
+            ys = [r.y for r in io_gratings_lines[0]]
+            lab.xmin = np.max(xmax) + 20
+            lab.y = ys[0]
+        elif id_placement == "l":
+            lab = component_new << text(text=dev_id, justify="right")
+            xmin = [r.xmin for r in io_gratings_lines[0]]
+            # Include the loopback ports for xmax, xmin calculation
+            if ports_loopback:
+                xmin += [r.xmin for r in io_gratings_lines[-1] + io_gratings_lines[-2]]
+            ys = [r.y for r in io_gratings_lines[0]]
+            lab.xmax = np.min(xmin) - 20
+            lab.y = ys[0]
+        elif id_placement == "s":
+            lab = component_new << text(text=dev_id, justify="center")
+            xs = [r.x for r in io_gratings_lines[0]]
+            ymins = [r.ymin for r in io_gratings_lines[0]]
+            lab.center = (np.average(xs), np.min(ymins) - 20)
+
     return component_new
 
 

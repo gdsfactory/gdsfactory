@@ -124,6 +124,12 @@ Anchor = Literal[
     "center",
     "cc",
 ]
+AnchorSubset = Literal[
+    "center",
+    "l",
+    "r",
+    "s",
+]
 Axis = Literal["x", "y"]
 NSEW = Literal["N", "S", "E", "W"]
 
