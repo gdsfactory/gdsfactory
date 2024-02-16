@@ -900,7 +900,7 @@ def extrude(
 
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
-        points_poly = np.round(points_poly, 3)
+        # points_poly = np.round(points_poly, 3)
 
         layers = layer if hidden else [layer, layer]
         if not hidden and p_sec.length() > 1e-3:

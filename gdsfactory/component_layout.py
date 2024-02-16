@@ -19,7 +19,6 @@ from rich.console import Console
 from rich.table import Table
 
 from gdsfactory.serialization import clean_value_json
-from gdsfactory.snap import snap_to_grid
 
 if TYPE_CHECKING:
     from gdsfactory.port import Port
@@ -528,7 +527,7 @@ class Group(_GeometryHelper):
             axis : {'x', 'y'}
                 Direction of the move.
         """
-        destination = snap_to_grid(destination)
+        # destination = snap_to_grid(destination)
         for e in self.elements:
             e.move(origin=origin, destination=destination, axis=axis)
         return self

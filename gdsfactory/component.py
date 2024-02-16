@@ -1131,7 +1131,7 @@ class Component(_GeometryHelper):
         self,
         points,
         layer: str | int | tuple[int, int] | np.nan = np.nan,
-        snap_to_grid: bool = True,
+        snap_to_grid: bool = False,
     ) -> Polygon:
         """Adds a Polygon to the Component.
 
