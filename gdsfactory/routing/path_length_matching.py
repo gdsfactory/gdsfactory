@@ -155,21 +155,20 @@ def path_length_matched_points_add_waypoints(
 ) -> list[ndarray]:
     """Args are the following.
 
-        list_of_waypoints: a list of list_of_points:
-            [[p1, p2, p3,...], [q1, q2, q3,...], ...]
-            - the number of turns have to be identical
-                (usually means same number of points. exception is if there are
-                some flat angles)
+    Args:
+        list_of_waypoints: a list of list_of_points: [[p1, p2, p3,...], [q1, q2, q3,...], ...]
+            - the number of turns have to be identical (usually means same number of points. exception is if there are
+                some flat angles).
         modify_segment_i: index of the segment which accommodates the new turns
-            default is next to last segment
-        bend: for bends
+            default is next to last segment.
+        bend: for bends.
         margin: some extra space to budget for in addition to the bend radius
-            in most cases, the default is fine
+            in most cases, the default is fine.
         extra_length: distance added to all path length compensation.
-            Useful is we want to add space for extra taper on all branches
-        nb_loops: number of extra loops added in the path
-        cross_section: factory
-        **kwargs: cross_section settings
+            Useful is we want to add space for extra taper on all branches.
+        nb_loops: number of extra loops added in the path.
+        cross_section: factory.
+        kwargs: cross_section settings.
 
     returns:
         another list of waypoints where:
