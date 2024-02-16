@@ -193,35 +193,44 @@ def add_fiber_array(
     component_new.copy_child_info(component)
 
     # Add a visible label to the structure if indicated
-    if dev_id and text:
-        if id_placement == "center":
-            lab = component_new << text(text=dev_id, justify="center")
-            xs = [r.x for r in io_gratings_lines[0]]
-            ys = [r.y for r in io_gratings_lines[0]]
-            lab.center = (np.average(xs), ys[0])
-        elif id_placement == "r":
-            lab = component_new << text(text=dev_id, justify="left")
-            xmax = [r.xmax for r in io_gratings_lines[0]]
-            # Include the loopback ports for xmax, xmin calculation
-            if ports_loopback:
-                xmax += [r.xmax for r in io_gratings_lines[-1] + io_gratings_lines[-2]]
-            ys = [r.y for r in io_gratings_lines[0]]
-            lab.xmin = np.max(xmax) + 20
-            lab.y = ys[0]
-        elif id_placement == "l":
-            lab = component_new << text(text=dev_id, justify="right")
-            xmin = [r.xmin for r in io_gratings_lines[0]]
-            # Include the loopback ports for xmax, xmin calculation
-            if ports_loopback:
-                xmin += [r.xmin for r in io_gratings_lines[-1] + io_gratings_lines[-2]]
-            ys = [r.y for r in io_gratings_lines[0]]
-            lab.xmax = np.min(xmin) - 20
-            lab.y = ys[0]
-        elif id_placement == "s":
-            lab = component_new << text(text=dev_id, justify="center")
-            xs = [r.x for r in io_gratings_lines[0]]
-            ymins = [r.ymin for r in io_gratings_lines[0]]
-            lab.center = (np.average(xs), np.min(ymins) - 20)
+    if text:
+        if dev_id is None:
+            # Check if there is info on the component
+            if "dev_id" in component.info:
+                dev_id = component.info["dev_id"]
+        if dev_id:
+            if id_placement == "center":
+                lab = component_new << text(text=dev_id, justify="center")
+                xs = [r.x for r in io_gratings_lines[0]]
+                ys = [r.y for r in io_gratings_lines[0]]
+                lab.center = (np.average(xs), ys[0])
+            elif id_placement == "r":
+                lab = component_new << text(text=dev_id, justify="left")
+                xmax = [r.xmax for r in io_gratings_lines[0]]
+                # Include the loopback ports for xmax, xmin calculation
+                if ports_loopback:
+                    xmax += [
+                        r.xmax for r in io_gratings_lines[-1] + io_gratings_lines[-2]
+                    ]
+                ys = [r.y for r in io_gratings_lines[0]]
+                lab.xmin = np.max(xmax) + 20
+                lab.y = ys[0]
+            elif id_placement == "l":
+                lab = component_new << text(text=dev_id, justify="right")
+                xmin = [r.xmin for r in io_gratings_lines[0]]
+                # Include the loopback ports for xmax, xmin calculation
+                if ports_loopback:
+                    xmin += [
+                        r.xmin for r in io_gratings_lines[-1] + io_gratings_lines[-2]
+                    ]
+                ys = [r.y for r in io_gratings_lines[0]]
+                lab.xmax = np.min(xmin) - 20
+                lab.y = ys[0]
+            elif id_placement == "s":
+                lab = component_new << text(text=dev_id, justify="center")
+                xs = [r.x for r in io_gratings_lines[0]]
+                ymins = [r.ymin for r in io_gratings_lines[0]]
+                lab.center = (np.average(xs), np.min(ymins) - 20)
 
     return component_new
 
