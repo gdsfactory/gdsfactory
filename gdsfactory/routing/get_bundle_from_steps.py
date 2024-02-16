@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from functools import partial
 
 import numpy as np
@@ -20,14 +21,13 @@ from gdsfactory.typings import (
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
     Route,
-    Step,
 )
 
 
 def get_bundle_from_steps(
     ports1: list[Port],
     ports2: list[Port],
-    steps: list[Step] | None = None,
+    steps: Iterable[dict[str, float]] | None = None,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     taper: ComponentSpec | None = taper_function,
