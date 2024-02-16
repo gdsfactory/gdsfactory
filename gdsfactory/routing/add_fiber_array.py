@@ -18,6 +18,7 @@ from gdsfactory.typings import (
     ComponentSpec,
     ComponentSpecOrList,
     CrossSectionSpec,
+    Floats,
     LayerSpec,
     Literal,
 )
@@ -37,6 +38,7 @@ def add_fiber_array(
     dev_id: str | None = None,
     text: ComponentSpec | None = None,
     id_placement: Literal[AnchorSubset] = "center",
+    id_placement_offset: Floats = (0, 0),
     **kwargs,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
@@ -203,7 +205,10 @@ def add_fiber_array(
                 lab = component_new << text(text=dev_id, justify="center")
                 xs = [r.x for r in io_gratings_lines[0]]
                 ys = [r.y for r in io_gratings_lines[0]]
-                lab.center = (np.average(xs), ys[0])
+                lab.center = (
+                    np.average(xs) + id_placement_offset[0],
+                    ys[0] + +id_placement_offset[1],
+                )
             elif id_placement == "r":
                 lab = component_new << text(text=dev_id, justify="left")
                 xmax = [r.xmax for r in io_gratings_lines[0]]
@@ -213,8 +218,8 @@ def add_fiber_array(
                         r.xmax for r in io_gratings_lines[-1] + io_gratings_lines[-2]
                     ]
                 ys = [r.y for r in io_gratings_lines[0]]
-                lab.xmin = np.max(xmax) + 20
-                lab.y = ys[0]
+                lab.xmin = np.max(xmax) + 20 + id_placement_offset[0]
+                lab.y = ys[0] + id_placement_offset[1]
             elif id_placement == "l":
                 lab = component_new << text(text=dev_id, justify="right")
                 xmin = [r.xmin for r in io_gratings_lines[0]]
@@ -224,13 +229,16 @@ def add_fiber_array(
                         r.xmin for r in io_gratings_lines[-1] + io_gratings_lines[-2]
                     ]
                 ys = [r.y for r in io_gratings_lines[0]]
-                lab.xmax = np.min(xmin) - 20
-                lab.y = ys[0]
+                lab.xmax = np.min(xmin) - 20 + id_placement_offset[0]
+                lab.y = ys[0] + id_placement_offset[1]
             elif id_placement == "s":
                 lab = component_new << text(text=dev_id, justify="center")
                 xs = [r.x for r in io_gratings_lines[0]]
                 ymins = [r.ymin for r in io_gratings_lines[0]]
-                lab.center = (np.average(xs), np.min(ymins) - 20)
+                lab.center = (
+                    np.average(xs) + id_placement_offset[0],
+                    np.min(ymins) - 20 + id_placement_offset[1],
+                )
 
     return component_new
 
