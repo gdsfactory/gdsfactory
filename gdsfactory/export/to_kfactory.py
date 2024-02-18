@@ -52,6 +52,7 @@ def to_kfactory(component) -> kf.KCell:
 
 if __name__ == "__main__":
     c0 = gf.components.mzi()
+    c0 = gf.pack([gf.c.mzi(), gf.c.straight()])[0]
     c = to_kfactory(c0)
     c.show()
     # c = gf.components.mzi()
