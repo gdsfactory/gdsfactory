@@ -951,6 +951,12 @@ class Component(_GeometryHelper):
 
         pprint_ports(self.get_ports_list(sort_by_name=sort_by_name, **kwargs))
 
+    def to_kfactory(self):
+        """Converts the component to KLayout Component."""
+        from gdsfactory.export.to_kfactory import to_kfactory
+
+        return to_kfactory(self)
+
     def add_port(
         self,
         name: str | object | None = None,

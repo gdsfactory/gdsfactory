@@ -78,7 +78,7 @@ def get_test_manifest(
 
 if __name__ == "__main__":
     c = sample_reticle(grid=False)
-    c = gf.pack([c])[0]
+    # c = gf.pack([c])[0]
     c.show(show_ports=False)
     df = get_test_manifest(c, one_setting_per_column=False)
     df.to_csv("test_manifest.csv", index=False)
