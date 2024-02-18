@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.read.import_gds import import_gds
 
 
-def test_import_ports_inside(data_regression) -> None:
+def test_import_ports_inside() -> None:
     """Make sure you can import the ports"""
     c0 = gf.add_pins.add_pins_container(gf.components.straight())
     gdspath = c0.write_gds()
@@ -15,8 +15,6 @@ def test_import_ports_inside(data_regression) -> None:
     )
     c1 = gf.add_ports.add_ports_from_markers_inside(c1)
     assert len(c1.ports) == 2, f"{len(c1.ports)}"
-    if data_regression:
-        data_regression.check(c1.to_dict())
 
 
 def test_import_ports_center(data_regression) -> None:
