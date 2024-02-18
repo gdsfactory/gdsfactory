@@ -108,6 +108,7 @@ def seal_ring_segmented(
         with_south: includes seal.
         with_east: includes seal.
         with_west: includes seal.
+        padding: from component to seal.
     """
     c = gf.Component()
     corner = gf.get_component(corner, width=width_segment)

@@ -93,16 +93,27 @@ def test_offset() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component()
-    layer_slab = (2, 0)
-    c1 = gf.components.coupler_ring(
-        cladding_layers=[layer_slab], cladding_offsets=[0.5]
-    )
-    d = 0.8
-    # d = 1
-    c2 = gf.geometry.offset(c1, distance=+d, layer=layer_slab)
-    c3 = gf.geometry.offset(c2, distance=-d, layer=layer_slab)
+    # c = gf.Component()
+    # layer_slab = (2, 0)
+    # c1 = gf.components.coupler_ring(
+    #     cladding_layers=[layer_slab], cladding_offsets=[0.5]
+    # )
+    # d = 0.8
+    # # d = 1
+    # c2 = gf.geometry.offset(c1, distance=+d, layer=layer_slab)
+    # c3 = gf.geometry.offset(c2, distance=-d, layer=layer_slab)
 
-    _ = c << c1.extract(layers=("WG",))
-    _ = c << c3
+    # _ = c << c1.extract(layers=("WG",))
+    # _ = c << c3
+    # c.show()
+
+    c = gf.Component("demo_dataprep")
+    c1 = gf.components.coupler_ring(cross_section="xs_rc2", radius=20)
+    c1.show()
+
+    d = 0.8
+    c2 = gf.geometry.offset(c1, distance=+d, layer=(3, 0))
+    c3 = gf.geometry.offset(c2, distance=-d, layer=(3, 0))
+    c << c1
+    c << c3
     c.show()
