@@ -55,6 +55,7 @@ settings:
   loopback_xspacing: 50.0
   min_input_to_output_spacing: 200.0
   optical_routing_type: 2
+  post_proces: null
   route_filter:
     function: get_route_from_waypoints
   select_ports:

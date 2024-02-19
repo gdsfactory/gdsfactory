@@ -40,6 +40,7 @@ settings:
   pad_array:
     function: pad_array
   port_names: null
+  post_proces: null
   select_ports:
     function: select_ports
     module: gdsfactory.port

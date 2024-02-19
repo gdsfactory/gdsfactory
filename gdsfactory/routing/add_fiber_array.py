@@ -39,6 +39,7 @@ def add_fiber_array(
     text: ComponentSpec | None = None,
     id_placement: Literal[AnchorSubset] = "center",
     id_placement_offset: Floats = (0, 0),
+    post_proces: Callable | None = None,
     **kwargs,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
@@ -62,6 +63,9 @@ def add_fiber_array(
             "r" = right of the right-most gc
             "l" = left of the left-most gc
             "s" = center and below the gc in y
+        id_placement_offset: offset for the id placement.
+        post_proces: function to post process the component.
+
     Keyword Args:
         bend: bend spec.
         straight: straight spec.
@@ -240,6 +244,8 @@ def add_fiber_array(
                     np.min(ymins) - 20 + id_placement_offset[1],
                 )
 
+    if post_proces:
+        post_proces(component_new)
     return component_new
 
 

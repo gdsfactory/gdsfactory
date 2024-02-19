@@ -50,6 +50,7 @@ settings:
   pad_port_name: e1
   pad_spacing: pad_spacing
   port_names: null
+  post_proces: null
   select_ports:
     function: select_ports
     module: gdsfactory.port
