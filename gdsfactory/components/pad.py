@@ -45,6 +45,16 @@ def pad(
     c.info["layer"] = layer
     c.absorb(c_ref)
 
+    width = size[1] if port_orientation in [0, 180] else size[0]
+    c.add_port(
+        name="pad",
+        port_type="vertical_dc",
+        layer=layer,
+        center=(0, 0),
+        orientation=port_orientation,
+        width=width,
+    )
+
     if bbox_layers and bbox_offsets:
         sizes = []
         for cladding_offset in bbox_offsets:
@@ -60,16 +70,6 @@ def pad(
             )
             c.absorb(ref)
 
-    width = size[1] if port_orientation in [0, 180] else size[0]
-
-    c.add_port(
-        name="pad",
-        port_type="vertical_dc",
-        layer=layer,
-        center=(0, 0),
-        orientation=port_orientation,
-        width=width,
-    )
     if post_process:
         post_process(c)
     return c
