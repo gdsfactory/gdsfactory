@@ -42,7 +42,7 @@ def add_fiber_single(
     get_input_label_text_function: Callable | None = get_input_label_text_dash,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_proces: Callable | None = None,
+    post_process: Callable | None = None,
     **kwargs,
 ) -> Component:
     r"""Returns component with grating couplers and labels on each port.
@@ -71,7 +71,7 @@ def add_fiber_single(
         get_input_labels_function: function to get input labels for grating couplers.
         select_ports: function to select ports.
         cross_section: cross_section spec.
-        post_proces: function to post process the component.
+        post_process: function to post process the component.
 
     Keyword Args:
         max_y0_optical: in um.
@@ -275,8 +275,8 @@ def add_fiber_single(
             )
 
     c.copy_child_info(component_original)
-    if post_proces:
-        post_proces(c)
+    if post_process:
+        post_process(c)
     return c
 
 
