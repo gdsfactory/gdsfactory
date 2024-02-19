@@ -22,7 +22,7 @@ def add_electrical_pads_top_dc(
     select_ports: Callable = select_ports_electrical,
     get_bundle_function: Callable = get_bundle_electrical,
     port_names: Strs | None = None,
-    post_proces: Callable | None = None,
+    post_process: Callable | None = None,
     **kwargs,
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.
@@ -88,8 +88,8 @@ def add_electrical_pads_top_dc(
     for i, port_pad in enumerate(ports_pads):
         c.add_port(port=port_pad, name=f"elec-{component.name}-{i}")
     c.copy_child_info(component)
-    if post_proces:
-        post_proces(c)
+    if post_process:
+        post_process(c)
     return c
 
 

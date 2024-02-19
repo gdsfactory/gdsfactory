@@ -34,7 +34,7 @@ def add_pads_bot(
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
     with_loopback: bool = False,
-    post_proces: Callable | None = None,
+    post_process: Callable | None = None,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -55,7 +55,7 @@ def add_pads_bot(
         pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         with_loopback: True, adds loopback structures.
-        post_proces: function to post process the component.
+        post_process: function to post process the component.
 
     Keyword Args:
         straight: straight spec.
@@ -172,8 +172,8 @@ def add_pads_bot(
         component_new.add_port(f"pad_{i+1}", port=pad[pad_port_name])
 
     component_new.copy_child_info(component)
-    if post_proces:
-        post_proces(component_new)
+    if post_process:
+        post_process(component_new)
     return component_new
 
 
