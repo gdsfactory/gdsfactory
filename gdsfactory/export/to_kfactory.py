@@ -66,6 +66,7 @@ def to_kfactory(component: gf.Component, recursive: bool = True) -> kf.KCell:
             settings[k] = v
 
     c._settings = kf.kcell.KCellSettings(**settings)
+    add_ports(c, component)
 
     if recursive:
         for child in component.references:
@@ -83,7 +84,6 @@ def to_kfactory(component: gf.Component, recursive: bool = True) -> kf.KCell:
                     settings[k] = v
             kcell_child._settings = kf.kcell.KCellSettings(**settings)
 
-    add_ports(c, component)
     return c
 
 
