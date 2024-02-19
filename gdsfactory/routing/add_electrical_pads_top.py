@@ -22,6 +22,7 @@ def add_electrical_pads_top(
     select_ports: Callable = select_ports_electrical,
     port_names: Strs | None = None,
     layer: LayerSpec = "MTOP",
+    post_proces: Callable | None = None,
     **kwargs,
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.
@@ -34,6 +35,7 @@ def add_electrical_pads_top(
         select_ports: function to select electrical ports.
         port_names: optional port names. Overrides select_ports.
         layer: for the routes.
+        post_proces: function to post process the component.
 
     Keyword Args:
         ports: Dict[str, Port] a port dict {port name: port}.
@@ -95,6 +97,9 @@ def add_electrical_pads_top(
     c.add_ports(pads.ports)
     c.copy_child_info(component)
     c.auto_rename_ports(prefix_electrical=f"elec-{component.name}-")
+
+    if post_proces:
+        post_proces(c)
     return c
 
 
