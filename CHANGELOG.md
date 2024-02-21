@@ -1,11 +1,50 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.11.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.12.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.12.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.12.0) - 2024-02-20
 
-No significant changes.
+New
+
+- add more post_process [#2546](https://github.com/gdsfactory/gdsfactory/pull/2546)
+- add to_kfactory method [#2536](https://github.com/gdsfactory/gdsfactory/pull/2536)
+- Add possibility of adding label when adding fiber array [#2535](https://github.com/gdsfactory/gdsfactory/pull/2535)
+- add docs and development packages to docker container [#2533](https://github.com/gdsfactory/gdsfactory/pull/2533)
+- add post_process to bezier [#2532](https://github.com/gdsfactory/gdsfactory/pull/2532)
+- add post process to more pcells [#2524](https://github.com/gdsfactory/gdsfactory/pull/2524)
+
+Bug Fixes
+
+- fix typos [#2547](https://github.com/gdsfactory/gdsfactory/pull/2547)
+- fixes to kfactory interface as well as show_ports with None orientation [#2544](https://github.com/gdsfactory/gdsfactory/pull/2544)
+- fix extrude [#2529](https://github.com/gdsfactory/gdsfactory/pull/2529)
+- fix seal_ring spacing [#2528](https://github.com/gdsfactory/gdsfactory/pull/2528)
+- fix gdsfactory full [#2525](https://github.com/gdsfactory/gdsfactory/pull/2525)
+
+Maintenance
+
+- fix typos [#2547](https://github.com/gdsfactory/gdsfactory/pull/2547)
+- [pre-commit.ci] pre-commit autoupdate [#2545](https://github.com/gdsfactory/gdsfactory/pull/2545)
+- add more post_proces [#2546](https://github.com/gdsfactory/gdsfactory/pull/2546)
+- fixes to kfactory interface as well as show_ports with None orientation [#2544](https://github.com/gdsfactory/gdsfactory/pull/2544)
+- better annotations [#2542](https://github.com/gdsfactory/gdsfactory/pull/2542)
+- Possibility of specifying offset in add_fiber_array [#2543](https://github.com/gdsfactory/gdsfactory/pull/2543)
+- Add possibility of adding label when adding fiber array [#2535](https://github.com/gdsfactory/gdsfactory/pull/2535)
+- add docs and development packages to docker container [#2533](https://github.com/gdsfactory/gdsfactory/pull/2533)
+- add post_process to bezier [#2532](https://github.com/gdsfactory/gdsfactory/pull/2532)
+- post_process [#2531](https://github.com/gdsfactory/gdsfactory/pull/2531)
+- more post_process [#2530](https://github.com/gdsfactory/gdsfactory/pull/2530)
+- fix extrude [#2529](https://github.com/gdsfactory/gdsfactory/pull/2529)
+- fix gdsfactory full [#2525](https://github.com/gdsfactory/gdsfactory/pull/2525)
+- [pre-commit.ci] pre-commit autoupdate [#2523](https://github.com/gdsfactory/gdsfactory/pull/2523)
+
+Documentation
+
+- better sample reticle [#2534](https://github.com/gdsfactory/gdsfactory/pull/2534)
+- fix extrude [#2529](https://github.com/gdsfactory/gdsfactory/pull/2529)
+- Better label handling [#2541](https://github.com/gdsfactory/gdsfactory/pull/2541)
+- Update watchdog requirement from <4 to <5 [#2522](https://github.com/gdsfactory/gdsfactory/pull/2522)
 
 
 ## [7.11.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.11.2) - 2024-02-10
