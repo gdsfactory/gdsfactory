@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.12.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.12.0) - 2024-02-20
+
+No significant changes.
+
+
 ## [7.11.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.11.2) - 2024-02-10
 
 - publish docker container in [github registry](https://github.com/orgs/gdsfactory/packages?repo_name=gdsfactory)
