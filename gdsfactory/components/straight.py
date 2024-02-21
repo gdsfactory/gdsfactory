@@ -78,9 +78,9 @@ if __name__ == "__main__":
     # print(c.info["simulation"])
     c = gf.Component()
     ref = c << straight(width=3e-3, length=3e-3)
-    ref.xmin = 0
-    ref.ymin = 0
-    # ref.center = (0, 0)
+    # ref.xmin = 0
+    # ref.ymin = 0
+    ref.center = (0, 0)
 
     c.show()
     # print(c.bbox)
