@@ -226,6 +226,21 @@ class Settings(BaseSettings):
         loglevel: Log level.
         pdk: PDK to use. Defaults to generic.
         difftest_ignore_cell_name_differences: Ignore cell name differences in difftest.
+        difftest_ignore_sliver_differences: Ignore sliver differences in difftest.
+        difftest_ignore_label_differences: Ignore label differences in difftest.
+        layer_error_path: Layer error path.
+        ports_offgrid: Ports offgrid error type.
+        ports_not_manhattan: Ports not manhattan error type.
+        enforce_ports_on_grid: Enforce ports on grid.
+        bend_radius_error_type: Bend radius error type.
+        on_width_missmatch: On width mismatch error type.
+        on_layer_missmatch: On layer mismatch error type.
+        on_type_missmatch: On type mismatch error type.
+        default_show_suffix: Default show suffix.
+        raise_error_on_mutation: Raise error on mutation.
+        logger: Loguru logger.
+        logfilter: Log filter.
+
     """
 
     n_threads: int = get_number_of_cores()

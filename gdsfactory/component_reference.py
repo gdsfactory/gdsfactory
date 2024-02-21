@@ -229,6 +229,14 @@ class ComponentReference(_GeometryHelper):
         self._reference.origin = value
 
     @property
+    def center(self):
+        return self._reference.origin
+
+    @center.setter
+    def center(self, value) -> None:
+        self._reference.origin = value
+
+    @property
     def magnification(self) -> float:
         return self._reference.magnification
 

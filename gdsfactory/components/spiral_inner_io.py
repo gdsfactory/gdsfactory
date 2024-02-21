@@ -11,7 +11,7 @@ from gdsfactory.components.add_grating_couplers import (
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.snap import snap_to_grid
+from gdsfactory.snap import snap_to_grid, snap_to_grid2x
 from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
@@ -69,6 +69,11 @@ def spiral_inner_io(
     xs_bend180 = gf.get_cross_section(cross_section_bend180, **kwargs)
     xs_bend = gf.get_cross_section(cross_section_bend, **kwargs)
     xs = gf.get_cross_section(cross_section, **kwargs)
+
+    x_straight_inner_right = snap_to_grid2x(x_straight_inner_right)
+    x_straight_inner_left = snap_to_grid2x(x_straight_inner_left)
+    y_straight_inner_top = snap_to_grid2x(y_straight_inner_top)
+    y_straight_inner_bottom = snap_to_grid2x(y_straight_inner_bottom)
 
     if length:
         x_straight_inner_left = get_straight_length(
@@ -308,7 +313,13 @@ def spiral_inner_io_fiber_single(
 def get_straight_length(
     length: float, spiral_function: ComponentSpec, **kwargs
 ) -> float:
-    """Returns y_spiral to achieve a particular spiral length."""
+    """Returns y_spiral to achieve a particular spiral length.
+
+    Args:
+        length: target length.
+        spiral_function: spiral function.
+        kwargs: spiral function kwargs.
+    """
     x0 = 50
     x1 = 400
     kwargs["x_straight_inner_left"] = x0
@@ -322,7 +333,8 @@ def get_straight_length(
         deg=1,
     )
     # print(x_straight_inner_left)
-    return (length - p[1]) / p[0]
+    lenght_dx = (length - p[1]) / p[0]
+    return gf.snap.snap_to_grid2x(lenght_dx)
 
 
 if __name__ == "__main__":
