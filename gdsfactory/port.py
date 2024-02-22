@@ -143,11 +143,10 @@ class Port:
             raise ValueError(f"Port width must be >=0. Got {self.width}")
 
     def to_dict(self) -> dict[str, Any]:
-        x, y = np.round(self.center, 3)
         d = {
             "name": self.name,
             "width": self.width,
-            "center": [float(x), float(y)],
+            "center": self.center,
             "orientation": self.orientation,
             "layer": self.layer,
             "port_type": self.port_type,

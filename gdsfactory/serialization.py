@@ -16,7 +16,7 @@ import pydantic
 import toolz
 from omegaconf import DictConfig, OmegaConf
 
-DEFAULT_SERIALIZATION_MAX_DIGITS = 3
+DEFAULT_SERIALIZATION_MAX_DIGITS = 6
 """By default, the maximum number of digits retained when serializing float-like arrays"""
 
 

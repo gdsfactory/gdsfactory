@@ -1,7 +1,7 @@
 function: spiral_racetrack_fixed_length
 info:
-  length: 999.9991273714644
-  straight_length: 65.46151592143306
+  length: 1000.000152267597
+  straight_length: 65.46139403344961
 module: gdsfactory.components.spiral_heater
 name: spiral_racetrack_fixed_length
 settings:

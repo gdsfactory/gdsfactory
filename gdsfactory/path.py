@@ -1464,6 +1464,8 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
         npoints: number of points.
 
     """
+    length = snap_to_grid2x(length)
+
     if length < 0:
         raise ValueError(f"length = {length} needs to be > 0")
     x = np.linspace(0, length, npoints)

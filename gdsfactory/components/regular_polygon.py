@@ -5,6 +5,7 @@ from functools import partial
 import gdstk
 import numpy as np
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
@@ -16,6 +17,7 @@ def regular_polygon(
     side_length: float = 10,
     layer: LayerSpec = "WG",
     port_type: str | None = "placement",
+    snap_to_grid: bool = True,
 ) -> Component:
     """Returns a regular N-sided polygon, with ports on each edge.
 
@@ -24,6 +26,7 @@ def regular_polygon(
         side_length: of the edges.
         layer: Specific layer to put polygon geometry on.
         port_type: optical, electrical.
+        snap_to_grid: snap ports to grid.
     """
     c = Component()
     polygon = gdstk.regular_polygon((0, 0), side_length, sides)
@@ -34,6 +37,8 @@ def regular_polygon(
         for side_index in range(sides):
             angle = 270 + side_index * 360 / sides
             center = (a * np.cos(np.radians(angle)), a * np.sin(np.radians(angle)))
+            if snap_to_grid:
+                center = gf.snap.snap_to_grid(center)
             c.add_port(
                 name=f"o{side_index+1}",
                 center=center,

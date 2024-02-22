@@ -113,6 +113,8 @@ def grating_coupler_elliptical_trenches(
     len(pts)
     c.add_polygon(pts, layer)
 
+    x_output = gf.snap.snap_to_grid(x_output)
+
     c.add_port(
         name="o1",
         center=(x_output, 0),

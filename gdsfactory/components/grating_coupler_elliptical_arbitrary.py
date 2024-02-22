@@ -113,6 +113,7 @@ def grating_coupler_elliptical_arbitrary(
     b_taper = p * b1s[0]
     x_taper = p * x1s[0]
     x_output = a_taper + x_taper - taper_length + widths[0] / 2
+    x_output = gf.snap.snap_to_grid(x_output)
 
     if layer_grating == layer_wg:
         pts = grating_taper_points(
@@ -161,6 +162,7 @@ def grating_coupler_elliptical_arbitrary(
         c = xs.add_pins(c)
 
     x = (taper_length + xis[-1]) / 2
+    x = gf.snap.snap_to_grid(x)
     name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
         name=name,

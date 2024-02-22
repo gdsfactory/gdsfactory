@@ -10,8 +10,8 @@ DEMO_PORT_ANGLE = 10
 
 
 def assert_polygon_equals(coords_expected, coords_actual) -> None:
-    coords_expected = gf.snap.snap_to_grid(coords_expected)
-    coords_actual = gf.snap.snap_to_grid(coords_actual)
+    coords_expected = gf.snap.snap_to_grid2x(coords_expected)
+    coords_actual = gf.snap.snap_to_grid2x(coords_actual)
     shape_expected = sg.polygon.orient(sg.Polygon(coords_expected))
     shape_actual = sg.polygon.orient(sg.Polygon(coords_actual))
 
