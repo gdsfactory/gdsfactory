@@ -349,17 +349,6 @@ ports:
   o3: mmi_long,o3
 warnings:
   optical:
-    offset_mismatch:
-    - message: bend_euler_2,o1 and straight_2,o2 are offset by 0.0010000000000047748
-        um
-      ports:
-      - bend_euler_2,o1
-      - straight_2,o2
-      values:
-      - - 120.02
-        - 90.0
-      - - 120.02
-        - 90.001
     unconnected_ports:
     - message: 1 unconnected optical ports!
       ports:
