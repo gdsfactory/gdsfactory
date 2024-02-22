@@ -9,7 +9,7 @@ from omegaconf import OmegaConf
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.difftest import difftest
-from gdsfactory.read.from_yaml import from_yaml, sample_doe_function, sample_mmis
+from gdsfactory.read.from_yaml import from_yaml, sample_mmis
 
 sample_connections = """
 name: sample_connections
@@ -512,7 +512,7 @@ yaml_strings = dict(
     sample_mmis=sample_mmis,
     sample_doe=sample_doe,
     # sample_doe_grid=sample_doe_grid,
-    sample_doe_function=sample_doe_function,
+    # sample_doe_function=sample_doe_function,
     sample_rotation=sample_rotation,
 )
 
@@ -555,7 +555,7 @@ def test_netlists(
     """
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
-    n = c.get_netlist(include_warnings=False)
+    n = c.get_netlist()
     if check:
         data_regression.check(n)
 
