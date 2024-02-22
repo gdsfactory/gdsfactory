@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import jsondiff
+import numpy as np
 
 import gdsfactory as gf
 
@@ -105,7 +106,7 @@ def test_extrude_transition_multi_section():
 
     assert layer1_area == (1 + 5) / 2 * 10
     assert layer2_area == 0
-    assert layer3_area == 1 * 10 * 2
+    assert np.isclose(layer3_area, 1 * 10 * 2)
 
 
 def test_get_cross_sections_single_module() -> None:

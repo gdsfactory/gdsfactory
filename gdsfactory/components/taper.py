@@ -166,6 +166,12 @@ def taper_strip_to_ridge(
                      \__________________________
 
     """
+
+    width1 = gf.snap.snap_to_grid2x(width1)
+    width2 = gf.snap.snap_to_grid2x(width2)
+    w_slab1 = gf.snap.snap_to_grid2x(w_slab1)
+    w_slab2 = gf.snap.snap_to_grid2x(w_slab2)
+
     xs = gf.get_cross_section(cross_section, **kwargs)
     xs_wg = gf.get_cross_section(
         cross_section, layer=layer_wg, add_pins_function_name=None

@@ -729,6 +729,7 @@ def extrude(
     shear_angle_start: float | None = None,
     shear_angle_end: float | None = None,
     allow_offgrid: bool | None = False,
+    snap_to_grid: bool = True,
     add_pins: bool = False,
     post_process: Callable | None = None,
 ) -> Component:
@@ -790,7 +791,7 @@ def extrude(
 
     for section in x.sections:
         p_sec = p.copy()
-        width = section.width
+        width = snap_to_grid2x(section.width)
         offset = section.offset
         layer = get_layer(section.layer)
         port_names = section.port_names
@@ -902,8 +903,8 @@ def extrude(
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
 
-        if allow_offgrid is False:
-            points_poly = snap_to_grid2x(points_poly)
+        if snap_to_grid:
+            points_poly = np.round(points_poly, 3)
 
         layers = layer if hidden else [layer, layer]
         if not hidden and p_sec.length() > 1e-3:
@@ -1454,7 +1455,9 @@ def euler(
     return P
 
 
-def straight(length: float = 10.0, npoints: int = 2) -> Path:
+def straight(
+    length: float = 10.0, npoints: int = 2, snap_to_grid: bool = False
+) -> Path:
     """Returns a straight path.
 
     For transitions you should increase have at least 100 points
@@ -1462,9 +1465,11 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
     Args:
         length: of straight.
         npoints: number of points.
+        snap_to_grid: snap to grid.
 
     """
-    length = snap_to_grid2x(length)
+    if snap_to_grid:
+        length = snap_to_grid2x(length)
 
     if length < 0:
         raise ValueError(f"length = {length} needs to be > 0")
