@@ -40,6 +40,7 @@ def test_add_pins_with_routes(optical_routing_type) -> None:
         optical_routing_type=optical_routing_type,
         cross_section=cross_section,
     )
+    cc.show()
     pins_component = cc.extract(layers=(LAYER.PORT,))
     assert len(pins_component.polygons) == 12, len(pins_component.polygons)
 
@@ -123,6 +124,6 @@ def test_add_pin_rectangle_inside_with_label_function() -> None:
 
 if __name__ == "__main__":
     # test_add_pins()
-    # test_add_pins_with_routes(0)
+    test_add_pins_with_routes(0)
     # test_add_pin_rectangle_inside()
-    test_add_pin_rectangle_inside_with_label_function()
+    # test_add_pin_rectangle_inside_with_label_function()

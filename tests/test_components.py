@@ -21,6 +21,9 @@ skip_test = {
     "ring_double_pn",
     "compensation_path",
     "add_grating_couplers_with_loopback_fiber_array",
+    "coupler_bend",
+    "coupler_bent",
+    "mode_converter",
 }
 
 

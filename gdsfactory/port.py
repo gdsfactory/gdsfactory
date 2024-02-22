@@ -84,7 +84,7 @@ class Port:
         parent: Component that port belongs to.
         cross_section: cross_section spec.
         shear_angle: an optional angle to shear port face in degrees.
-        enforce_ports_on_grid: True snap port to grid.
+        allow_offgrid: True skips snapping port to grid.
     """
 
     def __init__(
@@ -98,16 +98,18 @@ class Port:
         parent: Component | None = None,
         cross_section: CrossSectionSpec | None = None,
         shear_angle: float | None = None,
-        enforce_ports_on_grid: bool | None = None,
+        allow_offgrid: bool | None = None,
         info: Info | None = None,
     ) -> None:
         from gdsfactory.pdk import get_cross_section, get_layer
 
         self.name = name
-        if enforce_ports_on_grid is None:
-            enforce_ports_on_grid = CONF.enforce_ports_on_grid
+        if allow_offgrid is None:
+            allow_offgrid = CONF.allow_offgrid
 
-        center = snap.snap_to_grid(center) if enforce_ports_on_grid else center
+        if not allow_offgrid:
+            center = snap.snap_to_grid(center)
+
         self.center = np.array(center, dtype="float64")
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
@@ -141,11 +143,10 @@ class Port:
             raise ValueError(f"Port width must be >=0. Got {self.width}")
 
     def to_dict(self) -> dict[str, Any]:
-        x, y = np.round(self.center, 3)
         d = {
             "name": self.name,
             "width": self.width,
-            "center": [float(x), float(y)],
+            "center": self.center,
             "orientation": self.orientation,
             "layer": self.layer,
             "port_type": self.port_type,

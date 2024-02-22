@@ -257,6 +257,7 @@ def grating_coupler_elliptical(
     if xs.add_pins:
         xs.add_pins(c)
 
+    x = gf.snap.snap_to_grid(x)
     name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
         name=name,

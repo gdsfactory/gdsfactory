@@ -27,6 +27,7 @@ from gdsfactory.component_layout import (
 from gdsfactory.config import CONF
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
+from gdsfactory.snap import snap_to_grid2x
 from gdsfactory.typings import (
     ComponentSpec,
     Coordinates,
@@ -727,7 +728,7 @@ def extrude(
     simplify: float | None = None,
     shear_angle_start: float | None = None,
     shear_angle_end: float | None = None,
-    enforce_ports_on_grid: bool | None = None,
+    allow_offgrid: bool | None = False,
     add_pins: bool = False,
     post_process: Callable | None = None,
 ) -> Component:
@@ -754,8 +755,8 @@ def extrude(
         get_layer,
     )
 
-    if enforce_ports_on_grid is None:
-        enforce_ports_on_grid = CONF.enforce_ports_on_grid
+    if allow_offgrid is None:
+        allow_offgrid = CONF.allow_offgrid
 
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
@@ -900,7 +901,9 @@ def extrude(
 
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
-        points_poly = np.round(points_poly, 3)
+
+        if allow_offgrid is False:
+            points_poly = snap_to_grid2x(points_poly)
 
         layers = layer if hidden else [layer, layer]
         if not hidden and p_sec.length() > 1e-3:
@@ -924,7 +927,7 @@ def extrude(
                     center=center,
                     cross_section=x,
                     shear_angle=shear_angle_start,
-                    enforce_ports_on_grid=enforce_ports_on_grid,
+                    allow_offgrid=allow_offgrid,
                 )
             )
             # port1.info["face"] = face
@@ -945,7 +948,7 @@ def extrude(
                     orientation=port_orientation,
                     cross_section=x,
                     shear_angle=shear_angle_end,
-                    enforce_ports_on_grid=enforce_ports_on_grid,
+                    allow_offgrid=allow_offgrid,
                 )
             )
             # port2.info["face"] = face
@@ -1461,6 +1464,8 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
         npoints: number of points.
 
     """
+    length = snap_to_grid2x(length)
+
     if length < 0:
         raise ValueError(f"length = {length} needs to be > 0")
     x = np.linspace(0, length, npoints)

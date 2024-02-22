@@ -122,7 +122,7 @@ def test_layers1() -> None:
     X = gf.CrossSection(sections=(s,))
     c = gf.path.extrude(P, X, simplify=5e-3)
     assert c.ports["in"].layer == (3, 0)
-    assert c.ports["out"].center[0] == 10.001, c.ports["out"].center[0]
+    assert c.ports["out"].center[0] == 10.0, c.ports["out"].center[0]
 
 
 def test_layers2() -> None:
@@ -158,7 +158,7 @@ def test_path_add() -> None:
 
 
 if __name__ == "__main__":
-    test_layers2()
+    test_layers1()
     # test_append()
     # c = transition()
 

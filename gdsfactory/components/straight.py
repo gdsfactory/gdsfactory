@@ -76,7 +76,12 @@ if __name__ == "__main__":
     # xs = xs.mirror()
     # c = straight(cross_section=xs, info=dict(simulation="eme"))
     # print(c.info["simulation"])
-    c = straight(width=3, cross_section=gf.cross_section.rib)
+    c = gf.Component()
+    ref = c << straight(width=3e-3, length=3e-3)
+    # ref.xmin = 0
+    # ref.ymin = 0
+    ref.center = (0, 0)
+
     c.show()
     # print(c.bbox)
     # c._repr_html_()

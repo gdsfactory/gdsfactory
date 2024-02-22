@@ -70,7 +70,6 @@ def test_bbox_snap_to_grid() -> None:
     c1 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     c2 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     c2.xmin = c1.xmax
-
     assert c2.xsize == 0.002, c2.xsize
 
 
@@ -97,5 +96,6 @@ def test_avoid_zero_area_polygons() -> None:
 
 
 if __name__ == "__main__":
+    test_bbox_snap_to_grid()
     # test_extract()
-    test_avoid_zero_area_polygons()
+    # test_avoid_zero_area_polygons()

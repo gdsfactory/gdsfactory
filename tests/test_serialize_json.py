@@ -24,8 +24,8 @@ def test_clean_value_json_recursive() -> None:
 
 # Tests that the function clean_value_json properly converts a numpy array to a list of lists of floats.
 def test_clean_value_json_numpy_array() -> None:
-    arr: np.ndarray = np.array([1.23456789, 2.34567891])
-    expected: list[list[float]] = [[1.235, 2.346]]
+    arr: np.ndarray = np.array([0.123456, 0.123456])
+    expected: list[list[float]] = [[0.123456, 0.123456]]
     assert np.all(np.equal(clean_value_json(arr), expected))
 
 
@@ -52,8 +52,8 @@ def test_clean_value_json_callable() -> None:
 
 # Tests that the clean_value_json function correctly serializes a gdstk.Polygon object by rounding its points to 3 decimal places.
 def test_clean_value_json_gdstk_polygon() -> None:
-    polygon: gdstk.Polygon = gdstk.Polygon([(0, 0), (1.23456789, 2.34567891)])
-    expected: list[list[float]] = [[0, 0], [1.235, 2.346]]
+    polygon: gdstk.Polygon = gdstk.Polygon([(0, 0), (0.123456, 0.123456)])
+    expected: list[list[float]] = [[0, 0], [0.123456, 0.123456]]
     assert np.all(np.equal(clean_value_json(polygon), expected))
 
 

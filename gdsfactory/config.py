@@ -226,6 +226,21 @@ class Settings(BaseSettings):
         loglevel: Log level.
         pdk: PDK to use. Defaults to generic.
         difftest_ignore_cell_name_differences: Ignore cell name differences in difftest.
+        difftest_ignore_sliver_differences: Ignore sliver differences in difftest.
+        difftest_ignore_label_differences: Ignore label differences in difftest.
+        layer_error_path: Layer error path.
+        ports_offgrid: Ports offgrid error type.
+        ports_not_manhattan: Ports not manhattan error type.
+        allow_offgrid: Allows ports and polygons not to be snapped to grid on creation.
+        bend_radius_error_type: Bend radius error type.
+        on_width_missmatch: On width mismatch error type.
+        on_layer_missmatch: On layer mismatch error type.
+        on_type_missmatch: On type mismatch error type.
+        default_show_suffix: Default show suffix.
+        raise_error_on_mutation: Raise error on mutation.
+        logger: Loguru logger.
+        logfilter: Log filter.
+
     """
 
     n_threads: int = get_number_of_cores()
@@ -251,7 +266,7 @@ class Settings(BaseSettings):
     ports_not_manhattan: Literal["warn", "error", "ignore"] = Field(
         default="ignore", description="Ensures ports are manhattan."
     )
-    enforce_ports_on_grid: bool = True
+    allow_offgrid: bool = True
     bend_radius_error_type: ErrorType = ErrorType.WARNING
     on_width_missmatch: Literal["warn", "error", "ignore"] = Field(
         default="warn", description="When connecting ports with different width."
@@ -379,14 +394,14 @@ def get_git_hash():
 
 def enable_offgrid_ports() -> None:
     """Ignore off grid port warnings and allow ports not to be snapped on creation."""
-    CONF.enforce_ports_on_grid = False
+    CONF.allow_offgrid = True
     CONF.ports_offgrid = "ignore"
     CONF.ports_not_manhattan = "ignore"
 
 
 def disable_offgrid_ports(error_type: str = "warn") -> None:
     """Enable off grid port warnings and enforce ports to snap to 1nm grid."""
-    CONF.enforce_ports_on_grid = True
+    CONF.allow_offgrid = False
     CONF.ports_offgrid = error_type
     CONF.ports_not_manhattan = error_type
 

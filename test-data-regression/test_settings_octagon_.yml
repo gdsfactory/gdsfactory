@@ -7,3 +7,4 @@ settings:
   port_type: placement
   side_length: 10
   sides: 8
+  snap_to_grid: true
