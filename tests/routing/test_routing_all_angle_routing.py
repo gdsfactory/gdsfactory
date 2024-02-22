@@ -1,7 +1,6 @@
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
-import gdsfactory as gf
 import gdsfactory.samples.all_angle_routing as aar_samples
 from gdsfactory.difftest import difftest
 from gdsfactory.pdk import get_active_pdk
@@ -37,7 +36,6 @@ def test_gds(component_name: str) -> None:
     get_active_pdk().gds_write_settings.flatten_offgrid_references = True
 
     try:
-        gf.config.enable_offgrid_ports()
         component = AAR_YAML_PICS[component_name]()
         difftest(component, test_name=component_name, ignore_sliver_differences=True)
     finally:
@@ -45,7 +43,6 @@ def test_gds(component_name: str) -> None:
         get_active_pdk().gds_write_settings.flatten_offgrid_references = (
             flatten_offgrid_references_default
         )
-        gf.config.disable_offgrid_ports()
 
 
 def test_bad_cells_throw_errors(bad_component_name):
@@ -56,10 +53,8 @@ def test_bad_cells_throw_errors(bad_component_name):
 
 def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
-    gf.config.enable_offgrid_ports()
     component = AAR_YAML_PICS[component_name]()
     data_regression.check(component.to_dict())
-    gf.config.disable_offgrid_ports()
 
 
 if __name__ == "__main__":

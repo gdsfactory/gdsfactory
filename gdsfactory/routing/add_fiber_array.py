@@ -291,13 +291,15 @@ if __name__ == "__main__":
     # c = gf.components.straight()
     # c = gf.components.mmi2x2()
     # c = gf.components.ring_single()
-    c = gf.components.straight_heater_metal()
+    c = gf.components.straight(length=0.0015)
+    # c = add_fiber_array(c)
+    c.show(show_ports=True)
     # c = gf.components.spiral(direction="NORTH")
 
     # c = gf.components.bend_euler(info=dict(doe="bends"))
-    cc = add_fiber_array(
-        c, layer_label=None, layer_label_loopback=None, with_loopback=True
-    )
+    # cc = add_fiber_array(
+    #     c, layer_label=None, layer_label_loopback=None, with_loopback=True
+    # )
 
     # cc = add_fiber_array(
     #     component=c,
@@ -316,5 +318,5 @@ if __name__ == "__main__":
     #     cross_section=strip,
     #     info=dict(a=1),
     # )
-    cc.pprint_ports()
-    cc.show(show_ports=True)
+    # cc.pprint_ports()
+    # cc.show(show_ports=True)
