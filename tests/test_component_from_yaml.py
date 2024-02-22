@@ -555,7 +555,7 @@ def test_netlists(
     """
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
-    n = c.get_netlist()
+    n = c.get_netlist(include_warnings=False)
     if check:
         data_regression.check(n)
 

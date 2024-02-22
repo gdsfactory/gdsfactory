@@ -112,6 +112,7 @@ def get_netlist(
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = False,
     merge_info: bool = False,
+    include_warnings: bool = True,
 ) -> dict[str, Any]:
     """Returns instances, connections and placements from :class:`Component` as a dict.
 
@@ -293,7 +294,7 @@ def get_netlist(
         "ports": top_ports,
         "name": component.name,
     }
-    if warnings:
+    if warnings and include_warnings:
         netlist["warnings"] = warnings
     return netlist
 
