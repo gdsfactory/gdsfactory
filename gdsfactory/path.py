@@ -729,6 +729,7 @@ def extrude(
     shear_angle_start: float | None = None,
     shear_angle_end: float | None = None,
     allow_offgrid: bool | None = False,
+    snap_to_grid: bool = False,
     add_pins: bool = False,
     post_process: Callable | None = None,
 ) -> Component:
@@ -902,7 +903,7 @@ def extrude(
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
 
-        if allow_offgrid is False:
+        if snap_to_grid:
             points_poly = snap_to_grid2x(points_poly)
 
         layers = layer if hidden else [layer, layer]

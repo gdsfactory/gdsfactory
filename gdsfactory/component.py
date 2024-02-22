@@ -1137,13 +1137,14 @@ class Component(_GeometryHelper):
         self,
         points,
         layer: str | int | tuple[int, int] | np.nan = np.nan,
-        snap_to_grid: bool = True,
+        snap_to_grid: bool = False,
     ) -> Polygon:
         """Adds a Polygon to the Component.
 
         Args:
             points: Coordinates of the vertices of the Polygon.
             layer: layer spec to add polygon on.
+            snap_to_grid: snap points to grid.
         """
         from gdsfactory.pdk import get_layer
 
