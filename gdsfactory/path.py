@@ -729,7 +729,7 @@ def extrude(
     shear_angle_start: float | None = None,
     shear_angle_end: float | None = None,
     allow_offgrid: bool | None = False,
-    snap_to_grid: bool = False,
+    snap_to_grid: bool = True,
     add_pins: bool = False,
     post_process: Callable | None = None,
 ) -> Component:
@@ -791,7 +791,7 @@ def extrude(
 
     for section in x.sections:
         p_sec = p.copy()
-        width = section.width
+        width = snap_to_grid2x(section.width)
         offset = section.offset
         layer = get_layer(section.layer)
         port_names = section.port_names
@@ -904,7 +904,7 @@ def extrude(
         points_poly = np.concatenate([points1, points2[::-1, :]])
 
         if snap_to_grid:
-            points_poly = snap_to_grid2x(points_poly)
+            points_poly = np.round(points_poly, 3)
 
         layers = layer if hidden else [layer, layer]
         if not hidden and p_sec.length() > 1e-3:
