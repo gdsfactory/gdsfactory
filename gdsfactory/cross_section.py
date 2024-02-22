@@ -556,7 +556,7 @@ radius_nitride = 20
 radius_rib = 20
 
 strip = partial(cross_section, add_pins_function_name=None, radius=10, radius_min=5)
-strip_pins = partial(strip, add_pins_function_name="add_pins_inside1nm")
+strip_pins = partial(strip, add_pins_function_name="add_pins_inside2nm")
 strip_auto_widen = partial(strip, auto_widen=True)
 strip_no_pins = strip
 
