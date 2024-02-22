@@ -53,7 +53,7 @@ from gdsfactory.port import (
     select_ports,
 )
 from gdsfactory.serialization import clean_dict
-from gdsfactory.snap import snap_to_grid
+from gdsfactory.snap import snap_to_grid2x
 
 if TYPE_CHECKING:
     from gdsfactory.technology import LayerStack, LayerViews
@@ -540,7 +540,7 @@ class Component(_GeometryHelper):
         bbox = self._cell.bounding_box()
         if bbox is None:
             bbox = ((0, 0), (0, 0))
-        return snap_to_grid(np.array(bbox))
+        return np.array(bbox)
 
     @property
     def ports_layer(self) -> dict[str, str]:
@@ -1212,10 +1212,12 @@ class Component(_GeometryHelper):
         else:
             raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
 
-    def _add_polygon_shapely(self, layer, points):
+    def _add_polygon_shapely(self, layer, points, snap_to_grid=True):
         layer, datatype = _parse_layer(layer)
-        points_on_grid = snap_to_grid(points.exterior.coords)
-        polygon = Polygon(points_on_grid, (layer, datatype))
+        points_exterior = points.exterior.coords
+        if snap_to_grid:
+            points_exterior = snap_to_grid2x(points_exterior)
+        polygon = Polygon(points_exterior, (layer, datatype))
 
         if points.interiors:
             return self._add_polygon_shapely_with_holes(
@@ -1224,11 +1226,17 @@ class Component(_GeometryHelper):
         self._add_polygons(polygon)
         return polygon
 
-    def _add_polygon_shapely_with_holes(self, points, layer, datatype, polygon):
+    def _add_polygon_shapely_with_holes(
+        self, points, layer, datatype, polygon, snap_to_grid=True
+    ):
         from shapely import get_coordinates
 
-        points_on_grid_interior = np.round(get_coordinates(points.interiors), 3)
-        polygon_interior = Polygon(points_on_grid_interior, (layer, datatype))
+        points = get_coordinates(points.interiors)
+
+        if snap_to_grid:
+            points = np.round(points, 3)
+
+        polygon_interior = Polygon(points, (layer, datatype))
         polygons = gdstk.boolean(
             polygon,
             polygon_interior,

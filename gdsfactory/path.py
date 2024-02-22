@@ -1455,7 +1455,9 @@ def euler(
     return P
 
 
-def straight(length: float = 10.0, npoints: int = 2) -> Path:
+def straight(
+    length: float = 10.0, npoints: int = 2, snap_to_grid: bool = False
+) -> Path:
     """Returns a straight path.
 
     For transitions you should increase have at least 100 points
@@ -1463,9 +1465,11 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
     Args:
         length: of straight.
         npoints: number of points.
+        snap_to_grid: snap to grid.
 
     """
-    length = snap_to_grid2x(length)
+    if snap_to_grid:
+        length = snap_to_grid2x(length)
 
     if length < 0:
         raise ValueError(f"length = {length} needs to be > 0")
