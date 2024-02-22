@@ -37,7 +37,7 @@ def compass(
         [dx / 2, -dy / 2.0],
     ]
 
-    c.add_polygon(points, layer=layer)
+    c.add_polygon(points, layer=layer, snap_to_grid=False)
 
     if port_type:
         if 180 in port_orientations:
