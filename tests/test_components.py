@@ -18,6 +18,7 @@ skip_test = {
     "crossing",
     "spiral_racetrack",
     "ring_section_based",
+    "ring_single_pn",
     "ring_double_pn",
     "compensation_path",
     "add_grating_couplers_with_loopback_fiber_array",

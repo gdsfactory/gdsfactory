@@ -107,7 +107,7 @@ class Port:
         if allow_offgrid is None:
             allow_offgrid = CONF.allow_offgrid
 
-        if not allow_offgrid:
+        if allow_offgrid is False:
             center = snap.snap_to_grid(center)
 
         self.center = np.array(center, dtype="float64")

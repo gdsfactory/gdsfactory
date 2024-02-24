@@ -59,7 +59,7 @@ def diff(
 
     if ref.kcl.dbu != run.kcl.dbu:
         raise ValueError(
-            f"dbu is different in ref {ref.kcl.dbu} and run {run.kcl.dbu} files"
+            f"dbu is different in ref {ref.kcl.dbu} {ref_file!r} and run {run.kcl.dbu} {run_file!r} files"
         )
 
     equivalent = True

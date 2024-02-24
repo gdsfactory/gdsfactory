@@ -35,7 +35,7 @@ def test_get_bundle_all_angle(
 
 
 if __name__ == "__main__":
-    gf.CONF.allow_offgrid = False
+    gf.CONF.allow_offgrid = True
     c = gf.Component("demo")
 
     mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)

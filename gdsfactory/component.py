@@ -1212,7 +1212,7 @@ class Component(_GeometryHelper):
         else:
             raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
 
-    def _add_polygon_shapely(self, layer, points, snap_to_grid=True):
+    def _add_polygon_shapely(self, layer, points, snap_to_grid=False):
         layer, datatype = _parse_layer(layer)
         points_exterior = points.exterior.coords
         if snap_to_grid:
@@ -1227,7 +1227,7 @@ class Component(_GeometryHelper):
         return polygon
 
     def _add_polygon_shapely_with_holes(
-        self, points, layer, datatype, polygon, snap_to_grid=True
+        self, points, layer, datatype, polygon, snap_to_grid=False
     ):
         from shapely import get_coordinates
 
