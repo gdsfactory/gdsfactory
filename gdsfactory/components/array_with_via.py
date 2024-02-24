@@ -50,10 +50,8 @@ def array_with_via(
     via_stack = gf.get_component(via_stack)
 
     for col in range(columns):
-        ref = component.ref()
-        ref.x = col * spacing
-        c.add(ref)
-
+        ref = c << component
+        ref.d.x = col * spacing
         if port_orientation == 180:
             xlength = col * spacing + straight_length
         elif port_orientation == 0:
@@ -71,8 +69,8 @@ def array_with_via(
             )
 
         via_stack_ref = c << via_stack
-        via_stack_ref.x = col * spacing
-        via_stack_ref.y = col * via_spacing + via_stack_dy
+        via_stack_ref.d.x = col * spacing
+        via_stack_ref.d.y = col * via_spacing + via_stack_dy
 
         if cross_section:
             port_name = f"e{col}"
@@ -80,7 +78,11 @@ def array_with_via(
                 length=xlength, cross_section=cross_section, **kwargs
             )
             straightx_ref.connect(
-                "e2", via_stack_ref.get_ports_list(orientation=port_orientation)[0]
+                "e2",
+                via_stack_ref.ports[0],
+                allow_width_mismatch=True,
+                allow_layer_mismatch=True,
+                allow_type_mismatch=True,
             )
             c.add_port(port_name, port=straightx_ref.ports["e1"])
             if port_offset:

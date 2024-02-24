@@ -32,6 +32,9 @@ def text_freetype(
         font: Font face to use. Default DEPLOF does not require additional libraries,
             otherwise freetype load fonts. You can choose font by name
             (e.g. "Times New Roman"), or by file OTF or TTF filepath.
+        layer: list of layers to use for the text.
+        layers: list of layers to use for the text.
+
     """
     t = Component()
     yoffset = 0

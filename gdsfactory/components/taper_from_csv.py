@@ -9,7 +9,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import Callable, CrossSectionSpec
 
 data = pathlib.Path(__file__).parent / "csv_data"
 
@@ -18,6 +18,7 @@ data = pathlib.Path(__file__).parent / "csv_data"
 def taper_from_csv(
     filepath: Path = data / "taper_strip_0p5_3_36.csv",
     cross_section: CrossSectionSpec = "xs_sc",
+    post_process: Callable | None = None,
 ) -> Component:
     """Returns taper from CSV file.
 
@@ -37,12 +38,12 @@ def taper_from_csv(
     c = gf.Component()
     c.add_polygon(list(zip(xs, ys)) + list(zip(xs, -ys))[::-1], layer=layer)
 
-    # for cladding_layer, cladding_offset in zip(x.cladding_layers, x.cladding_offsets):
-    #     ys_trench = ys + cladding_offset
-    #     c.add_polygon(
-    #         list(zip(xs, ys_trench)) + list(zip(xs, -ys_trench))[::-1],
-    #         layer=cladding_layer,
-    #     )
+    for section in x.sections[1:]:
+        ys_trench = ys + section.width
+        c.add_polygon(
+            list(zip(xs, ys_trench)) + list(zip(xs, -ys_trench))[::-1],
+            layer=section.layer,
+        )
 
     c.add_port(
         name="o1",
@@ -64,6 +65,8 @@ def taper_from_csv(
         c = x.add_bbox(c)
     if x.add_pins:
         c = x.add_pins(c)
+    if post_process:
+        post_process(c)
     return c
 
 
@@ -77,6 +80,6 @@ taper_w12_l200 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_12_200
 
 if __name__ == "__main__":
     # c = taper_0p5_to_3_l36()
-    c = taper_w10_l100()
+    c = taper_w10_l100(cross_section="xs_rc")
     # c = taper_w11_l200()
     c.show()
