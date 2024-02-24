@@ -1,4 +1,4 @@
-"""You can add pins in a pin layer to clearly see the component ports."""
+"""You can add ports to connect components ."""
 
 from __future__ import annotations
 
@@ -8,14 +8,14 @@ from gdsfactory.typings import LayerSpec
 
 @gf.cell
 def straight_narrow(
-    length: float = 5.0, width: float = 0.3, layer: LayerSpec = (2, 0)
+    length: float = 5.0, width: float = 0.3, layer: LayerSpec = (1, 0)
 ) -> gf.Component:
     """Returns straight Component.
 
     Args:
         length: of the straight.
         width: in um.
-        layer: layer spec
+        layer: layer spec.
     """
     wg = gf.Component("straight_sample")
     wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
@@ -29,8 +29,5 @@ def straight_narrow(
 
 
 if __name__ == "__main__":
-    wg = straight_narrow()
-    wg_pins = gf.add_pins.add_pins_container(wg)
-
-    # By default show adds pins, so you don't need it to show_ports
-    wg_pins.show()
+    c = straight_narrow()
+    c.show()

@@ -173,9 +173,6 @@ from gdsfactory.components.greek_cross import (
 )
 from gdsfactory.components.hline import hline
 from gdsfactory.components.interdigital_capacitor import interdigital_capacitor
-from gdsfactory.components.interdigital_capacitor_enclosed import (
-    interdigital_capacitor_enclosed,
-)
 from gdsfactory.components.L import L
 from gdsfactory.components.litho_calipers import litho_calipers
 from gdsfactory.components.litho_ruler import litho_ruler
@@ -468,7 +465,6 @@ __all__ = [
     "greek_cross_with_pads",
     "hline",
     "interdigital_capacitor",
-    "interdigital_capacitor_enclosed",
     "litho_calipers",
     "litho_ruler",
     "litho_steps",

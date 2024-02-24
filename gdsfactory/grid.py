@@ -222,7 +222,7 @@ def grid_with_text(
     """
     c = Component()
     g = grid(components=components, **kwargs)
-    c << g
+    _ = c << g
     if text:
         for i, ref in enumerate(g.named_references.values()):
             for text_offset, text_anchor in zip(text_offsets, text_anchors):

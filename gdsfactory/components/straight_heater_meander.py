@@ -4,6 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpec
 
@@ -23,6 +24,8 @@ def straight_heater_meander(
     heater_taper_length: float | None = 10.0,
     straight_widths: Floats = (0.8, 0.9, 0.8),
     taper_length: float = 10,
+    n: int | None = None,
+    straight: ComponentSpec = straight_function,
 ) -> Component:
     """Returns a meander based heater.
 
@@ -45,14 +48,19 @@ def straight_heater_meander(
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         straight_widths: widths of the straight sections.
         taper_length: from the cross_section.
+        n: number of straight sections.
+        straight: straight component to use.
     """
-    rows = len(straight_widths)
+    if n and straight_widths:
+        raise ValueError("n and straight_widths are mutually exclusive")
+
+    rows = n or len(straight_widths)
     c = gf.Component()
     x = gf.get_cross_section(cross_section)
     p1 = gf.Port(
         name="p1",
-        center=(0, 0),
-        orientation=0,
+        center=(0.0, 0.0),
+        orientation=0.0,
         cross_section=x,
         layer=x.layer,
         width=x.width,
@@ -66,11 +74,10 @@ def straight_heater_meander(
         width=x.width,
     )
     route = gf.routing.route_single(c, p1, p2, radius=radius)
-
     cross_section2 = cross_section
 
     straight_length = gf.snap.snap_to_grid(
-        (length - (rows - 1) * route.length) / rows, grid_factor=2
+        (length - (rows - 1) * route.length * c.kcl.dbu) / rows, grid_factor=2
     )
     ports = {}
 
@@ -79,7 +86,7 @@ def straight_heater_meander(
     ##############
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
-        straight = gf.c.straight(
+        _straight = straight(
             length=straight_length - 2 * taper_length, cross_section=cross_section1
         )
 
@@ -90,7 +97,7 @@ def straight_heater_meander(
             length=taper_length,
         )
 
-        straight_with_tapers = gf.c.extend_ports(straight, extension=taper)
+        straight_with_tapers = gf.c.extend_ports(_straight, extension=taper)
 
         straight_ref = c << straight_with_tapers
         straight_ref.y = row * spacing
@@ -102,11 +109,11 @@ def straight_heater_meander(
     ##############
     for row in range(1, rows, 2):
         extra_length = 3 * (rows - row - 1) / 2 * radius
-        extra_straight1 = c << gf.c.straight(
+        extra_straight1 = c << straight(
             length=extra_length, cross_section=cross_section
         )
         extra_straight1.connect("o1", ports[f"o1_{row+1}"])
-        extra_straight2 = c << gf.c.straight(
+        extra_straight2 = c << straight(
             length=extra_length, cross_section=cross_section
         )
         extra_straight2.connect("o1", ports[f"o1_{row+2}"])
@@ -139,8 +146,8 @@ def straight_heater_meander(
         )
         c.add(route.references)
 
-    straight1 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
-    straight2 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
+    straight1 = c << straight(length=extension_length, cross_section=cross_section)
+    straight2 = c << straight(length=extension_length, cross_section=cross_section)
     straight1.connect("o2", ports["o1_1"])
     straight2.connect("o1", ports[f"o2_{rows}"])
 
@@ -206,7 +213,7 @@ def straight_heater_meander(
 if __name__ == "__main__":
     c = straight_heater_meander(
         # straight_widths=(0.5,) * 7,
-        taper_length=10,
+        # taper_length=10,
         # taper_length=10,
         # length=1000,
         # port_orientation1=0
