@@ -1,6 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.12.0...main)
+
 <!-- towncrier release notes start -->
+
+## [7.13.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.13.0) - 2024-02-24
+
+No significant changes.
+
 
 ## [7.12.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.12.0) - 2024-02-20
 
