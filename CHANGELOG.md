@@ -1,12 +1,18 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.12.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.13.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.13.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.13.0) - 2024-02-24
 
-No significant changes.
-
+- Do not snap to grid by default.
+- Snap lengths to 2dbu [#2550](https://github.com/gdsfactory/gdsfactory/pull/2550)
+- Do not remove 1nm straights [#2554](https://github.com/gdsfactory/gdsfactory/pull/2554)
+- round widths to 2nm when extruding [#2553](https://github.com/gdsfactory/gdsfactory/pull/2553)
+- Make CrossSection hashable [#2552](https://github.com/gdsfactory/gdsfactory/pull/2552)
+- remove test_offset [#2551](https://github.com/gdsfactory/gdsfactory/pull/2551)
+- Snap lengths to 2dbu [#2550](https://github.com/gdsfactory/gdsfactory/pull/2550)
+- Add context manager methods to Pdk [#2555](https://github.com/gdsfactory/gdsfactory/pull/2555)
 
 ## [7.12.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.12.0) - 2024-02-20
 
