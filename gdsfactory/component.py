@@ -174,7 +174,7 @@ class Component(kf.KCell):
             trans = kdb.DCplxTrans(1, orientation, False, center[0], center[1])
             self.create_port(
                 name=name,
-                dwidth=round(width / self.kcl.dbu) / self.kcl.dbu,
+                dwidth=round(width / self.kcl.dbu) * self.kcl.dbu,
                 layer=layer,
                 port_type=port_type,
                 dcplx_trans=trans,
