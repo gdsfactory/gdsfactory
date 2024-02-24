@@ -719,6 +719,16 @@ class Pdk(BaseModel):
                 "Check the error for missing property"
             ) from e
 
+    def __enter__(self) -> Pdk:
+        """Called when entering the Pdk context manager."""
+        self.activate()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        """Called when exiting the Pdk context manager."""
+        global _ACTIVE_PDK
+        _ACTIVE_PDK = None
+
 
 _ACTIVE_PDK = None
 
