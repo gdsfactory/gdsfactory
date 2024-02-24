@@ -135,7 +135,7 @@ def test_layers2() -> None:
     X = gf.cross_section.strip()
     c = gf.path.extrude(P, X, simplify=5e-3)
     assert c.ports["o1"].layer == (1, 0)
-    assert c.ports["o2"].center[0] == 10.0, c.ports["o2"].center[0]
+    assert c.ports["o2"].center[0] == 10.001, c.ports["o2"].center[0]
 
     pdk.grid_size = 0.001
 

@@ -60,7 +60,8 @@ def test_no_snap_polygon() -> None:
 
 
 if __name__ == "__main__":
-    test_no_snap_polygon()
+    test_snap_to_grid()
+    # test_no_snap_polygon()
     # c2 = gf.Component()
     # p = c2.add_polygon(
     #     [(-8.0005, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0), snap_to_grid=False
