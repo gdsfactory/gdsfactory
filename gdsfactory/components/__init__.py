@@ -11,7 +11,6 @@ from functools import partial
 from gdsfactory.components.add_fiber_array_optical_south_electrical_north import (
     add_fiber_array_optical_south_electrical_north,
 )
-from gdsfactory.components.add_fiducials import add_fiducials, add_fiducials_offsets
 from gdsfactory.components.add_grating_couplers import (
     add_grating_couplers,
     add_grating_couplers_fiber_array,
@@ -344,8 +343,6 @@ __all__ = [
     "C",
     "L",
     "add_fiber_array_optical_south_electrical_north",
-    "add_fiducials",
-    "add_fiducials_offsets",
     "add_frame",
     "add_grating_couplers",
     "add_grating_couplers_fiber_array",
