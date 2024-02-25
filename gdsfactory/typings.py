@@ -9,15 +9,6 @@ Some of these inputs parameters are also functions.
     - references: to other components (x, y, rotation).
     - polygons in different layers.
     - ports dict.
-- Route: dataclass with 3 attributes.
-    - references: list of references (straights, bends and tapers).
-    - ports: dict(input=PortIn, output=PortOut).
-    - length: how long is this route?
-
-Factories:
-
-- ComponentFactory: function that returns a Component.
-- RouteFactory: function that returns a Route.
 
 
 Specs:
@@ -41,7 +32,6 @@ from omegaconf import OmegaConf
 from pydantic import BaseModel
 
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.component_layout import Label
 from gdsfactory.cross_section import CrossSection, Section, Transition, WidthTypes
 from gdsfactory.port import Port
 from gdsfactory.technology import LayerLevel, LayerMap, LayerStack
@@ -185,26 +175,6 @@ CrossSectionSpecs = tuple[CrossSectionSpec, ...]
 
 MultiCrossSectionAngleSpec = list[tuple[CrossSectionSpec, tuple[int, ...]]]
 
-LabelListFactory = Callable[..., list[Label]]
-
-
-class Route(BaseModel):
-    references: list[object]
-    labels: list[Label] | None = None
-    ports: tuple[object, object]
-    length: float
-
-    model_config = {"extra": "forbid", "arbitrary_types_allowed": True}
-
-
-class Routes(BaseModel):
-    references: list[object]
-    lengths: list[float]
-    ports: list[object] | None = None
-    bend_radius: list[float] | None = None
-
-    model_config = {"extra": "forbid"}
-
 
 class ComponentModel(BaseModel):
     component: str | dict[str, Any]
@@ -264,9 +234,6 @@ class NetlistModel(BaseModel):
     model_config = {"extra": "forbid"}
 
 
-RouteFactory = Callable[..., Route]
-
-
 class TypedArray(np.ndarray):
     """based on https://github.com/samuelcolvin/pydantic/issues/380."""
 
@@ -309,7 +276,6 @@ __all__ = (
     "Int2",
     "Int3",
     "Ints",
-    "Label",
     "Layer",
     "LayerMap",
     "LayerLevel",
@@ -323,9 +289,6 @@ __all__ = (
     "Optional",
     "PathType",
     "PathTypes",
-    "Route",
-    "RouteFactory",
-    "Routes",
     "Section",
     "Strs",
     "WidthTypes",

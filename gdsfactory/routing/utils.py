@@ -5,6 +5,10 @@ from numpy import float64
 from gdsfactory.port import Port
 
 
+class RouteWarning(UserWarning):
+    pass
+
+
 def direction_ports_from_list_ports(optical_ports: list[Port]) -> dict[str, list[Port]]:
     """Returns a dict of WENS ports."""
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}

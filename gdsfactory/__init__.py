@@ -60,7 +60,6 @@ from gdsfactory.add_padding import (
     get_padding_points,
 )
 from gdsfactory.pack import pack
-from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pdk import (
     Pdk,
     get_component,
@@ -112,8 +111,6 @@ __all__ = (
     "get_cross_sections",
     "get_layer",
     "get_padding_points",
-    "grid",
-    "grid_with_text",
     "import_gds",
     "kcl",
     "kdb",

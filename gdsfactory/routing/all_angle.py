@@ -14,7 +14,7 @@ from gdsfactory.routing.auto_taper import (
     taper_to_cross_section,
 )
 from gdsfactory.typings import STEP_DIRECTIVES_ALL_ANGLE as STEP_DIRECTIVES
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Route, StepAllAngle
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, StepAllAngle
 
 BEND_PATH_FUNCS = {
     # 'euler_bend': euler_path,
@@ -488,6 +488,7 @@ def _angles_approx_opposing(angle1: float, angle2: float, tolerance: float = 1e-
 
 
 def route_bundle_all_angle(
+    c,
     ports1: list[Port],
     ports2: list[Port],
     steps: list[StepAllAngle] | None = None,
@@ -500,7 +501,7 @@ def route_bundle_all_angle(
     end_cross_section: CrossSectionSpec | None = None,
     separation: float | None = None,
     **kwargs,
-) -> list[Route]:
+) -> None:
     """Connects a bundle of ports, allowing steps which create waypoints at \
             arbitrary, non-manhattan angles.
 
@@ -560,7 +561,6 @@ def route_bundle_all_angle(
         )
 
     connector_func = get_connector(connector)
-    routes = []
     is_primary_route = True
     final_connector_func = connector_func
     final_cross_section = cross_section
@@ -917,15 +917,15 @@ def route_bundle_all_angle(
             route_refs += final_connection
             this_separation = _get_minimum_separation(final_connection, port1)
             segment_separations.append(this_separation)
-        route_length = sum(r.info["length"] for r in route_refs)
-        route = Route(
-            references=route_refs,
-            ports=(port1, port2),
-            length=np.round(route_length, 3),
-        )
-        routes.append(route)
-        is_primary_route = False
-    return routes
+        # route_length = sum(r.info["length"] for r in route_refs)
+        # route = Route(
+        #     references=route_refs,
+        #     ports=(port1, port2),
+        #     length=np.round(route_length, 3),
+        # )
+        # routes.append(route)
+        # is_primary_route = False
+    # return routes
 
 
 if __name__ == "__main__":

@@ -11,12 +11,6 @@ from functools import partial
 from gdsfactory.components.add_fiber_array_optical_south_electrical_north import (
     add_fiber_array_optical_south_electrical_north,
 )
-from gdsfactory.components.add_grating_couplers import (
-    add_grating_couplers,
-    add_grating_couplers_fiber_array,
-    add_grating_couplers_with_loopback_fiber_array,
-    add_grating_couplers_with_loopback_fiber_single,
-)
 from gdsfactory.components.add_termination import add_termination
 from gdsfactory.components.add_trenches import add_trenches, add_trenches90
 from gdsfactory.components.align import add_frame, align_wafer
@@ -242,17 +236,11 @@ from gdsfactory.components.ring_single_pn import ring_single_pn
 from gdsfactory.components.seal_ring import seal_ring
 from gdsfactory.components.snspd import snspd
 from gdsfactory.components.spiral_double import spiral_double
-from gdsfactory.components.spiral_external_io import spiral_external_io
 from gdsfactory.components.spiral_heater import (
     spiral_racetrack,
     spiral_racetrack_fixed_length,
     spiral_racetrack_heater_doped,
     spiral_racetrack_heater_metal,
-)
-from gdsfactory.components.spiral_inner_io import (
-    spiral_inner_io,
-    spiral_inner_io_fiber_array,
-    spiral_inner_io_fiber_single,
 )
 from gdsfactory.components.splitter_chain import splitter_chain
 from gdsfactory.components.splitter_tree import splitter_tree, switch_tree
@@ -328,10 +316,6 @@ __all__ = [
     "L",
     "add_fiber_array_optical_south_electrical_north",
     "add_frame",
-    "add_grating_couplers",
-    "add_grating_couplers_fiber_array",
-    "add_grating_couplers_with_loopback_fiber_array",
-    "add_grating_couplers_with_loopback_fiber_single",
     "add_trenches",
     "align_wafer",
     "array",
@@ -522,10 +506,6 @@ __all__ = [
     "seal_ring",
     "snspd",
     "spiral_double",
-    "spiral_external_io",
-    "spiral_inner_io",
-    "spiral_inner_io_fiber_array",
-    "spiral_inner_io_fiber_single",
     "spiral_racetrack",
     "spiral_racetrack_fixed_length",
     "spiral_racetrack_heater_doped",

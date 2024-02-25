@@ -24,13 +24,6 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
-from gdsfactory.routing.route_bundle_corner import route_bundle_corner
-from gdsfactory.routing.route_bundle_from_steps import route_bundle_from_steps
-from gdsfactory.routing.route_bundle_from_waypoints import route_bundle_from_waypoints
-from gdsfactory.routing.route_bundle_u import (
-    route_bundle_udirect,
-    route_bundle_uindirect,
-)
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
@@ -229,14 +222,14 @@ def route_bundle(
 
     if steps:
         params["steps"] = steps
-        return route_bundle_from_steps(**params)
+        raise NotImplementedError("route_bundle_from_steps not implemented yet")
 
     elif waypoints:
         params["waypoints"] = waypoints
-        return route_bundle_from_waypoints(**params)
+        raise NotImplementedError("route_bundle_from_waypoints not implemented yet")
 
     if start_axis != end_axis:
-        return route_bundle_corner(**params)
+        raise ValueError("route_bundle_corner not implemented yet")
     if (
         start_angle == 0
         and end_angle == 180
@@ -256,16 +249,11 @@ def route_bundle(
 
     elif start_angle == end_angle:
         print("route_bundle_udirect")
-        return route_bundle_udirect(**params)
+        raise NotImplementedError("route_bundle_udirect not implemented yet")
 
     elif end_angle == (start_angle + 180) % 360:
         print("route_bundle_uindirect")
-        params_without_pathlength = {
-            k: v for k, v in params.items() if k not in path_length_match_params
-        }
-        return route_bundle_uindirect(
-            extension_length=extension_length, **params_without_pathlength
-        )
+        raise NotImplementedError("route_bundle_uindirect not implemented yet")
     else:
         raise NotImplementedError("This should never happen")
 

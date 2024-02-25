@@ -224,7 +224,6 @@ class Path(_GeometryHelper):
         """
         dx, dy = _parse_move(origin, destination, axis)
         self.points += np.array([dx, dy])
-
         return self
 
     def rotate(self, angle: float = 45, center: Float2 | None = (0, 0)):

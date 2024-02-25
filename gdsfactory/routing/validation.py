@@ -4,38 +4,8 @@ import numpy as np
 
 from gdsfactory.config import CONF
 from gdsfactory.port import Port
+from gdsfactory.routing.utils import RouteWarning
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import Route
-
-
-def validate_connections(
-    ports1: list[Port], ports2: list[Port], routes: list[Route]
-) -> list[Route]:
-    """
-    Validates that a set of Routes indeed connects the port-pairs listed in ports1 and ports2.
-    If the Routes form valid connections between ports1 and ports2, the original Routes will be returned.
-    If not, a RouteWarning will be raised, and a set of error traces will be returned instead.
-
-    Args:
-        ports1: the list of starting ports.
-        ports2: the list of ending ports.
-        routes: the list of Route objects, purportedly between ports1 and ports2.
-
-    Returns:
-        when valid, returns a list of Routes
-        Otherwise, returns error traces and raises RouteWarning.
-    """
-    connections_expected = {_connection_tuple(p1, p2) for p1, p2 in zip(ports1, ports2)}
-
-    for route in routes:
-        connection = _connection_tuple(*route.ports)
-        if connection not in connections_expected:
-            return make_error_traces(
-                ports1=ports1,
-                ports2=ports2,
-                message="Unable to route bundle! Please check the ordering of your ports to ensure it is a possible topology.",
-            )
-    return routes
 
 
 def make_error_traces(
@@ -54,7 +24,6 @@ def make_error_traces(
         A list of Routes (the error traces).
     """
     import gdsfactory as gf
-    from gdsfactory.routing.manhattan import RouteWarning
 
     warn(message, RouteWarning)
     for port1, port2 in zip(ports1, ports2):
