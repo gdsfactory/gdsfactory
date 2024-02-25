@@ -174,7 +174,7 @@ def route_single_electrical(
     end_straight_length: float | None = None,
     layer: LayerSpec | None = None,
     width: float | None = None,
-    cross_section: CrossSectionSpec = "metal3",
+    cross_section: CrossSectionSpec = "xs_m3",
 ) -> None:
     """Places a route between two electrical ports.
 

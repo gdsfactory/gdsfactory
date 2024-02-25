@@ -26,7 +26,6 @@ from gdsfactory.components.array_with_fanout import (
     array_with_fanout_2d,
 )
 from gdsfactory.components.array_with_via import array_with_via, array_with_via_2d
-from gdsfactory.components.awg import awg
 from gdsfactory.components.bbox import bbox
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_circular_heater import bend_circular_heater
@@ -36,12 +35,10 @@ from gdsfactory.components.bend_euler import (
     bend_euler_s,
     bend_straight_bend,
 )
-from gdsfactory.components.bend_port import bend_port
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.bezier import bezier
 from gdsfactory.components.C import C
 from gdsfactory.components.cavity import cavity
-from gdsfactory.components.cdc import cdc
 from gdsfactory.components.cdsem_all import cdsem_all
 from gdsfactory.components.cdsem_bend180 import cdsem_bend180
 from gdsfactory.components.cdsem_coupler import cdsem_coupler
@@ -292,15 +289,7 @@ from gdsfactory.components.taper_cross_section import (
     taper_cross_section_parabolic,
     taper_cross_section_sine,
 )
-from gdsfactory.components.taper_from_csv import (
-    taper_0p5_to_3_l36,
-    taper_from_csv,
-    taper_w10_l100,
-    taper_w10_l150,
-    taper_w10_l200,
-    taper_w11_l200,
-    taper_w12_l200,
-)
+from gdsfactory.components.taper_from_csv import taper_from_csv
 from gdsfactory.components.taper_parabolic import taper_parabolic
 from gdsfactory.components.terminator import terminator
 from gdsfactory.components.text import text, text_lines
@@ -317,7 +306,6 @@ from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.via_cutback import via_cutback
 from gdsfactory.components.via_stack import (
     via_stack,
-    via_stack_from_rules,
     via_stack_heater_m3,
     via_stack_heater_mtop,
     via_stack_slab_m3,
@@ -351,7 +339,6 @@ __all__ = [
     "array_with_fanout_2d",
     "array_with_via",
     "array_with_via_2d",
-    "awg",
     "bbox",
     "bend_circular",
     "bend_circular180",
@@ -359,12 +346,10 @@ __all__ = [
     "bend_euler",
     "bend_euler180",
     "bend_euler_s",
-    "bend_port",
     "bend_s",
     "bend_straight_bend",
     "bezier",
     "cavity",
-    "cdc",
     "cdsem_all",
     "cdsem_straight",
     "cdsem_straight_density",
@@ -567,7 +552,6 @@ __all__ = [
     "switch_tree",
     "taper",
     "taper2",
-    "taper_0p5_to_3_l36",
     "taper_adiabatic",
     "taper_cross_section",
     "taper_cross_section_linear",
@@ -578,11 +562,6 @@ __all__ = [
     "taper_sc_nc",
     "taper_strip_to_ridge",
     "taper_strip_to_ridge_trenches",
-    "taper_w10_l100",
-    "taper_w10_l150",
-    "taper_w10_l200",
-    "taper_w11_l200",
-    "taper_w12_l200",
     "terminator",
     "text",
     "text_freetype",
@@ -600,7 +579,6 @@ __all__ = [
     "via_corner",
     "via_cutback",
     "via_stack",
-    "via_stack_from_rules",
     "via_stack_heater_m3",
     "via_stack_heater_mtop",
     "via_stack_slab_m3",

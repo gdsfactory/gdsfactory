@@ -24,6 +24,8 @@ def coh_rx_single_pol(
     in_wg_length: float = 20.0,
     lo_input_coupler: ComponentSpec | None = None,
     signal_input_coupler: ComponentSpec | None = None,
+    cross_section_metal_top: CrossSectionSpec = "xs_m3",
+    cross_section_metal: CrossSectionSpec = "xs_m2",
 ) -> Component:
     r"""Single polarization coherent receiver.
 
@@ -110,7 +112,7 @@ def coh_rx_single_pol(
 
     # x placement
     for pd in pds:
-        pd.xmin = hybrid.xmax + det_spacing[0]
+        pd.d.xmin = hybrid.d.xmax + det_spacing[0]
 
     # y placement - we will place them in the same order as the outputs
     # of the 90 degree hybrid to avoid crossings
@@ -128,7 +130,7 @@ def coh_rx_single_pol(
     ports_hybrid = []
     for port_name in port_names:
         det = hybrid_ports[port_name]
-        det.y = y_pos
+        det.d.y = y_pos
         y_pos = y_pos + det_spacing[1]
         det_ports.append(det.ports["o1"])
         ports_hybrid.append(hybrid.ports[port_name])
@@ -136,15 +138,15 @@ def coh_rx_single_pol(
     gf.routing.route_bundle(c, ports_hybrid, det_ports, enforce_port_ordering=True)
 
     # --- Draw metal connections ----
-    route = gf.routing.route_single_electrical(
-        c, pd_i1.ports["bot_e3"], pd_i2.ports["top_e3"]
+    gf.routing.route_single_electrical(
+        c,
+        pd_i1.ports["bot_e3"],
+        pd_i2.ports["top_e3"],
+        cross_section=cross_section_metal_top,
     )
 
     # Add a port at the center
-    x_max = -np.inf
-    for ref in route.references:
-        if ref.xmax > x_max:
-            x_max = ref.xmax
+    x_max = c.d.xmax
     c.add_port(
         name="i_out",
         port_type="placement",
@@ -154,15 +156,15 @@ def coh_rx_single_pol(
         width=2.0,
     )
 
-    route = gf.routing.route_single_electrical_m2(
-        c, pd_q1.ports["bot_e3"], pd_q2.ports["top_e3"]
+    gf.routing.route_single_electrical(
+        c,
+        pd_q1.ports["bot_e3"],
+        pd_q2.ports["top_e3"],
+        cross_section=cross_section_metal,
     )
 
     # Add a port
-    x_max = -np.inf
-    for ref in route.references:
-        if ref.xmax > x_max:
-            x_max = ref.xmax
+    x_max = c.d.xmax
     c.add_port(
         name="q_out",
         port_type="placement",
@@ -186,7 +188,7 @@ def coh_rx_single_pol(
         labels = {"e11": "V+", "e21": "Q_out", "e31": "I_out", "e41": "V-"}
         for pad, label in labels.items():
             x_pos, y_pos = pad_array.ports[pad].center
-            c << gf.components.text(
+            _ = c << gf.components.text(
                 text=label,
                 size=14.0,
                 position=[x_pos + 55.0, y_pos],
@@ -199,15 +201,13 @@ def coh_rx_single_pol(
         # V- pad (connected to positive side of one of the diodes)
         p0x, p0y = pd_i1.ports["top_e2"].center
         p1x, p1y = pad_array.ports["e41"].center
-        route = gf.routing.route_single_electrical(
+        gf.routing.route_single_electrical(
             c, waypoints=[(p0x, p0y), (p0x, p1y), (p1x, p1y)]
         )
 
-        c.add(route.references)
-
         p0x, p0y = pd_q1.ports["top_e3"].center
         p1x, p1y = pad_array.ports["e41"].center
-        route = gf.routing.route_single_electrical_multilayer(
+        gf.routing.route_single_electrical(
             c,
             waypoints=[
                 (p0x, p0y),
@@ -216,55 +216,47 @@ def coh_rx_single_pol(
             ],
         )
 
-        c.add(route.references)
-
         # V+ pad (connected to negative side of the other diode)
         p0x, p0y = pd_i2.ports["bot_e2"].center
         p1x, p1y = pad_array.ports["e11"].center
-        route = gf.routing.route_single_electrical(
+        gf.routing.route_single_electrical(
             c, waypoints=[(p0x, p0y), (p0x, p1y), (p1x, p1y)]
         )
-        c.add(route.references)
 
         p0x, p0y = pd_q2.ports["bot_e3"].center
         p1x, p1y = pad_array.ports["e11"].center
-        route = gf.routing.route_single_electrical_multilayer(
+        gf.routing.route_single_electrical(
+            c,
             waypoints=[
                 (p0x, p0y),
                 (p0x + 0.5 * (p1x - p0x), p0y),
                 (p0x + 0.5 * (p1x - p0x), p1y),
-            ]
+            ],
         )
-
-        c.add(route.references)
 
         # I out pad
-        route = gf.routing.route_single_electrical(
-            pad_array.ports["e31"], c.ports["i_out"]
-        )
-        c.add(route.references)
+        gf.routing.route_single_electrical(c, pad_array.ports["e31"], c.ports["i_out"])
 
         # Q out pad
-        route = gf.routing.route_single_electrical_multilayer(
-            pad_array.ports["e21"], c.ports["q_out"]
-        )
-        c.add(route.references)
+        gf.routing.route_single_electrical(c, pad_array.ports["e21"], c.ports["q_out"])
 
     else:
         # Create electrical ports. q_out and i_out already exist
         c.add_ports(
-            pd_i1.get_ports_list(port_type="electrical", prefix="top"),
+            gf.port.get_ports_list(pd_i1, port_type="electrical", prefix="top"),
             prefix="i1vminus",
         )
         c.add_ports(
-            pd_q1.get_ports_list(port_type="electrical", prefix="top"),
+            gf.port.get_ports_list(pd_q1, port_type="electrical", prefix="top"),
             prefix="q1vminus",
         )
         c.add_ports(
-            pd_q2.get_ports_list(port_type="electrical", prefix="bot"), prefix="q2vplus"
+            gf.port.get_ports_list(pd_q2, port_type="electrical", prefix="bot"),
+            prefix="q2vplus",
         )
         c.add_ports(
-            pd_i2.get_ports_list(port_type="electrical", prefix="bot"), prefix="i2vplus"
+            gf.port.get_ports_list(pd_i2, port_type="electrical", prefix="bot"),
+            prefix="i2vplus",
         )
 
     return c

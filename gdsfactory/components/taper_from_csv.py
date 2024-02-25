@@ -25,6 +25,7 @@ def taper_from_csv(
     Args:
         filepath: for CSV file.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        post_process: function to post process the component.
     """
     import pandas as pd
 
