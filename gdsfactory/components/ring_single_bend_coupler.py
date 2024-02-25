@@ -63,17 +63,12 @@ def coupler_bend(
     bend_inner_ref = c << bend90_inner_right
     bend_outer_ref = c << bend_outer_right
 
-    output = gf.get_component(bend_euler, angle=angle_outer).mirror()
-
+    output = gf.get_component(bend_euler, angle=angle_outer)
     output_ref = c << output
-    output_ref.connect("o1", bend_outer_ref.ports["o2"])
+    output_ref.connect("o1", bend_outer_ref.ports["o2"], mirror=True)
 
     pbw = bend_inner_ref.ports["o1"]
-    bend_inner_ref.movey(pbw.center[1] + spacing)
-
-    c.absorb(bend_outer_ref)
-    c.absorb(bend_inner_ref)
-    c.absorb(output_ref)
+    bend_inner_ref.d.movey(pbw.center[1] + spacing)
 
     c.add_port("o1", port=bend_outer_ref.ports["o1"])
     c.add_port("o2", port=bend_inner_ref.ports["o1"])
@@ -120,27 +115,22 @@ def coupler_ring_bend(
     )
 
     coupler_right = c << cp
-    coupler_left = c << cp.mirror()
+    coupler_left = c << cp
     straight_inner = c << sin
     straight_inner.movex(-length_x / 2)
     straight_outer = c << sout
     straight_outer.movex(-length_x / 2)
 
-    coupler_left.connect("o1", straight_outer.ports["o1"])
+    coupler_left.connect("o1", straight_outer.ports["o1"], mirror=True)
     straight_inner.connect("o1", coupler_left.ports["o2"])
     coupler_right.connect("o2", straight_inner.ports["o2"])
     straight_outer.connect("o2", coupler_right.ports["o1"])
-
-    c.absorb(coupler_right)
-    c.absorb(coupler_left)
-    c.absorb(straight_inner)
-    c.absorb(straight_outer)
 
     c.add_port("o1", port=coupler_left.ports["o3"])
     c.add_port("o2", port=coupler_left.ports["o4"])
     c.add_port("o4", port=coupler_right.ports["o3"])
     c.add_port("o3", port=coupler_right.ports["o4"])
-    return c
+    return c.flatten()
 
 
 @gf.cell
@@ -211,7 +201,7 @@ def ring_single_bend_coupler(
 
 if __name__ == "__main__":
     # c = coupler_bend(radius=5)
-    # c = coupler_ring_bend()
-    c = ring_single_bend_coupler()
-    c.assert_ports_on_grid()
+    c = coupler_ring_bend()
+    # c = ring_single_bend_coupler()
+    # c.assert_ports_on_grid()
     c.show()

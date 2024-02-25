@@ -376,7 +376,7 @@ def route_sharp(
                 newport1.width = width[0]
                 newport2.width = width[1]
 
-    component << D
+    _ = component << D
 
 
 if __name__ == "__main__":

@@ -76,11 +76,14 @@ def greek_cross(
             layer=layer,
             port_type="electrical",
         )
-        cross_offset = offset
+        # cross_offset = offset
+    # port_at_length = [
+    #     port.move_polar_copy(d=cross_offset, angle=180 + port.orientation)
+    #     for port in cross_ref.ports
+    # ]
 
     port_at_length = [
-        port.move_polar_copy(d=cross_offset, angle=180 + port.orientation)
-        for port in cross_ref.ports
+        port.copy(gf.kdb.DCplxTrans(1, 180, False)) for port in cross_ref.ports
     ]
 
     # Add via
@@ -90,7 +93,6 @@ def greek_cross(
         c.add_port(name=port.name, port=via_stack_ref.ports["e3"])
 
     c.auto_rename_ports()
-
     return c
 
 

@@ -96,6 +96,6 @@ if __name__ == "__main__":
     c = gf.components.nxn(west=2, east=2)
 
     cc = fanout2x2(component=c, port_spacing=20)
-    print(cc.ports["o3"].y - cc.ports["o4"].y)
+    # print(cc.ports["o3"].y - cc.ports["o4"].y)
     # print(cc.ports)
     cc.show()

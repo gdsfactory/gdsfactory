@@ -85,6 +85,7 @@ def spiral(
 
     c.add_port(name="o1", port=p1)
     c.add_port(name="o2", port=p2)
+    c.info["length"] = length * 2 * n_loops
     return c
 
 

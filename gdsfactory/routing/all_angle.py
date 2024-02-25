@@ -488,7 +488,7 @@ def _angles_approx_opposing(angle1: float, angle2: float, tolerance: float = 1e-
 
 
 def route_bundle_all_angle(
-    c,
+    c: Component,
     ports1: list[Port],
     ports2: list[Port],
     steps: list[StepAllAngle] | None = None,
@@ -931,28 +931,19 @@ def route_bundle_all_angle(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    @gf.cell
-    def demo_issue() -> gf.Component:
-        c = gf.Component()
+    c = gf.Component()
 
-        mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)
-        mmi1 = c << mmi
-        mmi2 = c << mmi
+    mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)
+    mmi1 = c << mmi
+    mmi2 = c << mmi
 
-        mmi2.move((100, 30))
-        mmi2.rotate(30)
+    mmi2.move((100, 30))
+    mmi2.rotate(30)
 
-        routes = gf.routing.route_bundle_all_angle(
-            gf.port.get_ports_list(mmi1.ports, orientation=0),
-            [mmi2.ports["o2"], mmi2.ports["o1"]],
-            connector=None,
-        )
-        for route in routes:
-            c.add(route.references)
-
-        return c
-
-    # c = demo_issue(decorator=gf.decorators.flatten_invalid_refs)
-    c = demo_issue()
-    # c = c.flatten_invalid_refs()
+    gf.routing.route_bundle_all_angle(
+        c,
+        ports1=gf.port.get_ports_list(mmi1.ports, orientation=0),
+        ports2=[mmi2.ports["o2"], mmi2.ports["o1"]],
+        connector=None,
+    )
     c.show()
