@@ -19,14 +19,13 @@ def _generate_fins(c, x, fin_size, bend):
             port_type=None,
             port_orientations=None,
         )
-        rectangle.movex(
-            other=bend.ports["o1"].x
+        rectangle.d.movex(
+            bend.ports["o1"].x
             - (1 - bend.ports["o1"].orientation / 90.0) * fin_size[0] / 2.0
         )
 
-        rectangle.movey(
-            origin=rectangle.y,
-            other=bend.ports["o1"].y + y,
+        rectangle.d.movey(
+            bend.ports["o1"].y + y,
         )
         c.absorb(rectangle)
 
@@ -34,35 +33,22 @@ def _generate_fins(c, x, fin_size, bend):
 
 
 def _generate_bends(c, x_top, x_bot, dx, dy, gap):
-    input_bend_top = (
-        c << gf.components.bend_s(size=(dx, dy), cross_section=x_top).mirror()
-    )
-
-    input_bend_bottom = c << gf.components.bend_s(
-        size=(dx, dy), cross_section=x_bot
-    ).mirror().mirror(p1=(1, 0))
-
+    input_bend_top = c << gf.components.bend_s(size=(dx, dy), cross_section=x_top)
+    input_bend_bottom = c << gf.components.bend_s(size=(dx, dy), cross_section=x_bot)
     dy = input_bend_bottom.ports["o2"].y - input_bend_top.ports["o2"].y
-
-    input_bend_top.movey(other=dy / 2.0 + gap / 2.0)
-
-    input_bend_bottom.movey(
-        other=-dy / 2.0 - (x_bot.width / 2.0 + x_top.width / 2.0 + gap / 2.0)
+    input_bend_top.d.movey(dy / 2.0 + gap / 2.0)
+    input_bend_bottom.d.movey(
+        -dy / 2.0 - (x_bot.width / 2.0 + x_top.width / 2.0 + gap / 2.0)
     )
-
-    return (c, input_bend_top, input_bend_bottom)
+    return input_bend_top, input_bend_bottom
 
 
 def _generate_straights(c, length, x_top, x_bot, input_bend_top, input_bend_bottom):
     top_straight = c << gf.components.straight(length=length, cross_section=x_top)
-
     bottom_straight = c << gf.components.straight(length=length, cross_section=x_bot)
-
-    top_straight.movey(other=input_bend_top.ports["o2"].y)
-
-    bottom_straight.movey(other=input_bend_bottom.ports["o2"].y)
-
-    return (c, top_straight, bottom_straight)
+    top_straight.d.movey(input_bend_top.ports["o2"].y)
+    bottom_straight.d.movey(input_bend_bottom.ports["o2"].y)
+    return top_straight, bottom_straight
 
 
 def _generate_gratings(c, length, period, dc, gap, x, bottom_straight, x_bot):
@@ -79,10 +65,8 @@ def _generate_gratings(c, length, period, dc, gap, x, bottom_straight, x_bot):
             port_type=None,
             port_orientations=None,
         )
-        rectangle.movex(other=x_start)
-        rectangle.movey(
-            other=bottom_straight.ports["o1"].y + x_bot.width / 2.0 + gap / 2.0
-        )
+        rectangle.movex(x_start)
+        rectangle.d.movey(bottom_straight.ports["o1"].y + x_bot.width / 2.0 + gap / 2.0)
 
     return c
 
@@ -136,13 +120,13 @@ def cdc(
 
     c = gf.Component()
 
-    c, input_bend_top, input_bend_bottom = _generate_bends(c, x_top, x_bot, dx, dy, gap)
-    c, top_straight, bottom_straight = _generate_straights(
+    input_bend_top, input_bend_bottom = _generate_bends(c, x_top, x_bot, dx, dy, gap)
+    top_straight, bottom_straight = _generate_straights(
         c, length, x_top, x_bot, input_bend_top, input_bend_bottom
     )
 
-    bend_output_top = c << input_bend_top.parent.mirror()
-    bend_output_bottom = c << input_bend_bottom.parent.mirror()
+    bend_output_top = c << input_bend_top
+    bend_output_bottom = c << input_bend_bottom.parent
 
     input_bend_top.connect("o2", top_straight.ports["o1"])
     input_bend_bottom.connect("o2", bottom_straight.ports["o1"])

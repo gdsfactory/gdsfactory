@@ -258,7 +258,7 @@ from gdsfactory.components.spiral_inner_io import (
     spiral_inner_io_fiber_single,
 )
 from gdsfactory.components.splitter_chain import splitter_chain
-from gdsfactory.components.splitter_tree import splitter_tree
+from gdsfactory.components.splitter_tree import splitter_tree, switch_tree
 from gdsfactory.components.straight import straight
 from gdsfactory.components.straight_array import straight_array
 from gdsfactory.components.straight_heater_doped_rib import straight_heater_doped_rib
@@ -279,7 +279,6 @@ from gdsfactory.components.straight_heater_metal import (
 from gdsfactory.components.straight_pin import straight_pin, straight_pn
 from gdsfactory.components.straight_pin_slot import straight_pin_slot
 from gdsfactory.components.straight_rib import straight_rib, straight_rib_tapered
-from gdsfactory.components.switch_tree import switch_tree
 from gdsfactory.components.taper import (
     taper,
     taper_sc_nc,

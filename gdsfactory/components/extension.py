@@ -187,7 +187,6 @@ def assert_polygons(component, n_polygons):
     result = len(component.polygons)
     assert result == 0, result
     assert len(component.references) == n_polygons, len(component.references)
-
     return result
 
 

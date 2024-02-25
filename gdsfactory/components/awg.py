@@ -134,23 +134,17 @@ def awg(
     fpr_out_ref.rotate(90)
 
     fpr_out_ref.x += fpr_spacing
-    routes = gf.routing.route_bundle(
+    gf.routing.route_bundle(
         c,
         gf.port.get_ports_list(fpr_in_ref.ports, prefix="E"),
         gf.port.get_ports_list(fpr_out_ref.ports, prefix="E"),
     )
-
-    c.lengths = []
-    for route in routes:
-        c.add(route.references)
-        c.lengths.append(route.length)
 
     c.add_port("o1", port=fpr_in_ref.ports["o1"])
 
     for i, port in enumerate(fpr_out_ref.get_ports_list(prefix="W")):
         c.add_port(f"E{i}", port=port)
 
-    c.delta_length = np.mean(np.diff(c.lengths))
     return c
 
 

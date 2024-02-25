@@ -1,4 +1,22 @@
+"""Returns a switch_tree.
+
+          __
+        _|  |_
+  __   | |  |_   _
+ |  |__| |__|    |
+_|  |__          |dy
+ |__|  |  __     |
+       |_|  |_   |
+         |  |_   -
+         |__|
+
+   |<-dx->|
+
+"""
+
 from __future__ import annotations
+
+from functools import partial
 
 import numpy as np
 
@@ -6,6 +24,8 @@ import gdsfactory as gf
 from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
+from gdsfactory.components.mzi import mzi1x2_2x2
+from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
 
@@ -117,6 +137,17 @@ def splitter_tree(
                 i += 1
 
     return c
+
+
+mzi = partial(
+    mzi1x2_2x2,
+    combiner=mmi2x2,
+    delta_length=0,
+    straight_x_top=straight_heater_metal,
+    length_x=None,
+)
+
+switch_tree = partial(splitter_tree, coupler=mzi, spacing=(500, 100))
 
 
 def test_splitter_tree_ports() -> None:
