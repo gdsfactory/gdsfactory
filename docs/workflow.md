@@ -19,10 +19,10 @@ The standard python flow can leverage all machine learning tools such as Jupyter
 
 ## 2. File-watcher flow
 
-For building large components can use a file-watcher and see your updates in KLayout.
+For building large components can use a file-watcher and see your updates in KLayout every time you save.
 
-1. You execute the file watcher `gf watch FolderName` or in the current working directory `gf watch`
-2. The file-watcher re-runs any python file `.py` or YAML `.pic.yaml`.
+1. You execute the file watcher run this command on your terminal `gf watch --path /home/jmatres/my_chips` for watching `my_chips` folder or run it in the current working directory `gf watch --path .`
+2. The file-watcher re-runs any python file `.py` or YAML `.pic.yml`. For testing it you can go to `gdsfactory/samples/demo/circuits`, modify any of the files and take a look how klayout updates every time you save a file.
 3. Thanks to the `cell` cache you can see your new component changes live updating the layout in Klayout.
 
 ![filewatcher](https://i.imgur.com/DNWgVRp.png)
