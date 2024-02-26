@@ -341,13 +341,30 @@ def route_fiber_array(
             ):
                 p0 = io_gratings[i].ports[gc_port_name]
                 p1 = ordered_ports[i]
-                waypoints = generate_manhattan_waypoints(
-                    input_port=p0,
-                    output_port=p1,
-                    bend=bend90,
-                    straight=straight,
-                    cross_section=cross_section,
-                )
+
+                # Differentiate between the situation where the structure ports are above or
+                # below the GC ports
+                if p0.y > p1.y:
+                    # GC is above the structure - rotuing is a bit more involved as we need to clear
+                    # the rest of GCs
+                    waypoints = generate_manhattan_waypoints(
+                        input_port=p0,
+                        output_port=p1,
+                        bend=bend90,
+                        straight=straight,
+                        cross_section=cross_section,
+                        start_straight_length=20,
+                    )
+
+                else:
+                    # GC is below structure
+                    waypoints = generate_manhattan_waypoints(
+                        input_port=p0,
+                        output_port=p1,
+                        bend=bend90,
+                        straight=straight,
+                        cross_section=cross_section,
+                    )
                 route = route_filter(
                     waypoints=waypoints,
                     bend=bend90,
