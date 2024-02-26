@@ -22,7 +22,7 @@ settings:
   layers_top:
   - M2
   min_metal_spacing: 1.0
-  num_vias: 100.0
+  num_vias: 100
   offsets_bot:
   - 0
   offsets_top:
@@ -34,4 +34,3 @@ settings:
       enclosure: 2
       layer: VIA1
   via_min_enclosure: 1.0
-  wire_width: 2.0
