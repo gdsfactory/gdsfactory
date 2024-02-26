@@ -1,0 +1,37 @@
+function: via_chain
+info: {}
+module: gdsfactory.components.via_chain
+name: via_chain
+settings:
+  cols: 10
+  contact:
+    function: via_stack
+    module: gdsfactory.components.via_stack
+    settings:
+      layers:
+      - M2
+      - MTOP
+      vias:
+      - function: via
+        module: gdsfactory.components.via
+        settings:
+          layer: VIA2
+      - null
+  layers_bot:
+  - M1
+  layers_top:
+  - M2
+  min_metal_spacing: 1.0
+  num_vias: 100.0
+  offsets_bot:
+  - 0
+  offsets_top:
+  - 0
+  via:
+    function: via
+    module: gdsfactory.components.via
+    settings:
+      enclosure: 2
+      layer: VIA1
+  via_min_enclosure: 1.0
+  wire_width: 2.0

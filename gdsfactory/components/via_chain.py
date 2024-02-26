@@ -12,9 +12,8 @@ from gdsfactory.typings import ComponentSpec
 
 @gf.cell
 def via_chain(
-    num_vias: float = 100.0,
+    num_vias: int = 100,
     cols: int = 10,
-    wire_width: float = 2.0,
     via: ComponentSpec = via1,
     contact: ComponentSpec = via_stack_m2_m3,
     layers_bot: LayerSpecs = ("M1",),
@@ -28,12 +27,13 @@ def via_chain(
 
     Args:
         num_vias: number of vias.
-        cols_pairs: number of column pairs.
-        wire_width: width of wire.
+        cols: number of column pairs.
         via: via component.
         contact: contact component.
-        layer_bot: bottom layer.
-        layer_top: top layer.
+        layers_bot: list of bottom layers.
+        layers_top: list of top layers.
+        offsets_top: list of top layer offsets.
+        offsets_bot: list of bottom layer offsets.
         via_min_enclosure: via_min_enclosure.
         min_metal_spacing: min_metal_spacing.
 
@@ -85,6 +85,7 @@ def via_chain(
     contact = gf.get_component(contact)
     wire_length = 2 * (2 * via_min_enclosure + via.size_info.width) + min_metal_spacing
     via_width = via.size_info.width
+    wire_width = via_width + 2 * via_min_enclosure
 
     wire_size = (wire_length, wire_width)
     via_spacing = (
@@ -118,10 +119,11 @@ def via_chain(
     bot_wires.ymin = -via_min_enclosure
     top_wires.ymin = -via_min_enclosure
     vias.xmin = top_wires.xmin + via_min_enclosure + via_spacing[0]
+    vias.ymin = top_wires.ymin + via_min_enclosure
 
     vertical_wire_left = gf.c.rectangle(
         size=(2 * via_min_enclosure + via_width, 2 * wire_width + min_metal_spacing),
-        layer=layers_bot[0],
+        layer=layers_top[0],
     )
 
     right_wires = c.add_array(
@@ -152,6 +154,8 @@ def via_chain(
 
     contact1.ymax = top_wires.ymin + wire_width
     contact2.ymin = top_wires.ymax - wire_width
+    c.add_port(name="e1", port=contact1.ports["e1"])
+    c.add_port(name="e2", port=contact2.ports["e1"])
     return c
 
 
