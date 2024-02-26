@@ -5,8 +5,8 @@ name: via_cutback
 settings:
   layer1: HEATER
   layer2: M1
-  min_pad_spacing: 0.0
-  num_vias: 100.0
+  min_pad_spacing: 10.0
+  num_vias: 200.0
   pad:
     function: via_stack
     module: gdsfactory.components.via_stack
@@ -27,10 +27,10 @@ settings:
         settings:
           layer: VIA2
   pad_size:
-  - 150
-  - 150
+  - 100
+  - 100
   via_layer: VIAC
-  via_spacing: 40.0
+  via_spacing: 30.0
   via_width: 5.0
-  wire_pad_inclusion: 12.0
+  wire_pad_inclusion: 2.0
   wire_width: 10.0
