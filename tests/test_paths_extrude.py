@@ -123,6 +123,21 @@ def test_diagonal_extrude_consistent_naming() -> None:
     assert c.name == expected_name, c.name
 
 
+def test_extrude_port_centers() -> None:
+    """Tests whether the ports created from CrossSections with multiple Sections are offset properly. Does not test the shear angle case."""
+    s1_offset = 1
+    s0 = gf.Section(layer="WG", width=0.5, offset=0, port_names=("o1", "o2"))
+    s1 = gf.Section(layer="M1", width=0.5, offset=s1_offset, port_names=("e1", "e2"))
+    xs = gf.CrossSection(sections=(s0, s1))
+    s = gf.components.straight(cross_section=xs)
+
+    assert s.ports["e1"].center[0] == s.ports["o1"].center[0]
+    assert s.ports["e1"].center[1] == s.ports["o1"].center[1] - s1_offset
+
+    assert s.ports["e2"].center[0] == s.ports["o2"].center[0]
+    assert s.ports["e2"].center[1] == s.ports["o2"].center[1] - s1_offset
+
+
 if __name__ == "__main__":
     test_diagonal_extrude_consistent_naming()
     # test_transition_cross_section()

@@ -914,7 +914,7 @@ def extrude(
         if port_names[0] is not None:
             port_width = width if np.isscalar(width) else width[0]
             port_orientation = (p_sec.start_angle + 180) % 360
-            center = points[0]
+            center = np.average([points1[0], points2[0]], axis=0)
             face = [points1[0], points2[0]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
@@ -935,7 +935,7 @@ def extrude(
         if port_names[1] is not None:
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p_sec.end_angle) % 360
-            center = points[-1]
+            center = np.average([points1[-1], points2[-1]], axis=0)
             face = [points1[-1], points2[-1]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
