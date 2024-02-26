@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import pathlib
 import warnings
+from collections import defaultdict
 from typing import TYPE_CHECKING
 
 import kfactory as kf
@@ -174,7 +175,7 @@ class Component(kf.KCell):
             trans = kdb.DCplxTrans(1, orientation, False, center[0], center[1])
             self.create_port(
                 name=name,
-                dwidth=round(width * 1e3) / 1e3,
+                dwidth=round(width / self.kcl.dbu) * self.kcl.dbu,
                 layer=layer,
                 port_type=port_type,
                 dcplx_trans=trans,
@@ -351,11 +352,11 @@ class Component(kf.KCell):
         for instance in instances:
             self._kdb_cell.insert(instance._instance)
 
-    def get_polygons(self) -> dict[tuple[int, int], kf.kdb.Region]:
+    def get_polygons(self) -> dict[tuple[int, int], list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer."""
         from gdsfactory import get_layer
 
-        polygons = dict()
+        polygons = defaultdict(list)
 
         for layer in self.kcl.layers:
             layer_index = get_layer(layer)
@@ -363,9 +364,20 @@ class Component(kf.KCell):
             r.merge()
             for p in r.each():
                 layer_tuple = (layer.layer, layer.datatype)
-                polygons[layer_tuple] = p
-
+                polygons[layer_tuple].append(p)
         return polygons
+
+    def get_polygons_points(self) -> dict[tuple[int, int], np.ndarray]:
+        """Returns a dict of Polygons points per layer."""
+        polygons_dict = self.get_polygons()
+        polygons_points = {}
+        for layer_tuple, polygons in polygons_dict.items():
+            all_points = []
+            for polygon in polygons:
+                points = [(point.x, point.y) for point in polygon.each_point_hull()]
+                all_points.extend(points)
+            polygons_points[layer_tuple] = self.kcl.dbu * np.array(all_points)
+        return polygons_points
 
     def area(self, layer: LayerSpec) -> float:
         """Returns the area of the Component in um2."""

@@ -11,13 +11,6 @@ from functools import partial
 from gdsfactory.components.add_fiber_array_optical_south_electrical_north import (
     add_fiber_array_optical_south_electrical_north,
 )
-from gdsfactory.components.add_fiducials import add_fiducials, add_fiducials_offsets
-from gdsfactory.components.add_grating_couplers import (
-    add_grating_couplers,
-    add_grating_couplers_fiber_array,
-    add_grating_couplers_with_loopback_fiber_array,
-    add_grating_couplers_with_loopback_fiber_single,
-)
 from gdsfactory.components.add_termination import add_termination
 from gdsfactory.components.add_trenches import add_trenches, add_trenches90
 from gdsfactory.components.align import add_frame, align_wafer
@@ -27,7 +20,6 @@ from gdsfactory.components.array_with_fanout import (
     array_with_fanout_2d,
 )
 from gdsfactory.components.array_with_via import array_with_via, array_with_via_2d
-from gdsfactory.components.awg import awg
 from gdsfactory.components.bbox import bbox
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_circular_heater import bend_circular_heater
@@ -37,12 +29,10 @@ from gdsfactory.components.bend_euler import (
     bend_euler_s,
     bend_straight_bend,
 )
-from gdsfactory.components.bend_port import bend_port
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.bezier import bezier
 from gdsfactory.components.C import C
 from gdsfactory.components.cavity import cavity
-from gdsfactory.components.cdc import cdc
 from gdsfactory.components.cdsem_all import cdsem_all
 from gdsfactory.components.cdsem_bend180 import cdsem_bend180
 from gdsfactory.components.cdsem_coupler import cdsem_coupler
@@ -174,9 +164,6 @@ from gdsfactory.components.greek_cross import (
 )
 from gdsfactory.components.hline import hline
 from gdsfactory.components.interdigital_capacitor import interdigital_capacitor
-from gdsfactory.components.interdigital_capacitor_enclosed import (
-    interdigital_capacitor_enclosed,
-)
 from gdsfactory.components.L import L
 from gdsfactory.components.litho_calipers import litho_calipers
 from gdsfactory.components.litho_ruler import litho_ruler
@@ -249,20 +236,14 @@ from gdsfactory.components.ring_single_pn import ring_single_pn
 from gdsfactory.components.seal_ring import seal_ring
 from gdsfactory.components.snspd import snspd
 from gdsfactory.components.spiral_double import spiral_double
-from gdsfactory.components.spiral_external_io import spiral_external_io
 from gdsfactory.components.spiral_heater import (
     spiral_racetrack,
     spiral_racetrack_fixed_length,
     spiral_racetrack_heater_doped,
     spiral_racetrack_heater_metal,
 )
-from gdsfactory.components.spiral_inner_io import (
-    spiral_inner_io,
-    spiral_inner_io_fiber_array,
-    spiral_inner_io_fiber_single,
-)
 from gdsfactory.components.splitter_chain import splitter_chain
-from gdsfactory.components.splitter_tree import splitter_tree
+from gdsfactory.components.splitter_tree import splitter_tree, switch_tree
 from gdsfactory.components.straight import straight
 from gdsfactory.components.straight_array import straight_array
 from gdsfactory.components.straight_heater_doped_rib import straight_heater_doped_rib
@@ -283,7 +264,6 @@ from gdsfactory.components.straight_heater_metal import (
 from gdsfactory.components.straight_pin import straight_pin, straight_pn
 from gdsfactory.components.straight_pin_slot import straight_pin_slot
 from gdsfactory.components.straight_rib import straight_rib, straight_rib_tapered
-from gdsfactory.components.switch_tree import switch_tree
 from gdsfactory.components.taper import (
     taper,
     taper_sc_nc,
@@ -297,15 +277,7 @@ from gdsfactory.components.taper_cross_section import (
     taper_cross_section_parabolic,
     taper_cross_section_sine,
 )
-from gdsfactory.components.taper_from_csv import (
-    taper_0p5_to_3_l36,
-    taper_from_csv,
-    taper_w10_l100,
-    taper_w10_l150,
-    taper_w10_l200,
-    taper_w11_l200,
-    taper_w12_l200,
-)
+from gdsfactory.components.taper_from_csv import taper_from_csv
 from gdsfactory.components.taper_parabolic import taper_parabolic
 from gdsfactory.components.terminator import terminator
 from gdsfactory.components.text import text, text_lines
@@ -322,7 +294,6 @@ from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.via_cutback import via_cutback
 from gdsfactory.components.via_stack import (
     via_stack,
-    via_stack_from_rules,
     via_stack_heater_m3,
     via_stack_heater_mtop,
     via_stack_slab_m3,
@@ -344,13 +315,7 @@ __all__ = [
     "C",
     "L",
     "add_fiber_array_optical_south_electrical_north",
-    "add_fiducials",
-    "add_fiducials_offsets",
     "add_frame",
-    "add_grating_couplers",
-    "add_grating_couplers_fiber_array",
-    "add_grating_couplers_with_loopback_fiber_array",
-    "add_grating_couplers_with_loopback_fiber_single",
     "add_trenches",
     "align_wafer",
     "array",
@@ -358,7 +323,6 @@ __all__ = [
     "array_with_fanout_2d",
     "array_with_via",
     "array_with_via_2d",
-    "awg",
     "bbox",
     "bend_circular",
     "bend_circular180",
@@ -366,12 +330,10 @@ __all__ = [
     "bend_euler",
     "bend_euler180",
     "bend_euler_s",
-    "bend_port",
     "bend_s",
     "bend_straight_bend",
     "bezier",
     "cavity",
-    "cdc",
     "cdsem_all",
     "cdsem_straight",
     "cdsem_straight_density",
@@ -471,7 +433,6 @@ __all__ = [
     "greek_cross_with_pads",
     "hline",
     "interdigital_capacitor",
-    "interdigital_capacitor_enclosed",
     "litho_calipers",
     "litho_ruler",
     "litho_steps",
@@ -545,10 +506,6 @@ __all__ = [
     "seal_ring",
     "snspd",
     "spiral_double",
-    "spiral_external_io",
-    "spiral_inner_io",
-    "spiral_inner_io_fiber_array",
-    "spiral_inner_io_fiber_single",
     "spiral_racetrack",
     "spiral_racetrack_fixed_length",
     "spiral_racetrack_heater_doped",
@@ -575,7 +532,6 @@ __all__ = [
     "switch_tree",
     "taper",
     "taper2",
-    "taper_0p5_to_3_l36",
     "taper_adiabatic",
     "taper_cross_section",
     "taper_cross_section_linear",
@@ -586,11 +542,6 @@ __all__ = [
     "taper_sc_nc",
     "taper_strip_to_ridge",
     "taper_strip_to_ridge_trenches",
-    "taper_w10_l100",
-    "taper_w10_l150",
-    "taper_w10_l200",
-    "taper_w11_l200",
-    "taper_w12_l200",
     "terminator",
     "text",
     "text_freetype",
@@ -608,7 +559,6 @@ __all__ = [
     "via_corner",
     "via_cutback",
     "via_stack",
-    "via_stack_from_rules",
     "via_stack_heater_m3",
     "via_stack_heater_mtop",
     "via_stack_slab_m3",

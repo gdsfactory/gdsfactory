@@ -174,7 +174,7 @@ def route_single_electrical(
     end_straight_length: float | None = None,
     layer: LayerSpec | None = None,
     width: float | None = None,
-    cross_section: CrossSectionSpec = "metal3",
+    cross_section: CrossSectionSpec = "xs_m3",
 ) -> None:
     """Places a route between two electrical ports.
 
@@ -211,20 +211,20 @@ def route_single_electrical(
 
 
 if __name__ == "__main__":
-    c = gf.Component("demo")
-    s = gf.c.wire_straight()
-    pt = c << s
-    pb = c << s
-    pt.d.move((50, 50))
-    gf.routing.route_single_electrical(
-        c,
-        pb.ports["e2"],
-        pt.ports["e1"],
-        cross_section="xs_sc_auto_widen",
-        start_straight_length=10,
-        end_straight_length=30,
-    )
-    c.show()
+    # c = gf.Component("demo")
+    # s = gf.c.wire_straight()
+    # pt = c << s
+    # pb = c << s
+    # pt.d.move((50, 50))
+    # gf.routing.route_single_electrical(
+    #     c,
+    #     pb.ports["e2"],
+    #     pt.ports["e1"],
+    #     cross_section="xs_sc_auto_widen",
+    #     start_straight_length=10,
+    #     end_straight_length=30,
+    # )
+    # c.show()
 
     # c = gf.Component("waypoints_sample")
     # w = gf.components.straight()
@@ -291,3 +291,19 @@ if __name__ == "__main__":
     #     ],
     # )
     # c.show()
+    c = gf.Component("waypoints_sample")
+    w = gf.components.straight()
+    top = c << w
+    bot = c << w
+    bot.d.move((0, -2))
+
+    p0 = top.ports["o2"]
+    p1 = bot.ports["o2"]
+
+    r = gf.routing.route_single(
+        c,
+        p0,
+        p1,
+        cross_section="xs_rc",
+    )
+    c.show()

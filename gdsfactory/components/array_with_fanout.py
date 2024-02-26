@@ -50,20 +50,25 @@ def array_with_fanout(
     bend_port_name2 = bend_port_name2 or bend_ports[1].name
 
     for col in range(columns):
-        ref = component.ref()
-        ref.x = col * pitch
-        c.add(ref)
+        ref = c << component
+        ref.d.x = col * pitch
         ylength = col * waveguide_pitch + start_straight_length
         xlength = col * pitch + end_straight_length
         straight_ref = c << straight(
             length=ylength,
             cross_section=cross_section,
         )
-        port_s1, port_s2 = straight_ref.get_ports_list()
+        port_s1, port_s2 = straight_ref.ports
 
-        straight_ref.connect(port_s2.name, ref.ports[component_port_name])
+        straight_ref.connect(
+            port_s2.name,
+            ref.ports[component_port_name],
+            allow_width_mismatch=True,
+            allow_layer_mismatch=True,
+            allow_type_mismatch=True,
+        )
 
-        bend_ref = c.add_ref(bend)
+        bend_ref = c << bend
         bend_ref.connect(bend_port_name1, straight_ref.ports[port_s1.name])
         straightx_ref = c << straight(
             length=xlength,

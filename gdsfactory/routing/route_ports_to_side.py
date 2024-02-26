@@ -530,7 +530,6 @@ if __name__ == "__main__":
     dummy = gf.components.nxn(north=2, south=2, west=2, east=2, cross_section="xs_sc")
     dummy_ref = c << dummy
     routes = route_ports_to_side(c, dummy_ref.ports, "north", layer=(1, 0))
-
     # sides = ["north", "south", "east", "west"]
     # d = 100
     # positions = [(0, 0), (d, 0), (d, d), (0, d)]

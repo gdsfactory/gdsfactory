@@ -25,7 +25,6 @@ def qrcode(data: str = "mask01", psize: int = 1, layer: LayerSpec = "WG") -> Com
         data: string to encode.
         psize: pixel size.
         layer: layer to use.
-
     """
     import qrcode
 

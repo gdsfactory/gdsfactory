@@ -404,7 +404,10 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
     # Define unetched layers
     for unetched_layer_name, unetched_layers in unetched_layers_dict.items():
         layer = layer_stack.layers[unetched_layer_name].layer
+        layer_index = get_layer(layer)
         polygons = polygons_per_layer[layer]
+        for polygon in polygons:
+            component_derived.shapes(layer_index).insert(polygon)
 
         # Add all the etching layers (OR)
         for etching_layers in unetched_layers:

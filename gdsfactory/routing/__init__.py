@@ -16,19 +16,6 @@ from gdsfactory.routing.route_bundle import (
     route_bundle_electrical,
     route_bundle_electrical_multilayer,
 )
-from gdsfactory.routing.route_bundle_from_steps import (
-    route_bundle_from_steps,
-    route_bundle_from_steps_electrical,
-    route_bundle_from_steps_electrical_multilayer,
-)
-from gdsfactory.routing.route_bundle_from_waypoints import (
-    route_bundle_from_waypoints,
-    route_bundle_from_waypoints_electrical,
-    route_bundle_from_waypoints_electrical_multilayer,
-)
-from gdsfactory.routing.route_bundle_path_length_match import (
-    route_bundle_path_length_match,
-)
 from gdsfactory.routing.route_bundle_sbend import route_bundle_sbend
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.route_quad import route_quad
@@ -54,15 +41,8 @@ __all__ = [
     "add_fiber_array",
     "route_bundle",
     "route_bundle_all_angle",
-    "route_bundle_from_steps",
-    "route_bundle_from_steps_electrical",
-    "route_bundle_from_steps_electrical_multilayer",
     "route_bundle_electrical",
     "route_bundle_electrical_multilayer",
-    "route_bundle_path_length_match",
-    "route_bundle_from_waypoints",
-    "route_bundle_from_waypoints_electrical",
-    "route_bundle_from_waypoints_electrical_multilayer",
     "route_single",
     "route_single_electrical",
     "route_bundle_sbend",
@@ -79,7 +59,6 @@ __all__ = [
     "route_single_electrical",
     "route_bundle",
     "route_single_from_steps",
-    "route_bundle_path_length_match",
     "route_single_sbend",
 ]
 

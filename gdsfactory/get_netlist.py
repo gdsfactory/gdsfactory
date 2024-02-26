@@ -525,21 +525,7 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
 
 
 def _get_references_to_netlist(component: Component) -> list[ComponentReference]:
-    from gdsfactory.cell import CACHE
-
     references = component.references
-    if not references and "transformed_cell" in component.info:
-        # expand transformed, flattened cells
-        ref = component.settings.full["ref"]
-        original_cell = CACHE[component.info["transformed_cell"]]
-        references = [
-            ComponentReference(
-                original_cell,
-                origin=ref["origin"],
-                rotation=ref["rotation"],
-                x_reflection=ref["x_reflection"],
-            )
-        ]
     return references
 
 

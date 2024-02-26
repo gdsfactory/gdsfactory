@@ -6,7 +6,6 @@ from typing import Any
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pack import pack
 from gdsfactory.typings import CellSpec, ComponentSpec
 
@@ -96,6 +95,10 @@ def pack_doe(
     c.doe_names = [component.name for component in component_list]
     c.doe_settings = settings_list
     return c
+
+
+grid = gf.pack
+grid_with_text = grid
 
 
 @cell

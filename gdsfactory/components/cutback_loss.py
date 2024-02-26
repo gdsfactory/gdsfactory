@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.components.cutback_bend import cutback_bend90, cutback_bend180
 from gdsfactory.components.cutback_component import cutback_component
 from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.components.spiral_inner_io import spiral_inner_io
+from gdsfactory.components.spiral import spiral
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
@@ -64,7 +64,7 @@ def cutback_loss(
 
 
 def cutback_loss_spirals(
-    spiral: ComponentFactory = spiral_inner_io,
+    spiral: ComponentFactory = spiral,
     loss: tuple[float, ...] = tuple(4 + 3 * i for i in range(3)),
     cross_section: CrossSectionSpec = "xs_sc",
     loss_dB_per_m: float = 300,
@@ -93,7 +93,6 @@ cutback_loss_bend90 = partial(
 cutback_loss_bend180 = partial(
     cutback_loss, component="bend_euler180", cutback=cutback_bend180, cols=12
 )
-
 
 
 if __name__ == "__main__":

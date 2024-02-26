@@ -5,7 +5,7 @@ from functools import partial
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.routing.manhattan import RouteWarning
+from gdsfactory.routing.utils import RouteWarning
 
 
 def test_route_error_bundle() -> None:
@@ -22,18 +22,15 @@ def test_route_error_bundle() -> None:
     left = c << w
     right = c << w
     right.move((200, 100))
-    p1 = left.get_ports_list(orientation=0)
-    p2 = right.get_ports_list(orientation=180)
+    p1 = gf.port.get_ports_list(left.ports, orientation=0)
+    p2 = gf.port.get_ports_list(right.ports, orientation=180)
 
     with pytest.warns(RouteWarning):
-        routes = gf.routing.route_bundle_from_steps(
+        gf.routing.route_bundle(
             p1,
             p2,
             steps=[{"x": 300}, {"x": 301}],
         )
-
-    for route in routes:
-        c.add(route.references)
 
 
 if __name__ == "__main__":

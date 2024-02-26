@@ -43,7 +43,7 @@ def to_3d(
     # layers = layer_views.layer_map.values()
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
-    polygons_per_layer = component_with_booleans.get_polygons()
+    polygons_per_layer = component_with_booleans.get_polygons_points()
     component_layers = polygons_per_layer.keys()
     has_polygons = False
 
@@ -61,7 +61,6 @@ def to_3d(
                 c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)
             ]
             # opacity = layer_view.get_alpha()
-            # print(layer, height, zmin, opacity, layer_view.visible)
 
             if zmin is not None and layer_view.visible:
                 for polygon in [polygons]:
@@ -83,11 +82,11 @@ def to_3d(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.components.taper_strip_to_ridge()
+    c = gf.components.taper_strip_to_ridge()
     # c = gf.Component()
     # c << gf.components.straight_heater_metal(length=40)
     # c << gf.c.rectangle(layer=(113, 0))
-    c = gf.components.grating_coupler_elliptical_trenches()
+    # c = gf.components.grating_coupler_elliptical_trenches()
     # c = gf.components.taper_strip_to_ridge_trenches()
 
     c.show()

@@ -32,6 +32,9 @@ def text_freetype(
         font: Font face to use. Default DEPLOF does not require additional libraries,
             otherwise freetype load fonts. You can choose font by name
             (e.g. "Times New Roman"), or by file OTF or TTF filepath.
+        layer: list of layers to use for the text.
+        layers: list of layers to use for the text.
+
     """
     t = Component()
     yoffset = 0
@@ -87,23 +90,23 @@ def text_freetype(
             for letter in line:
                 letter_dev = Component()
                 letter_template, advance_x = _get_glyph(font, letter)
-                for poly in letter_template.polygons:
+                for _, points in letter_template.get_polygons_points().items():
                     for layer in layers:
-                        letter_dev.add_polygon(poly.points, layer=layer)
+                        letter_dev.add_polygon(points, layer=layer)
                 ref = char.add_ref(letter_dev)
-                ref.d.move(other=(xoffset, 0))
+                ref.d.move((xoffset, 0))
                 # ref.magnification = size
                 xoffset += size * advance_x
 
             ref = t.add_ref(char)
-            ref.d.move(other=(0, yoffset))
+            ref.d.move((0, yoffset))
             yoffset -= size
             t.absorb(ref)
 
     justify = justify.lower()
     for ref in t.references:
         if justify == "center":
-            ref.d.move(origin=ref.center, other=(0, 0), axis="x")
+            ref.d.move((0, 0))
 
         elif justify == "right":
             ref.xmax = 0

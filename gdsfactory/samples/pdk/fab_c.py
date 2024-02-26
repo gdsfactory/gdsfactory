@@ -53,13 +53,12 @@ def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
 add_pins = partial(add_pins_inside1nm, pin_length=0.5)
 
 # cross_sections
-
 strip_nc = partial(
     strip,
     width=WIDTH_NITRIDE_CBAND,
     layer=LAYER.WGN,
-    bbox_layers=[LAYER.WGN_CLAD],
-    bbox_offsets=[3],
+    bbox_layers=(LAYER.WGN_CLAD,),
+    bbox_offsets=(3,),
     add_pins_function_name="add_pins",
     add_pins_function_module="gdsfactory.samples.pdk.fab_c",
 )

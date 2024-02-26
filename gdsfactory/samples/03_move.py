@@ -21,5 +21,4 @@ if __name__ == "__main__":
     # wg2.rotate(45)  # Rotate straight by 45 degrees around (0,0)
     # wg2.rotate(45, center=[5, 0])  # Rotate straight by 45 degrees around (5, 0)
     # wg2.mirror(p1=[1, 1], p2=[1, 3])  # Reflects wg across the line formed by p1 and p2
-
     c.show()

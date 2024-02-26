@@ -12,7 +12,6 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
-from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.route_bundle import get_min_spacing, route_bundle
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.route_south import route_south
@@ -226,11 +225,11 @@ def route_fiber_array(
 
     west_ports = direction_ports["W"]
     west_ports.reverse()
-    east_ports = direction_ports["E"]
-    south_ports = direction_ports["S"]
+    # east_ports = direction_ports["E"]
+    # south_ports = direction_ports["S"]
     north_finish.reverse()  # Sort right to left
     north_start.reverse()  # Sort right to left
-    ordered_ports = north_start + west_ports + south_ports + east_ports + north_finish
+    # ordered_ports = north_start + west_ports + south_ports + east_ports + north_finish
 
     nb_ports_per_line = N // nb_optical_ports_lines
     y_gr_gap = (K / nb_optical_ports_lines + 1) * separation
@@ -271,32 +270,7 @@ def route_fiber_array(
         If specified ports to connect in a specific order (i.e if
         connected_port_names is not None and not empty) then grab these ports
         """
-        if connected_port_names:
-            ordered_ports = [component.ports[i] for i in connected_port_names]
-
-        for io_gratings in io_gratings_lines:
-            for i in range(N):
-                p1 = io_gratings[i].ports[gc_port_name]
-                p2 = ordered_ports[i]
-                waypoints = generate_manhattan_waypoints(
-                    input_port=p1,
-                    output_port=p2,
-                    bend=bend90,
-                    straight=straight,
-                    cross_section=cross_section,
-                    dbu=c.kcl.dbu,
-                    invert=False,
-                )
-                route_single(
-                    c,
-                    port1=p1,
-                    port2=p2,
-                    waypoints=waypoints,
-                    bend=bend90,
-                    straight=straight,
-                    cross_section=cross_section,
-                )
-                gc_ports.append(p1)
+        raise NotImplementedError("optical_routing_type=0 not implemented")
 
     elif optical_routing_type in [1, 2]:
         route_south(
