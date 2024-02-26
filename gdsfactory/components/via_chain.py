@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.add_pins import LayerSpec
+from gdsfactory.add_pins import LayerSpecs
 from gdsfactory.component import Component
 from gdsfactory.components.via import via1
 from gdsfactory.components.via_stack import via_stack_m2_m3
@@ -17,8 +17,10 @@ def via_chain(
     wire_width: float = 2.0,
     via: ComponentSpec = via1,
     contact: ComponentSpec = via_stack_m2_m3,
-    layer_bot: LayerSpec = "M1",
-    layer_top: LayerSpec = "M2",
+    layers_bot: LayerSpecs = ("M1",),
+    layers_top: LayerSpecs = ("M2",),
+    offsets_top: tuple[float, ...] = (0,),
+    offsets_bot: tuple[float, ...] = (0,),
     via_min_enclosure: float = 1.0,
     min_metal_spacing: float = 1.0,
 ) -> Component:
@@ -38,9 +40,9 @@ def via_chain(
     .. code::
 
         side view:
-
-           ┌────────────────────────────────────┐  spacing     ┌────────────────────────────────────┐
-           │                                    │              │                                    │
+                                              min_metal_spacing
+           ┌────────────────────────────────────┐              ┌────────────────────────────────────┐
+           │  layers_top                        │              │                                    │
            │                                    │◄───────────► │                                    │
            └─────────────┬─────┬────────────────┘              └───────────────┬─────┬──────────────┘
                          │     │         via_enclosure                         │     │
@@ -51,12 +53,12 @@ def via_chain(
                          ◄─────►                                               │     │
                          │     │                                               │     │
            ┌─────────────┴─────┴───────────────────────────────────────────────┴─────┴───────────────┐
-           │                                                                                         │
+           │ layers_bot                                                                              │
            │                                                                                         │
            └─────────────────────────────────────────────────────────────────────────────────────────┘
 
            ◄─────────────────────────────────────────────────────────────────────────────────────────►
-                                         2*e + w + spacing + 2*e + w
+                                         2*e + w + min_metal_spacing + 2*e + w
 
     """
 
@@ -96,14 +98,15 @@ def via_chain(
         rows=rows,
         spacing=via_spacing,
     )
-    top_wire = gf.c.rectangle(size=wire_size, layer=layer_top)
+
+    top_wire = gf.c.rectangles(size=wire_size, layers=layers_top, offsets=offsets_top)
     top_wires = c.add_array(
         component=top_wire,
         columns=cols // 2,
         rows=rows,
         spacing=(wire_length + min_metal_spacing, wire_width + min_metal_spacing),
     )
-    bot_wire = gf.c.rectangle(size=wire_size, layer=layer_bot)
+    bot_wire = gf.c.rectangles(size=wire_size, layers=layers_bot, offsets=offsets_bot)
     bot_wires = c.add_array(
         component=bot_wire,
         columns=cols // 2,
@@ -118,7 +121,7 @@ def via_chain(
 
     vertical_wire_left = gf.c.rectangle(
         size=(2 * via_min_enclosure + via_width, 2 * wire_width + min_metal_spacing),
-        layer=layer_top,
+        layer=layers_bot[0],
     )
 
     right_wires = c.add_array(
@@ -149,7 +152,6 @@ def via_chain(
 
     contact1.ymax = top_wires.ymin + wire_width
     contact2.ymin = top_wires.ymax - wire_width
-
     return c
 
 
