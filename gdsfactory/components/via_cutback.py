@@ -65,17 +65,17 @@ def _via_iterable(
 
 @gf.cell
 def via_cutback(
-    num_vias: float = 100.0,
+    num_vias: float = 200.0,
     wire_width: float = 10.0,
     via_width: float = 5.0,
-    via_spacing: float = 40.0,
-    min_pad_spacing: float = 0.0,
+    via_spacing: float = 30.0,
+    min_pad_spacing: float = 10.0,
     pad: ComponentSpec = via_stack_heater_m3,
-    pad_size: Float2 = (150, 150),
+    pad_size: Float2 = (100, 100),
     layer1: LayerSpec = "HEATER",
     layer2: LayerSpec = "M1",
     via_layer: LayerSpec = "VIAC",
-    wire_pad_inclusion: float = 12.0,
+    wire_pad_inclusion: float = 2.0,
 ) -> Component:
     """Via cutback to extract via resistance.
 
@@ -125,13 +125,14 @@ def via_cutback(
         via_layer=via_layer,
         via_width=via_width,
     )
+    overlap = wire_width
     while (count + 2) <= num_vias:
         obj = c.add_ref(via_iterable)
-        obj.connect(port="e1", destination=old_port, overlap=wire_width)
+        obj.connect(port="e1", destination=old_port, overlap=overlap)
         old_port = obj.ports["e3"]
         edge = False
         if obj.ymax > pad1.ymax:
-            obj.connect(port="e1", destination=obj_old.ports["e4"], overlap=wire_width)
+            obj.connect(port="e1", destination=obj_old.ports["e4"], overlap=overlap)
             old_port = obj.ports["e4"]
             current_width += width_via_iter
             down = True
@@ -139,7 +140,7 @@ def via_cutback(
             edge = True
 
         elif obj.ymin < pad1.ymin:
-            obj.connect(port="e1", destination=obj_old.ports["e2"], overlap=wire_width)
+            obj.connect(port="e1", destination=obj_old.ports["e2"], overlap=overlap)
             old_port = obj.ports["e2"]
             current_width += width_via_iter
             up = True
@@ -168,6 +169,8 @@ def via_cutback(
         tail.connect(port="e1", destination=obj.ports["e3"], overlap=wire_width)
 
     pad2.xmin = tail.xmax - wire_pad_inclusion
+    c.add_ports(pad1.ports, prefix="p1_")
+    c.add_ports(pad2.ports, prefix="p2_")
     return c
 
 
