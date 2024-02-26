@@ -26,7 +26,7 @@ def via_chain(
 
     Args:
         num_vias: number of vias.
-        cols: number of columns.
+        cols_pairs: number of column pairs.
         wire_width: width of wire.
         via: via component.
         contact: contact component.
@@ -35,17 +35,62 @@ def via_chain(
         via_min_enclosure: via_min_enclosure.
         min_metal_spacing: min_metal_spacing.
 
+    .. code::
+
+        side view:
+
+           ┌────────────────────────────────────┐  spacing     ┌────────────────────────────────────┐
+           │                                    │              │                                    │
+           │                                    │◄───────────► │                                    │
+           └─────────────┬─────┬────────────────┘              └───────────────┬─────┬──────────────┘
+                         │     │         via_enclosure                         │     │
+                         │     │◄───────────────►                              │     │
+                         │     │                                               │     │
+                         │     │                                               │     │
+                         │width│                                               │     │
+                         ◄─────►                                               │     │
+                         │     │                                               │     │
+           ┌─────────────┴─────┴───────────────────────────────────────────────┴─────┴───────────────┐
+           │                                                                                         │
+           │                                                                                         │
+           └─────────────────────────────────────────────────────────────────────────────────────────┘
+
+           ◄─────────────────────────────────────────────────────────────────────────────────────────►
+                                         2*e + w + spacing + 2*e + w
+
     """
+
+    if cols % 2 != 0:
+        raise ValueError(f"{cols=} must be even")
+
     c = gf.Component()
-    rows = int(num_vias / cols)
+    rows = num_vias / cols
+
+    if int(rows) != rows:
+        raise ValueError(f"{num_vias=} must be a multiple of {cols=}")
+
+    if rows <= 1:
+        raise ValueError(
+            f"rows must be at least 2. Got {rows=}. You can increase the number vias {num_vias=}."
+        )
+
+    if rows % 2 != 0:
+        raise ValueError(
+            f"{rows=} must be even. Number of vias needs to be a multiple of {2*cols=}."
+        )
+
     via = gf.get_component(via)
     contact = gf.get_component(contact)
     wire_length = 2 * (2 * via_min_enclosure + via.size_info.width) + min_metal_spacing
+    via_width = via.size_info.width
 
     wire_size = (wire_length, wire_width)
-    via_spacing = (wire_length, wire_width + min_metal_spacing)
+    via_spacing = (
+        2 * via_min_enclosure + min_metal_spacing + via.size_info.width,
+        wire_width + min_metal_spacing,
+    )
 
-    c.add_array(
+    vias = c.add_array(
         component=via,
         columns=cols,
         rows=rows,
@@ -66,9 +111,35 @@ def via_chain(
         spacing=(wire_length + min_metal_spacing, wire_width + min_metal_spacing),
     )
     top_wires.xmin = -via_min_enclosure
-    bot_wires.xmin = top_wires.xmin + wire_length / 2
+    bot_wires.xmin = top_wires.xmin + wire_length / 2 + min_metal_spacing / 2
     bot_wires.ymin = -via_min_enclosure
     top_wires.ymin = -via_min_enclosure
+    vias.xmin = top_wires.xmin + via_min_enclosure + via_spacing[0]
+
+    vertical_wire_left = gf.c.rectangle(
+        size=(2 * via_min_enclosure + via_width, 2 * wire_width + min_metal_spacing),
+        layer=layer_top,
+    )
+
+    right_wires = c.add_array(
+        component=vertical_wire_left,
+        columns=1,
+        rows=rows // 2,
+        spacing=(wire_width + min_metal_spacing, 2 * (wire_width + min_metal_spacing)),
+    )
+
+    right_wires.xmax = bot_wires.xmax
+    right_wires.ymin = bot_wires.ymin
+
+    left_wires = c.add_array(
+        component=vertical_wire_left,
+        columns=1,
+        rows=rows // 2 - 1,
+        spacing=(wire_width + min_metal_spacing, 2 * (wire_width + min_metal_spacing)),
+    )
+
+    left_wires.xmin = top_wires.xmin
+    left_wires.ymin = bot_wires.ymin + wire_width + min_metal_spacing
 
     contact1 = c << contact
     contact2 = c << contact
@@ -83,5 +154,5 @@ def via_chain(
 
 
 if __name__ == "__main__":
-    c = via_chain()
+    c = via_chain(num_vias=40)
     c.show(show_ports=True)
