@@ -78,18 +78,16 @@ def taper(
         xpts = [0, length, length, 0]
         for section in x.sections[1:]:
             layer = section.layer
-            dw1 = width1 - section.width
-            dw2 = width2 - section.width
             if not section.offset:
-                y1 = (section.width + dw1) / 2
-                y2 = (section.width + dw2) / 2
+                y1 = section.width / 2
+                y2 = section.width / 2
                 ypts = [y1, y2, -y2, -y1]
                 c.add_polygon((xpts, ypts), layer=layer)
             else:
-                y1 = section.offset + section.width / 2
-                y2 = section.offset - section.width / 2
-                xpts = [0, length]
-                ypts = [y2, y1]
+                y1 = section.width / 2
+                y2 = section.width / 2
+                ypts = [y1, y2, -y2, -y1]
+                ypts = [y - section.offset for y in ypts]
                 c.add_polygon((xpts, ypts), layer=layer)
 
     c.add_port(
