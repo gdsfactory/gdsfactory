@@ -44,37 +44,47 @@ def taper(
         add_pins: add pins to the component.
         kwargs: cross_section settings.
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x1 = gf.get_cross_section(cross_section, width=width1)
+    if width2:
+        width2 = gf.snap.snap_to_grid2x(width2)
+        x2 = gf.get_cross_section(cross_section, width=width2)
+    else:
+        x2 = x1
+
+    width1 = x1.width
+    width2 = x2.width
+    width_max = max([width1, width2])
+    x = gf.get_cross_section(cross_section, width=width_max, **kwargs)
     layer = x.layer
 
     if isinstance(port, gf.Port) and width1 is None:
         width1 = port.width
 
     width2 = width2 or width1
-
     c = gf.Component()
-
     length = snap_to_grid(length)
-
     y1 = width1 / 2
     y2 = width2 / 2
-    x1 = x.model_copy(update=dict(width=width1))
-    x2 = x.model_copy(update=dict(width=width2))
-    xpts = [0, length, length, 0]
-    ypts = [y1, y2, -y2, -y1]
-    c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
-    x1 = x.copy(width=width1)
-    x2 = x.copy(width=width2)
-
-    xpts = [0, length, length, 0]
-    for section in x.sections[1:]:
-        layer = section.layer
-        print(layer)
-        y1 = section.width / 2
-        y2 = y1 + (width2 - width1)
+    if length:
+        xpts = [0, length, length, 0]
         ypts = [y1, y2, -y2, -y1]
         c.add_polygon(list(zip(xpts, ypts)), layer=layer)
+
+        xpts = [0, length, length, 0]
+        for section in x.sections[1:]:
+            layer = section.layer
+            if not section.offset:
+                y1 = section.width / 2
+                y2 = section.width / 2
+                ypts = [y1, y2, -y2, -y1]
+                c.add_polygon(list(zip(xpts, ypts)), layer=layer)
+            else:
+                y1 = section.width / 2
+                y2 = section.width / 2
+                ypts = [y1, y2, -y2, -y1]
+                ypts = [y - section.offset for y in ypts]
+                c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
     c.add_port(
         name=port_order_name[0],
