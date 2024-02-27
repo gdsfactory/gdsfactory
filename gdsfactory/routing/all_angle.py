@@ -937,8 +937,8 @@ if __name__ == "__main__":
     mmi1 = c << mmi
     mmi2 = c << mmi
 
-    mmi2.move((100, 30))
-    mmi2.rotate(30)
+    mmi2.d.move((100, 30))
+    mmi2.d.rotate(30)
 
     gf.routing.route_bundle_all_angle(
         c,
