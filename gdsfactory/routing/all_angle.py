@@ -194,7 +194,7 @@ def low_loss_connector(
 
 
 def _make_error_trace(port1: Port, port2: Port, message: str):
-    from gdsfactory.routing.manhattan import RouteWarning
+    from gdsfactory.routing.utils import RouteWarning
 
     warnings.warn(message, RouteWarning)
     path = Path([port1.center, port2.center])

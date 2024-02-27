@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.routing.manhattan import RouteWarning
+from gdsfactory.routing.utils import RouteWarning
 
 
 def test_route_error() -> None:
