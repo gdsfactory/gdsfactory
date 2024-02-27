@@ -154,6 +154,11 @@ via_stack_m1_m3 = partial(
     layers=("M1", "M2", "MTOP"),
     vias=(via1, via2, None),
 )
+via_stack_m2_m3 = partial(
+    via_stack,
+    layers=("M2", "MTOP"),
+    vias=(via2, None),
+)
 via_stack_slab_m1 = partial(
     via_stack,
     layers=("SLAB90", "M1"),
