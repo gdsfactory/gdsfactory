@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.13.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.14.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.14.0) - 2024-02-27
 
-No significant changes.
-
+- add via_chain [#2559](https://github.com/gdsfactory/gdsfactory/pull/2559)
+- fix taper extrude [#2565](https://github.com/gdsfactory/gdsfactory/pull/2565)
+- fix taper extrude [#2565](https://github.com/gdsfactory/gdsfactory/pull/2565)
+- Handling top and bottom GC routing [#2560](https://github.com/gdsfactory/gdsfactory/pull/2560)
+- Section ports [#2558](https://github.com/gdsfactory/gdsfactory/pull/2558)
 
 ## [7.13.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.13.0) - 2024-02-24
 
