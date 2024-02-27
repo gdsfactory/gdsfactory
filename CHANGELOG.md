@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.14.0) - 2024-02-27
+
+No significant changes.
+
+
 ## [7.13.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.13.0) - 2024-02-24
 
 - Do not snap to grid by default.
