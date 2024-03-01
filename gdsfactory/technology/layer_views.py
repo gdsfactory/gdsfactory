@@ -1015,6 +1015,7 @@ class LayerViews(BaseModel):
             root.append(ls.to_klayout_xml())
 
         filepath.write_bytes(make_pretty_xml(root))
+        logger.info(f"LayerViews written to {str(filepath)!r}.")
         return filepath
 
     @staticmethod
