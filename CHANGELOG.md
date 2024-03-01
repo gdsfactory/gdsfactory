@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.14.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.15.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.15.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.15.0) - 2024-03-01
 
-No significant changes.
-
+- Improve pdk import [#2573](https://github.com/gdsfactory/gdsfactory/pull/2573)
+- Allow for different cross sections in cdsem [#2570](https://github.com/gdsfactory/gdsfactory/pull/2570)
+- better pad assignments in add_fiber_array_optical_south_electrical_north [#2566](https://github.com/gdsfactory/gdsfactory/pull/2566)
+- Update edge_coupler_array.py [#2568](https://github.com/gdsfactory/gdsfactory/pull/2568)
 
 ## [7.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.14.0) - 2024-02-27
 
