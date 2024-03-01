@@ -345,16 +345,16 @@ def test_connections_regex() -> None:
     c = from_yaml(sample_regex_connections)
     route_names = ["left,o1:right,o3", "left,o2:right,o2", "left,o3:right,o1"]
 
-    length = 12.0
+    length = 18.5
     for route_name in route_names:
-        assert np.isclose(c.routes[route_name], length)
+        assert np.isclose(c.routes[route_name], length), c.routes[route_name]
 
 
 def test_connections_regex_backwargs() -> None:
     c = from_yaml(sample_regex_connections_backwards)
     route_names = ["left,o3:right,o1", "left,o2:right,o2", "left,o1:right,o3"]
 
-    length = 12.0
+    length = 18.5
     for route_name in route_names:
         assert np.isclose(c.routes[route_name], length), c.routes[route_name]
 
@@ -599,7 +599,7 @@ if __name__ == "__main__":
     # test_connections_different_factory()
     # test_sample()
     # test_connections()
-    test_netlists("sample_mmis", None, False)
+    # test_netlists("sample_mmis", None, False)
     # yaml_key = "sample_doe_function"
     # yaml_key = "sample_mmis"
     # yaml_key = "yaml_anchor"
@@ -614,8 +614,8 @@ if __name__ == "__main__":
     # print(sorted([i.name for i in c.get_dependencies(True)]))
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # c2 = from_yaml(yaml_str)
+    c = from_yaml(sample_regex_connections)
     # n2 = c2.get_netlist()
     # d = jsondiff.diff(n, n2)
     # pprint(d)
-    # c.show()
+    c.show()

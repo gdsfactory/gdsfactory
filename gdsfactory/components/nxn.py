@@ -46,9 +46,9 @@ def nxn(
     wg_pitch = wg_margin + wg_width
 
     if ysize is None:
-        ysize = wg_pitch * max([west, east])
+        ysize = wg_pitch * max([west, east, 1])
     if xsize is None:
-        xsize = wg_pitch * max([north, south])
+        xsize = wg_pitch * max([north, south, 1])
 
     c = gf.Component()
     c << gf.components.rectangle(size=(xsize, ysize), layer=layer)
