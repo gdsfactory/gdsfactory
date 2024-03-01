@@ -1,5 +1,6 @@
 name: pads
 
+
 instances:
     bl:
       component: pad
@@ -12,7 +13,7 @@ instances:
 
 placements:
     tl:
-        x: -000
+        x: -200
         y: 500
 
     br:

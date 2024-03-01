@@ -1,0 +1,57 @@
+pdk: ubcpdk
+
+
+
+instances:
+  mzi1:
+    component: mzi
+    settings:
+      delta_length: 200
+
+  mzi2:
+    component: mzi
+    settings:
+      delta_length: 10
+
+  gc1:
+    component: gc_te1550
+
+  gc2:
+    component: gc_te1550
+
+placements:
+  mzi2:
+    ymax: mzi1,north
+    dy: 100
+    xmin: mzi1,east
+    dx: 50
+
+  gc1:
+    xmax: mzi1,west
+    mirror: True
+    dx: -100
+    dy: -20
+
+  gc2:
+    xmin: mzi2,east
+    dx: 100
+    dy: 100
+
+routes:
+  optical:
+    links:
+      mzi1,o2: mzi2,o1
+    settings:
+      auto_widen: True
+
+  gc1:
+    links:
+      gc1,o1: mzi1,o1
+
+  gc2:
+    links:
+      gc2,o1: mzi2,o2
+
+ports:
+  o1: mzi1,o1
+  o2: mzi2,o2

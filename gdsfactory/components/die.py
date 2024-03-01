@@ -20,7 +20,6 @@ def die(
     layer: LayerSpec = "FLOORPLAN",
     layers: LayerSpecs | None = None,
     bbox_layer: LayerSpec | None = "FLOORPLAN",
-    bbox_layers: LayerSpecs | None = None,
     text: ComponentFactory = text,
     draw_corners: bool = False,
 ) -> gf.Component:
@@ -36,7 +35,6 @@ def die(
         layer: For street widths. None to not draw the street widths.
         layers: optional layers for the street widths.
         bbox_layer: optional bbox layer drawn bounding box around the die.
-        bbox_layers: optional layers for the bbox.
         text: function use for generating text. Needs to accept text, size, layer.
         draw_corners: True draws only corners. False draws a square die.
     """

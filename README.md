@@ -25,7 +25,6 @@ Here, you can code your hardware design in Python or YAML, perform verification 
 
 ![workflow](https://i.imgur.com/abvxJJw.png)
 
-
 We facilitate an end-to-end design flow for you to:
 
 - **Design (Layout, Simulation, Optimization)**: Utilize parametric cell functions in Python or YAML to define components. Test component settings, ports, and geometry to avoid unwanted regressions, and capture design intent in a schematic.
@@ -41,11 +40,9 @@ Your output: A GDSII or OASIS file for fabrication, alongside component settings
 
 We provide a common syntax for design (KLayout, gdstk, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, MEOW ...), verification, and validation.
 
-![tool interfaces](https://i.imgur.com/oHKZ7hW.png)
+![tool interfaces](https://i.imgur.com/ef26jbe.png)
 
-Numerous foundries have gdsfactory PDKs available. You may need to contact your foundry to access their gdsfactory PDK, as some are provided under NDA only.
-
-Available PDKs under NDA:
+Many foundries have gdsfactory PDKs available. Please to contact your foundry to access their gdsfactory PDK, as you will require an NDA:
 
 - AIM photonics PDK
 - AMF photonics PDK
@@ -55,7 +52,7 @@ Available PDKs under NDA:
 - HHI Photonics PDK
 - Compoundtek photonics PDK
 
-Available open source PDKs (no NDA required):
+There are some open source PDKs available without an NDA:
 
 - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
 - [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
@@ -67,8 +64,7 @@ You can also access:
 - instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
 - instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
-![pdks](https://i.imgur.com/BMhx9Jo.png)
-
+![pdks](https://i.imgur.com/deSWuyJ.png)
 
 ## Getting started
 
@@ -82,13 +78,11 @@ You can also access:
 - [PIC training](https://gdsfactory.github.io/gdsfactory-photonics-training/)
 - Online course [UBCx: Silicon Photonics Design, Fabrication and Data Analysis](https://www.edx.org/learn/engineering/university-of-british-columbia-silicon-photonics-design-fabrication-and-data-ana), where students can use gdsfactory to create a design, have it fabricated, and tested.
 
-
 ## Who is using gdsfactory?
 
 Hundreds of organisations are using gdsfactory. Some companies and organizations around the world using gdsfactory include:
 
 ![logos](https://i.imgur.com/IqTUq9S.png)
-
 
 "I've used **gdsfactory** since 2017 for all my chip tapeouts. I love that it is fast, easy to use, and easy to extend. It's the only tool that allows us to have an end-to-end chip design flow (design, verification and validation)."
 
@@ -117,6 +111,22 @@ Hundreds of organisations are using gdsfactory. Some companies and organizations
 "I use gdsfactory for all of my photonic tape-outs. The Python interface makes it easy to version control individual photonic components as well as entire layouts, while integrating seamlessly with KLayout and most standard photonic simulation tools, both open-source and commercial.
 
 <div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong></div>
+
+## Why use gdsfactory?
+
+- It's fast, extensible and easy to use.
+- It's free, as in freedom and in cost.
+- It's the most popular EDA tool with a growing community of users and developers, and extensions to other tools.
+
+Gdsfactory is really fast thanks a C++ library for manipulating GDSII objects. You will notice this when reading/writing big GDS files or doing large boolean operations.
+
+| Benchmark      |  gdspy  | gdsfactory | Gain |
+| :------------- | :-----: | :--------: | :--: |
+| 10k_rectangles | 80.2 ms |  4.87 ms   | 16.5 |
+| boolean-offset | 187 μs  |  44.7 μs   | 4.19 |
+| bounding_box   | 36.7 ms |   170 μs   | 216  |
+| flatten        | 465 μs  |  8.17 μs   | 56.9 |
+| read_gds       | 2.68 ms |   94 μs    | 28.5 |
 
 ## Contributors
 
