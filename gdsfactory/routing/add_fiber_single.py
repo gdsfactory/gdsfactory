@@ -36,6 +36,7 @@ def add_fiber_single(
     loopback_xspacing: float = 50.0,
     component_name: str | None = None,
     gc_port_name: str = "o1",
+    io_rotation: int | None = None,
     zero_port: str | None = "o1",
     get_input_label_text_loopback_function: None
     | (Callable) = get_input_label_text_dash_loopback,
@@ -65,6 +66,7 @@ def add_fiber_single(
         loopback_xspacing: spacing from loopback xmin to component.xmin.
         component_name: optional name of component.
         gc_port_name: grating coupler waveguide port name.
+        io_rotation: grating coupler rotation.
         zero_port: name of the port to move to (0, 0) for the routing to work correctly.
         get_input_label_text_loopback_function: for the loopbacks input label.
         get_input_label_text_function: for the grating couplers input label.
@@ -83,7 +85,7 @@ def add_fiber_single(
         excluded_ports: list of ports to exclude.
         grating_indices: None.
         routing_method: function to ge the route.
-        gc_rotation: grating_coupler rotation (deg).
+        gc_rotation: fiber coupler rotation in degrees. Defaults to -90 for south IO.
         kwargs: cross_section settings.
 
     .. code::
@@ -144,6 +146,8 @@ def add_fiber_single(
         else grating_coupler
     )
     gc = gf.get_component(gc)
+    if io_rotation is not None:
+        gc = gf.functions.rotate(gc, angle=io_rotation)
 
     if gc_port_name not in gc.ports:
         raise ValueError(f"{gc_port_name!r} not in {list(gc.ports.keys())}")

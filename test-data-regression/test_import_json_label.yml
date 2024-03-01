@@ -36,6 +36,7 @@ cell_settings:
         settings:
           polarization: te
           taper_angle: 35
+      io_rotation: null
       layer_label: null
       loopback_xspacing: 50.0
       min_input_to_output_spacing: 200.0
