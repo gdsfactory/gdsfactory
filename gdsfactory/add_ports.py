@@ -271,7 +271,8 @@ add_ports_from_markers_inside = partial(add_ports_from_markers_center, inside=Tr
 def add_ports_from_labels(
     component: Component,
     port_width: float,
-    port_layer: LayerSpec,
+    pin_layer: LayerSpec = "PORT",
+    port_layer: LayerSpec | None = None,
     xcenter: float | None = None,
     port_name_prefix: str | None = None,
     port_type: str = "optical",
@@ -289,6 +290,7 @@ def add_ports_from_labels(
     Args:
         component: to read polygons from and to write ports to.
         port_width: for ports.
+        pin_layer: for port markers.
         port_layer: for the new created port.
         xcenter: center of the component, for guessing port orientation.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical.
@@ -304,6 +306,7 @@ def add_ports_from_labels(
     yc = component.y
 
     port_name_to_index = {}
+    port_layer = port_layer or pin_layer
 
     xc = xcenter or component.x
     for i, label in enumerate(component.labels):

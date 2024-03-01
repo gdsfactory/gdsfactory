@@ -30,6 +30,7 @@ def add_fiber_array(
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     gc_port_name: str = "o1",
     gc_port_labels: tuple[str, ...] | None = None,
+    gc_rotation: int | None = None,
     component_name: str | None = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "xs_sc",
@@ -51,6 +52,7 @@ def add_fiber_array(
         grating_coupler: spec for route terminations.
         gc_port_name: grating coupler input port name.
         gc_port_labels: grating coupler list of labels.
+        gc_rotation: fiber coupler rotation in degrees. Defaults to None.
         component_name: optional for the label.
         select_ports: function to select ports.
         cross_section: cross_section function.
@@ -85,7 +87,6 @@ def add_fiber_array(
         routing_straight: function to route.
         routing_method: get_route.
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
-        gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
         fiber_spacing: in um.
 
@@ -113,6 +114,9 @@ def add_fiber_array(
         gc = grating_coupler
     gc = gf.get_component(gc)
 
+    if gc_rotation is not None:
+        gc = gf.functions.rotate(gc, angle=gc_rotation)
+
     if gc_port_name not in gc.ports:
         gc_ports = list(gc.ports.keys())
         raise ValueError(f"gc_port_name = {gc_port_name!r} not in {gc_ports}")
@@ -124,6 +128,20 @@ def add_fiber_array(
         if isinstance(grating_coupler, list)
         else gf.get_component(grating_coupler)
     )
+
+    if gc_rotation is not None:
+        if isinstance(grating_coupler, list):
+            grating_coupler = [
+                gf.functions.rotate(component=i, angle=gc_rotation)
+                for i in grating_coupler
+            ]
+        else:
+            grating_coupler = gf.functions.rotate(
+                component=grating_coupler, angle=gc_rotation
+            )
+            grating_coupler = gf.functions.move_port_to_zero(
+                grating_coupler, port_name=gc_port_name
+            )
 
     if int(orientation) != 180:
         raise ValueError(

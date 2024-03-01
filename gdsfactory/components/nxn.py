@@ -13,8 +13,8 @@ def nxn(
     east: int = 4,
     north: int = 0,
     south: int = 0,
-    xsize: float = 8.0,
-    ysize: float = 8.0,
+    xsize: float | None = None,
+    ysize: float | None = None,
     wg_width: float = 0.5,
     layer: LayerSpec = "WG",
     wg_margin: float = 1.0,
@@ -43,6 +43,13 @@ def nxn(
             |   |
             8   7
     """
+    wg_pitch = wg_margin + wg_width
+
+    if ysize is None:
+        ysize = wg_pitch * max([west, east])
+    if xsize is None:
+        xsize = wg_pitch * max([north, south])
+
     c = gf.Component()
     c << gf.components.rectangle(size=(xsize, ysize), layer=layer)
 
