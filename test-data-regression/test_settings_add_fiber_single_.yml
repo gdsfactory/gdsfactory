@@ -67,4 +67,4 @@ settings:
   straight:
     function: straight
   with_loopback: true
-  zero_port: o1
+  zero_port: null
