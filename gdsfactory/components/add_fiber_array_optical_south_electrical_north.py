@@ -18,7 +18,7 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_port_names: list[str] | None = None,
     electrical_port_orientation: float | None = 90,
     npads: int | None = None,
-    pad_assigments: tuple[[str, str], ...] | None = None,
+    pad_assigments: tuple[tuple[str, str], ...] | None = None,
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     xs_metal: CrossSectionSpec = "xs_metal_routing",
     post_process: Callable | None = None,
@@ -46,6 +46,7 @@ def add_fiber_array_optical_south_electrical_north(
     Keyword Args:
         gc_port_name: grating coupler input port name.
         gc_port_labels: grating coupler list of labels.
+        io_rotation: fiber coupler rotation in degrees. Defaults to None.
         component_name: optional for the label.
         select_ports: function to select ports.
         cross_section: cross_section function.

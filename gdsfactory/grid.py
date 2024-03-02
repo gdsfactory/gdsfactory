@@ -14,12 +14,12 @@ from gdsfactory.component_layout import Group
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangles import triangle
-from gdsfactory.typings import Anchor, ComponentSpec, Float2
+from gdsfactory.typings import Anchor, ComponentSpec, ComponentSpecs, Float2
 
 
 @cell
 def grid(
-    components: tuple[ComponentSpec, ...] = (rectangle, triangle),
+    components: ComponentSpecs = (rectangle, triangle),
     spacing: tuple[float, float] = (5.0, 5.0),
     separation: bool = True,
     shape: tuple[int, int] | None = None,
