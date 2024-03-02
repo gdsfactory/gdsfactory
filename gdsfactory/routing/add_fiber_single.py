@@ -37,7 +37,7 @@ def add_fiber_single(
     component_name: str | None = None,
     gc_port_name: str = "o1",
     io_rotation: int | None = None,
-    zero_port: str | None = "o1",
+    zero_port: str | None = None,
     get_input_label_text_loopback_function: None
     | (Callable) = get_input_label_text_dash_loopback,
     get_input_label_text_function: Callable | None = get_input_label_text_dash,
@@ -116,6 +116,7 @@ def add_fiber_single(
         cc.plot()
 
     """
+    zero_port = zero_port or gc_port_name
     component_original = component = gf.get_component(component)
 
     optical_ports = select_ports(component.ports)

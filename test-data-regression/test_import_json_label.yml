@@ -52,7 +52,7 @@ cell_settings:
       straight:
         function: straight
       with_loopback: true
-      zero_port: o1
+      zero_port: null
   decorator:
     function: add_label_yaml
     module: gdsfactory.labels.add_label_yaml

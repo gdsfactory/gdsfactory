@@ -9,13 +9,9 @@ You'll need 2 windows:
 
 1. You write your PCells in python.
 2. You execute the python code.
-3. You visualize the GDS Layout in Klayout.
+3. You visualize the GDS Layout in Klayout, or run simulations using the plugin extensions directly from the layout (for devices) or netlist (from circuits).
 
 ![windows](https://i.imgur.com/ZHEAotn.png)
-
-The standard python flow can leverage all machine learning tools such as Jupyter notebooks.
-
-![notebooks](https://i.imgur.com/jORMG3V.png)
 
 ## 2. File-watcher flow
 
@@ -26,3 +22,19 @@ For building large components can use a file-watcher and see your updates in KLa
 3. Thanks to the `cell` cache you can see your new component changes live updating the layout in Klayout.
 
 ![filewatcher](https://i.imgur.com/DNWgVRp.png)
+
+The file watcher works with python or `pic.yml`
+
+![python](https://i.imgur.com/lscMlcJ.png)
+
+or YAML
+
+![yaml](https://i.imgur.com/PbJOhe1.png)
+
+## 3. Schematic driven layout
+
+1. You can use any Schematic capture tool. Lumerical interconnect, QUCS or Xschem. Save the netlist into SPICE format.
+2. Convert SPICE to YAML. As the schematic didn't have placements you can infer the rought initial placements from the relative position of the schematic blocks.
+3. Modify YAML with file watcher until you are happy with the placements.
+
+![SDL](https://i.imgur.com/1VnCsPt.png)
