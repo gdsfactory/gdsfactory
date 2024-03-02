@@ -8,7 +8,7 @@ settings:
   cross_section: xs_sc
   fiber_angle: 15
   fill_factor: 0.5
-  layer_slab: SLAB150
+  layer_slab: null
   length_taper: 150.0
   n_periods: 20
   period: 0.75

@@ -19,7 +19,7 @@ def grating_coupler_rectangular(
     polarization: str = "te",
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_function,
-    layer_slab: LayerSpec | None = "SLAB150",
+    layer_slab: LayerSpec | None = None,
     fiber_angle: float = 15,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
@@ -102,9 +102,23 @@ def grating_coupler_rectangular(
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
     gf.asserts.grating_coupler(c)
+    slab_xmin = length_taper
+
+    for section in xs.sections[1:]:
+        slab_xsize = cgrating.xmax + section.width / 2
+        slab_ysize = cgrating.ysize + section.width
+        yslab = slab_ysize / 2
+        c.add_polygon(
+            [
+                (slab_xmin, yslab),
+                (slab_xsize, yslab),
+                (slab_xsize, -yslab),
+                (slab_xmin, -yslab),
+            ],
+            layer=section.layer,
+        )
 
     if layer_slab:
-        slab_xmin += length_taper
         slab_xsize = cgrating.xmax + slab_offset
         slab_ysize = c.ysize + 2 * slab_offset
         yslab = slab_ysize / 2
@@ -135,7 +149,7 @@ def grating_coupler_rectangular(
 
 if __name__ == "__main__":
     # c = grating_coupler_rectangular(name='gcu', partial_etch=True)
-    # c = grating_coupler_rectangular()
-    c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_rectangular)
+    gc = grating_coupler_rectangular(cross_section="xs_rc")
+    c = gf.routing.add_fiber_array(grating_coupler=gc)
     print(c.ports)
     c.show(show_ports=False)
