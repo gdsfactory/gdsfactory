@@ -80,15 +80,16 @@ def bend_euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
     ref = c << p.extrude(x)
+
+    if direction == "cw":
+        ref.mirror(p1=[0, 0], p2=[1, 0])
+
     c.add_ports(ref.ports)
     c.info["length"] = float(np.round(p.length(), 3))
     c.info["dy"] = float(np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3))
     c.info["radius_min"] = float(np.round(p.info["Rmin"], 3))
     c.info["radius"] = radius
     c.info["width"] = x.width
-
-    if direction == "cw":
-        ref.mirror(p1=[0, 0], p2=[1, 0])
 
     x.validate_radius(radius)
 
@@ -245,5 +246,5 @@ def _compare_bend_euler90():
 
 
 if __name__ == "__main__":
-    c = bend_euler()
+    c = bend_euler(direction="cw")
     c.show(show_ports=True)
