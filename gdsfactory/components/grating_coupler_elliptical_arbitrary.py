@@ -163,9 +163,8 @@ def grating_coupler_elliptical_arbitrary(
 
     x = (taper_length + xis[-1]) / 2
     x = gf.snap.snap_to_grid(x)
-    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
-        name=name,
+        name="o2",
         center=(x, 0),
         width=10,
         orientation=0,

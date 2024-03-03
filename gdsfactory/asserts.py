@@ -7,6 +7,13 @@ from gdsfactory.config import __version__
 
 
 def grating_coupler(gc: Component) -> None:
+    """Raises error if grating coupler does not have the right parameters."""
+
+    warnings.warn(
+        "This function is deprecated and will be removed in the next major gdsfactory release.",
+        DeprecationWarning,
+    )
+
     if not gc.info.get("polarization"):
         raise ValueError(f"{gc.name} does not have polarization")
 
@@ -40,6 +47,11 @@ def version(
     except ModuleNotFoundError as e:
         print("You need to 'pip install semantic-version'")
         raise e
+
+    warnings.warn(
+        "This function is deprecated and will be removed in the next major gdsfactory release.",
+        DeprecationWarning,
+    )
 
     s = semantic_version.SimpleSpec(requirement)
     if not s.match(semantic_version.Version(current)):
