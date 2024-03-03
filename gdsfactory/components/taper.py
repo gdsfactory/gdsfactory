@@ -202,8 +202,8 @@ def taper_strip_to_ridge(
 
     c.info["length"] = float(length)
     c.add_port(name="o1", port=taper_wg.ports["o1"])
-    c.add_port(name="o2", port=taper_slab.ports["o2"])
-    # Add pins instead only on the final component
+    c.add_port(name="o2", port=taper_wg.ports["o2"])
+
     if xs.add_pins:
         xs.add_pins(c)
 
@@ -212,7 +212,6 @@ def taper_strip_to_ridge(
 
     if post_process:
         post_process(c)
-
     return c
 
 
