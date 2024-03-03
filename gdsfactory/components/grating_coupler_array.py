@@ -53,7 +53,7 @@ def grating_coupler_array(
         radius = routing_xs.radius
         bend = bend(radius=radius, angle=180, cross_section=routing_xs)
         sw = gf.c.straight(
-            cross_section=routing_xs, length=gc.xsize + grating_coupler_spacing
+            cross_section=routing_xs, length=max(gc.size) + grating_coupler_spacing
         )
 
         b1 = c << bend
