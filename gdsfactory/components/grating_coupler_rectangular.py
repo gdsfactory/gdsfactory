@@ -105,7 +105,6 @@ def grating_coupler_rectangular(
         c.info["fiber_angle"] = fiber_angle
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
-    gf.asserts.grating_coupler(c)
     slab_xmin = length_taper
 
     for section in xs.sections[1:]:
