@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.15.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.15.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.15.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.15.2) - 2024-03-03
 
-No significant changes.
-
+- fix bend_direction ports [#2577](https://github.com/gdsfactory/gdsfactory/pull/2577)
+- fix taper [#2575](https://github.com/gdsfactory/gdsfactory/pull/2575)
 
 ## [7.15.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.15.1) - 2024-03-02
 
