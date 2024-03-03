@@ -6,6 +6,9 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.straight import straight
+from gdsfactory.components.taper import taper
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route_sbend import get_route_sbend
@@ -23,9 +26,9 @@ def get_route_from_steps(
     port1: Port,
     port2: Port,
     steps: Iterable[dict[str, float]] | None = None,
-    bend: ComponentSpec = "bend_euler",
-    straight: ComponentSpec = "straight",
-    taper: ComponentSpec | None = "taper",
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight,
+    taper: ComponentSpec | None = taper,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     with_sbend: bool = True,
     **kwargs,

@@ -3,6 +3,7 @@ info: {}
 module: gdsfactory.components.grating_coupler_array
 name: grating_coupler_array
 settings:
+  cross_section: xs_sc
   grating_coupler:
     function: grating_coupler_elliptical
   n: 6
