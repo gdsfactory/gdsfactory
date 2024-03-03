@@ -70,8 +70,7 @@ measurement: null
 measurement_settings: {}
 name: add_fiber_single_rotate_8549233d
 port_names:
-- opt_te_1530_15-straight_7688267d-loopback2
-- opt_te_1530_15-straight_7688267d-1-0
-- opt_te_1530_15-straight_7688267d-0-0
-- opt_te_1530_15-straight_7688267d-loopback1
+- o1-straight_7688267d-loopback1
+- o1-straight_7688267d-0-0
+- o1-straight_7688267d-loopback2
 port_type: optical

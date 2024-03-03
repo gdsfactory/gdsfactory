@@ -6,7 +6,7 @@ module: gdsfactory.components.grating_coupler_rectangular_arbitrary
 name: grating_coupler_rectangular_arbitrary
 settings:
   cross_section: xs_sc
-  fiber_angle: 15
+  fiber_angle: null
   gaps:
   - 0.2
   - 0.2
@@ -19,7 +19,7 @@ settings:
   - 0.2
   - 0.2
   layer_grating: null
-  layer_slab: SLAB150
+  layer_slab: null
   length_taper: 150.0
   polarization: te
   slab_offset: 1.0

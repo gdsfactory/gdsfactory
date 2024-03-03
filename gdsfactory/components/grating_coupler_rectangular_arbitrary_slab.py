@@ -22,6 +22,7 @@ def grating_coupler_rectangular_arbitrary_slab(
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_strip_to_slab150,
     layer_slab: LayerSpec | None = "SLAB150",
+    layer_grating: LayerSpec | None = None,
     slab_offset: float = 2.0,
     fiber_angle: float = 15,
     cross_section: CrossSectionSpec = "xs_sc",
@@ -38,6 +39,7 @@ def grating_coupler_rectangular_arbitrary_slab(
         wavelength: in um.
         taper: function.
         layer_slab: for pedestal.
+        layer_grating: optional layer for the grating. Defaults to the cross_section main layer.
         slab_offset: from edge.
         fiber_angle: in degrees.
         cross_section: for input waveguide port.
@@ -72,7 +74,7 @@ def grating_coupler_rectangular_arbitrary_slab(
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
-    layer = xs.layer
+    layer = layer_grating or xs.layer
 
     c = Component()
     taper = gf.get_component(
@@ -119,9 +121,8 @@ def grating_coupler_rectangular_arbitrary_slab(
 
     xport = np.round((xi + length_taper) / 2, 3)
 
-    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
-        name=name,
+        name="o2",
         port_type="optical",
         center=(xport, 0),
         orientation=0,
@@ -130,11 +131,12 @@ def grating_coupler_rectangular_arbitrary_slab(
     )
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
-    gf.asserts.grating_coupler(c)
+    if fiber_angle is not None:
+        c.info["fiber_angle"] = fiber_angle
     if xs.add_bbox:
-        c = xs.add_bbox(c)
+        xs.add_bbox(c)
     if xs.add_pins:
-        c = xs.add_pins(c)
+        xs.add_pins(c)
     return c
 
 

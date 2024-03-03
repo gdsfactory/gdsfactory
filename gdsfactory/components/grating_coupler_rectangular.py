@@ -20,7 +20,8 @@ def grating_coupler_rectangular(
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_function,
     layer_slab: LayerSpec | None = None,
-    fiber_angle: float = 15,
+    layer_grating: LayerSpec | None = None,
+    fiber_angle: float | None = None,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     cross_section: CrossSectionSpec = "xs_sc",
@@ -42,6 +43,7 @@ def grating_coupler_rectangular(
         wavelength: in um.
         taper: function.
         layer_slab: layer that protects the slab under the grating.
+        layer_grating: optional layer for the grating. Defaults to the cross_section main layer.
         fiber_angle: in degrees.
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: from edge of grating to edge of the slab.
@@ -76,7 +78,7 @@ def grating_coupler_rectangular(
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
-    layer = xs.layer
+    layer = layer_grating or xs.layer
 
     c = Component()
     taper_ref = c << gf.get_component(
@@ -99,6 +101,8 @@ def grating_coupler_rectangular(
         cgrating.xmin = gf.snap.snap_to_grid(x0 + i * period)
         cgrating.y = 0
 
+    if fiber_angle is not None:
+        c.info["fiber_angle"] = fiber_angle
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
     gf.asserts.grating_coupler(c)
@@ -135,9 +139,8 @@ def grating_coupler_rectangular(
     xs.add_pins(c)
 
     xport = np.round((x0 + cgrating.x) / 2, 3)
-    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
-        name=name,
+        name="o2",
         port_type="optical",
         center=(xport, 0),
         orientation=0,
