@@ -109,7 +109,7 @@ def grating_coupler_rectangular(
 
     for section in xs.sections[1:]:
         slab_xsize = cgrating.xmax + section.width / 2
-        slab_ysize = cgrating.ysize + section.width
+        slab_ysize = width_grating + section.width
         yslab = slab_ysize / 2
         c.add_polygon(
             [
@@ -123,7 +123,7 @@ def grating_coupler_rectangular(
 
     if layer_slab:
         slab_xsize = cgrating.xmax + slab_offset
-        slab_ysize = c.ysize + 2 * slab_offset
+        slab_ysize = width_grating + 2 * slab_offset
         yslab = slab_ysize / 2
         c.add_polygon(
             [
