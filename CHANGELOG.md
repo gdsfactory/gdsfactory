@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.15.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.16.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.16.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.16.0) - 2024-03-03
 
-No significant changes.
-
+- Better grating coupler port names [#2578](https://github.com/gdsfactory/gdsfactory/pull/2578)
+- Fix transition port size and MMIs with slab [#2579](https://github.com/gdsfactory/gdsfactory/pull/2579)
 
 ## [7.15.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.15.2) - 2024-03-03
 
