@@ -62,7 +62,6 @@ def mmi1x2(
     c = Component()
     gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
     x = gf.get_cross_section(cross_section, **kwargs)
-    xs_mmi = gf.get_cross_section(cross_section, width=width_mmi)
     width = width or x.width
 
     _taper = taper(
@@ -73,9 +72,23 @@ def mmi1x2(
         add_pins=False,
     )
 
-    a = gap_mmi / 2 + width_taper / 2
-    mmi = c << straight(length=length_mmi, cross_section=xs_mmi, add_pins=False)
+    delta_width = width_mmi - width
+    y = width_mmi / 2
+    c.add_polygon([(0, -y), (length_mmi, -y), (length_mmi, y), (0, y)], layer=x.layer)
+    for section in x.sections[1:]:
+        layer = section.layer
+        y = section.width / 2 + delta_width / 2
+        c.add_polygon(
+            [
+                (-delta_width, -y),
+                (length_mmi + delta_width, -y),
+                (length_mmi + delta_width, y),
+                (-delta_width, y),
+            ],
+            layer=layer,
+        )
 
+    a = gap_mmi / 2 + width_taper / 2
     ports = [
         gf.Port(
             "o1",
@@ -109,7 +122,6 @@ def mmi1x2(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    c.absorb(mmi)
     if with_bbox:
         x.add_bbox(c)
     if x.add_pins:

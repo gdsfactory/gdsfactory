@@ -63,7 +63,6 @@ def mmi2x2(
     gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
     w_taper = width_taper
     x = gf.get_cross_section(cross_section, **kwargs)
-    xs_mmi = gf.get_cross_section(cross_section, width=width_mmi)
     width = width or x.width
 
     _taper = taper(
@@ -74,9 +73,23 @@ def mmi2x2(
         add_pins=False,
     )
 
-    a = gap_mmi / 2 + width_taper / 2
-    mmi = c << straight(length=length_mmi, cross_section=xs_mmi, add_pins=False)
+    delta_width = width_mmi - width
+    y = width_mmi / 2
+    c.add_polygon([(0, -y), (length_mmi, -y), (length_mmi, y), (0, y)], layer=x.layer)
+    for section in x.sections[1:]:
+        layer = section.layer
+        y = section.width / 2 + delta_width / 2
+        c.add_polygon(
+            [
+                (-delta_width, -y),
+                (length_mmi + delta_width, -y),
+                (length_mmi + delta_width, y),
+                (-delta_width, y),
+            ],
+            layer=layer,
+        )
 
+    a = gap_mmi / 2 + width_taper / 2
     ports = [
         gf.Port("o1", orientation=180, center=(0, -a), width=w_taper, cross_section=x),
         gf.Port("o2", orientation=180, center=(0, +a), width=w_taper, cross_section=x),
@@ -102,7 +115,6 @@ def mmi2x2(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    c.absorb(mmi)
     if with_bbox:
         x.add_bbox(c)
     if x.add_pins:
@@ -114,6 +126,6 @@ def mmi2x2(
 
 if __name__ == "__main__":
     # c = mmi2x2(gap_mmi=0.252, cross_section="xs_m1")
-    c = mmi2x2(gap_mmi=0.252)
+    c = mmi2x2(gap_mmi=0.252, cross_section="xs_rc")
     c.show(show_ports=True)
     c.pprint()
