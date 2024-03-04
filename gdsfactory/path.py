@@ -1043,6 +1043,9 @@ def extrude_transition(
         width1 = section1.width
         width2 = section2.width
 
+        section1_layer = get_layer(section1.layer)
+        section2_layer = get_layer(section2.layer)
+
         if callable(offset1):
             offset1 = offset1(1)
         if callable(offset2):
@@ -1071,14 +1074,14 @@ def extrude_transition(
                 f"width_type={width_type!r} must be {'sine','linear','parabolic'}, or a Callable w(t, width1, width2) returning the transition profile as a function of path position t."
             )
 
-        if section1.layer != section2.layer:
+        if section1_layer != section2_layer:
             hidden = True
-            layer1 = get_layer(section1.layer)
-            layer2 = get_layer(section2.layer)
+            layer1 = get_layer(section1_layer)
+            layer2 = get_layer(section2_layer)
             layer = (layer1, layer2)
         else:
             hidden = False
-            layer = get_layer(section1.layer)
+            layer = get_layer(section1_layer)
 
         p_sec.offset(offset)
         offset = 0
