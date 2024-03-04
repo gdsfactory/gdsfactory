@@ -13,8 +13,6 @@ settings:
   output_positions: null
   outputs: 4
   post_process: null
-  straight:
-    function: straight
   taper:
     function: taper
   width: null
