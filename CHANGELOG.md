@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.16.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.16.0) - 2024-03-03
+
+No significant changes.
+
+
 ## [7.15.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.15.2) - 2024-03-03
 
 - fix bend_direction ports [#2577](https://github.com/gdsfactory/gdsfactory/pull/2577)
