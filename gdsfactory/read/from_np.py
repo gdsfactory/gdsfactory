@@ -31,6 +31,7 @@ def from_np(
     layer: tuple[int, int] = (1, 0),
     threshold: float = 0.99,
     invert: bool = True,
+    outer_pad_value: float | None = None,
 ) -> Component:
     """Returns Component from a np.ndarray.
 
@@ -42,13 +43,19 @@ def from_np(
         layer: layer tuple to output gds.
         threshold: value along which to find contours in the array.
         invert: invert the mask.
+        outer_pad_value: set outer padding used by np.pad to this constant value (optional).
 
     """
     from skimage import measure
 
     c = Component()
     d = Component()
-    ndarray = np.pad(ndarray, 2)
+
+    pad_kwargs = {}
+    if outer_pad_value is not None:
+        pad_kwargs = {"constant_values": outer_pad_value}
+
+    ndarray = np.pad(ndarray, 2, **pad_kwargs)
     contours = measure.find_contours(ndarray, threshold)
     assert len(contours) > 0, (
         f"no contours found for threshold = {threshold}, maybe you can reduce the"
@@ -73,6 +80,7 @@ def from_image(
     layer: tuple[int, int] = (1, 0),
     threshold: float = 0.99,
     invert: bool = True,
+    outer_pad_value: float | None = None,
 ) -> Component:
     """Returns Component from a png image.
 
@@ -82,6 +90,7 @@ def from_image(
         layer: layer tuple to output gds.
         threshold: value along which to find contours in the array.
         invert: invert the mask. True by default.
+        outer_pad_value: set outer padding used by np.pad to this constant value (optional).
     """
     import matplotlib.pyplot as plt
 
@@ -100,6 +109,7 @@ def from_image(
         layer=layer,
         threshold=threshold,
         invert=invert,
+        outer_pad_value=outer_pad_value,
     )
 
 
