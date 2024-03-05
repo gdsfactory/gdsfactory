@@ -49,6 +49,7 @@ def straight_pin_slot(
         via_stack_spacing: spacing between via_stacks.
         via_stack_slab_spacing: spacing between via_stacks slabs.
         taper: optional taper.
+        horizontal_via_stack: if True, the waveguide is horizontal.
         kwargs: straight settings.
     """
     c = Component()
