@@ -162,8 +162,6 @@ def grating_coupler_elliptical_arbitrary(
 
     if xs.add_bbox:
         c = xs.add_bbox(c)
-    if xs.add_pins:
-        c = xs.add_pins(c)
 
     x = (taper_length + xis[-1]) / 2
     x = gf.snap.snap_to_grid(x)
@@ -233,6 +231,8 @@ def grating_coupler_elliptical_uniform(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_elliptical_arbitrary(layer_grating=(3, 0))
+    c = grating_coupler_elliptical_arbitrary(
+        layer_grating=(3, 0), cross_section="xs_rc_bbox"
+    )
     # c = grating_coupler_elliptical_arbitrary()
     c.show(show_ports=False)
