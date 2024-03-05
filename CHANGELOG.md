@@ -1,12 +1,15 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.16.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.17.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.17.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.17.0) - 2024-03-05
 
-No significant changes.
-
+- Add info to pcells [#2585](https://github.com/gdsfactory/gdsfactory/pull/2585)
+- prevent validating schematic subdictionary of info [#2583](https://github.com/gdsfactory/gdsfactory/pull/2583)
+- improve vias [#2584](https://github.com/gdsfactory/gdsfactory/pull/2584)
+- Adding length_x and lengths_y arguments in ring_crow() component [#2586](https://github.com/gdsfactory/gdsfactory/pull/2586)
+- Update kfactory[git,ipy] requirement from <0.12,>=0.9.1 to >=0.9.1,<0.13 [#2580](https://github.com/gdsfactory/gdsfactory/pull/2580)
 
 ## [7.16.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.16.0) - 2024-03-03
 
