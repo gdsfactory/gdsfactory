@@ -43,7 +43,7 @@ def from_np(
         layer: layer tuple to output gds.
         threshold: value along which to find contours in the array.
         invert: invert the mask.
-        outer_pad_value: set outer padding used by np.pad to this constant value (optional).
+        outer_pad_value: set the value of the 2 pixels of padding added to the image border by np.pad (optional).
 
     """
     from skimage import measure
