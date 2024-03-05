@@ -160,9 +160,6 @@ def grating_coupler_elliptical_arbitrary(
             layer_slab,
         )
 
-    if xs.add_bbox:
-        c = xs.add_bbox(c)
-
     x = (taper_length + xis[-1]) / 2
     x = gf.snap.snap_to_grid(x)
     c.add_port(
@@ -173,6 +170,7 @@ def grating_coupler_elliptical_arbitrary(
         layer=xs.layer,
         port_type="optical",
     )
+    xs.add_bbox(c)
     if post_process:
         post_process(c)
     if info:

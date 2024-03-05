@@ -149,8 +149,6 @@ def mmi_90degree_hybrid(
         c.absorb(taper_ref)
 
     c.absorb(mmi)
-    x.add_bbox(c)
-    x.add_pins(c)
     return c
 
 

@@ -8,7 +8,6 @@ instances:
     component: coupler_ring
     info: {}
     settings:
-      add_bbox: null
       bend:
         function: bend_euler
       coupler90:
@@ -50,14 +49,15 @@ instances:
         width_wide: null
       cross_section_bend: null
       gap: 0.2
+      info: null
       length_extension: 3
       length_x: 0.01
+      post_process: null
       radius: 10.0
   coupler_ring_2:
     component: coupler_ring
     info: {}
     settings:
-      add_bbox: null
       bend:
         function: bend_euler
       coupler90:
@@ -99,8 +99,10 @@ instances:
         width_wide: null
       cross_section_bend: null
       gap: 0.2
+      info: null
       length_extension: 3
       length_x: 0.01
+      post_process: null
       radius: 10.0
   straight_1:
     component: straight
