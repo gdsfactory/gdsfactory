@@ -39,6 +39,7 @@ settings:
   component_name: null
   cross_section: xs_metal_routing
   get_input_labels_function: null
+  info: null
   layer_label: TEXT
   optical_routing_type: 1
   pad:

@@ -20,8 +20,6 @@ instances:
       route_info_xs_sc_length: 16.637
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       angle: 90.0
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
@@ -57,12 +55,11 @@ instances:
         taper_length: 10.0
         width_wide: null
       direction: ccw
-      layer: null
+      info: null
       npoints: null
       p: 0.5
       post_process: null
       radius: null
-      width: null
       with_arc_floorplan: true
   bend_euler_2:
     component: bend_euler
@@ -78,8 +75,6 @@ instances:
       route_info_xs_sc_length: 16.637
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       angle: 90.0
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
@@ -115,12 +110,11 @@ instances:
         taper_length: 10.0
         width_wide: null
       direction: ccw
-      layer: null
+      info: null
       npoints: null
       p: 0.5
       post_process: null
       radius: null
-      width: null
       with_arc_floorplan: true
   mmi_bot:
     component: mmi1x2
@@ -128,34 +122,30 @@ instances:
     settings:
       cross_section: xs_sc
       gap_mmi: 0.25
+      info: null
       length_mmi: 11
       length_taper: 10.0
       post_process: null
-      straight:
-        function: straight
       taper:
         function: taper
       width: null
       width_mmi: 5
       width_taper: 1.0
-      with_bbox: true
   mmi_top:
     component: mmi1x2
     info: {}
     settings:
       cross_section: xs_sc
       gap_mmi: 0.25
+      info: null
       length_mmi: 22
       length_taper: 10.0
       post_process: null
-      straight:
-        function: straight
       taper:
         function: taper
       width: null
       width_mmi: 6
       width_taper: 1.0
-      with_bbox: true
   straight_1:
     component: straight
     info:
@@ -166,8 +156,6 @@ instances:
       route_info_xs_sc_length: 19.99
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: null
@@ -201,11 +189,10 @@ instances:
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
-      layer: null
+      info: null
       length: 19.99
       npoints: 2
       post_process: null
-      width: null
   straight_2:
     component: straight
     info:
@@ -216,8 +203,6 @@ instances:
       route_info_xs_sc_length: 18.75
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: null
@@ -251,11 +236,10 @@ instances:
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
-      layer: null
+      info: null
       length: 18.75
       npoints: 2
       post_process: null
-      width: null
   straight_3:
     component: straight
     info:
@@ -266,8 +250,6 @@ instances:
       route_info_xs_sc_length: 0.01
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: null
@@ -301,11 +283,10 @@ instances:
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
-      layer: null
+      info: null
       length: 0.01
       npoints: 2
       post_process: null
-      width: null
 name: sample_docstring_e2d59879
 placements:
   bend_euler_1:

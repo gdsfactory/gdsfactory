@@ -6,7 +6,13 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typings import (
+    Callable,
+    ComponentSpec,
+    CrossSectionSpec,
+    LayerSpec,
+    Metadata,
+)
 
 
 @gf.cell
@@ -25,6 +31,8 @@ def grating_coupler_rectangular(
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     cross_section: CrossSectionSpec = "xs_sc",
+    post_process: Callable | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""Grating coupler with rectangular shapes (not elliptical).
@@ -48,6 +56,8 @@ def grating_coupler_rectangular(
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: from edge of grating to edge of the slab.
         cross_section: for input waveguide port.
+        post_process: function to post process the component.
+        info: additional information to add to the component.
         kwargs: cross_section settings.
 
     .. code::
@@ -87,7 +97,6 @@ def grating_coupler_rectangular(
         width2=width_grating,
         width1=wg_width,
         cross_section=cross_section,
-        add_pins=False,
     )
 
     c.add_port(port=taper_ref.ports["o1"], name="o1")
@@ -134,8 +143,6 @@ def grating_coupler_rectangular(
             ],
             layer_slab,
         )
-    xs.add_bbox(c)
-    xs.add_pins(c)
 
     xport = np.round((x0 + cgrating.x) / 2, 3)
     c.add_port(
@@ -146,6 +153,10 @@ def grating_coupler_rectangular(
         width=width_grating,
         layer=layer,
     )
+    if post_process:
+        post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 

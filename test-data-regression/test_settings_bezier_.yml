@@ -7,7 +7,6 @@ info:
 module: gdsfactory.components.bezier
 name: bezier
 settings:
-  add_pins: true
   bend_radius_error_type: null
   control_points:
   - - 0.0
@@ -20,8 +19,8 @@ settings:
     - 1.8
   cross_section: xs_sc
   end_angle: null
+  info: null
   npoints: 201
   post_process: null
   start_angle: null
-  with_bbox: true
   with_manhattan_facing_angles: true

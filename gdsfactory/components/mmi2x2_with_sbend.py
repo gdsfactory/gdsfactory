@@ -36,7 +36,10 @@ def mmi2x2_with_sbend(
 
     # Add input and output tapers
     taper = gf.components.taper(
-        length=1, width1=0.5, width2=0.7, cross_section=cross_section, add_pins=False
+        length=1,
+        width1=0.5,
+        width2=0.7,
+        cross_section=cross_section,
     )
     topl_taper = c << taper
     topl_taper.move((-1, 0.45))
@@ -52,7 +55,7 @@ def mmi2x2_with_sbend(
     botr_taper.move((9, -0.45))
 
     if with_sbend:
-        sbend = s_bend(cross_section=cross_section, add_pins=False)
+        sbend = s_bend(cross_section=cross_section)
 
         topl_sbend = c << sbend
         topl_sbend.mirror([0, 1])

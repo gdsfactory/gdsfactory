@@ -64,7 +64,6 @@ def mmi1x2(
         width1=width,
         width2=width_taper,
         cross_section=x,
-        add_pins=False,
     )
 
     delta_width = width_mmi - width

@@ -9,9 +9,11 @@ settings:
   component:
     function: pad_array
   gap: 50
+  info: null
   left: cross
   offset:
   - 0
   - 0
+  post_process: null
   right: cross
   top: null

@@ -82,13 +82,14 @@ def mmi_90degree_hybrid(
         width1=width,
         width2=w_taper,
         cross_section=cross_section,
-        add_pins=False,
     )
 
     x = gf.get_cross_section(cross_section)
 
     mmi = c << straight(
-        length=length_mmi, width=w_mmi, cross_section=cross_section, add_pins=False
+        length=length_mmi,
+        width=w_mmi,
+        cross_section=cross_section,
     )
 
     y_signal_in = gap_mmi * 3 / 2 + width_taper * 3 / 2

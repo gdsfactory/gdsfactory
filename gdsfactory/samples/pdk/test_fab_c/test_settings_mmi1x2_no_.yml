@@ -1,7 +1,7 @@
 function: mmi1x2
 info: {}
 module: gdsfactory.components.mmi1x2
-name: mmi1x2_294813a8
+name: mmi1x2_5fca5b84
 settings:
   cross_section:
     add_pins_function_module: gdsfactory.samples.pdk.fab_c
@@ -42,14 +42,22 @@ settings:
     taper_length: 10.0
     width_wide: null
   gap_mmi: 0.25
+  info: null
   length_mmi: 5.5
   length_taper: 10.0
-  post_process: null
-  straight:
-    function: straight
+  post_process:
+    function: add_pins
+    module: gdsfactory.add_pins
+    settings:
+      function:
+        function: add_pin_rectangle_inside
+        module: gdsfactory.add_pins
+        settings:
+          layer_label: null
+          pin_length: 0.001
+      pin_length: 0.5
   taper:
     function: taper
   width: 0.9
   width_mmi: 2.5
   width_taper: 1.0
-  with_bbox: true

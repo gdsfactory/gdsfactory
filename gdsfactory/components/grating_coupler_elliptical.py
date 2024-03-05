@@ -8,7 +8,7 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.geometry.functions import DEG2RAD, extrude_path
-from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from gdsfactory.typings import Callable, CrossSectionSpec, LayerSpec, Metadata
 
 
 def ellipse_arc(
@@ -115,6 +115,8 @@ def grating_coupler_elliptical(
     slab_offset: float = 2.0,
     spiked: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
+    post_process: Callable | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
@@ -135,6 +137,8 @@ def grating_coupler_elliptical(
         slab_offset: in um.
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors.
         cross_section: specification (CrossSection, string or dict).
+        post_process: function to post process the component.
+        info: additional information to add to the component.
         kwargs: cross_section settings.
 
     .. code::
@@ -252,11 +256,6 @@ def grating_coupler_elliptical(
             layer_slab,
         )
 
-    if xs.add_bbox:
-        xs.add_bbox(c)
-    if xs.add_pins:
-        xs.add_pins(c)
-
     x = gf.snap.snap_to_grid(x)
     c.add_port(
         name="o2",
@@ -266,6 +265,11 @@ def grating_coupler_elliptical(
         layer=layer,
         port_type="optical",
     )
+
+    if post_process:
+        post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 

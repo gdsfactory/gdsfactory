@@ -13,15 +13,12 @@ info:
 module: gdsfactory.components.bend_euler
 name: bend_euler_angle180
 settings:
-  add_bbox: null
-  add_pins: true
   angle: 180
   cross_section: xs_sc
   direction: ccw
-  layer: null
+  info: null
   npoints: null
   p: 0.5
   post_process: null
   radius: null
-  width: null
   with_arc_floorplan: true

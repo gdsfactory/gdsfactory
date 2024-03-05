@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from functools import partial
-
 import gdsfactory as gf
 from gdsfactory.add_labels import (
     get_input_label,
@@ -10,10 +8,7 @@ from gdsfactory.add_labels import (
 )
 from gdsfactory.component import Component
 
-straight = partial(
-    gf.components.straight,
-    add_pins=False,
-)
+straight = (gf.components.straight,)
 
 
 def test_add_labels_optical() -> None:

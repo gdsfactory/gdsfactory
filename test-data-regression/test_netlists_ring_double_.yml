@@ -112,8 +112,6 @@ instances:
       route_info_xs_sc_length: 0.01
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: null
@@ -147,11 +145,10 @@ instances:
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
-      layer: null
+      info: null
       length: 0.01
       npoints: 2
       post_process: null
-      width: null
   straight_2:
     component: straight
     info:
@@ -162,8 +159,6 @@ instances:
       route_info_xs_sc_length: 0.01
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
         add_pins_function_module: gdsfactory.add_pins
         add_pins_function_name: null
@@ -197,11 +192,10 @@ instances:
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
-      layer: null
+      info: null
       length: 0.01
       npoints: 2
       post_process: null
-      width: null
 name: ring_double
 placements:
   coupler_ring_1:
