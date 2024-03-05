@@ -266,6 +266,7 @@ def grating_coupler_elliptical(
         port_type="optical",
     )
 
+    xs.add_bbox(c)
     if post_process:
         post_process(c)
     if info:
@@ -299,5 +300,5 @@ if __name__ == "__main__":
     # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical, with_loopback=False)
 
     # c = gf.components.grating_coupler_elliptical_te()
-    c = gf.components.grating_coupler_elliptical_tm(cross_section="xs_rc")
+    c = gf.components.grating_coupler_elliptical_tm(cross_section="xs_rc_bbox")
     c.show(show_ports=True)
