@@ -18,7 +18,7 @@ from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec, Metadata
 
 
 @cell_with_child
@@ -44,6 +44,7 @@ def add_fiber_single(
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "xs_sc",
     post_process: Callable | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""Returns component with grating couplers and labels on each port.
@@ -74,6 +75,7 @@ def add_fiber_single(
         select_ports: function to select ports.
         cross_section: cross_section spec.
         post_process: function to post process the component.
+        info: metadata.
 
     Keyword Args:
         max_y0_optical: in um.
@@ -282,6 +284,8 @@ def add_fiber_single(
     c.copy_child_info(component_original)
     if post_process:
         post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 

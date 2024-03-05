@@ -13,6 +13,7 @@ from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
     LayerSpec,
+    Metadata,
     Strs,
 )
 
@@ -35,6 +36,7 @@ def add_pads_bot(
     optical_routing_type: int | None = 1,
     with_loopback: bool = False,
     post_process: Callable | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -174,6 +176,8 @@ def add_pads_bot(
     component_new.copy_child_info(component)
     if post_process:
         post_process(component_new)
+    if info:
+        component_new.info.update(info)
     return component_new
 
 

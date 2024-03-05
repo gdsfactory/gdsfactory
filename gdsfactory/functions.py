@@ -114,6 +114,12 @@ def add_texts(
     ]
 
 
+def add_info(component, info: dict[str, Any]) -> Component:
+    """Return Component with info added."""
+    component.info.update(info)
+    return component
+
+
 @cell_with_child
 def rotate(
     component: ComponentSpec, angle: float = 90, recenter: bool = False

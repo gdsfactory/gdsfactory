@@ -1,6 +1,5 @@
 name: pads
 
-
 instances:
     bl:
       component: pad

@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec, Metadata
 
 
 @gf.cell
@@ -16,10 +15,9 @@ def mmi1x2(
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
-    straight: ComponentFactory = straight_function,
-    with_bbox: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
     post_process: Callable | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""1x2 MultiMode Interferometer (MMI).
@@ -32,9 +30,6 @@ def mmi1x2(
         width_mmi: in y direction.
         gap_mmi:  gap between tapered wg.
         taper: taper function.
-        straight: straight function.
-        with_bbox: add rectangular box in cross_section
-            bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string or dict).
         post_process: function to post process the component.
         kwargs: cross_section settings.
@@ -122,12 +117,10 @@ def mmi1x2(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    if with_bbox:
-        x.add_bbox(c)
-    if x.add_pins:
-        x.add_pins(c)
     if post_process:
         post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 

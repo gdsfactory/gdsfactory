@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.typings import Callable
 
 Float2 = tuple[float, float]
 Coordinate = tuple[Float2, Float2]
@@ -35,14 +36,15 @@ def bbox_to_points(
     ]
 
 
-@gf.cell_without_validator
+@gf.cell
 def bbox(
-    bbox: tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
+    bbox=((-1.0, -1.0), (3.0, 4.0)),
     layer: tuple[int, int] = (1, 0),
     top: float = 0,
     bottom: float = 0,
     left: float = 0,
     right: float = 0,
+    post_process: Callable | None = None,
 ) -> gf.Component:
     """Returns bounding box rectangle from coordinates.
 
@@ -54,7 +56,7 @@ def bbox(
         left: west offset.
         right: east offset.
     """
-    D = gf.Component()
+    c = gf.Component()
     (xmin, ymin), (xmax, ymax) = bbox
     points = [
         [xmin - left, ymin - bottom],
@@ -62,8 +64,10 @@ def bbox(
         [xmax + right, ymax + top],
         [xmin - left, ymax + top],
     ]
-    D.add_polygon(points, layer=layer)
-    return D
+    c.add_polygon(points, layer=layer)
+    if post_process:
+        post_process(c)
+    return c
 
 
 if __name__ == "__main__":

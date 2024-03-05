@@ -1,7 +1,7 @@
 default_settings:
   dy:
     value: -20
-    description: "The length of lower MZI arm y displacement"
+    description: "the length of lower mzi arm y displacement"
 
 pdk: ubcpdk
 

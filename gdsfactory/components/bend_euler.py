@@ -10,7 +10,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler
-from gdsfactory.typings import Callable, CrossSectionSpec
+from gdsfactory.typings import Callable, CrossSectionSpec, Metadata
 
 
 @gf.cell
@@ -20,13 +20,11 @@ def bend_euler(
     p: float = 0.5,
     with_arc_floorplan: bool = True,
     npoints: int | None = None,
-    layer: gf.typings.LayerSpec | None = None,
-    width: float | None = None,
     direction: str = "ccw",
     cross_section: CrossSectionSpec = "xs_sc",
-    add_pins: bool = True,
-    add_bbox: Callable | None = None,
     post_process: Callable | None = None,
+    info: Metadata | None = None,
+    **kwargs,
 ) -> Component:
     """Euler bend with changing bend radius.
 
@@ -47,13 +45,11 @@ def bend_euler(
           If True: The curve scales such that the endpoints match a bend_circular
           with parameters `radius` and `angle`.
         npoints: Number of points used per 360 degrees.
-        layer: layer to use. Defaults to cross_section.layer.
-        width: width to use. Defaults to cross_section.width.
         direction: cw (clock-wise) or ccw (counter clock-wise).
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        add_pins: add pins to the component.
-        add_bbox: optional function to add bounding box to the component.
-        post_process: optional function to post process the component.
+        post_process: function to post process the component.
+        info: additional information to add to the component.
+        kwargs: additional cross_section arguments.
 
     .. code::
 
@@ -64,11 +60,6 @@ def bend_euler(
                /
        o1_____/
     """
-    kwargs = dict()
-    if layer:
-        kwargs["layer"] = layer
-    if width:
-        kwargs["width"] = width
     x = gf.get_cross_section(cross_section, **kwargs)
     radius = radius or x.radius
 
@@ -93,20 +84,14 @@ def bend_euler(
 
     x.validate_radius(radius)
 
-    top = None if int(angle) in {180, -180, -90} else 0
-    bottom = 0 if int(angle) in {-90} else None
-    if add_bbox:
-        add_bbox(c)
-    else:
-        x.add_bbox(c, top=top, bottom=bottom)
-    if add_pins:
-        x.add_pins(c)
     c.absorb(ref)
     c.add_route_info(
         cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
     )
     if post_process:
         post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 
@@ -164,8 +149,10 @@ def bend_straight_bend(
     npoints: int = 720,
     direction: str = "ccw",
     cross_section: CrossSectionSpec = strip,
-    post_process: Callable | None = None,
     radius: float | None = None,
+    post_process: Callable | None = None,
+    info: Metadata | None = None,
+    **kwargs,
 ) -> Component:
     """Sbend made of 2 euler bends and straight section in between.
 
@@ -179,8 +166,9 @@ def bend_straight_bend(
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        post_process: optional function to post process the component.
         radius: in um. Defaults to cross_section_radius.
+        post_process: optional function to post process the component.
+        info: additional information to add to the component.
     """
     c = Component()
     b = bend_euler(
@@ -190,8 +178,8 @@ def bend_straight_bend(
         npoints=npoints,
         direction="ccw",
         cross_section=cross_section,
-        post_process=post_process,
         radius=radius,
+        **kwargs,
     )
     b1 = c.add_ref(b)
     if direction == "cw":
@@ -208,6 +196,11 @@ def bend_straight_bend(
 
     c.add_port("o2", port=b2.ports["o2"])
     c.add_port("o1", port=b1.ports["o1"])
+
+    if post_process:
+        post_process(c)
+    if info:
+        c.info.update(info)
 
     return c
 
