@@ -62,7 +62,9 @@ def ring_crow(
 
     # Input bus
     input_straight = gf.get_component(
-        straight, length=2 * radius[0] + length_x, cross_section=input_straight_cross_section
+        straight,
+        length=2 * radius[0] + length_x,
+        cross_section=input_straight_cross_section,
     )
     input_straight_cross_section = gf.get_cross_section(input_straight_cross_section)
     input_straight_width = input_straight_cross_section.width
@@ -88,17 +90,29 @@ def ring_crow(
         bend3 = ring.add_ref(bend_c, alias=f"top_left_bend_ring_{index}")
         bend4 = ring.add_ref(bend_c, alias=f"bot_left_bend_ring_{index}")
 
-        straight_hor_c = gf.get_component(straight, length=length_x, cross_section=cross_section)
-        straight_ver_c = gf.get_component(straight, length=length_y, cross_section=cross_section)
-        straight_hor1 = ring.add_ref(straight_hor_c, alias=f"bot_hor_waveguide_ring_{index}")
-        straight_hor2 = ring.add_ref(straight_hor_c, alias=f"top_hor_waveguide_ring_{index}")
-        straight_ver1 = ring.add_ref(straight_ver_c, alias=f"right_ver_waveguide_ring_{index}")
-        straight_ver2 = ring.add_ref(straight_ver_c, alias=f"left_ver_waveguide_ring_{index}")
+        straight_hor_c = gf.get_component(
+            straight, length=length_x, cross_section=cross_section
+        )
+        straight_ver_c = gf.get_component(
+            straight, length=length_y, cross_section=cross_section
+        )
+        straight_hor1 = ring.add_ref(
+            straight_hor_c, alias=f"bot_hor_waveguide_ring_{index}"
+        )
+        straight_hor2 = ring.add_ref(
+            straight_hor_c, alias=f"top_hor_waveguide_ring_{index}"
+        )
+        straight_ver1 = ring.add_ref(
+            straight_ver_c, alias=f"right_ver_waveguide_ring_{index}"
+        )
+        straight_ver2 = ring.add_ref(
+            straight_ver_c, alias=f"left_ver_waveguide_ring_{index}"
+        )
 
-        bend1.connect("o1",straight_hor1.ports["o2"])
+        bend1.connect("o1", straight_hor1.ports["o2"])
         straight_ver1.connect("o1", bend1.ports["o2"])
         bend2.connect("o1", straight_ver1.ports["o2"])
-        straight_hor2.connect("o1",bend2.ports["o2"])
+        straight_hor2.connect("o1", bend2.ports["o2"])
         bend3.connect("o1", straight_hor2.ports["o2"])
         straight_ver2.connect("o1", bend3.ports["o2"])
         bend4.connect("o1", straight_ver2.ports["o2"])
