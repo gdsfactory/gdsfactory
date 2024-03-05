@@ -20,7 +20,6 @@ def taper(
     cross_section: CrossSectionSpec = "xs_sc",
     port_order_name: tuple | None = ("o1", "o2"),
     port_order_types: tuple | None = ("optical", "optical"),
-    add_pins: bool = True,
     post_process: Callable | None = None,
     info: Metadata | None = None,
     **kwargs,
@@ -41,7 +40,6 @@ def taper(
                 taper port, second name only if with_two_ports flags used.
         port_order_types(tuple): Ordered tuple of port types. First port is default \
                 taper port, second name only if with_two_ports flags used.
-        add_pins: add pins to the component.
         post_process: function to post process the component.
         kwargs: cross_section settings.
     """
@@ -172,12 +170,8 @@ def taper_strip_to_ridge(
     w_slab2 = gf.snap.snap_to_grid2x(w_slab2)
 
     xs = gf.get_cross_section(cross_section, **kwargs)
-    xs_wg = gf.get_cross_section(
-        cross_section, layer=layer_wg, add_pins_function_name=None
-    )
-    xs_slab = gf.get_cross_section(
-        cross_section, layer=layer_slab, add_pins_function_name=None
-    )
+    xs_wg = gf.get_cross_section(cross_section, layer=layer_wg)
+    xs_slab = gf.get_cross_section(cross_section, layer=layer_slab)
 
     taper_wg = taper(
         length=length,

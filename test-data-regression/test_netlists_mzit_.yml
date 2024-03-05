@@ -513,7 +513,6 @@ instances:
       width1: 0.5
       width2: 0.45
     settings:
-      add_pins: true
       cross_section: xs_sc
       info: null
       length: 5.0
@@ -535,7 +534,6 @@ instances:
       width1: 0.45
       width2: 0.55
     settings:
-      add_pins: true
       cross_section: xs_sc
       info: null
       length: 5.0
@@ -557,7 +555,6 @@ instances:
       width1: 0.55
       width2: 0.5
     settings:
-      add_pins: true
       cross_section: xs_sc
       info: null
       length: 5.0
@@ -579,7 +576,6 @@ instances:
       width1: 0.5
       width2: 0.55
     settings:
-      add_pins: true
       cross_section: xs_sc
       info: null
       length: 5.0
@@ -601,7 +597,6 @@ instances:
       width1: 0.55
       width2: 0.45
     settings:
-      add_pins: true
       cross_section: xs_sc
       info: null
       length: 5.0
@@ -623,7 +618,6 @@ instances:
       width1: 0.45
       width2: 0.5
     settings:
-      add_pins: true
       cross_section: xs_sc
       info: null
       length: 5.0

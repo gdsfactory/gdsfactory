@@ -84,6 +84,6 @@ def coupler(
 
 
 if __name__ == "__main__":
-    c = coupler(gap=0.2, dx=7)
-    c = gf.routing.add_fiber_array(c)
+    c = coupler(gap=0.2, dx=7, cross_section="xs_rc_bbox")
+    # c = gf.routing.add_fiber_array(c)
     c.show(show_ports=False)

@@ -74,7 +74,6 @@ def mmi(
         width1=width,
         width2=w_taper,
         cross_section=cross_section,
-        add_pins=False,
     )
 
     y = width_mmi / 2
@@ -135,6 +134,7 @@ def mmi(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
+    x.add_bbox(c)
     c.auto_rename_ports()
     if post_process:
         post_process(c)

@@ -116,6 +116,7 @@ def mmi1x2(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
+    x.add_bbox(c)
     if post_process:
         post_process(c)
     if info:
@@ -126,7 +127,7 @@ def mmi1x2(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mmi1x2(cross_section="xs_rc", layer=(2, 0))
+    c = gf.components.mmi1x2(cross_section="xs_rc_bbox", layer=(2, 0))
 
     # print(c.xmin)
     # c.xmin = 0

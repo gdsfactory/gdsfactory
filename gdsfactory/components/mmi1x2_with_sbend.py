@@ -86,7 +86,9 @@ def mmi1x2_with_sbend(
 if __name__ == "__main__":
     # c = mmi1x2_with_sbend(with_sbend=False)
     # c = mmi1x2_with_sbend(with_sbend=True)
+    xs = gf.cross_section.strip(bbox_layers=[(111, 0)], bbox_offsets=[3])
     c = mmi1x2_with_sbend(
+        cross_section=xs,
         with_sbend=True,
     )
     c.show(show_ports=False)

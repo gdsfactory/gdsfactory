@@ -12,7 +12,6 @@ def remap_layers() -> Component:
     c = gf.Component()
     straight = partial(
         gf.components.straight,
-        with_bbox=True,
         cladding_layers=None,
     )
 

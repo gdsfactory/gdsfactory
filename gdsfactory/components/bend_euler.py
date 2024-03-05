@@ -110,7 +110,6 @@ def bend_euler_s(**kwargs) -> Component:
           with parameters `radius` and `angle`.
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
-        with_bbox: add bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
 
@@ -198,12 +197,6 @@ def bend_straight_bend(
     c.add_port("o2", port=b2.ports["o2"])
     c.add_port("o1", port=b1.ports["o1"])
 
-    top = None if int(angle) in {180, -180, -90} else 0
-    bottom = 0 if int(angle) in {-90} else None
-
-    x = gf.get_cross_section(cross_section, **kwargs)
-    x.add_bbox(c, top=top, bottom=bottom)
-
     if post_process:
         post_process(c)
     if info:
@@ -245,5 +238,6 @@ def _compare_bend_euler90():
 
 
 if __name__ == "__main__":
-    c = bend_euler(direction="cw")
+    xs = gf.cross_section.strip(bbox_layers=[(111, 0)], bbox_offsets=[3])
+    c = bend_euler(cross_section=xs, angle=30)
     c.show(show_ports=True)

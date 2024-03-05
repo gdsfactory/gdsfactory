@@ -6,7 +6,6 @@ info:
 module: gdsfactory.components.taper
 name: taper_length100_width20p2
 settings:
-  add_pins: true
   cross_section: xs_sc
   info: null
   length: 100

@@ -112,6 +112,7 @@ def mmi2x2(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
+    x.add_bbox(c)
     if post_process:
         post_process(c)
     if info:
