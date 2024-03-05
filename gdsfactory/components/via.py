@@ -15,7 +15,7 @@ def via(
     enclosure: float = 1.0,
     layer: LayerSpec = "VIAC",
     bbox_layers: tuple[tuple[int, int], ...] | None = None,
-    bbox_offset: float = 0,
+    bbox_offsets: tuple[float, ...] | None = None,
 ) -> Component:
     """Rectangular via.
 
@@ -28,7 +28,7 @@ def via(
         enclosure: inclusion of via.
         layer: via layer.
         bbox_layers: layers for the bounding box.
-        bbox_offset: in um.
+        bbox_offsets: in um.
 
     .. code::
 
@@ -65,11 +65,14 @@ def via(
     c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
 
     bbox_layers = bbox_layers or []
-    a = (width + bbox_offset) / 2
-    b = (height + bbox_offset) / 2
-    for layer in bbox_layers:
+    bbox_offsets = bbox_offsets or []
+
+    for layer, bbox_offset in zip(bbox_layers, bbox_layers):
+        a = (width + bbox_offset) / 2
+        b = (height + bbox_offset) / 2
         c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
 
+    c.add_port("e1", center=(0, 0), width=height, orientation=0, layer=layer)
     return c
 
 
