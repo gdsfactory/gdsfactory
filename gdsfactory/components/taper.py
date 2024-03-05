@@ -7,7 +7,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import Callable, CrossSectionSpec, LayerSpec
+from gdsfactory.typings import Callable, CrossSectionSpec, LayerSpec, Metadata
 
 
 @cell
@@ -16,13 +16,12 @@ def taper(
     width1: float = 0.5,
     width2: float | None = None,
     port: Port | None = None,
-    with_bbox: bool = True,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
     port_order_name: tuple | None = ("o1", "o2"),
     port_order_types: tuple | None = ("optical", "optical"),
-    add_pins: bool = True,
     post_process: Callable | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     """Linear taper, which tapers only the main cross section section.
@@ -34,7 +33,6 @@ def taper(
         width1: width of the west/left port.
         width2: width of the east/right port. Defaults to width1.
         port: can taper from a port instead of defining width1.
-        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
@@ -42,7 +40,6 @@ def taper(
                 taper port, second name only if with_two_ports flags used.
         port_order_types(tuple): Ordered tuple of port types. First port is default \
                 taper port, second name only if with_two_ports flags used.
-        add_pins: add pins to the component.
         post_process: function to post process the component.
         kwargs: cross_section settings.
     """
@@ -113,16 +110,14 @@ def taper(
             port_type=port_order_types[1],
         )
 
-    if with_bbox and length:
-        x.add_bbox(c)
-    if add_pins and x.add_pins:
-        x.add_pins(c)
     if post_process:
         post_process(c)
 
     c.info["length"] = float(length)
     c.info["width1"] = float(width1)
     c.info["width2"] = float(width2)
+    if info:
+        c.info.update(info)
     return c
 
 
@@ -137,6 +132,7 @@ def taper_strip_to_ridge(
     layer_slab: LayerSpec = "SLAB90",
     cross_section: CrossSectionSpec = "xs_sc",
     post_process: Callable | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""Linear taper from strip to rib.
@@ -174,12 +170,8 @@ def taper_strip_to_ridge(
     w_slab2 = gf.snap.snap_to_grid2x(w_slab2)
 
     xs = gf.get_cross_section(cross_section, **kwargs)
-    xs_wg = gf.get_cross_section(
-        cross_section, layer=layer_wg, add_pins_function_name=None
-    )
-    xs_slab = gf.get_cross_section(
-        cross_section, layer=layer_slab, add_pins_function_name=None
-    )
+    xs_wg = gf.get_cross_section(cross_section, layer=layer_wg)
+    xs_slab = gf.get_cross_section(cross_section, layer=layer_slab)
 
     taper_wg = taper(
         length=length,
@@ -204,14 +196,13 @@ def taper_strip_to_ridge(
     c.add_port(name="o1", port=taper_wg.ports["o1"])
     c.add_port(name="o2", port=taper_wg.ports["o2"])
 
-    if xs.add_pins:
-        xs.add_pins(c)
-
     if length:
         xs.add_bbox(c)
 
     if post_process:
         post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 
@@ -225,6 +216,7 @@ def taper_strip_to_ridge_trenches(
     layer_wg: LayerSpec = "WG",
     trench_offset: float = 0.1,
     post_process: Callable | None = None,
+    info: Metadata | None = None,
 ) -> gf.Component:
     """Defines taper using trenches to define the etch.
 
@@ -265,6 +257,8 @@ def taper_strip_to_ridge_trenches(
     )
     if post_process:
         post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 

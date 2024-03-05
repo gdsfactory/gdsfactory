@@ -1,7 +1,7 @@
 function: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_949cd0a2
+name: mzi_9f6df02b
 settings:
   add_electrical_ports_bot: true
   add_optical_ports_arms: false
@@ -47,6 +47,17 @@ settings:
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
+      post_process:
+        function: add_pins
+        module: gdsfactory.add_pins
+        settings:
+          function:
+            function: add_pin_rectangle_inside
+            module: gdsfactory.add_pins
+            settings:
+              layer_label: null
+              pin_length: 0.001
+          pin_length: 0.5
   combiner: null
   cross_section:
     add_pins_function_module: gdsfactory.samples.pdk.fab_c
@@ -141,6 +152,17 @@ settings:
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
+      post_process:
+        function: add_pins
+        module: gdsfactory.add_pins
+        settings:
+          function:
+            function: add_pin_rectangle_inside
+            module: gdsfactory.add_pins
+            settings:
+              layer_label: null
+              pin_length: 0.001
+          pin_length: 0.5
       width: 1.0
       width_mmi: 3
   straight:
@@ -185,6 +207,17 @@ settings:
         start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
+      post_process:
+        function: add_pins
+        module: gdsfactory.add_pins
+        settings:
+          function:
+            function: add_pin_rectangle_inside
+            module: gdsfactory.add_pins
+            settings:
+              layer_label: null
+              pin_length: 0.001
+          pin_length: 0.5
   straight_x_bot: null
   straight_x_top: null
   straight_y: null

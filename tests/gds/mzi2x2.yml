@@ -1,7 +1,5 @@
 cells:
   bend_euler_05a5f7bf:
-    add_bbox: null
-    add_pins: true
     angle: 90.0
     cross_section:
       add_pins_function_module: gdsfactory.add_pins
@@ -37,42 +35,36 @@ cells:
       taper_length: 10.0
       width_wide: null
     direction: ccw
-    layer: null
+    info: null
     npoints: null
     p: 0.5
     post_process: null
     radius: null
-    width: null
     with_arc_floorplan: true
   bend_euler_be5e636a:
-    add_bbox: null
-    add_pins: true
     angle: 90.0
     cross_section:
       function: cross_section
     direction: ccw
-    layer: null
+    info: null
     npoints: null
     p: 0.5
     post_process: null
     radius: null
-    width: null
     with_arc_floorplan: true
   mmi1x2_be5e636a:
     cross_section:
       function: cross_section
     gap_mmi: 0.25
+    info: null
     length_mmi: 5.5
     length_taper: 10.0
     post_process: null
-    straight:
-      function: straight
     taper:
       function: taper
     width: null
     width_mmi: 2.5
     width_taper: 1.0
-    with_bbox: true
   mzi_a42a8e63:
     add_electrical_ports_bot: true
     add_optical_ports_arms: false
@@ -101,17 +93,15 @@ cells:
         cross_section:
           function: cross_section
         gap_mmi: 0.25
+        info: null
         length_mmi: 5.5
         length_taper: 10.0
         post_process: null
-        straight:
-          function: straight
         taper:
           function: taper
         width: null
         width_mmi: 2.5
         width_taper: 1.0
-        with_bbox: true
     straight:
       function: straight
     straight_x_bot: null
@@ -119,8 +109,6 @@ cells:
     straight_y: null
     with_splitter: true
   straight_18078003:
-    add_bbox: null
-    add_pins: true
     cross_section:
       add_pins_function_module: gdsfactory.add_pins
       add_pins_function_name: null
@@ -154,14 +142,11 @@ cells:
       start_straight_length: 0.01
       taper_length: 10.0
       width_wide: null
-    layer: null
+    info: null
     length: 2.0
     npoints: 2
     post_process: null
-    width: null
   straight_2b1d8ae6:
-    add_bbox: null
-    add_pins: true
     cross_section:
       add_pins_function_module: gdsfactory.add_pins
       add_pins_function_name: null
@@ -195,24 +180,18 @@ cells:
       start_straight_length: 0.01
       taper_length: 10.0
       width_wide: null
-    layer: null
+    info: null
     length: 7.0
     npoints: 2
     post_process: null
-    width: null
   straight_5d53fdc2:
-    add_bbox: null
-    add_pins: true
     cross_section:
       function: cross_section
-    layer: null
+    info: null
     length: 7.0
     npoints: 2
     post_process: null
-    width: null
   straight_a76b09f9:
-    add_bbox: null
-    add_pins: true
     cross_section:
       add_pins_function_module: gdsfactory.add_pins
       add_pins_function_name: null
@@ -246,31 +225,24 @@ cells:
       start_straight_length: 0.01
       taper_length: 10.0
       width_wide: null
-    layer: null
+    info: null
     length: 0.01
     npoints: 2
     post_process: null
-    width: null
   straight_dcfdf04b:
-    add_bbox: null
-    add_pins: true
     cross_section:
       function: cross_section
-    layer: null
+    info: null
     length: 0.1
     npoints: 2
     post_process: null
-    width: null
   straight_ebcc6dc8:
-    add_bbox: null
-    add_pins: true
     cross_section:
       function: cross_section
-    layer: null
+    info: null
     length: 2.0
     npoints: 2
     post_process: null
-    width: null
 function: mzi
 info: {}
 module: gdsfactory.components.mzi
@@ -328,17 +300,15 @@ settings:
       cross_section:
         function: cross_section
       gap_mmi: 0.25
+      info: null
       length_mmi: 5.5
       length_taper: 10.0
       post_process: null
-      straight:
-        function: straight
       taper:
         function: taper
       width: null
       width_mmi: 2.5
       width_taper: 1.0
-      with_bbox: true
   straight:
     function: straight
   straight_x_bot: null

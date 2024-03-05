@@ -12,6 +12,7 @@ settings:
       radius: 10
       radius_min: 5
   direction: ccw
+  info: null
   npoints: 720
   p: 0.5
   post_process: null

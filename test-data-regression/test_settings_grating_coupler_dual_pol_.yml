@@ -7,10 +7,12 @@ name: grating_coupler_dual_pol
 settings:
   base_layer: WG
   cross_section: xs_sc
+  info: null
   length_taper: 150.0
   period_x: 0.58
   period_y: 0.58
   polarization: dual
+  post_process: null
   taper:
     function: taper
   unit_cell:

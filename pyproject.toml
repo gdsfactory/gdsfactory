@@ -113,7 +113,6 @@ reportUnusedExpression = false
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
 datadir = "test-data-regression"
 norecursedirs = [
-  "gdsfactory/samples/notebooks",
   "gdsfactory/geometry",
   "gdsfactory/plugins",
   "gdsfactory/simulation",

@@ -132,10 +132,6 @@ def dbr_tapered(
     c.absorb(input_taper)
     c.absorb(straight)
     c.absorb(output_taper)
-
-    if xs.add_bbox:
-        c = xs.add_bbox(c)
-
     c.add_port("o1", port=input_taper.ports["o1"])
     c.add_port("o2", port=output_taper.ports["o2"])
 

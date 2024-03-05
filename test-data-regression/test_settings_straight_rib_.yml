@@ -9,8 +9,6 @@ info:
 module: gdsfactory.components.straight
 name: straight_7da770de
 settings:
-  add_bbox: null
-  add_pins: true
   cross_section:
     function: cross_section
     module: gdsfactory.cross_section
@@ -34,8 +32,7 @@ settings:
         simplify: 0.05
         width: 6.0
         width_function: null
-  layer: null
+  info: null
   length: 10.0
   npoints: 2
   post_process: null
-  width: null

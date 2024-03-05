@@ -31,9 +31,7 @@ def coupler_straight(
     """
     component = Component()
 
-    straight_component = straight(
-        length=length, cross_section=cross_section, add_pins=False, **kwargs
-    )
+    straight_component = straight(length=length, cross_section=cross_section, **kwargs)
 
     top = component << straight_component
     bot = component << straight_component

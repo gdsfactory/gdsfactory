@@ -168,6 +168,7 @@ CrossSectionOrFactory = CrossSection | Callable[..., CrossSection]
 PortSymmetries = dict[str, list[str]]
 PortsDict = dict[str, Port]
 PortsList = dict[str, Port]
+Metadata = dict[str, int | float | str]
 
 Sparameters = dict[str, np.ndarray]
 

@@ -1,7 +1,5 @@
 pdk: ubcpdk
 
-
-
 instances:
   mzi1:
     component: mzi

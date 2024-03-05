@@ -731,6 +731,7 @@ def extrude(
     allow_offgrid: bool | None = None,
     snap_to_grid: bool = False,
     add_pins: bool = False,
+    add_bbox: bool = True,
     post_process: Callable | None = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
@@ -749,6 +750,7 @@ def extrude(
         shear_angle_start: an optional angle to shear the starting face by (in degrees).
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
         add_pins: if True adds pins to the ports of the component according to `cross_section`.
+        add_bbox: if True adds a bounding box to the component.
         post_process: a function to post process the component.
     """
     from gdsfactory.pdk import (
@@ -970,6 +972,8 @@ def extrude(
         _ = c << along_path(
             p=_p, component=via.component, spacing=via.spacing, padding=via.padding
         )
+    if add_bbox:
+        x.add_bbox(c)
     if add_pins:
         x.add_pins(c)
     if post_process:

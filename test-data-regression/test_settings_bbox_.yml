@@ -13,5 +13,6 @@ settings:
   - 1
   - 0
   left: 0
+  post_process: null
   right: 0
   top: 0

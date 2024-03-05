@@ -58,13 +58,13 @@ def straight_heater_metal_undercut(
     length_straight_input -= length_straight
 
     s_ports = gf.components.straight(
-        cross_section=cross_section, length=length_straight, add_pins=False
+        cross_section=cross_section,
+        length=length_straight,
     )
 
     s_si = gf.components.straight(
         cross_section=cross_section_waveguide_heater,
         length=length_straight_input,
-        add_pins=False,
     )
     cross_section_undercut = (
         cross_section_heater_undercut
@@ -72,12 +72,12 @@ def straight_heater_metal_undercut(
         else cross_section_waveguide_heater
     )
     s_uc = gf.components.straight(
-        cross_section=cross_section_undercut, length=length_undercut, add_pins=False
+        cross_section=cross_section_undercut,
+        length=length_undercut,
     )
     s_spacing = gf.components.straight(
         cross_section=cross_section_waveguide_heater,
         length=length_undercut_spacing,
-        add_pins=False,
     )
     symbol_to_component = {
         "_": (s_ports, "o1", "o2"),

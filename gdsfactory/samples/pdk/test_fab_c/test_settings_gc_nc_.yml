@@ -3,7 +3,7 @@ info:
   polarization: te
   wavelength: 1.554
 module: gdsfactory.components.grating_coupler_elliptical
-name: grating_coupler_elliptical_9bc42286
+name: grating_coupler_elliptical_f8befead
 settings:
   big_last_tooth: false
   cross_section:
@@ -46,11 +46,23 @@ settings:
     width_wide: null
   fiber_angle: 15.0
   grating_line_width: 0.6
+  info: null
   layer_slab: null
   n_periods: 30
   nclad: 1.443
   neff: 2.638
   polarization: te
+  post_process:
+    function: add_pins
+    module: gdsfactory.add_pins
+    settings:
+      function:
+        function: add_pin_rectangle_inside
+        module: gdsfactory.add_pins
+        settings:
+          layer_label: null
+          pin_length: 0.001
+      pin_length: 0.5
   slab_offset: 2.0
   slab_xmin: -1.0
   spiked: true

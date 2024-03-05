@@ -9,7 +9,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_tooth_points,
 )
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
+from gdsfactory.typings import Callable, CrossSectionSpec, Floats, LayerSpec, Metadata
 
 _gaps = (0.1,) * 10
 _widths = (0.5,) * 10
@@ -31,6 +31,8 @@ def grating_coupler_elliptical_arbitrary(
     spiked: bool = True,
     bias_gap: float = 0,
     cross_section: CrossSectionSpec = "xs_sc",
+    post_process: Callable | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
@@ -56,6 +58,8 @@ def grating_coupler_elliptical_arbitrary(
         bias_gap: etch gap (um).
             Positive bias increases gap and reduces width to keep period constant.
         cross_section: cross_section spec for waveguide port.
+        post_process: function to post process the component.
+        info: additional information to add to the component.
         kwargs: cross_section settings.
 
     https://en.wikipedia.org/wiki/Ellipse
@@ -156,11 +160,6 @@ def grating_coupler_elliptical_arbitrary(
             layer_slab,
         )
 
-    if xs.add_bbox:
-        c = xs.add_bbox(c)
-    if xs.add_pins:
-        c = xs.add_pins(c)
-
     x = (taper_length + xis[-1]) / 2
     x = gf.snap.snap_to_grid(x)
     c.add_port(
@@ -171,6 +170,11 @@ def grating_coupler_elliptical_arbitrary(
         layer=xs.layer,
         port_type="optical",
     )
+    xs.add_bbox(c)
+    if post_process:
+        post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 
@@ -225,6 +229,8 @@ def grating_coupler_elliptical_uniform(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_elliptical_arbitrary(layer_grating=(3, 0))
+    c = grating_coupler_elliptical_arbitrary(
+        layer_grating=(3, 0), cross_section="xs_rc_bbox"
+    )
     # c = grating_coupler_elliptical_arbitrary()
     c.show(show_ports=False)

@@ -7,10 +7,8 @@ info:
   route_info_xs_7c0f28d3_length: 10.0
   width: 1.0
 module: gdsfactory.components.straight
-name: straight_1da7fd5c
+name: straight_20eeedd9
 settings:
-  add_bbox: null
-  add_pins: true
   cross_section:
     add_pins_function_module: gdsfactory.samples.pdk.fab_c
     add_pins_function_name: add_pins
@@ -49,8 +47,17 @@ settings:
     start_straight_length: 0.01
     taper_length: 10.0
     width_wide: null
-  layer: null
+  info: null
   length: 10.0
   npoints: 2
-  post_process: null
-  width: null
+  post_process:
+    function: add_pins
+    module: gdsfactory.add_pins
+    settings:
+      function:
+        function: add_pin_rectangle_inside
+        module: gdsfactory.add_pins
+        settings:
+          layer_label: null
+          pin_length: 0.001
+      pin_length: 0.5

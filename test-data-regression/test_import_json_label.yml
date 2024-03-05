@@ -12,16 +12,13 @@ cell_settings:
         function: straight
         module: gdsfactory.components.straight
         settings:
-          add_bbox: null
-          add_pins: true
           cross_section: xs_sc_no_pins
           decorator:
             function: add_pins_siepic
-          layer: null
+          info: null
           length: 10.0
           npoints: 2
           post_process: null
-          width: null
       component_name: null
       cross_section: xs_sc
       fiber_spacing: 50
@@ -36,6 +33,7 @@ cell_settings:
         settings:
           polarization: te
           taper_angle: 35
+      info: null
       io_rotation: null
       layer_label: null
       loopback_xspacing: 50.0

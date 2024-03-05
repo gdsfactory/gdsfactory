@@ -61,11 +61,6 @@ def taper_from_csv(
         layer=layer,
         cross_section=x,
     )
-    if x.add_bbox:
-        x.add_bbox(c)
-    if x.add_pins:
-        c = x.add_pins(c)
-
     if post_process:
         post_process(c)
     return c

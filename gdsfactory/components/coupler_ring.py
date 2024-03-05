@@ -7,11 +7,13 @@ from gdsfactory.components.coupler90 import coupler90
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import (
+    Callable,
     ComponentFactory,
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
     LayerSpecs,
+    Metadata,
 )
 
 
@@ -26,7 +28,8 @@ def coupler_ring(
     cross_section: CrossSectionSpec = "xs_sc",
     cross_section_bend: CrossSectionSpec | None = None,
     length_extension: float = 3,
-    add_bbox: callable | None = None,
+    post_process: Callable | None = None,
+    info: Metadata | None = None,
 ) -> Component:
     r"""Coupler for ring.
 
@@ -104,9 +107,10 @@ def coupler_ring(
     c.add_ports(cbl.get_ports_list(port_type="electrical"), prefix="cbl")
     c.add_ports(cbr.get_ports_list(port_type="electrical"), prefix="cbr")
     c.auto_rename_ports()
-    if add_bbox:
-        add_bbox(c)
-    xs.add_pins(c)
+    if post_process:
+        post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 

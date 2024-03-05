@@ -14,6 +14,7 @@ settings:
   fiber_spacing: 127.0
   grating_coupler:
     function: grating_coupler_elliptical
+  info: null
   npads: null
   pad:
     function: pad

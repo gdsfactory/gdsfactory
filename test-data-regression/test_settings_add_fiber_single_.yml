@@ -51,6 +51,7 @@ settings:
     settings:
       polarization: te
       taper_angle: 35
+  info: null
   io_rotation: null
   layer_label: null
   loopback_xspacing: 50.0

@@ -6,6 +6,7 @@ settings:
   cross_section: xs_sc
   gap_input_tapers: 0.25
   gap_output_tapers: 0.25
+  info: null
   input_positions: null
   inputs: 1
   length_mmi: 5.5

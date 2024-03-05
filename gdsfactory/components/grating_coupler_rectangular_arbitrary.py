@@ -6,7 +6,14 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
+from gdsfactory.typings import (
+    Callable,
+    ComponentSpec,
+    CrossSectionSpec,
+    Floats,
+    LayerSpec,
+    Metadata,
+)
 
 _gaps = (0.2,) * 10
 _widths = (0.5,) * 10
@@ -27,6 +34,8 @@ def grating_coupler_rectangular_arbitrary(
     slab_offset: float = 1.0,
     fiber_angle: float | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
+    post_process: Callable | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""Grating coupler uniform with rectangular shape (not elliptical).
@@ -165,10 +174,10 @@ def grating_coupler_rectangular_arbitrary(
     if fiber_angle is not None:
         c.info["fiber_angle"] = fiber_angle
 
-    if xs.add_bbox:
-        xs.add_bbox(c)
-    if xs.add_pins:
-        xs.add_pins(c)
+    if post_process:
+        post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 

@@ -40,9 +40,6 @@ settings:
         function: mmi2x2
   splitter:
     function: mmi2x2
-  straight_functions_mmis:
-  - function: straight
-  - function: straight
   taper_functions_mmis:
   - function: taper
   - function: taper

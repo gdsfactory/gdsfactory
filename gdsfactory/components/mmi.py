@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec, Metadata
 
 
 @gf.cell
@@ -22,6 +22,7 @@ def mmi(
     input_positions: list[float] | None = None,
     output_positions: list[float] | None = None,
     post_process: Callable | None = None,
+    info: Metadata | None = None,
 ) -> Component:
     r"""mxn MultiMode Interferometer (MMI).
 
@@ -40,6 +41,7 @@ def mmi(
         input_positions: optional positions of the inputs.
         output_positions: optional positions of the outputs.
         post_process: function to post process the component.
+        info: additional information to add to the component.
 
     .. code::
 
@@ -72,7 +74,6 @@ def mmi(
         width1=width,
         width2=w_taper,
         cross_section=cross_section,
-        add_pins=False,
     )
 
     y = width_mmi / 2
@@ -133,13 +134,12 @@ def mmi(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    if x.add_bbox:
-        x.add_bbox(c)
-    if x.add_pins:
-        x.add_pins(c)
+    x.add_bbox(c)
     c.auto_rename_ports()
     if post_process:
         post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 

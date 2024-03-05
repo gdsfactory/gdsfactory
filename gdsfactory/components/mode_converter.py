@@ -103,12 +103,6 @@ def mode_converter(
     c.add_port("o3", port=r_bot_straight.ports["o2"])
     c.add_port("o2", port=l_bend.ports["o2"])
     c.add_port("o4", port=r_bend.ports["o2"])
-
-    x = gf.get_cross_section(cross_section, **kwargs)
-    if x.add_bbox:
-        c = x.add_bbox(c)
-    if x.add_pins:
-        c = x.add_pins(c)
     return c
 
 

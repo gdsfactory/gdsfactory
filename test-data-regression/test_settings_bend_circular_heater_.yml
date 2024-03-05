@@ -10,7 +10,8 @@ settings:
   cross_section: xs_sc
   heater_to_wg_distance: 1.2
   heater_width: 0.5
+  info: null
   layer_heater: HEATER
   npoints: null
+  post_process: null
   radius: null
-  with_bbox: true

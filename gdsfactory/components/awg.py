@@ -89,7 +89,6 @@ def free_propagation_region(
     c.info["length"] = length
     c.info["width1"] = width1
     c.info["width2"] = width2
-    c = xs.add_pins(c)
     return c
 
 

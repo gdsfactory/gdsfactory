@@ -12,10 +12,7 @@ def remap_layers() -> Component:
     c = gf.Component()
     straight = partial(
         gf.components.straight,
-        with_bbox=True,
         cladding_layers=None,
-        add_pins=None,
-        add_bbox=None,
     )
 
     wg1 = c << straight(length=11, width=1, layer=(1, 0))

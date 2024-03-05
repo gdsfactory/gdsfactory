@@ -5,14 +5,12 @@ name: mmi2x2
 settings:
   cross_section: xs_sc
   gap_mmi: 0.25
+  info: null
   length_mmi: 5.5
   length_taper: 10.0
   post_process: null
-  straight:
-    function: straight
   taper:
     function: taper
   width: null
   width_mmi: 2.5
   width_taper: 1.0
-  with_bbox: true

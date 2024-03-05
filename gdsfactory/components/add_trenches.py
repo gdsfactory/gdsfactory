@@ -51,8 +51,6 @@ def add_trenches(
     c.add_ports(component.ports, cross_section=xs)
     c.copy_child_info(component)
     c.absorb(ref)
-    xs.add_pins(c)
-    xs.add_bbox(c)
     return c
 
 

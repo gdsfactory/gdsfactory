@@ -21,7 +21,7 @@ def get_cells(modules, verbose: bool = False) -> dict[str, ComponentFactory]:
     cells = {}
     for module in modules:
         for t in getmembers(module):
-            if callable(t[1]) and t[0] != "partial":
+            if callable(t[1]) and t[0] != "partial" and not t[0].startswith("_"):
                 try:
                     r = signature(
                         t[1] if not isinstance(t[1], partial) else t[1].func
@@ -37,7 +37,7 @@ def get_cells(modules, verbose: bool = False) -> dict[str, ComponentFactory]:
 
 
 if __name__ == "__main__":
-    import ubcpdk
+    import cspdk
 
-    f = get_cells(ubcpdk.components)
+    f = get_cells(cspdk.cells)
     print(f.keys())

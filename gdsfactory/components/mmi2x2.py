@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec, Metadata
 
 
 @gf.cell
@@ -16,10 +15,9 @@ def mmi2x2(
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
-    straight: ComponentFactory = straight_function,
-    with_bbox: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
     post_process: Callable | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""Mmi 2x2.
@@ -70,7 +68,6 @@ def mmi2x2(
         width1=width,
         width2=w_taper,
         cross_section=x,
-        add_pins=False,
     )
 
     delta_width = width_mmi - width
@@ -115,12 +112,11 @@ def mmi2x2(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    if with_bbox:
-        x.add_bbox(c)
-    if x.add_pins:
-        x.add_pins(c)
+    x.add_bbox(c)
     if post_process:
         post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 

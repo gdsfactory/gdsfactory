@@ -13,15 +13,12 @@ instances:
       route_info_weight: 15.708
       route_info_xs_sc_length: 15.708
     settings:
-      add_bbox: null
-      add_pins: true
       angle: 90.0
       cross_section: xs_sc
-      layer: null
+      info: null
       npoints: null
       post_process: null
       radius: null
-      width: null
   s:
     component: straight
     info:
@@ -32,14 +29,11 @@ instances:
       route_info_xs_sc_length: 10.0
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section: xs_sc
-      layer: null
+      info: null
       length: 10.0
       npoints: 2
       post_process: null
-      width: null
 name: sample_mirror_simple_a2dbfa91
 placements:
   b:

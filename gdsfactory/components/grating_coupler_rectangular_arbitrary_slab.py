@@ -6,7 +6,14 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper_strip_to_slab150
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
+from gdsfactory.typings import (
+    Callable,
+    ComponentSpec,
+    CrossSectionSpec,
+    Floats,
+    LayerSpec,
+    Metadata,
+)
 
 _gaps = (0.2,) * 10
 _widths = (0.5,) * 10
@@ -26,6 +33,8 @@ def grating_coupler_rectangular_arbitrary_slab(
     slab_offset: float = 2.0,
     fiber_angle: float = 15,
     cross_section: CrossSectionSpec = "xs_sc",
+    post_process: Callable | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""Grating coupler uniform (grating with rectangular shape not elliptical). Therefore it needs a longer taper. Grating teeth are straight instead of elliptical.
@@ -43,6 +52,8 @@ def grating_coupler_rectangular_arbitrary_slab(
         slab_offset: from edge.
         fiber_angle: in degrees.
         cross_section: for input waveguide port.
+        post_process: function to post process the component.
+        info: additional information to add to the component.
         kwargs: cross_section settings.
 
     .. code::
@@ -133,10 +144,10 @@ def grating_coupler_rectangular_arbitrary_slab(
     c.info["wavelength"] = wavelength
     if fiber_angle is not None:
         c.info["fiber_angle"] = fiber_angle
-    if xs.add_bbox:
-        xs.add_bbox(c)
-    if xs.add_pins:
-        xs.add_pins(c)
+    if post_process:
+        post_process(c)
+    if info:
+        c.info.update(info)
     return c
 
 

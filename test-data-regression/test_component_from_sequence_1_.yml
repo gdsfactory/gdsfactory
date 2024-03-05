@@ -1,7 +1,7 @@
 function: component_sequence
 info: {}
 module: gdsfactory.components.component_sequence
-name: component_sequence_7e5bc266
+name: component_sequence_8e5d93fa
 settings:
   port_name1: o1
   port_name2: o2
@@ -13,44 +13,35 @@ settings:
     - function: straight
       module: gdsfactory.components.straight
       settings:
-        add_bbox: null
-        add_pins: true
         cross_section: xs_sc
-        layer: null
+        info: null
         length: 10.0
         npoints: 2
         post_process: null
-        width: null
     - o1
     - o2
     A:
     - function: bend_circular
       module: gdsfactory.components.bend_circular
       settings:
-        add_bbox: null
-        add_pins: true
         angle: 180
         cross_section: xs_sc
-        layer: null
+        info: null
         npoints: null
         post_process: null
         radius: null
-        width: null
     - o1
     - o2
     B:
     - function: bend_circular
       module: gdsfactory.components.bend_circular
       settings:
-        add_bbox: null
-        add_pins: true
         angle: 180
         cross_section: xs_sc
-        layer: null
+        info: null
         npoints: null
         post_process: null
         radius: null
-        width: null
     - o2
     - o1
     H:

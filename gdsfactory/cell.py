@@ -154,7 +154,6 @@ def cell(
 
         active_pdk = get_active_pdk()
 
-        info = kwargs.pop("info", {})
         name = _name = kwargs.pop("name", None)
         prefix = kwargs.pop("prefix", None)
 
@@ -166,11 +165,6 @@ def cell(
         if prefix:
             warnings.warn(
                 f"prefix is deprecated and will be removed soon. {func.__name__}",
-                stacklevel=2,
-            )
-        if info:
-            warnings.warn(
-                f"info is deprecated and will be removed soon. {func.__name__}",
                 stacklevel=2,
             )
 
@@ -305,9 +299,6 @@ def cell(
             )
         else:
             component_name = name
-
-        for k, v in dict(info).items():
-            component.info[k] = v
 
         if autoname:
             component.rename(component_name, max_name_length=max_name_length)

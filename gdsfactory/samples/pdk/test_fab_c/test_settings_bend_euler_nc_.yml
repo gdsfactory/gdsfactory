@@ -11,10 +11,8 @@ info:
   route_info_xs_7c0f28d3_length: 16.637
   width: 1.0
 module: gdsfactory.components.bend_euler
-name: bend_euler_1da7fd5c
+name: bend_euler_20eeedd9
 settings:
-  add_bbox: null
-  add_pins: true
   angle: 90.0
   cross_section:
     add_pins_function_module: gdsfactory.samples.pdk.fab_c
@@ -55,10 +53,19 @@ settings:
     taper_length: 10.0
     width_wide: null
   direction: ccw
-  layer: null
+  info: null
   npoints: null
   p: 0.5
-  post_process: null
+  post_process:
+    function: add_pins
+    module: gdsfactory.add_pins
+    settings:
+      function:
+        function: add_pin_rectangle_inside
+        module: gdsfactory.add_pins
+        settings:
+          layer_label: null
+          pin_length: 0.001
+      pin_length: 0.5
   radius: null
-  width: null
   with_arc_floorplan: true

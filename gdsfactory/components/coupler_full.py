@@ -104,9 +104,6 @@ def coupler_full(
     c.absorb(taper_top)
     c.absorb(taper_bottom)
 
-    if x.add_bbox:
-        c = x.add_bbox(c)
-
     if x.info:
         c.info = x.info
 

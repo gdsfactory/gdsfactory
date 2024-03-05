@@ -3,7 +3,6 @@ info: {}
 module: gdsfactory.components.coupler_ring
 name: coupler_ring
 settings:
-  add_bbox: null
   bend:
     function: bend_euler
   coupler90:
@@ -13,6 +12,8 @@ settings:
   cross_section: xs_sc
   cross_section_bend: null
   gap: 0.2
+  info: null
   length_extension: 3
   length_x: 4.0
+  post_process: null
   radius: 5.0

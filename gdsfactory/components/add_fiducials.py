@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import warnings
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array
-from gdsfactory.typings import ComponentSpec, Coordinates, Float2
+from gdsfactory.typings import Callable, ComponentSpec, Coordinates, Float2, Metadata
 
 
 @gf.cell
@@ -15,6 +17,8 @@ def add_fiducials(
     top: ComponentSpec | None = None,
     bottom: ComponentSpec | None = None,
     offset: Float2 = (0, 0),
+    post_process: Callable | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     """Return component with fiducials.
@@ -27,8 +31,15 @@ def add_fiducials(
         top: optional top fiducial.
         bottom: optional bottom fiducial.
         offset: component offset coordinate (x, y).
+        post_process: function to post process the component.
+        info: additional information to add to the component.
         kwargs: fiducial settings.
     """
+    warnings.warn(
+        "add_fiducials is deprecated and will be removed it soon. Copy it into your code if you want to keep using it",
+        DeprecationWarning,
+    )
+
     c = Component()
     component = gf.get_component(component, **kwargs)
     r = c << component
@@ -55,6 +66,10 @@ def add_fiducials(
         c.add_ports(y2.ports, prefix="b")
 
     c.add_ports(r.ports)
+    if post_process:
+        post_process(c)
+    if info:
+        c.info.update(info)
     c.copy_child_info(component)
     return c
 
@@ -72,6 +87,10 @@ def add_fiducials_offsets(
         fiducial: function to return fiducial.
         offsets: list of offsets.
     """
+    warnings.warn(
+        "add_fiducials_offsets is deprecated and will be removed it soon. Copy it into your code if you want to keep using it",
+        DeprecationWarning,
+    )
     c = Component()
     component = gf.get_component(component)
     fiducial = gf.get_component(fiducial)

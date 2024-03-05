@@ -19,6 +19,11 @@ settings:
       add_pins_function_name: null
       radius: 10
       radius_min: 5
+  length_x: 0
+  lengths_y:
+  - 0
+  - 0
+  - 0
   output_straight_cross_section:
     function: cross_section
     module: gdsfactory.cross_section
