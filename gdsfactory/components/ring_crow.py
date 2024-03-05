@@ -16,7 +16,7 @@ def ring_crow(
     output_straight_cross_section: CrossSectionSpec = strip,
     bends: list[ComponentSpec] = [bend_circular] * 3,
     ring_cross_sections: list[CrossSectionSpec] = [strip] * 3,
-    length_x: float = 0, 
+    length_x: float = 0,
     lengths_y: list[float] = [0] * 3,
 ) -> Component:
     """Coupled ring resonators.
