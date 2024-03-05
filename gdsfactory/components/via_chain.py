@@ -22,6 +22,7 @@ def via_chain(
     offsets_bot: tuple[float, ...] = (0,),
     via_min_enclosure: float = 1.0,
     min_metal_spacing: float = 1.0,
+    via_xoffset: float = 0.0,
 ) -> Component:
     """Via chain to extract via resistance.
 
@@ -36,6 +37,7 @@ def via_chain(
         offsets_bot: list of bottom layer offsets.
         via_min_enclosure: via_min_enclosure.
         min_metal_spacing: min_metal_spacing.
+        via_xoffset: via_xoffset.
 
     .. code::
 
@@ -114,10 +116,12 @@ def via_chain(
         rows=rows,
         spacing=(wire_length + min_metal_spacing, wire_width + min_metal_spacing),
     )
-    top_wires.xmin = -via_min_enclosure
-    bot_wires.xmin = top_wires.xmin + wire_length / 2 + min_metal_spacing / 2
-    bot_wires.ymin = -via_min_enclosure
-    top_wires.ymin = -via_min_enclosure
+    top_wires.x = 0
+    bot_wires.xmin = (
+        top_wires.xmin + wire_length / 2 + min_metal_spacing / 2 - via_xoffset
+    )
+    bot_wires.y = 0
+    top_wires.y = 0
     vias.xmin = top_wires.xmin + via_min_enclosure + via_spacing[0]
     vias.ymin = top_wires.ymin + via_min_enclosure
 
@@ -133,8 +137,8 @@ def via_chain(
         spacing=(wire_width + min_metal_spacing, 2 * (wire_width + min_metal_spacing)),
     )
 
-    right_wires.xmax = bot_wires.xmax
-    right_wires.ymin = bot_wires.ymin
+    right_wires.xmax = vias.xmax + via_min_enclosure
+    right_wires.y = 0
 
     left_wires = c.add_array(
         component=vertical_wire_left,
@@ -144,7 +148,7 @@ def via_chain(
     )
 
     left_wires.xmin = top_wires.xmin
-    left_wires.ymin = bot_wires.ymin + wire_width + min_metal_spacing
+    left_wires.y = 0
 
     contact1 = c << contact
     contact2 = c << contact
