@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from functools import partial
 
 import gdsfactory as gf
@@ -15,6 +16,7 @@ def via(
     enclosure: float = 1.0,
     layer: LayerSpec = "VIAC",
     bbox_layers: tuple[tuple[int, int], ...] | None = None,
+    bbox_offset: float | None = None,
     bbox_offsets: tuple[float, ...] | None = None,
 ) -> Component:
     """Rectangular via.
@@ -28,7 +30,8 @@ def via(
         enclosure: inclusion of via.
         layer: via layer.
         bbox_layers: layers for the bounding box.
-        bbox_offsets: in um.
+        bbox_offset: in um.
+        bbox_offsets: list of offsets in um.
 
     .. code::
 
@@ -65,6 +68,13 @@ def via(
     c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
 
     bbox_layers = bbox_layers or []
+
+    if bbox_offset:
+        warnings.warn(
+            "bbox_offset is deprecated. Use bbox_offsets instead", DeprecationWarning
+        )
+        bbox_offsets = [bbox_offset] * len(bbox_layers)
+
     bbox_offsets = bbox_offsets or []
 
     for layer, bbox_offset in zip(bbox_layers, bbox_layers):
