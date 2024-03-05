@@ -356,10 +356,10 @@ class CrossSection(BaseModel):
                 points = get_padding_points(
                     component=c,
                     default=0,
-                    top=top or offset,
-                    bottom=bottom or offset,
-                    left=left or offset,
-                    right=right or offset,
+                    top=top if top is not None else offset,
+                    bottom=bottom if bottom is not None else offset,
+                    right=right if right is not None else offset,
+                    left=left if left is not None else offset,
                 )
                 padding.append(points)
 

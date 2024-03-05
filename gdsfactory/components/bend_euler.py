@@ -169,6 +169,7 @@ def bend_straight_bend(
         radius: in um. Defaults to cross_section_radius.
         post_process: optional function to post process the component.
         info: additional information to add to the component.
+        kwargs: additional cross_section arguments.
     """
     c = Component()
     b = bend_euler(
@@ -197,11 +198,16 @@ def bend_straight_bend(
     c.add_port("o2", port=b2.ports["o2"])
     c.add_port("o1", port=b1.ports["o1"])
 
+    top = None if int(angle) in {180, -180, -90} else 0
+    bottom = 0 if int(angle) in {-90} else None
+
+    x = gf.get_cross_section(cross_section, **kwargs)
+    x.add_bbox(c, top=top, bottom=bottom)
+
     if post_process:
         post_process(c)
     if info:
         c.info.update(info)
-
     return c
 
 

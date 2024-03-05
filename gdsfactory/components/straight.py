@@ -49,6 +49,7 @@ def straight(
 
     c.add_route_info(cross_section=x, length=length)
     c.absorb(ref)
+    x.add_bbox(c, right=0, left=0)
     if post_process:
         post_process(c)
     if info:
@@ -59,7 +60,7 @@ def straight(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    xs = gf.cross_section.pn()
+    xs = gf.cross_section.strip(bbox_layers=[(111, 0)], bbox_offsets=[3])
     c = straight(cross_section=xs, info=dict(simulation="eme"))
     # print(c.info["simulation"])
     # c = gf.Component()

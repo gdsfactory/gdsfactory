@@ -59,6 +59,9 @@ def bend_circular(
     c.add_route_info(
         cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
     )
+    top = None if int(angle) in {180, -180, -90} else 0
+    bottom = 0 if int(angle) in {-90} else None
+    x.add_bbox(c, top=top, bottom=bottom)
     if post_process:
         post_process(c)
     if info:

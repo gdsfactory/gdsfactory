@@ -8,7 +8,7 @@ from gdsfactory.add_labels import (
 )
 from gdsfactory.component import Component
 
-straight = (gf.components.straight,)
+straight = gf.components.straight
 
 
 def test_add_labels_optical() -> None:
