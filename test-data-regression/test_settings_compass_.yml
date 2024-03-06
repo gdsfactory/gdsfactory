@@ -3,6 +3,7 @@ info: {}
 module: gdsfactory.components.compass
 name: compass
 settings:
+  info: null
   layer: WG
   port_inclusion: 0.0
   port_orientations:
@@ -11,6 +12,7 @@ settings:
   - 0
   - -90
   port_type: electrical
+  post_process: null
   size:
   - 4.0
   - 2.0

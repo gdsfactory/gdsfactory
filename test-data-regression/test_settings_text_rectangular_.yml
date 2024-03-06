@@ -5,6 +5,7 @@ name: text_rectangular
 settings:
   font:
     function: rectangular_font
+  info: null
   justify: left
   layer: WG
   layers: null

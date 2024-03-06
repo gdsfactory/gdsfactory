@@ -41,6 +41,7 @@ def taper(
         port_order_types(tuple): Ordered tuple of port types. First port is default \
                 taper port, second name only if with_two_ports flags used.
         post_process: function to post process the component.
+        info: dictionary with metadata.
         kwargs: cross_section settings.
     """
     c = gf.Component()
@@ -110,8 +111,8 @@ def taper(
             port_type=port_order_types[1],
         )
 
-    if post_process:
-        post_process(c)
+    c.post_process(post_process)
+    c.info.update(info or {})
 
     c.info["length"] = float(length)
     c.info["width1"] = float(width1)
@@ -149,6 +150,7 @@ def taper_strip_to_ridge(
         layer_slab: for output waveguide with slab.
         cross_section: for input waveguide.
         post_process: function to post process the component.
+        info: additional information to add to the component.
         kwargs: cross_section settings.
 
     .. code::
@@ -227,6 +229,7 @@ def taper_strip_to_ridge_trenches(
         layer_wg: waveguide layer.
         trench_offset: after waveguide in um.
         post_process: function to post process the component.
+        info: additional information to add to the component.
     """
     c = gf.Component()
     y0 = width / 2 + trench_width - trench_offset

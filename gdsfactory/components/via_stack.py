@@ -18,6 +18,7 @@ from gdsfactory.typings import (
     Floats,
     LayerSpec,
     LayerSpecs,
+    Metadata,
 )
 
 
@@ -32,6 +33,7 @@ def via_stack(
     slot_horizontal: bool = False,
     slot_vertical: bool = False,
     post_process: list[Callable] | None = None,
+    info: Metadata | None = None,
 ) -> Component:
     """Rectangular via array stack.
 
@@ -56,6 +58,8 @@ def via_stack(
             them to the minimum possible to fit a via.
         slot_horizontal: if True, then vias are horizontal.
         slot_vertical: if True, then vias are vertical.
+        post_process: optional list of functions to post process the component.
+        info: additional information to add to the component.
     """
     width_m, height_m = size
     a = width_m / 2
@@ -156,8 +160,8 @@ def via_stack(
             y0 = -b + ch + h / 2
             ref.move((x0, y0))
 
-    if post_process:
-        post_process(c)
+    c.post_process(post_process)
+    c.info.update(info or {})
 
     return c
 

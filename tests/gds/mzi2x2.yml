@@ -77,6 +77,7 @@ cells:
     cross_section_x_top: null
     delta_length: 10.0
     extend_ports_straight_x: null
+    info: null
     length_x: 0.1
     length_y: 2.0
     mirror_bot: false
@@ -284,6 +285,7 @@ settings:
   cross_section_x_top: null
   delta_length: 10.0
   extend_ports_straight_x: null
+  info: null
   length_x: 0.1
   length_y: 2.0
   mirror_bot: false

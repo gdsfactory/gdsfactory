@@ -8,7 +8,14 @@ from gdsfactory.components.pad import pad_array as pad_array_function
 from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.typings import Callable, ComponentSpec, Float2, LayerSpec, Strs
+from gdsfactory.typings import (
+    Callable,
+    ComponentSpec,
+    Float2,
+    LayerSpec,
+    Metadata,
+    Strs,
+)
 
 _wire_long = partial(wire_straight, length=200.0)
 
@@ -23,6 +30,7 @@ def add_electrical_pads_top(
     port_names: Strs | None = None,
     layer: LayerSpec = "MTOP",
     post_process: list[Callable] | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.
@@ -36,6 +44,7 @@ def add_electrical_pads_top(
         port_names: optional port names. Overrides select_ports.
         layer: for the routes.
         post_process: function to post process the component.
+        info: additional information to add to the component.
 
     Keyword Args:
         ports: Dict[str, Port] a port dict {port name: port}.
@@ -98,8 +107,8 @@ def add_electrical_pads_top(
     c.copy_child_info(component)
     c.auto_rename_ports(prefix_electrical=f"elec-{component.name}-")
 
-    if post_process:
-        post_process(c)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

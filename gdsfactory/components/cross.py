@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import Callable, LayerSpec, LayerSpecs
+from gdsfactory.typings import Callable, LayerSpec, LayerSpecs, Metadata
 
 
 @gf.cell
@@ -13,6 +13,7 @@ def cross(
     layers: LayerSpecs | None = None,
     port_type: str | None = None,
     post_process: list[Callable] | None = None,
+    info: Metadata | None = None,
 ) -> Component:
     """Returns a cross from two rectangles of length and width.
 
@@ -22,7 +23,8 @@ def cross(
         layer: layer for geometry.
         layers: Optional. List of layers for geometry.
         port_type: None, optical, electrical.
-        post_process: Optional. Function to post process the component.
+        post_process: Optional. Functions to post process the component.
+        info: Optional. Dictionary with metadata.
     """
     c = gf.Component()
     layers = layers or [layer]
@@ -69,8 +71,8 @@ def cross(
                 port_type=port_type,
             )
         c.auto_rename_ports()
-    if post_process:
-        post_process(c)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

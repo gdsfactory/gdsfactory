@@ -14,6 +14,7 @@ from gdsfactory.typings import (
     CrossSectionSpec,
     Floats,
     LayerSpec,
+    Metadata,
 )
 
 
@@ -37,6 +38,7 @@ def straight_heater_meander(
     bend: ComponentFactory = bend_euler,
     taper: ComponentFactory = taper_cross_section_linear,
     post_process: list[Callable] | None = None,
+    info: Metadata | None = None,
 ) -> Component:
     """Returns a meander based heater.
 
@@ -64,6 +66,7 @@ def straight_heater_meander(
         bend: ComponentFactory for the bend sections.
         taper: ComponentFactory for the photonic taper sections.
         post_process: function to post process the component.
+        info: additional information to add to the component.
     """
     if n and straight_widths:
         raise ValueError("n and straight_widths are mutually exclusive")
@@ -233,8 +236,8 @@ def straight_heater_meander(
             via_stack_west.connect("e3", taper1.ports["o1"])
             via_stack_east.connect("e1", taper2.ports["o1"])
 
-    if post_process:
-        post_process(c)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 
