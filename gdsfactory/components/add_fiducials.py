@@ -66,10 +66,8 @@ def add_fiducials(
         c.add_ports(y2.ports, prefix="b")
 
     c.add_ports(r.ports)
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     c.copy_child_info(component)
     return c
 

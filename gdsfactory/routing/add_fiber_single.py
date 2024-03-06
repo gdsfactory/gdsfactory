@@ -282,10 +282,8 @@ def add_fiber_single(
             )
 
     c.copy_child_info(component_original)
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

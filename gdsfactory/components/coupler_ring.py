@@ -107,10 +107,8 @@ def coupler_ring(
     c.add_ports(cbl.get_ports_list(port_type="electrical"), prefix="cbl")
     c.add_ports(cbr.get_ports_list(port_type="electrical"), prefix="cbr")
     c.auto_rename_ports()
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

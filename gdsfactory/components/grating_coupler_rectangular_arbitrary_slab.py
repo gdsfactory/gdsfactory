@@ -144,10 +144,8 @@ def grating_coupler_rectangular_arbitrary_slab(
     c.info["wavelength"] = wavelength
     if fiber_angle is not None:
         c.info["fiber_angle"] = fiber_angle
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

@@ -59,10 +59,8 @@ def wire_corner(
 
     c.info["length"] = width
     c.info["dy"] = width
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

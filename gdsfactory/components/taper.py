@@ -199,10 +199,8 @@ def taper_strip_to_ridge(
     if length:
         xs.add_bbox(c)
 
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 
@@ -255,10 +253,8 @@ def taper_strip_to_ridge_trenches(
     c.add_port(
         name="o2", center=(length, 0), width=width, orientation=0, layer=layer_wg
     )
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

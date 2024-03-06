@@ -155,10 +155,8 @@ def grating_coupler_dual_pol(
     taper2.ymax = -y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")
 
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

@@ -51,8 +51,7 @@ def straight(
     c.absorb(ref)
 
     c.post_process(post_process)
-    if info:
-        c.info.update(info)
+    c.info.update(info or {})
     return c
 
 

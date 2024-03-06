@@ -61,10 +61,8 @@ def bend_circular_heater(
     c.info["dx"] = c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
 
     x.validate_radius(radius)
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

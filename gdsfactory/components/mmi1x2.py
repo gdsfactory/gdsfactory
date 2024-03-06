@@ -117,10 +117,8 @@ def mmi1x2(
         c.absorb(taper_ref)
 
     x.add_bbox(c)
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

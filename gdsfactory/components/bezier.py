@@ -87,10 +87,8 @@ def bezier(
 
     xs.validate_radius(min_bend_radius, bend_radius_error_type)
 
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

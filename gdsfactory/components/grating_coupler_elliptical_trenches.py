@@ -140,10 +140,8 @@ def grating_coupler_elliptical_trenches(
         layer=layer,
         port_type="optical",
     )
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

@@ -151,10 +151,8 @@ def add_fiber_array_optical_south_electrical_north(
     c.add_ports(pad_ports)
     c.copy_child_info(component)
 
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 
