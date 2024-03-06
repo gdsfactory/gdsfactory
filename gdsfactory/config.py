@@ -293,7 +293,8 @@ class Settings(BaseSettings):
         showwarning_ = warnings.showwarning
 
         def showwarning(message, *args, **kwargs):
-            self.logger.warning(message)
+
+            self.logger.warning(f'{args[0].__name__}: {message}')
             showwarning_(message, *args, **kwargs)
 
         warnings.showwarning = showwarning
