@@ -293,7 +293,8 @@ class Settings(BaseSettings):
         showwarning_ = warnings.showwarning
 
         def showwarning(message, *args, **kwargs):
-            self.logger.warning(message)
+            # depth 2 shows the same line as regular warnings.warn(..., stacklevel=1)
+            self.logger.opt(depth=2).warning(f"{args[0].__name__}: {message}")
             showwarning_(message, *args, **kwargs)
 
         warnings.showwarning = showwarning
