@@ -82,7 +82,8 @@ def from_image(
     layer: tuple[int, int] = (1, 0),
     threshold: float = 0.99,
     invert: bool = True,
-    outer_pad_value: float | None = None,
+    border_pad_num_pixels: int = 2,
+    border_pad_pixel_value: float | None = None,
 ) -> Component:
     """Returns Component from a png image.
 
@@ -92,7 +93,8 @@ def from_image(
         layer: layer tuple to output gds.
         threshold: value along which to find contours in the array.
         invert: invert the mask. True by default.
-        outer_pad_value: set outer padding used by np.pad to this constant value (optional).
+        border_pad_num_pixels: number of pixels to pad image border with. A value of 2 is usually sufficient to capture contours along the image border.
+        border_pad_pixel_value: set value of padding pixels (optional). This is passed to np.pad through the 'constant_values' argument.
     """
     import matplotlib.pyplot as plt
 
@@ -111,7 +113,8 @@ def from_image(
         layer=layer,
         threshold=threshold,
         invert=invert,
-        outer_pad_value=outer_pad_value,
+        border_pad_num_pixels=border_pad_num_pixels,
+        border_pad_pixel_value=border_pad_pixel_value,
     )
 
 
