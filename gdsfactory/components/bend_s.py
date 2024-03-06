@@ -17,7 +17,7 @@ def bend_s(
     size: Float2 = (11.0, 1.8),
     npoints: int = 99,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:

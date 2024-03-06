@@ -31,7 +31,7 @@ def via_stack(
     correct_size: bool = True,
     slot_horizontal: bool = False,
     slot_vertical: bool = False,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
 ) -> Component:
     """Rectangular via array stack.
 

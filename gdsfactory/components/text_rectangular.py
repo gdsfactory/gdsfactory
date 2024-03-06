@@ -19,7 +19,7 @@ def text_rectangular(
     layer: LayerSpec = "WG",
     layers: LayerSpecs | None = None,
     font: Callable[..., dict[str, str]] = rectangular_font,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without acute angles.
 
@@ -89,7 +89,7 @@ def text_rectangular_multi_layer(
     text: str = "abcd",
     layers: LayerSpecs = ("WG", "M1", "M2", "MTOP"),
     text_factory: ComponentSpec = text_rectangular,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     **kwargs,
 ) -> Component:
     """Returns rectangular text in different layers.

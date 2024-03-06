@@ -22,7 +22,7 @@ def add_electrical_pads_top(
     select_ports: Callable = select_ports_electrical,
     port_names: Strs | None = None,
     layer: LayerSpec = "MTOP",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     **kwargs,
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.

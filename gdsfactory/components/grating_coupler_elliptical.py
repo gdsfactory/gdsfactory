@@ -115,7 +115,7 @@ def grating_coupler_elliptical(
     slab_offset: float = 2.0,
     spiked: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:

@@ -21,7 +21,7 @@ def resistance_sheet(
     ohms_per_square: float | None = None,
     port_orientation1: int = 180,
     port_orientation2: int = 0,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
 ) -> Component:
     """Returns Sheet resistance.
 

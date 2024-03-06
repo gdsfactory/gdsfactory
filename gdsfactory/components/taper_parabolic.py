@@ -15,7 +15,7 @@ def taper_parabolic(
     exp: float = 0.5,
     npoints: int = 100,
     layer: LayerSpec = "WG",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
 ) -> gf.Component:
     """Returns a parabolic_taper.
 

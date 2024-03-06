@@ -22,7 +22,7 @@ def bend_euler(
     npoints: int | None = None,
     direction: str = "ccw",
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -149,7 +149,7 @@ def bend_straight_bend(
     direction: str = "ccw",
     cross_section: CrossSectionSpec = strip,
     radius: float | None = None,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:

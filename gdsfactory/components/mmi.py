@@ -21,7 +21,7 @@ def mmi(
     cross_section: CrossSectionSpec = "xs_sc",
     input_positions: list[float] | None = None,
     output_positions: list[float] | None = None,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     r"""mxn MultiMode Interferometer (MMI).

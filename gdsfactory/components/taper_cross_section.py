@@ -18,7 +18,7 @@ def taper_cross_section(
     npoints: int = 100,
     linear: bool = False,
     width_type: str = "sine",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     **kwargs,
 ) -> Component:
     r"""Returns taper transition between cross_section1 and cross_section2.

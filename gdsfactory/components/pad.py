@@ -17,7 +17,7 @@ def pad(
     bbox_offsets: tuple[float, ...] | None = None,
     port_inclusion: float = 0,
     port_orientation: float | None = None,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
 ) -> Component:
     """Returns rectangular pad with ports.
 
@@ -86,7 +86,7 @@ def pad_array(
     columns: int = 6,
     rows: int = 1,
     orientation: float | None = 270,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
 ) -> Component:
     """Returns 2D array of pads.
 

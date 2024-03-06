@@ -35,7 +35,7 @@ def grating_coupler_dual_pol(
     taper: ComponentSpec = taper_function,
     base_layer: LayerSpec | None = "WG",
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:

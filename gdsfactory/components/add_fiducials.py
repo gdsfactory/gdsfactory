@@ -17,7 +17,7 @@ def add_fiducials(
     top: ComponentSpec | None = None,
     bottom: ComponentSpec | None = None,
     offset: Float2 = (0, 0),
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
