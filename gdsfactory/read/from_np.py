@@ -31,7 +31,8 @@ def from_np(
     layer: tuple[int, int] = (1, 0),
     threshold: float = 0.99,
     invert: bool = True,
-    outer_pad_value: float | None = None,
+    border_pad_num_pixels: int = 2,
+    border_pad_pixel_value: float | None = None,
 ) -> Component:
     """Returns Component from a np.ndarray.
 
@@ -43,7 +44,8 @@ def from_np(
         layer: layer tuple to output gds.
         threshold: value along which to find contours in the array.
         invert: invert the mask.
-        outer_pad_value: set the value of the 2 pixels of padding added to the image border by np.pad (optional).
+        border_pad_num_pixels: number of pixels to pad image border with. A value of 2 is usually sufficient to capture contours along the image border.
+        border_pad_pixel_value: set value of padding pixels (optional). This is passed to np.pad through the 'constant_values' argument.
 
     """
     from skimage import measure
@@ -52,10 +54,10 @@ def from_np(
     d = Component()
 
     pad_kwargs = {}
-    if outer_pad_value is not None:
-        pad_kwargs = {"constant_values": outer_pad_value}
+    if border_pad_pixel_value is not None:
+        pad_kwargs = {"constant_values": border_pad_pixel_value}
 
-    ndarray = np.pad(ndarray, 2, **pad_kwargs)
+    ndarray = np.pad(ndarray, border_pad_num_pixels, **pad_kwargs)
     contours = measure.find_contours(ndarray, threshold)
     assert len(contours) > 0, (
         f"no contours found for threshold = {threshold}, maybe you can reduce the"
