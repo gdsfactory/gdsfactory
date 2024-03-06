@@ -14,7 +14,7 @@ def straight(
     length: float = 10.0,
     npoints: int = 2,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -24,7 +24,7 @@ def straight(
         length: straight length (um).
         npoints: number of points.
         cross_section: specification (CrossSection, string or dict).
-        post_process: function to post process the component.
+        post_process: optional list of functions to post process the component.
         info: additional information to add to the component.
         kwargs: additional cross_section arguments.
 
@@ -49,8 +49,8 @@ def straight(
 
     c.add_route_info(cross_section=x, length=length)
     c.absorb(ref)
-    if post_process:
-        post_process(c)
+
+    c.post_process(post_process)
     if info:
         c.info.update(info)
     return c
