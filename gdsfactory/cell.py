@@ -1,4 +1,5 @@
 """Cell decorator for functions that return a Component."""
+
 from __future__ import annotations
 
 import functools
@@ -98,7 +99,8 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
-):
+    funcname: str = "",
+) -> Callable[[_F], _F]:
     """Parametrized Decorator for Component functions.
 
     Args:
@@ -147,8 +149,38 @@ def cell(
 
     """
 
+    if func is None:
+        return partial(  # type: ignore
+            cell,
+            autoname=autoname,
+            max_name_length=max_name_length,
+            include_module=include_module,
+            with_hash=with_hash,
+            ports_offgrid=ports_offgrid,
+            ports_not_manhattan=ports_not_manhattan,
+            flatten=flatten,
+            naming_style=naming_style,
+            default_decorator=default_decorator,
+            add_settings=add_settings,
+            validate=validate,
+            get_child_name=get_child_name,
+            funcname=funcname,
+        )
+
+    assert func is not None
+    if isinstance(func, partial):
+        if not funcname:
+            raise ValueError(
+                "When calling gf.cell on a partial you need to give a `funcname` to the cell decorator."
+            )
+    _func = func
+    while isinstance(_func, partial):
+        _func = _func.func
+    funcname = _func.__name__ if not funcname else funcname
+
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
+        assert func is not None
         nonlocal ports_not_manhattan, ports_offgrid, max_name_length
         from gdsfactory.pdk import get_active_pdk
 
@@ -159,16 +191,16 @@ def cell(
 
         if name:
             warnings.warn(
-                f"name is deprecated and will be removed soon. {func.__name__}",
+                f"name is deprecated and will be removed soon. {funcname}",
                 stacklevel=2,
             )
         if prefix:
             warnings.warn(
-                f"prefix is deprecated and will be removed soon. {func.__name__}",
+                f"prefix is deprecated and will be removed soon. {funcname}",
                 stacklevel=2,
             )
 
-        prefix = prefix or func.__name__
+        prefix = prefix or funcname
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -216,7 +248,7 @@ def cell(
             named_args_string = "_".join(changed_arg_list)
 
             if include_module:
-                named_args_string += f"_{func.__module__}"
+                named_args_string += f"_{_func.__module__}"
             if changed_arg_list:
                 named_args_string = (
                     hashlib.md5(named_args_string.encode()).hexdigest()[:8]
@@ -248,15 +280,15 @@ def cell(
 
         if decorator:
             warnings.warn(
-                f"decorator is deprecated and will be removed soon. {func.__name__}",
+                f"decorator is deprecated and will be removed soon. {funcname}",
                 stacklevel=2,
             )
 
         if name in CACHE:
-            # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
+            # print(f"CACHE LOAD {name} {funcname}({named_args_string})")
             return CACHE[name]
 
-        # print(f"BUILD {name} {func.__name__}({named_args_string})")
+        # print(f"BUILD {name} {funcname}({named_args_string})")
         if not callable(func):
             raise ValueError(
                 f"{func!r} is not callable! @cell decorator is only for functions"
@@ -282,7 +314,7 @@ def cell(
 
         if not isinstance(component, Component):
             raise CellReturnTypeError(
-                f"function {func.__name__!r} return type = {type(component)}",
+                f"function {funcname!r} return type = {type(component)}",
                 "make sure that functions with @cell decorator return a Component",
             )
 
@@ -307,9 +339,9 @@ def cell(
 
         if add_settings:
             component.settings = CellSettings(**full)
-            component.function_name = func.__name__
-            component.module = func.__module__
-            component.__doc__ = func.__doc__
+            component.function_name = funcname
+            component.module = _func.__module__
+            component.__doc__ = _func.__doc__
 
         if decorator:
             if not callable(decorator):
@@ -322,25 +354,7 @@ def cell(
         CACHE_IDS.add(id(component))
         return component
 
-    return (
-        wrapper
-        if func is not None
-        else partial(
-            cell,
-            autoname=autoname,
-            max_name_length=max_name_length,
-            include_module=include_module,
-            with_hash=with_hash,
-            ports_offgrid=ports_offgrid,
-            ports_not_manhattan=ports_not_manhattan,
-            flatten=flatten,
-            naming_style=naming_style,
-            default_decorator=default_decorator,
-            add_settings=add_settings,
-            validate=validate,
-            get_child_name=get_child_name,
-        )
-    )
+    return wrapper  # type: ignore
 
 
 cell_without_validator = cell
