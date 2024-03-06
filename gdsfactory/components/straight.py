@@ -4,50 +4,51 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import Metadata, PostProcess
 
 
 @gf.cell
 def straight(
     length: float = 10.0,
     npoints: int = 2,
-    layer: gf.typings.LayerSpec | None = None,
-    width: float | None = None,
-    add_pins: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
+    post_process: PostProcess | None = None,
+    info: Metadata | None = None,
+    **kwargs,
 ) -> Component:
     """Returns a Straight waveguide.
 
     Args:
         length: straight length (um).
         npoints: number of points.
-        layer: layer to use. Defaults to cross_section.layer.
-        width: width to use. Defaults to cross_section.width.
-        add_pins: add pins to the component.
         cross_section: specification (CrossSection, string or dict).
+        post_process: function to post process the component.
+        info: additional information to add to the component.
+        kwargs: additional cross_section arguments.
 
     .. code::
 
         o1 -------------- o2
                 length
     """
-    p = gf.path.straight(length=length, npoints=npoints)
-    x = gf.get_cross_section(cross_section)
-
-    if layer or width:
-        x = x.copy(layer=layer or x.layer, width=width or x.width)
-
     c = Component()
+
+    x = gf.get_cross_section(cross_section, **kwargs)
+    p = gf.path.straight(length=length, npoints=npoints)
     path = p.extrude(x)
     ref = c << path
     c.add_ports(ref.ports)
 
-    x.add_bbox(c, right=0, left=0)
-    if add_pins:
-        x.add_pins(c)
-    c.info["length"] = length
-    c.info["width"] = x.sections[0].width
+    c.info["length"] = float(length)
+    if len(x.sections) == 0:
+        c.info["width"] = x.width
+    else:
+        c.info["width"] = x.sections[0].width
+
     c.add_route_info(cross_section=x, length=length)
     c.absorb(ref)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 
@@ -66,5 +67,9 @@ if __name__ == "__main__":
     # xs = xs.mirror()
     # c = straight(cross_section=xs)
     # gdspath = c.write_gds()
-    c = straight(length=10, cross_section="xs_sc")
+    c = straight(
+        length=10,
+        cross_section="xs_sc",
+        post_process=(gf.add_padding, gf.add_pins.add_pins),
+    )
     c.show()

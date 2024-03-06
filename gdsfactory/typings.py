@@ -135,6 +135,8 @@ ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = dict[str, ComponentFactory]
 PathType = str | pathlib.Path
 PathTypes = tuple[PathType, ...]
+Metadata = dict[str, int | float | str]
+PostProcess = tuple[Callable, ...]
 
 
 MaterialSpec = str | float | tuple[float, float] | Callable
