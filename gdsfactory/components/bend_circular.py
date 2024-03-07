@@ -15,7 +15,7 @@ def bend_circular(
     angle: float = 90.0,
     npoints: int | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -59,10 +59,8 @@ def bend_circular(
     c.add_route_info(
         cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
     )
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

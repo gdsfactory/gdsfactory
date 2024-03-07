@@ -7,7 +7,7 @@ info:
   route_info_xs_7c0f28d3_length: 10.0
   width: 1.0
 module: gdsfactory.components.straight
-name: straight_20eeedd9
+name: straight_d5f50a08
 settings:
   cross_section:
     add_pins_function_module: gdsfactory.samples.pdk.fab_c
@@ -51,7 +51,7 @@ settings:
   length: 10.0
   npoints: 2
   post_process:
-    function: add_pins
+  - function: add_pins
     module: gdsfactory.add_pins
     settings:
       function:

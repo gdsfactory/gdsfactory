@@ -35,7 +35,7 @@ def grating_coupler_dual_pol(
     taper: ComponentSpec = taper_function,
     base_layer: LayerSpec | None = "WG",
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -155,10 +155,8 @@ def grating_coupler_dual_pol(
     taper2.ymax = -y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")
 
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

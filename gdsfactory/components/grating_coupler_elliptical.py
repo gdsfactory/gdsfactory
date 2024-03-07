@@ -115,7 +115,7 @@ def grating_coupler_elliptical(
     slab_offset: float = 2.0,
     spiked: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -267,10 +267,8 @@ def grating_coupler_elliptical(
     )
 
     xs.add_bbox(c)
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

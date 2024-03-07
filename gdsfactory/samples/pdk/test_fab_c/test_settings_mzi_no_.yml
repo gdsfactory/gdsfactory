@@ -1,7 +1,7 @@
 function: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_362a18ff
+name: mzi_0f66a21c
 settings:
   add_electrical_ports_bot: true
   add_optical_ports_arms: false
@@ -48,7 +48,7 @@ settings:
         taper_length: 10.0
         width_wide: null
       post_process:
-        function: add_pins
+      - function: add_pins
         module: gdsfactory.add_pins
         settings:
           function:
@@ -101,6 +101,7 @@ settings:
   cross_section_x_top: null
   delta_length: 10.0
   extend_ports_straight_x: null
+  info: null
   length_x: 0.1
   length_y: 2.0
   mirror_bot: false
@@ -153,7 +154,7 @@ settings:
         taper_length: 10.0
         width_wide: null
       post_process:
-        function: add_pins
+      - function: add_pins
         module: gdsfactory.add_pins
         settings:
           function:
@@ -207,7 +208,7 @@ settings:
         taper_length: 10.0
         width_wide: null
       post_process:
-        function: add_pins
+      - function: add_pins
         module: gdsfactory.add_pins
         settings:
           function:

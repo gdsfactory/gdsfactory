@@ -45,7 +45,7 @@ def bezier(
     end_angle: int | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
     bend_radius_error_type: ErrorType | None = None,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     """Returns Bezier bend.
@@ -87,10 +87,8 @@ def bezier(
 
     xs.validate_radius(min_bend_radius, bend_radius_error_type)
 
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

@@ -4,6 +4,7 @@ info:
 module: gdsfactory.components.resistance_sheet
 name: resistance_sheet
 settings:
+  info: null
   layer_offsets:
   - 0
   - 0.2

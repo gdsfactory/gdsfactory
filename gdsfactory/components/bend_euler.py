@@ -22,7 +22,7 @@ def bend_euler(
     npoints: int | None = None,
     direction: str = "ccw",
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -88,10 +88,8 @@ def bend_euler(
     c.add_route_info(
         cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
     )
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 
@@ -149,7 +147,7 @@ def bend_straight_bend(
     direction: str = "ccw",
     cross_section: CrossSectionSpec = strip,
     radius: float | None = None,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -197,10 +195,8 @@ def bend_straight_bend(
     c.add_port("o2", port=b2.ports["o2"])
     c.add_port("o1", port=b1.ports["o1"])
 
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

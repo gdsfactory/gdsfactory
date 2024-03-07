@@ -6,6 +6,7 @@ module: gdsfactory.components.pad
 name: pad_array
 settings:
   columns: 6
+  info: null
   orientation: 270
   pad: pad
   post_process: null

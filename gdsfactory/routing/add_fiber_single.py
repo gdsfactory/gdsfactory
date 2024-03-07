@@ -43,7 +43,7 @@ def add_fiber_single(
     get_input_label_text_function: Callable | None = get_input_label_text_dash,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -282,10 +282,8 @@ def add_fiber_single(
             )
 
     c.copy_child_info(component_original)
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

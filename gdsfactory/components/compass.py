@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid2x
-from gdsfactory.typings import Ints, LayerSpec
+from gdsfactory.typings import Callable, Ints, LayerSpec, Metadata
 
 
 @cell
@@ -14,6 +14,8 @@ def compass(
     port_type: str | None = "electrical",
     port_inclusion: float = 0.0,
     port_orientations: Ints | None = (180, 90, 0, -90),
+    post_process: list[Callable] | None = None,
+    info: Metadata | None = None,
 ) -> Component:
     """Rectangle with ports on each edge (north, south, east, and west).
 
@@ -23,6 +25,8 @@ def compass(
         port_type: optical, electrical.
         port_inclusion: from edge.
         port_orientations: list of port_orientations to add. None add one port only.
+        post_process: optional list of functions to post process the component.
+        info: additional information to add to the component.
     """
     c = gf.Component()
     dx, dy = snap_to_grid2x(size)
@@ -87,6 +91,8 @@ def compass(
             )
 
         c.auto_rename_ports()
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

@@ -28,6 +28,7 @@ settings:
         width: 0.2
         width_function: null
   cross_section2: xs_rc
+  info: null
   length: 10
   linear: true
   npoints: 2

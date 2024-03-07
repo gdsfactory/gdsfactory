@@ -26,7 +26,7 @@ def grating_coupler_elliptical_trenches(
     p_start: int = 26,
     n_periods: int = 30,
     end_straight_length: float = 0.2,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
@@ -140,10 +140,8 @@ def grating_coupler_elliptical_trenches(
         layer=layer,
         port_type="optical",
     )
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 
