@@ -3,23 +3,16 @@ info:
   polarization: te
   wavelength: 1.554
 module: gdsfactory.components.grating_coupler_elliptical
-name: grating_coupler_elliptical_e6e61720
+name: grating_coupler_elliptical_3f6e1ae0
 settings:
   big_last_tooth: false
   cross_section:
-    add_pins_function_module: gdsfactory.samples.pdk.fab_c
-    add_pins_function_name: add_pins
-    auto_widen: false
-    auto_widen_minimum_length: 200.0
     bbox_layers:
     - - 36
       - 0
     bbox_offsets:
     - 3.0
     components_along_path: []
-    gap: 3.0
-    info: {}
-    min_length: 0.01
     radius: 10.0
     radius_min: 5.0
     sections:
@@ -40,8 +33,6 @@ settings:
       simplify: null
       width: 1.0
       width_function: null
-    taper_length: 10.0
-    width_wide: null
   fiber_angle: 15.0
   grating_line_width: 0.6
   info: null

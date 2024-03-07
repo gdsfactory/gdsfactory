@@ -1,7 +1,7 @@
 function: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_9d305977
+name: mzi_7d47be99
 settings:
   add_electrical_ports_bot: true
   add_optical_ports_arms: false
@@ -10,19 +10,12 @@ settings:
     module: gdsfactory.components.bend_euler
     settings:
       cross_section:
-        add_pins_function_module: gdsfactory.samples.pdk.fab_c
-        add_pins_function_name: add_pins
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3.0
         components_along_path: []
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -43,8 +36,6 @@ settings:
           simplify: null
           width: 0.9
           width_function: null
-        taper_length: 10.0
-        width_wide: null
       post_process:
       - function: add_pins
         module: gdsfactory.add_pins
@@ -58,19 +49,12 @@ settings:
           pin_length: 0.5
   combiner: null
   cross_section:
-    add_pins_function_module: gdsfactory.samples.pdk.fab_c
-    add_pins_function_name: add_pins
-    auto_widen: false
-    auto_widen_minimum_length: 200.0
     bbox_layers:
     - - 36
       - 0
     bbox_offsets:
     - 3.0
     components_along_path: []
-    gap: 3.0
-    info: {}
-    min_length: 0.01
     radius: 10.0
     radius_min: 5.0
     sections:
@@ -91,8 +75,6 @@ settings:
       simplify: null
       width: 0.9
       width_function: null
-    taper_length: 10.0
-    width_wide: null
   cross_section_x_bot: null
   cross_section_x_top: null
   delta_length: 10.0
@@ -100,6 +82,7 @@ settings:
   info: null
   length_x: 0.1
   length_y: 2.0
+  min_length: 0.1
   mirror_bot: false
   nbends: 2
   port_e0_combiner: o3
@@ -112,19 +95,12 @@ settings:
     module: gdsfactory.components.mmi1x2
     settings:
       cross_section:
-        add_pins_function_module: gdsfactory.samples.pdk.fab_c
-        add_pins_function_name: add_pins
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3.0
         components_along_path: []
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -145,8 +121,6 @@ settings:
           simplify: null
           width: 0.9
           width_function: null
-        taper_length: 10.0
-        width_wide: null
       post_process:
       - function: add_pins
         module: gdsfactory.add_pins
@@ -164,19 +138,12 @@ settings:
     module: gdsfactory.components.straight
     settings:
       cross_section:
-        add_pins_function_module: gdsfactory.samples.pdk.fab_c
-        add_pins_function_name: add_pins
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3.0
         components_along_path: []
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -197,8 +164,6 @@ settings:
           simplify: null
           width: 0.9
           width_function: null
-        taper_length: 10.0
-        width_wide: null
       post_process:
       - function: add_pins
         module: gdsfactory.add_pins

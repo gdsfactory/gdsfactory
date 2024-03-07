@@ -6,7 +6,6 @@ To create a component you need to extrude the path with a cross-section.
 from __future__ import annotations
 
 import hashlib
-import importlib
 import sys
 import warnings
 from collections.abc import Callable, Iterable
@@ -330,7 +329,7 @@ class CrossSection(BaseModel):
         sections = [s.model_copy(update=dict(offset=-s.offset)) for s in self.sections]
         return self.model_copy(update={"sections": tuple(sections)})
 
-    def add_pins(self, component: Component, *args, **kwargs) -> Component:
+    def add_pins(self, component: Component, **kwargs) -> Component:
         """Add pins to a target component according to :class:`CrossSection`.
         Args and kwargs are passed to the function defined by the `add_pins_function_name`.
         """
@@ -338,17 +337,7 @@ class CrossSection(BaseModel):
             "CrossSection.add_pins() is deprecated. @gf.cell(post_process=gf.add_pins) instead.",
             DeprecationWarning,
         )
-        if self.add_pins_function_name is None:
-            return component
-
-        add_pins = importlib.import_module(self.add_pins_function_module)
-        if not hasattr(add_pins, self.add_pins_function_name):
-            raise ValueError(
-                f"add_pins_function_name = {self.add_pins_function_name} not found in"
-                f"add_pins_function_module = {self.add_pins_function_module}"
-            )
-        function = getattr(add_pins, self.add_pins_function_name)
-        return function(*args, component=component, **kwargs)
+        return component
 
     def add_bbox(
         self,
@@ -461,7 +450,6 @@ def cross_section(
     cladding_simplify: Floats | None = None,
     radius: float | None = 10.0,
     radius_min: float | None = None,
-    add_pins_function_name: str | None = None,
     main_section_name: str = "_default",
     **kwargs,
 ) -> CrossSection:
@@ -483,7 +471,6 @@ def cross_section(
                 polygon by more than the value listed here will be removed.
         radius: routing bend radius (um).
         radius_min: min acceptable bend radius.
-        add_pins_function_name: name of the function to add pins to the component.
         main_section_name: name of the main section. Defaults to _default
 
 
@@ -588,7 +575,6 @@ def cross_section(
         radius_min=radius_min,
         bbox_layers=bbox_layers,
         bbox_offsets=bbox_offsets,
-        add_pins_function_name=add_pins_function_name,
         **kwargs,
     )
 
@@ -596,8 +582,8 @@ def cross_section(
 radius_nitride = 20
 radius_rib = 20
 
-strip = partial(cross_section, add_pins_function_name=None, radius=10, radius_min=5)
-strip_pins = partial(strip, add_pins_function_name="add_pins_inside2nm")
+strip = partial(cross_section, radius=10, radius_min=5)
+strip_pins = strip
 strip_auto_widen = strip
 strip_no_pins = strip
 

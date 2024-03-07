@@ -26,23 +26,16 @@ instances:
       radius_min: 7.061
       route_info_length: 16.637
       route_info_n_bend_90: 1.0
-      route_info_type: xs_f6dbb039
+      route_info_type: xs_a202615a
       route_info_weight: 16.637
-      route_info_xs_f6dbb039_length: 16.637
+      route_info_xs_a202615a_length: 16.637
       width: 0.45
     settings:
       angle: 90.0
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -61,8 +54,6 @@ instances:
           simplify: null
           width: 0.45
           width_function: null
-        taper_length: 10.0
-        width_wide: null
       direction: ccw
       info: null
       npoints: null
@@ -79,23 +70,16 @@ instances:
       radius_min: 7.061
       route_info_length: 16.637
       route_info_n_bend_90: 1.0
-      route_info_type: xs_f6dbb039
+      route_info_type: xs_a202615a
       route_info_weight: 16.637
-      route_info_xs_f6dbb039_length: 16.637
+      route_info_xs_a202615a_length: 16.637
       width: 0.45
     settings:
       angle: 90.0
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -114,8 +98,6 @@ instances:
           simplify: null
           width: 0.45
           width_function: null
-        taper_length: 10.0
-        width_wide: null
       direction: ccw
       info: null
       npoints: null
@@ -132,23 +114,16 @@ instances:
       radius_min: 7.061
       route_info_length: 16.637
       route_info_n_bend_90: 1.0
-      route_info_type: xs_58fab0c0
+      route_info_type: xs_1954d54a
       route_info_weight: 16.637
-      route_info_xs_58fab0c0_length: 16.637
+      route_info_xs_1954d54a_length: 16.637
       width: 0.55
     settings:
       angle: 90.0
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -167,8 +142,6 @@ instances:
           simplify: null
           width: 0.55
           width_function: null
-        taper_length: 10.0
-        width_wide: null
       direction: ccw
       info: null
       npoints: null
@@ -185,23 +158,16 @@ instances:
       radius_min: 7.061
       route_info_length: 16.637
       route_info_n_bend_90: 1.0
-      route_info_type: xs_58fab0c0
+      route_info_type: xs_1954d54a
       route_info_weight: 16.637
-      route_info_xs_58fab0c0_length: 16.637
+      route_info_xs_1954d54a_length: 16.637
       width: 0.55
     settings:
       angle: 90.0
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -220,8 +186,6 @@ instances:
           simplify: null
           width: 0.55
           width_function: null
-        taper_length: 10.0
-        width_wide: null
       direction: ccw
       info: null
       npoints: null
@@ -268,22 +232,15 @@ instances:
     info:
       length: 1.0
       route_info_length: 1.0
-      route_info_type: xs_58fab0c0
+      route_info_type: xs_1954d54a
       route_info_weight: 1.0
-      route_info_xs_58fab0c0_length: 1.0
+      route_info_xs_1954d54a_length: 1.0
       width: 0.55
     settings:
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -302,8 +259,6 @@ instances:
           simplify: null
           width: 0.55
           width_function: null
-        taper_length: 10.0
-        width_wide: null
       info: null
       length: 1.0
       npoints: 2
@@ -313,22 +268,15 @@ instances:
     info:
       length: 3.0
       route_info_length: 3.0
-      route_info_type: xs_58fab0c0
+      route_info_type: xs_1954d54a
       route_info_weight: 3.0
-      route_info_xs_58fab0c0_length: 3.0
+      route_info_xs_1954d54a_length: 3.0
       width: 0.55
     settings:
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -347,8 +295,6 @@ instances:
           simplify: null
           width: 0.55
           width_function: null
-        taper_length: 10.0
-        width_wide: null
       info: null
       length: 3.0
       npoints: 2
@@ -358,22 +304,15 @@ instances:
     info:
       length: 4.0
       route_info_length: 4.0
-      route_info_type: xs_58fab0c0
+      route_info_type: xs_1954d54a
       route_info_weight: 4.0
-      route_info_xs_58fab0c0_length: 4.0
+      route_info_xs_1954d54a_length: 4.0
       width: 0.55
     settings:
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -392,8 +331,6 @@ instances:
           simplify: null
           width: 0.55
           width_function: null
-        taper_length: 10.0
-        width_wide: null
       info: null
       length: 4.0
       npoints: 2
@@ -403,22 +340,15 @@ instances:
     info:
       length: 3.0
       route_info_length: 3.0
-      route_info_type: xs_58fab0c0
+      route_info_type: xs_1954d54a
       route_info_weight: 3.0
-      route_info_xs_58fab0c0_length: 3.0
+      route_info_xs_1954d54a_length: 3.0
       width: 0.55
     settings:
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -437,8 +367,6 @@ instances:
           simplify: null
           width: 0.55
           width_function: null
-        taper_length: 10.0
-        width_wide: null
       info: null
       length: 3.0
       npoints: 2
@@ -448,22 +376,15 @@ instances:
     info:
       length: 1.0
       route_info_length: 1.0
-      route_info_type: xs_f6dbb039
+      route_info_type: xs_a202615a
       route_info_weight: 1.0
-      route_info_xs_f6dbb039_length: 1.0
+      route_info_xs_a202615a_length: 1.0
       width: 0.45
     settings:
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -482,8 +403,6 @@ instances:
           simplify: null
           width: 0.45
           width_function: null
-        taper_length: 10.0
-        width_wide: null
       info: null
       length: 1.0
       npoints: 2
