@@ -72,6 +72,7 @@ def cell(
     validate: bool = False,
     get_child_name: bool = False,
     post_process: Sequence[Callable] | None = None,
+    info: dict[str, int | float | str] | None = None,
 ) -> Callable[[_F], _F]:
     """Parametrized Decorator for Component functions.
 
@@ -90,6 +91,7 @@ def cell(
         validate: validate the function call. Does not work with annotations that have None | Callable.
         get_child_name: Use child name as component name prefix.
         post_process: list of post processing functions to apply to the component.
+        info: dictionary with metadata to add to the component.
 
     Implements a cache so that if a component has already been build it returns the component from the cache directly.
     This avoids creating two exact Components that have the same name.
@@ -121,6 +123,11 @@ def cell(
         mzi_with_bend_decorated = gf.cell(mzi_with_bend)
 
     """
+    if default_decorator is not None:
+        warnings.warn(
+            "default_decorator is deprecated and will be removed soon. Use post_process instead.",
+            stacklevel=2,
+        )
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
@@ -289,6 +296,9 @@ def cell(
         for post in post_process or []:
             component = post(component)
 
+        info = info or {}  # noqa
+        component.info.update(**info)
+
         if decorator:
             if not callable(decorator):
                 raise ValueError(f"decorator = {type(decorator)} needs to be callable")
@@ -318,6 +328,7 @@ def cell(
             validate=validate,
             get_child_name=get_child_name,
             post_process=post_process,
+            info=info,
         )
     )
 
