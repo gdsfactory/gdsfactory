@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.18.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.18.0) - 2024-03-06
+
+No significant changes.
+
+
 ## [7.17.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.17.0) - 2024-03-05
 
 - Add info to pcells [#2585](https://github.com/gdsfactory/gdsfactory/pull/2585)
