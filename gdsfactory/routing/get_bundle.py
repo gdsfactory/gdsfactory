@@ -51,7 +51,7 @@ from gdsfactory.typings import (
 def get_bundle(
     ports1: list[Port],
     ports2: list[Port],
-    separation: float | None = None,
+    separation: float = 3.0,
     extension_length: float = 0.0,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
@@ -146,16 +146,6 @@ def get_bundle(
         c.plot()
 
     """
-    if separation is None:
-        if cross_section:
-            xs = (
-                gf.get_cross_section(cross_section[0])
-                if isinstance(cross_section, list | tuple)
-                else gf.get_cross_section(cross_section)
-            )
-            separation = xs.width + xs.gap
-        else:
-            separation = gf.get_component(straight).ysize * 2
 
     if isinstance(cross_section, list | tuple):
         xs_list = []
