@@ -69,7 +69,7 @@ def rectangle(
         cb.y = ref.ymin
         ct.y = ref.ymax
 
-    c.info["area"] = xsize * ysize
+    c.info["area"] = float(xsize * ysize)
     return c
 
 
