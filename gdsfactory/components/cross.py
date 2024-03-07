@@ -12,7 +12,7 @@ def cross(
     layer: LayerSpec = "WG",
     layers: LayerSpecs | None = None,
     port_type: str | None = None,
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     """Returns a cross from two rectangles of length and width.

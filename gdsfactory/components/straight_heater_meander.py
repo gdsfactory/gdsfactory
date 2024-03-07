@@ -37,7 +37,7 @@ def straight_heater_meander(
     straight: ComponentFactory = straight,
     bend: ComponentFactory = bend_euler,
     taper: ComponentFactory = taper_cross_section_linear,
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     """Returns a meander based heater.

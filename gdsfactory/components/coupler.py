@@ -20,7 +20,7 @@ def coupler(
     dy: float = 4.0,
     dx: float = 10.0,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     r"""Symmetric coupler.

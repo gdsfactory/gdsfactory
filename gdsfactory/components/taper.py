@@ -20,7 +20,7 @@ def taper(
     cross_section: CrossSectionSpec = "xs_sc",
     port_order_name: tuple | None = ("o1", "o2"),
     port_order_types: tuple | None = ("optical", "optical"),
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -132,7 +132,7 @@ def taper_strip_to_ridge(
     layer_wg: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB90",
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -215,7 +215,7 @@ def taper_strip_to_ridge_trenches(
     trench_layer: LayerSpec = "DEEP_ETCH",
     layer_wg: LayerSpec = "WG",
     trench_offset: float = 0.1,
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> gf.Component:
     """Defines taper using trenches to define the etch.

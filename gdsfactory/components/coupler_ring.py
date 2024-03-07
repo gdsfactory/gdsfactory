@@ -28,7 +28,7 @@ def coupler_ring(
     cross_section: CrossSectionSpec = "xs_sc",
     cross_section_bend: CrossSectionSpec | None = None,
     length_extension: float = 3,
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     r"""Coupler for ring.

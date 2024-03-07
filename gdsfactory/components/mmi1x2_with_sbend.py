@@ -23,7 +23,7 @@ def mmi1x2_with_sbend(
     with_sbend: bool = True,
     s_bend: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     """Returns 1x2 splitter for Cband.

@@ -17,7 +17,7 @@ wire_straight = partial(straight, cross_section="xs_metal_routing")
 @gf.cell
 def wire_corner(
     cross_section: CrossSectionSpec = "xs_metal_routing",
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:

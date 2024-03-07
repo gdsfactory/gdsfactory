@@ -44,7 +44,7 @@ def bbox(
     bottom: float = 0,
     left: float = 0,
     right: float = 0,
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> gf.Component:
     """Returns bounding box rectangle from coordinates.

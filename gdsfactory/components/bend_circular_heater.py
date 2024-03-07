@@ -17,7 +17,7 @@ def bend_circular_heater(
     heater_width: float = 0.5,
     layer_heater: LayerSpec = "HEATER",
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     """Creates an arc of arclength `theta` starting at angle `start_angle`.

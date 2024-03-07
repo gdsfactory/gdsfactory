@@ -733,7 +733,7 @@ def extrude(
     snap_to_grid: bool = False,
     add_pins: bool = False,
     add_bbox: bool = True,
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
@@ -1005,7 +1005,7 @@ def extrude_transition(
     transition: Transition,
     shear_angle_start: float | None = None,
     shear_angle_end: float | None = None,
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     """Extrudes a path along a transition.
