@@ -5,7 +5,7 @@ import functools
 import hashlib
 import inspect
 import warnings
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from functools import partial
 from typing import TypeVar, overload
 
@@ -98,6 +98,7 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
+    post_process: Sequence[Callable] | None = None,
 ):
     """Parametrized Decorator for Component functions.
 
@@ -115,6 +116,7 @@ def cell(
         add_settings: True by default. Adds settings to the component.
         validate: validate the function call. Does not work with annotations that have None | Callable.
         get_child_name: Use child name as component name prefix.
+        post_process: list of post processing functions to apply to the component.
 
     Implements a cache so that if a component has already been build it returns the component from the cache directly.
     This avoids creating two exact Components that have the same name.
@@ -320,6 +322,8 @@ def cell(
 
         component._locked = True
         CACHE_IDS.add(id(component))
+        for post in post_process or []:
+            component = post(component)
         return component
 
     return (
@@ -339,6 +343,7 @@ def cell(
             add_settings=add_settings,
             validate=validate,
             get_child_name=get_child_name,
+            post_process=post_process,
         )
     )
 
