@@ -295,6 +295,16 @@ class Component(_GeometryHelper):
     def name(self, name) -> None:
         self.rename(name)
 
+    def post_process(self, post_process: list[Callable] | None = None) -> None:
+        """Post process the component in place.
+
+        Args:
+            post_process: optional list of functions to post process the component.
+        """
+        if post_process:
+            for f in post_process:
+                f(self)
+
     def rename(self, name: str, cache: bool = True, max_name_length: int | None = None):
         from gdsfactory.cell import CACHE, remove_from_cache
 

@@ -4,6 +4,7 @@ module: gdsfactory.components.mmi2x2_with_sbend
 name: mmi2x2_with_sbend
 settings:
   cross_section: xs_sc
+  info: null
   post_process: null
   s_bend:
     function: bend_s

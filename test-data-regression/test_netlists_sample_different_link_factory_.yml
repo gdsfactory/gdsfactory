@@ -694,6 +694,7 @@ instances:
     settings:
       bbox_layers: null
       bbox_offsets: null
+      info: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: null
@@ -715,6 +716,7 @@ instances:
     settings:
       bbox_layers: null
       bbox_offsets: null
+      info: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: null
@@ -1206,6 +1208,7 @@ instances:
     settings:
       bbox_layers: null
       bbox_offsets: null
+      info: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: null
@@ -1227,6 +1230,7 @@ instances:
     settings:
       bbox_layers: null
       bbox_offsets: null
+      info: null
       layer: MTOP
       port_inclusion: 0
       port_orientation: null

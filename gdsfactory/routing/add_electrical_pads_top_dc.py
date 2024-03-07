@@ -9,7 +9,7 @@ from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_bundle import get_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.typings import ComponentSpec, Float2, Strs
+from gdsfactory.typings import ComponentSpec, Float2, Metadata, Strs
 
 _wire_long = partial(wire_straight, length=200.0)
 
@@ -22,7 +22,8 @@ def add_electrical_pads_top_dc(
     select_ports: Callable = select_ports_electrical,
     get_bundle_function: Callable = get_bundle_electrical,
     port_names: Strs | None = None,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.
@@ -34,6 +35,8 @@ def add_electrical_pads_top_dc(
         select_ports: function to select_ports.
         get_bundle_function: function to route bundle of ports.
         port_names: optional port names. Overrides select_ports.
+        post_process: optional list of functions to post process the component.
+        info: additional information to add to the component.
         kwargs: route settings.
 
     .. plot::
@@ -88,8 +91,8 @@ def add_electrical_pads_top_dc(
     for i, port_pad in enumerate(ports_pads):
         c.add_port(port=port_pad, name=f"elec-{component.name}-{i}")
     c.copy_child_info(component)
-    if post_process:
-        post_process(c)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

@@ -31,7 +31,7 @@ def grating_coupler_rectangular(
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -153,10 +153,8 @@ def grating_coupler_rectangular(
         width=width_grating,
         layer=layer,
     )
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

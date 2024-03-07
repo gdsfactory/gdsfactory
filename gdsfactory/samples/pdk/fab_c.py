@@ -71,28 +71,31 @@ xs_no = strip_no()
 
 # LEAF COMPONENTS have pins
 bend_euler_nc = partial(
-    gf.components.bend_euler, cross_section=xs_nc, post_process=add_pins
+    gf.components.bend_euler, cross_section=xs_nc, post_process=[add_pins]
 )
 straight_nc = partial(
-    gf.components.straight, cross_section=xs_nc, post_process=add_pins
+    gf.components.straight, cross_section=xs_nc, post_process=[add_pins]
 )
 bend_euler_o = partial(
-    gf.components.bend_euler, cross_section=xs_no, post_process=add_pins
+    gf.components.bend_euler, cross_section=xs_no, post_process=[add_pins]
 )
-straight_o = partial(gf.components.straight, cross_section=xs_no, post_process=add_pins)
+straight_o = partial(
+    gf.components.straight, cross_section=xs_no, post_process=[add_pins]
+)
+
 
 mmi1x2_nc = partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_CBAND,
     width_mmi=3,
     cross_section=xs_nc,
-    post_process=add_pins,
+    post_process=[add_pins],
 )
 mmi1x2_no = partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_OBAND,
     cross_section=xs_no,
-    post_process=add_pins,
+    post_process=[add_pins],
 )
 
 gc_nc = partial(
@@ -100,7 +103,7 @@ gc_nc = partial(
     grating_line_width=0.6,
     layer_slab=None,
     cross_section=xs_nc,
-    post_process=add_pins,
+    post_process=[add_pins],
 )
 
 # HIERARCHICAL COMPONENTS made of leaf components

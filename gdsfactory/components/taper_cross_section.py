@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip_rib_tip
-from gdsfactory.typings import Callable, CrossSectionSpec
+from gdsfactory.typings import Callable, CrossSectionSpec, Metadata
 
 
 @cell
@@ -18,7 +18,8 @@ def taper_cross_section(
     npoints: int = 100,
     linear: bool = False,
     width_type: str = "sine",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
+    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""Returns taper transition between cross_section1 and cross_section2.
@@ -30,6 +31,8 @@ def taper_cross_section(
         npoints: number of points.
         linear: shape of the transition, sine when False.
         width_type: shape of the transition ONLY IF linear is False.
+        post_process: optional list of functions to post process the component.
+        info: additional information to add to the component.
         kwargs: cross_section settings for both cross_sections.
 
 
@@ -75,8 +78,8 @@ def taper_cross_section(
     if "type" in x1.info and x1.info["type"] == x2.info.get("type"):
         c.add_route_info(cross_section=x1, length=length, taper=True)
 
-    if post_process:
-        post_process(c)
+    c.post_process(post_process)
+    c.info.update(info or {})
 
     c.info["length"] = length
     return c

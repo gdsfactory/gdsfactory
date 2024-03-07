@@ -15,6 +15,7 @@ settings:
   extension_length: 15.0
   heater_taper_length: 10.0
   heater_width: 2.5
+  info: null
   layer_heater: HEATER
   length: 300.0
   n: null

@@ -3,6 +3,7 @@ info: {}
 module: gdsfactory.components.triangles
 name: triangle
 settings:
+  info: null
   layer: WG
   layers: null
   post_process: null

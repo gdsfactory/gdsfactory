@@ -21,7 +21,7 @@ def add_fiber_array_optical_south_electrical_north(
     pad_assigments: tuple[tuple[str, str], ...] | None = None,
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     xs_metal: CrossSectionSpec = "xs_metal_routing",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> gf.Component:
@@ -151,10 +151,8 @@ def add_fiber_array_optical_south_electrical_north(
     c.add_ports(pad_ports)
     c.copy_child_info(component)
 
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

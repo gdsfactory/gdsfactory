@@ -34,7 +34,7 @@ def grating_coupler_rectangular_arbitrary(
     slab_offset: float = 1.0,
     fiber_angle: float | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -174,10 +174,8 @@ def grating_coupler_rectangular_arbitrary(
     if fiber_angle is not None:
         c.info["fiber_angle"] = fiber_angle
 
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

@@ -21,7 +21,7 @@ def mmi(
     cross_section: CrossSectionSpec = "xs_sc",
     input_positions: list[float] | None = None,
     output_positions: list[float] | None = None,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     r"""mxn MultiMode Interferometer (MMI).
@@ -136,10 +136,8 @@ def mmi(
 
     x.add_bbox(c)
     c.auto_rename_ports()
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

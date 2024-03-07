@@ -16,7 +16,7 @@ def mmi1x2(
     gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -117,10 +117,8 @@ def mmi1x2(
         c.absorb(taper_ref)
 
     x.add_bbox(c)
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 

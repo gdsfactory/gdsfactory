@@ -35,7 +35,7 @@ def add_pads_bot(
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
     with_loopback: bool = False,
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:

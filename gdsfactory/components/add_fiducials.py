@@ -17,7 +17,7 @@ def add_fiducials(
     top: ComponentSpec | None = None,
     bottom: ComponentSpec | None = None,
     offset: Float2 = (0, 0),
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:
@@ -66,10 +66,8 @@ def add_fiducials(
         c.add_ports(y2.ports, prefix="b")
 
     c.add_ports(r.ports)
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     c.copy_child_info(component)
     return c
 

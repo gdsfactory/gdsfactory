@@ -20,7 +20,7 @@ def coupler(
     dy: float = 4.0,
     dx: float = 10.0,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
+    post_process: list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     r"""Symmetric coupler.
@@ -76,10 +76,8 @@ def coupler(
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     c.auto_rename_ports()
 
-    if post_process:
-        post_process(c)
-    if info:
-        c.info.update(info)
+    c.post_process(post_process)
+    c.info.update(info or {})
     return c
 
 
