@@ -70,6 +70,10 @@ def get_route(
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
     min_straight_length: float | None = None,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     **kwargs,
 ) -> Route:
@@ -114,12 +118,6 @@ def get_route(
             xs_list.append((xs, angles))
         cross_section = xs_list
 
-    elif cross_section:
-        x = cross_section = gf.get_cross_section(cross_section, **kwargs)
-
-    else:
-        x = cross_section = None
-
     if cross_section:
         bend90 = (
             bend
@@ -133,10 +131,10 @@ def get_route(
             raise ValueError(
                 "Tapers not implemented for routes made from multiple cross_sections."
             )
-        taper_length = x.taper_length
+        taper_length = taper_length
         width1 = input_port.width
-        auto_widen = x.auto_widen
-        width2 = x.width_wide if auto_widen else width1
+        auto_widen = auto_widen
+        width2 = width_wide if auto_widen else width1
 
         taper = gf.get_component(
             taper,
@@ -160,6 +158,8 @@ def get_route(
         bend=bend90,
         with_sbend=with_sbend,
         cross_section=cross_section,
+        auto_widen=auto_widen,
+        auto_widen_minimum_length=auto_widen_minimum_length,
     )
 
 
@@ -190,6 +190,9 @@ def get_route_from_waypoints(
     straight: Callable = straight_function,
     taper: Callable | None = taper_function,
     cross_section: CrossSectionSpec | None = "xs_sc",
+    auto_widen: bool = False,
+    width_wide: float = 2,
+    taper_length: float = 10,
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints with bends instead of \
@@ -265,10 +268,10 @@ def get_route_from_waypoints(
         taper = None
     elif cross_section and taper:
         x = gf.get_cross_section(cross_section, **kwargs)
-        auto_widen = x.auto_widen
+        auto_widen = auto_widen
         width1 = x.width
-        width2 = x.width_wide if auto_widen else width1
-        taper_length = x.taper_length
+        width2 = width_wide if auto_widen else width1
+        taper_length = taper_length
         if auto_widen:
             taper = (
                 taper(

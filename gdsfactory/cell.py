@@ -138,6 +138,7 @@ def cell(
 
         name = _name = kwargs.pop("name", None)
         prefix = kwargs.pop("prefix", None)
+        metadata = info or {}  # noqa
 
         if name:
             warnings.warn(
@@ -296,8 +297,7 @@ def cell(
         for post in post_process or []:
             component = post(component)
 
-        info = info or {}  # noqa
-        component.info.update(**info)
+        component.info.update(metadata)
 
         if decorator:
             if not callable(decorator):

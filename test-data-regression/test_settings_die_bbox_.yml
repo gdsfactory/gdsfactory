@@ -1,6 +1,6 @@
 function: die_bbox
 info:
-  area: 3380000
+  area: 3380000.0
 module: gdsfactory.components.die_bbox
 name: rectangle_die_bbox
 settings:
