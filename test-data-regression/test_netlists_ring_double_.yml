@@ -22,7 +22,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -44,7 +43,6 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       cross_section_bend: null
@@ -72,7 +70,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -94,7 +91,6 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       cross_section_bend: null
@@ -122,7 +118,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -144,7 +139,6 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       info: null
@@ -169,7 +163,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -191,7 +184,6 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       info: null

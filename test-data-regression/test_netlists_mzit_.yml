@@ -26,9 +26,9 @@ instances:
       radius_min: 7.061
       route_info_length: 16.637
       route_info_n_bend_90: 1.0
-      route_info_type: xs_7eb5a512
+      route_info_type: xs_f6dbb039
       route_info_weight: 16.637
-      route_info_xs_7eb5a512_length: 16.637
+      route_info_xs_f6dbb039_length: 16.637
       width: 0.45
     settings:
       angle: 90.0
@@ -40,7 +40,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -62,7 +61,6 @@ instances:
           simplify: null
           width: 0.45
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       direction: ccw
@@ -81,9 +79,9 @@ instances:
       radius_min: 7.061
       route_info_length: 16.637
       route_info_n_bend_90: 1.0
-      route_info_type: xs_7eb5a512
+      route_info_type: xs_f6dbb039
       route_info_weight: 16.637
-      route_info_xs_7eb5a512_length: 16.637
+      route_info_xs_f6dbb039_length: 16.637
       width: 0.45
     settings:
       angle: 90.0
@@ -95,7 +93,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -117,7 +114,6 @@ instances:
           simplify: null
           width: 0.45
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       direction: ccw
@@ -136,9 +132,9 @@ instances:
       radius_min: 7.061
       route_info_length: 16.637
       route_info_n_bend_90: 1.0
-      route_info_type: xs_5aa9fe91
+      route_info_type: xs_58fab0c0
       route_info_weight: 16.637
-      route_info_xs_5aa9fe91_length: 16.637
+      route_info_xs_58fab0c0_length: 16.637
       width: 0.55
     settings:
       angle: 90.0
@@ -150,7 +146,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -172,7 +167,6 @@ instances:
           simplify: null
           width: 0.55
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       direction: ccw
@@ -191,9 +185,9 @@ instances:
       radius_min: 7.061
       route_info_length: 16.637
       route_info_n_bend_90: 1.0
-      route_info_type: xs_5aa9fe91
+      route_info_type: xs_58fab0c0
       route_info_weight: 16.637
-      route_info_xs_5aa9fe91_length: 16.637
+      route_info_xs_58fab0c0_length: 16.637
       width: 0.55
     settings:
       angle: 90.0
@@ -205,7 +199,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -227,7 +220,6 @@ instances:
           simplify: null
           width: 0.55
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       direction: ccw
@@ -276,9 +268,9 @@ instances:
     info:
       length: 1.0
       route_info_length: 1.0
-      route_info_type: xs_5aa9fe91
+      route_info_type: xs_58fab0c0
       route_info_weight: 1.0
-      route_info_xs_5aa9fe91_length: 1.0
+      route_info_xs_58fab0c0_length: 1.0
       width: 0.55
     settings:
       cross_section:
@@ -289,7 +281,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -311,7 +302,6 @@ instances:
           simplify: null
           width: 0.55
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       info: null
@@ -323,9 +313,9 @@ instances:
     info:
       length: 3.0
       route_info_length: 3.0
-      route_info_type: xs_5aa9fe91
+      route_info_type: xs_58fab0c0
       route_info_weight: 3.0
-      route_info_xs_5aa9fe91_length: 3.0
+      route_info_xs_58fab0c0_length: 3.0
       width: 0.55
     settings:
       cross_section:
@@ -336,7 +326,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -358,7 +347,6 @@ instances:
           simplify: null
           width: 0.55
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       info: null
@@ -370,9 +358,9 @@ instances:
     info:
       length: 4.0
       route_info_length: 4.0
-      route_info_type: xs_5aa9fe91
+      route_info_type: xs_58fab0c0
       route_info_weight: 4.0
-      route_info_xs_5aa9fe91_length: 4.0
+      route_info_xs_58fab0c0_length: 4.0
       width: 0.55
     settings:
       cross_section:
@@ -383,7 +371,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -405,7 +392,6 @@ instances:
           simplify: null
           width: 0.55
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       info: null
@@ -417,9 +403,9 @@ instances:
     info:
       length: 3.0
       route_info_length: 3.0
-      route_info_type: xs_5aa9fe91
+      route_info_type: xs_58fab0c0
       route_info_weight: 3.0
-      route_info_xs_5aa9fe91_length: 3.0
+      route_info_xs_58fab0c0_length: 3.0
       width: 0.55
     settings:
       cross_section:
@@ -430,7 +416,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -452,7 +437,6 @@ instances:
           simplify: null
           width: 0.55
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       info: null
@@ -464,9 +448,9 @@ instances:
     info:
       length: 1.0
       route_info_length: 1.0
-      route_info_type: xs_7eb5a512
+      route_info_type: xs_f6dbb039
       route_info_weight: 1.0
-      route_info_xs_7eb5a512_length: 1.0
+      route_info_xs_f6dbb039_length: 1.0
       width: 0.45
     settings:
       cross_section:
@@ -477,7 +461,6 @@ instances:
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -499,7 +482,6 @@ instances:
           simplify: null
           width: 0.45
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       info: null

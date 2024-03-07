@@ -3,7 +3,7 @@ info:
   polarization: te
   wavelength: 1.554
 module: gdsfactory.components.grating_coupler_elliptical
-name: grating_coupler_elliptical_2a165403
+name: grating_coupler_elliptical_e6e61720
 settings:
   big_last_tooth: false
   cross_section:
@@ -17,7 +17,6 @@ settings:
     bbox_offsets:
     - 3.0
     components_along_path: []
-    end_straight_length: 0.01
     gap: 3.0
     info: {}
     min_length: 0.01
@@ -41,7 +40,6 @@ settings:
       simplify: null
       width: 1.0
       width_function: null
-    start_straight_length: 0.01
     taper_length: 10.0
     width_wide: null
   fiber_angle: 15.0

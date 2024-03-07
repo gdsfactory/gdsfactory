@@ -256,6 +256,8 @@ def get_route_from_waypoints(
         x = cross_section = xs_list
 
     elif cross_section:
+        kwargs.pop("start_straight_length", None)
+        kwargs.pop("end_straight_length", None)
         cross_section = gf.get_cross_section(cross_section)
         x = cross_section = cross_section.copy(**kwargs)
 

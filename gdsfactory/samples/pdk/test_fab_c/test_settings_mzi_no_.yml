@@ -1,7 +1,7 @@
 function: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_0f66a21c
+name: mzi_9d305977
 settings:
   add_electrical_ports_bot: true
   add_optical_ports_arms: false
@@ -20,7 +20,6 @@ settings:
         bbox_offsets:
         - 3.0
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -44,7 +43,6 @@ settings:
           simplify: null
           width: 0.9
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       post_process:
@@ -70,7 +68,6 @@ settings:
     bbox_offsets:
     - 3.0
     components_along_path: []
-    end_straight_length: 0.01
     gap: 3.0
     info: {}
     min_length: 0.01
@@ -94,7 +91,6 @@ settings:
       simplify: null
       width: 0.9
       width_function: null
-    start_straight_length: 0.01
     taper_length: 10.0
     width_wide: null
   cross_section_x_bot: null
@@ -126,7 +122,6 @@ settings:
         bbox_offsets:
         - 3.0
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -150,7 +145,6 @@ settings:
           simplify: null
           width: 0.9
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       post_process:
@@ -180,7 +174,6 @@ settings:
         bbox_offsets:
         - 3.0
         components_along_path: []
-        end_straight_length: 0.01
         gap: 3.0
         info: {}
         min_length: 0.01
@@ -204,7 +197,6 @@ settings:
           simplify: null
           width: 0.9
           width_function: null
-        start_straight_length: 0.01
         taper_length: 10.0
         width_wide: null
       post_process:

@@ -137,8 +137,6 @@ class CrossSection(BaseModel):
                 None by default does not add pins.
         add_pins_function_module: function to add pins to the component.
         min_length: defaults to 1nm = 10e-3um for routing.
-        start_straight_length: straight length at the beginning of the route.
-        end_straight_length: end length at the beginning of the route.
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
@@ -187,8 +185,6 @@ class CrossSection(BaseModel):
     add_pins_function_module: str = "gdsfactory.add_pins"
 
     min_length: float = 10e-3
-    start_straight_length: float = 10e-3
-    end_straight_length: float = 10e-3
     width_wide: float | None = None
     auto_widen: bool = False
     auto_widen_minimum_length: float = 200.0
@@ -466,8 +462,6 @@ def cross_section(
         info: dictionary with extra information.
         add_pins_function_module: name of the module to add pins to the component.
         min_length: defaults to 1nm = 10e-3um for routing.
-        start_straight_length: straight length at the beginning of the route.
-        end_straight_length: end length at the beginning of the route.
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.

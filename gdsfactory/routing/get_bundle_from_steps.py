@@ -143,6 +143,8 @@ def get_bundle_from_steps(
     waypoints = np.array(waypoints)
 
     if not isinstance(cross_section, list):
+        kwargs.pop("end_straight_length", None)
+        kwargs.pop("start_straight_length", None)
         x = gf.get_cross_section(cross_section)
         cross_section = x.copy(**kwargs)
         auto_widen = x.auto_widen

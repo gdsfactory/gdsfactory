@@ -1,7 +1,7 @@
 function: mmi1x2
 info: {}
 module: gdsfactory.components.mmi1x2
-name: mmi1x2_d0975a5c
+name: mmi1x2_868a5683
 settings:
   cross_section:
     add_pins_function_module: gdsfactory.samples.pdk.fab_c
@@ -14,7 +14,6 @@ settings:
     bbox_offsets:
     - 3.0
     components_along_path: []
-    end_straight_length: 0.01
     gap: 3.0
     info: {}
     min_length: 0.01
@@ -38,7 +37,6 @@ settings:
       simplify: null
       width: 0.9
       width_function: null
-    start_straight_length: 0.01
     taper_length: 10.0
     width_wide: null
   gap_mmi: 0.25

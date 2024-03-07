@@ -2,9 +2,9 @@ function: extend_ports
 info:
   length: 10.0
   route_info_length: 10.0
-  route_info_type: xs_f1ca4cff
+  route_info_type: xs_7cf122d5
   route_info_weight: 10.0
-  route_info_xs_f1ca4cff_length: 10.0
+  route_info_xs_7cf122d5_length: 10.0
   width: 0.5
 module: gdsfactory.components.extension
 name: straight_extend_ports_ef48795a
