@@ -612,6 +612,11 @@ def round_corners(
     on_route_error: Callable = get_route_error,
     with_point_markers: bool = False,
     with_sbend: bool = False,
+    width_wide: float | None = None,
+    min_length: float = 0.01,
+    taper_length: float = 10.0,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 200,
     **kwargs,
 ) -> Route:
     """Returns Route.
@@ -659,23 +664,7 @@ def round_corners(
         layer = list(bend90.ports.values())[0].layer
 
     if cross_section:
-        auto_widen = (
-            [_x.auto_widen for _x in x] if isinstance(x, list) else x.auto_widen
-        )
-        auto_widen_minimum_length = (
-            [_x.auto_widen_minimum_length for _x in x]
-            if isinstance(x, list)
-            else x.auto_widen_minimum_length
-        )
-
-        taper_length = (
-            [_x.taper_length for _x in x] if isinstance(x, list) else x.taper_length
-        )
-
         width = [_x.width for _x in x] if isinstance(x, list) else x.width
-        width_wide = (
-            [_x.width_wide for _x in x] if isinstance(x, list) else x.width_wide
-        )
 
         if isinstance(cross_section, list):
             taper = None
@@ -683,7 +672,7 @@ def round_corners(
             taper = taper_function(
                 cross_section=cross_section,
                 width1=width,
-                width2=width_wide,
+                width2=width_wide or x.width,
                 length=taper_length,
             )
         elif not isinstance(taper, Component):
@@ -967,6 +956,7 @@ def generate_manhattan_waypoints(
     min_straight_length: float | None = None,
     bend: ComponentSpec = bend_euler,
     cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
+    min_length: float = 0.0,
     **kwargs,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports.
@@ -997,15 +987,15 @@ def generate_manhattan_waypoints(
     if isinstance(cross_section, tuple | list):
         x = [gf.get_cross_section(xsection[0]) for xsection in cross_section]
         x = [xs.copy(**kwargs) for xs in x]
-        start_straight_length = start_straight_length or min(_x.min_length for _x in x)
-        end_straight_length = end_straight_length or min(_x.min_length for _x in x)
-        min_straight_length = min_straight_length or min(_x.min_length for _x in x)
+        start_straight_length = start_straight_length or min(min_length for _x in x)
+        end_straight_length = end_straight_length or min(min_length for _x in x)
+        min_straight_length = min_straight_length or min(min_length for _x in x)
     elif cross_section:
         x = gf.get_cross_section(cross_section)
         x = x.copy(**kwargs)
-        start_straight_length = start_straight_length or x.min_length
-        end_straight_length = end_straight_length or x.min_length
-        min_straight_length = min_straight_length or x.min_length
+        start_straight_length = start_straight_length or min_length
+        end_straight_length = end_straight_length or min_length
+        min_straight_length = min_straight_length or min_length
     else:
         start_straight_length = default_straight_length
         end_straight_length = default_straight_length
@@ -1043,6 +1033,10 @@ def route_manhattan(
     cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     with_point_markers: bool = False,
     on_route_error: Callable = get_route_error,
+    min_length: float = 0.01,
+    width_wide: float | None = None,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 200.0,
     **kwargs,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
@@ -1062,20 +1056,24 @@ def route_manhattan(
         with_sbend: add sbend in case there are routing errors.
         cross_section: spec.
         with_point_markers: add point markers in the route.
+        on_route_error: function to run when route fails.
+        min_length: in um.
+        width_wide: in um.
+        auto_widen: auto widen.
         kwargs: cross_section settings.
 
     """
     if isinstance(cross_section, tuple | list):
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
-        start_straight_length = start_straight_length or min(_x.min_length for _x in x)
-        end_straight_length = end_straight_length or min(_x.min_length for _x in x)
-        min_straight_length = min_straight_length or min(_x.min_length for _x in x)
+        start_straight_length = start_straight_length or min(min_length for _x in x)
+        end_straight_length = end_straight_length or min(min_length for _x in x)
+        min_straight_length = min_straight_length or min(min_length for _x in x)
         x = cross_section
     elif cross_section:
         x = gf.get_cross_section(cross_section, **kwargs)
-        start_straight_length = start_straight_length or x.min_length
-        end_straight_length = end_straight_length or x.min_length
-        min_straight_length = min_straight_length or x.min_length
+        start_straight_length = start_straight_length or min_length
+        end_straight_length = end_straight_length or min_length
+        min_straight_length = min_straight_length or min_length
     else:
         start_straight_length = default_straight_length
         end_straight_length = default_straight_length
@@ -1101,6 +1099,10 @@ def route_manhattan(
             with_point_markers=with_point_markers,
             with_sbend=with_sbend,
             on_route_error=on_route_error,
+            min_length=min_length,
+            width_wide=width_wide,
+            auto_widen=auto_widen,
+            auto_widen_minimum_length=auto_widen_minimum_length,
         )
 
     except RouteError:
@@ -1124,6 +1126,9 @@ if __name__ == "__main__":
         pb.ports["o2"],
         pt.ports["o1"],
         cross_section="xs_sc_auto_widen",
+        auto_widen=True,
+        auto_widen_minimum_length=50,
+        width_wide=2,
     )
     c.add(route.references)
     c.show(show_ports=True)

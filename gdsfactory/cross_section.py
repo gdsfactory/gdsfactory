@@ -40,6 +40,37 @@ cladding_offsets_optical = None
 cladding_simplify_optical = None
 
 
+deprecated = {
+    "info",
+    "add_pins_function_name",
+    "add_pins_function_module",
+    "min_length",
+    "width_wide",
+    "auto_widen",
+    "auto_widen_minimum_length",
+    "start_straight_length",
+    "taper_length",
+    "end_straight_length",
+    "gap",
+}
+
+deprecated_pins = {
+    "add_pins_function_name",
+    "add_pins_function_module",
+}
+
+deprecated_routing = {
+    "min_length",
+    "width_wide",
+    "auto_widen",
+    "auto_widen_minimum_length",
+    "start_straight_length",
+    "taper_length",
+    "end_straight_length",
+    "gap",
+}
+
+
 class Section(BaseModel):
     """CrossSection to extrude a path with a waveguide.
 
@@ -180,18 +211,7 @@ class CrossSection(BaseModel):
     bbox_layers: LayerSpecs | None = None
     bbox_offsets: Floats | None = None
 
-    info: dict[str, Any] = Field(default_factory=dict)
-    add_pins_function_name: str | None = None
-    add_pins_function_module: str = "gdsfactory.add_pins"
-
-    min_length: float = 10e-3
-    width_wide: float | None = None
-    auto_widen: bool = False
-    auto_widen_minimum_length: float = 200.0
-    taper_length: float = 10.0
-    gap: float = 3.0
-
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    model_config = ConfigDict(extra="ignore", frozen=True)
 
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
@@ -314,6 +334,10 @@ class CrossSection(BaseModel):
         """Add pins to a target component according to :class:`CrossSection`.
         Args and kwargs are passed to the function defined by the `add_pins_function_name`.
         """
+        warnings.warn(
+            "CrossSection.add_pins() is deprecated. @gf.cell(post_process=gf.add_pins) instead.",
+            DeprecationWarning,
+        )
         if self.add_pins_function_name is None:
             return component
 
@@ -344,6 +368,11 @@ class CrossSection(BaseModel):
             left: left padding.
         """
         from gdsfactory.add_padding import get_padding_points
+
+        warnings.warn(
+            "CrossSection.add_bbox() is deprecated. @gf.cell(post_process=gf.add_padding) instead.",
+            DeprecationWarning,
+        )
 
         c = component
         if self.bbox_layers and self.bbox_offsets:
@@ -509,6 +538,18 @@ def cross_section(
     """
     sections = list(sections or [])
 
+    for k in kwargs.keys():
+        if k in deprecated_routing:
+            warnings.warn(
+                f"{k} is deprecated. Pass this parameter to the routing function instead."
+            )
+        if k in deprecated_pins:
+            warnings.warn(
+                f"{k} is deprecated. You can decorate the @gf.cell(post_process=) instead."
+            )
+        elif k in deprecated:
+            warnings.warn(f"{k} is deprecated.")
+
     if cladding_layers:
         cladding_simplify = cladding_simplify or (None,) * len(cladding_layers)
         cladding_offsets = cladding_offsets or (0,) * len(cladding_layers)
@@ -557,7 +598,7 @@ radius_rib = 20
 
 strip = partial(cross_section, add_pins_function_name=None, radius=10, radius_min=5)
 strip_pins = partial(strip, add_pins_function_name="add_pins_inside2nm")
-strip_auto_widen = partial(strip, auto_widen=True)
+strip_auto_widen = strip
 strip_no_pins = strip
 
 rib = partial(
@@ -750,22 +791,10 @@ def rib_with_trenches(
         for i, offset in enumerate([+trench_offset, -trench_offset])
     ]
 
-    info = info or {}
-    info.update(
-        dict(
-            layer_trench=layer_trench,
-            width=width,
-            width_trench=width_trench,
-            width_slab=width_slab,
-            wg_marking_layer=wg_marking_layer,
-        )
-    )
-
     return cross_section(
         layer=wg_marking_layer,
         width=width,
         sections=tuple(sections),
-        info=info,
         **kwargs,
     )
 
@@ -780,7 +809,6 @@ def l_with_trenches(
     mirror: bool = False,
     wg_marking_layer: LayerSpec | None = None,
     sections: tuple[Section, ...] | None = None,
-    info: dict[str, Any] | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of l waveguide defined by trenches.
@@ -838,22 +866,11 @@ def l_with_trenches(
         )
     ]
     sections += [Section(width=width_trench, offset=trench_offset, layer=layer_trench)]
-    info = info or {}
-    info.update(
-        dict(
-            layer_trench=layer_trench,
-            width=width,
-            width_trench=width_trench,
-            width_slab=width_slab,
-            wg_marking_layer=wg_marking_layer,
-        )
-    )
 
     return cross_section(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        info=info,
         **kwargs,
     )
 
@@ -865,8 +882,6 @@ metal1 = partial(
     port_names=port_names_electrical,
     port_types=port_types_electrical,
     radius=None,
-    min_length=5,
-    gap=5,
 )
 metal2 = partial(
     metal1,
@@ -1901,7 +1916,6 @@ def strip_heater_metal(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        info=dict(heater_width=heater_width),
         **kwargs,
     )
 
@@ -2448,6 +2462,6 @@ if __name__ == "__main__":
     # c = p.extrude(xs)
     # c = gf.c.straight(cross_section=xs)
     # xs = pn(slab_inset=0.2)
-    xs = pn(width_slab=0)
+    xs = pn(width_slab=0, a=2)
     # c = gf.c.straight(cross_section=xs)
     # c.show()

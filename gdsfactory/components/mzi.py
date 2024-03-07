@@ -39,6 +39,7 @@ def mzi(
     mirror_bot: bool = False,
     add_optical_ports_arms: bool = False,
     add_electrical_ports_bot: bool = True,
+    min_length: float = 0.1,
     post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
@@ -165,8 +166,7 @@ def mzi(
     sxt.connect("o1", b2.ports["o1"])
 
     cp2.mirror()
-    xs = gf.get_cross_section(cross_section)
-    cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 2 * xs.min_length
+    cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 2 * min_length
 
     route = get_route(
         sxt.ports["o2"],
