@@ -56,8 +56,6 @@ class GenericLayerMap(LayerMap):
     PORTE: Layer = (1, 11)
     PORTH: Layer = (70, 0)
     SHOW_PORTS: Layer = (1, 12)
-    LABEL_INSTANCE: Layer = (206, 0)
-    LABEL_SETTINGS: Layer = (202, 0)
     TE: Layer = (203, 0)
     TM: Layer = (204, 0)
     DRC_MARKER: Layer = (205, 0)
@@ -70,4 +68,4 @@ LAYER = GenericLayerMap()
 
 
 if __name__ == "__main__":
-    LAYER.my_layer = (1, 2)
+    print(LAYER.LABEL_SETTINGS)
