@@ -806,12 +806,8 @@ class LayerViews(BaseModel):
 
         for name in self.model_dump():
             lv = getattr(self, name)
-            if isinstance(lv, LayerView):
-                #
-                if (self.layer_map is not None) and (name in self.layer_map.keys()):
-                    lv_dict = lv.dict(exclude={"layer", "name"})
-                    lv = LayerView(layer=self.layer_map[name], name=name, **lv_dict)
-                self.add_layer_view(name=name, layer_view=lv)
+            lv = LayerView(**lv)
+            self.layer_views[name] = lv
 
     def add_layer_view(
         self, name: str, layer_view: LayerView | None = None, **kwargs
@@ -1098,13 +1094,17 @@ class LayerViews(BaseModel):
         )
 
     def to_yaml(
-        self, layer_file: str | pathlib.Path, prefer_named_color: bool = True
+        self,
+        layer_file: str | pathlib.Path,
+        prefer_named_color: bool = True,
+        default_hatch_pattern_name: str | None = None,
     ) -> None:
         """Export layer properties to a YAML file.
 
         Args:
             layer_file: Name of the file to write LayerViews to.
             prefer_named_color: Write the name of a color instead of its hex representation when possible.
+            default_hatch_pattern_name: Name of the default hatch pattern to use.
         """
 
         lf_path = pathlib.Path(layer_file)
@@ -1114,11 +1114,15 @@ class LayerViews(BaseModel):
         add_tuple_yaml_presenter()
         add_multiline_str_yaml_presenter()
         add_color_yaml_presenter(prefer_named_color=prefer_named_color)
-
         lvs = {
             name: lv.dict(exclude_none=True, exclude_defaults=True, exclude_unset=True)
             for name, lv in self.layer_views.items()
         }
+
+        if default_hatch_pattern_name:
+            for lv in lvs.values():
+                if "hatch_pattern" not in lv:
+                    lv["hatch_pattern"] = default_hatch_pattern_name
 
         out_dict = {"LayerViews": lvs}
         if self.custom_dither_patterns:
