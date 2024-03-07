@@ -306,8 +306,6 @@ class Pdk(BaseModel):
 
         from gdsfactory.cell import clear_cache
 
-        logger.info(f"{self.name!r} PDK is now active")
-
         clear_cache()
 
         if self.base_pdk:
