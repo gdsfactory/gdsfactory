@@ -22,7 +22,7 @@ def add_electrical_pads_top_dc(
     select_ports: Callable = select_ports_electrical,
     get_bundle_function: Callable = get_bundle_electrical,
     port_names: Strs | None = None,
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:

@@ -15,7 +15,7 @@ def triangle(
     ybot: float = 0,
     layer: LayerSpec = "WG",
     layers: LayerSpecs | None = None,
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
     r"""Return triangle.

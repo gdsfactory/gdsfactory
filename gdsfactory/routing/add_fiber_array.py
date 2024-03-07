@@ -41,7 +41,7 @@ def add_fiber_array(
     text: ComponentSpec | None = None,
     id_placement: Literal[AnchorSubset] = "center",
     id_placement_offset: Floats = (0, 0),
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:

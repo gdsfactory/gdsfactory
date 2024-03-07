@@ -29,7 +29,7 @@ def add_electrical_pads_top(
     select_ports: Callable = select_ports_electrical,
     port_names: Strs | None = None,
     layer: LayerSpec = "MTOP",
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:

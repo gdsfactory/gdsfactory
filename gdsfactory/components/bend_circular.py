@@ -15,7 +15,7 @@ def bend_circular(
     angle: float = 90.0,
     npoints: int | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
     **kwargs,
 ) -> Component:

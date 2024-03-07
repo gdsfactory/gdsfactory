@@ -24,7 +24,7 @@ def import_gds(
     keep_name_short: bool = False,
     unique_names: bool = True,
     max_name_length: int = 250,
-    post_process: list[Callable] | None = None,
+    post_process: Callable | list[Callable] | None = None,
     **kwargs,
 ) -> Component:
     """Returns a Component from a GDS file.
