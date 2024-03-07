@@ -1,13 +1,23 @@
 import hashlib
 from functools import wraps
 
+from gdsfactory import Component
 from gdsfactory.name import get_name_short
 from gdsfactory.serialization import clean_value_name
 
 
-def decorate_cell(cell_function: callable, *decorators: callable):
+def decorate_cell(cell_function: callable, *decorators: callable) -> callable:
+    """Decorate the given cell function with one or many decorators.
+
+    Args:
+        cell_function: the function to decorate
+
+    Returns:
+        The wrapped function
+    """
+
     @wraps(cell_function)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs) -> Component:
         from gdsfactory.cell import CACHE
 
         c_orig = cell_function(*args, **kwargs)
@@ -15,12 +25,14 @@ def decorate_cell(cell_function: callable, *decorators: callable):
         suffix = "_".join(suffix_components)
         suffix_hash = hashlib.md5(suffix.encode()).hexdigest()[:8]
         new_name = get_name_short(f"{c_orig.name}__D{suffix_hash}")
+
         if new_name in CACHE:
             return CACHE[new_name]
         else:
             c = c_orig.copy()
             for decorator in decorators:
-                c = decorator(c)
+                c_decorated = decorator(c)
+                c = c_decorated or c
             c.rename(new_name)
             return c
 
