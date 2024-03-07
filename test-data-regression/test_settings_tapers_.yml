@@ -2,9 +2,9 @@ function: tapers
 info:
   length: 20.0
   route_info_length: 20.0
-  route_info_type: xs_05218737
+  route_info_type: xs_9be1e335
   route_info_weight: 20.0
-  route_info_xs_05218737_length: 20.0
+  route_info_xs_9be1e335_length: 20.0
   width: 2
 module: test_add_fiber_array
 name: tapers

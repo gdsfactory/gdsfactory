@@ -2,12 +2,12 @@ function: straight
 info:
   length: 10.0
   route_info_length: 10.0
-  route_info_type: xs_7c0f28d3
+  route_info_type: xs_5c958c98
   route_info_weight: 10.0
-  route_info_xs_7c0f28d3_length: 10.0
+  route_info_xs_5c958c98_length: 10.0
   width: 1.0
 module: gdsfactory.components.straight
-name: straight_d5f50a08
+name: straight_878c83dc
 settings:
   cross_section:
     add_pins_function_module: gdsfactory.samples.pdk.fab_c
@@ -20,7 +20,6 @@ settings:
     bbox_offsets:
     - 3.0
     components_along_path: []
-    end_straight_length: 0.01
     gap: 3.0
     info: {}
     min_length: 0.01
@@ -44,7 +43,6 @@ settings:
       simplify: null
       width: 1.0
       width_function: null
-    start_straight_length: 0.01
     taper_length: 10.0
     width_wide: null
   info: null

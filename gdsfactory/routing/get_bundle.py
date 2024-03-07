@@ -577,7 +577,16 @@ def get_min_spacing(
     sort_ports: bool = True,
 ) -> float:
     """Returns the minimum amount of spacing in um required to create a \
-    fanout."""
+    fanout.
+
+    Args:
+        ports1: list of ports.
+        ports2: list of ports.
+        sep: separation between the ports.
+        radius: bend radius.
+        sort_ports: sort the ports according to the axis.
+
+    """
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     j = 0
     min_j = 0
@@ -663,6 +672,7 @@ def get_bundle_same_axis_no_grouping(
         end_straight_length: offset on the ending length after the last bend.
         sort_ports: True -> sort the ports according to the axis. False -> no sort applied.
         cross_section: CrossSection or function that returns a cross_section.
+        kwargs: cross_section settings.
 
     Returns:
         a list of routes the connecting straights.
