@@ -1,12 +1,18 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.17.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.18.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.18.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.18.0) - 2024-03-06
 
-No significant changes.
-
+- Accept callable or list [#2598](https://github.com/gdsfactory/gdsfactory/pull/2598)
+- add required layers [#2597](https://github.com/gdsfactory/gdsfactory/pull/2597)
+- allow post process list [#2594](https://github.com/gdsfactory/gdsfactory/pull/2594)
+- Propagate `warnings.warn` category to loguru output [#2592](https://github.com/gdsfactory/gdsfactory/pull/2592)
+- Add more pics [#2596](https://github.com/gdsfactory/gdsfactory/pull/2596)
+- add required layers [#2597](https://github.com/gdsfactory/gdsfactory/pull/2597)
+- Update args for from_image to match from_np [#2595](https://github.com/gdsfactory/gdsfactory/pull/2595)
+- Add arg for constant pad value in read.from_np [#2582](https://github.com/gdsfactory/gdsfactory/pull/2582)
 
 ## [7.17.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.17.0) - 2024-03-05
 
