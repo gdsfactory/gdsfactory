@@ -5,8 +5,7 @@ from pydantic import BaseModel, model_validator
 
 from gdsfactory.technology.layer_views import LayerViews
 
-# required_layers = ["TEXT"]
-required_layers = []
+required_layers = ["LABEL_SETTINGS", "LABEL_INSTANCE"]
 
 
 class LayerMap(BaseModel):
