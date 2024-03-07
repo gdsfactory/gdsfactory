@@ -7,7 +7,7 @@ import inspect
 import warnings
 from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TypeVar, overload
+from typing import TypeVar
 
 from pydantic import validate_call
 
@@ -53,33 +53,6 @@ def clear_cache() -> None:
 def print_cache() -> None:
     for k in CACHE:
         print(k)
-
-
-# Type signature when calling as a decorator on a function
-@overload
-def cell(func: _F) -> _F:
-    ...
-
-
-# Type signature when calling the decorator itself (i.e., decorator factory)
-# This one just returns a new decorator
-@overload
-def cell(
-    *,
-    autoname: bool = True,
-    max_name_length: int | None = None,
-    include_module: bool = False,
-    with_hash: bool = False,
-    ports_offgrid: str | None = None,
-    ports_not_manhattan: str | None = None,
-    flatten: bool = False,
-    naming_style: str = "default",
-    default_decorator: Callable[[Component], Component] | None = None,
-    add_settings: bool = True,
-    validate: bool = False,
-    get_child_name: bool = False,
-) -> Callable[[_F], _F]:
-    ...
 
 
 def cell(
