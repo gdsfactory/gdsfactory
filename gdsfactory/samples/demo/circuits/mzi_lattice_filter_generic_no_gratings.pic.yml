@@ -1,0 +1,30 @@
+instances:
+  mzi1:
+    component: mzi
+    settings:
+      delta_length: 200
+
+  mzi2:
+    component: mzi
+    settings:
+      delta_length: 10
+
+
+placements:
+  mzi2:
+    ymax: mzi1,north
+    dy: 100
+    xmin: mzi1,east
+    dx: 50
+
+
+routes:
+  optical:
+    links:
+      mzi1,o2: mzi2,o1
+    settings:
+      auto_widen: True
+
+ports:
+  o1: mzi1,o1
+  o2: mzi2,o2
