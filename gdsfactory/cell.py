@@ -126,6 +126,7 @@ def cell(
     if default_decorator is not None:
         warnings.warn(
             "default_decorator is deprecated and will be removed soon. Use post_process instead.",
+            DeprecationWarning,
             stacklevel=2,
         )
 
