@@ -613,7 +613,6 @@ def round_corners(
     with_point_markers: bool = False,
     with_sbend: bool = False,
     width_wide: float | None = None,
-    min_length: float = 0.01,
     taper_length: float = 10.0,
     auto_widen: bool = False,
     auto_widen_minimum_length: float = 200,
@@ -640,6 +639,7 @@ def round_corners(
         kwargs: cross_section settings.
 
     """
+    kwargs.pop("min_length", None)
 
     multi_cross_section = isinstance(cross_section, list)
     if multi_cross_section:
@@ -956,7 +956,7 @@ def generate_manhattan_waypoints(
     min_straight_length: float | None = None,
     bend: ComponentSpec = bend_euler,
     cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
-    min_length: float = 0.0,
+    min_length: float | None = None,
     **kwargs,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports.
@@ -972,8 +972,8 @@ def generate_manhattan_waypoints(
         kwargs: cross_section settings.
 
     """
-    if "straight" in kwargs:
-        _ = kwargs.pop("straight")
+    kwargs.pop("straight", None)
+    min_length = min_length or default_straight_length
 
     if cross_section:
         bend90 = (
@@ -984,22 +984,9 @@ def generate_manhattan_waypoints(
     else:
         bend90 = gf.get_component(bend)
 
-    if isinstance(cross_section, tuple | list):
-        x = [gf.get_cross_section(xsection[0]) for xsection in cross_section]
-        x = [xs.copy(**kwargs) for xs in x]
-        start_straight_length = start_straight_length or min(min_length for _x in x)
-        end_straight_length = end_straight_length or min(min_length for _x in x)
-        min_straight_length = min_straight_length or min(min_length for _x in x)
-    elif cross_section:
-        x = gf.get_cross_section(cross_section)
-        x = x.copy(**kwargs)
-        start_straight_length = start_straight_length or min_length
-        end_straight_length = end_straight_length or min_length
-        min_straight_length = min_straight_length or min_length
-    else:
-        start_straight_length = default_straight_length
-        end_straight_length = default_straight_length
-        min_straight_length = default_straight_length
+    start_straight_length = start_straight_length or min_length
+    end_straight_length = default_straight_length or min_length
+    min_straight_length = default_straight_length or min_length
 
     bsx = bsy = _get_bend_size(bend90)
     return _generate_route_manhattan_points(
@@ -1033,7 +1020,7 @@ def route_manhattan(
     cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     with_point_markers: bool = False,
     on_route_error: Callable = get_route_error,
-    min_length: float = 0.01,
+    min_length: float | None = None,
     width_wide: float | None = None,
     auto_widen: bool = False,
     auto_widen_minimum_length: float = 200.0,
@@ -1065,9 +1052,9 @@ def route_manhattan(
     """
     if isinstance(cross_section, tuple | list):
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
-        start_straight_length = start_straight_length or min(min_length for _x in x)
-        end_straight_length = end_straight_length or min(min_length for _x in x)
-        min_straight_length = min_straight_length or min(min_length for _x in x)
+        start_straight_length = start_straight_length or min_length
+        end_straight_length = end_straight_length or min_length
+        min_straight_length = min_straight_length or min_length
         x = cross_section
     elif cross_section:
         x = gf.get_cross_section(cross_section, **kwargs)

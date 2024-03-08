@@ -39,7 +39,7 @@ def mzi(
     mirror_bot: bool = False,
     add_optical_ports_arms: bool = False,
     add_electrical_ports_bot: bool = True,
-    min_length: float = 0.1,
+    min_length: float = 10e-3,
     post_process: Callable | list[Callable] | None = None,
     info: Metadata | None = None,
 ) -> Component:
