@@ -76,10 +76,8 @@ instances:
         taper_length: 10.0
         width_wide: null
       direction: ccw
-      info: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
       with_arc_floorplan: true
   bend_euler_2:
@@ -129,10 +127,8 @@ instances:
         taper_length: 10.0
         width_wide: null
       direction: ccw
-      info: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
       with_arc_floorplan: true
   bend_euler_3:
@@ -182,10 +178,8 @@ instances:
         taper_length: 10.0
         width_wide: null
       direction: ccw
-      info: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
       with_arc_floorplan: true
   bend_euler_4:
@@ -235,10 +229,8 @@ instances:
         taper_length: 10.0
         width_wide: null
       direction: ccw
-      info: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
       with_arc_floorplan: true
   bend_euler_5:
@@ -288,10 +280,8 @@ instances:
         taper_length: 10.0
         width_wide: null
       direction: ccw
-      info: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
       with_arc_floorplan: true
   bend_euler_6:
@@ -341,10 +331,8 @@ instances:
         taper_length: 10.0
         width_wide: null
       direction: ccw
-      info: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
       with_arc_floorplan: true
   bend_euler_7:
@@ -394,10 +382,8 @@ instances:
         taper_length: 10.0
         width_wide: null
       direction: ccw
-      info: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
       with_arc_floorplan: true
   bend_euler_8:
@@ -447,10 +433,8 @@ instances:
         taper_length: 10.0
         width_wide: null
       direction: ccw
-      info: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
       with_arc_floorplan: true
   straight_1:
