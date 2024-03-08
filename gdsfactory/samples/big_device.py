@@ -78,7 +78,6 @@ def big_device(
         )
         component.add_port(port)
 
-    component = gf.add_pins.add_pins_inside1nm(component)
     component.auto_rename_ports()
     return component
 
