@@ -4,7 +4,7 @@ instances:
   r1:
     component: rectangle
     info:
-      area: 8
+      area: 8.0
     settings:
       centered: false
       layer: WG
@@ -22,7 +22,7 @@ instances:
   r2:
     component: rectangle
     info:
-      area: 8
+      area: 8.0
     settings:
       centered: false
       layer: WG
