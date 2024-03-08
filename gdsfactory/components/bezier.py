@@ -8,11 +8,9 @@ from gdsfactory.component import Component
 from gdsfactory.config import ErrorType
 from gdsfactory.geometry.functions import angles_deg, curvature, path_length, snap_angle
 from gdsfactory.typings import (
-    Callable,
     Coordinate,
     Coordinates,
     CrossSectionSpec,
-    Metadata,
 )
 
 
@@ -45,8 +43,6 @@ def bezier(
     end_angle: int | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
     bend_radius_error_type: ErrorType | None = None,
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
 ) -> Component:
     """Returns Bezier bend.
 
@@ -57,7 +53,6 @@ def bezier(
         start_angle: optional start angle in deg.
         end_angle: optional end angle in deg.
         cross_section: spec.
-        post_process: optional function to post process the component.
     """
     xs = gf.get_cross_section(cross_section)
     t = np.linspace(0, 1, npoints)
@@ -87,8 +82,6 @@ def bezier(
 
     xs.validate_radius(min_bend_radius, bend_radius_error_type)
 
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 
