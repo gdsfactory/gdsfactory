@@ -21,7 +21,6 @@ from gdsfactory.typings import (
     Floats,
     LayerSpec,
     Literal,
-    Metadata,
 )
 
 
@@ -41,8 +40,6 @@ def add_fiber_array(
     text: ComponentSpec | None = None,
     id_placement: Literal[AnchorSubset] = "center",
     id_placement_offset: Floats = (0, 0),
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
@@ -68,8 +65,6 @@ def add_fiber_array(
             "l" = left of the left-most gc
             "s" = center and below the gc in y
         id_placement_offset: offset for the id placement.
-        post_process: function to post process the component.
-        info: metadata.
 
     Keyword Args:
         bend: bend spec.
@@ -266,10 +261,6 @@ def add_fiber_array(
                     np.min(ymins) - 20 + id_placement_offset[1],
                 )
 
-    if post_process:
-        post_process(component_new)
-    if info:
-        component_new.info.update(info)
     return component_new
 
 
