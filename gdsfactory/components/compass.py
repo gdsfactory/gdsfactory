@@ -22,7 +22,7 @@ def compass(
     Args:
         size: rectangle size.
         layer: tuple (int, int).
-        port_type: optical, electrical.
+        port_type: optical, electrical. None does not add ports.
         port_inclusion: from edge.
         port_orientations: list of port_orientations to add. None add one port only.
         post_process: optional list of functions to post process the component.

@@ -950,30 +950,30 @@ class LayerViews(BaseModel):
         scale = size / 100
         num_layers = len(self.get_layer_views())
         matrix_size = int(np.ceil(np.sqrt(num_layers)))
-        sorted_layers = sorted(
-            self.get_layer_views().values(), key=lambda x: (x.layer[0], x.layer[1])
-        )
-        for n, layer in enumerate(sorted_layers):
-            layer_tuple = layer.layer
-            R = gf.components.rectangle(
-                size=(100 * scale, 100 * scale), layer=layer_tuple
-            )
-            T = gf.components.text(
-                text=f"{layer.name}\n{layer_tuple[0]} / {layer_tuple[1]}",
-                size=20 * scale,
-                position=(50 * scale, -20 * scale),
-                justify="center",
-                layer=layer_tuple,
-            )
+        layers = self.get_layer_views().values()
 
-            xloc = n % matrix_size
-            yloc = int(n // matrix_size)
-            D.add_ref(R).movex((100 + spacing) * xloc * scale).movey(
-                -(100 + spacing) * yloc * scale
-            )
-            D.add_ref(T).movex((100 + spacing) * xloc * scale).movey(
-                -(100 + spacing) * yloc * scale
-            )
+        for n, layer in enumerate(layers):
+            layer_tuple = layer.layer
+            if layer_tuple:
+                R = gf.components.compass(
+                    size=(100 * scale, 100 * scale), layer=layer_tuple, port_type=None
+                )
+                T = gf.components.text(
+                    text=f"{layer.name}\n{layer_tuple[0]} / {layer_tuple[1]}",
+                    size=20 * scale,
+                    position=(50 * scale, -20 * scale),
+                    justify="center",
+                    layer=layer_tuple,
+                )
+
+                xloc = n % matrix_size
+                yloc = int(n // matrix_size)
+                D.add_ref(R).movex((100 + spacing) * xloc * scale).movey(
+                    -(100 + spacing) * yloc * scale
+                )
+                D.add_ref(T).movex((100 + spacing) * xloc * scale).movey(
+                    -(100 + spacing) * yloc * scale
+                )
         return D
 
     def to_lyp(
