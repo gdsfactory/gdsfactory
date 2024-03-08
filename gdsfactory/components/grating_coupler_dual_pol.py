@@ -9,11 +9,9 @@ from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.typings import (
-    Callable,
     ComponentSpec,
     CrossSectionSpec,
     LayerSpec,
-    Metadata,
 )
 
 rectangle_unit_cell = partial(
@@ -35,8 +33,6 @@ def grating_coupler_dual_pol(
     taper: ComponentSpec = taper_function,
     base_layer: LayerSpec | None = "WG",
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""2 dimensional, dual polarization grating coupler.
@@ -155,8 +151,6 @@ def grating_coupler_dual_pol(
     taper2.ymax = -y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")
 
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 
