@@ -1,4 +1,4 @@
-name: Release PyPI, installers and docker container
+name: Release package
 
 on:
   push:
