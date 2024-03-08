@@ -173,12 +173,21 @@ def mmi1x2_no(width_mmi=3, cross_section=strip_no, **kwargs):
     )
 
 
-gc_nc = partial(
+######################
+# Grating couplers
+######################
+_gc_nc = partial(
     gf.components.grating_coupler_elliptical,
     grating_line_width=0.6,
     layer_slab=None,
     cross_section=xs_nc,
 )
+
+
+@cell
+def gc_sc(**kwargs):
+    return _gc_nc(**kwargs)
+
 
 ######################
 # HIERARCHICAL COMPONENTS made of leaf components
