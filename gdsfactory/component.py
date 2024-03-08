@@ -1788,10 +1788,10 @@ class Component(_GeometryHelper):
 
         We recommend using klayout or kweb.
         Klayout is good for images and kweb for responsive interactive plots.
-        Matplotlib is slow for rendering big layouts and is almost Deprecated.
+        Matplotlib is slow for rendering big layouts and is deprecated.
 
         Args:
-            plotter: plot backends ('widget', 'klayout', 'kweb').
+            plotter: plot backends ('klayout').
         """
         plotter = plotter or CONF.display_type
 
