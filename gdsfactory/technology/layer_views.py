@@ -806,8 +806,11 @@ class LayerViews(BaseModel):
 
         for name in self.model_dump():
             lv = getattr(self, name)
-            lv = LayerView(**lv)
-            self.layer_views[name] = lv
+            if isinstance(lv, LayerView):
+                if (self.layer_map is not None) and (name in self.layer_map.keys()):
+                    lv_dict = lv.dict(exclude={"layer", "name"})
+                    lv = LayerView(layer=self.layer_map[name], name=name, **lv_dict)
+                self.add_layer_view(name=name, layer_view=lv)
 
     def add_layer_view(
         self, name: str, layer_view: LayerView | None = None, **kwargs
@@ -955,7 +958,7 @@ class LayerViews(BaseModel):
         for n, layer in enumerate(layers):
             layer_tuple = layer.layer
             if layer_tuple:
-                R = gf.components.compass(
+                R = gf.components.rectangle(
                     size=(100 * scale, 100 * scale), layer=layer_tuple, port_type=None
                 )
                 T = gf.components.text(
