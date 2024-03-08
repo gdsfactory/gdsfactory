@@ -193,6 +193,7 @@ class Pdk(BaseModel):
         symbols: dict of symbols names to functions.
         default_symbol_factory:
         base_pdk: a pdk to copy from and extend.
+        base_pdks: list of pdks to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
         layers: maps name to gdslayer/datatype.
             For example dict(si=(1, 0), sin=(34, 0)).
@@ -229,7 +230,7 @@ class Pdk(BaseModel):
         default=floorplan_with_block_letters, exclude=True
     )
     base_pdk: Pdk | None = None
-    pdks: list[Pdk] = Field(default_factory=list)
+    base_pdks: list[Pdk] = Field(default_factory=list)
     default_decorator: Callable[[Component], None] | None = Field(
         default=None, exclude=True
     )
@@ -309,13 +310,13 @@ class Pdk(BaseModel):
 
         clear_cache()
 
-        pdks = self.pdks
+        base_pdks = self.base_pdks
 
         if self.base_pdk:
-            warnings.warn("base_pdk is deprecated. Use pdks instead")
-            pdks = pdks + [self.base_pdk]
+            warnings.warn("base_pdk is deprecated. Use base_pdks instead")
+            base_pdks += [self.base_pdk]
 
-        for pdk in pdks:
+        for pdk in base_pdks:
             cross_sections = pdk.cross_sections
             cross_sections.update(self.cross_sections)
             cells = pdk.cells
