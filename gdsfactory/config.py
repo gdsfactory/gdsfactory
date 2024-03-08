@@ -6,6 +6,7 @@ You can set environment variables.
 from __future__ import annotations
 
 import importlib
+import inspect
 import json
 import os
 import pathlib
@@ -22,6 +23,7 @@ from pprint import pprint
 from typing import TYPE_CHECKING, Any, ClassVar, Literal
 
 import loguru
+import tomllib
 from dotenv import find_dotenv
 from loguru import logger as logger
 from pydantic import BaseModel, Field
@@ -299,6 +301,33 @@ class Settings(BaseSettings):
 
         warnings.showwarning = showwarning
 
+    @classmethod
+    def from_pyproject(cls) -> Settings | None:
+        """Load gdsfactory configuration from a pyproject.toml file."""
+        running_file = None
+        # Start from the beginning of the stack
+        for frame in reversed(inspect.stack()):
+            ctx = frame.code_context
+            if ctx is not None and any("gdsfactory" in line for line in ctx):
+                running_file = frame.filename
+                break
+        if running_file is None:
+            return None
+        running_dir = pathlib.Path(running_file).parent
+        project_cfg_file = running_dir / "pyproject.toml"
+
+        if not project_cfg_file.exists():
+            return None
+
+        with open(project_cfg_file, "rb") as f:
+            config = tomllib.load(f)
+            try:
+                gf_cfg = config["tool"]["gdsfactory"]
+            except KeyError:
+                return None
+        logger.info(f"Loaded gdsfactory configuration from {project_cfg_file}")
+        return Settings(**gf_cfg)
+
 
 class Paths:
     module = module_path
@@ -330,7 +359,7 @@ class Paths:
     font_ocr = fonts / "OCR-A.ttf"
 
 
-CONF = Settings()
+CONF = Settings.from_pyproject() or Settings()
 PATH = Paths()
 sparameters_path = PATH.sparameters
 
