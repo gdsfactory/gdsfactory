@@ -1,11 +1,17 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.18.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.19.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.19.0) - 2024-03-07
 
-No significant changes.
+- support activating more than 2 pdks [#2608](https://github.com/gdsfactory/gdsfactory/pull/2608)
+- preview layerset [#2606](https://github.com/gdsfactory/gdsfactory/pull/2606)
+- add default hatch_pattern [#2602](https://github.com/gdsfactory/gdsfactory/pull/2602)
+- remove start_straight_length from cross_section [#2603](https://github.com/gdsfactory/gdsfactory/pull/2603)
+- make gdsfactory less verbose [#2599](https://github.com/gdsfactory/gdsfactory/pull/2599)
+- bugfix for rectangle instantiation [#2605](https://github.com/gdsfactory/gdsfactory/pull/2605)
+- Update args for from_image to match from_np [#2595](https://github.com/gdsfactory/gdsfactory/pull/2595)
 
 
 ## [7.18.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.18.0) - 2024-03-06
