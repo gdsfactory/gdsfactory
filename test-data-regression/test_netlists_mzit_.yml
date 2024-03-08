@@ -304,10 +304,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 1.0
       npoints: 2
-      post_process: null
   straight_2:
     component: straight
     info:
@@ -349,10 +347,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 3.0
       npoints: 2
-      post_process: null
   straight_3:
     component: straight
     info:
@@ -394,10 +390,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 4.0
       npoints: 2
-      post_process: null
   straight_4:
     component: straight
     info:
@@ -439,10 +433,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 3.0
       npoints: 2
-      post_process: null
   straight_5:
     component: straight
     info:
@@ -484,10 +476,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 1.0
       npoints: 2
-      post_process: null
   taper_1:
     component: taper
     info:
@@ -496,7 +486,6 @@ instances:
       width2: 0.45
     settings:
       cross_section: xs_sc
-      info: null
       length: 5.0
       port: null
       port_order_name:
@@ -505,7 +494,6 @@ instances:
       port_order_types:
       - optical
       - optical
-      post_process: null
       width1: 0.5
       width2: 0.45
       with_two_ports: true
@@ -517,7 +505,6 @@ instances:
       width2: 0.55
     settings:
       cross_section: xs_sc
-      info: null
       length: 5.0
       port: null
       port_order_name:
@@ -526,7 +513,6 @@ instances:
       port_order_types:
       - optical
       - optical
-      post_process: null
       width1: 0.45
       width2: 0.55
       with_two_ports: true
@@ -538,7 +524,6 @@ instances:
       width2: 0.5
     settings:
       cross_section: xs_sc
-      info: null
       length: 5.0
       port: null
       port_order_name:
@@ -547,7 +532,6 @@ instances:
       port_order_types:
       - optical
       - optical
-      post_process: null
       width1: 0.55
       width2: 0.5
       with_two_ports: true
@@ -559,7 +543,6 @@ instances:
       width2: 0.55
     settings:
       cross_section: xs_sc
-      info: null
       length: 5.0
       port: null
       port_order_name:
@@ -568,7 +551,6 @@ instances:
       port_order_types:
       - optical
       - optical
-      post_process: null
       width1: 0.5
       width2: 0.55
       with_two_ports: true
@@ -580,7 +562,6 @@ instances:
       width2: 0.45
     settings:
       cross_section: xs_sc
-      info: null
       length: 5.0
       port: null
       port_order_name:
@@ -589,7 +570,6 @@ instances:
       port_order_types:
       - optical
       - optical
-      post_process: null
       width1: 0.55
       width2: 0.45
       with_two_ports: true
@@ -601,7 +581,6 @@ instances:
       width2: 0.5
     settings:
       cross_section: xs_sc
-      info: null
       length: 5.0
       port: null
       port_order_name:
@@ -610,7 +589,6 @@ instances:
       port_order_types:
       - optical
       - optical
-      post_process: null
       width1: 0.45
       width2: 0.5
       with_two_ports: true

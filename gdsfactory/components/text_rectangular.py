@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.text_rectangular_font import pixel_array, rectangular_font
-from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Metadata
+from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -19,8 +19,6 @@ def text_rectangular(
     layer: LayerSpec = "WG",
     layers: LayerSpecs | None = None,
     font: Callable[..., dict[str, str]] = rectangular_font,
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without acute angles.
 
@@ -32,8 +30,6 @@ def text_rectangular(
         layer: for text.
         layers: optional for duplicating the text.
         font: function that returns dictionary of characters.
-        post_process: function to post process the component.
-        info: dictionary with metadata.
     """
     pixel_size = size
     xoffset = position[0]
@@ -81,8 +77,6 @@ def text_rectangular(
         raise ValueError(f"justify = {justify!r} not valid (left, center, right)")
     c.absorb(ref)
 
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 
@@ -91,8 +85,6 @@ def text_rectangular_multi_layer(
     text: str = "abcd",
     layers: LayerSpecs = ("WG", "M1", "M2", "MTOP"),
     text_factory: ComponentSpec = text_rectangular,
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     """Returns rectangular text in different layers.
@@ -101,8 +93,6 @@ def text_rectangular_multi_layer(
         text: string of text.
         layers: list of layers to replicate the text.
         text_factory: function to create the text Components.
-        post_process: function to post process the component.
-        info: dictionary with metadata.
 
     Keyword Args:
         size: pixel size
@@ -115,8 +105,6 @@ def text_rectangular_multi_layer(
         factory=partial(text_factory, text=text, **kwargs),
         layers=layers,
     )
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

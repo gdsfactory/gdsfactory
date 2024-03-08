@@ -118,10 +118,8 @@ instances:
     settings:
       cross_section: xs_sc
       gap_mmi: 0.25
-      info: null
       length_mmi: 11
       length_taper: 10.0
-      post_process: null
       taper:
         function: taper
       width: null
@@ -133,10 +131,8 @@ instances:
     settings:
       cross_section: xs_sc
       gap_mmi: 0.25
-      info: null
       length_mmi: 22
       length_taper: 10.0
-      post_process: null
       taper:
         function: taper
       width: null
@@ -183,10 +179,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 19.99
       npoints: 2
-      post_process: null
   straight_2:
     component: straight
     info:
@@ -228,10 +222,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 18.75
       npoints: 2
-      post_process: null
   straight_3:
     component: straight
     info:
@@ -273,10 +265,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 0.01
       npoints: 2
-      post_process: null
 name: sample_docstring_e2d59879
 placements:
   bend_euler_1:

@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import grating_tooth_points
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.typings import Callable, CrossSectionSpec, LayerSpec, Metadata
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
 @gf.cell
@@ -26,8 +26,6 @@ def grating_coupler_elliptical_trenches(
     p_start: int = 26,
     n_periods: int = 30,
     end_straight_length: float = 0.2,
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
@@ -49,8 +47,6 @@ def grating_coupler_elliptical_trenches(
         p_start: first tooth.
         n_periods: number of grating teeth.
         end_straight_length: at the end of straight.
-        post_process: function to post process the component.
-        info: additional information to add to the component.
         cross_section: cross_section spec.
         kwargs: cross_section settings.
 
@@ -140,8 +136,6 @@ def grating_coupler_elliptical_trenches(
         layer=layer,
         port_type="optical",
     )
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

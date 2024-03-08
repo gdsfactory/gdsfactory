@@ -19,12 +19,10 @@ settings:
   - 0.1
   - 0.1
   - 0.1
-  info: null
   layer_grating: null
   layer_slab: SLAB150
   nclad: 1.443
   polarization: te
-  post_process: null
   spiked: true
   taper_angle: 60.0
   taper_length: 16.6

@@ -11,14 +11,12 @@ from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, viac
 from gdsfactory.components.wire import wire_corner45
 from gdsfactory.typings import (
-    Callable,
     ComponentFactory,
     ComponentSpec,
     Float2,
     Floats,
     LayerSpec,
     LayerSpecs,
-    Metadata,
 )
 
 
@@ -32,8 +30,6 @@ def via_stack(
     correct_size: bool = True,
     slot_horizontal: bool = False,
     slot_vertical: bool = False,
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
 ) -> Component:
     """Rectangular via array stack.
 
@@ -58,8 +54,6 @@ def via_stack(
             them to the minimum possible to fit a via.
         slot_horizontal: if True, then vias are horizontal.
         slot_vertical: if True, then vias are vertical.
-        post_process: optional list of functions to post process the component.
-        info: additional information to add to the component.
     """
     width_m, height_m = size
     a = width_m / 2
@@ -159,9 +153,6 @@ def via_stack(
             x0 = -a + cw + w / 2
             y0 = -b + ch + h / 2
             ref.move((x0, y0))
-
-    c.post_process(post_process)
-    c.info.update(info or {})
 
     return c
 

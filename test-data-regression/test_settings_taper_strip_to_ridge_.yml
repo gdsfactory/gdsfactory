@@ -5,11 +5,9 @@ module: gdsfactory.components.taper
 name: taper_strip_to_ridge
 settings:
   cross_section: xs_sc
-  info: null
   layer_slab: SLAB90
   layer_wg: WG
   length: 10.0
-  post_process: null
   w_slab1: 0.15
   w_slab2: 6.0
   width1: 0.5

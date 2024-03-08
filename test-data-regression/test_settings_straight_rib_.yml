@@ -32,7 +32,5 @@ settings:
         simplify: 0.05
         width: 6.0
         width_function: null
-  info: null
   length: 10.0
   npoints: 2
-  post_process: null

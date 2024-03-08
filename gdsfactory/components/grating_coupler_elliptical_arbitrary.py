@@ -9,7 +9,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_tooth_points,
 )
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.typings import Callable, CrossSectionSpec, Floats, LayerSpec, Metadata
+from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.1,) * 10
 _widths = (0.5,) * 10
@@ -31,8 +31,6 @@ def grating_coupler_elliptical_arbitrary(
     spiked: bool = True,
     bias_gap: float = 0,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
@@ -58,8 +56,6 @@ def grating_coupler_elliptical_arbitrary(
         bias_gap: etch gap (um).
             Positive bias increases gap and reduces width to keep period constant.
         cross_section: cross_section spec for waveguide port.
-        post_process: function to post process the component.
-        info: additional information to add to the component.
         kwargs: cross_section settings.
 
     https://en.wikipedia.org/wiki/Ellipse
@@ -171,8 +167,6 @@ def grating_coupler_elliptical_arbitrary(
         port_type="optical",
     )
     xs.add_bbox(c)
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

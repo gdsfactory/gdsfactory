@@ -10,7 +10,6 @@ module: gdsfactory.components.via_stack
 name: via_stack_a292abbc
 settings:
   correct_size: true
-  info: null
   layer_offsets: null
   layer_port: null
   layers:
@@ -18,7 +17,6 @@ settings:
   - M1
   - M2
   - MTOP
-  post_process: null
   size:
   - 11.0
   - 11.0

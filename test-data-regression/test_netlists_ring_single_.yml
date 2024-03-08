@@ -201,10 +201,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 0.6
       npoints: 2
-      post_process: null
   straight_2:
     component: straight
     info:
@@ -246,10 +244,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 0.6
       npoints: 2
-      post_process: null
   straight_3:
     component: straight
     info:
@@ -291,10 +287,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 4.0
       npoints: 2
-      post_process: null
 name: ring_single
 placements:
   bend_euler_1:

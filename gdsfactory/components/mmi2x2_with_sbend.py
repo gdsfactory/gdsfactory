@@ -3,7 +3,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
-from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec, Metadata
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -11,8 +11,6 @@ def mmi2x2_with_sbend(
     with_sbend: bool = True,
     s_bend: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
 ) -> Component:
     """Returns mmi2x2 for Cband.
 
@@ -23,8 +21,6 @@ def mmi2x2_with_sbend(
         with_sbend: add sbend.
         s_bend: S-bend function.
         cross_section: spec.
-        post_process: optional list of functions to post process the component.
-        info: additional information to add to the component.
     """
 
     def mmi_widths(t):
@@ -92,8 +88,6 @@ def mmi2x2_with_sbend(
     c.absorb(topl_taper)
     c.absorb(botr_taper)
     c.absorb(botl_taper)
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

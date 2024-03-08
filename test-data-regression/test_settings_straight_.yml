@@ -10,7 +10,5 @@ module: gdsfactory.components.straight
 name: straight
 settings:
   cross_section: xs_sc
-  info: null
   length: 10.0
   npoints: 2
-  post_process: null

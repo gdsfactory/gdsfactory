@@ -9,7 +9,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import Callable, CrossSectionSpec, LayerSpec, Metadata
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 wire_straight = partial(straight, cross_section="xs_metal_routing")
 
@@ -17,8 +17,6 @@ wire_straight = partial(straight, cross_section="xs_metal_routing")
 @gf.cell
 def wire_corner(
     cross_section: CrossSectionSpec = "xs_metal_routing",
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     """Returns 45 degrees electrical corner wire.
@@ -59,8 +57,6 @@ def wire_corner(
 
     c.info["length"] = width
     c.info["dy"] = width
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

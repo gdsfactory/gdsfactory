@@ -141,10 +141,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 0.01
       npoints: 2
-      post_process: null
   straight_2:
     component: straight
     info:
@@ -186,10 +184,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 0.01
       npoints: 2
-      post_process: null
 name: ring_double
 placements:
   coupler_ring_1:

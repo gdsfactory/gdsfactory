@@ -18,12 +18,10 @@ settings:
   - 0.2
   - 0.2
   - 0.2
-  info: null
   layer_grating: null
   layer_slab: null
   length_taper: 150.0
   polarization: te
-  post_process: null
   slab_offset: 1.0
   slab_xmin: -1.0
   taper:

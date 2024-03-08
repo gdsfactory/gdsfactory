@@ -4,7 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.path import transition_exponential
-from gdsfactory.typings import Callable, LayerSpec, Metadata
+from gdsfactory.typings import LayerSpec
 
 
 @gf.cell
@@ -15,8 +15,6 @@ def taper_parabolic(
     exp: float = 0.5,
     npoints: int = 100,
     layer: LayerSpec = "WG",
-    info: Metadata | None = None,
-    post_process: Callable | list[Callable] | None = None,
 ) -> gf.Component:
     """Returns a parabolic_taper.
 
@@ -27,8 +25,6 @@ def taper_parabolic(
         exp: exponent.
         npoints: number of points.
         layer: layer spec.
-        info: additional information to add to the component.
-        post_process: function to post process the component.
     """
     c = gf.Component()
 
@@ -43,8 +39,6 @@ def taper_parabolic(
 
     c.add_port(name="o1", center=(0, 0), width=width1, orientation=180, layer=layer)
     c.add_port(name="o2", center=(length, 0), width=width2, orientation=0, layer=layer)
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

@@ -1,7 +1,7 @@
 function: component_sequence
 info: {}
 module: gdsfactory.components.component_sequence
-name: component_sequence_a6d649bb
+name: component_sequence_c2186d0c
 settings:
   port_name1: o1
   port_name2: o2
@@ -14,10 +14,8 @@ settings:
       module: gdsfactory.components.straight
       settings:
         cross_section: xs_sc
-        info: null
         length: 10.0
         npoints: 2
-        post_process: null
     - o1
     - o2
     A:

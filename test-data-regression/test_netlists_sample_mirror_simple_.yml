@@ -30,10 +30,8 @@ instances:
       width: 0.5
     settings:
       cross_section: xs_sc
-      info: null
       length: 10.0
       npoints: 2
-      post_process: null
 name: sample_mirror_simple_a2dbfa91
 placements:
   b:

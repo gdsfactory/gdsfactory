@@ -10,7 +10,5 @@ module: gdsfactory.components.straight
 name: straight_299ab026
 settings:
   cross_section: xs_metal_routing
-  info: null
   length: 10.0
   npoints: 2
-  post_process: null
