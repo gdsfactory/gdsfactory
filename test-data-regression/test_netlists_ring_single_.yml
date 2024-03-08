@@ -151,10 +151,8 @@ instances:
         width_wide: null
       cross_section_bend: null
       gap: 0.2
-      info: null
       length_extension: 3
       length_x: 4.0
-      post_process: null
       radius: 10.0
   straight_1:
     component: straight

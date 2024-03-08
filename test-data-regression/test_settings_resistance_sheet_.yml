@@ -4,7 +4,6 @@ info:
 module: gdsfactory.components.resistance_sheet
 name: resistance_sheet
 settings:
-  info: null
   layer_offsets:
   - 0
   - 0.2
@@ -33,5 +32,4 @@ settings:
   pad_pitch: 100.0
   port_orientation1: 180
   port_orientation2: 0
-  post_process: null
   width: 10

@@ -9,11 +9,9 @@ settings:
   - - 3.0
     - 4.0
   bottom: 0
-  info: null
   layer:
   - 1
   - 0
   left: 0
-  post_process: null
   right: 0
   top: 0

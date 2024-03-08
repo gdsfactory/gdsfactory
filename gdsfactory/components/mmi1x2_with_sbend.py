@@ -38,7 +38,7 @@ def mmi1x2_with_sbend(
 
     P = gf.path.straight(length=2, npoints=100)
     xs = gf.get_cross_section(cross_section)
-    xs0 = xs.copy(width_function=mmi_widths, add_pins_function_name=None)
+    xs0 = xs.copy(width_function=mmi_widths)
     ref = c << gf.path.extrude(P, cross_section=xs0)
 
     # Add "stub" straight sections for ports
@@ -72,7 +72,6 @@ def mmi1x2_with_sbend(
         c.add_port("o2", port=s_topr.ports["o2"])
         c.add_port("o3", port=s_botr.ports["o2"])
 
-    xs.add_pins(c)
     c.absorb(ref)
     c.absorb(sl)
     c.absorb(s_topr)

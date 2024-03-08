@@ -434,7 +434,6 @@ class Path(_GeometryHelper):
         simplify: float | None = None,
         shear_angle_start: float | None = None,
         shear_angle_end: float | None = None,
-        add_pins: bool = False,
         **kwargs,
     ) -> Component:
         """Returns Component by extruding a Path with a CrossSection.
@@ -451,7 +450,6 @@ class Path(_GeometryHelper):
                     by more than the value listed here will be removed.
             shear_angle_start: an optional angle to shear the starting face by (in degrees).
             shear_angle_end: an optional angle to shear the ending face by (in degrees).
-            add_pins: if True adds pins to the ports of the component according to `cross_section`.
 
         Keyword Args:
             Supplied to :func:`gf.cell`.
@@ -473,7 +471,6 @@ class Path(_GeometryHelper):
             simplify=simplify,
             shear_angle_start=shear_angle_start,
             shear_angle_end=shear_angle_end,
-            add_pins=add_pins,
             **kwargs,
         )
 

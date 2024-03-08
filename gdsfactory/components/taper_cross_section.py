@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from functools import partial
-from itertools import islice
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -58,18 +57,6 @@ def taper_cross_section(
     ref = c << gf.path.extrude_transition(taper_path, transition=transition)
     c.add_ports(ref.ports)
     c.absorb(ref)
-
-    # set one pin for each cross section
-    x1.add_pins(
-        c,
-        select_ports=lambda ports: {(port_name := next(iter(ports))): ports[port_name]},
-    )
-    x2.add_pins(
-        c,
-        select_ports=lambda ports: {
-            (port_name := next(islice(iter(ports), 1, None))): ports[port_name],
-        },
-    )
 
     if "type" in x1.info and x1.info["type"] == x2.info.get("type"):
         c.add_route_info(cross_section=x1, length=length, taper=True)

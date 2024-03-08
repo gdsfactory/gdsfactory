@@ -15,13 +15,11 @@ settings:
   extension_length: 15.0
   heater_taper_length: 10.0
   heater_width: 2.5
-  info: null
   layer_heater: null
   length: 1000.0
   n: 3
   port_orientation1: null
   port_orientation2: null
-  post_process: null
   radius: null
   spacing: 2.0
   straight:

@@ -53,11 +53,11 @@ def coupler_ring(
     c = Component()
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
     xs = gf.get_cross_section(cross_section)
-    xs_no_pins = xs.copy(add_pins_function_name=None)
+    xs_no_pins = xs.copy()
 
     cross_section_bend = cross_section_bend or xs
     xs_bend = gf.get_cross_section(cross_section_bend)
-    xs_bend = xs_bend.copy(radius=radius, add_pins_function_name=None)
+    xs_bend = xs_bend.copy(radius=radius)
 
     # define subcells
     coupler90_component = coupler90(

@@ -20,7 +20,6 @@ settings:
       cross_section_x_top: null
       delta_length: 10.0
       extend_ports_straight_x: null
-      info: null
       length_x: 0.1
       length_y: 2.0
       mirror_bot: false
@@ -29,7 +28,6 @@ settings:
       port_e0_splitter: o4
       port_e1_combiner: o3
       port_e1_splitter: o3
-      post_process: null
       splitter:
         function: mmi2x2
       straight:
@@ -52,13 +50,11 @@ settings:
     settings:
       polarization: te
       taper_angle: 35
-  info: null
   io_rotation: null
   layer_label: null
   loopback_xspacing: 50.0
   min_input_to_output_spacing: 200.0
   optical_routing_type: 2
-  post_process: null
   route_filter:
     function: get_route_from_waypoints
   select_ports:

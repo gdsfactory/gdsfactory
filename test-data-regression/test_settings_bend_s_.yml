@@ -8,9 +8,7 @@ module: gdsfactory.components.bend_s
 name: bend_s
 settings:
   cross_section: xs_sc
-  info: null
   npoints: 99
-  post_process: null
   size:
   - 11.0
   - 1.8

@@ -69,7 +69,6 @@ cells:
     cross_section_x_top: null
     delta_length: 10.0
     extend_ports_straight_x: null
-    info: null
     length_x: 0.1
     length_y: 2.0
     mirror_bot: false
@@ -78,7 +77,6 @@ cells:
     port_e0_splitter: o3
     port_e1_combiner: o2
     port_e1_splitter: o2
-    post_process: null
     splitter:
       function: mmi1x2
       module: gdsfactory.components.mmi1x2
@@ -257,7 +255,6 @@ settings:
   cross_section_x_top: null
   delta_length: 10.0
   extend_ports_straight_x: null
-  info: null
   length_x: 0.1
   length_y: 2.0
   mirror_bot: false
@@ -266,7 +263,6 @@ settings:
   port_e0_splitter: o3
   port_e1_combiner: o2
   port_e1_splitter: o2
-  post_process: null
   splitter:
     function: mmi1x2
     module: gdsfactory.components.mmi1x2
