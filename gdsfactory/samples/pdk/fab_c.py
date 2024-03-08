@@ -8,7 +8,7 @@ from functools import partial
 from pydantic import BaseModel
 
 import gdsfactory as gf
-from gdsfactory.add_pins import add_pins_inside1nm
+from gdsfactory.add_pins import add_pins_inside1nm as _add_pins_inside1nm
 from gdsfactory.cross_section import get_cross_sections, strip
 from gdsfactory.get_factories import get_cells
 from gdsfactory.port import select_ports
@@ -52,7 +52,8 @@ def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
     )
 
 
-add_pins = partial(add_pins_inside1nm, pin_length=0.5)
+# avoid registering the function add pins
+_add_pins = partial(_add_pins_inside1nm, pin_length=0.5)
 
 ######################
 # cross_sections
@@ -90,7 +91,8 @@ xs_no = strip_no()
 # LEAF COMPONENTS with pins
 ######################
 
-cell = partial(gf.cell, post_process=[add_pins])
+# customize the cell decorator for this PDK
+cell = partial(gf.cell, post_process=[_add_pins])
 
 
 @cell
