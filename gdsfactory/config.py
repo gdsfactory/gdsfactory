@@ -244,17 +244,9 @@ class Settings(BaseSettings):
     """
 
     n_threads: int = get_number_of_cores()
-    display_type: Literal["widget", "klayout", "docs", "kweb"] = "klayout"
+    display_type: Literal["klayout", "matplotlib", "kweb"] = "klayout"
     last_saved_files: list[PathType] = []
     max_name_length: int = 99
-    model_config = SettingsConfigDict(
-        validation=True,
-        arbitrary_types_allowed=True,
-        env_prefix="gdsfactory_",
-        env_nested_delimiter="_",
-        env_file=dotenv_path,
-        extra="ignore",
-    )
     pdk: str | None = None
     difftest_ignore_cell_name_differences: bool = True
     difftest_ignore_sliver_differences: bool = False
@@ -281,6 +273,13 @@ class Settings(BaseSettings):
     raise_error_on_mutation: bool = True
     logger: ClassVar[Logger] = logger
     logfilter: LogFilter = Field(default_factory=LogFilter)
+
+    model_config = SettingsConfigDict(
+        validation=True,
+        arbitrary_types_allowed=True,
+        env_file=dotenv_path,
+        extra="ignore",
+    )
 
     def __init__(self, **data: Any):
         """Set log filter and run pydantic."""
