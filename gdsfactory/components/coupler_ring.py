@@ -53,7 +53,6 @@ def coupler_ring(
     c = Component()
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
     xs = gf.get_cross_section(cross_section)
-    xs_no_pins = xs.copy()
 
     cross_section_bend = cross_section_bend or xs
     xs_bend = gf.get_cross_section(cross_section_bend)
@@ -64,13 +63,13 @@ def coupler_ring(
         gap=gap,
         radius=radius,
         bend=bend,
-        cross_section=xs_no_pins,
+        cross_section=xs,
         cross_section_bend=xs_bend,
     )
     coupler_straight_component = coupler_straight(
         gap=gap,
         length=length_x,
-        cross_section=xs_no_pins,
+        cross_section=xs,
     )
 
     # add references to subcells
@@ -87,7 +86,7 @@ def coupler_ring(
     cbl.mirror(p1=(0, y), p2=(1, y))
     cbl.connect(port="o2", destination=cs.ports["o2"])
 
-    s = straight(length=length_extension, cross_section=xs_no_pins)
+    s = straight(length=length_extension, cross_section=xs)
 
     s1 = c << s
     s2 = c << s
@@ -109,7 +108,7 @@ def coupler_ring(
 @gf.cell
 def coupler_ring_point(
     coupler_ring: ComponentFactory = coupler_ring,
-    open_layers: LayerSpecs = None,
+    open_layers: LayerSpecs | None = None,
     open_sizes: Coordinates | None = None,
     **kwargs,
 ) -> Component:
