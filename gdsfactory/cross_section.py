@@ -6,7 +6,6 @@ To create a component you need to extrude the path with a cross-section.
 from __future__ import annotations
 
 import hashlib
-import importlib
 import sys
 import warnings
 from collections.abc import Callable, Iterable
@@ -38,6 +37,36 @@ port_types_electrical = ("electrical", "electrical")
 cladding_layers_optical = None
 cladding_offsets_optical = None
 cladding_simplify_optical = None
+
+deprecated = {
+    "info",
+    "add_pins_function_name",
+    "add_pins_function_module",
+    "min_length",
+    "width_wide",
+    "auto_widen",
+    "auto_widen_minimum_length",
+    "start_straight_length",
+    "taper_length",
+    "end_straight_length",
+    "gap",
+}
+
+deprecated_pins = {
+    "add_pins_function_name",
+    "add_pins_function_module",
+}
+
+deprecated_routing = {
+    "min_length",
+    "width_wide",
+    "auto_widen",
+    "auto_widen_minimum_length",
+    "start_straight_length",
+    "taper_length",
+    "end_straight_length",
+    "gap",
+}
 
 
 class Section(BaseModel):
@@ -180,18 +209,9 @@ class CrossSection(BaseModel):
     bbox_layers: LayerSpecs | None = None
     bbox_offsets: Floats | None = None
 
-    info: dict[str, Any] = Field(default_factory=dict)
-    add_pins_function_name: str | None = None
-    add_pins_function_module: str = "gdsfactory.add_pins"
-
-    min_length: float = 10e-3
-    width_wide: float | None = None
-    auto_widen: bool = False
-    auto_widen_minimum_length: float = 200.0
-    taper_length: float = 10.0
-    gap: float = 3.0
-
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    model_config = ConfigDict(
+        extra="ignore", frozen=True
+    )  # TODO: change to forbid after remove deprecation
 
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
@@ -265,17 +285,6 @@ class CrossSection(BaseModel):
             radius: route bend radius (um).
             bbox_layers: layer to add as bounding box.
             bbox_offsets: offset to add to the bounding box.
-            info: dictionary with extra information.
-            add_pins_function_name: name of the function to add pins to the component.
-            add_pins_function_module: function to add pins to the component.
-            min_length: defaults to 1nm = 10e-3um for routing.
-            start_straight_length: straight length at the beginning of the route.
-            end_straight_length: end length at the beginning of the route.
-            width_wide: wide waveguides width (um) for low loss routing.
-            auto_widen: taper to wide waveguides for low loss routing.
-            auto_widen_minimum_length: minimum straight length for auto_widen.
-            taper_length: taper_length for auto_widen.
-            gap: minimum gap between waveguides.
 
         """
         for kwarg in kwargs:
@@ -314,17 +323,11 @@ class CrossSection(BaseModel):
         """Add pins to a target component according to :class:`CrossSection`.
         Args and kwargs are passed to the function defined by the `add_pins_function_name`.
         """
-        if self.add_pins_function_name is None:
-            return component
-
-        add_pins = importlib.import_module(self.add_pins_function_module)
-        if not hasattr(add_pins, self.add_pins_function_name):
-            raise ValueError(
-                f"add_pins_function_name = {self.add_pins_function_name} not found in"
-                f"add_pins_function_module = {self.add_pins_function_module}"
-            )
-        function = getattr(add_pins, self.add_pins_function_name)
-        return function(*args, component=component, **kwargs)
+        warnings.warn(
+            "CrossSection.add_pins() is deprecated. @gf.cell(post_process=[gf.add_pins]) instead.",
+            DeprecationWarning,
+        )
+        return component
 
     def add_bbox(
         self,
@@ -432,7 +435,6 @@ def cross_section(
     cladding_simplify: Floats | None = None,
     radius: float | None = 10.0,
     radius_min: float | None = None,
-    add_pins_function_name: str | None = None,
     main_section_name: str = "_default",
     **kwargs,
 ) -> CrossSection:
@@ -458,15 +460,6 @@ def cross_section(
         main_section_name: name of the main section. Defaults to _default
 
 
-    Keyword Args:
-        info: dictionary with extra information.
-        add_pins_function_module: name of the module to add pins to the component.
-        min_length: defaults to 1nm = 10e-3um for routing.
-        width_wide: wide waveguides width (um) for low loss routing.
-        auto_widen: taper to wide waveguides for low loss routing.
-        auto_widen_minimum_length: minimum straight length for auto_widen.
-        taper_length: taper_length for auto_widen.
-        gap: minimum gap between waveguides.
 
 
     .. plot::
@@ -509,6 +502,18 @@ def cross_section(
     """
     sections = list(sections or [])
 
+    for k in kwargs.keys():
+        if k in deprecated_routing:
+            warnings.warn(
+                f"{k} is deprecated. Pass this parameter to the routing function instead."
+            )
+        if k in deprecated_pins:
+            warnings.warn(
+                f"{k} is deprecated. You can decorate the @gf.cell(post_process=) instead."
+            )
+        elif k in deprecated:
+            warnings.warn(f"{k} is deprecated.")
+
     if cladding_layers:
         cladding_simplify = cladding_simplify or (None,) * len(cladding_layers)
         cladding_offsets = cladding_offsets or (0,) * len(cladding_layers)
@@ -547,8 +552,6 @@ def cross_section(
         radius_min=radius_min,
         bbox_layers=bbox_layers,
         bbox_offsets=bbox_offsets,
-        add_pins_function_name=add_pins_function_name,
-        **kwargs,
     )
 
 
@@ -556,9 +559,7 @@ radius_nitride = 20
 radius_rib = 20
 
 strip = partial(cross_section, add_pins_function_name=None, radius=10, radius_min=5)
-strip_pins = partial(strip, add_pins_function_name="add_pins_inside2nm")
 strip_auto_widen = partial(strip, auto_widen=True)
-strip_no_pins = strip
 
 rib = partial(
     strip,
@@ -2394,8 +2395,6 @@ def get_cross_sections(
 
 xs_sc = strip()
 xs_sc_auto_widen = strip_auto_widen()
-xs_sc_no_pins = strip_no_pins()
-xs_sc_pins = strip_pins()
 
 xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
 xs_rc2 = rib2()

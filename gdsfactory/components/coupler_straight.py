@@ -4,14 +4,15 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import CrossSectionSpec
+from gdsfactory.typings import ComponentSpec
 
 
 @gf.cell
 def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,
-    straight: Component = straight_function,
-    cross_section: CrossSectionSpec = "xs_sc_no_pins",
+    straight: ComponentSpec = straight_function,
+    cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
     """Coupler_straight with two parallel straights.
