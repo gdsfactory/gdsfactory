@@ -30,10 +30,11 @@ def add_pads_bot(
     pad_port_labels: tuple[str, ...] | None = None,
     pad: ComponentSpec = pad_rectangular,
     bend: ComponentSpec = "wire_corner",
-    straight_separation: float | None = None,
+    straight_separation: float = 20.0,
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
     with_loopback: bool = False,
+    min_length: float = 5,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -54,6 +55,7 @@ def add_pads_bot(
         pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         with_loopback: True, adds loopback structures.
+        min_length: minimum length for the straight section.
 
     Keyword Args:
         straight: straight spec.
@@ -98,10 +100,6 @@ def add_pads_bot(
     cref = component_new << component
     ports = [cref[port_name] for port_name in port_names] if port_names else None
     ports = ports or select_ports(cref.ports)
-    xs = gf.get_cross_section(cross_section)
-
-    straight_separation = straight_separation or xs.width + xs.gap
-
     pad_component = gf.get_component(pad)
     if pad_port_name not in pad_component.ports:
         pad_ports = list(pad_component.ports.keys())
@@ -141,6 +139,7 @@ def add_pads_bot(
         port_names=port_names,
         fiber_spacing=pad_spacing,
         optical_routing_type=optical_routing_type,
+        min_length=min_length,
         **kwargs,
     )
     if len(elements) == 0:

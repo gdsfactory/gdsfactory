@@ -13,14 +13,14 @@ from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Number, Routes, Strs
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Routes, Strs
 
 
 def route_south(
     component: Component,
     optical_routing_type: int = 1,
     excluded_ports: tuple[str, ...] | None = None,
-    straight_separation: Number = 4.0,
+    straight_separation: float = 4.0,
     io_gratings_lines: list[list[ComponentReference]] | None = None,
     gc_port_name: str = "o1",
     bend: ComponentSpec = bend_euler,

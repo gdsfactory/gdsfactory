@@ -161,16 +161,6 @@ class CrossSection(BaseModel):
         radius_min: minimum acceptable bend radius.
         bbox_layers: layer to add as bounding box.
         bbox_offsets: offset to add to the bounding box.
-        info: dictionary with extra information.
-        add_pins_function_name: name of the function to add pins to the component.\
-                None by default does not add pins.
-        add_pins_function_module: function to add pins to the component.
-        min_length: defaults to 1nm = 10e-3um for routing.
-        width_wide: wide waveguides width (um) for low loss routing.
-        auto_widen: taper to wide waveguides for low loss routing.
-        auto_widen_minimum_length: minimum straight length for auto_widen.
-        taper_length: taper_length for auto_widen.
-        gap: minimum gap between waveguides.
 
     .. code::
 
