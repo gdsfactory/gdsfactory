@@ -161,14 +161,13 @@ def grating_coupler_elliptical_arbitrary(
         c = xs.add_pins(c)
 
     x = (taper_length + xis[-1]) / 2
-    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
-        name=name,
+        name="o2",
         center=(x, 0),
         width=10,
         orientation=0,
         layer=xs.layer,
-        port_type=name,
+        port_type="optical",
     )
     return c
 

@@ -95,7 +95,7 @@ def grating_coupler_rectangular_arbitrary_slab(
         xi += gap + width / 2
         cgrating = c.add_ref(
             rectangle(
-                size=[width, width_grating],
+                size=(width, width_grating),
                 layer=layer,
                 port_type=None,
                 centered=True,
@@ -119,10 +119,9 @@ def grating_coupler_rectangular_arbitrary_slab(
 
     xport = np.round((xi + length_taper) / 2, 3)
 
-    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
-        name=name,
-        port_type=name,
+        name="o2",
+        port_type="optical",
         center=(xport, 0),
         orientation=0,
         width=width_grating,
@@ -130,11 +129,7 @@ def grating_coupler_rectangular_arbitrary_slab(
     )
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
-    gf.asserts.grating_coupler(c)
-    if xs.add_bbox:
-        c = xs.add_bbox(c)
-    if xs.add_pins:
-        c = xs.add_pins(c)
+    xs.add_bbox(c)
     return c
 
 

@@ -22,7 +22,7 @@ def grating_coupler_rectangular_arbitrary(
     wavelength: float = 1.55,
     taper: ComponentSpec | None = taper_function,
     layer_grating: LayerSpec | None = None,
-    layer_slab: LayerSpec = "SLAB150",
+    layer_slab: LayerSpec | None = None,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     fiber_angle: float = 15,
@@ -94,7 +94,7 @@ def grating_coupler_rectangular_arbitrary(
         )
 
         c.add_port(port=taper_ref.ports["o1"], name="o1")
-        xi = taper_ref.xmax
+        xi = taper_ref.d.xmax
     else:
         length_taper = 0
         xi = 0
@@ -125,7 +125,7 @@ def grating_coupler_rectangular_arbitrary(
     if layer_slab:
         slab_xmin = length_taper - slab_offset
         slab_xmax = length_taper + np.sum(widths) + np.sum(gaps) + slab_offset
-        slab_ysize = c.ysize + 2 * slab_offset
+        slab_ysize = c.d.ysize + 2 * slab_offset
         yslab = slab_ysize / 2
         c.add_polygon(
             [
@@ -150,15 +150,12 @@ def grating_coupler_rectangular_arbitrary(
     c.info["wavelength"] = wavelength
 
     gf.asserts.grating_coupler(c)
-    if xs.add_bbox:
-        c = xs.add_bbox(c)
-    if xs.add_pins:
-        c = xs.add_pins(c)
+    xs.add_bbox(c)
     return c
 
 
 if __name__ == "__main__":
-    c = grating_coupler_rectangular_arbitrary(width=3)
+    c = grating_coupler_rectangular_arbitrary(width=3, layer_slab=(2, 0))
     # c = grating_coupler_rectangular_arbitrary(
     #     layer_grating=(3, 0), layer_slab=(2, 0), slab_offset=1
     # )

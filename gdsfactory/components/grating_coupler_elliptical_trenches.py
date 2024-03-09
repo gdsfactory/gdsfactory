@@ -110,7 +110,6 @@ def grating_coupler_elliptical_trenches(
         (xmax + end_straight_length, -y),
         (xmax, -y),
     ]
-    len(pts)
     c.add_polygon(pts, layer)
 
     c.add_port(
@@ -124,20 +123,16 @@ def grating_coupler_elliptical_trenches(
     c.info["period"] = period
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
-    if xs.add_bbox:
-        c = xs.add_bbox(c)
-    if xs.add_pins:
-        c = xs.add_pins(c)
+    xs.add_bbox(c)
 
     x = np.round(taper_length + period * n_periods / 2, 3)
-    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
-        name=name,
+        name="o2",
         center=(x, 0),
         width=10,
         orientation=0,
         layer=layer,
-        port_type=name,
+        port_type="optical",
     )
     return c
 

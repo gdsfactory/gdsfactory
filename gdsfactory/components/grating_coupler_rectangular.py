@@ -106,7 +106,7 @@ def grating_coupler_rectangular(
     if layer_slab:
         slab_xmin += length_taper
         slab_xsize = cgrating.xmax + slab_offset
-        slab_ysize = c.ysize + 2 * slab_offset
+        slab_ysize = c.d.ysize + 2 * slab_offset
         yslab = slab_ysize / 2
         c.add_polygon(
             [
@@ -118,13 +118,11 @@ def grating_coupler_rectangular(
             layer_slab,
         )
     xs.add_bbox(c)
-    xs.add_pins(c)
 
     xport = np.round((x0 + cgrating.x) / 2, 3)
-    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
-        name=name,
-        port_type=name,
+        name="o2",
+        port_type="optical",
         center=(xport, 0),
         orientation=0,
         width=width_grating,

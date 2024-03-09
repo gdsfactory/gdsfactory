@@ -9,7 +9,7 @@ from gdsfactory.difftest import difftest
 WIDTH_WIDE = 2.0
 
 xs_pin_m1 = partial(
-    gf.cross_section.strip_auto_widen,
+    gf.cross_section.strip,
     width=0.5,
     width_wide=WIDTH_WIDE,
     sections=(
@@ -19,7 +19,7 @@ xs_pin_m1 = partial(
 )
 
 xs_pin = partial(
-    gf.cross_section.strip_auto_widen,
+    gf.cross_section.strip,
     sections=(Section(width=1, offset=2, layer=(24, 0), name="n+"),),
 )
 
