@@ -122,6 +122,9 @@ def get_route(
             xs_list.append((xs, angles))
         cross_section = xs_list
 
+    else:
+        cross_section = gf.get_cross_section(cross_section, **kwargs)
+
     if cross_section:
         bend90 = (
             bend

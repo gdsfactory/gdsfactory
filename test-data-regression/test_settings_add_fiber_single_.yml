@@ -22,6 +22,7 @@ settings:
       extend_ports_straight_x: null
       length_x: 0.1
       length_y: 2.0
+      min_length: 0.01
       mirror_bot: false
       nbends: 2
       port_e0_combiner: o4

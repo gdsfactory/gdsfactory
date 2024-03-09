@@ -10,6 +10,7 @@ settings:
   delta_length: 0.0
   length_x: 500
   length_y: 2.0
+  min_length: 0.01
   mirror_bot: false
   nbends: 2
   phase_shifter:

@@ -7,7 +7,7 @@ name: crossing45
 settings:
   alpha: 0.08
   cross_section: xs_sc
-  cross_section_bends: xs_sc_no_pins
+  cross_section_bends: xs_sc
   crossing:
     function: crossing
   dx: null

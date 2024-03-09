@@ -21,6 +21,7 @@ settings:
       extend_ports_straight_x: null
       length_x: 0.1
       length_y: 2.0
+      min_length: 0.01
       mirror_bot: false
       nbends: 2
       port_e0_combiner: o4
@@ -39,6 +40,7 @@ settings:
   cross_section: xs_metal_routing
   get_input_labels_function: null
   layer_label: TEXT
+  min_length: 5
   optical_routing_type: 1
   pad:
     function: pad
@@ -54,5 +56,5 @@ settings:
     module: gdsfactory.port
     settings:
       port_type: electrical
-  straight_separation: null
+  straight_separation: 20.0
   with_loopback: false

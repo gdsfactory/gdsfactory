@@ -157,7 +157,6 @@ def get_bundle_from_steps(
         kwargs.pop("start_straight_length", None)
         x = gf.get_cross_section(cross_section)
         cross_section = x.copy(**kwargs)
-        auto_widen = auto_widen
 
         if auto_widen:
             taper = gf.get_component(
