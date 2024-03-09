@@ -122,12 +122,6 @@ def get_route(
             xs_list.append((xs, angles))
         cross_section = xs_list
 
-    elif cross_section:
-        x = cross_section = gf.get_cross_section(cross_section, **kwargs)
-
-    else:
-        x = cross_section = None
-
     if cross_section:
         bend90 = (
             bend
@@ -142,7 +136,7 @@ def get_route(
                 "Tapers not implemented for routes made from multiple cross_sections."
             )
         width1 = input_port.width
-        width2 = x.width_wide if auto_widen else width1
+        width2 = width_wide if auto_widen else width1
 
         taper = gf.get_component(
             taper,
@@ -310,6 +304,9 @@ def get_route_from_waypoints(
         straight=straight,
         taper=taper,
         cross_section=x,
+        auto_widen=auto_widen,
+        width_wide=width_wide,
+        taper_length=taper_length,
     )
 
 

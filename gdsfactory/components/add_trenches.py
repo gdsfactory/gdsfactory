@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.components.bbox import bbox
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler import coupler
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 @gf.cell_with_child
@@ -17,6 +17,8 @@ def add_trenches(
     bot: bool = True,
     right: bool = False,
     left: bool = False,
+    layer_trench: LayerSpec = (1, 7),
+    width_trench: float = 3,
     **kwargs,
 ) -> gf.Component:
     """Return component with trenches.
@@ -28,14 +30,13 @@ def add_trenches(
         bot: add bot trenches.
         right: add right trenches.
         left: add left trenches.
+        layer_trench: layer for the trenches.
+        width_trench: width of the trenches.
         kwargs: component settings.
     """
     c = gf.Component()
     component = gf.get_component(component, **kwargs)
     xs = gf.get_cross_section(cross_section)
-
-    layer_trench = gf.get_layer(xs.info.get("layer_trench"))
-    width_trench = xs.info.get("width_trench")
 
     top = width_trench if top else 0
     bot = width_trench if bot else 0

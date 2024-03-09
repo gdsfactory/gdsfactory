@@ -51,7 +51,7 @@ def add_pads_bot(
         pad_port_labels: pad list of labels.
         pad: spec for route terminations.
         bend: bend spec.
-        straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
+        straight_separation: from wire edge to edge.
         pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         with_loopback: True, adds loopback structures.

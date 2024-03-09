@@ -309,7 +309,7 @@ class CrossSection(BaseModel):
         """
         warnings.warn(
             "CrossSection.add_pins() is deprecated. @gf.cell(post_process=[gf.add_pins]) instead.",
-            DeprecationWarning,
+            stacklevel=2,
         )
         return component
 
@@ -486,14 +486,16 @@ def cross_section(
     for k in kwargs.keys():
         if k in deprecated_routing:
             warnings.warn(
-                f"{k} is deprecated. Pass this parameter to the routing function instead."
+                f"{k} is deprecated. Pass this parameter to the routing function instead.",
+                stacklevel=2,
             )
         if k in deprecated_pins:
             warnings.warn(
-                f"{k} is deprecated. You can decorate the @gf.cell(post_process=) instead."
+                f"{k} is deprecated. You can decorate the @gf.cell(post_process=) instead.",
+                stacklevel=2,
             )
         elif k in deprecated:
-            warnings.warn(f"{k} is deprecated.")
+            warnings.warn(f"{k} is deprecated.", stacklevel=2)
 
     if cladding_layers:
         cladding_simplify = cladding_simplify or (None,) * len(cladding_layers)
@@ -539,8 +541,7 @@ def cross_section(
 radius_nitride = 20
 radius_rib = 20
 
-strip = partial(cross_section, add_pins_function_name=None, radius=10, radius_min=5)
-strip_auto_widen = partial(strip, auto_widen=True)
+strip = partial(cross_section, radius=10, radius_min=5)
 
 rib = partial(
     strip,
@@ -652,7 +653,6 @@ def rib_with_trenches(
     layer_trench: LayerSpec = "DEEP_ETCH",
     wg_marking_layer: LayerSpec | None = None,
     sections: tuple[Section, ...] | None = None,
-    info: dict[str, Any] | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of rib waveguide defined by trenches.
@@ -732,22 +732,10 @@ def rib_with_trenches(
         for i, offset in enumerate([+trench_offset, -trench_offset])
     ]
 
-    info = info or {}
-    info.update(
-        dict(
-            layer_trench=layer_trench,
-            width=width,
-            width_trench=width_trench,
-            width_slab=width_slab,
-            wg_marking_layer=wg_marking_layer,
-        )
-    )
-
     return cross_section(
         layer=wg_marking_layer,
         width=width,
         sections=tuple(sections),
-        info=info,
         **kwargs,
     )
 
@@ -762,7 +750,6 @@ def l_with_trenches(
     mirror: bool = False,
     wg_marking_layer: LayerSpec | None = None,
     sections: tuple[Section, ...] | None = None,
-    info: dict[str, Any] | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of l waveguide defined by trenches.
@@ -820,22 +807,11 @@ def l_with_trenches(
         )
     ]
     sections += [Section(width=width_trench, offset=trench_offset, layer=layer_trench)]
-    info = info or {}
-    info.update(
-        dict(
-            layer_trench=layer_trench,
-            width=width,
-            width_trench=width_trench,
-            width_slab=width_slab,
-            wg_marking_layer=wg_marking_layer,
-        )
-    )
 
     return cross_section(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        info=info,
         **kwargs,
     )
 
@@ -847,8 +823,6 @@ metal1 = partial(
     port_names=port_names_electrical,
     port_types=port_types_electrical,
     radius=None,
-    min_length=5,
-    gap=5,
 )
 metal2 = partial(
     metal1,
@@ -1883,7 +1857,6 @@ def strip_heater_metal(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        info=dict(heater_width=heater_width),
         **kwargs,
     )
 
@@ -2375,7 +2348,6 @@ def get_cross_sections(
 
 
 xs_sc = strip()
-xs_sc_auto_widen = strip_auto_widen()
 
 xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
 xs_rc2 = rib2()
