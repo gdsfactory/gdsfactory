@@ -716,52 +716,52 @@ if __name__ == "__main__":
 
     # c.show()
 
-    # c = gf.Component("demo")
-    # c1 = c << gf.components.mmi2x2()
-    # c2 = c << gf.components.mmi2x2()
-    # c2.d.move((100, 40))
-    # routes = route_bundle(
-    #     c,
-    #     [c1.ports["o2"], c1.ports["o1"]],
-    #     [c2.ports["o1"], c2.ports["o2"]],
-    #     enforce_port_ordering=False,
-    #     separation=5,
-    #     cross_section="xs_rc"
-    #     # layer=(2, 0),
-    #     # straight=partial(gf.components.straight, layer=(2, 0), width=1),
-    # )
-    # c.show()
-
-    dy = 200.0
-    xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
-    pitch = 10.0
-    N = len(xs1)
-    xs2 = [-20 + i * pitch for i in range(N // 2)]
-    xs2 += [400 + i * pitch for i in range(N // 2)]
-    a1 = 90
-    a2 = a1 + 180
-
-    ports1 = [
-        gf.Port(
-            f"bot_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1, 0)
-        )
-        for i in range(N)
-    ]
-    ports2 = [
-        gf.Port(
-            f"top_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1, 0)
-        )
-        for i in range(N)
-    ]
-
-    c = gf.Component()
-    route_bundle(
+    c = gf.Component("demo")
+    c1 = c << gf.components.mmi2x2()
+    c2 = c << gf.components.mmi2x2()
+    c2.d.move((100, 40))
+    routes = route_bundle(
         c,
-        ports1,
-        ports2,
-        end_straight_length=1,
-        start_straight_length=100,
+        [c1.ports["o2"], c1.ports["o1"]],
+        [c2.ports["o1"], c2.ports["o2"]],
+        enforce_port_ordering=False,
+        separation=5,
+        cross_section="xs_rc",
+        # layer=(2, 0),
+        # straight=partial(gf.components.straight, layer=(2, 0), width=1),
     )
-    c.add_ports(ports1)
-    c.add_ports(ports2)
     c.show()
+
+    # dy = 200.0
+    # xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
+    # pitch = 10.0
+    # N = len(xs1)
+    # xs2 = [-20 + i * pitch for i in range(N // 2)]
+    # xs2 += [400 + i * pitch for i in range(N // 2)]
+    # a1 = 90
+    # a2 = a1 + 180
+
+    # ports1 = [
+    #     gf.Port(
+    #         f"bot_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1, 0)
+    #     )
+    #     for i in range(N)
+    # ]
+    # ports2 = [
+    #     gf.Port(
+    #         f"top_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1, 0)
+    #     )
+    #     for i in range(N)
+    # ]
+
+    # c = gf.Component()
+    # route_bundle(
+    #     c,
+    #     ports1,
+    #     ports2,
+    #     end_straight_length=1,
+    #     start_straight_length=100,
+    # )
+    # c.add_ports(ports1)
+    # c.add_ports(ports2)
+    # c.show()
