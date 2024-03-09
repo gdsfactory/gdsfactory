@@ -245,12 +245,6 @@ class CrossSection(BaseModel):
         else:
             raise KeyError(f"{key} not in {list(key_to_section.keys())}")
 
-    def __hash__(self) -> int:
-        # self.info is not hashable. Converting to hashable here.
-        _model_attributes = self.model_dump()
-        _model_attributes["info"] = frozenset(_model_attributes.pop("info"))
-        return hash(self.__class__) + hash(frozenset(_model_attributes))
-
     def copy(
         self,
         width: float | None = None,
@@ -448,9 +442,6 @@ def cross_section(
         radius_min: min acceptable bend radius.
         add_pins_function_name: name of the function to add pins to the component.
         main_section_name: name of the main section. Defaults to _default
-
-
-
 
     .. plot::
         :include-source:
