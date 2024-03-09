@@ -45,7 +45,7 @@ def route_bundle(
     component: Component,
     ports1: list[Port],
     ports2: list[Port],
-    separation: float | None = None,
+    separation: float = 3.0,
     extension_length: float = 0.0,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
@@ -129,13 +129,6 @@ def route_bundle(
         c.plot()
 
     """
-    if separation is None:
-        xs = (
-            gf.get_cross_section(cross_section[0])
-            if isinstance(cross_section, list | tuple)
-            else gf.get_cross_section(cross_section)
-        )
-        separation = xs.width + xs.gap
 
     separation = int(separation / component.kcl.dbu)
 
@@ -285,9 +278,6 @@ def route_bundle_same_axis(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     sort_ports: bool = True,
-    path_length_match_loops: int | None = None,
-    path_length_match_extra_length: float = 0.0,
-    path_length_match_modify_segment_i: int = -2,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     enforce_port_ordering: bool = True,
     **kwargs,
@@ -350,8 +340,6 @@ def route_bundle_same_axis(
     This method deals with different metal track/wg/wire widths too.
 
     """
-    # _p1 = ports1.copy()
-    # _p2 = ports2.copy()
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
     if sort_ports:
@@ -362,27 +350,6 @@ def route_bundle_same_axis(
     xs = gf.get_cross_section(cross_section, **kwargs)
     radius = xs.radius
     radius_dbu = round(radius / component.kcl.dbu) if radius else xs.width
-    # for port1, port2 in zip(ports1, ports2):
-    #     route_single(
-    #         component=component,
-    #         port1=port1,
-    #         port2=port2,
-    #         bend=bend,
-    #         cross_section=cross_section,
-    #         **kwargs,
-    #     )
-
-    # routes = []
-    # for port1, port2 in zip(ports1, ports2):
-    #     waypoints = route_manhattan(
-    #         port1=port1,
-    #         port2=port2,
-    #         bend90_radius=radius,
-    #         start_straight=start_straight_length,
-    #         end_straight=end_straight_length,
-    #     )
-    #     routes.append(waypoints)
-
     routes = _route_bundle_waypoints(
         ports1,
         ports2,
@@ -391,17 +358,6 @@ def route_bundle_same_axis(
         start_straight_length_dbu=round(start_straight_length / component.kcl.dbu),
         radius_dbu=radius_dbu,
     )
-    # if path_length_match_loops:
-    #     routes = [np.array(route) for route in routes]
-    #     routes = path_length_matched_points(
-    #         routes,
-    #         extra_length=path_length_match_extra_length,
-    #         bend=bend,
-    #         nb_loops=path_length_match_loops,
-    #         modify_segment_i=path_length_match_modify_segment_i,
-    #         cross_section=cross_section,
-    #         **kwargs,
-    #     )
 
     for route, port1, port2 in zip(routes, ports1, ports2):
         route_single(
@@ -412,8 +368,6 @@ def route_bundle_same_axis(
             bend=bend,
             cross_section=xs,
         )
-    # if enforce_port_ordering:
-    #     return validate_connections(_p1, _p2, routes)
 
 
 def _route_bundle_waypoints(
