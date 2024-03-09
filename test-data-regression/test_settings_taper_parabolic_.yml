@@ -4,10 +4,8 @@ module: gdsfactory.components.taper_parabolic
 name: taper_parabolic
 settings:
   exp: 0.5
-  info: null
   layer: WG
   length: 20
   npoints: 100
-  post_process: null
   width1: 0.5
   width2: 5.0

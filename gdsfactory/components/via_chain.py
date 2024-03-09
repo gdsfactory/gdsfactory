@@ -3,11 +3,10 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.add_pins import LayerSpecs
 from gdsfactory.component import Component
 from gdsfactory.components.via import via1
 from gdsfactory.components.via_stack import via_stack_m2_m3
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentSpec, LayerSpecs
 
 
 @gf.cell

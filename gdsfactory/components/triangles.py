@@ -4,7 +4,7 @@ from functools import partial
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import Callable, LayerSpec, LayerSpecs, Metadata
+from gdsfactory.typings import LayerSpec, LayerSpecs
 
 
 @cell
@@ -15,8 +15,6 @@ def triangle(
     ybot: float = 0,
     layer: LayerSpec = "WG",
     layers: LayerSpecs | None = None,
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
 ) -> Component:
     r"""Return triangle.
 
@@ -27,8 +25,6 @@ def triangle(
         ybot: bottom ysize.
         layer: layer.
         layers: optional list of layers to duplicate the geometry.
-        post_process: function to call after the component is created.
-        info: additional information to add to the component.
 
     .. code::
 
@@ -48,8 +44,6 @@ def triangle(
     layers = layers or [layer]
     for layer in layers:
         c.add_polygon(points, layer=layer)
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

@@ -8,7 +8,7 @@ from gdsfactory.components.coupler_straight import (
 from gdsfactory.components.coupler_symmetric import (
     coupler_symmetric as coupler_symmetric_function,
 )
-from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec, Metadata
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -20,8 +20,6 @@ def coupler(
     dy: float = 4.0,
     dx: float = 10.0,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
 ) -> Component:
     r"""Symmetric coupler.
 
@@ -33,8 +31,6 @@ def coupler(
         dy: port to port vertical spacing in um.
         dx: length of bend in x direction in um.
         cross_section: spec (CrossSection, string or dict).
-        post_process: function to call after the component is created.
-        info: metadata.
 
     .. code::
 
@@ -76,8 +72,6 @@ def coupler(
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     c.auto_rename_ports()
 
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

@@ -12,10 +12,8 @@ instances:
       width: 0.5
     settings:
       cross_section: xs_sc
-      info: null
       length: 0.5
       npoints: 2
-      post_process: null
   wgw:
     component: straight
     info:
@@ -27,10 +25,8 @@ instances:
       width: 0.5
     settings:
       cross_section: xs_sc
-      info: null
       length: 1
       npoints: 2
-      post_process: null
 name: sample_connections_23ad5c38
 placements:
   wgn:

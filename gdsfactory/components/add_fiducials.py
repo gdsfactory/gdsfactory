@@ -5,7 +5,7 @@ import warnings
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array
-from gdsfactory.typings import Callable, ComponentSpec, Coordinates, Float2, Metadata
+from gdsfactory.typings import ComponentSpec, Coordinates, Float2
 
 
 @gf.cell
@@ -17,8 +17,6 @@ def add_fiducials(
     top: ComponentSpec | None = None,
     bottom: ComponentSpec | None = None,
     offset: Float2 = (0, 0),
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     """Return component with fiducials.
@@ -31,8 +29,6 @@ def add_fiducials(
         top: optional top fiducial.
         bottom: optional bottom fiducial.
         offset: component offset coordinate (x, y).
-        post_process: function to post process the component.
-        info: additional information to add to the component.
         kwargs: fiducial settings.
     """
     warnings.warn(
@@ -66,8 +62,6 @@ def add_fiducials(
         c.add_ports(y2.ports, prefix="b")
 
     c.add_ports(r.ports)
-    c.post_process(post_process)
-    c.info.update(info or {})
     c.copy_child_info(component)
     return c
 

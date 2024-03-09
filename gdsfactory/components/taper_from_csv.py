@@ -8,7 +8,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import Callable, CrossSectionSpec, Metadata
+from gdsfactory.typings import CrossSectionSpec
 
 data = pathlib.Path(__file__).parent / "csv_data"
 
@@ -17,16 +17,12 @@ data = pathlib.Path(__file__).parent / "csv_data"
 def taper_from_csv(
     filepath: Path = data / "taper_strip_0p5_3_36.csv",
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
 ) -> Component:
     """Returns taper from CSV file.
 
     Args:
         filepath: for CSV file.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        post_process: function to post process the component.
-        info: additional information to add to the component.
     """
     import pandas as pd
 
@@ -63,8 +59,6 @@ def taper_from_csv(
         layer=layer,
         cross_section=x,
     )
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

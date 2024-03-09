@@ -34,7 +34,6 @@ from gdsfactory.typings import (
     CrossSectionSpec,
     Float2,
     LayerSpec,
-    Metadata,
     WidthTypes,
 )
 
@@ -435,7 +434,6 @@ class Path(_GeometryHelper):
         simplify: float | None = None,
         shear_angle_start: float | None = None,
         shear_angle_end: float | None = None,
-        add_pins: bool = False,
         **kwargs,
     ) -> Component:
         """Returns Component by extruding a Path with a CrossSection.
@@ -452,7 +450,6 @@ class Path(_GeometryHelper):
                     by more than the value listed here will be removed.
             shear_angle_start: an optional angle to shear the starting face by (in degrees).
             shear_angle_end: an optional angle to shear the ending face by (in degrees).
-            add_pins: if True adds pins to the ports of the component according to `cross_section`.
 
         Keyword Args:
             Supplied to :func:`gf.cell`.
@@ -474,7 +471,6 @@ class Path(_GeometryHelper):
             simplify=simplify,
             shear_angle_start=shear_angle_start,
             shear_angle_end=shear_angle_end,
-            add_pins=add_pins,
             **kwargs,
         )
 
@@ -731,10 +727,7 @@ def extrude(
     shear_angle_end: float | None = None,
     allow_offgrid: bool | None = None,
     snap_to_grid: bool = False,
-    add_pins: bool = False,
     add_bbox: bool = True,
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
 
@@ -753,8 +746,6 @@ def extrude(
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
         add_pins: if True adds pins to the ports of the component according to `cross_section`.
         add_bbox: if True adds a bounding box to the component.
-        post_process: a function to post process the component.
-        info: metadata.
     """
     from gdsfactory.pdk import (
         get_cross_section,
@@ -977,10 +968,6 @@ def extrude(
         )
     if add_bbox:
         x.add_bbox(c)
-    if add_pins:
-        x.add_pins(c)
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 
@@ -1005,8 +992,6 @@ def extrude_transition(
     transition: Transition,
     shear_angle_start: float | None = None,
     shear_angle_end: float | None = None,
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
 ) -> Component:
     """Extrudes a path along a transition.
 
@@ -1015,8 +1000,6 @@ def extrude_transition(
         transition: transition to extrude along.
         shear_angle_start: angle to shear the start of the path.
         shear_angle_end: angle to shear the end of the path.
-        post_process: optional list of functions to post process the component.
-        info: metadata to add to the component.
     """
 
     from gdsfactory.pdk import get_cross_section, get_layer
@@ -1201,8 +1184,6 @@ def extrude_transition(
             # port2.info["face"] = face
 
     c.info["length"] = float(np.round(p.length(), 3))
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

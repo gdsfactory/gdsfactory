@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec, Metadata
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -16,8 +16,6 @@ def mmi1x2(
     gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""1x2 MultiMode Interferometer (MMI).
@@ -31,8 +29,6 @@ def mmi1x2(
         gap_mmi:  gap between tapered wg.
         taper: taper function.
         cross_section: specification (CrossSection, string or dict).
-        post_process: function to post process the component.
-        kwargs: cross_section settings.
 
 
     .. code::
@@ -117,8 +113,6 @@ def mmi1x2(
         c.absorb(taper_ref)
 
     x.add_bbox(c)
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

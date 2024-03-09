@@ -9,7 +9,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
 from gdsfactory.config import ErrorType
-from gdsfactory.typings import Callable, CrossSectionSpec, Float2, Metadata
+from gdsfactory.typings import CrossSectionSpec, Float2
 
 
 @cell
@@ -17,8 +17,6 @@ def bend_s(
     size: Float2 = (11.0, 1.8),
     npoints: int = 99,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     """Return S bend with bezier curve.
@@ -31,7 +29,6 @@ def bend_s(
         npoints: number of points.
         cross_section: spec.
         add_pins: add pins to the component.
-        post_process: function to post process the component.
 
     Keyword Args:
         with_manhattan_facing_angles: bool.
@@ -50,8 +47,6 @@ def bend_s(
     bend_ref = c << bend
     c.add_ports(bend_ref.ports)
     c.copy_child_info(bend)
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

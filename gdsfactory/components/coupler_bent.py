@@ -130,7 +130,6 @@ def coupler_bent(
         cross_section: cross_section.
     """
     c = gf.Component()
-    xs = gf.get_cross_section(cross_section)
 
     right_half = c << coupler_bent_half(
         gap=gap,
@@ -160,7 +159,6 @@ def coupler_bent(
     c.add_port("o3", port=right_half.ports["o3"])
     c.add_port("o4", port=right_half.ports["o4"])
 
-    xs.add_pins(c)
     return c
 
 

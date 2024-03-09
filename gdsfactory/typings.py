@@ -33,7 +33,7 @@ import dataclasses
 import json
 import pathlib
 from collections.abc import Callable
-from typing import Any, Dict, List, Literal, Optional, Tuple, Union
+from typing import Any, Dict, List, Literal, Optional, Tuple, TypedDict, Union
 
 import gdstk
 import numpy as np
@@ -342,6 +342,7 @@ __all__ = (
     "List",
     "Tuple",
     "Dict",
+    "TypedDict",
 )
 
 

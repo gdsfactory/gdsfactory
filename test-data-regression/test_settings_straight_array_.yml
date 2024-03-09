@@ -1,6 +1,6 @@
 function: straight_array
 info: {}
-module: gdsfactory.components.straight_array
+module: gdsfactory.components.straight
 name: straight_array
 settings:
   cross_section: xs_sc

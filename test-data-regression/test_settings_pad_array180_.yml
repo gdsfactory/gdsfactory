@@ -6,10 +6,8 @@ module: gdsfactory.components.pad
 name: pad_array_bc0d660e
 settings:
   columns: 1
-  info: null
   orientation: 180
   pad: pad
-  post_process: null
   rows: 3
   spacing:
   - 150.0

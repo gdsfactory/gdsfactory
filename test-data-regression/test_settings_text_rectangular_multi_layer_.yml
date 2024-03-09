@@ -3,13 +3,11 @@ info: {}
 module: gdsfactory.components.text_rectangular
 name: text_rectangular_multi_layer
 settings:
-  info: null
   layers:
   - WG
   - M1
   - M2
   - MTOP
-  post_process: null
   text: abcd
   text_factory:
     function: text_rectangular

@@ -119,7 +119,6 @@ def coupler_adiabatic(
     c.add_port("o2", port=sbend_left_top.ports["o1"])
     c.add_port("o3", port=sbend_right_top.ports["o2"])
     c.add_port("o4", port=sbend_right_bot.ports["o2"])
-    x.add_pins(c)
     return c
 
 

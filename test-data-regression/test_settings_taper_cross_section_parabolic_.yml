@@ -28,9 +28,7 @@ settings:
         width: 0.2
         width_function: null
   cross_section2: xs_rc
-  info: null
   length: 10
   linear: false
   npoints: 101
-  post_process: null
   width_type: parabolic

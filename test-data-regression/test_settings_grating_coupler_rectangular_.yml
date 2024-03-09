@@ -8,14 +8,12 @@ settings:
   cross_section: xs_sc
   fiber_angle: null
   fill_factor: 0.5
-  info: null
   layer_grating: null
   layer_slab: null
   length_taper: 150.0
   n_periods: 20
   period: 0.75
   polarization: te
-  post_process: null
   slab_offset: 1.0
   slab_xmin: -1.0
   taper:

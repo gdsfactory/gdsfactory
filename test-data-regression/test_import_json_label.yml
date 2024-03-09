@@ -15,10 +15,8 @@ cell_settings:
           cross_section: xs_sc_no_pins
           decorator:
             function: add_pins_siepic
-          info: null
           length: 10.0
           npoints: 2
-          post_process: null
       component_name: null
       cross_section: xs_sc
       fiber_spacing: 50
@@ -33,13 +31,11 @@ cell_settings:
         settings:
           polarization: te
           taper_angle: 35
-      info: null
       io_rotation: null
       layer_label: null
       loopback_xspacing: 50.0
       min_input_to_output_spacing: 200.0
       optical_routing_type: 2
-      post_process: null
       route_filter:
         function: get_route_from_waypoints
       select_ports:

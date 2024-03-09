@@ -6,10 +6,8 @@ instances:
     settings:
       cross_section: xs_sc
       gap_mmi: 0.25
-      info: null
       length_mmi: 10
       length_taper: 10.0
-      post_process: null
       taper:
         function: taper
       width: null
@@ -21,10 +19,8 @@ instances:
     settings:
       cross_section: xs_sc
       gap_mmi: 0.25
-      info: null
       length_mmi: 5
       length_taper: 10.0
-      post_process: null
       taper:
         function: taper
       width: null

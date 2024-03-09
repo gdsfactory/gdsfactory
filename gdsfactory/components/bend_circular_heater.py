@@ -5,7 +5,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.path import arc
-from gdsfactory.typings import Callable, CrossSectionSpec, LayerSpec, Metadata
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
 @gf.cell
@@ -17,8 +17,6 @@ def bend_circular_heater(
     heater_width: float = 0.5,
     layer_heater: LayerSpec = "HEATER",
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
 ) -> Component:
     """Creates an arc of arclength `theta` starting at angle `start_angle`.
 
@@ -61,8 +59,6 @@ def bend_circular_heater(
     c.info["dx"] = c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
 
     x.validate_radius(radius)
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

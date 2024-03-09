@@ -5,13 +5,11 @@ name: text_rectangular
 settings:
   font:
     function: rectangular_font
-  info: null
   justify: left
   layer: WG
   layers: null
   position:
   - 0.0
   - 0.0
-  post_process: null
   size: 10.0
   text: abcd

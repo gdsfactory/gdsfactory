@@ -9,13 +9,11 @@ settings:
   cross_section: xs_sc
   fiber_angle: 15.0
   grating_line_width: 0.343
-  info: null
   layer_slab: SLAB150
   n_periods: 30
   nclad: 1.443
   neff: 2.638
   polarization: te
-  post_process: null
   slab_offset: 2.0
   slab_xmin: -1.0
   spiked: true

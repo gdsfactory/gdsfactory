@@ -10,14 +10,12 @@ settings:
   end_straight_length: 0.2
   fiber_angle: 15.0
   grating_line_width: 0.343
-  info: null
   layer_trench: SHALLOW_ETCH
   n_periods: 30
   ncladding: 1.443
   neff: 2.638
   p_start: 26
   polarization: te
-  post_process: null
   taper_angle: 35
   taper_length: 16.6
   trenches_extra_angle: 9.0

@@ -3,7 +3,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
-from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec, Metadata
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 def mmi_widths(t):
@@ -23,8 +23,6 @@ def mmi1x2_with_sbend(
     with_sbend: bool = True,
     s_bend: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
 ) -> Component:
     """Returns 1x2 splitter for Cband.
 
@@ -40,7 +38,7 @@ def mmi1x2_with_sbend(
 
     P = gf.path.straight(length=2, npoints=100)
     xs = gf.get_cross_section(cross_section)
-    xs0 = xs.copy(width_function=mmi_widths, add_pins_function_name=None)
+    xs0 = xs.copy(width_function=mmi_widths)
     ref = c << gf.path.extrude(P, cross_section=xs0)
 
     # Add "stub" straight sections for ports
@@ -74,13 +72,10 @@ def mmi1x2_with_sbend(
         c.add_port("o2", port=s_topr.ports["o2"])
         c.add_port("o3", port=s_botr.ports["o2"])
 
-    xs.add_pins(c)
     c.absorb(ref)
     c.absorb(sl)
     c.absorb(s_topr)
     c.absorb(s_botr)
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

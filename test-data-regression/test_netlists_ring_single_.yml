@@ -53,10 +53,8 @@ instances:
         taper_length: 10.0
         width_wide: null
       direction: ccw
-      info: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
       with_arc_floorplan: true
   bend_euler_2:
@@ -106,10 +104,8 @@ instances:
         taper_length: 10.0
         width_wide: null
       direction: ccw
-      info: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
       with_arc_floorplan: true
   coupler_ring_1:
@@ -155,10 +151,8 @@ instances:
         width_wide: null
       cross_section_bend: null
       gap: 0.2
-      info: null
       length_extension: 3
       length_x: 4.0
-      post_process: null
       radius: 10.0
   straight_1:
     component: straight
@@ -201,10 +195,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 0.6
       npoints: 2
-      post_process: null
   straight_2:
     component: straight
     info:
@@ -246,10 +238,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 0.6
       npoints: 2
-      post_process: null
   straight_3:
     component: straight
     info:
@@ -291,10 +281,8 @@ instances:
           width_function: null
         taper_length: 10.0
         width_wide: null
-      info: null
       length: 4.0
       npoints: 2
-      post_process: null
 name: ring_single
 placements:
   bend_euler_1:

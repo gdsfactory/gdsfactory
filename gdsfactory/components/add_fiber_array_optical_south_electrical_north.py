@@ -4,7 +4,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
 )
 from gdsfactory.components.mzi import mzi_phase_shifter
 from gdsfactory.components.pad import pad_small
-from gdsfactory.typings import Callable, ComponentSpec, CrossSectionSpec, Metadata
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell_with_child
@@ -21,8 +21,6 @@ def add_fiber_array_optical_south_electrical_north(
     pad_assigments: tuple[tuple[str, str], ...] | None = None,
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     xs_metal: CrossSectionSpec = "xs_metal_routing",
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
     **kwargs,
 ) -> gf.Component:
     """Returns a fiber array with Optical gratings on South and Electrical pads on North.
@@ -42,8 +40,6 @@ def add_fiber_array_optical_south_electrical_north(
         pad_assigments: if not None, routes according to (component_port_name, pad_port_name).
         grating_coupler: grating coupler function.
         xs_metal: metal cross section.
-        post_process: function to run after the cutback is created.
-        info: additional information to add to the component.
 
     Keyword Args:
         gc_port_name: grating coupler input port name.
@@ -151,8 +147,6 @@ def add_fiber_array_optical_south_electrical_north(
     c.add_ports(pad_ports)
     c.copy_child_info(component)
 
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 

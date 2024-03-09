@@ -12,8 +12,6 @@ settings:
   cross_section: xs_sc
   cross_section_bend: null
   gap: 0.2
-  info: null
   length_extension: 3
   length_x: 4.0
-  post_process: null
   radius: 5.0

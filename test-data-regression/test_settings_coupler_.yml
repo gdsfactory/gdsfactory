@@ -13,6 +13,4 @@ settings:
   dx: 10.0
   dy: 4.0
   gap: 0.236
-  info: null
   length: 20.0
-  post_process: null

@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 from functools import partial
-from itertools import islice
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip_rib_tip
-from gdsfactory.typings import Callable, CrossSectionSpec, Metadata
+from gdsfactory.typings import CrossSectionSpec
 
 
 @cell
@@ -18,8 +17,6 @@ def taper_cross_section(
     npoints: int = 100,
     linear: bool = False,
     width_type: str = "sine",
-    post_process: Callable | list[Callable] | None = None,
-    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     r"""Returns taper transition between cross_section1 and cross_section2.
@@ -31,8 +28,6 @@ def taper_cross_section(
         npoints: number of points.
         linear: shape of the transition, sine when False.
         width_type: shape of the transition ONLY IF linear is False.
-        post_process: optional list of functions to post process the component.
-        info: additional information to add to the component.
         kwargs: cross_section settings for both cross_sections.
 
 
@@ -63,23 +58,8 @@ def taper_cross_section(
     c.add_ports(ref.ports)
     c.absorb(ref)
 
-    # set one pin for each cross section
-    x1.add_pins(
-        c,
-        select_ports=lambda ports: {(port_name := next(iter(ports))): ports[port_name]},
-    )
-    x2.add_pins(
-        c,
-        select_ports=lambda ports: {
-            (port_name := next(islice(iter(ports), 1, None))): ports[port_name],
-        },
-    )
-
     if "type" in x1.info and x1.info["type"] == x2.info.get("type"):
         c.add_route_info(cross_section=x1, length=length, taper=True)
-
-    c.post_process(post_process)
-    c.info.update(info or {})
 
     c.info["length"] = length
     return c

@@ -13,11 +13,9 @@ name: pad
 settings:
   bbox_layers: null
   bbox_offsets: null
-  info: null
   layer: MTOP
   port_inclusion: 0
   port_orientation: null
-  post_process: null
   size:
   - 100.0
   - 100.0

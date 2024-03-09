@@ -5,9 +5,9 @@ import functools
 import hashlib
 import inspect
 import warnings
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TypeVar, overload
+from typing import TypeVar
 
 from pydantic import validate_call
 
@@ -55,33 +55,6 @@ def print_cache() -> None:
         print(k)
 
 
-# Type signature when calling as a decorator on a function
-@overload
-def cell(func: _F) -> _F:
-    ...
-
-
-# Type signature when calling the decorator itself (i.e., decorator factory)
-# This one just returns a new decorator
-@overload
-def cell(
-    *,
-    autoname: bool = True,
-    max_name_length: int | None = None,
-    include_module: bool = False,
-    with_hash: bool = False,
-    ports_offgrid: str | None = None,
-    ports_not_manhattan: str | None = None,
-    flatten: bool = False,
-    naming_style: str = "default",
-    default_decorator: Callable[[Component], Component] | None = None,
-    add_settings: bool = True,
-    validate: bool = False,
-    get_child_name: bool = False,
-) -> Callable[[_F], _F]:
-    ...
-
-
 def cell(
     func: _F | None = None,
     /,
@@ -98,7 +71,9 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
-):
+    post_process: Sequence[Callable] | None = None,
+    info: dict[str, int | float | str] | None = None,
+) -> Callable[[_F], _F]:
     """Parametrized Decorator for Component functions.
 
     Args:
@@ -115,6 +90,8 @@ def cell(
         add_settings: True by default. Adds settings to the component.
         validate: validate the function call. Does not work with annotations that have None | Callable.
         get_child_name: Use child name as component name prefix.
+        post_process: list of post processing functions to apply to the component.
+        info: dictionary with metadata to add to the component.
 
     Implements a cache so that if a component has already been build it returns the component from the cache directly.
     This avoids creating two exact Components that have the same name.
@@ -146,6 +123,12 @@ def cell(
         mzi_with_bend_decorated = gf.cell(mzi_with_bend)
 
     """
+    if default_decorator is not None:
+        warnings.warn(
+            "default_decorator is deprecated and will be removed soon. Use post_process instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
@@ -156,6 +139,7 @@ def cell(
 
         name = _name = kwargs.pop("name", None)
         prefix = kwargs.pop("prefix", None)
+        metadata = info or {}  # noqa
 
         if name:
             warnings.warn(
@@ -311,6 +295,11 @@ def cell(
             component.module = func.__module__
             component.__doc__ = func.__doc__
 
+        for post in post_process or []:
+            component = post(component)
+
+        component.info.update(metadata)
+
         if decorator:
             if not callable(decorator):
                 raise ValueError(f"decorator = {type(decorator)} needs to be callable")
@@ -339,6 +328,8 @@ def cell(
             add_settings=add_settings,
             validate=validate,
             get_child_name=get_child_name,
+            post_process=post_process,
+            info=info,
         )
     )
 
@@ -380,7 +371,7 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = partial(gf.components.mzi, decorator=gf.add_padding)
+    c = partial(gf.components.mzi)
     c = gf.routing.add_fiber_array(c)
     c.show()
 
