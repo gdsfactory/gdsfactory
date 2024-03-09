@@ -114,7 +114,6 @@ def crossing(
 
     c.auto_rename_ports()
     x.add_bbox(c)
-    x.add_pins(c)
     return c
 
 
@@ -223,7 +222,7 @@ def crossing45(
     alpha: float = 0.08,
     npoints: int = 101,
     cross_section: CrossSectionSpec = "xs_sc",
-    cross_section_bends: CrossSectionSpec = "xs_sc_no_pins",
+    cross_section_bends: CrossSectionSpec = "xs_sc",
 ) -> Component:
     r"""Returns 45deg crossing with bends.
 
@@ -307,7 +306,6 @@ def crossing45(
 
     x = gf.get_cross_section(cross_section)
     x.add_bbox(c)
-    x.add_pins(c)
     return c
 
 
@@ -422,7 +420,6 @@ def compensation_path(
     c.info["sbend"] = sbend.info
 
     x.add_bbox(c)
-    x.add_pins(c)
     return c
 
 

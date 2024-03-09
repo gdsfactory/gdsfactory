@@ -220,7 +220,7 @@ if __name__ == "__main__":
     #     c,
     #     pb.ports["e2"],
     #     pt.ports["e1"],
-    #     cross_section="xs_sc_auto_widen",
+    #     cross_section="xs_sc",
     #     start_straight_length=10,
     #     end_straight_length=30,
     # )

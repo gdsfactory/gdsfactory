@@ -98,10 +98,7 @@ def mode_converter(
     c.add_port("o4", port=r_bend.ports["o2"])
 
     x = gf.get_cross_section(cross_section)
-    if x.add_bbox:
-        x.add_bbox(c)
-    if x.add_pins:
-        x.add_pins(c)
+    x.add_bbox(c)
     c.flatten()
     return c
 

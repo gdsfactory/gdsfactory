@@ -150,7 +150,6 @@ def grating_coupler_dual_pol(
 
     gf.asserts.grating_coupler(c)
     xs.add_bbox(c)
-    xs.add_pins(c)
     return c
 
 

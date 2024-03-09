@@ -38,6 +38,7 @@ def mzi(
     cross_section_x_bot: CrossSectionSpec | None = None,
     mirror_bot: bool = False,
     add_optical_ports_arms: bool = False,
+    min_length: float = 10e-3,
 ) -> Component:
     """Mzi.
 
@@ -64,6 +65,7 @@ def mzi(
         mirror_bot: if true, mirrors the bottom arm.
         add_optical_ports_arms: add all other optical ports in the arms
             with top_ and bot_ prefix.
+        min_length: minimum length for the straight.
 
     .. code::
 
@@ -150,8 +152,7 @@ def mzi(
     sxt.connect("o1", b2.ports["o1"])
 
     cp2.mirror_x()
-    xs = gf.get_cross_section(cross_section)
-    cp2.d.xmin = sxt.ports["o2"].d.x + bend.info["radius"] * nbends + 2 * xs.min_length
+    cp2.d.xmin = sxt.ports["o2"].d.x + bend.info["radius"] * nbends + 2 * min_length
 
     route_single(
         c,

@@ -191,7 +191,6 @@ def mzit(
 
     c.add_port("o2", port=cp2.ports["o2"])
     c.add_port("o1", port=cp2.ports["o1"])
-    xs.add_pins(c)
     c.auto_rename_ports()
     return c
 

@@ -80,7 +80,6 @@ def mmi2x2_with_sbend(
         c.add_port("o3", port=topr_taper.ports["o1"])
         c.add_port("o4", port=botr_taper.ports["o1"])
 
-    xs.add_pins(c)
     c.absorb(ref)
     c.absorb(topr_taper)
     c.absorb(topl_taper)

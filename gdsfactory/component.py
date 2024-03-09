@@ -4,7 +4,6 @@ from __future__ import annotations
 import pathlib
 import warnings
 from collections import defaultdict
-from collections.abc import Callable
 from typing import TYPE_CHECKING
 
 import kfactory as kf
@@ -581,19 +580,6 @@ class Component(kf.KCell):
             layer_stack=layer_stack,
             exclude_layers=exclude_layers,
         )
-
-    def post_process(self, functions: list[Callable] | None = None) -> None:
-        """Applies a list of functions to the component.
-
-        Args:
-            functions: list of functions to apply to the component.
-        """
-        if functions:
-            for function in functions:
-                if callable(function):
-                    function(self)
-                else:
-                    raise ValueError(f"{function} is not callable")
 
 
 @kf.cell

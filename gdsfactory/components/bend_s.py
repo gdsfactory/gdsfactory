@@ -17,8 +17,6 @@ def bend_s(
     size: Float2 = (11.0, 1.8),
     npoints: int = 99,
     cross_section: CrossSectionSpec = "xs_sc",
-    with_bbox: bool = True,
-    add_pins: bool = True,
     **kwargs,
 ) -> Component:
     """Return S bend with bezier curve.
@@ -30,8 +28,6 @@ def bend_s(
         size: in x and y direction.
         npoints: number of points.
         cross_section: spec.
-        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        add_pins: add pins to the component.
 
     Keyword Args:
     """
@@ -42,8 +38,6 @@ def bend_s(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
         npoints=npoints,
         cross_section=cross_section,
-        with_bbox=with_bbox,
-        add_pins=add_pins,
         **kwargs,
     )
     bend_ref = c << bend

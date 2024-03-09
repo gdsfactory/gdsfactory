@@ -10,7 +10,7 @@ from gdsfactory.cross_section import CrossSectionSpec
 def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,
-    cross_section: CrossSectionSpec = "xs_sc_no_pins",
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     """Coupler_straight with two parallel straights.
 
@@ -26,7 +26,7 @@ def coupler_straight(
         o1──────▼─────────o4
     """
     c = Component()
-    _straight = straight(length=length, cross_section=cross_section, add_pins=False)
+    _straight = straight(length=length, cross_section=cross_section)
 
     top = c << _straight
     bot = c << _straight

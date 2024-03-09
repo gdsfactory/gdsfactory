@@ -17,7 +17,6 @@ def bend_circular(
     layer: gf.typings.LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
-    add_pins: bool = True,
 ) -> Component:
     """Returns a radial arc.
 
@@ -28,7 +27,6 @@ def bend_circular(
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
         cross_section: spec (CrossSection, string or dict).
-        add_pins: add pins to the component.
 
     .. code::
 
@@ -55,12 +53,6 @@ def bend_circular(
     c.info["dy"] = snap_to_grid(float(abs(p.points[0][0] - p.points[-1][0])))
     c.info["radius"] = float(radius)
     x.validate_radius(radius)
-
-    top = None if int(angle) in {180, -180, -90} else 0
-    bottom = 0 if int(angle) in {-90} else None
-    x.add_bbox(c, top=top, bottom=bottom)
-    if add_pins:
-        x.add_pins(c)
     c.add_route_info(
         cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
     )

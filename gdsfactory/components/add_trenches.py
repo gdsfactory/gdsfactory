@@ -56,7 +56,6 @@ def add_trenches(
     _ = c << trenches
     c.add_ports(component.ports)
     c.copy_child_info(component)
-    xs.add_pins(c)
     xs.add_bbox(c)
     return c
 

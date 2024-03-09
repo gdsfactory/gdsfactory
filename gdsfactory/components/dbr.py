@@ -58,8 +58,8 @@ def dbr_cell(
     w1 = snap_to_grid(w1, 2)
     w2 = snap_to_grid(w2, 2)
     xs = gf.get_cross_section(cross_section, **kwargs)
-    xs1 = xs.copy(width=w1, add_pins_function_name=None)
-    xs2 = xs.copy(width=w2, add_pins_function_name=None)
+    xs1 = xs.copy(width=w1)
+    xs2 = xs.copy(width=w2)
 
     c = Component()
     c1 = c << straight(length=l1, cross_section=xs1)
@@ -116,7 +116,6 @@ def dbr(
     s2.xmin = ref.xmax
 
     c.add_port("o1", port=s1.ports["o2"])
-    xs.add_pins(c)
     return c
 
 

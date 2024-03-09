@@ -21,7 +21,6 @@ def taper(
     cross_section: CrossSectionSpec = "xs_sc",
     port_order_name: tuple | None = ("o1", "o2"),
     port_order_types: tuple | None = ("optical", "optical"),
-    add_pins: bool = True,
     **kwargs,
 ) -> Component:
     """Linear taper, which tapers only the main cross section section.
@@ -41,7 +40,6 @@ def taper(
                 taper port, second name only if with_two_ports flags used.
         port_order_types(tuple): Ordered tuple of port types. First port is default \
                 taper port, second name only if with_two_ports flags used.
-        add_pins: add pins to the component.
         kwargs: cross_section settings.
     """
     x1 = gf.get_cross_section(cross_section, width=width1)
@@ -106,11 +104,7 @@ def taper(
             port_type=port_order_types[1],
         )
 
-    if with_bbox and length:
-        x.add_bbox(c)
-    if add_pins and x.add_pins:
-        x.add_pins(c)
-
+    x.add_bbox(c)
     c.info["length"] = length
     c.info["width1"] = float(width1)
     c.info["width2"] = float(width2)

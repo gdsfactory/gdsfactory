@@ -603,7 +603,8 @@ if __name__ == "__main__":
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
     c = gf.components.bend_euler()
-    c = add_pins_container(c)
+    c = add_pins(c)
+    # c = add_pins_container(c)
     # cc.show()
     # c.show(show_subports=True)
     # c.show( )

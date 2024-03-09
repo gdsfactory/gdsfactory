@@ -74,10 +74,9 @@ def mmi(
         width1=width,
         width2=w_taper,
         cross_section=cross_section,
-        add_pins=False,
     )
 
-    mmi = c << straight(length=length_mmi, cross_section=xs_mmi, add_pins=False)
+    mmi = c << straight(length=length_mmi, cross_section=xs_mmi)
 
     wg_spacing_input = gap_input_tapers + width_taper
     wg_spacing_output = gap_output_tapers + width_taper
@@ -124,7 +123,6 @@ def mmi(
 
     c.absorb(mmi)
     x.add_bbox(c)
-    x.add_pins(c)
     c.auto_rename_ports()
     return c
 

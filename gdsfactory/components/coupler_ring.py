@@ -53,24 +53,23 @@ def coupler_ring(
     c = Component()
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
     xs = gf.get_cross_section(cross_section)
-    xs_no_pins = xs.copy(add_pins_function_name=None)
 
     cross_section_bend = cross_section_bend or xs
     xs_bend = gf.get_cross_section(cross_section_bend)
-    xs_bend = xs_bend.copy(radius=radius, add_pins_function_name=None)
+    xs_bend = xs_bend.copy(radius=radius)
 
     # define subcells
     coupler90_component = coupler90(
         gap=gap,
         radius=radius,
         bend=bend,
-        cross_section=xs_no_pins,
+        cross_section=xs,
         cross_section_bend=xs_bend,
     )
     coupler_straight_component = coupler_straight(
         gap=gap,
         length=length_x,
-        cross_section=xs_no_pins,
+        cross_section=xs,
     )
 
     # add references to subcells
@@ -82,7 +81,7 @@ def coupler_ring(
     cs.connect(port="o4", other=cbr.ports["o1"])
     cbl.connect(port="o2", other=cs.ports["o2"], mirror=True)
 
-    s = straight(length=length_extension, cross_section=xs_no_pins)
+    s = straight(length=length_extension, cross_section=xs)
     s1 = c << s
     s2 = c << s
 
@@ -101,7 +100,6 @@ def coupler_ring(
         gf.port.select_ports_list(ports=cbr.ports, port_type="electrical"), prefix="cbr"
     )
     c.auto_rename_ports()
-    xs.add_pins(c)
     return c
 
 

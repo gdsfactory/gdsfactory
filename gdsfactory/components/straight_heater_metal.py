@@ -46,7 +46,6 @@ def straight_heater_metal_undercut(
         ohms_per_square: to calculate resistance.
         cross_section: for waveguide ports.
     """
-    xs = gf.get_cross_section(cross_section)
     period = length_undercut + length_undercut_spacing
     n = int((length - 2 * length_straight_input) // period)
 
@@ -98,7 +97,6 @@ def straight_heater_metal_undercut(
 
     x = gf.get_cross_section(cross_section_heater)
     heater_width = x.width
-    xs.add_pins(c)
 
     if via_stack:
         via_stack = gf.get_component(via_stack)

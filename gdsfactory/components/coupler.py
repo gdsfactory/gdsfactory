@@ -52,10 +52,7 @@ def coupler(
     gap = gf.snap.snap_to_grid2x(gap)
     c = Component()
 
-    xs = gf.get_cross_section(cross_section)
-    xs_no_pins = xs.copy(add_pins_function_name=None)
-
-    sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=xs_no_pins)
+    sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=cross_section)
 
     sr = c << sbend
     sl = c << sbend
@@ -77,7 +74,6 @@ def coupler(
 
     x = gf.get_cross_section(cross_section)
     x.add_bbox(c)
-    x.add_pins(c)
     return c
 
 

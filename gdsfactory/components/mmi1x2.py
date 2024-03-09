@@ -17,7 +17,6 @@ def mmi1x2(
     gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
     straight: ComponentFactory = straight_function,
-    with_bbox: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
@@ -32,8 +31,6 @@ def mmi1x2(
         gap_mmi:  gap between tapered wg.
         taper: taper function.
         straight: straight function.
-        with_bbox: add rectangular box in cross_section
-            bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string or dict).
         kwargs: cross_section settings.
 
@@ -68,11 +65,10 @@ def mmi1x2(
         width1=width,
         width2=width_taper,
         cross_section=x,
-        add_pins=False,
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    mmi = c << straight(length=length_mmi, cross_section=xs_mmi, add_pins=False)
+    mmi = c << straight(length=length_mmi, cross_section=xs_mmi)
 
     ports = [
         gf.Port(
@@ -108,10 +104,7 @@ def mmi1x2(
         c.absorb(taper_ref)
 
     c.absorb(mmi)
-    if with_bbox:
-        x.add_bbox(c)
-    if x.add_pins:
-        x.add_pins(c)
+    x.add_bbox(c)
     return c
 
 

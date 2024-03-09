@@ -38,8 +38,6 @@ def bezier(
     start_angle: int | None = None,
     end_angle: int | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
-    with_bbox: bool = True,
-    add_pins: bool = True,
     bend_radius_error_type: ErrorType | None = None,
 ) -> Component:
     """Returns Bezier bend.
@@ -51,8 +49,6 @@ def bezier(
         start_angle: optional start angle in deg.
         end_angle: optional end angle in deg.
         cross_section: spec.
-        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        add_pins: add pins to the component.
     """
     xs = gf.get_cross_section(cross_section)
     t = np.linspace(0, 1, npoints)
@@ -82,10 +78,7 @@ def bezier(
 
     xs.validate_radius(min_bend_radius, bend_radius_error_type)
 
-    if with_bbox:
-        xs.add_bbox(c)
-    if add_pins:
-        xs.add_pins(c)
+    xs.add_bbox(c)
     return c
 
 

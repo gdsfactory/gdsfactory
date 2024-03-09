@@ -4,7 +4,6 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSectionSpec
-from gdsfactory.typings import Metadata, PostProcess
 
 
 @gf.cell
@@ -12,8 +11,6 @@ def straight(
     length: float = 10.0,
     npoints: int = 2,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: PostProcess | None = None,
-    info: Metadata | None = None,
     **kwargs,
 ) -> Component:
     """Returns a Straight waveguide.
@@ -22,8 +19,6 @@ def straight(
         length: straight length (um).
         npoints: number of points.
         cross_section: specification (CrossSection, string or dict).
-        post_process: function to post process the component.
-        info: additional information to add to the component.
         kwargs: additional cross_section arguments.
 
     .. code::
@@ -47,8 +42,6 @@ def straight(
 
     c.add_route_info(cross_section=x, length=length)
     c.absorb(ref)
-    c.post_process(post_process)
-    c.info.update(info or {})
     return c
 
 
@@ -70,6 +63,5 @@ if __name__ == "__main__":
     c = straight(
         length=10,
         cross_section="xs_sc",
-        post_process=(gf.add_padding, gf.add_pins.add_pins),
     )
     c.show()
