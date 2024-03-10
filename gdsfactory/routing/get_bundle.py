@@ -791,7 +791,7 @@ if __name__ == "__main__":
     c = gf.Component("demo")
     c1 = c << gf.components.mmi2x2()
     c2 = c << gf.components.mmi2x2()
-    c2.move((100, 40))
+    c2.move((100, 80))
     bend = partial(gf.components.bend_euler, cross_section="xs_rc")
     straight = partial(gf.components.straight, cross_section="xs_rc")
     routes = get_bundle(

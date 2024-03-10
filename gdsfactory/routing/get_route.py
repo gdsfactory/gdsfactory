@@ -336,7 +336,7 @@ if __name__ == "__main__":
     # cc.show(show_ports=True)
 
     # c = gf.Component("multi-layer")
-    # ptop = c << gf.components.pad_array()
+    # ptop = c << gf.components.pad_array(orientation=270)
     # pbot = c << gf.components.pad_array(orientation=90)
 
     # ptop.movex(300)
@@ -349,28 +349,41 @@ if __name__ == "__main__":
     # c.add(route.references)
     # c.show()
 
-    c = gf.Component("sample_connect")
-    mmi1 = c << gf.components.mmi1x2()
-    mmi2 = c << gf.components.mmi1x2()
-    mmi2.move((200, 50))
+    c = gf.Component("two_pads")
+    ptop = c << gf.components.pad(port_orientation=270)
+    pbot = c << gf.components.pad(port_orientation=90)
 
-    bend = partial(gf.components.bend_euler, cross_section="xs_rc")
-    straight = partial(gf.components.straight, cross_section="xs_rc")
-
-    via_along_path = gf.cross_section.ComponentAlongPath(component=gf.c.via1, spacing=1)
-    xs_with_vias = gf.cross_section.strip(components_along_path=[via_along_path])
-
-    route = gf.routing.get_route(
-        mmi1.ports["o3"],
-        mmi2.ports["o1"],
-        bend=bend,
-        straight=straight,
-        auto_widen=True,
-        width_wide=2,
-        auto_widen_minimum_length=100,
-        radius=30,
-        # cross_section=None,
-        cross_section=xs_with_vias,
+    ptop.movex(3)
+    ptop.movey(300)
+    route = get_route_electrical(
+        ptop.ports["pad"],
+        pbot.ports["pad"],
     )
     c.add(route.references)
     c.show()
+
+    # c = gf.Component("sample_connect")
+    # mmi1 = c << gf.components.mmi1x2()
+    # mmi2 = c << gf.components.mmi1x2()
+    # mmi2.move((200, 50))
+
+    # bend = partial(gf.components.bend_euler, cross_section="xs_rc")
+    # straight = partial(gf.components.straight, cross_section="xs_rc")
+
+    # via_along_path = gf.cross_section.ComponentAlongPath(component=gf.c.via1, spacing=1)
+    # xs_with_vias = gf.cross_section.strip(components_along_path=[via_along_path])
+
+    # route = gf.routing.get_route(
+    #     mmi1.ports["o3"],
+    #     mmi2.ports["o1"],
+    #     bend=bend,
+    #     straight=straight,
+    #     auto_widen=True,
+    #     width_wide=2,
+    #     auto_widen_minimum_length=100,
+    #     radius=30,
+    #     # cross_section=None,
+    #     cross_section=xs_with_vias,
+    # )
+    # c.add(route.references)
+    # c.show()
