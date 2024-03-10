@@ -1,7 +1,7 @@
 function: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_0181d0ac
+name: mzi_4d4fe19b
 settings:
   add_electrical_ports_bot: true
   add_optical_ports_arms: false
@@ -9,19 +9,12 @@ settings:
     function: bend_euler_no
   combiner: null
   cross_section:
-    add_pins_function_module: gdsfactory.add_pins
-    add_pins_function_name: null
-    auto_widen: false
-    auto_widen_minimum_length: 200.0
     bbox_layers:
     - - 36
       - 0
     bbox_offsets:
     - 3.0
     components_along_path: []
-    gap: 3.0
-    info: {}
-    min_length: 0.01
     radius: 10.0
     radius_min: 5.0
     sections:
@@ -42,14 +35,13 @@ settings:
       simplify: null
       width: 0.9
       width_function: null
-    taper_length: 10.0
-    width_wide: null
   cross_section_x_bot: null
   cross_section_x_top: null
   delta_length: 10.0
   extend_ports_straight_x: null
   length_x: 0.1
   length_y: 2.0
+  min_length: 0.01
   mirror_bot: false
   nbends: 2
   port_e0_combiner: o3

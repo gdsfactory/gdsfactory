@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from functools import partial
 from typing import Any
 
 from gdsfactory.cell import cell
@@ -73,7 +72,6 @@ def grating_coupler_elliptical_lumerical(
     taper_angle: float = 55,
     taper_length: float = 12.24 + 0.36,
     fiber_angle: float = 5,
-    info: dict[str, Any] | None = None,
     bias_gap: float = 0,
     **kwargs,
 ) -> Component:
@@ -104,7 +102,6 @@ def grating_coupler_elliptical_lumerical(
         taper_angle: in deg.
         taper_length: in um.
         fiber_angle: used to compute ellipticity.
-        info: optional simulation settings.
         bias_gap: gap/trenches bias (um) to compensate for etching bias.
 
     keyword Args:
@@ -122,11 +119,10 @@ def grating_coupler_elliptical_lumerical(
         parameters.strip().split() if isinstance(parameters, str) else parameters
     )
     parameters = tuple(float(t) for t in parameters)
-    xinput = parameters[0]
+    # parameters[0] is the xinput
     teeth_list = parameters[1:]
     gaps = teeth_list[::2]
     widths = teeth_list[1::2]
-    info = info or {}
     gaps = [gap + bias_gap for gap in gaps]
 
     return grating_coupler_elliptical_arbitrary(
@@ -137,22 +133,22 @@ def grating_coupler_elliptical_lumerical(
         layer=layer,
         layer_slab=layer_slab,
         fiber_angle=fiber_angle,
-        info=dict(xinput=xinput, **info),
         **kwargs,
     )
 
 
-grating_coupler_elliptical_lumerical_etch70 = partial(
-    grating_coupler_elliptical_lumerical,
-    info=dict(
-        etch_depth=80e-3,
+@cell
+def grating_coupler_elliptical_lumerical_etch70(**kwargs: Any) -> Component:
+    c = grating_coupler_elliptical_lumerical(**kwargs)
+    c.info = dict(
+        etch_depth=70e-3,
         link="https://support.lumerical.com/hc/en-us/articles/1500000306621",
         fiber_angle=5,
         width_min=0.1,
         gap_min=0.1,
         efficiency=0.55,
-    ),
-)
+    )
+    return c
 
 
 def _compare() -> Component:

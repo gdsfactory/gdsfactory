@@ -1,6 +1,11 @@
 function: taper_cross_section
 info:
   length: 10
+  route_info_length: 10.0
+  route_info_type: xs_sc_rc_tip
+  route_info_weight: 10.0
+  route_info_xs_sc_rc_tip_length: 10.0
+  route_info_xs_sc_rc_tip_taper_length: 10
 module: gdsfactory.components.taper_cross_section
 name: taper_cross_section_npoints101
 settings:
@@ -8,7 +13,6 @@ settings:
     function: cross_section
     module: gdsfactory.cross_section
     settings:
-      add_pins_function_name: null
       radius: 10
       radius_min: 5
       sections:

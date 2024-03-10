@@ -69,7 +69,11 @@ def get_route(
     taper: ComponentSpec | None = None,
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
-    min_straight_length: float | None = None,
+    min_straight_length: float = 10e-3,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     **kwargs,
 ) -> Route:
@@ -88,6 +92,10 @@ def get_route(
         start_straight_length: length of starting straight.
         end_straight_length: length of end straight.
         min_straight_length: min length of straight for any intermediate segment.
+        auto_widen: auto widen the straights.
+        auto_widen_minimum_length: minimum length to auto widen.
+        taper_length: length of taper.
+        width_wide: width of the wider straight.
         cross_section: spec.
         kwargs: cross_section settings.
 
@@ -114,11 +122,8 @@ def get_route(
             xs_list.append((xs, angles))
         cross_section = xs_list
 
-    elif cross_section:
-        x = cross_section = gf.get_cross_section(cross_section, **kwargs)
-
     else:
-        x = cross_section = None
+        cross_section = gf.get_cross_section(cross_section, **kwargs)
 
     if cross_section:
         bend90 = (
@@ -133,10 +138,8 @@ def get_route(
             raise ValueError(
                 "Tapers not implemented for routes made from multiple cross_sections."
             )
-        taper_length = x.taper_length
         width1 = input_port.width
-        auto_widen = x.auto_widen
-        width2 = x.width_wide if auto_widen else width1
+        width2 = width_wide if auto_widen else width1
 
         taper = gf.get_component(
             taper,
@@ -160,6 +163,10 @@ def get_route(
         bend=bend90,
         with_sbend=with_sbend,
         cross_section=cross_section,
+        auto_widen=auto_widen,
+        auto_widen_minimum_length=auto_widen_minimum_length,
+        width_wide=width_wide,
+        taper_length=taper_length,
     )
 
 
@@ -190,6 +197,9 @@ def get_route_from_waypoints(
     straight: Callable = straight_function,
     taper: Callable | None = taper_function,
     cross_section: CrossSectionSpec | None = "xs_sc",
+    auto_widen: bool = False,
+    taper_length: float = 10,
+    width_wide: float = 2,
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints with bends instead of \
@@ -205,6 +215,9 @@ def get_route_from_waypoints(
         straight: function that returns straight waveguides.
         taper: function that returns tapers.
         cross_section: spec.
+        auto_widen: auto widen the straights.
+        taper_length: length of taper.
+        width_wide: width of the wider straight.
         kwargs: cross_section settings.
 
     .. plot::
@@ -265,10 +278,10 @@ def get_route_from_waypoints(
         taper = None
     elif cross_section and taper:
         x = gf.get_cross_section(cross_section, **kwargs)
-        auto_widen = x.auto_widen
+        auto_widen = auto_widen
         width1 = x.width
-        width2 = x.width_wide if auto_widen else width1
-        taper_length = x.taper_length
+        width2 = width_wide if auto_widen else width1
+        taper_length = taper_length
         if auto_widen:
             taper = (
                 taper(
@@ -294,6 +307,9 @@ def get_route_from_waypoints(
         straight=straight,
         taper=taper,
         cross_section=x,
+        auto_widen=auto_widen,
+        width_wide=width_wide,
+        taper_length=taper_length,
     )
 
 

@@ -33,6 +33,7 @@ def mzm(
     nbends: int = 2,
     cross_section: CrossSectionSpec = "xs_sc",
     mirror_bot: bool = False,
+    min_length: float = 0.01,
 ) -> Component:
     """Mzm modulator.
 
@@ -53,6 +54,7 @@ def mzm(
         nbends: from straight top/bot to combiner (at least 2).
         cross_section: for routing (sxtop/sxbot to combiner).
         mirror_bot: mirrors bottom arm.
+        min_length: minimum length for straight_x_bot/top.
 
     .. code::
 
@@ -112,8 +114,7 @@ def mzm(
     if combiner:
         cp2 = c << cp2
         cp2.mirror()
-        xs = gf.get_cross_section(cross_section)
-        cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 2 * xs.min_length
+        cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 2 * min_length
 
         route = get_route(
             sxt.ports["o2"],

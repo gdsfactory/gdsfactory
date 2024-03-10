@@ -5,7 +5,7 @@ name: coupler_asymmetric
 settings:
   bend:
     function: bend_s
-  cross_section: xs_sc_no_pins
+  cross_section: xs_sc
   dx: 10.0
   dy: 2.5
   gap: 0.234

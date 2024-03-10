@@ -224,7 +224,7 @@ def crossing45(
     alpha: float = 0.08,
     npoints: int = 101,
     cross_section: CrossSectionSpec = "xs_sc",
-    cross_section_bends: CrossSectionSpec = "xs_sc_no_pins",
+    cross_section_bends: CrossSectionSpec = "xs_sc",
 ) -> Component:
     r"""Returns 45deg crossing with bends.
 
@@ -235,6 +235,8 @@ def crossing45(
         alpha: optimization parameter. diminish it for tight bends,
           increase it if raises assertion angle errors
         npoints: number of points.
+        cross_section: waveguide cross_section.
+        cross_section_bends: waveguide cross_section for the bends.
 
 
     The 45 Degree crossing CANNOT be kept as an SRef since

@@ -104,9 +104,6 @@ def coupler_full(
     c.absorb(taper_top)
     c.absorb(taper_bottom)
 
-    if x.info:
-        c.info = x.info
-
     c.add_port("o1", port=bend_input_bottom.ports["o2"])
     c.add_port("o2", port=bend_input_top.ports["o2"])
     c.add_port("o3", port=bend_output_top.ports["o1"])

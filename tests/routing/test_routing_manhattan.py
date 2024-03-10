@@ -37,7 +37,7 @@ def test_manhattan() -> None:
         # Port("in6", (0, 10), 0.5, 0),
     ]
 
-    lengths = [349.974]
+    lengths = [354.931]
 
     for input_port, output_port, length in zip(inputs, outputs, lengths):
         # input_port = Port("input_port", (10,5), 0.5, 90)
@@ -47,10 +47,9 @@ def test_manhattan() -> None:
         route = route_manhattan(
             input_port=input_port,
             output_port=output_port,
-            radius=5.0,
             auto_widen=True,
             width_wide=2,
-            layer=layer,
+            # layer=layer,
             # width=0.2,
         )
 
@@ -104,5 +103,6 @@ def _demo_manhattan_fail() -> Component:
 
 
 if __name__ == "__main__":
+    test_manhattan()
     # test_manhattan_fail()
-    test_manhattan_pass()
+    # test_manhattan_pass()

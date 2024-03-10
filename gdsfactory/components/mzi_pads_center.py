@@ -28,6 +28,7 @@ def mzi_pads_center(
     cross_section: CrossSectionSpec = "xs_sc",
     cross_section_metal: CrossSectionSpec = "xs_metal_routing",
     pad_spacing: float | str = "pad_spacing",
+    min_straight_length: float = 5.0,
     **kwargs,
 ) -> gf.Component:
     """Return Mzi phase shifter with pads in the middle.
@@ -86,6 +87,7 @@ def mzi_pads_center(
         pads.ports[pad_sig_bot],
         cross_section=cross_section_metal,
         bend=gf.components.wire_corner,
+        min_straight_length=min_straight_length,
         **kwargs,
     )
     c.add(route_sig_bot.references)
@@ -95,6 +97,7 @@ def mzi_pads_center(
         pads.ports[pad_gnd_bot],
         cross_section=cross_section_metal,
         bend=gf.components.wire_corner,
+        min_straight_length=min_straight_length,
         **kwargs,
     )
     c.add(route_gnd_bot.references)
@@ -103,6 +106,7 @@ def mzi_pads_center(
         pads.ports[pad_gnd_top],
         cross_section=cross_section_metal,
         bend=gf.components.wire_corner,
+        min_straight_length=min_straight_length,
         **kwargs,
     )
     c.add(route_gnd_top.references)
@@ -112,6 +116,7 @@ def mzi_pads_center(
         pads.ports[pad_sig_top],
         cross_section=cross_section_metal,
         bend=gf.components.wire_corner,
+        min_straight_length=min_straight_length,
         **kwargs,
     )
     c.add(route_sig_top.references)

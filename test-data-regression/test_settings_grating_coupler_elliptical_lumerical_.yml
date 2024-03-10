@@ -7,7 +7,6 @@ name: grating_coupler_elliptical_lumerical
 settings:
   bias_gap: 0
   fiber_angle: 5
-  info: null
   layer: WG
   layer_slab: SLAB150
   parameters:

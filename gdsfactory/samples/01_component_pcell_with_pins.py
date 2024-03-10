@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.typings import LayerSpec
 
 
-@gf.cell
+@gf.cell(post_process=(gf.add_pins.add_pins,))
 def straight_narrow(
     length: float = 5.0, width: float = 0.3, layer: LayerSpec = (2, 0)
 ) -> gf.Component:
@@ -29,12 +29,5 @@ def straight_narrow(
 
 
 if __name__ == "__main__":
-    from functools import partial
-
-    c = partial(
-        gf.c.spiral_inner_io,
-        decorator=gf.c.add_grating_couplers_with_loopback_fiber_array,
-    )
-    wg = c()
-    # By default show adds pins, so you don't need it to show_ports
-    wg.show(show_ports=False)
+    c = straight_narrow()
+    c.show(show_ports=False)

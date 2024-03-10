@@ -6,7 +6,6 @@ To create a component you need to extrude the path with a cross-section.
 from __future__ import annotations
 
 import hashlib
-import importlib
 import sys
 import warnings
 from collections.abc import Callable, Iterable
@@ -38,6 +37,36 @@ port_types_electrical = ("electrical", "electrical")
 cladding_layers_optical = None
 cladding_offsets_optical = None
 cladding_simplify_optical = None
+
+deprecated = {
+    "info",
+    "add_pins_function_name",
+    "add_pins_function_module",
+    "min_length",
+    "width_wide",
+    "auto_widen",
+    "auto_widen_minimum_length",
+    "start_straight_length",
+    "taper_length",
+    "end_straight_length",
+    "gap",
+}
+
+deprecated_pins = {
+    "add_pins_function_name",
+    "add_pins_function_module",
+}
+
+deprecated_routing = {
+    "min_length",
+    "width_wide",
+    "auto_widen",
+    "auto_widen_minimum_length",
+    "start_straight_length",
+    "taper_length",
+    "end_straight_length",
+    "gap",
+}
 
 
 class Section(BaseModel):
@@ -132,16 +161,6 @@ class CrossSection(BaseModel):
         radius_min: minimum acceptable bend radius.
         bbox_layers: layer to add as bounding box.
         bbox_offsets: offset to add to the bounding box.
-        info: dictionary with extra information.
-        add_pins_function_name: name of the function to add pins to the component.\
-                None by default does not add pins.
-        add_pins_function_module: function to add pins to the component.
-        min_length: defaults to 1nm = 10e-3um for routing.
-        width_wide: wide waveguides width (um) for low loss routing.
-        auto_widen: taper to wide waveguides for low loss routing.
-        auto_widen_minimum_length: minimum straight length for auto_widen.
-        taper_length: taper_length for auto_widen.
-        gap: minimum gap between waveguides.
 
     .. code::
 
@@ -180,18 +199,9 @@ class CrossSection(BaseModel):
     bbox_layers: LayerSpecs | None = None
     bbox_offsets: Floats | None = None
 
-    info: dict[str, Any] = Field(default_factory=dict)
-    add_pins_function_name: str | None = None
-    add_pins_function_module: str = "gdsfactory.add_pins"
-
-    min_length: float = 10e-3
-    width_wide: float | None = None
-    auto_widen: bool = False
-    auto_widen_minimum_length: float = 200.0
-    taper_length: float = 10.0
-    gap: float = 3.0
-
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    model_config = ConfigDict(
+        extra="ignore", frozen=True
+    )  # TODO: change to forbid after remove deprecation
 
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
@@ -235,12 +245,6 @@ class CrossSection(BaseModel):
         else:
             raise KeyError(f"{key} not in {list(key_to_section.keys())}")
 
-    def __hash__(self) -> int:
-        # self.info is not hashable. Converting to hashable here.
-        _model_attributes = self.model_dump()
-        _model_attributes["info"] = frozenset(_model_attributes.pop("info"))
-        return hash(self.__class__) + hash(frozenset(_model_attributes))
-
     def copy(
         self,
         width: float | None = None,
@@ -265,17 +269,6 @@ class CrossSection(BaseModel):
             radius: route bend radius (um).
             bbox_layers: layer to add as bounding box.
             bbox_offsets: offset to add to the bounding box.
-            info: dictionary with extra information.
-            add_pins_function_name: name of the function to add pins to the component.
-            add_pins_function_module: function to add pins to the component.
-            min_length: defaults to 1nm = 10e-3um for routing.
-            start_straight_length: straight length at the beginning of the route.
-            end_straight_length: end length at the beginning of the route.
-            width_wide: wide waveguides width (um) for low loss routing.
-            auto_widen: taper to wide waveguides for low loss routing.
-            auto_widen_minimum_length: minimum straight length for auto_widen.
-            taper_length: taper_length for auto_widen.
-            gap: minimum gap between waveguides.
 
         """
         for kwarg in kwargs:
@@ -314,17 +307,11 @@ class CrossSection(BaseModel):
         """Add pins to a target component according to :class:`CrossSection`.
         Args and kwargs are passed to the function defined by the `add_pins_function_name`.
         """
-        if self.add_pins_function_name is None:
-            return component
-
-        add_pins = importlib.import_module(self.add_pins_function_module)
-        if not hasattr(add_pins, self.add_pins_function_name):
-            raise ValueError(
-                f"add_pins_function_name = {self.add_pins_function_name} not found in"
-                f"add_pins_function_module = {self.add_pins_function_module}"
-            )
-        function = getattr(add_pins, self.add_pins_function_name)
-        return function(*args, component=component, **kwargs)
+        warnings.warn(
+            "CrossSection.add_pins() is deprecated. @gf.cell(post_process=[gf.add_pins]) instead.",
+            stacklevel=2,
+        )
+        return component
 
     def add_bbox(
         self,
@@ -432,7 +419,6 @@ def cross_section(
     cladding_simplify: Floats | None = None,
     radius: float | None = 10.0,
     radius_min: float | None = None,
-    add_pins_function_name: str | None = None,
     main_section_name: str = "_default",
     **kwargs,
 ) -> CrossSection:
@@ -456,18 +442,6 @@ def cross_section(
         radius_min: min acceptable bend radius.
         add_pins_function_name: name of the function to add pins to the component.
         main_section_name: name of the main section. Defaults to _default
-
-
-    Keyword Args:
-        info: dictionary with extra information.
-        add_pins_function_module: name of the module to add pins to the component.
-        min_length: defaults to 1nm = 10e-3um for routing.
-        width_wide: wide waveguides width (um) for low loss routing.
-        auto_widen: taper to wide waveguides for low loss routing.
-        auto_widen_minimum_length: minimum straight length for auto_widen.
-        taper_length: taper_length for auto_widen.
-        gap: minimum gap between waveguides.
-
 
     .. plot::
         :include-source:
@@ -509,6 +483,20 @@ def cross_section(
     """
     sections = list(sections or [])
 
+    for k in kwargs.keys():
+        if k in deprecated_routing:
+            warnings.warn(
+                f"{k} is deprecated. Pass this parameter to the routing function instead.",
+                stacklevel=2,
+            )
+        if k in deprecated_pins:
+            warnings.warn(
+                f"{k} is deprecated. You can decorate the @gf.cell(post_process=) instead.",
+                stacklevel=2,
+            )
+        elif k in deprecated:
+            warnings.warn(f"{k} is deprecated.", stacklevel=2)
+
     if cladding_layers:
         cladding_simplify = cladding_simplify or (None,) * len(cladding_layers)
         cladding_offsets = cladding_offsets or (0,) * len(cladding_layers)
@@ -547,18 +535,13 @@ def cross_section(
         radius_min=radius_min,
         bbox_layers=bbox_layers,
         bbox_offsets=bbox_offsets,
-        add_pins_function_name=add_pins_function_name,
-        **kwargs,
     )
 
 
 radius_nitride = 20
 radius_rib = 20
 
-strip = partial(cross_section, add_pins_function_name=None, radius=10, radius_min=5)
-strip_pins = partial(strip, add_pins_function_name="add_pins_inside2nm")
-strip_auto_widen = partial(strip, auto_widen=True)
-strip_no_pins = strip
+strip = partial(cross_section, radius=10, radius_min=5)
 
 rib = partial(
     strip,
@@ -670,7 +653,6 @@ def rib_with_trenches(
     layer_trench: LayerSpec = "DEEP_ETCH",
     wg_marking_layer: LayerSpec | None = None,
     sections: tuple[Section, ...] | None = None,
-    info: dict[str, Any] | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of rib waveguide defined by trenches.
@@ -750,22 +732,10 @@ def rib_with_trenches(
         for i, offset in enumerate([+trench_offset, -trench_offset])
     ]
 
-    info = info or {}
-    info.update(
-        dict(
-            layer_trench=layer_trench,
-            width=width,
-            width_trench=width_trench,
-            width_slab=width_slab,
-            wg_marking_layer=wg_marking_layer,
-        )
-    )
-
     return cross_section(
         layer=wg_marking_layer,
         width=width,
         sections=tuple(sections),
-        info=info,
         **kwargs,
     )
 
@@ -780,7 +750,6 @@ def l_with_trenches(
     mirror: bool = False,
     wg_marking_layer: LayerSpec | None = None,
     sections: tuple[Section, ...] | None = None,
-    info: dict[str, Any] | None = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of l waveguide defined by trenches.
@@ -838,22 +807,11 @@ def l_with_trenches(
         )
     ]
     sections += [Section(width=width_trench, offset=trench_offset, layer=layer_trench)]
-    info = info or {}
-    info.update(
-        dict(
-            layer_trench=layer_trench,
-            width=width,
-            width_trench=width_trench,
-            width_slab=width_slab,
-            wg_marking_layer=wg_marking_layer,
-        )
-    )
 
     return cross_section(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        info=info,
         **kwargs,
     )
 
@@ -865,8 +823,6 @@ metal1 = partial(
     port_names=port_names_electrical,
     port_types=port_types_electrical,
     radius=None,
-    min_length=5,
-    gap=5,
 )
 metal2 = partial(
     metal1,
@@ -1901,7 +1857,6 @@ def strip_heater_metal(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        info=dict(heater_width=heater_width),
         **kwargs,
     )
 
@@ -2393,9 +2348,6 @@ def get_cross_sections(
 
 
 xs_sc = strip()
-xs_sc_auto_widen = strip_auto_widen()
-xs_sc_no_pins = strip_no_pins()
-xs_sc_pins = strip_pins()
 
 xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
 xs_rc2 = rib2()

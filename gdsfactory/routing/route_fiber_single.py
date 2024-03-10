@@ -240,7 +240,7 @@ if __name__ == "__main__":
         c,
         # grating_coupler=[gc, gc, gc, gc],
         radius=10,
-        layer=layer,
+        # layer=layer,
     )
 
     cc = gf.Component("sample_route_fiber_single")
