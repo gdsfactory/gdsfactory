@@ -5,6 +5,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import itertools
+import warnings
 
 import gdstk
 import numpy as np
@@ -185,6 +186,10 @@ def fill_rectangle(
         bbox: x, y limit the fill pattern to the area defined by this bounding box.
 
     """
+    warnings.warn(
+        "fill_rectangle is deprecated and will be removed soon, use gf.geometry.fill_klayout instead",
+        stacklevel=2,
+    )
     D = component
 
     # Create the fill cell.
@@ -283,6 +288,10 @@ def fill_rectangle_custom(
         margin: Margin spacing around avoided areas.
         bbox: x, y limit the fill pattern to the area defined by this bounding box.
     """
+    warnings.warn(
+        "fill_rectangle is deprecated and will be removed soon, use gf.geometry.fill_klayout instead",
+        stacklevel=2,
+    )
     D = component
     if bbox is None:
         bbox = D.bbox
@@ -342,18 +351,18 @@ def test_fill() -> None:
 
 
 if __name__ == "__main__":
-    test_fill()
+    # test_fill()
 
-    # c = gf.Component("test_fill")
-    # wg = c << gf.components.straight()
-    # _ = c << gf.add_padding_container(wg.parent, default=15)
-    # fill = fill_rectangle(
-    #     c,
-    #     fill_layers=((2, 0),),
-    #     fill_densities=(1.0,),
-    #     # fill_densities=0.5,
-    #     avoid_layers=((1, 0),),
-    #     # bbox=(100.0, 100.0),
-    # )
-    # _ = c << fill
-    # c.show()
+    c = gf.Component("test_fill")
+    wg = c << gf.components.straight()
+    _ = c << gf.add_padding_container(wg.parent, default=15)
+    fill = fill_rectangle(
+        c,
+        fill_layers=((2, 0),),
+        fill_densities=(1.0,),
+        # fill_densities=0.5,
+        avoid_layers=((1, 0),),
+        # bbox=(100.0, 100.0),
+    )
+    _ = c << fill
+    c.show()
