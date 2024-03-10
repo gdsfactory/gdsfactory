@@ -60,30 +60,33 @@ def straight_heater_meander(
     p1 = gf.Port(
         name="p1",
         center=(0.0, 0.0),
-        orientation=0.0,
+        orientation=0,
         cross_section=x,
         layer=x.layer,
         width=x.width,
     )
     p2 = gf.Port(
         name="p2",
-        center=(0, spacing),
+        center=(0.0, spacing),
         orientation=0,
         cross_section=x,
         layer=x.layer,
         width=x.width,
     )
-    route = gf.routing.route_single(c, p1, p2, radius=radius)
+    _ = gf.routing.route_single(c, p1, p2, radius=radius)
     cross_section2 = cross_section
 
+    route_length = 0
+
     straight_length = gf.snap.snap_to_grid(
-        (length - (rows - 1) * route.length * c.kcl.dbu) / rows, grid_factor=2
+        (length - (rows - 1) * route_length * c.kcl.dbu) / rows, grid_factor=2
     )
     ports = {}
 
     ##############
     # Straights
     ##############
+
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
         _straight = straight(
@@ -96,7 +99,6 @@ def straight_heater_meander(
             cross_section2=cross_section2,
             length=taper_length,
         )
-
         straight_with_tapers = gf.c.extend_ports(_straight, extension=taper)
 
         straight_ref = c << straight_with_tapers
@@ -118,14 +120,13 @@ def straight_heater_meander(
         )
         extra_straight2.connect("o1", ports[f"o1_{row+2}"])
 
-        route = gf.routing.route_single(
+        gf.routing.route_single(
             c,
             extra_straight1.ports["o2"],
             extra_straight2.ports["o2"],
             radius=radius,
             cross_section=cross_section,
         )
-        c.add(route.references)
 
         extra_length = 3 * (row - 1) / 2 * radius
         extra_straight1 = c << gf.c.straight(
@@ -137,14 +138,13 @@ def straight_heater_meander(
         )
         extra_straight2.connect("o1", ports[f"o2_{row}"])
 
-        route = gf.routing.route_single(
+        gf.routing.route_single(
             c,
             extra_straight1.ports["o2"],
             extra_straight2.ports["o2"],
             radius=radius,
             cross_section=cross_section,
         )
-        c.add(route.references)
 
     straight1 = c << straight(length=extension_length, cross_section=cross_section)
     straight2 = c << straight(length=extension_length, cross_section=cross_section)
@@ -163,22 +163,22 @@ def straight_heater_meander(
             length=straight_length,
             cross_section=heater_cross_section,
         )
-        heater.movey(spacing * (rows // 2))
+        heater.d.movey(spacing * (rows // 2))
 
     if layer_heater and via_stack:
         via = via_stacke = via_stackw = gf.get_component(via_stack)
-        dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
-        via_stack_west_center = heater.size_info.cw - (dx, 0)
-        via_stack_east_center = heater.size_info.ce + (dx, 0)
+        dx = via_stackw.d.xsize / 2 + heater_taper_length or 0
+        via_stack_west_center = (heater.dbbox().left - dx, 0)
+        via_stack_east_center = (heater.dbbox().right + dx, 0)
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
         via_stack_west.move(via_stack_west_center)
         via_stack_east.move(via_stack_east_center)
 
-        valid_orientations = {p.orientation for p in via.ports.values()}
-        p1 = via_stack_west.get_ports_list(orientation=port_orientation1)
-        p2 = via_stack_east.get_ports_list(orientation=port_orientation2)
+        valid_orientations = {p.orientation for p in via.ports}
+        p1 = gf.port.get_ports_list(via_stack_west, orientation=port_orientation1)
+        p2 = gf.port.get_ports_list(via_stack_east, orientation=port_orientation2)
 
         if not p1:
             raise ValueError(
@@ -205,8 +205,20 @@ def straight_heater_meander(
             taper1.connect("o2", heater.ports["o1"])
             taper2.connect("o2", heater.ports["o2"])
 
-            via_stack_west.connect("e3", taper1.ports["o1"])
-            via_stack_east.connect("e1", taper2.ports["o1"])
+            via_stack_west.connect(
+                "e3",
+                taper1.ports["o1"],
+                allow_width_mismatch=True,
+                allow_layer_mismatch=True,
+                allow_type_mismatch=True,
+            )
+            via_stack_east.connect(
+                "e1",
+                taper2.ports["o1"],
+                allow_width_mismatch=True,
+                allow_layer_mismatch=True,
+                allow_type_mismatch=True,
+            )
     return c
 
 
