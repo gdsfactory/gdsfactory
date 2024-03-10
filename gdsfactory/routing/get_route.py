@@ -114,6 +114,7 @@ def get_route(
         c.plot()
 
     """
+
     if isinstance(cross_section, list | tuple):
         xs_list = []
         for element in cross_section:
@@ -170,12 +171,58 @@ def get_route(
     )
 
 
-get_route_electrical = partial(
-    get_route,
-    bend=wire_corner,
-    cross_section="xs_metal_routing",
-    taper=None,
-)
+def get_route_electrical(
+    input_port: Port,
+    output_port: Port,
+    bend: ComponentSpec = wire_corner,
+    straight: ComponentSpec = straight_function,
+    start_straight_length: float | None = None,
+    end_straight_length: float | None = None,
+    min_straight_length: float | None = None,
+    gap: float = 10,
+    cross_section: None
+    | CrossSectionSpec
+    | MultiCrossSectionAngleSpec = "xs_metal_routing",
+    **kwargs,
+) -> Route:
+    """Returns a Manhattan Route between 2 ports with electrical routing.
+
+    Args:
+        input_port: start port.
+        output_port: end port.
+        bend: bend spec.
+        straight: straight spec.
+        start_straight_length: length of starting straight.
+        end_straight_length: length of end straight.
+        cross_section: spec.
+        kwargs: cross_section settings.
+    """
+
+    if isinstance(cross_section, list | tuple):
+        xs_list = []
+        for element in cross_section:
+            xs, angles = element
+            xs = gf.get_cross_section(xs, **kwargs)
+            xs_list.append((xs, angles))
+        cross_section = xs_list
+    else:
+        xs = gf.get_cross_section(cross_section, **kwargs)
+
+    min_straight_length = min_straight_length or xs.width + gap
+    start_straight_length = start_straight_length or min_straight_length
+    end_straight_length = end_straight_length or min_straight_length
+
+    return get_route(
+        input_port=input_port,
+        output_port=output_port,
+        bend=bend,
+        straight=straight,
+        start_straight_length=start_straight_length,
+        end_straight_length=end_straight_length,
+        min_straight_length=min_straight_length,
+        cross_section=cross_section,
+    )
+
 
 get_route_electrical_m2 = partial(
     get_route,
@@ -336,7 +383,7 @@ if __name__ == "__main__":
     # cc.show(show_ports=True)
 
     # c = gf.Component("multi-layer")
-    # ptop = c << gf.components.pad_array()
+    # ptop = c << gf.components.pad_array(orientation=270)
     # pbot = c << gf.components.pad_array(orientation=90)
 
     # ptop.movex(300)
@@ -349,28 +396,41 @@ if __name__ == "__main__":
     # c.add(route.references)
     # c.show()
 
-    c = gf.Component("sample_connect")
-    mmi1 = c << gf.components.mmi1x2()
-    mmi2 = c << gf.components.mmi1x2()
-    mmi2.move((200, 50))
+    c = gf.Component("two_pads")
+    ptop = c << gf.components.pad(port_orientation=270)
+    pbot = c << gf.components.pad(port_orientation=90)
 
-    bend = partial(gf.components.bend_euler, cross_section="xs_rc")
-    straight = partial(gf.components.straight, cross_section="xs_rc")
-
-    via_along_path = gf.cross_section.ComponentAlongPath(component=gf.c.via1, spacing=1)
-    xs_with_vias = gf.cross_section.strip(components_along_path=[via_along_path])
-
-    route = gf.routing.get_route(
-        mmi1.ports["o3"],
-        mmi2.ports["o1"],
-        bend=bend,
-        straight=straight,
-        auto_widen=True,
-        width_wide=2,
-        auto_widen_minimum_length=100,
-        radius=30,
-        # cross_section=None,
-        cross_section=xs_with_vias,
+    ptop.movex(3)
+    ptop.movey(300)
+    route = get_route_electrical(
+        ptop.ports["pad"],
+        pbot.ports["pad"],
     )
     c.add(route.references)
     c.show()
+
+    # c = gf.Component("sample_connect")
+    # mmi1 = c << gf.components.mmi1x2()
+    # mmi2 = c << gf.components.mmi1x2()
+    # mmi2.move((200, 50))
+
+    # bend = partial(gf.components.bend_euler, cross_section="xs_rc")
+    # straight = partial(gf.components.straight, cross_section="xs_rc")
+
+    # via_along_path = gf.cross_section.ComponentAlongPath(component=gf.c.via1, spacing=1)
+    # xs_with_vias = gf.cross_section.strip(components_along_path=[via_along_path])
+
+    # route = gf.routing.get_route(
+    #     mmi1.ports["o3"],
+    #     mmi2.ports["o1"],
+    #     bend=bend,
+    #     straight=straight,
+    #     auto_widen=True,
+    #     width_wide=2,
+    #     auto_widen_minimum_length=100,
+    #     radius=30,
+    #     # cross_section=None,
+    #     cross_section=xs_with_vias,
+    # )
+    # c.add(route.references)
+    # c.show()

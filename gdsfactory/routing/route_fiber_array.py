@@ -163,6 +163,8 @@ def route_fiber_array(
     if radius:
         cross_section = x = cross_section.copy(radius=radius)
 
+    min_length = min_length or (x.width / 2 + straight_separation)
+
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
     if port_names is None:
@@ -388,6 +390,7 @@ def route_fiber_array(
             select_ports=select_ports,
             port_names=port_names,
             cross_section=cross_section,
+            min_length=min_length,
         )
         elems = route.references
         to_route = route.ports

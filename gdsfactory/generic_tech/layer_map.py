@@ -52,13 +52,17 @@ class GenericLayerMap(LayerMap):
     FLOORPLAN: Layer = (64, 0)
     TEXT: Layer = (66, 0)
     PORT: Layer = (1, 10)
-    WG_PIN: Layer = (1, 10)
     PORTE: Layer = (1, 11)
     PORTH: Layer = (70, 0)
     SHOW_PORTS: Layer = (1, 12)
     TE: Layer = (203, 0)
     TM: Layer = (204, 0)
     DRC_MARKER: Layer = (205, 0)
+
+    WG_PIN: Layer = (1, 10)
+    M1_PIN: Layer = (41, 10)
+    M2_PIN: Layer = (45, 10)
+    M3_PIN: Layer = (49, 10)
 
     SOURCE: Layer = (110, 0)
     MONITOR: Layer = (101, 0)

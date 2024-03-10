@@ -40,7 +40,7 @@ settings:
   cross_section: xs_metal_routing
   get_input_labels_function: null
   layer_label: TEXT
-  min_length: 5
+  min_length: null
   optical_routing_type: 1
   pad:
     function: pad

@@ -29,6 +29,11 @@ def route_south(
     select_ports: Callable = select_ports_optical,
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = strip,
+    min_length: float = 10e-3,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     **kwargs,
 ) -> Routes:
     """Returns Routes to route a component ports to the south.
@@ -101,6 +106,11 @@ def route_south(
         straight=straight,
         taper=taper,
         cross_section=cross_section,
+        min_straight_length=min_length,
+        auto_widen=auto_widen,
+        auto_widen_minimum_length=auto_widen_minimum_length,
+        taper_length=taper_length,
+        width_wide=width_wide,
         **kwargs,
     )
 
