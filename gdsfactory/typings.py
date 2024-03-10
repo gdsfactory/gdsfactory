@@ -372,47 +372,47 @@ def _demo() -> None:
 
     yaml_text = """
 
-name: mzi
-
-pdk: ubcpdk
-
-settings:
-   dy: -90
-
-info:
-    polarization: te
-    wavelength: 1.55
-    description: mzi for ubcpdk
+name: pads
 
 instances:
-    yr:
-      component: y_splitter
-    yl:
-      component: y_splitter
+    bl:
+      component: pad
+    tl:
+      component: pad
+    br:
+      component: pad
+    tr:
+      component: pad
 
 placements:
-    yr:
-        rotation: 180
-        x: 100
-        y: 0
+    tl:
+        x: -200
+        y: 500
+
+    br:
+        x: 400
+        y: 400
+
+    tr:
+        x: 400
+        y: 600
+
 
 routes:
-    route_top:
-        links:
-            yl,opt2: yr,opt3
+    electrical:
         settings:
-            cross_section: strip
-    route_bot:
+            separation: 20
+            width: 10
+            path_length_match_loops: 2
+            end_straight_length: 100
         links:
-            yl,opt3: yr,opt2
-        routing_strategy: get_bundle_from_steps
+            tl,e3: tr,e1
+            bl,e3: br,e1
+    optical:
         settings:
-          steps: [dx: 30, dy: '${settings.dy}', dx: 20]
-          cross_section: strip
-
-ports:
-    o1: yl,opt1
-    o2: yr,opt1
+            radius: 100
+        links:
+            bl,e4: br,e3
 """
 
     yaml_dict = yaml.safe_load(yaml_text)

@@ -64,16 +64,17 @@ plugins = [
 pdks = [
     "aim",
     "amf",
-    "ct",
+    "ctpdk",
+    "cspdk",
     "gf180",
     "gf45",
+    "gvtt",
     "hhi",
     "imec",
     "sky130",
     "sph",
     "tj",
     "ubcpdk",
-    "gvtt",
 ]
 
 
