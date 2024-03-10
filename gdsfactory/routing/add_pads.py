@@ -34,7 +34,7 @@ def add_pads_bot(
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
     with_loopback: bool = False,
-    min_length: float = 5,
+    min_length: float | None = None,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -92,6 +92,9 @@ def add_pads_bot(
         cc.plot()
 
     """
+    xs = gf.get_cross_section(cross_section)
+    min_length = min_length or (xs.width / 2 + straight_separation)
+
     component_new = Component()
     component = gf.get_component(component)
     component_name = component_name or component.name

@@ -1014,7 +1014,7 @@ def route_manhattan(
     end_straight_length: float | None = None,
     min_straight_length: float = 10e-3,
     bend: ComponentSpec = bend_euler,
-    with_sbend: bool = True,
+    with_sbend: bool = False,
     cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     with_point_markers: bool = False,
     on_route_error: Callable = get_route_error,

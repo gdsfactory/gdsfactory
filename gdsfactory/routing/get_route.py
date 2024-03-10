@@ -114,6 +114,7 @@ def get_route(
         c.plot()
 
     """
+
     if isinstance(cross_section, list | tuple):
         xs_list = []
         for element in cross_section:
@@ -170,12 +171,58 @@ def get_route(
     )
 
 
-get_route_electrical = partial(
-    get_route,
-    bend=wire_corner,
-    cross_section="xs_metal_routing",
-    taper=None,
-)
+def get_route_electrical(
+    input_port: Port,
+    output_port: Port,
+    bend: ComponentSpec = wire_corner,
+    straight: ComponentSpec = straight_function,
+    start_straight_length: float | None = None,
+    end_straight_length: float | None = None,
+    min_straight_length: float | None = None,
+    gap: float = 10,
+    cross_section: None
+    | CrossSectionSpec
+    | MultiCrossSectionAngleSpec = "xs_metal_routing",
+    **kwargs,
+) -> Route:
+    """Returns a Manhattan Route between 2 ports with electrical routing.
+
+    Args:
+        input_port: start port.
+        output_port: end port.
+        bend: bend spec.
+        straight: straight spec.
+        start_straight_length: length of starting straight.
+        end_straight_length: length of end straight.
+        cross_section: spec.
+        kwargs: cross_section settings.
+    """
+
+    if isinstance(cross_section, list | tuple):
+        xs_list = []
+        for element in cross_section:
+            xs, angles = element
+            xs = gf.get_cross_section(xs, **kwargs)
+            xs_list.append((xs, angles))
+        cross_section = xs_list
+    else:
+        cross_section = gf.get_cross_section(cross_section, **kwargs)
+
+    min_straight_length = min_straight_length or cross_section.width + gap
+    start_straight_length = start_straight_length or min_straight_length
+    end_straight_length = end_straight_length or min_straight_length
+
+    return get_route(
+        input_port=input_port,
+        output_port=output_port,
+        bend=bend,
+        straight=straight,
+        start_straight_length=start_straight_length,
+        end_straight_length=end_straight_length,
+        min_straight_length=min_straight_length,
+        cross_section=cross_section,
+    )
+
 
 get_route_electrical_m2 = partial(
     get_route,
