@@ -440,7 +440,6 @@ def cross_section(
                 polygon by more than the value listed here will be removed.
         radius: routing bend radius (um).
         radius_min: min acceptable bend radius.
-        add_pins_function_name: name of the function to add pins to the component.
         main_section_name: name of the main section. Defaults to _default
 
     .. plot::

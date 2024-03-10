@@ -36,7 +36,6 @@ def _groups(
 def get_bundle_udirect(
     ports1: list[Port],
     ports2: list[Port],
-    route_filter: Callable = get_route_from_waypoints,
     separation: float = 5.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
@@ -45,6 +44,10 @@ def get_bundle_udirect(
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     enforce_port_ordering: bool = True,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     **kwargs,
 ) -> list[Route]:
     r"""Returns list of routes.
@@ -52,8 +55,6 @@ def get_bundle_udirect(
     Args:
         ports1: list of start ports.
         ports2: list of end ports.
-        route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip straight.
         separation: between straights.
         start_straight_length: in um.
         end_straight_length: in um.
@@ -127,7 +128,17 @@ def get_bundle_udirect(
         )
 
     routes = [
-        route_filter(route, bend=bend, straight=straight, **kwargs) for route in routes
+        get_route_from_waypoints(
+            route,
+            bend=bend,
+            straight=straight,
+            auto_widen=auto_widen,
+            auto_widen_minimum_length=auto_widen_minimum_length,
+            taper_length=taper_length,
+            width_wide=width_wide,
+            **kwargs,
+        )
+        for route in routes
     ]
     if enforce_port_ordering:
         return validate_connections(_p1, _p2, routes)
@@ -265,12 +276,15 @@ def _get_bundle_udirect_waypoints(
 def get_bundle_uindirect(
     ports1: list[Port],
     ports2: list[Port],
-    route_filter: Callable = get_route_from_waypoints,
     separation: float = 5.0,
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     enforce_port_ordering: bool = True,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     **routing_params,
 ) -> list[Route]:
     r"""Returns list of routes.
@@ -343,7 +357,17 @@ def get_bundle_uindirect(
         **routing_params,
     )
 
-    routes = [route_filter(route, **routing_params) for route in routes]
+    routes = [
+        get_route_from_waypoints(
+            route,
+            auto_widen=auto_widen,
+            auto_widen_minimum_length=auto_widen_minimum_length,
+            taper_length=taper_length,
+            width_wide=width_wide,
+            **routing_params,
+        )
+        for route in routes
+    ]
     if enforce_port_ordering:
         routes = validate_connections(_p1, _p2, routes)
     return routes

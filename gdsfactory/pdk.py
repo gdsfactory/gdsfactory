@@ -190,6 +190,7 @@ class Pdk(BaseModel):
         name: PDK name.
         cross_sections: dict of cross_sections factories.
         cells: dict of parametric cells that return Components.
+        models: dict of models names to functions.
         symbols: dict of symbols names to functions.
         default_symbol_factory:
         base_pdk: a pdk to copy from and extend.
@@ -225,6 +226,7 @@ class Pdk(BaseModel):
         default_factory=dict, exclude=True
     )
     cells: dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
+    models: dict[str, Callable] = Field(default_factory=dict, exclude=True)
     symbols: dict[str, ComponentFactory] = Field(default_factory=dict)
     default_symbol_factory: Callable = Field(
         default=floorplan_with_block_letters, exclude=True
