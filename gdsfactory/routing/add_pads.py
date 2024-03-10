@@ -260,7 +260,7 @@ if __name__ == "__main__":
     c = gf.components.ring_single_heater(
         gap=0.2, radius=10, length_x=4, via_stack_offset=(2, 0)
     )
-    cc = add_pads_top(component=c, with_loopback=True, straight_to_grating_spacing=100)
+    cc = add_pads_bot(component=c, with_loopback=True, straight_to_grating_spacing=100)
     cc = gf.routing.add_fiber_array(cc)
     cc.pprint_ports()
     cc.show(show_ports=True)

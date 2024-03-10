@@ -206,9 +206,9 @@ def get_route_electrical(
             xs_list.append((xs, angles))
         cross_section = xs_list
     else:
-        cross_section = gf.get_cross_section(cross_section, **kwargs)
+        xs = gf.get_cross_section(cross_section, **kwargs)
 
-    min_straight_length = min_straight_length or cross_section.width + gap
+    min_straight_length = min_straight_length or xs.width + gap
     start_straight_length = start_straight_length or min_straight_length
     end_straight_length = end_straight_length or min_straight_length
 
