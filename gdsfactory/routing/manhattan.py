@@ -958,7 +958,6 @@ def generate_manhattan_waypoints(
     min_straight_length: float = 10e-3,
     bend: ComponentSpec = bend_euler,
     cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
-    taper_length: float = 10.0,
     **kwargs,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports.
@@ -975,7 +974,8 @@ def generate_manhattan_waypoints(
         kwargs: cross_section settings.
 
     """
-    _ = kwargs.pop("straight", None)
+    kwargs.pop("straight", None)
+    kwargs.pop("taper_length", None)
 
     if cross_section:
         bend90 = (

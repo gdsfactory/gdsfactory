@@ -76,5 +76,5 @@ def test_get_bundle_electrical2(
 
 
 if __name__ == "__main__":
-    test_get_bundle_electrical(None, check=False)
-    # test_get_bundle_electrical2(None, check=False)
+    # test_get_bundle_electrical(None, check=False)
+    test_get_bundle_electrical2(None, check=False)

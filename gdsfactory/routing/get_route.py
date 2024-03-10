@@ -198,6 +198,7 @@ def get_route_from_waypoints(
     taper: Callable | None = taper_function,
     cross_section: CrossSectionSpec | None = "xs_sc",
     auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
     taper_length: float = 10,
     width_wide: float = 2,
     **kwargs,
@@ -263,16 +264,13 @@ def get_route_from_waypoints(
         xs_list = []
         for element in cross_section:
             xs, angles = element
-            xs = gf.get_cross_section(xs)
-            xs = xs.copy(**kwargs)  # Shallow copy
+            xs = gf.get_cross_section(xs, **kwargs)
             xs_list.append((xs, angles))
-        x = cross_section = xs_list
-
+        x = xs_list
     elif cross_section:
         kwargs.pop("start_straight_length", None)
         kwargs.pop("end_straight_length", None)
-        cross_section = gf.get_cross_section(cross_section)
-        x = cross_section = cross_section.copy(**kwargs)
+        x = cross_section = gf.get_cross_section(cross_section, **kwargs)
 
     if isinstance(cross_section, list):
         taper = None
@@ -308,8 +306,9 @@ def get_route_from_waypoints(
         taper=taper,
         cross_section=x,
         auto_widen=auto_widen,
-        width_wide=width_wide,
+        auto_widen_minimum_length=auto_widen_minimum_length,
         taper_length=taper_length,
+        width_wide=width_wide,
     )
 
 

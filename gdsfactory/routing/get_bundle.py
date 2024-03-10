@@ -66,6 +66,10 @@ def get_bundle(
     enforce_port_ordering: bool = True,
     steps: list[Step] | None = None,
     waypoints: Coordinates | None = None,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     **kwargs,
 ) -> list[Route]:
     """Returns list of routes to connect two groups of ports.
@@ -214,6 +218,10 @@ def get_bundle(
         "straight": straight,
         "cross_section": cross_section,
         "enforce_port_ordering": enforce_port_ordering,
+        "auto_widen": auto_widen,
+        "auto_widen_minimum_length": auto_widen_minimum_length,
+        "taper_length": taper_length,
+        "width_wide": width_wide,
     }
     if path_length_match_loops is not None:
         params |= path_length_match_params
@@ -316,6 +324,10 @@ def get_bundle_same_axis(
     path_length_match_modify_segment_i: int = -2,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     enforce_port_ordering: bool = True,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     **kwargs,
 ) -> list[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -413,6 +425,10 @@ def get_bundle_same_axis(
             bend=bend,
             cross_section=cross_section,
             straight=straight,
+            auto_widen=auto_widen,
+            auto_widen_minimum_length=auto_widen_minimum_length,
+            taper_length=taper_length,
+            width_wide=width_wide,
             **kwargs,
         )
         for route in routes
