@@ -492,6 +492,8 @@ class Pdk(BaseModel):
             if kwargs:
                 raise ValueError(f"Cannot apply kwargs {kwargs} to {component.name!r}")
             return component
+        elif isinstance(component, kf.KCell):
+            return Component.from_kcell(component)
         elif callable(component):
             return component(**kwargs)
         elif isinstance(component, str):

@@ -181,6 +181,17 @@ class Component(kf.KCell):
                 dcplx_trans=trans,
             )
 
+    def from_kcell(self) -> Component:
+        """Returns a Component from a KCell."""
+        kdb_copy = self._kdb_copy()
+
+        c = Component(kcl=self.kcl, kdb_cell=kdb_copy)
+        c.ports = self.ports.copy()
+
+        c._settings = self.settings.model_copy()
+        c.info = self.info.model_copy()
+        return c
+
     def add_polygon(
         self, points: np.ndarray | kdb.DPolygon | kdb.Polygon | Region, layer: LayerSpec
     ) -> kdb.DPolygon | kdb.Polygon | Region:
@@ -194,8 +205,14 @@ class Component(kf.KCell):
 
         layer = get_layer(layer)
 
-        if isinstance(points, tuple | list | np.ndarray):
-            polygon = kf.dpolygon_from_array(points)
+        if isinstance(points, np.ndarray):
+            points = points.tolist()
+
+        if isinstance(points, tuple | list):
+            # polygon = kdb.DPolygon(points) # TODO: fix this
+            # polygon = kf.dpolygon_from_array(points)
+            polygon = kf.kdb.DPolygon()
+            polygon.assign_hull(list(points))
 
         elif isinstance(
             points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region
@@ -606,11 +623,11 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.Component()
-    wg1 = c << gf.c.straight(length=10, cross_section="xs_rc")
-    wg2 = c << gf.c.straight(length=5, cross_section="xs_rc")
-    wg2.connect("o1", wg1["o2"])
-    wg2.d.movex(5)
-    p = c.get_polygons()
+    # wg1 = c << gf.c.straight(length=10, cross_section="xs_rc")
+    # wg2 = c << gf.c.straight(length=5, cross_section="xs_rc")
+    # wg2.connect("o1", wg1["o2"])
+    # wg2.d.movex(5)
+    # p = c.get_polygons()
     # print(c.area(layer=(1, 0)))
     # print(c.get_ports_list(prefix="o"))
 
@@ -631,12 +648,12 @@ if __name__ == "__main__":
     # c.remap_layers({(1, 0): (2, 0)})
     # c.show()
 
-    # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    # c.add_polygon([(0, 0), (1, 1), (1, 3)], layer=(1, 0))
     # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
     # c = c.extract(layers=[(1, 0)])
 
     # c = Component()
-    # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer="SLAB150")
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=LAYER.WG)
     # c.create_port(name="o1", position=(10, 10), angle=1, layer=LAYER.WG, width=2000)

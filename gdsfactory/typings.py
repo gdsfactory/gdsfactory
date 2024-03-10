@@ -26,6 +26,7 @@ import pathlib
 from collections.abc import Callable
 from typing import Any, Dict, List, Literal, Optional, Tuple, Union
 
+import kfactory as kf
 import numpy as np
 from kfactory.kcell import LayerEnum
 from omegaconf import OmegaConf
@@ -158,7 +159,7 @@ PortsList = dict[str, Port]
 Sparameters = dict[str, np.ndarray]
 
 ComponentSpec = (
-    str | ComponentFactory | dict[str, Any]
+    str | ComponentFactory | dict[str, Any] | kf.KCell
 )  # PCell function, function name, dict or Component
 
 ComponentSpecs = tuple[ComponentSpec, ...]

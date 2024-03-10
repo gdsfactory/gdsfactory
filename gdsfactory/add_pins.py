@@ -448,6 +448,10 @@ def add_pins_siepic(
         layer_pin: pin layer.
         pin_length: length of the pin marker for the port.
     """
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
+
     for p in component.get_ports_list(port_type=port_type):
         function(component=component, port=p, layer=layer_pin, pin_length=pin_length)
 
@@ -468,7 +472,7 @@ def add_pins(
     width: float | None = None,
     function: Callable = add_pin_rectangle_inside,
     **kwargs,
-) -> Component:
+) -> None:
     """Add Pin port markers.
 
     Args:
@@ -482,6 +486,10 @@ def add_pins(
         layer: layer for the pin marker.
         layer_label: add label for the pin marker.
     """
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
+
     ports = select_ports(
         ports=component.ports,
         port_type=port_type,
@@ -489,10 +497,10 @@ def add_pins(
         orientation=orientation,
         width=width,
     )
+    ports = component.ports
 
     for port in ports:
         function(component=component, port=port, **kwargs)
-    return component
 
 
 add_pins_triangle = partial(add_pins, function=add_pin_triangle)
@@ -603,7 +611,7 @@ if __name__ == "__main__":
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
     c = gf.components.bend_euler()
-    c = add_pins(c)
+    add_pins(c)
     # c = add_pins_container(c)
     # cc.show()
     # c.show(show_subports=True)
