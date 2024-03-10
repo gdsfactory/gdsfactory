@@ -64,8 +64,6 @@ def add_electrical_pads_top(
     """
     c = Component()
     component = gf.get_component(component)
-
-    c.component = component
     ref = c << component
 
     ports_electrical = (
@@ -101,7 +99,6 @@ def add_electrical_pads_top(
     c.add_ports(pads.ports)
     c.copy_child_info(component)
     c.auto_rename_ports(prefix_electrical=f"elec-{component.name}-")
-
     return c
 
 

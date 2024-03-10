@@ -41,7 +41,6 @@ def cavity(
     coupler = gf.get_component(coupler, length=length, gap=gap, **kwargs)
 
     c = gf.Component()
-    c.component = mirror
     cr = c << coupler
     ml = c << mirror
     mr = c << mirror
