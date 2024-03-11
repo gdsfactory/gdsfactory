@@ -58,11 +58,22 @@ from gdsfactory.typings import (
     Route,
 )
 
+def get_restricted_area(
+    obstacle_list: list[Component],
+    margin: float = 0.0
+) -> list[list[float]]:
+    restricted_area = []
+    for obstacle in obstacle_list:
+        origin = np.array(obstacle.origin)
+        for polygon in obstacle.parent.polygons:
+            restricted_area.append(polygon.points + origin)
+    return restricted_area
 
 @validate_call
 def get_route(
     input_port: Port,
     output_port: Port,
+    component: Component,
     bend: ComponentSpec = bend_euler,
     with_sbend: bool = False,
     straight: ComponentSpec = straight_function,
@@ -81,6 +92,7 @@ def get_route(
     Args:
         input_port: start port.
         output_port: end port.
+        component: the component that contains the input, output ports and all other components
         bend: bend spec.
         with_sbend: add sbend in case there are routing errors.
         straight: straight spec.
@@ -106,6 +118,11 @@ def get_route(
         c.plot()
 
     """
+    obstacle_list = list(set(component.references) - {input_port.parent, output_port.parent})
+    restricted_area = get_restricted_area(obstacle_list)
+    print(obstacle_list)
+    print(restricted_area)
+
     if isinstance(cross_section, list | tuple):
         xs_list = []
         for element in cross_section:
