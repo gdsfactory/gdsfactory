@@ -336,6 +336,7 @@ def cell(
             get_child_name=get_child_name,
             post_process=post_process,
             info=info,
+            basename=basename,
         )
     )
 
