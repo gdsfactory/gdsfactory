@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.20.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.20.0) - 2024-03-10
+
+No significant changes.
+
+
 ## [7.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.19.0) - 2024-03-07
 
 - support activating more than 2 pdks [#2608](https://github.com/gdsfactory/gdsfactory/pull/2608)
