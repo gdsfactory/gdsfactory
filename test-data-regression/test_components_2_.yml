@@ -1,4 +1,4 @@
-function: _from_yaml
+function: rotation
 info: {}
 module: gdsfactory.read.from_yaml
 name: rotation_99ea4645

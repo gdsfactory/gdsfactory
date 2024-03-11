@@ -1,4 +1,4 @@
-function: _from_yaml
+function: mask
 info: {}
 module: gdsfactory.read.from_yaml
 name: mask_a0e3547b

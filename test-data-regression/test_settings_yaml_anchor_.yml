@@ -1,4 +1,4 @@
-function: _from_yaml
+function: yaml_anchor
 info: {}
 module: gdsfactory.read.from_yaml
 name: yaml_anchor_8731fb27

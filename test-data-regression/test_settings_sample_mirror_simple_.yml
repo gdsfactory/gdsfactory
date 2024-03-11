@@ -1,4 +1,4 @@
-function: _from_yaml
+function: sample_mirror_simple
 info: {}
 module: gdsfactory.read.from_yaml
 name: sample_mirror_simple_a2dbfa91

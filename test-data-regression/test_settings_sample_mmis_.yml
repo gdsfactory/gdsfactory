@@ -1,4 +1,4 @@
-function: _from_yaml
+function: sample_mmis
 info:
   description: just a demo on adding metadata
   polarization: te

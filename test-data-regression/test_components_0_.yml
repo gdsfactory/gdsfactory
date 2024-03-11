@@ -1,4 +1,4 @@
-function: _from_yaml
+function: mirror_port
 info: {}
 module: gdsfactory.read.from_yaml
 name: mirror_port_f610a6e9

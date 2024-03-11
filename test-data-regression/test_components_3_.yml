@@ -1,4 +1,4 @@
-function: _from_yaml
+function: dxdy
 info: {}
 module: gdsfactory.read.from_yaml
 name: dxdy_d4ff57bc

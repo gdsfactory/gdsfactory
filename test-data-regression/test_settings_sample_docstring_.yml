@@ -1,4 +1,4 @@
-function: _from_yaml
+function: sample_docstring
 info: {}
 module: gdsfactory.read.from_yaml
 name: sample_docstring_e2d59879

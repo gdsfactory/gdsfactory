@@ -1,4 +1,4 @@
-function: _from_yaml
+function: mirror_x
 info: {}
 module: gdsfactory.read.from_yaml
 name: mirror_x_c0f7d032

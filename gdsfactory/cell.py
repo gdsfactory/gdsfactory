@@ -73,6 +73,8 @@ def cell(
     get_child_name: bool = False,
     post_process: Sequence[Callable] | None = None,
     info: dict[str, int | float | str] | None = None,
+    basename: str | None = None,
+    **kwargs,
 ) -> Callable[[_F], _F]:
     """Parametrized Decorator for Component functions.
 
@@ -92,6 +94,8 @@ def cell(
         get_child_name: Use child name as component name prefix.
         post_process: list of post processing functions to apply to the component.
         info: dictionary with metadata to add to the component.
+        basename: Overwrite the name normally inferred from the function or class
+        kwargs: keyword arguments to pass to the function.
 
     Implements a cache so that if a component has already been build it returns the component from the cache directly.
     This avoids creating two exact Components that have the same name.
@@ -130,6 +134,8 @@ def cell(
             stacklevel=2,
         )
 
+    func = partial(func, **kwargs) if kwargs else func
+
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
         nonlocal ports_not_manhattan, ports_offgrid, max_name_length
@@ -148,11 +154,11 @@ def cell(
             )
         if prefix:
             warnings.warn(
-                f"prefix is deprecated and will be removed soon. {func.__name__}",
+                f"prefix is deprecated and will be removed soon. {func.__name__}. Use @gf.cell(basename='my_func') instead.",
                 stacklevel=2,
             )
 
-        prefix = prefix or func.__name__
+        prefix = prefix or basename or func.__name__
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -291,7 +297,7 @@ def cell(
 
         if add_settings:
             component.settings = CellSettings(**full)
-            component.function_name = func.__name__
+            component.function_name = prefix
             component.module = func.__module__
             component.__doc__ = func.__doc__
 

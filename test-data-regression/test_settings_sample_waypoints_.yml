@@ -1,4 +1,4 @@
-function: _from_yaml
+function: sample_waypoints
 info: {}
 module: gdsfactory.read.from_yaml
 name: sample_waypoints_f04e1be3

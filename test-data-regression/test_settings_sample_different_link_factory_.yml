@@ -1,4 +1,4 @@
-function: _from_yaml
+function: sample_path_length_matching
 info: {}
 module: gdsfactory.read.from_yaml
 name: sample_path_length_matching_215cd1fb

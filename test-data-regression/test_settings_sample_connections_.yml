@@ -1,4 +1,4 @@
-function: _from_yaml
+function: sample_connections
 info: {}
 module: gdsfactory.read.from_yaml
 name: sample_connections_23ad5c38

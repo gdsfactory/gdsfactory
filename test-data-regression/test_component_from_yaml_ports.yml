@@ -1,4 +1,4 @@
-function: _from_yaml
+function: component_yaml_ports
 info: {}
 module: gdsfactory.read.from_yaml
 name: component_yaml_ports_d68fa3aa
