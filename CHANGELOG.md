@@ -1,11 +1,16 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.19.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.20.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.20.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.20.0) - 2024-03-10
 
-No significant changes.
+- Add models to pdk [#2614](https://github.com/gdsfactory/gdsfactory/pull/2614)
+- Simpler cross section [#2613](https://github.com/gdsfactory/gdsfactory/pull/2613)
+- add post_process to cell decorator [#2610](https://github.com/gdsfactory/gdsfactory/pull/2610)
+- fix read_from_yaml with x=instance,port [#2617](https://github.com/gdsfactory/gdsfactory/pull/2617)
+- Fix electrical corner port location [#2615](https://github.com/gdsfactory/gdsfactory/pull/2615)
+- deprecate gf.fill [#2616](https://github.com/gdsfactory/gdsfactory/pull/2616)
 
 
 ## [7.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.19.0) - 2024-03-07
