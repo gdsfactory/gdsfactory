@@ -28,6 +28,20 @@ cell_without_validator = cell
 ComponentReference = Instance
 
 
+def ensure_tuple_of_tuples(points) -> tuple[tuple[float, float]]:
+    # Convert a single NumPy array to a tuple of tuples
+    if isinstance(points, np.ndarray):
+        points = tuple(map(tuple, points.tolist()))
+    elif isinstance(points, list):
+        # If it's a list, check if the first element is an np.ndarray or a list to decide on conversion
+        if len(points) > 0 and isinstance(points[0], np.ndarray | list):
+            points = tuple(
+                tuple(point) if isinstance(point, np.ndarray) else tuple(point)
+                for point in points
+            )
+    return points
+
+
 def size(region: kdb.Region, offset: float, dbu=1e3) -> kdb.Region:
     return region.dup().size(int(offset * dbu))
 
@@ -205,14 +219,10 @@ class Component(kf.KCell):
 
         layer = get_layer(layer)
 
-        if isinstance(points, np.ndarray):
-            points = points.tolist()
-
-        if isinstance(points, tuple | list):
-            # polygon = kdb.DPolygon(points) # TODO: fix this
-            # polygon = kf.dpolygon_from_array(points)
+        if isinstance(points, tuple | list | np.ndarray):
+            points = ensure_tuple_of_tuples(points)
             polygon = kf.kdb.DPolygon()
-            polygon.assign_hull(list(points))
+            polygon.assign_hull(points)
 
         elif isinstance(
             points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region
