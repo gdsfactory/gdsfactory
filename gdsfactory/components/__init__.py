@@ -31,7 +31,6 @@ from gdsfactory.components.bbox import bbox
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_circular_heater import bend_circular_heater
 from gdsfactory.components.bend_euler import (
-    BendEuler,
     bend_euler,
     bend_euler180,
     bend_euler_s,
@@ -265,7 +264,7 @@ from gdsfactory.components.spiral_inner_io import (
 )
 from gdsfactory.components.splitter_chain import splitter_chain
 from gdsfactory.components.splitter_tree import splitter_tree
-from gdsfactory.components.straight import Straight, straight, straight_array
+from gdsfactory.components.straight import straight, straight_array
 from gdsfactory.components.straight_heater_doped_rib import straight_heater_doped_rib
 from gdsfactory.components.straight_heater_doped_strip import (
     straight_heater_doped_strip,
@@ -624,8 +623,6 @@ __all__ = [
     "wire_straight",
     "hexagon",
     "octagon",
-    "Straight",
-    "BendEuler",
 ]
 
 cells = get_cells(sys.modules[__name__])

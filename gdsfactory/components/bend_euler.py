@@ -10,17 +10,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler
-from gdsfactory.typings import CrossSectionSpec, TypedDict
-
-
-class BendEuler(TypedDict):
-    radius: float | None
-    angle: float
-    p: float
-    with_arc_floorplan: bool
-    npoints: int | None
-    direction: str
-    cross_section: CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 
 @gf.cell

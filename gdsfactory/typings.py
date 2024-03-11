@@ -350,7 +350,7 @@ __all__ = (
 def write_schema(model: BaseModel = NetlistModel) -> None:
     from gdsfactory.config import PATH
 
-    s = model.schema_json()
+    s = model.model_json_schema()
     d = OmegaConf.create(s)
 
     schema_path_json = PATH.schema_netlist
