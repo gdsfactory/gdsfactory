@@ -246,8 +246,8 @@ def place(
             if mirror is True and port:
                 ref.mirror_x(x0=_get_anchor_value_from_name(ref, port, "x"))
             elif mirror is True:
-                if x:
-                    ref.mirror_x(x0=x)
+                if x is not None:
+                    ref.mirror_x(x0=_get_anchor_value_from_name(ref, x, "x"))
                 else:
                     ref.mirror_x()
             elif mirror is False:
