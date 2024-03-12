@@ -1,7 +1,13 @@
-function: mmi1x2_nc
-info: {}
+function: straight_sc
+info:
+  length: 10.0
+  route_info_length: 10.0
+  route_info_type: xs_6dc110e2
+  route_info_weight: 10.0
+  route_info_xs_6dc110e2_length: 10.0
+  width: 1.0
 module: gdsfactory.samples.pdk.fab_c
-name: mmi1x2_nc
+name: straight_sc
 settings:
   cross_section:
     function: cross_section
@@ -18,4 +24,3 @@ settings:
       radius: 10
       radius_min: 5
       width: 1.0
-  width_mmi: 3
