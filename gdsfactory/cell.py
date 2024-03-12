@@ -1,4 +1,5 @@
 """Cell decorator for functions that return a Component."""
+
 from __future__ import annotations
 
 import functools
@@ -137,7 +138,7 @@ def cell(
 
         active_pdk = get_active_pdk()
 
-        name = _name = kwargs.pop("name", None)
+        name = kwargs.pop("name", None)
         prefix = kwargs.pop("prefix", None)
         metadata = info or {}  # noqa
 
@@ -153,7 +154,6 @@ def cell(
             )
 
         prefix = prefix or func.__name__
-
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
         args_as_kwargs.update(kwargs)
@@ -311,10 +311,12 @@ def cell(
         CACHE_IDS.add(id(component))
         return component
 
-    return (
-        wrapper
-        if func is not None
-        else partial(
+    if func is not None:
+        sig = inspect.signature(func)
+        wrapper.__signature__ = sig.replace(return_annotation=Component)
+        return wrapper
+    else:
+        return partial(
             cell,
             autoname=autoname,
             max_name_length=max_name_length,
@@ -331,7 +333,6 @@ def cell(
             post_process=post_process,
             info=info,
         )
-    )
 
 
 cell_without_validator = cell
