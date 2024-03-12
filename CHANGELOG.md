@@ -1,11 +1,11 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.20.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.21.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.21.0) - 2024-03-11
 
-No significant changes.
+- inject gf.Component return annotation when using gf.cell [#2620](https://github.com/gdsfactory/gdsfactory/pull/2620)
 
 
 ## [7.20.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.20.0) - 2024-03-10
