@@ -72,7 +72,7 @@ def extract_args_from_docstring(docstring: str) -> dict[str, Any] | None:
     """
     args_dict = {}
 
-    docstring_lines = docstring.split("\n")
+    docstring_lines = docstring.split("\n") if docstring else []
     for line in docstring_lines:
         line = line.strip()
         if not line:
@@ -617,7 +617,9 @@ class Pdk(BaseModel):
         blocks = {
             name: dict(
                 bbox=bbox_to_points(c.bbox),
-                doc=c.__doc__.split("\n")[0],
+                doc=c.__doc__.split("\n")[0]
+                if c and hasattr(c, "__doc__") and c.__doc__ is not None
+                else "",
                 settings=extract_args_from_docstring(c.__doc__),
                 parameters={
                     sname: {

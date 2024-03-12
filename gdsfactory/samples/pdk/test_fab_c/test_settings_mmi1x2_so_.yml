@@ -1,21 +1,21 @@
-function: mmi1x2_nc
+function: mmi1x2_so
 info: {}
 module: gdsfactory.samples.pdk.fab_c
-name: mmi1x2_nc
+name: mmi1x2_so
 settings:
   cross_section:
     function: cross_section
     module: gdsfactory.cross_section
     settings:
       bbox_layers:
-      - - 36
-        - 0
+      - - 10
+        - 2
       bbox_offsets:
       - 3
       layer:
-      - 34
-      - 0
+      - 10
+      - 1
       radius: 10
       radius_min: 5
-      width: 1.0
+      width: 0.4
   width_mmi: 3
