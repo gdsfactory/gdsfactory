@@ -8,7 +8,7 @@ import inspect
 import warnings
 from collections.abc import Callable, Sequence
 from functools import partial
-from typing import TypeVar
+from typing import TypeVar, overload
 
 from pydantic import validate_call
 
@@ -56,8 +56,9 @@ def print_cache() -> None:
         print(k)
 
 
+@overload
 def cell(
-    func: _F | None = None,
+    func: None,
     /,
     *,
     autoname: bool = True,
@@ -74,7 +75,52 @@ def cell(
     get_child_name: bool = False,
     post_process: Sequence[Callable] | None = None,
     info: dict[str, int | float | str] | None = None,
-) -> Callable[[_F], _F]:
+) -> partial:
+    ...
+
+
+@overload
+def cell(
+    func: Callable[..., Component],
+    /,
+    *,
+    autoname: bool = True,
+    max_name_length: int | None = None,
+    include_module: bool = False,
+    with_hash: bool = False,
+    ports_offgrid: str | None = None,
+    ports_not_manhattan: str | None = None,
+    flatten: bool = False,
+    naming_style: str = "default",
+    default_decorator: Callable[[Component], Component] | None = None,
+    add_settings: bool = True,
+    validate: bool = False,
+    get_child_name: bool = False,
+    post_process: Sequence[Callable] | None = None,
+    info: dict[str, int | float | str] | None = None,
+) -> Callable[..., Component]:
+    ...
+
+
+def cell(
+    func: Callable[..., Component] | None = None,
+    /,
+    *,
+    autoname: bool = True,
+    max_name_length: int | None = None,
+    include_module: bool = False,
+    with_hash: bool = False,
+    ports_offgrid: str | None = None,
+    ports_not_manhattan: str | None = None,
+    flatten: bool = False,
+    naming_style: str = "default",
+    default_decorator: Callable[[Component], Component] | None = None,
+    add_settings: bool = True,
+    validate: bool = False,
+    get_child_name: bool = False,
+    post_process: Sequence[Callable] | None = None,
+    info: dict[str, int | float | str] | None = None,
+) -> Callable[..., Component] | partial:
     """Parametrized Decorator for Component functions.
 
     Args:
@@ -124,6 +170,25 @@ def cell(
         mzi_with_bend_decorated = gf.cell(mzi_with_bend)
 
     """
+    if func is None:
+        return partial(
+            cell,
+            autoname=autoname,
+            max_name_length=max_name_length,
+            include_module=include_module,
+            with_hash=with_hash,
+            ports_offgrid=ports_offgrid,
+            ports_not_manhattan=ports_not_manhattan,
+            flatten=flatten,
+            naming_style=naming_style,
+            default_decorator=default_decorator,
+            add_settings=add_settings,
+            validate=validate,
+            get_child_name=get_child_name,
+            post_process=post_process,
+            info=info,
+        )
+
     if default_decorator is not None:
         warnings.warn(
             "default_decorator is deprecated and will be removed soon. Use post_process instead.",
@@ -133,6 +198,7 @@ def cell(
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
+        assert func is not None
         nonlocal ports_not_manhattan, ports_offgrid, max_name_length
         from gdsfactory.pdk import get_active_pdk
 
@@ -311,28 +377,9 @@ def cell(
         CACHE_IDS.add(id(component))
         return component
 
-    if func is not None:
-        sig = inspect.signature(func)
-        wrapper.__signature__ = sig.replace(return_annotation=Component)
-        return wrapper
-    else:
-        return partial(
-            cell,
-            autoname=autoname,
-            max_name_length=max_name_length,
-            include_module=include_module,
-            with_hash=with_hash,
-            ports_offgrid=ports_offgrid,
-            ports_not_manhattan=ports_not_manhattan,
-            flatten=flatten,
-            naming_style=naming_style,
-            default_decorator=default_decorator,
-            add_settings=add_settings,
-            validate=validate,
-            get_child_name=get_child_name,
-            post_process=post_process,
-            info=info,
-        )
+    sig = inspect.signature(func)
+    wrapper.__signature__ = sig.replace(return_annotation=Component)  # type: ignore
+    return wrapper
 
 
 cell_without_validator = cell
