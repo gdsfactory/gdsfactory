@@ -1,4 +1,5 @@
 """snaps values and coordinates to the GDS grid in nm."""
+
 from __future__ import annotations
 
 import warnings

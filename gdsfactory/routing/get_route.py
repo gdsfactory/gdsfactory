@@ -32,6 +32,7 @@ To generate a straight route:
 - length: a float with the length of the route
 
 """
+
 from __future__ import annotations
 
 from collections.abc import Callable

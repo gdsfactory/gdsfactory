@@ -21,7 +21,6 @@ def test_gds(component_name: str) -> None:
 
 """
 
-
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 

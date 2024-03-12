@@ -8,6 +8,7 @@ https://open.library.ubc.ca/cIRcle/collections/ubctheses/24/items/1.0388871
 
 Period: 318nm, width: 500nm, dw: 20 ~ 120 nm.
 """
+
 from __future__ import annotations
 
 import gdsfactory as gf

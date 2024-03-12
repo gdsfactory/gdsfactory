@@ -1,4 +1,5 @@
 """Add grating_couplers to a component."""
+
 from __future__ import annotations
 
 from collections.abc import Callable

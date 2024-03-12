@@ -1,4 +1,5 @@
 """Straight waveguide."""
+
 from __future__ import annotations
 
 import warnings

@@ -1,4 +1,5 @@
 """Adiabatic tapers from CSV files."""
+
 from __future__ import annotations
 
 import pathlib

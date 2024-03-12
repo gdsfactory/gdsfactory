@@ -9,6 +9,7 @@ The Component.flatten() method returns a new flatten Component with all the
 polygons inside the Component, and removes all the underlying references.
 
 """
+
 from __future__ import annotations
 
 import gdsfactory as gf
