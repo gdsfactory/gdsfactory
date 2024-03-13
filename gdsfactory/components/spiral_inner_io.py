@@ -1,4 +1,5 @@
 """Spiral with grating couplers inside to save space."""
+
 from __future__ import annotations
 
 import numpy as np

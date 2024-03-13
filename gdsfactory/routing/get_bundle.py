@@ -9,6 +9,7 @@ get_bundle calls different function depending on the port orientation.
  - get_bundle_uindirect: ports with indirect U-turns
 
 """
+
 from __future__ import annotations
 
 from collections.abc import Callable

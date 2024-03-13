@@ -1,4 +1,5 @@
 """Straight Doped PIN waveguide."""
+
 from __future__ import annotations
 
 from functools import partial

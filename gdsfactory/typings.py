@@ -27,6 +27,7 @@ Specs:
 - LayerSpec: (3, 0), 3 (assumes 0 as datatype) or string.
 
 """
+
 from __future__ import annotations
 
 import dataclasses

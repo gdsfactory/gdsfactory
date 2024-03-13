@@ -46,6 +46,7 @@ routes:
             radius: 10
 
 """
+
 from __future__ import annotations
 
 import importlib

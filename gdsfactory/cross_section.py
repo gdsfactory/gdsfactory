@@ -3,6 +3,7 @@
 
 To create a component you need to extrude the path with a cross-section.
 """
+
 from __future__ import annotations
 
 import hashlib
