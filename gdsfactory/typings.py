@@ -33,7 +33,7 @@ import dataclasses
 import json
 import pathlib
 from collections.abc import Callable
-from typing import Any, Dict, List, Literal, Optional, Tuple, TypedDict, Union
+from typing import Any, Dict, List, Literal, Optional, Tuple, Union
 
 import gdstk
 import numpy as np
@@ -342,14 +342,13 @@ __all__ = (
     "List",
     "Tuple",
     "Dict",
-    "TypedDict",
 )
 
 
 def write_schema(model: BaseModel = NetlistModel) -> None:
     from gdsfactory.config import PATH
 
-    s = model.schema_json()
+    s = model.model_json_schema()
     d = OmegaConf.create(s)
 
     schema_path_json = PATH.schema_netlist
