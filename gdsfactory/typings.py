@@ -38,7 +38,7 @@ from typing import Any, Dict, List, Literal, Optional, Tuple, Union
 import gdstk
 import numpy as np
 from omegaconf import OmegaConf
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_layout import Label
@@ -215,14 +215,15 @@ class Routes(BaseModel):
     model_config = {"extra": "forbid"}
 
 
-class ComponentModel(BaseModel):
+class Instance(BaseModel):
     component: str | dict[str, Any]
     settings: dict[str, Any] | None
+    info: dict[str, Any] | None
 
     model_config = {"extra": "forbid"}
 
 
-class PlacementModel(BaseModel):
+class Placement(BaseModel):
     x: str | float = 0
     y: str | float = 0
     xmin: str | float | None = None
@@ -238,7 +239,7 @@ class PlacementModel(BaseModel):
     model_config = {"extra": "forbid"}
 
 
-class RouteModel(BaseModel):
+class Bundle(BaseModel):
     links: dict[str, str]
     settings: dict[str, Any] | None = None
     routing_strategy: str | None = None
@@ -246,7 +247,7 @@ class RouteModel(BaseModel):
     model_config = {"extra": "forbid"}
 
 
-class NetlistModel(BaseModel):
+class Netlist(BaseModel):
     """Netlist defined component.
 
     Parameters:
@@ -258,19 +259,62 @@ class NetlistModel(BaseModel):
         info: information (polarization, wavelength ...).
         settings: input variables.
         ports: exposed component ports.
-
     """
 
-    instances: dict[str, ComponentModel] | None = None
-    placements: dict[str, PlacementModel] | None = None
+    instances: dict[str, Instance] | None = None
+    placements: dict[str, Placement] | None = None
     connections: dict[str, str] | None = None
-    routes: dict[str, RouteModel] | None = None
+    routes: dict[str, Bundle] | None = None
     name: str | None = None
     info: dict[str, Any] | None = None
     settings: dict[str, Any] | None = None
     ports: dict[str, str] | None = None
 
     model_config = {"extra": "forbid"}
+
+
+class Net(BaseModel):
+    instance1: str
+    port1: str
+    instance2: str
+    port2: str
+    bundle: str | None = None
+
+
+class Schematic(BaseModel):
+    """Schematic."""
+
+    netlist: Netlist = Field(default_factory=Netlist)
+    nets: list[Net] = Field(default_factory=list)
+    placements: dict[str, Placement] = Field(default_factory=dict)
+
+    def add_instance(
+        self, name: str, instance: Instance, placement: Placement | None = None
+    ) -> None:
+        self.netlist.instances[name] = instance
+        if placement:
+            self.add_placement(name, placement)
+
+    def add_placement(
+        self,
+        instance_name: str,
+        placement: Placement,
+    ) -> None:
+        """Add placement to the netlist.
+
+        Args:
+            instance_name: instance name.
+            placement: placement.
+        """
+        self.placements[instance_name] = placement
+
+    def from_component(self, component: Component) -> None:
+        n = component.get_netlist()
+        self.netlist = Netlist.model_validate(n)
+
+    def add_net(self, net: Net) -> None:
+        """Add a net between two ports."""
+        self.nets.append(net)
 
 
 RouteFactory = Callable[..., Route]
@@ -345,7 +389,7 @@ __all__ = (
 )
 
 
-def write_schema(model: BaseModel = NetlistModel) -> None:
+def write_schema(model: BaseModel = Netlist) -> None:
     from gdsfactory.config import PATH
 
     s = model.model_json_schema()
@@ -418,9 +462,13 @@ routes:
     jsonschema.validate(yaml_dict, schema_dict)
 
     # from gdsfactory.components import factory
-    # c = NetlistModel(factory=factory)
+    # c = Netlist(factory=factory)
     # c.add_instance("mmi1", "mmi1x2", length=13.3)
 
 
 if __name__ == "__main__":
-    s = Step()
+    import gdsfactory as gf
+
+    c = gf.components.mzi()
+    s = Schematic()
+    s.from_component(c)
