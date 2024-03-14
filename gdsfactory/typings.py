@@ -244,7 +244,7 @@ class Placement(BaseModel):
 
 class Bundle(BaseModel):
     links: dict[str, str]
-    settings: dict[str, Any] | None = None
+    settings: dict[str, Any] = Field(default_factory=dict)
     routing_strategy: str | None = None
 
     model_config = {"extra": "forbid"}
@@ -276,12 +276,30 @@ class Netlist(BaseModel):
     model_config = {"extra": "forbid"}
 
 
+_bundle_counter = 0
+
+
 class Net(BaseModel):
-    instance1: str
-    port1: str
-    instance2: str
-    port2: str
+    """Net between two ports.
+
+    Parameters:
+        ip1: instance_name,port 1.
+        ip2: instance_name,port 2.
+    """
+
+    ip1: str
+    ip2: str
     bundle: str | None = None
+
+    # Class variable to keep track of the last used bundle number
+
+    def __init__(self, **data):
+        global _bundle_counter
+        super().__init__(**data)
+        # If bundle name is not provided, generate one automatically
+        if self.bundle is None:
+            self.bundle = f"bundle_{_bundle_counter}"
+            _bundle_counter += 1
 
 
 class Schematic(BaseModel):
@@ -318,6 +336,7 @@ class Schematic(BaseModel):
     def add_net(self, net: Net) -> None:
         """Add a net between two ports."""
         self.nets.append(net)
+        self.netlist.routes[net.bundle] = Bundle(links={net.ip1: net.ip2})
 
     def plot_netlist(
         self,
@@ -336,7 +355,10 @@ class Schematic(BaseModel):
         plt.figure()
         netlist = self.netlist
         connections = netlist.connections
-        placements = netlist.placements
+        if self.placements:
+            placements = netlist.placements
+        else:
+            placements = self.netlist.placements
         G = nx.Graph()
         G.add_edges_from(
             [
