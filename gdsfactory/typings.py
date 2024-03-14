@@ -237,7 +237,7 @@ class Placement(BaseModel):
     mirror: bool = False
 
     def __getitem__(self, key: str) -> Any:
-        return getattr(self, key)
+        return getattr(self, key, 0)
 
     model_config = {"extra": "forbid"}
 
@@ -355,10 +355,7 @@ class Schematic(BaseModel):
         plt.figure()
         netlist = self.netlist
         connections = netlist.connections
-        if self.placements:
-            placements = netlist.placements
-        else:
-            placements = self.netlist.placements
+        placements = self.placements if self.placements else netlist.placements
         G = nx.Graph()
         G.add_edges_from(
             [
@@ -368,6 +365,17 @@ class Schematic(BaseModel):
         )
         pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
         labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+
+        for node, placement in placements.items():
+            if not G.has_node(
+                node
+            ):  # Check if the node is already in the graph (from connections), to avoid duplication.
+                G.add_node(node)
+                pos[node] = (placement.x, placement.y)
+
+        for net in self.nets:
+            G.add_edge(net.ip1.split(",")[0], net.ip2.split(",")[0])
+
         nx.draw(
             G,
             with_labels=with_labels,
