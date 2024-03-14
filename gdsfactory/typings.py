@@ -236,6 +236,9 @@ class Placement(BaseModel):
     rotation: int = 0
     mirror: bool = False
 
+    def __getitem__(self, key: str) -> Any:
+        return getattr(self, key)
+
     model_config = {"extra": "forbid"}
 
 
@@ -315,6 +318,42 @@ class Schematic(BaseModel):
     def add_net(self, net: Net) -> None:
         """Add a net between two ports."""
         self.nets.append(net)
+
+    def plot_netlist(
+        self,
+        with_labels: bool = True,
+        font_weight: str = "normal",
+    ):
+        """Plots a netlist graph with networkx.
+
+        Args:
+            with_labels: add label to each node.
+            font_weight: normal, bold.
+        """
+        import matplotlib.pyplot as plt
+        import networkx as nx
+
+        plt.figure()
+        netlist = self.netlist
+        connections = netlist.connections
+        placements = netlist.placements
+        G = nx.Graph()
+        G.add_edges_from(
+            [
+                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                for k, v in connections.items()
+            ]
+        )
+        pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
+        labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+        nx.draw(
+            G,
+            with_labels=with_labels,
+            font_weight=font_weight,
+            labels=labels,
+            pos=pos,
+        )
+        return G
 
 
 RouteFactory = Callable[..., Route]
@@ -472,3 +511,5 @@ if __name__ == "__main__":
     c = gf.components.mzi()
     s = Schematic()
     s.from_component(c)
+    s.plot_netlist()
+    # plt.show()
