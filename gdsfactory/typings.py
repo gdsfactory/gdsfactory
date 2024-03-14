@@ -216,9 +216,9 @@ class Routes(BaseModel):
 
 
 class Instance(BaseModel):
-    component: str | dict[str, Any]
-    settings: dict[str, Any] | None
-    info: dict[str, Any] | None
+    component: ComponentSpec
+    settings: dict[str, Any] = Field(default_factory=dict)
+    info: dict[str, Any] = Field(default_factory=dict)
 
     model_config = {"extra": "forbid"}
 
@@ -264,14 +264,14 @@ class Netlist(BaseModel):
         ports: exposed component ports.
     """
 
-    instances: dict[str, Instance] | None = None
-    placements: dict[str, Placement] | None = None
-    connections: dict[str, str] | None = None
-    routes: dict[str, Bundle] | None = None
+    instances: dict[str, Instance] = Field(default_factory=dict)
+    placements: dict[str, Placement] = Field(default_factory=dict)
+    connections: dict[str, str] = Field(default_factory=dict)
+    routes: dict[str, Bundle] = Field(default_factory=dict)
     name: str | None = None
-    info: dict[str, Any] | None = None
-    settings: dict[str, Any] | None = None
-    ports: dict[str, str] | None = None
+    info: dict[str, Any] = Field(default_factory=dict)
+    settings: dict[str, Any] = Field(default_factory=dict)
+    ports: dict[str, str] = Field(default_factory=dict)
 
     model_config = {"extra": "forbid"}
 
