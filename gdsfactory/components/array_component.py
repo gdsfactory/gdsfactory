@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
+from gdsfactory.cell import cell_with_child
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, Float2
 
 
-@cell
+@cell_with_child
 def array(
     component: ComponentSpec = "pad",
     spacing: tuple[float, float] = (150.0, 150.0),
@@ -61,6 +61,8 @@ def array(
                     name = f"{port.name}_{row+1}_{col+1}"
                     c.add_port(name, port=port)
                     c.ports[name].move((col * spacing[0], row * spacing[1]))
+
+    c.copy_child_info(component)
     return c
 
 
