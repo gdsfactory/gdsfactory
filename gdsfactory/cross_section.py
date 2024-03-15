@@ -314,6 +314,10 @@ class CrossSection(BaseModel):
         )
         return component
 
+    def apply_enclosure(self, component: Component) -> None:
+        """Apply enclosure to a target component according to :class:`CrossSection`."""
+        component.kcl.enclosure.apply_minkowski_y(component)
+
     def add_bbox(
         self,
         component,

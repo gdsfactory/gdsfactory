@@ -68,21 +68,7 @@ def taper(
         ypts = [y1, y2, -y2, -y1]
         c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
-        xpts = [0, length, length, 0]
-        for section in x.sections[1:]:
-            layer = section.layer
-            if not section.offset:
-                y1 = section.width / 2
-                y2 = section.width / 2
-                ypts = [y1, y2, -y2, -y1]
-                c.add_polygon(list(zip(xpts, ypts)), layer=layer)
-            else:
-                y1 = section.width / 2
-                y2 = section.width / 2
-                ypts = [y1, y2, -y2, -y1]
-                ypts = [y - section.offset for y in ypts]
-                c.add_polygon(list(zip(xpts, ypts)), layer=layer)
-
+    # x.apply_enclosure(c)
     c.add_port(
         name=port_order_name[0],
         center=(0, 0),
@@ -249,5 +235,5 @@ if __name__ == "__main__":
     # c = taper(width1=1.5, width2=1, cross_section="xs_rc")
     # c = taper_sc_nc()
     # c = taper(cross_section="xs_rc")
-    c = taper(length=10, width1=0.54, width2=0.69)
+    c = taper(length=1, width1=0.54, width2=10, cross_section="xs_sc")
     c.show()

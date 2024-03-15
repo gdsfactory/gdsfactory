@@ -3,6 +3,8 @@ from __future__ import annotations
 import typing
 from functools import cache
 
+import kfactory as kf
+
 from gdsfactory.config import PATH
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.generic_tech.layer_stack import LAYER_STACK
@@ -52,6 +54,20 @@ def get_generic_pdk() -> Pdk:
 
     cells = cells.copy()
     cells.update(containers)
+
+    enclosure_rc = kf.LayerEnclosure(
+        dsections=[(LAYER.SLAB90, 3.0)],
+        main_layer=LAYER.WG,
+        name="enclosure_rc",
+        kcl=kf.kcl,
+    )
+    kf.kcl.layer_enclosures = kf.kcell.LayerEnclosureModel(
+        enclosure_map=dict(enclosure_rc=enclosure_rc)
+    )
+
+    kf.kcl.enclosure = kf.KCellEnclosure(
+        enclosures=[enclosure_rc],
+    )
 
     return Pdk(
         name="generic",
