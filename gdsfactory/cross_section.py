@@ -1778,6 +1778,7 @@ def strip_heater_doped(
             layer=layer,
             width=heater_width + 2 * cladding_offset,
             offset=+heater_offset,
+            name=f"heater_upper_{layer}",
         )
         for layer, cladding_offset in zip(layers_heater, bbox_offsets_heater)
     ]
@@ -1866,11 +1867,21 @@ def rib_heater_doped(
 
     if with_bot_heater:
         sections += [
-            Section(layer=layer_heater, width=heater_width, offset=+heater_offset)
+            Section(
+                layer=layer_heater,
+                width=heater_width,
+                offset=+heater_offset,
+                name="heater_upper",
+            )
         ]
     if with_top_heater:
         sections += [
-            Section(layer=layer_heater, width=heater_width, offset=-heater_offset)
+            Section(
+                layer=layer_heater,
+                width=heater_width,
+                offset=-heater_offset,
+                name="heater_lower",
+            )
         ]
     return strip(
         width=width,
