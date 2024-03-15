@@ -315,7 +315,7 @@ def sort_ports_counter_clockwise(ports: kf.Ports) -> kf.Ports:
 
 
 def select_ports(
-    ports: kf.Ports,
+    ports: kf.Ports | kf.Instance,
     layer: LayerSpec | None = None,
     prefix: str | None = None,
     suffix: str | None = None,
@@ -347,6 +347,9 @@ def select_ports(
     """
     if isinstance(ports, dict):
         ports = ports.values()
+
+    if isinstance(ports, kf.Instance):
+        ports = ports.ports
 
     if layer:
         from gdsfactory.pdk import get_layer
@@ -384,7 +387,7 @@ select_ports_electrical = partial(select_ports, port_type="electrical")
 select_ports_placement = partial(select_ports, port_type="placement")
 
 
-def select_ports_list(ports: kf.Ports, **kwargs) -> kf.Ports:
+def select_ports_list(ports: kf.Ports | kf.Instance, **kwargs) -> kf.Ports:
     return select_ports(ports=ports, **kwargs)
 
 
