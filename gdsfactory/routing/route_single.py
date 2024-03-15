@@ -300,10 +300,10 @@ if __name__ == "__main__":
     p0 = top.ports["o2"]
     p1 = bot.ports["o2"]
 
-    # r = gf.routing.route_single(
-    #     c,
-    #     p0,
-    #     p1,
-    #     cross_section="xs_rc",
-    # )
+    r = gf.routing.route_single(
+        c,
+        p0,
+        p1,
+        cross_section="xs_rc",
+    )
     c.show()

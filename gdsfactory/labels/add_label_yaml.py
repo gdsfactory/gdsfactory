@@ -5,7 +5,6 @@ import json
 from functools import partial
 from typing import Any
 
-import pydantic
 from omegaconf import OmegaConf
 
 import gdsfactory as gf
@@ -13,7 +12,6 @@ from gdsfactory.read.from_yaml import valid_anchor_point_keywords
 from gdsfactory.typings import LayerSpec
 
 
-@pydantic.validate_call
 def add_label_yaml(
     component: gf.Component,
     layer: LayerSpec = "TEXT",

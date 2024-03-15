@@ -13,7 +13,7 @@ from inspect import getmembers
 from typing import TYPE_CHECKING, Any, Literal
 
 from kfactory import LayerEnum
-from pydantic import BaseModel, ConfigDict, Field, validate_call
+from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory.config import CONF, ErrorType
 
@@ -326,7 +326,6 @@ class Transition(CrossSection):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
 
-@validate_call
 def cross_section(
     width: float = 0.5,
     offset: float = 0,
@@ -473,7 +472,6 @@ l_wg = partial(
 )
 
 
-@validate_call
 def slot(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -516,7 +514,6 @@ def slot(
     )
 
 
-@validate_call
 def rib_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
@@ -614,7 +611,6 @@ def rib_with_trenches(
     )
 
 
-@validate_call
 def l_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
@@ -728,7 +724,6 @@ metal_slotted = partial(
 )
 
 
-@validate_call
 def pin(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -832,7 +827,6 @@ def pin(
     )
 
 
-@validate_call
 def pn(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1016,7 +1010,6 @@ def pn(
     )
 
 
-@validate_call
 def pn_with_trenches(
     width: float = 0.5,
     layer: LayerSpec | None = None,
@@ -1223,7 +1216,6 @@ def pn_with_trenches(
     )
 
 
-@validate_call
 def pn_with_trenches_asymmetric(
     width: float = 0.5,
     layer: LayerSpec | None = None,
@@ -1444,7 +1436,6 @@ def pn_with_trenches_asymmetric(
     )
 
 
-@validate_call
 def l_wg_doped_with_trenches(
     width: float = 0.5,
     layer: LayerSpec | None = None,
@@ -1611,7 +1602,6 @@ def l_wg_doped_with_trenches(
     )
 
 
-@validate_call
 def strip_heater_metal_undercut(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1689,7 +1679,6 @@ def strip_heater_metal_undercut(
     )
 
 
-@validate_call
 def strip_heater_metal(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1739,7 +1728,6 @@ def strip_heater_metal(
     )
 
 
-@validate_call
 def strip_heater_doped(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1818,7 +1806,6 @@ strip_heater_doped_via_stack = partial(
 )
 
 
-@validate_call
 def rib_heater_doped(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1893,7 +1880,6 @@ def rib_heater_doped(
     )
 
 
-@validate_call
 def rib_heater_doped_via_stack(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -2021,7 +2007,6 @@ def rib_heater_doped_via_stack(
     )
 
 
-@validate_call
 def pn_ge_detector_si_contacts(
     width_si: float = 6.0,
     layer_si: LayerSpec = "WG",
