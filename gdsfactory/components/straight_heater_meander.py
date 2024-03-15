@@ -54,27 +54,7 @@ def straight_heater_meander(
 
     rows = n or len(straight_widths)
     c = gf.Component()
-    x = gf.get_cross_section(cross_section)
-
-    p1 = gf.Port(
-        name="p1",
-        center=(0.0, 0.0),
-        orientation=180,
-        cross_section=x,
-        layer=x.layer,
-        width=x.width,
-    )
-    p2 = gf.Port(
-        name="p2",
-        center=(0.0, spacing),
-        orientation=180,
-        cross_section=x,
-        layer=x.layer,
-        width=x.width,
-    )
-    # _ = gf.routing.route_single(c, p2, p1, radius=radius)
     cross_section2 = cross_section
-
     route_length = 0
 
     straight_length = gf.snap.snap_to_grid(
