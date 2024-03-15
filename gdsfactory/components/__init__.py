@@ -215,7 +215,7 @@ from gdsfactory.components.polarization_splitter_rotator import (
 from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import rectangle, rectangles
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
-from gdsfactory.components.regular_polygon import regular_polygon
+from gdsfactory.components.regular_polygon import hexagon, octagon, regular_polygon
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
 from gdsfactory.components.ring import ring
@@ -301,7 +301,6 @@ from gdsfactory.components.via_stack import (
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.wafer import wafer
 from gdsfactory.components.wire import wire_corner, wire_corner45, wire_straight
-from gdsfactory.components.wire_sbend import wire_sbend
 from gdsfactory.get_factories import get_cells
 
 bend_euler_trenches = partial(add_trenches90, component=bend_euler)
@@ -567,9 +566,9 @@ __all__ = [
     "wafer",
     "wire_corner",
     "wire_corner45",
-    "wire_sbend",
     "wire_straight",
-    "hexagon" "octagon",
+    "hexagon",
+    "octagon",
 ]
 
 cells = get_cells(sys.modules[__name__])

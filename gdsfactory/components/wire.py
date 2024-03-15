@@ -37,7 +37,7 @@ def wire_corner(
 
     c.add_port(
         name="e1",
-        center=(-a, 0),
+        center=(0, 0),
         width=width,
         orientation=180,
         layer=layer,
@@ -45,7 +45,7 @@ def wire_corner(
     )
     c.add_port(
         name="e2",
-        center=(0, a),
+        center=(0, 0),
         width=width,
         orientation=90,
         layer=layer,
