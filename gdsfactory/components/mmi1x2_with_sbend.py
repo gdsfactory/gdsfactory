@@ -38,27 +38,24 @@ def mmi1x2_with_sbend(
 
     P = gf.path.straight(length=2, npoints=100)
     xs = gf.get_cross_section(cross_section)
-    xs0 = xs.copy(width_function=mmi_widths, add_pins_function_name=None)
-    ref = c << gf.path.extrude(P, cross_section=xs0)
+    xs0 = xs.copy(width_function=mmi_widths)
+    _ = c << gf.path.extrude(P, cross_section=xs0)
 
     # Add "stub" straight sections for ports
-    straight = gf.components.straight(
-        length=0.25, cross_section=cross_section, add_pins=False
-    )
+    straight = gf.components.straight(length=0.25, cross_section=cross_section)
     sl = c << straight
-    sl.center = (-0.125, 0)
+    sl.d.center = (-0.125, 0)
     s_topr = c << straight
-    s_topr.center = (2.125, 0.35)
+    s_topr.d.center = (2.125, 0.35)
     s_botr = c << straight
-    s_botr.center = (2.125, -0.35)
+    s_botr.d.center = (2.125, -0.35)
 
     if with_sbend:
-        sbend = s_bend(cross_section=cross_section, add_pins=False)
+        sbend = s_bend(cross_section=cross_section)
         top_sbend = c << sbend
         bot_sbend = c << sbend
-        bot_sbend.mirror([1, 0])
         top_sbend.connect("o1", other=s_topr.ports["o2"])
-        bot_sbend.connect("o1", other=s_botr.ports["o2"])
+        bot_sbend.connect("o1", other=s_botr.ports["o2"], mirror=True)
         c.add_port("o1", port=sl.ports["o1"])
         c.add_port("o2", port=top_sbend.ports["o2"])
         c.add_port("o3", port=bot_sbend.ports["o2"])
@@ -71,10 +68,7 @@ def mmi1x2_with_sbend(
         c.add_port("o2", port=s_topr.ports["o2"])
         c.add_port("o3", port=s_botr.ports["o2"])
 
-    c.absorb(ref)
-    c.absorb(sl)
-    c.absorb(s_topr)
-    c.absorb(s_botr)
+    c.flatten()
     return c
 
 

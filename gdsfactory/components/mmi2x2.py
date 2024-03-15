@@ -66,11 +66,10 @@ def mmi2x2(
         width1=width,
         width2=w_taper,
         cross_section=x,
-        add_pins=False,
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    mmi = c << straight(length=length_mmi, cross_section=xs_mmi, add_pins=False)
+    mmi = c << straight(length=length_mmi, cross_section=xs_mmi)
 
     ports = [
         gf.Port("o1", orientation=180, center=(0, -a), width=w_taper, cross_section=x),

@@ -16,7 +16,6 @@ def taper(
     width1: float = 0.5,
     width2: float | None = None,
     port: Port | None = None,
-    with_bbox: bool = True,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
     port_order_name: tuple | None = ("o1", "o2"),

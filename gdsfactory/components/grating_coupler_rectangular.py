@@ -85,7 +85,6 @@ def grating_coupler_rectangular(
         width2=width_grating,
         width1=wg_width,
         cross_section=cross_section,
-        add_pins=False,
     )
 
     c.add_port(port=taper_ref.ports["o1"], name="o1")

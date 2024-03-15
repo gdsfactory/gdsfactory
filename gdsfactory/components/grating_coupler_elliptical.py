@@ -104,7 +104,6 @@ def grating_coupler_elliptical(
     slab_offset: float = 2.0,
     spiked: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
-    add_pins: bool = True,
     **kwargs,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
@@ -125,7 +124,6 @@ def grating_coupler_elliptical(
         slab_offset: in um.
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors.
         cross_section: specification (CrossSection, string or dict).
-        add_pins: adds pins to the component.
         kwargs: cross_section settings.
 
     .. code::
@@ -232,9 +230,6 @@ def grating_coupler_elliptical(
         )
 
     xs.add_bbox(c)
-    if add_pins:
-        xs.add_pins(c)
-
     c.add_port(
         name="o2",
         center=(x, 0),
