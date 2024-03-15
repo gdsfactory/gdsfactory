@@ -15,7 +15,7 @@ from gdstk import Label as _Label
 from gdstk import Polygon
 from numpy import cos, pi, sin
 from numpy.linalg import norm
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, Field, model_validator
 from rich.console import Console
 from rich.table import Table
 
@@ -24,6 +24,8 @@ from gdsfactory.snap import snap_to_grid
 
 if TYPE_CHECKING:
     from gdsfactory.port import Port
+
+GDSSerializable = int | float | Sequence | str
 
 
 class CellSettings(BaseModel, extra="allow", validate_assignment=True, frozen=True):
@@ -60,21 +62,22 @@ class ComponentSpec(BaseModel, extra="allow", validate_assignment=True, frozen=T
         return getattr(self, __key) if hasattr(self, __key) else default
 
 
-class Info(BaseModel, extra="allow", validate_assignment=True):
+class GDSMetadata(BaseModel, extra="allow", validate_assignment=True):
     @model_validator(mode="before")
     def restrict_types(
-        cls, data: dict[str, int | float | Sequence | str]
-    ) -> dict[str, int | float | Sequence | str]:
+        cls, data: dict[str, GDSSerializable]
+    ) -> dict[str, GDSSerializable]:
         for name, value in data.items():
-            if name == "schematic":
-                continue  # prevent validation of schematic sub-dictionary
-            if not isinstance(value, str | int | float | Sequence):
+            if not isinstance(value, GDSSerializable):
                 raise ValueError(
                     "Values of the info dict only support int, float, string or tuple."
                     f"{name}: {value}, {type(value)}"
                 )
-
         return data
+
+
+class Info(BaseModel, extra="allow", validate_assignment=True):
+    metadata: GDSMetadata = Field(default_factory=GDSMetadata)
 
     def __getitem__(self, __key: str) -> Any:
         return getattr(self, __key)
