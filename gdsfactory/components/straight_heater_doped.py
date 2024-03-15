@@ -138,17 +138,17 @@ def straight_heater_doped_rib(
 
         if via_stack_metal and via_stack:
             via_stack_center = c.add_ref(via_stack_section)
-            via_stack_center.x = xi
+            via_stack_center.d.x = xi
             via_stack_ref = c << via_stack_section
-            via_stack_ref.x = xi
-            via_stack_ref.y = (
+            via_stack_ref.d.x = xi
+            via_stack_ref.d.y = (
                 +via_stack_metal_size[1] if i % 2 == 0 else -via_stack_metal_size[1]
             )
             via_stacks.append(via_stack_ref)
 
         if via_stack:
             via_stack_top = c << via_stack(size=via_stack_size)
-            via_stack_top.x = xi
+            via_stack_top.d.x = xi
             via_stack_top.d.ymin = +(heater_gap + width / 2 + via_stack_gap)
 
             via_stack_bot = c << via_stack(size=via_stack_size)
