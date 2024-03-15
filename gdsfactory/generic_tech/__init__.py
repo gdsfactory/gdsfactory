@@ -57,7 +57,7 @@ def get_generic_pdk() -> Pdk:
 
     enclosure_rc = kf.LayerEnclosure(
         dsections=[(LAYER.SLAB90, 3.0)],
-        main_layer=LAYER.WG,
+        main_layer=LAYER.SLAB90,
         name="enclosure_rc",
         kcl=kf.kcl,
     )

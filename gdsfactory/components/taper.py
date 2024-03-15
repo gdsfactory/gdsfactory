@@ -64,11 +64,13 @@ def taper(
     y2 = width2 / 2
 
     if length:
-        xpts = [0, length, length, 0]
-        ypts = [y1, y2, -y2, -y1]
-        c.add_polygon(list(zip(xpts, ypts)), layer=layer)
+        for section in x.sections:
+            layer = section.layer
+            xpts = [0, length, length, 0]
+            ypts = [y1, y2, -y2, -y1]
+            c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
-    # x.apply_enclosure(c)
+    x.apply_enclosure(c)
     c.add_port(
         name=port_order_name[0],
         center=(0, 0),
