@@ -94,7 +94,9 @@ xs_no = strip_no()
 
 # customize the cell decorator for this PDK
 # cell = partial(gf.cell, post_process=(_add_pins,))
-cell = partial(gf.cell, info=dict(pdk="fab_c"))
+# cell = partial(gf.cell, info=dict(pdk="fab_c"))
+cell = gf.cell
+# cell_dut = partial(gf.cell, info=dict(pdk="fab_c"))
 
 
 @cell

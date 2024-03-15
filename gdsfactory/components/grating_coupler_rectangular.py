@@ -88,15 +88,15 @@ def grating_coupler_rectangular(
     )
 
     c.add_port(port=taper_ref.ports["o1"], name="o1")
-    x0 = taper_ref.xmax
+    x0 = taper_ref.d.xmax
 
     for i in range(n_periods):
         xsize = gf.snap.snap_to_grid(period * fill_factor)
         cgrating = c.add_ref(
             rectangle(size=(xsize, width_grating), layer=layer, port_type=None)
         )
-        cgrating.xmin = gf.snap.snap_to_grid(x0 + i * period)
-        cgrating.y = 0
+        cgrating.d.xmin = gf.snap.snap_to_grid(x0 + i * period)
+        cgrating.d.y = 0
 
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
@@ -104,7 +104,7 @@ def grating_coupler_rectangular(
 
     if layer_slab:
         slab_xmin += length_taper
-        slab_xsize = cgrating.xmax + slab_offset
+        slab_xsize = cgrating.d.xmax + slab_offset
         slab_ysize = c.d.ysize + 2 * slab_offset
         yslab = slab_ysize / 2
         c.add_polygon(
@@ -116,9 +116,9 @@ def grating_coupler_rectangular(
             ],
             layer_slab,
         )
-    xs.add_bbox(c)
+    # xs.add_bbox(c)
 
-    xport = np.round((x0 + cgrating.x) / 2, 3)
+    xport = np.round((x0 + cgrating.d.x) / 2, 3)
     c.add_port(
         name="o2",
         port_type="optical",
@@ -132,7 +132,7 @@ def grating_coupler_rectangular(
 
 if __name__ == "__main__":
     # c = grating_coupler_rectangular(name='gcu', partial_etch=True)
-    # c = grating_coupler_rectangular()
-    c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_rectangular)
+    c = grating_coupler_rectangular(cross_section="xs_rc")
+    # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_rectangular)
     print(c.ports)
     c.show()
