@@ -77,29 +77,24 @@ def resistance_meander(
         n += 1
     ref = N.add_ref(Col)
     ref.d.movex(-width)
-    ref = N.add_ref(Col)
-    ref.d.move((length_row, -(n - 2) * T.d.ysize))
-    ref.d.rotate(90)
+
+    end = N.add_ref(Col)
+    end.movey(-(n - 2) * T.ysize)
+    end.d.movex(length_row)
 
     # Creating pads
     P = Component()
-    pad1 = rectangle(size=(x, z), layer=pad_layer)
-    gnd1 = gnd2 = pad1
-    pad1_ref = P.add_ref(pad1)
-    pad1_ref.d.movex(-x - width)
-    pad2_ref = P.add_ref(pad1)
-    pad2_ref.d.movex(length_row + width)
-    gnd1_ref = P.add_ref(gnd1)
-    gnd1_ref.center = pad1_ref.center
-    gnd2_ref = P.add_ref(gnd2)
+    pad = rectangle(size=(x, z), layer=pad_layer)
+    pad1 = P.add_ref(pad)
+    pad1.d.movex(-x - width)
+    pad2 = P.add_ref(pad)
+    pad2.d.movex(length_row + width)
     net = P.add_ref(N)
-    net.ymax = gnd1_ref.ymax
-    gnd2_ref.center = pad2_ref.center
-    gnd2_ref.d.movex(2.5)
+    net.ymin = pad1.ymin
     P.flatten()
     return P
 
 
 if __name__ == "__main__":
-    c = resistance_meander()
+    c = resistance_meander(num_squares=500)
     c.show()
