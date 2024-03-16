@@ -107,7 +107,6 @@ def crossing(
     for rotation in [0, 1]:
         ref = c << arm
         ref.rotate(rotation)
-        c.absorb(ref)
         for p in ref.ports:
             c.add_port(name=port_id, port=p)
             port_id += 1
@@ -233,6 +232,8 @@ def crossing45(
         alpha: optimization parameter. diminish it for tight bends,
           increase it if raises assertion angle errors
         npoints: number of points.
+        cross_section: cross_section spec.
+        cross_section_bends: cross_section spec.
 
 
     The 45 Degree crossing CANNOT be kept as an SRef since
@@ -253,10 +254,10 @@ def crossing45(
 
     c = Component()
     x = c << crossing
-    x.rotate(45)
+    x.d.rotate(45)
 
     # Add bends
-    p_e = x.ports["o3"].center
+    p_e = x.ports["o3"].d.center
 
     # Flatten the crossing - not an SRef anymore
     dx = dx or port_spacing
@@ -292,18 +293,20 @@ def crossing45(
     b_bl = c << bend
     b_br = c << bend
 
-    c.absorb(x)
+    b_tr.connect("o2", x.ports["o3"], mirror=True)
+    b_tl.connect("o2", x.ports["o1"], mirror=True)
+    b_bl.connect("o2", x.ports["o4"])
+    b_br.connect("o2", x.ports["o2"])
 
     c.info["bezier_length"] = bend.info["length"]
     c.info["min_bend_radius"] = bend.info["min_bend_radius"]
-    c.bezier = bend
-    c.crossing = crossing
 
     c.add_port("o1", port=b_bl.ports["o2"])
     c.add_port("o2", port=b_tl.ports["o2"])
     c.add_port("o3", port=b_tr.ports["o2"])
     c.add_port("o4", port=b_br.ports["o2"])
 
+    c.flatten()
     x = gf.get_cross_section(cross_section)
     x.add_bbox(c)
     return c
@@ -451,6 +454,7 @@ def _demo() -> None:
 
 if __name__ == "__main__":
     c = crossing45()
+    # c = crossing()
     # c = compensation_path()
     # c = crossing(
     #     cross_section=dict(
