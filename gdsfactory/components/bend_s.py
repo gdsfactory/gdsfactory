@@ -47,7 +47,7 @@ def bend_s(
 
 
 def get_min_sbend_size(
-    size: Float2 = (None, 10.0),
+    size: tuple[float | None, float | None] = (None, 10.0),
     cross_section: CrossSectionSpec = "xs_sc",
     num_points: int = 100,
     **kwargs,
@@ -62,7 +62,6 @@ def get_min_sbend_size(
         kwargs: cross_section settings.
 
     """
-
     cross_section_f = gf.get_cross_section(cross_section, **kwargs)
 
     if size[0] is None:
@@ -93,7 +92,7 @@ def get_min_sbend_size(
         # print(sz)
         try:
             bend_s(
-                size=sz,
+                size=tuple(sz),
                 cross_section=cross_section,
                 bend_radius_error_type=ErrorType.ERROR,
                 **kwargs,
