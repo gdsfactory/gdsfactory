@@ -190,6 +190,24 @@ class Component(kf.KCell):
         c.info = self.info.model_copy()
         return c
 
+    def dup(self) -> Component:
+        """Copy the full cell.
+
+        Sets `_locked` to `False`
+
+        Returns:
+            cell: Exact copy of the current cell.
+                The name will have `$1` as duplicate names are not allowed
+        """
+        kdb_copy = self._kdb_copy()
+
+        c = Component(kcl=self.kcl, kdb_cell=kdb_copy)
+        c.ports = self.ports.copy()
+
+        c._settings = self.settings.model_copy()
+        c.info = self.info.model_copy()
+        return c
+
     def add_polygon(
         self,
         points: np.ndarray | kdb.DPolygon | kdb.Polygon | Region | list[list[float]],

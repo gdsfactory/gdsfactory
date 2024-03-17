@@ -51,7 +51,7 @@ def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
 
 
 # avoid registering the function add pins using _underscore
-_add_pins = partial(gf.add_pins.add_pins_inside1nm, pin_length=0.5)
+_add_pins = partial(gf.add_pins.add_pins_inside1nm, pin_length=0.5, layer=LAYER.PIN)
 
 ######################
 # cross_sections
@@ -92,11 +92,9 @@ xs_no = strip_no()
 # LEAF COMPONENTS with pins
 ######################
 
+
 # customize the cell decorator for this PDK
-# cell = partial(gf.cell, post_process=(_add_pins,))
-# cell = partial(gf.cell, info=dict(pdk="fab_c"))
-cell = gf.cell
-# cell_dut = partial(gf.cell, info=dict(pdk="fab_c"))
+cell = partial(gf.cell, post_process=(_add_pins,), info=dict(pdk="fab_c"))
 
 
 @cell
@@ -239,4 +237,9 @@ if __name__ == "__main__":
     # c.show(show_ports=True)
 
     c = straight_nc()
+    print(type(c))
+    # _add_pins(c)
+    # gf.add_pins.add_pins(c)
+    # c = mmi1x2_sc()
+    # c.pprint_ports()
     c.show()

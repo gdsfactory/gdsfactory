@@ -30,7 +30,7 @@ Layers = tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]
 
 LayerSpec = Layer | str
-LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...]
+LayerSpecs = Iterable[LayerSpec]
 
 Floats = tuple[float, ...]
 port_names_electrical = ("e1", "e2")
@@ -529,8 +529,8 @@ def cross_section(
         sections=tuple(s),
         radius=radius,
         radius_min=radius_min,
-        bbox_layers=tuple(bbox_layers) if bbox_layers else None,
-        bbox_offsets=tuple(bbox_offsets) if bbox_offsets else None,
+        bbox_layers=bbox_layers,
+        bbox_offsets=bbox_offsets,
     )
 
 
