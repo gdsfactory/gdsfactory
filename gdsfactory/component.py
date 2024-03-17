@@ -626,6 +626,17 @@ class Component(kf.KCell):
 
         return get_netlist(self)
 
+    def over_under(self, layer: LayerSpec, distance: float = 1) -> None:
+        """Flattens and performs over-under on a layer in the Component. For big components use tiled version."""
+        from gdsfactory import get_layer
+
+        self.flatten()
+        layer = get_layer(layer)
+        region = kdb.Region(self.shapes(layer))
+        region.size(+distance).size(-distance)
+        self.shapes(layer).clear()
+        self.shapes(layer).insert(region)
+
 
 @kf.cell
 def container(component, function, **kwargs) -> Component:
