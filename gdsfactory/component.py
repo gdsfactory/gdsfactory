@@ -207,7 +207,9 @@ class Component(kf.KCell):
         return c
 
     def add_polygon(
-        self, points: np.ndarray | kdb.DPolygon | kdb.Polygon | Region, layer: LayerSpec
+        self,
+        points: np.ndarray | kdb.DPolygon | kdb.Polygon | Region | list[list[float]],
+        layer: LayerSpec,
     ) -> kdb.DPolygon | kdb.Polygon | Region:
         """Adds a Polygon to the Component.
 

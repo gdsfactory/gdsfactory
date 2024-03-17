@@ -129,7 +129,7 @@ Ints = tuple[int, ...]
 
 Layer = LayerEnum
 Layers = tuple[Layer, ...]
-LayerSpec = LayerEnum | str
+LayerSpec = LayerEnum | str | tuple[int, int]
 
 LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...] | None
 ComponentFactory = Callable[..., Component]

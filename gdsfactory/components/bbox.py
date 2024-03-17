@@ -26,7 +26,7 @@ def bbox_to_points(
 
 @gf.cell
 def bbox(
-    component: gf.Component | gf.Instance,
+    component: gf.Component | gf.Instance = "L",
     layer: LayerSpec = (1, 0),
     top: float = 0,
     bottom: float = 0,
@@ -44,6 +44,7 @@ def bbox(
         right: east offset.
     """
     c = gf.Component()
+    component = gf.get_component(component)
     bbox = component.dbbox()
     xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
     points = [
@@ -57,14 +58,8 @@ def bbox(
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import get_generic_pdk
-
-    PDK = get_generic_pdk()
-    PDK.activate()
-
-    c = gf.Component()
-    a1 = c << gf.components.L()
-    a2 = c << gf.components.L()
-    a2.d.xmin = 0
-    _ = c << bbox(a1, top=10, left=5, right=-2)
+    # c = gf.Component()
+    # a1 = c << gf.components.L()
+    # _ = c << bbox(a1, top=10, left=5, right=-2)
+    c = bbox()
     c.show()
