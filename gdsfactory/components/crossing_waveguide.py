@@ -254,12 +254,9 @@ def crossing45(
 
     c = Component()
     x = c << crossing
-    x.d.rotate(45)
+    # x.d.rotate(45)
 
-    # Add bends
     p_e = x.ports["o3"].d.center
-
-    # Flatten the crossing - not an SRef anymore
     dx = dx or port_spacing
     dy = port_spacing / 2
 
@@ -301,13 +298,20 @@ def crossing45(
     c.info["bezier_length"] = bend.info["length"]
     c.info["min_bend_radius"] = bend.info["min_bend_radius"]
 
-    c.add_port("o1", port=b_bl.ports["o2"])
-    c.add_port("o2", port=b_tl.ports["o2"])
-    c.add_port("o3", port=b_tr.ports["o2"])
-    c.add_port("o4", port=b_br.ports["o2"])
+    c.transform(gf.kdb.DCplxTrans(1, 45, False, 0, 0))
+
+    c.add_port("o1", port=b_bl.ports["o1"])
+    c.add_port("o2", port=b_tl.ports["o1"])
+    c.add_port("o3", port=b_tr.ports["o1"])
+    c.add_port("o4", port=b_br.ports["o1"])
 
     c.flatten()
     x = gf.get_cross_section(cross_section)
+    layer = gf.get_layer(x.layer)
+    region = gf.kdb.Region(c.shapes(layer))
+    region.size(+1).size(-1)
+    c.shapes(layer).clear()
+    c.shapes(layer).insert(region)
     x.add_bbox(c)
     return c
 
