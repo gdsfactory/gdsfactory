@@ -52,11 +52,15 @@ def coupler(
     # gap = gf.snap.snap_to_grid2x(gap)
     c = Component()
 
-    sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=cross_section)
+    sbend = gf.get_component(
+        coupler_symmetric, gap=gap, dy=dy, dx=dx, cross_section=cross_section
+    )
 
     sr = c << sbend
     sl = c << sbend
-    cs = c << coupler_straight(length=length, gap=gap, cross_section=cross_section)
+    cs = c << gf.get_component(
+        coupler_straight, length=length, gap=gap, cross_section=cross_section
+    )
     sl.connect("o2", other=cs.ports["o1"])
     sr.connect("o1", other=cs.ports["o4"])
 
