@@ -102,7 +102,7 @@ def loss_deembedding_ch13_24(
 
     p1 = gc_ports[1]
     p3 = gc_ports[3]
-    yspacing = yspacing or gc.d.ysize + radius + 3
+    yspacing = yspacing or gc.d.ysize + 2 * radius
 
     # a = radius + 5.0  # 0.5
     # b = max(2 * a, pitch / 2)
@@ -320,7 +320,8 @@ if __name__ == "__main__":
     # c = loss_deembedding_ch14_23()
     # c = loss_deembedding_ch12_34()
     # c = loss_deembedding_ch13_24()
+    c = grating_coupler_loss_fiber_array4()
     # c = grating_coupler_loss_fiber_array4(layer=(2, 0), radius=30)
-    c = grating_coupler_loss_fiber_array4(cross_section="xs_rc")
+    # c = grating_coupler_loss_fiber_array4(cross_section="xs_rc")
     # c = grating_coupler_loss_fiber_array(layer=(2, 0), radius=30)
     c.show()

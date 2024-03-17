@@ -4,7 +4,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from collections import defaultdict
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import kfactory as kf
 import numpy as np
@@ -611,6 +611,18 @@ class Component(kf.KCell):
             layer_stack=layer_stack,
             exclude_layers=exclude_layers,
         )
+
+    @property
+    def references(self) -> list[ComponentReference]:
+        """Returns a list of references."""
+        warnings.warn("references is deprecated. Use insts instead")
+        return list(self.insts)
+
+    def get_netlist(self) -> dict[str, Any]:
+        """Returns a netlist for circuit simulation."""
+        from gdsfactory.get_netlist import get_netlist
+
+        return get_netlist(self)
 
 
 @kf.cell
