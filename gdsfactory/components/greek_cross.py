@@ -33,7 +33,7 @@ def greek_cross(
         widths: list of widths (same order as layers).
         offsets: how much to extend each layer beyond the cross length
             negative shorter, positive longer.
-        via: via component to attach to the cross.
+        via_stack: via component to attach to the cross.
 
     .. code::
 
@@ -76,20 +76,16 @@ def greek_cross(
             layer=layer,
             port_type="electrical",
         )
-        # cross_offset = offset
-    # port_at_length = [
-    #     port.move_polar_copy(d=cross_offset, angle=180 + port.orientation)
-    #     for port in cross_ref.ports
-    # ]
-
-    port_at_length = [
-        port.copy(gf.kdb.DCplxTrans(1, 180, False)) for port in cross_ref.ports
-    ]
 
     # Add via
-    for port in port_at_length:
+    for port in cross_ref.ports:
         via_stack_ref = c << gf.get_component(via_stack)
-        via_stack_ref.connect("e1", port)
+        via_stack_ref.connect(
+            "e1",
+            port,
+            allow_layer_mismatch=True,
+            allow_width_mismatch=True,
+        )
         c.add_port(name=port.name, port=via_stack_ref.ports["e3"])
 
     c.auto_rename_ports()
@@ -117,7 +113,7 @@ def greek_cross_with_pads(
 
     # Cross
     cross_ref = c << gf.get_component(greek_cross_component)
-    cross_ref.x = (
+    cross_ref.d.x = (
         2 * pad_spacing - (pad_spacing - gf.get_component(pad).info["size"][0]) / 2
     )
 
@@ -127,26 +123,26 @@ def greek_cross_with_pads(
         2: ("e2", "e4"),
         3: ("e3", "e4"),
     }
+    kwargs = dict(allow_layer_mismatch=True, allow_width_mismatch=True)
 
     # Vias to pads
     for index in range(4):
         pad_ref = c << gf.get_component(pad)
-        pad_ref.x = index * pad_spacing + pad_ref.xsize / 2
+        pad_ref.d.x = index * pad_spacing + pad_ref.d.xsize / 2
         via_ref = c << gf.get_component(pad_via)
         if index < 2:
-            via_ref.connect("e2", other=pad_ref.ports["e4"])
+            via_ref.connect("e2", other=pad_ref.ports["e4"], **kwargs)
         else:
-            via_ref.connect("e4", other=pad_ref.ports["e2"])
+            via_ref.connect("e4", other=pad_ref.ports["e2"], **kwargs)
 
-        route = gf.routing.route_single(
+        gf.routing.route_single_electrical(
+            c,
             cross_ref[cross_pad_via_port_pairs[index][0]],
             via_ref[cross_pad_via_port_pairs[index][1]],
             cross_section=xs_metal,
-            bend=gf.c.wire_corner,
             start_straight_length=5,
             end_straight_length=5,
         )
-        c.add(route.references)
 
     return c
 
@@ -205,14 +201,14 @@ def greek_cross_offset_pads(
 
     # Layout cross
     for layer in cross_struct_layers:
-        c << gf.get_component(
+        _ = c << gf.get_component(
             cross,
             length=2 * cross_struct_length + cross_struct_width,
             width=cross_struct_width,
             layer=layer,
         )
     for layer in cross_implant_layers:
-        c << gf.get_component(
+        _ = c << gf.get_component(
             cross,
             length=2 * cross_implant_length + cross_implant_width,
             width=cross_implant_width,
@@ -247,9 +243,9 @@ def greek_cross_offset_pads(
             )
         contact = c << c2
         contact.rotate(pad_rotation)
-        contact.move(np.array([sgnx * pad_offset, sgny * pad_offset]))
+        contact.d.move(np.array([sgnx * pad_offset, sgny * pad_offset]))
 
-    return c.flatten()
+    return c
 
 
 if __name__ == "__main__":

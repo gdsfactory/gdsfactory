@@ -166,10 +166,6 @@ class Port(kf.Port):
         # assert v.assert_on_grid(), f"port.center = {v.center} has off-grid points"
         return v
 
-    def flip(self) -> Port:
-        """Returns a new port flipped."""
-        return self.copy_polar(d=0)
-
 
 PortsMap = dict[str, list[Port]]
 

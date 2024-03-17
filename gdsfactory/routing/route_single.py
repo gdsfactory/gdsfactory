@@ -189,7 +189,7 @@ def route_single_electrical(
         cross_section: The cross section of the route.
 
     """
-    xs = gf.get_cross_section(cross_section, width=width)
+    xs = gf.get_cross_section(cross_section)
     layer = layer or xs.layer
     width = width or xs.width
     layer = gf.get_layer(layer)
@@ -204,7 +204,7 @@ def route_single_electrical(
         p1=port1,
         p2=port2,
         layer=layer,
-        width=width / component.kcl.dbu,
+        width=round(width / component.kcl.dbu),
         start_straight=start_straight_length,
         end_straight=end_straight_length,
     )

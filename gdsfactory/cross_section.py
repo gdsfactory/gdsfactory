@@ -2396,10 +2396,4 @@ if __name__ == "__main__":
     # c = p.extrude(xs)
     # c = gf.c.straight(cross_section=xs)
     # xs = pn(slab_inset=0.2)
-    import gdsfactory as gf
-
-    xs = pn(width_slab=0)
-    xs = xs.copy(width=2)
-
-    c = gf.c.straight(cross_section=xs)
-    c.show()
+    xs = metal1()
