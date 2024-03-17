@@ -61,6 +61,7 @@ def loss_deembedding_ch13_24(
     cross_section: CrossSectionSpec = "xs_sc",
     port_name: str = "o1",
     rotation: float = -90,
+    yspacing: float | None = None,
     **kwargs,
 ) -> Component:
     """Grating coupler test structure for fiber array.
@@ -101,13 +102,32 @@ def loss_deembedding_ch13_24(
 
     p1 = gc_ports[1]
     p3 = gc_ports[3]
-    a = radius + 5.0  # 0.5
-    b = max(2 * a, pitch / 2)
-    y_bot_align_route = -gc.d.xsize - 5.0
+    yspacing = yspacing or gc.d.ysize + radius + 3
 
-    connect_loopback(
-        c, p1, p3, a, b, y_bot_align_route, cross_section=cross_section, **kwargs
+    # a = radius + 5.0  # 0.5
+    # b = max(2 * a, pitch / 2)
+    # y_bot_align_route = -gc.d.xsize - 5.0
+    # connect_loopback(
+    #     c, p1, p3, a, b, y_bot_align_route, cross_section=cross_section, **kwargs
+    # )
+    bend90 = gf.components.bend_euler(cross_section=cross_section, **kwargs)
+    points = gf.kf.routing.optical.route_loopback(
+        p1,
+        p3,
+        bend90_radius=round(radius / c.kcl.dbu),
+        d_loop=round(yspacing / c.kcl.dbu),
     )
+    route_single(
+        c,
+        port1=p1,
+        port2=p3,
+        waypoints=points,
+        bend=bend90,
+        straight=gf.components.straight,
+        cross_section=cross_section,
+        **kwargs,
+    )
+
     return c
 
 
