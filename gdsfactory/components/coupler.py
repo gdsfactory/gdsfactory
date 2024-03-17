@@ -48,8 +48,8 @@ def coupler(
 
 
     """
-    length = gf.snap.snap_to_grid(length)
-    gap = gf.snap.snap_to_grid2x(gap)
+    # length = gf.snap.snap_to_grid(length)
+    # gap = gf.snap.snap_to_grid2x(gap)
     c = Component()
 
     sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=cross_section)

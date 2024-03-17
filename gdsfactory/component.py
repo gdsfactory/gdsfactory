@@ -108,7 +108,7 @@ class Region(kdb.Region):
 
 
 class Component(kf.KCell):
-    """A Component is an empty canvas where you add polygons, references and ports \
+    """A Component is an empty canvas where you add polygons, instances and ports \
             (to connect to other components).
 
     - stores settings that you use to build the component
@@ -116,26 +116,10 @@ class Component(kf.KCell):
     - can return ports by type (optical, electrical ...)
     - can return netlist for circuit simulation
     - can write to GDS, OASIS
-    - can show in KLayout, matplotlib, 3D, QT viewer, holoviews
-    - can return copy, mirror, flattened (no references)
-
-    Args:
-        name: component_name. Use @cell decorator for auto-naming.
-        with_uuid: adds unique identifier.
+    - can show in KLayout, matplotlib or 3D
 
     Properties:
-        info: dictionary that includes
-            - derived properties
-            - external metadata (test_protocol, docs, ...)
-            - simulation_settings
-            - function_name
-            - name: for the component
-
-        settings:
-            full: full settings passed to the function to create component.
-            changed: changed settings.
-            default: default component settings.
-            child: dict info from the children, if any.
+        info: dictionary that includes derived properties, simulation_settings, settings (test_protocol, docs, ...)
     """
 
     def add_port(
