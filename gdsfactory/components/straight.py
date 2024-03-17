@@ -41,6 +41,7 @@ def straight(
         c.info["width"] = x.sections[0].width
 
     c.add_route_info(cross_section=x, length=length)
+    x.apply_enclosure(c)
     c.absorb(ref)
     return c
 

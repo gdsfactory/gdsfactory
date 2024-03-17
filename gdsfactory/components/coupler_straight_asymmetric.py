@@ -13,7 +13,6 @@ def coupler_straight_asymmetric(
     width_top: float = 0.5,
     width_bot: float = 1,
     cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
 ) -> Component:
     """Coupler with two parallel straights of different widths.
 
@@ -23,29 +22,25 @@ def coupler_straight_asymmetric(
         width_top: of top straight.
         width_bot: of bottom straight.
         cross_section: cross_section spec.
-        kwargs: cross_section settings.
     """
-    component = Component()
+    c = Component()
 
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
     xs_top = xs.copy(width=width_top)
     xs_bot = xs.copy(width=width_bot)
 
-    top = component << straight(length=length, cross_section=xs_top)
-    bot = component << straight(length=length, cross_section=xs_bot)
+    top = c << straight(length=length, cross_section=xs_top)
+    bot = c << straight(length=length, cross_section=xs_bot)
 
     dy = 0.5 * abs(width_top - width_bot) + gap + width_top
-    dy = gf.snap.snap_to_grid(dy)
     top.d.movey(dy)
-
-    component.add_port("o1", port=bot.ports["o1"])
-    component.add_port("o2", port=top.ports["o1"])
-    component.add_port("o3", port=top.ports["o2"])
-    component.add_port("o4", port=bot.ports["o2"])
-    return component
+    c.add_port("o1", port=bot.ports["o1"])
+    c.add_port("o2", port=top.ports["o1"])
+    c.add_port("o3", port=top.ports["o2"])
+    c.add_port("o4", port=bot.ports["o2"])
+    return c
 
 
 if __name__ == "__main__":
-    d = {"length": 7.0, "gap": 0.15, "width_top": 0.405, "width_bot": 0.9}
-    c = coupler_straight_asymmetric(**d)
+    c = coupler_straight_asymmetric(cross_section="xs_rc")
     c.show()

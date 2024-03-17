@@ -51,4 +51,5 @@ if __name__ == "__main__":
     c = gf.components.straight(length=50)
     cc = add_termination(component=c, terminator_port_name="o1", port_names=("o2",))
     # cc = add_termination(component=c, orientation=0)
+    cc.pprint_ports()
     cc.show()

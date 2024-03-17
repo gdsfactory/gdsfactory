@@ -288,14 +288,6 @@ class CrossSection(BaseModel):
                     "layer": layer or self.layer,
                 }
             )
-            changed_width_layer_or_offset = (
-                width_function or offset_function or width or layer
-            )
-            if changed_width_layer_or_offset and len(sections) > 1:
-                warnings.warn(
-                    "CrossSection.copy() only modifies the attributes of the first section.",
-                    stacklevel=2,
-                )
             return self.model_copy(update={"sections": tuple(sections), **kwargs})
         return self.model_copy(update=kwargs)
 
@@ -537,8 +529,8 @@ def cross_section(
         sections=tuple(s),
         radius=radius,
         radius_min=radius_min,
-        bbox_layers=bbox_layers,
-        bbox_offsets=bbox_offsets,
+        bbox_layers=tuple(bbox_layers) if bbox_layers else None,
+        bbox_offsets=tuple(bbox_offsets) if bbox_offsets else None,
     )
 
 
@@ -2353,7 +2345,7 @@ def get_cross_sections(
 
 xs_sc = strip()
 
-xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
+xs_rc = rib(bbox_layers=("DEVREC",), bbox_offsets=(0,))
 xs_rc2 = rib2()
 xs_rc_bbox = rib_bbox()
 
@@ -2404,6 +2396,10 @@ if __name__ == "__main__":
     # c = p.extrude(xs)
     # c = gf.c.straight(cross_section=xs)
     # xs = pn(slab_inset=0.2)
+    import gdsfactory as gf
+
     xs = pn(width_slab=0)
-    # c = gf.c.straight(cross_section=xs)
-    # c.show()
+    xs = xs.copy(width=2)
+
+    c = gf.c.straight(cross_section=xs)
+    c.show()

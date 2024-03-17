@@ -40,9 +40,7 @@ def coupler_symmetric(
     c = Component()
     x = gf.get_cross_section(cross_section)
     width = x.width
-
-    gap = gf.snap.snap_to_grid2x(gap)
-    dy = gf.snap.snap_to_grid2x((dy - gap - width) / 2)
+    dy = (dy - gap - width) / 2
 
     bend_component = gf.get_component(
         bend,

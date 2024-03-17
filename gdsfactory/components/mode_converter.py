@@ -62,9 +62,10 @@ def mode_converter(
         gap=gap,
         width_bot=mc_mm_width,
         width_top=sm_width,
+        cross_section=cross_section,
     )
 
-    bend = gf.get_component(bend)
+    bend = gf.get_component(bend, cross_section=cross_section)
 
     bot_taper = gf.get_component(
         taper,
@@ -75,7 +76,6 @@ def mode_converter(
 
     # directional coupler
     dc = c << coupler
-    c.absorb(dc)
 
     # straight waveguides at the bottom
     l_bot_straight = c << bot_taper
@@ -97,14 +97,12 @@ def mode_converter(
     c.add_port("o2", port=l_bend.ports["o2"])
     c.add_port("o4", port=r_bend.ports["o2"])
 
-    x = gf.get_cross_section(cross_section)
-    x.add_bbox(c)
     c.flatten()
     return c
 
 
 if __name__ == "__main__":
     # c = mode_converter(bbox_offsets=(0.5,), bbox_layers=((111, 0),))
-    c = mode_converter()
+    c = mode_converter(cross_section="xs_rc")
     c.pprint_ports()
     c.show()

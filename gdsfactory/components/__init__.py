@@ -263,7 +263,6 @@ from gdsfactory.components.straight_heater_metal import (
 )
 from gdsfactory.components.straight_pin import straight_pin, straight_pn
 from gdsfactory.components.straight_pin_slot import straight_pin_slot
-from gdsfactory.components.straight_rib import straight_rib, straight_rib_tapered
 from gdsfactory.components.taper import (
     taper,
     taper_sc_nc,
@@ -526,8 +525,6 @@ __all__ = [
     "straight_pin",
     "straight_pin_slot",
     "straight_pn",
-    "straight_rib",
-    "straight_rib_tapered",
     "switch_tree",
     "taper",
     "taper2",

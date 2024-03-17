@@ -218,6 +218,8 @@ class Component(kf.KCell):
         from gdsfactory.pdk import get_layer
 
         layer = get_layer(layer)
+        if len(points) == 2:
+            points = tuple(zip(points[0], points[1]))
 
         if isinstance(points, tuple | list | np.ndarray):
             points = ensure_tuple_of_tuples(points)

@@ -18,8 +18,9 @@ def taper(
     port: Port | None = None,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
-    port_order_name: tuple | None = ("o1", "o2"),
-    port_order_types: tuple | None = ("optical", "optical"),
+    port_names: tuple | None = ("o1", "o2"),
+    port_types: tuple | None = ("optical", "optical"),
+    with_enclosure: bool = True,
     **kwargs,
 ) -> Component:
     """Linear taper, which tapers only the main cross section section.
@@ -35,10 +36,11 @@ def taper(
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        port_order_name(tuple): Ordered tuple of port names. First port is default \
+        port_name(tuple): Ordered tuple of port names. First port is default \
                 taper port, second name only if with_two_ports flags used.
-        port_order_types(tuple): Ordered tuple of port types. First port is default \
+        port_types(tuple): Ordered tuple of port types. First port is default \
                 taper port, second name only if with_two_ports flags used.
+        with_enclosure: adds enclosure to the taper.
         kwargs: cross_section settings.
     """
     x1 = gf.get_cross_section(cross_section, width=width1)
@@ -70,25 +72,26 @@ def taper(
             ypts = [y1, y2, -y2, -y1]
             c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
-    x.apply_enclosure(c)
+    if with_enclosure:
+        x.apply_enclosure(c)
     c.add_port(
-        name=port_order_name[0],
+        name=port_names[0],
         center=(0, 0),
         width=width1,
         orientation=180,
         layer=x.layer,
         cross_section=x1,
-        port_type=port_order_types[0],
+        port_type=port_types[0],
     )
     if with_two_ports:
         c.add_port(
-            name=port_order_name[1],
+            name=port_names[1],
             center=(length, 0),
             width=width2,
             orientation=0,
             layer=x.layer,
             cross_section=x2,
-            port_type=port_order_types[1],
+            port_type=port_types[1],
         )
 
     x.add_bbox(c)
@@ -152,6 +155,7 @@ def taper_strip_to_ridge(
         width1=w_slab1,
         width2=w_slab2,
         cross_section=xs_slab,
+        with_enclosure=False,
     )
 
     c = gf.Component()
