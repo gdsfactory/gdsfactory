@@ -114,7 +114,9 @@ def clean_value_json(
         return [clean_value_json(i) for i in value]
 
     elif isinstance(value, gdstk.Polygon):
-        return np.round(value.points, DEFAULT_SERIALIZATION_MAX_DIGITS)
+        return clean_value_json(
+            np.round(value.points, DEFAULT_SERIALIZATION_MAX_DIGITS)
+        )
 
     else:
         try:
