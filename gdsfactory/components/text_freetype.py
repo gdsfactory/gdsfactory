@@ -56,7 +56,6 @@ def text_freetype(
                         xpts = np.array(poly)[:, 0] * scaling + xoffset
                         ypts = np.array(poly)[:, 1] * scaling + yoffset
                         points = list(zip(xpts, ypts))
-                        print(points)
                         char.add_polygon(points, layer=layer)
                     xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
                 else:
@@ -88,20 +87,19 @@ def text_freetype(
             char = Component()
             xoffset = 0
             for letter in line:
+                print(letter)
                 letter_dev = Component()
                 letter_template, advance_x = _get_glyph(font, letter)
                 for _, points in letter_template.get_polygons_points().items():
                     for layer in layers:
-                        letter_dev.add_polygon(points, layer=layer)
+                        letter_dev.add_polygon(points * size, layer=layer)
                 ref = char.add_ref(letter_dev)
                 ref.d.move((xoffset, 0))
-                # ref.magnification = size
                 xoffset += size * advance_x
 
             ref = t.add_ref(char)
             ref.d.move((0, yoffset))
             yoffset -= size
-            t.absorb(ref)
 
     justify = justify.lower()
     for ref in t.references:
@@ -109,7 +107,7 @@ def text_freetype(
             ref.d.move((0, 0))
 
         elif justify == "right":
-            ref.xmax = 0
+            ref.d.xmax = 0
     t.flatten()
     return t
 
