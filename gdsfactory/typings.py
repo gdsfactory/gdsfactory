@@ -23,7 +23,7 @@ from __future__ import annotations
 import dataclasses
 import json
 import pathlib
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from typing import Any, Dict, List, Literal, Optional, Tuple, Union
 
 import kfactory as kf
@@ -299,6 +299,7 @@ __all__ = (
     "List",
     "Tuple",
     "Dict",
+    "Iterable",
 )
 
 

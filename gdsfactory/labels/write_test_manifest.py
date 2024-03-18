@@ -1,66 +1,66 @@
 """Converts CSV of test site labels into a CSV test manifest."""
 
-import json
+import csv
 import pathlib
-
-import numpy as np
-import pandas as pd
 
 import gdsfactory as gf
 from gdsfactory.samples.sample_reticle import sample_reticle
+from gdsfactory.typings import Iterable
 
 
-def write_test_manifest(csvpath: str | pathlib.Path) -> pd.DataFrame:
-    """Converts CSV of test site labels into a CSV test manifest."""
-    df_in = pd.read_csv(csvpath)
+def write_test_manifest(
+    c: gf.Component,
+    csvpath: str | pathlib.Path,
+    cell_name_prefixes: Iterable[str] = ("spiral*",),
+    analysis: str = "[power_envelope]",
+    analysis_parameters: str = '[{"n": 10, "wvl_of_interest_nm": 1550}]',
+) -> None:
+    """Converts CSV of test site labels into a CSV test manifest.
 
-    # Initialize an empty list to collect the rows
-    rows = []
-    columns = [
-        "name",
-        "xopt",
-        "yopt",
-        "xelec",
-        "yelec",
-        "measurement",
-        "measurement_settings",
-        "doe",
-        "analysis",
-        "analysis_settings",
-    ]
+    Args:
+        c: the component to write the test manifest for.
+        csvpath: the path to the CSV file to write.
+        cell_name_prefixes: the prefixes of the cells to include in the test manifest.
+        analysis: the analysis to run on the cells.
+        analysis_parameters: the parameters to use for the analysis.
+    """
+    with open(csvpath, "w") as f:
+        writer = csv.writer(f)
+        writer.writerow(
+            [
+                "cell",
+                "x",
+                "y",
+                "analysis",
+                "analysis_parameters",
+            ]
+        )
 
-    for _, label in df_in.iterrows():
-        x, y, _orientation = label.x, label.y, label.rotation
-        text = label.text
-        d = json.loads(text)
-
-        row = [
-            d["name"] + f"_{int(x)}_{int(y)}",
-            [np.round(i + x, 3) for i in d["xopt"]],
-            [np.round(i + y, 3) for i in d["yopt"]],
-            [np.round(i + x, 3) for i in d["xelec"]],
-            [np.round(i + y, 3) for i in d["yelec"]],
-            d["measurement"],
-            d["measurement_settings"],
-            d["doe"],
-            d["analysis"],
-            d["analysis_settings"],
-        ]
-        rows.append(row)
-
-    return pd.DataFrame(
-        rows,
-        columns=columns,
-    )
+        for prefix in cell_name_prefixes:
+            ci = c._kdb_cell.begin_instances_rec()
+            ci.targets = prefix
+            while not ci.at_end():
+                _c = c.kcl[ci.inst_cell().cell_index()]
+                _disp = (ci.trans() * ci.inst_trans()).disp
+                writer.writerow(
+                    [
+                        _c.name,
+                        _disp.x,
+                        _disp.y,
+                        analysis,
+                        analysis_parameters,
+                    ]
+                )
+                ci.next()
 
 
 if __name__ == "__main__":
-    c = sample_reticle(grid=False)
+    import pandas as pd
+
+    c = sample_reticle()
     c.show()
     gdspath = c.write_gds()
-    csvpath = gf.labels.write_labels.write_labels_gdstk(
-        gdspath, prefixes=("{",), layer_label="TEXT"
-    )
-    df = write_test_manifest(csvpath)
-    df.to_csv("test_manifest.csv")
+    csvpath = gdspath.with_suffix(".csv")
+    write_test_manifest(c, csvpath)
+    df = pd.read_csv(csvpath)
     print(df)
