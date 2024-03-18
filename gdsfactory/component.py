@@ -716,4 +716,6 @@ if __name__ == "__main__":
     # c1 = gf.path.extrude(P, x1)
     # ref = c.add_ref(c1)
     # c.add_ports(ref.ports)
+    scene = c.to_3d()
+    scene.show()
     c.show()
