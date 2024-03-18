@@ -9,7 +9,7 @@ info:
   xsize: 100.0
   ysize: 100.0
 module: gdsfactory.components.array_component
-name: pad_array
+name: pad_array$1
 settings:
   add_ports: true
   columns: 6
