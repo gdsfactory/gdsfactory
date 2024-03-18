@@ -235,6 +235,7 @@ from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.ring_single_pn import ring_single_pn
 from gdsfactory.components.seal_ring import seal_ring
 from gdsfactory.components.snspd import snspd
+from gdsfactory.components.spiral import spiral
 from gdsfactory.components.spiral_double import spiral_double
 from gdsfactory.components.spiral_heater import (
     spiral_racetrack,
@@ -503,6 +504,7 @@ __all__ = [
     "ring_single_trenches",
     "seal_ring",
     "snspd",
+    "spiral",
     "spiral_double",
     "spiral_racetrack",
     "spiral_racetrack_fixed_length",

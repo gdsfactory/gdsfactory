@@ -131,8 +131,8 @@ def straight_heater_metal_undercut(
                 width2=heater_width,
                 length=heater_taper_length,
                 cross_section=x,
-                port_order_name=("e1", "e2"),
-                port_order_types=("electrical", "electrical"),
+                port_names=("e1", "e2"),
+                port_types=("electrical", "electrical"),
             )
             taper1 = c << taper
             taper2 = c << taper
@@ -217,8 +217,8 @@ def straight_heater_metal_simple(
                 width2=heater_width,
                 length=heater_taper_length,
                 cross_section=x,
-                port_order_name=("e1", "e2"),
-                port_order_types=("electrical", "electrical"),
+                port_names=("e1", "e2"),
+                port_types=("electrical", "electrical"),
             )
             taper1 = c << taper
             taper2 = c << taper

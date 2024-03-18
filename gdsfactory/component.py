@@ -502,10 +502,10 @@ class Component(kf.KCell):
         gdspath = gdspath or gdsdir / f"{self.name}.gds"
 
         if kwargs:
-            warnings.warn(f"{kwargs.keys()} is deprecated")
-
+            for k in kwargs.keys():
+                warnings.warn(f"{k} is deprecated", stacklevel=2)
         self.write(filename=str(gdspath), save_options=save_options)
-        return gdspath
+        return pathlib.Path(gdspath)
 
     @property
     def named_references(self):
