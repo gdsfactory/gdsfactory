@@ -47,39 +47,23 @@ def write_test_manifest(
             ]
         )
 
-        if cell_name_prefixes is None:
-            for cell_index in c.each_child_cell():
-                ci = c.kcl[cell_index]
-                disp = (ci.trans() * ci.inst_trans()).disp
+        for prefix in cell_name_prefixes:
+            ci = c._kdb_cell.begin_instances_rec()
+            ci.targets = prefix
+            while not ci.at_end():
+                _c = c.kcl[ci.inst_cell().cell_index()]
+                _disp = (ci.trans() * ci.inst_trans()).disp
                 writer.writerow(
                     [
-                        ci.name,
-                        disp.x,
-                        disp.y,
-                        json.dumps(ci.info.model_dump()),
+                        _c.name,
+                        _disp.x,
+                        _disp.y,
+                        json.dumps(_c.info.model_dump()),
                         analysis,
                         analysis_parameters,
                     ]
                 )
-
-        else:
-            for prefix in cell_name_prefixes:
-                ci = c._kdb_cell.begin_instances_rec()
-                ci.targets = prefix
-                while not ci.at_end():
-                    _c = c.kcl[ci.inst_cell().cell_index()]
-                    _disp = (ci.trans() * ci.inst_trans()).disp
-                    writer.writerow(
-                        [
-                            _c.name,
-                            _disp.x,
-                            _disp.y,
-                            json.dumps(_c.info.model_dump()),
-                            analysis,
-                            analysis_parameters,
-                        ]
-                    )
-                    ci.next()
+                ci.next()
 
 
 if __name__ == "__main__":

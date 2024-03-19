@@ -116,6 +116,7 @@ class Port(kf.Port):
         layer: LayerSpec = None,
         port_type: str = "optical",
         cross_section: CrossSectionSpec | None = None,
+        info: dict[str, int | float | str] | None = None,
     ) -> None:
         from gdsfactory.pdk import get_layer
 
@@ -147,12 +148,14 @@ class Port(kf.Port):
             raise ValueError(f"Port width must be >=0. Got {width}")
 
         dcplx_trans = kf.kdb.DCplxTrans(1.0, float(orientation), False, *center)
+        info = info or {}
         super().__init__(
             name=name,
             layer=get_layer(layer),
             dwidth=width,
             port_type=port_type,
             dcplx_trans=dcplx_trans,
+            info=info,
         )
 
     @classmethod
@@ -167,6 +170,18 @@ class Port(kf.Port):
         assert v.name, f"Port has no name, got {v.name!r}"
         # assert v.assert_on_grid(), f"port.center = {v.center} has off-grid points"
         return v
+
+
+def to_dict(port: Port) -> dict[str, typing.Any]:
+    """Returns dict."""
+    return {
+        "name": port.name,
+        "center": port.center,
+        "width": port.width,
+        "orientation": port.orientation,
+        "layer": port.layer,
+        "port_type": port.port_type,
+    }
 
 
 PortsMap = dict[str, list[Port]]
@@ -845,15 +860,8 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    P = gf.path.straight(length=10)
-    s0 = gf.Section(
-        width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    )
-    s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
-    x1 = gf.CrossSection(sections=(s0, s1))
-    c = gf.path.extrude(P, x1)
-    # p = select_ports(c.ports, port_type="electrical")
-    pd = select_ports(c.ports, port_type="optical")
-    pl = select_ports_list(ports=c.ports, port_type="optical")
-    c.pprint_ports(orientation=180)
+    c = gf.c.mzi()
+    p = c.ports["o1"]
+    d = gf.port.to_dict(p)
+    print(d)
     c.show()
