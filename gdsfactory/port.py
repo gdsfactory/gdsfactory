@@ -130,6 +130,8 @@ class Port(kf.Port):
         if layer is None or width is None:
             from gdsfactory.pdk import get_cross_section
 
+            warnings.warn("port cross_section is deprecated, use layer and width")
+
             cross_section = get_cross_section(cross_section)
 
         if cross_section and layer is None:
