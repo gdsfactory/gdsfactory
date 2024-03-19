@@ -12,7 +12,7 @@ from gdsfactory.typings import Iterable
 def write_test_manifest(
     component: gf.Component,
     csvpath: str | pathlib.Path,
-    cell_name_prefixes: Iterable[str] | None = None,
+    search_strings: Iterable[str] | None = None,
     analysis: str = "[power_envelope]",
     analysis_parameters: str = '[{"n": 10, "wvl_of_interest_nm": 1550}]',
 ) -> None:
@@ -21,18 +21,19 @@ def write_test_manifest(
     Args:
         component: the component to write the test manifest for.
         csvpath: the path to the CSV file to write.
-        cell_name_prefixes: the prefixes of the cells to include in the test manifest.
+        search_strings: the search_strings of the cells to include in the test manifest.
+            If None, all cells one level below top cell are included.
         analysis: list of analysis to run on the cells.
         analysis_parameters: list of parameters to use for the analysis.
     """
-    cell_name_prefixes = cell_name_prefixes or []
-    cell_name_prefixes = list(cell_name_prefixes)
+    search_strings = search_strings or []
+    search_strings = list(search_strings)
     c = component
 
-    if not cell_name_prefixes:
+    if not search_strings:
         for cell_index in c.each_child_cell():
             ci = c.kcl[cell_index]
-            cell_name_prefixes.append(f"{ci.name}*")
+            search_strings.append(ci.name)
 
     with open(csvpath, "w") as f:
         writer = csv.writer(f)
@@ -42,28 +43,31 @@ def write_test_manifest(
                 "x",
                 "y",
                 "info",
+                "ports",
                 "analysis",
                 "analysis_parameters",
             ]
         )
 
-        for prefix in cell_name_prefixes:
-            ci = c._kdb_cell.begin_instances_rec()
-            ci.targets = prefix
-            for _ci in ci.each():
-                _c = c.kcl[_ci.inst_cell().cell_index()]
-                disp = (_ci.trans() * _ci.inst_trans()).disp
+        ci = c._kdb_cell.begin_instances_rec()
+        ci.targets = "{" + ",".join(search_strings) + "}"
+        for _ci in ci.each():
+            _c = c.kcl[_ci.inst_cell().cell_index()]
+            disp = (_ci.trans() * _ci.inst_trans()).disp
+            dtrans = _ci.dtrans() * _ci.inst_dtrans()
+            ports = {p.name: gf.port.to_dict(p.copy(trans=dtrans)) for p in _c.ports}
 
-                writer.writerow(
-                    [
-                        _c.name,
-                        disp.x,
-                        disp.y,
-                        json.dumps(_c.info.model_dump()),
-                        analysis,
-                        analysis_parameters,
-                    ]
-                )
+            writer.writerow(
+                [
+                    _c.name,
+                    disp.x,
+                    disp.y,
+                    json.dumps(_c.info.model_dump()),
+                    json.dumps(ports),
+                    analysis,
+                    analysis_parameters,
+                ]
+            )
 
 
 if __name__ == "__main__":
@@ -99,3 +103,4 @@ if __name__ == "__main__":
     write_test_manifest(c, csvpath)
     df = pd.read_csv(csvpath)
     print(df)
+    c.show()
