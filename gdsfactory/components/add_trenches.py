@@ -17,7 +17,7 @@ def add_trenches(
     bot: bool = True,
     right: bool = False,
     left: bool = False,
-    layer_trench: LayerSpec = (1, 7),
+    layer_trench: LayerSpec = (3, 6),
     width_trench: float = 3,
     **kwargs,
 ) -> gf.Component:
