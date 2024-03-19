@@ -50,20 +50,20 @@ def write_test_manifest(
         for prefix in cell_name_prefixes:
             ci = c._kdb_cell.begin_instances_rec()
             ci.targets = prefix
-            while not ci.at_end():
-                _c = c.kcl[ci.inst_cell().cell_index()]
-                _disp = (ci.trans() * ci.inst_trans()).disp
+            for _ci in ci.each():
+                _c = c.kcl[_ci.inst_cell().cell_index()]
+                disp = (_ci.trans() * _ci.inst_trans()).disp
+
                 writer.writerow(
                     [
                         _c.name,
-                        _disp.x,
-                        _disp.y,
+                        disp.x,
+                        disp.y,
                         json.dumps(_c.info.model_dump()),
                         analysis,
                         analysis_parameters,
                     ]
                 )
-                ci.next()
 
 
 if __name__ == "__main__":
