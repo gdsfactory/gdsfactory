@@ -176,7 +176,7 @@ def to_dict(port: Port) -> dict[str, typing.Any]:
     """Returns dict."""
     return {
         "name": port.name,
-        "center": port.center,
+        "center": port.d.center,
         "width": port.width,
         "orientation": port.orientation,
         "layer": port.layer,
