@@ -10,7 +10,7 @@ from gdsfactory.typings import Iterable
 
 
 def write_test_manifest(
-    c: gf.Component,
+    component: gf.Component,
     csvpath: str | pathlib.Path,
     cell_name_prefixes: Iterable[str] | None = None,
     analysis: str = "[power_envelope]",
@@ -19,13 +19,16 @@ def write_test_manifest(
     """Converts CSV of test site labels into a CSV test manifest.
 
     Args:
-        c: the component to write the test manifest for.
+        component: the component to write the test manifest for.
         csvpath: the path to the CSV file to write.
         cell_name_prefixes: the prefixes of the cells to include in the test manifest.
-        analysis: the analysis to run on the cells.
-        analysis_parameters: the parameters to use for the analysis.
+        analysis: list of analysis to run on the cells.
+        analysis_parameters: list of parameters to use for the analysis.
     """
     cell_name_prefixes = cell_name_prefixes or []
+    cell_name_prefixes = list(cell_name_prefixes)
+    c = component
+
     if not cell_name_prefixes:
         for cell_index in c.each_child_cell():
             ci = c.kcl[cell_index]
