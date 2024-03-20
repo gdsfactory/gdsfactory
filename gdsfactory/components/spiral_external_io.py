@@ -8,6 +8,7 @@ from __future__ import annotations
 import numpy as np
 from numpy import float64
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -61,10 +62,14 @@ def spiral_external_io(
 
     y_straight_inner_top += 5
     x_inner_length_cutback += x_inner_offset
-    _bend180 = bend(angle=180, cross_section=cross_section, **kwargs)
-    _bend90 = bend(angle=90, cross_section=cross_section, **kwargs)
 
-    bend_radius = _bend90.info["radius"]
+    xs = gf.get_cross_section(cross_section, **kwargs)
+
+    _bend180 = gf.get_component(bend, angle=180, cross_section=xs)
+    _bend90 = gf.get_component(bend, angle=90, cross_section=xs)
+
+    # If with_arc_floorplan is not True, the radius doesn't represent the actual size of the bend
+    bend_radius = _bend90.xsize - xs.width / 2
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
 
