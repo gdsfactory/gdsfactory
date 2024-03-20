@@ -196,7 +196,7 @@ class ImplantPhysical(Lithography):
 
 
 @dataclass(kw_only=True)
-class ImplantAnalytical(Lithography):
+class ImplantGaussian(Lithography):
     """Simulates masking + physical ion implantation + strip.
 
     wafer mask opened          wafer mask opened
@@ -210,14 +210,42 @@ class ImplantAnalytical(Lithography):
         ion (str): ion tag
         peak_conc (float): peak concentration
         range (float): of the ions (center of distribution)
-        straggle (float): of the ions (spread of distribution)
+        vertical_straggle (float): of the ions (spread of distribution), normal to the plane
+        lateral_straggle (float): of the ions (spread of distribution), parallel to the plane
+        into_materials (List[str]): list of material tothis step can implant into
     """
 
     ion: str
     peak_conc: float
     range: float
-    straggle: float = None
-    tilt: float = None
+    vertical_straggle: float = None
+    lateral_straggle: float = None
+
+
+@dataclass(kw_only=True)
+class DopingConstant(Lithography):
+    """Constant doping for simplified processes.
+
+    wafer mask opened          wafer mask opened
+        <------>                   <----->
+    ________________          __________________
+    |              |          |                |
+    |              |  ----->  |    ------- <---- range (depends on energy)
+    |______________|          |________________|
+
+    Args:
+        ion (str): ion tag
+        peak_conc (float): peak concentration (constant)
+        zmin (float): lower bound of the doping box
+        zmax (float): upper bound of the doping box. By default
+        into_materials (List[str]): list of material tothis step can implant into
+    """
+
+    ion: str
+    peak_conc: float
+    zmin: float
+    zmax: float = None
+    into_materials: list[str]
 
 
 @dataclass(kw_only=True)
