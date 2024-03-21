@@ -18,8 +18,8 @@ settings:
     function: bend_euler
   cross_section: xs_rc_with_trenches
   layer_trench:
-  - 1
-  - 7
+  - 3
+  - 6
   left: false
   right: true
   top: false
