@@ -3,17 +3,10 @@
 from __future__ import annotations
 
 import warnings
-from typing import TypedDict
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSectionSpec
-
-
-class Straight(TypedDict):
-    length: float
-    npoints: int
-    cross_section: CrossSectionSpec
 
 
 @gf.cell
