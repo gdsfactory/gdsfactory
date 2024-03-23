@@ -783,6 +783,20 @@ def get_cross_section(
     return get_active_pdk().get_cross_section(cross_section, **kwargs)
 
 
+def get_cross_section_name(cross_section: CrossSectionSpec) -> str:
+    """Returns the name of a cross section. If not found in active PDK, raises a ValueError."""
+    pdk = get_active_pdk()
+
+    if isinstance(cross_section, str) and cross_section in pdk.cross_sections:
+        return cross_section
+    else:
+        cross_section = get_cross_section(cross_section)
+        for k, v in pdk.cross_sections.items():
+            if cross_section == v:
+                return k
+        raise ValueError(f"Invalid cross section: {cross_section}")
+
+
 def get_layer(layer: LayerSpec) -> Layer:
     return get_active_pdk().get_layer(layer)
 
