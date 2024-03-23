@@ -104,6 +104,9 @@ routes:
         settings:
             cross_section:
                 cross_section: xs_sc
+                settings:
+                    radius: 20
+
 
 """
 
@@ -114,7 +117,7 @@ def test_connections_2x2() -> None:
     assert len(c.ports) == 0, len(c.ports)
 
     length = c.routes["mmi_bottom,o3:mmi_top,o2"]
-    assert np.isclose(length, 168.274), length
+    assert np.isclose(length, 161.548), length
 
 
 sample_different_factory = """
@@ -595,7 +598,8 @@ def test_ref_names_retained_on_copy() -> None:
 
 
 if __name__ == "__main__":
-    test_connections_2x2()
+    # test_connections_2x2()
+    c = from_yaml(sample_2x2_connections)
     # test_connections_different_factory()
     # test_sample()
     # test_connections()
@@ -614,7 +618,7 @@ if __name__ == "__main__":
     # print(sorted([i.name for i in c.get_dependencies(True)]))
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c = from_yaml(sample_regex_connections)
+    # c = from_yaml(sample_regex_connections)
     # n2 = c2.get_netlist()
     # d = jsondiff.diff(n, n2)
     # pprint(d)

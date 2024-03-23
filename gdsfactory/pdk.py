@@ -548,10 +548,11 @@ class Pdk(BaseModel):
             return xs(**kwargs) if callable(xs) else xs.copy(**kwargs)
         elif isinstance(cross_section, dict | DictConfig):
             xs_name = cross_section.get("cross_section", None)
-            settings = cross_section.get("settings", {})
-            if kwargs:
-                settings = settings | kwargs
-            xs = self.get_cross_section(xs_name, **settings)
+            if xs_name:
+                settings = cross_section.get("settings", {})
+                xs = self.get_cross_section(xs_name, **settings)
+            else:
+                xs = CrossSection(**cross_section)
             return xs
         else:
             raise ValueError(
@@ -882,7 +883,8 @@ on_yaml_cell_modified.add_handler(show)
 
 
 if __name__ == "__main__":
-    c = get_component("add_fiber_array")
+    xs = get_cross_section_name("xs_rc")
+    # c = get_component("add_fiber_array")
 
     # from gdsfactory.read.from_updk import from_updk
     # from gdsfactory.samples.pdk.fab_c import pdk
