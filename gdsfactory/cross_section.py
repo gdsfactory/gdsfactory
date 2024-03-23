@@ -2348,7 +2348,6 @@ def get_cross_sections(
 
 
 xs_sc = strip()
-
 xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
 xs_rc2 = rib2()
 xs_rc_bbox = rib_bbox()
