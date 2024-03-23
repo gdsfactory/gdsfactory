@@ -1,12 +1,18 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.21.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.22.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.22.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.0) - 2024-03-23
 
-No significant changes.
-
+- add get_cross_section_name from pdk [#2638](https://github.com/gdsfactory/gdsfactory/pull/2638)
+- Add schematic [#2622](https://github.com/gdsfactory/gdsfactory/pull/2622)
+- more processes [#2634](https://github.com/gdsfactory/gdsfactory/pull/2634)
+- Use bend xsize rather than radius for bend size [#2633](https://github.com/gdsfactory/gdsfactory/pull/2633)
+- clean polygon vertices after converting to numpy array [#2629](https://github.com/gdsfactory/gdsfactory/pull/2629)
+- fix ring_pn [#2631](https://github.com/gdsfactory/gdsfactory/pull/2631)
+- Treat array as a cell_with_child and copy child info [#2625](https://github.com/gdsfactory/gdsfactory/pull/2625)
+- Update trimesh requirement from <4.2,>=4 to >=4,<4.3 [#2630](https://github.com/gdsfactory/gdsfactory/pull/2630)
 
 ## [7.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.21.0) - 2024-03-11
 
