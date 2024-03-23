@@ -39,7 +39,7 @@ from typing import Any, Dict, List, Literal, Optional, Tuple, Union
 import gdstk
 import numpy as np
 from omegaconf import OmegaConf
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, root_validator
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_layout import Label
@@ -217,11 +217,28 @@ class Routes(BaseModel):
 
 
 class Instance(BaseModel):
-    component: ComponentSpec
+    component: str
     settings: dict[str, Any] = Field(default_factory=dict)
-    info: dict[str, Any] = Field(default_factory=dict)
+    info: dict[str, Any] = Field(default_factory=dict, exclude=True)
 
     model_config = {"extra": "forbid"}
+
+    @root_validator(pre=True)
+    def update_settings_and_info(cls, values):
+        """Validator to update component, settings and info based on the component."""
+        component = values.get("component")
+        settings = values.get("settings", {})
+        info = values.get("info", {})
+
+        import gdsfactory as gf
+
+        c = gf.get_component(component)
+        component_info = c.info.model_dump()
+        component_settings = c.settings.model_dump()
+        values["info"] = {**component_info, **info}
+        values["settings"] = {**component_settings, **settings}
+        values["component"] = c.function_name
+        return values
 
 
 class Placement(BaseModel):
@@ -246,7 +263,7 @@ class Placement(BaseModel):
 class Bundle(BaseModel):
     links: dict[str, str]
     settings: dict[str, Any] = Field(default_factory=dict)
-    routing_strategy: str | None = None
+    routing_strategy: str = "get_bundle"
 
     model_config = {"extra": "forbid"}
 
@@ -329,6 +346,7 @@ class Schematic(BaseModel):
             placement: placement.
         """
         self.placements[instance_name] = placement
+        self.netlist.placements[instance_name] = placement
 
     def from_component(self, component: Component) -> None:
         n = component.get_netlist()
