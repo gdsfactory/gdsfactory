@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.22.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.0) - 2024-03-23
+
+No significant changes.
+
+
 ## [7.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.21.0) - 2024-03-11
 
 - inject gf.Component return annotation when using gf.cell [#2620](https://github.com/gdsfactory/gdsfactory/pull/2620)
