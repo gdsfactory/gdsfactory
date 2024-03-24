@@ -17,5 +17,7 @@ settings:
   ohms_per_square: null
   port_orientation1: 90
   port_orientation2: 90
+  straight:
+    function: straight
   via_stack: via_stack_heater_mtop
   with_undercut: false
