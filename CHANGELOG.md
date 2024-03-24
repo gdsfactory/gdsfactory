@@ -1,12 +1,13 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.22.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.22.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.22.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.1) - 2024-03-23
 
-No significant changes.
-
+- cross_section can be defined as a dict derived from a cross_section [#2639](https://github.com/gdsfactory/gdsfactory/pull/2639)
+- Better schematic docs [#2640](https://github.com/gdsfactory/gdsfactory/pull/2640)
+- add gf.components.array(centered=False/True)
 
 ## [7.22.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.0) - 2024-03-23
 
