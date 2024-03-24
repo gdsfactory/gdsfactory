@@ -233,8 +233,8 @@ class Instance(BaseModel):
         import gdsfactory as gf
 
         c = gf.get_component(component)
-        component_info = c.info.model_dump()
-        component_settings = c.settings.model_dump()
+        component_info = c.info.model_dump(exclude_none=True)
+        component_settings = c.settings.model_dump(exclude_none=True)
         values["info"] = {**component_info, **info}
         values["settings"] = {**component_settings, **settings}
         values["component"] = c.function_name
