@@ -74,19 +74,16 @@ def taper(
         xpts = [0, length, length, 0]
         for section in x.sections[1:]:
             layer = section.layer
+            y1 = section.width / 2
             if not section.offset:
-                y1 = section.width / 2
                 y2 = section.width / 2 + delta_width / 2
                 ypts = [y1, y2, -y2, -y1]
-                c.add_polygon((xpts, ypts), layer=layer)
             else:
-                y1 = section.width / 2
                 y2 = section.width / 2
                 y2 = section.width / 2 + delta_width / 2
                 ypts = [y1, y2, -y2, -y1]
                 ypts = [y - section.offset for y in ypts]
-                c.add_polygon((xpts, ypts), layer=layer)
-
+            c.add_polygon((xpts, ypts), layer=layer)
     c.add_port(
         name=port_order_name[0],
         center=(0, 0),
@@ -107,9 +104,10 @@ def taper(
             port_type=port_order_types[1],
         )
 
-    c.info["length"] = float(length)
+    c.info["length"] = length
     c.info["width1"] = float(width1)
     c.info["width2"] = float(width2)
+    x.add_bbox(c)
     return c
 
 
@@ -256,7 +254,7 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
-    c = taper(cross_section="xs_rc", width2=1, length=1)
+    c = taper(cross_section="xs_rc_bbox", width2=1, length=1)
     # xs_pin_m1 = partial(
     #     gf.cross_section.strip_auto_widen,
     #     width=0.5,

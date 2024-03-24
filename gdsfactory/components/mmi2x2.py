@@ -81,6 +81,7 @@ def mmi2x2(
             ],
             layer=layer,
         )
+    x.add_bbox(c)
 
     a = gap_mmi / 2 + width_taper / 2
     ports = [
@@ -108,12 +109,12 @@ def mmi2x2(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    x.add_bbox(c)
     return c
 
 
 if __name__ == "__main__":
     # c = mmi2x2(gap_mmi=0.252, cross_section="xs_m1")
-    c = mmi2x2(gap_mmi=0.252, cross_section="xs_rc")
+    # c = mmi2x2(gap_mmi=0.252, cross_section="xs_rc")
+    c = mmi2x2(gap_mmi=0.252, cross_section="xs_rc_bbox")
     c.show(show_ports=True)
     c.pprint()

@@ -37,12 +37,8 @@ def straight(
     ref = c << path
     c.add_ports(ref.ports)
 
-    c.info["length"] = float(length)
-    if len(x.sections) == 0:
-        c.info["width"] = x.width
-    else:
-        c.info["width"] = x.sections[0].width
-
+    c.info["length"] = length
+    c.info["width"] = x.width
     c.add_route_info(cross_section=x, length=length)
     c.absorb(ref)
     return c
@@ -84,7 +80,7 @@ if __name__ == "__main__":
 
     # xs = gf.cross_section.strip(bbox_layers=[(111, 0)], bbox_offsets=[3])
     # c = straight(cross_section=xs, info=dict(simulation="eme"))
-    c = straight(cross_section="xs_sc_pins")
+    c = straight(cross_section="xs_rc_bbox")
     # print(c.info["simulation"])
     # c = gf.Component()
     # ref = c << straight(width=3e-3, length=3e-3)
