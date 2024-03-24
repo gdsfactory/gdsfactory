@@ -12,6 +12,7 @@ module: gdsfactory.components.array_component
 name: pad_array$1
 settings:
   add_ports: true
+  centered: false
   columns: 6
   component: pad
   rows: 1
