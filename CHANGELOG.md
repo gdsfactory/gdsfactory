@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.22.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.2) - 2024-03-24
+
+No significant changes.
+
+
 ## [7.22.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.1) - 2024-03-23
 
 - cross_section can be defined as a dict derived from a cross_section [#2639](https://github.com/gdsfactory/gdsfactory/pull/2639)
