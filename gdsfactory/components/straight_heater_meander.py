@@ -106,8 +106,10 @@ def straight_heater_meander(
     ##############
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
-        straight_i = straight(
-            length=straight_length - 2 * taper_length, cross_section=cross_section1
+        straight_i = gf.get_component(
+            straight,
+            length=straight_length - 2 * taper_length,
+            cross_section=cross_section1,
         )
 
         taper_lin = partial(
@@ -129,13 +131,12 @@ def straight_heater_meander(
     ##############
     for row in range(1, rows, 2):
         extra_length = 3 * (rows - row - 1) / 2 * radius
-        extra_straight1 = c << straight(
-            length=extra_length, cross_section=cross_section
+        straight_extra_length = gf.get_component(
+            straight, length=extra_length, cross_section=cross_section
         )
+        extra_straight1 = c << straight_extra_length
+        extra_straight2 = c << straight_extra_length
         extra_straight1.connect("o1", ports[f"o1_{row+1}"])
-        extra_straight2 = c << straight(
-            length=extra_length, cross_section=cross_section
-        )
         extra_straight2.connect("o1", ports[f"o1_{row+2}"])
 
         route = gf.routing.get_route(
@@ -149,13 +150,13 @@ def straight_heater_meander(
         c.add(route.references)
 
         extra_length = 3 * (row - 1) / 2 * radius
-        extra_straight1 = c << straight(
-            length=extra_length, cross_section=cross_section
+        straight_extra_length = gf.get_component(
+            straight, length=extra_length, cross_section=cross_section
         )
+
+        extra_straight1 = c << straight_extra_length
+        extra_straight2 = c << straight_extra_length
         extra_straight1.connect("o1", ports[f"o2_{row+1}"])
-        extra_straight2 = c << straight(
-            length=extra_length, cross_section=cross_section
-        )
         extra_straight2.connect("o1", ports[f"o2_{row}"])
 
         route = gf.routing.get_route(
@@ -168,8 +169,11 @@ def straight_heater_meander(
         )
         c.add(route.references)
 
-    straight1 = c << straight(length=extension_length, cross_section=cross_section)
-    straight2 = c << straight(length=extension_length, cross_section=cross_section)
+    straight_extension = gf.get_component(
+        straight, length=extension_length, cross_section=cross_section
+    )
+    straight1 = c << straight_extension
+    straight2 = c << straight_extension
     straight1.connect("o2", ports["o1_1"])
     straight2.connect("o1", ports[f"o2_{rows}"])
 
@@ -246,5 +250,5 @@ if __name__ == "__main__":
     #     # port_orientation1=0
     #     # cross_section=partial(gf.cross_section.strip, width=0.8),
     # )
-    c = straight_heater_meander()
+    c = straight_heater_meander(straight="straight")
     c.show(show_ports=True)

@@ -60,12 +60,14 @@ def straight_heater_metal_undercut(
 
     length_straight_input -= length_straight
 
-    s_ports = straight(
+    s_ports = gf.get_component(
+        straight,
         cross_section=cross_section,
         length=length_straight,
     )
 
-    s_si = straight(
+    s_si = gf.get_component(
+        straight,
         cross_section=cross_section_waveguide_heater,
         length=length_straight_input,
     )
@@ -74,11 +76,13 @@ def straight_heater_metal_undercut(
         if with_undercut
         else cross_section_waveguide_heater
     )
-    s_uc = straight(
+    s_uc = gf.get_component(
+        straight,
         cross_section=cross_section_undercut,
         length=length_undercut,
     )
-    s_spacing = straight(
+    s_spacing = gf.get_component(
+        straight,
         cross_section=cross_section_waveguide_heater,
         length=length_undercut_spacing,
     )
@@ -157,6 +161,7 @@ def straight_heater_metal_simple(
     port_orientation2: int | None = None,
     heater_taper_length: float | None = 5.0,
     ohms_per_square: float | None = None,
+    straight: ComponentSpec = straight_function,
 ) -> Component:
     """Returns a thermal phase shifter that has properly fixed electrical connectivity to extract a suitable electrical netlist and models.
     dimensions from https://doi.org/10.1364/OE.27.010456
@@ -170,9 +175,11 @@ def straight_heater_metal_simple(
         port_orientation2: right via stack port orientation.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
+        straight: straight component.
     """
     c = Component()
-    straight_heater_section = gf.components.straight(
+    straight_heater_section = gf.get_component(
+        straight,
         cross_section=cross_section_waveguide_heater,
         length=length,
     )
@@ -257,7 +264,7 @@ if __name__ == "__main__":
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)
 
-    c = straight_heater_metal_undercut(length=200)
+    c = straight_heater_metal_undercut(length=200, straight="straight")
     # n = c.get_netlist()
     # c = straight_heater_metal(length=20)
     c.show(show_ports=False)
