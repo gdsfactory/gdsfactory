@@ -278,8 +278,8 @@ class Netlist(BaseModel):
         routes: dict of routes.
         name: component name.
         info: information (polarization, wavelength ...).
-        settings: input variables.
         ports: exposed component ports.
+        settings: input variables.
     """
 
     instances: dict[str, Instance] = Field(default_factory=dict)
@@ -288,8 +288,8 @@ class Netlist(BaseModel):
     routes: dict[str, Bundle] = Field(default_factory=dict)
     name: str | None = None
     info: dict[str, Any] = Field(default_factory=dict)
-    settings: dict[str, Any] = Field(default_factory=dict)
     ports: dict[str, str] = Field(default_factory=dict)
+    settings: dict[str, Any] = Field(default_factory=dict, exclude=True)
 
     model_config = {"extra": "forbid"}
 
