@@ -35,6 +35,7 @@ parts:
           - file: notebooks/04_components_shapes
       - file: schematic
         sections:
+          - file: notebooks/10_schematic
           - file: notebooks/10_yaml_component
       - file: pdk
         sections:
