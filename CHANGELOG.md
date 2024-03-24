@@ -1,12 +1,12 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.22.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.22.2...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.22.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.2) - 2024-03-24
 
-No significant changes.
-
+- fix docs for straight_heater [#2642](https://github.com/gdsfactory/gdsfactory/pull/2642)
+- Small improvements [#2641](https://github.com/gdsfactory/gdsfactory/pull/2641)
 
 ## [7.22.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.1) - 2024-03-23
 
