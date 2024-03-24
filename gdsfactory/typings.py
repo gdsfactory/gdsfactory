@@ -294,7 +294,7 @@ class Netlist(BaseModel):
     model_config = {"extra": "forbid"}
 
 
-_bundle_counter = 0
+_route_counter = 0
 
 
 class Net(BaseModel):
@@ -303,21 +303,21 @@ class Net(BaseModel):
     Parameters:
         ip1: instance_name,port 1.
         ip2: instance_name,port 2.
+        name: route name.
     """
 
     ip1: str
     ip2: str
-    bundle: str | None = None
-
-    # Class variable to keep track of the last used bundle number
+    settings: dict[str, Any] = Field(default_factory=dict)
+    name: str | None = None
 
     def __init__(self, **data):
-        global _bundle_counter
+        global _route_counter
         super().__init__(**data)
-        # If bundle name is not provided, generate one automatically
-        if self.bundle is None:
-            self.bundle = f"bundle_{_bundle_counter}"
-            _bundle_counter += 1
+        # If route name is not provided, generate one automatically
+        if self.name is None:
+            self.name = f"route_{_route_counter}"
+            _route_counter += 1
 
 
 class Schematic(BaseModel):
@@ -355,7 +355,12 @@ class Schematic(BaseModel):
     def add_net(self, net: Net) -> None:
         """Add a net between two ports."""
         self.nets.append(net)
-        self.netlist.routes[net.bundle] = Bundle(links={net.ip1: net.ip2})
+        if net.name not in self.netlist.routes:
+            self.netlist.routes[net.name] = Bundle(
+                links={net.ip1: net.ip2}, settings=net.settings
+            )
+        else:
+            self.netlist.routes[net.name].links[net.ip1] = net.ip2
 
     def plot_netlist(
         self,
