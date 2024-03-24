@@ -20,7 +20,6 @@ parts:
         sections:
           - file: notebooks/00_geometry
           - file: notebooks/01_references
-          - file: notebooks/02_grid_snapping
           - file: notebooks/03_Path_CrossSection
           - file: notebooks/04_components_geometry
           - file: notebooks/04_components_pack
@@ -28,13 +27,15 @@ parts:
           - file: notebooks/04_routing_electrical
           - file: notebooks/04_routing_non_manhattan
           - file: notebooks/rib_strip_autotransition
-          - file: notebooks/10_yaml_component
           - file: notebooks/07_mask
-          - file: notebooks/07_mask_labels
           - file: notebooks/11_best_practices
           - file: notebooks/03_cells_autoname_and_cache
+          - file: notebooks/02_grid_snapping
           - file: notebooks/04_components_hierarchy
           - file: notebooks/04_components_shapes
+      - file: schematic
+        sections:
+          - file: notebooks/10_yaml_component
       - file: pdk
         sections:
           - file: notebooks/08_pdk
