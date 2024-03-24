@@ -82,7 +82,7 @@ def grating_coupler_elliptical_trenches(
     c = gf.Component()
 
     # Make each grating line
-    for p in range(p_start, p_start + n_periods + 1):
+    for p in range(int(p_start), int(p_start + n_periods + 1)):
         pts = grating_tooth_points(
             p * a1,
             p * b1,
@@ -110,7 +110,6 @@ def grating_coupler_elliptical_trenches(
         (xmax + end_straight_length, -y),
         (xmax, -y),
     ]
-    len(pts)
     c.add_polygon(pts, layer)
 
     x_output = gf.snap.snap_to_grid(x_output)

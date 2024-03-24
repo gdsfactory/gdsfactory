@@ -233,5 +233,5 @@ if __name__ == "__main__":
     # d = diff(d1, d2)
     # c.show(show_ports=True)
 
-    c = mzi_nc()
+    c = mmi1x2_nc()
     c.show()

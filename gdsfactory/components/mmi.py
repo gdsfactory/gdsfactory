@@ -87,6 +87,7 @@ def mmi(
             layer=layer,
         )
 
+    x.add_bbox(c)
     wg_spacing_input = gap_input_tapers + width_taper
     wg_spacing_output = gap_output_tapers + width_taper
 
@@ -130,7 +131,6 @@ def mmi(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    x.add_bbox(c)
     c.auto_rename_ports()
     return c
 
@@ -139,6 +139,7 @@ if __name__ == "__main__":
     # import gdsfactory as gf
     # c = gf.components.mmi1x2(cross_section="xs_rc")
     # c = mmi(inputs=2, outputs=4, gap_input_tapers=0.5, input_positions=[-1, 1])
-    c = mmi(cross_section="xs_rc")
+    # c = mmi(cross_section="xs_rc")
+    c = mmi(cross_section="xs_rc_bbox")
     # print(len(c.ports))
     c.show(show_ports=True)
