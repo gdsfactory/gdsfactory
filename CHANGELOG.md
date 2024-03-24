@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.22.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.1) - 2024-03-23
+
+No significant changes.
+
+
 ## [7.22.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.0) - 2024-03-23
 
 - add get_cross_section_name from pdk [#2638](https://github.com/gdsfactory/gdsfactory/pull/2638)
