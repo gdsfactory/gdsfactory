@@ -5,6 +5,7 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -25,6 +26,7 @@ def straight_heater_metal_undercut(
     port_orientation2: int | None = None,
     heater_taper_length: float | None = 5.0,
     ohms_per_square: float | None = None,
+    straight: ComponentSpec = straight_function,
 ) -> Component:
     """Returns a thermal phase shifter.
 
@@ -34,7 +36,9 @@ def straight_heater_metal_undercut(
         length: of the waveguide.
         length_undercut_spacing: from undercut regions.
         length_undercut: length of each undercut section.
+        length_straight: from where the trenches start to the via_stack.
         length_straight_input: from input port to where trenches start.
+        cross_section: for waveguide ports.
         cross_section_heater: for heated sections. heater metal only.
         cross_section_waveguide_heater: for heated sections.
         cross_section_heater_undercut: for heated sections with undercut.
@@ -44,7 +48,7 @@ def straight_heater_metal_undercut(
         port_orientation2: right via stack port orientation.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
-        cross_section: for waveguide ports.
+        straight: straight component.
     """
     period = length_undercut + length_undercut_spacing
     n = int((length - 2 * length_straight_input) // period)
@@ -56,12 +60,12 @@ def straight_heater_metal_undercut(
 
     length_straight_input -= length_straight
 
-    s_ports = gf.components.straight(
+    s_ports = straight(
         cross_section=cross_section,
         length=length_straight,
     )
 
-    s_si = gf.components.straight(
+    s_si = straight(
         cross_section=cross_section_waveguide_heater,
         length=length_straight_input,
     )
@@ -70,11 +74,11 @@ def straight_heater_metal_undercut(
         if with_undercut
         else cross_section_waveguide_heater
     )
-    s_uc = gf.components.straight(
+    s_uc = straight(
         cross_section=cross_section_undercut,
         length=length_undercut,
     )
-    s_spacing = gf.components.straight(
+    s_spacing = straight(
         cross_section=cross_section_waveguide_heater,
         length=length_undercut_spacing,
     )
@@ -159,18 +163,13 @@ def straight_heater_metal_simple(
 
     Args:
         length: of the waveguide.
-        length_undercut_spacing: from undercut regions.
-        length_undercut: length of each undercut section.
         cross_section_heater: for heated sections. heater metal only.
         cross_section_waveguide_heater: for heated sections.
-        cross_section_heater_undercut: for heated sections with undercut.
-        with_undercut: isolation trenches for higher efficiency.
         via_stack: via stack.
         port_orientation1: left via stack port orientation.
         port_orientation2: right via stack port orientation.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
-        cross_section: for waveguide ports.
     """
     c = Component()
     straight_heater_section = gf.components.straight(
