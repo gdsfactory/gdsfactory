@@ -86,7 +86,7 @@ layer_label = {layer_label}
 layer_text = {layer_text or (1, 0)}
 text_function = gf.partial(gf.components.text, layer=layer_text, justify="center", size={text_size})
 
-add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_optical)
+add_pins = gf.partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_optical)
 """
 
     if layer_label:
@@ -139,6 +139,9 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
             if layer_label and parameters_colon
             else ""
         )
+        list_parameters="\\n".join(f"{p_name}" for p_name in parameters_equal)
+        parameters_labels=f"    c.add_label(text=f'Parameters:\\n{list_parameters}', position=(0,0), layer=layer_label)\n"
+
 
         if parameters:
             doc = f'"""{block.doc}\n\n    Args:\n    {parameters_doc}\n    """'
@@ -153,7 +156,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
 
         points = str(block.bbox).replace("'", "")
         script += f"""
-@cell
+@gf.cell
 def {block_name}({parameters_string})->gf.Component:
     {doc}
     c = gf.Component()
