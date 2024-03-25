@@ -322,9 +322,9 @@ def add_marker_layer(
 
 
 def change_keywords_in_nested_partials(
-    func: gf.partial, config: Mapping[str, Any]
-) -> gf.partial:
-    """Change keywords in nested partials ``gf.partial or functools.partial``. Returns new partial.
+    func: partial, config: Mapping[str, Any]
+) -> partial:
+    """Change keywords in nested partials `functools.partial`. Returns new partial.
 
     Args:
         func: Partialed function to change.
@@ -335,20 +335,16 @@ def change_keywords_in_nested_partials(
     if not config:
         return func
 
-    if isinstance(func, gf.partial):
-        keyword_args = dict(func.keywords)
-        for key, value in config.items():
-            if isinstance(keyword_args.get(key, None), gf.partial):
-                # Recursively change keywords in nested partials
-                keyword_args[key] = change_keywords_in_nested_partials(
-                    keyword_args[key], value
-                )
-            else:
-                keyword_args[key] = value
-
-        return gf.partial(func.func, *func.args, **keyword_args)
-    else:
+    if not isinstance(func, partial):
         raise TypeError(f"{func=!r} is not a partial")
+    keyword_args = dict(func.keywords)
+    for key, value in config.items():
+        keyword_args[key] = (
+            change_keywords_in_nested_partials(keyword_args[key], value)
+            if isinstance(keyword_args.get(key), partial)
+            else value
+        )
+    return partial(func.func, *func.args, **keyword_args)
 
 
 add_marker_layer_container = partial(container, function=add_marker_layer)
