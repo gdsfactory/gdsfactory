@@ -341,7 +341,7 @@ def change_keywords_in_nested_partials(
     for key, value in config.items():
         keyword_args[key] = (
             change_keywords_in_nested_partials(keyword_args[key], value)
-            if isinstance(keyword_args.get(key, None), partial)
+            if isinstance(keyword_args.get(key), partial)
             else value
         )
     return partial(func.func, *func.args, **keyword_args)
