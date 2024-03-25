@@ -70,11 +70,12 @@ def from_updk(
     script += f"""
 
 import sys
+from functools import partial
 import gdsfactory as gf
 from gdsfactory.get_factories import get_cells
 from gdsfactory.add_pins import add_pins_inside2um
 
-cell = gf.partial(gf.cell, naming_style='updk', autoname=False)
+cell = partial(gf.cell, naming_style='updk', autoname=False)
 layer_bbox = {layer_bbox}
 layer_bbmetal = {layer_bbmetal}
 layer_pin_label = {layer_pin_label}
@@ -84,9 +85,9 @@ layer_pin_electrical = {layer_pin_electrical}
 layer_label = {layer_label}
 
 layer_text = {layer_text or (1, 0)}
-text_function = gf.partial(gf.components.text, layer=layer_text, justify="center", size={text_size})
+text_function = partial(gf.components.text, layer=layer_text, justify="center", size={text_size})
 
-add_pins = gf.partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_optical)
+add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_optical)
 """
 
     if layer_label:
