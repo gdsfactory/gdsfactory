@@ -7,6 +7,7 @@ from gdsfactory.read.from_phidl import from_gdstk, from_phidl
 from gdsfactory.read.from_yaml import cell_from_yaml, from_yaml
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.read.import_gds import import_gds, import_gds_raw
+from gdsfactory.read.from_updk import from_updk
 
 __all__ = [
     "from_dphox",
@@ -21,4 +22,5 @@ __all__ = [
     "cell_from_yaml_template",
     "import_gds",
     "import_gds_raw",
+    "from_updk"
 ]
