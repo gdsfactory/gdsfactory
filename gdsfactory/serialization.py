@@ -205,7 +205,7 @@ if __name__ == "__main__":
     # xs = partial(
     #     gf.cross_section.strip,
     #     width=3,
-    #     add_pins=gf.partial(gf.add_pins.add_pins_inside1nm, pin_length=0.1),
+    #     add_pins=partial(gf.add_pins.add_pins_inside1nm, pin_length=0.1),
     # )
     # f = partial(gf.routing.add_fiber_array, cross_section=xs)
     # c = f()

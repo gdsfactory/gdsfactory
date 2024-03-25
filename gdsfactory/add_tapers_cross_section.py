@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -52,13 +53,13 @@ def add_tapers(
     for port_name, port in component.ports.items():
         if port.name in ports_to_taper_names:
             if (
-                isinstance(taper, gf.partial)
+                isinstance(taper, partial)
                 and "cross_section2" in taper.keywords
                 and cross_section2 is None
             ):
                 _taper = gf.get_component(
                     taper,
-                    cross_section2=gf.partial(
+                    cross_section2=partial(
                         taper.keywords["cross_section2"], width=port.width
                     ),
                 )
