@@ -11,8 +11,7 @@ def get_bundle_sbend(
     ports2: Port,
     sort_ports: bool = True,
     enforce_port_ordering: bool = True,
-    axis='X'
-    **kwargs,
+    axis="X" ** kwargs,
 ) -> list[Route]:
     """Returns a list of routes from ports1 to ports2.
 
@@ -37,7 +36,7 @@ def get_bundle_sbend(
     for p1, p2 in zip(ports1, ports2):
         ysize = p2.center[1] - p1.center[1]
         xsize = p2.center[0] - p1.center[0]
-        if axis=='X':
+        if axis == "X":
             bend = bend_s(size=(xsize, ysize), **kwargs)
         else:
             bend = bend_s(size=(ysize, -xsize), **kwargs)
