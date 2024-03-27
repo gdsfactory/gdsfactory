@@ -275,6 +275,7 @@ def get_bundle(
                 ports2,
                 sort_ports=sort_ports,
                 cross_section=cross_section,
+                axis=start_axis,
             )
         return get_bundle_same_axis(**params)
 
