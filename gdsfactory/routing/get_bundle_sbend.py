@@ -11,7 +11,8 @@ def get_bundle_sbend(
     ports2: Port,
     sort_ports: bool = True,
     enforce_port_ordering: bool = True,
-    axis="X" ** kwargs,
+    axis: str = "X",
+    **kwargs,
 ) -> list[Route]:
     """Returns a list of routes from ports1 to ports2.
 
@@ -20,6 +21,7 @@ def get_bundle_sbend(
         ports2: end ports.
         sort_ports: sort ports.
         enforce_port_ordering: enforces port ordering.
+        axis: axis to bend. X or Y.
         kwargs: cross_section settings.
 
     Returns:
@@ -38,8 +40,10 @@ def get_bundle_sbend(
         xsize = p2.center[0] - p1.center[0]
         if axis == "X":
             bend = bend_s(size=(xsize, ysize), **kwargs)
-        else:
+        elif axis == "Y":
             bend = bend_s(size=(ysize, -xsize), **kwargs)
+        else:
+            raise ValueError("axis must be 'X' or 'Y'")
         sbend = bend.ref()
         sbend.connect("o1", p1)
         routes.append(
