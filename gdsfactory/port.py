@@ -317,7 +317,7 @@ class Port:
         return new_port
 
     def get_extended_center(self, length: float = 1.0) -> ndarray:
-        """Returns an extended port center."""
+        """Returns the position of port center extended by length in its orientation."""
         angle = np.deg2rad(self.orientation)
         c = np.cos(angle)
         s = np.sin(angle)
@@ -331,7 +331,7 @@ class Port:
         """Ensures ports edges are on grid to avoid snap_to_grid errors."""
         center = np.array(self.center)
         center_snapped = snap_to_grid(center, grid_factor=grid_factor)
-        if not np.isclose(center, center_snapped).all():
+        if not np.isclose(center, center_snapped, rtol=0).all():
             message = (
                 f"port = {self.name!r}, center = {self.center} is not on grid.\n"
                 "You can use Component.flatten_offgrid_references() to snap to grid."
