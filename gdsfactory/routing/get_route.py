@@ -130,10 +130,9 @@ def get_route(
         c.plot()
 
     """
-    obstacle_list = list(set(component.references) - {input_port.parent, output_port.parent})
+    # obstacle_list = list(set(component.references) - {input_port.parent, output_port.parent})
+    obstacle_list = list(set(component.references))
     restricted_area = get_restricted_area(obstacle_list, component_margin)
-    print(obstacle_list)
-    print(restricted_area)
 
     if isinstance(cross_section, list | tuple):
         xs_list = []
@@ -189,6 +188,7 @@ def get_route(
         bend=bend90,
         with_sbend=with_sbend,
         cross_section=cross_section,
+        restricted_area=restricted_area
     )
 
 
