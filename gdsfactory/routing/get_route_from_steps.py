@@ -32,6 +32,9 @@ def get_route_from_steps(
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     with_sbend: bool = True,
     auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints steps.
@@ -51,6 +54,9 @@ def get_route_from_steps(
         cross_section: cross_section spec.
         with_sbend: whether to add sbend for impossible manhattan routes.
         auto_widen: whether to add tapers to wider straights.
+        auto_widen_minimum_length: minimum length to auto widen.
+        taper_length: length of taper.
+        width_wide: width of the wider straight.
         kwargs: cross_section settings.
 
     .. plot::
@@ -123,9 +129,9 @@ def get_route_from_steps(
         if auto_widen:
             taper = gf.get_component(
                 taper,
-                length=xs.taper_length,
+                length=taper_length,
                 width1=xs.width,
-                width2=xs.width_wide,
+                width2=width_wide,
                 cross_section=cross_section,
                 **kwargs,
             )
@@ -140,6 +146,10 @@ def get_route_from_steps(
             taper=taper,
             cross_section=cross_section,
             with_sbend=with_sbend,
+            auto_widen=auto_widen,
+            width_wide=width_wide,
+            taper_length=taper_length,
+            auto_widen_minimum_length=auto_widen_minimum_length,
             **kwargs,
         )
     except RouteError:
