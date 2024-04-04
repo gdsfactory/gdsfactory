@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.22.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.3) - 2024-04-04
+
+No significant changes.
+
+
 ## [7.22.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.2) - 2024-03-24
 
 - fix docs for straight_heater [#2642](https://github.com/gdsfactory/gdsfactory/pull/2642)
