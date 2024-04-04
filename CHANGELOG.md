@@ -1,11 +1,19 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.22.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.22.3...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.22.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.3) - 2024-04-04
 
-No significant changes.
+- fix array ports [#2655](https://github.com/gdsfactory/gdsfactory/pull/2655)
+- fix dc assymm [#2644](https://github.com/gdsfactory/gdsfactory/pull/2644)
+- [pre-commit.ci] pre-commit autoupdate [#2652](https://github.com/gdsfactory/gdsfactory/pull/2652)
+- get_bundle_sbend for vertical ports [#2649](https://github.com/gdsfactory/gdsfactory/pull/2649)
+- use partial instead of gf.partial [#2646](https://github.com/gdsfactory/gdsfactory/pull/2646)
+- snap ports to grid [#2654](https://github.com/gdsfactory/gdsfactory/pull/2654)
+- Move auto-widen settings to args for get_route_from_steps [#2653](https://github.com/gdsfactory/gdsfactory/pull/2653)
+- bugfix: assert_on_grid failing for large values [#2650](https://github.com/gdsfactory/gdsfactory/pull/2650)
+- fix to the output of the from_updk function [#2645](https://github.com/gdsfactory/gdsfactory/pull/2645)
 
 
 ## [7.22.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.2) - 2024-03-24
