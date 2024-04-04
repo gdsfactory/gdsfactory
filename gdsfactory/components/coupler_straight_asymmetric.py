@@ -32,7 +32,7 @@ def coupler_straight_asymmetric(
     top = c << straight(length=length, cross_section=xs_top)
     bot = c << straight(length=length, cross_section=xs_bot)
 
-    dy = 0.5 * abs(width_top - width_bot) + gap + width_top
+    dy = 0.5 * (width_top + width_bot) + gap
     top.d.movey(dy)
     c.add_port("o1", port=bot.ports["o1"])
     c.add_port("o2", port=top.ports["o1"])
@@ -42,5 +42,8 @@ def coupler_straight_asymmetric(
 
 
 if __name__ == "__main__":
-    c = coupler_straight_asymmetric(cross_section="xs_rc")
+    d = {"length": 7.0, "gap": 0.15, "width_top": 0.405, "width_bot": 0.9}
+    d = dict(length=10.0, gap=0.1, width_top=0.5, width_bot=1)
+    # d = dict(length=10.0, gap=0.1, width_top=1.0, width_bot=0.5)
+    c = coupler_straight_asymmetric(**d)
     c.show()
