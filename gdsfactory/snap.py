@@ -30,7 +30,7 @@ def assert_on_grid(
     grid_factor: int = 1,
 ) -> None:
     x_grid = snap_to_grid(x, nm=nm, grid_factor=grid_factor)
-    if not np.isclose(x_grid, x):
+    if not np.isclose(x_grid, x, rtol=0).all():
         raise ValueError(f"{x} needs to be on 1nm grid and should be {x_grid}")
 
 
@@ -40,7 +40,7 @@ assert_on_2nm_grid = partial(assert_on_grid, nm=2)
 
 def assert_on_2x_grid(x: float) -> None:
     x_grid = snap_to_grid(x, grid_factor=2)
-    if not np.isclose(x_grid, x):
+    if not np.isclose(x_grid, x, rtol=0).all():
         raise ValueError(f"{x} needs to be on 2x grid and should be {x_grid}")
 
 

@@ -14,6 +14,7 @@ def array(
     rows: int = 1,
     add_ports: bool = True,
     size: Float2 | None = None,
+    centered: bool = False,
 ) -> Component:
     """Returns an array of components.
 
@@ -24,6 +25,7 @@ def array(
         rows: in y.
         add_ports: add ports from component into the array.
         size: Optional x, y size. Overrides columns and rows.
+        centered: center the array around the origin.
 
     Raises:
         ValueError: If columns > 1 and spacing[0] = 0.
@@ -52,15 +54,18 @@ def array(
 
     c = Component()
     component = gf.get_component(component)
-    c.add_array(component, columns=columns, rows=rows, spacing=spacing)
+    ref = c.add_array(component, columns=columns, rows=rows, spacing=spacing)
+    old_center = ref.d.center
+    ref.d.center = (0, 0) if centered else old_center
+    center_shift = ref.d.center - old_center
 
     if add_ports and component.ports:
         for col in range(int(columns)):
             for row in range(int(rows)):
                 for port in component.ports:
                     name = f"{port.name}_{row+1}_{col+1}"
-                    port.x = col * spacing[0] / c.kcl.dbu
-                    port.y = row * spacing[1] / c.kcl.dbu
+                    port.x = col * spacing[0] / c.kcl.dbu + center_shift.x / c.kcl.dbu
+                    port.y = row * spacing[1] / c.kcl.dbu + center_shift.y / c.kcl.dbu
                     c.add_port(name, port=port)
     return c
 
@@ -76,7 +81,7 @@ if __name__ == "__main__":
     # c2 = array(pad, rows=2, spacing=(200, 200), columns=1)
     # c3 = c2.copy()
 
-    c2 = array(pad, spacing=(200, 200), size=(700, 300))
+    c2 = array(pad, spacing=(200, 200), size=(700, 300), centered=False)
 
     # nports = len(c2.get_ports_list(orientation=0))
     # assert nports == 2, nports
