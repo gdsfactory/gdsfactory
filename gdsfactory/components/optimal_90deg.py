@@ -4,6 +4,7 @@ import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import LayerSpec
 
 
@@ -56,12 +57,24 @@ def optimal_90deg(
     ypts.append(ypts[0])
 
     D.add_polygon([xpts, ypts], layer=layer)
-
-    D.add_port(name="e1", center=[a / 4, d], width=a / 2, orientation=90, layer=layer)
-    D.add_port(name="e2", center=[d, a / 4], width=a / 2, orientation=0, layer=layer)
+    D.add_port(
+        name="e1",
+        center=snap_to_grid((a / 4, d)),
+        width=a / 2,
+        orientation=90,
+        layer=layer,
+    )
+    D.add_port(
+        name="e2",
+        center=snap_to_grid((d, a / 4)),
+        width=a / 2,
+        orientation=0,
+        layer=layer,
+    )
     return D
 
 
 if __name__ == "__main__":
     c = optimal_90deg()
     c.show(show_ports=True)
+    c.assert_ports_on_grid()
