@@ -64,30 +64,23 @@ def add_loopback(
     c = gf.Component()
     gc = gf.get_component(grating)
 
-    y0 = port1.y if hasattr(port1, "y") else port1[1]
-    if hasattr(port1, "x"):
-        x0 = port1.x - grating_separation
-    else:
-        x0 = port1[0] - grating_separation
-
-    if hasattr(port2, "x"):
-        x1 = port2.x + grating_separation
-    else:
-        x1 = port2[0] + grating_separation
+    y0 = port1.d.y
+    x0 = port1.d.x - grating_separation
+    x1 = port2.d.x + grating_separation
 
     gca1 = c << gc
     gca1.d.rotate(grating_rotation)
-    gca1.move((x0, y0))
+    gca1.d.move((x0, y0))
 
     gca2 = c << gc
     gca2.d.rotate(grating_rotation)
-    gca2.move((x1, y0))
+    gca2.d.move((x1, y0))
 
     p0 = gca1.ports[grating_port_name].d.center
     p1 = gca2.ports[grating_port_name].d.center
     bend90 = bend(**kwargs)
 
-    a = abs(bend90.info["dy"]) if hasattr(bend90, "dx") else bend90.xsize + 0.5
+    a = abs(bend90.info["dy"]) if hasattr(bend90, "dx") else bend90.d.xsize + 0.5
     b = max(2 * a, grating_separation / 2)
     b = b if inside else -b
 
