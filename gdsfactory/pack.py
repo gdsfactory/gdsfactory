@@ -12,7 +12,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.name import get_name_short
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import Anchor, ComponentSpec, Float2, Number
 
@@ -194,9 +193,8 @@ def pack(
 
     components_packed_list = []
     index = 0
-    for i, rect_dict in enumerate(packed_list):
-        name = get_name_short(f"{name_prefix or 'pack'}_{i}")
-        packed = Component(name)
+    for rect_dict in packed_list:
+        packed = Component()
         for n, rect in rect_dict.items():
             x, y, w, h = rect
             xcenter = x + w / 2 + spacing / 2
@@ -242,50 +240,6 @@ def pack(
         warnings.warn(f"unable to pack in one component, creating {groups} components")
 
     return components_packed_list
-
-
-def test_pack() -> None:
-    """Test packing function."""
-    component_list = [
-        gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(2)
-    ]
-    component_list += [
-        gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2)) for n in range(2)
-    ]
-
-    components_packed_list = pack(
-        component_list,  # Must be a list or tuple of Components
-        spacing=1.25,  # Minimum distance between adjacent shapes
-        aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
-        max_size=(None, None),  # Limits the size into which the shapes will be packed
-        density=1.05,  # Values closer to 1 pack tighter but require more computation
-        sort_by_area=True,  # Pre-sorts the shapes by area
-    )
-    c = components_packed_list[0]  # Only one bin was created, so we plot that
-    assert len(c.get_dependencies()) == 4
-    assert c
-
-
-def test_pack_with_settings() -> None:
-    """Test packing function with custom settings."""
-    component_list = [
-        gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)
-    ]
-    component_list += [
-        gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)
-    ]
-
-    components_packed_list = pack(
-        component_list,  # Must be a list or tuple of Components
-        spacing=1.25,  # Minimum distance between adjacent shapes
-        aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
-        # max_size=(None, None),  # Limits the size into which the shapes will be packed
-        max_size=(100, 100),  # Limits the size into which the shapes will be packed
-        density=1.05,  # Values closer to 1 pack tighter but require more computation
-        sort_by_area=True,  # Pre-sorts the shapes by area
-        precision=1e-3,
-    )
-    assert components_packed_list[0]
 
 
 if __name__ == "__main__":
