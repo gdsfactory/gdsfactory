@@ -385,7 +385,9 @@ class Component(kf.KCell):
         for instance in instances:
             self._kdb_cell.insert(instance._instance)
 
-    def get_polygons(self) -> dict[tuple[int, int], list[kf.kdb.Polygon]]:
+    def get_polygons(
+        self, merge: bool = False
+    ) -> dict[tuple[int, int], list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer."""
         from gdsfactory import get_layer
 
@@ -394,7 +396,8 @@ class Component(kf.KCell):
         for layer in self.kcl.layers:
             layer_index = get_layer(layer)
             r = kdb.Region(self.begin_shapes_rec(layer_index))
-            r.merge()
+            if merge:
+                r.merge()
             for p in r.each():
                 layer_tuple = (layer.layer, layer.datatype)
                 polygons[layer_tuple].append(p)

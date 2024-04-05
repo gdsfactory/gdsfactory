@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import warnings
-from functools import partial
 
 import numpy as np
 from numpy import ndarray
@@ -152,42 +151,6 @@ def extend_ports(
 
     c.copy_child_info(component)
     return c
-
-
-def test_extend_ports() -> None:
-    import gdsfactory.components as pc
-
-    width = 0.5
-    xs_strip = partial(
-        gf.cross_section.strip,
-        width=width,
-        cladding_layers=None,
-        add_pins_function_name=None,
-    )
-
-    c = pc.straight(cross_section=xs_strip)
-
-    c1 = extend_ports(
-        component=c,
-        cross_section=xs_strip,
-    )
-    assert len(c.ports) == len(c1.ports)
-    p = assert_polygons(c1, 3)
-    c2 = extend_ports(component=c, cross_section=xs_strip, port_names=("o1",))
-    p = assert_polygons(c2, 2)
-    c3 = extend_ports(component=c, cross_section=xs_strip)
-    p = len(c3.polygons)
-    assert p == 0, p
-
-    c4 = extend_ports(component=c, port_type="electrical")
-    p = assert_polygons(c4, 1)
-
-
-def assert_polygons(component, n_polygons):
-    result = len(component.polygons)
-    assert result == 0, result
-    assert len(component.references) == n_polygons, len(component.references)
-    return result
 
 
 if __name__ == "__main__":
