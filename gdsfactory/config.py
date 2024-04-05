@@ -292,16 +292,13 @@ class Settings(BaseSettings):
 
         def showwarning(message, category, filename, lineno, *args, **kwargs):
             try:
-                inferred_stack_depth = (
-                    len(traceback.format_stack())
-                    - next(
-                        (
-                            i
-                            for i, stack in enumerate(traceback.format_stack())
-                            if f'File "{filename}", line {lineno}' in stack
-                        )
-                    )
-                    - 1
+                inferred_stack_depth = next(
+                    i
+                    for (
+                        i,
+                        stack,
+                    ) in enumerate(reversed(traceback.extract_stack()))
+                    if stack.lineno == lineno and stack.filename == filename
                 )
             except StopIteration:
                 # depth 2 would show the same line as warnings.warn with default stacklevel
