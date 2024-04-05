@@ -312,7 +312,7 @@ class Port:
             port_type=self.port_type,
             cross_section=self.cross_section,
             shear_angle=self.shear_angle,
-            info=self.info.model_copy(),
+            info=self.info.model_copy(deep=True),
         )
         return new_port
 
