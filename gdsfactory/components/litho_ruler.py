@@ -27,14 +27,13 @@ def litho_ruler(
         num_marks: Total number of marks to generate.
         layer: Specific layer to put the ruler geometry on.
     """
+    pitch = spacing + width
     D = gf.Component()
     for n in range(num_marks):
         h = height * scale[n % len(scale)]
-        D << gf.components.rectangle(size=(width, h), layer=layer)
+        ref = D << gf.components.rectangle(size=(width, h), layer=layer)
+        ref.d.movex((n - num_marks / 2) * pitch)
 
-    D.distribute(direction="x", spacing=spacing, separation=False, edge="x")
-    D.align(alignment="ymin")
-    D.flatten()
     return D
 
 
