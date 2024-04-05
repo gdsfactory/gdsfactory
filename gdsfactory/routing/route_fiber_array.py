@@ -51,6 +51,7 @@ def route_fiber_array(
     select_ports: Callable = select_ports_optical,
     radius: float | None = None,
     cross_section: CrossSectionSpec = strip,
+    min_length: float = 10e-3,
 ) -> Component:
     """Returns new component with fiber array.
 
@@ -99,6 +100,8 @@ def route_fiber_array(
         port_names: port labels to route_to_fiber_array.
         select_ports: function to select ports for which to add grating couplers.
         radius: optional radius of the bend. Defaults to the cross_section.
+        cross_section: cross_section.
+        min_length: minimum length of the component.
 
     """
     c = component_top
@@ -320,7 +323,7 @@ def route_fiber_array(
                     gr.origin = (gr.origin[0], gr.origin[1] + delta_y - min_y)
 
         # If we add align ports, we need enough space for the bends
-        end_straight_offset = straight_separation + 5 if with_loopback else x.min_length
+        end_straight_offset = straight_separation + 5 if with_loopback else min_length
         if len(io_gratings_lines) == 1:
             io_gratings = io_gratings_lines[0]
             gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]

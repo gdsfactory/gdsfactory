@@ -87,7 +87,6 @@ def text_freetype(
             char = Component()
             xoffset = 0
             for letter in line:
-                print(letter)
                 letter_dev = Component()
                 letter_template, advance_x = _get_glyph(font, letter)
                 for _, points in letter_template.get_polygons_points().items():
