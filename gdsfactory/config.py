@@ -290,8 +290,6 @@ class Settings(BaseSettings):
         self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
         self.logger.debug("LogLevel: {}", self.logfilter.level)
 
-        showwarning_ = warnings.showwarning
-
         def showwarning(message, category, filename, lineno, *args, **kwargs):
             try:
                 inferred_stack_depth = (
@@ -311,7 +309,6 @@ class Settings(BaseSettings):
             self.logger.opt(depth=inferred_stack_depth).warning(
                 f"{category.__name__}: {message}"
             )
-            showwarning_(message, category, filename, lineno, *args, **kwargs)
 
         warnings.showwarning = showwarning
 
