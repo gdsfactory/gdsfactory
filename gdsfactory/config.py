@@ -290,12 +290,22 @@ class Settings(BaseSettings):
         self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
         self.logger.debug("LogLevel: {}", self.logfilter.level)
 
-        showwarning_ = warnings.showwarning
-
-        def showwarning(message, *args, **kwargs):
-            # depth 2 shows the same line as regular warnings.warn(..., stacklevel=1)
-            self.logger.opt(depth=2).warning(f"{args[0].__name__}: {message}")
-            showwarning_(message, *args, **kwargs)
+        def showwarning(message, category, filename, lineno, *args, **kwargs):
+            try:
+                inferred_stack_depth = next(
+                    i
+                    for (
+                        i,
+                        stack,
+                    ) in enumerate(reversed(traceback.extract_stack()))
+                    if stack.lineno == lineno and stack.filename == filename
+                )
+            except StopIteration:
+                # depth 2 would show the same line as warnings.warn with default stacklevel
+                inferred_stack_depth = 2
+            self.logger.opt(depth=inferred_stack_depth).warning(
+                f"{category.__name__}: {message}"
+            )
 
         warnings.showwarning = showwarning
 
