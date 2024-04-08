@@ -1,115 +1,27 @@
-name: via_stack_13a1ac5c
-ports:
-  e1:
-    center:
-    - -5.5
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e1
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2:
-    center:
-    - 0.0
-    - 5.5
-    layer:
-    - 49
-    - 0
-    name: e2
-    orientation: 90.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e3:
-    center:
-    - 5.5
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e3
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e4:
-    center:
-    - 0.0
-    - -5.5
-    layer:
-    - 49
-    - 0
-    name: e4
-    orientation: 270.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
+info:
+  xsize: 11.0
+  ysize: 11.0
+name: via_stack_S11_11_LHEATER_M2_MTOP_LONone_VNone_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_LPNone_CSTrue_SHFalse_SVFalse
 settings:
-  changed:
-    layers:
-    - HEATER
-    - M2
-    - M3
-    vias:
-    - null
-    - function: via
-      settings:
-        enclosure: 2
-        layer: VIA1
-    - function: via
-      settings:
-        layer: VIA2
-  child: null
-  default:
-    correct_size: true
-    layer_offsets: null
-    layer_port: null
-    layers:
-    - M1
-    - M2
-    - M3
-    size:
-    - 11.0
-    - 11.0
-    vias:
-    - function: via
-      settings:
-        enclosure: 2
-        layer: VIA1
-    - function: via
-      settings:
-        layer: VIA2
-    - null
-  full:
-    correct_size: true
-    layer_offsets: null
-    layer_port: null
-    layers:
-    - HEATER
-    - M2
-    - M3
-    size:
-    - 11.0
-    - 11.0
-    vias:
-    - null
-    - function: via
-      settings:
-        enclosure: 2
-        layer: VIA1
-    - function: via
-      settings:
-        layer: VIA2
+  correct_size: true
   function_name: via_stack
-  info:
-    layer: M3
-    size:
-    - 11.0
-    - 11.0
-  info_version: 2
-  module: gdsfactory.components.via_stack
-  name: via_stack_13a1ac5c
+  layer_offsets: None
+  layer_port: None
+  layers:
+  - HEATER
+  - M2
+  - MTOP
+  size:
+  - 11.0
+  - 11.0
+  slot_horizontal: false
+  slot_vertical: false
+  vias:
+  - null
+  - function: via
+    settings:
+      enclosure: 2
+      layer: VIA1
+  - function: via
+    settings:
+      layer: VIA2

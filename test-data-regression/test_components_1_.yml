@@ -1,9 +1,9 @@
 info: {}
 name: mirror_x
 settings:
-  conf: IMLCmmi1x2_SWM4p5_LM5_PMLX0_M25_Y0_Nmirror_x_POmmi_long_o3_Ommi_long_o2_Ommi_long_o1
+  conf: Nmirror_x_IMLSWM4p5_LM5_Cmmi1x2_POmmi_long_o3_Ommi_long_o2_Ommi_long_o1_PMLM25_Y0_X0
   function_name: _from_yaml
   label_instance_function: add_instance_label
   mode: layout
   name: mirror_x
-  routing_strategy: RBroute_bundle_RBAAroute_bundle_all_angle_RBSANGroute_bundle_same_axis_no_grouping_RBEFroute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing
+  routing_strategy: RBAAroute_bundle_all_angle_RBSANGroute_bundle_same_axis_no_grouping_RBroute_bundle_RBEFroute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing

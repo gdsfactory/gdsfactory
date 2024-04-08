@@ -13,6 +13,7 @@ from kfactory.kcell import cell, save_layout_options
 
 from gdsfactory.config import GDSDIR_TEMP
 from gdsfactory.port import pprint_ports, select_ports
+from gdsfactory.serialization import clean_value_json
 
 if TYPE_CHECKING:
     from gdsfactory.typings import (
@@ -626,11 +627,13 @@ class Component(kf.KCell):
 
     def to_dict(self) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
-        return {
-            "name": self.name,
-            "info": self.info.model_dump(),
-            "settings": self.settings.model_dump(),
-        }
+        return clean_value_json(
+            {
+                "name": self.name,
+                "info": self.info.model_dump(),
+                "settings": self.settings.model_dump(),
+            }
+        )
 
     # Deprecated methods
     @property
