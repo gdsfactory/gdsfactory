@@ -141,7 +141,7 @@ def route_south(
             center=(x, y),
             orientation=90.0,
             width=p.d.width,
-            cross_section=cross_section,
+            layer=cross_section.layer,
         )
 
     west_ports.reverse()
