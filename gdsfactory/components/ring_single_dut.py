@@ -64,7 +64,7 @@ def ring_single_dut(
         coupler, gap=gap, length_x=length_x, radius=radius, **kwargs
     )
 
-    component_xsize = component.get_ports_xsize()
+    component_xsize = component.d.xsize
     straight_side = straight(length=length_y + component_xsize, **kwargs)
     straight_top = straight(length=length_x, **kwargs)
     bend = gf.get_component(bend, radius=radius, **kwargs)
@@ -86,7 +86,6 @@ def ring_single_dut(
 
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])
-    c.info["component"] = component.info
     return c
 
 

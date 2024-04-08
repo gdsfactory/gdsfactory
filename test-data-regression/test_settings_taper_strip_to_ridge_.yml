@@ -1,53 +1,13 @@
-name: taper_strip_to_ridge
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 3
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 6.0
+info:
+  length: 10.0
+name: taper_strip_to_ridge_L10_W0p5_W0p5_WS0p15_WS6_LWWG_LSSLAB90_CSxs_sc
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    layer_slab: SLAB90
-    layer_wg: WG
-    length: 10.0
-    w_slab1: 0.15
-    w_slab2: 6.0
-    width1: 0.5
-    width2: 0.5
-  full:
-    cross_section: xs_sc
-    layer_slab: SLAB90
-    layer_wg: WG
-    length: 10.0
-    w_slab1: 0.15
-    w_slab2: 6.0
-    width1: 0.5
-    width2: 0.5
+  cross_section: xs_sc
   function_name: taper_strip_to_ridge
-  info:
-    length: 10.0
-  info_version: 2
-  module: gdsfactory.components.taper
-  name: taper_strip_to_ridge
+  layer_slab: SLAB90
+  layer_wg: WG
+  length: 10.0
+  w_slab1: 0.15
+  w_slab2: 6.0
+  width1: 0.5
+  width2: 0.5

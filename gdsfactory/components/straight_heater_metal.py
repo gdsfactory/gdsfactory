@@ -106,8 +106,6 @@ def straight_heater_metal_undercut(
         via_stack_east = c << via_stack
         via_stack_west.d.xmin = xmin
         via_stack_east.d.xmax = xmax
-        # via_stack_west.move(via_stack_west_center - (dx, 0))
-        # via_stack_east.move(via_stack_east_center + (dx, 0))
 
         valid_orientations = {p.orientation for p in via_stack.ports}
         p1 = gf.port.get_ports_list(via_stack_west.ports, orientation=port_orientation1)
@@ -187,18 +185,24 @@ def straight_heater_metal_simple(
 
     if via_stack:
         via = via_stackw = via_stacke = gf.get_component(via_stack)
-        via_stack_west_center = straight_heater_section.size_info.cw
-        via_stack_east_center = straight_heater_section.size_info.ce
-        dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
+        dx = via_stackw.d.xsize / 2 + heater_taper_length or 0
+        via_stack_west_center = (
+            straight_heater_section.d.xmin - dx,
+            straight_heater_section.d.y,
+        )
+        via_stack_east_center = (
+            straight_heater_section.d.xmax + dx,
+            straight_heater_section.d.y,
+        )
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
-        via_stack_west.move(via_stack_west_center - (dx, 0))
-        via_stack_east.move(via_stack_east_center + (dx, 0))
+        via_stack_west.d.move(via_stack_west_center)
+        via_stack_east.d.move(via_stack_east_center)
 
-        valid_orientations = {p.orientation for p in via.ports.values()}
-        p1 = via_stack_west.get_ports_list(orientation=port_orientation1)
-        p2 = via_stack_east.get_ports_list(orientation=port_orientation2)
+        valid_orientations = {p.orientation for p in via.ports}
+        p1 = via_stack_west.ports.filter(orientation=port_orientation1)
+        p2 = via_stack_east.ports.filter(orientation=port_orientation2)
 
         if not p1:
             raise ValueError(
@@ -213,7 +217,7 @@ def straight_heater_metal_simple(
         # c.add_ports(p2, prefix="r_")
         if heater_taper_length:
             taper = gf.components.taper(
-                width1=via_stackw.ports["e1"].width,
+                width1=via_stackw.ports["e1"].d.width,
                 width2=heater_width,
                 length=heater_taper_length,
                 cross_section=x,
@@ -222,8 +226,8 @@ def straight_heater_metal_simple(
             )
             taper1 = c << taper
             taper2 = c << taper
-            taper1.connect("e1", via_stack_west.ports["e3"])
-            taper2.connect("e1", via_stack_east.ports["e1"])
+            taper1.connect("e1", via_stack_west.ports["e3"], allow_layer_mismatch=True)
+            taper2.connect("e1", via_stack_east.ports["e1"], allow_layer_mismatch=True)
 
     c.info["resistance"] = (
         ohms_per_square * heater_width * length if ohms_per_square else None
@@ -260,9 +264,10 @@ if __name__ == "__main__":
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)
 
-    c = straight_heater_metal_undercut(length=200)
+    # c = straight_heater_metal_undercut(length=200)
     # n = c.get_netlist()
     # c = straight_heater_metal(length=20)
+    c = straight_heater_metal_simple()
     c.show()
     # scene = c.to_3d()
     # scene.show()

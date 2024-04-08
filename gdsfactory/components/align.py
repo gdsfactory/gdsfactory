@@ -92,35 +92,28 @@ def add_frame(
     layer = gf.get_layer(layer)
     component = gf.get_component(component)
     cref = c.add_ref(component)
-    cref.move(-c.size_info.center)
-    y = (
-        max([component.size_info.height, component.size_info.width]) / 2
-        + spacing
-        + width / 2
-    )
+    cref.x = 0
+    cref.y = 0
+    y = max([component.d.xsize, component.d.ysize]) / 2 + spacing + width / 2
     x = y
     w = width
 
     rh = rectangle(size=(2 * y + w, w), layer=layer, centered=True)
     rtop = c.add_ref(rh)
     rbot = c.add_ref(rh)
-    rtop.movey(+y)
-    rbot.movey(-y)
+    rtop.d.movey(+y)
+    rbot.d.movey(-y)
 
     rv = rectangle(size=(w, 2 * y), layer=layer, centered=True)
     rl = c.add_ref(rv)
     rr = c.add_ref(rv)
-    rl.movex(-x)
-    rr.movex(+x)
+    rl.d.movex(-x)
+    rr.d.movex(+x)
     c.absorb(cref)
     return c
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import get_generic_pdk
-
-    PDK = get_generic_pdk()
-    PDK.activate()
     # c = gf.components.straight()
     # c = add_frame(component=c)
     c = align_wafer()

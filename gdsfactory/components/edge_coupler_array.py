@@ -48,8 +48,10 @@ def edge_coupler_array(
         if x_reflection:
             ref.mirror()
 
-        for port in ref.get_ports_list():
-            c.add_port(f"{port.name}_{i}", port=port)
+        # for port in ref.ports:
+        #     c.add_port(f"{port.name}_{i}", port=port)
+
+        c.add_ports(ref.ports, prefix=str(i))
 
         if text:
             t = c << gf.get_component(text, text=str(i + 1))
@@ -110,22 +112,22 @@ def edge_coupler_array_with_loopback(
         )
 
     ec_ref = c << ec
-    route1 = gf.routing.route_single(
+    gf.routing.route_single(
+        c,
         ec_ref.ports["o1"],
         ec_ref.ports["o2"],
         cross_section=cross_section,
         radius=radius,
     )
-    c.add(route1.references)
 
     if n > 4 and right_loopback:
-        route2 = gf.routing.route_single(
+        gf.routing.route_single(
+            c,
             ec_ref.ports[f"o{n-1}"],
             ec_ref.ports[f"o{n}"],
             cross_section=cross_section,
             radius=radius,
         )
-        c.add(route2.references)
         for i in range(n - 4):
             c.add_port(str(i), port=ec_ref.ports[f"o{i+3}"])
     elif n > 4:

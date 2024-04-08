@@ -36,10 +36,12 @@ def _via_iterable(
     via1 = c.add_ref(compass(size=(via_width, via_width), layer=via_layer))
     wire1.connect(port="e3", other=wire2.ports["e1"], overlap=wire_width)
     viac.connect(
-        port="e1", other=wire1.ports["e3"], overlap=(wire_width + via_width) / 2
+        port="e1",
+        other=wire1.ports["e3"],
     )
     via1.connect(
-        port="e1", other=wire2.ports["e3"], overlap=(wire_width + via_width) / 2
+        port="e1",
+        other=wire2.ports["e3"],
     )
     c.add_port(name="e1", port=wire1.ports["e1"], port_type="electrical", layer=layer1)
     c.add_port(name="e3", port=wire2.ports["e3"], port_type="electrical", layer=layer2)
