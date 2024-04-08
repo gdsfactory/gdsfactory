@@ -161,6 +161,7 @@ def mzi(
         straight=straight,
         bend=bend_spec,
         cross_section=cross_section,
+        taper=None,
     )
     route_single(
         c,
@@ -169,6 +170,7 @@ def mzi(
         straight=straight,
         bend=bend_spec,
         cross_section=cross_section,
+        taper=None,
     )
 
     sytl.name = "sytl"
@@ -257,7 +259,7 @@ if __name__ == "__main__":
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
     # c.show( )
 
-    c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
+    # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
     # c = gf.routing.add_fiber_array(c)
     # gdspath = c.write_gds(flatten_invalid_refs=True)
     # gf.show(gdspath)

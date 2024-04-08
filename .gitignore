@@ -11,6 +11,8 @@ tests/test_pathlength_reporting/
 tests/test_difftest/
 docs/notebooks/demo.png
 docs/notebooks/demo_jinja_loops.pic.yml
+notebooks/schematic.yaml
+
 # C extensions
 *.so
 *.l2n

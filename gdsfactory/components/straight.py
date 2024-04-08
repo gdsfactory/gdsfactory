@@ -33,15 +33,12 @@ def straight(
     path = p.extrude(x)
     ref = c << path
     c.add_ports(ref.ports)
+    # x.apply_enclosure(c)
+    x.add_bbox(c)
 
-    c.info["length"] = float(length)
-    if len(x.sections) == 0:
-        c.info["width"] = x.width
-    else:
-        c.info["width"] = x.sections[0].width
-
+    c.info["length"] = length
+    c.info["width"] = x.width if len(x.sections) == 0 else x.sections[0].width
     c.add_route_info(cross_section=x, length=length)
-    x.apply_enclosure(c)
     c.absorb(ref)
     return c
 

@@ -306,9 +306,23 @@ class CrossSection(BaseModel):
         )
         return component
 
-    def apply_enclosure(self, component: Component) -> None:
-        """Apply enclosure to a target component according to :class:`CrossSection`."""
-        component.kcl.enclosure.apply_minkowski_y(component)
+    # def apply_enclosure(self, component: Component) -> None:
+    #     """Apply enclosure to a target component according to :class:`CrossSection`."""
+
+    #     enclosure = kf.LayerEnclosure(
+    #         dsections=[(layer_tuple, layer_offset) for zip(self.bbox_layers, self.bbox_offsets)],
+    #         main_layer=LAYER.SLAB90,
+    #         name="enclosures",
+    #         kcl=kf.kcl,
+    #     )
+    #     kf.kcl.layer_enclosures = kf.kcell.LayerEnclosureModel(
+    #         enclosure_map=dict(enclosure_rc=enclosure_rc)
+    #     )
+
+    #     kf.kcl.enclosure = kf.KCellEnclosure(
+    #         enclosures=[enclosure_rc],
+    #     )
+    #     component.kcl.enclosure.apply_minkowski_y(component)
 
     def add_bbox(
         self,
@@ -2345,7 +2359,7 @@ def get_cross_sections(
 
 xs_sc = strip()
 
-xs_rc = rib(bbox_layers=("DEVREC",), bbox_offsets=(0,))
+xs_rc = rib(bbox_layers=("DEVREC",), bbox_offsets=(3,))
 xs_rc2 = rib2()
 xs_rc_bbox = rib_bbox()
 

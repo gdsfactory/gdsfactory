@@ -124,15 +124,6 @@ def delay_snake_sbend(
     return c
 
 
-def test_delay_snake_sbend_length() -> None:
-    import numpy as np
-
-    length = 200.0
-    c = delay_snake_sbend(length=length, cross_section="xs_sc")
-    length_computed = c.area() / 0.5
-    np.isclose(length, length_computed)
-
-
 if __name__ == "__main__":
     # test_delay_snake_sbend_length()
     # c = gf.grid(

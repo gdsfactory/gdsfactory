@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
@@ -20,7 +19,7 @@ def taper(
     cross_section: CrossSectionSpec = "xs_sc",
     port_names: tuple | None = ("o1", "o2"),
     port_types: tuple | None = ("optical", "optical"),
-    with_enclosure: bool = True,
+    with_bbox: bool = True,
     **kwargs,
 ) -> Component:
     """Linear taper, which tapers only the main cross section section.
@@ -32,7 +31,6 @@ def taper(
         width1: width of the west/left port.
         width2: width of the east/right port. Defaults to width1.
         port: can taper from a port instead of defining width1.
-        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
@@ -40,7 +38,7 @@ def taper(
                 taper port, second name only if with_two_ports flags used.
         port_types(tuple): Ordered tuple of port types. First port is default \
                 taper port, second name only if with_two_ports flags used.
-        with_enclosure: adds enclosure to the taper.
+        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         kwargs: cross_section settings.
     """
     x1 = gf.get_cross_section(cross_section, width=width1)
@@ -61,19 +59,35 @@ def taper(
 
     width2 = width2 or width1
     c = gf.Component()
-    length = snap_to_grid(length)
+    y1 = width1 / 2
+    y2 = width2 / 2
+
+    delta_width = width2 - width1
+
     y1 = width1 / 2
     y2 = width2 / 2
 
     if length:
-        for section in x.sections:
-            layer = section.layer
-            xpts = [0, length, length, 0]
-            ypts = [y1, y2, -y2, -y1]
-            c.add_polygon(list(zip(xpts, ypts)), layer=layer)
+        xpts = [0, length, length, 0]
+        ypts = [y1, y2, -y2, -y1]
+        c.add_polygon((xpts, ypts), layer=layer)
 
-    if with_enclosure:
-        x.apply_enclosure(c)
+        xpts = [0, length, length, 0]
+        for section in x.sections[1:]:
+            layer = section.layer
+            y1 = section.width / 2
+            if not section.offset:
+                y2 = section.width / 2 + delta_width / 2
+                ypts = [y1, y2, -y2, -y1]
+            else:
+                y2 = section.width / 2
+                y2 = section.width / 2 + delta_width / 2
+                ypts = [y1, y2, -y2, -y1]
+                ypts = [y - section.offset for y in ypts]
+            c.add_polygon((xpts, ypts), layer=layer)
+
+    if with_bbox:
+        x.add_bbox(c)
     c.add_port(
         name=port_names[0],
         center=(0, 0),
@@ -238,8 +252,8 @@ taper_sc_nc = partial(
 if __name__ == "__main__":
     # c = taper_strip_to_ridge_trenches()
     # c = taper_strip_to_ridge()
-    # c = taper(width1=1.5, width2=1, cross_section="xs_rc")
+    c = taper(width1=1.5, width2=1, cross_section="xs_rc")
     # c = taper_sc_nc()
     # c = taper(cross_section="xs_rc")
-    c = taper(length=1, width1=0.54, width2=10, cross_section="xs_sc")
+    # c = taper(length=1, width1=0.54, width2=10, cross_section="xs_sc")
     c.show()

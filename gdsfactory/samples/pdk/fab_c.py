@@ -197,17 +197,17 @@ def gc_sc(**kwargs):
 
 mzi_nc = partial(
     gf.components.mzi,
-    cross_section=xs_nc,
     splitter=mmi1x2_nc,
     straight=straight_nc,
     bend=bend_euler_nc,
+    cross_section=xs_nc,
 )
 mzi_no = partial(
     gf.components.mzi,
-    cross_section=xs_no,
     splitter=mmi1x2_no,
     straight=straight_no,
     bend=bend_euler_no,
+    cross_section=xs_no,
 )
 
 ######################
@@ -236,8 +236,8 @@ if __name__ == "__main__":
     # d = diff(d1, d2)
     # c.show(show_ports=True)
 
-    c = straight_nc()
-    print(type(c))
+    # c = straight_nc()
+    c = mzi_nc(length_x=100)
     # _add_pins(c)
     # gf.add_pins.add_pins(c)
     # c = mmi1x2_sc()

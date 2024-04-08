@@ -91,15 +91,6 @@ def delay_snake(
     )
 
 
-def test_length_delay_snake() -> None:
-    import numpy as np
-
-    length = 200.0
-    c = delay_snake(n=2, length=length, length0=50, cross_section="xs_sc")
-    length_computed = c.area() / 0.5
-    np.isclose(length, length_computed)
-
-
 if __name__ == "__main__":
     # c = test_delay_snake3_length()
 

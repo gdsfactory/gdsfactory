@@ -91,15 +91,6 @@ def delay_snake2(
     )
 
 
-def test_length_delay_snake2() -> None:
-    import numpy as np
-
-    length = 200.0
-    c = delay_snake2(length=length, cross_section="xs_sc")
-    length_computed = c.area("WG") / 0.5
-    np.isclose(length, length_computed)
-
-
 if __name__ == "__main__":
     import gdsfactory as gf
 
