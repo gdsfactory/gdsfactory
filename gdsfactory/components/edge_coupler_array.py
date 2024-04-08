@@ -11,7 +11,7 @@ from gdsfactory.components.taper import taper
 from gdsfactory.components.text import text_rectangular
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
-edge_coupler_silicon = partial(taper, width2=0.2, length=100, with_two_ports=False)
+edge_coupler_silicon = partial(taper, width2=0.2, length=100, with_two_ports=True)
 
 
 @gf.cell
@@ -43,7 +43,7 @@ def edge_coupler_array(
     for i in range(n):
         alias = f"ec_{i}"
         ref = c.add_ref(edge_coupler, alias=alias)
-        ref.y = i * pitch
+        ref.d.y = i * pitch
 
         if x_reflection:
             ref.mirror()
@@ -55,8 +55,8 @@ def edge_coupler_array(
 
         if text:
             t = c << gf.get_component(text, text=str(i + 1))
-            t.rotate(text_rotation)
-            t.move(np.array(text_offset) + (0, i * pitch))
+            t.d.rotate(text_rotation)
+            t.d.move(np.array(text_offset) + (0, i * pitch))
 
     c.auto_rename_ports()
     return c
@@ -70,7 +70,6 @@ def edge_coupler_array_with_loopback(
     n: int = 8,
     pitch: float = 127.0,
     extension_length: float = 1.0,
-    right_loopback: bool = True,
     x_reflection: bool = False,
     text: ComponentSpec | None = text_rectangular,
     text_offset: Float2 = (0, 0),
@@ -85,7 +84,6 @@ def edge_coupler_array_with_loopback(
         n: number of channels.
         pitch: Fiber pitch (um).
         extension_length: in um.
-        right_loopback: adds right loopback.
         x_reflection: horizontal mirror.
         text: Optional text spec.
         text_offset: x, y.
@@ -110,36 +108,38 @@ def edge_coupler_array_with_loopback(
                 gf.c.straight, cross_section=cross_section, length=extension_length
             ),
         )
-
     ec_ref = c << ec
+    p1 = ec_ref.ports["o1"]
+    p2 = ec_ref.ports["o2"]
+    p3 = ec_ref.ports[f"o{n-1}"]
+    p4 = ec_ref.ports[f"o{n}"]
+
     gf.routing.route_single(
         c,
-        ec_ref.ports["o1"],
-        ec_ref.ports["o2"],
+        p1,
+        p2,
+        cross_section=cross_section,
+        radius=radius,
+    )
+    gf.routing.route_single(
+        c,
+        p3,
+        p4,
         cross_section=cross_section,
         radius=radius,
     )
 
-    if n > 4 and right_loopback:
-        gf.routing.route_single(
-            c,
-            ec_ref.ports[f"o{n-1}"],
-            ec_ref.ports[f"o{n}"],
-            cross_section=cross_section,
-            radius=radius,
-        )
-        for i in range(n - 4):
-            c.add_port(str(i), port=ec_ref.ports[f"o{i+3}"])
-    elif n > 4:
-        for i in range(n - 2):
-            c.add_port(str(i), port=ec_ref.ports[f"o{i+3}"])
+    for i, port in enumerate(ec_ref.ports):
+        if port not in [p1, p2, p3, p4]:
+            c.add_port(str(i), port=port)
 
     c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
-    c = edge_coupler_array_with_loopback(text_rotation=90)
+    c = edge_coupler_array_with_loopback()
+    # c = edge_coupler_array_with_loopback(text_rotation=90)
     # c = edge_coupler_silicon()
     # c = edge_coupler_array(x_reflection=False)
     # c = edge_coupler_array_with_loopback(x_reflection=False)

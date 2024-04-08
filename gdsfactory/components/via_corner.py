@@ -66,9 +66,11 @@ def via_corner(
     for via in vias:
         via = gf.get_component(via)
 
-        w, h = via.info["size"]
+        w = via.info["xsize"]
+        h = via.info["ysize"]
         g = via.info["enclosure"]
-        pitch_x, pitch_y = via.info["spacing"]
+        pitch_x = via.info["xspacing"]
+        pitch_y = via.info["yspacing"]
 
         nb_vias_x = (min_width - w - 2 * g) / pitch_x + 1
         nb_vias_y = (min_height - h - 2 * g) / pitch_y + 1

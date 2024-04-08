@@ -286,7 +286,6 @@ from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
 from gdsfactory.components.via import via, via1, via2, viac
 from gdsfactory.components.via_corner import via_corner
-from gdsfactory.components.via_cutback import via_cutback
 from gdsfactory.components.via_stack import (
     via_stack,
     via_stack_heater_m3,
@@ -546,7 +545,6 @@ __all__ = [
     "via1",
     "via2",
     "via_corner",
-    "via_cutback",
     "via_stack",
     "via_stack_heater_m3",
     "via_stack_heater_mtop",
