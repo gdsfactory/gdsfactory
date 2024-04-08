@@ -420,16 +420,9 @@ class Component(kf.KCell):
         from gdsfactory import get_layer
 
         layer_index = get_layer(layer)
-        area_um = 0
         r = kdb.Region(self.begin_shapes_rec(layer_index))
         r.merge()
-        for p in r.each():
-            area_um += p.area2() / 2 * self.kcl.dbu**2
-        return area_um
-
-    def ref(self, *args, **kwargs) -> kdb.DCellInstArray:
-        """Returns a Component Instance."""
-        raise ValueError("ref() is deprecated. Use add_ref() instead")
+        return sum(p.area2() / 2 * self.kcl.dbu**2 for p in r.each())
 
     @classmethod
     def __get_validators__(cls):
@@ -505,16 +498,10 @@ class Component(kf.KCell):
         gdspath = gdspath or gdsdir / f"{self.name}.gds"
 
         if kwargs:
-            for k in kwargs.keys():
+            for k in kwargs:
                 warnings.warn(f"{k} is deprecated", stacklevel=2)
         self.write(filename=str(gdspath), save_options=save_options)
         return pathlib.Path(gdspath)
-
-    @property
-    def named_references(self):
-        """Returns a dictionary of named references."""
-        warnings.warn("named_references is deprecated. Use insts instead")
-        return self.insts
 
     def extract(
         self,
@@ -617,12 +604,6 @@ class Component(kf.KCell):
             exclude_layers=exclude_layers,
         )
 
-    @property
-    def references(self) -> list[ComponentReference]:
-        """Returns a list of references."""
-        warnings.warn("references is deprecated. Use insts instead")
-        return list(self.insts)
-
     def get_netlist(self) -> dict[str, Any]:
         """Returns a netlist for circuit simulation."""
         from gdsfactory.get_netlist import get_netlist
@@ -639,6 +620,31 @@ class Component(kf.KCell):
         region.size(+distance).size(-distance)
         self.shapes(layer).clear()
         self.shapes(layer).insert(region)
+
+    def to_dict(self) -> dict[str, Any]:
+        """Returns a dictionary representation of the Component."""
+        return {
+            "name": self.name,
+            "info": self.info.model_dump(),
+            "settings": self.settings.model_dump(),
+        }
+
+    # Deprecated methods
+    @property
+    def named_references(self):
+        """Returns a dictionary of named references."""
+        warnings.warn("named_references is deprecated. Use insts instead")
+        return self.insts
+
+    @property
+    def references(self) -> list[ComponentReference]:
+        """Returns a list of references."""
+        warnings.warn("references is deprecated. Use insts instead")
+        return list(self.insts)
+
+    def ref(self, *args, **kwargs) -> kdb.DCellInstArray:
+        """Returns a Component Instance."""
+        raise ValueError("ref() is deprecated. Use add_ref() instead")
 
 
 @kf.cell
@@ -664,7 +670,7 @@ def container(component, function, **kwargs) -> Component:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component()
+    # c = gf.Component()
     # wg1 = c << gf.c.straight(length=10, cross_section="xs_rc")
     # wg2 = c << gf.c.straight(length=5, cross_section="xs_rc")
     # wg2.connect("o1", wg1["o2"])
@@ -695,7 +701,7 @@ if __name__ == "__main__":
     # c = c.extract(layers=[(1, 0)])
 
     # c = Component()
-    c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer="SLAB150")
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=LAYER.WG)
     # c.create_port(name="o1", position=(10, 10), angle=1, layer=LAYER.WG, width=2000)
@@ -719,6 +725,10 @@ if __name__ == "__main__":
     # c1 = gf.path.extrude(P, x1)
     # ref = c.add_ref(c1)
     # c.add_ports(ref.ports)
-    scene = c.to_3d()
-    scene.show()
+    # scene = c.to_3d()
+    # scene.show()
+
+    c = gf.c.straight()
+    print(c.to_dict())
+    print(c.area(layer=(1, 0)))
     c.show()
