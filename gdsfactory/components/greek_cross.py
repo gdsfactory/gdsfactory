@@ -249,6 +249,6 @@ def greek_cross_offset_pads(
 
 
 if __name__ == "__main__":
-    c = greek_cross_offset_pads()
-    # c = greek_cross_with_pads()
+    # c = greek_cross_offset_pads()
+    c = greek_cross_with_pads()
     c.show()

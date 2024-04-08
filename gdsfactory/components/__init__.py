@@ -15,11 +15,6 @@ from gdsfactory.components.add_termination import add_termination
 from gdsfactory.components.add_trenches import add_trenches, add_trenches90
 from gdsfactory.components.align import add_frame, align_wafer
 from gdsfactory.components.array_component import array
-from gdsfactory.components.array_with_fanout import (
-    array_with_fanout,
-    array_with_fanout_2d,
-)
-from gdsfactory.components.array_with_via import array_with_via, array_with_via_2d
 from gdsfactory.components.bbox import bbox
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_circular_heater import bend_circular_heater
@@ -318,10 +313,6 @@ __all__ = [
     "add_trenches",
     "align_wafer",
     "array",
-    "array_with_fanout",
-    "array_with_fanout_2d",
-    "array_with_via",
-    "array_with_via_2d",
     "bbox",
     "bend_circular",
     "bend_circular180",
