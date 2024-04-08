@@ -40,3 +40,7 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
     """Avoid regressions when exporting settings."""
     component = cells[component_name]()
     data_regression.check(component.to_dict())
+
+
+if __name__ == "__main__":
+    test_gds("pad_rectangular")

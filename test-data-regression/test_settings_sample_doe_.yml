@@ -1,9 +1,9 @@
 info: {}
 name: mask
 settings:
-  conf: Nmask_IMSCpack_doe_SS100_SWM4_10_LM2_100_DPTrue_Dmmi1x2
+  conf: IMSSS100_SLM2_100_WM4_10_Dmmi1x2_DPTrue_Cpack_doe_Nmask
   function_name: _from_yaml
   label_instance_function: add_instance_label
   mode: layout
   name: mask
-  routing_strategy: RBEFroute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing_RBSANGroute_bundle_same_axis_no_grouping_RBAAroute_bundle_all_angle_RBroute_bundle
+  routing_strategy: RBAAroute_bundle_all_angle_RBSANGroute_bundle_same_axis_no_grouping_RBroute_bundle_RBEFroute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing

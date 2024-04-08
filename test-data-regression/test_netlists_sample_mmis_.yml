@@ -26,11 +26,11 @@ instances:
       cross_section: xs_34e31a19
       direction: ccw
       function_name: bend_euler
-      layer: None
-      npoints: None
+      layer: null
+      npoints: null
       p: 0.5
-      radius: None
-      width: None
+      radius: null
+      width: null
       with_arc_floorplan: true
   bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_84875_95125:
     component: bend_euler
@@ -49,11 +49,11 @@ instances:
       cross_section: xs_34e31a19
       direction: ccw
       function_name: bend_euler
-      layer: None
-      npoints: None
+      layer: null
+      npoints: null
       p: 0.5
-      radius: None
-      width: None
+      radius: null
+      width: null
       with_arc_floorplan: true
   mmi_long:
     component: mmi1x2
@@ -66,7 +66,7 @@ instances:
       length_taper: 10.0
       straight: straight
       taper: taper
-      width: None
+      width: null
       width_mmi: 4.5
       width_taper: 1.0
   mmi_short:
@@ -80,7 +80,7 @@ instances:
       length_taper: 10.0
       straight: straight
       taper: taper
-      width: None
+      width: null
       width_mmi: 4.5
       width_taper: 1.0
   straight_L35_N2_CSxs_34e31a19_W0p5_42500_625:
@@ -123,7 +123,7 @@ instances:
       cross_section: xs_34e31a19
       function_name: taper
       length: 10.0
-      port: None
+      port: null
       port_names:
       - o1
       - o2
@@ -131,7 +131,7 @@ instances:
       - optical
       - optical
       width1: 0.5
-      width2: None
+      width2: null
       with_bbox: true
       with_two_ports: true
   taper_L10_W0p5_WNone_PNone_WTPTrue_CSxs_34e31a19_PNo1_o2_PToptical_optical_WBTrue_65000_625:
@@ -144,7 +144,7 @@ instances:
       cross_section: xs_34e31a19
       function_name: taper
       length: 10.0
-      port: None
+      port: null
       port_names:
       - o1
       - o2
@@ -152,7 +152,7 @@ instances:
       - optical
       - optical
       width1: 0.5
-      width2: None
+      width2: null
       with_bbox: true
       with_two_ports: true
   taper_L10_W0p5_WNone_PNone_WTPTrue_CSxs_34e31a19_PNo1_o2_PToptical_optical_WBTrue_80000_15625:
@@ -165,7 +165,7 @@ instances:
       cross_section: xs_34e31a19
       function_name: taper
       length: 10.0
-      port: None
+      port: null
       port_names:
       - o1
       - o2
@@ -173,7 +173,7 @@ instances:
       - optical
       - optical
       width1: 0.5
-      width2: None
+      width2: null
       with_bbox: true
       with_two_ports: true
   taper_L10_W0p5_WNone_PNone_WTPTrue_CSxs_34e31a19_PNo1_o2_PToptical_optical_WBTrue_80000_85000:
@@ -186,7 +186,7 @@ instances:
       cross_section: xs_34e31a19
       function_name: taper
       length: 10.0
-      port: None
+      port: null
       port_names:
       - o1
       - o2
@@ -194,7 +194,7 @@ instances:
       - optical
       - optical
       width1: 0.5
-      width2: None
+      width2: null
       with_bbox: true
       with_two_ports: true
 name: sample_mmis

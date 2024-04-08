@@ -6,7 +6,7 @@ instances:
     settings:
       do_permutations: true
       doe: mmi1x2
-      function: None
+      function: null
       function_name: pack_doe
       settings: LM2_100_WM4_10
       spacing: 100
