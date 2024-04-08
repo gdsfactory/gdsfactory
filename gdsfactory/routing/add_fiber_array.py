@@ -113,7 +113,6 @@ def add_fiber_array(
         raise ValueError(f"No optical ports found in {component.name!r}")
 
     ref = component_new.add_ref(component)
-
     route_fiber_array(
         component_new,
         ref,

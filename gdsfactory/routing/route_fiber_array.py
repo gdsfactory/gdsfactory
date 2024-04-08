@@ -17,6 +17,7 @@ from gdsfactory.routing.route_single import route_single
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typings import (
+    ComponentReference,
     ComponentSpec,
     ComponentSpecOrList,
     CrossSectionSpec,
@@ -25,8 +26,8 @@ from gdsfactory.typings import (
 
 
 def route_fiber_array(
-    component_top: Component,
     component: Component,
+    component_to_route: Component | ComponentReference,
     fiber_spacing: str | float = "fiber_array_spacing",
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     bend: ComponentSpec = bend_euler,
@@ -56,7 +57,8 @@ def route_fiber_array(
     """Returns new component with fiber array.
 
     Args:
-        component: component to connect to fiber array.
+        component: top level component.
+        component_to_route: component to route.
         fiber_spacing: spacing between the optical fibers.
         grating_coupler: grating coupler instance, function or list of functions.
         bend: for bends.
@@ -104,7 +106,8 @@ def route_fiber_array(
         min_length: minimum length of the component.
 
     """
-    c = component_top
+    c = component
+    component = component_to_route
     fiber_spacing = gf.get_constant(fiber_spacing)
     cross_section = x = gf.get_cross_section(cross_section)
     if radius:
