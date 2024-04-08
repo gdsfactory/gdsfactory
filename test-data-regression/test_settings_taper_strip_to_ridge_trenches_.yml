@@ -1,50 +1,11 @@
-name: taper_strip_to_ridge_trenches
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+info: {}
+name: taper_strip_to_ridge_trenches_L10_W0p5_SO3_TW2_TLDEEP_ETCH_LWWG_TO0p1
 settings:
-  changed: {}
-  child: null
-  default:
-    layer_wg: WG
-    length: 10.0
-    slab_offset: 3.0
-    trench_layer: DEEP_ETCH
-    trench_offset: 0.1
-    trench_width: 2.0
-    width: 0.5
-  full:
-    layer_wg: WG
-    length: 10.0
-    slab_offset: 3.0
-    trench_layer: DEEP_ETCH
-    trench_offset: 0.1
-    trench_width: 2.0
-    width: 0.5
   function_name: taper_strip_to_ridge_trenches
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.taper
-  name: taper_strip_to_ridge_trenches
+  layer_wg: WG
+  length: 10.0
+  slab_offset: 3.0
+  trench_layer: DEEP_ETCH
+  trench_offset: 0.1
+  trench_width: 2.0
+  width: 0.5

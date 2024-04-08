@@ -4,18 +4,18 @@ connections:
   bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_1954d54a_33137_4262,o1: straight_L3_N2_CSxs_1954d54a_26500_-600,o2
   bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_1954d54a_33137_4262,o2: straight_L4_N2_CSxs_1954d54a_38000_11400,o1
   bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_a202615a_30112_16512,o1: bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_a202615a_30112_6287,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_a202615a_30112_16512,o2: taper_L5_W0p45_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_21400,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_a202615a_30112_6287,o1: taper_L5_W0p5_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_1400,o2
-  coupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D2_D10_CSxs_sc_1500_22400,o3: taper_L5_W0p45_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_16500_23400,o2
-  coupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D2_D10_CSxs_sc_1500_22400,o4: taper_L5_W0p55_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_16500_21400,o2
-  coupler_G0p3_L10_CScoupler_symmetric_CScoupler_straight_D2_D10_CSxs_sc_5000_400,o3: taper_L5_W0p5_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_1400,o1
-  coupler_G0p3_L10_CScoupler_symmetric_CScoupler_straight_D2_D10_CSxs_sc_5000_400,o4: taper_L5_W0p5_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_-600,o1
-  straight_L1_N2_CSxs_1954d54a_19500_21400,o1: taper_L5_W0p45_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_21400,o2
-  straight_L1_N2_CSxs_1954d54a_19500_21400,o2: taper_L5_W0p55_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_16500_21400,o1
-  straight_L1_N2_CSxs_a202615a_19500_23400,o1: taper_L5_W0p55_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_23400,o2
-  straight_L1_N2_CSxs_a202615a_19500_23400,o2: taper_L5_W0p45_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_16500_23400,o1
-  straight_L3_N2_CSxs_1954d54a_26500_-600,o1: taper_L5_W0p5_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_-600,o2
-  straight_L3_N2_CSxs_1954d54a_26500_23400,o2: taper_L5_W0p55_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_23400,o1
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_a202615a_30112_16512,o2: taper_L5_W0p45_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_21400,o1
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_a202615a_30112_6287,o1: taper_L5_W0p5_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_1400,o2
+  coupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D2_D10_CSxs_sc_1500_22400,o3: taper_L5_W0p45_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_16500_23400,o2
+  coupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D2_D10_CSxs_sc_1500_22400,o4: taper_L5_W0p55_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_16500_21400,o2
+  coupler_G0p3_L10_CScoupler_symmetric_CScoupler_straight_D2_D10_CSxs_sc_5000_400,o3: taper_L5_W0p5_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_1400,o1
+  coupler_G0p3_L10_CScoupler_symmetric_CScoupler_straight_D2_D10_CSxs_sc_5000_400,o4: taper_L5_W0p5_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_-600,o1
+  straight_L1_N2_CSxs_1954d54a_19500_21400,o1: taper_L5_W0p45_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_21400,o2
+  straight_L1_N2_CSxs_1954d54a_19500_21400,o2: taper_L5_W0p55_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_16500_21400,o1
+  straight_L1_N2_CSxs_a202615a_19500_23400,o1: taper_L5_W0p55_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_23400,o2
+  straight_L1_N2_CSxs_a202615a_19500_23400,o2: taper_L5_W0p45_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_16500_23400,o1
+  straight_L3_N2_CSxs_1954d54a_26500_-600,o1: taper_L5_W0p5_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_-600,o2
+  straight_L3_N2_CSxs_1954d54a_26500_23400,o2: taper_L5_W0p55_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_23400,o1
 instances:
   bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_1954d54a_33137_18537:
     component: bend_euler
@@ -207,7 +207,7 @@ instances:
       function_name: straight
       length: 4.0
       npoints: 2
-  taper_L5_W0p45_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_21400:
+  taper_L5_W0p45_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_21400:
     component: taper
     info:
       length: 5.0
@@ -226,9 +226,9 @@ instances:
       - optical
       width1: 0.45
       width2: 0.55
-      with_enclosure: true
+      with_bbox: true
       with_two_ports: true
-  taper_L5_W0p45_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_16500_23400:
+  taper_L5_W0p45_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_16500_23400:
     component: taper
     info:
       length: 5.0
@@ -247,9 +247,9 @@ instances:
       - optical
       width1: 0.45
       width2: 0.5
-      with_enclosure: true
+      with_bbox: true
       with_two_ports: true
-  taper_L5_W0p55_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_23400:
+  taper_L5_W0p55_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_23400:
     component: taper
     info:
       length: 5.0
@@ -268,9 +268,9 @@ instances:
       - optical
       width1: 0.55
       width2: 0.45
-      with_enclosure: true
+      with_bbox: true
       with_two_ports: true
-  taper_L5_W0p55_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_16500_21400:
+  taper_L5_W0p55_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_16500_21400:
     component: taper
     info:
       length: 5.0
@@ -289,9 +289,9 @@ instances:
       - optical
       width1: 0.55
       width2: 0.5
-      with_enclosure: true
+      with_bbox: true
       with_two_ports: true
-  taper_L5_W0p5_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_1400:
+  taper_L5_W0p5_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_1400:
     component: taper
     info:
       length: 5.0
@@ -310,9 +310,9 @@ instances:
       - optical
       width1: 0.5
       width2: 0.45
-      with_enclosure: true
+      with_bbox: true
       with_two_ports: true
-  taper_L5_W0p5_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_-600:
+  taper_L5_W0p5_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_-600:
     component: taper
     info:
       length: 5.0
@@ -331,7 +331,7 @@ instances:
       - optical
       width1: 0.5
       width2: 0.55
-      with_enclosure: true
+      with_bbox: true
       with_two_ports: true
 name: mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL5_CL10_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSxs_sc
 placements:
@@ -390,32 +390,32 @@ placements:
     rotation: 90
     x: 38000
     y: 11400
-  taper_L5_W0p45_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_21400:
+  taper_L5_W0p45_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_21400:
     mirror: false
     rotation: 180
     x: 22500
     y: 21400
-  taper_L5_W0p45_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_16500_23400:
+  taper_L5_W0p45_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_16500_23400:
     mirror: false
     rotation: 180
     x: 16500
     y: 23400
-  taper_L5_W0p55_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_23400:
+  taper_L5_W0p55_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_23400:
     mirror: false
     rotation: 180
     x: 22500
     y: 23400
-  taper_L5_W0p55_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_16500_21400:
+  taper_L5_W0p55_W0p5_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_16500_21400:
     mirror: false
     rotation: 180
     x: 16500
     y: 21400
-  taper_L5_W0p5_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_1400:
+  taper_L5_W0p5_W0p45_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_1400:
     mirror: false
     rotation: 0
     x: 22500
     y: 1400
-  taper_L5_W0p5_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WETrue_22500_-600:
+  taper_L5_W0p5_W0p55_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue_22500_-600:
     mirror: false
     rotation: 0
     x: 22500

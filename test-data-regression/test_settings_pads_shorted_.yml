@@ -1,24 +1,9 @@
-name: pads_shorted
-ports: {}
+info: {}
+name: pads_shorted_Ppad_C8_PS150_LMMTOP_MW10
 settings:
-  changed: {}
-  child: null
-  default:
-    columns: 8
-    layer_metal: M3
-    metal_width: 10
-    pad:
-      function: pad
-    pad_spacing: 150.0
-  full:
-    columns: 8
-    layer_metal: M3
-    metal_width: 10
-    pad:
-      function: pad
-    pad_spacing: 150.0
+  columns: 8
   function_name: pads_shorted
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.pads_shorted
-  name: pads_shorted
+  layer_metal: MTOP
+  metal_width: 10
+  pad: pad
+  pad_spacing: 150.0

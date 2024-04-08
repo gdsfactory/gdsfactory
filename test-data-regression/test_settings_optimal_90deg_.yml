@@ -1,48 +1,10 @@
-name: optimal_90deg
-ports:
-  e1:
-    center:
-    - 50.0
-    - 581.746
-    layer:
-    - 1
-    - 0
-    name: e1
-    orientation: 90
-    port_type: optical
-    shear_angle: null
-    width: 100.0
-  e2:
-    center:
-    - 581.746
-    - 50.0
-    layer:
-    - 1
-    - 0
-    name: e2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 100.0
+info: {}
+name: optimal_90deg_W100_NP15_LA1_L1_0
 settings:
-  changed: {}
-  child: null
-  default:
-    layer:
-    - 1
-    - 0
-    length_adjust: 1
-    num_pts: 15
-    width: 100
-  full:
-    layer:
-    - 1
-    - 0
-    length_adjust: 1
-    num_pts: 15
-    width: 100
   function_name: optimal_90deg
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.optimal_90deg
-  name: optimal_90deg
+  layer:
+  - 1
+  - 0
+  length_adjust: 1
+  num_pts: 15
+  width: 100

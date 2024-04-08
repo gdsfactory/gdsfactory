@@ -1,48 +1,11 @@
-name: dbr
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.476
-  o2:
-    center:
-    - 3.18
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.524
+info: {}
+name: dbr_W0p45_W0p55_L0p159_L0p159_N10_CSxs_sc_SL0p01
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    l1: 0.159
-    l2: 0.159
-    n: 10
-    w1: 0.475
-    w2: 0.525
-  full:
-    cross_section: xs_sc
-    l1: 0.159
-    l2: 0.159
-    n: 10
-    w1: 0.475
-    w2: 0.525
+  cross_section: xs_sc
   function_name: dbr
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.dbr
-  name: dbr
+  l1: 0.159
+  l2: 0.159
+  n: 10
+  straight_length: 0.01
+  w1: 0.45
+  w2: 0.55

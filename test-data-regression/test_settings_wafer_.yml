@@ -1,40 +1,17 @@
-name: wafer
-ports: {}
+info: {}
+name: wafer_Rdie_C2_6_6_8_8_6_6_2_XNone_YNone_DNCRFalse
 settings:
-  changed: {}
-  child: null
-  default:
-    cols:
-    - 2
-    - 6
-    - 6
-    - 8
-    - 8
-    - 6
-    - 6
-    - 2
-    die_name_col_row: false
-    reticle:
-      function: die
-    xspacing: null
-    yspacing: null
-  full:
-    cols:
-    - 2
-    - 6
-    - 6
-    - 8
-    - 8
-    - 6
-    - 6
-    - 2
-    die_name_col_row: false
-    reticle:
-      function: die
-    xspacing: null
-    yspacing: null
+  cols:
+  - 2
+  - 6
+  - 6
+  - 8
+  - 8
+  - 6
+  - 6
+  - 2
+  die_name_col_row: false
   function_name: wafer
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.wafer
-  name: wafer
+  reticle: die
+  xspacing: None
+  yspacing: None

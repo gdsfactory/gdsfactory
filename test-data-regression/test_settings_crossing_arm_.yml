@@ -1,48 +1,10 @@
-name: crossing_arm
-ports:
-  o1:
-    center:
-    - -4.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 4.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+info: {}
+name: crossing_arm_R3_R1p1_W1p2_L3p4_LSSLAB150_CSxs_sc
 settings:
-  changed: {}
-  child: null
-  default:
-    L: 3.4
-    cross_section: xs_sc
-    layer_slab: SLAB150
-    r1: 3.0
-    r2: 1.1
-    w: 1.2
-  full:
-    L: 3.4
-    cross_section: xs_sc
-    layer_slab: SLAB150
-    r1: 3.0
-    r2: 1.1
-    w: 1.2
+  L: 3.4
+  cross_section: xs_sc
   function_name: crossing_arm
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.crossing_waveguide
-  name: crossing_arm
+  layer_slab: SLAB150
+  r1: 3.0
+  r2: 1.1
+  w: 1.2

@@ -1,30 +1,13 @@
-name: litho_steps
-ports: {}
+info: {}
+name: litho_steps_LW1_2_4_8_16_LS10_H100_LWG
 settings:
-  changed: {}
-  child: null
-  default:
-    height: 100.0
-    layer: WG
-    line_spacing: 10.0
-    line_widths:
-    - 1.0
-    - 2.0
-    - 4.0
-    - 8.0
-    - 16.0
-  full:
-    height: 100.0
-    layer: WG
-    line_spacing: 10.0
-    line_widths:
-    - 1.0
-    - 2.0
-    - 4.0
-    - 8.0
-    - 16.0
   function_name: litho_steps
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.litho_steps
-  name: litho_steps
+  height: 100.0
+  layer: WG
+  line_spacing: 10.0
+  line_widths:
+  - 1.0
+  - 2.0
+  - 4.0
+  - 8.0
+  - 16.0

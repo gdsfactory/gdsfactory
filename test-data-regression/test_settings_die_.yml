@@ -1,38 +1,16 @@
-name: die
-ports: {}
+info: {}
+name: die_S10000_10000_SW100_SL1000_DNchip99_TS100_TLSW_LFLOORPLAN_BLFLOORPLAN_Ttext_DCFalse
 settings:
-  changed: {}
-  child: null
-  default:
-    bbox_layer: FLOORPLAN
-    die_name: chip99
-    draw_corners: false
-    layer: FLOORPLAN
-    size:
-    - 10000.0
-    - 10000.0
-    street_length: 1000.0
-    street_width: 100.0
-    text:
-      function: text
-    text_location: SW
-    text_size: 100.0
-  full:
-    bbox_layer: FLOORPLAN
-    die_name: chip99
-    draw_corners: false
-    layer: FLOORPLAN
-    size:
-    - 10000.0
-    - 10000.0
-    street_length: 1000.0
-    street_width: 100.0
-    text:
-      function: text
-    text_location: SW
-    text_size: 100.0
+  bbox_layer: FLOORPLAN
+  die_name: chip99
+  draw_corners: false
   function_name: die
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.die
-  name: die
+  layer: FLOORPLAN
+  size:
+  - 10000.0
+  - 10000.0
+  street_length: 1000.0
+  street_width: 100.0
+  text: text
+  text_location: SW
+  text_size: 100.0

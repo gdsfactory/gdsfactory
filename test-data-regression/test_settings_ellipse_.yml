@@ -1,22 +1,9 @@
-name: ellipse
-ports: {}
+info: {}
+name: ellipse_R10_5_AR2p5_LWG
 settings:
-  changed: {}
-  child: null
-  default:
-    angle_resolution: 2.5
-    layer: WG
-    radii:
-    - 10.0
-    - 5.0
-  full:
-    angle_resolution: 2.5
-    layer: WG
-    radii:
-    - 10.0
-    - 5.0
+  angle_resolution: 2.5
   function_name: ellipse
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.ellipse
-  name: ellipse
+  layer: WG
+  radii:
+  - 10.0
+  - 5.0

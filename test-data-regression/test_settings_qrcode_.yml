@@ -1,18 +1,7 @@
-name: qrcode
-ports: {}
+info: {}
+name: qrcode_Dmask01_P1_LWG
 settings:
-  changed: {}
-  child: null
-  default:
-    data: mask01
-    layer: WG
-    psize: 1
-  full:
-    data: mask01
-    layer: WG
-    psize: 1
+  data: mask01
   function_name: qrcode
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.version_stamp
-  name: qrcode
+  layer: WG
+  psize: 1

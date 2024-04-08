@@ -1,24 +1,10 @@
-name: align_wafer
-ports: {}
+info: {}
+name: align_wafer_W10_S10_CL80_LWG_LCNone_SCbottom_left
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_length: 80.0
-    layer: WG
-    layer_cladding: null
-    spacing: 10.0
-    square_corner: bottom_left
-    width: 10.0
-  full:
-    cross_length: 80.0
-    layer: WG
-    layer_cladding: null
-    spacing: 10.0
-    square_corner: bottom_left
-    width: 10.0
+  cross_length: 80.0
   function_name: align_wafer
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.align
-  name: align_wafer
+  layer: WG
+  layer_cladding: None
+  spacing: 10.0
+  square_corner: bottom_left
+  width: 10.0

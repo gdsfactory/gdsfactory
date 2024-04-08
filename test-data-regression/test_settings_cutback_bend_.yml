@@ -1,51 +1,16 @@
-name: cutback_bend
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 270.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - -250.0
-    - 150.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 90.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+info:
+  n_bends: 68
+name: cutback_bend_Cbend_euler_Sstraight_SL5_R6_C5
 settings:
-  changed: {}
-  child: null
-  default:
-    bend90:
-      function: bend_euler
-    columns: 5
-    rows: 6
-    straight:
-      function: straight
-    straight_length: 5.0
-  full:
-    bend90:
-      function: bend_euler
-    columns: 5
-    rows: 6
-    straight:
-      function: straight
-    straight_length: 5.0
+  cols: 5
+  component: bend_euler
   function_name: cutback_bend
-  info:
-    n_bends: 68
-  info_version: 2
-  module: gdsfactory.components.cutback_bend
-  name: cutback_bend
+  port_name1: o1
+  port_name2: o2
+  ports_map: None
+  rows: 6
+  sequence: ASBSASBSASBSASBSASBSASBSASASASBSASBSASBSASBSASBSASBSBSBSASBSASBSASBSASBSASBSASBSASASASBSASBSASBSASBSASBSASBSBSBSASBSASBSASBSASBSASBSASBS
+  start_orientation: 90
+  straight: straight
+  straight_length: 5.0
+  symbol_to_component: Abend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_o1_o2_Bbend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_o2_o1_Sstraight_L5_N2_CSxs_sc_o1_o2

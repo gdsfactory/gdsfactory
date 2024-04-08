@@ -1,18 +1,7 @@
-name: circle
-ports: {}
+info: {}
+name: circle_R10_AR2p5_LWG
 settings:
-  changed: {}
-  child: null
-  default:
-    angle_resolution: 2.5
-    layer: WG
-    radius: 10.0
-  full:
-    angle_resolution: 2.5
-    layer: WG
-    radius: 10.0
+  angle_resolution: 2.5
   function_name: circle
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.circle
-  name: circle
+  layer: WG
+  radius: 10.0

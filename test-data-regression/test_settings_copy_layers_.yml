@@ -1,48 +1,10 @@
-name: cross_layer2__0_copy_layers
-ports: {}
+info: {}
+name: copy_layers_Fcross_L1_0_2_0
 settings:
-  changed: {}
-  child:
-    changed:
-      layer:
-      - 2
-      - 0
-    child: null
-    default:
-      layer: WG
-      length: 10.0
-      port_type: null
-      width: 3.0
-    full:
-      layer:
-      - 2
-      - 0
-      length: 10.0
-      port_type: null
-      width: 3.0
-    function_name: cross
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.cross
-    name: cross_layer2__0
-  default:
-    factory:
-      function: cross
-    layers:
-    - - 1
-      - 0
-    - - 2
-      - 0
-  full:
-    factory:
-      function: cross
-    layers:
-    - - 1
-      - 0
-    - - 2
-      - 0
+  factory: cross
   function_name: copy_layers
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.copy_layers
-  name: cross_layer2__0_copy_layers
+  layers:
+  - - 1
+    - 0
+  - - 2
+    - 0

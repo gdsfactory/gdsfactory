@@ -1,48 +1,16 @@
-name: delay_snake2
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 504.789
-    - -40.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+info: {}
+name: delay_snake2_L1600_L0_L0_N2_Bbend_euler180_CSxs_sc
 settings:
-  changed: {}
-  child: null
-  default:
-    bend180: bend_euler180
-    cross_section: xs_sc
-    length: 1600.0
-    length0: 0.0
-    length2: 0.0
-    n: 2
-  full:
-    bend180: bend_euler180
-    cross_section: xs_sc
-    length: 1600.0
-    length0: 0.0
-    length2: 0.0
-    n: 2
+  bend180: bend_euler180
+  cross_section: xs_sc
   function_name: delay_snake2
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.delay_snake2
-  name: delay_snake2
+  length: 1600.0
+  length0: 0.0
+  length2: 0.0
+  n: 2
+  port_name1: o1
+  port_name2: o2
+  ports_map: None
+  sequence: _)-(-.
+  start_orientation: 0.0
+  symbol_to_component: pstraight_L0_N2_CSxs_sc_o1_o2_bend_euler_RNone_A180_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_o1_o2_bend_euler_RNone_A180_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_o2_o1_straight_L504p78866666666664_N2_CSxs_sc_o1_o2_mstraight_L504p78866666666664_N2_CSxs_sc_o1_o2

@@ -1,32 +1,8 @@
-name: fiber
-ports:
-  F0:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: F0
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 10
+info: {}
+name: fiber_CD10_CD125_LCWG_LCWGCLAD
 settings:
-  changed: {}
-  child: null
-  default:
-    cladding_diameter: 125
-    core_diameter: 10
-    layer_cladding: WGCLAD
-    layer_core: WG
-  full:
-    cladding_diameter: 125
-    core_diameter: 10
-    layer_cladding: WGCLAD
-    layer_core: WG
+  cladding_diameter: 125
+  core_diameter: 10
   function_name: fiber
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.fiber
-  name: fiber
+  layer_cladding: WGCLAD
+  layer_core: WG

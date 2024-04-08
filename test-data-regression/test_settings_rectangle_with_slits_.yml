@@ -1,40 +1,18 @@
-name: rectangle_with_slits
-ports: {}
+info: {}
+name: rectangle_with_slits_S100_200_LWG_LSSLAB150_CFalse_PTNone_SS1_1_SS20_20_SE10
 settings:
-  changed: {}
-  child: null
-  default:
-    centered: false
-    layer: WG
-    layer_slit: SLAB150
-    port_type: null
-    size:
-    - 100.0
-    - 200.0
-    slit_enclosure: 10
-    slit_size:
-    - 1.0
-    - 1.0
-    slit_spacing:
-    - 20
-    - 20
-  full:
-    centered: false
-    layer: WG
-    layer_slit: SLAB150
-    port_type: null
-    size:
-    - 100.0
-    - 200.0
-    slit_enclosure: 10
-    slit_size:
-    - 1.0
-    - 1.0
-    slit_spacing:
-    - 20
-    - 20
+  centered: false
   function_name: rectangle_with_slits
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.rectangle_with_slits
-  name: rectangle_with_slits
+  layer: WG
+  layer_slit: SLAB150
+  port_type: None
+  size:
+  - 100.0
+  - 200.0
+  slit_enclosure: 10
+  slit_size:
+  - 1.0
+  - 1.0
+  slit_spacing:
+  - 20
+  - 20

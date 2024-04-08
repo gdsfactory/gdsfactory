@@ -1,51 +1,11 @@
-name: spiral_double
-ports:
-  o1:
-    center:
-    - 0.0
-    - 22.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 0.0
-    - -22.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+info:
+  length: 635.0904965875375
+name: spiral_double_MBR10_S2_NOL3_N1000_CSxs_sc_Bbend_circular
 settings:
-  changed: {}
-  child: null
-  default:
-    bend:
-      function: bend_circular
-    cross_section: xs_sc
-    min_bend_radius: 10.0
-    npoints: 1000
-    number_of_loops: 3
-    separation: 2.0
-  full:
-    bend:
-      function: bend_circular
-    cross_section: xs_sc
-    min_bend_radius: 10.0
-    npoints: 1000
-    number_of_loops: 3
-    separation: 2.0
+  bend: bend_circular
+  cross_section: xs_sc
   function_name: spiral_double
-  info:
-    length: 635.09
-  info_version: 2
-  module: gdsfactory.components.spiral_double
-  name: spiral_double
+  min_bend_radius: 10.0
+  npoints: 1000
+  number_of_loops: 3
+  separation: 2.0

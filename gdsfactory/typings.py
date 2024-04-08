@@ -30,7 +30,7 @@ import kfactory as kf
 import numpy as np
 from kfactory.kcell import LayerEnum
 from omegaconf import OmegaConf
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection, Section, Transition, WidthTypes
@@ -100,7 +100,7 @@ class StepAllAngle:
         separation: in um.
 
     """
-    model_config = {"extra": "forbid", "frozen": True}
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
 
 Anchor = Literal[
@@ -189,7 +189,7 @@ class Instance(BaseModel):
     settings: dict[str, Any] = Field(default_factory=dict)
     info: dict[str, Any] = Field(default_factory=dict, exclude=True)
 
-    model_config = {"extra": "forbid"}
+    model_config = ConfigDict(extra="forbid")
 
     @model_validator(mode="before")
     def update_settings_and_info(cls, values):
@@ -225,7 +225,7 @@ class Placement(BaseModel):
     def __getitem__(self, key: str) -> Any:
         return getattr(self, key, 0)
 
-    model_config = {"extra": "forbid"}
+    model_config = ConfigDict(extra="forbid")
 
 
 class Bundle(BaseModel):
@@ -233,7 +233,7 @@ class Bundle(BaseModel):
     settings: dict[str, Any] = Field(default_factory=dict)
     routing_strategy: str = "get_bundle"
 
-    model_config = {"extra": "forbid"}
+    model_config = ConfigDict(extra="forbid")
 
 
 class Netlist(BaseModel):
@@ -259,7 +259,7 @@ class Netlist(BaseModel):
     ports: dict[str, str] = Field(default_factory=dict)
     settings: dict[str, Any] = Field(default_factory=dict, exclude=True)
 
-    model_config = {"extra": "forbid"}
+    model_config = ConfigDict(extra="forbid")
 
 
 _route_counter = 0

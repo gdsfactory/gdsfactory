@@ -1,60 +1,18 @@
-name: bend_circular_angle180
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 0.0
-    - 20.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+info:
+  dy: 0.0
+  length: 31.415
+  radius: 10.0
+  route_info_length: 31.415
+  route_info_n_bend_90: 2.0
+  route_info_type: xs_sc
+  route_info_weight: 31.415
+  route_info_xs_sc_length: 31.415
+name: bend_circular_RNone_A180_NNone_LNone_WNone_CSxs_sc
 settings:
-  changed:
-    angle: 180
-  child: null
-  default:
-    add_pins: true
-    angle: 90.0
-    cross_section: xs_sc
-    layer: null
-    npoints: null
-    radius: null
-    width: null
-  full:
-    add_pins: true
-    angle: 180
-    cross_section: xs_sc
-    layer: null
-    npoints: null
-    radius: null
-    width: null
+  angle: 180
+  cross_section: xs_sc
   function_name: bend_circular
-  info:
-    dy: 0.0
-    length: 31.415
-    radius: 10.0
-    route_info:
-      length: 31.415
-      n_bend_90: 2.0
-      type: xs_sc
-      weight: 31.415
-      xs_sc_length: 31.415
-  info_version: 2
-  module: gdsfactory.components.bend_circular
-  name: bend_circular_angle180
+  layer: None
+  npoints: None
+  radius: None
+  width: None

@@ -1,20 +1,8 @@
-name: cross
-ports: {}
+info: {}
+name: cross_L10_W3_LWG_PTNone
 settings:
-  changed: {}
-  child: null
-  default:
-    layer: WG
-    length: 10.0
-    port_type: null
-    width: 3.0
-  full:
-    layer: WG
-    length: 10.0
-    port_type: null
-    width: 3.0
   function_name: cross
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.cross
-  name: cross
+  layer: WG
+  length: 10.0
+  port_type: None
+  width: 3.0

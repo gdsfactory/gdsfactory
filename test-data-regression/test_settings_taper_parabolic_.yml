@@ -1,48 +1,10 @@
-name: taper_parabolic
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 20.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    shear_angle: null
-    width: 5.0
+info: {}
+name: taper_parabolic_L20_W0p5_W5_E0p5_N100_LWG
 settings:
-  changed: {}
-  child: null
-  default:
-    exp: 0.5
-    layer: WG
-    length: 20
-    npoints: 100
-    width1: 0.5
-    width2: 5.0
-  full:
-    exp: 0.5
-    layer: WG
-    length: 20
-    npoints: 100
-    width1: 0.5
-    width2: 5.0
+  exp: 0.5
   function_name: taper_parabolic
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.taper_parabolic
-  name: taper_parabolic
+  layer: WG
+  length: 20
+  npoints: 100
+  width1: 0.5
+  width2: 5.0

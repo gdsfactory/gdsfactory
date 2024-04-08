@@ -1,72 +1,12 @@
-name: rectangle_size1300__2600_die_bbox
-ports: {}
+info: {}
+name: die_bbox_CFrectangle_Mgdsfactorypcomponentsprectangle_SS1300_2600_CFalse_SW100_SLNone_DNNone_TS100_TAsw_LMTOP_P10
 settings:
-  changed: {}
-  child:
-    changed:
-      size:
-      - 1300
-      - 2600
-    child: null
-    default:
-      centered: false
-      layer: WG
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: electrical
-      size:
-      - 4.0
-      - 2.0
-    full:
-      centered: false
-      layer: WG
-      port_orientations:
-      - 180
-      - 90
-      - 0
-      - -90
-      port_type: electrical
-      size:
-      - 1300
-      - 2600
-    function_name: rectangle
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.rectangle
-    name: rectangle_size1300__2600
-  default:
-    component:
-      function: rectangle
-      settings:
-        size:
-        - 1300
-        - 2600
-    die_name: null
-    layer: M3
-    padding: 10.0
-    street_length: null
-    street_width: 100.0
-    text_anchor: sw
-    text_size: 100.0
-  full:
-    component:
-      function: rectangle
-      settings:
-        size:
-        - 1300
-        - 2600
-    die_name: null
-    layer: M3
-    padding: 10.0
-    street_length: null
-    street_width: 100.0
-    text_anchor: sw
-    text_size: 100.0
+  component: Frectangle_Mgdsfactorypcomponentsprectangle_SS1300_2600_CFalse
+  die_name: None
   function_name: die_bbox
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.die_bbox
-  name: rectangle_size1300__2600_die_bbox
+  layer: MTOP
+  padding: 10.0
+  street_length: None
+  street_width: 100.0
+  text_anchor: sw
+  text_size: 100.0

@@ -1,104 +1,18 @@
-name: mmi
-ports:
-  o1:
-    center:
-    - -10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 15.5
-    - 1.875
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o3:
-    center:
-    - 15.5
-    - 0.625
-    layer:
-    - 1
-    - 0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o4:
-    center:
-    - 15.5
-    - -0.625
-    layer:
-    - 1
-    - 0
-    name: o4
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o5:
-    center:
-    - 15.5
-    - -1.875
-    layer:
-    - 1
-    - 0
-    name: o5
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+info: {}
+name: mmi_I1_O4_WNone_WT1_LT10_LM5p5_WM5_GIT0p25_GOT0p25_Ttaper_Sstraight_CSxs_sc_IPNone_OPNone
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    gap_input_tapers: 0.25
-    gap_output_tapers: 0.25
-    input_positions: null
-    inputs: 1
-    length_mmi: 5.5
-    length_taper: 10.0
-    output_positions: null
-    outputs: 4
-    straight:
-      function: straight
-    taper:
-      function: taper
-    width: null
-    width_mmi: 5
-    width_taper: 1.0
-  full:
-    cross_section: xs_sc
-    gap_input_tapers: 0.25
-    gap_output_tapers: 0.25
-    input_positions: null
-    inputs: 1
-    length_mmi: 5.5
-    length_taper: 10.0
-    output_positions: null
-    outputs: 4
-    straight:
-      function: straight
-    taper:
-      function: taper
-    width: null
-    width_mmi: 5
-    width_taper: 1.0
+  cross_section: xs_sc
   function_name: mmi
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.mmi
-  name: mmi
+  gap_input_tapers: 0.25
+  gap_output_tapers: 0.25
+  input_positions: None
+  inputs: 1
+  length_mmi: 5.5
+  length_taper: 10.0
+  output_positions: None
+  outputs: 4
+  straight: straight
+  taper: taper
+  width: None
+  width_mmi: 5
+  width_taper: 1.0

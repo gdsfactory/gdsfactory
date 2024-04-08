@@ -1,48 +1,10 @@
-name: L
-ports:
-  e1:
-    center:
-    - 0.0
-    - 20.0
-    layer:
-    - 49
-    - 0
-    name: e1
-    orientation: 90
-    port_type: electrical
-    shear_angle: null
-    width: 1
-  e2:
-    center:
-    - 10.0
-    - 0.0
-    layer:
-    - 49
-    - 0
-    name: e2
-    orientation: 0
-    port_type: electrical
-    shear_angle: null
-    width: 1
+info: {}
+name: L_W1_S10_20_LMTOP_PTelectrical
 settings:
-  changed: {}
-  child: null
-  default:
-    layer: M3
-    port_type: electrical
-    size:
-    - 10
-    - 20
-    width: 1
-  full:
-    layer: M3
-    port_type: electrical
-    size:
-    - 10
-    - 20
-    width: 1
   function_name: L
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.L
-  name: L
+  layer: MTOP
+  port_type: electrical
+  size:
+  - 10
+  - 20
+  width: 1

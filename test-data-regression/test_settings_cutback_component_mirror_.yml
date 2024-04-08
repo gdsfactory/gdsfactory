@@ -1,87 +1,17 @@
-name: taper_from_csv_cutback_component_mirrorTrue
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 603.68
-    - -160.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+info:
+  components: 80
+name: cutback_component_CFtaper_from_csv_Mgdsfactorypcomponentsptaper_from_csv_SFtaper_strip_0p5_3_36pcsv_C4_R5_Po1_Po2_BFbend_euler_Mgdsfactorypcomponentspbend_euler_SA180_MTrue_MFalse_MFalse_SLNone_SLPNone_CSxs_sc
 settings:
-  changed:
-    mirror: true
-  child:
-    changed: {}
-    child: null
-    default:
-      cross_section: xs_sc
-      filepath: taper_strip_0p5_3_36
-    full:
-      cross_section: xs_sc
-      filepath: taper_strip_0p5_3_36
-    function_name: taper_from_csv
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.taper_from_csv
-    name: taper_from_csv
-  default:
-    bend180:
-      function: bend_euler
-      settings:
-        angle: 180
-    cols: 4
-    component:
-      function: taper_from_csv
-      settings:
-        filepath: taper_strip_0p5_3_36
-    cross_section: xs_sc
-    mirror: false
-    mirror1: false
-    mirror2: false
-    port1: o1
-    port2: o2
-    rows: 5
-    straight_length: null
-    straight_length_pair: null
-  full:
-    bend180:
-      function: bend_euler
-      settings:
-        angle: 180
-    cols: 4
-    component:
-      function: taper_from_csv
-      settings:
-        filepath: taper_strip_0p5_3_36
-    cross_section: xs_sc
-    mirror: true
-    mirror1: false
-    mirror2: false
-    port1: o1
-    port2: o2
-    rows: 5
-    straight_length: null
-    straight_length_pair: null
+  bend180: Fbend_euler_Mgdsfactorypcomponentspbend_euler_SA180
+  cols: 4
+  component: Ftaper_from_csv_Mgdsfactorypcomponentsptaper_from_csv_SFtaper_strip_0p5_3_36pcsv
+  cross_section: xs_sc
   function_name: cutback_component
-  info:
-    components: 80
-  info_version: 2
-  module: gdsfactory.components.cutback_component
-  name: taper_from_csv_cutback_component_mirrorTrue
+  mirror: true
+  mirror1: false
+  mirror2: false
+  port1: o1
+  port2: o2
+  rows: 5
+  straight_length: None
+  straight_length_pair: None

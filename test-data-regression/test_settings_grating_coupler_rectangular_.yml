@@ -1,66 +1,19 @@
-name: grating_coupler_rectangular
-ports:
-  o1:
-    center:
-    - 0.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  opt_te_1550_15:
-    center:
-    - 157.219
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: opt_te_1550_15
-    orientation: 0
-    port_type: opt_te_1550_15
-    shear_angle: null
-    width: 11.0
+info:
+  polarization: te
+  wavelength: 1.55
+name: grating_coupler_rectangular_NP20_P0p75_FF0p5_WG11_LT150_Pte_W1p55_Ttaper_LSSLAB150_FA15_SXm1_SO1_CSxs_sc
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section: xs_sc
-    fiber_angle: 15
-    fill_factor: 0.5
-    layer_slab: SLAB150
-    length_taper: 150.0
-    n_periods: 20
-    period: 0.75
-    polarization: te
-    slab_offset: 1.0
-    slab_xmin: -1.0
-    taper:
-      function: taper
-    wavelength: 1.55
-    width_grating: 11.0
-  full:
-    cross_section: xs_sc
-    fiber_angle: 15
-    fill_factor: 0.5
-    layer_slab: SLAB150
-    length_taper: 150.0
-    n_periods: 20
-    period: 0.75
-    polarization: te
-    slab_offset: 1.0
-    slab_xmin: -1.0
-    taper:
-      function: taper
-    wavelength: 1.55
-    width_grating: 11.0
+  cross_section: xs_sc
+  fiber_angle: 15
+  fill_factor: 0.5
   function_name: grating_coupler_rectangular
-  info:
-    polarization: te
-    wavelength: 1.55
-  info_version: 2
-  module: gdsfactory.components.grating_coupler_rectangular
-  name: grating_coupler_rectangular
+  layer_slab: SLAB150
+  length_taper: 150.0
+  n_periods: 20
+  period: 0.75
+  polarization: te
+  slab_offset: 1.0
+  slab_xmin: -1.0
+  taper: taper
+  wavelength: 1.55
+  width_grating: 11.0

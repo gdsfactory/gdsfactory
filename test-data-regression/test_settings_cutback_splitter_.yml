@@ -1,98 +1,15 @@
-name: mmi1x2_cutback_splitter
-ports:
-  o1:
-    center:
-    - -10.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  o2:
-    center:
-    - 438.0
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o2
-    orientation: 0.0
-    port_type: optical
-    shear_angle: null
-    width: 0.5
+info:
+  components: 88
+name: cutback_splitter_Cmmi1x2_C4_R5_Po1_Po2_Po3_BFbend_euler_Mgdsfactorypcomponentspbend_euler_SA180_MFalse_SLNone_CSxs_sc
 settings:
-  changed: {}
-  child:
-    changed: {}
-    child: null
-    default:
-      cross_section: xs_sc
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10.0
-      straight:
-        function: straight
-      taper:
-        function: taper
-      width: null
-      width_mmi: 2.5
-      width_taper: 1.0
-      with_bbox: true
-    full:
-      cross_section: xs_sc
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10.0
-      straight:
-        function: straight
-      taper:
-        function: taper
-      width: null
-      width_mmi: 2.5
-      width_taper: 1.0
-      with_bbox: true
-    function_name: mmi1x2
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2
-  default:
-    bend180:
-      function: bend_euler
-      settings:
-        angle: 180
-    cols: 4
-    component:
-      function: mmi1x2
-    cross_section: xs_sc
-    mirror: false
-    port1: o1
-    port2: o2
-    port3: o3
-    rows: 5
-    straight_length: null
-  full:
-    bend180:
-      function: bend_euler
-      settings:
-        angle: 180
-    cols: 4
-    component:
-      function: mmi1x2
-    cross_section: xs_sc
-    mirror: false
-    port1: o1
-    port2: o2
-    port3: o3
-    rows: 5
-    straight_length: null
+  bend180: Fbend_euler_Mgdsfactorypcomponentspbend_euler_SA180
+  cols: 4
+  component: mmi1x2
+  cross_section: xs_sc
   function_name: cutback_splitter
-  info:
-    components: 88
-  info_version: 2
-  module: gdsfactory.components.cutback_splitter
-  name: mmi1x2_cutback_splitter
+  mirror: false
+  port1: o1
+  port2: o2
+  port3: o3
+  rows: 5
+  straight_length: None

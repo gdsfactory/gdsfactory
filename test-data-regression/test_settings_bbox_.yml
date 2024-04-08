@@ -1,36 +1,12 @@
-name: bbox
-ports: {}
+info: {}
+name: bbox_CL_L1_0_T0_B0_L0_R0
 settings:
-  changed: {}
-  child: null
-  default:
-    bbox:
-    - - -1.0
-      - -1.0
-    - - 3.0
-      - 4.0
-    bottom: 0
-    layer:
-    - 1
-    - 0
-    left: 0
-    right: 0
-    top: 0
-  full:
-    bbox:
-    - - -1.0
-      - -1.0
-    - - 3.0
-      - 4.0
-    bottom: 0
-    layer:
-    - 1
-    - 0
-    left: 0
-    right: 0
-    top: 0
+  bottom: 0
+  component: L
   function_name: bbox
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.bbox
-  name: bbox
+  layer:
+  - 1
+  - 0
+  left: 0
+  right: 0
+  top: 0
