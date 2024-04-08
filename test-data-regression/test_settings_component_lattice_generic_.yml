@@ -3,4 +3,3 @@ name: component_lattice_generic_NNone_CSxs_sc
 settings:
   cross_section: xs_sc
   function_name: component_lattice_generic
-  network: None

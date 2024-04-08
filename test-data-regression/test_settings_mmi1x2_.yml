@@ -8,6 +8,5 @@ settings:
   length_taper: 10.0
   straight: straight
   taper: taper
-  width: None
   width_mmi: 2.5
   width_taper: 1.0

@@ -5,7 +5,6 @@ settings:
   bend_s_factory: bend_s
   function_name: spiral_racetrack_heater_doped
   heater_cross_section: xs_npp
-  min_radius: None
   num: 8
   spacing: 2
   straight_factory: straight

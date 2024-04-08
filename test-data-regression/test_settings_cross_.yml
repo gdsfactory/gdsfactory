@@ -4,5 +4,4 @@ settings:
   function_name: cross
   layer: WG
   length: 10.0
-  port_type: None
   width: 3.0

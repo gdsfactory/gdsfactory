@@ -9,7 +9,6 @@ settings:
   layers:
   - SLAB90
   - NPP
-  ohms_per_square: None
   pad: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_NPP_M1_VNone_None_Fvia_Mgdsfactorypcomponentspvia_SLVIAC_S80_80
   pad_pitch: 100.0
   pad_port_name: e4

@@ -13,5 +13,3 @@ settings:
   die_name_col_row: false
   function_name: wafer
   reticle: die
-  xspacing: None
-  yspacing: None

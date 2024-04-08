@@ -7,7 +7,6 @@ settings:
   cross_section: xs_sc
   function_name: taper
   length: 10.0
-  port: None
   port_names:
   - o1
   - o2

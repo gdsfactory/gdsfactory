@@ -4,7 +4,6 @@ settings:
   cross_length: 80.0
   function_name: align_wafer
   layer: WG
-  layer_cladding: None
   spacing: 10.0
   square_corner: bottom_left
   width: 10.0

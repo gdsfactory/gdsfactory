@@ -13,8 +13,5 @@ settings:
   length_straight_input: 15.0
   length_undercut: 30.0
   length_undercut_spacing: 6.0
-  ohms_per_square: None
-  port_orientation1: None
-  port_orientation2: None
   via_stack: via_stack_heater_mtop
   with_undercut: true

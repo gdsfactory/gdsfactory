@@ -16,7 +16,7 @@ def pad(
     bbox_layers: tuple[LayerSpec, ...] | None = None,
     bbox_offsets: tuple[float, ...] | None = None,
     port_inclusion: float = 0,
-    port_orientation: int = 0,
+    port_orientation: float = 0,
 ) -> Component:
     """Returns rectangular pad with ports.
 
@@ -99,7 +99,7 @@ def pad_array(
     pad = pad(size=size, port_orientation=port_orientation, layer=layer)
 
     c.add_array(pad, columns=columns, rows=rows, spacing=spacing)
-    width = size[0] if port_orientation in [90, 270] else size[1]
+    width = size[0] if port_orientation in {90, 270} else size[1]
 
     for col in range(columns):
         for row in range(rows):

@@ -14,9 +14,5 @@ settings:
   cross_section: xs_sc
   direction: ccw
   function_name: bend_euler
-  layer: None
-  npoints: None
   p: 0.5
-  radius: None
-  width: None
   with_arc_floorplan: true

@@ -5,7 +5,6 @@ settings:
   coupler90: coupler90
   coupler_straight: coupler_straight
   cross_section: xs_sc
-  cross_section_bend: None
   function_name: coupler_ring
   gap: 0.2
   length_extension: 3

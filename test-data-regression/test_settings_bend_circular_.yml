@@ -12,7 +12,3 @@ settings:
   angle: 90.0
   cross_section: xs_sc
   function_name: bend_circular
-  layer: None
-  npoints: None
-  radius: None
-  width: None

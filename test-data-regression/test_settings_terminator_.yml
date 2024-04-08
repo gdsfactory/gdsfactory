@@ -2,7 +2,6 @@ info: {}
 name: terminator_L50_CSIFcross_section_Mgdsfactorypcross_section_SR10_RM5_CSTNone_TW0p2_DLNPP_DO1
 settings:
   cross_section_input: Fcross_section_Mgdsfactorypcross_section_SR10_RM5
-  cross_section_tip: None
   doping_layers:
   - NPP
   doping_offset: 1.0

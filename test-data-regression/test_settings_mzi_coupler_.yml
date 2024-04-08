@@ -5,11 +5,8 @@ settings:
   bend: bend_euler
   combiner: coupler
   cross_section: xs_sc
-  cross_section_x_bot: None
-  cross_section_x_top: None
   delta_length: 10.0
   function_name: mzi
-  length_x: None
   length_y: 2.0
   min_length: 0.01
   mirror_bot: false
@@ -20,7 +17,4 @@ settings:
   port_e1_splitter: o3
   splitter: coupler
   straight: straight
-  straight_x_bot: None
-  straight_x_top: None
-  straight_y: None
   with_splitter: true

@@ -5,8 +5,6 @@ name: via_stack_S11_11_LM1_M2_MTOP_LONone_VFvia_Mgdsfactorypcomponentspvia_SLVIA
 settings:
   correct_size: true
   function_name: via_stack
-  layer_offsets: None
-  layer_port: None
   layers:
   - M1
   - M2

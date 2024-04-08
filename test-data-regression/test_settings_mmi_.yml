@@ -5,14 +5,11 @@ settings:
   function_name: mmi
   gap_input_tapers: 0.25
   gap_output_tapers: 0.25
-  input_positions: None
   inputs: 1
   length_mmi: 5.5
   length_taper: 10.0
-  output_positions: None
   outputs: 4
   straight: straight
   taper: taper
-  width: None
   width_mmi: 5
   width_taper: 1.0

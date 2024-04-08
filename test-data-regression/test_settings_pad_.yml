@@ -6,8 +6,6 @@ info:
   ysize: 100.0
 name: pad_S100_100_LMTOP_BLNone_BONone_PI0_PO0
 settings:
-  bbox_layers: None
-  bbox_offsets: None
   function_name: pad
   layer: MTOP
   port_inclusion: 0

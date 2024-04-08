@@ -3,12 +3,6 @@ name: extend_ports_Cmmi1x2_PNNone_L5_ENone_PNone_PNone_PToptical_CFalse_CSNone_E
 settings:
   centered: false
   component: mmi1x2
-  cross_section: None
-  extension: None
-  extension_port_names: None
   function_name: extend_ports
   length: 5.0
-  port1: None
-  port2: None
-  port_names: None
   port_type: optical

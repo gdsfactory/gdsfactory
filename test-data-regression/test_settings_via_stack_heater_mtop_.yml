@@ -5,8 +5,6 @@ name: via_stack_S11_11_LHEATER_M2_MTOP_LONone_VNone_Fvia_Mgdsfactorypcomponentsp
 settings:
   correct_size: true
   function_name: via_stack
-  layer_offsets: None
-  layer_port: None
   layers:
   - HEATER
   - M2

@@ -17,8 +17,6 @@ settings:
   - 0.2
   - 0.2
   - 0.2
-  layer_grating: None
-  layer_slab: None
   length_taper: 150.0
   polarization: te
   slab_offset: 1.0

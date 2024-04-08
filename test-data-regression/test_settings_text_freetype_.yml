@@ -5,6 +5,5 @@ settings:
   function_name: text_freetype
   justify: left
   layer: WG
-  layers: None
   size: 10
   text: abcd

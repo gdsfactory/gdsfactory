@@ -7,7 +7,6 @@ settings:
   component: pad
   function_name: array
   rows: 1
-  size: None
   spacing:
   - 150.0
   - 150.0

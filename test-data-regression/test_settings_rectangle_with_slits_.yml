@@ -5,7 +5,6 @@ settings:
   function_name: rectangle_with_slits
   layer: WG
   layer_slit: SLAB150
-  port_type: None
   size:
   - 100.0
   - 200.0

@@ -5,8 +5,6 @@ name: via_stack_S11_11_LSLAB90_M1_M2_MTOP_LONone_VFvia_Mgdsfactorypcomponentspvi
 settings:
   correct_size: true
   function_name: via_stack
-  layer_offsets: None
-  layer_port: None
   layers:
   - SLAB90
   - M1

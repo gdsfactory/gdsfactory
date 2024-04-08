@@ -169,14 +169,14 @@ def disk_heater(
         cross_section=cross_section,
     )
 
-    dx = disk_instance.xmax - disk_instance.xmin
-    dy = disk_instance.ymax - disk_instance.ymin
+    dx = disk_instance.d.xmax - disk_instance.d.xmin
+    dy = disk_instance.d.ymax - disk_instance.d.ymin
     heater = c << gf.get_component(
         gf.components.rectangle,
         size=(dx + 2 * heater_extent, heater_width),
         layer=heater_layer,
     )
-    heater.d.x = disk_instance.x
+    heater.d.x = disk_instance.d.x
     heater.d.y = dy / 2 + disk_instance.d.ymin + (xs.width + gap) / 2
 
     via = gf.get_component(via_stack, size=(via_width, via_width))
@@ -186,14 +186,18 @@ def disk_heater(
     c1.y = heater.y
     c2.xmin = heater.xmax
     c2.y = heater.y
-    c.add_ports(disk_instance.get_ports_list())
-    c.add_ports(c1.get_ports_list(orientation=port_orientation), prefix="e1")
-    c.add_ports(c2.get_ports_list(orientation=port_orientation), prefix="e2")
+    c.add_ports(disk_instance.ports.filter())
+
+    # c.add_ports(disk_instance.get_ports_list())
+    # c.add_ports(gf.port.get_ports_list(disk_instance.ports))
+    # c.add_ports(.get_ports_list(disk_instance.ports))
+    c.add_ports(c1.ports.filter(orientation=port_orientation), prefix="e1")
+    c.add_ports(c2.ports.filter(orientation=port_orientation), prefix="e2")
     c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
     # c = disk_heater(wrap_angle_deg=75)
-    c = disk()
+    c = disk_heater()
     c.show()

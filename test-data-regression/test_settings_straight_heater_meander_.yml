@@ -8,9 +8,6 @@ settings:
   heater_width: 2.5
   layer_heater: HEATER
   length: 300.0
-  n: None
-  port_orientation1: None
-  port_orientation2: None
   radius: 5.0
   spacing: 2.0
   straight: straight

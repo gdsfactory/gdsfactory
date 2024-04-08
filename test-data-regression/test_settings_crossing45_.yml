@@ -7,7 +7,6 @@ settings:
   cross_section: xs_sc
   cross_section_bends: xs_sc
   crossing: crossing
-  dx: None
   function_name: crossing45
   npoints: 101
-  port_spacing: 40
+  port_spacing: 40.0

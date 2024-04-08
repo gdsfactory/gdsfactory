@@ -5,8 +5,6 @@ settings:
   bend: bend_euler
   combiner: mmi2x2
   cross_section: xs_sc
-  cross_section_x_bot: None
-  cross_section_x_top: None
   delta_length: 10.0
   function_name: mzi
   length_x: 0.1
@@ -20,7 +18,4 @@ settings:
   port_e1_splitter: o2
   splitter: mmi1x2
   straight: straight
-  straight_x_bot: None
-  straight_x_top: None
-  straight_y: None
   with_splitter: true

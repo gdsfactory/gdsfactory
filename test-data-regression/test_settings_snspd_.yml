@@ -9,7 +9,6 @@ settings:
   layer:
   - 1
   - 0
-  num_squares: None
   size:
   - 10
   - 8

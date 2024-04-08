@@ -3,6 +3,5 @@ name: ring_single_array_Rring_single_S5_LODNone_CSxs_sc
 settings:
   cross_section: xs_sc
   function_name: ring_single_array
-  list_of_dicts: None
   ring: ring_single
   spacing: 5.0

@@ -2,7 +2,6 @@ info: {}
 name: splitter_tree_Cmmi1x2_N4_S90_50_BSbend_s_BSXNone_CSxs_sc
 settings:
   bend_s: bend_s
-  bend_s_xsize: None
   coupler: mmi1x2
   cross_section: xs_sc
   function_name: splitter_tree

@@ -6,11 +6,9 @@ info:
   yspacing: 2.0
 name: via_S0p7_0p7_S2_2_GNone_E2_LVIA1_BLNone_BO0
 settings:
-  bbox_layers: None
   bbox_offset: 0
   enclosure: 2
   function_name: via
-  gap: None
   layer: VIA1
   size:
   - 0.7
