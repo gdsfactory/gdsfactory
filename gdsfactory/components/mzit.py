@@ -196,7 +196,7 @@ def mzit(
 
 
 if __name__ == "__main__":
-    c = mzit()
+    c = mzit(cross_section="xs_rc")
     # c = mzit(coupler1=None)
     # c = mzit(delta_length=20, layer=(2, 0))
     # c = mzit(delta_length=20, cross_section="xs_rc_bbox")

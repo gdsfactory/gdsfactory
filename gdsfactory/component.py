@@ -190,6 +190,9 @@ class Component(kf.KCell):
         c.info = self.info.model_copy()
         return c
 
+    def copy(self) -> Component:
+        return self.dup()
+
     def dup(self) -> Component:
         """Copy the full cell.
 

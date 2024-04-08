@@ -50,8 +50,7 @@ def mzi_arm(
         "L": (straight_y(length=length_y_left, **kwargs), "o1", "o2"),
         "R": (
             straight_y(
-                length=length_y_right
-                + abs(straight_x.get_ports_ysize(port_type="optical")),
+                length=length_y_right + length_x,
                 **kwargs,
             ),
             "o1",
@@ -64,14 +63,10 @@ def mzi_arm(
     sequence = "bLB-BRb"
     c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
 
-    # Add any electrical ports from references
-    for ref_name, ref in c.named_references.items():
-        c.add_ports(ref.get_ports_list(port_type="electrical"), prefix=ref_name)
-
-    c.unlock()
+    c = c.copy()
     c.auto_rename_ports()
     c.info["length_x"] = length_x
-    c.info["length_xsize"] = straight_x.get_ports_xsize()
+    c.info["length_xsize"] = straight_x.d.xsize
     return c
 
 
