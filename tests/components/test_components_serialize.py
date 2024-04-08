@@ -25,7 +25,7 @@ def component_name(request) -> str:
 def test_components_serialize(component_name: str) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     c1 = cells[component_name]()
-    settings = c1.settings.model_dump()  # serialize
+    settings = c1.settings.model_dump(exclude_none=True)  # serialize
     function_name = settings.pop("function_name")
     c2 = gf.get_component(component=function_name, **settings)  # deserialize
     assert c2
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     # c2 = gf.get_component({"component": cell_name, "settings": settings2})
 
     c1 = gf.components.mzi_arms()
-    settings = c1.settings.model_dump()
+    settings = c1.settings.model_dump(exclude_none=True)
     function_name = settings.pop("function_name")
     c2 = gf.get_component(component=function_name, **settings)
     c2.show()

@@ -116,8 +116,11 @@ def crossing(
     return c
 
 
+_taper = partial(taper, width2=2.5, length=3)
+
+
 @cell
-def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)) -> Component:
+def crossing_from_taper(taper=_taper) -> Component:
     """Returns Crossing based on a taper.
 
     The default is a dummy taper.
@@ -129,12 +132,14 @@ def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)) -> Componen
 
     c = Component()
     for i, a in enumerate([0, 90, 180, 270]):
-        _taper = taper.ref(position=(0, 0), port_id="o2", rotation=a)
-        c.add(_taper)
+        # _taper = taper.ref(position=(0, 0), port_id="o2", rotation=a)
+        # c.add(_taper)
+        _taper = c << taper
+        _taper.d.rotate(a, center=gf.kdb.DPoint(*_taper["o2"].d.center))
         c.add_port(name=i, port=_taper.ports["o1"])
-        c.absorb(_taper)
 
     c.auto_rename_ports()
+    c.flatten()
     return c
 
 
@@ -457,7 +462,7 @@ def _demo() -> None:
 
 
 if __name__ == "__main__":
-    c = crossing45()
+    # c = crossing45()
     # c = crossing()
     # c = compensation_path()
     # c = crossing(
@@ -469,7 +474,7 @@ if __name__ == "__main__":
     # print(c.ports["E1"].y - c.ports['o2'].y)
     # print(c.get_ports_array())
     # _demo()
-    # c = crossing_from_taper()
+    c = crossing_from_taper()
     # c.pprint()
     # c = crossing_etched()
     # c = compensation_path()

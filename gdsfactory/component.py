@@ -630,8 +630,8 @@ class Component(kf.KCell):
         return clean_value_json(
             {
                 "name": self.name,
-                "info": self.info.model_dump(),
-                "settings": self.settings.model_dump(),
+                "info": self.info.model_dump(exclude_none=True),
+                "settings": self.settings.model_dump(exclude_none=True),
             }
         )
 

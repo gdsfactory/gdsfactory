@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -159,8 +160,6 @@ def mzi_arms(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     # delta_length = 116.8 / 2
     # print(delta_length)
     # c = mzi_arms(delta_length=delta_length, with_splitter=False)

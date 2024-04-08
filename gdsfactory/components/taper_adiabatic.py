@@ -30,12 +30,24 @@ adiabatic_polyfit_TE1550SOI_220nm = np.array(
 )
 
 
+def neff_TE1550SOI_220nm(w: float) -> float:
+    """Returns the effective index of the fundamental TE mode for a 220nm-thick core with 3.45 index, fully clad with 1.44 index.
+
+    Args:
+        w: width in um.
+
+    Returns:
+        effective index
+    """
+    return np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w)
+
+
 @gf.cell
 def taper_adiabatic(
     width1: float = 0.5,
     width2: float = 5.0,
     length: float = 0,
-    neff_w: Callable = lambda w: np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(w),
+    neff_w: Callable = neff_TE1550SOI_220nm,
     alpha: float = 1,
     wavelength: float = 1.55,
     npoints: int = 200,
@@ -47,12 +59,15 @@ def taper_adiabatic(
         width1: initial width.
         width2: final width.
         length: 0 uses the optimized length, and otherwise the optimal shape is compressed/stretched to the specified length.
-        neff_y: a callable that returns the effective index as a function of width
+        neff_w: a callable that returns the effective index as a function of width
                 - By default, will use a compact model of neff(y) for fundamental 1550 nm TE mode of 220nm-thick core with 3.45 index, fully clad with 1.44 index. Many coefficients are needed to capture the behaviour.
         alpha: parameter that scales the rate of width change.
                 - closer to 0 means longer and more adiabatic;
                 - 1 is the intuitive limit beyond which higher order modes are excited;
                 - [2] reports good performance up to 1.4 for fundamental TE in SOI (for multiple core thicknesses)
+        wavelength: wavelength in um.
+        npoints: number of points for sampling.
+        cross_section: cross_section specification.
 
     References:
         [1] Burns, W. K., et al. "Optical waveguide parabolic coupling horns." Appl. Phys. Lett., vol. 30, no. 1, 1 Jan. 1977, pp. 28-30, doi:10.1063/1.89199.
