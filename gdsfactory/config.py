@@ -322,6 +322,7 @@ class Paths:
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = repo_path / "tests" / "gds"
+    thermal = repo_path / "tests" / "gds" / "thermal_phase_shifters.gds"
     gdslib = home / ".gdsfactory"
     modes = gdslib / "modes"
     sparameters = gdslib / "sp"
