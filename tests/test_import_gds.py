@@ -42,15 +42,6 @@ def test_import_gds_name_custom() -> None:
     assert c.name == cellname, c.name
 
 
-# def test_import_gds_add_padding() -> None:
-#     """Make sure you can import the ports"""
-#     c0 = gf.components.mzi_arms(decorator=gf.add_pins)
-#     gdspath = c0.write_gds()
-
-#     c1 = import_gds(gdspath, decorator=gf.add_padding_container, name="mzi")
-#     assert c1.name == "mzi"
-
-
 def test_import_gds_array() -> None:
     """Make sure you can import a GDS with arrays."""
     c0 = gf.components.array(
@@ -71,10 +62,3 @@ def test_import_gds_raw() -> None:
 
     c = gf.read.import_gds(gdspath)
     assert c
-
-
-if __name__ == "__main__":
-    test_import_gds_name_custom()
-    # cellname="thermal_phase_shifter_multimode_500um"
-    # c = import_gds(PATH.thermal, cellname=cellname)
-    # c.show()
