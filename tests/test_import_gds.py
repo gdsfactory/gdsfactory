@@ -5,7 +5,7 @@ from gdsfactory.config import PATH
 from gdsfactory.read.import_gds import import_gds
 
 
-@gf.cell(autoname=False)
+@gf.cell(autoname=False, copy_if_cached=False)
 def import_gds_custom(gdspath, **kwargs):
     return gf.import_gds(gdspath, **kwargs)
 
