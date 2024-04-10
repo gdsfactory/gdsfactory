@@ -2351,10 +2351,7 @@ class Component(_GeometryHelper):
         if kwargs:
             warnings.warn("{kwargs.keys} is deprecated.", DeprecationWarning)
 
-        if new_copy:
-            component = self.copy()
-        else:
-            component = self
+        component = self.copy() if new_copy else self
         layermap = {_parse_layer(k): _parse_layer(v) for k, v in layermap.items()}
 
         cells = list(component.get_dependencies(True))
