@@ -2341,16 +2341,17 @@ class Component(_GeometryHelper):
         """Remove labels."""
         self._cell.remove(*self.labels)
 
-    def remap_layers(self, layermap, **kwargs) -> Component:
-        """Returns a copy of the component with remapped layers.
+    def remap_layers(self, layermap, new_copy: bool = True, **kwargs) -> Component:
+        """Returns a copy of the component with remapped layers, unless `new_copy` is set to False, in which case it modifies the current Component in place. It's important to be aware that modifying the current Component can have side effects on any references to it.
 
         Args:
             layermap: Dictionary of values in format {layer_from: layer_to}.
+            new_copy: If True, returns a new Component. If False, modifies the current Component in place, potentially affecting references to it.
         """
         if kwargs:
             warnings.warn("{kwargs.keys} is deprecated.", DeprecationWarning)
 
-        component = self.copy()
+        component = self.copy() if new_copy else self
         layermap = {_parse_layer(k): _parse_layer(v) for k, v in layermap.items()}
 
         cells = list(component.get_dependencies(True))
@@ -2906,7 +2907,7 @@ def flatten_offgrid_references_recursive(
         if keep_names:
             new_component.rename(component.name, cache=False)
         else:
-            new_component.rename(component.name + "_offgrid")
+            new_component.rename(f"{component.name}_offgrid")
 
         # make sure all modified cells have their references updated
         new_refs = new_component.references.copy()
