@@ -355,8 +355,8 @@ def cell(
 
         if autoname:
             component.rename(component_name, max_name_length=max_name_length)
-        if get_child_name:
-            CACHE[name] = component
+
+        CACHE[name] = component
 
         if add_settings:
             component.settings = CellSettings(**full)
