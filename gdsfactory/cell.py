@@ -62,6 +62,7 @@ def cell(
     /,
     *,
     autoname: bool = True,
+    copy_if_cached: bool = True,
     max_name_length: int | None = None,
     include_module: bool = False,
     with_hash: bool = False,
@@ -84,6 +85,7 @@ def cell(
     /,
     *,
     autoname: bool = True,
+    copy_if_cached: bool = True,
     max_name_length: int | None = None,
     include_module: bool = False,
     with_hash: bool = False,
@@ -105,6 +107,7 @@ def cell(
     /,
     *,
     autoname: bool = True,
+    copy_if_cached: bool = True,
     max_name_length: int | None = None,
     include_module: bool = False,
     with_hash: bool = False,
@@ -124,6 +127,7 @@ def cell(
     Args:
         func: function to decorate.
         autoname: True renames Component based on args and kwargs. True by default.
+        copy_if_cached: True by default. If the component is already in the cache, it returns a copy of the component.
         max_name_length: truncates name beyond some characters with a hash. Defaults to CONF.max_name_length.
         include_module: True adds module name to the cell name.
         with_hash: True adds a hash to the cell name.
@@ -172,6 +176,7 @@ def cell(
         return partial(
             cell,
             autoname=autoname,
+            copy_if_cached=copy_if_cached,
             max_name_length=max_name_length,
             include_module=include_module,
             with_hash=with_hash,
@@ -325,7 +330,7 @@ def cell(
 
         # if the component is already in the cache, but under a different alias,
         # make sure we use a copy, so we don't run into mutability errors
-        if id(component) in CACHE_IDS:
+        if copy_if_cached and id(component) in CACHE_IDS:
             component = component.copy()
 
         if not isinstance(component, Component):
