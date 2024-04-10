@@ -36,7 +36,7 @@ from gdsfactory.typings import (
     Transition,
 )
 
-component_settings = ["function", "component", "settings"]
+component_settings = ["function", "module", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 
 constants = {

@@ -17,7 +17,7 @@ def test_cache_container() -> None:
     c2r = c2.rotate()
 
     assert c1.uid == c2.uid
-    assert c1r.uid == c2r.uid  # pulling this from cache
+    assert c1r.uid == c2r.uid, f"{c1r.uid} != {c2r.uid}"
 
 
 def test_cache_name_yaml() -> None:
