@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     import orjson
 
-    c1 = gf.components.add_grating_couplers()
+    c1 = gf.components.cutback_splitter()
     settings = c1.settings
     settings_string = json.dumps(dict(settings))
     settings2 = orjson.loads(settings_string)

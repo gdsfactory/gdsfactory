@@ -355,8 +355,6 @@ def cell(
 
         if autoname:
             component.rename(component_name, max_name_length=max_name_length)
-        if get_child_name:
-            CACHE[name] = component
 
         if add_settings:
             component.settings = CellSettings(**full)
@@ -374,8 +372,8 @@ def cell(
                 raise ValueError(f"decorator = {type(decorator)} needs to be callable")
             component_new = decorator(component)
             component = component_new or component
-            CACHE[component_name] = component
 
+        CACHE[name] = component
         component._locked = True
         CACHE_IDS.add(id(component))
         return component

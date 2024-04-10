@@ -143,7 +143,7 @@ def clean_value_partial(value, include_module: bool = True):
         "settings": args_as_kwargs,
     }
     if include_module:
-        v.update(module=func.__module__)
+        v["module"] = func.__module__
     return v
 
 
@@ -172,7 +172,7 @@ def clean_value_partial_all(value, include_module: bool = True):
         "settings": args_as_kwargs,
     }
     if include_module:
-        v.update(module=func.__module__)
+        v["module"] = func.__module__
 
     return v
 
