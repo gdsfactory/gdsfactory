@@ -127,6 +127,7 @@ def cell(
     Args:
         func: function to decorate.
         autoname: True renames Component based on args and kwargs. True by default.
+        copy_if_cached: True by default. If the component is already in the cache, it returns a copy of the component.
         max_name_length: truncates name beyond some characters with a hash. Defaults to CONF.max_name_length.
         include_module: True adds module name to the cell name.
         with_hash: True adds a hash to the cell name.
