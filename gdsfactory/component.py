@@ -2342,11 +2342,11 @@ class Component(_GeometryHelper):
         self._cell.remove(*self.labels)
 
     def remap_layers(self, layermap, new_copy: bool = True, **kwargs) -> Component:
-        """Returns a copy of the component with remapped layers.
+        """Returns a copy of the component with remapped layers, unless `new_copy` is set to False, in which case it modifies the current Component in place. It's important to be aware that modifying the current Component can have side effects on any references to it.
 
         Args:
             layermap: Dictionary of values in format {layer_from: layer_to}.
-            new_copy: If True, returns a new Component. If False, modifies the current Component in place.
+            new_copy: If True, returns a new Component. If False, modifies the current Component in place, potentially affecting references to it.
         """
         if kwargs:
             warnings.warn("{kwargs.keys} is deprecated.", DeprecationWarning)
