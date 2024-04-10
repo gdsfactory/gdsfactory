@@ -63,12 +63,12 @@ class ComponentSpec(BaseModel, extra="allow", validate_assignment=True, frozen=T
 class Info(BaseModel, extra="allow", validate_assignment=True):
     @model_validator(mode="before")
     def restrict_types(
-        cls, data: dict[str, int | float | Sequence | str]
+        cls, data: dict[str, int | float | Sequence | str | dict | None]
     ) -> dict[str, int | float | Sequence | str]:
         for name, value in data.items():
             if name == "schematic":
                 continue  # prevent validation of schematic sub-dictionary
-            if not isinstance(value, str | int | float | Sequence):
+            if not isinstance(value, str | int | float | Sequence | dict | None):
                 raise ValueError(
                     "Values of the info dict only support int, float, string or tuple."
                     f"{name}: {value}, {type(value)}"
