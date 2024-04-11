@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.23.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.23.0) - 2024-04-10
+
+No significant changes.
+
+
 ## [7.22.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.3) - 2024-04-04
 
 - fix array ports [#2655](https://github.com/gdsfactory/gdsfactory/pull/2655)

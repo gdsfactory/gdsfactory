@@ -32,7 +32,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     from loguru import Logger
 
-__version__ = "7.22.3"
+__version__ = "7.23.0"
 PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
