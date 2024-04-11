@@ -13,6 +13,7 @@ def coupler_bend(
     radius: float = 10.0,
     coupler_gap: float = 0.2,
     coupling_angle_coverage: float = 120.0,
+    cross_section: CrossSectionSpec = "xs_sc",
     cross_section_inner: CrossSectionSpec = "xs_sc",
     cross_section_outer: CrossSectionSpec = "xs_sc",
     bend: ComponentSpec = bend_circular,
@@ -27,6 +28,7 @@ def coupler_bend(
         angle_inner: of the inner bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         angle_outer: of the outer bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         bend: for bend.
+        cross_section: cross_section.
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
 
@@ -63,7 +65,9 @@ def coupler_bend(
     bend_inner_ref = c << bend90_inner_right
     bend_outer_ref = c << bend_outer_right
 
-    output = gf.get_component(bend_euler, angle=angle_outer).mirror()
+    output = gf.get_component(
+        bend_euler, angle=angle_outer, cross_section=cross_section
+    ).mirror()
 
     output_ref = c << output
     output_ref.connect("o1", bend_outer_ref.ports["o2"])
@@ -88,6 +92,7 @@ def coupler_ring_bend(
     coupler_gap: float = 0.2,
     coupling_angle_coverage: float = 90.0,
     length_x: float = 0.0,
+    cross_section: CrossSectionSpec = "xs_sc",
     cross_section_inner: CrossSectionSpec = "xs_sc",
     cross_section_outer: CrossSectionSpec = "xs_sc",
     bend: ComponentSpec = bend_circular,
@@ -101,6 +106,7 @@ def coupler_ring_bend(
         angle_outer: of the outer bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         bend: for bend.
         length_x: horizontal straight length.
+        cross_section: cross_section.
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
         kwargs:
@@ -110,6 +116,7 @@ def coupler_ring_bend(
         radius=radius,
         coupler_gap=coupler_gap,
         coupling_angle_coverage=coupling_angle_coverage,
+        cross_section=cross_section,
         cross_section_inner=cross_section_inner,
         cross_section_outer=cross_section_outer,
         bend=bend,
@@ -151,6 +158,7 @@ def ring_single_bend_coupler(
     bend: ComponentSpec = bend_circular,
     length_x: float = 0.6,
     length_y: float = 0.6,
+    cross_section: CrossSectionSpec = "xs_sc",
     cross_section_inner: CrossSectionSpec = "xs_sc",
     cross_section_outer: CrossSectionSpec = "xs_sc",
     **kwargs,
@@ -167,6 +175,7 @@ def ring_single_bend_coupler(
         bend: for bend.
         length_x: horizontal straight length.
         length_y: vertical straight length.
+        cross_section: cross_section.
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
         kwargs: cross_section settings.
@@ -178,6 +187,7 @@ def ring_single_bend_coupler(
         coupler_gap=gap,
         coupling_angle_coverage=coupling_angle_coverage,
         length_x=length_x,
+        cross_section=cross_section,
         cross_section_inner=cross_section_inner,
         cross_section_outer=cross_section_outer,
         bend=bend,
@@ -212,6 +222,8 @@ def ring_single_bend_coupler(
 if __name__ == "__main__":
     # c = coupler_bend(radius=5)
     # c = coupler_ring_bend()
-    c = ring_single_bend_coupler()
+    c = ring_single_bend_coupler(
+        cross_section_inner="xs_rc", cross_section_outer="xs_rc", cross_section="xs_rc"
+    )
     c.assert_ports_on_grid()
     c.show(show_ports=True)
