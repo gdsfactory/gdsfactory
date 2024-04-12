@@ -682,7 +682,7 @@ class ComponentReference(_GeometryHelper):
         return self
 
     def mirror_x(
-        self, port_name: str | None = None, x0: Coordinate | None = None
+        self, port_name: str | None = None, x0: float | None = None
     ) -> ComponentReference:
         """Perform horizontal mirror using x0 or port as axis (default, x0=0).
 
