@@ -58,7 +58,7 @@ version = "7.23.0"
 
 [project.optional-dependencies]
 cad = [
-  "kweb>=1.1.9,<1.3"
+  "kweb>=1.1.9,<2.1"
 ]
 dev = [
   "ipykernel",
