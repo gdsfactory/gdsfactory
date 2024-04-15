@@ -37,8 +37,8 @@ def via_chain(
         offsets_bot: list of bottom layer offsets.
         via_min_enclosure: via_min_enclosure.
         min_metal_spacing: min_metal_spacing.
-        via_xoffset: via_xoffset.
-        via_yoffset: via_yoffset.
+        via_xoffset: horizontal offset of the vias.
+        via_yoffset: vertical offset of the vias.
 
     .. code::
 
