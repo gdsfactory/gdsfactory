@@ -35,3 +35,4 @@ settings:
       layer: VIA1
   via_min_enclosure: 1.0
   via_xoffset: 0.0
+  via_yoffset: 0.0
