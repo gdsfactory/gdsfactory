@@ -79,7 +79,7 @@ def die(
             )
 
         if die_name:
-            t = c.add_ref(text(text=die_name, size=text_size, layer=layer))
+            t = c.add_ref(text(text=die_name, size=text_size))
 
             d = street_width + 20
             if isinstance(text_location, str):

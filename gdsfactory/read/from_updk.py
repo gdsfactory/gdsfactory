@@ -162,8 +162,11 @@ def {block_name}({parameters_string})->gf.Component:
     c = gf.Component()
     p = c.add_polygon({points}, layer=layer_bbox)
     xc, yc = p.center
-    ysize = p.ysize
     name = f{cell_name!r}
+"""
+        if "ysize" in parameters_labels:
+            script += """
+    ysize = p.ysize
 """
         if layer_bbmetal and "bb_metal" in block:
             for bbmetal in block["bb_metal"].values():
@@ -178,7 +181,7 @@ def {block_name}({parameters_string})->gf.Component:
             )
 
             if port.xsection != "None":
-                script += f"    c.add_port(name={port_name!r}, width={port.width}, cross_section={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
+                script += f"    c.add_port(name={port_name!r}, cross_section={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
             else:
                 script += f"    c.add_port(name={port_name!r}, width={port.width}, layer=(0, 0), center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
 
