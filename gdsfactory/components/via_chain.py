@@ -22,6 +22,7 @@ def via_chain(
     via_min_enclosure: float = 1.0,
     min_metal_spacing: float = 1.0,
     via_xoffset: float = 0.0,
+    via_yoffset: float = 0.0,
 ) -> Component:
     """Via chain to extract via resistance.
 
@@ -36,7 +37,8 @@ def via_chain(
         offsets_bot: list of bottom layer offsets.
         via_min_enclosure: via_min_enclosure.
         min_metal_spacing: min_metal_spacing.
-        via_xoffset: via_xoffset.
+        via_xoffset: horizontal offset of the vias.
+        via_yoffset: vertical offset of the vias.
 
     .. code::
 
@@ -122,7 +124,7 @@ def via_chain(
     bot_wires.y = 0
     top_wires.y = 0
     vias.xmin = top_wires.xmin + via_min_enclosure + via_spacing[0]
-    vias.ymin = top_wires.ymin + via_min_enclosure
+    vias.ymin = top_wires.ymin + via_min_enclosure + via_yoffset
 
     vertical_wire_left = gf.c.rectangle(
         size=(2 * via_min_enclosure + via_width, 2 * wire_width + min_metal_spacing),
