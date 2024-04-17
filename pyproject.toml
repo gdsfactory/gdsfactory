@@ -76,7 +76,7 @@ docs = [
   "jupytext",
   "jupyter-book>=0.15.1,<1.1",
   "plotly",
-  "sphinx-book-theme==1.1.0"
+  "Sphinx==7.2.6"
 ]
 full = [
   "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]"
