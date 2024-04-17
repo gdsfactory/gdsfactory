@@ -415,6 +415,32 @@ def container(
     return c
 
 
+@cell_with_child
+def component_with_function(
+    component,
+    function,
+    **kwargs,
+) -> gf.Component:
+    """Returns new component with a component reference.
+
+    Args:
+        component: to add to container.
+        function: function to apply to component.
+        kwargs: keyword arguments to pass to function.
+    """
+
+    import gdsfactory as gf
+
+    component = gf.get_component(component, **kwargs)
+    c = Component()
+    cref = c << component
+    c.add_ports(cref.ports)
+
+    function(c)
+    c.copy_child_info(component)
+    return c
+
+
 if __name__ == "__main__":
     from functools import partial
 
