@@ -26,10 +26,11 @@ def add_pads_bot(
     pad_port_name: str = "e1",
     pad: ComponentSpec = pad_rectangular,
     bend: ComponentSpec = "wire_corner",
-    straight_separation: float | None = None,
+    straight_separation: float = 2.0,
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
     taper: ComponentSpec | None = None,
+    # port_type="electrical",
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -94,13 +95,10 @@ def add_pads_bot(
     cref = component_new << component
     ports = [cref[port_name] for port_name in port_names] if port_names else None
     ports = ports or select_ports(cref.ports)
-    xs = gf.get_cross_section(cross_section)
-
-    straight_separation = straight_separation or xs.width + xs.gap
 
     pad_component = gf.get_component(pad)
     if pad_port_name not in pad_component.ports:
-        pad_ports = list(pad_component.ports.keys())
+        pad_ports = list(pad_component.ports)
         raise ValueError(
             f"pad_port_name = {pad_port_name!r} not in {pad_component.name!r} ports {pad_ports}"
         )
@@ -113,7 +111,7 @@ def add_pads_bot(
 
     if not ports:
         raise ValueError(
-            f"select_ports or port_names did not match any ports in {list(component.ports.keys())}"
+            f"select_ports or port_names did not match any ports in {list(component.ports)}"
         )
 
     route_fiber_array(
@@ -131,6 +129,7 @@ def add_pads_bot(
         fiber_spacing=pad_spacing,
         optical_routing_type=optical_routing_type,
         taper=taper,
+        # place_port_type=port_type,
         **kwargs,
     )
     component_new.add_ref(component)
