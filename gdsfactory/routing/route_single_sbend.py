@@ -7,7 +7,7 @@ from gdsfactory.typings import Component
 
 def route_single_sbend(
     component: Component, port1: Port, port2: Port, **kwargs
-) -> Component:
+) -> None:
     """Returns an Sbend to connect two ports.
 
     Args:
@@ -33,14 +33,12 @@ def route_single_sbend(
         mmi2.movey(5)
         route = gf.routing.route_single_sbend(c, mmi1.ports['o2'], mmi2.ports['o1'])
         c.plot()
-
     """
     ysize = port2.d.center[1] - port1.d.center[1]
     xsize = port2.d.center[0] - port1.d.center[0]
 
     # We need to act differently if the route is orthogonal in x
     # or orthogonal in y
-
     size = (xsize, ysize) if port1.orientation in [0, 180] else (ysize, -xsize)
     bend = bend_s(size=size, **kwargs)
 
@@ -53,7 +51,6 @@ def route_single_sbend(
             f"Ports need to have orthogonal orientation {orthogonality_error}\n"
             f"port1 = {port1.orientation} deg and port2 = {port2.orientation}"
         )
-    return bend
 
 
 if __name__ == "__main__":

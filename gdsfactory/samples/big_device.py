@@ -46,7 +46,7 @@ def big_device(
             layer=layer,
             width=wg_width,
         )
-        component.add_port(port)
+        component.add_port(port=port)
 
     for i in range(N):
         port = Port(
@@ -56,7 +56,7 @@ def big_device(
             layer=layer,
             width=wg_width,
         )
-        component.add_port(port)
+        component.add_port(port=port)
 
     for i in range(N):
         port = Port(
@@ -66,7 +66,7 @@ def big_device(
             layer=layer,
             width=wg_width,
         )
-        component.add_port(port)
+        component.add_port(port=port)
 
     for i in range(N):
         port = Port(
@@ -76,9 +76,8 @@ def big_device(
             layer=layer,
             width=wg_width,
         )
-        component.add_port(port)
+        component.add_port(port=port)
 
-    component = gf.add_pins.add_pins_inside1nm(component)
     component.auto_rename_ports()
     return component
 
@@ -90,6 +89,6 @@ if __name__ == "__main__":
     pdk.gds_write_settings.flatten_invalid_refs = False
     c = big_device()
     c = gf.routing.add_fiber_array(c)
-    c = c.flatten_invalid_refs()
+    # c = c.flatten_invalid_refs()
     # c.write_gds("./test.gds")
     c.show()

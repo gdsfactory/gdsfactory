@@ -24,7 +24,6 @@ def route_bundle_sbend(
         enforce_port_ordering: enforces port ordering.
         kwargs: cross_section settings.
 
-
     """
     if sort_ports:
         ports1, ports2 = sort_ports_function(
@@ -32,8 +31,8 @@ def route_bundle_sbend(
         )
 
     for p1, p2 in zip(ports1, ports2):
-        ysize = p2.center[1] - p1.center[1]
-        xsize = p2.center[0] - p1.center[0]
+        ysize = p2.d.center[1] - p1.d.center[1]
+        xsize = p2.d.center[0] - p1.d.center[0]
         bend = bend_s(size=(xsize, ysize), **kwargs)
         sbend = component << bend
         sbend.connect("o1", p1)

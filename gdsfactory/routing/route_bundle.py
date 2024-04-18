@@ -92,7 +92,7 @@ def route_bundle(
     separation: float = 3.0,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
-    sort_ports: bool = False,
+    sort_ports: bool = True,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     start_straight_length: float = 0,
     end_straight_length: float = 0,
@@ -197,12 +197,11 @@ def route_bundle(
     if isinstance(ports2, dict):
         ports2 = list(ports2.values())
 
+    ports1 = list(ports1)
+    ports2 = list(ports2)
+
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
-
-    start_port_angles = {p.orientation for p in ports1}
-    if len(start_port_angles) > 1:
-        raise ValueError(f"All start port angles {start_port_angles} must be equal")
 
     if sort_ports:
         ports1, ports2 = sort_ports_function(

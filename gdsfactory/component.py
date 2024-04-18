@@ -125,7 +125,7 @@ class Component(kf.KCell):
 
     def add_port(
         self,
-        name: str,
+        name: str | None = None,
         port: kf.Port | None = None,
         center: tuple[float, float] | kf.kdb.Point | None = None,
         width: float | None = None,
