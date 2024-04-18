@@ -85,10 +85,15 @@ def big_device(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    pdk = gf.pdk.get_active_pdk()
-    pdk.gds_write_settings.flatten_invalid_refs = False
+    # pdk = gf.pdk.get_active_pdk()
+    # pdk.gds_write_settings.flatten_invalid_refs = False
     c = big_device()
     c = gf.routing.add_fiber_array(c)
+    lyrdb = c.connectivity_check()
+    filepath = gf.config.home / "errors.lyrdb"
+    lyrdb.save(filepath)
+
+    gf.show(c, lyrdb=filepath)
     # c = c.flatten_invalid_refs()
     # c.write_gds("./test.gds")
-    c.show()
+    # c.show()
