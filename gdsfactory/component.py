@@ -316,8 +316,9 @@ class Component(_GeometryHelper):
             if CACHE.get(old_name) is self:
                 remove_from_cache(self.name)
 
-            # cache the new name and add to counter if specified
-            if cache is True:
+        # cache the new name and add to counter if specified
+        if cache is True:
+            if self.name != name or name not in CACHE or id(CACHE[name]) != id(self):
                 name_counters[name] += 1
                 if name_counters[name] > 1:
                     name = f"{name}${name_counters[name]-1}"
