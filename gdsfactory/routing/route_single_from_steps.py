@@ -26,6 +26,10 @@ def route_single_from_steps(
     bend: ComponentSpec = "bend_euler",
     taper: ComponentSpec | None = "taper",
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     **kwargs,
 ) -> OpticalManhattanRoute:
     """Places a route formed by the given waypoints steps.
@@ -43,6 +47,10 @@ def route_single_from_steps(
         straight: straight spec.
         taper: taper spec.
         cross_section: cross_section spec.
+        auto_widen: if True, tapers to wider straights.
+        auto_widen_minimum_length: minimum length to auto widen.
+        taper_length: length of the taper.
+        width_wide: width of the wider straight.
         kwargs: cross_section settings.
 
     .. plot::
@@ -110,7 +118,7 @@ def route_single_from_steps(
     else:
         cross_section = gf.get_cross_section(cross_section)
         x = cross_section = cross_section.copy(**kwargs)
-        auto_widen = x.auto_widen
+        auto_widen = auto_widen or x.auto_widen
 
         if auto_widen:
             taper = gf.get_component(
