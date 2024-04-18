@@ -92,7 +92,7 @@ def route_bundle(
     separation: float = 3.0,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
-    sort_ports: bool = True,
+    sort_ports: bool = False,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     start_straight_length: float = 0,
     end_straight_length: float = 0,
@@ -169,8 +169,6 @@ def route_bundle(
         c.plot()
 
     """
-
-    separation = int(separation / component.kcl.dbu)
 
     if isinstance(cross_section, list | tuple):
         xs_list = []
@@ -292,14 +290,15 @@ if __name__ == "__main__":
     c = gf.Component("demo")
     c1 = c << gf.components.mmi2x2()
     c2 = c << gf.components.mmi2x2()
-    c2.d.move((100, 40))
+    c2.d.move((100, 70))
     routes = route_bundle(
         c,
-        [c1.ports["o3"], c1.ports["o4"]],
         [c2.ports["o2"], c2.ports["o1"]],
+        [c1.ports["o1"], c1.ports["o2"]],
         enforce_port_ordering=False,
         separation=5,
-        cross_section="xs_rc",
+        cross_section="xs_sc",
+        end_straight_length=0,
         # layer=(2, 0),
         # straight=partial(gf.components.straight, layer=(2, 0), width=1),
     )

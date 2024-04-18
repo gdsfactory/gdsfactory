@@ -118,7 +118,6 @@ def route_single_from_steps(
     else:
         cross_section = gf.get_cross_section(cross_section)
         x = cross_section = cross_section.copy(**kwargs)
-        auto_widen = auto_widen or x.auto_widen
 
         if auto_widen:
             taper = gf.get_component(
