@@ -81,7 +81,7 @@ def cell(
 
 @overload
 def cell(
-    func: Callable[..., Component],
+    func: _F,
     /,
     *,
     autoname: bool = True,
@@ -99,11 +99,11 @@ def cell(
     get_child_name: bool = False,
     post_process: Sequence[Callable] | None = None,
     info: dict[str, int | float | str] | None = None,
-) -> Callable[..., Component]: ...
+) -> _F: ...
 
 
 def cell(
-    func: Callable[..., Component] | None = None,
+    func=None,
     /,
     *,
     autoname: bool = True,
