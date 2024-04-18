@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.coupler import coupler
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -58,12 +58,8 @@ def ring_crow_couplers(
     c = Component()
 
     couplers_refs = []
-    for coupler in couplers:
-        coupler_ref = (
-            c.add_ref(coupler)
-            if type(coupler) == gf.Component
-            else c.add_ref(coupler())
-        )
+    for cp in couplers:
+        coupler_ref = c.add_ref(gf.get_component(cp))
         couplers_refs.append(coupler_ref)
 
     # Input bus

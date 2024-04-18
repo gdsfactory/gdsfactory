@@ -82,7 +82,9 @@ def snspd(
         num_meanders += 1
 
     port_type = "optical"
-    start_nw = D.add_ref(compass(size=(xsize / 2, wire_width), layer=layer, port_type=port_type))
+    start_nw = D.add_ref(
+        compass(size=(xsize / 2, wire_width), layer=layer, port_type=port_type)
+    )
     hp_prev = D.add_ref(hairpin)
     hp_prev.connect("o1", start_nw.ports["o3"])
     alternate = True
@@ -96,7 +98,9 @@ def snspd(
         hp_prev = hp
         alternate = not alternate
 
-    finish_se = D.add_ref(compass(size=(xsize / 2, wire_width), layer=layer, port_type=port_type))
+    finish_se = D.add_ref(
+        compass(size=(xsize / 2, wire_width), layer=layer, port_type=port_type)
+    )
     finish_se.connect("o3", last_port)
 
     D.add_port(port=start_nw.ports["o1"], name="o1")

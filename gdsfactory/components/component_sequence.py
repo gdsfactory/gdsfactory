@@ -232,7 +232,7 @@ if __name__ == "__main__":
     kcl.read("a.gds")
     top_cell = kcl["top"]
     rdb = top_cell.connectivity_check()
-    rdb.save('a.lyrdb')
+    rdb.save("a.lyrdb")
     top_cell.show()
     # c.pprint()
     # print(c.named_references.keys())

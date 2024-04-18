@@ -34,7 +34,3 @@ def test_route_bundle_udirect_pads(
 
     if check:
         data_regression.check(lengths)
-
-
-if __name__ == "__main__":
-    test_route_bundle_udirect_pads(None, check=False)
