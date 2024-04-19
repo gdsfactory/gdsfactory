@@ -14,39 +14,41 @@ from gdsfactory.routing.route_bundle import route_bundle
 def test_route_bundle(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
-    pitch = 127.0
     layer = (1, 0)
-    N = len(xs_top)
-    xs_bottom = [(i - N / 2) * pitch for i in range(N)]
     layer = (1, 0)
-
-    top_ports = [
-        Port(f"top_{i}", center=(xs_top[i], 0), width=0.5, orientation=270, layer=layer)
-        for i in range(N)
-    ]
-
-    bot_ports = [
-        Port(
-            f"bot_{i}",
-            center=(xs_bottom[i], -400),
-            width=0.5,
-            orientation=90,
-            layer=layer,
-        )
-        for i in range(N)
-    ]
-
-    c = gf.Component("test_route_bundle")
-    routes = route_bundle(
-        top_ports, bot_ports, start_straight_length=5, end_straight_length=10
-    )
-    lengths = {}
-    for i, route in enumerate(routes):
-        c.add(route.references)
-        lengths[i] = route.length
 
     if check:
+        pitch = 127.0
+        xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
+        N = len(xs_top)
+        xs_bottom = [(i - N / 2) * pitch for i in range(N)]
+        top_ports = [
+            Port(
+                f"top_{i}",
+                center=(xs_top[i], 0),
+                width=0.5,
+                orientation=270,
+                layer=layer,
+            )
+            for i in range(N)
+        ]
+
+        bot_ports = [
+            Port(
+                f"bot_{i}",
+                center=(xs_bottom[i], -400),
+                width=0.5,
+                orientation=90,
+                layer=layer,
+            )
+            for i in range(N)
+        ]
+
+        c = gf.Component("test_route_bundle")
+        routes = route_bundle(
+            c, top_ports, bot_ports, start_straight_length=5, end_straight_length=10
+        )
+        lengths = {i: route.length for i, route in enumerate(routes)}
         data_regression.check(lengths)
         difftest(c)
 
@@ -252,16 +254,14 @@ def test_connect_corner(
     i = 0
     for ports1, ports2 in zip(ports_A, ports_B):
         if config in {"A", "C"}:
-            routes = route_bundle(ports1, ports2)
+            routes = route_bundle(c, ports1, ports2)
             for route in routes:
-                c.add(route.references)
                 lengths[i] = route.length
                 i += 1
 
         elif config in {"B", "D"}:
-            routes = route_bundle(ports2, ports1)
+            routes = route_bundle(c, ports2, ports1)
             for route in routes:
-                c.add(route.references)
                 lengths[i] = route.length
                 i += 1
 
@@ -394,6 +394,7 @@ def test_route_bundle_u_indirect(
     c = gf.Component(f"test_route_bundle_u_indirect_{angle}_{dy}")
 
     routes = route_bundle(
+        c,
         ports1,
         ports2,
         bend=gf.components.bend_circular,
@@ -404,7 +405,6 @@ def test_route_bundle_u_indirect(
     )
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route.references)
         lengths[i] = route.length
 
     if check:

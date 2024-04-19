@@ -74,11 +74,7 @@ def import_gds_with_conflicts(
         raise ValueError(f"Expected 1 new top cell, got {len(new_top_cells)}")
 
     if cellname is None:
-        if new_top_cells:
-            cellname = new_top_cells.pop().name
-        else:
-            cellname = kf.kcl.top_kcell.name
-
+        cellname = new_top_cells.pop().name if new_top_cells else kf.kcl.top_kcell.name
     kcell = kf.kcl[cellname]
     c = Component()
     c._kdb_cell.copy_tree(kcell._kdb_cell)
