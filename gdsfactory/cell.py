@@ -81,7 +81,15 @@ def cell(
 
 @overload
 def cell(
+from typing import Callable, TypeVar
+
+Component = TypeVar('Component')  # Define what Component is expected to be if needed
+_F = TypeVar('_F', bound=Callable[..., Component])
+
+def cell(
     func: _F,
+    /,
+    *,
     /,
     *,
     autoname: bool = True,
