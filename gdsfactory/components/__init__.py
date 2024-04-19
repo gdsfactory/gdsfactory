@@ -163,7 +163,6 @@ from gdsfactory.components.L import L
 from gdsfactory.components.litho_calipers import litho_calipers
 from gdsfactory.components.litho_ruler import litho_ruler
 from gdsfactory.components.litho_steps import litho_steps
-from gdsfactory.components.logo import logo
 from gdsfactory.components.loop_mirror import loop_mirror
 from gdsfactory.components.mmi import mmi
 from gdsfactory.components.mmi1x2 import mmi1x2
@@ -425,7 +424,6 @@ __all__ = [
     "litho_calipers",
     "litho_ruler",
     "litho_steps",
-    "logo",
     "loop_mirror",
     "loss_deembedding_ch12_34",
     "loss_deembedding_ch13_24",

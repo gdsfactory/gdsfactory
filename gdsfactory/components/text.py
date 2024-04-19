@@ -89,6 +89,19 @@ def text_lines(
     return c
 
 
+@gf.cell
+def logo(text: str = "GDSFACTORY", text_function=text, spacing=1) -> Component:
+    """Returns GDSfactory logo."""
+    c = Component()
+    xmin = 0
+    for i, letter in enumerate(text):
+        ref = c << text_function(letter, layer=(i + 1, 0), size=10)
+        ref.d.xmin = xmin
+        xmin = ref.d.xmax + spacing
+
+    return c
+
+
 if __name__ == "__main__":
     # c1 = gf.components.text("hello", size=10, layer=(1, 0))
     # c2 = gf.components.text("10.0")
@@ -99,7 +112,7 @@ if __name__ == "__main__":
         position=(0, 0),
     )
     c = text_lines(text=("a", "b"), size=10)
-    # c = text_lines()
+    c = logo()
     # c2.show( )
     # c.plot()
     c.show()
