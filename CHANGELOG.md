@@ -1,11 +1,20 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.22.3...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.23.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.23.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.23.0) - 2024-04-10
 
-No significant changes.
+- add flag to remap layers [#2662](https://github.com/gdsfactory/gdsfactory/pull/2662)
+- fix text justify [#2666](https://github.com/gdsfactory/gdsfactory/pull/2666)
+- Fix cell decorator [#2665](https://github.com/gdsfactory/gdsfactory/pull/2665)
+- Bugfix: make `Component.remap_layers` actually return a copy [#2658](https://github.com/gdsfactory/gdsfactory/pull/2658)
+- allow custom import gds [#2661](https://github.com/gdsfactory/gdsfactory/pull/2661)
+- release-drafter workflow [#2659](https://github.com/gdsfactory/gdsfactory/pull/2659)
+- [minor bugs] Port.info: shallow copy -> deep copy [#2657](https://github.com/gdsfactory/gdsfactory/pull/2657)
+- Obey stacklevel in `warnings.warn` for loguru output [#2656](https://github.com/gdsfactory/gdsfactory/pull/2656)
+
+**Full Changelog**: https://github.com/gdsfactory/gdsfactory/compare/v7.22.3...v7.23.0
 
 
 ## [7.22.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.3) - 2024-04-04

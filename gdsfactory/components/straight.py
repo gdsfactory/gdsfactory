@@ -37,8 +37,8 @@ def straight(
     ref = c << path
     c.add_ports(ref.ports)
 
-    c.info["length"] = length
-    c.info["width"] = x.width
+    c.info["length"] = float(length)
+    c.info["width"] = float(x.width)
     c.add_route_info(cross_section=x, length=length)
     c.absorb(ref)
     return c

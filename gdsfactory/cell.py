@@ -391,7 +391,7 @@ cell_with_child = partial(cell, get_child_name=True)
 @cell_with_child
 def container(
     component,
-    function,
+    function: Callable[..., None] | None = None,
     **kwargs,
 ) -> gf.Component:
     """Returns new component with a component reference.
@@ -409,7 +409,35 @@ def container(
     cref = c << component
     c.add_ports(cref.ports)
 
-    function(c, **kwargs)
+    if function:
+        function(c, **kwargs)
+    c.copy_child_info(component)
+    return c
+
+
+@cell_with_child
+def component_with_function(
+    component,
+    function: Callable[..., None] | None = None,
+    **kwargs,
+) -> gf.Component:
+    """Returns new component with a component reference.
+
+    Args:
+        component: to add to container.
+        function: function to apply to component.
+        kwargs: keyword arguments to pass to component.
+    """
+
+    import gdsfactory as gf
+
+    component = gf.get_component(component, **kwargs)
+    c = Component()
+    cref = c << component
+    c.add_ports(cref.ports)
+
+    if function:
+        function(c)
     c.copy_child_info(component)
     return c
 
