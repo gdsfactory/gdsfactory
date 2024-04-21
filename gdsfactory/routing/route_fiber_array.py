@@ -304,12 +304,12 @@ def route_fiber_array(
             for io_gratings in io_gratings_lines:
                 for gr in io_gratings:
                     for p in to_route:
-                        dist = gr.x - p.x
+                        dist = gr.d.x - p.d.x
                         if abs(dist) < abs(min_dist):
                             min_dist = dist
                 if abs(min_dist) < min_dist_threshold:
                     for gr in io_gratings:
-                        gr.movex(-min_dist)
+                        gr.d.movex(-min_dist)
 
         # If the array of gratings is too close, adjust its location
         gc_ports_tmp = []
@@ -318,7 +318,7 @@ def route_fiber_array(
         min_y = get_min_spacing(
             to_route, gc_ports_tmp, separation=separation, radius=dy
         )
-        delta_y = abs(to_route[0].y - gc_ports_tmp[0].y)
+        delta_y = abs(to_route[0].d.y - gc_ports_tmp[0].d.y)
 
         if min_y > delta_y:
             for io_gratings in io_gratings_lines:
@@ -433,12 +433,12 @@ if __name__ == "__main__":
 
     gc = gf.components.grating_coupler_elliptical_te(taper_length=30)
 
-    # component = gf.components.nxn(north=2, south=2)
+    component = gf.components.nxn(north=10, south=10, east=10, west=10)
     # component = gf.components.straight()
     # component = gf.components.mmi2x2()
     # component = gf.components.straight_heater_metal()
     # component = gf.components.ring_single()
-    component = gf.components.ring_double()
+    # component = gf.components.ring_double()
 
     ref = c << component
     routes = route_fiber_array(
