@@ -38,7 +38,7 @@ def straight(
     c.add_ports(ref.ports)
 
     c.info["length"] = float(length)
-    c.info["width"] = float(x.width)
+    c.info["width"] = tuple(x.width) if hasattr(x.width, "__iter__") else float(x.width)
     c.add_route_info(cross_section=x, length=length)
     c.absorb(ref)
     return c
