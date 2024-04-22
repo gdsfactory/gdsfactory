@@ -301,8 +301,9 @@ def route_fiber_array(
             straight=straight,
             bend=bend90,
             cross_section=cross_section,
-            enforce_port_ordering=False,
             port_type=port_type,
+            sort_ports=True,
+            enforce_port_ordering=False,
         )
 
     else:
@@ -320,8 +321,9 @@ def route_fiber_array(
                 bend=bend90,
                 straight=straight,
                 cross_section=cross_section,
-                enforce_port_ordering=False,
                 port_type=port_type,
+                sort_ports=True,
+                enforce_port_ordering=False,
             )
             del to_route[n0 - dn : n0 + dn]
 
@@ -413,5 +415,4 @@ if __name__ == "__main__":
         # fanout_length=200,
         force_manhattan=True,
     )
-    c.write_gds("/home/archie/Downloads/test.gds")
     c.show()

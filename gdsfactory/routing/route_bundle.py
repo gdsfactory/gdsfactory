@@ -25,14 +25,11 @@ from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.routing.validation import (
-    is_invalid_bundle_topology,
-    make_error_traces,
-)
 from gdsfactory.typings import (
     Component,
     ComponentSpec,
     CrossSectionSpec,
+    LayerSpecs,
     MultiCrossSectionAngleSpec,
 )
 
@@ -93,7 +90,7 @@ def route_bundle(
     separation: float = 3.0,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
-    sort_ports: bool = True,
+    sort_ports: bool = False,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     start_straight_length: float = 0,
     end_straight_length: float = 0,
@@ -101,6 +98,8 @@ def route_bundle(
     min_straight_taper: float = 100,
     taper: ComponentSpec | None = None,
     port_type: str = "optical",
+    collision_check_layers: LayerSpecs | None = None,
+    on_collision: str | None = "show_error",
     **kwargs,
 ) -> list[OpticalManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
@@ -128,6 +127,8 @@ def route_bundle(
         enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
         steps: specify waypoint steps to route using route_bundle_from_steps.
         waypoints: specify waypoints to route using route_bundle_from_steps.
+        collision_check_layers: list of layers to check for collisions.
+        on_collision: action to take on collision. Defaults to show_error.
 
     Keyword Args:
         width: main layer waveguide width (um).
@@ -209,13 +210,6 @@ def route_bundle(
         ports1, ports2 = sort_ports_function(
             ports1, ports2, enforce_port_ordering=enforce_port_ordering
         )
-    if enforce_port_ordering and is_invalid_bundle_topology(ports1, ports2):
-        return make_error_traces(
-            component,
-            ports1,
-            ports2,
-            "Not a routable bundle topology! Try flipping the port order of either ports1 or ports2",
-        )
 
     xs = gf.get_cross_section(cross_section, **kwargs)
     width = xs.width
@@ -242,6 +236,9 @@ def route_bundle(
     end_straight = round(end_straight_length / dbu)
     start_straight = round(start_straight_length / dbu)
 
+    collision_check_layers = collision_check_layers or []
+    collision_check_layers = [gf.get_layer(layer) for layer in collision_check_layers]
+
     kf.routing.optical.route_bundle(
         component,
         ports1,
@@ -254,6 +251,7 @@ def route_bundle(
         end_straights=end_straight,
         min_straight_taper=round(min_straight_taper / dbu),
         place_port_type=port_type,
+        collision_check_layers=collision_check_layers,
     )
 
 
@@ -296,11 +294,12 @@ if __name__ == "__main__":
     routes = route_bundle(
         c,
         [c2.ports["o2"], c2.ports["o1"]],
-        [c1.ports["o1"], c1.ports["o2"]],
-        enforce_port_ordering=False,
+        [c1.ports["o2"], c1.ports["o1"]],
+        # enforce_port_ordering=True,
         separation=5,
         cross_section="xs_sc",
         end_straight_length=0,
+        collision_check_layers=[(1, 0)],
         # layer=(2, 0),
         # straight=partial(gf.components.straight, layer=(2, 0), width=1),
     )
