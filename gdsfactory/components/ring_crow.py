@@ -31,8 +31,8 @@ def ring_crow(
         length_y: vertical straight length.
         coupler: ring coupler spec.
         straight: straight spec.
-        input_straight_cross_section: cross_section spec for input and output straight.
-        output_straight_cross_section: cross_section spec for input and output straight.
+        input_straight_cross_section: cross_section spec for input and output straight. Defaults to cross_section.
+        output_straight_cross_section: cross_section spec for input and output straight. Defaults to cross_section.
         cross_section: cross_section spec for input and output straight.
         kwargs: cross_section settings.
 
