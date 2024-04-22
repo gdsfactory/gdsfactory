@@ -3,10 +3,7 @@ name: mzi_DL10_LY2_LX0p1_Bbend_euler_nc_Sstraight_nc_SYNone_SXTNone_SXBNone_Smmi
 settings:
   add_optical_ports_arms: false
   bend: bend_euler_nc
-  combiner: None
   cross_section: xs_134304f7
-  cross_section_x_bot: None
-  cross_section_x_top: None
   delta_length: 10.0
   function_name: mzi
   length_x: 0.1
@@ -20,7 +17,4 @@ settings:
   port_e1_splitter: o2
   splitter: mmi1x2_nc
   straight: straight_nc
-  straight_x_bot: None
-  straight_x_top: None
-  straight_y: None
   with_splitter: true

@@ -63,5 +63,7 @@ if __name__ == "__main__":
     ]
     left_ports.reverse()
 
-    routes = gf.routing.route_bundle_sbend(c, right_ports, left_ports)
+    routes = gf.routing.route_bundle_sbend(
+        c, right_ports, left_ports, enforce_port_ordering=False
+    )
     c.show()

@@ -1,4 +1,5 @@
 """based on phidl.routing."""
+
 from __future__ import annotations
 
 import numpy as np
@@ -159,7 +160,7 @@ def path_manhattan(port1: Port, port2: Port, radius: float) -> Path:
         radius: Bend radius for 90 degree bend.
 
     """
-    radius = radius + 0.1  # ensure space for bend radius
+    radius += 0.1
     e1, e2 = _get_rotated_basis(port1.orientation)
     displacement = port2.center - port1.center
     xrel = np.round(

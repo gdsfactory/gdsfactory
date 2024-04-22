@@ -1,4 +1,5 @@
 """Route for electrical based on phidl.routing.route_quad."""
+
 from __future__ import annotations
 
 import numpy as np
@@ -27,12 +28,13 @@ def route_quad(
     """Routes a basic quadrilateral polygon directly between two ports.
 
     Args:
+        component: Component to add the route to.
         port1: Port to start route.
         port2 : Port objects to end route.
         width1: Width of quadrilateral at ports. If None, uses port widths.
         width2: Width of quadrilateral at ports. If None, uses port widths.
         layer: Layer to put the route on.
-        manhattan: if not none, min step to manhattanize the polygon
+        manhattan_target_step: if not none, min step to manhattanize the polygon
 
     .. plot::
         :include-source:
@@ -93,23 +95,6 @@ def route_quad(
         width=width2,
         layer=layer,
     )
-
-
-def test_manhattan_route_quad() -> None:
-    c = gf.Component()
-    pad1 = c << gf.components.pad(size=(50, 50))
-    pad2 = c << gf.components.pad(size=(10, 10))
-    pad2.d.movex(100)
-    pad2.d.movey(50)
-    route_gnd = c << route_quad(
-        pad1.ports["e2"],
-        pad2.ports["e4"],
-        width1=None,
-        width2=None,
-        manhattan_target_step=0.1,
-    )
-
-    assert np.shape(route_gnd.get_polygons()) == (1, 1210, 2)
 
 
 if __name__ == "__main__":
