@@ -30,7 +30,7 @@ def add_pads_bot(
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
     taper: ComponentSpec | None = None,
-    place_port_type="electrical",
+    port_type="electrical",
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -129,7 +129,7 @@ def add_pads_bot(
         fiber_spacing=pad_spacing,
         optical_routing_type=optical_routing_type,
         taper=taper,
-        place_port_type=place_port_type,
+        port_type=port_type,
         **kwargs,
     )
     component_new.add_ref(component)

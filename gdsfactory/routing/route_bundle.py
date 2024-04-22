@@ -100,7 +100,7 @@ def route_bundle(
     enforce_port_ordering: bool = True,
     min_straight_taper: float = 100,
     taper: ComponentSpec | None = None,
-    place_port_type: str = "optical",
+    port_type: str = "optical",
     **kwargs,
 ) -> list[OpticalManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
@@ -253,7 +253,7 @@ def route_bundle(
         start_straights=start_straight,
         end_straights=end_straight,
         min_straight_taper=round(min_straight_taper / dbu),
-        place_port_type=place_port_type,
+        place_port_type=port_type,
     )
 
 

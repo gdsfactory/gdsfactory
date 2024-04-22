@@ -50,10 +50,8 @@ def route_fiber_array(
     select_ports: Callable = select_ports_optical,
     radius: float | None = None,
     cross_section: CrossSectionSpec = strip,
-    min_length: float = 10e-3,
     optical_routing_type: int = 1,
-    place_port_type: str = "optical",
-    **kwargs,
+    port_type: str = "optical",
 ) -> Component:
     """Returns new component with fiber array.
 
@@ -91,7 +89,6 @@ def route_fiber_array(
         select_ports: function to select ports for which to add grating couplers.
         radius: optional radius of the bend. Defaults to the cross_section.
         cross_section: cross_section.
-        min_length: minimum length of the component.
     """
     if optical_routing_type not in [1, 2]:
         raise ValueError(f"optical_routing_type={optical_routing_type} must be 1 or 2")
@@ -139,7 +136,6 @@ def route_fiber_array(
 
     # `delta_gr_min` Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * radius
-
     dy = bend90.d.ysize
     delta_gr_min = 2 * dy + 1
 
@@ -262,7 +258,7 @@ def route_fiber_array(
         select_ports=select_ports,
         port_names=port_names,
         cross_section=cross_section,
-        place_port_type=place_port_type,
+        port_type=port_type,
     )
     to_route = c.ports
 
@@ -294,8 +290,6 @@ def route_fiber_array(
                 gr.d.center = (gr.d.center.x, gr.d.center.y + delta_y - min_y)
 
     # If we add align ports, we need enough space for the bends
-    # end_straight_offset = straight_separation + 5 if with_loopback else min_length
-
     if len(io_gratings_lines) == 1:
         io_gratings = io_gratings_lines[0]
         gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
@@ -304,12 +298,11 @@ def route_fiber_array(
             ports1=to_route,
             ports2=gc_ports,
             separation=separation,
-            # end_straight_length=end_straight_offset,
             straight=straight,
             bend=bend90,
             cross_section=cross_section,
             enforce_port_ordering=False,
-            place_port_type=place_port_type,
+            port_type=port_type,
         )
 
     else:
@@ -324,12 +317,11 @@ def route_fiber_array(
                 ports1=to_route[n0 - dn : n0 + dn],
                 ports2=gc_ports,
                 separation=separation,
-                # end_straight_length=end_straight_offset,
                 bend=bend90,
                 straight=straight,
                 cross_section=cross_section,
                 enforce_port_ordering=False,
-                place_port_type=place_port_type,
+                port_type=port_type,
             )
             del to_route[n0 - dn : n0 + dn]
 

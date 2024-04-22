@@ -60,7 +60,7 @@ def route_single(
     end_straight_length: float = 0.0,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     waypoints: Coordinates | None = None,
-    place_port_type: str = "optical",
+    port_type: str = "optical",
     **kwargs,
 ) -> OpticalManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
@@ -146,7 +146,7 @@ def route_single(
             bend90_cell=bend90,
             taper_cell=taper_cell,
             pts=waypoints,
-            port_type=place_port_type,
+            port_type=port_type,
         )
 
     else:
@@ -159,7 +159,7 @@ def route_single(
             taper_cell=taper_cell,
             start_straight=start_straight,
             end_straight=end_straight,
-            port_type=place_port_type,
+            port_type=port_type,
         )
 
 

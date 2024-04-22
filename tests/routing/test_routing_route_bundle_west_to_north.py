@@ -39,7 +39,7 @@ def test_route_bundle_west_to_north(
         ptports,
         bend=gf.components.wire_corner,
         enforce_port_ordering=False,
-        place_port_type="electrical",
+        port_type="electrical",
     )
     for i, route in enumerate(routes):
         lengths[i] = route.length
