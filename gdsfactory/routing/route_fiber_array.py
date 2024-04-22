@@ -28,7 +28,7 @@ from gdsfactory.typings import (
 def route_fiber_array(
     component: Component,
     component_to_route: Component | ComponentReference,
-    fiber_spacing: str | float = "fiber_array_spacing",
+    fiber_spacing: float = 127.0,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
@@ -38,8 +38,6 @@ def route_fiber_array(
     with_loopback: bool = True,
     straight_separation: float = 6.0,
     straight_to_grating_spacing: float = 5.0,
-    optical_routing_type: int | None = None,
-    connected_port_names: None = None,
     nb_optical_ports_lines: int = 1,
     force_manhattan: bool = False,
     excluded_ports: list[str] | None = None,
@@ -53,6 +51,8 @@ def route_fiber_array(
     radius: float | None = None,
     cross_section: CrossSectionSpec = strip,
     min_length: float = 10e-3,
+    optical_routing_type: int = 1,
+    **kwargs,
 ) -> Component:
     """Returns new component with fiber array.
 
@@ -70,19 +70,6 @@ def route_fiber_array(
         with_loopback: If True, add compact loopback alignment ports.
         straight_separation: min separation between routing straights.
         straight_to_grating_spacing: from align ports.
-        optical_routing_type: There are three options for optical routing.
-           * ``0`` is very basic but can be more compact.
-            Can also be used in combination with ``connected_port_names``.
-            or to route some components which otherwise fail with type ``1``.
-           * ``1`` is the standard routing.
-           * ``2`` uses the optical ports as a guideline for the component's physical size
-            (instead of using the actual component size).
-            Useful where the component is large due to metal tracks
-           * ``None: leads to an automatic decision based on size and number
-           of I/O of the component.
-        connected_port_names: only for type 0 optical routing.
-            Can specify which ports goes to which grating assuming the gratings are ordered from left to right.
-            e.g ['N0', 'W1','W0','E0','E1', 'N1' ] or [4,1,7,3]
         nb_optical_ports_lines: number of lines with I/O grating couplers. One line by default.
             WARNING: Only works properly if:
             - nb_optical_ports_lines divides the total number of ports.
@@ -104,8 +91,10 @@ def route_fiber_array(
         radius: optional radius of the bend. Defaults to the cross_section.
         cross_section: cross_section.
         min_length: minimum length of the component.
-
     """
+    if optical_routing_type not in [1, 2]:
+        raise ValueError(f"optical_routing_type={optical_routing_type} must be 1 or 2")
+
     c = component
     component = component_to_route
     fiber_spacing = gf.get_constant(fiber_spacing)
@@ -164,15 +153,12 @@ def route_fiber_array(
     K = K + 1 if K % 2 else K
 
     # Set routing type if not specified
-    pxs = [p.x for p in ports]
+    pxs = [p.d.x for p in ports]
     is_big_component = (
         (K > 2)
         or (max(pxs) - min(pxs) > fiber_spacing - delta_gr_min)
         or (component.d.xsize > fiber_spacing)
     )
-    if optical_routing_type is None:
-        optical_routing_type = 1 if is_big_component else 0
-    # choose the default length if the default fanout distance is not set
 
     def has_p(side) -> bool:
         return len(direction_ports[side]) > 0
@@ -213,7 +199,6 @@ def route_fiber_array(
         component.d.ymin - fanout_length - grating_coupler.ports[gc_port_name].d.x
     )
     y0_optical += -K / 2 * separation
-    y0_optical = round(y0_optical, 1)
 
     if max_y0_optical is not None:
         y0_optical = round(min(max_y0_optical, y0_optical), 1)
@@ -240,14 +225,7 @@ def route_fiber_array(
     nb_ports_per_line = N // nb_optical_ports_lines
     y_gr_gap = (K / nb_optical_ports_lines + 1) * separation
     gr_coupler_y_sep = grating_coupler.d.ysize + y_gr_gap + dy
-
     offset = (nb_ports_per_line - 1) * fiber_spacing / 2 - x_grating_offset
-
-    offset = round(offset / c.kcl.dbu)
-    y0_optical = round(y0_optical / c.kcl.dbu)
-    fiber_spacing_dbu = round(fiber_spacing / c.kcl.dbu)
-    gr_coupler_y_sep = round(gr_coupler_y_sep / c.kcl.dbu)
-
     io_gratings_lines = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]
 
     if grating_indices is None:
@@ -262,107 +240,94 @@ def route_fiber_array(
         for i, gc in zip(grating_indices, grating_couplers):
             gc_ref = c << gc
             gc_ref.d.rotate(gc_rotation)
-            gc_ref.x = x_c - offset + i * fiber_spacing_dbu
-            gc_ref.ymax = round(y0_optical - j * gr_coupler_y_sep)
+            gc_ref.d.x = x_c - offset + i * fiber_spacing
+            gc_ref.d.ymax = y0_optical - j * gr_coupler_y_sep
             io_gratings += [gc_ref]
 
         io_gratings_lines += [io_gratings[:]]
         ports += [grating.ports[gc_port_name] for grating in io_gratings]
 
-    if optical_routing_type == 0:
-        """Basic optical routing, typically fine for small components No
-        heuristic to avoid collisions between connectors.
+    route_south(
+        c,
+        component,
+        optical_routing_type=optical_routing_type,
+        excluded_ports=excluded_ports,
+        straight_separation=straight_separation,
+        io_gratings_lines=io_gratings_lines,
+        gc_port_name=gc_port_name,
+        bend=bend90,
+        straight=straight,
+        taper=taper,
+        select_ports=select_ports,
+        port_names=port_names,
+        cross_section=cross_section,
+    )
+    to_route = c.ports
 
-        If specified ports to connect in a specific order (i.e if
-        connected_port_names is not None and not empty) then grab these ports
-        """
-        raise NotImplementedError("optical_routing_type=0 not implemented")
-
-    elif optical_routing_type in [1, 2]:
-        route_south(
-            c,
-            component,
-            optical_routing_type=optical_routing_type,
-            excluded_ports=excluded_ports,
-            straight_separation=straight_separation,
-            io_gratings_lines=io_gratings_lines,
-            gc_port_name=gc_port_name,
-            bend=bend90,
-            straight=straight,
-            taper=taper,
-            select_ports=select_ports,
-            port_names=port_names,
-            cross_section=cross_section,
-        )
-        to_route = c.ports
-
-        if force_manhattan:
-            # 1) find the min x_distance between each grating and component port.
-            # 2) If abs(min distance) < 2* bend radius then offset io_gratings by -min_distance
-            min_dist = 2 * dy + 10.0
-            min_dist_threshold = 2 * dy + 1.0
-            for io_gratings in io_gratings_lines:
-                for gr in io_gratings:
-                    for p in to_route:
-                        dist = gr.d.x - p.d.x
-                        if abs(dist) < abs(min_dist):
-                            min_dist = dist
-                if abs(min_dist) < min_dist_threshold:
-                    for gr in io_gratings:
-                        gr.d.movex(-min_dist)
-
-        # If the array of gratings is too close, adjust its location
-        gc_ports_tmp = []
+    if force_manhattan:
+        # 1) find the min x_distance between each grating and component port.
+        # 2) If abs(min distance) < 2* bend radius then offset io_gratings by -min_distance
+        min_dist = 2 * dy + 10.0
+        min_dist_threshold = 2 * dy + 1.0
         for io_gratings in io_gratings_lines:
-            gc_ports_tmp += [gc.ports[gc_port_name] for gc in io_gratings]
-        min_y = get_min_spacing(
-            to_route, gc_ports_tmp, separation=separation, radius=dy
-        )
-        delta_y = abs(to_route[0].d.y - gc_ports_tmp[0].d.y)
-
-        if min_y > delta_y:
-            for io_gratings in io_gratings_lines:
+            for gr in io_gratings:
+                for p in to_route:
+                    dist = gr.d.x - p.d.x
+                    if abs(dist) < abs(min_dist):
+                        min_dist = dist
+            if abs(min_dist) < min_dist_threshold:
                 for gr in io_gratings:
-                    gr.origin = (gr.origin[0], gr.origin[1] + delta_y - min_y)
+                    gr.d.movex(-min_dist)
 
-        # If we add align ports, we need enough space for the bends
-        end_straight_offset = straight_separation + 5 if with_loopback else min_length
-        if len(io_gratings_lines) == 1:
-            io_gratings = io_gratings_lines[0]
+    # If the array of gratings is too close, adjust its location
+    gc_ports_tmp = []
+    for io_gratings in io_gratings_lines:
+        gc_ports_tmp += [gc.ports[gc_port_name] for gc in io_gratings]
+    min_y = get_min_spacing(to_route, gc_ports_tmp, separation=separation, radius=dy)
+    delta_y = abs(to_route[0].d.y - gc_ports_tmp[0].d.y)
+
+    if min_y > delta_y:
+        for io_gratings in io_gratings_lines:
+            for gr in io_gratings:
+                gr.d.center = (gr.d.center.x, gr.d.center.y + delta_y - min_y)
+
+    # If we add align ports, we need enough space for the bends
+    # end_straight_offset = straight_separation + 5 if with_loopback else min_length
+
+    if len(io_gratings_lines) == 1:
+        io_gratings = io_gratings_lines[0]
+        gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
+        route_bundle(
+            c,
+            ports1=to_route,
+            ports2=gc_ports,
+            separation=separation,
+            # end_straight_length=end_straight_offset,
+            straight=straight,
+            bend=bend90,
+            cross_section=cross_section,
+            enforce_port_ordering=False,
+        )
+
+    else:
+        for io_gratings in io_gratings_lines:
             gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
+            nb_gc_ports = len(io_gratings)
+            nb_ports_to_route = len(to_route)
+            n0 = nb_ports_to_route / 2
+            dn = nb_gc_ports / 2
             route_bundle(
                 c,
-                ports1=to_route,
+                ports1=to_route[n0 - dn : n0 + dn],
                 ports2=gc_ports,
                 separation=separation,
-                end_straight_length=end_straight_offset,
-                straight=straight,
+                # end_straight_length=end_straight_offset,
                 bend=bend90,
+                straight=straight,
                 cross_section=cross_section,
                 enforce_port_ordering=False,
             )
-
-        else:
-            for io_gratings in io_gratings_lines:
-                gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
-                nb_gc_ports = len(io_gratings)
-                nb_ports_to_route = len(to_route)
-                n0 = nb_ports_to_route / 2
-                dn = nb_gc_ports / 2
-                route_bundle(
-                    c,
-                    ports1=to_route[n0 - dn : n0 + dn],
-                    ports2=gc_ports,
-                    separation=separation,
-                    end_straight_length=end_straight_offset,
-                    bend=bend90,
-                    straight=straight,
-                    cross_section=cross_section,
-                    enforce_port_ordering=False,
-                )
-                del to_route[n0 - dn : n0 + dn]
-    else:
-        raise ValueError(f"optical_routing_type={optical_routing_type} not supported")
+            del to_route[n0 - dn : n0 + dn]
 
     c.add_ports(gc_ports)
 
@@ -373,11 +338,11 @@ def route_fiber_array(
         gca1.d.rotate(gc_rotation)
         gca2.d.rotate(gc_rotation)
 
-        gca1.x = x_c - offset + ii[0] * fiber_spacing_dbu
-        gca2.x = x_c - offset + ii[1] * fiber_spacing_dbu
+        gca1.d.x = x_c - offset + ii[0] * fiber_spacing
+        gca2.d.x = x_c - offset + ii[1] * fiber_spacing
 
-        gca1.ymax = round(y0_optical - j * gr_coupler_y_sep)
-        gca2.ymax = round(y0_optical - j * gr_coupler_y_sep)
+        gca1.d.ymax = round(y0_optical - j * gr_coupler_y_sep)
+        gca2.d.ymax = round(y0_optical - j * gr_coupler_y_sep)
 
         port0 = gca1.ports[gc_port_name]
         port1 = gca2.ports[gc_port_name]
@@ -419,7 +384,6 @@ def demo() -> None:
         component=c,
         grating_coupler=[gcte, gctm, gcte, gctm],
         with_loopback=True,
-        optical_routing_type=0,
         # bend=gf.components.bend_euler,
         bend=gf.components.bend_circular,
         radius=20,
@@ -451,5 +415,7 @@ if __name__ == "__main__":
         optical_routing_type=1,
         # optical_routing_type=2,
         # fanout_length=200,
+        force_manhattan=True,
     )
+    c.write_gds("/home/archie/Downloads/test.gds")
     c.show()

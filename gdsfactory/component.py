@@ -1,4 +1,5 @@
 """Component is a canvas for geometry."""
+
 from __future__ import annotations
 
 import pathlib
@@ -452,18 +453,6 @@ class Component(kf.KCell):
             len(v.name) <= max_name_length
         ), f"name `{v.name}` {len(v.name)} > {max_name_length} "
         return v
-
-    def show(self, **kwargs) -> None:
-        """Shows the Component in Klayout.
-
-        Args:
-            **kwargs: extra arguments to pass to klayout.db.Database.show().
-        """
-        if kwargs:
-            warnings.warn(
-                f"{kwargs.keys()} is deprecated. Use the klayout extension to show ports"
-            )
-        super().show()
 
     def copy_child_info(self, component: Component) -> None:
         """Copy and settings info from child component into parent.

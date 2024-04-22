@@ -6,11 +6,11 @@ from gdsfactory.port import Port
 
 
 def get_port_x(port: Port) -> float:
-    return port.center[0]
+    return port.d.center[0]
 
 
 def get_port_y(port: Port) -> float:
-    return port.center[1]
+    return port.d.center[1]
 
 
 def sort_ports_x(ports: list[Port]) -> list[Port]:
