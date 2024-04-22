@@ -327,6 +327,7 @@ def test_route_bundle_udirect(
 
     c = gf.Component(name="test_route_bundle_udirect")
     routes = route_bundle(
+        c,
         ports1,
         ports2,
         bend=gf.components.bend_circular,
@@ -335,7 +336,6 @@ def test_route_bundle_udirect(
     )
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route.references)
         lengths[i] = route.length
 
     if check:
@@ -438,10 +438,9 @@ def test_facing_ports(
     ]
 
     c = gf.Component("test_facing_ports")
-    routes = route_bundle(ports1, ports2)
+    routes = route_bundle(c, ports1, ports2)
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route.references)
         lengths[i] = route.length
 
     if check:
@@ -455,6 +454,7 @@ def test_route_bundle_small() -> None:
     c2 = c << gf.components.mmi2x2()
     c2.move((100, 40))
     routes = route_bundle(
+        c,
         [c1.ports["o3"], c1.ports["o4"]],
         [c2.ports["o2"], c2.ports["o1"]],
         separation=5.0,
@@ -462,7 +462,6 @@ def test_route_bundle_small() -> None:
         # cross_section=gf.cross_section.strip,
     )
     for route in routes:
-        c.add(route.references)
         assert np.isclose(route.length, 111.136), route.length
 
 
@@ -523,6 +522,7 @@ if __name__ == "__main__":
     c = gf.Component(f"test_route_bundle_u_indirect_{angle}_{dy}")
 
     routes = route_bundle(
+        c,
         ports1,
         ports2,
         bend=gf.components.bend_circular,
@@ -531,6 +531,5 @@ if __name__ == "__main__":
     )
     lengths = {}
     for i, route in enumerate(routes):
-        c.add(route.references)
         lengths[i] = route.length
     c.show()

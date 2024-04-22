@@ -16,27 +16,32 @@ def test_route_bundle_west_to_north(
     c = gf.Component("test_route_bundle_west_to_north")
     pad = partial(gf.components.pad, size=(10, 10))
     c = gf.Component()
-    pad_south = gf.components.pad_array(orientation=270, spacing=(15.0, 0.0), pad=pad)
-    pad_north = gf.components.pad_array(orientation=90, spacing=(15.0, 0.0), pad=pad)
+    pad_south = gf.components.pad_array(
+        port_orientation=270, spacing=(15.0, 0.0), pad=pad
+    )
+    pad_north = gf.components.pad_array(
+        port_orientation=90, spacing=(15.0, 0.0), pad=pad
+    )
     pl = c << pad_south
     pb = c << pad_north
     pl.rotate(90)
     pb.move((100, -100))
 
-    pbports = pb.get_ports_list()
-    ptports = pl.get_ports_list()
+    pbports = pb.ports
+    ptports = pl.ports
 
     c.add_ports(pbports, prefix="N")
     c.add_ports(ptports, prefix="S")
 
     routes = gf.routing.route_bundle(
+        c,
         pbports,
         ptports,
         bend=gf.components.wire_corner,
         enforce_port_ordering=False,
+        place_port_type="electrical",
     )
     for i, route in enumerate(routes):
-        c.add(route.references)
         lengths[i] = route.length
 
     if check:
@@ -58,13 +63,13 @@ def test_route_bundle_west_to_north2(
     )
 
     routes = gf.routing.route_bundle(
+        c,
         pbottom_facing_north,
         ptop_facing_west,
         bend=gf.components.wire_corner,
     )
 
     for i, route in enumerate(routes):
-        c.add(route.references)
         lengths[i] = route.length
 
     if check:
