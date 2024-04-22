@@ -26,11 +26,11 @@ def add_pads_bot(
     pad_port_name: str = "e1",
     pad: ComponentSpec = pad_rectangular,
     bend: ComponentSpec = "wire_corner",
-    straight_separation: float = 2.0,
+    straight_separation: float = 15.0,
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
     taper: ComponentSpec | None = None,
-    # port_type="electrical",
+    place_port_type="electrical",
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -129,7 +129,7 @@ def add_pads_bot(
         fiber_spacing=pad_spacing,
         optical_routing_type=optical_routing_type,
         taper=taper,
-        # place_port_type=port_type,
+        place_port_type=place_port_type,
         **kwargs,
     )
     component_new.add_ref(component)

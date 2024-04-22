@@ -24,10 +24,10 @@ To generate a route:
  4. generate straight portions in between tapers or bends
 
 """
+
 from __future__ import annotations
 
 import warnings
-from functools import partial
 
 import kfactory as kf
 from kfactory.routing.electrical import route_elec
@@ -60,6 +60,7 @@ def route_single(
     end_straight_length: float = 0.0,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     waypoints: Coordinates | None = None,
+    place_port_type: str = "optical",
     **kwargs,
 ) -> OpticalManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
@@ -105,14 +106,10 @@ def route_single(
     if min_straight_length:
         warnings.warn("minimum straight length not implemented yet")
 
-    port_type = (
-        "electrical" if "electrical" in (p1.port_type, p2.port_type) else "optical"
-    )
-
     xs = gf.get_cross_section(cross_section, **kwargs)
     width = xs.width
     width_dbu = width / component.kcl.dbu
-    straight = partial(straight, width=width, cross_section=cross_section)
+    # straight = partial(straight, width=width, cross_section=cross_section)
     taper_cell = taper(cross_section=cross_section) if taper else None
     bend90 = (
         gf.get_component(bend, cross_section=xs)
@@ -149,7 +146,7 @@ def route_single(
             bend90_cell=bend90,
             taper_cell=taper_cell,
             pts=waypoints,
-            port_type=port_type,
+            port_type=place_port_type,
         )
 
     else:
@@ -162,7 +159,7 @@ def route_single(
             taper_cell=taper_cell,
             start_straight=start_straight,
             end_straight=end_straight,
-            port_type=port_type,
+            port_type=place_port_type,
         )
 
 

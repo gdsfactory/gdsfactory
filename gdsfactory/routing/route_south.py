@@ -32,6 +32,7 @@ def route_south(
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = strip,
     start_straight_length: float = 0.5,
+    place_port_type: str = "optical",
 ) -> list[OpticalManhattanRoute]:
     """Places routes to route a component ports to the south.
 
@@ -108,6 +109,7 @@ def route_south(
         straight=straight,
         taper=taper,
         cross_section=cross_section,
+        place_port_type=place_port_type,
     )
 
     # Used to avoid crossing between straights in special cases

@@ -52,6 +52,7 @@ def route_fiber_array(
     cross_section: CrossSectionSpec = strip,
     min_length: float = 10e-3,
     optical_routing_type: int = 1,
+    place_port_type: str = "optical",
     **kwargs,
 ) -> Component:
     """Returns new component with fiber array.
@@ -261,6 +262,7 @@ def route_fiber_array(
         select_ports=select_ports,
         port_names=port_names,
         cross_section=cross_section,
+        place_port_type=place_port_type,
     )
     to_route = c.ports
 
@@ -307,6 +309,7 @@ def route_fiber_array(
             bend=bend90,
             cross_section=cross_section,
             enforce_port_ordering=False,
+            place_port_type=place_port_type,
         )
 
     else:
@@ -326,6 +329,7 @@ def route_fiber_array(
                 straight=straight,
                 cross_section=cross_section,
                 enforce_port_ordering=False,
+                place_port_type=place_port_type,
             )
             del to_route[n0 - dn : n0 + dn]
 
