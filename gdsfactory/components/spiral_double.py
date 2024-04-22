@@ -7,7 +7,7 @@ from gdsfactory.path import spiral_archimedean
 
 @gf.cell
 def spiral_double(
-    min_bend_radius: float = 10.0,
+    min_bend_radius: float | None = None,
     separation: float = 2.0,
     number_of_loops: float = 3,
     npoints: int = 1000,
@@ -17,7 +17,7 @@ def spiral_double(
     """Returns a spiral double (spiral in, and then out).
 
     Args:
-        min_bend_radius: inner radius of the spiral.
+        min_bend_radius: inner radius of the spiral. Defaults to cross_section radius.
         separation: separation between the loops.
         number_of_loops: number of loops per spiral.
         npoints: points for the spiral.
@@ -25,6 +25,8 @@ def spiral_double(
         bend: factory for the bends in the middle of the double spiral.
     """
     component = gf.Component()
+    xs = gf.get_cross_section(cross_section)
+    min_bend_radius = min_bend_radius or xs.radius
 
     bend = gf.get_component(
         bend, radius=min_bend_radius / 2, angle=180, cross_section=cross_section
