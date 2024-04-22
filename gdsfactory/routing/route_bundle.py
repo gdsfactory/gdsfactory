@@ -100,6 +100,7 @@ def route_bundle(
     port_type: str = "optical",
     collision_check_layers: LayerSpecs | None = None,
     on_collision: str | None = "show_error",
+    bboxes: list[kf.kdb.Box] | None = None,
     **kwargs,
 ) -> list[OpticalManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
@@ -252,6 +253,7 @@ def route_bundle(
         min_straight_taper=round(min_straight_taper / dbu),
         place_port_type=port_type,
         collision_check_layers=collision_check_layers,
+        bboxes=bboxes or [],
     )
 
 
@@ -298,8 +300,9 @@ if __name__ == "__main__":
         # enforce_port_ordering=True,
         separation=5,
         cross_section="xs_sc",
-        end_straight_length=0,
-        collision_check_layers=[(1, 0)],
+        # end_straight_length=0,
+        # collision_check_layers=[(1, 0)],
+        bboxes=[c1.bbox(), c2.bbox()],
         # layer=(2, 0),
         # straight=partial(gf.components.straight, layer=(2, 0), width=1),
     )
