@@ -255,10 +255,11 @@ straight_heater_metal_undercut_90_90 = partial(
 
 def test_ports() -> None:
     c = straight_heater_metal(length=50.0)
-    assert c.ports["o2"].center[0] == 50.0, c.ports["o2"].center[0]
+    assert c.ports["o2"].d.center[0] == 50.0, c.ports["o2"].d.center[0]
 
 
 if __name__ == "__main__":
+    # test_ports()
     # c = straight_heater_metal_undercut()
     # print(c.ports['o2'].center[0])
     # c.pprint_ports()
@@ -267,7 +268,7 @@ if __name__ == "__main__":
     # c = straight_heater_metal_undercut(length=200)
     # n = c.get_netlist()
     # c = straight_heater_metal(length=20)
-    c = straight_heater_metal_simple()
+    c = straight_heater_metal()
     c.show()
     # scene = c.to_3d()
     # scene.show()

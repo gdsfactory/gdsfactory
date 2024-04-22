@@ -1,7 +1,6 @@
 """You can remap layers."""
-from __future__ import annotations
 
-from functools import partial
+from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -10,10 +9,7 @@ from gdsfactory.component import Component
 @gf.cell
 def remap_layers() -> Component:
     c = gf.Component()
-    straight = partial(
-        gf.components.straight,
-        add_pins=None,
-    )
+    straight = gf.components.straight
 
     wg1 = c << straight(length=11, width=1, layer=(1, 0))
     wg2 = c << straight(length=11, width=1, layer=(1, 0))

@@ -12,6 +12,7 @@ polygons to that single layer.
 FIXME! flatten gives a seg fault
 
 """
+
 from __future__ import annotations
 
 import gdsfactory as gf
@@ -27,8 +28,8 @@ def flatten_device() -> Component:
     c.add_ref(gf.components.rectangle(size=(10, 3), layer=(2, 0)))
 
     assert len(c.insts) == 3
-    # c.flatten()
-    # assert len(c.insts) == 0
+    c.flatten()
+    assert len(c.insts) == 0
     return c
 
 
