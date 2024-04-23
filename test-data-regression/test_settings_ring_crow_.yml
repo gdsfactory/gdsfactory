@@ -3,10 +3,7 @@ info: {}
 module: gdsfactory.components.ring_crow
 name: ring_crow
 settings:
-  bends:
-  - function: bend_circular
-  - function: bend_circular
-  - function: bend_circular
+  bends: null
   cross_section: xs_sc
   gaps:
   - 0.2
@@ -25,18 +22,6 @@ settings:
   - 10.0
   - 10.0
   ring_cross_sections:
-  - function: cross_section
-    module: gdsfactory.cross_section
-    settings:
-      radius: 10
-      radius_min: 5
-  - function: cross_section
-    module: gdsfactory.cross_section
-    settings:
-      radius: 10
-      radius_min: 5
-  - function: cross_section
-    module: gdsfactory.cross_section
-    settings:
-      radius: 10
-      radius_min: 5
+  - xs_sc
+  - xs_sc
+  - xs_sc

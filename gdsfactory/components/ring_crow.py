@@ -4,7 +4,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight
-from gdsfactory.cross_section import strip
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -12,8 +11,8 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def ring_crow(
     gaps: list[float] = [0.2] * 4,
     radius: list[float] = [10.0] * 3,
-    bends: list[ComponentSpec] = [bend_circular] * 3,
-    ring_cross_sections: list[CrossSectionSpec] = [strip] * 3,
+    bends: list[ComponentSpec] | None = None,
+    ring_cross_sections: list[CrossSectionSpec] = ["xs_sc"] * 3,
     length_x: float = 0,
     lengths_y: list[float] = [0] * 3,
     input_straight_cross_section: CrossSectionSpec | None = None,
@@ -63,6 +62,8 @@ def ring_crow(
           length_x
     """
     c = Component()
+
+    bends = bends or [bend_circular] * len(radius)
     input_straight_cross_section = input_straight_cross_section or cross_section
     output_straight_cross_section = output_straight_cross_section or cross_section
 
