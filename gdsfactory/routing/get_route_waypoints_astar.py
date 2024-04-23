@@ -283,13 +283,11 @@ def A_star(start_pos, end_pos, search_space):
                     
                     # check if its a turn
                     if search_space[x_n][y_n].parent and search_space[x_n][y_n].parent.parent and is_turn(search_space[x_n][y_n]):
-                        
                         # if turn is legal (if parent's distance till turn <= 1 node), add to queue
                         if not (search_space[x_n][y_n].parent.dist_till_legal_turn > 1):
                             search_space[x_n][y_n].dist_till_legal_turn = 1000 # dist (in nodes) until next legal turn
                             f = manhattan_heur(x, y, end_x, end_y) + search_space[x_n][y_n].cost
                             q.insert(search_space[x_n][y_n], f)
-                            print("turning")
                     
                     # its not a turn
                     else:
