@@ -273,6 +273,7 @@ def A_star(start_pos, end_pos, search_space, bs=0):
         # add neighbours to stack
         neighbour_coords = get_neighbour_coords((x,y), search_space)
         for x_n, y_n in neighbour_coords:
+            
 
             # if neighbour exists (ie is not in restricted area)
             if search_space[x_n][y_n]:
@@ -280,13 +281,18 @@ def A_star(start_pos, end_pos, search_space, bs=0):
                 if not search_space[x_n][y_n].visited and search_space[x_n][y_n] not in q.queue:
                     search_space[x_n][y_n].parent = curr_node
                     search_space[x_n][y_n].cost = curr_node.cost + 1
+
+                    if search_space[x_n][y_n].parent and search_space[x_n][y_n].parent.parent:
+                        turn = is_turn(search_space[x_n][y_n])*5
+                    else:
+                        turn = 0
                     
                     # check if its a turn
-                    if search_space[x_n][y_n].parent and search_space[x_n][y_n].parent.parent and is_turn(search_space[x_n][y_n]):
+                    if turn:
                         # if turn is legal (if parent's distance till turn <= 1 node), add to queue
                         if not (search_space[x_n][y_n].parent.dist_till_legal_turn > 1):
                             search_space[x_n][y_n].dist_till_legal_turn = bs/.01 + 10 # dist (in nodes) until next legal turn
-                            f = manhattan_heur(x, y, end_x, end_y) + search_space[x_n][y_n].cost + is_turn(search_space[x_n][y_n])*10
+                            f = manhattan_heur(x, y, end_x, end_y) + search_space[x_n][y_n].cost + turn
                             q.insert(search_space[x_n][y_n], f)
                     
                     # its not a turn
@@ -298,7 +304,7 @@ def A_star(start_pos, end_pos, search_space, bs=0):
                             search_space[x_n][y_n].dist_till_legal_turn = 0
                         
                         # add to queue
-                        f = manhattan_heur(x, y, end_x, end_y) + search_space[x_n][y_n].cost
+                        f = manhattan_heur(x, y, end_x, end_y) + search_space[x_n][y_n].cost + turn
                         q.insert(search_space[x_n][y_n], f)
 
 

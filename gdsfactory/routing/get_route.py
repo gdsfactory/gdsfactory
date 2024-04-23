@@ -188,7 +188,7 @@ def get_route(
         bend=bend90,
         with_sbend=with_sbend,
         cross_section=cross_section,
-        restricted_area=restricted_area
+        restricted_area=restricted_area,
     )
 
 
