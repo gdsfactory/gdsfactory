@@ -19,6 +19,7 @@ class Node:
         self.visited = visited
         self.parent = parent
         self.cost = 0
+        self.dist_till_legal_turn = 0
 
     def __str__(self):
         return "Node:"+str(self.coords[0]) +","+ str(self.coords[1])
@@ -60,6 +61,23 @@ def dims_to_ints(dims, factor):
 
 def ints_to_dims(dims, factor):
     return np.array([round(dims[0]*factor, 1), round(dims[1]*factor, 1)])
+
+# helper to check if we are turning
+def is_turn(node):
+
+    # check parent and grandparent
+    parent_coords = node.parent.coords
+    grandparent_coords = node.parent.parent.coords
+
+    # travelling in the x-direction, then turning
+    if (parent_coords[0] == grandparent_coords[0]) and grandparent_coords[0] != node.coords[0]:
+        return True
+    
+    # travelling in the y-direction, then turning
+    elif (parent_coords[1] == grandparent_coords[1]) and grandparent_coords[1] != node.coords[1]:
+        return True
+
+    return False
 
 # to get the waypoints from the path
 def waypoints_from_path(path):
@@ -258,12 +276,33 @@ def A_star(start_pos, end_pos, search_space):
 
             # if neighbour exists (ie is not in restricted area)
             if search_space[x_n][y_n]:
+
                 if not search_space[x_n][y_n].visited and search_space[x_n][y_n] not in q.queue:
                     search_space[x_n][y_n].parent = curr_node
                     search_space[x_n][y_n].cost = curr_node.cost + 1
-                    f = manhattan_heur(x, y, end_x, end_y) + search_space[x_n][y_n].cost
-                    q.insert(search_space[x_n][y_n], f)
-                    #q.insert(search_space[x_n][y_n], manhattan_heur(x, y, end_x, end_y))
+                    
+                    # check if its a turn
+                    if search_space[x_n][y_n].parent and search_space[x_n][y_n].parent.parent and is_turn(search_space[x_n][y_n]):
+                        
+                        # if turn is legal (if parent's distance till turn <= 1 node), add to queue
+                        if not (search_space[x_n][y_n].parent.dist_till_legal_turn > 1):
+                            search_space[x_n][y_n].dist_till_legal_turn = 1000 # dist (in nodes) until next legal turn
+                            f = manhattan_heur(x, y, end_x, end_y) + search_space[x_n][y_n].cost
+                            q.insert(search_space[x_n][y_n], f)
+                            print("turning")
+                    
+                    # its not a turn
+                    else:
+                        # update distance until legal turn
+                        if search_space[x_n][y_n].parent.dist_till_legal_turn > 1:
+                            search_space[x_n][y_n].dist_till_legal_turn = search_space[x_n][y_n].parent.dist_till_legal_turn - 1
+                        else:
+                            search_space[x_n][y_n].dist_till_legal_turn = 0
+                        
+                        # add to queue
+                        f = manhattan_heur(x, y, end_x, end_y) + search_space[x_n][y_n].cost
+                        q.insert(search_space[x_n][y_n], f)
+
 
     # retrieve the path
     if curr_node != search_space[end_x][end_y]:
@@ -323,3 +362,9 @@ def generate_route_astar_points(
     
     print("waypoints", np.array(waypoints))
     return np.array(waypoints)
+
+"""
+# misc todos
+- calculate turn distance
+"""
+turn_dist = 2 # nodes needed straight before turning
