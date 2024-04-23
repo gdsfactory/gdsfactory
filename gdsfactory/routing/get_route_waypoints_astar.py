@@ -227,7 +227,7 @@ def retrieve_path(start_node, final_node):
     return path
 
 # def A_star(input_port, output_port, search_space):
-def A_star(start_pos, end_pos, search_space):
+def A_star(start_pos, end_pos, search_space, bs=0):
     """
     Routes multiple wires, until no more wires can be routed. Prints out the
     visualization once all wires are routed.
@@ -285,8 +285,8 @@ def A_star(start_pos, end_pos, search_space):
                     if search_space[x_n][y_n].parent and search_space[x_n][y_n].parent.parent and is_turn(search_space[x_n][y_n]):
                         # if turn is legal (if parent's distance till turn <= 1 node), add to queue
                         if not (search_space[x_n][y_n].parent.dist_till_legal_turn > 1):
-                            search_space[x_n][y_n].dist_till_legal_turn = 1000 # dist (in nodes) until next legal turn
-                            f = manhattan_heur(x, y, end_x, end_y) + search_space[x_n][y_n].cost
+                            search_space[x_n][y_n].dist_till_legal_turn = bs/.01 + 10 # dist (in nodes) until next legal turn
+                            f = manhattan_heur(x, y, end_x, end_y) + search_space[x_n][y_n].cost + is_turn(search_space[x_n][y_n])*10
                             q.insert(search_space[x_n][y_n], f)
                     
                     # its not a turn
@@ -308,6 +308,7 @@ def A_star(start_pos, end_pos, search_space):
         return 0
 
     path = retrieve_path(search_space[start_x][start_y], search_space[end_x][end_y])
+    print('BEND DIST', bs/.01)
 
     return path
 
@@ -337,7 +338,7 @@ def generate_route_astar_points(
         end_pos[0] -= max(bs, end_straight_length, min_straight_length)
 
     
-    A_star_path = A_star(dims_to_ints(start_pos, 10), dims_to_ints(end_pos, 10), search_space)
+    A_star_path = A_star(dims_to_ints(start_pos, 10), dims_to_ints(end_pos, 10), search_space, bs=bs)
     waypoints = waypoints_from_path(A_star_path)
 
     # Check if waypoints[0] -> waypoints[1] is going in the same direction as i_port_pos -> waypoints[0]
@@ -360,9 +361,3 @@ def generate_route_astar_points(
     
     print("waypoints", np.array(waypoints))
     return np.array(waypoints)
-
-"""
-# misc todos
-- calculate turn distance
-"""
-turn_dist = 2 # nodes needed straight before turning
