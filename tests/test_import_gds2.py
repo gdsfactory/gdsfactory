@@ -24,7 +24,7 @@ def test_read_gds_equivalent() -> None:
     c1 = gf.components.straight(length=1.234)
     gdspath = gf.PATH.gdsdir / "straight.gds"
 
-    c2 = gf.import_gds(gdspath, read_metadata=True, unique_names=False)
+    c2 = gf.import_gds(gdspath, read_metadata=True, unique_names=True)
     d1 = c1.to_dict()
     d2 = c2.to_dict()
     d1.pop("name")
@@ -60,7 +60,7 @@ def _write() -> None:
 
 
 if __name__ == "__main__":
-    _write()
+    # _write()
     # c1 = gf.components.straight(length=1.234)
     # gdspath = gf.PATH.gdsdir / "straight.gds"
 
