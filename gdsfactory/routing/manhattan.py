@@ -18,6 +18,7 @@ from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import angles_deg
 from gdsfactory.port import Port, select_ports_list
 from gdsfactory.routing.get_route_sbend import get_route_sbend
+from gdsfactory.routing.get_route_waypoints_astar import generate_route_astar_points
 from gdsfactory.typings import (
     ComponentSpec,
     Coordinate,
@@ -29,8 +30,6 @@ from gdsfactory.typings import (
     MultiCrossSectionAngleSpec,
     Route,
 )
-
-from gdsfactory.routing.get_route_waypoints_astar import generate_route_astar_points
 
 nm = 1e-3
 TOLERANCE = 1 * nm
@@ -1000,7 +999,7 @@ def generate_manhattan_waypoints(
         start_straight_length,
         end_straight_length,
         min_straight_length,
-        restricted_area
+        restricted_area,
     )
     return _generate_route_manhattan_points(
         input_port,
@@ -1072,7 +1071,7 @@ def route_manhattan(
             min_straight_length=min_straight_length,
             bend=bend,
             cross_section=x,
-            restricted_area=restricted_area
+            restricted_area=restricted_area,
         )
         return round_corners(
             points=points,

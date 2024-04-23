@@ -139,7 +139,7 @@ def get_route(
         c.plot()
 
     """
-    
+
     obstacle_list = list(set(component.references))
     restricted_area = get_restricted_area(obstacle_list, component_margin)
 
