@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.24.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.24.0) - 2024-04-22
+
+No significant changes.
+
+
 ## [7.23.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.23.0) - 2024-04-10
 
 - add flag to remap layers [#2662](https://github.com/gdsfactory/gdsfactory/pull/2662)
