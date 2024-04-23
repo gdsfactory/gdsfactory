@@ -73,7 +73,7 @@ def import_gds(
     for c in gdsii_lib.cells:
         D = Component()
         D._cell = c
-        name = c.name + f"_{uuid.uuid4().hex[:8]}" if unique_names else c.name
+        name = f"{c.name}_{uuid.uuid4().hex[:8]}" if unique_names else c.name
 
         if not keep_name_short:
             max_name_length = 10000000000000
