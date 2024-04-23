@@ -26,28 +26,30 @@ if __name__ == "__main__":
     phase_shifter_optical_ports = []
 
     for i, port in enumerate(
-        splitter_tree.get_ports_list(orientation=0, port_type="optical")
+        splitter_tree.ports.filter(orientation=0, port_type="optical")
     ):
         ref = c.add_ref(phase_shifter, alias=f"ps{i}")
         ref.connect("o1", port)
-        c.add_ports(ref.get_ports_list(port_type="electrical"), prefix=f"ps{i}")
+        c.add_ports(ref.ports.filter(port_type="electrical"), prefix=f"ps{i}")
         phase_shifter_optical_ports.append(ref.ports["o2"])
 
     # antennas
     antennas = c << gf.components.array(
-        gf.components.dbr(n=200), rows=noutputs, columns=1, spacing=(0, antenna_pitch)
+        gf.components.dbr(n=200),
+        rows=noutputs,
+        columns=1,
+        spacing=(0, antenna_pitch),
+        centered=True,
     )
-    antennas.xmin = ref.xmax + 50
-    antennas.y = 0
+    antennas.d.xmin = ref.d.xmax + 100
+    antennas.d.y = 0
 
     routes = gf.routing.route_bundle(
-        ports1=antennas.get_ports_list(orientation=180),
+        c,
+        ports1=antennas.ports.filter(orientation=180),
         ports2=phase_shifter_optical_ports,
         radius=5,
         enforce_port_ordering=False,
     )
-
-    for route in routes:
-        c.add(route.references)
 
     c.show()

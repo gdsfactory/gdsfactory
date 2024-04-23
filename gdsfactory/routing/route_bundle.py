@@ -253,6 +253,7 @@ def route_bundle(
         min_straight_taper=round(min_straight_taper / dbu),
         place_port_type=port_type,
         collision_check_layers=collision_check_layers,
+        on_collision=on_collision,
         bboxes=bboxes or [],
     )
 
@@ -295,14 +296,14 @@ if __name__ == "__main__":
     c2.d.move((100, 70))
     routes = route_bundle(
         c,
-        [c2.ports["o2"], c2.ports["o1"]],
         [c1.ports["o2"], c1.ports["o1"]],
+        [c2.ports["o2"], c2.ports["o1"]],
         # enforce_port_ordering=True,
         separation=5,
         cross_section="xs_sc",
         # end_straight_length=0,
         # collision_check_layers=[(1, 0)],
-        bboxes=[c1.bbox(), c2.bbox()],
+        # bboxes=[c1.bbox(), c2.bbox()],
         # layer=(2, 0),
         # straight=partial(gf.components.straight, layer=(2, 0), width=1),
     )
