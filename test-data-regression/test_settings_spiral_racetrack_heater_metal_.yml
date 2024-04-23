@@ -14,4 +14,5 @@ settings:
   straight_factory:
     function: straight
   straight_length: 30
+  via_stack: via_stack_heater_mtop
   waveguide_cross_section: xs_sc
