@@ -14,6 +14,7 @@ modules:
     - c: components
     - routing
 """
+
 # isort: skip_file
 from __future__ import annotations
 from functools import partial
@@ -32,6 +33,7 @@ from gdsfactory.cell import (
     cell_with_child,
     remove_from_cache,
     container,
+    component_with_function,
 )
 from gdsfactory.cell import clear_cache
 from gdsfactory.show import show
@@ -110,6 +112,7 @@ __all__ = (
     "container",
     "clear_cache",
     "components",
+    "component_with_function",
     "compose",
     "cross_section",
     "decorators",

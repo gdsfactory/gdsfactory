@@ -11,12 +11,7 @@ info:
 module: gdsfactory.components.bend_circular
 name: bend_circular_angle180
 settings:
-  add_bbox: null
-  add_pins: true
   angle: 180
   cross_section: xs_sc
-  layer: null
   npoints: null
-  post_process: null
   radius: null
-  width: null

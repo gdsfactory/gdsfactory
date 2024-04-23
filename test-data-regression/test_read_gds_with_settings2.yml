@@ -16,13 +16,13 @@ settings:
   extend_ports_straight_x: null
   length_x: 0.1
   length_y: 2.0
+  min_length: 0.01
   mirror_bot: false
   nbends: 2
   port_e0_combiner: o3
   port_e0_splitter: o3
   port_e1_combiner: o2
   port_e1_splitter: o2
-  post_process: null
   splitter:
     function: mmi1x2
     module: gdsfactory.components.mmi1x2
@@ -32,15 +32,11 @@ settings:
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10.0
-      post_process: null
-      straight:
-        function: straight
       taper:
         function: taper
       width: null
       width_mmi: 2.5
       width_taper: 1.0
-      with_bbox: true
   straight:
     function: straight
   straight_x_bot: null

@@ -32,7 +32,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     from loguru import Logger
 
-__version__ = "7.14.0"
+__version__ = "7.24.0"
 PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
@@ -64,16 +64,17 @@ plugins = [
 pdks = [
     "aim",
     "amf",
-    "ct",
+    "ctpdk",
+    "cspdk",
     "gf180",
     "gf45",
+    "gvtt",
     "hhi",
     "imec",
     "sky130",
     "sph",
     "tj",
     "ubcpdk",
-    "gvtt",
 ]
 
 
@@ -244,17 +245,9 @@ class Settings(BaseSettings):
     """
 
     n_threads: int = get_number_of_cores()
-    display_type: Literal["widget", "klayout", "docs", "kweb"] = "klayout"
+    display_type: Literal["klayout", "matplotlib", "kweb"] = "klayout"
     last_saved_files: list[PathType] = []
     max_name_length: int = 99
-    model_config = SettingsConfigDict(
-        validation=True,
-        arbitrary_types_allowed=True,
-        env_prefix="gdsfactory_",
-        env_nested_delimiter="_",
-        env_file=dotenv_path,
-        extra="ignore",
-    )
     pdk: str | None = None
     difftest_ignore_cell_name_differences: bool = True
     difftest_ignore_sliver_differences: bool = False
@@ -282,6 +275,13 @@ class Settings(BaseSettings):
     logger: ClassVar[Logger] = logger
     logfilter: LogFilter = Field(default_factory=LogFilter)
 
+    model_config = SettingsConfigDict(
+        validation=True,
+        arbitrary_types_allowed=True,
+        env_file=dotenv_path,
+        extra="ignore",
+    )
+
     def __init__(self, **data: Any):
         """Set log filter and run pydantic."""
 
@@ -290,11 +290,22 @@ class Settings(BaseSettings):
         self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
         self.logger.debug("LogLevel: {}", self.logfilter.level)
 
-        showwarning_ = warnings.showwarning
-
-        def showwarning(message, *args, **kwargs):
-            self.logger.warning(message)
-            showwarning_(message, *args, **kwargs)
+        def showwarning(message, category, filename, lineno, *args, **kwargs):
+            try:
+                inferred_stack_depth = next(
+                    i
+                    for (
+                        i,
+                        stack,
+                    ) in enumerate(reversed(traceback.extract_stack()))
+                    if stack.lineno == lineno and stack.filename == filename
+                )
+            except StopIteration:
+                # depth 2 would show the same line as warnings.warn with default stacklevel
+                inferred_stack_depth = 2
+            self.logger.opt(depth=inferred_stack_depth).warning(
+                f"{category.__name__}: {message}"
+            )
 
         warnings.showwarning = showwarning
 
@@ -311,6 +322,7 @@ class Paths:
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = repo_path / "tests" / "gds"
+    thermal = repo_path / "tests" / "gds" / "thermal_phase_shifters.gds"
     gdslib = home / ".gdsfactory"
     modes = gdslib / "modes"
     sparameters = gdslib / "sp"

@@ -1,7 +1,14 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.config import PATH
 from gdsfactory.read.import_gds import import_gds
+
+
+@gf.cell(autoname=False, copy_if_cached=False)
+def import_gds_custom(gdspath, **kwargs):
+    return gf.import_gds(gdspath, **kwargs)
+
 
 # def test_import_gds_snap_to_grid() -> None:
 #     gdspath = gf.PATH.gdsdir / "mmi1x2.gds"
@@ -23,13 +30,16 @@ def test_import_gds_hierarchy() -> None:
     assert c.name == c0.name, c.name
 
 
-# def test_import_gds_add_padding() -> None:
-#     """Make sure you can import the ports"""
-#     c0 = gf.components.mzi_arms(decorator=gf.add_pins)
-#     gdspath = c0.write_gds()
+def test_import_gds_name() -> None:
+    cellname = "thermal_phase_shifter_multimode_500um"
+    c = import_gds(PATH.thermal, cellname=cellname)
+    assert c.name == cellname, c.name
 
-#     c1 = import_gds(gdspath, decorator=gf.add_padding_container, name="mzi")
-#     assert c1.name == "mzi"
+
+def test_import_gds_name_custom() -> None:
+    cellname = "thermal_phase_shifter_multimode_500um"
+    c = import_gds_custom(PATH.thermal, cellname=cellname)
+    assert c.name == cellname, c.name
 
 
 def test_import_gds_array() -> None:
@@ -52,34 +62,3 @@ def test_import_gds_raw() -> None:
 
     c = gf.read.import_gds(gdspath)
     assert c
-
-
-if __name__ == "__main__":
-    # test_import_gds_hierarchy()
-    # test_import_ports_inside()
-    test_import_gds_array()
-
-    # c = test_import_ports()
-    # c = test_import_gds_add_padding()
-    # c.show(show_ports=True)
-    # test_import_gds_snap_to_grid()
-
-    # cross_section = gf.cross_section.cross_section
-    # splitter = gf.components.mmi1x2(cross_section=cross_section)
-    # c0 = gf.components.mzi_arms(splitter=splitter, cross_section=cross_section)
-    # c0.unlock()
-    # c0 = add_pins(c0)
-    # c0.lock()
-
-    # gdspath = c0.write_gds()
-    # c0x1 = c0.ports["o1"].x
-    # c0x2 = c0.ports["o2"].x
-
-    # c1 = import_gds(gdspath, decorator=add_ports_from_markers_inside)
-    # c1x1 = c1.ports["o1"].x
-    # c1x2 = c1.ports["o2"].x
-
-    # assert c0x1 == c1x1
-    # assert c0x2 == c1x2
-
-    # c1.show(show_ports=True)

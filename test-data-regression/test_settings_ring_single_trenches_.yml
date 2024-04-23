@@ -7,6 +7,10 @@ settings:
   component:
     function: ring_single
   cross_section: xs_rc_with_trenches
+  layer_trench:
+  - 3
+  - 6
   left: false
   right: false
   top: true
+  width_trench: 3

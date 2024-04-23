@@ -7,7 +7,6 @@ from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.mmi2x2 import mmi2x2 as mmi_splitter_function
 from gdsfactory.components.mzi import mzi2x2_2x2 as mmi_coupler_function
 from gdsfactory.components.mzi import mzi_coupler
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.typings import ComponentSpec
 
@@ -149,7 +148,6 @@ def mzi_lattice_mmi(
         taper_function,
         taper_function,
     ),
-    straight_functions_mmis=(straight_function, straight_function),
     cross_sections_mmis=("xs_sc", "xs_sc"),
     delta_lengths: tuple[float, ...] = (10.0,),
     mzi=mmi_coupler_function,
@@ -166,7 +164,6 @@ def mzi_lattice_mmi(
         coupler_widths_mmis: (for each MMI coupler, list of) in y direction.
         coupler_gaps_mmis: (for each MMI coupler, list of) (width_taper + gap between tapered wg)/2.
         taper_functions_mmis: (for each MMI coupler, list of) taper function.
-        straight_functions_mmis: (for each MMI coupler, list of) straight function.
         cross_sections_mmis: (for each MMI coupler, list of) spec.
         delta_lengths: list of length differences.
         mzi: function for the mzi.
@@ -206,7 +203,6 @@ def mzi_lattice_mmi(
             coupler_widths_mmis,
             coupler_gaps_mmis,
             taper_functions_mmis,
-            straight_functions_mmis,
             cross_sections_mmis,
         ]
     ):
@@ -228,7 +224,6 @@ def mzi_lattice_mmi(
         width_mmi=coupler_widths_mmis[0],
         gap_mmi=coupler_gaps_mmis[0],
         taper=taper_functions_mmis[0],
-        straight=straight_functions_mmis[0],
         cross_section=cross_sections_mmis[0],
     )
     combiner_settings = dict(
@@ -239,7 +234,6 @@ def mzi_lattice_mmi(
         width_mmi=coupler_widths_mmis[1],
         gap_mmi=coupler_gaps_mmis[1],
         taper=taper_functions_mmis[1],
-        straight=straight_functions_mmis[1],
         cross_section=cross_sections_mmis[1],
     )
 
@@ -266,7 +260,6 @@ def mzi_lattice_mmi(
         coupler_width_mmi,
         coupler_gap_mmi,
         taper,
-        straight,
         cross_section,
         delta_length,
     ) in zip(
@@ -277,7 +270,6 @@ def mzi_lattice_mmi(
         coupler_widths_mmis[2:],
         coupler_gaps_mmis[2:],
         taper_functions_mmis[2:],
-        straight_functions_mmis[2:],
         cross_sections_mmis[2:],
         delta_lengths[1:],
     ):
@@ -289,7 +281,6 @@ def mzi_lattice_mmi(
             width_mmi=coupler_widths_mmis[1],
             gap_mmi=coupler_gaps_mmis[1],
             taper=taper_functions_mmis[1],
-            straight=straight_functions_mmis[1],
             cross_section=cross_sections_mmis[1],
         )
         combiner_settings = dict(
@@ -300,7 +291,6 @@ def mzi_lattice_mmi(
             width_mmi=coupler_width_mmi,
             gap_mmi=coupler_gap_mmi,
             taper=taper,
-            straight=straight,
             cross_section=cross_section,
         )
         splitter1 = gf.get_component(splitter, **splitter_settings)
@@ -357,7 +347,6 @@ if __name__ == "__main__":
         coupler_widths_mmis=(2.5,) * 5,
         coupler_gaps_mmis=(0.25,) * 5,
         taper_functions_mmis=(taper_function,) * 5,
-        straight_functions_mmis=(straight_function,) * 5,
         cross_sections_mmis=("xs_sc",) * 5,
         delta_lengths=(10.0,) * 4,
     )

@@ -147,24 +147,11 @@ def write_labels_gdstk(
     return filepath
 
 
-def test_find_labels() -> None:
-    import gdsfactory as gf
-    from gdsfactory.add_labels import add_labels_to_ports
-
-    c = gf.components.straight(length=124)
-    cc = add_fiber_single(component=c, decorator=add_labels_to_ports)
-    gdspath = cc.write_gds()
-    assert len(list(find_labels(gdspath))) == 4
-
-
 if __name__ == "__main__":
-    test_find_labels()
+    import gdsfactory as gf
 
-    # import gdsfactory as gf
-    # c = gf.components.straight()
-    # cc = add_fiber_single(component=c)
-    # gdspath = cc.write_gds()
-    # print(len(list(find_labels(gdspath))))
-    # cc.show(show_ports=True)
-    # gdspath = CONFIG["samples_path"] / "mask" / "build" / "mask" / "sample.gds"
-    # write_labels(gdspath)
+    c = gf.components.straight()
+    cc = add_fiber_single(component=c)
+    gdspath = cc.write_gds()
+    print(len(list(find_labels(gdspath))))
+    cc.show(show_ports=True)

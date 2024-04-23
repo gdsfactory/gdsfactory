@@ -25,7 +25,6 @@ instances:
       columns: 6
       orientation: 90
       pad: pad
-      post_process: null
       rows: 1
       spacing:
       - 150.0
@@ -44,21 +43,11 @@ instances:
       route_info_xs_sc_length: 16.637
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       angle: 90.0
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -77,16 +66,10 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
       direction: ccw
-      layer: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
-      width: null
       with_arc_floorplan: true
   bend_euler_2:
     component: bend_euler
@@ -102,21 +85,11 @@ instances:
       route_info_xs_sc_length: 16.637
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       angle: 90.0
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -135,16 +108,10 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
       direction: ccw
-      layer: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
-      width: null
       with_arc_floorplan: true
   bend_euler_3:
     component: bend_euler
@@ -160,21 +127,11 @@ instances:
       route_info_xs_sc_length: 16.637
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       angle: 90.0
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -193,16 +150,10 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
       direction: ccw
-      layer: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
-      width: null
       with_arc_floorplan: true
   bend_euler_4:
     component: bend_euler
@@ -218,21 +169,11 @@ instances:
       route_info_xs_sc_length: 16.637
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       angle: 90.0
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -251,16 +192,10 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
       direction: ccw
-      layer: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
-      width: null
       with_arc_floorplan: true
   bend_euler_5:
     component: bend_euler
@@ -276,21 +211,11 @@ instances:
       route_info_xs_sc_length: 16.637
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       angle: 90.0
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -309,16 +234,10 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
       direction: ccw
-      layer: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
-      width: null
       with_arc_floorplan: true
   bend_euler_6:
     component: bend_euler
@@ -334,21 +253,11 @@ instances:
       route_info_xs_sc_length: 16.637
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       angle: 90.0
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -367,16 +276,10 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
       direction: ccw
-      layer: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
-      width: null
       with_arc_floorplan: true
   bend_euler_7:
     component: bend_euler
@@ -392,21 +295,11 @@ instances:
       route_info_xs_sc_length: 16.637
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       angle: 90.0
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -425,16 +318,10 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
       direction: ccw
-      layer: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
-      width: null
       with_arc_floorplan: true
   bend_euler_8:
     component: bend_euler
@@ -450,21 +337,11 @@ instances:
       route_info_xs_sc_length: 16.637
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       angle: 90.0
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -483,16 +360,10 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
       direction: ccw
-      layer: null
       npoints: null
       p: 0.5
-      post_process: null
       radius: null
-      width: null
       with_arc_floorplan: true
   straight_1:
     component: straight
@@ -504,20 +375,10 @@ instances:
       route_info_xs_sc_length: 290.0
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -536,14 +397,8 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
-      layer: null
       length: 290.0
       npoints: 2
-      post_process: null
-      width: null
   straight_10:
     component: straight
     info:
@@ -554,20 +409,10 @@ instances:
       route_info_xs_sc_length: 440.0
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -586,14 +431,8 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
-      layer: null
       length: 440.0
       npoints: 2
-      post_process: null
-      width: null
   straight_2:
     component: straight
     info:
@@ -604,20 +443,10 @@ instances:
       route_info_xs_sc_length: 380.0
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -636,14 +465,8 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
-      layer: null
       length: 380.0
       npoints: 2
-      post_process: null
-      width: null
   straight_3:
     component: straight
     info:
@@ -654,20 +477,10 @@ instances:
       route_info_xs_sc_length: 80.0
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -686,14 +499,8 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
-      layer: null
       length: 80.0
       npoints: 2
-      post_process: null
-      width: null
   straight_4:
     component: straight
     info:
@@ -704,20 +511,10 @@ instances:
       route_info_xs_sc_length: 630.0
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -736,14 +533,8 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
-      layer: null
       length: 630.0
       npoints: 2
-      post_process: null
-      width: null
   straight_5:
     component: straight
     info:
@@ -754,20 +545,10 @@ instances:
       route_info_xs_sc_length: 590.0
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -786,14 +567,8 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
-      layer: null
       length: 590.0
       npoints: 2
-      post_process: null
-      width: null
   straight_6:
     component: straight
     info:
@@ -804,20 +579,10 @@ instances:
       route_info_xs_sc_length: 140.0
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -836,14 +601,8 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
-      layer: null
       length: 140.0
       npoints: 2
-      post_process: null
-      width: null
   straight_7:
     component: straight
     info:
@@ -854,20 +613,10 @@ instances:
       route_info_xs_sc_length: 380.0
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -886,14 +635,8 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
-      layer: null
       length: 380.0
       npoints: 2
-      post_process: null
-      width: null
   straight_8:
     component: straight
     info:
@@ -904,20 +647,10 @@ instances:
       route_info_xs_sc_length: 380.0
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -936,14 +669,8 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
-      layer: null
       length: 380.0
       npoints: 2
-      post_process: null
-      width: null
   straight_9:
     component: straight
     info:
@@ -954,20 +681,10 @@ instances:
       route_info_xs_sc_length: 630.0
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section:
-        add_pins_function_module: gdsfactory.add_pins
-        add_pins_function_name: null
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         components_along_path: []
-        end_straight_length: 0.01
-        gap: 3.0
-        info: {}
-        min_length: 0.01
         radius: 10.0
         radius_min: 5.0
         sections:
@@ -986,14 +703,8 @@ instances:
           simplify: null
           width: 0.5
           width_function: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width_wide: null
-      layer: null
       length: 630.0
       npoints: 2
-      post_process: null
-      width: null
   t:
     component: pad_array
     info:
@@ -1003,7 +714,6 @@ instances:
       columns: 6
       orientation: 270
       pad: pad
-      post_process: null
       rows: 1
       spacing:
       - 150.0

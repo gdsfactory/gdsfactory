@@ -30,11 +30,11 @@ def add_pads_bot(
     pad_port_labels: tuple[str, ...] | None = None,
     pad: ComponentSpec = pad_rectangular,
     bend: ComponentSpec = "wire_corner",
-    straight_separation: float | None = None,
+    straight_separation: float = 20.0,
     pad_spacing: float | str = "pad_spacing",
     optical_routing_type: int | None = 1,
     with_loopback: bool = False,
-    post_process: Callable | None = None,
+    min_length: float | None = None,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -51,11 +51,11 @@ def add_pads_bot(
         pad_port_labels: pad list of labels.
         pad: spec for route terminations.
         bend: bend spec.
-        straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
+        straight_separation: from wire edge to edge.
         pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         with_loopback: True, adds loopback structures.
-        post_process: function to post process the component.
+        min_length: minimum length for the straight section.
 
     Keyword Args:
         straight: straight spec.
@@ -92,6 +92,9 @@ def add_pads_bot(
         cc.plot()
 
     """
+    xs = gf.get_cross_section(cross_section)
+    min_length = min_length or (xs.width / 2 + straight_separation)
+
     component_new = Component()
     component = gf.get_component(component)
     component_name = component_name or component.name
@@ -100,10 +103,6 @@ def add_pads_bot(
     cref = component_new << component
     ports = [cref[port_name] for port_name in port_names] if port_names else None
     ports = ports or select_ports(cref.ports)
-    xs = gf.get_cross_section(cross_section)
-
-    straight_separation = straight_separation or xs.width + xs.gap
-
     pad_component = gf.get_component(pad)
     if pad_port_name not in pad_component.ports:
         pad_ports = list(pad_component.ports.keys())
@@ -143,6 +142,7 @@ def add_pads_bot(
         port_names=port_names,
         fiber_spacing=pad_spacing,
         optical_routing_type=optical_routing_type,
+        min_length=min_length,
         **kwargs,
     )
     if len(elements) == 0:
@@ -172,8 +172,6 @@ def add_pads_bot(
         component_new.add_port(f"pad_{i+1}", port=pad[pad_port_name])
 
     component_new.copy_child_info(component)
-    if post_process:
-        post_process(component_new)
     return component_new
 
 
@@ -262,7 +260,7 @@ if __name__ == "__main__":
     c = gf.components.ring_single_heater(
         gap=0.2, radius=10, length_x=4, via_stack_offset=(2, 0)
     )
-    cc = add_pads_top(component=c, with_loopback=True, straight_to_grating_spacing=100)
+    cc = add_pads_bot(component=c, with_loopback=True, straight_to_grating_spacing=100)
     cc = gf.routing.add_fiber_array(cc)
     cc.pprint_ports()
     cc.show(show_ports=True)

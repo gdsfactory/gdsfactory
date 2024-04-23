@@ -7,6 +7,5 @@ settings:
   layer: WG
   length: 20
   npoints: 100
-  post_process: null
   width1: 0.5
   width2: 5.0

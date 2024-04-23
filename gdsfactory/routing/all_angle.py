@@ -467,24 +467,6 @@ def _get_bend_angles(p0, p1, a0, a1, bend):
     return bend_angle_0, bend_angle_1
 
 
-def _get_minimum_separation(refs: list[ComponentReference], *ports) -> float:
-    all_ports = [p for ref in refs for p in ref.ports.values()]
-    all_ports.extend(ports)
-    max_specified_separation = 0
-    for port in all_ports:
-        if port.cross_section:
-            xs = port.cross_section
-            separation = xs.gap + xs.width
-            if separation > max_specified_separation:
-                max_specified_separation = separation
-
-    if max_specified_separation == 0:
-        raise ValueError(
-            "Cannot automatically determine separation. No ports in route have a cross_section which declares a default separation value!"
-        )
-    return max_specified_separation
-
-
 def _points_approx_equal(
     point1: np.ndarray, point2: np.ndarray, tolerance: float = 5e-4
 ) -> bool:
@@ -506,7 +488,7 @@ def get_bundle_all_angle(
     end_angle: float | None = None,
     end_connector: str | Callable[..., list[ComponentReference]] | None = None,
     end_cross_section: CrossSectionSpec | None = None,
-    separation: float | None = None,
+    separation: float = 3,
     **kwargs,
 ) -> list[Route]:
     """Connects a bundle of ports, allowing steps which create waypoints at \
@@ -529,8 +511,7 @@ def get_bundle_all_angle(
                 will cap the ending port with a bend, as to exit with this angle.
         end_connector: specifies the connector to use for the final straight segment of the route.
         end_cross_section: specifies the cross section to use for the final straight segment of the route.
-        separation: specifies the separation between adjacent routes. If None, will query \
-                each segment's cross-section's and choose the largest value.
+        separation: specifies the separation between adjacent routes.
         kwargs: added for compatibility, but in general, kwargs will be ignored with a warning.
 
     Returns:
@@ -799,12 +780,11 @@ def get_bundle_all_angle(
             bends = []
             prev_port = port1
             # go back over the waypoints and calculate unspecified angles and bends
-            for i_step, step in enumerate(steps):
+            for i_step, _ in enumerate(steps):
                 # override the current cross section and connector, if applicable
                 override_cs = steps[i_step].get("cross_section")
                 override_connector = steps[i_step].get("connector")
                 # override the current separation, if applicable
-                override_separation = step.get("separation")
                 if override_cs:
                     this_cs = get_cross_section(override_cs)
                     this_connector = auto_taper_connector
@@ -860,15 +840,7 @@ def get_bundle_all_angle(
                         prev_port = bend_ref_ports[1]
                     angles[i_step + 1] = angle_next
                     if is_primary_route:
-                        if override_separation is not None:
-                            this_separation = override_separation
-                        elif separation is not None:
-                            this_separation = separation
-                        else:
-                            this_separation = _get_minimum_separation(
-                                connection, prev_port
-                            )
-                        segment_separations.append(this_separation)
+                        segment_separations.append(separation)
 
             if has_explicit_end_angle:
                 port1 = prev_port
@@ -880,9 +852,7 @@ def get_bundle_all_angle(
                         prev_port, port2, cross_section=final_cross_section
                     )
                     route_refs += final_connection
-                    this_separation = _get_minimum_separation(
-                        final_connection, prev_port
-                    )
+                    this_separation = separation
                     segment_separations.append(this_separation)
                 else:
                     route_refs += _make_error_trace(
@@ -904,7 +874,7 @@ def get_bundle_all_angle(
             report_segment_separation = None
 
             def _report_separations_w_steps(refs) -> None:
-                segment_separations.append(_get_minimum_separation(refs))
+                segment_separations.append(separation)
 
             if steps:
                 angles.insert(-1, port1.orientation)
@@ -927,7 +897,7 @@ def get_bundle_all_angle(
                 report_segment_separation=report_segment_separation,
             )
             route_refs += final_connection
-            this_separation = _get_minimum_separation(final_connection, port1)
+            this_separation = separation
             segment_separations.append(this_separation)
         route_length = sum(r.info["length"] for r in route_refs)
         route = Route(

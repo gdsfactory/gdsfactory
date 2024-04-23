@@ -9,7 +9,6 @@ settings:
     function: cross_section
     module: gdsfactory.cross_section
     settings:
-      add_pins_function_name: null
       radius: 10
       radius_min: 5
   extension_length: 15.0
@@ -20,7 +19,6 @@ settings:
   n: null
   port_orientation1: null
   port_orientation2: null
-  post_process: null
   radius: null
   spacing: 2.0
   straight:

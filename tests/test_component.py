@@ -56,7 +56,6 @@ def test_extract() -> None:
     c = gf.components.straight(
         length=10,
         cross_section=xs,
-        add_pins=False,
     )
     c2 = c.extract(layers=[WGCLAD])
 

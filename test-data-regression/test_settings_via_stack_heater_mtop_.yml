@@ -16,7 +16,6 @@ settings:
   - HEATER
   - M2
   - MTOP
-  post_process: null
   size:
   - 11.0
   - 11.0

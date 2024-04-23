@@ -8,15 +8,11 @@ instances:
       gap_mmi: 0.25
       length_mmi: 10
       length_taper: 10.0
-      post_process: null
-      straight:
-        function: straight
       taper:
         function: taper
       width: null
       width_mmi: 4.5
       width_taper: 1.0
-      with_bbox: true
   mmi_short:
     component: mmi1x2
     info: {}
@@ -25,15 +21,11 @@ instances:
       gap_mmi: 0.25
       length_mmi: 5
       length_taper: 10.0
-      post_process: null
-      straight:
-        function: straight
       taper:
         function: taper
       width: null
       width_mmi: 4.5
       width_taper: 1.0
-      with_bbox: true
 name: yaml_anchor_8731fb27
 placements:
   mmi_long:

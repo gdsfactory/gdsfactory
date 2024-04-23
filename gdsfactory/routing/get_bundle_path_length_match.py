@@ -1,4 +1,5 @@
 """Routes bundles of ports (river routing)."""
+
 from __future__ import annotations
 
 from collections.abc import Callable

@@ -3,7 +3,7 @@ info: {}
 module: gdsfactory.components.coupler_straight
 name: coupler_straight
 settings:
-  cross_section: xs_sc_no_pins
+  cross_section: xs_sc
   gap: 0.27
   length: 10.0
   straight:

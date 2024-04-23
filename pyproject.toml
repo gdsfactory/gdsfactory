@@ -21,7 +21,7 @@ dependencies = [
   "omegaconf<3",
   "orjson<4",
   "pandas<3",
-  "pydantic>=2,<2.7",
+  "pydantic>=2,<2.8",
   "pydantic-settings<3",
   "pydantic-extra-types<3",
   "pyyaml",
@@ -34,13 +34,13 @@ dependencies = [
   "types-PyYAML",
   "typer<1",
   "watchdog<5",
-  "kfactory[git,ipy]>=0.9.1,<0.12",
+  "kfactory[git,ipy]>=0.9.1,<0.13",
   "freetype-py",
   "mapbox_earcut",
   "networkx",
   "pyglet<2",
   "scikit-image",
-  "trimesh>=4,<4.2",
+  "trimesh>=4,<4.4",
   "ipycytoscape",
   "ipyevents",
   "ipykernel",
@@ -54,11 +54,11 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "7.14.0"
+version = "7.24.0"
 
 [project.optional-dependencies]
 cad = [
-  "kweb>=1.1.9,<1.3"
+  "kweb>=1.1.9,<2.1"
 ]
 dev = [
   "ipykernel",
@@ -75,7 +75,8 @@ docs = [
   "autodoc_pydantic>=2.0.1,<3",
   "jupytext",
   "jupyter-book>=0.15.1,<1.1",
-  "plotly"
+  "plotly",
+  "Sphinx==7.3.7"
 ]
 full = [
   "gplugins[devsim,femwell,gmsh,meow,sax,schematic,tidy3d,vlsir]"
@@ -113,7 +114,6 @@ reportUnusedExpression = false
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
 datadir = "test-data-regression"
 norecursedirs = [
-  "gdsfactory/samples/notebooks",
   "gdsfactory/geometry",
   "gdsfactory/plugins",
   "gdsfactory/simulation",
@@ -211,7 +211,7 @@ message_template = "Bump to {new_version}"
 tag_template = "v{new_version}"
 
 [tool.tbump.version]
-current = "7.14.0"
+current = "7.24.0"
 regex = '''
   (?P<major>\d+)
   \.

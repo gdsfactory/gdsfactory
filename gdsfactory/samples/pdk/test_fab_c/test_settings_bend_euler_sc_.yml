@@ -1,0 +1,30 @@
+function: bend_euler_sc
+info:
+  dy: 10.0
+  length: 16.637
+  radius: 10.0
+  radius_min: 7.061
+  route_info_length: 16.637
+  route_info_n_bend_90: 1.0
+  route_info_type: xs_b1b0ed23
+  route_info_weight: 16.637
+  route_info_xs_b1b0ed23_length: 16.637
+  width: 0.5
+module: gdsfactory.samples.pdk.fab_c
+name: bend_euler_sc
+settings:
+  cross_section:
+    function: cross_section
+    module: gdsfactory.cross_section
+    settings:
+      bbox_layers:
+      - - 10
+        - 2
+      bbox_offsets:
+      - 3
+      layer:
+      - 10
+      - 1
+      radius: 10
+      radius_min: 5
+      width: 0.5

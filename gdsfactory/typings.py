@@ -27,6 +27,7 @@ Specs:
 - LayerSpec: (3, 0), 3 (assumes 0 as datatype) or string.
 
 """
+
 from __future__ import annotations
 
 import dataclasses
@@ -38,7 +39,7 @@ from typing import Any, Dict, List, Literal, Optional, Tuple, Union
 import gdstk
 import numpy as np
 from omegaconf import OmegaConf
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, root_validator
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_layout import Label
@@ -168,6 +169,7 @@ CrossSectionOrFactory = CrossSection | Callable[..., CrossSection]
 PortSymmetries = dict[str, list[str]]
 PortsDict = dict[str, Port]
 PortsList = dict[str, Port]
+Metadata = dict[str, int | float | str]
 
 Sparameters = dict[str, np.ndarray]
 
@@ -175,7 +177,8 @@ ComponentSpec = (
     str | ComponentFactory | Component | dict[str, Any]
 )  # PCell function, function name, dict or Component
 
-ComponentSpecOrList = ComponentSpec | list[ComponentSpec]
+ComponentSpecs = list[ComponentSpec] | tuple[ComponentSpec, ...]
+ComponentSpecOrList = ComponentSpec | ComponentSpecs
 CellSpec = (
     str | ComponentFactory | dict[str, Any]
 )  # PCell function, function name or dict
@@ -213,14 +216,32 @@ class Routes(BaseModel):
     model_config = {"extra": "forbid"}
 
 
-class ComponentModel(BaseModel):
-    component: str | dict[str, Any]
-    settings: dict[str, Any] | None
+class Instance(BaseModel):
+    component: str
+    settings: dict[str, Any] = Field(default_factory=dict)
+    info: dict[str, Any] = Field(default_factory=dict, exclude=True)
 
     model_config = {"extra": "forbid"}
 
+    @root_validator(pre=True)
+    def update_settings_and_info(cls, values):
+        """Validator to update component, settings and info based on the component."""
+        component = values.get("component")
+        settings = values.get("settings", {})
+        info = values.get("info", {})
 
-class PlacementModel(BaseModel):
+        import gdsfactory as gf
+
+        c = gf.get_component(component)
+        component_info = c.info.model_dump(exclude_none=True)
+        component_settings = c.settings.model_dump(exclude_none=True)
+        values["info"] = {**component_info, **info}
+        values["settings"] = {**component_settings, **settings}
+        values["component"] = c.function_name
+        return values
+
+
+class Placement(BaseModel):
     x: str | float = 0
     y: str | float = 0
     xmin: str | float | None = None
@@ -233,18 +254,21 @@ class PlacementModel(BaseModel):
     rotation: int = 0
     mirror: bool = False
 
+    def __getitem__(self, key: str) -> Any:
+        return getattr(self, key, 0)
+
     model_config = {"extra": "forbid"}
 
 
-class RouteModel(BaseModel):
+class Bundle(BaseModel):
     links: dict[str, str]
-    settings: dict[str, Any] | None = None
-    routing_strategy: str | None = None
+    settings: dict[str, Any] = Field(default_factory=dict)
+    routing_strategy: str = "get_bundle"
 
     model_config = {"extra": "forbid"}
 
 
-class NetlistModel(BaseModel):
+class Netlist(BaseModel):
     """Netlist defined component.
 
     Parameters:
@@ -254,21 +278,136 @@ class NetlistModel(BaseModel):
         routes: dict of routes.
         name: component name.
         info: information (polarization, wavelength ...).
-        settings: input variables.
         ports: exposed component ports.
-
+        settings: input variables.
     """
 
-    instances: dict[str, ComponentModel] | None = None
-    placements: dict[str, PlacementModel] | None = None
-    connections: dict[str, str] | None = None
-    routes: dict[str, RouteModel] | None = None
+    instances: dict[str, Instance] = Field(default_factory=dict)
+    placements: dict[str, Placement] = Field(default_factory=dict)
+    connections: dict[str, str] = Field(default_factory=dict)
+    routes: dict[str, Bundle] = Field(default_factory=dict)
     name: str | None = None
-    info: dict[str, Any] | None = None
-    settings: dict[str, Any] | None = None
-    ports: dict[str, str] | None = None
+    info: dict[str, Any] = Field(default_factory=dict)
+    ports: dict[str, str] = Field(default_factory=dict)
+    settings: dict[str, Any] = Field(default_factory=dict, exclude=True)
 
     model_config = {"extra": "forbid"}
+
+
+_route_counter = 0
+
+
+class Net(BaseModel):
+    """Net between two ports.
+
+    Parameters:
+        ip1: instance_name,port 1.
+        ip2: instance_name,port 2.
+        name: route name.
+    """
+
+    ip1: str
+    ip2: str
+    settings: dict[str, Any] = Field(default_factory=dict)
+    name: str | None = None
+
+    def __init__(self, **data):
+        global _route_counter
+        super().__init__(**data)
+        # If route name is not provided, generate one automatically
+        if self.name is None:
+            self.name = f"route_{_route_counter}"
+            _route_counter += 1
+
+
+class Schematic(BaseModel):
+    """Schematic."""
+
+    netlist: Netlist = Field(default_factory=Netlist)
+    nets: list[Net] = Field(default_factory=list)
+    placements: dict[str, Placement] = Field(default_factory=dict)
+
+    def add_instance(
+        self, name: str, instance: Instance, placement: Placement | None = None
+    ) -> None:
+        self.netlist.instances[name] = instance
+        if placement:
+            self.add_placement(name, placement)
+
+    def add_placement(
+        self,
+        instance_name: str,
+        placement: Placement,
+    ) -> None:
+        """Add placement to the netlist.
+
+        Args:
+            instance_name: instance name.
+            placement: placement.
+        """
+        self.placements[instance_name] = placement
+        self.netlist.placements[instance_name] = placement
+
+    def from_component(self, component: Component) -> None:
+        n = component.get_netlist()
+        self.netlist = Netlist.model_validate(n)
+
+    def add_net(self, net: Net) -> None:
+        """Add a net between two ports."""
+        self.nets.append(net)
+        if net.name not in self.netlist.routes:
+            self.netlist.routes[net.name] = Bundle(
+                links={net.ip1: net.ip2}, settings=net.settings
+            )
+        else:
+            self.netlist.routes[net.name].links[net.ip1] = net.ip2
+
+    def plot_netlist(
+        self,
+        with_labels: bool = True,
+        font_weight: str = "normal",
+    ):
+        """Plots a netlist graph with networkx.
+
+        Args:
+            with_labels: add label to each node.
+            font_weight: normal, bold.
+        """
+        import matplotlib.pyplot as plt
+        import networkx as nx
+
+        plt.figure()
+        netlist = self.netlist
+        connections = netlist.connections
+        placements = self.placements if self.placements else netlist.placements
+        G = nx.Graph()
+        G.add_edges_from(
+            [
+                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                for k, v in connections.items()
+            ]
+        )
+        pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
+        labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+
+        for node, placement in placements.items():
+            if not G.has_node(
+                node
+            ):  # Check if the node is already in the graph (from connections), to avoid duplication.
+                G.add_node(node)
+                pos[node] = (placement.x, placement.y)
+
+        for net in self.nets:
+            G.add_edge(net.ip1.split(",")[0], net.ip2.split(",")[0])
+
+        nx.draw(
+            G,
+            with_labels=with_labels,
+            font_weight=font_weight,
+            labels=labels,
+            pos=pos,
+        )
+        return G
 
 
 RouteFactory = Callable[..., Route]
@@ -343,10 +482,10 @@ __all__ = (
 )
 
 
-def write_schema(model: BaseModel = NetlistModel) -> None:
+def write_schema(model: BaseModel = Netlist) -> None:
     from gdsfactory.config import PATH
 
-    s = model.schema_json()
+    s = model.model_json_schema()
     d = OmegaConf.create(s)
 
     schema_path_json = PATH.schema_netlist
@@ -369,56 +508,62 @@ def _demo() -> None:
 
     yaml_text = """
 
-name: mzi
-
-pdk: ubcpdk
-
-settings:
-   dy: -90
-
-info:
-    polarization: te
-    wavelength: 1.55
-    description: mzi for ubcpdk
+name: pads
 
 instances:
-    yr:
-      component: y_splitter
-    yl:
-      component: y_splitter
+    bl:
+      component: pad
+    tl:
+      component: pad
+    br:
+      component: pad
+    tr:
+      component: pad
 
 placements:
-    yr:
-        rotation: 180
-        x: 100
-        y: 0
+    tl:
+        x: -200
+        y: 500
+
+    br:
+        x: 400
+        y: 400
+
+    tr:
+        x: 400
+        y: 600
+
 
 routes:
-    route_top:
-        links:
-            yl,opt2: yr,opt3
+    electrical:
         settings:
-            cross_section: strip
-    route_bot:
+            separation: 20
+            width: 10
+            path_length_match_loops: 2
+            end_straight_length: 100
         links:
-            yl,opt3: yr,opt2
-        routing_strategy: get_bundle_from_steps
+            tl,e3: tr,e1
+            bl,e3: br,e1
+    optical:
         settings:
-          steps: [dx: 30, dy: '${settings.dy}', dx: 20]
-          cross_section: strip
-
-ports:
-    o1: yl,opt1
-    o2: yr,opt1
+            radius: 100
+        links:
+            bl,e4: br,e3
 """
 
     yaml_dict = yaml.safe_load(yaml_text)
     jsonschema.validate(yaml_dict, schema_dict)
 
     # from gdsfactory.components import factory
-    # c = NetlistModel(factory=factory)
+    # c = Netlist(factory=factory)
     # c.add_instance("mmi1", "mmi1x2", length=13.3)
 
 
 if __name__ == "__main__":
-    s = Step()
+    import gdsfactory as gf
+
+    c = gf.components.mzi()
+    s = Schematic()
+    s.from_component(c)
+    s.plot_netlist()
+    # plt.show()

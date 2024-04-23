@@ -26,6 +26,7 @@ You can also rename them with W,E,S,N prefix (west, east, south, north).
 
 Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
+
 from __future__ import annotations
 
 import csv
@@ -202,12 +203,10 @@ class Port:
         return port
 
     @overload
-    def move_copy(self, x: np.ndarray | list[int | float, int | float]) -> Port:
-        ...
+    def move_copy(self, x: np.ndarray | list[int | float, int | float]) -> Port: ...
 
     @overload
-    def move_copy(self, x: int | float, y: int | float) -> Port:
-        ...
+    def move_copy(self, x: int | float, y: int | float) -> Port: ...
 
     def move_copy(self, x, y=None) -> Port:
         """Returns a copy of the port moved by a vector or given x and y."""
@@ -313,12 +312,12 @@ class Port:
             port_type=self.port_type,
             cross_section=self.cross_section,
             shear_angle=self.shear_angle,
-            info=self.info.model_copy(),
+            info=self.info.model_copy(deep=True),
         )
         return new_port
 
     def get_extended_center(self, length: float = 1.0) -> ndarray:
-        """Returns an extended port center."""
+        """Returns the position of port center extended by length in its orientation."""
         angle = np.deg2rad(self.orientation)
         c = np.cos(angle)
         s = np.sin(angle)
@@ -332,7 +331,7 @@ class Port:
         """Ensures ports edges are on grid to avoid snap_to_grid errors."""
         center = np.array(self.center)
         center_snapped = snap_to_grid(center, grid_factor=grid_factor)
-        if not np.isclose(center, center_snapped).all():
+        if not np.isclose(center, center_snapped, rtol=0).all():
             message = (
                 f"port = {self.name!r}, center = {self.center} is not on grid.\n"
                 "You can use Component.flatten_offgrid_references() to snap to grid."

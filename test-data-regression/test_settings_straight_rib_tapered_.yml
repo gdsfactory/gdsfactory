@@ -2,12 +2,12 @@ function: extend_ports
 info:
   length: 10.0
   route_info_length: 10.0
-  route_info_type: xs_f1ca4cff
+  route_info_type: xs_8bf2c479
   route_info_weight: 10.0
-  route_info_xs_f1ca4cff_length: 10.0
+  route_info_xs_8bf2c479_length: 10.0
   width: 0.5
 module: gdsfactory.components.extension
-name: straight_extend_ports_ef48795a
+name: straight_extend_ports_ac2a7b25
 settings:
   centered: false
   component:
@@ -18,7 +18,6 @@ settings:
         function: cross_section
         module: gdsfactory.cross_section
         settings:
-          add_pins_function_name: null
           radius: 20
           radius_min: 20
           sections:

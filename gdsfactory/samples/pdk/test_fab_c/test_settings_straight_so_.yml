@@ -1,0 +1,26 @@
+function: straight_so
+info:
+  length: 10.0
+  route_info_length: 10.0
+  route_info_type: xs_28722cff
+  route_info_weight: 10.0
+  route_info_xs_28722cff_length: 10.0
+  width: 0.4
+module: gdsfactory.samples.pdk.fab_c
+name: straight_so
+settings:
+  cross_section:
+    function: cross_section
+    module: gdsfactory.cross_section
+    settings:
+      bbox_layers:
+      - - 10
+        - 2
+      bbox_offsets:
+      - 3
+      layer:
+      - 10
+      - 1
+      radius: 10
+      radius_min: 5
+      width: 0.4

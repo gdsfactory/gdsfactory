@@ -6,7 +6,6 @@ info:
 module: gdsfactory.components.taper
 name: taper_length100_width20p2
 settings:
-  add_pins: true
   cross_section: xs_sc
   length: 100
   port: null
@@ -16,8 +15,6 @@ settings:
   port_order_types:
   - optical
   - optical
-  post_process: null
   width1: 0.5
   width2: 0.2
-  with_bbox: true
   with_two_ports: true

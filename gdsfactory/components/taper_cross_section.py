@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 from functools import partial
-from itertools import islice
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip_rib_tip
-from gdsfactory.typings import Callable, CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 
 @cell
@@ -18,7 +17,6 @@ def taper_cross_section(
     npoints: int = 100,
     linear: bool = False,
     width_type: str = "sine",
-    post_process: Callable | None = None,
     **kwargs,
 ) -> Component:
     r"""Returns taper transition between cross_section1 and cross_section2.
@@ -60,24 +58,7 @@ def taper_cross_section(
     c.add_ports(ref.ports)
     c.absorb(ref)
 
-    # set one pin for each cross section
-    x1.add_pins(
-        c,
-        select_ports=lambda ports: {(port_name := next(iter(ports))): ports[port_name]},
-    )
-    x2.add_pins(
-        c,
-        select_ports=lambda ports: {
-            (port_name := next(islice(iter(ports), 1, None))): ports[port_name],
-        },
-    )
-
-    if "type" in x1.info and x1.info["type"] == x2.info.get("type"):
-        c.add_route_info(cross_section=x1, length=length, taper=True)
-
-    if post_process:
-        post_process(c)
-
+    c.add_route_info(cross_section=x1, length=length, taper=True)
     c.info["length"] = length
     return c
 
@@ -112,6 +93,7 @@ if __name__ == "__main__":
     # cross_section1 = gf.cross_section.rib_heater_doped(width=2)
     # cross_section2 = gf.cross_section.strip_rib_tip
     # c = taper_cross_section(cross_section1, cross_section2)
-    c = taper_sc_nc_sine(length=10)
+    # c = taper_sc_nc_sine(length=10)
+    c = taper_cross_section_linear(length=10)
     c.show(show_ports=True)
     print(c.get_polygon_enclosure())

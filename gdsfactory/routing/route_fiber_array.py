@@ -64,6 +64,7 @@ def route_fiber_array(
     select_ports: Callable = select_ports_optical,
     radius: float | None = None,
     cross_section: CrossSectionSpec = strip,
+    min_length: float = 10e-3,
 ) -> tuple[
     list[ComponentReference | Label],
     list[list[ComponentReference]],
@@ -161,6 +162,8 @@ def route_fiber_array(
     cross_section = x = gf.get_cross_section(cross_section)
     if radius:
         cross_section = x = cross_section.copy(radius=radius)
+
+    min_length = min_length or (x.width / 2 + straight_separation)
 
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
@@ -387,6 +390,7 @@ def route_fiber_array(
             select_ports=select_ports,
             port_names=port_names,
             cross_section=cross_section,
+            min_length=min_length,
         )
         elems = route.references
         to_route = route.ports
@@ -422,7 +426,7 @@ def route_fiber_array(
                     gr.origin = (gr.origin[0], gr.origin[1] + delta_y - min_y)
 
         # If we add align ports, we need enough space for the bends
-        end_straight_offset = straight_separation + 5 if with_loopback else x.min_length
+        end_straight_offset = straight_separation + 5 if with_loopback else min_length
         if len(io_gratings_lines) == 1:
             io_gratings = io_gratings_lines[0]
             gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]

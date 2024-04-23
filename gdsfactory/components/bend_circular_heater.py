@@ -16,7 +16,6 @@ def bend_circular_heater(
     heater_to_wg_distance: float = 1.2,
     heater_width: float = 0.5,
     layer_heater: LayerSpec = "HEATER",
-    with_bbox: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     """Creates an arc of arclength `theta` starting at angle `start_angle`.
@@ -28,7 +27,6 @@ def bend_circular_heater(
         heater_to_wg_distance: in um.
         heater_width: in um.
         layer_heater: for heater.
-        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
     """
@@ -61,10 +59,6 @@ def bend_circular_heater(
     c.info["dx"] = c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
 
     x.validate_radius(radius)
-    if with_bbox:
-        top = None if int(angle) in {180, -180, -90} else 0
-        bottom = 0 if int(angle) in {-90} else None
-        x.add_bbox(c, top=top, bottom=bottom)
     return c
 
 

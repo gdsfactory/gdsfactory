@@ -2,13 +2,11 @@ function: grating_coupler_elliptical_lumerical
 info:
   polarization: te
   wavelength: 1.554
-  xinput: -2.4298362615732447
 module: gdsfactory.components.grating_coupler_elliptical_lumerical
 name: grating_coupler_elliptical_lumerical
 settings:
   bias_gap: 0
   fiber_angle: 5
-  info: null
   layer: WG
   layer_slab: SLAB150
   parameters:

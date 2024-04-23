@@ -9,6 +9,7 @@ get_bundle calls different function depending on the port orientation.
  - get_bundle_uindirect: ports with indirect U-turns
 
 """
+
 from __future__ import annotations
 
 from collections.abc import Callable
@@ -51,7 +52,7 @@ from gdsfactory.typings import (
 def get_bundle(
     ports1: list[Port],
     ports2: list[Port],
-    separation: float | None = None,
+    separation: float = 3.0,
     extension_length: float = 0.0,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
@@ -66,6 +67,10 @@ def get_bundle(
     enforce_port_ordering: bool = True,
     steps: list[Step] | None = None,
     waypoints: Coordinates | None = None,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     **kwargs,
 ) -> list[Route]:
     """Returns list of routes to connect two groups of ports.
@@ -146,16 +151,6 @@ def get_bundle(
         c.plot()
 
     """
-    if separation is None:
-        if cross_section:
-            xs = (
-                gf.get_cross_section(cross_section[0])
-                if isinstance(cross_section, list | tuple)
-                else gf.get_cross_section(cross_section)
-            )
-            separation = xs.width + xs.gap
-        else:
-            separation = gf.get_component(straight).ysize * 2
 
     if isinstance(cross_section, list | tuple):
         xs_list = []
@@ -224,6 +219,10 @@ def get_bundle(
         "straight": straight,
         "cross_section": cross_section,
         "enforce_port_ordering": enforce_port_ordering,
+        "auto_widen": auto_widen,
+        "auto_widen_minimum_length": auto_widen_minimum_length,
+        "taper_length": taper_length,
+        "width_wide": width_wide,
     }
     if path_length_match_loops is not None:
         params |= path_length_match_params
@@ -276,6 +275,7 @@ def get_bundle(
                 ports2,
                 sort_ports=sort_ports,
                 cross_section=cross_section,
+                axis=start_axis,
             )
         return get_bundle_same_axis(**params)
 
@@ -326,6 +326,10 @@ def get_bundle_same_axis(
     path_length_match_modify_segment_i: int = -2,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     enforce_port_ordering: bool = True,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     **kwargs,
 ) -> list[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -423,6 +427,10 @@ def get_bundle_same_axis(
             bend=bend,
             cross_section=cross_section,
             straight=straight,
+            auto_widen=auto_widen,
+            auto_widen_minimum_length=auto_widen_minimum_length,
+            taper_length=taper_length,
+            width_wide=width_wide,
             **kwargs,
         )
         for route in routes
@@ -577,7 +585,16 @@ def get_min_spacing(
     sort_ports: bool = True,
 ) -> float:
     """Returns the minimum amount of spacing in um required to create a \
-    fanout."""
+    fanout.
+
+    Args:
+        ports1: list of ports.
+        ports2: list of ports.
+        sep: separation between the ports.
+        radius: bend radius.
+        sort_ports: sort the ports according to the axis.
+
+    """
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     j = 0
     min_j = 0
@@ -663,6 +680,7 @@ def get_bundle_same_axis_no_grouping(
         end_straight_length: offset on the ending length after the last bend.
         sort_ports: True -> sort the ports according to the axis. False -> no sort applied.
         cross_section: CrossSection or function that returns a cross_section.
+        kwargs: cross_section settings.
 
     Returns:
         a list of routes the connecting straights.
@@ -775,7 +793,7 @@ if __name__ == "__main__":
     c = gf.Component("demo")
     c1 = c << gf.components.mmi2x2()
     c2 = c << gf.components.mmi2x2()
-    c2.move((100, 40))
+    c2.move((100, 80))
     bend = partial(gf.components.bend_euler, cross_section="xs_rc")
     straight = partial(gf.components.straight, cross_section="xs_rc")
     routes = get_bundle(

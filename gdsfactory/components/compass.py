@@ -20,7 +20,7 @@ def compass(
     Args:
         size: rectangle size.
         layer: tuple (int, int).
-        port_type: optical, electrical.
+        port_type: optical, electrical. None does not add ports.
         port_inclusion: from edge.
         port_orientations: list of port_orientations to add. None add one port only.
     """
@@ -92,5 +92,5 @@ def compass(
 
 if __name__ == "__main__":
     # c = compass(size=(1, 2), layer="WG", port_type="optical", port_inclusion=0.5)
-    c = compass(size=(0, 0))
+    c = compass(size=(10, 10))
     c.show(show_ports=True)

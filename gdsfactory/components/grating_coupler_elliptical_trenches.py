@@ -82,7 +82,7 @@ def grating_coupler_elliptical_trenches(
     c = gf.Component()
 
     # Make each grating line
-    for p in range(p_start, p_start + n_periods + 1):
+    for p in range(int(p_start), int(p_start + n_periods + 1)):
         pts = grating_tooth_points(
             p * a1,
             p * b1,
@@ -110,7 +110,6 @@ def grating_coupler_elliptical_trenches(
         (xmax + end_straight_length, -y),
         (xmax, -y),
     ]
-    len(pts)
     c.add_polygon(pts, layer)
 
     x_output = gf.snap.snap_to_grid(x_output)
@@ -126,15 +125,10 @@ def grating_coupler_elliptical_trenches(
     c.info["period"] = period
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
-    if xs.add_bbox:
-        c = xs.add_bbox(c)
-    if xs.add_pins:
-        c = xs.add_pins(c)
 
     x = np.round(taper_length + period * n_periods / 2, 3)
-    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
-        name=name,
+        name="o2",
         center=(x, 0),
         width=10,
         orientation=0,

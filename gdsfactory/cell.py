@@ -1,11 +1,12 @@
 """Cell decorator for functions that return a Component."""
+
 from __future__ import annotations
 
 import functools
 import hashlib
 import inspect
 import warnings
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from functools import partial
 from typing import TypeVar, overload
 
@@ -21,8 +22,7 @@ CACHE: dict[str, Component] = {}
 CACHE_IDS = set()
 
 INFO_VERSION = 2
-
-_F = TypeVar("_F", bound=Callable)
+_F = TypeVar("_F", bound=Callable[..., Component])
 
 
 class CellReturnTypeError(ValueError):
@@ -55,38 +55,13 @@ def print_cache() -> None:
         print(k)
 
 
-# Type signature when calling as a decorator on a function
-@overload
-def cell(func: _F) -> _F:
-    ...
-
-
-# Type signature when calling the decorator itself (i.e., decorator factory)
-# This one just returns a new decorator
 @overload
 def cell(
-    *,
-    autoname: bool = True,
-    max_name_length: int | None = None,
-    include_module: bool = False,
-    with_hash: bool = False,
-    ports_offgrid: str | None = None,
-    ports_not_manhattan: str | None = None,
-    flatten: bool = False,
-    naming_style: str = "default",
-    default_decorator: Callable[[Component], Component] | None = None,
-    add_settings: bool = True,
-    validate: bool = False,
-    get_child_name: bool = False,
-) -> Callable[[_F], _F]:
-    ...
-
-
-def cell(
-    func: _F | None = None,
+    func: None,
     /,
     *,
     autoname: bool = True,
+    copy_if_cached: bool = True,
     max_name_length: int | None = None,
     include_module: bool = False,
     with_hash: bool = False,
@@ -98,12 +73,60 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
-):
+    post_process: Sequence[Callable] | None = None,
+    info: dict[str, int | float | str] | None = None,
+) -> partial: ...
+
+
+@overload
+def cell(
+    func: _F,
+    /,
+    *,
+    autoname: bool = True,
+    copy_if_cached: bool = True,
+    max_name_length: int | None = None,
+    include_module: bool = False,
+    with_hash: bool = False,
+    ports_offgrid: str | None = None,
+    ports_not_manhattan: str | None = None,
+    flatten: bool = False,
+    naming_style: str = "default",
+    default_decorator: Callable[[Component], Component] | None = None,
+    add_settings: bool = True,
+    validate: bool = False,
+    get_child_name: bool = False,
+    post_process: Sequence[Callable] | None = None,
+    info: dict[str, int | float | str] | None = None,
+) -> _F: ...
+
+
+def cell(
+    func=None,
+    /,
+    *,
+    autoname: bool = True,
+    copy_if_cached: bool = True,
+    max_name_length: int | None = None,
+    include_module: bool = False,
+    with_hash: bool = False,
+    ports_offgrid: str | None = None,
+    ports_not_manhattan: str | None = None,
+    flatten: bool = False,
+    naming_style: str = "default",
+    default_decorator: Callable[[Component], Component] | None = None,
+    add_settings: bool = True,
+    validate: bool = False,
+    get_child_name: bool = False,
+    post_process: Sequence[Callable] | None = None,
+    info: dict[str, int | float | str] | None = None,
+) -> Callable[..., Component] | partial:
     """Parametrized Decorator for Component functions.
 
     Args:
         func: function to decorate.
         autoname: True renames Component based on args and kwargs. True by default.
+        copy_if_cached: True by default. If the component is already in the cache, it returns a copy of the component.
         max_name_length: truncates name beyond some characters with a hash. Defaults to CONF.max_name_length.
         include_module: True adds module name to the cell name.
         with_hash: True adds a hash to the cell name.
@@ -115,6 +138,8 @@ def cell(
         add_settings: True by default. Adds settings to the component.
         validate: validate the function call. Does not work with annotations that have None | Callable.
         get_child_name: Use child name as component name prefix.
+        post_process: list of post processing functions to apply to the component.
+        info: dictionary with metadata to add to the component.
 
     Implements a cache so that if a component has already been build it returns the component from the cache directly.
     This avoids creating two exact Components that have the same name.
@@ -146,17 +171,44 @@ def cell(
         mzi_with_bend_decorated = gf.cell(mzi_with_bend)
 
     """
+    if func is None:
+        return partial(
+            cell,
+            autoname=autoname,
+            copy_if_cached=copy_if_cached,
+            max_name_length=max_name_length,
+            include_module=include_module,
+            with_hash=with_hash,
+            ports_offgrid=ports_offgrid,
+            ports_not_manhattan=ports_not_manhattan,
+            flatten=flatten,
+            naming_style=naming_style,
+            default_decorator=default_decorator,
+            add_settings=add_settings,
+            validate=validate,
+            get_child_name=get_child_name,
+            post_process=post_process,
+            info=info,
+        )
+
+    if default_decorator is not None:
+        warnings.warn(
+            "default_decorator is deprecated and will be removed soon. Use post_process instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs) -> Component:
+        assert func is not None
         nonlocal ports_not_manhattan, ports_offgrid, max_name_length
         from gdsfactory.pdk import get_active_pdk
 
         active_pdk = get_active_pdk()
 
-        info = kwargs.pop("info", {})
-        name = _name = kwargs.pop("name", None)
+        name = kwargs.pop("name", None)
         prefix = kwargs.pop("prefix", None)
+        metadata = info or {}  # noqa
 
         if name:
             warnings.warn(
@@ -168,14 +220,8 @@ def cell(
                 f"prefix is deprecated and will be removed soon. {func.__name__}",
                 stacklevel=2,
             )
-        if info:
-            warnings.warn(
-                f"info is deprecated and will be removed soon. {func.__name__}",
-                stacklevel=2,
-            )
 
         prefix = prefix or func.__name__
-
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
         args_as_kwargs.update(kwargs)
@@ -283,7 +329,7 @@ def cell(
 
         # if the component is already in the cache, but under a different alias,
         # make sure we use a copy, so we don't run into mutability errors
-        if id(component) in CACHE_IDS:
+        if copy_if_cached and id(component) in CACHE_IDS:
             component = component.copy()
 
         if not isinstance(component, Component):
@@ -306,13 +352,8 @@ def cell(
         else:
             component_name = name
 
-        for k, v in dict(info).items():
-            component.info[k] = v
-
         if autoname:
             component.rename(component_name, max_name_length=max_name_length)
-        if get_child_name:
-            CACHE[name] = component
 
         if add_settings:
             component.settings = CellSettings(**full)
@@ -320,36 +361,25 @@ def cell(
             component.module = func.__module__
             component.__doc__ = func.__doc__
 
+        for post in post_process or []:
+            component = post(component)
+
+        component.info.update(metadata)
+
         if decorator:
             if not callable(decorator):
                 raise ValueError(f"decorator = {type(decorator)} needs to be callable")
             component_new = decorator(component)
             component = component_new or component
-            CACHE[component_name] = component
 
+        CACHE[name] = component
         component._locked = True
         CACHE_IDS.add(id(component))
         return component
 
-    return (
-        wrapper
-        if func is not None
-        else partial(
-            cell,
-            autoname=autoname,
-            max_name_length=max_name_length,
-            include_module=include_module,
-            with_hash=with_hash,
-            ports_offgrid=ports_offgrid,
-            ports_not_manhattan=ports_not_manhattan,
-            flatten=flatten,
-            naming_style=naming_style,
-            default_decorator=default_decorator,
-            add_settings=add_settings,
-            validate=validate,
-            get_child_name=get_child_name,
-        )
-    )
+    sig = inspect.signature(func)
+    wrapper.__signature__ = sig.replace(return_annotation=Component)  # type: ignore
+    return wrapper
 
 
 cell_without_validator = cell
@@ -361,7 +391,7 @@ cell_with_child = partial(cell, get_child_name=True)
 @cell_with_child
 def container(
     component,
-    function,
+    function: Callable[..., None] | None = None,
     **kwargs,
 ) -> gf.Component:
     """Returns new component with a component reference.
@@ -379,7 +409,35 @@ def container(
     cref = c << component
     c.add_ports(cref.ports)
 
-    function(c, **kwargs)
+    if function:
+        function(c, **kwargs)
+    c.copy_child_info(component)
+    return c
+
+
+@cell_with_child
+def component_with_function(
+    component,
+    function: Callable[..., None] | None = None,
+    **kwargs,
+) -> gf.Component:
+    """Returns new component with a component reference.
+
+    Args:
+        component: to add to container.
+        function: function to apply to component.
+        kwargs: keyword arguments to pass to component.
+    """
+
+    import gdsfactory as gf
+
+    component = gf.get_component(component, **kwargs)
+    c = Component()
+    cref = c << component
+    c.add_ports(cref.ports)
+
+    if function:
+        function(c)
     c.copy_child_info(component)
     return c
 
@@ -389,7 +447,7 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = partial(gf.components.mzi, decorator=gf.add_padding)
+    c = partial(gf.components.mzi)
     c = gf.routing.add_fiber_array(c)
     c.show()
 

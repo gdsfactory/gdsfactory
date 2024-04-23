@@ -55,7 +55,7 @@ def text(
     justify = justify.lower()
     for label in t.references:
         if justify == "left":
-            pass
+            label.xmin = position[0]
         elif justify == "right":
             label.xmax = position[0]
         elif justify == "center":

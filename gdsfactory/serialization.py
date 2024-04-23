@@ -1,4 +1,5 @@
 """Serialize component settings into YAML or strings."""
+
 from __future__ import annotations
 
 import functools
@@ -113,7 +114,9 @@ def clean_value_json(
         return [clean_value_json(i) for i in value]
 
     elif isinstance(value, gdstk.Polygon):
-        return np.round(value.points, DEFAULT_SERIALIZATION_MAX_DIGITS)
+        return clean_value_json(
+            np.round(value.points, DEFAULT_SERIALIZATION_MAX_DIGITS)
+        )
 
     else:
         try:
@@ -140,7 +143,7 @@ def clean_value_partial(value, include_module: bool = True):
         "settings": args_as_kwargs,
     }
     if include_module:
-        v.update(module=func.__module__)
+        v["module"] = func.__module__
     return v
 
 
@@ -169,7 +172,7 @@ def clean_value_partial_all(value, include_module: bool = True):
         "settings": args_as_kwargs,
     }
     if include_module:
-        v.update(module=func.__module__)
+        v["module"] = func.__module__
 
     return v
 
@@ -202,7 +205,7 @@ if __name__ == "__main__":
     # xs = partial(
     #     gf.cross_section.strip,
     #     width=3,
-    #     add_pins=gf.partial(gf.add_pins.add_pins_inside1nm, pin_length=0.1),
+    #     add_pins=partial(gf.add_pins.add_pins_inside1nm, pin_length=0.1),
     # )
     # f = partial(gf.routing.add_fiber_array, cross_section=xs)
     # c = f()

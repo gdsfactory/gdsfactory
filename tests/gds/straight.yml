@@ -1,13 +1,8 @@
 cells:
   straight_length1p234:
-    add_bbox: null
-    add_pins: true
     cross_section: xs_sc
-    layer: null
     length: 1.234
     npoints: 2
-    post_process: null
-    width: null
 function: straight
 info:
   length: 1.234
@@ -44,11 +39,6 @@ ports:
     shear_angle: null
     width: 0.5
 settings:
-  add_bbox: null
-  add_pins: true
   cross_section: xs_sc
-  layer: null
   length: 1.234
   npoints: 2
-  post_process: null
-  width: null

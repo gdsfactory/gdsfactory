@@ -1,7 +1,145 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.14.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.24.0...main)
 
 <!-- towncrier release notes start -->
+
+## [7.24.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.24.0) - 2024-04-22
+
+- add component_with_function [#2683](https://github.com/gdsfactory/gdsfactory/pull/2683)
+- add via_yoffset to via_chain [#2678](https://github.com/gdsfactory/gdsfactory/pull/2678)
+- import_gds unique names appends uuid [#2696](https://github.com/gdsfactory/gdsfactory/pull/2696)
+- Fix cell annotation [#2692](https://github.com/gdsfactory/gdsfactory/pull/2692)
+- fix docs [#2681](https://github.com/gdsfactory/gdsfactory/pull/2681)
+- fix cross_section for ring_single_bend_coupler [#2668](https://github.com/gdsfactory/gdsfactory/pull/2668)
+- Pdk improvements [#2694](https://github.com/gdsfactory/gdsfactory/pull/2694)
+- Improve component with function [#2687](https://github.com/gdsfactory/gdsfactory/pull/2687)
+- Update type annotations in Component [#2686](https://github.com/gdsfactory/gdsfactory/pull/2686)
+- remove fill_rectangle from docs [#2685](https://github.com/gdsfactory/gdsfactory/pull/2685)
+- better import gds and ports [#2680](https://github.com/gdsfactory/gdsfactory/pull/2680)
+- improve updk [#2679](https://github.com/gdsfactory/gdsfactory/pull/2679)
+- add via_yoffset to via_chain [#2678](https://github.com/gdsfactory/gdsfactory/pull/2678)
+- c.info requires native types [#2691](https://github.com/gdsfactory/gdsfactory/pull/2691)
+- Fix type annotation for mirror_x [#2670](https://github.com/gdsfactory/gdsfactory/pull/2670)
+- Bump sphinx from 7.2.6 to 7.3.7 [#2693](https://github.com/gdsfactory/gdsfactory/pull/2693)
+- Update kweb requirement from <1.3,>=1.1.9 to >=1.1.9,<2.1 [#2675](https://github.com/gdsfactory/gdsfactory/pull/2675)
+- Update trimesh requirement from <4.3,>=4 to >=4,<4.4 [#2674](https://github.com/gdsfactory/gdsfactory/pull/2674)
+- Update pydantic requirement from <2.7,>=2 to >=2,<2.8 [#2676](https://github.com/gdsfactory/gdsfactory/pull/2676)
+
+
+## [7.23.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.23.0) - 2024-04-10
+
+- add flag to remap layers [#2662](https://github.com/gdsfactory/gdsfactory/pull/2662)
+- fix text justify [#2666](https://github.com/gdsfactory/gdsfactory/pull/2666)
+- Fix cell decorator [#2665](https://github.com/gdsfactory/gdsfactory/pull/2665)
+- Bugfix: make `Component.remap_layers` actually return a copy [#2658](https://github.com/gdsfactory/gdsfactory/pull/2658)
+- allow custom import gds [#2661](https://github.com/gdsfactory/gdsfactory/pull/2661)
+- release-drafter workflow [#2659](https://github.com/gdsfactory/gdsfactory/pull/2659)
+- [minor bugs] Port.info: shallow copy -> deep copy [#2657](https://github.com/gdsfactory/gdsfactory/pull/2657)
+- Obey stacklevel in `warnings.warn` for loguru output [#2656](https://github.com/gdsfactory/gdsfactory/pull/2656)
+
+**Full Changelog**: https://github.com/gdsfactory/gdsfactory/compare/v7.22.3...v7.23.0
+
+
+## [7.22.3](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.3) - 2024-04-04
+
+- fix array ports [#2655](https://github.com/gdsfactory/gdsfactory/pull/2655)
+- fix dc assymm [#2644](https://github.com/gdsfactory/gdsfactory/pull/2644)
+- [pre-commit.ci] pre-commit autoupdate [#2652](https://github.com/gdsfactory/gdsfactory/pull/2652)
+- get_bundle_sbend for vertical ports [#2649](https://github.com/gdsfactory/gdsfactory/pull/2649)
+- use partial instead of gf.partial [#2646](https://github.com/gdsfactory/gdsfactory/pull/2646)
+- snap ports to grid [#2654](https://github.com/gdsfactory/gdsfactory/pull/2654)
+- Move auto-widen settings to args for get_route_from_steps [#2653](https://github.com/gdsfactory/gdsfactory/pull/2653)
+- bugfix: assert_on_grid failing for large values [#2650](https://github.com/gdsfactory/gdsfactory/pull/2650)
+- fix to the output of the from_updk function [#2645](https://github.com/gdsfactory/gdsfactory/pull/2645)
+
+
+## [7.22.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.2) - 2024-03-24
+
+- fix docs for straight_heater [#2642](https://github.com/gdsfactory/gdsfactory/pull/2642)
+- Small improvements [#2641](https://github.com/gdsfactory/gdsfactory/pull/2641)
+
+## [7.22.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.1) - 2024-03-23
+
+- cross_section can be defined as a dict derived from a cross_section [#2639](https://github.com/gdsfactory/gdsfactory/pull/2639)
+- Better schematic docs [#2640](https://github.com/gdsfactory/gdsfactory/pull/2640)
+- add gf.components.array(centered=False/True)
+
+## [7.22.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.22.0) - 2024-03-23
+
+- add get_cross_section_name from pdk [#2638](https://github.com/gdsfactory/gdsfactory/pull/2638)
+- Add schematic [#2622](https://github.com/gdsfactory/gdsfactory/pull/2622)
+- more processes [#2634](https://github.com/gdsfactory/gdsfactory/pull/2634)
+- Use bend xsize rather than radius for bend size [#2633](https://github.com/gdsfactory/gdsfactory/pull/2633)
+- clean polygon vertices after converting to numpy array [#2629](https://github.com/gdsfactory/gdsfactory/pull/2629)
+- fix ring_pn [#2631](https://github.com/gdsfactory/gdsfactory/pull/2631)
+- Treat array as a cell_with_child and copy child info [#2625](https://github.com/gdsfactory/gdsfactory/pull/2625)
+- Update trimesh requirement from <4.2,>=4 to >=4,<4.3 [#2630](https://github.com/gdsfactory/gdsfactory/pull/2630)
+
+## [7.21.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.21.0) - 2024-03-11
+
+- inject gf.Component return annotation when using gf.cell [#2620](https://github.com/gdsfactory/gdsfactory/pull/2620)
+
+
+## [7.20.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.20.0) - 2024-03-10
+
+- Add models to pdk [#2614](https://github.com/gdsfactory/gdsfactory/pull/2614)
+- Simpler cross section [#2613](https://github.com/gdsfactory/gdsfactory/pull/2613)
+- add post_process to cell decorator [#2610](https://github.com/gdsfactory/gdsfactory/pull/2610)
+- fix read_from_yaml with x=instance,port [#2617](https://github.com/gdsfactory/gdsfactory/pull/2617)
+- Fix electrical corner port location [#2615](https://github.com/gdsfactory/gdsfactory/pull/2615)
+- deprecate gf.fill [#2616](https://github.com/gdsfactory/gdsfactory/pull/2616)
+
+
+## [7.19.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.19.0) - 2024-03-07
+
+- support activating more than 2 pdks [#2608](https://github.com/gdsfactory/gdsfactory/pull/2608)
+- preview layerset [#2606](https://github.com/gdsfactory/gdsfactory/pull/2606)
+- add default hatch_pattern [#2602](https://github.com/gdsfactory/gdsfactory/pull/2602)
+- remove start_straight_length from cross_section [#2603](https://github.com/gdsfactory/gdsfactory/pull/2603)
+- make gdsfactory less verbose [#2599](https://github.com/gdsfactory/gdsfactory/pull/2599)
+- bugfix for rectangle instantiation [#2605](https://github.com/gdsfactory/gdsfactory/pull/2605)
+- Update args for from_image to match from_np [#2595](https://github.com/gdsfactory/gdsfactory/pull/2595)
+
+
+## [7.18.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.18.0) - 2024-03-06
+
+- Accept callable or list [#2598](https://github.com/gdsfactory/gdsfactory/pull/2598)
+- add required layers [#2597](https://github.com/gdsfactory/gdsfactory/pull/2597)
+- allow post process list [#2594](https://github.com/gdsfactory/gdsfactory/pull/2594)
+- Propagate `warnings.warn` category to loguru output [#2592](https://github.com/gdsfactory/gdsfactory/pull/2592)
+- Add more pics [#2596](https://github.com/gdsfactory/gdsfactory/pull/2596)
+- add required layers [#2597](https://github.com/gdsfactory/gdsfactory/pull/2597)
+- Update args for from_image to match from_np [#2595](https://github.com/gdsfactory/gdsfactory/pull/2595)
+- Add arg for constant pad value in read.from_np [#2582](https://github.com/gdsfactory/gdsfactory/pull/2582)
+
+## [7.17.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.17.0) - 2024-03-05
+
+- Add info to pcells [#2585](https://github.com/gdsfactory/gdsfactory/pull/2585)
+- prevent validating schematic subdictionary of info [#2583](https://github.com/gdsfactory/gdsfactory/pull/2583)
+- improve vias [#2584](https://github.com/gdsfactory/gdsfactory/pull/2584)
+- Adding length_x and lengths_y arguments in ring_crow() component [#2586](https://github.com/gdsfactory/gdsfactory/pull/2586)
+- Update kfactory[git,ipy] requirement from <0.12,>=0.9.1 to >=0.9.1,<0.13 [#2580](https://github.com/gdsfactory/gdsfactory/pull/2580)
+
+## [7.16.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.16.0) - 2024-03-03
+
+- Better grating coupler port names [#2578](https://github.com/gdsfactory/gdsfactory/pull/2578)
+- Fix transition port size and MMIs with slab [#2579](https://github.com/gdsfactory/gdsfactory/pull/2579)
+
+## [7.15.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.15.2) - 2024-03-03
+
+- fix bend_direction ports [#2577](https://github.com/gdsfactory/gdsfactory/pull/2577)
+- fix taper [#2575](https://github.com/gdsfactory/gdsfactory/pull/2575)
+
+## [7.15.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.15.1) - 2024-03-02
+
+- Improve docs [#2574](https://github.com/gdsfactory/gdsfactory/pull/2574)
+
+## [7.15.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.15.0) - 2024-03-01
+
+- Improve pdk import [#2573](https://github.com/gdsfactory/gdsfactory/pull/2573)
+- Allow for different cross sections in cdsem [#2570](https://github.com/gdsfactory/gdsfactory/pull/2570)
+- better pad assignments in add_fiber_array_optical_south_electrical_north [#2566](https://github.com/gdsfactory/gdsfactory/pull/2566)
+- Update edge_coupler_array.py [#2568](https://github.com/gdsfactory/gdsfactory/pull/2568)
 
 ## [7.14.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.14.0) - 2024-02-27
 

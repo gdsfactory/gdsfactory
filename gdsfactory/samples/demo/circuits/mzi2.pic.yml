@@ -1,0 +1,39 @@
+pdk: ubcpdk
+instances:
+  eb1:
+    component: bend_euler
+    settings: {}
+  eb2:
+    component: bend_euler
+    settings: {}
+  eb3:
+    component: bend_euler
+    settings: {}
+  eb4:
+    component: bend_euler
+    settings: {}
+  mmi1x2:
+    component: mmi1x2
+    settings: {}
+  mmi2x2:
+    component: mmi2x2
+    settings: {}
+connections:
+  eb1,o1: mmi1x2,o2
+  eb2,o1: eb1,o2
+  eb3,o1: eb2,o2
+  eb4,o1: eb3,o2
+  mmi2x2,o2: eb4,o2
+routes:
+  btm:
+    links:
+      mmi1x2,o3: mmi2x2,o1
+ports:
+  o1: mmi1x2,o1
+  o2: mmi2x2,o3
+  o3: mmi2x2,o4
+placements:
+  eb2:
+    mirror: true
+  eb3:
+    mirror: true

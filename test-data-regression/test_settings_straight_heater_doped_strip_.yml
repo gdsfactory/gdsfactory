@@ -7,7 +7,6 @@ settings:
     function: cross_section
     module: gdsfactory.cross_section
     settings:
-      add_pins_function_name: null
       radius: 10
       radius_min: 5
       sections:

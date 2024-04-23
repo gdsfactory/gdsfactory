@@ -1,16 +1,15 @@
 from __future__ import annotations
 
-from collections.abc import Callable
-
 import numpy as np
 
 from gdsfactory.component_layout import _rotate_points, pprint_ports
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import RouteError, generate_manhattan_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.validation import make_error_traces, validate_connections
-from gdsfactory.typings import Route
+from gdsfactory.typings import ComponentSpec, Route
 
 
 def _groups(ports, cut, axis="X"):
@@ -60,12 +59,16 @@ def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
 def get_bundle_corner(
     ports1: list[Port],
     ports2: list[Port],
-    route_filter: Callable[..., Route] = get_route_from_waypoints,
     separation: float = 5.0,
     path_length_match_loops: int | None = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     enforce_port_ordering: bool = True,
+    straight: ComponentSpec = straight_function,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     **kwargs,
 ) -> list[Route]:
     r"""Connect banks of ports with either 90Deg or 270Deg angle between them.
@@ -73,8 +76,6 @@ def get_bundle_corner(
     Args:
         ports1: list of start ports.
         ports2: list of end ports.
-        route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip straight.
         separation: in um.
         path_length_match_loops: optional number of loops for path length matching.
         path_length_match_extra_length: extra length (um) for path length matching.
@@ -121,8 +122,6 @@ def get_bundle_corner(
 
     """
     _p1, _p2 = ports1, ports2
-    if "straight" in kwargs:
-        _ = kwargs.pop("straight")
 
     try:
         routes = _get_bundle_corner_waypoints(
@@ -144,7 +143,18 @@ def get_bundle_corner(
             **kwargs,
         )
 
-    routes = [route_filter(r, **kwargs) for r in routes]
+    routes = [
+        get_route_from_waypoints(
+            r,
+            auto_widen=auto_widen,
+            auto_widen_minimum_length=auto_widen_minimum_length,
+            taper_length=taper_length,
+            width_wide=width_wide,
+            straight=straight,
+            **kwargs,
+        )
+        for r in routes
+    ]
     if enforce_port_ordering:
         routes = validate_connections(_p1, _p2, routes)
     return routes

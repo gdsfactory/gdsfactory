@@ -1,6 +1,7 @@
 """
 In a multiple-topology Clements Scheme we can implement any universal photonic function.
 """
+
 from __future__ import annotations
 
 import numpy as np

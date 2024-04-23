@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -19,11 +18,9 @@ def mmi(
     gap_input_tapers: float = 0.25,
     gap_output_tapers: float = 0.25,
     taper: ComponentFactory = taper_function,
-    straight: ComponentFactory = straight_function,
     cross_section: CrossSectionSpec = "xs_sc",
     input_positions: list[float] | None = None,
     output_positions: list[float] | None = None,
-    post_process: Callable | None = None,
 ) -> Component:
     r"""mxn MultiMode Interferometer (MMI).
 
@@ -38,11 +35,9 @@ def mmi(
         gap_input_tapers: gap between input tapers from edge to edge.
         gap_output_tapers: gap between output tapers from edge to edge.
         taper: taper function.
-        straight: straight function.
         cross_section: specification (CrossSection, string or dict).
         input_positions: optional positions of the inputs.
         output_positions: optional positions of the outputs.
-        post_process: function to post process the component.
 
     .. code::
 
@@ -65,22 +60,34 @@ def mmi(
     c = Component()
     gap_input_tapers = gf.snap.snap_to_grid(gap_input_tapers, grid_factor=2)
     gap_output_tapers = gf.snap.snap_to_grid(gap_output_tapers, grid_factor=2)
-    w_mmi = width_mmi
     w_taper = width_taper
     x = gf.get_cross_section(cross_section)
-    xs_mmi = gf.get_cross_section(cross_section, width=w_mmi)
     width = width or x.width
+    delta_width = width_mmi - width
 
     _taper = taper(
         length=length_taper,
         width1=width,
         width2=w_taper,
         cross_section=cross_section,
-        add_pins=False,
     )
 
-    mmi = c << straight(length=length_mmi, cross_section=xs_mmi, add_pins=False)
+    y = width_mmi / 2
+    c.add_polygon([(0, -y), (length_mmi, -y), (length_mmi, y), (0, y)], layer=x.layer)
+    for section in x.sections[1:]:
+        layer = section.layer
+        y = section.width / 2 + delta_width / 2
+        c.add_polygon(
+            [
+                (-delta_width, -y),
+                (length_mmi + delta_width, -y),
+                (length_mmi + delta_width, y),
+                (-delta_width, y),
+            ],
+            layer=layer,
+        )
 
+    x.add_bbox(c)
     wg_spacing_input = gap_input_tapers + width_taper
     wg_spacing_output = gap_output_tapers + width_taper
 
@@ -124,20 +131,15 @@ def mmi(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    c.absorb(mmi)
-    if x.add_bbox:
-        c = x.add_bbox(c)
-    if x.add_pins:
-        c = x.add_pins(c)
     c.auto_rename_ports()
-    if post_process:
-        post_process(c)
     return c
 
 
 if __name__ == "__main__":
     # import gdsfactory as gf
     # c = gf.components.mmi1x2(cross_section="xs_rc")
-    c = mmi(inputs=2, outputs=4, gap_input_tapers=0.5, input_positions=[-1, 1])
-    print(len(c.ports))
+    # c = mmi(inputs=2, outputs=4, gap_input_tapers=0.5, input_positions=[-1, 1])
+    # c = mmi(cross_section="xs_rc")
+    c = mmi(cross_section="xs_rc_bbox")
+    # print(len(c.ports))
     c.show(show_ports=True)

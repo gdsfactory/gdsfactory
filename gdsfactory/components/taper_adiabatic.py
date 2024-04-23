@@ -91,6 +91,9 @@ def taper_adiabatic(
 
     if not length:
         length = x_opt[-1]
+
+    length = gf.snap.snap_to_grid(length)
+
     x = np.linspace(0, length, npoints)
     w = w_opt_interp(x)
 
@@ -122,5 +125,7 @@ def taper_adiabatic(
 
 
 if __name__ == "__main__":
-    c = taper_adiabatic(width1=0.5, width2=5)
+    # c = taper_adiabatic(width1=0.5, width2=5)
+    c = taper_adiabatic()
     c.show(show_ports=True)
+    c.assert_ports_on_grid()

@@ -1,2 +1,0 @@
-watch:
-	gf watch .

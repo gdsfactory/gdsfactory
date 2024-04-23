@@ -35,9 +35,9 @@ def bbox_to_points(
     ]
 
 
-@gf.cell_without_validator
+@gf.cell
 def bbox(
-    bbox: tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
+    bbox=((-1.0, -1.0), (3.0, 4.0)),
     layer: tuple[int, int] = (1, 0),
     top: float = 0,
     bottom: float = 0,
@@ -54,7 +54,7 @@ def bbox(
         left: west offset.
         right: east offset.
     """
-    D = gf.Component()
+    c = gf.Component()
     (xmin, ymin), (xmax, ymax) = bbox
     points = [
         [xmin - left, ymin - bottom],
@@ -62,8 +62,8 @@ def bbox(
         [xmax + right, ymax + top],
         [xmin - left, ymax + top],
     ]
-    D.add_polygon(points, layer=layer)
-    return D
+    c.add_polygon(points, layer=layer)
+    return c
 
 
 if __name__ == "__main__":

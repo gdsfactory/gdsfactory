@@ -7,9 +7,7 @@ import gdsfactory as gf
 
 def complicated_transition(t, width1, width2):
     """Complicated transition that grows, then shrinks."""
-
     wmax = 2 * width2
-
     widths = np.ones_like(t)
     widths[np.where(t <= 0.25)] = width1
     widths[np.where(np.logical_and(t > 0.25, t <= 0.5))] = width1 + (

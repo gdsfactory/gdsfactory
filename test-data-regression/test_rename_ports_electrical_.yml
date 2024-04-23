@@ -11,5 +11,5 @@ settings:
   west: 1
   wg_margin: 1.0
   wg_width: 0.5
-  xsize: 8.0
-  ysize: 8.0
+  xsize: null
+  ysize: null

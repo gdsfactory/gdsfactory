@@ -3,8 +3,12 @@ info: {}
 module: gdsfactory.components.grating_coupler_array
 name: grating_coupler_array
 settings:
+  bend:
+    function: bend_euler
+  cross_section: xs_sc
   grating_coupler:
     function: grating_coupler_elliptical
+  grating_coupler_spacing: 0.0
   n: 6
   pitch: 127.0
   port_name: o1

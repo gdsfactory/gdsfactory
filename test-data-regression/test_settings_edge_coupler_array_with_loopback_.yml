@@ -27,6 +27,7 @@ settings:
   taper: null
   text:
     function: text_rectangular
+  text_mirror: false
   text_offset:
   - 0
   - 0

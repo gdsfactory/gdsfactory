@@ -12,16 +12,11 @@ cell_settings:
         function: straight
         module: gdsfactory.components.straight
         settings:
-          add_bbox: null
-          add_pins: true
           cross_section: xs_sc_no_pins
           decorator:
             function: add_pins_siepic
-          layer: null
           length: 10.0
           npoints: 2
-          post_process: null
-          width: null
       component_name: null
       cross_section: xs_sc
       fiber_spacing: 50
@@ -36,11 +31,11 @@ cell_settings:
         settings:
           polarization: te
           taper_angle: 35
+      io_rotation: null
       layer_label: null
       loopback_xspacing: 50.0
       min_input_to_output_spacing: 200.0
       optical_routing_type: 2
-      post_process: null
       route_filter:
         function: get_route_from_waypoints
       select_ports:
@@ -51,7 +46,7 @@ cell_settings:
       straight:
         function: straight
       with_loopback: true
-      zero_port: o1
+      zero_port: null
   decorator:
     function: add_label_yaml
     module: gdsfactory.labels.add_label_yaml
@@ -69,8 +64,7 @@ measurement: null
 measurement_settings: {}
 name: add_fiber_single_rotate_8549233d
 port_names:
-- opt_te_1530_15-straight_7688267d-loopback2
-- opt_te_1530_15-straight_7688267d-1-0
-- opt_te_1530_15-straight_7688267d-0-0
-- opt_te_1530_15-straight_7688267d-loopback1
+- o1-straight_7688267d-loopback1
+- o1-straight_7688267d-0-0
+- o1-straight_7688267d-loopback2
 port_type: optical

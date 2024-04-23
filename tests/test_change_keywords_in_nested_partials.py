@@ -1,14 +1,16 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.functions import change_keywords_in_nested_partials
 
 
 def test_change_keywords_in_nested_partials() -> None:
-    c_func = gf.partial(
+    c_func = partial(
         gf.components.mzi,
-        straight=gf.partial(gf.components.straight, length=5),
-        bend=gf.partial(gf.components.bend_euler, p=0.6),
+        straight=partial(gf.components.straight, length=5),
+        bend=partial(gf.components.bend_euler, p=0.6),
     )
     new_length = 5 + 1
     new_p = 0.6 + 0.1

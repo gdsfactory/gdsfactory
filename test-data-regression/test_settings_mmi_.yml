@@ -12,9 +12,6 @@ settings:
   length_taper: 10.0
   output_positions: null
   outputs: 4
-  post_process: null
-  straight:
-    function: straight
   taper:
     function: taper
   width: null

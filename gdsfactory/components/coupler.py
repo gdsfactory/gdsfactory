@@ -8,7 +8,7 @@ from gdsfactory.components.coupler_straight import (
 from gdsfactory.components.coupler_symmetric import (
     coupler_symmetric as coupler_symmetric_function,
 )
-from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -20,7 +20,6 @@ def coupler(
     dy: float = 4.0,
     dx: float = 10.0,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
 ) -> Component:
     r"""Symmetric coupler.
 
@@ -32,7 +31,6 @@ def coupler(
         dy: port to port vertical spacing in um.
         dx: length of bend in x direction in um.
         cross_section: spec (CrossSection, string or dict).
-        post_process: function to call after the component is created.
 
     .. code::
 
@@ -54,10 +52,7 @@ def coupler(
     gap = gf.snap.snap_to_grid2x(gap)
     c = Component()
 
-    xs = gf.get_cross_section(cross_section)
-    xs_no_pins = xs.copy(add_pins_function_name=None)
-
-    sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=xs_no_pins)
+    sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=cross_section)
 
     sr = c << sbend
     sl = c << sbend
@@ -77,15 +72,10 @@ def coupler(
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     c.auto_rename_ports()
 
-    x = gf.get_cross_section(cross_section)
-    x.add_bbox(c)
-    x.add_pins(c)
-    if post_process:
-        post_process(c)
     return c
 
 
 if __name__ == "__main__":
-    c = coupler(gap=0.2, dx=7)
-    c = gf.routing.add_fiber_array(c)
+    c = coupler(gap=0.2, dx=7, cross_section="xs_rc_bbox")
+    # c = gf.routing.add_fiber_array(c)
     c.show(show_ports=False)

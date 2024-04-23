@@ -6,7 +6,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via_stack import via_stack_slab_npp_m3
-from gdsfactory.typings import Callable, ComponentSpec, Floats, LayerSpecs
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs
 
 pad_via_stack_slab_npp = partial(via_stack_slab_npp_m3, size=(80, 80))
 
@@ -21,7 +21,6 @@ def resistance_sheet(
     ohms_per_square: float | None = None,
     port_orientation1: int = 180,
     port_orientation2: int = 0,
-    post_process: Callable | None = None,
 ) -> Component:
     """Returns Sheet resistance.
 
@@ -36,7 +35,6 @@ def resistance_sheet(
         ohms_per_square: optional sheet resistance to compute info.resistance.
         port_orientation1: in degrees.
         port_orientation2: in degrees.
-        post_process: function to post process the component.
     """
     c = Component()
 
@@ -77,8 +75,6 @@ def resistance_sheet(
     )
     c.absorb(pad1)
     c.absorb(pad2)
-    if post_process:
-        post_process(c)
     return c
 
 

@@ -264,8 +264,7 @@ from gdsfactory.components.spiral_inner_io import (
 )
 from gdsfactory.components.splitter_chain import splitter_chain
 from gdsfactory.components.splitter_tree import splitter_tree
-from gdsfactory.components.straight import straight
-from gdsfactory.components.straight_array import straight_array
+from gdsfactory.components.straight import straight, straight_array
 from gdsfactory.components.straight_heater_doped_rib import straight_heater_doped_rib
 from gdsfactory.components.straight_heater_doped_strip import (
     straight_heater_doped_strip,
@@ -328,7 +327,6 @@ from gdsfactory.components.via_stack_slot import via_stack_slot, via_stack_slot_
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.wafer import wafer
 from gdsfactory.components.wire import wire_corner, wire_corner45, wire_straight
-from gdsfactory.components.wire_sbend import wire_sbend
 from gdsfactory.get_factories import get_cells
 
 bend_euler_trenches = partial(add_trenches90, component=bend_euler)
@@ -622,7 +620,6 @@ __all__ = [
     "wafer",
     "wire_corner",
     "wire_corner45",
-    "wire_sbend",
     "wire_straight",
     "hexagon",
     "octagon",

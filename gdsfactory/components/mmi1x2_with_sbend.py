@@ -3,7 +3,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
-from gdsfactory.typings import Callable, ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
 
 def mmi_widths(t):
@@ -23,7 +23,6 @@ def mmi1x2_with_sbend(
     with_sbend: bool = True,
     s_bend: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
 ) -> Component:
     """Returns 1x2 splitter for Cband.
 
@@ -39,12 +38,13 @@ def mmi1x2_with_sbend(
 
     P = gf.path.straight(length=2, npoints=100)
     xs = gf.get_cross_section(cross_section)
-    xs0 = xs.copy(width_function=mmi_widths, add_pins_function_name=None)
+    xs0 = xs.copy(width_function=mmi_widths)
     ref = c << gf.path.extrude(P, cross_section=xs0)
 
     # Add "stub" straight sections for ports
     straight = gf.components.straight(
-        length=0.25, cross_section=cross_section, add_pins=False
+        length=0.25,
+        cross_section=cross_section,
     )
     sl = c << straight
     sl.center = (-0.125, 0)
@@ -54,7 +54,7 @@ def mmi1x2_with_sbend(
     s_botr.center = (2.125, -0.35)
 
     if with_sbend:
-        sbend = s_bend(cross_section=cross_section, add_pins=False)
+        sbend = s_bend(cross_section=cross_section)
         top_sbend = c << sbend
         bot_sbend = c << sbend
         bot_sbend.mirror([1, 0])
@@ -72,20 +72,19 @@ def mmi1x2_with_sbend(
         c.add_port("o2", port=s_topr.ports["o2"])
         c.add_port("o3", port=s_botr.ports["o2"])
 
-    xs.add_pins(c)
     c.absorb(ref)
     c.absorb(sl)
     c.absorb(s_topr)
     c.absorb(s_botr)
-    if post_process:
-        post_process(c)
     return c
 
 
 if __name__ == "__main__":
     # c = mmi1x2_with_sbend(with_sbend=False)
     # c = mmi1x2_with_sbend(with_sbend=True)
+    xs = gf.cross_section.strip(bbox_layers=[(111, 0)], bbox_offsets=[3])
     c = mmi1x2_with_sbend(
+        cross_section=xs,
         with_sbend=True,
     )
     c.show(show_ports=False)

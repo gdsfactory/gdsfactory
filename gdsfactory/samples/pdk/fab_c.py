@@ -8,8 +8,9 @@ from functools import partial
 from pydantic import BaseModel
 
 import gdsfactory as gf
-from gdsfactory.add_pins import add_pins_inside1nm
+from gdsfactory.add_pins import add_pins_inside1nm as _add_pins_inside1nm
 from gdsfactory.cross_section import get_cross_sections, strip
+from gdsfactory.get_factories import get_cells
 from gdsfactory.port import select_ports
 from gdsfactory.technology import LayerLevel, LayerStack
 from gdsfactory.typings import Layer
@@ -24,6 +25,9 @@ class LayerMap(BaseModel):
 
 
 LAYER = LayerMap()
+WIDTH_SILICON_CBAND = 0.5
+WIDTH_SILICON_OBAND = 0.4
+
 WIDTH_NITRIDE_OBAND = 0.9
 WIDTH_NITRIDE_CBAND = 1.0
 
@@ -48,9 +52,23 @@ def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
     )
 
 
-add_pins = partial(add_pins_inside1nm, pin_length=0.5)
+# avoid registering the function add pins
+_add_pins = partial(_add_pins_inside1nm, pin_length=0.5)
 
+######################
 # cross_sections
+######################
+strip_sc = partial(
+    strip,
+    width=WIDTH_SILICON_CBAND,
+    layer=LAYER.WG,
+    bbox_layers=[LAYER.WG_CLAD],
+    bbox_offsets=[3],
+)
+strip_so = partial(
+    strip_sc,
+    width=WIDTH_SILICON_OBAND,
+)
 
 strip_nc = partial(
     strip,
@@ -58,43 +76,122 @@ strip_nc = partial(
     layer=LAYER.WGN,
     bbox_layers=[LAYER.WGN_CLAD],
     bbox_offsets=[3],
-    add_pins_function_name="add_pins",
-    add_pins_function_module="gdsfactory.samples.pdk.fab_c",
 )
 strip_no = partial(
     strip_nc,
     width=WIDTH_NITRIDE_OBAND,
 )
 
+xs_sc = strip_sc()
+xs_so = strip_so()
 xs_nc = strip_nc()
 xs_no = strip_no()
 
-# LEAF COMPONENTS have pins
-bend_euler_nc = partial(gf.components.bend_euler, cross_section=xs_nc)
-straight_nc = partial(gf.components.straight, cross_section=xs_nc)
-bend_euler_o = partial(gf.components.bend_euler, cross_section=xs_no)
-straight_o = partial(gf.components.straight, cross_section=xs_no)
+######################
+# LEAF COMPONENTS with pins
+######################
 
-mmi1x2_nc = partial(
-    gf.components.mmi1x2,
-    width=WIDTH_NITRIDE_CBAND,
-    width_mmi=3,
-    cross_section=xs_nc,
-)
-mmi1x2_no = partial(
-    gf.components.mmi1x2,
-    width=WIDTH_NITRIDE_OBAND,
-    cross_section=xs_no,
-)
+# customize the cell decorator for this PDK
+cell = partial(gf.cell, post_process=[_add_pins])
 
-gc_nc = partial(
+
+@cell
+def straight_sc(cross_section=strip_nc, **kwargs):
+    return gf.components.straight(cross_section=cross_section, **kwargs)
+
+
+@cell
+def straight_so(cross_section=strip_so, **kwargs):
+    return gf.components.straight(cross_section=cross_section, **kwargs)
+
+
+@cell
+def straight_nc(cross_section=strip_nc, **kwargs):
+    return gf.components.straight(cross_section=cross_section, **kwargs)
+
+
+@cell
+def straight_no(cross_section=strip_no, **kwargs):
+    return gf.components.straight(cross_section=cross_section, **kwargs)
+
+
+######################
+# bends
+######################
+
+
+@cell
+def bend_euler_sc(cross_section=strip_sc, **kwargs):
+    return gf.components.bend_euler(cross_section=cross_section, **kwargs)
+
+
+@cell
+def bend_euler_so(cross_section=strip_so, **kwargs):
+    return gf.components.bend_euler(cross_section=cross_section, **kwargs)
+
+
+@cell
+def bend_euler_nc(cross_section=strip_nc, **kwargs):
+    return gf.components.bend_euler(cross_section=cross_section, **kwargs)
+
+
+@cell
+def bend_euler_no(cross_section=strip_no, **kwargs):
+    return gf.components.bend_euler(cross_section=cross_section, **kwargs)
+
+
+######################
+# MMI
+######################
+
+
+@cell
+def mmi1x2_sc(width_mmi=3, cross_section=strip_sc, **kwargs):
+    return gf.components.mmi1x2(
+        cross_section=cross_section, width_mmi=width_mmi, **kwargs
+    )
+
+
+@cell
+def mmi1x2_so(width_mmi=3, cross_section=strip_so, **kwargs):
+    return gf.components.mmi1x2(
+        cross_section=cross_section, width_mmi=width_mmi, **kwargs
+    )
+
+
+@cell
+def mmi1x2_nc(width_mmi=3, cross_section=strip_nc, **kwargs):
+    return gf.components.mmi1x2(
+        cross_section=cross_section, width_mmi=width_mmi, **kwargs
+    )
+
+
+@cell
+def mmi1x2_no(width_mmi=3, cross_section=strip_no, **kwargs):
+    return gf.components.mmi1x2(
+        cross_section=cross_section, width_mmi=width_mmi, **kwargs
+    )
+
+
+######################
+# Grating couplers
+######################
+_gc_nc = partial(
     gf.components.grating_coupler_elliptical,
     grating_line_width=0.6,
     layer_slab=None,
     cross_section=xs_nc,
 )
 
+
+@cell
+def gc_sc(**kwargs):
+    return _gc_nc(**kwargs)
+
+
+######################
 # HIERARCHICAL COMPONENTS made of leaf components
+######################
 
 mzi_nc = partial(
     gf.components.mzi,
@@ -107,24 +204,17 @@ mzi_no = partial(
     gf.components.mzi,
     cross_section=xs_no,
     splitter=mmi1x2_no,
-    straight=straight_o,
-    bend=bend_euler_o,
+    straight=straight_no,
+    bend=bend_euler_no,
 )
 
-
-cells = dict(
-    mmi1x2_nc=mmi1x2_nc,
-    mmi1x2_no=mmi1x2_no,
-    bend_euler_nc=bend_euler_nc,
-    straight_nc=straight_nc,
-    mzi_nc=mzi_nc,
-    mzi_no=mzi_no,
-    gc_nc=gc_nc,
-)
-
-
-layer_stack = get_layer_stack_fab_c()
+######################
+# PDK
+######################
+# register all cells in this file
+cells = get_cells(sys.modules[__name__])
 cross_sections = get_cross_sections(sys.modules[__name__])
+layer_stack = get_layer_stack_fab_c()
 
 pdk = gf.Pdk(
     name="fab_c_demopdk",
@@ -143,5 +233,5 @@ if __name__ == "__main__":
     # d = diff(d1, d2)
     # c.show(show_ports=True)
 
-    c = mzi_nc()
+    c = mmi1x2_nc()
     c.show()

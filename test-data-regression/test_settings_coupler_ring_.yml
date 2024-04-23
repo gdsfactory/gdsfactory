@@ -3,7 +3,6 @@ info: {}
 module: gdsfactory.components.coupler_ring
 name: coupler_ring
 settings:
-  add_bbox: null
   bend:
     function: bend_euler
   coupler90:

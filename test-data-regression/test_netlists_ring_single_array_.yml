@@ -48,14 +48,9 @@ instances:
       route_info_xs_sc_length: 5.0
       width: 0.5
     settings:
-      add_bbox: null
-      add_pins: true
       cross_section: xs_sc
-      layer: null
       length: 5.0
       npoints: 2
-      post_process: null
-      width: null
 name: ring_single_array
 placements:
   ring_single_1:

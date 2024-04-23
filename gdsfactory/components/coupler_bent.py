@@ -36,37 +36,46 @@ def coupler_bent_half(
     xs2 = xs.copy(radius=R2, width=width2)
 
     outer_bend = c << gf.components.bend_circular(
-        angle=np.round(-alpha, 3), cross_section=xs1, add_pins=False
+        angle=np.round(-alpha, 3),
+        cross_section=xs1,
     )
 
     inner_bend = c << gf.components.bend_circular(
-        angle=-alpha, cross_section=xs2, add_pins=False
+        angle=-alpha,
+        cross_section=xs2,
     )
 
     outer_bend.movey(+(width1 + gap) / 2)
     inner_bend.movey(-(width2 + gap) / 2)
 
     outer_straight = c << gf.components.straight(
-        length=length, cross_section=xs1, npoints=100, add_pins=False
+        length=length,
+        cross_section=xs1,
+        npoints=100,
     )
 
     inner_straight = c << gf.components.straight(
-        length=length, cross_section=xs2, npoints=100, add_pins=False
+        length=length,
+        cross_section=xs2,
+        npoints=100,
     )
 
     outer_straight.connect(port="o1", destination=outer_bend.ports["o2"])
     inner_straight.connect(port="o1", destination=inner_bend.ports["o2"])
 
     outer_exit_bend = c << gf.components.bend_circular(
-        angle=alpha, cross_section=xs1, add_pins=False
+        angle=alpha,
+        cross_section=xs1,
     )
 
     inner_exit_bend_down = c << gf.components.bend_circular(
-        angle=-beta, cross_section=xs2, add_pins=False
+        angle=-beta,
+        cross_section=xs2,
     )
 
     inner_exit_bend_up = c << gf.components.bend_circular(
-        angle=alpha + beta, cross_section=xs2, add_pins=False
+        angle=alpha + beta,
+        cross_section=xs2,
     )
 
     outer_exit_bend.connect(port="o1", destination=outer_straight.ports["o2"])
@@ -121,7 +130,6 @@ def coupler_bent(
         cross_section: cross_section.
     """
     c = gf.Component()
-    xs = gf.get_cross_section(cross_section)
 
     right_half = c << coupler_bent_half(
         gap=gap,
@@ -151,11 +159,10 @@ def coupler_bent(
     c.add_port("o3", port=right_half.ports["o3"])
     c.add_port("o4", port=right_half.ports["o4"])
 
-    xs.add_pins(c)
     return c
 
 
 if __name__ == "__main__":
     # c = coupler_bent_half()
-    c = coupler_bent()
+    c = coupler_bent(cross_section="xs_rc")
     c.show(show_ports=False)
