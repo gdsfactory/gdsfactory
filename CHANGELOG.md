@@ -1,11 +1,29 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.23.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.24.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.24.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.24.0) - 2024-04-22
 
-No significant changes.
+- add component_with_function [#2683](https://github.com/gdsfactory/gdsfactory/pull/2683)
+- add via_yoffset to via_chain [#2678](https://github.com/gdsfactory/gdsfactory/pull/2678)
+- import_gds unique names appends uuid [#2696](https://github.com/gdsfactory/gdsfactory/pull/2696)
+- Fix cell annotation [#2692](https://github.com/gdsfactory/gdsfactory/pull/2692)
+- fix docs [#2681](https://github.com/gdsfactory/gdsfactory/pull/2681)
+- fix cross_section for ring_single_bend_coupler [#2668](https://github.com/gdsfactory/gdsfactory/pull/2668)
+- Pdk improvements [#2694](https://github.com/gdsfactory/gdsfactory/pull/2694)
+- Improve component with function [#2687](https://github.com/gdsfactory/gdsfactory/pull/2687)
+- Update type annotations in Component [#2686](https://github.com/gdsfactory/gdsfactory/pull/2686)
+- remove fill_rectangle from docs [#2685](https://github.com/gdsfactory/gdsfactory/pull/2685)
+- better import gds and ports [#2680](https://github.com/gdsfactory/gdsfactory/pull/2680)
+- improve updk [#2679](https://github.com/gdsfactory/gdsfactory/pull/2679)
+- add via_yoffset to via_chain [#2678](https://github.com/gdsfactory/gdsfactory/pull/2678)
+- c.info requires native types [#2691](https://github.com/gdsfactory/gdsfactory/pull/2691)
+- Fix type annotation for mirror_x [#2670](https://github.com/gdsfactory/gdsfactory/pull/2670)
+- Bump sphinx from 7.2.6 to 7.3.7 [#2693](https://github.com/gdsfactory/gdsfactory/pull/2693)
+- Update kweb requirement from <1.3,>=1.1.9 to >=1.1.9,<2.1 [#2675](https://github.com/gdsfactory/gdsfactory/pull/2675)
+- Update trimesh requirement from <4.3,>=4 to >=4,<4.4 [#2674](https://github.com/gdsfactory/gdsfactory/pull/2674)
+- Update pydantic requirement from <2.7,>=2 to >=2,<2.8 [#2676](https://github.com/gdsfactory/gdsfactory/pull/2676)
 
 
 ## [7.23.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.23.0) - 2024-04-10
