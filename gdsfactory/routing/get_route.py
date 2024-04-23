@@ -39,8 +39,8 @@ from collections.abc import Callable
 from functools import partial
 
 import numpy as np
-from pydantic import validate_call
 from numpy import ndarray
+from pydantic import validate_call
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
@@ -60,12 +60,14 @@ from gdsfactory.typings import (
     Route,
 )
 
+
 def get_restricted_area(
-    obstacle_list: list[ComponentReference],
-    margin: float = 0.0
+    obstacle_list: list[ComponentReference], margin: float = 0.0
 ) -> list[ndarray[float]]:
     restricted_area = []
-    obstacles_w_origin = [[np.array(obstacle.origin), obstacle] for obstacle in obstacle_list]
+    obstacles_w_origin = [
+        [np.array(obstacle.origin), obstacle] for obstacle in obstacle_list
+    ]
 
     while len(obstacles_w_origin) > 0:
         origin, obstacle = obstacles_w_origin.pop(0)
@@ -78,8 +80,11 @@ def get_restricted_area(
                 restricted_area.append(points + origin)
         if len(obstacle.parent.references) != 0:
             for reference in obstacle.parent.references:
-                obstacles_w_origin.append([np.array(reference.origin) + origin, reference])
+                obstacles_w_origin.append(
+                    [np.array(reference.origin) + origin, reference]
+                )
     return restricted_area
+
 
 @validate_call
 def get_route(
