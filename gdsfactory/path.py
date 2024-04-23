@@ -434,7 +434,6 @@ class Path(_GeometryHelper):
         simplify: float | None = None,
         shear_angle_start: float | None = None,
         shear_angle_end: float | None = None,
-        add_pins: bool = False,
         **kwargs,
     ) -> Component:
         """Returns Component by extruding a Path with a CrossSection.
@@ -451,7 +450,6 @@ class Path(_GeometryHelper):
                     by more than the value listed here will be removed.
             shear_angle_start: an optional angle to shear the starting face by (in degrees).
             shear_angle_end: an optional angle to shear the ending face by (in degrees).
-            add_pins: if True adds pins to the ports of the component according to `cross_section`.
 
         Keyword Args:
             Supplied to :func:`gf.cell`.
@@ -473,7 +471,6 @@ class Path(_GeometryHelper):
             simplify=simplify,
             shear_angle_start=shear_angle_start,
             shear_angle_end=shear_angle_end,
-            add_pins=add_pins,
             **kwargs,
         )
 
@@ -730,8 +727,7 @@ def extrude(
     shear_angle_end: float | None = None,
     allow_offgrid: bool | None = None,
     snap_to_grid: bool = False,
-    add_pins: bool = False,
-    post_process: Callable | None = None,
+    add_bbox: bool = True,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
 
@@ -749,7 +745,7 @@ def extrude(
         shear_angle_start: an optional angle to shear the starting face by (in degrees).
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
         add_pins: if True adds pins to the ports of the component according to `cross_section`.
-        post_process: a function to post process the component.
+        add_bbox: if True adds a bounding box to the component.
     """
     from gdsfactory.pdk import (
         get_cross_section,
@@ -970,10 +966,8 @@ def extrude(
         _ = c << along_path(
             p=_p, component=via.component, spacing=via.spacing, padding=via.padding
         )
-    if add_pins:
-        x.add_pins(c)
-    if post_process:
-        post_process(c)
+    if add_bbox:
+        x.add_bbox(c)
     return c
 
 
@@ -998,7 +992,6 @@ def extrude_transition(
     transition: Transition,
     shear_angle_start: float | None = None,
     shear_angle_end: float | None = None,
-    post_process: Callable | None = None,
 ) -> Component:
     """Extrudes a path along a transition.
 
@@ -1007,7 +1000,6 @@ def extrude_transition(
         transition: transition to extrude along.
         shear_angle_start: angle to shear the start of the path.
         shear_angle_end: angle to shear the end of the path.
-        post_process: a function to post process the component.
     """
 
     from gdsfactory.pdk import get_cross_section, get_layer
@@ -1043,6 +1035,9 @@ def extrude_transition(
         width1 = section1.width
         width2 = section2.width
 
+        section1_layer = get_layer(section1.layer)
+        section2_layer = get_layer(section2.layer)
+
         if callable(offset1):
             offset1 = offset1(1)
         if callable(offset2):
@@ -1071,14 +1066,14 @@ def extrude_transition(
                 f"width_type={width_type!r} must be {'sine','linear','parabolic'}, or a Callable w(t, width1, width2) returning the transition profile as a function of path position t."
             )
 
-        if section1.layer != section2.layer:
+        if section1_layer != section2_layer:
             hidden = True
-            layer1 = get_layer(section1.layer)
-            layer2 = get_layer(section2.layer)
+            layer1 = get_layer(section1_layer)
+            layer2 = get_layer(section2_layer)
             layer = (layer1, layer2)
         else:
             hidden = False
-            layer = get_layer(section1.layer)
+            layer = get_layer(section1_layer)
 
         p_sec.offset(offset)
         offset = 0
@@ -1189,8 +1184,6 @@ def extrude_transition(
             # port2.info["face"] = face
 
     c.info["length"] = float(np.round(p.length(), 3))
-    if post_process:
-        post_process(c)
     return c
 
 

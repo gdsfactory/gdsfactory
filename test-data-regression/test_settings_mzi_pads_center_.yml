@@ -8,6 +8,7 @@ settings:
   delta_length: 40.0
   length_x: 500
   length_y: 40
+  min_straight_length: 5.0
   mzi:
     function: mzi
   mzi_gnd_bot: bot_r_e2

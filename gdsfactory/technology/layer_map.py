@@ -5,8 +5,7 @@ from pydantic import BaseModel, model_validator
 
 from gdsfactory.technology.layer_views import LayerViews
 
-# required_layers = ["TEXT"]
-required_layers = []
+Layer = tuple[int, int]
 
 
 class LayerMap(BaseModel):
@@ -14,13 +13,8 @@ class LayerMap(BaseModel):
 
     model_config = {"frozen": True}
 
-    @model_validator(mode="after")
-    @classmethod
-    def check_required_layers(cls, data: Any) -> Any:
-        for layer in required_layers:
-            if layer not in data.model_fields.keys():
-                raise ValueError(f"{layer} layer must be defined")
-        return data
+    LABEL_INSTANCE: Layer = (206, 0)
+    LABEL_SETTINGS: Layer = (202, 0)
 
     @model_validator(mode="after")
     @classmethod

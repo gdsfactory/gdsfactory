@@ -30,20 +30,23 @@ add_ports = gf.compose(add_ports_optical, add_ports_electrical)
 """
 
 
-def get_script(gdspath: PathType, module: str | None = None) -> str:
+def get_script(
+    gdspath: PathType, module: str | None = None, add_docs: bool = False
+) -> str:
     """Returns script for importing a fixed cell.
 
     Args:
         gdspath: fixed cell gdspath.
         module: if any includes plot directive.
-
+        add_docs: if True adds docstring with plot directive.
     """
     cell = clean_name(gdspath.stem)
     gdspath = gdspath.stem + gdspath.suffix
-
     package = module.split(".")[0] if module and "." in module else module
-    if module:
-        return f"""
+
+    if add_docs:
+        if module:
+            return f"""
 
 @gf.cell
 def {cell}()->gf.Component:
@@ -60,6 +63,8 @@ def {cell}()->gf.Component:
     return import_gds({str(gdspath)!r})
 
 """
+        else:
+            raise ValueError("module is required if add_docs is True")
 
     else:
         return f"""
@@ -72,19 +77,27 @@ def {cell}()->gf.Component:
 """
 
 
-def get_import_gds_script(dirpath: PathType, module: str | None = None) -> str:
+def get_import_gds_script(
+    dirpath: PathType, module: str | None = None, add_docs: bool = False
+) -> str:
     """Returns import_gds script from a directory with all the GDS files.
 
     Args:
         dirpath: fixed cell directory path.
         module: Optional plot directive to plot imported component.
+        add_docs: if True adds docstring with plot directive.
 
     """
     dirpath = pathlib.Path(dirpath)
     if not dirpath.exists():
         raise ValueError(f"{str(dirpath.absolute())!r} does not exist.")
 
-    gdspaths = list(dirpath.glob("*.gds")) + list(dirpath.glob("*.GDS"))
+    gdspaths = (
+        list(dirpath.glob("*.gds"))
+        + list(dirpath.glob("*.GDS"))
+        + list(dirpath.glob("*.oas"))
+        + list(dirpath.glob("*.OAS"))
+    )
 
     if not gdspaths:
         raise ValueError(f"No GDS files found at {dirpath.absolute()!r}.")
@@ -97,7 +110,9 @@ def get_import_gds_script(dirpath: PathType, module: str | None = None) -> str:
         "import_gds = partial(gf.import_gds, gdsdir=gdsdir, decorator=add_ports)\n"
     ]
 
-    cells = [get_script(gdspath, module=module) for gdspath in gdspaths]
+    cells = [
+        get_script(gdspath, module=module, add_docs=add_docs) for gdspath in gdspaths
+    ]
     script += sorted(cells)
     return "\n".join(script)
 

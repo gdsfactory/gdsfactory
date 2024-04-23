@@ -131,8 +131,8 @@ def cdc(
         cross_section kwargs.
     """
     x = gf.get_cross_section(cross_section, **kwargs)
-    x_top = x.copy(width=width_top, add_pins_function_name=None)
-    x_bot = x.copy(width=width_bot, add_pins_function_name=None)
+    x_top = x.copy(width=width_top)
+    x_bot = x.copy(width=width_bot)
 
     c = gf.Component()
 
@@ -168,8 +168,6 @@ def cdc(
     )
 
     x.add_bbox(c)
-    x.add_pins(c)
-
     c.add_port("o1", port=input_bend_top.ports["o1"])
     c.add_port("o2", port=input_bend_bottom.ports["o1"])
     c.add_port("o3", port=bend_output_top.ports["o1"])

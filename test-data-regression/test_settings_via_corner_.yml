@@ -11,9 +11,7 @@ settings:
   - - function: cross_section
       module: gdsfactory.cross_section
       settings:
-        gap: 5
         layer: M2
-        min_length: 5
         port_names:
         - e1
         - e2
@@ -27,9 +25,7 @@ settings:
   - - function: cross_section
       module: gdsfactory.cross_section
       settings:
-        gap: 5
         layer: M3
-        min_length: 5
         port_names:
         - e1
         - e2

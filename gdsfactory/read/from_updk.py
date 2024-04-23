@@ -70,11 +70,12 @@ def from_updk(
     script += f"""
 
 import sys
+from functools import partial
 import gdsfactory as gf
 from gdsfactory.get_factories import get_cells
 from gdsfactory.add_pins import add_pins_inside2um
 
-cell = gf.partial(gf.cell, naming_style='updk', autoname=False)
+cell = partial(gf.cell, naming_style='updk', autoname=False)
 layer_bbox = {layer_bbox}
 layer_bbmetal = {layer_bbmetal}
 layer_pin_label = {layer_pin_label}
@@ -84,7 +85,7 @@ layer_pin_electrical = {layer_pin_electrical}
 layer_label = {layer_label}
 
 layer_text = {layer_text or (1, 0)}
-text_function = gf.partial(gf.components.text, layer=layer_text, justify="center", size={text_size})
+text_function = partial(gf.components.text, layer=layer_text, justify="center", size={text_size})
 
 add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_optical)
 """
@@ -132,15 +133,15 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         parameters_labels = (
             "\n".join(
                 [
-                    "    c.add_label(text=f'{}', position=(xc, yc-{}/{}/2*ysize), layer=layer_label)\n".format(
-                        p_name, i, len(parameters)
-                    )
+                    f"    c.add_label(text=f'{p_name}', position=(xc, yc-{i}/{len(parameters)}/2*ysize), layer=layer_label)\n"
                     for i, p_name in enumerate(parameters_colon)
                 ]
             )
             if layer_label and parameters_colon
             else ""
         )
+        list_parameters = "\\n".join(f"{p_name}" for p_name in parameters_equal)
+        parameters_labels = f"    c.add_label(text=f'Parameters:\\n{list_parameters}', position=(0,0), layer=layer_label)\n"
 
         if parameters:
             doc = f'"""{block.doc}\n\n    Args:\n    {parameters_doc}\n    """'
@@ -155,14 +156,17 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
 
         points = str(block.bbox).replace("'", "")
         script += f"""
-@cell
+@gf.cell
 def {block_name}({parameters_string})->gf.Component:
     {doc}
     c = gf.Component()
     p = c.add_polygon({points}, layer=layer_bbox)
     xc, yc = p.center
-    ysize = p.ysize
     name = f{cell_name!r}
+"""
+        if "ysize" in parameters_labels:
+            script += """
+    ysize = p.ysize
 """
         if layer_bbmetal and "bb_metal" in block:
             for bbmetal in block["bb_metal"].values():
@@ -177,7 +181,7 @@ def {block_name}({parameters_string})->gf.Component:
             )
 
             if port.xsection != "None":
-                script += f"    c.add_port(name={port_name!r}, width={port.width}, cross_section={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
+                script += f"    c.add_port(name={port_name!r}, cross_section={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
             else:
                 script += f"    c.add_port(name={port_name!r}, width={port.width}, layer=(0, 0), center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
 

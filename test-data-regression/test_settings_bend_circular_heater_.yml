@@ -13,4 +13,3 @@ settings:
   layer_heater: HEATER
   npoints: null
   radius: null
-  with_bbox: true

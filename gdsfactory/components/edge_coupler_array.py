@@ -31,6 +31,7 @@ def edge_coupler_array(
     text: ComponentSpec | None = text_rectangular,
     text_offset: Float2 = (10, 20),
     text_rotation: float = 0,
+    text_mirror: bool = False,
     angle: float = 0,
     bend: ComponentSpec = bend_euler,
     place_x_by_port: bool = True,
@@ -49,6 +50,7 @@ def edge_coupler_array(
         text: text spec.
         text_offset: from edge coupler.
         text_rotation: text rotation in degrees.
+        text_mirror: mirrors the text.
         angle: rotation in degrees.
         bend: bend spec. Used only if angle > 0.
         place_x_by_port: If True it aligns the ports in the x direction.
@@ -113,6 +115,8 @@ def edge_coupler_array(
             t = c << gf.get_component(text, text=str(i + 1))
             t.rotate(text_rotation)
             t.move(np.array(text_offset) + (ref.ports[alignment_port].x, i * pitch))
+            if text_mirror:
+                t.mirror()
 
     if angle:
         c = c.flatten_offgrid_references()
@@ -133,6 +137,7 @@ def edge_coupler_array_with_loopback(
     text: ComponentSpec | None = text_rectangular,
     text_offset: Float2 = (0, 0),
     text_rotation: float = 0,
+    text_mirror: bool = False,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight,
     taper: ComponentSpec | None = None,
@@ -155,6 +160,7 @@ def edge_coupler_array_with_loopback(
         text: Optional text spec.
         text_offset: x, y.
         text_rotation: text rotation in degrees.
+        text_mirror: mirrors the text.
         bend: bend spec.
         straight: straight spec.
         taper: taper spec.
@@ -169,6 +175,7 @@ def edge_coupler_array_with_loopback(
         text=text,
         text_offset=text_offset,
         text_rotation=text_rotation,
+        text_mirror=text_mirror,
         angle=angle,
         bend=bend,
         place_x_by_port=place_x_by_port,

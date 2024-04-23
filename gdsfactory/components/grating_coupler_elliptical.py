@@ -252,21 +252,17 @@ def grating_coupler_elliptical(
             layer_slab,
         )
 
-    if xs.add_bbox:
-        xs.add_bbox(c)
-    if xs.add_pins:
-        xs.add_pins(c)
-
     x = gf.snap.snap_to_grid(x)
-    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
-        name=name,
+        name="o2",
         center=(x, 0),
         width=10,
         orientation=0,
         layer=layer,
         port_type="optical",
     )
+
+    xs.add_bbox(c)
     return c
 
 
@@ -296,5 +292,5 @@ if __name__ == "__main__":
     # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical, with_loopback=False)
 
     # c = gf.components.grating_coupler_elliptical_te()
-    c = gf.components.grating_coupler_elliptical_tm(cross_section="xs_rc")
+    c = gf.components.grating_coupler_elliptical_tm(cross_section="xs_rc_bbox")
     c.show(show_ports=True)

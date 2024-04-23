@@ -9,7 +9,7 @@ from gdsfactory.difftest import difftest
 WIDTH_WIDE = 2.0
 
 xs_pin_m1 = partial(
-    gf.cross_section.strip_auto_widen,
+    gf.cross_section.strip,
     width=0.5,
     width_wide=WIDTH_WIDE,
     sections=(
@@ -19,7 +19,7 @@ xs_pin_m1 = partial(
 )
 
 xs_pin = partial(
-    gf.cross_section.strip_auto_widen,
+    gf.cross_section.strip,
     sections=(Section(width=1, offset=2, layer=(24, 0), name="n+"),),
 )
 
@@ -41,8 +41,8 @@ def test_get_route_auto_widen() -> None:
         [(0, 0), (300, 0), (300, 300), (-600, 300), (-600, -300)],
         cross_section=xs_pin_m1,
         bend=partial(gf.components.bend_euler, cross_section=xs_pin),
-        # taper=taper_pin,
         radius=30,
+        auto_widen=True,
     )
     c.add(route.references)
     difftest(c)
@@ -50,7 +50,7 @@ def test_get_route_auto_widen() -> None:
 
 if __name__ == "__main__":
     # test_get_route_auto_widen()
-    c = gf.Component()
+    c = gf.Component("demo")
     route = gf.routing.get_route_from_waypoints(
         [(0, 0), (300, 0), (300, 300), (300, 600), (600, 600)],
         # cross_section="xs_sc_auto_widen",

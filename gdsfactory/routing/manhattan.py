@@ -18,6 +18,7 @@ from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import angles_deg
 from gdsfactory.port import Port, select_ports_list
 from gdsfactory.routing.get_route_sbend import get_route_sbend
+from gdsfactory.routing.get_route_waypoints_astar import generate_route_astar_points
 from gdsfactory.typings import (
     ComponentSpec,
     Coordinate,
@@ -29,8 +30,6 @@ from gdsfactory.typings import (
     MultiCrossSectionAngleSpec,
     Route,
 )
-
-from gdsfactory.routing.get_route_waypoints_astar import generate_route_astar_points
 
 nm = 1e-3
 TOLERANCE = 1 * nm
@@ -615,6 +614,10 @@ def round_corners(
     on_route_error: Callable = get_route_error,
     with_point_markers: bool = False,
     with_sbend: bool = False,
+    width_wide: float | None = None,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 200.0,
+    taper_length: float = 10.0,
     **kwargs,
 ) -> Route:
     """Returns Route.
@@ -635,6 +638,10 @@ def round_corners(
         on_route_error: function to run when route fails.
         with_point_markers: add route points markers (easy for debugging).
         with_sbend: add sbend in case there are routing errors.
+        width_wide: wide width for taper.
+        auto_widen: if True, automatically widen the waveguide.
+        auto_widen_minimum_length: minimum length to automatically widen the waveguide.
+        taper_length: length of the taper.
         kwargs: cross_section settings.
 
     """
@@ -662,27 +669,10 @@ def round_corners(
         layer = list(bend90.ports.values())[0].layer
 
     if cross_section:
-        auto_widen = (
-            [_x.auto_widen for _x in x] if isinstance(x, list) else x.auto_widen
-        )
-        auto_widen_minimum_length = (
-            [_x.auto_widen_minimum_length for _x in x]
-            if isinstance(x, list)
-            else x.auto_widen_minimum_length
-        )
-
-        taper_length = (
-            [_x.taper_length for _x in x] if isinstance(x, list) else x.taper_length
-        )
-
-        width = [_x.width for _x in x] if isinstance(x, list) else x.width
-        width_wide = (
-            [_x.width_wide for _x in x] if isinstance(x, list) else x.width_wide
-        )
-
         if isinstance(cross_section, list):
             taper = None
         elif taper is None:
+            width = x.width
             taper = taper_function(
                 cross_section=cross_section,
                 width1=width,
@@ -967,7 +957,7 @@ def generate_manhattan_waypoints(
     output_port: Port,
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
-    min_straight_length: float | None = None,
+    min_straight_length: float = 10e-3,
     bend: ComponentSpec = bend_euler,
     cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     restricted_area: list[ndarray[float]] = [],
@@ -983,11 +973,12 @@ def generate_manhattan_waypoints(
         min_straight_length: in um.
         bend: bend spec.
         cross_section: spec.
+        taper_length: in um.
         kwargs: cross_section settings.
 
     """
-    if "straight" in kwargs:
-        _ = kwargs.pop("straight")
+    kwargs.pop("straight", None)
+    kwargs.pop("taper_length", None)
 
     if cross_section:
         bend90 = (
@@ -997,23 +988,6 @@ def generate_manhattan_waypoints(
         )
     else:
         bend90 = gf.get_component(bend)
-
-    if isinstance(cross_section, tuple | list):
-        x = [gf.get_cross_section(xsection[0]) for xsection in cross_section]
-        x = [xs.copy(**kwargs) for xs in x]
-        start_straight_length = start_straight_length or min(_x.min_length for _x in x)
-        end_straight_length = end_straight_length or min(_x.min_length for _x in x)
-        min_straight_length = min_straight_length or min(_x.min_length for _x in x)
-    elif cross_section:
-        x = gf.get_cross_section(cross_section)
-        x = x.copy(**kwargs)
-        start_straight_length = start_straight_length or x.min_length
-        end_straight_length = end_straight_length or x.min_length
-        min_straight_length = min_straight_length or x.min_length
-    else:
-        start_straight_length = default_straight_length
-        end_straight_length = default_straight_length
-        min_straight_length = default_straight_length
 
     bsx = bsy = _get_bend_size(bend90)
     bs = _get_bend_size(bend90)
@@ -1025,16 +999,16 @@ def generate_manhattan_waypoints(
         start_straight_length,
         end_straight_length,
         min_straight_length,
-        restricted_area
+        restricted_area,
     )
     return _generate_route_manhattan_points(
         input_port,
         output_port,
         bsx,
         bsy,
-        start_straight_length,
-        end_straight_length,
-        min_straight_length,
+        start_straight_length or min_straight_length,
+        end_straight_length or min_straight_length,
+        min_straight_length or min_straight_length,
     )
 
 
@@ -1052,14 +1026,17 @@ def route_manhattan(
     taper: ComponentSpec | None = None,
     start_straight_length: float | None = None,
     end_straight_length: float | None = None,
-    min_straight_length: float | None = None,
+    min_straight_length: float = 10e-3,
     bend: ComponentSpec = bend_euler,
-    with_sbend: bool = True,
+    with_sbend: bool = False,
     cross_section: None | CrossSectionSpec | MultiCrossSectionAngleSpec = strip,
     restricted_area: list[ndarray[float]] = [],
     with_point_markers: bool = False,
     on_route_error: Callable = get_route_error,
-    **kwargs,
+    width_wide: float | None = None,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 200.0,
+    taper_length: float = 10.0,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
 
@@ -1078,25 +1055,12 @@ def route_manhattan(
         with_sbend: add sbend in case there are routing errors.
         cross_section: spec.
         with_point_markers: add point markers in the route.
-        kwargs: cross_section settings.
+        on_route_error: function to run when route fails.
+        width_wide: wide width for taper.
+        auto_widen: if True, automatically widen the waveguide.
+        auto_widen_minimum_length: minimum length to automatically widen the waveguide.
 
     """
-    if isinstance(cross_section, tuple | list):
-        x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
-        start_straight_length = start_straight_length or min(_x.min_length for _x in x)
-        end_straight_length = end_straight_length or min(_x.min_length for _x in x)
-        min_straight_length = min_straight_length or min(_x.min_length for _x in x)
-        x = cross_section
-    elif cross_section:
-        x = gf.get_cross_section(cross_section, **kwargs)
-        start_straight_length = start_straight_length or x.min_length
-        end_straight_length = end_straight_length or x.min_length
-        min_straight_length = min_straight_length or x.min_length
-    else:
-        start_straight_length = default_straight_length
-        end_straight_length = default_straight_length
-        min_straight_length = default_straight_length
-        x = cross_section = None
 
     try:
         points = generate_manhattan_waypoints(
@@ -1107,22 +1071,26 @@ def route_manhattan(
             min_straight_length=min_straight_length,
             bend=bend,
             cross_section=x,
-            restricted_area=restricted_area
+            restricted_area=restricted_area,
         )
         return round_corners(
             points=points,
             straight=straight,
             taper=taper,
             bend=bend,
-            cross_section=x,
+            cross_section=cross_section,
             with_point_markers=with_point_markers,
             with_sbend=with_sbend,
             on_route_error=on_route_error,
+            width_wide=width_wide,
+            auto_widen=auto_widen,
+            auto_widen_minimum_length=auto_widen_minimum_length,
+            taper_length=taper_length,
         )
 
     except RouteError:
         if with_sbend:
-            return get_route_sbend(input_port, output_port, cross_section=x)
+            return get_route_sbend(input_port, output_port, cross_section=cross_section)
 
     return get_route_error(points=points, with_sbend=False)
 

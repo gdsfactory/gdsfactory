@@ -75,8 +75,6 @@ def mzit(
 
     """
     c = gf.Component()
-
-    xs = gf.get_cross_section(cross_section)
     xs1 = gf.get_cross_section(cross_section, width=w1)
     xs2 = gf.get_cross_section(cross_section, width=w2)
 
@@ -191,7 +189,6 @@ def mzit(
 
     c.add_port("o2", port=cp2.ports["o2"])
     c.add_port("o1", port=cp2.ports["o1"])
-    xs.add_pins(c)
     c.auto_rename_ports()
     return c
 

@@ -99,7 +99,6 @@ def crossing(
         arm: arm spec.
         cross_section: spec.
     """
-    x = gf.get_cross_section(cross_section)
     c = Component()
     arm = gf.get_component(arm)
     arm_h = arm.ref()
@@ -114,8 +113,6 @@ def crossing(
             port_id += 1
     c.auto_rename_ports()
 
-    x.add_bbox(c)
-    x.add_pins(c)
     return c
 
 
@@ -227,7 +224,7 @@ def crossing45(
     alpha: float = 0.08,
     npoints: int = 101,
     cross_section: CrossSectionSpec = "xs_sc",
-    cross_section_bends: CrossSectionSpec = "xs_sc_no_pins",
+    cross_section_bends: CrossSectionSpec = "xs_sc",
 ) -> Component:
     r"""Returns 45deg crossing with bends.
 
@@ -238,6 +235,8 @@ def crossing45(
         alpha: optimization parameter. diminish it for tight bends,
           increase it if raises assertion angle errors
         npoints: number of points.
+        cross_section: waveguide cross_section.
+        cross_section_bends: waveguide cross_section for the bends.
 
 
     The 45 Degree crossing CANNOT be kept as an SRef since
@@ -316,10 +315,6 @@ def crossing45(
     c.add_port("o3", port=b_tr.ports["o2"])
     c.add_port("o4", port=b_br.ports["o2"])
     c.snap_ports_to_grid()
-
-    x = gf.get_cross_section(cross_section)
-    x.add_bbox(c)
-    x.add_pins(c)
     return c
 
 
@@ -365,8 +360,6 @@ def compensation_path(
 
     """
     import scipy.optimize as so
-
-    x = gf.get_cross_section(cross_section)
 
     # Get total path length taken by the bends
     crossing45 = gf.get_component(crossing45)
@@ -432,8 +425,6 @@ def compensation_path(
 
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
 
-    x.add_bbox(c)
-    x.add_pins(c)
     return c
 
 

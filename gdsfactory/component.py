@@ -2,6 +2,7 @@
 
 Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
+
 from __future__ import annotations
 
 import datetime
@@ -15,7 +16,6 @@ import warnings
 from collections import Counter
 from collections.abc import Callable, Iterable, Iterator
 from copy import deepcopy
-from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal
 
 import gdstk
@@ -226,17 +226,17 @@ class Component(_GeometryHelper):
         self._locked = False
         self._get_child_name = False
         self._reference_names_counter = Counter()
-        self._reference_names_used = set()
-        self._named_references = {}
-        self._references = []
+        self._reference_names_used: set[str] = set()
+        self._named_references: dict[str, ComponentReference] = {}
+        self._references: list[ComponentReference] = []
         self.function_name = ""
         self.module = ""
 
-        self.ports = {}
+        self.ports: dict[str, Port] = {}
 
         self.child = None
 
-    def simplify(self, tolerance: float = 1e-3):
+    def simplify(self, tolerance: float = 1e-3) -> Component:
         """Removes points from the polygon but does not change the polygon
         shape by more than `tolerance` from the original. Uses the
         Ramer-Douglas-Peucker algorithm.
@@ -257,7 +257,7 @@ class Component(_GeometryHelper):
         return c
 
     @property
-    def references(self):
+    def references(self) -> list[ComponentReference]:
         return self._references
 
     @property
@@ -488,7 +488,7 @@ class Component(_GeometryHelper):
         return v
 
     @property
-    def named_references(self):
+    def named_references(self) -> dict[str, ComponentReference]:
         return self._named_references
 
     def add_label(
@@ -547,7 +547,7 @@ class Component(_GeometryHelper):
         """Returns a mapping from layer0_layer1_E0: portName."""
         return map_ports_layer_to_orientation(self.ports)
 
-    def port_by_orientation_cw(self, key: str, **kwargs):
+    def port_by_orientation_cw(self, key: str, **kwargs) -> Port:
         """Returns port by indexing them clockwise."""
         m = map_ports_to_orientation_cw(self.ports, **kwargs)
         if key not in m:
@@ -555,7 +555,7 @@ class Component(_GeometryHelper):
         key2 = m[key]
         return self.ports[key2]
 
-    def port_by_orientation_ccw(self, key: str, **kwargs):
+    def port_by_orientation_ccw(self, key: str, **kwargs) -> Port:
         """Returns port by indexing them clockwise."""
         m = map_ports_to_orientation_ccw(self.ports, **kwargs)
         if key not in m:
@@ -665,7 +665,7 @@ class Component(_GeometryHelper):
         )
         return G
 
-    def to_yaml(self, **kwargs) -> dict[str, Any]:
+    def to_yaml(self, **kwargs) -> str:
         from gdsfactory.get_netlist import get_netlist_yaml
 
         return get_netlist_yaml(self, **kwargs)
@@ -766,7 +766,7 @@ class Component(_GeometryHelper):
         for port in self.ports.values():
             port.assert_manhattan(error_type=error_type)
 
-    def get_ports(self, depth: int | None = 0):
+    def get_ports(self, depth: int | None = 0) -> list[Port]:
         """Returns copies of all the ports of the Component, rotated and \
                 translated so that they're in their top-level position.
 
@@ -905,7 +905,7 @@ class Component(_GeometryHelper):
 
         return _ref
 
-    def ref_center(self, position=(0, 0)):
+    def ref_center(self, position=(0, 0)) -> ComponentReference:
         """Returns a reference of the component centered at (x=0, y=0)."""
         si = self.size_info
         yc = si.south + si.height / 2
@@ -1212,7 +1212,7 @@ class Component(_GeometryHelper):
         else:
             raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
 
-    def _add_polygon_shapely(self, layer, points, snap_to_grid=False):
+    def _add_polygon_shapely(self, layer, points, snap_to_grid=False) -> Polygon:
         layer, datatype = _parse_layer(layer)
         points_exterior = points.exterior.coords
         if snap_to_grid:
@@ -1228,7 +1228,7 @@ class Component(_GeometryHelper):
 
     def _add_polygon_shapely_with_holes(
         self, points, layer, datatype, polygon, snap_to_grid=False
-    ):
+    ) -> Polygon:
         from shapely import get_coordinates
 
         points = get_coordinates(points.interiors)
@@ -1559,7 +1559,7 @@ class Component(_GeometryHelper):
         polygons = self._cell.get_polygons(depth=None)
         return {(polygon.layer, polygon.datatype) for polygon in polygons}
 
-    def get_layer_names(self) -> list[tuple[int, int]]:
+    def get_layer_names(self) -> list[str]:
         """Return layer names used in the design.
 
         .. code ::
@@ -1770,10 +1770,10 @@ class Component(_GeometryHelper):
 
         We recommend using klayout or kweb.
         Klayout is good for images and kweb for responsive interactive plots.
-        Matplotlib is slow for rendering big layouts and is almost Deprecated.
+        Matplotlib is slow for rendering big layouts and is deprecated.
 
         Args:
-            plotter: plot backends ('widget', 'klayout', 'kweb').
+            plotter: plot backends ('klayout').
         """
         plotter = plotter or CONF.display_type
 
@@ -1856,7 +1856,7 @@ class Component(_GeometryHelper):
         with_netlist: bool = False,
         netlist_function: Callable | None = None,
         **kwargs,
-    ) -> Path:
+    ) -> pathlib.Path:
         """Write component to GDS or OASIS and returns gdspath.
 
         Args:
@@ -2035,7 +2035,7 @@ class Component(_GeometryHelper):
         gdspath: PathType | None = None,
         gdsdir: PathType | None = None,
         **kwargs,
-    ) -> Path:
+    ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
 
         Args:
@@ -2068,7 +2068,7 @@ class Component(_GeometryHelper):
         gdspath: PathType | None = None,
         gdsdir: PathType | None = None,
         **kwargs,
-    ) -> Path:
+    ) -> pathlib.Path:
         """Write component to GDS and returns gdspath.
 
         Args:
@@ -2340,16 +2340,17 @@ class Component(_GeometryHelper):
         """Remove labels."""
         self._cell.remove(*self.labels)
 
-    def remap_layers(self, layermap, **kwargs) -> Component:
-        """Returns a copy of the component with remapped layers.
+    def remap_layers(self, layermap, new_copy: bool = True, **kwargs) -> Component:
+        """Returns a copy of the component with remapped layers, unless `new_copy` is set to False, in which case it modifies the current Component in place. It's important to be aware that modifying the current Component can have side effects on any references to it.
 
         Args:
             layermap: Dictionary of values in format {layer_from: layer_to}.
+            new_copy: If True, returns a new Component. If False, modifies the current Component in place, potentially affecting references to it.
         """
         if kwargs:
             warnings.warn("{kwargs.keys} is deprecated.", DeprecationWarning)
 
-        component = self
+        component = self.copy() if new_copy else self
         layermap = {_parse_layer(k): _parse_layer(v) for k, v in layermap.items()}
 
         cells = list(component.get_dependencies(True))
@@ -2905,7 +2906,7 @@ def flatten_offgrid_references_recursive(
         if keep_names:
             new_component.rename(component.name, cache=False)
         else:
-            new_component.rename(component.name + "_offgrid")
+            new_component.rename(f"{component.name}_offgrid")
 
         # make sure all modified cells have their references updated
         new_refs = new_component.references.copy()

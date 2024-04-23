@@ -1,0 +1,26 @@
+function: straight_no
+info:
+  length: 10.0
+  route_info_length: 10.0
+  route_info_type: xs_dbcb4311
+  route_info_weight: 10.0
+  route_info_xs_dbcb4311_length: 10.0
+  width: 0.9
+module: gdsfactory.samples.pdk.fab_c
+name: straight_no
+settings:
+  cross_section:
+    function: cross_section
+    module: gdsfactory.cross_section
+    settings:
+      bbox_layers:
+      - - 36
+        - 0
+      bbox_offsets:
+      - 3
+      layer:
+      - 34
+      - 0
+      radius: 10
+      radius_min: 5
+      width: 0.9

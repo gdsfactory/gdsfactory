@@ -8,7 +8,6 @@ settings:
   columns: 1
   orientation: 0
   pad: pad
-  post_process: null
   rows: 3
   spacing:
   - 150.0

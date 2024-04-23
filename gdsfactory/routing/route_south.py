@@ -13,14 +13,14 @@ from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Number, Routes, Strs
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Routes, Strs
 
 
 def route_south(
     component: Component,
     optical_routing_type: int = 1,
     excluded_ports: tuple[str, ...] | None = None,
-    straight_separation: Number = 4.0,
+    straight_separation: float = 4.0,
     io_gratings_lines: list[list[ComponentReference]] | None = None,
     gc_port_name: str = "o1",
     bend: ComponentSpec = bend_euler,
@@ -29,6 +29,11 @@ def route_south(
     select_ports: Callable = select_ports_optical,
     port_names: Strs | None = None,
     cross_section: CrossSectionSpec = strip,
+    min_length: float = 10e-3,
+    auto_widen: bool = False,
+    auto_widen_minimum_length: float = 100,
+    taper_length: float = 10,
+    width_wide: float = 2,
     **kwargs,
 ) -> Routes:
     """Returns Routes to route a component ports to the south.
@@ -101,6 +106,11 @@ def route_south(
         straight=straight,
         taper=taper,
         cross_section=cross_section,
+        min_straight_length=min_length,
+        auto_widen=auto_widen,
+        auto_widen_minimum_length=auto_widen_minimum_length,
+        taper_length=taper_length,
+        width_wide=width_wide,
         **kwargs,
     )
 

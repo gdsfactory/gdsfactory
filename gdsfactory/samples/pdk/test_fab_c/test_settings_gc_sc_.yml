@@ -1,0 +1,7 @@
+function: gc_sc
+info:
+  polarization: te
+  wavelength: 1.554
+module: gdsfactory.samples.pdk.fab_c
+name: gc_sc
+settings: {}

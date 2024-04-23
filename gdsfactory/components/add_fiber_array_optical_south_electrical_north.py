@@ -4,7 +4,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
 )
 from gdsfactory.components.mzi import mzi_phase_shifter
 from gdsfactory.components.pad import pad_small
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Dict
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell_with_child
@@ -18,7 +18,7 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_port_names: list[str] | None = None,
     electrical_port_orientation: float | None = 90,
     npads: int | None = None,
-    pad_assigment_dict: Dict[str, str] | None = None,
+    pad_assigments: tuple[tuple[str, str], ...] | None = None,
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     xs_metal: CrossSectionSpec = "xs_metal_routing",
     **kwargs,
@@ -37,13 +37,14 @@ def add_fiber_array_optical_south_electrical_north(
         electrical_port_names: list of electrical port names. Defaults to all.
         electrical_port_orientation: orientation of electrical ports. Defaults to 90.
         npads: number of pads. Defaults to one per electrical_port_names.
-        pad_assigment_dict: if not None, will route according to component_port_name: pad_port_name
+        pad_assigments: if not None, routes according to (component_port_name, pad_port_name).
         grating_coupler: grating coupler function.
         xs_metal: metal cross section.
 
     Keyword Args:
         gc_port_name: grating coupler input port name.
         gc_port_labels: grating coupler list of labels.
+        io_rotation: fiber coupler rotation in degrees. Defaults to None.
         component_name: optional for the label.
         select_ports: function to select ports.
         cross_section: cross_section function.
@@ -119,7 +120,9 @@ def add_fiber_array_optical_south_electrical_north(
             c.add(route.references)
 
     ports1 = electrical_ports[:nroutes]
-    if pad_assigment_dict is None:
+    pad_ports = pads.get_ports_list(orientation=270)
+
+    if pad_assigments is None:
         ports2 = pads.get_ports_list(orientation=270)[:nroutes]
         routes = gf.routing.get_bundle_electrical(
             ports1=ports1,
@@ -131,19 +134,19 @@ def add_fiber_array_optical_south_electrical_north(
         ports2 = []
         ports2_dict = pads.get_ports_dict()
         routes = []
-        for component_port in ports1:
-            port2 = ports2_dict[pad_assigment_dict[component_port.name]]
-            route = gf.routing.get_route_electrical(
-                input_port=component_port, output_port=port2
-            )
+        for port1_name, port2_name in pad_assigments:
+            port1 = r[port1_name]
+            port2 = ports2_dict[port2_name]
+            route = gf.routing.get_route_electrical(input_port=port1, output_port=port2)
             routes.append(route)
             ports2.append(port2)
 
     for route in routes:
         c.add(route.references)
 
-    c.add_ports(ports2)
+    c.add_ports(pad_ports)
     c.copy_child_info(component)
+
     return c
 
 

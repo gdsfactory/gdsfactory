@@ -36,13 +36,13 @@ def add_fiber_single(
     loopback_xspacing: float = 50.0,
     component_name: str | None = None,
     gc_port_name: str = "o1",
-    zero_port: str | None = "o1",
+    io_rotation: int | None = None,
+    zero_port: str | None = None,
     get_input_label_text_loopback_function: None
     | (Callable) = get_input_label_text_dash_loopback,
     get_input_label_text_function: Callable | None = get_input_label_text_dash,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "xs_sc",
-    post_process: Callable | None = None,
     **kwargs,
 ) -> Component:
     r"""Returns component with grating couplers and labels on each port.
@@ -65,13 +65,13 @@ def add_fiber_single(
         loopback_xspacing: spacing from loopback xmin to component.xmin.
         component_name: optional name of component.
         gc_port_name: grating coupler waveguide port name.
+        io_rotation: grating coupler rotation.
         zero_port: name of the port to move to (0, 0) for the routing to work correctly.
         get_input_label_text_loopback_function: for the loopbacks input label.
         get_input_label_text_function: for the grating couplers input label.
         get_input_labels_function: function to get input labels for grating couplers.
         select_ports: function to select ports.
         cross_section: cross_section spec.
-        post_process: function to post process the component.
 
     Keyword Args:
         max_y0_optical: in um.
@@ -83,7 +83,7 @@ def add_fiber_single(
         excluded_ports: list of ports to exclude.
         grating_indices: None.
         routing_method: function to ge the route.
-        gc_rotation: grating_coupler rotation (deg).
+        gc_rotation: fiber coupler rotation in degrees. Defaults to -90 for south IO.
         kwargs: cross_section settings.
 
     .. code::
@@ -114,6 +114,7 @@ def add_fiber_single(
         cc.plot()
 
     """
+    zero_port = zero_port or gc_port_name
     component_original = component = gf.get_component(component)
 
     optical_ports = select_ports(component.ports)
@@ -144,6 +145,8 @@ def add_fiber_single(
         else grating_coupler
     )
     gc = gf.get_component(gc)
+    if io_rotation is not None:
+        gc = gf.functions.rotate(gc, angle=io_rotation)
 
     if gc_port_name not in gc.ports:
         raise ValueError(f"{gc_port_name!r} not in {list(gc.ports.keys())}")
@@ -275,8 +278,6 @@ def add_fiber_single(
             )
 
     c.copy_child_info(component_original)
-    if post_process:
-        post_process(c)
     return c
 
 

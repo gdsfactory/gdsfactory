@@ -9,11 +9,6 @@ info:
 module: gdsfactory.components.straight
 name: straight_299ab026
 settings:
-  add_bbox: null
-  add_pins: true
   cross_section: xs_metal_routing
-  layer: null
   length: 10.0
   npoints: 2
-  post_process: null
-  width: null

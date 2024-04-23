@@ -4,7 +4,6 @@ module: gdsfactory.components.die
 name: die
 settings:
   bbox_layer: FLOORPLAN
-  bbox_layers: null
   die_name: chip99
   draw_corners: false
   layer: FLOORPLAN

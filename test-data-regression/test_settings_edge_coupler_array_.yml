@@ -20,6 +20,7 @@ settings:
   space_y_by_port: false
   text:
     function: text_rectangular
+  text_mirror: false
   text_offset:
   - 10
   - 20

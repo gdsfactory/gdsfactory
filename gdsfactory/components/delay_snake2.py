@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import warnings
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
@@ -62,6 +64,10 @@ def delay_snake2(
 
     delta_length = (length - length0 - length2 - n * bend180.info["length"]) / (n + 1)
     length1 = delta_length - length0
+
+    delta_length = np.round(delta_length, 3)
+    length1 = np.round(length1, 3)
+
     if length1 < 0:
         raise ValueError(
             "Snake is too short: either reduce length0, length2, "
@@ -95,7 +101,7 @@ def test_length_delay_snake2() -> Component:
     import numpy as np
 
     length = 200.0
-    c = delay_snake2(length=length, cross_section="xs_sc_no_pins")
+    c = delay_snake2(length=length, cross_section="xs_sc")
     length_computed = c.area() / 0.5
     np.isclose(length, length_computed)
 
@@ -107,5 +113,7 @@ if __name__ == "__main__":
     # c.show(show_ports=True)
     # c = delay_snake2(n=2, length=500, layer=(2, 0), length0=100)
     # c = delay_snake2()
-    c = gf.grid([gf.c.delay_snake, delay_snake2(length0=100), gf.c.delay_snake3])
+    # c = gf.grid([gf.c.delay_snake, delay_snake2(length0=100), gf.c.delay_snake3])
+    c = delay_snake2()
     c.show(show_ports=True)
+    c.assert_ports_on_grid()

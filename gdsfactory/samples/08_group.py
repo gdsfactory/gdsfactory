@@ -4,7 +4,6 @@ Distribute different references in the X direction.
 
 """
 
-
 if __name__ == "__main__":
     import gdsfactory as gf
 

@@ -1,4 +1,5 @@
 """Add grating_couplers to a component."""
+
 from __future__ import annotations
 
 from collections.abc import Callable
@@ -112,13 +113,13 @@ def add_grating_couplers_with_loopback_fiber_single(
 
     if with_loopback:
         if rotation in {0, 180}:
-            length = abs(p2.x - p1.x)
+            length = np.round(abs(p2.x - p1.x), 3)
             wg = c << straight(length=length, cross_section=cross_section)
             wg.rotate(rotation)
             wg.xmin = p2.x
             wg.ymin = c.ymax + grating_coupler.ysize / 2 + loopback_xspacing
         else:
-            length = abs(p2.y - p1.y)
+            length = np.round(abs(p2.y - p1.y), 3)
             wg = c << straight(length=length, cross_section=cross_section)
             wg.rotate(rotation)
             wg.ymin = p1.y
@@ -130,9 +131,9 @@ def add_grating_couplers_with_loopback_fiber_single(
         gco.connect(gc_port_name, wg.ports["o2"])
 
         p1 = c.add_port(name="loopback1", port=wg.ports["o1"])
+        p1.snap_to_grid()
         p2 = c.add_port(name="loopback2", port=wg.ports["o2"])
-        p1.port_type = "loopback"
-        p2.port_type = "loopback"
+        p2.snap_to_grid()
 
     c.copy_child_info(component)
     return c
@@ -279,7 +280,8 @@ if __name__ == "__main__":
     # c = add_grating_couplers_with_loopback_fiber_array(component=c)
     # c = add_grating_couplers(c)
 
-    c = add_grating_couplers_with_loopback_fiber_array()
+    # c = add_grating_couplers_with_loopback_fiber_array()
+    c = add_grating_couplers_with_loopback_fiber_single()
     c.pprint_ports()
-    # c = add_grating_couplers_with_loopback_fiber_single()
     c.show(show_ports=True)
+    c.assert_ports_on_grid()

@@ -192,7 +192,6 @@ def test_extend_ports() -> None:
         gf.cross_section.strip,
         width=width,
         cladding_layers=None,
-        add_pins_function_name=None,
     )
 
     c = pc.straight(cross_section=xs_strip)

@@ -12,22 +12,28 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def ring_crow(
     gaps: list[float] = [0.2] * 4,
     radius: list[float] = [10.0] * 3,
-    input_straight_cross_section: CrossSectionSpec = strip,
-    output_straight_cross_section: CrossSectionSpec = strip,
     bends: list[ComponentSpec] = [bend_circular] * 3,
     ring_cross_sections: list[CrossSectionSpec] = [strip] * 3,
+    length_x: float = 0,
+    lengths_y: list[float] = [0] * 3,
+    input_straight_cross_section: CrossSectionSpec | None = None,
+    output_straight_cross_section: CrossSectionSpec | None = None,
+    cross_section: CrossSectionSpec = "xs_sc",
 ) -> Component:
     """Coupled ring resonators.
 
     Args:
-        gap: gap between for coupler.
-        radius: for the bend and coupler.
+        gaps: gap between rings.
+        radius: for each ring.
+        bends: bend spec for each ring.
+        ring_cross_sections: cross_section spec for each ring.
         length_x: ring coupler length.
         length_y: vertical straight length.
         coupler: ring coupler spec.
         straight: straight spec.
-        bend: bend spec.
-        cross_section: cross_section spec.
+        input_straight_cross_section: cross_section spec for input and output straight. Defaults to cross_section.
+        output_straight_cross_section: cross_section spec for input and output straight. Defaults to cross_section.
+        cross_section: cross_section spec for input and output straight.
         kwargs: cross_section settings.
 
     .. code::
@@ -57,10 +63,17 @@ def ring_crow(
           length_x
     """
     c = Component()
+    input_straight_cross_section = input_straight_cross_section or cross_section
+    output_straight_cross_section = output_straight_cross_section or cross_section
+
+    output_straight_cross_section = gf.get_cross_section(output_straight_cross_section)
+    input_straight_cross_section = gf.get_cross_section(input_straight_cross_section)
 
     # Input bus
     input_straight = gf.get_component(
-        straight, length=2 * radius[0], cross_section=input_straight_cross_section
+        straight,
+        length=2 * radius[0] + length_x,
+        cross_section=input_straight_cross_section,
     )
     input_straight_cross_section = gf.get_cross_section(input_straight_cross_section)
     input_straight_width = input_straight_cross_section.width
@@ -72,8 +85,8 @@ def ring_crow(
     # Cascade rings
     cum_y_dist = input_straight_width / 2
 
-    for index, (gap, r, bend, cross_section) in enumerate(
-        zip(gaps, radius, bends, ring_cross_sections)
+    for index, (gap, r, bend, cross_section, length_y) in enumerate(
+        zip(gaps, radius, bends, ring_cross_sections, lengths_y)
     ):
         gap = gf.snap.snap_to_grid(gap, grid_factor=2)
         ring = Component(f"ring{index}")
@@ -86,22 +99,45 @@ def ring_crow(
         bend3 = ring.add_ref(bend_c, alias=f"top_left_bend_ring_{index}")
         bend4 = ring.add_ref(bend_c, alias=f"bot_left_bend_ring_{index}")
 
-        bend2.connect("o1", bend1.ports["o2"])
-        bend3.connect("o1", bend2.ports["o2"])
-        bend4.connect("o1", bend3.ports["o2"])
+        straight_hor_c = gf.get_component(
+            straight, length=length_x, cross_section=cross_section
+        )
+        straight_ver_c = gf.get_component(
+            straight, length=length_y, cross_section=cross_section
+        )
+        straight_hor1 = ring.add_ref(
+            straight_hor_c, alias=f"bot_hor_waveguide_ring_{index}"
+        )
+        straight_hor2 = ring.add_ref(
+            straight_hor_c, alias=f"top_hor_waveguide_ring_{index}"
+        )
+        straight_ver1 = ring.add_ref(
+            straight_ver_c, alias=f"right_ver_waveguide_ring_{index}"
+        )
+        straight_ver2 = ring.add_ref(
+            straight_ver_c, alias=f"left_ver_waveguide_ring_{index}"
+        )
+
+        bend1.connect("o1", straight_hor1.ports["o2"])
+        straight_ver1.connect("o1", bend1.ports["o2"])
+        bend2.connect("o1", straight_ver1.ports["o2"])
+        straight_hor2.connect("o1", bend2.ports["o2"])
+        bend3.connect("o1", straight_hor2.ports["o2"])
+        straight_ver2.connect("o1", bend3.ports["o2"])
+        bend4.connect("o1", straight_ver2.ports["o2"])
 
         ring_ref = c.add_ref(ring)
         ring_ref.movey(cum_y_dist + gap + bend_width / 2)
         c.absorb(ring_ref)
-        cum_y_dist += gap + bend_width + 2 * r
+        cum_y_dist += gap + bend_width + 2 * r + length_y
 
     # Output bus
     output_straight = gf.get_component(
         straight,
-        length=2 * radius[-1],
+        length=2 * radius[-1] + length_x,
         cross_section=output_straight_cross_section,
     )
-    output_straight_width = output_straight_cross_section().width
+    output_straight_width = output_straight_cross_section.width
     output_straight_waveguide = (
         c.add_ref(output_straight)
         .movey(cum_y_dist + gaps[-1] + output_straight_width / 2)

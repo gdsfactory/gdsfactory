@@ -11,6 +11,5 @@ settings:
   position:
   - 0.0
   - 0.0
-  post_process: null
   size: 10.0
   text: abcd

@@ -1,4 +1,4 @@
-name: Sphinx docs to gh-pages
+name: build docs
 
 on:
   pull_request:

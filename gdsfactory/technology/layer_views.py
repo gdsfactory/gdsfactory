@@ -3,6 +3,7 @@
 You can maintain LayerViews in YAML (.yaml) or Klayout XML file (.lyp)
 
 """
+
 from __future__ import annotations
 
 import os
@@ -807,7 +808,6 @@ class LayerViews(BaseModel):
         for name in self.model_dump():
             lv = getattr(self, name)
             if isinstance(lv, LayerView):
-                #
                 if (self.layer_map is not None) and (name in self.layer_map.keys()):
                     lv_dict = lv.dict(exclude={"layer", "name"})
                     lv = LayerView(layer=self.layer_map[name], name=name, **lv_dict)
@@ -954,30 +954,30 @@ class LayerViews(BaseModel):
         scale = size / 100
         num_layers = len(self.get_layer_views())
         matrix_size = int(np.ceil(np.sqrt(num_layers)))
-        sorted_layers = sorted(
-            self.get_layer_views().values(), key=lambda x: (x.layer[0], x.layer[1])
-        )
-        for n, layer in enumerate(sorted_layers):
-            layer_tuple = layer.layer
-            R = gf.components.rectangle(
-                size=(100 * scale, 100 * scale), layer=layer_tuple
-            )
-            T = gf.components.text(
-                text=f"{layer.name}\n{layer_tuple[0]} / {layer_tuple[1]}",
-                size=20 * scale,
-                position=(50 * scale, -20 * scale),
-                justify="center",
-                layer=layer_tuple,
-            )
+        layers = self.get_layer_views().values()
 
-            xloc = n % matrix_size
-            yloc = int(n // matrix_size)
-            D.add_ref(R).movex((100 + spacing) * xloc * scale).movey(
-                -(100 + spacing) * yloc * scale
-            )
-            D.add_ref(T).movex((100 + spacing) * xloc * scale).movey(
-                -(100 + spacing) * yloc * scale
-            )
+        for n, layer in enumerate(layers):
+            layer_tuple = layer.layer
+            if layer_tuple:
+                R = gf.components.rectangle(
+                    size=(100 * scale, 100 * scale), layer=layer_tuple, port_type=None
+                )
+                T = gf.components.text(
+                    text=f"{layer.name}\n{layer_tuple[0]} / {layer_tuple[1]}",
+                    size=20 * scale,
+                    position=(50 * scale, -20 * scale),
+                    justify="center",
+                    layer=layer_tuple,
+                )
+
+                xloc = n % matrix_size
+                yloc = int(n // matrix_size)
+                D.add_ref(R).movex((100 + spacing) * xloc * scale).movey(
+                    -(100 + spacing) * yloc * scale
+                )
+                D.add_ref(T).movex((100 + spacing) * xloc * scale).movey(
+                    -(100 + spacing) * yloc * scale
+                )
         return D
 
     def to_lyp(
@@ -1015,6 +1015,7 @@ class LayerViews(BaseModel):
             root.append(ls.to_klayout_xml())
 
         filepath.write_bytes(make_pretty_xml(root))
+        logger.info(f"LayerViews written to {str(filepath)!r}.")
         return filepath
 
     @staticmethod
@@ -1097,13 +1098,17 @@ class LayerViews(BaseModel):
         )
 
     def to_yaml(
-        self, layer_file: str | pathlib.Path, prefer_named_color: bool = True
+        self,
+        layer_file: str | pathlib.Path,
+        prefer_named_color: bool = True,
+        default_hatch_pattern_name: str | None = None,
     ) -> None:
         """Export layer properties to a YAML file.
 
         Args:
             layer_file: Name of the file to write LayerViews to.
             prefer_named_color: Write the name of a color instead of its hex representation when possible.
+            default_hatch_pattern_name: Name of the default hatch pattern to use.
         """
 
         lf_path = pathlib.Path(layer_file)
@@ -1113,11 +1118,15 @@ class LayerViews(BaseModel):
         add_tuple_yaml_presenter()
         add_multiline_str_yaml_presenter()
         add_color_yaml_presenter(prefer_named_color=prefer_named_color)
-
         lvs = {
             name: lv.dict(exclude_none=True, exclude_defaults=True, exclude_unset=True)
             for name, lv in self.layer_views.items()
         }
+
+        if default_hatch_pattern_name:
+            for lv in lvs.values():
+                if "hatch_pattern" not in lv:
+                    lv["hatch_pattern"] = default_hatch_pattern_name
 
         out_dict = {"LayerViews": lvs}
         if self.custom_dither_patterns:

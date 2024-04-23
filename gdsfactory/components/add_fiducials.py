@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import warnings
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array
@@ -29,6 +31,11 @@ def add_fiducials(
         offset: component offset coordinate (x, y).
         kwargs: fiducial settings.
     """
+    warnings.warn(
+        "add_fiducials is deprecated and will be removed it soon. Copy it into your code if you want to keep using it",
+        DeprecationWarning,
+    )
+
     c = Component()
     component = gf.get_component(component, **kwargs)
     r = c << component
@@ -72,6 +79,10 @@ def add_fiducials_offsets(
         fiducial: function to return fiducial.
         offsets: list of offsets.
     """
+    warnings.warn(
+        "add_fiducials_offsets is deprecated and will be removed it soon. Copy it into your code if you want to keep using it",
+        DeprecationWarning,
+    )
     c = Component()
     component = gf.get_component(component)
     fiducial = gf.get_component(fiducial)

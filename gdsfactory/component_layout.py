@@ -2,6 +2,7 @@
 
 Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
+
 from __future__ import annotations
 
 import numbers
@@ -65,6 +66,8 @@ class Info(BaseModel, extra="allow", validate_assignment=True):
         cls, data: dict[str, int | float | Sequence | str]
     ) -> dict[str, int | float | Sequence | str]:
         for name, value in data.items():
+            if name == "schematic":
+                continue  # prevent validation of schematic sub-dictionary
             if not isinstance(value, str | int | float | Sequence):
                 raise ValueError(
                     "Values of the info dict only support int, float, string or tuple."

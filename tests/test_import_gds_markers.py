@@ -32,17 +32,17 @@ def test_import_ports_center(data_regression) -> None:
         data_regression.check(c1.to_dict())
 
 
-def test_import_ports_siepic(data_regression) -> None:
-    """Make sure you can import the ports"""
-    c0 = gf.add_pins.add_pins_container_siepic(gf.components.straight())
-    gdspath = c0.write_gds()
+# def test_import_ports_siepic(data_regression) -> None:
+#     """Make sure you can import the ports"""
+#     c0 = gf.add_pins.add_pins_container_siepic(gf.components.straight())
+#     gdspath = c0.write_gds()
 
-    c1 = import_gds(
-        gdspath, decorator=gf.add_ports.add_ports_from_siepic_pins, unique_names=False
-    )
-    assert len(c1.ports) == 2, f"{len(c1.ports)}"
-    if data_regression:
-        data_regression.check(c1.to_dict())
+#     c1 = import_gds(
+#         gdspath, decorator=gf.add_ports.add_ports_from_siepic_pins, unique_names=False
+#     )
+#     assert len(c1.ports) == 2, f"{len(c1.ports)}"
+#     if data_regression:
+#         data_regression.check(c1.to_dict())
 
 
 if __name__ == "__main__":

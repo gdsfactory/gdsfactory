@@ -46,8 +46,6 @@ def add_electrical_pads_shortest(
     c = Component()
     component = gf.get_component(component)
     pad = gf.get_component(pad)
-
-    c.component = component
     ref = c << component
     ports = (
         [ref[port_name] for port_name in port_names]

@@ -8,7 +8,6 @@ from gdsfactory.components import bend_euler, straight
 from gdsfactory.components.taper_cross_section import taper_cross_section_linear
 from gdsfactory.cross_section import strip
 from gdsfactory.typings import (
-    Callable,
     ComponentFactory,
     ComponentSpec,
     CrossSectionSpec,
@@ -36,7 +35,6 @@ def straight_heater_meander(
     straight: ComponentFactory = straight,
     bend: ComponentFactory = bend_euler,
     taper: ComponentFactory = taper_cross_section_linear,
-    post_process: Callable | None = None,
 ) -> Component:
     """Returns a meander based heater.
 
@@ -63,7 +61,6 @@ def straight_heater_meander(
         straight: ComponentFactory for the straight sections.
         bend: ComponentFactory for the bend sections.
         taper: ComponentFactory for the photonic taper sections.
-        post_process: function to post process the component.
     """
     if n and straight_widths:
         raise ValueError("n and straight_widths are mutually exclusive")
@@ -109,8 +106,10 @@ def straight_heater_meander(
     ##############
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
-        straight_i = straight(
-            length=straight_length - 2 * taper_length, cross_section=cross_section1
+        straight_i = gf.get_component(
+            straight,
+            length=straight_length - 2 * taper_length,
+            cross_section=cross_section1,
         )
 
         taper_lin = partial(
@@ -132,13 +131,12 @@ def straight_heater_meander(
     ##############
     for row in range(1, rows, 2):
         extra_length = 3 * (rows - row - 1) / 2 * radius
-        extra_straight1 = c << straight(
-            length=extra_length, cross_section=cross_section
+        straight_extra_length = gf.get_component(
+            straight, length=extra_length, cross_section=cross_section
         )
+        extra_straight1 = c << straight_extra_length
+        extra_straight2 = c << straight_extra_length
         extra_straight1.connect("o1", ports[f"o1_{row+1}"])
-        extra_straight2 = c << straight(
-            length=extra_length, cross_section=cross_section
-        )
         extra_straight2.connect("o1", ports[f"o1_{row+2}"])
 
         route = gf.routing.get_route(
@@ -152,13 +150,13 @@ def straight_heater_meander(
         c.add(route.references)
 
         extra_length = 3 * (row - 1) / 2 * radius
-        extra_straight1 = c << straight(
-            length=extra_length, cross_section=cross_section
+        straight_extra_length = gf.get_component(
+            straight, length=extra_length, cross_section=cross_section
         )
+
+        extra_straight1 = c << straight_extra_length
+        extra_straight2 = c << straight_extra_length
         extra_straight1.connect("o1", ports[f"o2_{row+1}"])
-        extra_straight2 = c << straight(
-            length=extra_length, cross_section=cross_section
-        )
         extra_straight2.connect("o1", ports[f"o2_{row}"])
 
         route = gf.routing.get_route(
@@ -171,8 +169,11 @@ def straight_heater_meander(
         )
         c.add(route.references)
 
-    straight1 = c << straight(length=extension_length, cross_section=cross_section)
-    straight2 = c << straight(length=extension_length, cross_section=cross_section)
+    straight_extension = gf.get_component(
+        straight, length=extension_length, cross_section=cross_section
+    )
+    straight1 = c << straight_extension
+    straight2 = c << straight_extension
     straight1.connect("o2", ports["o1_1"])
     straight2.connect("o1", ports[f"o2_{rows}"])
 
@@ -233,8 +234,6 @@ def straight_heater_meander(
             via_stack_west.connect("e3", taper1.ports["o1"])
             via_stack_east.connect("e1", taper2.ports["o1"])
 
-    if post_process:
-        post_process(c)
     return c
 
 
@@ -251,5 +250,5 @@ if __name__ == "__main__":
     #     # port_orientation1=0
     #     # cross_section=partial(gf.cross_section.strip, width=0.8),
     # )
-    c = straight_heater_meander()
+    c = straight_heater_meander(straight="straight")
     c.show(show_ports=True)

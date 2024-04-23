@@ -20,13 +20,13 @@ settings:
       extend_ports_straight_x: null
       length_x: 0.1
       length_y: 2.0
+      min_length: 0.01
       mirror_bot: false
       nbends: 2
       port_e0_combiner: o4
       port_e0_splitter: o4
       port_e1_combiner: o3
       port_e1_splitter: o3
-      post_process: null
       splitter:
         function: mmi2x2
       straight:
@@ -40,7 +40,6 @@ settings:
   pad_array:
     function: pad_array
   port_names: null
-  post_process: null
   select_ports:
     function: select_ports
     module: gdsfactory.port
