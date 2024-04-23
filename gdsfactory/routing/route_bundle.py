@@ -237,8 +237,10 @@ def route_bundle(
     end_straight = round(end_straight_length / dbu)
     start_straight = round(start_straight_length / dbu)
 
-    collision_check_layers = collision_check_layers or []
-    collision_check_layers = [gf.get_layer(layer) for layer in collision_check_layers]
+    if collision_check_layers:
+        collision_check_layers = [
+            gf.get_layer(layer) for layer in collision_check_layers
+        ]
 
     kf.routing.optical.route_bundle(
         component,
