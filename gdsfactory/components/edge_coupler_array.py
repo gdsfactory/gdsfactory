@@ -18,8 +18,20 @@ from gdsfactory.typings import (
     Float2,
 )
 
-edge_coupler_silicon = partial(taper, width2=0.2, length=100, with_two_ports=True)
-edge_coupler_silicon_2 = partial(taper, width2=0.2, length=130, with_two_ports=True)
+edge_coupler_silicon = partial(
+    taper,
+    width2=0.2,
+    length=100,
+    with_two_ports=True,
+    port_order_types=("optical", "edge_te"),
+)
+edge_coupler_silicon_2 = partial(
+    taper,
+    width2=0.2,
+    length=130,
+    with_two_ports=True,
+    port_order_types=("optical", "edge_te"),
+)
 
 
 @gf.cell

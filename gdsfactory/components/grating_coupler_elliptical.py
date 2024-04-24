@@ -100,7 +100,6 @@ def grating_taper_points(
 
 @gf.cell
 def grating_coupler_elliptical(
-    polarization: str = "te",
     taper_length: float = 16.6,
     taper_angle: float = 40.0,
     wavelength: float = 1.554,
@@ -115,12 +114,12 @@ def grating_coupler_elliptical(
     slab_offset: float = 2.0,
     spiked: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
+    polarization: str = "te",
     **kwargs,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
     Args:
-        polarization: te or tm.
         taper_length: taper length from input.
         taper_angle: grating flare angle.
         wavelength: grating transmission central wavelength (um).
@@ -135,6 +134,7 @@ def grating_coupler_elliptical(
         slab_offset: in um.
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors.
         cross_section: specification (CrossSection, string or dict).
+        polarization: te or tm.
         kwargs: cross_section settings.
 
     .. code::
@@ -259,7 +259,7 @@ def grating_coupler_elliptical(
         width=10,
         orientation=0,
         layer=layer,
-        port_type="optical",
+        port_type=f"optical_{polarization}",
     )
 
     xs.add_bbox(c)
