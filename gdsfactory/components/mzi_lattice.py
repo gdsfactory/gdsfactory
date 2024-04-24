@@ -112,12 +112,10 @@ def mzi_lattice(
         # stage.connect('o2', sprevious.ports['o1'])
         sprevious = stage
 
-    for port in gf.port.get_ports_list(cp1.ports, orientation=180, port_type="optical"):
+    for port in cp1.ports.filter(orientation=180, port_type="optical"):
         c.add_port(port.name, port=port)
 
-    for port in gf.port.get_ports_list(
-        sprevious.ports, orientation=0, port_type="optical"
-    ):
+    for port in sprevious.ports.filter(orientation=0, port_type="optical"):
         c.add_port(f"o_{port.name}", port=port)
 
     c.auto_rename_ports()
@@ -255,7 +253,7 @@ def mzi_lattice_mmi(
         delta_length=delta_lengths[0],
         **kwargs,
     )
-    c.add_ports(gf.port.get_ports_list(sprevious.ports, port_type="electrical"))
+    c.add_ports(sprevious.ports.filter(port_type="electrical"))
 
     stages = []
 
@@ -318,19 +316,17 @@ def mzi_lattice_mmi(
         splitter_settings = combiner_settings
 
         stages.append(stage)
-        c.add_ports(gf.port.get_ports_list(stage.ports, port_type="electrical"))
+        c.add_ports(stage.ports.filter(port_type="electrical"))
 
     for stage in stages:
         stage.connect("o1", sprevious.ports["o4"])
         # stage.connect('o2', sprevious.ports['o1'])
         sprevious = stage
 
-    for port in gf.port.get_ports_list(cp1.ports, orientation=180, port_type="optical"):
+    for port in cp1.ports.filter(orientation=180, port_type="optical"):
         c.add_port(port.name, port=port)
 
-    for port in gf.port.get_ports_list(
-        sprevious.ports, orientation=0, port_type="optical"
-    ):
+    for port in sprevious.ports.filter(orientation=0, port_type="optical"):
         c.add_port(f"o_{port.name}", port=port)
 
     c.auto_rename_ports()

@@ -55,37 +55,47 @@ def array(
     c = Component()
     component = gf.get_component(component)
     ref = c.add_array(component, columns=columns, rows=rows, spacing=spacing)
-    old_center = ref.d.center
-    ref.d.center = (0, 0) if centered else old_center
-    center_shift = ref.d.center - old_center
+    old_center = ref.center
+    ref.center = (0, 0) if centered else old_center
+    center_shift = ref.center - old_center
 
     if add_ports and component.ports:
         for col in range(int(columns)):
             for row in range(int(rows)):
                 for port in component.ports:
                     port = port.copy()
+                    port.x += col * spacing[0] / c.kcl.dbu + center_shift.x
+                    port.y += row * spacing[1] / c.kcl.dbu + center_shift.y
                     name = f"{port.name}_{row+1}_{col+1}"
-                    port.x = col * spacing[0] / c.kcl.dbu + center_shift.x / c.kcl.dbu
-                    port.y = row * spacing[1] / c.kcl.dbu + center_shift.y / c.kcl.dbu
                     c.add_port(name, port=port)
     return c
 
 
 if __name__ == "__main__":
+    from functools import partial
+
     from gdsfactory.generic_tech import get_generic_pdk
 
     PDK = get_generic_pdk()
     PDK.activate()
-    from gdsfactory.components.pad import pad
+
+    c = gf.components.array(
+        partial(gf.components.straight, layer=(2, 0)),
+        rows=3,
+        columns=1,
+        spacing=(0, 50),
+        centered=False,
+    )
+    c.show()
 
     # c2 = array(rows=2, columns=2, spacing=(100, 100))
     # c2 = array(pad, rows=2, spacing=(200, 200), columns=1)
     # c3 = c2.copy()
 
-    c2 = array(pad, spacing=(200, 200), size=(700, 300), centered=False)
+    # c2 = array(pad, spacing=(200, 200), size=(700, 300), centered=False)
 
     # nports = len(c2.get_ports_list(orientation=0))
     # assert nports == 2, nports
     # c2.show( )
     # c2.show(show_subports=True)
-    c2.show()
+    # c2.show()
