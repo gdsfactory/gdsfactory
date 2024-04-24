@@ -624,6 +624,59 @@ class Component(kf.KCell):
             }
         )
 
+    def plot(
+        self,
+        show_labels: bool = False,
+        show_ruler: bool = True,
+    ):
+        """Plots the Component using matplotlib."""
+        from io import BytesIO
+
+        import klayout.db as db  # noqa: F401
+        import klayout.lay as lay
+        import matplotlib.pyplot as plt
+
+        from gdsfactory.pdk import get_layer_views
+
+        gdspath = self.write_gds()
+        lyp_path = gdspath.with_suffix(".lyp")
+
+        layer_views = get_layer_views()
+        layer_views.to_lyp(filepath=lyp_path)
+
+        layout_view = lay.LayoutView()
+        layout_view.load_layout(str(gdspath.absolute()))
+        layout_view.max_hier()
+        layout_view.load_layer_props(str(lyp_path))
+
+        layout_view.set_config("text-visible", "true" if show_labels else "false")
+        layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
+
+        pixel_buffer = layout_view.get_pixels_with_options(800, 600)
+        png_data = pixel_buffer.to_png_data()
+
+        # Convert PNG data to NumPy array and display with matplotlib
+        with BytesIO(png_data) as f:
+            img_array = plt.imread(f)
+
+        # Compute the figure dimensions based on the image size and desired DPI
+        dpi = 80
+        fig_width = img_array.shape[1] / dpi
+        fig_height = img_array.shape[0] / dpi
+
+        fig, ax = plt.subplots(figsize=(fig_width, fig_height), dpi=dpi)
+
+        # Remove margins and display the image
+        ax.imshow(img_array)
+        ax.axis("off")  # Hide axes
+        ax.set_position([0, 0, 1, 1])  # Set axes to occupy the full figure space
+
+        plt.subplots_adjust(
+            left=0, right=1, top=1, bottom=0, wspace=0, hspace=0
+        )  # Remove any padding
+        plt.tight_layout(pad=0)  # Ensure no space is wasted
+        return fig
+
     # Deprecated methods
     @property
     def named_references(self):
