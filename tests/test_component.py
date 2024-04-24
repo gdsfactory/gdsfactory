@@ -29,7 +29,7 @@ def test_netlist_simple_width_mismatch_throws_error() -> None:
     c = gf.Component()
     c1 = c << gf.components.straight(length=1, width=1)
     c2 = c << gf.components.straight(length=2, width=2)
-    c2.connect(port="o1", destination=c1.ports["o2"])
+    c2.connect(port="o1", destination=c1.ports["o2"], allow_width_mismatch=True)
     c.add_port("o1", port=c1.ports["o1"])
     c.add_port("o2", port=c2.ports["o2"])
     with pytest.raises(ValueError):
@@ -95,6 +95,7 @@ def test_avoid_zero_area_polygons() -> None:
 
 
 if __name__ == "__main__":
-    test_bbox_snap_to_grid()
+    test_netlist_simple_width_mismatch_throws_error()
+    # test_bbox_snap_to_grid()
     # test_extract()
     # test_avoid_zero_area_polygons()

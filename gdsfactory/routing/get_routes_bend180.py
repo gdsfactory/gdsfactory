@@ -67,7 +67,11 @@ def get_routes_bend180(
     references = [bend.ref() for _ in ports]
     references = [
         ref.connect(
-            bend_port1, port, allow_layer_mismatch=True, allow_type_mismatch=True
+            bend_port1,
+            port,
+            allow_layer_mismatch=True,
+            allow_type_mismatch=True,
+            allow_width_mismatch=True,
         )
         for port, ref in zip(ports, references)
     ]
@@ -101,6 +105,8 @@ def test_get_routes_bend180() -> None:
 
 
 if __name__ == "__main__":
+    test_get_routes_bend180()
+
     c = gf.Component("get_routes_bend180")
     pad_array = gf.components.pad_array(orientation=270)
     c1 = c << pad_array
