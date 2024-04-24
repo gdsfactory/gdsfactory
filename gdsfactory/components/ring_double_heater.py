@@ -120,8 +120,8 @@ def ring_double_heater(
     c1.movey(via_stack_offset[1])
     c2.movey(via_stack_offset[1])
 
-    p1 = gf.port.get_ports_list(c1.ports, orientation=port_orientation)
-    p2 = gf.port.get_ports_list(c2.ports, orientation=port_orientation)
+    p1 = c1.ports.filter(orientation=port_orientation)
+    p2 = c2.ports.filter(orientation=port_orientation)
     valid_orientations = {p.orientation for p in via.ports}
 
     if not p1:

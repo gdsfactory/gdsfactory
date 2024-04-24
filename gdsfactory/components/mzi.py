@@ -180,29 +180,21 @@ def mzi(
     cp2.name = "cp2"
 
     if with_splitter:
-        c.add_ports(gf.port.get_ports_list(cp1.ports, orientation=180), prefix="in_")
+        c.add_ports(cp1.ports.filter(orientation=180), prefix="in_")
     else:
         c.add_port("o1", port=b1.ports["o1"])
         c.add_port("o2", port=b5.ports["o1"])
-    c.add_ports(gf.port.get_ports_list(cp2.ports, orientation=0), prefix="ou_")
-    c.add_ports(
-        gf.port.get_ports_list(sxt.ports, port_type="electrical"), prefix="top_"
-    )
-    c.add_ports(
-        gf.port.get_ports_list(sxb.ports, port_type="electrical"), prefix="bot_"
-    )
-    c.add_ports(gf.port.get_ports_list(sxt.ports, port_type="placement"), prefix="top_")
-    c.add_ports(gf.port.get_ports_list(sxb.ports, port_type="placement"), prefix="bot_")
+    c.add_ports(cp2.ports.filter(orientation=0), prefix="ou_")
+    c.add_ports(sxt.ports.filter(port_type="electrical"), prefix="top_")
+    c.add_ports(sxb.ports.filter(port_type="electrical"), prefix="bot_")
+    c.add_ports(sxt.ports.filter(port_type="placement"), prefix="top_")
+    c.add_ports(sxb.ports.filter(port_type="placement"), prefix="bot_")
 
     # c.auto_rename_ports(port_type="optical", prefix="o")
 
     if add_optical_ports_arms:
-        c.add_ports(
-            gf.port.get_ports_list(sxt.ports, port_type="optical"), prefix="top_"
-        )
-        c.add_ports(
-            gf.port.get_ports_list(sxb.ports, port_type="optical"), prefix="bot_"
-        )
+        c.add_ports(sxt.ports.filter(port_type="optical"), prefix="top_")
+        c.add_ports(sxb.ports.filter(port_type="optical"), prefix="bot_")
 
     c.auto_rename_ports()
     return c

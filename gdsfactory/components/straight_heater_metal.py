@@ -108,8 +108,8 @@ def straight_heater_metal_undercut(
         via_stack_east.d.xmax = xmax
 
         valid_orientations = {p.orientation for p in via_stack.ports}
-        p1 = gf.port.get_ports_list(via_stack_west.ports, orientation=port_orientation1)
-        p2 = gf.port.get_ports_list(via_stack_east.ports, orientation=port_orientation2)
+        p1 = via_stack_west.ports.filter(orientation=port_orientation1)
+        p2 = via_stack_east.ports.filter(orientation=port_orientation2)
 
         if not p1:
             raise ValueError(
