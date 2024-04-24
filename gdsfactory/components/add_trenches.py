@@ -26,6 +26,9 @@ def add_trenches(
 
     Args:
         component: component to add to the trenches.
+        layer_component: layer of the component.
+        layer_trench: layer of the trenches.
+        width_trench: width of the trenches.
         cross_section: spec (CrossSection, string or dict).
         top: add top trenches.
         bot: add bot trenches.

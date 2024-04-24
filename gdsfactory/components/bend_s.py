@@ -29,7 +29,6 @@ def bend_s(
         npoints: number of points.
         cross_section: spec.
 
-    Keyword Args:
     """
     c = Component()
     dx, dy = size
