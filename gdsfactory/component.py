@@ -13,7 +13,7 @@ from kfactory import Instance, kdb
 from kfactory.kcell import cell, save_layout_options
 
 from gdsfactory.config import GDSDIR_TEMP
-from gdsfactory.port import pprint_ports, select_ports
+from gdsfactory.port import pprint_ports, select_ports, to_dict
 from gdsfactory.serialization import clean_value_json
 
 if TYPE_CHECKING:
@@ -603,8 +603,14 @@ class Component(kf.KCell):
 
         return get_netlist(self)
 
-    def over_under(self, layer: LayerSpec, distance: float = 1) -> None:
-        """Flattens and performs over-under on a layer in the Component. For big components use tiled version."""
+    def over_under(self, layer: LayerSpec, distance: float = 1.0) -> None:
+        """Flattens and performs over-under on a layer in the Component.
+        For big components use tiled version.
+
+        Args:
+            layer: layer to perform over-under on.
+            distance: distance to perform over-under in um.
+        """
         from gdsfactory import get_layer
 
         self.flatten()
@@ -614,15 +620,18 @@ class Component(kf.KCell):
         self.shapes(layer).clear()
         self.shapes(layer).insert(region)
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self, with_ports: bool = False) -> dict[str, Any]:
         """Returns a dictionary representation of the Component."""
-        return clean_value_json(
+        d = clean_value_json(
             {
                 "name": self.name,
                 "info": self.info.model_dump(exclude_none=True),
                 "settings": self.settings.model_dump(exclude_none=True),
             }
         )
+        if with_ports:
+            d["ports"] = {port.name: to_dict(port) for port in self.ports}
+        return d
 
     def plot(
         self,
