@@ -120,5 +120,5 @@ if __name__ == "__main__":
         # cladding_layers=[(111, 0)],
         # cladding_offsets=[3],
     )
-    c.show()
+    c.show(show_ports=True)
     # c.show(show_ports=True)

@@ -139,11 +139,12 @@ def straight_heater_metal_undercut(
                 width2=heater_width,
                 length=heater_taper_length,
                 cross_section=x,
+                port_types=("electrical", "electrical"),
             )
             taper1 = c << taper
             taper2 = c << taper
-            taper1.connect("o1", via_stack_west.ports["e3"])
-            taper2.connect("o1", via_stack_east.ports["e1"])
+            taper1.connect("o1", via_stack_west.ports["e3"], allow_layer_mismatch=True)
+            taper2.connect("o1", via_stack_east.ports["e1"], allow_layer_mismatch=True)
 
     c.info["resistance"] = (
         ohms_per_square * heater_width * length if ohms_per_square else 0
@@ -221,13 +222,13 @@ def straight_heater_metal_simple(
                 width2=heater_width,
                 length=heater_taper_length,
                 cross_section=x,
-                port_order_name=("e1", "e2"),
-                port_order_types=("electrical", "electrical"),
+                port_names=("e1", "e2"),
+                port_types=("electrical", "electrical"),
             )
             taper1 = c << taper
             taper2 = c << taper
-            taper1.connect("e1", via_stack_west.ports["e3"])
-            taper2.connect("e1", via_stack_east.ports["e1"])
+            taper1.connect("e1", via_stack_west.ports["e3"], allow_layer_mismatch=True)
+            taper2.connect("e1", via_stack_east.ports["e1"], allow_layer_mismatch=True)
 
     c.info["resistance"] = (
         ohms_per_square * heater_width * length if ohms_per_square else 0
@@ -264,9 +265,10 @@ if __name__ == "__main__":
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)
 
-    c = straight_heater_metal_undercut(length=200, straight="straight")
+    # c = straight_heater_metal_undercut(length=200, straight="straight")
     # n = c.get_netlist()
     # c = straight_heater_metal(length=20)
+    c = straight_heater_metal_simple(length=20)
     c.show(show_ports=False)
     # scene = c.to_3d()
     # scene.show()

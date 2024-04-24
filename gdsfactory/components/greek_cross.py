@@ -34,7 +34,7 @@ def greek_cross(
         widths: list of widths (same order as layers).
         offsets: how much to extend each layer beyond the cross length
             negative shorter, positive longer.
-        via: via component to attach to the cross.
+        via_stack: via component to attach to the cross.
 
     .. code::
 
@@ -87,7 +87,7 @@ def greek_cross(
     # Add via
     for port in port_at_length:
         via_stack_ref = c << gf.get_component(via_stack)
-        via_stack_ref.connect("e1", port)
+        via_stack_ref.connect("e1", port, allow_layer_mismatch=True)
         c.add_port(name=port.name, port=via_stack_ref.ports["e3"])
 
     c.auto_rename_ports()

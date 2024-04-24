@@ -4,15 +4,15 @@ info:
   width1: 0.5
   width2: 0.2
 module: gdsfactory.components.taper
-name: taper_680c9faf
+name: taper_1db74a4f
 settings:
   cross_section: xs_sc
   length: 100
   port: null
-  port_order_name:
+  port_names:
   - o1
   - o2
-  port_order_types:
+  port_types:
   - optical
   - edge_te
   width1: 0.5

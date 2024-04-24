@@ -9,6 +9,7 @@ from gdsfactory.components.coupler_straight_asymmetric import (
     coupler_straight_asymmetric,
 )
 from gdsfactory.components.taper import taper
+from gdsfactory.snap import snap_to_grid2x
 from gdsfactory.typings import CrossSectionSpec, Float2, Float3
 
 
@@ -67,7 +68,7 @@ def polarization_splitter_rotator(
     )
 
     def bend_s_width(t: ndarray) -> ndarray:
-        return w4 + (width_out - w4) * t
+        return snap_to_grid2x(w4 + (width_out - w4) * t)
 
     x_bend = x.copy(width_function=bend_s_width)
 

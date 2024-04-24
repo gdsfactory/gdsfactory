@@ -44,7 +44,13 @@ def get_routes_straight(
     straight = straight(**kwargs)
     references = [straight.ref() for _ in ports]
     references = [
-        ref.connect("o1", port, allow_width_mismatch=True)
+        ref.connect(
+            "o1",
+            port,
+            allow_width_mismatch=True,
+            allow_layer_mismatch=True,
+            allow_type_mismatch=True,
+        )
         for port, ref in zip(ports, references)
     ]
     ports = [ref.ports["o2"] for ref in references]

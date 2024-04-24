@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from functools import partial
 
 import numpy as np
@@ -45,6 +46,8 @@ def array_with_via(
         port_offset: Optional port movement in um.
         kwargs: cross_section settings.
     """
+    warnings.warn("array_with_fanout is deprecated. Use gf.c.array instead")
+
     c = Component()
     component = gf.get_component(component)
     via_stack = gf.get_component(via_stack)
@@ -80,7 +83,9 @@ def array_with_via(
                 length=xlength, cross_section=cross_section, **kwargs
             )
             straightx_ref.connect(
-                "e2", via_stack_ref.get_ports_list(orientation=port_orientation)[0]
+                "e2",
+                via_stack_ref.get_ports_list(orientation=port_orientation)[0],
+                allow_layer_mismatch=True,
             )
             c.add_port(port_name, port=straightx_ref.ports["e1"])
             if port_offset:

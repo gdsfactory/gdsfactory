@@ -62,7 +62,7 @@ def ge_detector_straight_si_contacts(
 
     if taper:
         t1 = c << taper
-        t1.connect("o2", wg["o1"])
+        t1.connect("o2", wg["o1"], allow_width_mismatch=True)
         c.add_port("o1", port=t1["o1"])
 
     else:

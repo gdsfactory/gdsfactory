@@ -365,15 +365,21 @@ def spiral_racetrack_heater_metal(
     heater_top = c << gf.components.straight(
         straight_length, cross_section=heater_cross_section
     )
-    heater_top.connect("e1", spiral.ports["o1"].copy().rotate(180)).movey(
-        spacing * num // 2
-    )
+    heater_top.connect(
+        "e1",
+        spiral.ports["o1"].copy().rotate(180),
+        allow_layer_mismatch=True,
+        allow_type_mismatch=True,
+    ).movey(spacing * num // 2)
     heater_bot = c << gf.components.straight(
         straight_length, cross_section=heater_cross_section
     )
-    heater_bot.connect("e1", spiral.ports["o2"].copy().rotate(180)).movey(
-        -spacing * num // 2
-    )
+    heater_bot.connect(
+        "e1",
+        spiral.ports["o2"].copy().rotate(180),
+        allow_layer_mismatch=True,
+        allow_type_mismatch=True,
+    ).movey(-spacing * num // 2)
 
     heater_bend = c << gf.components.bend_circular(
         angle=180,
@@ -391,8 +397,8 @@ def spiral_racetrack_heater_metal(
         via_stack = gf.get_component(via_stack)
         via_stack_top = c << via_stack
         via_stack_bot = c << via_stack
-        via_stack_top.connect("e3", heater_bot.ports["e2"])
-        via_stack_bot.connect("e3", heater_top.ports["e2"])
+        via_stack_top.connect("e3", heater_bot.ports["e2"], allow_layer_mismatch=True)
+        via_stack_bot.connect("e3", heater_top.ports["e2"], allow_layer_mismatch=True)
 
         p1 = via_stack_top.ports
         p2 = via_stack_bot.ports
@@ -456,13 +462,19 @@ def spiral_racetrack_heater_doped(
     heater_top = c << heater_straight
     heater_bot = c << heater_straight
 
-    heater_bot.connect("e1", spiral.ports["o1"].copy().rotate(180)).movey(
-        -spacing * (num // 2 - 1)
-    )
+    heater_bot.connect(
+        "e1",
+        spiral.ports["o1"].copy().rotate(180),
+        allow_layer_mismatch=True,
+        allow_type_mismatch=True,
+    ).movey(-spacing * (num // 2 - 1))
 
-    heater_top.connect("e1", spiral.ports["o2"].copy().rotate(180)).movey(
-        spacing * (num // 2 - 1)
-    )
+    heater_top.connect(
+        "e1",
+        spiral.ports["o2"].copy().rotate(180),
+        allow_layer_mismatch=True,
+        allow_type_mismatch=True,
+    ).movey(spacing * (num // 2 - 1))
 
     c.add_ports(spiral.ports)
     c.add_ports(prefix="top_", ports=heater_top.ports)
@@ -482,7 +494,7 @@ def test_length_spiral_racetrack() -> None:
 if __name__ == "__main__":
     # c = spiral_racetrack(cross_section="xs_rc")
     # c = spiral_racetrack(num=4)
-    # c = spiral_racetrack_heater_doped(num=4)
+    c = spiral_racetrack_heater_doped(num=4)
     # c = spiral_racetrack_fixed_length()
-    c = spiral_racetrack_heater_metal()
+    # c = spiral_racetrack_heater_metal()
     c.show(show_ports=True)

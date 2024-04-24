@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import warnings
+
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -39,6 +41,8 @@ def array_with_fanout(
         bend_port_name2: optional port name.
         cross_section: cross_section spec.
     """
+    warnings.warn("array_with_fanout is deprecated. Use gf.c.array instead")
+
     c = Component()
     component = gf.get_component(component)
     bend = gf.get_component(bend, cross_section=cross_section)

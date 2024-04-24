@@ -18,8 +18,8 @@ def taper(
     port: Port | None = None,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
-    port_order_name: tuple | None = ("o1", "o2"),
-    port_order_types: tuple | None = ("optical", "optical"),
+    port_names: tuple | None = ("o1", "o2"),
+    port_types: tuple | None = ("optical", "optical"),
     **kwargs,
 ) -> Component:
     """Linear taper, which tapers only the main cross section section.
@@ -34,9 +34,9 @@ def taper(
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        port_order_name(tuple): Ordered tuple of port names. First port is default \
+        port_names(tuple): Ordered tuple of port names. First port is default \
                 taper port, second name only if with_two_ports flags used.
-        port_order_types(tuple): Ordered tuple of port types. First port is default \
+        port_types(tuple): Ordered tuple of port types. First port is default \
                 taper port, second name only if with_two_ports flags used.
         kwargs: cross_section settings.
     """
@@ -85,23 +85,23 @@ def taper(
                 ypts = [y - section.offset for y in ypts]
             c.add_polygon((xpts, ypts), layer=layer)
     c.add_port(
-        name=port_order_name[0],
+        name=port_names[0],
         center=(0, 0),
         width=width1,
         orientation=180,
         layer=x.layer,
         cross_section=x1,
-        port_type=port_order_types[0],
+        port_type=port_types[0],
     )
     if with_two_ports:
         c.add_port(
-            name=port_order_name[1],
+            name=port_names[1],
             center=(length, 0),
             width=width2,
             orientation=0,
             layer=x.layer,
             cross_section=x2,
-            port_type=port_order_types[1],
+            port_type=port_types[1],
         )
 
     c.info["length"] = length
