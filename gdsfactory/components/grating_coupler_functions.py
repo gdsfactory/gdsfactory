@@ -42,9 +42,14 @@ def get_grating_period(
     neff_low: float = neff_shallow,
     n_clad: float = 1.45,
 ) -> float:
-    """Return grating coupler period.
+    """Return grating coupler period based on lumerical slides.
 
-    based on lumerical slides.
+    Args:
+        fiber_angle: in degrees.
+        wavelength: um.
+        neff_high: high index.
+        neff_low: low index.
+        n_clad: cladding index.
     """
     DEG2RAD = pi / 180
     neff = (neff_high + neff_low) / 2

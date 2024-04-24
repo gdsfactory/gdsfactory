@@ -236,7 +236,7 @@ def grating_coupler_elliptical(
         width=10,
         orientation=0,
         layer=layer,
-        port_type="optical",
+        port_type=f"vertical_{polarization}",
     )
     return c
 

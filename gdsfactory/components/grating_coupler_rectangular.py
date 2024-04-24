@@ -100,6 +100,7 @@ def grating_coupler_rectangular(
 
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
+    c.info["fiber_angle"] = fiber_angle
     gf.asserts.grating_coupler(c)
 
     if layer_slab:
@@ -121,7 +122,7 @@ def grating_coupler_rectangular(
     xport = np.round((x0 + cgrating.d.x) / 2, 3)
     c.add_port(
         name="o2",
-        port_type="optical",
+        port_type=f"vertical_{polarization}",
         center=(xport, 0),
         orientation=0,
         width=width_grating,
