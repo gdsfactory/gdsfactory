@@ -164,7 +164,7 @@ def grating_coupler_elliptical_arbitrary(
         width=10,
         orientation=0,
         layer=xs.layer,
-        port_type="optical",
+        port_type=f"vertical_{polarization}",
     )
     xs.add_bbox(c)
     return c

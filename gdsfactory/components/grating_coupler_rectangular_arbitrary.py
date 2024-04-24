@@ -159,7 +159,7 @@ def grating_coupler_rectangular_arbitrary(
     xport = np.round((xi + length_taper) / 2, 3)
     c.add_port(
         name="o2",
-        port_type="optical",
+        port_type=f"vertical_{polarization}",
         center=(xport, 0),
         orientation=0,
         width=width_grating,
