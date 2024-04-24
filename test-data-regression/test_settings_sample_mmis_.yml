@@ -4,9 +4,41 @@ info:
   wavelength: 1.55
 name: sample_mmis
 settings:
-  conf: IDjust_a_demo_on_adding_metadata_W1p55_Pte_POmmi_long_o2_Ommi_long_o3_Ommi_short_o1_PMLY100_R180_X100_IMSSLM5_WM4p5_Cmmi1x2_MLSWM4p5_LM10_Cmmi1x2_RRNLMSmmi_long_o1_Nsample_mmis
+  conf:
+    info:
+      description: just a demo on adding metadata
+      polarization: te
+      wavelength: 1.55
+    instances:
+      mmi_long:
+        component: mmi1x2
+        settings:
+          length_mmi: 10
+          width_mmi: 4.5
+      mmi_short:
+        component: mmi1x2
+        settings:
+          length_mmi: 5
+          width_mmi: 4.5
+    name: sample_mmis
+    placements:
+      mmi_long:
+        rotation: 180
+        x: 100
+        y: 100
+    ports:
+      o1: mmi_short,o1
+      o2: mmi_long,o2
+      o3: mmi_long,o3
+    routes:
+      route_name1:
+        links:
+          mmi_short,o2: mmi_long,o1
   function_name: _from_yaml
   label_instance_function: add_instance_label
   mode: layout
   name: sample_mmis
-  routing_strategy: RBAAroute_bundle_all_angle_RBSANGroute_bundle_same_axis_no_grouping_RBroute_bundle_RBEFroute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing
+  routing_strategy:
+    route_bundle: route_bundle
+    route_bundle_all_angle: route_bundle_all_angle
+    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing

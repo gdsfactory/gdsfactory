@@ -1,5 +1,5 @@
 info:
-  length: 1000.0
+  length: 1000.002
   straight_length: 67.542
 name: spiral_racetrack_fixed_length_L1000_IOPS150_NSS8_MR5_MS5_SFstraight_BFbend_euler_BSFbend_s_CSxs_sc_CSSNone_NBPNone_WIPFalse
 settings:

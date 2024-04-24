@@ -1,6 +1,7 @@
 info: {}
-name: grating_coupler_array_GCgrating_coupler_elliptical_P127_N6_PNo1_Rm90_WLFalse_CSxs_sc
+name: grating_coupler_array_GCgrating_coupler_elliptical_P127_N6_PNo1_Rm90_WLFalse_CSxs_sc_STGS10_CTrue
 settings:
+  centered: true
   cross_section: xs_sc
   function_name: grating_coupler_array
   grating_coupler: grating_coupler_elliptical
@@ -8,4 +9,5 @@ settings:
   pitch: 127.0
   port_name: o1
   rotation: -90
+  straight_to_grating_spacing: 10.0
   with_loopback: false

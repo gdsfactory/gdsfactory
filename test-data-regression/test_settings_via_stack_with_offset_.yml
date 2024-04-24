@@ -10,6 +10,4 @@ settings:
   - 10
   vias:
   - null
-  - function: via
-    settings:
-      layer: VIAC
+  - Fvia_Mgdsfactorypcomponentspvia_SLVIAC

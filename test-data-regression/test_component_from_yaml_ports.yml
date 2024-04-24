@@ -1,9 +1,53 @@
 info: {}
 name: component_yaml_ports
 settings:
-  conf: IMBCcompass_SS13p5_7_PTNone_POL1_0_O0_No2_PToptical_W0p45_C13_3p675_OCm0p5_0p225_PToptical_LWG_O180_No1_W0p45_OL1_0_No3_O0_PToptical_W0p45_C13_m3p225_Ncomponent_yaml_ports
+  conf:
+    instances:
+      mmi_bot:
+        component: compass
+        settings:
+          port_type: None
+          size:
+          - 13.5
+          - 7
+    name: component_yaml_ports
+    ports:
+      o1:
+        center:
+        - -0.5
+        - 0.225
+        layer: WG
+        name: o1
+        orientation: 180
+        port_type: optical
+        width: 0.45
+      o2:
+        center:
+        - 13
+        - 3.675
+        layer:
+        - 1
+        - 0
+        name: o2
+        orientation: 0
+        port_type: optical
+        width: 0.45
+      o3:
+        center:
+        - 13
+        - -3.225
+        layer:
+        - 1
+        - 0
+        name: o3
+        orientation: 0
+        port_type: optical
+        width: 0.45
   function_name: _from_yaml
   label_instance_function: add_instance_label
   mode: layout
   name: component_yaml_ports
-  routing_strategy: RBAAroute_bundle_all_angle_RBSANGroute_bundle_same_axis_no_grouping_RBroute_bundle_RBEFroute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing
+  routing_strategy:
+    route_bundle: route_bundle
+    route_bundle_all_angle: route_bundle_all_angle
+    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing

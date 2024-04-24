@@ -2,9 +2,9 @@ info: {}
 name: ring_crow_G0p2_0p2_0p2_0p2_R10_10_10_ISCSxs_sc_OSCSxs_sc_Bbend_circular_bend_circular_bend_circular_RCSxs_sc_xs_sc_xs_sc
 settings:
   bends:
-  - function: bend_circular
-  - function: bend_circular
-  - function: bend_circular
+  - bend_circular
+  - bend_circular
+  - bend_circular
   function_name: ring_crow
   gaps:
   - 0.2

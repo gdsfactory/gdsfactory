@@ -1,118 +1,20 @@
-name: via_corner
-ports:
-  m2_e1:
-    center:
-    - -5.0
-    - 0.0
-    layer:
-    - 45
-    - 0
-    name: m2_e1
-    orientation: 180.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
-  m3_e2:
-    center:
-    - 0.0
-    - 5.0
-    layer:
-    - 49
-    - 0
-    name: m3_e2
-    orientation: 90.0
-    port_type: electrical
-    shear_angle: null
-    width: 10.0
+info:
+  length: 10.0
+  size:
+  - 10.0
+  - 10.0
+name: via_corner_CSFcross_section_Mgdsfactorypcross_section_SLM2_W10_PNe1_e2_PTelectrical_electrical_RNone_0_180_Fcross_section_Mgdsfactorypcross_section_SLM3_W10_PNe1_e2_PTelectrical_electrical_RNone_90_270_VFvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_LLm2_m3
 settings:
-  changed: {}
-  child: null
-  default:
-    cross_section:
-    - - function: cross_section
-        settings:
-          gap: 5
-          layer: M2
-          min_length: 5
-          port_names:
-          - e1
-          - e2
-          port_types:
-          - electrical
-          - electrical
-          radius: null
-          width: 10.0
-      - - 0
-        - 180
-    - - function: cross_section
-        settings:
-          gap: 5
-          layer: M3
-          min_length: 5
-          port_names:
-          - e1
-          - e2
-          port_types:
-          - electrical
-          - electrical
-          radius: null
-          width: 10.0
-      - - 90
-        - 270
-    layers_labels:
-    - m2
-    - m3
-    vias:
-    - function: via
-      settings:
-        enclosure: 2
-        layer: VIA1
-  full:
-    cross_section:
-    - - function: cross_section
-        settings:
-          gap: 5
-          layer: M2
-          min_length: 5
-          port_names:
-          - e1
-          - e2
-          port_types:
-          - electrical
-          - electrical
-          radius: null
-          width: 10.0
-      - - 0
-        - 180
-    - - function: cross_section
-        settings:
-          gap: 5
-          layer: M3
-          min_length: 5
-          port_names:
-          - e1
-          - e2
-          port_types:
-          - electrical
-          - electrical
-          radius: null
-          width: 10.0
-      - - 90
-        - 270
-    layers_labels:
-    - m2
-    - m3
-    vias:
-    - function: via
-      settings:
-        enclosure: 2
-        layer: VIA1
+  cross_section:
+  - - Fcross_section_Mgdsfactorypcross_section_SLM2_W10_PNe1_e2_PTelectrical_electrical_RNone
+    - - 0
+      - 180
+  - - Fcross_section_Mgdsfactorypcross_section_SLM3_W10_PNe1_e2_PTelectrical_electrical_RNone
+    - - 90
+      - 270
   function_name: via_corner
-  info:
-    length: 10.0
-    size:
-    - 10.0
-    - 10.0
-  info_version: 2
-  module: gdsfactory.components.via_corner
-  name: via_corner
+  layers_labels:
+  - m2
+  - m3
+  vias:
+  - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2

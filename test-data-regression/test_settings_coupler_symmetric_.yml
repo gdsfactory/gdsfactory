@@ -1,6 +1,6 @@
 info:
-  length: 10.187
-  min_bend_radius: 11.851
+  length: 10.185
+  min_bend_radius: 11.85
 name: coupler_symmetric_Bbend_s_G0p234_D4_D10_CSxs_sc
 settings:
   bend: bend_s

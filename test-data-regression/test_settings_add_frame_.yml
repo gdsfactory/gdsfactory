@@ -1,22 +1,8 @@
-name: add_frame
-ports: {}
+info: {}
+name: add_frame_Crectangle_W10_S10_LWG
 settings:
-  changed: {}
-  child: null
-  default:
-    component:
-      function: rectangle
-    layer: WG
-    spacing: 10.0
-    width: 10.0
-  full:
-    component:
-      function: rectangle
-    layer: WG
-    spacing: 10.0
-    width: 10.0
+  component: rectangle
   function_name: add_frame
-  info: {}
-  info_version: 2
-  module: gdsfactory.components.align
-  name: add_frame
+  layer: WG
+  spacing: 10.0
+  width: 10.0

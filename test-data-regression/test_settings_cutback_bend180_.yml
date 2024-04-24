@@ -13,4 +13,20 @@ settings:
   start_orientation: 0
   straight: straight
   straight_length: 5.0
-  symbol_to_component: Dbend_euler_RNone_A180_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_o1_o2_mstraight_L5_N2_CSxs_sc_o1_o2_|straight_L40p656_N2_CSxs_sc_o1_o2_Cbend_euler_RNone_A180_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_o2_o1
+  symbol_to_component:
+    '-':
+    - straight_L5_N2_CSxs_sc
+    - o1
+    - o2
+    C:
+    - bend_euler_RNone_A180_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc
+    - o2
+    - o1
+    D:
+    - bend_euler_RNone_A180_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc
+    - o1
+    - o2
+    '|':
+    - straight_L40p656_N2_CSxs_sc
+    - o1
+    - o2
