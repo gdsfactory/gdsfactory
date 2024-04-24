@@ -13,6 +13,9 @@ settings:
     module: gdsfactory.components.taper
     settings:
       length: 100
+      port_order_types:
+      - optical
+      - edge_te
       width2: 0.2
       with_two_ports: true
   extension_length: 1.0
