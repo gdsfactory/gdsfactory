@@ -21,7 +21,7 @@ if __name__ == "__main__":
         gf.components.straight(),
         rows=noutputs,
         columns=1,
-        spacing=(0, antenna_pitch * 2),
+        spacing=(0, 40),
         centered=True,
     )
 
