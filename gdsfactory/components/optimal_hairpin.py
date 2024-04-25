@@ -99,10 +99,20 @@ def optimal_hairpin(
     xports = min(xpts)
     yports = -a + width / 2
     c.add_port(
-        name="e1", center=(xports, -yports), width=width, orientation=180, layer=layer
+        name="e1",
+        center=(xports, -yports),
+        width=width,
+        orientation=180,
+        layer=layer,
+        port_type="electrical",
     )
     c.add_port(
-        name="e2", center=(xports, yports), width=width, orientation=180, layer=layer
+        name="e2",
+        center=(xports, yports),
+        width=width,
+        orientation=180,
+        layer=layer,
+        port_type="electrical",
     )
     return c
 

@@ -1370,7 +1370,7 @@ edge_coupler_silicon
 
   import gdsfactory as gf
 
-  c = gf.components.edge_coupler_silicon(length=100, width1=0.5, width2=0.2, with_two_ports=True, cross_section='xs_sc', port_order_name=['o1', 'o2'], port_order_types=['optical', 'optical'])
+  c = gf.components.edge_coupler_silicon(length=100, width1=0.5, width2=0.2, with_two_ports=True, cross_section='xs_sc', port_names=['o1', 'o2'], port_types=['optical', 'optical'])
   c.plot()
 
 
@@ -3334,7 +3334,7 @@ taper
 
   import gdsfactory as gf
 
-  c = gf.components.taper(length=10.0, width1=0.5, with_two_ports=True, cross_section='xs_sc', port_order_name=['o1', 'o2'], port_order_types=['optical', 'optical'])
+  c = gf.components.taper(length=10.0, width1=0.5, with_two_ports=True, cross_section='xs_sc', port_names=['o1', 'o2'], port_types=['optical', 'optical'])
   c.plot()
 
 

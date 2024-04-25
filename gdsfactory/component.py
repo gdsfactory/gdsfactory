@@ -2951,8 +2951,12 @@ if __name__ == "__main__":
     # from functools import partial
     import gdsfactory as gf
 
-    c = gf.c.mzi()
-    c = c.simplify(200e-3)
+    # c = gf.c.mzi()
+    # c = c.simplify(200e-3)
+    c = gf.Component()
+    s = c << gf.c.straight()
+    b = c << gf.c.bend_circular(width=1)
+    b.connect("o1", s.ports["o2"])
     c.show()
 
     # c1 = gf.Component()

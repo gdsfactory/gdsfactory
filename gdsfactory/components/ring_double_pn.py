@@ -177,10 +177,20 @@ def ring_double_pn(
             doped_heater_waveguide_offset + doped_heater_width / 2 + add_gap
         )
 
-        bottom_left_heater_via = c << heater_vias()
-        bottom_right_heater_via = c << heater_vias()
-        bottom_left_heater_via.connect("e3", bottom_heater_ref.ports["o1"])
-        bottom_right_heater_via.connect("e3", bottom_heater_ref.ports["o2"])
+        bottom_l_heater_via = c << heater_vias()
+        bottom_r_heater_via = c << heater_vias()
+        bottom_l_heater_via.connect(
+            "e3",
+            bottom_heater_ref.ports["o1"],
+            allow_layer_mismatch=True,
+            allow_type_mismatch=True,
+        )
+        bottom_r_heater_via.connect(
+            "e3",
+            bottom_heater_ref.ports["o2"],
+            allow_layer_mismatch=True,
+            allow_type_mismatch=True,
+        )
 
     c.add_port("o1", port=th_waveguide.ports["o1"])
     c.add_port("o2", port=th_waveguide.ports["o2"])

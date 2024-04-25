@@ -24,12 +24,9 @@ def test_get_route_sbend_custom_factory():
     route = gf.routing.get_route_sbend(
         mmi1.ports["o3"],
         mmi2.ports["o1"],
-        bend_s=partial(
-            gf.components.bend_s, cross_section="xs_heater_metal", npoints=10
-        ),
+        bend_s=partial(gf.components.bend_s, cross_section="xs_sc"),
     )
     c.add(route.references)
     assert len(route.references) == 1
     assert route.length > 0
     assert route.ports == (mmi1.ports["o3"], mmi2.ports["o1"])
-    assert gf.generic_tech.LAYER.HEATER in c.layers

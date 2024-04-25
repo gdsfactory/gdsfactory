@@ -52,8 +52,8 @@ def resistance_sheet(
         r = c << compass(size=(length + 2 * offset, width + 2 * offset), layer=layer)
         c.absorb(r)
 
-    pad1.connect("e3", r0.ports["e1"])
-    pad2.connect("e1", r0.ports["e3"])
+    pad1.connect("e3", r0.ports["e1"], allow_layer_mismatch=True)
+    pad2.connect("e1", r0.ports["e3"], allow_layer_mismatch=True)
 
     c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else 0
 

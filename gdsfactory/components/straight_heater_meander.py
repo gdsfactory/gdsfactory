@@ -224,15 +224,26 @@ def straight_heater_meander(
                 width1=via_stackw.ports["e1"].width,
                 width2=heater_width,
                 length=heater_taper_length,
+                port_types=("electrical", "electrical"),
             )
             taper1 = c << taper
             taper2 = c << taper
 
-            taper1.connect("o2", heater.ports["o1"])
-            taper2.connect("o2", heater.ports["o2"])
+            taper1.connect("o2", heater.ports["o1"], allow_type_mismatch=True)
+            taper2.connect("o2", heater.ports["o2"], allow_type_mismatch=True)
 
-            via_stack_west.connect("e3", taper1.ports["o1"])
-            via_stack_east.connect("e1", taper2.ports["o1"])
+            via_stack_west.connect(
+                "e3",
+                taper1.ports["o1"],
+                allow_layer_mismatch=True,
+                allow_type_mismatch=True,
+            )
+            via_stack_east.connect(
+                "e1",
+                taper2.ports["o1"],
+                allow_layer_mismatch=True,
+                allow_type_mismatch=True,
+            )
 
     return c
 
@@ -250,5 +261,5 @@ if __name__ == "__main__":
     #     # port_orientation1=0
     #     # cross_section=partial(gf.cross_section.strip, width=0.8),
     # )
-    c = straight_heater_meander(straight="straight")
+    c = straight_heater_meander()
     c.show(show_ports=True)

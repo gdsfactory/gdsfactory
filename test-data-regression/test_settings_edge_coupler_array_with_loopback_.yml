@@ -13,7 +13,7 @@ settings:
     module: gdsfactory.components.taper
     settings:
       length: 100
-      port_order_types:
+      port_types:
       - optical
       - edge_te
       width2: 0.2

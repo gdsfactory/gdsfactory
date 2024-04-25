@@ -107,17 +107,31 @@ def dbr(
     c = Component()
     l1 = snap_to_grid(l1)
     l2 = snap_to_grid(l2)
-    cell = dbr_cell(w1=w1, w2=w2, l1=l1, l2=l2, cross_section=cross_section)
+    cell = dbr_cell(w1=w1, w2=w2, l1=l1, l2=l2, cross_section=cross_section, **kwargs)
     c.add_array(cell, columns=n, rows=1, spacing=(l1 + l2, 100))
-    c.add_port("o1", port=cell.ports["o1"])
-    p1 = c.add_port("o2", port=cell.ports["o2"])
+
+    s = gf.c.straight(length=l1, cross_section=cross_section, **kwargs)
+    sl = c << s
+    sr = c << s
+
+    p1 = cell.ports["o2"].copy()
     p1.center = [(l1 + l2) * n, 0]
+
+    sl.connect(port="o2", destination=cell.ports["o1"], allow_width_mismatch=True)
+    sr.connect(
+        port="o1",
+        destination=p1,
+        allow_width_mismatch=True,
+    )
+
+    c.add_port("o1", port=sl.ports["o1"])
+    c.add_port("o2", port=sr.ports["o2"])
     return c
 
 
 if __name__ == "__main__":
     # c = dbr(w1=0.5, w2=0.6, l1=0.2, l2=0.3, n=10)
-    c = dbr()
-    c = dbr_cell()
+    c = dbr(n=10)
+    # c = dbr_cell()
     # c.assert_ports_on_grid()
     c.show(show_ports=True)

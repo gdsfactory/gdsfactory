@@ -8,10 +8,10 @@ settings:
   - function: bend_circular
   - function: bend_circular
   couplers:
-  - function: coupler_full
-  - function: coupler_full
-  - function: coupler_full
-  - function: coupler_full
+  - function: coupler
+  - function: coupler
+  - function: coupler
+  - function: coupler
   radius:
   - 10.0
   - 10.0

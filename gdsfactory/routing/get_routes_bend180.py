@@ -65,7 +65,16 @@ def get_routes_bend180(
     bend_port2 = bend_port2 or bend_ports[1].name
 
     references = [bend.ref() for _ in ports]
-    references = [ref.connect(bend_port1, port) for port, ref in zip(ports, references)]
+    references = [
+        ref.connect(
+            bend_port1,
+            port,
+            allow_layer_mismatch=True,
+            allow_type_mismatch=True,
+            allow_width_mismatch=True,
+        )
+        for port, ref in zip(ports, references)
+    ]
     ports = [ref.ports[bend_port2] for ref in references]
     lengths = [bend.info["length"]] * len(ports)
     return Routes(references=references, ports=ports, lengths=lengths)
@@ -96,6 +105,8 @@ def test_get_routes_bend180() -> None:
 
 
 if __name__ == "__main__":
+    test_get_routes_bend180()
+
     c = gf.Component("get_routes_bend180")
     pad_array = gf.components.pad_array(orientation=270)
     c1 = c << pad_array
