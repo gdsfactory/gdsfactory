@@ -804,6 +804,17 @@ class ComponentReference(_GeometryHelper):
 
         self.move(origin=p, destination=destination)
 
+        if destination.orientation is not None:
+            self.move(
+                -overlap
+                * np.array(
+                    [
+                        cos(destination.orientation * pi / 180),
+                        sin(destination.orientation * pi / 180),
+                    ]
+                )
+            )
+
         if not np.isclose(p.width, destination.width) and not allow_width_mismatch:
             message = (
                 f"Port width mismatch: {p.width} != {destination.width} in {self.parent.name} on layer {p.layer}. "
@@ -833,17 +844,6 @@ class ComponentReference(_GeometryHelper):
                 raise ValueError(message)
             elif CONF.on_type_missmatch == "warn":
                 warnings.warn(message)
-
-        if destination.orientation is not None:
-            self.move(
-                -overlap
-                * np.array(
-                    [
-                        cos(destination.orientation * pi / 180),
-                        sin(destination.orientation * pi / 180),
-                    ]
-                )
-            )
 
         return self
 
