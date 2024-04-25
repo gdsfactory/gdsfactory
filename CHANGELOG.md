@@ -1,11 +1,21 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.24.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.25.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.25.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.25.0) - 2024-04-25
 
-No significant changes.
+- Forbid width mismatch [#2701](https://github.com/gdsfactory/gdsfactory/pull/2701)
+- Rename fiber ports [#2700](https://github.com/gdsfactory/gdsfactory/pull/2700)
+- fix stl export [#2702](https://github.com/gdsfactory/gdsfactory/pull/2702)
+- add via_stack to spiral_heater [#2698](https://github.com/gdsfactory/gdsfactory/pull/2698)
+
+## Dependency Updates
+
+- Bump sphinx from 7.2.6 to 7.3.7 [#2693](https://github.com/gdsfactory/gdsfactory/pull/2693)
+- Update kweb requirement from <1.3,>=1.1.9 to >=1.1.9,<2.1 [#2675](https://github.com/gdsfactory/gdsfactory/pull/2675)
+- Update trimesh requirement from <4.3,>=4 to >=4,<4.4 [#2674](https://github.com/gdsfactory/gdsfactory/pull/2674)
+- Update pydantic requirement from <2.7,>=2 to >=2,<2.8 [#2676](https://github.com/gdsfactory/gdsfactory/pull/2676)
 
 
 ## [7.24.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.24.0) - 2024-04-22
