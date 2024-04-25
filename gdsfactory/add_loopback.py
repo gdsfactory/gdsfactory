@@ -1,4 +1,5 @@
 """Add loopback reference for a grating coupler array."""
+
 from __future__ import annotations
 
 import gdsfactory as gf
@@ -27,8 +28,9 @@ def add_loopback(
     Output grating generated on the right of port2
 
     Args:
-        port1: start port.
-        port2: end port.
+        component: input component.
+        port1_name: start port.
+        port2_name: end port.
         grating: fiber coupler.
         grating_separation: grating pitch.
         grating_rotation: in degrees.

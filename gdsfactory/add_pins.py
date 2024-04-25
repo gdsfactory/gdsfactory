@@ -7,6 +7,7 @@ Some functions modify a component without changing its name.
 Make sure these functions are inside a new Component or called as a decorator
 They without modifying the cell name
 """
+
 from __future__ import annotations
 
 import json
@@ -19,7 +20,7 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
-from gdsfactory.cell import container
+from gdsfactory.component import container
 from gdsfactory.port import select_ports
 
 if TYPE_CHECKING:
