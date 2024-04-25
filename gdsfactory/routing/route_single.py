@@ -120,7 +120,8 @@ def route_single(
     def straight_dbu(
         length: int, width: int = width_dbu, cross_section=cross_section, **kwargs
     ) -> Component:
-        return straight(
+        return gf.get_component(
+            straight,
             length=length * component.kcl.dbu,
             width=width * component.kcl.dbu,
             cross_section=cross_section,

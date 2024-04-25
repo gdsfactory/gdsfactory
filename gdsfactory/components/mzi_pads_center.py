@@ -69,7 +69,7 @@ def mzi_pads_center(
         cross_section=cross_section,
     )
 
-    port_names = list(mzi_ps.ports.keys())
+    port_names = [p.name for p in mzi_ps.ports]
     for port_name in [mzi_sig_top, mzi_gnd_top, mzi_sig_bot, mzi_gnd_bot]:
         if port_name not in port_names:
             raise ValueError(f"port {port_name!r} not in {port_names}")

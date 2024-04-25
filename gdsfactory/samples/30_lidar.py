@@ -44,12 +44,12 @@ if __name__ == "__main__":
     antennas.d.xmin = ref.d.xmax + 100
     antennas.d.y = 0
 
-    # routes = gf.routing.route_bundle(
-    #     c,
-    #     ports1=antennas.ports.filter(orientation=180),
-    #     ports2=phase_shifter_optical_ports,
-    #     radius=5,
-    #     enforce_port_ordering=False,
-    # )
+    routes = gf.routing.route_bundle(
+        c,
+        ports1=list(antennas.ports.filter(orientation=180)),
+        ports2=phase_shifter_optical_ports,
+        radius=5,
+        enforce_port_ordering=False,
+    )
 
-    # c.show()
+    c.show()
