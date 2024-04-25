@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.25.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.25.0) - 2024-04-25
+
+No significant changes.
+
+
 ## [7.24.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.24.0) - 2024-04-22
 
 - add component_with_function [#2683](https://github.com/gdsfactory/gdsfactory/pull/2683)
