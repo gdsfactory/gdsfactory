@@ -4,6 +4,8 @@ import filecmp
 import pathlib
 import shutil
 
+from kfactory import KCLayout
+
 import gdsfactory as gf
 from gdsfactory.config import CONF, PATH, logger
 from gdsfactory.name import clean_name
@@ -201,10 +203,7 @@ def diff(
 
         if show:
             c.show()
-        if equivalent:
-            return False
-        else:
-            return True
+        return not equivalent
     return False
 
 
@@ -292,8 +291,6 @@ def overwrite(ref_file, run_file):
 
 
 def read_top_cell(arg0):
-    from kfactory import KCLayout
-
     kcl = KCLayout(name=str(arg0))
     kcl.read(arg0)
     return kcl[kcl.top_cell().name]
