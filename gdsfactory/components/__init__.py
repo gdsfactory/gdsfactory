@@ -39,8 +39,6 @@ from gdsfactory.components.coh_rx_single_pol import coh_rx_single_pol
 from gdsfactory.components.coh_tx_dual_pol import coh_tx_dual_pol
 from gdsfactory.components.coh_tx_single_pol import coh_tx_single_pol
 from gdsfactory.components.compass import compass
-from gdsfactory.components.component_lattice import component_lattice
-from gdsfactory.components.component_lattice_generic import component_lattice_generic
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.coupler import coupler
@@ -51,7 +49,7 @@ from gdsfactory.components.coupler_asymmetric import coupler_asymmetric
 from gdsfactory.components.coupler_bent import coupler_bent
 from gdsfactory.components.coupler_broadband import coupler_broadband
 from gdsfactory.components.coupler_full import coupler_full
-from gdsfactory.components.coupler_ring import coupler_ring, coupler_ring_point
+from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.coupler_straight_asymmetric import (
     coupler_straight_asymmetric,
@@ -179,6 +177,7 @@ from gdsfactory.components.mzi import (
     mzi_coupler,
     mzi_phase_shifter,
     mzi_phase_shifter_top_heater_metal,
+    mzm,
 )
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.mzi_arms import mzi_arms
@@ -186,7 +185,6 @@ from gdsfactory.components.mzi_lattice import mzi_lattice, mzi_lattice_mmi
 from gdsfactory.components.mzi_pads_center import mzi_pads_center
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
-from gdsfactory.components.mzm import mzm
 from gdsfactory.components.nxn import nxn
 from gdsfactory.components.optimal_90deg import optimal_90deg
 from gdsfactory.components.optimal_hairpin import optimal_hairpin
@@ -334,8 +332,6 @@ __all__ = [
     "coh_tx_single_pol",
     "compass",
     "compensation_path",
-    "component_lattice",
-    "component_lattice_generic",
     "component_sequence",
     "copy_layers",
     "coupler",
@@ -349,7 +345,6 @@ __all__ = [
     "coupler_broadband",
     "coupler_full",
     "coupler_ring",
-    "coupler_ring_point",
     "coupler_straight",
     "coupler_straight_asymmetric",
     "coupler_symmetric",

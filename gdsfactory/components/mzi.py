@@ -239,9 +239,12 @@ mzi_phase_shifter_top_heater_metal = partial(
     mzi_phase_shifter, straight_x_top=straight_heater_metal
 )
 
+mzm = partial(
+    mzi_phase_shifter, straight_x_top="straight_pin", straight_x_bot="straight_pin"
+)
 
 if __name__ == "__main__":
-    c = mzi()
+    c = mzm()
     # from gdsfactory import get_generic_pdk
 
     # pdk = get_generic_pdk()

@@ -8,7 +8,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
+@gf.cell(check_instances=False)
 def coupler_bend(
     radius: float = 10.0,
     coupler_gap: float = 0.2,
@@ -23,12 +23,11 @@ def coupler_bend(
 
     Args:
         radius: um.
-        gap: um.
-        angle_inner: of the inner bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
-        angle_outer: of the outer bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
-        bend: for bend.
+        coupler_gap: um.
+        coupling_angle_coverage: degrees.
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
+        bend: for bend.
 
     .. code::
 
@@ -77,7 +76,7 @@ def coupler_bend(
     return c
 
 
-@gf.cell
+@gf.cell(check_instances=False)
 def coupler_ring_bend(
     radius: float = 10.0,
     coupler_gap: float = 0.2,
@@ -98,7 +97,7 @@ def coupler_ring_bend(
         length_x: horizontal straight length.
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
-        kwargs:
+        bend: for bend.
     """
     c = Component()
     cp = coupler_bend(
@@ -117,20 +116,21 @@ def coupler_ring_bend(
     coupler_right = c << cp
     coupler_left = c << cp
     straight_inner = c << sin
-    straight_inner.movex(-length_x / 2)
+    straight_inner.d.movex(-length_x / 2)
     straight_outer = c << sout
-    straight_outer.movex(-length_x / 2)
+    straight_outer.d.movex(-length_x / 2)
 
-    coupler_left.connect("o1", straight_outer.ports["o1"], mirror=True)
+    coupler_left.connect("o1", straight_outer.ports["o1"])
     straight_inner.connect("o1", coupler_left.ports["o2"])
-    coupler_right.connect("o2", straight_inner.ports["o2"])
+    coupler_right.connect("o2", straight_inner.ports["o2"], mirror=True)
     straight_outer.connect("o2", coupler_right.ports["o1"])
 
     c.add_port("o1", port=coupler_left.ports["o3"])
     c.add_port("o2", port=coupler_left.ports["o4"])
     c.add_port("o4", port=coupler_right.ports["o3"])
     c.add_port("o3", port=coupler_right.ports["o4"])
-    return c.flatten()
+    c.flatten()
+    return c
 
 
 @gf.cell
@@ -187,21 +187,21 @@ def ring_single_bend_coupler(
     br = c << b
     st = c << sx
 
-    sl.connect(port="o1", other=cb.ports["o2"])
-    bl.connect(port="o2", other=sl.ports["o2"])
-    st.connect(port="o2", other=bl.ports["o1"])
-    br.connect(port="o2", other=st.ports["o1"])
-    sr.connect(port="o1", other=br.ports["o1"])
-    sr.connect(port="o2", other=cb.ports["o3"])
+    sl.connect(port="o1", other=cb["o2"])
+    bl.connect(port="o2", other=sl["o2"], mirror=True)
+    st.connect(port="o2", other=bl["o1"])
+    sr.connect(port="o1", other=br["o1"])
+    sr.connect(port="o2", other=cb["o3"])
+    br.connect(port="o2", other=st["o1"])
 
-    c.add_port("o2", port=cb.ports["o4"])
-    c.add_port("o1", port=cb.ports["o1"])
+    c.add_port("o2", port=cb["o4"])
+    c.add_port("o1", port=cb["o1"])
     return c
 
 
 if __name__ == "__main__":
     # c = coupler_bend(radius=5)
-    c = coupler_ring_bend()
-    # c = ring_single_bend_coupler()
+    # c = coupler_ring_bend()
+    c = ring_single_bend_coupler()
     # c.assert_ports_on_grid()
     c.show()
