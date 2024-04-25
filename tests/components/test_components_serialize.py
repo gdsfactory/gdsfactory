@@ -40,7 +40,7 @@ if __name__ == "__main__":
     # cell_name = c1.settings.function_name
     # c2 = gf.get_component({"component": cell_name, "settings": settings2})
 
-    c1 = gf.components.mzi_arms()
+    c1 = gf.components.delay_snake2()
     settings = c1.settings.model_dump(exclude_none=True)
     function_name = settings.pop("function_name")
     c2 = gf.get_component(component=function_name, **settings)

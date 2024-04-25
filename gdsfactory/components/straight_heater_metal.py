@@ -268,7 +268,7 @@ if __name__ == "__main__":
     # c = straight_heater_metal_undercut(length=200)
     # n = c.get_netlist()
     # c = straight_heater_metal(length=20)
-    c = straight_heater_metal()
+    c = straight_heater_metal_undercut()
     c.show()
     # scene = c.to_3d()
     # scene.show()

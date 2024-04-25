@@ -86,9 +86,12 @@ def delay_snake2(
     sequence = "_)" + n // 2 * "-(-)"
     sequence = sequence[:-1]
     sequence += "."
-    return gf.components.component_sequence(
+    c = gf.Component()
+    ref = c << gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
+    c.add_ports(ref.ports)
+    return c
 
 
 if __name__ == "__main__":

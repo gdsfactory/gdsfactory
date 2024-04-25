@@ -32,7 +32,6 @@ def loop_mirror(
         bend=bend90,
     )
     c.add_port(name="o1", port=cref.ports["o1"])
-    c.absorb(cref)
     return c
 
 

@@ -329,7 +329,7 @@ class Pdk(BaseModel):
         if self is _ACTIVE_PDK:
             return None
 
-        logger.info(f"{self.name!r} PDK is now active")
+        logger.debug(f"{self.name!r} PDK is now active")
 
         if self.base_pdk:
             self.add_base_pdk()

@@ -28,8 +28,8 @@ settings:
   mzi: Fmzi_Mgdsfactorypcomponentspmzi_SSmmi2x2_Cmmi2x2_PESo3_PESo4_PECo3_PECo4_LXNone
   splitter: mmi2x2
   straight_functions_mmis:
-  - function: straight
-  - function: straight
+  - straight
+  - straight
   taper_functions_mmis:
-  - function: taper
-  - function: taper
+  - taper
+  - taper

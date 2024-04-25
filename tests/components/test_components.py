@@ -25,7 +25,7 @@ skip_test = {
 cells_to_test = set(cells.keys()) - skip_test
 
 
-@pytest.fixture(params=cells_to_test, scope="function")
+@pytest.fixture(params=cells_to_test)
 def component_name(request) -> str:
     return request.param
 

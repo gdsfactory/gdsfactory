@@ -4,7 +4,6 @@ info:
 name: add_fiber_array_Ccoupler_G0p244_L5p67_CScoupler_symmetric_CScoupler_straight_D4_D10_CSxs_sc_GCFgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_coupler_elliptical_trenches_SPte_TA35_GPNo1_CNNone_SPFselect_ports_Mgdsfactorypport_SPToptical_CSxs_sc_ORT2
 settings:
   component: coupler_G0p244_L5p67_CScoupler_symmetric_CScoupler_straight_D4_D10_CSxs_sc
-  component_name: None
   cross_section: xs_sc
   function_name: add_fiber_array
   gc_port_name: o1
