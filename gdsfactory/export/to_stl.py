@@ -13,7 +13,7 @@ def to_stl(
     layer_stack: LayerStack | None = None,
     exclude_layers: tuple[Layer, ...] | None = None,
     use_layer_name: bool = False,
-    hull_invalid_polygons: bool = True,
+    hull_invalid_polygons: bool = False,
     scale: float | None = None,
 ) -> None:
     """Exports a Component into STL.
@@ -92,6 +92,6 @@ def to_stl(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.taper_strip_to_ridge()
+    c = gf.components.mzi()
     c.show()
     to_stl(c, filepath="a.stl")
