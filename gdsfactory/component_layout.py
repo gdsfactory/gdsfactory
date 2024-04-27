@@ -64,7 +64,7 @@ class Info(BaseModel, extra="allow", validate_assignment=True):
     @model_validator(mode="before")
     def restrict_types(
         cls, data: dict[str, int | float | Sequence | str | dict | None]
-    ) -> dict[str, int | float | Sequence | str]:
+    ) -> dict[str, int | float | Sequence | str | dict]:
         for name, value in data.items():
             if name == "schematic":
                 continue  # prevent validation of schematic sub-dictionary
