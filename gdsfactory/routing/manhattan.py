@@ -908,6 +908,11 @@ def round_corners(
         if length > 0:
             references.append(wg_ref)
             wg_refs += [wg_ref]
+        else:
+            # Sometimes the path starts with a bend,
+            # therefore the initial straight has zero length.
+            # Adding it here so that the first port is correctly returned.
+            wg_refs += [wg_ref]
 
         port_index_out = 1
         if with_taper:
@@ -938,7 +943,6 @@ def round_corners(
 
         references += route.references
         labels += route.labels
-
     port_input = list(wg_refs[0].ports.values())[0]
     port_output = list(wg_refs[-1].ports.values())[port_index_out]
     length = float(np.round(total_length, 3))
