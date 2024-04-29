@@ -9,12 +9,12 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 @gf.cell
 def ring_crow(
-    gaps: list[float] = [0.2] * 4,
-    radius: list[float] = [10.0] * 3,
-    bends: list[ComponentSpec] | None = None,
+    gaps: tuple[float, ...] = (0.2, 0.2, 0.2, 0.2),
+    radius: tuple[float, ...] = (10.0, 10.0, 10.0) * 3,
+    bends: tuple[ComponentSpec, ...] | None = None,
     ring_cross_sections: list[CrossSectionSpec] = ["xs_sc"] * 3,
     length_x: float = 0,
-    lengths_y: list[float] = [0] * 3,
+    lengths_y: tuple[float, ...] = (0, 0, 0),
     input_straight_cross_section: CrossSectionSpec | None = None,
     output_straight_cross_section: CrossSectionSpec | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
@@ -27,13 +27,10 @@ def ring_crow(
         bends: bend spec for each ring.
         ring_cross_sections: cross_section spec for each ring.
         length_x: ring coupler length.
-        length_y: vertical straight length.
-        coupler: ring coupler spec.
-        straight: straight spec.
+        lengths_y: vertical straight length.
         input_straight_cross_section: cross_section spec for input and output straight. Defaults to cross_section.
         output_straight_cross_section: cross_section spec for input and output straight. Defaults to cross_section.
         cross_section: cross_section spec for input and output straight.
-        kwargs: cross_section settings.
 
     .. code::
 
