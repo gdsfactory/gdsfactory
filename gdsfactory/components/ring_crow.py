@@ -10,9 +10,9 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @gf.cell
 def ring_crow(
     gaps: tuple[float, ...] = (0.2, 0.2, 0.2, 0.2),
-    radius: tuple[float, ...] = (10.0, 10.0, 10.0) * 3,
+    radius: tuple[float, ...] = (10.0, 10.0, 10.0),
     bends: tuple[ComponentSpec, ...] | None = None,
-    ring_cross_sections: list[CrossSectionSpec] = ["xs_sc"] * 3,
+    ring_cross_sections: tuple[CrossSectionSpec, ...] = ("xs_sc", "xs_sc", "xs_sc"),
     length_x: float = 0,
     lengths_y: tuple[float, ...] = (0, 0, 0),
     input_straight_cross_section: CrossSectionSpec | None = None,
