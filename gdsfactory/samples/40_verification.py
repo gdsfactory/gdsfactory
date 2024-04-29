@@ -7,7 +7,7 @@ if __name__ == "__main__":
     b1 = c << gf.components.bend_euler()
     b1.connect("o1", s["o2"], allow_width_mismatch=True)
 
-    b2 = c << gf.components.bend_euler()
+    b2 = c << gf.components.bend_euler(radius=3)
     b2.connect("o1", s["o1"], allow_width_mismatch=True)
 
     gc = gf.components.grating_coupler_elliptical_te()
