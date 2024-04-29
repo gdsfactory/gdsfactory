@@ -41,7 +41,7 @@ def get_padding_points(
 
 def add_padding(
     component: ComponentSpec = "mmi2x2",
-    layers: tuple[LayerSpec, ...] = ("PADDING",),
+    layers: tuple[LayerSpec, ...] = ((67, 0),),
     **kwargs,
 ) -> Component:
     """Adds padding layers to component. Returns same component.
@@ -67,7 +67,7 @@ def add_padding(
 
 def add_padding_to_size(
     component: ComponentSpec,
-    layers: tuple[LayerSpec, ...] = ("PADDING",),
+    layers: tuple[LayerSpec, ...] = ((67, 0),),
     xsize: float | None = None,
     ysize: float | None = None,
     left: float = 0,
