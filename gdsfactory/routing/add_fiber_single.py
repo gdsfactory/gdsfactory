@@ -166,10 +166,11 @@ def add_fiber_single(
     gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].center[0])
 
     c = Component()
-    c.component = component
     cr = c << component
     cr.rotate(90)
     elements = []
+    ports_fiber = []
+    i = 0
 
     for port in cr.ports.values():
         if port.name not in optical_port_names:
@@ -185,6 +186,8 @@ def add_fiber_single(
                 gc_ref = gc.ref()
                 gc_ref.connect(gc_port_name, port)
                 grating_couplers.append(gc_ref)
+                ports_fiber.append(gc_ref[gc_port_name_fiber].copy(f"fiber{i}"))
+                i += 1
 
         if get_input_label_text_function and layer_label:
             elements = get_input_labels(
@@ -197,26 +200,24 @@ def add_fiber_single(
             )
 
     else:
-        elements, grating_couplers, ports_gratings_fiber, ports_component = (
-            route_fiber_single(
-                component,
-                fiber_spacing=fiber_spacing,
-                bend=bend,
-                straight=straight,
-                route_filter=route_filter,
-                grating_coupler=gc,
-                layer_label=layer_label,
-                optical_routing_type=optical_routing_type,
-                min_input_to_output_spacing=min_input_to_output_spacing,
-                gc_port_name=gc_port_name,
-                gc_port_name_fiber=gc_port_name_fiber,
-                component_name=component_name,
-                cross_section=cross_section,
-                select_ports=select_ports,
-                get_input_label_text_function=get_input_label_text_function,
-                get_input_label_text_loopback_function=get_input_label_text_loopback,
-                **kwargs,
-            )
+        elements, grating_couplers, ports_fiber, ports_component = route_fiber_single(
+            component,
+            fiber_spacing=fiber_spacing,
+            bend=bend,
+            straight=straight,
+            route_filter=route_filter,
+            grating_coupler=gc,
+            layer_label=layer_label,
+            optical_routing_type=optical_routing_type,
+            min_input_to_output_spacing=min_input_to_output_spacing,
+            gc_port_name=gc_port_name,
+            gc_port_name_fiber=gc_port_name_fiber,
+            component_name=component_name,
+            cross_section=cross_section,
+            select_ports=select_ports,
+            get_input_label_text_function=get_input_label_text_function,
+            get_input_label_text_loopback_function=get_input_label_text_loopback,
+            **kwargs,
         )
 
     for e in elements:
@@ -269,7 +270,7 @@ def add_fiber_single(
                 layer=layer_label,
             )
 
-    c.add_ports(ports_gratings_fiber)
+    c.add_ports(ports_fiber)
     c.copy_child_info(component_original)
     return c
 
@@ -281,7 +282,7 @@ if __name__ == "__main__":
     # gc = gf.functions.rotate90(gf.components.grating_coupler_elliptical_arbitrary)
 
     gc = gf.components.grating_coupler_elliptical_arbitrary
-    c = gf.c.bend_euler()
+    c = gf.c.mzi_phase_shifter()
     cc = gf.routing.add_fiber_single(
         component=c,
         grating_coupler=gc,
