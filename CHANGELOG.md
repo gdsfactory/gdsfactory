@@ -1,12 +1,14 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.25.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.25.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.25.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.25.1) - 2024-04-30
 
-No significant changes.
-
+- Expose gc fiber port [#2709](https://github.com/gdsfactory/gdsfactory/pull/2709)
+- bugfix in manhattan routing if the first reference is a bend turn [#2704](https://github.com/gdsfactory/gdsfactory/pull/2704)
+- Add sidewall angle to Etch process step [#2703](https://github.com/gdsfactory/gdsfactory/pull/2703)
+- better docstrings [#2707](https://github.com/gdsfactory/gdsfactory/pull/2707)
 
 ## [7.25.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.25.0) - 2024-04-25
 
