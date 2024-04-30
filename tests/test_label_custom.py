@@ -21,10 +21,11 @@ def test_label_fiber_array_custom(
         component_name=CUSTOM_LABEL,
         cross_section=cross_section,
         layer_label=None,
-        decorator=gf.add_labels.add_labels_to_ports,
     )
+    cte._locked = False
+    cte = gf.add_labels.add_labels_to_ports(cte)
     assert len(cte.labels) == 2, len(cte.labels)
     l0 = cte.labels[0].text
     l1 = cte.labels[1].text
-    assert l0 == "o1", l0
-    assert l1 == "o2", l1
+    assert l0 == "o2", l0
+    assert l1 == "o1", l1

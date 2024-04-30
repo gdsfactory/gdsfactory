@@ -52,6 +52,7 @@ def route_fiber_array(
     grating_indices: list[int] | None = None,
     route_filter: Callable = get_route_from_waypoints,
     gc_port_name: str = "o1",
+    gc_port_name_fiber: str = "o2",
     gc_rotation: int = -90,
     layer_label: LayerSpec | None = None,
     layer_label_loopback: LayerSpec | None = None,
@@ -305,6 +306,12 @@ def route_fiber_array(
     gr_coupler_y_sep = snap_to_grid(gr_coupler_y_sep)
     io_gratings_lines = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]
 
+    fiber_port_name = (
+        gc_port_name_fiber
+        if gc_port_name_fiber in grating_coupler.ports
+        else gc_port_name
+    )
+
     if grating_indices is None:
         grating_indices = list(range(nb_ports_per_line))
     else:
@@ -324,7 +331,7 @@ def route_fiber_array(
         ]
 
         io_gratings_lines += [io_gratings[:]]
-        ports += [grating.ports[gc_port_name] for grating in io_gratings]
+        ports += [grating.ports[fiber_port_name] for grating in io_gratings]
 
     if optical_routing_type == 0:
         """Basic optical routing, typically fine for small components No
