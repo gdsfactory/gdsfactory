@@ -41,6 +41,7 @@ settings:
   cross_section: xs_sc
   fiber_spacing: 50
   gc_port_name: o1
+  gc_port_name_fiber: o2
   get_input_label_text_function:
     function: get_input_label_text_dash
   get_input_label_text_loopback_function:

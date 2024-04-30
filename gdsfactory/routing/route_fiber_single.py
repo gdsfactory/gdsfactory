@@ -26,6 +26,8 @@ def route_fiber_single(
     component_name: str | None = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = strip,
+    gc_port_name: str = "o1",
+    gc_port_name_fiber: str = "o2",
     **kwargs,
 ) -> tuple[list[ComponentReference | Label], list[ComponentReference]]:
     """Returns route Tuple(references, grating couplers) for single fiber input/output.
@@ -138,6 +140,8 @@ def route_fiber_single(
             component_name=component_name,
             cross_section=cross_section,
             select_ports=select_ports,
+            gc_port_name=gc_port_name,
+            gc_port_name_fiber=gc_port_name_fiber,
             **kwargs,
         )
 
@@ -146,6 +150,7 @@ def route_fiber_single(
     component_ref = component << component_copy
     component_ref.rotate(-90)
     component.add_ports(component_ref.ports)
+
     for port_already_routed in south_ports.values():
         component.ports.pop(port_already_routed.name)
 
@@ -167,6 +172,8 @@ def route_fiber_single(
         component_name=component_name,
         cross_section=cross_section,
         select_ports=select_ports,
+        gc_port_name=gc_port_name,
+        gc_port_name_fiber=gc_port_name_fiber,
         **kwargs,
     )
     for e in elements_north:
@@ -198,14 +205,32 @@ def route_fiber_single(
         for io in gratings_north[0]:
             gratings_south.append(io.rotate(180))
 
-    ports_grating_input_waveguide = (
-        ports_grating_input_waveguide_north + ports_grating_input_waveguide_south
-    )
+    ports_fiber = []
+    i = 0
+
+    for gc in gratings_south:
+        for gci in gc:
+            if hasattr(gci, "ports") and gc_port_name_fiber in gci.ports:
+                ports_fiber += [gci.ports[gc_port_name_fiber].copy(name=f"fiber{i}")]
+                i += 1
+            # else:
+            #     print('no south gc_port_name_fiber in gci.ports')
+            #     breakpoint()
+
+    for gc in gratings_north:
+        for gci in gc:
+            if hasattr(gci, "ports") and gc_port_name_fiber in gci.ports:
+                ports_fiber += [gci.ports[gc_port_name_fiber].copy(name=f"fiber{i}")]
+                i += 1
+            # else:
+            #     print('no north gc_port_name_fiber in gci.ports')
+            #     breakpoint()
+
     ports_component = ports_component_north + ports_component_south
     return (
         elements_south,
         gratings_south,
-        ports_grating_input_waveguide,
+        ports_fiber,
         ports_component,
     )
 
@@ -234,7 +259,7 @@ if __name__ == "__main__":
     (
         elements,
         gc,
-        ports_grating_input_waveguide,
+        ports_fiber,
         ports_component,
     ) = route_fiber_single(
         c,
@@ -252,6 +277,7 @@ if __name__ == "__main__":
     for e in gc:
         cc.add(e)
 
+    cc.add_ports(ports_fiber)
     # cc.add_ports(ports_grating_input_waveguide)
     cc.show(show_ports=True)
 

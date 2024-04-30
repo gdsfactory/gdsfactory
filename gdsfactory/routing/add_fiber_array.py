@@ -29,6 +29,7 @@ def add_fiber_array(
     component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     gc_port_name: str = "o1",
+    gc_port_name_fiber: str = "o2",
     gc_port_labels: tuple[str, ...] | None = None,
     io_rotation: int | None = None,
     component_name: str | None = None,
@@ -50,6 +51,7 @@ def add_fiber_array(
         component: component spec to connect to grating couplers.
         grating_coupler: spec for route terminations.
         gc_port_name: grating coupler input port name.
+        gc_port_name_fiber: grating coupler output port name.
         gc_port_labels: grating coupler list of labels.
         io_rotation: fiber coupler rotation in degrees. Defaults to None.
         component_name: optional for the label.
@@ -171,6 +173,7 @@ def add_fiber_array(
         component=component,
         grating_coupler=grating_coupler,
         gc_port_name=gc_port_name,
+        gc_port_name_fiber=gc_port_name_fiber,
         component_name=component_name,
         cross_section=cross_section,
         select_ports=select_ports,
