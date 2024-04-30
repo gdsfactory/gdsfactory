@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.25.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.25.1) - 2024-04-30
+
+No significant changes.
+
+
 ## [7.25.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.25.0) - 2024-04-25
 
 - Forbid width mismatch [#2701](https://github.com/gdsfactory/gdsfactory/pull/2701)
