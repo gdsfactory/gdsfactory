@@ -36,6 +36,7 @@ def add_fiber_single(
     loopback_xspacing: float = 50.0,
     component_name: str | None = None,
     gc_port_name: str = "o1",
+    gc_port_name_fiber: str = "o2",
     io_rotation: int | None = None,
     zero_port: str | None = None,
     get_input_label_text_loopback_function: None
@@ -65,6 +66,7 @@ def add_fiber_single(
         loopback_xspacing: spacing from loopback xmin to component.xmin.
         component_name: optional name of component.
         gc_port_name: grating coupler waveguide port name.
+        gc_port_name_fiber: grating coupler fiber port name.
         io_rotation: grating coupler rotation.
         zero_port: name of the port to move to (0, 0) for the routing to work correctly.
         get_input_label_text_loopback_function: for the loopbacks input label.
@@ -145,6 +147,9 @@ def add_fiber_single(
         else grating_coupler
     )
     gc = gf.get_component(gc)
+    if gc_port_name_fiber not in gc.ports:
+        raise ValueError(f"{gc_port_name_fiber} not in {gc.ports.keys()}")
+
     if io_rotation is not None:
         gc = gf.functions.rotate(gc, angle=io_rotation)
 
@@ -192,43 +197,32 @@ def add_fiber_single(
             )
 
     else:
-        elements, grating_couplers, ports_grating, ports_component = route_fiber_single(
-            component,
-            fiber_spacing=fiber_spacing,
-            bend=bend,
-            straight=straight,
-            route_filter=route_filter,
-            grating_coupler=gc,
-            layer_label=layer_label,
-            optical_routing_type=optical_routing_type,
-            min_input_to_output_spacing=min_input_to_output_spacing,
-            gc_port_name=gc_port_name,
-            component_name=component_name,
-            cross_section=cross_section,
-            select_ports=select_ports,
-            get_input_label_text_function=get_input_label_text_function,
-            get_input_label_text_loopback_function=get_input_label_text_loopback,
-            **kwargs,
+        elements, grating_couplers, ports_gratings_fiber, ports_component = (
+            route_fiber_single(
+                component,
+                fiber_spacing=fiber_spacing,
+                bend=bend,
+                straight=straight,
+                route_filter=route_filter,
+                grating_coupler=gc,
+                layer_label=layer_label,
+                optical_routing_type=optical_routing_type,
+                min_input_to_output_spacing=min_input_to_output_spacing,
+                gc_port_name=gc_port_name,
+                gc_port_name_fiber=gc_port_name_fiber,
+                component_name=component_name,
+                cross_section=cross_section,
+                select_ports=select_ports,
+                get_input_label_text_function=get_input_label_text_function,
+                get_input_label_text_loopback_function=get_input_label_text_loopback,
+                **kwargs,
+            )
         )
 
     for e in elements:
         c.add(e)
     for gc_ref in grating_couplers:
         c.add(gc_ref)
-
-    for i, io_row in enumerate(grating_couplers):
-        if isinstance(io_row, list):
-            for j, io in enumerate(io_row):
-                ports = io.get_ports_list(prefix="opt") or io.get_ports_list()
-
-                if ports:
-                    port = ports[0]
-                    c.add_port(f"{port.name}-{component_name}-{i}-{j}", port=port)
-        else:
-            ports = io_row.get_ports_list(prefix="opt")
-            if ports:
-                port = ports[0]
-                c.add_port(f"{port.name}-{component_name}-{i}-0", port=port)
 
     if with_loopback:
         length = c.ysize - 2 * gc_port_to_edge
@@ -245,11 +239,9 @@ def add_fiber_single(
         gco.connect(gc_port_name, wg.ports["o2"])
 
         port = wg.ports["o2"]
-        ports = gc.get_ports_list(prefix="opt") or gc.get_ports_list()
-        pname = ports[0].name
-
-        c.add_port(name=f"{pname}-{component_name}-loopback1", port=gci.ports[pname])
-        c.add_port(name=f"{pname}-{component_name}-loopback2", port=gco.ports[pname])
+        pname = gc_port_name_fiber
+        c.add_port(name=f"{pname}-{component_name}-loopback1", port=gci[pname])
+        c.add_port(name=f"{pname}-{component_name}-loopback2", port=gco[pname])
         if (
             layer_label
             and get_input_label_text_function
@@ -277,6 +269,7 @@ def add_fiber_single(
                 layer=layer_label,
             )
 
+    c.add_ports(ports_gratings_fiber)
     c.copy_child_info(component_original)
     return c
 
@@ -295,4 +288,5 @@ if __name__ == "__main__":
         # layer_label="TEXT"
         # layer_label=None,
     )
-    cc.show(show_ports=False)
+    cc.pprint_ports()
+    cc.show(show_ports=True)

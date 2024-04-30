@@ -51,6 +51,7 @@ def add_fiber_array(
         component: component spec to connect to grating couplers.
         grating_coupler: spec for route terminations.
         gc_port_name: grating coupler input port name.
+        gc_port_name_fiber: grating coupler output port name.
         gc_port_labels: grating coupler list of labels.
         io_rotation: fiber coupler rotation in degrees. Defaults to None.
         component_name: optional for the label.
