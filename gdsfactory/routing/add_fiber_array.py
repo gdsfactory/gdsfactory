@@ -108,7 +108,6 @@ def add_fiber_array(
     component_new = Component()
 
     optical_ports = select_ports(component.ports)
-    [p.name for p in optical_ports]
     if not optical_ports:
         raise ValueError(f"No optical ports found in {component.name!r}")
 
@@ -203,6 +202,7 @@ if __name__ == "__main__":
     # c2 = partial(add_fiber_array, component=gf.c.nxn)
     # c = gf.pack((c1,c2))[0]
     # c = c2()
+    c.pprint_ports()
     c.show()
 
     # cc = add_fiber_array(

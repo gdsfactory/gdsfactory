@@ -43,6 +43,7 @@ def route_fiber_array(
     excluded_ports: list[str] | None = None,
     grating_indices: list[int] | None = None,
     gc_port_name: str = "o1",
+    gc_port_name_fiber: str = "o2",
     gc_rotation: int = -90,
     component_name: str | None = None,
     x_grating_offset: float = 0,
@@ -225,6 +226,12 @@ def route_fiber_array(
     offset = (nb_ports_per_line - 1) * fiber_spacing / 2 - x_grating_offset
     io_gratings_lines = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]
 
+    fiber_port_name = (
+        gc_port_name_fiber
+        if gc_port_name_fiber in grating_coupler.ports
+        else gc_port_name
+    )
+
     if grating_indices is None:
         grating_indices = list(range(nb_ports_per_line))
     else:
@@ -242,7 +249,7 @@ def route_fiber_array(
             io_gratings += [gc_ref]
 
         io_gratings_lines += [io_gratings[:]]
-        ports += [grating.ports[gc_port_name] for grating in io_gratings]
+        ports += [grating.ports[fiber_port_name] for grating in io_gratings]
 
     route_south(
         c,
@@ -305,6 +312,7 @@ def route_fiber_array(
             sort_ports=True,
             enforce_port_ordering=False,
         )
+        fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
     else:
         for io_gratings in io_gratings_lines:
@@ -326,8 +334,12 @@ def route_fiber_array(
                 enforce_port_ordering=False,
             )
             del to_route[n0 - dn : n0 + dn]
+            fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
-    c.add_ports(gc_ports)
+    electrical_ports = c.ports.filter(port_type="electrical")
+    c.ports = kf.Ports(kcl=c.kcl)
+    c.add_ports(fiber_ports)
+    c.add_ports(electrical_ports)
 
     if with_loopback:
         ii = [grating_indices[0] - 1, grating_indices[-1] + 1]
@@ -342,8 +354,8 @@ def route_fiber_array(
         gca1.d.ymax = round(y0_optical - j * gr_coupler_y_sep)
         gca2.d.ymax = round(y0_optical - j * gr_coupler_y_sep)
 
-        port0 = gca1.ports[gc_port_name]
-        port1 = gca2.ports[gc_port_name]
+        port0 = gca1[gc_port_name]
+        port1 = gca2[gc_port_name]
         radius = radius or x.radius
         radius_dbu = round(radius / c.kcl.dbu)
 
@@ -365,6 +377,8 @@ def route_fiber_array(
             bend=bend90,
             cross_section=cross_section,
         )
+        port0 = gca1[gc_port_name_fiber]
+        port1 = gca2[gc_port_name_fiber]
         c.add_port(name="loopback1", port=port0)
         c.add_port(name="loopback2", port=port1)
 
@@ -395,9 +409,9 @@ if __name__ == "__main__":
 
     gc = gf.components.grating_coupler_elliptical_te(taper_length=30)
 
-    component = gf.components.nxn(north=10, south=10, east=10, west=10)
+    # component = gf.components.nxn(north=10, south=10, east=10, west=10)
     # component = gf.components.straight()
-    # component = gf.components.mmi2x2()
+    component = gf.components.mmi2x2()
     # component = gf.components.straight_heater_metal()
     # component = gf.components.ring_single()
     # component = gf.components.ring_double()
@@ -416,3 +430,4 @@ if __name__ == "__main__":
         force_manhattan=True,
     )
     c.show()
+    c.pprint_ports()
