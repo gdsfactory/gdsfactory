@@ -290,16 +290,17 @@ if __name__ == "__main__":
     c = gf.Component("route_bundle_multi_layer")
     columns = 2
     ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
-    pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
+    pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
+    # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
 
     ptop.d.movex(300)
     ptop.d.movey(300)
     routes = gf.routing.route_bundle_electrical(
         c,
-        pbot.ports,
+        reversed(pbot.ports),
         ptop.ports,
-        end_straight_length=10,
-        start_straight_length=100,
+        # end_straight_length=10,
+        # start_straight_length=100,
         separation=20,
         bboxes=[ptop.bbox(), pbot.bbox()],
     )
