@@ -101,6 +101,7 @@ def route_bundle(
     collision_check_layers: LayerSpecs | None = None,
     on_collision: str | None = "show_error",
     bboxes: list[kf.kdb.Box] | None = None,
+    allow_different_port_widths: bool = False,
     **kwargs,
 ) -> list[OpticalManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
@@ -130,6 +131,8 @@ def route_bundle(
         waypoints: specify waypoints to route using route_bundle_from_steps.
         collision_check_layers: list of layers to check for collisions.
         on_collision: action to take on collision. Defaults to show_error.
+        bboxes: list of bounding boxes to avoid collisions.
+        allow_different_port_widths: allow different port widths.
 
     Keyword Args:
         width: main layer waveguide width (um).
@@ -214,7 +217,7 @@ def route_bundle(
 
     xs = gf.get_cross_section(cross_section, **kwargs)
     width = xs.width
-    width_dbu = width / component.kcl.dbu
+    width_dbu = round(width / component.kcl.dbu)
     taper_cell = gf.get_cell(taper) if taper else None
     bend90 = (
         bend
@@ -255,7 +258,9 @@ def route_bundle(
         place_port_type=port_type,
         collision_check_layers=collision_check_layers,
         on_collision=on_collision,
+        allow_different_port_widths=allow_different_port_widths,
         bboxes=bboxes or [],
+        route_width=width_dbu,
     )
 
 
@@ -264,12 +269,14 @@ route_bundle_electrical = partial(
     bend=wire_corner,
     cross_section="xs_metal_routing",
     port_type="electrical",
+    allow_different_port_widths=True,
 )
 
 route_bundle_electrical_multilayer = partial(
     route_bundle,
     bend=via_corner,
     port_type="electrical",
+    allow_different_port_widths=True,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
         ("xs_metal_routing", (0, 180)),
@@ -280,38 +287,44 @@ route_bundle_electrical_multilayer = partial(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.Component("route_bundle_multi_layer")
-    # columns = 2
-    # ptop = c << gf.components.pad_array(columns=columns)
-    # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
+    c = gf.Component("route_bundle_multi_layer")
+    columns = 2
+    ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
+    pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
 
-    # ptop.d.movex(300)
-    # ptop.d.movey(300)
-    # routes = gf.routing.route_bundle_electrical(
-    #     c, ptop.ports, pbot.ports, end_straight_length=100, separation=20
-    # )
+    ptop.d.movex(300)
+    ptop.d.movey(300)
+    routes = gf.routing.route_bundle_electrical(
+        c,
+        pbot.ports,
+        ptop.ports,
+        end_straight_length=10,
+        start_straight_length=100,
+        separation=20,
+        bboxes=[ptop.bbox(), pbot.bbox()],
+    )
 
-    # c.show()
+    c.show()
     # pbot.ports.print()
 
-    c = gf.Component("demo")
-    c1 = c << gf.components.mmi2x2()
-    c2 = c << gf.components.mmi2x2()
-    c2.d.move((100, 70))
-    routes = route_bundle(
-        c,
-        [c1.ports["o2"], c1.ports["o1"]],
-        [c2.ports["o2"], c2.ports["o1"]],
-        # enforce_port_ordering=True,
-        separation=5,
-        cross_section="xs_sc",
-        # end_straight_length=0,
-        # collision_check_layers=[(1, 0)],
-        # bboxes=[c1.bbox(), c2.bbox()],
-        # layer=(2, 0),
-        # straight=partial(gf.components.straight, layer=(2, 0), width=1),
-    )
-    c.show()
+    # c = gf.Component("demo")
+    # c1 = c << gf.components.mmi2x2()
+    # c2 = c << gf.components.mmi2x2()
+    # c2.d.move((100, 70))
+    # routes = route_bundle(
+    #     c,
+    #     [c1.ports["o2"], c1.ports["o1"]],
+    #     [c2.ports["o2"], c2.ports["o1"]],
+    #     # enforce_port_ordering=True,
+    #     separation=5,
+    #     cross_section="xs_sc",
+    #     # end_straight_length=0,
+    #     # collision_check_layers=[(1, 0)],
+    #     # bboxes=[c1.bbox(), c2.bbox()],
+    #     # layer=(2, 0),
+    #     # straight=partial(gf.components.straight, layer=(2, 0), width=1),
+    # )
+    # c.show()
 
     # dy = 200.0
     # xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
