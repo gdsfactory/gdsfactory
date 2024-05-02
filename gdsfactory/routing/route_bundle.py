@@ -215,7 +215,6 @@ def route_bundle(
     xs = gf.get_cross_section(cross_section, **kwargs)
     width = xs.width
     width_dbu = width / component.kcl.dbu
-    # straight = partial(straight, width=width, cross_section=cross_section)
     taper_cell = gf.get_cell(taper) if taper else None
     bend90 = (
         bend
@@ -261,12 +260,16 @@ def route_bundle(
 
 
 route_bundle_electrical = partial(
-    route_bundle, bend=wire_corner, cross_section="xs_metal_routing"
+    route_bundle,
+    bend=wire_corner,
+    cross_section="xs_metal_routing",
+    port_type="electrical",
 )
 
 route_bundle_electrical_multilayer = partial(
     route_bundle,
     bend=via_corner,
+    port_type="electrical",
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
         ("xs_metal_routing", (0, 180)),
@@ -280,17 +283,16 @@ if __name__ == "__main__":
     # c = gf.Component("route_bundle_multi_layer")
     # columns = 2
     # ptop = c << gf.components.pad_array(columns=columns)
-    # pbot = c << gf.components.pad_array(orientation=90, columns=columns)
+    # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
 
-    # ptop.movex(300)
-    # ptop.movey(300)
-    # routes = gf.routing.route_bundle_electrical_multilayer(
-    #     ptop.ports, pbot.ports, end_straight_length=100, separation=20
+    # ptop.d.movex(300)
+    # ptop.d.movey(300)
+    # routes = gf.routing.route_bundle_electrical(
+    #     c, ptop.ports, pbot.ports, end_straight_length=100, separation=20
     # )
-    # for route in routes:
-    #     c.add(route.references)
 
     # c.show()
+    # pbot.ports.print()
 
     c = gf.Component("demo")
     c1 = c << gf.components.mmi2x2()
