@@ -47,6 +47,7 @@ def from_updk(
         text_size: text size for labels.
         activate_pdk: if True, activate the pdk after writing the script.
         read_xsections: if True, read xsections from uPDK.
+        use_port_layer: if True, use the xsection layer for the port.
         prefix: optional prefix to add to the script.
         suffix: optional suffix to add to the script.
     """
