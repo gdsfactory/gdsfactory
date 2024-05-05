@@ -130,13 +130,14 @@ def add_pads_bot(
         optical_routing_type=optical_routing_type,
         taper=taper,
         port_type=port_type,
+        gc_port_name_fiber=pad_port_name,
         **kwargs,
     )
     component_new.add_ref(component)
 
-    for port in component.ports:
-        if port not in ports:
-            component_new.add_port(port.name, port=port)
+    # for port in component.ports:
+    #     if port not in ports:
+    #         component_new.add_port(port.name, port=port)
 
     # if pad_port_labels:
     #     for gc_port_label, port in zip(pad_port_labels, ports):
@@ -226,7 +227,6 @@ def add_pads_top(
     _c = add_pads_bot(component=component, **kwargs)
     ref = c << _c
     ref.mirror_y()
-    c.add_ports(ref.ports)
     c.copy_child_info(_c)
     return c
 
@@ -241,11 +241,15 @@ if __name__ == "__main__":
     c = gf.c.nxn(
         xsize=600,
         ysize=200,
-        north=2,
-        south=3,
+        # north=2,
+        # south=3,
+        north=0,
+        south=0,
+        west=2,
+        east=2,
         wg_width=10,
         layer="M3",
         port_type="electrical",
     )
-    cc = add_pads_bot(component=c)
+    cc = add_pads_top(component=c)
     cc.show()

@@ -39,10 +39,11 @@ if __name__ == "__main__":
     antennas = c << gf.components.array(
         gf.components.dbr(n=200), rows=elements, columns=1, spacing=(0, antenna_pitch)
     )
-    antennas.xmin = ref.xmax + 50
+    antennas.d.xmin = ref.d.xmax + 50
     antennas.y = 0
 
     routes = gf.routing.route_bundle(
+        c,
         ports1=antennas.ports.filter(orientation=180),
         ports2=phase_shifter_optical_ports,
         radius=5,
@@ -56,7 +57,7 @@ if __name__ == "__main__":
     pads1.y = 0
     ports1 = pads1.ports.filter(orientation=0)
     routes = gf.routing.route_bundle_electrical(
-        ports1=ports1, ports2=phase_shifter_electrical_ports_west, separation=20
+        c, ports1=ports1, ports2=phase_shifter_electrical_ports_west, separation=20
     )
     for route in routes:
         c.add(route.references)
