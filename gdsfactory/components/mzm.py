@@ -184,8 +184,8 @@ mzm_coupler = partial(
 
 
 if __name__ == "__main__":
-    # c = mzm()
-    c = mzm1x2_2x2(delta_length=100)
+    c = mzm()
+    # c = mzm1x2_2x2(delta_length=100)
     c.show(show_ports=True)
 
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")

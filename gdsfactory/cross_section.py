@@ -11,14 +11,14 @@ import sys
 import warnings
 from collections.abc import Callable, Iterable
 from functools import partial
-from inspect import getmembers
+from inspect import getmembers, signature
 from types import ModuleType
 from typing import TYPE_CHECKING, Any, Literal
 
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, field_serializer
 
-from gdsfactory.config import CONF, ErrorType
+from gdsfactory.config import CONF, ErrorType, logger
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
@@ -2344,6 +2344,18 @@ def get_cross_sections(
         for t in getmembers(module):
             if isinstance(t[1], CrossSection):
                 xs[t[0]] = t[1]
+            if callable(t[1]) and not t[0].startswith("_"):
+                try:
+                    r = signature(
+                        t[1] if not isinstance(t[1], partial) else t[1].func
+                    ).return_annotation
+                    if r == CrossSection or (
+                        isinstance(r, str) and r.endswith("CrossSection")
+                    ):
+                        xs[t[0]] = t[1]
+                except ValueError as e:
+                    if verbose:
+                        logger.warn(f"error in {t[0]}: {e}")
     return xs
 
 
