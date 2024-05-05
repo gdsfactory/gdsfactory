@@ -42,10 +42,6 @@ repo_path = module_path.parent
 home_path = pathlib.Path.home() / ".gdsfactory"
 diff_path = repo_path / "gds_diff"
 logpath = home_path / "log.log"
-
-yamlpath_cwd = cwd / "config.yml"
-yamlpath_default = module_path / "config.yml"
-yamlpath_home = home_path / "config.yml"
 dotenv_path = find_dotenv(usecwd=True)
 
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"

@@ -2,6 +2,7 @@
 
 Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
+
 from __future__ import annotations
 
 import numbers
@@ -15,6 +16,59 @@ from rich.table import Table
 
 if typing.TYPE_CHECKING:
     from gdsfactory.port import Port
+
+Coordinate = tuple[float, float]
+
+
+class SizeInfo:
+    def __init__(self, bbox) -> None:
+        """Initialize this object."""
+        self.west = bbox.left
+        self.east = bbox.right
+        self.south = bbox.bottom
+        self.north = bbox.top
+
+        self.width = self.east - self.west
+        self.height = self.north - self.south
+
+        xc = 0.5 * (self.east + self.west)
+        yc = 0.5 * (self.north + self.south)
+
+        self.sw = np.array([self.west, self.south])
+        self.se = np.array([self.east, self.south])
+        self.nw = np.array([self.west, self.north])
+        self.ne = np.array([self.east, self.north])
+
+        self.cw = np.array([self.west, yc])
+        self.ce = np.array([self.east, yc])
+        self.nc = np.array([xc, self.north])
+        self.sc = np.array([xc, self.south])
+        self.cc = self.center = np.array([xc, yc])
+
+    def get_rect(
+        self, padding=0, padding_w=None, padding_e=None, padding_n=None, padding_s=None
+    ) -> tuple[Coordinate, Coordinate, Coordinate, Coordinate]:
+        w, e, s, n = self.west, self.east, self.south, self.north
+
+        padding_n = padding if padding_n is None else padding_n
+        padding_e = padding if padding_e is None else padding_e
+        padding_w = padding if padding_w is None else padding_w
+        padding_s = padding if padding_s is None else padding_s
+
+        w = w - padding_w
+        e = e + padding_e
+        s = s - padding_s
+        n = n + padding_n
+
+        return ((w, s), (e, s), (e, n), (w, n))
+
+    @property
+    def rect(self) -> tuple[Coordinate, Coordinate]:
+        return self.get_rect()
+
+    def __str__(self) -> str:
+        """Return a string representation of the object."""
+        return f"w: {self.west}\ne: {self.east}\ns: {self.south}\nn: {self.north}\n"
 
 
 def pprint_ports(ports: dict[str, Port] or list[Port]) -> None:
