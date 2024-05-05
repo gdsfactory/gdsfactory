@@ -2347,7 +2347,7 @@ def get_cross_sections(
             if callable(t[1]) and not t[0].startswith("_"):
                 try:
                     r = signature(
-                        t[1] if not isinstance(t[1], partial) else t[1].func
+                        t[1].func if isinstance(t[1], partial) else t[1]
                     ).return_annotation
                     if r == CrossSection or (
                         isinstance(r, str) and r.endswith("CrossSection")
