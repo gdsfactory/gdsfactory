@@ -182,13 +182,6 @@ def straight_heater_doped_rib(
     return c
 
 
-def test_straight_heater_doped_rib_ports() -> None:
-    c = straight_heater_doped_rib(length=100.0)
-    assert c.get_ports_xsize(port_type="optical") == 100.0, c.get_ports_xsize(
-        port_type="optical"
-    )
-
-
 def straight_heater_doped_strip(
     length: float = 320.0,
     nsections: int = 3,

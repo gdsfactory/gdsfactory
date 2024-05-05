@@ -188,7 +188,7 @@ def straight_heater_meander_doped(
 
     if layers_doping and via_stack:
         via = via_stacke = via_stackw = gf.get_component(via_stack)
-        dx = via_stackw.get_ports_xsize() / 2 or 0
+        dx = via_stackw.d.xsize / 2 or 0
         via_stack_west_center = heater.size_info.cw + (dx, 0)
         via_stack_east_center = heater.size_info.ce - (dx, 0)
 
@@ -201,8 +201,8 @@ def straight_heater_meander_doped(
         via_stack_east.move(via_stack_east_center)
 
         valid_orientations = {p.orientation for p in via.ports.values()}
-        p1 = via_stack_west.get_ports_list(orientation=port_orientation1)
-        p2 = via_stack_east.get_ports_list(orientation=port_orientation2)
+        p1 = via_stack_west.ports.filter(orientation=port_orientation1)
+        p2 = via_stack_east.ports.filter(orientation=port_orientation2)
 
         if not p1:
             raise ValueError(
