@@ -155,8 +155,8 @@ def straight_heater_meander(
         via_stack_east.d.move(via_stack_east_center)
 
         valid_orientations = {p.orientation for p in via.ports}
-        p1 = gf.port.get_ports_list(via_stack_west, orientation=port_orientation1)
-        p2 = gf.port.get_ports_list(via_stack_east, orientation=port_orientation2)
+        p1 = via_stack_west.ports.filter(orientation=port_orientation1)
+        p2 = via_stack_east.ports.filter(orientation=port_orientation2)
         c.add_ports(p1, prefix="l_")
         c.add_ports(p2, prefix="r_")
 

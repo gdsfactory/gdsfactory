@@ -195,7 +195,7 @@ if __name__ == "__main__":
     # c = gf.components.straight_heater_metal()
     # c = gf.components.spiral(direction="NORTH")
 
-    c = gf.components.mmi1x2()
+    c = gf.components.mzi_phase_shifter()
     c = add_fiber_array(c, with_loopback=False)
 
     # c1 = partial(add_fiber_array, component=gf.c.mmi1x2)

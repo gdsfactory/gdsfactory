@@ -19,7 +19,6 @@ def coh_tx_single_pol(
     combiner: ComponentSpec | None = None,
     mzm: ComponentSpec = mzi_pin,
     mzm_length: float = 200.0,
-    with_pads: bool = False,
     xspacing: float = 40.0,
     input_coupler: ComponentSpec | None = None,
     output_coupler: ComponentSpec | None = None,
@@ -164,18 +163,10 @@ def coh_tx_single_pol(
     else:
         c.add_port("o2", port=comb.ports["o1"])
 
-    c.add_ports(
-        gf.port.get_ports_list(ps_i.ports, port_type="electrical"), prefix="ps_i_"
-    )
-    c.add_ports(
-        gf.port.get_ports_list(ps_q.ports, port_type="electrical"), prefix="ps_q_"
-    )
-    c.add_ports(
-        gf.port.get_ports_list(mzm_i.ports, port_type="electrical"), prefix="mzm_i_"
-    )
-    c.add_ports(
-        gf.port.get_ports_list(mzm_q.ports, port_type="electrical"), prefix="mzm_q_"
-    )
+    c.add_ports(ps_i.ports.filter(port_type="electrical"), prefix="ps_i_")
+    c.add_ports(ps_q.ports.filter(port_type="electrical"), prefix="ps_q_")
+    c.add_ports(mzm_i.ports.filter(port_type="electrical"), prefix="mzm_i_")
+    c.add_ports(mzm_q.ports.filter(port_type="electrical"), prefix="mzm_q_")
     return c
 
 

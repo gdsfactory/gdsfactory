@@ -186,11 +186,7 @@ def disk_heater(
     c1.y = heater.y
     c2.xmin = heater.xmax
     c2.y = heater.y
-    c.add_ports(disk_instance.ports.filter())
-
-    # c.add_ports(disk_instance.get_ports_list())
-    # c.add_ports(gf.port.get_ports_list(disk_instance.ports))
-    # c.add_ports(.get_ports_list(disk_instance.ports))
+    c.add_ports(disk_instance.ports)
     c.add_ports(c1.ports.filter(orientation=port_orientation), prefix="e1")
     c.add_ports(c2.ports.filter(orientation=port_orientation), prefix="e2")
     c.auto_rename_ports()

@@ -89,11 +89,11 @@ def add_fiber_array_optical_south_electrical_north(
         fiber_spacing=fiber_spacing,
         **kwargs,
     )
-    optical_ports = gf.port.get_ports_list(r.ports, port_type="optical")
+    optical_ports = r.ports.filter(port_type="optical")
     c.add_ports(optical_ports)
 
-    electrical_ports = gf.port.get_ports_list(
-        r.ports, port_type="electrical", orientation=electrical_port_orientation
+    electrical_ports = r.ports.filter(
+        port_type="electrical", orientation=electrical_port_orientation
     )
     electrical_port_names = electrical_port_names or [p.name for p in electrical_ports]
 
@@ -110,7 +110,7 @@ def add_fiber_array_optical_south_electrical_north(
     nroutes = min(len(electrical_ports), npads)
 
     ports1 = electrical_ports[:nroutes]
-    ports2 = gf.port.get_ports_list(pads.ports, orientation=270)[:nroutes]
+    ports2 = list(pads.ports.filter(orientation=270))[:nroutes]
     gf.routing.route_bundle_electrical(
         c,
         ports1=ports1,
@@ -121,7 +121,7 @@ def add_fiber_array_optical_south_electrical_north(
 
     c.add_ports(ports2)
     analysis_settings = analysis_settings or {}
-    c.copy_child_info(r)
+    # c.copy_child_info(r)
     return c
 
 

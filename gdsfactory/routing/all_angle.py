@@ -543,7 +543,7 @@ def route_bundle_all_angle(
         mmi2.rotate(30)
 
         routes = gf.routing.route_bundle_all_angle(
-            mmi1.get_ports_list(orientation=0),
+            mmi1.ports.filter(orientation=0),
             [mmi2.ports["o2"], mmi2.ports["o1"]],
             connector=None,
         )
@@ -942,7 +942,7 @@ if __name__ == "__main__":
 
     gf.routing.route_bundle_all_angle(
         c,
-        ports1=gf.port.get_ports_list(mmi1.ports, orientation=0),
+        ports1=mmi1.ports.filter(orientation=0),
         ports2=[mmi2.ports["o2"], mmi2.ports["o1"]],
         connector=None,
     )

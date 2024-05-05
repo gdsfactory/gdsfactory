@@ -78,7 +78,7 @@ def route_south(
     c = component
     component = component_to_route
     xs = gf.get_cross_section(cross_section)
-    excluded_ports = excluded_ports or tuple()
+    excluded_ports = excluded_ports or ()
     start_straight_length0 = start_straight_length
     routes = []
 
@@ -281,6 +281,7 @@ if __name__ == "__main__":
     c = gf.Component()
     component = gf.components.ring_double(layer=layer)
     component = gf.components.nxn(north=2, south=2, west=2, east=2)
+    component = gf.c.mzi_phase_shifter()
     ref = c << component
     r = route_south(c, ref, optical_routing_type=1, start_straight_length=0)
     # print(r.lengths)
