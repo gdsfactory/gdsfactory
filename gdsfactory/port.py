@@ -26,6 +26,7 @@ You can also rename them with W,E,S,N prefix (west, east, south, north).
 
 Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
+
 from __future__ import annotations
 
 import csv
@@ -372,7 +373,6 @@ def select_ports(
         from gdsfactory.pdk import get_layer
 
         layer = get_layer(layer)
-
         ports = [p for p in ports if get_layer(p.layer) == layer]
 
     if prefix:

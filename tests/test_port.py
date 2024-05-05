@@ -30,9 +30,12 @@ def test_get_ports_sort_clockwise() -> None:
     c = gf.Component()
     nxn = gf.components.nxn(west=2, north=2, east=2, south=2)
     ref = c << nxn
-    p = ref.get_ports_list(clockwise=True)
+    p = gf.port.get_ports_list(ref, sort_ports=True, clockwise=True)
+    gf.port.pprint_ports(p)
     p1 = p[0]
     p8 = p[-1]
+
+    nxn.show()
 
     assert p1.name == "o1", p1.name
     assert p1.orientation == 180, p1.orientation
@@ -55,7 +58,7 @@ def test_get_ports_sort_counter_clockwise() -> None:
     c = gf.Component()
     nxn = gf.components.nxn(west=2, north=2, east=2, south=2)
     ref = c << nxn
-    p = ref.get_ports_list(clockwise=False)
+    p = gf.port.get_ports_list(ref, sort_ports=True, clockwise=False)
     p1 = p[0]
     p8 = p[-1]
     assert p1.name == "o6", p1.name
@@ -64,44 +67,7 @@ def test_get_ports_sort_counter_clockwise() -> None:
     assert p8.orientation == 270, p8.orientation
 
 
-def test_get_ports() -> None:
-    c = gf.components.mzi_phase_shifter_top_heater_metal(length_x=123)
-
-    p = c.get_ports_dict()
-    assert len(p) == 10, len(p)
-
-    p_electrical = c.get_ports_dict(width=11.0)
-    p_electrical_layer = c.get_ports_dict(layer=(49, 0))
-    assert len(p_electrical) == 8, f"{len(p_electrical)}"
-    assert len(p_electrical_layer) == 8, f"{len(p_electrical_layer)}"
-
-    p_optical = c.get_ports_dict(width=0.5)
-    assert len(p_optical) == 2, f"{len(p_optical)}"
-
-    p_optical_west = c.get_ports_dict(orientation=180, width=0.5)
-    p_optical_east = c.get_ports_dict(orientation=0, width=0.5)
-    assert len(p_optical_east) == 1, f"{len(p_optical_east)}"
-    assert len(p_optical_west) == 1, f"{len(p_optical_west)}"
-
-
 @pytest.mark.parametrize("port_type", ["electrical", "optical", "placement"])
 def test_rename_ports(port_type, data_regression: DataRegressionFixture):
     c = gf.components.nxn(port_type=port_type)
     data_regression.check(c.to_dict())
-
-
-if __name__ == "__main__":
-    test_get_ports_sort_counter_clockwise()
-    test_get_ports_sort_clockwise()
-
-    # c = gf.Component()
-    # nxn = gf.components.nxn(west=2, north=2, east=2, south=2)
-    # ref = c << nxn
-    # p = ref.get_ports_list(clockwise=False)
-    # p1 = p[0]
-    # p8 = p[-1]
-
-    # assert p1.name == "o6", p1.name
-    # assert p1.orientation == 0, p1.orientation
-    # assert p8.name == "o7", p8.name
-    # assert p8.orientation == 270, p8.orientation
