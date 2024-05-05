@@ -125,6 +125,7 @@ def taper_strip_to_ridge(
     layer_wg: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB90",
     cross_section: CrossSectionSpec = "xs_sc",
+    use_slab_port: bool = False,
     **kwargs,
 ) -> Component:
     r"""Linear taper from strip to rib.
@@ -173,12 +174,15 @@ def taper_strip_to_ridge(
     )
 
     c = gf.Component()
-    for t in [taper_wg, taper_slab]:
-        _ = c << t
+    taper_ref_wg = c << taper_wg
+    taper_ref_slab = c << taper_slab
 
-    c.info["length"] = length
-    c.add_port(name="o1", port=taper_wg.ports["o1"])
-    c.add_port(name="o2", port=taper_wg.ports["o2"])
+    c.info["length"] = float(length)
+    c.add_port(name="o1", port=taper_ref_wg.ports["o1"])
+    if use_slab_port:
+        c.add_port(name="o2", port=taper_ref_slab.ports["o2"])
+    else:
+        c.add_port(name="o2", port=taper_ref_wg.ports["o2"])
 
     if length:
         xs.add_bbox(c)
@@ -245,6 +249,7 @@ taper_sc_nc = partial(
     width2=0.15,
     w_slab1=0.15,
     w_slab2=1.0,
+    use_slab_port=True,
 )
 
 
@@ -255,5 +260,7 @@ if __name__ == "__main__":
     # c = taper_sc_nc()
     # c = taper(cross_section="xs_rc")
     # c = taper(length=1, width1=0.54, width2=10, cross_section="xs_sc")
-    c = taper_strip_to_ridge()
+    # c = taper_strip_to_ridge()
+    c = taper_sc_nc()
+    c.pprint_ports()
     c.show()
