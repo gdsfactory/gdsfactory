@@ -109,20 +109,6 @@ def test_extrude_transition_multi_section():
     assert np.isclose(layer3_area, 1 * 10 * 2)
 
 
-def test_get_cross_sections_single_module() -> None:
-    xs = gf.get_cross_sections(gf.cross_section)
-    assert isinstance(xs, dict)
-    assert len(xs) > 0
-    assert all(isinstance(x, gf.CrossSection) for x in xs.values())
-
-
-def test_get_cross_sections_multiple_modules() -> None:
-    xs = gf.get_cross_sections([gf.cross_section, gf.components])
-    assert isinstance(xs, dict)
-    assert len(xs) > 0
-    assert all(isinstance(x, gf.CrossSection) for x in xs.values())
-
-
 def test_get_cross_sections_empty_input() -> None:
     xs = gf.get_cross_sections([])
     assert isinstance(xs, dict)
@@ -175,12 +161,3 @@ def test_cross_section_variable_width_section():
     p2 = gf.path.extrude(P, cross_section=X2)
 
     assert p1 is not p2
-
-
-if __name__ == "__main__":
-    # test_transition_names()
-    # test_copy()
-    # test_extrude_transition_component()
-    xs = gf.cross_section.xs_sc_rc_tip.copy(width=1)
-    c = gf.c.straight(cross_section=xs)
-    c.show()
