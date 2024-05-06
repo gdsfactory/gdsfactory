@@ -92,7 +92,9 @@ def straight_heater_meander(
         layer=x.layer,
         width=x.width,
     )
-    route = gf.routing.get_route(p1, p2, radius=radius)
+    route = gf.routing.get_route(
+        p1, p2, radius=radius, cross_section=x, straight=straight, bend=bend
+    )
 
     cross_section2 = cross_section
 
