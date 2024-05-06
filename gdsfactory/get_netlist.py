@@ -237,7 +237,7 @@ def get_netlist(
                         # a bit of a hack... get the top-level port for the
                         # ComponentArray, by our known naming convention. I hope no one
                         # renames these ports!
-                        parent_port = component.ports[top_name]
+                        parent_port = component[top_name]
                         name2port[lower_name] = parent_port
                         top_ports_list.add(top_name)
                         ports_by_type[parent_port.port_type].append(lower_name)
