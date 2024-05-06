@@ -105,7 +105,12 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         script += "\n"
 
     for block_name, block in conf.blocks.items():
-        parameters = block.parameters
+        if hasattr(block, "parameters"):
+            parameters = block.parameters
+        else:
+            print(f"{block_name=}, {block=} does not have parameters")
+            continue
+
         parameters_string = (
             ", ".join(
                 [f"{p_name}:{p.type}={p.value}" for p_name, p in parameters.items()]
