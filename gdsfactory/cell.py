@@ -6,7 +6,7 @@ import functools
 import hashlib
 import inspect
 import warnings
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Iterable, Sequence
 from functools import partial
 from typing import TypeVar, overload
 
@@ -118,7 +118,9 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
-    post_process: Sequence[Callable] | None = None,
+    post_process: Sequence[Callable[[Component], Component]]
+    | Callable[[Component], Component]
+    | None = None,
     info: dict[str, int | float | str] | None = None,
 ) -> Callable[..., Component] | partial:
     """Parametrized Decorator for Component functions.
@@ -138,7 +140,7 @@ def cell(
         add_settings: True by default. Adds settings to the component.
         validate: validate the function call. Does not work with annotations that have None | Callable.
         get_child_name: Use child name as component name prefix.
-        post_process: list of post processing functions to apply to the component.
+        post_process: list of or a single post processing function to apply to the component.
         info: dictionary with metadata to add to the component.
 
     Implements a cache so that if a component has already been build it returns the component from the cache directly.
@@ -361,8 +363,11 @@ def cell(
             component.module = func.__module__
             component.__doc__ = func.__doc__
 
-        for post in post_process or []:
-            component = post(component)
+        if post_process:
+            for post in (
+                post_process if isinstance(post_process, Iterable) else [post_process]
+            ):
+                component = post(component)
 
         component.info.update(metadata)
 
