@@ -3,8 +3,8 @@ from __future__ import annotations
 import pathlib
 
 from gdsfactory.component import Component
-from gdsfactory.technology import LayerStack
-from gdsfactory.typings import Layer, LayerViews
+from gdsfactory.technology import LayerStack, LayerViews
+from gdsfactory.typings import Layer
 
 
 def to_stl(
