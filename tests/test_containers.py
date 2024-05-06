@@ -9,7 +9,9 @@ import gdsfactory as gf
 from gdsfactory.difftest import difftest
 from gdsfactory.generic_tech.containers import containers
 
-component = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
+component = gf.components.mzi2x2_2x2(
+    straight_x_top="straight_heater_metal", length_x=100
+)
 
 skip_test = {"add_fiber_array", "add_termination"}
 

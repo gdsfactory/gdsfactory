@@ -53,6 +53,9 @@ def straight_heater_metal_undercut(
     period = length_undercut + length_undercut_spacing
     n = int((length - 2 * length_straight_input) // period)
 
+    if n < 1:
+        raise ValueError("length is too short")
+
     length_straight_input = (length - n * period) / 2
 
     if length_straight > length_straight_input:
@@ -107,16 +110,15 @@ def straight_heater_metal_undercut(
     heater_width = x.width
 
     if via_stack:
-        refs = list(sequence.named_references.keys())
         via = via_stackw = via_stacke = gf.get_component(via_stack)
-        via_stack_west_center = sequence.named_references[refs[1]].size_info.cw
-        via_stack_east_center = sequence.named_references[refs[-2]].size_info.ce
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
+        dx -= length_straight
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
-        via_stack_west.move(via_stack_west_center - (dx, 0))
-        via_stack_east.move(via_stack_east_center + (dx, 0))
+
+        via_stack_west.movex(-dx)
+        via_stack_east.movex(+dx + length)
 
         valid_orientations = {p.orientation for p in via.ports.values()}
         p1 = via_stack_west.get_ports_list(orientation=port_orientation1)
@@ -133,6 +135,7 @@ def straight_heater_metal_undercut(
 
         c.add_ports(p1, prefix="l_")
         c.add_ports(p2, prefix="r_")
+
         if heater_taper_length:
             taper = gf.components.taper(
                 width1=via_stackw.ports["e1"].width,
@@ -255,11 +258,12 @@ straight_heater_metal_undercut_90_90 = partial(
 
 
 def test_ports() -> None:
-    c = straight_heater_metal(length=50.0)
-    assert c.ports["o2"].center[0] == 50.0, c.ports["o2"].center[0]
+    c = straight_heater_metal(length=100.0)
+    assert c.ports["o2"].center[0] == 100.0, c.ports["o2"].center[0]
 
 
 if __name__ == "__main__":
+    test_ports()
     # c = straight_heater_metal_undercut()
     # print(c.ports['o2'].center[0])
     # c.pprint_ports()
@@ -267,8 +271,8 @@ if __name__ == "__main__":
 
     # c = straight_heater_metal_undercut(length=200, straight="straight")
     # n = c.get_netlist()
-    c = straight_heater_metal(length=20)
-    print(c.get_netlist(allow_multiple=True))
+    c = straight_heater_metal(length=80)
+    # print(c.get_netlist(allow_multiple=True))
     # c = straight_heater_metal_simple(length=20)
     c.show(show_ports=False)
     # scene = c.to_3d()
