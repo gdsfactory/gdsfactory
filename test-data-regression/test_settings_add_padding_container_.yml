@@ -1,7 +1,7 @@
 function: container
 info: {}
 module: gdsfactory.cell
-name: mzi_container_f93074c0
+name: mzi_container_da768e5d
 settings:
   component:
     function: mzi
@@ -18,7 +18,7 @@ settings:
       cross_section_x_top: null
       delta_length: 10.0
       extend_ports_straight_x: null
-      length_x: 0.1
+      length_x: 100
       length_y: 2.0
       min_length: 0.01
       mirror_bot: false
