@@ -112,9 +112,9 @@ def route_single(
     # straight = partial(straight, width=width, cross_section=cross_section)
     taper_cell = taper(cross_section=cross_section) if taper else None
     bend90 = (
-        gf.get_component(bend, cross_section=xs)
-        if not isinstance(bend, Component)
-        else bend
+        bend
+        if isinstance(bend, Component)
+        else gf.get_component(bend, cross_section=xs)
     )
 
     def straight_dbu(
