@@ -11,7 +11,7 @@ def to_svg(
     layer_views: LayerViews | None = None,
     layer_stack: LayerStack | None = None,
     exclude_layers: tuple[Layer, ...] | None = None,
-    filename: str = "3d.svg",
+    filename: str = "component.svg",
     scale: int = 1,
 ) -> None:
     """Write a 3D svg file from a component.
