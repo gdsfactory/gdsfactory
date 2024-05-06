@@ -270,9 +270,7 @@ def via_stack_corner45(
                     # The x width is decreasing
                     xwidth = (height - (y_covered + h)) * np.tan(np.deg2rad(45))
 
-                if min_width > xwidth:
-                    pass
-                else:
+                if min_width <= xwidth:
                     vias_per_row = (
                         xwidth - 2 * xoff_enc - 2 * h * np.tan(np.deg2rad(45))
                     ) / (pitch_x) + 1
@@ -283,6 +281,7 @@ def via_stack_corner45(
 
                 y_covered = y_covered + h + pitch_y
 
+    c = c.flatten()
     return c
 
 
