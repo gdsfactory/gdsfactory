@@ -63,14 +63,14 @@ def to_3d(
             # opacity = layer_view.get_alpha()
 
             if zmin is not None and layer_view.visible:
+                has_polygons = True
+
                 for polygon in [polygons]:
                     p = shapely.geometry.Polygon(polygon)
                     mesh = extrude_polygon(p, height=height)
                     mesh.apply_translation((0, 0, zmin))
                     mesh.visual.face_colors = (*color_rgb, 0.5)
                     scene.add_geometry(mesh)
-                    has_polygons = True
-
     if not has_polygons:
         raise ValueError(
             f"{component.name!r} does not have polygons defined in the "
@@ -82,7 +82,7 @@ def to_3d(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.taper_strip_to_ridge()
+    c = gf.components.mzi()
     # c = gf.Component()
     # c << gf.components.straight_heater_metal(length=40)
     # c << gf.c.rectangle(layer=(113, 0))
