@@ -73,9 +73,9 @@ def to_svg(
                         for n, p in enumerate(polygon):
                             poly_str += "M " if n == 0 else "L "
                             poly_str += f"{(p[0] - dx) * scale:0.6f} {(-(p[1] - dy) + ysize) * scale:0.6f} "
-                    poly_str += 'Z"/>\n'
-                    f.write(poly_str)
-                f.write("  </g>\n")
+                        poly_str += 'Z"/>\n'
+                        f.write(poly_str)
+                    f.write("  </g>\n")
 
         f.write("</svg>\n")
 
@@ -87,7 +87,8 @@ if __name__ == "__main__":
     # c = gf.Component()
     # c << gf.components.straight_heater_metal(length=40)
     # c << gf.c.rectangle(layer=(113, 0))
-    c = gf.components.grating_coupler_elliptical_trenches()
+    # c = gf.components.mzi()
     # c = gf.components.taper_strip_to_ridge_trenches()
+    c = gf.c.grating_coupler_elliptical_trenches()
     to_svg(c, scale=10)
     c.show()
