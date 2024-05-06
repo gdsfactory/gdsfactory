@@ -73,7 +73,7 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
-    post_process: Sequence[Callable] | None = None,
+    post_process: Sequence[Callable] | Callable | None = None,
     info: dict[str, int | float | str] | None = None,
 ) -> partial: ...
 
@@ -96,7 +96,7 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
-    post_process: Sequence[Callable] | None = None,
+    post_process: Sequence[Callable] | Callable | None = None,
     info: dict[str, int | float | str] | None = None,
 ) -> _F: ...
 
@@ -118,9 +118,7 @@ def cell(
     add_settings: bool = True,
     validate: bool = False,
     get_child_name: bool = False,
-    post_process: Sequence[Callable[[Component], Component]]
-    | Callable[[Component], Component]
-    | None = None,
+    post_process: Sequence[Callable] | Callable | None = None,
     info: dict[str, int | float | str] | None = None,
 ) -> Callable[..., Component] | partial:
     """Parametrized Decorator for Component functions.
