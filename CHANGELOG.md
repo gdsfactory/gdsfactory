@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.25.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.25.2) - 2024-05-05
+
+No significant changes.
+
+
 ## [7.25.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.25.1) - 2024-04-30
 
 - Expose gc fiber port [#2709](https://github.com/gdsfactory/gdsfactory/pull/2709)
