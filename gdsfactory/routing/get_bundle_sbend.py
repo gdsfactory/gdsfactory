@@ -45,7 +45,8 @@ def get_bundle_sbend(
         else:
             raise ValueError("axis must be 'X' or 'Y'")
         sbend = bend.ref()
-        sbend.connect("o1", p1)
+        port_in = sbend.get_ports_list()[0]
+        sbend.connect(port_in, p1)
         routes.append(
             Route(
                 references=[sbend],
