@@ -416,7 +416,21 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
         for layer_name in unetched_layers
         if layer_stack.layers[layer_name].layer in component_layers
     ]
-    component_derived = component.extract(unetched_layer_numbers)
+    layer_to_polygons = component.get_polygons(by_spec=True)
+
+    # component_derived = component.extract(unetched_layer_numbers)
+    component_derived = gf.Component()
+
+    for layer in unetched_layer_numbers:
+        polygons = layer_to_polygons[layer]
+        unetched_polys = gdstk.boolean(
+            operand1=polygons,
+            operand2=[],
+            operation="or",
+            layer=layer[0],
+            datatype=layer[1],
+        )
+        component_derived.add(unetched_polys)
 
     # Define unetched layers
     polygons_to_remove = []
@@ -449,7 +463,6 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
 
         # Remove all etching layers
         layer = layer_stack.layers[unetched_layer_name].layer
-        polygons = component.get_polygons(by_spec=layer)
         unetched_polys = gdstk.boolean(
             operand1=polygons,
             operand2=polygons_to_remove,
@@ -471,10 +484,13 @@ if __name__ == "__main__":
     from gdsfactory.generic_tech import LAYER_STACK
 
     ls = LAYER_STACK
-    ls.pprint()
+    # ls.pprint()
 
-    c = gf.components.straight_heater_metal()
+    c = gf.components.straight_heater_metal(length=30)
     c.show()
+
+    s = c.to_3d()
+    s.show()
 
     # import gdsfactory as gf
     # from gdsfactory.generic_tech import LAYER_STACK
