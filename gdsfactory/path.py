@@ -811,24 +811,44 @@ def extrude(
         if section.insets and section.insets != (0, 0):
             p_pts = p_sec.points
 
-            new_x_start = p.xmin + section.insets[0]
-            new_x_stop = p.xmax - section.insets[1]
+            # This excludes the first point, so any idx found using this need to be shifted by one to match p_pts idx
+            p_xy_segment_lengths = np.array([np.diff(p_pts[:, 0]),
+                                             np.diff(p_pts[:, 1])]
+                                            ).T
 
-            if new_x_start > np.max(p_pts[:, 0]) or new_x_stop < np.min(p_pts[:, 0]):
+            # Using the axis=1 makes output equivalent to [np.linalg.norm(p_xy_segment_lengths[i, :])
+            #                                              for i
+            #                                              in range(len(p_pts[:, 0]))]
+            p_segment_lengths = np.linalg.norm(p_xy_segment_lengths, axis=1)
+
+            p_segment_lengths_cumsum = np.cumsum(p_segment_lengths)
+            p_segment_lengths_reverse_cumsum = np.cumsum(p_segment_lengths[::-1])
+
+            if all(section.insets[:] > p_segment_lengths_cumsum[-1]):
                 warnings.warn(
                     f"Cannot apply delay to Section '{section.name}', delay results in points outside of original path.",
                     stacklevel=3,
-                )
+                    )
                 continue
 
-            new_start_idx = np.argwhere(p_pts[:, 0] > new_x_start)[0, 0]
-            new_stop_idx = np.argwhere(p_pts[:, 0] < new_x_stop)[-1, 0]
+            start_diff_idx = np.argwhere(p_segment_lengths_cumsum >= section.insets[0])[0, 0]
+            reversed_stop_diff_idx = np.argwhere(p_segment_lengths_reverse_cumsum >= section.insets[1])[0, 0]
+            stop_diff_idx = len(p_xy_segment_lengths) - (1 + reversed_stop_diff_idx)
 
-            new_start_point = [new_x_start, p_pts[new_start_idx, 1]]
-            new_stop_point = [new_x_stop, p_pts[new_stop_idx, 1]]
+            v_start = -p_xy_segment_lengths[start_diff_idx, :]
+            v_stop = p_xy_segment_lengths[stop_diff_idx, :]
+
+            v_start_direction = v_start / np.linalg.norm(v_start)
+            v_stop_direction = v_stop / np.linalg.norm(v_stop)
+
+            v_inset_start = v_start_direction * (p_segment_lengths_cumsum[start_diff_idx] - section.insets[0])
+            v_inset_stop = v_stop_direction * (p_segment_lengths_reverse_cumsum[reversed_stop_diff_idx] - section.insets[1])
+
+            new_start_point = v_inset_start + p_pts[start_diff_idx + 1, :]
+            new_stop_point = v_inset_stop + p_pts[stop_diff_idx, :]
 
             p_sec = Path(
-                [new_start_point, *p_pts[new_start_idx:new_stop_idx], new_stop_point]
+                [new_start_point, *p_pts[start_diff_idx + 1:stop_diff_idx], new_stop_point]
             )
 
         if callable(offset_function):
