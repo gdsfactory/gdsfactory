@@ -37,8 +37,6 @@ def to_3d(
     layer_stack = layer_stack or get_layer_stack()
 
     scene = Scene()
-    layer_to_thickness = layer_stack.get_layer_to_thickness()
-    layer_to_zmin = layer_stack.get_layer_to_zmin()
     exclude_layers = exclude_layers or ()
     # layers = layer_views.layer_map.values()
 
@@ -53,12 +51,7 @@ def to_3d(
     for level in layer_stack.layers.values():
         layer = level.layer
 
-        if (
-            layer not in exclude_layers
-            and layer in layer_to_zmin
-            and layer in layer_to_thickness
-            and layer in component_layers
-        ):
+        if layer not in exclude_layers and layer in component_layers:
             height = level.thickness
             zmin = level.zmin
             layer_view = layer_views.get_from_tuple(layer)
