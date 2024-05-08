@@ -42,11 +42,12 @@ def to_stl(
     exclude_layers = exclude_layers or []
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
-    component_layers = component_with_booleans.get_layers()
+    polygons_per_layer = component_with_booleans.get_polygons_points()
+    component_layers = polygons_per_layer.keys()
     layer_names = list(layer_stack.layers.keys())
     layer_tuples = list(layer_stack.layers.values())
 
-    for layer, polygons in component_with_booleans.get_polygons(by_spec=True).items():
+    for layer, polygons in polygons_per_layer.items():
         if (
             layer in exclude_layers
             or layer not in layer_to_thickness
