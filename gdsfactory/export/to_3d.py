@@ -65,7 +65,7 @@ def to_3d(
             if zmin is not None and layer_view.visible:
                 has_polygons = True
 
-                for polygon in [polygons]:
+                for polygon in polygons:
                     p = shapely.geometry.Polygon(polygon)
                     mesh = extrude_polygon(p, height=height)
                     mesh.apply_translation((0, 0, zmin))
@@ -83,6 +83,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.mzi()
+    p = c.get_polygons_points()
     # c = gf.Component()
     # c << gf.components.straight_heater_metal(length=40)
     # c << gf.c.rectangle(layer=(113, 0))

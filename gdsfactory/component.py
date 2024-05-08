@@ -415,9 +415,12 @@ class Component(kf.KCell):
         for layer_tuple, polygons in polygons_dict.items():
             all_points = []
             for polygon in polygons:
-                points = [(point.x, point.y) for point in polygon.each_point_hull()]
-                all_points.extend(points)
-            polygons_points[layer_tuple] = self.kcl.dbu * np.array(all_points)
+                points = [
+                    (point.x, point.y)
+                    for point in polygon.to_dtype(self.kcl.dbu).each_point_hull()
+                ]
+                all_points.append(points)
+            polygons_points[layer_tuple] = all_points
         return polygons_points
 
     def area(self, layer: LayerSpec) -> float:
