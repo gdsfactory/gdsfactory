@@ -46,17 +46,21 @@ def to_3d(
     component_layers = component_with_booleans.get_layers()
     has_polygons = False
 
-    for layer, polygons in component_with_booleans.get_polygons(
+    layer_to_polygon = component_with_booleans.get_polygons(
         by_spec=True, as_array=False
-    ).items():
+    )
+
+    for level in layer_stack.layers.values():
+        layer = level.layer
+
         if (
             layer not in exclude_layers
             and layer in layer_to_zmin
             and layer in layer_to_thickness
             and layer in component_layers
         ):
-            height = layer_to_thickness[layer]
-            zmin = layer_to_zmin[layer]
+            height = level.thickness
+            zmin = level.zmin
             layer_view = layer_views.get_from_tuple(layer)
             color_rgb = [
                 c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)
@@ -65,7 +69,7 @@ def to_3d(
             # print(layer, height, zmin, opacity, layer_view.visible)
 
             if zmin is not None and layer_view.visible:
-                for polygon in polygons:
+                for polygon in layer_to_polygon[layer]:
                     p = shapely.geometry.Polygon(polygon.points)
                     mesh = extrude_polygon(p, height=height)
                     mesh.apply_translation((0, 0, zmin))
@@ -88,9 +92,9 @@ if __name__ == "__main__":
     # c = gf.Component()
     # c << gf.components.straight_heater_metal(length=40)
     # c << gf.c.rectangle(layer=(113, 0))
-    c = gf.components.grating_coupler_elliptical_trenches()
+    # c = gf.components.grating_coupler_elliptical_trenches()
     # c = gf.components.taper_strip_to_ridge_trenches()
-
+    c = gf.c.straight_heater_metal(length=90)
     c.show()
-    # s = c.to_3d()
-    # s.show()
+    s = c.to_3d()
+    s.show()
