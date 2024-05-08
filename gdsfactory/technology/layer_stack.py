@@ -5,6 +5,8 @@ from typing import TYPE_CHECKING, Any, Literal
 
 import gdstk
 from pydantic import BaseModel, Field
+from rich.console import Console
+from rich.table import Table
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -93,6 +95,21 @@ class LayerStack(BaseModel):
     def model_copy(self) -> LayerStack:
         """Returns a copy of the LayerStack."""
         return LayerStack.model_validate_json(self.model_dump_json())
+
+    def pprint(self) -> None:
+        console = Console()
+        table = Table(show_header=True, header_style="bold")
+        keys = ["layer", "thickness", "material", "sidewall_angle"]
+
+        for key in ["name"] + keys:
+            table.add_column(key)
+
+        for layer_name, layer in self.layers.items():
+            port_dict = dict(layer)
+            row = [layer_name] + [str(port_dict.get(key, "")) for key in keys]
+            table.add_row(*row)
+
+        console.print(table)
 
     def __init__(self, **data: Any) -> None:
         """Add LayerLevels automatically for subclassed LayerStacks."""
@@ -453,7 +470,8 @@ if __name__ == "__main__":
 
     from gdsfactory.generic_tech import LAYER_STACK
 
-    layer_stack = LAYER_STACK
+    ls = LAYER_STACK
+    ls.pprint()
 
     c = gf.components.straight_heater_metal()
     c.show()
