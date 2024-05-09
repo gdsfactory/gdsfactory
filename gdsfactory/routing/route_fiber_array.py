@@ -237,20 +237,6 @@ def route_fiber_array(
     else:
         assert len(grating_indices) == nb_ports_per_line
 
-    io_gratings = []
-    gc_ports = []
-
-    for j in range(nb_optical_ports_lines):
-        for i, gc in zip(grating_indices, grating_couplers):
-            gc_ref = c << gc
-            gc_ref.d.rotate(gc_rotation)
-            gc_ref.d.x = x_c - offset + i * fiber_spacing
-            gc_ref.d.ymax = y0_optical - j * gr_coupler_y_sep
-            io_gratings += [gc_ref]
-
-        io_gratings_lines += [io_gratings[:]]
-        ports += [grating.ports[fiber_port_name] for grating in io_gratings]
-
     route_south(
         c,
         component,
@@ -268,6 +254,20 @@ def route_fiber_array(
         port_type=port_type,
     )
     to_route = c.ports
+
+    # add grating couplers
+    io_gratings = []
+    gc_ports = []
+    for j in range(nb_optical_ports_lines):
+        for i, gc in zip(grating_indices, grating_couplers):
+            gc_ref = c << gc
+            gc_ref.d.rotate(gc_rotation)
+            gc_ref.d.x = x_c - offset + i * fiber_spacing
+            gc_ref.d.ymax = y0_optical - j * gr_coupler_y_sep
+            io_gratings += [gc_ref]
+
+        io_gratings_lines += [io_gratings[:]]
+        ports += [grating.ports[fiber_port_name] for grating in io_gratings]
 
     if force_manhattan:
         # 1) find the min x_distance between each grating and component port.
@@ -300,10 +300,11 @@ def route_fiber_array(
     if len(io_gratings_lines) == 1:
         io_gratings = io_gratings_lines[0]
         gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
+        # c.shapes(c.kcl.layer(1,10)).insert(component_with_south_routes_bbox)
         route_bundle(
             c,
-            ports1=to_route,
-            ports2=gc_ports,
+            ports2=to_route,
+            ports1=gc_ports,
             separation=separation,
             straight=straight,
             bend=bend90,
@@ -311,6 +312,7 @@ def route_fiber_array(
             port_type=port_type,
             sort_ports=True,
             enforce_port_ordering=False,
+            # bboxes=[component_with_south_routes_bbox]
         )
         fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
 
@@ -323,8 +325,8 @@ def route_fiber_array(
             dn = nb_gc_ports / 2
             route_bundle(
                 c,
-                ports1=to_route[n0 - dn : n0 + dn],
-                ports2=gc_ports,
+                ports2=to_route[n0 - dn : n0 + dn],
+                ports1=gc_ports,
                 separation=separation,
                 bend=bend90,
                 straight=straight,
@@ -332,6 +334,7 @@ def route_fiber_array(
                 port_type=port_type,
                 sort_ports=True,
                 enforce_port_ordering=False,
+                # bboxes=[component_with_south_routes_bbox]
             )
             del to_route[n0 - dn : n0 + dn]
             fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
@@ -413,8 +416,8 @@ if __name__ == "__main__":
     # component = gf.components.mmi2x2()
     # component = gf.components.straight_heater_metal()
     # component = gf.components.ring_single()
-    # component = gf.components.ring_double()
-    component = gf.components.mzi_phase_shifter()
+    component = gf.components.ring_double()
+    # component = gf.components.mzi_phase_shifter()
 
     ref = c << component
     routes = route_fiber_array(
