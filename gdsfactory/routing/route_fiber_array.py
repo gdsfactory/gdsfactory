@@ -381,7 +381,6 @@ def route_fiber_array(
         port1 = gca2[gc_port_name_fiber]
         c.add_port(name="loopback1", port=port0)
         c.add_port(name="loopback2", port=port1)
-
     return c
 
 
@@ -411,10 +410,11 @@ if __name__ == "__main__":
 
     # component = gf.components.nxn(north=10, south=10, east=10, west=10)
     # component = gf.components.straight()
-    component = gf.components.mmi2x2()
+    # component = gf.components.mmi2x2()
     # component = gf.components.straight_heater_metal()
     # component = gf.components.ring_single()
     # component = gf.components.ring_double()
+    component = gf.components.mzi_phase_shifter()
 
     ref = c << component
     routes = route_fiber_array(

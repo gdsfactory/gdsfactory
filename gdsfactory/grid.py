@@ -78,6 +78,9 @@ def grid(
     )
     for i, instances_list in enumerate(instances):
         for j, instance in enumerate(instances_list):
+            # print(i, j)
+            # instance.ports.print()
+            print(id(instance))
             c.add_ports(instance.ports, prefix=f"{j}_{i}_")
     return c
 
@@ -91,7 +94,6 @@ def grid_with_text(
     text_mirror: bool = False,
     text_rotation: int = 0,
     text: ComponentSpec | None = text_rectangular,
-    labels: tuple[str, ...] | None = None,
     spacing: tuple[float, float] | float = (5.0, 5.0),
     shape: tuple[int, int] | None = None,
     align_x: Literal["origin", "xmin", "xmax", "center"] = "center",
@@ -109,7 +111,9 @@ def grid_with_text(
         text_mirror: if True mirrors text.
         text_rotation: Optional text rotation.
         text: function to add text labels.
-        labels: optional, specify a tuple of labels rather than using a text_prefix.
+        spacing: between adjacent elements on the grid, can be a tuple for \
+                different distances in height and width.
+        shape: x, y shape of the grid (see np.reshape). \
 
 
     .. plot::
