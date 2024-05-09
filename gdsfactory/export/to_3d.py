@@ -37,30 +37,24 @@ def to_3d(
     layer_stack = layer_stack or get_layer_stack()
 
     scene = Scene()
-    layer_to_thickness = layer_stack.get_layer_to_thickness()
-    layer_to_zmin = layer_stack.get_layer_to_zmin()
     exclude_layers = exclude_layers or ()
-    # layers = layer_views.layer_map.values()
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
-    polygons_per_layer = component_with_booleans.get_polygons_points()
+    polygons_per_layer = component_with_booleans.get_polygons_points(merge=False)
     component_layers = polygons_per_layer.keys()
     has_polygons = False
 
-    for layer, polygons in polygons_per_layer.items():
-        if (
-            layer not in exclude_layers
-            and layer in layer_to_zmin
-            and layer in layer_to_thickness
-            and layer in component_layers
-        ):
-            height = layer_to_thickness[layer]
-            zmin = layer_to_zmin[layer]
+    for level in layer_stack.layers.values():
+        layer = level.layer
+
+        if layer not in exclude_layers and layer in component_layers:
+            height = level.thickness
+            zmin = level.zmin
             layer_view = layer_views.get_from_tuple(layer)
             color_rgb = [
                 c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)
             ]
-            # opacity = layer_view.get_alpha()
+            polygons = polygons_per_layer[layer]
 
             if zmin is not None and layer_view.visible:
                 has_polygons = True
@@ -83,9 +77,9 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.mzi()
-    p = c.get_polygons_points()
+    c = gf.components.straight_heater_metal(length=40)
+    # p = c.get_polygons_points()
     # c = gf.Component()
-    # c << gf.components.straight_heater_metal(length=40)
     # c << gf.c.rectangle(layer=(113, 0))
     # c = gf.components.grating_coupler_elliptical_trenches()
     # c = gf.components.taper_strip_to_ridge_trenches()

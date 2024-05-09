@@ -393,7 +393,11 @@ class Component(kf.KCell):
     def get_polygons(
         self, merge: bool = False
     ) -> dict[tuple[int, int], list[kf.kdb.Polygon]]:
-        """Returns a dict of Polygons per layer."""
+        """Returns a dict of Polygons per layer.
+
+        Args:
+            merge: if True, merges the polygons.
+        """
         from gdsfactory import get_layer
 
         polygons = defaultdict(list)
@@ -408,9 +412,15 @@ class Component(kf.KCell):
                 polygons[layer_tuple].append(p)
         return polygons
 
-    def get_polygons_points(self) -> dict[tuple[int, int], np.ndarray]:
-        """Returns a dict of Polygons points per layer."""
-        polygons_dict = self.get_polygons()
+    def get_polygons_points(
+        self, merge: bool = False
+    ) -> dict[tuple[int, int], list[tuple[float, float]]]:
+        """Returns a dict with list of points per layer.
+
+        Args:
+            merge: if True, merges the polygons.
+        """
+        polygons_dict = self.get_polygons(merge=merge)
         polygons_points = {}
         for layer_tuple, polygons in polygons_dict.items():
             all_points = []

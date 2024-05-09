@@ -38,6 +38,13 @@ LAYER_TRANSITIONS = {
     # (LAYER.)
 }
 
+LAYER_CONNECTIVITY = [
+    ("NPP", "VIAC", "M1"),
+    ("PPP", "VIAC", "M1"),
+    ("M1", "VIA1", "M2"),
+    ("M2", "VIA2", "M3"),
+]
+
 
 @cache
 def get_generic_pdk() -> Pdk:
@@ -63,13 +70,27 @@ def get_generic_pdk() -> Pdk:
         layer_transitions=LAYER_TRANSITIONS,
         materials_index=materials_index,
         constants=constants,
+        connectivity=LAYER_CONNECTIVITY,
     )
 
 
 if __name__ == "__main__":
+    from gdsfactory.technology.klayout_tech import KLayoutTechnology
+
+    LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
+    connectivity = [
+        ("HEATER", "VIA1", "M2"),
+        ("M1", "VIA1", "M2"),
+        ("M2", "VIA2", "M3"),
+    ]
+
+    t = KLayoutTechnology(
+        name="generic_tech",
+        layer_views=LAYER_VIEWS,
+        layer_stack=LAYER_STACK,
+        connectivity=connectivity,
+    )
+    t.write_tech(tech_dir=PATH.klayout)
+
     layer_views = LayerViews(filepath=PATH.klayout_yaml)
     layer_views.to_lyp(PATH.klayout_lyp)
-
-    pdk = get_generic_pdk()
-    # pdk.layer_views.to_yaml('layer_views2.yaml')
-    # print(pdk.name)

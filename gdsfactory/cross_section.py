@@ -378,6 +378,9 @@ class CrossSection(BaseModel):
 
 
 CrossSectionSpec = CrossSection | str | dict[str, Any] | Callable[..., CrossSection]
+ConductorConductorName = tuple[str, str]
+ConductorViaConductorName = tuple[str, str, str] | tuple[str, str]
+ConnectivitySpec = ConductorConductorName | ConductorViaConductorName
 
 
 class Transition(CrossSection):

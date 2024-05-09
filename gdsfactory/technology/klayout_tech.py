@@ -57,14 +57,12 @@ class KLayoutTechnology(BaseModel):
 
     Properties:
         name: technology name.
-        layer_map: Maps names to GDS layer numbers.
         layer_views: Defines all the layer display properties needed for a .lyp file from LayerView objects.
         technology: KLayout Technology object from the KLayout API. Set name, dbu, etc.
         connectivity: List of layer names connectivity for netlist tracing.
     """
 
     name: str
-    layer_map: dict[str, Layer]
     layer_views: LayerViews | None = None
     layer_stack: LayerStack | None = None
     connectivity: list[ConductorViaConductorName] | None = None
@@ -122,7 +120,6 @@ class KLayoutTechnology(BaseModel):
                 "boundary-layer": 0,
                 "boundary-datatype": 0,
                 "boundary-name": "BORDER",
-                "layer-map": "layer_map()",
                 "create-other-layers": True,
             }
         mebes = ET.Element("mebes")
@@ -169,14 +166,6 @@ class KLayoutTechnology(BaseModel):
 
             ET.SubElement(src_element, "connection").text = connection
 
-        if self.layer_map:
-            for layer in layers:
-                ET.SubElement(
-                    src_element, "symbols"
-                ).text = (
-                    f"{layer}='{self.layer_map[layer][0]}/{self.layer_map[layer][1]}'"
-                )
-
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
         extra="ignore",
@@ -184,7 +173,7 @@ class KLayoutTechnology(BaseModel):
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import LAYER, LAYER_STACK
+    from gdsfactory.generic_tech import LAYER_STACK
 
     lyp = LayerViews(PATH.klayout_yaml)
     # lyp = LayerViews.from_lyp(str(PATH.klayout_yaml))
@@ -203,7 +192,6 @@ if __name__ == "__main__":
         name="generic_tech",
         layer_views=lyp,
         connectivity=connectivity,
-        layer_map=dict(LAYER),
         layer_stack=LAYER_STACK,
     )
     tech_dir = PATH.klayout_tech

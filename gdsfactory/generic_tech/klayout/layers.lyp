@@ -362,7 +362,7 @@
   <fill-color>#cc4c00</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
-  <dither-pattern>I11</dither-pattern>
+  <dither-pattern>I3</dither-pattern>
   <line-style/>
   <valid>true</valid>
   <visible>true</visible>
@@ -379,7 +379,7 @@
   <fill-color>#ff8000</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
+  <dither-pattern>I3</dither-pattern>
   <line-style/>
   <valid>true</valid>
   <visible>true</visible>
@@ -396,7 +396,7 @@
   <fill-color>#01ff6b</fill-color>
   <frame-brightness>-16</frame-brightness>
   <fill-brightness>-16</fill-brightness>
-  <dither-pattern>I2</dither-pattern>
+  <dither-pattern>I3</dither-pattern>
   <line-style/>
   <valid>true</valid>
   <visible>true</visible>
@@ -413,7 +413,7 @@
   <fill-color>#008050</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
-  <dither-pattern>I2</dither-pattern>
+  <dither-pattern>I3</dither-pattern>
   <line-style/>
   <valid>true</valid>
   <visible>true</visible>
@@ -430,7 +430,7 @@
   <fill-color>#800057</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
-  <dither-pattern>I2</dither-pattern>
+  <dither-pattern>I3</dither-pattern>
   <line-style/>
   <valid>true</valid>
   <visible>true</visible>
@@ -715,8 +715,8 @@
   <source>67/0@1</source>
  </properties>
  <properties>
-  <frame-color>#000000</frame-color>
-  <fill-color>#000000</fill-color>
+  <frame-color>#ffc0cb</frame-color>
+  <fill-color>#ffc0cb</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
   <dither-pattern>I1</dither-pattern>

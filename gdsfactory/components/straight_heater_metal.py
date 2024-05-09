@@ -51,6 +51,9 @@ def straight_heater_metal_undercut(
 
     length_straight_input = (length - n * period) / 2
 
+    if n < 1:
+        raise ValueError("length is too short")
+
     if length_straight > length_straight_input:
         raise ValueError("length_straight_ must be smaller than length_straight_input")
 
@@ -238,16 +241,17 @@ def straight_heater_metal_simple(
 straight_heater_metal = partial(
     straight_heater_metal_undercut,
     with_undercut=False,
+    length_straight_input=0.1,
+    length_undercut=5,
+    length_undercut_spacing=0,
 )
 straight_heater_metal_90_90 = partial(
-    straight_heater_metal_undercut,
-    with_undercut=False,
+    straight_heater_metal,
     port_orientation1=90,
     port_orientation2=90,
 )
 straight_heater_metal_undercut_90_90 = partial(
     straight_heater_metal_undercut,
-    with_undercut=False,
     port_orientation1=90,
     port_orientation2=90,
 )
@@ -268,7 +272,7 @@ if __name__ == "__main__":
     # c = straight_heater_metal_undercut(length=200)
     # n = c.get_netlist()
     # c = straight_heater_metal(length=20)
-    c = straight_heater_metal_undercut()
+    c = straight_heater_metal(length=50)
     c.show()
     # scene = c.to_3d()
     # scene.show()

@@ -5,6 +5,8 @@ from typing import TYPE_CHECKING, Any, Literal
 
 import kfactory as kf
 from pydantic import BaseModel, Field
+from rich.console import Console
+from rich.table import Table
 
 from gdsfactory.component import Component, boolean_operations
 
@@ -100,6 +102,21 @@ class LayerStack(BaseModel):
             val = getattr(self, field)
             if isinstance(val, LayerLevel):
                 self.layers[field] = val
+
+    def pprint(self) -> None:
+        console = Console()
+        table = Table(show_header=True, header_style="bold")
+        keys = ["layer", "thickness", "material", "sidewall_angle"]
+
+        for key in ["name"] + keys:
+            table.add_column(key)
+
+        for layer_name, layer in self.layers.items():
+            port_dict = dict(layer)
+            row = [layer_name] + [str(port_dict.get(key, "")) for key in keys]
+            table.add_row(*row)
+
+        console.print(table)
 
     def get_layer_to_thickness(self) -> dict[tuple[int, int], float]:
         """Returns layer tuple to thickness (um)."""

@@ -27,6 +27,7 @@ from gdsfactory.typings import (
     Component,
     ComponentFactory,
     ComponentSpec,
+    ConnectivitySpec,
     CrossSection,
     CrossSectionOrFactory,
     CrossSectionSpec,
@@ -229,9 +230,6 @@ class Pdk(BaseModel):
             (refractive index, nonlinear coefficient, sheet resistance ...).
         layer_views: includes layer name to color, opacity and pattern.
         layer_transitions: transitions between different cross_sections.
-        sparameters_path: to store Sparameters simulations.
-        modes_path: to store Sparameters simulations.
-        interconnect_cml_path: path to interconnect CML (optional).
         constants: dict of constants for the PDK.
         materials_index: material spec names to material spec, which can be:
             string: material name.
@@ -243,6 +241,7 @@ class Pdk(BaseModel):
         oasis_settings: to write OASIS files.
         cell_decorator_settings: settings for cell_without_validator decorator function in gdsfactory.cell.
         bend_points_distance: default points distance for bends in um.
+        connectivity: defines connectivity between layers through vias.
 
     """
 
@@ -265,16 +264,6 @@ class Pdk(BaseModel):
     layer_transitions: dict[Layer | tuple[Layer, Layer], ComponentSpec] = Field(
         default_factory=dict
     )
-    sparameters_path: PathType | None = Field(
-        default=None, description="This field is deprecated."
-    )
-
-    modes_path: PathType | None = Field(
-        default=None, description="This field is deprecated."
-    )
-    interconnect_cml_path: PathType | None = Field(
-        default=None, description="This field is deprecated."
-    )
     constants: dict[str, Any] = constants
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
     routing_strategies: dict[str, Callable] | None = None
@@ -282,6 +271,7 @@ class Pdk(BaseModel):
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
     cell_decorator_settings: CellDecoratorSettings = CellDecoratorSettings()
     bend_points_distance: float = 20 * nm
+    connectivity: list[ConnectivitySpec] | None = None
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
