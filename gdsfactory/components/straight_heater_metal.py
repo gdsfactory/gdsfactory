@@ -242,15 +242,18 @@ def straight_heater_metal_simple(
 straight_heater_metal = partial(
     straight_heater_metal_undercut,
     with_undercut=False,
+    length_straight_input=0.1,
+    length_undercut=5,
+    length_undercut_spacing=0,
 )
 straight_heater_metal_90_90 = partial(
-    straight_heater_metal_undercut,
+    straight_heater_metal,
     with_undercut=False,
     port_orientation1=90,
     port_orientation2=90,
 )
 straight_heater_metal_undercut_90_90 = partial(
-    straight_heater_metal_undercut,
+    straight_heater_metal,
     with_undercut=False,
     port_orientation1=90,
     port_orientation2=90,
@@ -258,12 +261,12 @@ straight_heater_metal_undercut_90_90 = partial(
 
 
 def test_ports() -> None:
-    c = straight_heater_metal(length=100.0)
-    assert c.ports["o2"].center[0] == 100.0, c.ports["o2"].center[0]
+    c = straight_heater_metal(length=30.0)
+    assert c.ports["o2"].center[0] == 30.0, c.ports["o2"].center[0]
 
 
 if __name__ == "__main__":
-    test_ports()
+    # test_ports()
     # c = straight_heater_metal_undercut()
     # print(c.ports['o2'].center[0])
     # c.pprint_ports()
@@ -271,7 +274,7 @@ if __name__ == "__main__":
 
     # c = straight_heater_metal_undercut(length=200, straight="straight")
     # n = c.get_netlist()
-    c = straight_heater_metal(length=80)
+    c = straight_heater_metal(length=30)
     # print(c.get_netlist(allow_multiple=True))
     # c = straight_heater_metal_simple(length=20)
     c.show(show_ports=False)

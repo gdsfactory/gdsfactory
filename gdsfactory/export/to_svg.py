@@ -30,8 +30,6 @@ def to_svg(
     layer_views = layer_views or get_layer_views()
     layer_stack = layer_stack or get_layer_stack()
 
-    layer_to_thickness = layer_stack.get_layer_to_thickness()
-    layer_to_zmin = layer_stack.get_layer_to_zmin()
     exclude_layers = exclude_layers or ()
     # layers = layer_views.layer_map.values()
 
@@ -41,6 +39,7 @@ def to_svg(
     dcx, dcy = component.center
     dx, dy = dcx - xsize / 2, dcy - ysize / 2
     group_num = 1
+    layer_to_polygons = component_with_booleans.get_polygons(by_spec=True)
 
     with open(filename, "w+") as f:
         f.write('<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n')
@@ -51,20 +50,16 @@ def to_svg(
             '   xmlns="http://www.w3.org/2000/svg">\n'
         )
 
-        for layer, polygons in component_with_booleans.get_polygons(
-            by_spec=True, as_array=True
-        ).items():
-            if (
-                layer not in exclude_layers
-                and layer in layer_to_zmin
-                and layer in layer_to_thickness
-                and layer in component_layers
-            ):
-                zmin = layer_to_zmin[layer]
+        for level in layer_stack.layers.values():
+            layer = level.layer
+
+            if layer not in exclude_layers and layer in component_layers:
+                zmin = level.zmin
                 layer_view = layer_views.get_from_tuple(layer)
                 color = layer_view.fill_color.as_hex(format="short")
                 f.write('  <g id="layer%03i_datatype%03i">\n' % (layer[0], layer[1]))
                 group_num += 1
+                polygons = layer_to_polygons[layer]
 
                 if zmin is not None and layer_view.visible:
                     for polygon in polygons:
