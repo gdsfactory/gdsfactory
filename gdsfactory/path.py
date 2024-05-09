@@ -811,24 +811,115 @@ def extrude(
         if section.insets and section.insets != (0, 0):
             p_pts = p_sec.points
 
-            new_x_start = p.xmin + section.insets[0]
-            new_x_stop = p.xmax - section.insets[1]
+            # This excludes the first point, so length of output array is smaller by 1
+            p_xy_segment_lengths = np.array(
+                [np.diff(p_pts[:, 0]), np.diff(p_pts[:, 1])]
+            ).T
 
-            if new_x_start > np.max(p_pts[:, 0]) or new_x_stop < np.min(p_pts[:, 0]):
+            # Using the axis=1 makes output equivalent to [np.linalg.norm(p_xy_segment_lengths[i, :])
+            #                                              for i
+            #                                              in range(len(p_pts[:, 0]))]
+            p_segment_lengths = np.linalg.norm(p_xy_segment_lengths, axis=1)
+
+            p_segment_lengths_forward_cumsum = np.cumsum(
+                p_segment_lengths
+            )  # To get start inset idx & path length
+            p_segment_lengths_reverse_cumsum = np.cumsum(
+                p_segment_lengths[::-1]
+            )  # To get stop inset idx & path length
+
+            if all(section.insets[:] > p_segment_lengths_forward_cumsum[-1]):
                 warnings.warn(
-                    f"Cannot apply delay to Section '{section.name}', delay results in points outside of original path.",
+                    f"Cannot apply delay to Section '{section.name}', delay results in points outside "
+                    f"of original path.",
                     stacklevel=3,
                 )
                 continue
 
-            new_start_idx = np.argwhere(p_pts[:, 0] > new_x_start)[0, 0]
-            new_stop_idx = np.argwhere(p_pts[:, 0] < new_x_stop)[-1, 0]
+            """
+            Find forward cumsum idx (start_diff_idx), reverse cumsum idx (reversed_stop_diff_idx), and the reverse
+            cumsum idx as indexed on the forward cumsum
 
-            new_start_point = [new_x_start, p_pts[new_start_idx, 1]]
-            new_stop_point = [new_x_stop, p_pts[new_stop_idx, 1]]
+            For the forward cumsum, this is the same as the idx of the vector that describes the path segment the
+            start inset lies within or at the boundary of (due to the process of finding p_xy_segment_lengths, if
+            the forward cumsum idx is 0, this corresponds to p_pts[1, :])
+
+            The reverse cumsum idx, is the idx from the end of p_xy_segment_lengths (when the reverse
+            cumsum idx is 0, this corresponds to p_pts[-2, :])
+            """
+            start_diff_idx = np.argwhere(
+                p_segment_lengths_forward_cumsum >= section.insets[0]
+            )[0, 0]
+            reversed_stop_diff_idx = np.argwhere(
+                p_segment_lengths_reverse_cumsum >= section.insets[1]
+            )[0, 0]
+            stop_diff_idx = (len(p_xy_segment_lengths) - 1) - reversed_stop_diff_idx
+
+            """
+            Find vectors describing the segments the insets lie within or at the boundary of. Also reverse direction of
+            start vector to ensure vectors point from inside to out (this ensures that a positive/negative inset
+            shortens/lengthens the segment's path, respectively)
+
+            e.g.)   For a straight path (chosen because I don't know how to draw a representation of a curved path
+                    with ASCII characters) with len(p_pts) == 7,
+                    this implies len(p_xy_segment_lengths) == len(p_segment_lengths) == 6
+
+                    so if start_diff_idx == 1 and stop_diff_idx == 5, the start and stop vectors would be
+
+                    (0)  (1)  (2)  (3)  (4)  (5)
+                    ---  ---  ---  ---  ---  ---
+                         <--                 -->
+                          ^(v_start)  (v_stop)^
+            """
+            v_start = -p_xy_segment_lengths[
+                start_diff_idx, :
+            ]  # Reversing vector direction so points inside-out
+            v_stop = p_xy_segment_lengths[
+                stop_diff_idx, :
+            ]  # Vector already points inside-out
+
+            v_start_direction = v_start / np.linalg.norm(v_start)  # Unit vector
+            v_stop_direction = v_stop / np.linalg.norm(v_stop)  # Unit vector
+
+            """
+            The total path length up to the inside edge of v_start/v_stop (e.g. as shown above, the total path length
+            from the left-most edge of the path to the right edge of segment 1) either accounts for more than or all of
+            the total inset amount, depending on whether the inset location lies within the segment defined by
+            v_start/v_stop or on it's inside edge.
+
+            i.e.)   If the inset amount places the inset location *within* the segment defined by v_start/v_stop,
+                    the total path length up to the inside edge of v_start/v_stop the over-accounts for the
+                    total inset amount. The difference between this path length and the inset amount given by the user
+                    then gives the length of v_start/v_stop needed to correctly position the edge of the inset path.
+
+                    If the inset location lies on the inside edge of v_start/v_stop, the total path length up to the
+                    inside edge of v_start/v_stop is equal to the entire inset amount. This means the difference
+                    between the path length and the user provided inset amount will be 0 and v_start/v_stop needs to be
+                    set to the zero vector
+            """
+            start_inset_remainder = (
+                p_segment_lengths_forward_cumsum[start_diff_idx] - section.insets[0]
+            )
+            stop_inset_remainder = (
+                p_segment_lengths_reverse_cumsum[reversed_stop_diff_idx]
+                - section.insets[1]
+            )
+
+            # Correcting v_start/v_stops's length
+            v_start_inset = v_start_direction * start_inset_remainder
+            v_stop_inset = v_stop_direction * stop_inset_remainder
+
+            # Translate v_start_inset/v_stop_inset back to their correct positions in the path, since the
+            # process of finding the vectors that define each path segment translated them all to the origin
+            new_start_point = v_start_inset + p_pts[start_diff_idx + 1, :]
+            new_stop_point = v_stop_inset + p_pts[stop_diff_idx, :]
 
             p_sec = Path(
-                [new_start_point, *p_pts[new_start_idx:new_stop_idx], new_stop_point]
+                [
+                    new_start_point,
+                    *p_pts[start_diff_idx + 1 : stop_diff_idx],
+                    new_stop_point,
+                ]
             )
 
         if callable(offset_function):
