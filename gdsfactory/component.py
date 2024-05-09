@@ -427,7 +427,9 @@ class Component(kf.KCell):
             for polygon in polygons:
                 points = [
                     (point.x, point.y)
-                    for point in polygon.to_dtype(self.kcl.dbu).each_point_hull()
+                    for point in polygon.to_simple_polygon()
+                    .to_dtype(self.kcl.dbu)
+                    .each_point()
                 ]
                 all_points.append(points)
             polygons_points[layer_tuple] = all_points

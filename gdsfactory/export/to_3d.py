@@ -40,7 +40,7 @@ def to_3d(
     exclude_layers = exclude_layers or ()
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
-    polygons_per_layer = component_with_booleans.get_polygons_points(merge=False)
+    polygons_per_layer = component_with_booleans.get_polygons_points(merge=True)
     component_layers = polygons_per_layer.keys()
     has_polygons = False
 
@@ -76,7 +76,7 @@ def to_3d(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mzi()
+    # c = gf.components.mzi()
     c = gf.components.straight_heater_metal(length=40)
     # p = c.get_polygons_points()
     # c = gf.Component()
