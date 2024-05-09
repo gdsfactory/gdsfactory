@@ -1,16 +1,26 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.25.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.26.1...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.26.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.26.0) - 2024-05-09
 
-No significant changes.
-
+- Improve layer stack [#2726](https://github.com/gdsfactory/gdsfactory/pull/2726)
+- Add to svg [#2723](https://github.com/gdsfactory/gdsfactory/pull/2723)
+- CrossSection Factory [#2730](https://github.com/gdsfactory/gdsfactory/pull/2730)
+- gf.path.extrude() Inset Fix [#2729](https://github.com/gdsfactory/gdsfactory/pull/2729)
+- Improve layer stack [#2726](https://github.com/gdsfactory/gdsfactory/pull/2726)
+- routing/get_bundle_sbend: Get input port dynamically [#2725](https://github.com/gdsfactory/gdsfactory/pull/2725)
+- removed deprecated pdk elements [#2727](https://github.com/gdsfactory/gdsfactory/pull/2727)
+- more_robust_updk_import [#2722](https://github.com/gdsfactory/gdsfactory/pull/2722)
+- improve_updk cell decorator [#2717](https://github.com/gdsfactory/gdsfactory/pull/2717)
 
 ## [7.25.2](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.25.2) - 2024-05-05
 
-No significant changes.
+- improve_via_stack45 [#2716](https://github.com/gdsfactory/gdsfactory/pull/2716)
+- improve straight_heater_metal [#2715](https://github.com/gdsfactory/gdsfactory/pull/2715)
+- improve get_cross_sections [#2714](https://github.com/gdsfactory/gdsfactory/pull/2714)
+- improve updk port layer [#2713](https://github.com/gdsfactory/gdsfactory/pull/2713)
 
 
 ## [7.25.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.25.1) - 2024-04-30
