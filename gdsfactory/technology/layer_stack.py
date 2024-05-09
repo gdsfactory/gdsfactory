@@ -472,6 +472,7 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
         )
         component_derived.add(unetched_polys)
 
+    component_derived.add_ports(component.ports)
     return component_derived
 
 
