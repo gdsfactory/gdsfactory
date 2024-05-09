@@ -12,7 +12,7 @@ from typing import Any, Literal
 import numpy as np
 import omegaconf
 from omegaconf import DictConfig
-from pydantic import BaseModel, ConfigDict, Field, field_validator, validate_call
+from pydantic import BaseModel, ConfigDict, Field, validate_call
 
 from gdsfactory.config import CONF, logger
 from gdsfactory.events import Event
@@ -262,7 +262,6 @@ class Pdk(BaseModel):
     @grid_size.setter
     def grid_size(self, value) -> None:
         self.gds_write_settings.precision = value * self.gds_write_settings.unit
-
 
     def validate_layers(self, layers_required: list[Layer] | None = None):
         """Raises ValueError if layers_required are not in Pdk."""
