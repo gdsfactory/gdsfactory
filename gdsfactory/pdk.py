@@ -12,7 +12,7 @@ from typing import Any, Literal
 import numpy as np
 import omegaconf
 from omegaconf import DictConfig
-from pydantic import BaseModel, ConfigDict, Field, field_validator, validate_call
+from pydantic import BaseModel, ConfigDict, Field, validate_call
 
 from gdsfactory.config import CONF, logger
 from gdsfactory.events import Event
@@ -203,9 +203,6 @@ class Pdk(BaseModel):
             (refractive index, nonlinear coefficient, sheet resistance ...).
         layer_views: includes layer name to color, opacity and pattern.
         layer_transitions: transitions between different cross_sections.
-        sparameters_path: to store Sparameters simulations.
-        modes_path: to store Sparameters simulations.
-        interconnect_cml_path: path to interconnect CML (optional).
         constants: dict of constants for the PDK.
         materials_index: material spec names to material spec, which can be:
             string: material name.
@@ -242,16 +239,6 @@ class Pdk(BaseModel):
     layer_transitions: dict[Layer | tuple[Layer, Layer], ComponentSpec] = Field(
         default_factory=dict
     )
-    sparameters_path: PathType | None = Field(
-        default=None, description="This field is deprecated."
-    )
-
-    modes_path: PathType | None = Field(
-        default=None, description="This field is deprecated."
-    )
-    interconnect_cml_path: PathType | None = Field(
-        default=None, description="This field is deprecated."
-    )
     constants: dict[str, Any] = constants
     materials_index: dict[str, MaterialSpec] = Field(default_factory=dict)
     routing_strategies: dict[str, Callable] | None = None
@@ -264,20 +251,8 @@ class Pdk(BaseModel):
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
-        ignore_extra=True,
         extra="forbid",
     )
-
-    def __init__(self, **data):
-        if "sparameters_path" in data:
-            warnings.warn(
-                "The 'pdk.sparameters_path' is deprecated. Use gf.config.PATH instead",
-            )
-        if "modes_path" in data:
-            warnings.warn(
-                "The 'pdk.modes_path' is deprecated. Use gf.config.PATH instead",
-            )
-        super().__init__(**data)
 
     @property
     def grid_size(self):
@@ -287,10 +262,6 @@ class Pdk(BaseModel):
     @grid_size.setter
     def grid_size(self, value) -> None:
         self.gds_write_settings.precision = value * self.gds_write_settings.unit
-
-    @field_validator("sparameters_path")
-    def is_pathlib_path(cls, path):
-        return pathlib.Path(path)
 
     def validate_layers(self, layers_required: list[Layer] | None = None):
         """Raises ValueError if layers_required are not in Pdk."""
@@ -821,34 +792,6 @@ def get_constant(constant_name: Any) -> Any:
         if isinstance(constant_name, str)
         else constant_name
     )
-
-
-def get_sparameters_path() -> pathlib.Path:
-    warnings.warn(
-        "get_sparameters_path() is deprecated. gf.config.PATH.sparameters instead",
-    )
-    PDK = get_active_pdk()
-    if PDK.sparameters_path is None:
-        raise ValueError(f"{_ACTIVE_PDK.name!r} has no sparameters_path")
-    return PDK.sparameters_path
-
-
-def get_modes_path() -> pathlib.Path | None:
-    warnings.warn(
-        "get_modes_path() is deprecated. gf.config.PATH.modes instead",
-    )
-    PDK = get_active_pdk()
-    return PDK.modes_path
-
-
-def get_interconnect_cml_path() -> pathlib.Path:
-    warnings.warn(
-        "get_interconnect_cml_path() is deprecated. gf.config.PATH.interconnect_cml instead",
-    )
-    PDK = get_active_pdk()
-    if PDK.interconnect_cml_path is None:
-        raise ValueError(f"{_ACTIVE_PDK.name!r} has no interconnect_cml_path")
-    return PDK.interconnect_cml_path
 
 
 def _set_active_pdk(pdk: Pdk) -> None:
