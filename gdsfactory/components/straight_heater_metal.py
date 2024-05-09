@@ -253,8 +253,7 @@ straight_heater_metal_90_90 = partial(
     port_orientation2=90,
 )
 straight_heater_metal_undercut_90_90 = partial(
-    straight_heater_metal,
-    with_undercut=False,
+    straight_heater_metal_undercut,
     port_orientation1=90,
     port_orientation2=90,
 )
