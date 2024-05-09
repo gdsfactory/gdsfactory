@@ -14,7 +14,7 @@ import numpy as np
 import omegaconf
 from kfactory import LayerEnum
 from omegaconf import DictConfig
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field
 
 from gdsfactory import show
 from gdsfactory.config import CONF, logger
@@ -169,7 +169,6 @@ class Pdk(BaseModel):
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
-        ignore_extra=True,
         extra="forbid",
     )
 
@@ -183,10 +182,6 @@ class Pdk(BaseModel):
                 "The 'pdk.modes_path' is deprecated. Use gf.config.PATH instead",
             )
         super().__init__(**data)
-
-    @field_validator("sparameters_path")
-    def is_pathlib_path(cls, path):
-        return pathlib.Path(path)
 
     def validate_layers(self, layers_required: list[Layer] | None = None):
         """Raises ValueError if layers_required are not in Pdk."""
