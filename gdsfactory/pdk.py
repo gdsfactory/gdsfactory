@@ -155,7 +155,7 @@ class Pdk(BaseModel):
     default_decorator: Callable[[Component], None] | None = Field(
         default=None, exclude=True
     )
-    layers: type[LayerEnum]
+    layers: type[LayerEnum] | None = None
     layer_stack: LayerStack | None = None
     layer_views: LayerViews | None = None
     layer_transitions: dict[Layer | tuple[Layer, Layer], ComponentSpec] = Field(

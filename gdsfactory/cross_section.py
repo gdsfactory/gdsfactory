@@ -2367,7 +2367,7 @@ def get_cross_sections(
                         isinstance(r, str) and r.endswith("CrossSection")
                     ):
                         xs[t[0]] = t[1]
-                except ValueError as e:
+                except Exception as e:
                     if verbose:
                         logger.warn(f"error in {t[0]}: {e}")
     return xs

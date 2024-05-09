@@ -3,6 +3,8 @@ from __future__ import annotations
 import numpy as np
 from numpy import cos, float64, ndarray, sin
 
+import gdsfactory as gf
+
 RAD2DEG = 180.0 / np.pi
 DEG2RAD = 1 / RAD2DEG
 
@@ -183,9 +185,8 @@ def extrude_path(
     Returns:
         numpy 2D array of shape (2*N, 2).
     """
-    from gdsfactory.pdk import get_grid_size
 
-    grid = grid or get_grid_size()
+    grid = grid or gf.kcl.dbu
 
     if isinstance(points, list):
         points = np.stack([(p[0], p[1]) for p in points], axis=0)
