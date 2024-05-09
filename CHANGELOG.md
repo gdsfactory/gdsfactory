@@ -5,8 +5,7 @@
 
 ## [7.26.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.26.1) - 2024-05-09
 
-No significant changes.
-
+- derived component has ports [#2731](https://github.com/gdsfactory/gdsfactory/pull/2731)
 
 ## [7.26.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.26.0) - 2024-05-09
 
