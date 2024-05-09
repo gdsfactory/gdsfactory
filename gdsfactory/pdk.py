@@ -172,27 +172,6 @@ class Pdk(BaseModel):
         extra="forbid",
     )
 
-    def __init__(self, **data):
-        if "sparameters_path" in data:
-            warnings.warn(
-                "The 'pdk.sparameters_path' is deprecated. Use gf.config.PATH instead",
-            )
-        if "modes_path" in data:
-            warnings.warn(
-                "The 'pdk.modes_path' is deprecated. Use gf.config.PATH instead",
-            )
-        super().__init__(**data)
-
-    def validate_layers(self, layers_required: list[Layer] | None = None):
-        """Raises ValueError if layers_required are not in Pdk."""
-        if layers_required is None:
-            layers_required = []
-        for layer in layers_required:
-            if layer not in self.layers:
-                raise ValueError(
-                    f"{layer!r} not in Pdk.layers {list(self.layers.keys())}"
-                )
-
     def activate(self) -> None:
         """Set current pdk to the active pdk (if not already active)."""
         global _ACTIVE_PDK
@@ -203,8 +182,6 @@ class Pdk(BaseModel):
 
         if self.base_pdk:
             self.add_base_pdk()
-        layers_required = []
-        self.validate_layers(layers_required)
         _set_active_pdk(self)
 
     def add_base_pdk(self):
@@ -464,14 +441,6 @@ class Pdk(BaseModel):
             raise ValueError(f"{key!r} not in {constants}")
         return self.constants[key]
 
-    def get_material_index(self, key: str, *args, **kwargs) -> float:
-        warnings.warn("get_material_index is deprecated")
-        if key not in self.materials_index:
-            material_names = list(self.materials_index.keys())
-            raise ValueError(f"{key!r} not in {material_names}")
-        material = self.materials_index[key]
-        return material(*args, **kwargs) if callable(material) else material
-
     def to_updk(self) -> str:
         """Export to uPDK YAML definition."""
         from gdsfactory.components.bbox import bbox_to_points
@@ -534,27 +503,6 @@ class Pdk(BaseModel):
 
         d = {"blocks": blocks, "xsections": xsections, "header": header}
         return omegaconf.OmegaConf.to_yaml(d)
-
-    # _on_cell_registered = Event()
-    # _on_container_registered: Event = Event()
-    # _on_yaml_cell_registered: Event = Event()
-    # _on_cross_section_registered: Event = Event()
-    #
-    # @property
-    # def on_cell_registered(self) -> Event:
-    #     return self._on_cell_registered
-    #
-    # @property
-    # def on_container_registered(self) -> Event:
-    #     return self._on_container_registered
-    #
-    # @property
-    # def on_yaml_cell_registered(self) -> Event:
-    #     return self._on_yaml_cell_registered
-    #
-    # @property
-    # def on_cross_section_registered(self) -> Event:
-    #     return self._on_cross_section_registered
 
     def get_cross_section_name(self, cross_section: CrossSection) -> str:
         xs_name = next(
@@ -623,10 +571,6 @@ def get_layer_stack() -> LayerStack:
     return get_active_pdk().get_layer_stack()
 
 
-def get_grid_size() -> float:
-    return get_active_pdk().grid_size
-
-
 def get_constant(constant_name: Any) -> Any:
     """If constant_name is a string returns a the value from the dict."""
     return (
@@ -634,44 +578,6 @@ def get_constant(constant_name: Any) -> Any:
         if isinstance(constant_name, str)
         else constant_name
     )
-
-
-def get_capacitance_path() -> pathlib.Path:
-    warnings.warn(
-        "get_capacitance_path() is deprecated. gf.config.PATH.capacitance instead",
-    )
-    PDK = get_active_pdk()
-    if PDK.capacitance_path is None:
-        raise ValueError(f"{_ACTIVE_PDK.name!r} has no capacitance_path")
-    return PDK.capacitance_path
-
-
-def get_sparameters_path() -> pathlib.Path:
-    warnings.warn(
-        "get_sparameters_path() is deprecated. gf.config.PATH.sparameters instead",
-    )
-    PDK = get_active_pdk()
-    if PDK.sparameters_path is None:
-        raise ValueError(f"{_ACTIVE_PDK.name!r} has no sparameters_path")
-    return PDK.sparameters_path
-
-
-def get_modes_path() -> pathlib.Path | None:
-    warnings.warn(
-        "get_modes_path() is deprecated. gf.config.PATH.modes instead",
-    )
-    PDK = get_active_pdk()
-    return PDK.modes_path
-
-
-def get_interconnect_cml_path() -> pathlib.Path:
-    warnings.warn(
-        "get_interconnect_cml_path() is deprecated. gf.config.PATH.interconnect_cml instead",
-    )
-    PDK = get_active_pdk()
-    if PDK.interconnect_cml_path is None:
-        raise ValueError(f"{_ACTIVE_PDK.name!r} has no interconnect_cml_path")
-    return PDK.interconnect_cml_path
 
 
 def _set_active_pdk(pdk: Pdk) -> None:
