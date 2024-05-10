@@ -697,6 +697,7 @@ class Component(_GeometryHelper):
             get_instance_name: function to get instance name.
             allow_multiple: False to raise an error if more than two ports share the same connection.
                 if True, will return key: [value] pairs with [value] a list of all connected instances.
+            merge_info: True to merge info from the component and the netlist.
 
         Returns:
             Netlist dict (instances, connections, placements, ports)
