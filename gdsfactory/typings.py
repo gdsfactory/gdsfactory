@@ -18,13 +18,24 @@ Specs:
 - LayerSpec: (3, 0), 3 (assumes 0 as datatype) or string.
 
 """
+
 from __future__ import annotations
 
 import dataclasses
 import json
 import pathlib
 from collections.abc import Callable, Iterable
-from typing import Any, Dict, List, Literal, Optional, Tuple, Union
+from typing import (
+    Any,
+    Dict,
+    List,
+    Literal,
+    Optional,
+    ParamSpec,
+    Tuple,
+    TypeAlias,
+    Union,
+)
 
 import kfactory as kf
 import numpy as np
@@ -132,12 +143,14 @@ Layers = tuple[Layer, ...]
 LayerSpec = LayerEnum | str | tuple[int, int]
 
 LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...] | None
+
+ComponentParams = ParamSpec("ComponentParams")
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = dict[str, ComponentFactory]
 PathType = str | pathlib.Path
 PathTypes = tuple[PathType, ...]
 Metadata = dict[str, int | float | str]
-PostProcess = tuple[Callable, ...]
+PostProcess = tuple[Callable[[Component], None], ...]
 
 
 MaterialSpec = str | float | tuple[float, float] | Callable
@@ -148,7 +161,6 @@ NameToFunctionDict = dict[str, ComponentFactory]
 Number = float | int
 Coordinate = tuple[float, float]
 Coordinates = tuple[Coordinate, ...] | list[Coordinate]
-ComponentOrPath = Component | PathType
 CrossSectionFactory = Callable[..., CrossSection]
 TransitionFactory = Callable[..., Transition]
 CrossSectionOrFactory = CrossSection | Callable[..., CrossSection]
@@ -171,7 +183,7 @@ CellSpec = (
 )  # PCell function, function name or dict
 
 ComponentSpecDict = dict[str, ComponentSpec]
-CrossSectionSpec = (
+CrossSectionSpec: TypeAlias = (
     CrossSectionFactory | CrossSection | dict[str, Any] | str | Transition
 )
 CrossSectionSpecs = tuple[CrossSectionSpec, ...]
@@ -192,7 +204,7 @@ class Instance(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     @model_validator(mode="before")
-    def update_settings_and_info(cls, values):
+    def update_settings_and_info(cls, values: dict[str, Any]) -> dict[str, Any]:
         """Validator to update component, settings and info based on the component."""
         component = values.get("component")
         settings = values.get("settings", {})
@@ -279,7 +291,7 @@ class Net(BaseModel):
     settings: dict[str, Any] = Field(default_factory=dict)
     name: str | None = None
 
-    def __init__(self, **data):
+    def __init__(self, **data: dict[str, Any]) -> None:
         global _route_counter
         super().__init__(**data)
         # If route name is not provided, generate one automatically

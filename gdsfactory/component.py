@@ -124,11 +124,11 @@ class Component(kf.KCell):
         info: dictionary that includes derived properties, simulation_settings, settings (test_protocol, docs, ...)
     """
 
-    def add_port(
+    def add_port(  # type: ignore[override]
         self,
         name: str | None = None,
         port: kf.Port | None = None,
-        center: tuple[float, float] | kf.kdb.Point | None = None,
+        center: tuple[float, float] | kf.kdb.DPoint | None = None,
         width: float | None = None,
         orientation: float | None = None,
         layer: LayerSpec | None = None,
@@ -170,10 +170,14 @@ class Component(kf.KCell):
 
             if center is None:
                 raise ValueError("Must specify center")
+            elif isinstance(center, kdb.DPoint):
+                layer = get_layer(layer)
+                trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
+            else:
+                layer = get_layer(layer)
+                trans = kdb.DCplxTrans(1, orientation, False, center[0], center[1])
 
-            layer = get_layer(layer)
-            trans = kdb.DCplxTrans(1, orientation, False, center[0], center[1])
-            self.create_port(
+            return self.create_port(
                 name=name,
                 dwidth=round(width / self.kcl.dbu) * self.kcl.dbu,
                 layer=layer,

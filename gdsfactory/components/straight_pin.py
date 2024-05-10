@@ -1,4 +1,5 @@
 """Straight Doped PIN waveguide."""
+
 from __future__ import annotations
 
 from functools import partial
@@ -46,8 +47,8 @@ def straight_pin(
     """
     c = Component()
     if taper:
-        taper = gf.get_component(taper)
-        length -= 2 * taper.d.xsize
+        _taper = gf.get_component(taper)
+        length -= 2 * _taper.d.xsize
 
     wg = c << gf.components.straight(
         cross_section=cross_section,
@@ -55,24 +56,20 @@ def straight_pin(
     )
 
     if taper:
-        t1 = c << taper
-        t2 = c << taper
+        t1 = c << _taper
+        t2 = c << _taper
         t1.connect("o2", wg.ports["o1"])
         t2.connect("o2", wg.ports["o2"])
         c.add_port("o1", port=t1.ports["o1"])
         c.add_port("o2", port=t2.ports["o1"])
 
     else:
-        c.add_ports(wg.get_ports_list())
+        c.add_ports(wg.ports)
 
     via_stack_length = length
-    via_stack_top = c << via_stack(
-        size=(via_stack_length, via_stack_width),
-    )
-    via_stack_bot = c << via_stack(
-        size=(via_stack_length, via_stack_width),
-    )
-
+    _via_stack = gf.get_component(via_stack, size=(via_stack_length, via_stack_width))
+    via_stack_top = c << _via_stack
+    via_stack_bot = c << _via_stack
     via_stack_bot.xmin = wg.xmin
     via_stack_top.xmin = wg.xmin
 

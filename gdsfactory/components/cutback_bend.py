@@ -14,7 +14,7 @@ from gdsfactory.typings import ComponentSpec
 
 
 def _get_bend_size(bend90: Component) -> float64:
-    p1, p2 = list(bend90.ports.values())[:2]
+    p1, p2 = list(bend90.ports)[:2]
     bsx = abs(p2.x - p1.x)
     bsy = abs(p2.y - p1.y)
     return max(bsx, bsy)
