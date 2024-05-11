@@ -111,8 +111,8 @@ def straight_heater_metal_undercut(
         via_stack_east.d.xmax = xmax
 
         valid_orientations = {p.orientation for p in via_stack.ports}
-        p1 = via_stack_west.ports.filter(orientation=port_orientation1)
-        p2 = via_stack_east.ports.filter(orientation=port_orientation2)
+        p1 = list(via_stack_west.ports.filter(orientation=port_orientation1))
+        p2 = list(via_stack_east.ports.filter(orientation=port_orientation2))
 
         if not p1:
             raise ValueError(
@@ -272,7 +272,7 @@ if __name__ == "__main__":
     # c = straight_heater_metal_undercut(length=200)
     # n = c.get_netlist()
     # c = straight_heater_metal(length=20)
-    c = straight_heater_metal(length=50)
+    c = straight_heater_metal_90_90(length=50)
     c.show()
     # scene = c.to_3d()
     # scene.show()

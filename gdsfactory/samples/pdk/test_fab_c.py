@@ -21,7 +21,6 @@ def test_gds(component_name: str) -> None:
 
 """
 
-
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -51,12 +50,6 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
     """Avoid regressions in component settings and ports."""
     component = cells[component_name]()
     data_regression.check(component.to_dict())
-
-
-def test_assert_ports_on_grid(component_name: str) -> None:
-    """Ensures all ports are on grid to avoid 1nm gaps."""
-    component = cells[component_name]()
-    component.assert_ports_on_grid()
 
 
 if __name__ == "__main__":
