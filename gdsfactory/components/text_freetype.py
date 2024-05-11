@@ -64,7 +64,6 @@ def text_freetype(
                         f'text(): Warning, some characters ignored, no geometry for character "{chr(ascii_val)}" with ascii value {ascii_val}. Valid characters: {valid_chars}'
                     )
             ref = t.add_ref(char)
-            t.absorb(ref)
             yoffset -= 1500 * scaling
             xoffset = 0
     else:
@@ -89,9 +88,12 @@ def text_freetype(
             for letter in line:
                 letter_dev = Component()
                 letter_template, advance_x = _get_glyph(font, letter)
-                for _, points in letter_template.get_polygons_points().items():
+                for _, polygon_points in letter_template.get_polygons_points(
+                    scale=size
+                ).items():
                     for layer in layers:
-                        letter_dev.add_polygon(points * size, layer=layer)
+                        for points in polygon_points:
+                            letter_dev.add_polygon(points, layer=layer)
                 ref = char.add_ref(letter_dev)
                 ref.d.move((xoffset, 0))
                 xoffset += size * advance_x

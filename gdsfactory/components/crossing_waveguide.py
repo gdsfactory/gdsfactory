@@ -1,4 +1,5 @@
 """FIXME or delete me"""
+
 from __future__ import annotations
 
 from functools import partial
@@ -172,10 +173,8 @@ def crossing_etched(
 
     # Draw the ellipses
     c = Component()
-    ellipse1 = c << ellipse(radii=(r1, r2), layer=layer_wg)
-    ellipse2 = c << ellipse(radii=(r2, r1), layer=layer_wg)
-    c.absorb(ellipse1)
-    c.absorb(ellipse2)
+    _ = c << ellipse(radii=(r1, r2), layer=layer_wg)
+    _ = c << ellipse(radii=(r2, r1), layer=layer_wg)
 
     a = L + w / 2
     h = width / 2
@@ -215,6 +214,7 @@ def crossing_etched(
             layer=layer_wg,
         )
     c.auto_rename_ports()
+    c.flatten()
     return c
 
 

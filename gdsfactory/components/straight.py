@@ -1,4 +1,5 @@
 """Straight waveguide."""
+
 from __future__ import annotations
 
 import gdsfactory as gf
@@ -39,7 +40,7 @@ def straight(
     c.info["length"] = length
     c.info["width"] = x.width if len(x.sections) == 0 else x.sections[0].width
     c.add_route_info(cross_section=x, length=length)
-    c.absorb(ref)
+    c.flatten()
     return c
 
 

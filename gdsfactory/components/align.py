@@ -109,7 +109,7 @@ def add_frame(
     rr = c.add_ref(rv)
     rl.d.movex(-x)
     rr.d.movex(+x)
-    c.absorb(cref)
+    c.flatten()
     return c
 
 

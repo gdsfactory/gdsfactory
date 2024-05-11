@@ -76,8 +76,7 @@ def mmi(
         cross_section=cross_section,
     )
 
-    mmi = c << straight(length=length_mmi, cross_section=xs_mmi)
-
+    _ = c << straight(length=length_mmi, cross_section=xs_mmi)
     wg_spacing_input = gap_input_tapers + width_taper
     wg_spacing_output = gap_output_tapers + width_taper
 
@@ -119,11 +118,10 @@ def mmi(
         taper_ref = c << _taper
         taper_ref.connect("o2", port, allow_width_mismatch=True)
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
-        c.absorb(taper_ref)
 
-    c.absorb(mmi)
     x.add_bbox(c)
     c.auto_rename_ports()
+    c.flatten()
     return c
 
 

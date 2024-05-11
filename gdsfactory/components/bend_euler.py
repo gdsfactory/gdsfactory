@@ -86,10 +86,10 @@ def bend_euler(
     top = None if int(angle) in {180, -180, -90} else 0
     bottom = 0 if int(angle) in {-90} else None
     x.add_bbox(c, top=top, bottom=bottom)
-    c.absorb(ref)
     c.add_route_info(
         cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
     )
+    c.flatten()
     return c
 
 

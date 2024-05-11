@@ -37,7 +37,6 @@ def pad(
     )
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
-    c.absorb(c_ref)
     c.info["size"] = size
     c.info["xsize"] = size[0]
     c.info["ysize"] = size[1]
@@ -49,13 +48,12 @@ def pad(
             sizes.append(size)
 
         for layer, size in zip(bbox_layers, sizes):
-            ref = c.add_ref(
+            c.add_ref(
                 compass(
                     size=size,
                     layer=layer,
                 )
             )
-            c.absorb(ref)
 
     width = size[1] if port_orientation in {0, 180} else size[0]
 
@@ -67,6 +65,7 @@ def pad(
         orientation=port_orientation,
         width=width,
     )
+    c.flatten()
     return c
 
 

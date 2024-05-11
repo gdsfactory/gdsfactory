@@ -54,12 +54,11 @@ def bend_circular_heater(
     path = p.extrude(xs)
     ref = c << path
     c.add_ports(ref.ports)
-    c.absorb(ref)
     c.info["length"] = np.round(p.length(), 3)
     c.info["dx"] = abs(p.points[0][0] - p.points[-1][0])
     c.info["dy"] = abs(p.points[0][0] - p.points[-1][0])
-
     x.validate_radius(radius)
+    c.flatten()
     return c
 
 

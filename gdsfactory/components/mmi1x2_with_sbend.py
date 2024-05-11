@@ -60,9 +60,6 @@ def mmi1x2_with_sbend(
         c.add_port("o2", port=top_sbend.ports["o2"])
         c.add_port("o3", port=bot_sbend.ports["o2"])
 
-        c.absorb(top_sbend)
-        c.absorb(bot_sbend)
-
     else:
         c.add_port("o1", port=sl.ports["o1"])
         c.add_port("o2", port=s_topr.ports["o2"])

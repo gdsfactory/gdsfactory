@@ -417,7 +417,7 @@ class Component(kf.KCell):
         return polygons
 
     def get_polygons_points(
-        self, merge: bool = False
+        self, merge: bool = False, scale: float | None = None
     ) -> dict[tuple[int, int], list[tuple[float, float]]]:
         """Returns a dict with list of points per layer.
 
@@ -429,12 +429,20 @@ class Component(kf.KCell):
         for layer_tuple, polygons in polygons_dict.items():
             all_points = []
             for polygon in polygons:
-                points = [
-                    (point.x, point.y)
-                    for point in polygon.to_simple_polygon()
-                    .to_dtype(self.kcl.dbu)
-                    .each_point()
-                ]
+                if scale:
+                    points = [
+                        (point.x * scale, point.y * scale)
+                        for point in polygon.to_simple_polygon()
+                        .to_dtype(self.kcl.dbu)
+                        .each_point()
+                    ]
+                else:
+                    points = [
+                        (point.x, point.y)
+                        for point in polygon.to_simple_polygon()
+                        .to_dtype(self.kcl.dbu)
+                        .each_point()
+                    ]
                 all_points.append(points)
             polygons_points[layer_tuple] = all_points
         return polygons_points

@@ -68,7 +68,7 @@ def mmi1x2(
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    mmi = c << straight(length=length_mmi, cross_section=xs_mmi)
+    _ = c << straight(length=length_mmi, cross_section=xs_mmi)
 
     ports = [
         gf.Port(
@@ -101,9 +101,8 @@ def mmi1x2(
         taper_ref = c << _taper
         taper_ref.connect(port="o2", other=port, allow_width_mismatch=True)
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
-        c.absorb(taper_ref)
 
-    c.absorb(mmi)
+    c.flatten()
     x.add_bbox(c)
     return c
 

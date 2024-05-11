@@ -47,7 +47,6 @@ def text_rectangular(
                     pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
                 )
                 ref.d.move((xoffset, yoffset))
-                component.absorb(ref)
                 xoffset += pixel_size * 6
 
         yoffset -= pixel_size * 6

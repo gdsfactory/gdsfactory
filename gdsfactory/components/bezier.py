@@ -6,7 +6,7 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import ErrorType
-from gdsfactory.functions import angles_deg, curvature, path_length, snap_angle
+from gdsfactory.functions import angles_deg, curvature, snap_angle
 from gdsfactory.typings import Coordinate, Coordinates, CrossSectionSpec
 
 
@@ -63,9 +63,8 @@ def bezier(
     bend = path.extrude(xs)
     bend_ref = c << bend
     c.add_ports(bend_ref.ports)
-    c.absorb(bend_ref)
     curv = curvature(path_points, t)
-    length = gf.snap.snap_to_grid(path_length(path_points))
+    length = gf.snap.snap_to_grid(path.length())
     if max(np.abs(curv)) == 0:
         min_bend_radius = np.inf
     else:
