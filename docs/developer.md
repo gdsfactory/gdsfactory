@@ -169,11 +169,6 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
     data_regression.check(component.to_dict())
 
 
-def test_assert_ports_on_grid(component_name: str) -> None:
-    """Ensures all ports are on grid to avoid 1nm gaps."""
-    component = cells[component_name]()
-    component.assert_ports_on_grid()
-
 ```
 
 For questions join the [![Join the chat at https://gitter.im/gdsfactory-dev/community](https://badges.gitter.im/gdsfactory-dev/community.svg)](https://gitter.im/gdsfactory-dev/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) with [element.io](https://element.io/download) or use GitHub issues or discussions.

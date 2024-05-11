@@ -1,4 +1,5 @@
 """Serialize component settings into YAML or strings."""
+
 from __future__ import annotations
 
 import functools
@@ -40,13 +41,11 @@ def complex_encoder(obj, digits=DEFAULT_SERIALIZATION_MAX_DIGITS):
     return {"real": real_part, "imag": imag_part}
 
 
-def clean_value_json(value: Any) -> str | int | float | dict | list | bool | None:
+def clean_value_json(
+    value: Any, include_module: bool = True
+) -> str | int | float | dict | list | bool | None:
     """Return JSON serializable object."""
     from gdsfactory.path import Path
-    from gdsfactory.pdk import get_active_pdk
-
-    active_pdk = get_active_pdk()
-    include_module = active_pdk.cell_decorator_settings.include_module
 
     if isinstance(value, pydantic.BaseModel):
         return clean_dict(value.model_dump())

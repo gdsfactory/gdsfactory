@@ -151,7 +151,7 @@ class Pdk(BaseModel):
     default_symbol_factory: Callable = Field(
         default=floorplan_with_block_letters, exclude=True
     )
-    base_pdk: Pdk | None = None
+    base_pdks: list[Pdk] = Field(default_factory=list)
     default_decorator: Callable[[Component], None] | None = Field(
         default=None, exclude=True
     )
@@ -166,6 +166,7 @@ class Pdk(BaseModel):
     routing_strategies: dict[str, Callable] | None = None
     bend_points_distance: float = 20 * nm
     connectivity: list[ConnectivitySpec] | None = None
+    max_name_length: int = CONF.max_name_length
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
@@ -180,25 +181,19 @@ class Pdk(BaseModel):
 
         logger.debug(f"{self.name!r} PDK is now active")
 
-        if self.base_pdk:
-            self.add_base_pdk()
+        for pdk in self.base_pdks:
+            cross_sections = pdk.cross_sections
+            cross_sections.update(self.cross_sections)
+            cells = pdk.cells
+            self.cross_sections = cross_sections
+            cells.update(self.cells)
+            self.cells.update(cells)
+
+            # layers = pdk.layers
+            # layers.update(self.layers)
+            # self.layers.update(layers)
+
         _set_active_pdk(self)
-
-    def add_base_pdk(self):
-        """Update pdk with self.base_pdk."""
-        cross_sections = self.base_pdk.cross_sections
-        cross_sections.update(self.cross_sections)
-        cells = self.base_pdk.cells
-        self.cross_sections = cross_sections
-        cells.update(self.cells)
-        self.cells.update(cells)
-
-        layers = self.base_pdk.layers
-        layers.update(self.layers)
-        self.layers.update(layers)
-
-        if not self.default_decorator:
-            self.default_decorator = self.base_pdk.default_decorator
 
     def register_cells(self, **kwargs) -> None:
         """Register cell factories."""

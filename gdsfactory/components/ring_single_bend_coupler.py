@@ -203,5 +203,4 @@ if __name__ == "__main__":
     # c = coupler_bend(radius=5)
     # c = coupler_ring_bend()
     c = ring_single_bend_coupler()
-    # c.assert_ports_on_grid()
     c.show()

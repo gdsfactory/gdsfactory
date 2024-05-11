@@ -465,14 +465,13 @@ class Component(kf.KCell):
     def validate(cls, v, _info) -> Component:
         """Pydantic assumes component is valid if the following are true.
 
-        - name characters < pdk.cell_decorator_settings.max_name_length
         - is not empty (has references or polygons)
         """
         from gdsfactory.pdk import get_active_pdk
 
         pdk = get_active_pdk()
 
-        max_name_length = pdk.cell_decorator_settings.max_name_length
+        max_name_length = pdk.max_name_length
         assert isinstance(
             v, Component
         ), f"TypeError, Got {type(v)}, expecting Component"
