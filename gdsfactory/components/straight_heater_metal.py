@@ -103,12 +103,14 @@ def straight_heater_metal_undercut(
 
     if via_stack:
         via_stack = gf.get_component(via_stack)
-        xmin = c.d.xmin
-        xmax = c.d.xmax
+        dx = via_stack.d.xsize / 2 + heater_taper_length or 0
+        dx -= length_straight
+
         via_stack_west = c << via_stack
         via_stack_east = c << via_stack
-        via_stack_west.d.xmin = xmin
-        via_stack_east.d.xmax = xmax
+
+        via_stack_west.d.movex(-dx)
+        via_stack_east.d.movex(+dx + length)
 
         valid_orientations = {p.orientation for p in via_stack.ports}
         p1 = list(via_stack_west.ports.filter(orientation=port_orientation1))
@@ -264,7 +266,7 @@ def test_ports() -> None:
 
 if __name__ == "__main__":
     # test_ports()
-    # c = straight_heater_metal_undercut()
+    c = straight_heater_metal_simple()
     # print(c.ports['o2'].center[0])
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)
@@ -272,7 +274,7 @@ if __name__ == "__main__":
     # c = straight_heater_metal_undercut(length=200)
     # n = c.get_netlist()
     # c = straight_heater_metal(length=20)
-    c = straight_heater_metal_90_90(length=50)
+    # c = straight_heater_metal_90_90(length=50)
     c.show()
     # scene = c.to_3d()
     # scene.show()
