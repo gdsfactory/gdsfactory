@@ -244,7 +244,8 @@ mzm = partial(
 )
 
 if __name__ == "__main__":
-    c = mzm()
+    c = mzi_coupler()
+    # c = mzm()
     # from gdsfactory import get_generic_pdk
 
     # pdk = get_generic_pdk()

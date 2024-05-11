@@ -13,7 +13,7 @@ terminator_function = partial(taper_function, width2=0.1)
 
 @cell
 def add_termination(
-    component: Component = "straight",
+    component: ComponentSpec = "straight",
     port_names: tuple[str, ...] | None = None,
     terminator: ComponentSpec = terminator_function,
     terminator_port_name: str | None = None,
@@ -22,7 +22,7 @@ def add_termination(
 
     Args:
         component: to add terminator.
-        ports: optional list of ports to terminate (defaults to all).
+        port_names: ports to add terminator.
         terminator: factory for the terminator.
         terminator_port_name: for the terminator to connect to the component ports.
     """
