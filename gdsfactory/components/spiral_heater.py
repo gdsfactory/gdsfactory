@@ -478,11 +478,11 @@ def test_length_spiral_racetrack() -> None:
 
 
 if __name__ == "__main__":
-    test_length_spiral_racetrack()
+    # test_length_spiral_racetrack()
 
     # c = spiral_racetrack(cross_section="xs_rc")
     # c = spiral_racetrack()
-    # c = spiral_racetrack_fixed_length()
+    c = spiral_racetrack_fixed_length()
     # c = spiral_racetrack_heater_metal()
-    c = spiral_racetrack_heater_doped()
+    # c = spiral_racetrack_heater_doped()
     c.show()

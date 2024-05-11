@@ -42,8 +42,8 @@ def straight_heater_meander_doped(
     layers_doping: LayerSpecs = ("P", "PP", "PPP"),
     radius: float = 5.0,
     via_stack: ComponentSpec | None = via_stack,
-    port_orientation1: int | None = None,
-    port_orientation2: int | None = None,
+    port_orientation1: float | None = None,
+    port_orientation2: float | None = None,
     straight_widths: Floats = (0.8, 0.9, 0.8),
     taper_length: float = 10,
 ) -> Component:
@@ -188,21 +188,32 @@ def straight_heater_meander_doped(
 
     if layers_doping and via_stack:
         via = via_stacke = via_stackw = gf.get_component(via_stack)
-        dx = via_stackw.d.xsize / 2 or 0
-        via_stack_west_center = heater.size_info.cw + (dx, 0)
-        via_stack_east_center = heater.size_info.ce - (dx, 0)
-
-        via_stack_east_center = gf.snap.snap_to_grid(via_stack_east_center)
-        via_stack_west_center = gf.snap.snap_to_grid(via_stack_west_center)
+        dx = via_stackw.d.xsize / 2 + taper_length or 0
+        via_stack_west_center = (
+            heater.d.xmin - dx,
+            heater.d.y,
+        )
+        via_stack_east_center = (
+            heater.d.xmax + dx,
+            heater.d.y,
+        )
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
-        via_stack_west.move(via_stack_west_center)
-        via_stack_east.move(via_stack_east_center)
+        via_stack_west.d.move(via_stack_west_center)
+        via_stack_east.d.move(via_stack_east_center)
 
-        valid_orientations = {p.orientation for p in via.ports.values()}
-        p1 = via_stack_west.ports.filter(orientation=port_orientation1)
-        p2 = via_stack_east.ports.filter(orientation=port_orientation2)
+        valid_orientations = {p.orientation for p in via.ports}
+
+        if port_orientation1 is None:
+            p1 = via_stack_west.ports
+        else:
+            p1 = via_stack_west.ports.filter(orientation=port_orientation1)
+
+        if port_orientation2 is None:
+            p2 = via_stack_east.ports
+        else:
+            p2 = via_stack_east.ports.filter(orientation=port_orientation2)
 
         if not p1:
             raise ValueError(

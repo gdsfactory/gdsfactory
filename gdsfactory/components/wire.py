@@ -77,13 +77,10 @@ def wire_corner45(
         )
 
     c = Component()
-
     a = width / 2
-
     xpts = [0, radius + a, radius + a, -np.sqrt(2) * width]
     ypts = [-a, radius, radius + np.sqrt(2) * width, -a]
-
-    c.add_polygon(list(zip([xpts, ypts])), layer=layer)
+    c.add_polygon(list(zip(xpts, ypts)), layer=layer)
 
     c.add_port(
         name="e1",
@@ -92,6 +89,7 @@ def wire_corner45(
         orientation=180,
         layer=layer,
         port_type="electrical",
+        cross_section=x,
     )
     c.add_port(
         name="e2",
@@ -100,6 +98,7 @@ def wire_corner45(
         orientation=90,
         layer=layer,
         port_type="electrical",
+        cross_section=x,
     )
     c.info["length"] = np.sqrt(2) * radius
     return c
@@ -166,5 +165,6 @@ def wire_corner_sections(
 
 
 if __name__ == "__main__":
-    c = wire_corner()
+    # c = wire_corner()
+    c = wire_corner45()
     c.show()

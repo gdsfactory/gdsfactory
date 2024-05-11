@@ -343,7 +343,11 @@ class Path(_GeometryHelper):
         K = np.gradient(theta, s, edge_order=2)
         return s, K
 
-    def hash_geometry(self, precision: float = 1e-4) -> str:
+    def __hash__(self) -> int:
+        """Computes a hash of the Path."""
+        return self.hash_geometry()
+
+    def hash_geometry(self, precision: float = 1e-4) -> int:
         """Computes an SHA1 hash of the points in the Path and the start_angle and end_angle.
 
         Args:
@@ -365,33 +369,25 @@ class Path(_GeometryHelper):
                 hash(Polygon 2 on layer 2 points: [(x1,y1),(x2,y2),(x3,y3)] ),
             )
         """
-        # A random offset which fixes common rounding errors intrinsic
-        # to floating point math. Example: with a precision of 0.1, the
-        # floating points 7.049999 and 7.050001 round to different values
-        # (7.0 and 7.1), but offset values (7.220485 and 7.220487) don't
         magic_offset = 0.17048614
 
+        # Create a SHA1 hash object
         final_hash = hashlib.sha1()
-        points = (
-            np.ascontiguousarray(
-                (self.points / precision) + magic_offset, dtype=np.float64
-            )
-            .round()
-            .astype(np.int64)
+
+        # Adjust points by precision and add the magic offset, then convert to bytes
+        adjusted_points = (
+            ((self.points / precision) + magic_offset).round().astype(np.int64)
         )
-        final_hash.update(points)
-        angles = (
-            (
-                np.ascontiguousarray(
-                    (self.start_angle, self.end_angle), dtype=np.float64
-                )
-                / precision
-            )
-            .round()
-            .astype(np.int64)
+        final_hash.update(adjusted_points.tobytes())
+
+        # Adjust angles by precision, round and convert to bytes
+        adjusted_angles = np.array([self.start_angle, self.end_angle])
+        adjusted_angles = (
+            ((adjusted_angles / precision) + magic_offset).round().astype(np.int64)
         )
-        final_hash.update(angles)
-        return final_hash.hexdigest()
+        final_hash.update(adjusted_angles.tobytes())
+        hash_bytes = final_hash.digest()
+        return int.from_bytes(hash_bytes, byteorder="big")
 
     @classmethod
     def __get_validators__(cls):
@@ -404,7 +400,7 @@ class Path(_GeometryHelper):
         assert isinstance(v, Path), f"TypeError, Got {type(v)}, expecting Path"
         return v
 
-    def to_dict(self) -> dict[str, str]:
+    def to_dict(self) -> dict[str, str | int | float]:
         return dict(hash=self.hash_geometry())
 
     def plot(self) -> None:
@@ -418,9 +414,12 @@ class Path(_GeometryHelper):
             p = gf.path.euler(radius=10)
             p.plot()
         """
-        from gdsfactory.quickplotter import quickplot
+        import matplotlib.pyplot as plt
 
-        return quickplot(self)
+        plt.plot(self.points[:, 0], self.points[:, 1])
+        plt.axis("equal")
+        plt.grid(True)
+        plt.show()
 
     def extrude(
         self,
@@ -1576,6 +1575,8 @@ if __name__ == "__main__":
     # x1 = gf.CrossSection(sections=(s0, s1))
     x1 = gf.cross_section.xs_rc
     c = gf.path.extrude(P, x1)
+    print(hash(P))
+    # P.plot()
 
     # ref = c.ref()
     # print(ref)
