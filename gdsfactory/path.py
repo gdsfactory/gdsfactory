@@ -400,9 +400,6 @@ class Path(_GeometryHelper):
         assert isinstance(v, Path), f"TypeError, Got {type(v)}, expecting Path"
         return v
 
-    def to_dict(self) -> dict[str, str | int | float]:
-        return dict(hash=self.hash_geometry())
-
     def plot(self) -> None:
         """Plot path in matplotlib.
 
