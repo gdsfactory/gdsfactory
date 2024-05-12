@@ -87,8 +87,9 @@ def straight_heater_meander_doped(
         layer=x.layer,
         width=x.width,
     )
-    route = gf.routing.route_single(c, p1, p2, radius=radius)
 
+    dummy = gf.Component()
+    route = gf.routing.route_single(dummy, p1, p2, radius=radius)
     cross_section2 = cross_section
 
     straight_length = gf.snap.snap_to_grid2x(
@@ -113,14 +114,15 @@ def straight_heater_meander_doped(
             length=taper_length,
         )
 
-        straight_with_tapers = gf.c.extend_ports(straight, extension=taper)
-        print(straight_with_tapers.name)
+        straight_i = gf.c.extend_ports(straight, extension=taper)
+        straight_with_tapers = straight_i.copy()
+        straight_with_tapers.name = f"{straight_i.name}_{row+1}"
 
         straight_ref = c << straight_with_tapers
         if row < len(straight_widths) // 2:
             straight_ref.d.y = row * spacing
         else:
-            straight_ref.y = (row + 1) * spacing
+            straight_ref.d.y = (row + 1) * spacing
         ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
         ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
 
@@ -138,8 +140,8 @@ def straight_heater_meander_doped(
 
         route = gf.routing.route_single(
             c,
-            extra_straight1.ports["o2"],
             extra_straight2.ports["o2"],
+            extra_straight1.ports["o2"],
             radius=radius,
             cross_section=cross_section,
         )
@@ -156,8 +158,8 @@ def straight_heater_meander_doped(
 
         route = gf.routing.route_single(
             c,
-            extra_straight1.ports["o2"],
             extra_straight2.ports["o2"],
+            extra_straight1.ports["o2"],
             radius=radius,
             cross_section=cross_section,
         )
@@ -179,6 +181,8 @@ def straight_heater_meander_doped(
             width=heater_width,
             layer="WG",
             sections=sectionlist,
+            port_names=("e1", "e2"),
+            port_types=("electrical", "electrical"),
         )
 
         heater = c << gf.c.straight(
@@ -189,20 +193,14 @@ def straight_heater_meander_doped(
 
     if layers_doping and via_stack:
         via = via_stacke = via_stackw = gf.get_component(via_stack)
-        dx = via_stackw.d.xsize / 2 + taper_length or 0
-        via_stack_west_center = (
-            heater.d.xmin - dx,
-            heater.d.y,
-        )
-        via_stack_east_center = (
-            heater.d.xmax + dx,
-            heater.d.y,
-        )
-
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
-        via_stack_west.d.move(via_stack_west_center)
-        via_stack_east.d.move(via_stack_east_center)
+        via_stack_west.connect(
+            "e3", heater["e1"], allow_layer_mismatch=True, allow_width_mismatch=True
+        )
+        via_stack_east.connect(
+            "e1", heater["e2"], allow_layer_mismatch=True, allow_width_mismatch=True
+        )
 
         valid_orientations = {p.orientation for p in via.ports}
 
@@ -257,7 +255,7 @@ if __name__ == "__main__":
     # c.add_port("o2", port=straight_array.ports[f"o2_{rows}_1"])
 
     c = straight_heater_meander_doped(
-        straight_widths=(0.5,) * 7,
+        # straight_widths=(0.5,) * 7,
         taper_length=10,
         # taper_length=10,
         length=2000,
