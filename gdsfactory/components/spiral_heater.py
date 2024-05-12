@@ -43,12 +43,11 @@ def spiral_racetrack(
     c = gf.Component()
 
     if with_inner_ports:
-        bend_s_component = bend_s_factory(
+        bend_s = bend_s_factory(
             (straight_length, -min_radius * 2 + 1 * spacings[0]),
             cross_section=cross_section_s or cross_section,
             **({"npoints": n_bend_points} if n_bend_points else {}),
         )
-        bend_s = type("obj", (object,), {"ports": bend_s_component.ports})
         c.info["length"] = 0
         c.add_port(
             "o3",
@@ -145,7 +144,6 @@ def spiral_racetrack_fixed_length(
         n_bend_points: optional bend points.
         with_inner_ports: if True, will build the spiral, but expose the inner ports where the S-bend would be.
     """
-
     c = gf.Component()
 
     xs_s_bend = cross_section_s or cross_section
@@ -197,7 +195,6 @@ def spiral_racetrack_fixed_length(
     in_wg.connect("o1", spiral.ports["o1"])
 
     c.info["length"] += spiral.ports["o1"].d.x - spiral.d.xmin
-
     c.add_port(
         "o2_temp",
         center=(spiral.ports["o1"].d.x + in_out_port_spacing, spiral.ports["o1"].d.y),

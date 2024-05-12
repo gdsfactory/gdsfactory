@@ -124,7 +124,7 @@ def mzi(
     )
     sxt = c << straight_x_top
 
-    length_x = length_x or sxt.d.xsize
+    length_x = length_x or abs(sxt.ports["o1"].d.x - sxt.ports["o2"].d.x)
 
     straight_x_bot = (
         gf.get_component(
@@ -134,9 +134,7 @@ def mzi(
         else gf.get_component(straight_x_bot)
     )
     sxb = c << straight_x_bot
-    if mirror_bot:
-        sxb.mirror_x()
-    sxb.connect("o1", b6.ports["o2"])
+    sxb.connect("o1", b6.ports["o2"], mirror=mirror_bot)
 
     b1 = c << bend
     b1.connect("o1", cp1.ports[port_e1_splitter])
@@ -165,8 +163,8 @@ def mzi(
     )
     route_single(
         c,
-        sxb.ports["o2"],
         cp2.ports[port_e0_combiner],
+        sxb.ports["o2"],
         straight=straight,
         bend=bend_spec,
         cross_section=cross_section,
@@ -244,7 +242,8 @@ mzm = partial(
 )
 
 if __name__ == "__main__":
-    c = mzi_coupler()
+    # c = mzi_coupler()
+    c = mzi1x2_2x2()
     # c = mzm()
     # from gdsfactory import get_generic_pdk
 

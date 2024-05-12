@@ -707,7 +707,6 @@ def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
     return named_sections
 
 
-@cell
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
