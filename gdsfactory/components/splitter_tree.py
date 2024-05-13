@@ -100,9 +100,9 @@ def splitter_tree(
                         i += 1
             if col > 0:
                 if row % 2 == 0:
-                    port_name = e0_port_name
-                if row % 2 == 1:
                     port_name = e1_port_name
+                if row % 2 == 1:
+                    port_name = e0_port_name
                 gf.routing.route_single(
                     c,
                     c.insts[f"coupler_{col-1}_{row//2}"].ports[port_name],

@@ -154,8 +154,8 @@ def mzi(
 
     route_single(
         c,
-        sxt.ports["o2"],
         cp2.ports[port_e1_combiner],
+        sxt.ports["o2"],
         straight=straight,
         bend=bend_spec,
         cross_section=cross_section,

@@ -6,7 +6,7 @@ from gdsfactory.port import Port
 from gdsfactory.typings import ComponentSpec, Strs
 
 
-@cell
+@cell(set_name=False)
 def extend_ports_list(
     ports: list[Port],
     extension: ComponentSpec,
@@ -25,6 +25,7 @@ def extend_ports_list(
 
     c = Component()
     extension = get_component(extension)
+    c.name = f"{extension.name}_extended_{c.cell_index()}"
 
     extension_port_name = extension_port_name or extension.ports[0]
     ignore_ports = ignore_ports or ()
