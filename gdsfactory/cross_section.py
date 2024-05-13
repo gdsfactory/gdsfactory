@@ -16,7 +16,13 @@ from types import ModuleType
 from typing import TYPE_CHECKING, Any, Literal
 
 import numpy as np
-from pydantic import BaseModel, ConfigDict, Field, field_serializer
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    field_serializer,
+    model_validator,
+)
 
 from gdsfactory.config import CONF, ErrorType, logger
 
@@ -124,6 +130,14 @@ class Section(BaseModel):
     offset_function: Callable | None = Field(default=None)
 
     model_config = ConfigDict(extra="forbid", frozen=True)
+
+    @model_validator(mode="before")
+    @classmethod
+    def generate_default_name(cls, data: Any) -> Any:
+        if not data.get("name"):
+            h = hashlib.md5(str(data).encode()).hexdigest()[:8]
+            data["name"] = f"s_{h}"
+        return data
 
     @field_serializer("width_function", "offset_function")
     def serialize_functions(self, func: Callable | None) -> str | None:
@@ -2426,4 +2440,6 @@ if __name__ == "__main__":
     # c = p.extrude(xs)
     # c = gf.c.straight(cross_section=xs)
     # xs = pn(slab_inset=0.2)
-    xs = metal1()
+    # xs = metal1()
+    s0 = Section(width=2, layer=(1, 0))
+    print(s0.name)

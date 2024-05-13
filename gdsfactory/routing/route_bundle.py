@@ -244,7 +244,7 @@ def route_bundle(
             gf.get_layer(layer) for layer in collision_check_layers
         ]
 
-    kf.routing.optical.route_bundle(
+    return kf.routing.optical.route_bundle(
         component,
         ports1,
         ports2,

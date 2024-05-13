@@ -707,6 +707,7 @@ def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
     return named_sections
 
 
+@cell(set_name=False)
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
@@ -752,7 +753,6 @@ def extrude(
 
     xsection_points = []
     c = Component()
-
     x = get_cross_section(cross_section)
 
     if isinstance(x, Transition):
@@ -989,7 +989,7 @@ def extrude(
     return c
 
 
-@cell
+@cell(set_name=False)
 def extrude_transition(
     p: Path,
     transition: Transition,
