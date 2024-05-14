@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     container: ghcr.io/gdsfactory/gdsfactory:main
     strategy:
+      fail-fast: false
       matrix:
         repo:
           - { owner: "gdsfactory", repo: "cspdk" }
