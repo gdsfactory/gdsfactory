@@ -19,7 +19,7 @@ jobs:
         repo:
           - { owner: "gdsfactory", repo: "cspdk" }
           - { owner: "gdsfactory", repo: "skywater130" }
-          - { owner: "gdsfactory", repo: "ubcpdk" }
+          - { owner: "gdsfactory", repo: "ubc" }
 
     steps:
       - name: Checkout this repository
