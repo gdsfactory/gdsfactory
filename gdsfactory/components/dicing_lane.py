@@ -31,7 +31,7 @@ def dicing_lane(
     layers = layers or [layer_dicing]
 
     for layer in layers:
-        m = gf.get_component(marker, layer=layer)
+        m = gf.get_component(marker)
         r = c << rectangle(size=size, layer=layer)
 
         mbr = c << m
