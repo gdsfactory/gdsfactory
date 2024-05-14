@@ -4,6 +4,7 @@ module: gdsfactory.components.C
 name: C
 settings:
   layer: WG
+  port_type: electrical
   size:
   - 10.0
   - 20.0
