@@ -40,4 +40,4 @@ jobs:
           pip install -e other-repo
           pip install -e .
           cd other-repo
-          pytest
+          make test
