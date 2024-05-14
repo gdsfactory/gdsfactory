@@ -1,39 +1,13 @@
 import pathlib
-from typing import Any
 
-from pydantic import BaseModel, model_validator
-
+import gdsfactory as gf
 from gdsfactory.technology.layer_views import LayerViews
 
-# required_layers = ["TEXT"]
-required_layers = []
 
-
-class LayerMap(BaseModel):
+class LayerMap(gf.LayerEnum):
     """You will need to create a new LayerMap with your specific foundry layers."""
 
-    model_config = {"frozen": True}
-
-    @model_validator(mode="after")
-    @classmethod
-    def check_required_layers(cls, data: Any) -> Any:
-        for layer in required_layers:
-            if layer not in data.model_fields.keys():
-                raise ValueError(f"{layer} layer must be defined")
-        return data
-
-    @model_validator(mode="after")
-    @classmethod
-    def check_all_layers_are_tuples_of_int(cls, data: Any) -> Any:
-        for key, layer in data.model_fields.items():
-            layer = layer.default
-            if (
-                not isinstance(layer, tuple)
-                or len(layer) != 2
-                or not all(isinstance(x, int) for x in layer)
-            ):
-                raise TypeError(f"{key} = {layer} must be a tuple of two integers")
-        return data
+    kcl = gf.constant(gf.kcl)
 
 
 def lyp_to_dataclass(lyp_filepath: str | pathlib.Path, overwrite: bool = True) -> str:
@@ -65,7 +39,7 @@ LAYER = LayerMapFab()
 
 
 if __name__ == "__main__":
-    layers = LayerMap()
+    layers = LayerMap
     # from gdsfactory.config import PATH
 
     # print(lyp_to_dataclass(PATH.klayout_lyp))

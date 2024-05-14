@@ -663,8 +663,16 @@ class Component(kf.KCell):
         self,
         show_labels: bool = False,
         show_ruler: bool = True,
+        return_fig: bool = False,
     ):
-        """Plots the Component using matplotlib."""
+        """Plots the Component using klayout.
+
+        Args:
+            show_labels: if True, shows labels.
+            show_ruler: if True, shows ruler.
+            return_fig: if True, returns the figure.
+
+        """
         from io import BytesIO
 
         import klayout.db as db  # noqa: F401
@@ -710,7 +718,8 @@ class Component(kf.KCell):
             left=0, right=1, top=1, bottom=0, wspace=0, hspace=0
         )  # Remove any padding
         plt.tight_layout(pad=0)  # Ensure no space is wasted
-        return fig
+        if return_fig:
+            return fig
 
     # Deprecated methods
     @property
