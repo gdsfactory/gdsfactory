@@ -34,7 +34,6 @@ jobs:
       - name: Run tests
         run: |
           ls other-repo
-          tree -L 2
           pip install other-repo
           pip install .
           cd other-repo
