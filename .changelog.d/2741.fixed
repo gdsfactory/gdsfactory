@@ -1,0 +1,1 @@
+Fixed issue #2740 where cross-section kwarg was ignored for generic pdk grating coupler array.
