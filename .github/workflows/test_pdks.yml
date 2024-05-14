@@ -21,6 +21,8 @@ jobs:
           - { owner: "gdsfactory", repo: "cspdk" }
           - { owner: "gdsfactory", repo: "skywater130" }
           - { owner: "gdsfactory", repo: "ubc" }
+          - { owner: "gdsfactory", repo: "gf180" }
+          - { owner: "gdsfactory", repo: "gplugins" }
 
     steps:
       - name: Checkout this repository
