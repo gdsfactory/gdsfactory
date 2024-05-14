@@ -1,4 +1,4 @@
-name: Test code
+name: Test PDKs
 
 on:
   pull_request:
