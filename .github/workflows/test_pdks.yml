@@ -14,7 +14,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container: ghcr.io/gdsfactory/gdsfactory:main
-
     strategy:
       matrix:
         repo:
@@ -24,16 +23,18 @@ jobs:
 
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout other repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ matrix.repo.owner }}/${{ matrix.repo.repo }}
           path: other-repo
 
       - name: Run tests
         run: |
+          ls other-repo
+          tree -L 2
           pip install other-repo
           pip install .
           cd other-repo
