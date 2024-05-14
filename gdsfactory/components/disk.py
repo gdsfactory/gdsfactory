@@ -88,7 +88,7 @@ def _generate_circles(
     else:
         circle.move(
             origin=circle.center,
-            destination=(straight_left.ports["o2"].center + (0, r_bend),),
+            destination=(straight_left.ports["o2"].center + (0, r_bend)),
         )
 
     if circle_cladding:
@@ -241,5 +241,5 @@ def disk_heater(
 
 if __name__ == "__main__":
     # c = disk_heater(wrap_angle_deg=75)
-    c = disk()
+    c = disk(wrap_angle_deg=000000000)
     c.show(show_ports=True)
