@@ -35,7 +35,7 @@ def grating_coupler_array(
         kwargs: cross_section settings.
     """
     c = Component()
-    grating_coupler = gf.get_component(grating_coupler, cross_section=cross_section)
+    grating_coupler = gf.get_component(grating_coupler)
 
     for i in range(n):
         gc = c << grating_coupler
