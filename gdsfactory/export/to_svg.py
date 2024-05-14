@@ -63,7 +63,7 @@ def to_svg(
 
                 if zmin is not None and layer_view.visible:
                     for polygon in polygons:
-                        poly_str = '    <path style="fill:%s"\n          d="' % color
+                        poly_str = f'    <path style="fill:{color}"\n          d="'
                         for n, p in enumerate(polygon):
                             poly_str += "M " if n == 0 else "L "
                             poly_str += f"{(p[0] - dx) * scale:0.6f} {(-(p[1] - dy) + ysize) * scale:0.6f} "

@@ -252,9 +252,8 @@ def _parse_layer(layer):
         gds_layer, gds_datatype = layer, 0
     else:
         raise ValueError(
-            """_parse_layer() was passed something
-            that could not be interpreted as a layer: layer = %s"""
-            % layer
+            f"""_parse_layer() was passed something
+            that could not be interpreted as a layer: {layer=}"""
         )
     if not isinstance(gds_layer, int):
         raise ValueError(f"invalid layer {layer}")

@@ -8,7 +8,14 @@ from gdsfactory.typings import ComponentFactory, Route
 
 
 def get_route_sbend(
-    port1: Port, port2: Port, *, bend_s: ComponentFactory = bend_s, **kwargs
+    port1: Port,
+    port2: Port,
+    *,
+    bend_s: ComponentFactory = bend_s,
+    allow_layer_mismatch: bool = False,
+    allow_width_mismatch: bool = False,
+    allow_type_mismatch: bool = False,
+    **kwargs,
 ) -> Route:
     """Returns an Sbend Route to connect two ports.
 
@@ -21,6 +28,9 @@ def get_route_sbend(
         npoints: number of points.
         with_cladding_box: square bounding box to avoid DRC errors.
         cross_section: function.
+        allow_layer_mismatch: allow layer mismatch.
+        allow_width_mismatch: allow width mismatch.
+        allow_type_mismatch: allow type mismatch.
         kwargs: cross_section settings.
 
     .. plot::
@@ -48,7 +58,13 @@ def get_route_sbend(
     bend = bend_s(size=size, **kwargs)
 
     bend_ref = bend.ref()
-    bend_ref.connect(list(bend_ref.ports.keys())[0], port1)
+    bend_ref.connect(
+        list(bend_ref.ports.keys())[0],
+        port1,
+        allow_layer_mismatch=allow_layer_mismatch,
+        allow_width_mismatch=allow_width_mismatch,
+        allow_type_mismatch=allow_type_mismatch,
+    )
 
     if port1.orientation is not None and port2.orientation is not None:
         orthogonality_error = abs(abs(port1.orientation - port2.orientation) - 180)

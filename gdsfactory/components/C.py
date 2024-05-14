@@ -10,6 +10,7 @@ def C(
     width: float = 1.0,
     size: tuple[float, float] = (10.0, 20.0),
     layer: LayerSpec = "WG",
+    port_type: str = "electrical",
 ) -> Component:
     """C geometry with ports on both ends.
 
@@ -19,6 +20,7 @@ def C(
         width: of the line.
         size: length and height of the base.
         layer: layer spec.
+        port_type: optical or electrical.
 
     .. code::
 
@@ -46,8 +48,10 @@ def C(
         (-w, -w),
     ]
     c.add_polygon(points, layer=layer)
-    c.add_port(name="o1", center=(s1, s2), width=width, orientation=0, layer=layer)
-    c.add_port(name="o2", center=(s1, 0), width=width, orientation=0, layer=layer)
+    port_settings = dict(width=width, orientation=0, layer=layer, port_type=port_type)
+    c.add_port(name="o1", center=(s1, s2), **port_settings)
+    c.add_port(name="o2", center=(s1, 0), **port_settings)
+    c.auto_rename_ports()
     return c
 
 
