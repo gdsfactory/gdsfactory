@@ -51,6 +51,7 @@ def C(
     port_settings = dict(width=width, orientation=0, layer=layer, port_type=port_type)
     c.add_port(name="o1", center=(s1, s2), **port_settings)
     c.add_port(name="o2", center=(s1, 0), **port_settings)
+    c.auto_rename_ports()
     return c
 
 
