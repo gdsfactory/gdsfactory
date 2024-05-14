@@ -11,8 +11,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  clone-and-test:
+  test:
     runs-on: ubuntu-latest
+    container: ghcr.io/gdsfactory/gdsfactory:main
 
     strategy:
       matrix:
@@ -20,7 +21,6 @@ jobs:
           - { owner: "gdsfactory", repo: "cspdk" }
           - { owner: "gdsfactory", repo: "skywater130" }
           - { owner: "gdsfactory", repo: "ubcpdk" }
-        python-version: [3.11]
 
     steps:
       - name: Checkout this repository
@@ -30,24 +30,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: ${{ matrix.repo.owner }}/${{ matrix.repo.repo }}
-          path: ${{ matrix.repo.repo }}
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      # - name: Install dependencies
-      #   run: |
-      #     cd
-      #     python -m venv venv
-      #     source venv/bin/activate
-      #     pip install -r requirements.txt
+          path: other-repo
 
       - name: Run tests
         run: |
-          pip install ${{ matrix.repo.repo }}
+          pip install other-repo
           pip install .
-          cd ${{ matrix.repo.repo}}
-          # source venv/bin/activate
+          cd other-repo
           pytest
