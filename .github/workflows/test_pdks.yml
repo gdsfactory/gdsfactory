@@ -23,6 +23,7 @@ jobs:
           - { owner: "gdsfactory", repo: "ubc" }
           - { owner: "gdsfactory", repo: "gf180" }
           - { owner: "gdsfactory", repo: "gplugins" }
+          - { owner: "gdsfactory", repo: "vtt" }
 
     steps:
       - name: Checkout this repository
