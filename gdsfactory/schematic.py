@@ -188,7 +188,7 @@ class Schematic(BaseModel):
         plt.figure()
         netlist = self.netlist
         connections = netlist.connections
-        placements = self.placements if self.placements else netlist.placements
+        placements = self.placements or netlist.placements
         G = nx.Graph()
         G.add_edges_from(
             [
