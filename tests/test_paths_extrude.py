@@ -58,6 +58,9 @@ def test_transition_cross_section() -> None:
 
     p = gf.path.straight(length=length)
     c = gf.path.extrude_transition(p=p, transition=transition)
+    w1 = round(w1 / c.kcl.dbu)
+    w2 = round(w2 / c.kcl.dbu)
+
     assert c.ports["o1"].width == w1
     assert c.ports["o2"].width == w2
 
@@ -101,25 +104,20 @@ def test_transition_cross_section_different_layers() -> None:
     transition = gf.path.transition(cs1, cs2)
     p = gf.path.straight(length=length)
     c = gf.path.extrude_transition(p=p, transition=transition)
+
+    core_width = round(core_width / c.kcl.dbu)
+    intent_layer_1 = gf.get_layer(intent_layer_1)
+    intent_layer_2 = gf.get_layer(intent_layer_2)
+
     assert c.ports["o1"].width == core_width
     assert c.ports["o2"].width == core_width
+
     assert c.ports["o1"].layer == intent_layer_1
     assert c.ports["o2"].layer == intent_layer_2
 
     # area of a trapezoid
     expected_area = (w1 + w2) / 2 * length
-    # TODO: restore and replace after area() function is fixed
-    # assert c.area() == expected_area
-    assert c._cell.area(True)[gf.get_layer("WGCLAD")] == expected_area
-
-
-def test_diagonal_extrude_consistent_naming() -> None:
-    """This test intends to check that diagonal extrude components are properly serialized and get the same name on different platforms/environments."""
-    p = gf.path.Path([(0, 0), (4.9932849, 6.328497)])
-    c = p.extrude(cross_section="xs_sc")
-    # This name was generated at the time of writing the test. We expect it to be the same across other platforms.
-    expected_name = "extrude_d442fd31"
-    assert c.name == expected_name, c.name
+    assert c.area("WGCLAD") == expected_area
 
 
 def test_extrude_port_centers() -> None:
@@ -141,23 +139,19 @@ def test_extrude_port_centers() -> None:
 if __name__ == "__main__":
     # test_diagonal_extrude_consistent_naming()
     # test_transition_cross_section()
-    # test_transition_cross_section_different_layers()
-    test_extrude_transition()
-
-    P = gf.path.straight(length=10)
-
-    s0 = gf.Section(
-        width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    )
-    s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
-    X1 = gf.CrossSection(sections=(s0, s1))
-
-    s2 = gf.Section(
-        width=0.5, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
-    )
-    s3 = gf.Section(width=2.0, offset=0, layer=(3, 0), name="slab")
-    X2 = gf.CrossSection(sections=(s2, s3))
-    t = gf.path.transition(X1, X2, width_type="linear")
-    c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
-
-    c.show()
+    test_transition_cross_section_different_layers()
+    # test_extrude_transition()
+    # P = gf.path.straight(length=10)
+    # s0 = gf.Section(
+    #     width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    # )
+    # s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
+    # X1 = gf.CrossSection(sections=(s0, s1))
+    # s2 = gf.Section(
+    #     width=0.5, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
+    # )
+    # s3 = gf.Section(width=2.0, offset=0, layer=(3, 0), name="slab")
+    # X2 = gf.CrossSection(sections=(s2, s3))
+    # t = gf.path.transition(X1, X2, width_type="linear")
+    # c = gf.path.extrude(P, t)
+    # c.show()

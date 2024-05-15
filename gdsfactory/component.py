@@ -124,6 +124,10 @@ class Component(kf.KCell):
         info: dictionary that includes derived properties, simulation_settings, settings (test_protocol, docs, ...)
     """
 
+    @property
+    def layers(self) -> list[tuple[int, int]]:
+        return list(self.get_polygons().keys())
+
     def add_port(  # type: ignore[override]
         self,
         name: str | None = None,
