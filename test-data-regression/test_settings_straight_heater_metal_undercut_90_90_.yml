@@ -1,6 +1,6 @@
 info:
   resistance: 0
-name: straight_heater_metal_undercut_L320_LUS6_LU30_LS0p1_LSI15_CSxs_sc_CSHxs_heater_metal_CSWHxs_sc_heater_metal_CSHUxs_sc_heater_metal_undercut_WUFalse_VSvia_stack_heater_mtop_PO90_PO90_HTL5_OPSNone
+name: straight_heater_metal_undercut_L320_LUS6_LU30_LS0p1_LSI15_CSxs_sc_CSHxs_heater_metal_CSWHxs_sc_heater_metal_CSHUxs_sc_heater_metal_undercut_WUTrue_VSvia_stack_heater_mtop_PO90_PO90_HTL5_OPSNone
 settings:
   cross_section: xs_sc
   cross_section_heater: xs_heater_metal
@@ -16,4 +16,4 @@ settings:
   port_orientation1: 90
   port_orientation2: 90
   via_stack: via_stack_heater_mtop
-  with_undercut: false
+  with_undercut: true

@@ -8,28 +8,3 @@ settings:
   length0: 0.0
   length2: 0.0
   n: 2
-  port_name1: o1
-  port_name2: o2
-  sequence: _)-(-.
-  start_orientation: 0.0
-  symbol_to_component:
-    (:
-    - bend_euler_RNone_A180_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc
-    - o1
-    - o2
-    ):
-    - bend_euler_RNone_A180_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc
-    - o2
-    - o1
-    '-':
-    - straight_L757p183_N2_CSxs_sc
-    - o1
-    - o2
-    .:
-    - straight_L0_N2_CSxs_sc
-    - o1
-    - o2
-    _:
-    - straight_L0_N2_CSxs_sc
-    - o1
-    - o2

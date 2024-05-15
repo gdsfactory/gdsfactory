@@ -1,12 +1,13 @@
 info:
   length: 20.0
-name: taper_strip_to_ridge_L20_W0p5_W0p15_WS0p15_WS1_LWWG_LSWGN_CSxs_sc
+name: taper_strip_to_ridge_L20_W0p5_W0p15_WS0p15_WS1_LWWG_LSWGN_CSxs_sc_USPTrue
 settings:
   cross_section: xs_sc
   function_name: taper_strip_to_ridge
   layer_slab: WGN
   layer_wg: WG
   length: 20.0
+  use_slab_port: true
   w_slab1: 0.15
   w_slab2: 1.0
   width1: 0.5

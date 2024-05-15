@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.components.mzi import mzi as mzi_function
 from gdsfactory.components.pad import pad_small
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
-from gdsfactory.routing.route_single import route_single
+from gdsfactory.routing.route_single import route_single_electrical
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -67,6 +67,7 @@ def mzi_pads_center(
         length_y=length_y,
         delta_length=delta_length,
         cross_section=cross_section,
+        auto_rename_ports=False,
     )
 
     port_names = [p.name for p in mzi_ps.ports]
@@ -81,40 +82,36 @@ def mzi_pads_center(
     pads.x = m.x
     pads.y = m.y
 
-    route_sig_bot = route_single(
+    route_single_electrical(
+        c,
         m.ports[mzi_sig_bot],
         pads.ports[pad_sig_bot],
         cross_section=cross_section_metal,
-        bend=gf.components.wire_corner,
         **kwargs,
     )
-    c.add(route_sig_bot.references)
 
-    route_gnd_bot = route_single(
+    route_single_electrical(
+        c,
         m.ports[mzi_gnd_bot],
         pads.ports[pad_gnd_bot],
         cross_section=cross_section_metal,
-        bend=gf.components.wire_corner,
         **kwargs,
     )
-    c.add(route_gnd_bot.references)
-    route_gnd_top = route_single(
+    route_single_electrical(
+        c,
         m.ports[mzi_gnd_top],
         pads.ports[pad_gnd_top],
         cross_section=cross_section_metal,
-        bend=gf.components.wire_corner,
         **kwargs,
     )
-    c.add(route_gnd_top.references)
 
-    route_sig_top = route_single(
+    route_single_electrical(
+        c,
         m.ports[mzi_sig_top],
         pads.ports[pad_sig_top],
         cross_section=cross_section_metal,
-        bend=gf.components.wire_corner,
         **kwargs,
     )
-    c.add(route_sig_top.references)
 
     c.add_ports(m.ports)
     return c

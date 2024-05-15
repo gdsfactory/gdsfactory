@@ -39,6 +39,7 @@ def mzi(
     mirror_bot: bool = False,
     add_optical_ports_arms: bool = False,
     min_length: float = 10e-3,
+    auto_rename_ports: bool = True,
 ) -> Component:
     """Mzi.
 
@@ -194,7 +195,8 @@ def mzi(
         c.add_ports(sxt.ports.filter(port_type="optical"), prefix="top_")
         c.add_ports(sxb.ports.filter(port_type="optical"), prefix="bot_")
 
-    c.auto_rename_ports()
+    if auto_rename_ports:
+        c.auto_rename_ports()
     return c
 
 
