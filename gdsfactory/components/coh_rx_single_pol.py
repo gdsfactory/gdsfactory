@@ -191,7 +191,7 @@ def coh_rx_single_pol(
             _ = c << gf.components.text(
                 text=label,
                 size=14.0,
-                position=[x_pos + 55.0, y_pos],
+                position=(x_pos + 55.0, y_pos),
                 justify="left",
                 layer="MTOP",
             )
