@@ -567,11 +567,14 @@ class Component(kf.KCell):
                 self.shapes(layer_index).clear()
         return self
 
-    def remap_layers(self, layer_map: dict[LayerSpec, LayerSpec]) -> Component:
+    def remap_layers(
+        self, layer_map: dict[LayerSpec, LayerSpec], recursive: bool = False
+    ) -> Component:
         """Remaps a list of layers and returns the same Component.
 
         Args:
             layer_map: dictionary of layers to remap.
+            recursive: if True, remaps layers recursively.
         """
         from gdsfactory import get_layer
 
@@ -579,7 +582,10 @@ class Component(kf.KCell):
             src_layer_index = get_layer(layer)
             dst_layer_index = get_layer(new_layer)
             self.move(src_layer_index, dst_layer_index)
-        return self
+
+            if recursive:
+                for ci in self.called_cells():
+                    self.kcl[ci].move(src_layer_index, dst_layer_index)
 
     def pprint_ports(self, **kwargs) -> None:
         """Pretty prints ports.
