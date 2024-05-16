@@ -7,7 +7,7 @@ from shapely.geometry import LineString
 import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
-from gdsfactory.typings import CrossSectionSpec, LayerSpec, Route
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec, Route
 
 
 class Node:
@@ -117,7 +117,7 @@ def get_route_astar(
     avoid_layers: list[LayerSpec] | None = None,
     distance: float = 8,
     cross_section: CrossSectionSpec = "xs_sc",
-    bend: gf.Component = gf.components.wire_corner,
+    bend: ComponentSpec = "wire_corner",
     **kwargs,
 ) -> Route:
     """Bidirectional routing function using NetworkX. Finds a route between two ports avoiding obstacles.
