@@ -1,5 +1,5 @@
 import gdsfactory as gf
-import gdsfactory.typings as gt
+import gdsfactory.schematic as gt
 
 
 def test_schematic_mzis():

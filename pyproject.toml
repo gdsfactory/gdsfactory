@@ -124,7 +124,7 @@ norecursedirs = [
   "docs"
 ]
 python_files = ["gdsfactory/*.py", "tests/*.py"]
-testpaths = ["gdsfactory/", "tests"]
+testpaths = ["gdsfactory", "tests"]
 
 [tool.ruff]
 extend-exclude = ['docs/notebooks/']

@@ -183,6 +183,7 @@ from gdsfactory.components.litho_ruler import litho_ruler
 from gdsfactory.components.litho_steps import litho_steps
 from gdsfactory.components.logo import logo
 from gdsfactory.components.loop_mirror import loop_mirror
+from gdsfactory.components.mimcap import mimcap
 from gdsfactory.components.mmi import mmi
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi1x2_with_sbend import mmi1x2_with_sbend
@@ -481,6 +482,7 @@ __all__ = [
     "loss_deembedding_ch12_34",
     "loss_deembedding_ch13_24",
     "loss_deembedding_ch14_23",
+    "mimcap",
     "mmi",
     "mmi1x2",
     "mmi1x2_with_sbend",
