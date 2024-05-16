@@ -89,5 +89,5 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = big_device()
-    c = gf.routing.add_pads_top(c)
-    c.show(show_ports=False)
+    c = gf.routing.add_pads_top(c, fanout_length=300)
+    c.show()
