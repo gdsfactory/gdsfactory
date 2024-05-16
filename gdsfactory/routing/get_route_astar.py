@@ -171,13 +171,17 @@ def get_route_astar(
     simplified_path = simplify_path(waypoints, tolerance=5)
 
     # Prepare waypoints
-    my_waypoints = (
-        [[port1.x, port1.y]]
-        + [list(np.round(pt, 1)) for pt in simplified_path]
-        + [[port2.x, port2.y]]
-    )
-    my_waypoints[1] = [my_waypoints[1][0], my_waypoints[0][1]]
-    my_waypoints[-2] = [my_waypoints[-2][0], my_waypoints[-1][1]]
+    my_waypoints = [[port1.x, port1.y]] + [
+        list(np.round(pt, 1)) for pt in simplified_path
+    ]
+    if port2.orientation in [0, 180]:
+        my_waypoints += [[my_waypoints[-1][0], port2.y]]
+    else:
+        my_waypoints += [[port2.x, my_waypoints[-1][1]]]
+
+    my_waypoints += [[port2.x, port2.y]]
+    # Align second waypoint y with first waypoint y
+    my_waypoints[1][1] = my_waypoints[0][1]
 
     return gf.routing.get_route_from_waypoints(
         waypoints=my_waypoints, cross_section=cross_section, bend=bend
