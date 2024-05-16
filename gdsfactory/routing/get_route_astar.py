@@ -1,16 +1,13 @@
 from __future__ import annotations
 
-import warnings
-
+import networkx as nx
 import numpy as np
+from shapely.geometry import LineString
 
 import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
-from gdsfactory.components.wire import wire_corner
-from gdsfactory.routing import get_route_from_waypoints
-from gdsfactory.routing.manhattan import route_manhattan
-from gdsfactory.typings import CrossSectionSpec, LayerSpec, Route
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec, Route
 
 
 class Node:
@@ -24,166 +21,14 @@ class Node:
         self.f = self.g + self.h  # cost of the node (sum of g and h)
 
 
-def get_route_astar(
-    component: Component,
-    port1: Port,
-    port2: Port,
-    resolution: float = 1,
-    avoid_layers: list[LayerSpec] | None = None,
-    distance: float = 1,
-    cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
-) -> Route:
-    """A* routing function. Finds a route between two ports avoiding obstacles.
+def _extract_all_bbox(c: Component, avoid_layers: list[LayerSpec] | None = None):
+    """Extract all polygons whose layer is in `avoid_layers`.
 
     Args:
-        component: Component the route, and ports belong to.
-        port1: input.
-        port2: output.
-        resolution: discretization resolution in um.
-            Lower resolution can help avoid accidental overlapping between route
-            and components but adds more bends.
-            The resolution decides how many "leaps/hops" the algorithm has to do.
-        avoid_layers: list of layers to avoid.
-        distance: distance from obstacles in um.
-        cross_section: spec.
-        kwargs: cross_section settings.
+        c: Component to extract polygons from.
+        avoid_layers: List of layers to avoid.
+
     """
-    warnings.warn(
-        'get_route_astar is deprecated. Use "get_route" or "get_bundle" instead.'
-    )
-    cross_section = gf.get_cross_section(cross_section, **kwargs)
-
-    grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
-
-    # Tell the algorithm which start and end directions to follow based on port orientation
-    input_orientation = {
-        0.0: (resolution, 0),
-        90.0: (0, resolution),
-        180.0: (-resolution, 0),
-        270.0: (0, -resolution),
-        None: (0, 0),
-    }[port1.orientation]
-
-    output_orientation = {
-        0.0: (resolution, 0),
-        90.0: (0, resolution),
-        180.0: (-resolution, 0),
-        270.0: (0, -resolution),
-        None: (0, 0),
-    }[port2.orientation]
-
-    # Instantiate nodes
-    start_node = Node(
-        None,
-        (
-            round(port1.x + input_orientation[0]),
-            round(port1.y + input_orientation[1]),
-        ),
-    )
-    start_node.g = start_node.h = start_node.f = 0
-
-    end_node = Node(
-        None,
-        (
-            round(port2.x + output_orientation[0]),
-            round(port2.y + output_orientation[1]),
-        ),
-    )
-    end_node.g = end_node.h = end_node.f = 0
-
-    # Add the start node
-    open_list = [start_node]
-    closed = []
-
-    while open_list:
-        # Current node
-        current_index = 0
-        for index in range(len(open_list)):
-            if open_list[index].f < open_list[current_index].f:
-                current_index = index
-
-        # Pop current off open_list list, add to closed list
-        current_node = open_list[current_index]
-        closed.append(open_list.pop(current_index))
-
-        # Reached end port
-        if (
-            current_node.position[0] == end_node.position[0]
-            and current_node.position[1] == end_node.position[1]
-        ):
-            points = []
-            current = current_node
-
-            # trace back path from end node to start node
-            while current is not None:
-                points.append(current.position)
-                current = current.parent
-            # reverse to get true path
-            points = points[::-1]
-
-            # add the start and end ports
-            points.insert(0, port1.center)
-            points.append(port2.center)
-
-            # return route from points
-            if cross_section.radius:
-                return get_route_from_waypoints(points, cross_section=cross_section)
-            else:
-                return get_route_from_waypoints(
-                    points, cross_section=cross_section, bend=wire_corner
-                )
-
-        # Generate neighbours
-        neighbours = _generate_neighbours(
-            grid=grid,
-            x=x,
-            y=y,
-            current_node=current_node,
-            resolution=resolution,
-        )
-
-        # Loop through neighbours
-        for neighbour in neighbours:
-            for closed_neighbour in closed:
-                if neighbour == closed_neighbour:
-                    continue
-
-            # Compute f, g, h
-            neighbour.g = current_node.g + resolution
-            # print(neighbour.g)
-            neighbour.h = np.sqrt(
-                (neighbour.position[0] - end_node.position[0]) ** 2
-            ) + ((neighbour.position[1] - end_node.position[1]) ** 2)
-            neighbour.f = neighbour.g + neighbour.h
-
-            if current_node.parent is not None and (
-                neighbour.position[0] - current_node.parent.position[0],
-                neighbour.position[1] - current_node.parent.position[1],
-            ) in [
-                (resolution, -resolution),
-                (-resolution, resolution),
-                (resolution, resolution),
-                (-resolution, -resolution),
-            ]:
-                neighbour.f *= 1.1  # penalize for turns
-
-            # neighbour is already in the open_list
-            for open_list_node in open_list:
-                if neighbour == open_list_node and neighbour.g > open_list_node.g:
-                    continue
-
-            # Add the neighbour to open_list
-            open_list.append(neighbour)
-
-    warnings.warn(
-        "A* algorithm failed, resorting to Manhattan routing. Watch for overlaps."
-    )
-    return route_manhattan(port1, port2, cross_section=cross_section)
-
-
-def _extract_all_bbox(c: Component, avoid_layers: list[LayerSpec] | None = None):
-    """Extract all polygons whose layer is in `avoid_layers`."""
     return [c.get_polygons(layer) for layer in avoid_layers]
 
 
@@ -193,19 +38,26 @@ def _generate_grid(
     avoid_layers: list[LayerSpec] | None = None,
     distance: float = 1,
 ) -> np.ndarray:
-    """Generate discretization grid that the algorithm will step through."""
+    """Generate discretization grid that the algorithm will step through.
+
+    Args:
+        c: Component to route through.
+        resolution: Discretization resolution in um.
+        avoid_layers: List of layers to avoid.
+        distance: Distance from obstacles in um.
+    """
     bbox = c.bbox
     x, y = np.meshgrid(
         np.linspace(
-            bbox[0][0],
-            bbox[1][0],
-            int((bbox[1][0] - bbox[0][0]) / resolution),
+            bbox[0][0] - resolution,
+            bbox[1][0] + resolution,
+            int((bbox[1][0] - bbox[0][0] + 2 * resolution) / resolution),
             endpoint=True,
         ),
         np.linspace(
-            bbox[0][1],
-            bbox[1][1],
-            int((bbox[1][1] - bbox[0][1]) / resolution),
+            bbox[0][1] - resolution,
+            bbox[1][1] + resolution,
+            int((bbox[1][1] - bbox[0][1] + 2 * resolution) / resolution),
             endpoint=True,
         ),
     )  # discretize component space
@@ -237,120 +89,152 @@ def _generate_grid(
     return np.ndarray.round(grid, 3), np.ndarray.round(x, 3), np.ndarray.round(y, 3)
 
 
-def _generate_neighbours(
-    current_node: Node,
-    grid,
-    x: np.ndarray,
-    y: np.ndarray,
-    resolution: float,
-) -> list[Node]:
-    """Generate neighbours of a node."""
-    neighbours = []
+def simplify_path(waypoints, tolerance):
+    """
+    Simplifies a list of waypoints using the Douglas-Peucker algorithm.
 
-    for new_position in [
-        (0, -resolution),
-        (0, resolution),
-        (-resolution, 0),
-        (resolution, 0),
-    ]:  # Adjacent nodes along Manhattan path
-        # Get node position
-        node_position = (
-            current_node.position[0] + new_position[0],
-            current_node.position[1] + new_position[1],
-        )
+    Args:
+        waypoints: List of waypoints as coordinate pairs (x, y).
+        tolerance: Simplification tolerance.
 
-        # Make sure within range and not in obstacle
-        if (
-            node_position[0] > x.max()
-            or node_position[0] < x.min()
-            or node_position[1] > y.max()
-            or node_position[1] < y.min()
-        ):
-            continue
+    Returns:
+        List of simplified waypoints.
+    """
+    line = LineString(waypoints)  # Create a line from waypoints
+    simplified_line = line.simplify(
+        tolerance, preserve_topology=False
+    )  # Simplify the line
+    return list(
+        simplified_line.coords
+    )  # Convert simplified line back to a list of waypoints
 
-        if (
-            grid[
-                next(
-                    i
-                    for i, _ in enumerate(x)
-                    if np.isclose(_, node_position[0], atol=resolution)
-                )
-            ][
-                next(
-                    i
-                    for i, _ in enumerate(y)
-                    if np.isclose(_, node_position[1], atol=resolution)
-                )
-            ]
-            == 1.0
-        ):
-            continue
 
-        # Create new node
-        new_node = Node(current_node, node_position)
+def get_route_astar(
+    component: Component,
+    port1: Port,
+    port2: Port,
+    resolution: float = 1,
+    avoid_layers: list[LayerSpec] | None = None,
+    distance: float = 8,
+    cross_section: CrossSectionSpec = "xs_sc",
+    bend: ComponentSpec = "wire_corner",
+    **kwargs,
+) -> Route:
+    """Bidirectional routing function using NetworkX. Finds a route between two ports avoiding obstacles.
 
-        # Append
-        neighbours.append(new_node)
+    Args:
+        component: Component the route and ports belong to.
+        port1: Input port.
+        port2: Output port.
+        resolution: Discretization resolution in um.
+        avoid_layers: List of layers to avoid.
+        distance: Distance from obstacles in um.
+        cross_section: Cross-section specification.
+        bend: Component to use for bends. Use wire_corner for Manhattan routing or bend_euler for Euler routing.
+        kwargs: Cross-section settings.
+    """
+    cross_section = gf.get_cross_section(cross_section, **kwargs)
+    grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
 
-    return neighbours
+    G = nx.grid_2d_graph(len(x), len(y))  # Create graph
+
+    # Remove nodes representing obstacles
+    for i in range(len(x)):
+        for j in range(len(y)):
+            if grid[i, j] == 1:
+                G.remove_node((i, j))
+
+    # Define start and end nodes
+    start_node = (
+        int(round((port1.x - x.min()) / resolution)),
+        int(round((port1.y - y.min()) / resolution)),
+    )
+    end_node = (
+        int(round((port2.x - x.min()) / resolution)),
+        int(round((port2.y - y.min()) / resolution)),
+    )
+
+    # Find the closest valid nodes
+    start_node = min(
+        G.nodes, key=lambda node: np.linalg.norm(np.array(node) - np.array(start_node))
+    )
+    end_node = min(
+        G.nodes, key=lambda node: np.linalg.norm(np.array(node) - np.array(end_node))
+    )
+
+    path = nx.astar_path(G, start_node, end_node)  # Find shortest path
+
+    # Convert path to waypoints
+    waypoints = [(x[i] + resolution / 2, y[j] + resolution / 2) for i, j in path]
+
+    # Simplify the route
+    simplified_path = simplify_path(waypoints, tolerance=5)
+
+    # Prepare waypoints
+    my_waypoints = [[port1.x, port1.y]] + [
+        list(np.round(pt, 1)) for pt in simplified_path
+    ]
+    if port2.orientation in [0, 180]:
+        my_waypoints += [[my_waypoints[-1][0], port2.y]]
+    else:
+        my_waypoints += [[port2.x, my_waypoints[-1][1]]]
+
+    my_waypoints += [[port2.x, port2.y]]
+    # Align second waypoint y with first waypoint y
+    my_waypoints[1][1] = my_waypoints[0][1]
+
+    return gf.routing.get_route_from_waypoints(
+        waypoints=my_waypoints, cross_section=cross_section, bend=bend
+    )
 
 
 if __name__ == "__main__":
-    # cross_section = gf.get_cross_section("xs_m1", width=3)
-
-    # c = gf.Component("get_route_astar")
-    # w = gf.components.straight(cross_section=cross_section)
-
-    # left = c << w
-    # right = c << w
-    # right.move((100, 80))
-
-    # obstacle = gf.components.rectangle(size=(100, 3), layer="M1")
-    # obstacle1 = c << obstacle
-    # obstacle2 = c << obstacle
-    # obstacle1.ymin = 40
-    # obstacle2.xmin = 25
-
-    # port1 = left.ports["e2"]
-    # port2 = right.ports["e2"]
-
-    # routes = get_route_astar(
-    #     component=c,
-    #     port1=port1,
-    #     port2=port2,
-    #     cross_section=cross_section,
-    #     resolution=5,
-    #     distance=6.5,
-    #     avoid_layers=("M1",),
-    # )
-    # c.add(routes.references)
-
     c = gf.Component("get_route_astar_avoid_layers")
-    cross_section = gf.get_cross_section("xs_m1", width=3)
-    w = gf.components.straight(cross_section=cross_section)
+    # cross_section = "xs_metal_routing"
+    # port_prefix = "e"
+    # bend = gf.components.wire_corner
 
+    cross_section = "xs_sc"
+    port_prefix = "o"
+    bend = gf.components.bend_euler
+
+    cross_section = gf.get_cross_section(cross_section, radius=5)
+    w = gf.components.straight(cross_section=cross_section)
     left = c << w
     right = c << w
-    right.move((100, 80))
+    right.rotate(90.0)
+    right.move((168, 63.2))
 
-    obstacle = gf.components.rectangle(size=(100, 3), layer="WG")
+    obstacle = gf.components.rectangle(size=(250, 3), layer="M2")
     obstacle1 = c << obstacle
     obstacle2 = c << obstacle
-    obstacle1.ymin = 40
-    obstacle2.xmin = 25
+    obstacle3 = c << obstacle
+    obstacle4 = c << obstacle
+    obstacle5 = c << obstacle
+    obstacle4.rotate(90)
+    obstacle5.rotate(90)
+    obstacle1.ymin = 50
+    obstacle1.xmin = -10
+    obstacle2.xmin = 35
+    obstacle3.ymin = 42
+    obstacle3.xmin = 72.23
+    obstacle4.xmin = 200
+    obstacle4.ymin = 55
+    obstacle5.xmin = 600
+    obstacle5.ymin = 200
+    port1 = left.ports[f"{port_prefix}1"]
+    port2 = right.ports[f"{port_prefix}2"]
 
-    port1 = left.ports["e2"]
-    port2 = right.ports["e2"]
-
-    routes = gf.routing.get_route_astar(
+    route = get_route_astar(
         component=c,
         port1=port1,
         port2=port2,
         cross_section=cross_section,
-        resolution=10,
-        distance=6.5,
-        avoid_layers=("M1",),
+        resolution=15,
+        distance=12,
+        avoid_layers=("M2",),
+        bend=bend,
     )
 
-    c.add(routes.references)
+    c.add(route.references)
     c.show()
