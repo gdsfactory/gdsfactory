@@ -576,12 +576,9 @@ class Component(kf.KCell):
         from gdsfactory import get_layer
 
         for layer, new_layer in layer_map.items():
-            layer_index = get_layer(layer)
-            new_layer_index = get_layer(new_layer)
-            for r in self._kdb_cell.begin_shapes_rec(layer_index):
-                self.shapes(new_layer_index).insert(r)
-
-            self.remove_layers([layer_index], recursive=True)
+            src_layer_index = get_layer(layer)
+            dst_layer_index = get_layer(new_layer)
+            self.move(src_layer_index, dst_layer_index)
         return self
 
     def pprint_ports(self, **kwargs) -> None:
