@@ -1,18 +1,15 @@
 from typing import Any
 
 import gdsfactory as gf
-from gdsfactory.components.grating_coupler_elliptical import (
-    grating_coupler_elliptical_te,
-)
-from gdsfactory.components.mzi import mzi_phase_shifter
-from gdsfactory.components.pad import pad_small
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def add_fiber_array_optical_south_electrical_north(
-    component: ComponentSpec = mzi_phase_shifter,
-    pad: ComponentSpec = pad_small,
+    component: ComponentSpec,
+    pad: ComponentSpec,
+    grating_coupler: ComponentSpec,
+    cross_section_metal: CrossSectionSpec,
     with_loopback: bool = True,
     pad_spacing: float = 100.0,
     fiber_spacing: float = 127.0,
@@ -20,8 +17,6 @@ def add_fiber_array_optical_south_electrical_north(
     electrical_port_names: list[str] | None = None,
     electrical_port_orientation: float | None = 90,
     npads: int | None = None,
-    grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
-    xs_metal: CrossSectionSpec = "xs_metal_routing",
     analysis_settings: dict[str, Any] | None = None,
     **kwargs,
 ) -> gf.Component:
@@ -32,6 +27,8 @@ def add_fiber_array_optical_south_electrical_north(
     Args:
         component: component spec to add fiber and pads.
         pad: pad spec.
+        grating_coupler: grating coupler function.
+        cross_section_metal: metal cross section.
         with_loopback: whether to add a loopback port.
         pad_spacing: spacing between pads.
         fiber_spacing: spacing between grating couplers.
@@ -39,8 +36,6 @@ def add_fiber_array_optical_south_electrical_north(
         electrical_port_names: list of electrical port names. Defaults to all.
         electrical_port_orientation: orientation of electrical ports. Defaults to 90.
         npads: number of pads. Defaults to one per electrical_port_names.
-        grating_coupler: grating coupler function.
-        xs_metal: metal cross section.
         layer_label: layer for settings label.
         measurement: measurement name.
         measurement_settings: measurement settings.
@@ -115,7 +110,7 @@ def add_fiber_array_optical_south_electrical_north(
         c,
         ports1=ports1,
         ports2=ports2,
-        cross_section=xs_metal,
+        cross_section=cross_section_metal,
         enforce_port_ordering=False,
     )
 

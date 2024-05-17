@@ -11,6 +11,7 @@ def bbox_to_points(
     left: float = 0,
     right: float = 0,
 ) -> list[list[float]]:
+    """Returns bounding box rectangle with offsets."""
     (xmin, ymin), (xmax, ymax) = bbox
     xmin = float(xmin)
     xmax = float(xmax)

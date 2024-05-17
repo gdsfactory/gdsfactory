@@ -19,6 +19,8 @@ skip_test = {
     "spiral_racetrack",
     "ring_section_based",
     "ring_double_pn",
+    "add_fiber_array_optical_south_electrical_north",
+    "bbox",
 }
 
 

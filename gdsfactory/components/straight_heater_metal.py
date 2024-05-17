@@ -266,7 +266,7 @@ def test_ports() -> None:
 
 if __name__ == "__main__":
     # test_ports()
-    c = straight_heater_metal_simple()
+    c = straight_heater_metal()
     # print(c.ports['o2'].center[0])
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)
