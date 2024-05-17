@@ -213,8 +213,8 @@ def grating_coupler_elliptical_uniform(
             o1  ______________|
 
     """
-    widths = [period * fill_factor] * n_periods
-    gaps = [period * (1 - fill_factor)] * n_periods
+    widths = (period * fill_factor,) * n_periods
+    gaps = (period * (1 - fill_factor),) * n_periods
     return grating_coupler_elliptical_arbitrary(gaps=gaps, widths=widths, **kwargs)
 
 

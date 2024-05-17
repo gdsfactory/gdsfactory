@@ -19,8 +19,6 @@ def coh_rx_single_pol(
     hybrid_90deg: ComponentSpec = mmi_90degree_hybrid,
     detector: ComponentSpec = ge_detector_straight_si_contacts,
     det_spacing: tuple[float, float] = (60.0, 50.0),
-    with_pads: bool = True,
-    pad_det_spacing: float = 80.0,
     in_wg_length: float = 20.0,
     lo_input_coupler: ComponentSpec | None = None,
     signal_input_coupler: ComponentSpec | None = None,
@@ -36,8 +34,6 @@ def coh_rx_single_pol(
         detector: generates the detector.
         det_spacing: spacing between 90 degree hybrid and detector and
            vertical spacing between detectors.
-        with_pads: if True, it draws pads for the balanced detectors.
-        pad_det_spacing: spacing between the pads and the detectors (if with_pads=True).
         in_wg_length: length of the straight waveguides at the input of the 90 deg hybrid.
         lo_input_coupler: Optional coupler for the LO.
         signal_input_coupler: Optional coupler for the signal.
@@ -177,91 +173,27 @@ def coh_rx_single_pol(
         width=2.0,
     )
 
-    # --- Draw pads if indicated ----
-
-    if with_pads:
-        pad_array = c << gf.components.pad_array(columns=1, rows=4, port_orientation=0)
-        pad_array.xmin = pd_i1.xmax + pad_det_spacing
-        pad_array.y = hybrid.y
-
-        # Add labels
-        labels = {"e11": "V+", "e21": "Q_out", "e31": "I_out", "e41": "V-"}
-        for pad, label in labels.items():
-            x_pos, y_pos = pad_array.ports[pad].center
-            _ = c << gf.components.text(
-                text=label,
-                size=14.0,
-                position=(x_pos + 55.0, y_pos),
-                justify="left",
-                layer="MTOP",
-            )
-
-        # Connect to the pads. Need to do it manually to avoid crossings
-
-        # V- pad (connected to positive side of one of the diodes)
-        p0x, p0y = pd_i1.ports["top_e2"].center
-        p1x, p1y = pad_array.ports["e41"].center
-        gf.routing.route_single_electrical(
-            c, waypoints=[(p0x, p0y), (p0x, p1y), (p1x, p1y)]
-        )
-
-        p0x, p0y = pd_q1.ports["top_e3"].center
-        p1x, p1y = pad_array.ports["e41"].center
-        gf.routing.route_single_electrical(
-            c,
-            waypoints=[
-                (p0x, p0y),
-                (p0x + 0.5 * (p1x - p0x), p0y),
-                (p0x + 0.5 * (p1x - p0x), p1y),
-            ],
-        )
-
-        # V+ pad (connected to negative side of the other diode)
-        p0x, p0y = pd_i2.ports["bot_e2"].center
-        p1x, p1y = pad_array.ports["e11"].center
-        gf.routing.route_single_electrical(
-            c, waypoints=[(p0x, p0y), (p0x, p1y), (p1x, p1y)]
-        )
-
-        p0x, p0y = pd_q2.ports["bot_e3"].center
-        p1x, p1y = pad_array.ports["e11"].center
-        gf.routing.route_single_electrical(
-            c,
-            waypoints=[
-                (p0x, p0y),
-                (p0x + 0.5 * (p1x - p0x), p0y),
-                (p0x + 0.5 * (p1x - p0x), p1y),
-            ],
-        )
-
-        # I out pad
-        gf.routing.route_single_electrical(c, pad_array.ports["e31"], c.ports["i_out"])
-
-        # Q out pad
-        gf.routing.route_single_electrical(c, pad_array.ports["e21"], c.ports["q_out"])
-
-    else:
-        # Create electrical ports. q_out and i_out already exist
-        c.add_ports(
-            gf.port.get_ports_list(pd_i1, port_type="electrical", prefix="top"),
-            prefix="i1vminus",
-        )
-        c.add_ports(
-            gf.port.get_ports_list(pd_q1, port_type="electrical", prefix="top"),
-            prefix="q1vminus",
-        )
-        c.add_ports(
-            gf.port.get_ports_list(pd_q2, port_type="electrical", prefix="bot"),
-            prefix="q2vplus",
-        )
-        c.add_ports(
-            gf.port.get_ports_list(pd_i2, port_type="electrical", prefix="bot"),
-            prefix="i2vplus",
-        )
+    # Create electrical ports. q_out and i_out already exist
+    c.add_ports(
+        gf.port.get_ports_list(pd_i1, port_type="electrical", prefix="top"),
+        prefix="i1vminus",
+    )
+    c.add_ports(
+        gf.port.get_ports_list(pd_q1, port_type="electrical", prefix="top"),
+        prefix="q1vminus",
+    )
+    c.add_ports(
+        gf.port.get_ports_list(pd_q2, port_type="electrical", prefix="bot"),
+        prefix="q2vplus",
+    )
+    c.add_ports(
+        gf.port.get_ports_list(pd_i2, port_type="electrical", prefix="bot"),
+        prefix="i2vplus",
+    )
 
     return c
 
 
 if __name__ == "__main__":
-    c = coh_rx_single_pol(with_pads=False)
+    c = coh_rx_single_pol()
     c.show()

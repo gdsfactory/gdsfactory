@@ -10,52 +10,59 @@ from gdsfactory.components.via_stack import via_stack
 from gdsfactory.cross_section import Section
 from gdsfactory.typings import ComponentSpec, CrossSection, LayerSpec
 
+_pn_cross_section = partial(
+    gf.cross_section.pn,
+    width_doping=2.425,
+    width_slab=2 * 2.425,
+    layer_via="VIAC",
+    width_via=0.5,
+    layer_metal="M1",
+    width_metal=0.5,
+)
+
+_heater_vias = partial(
+    via_stack,
+    size=(0.5, 0.5),
+    layers=("M1", "M2"),
+    vias=(
+        partial(
+            via,
+            layer="VIAC",
+            size=(0.1, 0.1),
+            spacing=(0.2, 0.2),
+            enclosure=0.1,
+        ),
+        partial(
+            via,
+            layer="VIA1",
+            size=(0.1, 0.1),
+            spacing=(0.2, 0.2),
+            enclosure=0.1,
+        ),
+    ),
+)
+
+_cross_section: CrossSection = (
+    partial(
+        gf.cross_section.strip,
+        sections=(Section(width=2 * 2.425, layer="SLAB90", name="slab"),),
+    ),
+)
+
 
 @gf.cell
 def ring_single_pn(
     gap: float = 0.3,
     radius: float = 5.0,
     doping_angle: float = 250,
-    cross_section: CrossSection = partial(
-        gf.cross_section.strip,
-        sections=(Section(width=2 * 2.425, layer="SLAB90", name="slab"),),
-    ),
-    pn_cross_section: CrossSection = partial(
-        gf.cross_section.pn,
-        width_doping=2.425,
-        width_slab=2 * 2.425,
-        layer_via="VIAC",
-        width_via=0.5,
-        layer_metal="M1",
-        width_metal=0.5,
-    ),
+    cross_section: CrossSection = _cross_section,
+    pn_cross_section: CrossSection = _pn_cross_section,
     doped_heater: bool = True,
     doped_heater_angle_buffer: float = 10,
     doped_heater_layer: LayerSpec = "NPP",
     doped_heater_width: float = 0.5,
     doped_heater_waveguide_offset: float = 2.175,
-    heater_vias: ComponentSpec = partial(
-        via_stack,
-        size=(0.5, 0.5),
-        layers=("M1", "M2"),
-        vias=(
-            partial(
-                via,
-                layer="VIAC",
-                size=(0.1, 0.1),
-                spacing=(0.2, 0.2),
-                enclosure=0.1,
-            ),
-            partial(
-                via,
-                layer="VIA1",
-                size=(0.1, 0.1),
-                spacing=(0.2, 0.2),
-                enclosure=0.1,
-            ),
-        ),
-    ),
-    **kwargs,
+    heater_vias: ComponentSpec = _heater_vias,
 ) -> gf.Component:
     """Returns single pn ring with optional doped heater.
 
@@ -73,7 +80,6 @@ def ring_single_pn(
         doped_heater_width: width of doped heater.
         doped_heater_waveguide_offset: distance from the center of the ring waveguide to the center of the doped heater.
         heater_vias: components specifications for heater vias.
-        kwargs: cross_section settings.
     """
 
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
@@ -131,7 +137,6 @@ def ring_single_pn(
 
     c.add_port("o1", port=bus_waveguide.ports["o1"])
     c.add_port("o2", port=bus_waveguide.ports["o2"])
-
     return c
 
 
