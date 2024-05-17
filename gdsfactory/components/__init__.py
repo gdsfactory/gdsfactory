@@ -34,7 +34,6 @@ from gdsfactory.components.cdsem_coupler import cdsem_coupler
 from gdsfactory.components.cdsem_straight import cdsem_straight
 from gdsfactory.components.cdsem_straight_density import cdsem_straight_density
 from gdsfactory.components.circle import circle
-from gdsfactory.components.coh_rx_dual_pol import coh_rx_dual_pol
 from gdsfactory.components.coh_rx_single_pol import coh_rx_single_pol
 from gdsfactory.components.coh_tx_dual_pol import coh_tx_dual_pol
 from gdsfactory.components.coh_tx_single_pol import coh_tx_single_pol
@@ -57,7 +56,6 @@ from gdsfactory.components.coupler_straight_asymmetric import (
 from gdsfactory.components.coupler_symmetric import coupler_symmetric
 from gdsfactory.components.cross import cross
 from gdsfactory.components.crossing_waveguide import (
-    compensation_path,
     crossing,
     crossing45,
     crossing_arm,
@@ -326,7 +324,6 @@ __all__ = [
     "cdsem_coupler",
     "cdsem_bend180",
     "circle",
-    "coh_rx_dual_pol",
     "coh_rx_single_pol",
     "coh_tx_dual_pol",
     "coh_tx_single_pol",

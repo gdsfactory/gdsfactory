@@ -36,7 +36,7 @@ def splitter_chain(
     splitter_component = gf.get_component(splitter)
     cref = c.add_ref(splitter_component)
 
-    splitter_ports_east = cref.get_ports_list(port_type="optical", orientation=0)
+    splitter_ports_east = list(cref.ports.filter(port_type="optical", orientation=0))
     e1_port_name = splitter_ports_east[0].name
     e0_port_name = splitter_ports_east[1].name
 

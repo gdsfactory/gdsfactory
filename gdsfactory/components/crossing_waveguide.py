@@ -1,4 +1,4 @@
-"""FIXME or delete me"""
+"""Waveguide crossings."""
 
 from __future__ import annotations
 
@@ -12,12 +12,10 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import (
     bezier,
-    bezier_curve,
     find_min_curv_bezier_control_points,
 )
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.taper import taper
-from gdsfactory.functions import path_length
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
@@ -321,162 +319,6 @@ def crossing45(
     return c
 
 
-crossing45_pins = partial(crossing45, cross_section="xs_sc")
-
-
-@cell
-def compensation_path(
-    crossing45: ComponentSpec = crossing45_pins,
-    crossing: ComponentSpec = crossing,
-    direction: str = "top",
-    cross_section: CrossSectionSpec = "xs_sc",
-) -> Component:
-    r"""Returns Component Path with same path length as the crossing.
-
-    with input and output ports having same y coordinates
-
-    Args:
-        crossing45: component that we want to match in path length.
-            needs to have .info["components"] with bends and crossing.
-        direction: the direction in which the bend should go "top" / "bottom".
-
-    .. code::
-
-          ----       ----
-              \     /
-               \   /
-                \ /
-                 X
-                / \
-               /   \
-              /     \
-          ----       ----
-
-    Compensation path:
-
-    .. code::
-
-             --+--
-           _/     \_
-        --/         \--
-
-
-    """
-    import scipy.optimize as so
-
-    x = gf.get_cross_section(cross_section)
-
-    # Get total path length taken by the bends
-    crossing45 = gf.get_component(crossing45)
-    bezier_length = crossing45.info["bezier_length"]
-    length = 2 * bezier_length
-
-    # Find a bezier S-bend with half this length, but with a fixed length
-    # governed by the crossing45 X-distance (west to east ports) and
-    # the crossing x_distance
-
-    target_bend_length = length / 2
-
-    def get_x_span(cmp):
-        return cmp.ports["o3"].x - cmp.ports["o1"].x
-
-    x_span_crossing45 = get_x_span(crossing45)
-    x_span_crossing = get_x_span(crossing45.crossing)
-
-    # x span allowed for the bend
-    x0 = (x_span_crossing45 - x_span_crossing) / 2
-
-    def get_control_pts(x, y):
-        return ((0, 0), (x0 / 2, 0), (x0 / 2, y), (x0, y))
-
-    def f(y):
-        control_points = get_control_pts(x0, y)
-        t = np.linspace(0, 1, 51)
-        path_points = bezier_curve(t, control_points)
-        return path_length(path_points) - target_bend_length
-
-    # the path length of the s-bend between two ports p0 and p1 is :
-    # - larger than the euclidean distance L2(p0, p1)
-    # - smaller than the manhattan distance DL(p0, p1)
-    #
-    # This gives the bounds for the brentq root finding
-
-    ya = target_bend_length - x0
-    yb = np.sqrt(target_bend_length**2 - x0**2)
-
-    solution = so.root_scalar(f, bracket=[ya, yb], method="brentq")
-
-    y_bend = solution.root
-    y_bend = snap_to_grid(y_bend)
-
-    v_mirror = direction != "top"
-    sbend = bezier(control_points=get_control_pts(x0, y_bend))
-
-    c = Component()
-    crossing0 = c << gf.get_component(crossing)
-
-    sbend_left = sbend.ref(
-        position=crossing0.ports["o1"], port_id="o2", v_mirror=v_mirror
-    )
-    sbend_right = sbend.ref(
-        position=crossing0.ports["o3"], port_id="o2", h_mirror=True, v_mirror=v_mirror
-    )
-
-    c.add(sbend_left)
-    c.add(sbend_right)
-
-    c.add_port("o1", port=sbend_left.ports["o1"])
-    c.add_port("o2", port=sbend_right.ports["o1"])
-
-    c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
-    c.info["sbend"] = sbend.info
-
-    x.add_bbox(c)
-    return c
-
-
-def _demo() -> None:
-    """Plot curvature of bends."""
-    from matplotlib import pyplot as plt
-
-    c = crossing45(port_spacing=20.0, dx=15)
-    c2 = compensation_path(crossing45=c)
-    print(c.info["min_bend_radius"])
-    print(c2.info["min_bend_radius"])
-
-    component = Component(name="top_lvl")
-    component.add(c.ref(port_id="o1"))
-    component.add(c2.ref(port_id="o1", position=(0, 10)))
-
-    bend_info1 = c.info["components"]["bezier_bend"].info
-    bend_info2 = c2.info["components"]["sbend"].info
-
-    DL = bend_info1["length"]
-    L2 = bend_info1["length"]
-    plt.plot(bend_info1["t"][1:-1] * DL, abs(bend_info1["curvature"]))
-    plt.plot(bend_info2["t"][1:-1] * L2, abs(bend_info2["curvature"]))
-    plt.xlabel("bend length (um)")
-    plt.ylabel("curvature (um^-1)")
-    component.show()
-    plt.show()
-
-
 if __name__ == "__main__":
-    # c = crossing45()
-    # c = crossing()
-    # c = compensation_path()
-    # c = crossing(
-    #     cross_section=dict(
-    #         cross_section="xs_sc",
-    #         settings=dict(cladding_offsets=[0], cladding_layers=[(3, 0)]),
-    #     )
-    # )
-    # print(c.ports["E1"].y - c.ports['o2'].y)
-    # print(c.get_ports_array())
-    # _demo()
-    c = crossing_from_taper()
-    # c.pprint()
-    # c = crossing_etched()
-    # c = compensation_path()
-    # c = crossing45(port_spacing=40)
+    c = crossing()
     c.show()
