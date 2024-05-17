@@ -6,7 +6,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_coupler_elliptical_te,
 )
 from gdsfactory.components.straight_array import straight_array
-from gdsfactory.typings import ComponentSpec, LayerSpec
+from gdsfactory.typings import ComponentSpec
 
 
 @gf.cell
@@ -17,7 +17,6 @@ def grating_coupler_tree(
     with_loopback: bool = False,
     bend: ComponentSpec = "bend_euler",
     fanout_length: float = 0.0,
-    layer_label: LayerSpec | None = None,
     **kwargs,
 ) -> Component:
     """Array of straights connected with grating couplers.
@@ -31,7 +30,6 @@ def grating_coupler_tree(
         with_loopback: adds loopback.
         bend: bend spec.
         fanout_length: in um.
-        layer_label: for layer. Optional removes label.
         kwargs: cross_section settings.
     """
     c = straight_array(
@@ -43,12 +41,10 @@ def grating_coupler_tree(
     return gf.routing.add_fiber_array(
         component=c,
         with_loopback=with_loopback,
-        optical_routing_type=0,
         grating_coupler=grating_coupler,
         fanout_length=fanout_length,
         component_name=c.name,
         bend=bend,
-        layer_label=layer_label,
         taper=None,
         **kwargs,
     )

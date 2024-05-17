@@ -30,6 +30,7 @@ def add_termination(
     terminator_port_name = terminator_port_name or terminator.ports[0].name
 
     c = Component()
+    component = gf.get_component(component)
     ref = c.add_ref(component)
 
     ports_names_all = [p.name for p in component.ports]
