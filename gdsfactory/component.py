@@ -179,7 +179,9 @@ class Component(kf.KCell):
                 trans = kdb.DCplxTrans(1, orientation, False, center.to_v())
             else:
                 layer = get_layer(layer)
-                trans = kdb.DCplxTrans(1, orientation, False, center[0], center[1])
+                x = float(center[0])
+                y = float(center[1])
+                trans = kdb.DCplxTrans(1, float(orientation), False, x, y)
 
             return self.create_port(
                 name=name,

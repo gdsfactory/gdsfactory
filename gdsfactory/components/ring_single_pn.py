@@ -42,15 +42,13 @@ _heater_vias = partial(
     ),
 )
 
-_cross_section: CrossSection = (
-    partial(
-        gf.cross_section.strip,
-        sections=(Section(width=2 * 2.425, layer="SLAB90", name="slab"),),
-    ),
+_cross_section = partial(
+    gf.cross_section.strip,
+    sections=(Section(width=2 * 2.425, layer="SLAB90", name="slab"),),
 )
 
 
-@gf.cell
+@gf.cell(check_instances=False)
 def ring_single_pn(
     gap: float = 0.3,
     radius: float = 5.0,
@@ -101,9 +99,14 @@ def ring_single_pn(
     doped_ring_ref = c << doped_path.extrude(cross_section=pn_cross_section)
     undoped_ring_ref = c << undoped_path.extrude(cross_section=cross_section)
 
-    undoped_ring_ref.rotate(-undoping_angle / 2)
-    undoped_ring_ref.ymin = bus_waveguide.ymin + bus_waveguide.ports["o1"].width + gap
-    undoped_ring_ref.x = bus_waveguide.x
+    undoped_ring_ref.d.rotate(-undoping_angle / 2)
+    undoped_ring_ref.d.ymin = (
+        bus_waveguide.d.ymin
+        + bus_waveguide.ports["o1"].d.width
+        + gap
+        - bus_waveguide.d.ysize
+    )
+    undoped_ring_ref.d.x = bus_waveguide.d.x
 
     doped_ring_ref.connect("o1", undoped_ring_ref.ports["o1"])
 
@@ -117,26 +120,29 @@ def ring_single_pn(
         )
 
         heater_ref = c << heater_path.extrude(width=0.5, layer=doped_heater_layer)
-        heater_ref.rotate(-(undoping_angle - doped_heater_angle_buffer) / 2)
-        heater_ref.x = bus_waveguide.x
-        heater_ref.ymin = doped_heater_waveguide_offset + doped_heater_width / 2 + gap
+        heater_ref.d.rotate(-(undoping_angle - doped_heater_angle_buffer) / 2)
+        heater_ref.d.x = bus_waveguide.d.x
+        heater_ref.d.ymin = doped_heater_waveguide_offset + doped_heater_width / 2 + gap
 
-        left_heater_via = c << heater_vias()
+        heater_vias = gf.get_component(heater_vias)
+
+        left_heater_via = c << heater_vias
         left_heater_via.rotate(heater_ref.ports["o1"].orientation)
 
-        deltax = -abs(heater_ref.ports["o1"].x - left_heater_via.ports["e3"].x)
-        deltay = abs(heater_ref.ports["o1"].y - left_heater_via.ports["e3"].y)
-        left_heater_via.move((deltax, deltay))
+        deltax = -abs(heater_ref.ports["o1"].d.x - left_heater_via.ports["e3"].d.x)
+        deltay = abs(heater_ref.ports["o1"].d.y - left_heater_via.ports["e3"].d.y)
+        left_heater_via.d.move((deltax, deltay))
 
-        right_heater_via = c << heater_vias()
-        right_heater_via.rotate(heater_ref.ports["o2"].orientation)
+        right_heater_via = c << heater_vias
+        right_heater_via.d.rotate(heater_ref.ports["o2"].orientation)
 
-        deltax = abs(heater_ref.ports["o2"].x - right_heater_via.ports["e3"].x)
-        deltay = abs(heater_ref.ports["o2"].y - right_heater_via.ports["e3"].y)
-        right_heater_via.move((deltax, deltay))
+        deltax = abs(heater_ref.ports["o2"].d.x - right_heater_via.ports["e3"].d.x)
+        deltay = abs(heater_ref.ports["o2"].d.y - right_heater_via.ports["e3"].d.y)
+        right_heater_via.d.move((deltax, deltay))
 
     c.add_port("o1", port=bus_waveguide.ports["o1"])
     c.add_port("o2", port=bus_waveguide.ports["o2"])
+    c.flatten()
     return c
 
 
@@ -146,8 +152,7 @@ if __name__ == "__main__":
     # print(c.ports)
 
     # c = gf.routing.add_fiber_array(ring_single)
-    c = ring_single_pn()
-    print([i.name for i in c.get_dependencies()])
+    c = ring_single_pn(radius=10, gap=0.2)
     c.show()
 
     # cc = gf.add_pins(c)

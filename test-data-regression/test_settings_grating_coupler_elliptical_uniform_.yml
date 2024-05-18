@@ -1,44 +1,62 @@
-name: grating_coupler_elliptical_uniform
-ports:
-  o1:
-    center:
-    - 0.188
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    shear_angle: null
-    width: 0.5
-  opt_te_1554_15:
-    center:
-    - 24.006
-    - 0.0
-    layer:
-    - 1
-    - 0
-    name: opt_te_1554_15
-    orientation: 0
-    port_type: opt_te_1554_15
-    shear_angle: null
-    width: 10
+info:
+  polarization: te
+  wavelength: 1.554
+name: grating_coupler_elliptical_uniform_NP20_P0p75_FF0p5
 settings:
-  changed: {}
-  child: null
-  default:
-    fill_factor: 0.5
-    n_periods: 20
-    period: 0.75
-  full:
-    fill_factor: 0.5
-    n_periods: 20
-    period: 0.75
+  bias_gap: 0
+  cross_section: xs_sc
+  fiber_angle: 15.0
+  fill_factor: 0.5
   function_name: grating_coupler_elliptical_uniform
-  info:
-    polarization: te
-    wavelength: 1.554
-  info_version: 2
-  module: gdsfactory.components.grating_coupler_elliptical_arbitrary
-  name: grating_coupler_elliptical_uniform
+  gaps:
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  layer_slab: SLAB150
+  n_periods: 20
+  nclad: 1.443
+  period: 0.75
+  polarization: te
+  spiked: true
+  taper_angle: 60.0
+  taper_length: 16.6
+  taper_to_slab_offset: -3.0
+  wavelength: 1.554
+  widths:
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
+  - 0.375
