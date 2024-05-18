@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from collections import Counter
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec
@@ -110,6 +112,7 @@ def component_sequence(
         c.plot()
     """
     ports_map = ports_map or {}
+    named_references_counter = Counter()
 
     component = Component()
 
@@ -118,7 +121,10 @@ def component_sequence(
     index = 2 if "!" in sequence[0] else 1
     name_start_device, do_flip = parse_component_name(symbol)
     component_input, input_port, prev_port = symbol_to_component[name_start_device]
-    prev_device = component.add_ref(component_input)
+    prev_device = component.add_ref(component_input, name=f"{symbol}{index}")
+    named_references_counter.update(
+        {name_start_device: 1}
+    )  # sourcery skip:simplify-dictionary-update
 
     if do_flip:
         prev_device = _flip_ref(prev_device, input_port)
@@ -150,7 +156,11 @@ def component_sequence(
         index += 1
         component_i, input_port, next_port = symbol_to_component[s]
         component_i = gf.get_component(component_i)
-        ref = component.add_ref(component_i)
+        named_references_counter.update(
+            {s: 1}
+        )  # sourcery skip:simplify-dictionary-update
+        alias = f"{s}{named_references_counter[s]}"
+        ref = component.add_ref(component_i, name=alias)
 
         if do_flip:
             ref = _flip_ref(ref, input_port)

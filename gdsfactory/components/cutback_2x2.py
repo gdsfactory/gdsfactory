@@ -159,15 +159,15 @@ def cutback_2x2(
 
     s = s[:-1]
     n = cols * rows * 2
-
     seq = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
 
     c = gf.Component()
     _ = c << seq
-    c.add_port("o1", port=seq.insts["A1"]["o1"])
-    c.add_port("o2", port=seq.insts["A1"]["o2"])
-    c.add_port("o3", port=seq.insts[f"B{n}"]["o2"])
-    c.add_port("o4", port=seq.insts[f"B{n}"]["o1"])
+    c.add_port("o1", port=seq.insts["A1"].ports["o1"])
+    c.add_port("o2", port=seq.insts["A1"].ports["o2"])
+
+    c.add_port("o3", port=seq.insts[f"B{n}"].ports["o2"])
+    c.add_port("o4", port=seq.insts[f"B{n}"].ports["o1"])
 
     c.copy_child_info(component)
     c.info["components"] = 2 * n

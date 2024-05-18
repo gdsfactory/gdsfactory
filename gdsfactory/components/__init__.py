@@ -135,9 +135,6 @@ from gdsfactory.components.grating_coupler_loss import (
     loss_deembedding_ch13_24,
     loss_deembedding_ch14_23,
 )
-from gdsfactory.components.grating_coupler_loss_fiber_single import (
-    grating_coupler_loss_fiber_single,
-)
 from gdsfactory.components.grating_coupler_rectangular import (
     grating_coupler_rectangular,
 )
