@@ -46,6 +46,7 @@ routes:
             radius: 10
 
 """
+
 from __future__ import annotations
 
 import importlib
@@ -61,7 +62,7 @@ from omegaconf import DictConfig, OmegaConf
 
 import gdsfactory as gf
 from gdsfactory.add_pins import add_instance_label
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component, Instance
 from gdsfactory.serialization import clean_value_json
 
 valid_placement_keys = [
@@ -131,9 +132,7 @@ def to_um(ref, value):
     return round(value / ref.kcl.dbu)
 
 
-def _get_anchor_point_from_name(
-    ref: ComponentReference, anchor_name: str
-) -> np.ndarray | None:
+def _get_anchor_point_from_name(ref: Instance, anchor_name: str) -> np.ndarray | None:
     if anchor_name in valid_anchor_point_keywords:
         return getattr(ref.size_info, anchor_name)
     elif anchor_name in ref.ports:
@@ -143,7 +142,7 @@ def _get_anchor_point_from_name(
 
 
 def _get_anchor_value_from_name(
-    ref: ComponentReference, anchor_name: str, return_value: str
+    ref: Instance, anchor_name: str, return_value: str
 ) -> float | None:
     if anchor_name in valid_anchor_value_keywords:
         return getattr(ref.size_info, anchor_name)
@@ -205,7 +204,7 @@ def _move_ref(
 def place(
     placements_conf: dict[str, dict[str, int | float | str]],
     connections_by_transformed_inst: dict[str, dict[str, str]],
-    instances: dict[str, ComponentReference],
+    instances: dict[str, Instance],
     encountered_insts: list[str],
     instance_name: str | None = None,
     all_remaining_insts: list[str] | None = None,
@@ -423,7 +422,7 @@ def make_connection(
     port_src_name: str,
     instance_dst_name: str,
     port_dst_name: str,
-    instances: dict[str, ComponentReference],
+    instances: dict[str, Instance],
 ) -> None:
     """Connect instance_src_name,port to instance_dst_name,port.
 
@@ -448,13 +447,15 @@ def make_connection(
     instance_dst = instances[instance_dst_name]
 
     if port_src_name not in instance_src.ports:
+        instance_src_port_names = [p.name for p in instance_src.ports]
         raise ValueError(
-            f"{port_src_name} not in {list(instance_src.ports.keys())} for"
+            f"{port_src_name!r} not in {instance_src_port_names} for"
             f" {instance_src_name!r} "
         )
     if port_dst_name not in instance_dst.ports:
+        instance_dst_port_names = [p.name for p in instance_dst.ports]
         raise ValueError(
-            f"{port_dst_name!r} not in {list(instance_dst.ports.keys())} for"
+            f"{port_dst_name!r} not in {instance_dst_port_names} for"
             f" {instance_dst_name!r}"
         )
     port_dst = instance_dst.ports[port_dst_name]
@@ -787,10 +788,10 @@ def _from_yaml(
         settings = clean_value_json(settings)
         component_spec = {"component": component, "settings": settings}
         component = component_getter(component_spec)
-        ref = c.add_ref(component, alias=instance_name)
+        ref = c.add_ref(component, name=instance_name)
         instances[instance_name] = ref
 
-    placements_conf = dict() if placements_conf is None else placements_conf
+    placements_conf = {} if placements_conf is None else placements_conf
 
     connections_by_transformed_inst = transform_connections_dict(connections_conf)
     components_to_place = set(placements_conf.keys())
@@ -897,16 +898,22 @@ def _from_yaml(
 
                     for port_src_name in ports1names:
                         if port_src_name not in instance_src.ports:
+                            instance_src_port_names = [
+                                p.name for p in instance_src.ports
+                            ]
                             raise ValueError(
-                                f"{port_src_name!r} not in {list(instance_src.ports.keys())}"
+                                f"{port_src_name!r} not in {instance_src_port_names}"
                                 f"for {instance_src_name!r} "
                             )
                         ports1.append(instance_src.ports[port_src_name])
 
                     for port_dst_name in ports2names:
                         if port_dst_name not in instance_dst.ports:
+                            instance_dst_port_names = [
+                                p.name for p in instance_dst.ports
+                            ]
                             raise ValueError(
-                                f"{port_dst_name!r} not in {list(instance_dst.ports.keys())}"
+                                f"{port_dst_name!r} not in {instance_dst_port_names}"
                                 f"for {instance_dst_name!r}"
                             )
                         ports2.append(instance_dst.ports[port_dst_name])
@@ -950,12 +957,14 @@ def _from_yaml(
                     route_names.append(route_name)
 
             routing_function = routing_strategy[routing_strategy_name]
-            routing_function(
+            routes_list = routing_function(
                 c,
                 ports1=ports1,
                 ports2=ports2,
                 **settings,
             )
+            for route_name, route in zip(route_names, routes_list):
+                routes[route_name] = route
 
     if ports_conf:
         if not hasattr(ports_conf, "items"):

@@ -264,5 +264,5 @@ def straight_heater_doped_strip(
 
 
 if __name__ == "__main__":
-    c = straight_heater_doped_strip()
+    c = straight_heater_doped_rib()
     c.show()

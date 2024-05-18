@@ -67,13 +67,13 @@ connections:
 
 def test_sample() -> None:
     c = from_yaml(sample_mmis)
-    assert len(c.get_dependencies()) == 6, len(c.get_dependencies())
+    assert len(c.insts) == 6, len(c.insts)
     assert len(c.ports) == 3, len(c.ports)
 
 
 def test_connections() -> None:
     c = from_yaml(sample_connections)
-    assert len(c.get_dependencies()) == 2
+    assert len(c.insts) == 2
     assert len(c.ports) == 0
 
 
@@ -110,7 +110,7 @@ routes:
 
 def test_connections_2x2() -> None:
     c = from_yaml(sample_2x2_connections)
-    assert len(c.get_dependencies()) == 8, len(c.get_dependencies())
+    assert len(c.insts) == 11, len(c.insts)
     assert len(c.ports) == 0, len(c.ports)
 
     length = c.routes["mmi_bottom,o3:mmi_top,o2"]
@@ -595,27 +595,8 @@ def test_ref_names_retained_on_copy() -> None:
 
 
 if __name__ == "__main__":
-    test_connections_2x2()
-    # test_connections_different_factory()
-    # test_sample()
     # test_connections()
-    # test_netlists("sample_mmis", None, False)
-    # yaml_key = "sample_doe_function"
-    # yaml_key = "sample_mmis"
-    # yaml_key = "yaml_anchor"
-    # yaml_key = "sample_doe_function"
-    # yaml_key = "sample_doe_grid"
-    # yaml_key = "sample_docstring"
-    # yaml_key = "sample_waypoints"
-    # yaml_key = "sample_different_link_factory"
-    # yaml_key = "test_connections_2x2"
-    # yaml_string = yaml_strings[yaml_key]
-    # c = from_yaml(yaml_string)
-    # print(sorted([i.name for i in c.get_dependencies(True)]))
-    # n = c.get_netlist()
-    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # c2 = from_yaml(yaml_str)
-    # n2 = c2.get_netlist()
-    # d = jsondiff.diff(n, n2)
-    # pprint(d)
-    # c.show()
+    c = from_yaml(sample_connections)
+    # assert len(c.insts) == 2
+    # assert len(c.ports) == 0
+    c.show()
