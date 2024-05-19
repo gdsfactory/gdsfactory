@@ -1384,13 +1384,30 @@ placements:
 
   mzis:
     xmin: rings,east
+"""
 
+sample_connections = """
+name: sample_connections
+
+instances:
+    wgw:
+      component: straight
+      settings:
+        length: 1
+    wgn:
+      component: straight
+      settings:
+        length: 0.5
+
+connections:
+    wgw,o1: wgn,o2
 """
 
 
 if __name__ == "__main__":
     # c = from_yaml(sample_doe_function)
-    c = from_yaml(sample_mmis)
+    # c = from_yaml(sample_mmis)
+    c = from_yaml(sample_connections)
     c.show()
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)

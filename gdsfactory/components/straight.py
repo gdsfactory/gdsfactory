@@ -59,8 +59,14 @@ if __name__ == "__main__":
     # xs = xs.mirror()
     # c = straight(cross_section=xs)
     # gdspath = c.write_gds()
+    c0 = gf.Component()
     c = straight(
         length=10,
         cross_section="xs_sc",
     )
+    ref = c0 << c
+    print("o1" in c.ports)
+    print(type(c.ports))
+    print("o1" in ref.ports)
+    print(type(ref.ports))
     c.show()

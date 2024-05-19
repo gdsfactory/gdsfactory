@@ -1019,7 +1019,7 @@ def extrude_transition(
     common_sections = set(names1).intersection(names2)
     if len(common_sections) == 0:
         raise ValueError(
-            f"transition() found no common layers X1 {names1} and X2 {names2}"
+            f"transition() found no common section names X1 {names1} and X2 {names2}"
         )
 
     for section_name in common_sections:
@@ -1113,8 +1113,6 @@ def extrude_transition(
             port_width = width1
             port_orientation = (p_sec.start_angle + 180) % 360
             center = points[0]
-            face = [points1[0], points2[0]]
-            face = [_rotated_delta(point, center, port_orientation) for point in face]
 
             c.add_port(
                 name=port_names[0],
@@ -1129,7 +1127,6 @@ def extrude_transition(
             port_width = width2
             port_orientation = (p_sec.end_angle) % 360
             center = points[-1]
-            face = [points1[-1], points2[-1]]
 
             c.add_port(
                 name=port_names[1],
@@ -1569,9 +1566,26 @@ if __name__ == "__main__":
     # )
     # s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
     # x1 = gf.CrossSection(sections=(s0, s1))
-    x1 = gf.cross_section.xs_rc
-    c = gf.path.extrude(P, x1)
-    print(hash(P))
+    # x1 = gf.cross_section.xs_rc
+
+    layer = (1, 0)
+    s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
+    s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
+    xs1 = gf.CrossSection(sections=(s1,))
+    xs2 = gf.CrossSection(sections=(s2,))
+    trans12 = gf.path.transition(
+        cross_section1=xs1, cross_section2=xs2, width_type="linear"
+    )
+    trans21 = gf.path.transition(
+        cross_section1=xs2, cross_section2=xs1, width_type="linear"
+    )
+
+    WG4Path = gf.Path()
+    WG4Path.append(gf.path.straight(length=100, npoints=2))
+    c1 = gf.path.extrude_transition(WG4Path, trans12)
+
+    # c = gf.path.extrude(P, x1)
+    # print(hash(P))
     # P.plot()
 
     # ref = c.ref()
@@ -1583,4 +1597,4 @@ if __name__ == "__main__":
     # x2 = gf.CrossSection(sections=(s2, s3))
     # t = gf.path.transition(x1, x2, width_type="linear")
     # c = gf.path.extrude(P, t)
-    c.show()
+    c1.show()

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import jsondiff
 
 import gdsfactory as gf
@@ -23,7 +25,6 @@ def test_transition_names() -> None:
 
     xs1 = gf.CrossSection(sections=(s1,))
     xs2 = gf.CrossSection(sections=(s2,))
-
     trans12 = gf.path.transition(
         cross_section1=xs1, cross_section2=xs2, width_type="linear"
     )
@@ -46,6 +47,47 @@ def test_copy() -> None:
     assert len(d) == 0, d
 
 
+xc_sin = partial(
+    gf.cross_section.cross_section,
+    width=1.0,
+    layer=(1, 0),
+    cladding_layers=[(1, 2), (1, 3)],
+    cladding_offsets=(5, 10),
+)
+
+xc_sin_ec = partial(xc_sin, width=0.2)
+
+
+@gf.cell
+def demo_taper_cladding_offsets():
+    taper_length = 10
+
+    in_stub_length = 10
+    out_stub_length = 10
+
+    c = gf.Component()
+
+    wg_in = c << gf.components.straight(length=in_stub_length, cross_section=xc_sin_ec)
+
+    taper = c << gf.components.taper_cross_section_linear(
+        length=taper_length, cross_section1=xc_sin_ec, cross_section2=xc_sin
+    )
+
+    wg_out = c << gf.components.straight(length=out_stub_length, cross_section=xc_sin)
+
+    taper.connect("o1", wg_in.ports["o2"])
+    wg_out.connect("o1", taper.ports["o2"])
+
+    c.add_port("o1", port=wg_in.ports["o1"])
+    c.add_port("o2", port=wg_out.ports["o2"])
+    return c
+
+
+def test_taper_cladding_offets():
+    c = demo_taper_cladding_offsets()
+    assert len(c.get_polygons()[(1, 0)]) == 3
+
+
 if __name__ == "__main__":
-    # test_transition_names()
-    test_copy()
+    test_transition_names()
+    # test_copy()
