@@ -129,14 +129,14 @@ valid_route_keys = [
 
 
 def to_um(ref, value):
-    return round(value / ref.kcl.dbu)
+    return round(value * ref.kcl.dbu)
 
 
 def _get_anchor_point_from_name(ref: Instance, anchor_name: str) -> np.ndarray | None:
     if anchor_name in valid_anchor_point_keywords:
         return getattr(ref.size_info, anchor_name)
     elif anchor_name in ref.ports:
-        return ref.ports[anchor_name].center
+        return ref.ports[anchor_name].d.center
     else:
         return None
 
@@ -330,7 +330,7 @@ def place(
                 ref.d.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
             else:
                 x, y = ref.d.center.x, ref.d.center.y
-                ref.rotate(rotation, center=ref.center)
+                ref.d.rotate(rotation, center=ref.d.center)
 
         if ymin is not None and ymax is not None:
             raise ValueError("You cannot set ymin and ymax")
@@ -358,7 +358,7 @@ def place(
         if xmin is not None and xmax is not None:
             raise ValueError("You cannot set xmin and xmax")
         elif xmin is not None:
-            ref.xmin = _move_ref(
+            ref.d.xmin = _move_ref(
                 xmin,
                 x_or_y="x",
                 placements_conf=placements_conf,
@@ -1403,11 +1403,70 @@ connections:
     wgw,o1: wgn,o2
 """
 
+sample_docstring = """
+name: sample_docstring
+
+instances:
+    mmi_bot:
+      component: mmi1x2
+      settings:
+        width_mmi: 5
+        length_mmi: 11
+    mmi_top:
+      component: mmi1x2
+      settings:
+        width_mmi: 6
+        length_mmi: 22
+
+placements:
+    mmi_top:
+        port: o1
+        x: 0
+        y: 0
+    mmi_bot:
+        port: o1
+        x: mmi_top,o2
+        y: mmi_top,o2
+        dx: 40
+        dy: -40
+routes:
+    optical:
+        links:
+            mmi_top,o3: mmi_bot,o1
+"""
+
+yaml_anchor = """
+name: yaml_anchor
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 10
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+
+placements:
+    mmi_short:
+        port: o3
+        x: 0
+        y: 0
+    mmi_long:
+        port: o1
+        x: mmi_short,east
+        y: mmi_short,north
+        dx : 10
+        dy: 10
+"""
+
 
 if __name__ == "__main__":
     # c = from_yaml(sample_doe_function)
     # c = from_yaml(sample_mmis)
-    c = from_yaml(sample_connections)
+    c = from_yaml(yaml_anchor)
     c.show()
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)

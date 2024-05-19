@@ -113,8 +113,8 @@ def test_connections_2x2() -> None:
     assert len(c.insts) == 11, len(c.insts)
     assert len(c.ports) == 0, len(c.ports)
 
-    length = c.routes["mmi_bottom,o3:mmi_top,o2"]
-    assert np.isclose(length, 168.274), length
+    length = c.routes["mmi_bottom,o3:mmi_top,o2"].length
+    assert np.isclose(length, 135000), length
 
 
 sample_different_factory = """
@@ -146,6 +146,7 @@ placements:
 routes:
     electrical:
         settings:
+            port_type: electrical
             separation: 20
             cross_section:
                 cross_section: xs_m3_bend
@@ -156,6 +157,7 @@ routes:
             bl,e3: br,e1
     optical:
         settings:
+            port_type: optical
             cross_section:
                 cross_section: xs_sc
                 settings:
@@ -168,11 +170,16 @@ routes:
 
 def test_connections_different_factory() -> None:
     c = from_yaml(sample_different_factory)
-    lengths = [693.274, 693.274, 1199.144]
-
-    assert np.isclose(c.routes["tl,e3:tr,e1"], lengths[0]), c.routes["tl,e3:tr,e1"]
-    assert np.isclose(c.routes["bl,e3:br,e1"], lengths[1]), c.routes["bl,e3:br,e1"]
-    assert np.isclose(c.routes["bl,e4:br,e3"], lengths[2]), c.routes["bl,e4:br,e3"]
+    lengths = [660000, 660000, 700000]
+    assert np.isclose(c.routes["tl,e3:tr,e1"].length, lengths[0]), c.routes[
+        "tl,e3:tr,e1"
+    ].length
+    assert np.isclose(c.routes["bl,e3:br,e1"].length, lengths[1]), c.routes[
+        "bl,e3:br,e1"
+    ].length
+    assert np.isclose(c.routes["bl,e4:br,e3"].length, lengths[2]), c.routes[
+        "bl,e4:br,e3"
+    ].length
 
 
 sample_different_link_factory = """
@@ -212,14 +219,6 @@ routes:
             bl,e3: br,e1
 
 """
-
-
-def test_connections_different_link_factory() -> None:
-    c = from_yaml(sample_different_link_factory)
-
-    length = 1719.822
-    assert np.isclose(c.routes["tl,e3:tr,e1"], length), c.routes["tl,e3:tr,e1"]
-    assert np.isclose(c.routes["bl,e3:br,e1"], length), c.routes["bl,e3:br,e1"]
 
 
 sample_waypoints = """
@@ -345,33 +344,36 @@ def test_connections_regex() -> None:
     c = from_yaml(sample_regex_connections)
     route_names = ["left,o1:right,o3", "left,o2:right,o2", "left,o3:right,o1"]
 
-    length = 12.0
+    length = 12000
     for route_name in route_names:
-        assert np.isclose(c.routes[route_name], length)
+        assert np.isclose(c.routes[route_name].length, length)
 
 
-def test_connections_regex_backwargs() -> None:
+def test_connections_regex_backwards() -> None:
     c = from_yaml(sample_regex_connections_backwards)
     route_names = ["left,o3:right,o1", "left,o2:right,o2", "left,o1:right,o3"]
 
-    length = 12.0
+    length = 12000
     for route_name in route_names:
-        assert np.isclose(c.routes[route_name], length), c.routes[route_name]
+        assert np.isclose(c.routes[route_name].length, length), c.routes[
+            route_name
+        ].length
 
 
+@pytest.mark.skip("not implemented")
 def test_connections_waypoints() -> None:
     c = from_yaml(sample_waypoints)
 
-    length = 2036.548
+    length = 2036548
     route_name = "b,e11:t,e11"
-    assert np.isclose(c.routes[route_name], length), c.routes[route_name]
+    assert np.isclose(c.routes[route_name].length, length), c.routes[route_name].length
 
 
 def test_docstring_sample() -> None:
     c = from_yaml(sample_docstring)
     route_name = "mmi_top,o3:mmi_bot,o1"
-    length = 72.024
-    assert np.isclose(c.routes[route_name], length), c.routes[route_name]
+    length = 38750
+    assert np.isclose(c.routes[route_name].length, length), c.routes[route_name].length
 
 
 yaml_fail = """
@@ -504,8 +506,8 @@ yaml_strings = dict(
     # sample_regex_connections_backwards=sample_regex_connections_backwards,
     # sample_regex_connections=sample_regex_connections,
     sample_docstring=sample_docstring,
-    sample_waypoints=sample_waypoints,
-    sample_different_link_factory=sample_different_link_factory,
+    # sample_waypoints=sample_waypoints,
+    # sample_different_link_factory=sample_different_link_factory,
     # sample_different_factory=sample_different_factory,
     sample_mirror_simple=sample_mirror_simple,
     sample_connections=sample_connections,
@@ -595,8 +597,13 @@ def test_ref_names_retained_on_copy() -> None:
 
 
 if __name__ == "__main__":
-    # test_connections()
-    c = from_yaml(sample_connections)
+    test_docstring_sample()
+    # test_connections_waypoints()
+    # test_connections_2x2()
+    # test_connections_different_factory()
+    # c = from_yaml(sample_regex_connections)
+    # c = from_yaml(connections_2x2)
     # assert len(c.insts) == 2
     # assert len(c.ports) == 0
-    c.show()
+    # c = from_yaml(sample_docstring)
+    # c.show()

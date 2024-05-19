@@ -128,7 +128,6 @@ def route_bundle(
                 (requires path_length_match_loops != None).
         enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
         steps: specify waypoint steps to route using route_bundle_from_steps.
-        waypoints: specify waypoints to route using route_bundle_from_steps.
         collision_check_layers: list of layers to check for collisions.
         on_collision: action to take on collision. Defaults to show_error.
         bboxes: list of bounding boxes to avoid collisions.
