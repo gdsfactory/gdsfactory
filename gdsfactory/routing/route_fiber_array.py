@@ -32,7 +32,7 @@ def route_fiber_array(
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    taper: ComponentSpec = taper_function,
+    taper: ComponentSpec | None = taper_function,
     fanout_length: float | None = None,
     max_y0_optical: None = None,
     with_loopback: bool = True,
