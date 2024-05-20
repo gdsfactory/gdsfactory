@@ -59,6 +59,12 @@ pip install -e .[dev]
 pre-commit install
 ```
 
+**Note**:
+- If you need to run the notebooks and you are not using VSCode or Anaconda, then you need to install [jupyter lab](https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html)
+```
+pip install jupyterlab
+```
+
 ## Style
 
 - Follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html) and existing code.
