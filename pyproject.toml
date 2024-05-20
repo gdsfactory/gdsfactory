@@ -76,7 +76,7 @@ dev = [
 docs = [
   "autodoc_pydantic>=2.0.1,<3",
   "jupytext",
-  "jupyter-book>=0.15.1,<0.16",
+  "jupyter-book>=0.15.1,<1.1",
   "plotly"
 ]
 full = [
