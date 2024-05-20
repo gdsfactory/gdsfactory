@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import jsondiff
+
 import gdsfactory as gf
 from gdsfactory.read.import_gds import import_gds
 
@@ -14,12 +16,27 @@ from gdsfactory.read.import_gds import import_gds
 #         ), f"{polygon.points} not in 5nm grid"
 
 
+def test_read_gds_equivalent() -> None:
+    """Ensures Component from GDS + YAML loads same component settings."""
+    c1 = gf.components.straight(length=1.234)
+    gdspath = gf.PATH.gdsdir / "straight.gds"
+
+    c2 = gf.import_gds(gdspath, read_metadata=True, unique_names=False)
+    d1 = c1.to_dict()
+    d2 = c2.to_dict()
+    d1.pop("name")
+    d2.pop("name")
+    d = jsondiff.diff(d1, d2)
+
+    assert len(d) == 0, d
+
+
 def test_import_gds_hierarchy() -> None:
     c0 = gf.components.mzi_arms(delta_length=11)
     gdspath = c0.write_gds()
 
     c = import_gds(gdspath, unique_names=False)
-    assert len(c.get_dependencies()) == 3, len(c.get_dependencies())
+    assert len(c.insts) == 3, len(c.insts)
     assert c.name == c0.name, c.name
 
 
@@ -52,34 +69,3 @@ def test_import_gds_raw() -> None:
 
     c = gf.read.import_gds(gdspath)
     assert c
-
-
-if __name__ == "__main__":
-    # test_import_gds_hierarchy()
-    # test_import_ports_inside()
-    test_import_gds_array()
-
-    # c = test_import_ports()
-    # c = test_import_gds_add_padding()
-    # c.show( )
-    # test_import_gds_snap_to_grid()
-
-    # cross_section = gf.cross_section.cross_section
-    # splitter = gf.components.mmi1x2(cross_section=cross_section)
-    # c0 = gf.components.mzi_arms(splitter=splitter, cross_section=cross_section)
-    # c0.unlock()
-    # c0 = add_pins(c0)
-    # c0.lock()
-
-    # gdspath = c0.write_gds()
-    # c0x1 = c0.ports["o1"].x
-    # c0x2 = c0.ports["o2"].x
-
-    # c1 = import_gds(gdspath, decorator=add_ports_from_markers_inside)
-    # c1x1 = c1.ports["o1"].x
-    # c1x2 = c1.ports["o2"].x
-
-    # assert c0x1 == c1x1
-    # assert c0x2 == c1x2
-
-    # c1.show( )
