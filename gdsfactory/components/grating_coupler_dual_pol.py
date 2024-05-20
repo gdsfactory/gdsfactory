@@ -8,11 +8,11 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import (
-    ComponentSpec,
-    CrossSectionSpec,
-    LayerSpec,
-)
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+
+# The default values are loosely based on Taillaert et al,
+#  "A Compact Two-Dimensional Grating Coupler Used
+# as a Polarization Splitter", IEEE Phot. Techn. Lett. 15(9), 2003
 
 rectangle_unit_cell = partial(
     rectangle, size=(0.3, 0.3), layer="SLAB150", centered=True, port_type=None
@@ -39,9 +39,6 @@ def grating_coupler_dual_pol(
 
     Based on a photonic crystal with a unit cell that is usually an ellipse,
     a rectangle or a circle.
-    The default values are loosely based on Taillaert et al,
-    "A Compact Two-Dimensional Grating Coupler Used
-    as a Polarization Splitter", IEEE Phot. Techn. Lett. 15(9), 2003
 
     Args:
         unit_cell: component describing the unit cell of the photonic crystal.
@@ -151,9 +148,11 @@ def grating_coupler_dual_pol(
     taper2.ymax = -y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")
 
+    gf.asserts.grating_coupler(c)
+    xs.add_bbox(c)
     return c
 
 
 if __name__ == "__main__":
     c = grating_coupler_dual_pol()
-    c.show(show_ports=True)
+    c.show()

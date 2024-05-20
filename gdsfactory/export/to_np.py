@@ -60,7 +60,7 @@ if __name__ == "__main__":
     c = gf.components.bend_circular()
     # i = to_np(c, nm_per_pixel=250)
     i = to_np(c, nm_per_pixel=20)
-    c.show(show_ports=True)
+    c.show()
     plt.imshow(i.transpose(), origin="lower")
     plt.colorbar()
     plt.show()

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import gdsfactory as gf
+from gdsfactory.read.from_yaml import from_yaml
 
 yaml = """
 name: mmis
@@ -23,5 +23,5 @@ placements:
 
 
 if __name__ == "__main__":
-    c = gf.read.from_yaml(yaml)
-    c.show(show_ports=True)
+    c = from_yaml(yaml)
+    c.show()

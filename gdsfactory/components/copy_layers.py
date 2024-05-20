@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.cross import cross
 from gdsfactory.typings import ComponentSpec, LayerSpecs
 
 
-@gf.cell_with_child
+@cell
 def copy_layers(
     factory: ComponentSpec = cross, layers: LayerSpecs = ((1, 0), (2, 0)), **kwargs
 ) -> Component:
@@ -28,4 +29,4 @@ def copy_layers(
 
 if __name__ == "__main__":
     c = copy_layers(gf.components.rectangle)
-    c.show(show_ports=True)
+    c.show()

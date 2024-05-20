@@ -26,15 +26,17 @@ def wafer(
     """
     c = gf.Component()
     die = reticle()
-    xspacing = xspacing or die.xsize
-    yspacing = yspacing or die.ysize
+    xspacing = xspacing or die.d.xsize
+    yspacing = yspacing or die.d.ysize
 
     i = 1
     for col in range(len(cols)):
         for row in range(cols[col]):
             die_name = f"{col+1}_{row+1}" if die_name_col_row else str(i)
             die = reticle(die_name=die_name)
-            c.add_ref(die).movex((row - cols[col] / 2) * xspacing).movey(col * yspacing)
+            ref = c.add_ref(die)
+            ref.d.movex((row - cols[col] / 2) * xspacing)
+            ref.d.movey(col * yspacing)
             i += 1
 
     return c

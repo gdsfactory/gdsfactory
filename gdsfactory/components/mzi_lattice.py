@@ -7,8 +7,9 @@ from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.mmi2x2 import mmi2x2 as mmi_splitter_function
 from gdsfactory.components.mzi import mzi2x2_2x2 as mmi_coupler_function
 from gdsfactory.components.mzi import mzi_coupler
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentFactory
 
 
 @cell
@@ -16,8 +17,8 @@ def mzi_lattice(
     coupler_lengths: tuple[float, ...] = (10.0, 20.0),
     coupler_gaps: tuple[float, ...] = (0.2, 0.3),
     delta_lengths: tuple[float, ...] = (10.0,),
-    mzi: ComponentSpec = mzi_coupler,
-    splitter: ComponentSpec = coupler_function,
+    mzi: ComponentFactory = mzi_coupler,
+    splitter: ComponentFactory = coupler_function,
     **kwargs,
 ) -> Component:
     r"""Mzi lattice filter.
@@ -81,7 +82,7 @@ def mzi_lattice(
         delta_length=delta_lengths[0],
         **kwargs,
     )
-    c.add_ports(sprevious.get_ports_list(port_type="electrical"))
+    c.add_ports(sprevious.ports)
 
     stages = []
 
@@ -104,17 +105,17 @@ def mzi_lattice(
         splitter_settings = combiner_settings
 
         stages.append(stage)
-        c.add_ports(stage.get_ports_list(port_type="electrical"))
+        c.add_ports(stage.ports)
 
     for stage in stages:
         stage.connect("o1", sprevious.ports["o4"])
         # stage.connect('o2', sprevious.ports['o1'])
         sprevious = stage
 
-    for port in cp1.get_ports_list(orientation=180, port_type="optical"):
+    for port in cp1.ports.filter(orientation=180, port_type="optical"):
         c.add_port(port.name, port=port)
 
-    for port in sprevious.get_ports_list(orientation=0, port_type="optical"):
+    for port in sprevious.ports.filter(orientation=0, port_type="optical"):
         c.add_port(f"o_{port.name}", port=port)
 
     c.auto_rename_ports()
@@ -148,6 +149,7 @@ def mzi_lattice_mmi(
         taper_function,
         taper_function,
     ),
+    straight_functions_mmis=(straight_function, straight_function),
     cross_sections_mmis=("xs_sc", "xs_sc"),
     delta_lengths: tuple[float, ...] = (10.0,),
     mzi=mmi_coupler_function,
@@ -164,6 +166,7 @@ def mzi_lattice_mmi(
         coupler_widths_mmis: (for each MMI coupler, list of) in y direction.
         coupler_gaps_mmis: (for each MMI coupler, list of) (width_taper + gap between tapered wg)/2.
         taper_functions_mmis: (for each MMI coupler, list of) taper function.
+        straight_functions_mmis: (for each MMI coupler, list of) straight function.
         cross_sections_mmis: (for each MMI coupler, list of) spec.
         delta_lengths: list of length differences.
         mzi: function for the mzi.
@@ -203,6 +206,7 @@ def mzi_lattice_mmi(
             coupler_widths_mmis,
             coupler_gaps_mmis,
             taper_functions_mmis,
+            straight_functions_mmis,
             cross_sections_mmis,
         ]
     ):
@@ -224,6 +228,7 @@ def mzi_lattice_mmi(
         width_mmi=coupler_widths_mmis[0],
         gap_mmi=coupler_gaps_mmis[0],
         taper=taper_functions_mmis[0],
+        straight=straight_functions_mmis[0],
         cross_section=cross_sections_mmis[0],
     )
     combiner_settings = dict(
@@ -234,21 +239,21 @@ def mzi_lattice_mmi(
         width_mmi=coupler_widths_mmis[1],
         gap_mmi=coupler_gaps_mmis[1],
         taper=taper_functions_mmis[1],
+        straight=straight_functions_mmis[1],
         cross_section=cross_sections_mmis[1],
     )
 
     cp1 = splitter1 = gf.get_component(splitter, **splitter_settings)
     combiner1 = gf.get_component(splitter, **combiner_settings)
 
-    sprevious = c << gf.get_component(
-        mzi,
+    sprevious = c << mzi(
         splitter=splitter1,
         combiner=combiner1,
         with_splitter=True,
         delta_length=delta_lengths[0],
         **kwargs,
     )
-    c.add_ports(sprevious.get_ports_list(port_type="electrical"))
+    c.add_ports(sprevious.ports.filter(port_type="electrical"))
 
     stages = []
 
@@ -260,6 +265,7 @@ def mzi_lattice_mmi(
         coupler_width_mmi,
         coupler_gap_mmi,
         taper,
+        straight,
         cross_section,
         delta_length,
     ) in zip(
@@ -270,6 +276,7 @@ def mzi_lattice_mmi(
         coupler_widths_mmis[2:],
         coupler_gaps_mmis[2:],
         taper_functions_mmis[2:],
+        straight_functions_mmis[2:],
         cross_sections_mmis[2:],
         delta_lengths[1:],
     ):
@@ -281,6 +288,7 @@ def mzi_lattice_mmi(
             width_mmi=coupler_widths_mmis[1],
             gap_mmi=coupler_gaps_mmis[1],
             taper=taper_functions_mmis[1],
+            straight=straight_functions_mmis[1],
             cross_section=cross_sections_mmis[1],
         )
         combiner_settings = dict(
@@ -291,6 +299,7 @@ def mzi_lattice_mmi(
             width_mmi=coupler_width_mmi,
             gap_mmi=coupler_gap_mmi,
             taper=taper,
+            straight=straight,
             cross_section=cross_section,
         )
         splitter1 = gf.get_component(splitter, **splitter_settings)
@@ -307,17 +316,17 @@ def mzi_lattice_mmi(
         splitter_settings = combiner_settings
 
         stages.append(stage)
-        c.add_ports(stage.get_ports_list(port_type="electrical"))
+        c.add_ports(stage.ports.filter(port_type="electrical"))
 
     for stage in stages:
         stage.connect("o1", sprevious.ports["o4"])
         # stage.connect('o2', sprevious.ports['o1'])
         sprevious = stage
 
-    for port in cp1.get_ports_list(orientation=180, port_type="optical"):
+    for port in cp1.ports.filter(orientation=180, port_type="optical"):
         c.add_port(port.name, port=port)
 
-    for port in sprevious.get_ports_list(orientation=0, port_type="optical"):
+    for port in sprevious.ports.filter(orientation=0, port_type="optical"):
         c.add_port(f"o_{port.name}", port=port)
 
     c.auto_rename_ports()
@@ -337,7 +346,7 @@ if __name__ == "__main__":
     #     coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
     # )
     # c = mzi_lattice(delta_lengths=(20,))
-    # c.show(show_ports=True)
+    # c.show( )
 
     c = mzi_lattice_mmi(
         coupler_widths=(None,) * 5,
@@ -347,7 +356,8 @@ if __name__ == "__main__":
         coupler_widths_mmis=(2.5,) * 5,
         coupler_gaps_mmis=(0.25,) * 5,
         taper_functions_mmis=(taper_function,) * 5,
+        straight_functions_mmis=(straight_function,) * 5,
         cross_sections_mmis=("xs_sc",) * 5,
         delta_lengths=(10.0,) * 4,
     )
-    c.show(show_ports=True)
+    c.show()

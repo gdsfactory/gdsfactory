@@ -52,15 +52,14 @@ def coupler90(
     straight_component = gf.get_component(
         straight,
         cross_section=cross_section,
-        length=bend90.ports["o2"].center[0] - bend90.ports["o1"].center[0],
+        length=(bend90.ports["o2"].center[0] - bend90.ports["o1"].center[0])
+        * c.kcl.dbu,
     )
-
     wg_ref = c << straight_component
     width = x.width
 
     pbw = bend_ref.ports["o1"]
-    bend_ref.movey(pbw.center[1] + gap + width)
-
+    bend_ref.movey(int(pbw.y + gap / c.kcl.dbu + width / c.kcl.dbu))
     c.add_ports(wg_ref.ports, prefix="wg")
     c.add_ports(bend_ref.ports, prefix="bend")
     c.auto_rename_ports()
@@ -72,4 +71,4 @@ coupler90circular = partial(coupler90, bend=bend_circular)
 
 if __name__ == "__main__":
     c = coupler90(radius=10, cross_section_bend="xs_sc_heater_metal")
-    c.show(show_ports=False)
+    c.show()

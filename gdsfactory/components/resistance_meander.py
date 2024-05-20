@@ -5,7 +5,6 @@ import numpy as np
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.geometry.offset import offset
 from gdsfactory.typings import LayerSpec
 
 
@@ -16,7 +15,6 @@ def resistance_meander(
     width: float = 1.0,
     res_layer: LayerSpec = "MTOP",
     pad_layer: LayerSpec = "MTOP",
-    gnd_layer: LayerSpec = "MTOP",
 ) -> Component:
     """Return meander to test resistance.
 
@@ -28,7 +26,6 @@ def resistance_meander(
         width: The width of the squares (microns).
         res_layer: resistance layer.
         pad_layer: pad layer.
-        gnd_layer: ground layer.
     """
     x = pad_size[0]
     z = pad_size[1]
@@ -67,7 +64,7 @@ def resistance_meander(
 
     T.add_ref(Row)
     col = T.add_ref(Col)
-    col.move([length_row - width, -width])
+    col.d.move((length_row - width, -width))
 
     # Creating entire straight net
     N = Component("net")
@@ -75,35 +72,29 @@ def resistance_meander(
     for i in range(num_rows):
         d = N.add_ref(T) if i != num_rows - 1 else N.add_ref(Row)
         if n % 2 == 0:
-            d.mirror(p1=(d.x, d.ymax), p2=(d.x, d.ymin))
+            d.mirror_x(d.x)
         d.movey(-(n - 1) * T.ysize)
         n += 1
-    d = N.add_ref(Col).movex(-width)
-    d = N.add_ref(Col).move([length_row, -(n - 2) * T.ysize])
+    ref = N.add_ref(Col)
+    ref.d.movex(-width)
+
+    end = N.add_ref(Col)
+    end.movey(-(n - 2) * T.ysize)
+    end.d.movex(length_row)
 
     # Creating pads
     P = Component()
-    pad1 = rectangle(size=(x, z), layer=pad_layer)
-    gnd1 = gnd2 = offset(pad1, distance=-5, layer=gnd_layer)
-    pad1_ref = P.add_ref(pad1)
-    pad1_ref.movex(-x - width)
-    pad2_ref = P.add_ref(pad1)
-    pad2_ref.movex(length_row + width)
-    gnd1_ref = P.add_ref(gnd1)
-    gnd1_ref.center = pad1_ref.center
-    gnd2_ref = P.add_ref(gnd2)
+    pad = rectangle(size=(x, z), layer=pad_layer)
+    pad1 = P.add_ref(pad)
+    pad1.d.movex(-x - width)
+    pad2 = P.add_ref(pad)
+    pad2.d.movex(length_row + width)
     net = P.add_ref(N)
-    net.y = pad1_ref.y
-    gnd2_ref.center = pad2_ref.center
-    gnd2_ref.movex(2.5)
-    P.absorb(net)
-    P.absorb(gnd1_ref)
-    P.absorb(gnd2_ref)
-    P.absorb(pad1_ref)
-    P.absorb(pad2_ref)
+    net.ymin = pad1.ymin
+    P.flatten()
     return P
 
 
 if __name__ == "__main__":
-    c = resistance_meander(res_layer="M1", width=0.5)
-    c.show(show_ports=True)
+    c = resistance_meander(num_squares=500)
+    c.show()

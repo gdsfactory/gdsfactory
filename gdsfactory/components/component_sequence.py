@@ -111,8 +111,8 @@ def component_sequence(
         c = gf.components.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
         c.plot()
     """
-    named_references_counter = Counter()
     ports_map = ports_map or {}
+    named_references_counter = Counter()
 
     component = Component()
 
@@ -121,10 +121,10 @@ def component_sequence(
     index = 2 if "!" in sequence[0] else 1
     name_start_device, do_flip = parse_component_name(symbol)
     component_input, input_port, prev_port = symbol_to_component[name_start_device]
-
-    named_references_counter.update({name_start_device: 1})
-    alias = f"{name_start_device}{named_references_counter[name_start_device]}"
-    prev_device = component.add_ref(component_input, alias=alias)
+    prev_device = component.add_ref(component_input, name=f"{symbol}{index}")
+    named_references_counter.update(
+        {name_start_device: 1}
+    )  # sourcery skip:simplify-dictionary-update
 
     if do_flip:
         prev_device = _flip_ref(prev_device, input_port)
@@ -156,10 +156,11 @@ def component_sequence(
         index += 1
         component_i, input_port, next_port = symbol_to_component[s]
         component_i = gf.get_component(component_i)
-
-        named_references_counter.update({s: 1})
+        named_references_counter.update(
+            {s: 1}
+        )  # sourcery skip:simplify-dictionary-update
         alias = f"{s}{named_references_counter[s]}"
-        ref = component.add_ref(component_i, alias=alias)
+        ref = component.add_ref(component_i, name=alias)
 
         if do_flip:
             ref = _flip_ref(ref, input_port)
@@ -187,9 +188,9 @@ def component_sequence(
         raise
 
     # Add any extra port specified in ports_map
-    for name, (alias, alias_port_name) in ports_map.items():
+    for name, (ref_name, alias_port_name) in ports_map.items():
         component.add_port(
-            name=name, port=component.named_references[alias].ports[alias_port_name]
+            name=name, port=component.insts[ref_name].ports[alias_port_name]
         )
 
     return component
@@ -219,8 +220,11 @@ if __name__ == "__main__":
     c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component_map
     )
+    c.show()
     # n = c.get_netlist()
     # c = gf.read.from_yaml(n)
-    c.show(show_ports=True)
-    # c.pprint()
-    # print(c.named_references.keys())
+
+    # _ = c << gf.c.straight()
+    # c.name = "top"
+    # lyrdb = c.connectivity_check()
+    # gf.show(c, lyrdb=lyrdb)

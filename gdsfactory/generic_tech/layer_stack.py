@@ -171,7 +171,7 @@ def get_layer_stack(
             zmin=0.0,
             material="sio2",
             thickness=thickness_clad,
-            mesh_order=9,
+            mesh_order=10,
         ),
         slab150=LayerLevel(
             layer=layer_slab_shallow_etch,
@@ -278,7 +278,6 @@ WAFER_STACK = LayerStack(
             "substrate",
             "box",
             "core",
-            "clad",
         )
     }
 )
@@ -321,8 +320,6 @@ def get_process() -> tuple[ProcessStep]:
             ion="P",
             dose=1e12,
             resist_thickness=1.0,
-            tilt=7,
-            rotation=True,
         ),
         ImplantPhysical(
             name="shallow_n_implant",
@@ -331,8 +328,6 @@ def get_process() -> tuple[ProcessStep]:
             ion="P",
             dose=1e12,
             resist_thickness=1.0,
-            tilt=7,
-            rotation=True,
         ),
         ImplantPhysical(
             name="deep_p_implant",
@@ -341,8 +336,6 @@ def get_process() -> tuple[ProcessStep]:
             ion="B",
             dose=1e12,
             resist_thickness=1.0,
-            tilt=7,
-            rotation=True,
         ),
         ImplantPhysical(
             name="shallow_p_implant",
@@ -351,8 +344,6 @@ def get_process() -> tuple[ProcessStep]:
             ion="B",
             dose=1e12,
             resist_thickness=1.0,
-            tilt=7,
-            rotation=True,
         ),
         ImplantPhysical(
             name="pp_implant",
@@ -361,8 +352,6 @@ def get_process() -> tuple[ProcessStep]:
             ion="B",
             dose=5e12,
             resist_thickness=1.0,
-            tilt=7,
-            rotation=True,
         ),
         ImplantPhysical(
             name="np_implant",
@@ -371,8 +360,6 @@ def get_process() -> tuple[ProcessStep]:
             ion="P",
             dose=5e12,
             resist_thickness=1.0,
-            tilt=7,
-            rotation=True,
         ),
         ImplantPhysical(
             name="ppp_implant",
@@ -381,8 +368,6 @@ def get_process() -> tuple[ProcessStep]:
             ion="B",
             dose=1e15,
             resist_thickness=1.0,
-            tilt=7,
-            rotation=True,
         ),
         ImplantPhysical(
             name="npp_implant",
@@ -391,8 +376,6 @@ def get_process() -> tuple[ProcessStep]:
             ion="As",
             dose=1e15,
             resist_thickness=1.0,
-            tilt=7,
-            rotation=True,
         ),
         # "Temperatures of ~1000C for not more than a few seconds"
         # Adjust to your process

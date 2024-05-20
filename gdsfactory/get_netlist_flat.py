@@ -38,6 +38,7 @@ def get_netlist_flat(
     Keyword Args:
         component_suffix: suffix to append to each component name, useful if to save and reload a back-annotated netlist.
         get_netlist_func: function to extract individual netlists.
+        full_settings: True returns all, false changed settings.
         tolerance: tolerance in nm to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
@@ -162,10 +163,7 @@ def _map_connections_ports(
     # Starting point is ports of the leaf instance
     leaf_instance = hierarchy[-1][1]
     leaf_instance_name = hierarchy[-1][0].split(".")[-1]
-    try:
-        leaf_instance_ports = list(gf.get_component(leaf_instance_name).ports.keys())
-    except ValueError:
-        leaf_instance_ports = []
+    leaf_instance_ports = list(gf.get_component(leaf_instance_name).ports.keys())
 
     for leaf_portname in leaf_instance_ports:
         current_connections = []
@@ -213,14 +211,9 @@ def _accumulate_placements(
         hierarchy[:-1], hierarchy[1:]
     ):
         for key in ["x", "y", "mirror", "rotation"]:
-            value = (
-                all_netlists.get(higher_component, {})
-                .get("placements", {})
-                .get(lower_instance, {})
-                .get(key, None)
-            )
-            if value is not None:
-                placements[key] += value
+            placements[key] += all_netlists[higher_component]["placements"][
+                lower_instance
+            ][key]
 
     return {_flat_name(hierarchy): placements}
 
@@ -304,9 +297,9 @@ def _flatten_hierarchy_recurse(
 if __name__ == "__main__":
     import pprint
 
-    coupler_lengths = [10, 20, 30, 40]
-    coupler_gaps = [0.1, 0.2, 0.4, 0.5]
-    delta_lengths = [10, 100, 200]
+    coupler_lengths = (10, 20, 30, 40)
+    coupler_gaps = (0.1, 0.2, 0.4, 0.5)
+    delta_lengths = (10, 100, 200)
 
     c = gf.components.mzi_lattice(
         coupler_lengths=coupler_lengths,
@@ -363,7 +356,7 @@ if __name__ == "__main__":
     # vdiv.add_port("gnd1", port=r2.ports["pad2"])
     # vdiv.add_port("gnd2", port=r4.ports["pad2"])
     # vdiv.add_port("vsig", port=r1.ports["pad1"])
-    # vdiv.show(show_ports=True)
+    # vdiv.show( )
 
     # recursive_netlist = get_netlist_recursive(vdiv, allow_multiple=True)
     # import pprint

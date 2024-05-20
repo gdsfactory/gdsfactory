@@ -5,31 +5,30 @@ from numpy import float64
 from gdsfactory.port import Port
 
 
-def flip(port: Port) -> Port:
-    """Returns port copy with Flip Port orientation."""
-    return port.flip()
+class RouteWarning(UserWarning):
+    pass
 
 
 def direction_ports_from_list_ports(optical_ports: list[Port]) -> dict[str, list[Port]]:
     """Returns a dict of WENS ports."""
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
     for p in optical_ports:
-        p.orientation = (p.orientation + 360.0) % 360
-        if p.orientation <= 45.0 or p.orientation >= 315:
+        orientation = (p.orientation + 360.0) % 360
+        if orientation <= 45.0 or orientation >= 315:
             direction_ports["E"].append(p)
-        elif p.orientation <= 135.0 and p.orientation >= 45.0:
+        elif orientation <= 135.0 and orientation >= 45.0:
             direction_ports["N"].append(p)
-        elif p.orientation <= 225.0 and p.orientation >= 135.0:
+        elif orientation <= 225.0 and orientation >= 135.0:
             direction_ports["W"].append(p)
         else:
             direction_ports["S"].append(p)
 
     for direction, list_ports in list(direction_ports.items()):
         if direction in ["E", "W"]:
-            list_ports.sort(key=lambda p: p.y)
+            list_ports.sort(key=lambda p: p.d.y)
 
         if direction in ["S", "N"]:
-            list_ports.sort(key=lambda p: p.x)
+            list_ports.sort(key=lambda p: p.d.x)
 
     return direction_ports
 
@@ -73,4 +72,4 @@ if __name__ == "__main__":
 
     c = gf.components.mmi1x2()
     d = direction_ports_from_list_ports(c.get_ports_list())
-    c.show(show_ports=True)
+    c.show()

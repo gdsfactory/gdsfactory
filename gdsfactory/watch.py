@@ -14,11 +14,10 @@ from IPython.terminal.embed import embed
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
-from gdsfactory.cell import CACHE, clear_cache, remove_from_cache
 from gdsfactory.config import cwd
 from gdsfactory.pdk import get_active_pdk, on_pdk_activated
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentSpec, PathType
 
 
 class FileWatcher(FileSystemEventHandler):
@@ -39,7 +38,9 @@ class FileWatcher(FileSystemEventHandler):
         on_pdk_activated.add_handler(self._on_pdk_activated)
 
     def _on_pdk_activated(self, new_pdk, old_pdk):
-        clear_cache()
+        from gdsfactory.cell import CACHE
+
+        CACHE.clear()
         new_pdk.register_cells_yaml(dirpath=self.path, update=True)
 
     def start(self) -> None:
@@ -65,10 +66,11 @@ class FileWatcher(FileSystemEventHandler):
         Args:
             src_path: the path to the file
             update: if True, will update an existing cell function of the same name without raising an error
-
         Returns:
             The cell function parsed from the yaml file.
+
         """
+        from gdsfactory.cell import CACHE
 
         pdk = get_active_pdk()
         print(f"Active PDK: {pdk.name}")
@@ -135,17 +137,17 @@ class FileWatcher(FileSystemEventHandler):
         self.update()
         try:
             filepath = pathlib.Path(filepath)
-            if filepath.is_file():
+            if filepath.exists():
                 if str(filepath).endswith(".pic.yml"):
                     cell_func = self.update_cell(filepath, update=True)
                     c = cell_func()
-                    remove_from_cache(c.name)
-                    c.show(show_ports=True)
+                    c.show()
                     # on_yaml_cell_modified.fire(c)
                     return c
                 elif str(filepath).endswith(".py"):
-                    namespace = {**globals(), **locals(), "__name__": "__main__"}
-                    exec(filepath.read_text(), namespace, namespace)
+                    d = dict(locals(), **globals())
+                    d.update(__name__="__main__")
+                    exec(filepath.read_text(), d, d)
                 else:
                     print("Changed file {filepath} ignored (not .pic.yml or .py)")
 
@@ -153,11 +155,8 @@ class FileWatcher(FileSystemEventHandler):
             traceback.print_exc(file=sys.stdout)
             print(e)
 
-    def clear_cache(self) -> None:
-        clear_cache()
 
-
-def watch(path: pathlib.Path | str | None = cwd, pdk: str | None = None) -> None:
+def watch(path: PathType | None = cwd, pdk: str | None = None) -> None:
     path = str(path)
     logging.basicConfig(
         level=logging.INFO,
@@ -175,7 +174,7 @@ def watch(path: pathlib.Path | str | None = cwd, pdk: str | None = None) -> None
     watcher.stop()
 
 
-def show(component: ComponentSpec) -> None:
+def show(component: ComponentSpec):
     import gdsfactory as gf
 
     c = gf.get_component(component)

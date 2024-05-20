@@ -10,24 +10,21 @@ They without modifying the cell name
 
 from __future__ import annotations
 
-import inspect
-import itertools
 import json
 from collections.abc import Callable
 from functools import partial
 from typing import TYPE_CHECKING
 
-import gdstk
+import kfactory as kf
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
-from gdsfactory.cell import container
-from gdsfactory.port import select_ports_electrical, select_ports_optical
+from gdsfactory.component import container
+from gdsfactory.port import select_ports
 
 if TYPE_CHECKING:
-    from gdsfactory.component import Component
-    from gdsfactory.component_reference import ComponentReference
+    from gdsfactory.component import Component, Instance
     from gdsfactory.port import Port
 
 Layer = tuple[int, int]
@@ -44,6 +41,10 @@ def _rotate(v: ndarray, m: ndarray) -> ndarray:
 def add_bbox(
     component: Component,
     bbox_layer: LayerSpec = "DEVREC",
+    top: float = 0,
+    bottom: float = 0,
+    left: float = 0,
+    right: float = 0,
 ) -> Component:
     """Add bbox on outline.
 
@@ -53,14 +54,16 @@ def add_bbox(
     """
     from gdsfactory.pdk import get_layer
 
-    bbox_layer = get_layer(bbox_layer)
-    polygons = component.get_polygons(as_array=False)
-    polygons_ = gdstk.boolean(
-        polygons, [], "or", layer=bbox_layer[0], datatype=bbox_layer[1]
-    )
-
-    component.add(polygons_)
-
+    layer = get_layer(bbox_layer)
+    bbox = component.dbbox()
+    xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
+    points = [
+        [xmin - left, ymin - bottom],
+        [xmax + right, ymin - bottom],
+        [xmax + right, ymax + top],
+        [xmin - left, ymax + top],
+    ]
+    component.add_polygon(points, layer=layer)
     return component
 
 
@@ -96,7 +99,7 @@ def get_pin_triangle_polygon_tip(
     p = port
     port_face = p.info.get("face", None)
 
-    orientation = p.orientation or 0
+    orientation = p.orientation
 
     if orientation is None:
         raise ValueError("Port {port.name!r} needs to have an orientation.")
@@ -140,15 +143,16 @@ def add_pin_triangle(
         layer: for the pin marker.
         layer_label: for the label.
     """
-    polygon, ptip = get_pin_triangle_polygon_tip(port=port)
-    component.add_polygon(polygon, layer=layer)
+    if port.orientation is not None:
+        polygon, ptip = get_pin_triangle_polygon_tip(port=port)
+        component.add_polygon(polygon, layer=layer)
 
-    if layer_label:
-        component.add_label(
-            text=str(port.name),
-            position=ptip,
-            layer=layer_label,
-        )
+        if layer_label:
+            component.add_label(
+                text=str(port.name),
+                position=ptip,
+                layer=layer_label,
+            )
 
 
 def add_pin_rectangle_inside(
@@ -156,8 +160,7 @@ def add_pin_rectangle_inside(
     port: Port,
     pin_length: float = 0.1,
     layer: LayerSpec = "PORT",
-    layer_label: LayerSpec | None = "TEXT",
-    label_function: Callable[[Component, str, Port], str] | None = None,
+    layer_label: LayerSpec = "TEXT",
 ) -> None:
     """Add square pin towards the inside of the port.
 
@@ -166,11 +169,7 @@ def add_pin_rectangle_inside(
         port: Port.
         pin_length: length of the pin marker for the port.
         layer: for the pin marker.
-        layer_label: layer for the label. None will use the port layer.
-        label_function: function to return label text according to the ``component`` and ``port``.
-
-    Note:
-        Either ``layer_label`` or ``label_function`` must be something else than None for labels to be added.
+        layer_label: for the label.
 
     .. code::
 
@@ -184,56 +183,31 @@ def add_pin_rectangle_inside(
           |      __       |
           |_______________|
     """
-    a = port.orientation or 0
+    p = port
+    a = p.orientation
     ca = np.cos(a * np.pi / 180)
     sa = np.sin(a * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
-    d = port.width / 2
+    d = p.d.width / 2
 
     dbot = np.array([0, -d])
     dtop = np.array([0, +d])
     dbotin = np.array([-pin_length, -d])
     dtopin = np.array([-pin_length, +d])
 
-    p0 = port.center + _rotate(dbot, rot_mat)
-    p1 = port.center + _rotate(dtop, rot_mat)
-    ptopin = port.center + _rotate(dtopin, rot_mat)
-    pbotin = port.center + _rotate(dbotin, rot_mat)
+    p0 = p.d.center + _rotate(dbot, rot_mat)
+    p1 = p.d.center + _rotate(dtop, rot_mat)
+    ptopin = p.d.center + _rotate(dtopin, rot_mat)
+    pbotin = p.d.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
-    if any((layer_label, label_function)):
-        # Find name of function that called add_pins or alternatively add_pin_rectangle_inside (in this preference)
-        # TODO: very hacky, find a better way in the future
-        rough_component_name = (
-            next(
-                itertools.chain(
-                    itertools.islice(
-                        itertools.dropwhile(
-                            lambda f: "add_pins" not in f.function, inspect.stack()
-                        ),
-                        2,
-                        None,
-                    ),
-                    itertools.islice(
-                        itertools.dropwhile(
-                            lambda f: "add_pin_rectangle_inside" not in f.function,
-                            inspect.stack(),
-                        ),
-                        1,
-                        None,
-                    ),
-                )
-            ).function
-            if label_function
-            else None
-        )  # don't compute if not needed
+
+    if layer_label:
         component.add_label(
-            text=label_function(component, rough_component_name, port)
-            if label_function
-            else str(port.name),
-            position=port.center,
-            layer=layer_label if layer_label else port.layer,
+            text=str(p.name),
+            position=p.d.center,
+            layer=layer_label,
         )
 
 
@@ -273,15 +247,15 @@ def add_pin_rectangle_double(
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
     # outer square
-    d = p.width / 2
+    d = p.d.width / 2
     dbot = np.array([0, -d])
     dtop = np.array([0, d])
     dbotin = np.array([pin_length / 2, -d])
     dtopin = np.array([pin_length / 2, +d])
-    p0 = p.center + _rotate(dbot, rot_mat)
-    p1 = p.center + _rotate(dtop, rot_mat)
-    ptopin = p.center + _rotate(dtopin, rot_mat)
-    pbotin = p.center + _rotate(dbotin, rot_mat)
+    p0 = p.d.center + _rotate(dbot, rot_mat)
+    p1 = p.d.center + _rotate(dtop, rot_mat)
+    ptopin = p.d.center + _rotate(dtopin, rot_mat)
+    pbotin = p.d.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
@@ -345,7 +319,7 @@ def add_pin_rectangle(
     sa = np.sin(a * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
-    d = p.width / 2 + port_margin
+    d = p.d.width / 2 + port_margin
 
     dbot = np.array([pin_length / 2, -d])
     dtop = np.array([pin_length / 2, d])
@@ -354,15 +328,15 @@ def add_pin_rectangle(
 
     p0 = p.center + _rotate(dbot, rot_mat)
     p1 = p.center + _rotate(dtop, rot_mat)
-    ptopin = p.center + _rotate(dtopin, rot_mat)
-    pbotin = p.center + _rotate(dbotin, rot_mat)
+    ptopin = p.d.center + _rotate(dtopin, rot_mat)
+    pbotin = p.d.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
     if layer_label:
         component.add_label(
             text=str(p.name),
-            position=p.center,
+            position=p.d.center,
             layer=layer_label,
         )
 
@@ -415,24 +389,17 @@ def add_pin_path(
 
     points = [p0, p1]
     layer = get_layer(layer)
-    path = gdstk.FlexPath(
-        points,
-        width=p.width,
-        layer=layer[0],
-        datatype=layer[1],
-        simple_path=True,
-        tolerance=1e-3,
-    )
-    component.add(path)
 
-    component.add_label(
-        text=str(p.name), position=p.center, layer=layer_label, anchor="sw"
+    kf.kdb.Path(
+        points,
+        p.width,
     )
+    component.add_label(text=str(p.name), position=p.center, layer=layer_label)
 
 
 def add_outline(
     component: Component,
-    reference: ComponentReference | None = None,
+    reference: Instance | None = None,
     layer: LayerSpec = "DEVREC",
     **kwargs,
 ) -> None:
@@ -482,6 +449,10 @@ def add_pins_siepic(
         layer_pin: pin layer.
         pin_length: length of the pin marker for the port.
     """
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
+
     for p in component.get_ports_list(port_type=port_type):
         function(component=component, port=p, layer=layer_pin, pin_length=pin_length)
 
@@ -496,88 +467,88 @@ add_pins_siepic_electrical = partial(
 
 def add_pins(
     component: Component,
-    reference: ComponentReference | None = None,
+    port_type: str | None = None,
+    layer: tuple[int, int] | None = None,
+    orientation: int | None = None,
+    width: float | None = None,
     function: Callable = add_pin_rectangle_inside,
-    select_ports: Callable | None = None,
     **kwargs,
-) -> Component:
+) -> None:
     """Add Pin port markers.
 
-    Warning:
-        Be careful with this function as it modifies the component in-place.
-
     Args:
-        component: :class:`Component` to add pins to in-place.
-        reference: Optional :class:`ComponentReference` to infer ports from instead of given ``component``.
-        function: Function that adds pins to a component given a ``component`` and ``port`` combination.
-        select_ports: Function to filter ports to a selection
+        component: to add ports to.
+        function: to add each pin.
+        select_ports: function to select_ports.
 
     Keyword Args:
+        kwargs: add pins function settings.
         pin_length: length of the pin marker for the port.
         layer: layer for the pin marker.
         layer_label: add label for the pin marker.
-        label_function: function to return label text according to the ``component`` and ``port``.
     """
-    reference = reference or component
-    ports = (
-        select_ports(reference.ports).values()
-        if select_ports
-        else reference.get_ports_list()
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
+
+    ports = select_ports(
+        ports=component.ports,
+        port_type=port_type,
+        layer=layer,
+        orientation=orientation,
+        width=width,
     )
+    ports = component.ports
+
     for port in ports:
         function(component=component, port=port, **kwargs)
-    return component
 
-
-add_pins_optical = partial(add_pins, select_ports=select_ports_optical)
-add_pins_electrical = partial(add_pins, select_ports=select_ports_electrical)
 
 add_pins_triangle = partial(add_pins, function=add_pin_triangle)
 add_pins_center = partial(add_pins, function=add_pin_rectangle)
 add_pin_inside1nm = partial(
     add_pin_rectangle_inside, pin_length=1 * nm, layer_label=None
 )
-add_pin_inside2nm = partial(
-    add_pin_rectangle_inside, pin_length=2 * nm, layer_label=None
-)
 add_pin_inside2um = partial(add_pin_rectangle_inside, pin_length=2, layer_label=None)
 add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)
-add_pins_inside2nm = partial(add_pins, function=add_pin_inside2nm)
 add_pins_inside2um = partial(add_pins, function=add_pin_inside2um)
-
-add_pins_container = partial(container, function=add_pins)
-add_pins_container_center = partial(container, function=add_pins_center)
-add_pins_container_siepic = partial(container, function=add_pins_siepic)
 
 
 def add_settings_label(
     component: Component,
-    reference: ComponentReference,
+    reference: Instance | None = None,
     layer_label: LayerSpec = "LABEL_SETTINGS",
+    with_yaml_format: bool = False,
 ) -> None:
     """Add settings in label.
 
     Args:
         component: to add pins.
-        reference: ComponentReference.
+        reference: Instance.
         layer_label: layer spec.
+        with_yaml_format: add yaml format, False uses json.
     """
     from gdsfactory.pdk import get_layer
 
     layer_label = get_layer(layer_label)
 
-    settings_dict = OmegaConf.to_container(reference.settings)
-    settings_string = f"settings={json.dumps(settings_dict)}"
+    reference = reference or component
+    settings_dict = OmegaConf.to_container(reference.info)
+    settings_string = (
+        OmegaConf.to_yaml(settings_dict)
+        if with_yaml_format
+        else f"settings={json.dumps(settings_dict)}"
+    )
     if len(settings_string) > 1024:
         raise ValueError(f"label > 1024 characters: {settings_string}")
     component.add_label(
-        position=reference.center, text=settings_string, layer=layer_label
+        position=reference.d.center, text=settings_string, layer=layer_label
     )
 
 
 def add_instance_label(
     component: Component,
-    reference: ComponentReference,
+    reference: Instance,
     instance_name: str | None = None,
     layer: LayerSpec = "LABEL_INSTANCE",
 ) -> None:
@@ -589,14 +560,14 @@ def add_instance_label(
 
     component.add_label(
         text=instance_name,
-        position=reference.center,
+        position=reference.d.center,
         layer=layer,
     )
 
 
 def add_pins_and_outline(
     component: Component,
-    reference: ComponentReference | None = None,
+    reference: Instance | None = None,
     add_outline_function: Callable | None = add_outline,
     add_pins_function: Callable | None = add_pins,
     add_settings_function: Callable | None = add_settings_label,
@@ -627,18 +598,23 @@ def add_pins_and_outline(
         add_instance_label_function(component=component, reference=reference)
 
 
+add_pins_container = partial(container, function=add_pins)
+
 if __name__ == "__main__":
     import gdsfactory as gf
 
     # c = test_add_pins()
-    # c.show(show_ports=True)
+    # c.show( )
     # c = gf.components.straight(length=2)
     # c.show(show_ports_suborts=True)
     # p1 = len(c1.get_polygons())
     # p2 = len(c2.get_polygons())
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
-    c = gf.components.straight()
-    c2 = add_pins_container(component=c)
-    # cc.show(show_ports=False)
-    c2.show(show_ports=False)
+    c = gf.components.bend_euler()
+    add_pins(c)
+    # c = add_pins_container(c)
+    # cc.show()
+    # c.show(show_subports=True)
+    # c.show( )
+    c.show()

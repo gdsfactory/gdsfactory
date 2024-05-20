@@ -20,9 +20,10 @@ def bend_euler(
     p: float = 0.5,
     with_arc_floorplan: bool = True,
     npoints: int | None = None,
+    layer: gf.typings.LayerSpec | None = None,
+    width: float | None = None,
     direction: str = "ccw",
     cross_section: CrossSectionSpec = "xs_sc",
-    **kwargs,
 ) -> Component:
     """Euler bend with changing bend radius.
 
@@ -43,9 +44,10 @@ def bend_euler(
           If True: The curve scales such that the endpoints match a bend_circular
           with parameters `radius` and `angle`.
         npoints: Number of points used per 360 degrees.
+        layer: layer to use. Defaults to cross_section.layer.
+        width: width to use. Defaults to cross_section.width.
         direction: cw (clock-wise) or ccw (counter clock-wise).
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        kwargs: additional cross_section arguments.
 
     .. code::
 
@@ -56,41 +58,45 @@ def bend_euler(
                /
        o1_____/
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
 
     if radius is None:
         return wire_corner(cross_section=x)
+
+    if layer or width:
+        x = x.copy(layer=layer or x.layer, width=width or x.width)
 
     c = Component()
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
     ref = c << p.extrude(x)
+    c.add_ports(ref.ports)
+    c.info["length"] = np.round(p.length(), 3)
+    c.info["dy"] = np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3)
+    c.info["radius_min"] = float(np.round(p.info["Rmin"], 3))
+    c.info["radius"] = float(radius)
 
     if direction == "cw":
         ref.mirror(p1=[0, 0], p2=[1, 0])
 
-    c.add_ports(ref.ports)
-    c.info["length"] = float(np.round(p.length(), 3))
-    c.info["dy"] = float(np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3))
-    c.info["radius_min"] = float(np.round(p.info["Rmin"], 3))
-    c.info["radius"] = radius
-    c.info["width"] = x.width
-
     x.validate_radius(radius)
 
-    c.absorb(ref)
+    top = None if int(angle) in {180, -180, -90} else 0
+    bottom = 0 if int(angle) in {-90} else None
+    x.add_bbox(c, top=top, bottom=bottom)
     c.add_route_info(
         cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
     )
+    c.flatten()
     return c
 
 
 bend_euler180 = partial(bend_euler, angle=180)
 
 
-@gf.cell
+@gf.cell(check_instances=False)
 def bend_euler_s(**kwargs) -> Component:
     r"""Sbend made of 2 euler bends.
 
@@ -102,6 +108,7 @@ def bend_euler_s(**kwargs) -> Component:
           with parameters `radius` and `angle`.
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
+        with_bbox: add bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
 
@@ -140,8 +147,6 @@ def bend_straight_bend(
     npoints: int = 720,
     direction: str = "ccw",
     cross_section: CrossSectionSpec = strip,
-    radius: float | None = None,
-    **kwargs,
 ) -> Component:
     """Sbend made of 2 euler bends and straight section in between.
 
@@ -155,8 +160,6 @@ def bend_straight_bend(
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        radius: in um. Defaults to cross_section_radius.
-        kwargs: additional cross_section arguments.
     """
     c = Component()
     b = bend_euler(
@@ -164,28 +167,17 @@ def bend_straight_bend(
         p=p,
         with_arc_floorplan=with_arc_floorplan,
         npoints=npoints,
-        direction="ccw",
+        direction=direction,
         cross_section=cross_section,
-        radius=radius,
-        **kwargs,
     )
     b1 = c.add_ref(b)
-    if direction == "cw":
-        b1.mirror_y()
     b2 = c.add_ref(b)
-    if direction == "cw":
-        b2.mirror_y()
-    s = c << straight(
-        length=straight_length,
-        cross_section=cross_section,
-    )
+    s = c << straight(length=straight_length, cross_section=cross_section)
     s.connect("o1", b1.ports["o2"])
     b2.mirror()
     b2.connect("o1", s.ports["o2"])
-
-    c.add_port("o2", port=b2.ports["o2"])
     c.add_port("o1", port=b1.ports["o1"])
-
+    c.add_port("o2", port=b2.ports["o2"])
     return c
 
 
@@ -202,6 +194,7 @@ def _compare_bend_euler180() -> None:
     c1.name = "two_90_euler"
     c2 = gf.path.extrude(p2, x)
     c2.name = "one_180_euler"
+    c1.add_ref(c2)
     c1.show()
 
 
@@ -216,13 +209,12 @@ def _compare_bend_euler90():
 
     print(b1.info["length"])
     print(b2.info["length"])
-
     _ = c << b1
     _ = c << b2
     return c
 
 
 if __name__ == "__main__":
-    xs = gf.cross_section.strip(bbox_layers=[(111, 0)], bbox_offsets=[3])
-    c = bend_euler(cross_section=xs, angle=30)
-    c.show(show_ports=True)
+    # c = bend_euler(cross_section="xs_rc", angle=90, radius=5)
+    c = bend_euler(cross_section="xs_rc", angle=90, radius=5)
+    c.show()

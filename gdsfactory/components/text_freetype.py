@@ -28,18 +28,21 @@ def text_freetype(
         size: in um.
         position: x, y position.
         justify: left, right, center.
+        layer: for the text.
         font: Font face to use. Default DEPLOF does not require additional libraries,
             otherwise freetype load fonts. You can choose font by name
             (e.g. "Times New Roman"), or by file OTF or TTF filepath.
-        layer: for the text.
-        layers: optional list of layers for the text.
+        layer: list of layers to use for the text.
+        layers: list of layers to use for the text.
+
     """
     t = Component()
-    layers = layers or [layer]
     yoffset = 0
-    xoffset = 0
+    layers = layers or [layer]
 
-    if font == "DEPLOF":
+    face = font
+    xoffset = 0
+    if face == "DEPLOF":
         scaling = size / 1000
 
         for line in text.split("\n"):
@@ -50,12 +53,10 @@ def text_freetype(
                     xoffset += 500 * scaling
                 elif (33 <= ascii_val <= 126) or (ascii_val == 181):
                     for poly in _glyph[ascii_val]:
-                        xpts = np.array(poly)[:, 0] * scaling
-                        ypts = np.array(poly)[:, 1] * scaling
-                        for layer in layers:
-                            char.add_polygon(
-                                [xpts + xoffset, ypts + yoffset], layer=layer
-                            )
+                        xpts = np.array(poly)[:, 0] * scaling + xoffset
+                        ypts = np.array(poly)[:, 1] * scaling + yoffset
+                        points = list(zip(xpts, ypts))
+                        char.add_polygon(points, layer=layer)
                     xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
                 else:
                     valid_chars = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~µ"
@@ -63,14 +64,12 @@ def text_freetype(
                         f'text(): Warning, some characters ignored, no geometry for character "{chr(ascii_val)}" with ascii value {ascii_val}. Valid characters: {valid_chars}'
                     )
             ref = t.add_ref(char)
-            t.absorb(ref)
             yoffset -= 1500 * scaling
             xoffset = 0
     else:
         from gdsfactory.font import _get_font_by_file, _get_font_by_name, _get_glyph
 
         font_path = pathlib.Path(font)
-
         # Load the font. If we've passed a valid file, try to load that, otherwise search system fonts
         if font_path.is_file() and font_path.suffix in (".otf", ".ttf"):
             font = _get_font_by_file(str(font))
@@ -89,33 +88,33 @@ def text_freetype(
             for letter in line:
                 letter_dev = Component()
                 letter_template, advance_x = _get_glyph(font, letter)
-                for poly in letter_template.polygons:
+                for _, polygon_points in letter_template.get_polygons_points(
+                    scale=size
+                ).items():
                     for layer in layers:
-                        letter_dev.add_polygon(poly, layer=layer)
+                        for points in polygon_points:
+                            letter_dev.add_polygon(points, layer=layer)
                 ref = char.add_ref(letter_dev)
-                ref.move(destination=(xoffset, 0))
-                ref.magnification = size
+                ref.d.move((xoffset, 0))
                 xoffset += size * advance_x
 
             ref = t.add_ref(char)
-            ref.move(destination=(0, yoffset))
+            ref.d.move((0, yoffset))
             yoffset -= size
-            t.absorb(ref)
 
     justify = justify.lower()
     for ref in t.references:
         if justify == "center":
-            ref.move(origin=ref.center, destination=(0, 0), axis="x")
+            ref.d.move((0, 0))
 
         elif justify == "right":
-            ref.xmax = 0
+            ref.d.xmax = 0
     t.flatten()
     return t
 
 
 if __name__ == "__main__":
-    # c2 = text_freetype("hello", layers=[(1, 0), (2, 0)])
-    # c2 = text_freetype("hello", font="Times New Roman")
+    c2 = text_freetype("hello")
     # print(c2.name)
-    c2 = text_freetype()
+    # c2 = text_freetype()
     c2.show()

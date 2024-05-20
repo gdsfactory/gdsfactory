@@ -50,4 +50,4 @@ def test_cutback_pn() -> None:
 
 if __name__ == "__main__":
     c = cutback_pn()
-    c.show(show_ports=True)
+    c.show()

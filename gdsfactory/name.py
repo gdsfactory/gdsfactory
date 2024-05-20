@@ -6,12 +6,9 @@ import hashlib
 import re
 from typing import Any
 
-import pydantic
-
 from gdsfactory.config import CONF
 
 
-@pydantic.validate_call
 def get_name_short(name: str, max_name_length=CONF.max_name_length) -> str:
     """Returns a short name."""
     if len(name) > max_name_length:
@@ -192,7 +189,7 @@ if __name__ == "__main__":
 
     # print(c.name)
     # print(c)
-    # c.show(show_ports=True)
+    # c.show( )
 
     # print(clean_name("Waveguidenol1_(:_=_2852"))
     # print(clean_value(1.2))

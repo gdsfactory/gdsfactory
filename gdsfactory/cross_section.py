@@ -16,7 +16,13 @@ from types import ModuleType
 from typing import TYPE_CHECKING, Any, Literal
 
 import numpy as np
-from pydantic import BaseModel, ConfigDict, Field, field_serializer
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    field_serializer,
+    model_validator,
+)
 
 from gdsfactory.config import CONF, ErrorType, logger
 
@@ -25,12 +31,13 @@ if TYPE_CHECKING:
 
 nm = 1e-3
 
+
 Layer = tuple[int, int]
 Layers = tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]
 
 LayerSpec = Layer | str
-LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...]
+LayerSpecs = Iterable[LayerSpec]
 
 Floats = tuple[float, ...]
 port_names_electrical = ("e1", "e2")
@@ -123,6 +130,14 @@ class Section(BaseModel):
     offset_function: Callable | None = Field(default=None)
 
     model_config = ConfigDict(extra="forbid", frozen=True)
+
+    @model_validator(mode="before")
+    @classmethod
+    def generate_default_name(cls, data: Any) -> Any:
+        if not data.get("name"):
+            h = hashlib.md5(str(data).encode()).hexdigest()[:8]
+            data["name"] = f"s_{h}"
+        return data
 
     @field_serializer("width_function", "offset_function")
     def serialize_functions(self, func: Callable | None) -> str | None:
@@ -288,14 +303,6 @@ class CrossSection(BaseModel):
                     "layer": layer or self.layer,
                 }
             )
-            changed_width_layer_or_offset = (
-                width_function or offset_function or width or layer
-            )
-            if changed_width_layer_or_offset and len(sections) > 1:
-                warnings.warn(
-                    "CrossSection.copy() only modifies the attributes of the first section.",
-                    stacklevel=2,
-                )
             return self.model_copy(update={"sections": tuple(sections), **kwargs})
         return self.model_copy(update=kwargs)
 
@@ -313,6 +320,24 @@ class CrossSection(BaseModel):
             stacklevel=2,
         )
         return component
+
+    # def apply_enclosure(self, component: Component) -> None:
+    #     """Apply enclosure to a target component according to :class:`CrossSection`."""
+
+    #     enclosure = kf.LayerEnclosure(
+    #         dsections=[(layer_tuple, layer_offset) for zip(self.bbox_layers, self.bbox_offsets)],
+    #         main_layer=LAYER.SLAB90,
+    #         name="enclosures",
+    #         kcl=kf.kcl,
+    #     )
+    #     kf.kcl.layer_enclosures = kf.kcell.LayerEnclosureModel(
+    #         enclosure_map=dict(enclosure_rc=enclosure_rc)
+    #     )
+
+    #     kf.kcl.enclosure = kf.KCellEnclosure(
+    #         enclosures=[enclosure_rc],
+    #     )
+    #     component.kcl.enclosure.apply_minkowski_y(component)
 
     def add_bbox(
         self,
@@ -367,6 +392,9 @@ class CrossSection(BaseModel):
 
 
 CrossSectionSpec = CrossSection | str | dict[str, Any] | Callable[..., CrossSection]
+ConductorConductorName = tuple[str, str]
+ConductorViaConductorName = tuple[str, str, str] | tuple[str, str]
+ConnectivitySpec = ConductorConductorName | ConductorViaConductorName
 
 
 class Transition(CrossSection):
@@ -2330,7 +2358,7 @@ def pn_ge_detector_si_contacts(
 
 def get_cross_sections(
     modules: Iterable[ModuleType] | ModuleType, verbose: bool = False
-) -> dict[str, CrossSection | Callable[..., CrossSection]]:
+) -> dict[str, CrossSection]:
     """Returns cross_sections from a module or list of modules.
 
     Args:
@@ -2353,14 +2381,15 @@ def get_cross_sections(
                         isinstance(r, str) and r.endswith("CrossSection")
                     ):
                         xs[t[0]] = t[1]
-                except ValueError as e:
+                except Exception as e:
                     if verbose:
                         logger.warn(f"error in {t[0]}: {e}")
     return xs
 
 
 xs_sc = strip()
-xs_rc = rib(bbox_layers=["DEVREC"], bbox_offsets=[0.0])
+
+xs_rc = rib(bbox_layers=("DEVREC",), bbox_offsets=(3,))
 xs_rc2 = rib2()
 xs_rc_bbox = rib_bbox()
 
@@ -2411,8 +2440,6 @@ if __name__ == "__main__":
     # c = p.extrude(xs)
     # c = gf.c.straight(cross_section=xs)
     # xs = pn(slab_inset=0.2)
-    xs = strip()
-    d = xs.dict()
-    print(d)
-    # c = gf.c.straight(cross_section=xs)
-    # c.show()
+    # xs = metal1()
+    s0 = Section(width=2, layer=(1, 0))
+    print(s0.name)

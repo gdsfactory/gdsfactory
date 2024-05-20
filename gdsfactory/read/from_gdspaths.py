@@ -41,4 +41,4 @@ if __name__ == "__main__":
     # c = gdspaths([gf.components.straight(), gf.components.bend_circular()])
     # leave these two lines to end up tests showing the diff
     c = from_gdspaths(diff_path.glob("*.gds"))
-    c.show(show_ports=True)
+    c.show()

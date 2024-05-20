@@ -43,4 +43,4 @@ def ramp(
 
 if __name__ == "__main__":
     c = ramp()
-    c.show(show_ports=True)
+    c.show()

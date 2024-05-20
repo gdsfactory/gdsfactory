@@ -6,28 +6,26 @@ import platform
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.text import text
-from gdsfactory.typings import LayerSpec, LayerSpecs
+from gdsfactory.typings import LayerSpec
 
 
 @gf.cell
-def pixel(
-    size: int = 1.0, layer: LayerSpec = "WG", layers: LayerSpecs | None = None
-) -> Component:
+def pixel(size: int = 1.0, layer: LayerSpec = "WG") -> Component:
     c = gf.Component()
     a = size / 2
-    layers = layers or [layer]
-    for layer in layers:
-        c.add_polygon([(a, a), (a, -a), (-a, -a), (-a, a)], layer)
+    c.add_polygon([(a, a), (a, -a), (-a, -a), (-a, a)], layer)
     return c
 
 
 @gf.cell
-def qrcode(
-    data: str = "mask01",
-    psize: int = 1,
-    layer: LayerSpec = "WG",
-) -> Component:
-    """Returns QRCode."""
+def qrcode(data: str = "mask01", psize: int = 1, layer: LayerSpec = "WG") -> Component:
+    """Returns QRCode.
+
+    Args:
+        data: string to encode.
+        psize: pixel size.
+        layer: layer to use.
+    """
     import qrcode
 
     pix = pixel(size=psize, layer=layer)
@@ -38,9 +36,9 @@ def qrcode(
     for i, row in enumerate(matrix):
         for j, value in enumerate(row):
             if value:
-                pix_ref = pix.ref((i * psize, j * psize))
-                c.add(pix_ref)
-                c.absorb(pix_ref)
+                ref = c << pix
+                ref.d.center = (i * psize, j * psize)
+    c.flatten()
     return c
 
 
@@ -52,68 +50,57 @@ def version_stamp(
     pixel_size: int = 1,
     version: str | None = None,
     text_size: int = 10,
-    layers: LayerSpecs | None = None,
 ) -> Component:
     """Component with module version and date.
 
     Args:
         labels: Iterable of labels.
-        with_qr_code: Add QR code with timestamp.
-        layer: Layer for text.
-        pixel_size: Size of the pixel for the QR code.
+        with_qr_code: Whether to add a QR code with the date.
+        layer: Layer to use.
+        pixel_size: Pixel size.
         version: Version string.
-        text_size: Size of the text.
-        layers: List of layers for text.
+        text_size: Text size.
+
     """
     now = datetime.datetime.now()
     timestamp = f"{now:%Y-%m-%d %H:%M:%S}"
     short_stamp = f"{now:%y.%m.%d.%H.%M.%S}"
 
     c = gf.Component()
-    layers = layers or [layer]
+    if with_qr_code:
+        data = f"{timestamp}/{platform.node()}"
+        q = c << qrcode(layer=layer, data=data, psize=pixel_size)
+        q.center = (0, 0)
+        x = q.d.xsize * 0.5 + 10
 
-    for layer in layers:
-        if with_qr_code:
-            data = f"{timestamp}/{platform.node()}"
-            q = qrcode(layer=layer, data=data, psize=pixel_size).ref_center()
-            c.add(q)
-            c.absorb(q)
-            x = q.size_info.width * 0.5 + 10
+    else:
+        x = 0
 
-        else:
-            x = 0
+    txt_params = {"layer": layer, "justify": "left", "size": text_size}
+    _ = c << text(
+        position=(x, text_size + 2 * pixel_size), text=short_stamp, **txt_params
+    )
 
-        txt_params = {"layer": layer, "justify": "left", "size": text_size}
-        date = text(
-            position=(x, text_size + 2 * pixel_size), text=short_stamp, **txt_params
-        ).ref()
-        c.add(date)
-        c.absorb(date)
+    if version:
+        _ = c << text(position=(x, 0), text=version, **txt_params)
 
-        if version:
-            t = text(position=(x, 0), text=version, **txt_params).ref()
-            c.add(t)
-            c.absorb(t)
+    for i, line in enumerate(labels):
+        _ = c << text(
+            position=(x, -(i + 1) * (text_size + 2 * pixel_size)),
+            text=line,
+            **txt_params,
+        )
 
-        for i, line in enumerate(labels):
-            t = c << text(
-                position=(x, -(i + 1) * (text_size + 2 * pixel_size)),
-                text=line,
-                **txt_params,
-            )
-            c.absorb(t)
-
+    c.flatten()
     return c
 
 
 if __name__ == "__main__":
-    layers = {(1, 0), (2, 0)}
     c = version_stamp(
         pixel_size=4,
         layer="M1",
         with_qr_code=True,
         # text=["b1", "demo"],
         text_size=20,
-        layers=layers,
     )
-    c.show(show_ports=True)
+    c.show()

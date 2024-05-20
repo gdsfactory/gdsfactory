@@ -7,7 +7,7 @@ from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.typings import ComponentSpec
 
 
-@gf.cell_with_child
+@gf.cell
 def splitter_chain(
     splitter: ComponentSpec = mmi1x2,
     columns: int = 3,
@@ -36,7 +36,7 @@ def splitter_chain(
     splitter_component = gf.get_component(splitter)
     cref = c.add_ref(splitter_component)
 
-    splitter_ports_east = cref.get_ports_list(port_type="optical", orientation=0)
+    splitter_ports_east = list(cref.ports.filter(port_type="optical", orientation=0))
     e1_port_name = splitter_ports_east[0].name
     e0_port_name = splitter_ports_east[1].name
 
@@ -46,9 +46,9 @@ def splitter_chain(
 
     for i in range(1, columns):
         bref = c.add_ref(bend)
-        bref.connect(port="o1", destination=cref.ports[e1_port_name])
+        bref.connect(port="o1", other=cref.ports[e1_port_name])
         cref = c.add_ref(splitter_component)
-        cref.connect(port="o1", destination=bref.ports["o2"])
+        cref.connect(port="o1", other=bref.ports["o2"])
         c.add_port(name=f"o{i+2}", port=cref.ports[e0_port_name])
 
     c.add_port(name=f"o{i+3}", port=cref.ports[e1_port_name])

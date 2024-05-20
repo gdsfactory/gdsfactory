@@ -59,4 +59,4 @@ def ring_single_array(
 
 if __name__ == "__main__":
     c = ring_single_array(cross_section="xs_sc")
-    c.show(show_ports=True)
+    c.show()

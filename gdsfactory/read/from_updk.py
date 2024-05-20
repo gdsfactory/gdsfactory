@@ -22,15 +22,12 @@ def from_updk(
     layer_label: tuple[int, int] | None = None,
     layer_pin_label: tuple[int, int] | None = None,
     layer_pin: tuple[int, int] | None = None,
-    layer_pin_optical: tuple[int, int] | None = None,
-    layer_pin_electrical: tuple[int, int] | None = None,
     optical_xsections: list[str] | None = None,
     electrical_xsections: list[str] | None = None,
-    layer_text: LayerSpec | None = None,
+    layers_text: list[LayerSpec] | None = None,
     text_size: float = 2.0,
     activate_pdk: bool = False,
     read_xsections: bool = True,
-    use_port_layer: bool = False,
     prefix: str = "",
     suffix: str = "",
 ) -> str:
@@ -47,7 +44,6 @@ def from_updk(
         text_size: text size for labels.
         activate_pdk: if True, activate the pdk after writing the script.
         read_xsections: if True, read xsections from uPDK.
-        use_port_layer: if True, use the xsection layer for the port.
         prefix: optional prefix to add to the script.
         suffix: optional suffix to add to the script.
     """
@@ -72,24 +68,14 @@ def from_updk(
     script += f"""
 
 import sys
-from functools import partial
 import gdsfactory as gf
 from gdsfactory.get_factories import get_cells
 from gdsfactory.add_pins import add_pins_inside2um
 
-cell = partial(gf.cell, naming_style='updk', autoname=False)
 layer_bbox = {layer_bbox}
 layer_bbmetal = {layer_bbmetal}
 layer_pin_label = {layer_pin_label}
 layer_pin = {layer_pin}
-layer_pin_optical = {layer_pin_optical}
-layer_pin_electrical = {layer_pin_electrical}
-layer_label = {layer_label}
-
-layer_text = {layer_text or (1, 0)}
-text_function = partial(gf.components.text, layer=layer_text, justify="center", size={text_size})
-
-add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_optical)
 """
 
     if layer_label:
@@ -105,12 +91,7 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
         script += "\n"
 
     for block_name, block in conf.blocks.items():
-        if hasattr(block, "parameters"):
-            parameters = block.parameters
-        else:
-            print(f"{block_name=}, {block=} does not have parameters")
-            continue
-
+        parameters = block.parameters
         parameters_string = (
             ", ".join(
                 [f"{p_name}:{p.type}={p.value}" for p_name, p in parameters.items()]
@@ -147,8 +128,6 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
             if layer_label and parameters_colon
             else ""
         )
-        list_parameters = "\\n".join(f"{p_name}" for p_name in parameters_equal)
-        parameters_labels = f"    c.add_label(text=f'Parameters:\\n{list_parameters}', position=(0,0), layer=layer_label)\n"
 
         if parameters:
             doc = f'"""{block.doc}\n\n    Args:\n    {parameters_doc}\n    """'
@@ -163,17 +142,14 @@ add_pins = partial(add_pins_inside2um, layer_label=layer_label, layer=layer_pin_
 
         points = str(block.bbox).replace("'", "")
         script += f"""
-@cell
+@gf.cell
 def {block_name}({parameters_string})->gf.Component:
     {doc}
     c = gf.Component()
     p = c.add_polygon({points}, layer=layer_bbox)
     xc, yc = p.center
-    name = f{cell_name!r}
-"""
-        if "ysize" in parameters_labels:
-            script += """
     ysize = p.ysize
+    name = f{cell_name!r}
 """
         if layer_bbmetal and "bb_metal" in block:
             for bbmetal in block["bb_metal"].values():
@@ -182,33 +158,30 @@ def {block_name}({parameters_string})->gf.Component:
 
         script += parameters_labels
 
-        port_layer = "layer" if use_port_layer else "cross_section"
-
         for port_name, port in block.pins.items():
             port_type = (
                 "electrical" if port.xsection in electrical_xsections else "optical"
             )
 
-            if port.xsection != "None" and not use_port_layer:
-                script += f"    c.add_port(name={port_name!r}, {port_layer}={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
+            if port.xsection != "None":
+                script += f"    c.add_port(name={port_name!r}, width={port.width}, cross_section={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
             else:
-                script += f"    c.add_port(name={port_name!r}, width={port.width}, layer={port.xsection!r}, center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
+                script += f"    c.add_port(name={port_name!r}, width={port.width}, layer=(0, 0), center=({port.xya[0]}, {port.xya[1]}), orientation={port.xya[2]}, port_type={port_type!r})\n"
 
             if layer_pin_label:
                 d = OmegaConf.to_container(port)
                 d["name"] = port_name
                 text = OmegaConf.to_yaml(d)
                 script += f"    c.add_label(text={text!r}, position=({port.xya[0]}, {port.xya[1]}), layer=layer_pin_label)\n"
-        if layer_text:
-            script += "    text = c << text_function(text=name)\n"
-
-            script += "    text.center = (xc, yc)\n"
-            script += "    c.absorb(text)\n"
+        if layers_text:
+            for layer_text in layers_text:
+                script += f"    text = c << gf.c.text(text=name, size={text_size}, position=(xc, yc), layer={layer_text},justify='center')\n"
+                script += "    c.absorb(text)\n"
 
         script += """
     c.name = name
     if layer_pin:
-        add_pins(c, layer=layer_pin)
+        add_pins_inside2um(c, layer=layer_pin)
     return c
 """
 
@@ -224,11 +197,9 @@ pdk.activate()
 
 if __name__ == "__main__":
     c = {block_name}()
-    c.show(show_ports=True)
+    c.show( )
 """
     if filepath_out:
-        dirpath = filepath_out.parent
-        dirpath.mkdir(parents=True, exist_ok=True)
         filepath_out = pathlib.Path(filepath_out)
         filepath_out.write_text(script)
     return script

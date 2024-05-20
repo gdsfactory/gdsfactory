@@ -1,4 +1,22 @@
+"""Returns a switch_tree.
+
+          __
+        _|  |_
+  __   | |  |_   _
+ |  |__| |__|    |
+_|  |__          |dy
+ |__|  |  __     |
+       |_|  |_   |
+         |  |_   -
+         |__|
+
+   |<-dx->|
+
+"""
+
 from __future__ import annotations
+
+from functools import partial
 
 import numpy as np
 
@@ -6,6 +24,8 @@ import gdsfactory as gf
 from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
+from gdsfactory.components.mzi import mzi1x2_2x2
+from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
 
@@ -51,8 +71,8 @@ def splitter_tree(
 
     if bend_s:
         dy_coupler_ports = abs(
-            coupler.ports[e0_port_name].center[1]
-            - coupler.ports[e1_port_name].center[1]
+            coupler.ports[e0_port_name].d.center[1]
+            - coupler.ports[e1_port_name].d.center[1]
         )
         bend_s_ysize = dy / 4 - dy_coupler_ports / 2
         bend_s_xsize = bend_s_xsize or dx
@@ -61,6 +81,7 @@ def splitter_tree(
             cross_section=cross_section,
             size=(bend_s_xsize, bend_s_ysize),
         )
+        # c.info["bend_s"] = bend_s.info
     cols = int(np.log2(noutputs))
     i = 0
 
@@ -70,29 +91,26 @@ def splitter_tree(
         for row in range(ncouplers):
             x = col * dx
             y = y0 + (row + 0.5) * dy * 2 ** (cols - col - 1)
-            coupler_ref = c.add_ref(coupler, alias=f"coupler_{col}_{row}")
-            coupler_ref.move((x, y))
+            coupler_ref = c.add_ref(coupler, name=f"coupler_{col}_{row}")
+            coupler_ref.d.move((x, y))
             if col == 0:
-                for port in coupler_ref.get_ports_list():
+                for port in coupler_ref.ports:
                     if port.name not in [e0_port_name, e1_port_name]:
                         c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                         i += 1
             if col > 0:
                 if row % 2 == 0:
-                    port_name = e0_port_name
-                if row % 2 == 1:
                     port_name = e1_port_name
-                c.add(
-                    gf.routing.get_route(
-                        c.named_references[f"coupler_{col-1}_{row//2}"].ports[
-                            port_name
-                        ],
-                        coupler_ref.ports["o1"],
-                        cross_section=cross_section,
-                    ).references
+                if row % 2 == 1:
+                    port_name = e0_port_name
+                gf.routing.route_single(
+                    c,
+                    c.insts[f"coupler_{col-1}_{row//2}"].ports[port_name],
+                    coupler_ref.ports["o1"],
+                    cross_section=cross_section,
                 )
             if cols > col > 0:
-                for port in coupler_ref.get_ports_list():
+                for port in coupler_ref.ports:
                     if port.name not in [
                         "o1",
                         e0_port_name,
@@ -102,15 +120,14 @@ def splitter_tree(
                         c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                         i += 1
             if col == cols - 1 and bend_s is None:
-                for port in coupler_ref.get_ports_list():
+                for port in coupler_ref.ports:
                     if port.name in [e1_port_name, e0_port_name]:
                         c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                         i += 1
             if col == cols - 1 and bend_s:
                 btop = c << bend_s
                 bbot = c << bend_s
-                bbot.mirror()
-                btop.connect("o1", coupler_ref.ports[e1_port_name])
+                btop.connect("o1", coupler_ref.ports[e1_port_name], mirror=True)
                 bbot.connect("o1", coupler_ref.ports[e0_port_name])
                 port = btop.ports["o2"]
                 c.add_port(name=f"{port.name}_{col}_{i}", port=port)
@@ -120,6 +137,21 @@ def splitter_tree(
                 i += 1
 
     return c
+
+
+_mzi1x2_2x2 = partial(
+    mzi1x2_2x2,
+    combiner=mmi2x2,
+    delta_length=0,
+    straight_x_top=straight_heater_metal,
+    length_x=None,
+)
+
+switch_tree = partial(
+    splitter_tree,
+    coupler=_mzi1x2_2x2,
+    spacing=(500, 100),
+)
 
 
 def test_splitter_tree_ports() -> None:
@@ -140,9 +172,6 @@ def test_splitter_tree_ports_no_sbend() -> None:
 
 
 if __name__ == "__main__":
-    test_splitter_tree_ports()
-    test_splitter_tree_ports_no_sbend()
-
     import gdsfactory as gf
 
     # c = splitter_tree(
@@ -154,14 +183,16 @@ if __name__ == "__main__":
     #     # dy=100.0,
     #     # layer=(2, 0),
     # )
-    c = splitter_tree(
-        noutputs=2**2,
-        spacing=(120.0, 50.0),
-        # bend_length=30,
-        # bend_s=None,
-        cross_section="xs_rc2",
-    )
-    c.show(show_ports=True)
+    # c = splitter_tree(
+    #     noutputs=2**3,
+    #     spacing=(120.0, 100.0),
+    #     # bend_length=30,
+    #     # bend_s=None,
+    #     # cross_section="xs_rc2",
+    # )
+    c = switch_tree(noutputs=2**3)
+    # c = _mzi1x2_2x2()
+    c.show()
     # print(len(c.ports))
     # for port in c.get_ports_list():
     #     print(port)

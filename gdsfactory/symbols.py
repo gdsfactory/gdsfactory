@@ -6,15 +6,17 @@ from collections.abc import Callable
 import gdstk
 from pydantic import validate_call
 
-from gdsfactory.cell import _F, cell_without_validator
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpecs
 
+_F = Callable[..., Component]
 
-def symbol(func: _F, *args, **kwargs) -> _F:
+
+def symbol(func: Callable, *args, **kwargs) -> Callable:
     """Decorator for Component symbols.
 
-    Wraps cell_without_validator
+    Wraps cell
     Validates type annotations with pydantic.
 
     Implements a cache so that if a symbol has already been built
@@ -42,7 +44,7 @@ def symbol(func: _F, *args, **kwargs) -> _F:
     if "prefix" not in kwargs:
         prefix = f"SYMBOL_{func.__name__}"
         kwargs["prefix"] = prefix
-    _wrapped = functools.partial(cell_without_validator(validate_call(func)), **kwargs)
+    _wrapped = functools.partial(cell(validate_call(func)), **kwargs)
     _wrapped._symbol = True
     return _wrapped
 
@@ -91,14 +93,14 @@ def floorplan_with_block_letters(
 
     # add floorplan box
     bbox = sym << rectangle(size=(w, h), layer=(0, 0))
-    bbox.move((0, 0), destination=component.bbox[0])
+    bbox.move((0, 0), other=component.bbox[0])
 
     # add text, fit to box with specified margin
     margin = 0.2
     max_w, max_h = w * (1 - margin), h * (1 - margin)
     text_init_size = 3.0
     text_init = text(
-        component.function_name,
+        component.settings.function_name,
         size=text_init_size,
         layer=(2, 0),
         justify="center",
@@ -109,11 +111,11 @@ def floorplan_with_block_letters(
     scaling = min(w_scaling, h_scaling)
     text_size = text_init_size * scaling
     text_component = text(
-        component.function_name, size=text_size, layer=(2, 0), justify="center"
+        component.settings.function_name, size=text_size, layer=(2, 0), justify="center"
     )
 
     text = sym << text_component
-    text.move(text.center, destination=bbox.center)
+    text.move(text.center, other=bbox.center)
 
     # add ports
     sym.add_ports(component.ports)

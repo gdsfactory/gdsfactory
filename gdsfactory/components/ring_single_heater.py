@@ -7,7 +7,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as _coupler_ring
 from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack_heater_mtop
-from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec, Float2
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
 via_stack_heater_mtop_mini = partial(via_stack_heater_mtop, size=(4, 4))
 
@@ -20,12 +20,10 @@ def ring_single_heater(
     length_y: float = 0.6,
     coupler_ring: ComponentSpec = _coupler_ring,
     bend: ComponentSpec = bend_euler,
-    bend_coupler: ComponentFactory | None = bend_euler,
-    straight: ComponentFactory = straight,
     cross_section_waveguide_heater: CrossSectionSpec = "xs_sc_heater_metal",
     cross_section: CrossSectionSpec = "xs_sc",
     via_stack: ComponentSpec = via_stack_heater_mtop_mini,
-    port_orientation: float | Float2 | None = None,
+    port_orientation: float | None = None,
     via_stack_offset: Float2 = (0, 0),
 ) -> gf.Component:
     """Returns a single ring with heater on top.
@@ -40,15 +38,13 @@ def ring_single_heater(
         length_y: vertical straight length.
         coupler_ring: ring coupler function.
         bend: 90 degrees bend function.
-        straight: straight function.
         cross_section_waveguide_heater: for heater.
         cross_section: for regular waveguide.
         via_stack: for heater to routing metal.
-        port_orientation: for electrical ports to promote from via_stack. Tuple allows the left and right contacts to be defined differently.
+        port_orientation: for electrical ports to promote from via_stack.
         via_stack_offset: x,y offset for via_stack.
 
     .. code::
-
 
                     xxxxxxxxxxxxx
                 xxxxx           xxxx
@@ -69,11 +65,10 @@ def ring_single_heater(
                  o1──────▼─────────o2
     """
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-    bend_coupler = bend_coupler or bend
 
     coupler_ring = gf.get_component(
         coupler_ring,
-        bend=bend_coupler,
+        bend=bend,
         gap=gap,
         radius=radius,
         length_x=length_x,
@@ -105,13 +100,13 @@ def ring_single_heater(
     st = c << straight_top
     # st.mirror(p1=(0, 0), p2=(1, 0))
 
-    sl.connect(port="o1", destination=cb.ports["o2"])
-    bl.connect(port="o2", destination=sl.ports["o2"])
+    sl.connect(port="o1", other=cb.ports["o2"])
+    bl.connect(port="o2", other=sl.ports["o2"])
 
-    st.connect(port="o2", destination=bl.ports["o1"])
-    br.connect(port="o2", destination=st.ports["o1"])
-    sr.connect(port="o1", destination=br.ports["o1"])
-    sr.connect(port="o2", destination=cb.ports["o3"])
+    st.connect(port="o2", other=bl.ports["o1"])
+    br.connect(port="o2", other=st.ports["o1"])
+    sr.connect(port="o1", other=br.ports["o1"])
+    sr.connect(port="o2", other=cb.ports["o3"])
 
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])
@@ -124,20 +119,13 @@ def ring_single_heater(
     c1.movey(via_stack_offset[1])
     c2.movey(via_stack_offset[1])
 
-    if isinstance(port_orientation, float) or port_orientation is None:
-        port_orientation = [port_orientation, port_orientation]
-
-    p1 = c1.get_ports_list(orientation=port_orientation[0])
-    p2 = c2.get_ports_list(orientation=port_orientation[1])
-    valid_orientations = {p.orientation for p in via.ports.values()}
+    p1 = c1.ports.filter(orientation=port_orientation)
+    p2 = c2.ports.filter(orientation=port_orientation)
+    valid_orientations = {p.orientation for p in via.ports}
 
     if not p1:
         raise ValueError(
-            f"No ports found for port_orientation {port_orientation[0]} in {valid_orientations}"
-        )
-    if not p2:
-        raise ValueError(
-            f"No ports found for port_orientation {port_orientation[1]} in {valid_orientations}"
+            f"No ports found for port_orientation {port_orientation} in {valid_orientations}"
         )
 
     c.add_ports(p1, prefix="l_")
@@ -146,5 +134,5 @@ def ring_single_heater(
 
 
 if __name__ == "__main__":
-    c = ring_single_heater(port_orientation=(180, 0))
-    c.show(show_subports=True, show_ports=True)
+    c = ring_single_heater()
+    c.show()

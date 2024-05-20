@@ -3,44 +3,27 @@ from __future__ import annotations
 from collections.abc import Callable
 from functools import partial
 
-import numpy as np
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import select_ports_optical
-from gdsfactory.routing.get_input_labels import get_input_labels_dash
 from gdsfactory.routing.route_fiber_array import route_fiber_array
-from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.typings import (
-    AnchorSubset,
     ComponentSpec,
     ComponentSpecOrList,
     CrossSectionSpec,
-    Floats,
-    LayerSpec,
-    Literal,
 )
 
 
-@gf.cell_with_child
+@gf.cell
 def add_fiber_array(
     component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     gc_port_name: str = "o1",
-    gc_port_name_fiber: str = "o2",
-    gc_port_labels: tuple[str, ...] | None = None,
-    io_rotation: int | None = None,
     component_name: str | None = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "xs_sc",
-    get_input_labels_function: Callable | None = get_input_labels_dash,
-    layer_label: LayerSpec | None = None,
-    dev_id: str | None = None,
-    text: ComponentSpec | None = None,
-    id_placement: Literal[AnchorSubset] = "center",
-    id_placement_offset: Floats = (0, 0),
     **kwargs,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
@@ -51,29 +34,14 @@ def add_fiber_array(
         component: component spec to connect to grating couplers.
         grating_coupler: spec for route terminations.
         gc_port_name: grating coupler input port name.
-        gc_port_name_fiber: grating coupler output port name.
-        gc_port_labels: grating coupler list of labels.
-        io_rotation: fiber coupler rotation in degrees. Defaults to None.
         component_name: optional for the label.
         select_ports: function to select ports.
         cross_section: cross_section function.
-        get_input_labels_function: function to get input labels. None skips labels.
-        layer_label: optional layer for grating coupler label.
-        dev_id: device if if we want to add a visible label for the device.
-        text: optional componentSpec to generate the text for the dev_id
-        id_placement: placement of the id.
-            "c" = center (in between the center grating couplers)
-            "r" = right of the right-most gc
-            "l" = left of the left-most gc
-            "s" = center and below the gc in y
-        id_placement_offset: offset for the id placement.
 
     Keyword Args:
         bend: bend spec.
         straight: straight spec.
         taper: taper spec.
-        get_input_label_text_loopback_function: function to get input label test.
-        get_input_label_text_function: for labels.
         fanout_length: if None, automatic calculation of fanout length.
         max_y0_optical: in um.
         with_loopback: True, adds loopback structures.
@@ -85,11 +53,11 @@ def add_fiber_array(
         excluded_ports: list of port names to exclude when adding gratings.
         grating_indices: list of grating coupler indices.
         routing_straight: function to route.
-        routing_method: get_route.
+        routing_method: route_single.
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
+        gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
         fiber_spacing: in um.
-        gc_rotation: fiber coupler rotation in degrees. Defaults to -90 for south IO.
 
     .. plot::
         :include-source:
@@ -106,7 +74,6 @@ def add_fiber_array(
         cc.plot()
 
     """
-    get_input_labels_function = None if gc_port_labels else get_input_labels_function
     component = gf.get_component(component)
 
     if isinstance(grating_coupler, list):
@@ -115,12 +82,9 @@ def add_fiber_array(
         gc = grating_coupler
     gc = gf.get_component(gc)
 
-    if io_rotation is not None:
-        gc = gf.functions.rotate(gc, angle=io_rotation)
-
-    if gc_port_name not in gc.ports:
-        gc_ports = list(gc.ports.keys())
-        raise ValueError(f"gc_port_name = {gc_port_name!r} not in {gc_ports}")
+    gc_port_names = [port.name for port in gc.ports]
+    if gc_port_name not in gc_port_names:
+        raise ValueError(f"gc_port_name = {gc_port_name!r} not in {gc_port_names}")
 
     orientation = gc.ports[gc_port_name].orientation
 
@@ -129,20 +93,6 @@ def add_fiber_array(
         if isinstance(grating_coupler, list)
         else gf.get_component(grating_coupler)
     )
-
-    if io_rotation is not None:
-        if isinstance(grating_coupler, list):
-            grating_coupler = [
-                gf.functions.rotate(component=i, angle=io_rotation)
-                for i in grating_coupler
-            ]
-        else:
-            grating_coupler = gf.functions.rotate(
-                component=grating_coupler, angle=io_rotation
-            )
-            grating_coupler = gf.functions.move_port_to_zero(
-                grating_coupler, port_name=gc_port_name
-            )
 
     if int(orientation) != 180:
         raise ValueError(
@@ -156,114 +106,50 @@ def add_fiber_array(
 
     component_name = component_name or component.name
     component_new = Component()
-    component_new.component = component
 
     optical_ports = select_ports(component.ports)
-    optical_ports_names = list(optical_ports.keys())
     if not optical_ports:
         raise ValueError(f"No optical ports found in {component.name!r}")
 
-    (
-        elements,
-        io_gratings_lines,
-        ports_grating_input_waveguide,
-        ports_loopback,
-        ports_component,
-    ) = route_fiber_array(
-        component=component,
+    ref = component_new.add_ref(component)
+    route_fiber_array(
+        component_new,
+        ref,
         grating_coupler=grating_coupler,
         gc_port_name=gc_port_name,
-        gc_port_name_fiber=gc_port_name_fiber,
         component_name=component_name,
         cross_section=cross_section,
         select_ports=select_ports,
-        get_input_labels_function=get_input_labels_function,
-        layer_label=layer_label,
         **kwargs,
     )
-    if len(elements) == 0:
-        return component
 
-    for e in elements:
-        component_new.add(e)
-    for io_gratings in io_gratings_lines:
-        component_new.add(io_gratings)
-
-    component_new.add_ref(component)
-
-    for port in component.ports.values():
+    optical_ports_names = [port.name for port in optical_ports]
+    for port in component.ports:
         if port.name not in optical_ports_names:
             component_new.add_port(port.name, port=port)
 
-    ports = sort_ports_x(ports_grating_input_waveguide + ports_loopback)
+    # ports = sort_ports_x(component + ports_loopback)
+    # for port_component, port_grating in zip(
+    #     ports_component, ports_grating_input_waveguide
+    # ):
+    #     grating_ref = port_grating.parent
+    #     component_new.add_port(
+    #         f"opt-{grating_ref.parent.name}-{component_name}-{port_component.name}",
+    #         port=port_grating,
+    #     )
 
-    if gc_port_labels:
-        for gc_port_label, port in zip(gc_port_labels, ports):
-            if layer_label:
-                component_new.add_label(
-                    text=gc_port_label, layer=layer_label, position=port.center
-                )
-
-    for port_component, port_grating in zip(
-        ports_component, ports_grating_input_waveguide
-    ):
-        component_new.add_port(
-            port_component.name,
-            port=port_grating,
-        )
-
-    if ports_loopback:
-        component_new.add_port("loopback1", port=ports_loopback[0])
-        component_new.add_port("loopback2", port=ports_loopback[1])
+    # if ports_loopback:
+    #     grating_ref = ports_loopback[0].parent
+    #     component_new.add_port(
+    #         f"opt-{grating_ref.parent.name}-{component_name}-loopback_1",
+    #         port=ports_loopback[0],
+    #     )
+    #     component_new.add_port(
+    #         f"opt-{grating_ref.parent.name}-{component_name}-loopback_{len(ports)}",
+    #         port=ports_loopback[1],
+    #     )
 
     component_new.copy_child_info(component)
-
-    # Add a visible label to the structure if indicated
-    if text:
-        if dev_id is None:
-            # Check if there is info on the component
-            if "dev_id" in component.info:
-                dev_id = component.info["dev_id"]
-        if dev_id:
-            if id_placement == "center":
-                lab = component_new << text(text=dev_id, justify="center")
-                xs = [r.x for r in io_gratings_lines[0]]
-                ys = [r.y for r in io_gratings_lines[0]]
-                lab.center = (
-                    np.average(xs) + id_placement_offset[0],
-                    ys[0] + +id_placement_offset[1],
-                )
-            elif id_placement == "r":
-                lab = component_new << text(text=dev_id, justify="left")
-                xmax = [r.xmax for r in io_gratings_lines[0]]
-                # Include the loopback ports for xmax, xmin calculation
-                if ports_loopback:
-                    xmax += [
-                        r.xmax for r in io_gratings_lines[-1] + io_gratings_lines[-2]
-                    ]
-                ys = [r.y for r in io_gratings_lines[0]]
-                lab.xmin = np.max(xmax) + 20 + id_placement_offset[0]
-                lab.y = ys[0] + id_placement_offset[1]
-            elif id_placement == "l":
-                lab = component_new << text(text=dev_id, justify="right")
-                xmin = [r.xmin for r in io_gratings_lines[0]]
-                # Include the loopback ports for xmax, xmin calculation
-                if ports_loopback:
-                    xmin += [
-                        r.xmin for r in io_gratings_lines[-1] + io_gratings_lines[-2]
-                    ]
-                ys = [r.y for r in io_gratings_lines[0]]
-                lab.xmax = np.min(xmin) - 20 + id_placement_offset[0]
-                lab.y = ys[0] + id_placement_offset[1]
-            elif id_placement == "s":
-                lab = component_new << text(text=dev_id, justify="center")
-                xs = [r.x for r in io_gratings_lines[0]]
-                ymins = [r.ymin for r in io_gratings_lines[0]]
-                lab.center = (
-                    np.average(xs) + id_placement_offset[0],
-                    np.min(ymins) - 20 + id_placement_offset[1],
-                )
-
     return component_new
 
 
@@ -283,8 +169,6 @@ def demo_te_and_tm():
 
 
 if __name__ == "__main__":
-    from gdsfactory.routing.get_input_labels import get_input_labels_dash
-
     # test_type0()
     gcte = gf.components.grating_coupler_te
     gctm = gf.components.grating_coupler_tm
@@ -299,8 +183,6 @@ if __name__ == "__main__":
     )
 
     # from pprint import pprint
-    # layer_label = (66, 0)
-    # layer_label = (66, 5)
 
     # cc = demo_tapers()
     # cc = test_type1()
@@ -308,16 +190,20 @@ if __name__ == "__main__":
     # c = gf.components.coupler(gap=0.2, length=5.6)
     # c = gf.components.straight()
     # c = gf.components.mmi2x2()
+    # c = gf.components.nxn(north=2, south=2)
     # c = gf.components.ring_single()
-    c = gf.components.straight(length=0.0015)
-    # c = add_fiber_array(c)
-    c.show(show_ports=True)
+    # c = gf.components.straight_heater_metal()
     # c = gf.components.spiral(direction="NORTH")
 
-    # c = gf.components.bend_euler(info=dict(doe="bends"))
-    # cc = add_fiber_array(
-    #     c, layer_label=None, layer_label_loopback=None, with_loopback=True
-    # )
+    c = gf.components.mzi_phase_shifter()
+    c = add_fiber_array(c, with_loopback=False)
+
+    # c1 = partial(add_fiber_array, component=gf.c.mmi1x2)
+    # c2 = partial(add_fiber_array, component=gf.c.nxn)
+    # c = gf.pack((c1,c2))[0]
+    # c = c2()
+    c.pprint_ports()
+    c.show()
 
     # cc = add_fiber_array(
     #     component=c,
@@ -325,8 +211,8 @@ if __name__ == "__main__":
     #     # optical_routing_type=1,
     #     # optical_routing_type=2,
     #     # layer_label=layer_label,
-    #     # get_route_factory=route_fiber_single,
-    #     # get_route_factory=route_fiber_array,
+    #     # route_single_factory=route_fiber_single,
+    #     # route_single_factory=route_fiber_array,
     #     grating_coupler=gctm,
     #     # grating_coupler=[gcte, gctm, gcte, gctm],
     #     # grating_coupler=gf.functions.rotate(gcte, angle=180),
@@ -337,4 +223,4 @@ if __name__ == "__main__":
     #     info=dict(a=1),
     # )
     # cc.pprint_ports()
-    # cc.show(show_ports=True)
+    # cc.show()

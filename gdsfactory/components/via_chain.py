@@ -21,8 +21,6 @@ def via_chain(
     offsets_bot: tuple[float, ...] = (0,),
     via_min_enclosure: float = 1.0,
     min_metal_spacing: float = 1.0,
-    via_xoffset: float = 0.0,
-    via_yoffset: float = 0.0,
 ) -> Component:
     """Via chain to extract via resistance.
 
@@ -37,8 +35,6 @@ def via_chain(
         offsets_bot: list of bottom layer offsets.
         via_min_enclosure: via_min_enclosure.
         min_metal_spacing: min_metal_spacing.
-        via_xoffset: horizontal offset of the vias.
-        via_yoffset: vertical offset of the vias.
 
     .. code::
 
@@ -86,23 +82,21 @@ def via_chain(
 
     via = gf.get_component(via)
     contact = gf.get_component(contact)
-    wire_length = 2 * (2 * via_min_enclosure + via.size_info.width) + min_metal_spacing
-    via_width = via.size_info.width
+    via_width = via.d.xsize
+    wire_length = 2 * (2 * via_min_enclosure + via_width) + min_metal_spacing
     wire_width = via_width + 2 * via_min_enclosure
 
     wire_size = (wire_length, wire_width)
     via_spacing = (
-        2 * via_min_enclosure + min_metal_spacing + via.size_info.width,
+        2 * via_min_enclosure + min_metal_spacing + via_width,
         wire_width + min_metal_spacing,
     )
-
     vias = c.add_array(
         component=via,
         columns=cols,
         rows=rows,
         spacing=via_spacing,
     )
-
     top_wire = gf.c.rectangles(size=wire_size, layers=layers_top, offsets=offsets_top)
     top_wires = c.add_array(
         component=top_wire,
@@ -117,14 +111,12 @@ def via_chain(
         rows=rows,
         spacing=(wire_length + min_metal_spacing, wire_width + min_metal_spacing),
     )
-    top_wires.x = 0
-    bot_wires.xmin = (
-        top_wires.xmin + wire_length / 2 + min_metal_spacing / 2 - via_xoffset
-    )
-    bot_wires.y = 0
-    top_wires.y = 0
-    vias.xmin = top_wires.xmin + via_min_enclosure + via_spacing[0]
-    vias.ymin = top_wires.ymin + via_min_enclosure + via_yoffset
+    top_wires.d.xmin = -via_min_enclosure
+    bot_wires.d.xmin = top_wires.d.xmin + wire_length / 2 + min_metal_spacing / 2
+    bot_wires.d.ymin = -via_min_enclosure
+    top_wires.d.ymin = -via_min_enclosure
+    vias.d.xmin = top_wires.d.xmin + via_min_enclosure + via_spacing[0]
+    vias.d.ymin = top_wires.d.ymin + via_min_enclosure
 
     vertical_wire_left = gf.c.rectangle(
         size=(2 * via_min_enclosure + via_width, 2 * wire_width + min_metal_spacing),
@@ -138,8 +130,8 @@ def via_chain(
         spacing=(wire_width + min_metal_spacing, 2 * (wire_width + min_metal_spacing)),
     )
 
-    right_wires.xmax = vias.xmax + via_min_enclosure
-    right_wires.y = 0
+    right_wires.xmax = bot_wires.xmax
+    right_wires.ymin = bot_wires.ymin
 
     left_wires = c.add_array(
         component=vertical_wire_left,
@@ -148,17 +140,17 @@ def via_chain(
         spacing=(wire_width + min_metal_spacing, 2 * (wire_width + min_metal_spacing)),
     )
 
-    left_wires.xmin = top_wires.xmin
-    left_wires.y = 0
+    left_wires.d.xmin = top_wires.d.xmin
+    left_wires.d.ymin = bot_wires.d.ymin + wire_width + min_metal_spacing
 
     contact1 = c << contact
     contact2 = c << contact
 
-    contact1.xmax = top_wires.xmin
-    contact2.xmax = top_wires.xmin
+    contact1.d.xmax = top_wires.d.xmin
+    contact2.d.xmax = top_wires.d.xmin
 
-    contact1.ymax = top_wires.ymin + wire_width
-    contact2.ymin = top_wires.ymax - wire_width
+    contact1.d.ymax = top_wires.d.ymin + wire_width
+    contact2.d.ymin = top_wires.d.ymax - wire_width
     c.add_port(name="e1", port=contact1.ports["e1"])
     c.add_port(name="e2", port=contact2.ports["e1"])
     return c

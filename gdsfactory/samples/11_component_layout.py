@@ -62,4 +62,4 @@ def crossing_arm(
 
 if __name__ == "__main__":
     c = crossing_arm()
-    c.show(show_ports=True)
+    c.show()

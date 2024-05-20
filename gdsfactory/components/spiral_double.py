@@ -7,7 +7,7 @@ from gdsfactory.path import spiral_archimedean
 
 @gf.cell
 def spiral_double(
-    min_bend_radius: float | None = None,
+    min_bend_radius: float = 10.0,
     separation: float = 2.0,
     number_of_loops: float = 3,
     npoints: int = 1000,
@@ -17,7 +17,7 @@ def spiral_double(
     """Returns a spiral double (spiral in, and then out).
 
     Args:
-        min_bend_radius: inner radius of the spiral. Defaults to cross_section radius.
+        min_bend_radius: inner radius of the spiral.
         separation: separation between the loops.
         number_of_loops: number of loops per spiral.
         npoints: points for the spiral.
@@ -25,15 +25,13 @@ def spiral_double(
         bend: factory for the bends in the middle of the double spiral.
     """
     component = gf.Component()
-    xs = gf.get_cross_section(cross_section)
-    min_bend_radius = min_bend_radius or xs.radius
 
     bend = gf.get_component(
         bend, radius=min_bend_radius / 2, angle=180, cross_section=cross_section
     )
-    bend1 = component.add_ref(bend).mirror()
+    bend1 = component.add_ref(bend)
     bend2 = component.add_ref(bend)
-    bend2.connect("o2", bend1.ports["o1"])
+    bend2.connect("o2", bend1.ports["o1"], mirror=True)
 
     path = spiral_archimedean(
         min_bend_radius=min_bend_radius,
@@ -45,8 +43,11 @@ def spiral_double(
     path.end_angle = 0
 
     spiral = path.extrude(cross_section=cross_section)
-    spiral1 = component.add_ref(spiral).connect("o1", bend1.ports["o2"])
-    spiral2 = component.add_ref(spiral).connect("o1", bend2.ports["o1"])
+    spiral1 = component.add_ref(spiral)
+    spiral2 = component.add_ref(spiral)
+
+    spiral2.connect("o1", bend2.ports["o1"])
+    spiral1.connect("o1", bend1.ports["o2"], mirror=True)
 
     component.add_port("o1", port=spiral1.ports["o2"])
     component.add_port("o2", port=spiral2.ports["o2"])
@@ -57,12 +58,12 @@ def spiral_double(
 
 if __name__ == "__main__":
     c = spiral_double(
-        min_bend_radius=10,
-        separation=2,
-        number_of_loops=3,
-        npoints=1000,
-        cross_section="xs_sc",
+        # min_bend_radius=10,
+        # separation=2,
+        # number_of_loops=3,
+        # npoints=1000,
+        # cross_section="xs_rc",
     )
     print(c.ports["o1"].orientation)
     print(c.ports["o2"].orientation)
-    c.show(show_ports=True)
+    c.show()

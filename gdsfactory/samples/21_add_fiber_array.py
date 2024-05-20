@@ -21,4 +21,4 @@ def test_big_device() -> None:
 
 if __name__ == "__main__":
     c = big_device_with_gratings()
-    c.show(show_ports=True)
+    c.show()

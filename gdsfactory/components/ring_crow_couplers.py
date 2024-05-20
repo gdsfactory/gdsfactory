@@ -6,16 +6,15 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.coupler import coupler
-from gdsfactory.cross_section import strip
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def ring_crow_couplers(
-    radius: list[float] = [10.0] * 3,
-    bends: list[ComponentSpec] = [bend_circular] * 3,
-    ring_cross_sections: list[CrossSectionSpec] = [strip] * 3,
-    couplers: list[ComponentSpec] = [coupler] * 4,
+    radius: tuple[float, ...] = (10.0,) * 3,
+    bends: list[ComponentSpec] = (bend_circular,) * 3,
+    ring_cross_sections: list[CrossSectionSpec] = ("xs_sc",) * 3,
+    couplers: list[ComponentSpec] = (coupler,) * 4,
 ) -> Component:
     """Coupled ring resonators with coupler components between gaps.
 
@@ -59,8 +58,8 @@ def ring_crow_couplers(
     c = Component()
 
     couplers_refs = []
-    for _coupler in couplers:
-        coupler_ref = c.add_ref(gf.get_component(_coupler))
+    for cp in couplers:
+        coupler_ref = c.add_ref(gf.get_component(cp))
         couplers_refs.append(coupler_ref)
 
     # Input bus
@@ -73,10 +72,10 @@ def ring_crow_couplers(
     ):
         # Add ring
         bend_c = gf.get_component(bend, radius=r, cross_section=cross_section)
-        bend1 = c.add_ref(bend_c, alias=f"bot_right_bend_ring_{index}")
-        bend2 = c.add_ref(bend_c, alias=f"top_right_bend_ring_{index}")
-        bend3 = c.add_ref(bend_c, alias=f"top_left_bend_ring_{index}")
-        bend4 = c.add_ref(bend_c, alias=f"bot_left_bend_ring_{index}")
+        bend1 = c.add_ref(bend_c, name=f"bot_right_bend_ring_{index}")
+        bend2 = c.add_ref(bend_c, name=f"top_right_bend_ring_{index}")
+        bend3 = c.add_ref(bend_c, name=f"top_left_bend_ring_{index}")
+        bend4 = c.add_ref(bend_c, name=f"bot_left_bend_ring_{index}")
 
         # We need to account for the chance that the top and bottom couplers
         # have a different length --> In this case we need to add straights
@@ -122,15 +121,12 @@ def ring_crow_couplers(
     # Output bus
     c.add_port(name="o3", port=couplers_refs[-1].ports["o2"])
     c.add_port(name="o4", port=couplers_refs[-1].ports["o3"])
-
     return c
 
 
 if __name__ == "__main__":
     c = ring_crow_couplers(
-        # couplers=[gf.components.coupler_full(coupling_length=0.01, dw=0)] * 4
+        # couplers=(gf.components.coupler_full(coupling_length=0.01, dw=0),) * 4
     )
-
-    c.show(show_ports=True, show_subports=False)
-
-    print(c.named_references["bot_right_bend_ring_0"].ports)
+    c.show()
+    # print(c.insts["bot_right_bend_ring_0"].ports)

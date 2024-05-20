@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.routing.get_route import get_route
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -46,7 +46,6 @@ def coh_tx_dual_pol(
     spol_coh_tx = gf.get_component(spol_coh_tx)
 
     # ----- Draw single pol coherent transmitters -----
-
     # Add MZM 1
     c = Component()
 
@@ -54,41 +53,42 @@ def coh_tx_dual_pol(
     single_tx_2 = c << spol_coh_tx
 
     # Separate the two receivers
-    single_tx_2.movey(single_tx_1.ymin - yspacing - single_tx_2.ymax)
+    single_tx_2.d.movey(single_tx_1.d.ymin - yspacing - single_tx_2.d.ymax)
 
     # ------------ Splitters and combiners ---------------
     splitter = gf.get_component(splitter)
     sp = c << splitter
-    sp.x = single_tx_1.xmin - xspacing
-    sp.y = (single_tx_1.ports["o1"].y + single_tx_2.ports["o1"].y) / 2
+    sp.d.x = single_tx_1.d.xmin - xspacing
+    sp.d.y = (single_tx_1.ports["o1"].d.y + single_tx_2.ports["o1"].d.y) / 2
 
-    route = get_route(
+    route = route_single(
+        c,
         sp.ports["o2"],
         single_tx_1.ports["o1"],
         cross_section=cross_section,
         with_sbend=False,
         **kwargs,
     )
-    c.add(route.references)
 
-    route = get_route(
+    route = route_single(
+        c,
         sp.ports["o3"],
         single_tx_2.ports["o1"],
         cross_section=cross_section,
         with_sbend=False,
         **kwargs,
     )
-    c.add(route.references)
 
     if combiner:
         combiner = gf.get_component(combiner)
         comb = c << combiner
         comb.mirror()
 
-        comb.x = single_tx_1.xmax + xspacing
-        comb.y = (single_tx_1.ports["o2"].y + single_tx_2.ports["o2"].y) / 2
+        comb.d.x = single_tx_1.d.xmax + xspacing
+        comb.d.y = (single_tx_1.ports["o2"].d.y + single_tx_2.ports["o2"].d.y) / 2
 
-        route = get_route(
+        route = route_single(
+            c,
             comb.ports["o2"],
             single_tx_1.ports["o2"],
             cross_section=cross_section,
@@ -97,7 +97,8 @@ def coh_tx_dual_pol(
         )
         c.add(route.references)
 
-        route = get_route(
+        route = route_single(
+            c,
             comb.ports["o3"],
             single_tx_2.ports["o2"],
             cross_section=cross_section,
@@ -124,35 +125,35 @@ def coh_tx_dual_pol(
             # Directly connect the output coupler to the branches.
             # Assumes the output couplers has ports "o1" and "o2"
 
-            out_coup.y = (single_tx_1.y + single_tx_2.y) / 2
-            out_coup.xmin = single_tx_1.xmax + 40.0
+            out_coup.d.y = (single_tx_1.d.y + single_tx_2.d.y) / 2
+            out_coup.d.xmin = single_tx_1.d.xmax + 40.0
 
-            route = get_route(
+            route = route_single(
+                c,
                 single_tx_1.ports["o2"],
                 out_coup.ports["o1"],
                 cross_section=cross_section,
                 with_sbend=False,
                 **kwargs,
             )
-            c.add(route.references)
 
-            route = get_route(
+            route = route_single(
+                c,
                 single_tx_2.ports["o2"],
                 out_coup.ports["o2"],
                 cross_section=cross_section,
                 with_sbend=False,
                 **kwargs,
             )
-            c.add(route.references)
     else:
         c.add_port("o2", port=single_tx_1.ports["o2"])
         c.add_port("o3", port=single_tx_2.ports["o2"])
 
-    c.add_ports(single_tx_1.get_ports_list(port_type="electrical"), prefix="pol1_")
-    c.add_ports(single_tx_2.get_ports_list(port_type="electrical"), prefix="pol2_")
+    c.add_ports(single_tx_1.ports.filter(port_type="electrical"), prefix="pol1_")
+    c.add_ports(single_tx_2.ports.filter(port_type="electrical"), prefix="pol2_")
     return c
 
 
 if __name__ == "__main__":
     c = coh_tx_dual_pol()
-    c.show(show_ports=True)
+    c.show()

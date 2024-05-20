@@ -6,103 +6,69 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import numbers
-from collections import defaultdict
-from collections.abc import Iterable, Sequence
-from typing import TYPE_CHECKING, Any
+import typing
 
 import numpy as np
-from gdstk import Label as _Label
-from gdstk import Polygon
 from numpy import cos, pi, sin
 from numpy.linalg import norm
-from pydantic import BaseModel, model_validator
 from rich.console import Console
 from rich.table import Table
 
-from gdsfactory.serialization import clean_value_json
-from gdsfactory.snap import snap_to_grid
-
-if TYPE_CHECKING:
+if typing.TYPE_CHECKING:
     from gdsfactory.port import Port
 
-
-class CellSettings(BaseModel, extra="allow", validate_assignment=True, frozen=True):
-    @model_validator(mode="before")
-    def restrict_types(cls, data: dict[str, Any]) -> dict[str, int | float | str]:
-        for name, value in data.items():
-            data[name] = clean_value_json(value)
-        return data
-
-    def __getitem__(self, key: str) -> Any:
-        return getattr(self, key)
-
-    def get(self, __key: str, default: Any = None) -> Any:
-        return getattr(self, __key) if hasattr(self, __key) else default
+Coordinate = tuple[float, float]
 
 
-class ComponentSpec(BaseModel, extra="allow", validate_assignment=True, frozen=True):
-    """ComponentSpec stores the settings used to create a component."""
+class SizeInfo:
+    def __init__(self, bbox) -> None:
+        """Initialize this object."""
+        self.west = bbox.left
+        self.east = bbox.right
+        self.south = bbox.bottom
+        self.north = bbox.top
 
-    settings: CellSettings = CellSettings()
-    function: str
-    module: str
+        self.width = self.east - self.west
+        self.height = self.north - self.south
 
-    @model_validator(mode="before")
-    def restrict_types(cls, data: dict[str, Any]) -> dict[str, int | float | str]:
-        for name, value in data.items():
-            data[name] = clean_value_json(value)
-        return data
+        xc = 0.5 * (self.east + self.west)
+        yc = 0.5 * (self.north + self.south)
 
-    def __getitem__(self, key: str) -> Any:
-        return getattr(self, key)
+        self.sw = np.array([self.west, self.south])
+        self.se = np.array([self.east, self.south])
+        self.nw = np.array([self.west, self.north])
+        self.ne = np.array([self.east, self.north])
 
-    def get(self, __key: str, default: Any = None) -> Any:
-        return getattr(self, __key) if hasattr(self, __key) else default
+        self.cw = np.array([self.west, yc])
+        self.ce = np.array([self.east, yc])
+        self.nc = np.array([xc, self.north])
+        self.sc = np.array([xc, self.south])
+        self.cc = self.center = np.array([xc, yc])
 
+    def get_rect(
+        self, padding=0, padding_w=None, padding_e=None, padding_n=None, padding_s=None
+    ) -> tuple[Coordinate, Coordinate, Coordinate, Coordinate]:
+        w, e, s, n = self.west, self.east, self.south, self.north
 
-class Info(BaseModel, extra="allow", validate_assignment=True):
-    @model_validator(mode="before")
-    def restrict_types(
-        cls, data: dict[str, int | float | Sequence | str]
-    ) -> dict[str, int | float | Sequence | str]:
-        for name, value in data.items():
-            if name == "schematic":
-                continue  # prevent validation of schematic sub-dictionary
-            if not isinstance(value, str | int | float | Sequence):
-                raise ValueError(
-                    "Values of the info dict only support int, float, string or tuple."
-                    f"{name}: {value}, {type(value)}"
-                )
+        padding_n = padding if padding_n is None else padding_n
+        padding_e = padding if padding_e is None else padding_e
+        padding_w = padding if padding_w is None else padding_w
+        padding_s = padding if padding_s is None else padding_s
 
-        return data
+        w = w - padding_w
+        e = e + padding_e
+        s = s - padding_s
+        n = n + padding_n
 
-    def __getitem__(self, __key: str) -> Any:
-        return getattr(self, __key)
+        return ((w, s), (e, s), (e, n), (w, n))
 
-    def __setitem__(
-        self, __key: str, __val: str | int | float | Sequence | None
-    ) -> None:
-        if __val is not None:
-            setattr(self, __key, __val)
+    @property
+    def rect(self) -> tuple[Coordinate, Coordinate]:
+        return self.get_rect()
 
-    def __contains__(self, __key: str) -> bool:
-        return hasattr(self, __key)
-
-    def get(self, __key: str, default: Any | None = None) -> Any:
-        return getattr(self, __key) if hasattr(self, __key) else default
-
-    def update(self, data: Info | dict | Iterable[tuple[str, Any]]) -> None:
-        if isinstance(data, dict):
-            for key, value in data.items():
-                self.__setitem__(key, value)
-        elif isinstance(data, Info):
-            for key, value in data.model_dump().items():
-                self.__setitem__(key, value)
-        elif isinstance(data, Iterable):
-            for key, value in data:
-                self.__setitem__(key, value)
-        else:
-            raise TypeError("Unsupported data type for update")
+    def __str__(self) -> str:
+        """Return a string representation of the object."""
+        return f"w: {self.west}\ne: {self.east}\ns: {self.south}\nn: {self.north}\n"
 
 
 def pprint_ports(ports: dict[str, Port] or list[Port]) -> None:
@@ -127,106 +93,6 @@ def pprint_ports(ports: dict[str, Port] or list[Port]) -> None:
         table.add_row(*row)
 
     console.print(table)
-
-
-class Label(_Label):
-    def __repr__(self) -> str:
-        return f"Label(text={self.text!r}, origin={self.origin}, layer=({self.layer}, {self.texttype}))"
-
-
-def get_polygons(
-    instance,
-    by_spec: bool | tuple[int, int] = False,
-    depth: int | None = None,
-    include_paths: bool = True,
-    as_array: bool = True,
-    as_shapely: bool = False,
-    as_shapely_merged: bool = False,
-) -> list[Polygon] | dict[tuple[int, int], list[Polygon]]:
-    """Return a list of polygons in this cell.
-
-    Args:
-        by_spec: bool or layer
-            If True, the return value is a dictionary with the
-            polygons of each individual pair (layer, datatype), which
-            are used as keys.  If set to a tuple of (layer, datatype),
-            only polygons with that specification are returned.
-        depth: integer or None
-            If not None, defines from how many reference levels to
-            retrieve polygons.  References below this level will result
-            in a bounding box.  If `by_spec` is True the key will be the
-            name of this cell.
-        include_paths: If True, polygonal representation of paths are also included in the result.
-        as_array: when as_array=false, return the Polygon objects instead.
-            polygon objects have more information (especially when by_spec=False) and are faster to retrieve.
-        as_shapely: returns shapely polygons.
-
-    Returns
-        out: list of array-like[N][2] or dictionary
-            List containing the coordinates of the vertices of each
-            polygon, or dictionary with with the list of polygons (if
-            `by_spec` is True).
-
-    Note:
-        Instances of `FlexPath` and `RobustPath` are also included in
-        the result by computing their polygonal boundary.
-    """
-    import gdsfactory as gf
-
-    if hasattr(instance, "_cell"):
-        layers = instance.get_layers()
-        gdstk_instance = instance._cell
-
-    else:
-        layers = instance.parent.get_layers()
-        gdstk_instance = instance._reference
-
-    if not by_spec:
-        polygons = gdstk_instance.get_polygons(depth=depth, include_paths=include_paths)
-
-    elif by_spec is True:
-        polygons = {
-            layer: gdstk_instance.get_polygons(
-                depth=depth,
-                layer=layer[0],
-                datatype=layer[1],
-                include_paths=include_paths,
-            )
-            for layer in layers
-        }
-
-    else:
-        by_spec = gf.get_layer(by_spec)
-        polygons = gdstk_instance.get_polygons(
-            depth=depth,
-            layer=by_spec[0],
-            datatype=by_spec[1],
-            include_paths=include_paths,
-        )
-
-    if not as_array:
-        return polygons
-    elif as_shapely_merged:
-        import shapely as sp
-
-        polygons = [sp.Polygon(polygon.points) for polygon in polygons]
-        p = sp.Polygon()
-        for polygon in polygons:
-            p = p | polygon
-        return p
-
-    elif as_shapely:
-        import shapely as sp
-
-        return [sp.Polygon(polygon.points) for polygon in polygons]
-
-    elif by_spec is not True:
-        return [polygon.points for polygon in polygons]
-    layer_to_polygons = defaultdict(list)
-    for layer, polygons_list in polygons.items():
-        for polygon in polygons_list:
-            layer_to_polygons[layer].append(polygon.points)
-    return layer_to_polygons
 
 
 def _parse_layer(layer):
@@ -282,7 +148,7 @@ class _GeometryHelper:
         Args:
             destination : array-like[2] Coordinates of the new bounding box center.
         """
-        self.move(destination=destination, origin=self.center)
+        self.center = destination
 
     @property
     def x(self):
@@ -296,8 +162,7 @@ class _GeometryHelper:
         Args:
             destination : int or float x-coordinate of the bbox center.
         """
-        destination = (destination, self.center[1])
-        self.move(destination=destination, origin=self.center, axis="x")
+        self.x = destination
 
     @property
     def y(self):
@@ -313,7 +178,7 @@ class _GeometryHelper:
             y-coordinate of the bbox center.
         """
         destination = (self.center[0], destination)
-        self.move(destination=destination, origin=self.center, axis="y")
+        self.move(other=destination, origin=self.center, axis="y")
 
     @property
     def xmax(self):
@@ -328,7 +193,7 @@ class _GeometryHelper:
         destination : int or float
             x-coordinate of the maximum edge of the bbox.
         """
-        self.move(destination=(destination, 0), origin=self.bbox[1], axis="x")
+        self.move(other=(destination, 0), origin=self.bbox[1], axis="x")
 
     @property
     def ymax(self):
@@ -342,7 +207,7 @@ class _GeometryHelper:
         Args:
             destination : int or float y-coordinate of the maximum edge of the bbox.
         """
-        self.move(destination=(0, destination), origin=self.bbox[1], axis="y")
+        self.move(other=(0, destination), origin=self.bbox[1], axis="y")
 
     @property
     def xmin(self):
@@ -356,7 +221,7 @@ class _GeometryHelper:
         Args:
             destination : int or float x-coordinate of the minimum edge of the bbox.
         """
-        self.move(destination=(destination, 0), origin=self.bbox[0], axis="x")
+        self.move(other=(destination, 0), origin=self.bbox[0], axis="x")
 
     @property
     def ymin(self):
@@ -370,7 +235,7 @@ class _GeometryHelper:
         Args:
             destination : int or float y-coordinate of the minimum edge of the bbox.
         """
-        self.move(destination=(0, destination), origin=self.bbox[0], axis="y")
+        self.move((0, destination))
 
     @property
     def size(self):
@@ -390,204 +255,27 @@ class _GeometryHelper:
         bbox = self.bbox
         return bbox[1][1] - bbox[0][1]
 
-    def movex(self, origin=0, destination=None):
+    def movex(self, origin=0, other=None):
         """Moves an object by a specified x-distance.
 
         Args:
             origin: array-like[2], Port, or key Origin point of the move.
-            destination: array-like[2], Port, key, or None Destination point of the move.
+            other: array-like[2], Port, key, or None Destination point of the move.
         """
-        if destination is None:
-            destination = origin
-            origin = 0
-        return self.move(origin=(origin, 0), destination=(destination, 0))
+        if other is None:
+            pass
+        return self.move((other, 0))
 
-    def movey(self, origin=0, destination=None):
+    def movey(self, origin=0, other=None):
         """Moves an object by a specified y-distance.
 
         Args:
             origin : array-like[2], Port, or key Origin point of the move.
             destination : array-like[2], Port, or key Destination point of the move.
         """
-        if destination is None:
-            destination = origin
-            origin = 0
-        return self.move(origin=(0, origin), destination=(0, destination))
-
-    def __add__(self, element) -> Group:
-        """Adds an element to a Group.
-
-        Args:
-            element: Component, ComponentReference, Port, Polygon,
-                Label, or Group to add.
-        """
-        if isinstance(self, Group):
-            G = Group()
-            G.add(self.elements)
-            G.add(element)
-        else:
-            G = Group([self, element])
-        return G
-
-
-class Group(_GeometryHelper):
-    """Group objects together so you can manipulate them as a single object \
-            (move/rotate/mirror)."""
-
-    def __init__(self, *args) -> None:
-        """Initialize Group."""
-        self.elements = []
-        self.add(args)
-
-    def __repr__(self) -> str:
-        """Prints the number of elements in the Group."""
-        return f"Group ({len(self.elements)} elements total)"
-
-    def __len__(self) -> float:
-        """Returns the number of elements in the Group."""
-        return len(self.elements)
-
-    def __iadd__(self, element) -> Group:
-        """Adds an element to the Group.
-
-        Args:
-            element: Component, ComponentReference, Port, Polygon,
-                Label, or Group to add.
-
-        """
-        return self.add(element)
-
-    @property
-    def bbox(self):
-        """Returns the bounding boxes of the Group."""
-        if len(self.elements) == 0:
-            raise ValueError("Group is empty, no bbox is available")
-        bboxes = np.empty([len(self.elements), 4])
-        for n, e in enumerate(self.elements):
-            bboxes[n] = e.bbox.flatten()
-
-        bbox = (
-            (bboxes[:, 0].min(), bboxes[:, 1].min()),
-            (bboxes[:, 2].max(), bboxes[:, 3].max()),
-        )
-        return np.array(bbox)
-
-    def add(self, element) -> Group:
-        """Adds an element to the Group.
-
-        Args:
-            element: Component, ComponentReference, Port, Polygon,
-                Label, or Group to add.
-        """
-        from gdsfactory.component import Component
-        from gdsfactory.component_reference import ComponentReference
-
-        if _is_iterable(element):
-            [self.add(e) for e in element]
-        elif element is None:
-            return self
-        elif isinstance(
-            element, Component | ComponentReference | Polygon | Label | Group
-        ):
-            self.elements.append(element)
-        else:
-            raise ValueError(
-                "add() Could not add element to Group, the only "
-                "allowed element types are "
-                "(Component, ComponentReference, Polygon, Label, Group)"
-            )
-        # Remove non-unique entries
-        used = set()
-        self.elements = [
-            x for x in self.elements if x not in used and (used.add(x) or True)
-        ]
-        return self
-
-    def rotate(self, angle: float = 45, center=(0, 0)) -> Group:
-        """Rotates all elements in a Group around the specified centerpoint.
-
-        Args:
-            angle : int or float
-                Angle to rotate the Group in degrees.
-            center : array-like[2] or None
-                center of the Group.
-        """
-        for e in self.elements:
-            e.rotate(angle=angle, center=center)
-        return self
-
-    def move(self, origin=(0, 0), destination=None, axis=None) -> Group:
-        """Moves the Group from the origin point to the destination.
-
-        Both origin and destination can be 1x2 array-like, Port, or a key
-        corresponding to one of the Ports in this Group.
-
-        Args:
-            origin : array-like[2], Port, or key
-                Origin point of the move.
-            destination : array-like[2], Port, or key
-                Destination point of the move.
-            axis : {'x', 'y'}
-                Direction of the move.
-        """
-        destination = snap_to_grid(destination)
-        for e in self.elements:
-            e.move(origin=origin, destination=destination, axis=axis)
-        return self
-
-    def mirror(self, p1=(0, 1), p2=(0, 0)) -> Group:
-        """Mirrors a Group across the line formed between the two specified points.
-
-        ``points`` may be input as either single points
-        [1,2] or array-like[N][2], and will return in kind.
-
-        Args:
-            p1 : array-like[N][2]
-                First point of the line.
-            p2 : array-like[N][2]
-                Second point of the line.
-        """
-        for e in self.elements:
-            e.mirror(p1=p1, p2=p2)
-        return self
-
-    def distribute(
-        self, direction="x", spacing=100, separation=True, edge="center"
-    ) -> Group:
-        """Distributes the elements in the Group.
-
-        Args:
-            direction : {'x', 'y'}
-                Direction of distribution; either a line in the x-direction or
-                y-direction.
-            spacing : int or float
-                Distance between elements.
-            separation : bool
-                If True, guarantees elements are separated with a fixed spacing
-                between; if False, elements are spaced evenly along a grid.
-            edge : {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
-                Which edge to perform the distribution along (unused if
-                separation == True)
-        """
-        _distribute(
-            elements=self.elements,
-            direction=direction,
-            spacing=spacing,
-            separation=separation,
-            edge=edge,
-        )
-        return self
-
-    def align(self, alignment="ymax") -> Group:
-        """Aligns the elements in the Group.
-
-        Args:
-            alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
-                Which edge to align along (e.g. 'ymax' will align move the elements
-                such that all of their topmost points are aligned)
-        """
-        _align(elements=self.elements, alignment=alignment)
-        return self
+        if other is None:
+            pass
+        return self.move((0, other))
 
 
 def _rotate_points(points, angle: float = 45, center=(0, 0)):
@@ -677,7 +365,7 @@ def _parse_coordinate(c):
     if hasattr(c, "center"):
         return c.center
     elif np.array(c).size == 2:
-        return np.round(c, 3)
+        return c
     else:
         raise ValueError(
             "Could not parse coordinate, input should be array-like (e.g. [1.5,2.3] or a Port"
@@ -785,33 +473,6 @@ def _distribute(elements, direction="x", spacing=100, separation=True, edge=None
     return elements
 
 
-def _align(elements, alignment="ymax"):
-    """Aligns lists of gdsfactory elements.
-
-    Args:
-        elements : array-like of gdsfactory objects
-            Elements to align.
-        alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
-            Which edge to align along (e.g. 'ymax' will align move the elements such
-            that all of their topmost points are aligned)
-
-
-    Returns
-        elements : array-like of gdsfactory objects
-            Aligned elements.
-    """
-    if len(elements) == 0:
-        return elements
-    if alignment not in (["x", "y", "xmin", "xmax", "ymin", "ymax"]):
-        raise ValueError(
-            "'alignment' argument must be one of 'x','y','xmin', 'xmax', 'ymin','ymax'"
-        )
-    value = Group(elements).__getattribute__(alignment)
-    for e in elements:
-        e.__setattr__(alignment, value)
-    return elements
-
-
 def _line_distances(points, start, end):
     if np.all(start == end):
         return np.linalg.norm(points - start, axis=1)
@@ -849,18 +510,6 @@ def _simplify(points, tolerance=0):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.Component()
-    # label = c.add_label("hi")
-    # print(c.labels[0])
-    # _demo()
-    # s = Step()
+    # c = gf.c.straight()
 
-    c = gf.Component("bend")
-    b = c << gf.components.bend_circular(angle=30)
-    s = c << gf.components.straight(length=5)
-    s.connect("o1", b.ports["o2"])
-    p = c.get_polygons(as_shapely_merged=True)
-    c2 = gf.Component()
-    c2.add_polygon(p, layer=(1, 0))
-    c2.info["a"] = None
-    c2.show()
+    c = gf.grid(tuple(gf.components.straight(length=i) for i in range(1, 5)))

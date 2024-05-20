@@ -28,7 +28,7 @@ def verniers(
     for width in widths:
         w = c << gf.components.straight(width=width, length=xsize, **kwargs)
         y += width / 2
-        w.y = y
+        w.d.y = y
         c.add_label(text=str(int(width * 1e3)), position=(0, y), layer=layer_label)
         y += width / 2 + gap
 
@@ -37,4 +37,4 @@ def verniers(
 
 if __name__ == "__main__":
     c = verniers()
-    c.show(show_ports=True)
+    c.show()

@@ -60,16 +60,10 @@ from typing import IO, Any, Literal
 import numpy as np
 from omegaconf import DictConfig, OmegaConf
 
+import gdsfactory as gf
 from gdsfactory.add_pins import add_instance_label
-from gdsfactory.cell import cell
-from gdsfactory.component import (
-    Component,
-    ComponentReference,
-    valid_anchor_point_keywords,
-    valid_anchor_value_keywords,
-    valid_anchors,
-)
-from gdsfactory.typings import Route
+from gdsfactory.component import Component, Instance
+from gdsfactory.serialization import clean_value_json
 
 valid_placement_keys = [
     "x",
@@ -101,6 +95,31 @@ valid_top_level_keys = [
     "schema_version",
 ]
 
+valid_anchor_point_keywords = [
+    "ce",
+    "cw",
+    "nc",
+    "ne",
+    "nw",
+    "sc",
+    "se",
+    "sw",
+    "center",
+    "cc",
+]
+# refer to an (x,y) Point
+
+valid_anchor_value_keywords = [
+    "south",
+    "west",
+    "east",
+    "north",
+]
+# refer to a singular (x or y) value
+
+valid_anchor_keywords = valid_anchor_point_keywords + valid_anchor_value_keywords
+# full set of valid anchor keywords (either referring to points or values)
+
 valid_route_keys = [
     "links",
     "settings",
@@ -109,22 +128,24 @@ valid_route_keys = [
 # Recognized keys within a YAML route definition
 
 
-def _get_anchor_point_from_name(
-    ref: ComponentReference, anchor_name: str
-) -> np.ndarray | None:
+def to_um(ref, value):
+    return round(value * ref.kcl.dbu)
+
+
+def _get_anchor_point_from_name(ref: Instance, anchor_name: str) -> np.ndarray | None:
     if anchor_name in valid_anchor_point_keywords:
-        return getattr(ref.size_info, anchor_name)
+        return getattr(ref.d.size_info, anchor_name)
     elif anchor_name in ref.ports:
-        return ref.ports[anchor_name].center
+        return ref.ports[anchor_name].d.center
     else:
         return None
 
 
 def _get_anchor_value_from_name(
-    ref: ComponentReference, anchor_name: str, return_value: str
+    ref: Instance, anchor_name: str, return_value: str
 ) -> float | None:
     if anchor_name in valid_anchor_value_keywords:
-        return getattr(ref.size_info, anchor_name)
+        return getattr(ref.d.size_info, anchor_name)
     anchor_point = _get_anchor_point_from_name(ref, anchor_name)
     if anchor_point is None:
         return None
@@ -168,12 +189,12 @@ def _move_ref(
         )
     if (
         port_name not in instances[instance_name_ref].ports
-        and port_name not in valid_anchors
+        and port_name not in valid_anchor_keywords
     ):
         ports = list(instances[instance_name_ref].ports.keys())
         raise ValueError(
             f"port = {port_name!r} can be a port_name in {ports}, "
-            f"an anchor {valid_anchors} for {instance_name_ref!r}, "
+            f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
             f"or `{x_or_y}: instanceName,portName`, got `{x_or_y}: {x!r}`"
         )
 
@@ -183,7 +204,7 @@ def _move_ref(
 def place(
     placements_conf: dict[str, dict[str, int | float | str]],
     connections_by_transformed_inst: dict[str, dict[str, str]],
-    instances: dict[str, ComponentReference],
+    instances: dict[str, Instance],
     encountered_insts: list[str],
     instance_name: str | None = None,
     all_remaining_insts: list[str] | None = None,
@@ -245,10 +266,11 @@ def place(
 
         if mirror:
             if mirror is True and port:
-                ref.mirror_x(x0=_get_anchor_value_from_name(ref, port, "x"))
+                ref.mirror_x(x=_get_anchor_value_from_name(ref, port, "x"))
             elif mirror is True:
-                if x is not None:
-                    ref.mirror_x(x0=_get_anchor_value_from_name(ref, x, "x"))
+                if x:
+                    x = to_um(ref, x)
+                    ref.mirror_x(x=x)
                 else:
                     ref.mirror_x()
             elif mirror is False:
@@ -256,7 +278,8 @@ def place(
             elif isinstance(mirror, str):
                 ref.mirror_x(port_name=mirror)
             elif isinstance(mirror, int | float):
-                ref.mirror_x(x0=mirror)
+                x = to_um(ref, x)
+                ref.mirror_x(x=x)
             else:
                 raise ValueError(
                     f"{mirror!r} can only be a port name {ref.ports.keys()}, "
@@ -274,11 +297,11 @@ def place(
                     "Valid keywords: \n"
                     f"{valid_anchor_point_keywords}",
                 )
-            ref.x -= a[0]
-            ref.y -= a[1]
+            ref.d.x -= a[0]
+            ref.d.y -= a[1]
 
         if x is not None:
-            ref.x += _move_ref(
+            ref.d.x += _move_ref(
                 x,
                 x_or_y="x",
                 placements_conf=placements_conf,
@@ -292,7 +315,7 @@ def place(
         # print(ymin, y or ymin or ymax)
 
         if y is not None:
-            ref.y += _move_ref(
+            ref.d.y += _move_ref(
                 y,
                 x_or_y="y",
                 placements_conf=placements_conf,
@@ -304,16 +327,15 @@ def place(
 
         if rotation:
             if port:
-                ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
+                ref.d.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
             else:
-                x, y = ref.origin
-                ref.rotate(rotation, center=(x, y))
-                # ref.rotate(rotation, center=(ref.x, ref.y))
+                x, y = ref.d.center.x, ref.d.center.y
+                ref.d.rotate(rotation, center=ref.d.center)
 
         if ymin is not None and ymax is not None:
             raise ValueError("You cannot set ymin and ymax")
         elif ymax is not None:
-            ref.ymax = _move_ref(
+            ref.d.ymax = _move_ref(
                 ymax,
                 x_or_y="y",
                 placements_conf=placements_conf,
@@ -336,7 +358,7 @@ def place(
         if xmin is not None and xmax is not None:
             raise ValueError("You cannot set xmin and xmax")
         elif xmin is not None:
-            ref.xmin = _move_ref(
+            ref.d.xmin = _move_ref(
                 xmin,
                 x_or_y="x",
                 placements_conf=placements_conf,
@@ -346,7 +368,7 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
         elif xmax is not None:
-            ref.xmax = _move_ref(
+            ref.d.xmax = _move_ref(
                 xmax,
                 x_or_y="x",
                 placements_conf=placements_conf,
@@ -356,10 +378,10 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
         if dx:
-            ref.x += dx
+            ref.d.x += dx
 
         if dy:
-            ref.y += dy
+            ref.d.y += dy
 
     if instance_name in connections_by_transformed_inst:
         conn_info = connections_by_transformed_inst[instance_name]
@@ -400,7 +422,7 @@ def make_connection(
     port_src_name: str,
     instance_dst_name: str,
     port_dst_name: str,
-    instances: dict[str, ComponentReference],
+    instances: dict[str, Instance],
 ) -> None:
     """Connect instance_src_name,port to instance_dst_name,port.
 
@@ -425,17 +447,19 @@ def make_connection(
     instance_dst = instances[instance_dst_name]
 
     if port_src_name not in instance_src.ports:
+        instance_src_port_names = [p.name for p in instance_src.ports]
         raise ValueError(
-            f"{port_src_name} not in {list(instance_src.ports.keys())} for"
+            f"{port_src_name!r} not in {instance_src_port_names} for"
             f" {instance_src_name!r} "
         )
     if port_dst_name not in instance_dst.ports:
+        instance_dst_port_names = [p.name for p in instance_dst.ports]
         raise ValueError(
-            f"{port_dst_name!r} not in {list(instance_dst.ports.keys())} for"
+            f"{port_dst_name!r} not in {instance_dst_port_names} for"
             f" {instance_dst_name!r}"
         )
     port_dst = instance_dst.ports[port_dst_name]
-    instance_src.connect(port=port_src_name, destination=port_dst)
+    instance_src.connect(port=port_src_name, other=port_dst)
 
 
 sample_mmis = """
@@ -480,6 +504,8 @@ def cell_from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
+    name: str | None = None,
+    prefix: str | None = None,
     **kwargs,
 ) -> Callable:
     """Returns Component factory from YAML string or file.
@@ -491,6 +517,7 @@ def cell_from_yaml(
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
+        prefix: name prefix.
         kwargs: function settings for creating YAML PCells.
 
     .. code::
@@ -565,6 +592,8 @@ def cell_from_yaml(
         yaml_str=yaml_str,
         routing_strategy=routing_strategy,
         label_instance_function=label_instance_function,
+        name=name,
+        prefix=prefix,
         **kwargs,
     )
 
@@ -573,9 +602,7 @@ def from_yaml(
     yaml_str: str | pathlib.Path | IO[Any] | dict[str, Any] | DictConfig,
     routing_strategy: dict[str, Callable] | None = None,
     label_instance_function: Callable = add_instance_label,
-    name: str | None = None,
-    prefix: str | None = None,
-    validate: bool = False,
+    name: str = "Unnamed",
     **kwargs,
 ) -> Component:
     """Returns Component from YAML string or file.
@@ -587,8 +614,6 @@ def from_yaml(
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
-        prefix: name prefix.
-        validate: validate component.
         kwargs: function settings for creating YAML PCells.
 
     .. code::
@@ -688,26 +713,24 @@ def from_yaml(
             raise ValueError(f"{key!r} not in {settings.keys()}")
         else:
             conf["settings"][key] = value
-
-    c = _from_yaml(
-        conf=OmegaConf.to_container(conf, resolve=True),
+    conf = OmegaConf.to_container(conf, resolve=True)
+    name = conf.get("name", None)
+    return _from_yaml(
+        conf=conf,
         routing_strategy=routing_strategy,
         label_instance_function=label_instance_function,
-        mode=mode,
-        prefix=prefix or conf.get("name", "Unnamed"),
         name=name,
-        validate=validate,
+        mode=mode,
     )
-    return c
 
 
-@cell
+@gf.cell(rec_dicts=True, set_name=False)
 def _from_yaml(
     conf,
     routing_strategy: dict[str, Callable],
     label_instance_function: Callable = add_instance_label,
     mode: str = "layout",
-    validate: bool = False,
+    name: str = "Unnamed",
 ) -> Component:
     """Returns component from YAML decorated with cell for caching and autonaming.
 
@@ -715,15 +738,15 @@ def _from_yaml(
         conf: dict.
         routing_strategy: for each route.
         label_instance_function: to label each instance.
-        mode: layout or schematic.
-        validate: validate component.
+        name: cell name.
+
     """
     from gdsfactory.generic_tech import get_generic_pdk
     from gdsfactory.pdk import get_active_pdk
 
     GENERIC = get_generic_pdk()
 
-    c = Component()
+    c = Component(name)
     instances = {}
     routes = {}
 
@@ -733,7 +756,10 @@ def _from_yaml(
     connections_conf = conf.get("connections")
     instances_dict = conf["instances"]
     pdk = conf.get("pdk")
-    c.info.update(conf.get("info", {}))
+    info = conf.get("info", {})
+
+    for key, value in info.items():
+        c.info[key] = value
 
     if pdk and pdk == "generic":
         GENERIC.activate()
@@ -747,11 +773,7 @@ def _from_yaml(
 
     pdk = get_active_pdk()
     if mode == "layout":
-        if validate:
-            component_getter = partial(pdk.get_component, validate=True)
-
-        else:
-            component_getter = pdk.get_component
+        component_getter = pdk.get_component
     elif mode == "schematic":
         component_getter = pdk.get_symbol
     else:
@@ -763,12 +785,13 @@ def _from_yaml(
         instance_conf = instances_dict[instance_name]
         component = instance_conf["component"]
         settings = instance_conf.get("settings", {})
+        settings = clean_value_json(settings)
         component_spec = {"component": component, "settings": settings}
         component = component_getter(component_spec)
-        ref = c.add_ref(component, alias=instance_name)
+        ref = c.add_ref(component, name=instance_name)
         instances[instance_name] = ref
 
-    placements_conf = dict() if placements_conf is None else placements_conf
+    placements_conf = {} if placements_conf is None else placements_conf
 
     connections_by_transformed_inst = transform_connections_dict(connections_conf)
     components_to_place = set(placements_conf.keys())
@@ -814,7 +837,7 @@ def _from_yaml(
                     )
 
             settings = routes_dict.pop("settings", {})
-            routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
+            routing_strategy_name = routes_dict.pop("routing_strategy", "route_bundle")
             if routing_strategy_name not in routing_strategy:
                 routing_strategies = list(routing_strategy.keys())
                 raise ValueError(
@@ -875,16 +898,22 @@ def _from_yaml(
 
                     for port_src_name in ports1names:
                         if port_src_name not in instance_src.ports:
+                            instance_src_port_names = [
+                                p.name for p in instance_src.ports
+                            ]
                             raise ValueError(
-                                f"{port_src_name!r} not in {list(instance_src.ports.keys())}"
+                                f"{port_src_name!r} not in {instance_src_port_names}"
                                 f"for {instance_src_name!r} "
                             )
                         ports1.append(instance_src.ports[port_src_name])
 
                     for port_dst_name in ports2names:
                         if port_dst_name not in instance_dst.ports:
+                            instance_dst_port_names = [
+                                p.name for p in instance_dst.ports
+                            ]
                             raise ValueError(
-                                f"{port_dst_name!r} not in {list(instance_dst.ports.keys())}"
+                                f"{port_dst_name!r} not in {instance_dst_port_names}"
                                 f"for {instance_dst_name!r}"
                             )
                         ports2.append(instance_dst.ports[port_dst_name])
@@ -910,17 +939,17 @@ def _from_yaml(
                     instance_src = instances[instance_src_name]
                     instance_dst = instances[instance_dst_name]
 
-                    if port_src_name not in instance_src.ports:
-                        raise ValueError(
-                            f"{port_src_name!r} not in {list(instance_src.ports.keys())} for"
-                            f" {instance_src_name!r} "
-                        )
+                    # if port_src_name not in instance_src.ports:
+                    #     raise ValueError(
+                    #         f"{port_src_name!r} not in {list(instance_src.ports.keys())} for"
+                    #         f" {instance_src_name!r} "
+                    #     )
 
-                    if port_dst_name not in instance_dst.ports:
-                        raise ValueError(
-                            f"{port_dst_name!r} not in {list(instance_dst.ports.keys())} for"
-                            f" {instance_dst_name!r}"
-                        )
+                    # if port_dst_name not in instance_dst.ports:
+                    #     raise ValueError(
+                    #         f"{port_dst_name!r} not in {list(instance_dst.ports.keys())} for"
+                    #         f" {instance_dst_name!r}"
+                    #     )
 
                     ports1.append(instance_src.ports[port_src_name])
                     ports2.append(instance_dst.ports[port_dst_name])
@@ -928,22 +957,14 @@ def _from_yaml(
                     route_names.append(route_name)
 
             routing_function = routing_strategy[routing_strategy_name]
-            route_or_route_list = routing_function(
+            routes_list = routing_function(
+                c,
                 ports1=ports1,
                 ports2=ports2,
                 **settings,
             )
-
-            # FIXME, be more consistent
-            if isinstance(route_or_route_list, list):
-                for route_name, route_dict in zip(route_names, route_or_route_list):
-                    c.add(route_dict.references)
-                    routes[route_name] = route_dict.length
-            elif isinstance(route_or_route_list, Route):
-                c.add(route_or_route_list.references)
-                routes[route_name] = route_or_route_list.length
-            else:
-                raise ValueError(f"{route_or_route_list} needs to be a Route or a list")
+            for route_name, route in zip(route_names, routes_list):
+                routes[route_name] = route
 
     if ports_conf:
         if not hasattr(ports_conf, "items"):
@@ -959,9 +980,10 @@ def _from_yaml(
                     )
                 instance = instances[instance_name]
 
-                if instance_port_name not in instance.ports:
+                port_names = [p.name for p in instance.ports]
+                if instance_port_name not in port_names:
                     raise ValueError(
-                        f"{instance_port_name!r} not in {list(instance.ports.keys())} for"
+                        f"{instance_port_name!r} not in {port_names} for"
                         f" {instance_name!r} "
                     )
                 c.add_port(port_name, port=instance.ports[instance_port_name])
@@ -1001,7 +1023,7 @@ routes:
     route_bot:
         links:
             yl,opt3: yr,opt2
-        routing_strategy: get_bundle_from_steps
+        routing_strategy: route_bundle
 
 
 ports:
@@ -1039,7 +1061,7 @@ routes:
     route_bot:
         links:
             yl,opt3: yr,opt2
-        routing_strategy: get_bundle_from_steps
+        routing_strategy: route_bundle
         settings:
           steps: [dx: 30, dy: -40, dx: 20]
 
@@ -1085,7 +1107,7 @@ routes:
     route_bot:
         links:
             yl,opt3: yr,opt2
-        routing_strategy: get_bundle_from_steps
+        routing_strategy: route_bundle
         settings:
           steps: [dx: 30, dy: '${settings.dy}', dx: 20]
           cross_section: strip
@@ -1269,7 +1291,7 @@ instances:
       component: pad
 
     mzi:
-      component: mzi_phase_shifter
+      component: mzi_phase_shifter_top_heater_metal
 
 placements:
     mzi:
@@ -1287,7 +1309,7 @@ placements:
 
 routes:
     electrical1:
-        routing_strategy: get_bundle
+        routing_strategy: route_bundle
         settings:
             separation: 20
             layer: [31, 0]
@@ -1297,7 +1319,7 @@ routes:
             mzi,e2: tr,e1
 
     electrical2:
-        routing_strategy: get_bundle
+        routing_strategy: route_bundle
         settings:
             separation: 20
             layer: [31, 0]
@@ -1362,19 +1384,92 @@ placements:
 
   mzis:
     xmin: rings,east
+"""
 
+sample_connections = """
+name: sample_connections
+
+instances:
+    wgw:
+      component: straight
+      settings:
+        length: 1
+    wgn:
+      component: straight
+      settings:
+        length: 0.5
+
+connections:
+    wgw,o1: wgn,o2
+"""
+
+sample_docstring = """
+name: sample_docstring
+
+instances:
+    mmi_bot:
+      component: mmi1x2
+      settings:
+        width_mmi: 5
+        length_mmi: 11
+    mmi_top:
+      component: mmi1x2
+      settings:
+        width_mmi: 6
+        length_mmi: 22
+
+placements:
+    mmi_top:
+        port: o1
+        x: 0
+        y: 0
+    mmi_bot:
+        port: o1
+        x: mmi_top,o2
+        y: mmi_top,o2
+        dx: 40
+        dy: -40
+routes:
+    optical:
+        links:
+            mmi_top,o3: mmi_bot,o1
+"""
+
+yaml_anchor = """
+name: yaml_anchor
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 10
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+
+placements:
+    mmi_short:
+        port: o3
+        x: 0
+        y: 0
+    mmi_long:
+        port: o1
+        x: mmi_short,east
+        y: mmi_short,north
+        dx : 10
+        dy: 10
 """
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     # c = from_yaml(sample_doe_function)
-    c = from_yaml(sample_mmis)
-    n = c.get_netlist()
-
-    gf.clear_cache()
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c2 = from_yaml(yaml_str)
-    n2 = c2.get_netlist()
-    c2.show()
+    # c = from_yaml(sample_mmis)
+    c = from_yaml(sample_doe_function)
+    c.show()
+    # n = c.get_netlist()
+    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # c2 = from_yaml(yaml_str)
+    # n2 = c2.get_netlist()
+    # c2.show()

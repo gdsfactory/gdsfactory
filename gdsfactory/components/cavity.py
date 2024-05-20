@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.dbr import dbr
 from gdsfactory.typings import ComponentSpec
 
 
-@gf.cell_with_child
+@cell
 def cavity(
     component: ComponentSpec = dbr,
     coupler: ComponentSpec = "coupler",
@@ -41,12 +42,13 @@ def cavity(
     coupler = gf.get_component(coupler, length=length, gap=gap, **kwargs)
 
     c = gf.Component()
+    c.component = mirror
     cr = c << coupler
     ml = c << mirror
     mr = c << mirror
 
-    ml.connect("o1", destination=cr.ports["o2"])
-    mr.connect("o1", destination=cr.ports["o3"])
+    ml.connect("o1", other=cr.ports["o2"])
+    mr.connect("o1", other=cr.ports["o3"])
     c.add_port("o1", port=cr.ports["o1"])
     c.add_port("o2", port=cr.ports["o4"])
     c.copy_child_info(mirror)
@@ -57,4 +59,4 @@ if __name__ == "__main__":
     from gdsfactory.components.dbr import dbr
 
     c = cavity(component=dbr())
-    c.show(show_ports=True)
+    c.show()

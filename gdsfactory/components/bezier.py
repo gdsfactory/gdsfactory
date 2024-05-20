@@ -6,12 +6,8 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import ErrorType
-from gdsfactory.geometry.functions import angles_deg, curvature, path_length, snap_angle
-from gdsfactory.typings import (
-    Coordinate,
-    Coordinates,
-    CrossSectionSpec,
-)
+from gdsfactory.functions import angles_deg, curvature, snap_angle
+from gdsfactory.typings import Coordinate, Coordinates, CrossSectionSpec
 
 
 def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
@@ -67,21 +63,21 @@ def bezier(
     bend = path.extrude(xs)
     bend_ref = c << bend
     c.add_ports(bend_ref.ports)
-    c.absorb(bend_ref)
     curv = curvature(path_points, t)
-    length = gf.snap.snap_to_grid(path_length(path_points))
+    length = gf.snap.snap_to_grid(path.length())
     if max(np.abs(curv)) == 0:
         min_bend_radius = np.inf
     else:
         min_bend_radius = gf.snap.snap_to_grid(1 / max(np.abs(curv)))
 
-    c.info["length"] = float(length)
+    c.info["length"] = length
     c.info["min_bend_radius"] = min_bend_radius
     c.info["start_angle"] = path.start_angle
     c.info["end_angle"] = path.end_angle
 
     xs.validate_radius(min_bend_radius, bend_radius_error_type)
 
+    xs.add_bbox(c)
     return c
 
 
@@ -140,10 +136,11 @@ def find_min_curv_bezier_control_points(
     # initial_guess = [(x0 + xn) / 2, y0, (x0 + xn) / 2, yn]
     res = minimize(objective_func, initial_guess, method="Nelder-Mead")
     p = res.x
-    return [tuple(start_point)] + array_1d_to_cpts(p) + [tuple(end_point)]
+    points = [tuple(start_point)] + array_1d_to_cpts(p) + [tuple(end_point)]
+    return tuple(points)
 
 
 if __name__ == "__main__":
     control_points = ((0.0, 0.0), (5.0, 0.0), (5.0, 5.0), (10.0, 5.0))
     c = bezier(control_points=control_points)
-    c.show(show_ports=True)
+    c.show()

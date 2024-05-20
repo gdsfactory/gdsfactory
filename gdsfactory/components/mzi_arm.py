@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -39,24 +40,20 @@ def mzi_arm(
                   |      |
                   B      B
     """
-    bend = bend(**kwargs)
+    bend = gf.get_component(bend, **kwargs)
     straight_y = straight_y or straight
     straight_x = straight_x or straight
-    straight_x = straight_x(length=length_x, **kwargs)
+    straight_x = gf.get_component(straight_x, length=length_x, **kwargs)
+    straight_y_l = gf.get_component(straight_y, length=length_y_left, **kwargs)
+    straight_y_r = gf.get_component(
+        straight_y, length=length_y_right + length_x, **kwargs
+    )
 
     symbol_to_component = {
         "b": (bend, "o1", "o2"),
         "B": (bend, "o2", "o1"),
-        "L": (straight_y(length=length_y_left, **kwargs), "o1", "o2"),
-        "R": (
-            straight_y(
-                length=length_y_right
-                + abs(straight_x.get_ports_ysize(port_type="optical")),
-                **kwargs,
-            ),
-            "o1",
-            "o2",
-        ),
+        "L": (straight_y_l, "o1", "o2"),
+        "R": (straight_y_r, "o1", "o2"),
         "-": (straight_x, "o1", "o2"),
     }
 
@@ -64,20 +61,14 @@ def mzi_arm(
     sequence = "bLB-BRb"
     c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
 
-    # Add any electrical ports from references
-    for ref_name, ref in c.named_references.items():
-        c.add_ports(ref.get_ports_list(port_type="electrical"), prefix=ref_name)
-
-    c.unlock()
+    c = c.copy()
     c.auto_rename_ports()
     c.info["length_x"] = length_x
-    c.info["length_xsize"] = straight_x.get_ports_xsize()
+    c.info["length_xsize"] = straight_x.d.xsize
     return c
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     c = mzi_arm(straight_x=gf.components.straight_heater_metal)
     c.pprint_ports()
-    c.show(show_ports=True)
+    c.show()

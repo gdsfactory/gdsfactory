@@ -1,7 +1,7 @@
 default_settings:
   dy:
     value: -20
-    description: "the length of lower mzi arm y displacement"
+    description: "The length of lower MZI arm y displacement"
 
 pdk: ubcpdk
 
@@ -28,14 +28,14 @@ routes:
     links:
       yl,o2: yr,o3
     settings:
-      cross_section: xs_sc
+      cross_section: strip
   route_bot:
     links:
       yl,o3: yr,o2
-    routing_strategy: get_bundle_from_steps
+    routing_strategy: route_bundle_from_steps
     settings:
       steps: [dx: 30, dy: {{ dy }}, dx: 20]
-      cross_section: xs_sc
+      cross_section: strip
 
 ports:
   o1: yl,o1

@@ -1,16 +1,17 @@
-from gdsfactory.technology.layer_map import LayerMap
+import gdsfactory as gf
 
 Layer = tuple[int, int]
 
 
-class GenericLayerMap(LayerMap):
-    """Generic layermap based on the book:
+class LAYER(gf.LayerEnum):
+    """Generic layermap based on book.
 
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
     Cambridge University Press 2015, page 353
-
     You will need to create a new LayerMap with your specific foundry layers.
     """
+
+    kcl = gf.constant(gf.kcl)
 
     WAFER: Layer = (99999, 0)
 
@@ -52,24 +53,22 @@ class GenericLayerMap(LayerMap):
     FLOORPLAN: Layer = (64, 0)
     TEXT: Layer = (66, 0)
     PORT: Layer = (1, 10)
+    WG_PIN: Layer = (1, 10)
     PORTE: Layer = (1, 11)
     PORTH: Layer = (70, 0)
     SHOW_PORTS: Layer = (1, 12)
+    LABEL_INSTANCE: Layer = (206, 0)
+    LABEL_SETTINGS: Layer = (202, 0)
     TE: Layer = (203, 0)
     TM: Layer = (204, 0)
     DRC_MARKER: Layer = (205, 0)
-
-    WG_PIN: Layer = (1, 10)
-    M1_PIN: Layer = (41, 10)
-    M2_PIN: Layer = (45, 10)
-    M3_PIN: Layer = (49, 10)
 
     SOURCE: Layer = (110, 0)
     MONITOR: Layer = (101, 0)
 
 
-LAYER = GenericLayerMap()
+gf.kcl.layers = LAYER
 
 
 if __name__ == "__main__":
-    print(LAYER.LABEL_SETTINGS)
+    LAYER.my_layer = (1, 2)

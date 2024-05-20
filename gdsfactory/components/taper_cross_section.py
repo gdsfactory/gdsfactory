@@ -27,7 +27,7 @@ def taper_cross_section(
         length: transition length.
         npoints: number of points.
         linear: shape of the transition, sine when False.
-        width_type: shape of the transition ONLY IF linear is False.
+        width_type: shape of the transition ONLY IF linear is False
         kwargs: cross_section settings for both cross_sections.
 
 
@@ -56,10 +56,8 @@ def taper_cross_section(
     c = gf.Component()
     ref = c << gf.path.extrude_transition(taper_path, transition=transition)
     c.add_ports(ref.ports)
-    c.absorb(ref)
-
     c.add_route_info(cross_section=x1, length=length, taper=True)
-    c.info["length"] = length
+    c.flatten()
     return c
 
 
@@ -69,13 +67,6 @@ taper_cross_section_parabolic = partial(
     taper_cross_section, linear=False, width_type="parabolic", npoints=101
 )
 
-taper_sc_nc_sine = partial(
-    taper_cross_section,
-    linear=False,
-    npoints=101,
-    cross_section1="xs_nc_sc_tip",
-    cross_section2="xs_sc_nc_tip",
-)
 
 if __name__ == "__main__":
     # x1 = partial(strip, width=0.5)
@@ -90,10 +81,7 @@ if __name__ == "__main__":
     # c = taper_cross_section_sine()
     # c = taper_cross_section_linear()
     # print([i.name for i in c.get_dependencies()])
-    # cross_section1 = gf.cross_section.rib_heater_doped(width=2)
-    # cross_section2 = gf.cross_section.strip_rib_tip
-    # c = taper_cross_section(cross_section1, cross_section2)
-    # c = taper_sc_nc_sine(length=10)
-    c = taper_cross_section_linear(length=10)
-    c.show(show_ports=True)
-    print(c.get_polygon_enclosure())
+    cross_section1 = gf.cross_section.rib_heater_doped
+    cross_section2 = gf.cross_section.strip_rib_tip
+    c = taper_cross_section(cross_section1, cross_section2)
+    c.show()

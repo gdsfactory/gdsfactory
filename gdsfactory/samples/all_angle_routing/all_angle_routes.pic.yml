@@ -120,7 +120,7 @@ placements:
 
 routes:
   r_offangle_bundle:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       end_cross_section: xs_sc
       steps:
@@ -148,7 +148,7 @@ routes:
   {% endfor %}
 
   manhattan_like:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - x: 5000
@@ -162,7 +162,7 @@ routes:
   {% endfor %}
 
   angle_step:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       start_angle: -75
       end_angle: 170  # try me!
@@ -181,7 +181,7 @@ routes:
       wg_a1,o2: wg_a2,o1
 
   transition1:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       start_angle: -20
       end_angle: 0
@@ -194,16 +194,16 @@ routes:
       wg_b1,o2: wg_b2,o1
 
   sbend:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     links:
       wg_c3,o2: wg_c2,o1
 
   around_the_back:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     links:
       wg_c1,o2: wg_c2,o2
 
   sbend_vertical:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     links:
       wg_d1,o2: wg_d2,o1

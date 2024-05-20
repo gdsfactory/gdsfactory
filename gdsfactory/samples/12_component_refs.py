@@ -88,4 +88,4 @@ def crossing() -> Component:
 
 if __name__ == "__main__":
     c = crossing()
-    c.show(show_ports=True)
+    c.show()

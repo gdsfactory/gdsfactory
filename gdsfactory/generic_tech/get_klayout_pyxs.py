@@ -293,7 +293,7 @@ if __name__ == "__main__":
     script_path = (
         pathlib.Path(__file__).parent.absolute()
         / "klayout"
-        / "xsection"
+        / "tech"
         / "xsection_planarized.pyxs"
     )
     print(script_path)

@@ -10,7 +10,8 @@ from gdsfactory.components.coupler import coupler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.routing.get_route import get_route
+from gdsfactory.components.straight_heater_metal import straight_heater_metal
+from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -24,7 +25,6 @@ def mzi(
     straight_y: ComponentSpec | None = None,
     straight_x_top: ComponentSpec | None = None,
     straight_x_bot: ComponentSpec | None = None,
-    extend_ports_straight_x: float | None = None,
     splitter: ComponentSpec = "mmi1x2",
     combiner: ComponentSpec | None = None,
     with_splitter: bool = True,
@@ -38,8 +38,8 @@ def mzi(
     cross_section_x_bot: CrossSectionSpec | None = None,
     mirror_bot: bool = False,
     add_optical_ports_arms: bool = False,
-    add_electrical_ports_bot: bool = True,
-    min_length: float = 0.01,
+    min_length: float = 10e-3,
+    auto_rename_ports: bool = True,
 ) -> Component:
     """Mzi.
 
@@ -52,7 +52,6 @@ def mzi(
         straight_y: straight for length_y and delta_length.
         straight_x_top: top straight for length_x.
         straight_x_bot: bottom straight for length_x.
-        extend_ports_straight_x: optional extend ports for straight_x_bot/top.
         splitter: splitter function.
         combiner: combiner function.
         with_splitter: if False removes splitter.
@@ -67,8 +66,7 @@ def mzi(
         mirror_bot: if true, mirrors the bottom arm.
         add_optical_ports_arms: add all other optical ports in the arms
             with top_ and bot_ prefix.
-        add_electrical_ports_bot: add electrical ports to the bottom arm.
-        min_length: minimum length for the straight_x_bot/top.
+        min_length: minimum length for the straight.
 
     .. code::
 
@@ -105,11 +103,18 @@ def mzi(
 
     if with_splitter:
         cp1 = c << cp1
+        cp1.name = "cp1"
 
     cp2 = c << cp2
     b5 = c << bend
-    b5.mirror()
-    b5.connect("o1", cp1.ports[port_e0_splitter])
+    b5.connect("o1", cp1.ports[port_e0_splitter], mirror=True)
+
+    syl = c << gf.get_component(
+        straight_y, length=delta_length / 2 + length_y, cross_section=cross_section
+    )
+    syl.connect("o1", b5.ports["o2"])
+    b6 = c << bend
+    b6.connect("o1", syl.ports["o2"], mirror=True)
 
     straight_x_top = (
         gf.get_component(
@@ -118,20 +123,9 @@ def mzi(
         if length_x
         else gf.get_component(straight_x_top)
     )
+    sxt = c << straight_x_top
 
-    if extend_ports_straight_x:
-        straight_x_top = gf.c.extend_ports(
-            straight_x_top, length=extend_ports_straight_x
-        )
-
-    length_x = length_x or straight_x_top.get_ports_xsize()
-
-    syl = c << gf.get_component(
-        straight_y, length=delta_length / 2 + length_y, cross_section=cross_section
-    )
-    syl.connect("o1", b5.ports["o2"])
-    b6 = c << bend
-    b6.connect("o1", syl.ports["o2"])
+    length_x = length_x or abs(sxt.ports["o1"].d.x - sxt.ports["o2"].d.x)
 
     straight_x_bot = (
         gf.get_component(
@@ -140,14 +134,8 @@ def mzi(
         if length_x
         else gf.get_component(straight_x_bot)
     )
-    if extend_ports_straight_x:
-        straight_x_bot = gf.c.extend_ports(
-            straight_x_bot, length=extend_ports_straight_x
-        )
     sxb = c << straight_x_bot
-    if mirror_bot:
-        sxb.mirror()
-    sxb.connect("o1", b6.ports["o2"])
+    sxb.connect("o1", b6.ports["o2"], mirror=mirror_bot)
 
     b1 = c << bend
     b1.connect("o1", cp1.ports[port_e1_splitter])
@@ -159,58 +147,56 @@ def mzi(
 
     b2 = c << bend
     b2.connect("o2", sytl.ports["o2"])
-    sxt = c << straight_x_top
+
     sxt.connect("o1", b2.ports["o1"])
 
-    cp2.mirror()
-    cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 2 * min_length
+    cp2.mirror_x()
+    cp2.d.xmin = sxt.ports["o2"].d.x + bend.info["radius"] * nbends + 2 * min_length
 
-    route = get_route(
-        sxt.ports["o2"],
+    route_single(
+        c,
         cp2.ports[port_e1_combiner],
+        sxt.ports["o2"],
         straight=straight,
         bend=bend_spec,
         cross_section=cross_section,
-        with_sbend=False,
+        taper=None,
     )
-    c.add(route.references)
-    route = get_route(
-        sxb.ports["o2"],
+    route_single(
+        c,
         cp2.ports[port_e0_combiner],
+        sxb.ports["o2"],
         straight=straight,
         bend=bend_spec,
         cross_section=cross_section,
-        with_sbend=False,
+        taper=None,
     )
-    c.add(route.references)
 
     sytl.name = "sytl"
     syl.name = "syl"
     sxt.name = "sxt"
     sxb.name = "sxb"
-    cp1.name = "cp1"
     cp2.name = "cp2"
 
     if with_splitter:
-        c.add_ports(cp1.get_ports_list(orientation=180), prefix="in_")
+        c.add_ports(cp1.ports.filter(orientation=180), prefix="in_")
     else:
         c.add_port("o1", port=b1.ports["o1"])
         c.add_port("o2", port=b5.ports["o1"])
-    c.add_ports(cp2.get_ports_list(orientation=0), prefix="ou_")
+    c.add_ports(cp2.ports.filter(orientation=0), prefix="ou_")
+    c.add_ports(sxt.ports.filter(port_type="electrical"), prefix="top_")
+    c.add_ports(sxb.ports.filter(port_type="electrical"), prefix="bot_")
+    c.add_ports(sxt.ports.filter(port_type="placement"), prefix="top_")
+    c.add_ports(sxb.ports.filter(port_type="placement"), prefix="bot_")
 
-    c.add_ports(sxt.get_ports_list(port_type="electrical"), prefix="top_")
-    c.add_ports(sxt.get_ports_list(port_type="placement"), prefix="top_")
-
-    if add_electrical_ports_bot:
-        c.add_ports(sxb.get_ports_list(port_type="electrical"), prefix="bot_")
-        c.add_ports(sxb.get_ports_list(port_type="placement"), prefix="bot_")
-
-    c.auto_rename_ports(port_type="optical", prefix="o")
+    # c.auto_rename_ports(port_type="optical", prefix="o")
 
     if add_optical_ports_arms:
-        c.add_ports(sxt.get_ports_list(port_type="optical"), prefix="top_")
-        c.add_ports(sxb.get_ports_list(port_type="optical"), prefix="bot_")
+        c.add_ports(sxt.ports.filter(port_type="optical"), prefix="top_")
+        c.add_ports(sxb.ports.filter(port_type="optical"), prefix="bot_")
 
+    if auto_rename_ports:
+        c.auto_rename_ports()
     return c
 
 
@@ -223,6 +209,7 @@ mzi2x2_2x2 = partial(
     port_e0_splitter="o4",
     port_e1_combiner="o3",
     port_e0_combiner="o4",
+    length_x=None,
 )
 
 mzi1x2_2x2 = partial(
@@ -238,16 +225,28 @@ mzi_coupler = partial(
     combiner=coupler,
 )
 
+mzi_pin = partial(
+    mzi, straight_x_top="straight_pin", cross_section_x_top="xs_pin", delta_length=0.0
+)
+
 mzi_phase_shifter = partial(mzi, straight_x_top="straight_heater_metal", length_x=200)
 
 mzi2x2_2x2_phase_shifter = partial(
     mzi2x2_2x2, straight_x_top="straight_heater_metal", length_x=200
 )
 
+mzi_phase_shifter_top_heater_metal = partial(
+    mzi_phase_shifter, straight_x_top=straight_heater_metal
+)
+
+mzm = partial(
+    mzi_phase_shifter, straight_x_top="straight_pin", straight_x_bot="straight_pin"
+)
 
 if __name__ == "__main__":
-    c = mzi()
-    # print(sorted([i.name for i in c.get_dependencies()]))
+    # c = mzi_coupler()
+    c = mzi1x2_2x2()
+    # c = mzm()
     # from gdsfactory import get_generic_pdk
 
     # pdk = get_generic_pdk()
@@ -255,13 +254,13 @@ if __name__ == "__main__":
 
     # c = mzi(cross_section="xs_sc")
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    # c.show(show_ports=True)
+    # c.show( )
 
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
     # c = gf.routing.add_fiber_array(c)
-    # gdspath = c.write_gds(flatten_offgrid_references=True)
+    # gdspath = c.write_gds(flatten_invalid_refs=True)
     # gf.show(gdspath)
-    c.show(show_ports=True)
+    c.show()
 
     # c1.write_gds("a.gds")
 
@@ -269,4 +268,4 @@ if __name__ == "__main__":
     # c2 = c2.flatten()
 
     # c3 = gf.grid([c2, c1])
-    # c3.show(show_ports=False)
+    # c3.show()

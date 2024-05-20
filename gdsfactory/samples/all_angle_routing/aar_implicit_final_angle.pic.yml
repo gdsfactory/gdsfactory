@@ -49,7 +49,7 @@ placements:
 routes:
 
   implicit_ending_ds:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - dx: 100
@@ -60,7 +60,7 @@ routes:
 
 
   implicit_ending_dx:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       start_angle: 90
       steps:
@@ -71,7 +71,7 @@ routes:
       wg_f1,o1: wg_f2,o2
 
   implicit_ending_dy:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - dx: -500

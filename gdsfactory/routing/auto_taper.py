@@ -1,7 +1,7 @@
 import warnings
 
-from gdsfactory.component import Component, ComponentReference, Port
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.component import Component, ComponentReference
+from gdsfactory.typings import CrossSectionSpec, Port
 
 
 def taper_to_cross_section(

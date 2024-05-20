@@ -76,16 +76,16 @@ placements:
 
 routes:
   too_close:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     links:
       wg_a1,o2: wg_a2,o1
   too_close_parallel:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     links:
       wg_b1,o2: wg_b2,o1
 
   route_wont_fit:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - dx: 1000
@@ -94,7 +94,7 @@ routes:
       wg_d1,o2: wg_d2,o1
 
   intermediate_route_wont_fit:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       end_angle: 135
       steps:

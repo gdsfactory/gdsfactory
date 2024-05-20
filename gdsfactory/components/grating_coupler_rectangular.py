@@ -6,11 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import (
-    ComponentSpec,
-    CrossSectionSpec,
-    LayerSpec,
-)
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 @gf.cell
@@ -23,9 +19,8 @@ def grating_coupler_rectangular(
     polarization: str = "te",
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_function,
-    layer_slab: LayerSpec | None = None,
-    layer_grating: LayerSpec | None = None,
-    fiber_angle: float | None = None,
+    layer_slab: LayerSpec | None = "SLAB150",
+    fiber_angle: float = 15,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     cross_section: CrossSectionSpec = "xs_sc",
@@ -47,7 +42,6 @@ def grating_coupler_rectangular(
         wavelength: in um.
         taper: function.
         layer_slab: layer that protects the slab under the grating.
-        layer_grating: optional layer for the grating. Defaults to the cross_section main layer.
         fiber_angle: in degrees.
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: from edge of grating to edge of the slab.
@@ -82,7 +76,7 @@ def grating_coupler_rectangular(
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
-    layer = layer_grating or xs.layer
+    layer = xs.layer
 
     c = Component()
     taper_ref = c << gf.get_component(
@@ -94,39 +88,25 @@ def grating_coupler_rectangular(
     )
 
     c.add_port(port=taper_ref.ports["o1"], name="o1")
-    x0 = taper_ref.xmax
+    x0 = taper_ref.d.xmax
 
     for i in range(n_periods):
         xsize = gf.snap.snap_to_grid(period * fill_factor)
         cgrating = c.add_ref(
             rectangle(size=(xsize, width_grating), layer=layer, port_type=None)
         )
-        cgrating.xmin = gf.snap.snap_to_grid(x0 + i * period)
-        cgrating.y = 0
+        cgrating.d.xmin = gf.snap.snap_to_grid(x0 + i * period)
+        cgrating.d.y = 0
 
-    if fiber_angle is not None:
-        c.info["fiber_angle"] = fiber_angle
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
-    slab_xmin = length_taper
-
-    for section in xs.sections[1:]:
-        slab_xsize = cgrating.xmax + section.width / 2
-        slab_ysize = width_grating + section.width
-        yslab = slab_ysize / 2
-        c.add_polygon(
-            [
-                (slab_xmin, yslab),
-                (slab_xsize, yslab),
-                (slab_xsize, -yslab),
-                (slab_xmin, -yslab),
-            ],
-            layer=section.layer,
-        )
+    c.info["fiber_angle"] = fiber_angle
+    gf.asserts.grating_coupler(c)
 
     if layer_slab:
-        slab_xsize = cgrating.xmax + slab_offset
-        slab_ysize = width_grating + 2 * slab_offset
+        slab_xmin += length_taper
+        slab_xsize = cgrating.d.xmax + slab_offset
+        slab_ysize = c.d.ysize + 2 * slab_offset
         yslab = slab_ysize / 2
         c.add_polygon(
             [
@@ -137,8 +117,9 @@ def grating_coupler_rectangular(
             ],
             layer_slab,
         )
+    # xs.add_bbox(c)
 
-    xport = np.round((x0 + cgrating.x) / 2, 3)
+    xport = np.round((x0 + cgrating.d.x) / 2, 3)
     c.add_port(
         name="o2",
         port_type=f"vertical_{polarization}",
@@ -152,7 +133,7 @@ def grating_coupler_rectangular(
 
 if __name__ == "__main__":
     # c = grating_coupler_rectangular(name='gcu', partial_etch=True)
-    gc = grating_coupler_rectangular(cross_section="xs_rc")
-    c = gf.routing.add_fiber_array(grating_coupler=gc)
+    c = grating_coupler_rectangular(cross_section="xs_sc")
+    # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_rectangular)
     print(c.ports)
-    c.show(show_ports=False)
+    c.show()

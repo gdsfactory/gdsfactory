@@ -7,7 +7,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import grating_tooth_points
-from gdsfactory.geometry.functions import DEG2RAD
+from gdsfactory.functions import DEG2RAD
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
@@ -82,7 +82,7 @@ def grating_coupler_elliptical_trenches(
     c = gf.Component()
 
     # Make each grating line
-    for p in range(int(p_start), int(p_start + n_periods + 1)):
+    for p in range(p_start, p_start + n_periods + 1):
         pts = grating_tooth_points(
             p * a1,
             p * b1,
@@ -112,8 +112,6 @@ def grating_coupler_elliptical_trenches(
     ]
     c.add_polygon(pts, layer)
 
-    x_output = gf.snap.snap_to_grid(x_output)
-
     c.add_port(
         name="o1",
         center=(x_output, 0),
@@ -125,6 +123,7 @@ def grating_coupler_elliptical_trenches(
     c.info["period"] = period
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
+    xs.add_bbox(c)
 
     x = np.round(taper_length + period * n_periods / 2, 3)
     c.add_port(
@@ -133,7 +132,7 @@ def grating_coupler_elliptical_trenches(
         width=10,
         orientation=0,
         layer=layer,
-        port_type=f"optical_{polarization}",
+        port_type=f"vertical_{polarization}",
     )
     return c
 
@@ -158,4 +157,4 @@ if __name__ == "__main__":
     # c = grating_coupler_tm()
     # print(c.ports.keys())
     # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_trenches)
-    c.show(show_ports=True)
+    c.show()

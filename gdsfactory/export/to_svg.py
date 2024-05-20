@@ -21,7 +21,6 @@ def to_svg(
             Defaults to active PDK.layer_views.
         layer_stack: contains thickness and zmin for each layer.
             Defaults to active PDK.layer_stack.
-        exclude_layers: layers to exclude.                                                                                                              jk
         filename: svg filename.
         scale: scale for the svg.
     """
@@ -35,11 +34,12 @@ def to_svg(
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
     component_layers = component_with_booleans.get_layers()
-    xsize, ysize = component.size
-    dcx, dcy = component.center
+    xsize = component.d.xsize
+    ysize = component.d.ysize
+    dcx, dcy = component.d.center.x, component.d.center.y
     dx, dy = dcx - xsize / 2, dcy - ysize / 2
     group_num = 1
-    layer_to_polygons = component_with_booleans.get_polygons(by_spec=True)
+    layer_to_polygons = component_with_booleans.get_polygons()
 
     with open(filename, "w+") as f:
         f.write('<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n')

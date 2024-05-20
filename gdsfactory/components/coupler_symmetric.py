@@ -37,40 +37,42 @@ def coupler_symmetric(
                            o4
 
     """
+    c = Component()
     x = gf.get_cross_section(cross_section)
     width = x.width
+    dy = (dy - gap - width) / 2
+
     bend_component = gf.get_component(
         bend,
-        size=(dx, (dy - gap - width) / 2),
+        size=(dx, dy),
         cross_section=cross_section,
     )
 
+    gap = gap / c.kcl.dbu
     w = bend_component.ports["o1"].width
-    y = (w + gap) / 2
+    y = int(w + gap) // 2
 
-    c = Component()
-    top_bend = bend_component.ref(position=(0, y), port_id="o1")
-    bottom_bend = bend_component.ref(position=(0, -y), port_id="o1", v_mirror=True)
+    top_bend = c << bend_component
+    bot_bend = c << bend_component
 
-    c.add(top_bend)
-    c.add(bottom_bend)
+    bot_bend.mirror_y()
+    top_bend.movey(+y)
+    bot_bend.movey(-y)
 
-    c.absorb(top_bend)
-    c.absorb(bottom_bend)
-
-    c.add_port("o1", port=bottom_bend.ports["o1"])
+    c.add_port("o1", port=bot_bend.ports["o1"])
     c.add_port("o2", port=top_bend.ports["o1"])
 
     c.add_port("o3", port=top_bend.ports["o2"])
-    c.add_port("o4", port=bottom_bend.ports["o2"])
+    c.add_port("o4", port=bot_bend.ports["o2"])
+
     c.info["length"] = bend_component.info["length"]
     c.info["min_bend_radius"] = bend_component.info["min_bend_radius"]
     return c
 
 
 if __name__ == "__main__":
-    c = coupler_symmetric()
-    c.show(show_ports=False)
+    c = coupler_symmetric(gap=0.2)
+    c.show()
     # c.pprint()
 
     # for dyi in [2, 3, 4, 5]:

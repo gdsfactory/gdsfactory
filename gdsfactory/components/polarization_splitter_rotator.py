@@ -9,7 +9,6 @@ from gdsfactory.components.coupler_straight_asymmetric import (
     coupler_straight_asymmetric,
 )
 from gdsfactory.components.taper import taper
-from gdsfactory.snap import snap_to_grid2x
 from gdsfactory.typings import CrossSectionSpec, Float2, Float3
 
 
@@ -17,7 +16,7 @@ from gdsfactory.typings import CrossSectionSpec, Float2, Float3
 def polarization_splitter_rotator(
     width_taper_in: Float3 = (0.54, 0.69, 0.83),
     length_taper_in: Float2 | Float3 = (4.0, 44.0),
-    width_coupler: Float2 = (0.9, 0.405),
+    width_coupler: Float2 = (0.9, 0.404),
     length_coupler: float = 7.0,
     gap: float = 0.15,
     width_out: float = 0.54,
@@ -68,7 +67,7 @@ def polarization_splitter_rotator(
     )
 
     def bend_s_width(t: ndarray) -> ndarray:
-        return snap_to_grid2x(w4 + (width_out - w4) * t)
+        return w4 + (width_out - w4) * t
 
     x_bend = x.copy(width_function=bend_s_width)
 
@@ -86,30 +85,21 @@ def polarization_splitter_rotator(
         length=length_out, width1=w3, width2=width_out, cross_section=x
     )
 
-    taper_in3.connect("o2", destination=coupler.ports["o1"])
-    taper_in2.connect("o2", destination=taper_in3.ports["o1"])
-    taper_in1.connect("o2", destination=taper_in2.ports["o1"])
-    taper_out.connect("o1", destination=coupler.ports["o4"])
-    bend_s_var.connect("o1", destination=coupler.ports["o3"])
+    taper_in3.connect("o2", other=coupler.ports["o1"])
+    taper_in2.connect("o2", other=taper_in3.ports["o1"])
+    taper_in1.connect("o2", other=taper_in2.ports["o1"])
+    taper_out.connect("o1", other=coupler.ports["o4"])
+    bend_s_var.connect("o1", other=coupler.ports["o3"])
 
     c.add_port("o1", port=taper_in1.ports["o1"])
     c.add_port("o2", port=bend_s_var.ports["o2"])
     c.add_port("o3", port=taper_out.ports["o2"])
 
-    c.absorb(coupler)
-    c.absorb(taper_in3)
-    c.absorb(taper_in2)
-    c.absorb(taper_in1)
-    c.absorb(taper_out)
-    c.absorb(bend_s_var)
-
-    c.info["length"] = bend_s_var.info["length"]
-    c.info["min_bend_radius"] = bend_s_var.info["min_bend_radius"]
     c.auto_rename_ports()
-
+    c.flatten()
     return c
 
 
 if __name__ == "__main__":
     c = polarization_splitter_rotator(length_taper_in=(10, 69))
-    c.show(show_ports=True)
+    c.show()

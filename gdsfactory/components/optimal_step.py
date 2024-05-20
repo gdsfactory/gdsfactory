@@ -4,7 +4,6 @@ import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import LayerSpec
 
 
@@ -155,23 +154,19 @@ def optimal_step(
                 np.sum(np.diff(x_num_sq) / ((y_num_sq[:-1] + y_num_sq[1:]) / 2)), 3
             )
         )
-    D.add_polygon([xpts, ypts], layer=layer)
-    xmin = min(xpts)
-    xmin = snap_to_grid(xmin)
-    xmax = max(xpts)
-    xmax = snap_to_grid(xmax)
 
+    D.add_polygon(list(zip(xpts, ypts)), layer=layer)
     if not symmetric:
         D.add_port(
             name="e1",
-            center=(xmin, start_width / 2),
+            center=[min(xpts), start_width / 2],
             width=start_width,
             orientation=180,
             layer=layer,
         )
         D.add_port(
             name="e2",
-            center=(xmax, end_width / 2),
+            center=[max(xpts), end_width / 2],
             width=end_width,
             orientation=0,
             layer=layer,
@@ -179,14 +174,14 @@ def optimal_step(
     if symmetric:
         D.add_port(
             name="e1",
-            center=(xmin, 0),
+            center=[min(xpts), 0],
             width=start_width,
             orientation=180,
             layer=layer,
         )
         D.add_port(
             name="e2",
-            center=(xmax, 0),
+            center=[max(xpts), 0],
             width=end_width,
             orientation=0,
             layer=layer,
@@ -197,8 +192,4 @@ def optimal_step(
 
 if __name__ == "__main__":
     c = optimal_step()
-    # print(c.to_dict())
-    # c = optimal_step()
-    # print(c.to_dict())
-    c.show(show_ports=True)
-    c.assert_ports_on_grid()
+    c.show()

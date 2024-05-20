@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from functools import partial
 
-from gdsfactory.cell import cell
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.cdsem_bend180 import cdsem_bend180
 from gdsfactory.components.cdsem_straight import cdsem_straight
@@ -15,7 +15,7 @@ from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 text_rectangular_mini = partial(text_rectangular, size=1)
 
 
-@cell
+@gf.cell
 def cdsem_all(
     widths: tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
     dense_lines_width: float | None = 0.3,
@@ -86,12 +86,16 @@ def cdsem_all(
             for w, g, lbl in density_params
         ]
 
-    [c.add_ref(d) for d in all_devices]
-    c.align(elements="all", alignment="xmin")
-    c.distribute(elements="all", direction="y", spacing=5, separation=True)
+    ymin = 0
+    for d in all_devices:
+        ref = c.add_ref(d)
+        ref.xmin = 0
+        ref.ymin = ymin
+        ymin += ref.ysize + 5000
+
     return c
 
 
 if __name__ == "__main__":
     c = cdsem_all()
-    c.show(show_ports=True)
+    c.show()

@@ -49,7 +49,7 @@ def ring_double_bend_coupler(
     xo = gf.get_cross_section(cross_section_outer)
     half_height = radius + xi.width / 2 + gap + xo.width + length_y / 2
 
-    if c_halfring.ysize > half_height:
+    if c_halfring.d.ysize > half_height:
         raise ValueError(
             "The coupling_angle_coverage is too large for the given bend radius: "
             + "the coupling waveguides will overlap."
@@ -63,20 +63,16 @@ def ring_double_bend_coupler(
     sl = c << sy
     sr = c << sy
 
-    sl.connect(port="o1", destination=cb.ports["o2"])
-    ct.connect(port="o3", destination=sl.ports["o2"])
-    sr.connect(port="o1", destination=ct.ports["o2"])
-    cb.connect(port="o3", destination=sr.ports["o2"])
-
-    c.absorb(cb)
-    c.absorb(ct)
-    c.absorb(sl)
-    c.absorb(sr)
+    sl.connect(port="o1", other=cb.ports["o2"])
+    ct.connect(port="o3", other=sl.ports["o2"])
+    sr.connect(port="o1", other=ct.ports["o2"])
+    cb.connect(port="o3", other=sr.ports["o2"])
 
     c.add_port("o1", port=cb.ports["o1"])
     c.add_port("o2", port=ct.ports["o4"])
     c.add_port("o3", port=ct.ports["o1"])
     c.add_port("o4", port=cb.ports["o4"])
+    c.flatten()
     return c
 
 
@@ -84,5 +80,4 @@ if __name__ == "__main__":
     # c = coupler_bend(radius=5)
     # c = coupler_ring_bend()
     c = ring_double_bend_coupler()
-    c.assert_ports_on_grid()
-    c.show(show_ports=True)
+    c.show()

@@ -21,29 +21,29 @@ def coupler_straight_asymmetric(
         gap: between straights.
         width_top: of top straight.
         width_bot: of bottom straight.
+        cross_section: cross_section spec.
     """
-    component = Component()
+    c = Component()
 
-    xs_top = gf.get_cross_section(cross_section, width=width_top)
-    xs_bot = gf.get_cross_section(cross_section, width=width_bot)
+    xs = gf.get_cross_section(cross_section)
+    xs_top = xs.copy(width=width_top)
+    xs_bot = xs.copy(width=width_bot)
 
-    top = component << straight(length=length, cross_section=xs_top)
-    bot = component << straight(length=length, cross_section=xs_bot)
+    top = c << straight(length=length, cross_section=xs_top)
+    bot = c << straight(length=length, cross_section=xs_bot)
 
     dy = 0.5 * (width_top + width_bot) + gap
-    dy = gf.snap.snap_to_grid(dy)
-    top.movey(dy)
-
-    component.add_port("o1", port=bot.ports["o1"])
-    component.add_port("o2", port=top.ports["o1"])
-    component.add_port("o3", port=top.ports["o2"])
-    component.add_port("o4", port=bot.ports["o2"])
-    return component
+    top.d.movey(dy)
+    c.add_port("o1", port=bot.ports["o1"])
+    c.add_port("o2", port=top.ports["o1"])
+    c.add_port("o3", port=top.ports["o2"])
+    c.add_port("o4", port=bot.ports["o2"])
+    return c
 
 
 if __name__ == "__main__":
     d = {"length": 7.0, "gap": 0.15, "width_top": 0.405, "width_bot": 0.9}
-    # d = dict(length = 10.0, gap = 0.1, width_top = 0.5, width_bot = 1)
-    d = dict(length=10.0, gap=0.1, width_top=1.0, width_bot=0.5)
+    d = dict(length=10.0, gap=0.1, width_top=0.5, width_bot=1)
+    # d = dict(length=10.0, gap=0.1, width_top=1.0, width_bot=0.5)
     c = coupler_straight_asymmetric(**d)
-    c.show(show_ports=True)
+    c.show()

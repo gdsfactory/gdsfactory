@@ -13,8 +13,8 @@ def nxn(
     east: int = 4,
     north: int = 0,
     south: int = 0,
-    xsize: float | None = None,
-    ysize: float | None = None,
+    xsize: float = 8.0,
+    ysize: float = 8.0,
     wg_width: float = 0.5,
     layer: LayerSpec = "WG",
     wg_margin: float = 1.0,
@@ -43,15 +43,8 @@ def nxn(
             |   |
             8   7
     """
-    wg_pitch = wg_margin + wg_width
-
-    if ysize is None:
-        ysize = wg_pitch * max([west, east, 1])
-    if xsize is None:
-        xsize = wg_pitch * max([north, south, 1])
-
     c = gf.Component()
-    c << gf.components.rectangle(size=(xsize, ysize), layer=layer)
+    _ = c << gf.components.rectangle(size=(xsize, ysize), layer=layer)
 
     if west > 0:
         x = 0
@@ -63,7 +56,6 @@ def nxn(
             )
         )
         orientation = 180
-        y = gf.snap.snap_to_grid(y)
 
         for i, yi in enumerate(y):
             c.add_port(
@@ -85,7 +77,6 @@ def nxn(
             )
         )
         orientation = 0
-        y = gf.snap.snap_to_grid(y)
 
         for i, yi in enumerate(y):
             c.add_port(
@@ -107,7 +98,6 @@ def nxn(
             )
         )
         orientation = 90
-        x = gf.snap.snap_to_grid(x)
 
         for i, xi in enumerate(x):
             c.add_port(
@@ -128,7 +118,6 @@ def nxn(
             )
         )
         orientation = 270
-        x = gf.snap.snap_to_grid(x)
 
         for i, xi in enumerate(x):
             c.add_port(
@@ -149,4 +138,4 @@ if __name__ == "__main__":
     c = nxn()
     c.pprint_ports()
     # c = gf.components.extension.extend_ports(component=c)
-    c.show(show_ports=True)
+    c.show()

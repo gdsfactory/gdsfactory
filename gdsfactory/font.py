@@ -193,10 +193,12 @@ def _get_glyph(font, letter):  # noqa: C901
     # Construct the component
     component = Component(block_name)
     if polylines:
-        letter_polyline = polylines[0]
+        letter_polyline = polylines[0:1]
         for polyline in polylines[1:]:
             letter_polyline = gdstk.boolean(letter_polyline, polyline, "xor")
-        component.add_polygon(letter_polyline)
+
+        for polyline in letter_polyline:
+            component.add_polygon(polyline.points, layer=(1, 0))
 
     # Cache the return value and return it
     font.gds_glyphs[letter] = (component, glyph.advance.x / font.size.ascender)
@@ -206,5 +208,5 @@ def _get_glyph(font, letter):  # noqa: C901
 if __name__ == "__main__":
     from gdsfactory.components.text_freetype import text_freetype
 
-    c = text_freetype("hello", font="Times New Roman")
-    c.show(show_ports=True)
+    c = text_freetype("hello")
+    c.show()

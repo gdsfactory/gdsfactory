@@ -75,7 +75,7 @@ def get_instance_name_from_label(
     labels = component.labels
 
     # default instance name follows component.aliases
-    text = clean_name(f"{reference.parent.name}_{x}_{y}")
+    text = clean_name(f"{reference.cell.name}_{x}_{y}")
 
     # try to get the instance name from a label
     for label in labels:
@@ -90,6 +90,7 @@ def get_instance_name_from_label(
 
 def get_netlist_yaml(
     component: Component,
+    full_settings: bool = False,
     tolerance: int = 5,
     exclude_port_types: list | None = None,
     **kwargs,
@@ -98,6 +99,7 @@ def get_netlist_yaml(
     return omegaconf.OmegaConf.to_yaml(
         get_netlist(
             component=component,
+            full_settings=full_settings,
             tolerance=tolerance,
             exclude_port_types=exclude_port_types,
             **kwargs,
@@ -111,9 +113,8 @@ def get_netlist(
     exclude_port_types: list[str] | tuple[str] | None = ("placement",),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = False,
-    merge_info: bool = False,
 ) -> dict[str, Any]:
-    """Returns instances, connections and placements from :class:`Component` as a dict.
+    """From Component returns instances, connections and placements dict.
 
     Does two sweeps over the connections:
 
@@ -143,16 +144,14 @@ def get_netlist(
         get_instance_name: function to get instance name.
         allow_multiple: False to raise an error if more than two ports share the same connection. \
                 if True, will return key: [value] pairs with [value] a list of all connected instances.
-        merge_info: True to merge info and settings into the same dict.
 
     Returns:
-        Dictionary containing the following:
-            instances: Dict of instance name and settings.
-            connections: Dict of Instance1Name,portName: Instance2Name,portName.
-            placements: Dict of instance names and placements (x, y, rotation).
-            port: Dict portName: ComponentName,port.
-            name: name of component.
-            warnings: warning messages (disconnected pins).
+        instances: Dict of instance name and settings.
+        connections: Dict of Instance1Name,portName: Instance2Name,portName.
+        placements: Dict of instance names and placements (x, y, rotation).
+        port: Dict portName: ComponentName,port.
+        name: name of component.
+        warnings: warning messages (disconnected pins).
 
     """
     placements = {}
@@ -164,17 +163,17 @@ def get_netlist(
     name2port = {}
 
     # TOP level ports
-    ports = component.get_ports(depth=0)
+    ports = component.ports
     ports_by_type = defaultdict(list)
     top_ports_list = set()
 
     references = _get_references_to_netlist(component)
 
     for reference in references:
-        c = reference.parent
-        origin = reference.origin
-        x = float(snap_to_grid(origin[0]))
-        y = float(snap_to_grid(origin[1]))
+        c = reference.cell
+        center = reference.center
+        x = center.x
+        y = center.y
         reference_name = get_instance_name(
             component,
             reference,
@@ -197,25 +196,19 @@ def get_netlist(
 
         # Prefer name from settings over c.name
         if c.settings:
-            settings = dict(c.settings)
+            settings = c.settings
 
-            if merge_info:
-                settings.update(
-                    {k: v for k, v in dict(c.info).items() if k in settings}
-                )
-
-            settings = clean_value_json(settings)
             instance.update(
-                component=c.function_name or c.name,
-                settings=settings,
+                component=getattr(c.settings, "function_name", c.name),
+                settings=clean_value_json(settings),
             )
 
         instances[reference_name] = instance
         placements[reference_name] = {
             "x": x,
             "y": y,
-            "rotation": int(reference.rotation or 0),
-            "mirror": reference.x_reflection or 0,
+            "rotation": reference.dtrans.angle * 90 or 0,
+            "mirror": reference.dtrans.mirror,
         }
         if is_array:
             parent_ports = c.ports
@@ -237,13 +230,13 @@ def get_netlist(
                         # a bit of a hack... get the top-level port for the
                         # ComponentArray, by our known naming convention. I hope no one
                         # renames these ports!
-                        parent_port = component[top_name]
+                        parent_port = component.ports[top_name]
                         name2port[lower_name] = parent_port
                         top_ports_list.add(top_name)
                         ports_by_type[parent_port.port_type].append(lower_name)
         else:
             # lower level ports
-            for port in reference.ports.values():
+            for port in reference.ports:
                 reference_name = get_instance_name(
                     component,
                     reference,
@@ -450,37 +443,37 @@ def validate_optical_connection(
                 f"Difference of {abs(port1.width - port2.width)} um",
             )
         )
-    if port1.shear_angle and not port2.shear_angle:
-        warnings["shear_angle_mismatch"].append(
-            _make_warning(
-                port_names,
-                values=[port1.shear_angle, port2.shear_angle],
-                message=f"{port_names[0]} has a shear angle but {port_names[1]} "
-                f"does not! Shear angle is {port1.shear_angle} deg",
-            )
-        )
-    elif not port1.shear_angle and port2.shear_angle:
-        warnings["shear_angle_mismatch"].append(
-            _make_warning(
-                port_names,
-                values=[port1.shear_angle, port2.shear_angle],
-                message=f"{port_names[1]} has a shear angle but {port_names[0]} "
-                f"does not! Shear angle is {port2.shear_angle} deg",
-            )
-        )
-    elif port1.shear_angle:
-        if (
-            abs(difference_between_angles(port1.shear_angle, port2.shear_angle))
-            > angle_tolerance
-        ):
-            warnings["shear_angle_mismatch"].append(
-                _make_warning(
-                    port_names,
-                    values=[port1.shear_angle, port2.shear_angle],
-                    message=f"Shear angle of {port_names[0]} and {port_names[1]} "
-                    f"differ by {abs(port1.shear_angle - port2.shear_angle)} deg",
-                )
-            )
+    # if port1.shear_angle and not port2.shear_angle:
+    #     warnings["shear_angle_mismatch"].append(
+    #         _make_warning(
+    #             port_names,
+    #             values=[port1.shear_angle, port2.shear_angle],
+    #             message=f"{port_names[0]} has a shear angle but {port_names[1]} "
+    #             f"does not! Shear angle is {port1.shear_angle} deg",
+    #         )
+    #     )
+    # elif not port1.shear_angle and port2.shear_angle:
+    #     warnings["shear_angle_mismatch"].append(
+    #         _make_warning(
+    #             port_names,
+    #             values=[port1.shear_angle, port2.shear_angle],
+    #             message=f"{port_names[1]} has a shear angle but {port_names[0]} "
+    #             f"does not! Shear angle is {port2.shear_angle} deg",
+    #         )
+    #     )
+    # elif port1.shear_angle:
+    #     if (
+    #         abs(difference_between_angles(port1.shear_angle, port2.shear_angle))
+    #         > angle_tolerance
+    #     ):
+    #         warnings["shear_angle_mismatch"].append(
+    #             _make_warning(
+    #                 port_names,
+    #                 values=[port1.shear_angle, port2.shear_angle],
+    #                 message=f"Shear angle of {port_names[0]} and {port_names[1]} "
+    #                 f"differ by {abs(port1.shear_angle - port2.shear_angle)} deg",
+    #             )
+    #         )
 
     if any(is_top_level):
         if (
@@ -509,7 +502,7 @@ def validate_optical_connection(
                 )
             )
 
-    offset_mismatch = np.sqrt(np.sum(np.square(port2.center - port1.center)))
+    offset_mismatch = np.sqrt(np.sum(np.square(np.array(port2.center) - port1.center)))
     if offset_mismatch > offset_tolerance:
         warnings["offset_mismatch"].append(
             _make_warning(
@@ -530,21 +523,7 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
 
 
 def _get_references_to_netlist(component: Component) -> list[ComponentReference]:
-    from gdsfactory.cell import CACHE
-
     references = component.references
-    if not references and "transformed_cell" in component.info:
-        # expand transformed, flattened cells
-        ref = component.settings
-        original_cell = CACHE[component.info["transformed_cell"]]
-        references = [
-            ComponentReference(
-                original_cell,
-                origin=ref["origin"],
-                rotation=ref["rotation"],
-                x_reflection=ref["x_reflection"],
-            )
-        ]
     return references
 
 
@@ -583,7 +562,7 @@ def get_netlist_recursive(
 
         # for each reference, expand the netlist
         for ref in references:
-            rcell = ref.parent
+            rcell = ref.cell
             grandchildren = get_netlist_recursive(
                 component=rcell,
                 component_suffix=component_suffix,
@@ -592,14 +571,14 @@ def get_netlist_recursive(
             )
             all_netlists |= grandchildren
 
-            child_references = _get_references_to_netlist(ref.ref_cell)
+            child_references = _get_references_to_netlist(ref.cell)
 
             if child_references:
                 inst_name = get_instance_name(component, ref)
                 netlist_dict = {"component": f"{rcell.name}{component_suffix}"}
-                if rcell.settings:
+                if hasattr(rcell, "settings"):
                     netlist_dict.update(settings=rcell.settings)
-                if rcell.info:
+                if hasattr(rcell, "info"):
                     netlist_dict.update(info=rcell.info)
                 netlist["instances"][inst_name] = netlist_dict
 
@@ -638,23 +617,17 @@ DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.decorators import flatten_offgrid_references
 
     rotation_value = 35
     cname = "test_get_netlist_transformed"
     c = gf.Component(cname)
-    i1 = c.add_ref(gf.components.straight(), "i1")
-    i2 = c.add_ref(gf.components.straight(), "i2")
+    i1 = c.add_ref(gf.components.straight(length=1), "i1")
+    i2 = c.add_ref(gf.components.bend_euler(), "i2")
     i1.rotate(rotation_value)
     i2.connect("o2", i1.ports["o1"])
 
-    # flatten the oddly rotated refs
-    c = flatten_offgrid_references(c)
-    print(c.get_dependencies())
-    c.show()
-
     # perform the initial sanity checks on the netlist
-    netlist = c.get_netlist()
+    netlist = get_netlist(c)
     connections = netlist["connections"]
     assert len(connections) == 1, len(connections)
     cpairs = list(connections.items())
@@ -666,7 +639,7 @@ if __name__ == "__main__":
     top_netlist = recursive_netlist[cname]
     # the recursive netlist should have 3 entries, for the top level and two
     # rotated straights
-    assert len(recursive_netlist) == 1, len(recursive_netlist)
+    assert len(recursive_netlist) == 3
     # confirm that the child netlists have reference attributes properly set
 
     i1_cell_name = top_netlist["instances"]["i1"]["component"]

@@ -5,7 +5,6 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
@@ -15,7 +14,7 @@ LINE_LENGTH = 420.0
 text_rectangular_mini = partial(text_rectangular, size=1)
 
 
-@cell
+@gf.cell
 def cdsem_bend180(
     width: float = 0.5,
     radius: float = 10.0,
@@ -61,16 +60,16 @@ def cdsem_bend180(
     wg2.connect("o1", b2.ports["o1"])
 
     label = c << text(text=str(int(width * 1e3)))
-    label.ymax = b2.ymin - 5
+    label.d.ymax = b2.d.ymin - 5
     label.x = 0
-    b1.rotate(90)
-    b2.rotate(90)
-    wg1.rotate(90)
-    wg2.rotate(90)
-    label.rotate(90)
-    return c
+
+    c2 = gf.Component()
+    ref = c2 << c
+    ref.d.rotate(90)
+    c2.flatten()
+    return c2
 
 
 if __name__ == "__main__":
     c = cdsem_bend180(width=2)
-    c.show(show_ports=True)
+    c.show()

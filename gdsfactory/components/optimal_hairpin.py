@@ -93,30 +93,20 @@ def optimal_hairpin(
     #  Create a blank device, add the geometry, and define the ports
     # ==========================================================================
     c = Component()
-    c.add_polygon([xpts, ypts], layer=layer)
-    c.add_polygon([xpts, -ypts], layer=layer)
+    c.add_polygon(list(zip(xpts, +ypts)), layer=layer)
+    c.add_polygon(list(zip(xpts, -ypts)), layer=layer)
 
     xports = min(xpts)
     yports = -a + width / 2
     c.add_port(
-        name="e1",
-        center=(xports, -yports),
-        width=width,
-        orientation=180,
-        layer=layer,
-        port_type="electrical",
+        name="o1", center=(xports, -yports), width=width, orientation=180, layer=layer
     )
     c.add_port(
-        name="e2",
-        center=(xports, yports),
-        width=width,
-        orientation=180,
-        layer=layer,
-        port_type="electrical",
+        name="o2", center=(xports, yports), width=width, orientation=180, layer=layer
     )
     return c
 
 
 if __name__ == "__main__":
     c = optimal_hairpin()
-    c.show(show_ports=True)
+    c.show()

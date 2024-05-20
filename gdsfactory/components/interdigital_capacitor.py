@@ -113,4 +113,4 @@ def interdigital_capacitor(
 
 if __name__ == "__main__":
     c = interdigital_capacitor()
-    c.show(show_ports=True)
+    c.show()

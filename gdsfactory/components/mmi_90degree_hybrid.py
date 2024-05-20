@@ -86,7 +86,7 @@ def mmi_90degree_hybrid(
 
     x = gf.get_cross_section(cross_section)
 
-    mmi = c << straight(
+    _ = c << straight(
         length=length_mmi,
         width=w_mmi,
         cross_section=cross_section,
@@ -144,11 +144,11 @@ def mmi_90degree_hybrid(
 
     for port in ports:
         taper_ref = c << taper
-        taper_ref.connect(port="o2", destination=port)
+        taper_ref.connect(port="o2", other=port)
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
-        c.absorb(taper_ref)
 
-    c.absorb(mmi)
+    c.flatten()
+    x.add_bbox(c)
     return c
 
 

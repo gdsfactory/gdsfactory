@@ -3,7 +3,36 @@ from __future__ import annotations
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.decorators import flatten_offgrid_references
+from gdsfactory.get_netlist import get_netlist_recursive
+
+
+def test_netlist_simple() -> None:
+    c = gf.Component()
+    c1 = c << gf.components.straight(length=1, width=2)
+    c2 = c << gf.components.straight(length=2, width=2)
+    c2.connect(port="o1", other=c1.ports["o2"])
+    c.add_port("o1", port=c1.ports["o1"])
+    c.add_port("o2", port=c2.ports["o2"])
+    netlist = c.get_netlist()
+    assert len(netlist["instances"]) == 2
+
+
+def test_netlist_simple_width_mismatch_throws_error() -> None:
+    c = gf.Component()
+    c1 = c << gf.components.straight(length=1, width=1)
+    c2 = c << gf.components.straight(length=2, width=2)
+    c2.connect(port="o1", other=c1.ports["o2"])
+    c.add_port("o1", port=c1.ports["o1"])
+    c.add_port("o2", port=c2.ports["o2"])
+    with pytest.raises(ValueError):
+        c.get_netlist()
+
+
+def test_netlist_complex() -> None:
+    c = gf.components.mzi_arms()
+    netlist = c.get_netlist()
+    # print(netlist.pretty())
+    assert len(netlist["instances"]) == 4, len(netlist["instances"])
 
 
 def test_get_netlist_cell_array() -> None:
@@ -78,7 +107,7 @@ def test_get_netlist_close_enough() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.movex(0.001)
     netlist = c.get_netlist(tolerance=2)
     connections = netlist["connections"]
@@ -94,7 +123,7 @@ def test_get_netlist_close_enough_fails() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.movex(-0.001)
     netlist = c.get_netlist(tolerance=1)
     connections = netlist["connections"]
@@ -105,7 +134,7 @@ def test_get_netlist_close_enough_orthogonal() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.movey(0.001)
     netlist = c.get_netlist(tolerance=2)
     connections = netlist["connections"]
@@ -120,7 +149,7 @@ def test_get_netlist_close_enough_orthogonal_fails() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.movey(0.001)
     netlist = c.get_netlist(tolerance=1)
     connections = netlist["connections"]
@@ -131,7 +160,7 @@ def test_get_netlist_close_enough_both() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.move((0.001, 0.001))
     netlist = c.get_netlist(tolerance=2)
     connections = netlist["connections"]
@@ -146,7 +175,7 @@ def test_get_netlist_close_enough_rotated() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.rotate(angle=0.01, center="o2")
     netlist = c.get_netlist(tolerance=2)
     connections = netlist["connections"]
@@ -161,7 +190,7 @@ def test_get_netlist_throws_error_bad_rotation() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
-    i2.move("o2", destination=i1.ports["o1"])
+    i2.move("o2", other=i1.ports["o1"])
     i2.rotate(angle=90, center="o2")
     with pytest.raises(ValueError):
         c.get_netlist(tolerance=2)
@@ -255,7 +284,7 @@ def test_get_netlist_electrical_different_widths() -> None:
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(width=1, cross_section="xs_m1"), "i1")
     i2 = c.add_ref(gf.components.straight(width=10, cross_section="xs_m1"), "i2")
-    i2.move("e2", destination=i1.ports["e1"])
+    i2.move("e2", other=i1.ports["e1"])
     i2.movex(0.001)
     netlist = c.get_netlist(tolerance=2)
     connections = netlist["connections"]
@@ -268,42 +297,55 @@ def test_get_netlist_electrical_different_widths() -> None:
 
 def test_get_netlist_transformed() -> None:
     rotation_value = 35
-    c = gf.Component()
+    cname = "test_get_netlist_transformed"
+    c = gf.Component(cname)
     i1 = c.add_ref(gf.components.straight(), "i1")
     i2 = c.add_ref(gf.components.straight(), "i2")
     i1.rotate(rotation_value)
     i2.connect("o2", i1.ports["o1"])
 
-    # flatten the oddly rotated refs
-    c = flatten_offgrid_references(c)
-
     # perform the initial sanity checks on the netlist
     netlist = c.get_netlist()
     connections = netlist["connections"]
-    assert len(connections) == 1, len(connections)
+    assert len(connections) == 1
     cpairs = list(connections.items())
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
 
-    # cname = c.name
-    # recursive_netlist = get_netlist_recursive(c)
-    # top_netlist = recursive_netlist[cname]
+    recursive_netlist = get_netlist_recursive(c)
+    top_netlist = recursive_netlist[cname]
+    # the recursive netlist should have 3 entries, for the top level and two rotated straights
+    assert len(recursive_netlist) == 3
+    # confirm that the child netlists have reference attributes properly set
 
-    # # the recursive netlist should have 3 entries, for the top level and two rotated straights
-    # assert len(recursive_netlist) == 1, len(recursive_netlist)
-    # # confirm that the child netlists have reference attributes properly set
+    i1_cell_name = top_netlist["instances"]["i1"]["component"]
+    i1_netlist = recursive_netlist[i1_cell_name]
+    # currently for transformed netlists, the instance name of the inner cell is None
+    assert i1_netlist["placements"][None]["rotation"] == rotation_value
 
-    # i1_cell_name = top_netlist["instances"]["i1"]["component"]
-    # i1_netlist = recursive_netlist[i1_cell_name]
-    # # currently for transformed netlists, the instance name of the inner cell is None
-    # assert i1_netlist["placements"][None]["rotation"] == rotation_value
-
-    # i2_cell_name = top_netlist["instances"]["i2"]["component"]
-    # i2_netlist = recursive_netlist[i2_cell_name]
-    # # currently for transformed netlists, the instance name of the inner cell is None
-    # assert i2_netlist["placements"][None]["rotation"] == rotation_value
+    i2_cell_name = top_netlist["instances"]["i2"]["component"]
+    i2_netlist = recursive_netlist[i2_cell_name]
+    # currently for transformed netlists, the instance name of the inner cell is None
+    assert i2_netlist["placements"][None]["rotation"] == rotation_value
 
 
 if __name__ == "__main__":
-    test_get_netlist_transformed()
+    # c = gf.c.array()
+    # n = c.get_netlist()
+    # print(len(n.keys()))
+    # c = test_get_netlist_cell_array()
+    # c = test_get_netlist_cell_array_connecting()
+    # c = test_get_netlist_simple()
+    # c = test_get_netlist_promoted()
+    # c = test_get_netlist_close_enough()
+    # c = test_get_netlist_close_enough_orthogonal()
+    # c = test_get_netlist_close_enough_fails()
+    # c = test_get_netlist_close_enough_orthogonal_fails()
+    # c = test_get_netlist_close_enough_both()
+    # c = test_get_netlist_close_enough_rotated()
+    # c = test_get_netlist_throws_error_bad_rotation()
+    # c = test_get_netlist_tiny()
+    # c = test_get_netlist_metal()
+    c = test_get_netlist_electrical_different_widths()
+    c.show()

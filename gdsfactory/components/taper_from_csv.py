@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import pathlib
+from functools import partial
 from pathlib import Path
 
 import numpy as np
@@ -60,9 +61,20 @@ def taper_from_csv(
         layer=layer,
         cross_section=x,
     )
+    x.add_bbox(c)
     return c
 
 
+taper_0p5_to_3_l36 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_3_36.csv")
+taper_w10_l100 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_10_100.csv")
+taper_w10_l150 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_10_150.csv")
+taper_w10_l200 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_10_200.csv")
+taper_w11_l200 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_11_200.csv")
+taper_w12_l200 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_12_200.csv")
+
+
 if __name__ == "__main__":
-    c = taper_from_csv(cross_section=gf.cross_section.xs_rc_bbox)
-    c.show(show_ports=True)
+    # c = taper_0p5_to_3_l36()
+    c = taper_w10_l100(cross_section="xs_rc")
+    # c = taper_w11_l200()
+    c.show()

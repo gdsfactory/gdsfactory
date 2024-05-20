@@ -3,13 +3,12 @@ from __future__ import annotations
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.cell import container
-from gdsfactory.component import Component
+from gdsfactory.component import Component, Instance, container
 from gdsfactory.typings import ComponentSpec, LayerSpec
 
 
 def get_padding_points(
-    component: Component,
+    component: Component | Instance,
     default: float = 50.0,
     top: float | None = None,
     bottom: float | None = None,
@@ -32,16 +31,16 @@ def get_padding_points(
     right = right if right is not None else default
     left = left if left is not None else default
     return [
-        [c.xmin - left, c.ymin - bottom],
-        [c.xmax + right, c.ymin - bottom],
-        [c.xmax + right, c.ymax + top],
-        [c.xmin - left, c.ymax + top],
+        [c.d.xmin - left, c.d.ymin - bottom],
+        [c.d.xmax + right, c.d.ymin - bottom],
+        [c.d.xmax + right, c.d.ymax + top],
+        [c.d.xmin - left, c.d.ymax + top],
     ]
 
 
 def add_padding(
     component: ComponentSpec = "mmi2x2",
-    layers: tuple[LayerSpec, ...] = ((67, 0),),
+    layers: tuple[LayerSpec, ...] = ("PADDING",),
     **kwargs,
 ) -> Component:
     """Adds padding layers to component. Returns same component.
@@ -67,7 +66,7 @@ def add_padding(
 
 def add_padding_to_size(
     component: ComponentSpec,
-    layers: tuple[LayerSpec, ...] = ((67, 0),),
+    layers: tuple[LayerSpec, ...] = ("PADDING",),
     xsize: float | None = None,
     ysize: float | None = None,
     left: float = 0,
@@ -88,13 +87,13 @@ def add_padding_to_size(
     component = gf.get_component(component)
 
     c = component
-    top = abs(ysize - component.ysize) if ysize else 0
-    right = abs(xsize - component.xsize) if xsize else 0
+    top = abs(ysize - component.d.ysize) if ysize else 0
+    right = abs(xsize - component.d.xsize) if xsize else 0
     points = [
-        [c.xmin - left, c.ymin - bottom],
-        [c.xmax + right, c.ymin - bottom],
-        [c.xmax + right, c.ymax + top],
-        [c.xmin - left, c.ymax + top],
+        [c.d.xmin - left, c.d.ymin - bottom],
+        [c.d.xmax + right, c.d.ymin - bottom],
+        [c.d.xmax + right, c.d.ymax + top],
+        [c.d.xmin - left, c.d.ymax + top],
     ]
 
     for layer in layers:
@@ -112,11 +111,8 @@ if __name__ == "__main__":
 
     # p = partial(add_padding, layers=((1, 0)))
     c = gf.components.straight(length=10)
-    # c1 = add_padding_to_size_container(c, xsize=100, ysize=100)
-    # c2 = add_padding_to_size_container(c, xsize=100, ysize=100)
-    # print(c1.name)
-    # print(c2.name)
-    # c2 = add_padding_container(component=c, default=1)
-    c2 = add_padding_to_size_container(component=c, ysize=20, bottom=10)
-    # c2 = c.apply(add_padding)
+    c1 = add_padding_to_size_container(c, xsize=100, ysize=100)
+    c2 = add_padding_to_size_container(c, xsize=100, ysize=100)
+    print(c1.name)
+    print(c2.name)
     c2.show()

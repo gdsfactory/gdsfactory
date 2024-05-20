@@ -22,5 +22,5 @@ if __name__ == "__main__":
         component=c, prefix="opt_te1550_", port_type="vertical_te"
     )
     print(len(c.labels))
-    c.show(show_ports=False)
+    c.show()
     # c.write_gds_with_metadata(f"{__file__[:-3]}/test.gds")

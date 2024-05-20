@@ -36,53 +36,58 @@ def to_stl(
 
     layer_stack = layer_stack or get_layer_stack()
 
+    layer_to_thickness = layer_stack.get_layer_to_thickness()
+    layer_to_zmin = layer_stack.get_layer_to_zmin()
     filepath = pathlib.Path(filepath)
     exclude_layers = exclude_layers or []
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
-    component_layers = component_with_booleans.get_layers()
+    polygons_per_layer = component_with_booleans.get_polygons_points()
+    component_layers = polygons_per_layer.keys()
     layer_names = list(layer_stack.layers.keys())
     layer_tuples = list(layer_stack.layers.values())
 
-    layer_to_polygons = component_with_booleans.get_polygons(by_spec=True)
+    for layer, polygons in polygons_per_layer.items():
+        if (
+            layer in exclude_layers
+            or layer not in layer_to_thickness
+            or layer not in layer_to_zmin
+            or layer not in component_layers
+        ):
+            continue
 
-    for level in layer_stack.layers.values():
-        layer = level.layer
+        height = layer_to_thickness[layer]
+        zmin = layer_to_zmin[layer]
 
-        if layer not in exclude_layers and layer in component_layers:
-            height = level.thickness
-            zmin = level.zmin
+        layer_name = (
+            layer_names[layer_tuples.index(layer)]
+            if use_layer_name
+            else f"{layer[0]}_{layer[1]}"
+        )
 
-            layer_name = (
-                layer_names[layer_tuples.index(layer)]
-                if use_layer_name
-                else f"{layer[0]}_{layer[1]}"
-            )
+        filepath_layer = (
+            filepath.parent / f"{filepath.stem}_{layer_name}{filepath.suffix}"
+        )
+        print(
+            f"Write {filepath_layer.absolute()!r} zmin = {zmin:.3f}, height = {height:.3f}"
+        )
+        meshes = []
+        for polygon in polygons:
+            p = shapely.geometry.Polygon(polygon)
 
-            filepath_layer = (
-                filepath.parent / f"{filepath.stem}_{layer_name}{filepath.suffix}"
-            )
-            print(
-                f"Write {filepath_layer.absolute()!r} zmin = {zmin:.3f}, height = {height:.3f}"
-            )
-            meshes = []
-            polygons = layer_to_polygons[layer]
-            for polygon in polygons:
-                p = shapely.geometry.Polygon(polygon)
+            if hull_invalid_polygons and not p.is_valid:
+                p = p.convex_hull
 
-                if hull_invalid_polygons and not p.is_valid:
-                    p = p.convex_hull
+            mesh = trimesh.creation.extrude_polygon(p, height=height)
+            mesh.apply_translation((0, 0, zmin))
+            meshes.append(mesh)
 
-                mesh = trimesh.creation.extrude_polygon(p, height=height)
-                mesh.apply_translation((0, 0, zmin))
-                meshes.append(mesh)
+        layer_mesh = trimesh.util.concatenate(meshes)
 
-            layer_mesh = trimesh.util.concatenate(meshes)
+        if scale:
+            layer_mesh.apply_scale(scale)
 
-            if scale:
-                layer_mesh.apply_scale(scale)
-
-            layer_mesh.export(filepath_layer)
+        layer_mesh.export(filepath_layer)
 
 
 if __name__ == "__main__":
