@@ -148,7 +148,7 @@ class _GeometryHelper:
         Args:
             destination : array-like[2] Coordinates of the new bounding box center.
         """
-        self.center = destination
+        self.move(destination=destination, origin=self.center)
 
     @property
     def x(self):
@@ -162,7 +162,8 @@ class _GeometryHelper:
         Args:
             destination : int or float x-coordinate of the bbox center.
         """
-        self.x = destination
+        destination = (destination, self.center[1])
+        self.move(destination=destination, origin=self.center, axis="x")
 
     @property
     def y(self):
@@ -178,7 +179,7 @@ class _GeometryHelper:
             y-coordinate of the bbox center.
         """
         destination = (self.center[0], destination)
-        self.move(other=destination, origin=self.center, axis="y")
+        self.move(destination=destination, origin=self.center, axis="y")
 
     @property
     def xmax(self):
@@ -193,7 +194,7 @@ class _GeometryHelper:
         destination : int or float
             x-coordinate of the maximum edge of the bbox.
         """
-        self.move(other=(destination, 0), origin=self.bbox[1], axis="x")
+        self.move(destination=(destination, 0), origin=self.bbox[1], axis="x")
 
     @property
     def ymax(self):
@@ -207,7 +208,7 @@ class _GeometryHelper:
         Args:
             destination : int or float y-coordinate of the maximum edge of the bbox.
         """
-        self.move(other=(0, destination), origin=self.bbox[1], axis="y")
+        self.move(destination=(0, destination), origin=self.bbox[1], axis="y")
 
     @property
     def xmin(self):
@@ -221,7 +222,7 @@ class _GeometryHelper:
         Args:
             destination : int or float x-coordinate of the minimum edge of the bbox.
         """
-        self.move(other=(destination, 0), origin=self.bbox[0], axis="x")
+        self.move(destination=(destination, 0), origin=self.bbox[0], axis="x")
 
     @property
     def ymin(self):
@@ -235,7 +236,7 @@ class _GeometryHelper:
         Args:
             destination : int or float y-coordinate of the minimum edge of the bbox.
         """
-        self.move((0, destination))
+        self.move(destination=(0, destination), origin=self.bbox[0], axis="y")
 
     @property
     def size(self):
@@ -255,27 +256,29 @@ class _GeometryHelper:
         bbox = self.bbox
         return bbox[1][1] - bbox[0][1]
 
-    def movex(self, origin=0, other=None):
+    def movex(self, origin=0, destination=None):
         """Moves an object by a specified x-distance.
 
         Args:
             origin: array-like[2], Port, or key Origin point of the move.
-            other: array-like[2], Port, key, or None Destination point of the move.
+            destination: array-like[2], Port, key, or None Destination point of the move.
         """
-        if other is None:
-            pass
-        return self.move((other, 0))
+        if destination is None:
+            destination = origin
+            origin = 0
+        return self.move(origin=(origin, 0), destination=(destination, 0))
 
-    def movey(self, origin=0, other=None):
+    def movey(self, origin=0, destination=None):
         """Moves an object by a specified y-distance.
 
         Args:
             origin : array-like[2], Port, or key Origin point of the move.
             destination : array-like[2], Port, or key Destination point of the move.
         """
-        if other is None:
-            pass
-        return self.move((0, other))
+        if destination is None:
+            destination = origin
+            origin = 0
+        return self.move(origin=(0, origin), destination=(0, destination))
 
 
 def _rotate_points(points, angle: float = 45, center=(0, 0)):
@@ -424,8 +427,7 @@ def _distribute(elements, direction="x", spacing=100, separation=True, edge=None
             separation == True)
 
     Returns:
-        elements : Component, ComponentReference, Port, Polygon, Label, or Group
-            Distributed elements.
+        elements: Component, Instance, Port, Polygon, Label
     """
     if len(elements) == 0:
         return elements
