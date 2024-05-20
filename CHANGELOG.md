@@ -3,6 +3,14 @@
 
 <!-- towncrier release notes start -->
 
+## [7.27.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.27.0) - 2024-05-20
+
+
+### Fixed
+
+- Fixed issue #2740 where cross-section kwarg was ignored for generic pdk grating coupler array. [#2741](https://github.com/gdsfactory/gdsfactory/issues/2741)
+
+
 ## [7.26.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.26.1) - 2024-05-09
 
 - derived component has ports [#2731](https://github.com/gdsfactory/gdsfactory/pull/2731)
