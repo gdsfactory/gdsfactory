@@ -22,7 +22,6 @@ Specs:
 from __future__ import annotations
 
 import dataclasses
-import json
 import pathlib
 from collections.abc import Callable, Iterable
 from typing import (
@@ -40,7 +39,6 @@ from typing import (
 import kfactory as kf
 import numpy as np
 from kfactory.kcell import LayerEnum
-from omegaconf import OmegaConf
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from gdsfactory.component import Component, ComponentReference
@@ -248,148 +246,6 @@ class Bundle(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
-class Netlist(BaseModel):
-    """Netlist defined component.
-
-    Parameters:
-        instances: dict of instances (name, settings, component).
-        placements: dict of placements.
-        connections: dict of connections.
-        routes: dict of routes.
-        name: component name.
-        info: information (polarization, wavelength ...).
-        ports: exposed component ports.
-        settings: input variables.
-    """
-
-    instances: dict[str, Instance] = Field(default_factory=dict)
-    placements: dict[str, Placement] = Field(default_factory=dict)
-    connections: dict[str, str] = Field(default_factory=dict)
-    routes: dict[str, Bundle] = Field(default_factory=dict)
-    name: str | None = None
-    info: dict[str, Any] = Field(default_factory=dict)
-    ports: dict[str, str] = Field(default_factory=dict)
-    settings: dict[str, Any] = Field(default_factory=dict, exclude=True)
-
-    model_config = ConfigDict(extra="forbid")
-
-
-_route_counter = 0
-
-
-class Net(BaseModel):
-    """Net between two ports.
-
-    Parameters:
-        ip1: instance_name,port 1.
-        ip2: instance_name,port 2.
-        name: route name.
-    """
-
-    ip1: str
-    ip2: str
-    settings: dict[str, Any] = Field(default_factory=dict)
-    name: str | None = None
-
-    def __init__(self, **data: dict[str, Any]) -> None:
-        global _route_counter
-        super().__init__(**data)
-        # If route name is not provided, generate one automatically
-        if self.name is None:
-            self.name = f"route_{_route_counter}"
-            _route_counter += 1
-
-
-class Schematic(BaseModel):
-    """Schematic."""
-
-    netlist: Netlist = Field(default_factory=Netlist)
-    nets: list[Net] = Field(default_factory=list)
-    placements: dict[str, Placement] = Field(default_factory=dict)
-
-    def add_instance(
-        self, name: str, instance: Instance, placement: Placement | None = None
-    ) -> None:
-        self.netlist.instances[name] = instance
-        if placement:
-            self.add_placement(name, placement)
-
-    def add_placement(
-        self,
-        instance_name: str,
-        placement: Placement,
-    ) -> None:
-        """Add placement to the netlist.
-
-        Args:
-            instance_name: instance name.
-            placement: placement.
-        """
-        self.placements[instance_name] = placement
-        self.netlist.placements[instance_name] = placement
-
-    def from_component(self, component: Component) -> None:
-        n = component.get_netlist()
-        self.netlist = Netlist.model_validate(n)
-
-    def add_net(self, net: Net) -> None:
-        """Add a net between two ports."""
-        self.nets.append(net)
-        if net.name not in self.netlist.routes:
-            self.netlist.routes[net.name] = Bundle(
-                links={net.ip1: net.ip2}, settings=net.settings
-            )
-        else:
-            self.netlist.routes[net.name].links[net.ip1] = net.ip2
-
-    def plot_netlist(
-        self,
-        with_labels: bool = True,
-        font_weight: str = "normal",
-    ):
-        """Plots a netlist graph with networkx.
-
-        Args:
-            with_labels: add label to each node.
-            font_weight: normal, bold.
-        """
-        import matplotlib.pyplot as plt
-        import networkx as nx
-
-        plt.figure()
-        netlist = self.netlist
-        connections = netlist.connections
-        placements = self.placements if self.placements else netlist.placements
-        G = nx.Graph()
-        G.add_edges_from(
-            [
-                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                for k, v in connections.items()
-            ]
-        )
-        pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
-        labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
-
-        for node, placement in placements.items():
-            if not G.has_node(
-                node
-            ):  # Check if the node is already in the graph (from connections), to avoid duplication.
-                G.add_node(node)
-                pos[node] = (placement.x, placement.y)
-
-        for net in self.nets:
-            G.add_edge(net.ip1.split(",")[0], net.ip2.split(",")[0])
-
-        nx.draw(
-            G,
-            with_labels=with_labels,
-            font_weight=font_weight,
-            labels=labels,
-            pos=pos,
-        )
-        return G
-
-
 class TypedArray(np.ndarray):
     """based on https://github.com/samuelcolvin/pydantic/issues/380."""
 
@@ -454,84 +310,3 @@ __all__ = (
     "Dict",
     "Iterable",
 )
-
-
-def write_schema(model: BaseModel = Netlist) -> None:
-    from gdsfactory.config import PATH
-
-    s = model.schema_json()
-    d = OmegaConf.create(s)
-
-    schema_path_json = PATH.schema_netlist
-    schema_path_yaml = schema_path_json.with_suffix(".yaml")
-
-    schema_path_yaml.write_text(OmegaConf.to_yaml(d))
-    schema_path_json.write_text(json.dumps(OmegaConf.to_container(d)))
-
-
-def _demo() -> None:
-    write_schema()
-
-    import jsonschema
-    import yaml
-
-    from gdsfactory.config import PATH
-
-    schema_path_json = PATH.schema_netlist
-    schema_dict = json.loads(schema_path_json.read_text())
-
-    yaml_text = """
-
-name: mzi
-
-pdk: ubcpdk
-
-settings:
-   dy: -90
-
-info:
-    polarization: te
-    wavelength: 1.55
-    description: mzi for ubcpdk
-
-instances:
-    yr:
-      component: y_splitter
-    yl:
-      component: y_splitter
-
-placements:
-    yr:
-        rotation: 180
-        x: 100
-        y: 0
-
-routes:
-    route_top:
-        links:
-            yl,opt2: yr,opt3
-        settings:
-            cross_section: strip
-    route_bot:
-        links:
-            yl,opt3: yr,opt2
-        routing_strategy: route_bundle_from_steps
-        settings:
-          steps: [dx: 30, dy: '${settings.dy}', dx: 20]
-          cross_section: strip
-
-ports:
-    o1: yl,opt1
-    o2: yr,opt1
-"""
-
-    yaml_dict = yaml.safe_load(yaml_text)
-    jsonschema.validate(yaml_dict, schema_dict)
-
-    # from gdsfactory.components import factory
-    # c = NetlistModel(factory=factory)
-    # c.add_instance("mmi1", "mmi1x2", length=13.3)
-
-
-if __name__ == "__main__":
-    s = Step()
