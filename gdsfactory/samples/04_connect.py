@@ -6,7 +6,6 @@ The connect command allows you to connect ComponentReference ports together like
 
 """
 
-
 from __future__ import annotations
 
 import gdsfactory as gf
