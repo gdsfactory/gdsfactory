@@ -52,10 +52,10 @@ warnings:
     unconnected_ports:
     - message: 2 unconnected optical ports!
       ports:
-      - b,o2
       - s,o1
+      - b,o2
       values:
-      - - 20000
-        - 10000
       - - 0
         - 0
+      - - 20000
+        - 10000

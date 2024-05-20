@@ -10,6 +10,7 @@ from typing import Literal
 import kfactory as kf
 import numpy as np
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.component_layout import SizeInfo
@@ -80,7 +81,6 @@ def grid(
         for j, instance in enumerate(instances_list):
             # print(i, j)
             # instance.ports.print()
-            print(id(instance))
             c.add_ports(instance.ports, prefix=f"{j}_{i}_")
     return c
 

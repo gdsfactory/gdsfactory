@@ -2,26 +2,44 @@ connections: {}
 instances:
   mmi_long:
     component: mmi1x2
+    info: {}
     settings:
+      cross_section: xs_sc
+      function_name: mmi1x2
+      gap_mmi: 0.25
       length_mmi: 10
+      length_taper: 10.0
+      straight: straight
+      taper: taper
+      width: null
       width_mmi: 4.5
+      width_taper: 1.0
   mmi_short:
     component: mmi1x2
+    info: {}
     settings:
+      cross_section: xs_sc
+      function_name: mmi1x2
+      gap_mmi: 0.25
       length_mmi: 5
+      length_taper: 10.0
+      straight: straight
+      taper: taper
+      width: null
       width_mmi: 4.5
-name: yaml_anchor_18adfe0a
+      width_taper: 1.0
+name: yaml_anchor
 placements:
   mmi_long:
-    mirror: 0
+    mirror: false
     rotation: 0
-    x: 20.0
-    y: 12.875
+    x: 25000
+    y: 12875
   mmi_short:
-    mirror: 0
+    mirror: false
     rotation: 0
-    x: -15.0
-    y: 0.625
+    x: -12500
+    y: 625
 ports: {}
 warnings:
   optical:
@@ -35,15 +53,15 @@ warnings:
       - mmi_short,o2
       - mmi_short,o3
       values:
-      - - 10.0
-        - 12.875
-      - - 40.0
-        - 13.5
-      - - 40.0
-        - 12.25
-      - - -25.0
-        - 0.625
-      - - 0.0
-        - 1.25
-      - - 0.0
-        - 0.0
+      - - 10000
+        - 12875
+      - - 40000
+        - 13500
+      - - 40000
+        - 12250
+      - - -25000
+        - 625
+      - - 0
+        - 1250
+      - - 0
+        - 0

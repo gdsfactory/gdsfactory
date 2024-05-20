@@ -1466,7 +1466,7 @@ placements:
 if __name__ == "__main__":
     # c = from_yaml(sample_doe_function)
     # c = from_yaml(sample_mmis)
-    c = from_yaml(yaml_anchor)
+    c = from_yaml(sample_doe_function)
     c.show()
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)

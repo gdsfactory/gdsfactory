@@ -1,21 +1,9 @@
 connections: {}
 instances:
   mmi1x2_sweep:
-    component: pack_doe
+    component: Unnamed_49
     info: {}
-    settings:
-      do_permutations: true
-      doe: mmi1x2
-      function: null
-      function_name: pack_doe
-      settings:
-        length_mmi:
-        - 2
-        - 100
-        width_mmi:
-        - 4
-        - 10
-      spacing: 100
+    settings: {}
 name: mask
 placements:
   mmi1x2_sweep:
