@@ -109,7 +109,6 @@ def get_netlist_yaml(
 
 def get_netlist(
     component: Component,
-    full_settings: bool = False,
     tolerance: int = 5,
     exclude_port_types: list[str] | tuple[str] | None = ("placement",),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
@@ -140,7 +139,6 @@ def get_netlist(
 
     Args:
         component: to extract netlist.
-        full_settings: True returns all, false changed settings.
         tolerance: tolerance in grid_factor to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
@@ -545,7 +543,6 @@ def get_netlist_recursive(
         get_netlist_func: function to extract individual netlists.
 
     Keyword Args:
-        full_settings: True returns all, false changed settings.
         tolerance: tolerance in grid_factor to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
@@ -579,8 +576,8 @@ def get_netlist_recursive(
             if child_references:
                 inst_name = get_instance_name(component, ref)
                 netlist_dict = {"component": f"{rcell.name}{component_suffix}"}
-                if hasattr(rcell, "settings") and hasattr(rcell.settings, "full"):
-                    netlist_dict.update(settings=rcell.settings.full)
+                if hasattr(rcell, "settings"):
+                    netlist_dict.update(settings=rcell.settings)
                 if hasattr(rcell, "info"):
                     netlist_dict.update(info=rcell.info)
                 netlist["instances"][inst_name] = netlist_dict

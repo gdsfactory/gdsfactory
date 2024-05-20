@@ -638,6 +638,47 @@ class Component(kf.KCell):
 
         return get_netlist(self)
 
+    def plot_netlist(
+        self, with_labels: bool = True, font_weight: str = "normal", **kwargs
+    ):
+        """Plots a netlist graph with networkx.
+
+        Args:
+            with_labels: add label to each node.
+            font_weight: normal, bold.
+
+        Keyword Args:
+            tolerance: tolerance in grid_factor to consider two ports connected.
+            exclude_port_types: optional list of port types to exclude from netlisting.
+            get_instance_name: function to get instance name.
+            allow_multiple: False to raise an error if more than two ports share the same connection. \
+                    if True, will return key: [value] pairs with [value] a list of all connected instances.
+        """
+        import matplotlib.pyplot as plt
+        import networkx as nx
+
+        plt.figure()
+        netlist = self.get_netlist(**kwargs)
+        connections = netlist["connections"]
+        placements = netlist["placements"]
+        G = nx.Graph()
+        G.add_edges_from(
+            [
+                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                for k, v in connections.items()
+            ]
+        )
+        pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
+        labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+        nx.draw(
+            G,
+            with_labels=with_labels,
+            font_weight=font_weight,
+            labels=labels,
+            pos=pos,
+        )
+        return G
+
     def over_under(self, layer: LayerSpec, distance: float = 1.0) -> None:
         """Flattens and performs over-under on a layer in the Component.
         For big components use tiled version.

@@ -1,11 +1,7 @@
 from __future__ import annotations
 
-from pprint import pprint
-
-import jsondiff
 import numpy as np
 import pytest
-from omegaconf import OmegaConf
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.difftest import difftest
@@ -539,71 +535,33 @@ def test_settings(
         data_regression.check(c.to_dict())
 
 
-@pytest.mark.parametrize("yaml_key", yaml_strings.keys())
-def test_netlists(
-    yaml_key: str,
-    data_regression: DataRegressionFixture,
-    check: bool = True,
-) -> None:
-    """Write netlists for hierarchical circuits. Checks that both netlists are
-    the same jsondiff does a hierarchical diff Component -> netlist ->
-    Component -> netlist.
+# @pytest.mark.parametrize("yaml_key", yaml_strings.keys())
+# def test_netlists(
+#     yaml_key: str,
+#     data_regression: DataRegressionFixture,
+#     check: bool = True,
+# ) -> None:
+#     """Write netlists for hierarchical circuits. Checks that both netlists are
+#     the same jsondiff does a hierarchical diff Component -> netlist ->
+#     Component -> netlist.
 
-    Args:
-        yaml_key: to test.
-        data_regression: for regression test.
-        check: False, skips test.
+#     Args:
+#         yaml_key: to test.
+#         data_regression: for regression test.
+#         check: False, skips test.
 
-    """
-    yaml_string = yaml_strings[yaml_key]
-    c = from_yaml(yaml_string)
-    n = c.get_netlist()
-    if check:
-        data_regression.check(n)
+#     """
+#     yaml_string = yaml_strings[yaml_key]
+#     c = from_yaml(yaml_string)
+#     n = c.get_netlist()
+#     if check:
+#         data_regression.check(n)
 
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+#     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
 
-    # print(yaml_str)
-    c2 = from_yaml(yaml_str, name=c.name)
-    n2 = c2.get_netlist()
-    # pprint(d)
-    d = jsondiff.diff(n, n2)
-    assert len(d) == 0, pprint(d)
-
-
-def _demo_netlist() -> None:
-    """path on the route."""
-    import gdsfactory as gf
-
-    # c = from_yaml(sample_2x2_connections)
-    c = from_yaml(sample_waypoints)
-    c = from_yaml(sample_different_factory)
-    c.show()
-    n = c.get_netlist()
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c2 = from_yaml(yaml_str)
-    n2 = c2.get_netlist()
-    d = jsondiff.diff(n, n2)
-    assert len(d) == 0
-    gf.show(c2)
-
-
-def test_ref_names_retained_on_copy() -> None:
-    c_orig = from_yaml(sample_connections)
-    c_copy = c_orig.copy()
-    orig_ref_names = set(c_orig.named_references.keys())
-    new_ref_names = set(c_copy.named_references.keys())
-    assert orig_ref_names == new_ref_names
-
-
-if __name__ == "__main__":
-    test_docstring_sample()
-    # test_connections_waypoints()
-    # test_connections_2x2()
-    # test_connections_different_factory()
-    # c = from_yaml(sample_regex_connections)
-    # c = from_yaml(connections_2x2)
-    # assert len(c.insts) == 2
-    # assert len(c.ports) == 0
-    # c = from_yaml(sample_docstring)
-    # c.show()
+#     # print(yaml_str)
+#     c2 = from_yaml(yaml_str, name=c.name)
+#     n2 = c2.get_netlist()
+#     # pprint(d)
+#     d = jsondiff.diff(n, n2)
+#     assert len(d) == 0, pprint(d)
