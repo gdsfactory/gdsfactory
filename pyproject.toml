@@ -12,7 +12,7 @@ classifiers = [
   "Operating System :: OS Independent"
 ]
 dependencies = [
-  "kfactory[git,ipy]>=0.9.1,<0.10",
+  "kfactory[git,ipy]>=0.9.1,<0.14",
   "flatdict",
   "gdstk<1",
   "jinja2",
