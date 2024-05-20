@@ -27,9 +27,8 @@ def route_single_from_steps(
     taper: ComponentSpec | None = "taper",
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     auto_widen: bool = False,
-    auto_widen_minimum_length: float = 100,
-    taper_length: float = 10,
-    width_wide: float = 2,
+    port_type: str = "optical",
+    allow_width_mismatch: bool = False,
     **kwargs,
 ) -> OpticalManhattanRoute:
     """Places a route formed by the given waypoints steps.
@@ -48,9 +47,6 @@ def route_single_from_steps(
         taper: taper spec.
         cross_section: cross_section spec.
         auto_widen: if True, tapers to wider straights.
-        auto_widen_minimum_length: minimum length to auto widen.
-        taper_length: length of the taper.
-        width_wide: width of the wider straight.
         kwargs: cross_section settings.
 
     .. plot::
@@ -139,6 +135,8 @@ def route_single_from_steps(
         bend=bend,
         taper=taper,
         cross_section=cross_section,
+        port_type=port_type,
+        allow_width_mismatch=allow_width_mismatch,
         **kwargs,
     )
 
@@ -158,37 +156,7 @@ route_single_from_steps_electrical_multilayer = partial(
 )
 
 
-def test_route_from_steps():
-    c = gf.Component()
-    w = gf.components.straight()
-    left = c << w
-    right = c << w
-    right.d.move((100, 80))
-
-    obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
-    obstacle1 = c << obstacle
-    obstacle2 = c << obstacle
-    obstacle1.d.ymin = 40
-    obstacle2.d.xmin = 25
-
-    p1 = left.ports["o2"]
-    p2 = right.ports["o2"]
-    route_single_from_steps(
-        c,
-        port1=p1,
-        port2=p2,
-        steps=[
-            {"x": 20},
-            {"y": 20},
-            {"x": 120},
-            {"y": 80},
-        ],
-    )
-
-
 if __name__ == "__main__":
-    test_route_from_steps()
-
     import gdsfactory as gf
 
     c = gf.Component("route_single_from_steps_sample")

@@ -29,6 +29,7 @@ def add_pads_bot(
     optical_routing_type: int | None = 1,
     taper: ComponentSpec | None = None,
     port_type="electrical",
+    allow_width_mismatch: bool = True,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -67,6 +68,7 @@ def add_pads_bot(
         routing_method: route_single.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
+        allow_width_mismatch: True
 
     .. plot::
         :include-source:
@@ -129,6 +131,7 @@ def add_pads_bot(
         taper=taper,
         port_type=port_type,
         gc_port_name_fiber=pad_port_name,
+        allow_width_mismatch=allow_width_mismatch,
         **kwargs,
     )
     component_new.add_ref(component)

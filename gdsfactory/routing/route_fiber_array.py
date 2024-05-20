@@ -52,6 +52,7 @@ def route_fiber_array(
     radius: float | None = None,
     cross_section: CrossSectionSpec = strip,
     optical_routing_type: int = 1,
+    allow_width_mismatch: bool = False,
     port_type: str = "optical",
 ) -> Component:
     """Returns new component with fiber array.
@@ -90,6 +91,8 @@ def route_fiber_array(
         select_ports: function to select ports for which to add grating couplers.
         radius: optional radius of the bend. Defaults to the cross_section.
         cross_section: cross_section.
+        optical_routing_type: 1 or 2.
+        allow_width_mismatch: allow width mismatch.
     """
     if optical_routing_type not in [1, 2]:
         raise ValueError(f"optical_routing_type={optical_routing_type} must be 1 or 2")
@@ -312,6 +315,7 @@ def route_fiber_array(
             port_type=port_type,
             sort_ports=True,
             enforce_port_ordering=False,
+            allow_width_mismatch=allow_width_mismatch,
             # bboxes=[component_with_south_routes_bbox]
         )
         fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
@@ -334,6 +338,7 @@ def route_fiber_array(
                 port_type=port_type,
                 sort_ports=True,
                 enforce_port_ordering=False,
+                allow_width_mismatch=allow_width_mismatch,
                 # bboxes=[component_with_south_routes_bbox]
             )
             del to_route[n0 - dn : n0 + dn]
