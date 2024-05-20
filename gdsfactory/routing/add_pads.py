@@ -233,23 +233,25 @@ def add_pads_top(
 
 if __name__ == "__main__":
     # c = gf.components.pad()
-    # c = gf.components.straight_heater_metal(length=100.0)
+    c = gf.components.straight_heater_metal(length=100.0)
     # c = gf.components.straight(length=100.0)
+    c = gf.routing.add_pads_top(component=c, port_names=("l_e1",))
+    c.show()
 
     # cc = add_pads_top(component=c, port_names=("e1",))
     # cc = add_pads_top(component=c, port_names=("e1", "e2"), fanout_length=50)
-    c = gf.c.nxn(
-        xsize=600,
-        ysize=200,
-        # north=2,
-        # south=3,
-        north=0,
-        south=0,
-        west=2,
-        east=2,
-        wg_width=10,
-        layer="M3",
-        port_type="electrical",
-    )
-    cc = add_pads_top(component=c)
-    cc.show()
+    # c = gf.c.nxn(
+    #     xsize=600,
+    #     ysize=200,
+    #     # north=2,
+    #     # south=3,
+    #     north=0,
+    #     south=0,
+    #     west=2,
+    #     east=2,
+    #     wg_width=10,
+    #     layer="M3",
+    #     port_type="electrical",
+    # )
+    # cc = add_pads_top(component=c)
+    # cc.show()
