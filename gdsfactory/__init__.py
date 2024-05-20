@@ -44,6 +44,7 @@ from gdsfactory import cross_section
 from gdsfactory import asserts
 from gdsfactory import port
 from gdsfactory import components
+from gdsfactory import labels
 from gdsfactory import typings
 from gdsfactory import path
 from gdsfactory import snap
@@ -119,6 +120,7 @@ __all__ = (
     "kdb",
     "kf",
     "logger",
+    "labels",
     "pack",
     "partial",
     "path",

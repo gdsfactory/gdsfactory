@@ -228,9 +228,9 @@ def pack(
                     if text_mirror:
                         label.mirror()
                     if text_rotation:
-                        label.rotate(text_rotation)
-                    label.move(
-                        np.array(text_offset) + getattr(d.size_info, text_anchor)
+                        label.d.rotate(text_rotation)
+                    label.d.move(
+                        np.array(text_offset) + getattr(d.d.size_info, text_anchor)
                     )
 
         components_packed_list.append(packed)

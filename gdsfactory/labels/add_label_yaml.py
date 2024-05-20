@@ -51,7 +51,7 @@ def add_label_yaml(
     layer = get_layer(layer)
     analysis_settings = analysis_settings or {}
     measurement_settings = measurement_settings or {}
-    analysis_settings.update(component.metadata.get("full", {}))
+    analysis_settings.update(component.settings)
 
     optical_ports = component.get_ports_list(port_type="optical")
     electrical_ports = component.get_ports_list(port_type="electrical")
@@ -59,7 +59,7 @@ def add_label_yaml(
     if anchor not in valid_anchor_point_keywords:
         raise ValueError(f"anchor {anchor} not in {valid_anchor_point_keywords}. ")
 
-    xc, yc = getattr(component.size_info, anchor)
+    xc, yc = getattr(component.d.size_info, anchor)
 
     d = dict(
         name=component.name,
@@ -74,14 +74,11 @@ def add_label_yaml(
         yelec=[int(electrical_ports[0].y - yc)] if electrical_ports else [],
     )
     text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
-    label = gf.Label(
+    component.add_label(
         text=text,
-        origin=(xc, yc),
-        anchor="o",
-        layer=layer[0],
-        texttype=layer[1],
+        layer=layer,
+        position=(xc, yc),
     )
-    component.add(label)
     return component
 
 
@@ -89,8 +86,6 @@ add_label_json = partial(add_label_yaml, with_yaml_format=False)
 
 
 if __name__ == "__main__":
-    import yaml
-
     measurement_settings = dict(
         wavelenth_min=1550, wavelenth_max=1570, wavelength_steps=10
     )
@@ -108,23 +103,14 @@ if __name__ == "__main__":
     c = gf.c.mmi2x2(length_mmi=2.2)
     c = gf.routing.add_fiber_array(
         c,
-        get_input_labels_function=None,
         grating_coupler=gf.components.grating_coupler_te,
-        decorator=decorator,
-        info=info,
     )
+    decorator(c)
 
-    c = gf.components.spiral_inner_io_fiber_array(
-        length=20e3,
-        decorator=decorator,
-        info=dict(
-            measurement="optical_loopback2",
-            doe="spiral_sc",
-            measurement_settings=dict(wavelength_alignment=1560),
-        ),
-    )
-    print(len(c.labels[0].text))
-    print(c.labels[0].text)
-    d = yaml.safe_load(c.labels[0].text) if yaml else json.loads(c.labels[0].text)
-    print(d)
+    # c = gf.components.spiral()
+    # c = decorator(c)
+    # print(len(c.labels[0].text))
+    # print(c.labels[0].text)
+    # d = yaml.safe_load(c.labels[0].text) if yaml else json.loads(c.labels[0].text)
+    # print(d)
     c.show()

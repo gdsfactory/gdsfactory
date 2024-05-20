@@ -4,7 +4,6 @@ import gdsfactory as gf
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
-@gf.cell
 def add_fiber_array_optical_south_electrical_north(
     component: ComponentSpec,
     pad: ComponentSpec,

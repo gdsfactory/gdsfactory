@@ -23,22 +23,26 @@ def mzi_gc(length_x=10, **kwargs):
 
 def sample_reticle() -> gf.Component:
     """Returns MZI with TE grating couplers."""
+    from gdsfactory.generic_tech.cells import (
+        add_fiber_array_optical_south_electrical_north,
+    )
+
     mzis = [mzi_gc(length_x=lengths) for lengths in [100, 200, 300]]
     rings = [
         gf.components.ring_single_heater(length_x=length_x) for length_x in [10, 20, 30]
     ]
 
-    spirals = [spiral_gc(length=length) for length in [20e3, 40e3, 60e3]]
+    spirals = [spiral_gc(length=length) for length in [0, 100, 200]]
 
-    # rings_te = [
-    #     gf.components.add_fiber_array_optical_south_electrical_north(
-    #         ring,
-    #         electrical_port_names=["l_e2", "r_e2"],
-    #     )
-    #     for ring in rings
-    # ]
+    rings_te = [
+        add_fiber_array_optical_south_electrical_north(
+            component=ring,
+            electrical_port_names=["l_e2", "r_e2"],
+        )
+        for ring in rings
+    ]
 
-    components = mzis + rings + spirals
+    components = mzis + rings_te + spirals
 
     c = gf.pack(components)
     if len(c) > 1:

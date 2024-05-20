@@ -226,13 +226,16 @@ def extrude_path(
     else:
         pts = np.vstack((points + offsets, points_back))
 
-    pts = np.round(pts / grid) * grid
-
-    return pts
+    return np.round(pts / grid) * grid
 
 
 def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
-    """Returns a grown closed shaped polygon by an offset."""
+    """Returns a grown closed shaped polygon by an offset.
+
+    Args:
+        polygon: numpy array of shape (N, 2) representing N points with coordinates x, y.
+        offset: in um.
+    """
     s = remove_identicals(polygon)
     s = remove_flat_angles(s)
     s = np.vstack([s, s[0]])
