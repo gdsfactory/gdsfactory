@@ -69,25 +69,14 @@ Classes and functions for construction and manipulation of geometric objects.
    transition
 
 
-.. currentmodule:: gdsfactory.geometry
+.. currentmodule:: gdsfactory
 
-.. rubric:: geometry
+.. rubric:: boolean
 
 .. autosummary::
    :toctree: _autosummary/
 
    boolean
-   boolean_klayout
-   boolean_polygons
-   fillet
-   functions
-   invert
-   layer_priority
-   offset
-   outline
-   trim
-   union
-   xor_diff
 
 
 .. currentmodule:: gdsfactory
