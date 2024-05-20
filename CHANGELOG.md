@@ -1,13 +1,22 @@
 # [Changelog](https://keepachangelog.com/en/1.0.0/)
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.26.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v7.27.0...main)
 
 <!-- towncrier release notes start -->
 
 ## [7.27.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.27.0) - 2024-05-20
 
-
-### Fixed
-
+- Improve get route astar [#2752](https://github.com/gdsfactory/gdsfactory/pull/2752)
+- add mimcap [#2751](https://github.com/gdsfactory/gdsfactory/pull/2751)
+- fix disk with wrap_angle=0 [#2745](https://github.com/gdsfactory/gdsfactory/pull/2745)
+- fix spiral_inner_io add_grating_couplers [#2742](https://github.com/gdsfactory/gdsfactory/pull/2742)
+- Clean schematic [#2748](https://github.com/gdsfactory/gdsfactory/pull/2748)
+- test other pdks [#2746](https://github.com/gdsfactory/gdsfactory/pull/2746)
+- update ruff [#2743](https://github.com/gdsfactory/gdsfactory/pull/2743)
+- adds cross-section kwarg [#2741](https://github.com/gdsfactory/gdsfactory/pull/2741)
+- auto_rename_ports for C [#2739](https://github.com/gdsfactory/gdsfactory/pull/2739)
+- get_route_sbend allow mismatch [#2737](https://github.com/gdsfactory/gdsfactory/pull/2737)
+- Improve port types [#2732](https://github.com/gdsfactory/gdsfactory/pull/2732)
+- Update kfactory[git,ipy] requirement from <0.13,>=0.9.1 to >=0.9.1,<0.14 [#2735](https://github.com/gdsfactory/gdsfactory/pull/2735)
 - Fixed issue #2740 where cross-section kwarg was ignored for generic pdk grating coupler array. [#2741](https://github.com/gdsfactory/gdsfactory/issues/2741)
 
 
