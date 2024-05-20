@@ -1,47 +1,20 @@
-function: via_corner
 info:
   length: 10.0
   size:
   - 10.0
   - 10.0
-module: gdsfactory.components.via_corner
-name: via_corner
+name: via_corner_CSFcross_section_Mgdsfactorypcross_section_SLM2_W10_PNe1_e2_PTelectrical_electrical_RNone_0_180_Fcross_section_Mgdsfactorypcross_section_SLM3_W10_PNe1_e2_PTelectrical_electrical_RNone_90_270_VFvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_LLm2_m3
 settings:
   cross_section:
-  - - function: cross_section
-      module: gdsfactory.cross_section
-      settings:
-        layer: M2
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        radius: null
-        width: 10.0
+  - - Fcross_section_Mgdsfactorypcross_section_SLM2_W10_PNe1_e2_PTelectrical_electrical_RNone
     - - 0
       - 180
-  - - function: cross_section
-      module: gdsfactory.cross_section
-      settings:
-        layer: M3
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        radius: null
-        width: 10.0
+  - - Fcross_section_Mgdsfactorypcross_section_SLM3_W10_PNe1_e2_PTelectrical_electrical_RNone
     - - 90
       - 270
+  function_name: via_corner
   layers_labels:
   - m2
   - m3
   vias:
-  - function: via
-    module: gdsfactory.components.via
-    settings:
-      enclosure: 2
-      layer: VIA1
+  - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2

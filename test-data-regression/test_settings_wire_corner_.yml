@@ -1,8 +1,7 @@
-function: wire_corner
 info:
   dy: 10.0
   length: 10.0
-module: gdsfactory.components.wire
-name: wire_corner
+name: wire_corner_CSxs_metal_routing
 settings:
   cross_section: xs_metal_routing
+  function_name: wire_corner

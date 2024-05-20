@@ -1,16 +1,11 @@
-function: coupler_ring
 info: {}
-module: gdsfactory.components.coupler_ring
-name: coupler_ring
+name: coupler_ring_G0p2_R5_LX4_Ccoupler90_Bbend_euler_CScoupler_straight_CSxs_sc_CSBNone_LE3
 settings:
-  bend:
-    function: bend_euler
-  coupler90:
-    function: coupler90
-  coupler_straight:
-    function: coupler_straight
+  bend: bend_euler
+  coupler90: coupler90
+  coupler_straight: coupler_straight
   cross_section: xs_sc
-  cross_section_bend: null
+  function_name: coupler_ring
   gap: 0.2
   length_extension: 3
   length_x: 4.0

@@ -1,16 +1,13 @@
-function: add_trenches
 info: {}
-module: gdsfactory.components.add_trenches
-name: ring_single_add_trenches_06939900
+name: add_trenches_Cring_single_LCWG_LTDEEP_ETCH_WT2_CSxs_rc_with_trenches_TTrue_BTrue_RFalse_LFalse
 settings:
   bot: true
-  component:
-    function: ring_single
+  component: ring_single
   cross_section: xs_rc_with_trenches
-  layer_trench:
-  - 3
-  - 6
+  function_name: add_trenches
+  layer_component: WG
+  layer_trench: DEEP_ETCH
   left: false
   right: false
   top: true
-  width_trench: 3
+  width_trench: 2.0

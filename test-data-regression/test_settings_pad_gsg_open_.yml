@@ -1,19 +1,14 @@
-function: pad_gsg_short
 info: {}
-module: gdsfactory.components.pad_gsg
-name: pad_gsg_short_shortFalse
+name: pad_gsg_short_VSFrectangle_Mgdsfactorypcomponentsprectangle_SLMTOP_S22_7_LMMTOP_MS5_SFalse_Ppad_PS150_RX50
 settings:
+  function_name: pad_gsg_short
   layer_metal: MTOP
   metal_spacing: 5.0
-  pad:
-    function: pad
+  pad: pad
   pad_spacing: 150
+  route_xsize: 50
   short: false
   size:
   - 22
   - 7
-  via_stack:
-    function: rectangle
-    module: gdsfactory.components.rectangle
-    settings:
-      layer: MTOP
+  via_stack: Frectangle_Mgdsfactorypcomponentsprectangle_SLMTOP

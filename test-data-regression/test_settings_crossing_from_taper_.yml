@@ -1,11 +1,5 @@
-function: crossing_from_taper
 info: {}
-module: gdsfactory.components.crossing_waveguide
-name: crossing_from_taper
+name: crossing_from_taper_TFtaper_Mgdsfactorypcomponentsptaper_SW2p5_L3
 settings:
-  taper:
-    function: taper
-    module: gdsfactory.components.taper
-    settings:
-      length: 3
-      width2: 2.5
+  function_name: crossing_from_taper
+  taper: Ftaper_Mgdsfactorypcomponentsptaper_SW2p5_L3

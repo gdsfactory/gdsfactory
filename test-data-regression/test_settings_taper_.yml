@@ -1,14 +1,12 @@
-function: taper
 info:
   length: 10.0
   width1: 0.5
   width2: 0.5
-module: gdsfactory.components.taper
-name: taper
+name: taper_L10_W0p5_WNone_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue
 settings:
   cross_section: xs_sc
+  function_name: taper
   length: 10.0
-  port: null
   port_names:
   - o1
   - o2
@@ -16,5 +14,5 @@ settings:
   - optical
   - optical
   width1: 0.5
-  width2: null
+  with_bbox: true
   with_two_ports: true

@@ -1,13 +1,11 @@
-function: taper_adiabatic
 info: {}
-module: gdsfactory.components.taper_adiabatic
-name: taper_adiabatic
+name: taper_adiabatic_W0p5_W5_L0_NWneff_TE1550SOI_220nm_A1_W1p55_N200_CSxs_sc
 settings:
   alpha: 1
   cross_section: xs_sc
+  function_name: taper_adiabatic
   length: 0
-  neff_w:
-    function: neff_TE1550SOI_220nm
+  neff_w: neff_TE1550SOI_220nm
   npoints: 200
   wavelength: 1.55
   width1: 0.5

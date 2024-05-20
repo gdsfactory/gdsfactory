@@ -1,8 +1,7 @@
-function: verniers
 info: {}
-module: gdsfactory.components.verniers
-name: verniers
+name: verniers_W0p1_0p2_0p3_0p4_0p5_G0p1_X100_LLTEXT
 settings:
+  function_name: verniers
   gap: 0.1
   layer_label: TEXT
   widths:

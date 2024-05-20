@@ -1,18 +1,15 @@
-function: add_trenches
 info:
   length: 10.186
   min_bend_radius: 11.857
-module: gdsfactory.components.add_trenches
-name: coupler_add_trenches
+name: add_trenches_Ccoupler_LCWG_LTDEEP_ETCH_WT2_CSxs_rc_with_trenches_TTrue_BTrue_RFalse_LFalse
 settings:
   bot: true
-  component:
-    function: coupler
+  component: coupler
   cross_section: xs_rc_with_trenches
-  layer_trench:
-  - 3
-  - 6
+  function_name: add_trenches
+  layer_component: WG
+  layer_trench: DEEP_ETCH
   left: false
   right: false
   top: true
-  width_trench: 3
+  width_trench: 2.0

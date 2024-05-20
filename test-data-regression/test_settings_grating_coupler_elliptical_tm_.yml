@@ -1,13 +1,12 @@
-function: grating_coupler_elliptical
 info:
   polarization: tm
   wavelength: 1.554
-module: gdsfactory.components.grating_coupler_elliptical
-name: grating_coupler_elliptical_def98097
+name: grating_coupler_elliptical_Ptm_TL30_TA40_W1p554_FA15_GLW0p707_N1p8_N1p443_NP16_BLTFalse_LSSLAB150_SXm2_SO2_STrue_CSxs_sc
 settings:
   big_last_tooth: false
   cross_section: xs_sc
   fiber_angle: 15.0
+  function_name: grating_coupler_elliptical
   grating_line_width: 0.707
   layer_slab: SLAB150
   n_periods: 16

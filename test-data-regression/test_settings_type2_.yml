@@ -1,7 +1,12 @@
-function: type2
 info:
   length: 10.185
   min_bend_radius: 11.883
-module: test_add_fiber_array
-name: type2
-settings: {}
+name: add_fiber_array_Ccoupler_G0p244_L5p67_CScoupler_symmetric_CScoupler_straight_D4_D10_CSxs_sc_GCFgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_coupler_elliptical_trenches_SPte_TA35_GPNo1_CNNone_SPFselect_ports_Mgdsfactorypport_SPToptical_CSxs_sc_ORT2
+settings:
+  component: coupler_G0p244_L5p67_CScoupler_symmetric_CScoupler_straight_D4_D10_CSxs_sc
+  cross_section: xs_sc
+  function_name: add_fiber_array
+  gc_port_name: o1
+  grating_coupler: Fgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_coupler_elliptical_trenches_SPte_TA35
+  optical_routing_type: 2
+  select_ports: Fselect_ports_Mgdsfactorypport_SPToptical

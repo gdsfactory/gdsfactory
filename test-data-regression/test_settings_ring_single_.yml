@@ -1,19 +1,11 @@
-function: ring_single
 info: {}
-module: gdsfactory.components.ring_single
-name: ring_single
+name: ring_single_G0p2_R10_LX4_LY0p6_CRcoupler_ring_Bbend_euler_CSxs_sc
 settings:
-  bend:
-    function: bend_euler
-  bend_coupler:
-    function: bend_euler
-  coupler_ring:
-    function: coupler_ring
+  bend: bend_euler
+  coupler_ring: coupler_ring
   cross_section: xs_sc
+  function_name: ring_single
   gap: 0.2
   length_x: 4.0
   length_y: 0.6
-  pass_cross_section_to_bend: true
   radius: 10.0
-  straight:
-    function: straight

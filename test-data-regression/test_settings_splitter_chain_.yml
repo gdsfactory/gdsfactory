@@ -1,10 +1,7 @@
-function: splitter_chain
 info: {}
-module: gdsfactory.components.splitter_chain
-name: mmi1x2_splitter_chain
+name: splitter_chain_Smmi1x2_C3_Bbend_s
 settings:
-  bend:
-    function: bend_s
+  bend: bend_s
   columns: 3
-  splitter:
-    function: mmi1x2
+  function_name: splitter_chain
+  splitter: mmi1x2

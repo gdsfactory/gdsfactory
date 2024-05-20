@@ -1,18 +1,12 @@
-function: mzi
 info: {}
-module: gdsfactory.components.mzi
-name: mzi
+name: mzi_DL10_LY2_LX0p1_Bbend_euler_Sstraight_SYNone_SXTNone_SXBNone_Smmi1x2_CNone_WSTrue_PESo2_PESo3_PECo2_PECo3_N2_CSxs_sc_CSXTNone_CSXBNone_MBFalse_AOPAFalse_ML0p01_ARPTrue
 settings:
-  add_electrical_ports_bot: true
   add_optical_ports_arms: false
-  bend:
-    function: bend_euler
-  combiner: null
+  auto_rename_ports: true
+  bend: bend_euler
   cross_section: xs_sc
-  cross_section_x_bot: null
-  cross_section_x_top: null
   delta_length: 10.0
-  extend_ports_straight_x: null
+  function_name: mzi
   length_x: 0.1
   length_y: 2.0
   min_length: 0.01
@@ -23,9 +17,5 @@ settings:
   port_e1_combiner: o2
   port_e1_splitter: o2
   splitter: mmi1x2
-  straight:
-    function: straight
-  straight_x_bot: null
-  straight_x_top: null
-  straight_y: null
+  straight: straight
   with_splitter: true

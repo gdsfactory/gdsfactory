@@ -1,9 +1,8 @@
-function: disk
 info: {}
-module: gdsfactory.components.disk
-name: disk
+name: disk_R10_G0p2_WAD180_P1_CSxs_sc
 settings:
   cross_section: xs_sc
+  function_name: disk
   gap: 0.2
   parity: 1
   radius: 10.0

@@ -1,15 +1,12 @@
 connections: {}
 instances:
-  mzit_1:
-    component: mzit
+  ? mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL10_CL20_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSxs_sc_19137_11400
+  : component: mzit
     info: {}
     settings:
-      bend90:
-        function: bend_euler
-      coupler1:
-        function: coupler
-      coupler2:
-        function: coupler
+      bend90: bend_euler
+      coupler1: coupler
+      coupler2: coupler
       coupler_gap1: 0.2
       coupler_gap2: 0.3
       coupler_length1: 10.0
@@ -17,24 +14,23 @@ instances:
       cross_section: xs_sc
       delta_length: 10.0
       dy: 2.0
+      function_name: mzit
       length: 1.0
-      straight:
-        function: straight
-      taper:
-        function: taper
+      straight: straight
+      taper: taper
       taper_length: 5.0
       w0: 0.5
       w1: 0.45
       w2: 0.55
-name: mzit_lattice
+name: mzit_lattice_CL10_20_CG0p2_0p3_DL10_Mmzit
 placements:
-  mzit_1:
-    mirror: 0
+  ? mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL10_CL20_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSxs_sc_19137_11400
+  : mirror: false
     rotation: 0
-    x: 0.0
-    y: 0.0
+    x: 19137
+    y: 11400
 ports:
-  o1: mzit_1,o1
-  o2: mzit_1,o2
-  o3: mzit_1,o3
-  o4: mzit_1,o4
+  o1: mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL10_CL20_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSxs_sc_19137_11400,o1
+  o2: mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL10_CL20_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSxs_sc_19137_11400,o2
+  o3: mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL10_CL20_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSxs_sc_19137_11400,o3
+  o4: mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL10_CL20_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSxs_sc_19137_11400,o4

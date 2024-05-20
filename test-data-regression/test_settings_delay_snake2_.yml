@@ -1,10 +1,9 @@
-function: delay_snake2
 info: {}
-module: gdsfactory.components.delay_snake2
-name: delay_snake2
+name: delay_snake2_L1600_L0_L0_N2_Bbend_euler180_CSxs_sc
 settings:
   bend180: bend_euler180
   cross_section: xs_sc
+  function_name: delay_snake2
   length: 1600.0
   length0: 0.0
   length2: 0.0

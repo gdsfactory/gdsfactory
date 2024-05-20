@@ -1,13 +1,10 @@
-function: coupler_broadband
 info: {}
-module: gdsfactory.components.coupler_broadband
-name: coupler_broadband
+name: coupler_broadband_WS0p5_GS0p2_WT0p6_GP0p3_LT1_Bbend_euler_CScoupler_straight_LCS12p4_LCBG4p7_CSxs_sc_R10
 settings:
-  bend:
-    function: bend_euler
-  coupler_straight:
-    function: coupler_straight
+  bend: bend_euler
+  coupler_straight: coupler_straight
   cross_section: xs_sc
+  function_name: coupler_broadband
   gap_pc: 0.3
   gap_sc: 0.2
   legnth_taper: 1.0

@@ -1,12 +1,9 @@
-function: polarization_splitter_rotator
-info:
-  length: 15.484
-  min_bend_radius: 9.391
-module: gdsfactory.components.polarization_splitter_rotator
-name: polarization_splitter_rotator
+info: {}
+name: polarization_splitter_rotator_WTI0p54_0p69_0p83_LTI4_44_WC0p9_0p404_LC7_G0p15_WO0p54_LO14p33_D5_CSxs_sc
 settings:
   cross_section: xs_sc
   dy: 5.0
+  function_name: polarization_splitter_rotator
   gap: 0.15
   length_coupler: 7.0
   length_out: 14.33
@@ -15,7 +12,7 @@ settings:
   - 44.0
   width_coupler:
   - 0.9
-  - 0.405
+  - 0.404
   width_out: 0.54
   width_taper_in:
   - 0.54

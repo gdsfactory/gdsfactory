@@ -1,7 +1,5 @@
-function: wafer
 info: {}
-module: gdsfactory.components.wafer
-name: wafer
+name: wafer_Rdie_C2_6_6_8_8_6_6_2_XNone_YNone_DNCRFalse
 settings:
   cols:
   - 2
@@ -13,7 +11,5 @@ settings:
   - 6
   - 2
   die_name_col_row: false
-  reticle:
-    function: die
-  xspacing: null
-  yspacing: null
+  function_name: wafer
+  reticle: die

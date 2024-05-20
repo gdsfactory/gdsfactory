@@ -1,7 +1,5 @@
-function: _from_yaml
 info: {}
-module: gdsfactory.read.from_yaml
-name: component_yaml_ports_d68fa3aa
+name: component_yaml_ports
 settings:
   conf:
     instances:
@@ -45,34 +43,11 @@ settings:
         orientation: 0
         port_type: optical
         width: 0.45
-  label_instance_function:
-    function: add_instance_label
+  function_name: _from_yaml
+  label_instance_function: add_instance_label
   mode: layout
+  name: component_yaml_ports
   routing_strategy:
-    get_bundle:
-      function: get_bundle
-    get_bundle_all_angle:
-      function: get_bundle_all_angle
-    get_bundle_electrical:
-      function: get_bundle
-      module: gdsfactory.routing.get_bundle
-      settings:
-        bend:
-          function: wire_corner
-        cross_section: xs_metal_routing
-    get_bundle_from_steps:
-      function: get_bundle_from_steps
-    get_bundle_from_steps_electrical:
-      function: get_bundle_from_steps
-      module: gdsfactory.routing.get_bundle_from_steps
-      settings:
-        bend:
-          function: wire_corner
-        cross_section: xs_metal_routing
-    get_bundle_from_waypoints:
-      function: get_bundle_from_waypoints
-    get_bundle_path_length_match:
-      function: get_bundle_path_length_match
-    get_bundle_same_axis_no_grouping:
-      function: get_bundle_same_axis_no_grouping
-  validate: false
+    route_bundle: route_bundle
+    route_bundle_all_angle: route_bundle_all_angle
+    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing_PTelectrical_ADPWTrue

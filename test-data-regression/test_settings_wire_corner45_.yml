@@ -1,11 +1,7 @@
-function: wire_corner45
 info:
-  length: 14.142135623730951
-module: gdsfactory.components.wire
-name: wire_corner45
+  length: 14.142
+name: wire_corner45_CSxs_metal_routing_R10
 settings:
   cross_section: xs_metal_routing
-  layer: null
+  function_name: wire_corner45
   radius: 10
-  width: null
-  with_corner90_ports: true

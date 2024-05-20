@@ -1,10 +1,9 @@
-function: ring
 info: {}
-module: gdsfactory.components.ring
-name: ring
+name: ring_R10_W0p5_AR2p5_LWG_A360
 settings:
   angle: 360
   angle_resolution: 2.5
+  function_name: ring
   layer: WG
   radius: 10.0
   width: 0.5

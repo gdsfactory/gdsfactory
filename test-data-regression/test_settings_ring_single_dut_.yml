@@ -1,22 +1,13 @@
-function: ring_single_dut
 info: {}
-module: gdsfactory.components.ring_single_dut
-name: ring_single_dut
+name: ring_single_dut_CFtaper_Mgdsfactorypcomponentsptaper_SW3_G0p2_LX4_LY0_R5_Ccoupler_ring_Bbend_euler_WCTrue_PNo1
 settings:
-  bend:
-    function: bend_euler
-  component:
-    function: taper
-    module: gdsfactory.components.taper
-    settings:
-      width2: 3
-  coupler:
-    function: coupler_ring
+  bend: bend_euler
+  component: Ftaper_Mgdsfactorypcomponentsptaper_SW3
+  coupler: coupler_ring
+  function_name: ring_single_dut
   gap: 0.2
   length_x: 4
   length_y: 0
   port_name: o1
   radius: 5.0
-  straight:
-    function: straight
   with_component: true

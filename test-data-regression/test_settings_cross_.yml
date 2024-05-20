@@ -1,10 +1,7 @@
-function: cross
 info: {}
-module: gdsfactory.components.cross
-name: cross
+name: cross_L10_W3_LWG_PTNone
 settings:
+  function_name: cross
   layer: WG
-  layers: null
   length: 10.0
-  port_type: null
   width: 3.0

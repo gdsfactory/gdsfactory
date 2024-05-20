@@ -1,20 +1,13 @@
-function: via_stack_with_offset
 info: {}
-module: gdsfactory.components.via_stack_with_offset
-name: via_stack_with_offset
+name: via_stack_with_offset_LPPP_M1_S10_10_SNone_LONone_VNone_Fvia_Mgdsfactorypcomponentspvia_SLVIAC_ONone
 settings:
-  layer_offsets: null
+  function_name: via_stack_with_offset
   layers:
   - PPP
   - M1
-  offsets: null
   size:
   - 10
   - 10
-  sizes: null
   vias:
   - null
-  - function: via
-    module: gdsfactory.components.via
-    settings:
-      layer: VIAC
+  - Fvia_Mgdsfactorypcomponentspvia_SLVIAC

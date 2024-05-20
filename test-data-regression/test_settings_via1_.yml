@@ -1,24 +1,14 @@
-function: via
 info:
   enclosure: 2
-  size:
-  - 0.7
-  - 0.7
-  spacing:
-  - 2.0
-  - 2.0
   xsize: 0.7
   xspacing: 2.0
   ysize: 0.7
   yspacing: 2.0
-module: gdsfactory.components.via
-name: via_enclosure2_layerVIA1
+name: via_S0p7_0p7_S2_2_GNone_E2_LVIA1_BLNone_BO0
 settings:
-  bbox_layers: null
-  bbox_offset: null
-  bbox_offsets: null
+  bbox_offset: 0
   enclosure: 2
-  gap: null
+  function_name: via
   layer: VIA1
   size:
   - 0.7

@@ -1,17 +1,11 @@
-function: ring_double
 info: {}
-module: gdsfactory.components.ring_double
-name: ring_double
+name: ring_double_G0p2_R10_LX0p01_LY0p01_CRcoupler_ring_Bbend_euler_CSxs_sc
 settings:
-  bend:
-    function: bend_euler
-  coupler_ring:
-    function: coupler_ring
+  bend: bend_euler
+  coupler_ring: coupler_ring
   cross_section: xs_sc
+  function_name: ring_double
   gap: 0.2
-  gap_top: null
   length_x: 0.01
   length_y: 0.01
   radius: 10.0
-  straight:
-    function: straight

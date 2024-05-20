@@ -1,9 +1,8 @@
-function: disk_heater
 info: {}
-module: gdsfactory.components.disk
-name: disk_heater
+name: disk_heater_R10_G0p2_WAD180_P1_CSxs_sc_HLHEATER_VSvia_stack_heater_mtop_HW5_HE2_VW10_PO90
 settings:
   cross_section: xs_sc
+  function_name: disk_heater
   gap: 0.2
   heater_extent: 2.0
   heater_layer: HEATER

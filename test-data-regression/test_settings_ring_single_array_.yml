@@ -1,10 +1,7 @@
-function: ring_single_array
 info: {}
-module: gdsfactory.components.ring_single_array
-name: ring_single_array
+name: ring_single_array_Rring_single_S5_LODNone_CSxs_sc
 settings:
   cross_section: xs_sc
-  list_of_dicts: null
-  ring:
-    function: ring_single
+  function_name: ring_single_array
+  ring: ring_single
   spacing: 5.0

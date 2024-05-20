@@ -1,17 +1,10 @@
-function: terminator
 info: {}
-module: gdsfactory.components.terminator
-name: terminator
+name: terminator_L50_CSIFcross_section_Mgdsfactorypcross_section_SR10_RM5_CSTNone_TW0p2_DLNPP_DO1
 settings:
-  cross_section_input:
-    function: cross_section
-    module: gdsfactory.cross_section
-    settings:
-      radius: 10
-      radius_min: 5
-  cross_section_tip: null
+  cross_section_input: Fcross_section_Mgdsfactorypcross_section_SR10_RM5
   doping_layers:
   - NPP
   doping_offset: 1.0
+  function_name: terminator
   length: 50
   tapered_width: 0.2

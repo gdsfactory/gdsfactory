@@ -1,13 +1,31 @@
-function: staircase
 info:
   n_bends: 8
-module: gdsfactory.components.cutback_bend
-name: staircase
+name: staircase_Cbend_euler_Sstraight_LV5_LH5_R4
 settings:
-  component:
-    function: bend_euler
+  component: bend_euler
+  function_name: staircase
   length_h: 5.0
   length_v: 5.0
+  port_name1: o1
+  port_name2: o2
   rows: 4
-  straight:
-    function: straight
+  sequence: -A|B-A|B-A|B-A|B-
+  start_orientation: 0
+  straight: straight
+  symbol_to_component:
+    '-':
+    - straight_L5_N2_CSxs_sc
+    - o1
+    - o2
+    A:
+    - bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc
+    - o1
+    - o2
+    B:
+    - bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc
+    - o2
+    - o1
+    '|':
+    - straight_L5_N2_CSxs_sc
+    - o1
+    - o2

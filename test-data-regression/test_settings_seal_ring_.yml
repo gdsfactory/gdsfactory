@@ -1,16 +1,14 @@
-function: seal_ring
 info: {}
-module: gdsfactory.components.seal_ring
-name: seal_ring
+name: seal_ring_Bm1_m1_3_4_Svia_stack_W10_P10_WNTrue_WSTrue_WETrue_WWTrue
 settings:
   bbox:
   - - -1.0
     - -1.0
   - - 3.0
     - 4.0
+  function_name: seal_ring
   padding: 10.0
-  seal:
-    function: via_stack
+  seal: via_stack
   width: 10
   with_east: true
   with_north: true

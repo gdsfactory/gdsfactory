@@ -1,73 +1,17 @@
-function: straight_heater_doped_rib
 info: {}
-module: gdsfactory.components.straight_heater_doped_rib
-name: straight_heater_doped_rib
+name: straight_heater_doped_rib_L320_N3_CSFcross_section_Mgdsfactorypcross_section_SR10_RM5_Sslab_CSHrib_heater_doped_VSFvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_NPP_M1_VNone_None_Fvia_Mgdsfactorypcomponentspvia_SLVIAC_VSMFvia_stack_Mgdsfactorypcomponentspvia_stack_SLM1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None_VSMS10_10_VSS10_10_Ttaper_cross_section_HW2_HG0p8_VSG0_W0p5_XT0p2_XT0p4
 settings:
-  cross_section:
-    function: cross_section
-    module: gdsfactory.cross_section
-    settings:
-      radius: 10
-      radius_min: 5
-      sections:
-      - hidden: false
-        insets: null
-        layer: SLAB90
-        name: slab
-        offset: 0
-        offset_function: null
-        port_names:
-        - null
-        - null
-        port_types:
-        - optical
-        - optical
-        simplify: null
-        width: 0.2
-        width_function: null
-  cross_section_heater:
-    function: rib_heater_doped
+  cross_section: Fcross_section_Mgdsfactorypcross_section_SR10_RM5_Sslab
+  cross_section_heater: rib_heater_doped
+  function_name: straight_heater_doped_rib
   heater_gap: 0.8
   heater_width: 2.0
   length: 320.0
   nsections: 3
-  taper:
-    function: taper_cross_section
-  via_stack:
-    function: via_stack
-    module: gdsfactory.components.via_stack
-    settings:
-      layers:
-      - SLAB90
-      - NPP
-      - M1
-      vias:
-      - null
-      - null
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          layer: VIAC
+  taper: taper_cross_section
+  via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_NPP_M1_VNone_None_Fvia_Mgdsfactorypcomponentspvia_SLVIAC
   via_stack_gap: 0.0
-  via_stack_metal:
-    function: via_stack
-    module: gdsfactory.components.via_stack
-    settings:
-      layers:
-      - M1
-      - M2
-      - MTOP
-      vias:
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          enclosure: 2
-          layer: VIA1
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          layer: VIA2
-      - null
+  via_stack_metal: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLM1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
   via_stack_metal_size:
   - 10.0
   - 10.0

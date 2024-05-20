@@ -1,22 +1,12 @@
-function: array
-info:
-  layer:
-  - 49
-  - 0
-  size:
-  - 100.0
-  - 100.0
-  xsize: 100.0
-  ysize: 100.0
-module: gdsfactory.components.array_component
-name: pad_array$1
+info: {}
+name: array_Cpad_S150_150_C6_R1_APTrue_SNone_CFalse
 settings:
   add_ports: true
   centered: false
   columns: 6
   component: pad
+  function_name: array
   rows: 1
-  size: null
   spacing:
   - 150.0
   - 150.0

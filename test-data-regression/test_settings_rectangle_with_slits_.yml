@@ -1,12 +1,10 @@
-function: rectangle_with_slits
 info: {}
-module: gdsfactory.components.rectangle_with_slits
-name: rectangle_with_slits
+name: rectangle_with_slits_S100_200_LWG_LSSLAB150_CFalse_PTNone_SS1_1_SS20_20_SE10
 settings:
   centered: false
+  function_name: rectangle_with_slits
   layer: WG
   layer_slit: SLAB150
-  port_type: null
   size:
   - 100.0
   - 200.0

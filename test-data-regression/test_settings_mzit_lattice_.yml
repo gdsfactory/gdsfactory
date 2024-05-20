@@ -1,7 +1,5 @@
-function: mzit_lattice
 info: {}
-module: gdsfactory.components.mzit_lattice
-name: mzit_lattice
+name: mzit_lattice_CL10_20_CG0p2_0p3_DL10_Mmzit
 settings:
   coupler_gaps:
   - 0.2
@@ -11,5 +9,5 @@ settings:
   - 20.0
   delta_lengths:
   - 10.0
-  mzi:
-    function: mzit
+  function_name: mzit_lattice
+  mzi: mzit

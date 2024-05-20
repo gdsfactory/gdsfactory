@@ -1,9 +1,8 @@
-function: coupler_bent
 info: {}
-module: gdsfactory.components.coupler_bent
-name: coupler_bent
+name: coupler_bent_G0p2_R26_L8p6_W0p4_W0p4_LS10_CSxs_sc
 settings:
   cross_section: xs_sc
+  function_name: coupler_bent
   gap: 0.2
   length: 8.6
   length_straight: 10

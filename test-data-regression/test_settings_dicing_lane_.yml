@@ -1,16 +1,9 @@
-function: dicing_lane
 info: {}
-module: gdsfactory.components.dicing_lane
-name: dicing_lane
+name: dicing_lane_S50_300_MFtriangle_Mgdsfactorypcomponentsptriangles_SLMTOP_X2_LDDICING
 settings:
+  function_name: dicing_lane
   layer_dicing: DICING
-  layers: null
-  marker:
-    function: triangle
-    module: gdsfactory.components.triangles
-    settings:
-      layer: MTOP
-      xtop: 2
+  marker: Ftriangle_Mgdsfactorypcomponentsptriangles_SLMTOP_X2
   size:
   - 50
   - 300

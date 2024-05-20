@@ -1,25 +1,15 @@
-function: coh_tx_single_pol
 info: {}
-module: gdsfactory.components.coh_tx_single_pol
-name: coh_tx_single_pol
+name: coh_tx_single_pol_BPSFalse_MYS50_PSstraight_pin_PSL100_MPS40_Smmi1x2_CNone_MFmzi_Mgdsfactorypcomponentspmzi_SSXTstraight_pin_CSXTxs_pin_DL0_ML200_X40_ICNone_OCNone_PApad_array_CSxs_sc
 settings:
   balanced_phase_shifters: false
-  combiner: null
   cross_section: xs_sc
-  input_coupler: null
-  mzm:
-    component: mzi
-    settings:
-      cross_section_x_top: xs_pin
-      delta_length: 10.0
-      straight_x_top: straight_pin
+  function_name: coh_tx_single_pol
+  mzm: Fmzi_Mgdsfactorypcomponentspmzi_SSXTstraight_pin_CSXTxs_pin_DL0
   mzm_length: 200.0
   mzm_ps_spacing: 40.0
   mzm_y_spacing: 50.0
-  output_coupler: null
   pad_array: pad_array
   phase_shifter: straight_pin
   phase_shifter_length: 100.0
   splitter: mmi1x2
-  with_pads: false
   xspacing: 40.0

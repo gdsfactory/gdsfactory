@@ -1,12 +1,8 @@
-function: coh_tx_dual_pol
 info: {}
-module: gdsfactory.components.coh_tx_dual_pol
-name: coh_tx_dual_pol
+name: coh_tx_dual_pol_Smmi1x2_CNone_SCTcoh_tx_single_pol_Y10_X40_ICNone_OCNone_CSxs_sc
 settings:
-  combiner: null
   cross_section: xs_sc
-  input_coupler: null
-  output_coupler: null
+  function_name: coh_tx_dual_pol
   splitter: mmi1x2
   spol_coh_tx: coh_tx_single_pol
   xspacing: 40.0

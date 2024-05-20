@@ -1,9 +1,8 @@
-function: crossing_etched
 info: {}
-module: gdsfactory.components.crossing_waveguide
-name: crossing_etched
+name: crossing_etched_W0p5_R3_R1p1_W1p2_L3p4_LWWG_LSSLAB150
 settings:
   L: 3.4
+  function_name: crossing_etched
   layer_slab: SLAB150
   layer_wg: WG
   r1: 3.0

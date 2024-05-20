@@ -1,22 +1,15 @@
-function: cutback_2x2
 info:
   components: 80
-module: gdsfactory.components.cutback_2x2
-name: cutback_2x2
+name: cutback_2x2_Cmmi2x2_C4_R5_Po1_Po2_Po3_Po4_BFbend_circular_Mgdsfactorypcomponentspbend_circular_SA180_MFalse_SLNone_CSxs_sc
 settings:
-  bend180:
-    function: bend_circular
-    module: gdsfactory.components.bend_circular
-    settings:
-      angle: 180
+  bend180: Fbend_circular_Mgdsfactorypcomponentspbend_circular_SA180
   cols: 4
-  component:
-    function: mmi2x2
+  component: mmi2x2
   cross_section: xs_sc
+  function_name: cutback_2x2
   mirror: false
   port1: o1
   port2: o2
   port3: o3
   port4: o4
   rows: 5
-  straight_length: null
