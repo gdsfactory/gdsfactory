@@ -630,7 +630,6 @@ def transition(
     )
 
 
-@cell
 def along_path(
     p: Path,
     component: ComponentSpec,
@@ -686,7 +685,7 @@ def along_path(
             added_dist = next_component - cum_dist
             offset = added_dist * unit_vector
             component_ref = c << component
-            component_ref.rotate(angle).move(start_pt + offset)
+            component_ref.d.rotate(angle).move(start_pt + offset)
             next_component += spacing
         cum_dist += segment_length
 
@@ -707,7 +706,6 @@ def _get_named_sections(sections: tuple[Section, ...]) -> dict[str, Section]:
     return named_sections
 
 
-@cell(set_name=False)
 def extrude(
     p: Path,
     cross_section: CrossSectionSpec | None = None,
@@ -1560,8 +1558,8 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    P = gf.path.arc(angle=30)
-    P.movey(10)
+    # P = gf.path.arc(angle=30)
+    # P.movey(10)
     # s0 = gf.Section(
     #     width=1, offset=0, layer=(1, 0), name="core", port_names=("o1", "o2")
     # )
@@ -1569,21 +1567,36 @@ if __name__ == "__main__":
     # x1 = gf.CrossSection(sections=(s0, s1))
     # x1 = gf.cross_section.xs_rc
 
-    layer = (1, 0)
-    s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
-    s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
-    xs1 = gf.CrossSection(sections=(s1,))
-    xs2 = gf.CrossSection(sections=(s2,))
-    trans12 = gf.path.transition(
-        cross_section1=xs1, cross_section2=xs2, width_type="linear"
-    )
-    trans21 = gf.path.transition(
-        cross_section1=xs2, cross_section2=xs1, width_type="linear"
-    )
+    # layer = (1, 0)
+    # s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
+    # s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
+    # xs1 = gf.CrossSection(sections=(s1,))
+    # xs2 = gf.CrossSection(sections=(s2,))
+    # trans12 = gf.path.transition(
+    #     cross_section1=xs1, cross_section2=xs2, width_type="linear"
+    # )
+    # trans21 = gf.path.transition(
+    #     cross_section1=xs2, cross_section2=xs1, width_type="linear"
+    # )
 
-    WG4Path = gf.Path()
-    WG4Path.append(gf.path.straight(length=100, npoints=2))
-    c1 = gf.path.extrude_transition(WG4Path, trans12)
+    # WG4Path = gf.Path()
+    # WG4Path.append(gf.path.straight(length=100, npoints=2))
+    # c1 = gf.path.extrude_transition(WG4Path, trans12)
+
+    p = gf.path.straight()
+    p += gf.path.arc(10)
+    p += gf.path.straight()
+
+    # Define a cross-section with a via
+    via = gf.cross_section.ComponentAlongPath(
+        component=gf.c.rectangle(size=(1, 1), centered=True), spacing=5, padding=2
+    )
+    s = gf.Section(width=0.5, offset=0, layer=(1, 0), port_names=("in", "out"))
+    x = gf.CrossSection(sections=[s], components_along_path=[via])
+
+    # Combine the path with the cross-section
+    c = gf.path.extrude(p, cross_section=x)
+    assert c
 
     # c = gf.path.extrude(P, x1)
     # print(hash(P))
@@ -1598,4 +1611,4 @@ if __name__ == "__main__":
     # x2 = gf.CrossSection(sections=(s2, s3))
     # t = gf.path.transition(x1, x2, width_type="linear")
     # c = gf.path.extrude(P, t)
-    c1.show()
+    c.show()
