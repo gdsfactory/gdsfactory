@@ -71,6 +71,7 @@ from gdsfactory.pdk import (
 )
 from gdsfactory.get_factories import get_cells
 from gdsfactory.cross_section import get_cross_sections
+from gdsfactory.grid import grid, grid_with_text
 
 c = components
 
@@ -111,6 +112,8 @@ __all__ = (
     "get_cross_sections",
     "get_layer",
     "get_padding_points",
+    "grid",
+    "grid_with_text",
     "import_gds",
     "kcl",
     "kdb",
