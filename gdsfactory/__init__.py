@@ -54,6 +54,7 @@ from gdsfactory import write_cells
 from gdsfactory import add_pins
 from gdsfactory import technology
 from gdsfactory import routing
+from gdsfactory import export
 
 from gdsfactory.add_padding import (
     add_padding,
@@ -104,6 +105,7 @@ __all__ = (
     "cross_section",
     "diff",
     "difftest",
+    "export",
     "get_active_pdk",
     "get_cell",
     "get_cells",

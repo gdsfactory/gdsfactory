@@ -873,4 +873,5 @@ if __name__ == "__main__":
     c = gf.c.straight()
     print(c.to_dict())
     print(c.area(layer=(1, 0)))
+    stl = gf.export.to_stl(c)
     c.show()
