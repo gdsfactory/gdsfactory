@@ -83,7 +83,7 @@ placements:
 
 routes:
   r1:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       start_angle: 10
       steps:
@@ -98,7 +98,7 @@ routes:
     links:
       wg_a1,o2: wg_a2,o1
   r2:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       end_angle: 200
       steps:
@@ -121,7 +121,7 @@ routes:
     links:
       wg_b1,o2: wg_b2,o1
   r3:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       end_cross_section: xs_sc
       steps:
@@ -137,7 +137,7 @@ routes:
     links:
       wg_c1,o2: wg_c2,o1
   r4:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       end_angle: 170
       end_cross_section:
@@ -157,7 +157,7 @@ routes:
       wg_d1,o2: wg_d2,o1
 
   r5:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       end_cross_section:
         cross_section: xs_sc
@@ -172,7 +172,7 @@ routes:
       wg_e1,o2: wg_e2,o1
 
   r6:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       end_angle: 100
       end_cross_section:

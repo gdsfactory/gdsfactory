@@ -43,7 +43,7 @@ placements:
 
 routes:
   r1:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - x: 3000
@@ -57,7 +57,7 @@ routes:
     links:
       wg_a1,o2: wg_a2,o1
   r2:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - x: 8000
@@ -73,7 +73,7 @@ routes:
     links:
       wg_b1,o2: wg_b2,o1
   r3:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - ds: 3000

@@ -37,7 +37,7 @@ def make_link(src, dest, overwrite: bool = True) -> None:
         print("     Error: ", err)
         if sys.platform == "win32":
             # https://stackoverflow.com/questions/32877260/privlege-error-trying-to-create-symlink-using-python-on-windows-10
-            shutil.copytree(src, dest)
+            shutil.copy(src, dest)
     print("Symlink made:")
     print(f"From: {src}")
     print(f"To:   {dest}")

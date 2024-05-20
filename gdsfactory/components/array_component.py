@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.cell import cell_with_child
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, Float2
 
 
-@cell_with_child
+@cell
 def array(
     component: ComponentSpec = "pad",
     spacing: tuple[float, float] = (150.0, 150.0),
@@ -59,35 +59,43 @@ def array(
     ref.center = (0, 0) if centered else old_center
     center_shift = ref.center - old_center
 
-    if add_ports and ref.ports:
+    if add_ports and component.ports:
         for col in range(int(columns)):
             for row in range(int(rows)):
-                for port in component.ports.values():
+                for port in component.ports:
+                    port = port.copy()
+                    port.x += col * spacing[0] / c.kcl.dbu + center_shift.x
+                    port.y += row * spacing[1] / c.kcl.dbu + center_shift.y
                     name = f"{port.name}_{row+1}_{col+1}"
                     c.add_port(name, port=port)
-                    c.ports[name].move(
-                        (col * spacing[0], row * spacing[1]) + center_shift
-                    )
-
-    c.copy_child_info(component)
     return c
 
 
 if __name__ == "__main__":
+    from functools import partial
+
     from gdsfactory.generic_tech import get_generic_pdk
 
     PDK = get_generic_pdk()
     PDK.activate()
-    from gdsfactory.components.pad import pad
+
+    c = gf.components.array(
+        partial(gf.components.straight, layer=(2, 0)),
+        rows=3,
+        columns=1,
+        spacing=(0, 50),
+        centered=False,
+    )
+    c.show()
 
     # c2 = array(rows=2, columns=2, spacing=(100, 100))
     # c2 = array(pad, rows=2, spacing=(200, 200), columns=1)
     # c3 = c2.copy()
 
-    c2 = array(pad, spacing=(200, 200), size=(700, 300), centered=True, columns=3)
+    # c2 = array(pad, spacing=(200, 200), size=(700, 300), centered=False)
 
     # nports = len(c2.get_ports_list(orientation=0))
     # assert nports == 2, nports
-    # c2.show(show_ports=True)
+    # c2.show( )
     # c2.show(show_subports=True)
-    c2.show(show_ports=True)
+    # c2.show()

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from functools import partial
-
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -87,20 +86,23 @@ def mzi_arms(
         cin = c << cp1
     cout = c << cp2
 
-    ports_cp1 = cp1.get_ports_list(clockwise=False)
-    ports_cp2 = cp2.get_ports_list(clockwise=False)
+    ports_cp1 = gf.port.get_ports_list(cp1.ports, clockwise=False)
+    ports_cp2 = gf.port.get_ports_list(cp2.ports, clockwise=False)
 
-    port_e1_cp1 = ports_cp1[1]
-    port_e0_cp1 = ports_cp1[0]
+    n_ports_cp1 = len(ports_cp1)
+    n_ports_cp2 = len(ports_cp2)
 
-    port_e1_cp2 = ports_cp2[1]
-    port_e0_cp2 = ports_cp2[0]
+    port_e1_cp1 = ports_cp1[n_ports_cp1 - 2]
+    port_e0_cp1 = ports_cp1[n_ports_cp1 - 1]
 
-    y1t = port_e1_cp1.y
-    y1b = port_e0_cp1.y
+    port_e1_cp2 = ports_cp2[n_ports_cp2 - 2]
+    port_e0_cp2 = ports_cp2[n_ports_cp2 - 1]
 
-    y2t = port_e1_cp2.y
-    y2b = port_e0_cp2.y
+    y1t = port_e1_cp1.d.y
+    y1b = port_e0_cp1.d.y
+
+    y2t = port_e1_cp2.d.y
+    y2b = port_e0_cp2.d.y
 
     d1 = abs(y1t - y1b)  # splitter ports distance
     d2 = abs(y2t - y2b)  # combiner ports distance
@@ -136,36 +138,35 @@ def mzi_arms(
         **kwargs,
     )
 
-    bot_arm.mirror()
     top_arm.connect("o1", port_e1_cp1)
-    bot_arm.connect("o1", port_e0_cp1)
-    cout.connect(port_e1_cp2.name, bot_arm.ports["o2"])
+    bot_arm.connect("o1", port_e0_cp1, mirror=True)
+    cout.connect(port_e0_cp2.name, bot_arm.ports["o2"])
+
     if with_splitter:
-        c.add_ports(cin.get_ports_list(orientation=180), prefix="in")
+        c.add_ports(cin.ports.filter(orientation=180), prefix="in")
     else:
         c.add_port("o1", port=bot_arm.ports["o1"])
         c.add_port("o2", port=top_arm.ports["o1"])
 
-    c.add_ports(cout.get_ports_list(orientation=0), prefix="out")
-    c.add_ports(top_arm.get_ports_list(port_type="electrical"), prefix="top")
-    c.add_ports(bot_arm.get_ports_list(port_type="electrical"), prefix="bot")
+    c.add_ports(cout.ports.filter(orientation=0), prefix="out")
+    c.add_ports(top_arm.ports.filter(port_type="electrical"), prefix="top")
+    c.add_ports(bot_arm.ports.filter(port_type="electrical"), prefix="bot")
     c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     # delta_length = 116.8 / 2
     # print(delta_length)
     # c = mzi_arms(delta_length=delta_length, with_splitter=False)
     # c.pprint_netlist()
-    mmi2x2 = partial(gf.components.mmi2x2, width_mmi=5, gap_mmi=2)
-    c = mzi_arms(delta_length=10, combiner=mmi2x2)
-    c.show(show_ports=True)
+    # mmi2x2 = partial(gf.components.mmi2x2, width_mmi=5, gap_mmi=2)
+    # c = mzi_arms(delta_length=10, combiner=mmi2x2)
+    c = mzi_arms()
+    c.show()
 
-    def bend_s(length: float = 10, **kwargs):
-        return gf.components.bend_s(size=(length, 10), **kwargs)
+    # def bend_s(length: float = 10, **kwargs):
+    #     return gf.components.bend_s(size=(length, 10), **kwargs)
 
     # c = mzi_arms(
     #     delta_length=50,
@@ -181,7 +182,7 @@ if __name__ == "__main__":
     #     # length_y=1.8,
     #     # with_splitter=False,
     # )
-    # c.show(show_ports=True)
+    # c.show( )
     # c.show(show_subports=True)
     # c.pprint()
     # n = c.get_netlist()

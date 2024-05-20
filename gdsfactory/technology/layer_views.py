@@ -33,6 +33,8 @@ from gdsfactory.technology.yaml_utils import (
 if typing.TYPE_CHECKING:
     from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
 
+    from gdsfactory.component import Component
+
 PathLike = pathlib.Path | str
 
 Layer = tuple[int, int]
@@ -808,6 +810,7 @@ class LayerViews(BaseModel):
         for name in self.model_dump():
             lv = getattr(self, name)
             if isinstance(lv, LayerView):
+                #
                 if (self.layer_map is not None) and (name in self.layer_map.keys()):
                     lv_dict = lv.dict(exclude={"layer", "name"})
                     lv = LayerView(layer=self.layer_map[name], name=name, **lv_dict)
@@ -899,17 +902,18 @@ class LayerViews(BaseModel):
             return self.layer_views[name]
 
     def __getitem__(self, val: str):
-        """Allows accessing LayerViews with the syntax ``ls['gold2']``.
+        """Allows accessing to the layer names like ls['gold2'].
 
         Args:
             val: Layer name to access within the LayerViews.
 
         Returns:
             self.layers[val]: LayerView in the LayerViews.
+
         """
         try:
             return self.get_layer_views()[val]
-        except KeyError as error:
+        except Exception as error:
             raise ValueError(
                 f"LayerView {val!r} not in LayerViews {list(self.layer_views.keys())}"
             ) from error
@@ -940,7 +944,9 @@ class LayerViews(BaseModel):
         """Deletes all layers in the LayerViews."""
         self.layer_views = {}
 
-    def preview_layerset(self, size: float = 100.0, spacing: float = 100.0) -> object:
+    def preview_layerset(
+        self, size: float = 100.0, spacing: float = 100.0
+    ) -> Component:
         """Generates a Component with all the layers.
 
         Args:
@@ -950,34 +956,34 @@ class LayerViews(BaseModel):
         """
         import gdsfactory as gf
 
-        D = gf.Component(name="layerset", with_uuid=True)
+        D = gf.Component()
         scale = size / 100
         num_layers = len(self.get_layer_views())
         matrix_size = int(np.ceil(np.sqrt(num_layers)))
-        layers = self.get_layer_views().values()
-
-        for n, layer in enumerate(layers):
+        sorted_layers = sorted(
+            self.get_layer_views().values(), key=lambda x: (x.layer[0], x.layer[1])
+        )
+        for n, layer in enumerate(sorted_layers):
             layer_tuple = layer.layer
-            if layer_tuple:
-                R = gf.components.rectangle(
-                    size=(100 * scale, 100 * scale), layer=layer_tuple, port_type=None
-                )
-                T = gf.components.text(
-                    text=f"{layer.name}\n{layer_tuple[0]} / {layer_tuple[1]}",
-                    size=20 * scale,
-                    position=(50 * scale, -20 * scale),
-                    justify="center",
-                    layer=layer_tuple,
-                )
+            R = gf.components.rectangle(
+                size=(100 * scale, 100 * scale), layer=layer_tuple
+            )
+            T = gf.components.text(
+                text=f"{layer.name}\n{layer_tuple[0]} / {layer_tuple[1]}",
+                size=20 * scale,
+                position=(50 * scale, -20 * scale),
+                justify="center",
+                layer=layer_tuple,
+            )
 
-                xloc = n % matrix_size
-                yloc = int(n // matrix_size)
-                D.add_ref(R).movex((100 + spacing) * xloc * scale).movey(
-                    -(100 + spacing) * yloc * scale
-                )
-                D.add_ref(T).movex((100 + spacing) * xloc * scale).movey(
-                    -(100 + spacing) * yloc * scale
-                )
+            xloc = n % matrix_size
+            yloc = int(n // matrix_size)
+            ref = D.add_ref(R)
+            ref.d.movex((100 + spacing) * xloc * scale)
+            ref.d.movey(-(100 + spacing) * yloc * scale)
+            ref = D.add_ref(T)
+            ref.d.movex((100 + spacing) * xloc * scale)
+            ref.d.movey(-(100 + spacing) * yloc * scale)
         return D
 
     def to_lyp(
@@ -1015,7 +1021,6 @@ class LayerViews(BaseModel):
             root.append(ls.to_klayout_xml())
 
         filepath.write_bytes(make_pretty_xml(root))
-        logger.debug(f"LayerViews written to {str(filepath)!r}.")
         return filepath
 
     @staticmethod
@@ -1098,17 +1103,13 @@ class LayerViews(BaseModel):
         )
 
     def to_yaml(
-        self,
-        layer_file: str | pathlib.Path,
-        prefer_named_color: bool = True,
-        default_hatch_pattern_name: str | None = None,
+        self, layer_file: str | pathlib.Path, prefer_named_color: bool = True
     ) -> None:
         """Export layer properties to a YAML file.
 
         Args:
             layer_file: Name of the file to write LayerViews to.
             prefer_named_color: Write the name of a color instead of its hex representation when possible.
-            default_hatch_pattern_name: Name of the default hatch pattern to use.
         """
 
         lf_path = pathlib.Path(layer_file)
@@ -1118,15 +1119,11 @@ class LayerViews(BaseModel):
         add_tuple_yaml_presenter()
         add_multiline_str_yaml_presenter()
         add_color_yaml_presenter(prefer_named_color=prefer_named_color)
+
         lvs = {
             name: lv.dict(exclude_none=True, exclude_defaults=True, exclude_unset=True)
             for name, lv in self.layer_views.items()
         }
-
-        if default_hatch_pattern_name:
-            for lv in lvs.values():
-                if "hatch_pattern" not in lv:
-                    lv["hatch_pattern"] = default_hatch_pattern_name
 
         out_dict = {"LayerViews": lvs}
         if self.custom_dither_patterns:
@@ -1243,12 +1240,13 @@ def test_load_lyp() -> None:
 if __name__ == "__main__":
     test_load_lyp()
     # import gdsfactory as gf
-    from gdsfactory.config import PATH
     from gdsfactory.generic_tech import get_generic_pdk
 
     PDK = get_generic_pdk()
     LAYER_VIEWS = PDK.layer_views
-    LAYER_VIEWS.to_yaml(PATH.repo / "extra" / "layers.yml")
+    # LAYER_VIEWS.to_yaml(PATH.repo / "extra" / "layers.yml")
+    c = LAYER_VIEWS.preview_layerset()
+    c.show()
 
     # LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
     # LAYER_VIEWS.to_lyp(PATH.klayout_lyp)

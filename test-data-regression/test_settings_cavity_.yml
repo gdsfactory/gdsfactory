@@ -1,10 +1,8 @@
-function: cavity
 info: {}
-module: gdsfactory.components.cavity
-name: dbr_cavity
+name: cavity_Cdbr_Ccoupler_L0p1_G0p2
 settings:
-  component:
-    function: dbr
+  component: dbr
   coupler: coupler
+  function_name: cavity
   gap: 0.2
   length: 0.1

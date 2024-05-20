@@ -7,7 +7,7 @@ from numpy import ndarray
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.geometry.functions import DEG2RAD, extrude_path
+from gdsfactory.functions import DEG2RAD, extrude_path
 from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
@@ -72,17 +72,6 @@ def grating_taper_points(
     wg_width: float,
     angle_step: float = 1.0,
 ) -> ndarray:
-    """Returns an elliptical taper.
-
-    Args:
-        a: ellipse semi-major axis.
-        b: semi-minor axis.
-        x0: in um.
-        taper_length: in um.
-        taper_angle: in degrees.
-        wg_width: in um.
-        angle_step: in degrees.
-    """
     taper_arc = ellipse_arc(
         a=a,
         b=b,
@@ -100,6 +89,7 @@ def grating_taper_points(
 
 @gf.cell
 def grating_coupler_elliptical(
+    polarization: str = "te",
     taper_length: float = 16.6,
     taper_angle: float = 40.0,
     wavelength: float = 1.554,
@@ -114,12 +104,12 @@ def grating_coupler_elliptical(
     slab_offset: float = 2.0,
     spiked: bool = True,
     cross_section: CrossSectionSpec = "xs_sc",
-    polarization: str = "te",
     **kwargs,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
     Args:
+        polarization: te or tm.
         taper_length: taper length from input.
         taper_angle: grating flare angle.
         wavelength: grating transmission central wavelength (um).
@@ -134,7 +124,6 @@ def grating_coupler_elliptical(
         slab_offset: in um.
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors.
         cross_section: specification (CrossSection, string or dict).
-        polarization: te or tm.
         kwargs: cross_section settings.
 
     .. code::
@@ -188,17 +177,6 @@ def grating_coupler_elliptical(
     )
     c.add_polygon(pts, layer)
 
-    for section in xs.sections[1:]:
-        pts = grating_taper_points(
-            a=a_taper,
-            b=b_taper,
-            x0=x_output,
-            taper_length=x_taper,
-            taper_angle=taper_angle,
-            wg_width=section.width,
-        )
-        c.add_polygon(pts, section.layer)
-
     width = gf.snap.snap_to_grid(grating_line_width)
     gap = gf.snap.snap_to_grid(period - grating_line_width)
 
@@ -224,7 +202,6 @@ def grating_coupler_elliptical(
 
     if big_last_tooth:
         # Add last "large tooth" after the standard grating teeth
-
         a = total_length / (1 + x1 / a1)
         b = b1 / a1 * a
         x = x1 / a1 * a
@@ -241,7 +218,7 @@ def grating_coupler_elliptical(
     if layer_slab:
         slab_xmin += x_output + taper_length
         slab_length = total_length + slab_offset
-        slab_width = (c.ysize + 2 * slab_offset) / 2
+        slab_width = (c.d.ysize + 2 * slab_offset) / 2
         c.add_polygon(
             [
                 (slab_xmin, slab_width),
@@ -252,17 +229,15 @@ def grating_coupler_elliptical(
             layer_slab,
         )
 
-    x = gf.snap.snap_to_grid(x)
+    xs.add_bbox(c)
     c.add_port(
         name="o2",
         center=(x, 0),
         width=10,
         orientation=0,
         layer=layer,
-        port_type=f"optical_{polarization}",
+        port_type=f"vertical_{polarization}",
     )
-
-    xs.add_bbox(c)
     return c
 
 
@@ -292,5 +267,5 @@ if __name__ == "__main__":
     # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical, with_loopback=False)
 
     # c = gf.components.grating_coupler_elliptical_te()
-    c = gf.components.grating_coupler_elliptical_tm(cross_section="xs_rc_bbox")
-    c.show(show_ports=True)
+    c = gf.components.grating_coupler_elliptical_tm()
+    c.show()

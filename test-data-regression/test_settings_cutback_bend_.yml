@@ -1,13 +1,27 @@
-function: cutback_bend
 info:
   n_bends: 68
-module: gdsfactory.components.cutback_bend
-name: cutback_bend
+name: cutback_bend_Cbend_euler_Sstraight_SL5_R6_C5
 settings:
   cols: 5
-  component:
-    function: bend_euler
+  component: bend_euler
+  function_name: cutback_bend
+  port_name1: o1
+  port_name2: o2
   rows: 6
-  straight:
-    function: straight
+  sequence: ASBSASBSASBSASBSASBSASBSASASASBSASBSASBSASBSASBSASBSBSBSASBSASBSASBSASBSASBSASBSASASASBSASBSASBSASBSASBSASBSBSBSASBSASBSASBSASBSASBSASBS
+  start_orientation: 90
+  straight: straight
   straight_length: 5.0
+  symbol_to_component:
+    A:
+    - bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc
+    - o1
+    - o2
+    B:
+    - bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc
+    - o2
+    - o1
+    S:
+    - straight_L5_N2_CSxs_sc
+    - o1
+    - o2

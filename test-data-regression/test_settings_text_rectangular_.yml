@@ -1,13 +1,10 @@
-function: text_rectangular
 info: {}
-module: gdsfactory.components.text_rectangular
-name: text_rectangular
+name: text_rectangular_Tabcd_S10_P0_0_Jleft_LWG_Frectangular_font
 settings:
-  font:
-    function: rectangular_font
+  font: rectangular_font
+  function_name: text_rectangular
   justify: left
   layer: WG
-  layers: null
   position:
   - 0.0
   - 0.0

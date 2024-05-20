@@ -1,17 +1,14 @@
-function: snspd
 info:
   area: 80
   num_squares: 750.0
-  size:
-  - 10
-  - 8
-module: gdsfactory.components.snspd
-name: snspd
+  xsize: 10
+  ysize: 8
+name: snspd_WW0p2_WP0p6_S10_8_NSNone_TR4_TSSFalse_L1_0
 settings:
+  function_name: snspd
   layer:
   - 1
   - 0
-  num_squares: null
   size:
   - 10
   - 8

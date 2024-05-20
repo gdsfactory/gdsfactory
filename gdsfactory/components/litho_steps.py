@@ -31,20 +31,25 @@ def litho_steps(
         text=f"{str(line_widths[-1])}", size=height, justify="center", layer=layer
     )
 
-    D.add_ref(T1).rotate(90).movex(-height / 10)
+    ref = D.add_ref(T1)
+    ref.d.rotate(90)
+    ref.d.movex(-height / 10)
 
     R1 = pc.rectangle(size=(line_spacing, height), layer=layer)
-    D.add_ref(R1).movey(-height)
+    D.add_ref(R1).d.movey(-height)
     count = 0
     for i in reversed(line_widths):
         count += line_spacing + i
         R2 = pc.rectangle(size=(i, height), layer=layer)
-        D.add_ref(R1).movex(count).movey(-height)
-        D.add_ref(R2).movex(count - i)
+        r = D.add_ref(R1)
+        r.d.movex(count)
+        r.d.movey(-height)
+        r = D.add_ref(R2)
+        r.d.movex(count - i)
 
     return D
 
 
 if __name__ == "__main__":
     c = litho_steps()
-    c.show(show_ports=True)
+    c.show()

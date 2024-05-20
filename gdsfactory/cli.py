@@ -4,10 +4,12 @@ import pathlib
 
 import typer
 
+from gdsfactory import show as _show
 from gdsfactory.config import print_version_pdks, print_version_plugins
 from gdsfactory.difftest import diff
 from gdsfactory.install import install_gdsdiff, install_klayout_package
-from gdsfactory.technology import lyp_to_dataclass
+from gdsfactory.read.from_updk import from_updk
+from gdsfactory.watch import watch as _watch
 
 app = typer.Typer()
 
@@ -18,6 +20,7 @@ def layermap_to_dataclass(
     force: bool = typer.Option(False, "--force", "-f", help="Force deletion"),
 ) -> None:
     """Converts KLayout LYP to a dataclass."""
+    from gdsfactory.technology import lyp_to_dataclass
 
     filepath_lyp = pathlib.Path(filepath)
     filepath_py = filepath_lyp.with_suffix(".py")
@@ -29,12 +32,11 @@ def layermap_to_dataclass(
 
 
 @app.command()
-def write_cells(gdspath: list[str], dirpath: str = None) -> None:
+def write_cells(gdspath: str, dirpath: str = None) -> None:
     """Write each all level cells into separate GDS files."""
     from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
-    for path in gdspath:
-        write_cells_to_separate_gds(gdspath=path, dirpath=dirpath)
+    write_cells_to_separate_gds(gdspath=gdspath, dirpath=dirpath)
 
 
 @app.command()
@@ -49,7 +51,7 @@ def merge_gds(dirpath: str = None, gdspath: str = None) -> None:
 
     c = from_gdsdir(dirpath=dirpath)
     c.write_gds(gdspath=gdspath)
-    c.show(show_ports=True)
+    c.show()
 
 
 @app.command()
@@ -58,21 +60,17 @@ def watch(
     pdk: str = typer.Option(None, "--pdk", "-pdk", help="PDK name"),
 ) -> None:
     """Filewatch a folder for changes in *.py or *.pic.yml files."""
-    from gdsfactory.watch import watch
 
-    p = pathlib.Path(path)
-    if not p.exists():
-        raise ValueError(f"Invalid path passed to watch command: {p}")
-    p = p.parent if p.is_file() else p
-    watch(str(p), pdk=pdk)
+    path = pathlib.Path(path)
+    path = path.parent if path.is_dir() else path
+    _watch(str(path), pdk=pdk)
 
 
 @app.command()
 def show(filename: str) -> None:
     """Show a GDS file using klive."""
-    from gdsfactory.show import show
 
-    show(filename)
+    _show(filename)
 
 
 @app.command()
@@ -113,7 +111,6 @@ def print_pdks() -> None:
 @app.command(name="from_updk")
 def from_updk_command(filepath: str, filepath_out: str = None) -> None:
     """Writes a PDK in python from uPDK YAML spec."""
-    from gdsfactory.read.from_updk import from_updk
 
     filepath = pathlib.Path(filepath)
     filepath_out = filepath_out or filepath.with_suffix(".py")

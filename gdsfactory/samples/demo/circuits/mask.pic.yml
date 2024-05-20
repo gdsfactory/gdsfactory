@@ -15,7 +15,6 @@ instances:
             fanout_length: 200
 
 
-
   mzis:
     component: pack_doe_grid
     settings:

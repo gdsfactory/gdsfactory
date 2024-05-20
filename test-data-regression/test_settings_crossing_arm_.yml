@@ -1,10 +1,9 @@
-function: crossing_arm
 info: {}
-module: gdsfactory.components.crossing_waveguide
-name: crossing_arm
+name: crossing_arm_R3_R1p1_W1p2_L3p4_LSSLAB150_CSxs_sc
 settings:
   L: 3.4
   cross_section: xs_sc
+  function_name: crossing_arm
   layer_slab: SLAB150
   r1: 3.0
   r2: 1.1

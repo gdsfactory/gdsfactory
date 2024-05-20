@@ -75,8 +75,10 @@ def mzit(
 
     """
     c = gf.Component()
-    xs1 = gf.get_cross_section(cross_section, width=w1)
-    xs2 = gf.get_cross_section(cross_section, width=w2)
+
+    xs = gf.get_cross_section(cross_section)
+    xs1 = xs.copy(width=w1)
+    xs2 = xs.copy(width=w2)
 
     cp2 = c << coupler2(
         length=coupler_length2,
@@ -194,11 +196,11 @@ def mzit(
 
 
 if __name__ == "__main__":
-    c = mzit()
+    c = mzit(cross_section="xs_rc")
     # c = mzit(coupler1=None)
     # c = mzit(delta_length=20, layer=(2, 0))
     # c = mzit(delta_length=20, cross_section="xs_rc_bbox")
     # c = mzit(delta_length=20, coupler_gap1=0.1, coupler_gap2=0.5)
     # c = mzit(delta_length=20, coupler_gap1=0.5, coupler_gap2=0.1)
     # c = mzit(coupler_length1=200)
-    c.show(show_ports=True)
+    c.show()

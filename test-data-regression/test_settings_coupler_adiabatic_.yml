@@ -1,10 +1,9 @@
-function: coupler_adiabatic
 info: {}
-module: gdsfactory.components.coupler_adiabatic
-name: coupler_adiabatic
+name: coupler_adiabatic_L20_L50_L30_WS1_IWS3_OWS3_D0p1_CSxs_sc
 settings:
   cross_section: xs_sc
   dw: 0.1
+  function_name: coupler_adiabatic
   input_wg_sep: 3.0
   length1: 20.0
   length2: 50.0

@@ -32,7 +32,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     from loguru import Logger
 
-__version__ = "7.27.0"
+__version__ = "7.8.5"
 PathType = str | pathlib.Path
 
 home = pathlib.Path.home()
@@ -42,10 +42,6 @@ repo_path = module_path.parent
 home_path = pathlib.Path.home() / ".gdsfactory"
 diff_path = repo_path / "gds_diff"
 logpath = home_path / "log.log"
-
-yamlpath_cwd = cwd / "config.yml"
-yamlpath_default = module_path / "config.yml"
-yamlpath_home = home_path / "config.yml"
 dotenv_path = find_dotenv(usecwd=True)
 
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
@@ -64,17 +60,16 @@ plugins = [
 pdks = [
     "aim",
     "amf",
-    "ctpdk",
-    "cspdk",
+    "ct",
     "gf180",
     "gf45",
-    "gvtt",
     "hhi",
     "imec",
     "sky130",
     "sph",
     "tj",
     "ubcpdk",
+    "gvtt",
 ]
 
 
@@ -227,87 +222,56 @@ class Settings(BaseSettings):
         loglevel: Log level.
         pdk: PDK to use. Defaults to generic.
         difftest_ignore_cell_name_differences: Ignore cell name differences in difftest.
-        difftest_ignore_sliver_differences: Ignore sliver differences in difftest.
-        difftest_ignore_label_differences: Ignore label differences in difftest.
-        layer_error_path: Layer error path.
-        ports_offgrid: Ports offgrid error type.
-        ports_not_manhattan: Ports not manhattan error type.
-        allow_offgrid: Allows ports and polygons not to be snapped to grid on creation.
-        bend_radius_error_type: Bend radius error type.
-        on_width_missmatch: On width mismatch error type.
-        on_layer_missmatch: On layer mismatch error type.
-        on_type_missmatch: On type mismatch error type.
-        default_show_suffix: Default show suffix.
-        raise_error_on_mutation: Raise error on mutation.
-        logger: Loguru logger.
-        logfilter: Log filter.
-
     """
 
     n_threads: int = get_number_of_cores()
-    display_type: Literal["klayout", "matplotlib", "kweb"] = "klayout"
+    display_type: Literal["widget", "klayout", "docs", "kweb"] = "klayout"
     last_saved_files: list[PathType] = []
     max_name_length: int = 99
+    model_config = SettingsConfigDict(
+        validation=True,
+        arbitrary_types_allowed=True,
+        env_prefix="gdsfactory_",
+        env_nested_delimiter="_",
+        env_file=dotenv_path,
+        extra="ignore",
+    )
     pdk: str | None = None
     difftest_ignore_cell_name_differences: bool = True
     difftest_ignore_sliver_differences: bool = False
     difftest_ignore_label_differences: bool = False
     layer_error_path: tuple[int, int] = (1000, 0)
-    ports_offgrid: Literal["warn", "error", "ignore"] = Field(
+    ports_off_grid: Literal["warn", "error", "ignore"] = Field(
         default="ignore", description="Ensures ports are on grid."
     )
     ports_not_manhattan: Literal["warn", "error", "ignore"] = Field(
         default="ignore", description="Ensures ports are manhattan."
     )
-    allow_offgrid: bool = True
+    enforce_ports_on_grid: bool = True
     bend_radius_error_type: ErrorType = ErrorType.WARNING
     on_width_missmatch: Literal["warn", "error", "ignore"] = Field(
-        default="error", description="When connecting ports with different width."
+        default="warn", description="When connecting ports with different width."
     )
     on_layer_missmatch: Literal["warn", "error", "ignore"] = Field(
-        default="error", description="When connecting ports with different layers."
+        default="ignore", description="When connecting ports with different layers."
     )
     on_type_missmatch: Literal["warn", "error", "ignore"] = Field(
-        default="error", description="When connecting ports with different types."
+        default="ignore", description="When connecting ports with different types."
     )
     default_show_suffix: Literal[".oas", ".gds"] = ".gds"
     raise_error_on_mutation: bool = True
     logger: ClassVar[Logger] = logger
     logfilter: LogFilter = Field(default_factory=LogFilter)
 
-    model_config = SettingsConfigDict(
-        validation=True,
-        arbitrary_types_allowed=True,
-        env_file=dotenv_path,
-        extra="ignore",
-    )
-
     def __init__(self, **data: Any):
         """Set log filter and run pydantic."""
-
         super().__init__(**data)
         self.logger.remove()
         self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
         self.logger.debug("LogLevel: {}", self.logfilter.level)
-
-        def showwarning(message, category, filename, lineno, *args, **kwargs):
-            try:
-                inferred_stack_depth = next(
-                    i
-                    for (
-                        i,
-                        stack,
-                    ) in enumerate(reversed(traceback.extract_stack()))
-                    if stack.lineno == lineno and stack.filename == filename
-                )
-            except StopIteration:
-                # depth 2 would show the same line as warnings.warn with default stacklevel
-                inferred_stack_depth = 2
-            self.logger.opt(depth=inferred_stack_depth).warning(
-                f"{category.__name__}: {message}"
-            )
-
-        warnings.showwarning = showwarning
+        warnings.showwarning = lambda message, *args, **kwargs: logger.opt(
+            depth=2
+        ).warning(message)
 
 
 class Paths:
@@ -322,7 +286,6 @@ class Paths:
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = repo_path / "tests" / "gds"
-    thermal = repo_path / "tests" / "gds" / "thermal_phase_shifters.gds"
     gdslib = home / ".gdsfactory"
     modes = gdslib / "modes"
     sparameters = gdslib / "sp"
@@ -331,7 +294,7 @@ class Paths:
     optimiser = repo_path / "tune"
     notebooks = repo_path / "docs" / "notebooks"
     plugins = module / "plugins"
-    test_data = repo / "test-data"
+    test_data = repo / "test-data-gds"
     gds_ref = test_data / "gds"
     gds_run = GDSDIR_TEMP / "gds_run"
     gds_diff = GDSDIR_TEMP / "gds_diff"
@@ -404,34 +367,18 @@ def get_git_hash():
         return "not_a_git_repo"
 
 
-def enable_offgrid_ports() -> None:
-    """Ignore off grid port warnings and allow ports not to be snapped on creation."""
-    CONF.allow_offgrid = True
-    CONF.ports_offgrid = "ignore"
+def enable_off_grid_ports() -> None:
+    """Ignore off grid port warnings."""
+    CONF.enforce_ports_on_grid = False
+    CONF.ports_off_grid = "ignore"
     CONF.ports_not_manhattan = "ignore"
 
 
-def disable_offgrid_ports(error_type: str = "warn") -> None:
-    """Enable off grid port warnings and enforce ports to snap to 1nm grid."""
-    CONF.allow_offgrid = False
-    CONF.ports_offgrid = error_type
-    CONF.ports_not_manhattan = error_type
-
-
-def enable_off_grid_ports() -> None:
-    warnings.warn(
-        "enable_off_grid_ports is deprecated, use enable_offgrid_ports instead",
-        DeprecationWarning,
-    )
-    enable_offgrid_ports()
-
-
 def disable_off_grid_ports(error_type: str = "warn") -> None:
-    warnings.warn(
-        "disable_off_grid_ports is deprecated, use disable_offgrid_ports instead",
-        DeprecationWarning,
-    )
-    disable_offgrid_ports(error_type)
+    """Enable off grid port warnings."""
+    CONF.enforce_ports_on_grid = True
+    CONF.ports_off_grid = error_type
+    CONF.ports_not_manhattan = error_type
 
 
 def set_plot_options(

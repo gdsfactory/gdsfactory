@@ -1,9 +1,7 @@
-function: mmi2x2_with_sbend
 info: {}
-module: gdsfactory.components.mmi2x2_with_sbend
-name: mmi2x2_with_sbend
+name: mmi2x2_with_sbend_WSTrue_SBbend_s_CSxs_sc
 settings:
   cross_section: xs_sc
-  s_bend:
-    function: bend_s
+  function_name: mmi2x2_with_sbend
+  s_bend: bend_s
   with_sbend: true

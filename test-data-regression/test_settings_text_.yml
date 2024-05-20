@@ -1,11 +1,9 @@
-function: text
 info: {}
-module: gdsfactory.components.text
-name: text
+name: text_Tabcd_S10_P0_0_Jleft_LWG
 settings:
+  function_name: text
   justify: left
   layer: WG
-  layers: null
   position:
   - 0
   - 0

@@ -140,30 +140,30 @@ placements:
 
 routes:
   almost_too_close:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     links:
       wg_a1,o2: wg_a2,o1
   aligned_but_opposite:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     links:
       wg_b1,o1: wg_b2,o2
 #  aligned_but_opposite2:
-#    routing_strategy: get_bundle_all_angle
+#    routing_strategy: route_bundle_all_angle
 #    links:
 #      wg_c1,o2: wg_c2,o2
 
   touching:  # this one is ok... will just have the components touching, nothing between
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     links:
       wg_d1,o2: wg_d2,o1
 
   s_bend_too_small:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     links:
       wg_e1,o2: wg_e2,o1
 
   route_too_tight:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - dx: 30
@@ -171,7 +171,7 @@ routes:
       wg_f1,o2: wg_f2,o1
 
   step_and_switch:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - dx: 800
@@ -180,7 +180,7 @@ routes:
       wg_g1,o2: wg_g2,o1
 
   two_step_shuffle:
-    routing_strategy: get_bundle_all_angle
+    routing_strategy: route_bundle_all_angle
     settings:
       steps:
         - dx: 200
@@ -191,7 +191,7 @@ routes:
       wg_h1,o2: wg_h2,o2
 
 #  explicit_opposite_angle:
-#    routing_strategy: get_bundle_all_angle
+#    routing_strategy: route_bundle_all_angle
 #    settings:
 #      start_angle: 0
 #    links:

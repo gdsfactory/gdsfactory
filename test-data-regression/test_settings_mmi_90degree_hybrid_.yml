@@ -1,16 +1,13 @@
-function: mmi_90degree_hybrid
 info: {}
-module: gdsfactory.components.mmi_90degree_hybrid
-name: mmi_90degree_hybrid
+name: mmi_90degree_hybrid_W0p5_WT1p7_LT40_LM175_WM10_GM0p8_Ttaper_Sstraight_CSxs_sc
 settings:
   cross_section: xs_sc
+  function_name: mmi_90degree_hybrid
   gap_mmi: 0.8
   length_mmi: 175.0
   length_taper: 40.0
-  straight:
-    function: straight
-  taper:
-    function: taper
+  straight: straight
+  taper: taper
   width: 0.5
   width_mmi: 10.0
   width_taper: 1.7

@@ -1,14 +1,10 @@
-function: splitter_tree
 info: {}
-module: gdsfactory.components.splitter_tree
-name: splitter_tree
+name: splitter_tree_Cmmi1x2_N4_S90_50_BSbend_s_BSXNone_CSxs_sc
 settings:
-  bend_s:
-    function: bend_s
-  bend_s_xsize: null
-  coupler:
-    function: mmi1x2
+  bend_s: bend_s
+  coupler: mmi1x2
   cross_section: xs_sc
+  function_name: splitter_tree
   noutputs: 4
   spacing:
   - 90.0

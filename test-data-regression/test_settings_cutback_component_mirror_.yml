@@ -1,24 +1,15 @@
-function: cutback_component
 info:
   components: 80
-module: gdsfactory.components.cutback_component
-name: cutback_component_mirrorTrue
+name: cutback_component_CFtaper_from_csv_Mgdsfactorypcomponentsptaper_from_csv_SFtaper_strip_0p5_3_36pcsv_C4_R5_Po1_Po2_BFbend_euler_Mgdsfactorypcomponentspbend_euler_SA180_MTrue_MFalse_MFalse_SLNone_SLPNone_CSxs_sc
 settings:
-  bend180:
-    function: bend_euler
-    module: gdsfactory.components.bend_euler
-    settings:
-      angle: 180
+  bend180: Fbend_euler_Mgdsfactorypcomponentspbend_euler_SA180
   cols: 4
-  component:
-    function: taper_from_csv
+  component: Ftaper_from_csv_Mgdsfactorypcomponentsptaper_from_csv_SFtaper_strip_0p5_3_36pcsv
   cross_section: xs_sc
+  function_name: cutback_component
   mirror: true
   mirror1: false
   mirror2: false
   port1: o1
   port2: o2
-  ports_map: null
   rows: 5
-  straight_length: null
-  straight_length_pair: null

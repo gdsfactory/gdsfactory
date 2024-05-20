@@ -21,8 +21,6 @@ LAYER = LayerMap()
 
 
 xs_strip = partial(gf.cross_section.strip, layer=(1, 0), width=1)
-
-
 xs_strip_heater_metal = partial(
     gf.cross_section.strip_heater_metal, layer=(1, 0), width=1
 )
@@ -47,13 +45,11 @@ ps_heater_doped = partial(
     gf.components.straight_heater_doped_strip,
     cross_section=xs_strip,
     cross_section_heater=xs_strip_heater_doped,
-    info=dict(docstring="doping density = X", polarization="te", wavelength=1.55),
 )
 ps_pin = partial(
     gf.components.straight_pin,
     cross_section=xs_rc_pin,
 )
-
 
 component_factory = dict(
     ps_heater_metal=ps_heater_metal,
@@ -74,4 +70,4 @@ if __name__ == "__main__":
     c = ps_heater_doped()
     # c = ps_heater_metal()
     # c = ps_pin()
-    c.show(show_ports=True)
+    c.show()

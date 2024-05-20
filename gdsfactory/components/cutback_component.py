@@ -8,13 +8,13 @@ from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper
-from gdsfactory.components.taper_from_csv import taper_from_csv
+from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def cutback_component(
-    component: ComponentSpec = taper_from_csv,
+    component: ComponentSpec = taper_0p5_to_3_l36,
     cols: int = 4,
     rows: int = 5,
     port1: str = "o1",
@@ -26,14 +26,11 @@ def cutback_component(
     straight_length: float | None = None,
     straight_length_pair: float | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
-    ports_map: dict[str, tuple[str, str]] | None = None,
     **kwargs,
 ) -> Component:
     """Returns a daisy chain of components for measuring their loss.
 
     Works only for components with 2 ports (input, output).
-
-    The number of components is given by cols * rows * 4.
 
     Args:
         component: for cutback.
@@ -48,20 +45,16 @@ def cutback_component(
         straight_length: length of the straight section between cutbacks.
         straight_length_pair: length of the straight section between each component pair.
         cross_section: specification (CrossSection, string or dict).
-        ports_map: (optional) extra port mapping for the underlying component_sequence using the convention.
-            {port_name: (alias_name, port_name)}
-            An and Bn are the aliases for the components here, with n integers.
         kwargs: component settings.
     """
     xs = gf.get_cross_section(cross_section)
 
     component = gf.get_component(component, **kwargs)
     bendu = gf.get_component(bend180, cross_section=xs)
-    straight_length = gf.snap.snap_to_grid2x(straight_length or xs.radius * 2)
-    straight_length_pair = gf.snap.snap_to_grid2x(straight_length_pair or 0)
-
-    straight_component = straight(length=straight_length, cross_section=xs)
-    straight_pair = straight(length=straight_length_pair, cross_section=xs)
+    straight_component = straight(
+        length=straight_length or xs.radius * 2, cross_section=xs
+    )
+    straight_pair = straight(length=straight_length_pair or 0, cross_section=xs)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -96,15 +89,14 @@ def cutback_component(
 
     s = s[:-1]
 
-    seq = component_sequence(
-        sequence=s, symbol_to_component=symbol_to_component, ports_map=ports_map
-    )
+    seq = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
 
     c = gf.Component()
     ref = c << seq
     c.add_ports(ref.ports)
 
-    n = s.count("A") + s.count("B")
+    n = 2 * s.count("A")
+    c.copy_child_info(component)
     c.info["components"] = n
     return c
 
@@ -120,12 +112,4 @@ if __name__ == "__main__":
     c = cutback_component()
     # c = cutback_component_mirror(component=component_flipped)
     # c = gf.routing.add_fiber_single(c)
-
-    cols = range(1, 3)
-    rows = range(1, 3)
-    cs = [cutback_component(cols=col, rows=row) for col in cols for row in rows]
-    ncomponent_expected = [4 * col * row for col in cols for row in rows]
-    ncomponents = [c.info["components"] for c in cs]
-    print(ncomponents, ncomponent_expected)
-
-    c.show(show_ports=True)
+    c.show()

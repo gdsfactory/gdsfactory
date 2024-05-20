@@ -1,48 +1,18 @@
-function: ring_double_heater
 info: {}
-module: gdsfactory.components.ring_double_heater
-name: ring_double_heater
+name: ring_double_heater_G0p2_R10_LX1_LY0p01_CRcoupler_ring_CRTNone_Sstraight_Bbend_euler_CSHxs_heater_metal_CSWHxs_sc_heater_metal_CSxs_sc_VSFvia_stack_Mgdsfactorypcomponentspvia_stack_SLHEATER_M2_MTOP_VNone_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_S4_4_PONone_VSO1_0
 settings:
-  bend:
-    function: bend_euler
-  coupler_ring:
-    function: coupler_ring
-  coupler_ring_top: null
+  bend: bend_euler
+  coupler_ring: coupler_ring
   cross_section: xs_sc
   cross_section_heater: xs_heater_metal
   cross_section_waveguide_heater: xs_sc_heater_metal
+  function_name: ring_double_heater
   gap: 0.2
-  gap_top: null
   length_x: 1.0
   length_y: 0.01
-  port_orientation: null
   radius: 10.0
-  straight:
-    function: straight
-  straight_heater:
-    function: straight
-  via_stack:
-    function: via_stack
-    module: gdsfactory.components.via_stack
-    settings:
-      layers:
-      - HEATER
-      - M2
-      - MTOP
-      size:
-      - 4
-      - 4
-      vias:
-      - null
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          enclosure: 2
-          layer: VIA1
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          layer: VIA2
+  straight: straight
+  via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLHEATER_M2_MTOP_VNone_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_S4_4
   via_stack_offset:
   - 1
   - 0

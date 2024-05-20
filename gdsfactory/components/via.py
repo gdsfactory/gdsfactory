@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import warnings
 from functools import partial
 
 import gdsfactory as gf
@@ -16,8 +15,7 @@ def via(
     enclosure: float = 1.0,
     layer: LayerSpec = "VIAC",
     bbox_layers: tuple[tuple[int, int], ...] | None = None,
-    bbox_offset: float | None = None,
-    bbox_offsets: tuple[float, ...] | None = None,
+    bbox_offset: float = 0,
 ) -> Component:
     """Rectangular via.
 
@@ -31,7 +29,6 @@ def via(
         layer: via layer.
         bbox_layers: layers for the bounding box.
         bbox_offset: in um.
-        bbox_offsets: list of offsets in um.
 
     .. code::
 
@@ -45,7 +42,7 @@ def via(
         |     |      |        |      |  size[1] |
         |     |______|        |______|          |
         |      <------------->                  |
-        |         xspacing                      |
+        |         spacing[0]                    |
         |_______________________________________|
     """
     if spacing is None and gap is None:
@@ -56,11 +53,11 @@ def via(
         spacing = (size[0] + gap[0], size[1] + gap[1])
 
     c = Component()
-    c.info["xspacing"], c.info["yspacing"] = spacing
+    c.info["xspacing"] = spacing[0]
+    c.info["yspacing"] = spacing[1]
     c.info["enclosure"] = enclosure
-    c.info["xsize"], c.info["ysize"] = size
-    c.info["size"] = tuple(size)
-    c.info["spacing"] = tuple(spacing)
+    c.info["xsize"] = size[0]
+    c.info["ysize"] = size[1]
 
     width, height = size
     a = width / 2
@@ -68,21 +65,11 @@ def via(
     c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
 
     bbox_layers = bbox_layers or []
-
-    if bbox_offset:
-        warnings.warn(
-            "bbox_offset is deprecated. Use bbox_offsets instead", DeprecationWarning
-        )
-        bbox_offsets = [bbox_offset] * len(bbox_layers)
-
-    bbox_offsets = bbox_offsets or []
-
-    for layer, bbox_offset in zip(bbox_layers, bbox_layers):
-        a = (width + bbox_offset) / 2
-        b = (height + bbox_offset) / 2
+    a = (width + bbox_offset) / 2
+    b = (height + bbox_offset) / 2
+    for layer in bbox_layers:
         c.add_polygon([(-a, -b), (a, -b), (a, b), (-a, b)], layer=layer)
 
-    c.add_port("e1", center=(0, 0), width=height, orientation=0, layer=layer)
     return c
 
 
@@ -95,4 +82,4 @@ if __name__ == "__main__":
     c = via()
     # c.pprint()
     print(c)
-    c.show(show_ports=True)
+    c.show()

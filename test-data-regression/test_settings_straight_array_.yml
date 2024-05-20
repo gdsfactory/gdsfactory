@@ -1,9 +1,8 @@
-function: straight_array
 info: {}
-module: gdsfactory.components.straight
-name: straight_array
+name: straight_array_N4_S4_L10_CSxs_sc
 settings:
   cross_section: xs_sc
+  function_name: straight_array
   length: 10.0
   n: 4
   spacing: 4.0

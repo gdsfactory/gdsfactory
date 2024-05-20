@@ -4,23 +4,24 @@ from collections.abc import Callable
 from functools import partial
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.components.pad import pad_array270
 from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
-from gdsfactory.routing.get_bundle import get_bundle_electrical
+from gdsfactory.routing.route_bundle import route_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.typings import ComponentSpec, Float2, Strs
+from gdsfactory.typings import ComponentFactory, ComponentSpec, Float2, Strs
 
 _wire_long = partial(wire_straight, length=200.0)
 
 
-@gf.cell_with_child
+@cell
 def add_electrical_pads_top_dc(
     component: ComponentSpec = _wire_long,
     spacing: Float2 = (0.0, 100.0),
-    pad_array: ComponentSpec = "pad_array",
+    pad_array: ComponentFactory = pad_array270,
     select_ports: Callable = select_ports_electrical,
-    get_bundle_function: Callable = get_bundle_electrical,
     port_names: Strs | None = None,
     **kwargs,
 ) -> Component:
@@ -31,7 +32,7 @@ def add_electrical_pads_top_dc(
         spacing: component to pad spacing.
         pad_array: component spec for pad_array.
         select_ports: function to select_ports.
-        get_bundle_function: function to route bundle of ports.
+        route_bundle_function: function to route bundle of ports.
         port_names: optional port names. Overrides select_ports.
         kwargs: route settings.
 
@@ -48,11 +49,8 @@ def add_electrical_pads_top_dc(
     component = gf.get_component(component)
 
     cref = c << component
-    ports = (
-        [cref[port_name] for port_name in port_names]
-        if port_names
-        else select_ports(cref.ports)
-    )
+    ports = [cref[port_name] for port_name in port_names] if port_names else None
+    ports = ports or select_ports(cref.ports)
 
     if not ports:
         raise ValueError(
@@ -63,26 +61,22 @@ def add_electrical_pads_top_dc(
     ports_component = [port.copy() for port in ports_component]
 
     for port in ports_component:
-        port.orientation = 90
+        port.d.angle = 90
 
-    pad_array = gf.get_component(pad_array, columns=len(ports))
+    pad_array = pad_array(columns=len(ports))
     pads = c << pad_array
-    pads.x = cref.x + spacing[0]
-    pads.ymin = cref.ymax + spacing[1]
+    pads.d.x = cref.d.x + spacing[0]
+    pads.d.ymin = cref.d.ymax + spacing[1]
 
-    ports_pads = pads.get_ports_list(orientation=270)
+    ports_pads = pads.ports.filter(orientation=270)
     ports_component = sort_ports_x(ports_component)
     ports_pads = sort_ports_x(ports_pads)
 
-    routes = get_bundle_function(ports_component, ports_pads, **kwargs)
-    for route in routes:
-        c.add(route.references)
+    route_bundle_electrical(c, ports_component, ports_pads, **kwargs)
 
-    c.add_ports(cref.ports)
-
-    # remove electrical ports
-    for port in ports_component:
-        c.ports.pop(port.name)
+    for port in cref.ports:
+        if port not in ports_component:
+            c.add_port(name=port.name, port=port)
 
     for i, port_pad in enumerate(ports_pads):
         c.add_port(port=port_pad, name=f"elec-{component.name}-{i}")
@@ -91,9 +85,5 @@ def add_electrical_pads_top_dc(
 
 
 if __name__ == "__main__":
-    ring = gf.components.ring_single_heater(gap=0.2, radius=10, length_x=4)
-    ring_with_grating_couplers = gf.routing.add_fiber_array(ring)
-    c = gf.routing.add_electrical_pads_top_dc(
-        ring_with_grating_couplers, port_names=("l_e1", "r_e3")
-    )
-    c.show(show_ports=True)
+    cc = add_electrical_pads_top_dc()
+    cc.show()

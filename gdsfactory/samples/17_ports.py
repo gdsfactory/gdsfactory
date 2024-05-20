@@ -43,4 +43,4 @@ def test_component_with_port() -> None:
 
 if __name__ == "__main__":
     c = component_with_port()
-    c.show(show_ports=True)
+    c.show()

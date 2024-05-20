@@ -28,12 +28,7 @@ def bend_s(
         size: in x and y direction.
         npoints: number of points.
         cross_section: spec.
-        add_pins: add pins to the component.
 
-    Keyword Args:
-        with_manhattan_facing_angles: bool.
-        start_angle: optional start angle in deg.
-        end_angle: optional end angle in deg.
     """
     c = Component()
     dx, dy = size
@@ -66,7 +61,6 @@ def get_min_sbend_size(
         kwargs: cross_section settings.
 
     """
-
     cross_section_f = gf.get_cross_section(cross_section, **kwargs)
 
     if size[0] is None:
@@ -78,7 +72,7 @@ def get_min_sbend_size(
     else:
         raise ValueError("One of the two elements in size has to be None")
 
-    min_radius = cross_section_f.radius_min or cross_section_f.radius
+    min_radius = cross_section_f.radius
 
     if min_radius is None:
         raise ValueError("The min radius for the specified layer is not known!")
@@ -97,7 +91,7 @@ def get_min_sbend_size(
         # print(sz)
         try:
             bend_s(
-                size=sz,
+                size=tuple(sz),
                 cross_section=cross_section,
                 bend_radius_error_type=ErrorType.ERROR,
                 **kwargs,
@@ -111,11 +105,11 @@ def get_min_sbend_size(
 
 
 if __name__ == "__main__":
-    c = bend_s(size=(10, 2.5))
+    c = bend_s()
     # c = bend_s(bbox_offsets=[0.5], bbox_layers=[(111, 0)], width=2)
     # c = bend_s(size=[10, 2.5])  # 10um bend radius
     # c = bend_s(size=[20, 3], cross_section="xs_rc")  # 10um bend radius
     # c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
-    c.show(show_ports=False)
+    c.show()

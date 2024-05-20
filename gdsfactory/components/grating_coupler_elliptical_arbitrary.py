@@ -8,7 +8,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_taper_points,
     grating_tooth_points,
 )
-from gdsfactory.geometry.functions import DEG2RAD
+from gdsfactory.functions import DEG2RAD
 from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.1,) * 10
@@ -113,7 +113,6 @@ def grating_coupler_elliptical_arbitrary(
     b_taper = p * b1s[0]
     x_taper = p * x1s[0]
     x_output = a_taper + x_taper - taper_length + widths[0] / 2
-    x_output = gf.snap.snap_to_grid(x_output)
 
     if layer_grating == layer_wg:
         pts = grating_taper_points(
@@ -143,8 +142,8 @@ def grating_coupler_elliptical_arbitrary(
 
     if layer_slab:
         slab_xmin = taper_length + taper_to_slab_offset
-        slab_xmax = c.xmax + 0.5
-        slab_ysize = c.ysize + 2.0
+        slab_xmax = c.d.xmax + 0.5
+        slab_ysize = c.d.ysize + 2.0
         yslab = slab_ysize / 2
         c.add_polygon(
             [
@@ -156,8 +155,8 @@ def grating_coupler_elliptical_arbitrary(
             layer_slab,
         )
 
+    xs.add_bbox(c)
     x = (taper_length + xis[-1]) / 2
-    x = gf.snap.snap_to_grid(x)
     c.add_port(
         name="o2",
         center=(x, 0),
@@ -166,7 +165,6 @@ def grating_coupler_elliptical_arbitrary(
         layer=xs.layer,
         port_type=f"vertical_{polarization}",
     )
-    xs.add_bbox(c)
     return c
 
 
@@ -215,14 +213,12 @@ def grating_coupler_elliptical_uniform(
             o1  ______________|
 
     """
-    widths = [period * fill_factor] * n_periods
-    gaps = [period * (1 - fill_factor)] * n_periods
+    widths = (period * fill_factor,) * n_periods
+    gaps = (period * (1 - fill_factor),) * n_periods
     return grating_coupler_elliptical_arbitrary(gaps=gaps, widths=widths, **kwargs)
 
 
 if __name__ == "__main__":
-    c = grating_coupler_elliptical_arbitrary(
-        layer_grating=(3, 0), cross_section="xs_rc_bbox"
-    )
+    c = grating_coupler_elliptical_arbitrary(layer_grating=(3, 0))
     # c = grating_coupler_elliptical_arbitrary()
-    c.show(show_ports=False)
+    c.show()

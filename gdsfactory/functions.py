@@ -1,407 +1,255 @@
-"""All functions return a Component so you can easily pipe or compose them.
-
-There are two types of functions:
-
-- decorators: return the original component
-- containers: return a new component that contains the old one.
-
-"""
-
 from __future__ import annotations
 
-import json
-import warnings
-from collections.abc import Mapping
-from functools import lru_cache, partial
-from typing import Any
-
 import numpy as np
-from omegaconf import OmegaConf
-from pydantic import validate_call
+from numpy import cos, float64, ndarray, sin
 
 import gdsfactory as gf
-from gdsfactory import ComponentReference
-from gdsfactory.cell import cell_with_child, container
-from gdsfactory.components.straight import straight
-from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
-from gdsfactory.port import auto_rename_ports
-from gdsfactory.typings import (
-    Anchor,
-    Axis,
-    Component,
-    ComponentSpec,
-    Float2,
-    LayerSpec,
-    Strs,
-)
 
-cache = lru_cache(maxsize=None)
+RAD2DEG = 180.0 / np.pi
+DEG2RAD = 1 / RAD2DEG
 
 
-def _get_component_in_container(
-    component: ComponentSpec, *args, **kwargs
-) -> tuple[Component, Component, ComponentReference]:
-    """Returns a new Component object that contains a reference to the original Component object.
-    This allows effectively _modifying_ a Component after it has been created.
+def sign_shape(pts: ndarray) -> float64:
+    pts2 = np.roll(pts, 1, axis=0)
+    dx = pts2[:, 0] - pts[:, 0]
+    y = pts2[:, 1] + pts[:, 1]
+    return np.sign((dx * y).sum())
+
+
+def area(pts: ndarray) -> float64:
+    """Returns the area."""
+    pts2 = np.roll(pts, 1, axis=0)
+    dx = pts2[:, 0] - pts[:, 0]
+    y = pts2[:, 1] + pts[:, 1]
+    return (dx * y).sum() / 2
+
+
+def manhattan_direction(p0, p1, tol=1e-5):
+    """Returns manhattan direction between 2 points."""
+    dp = p1 - p0
+    dx, dy = dp[0], dp[1]
+    if abs(dx) < tol:
+        sx = 0
+    elif dx > 0:
+        sx = 1
+    else:
+        sx = -1
+
+    if abs(dy) < tol:
+        sy = 0
+    elif dy > 0:
+        sy = 1
+    else:
+        sy = -1
+    return np.array((sx, sy))
+
+
+def remove_flat_angles(points: ndarray) -> ndarray:
+    a = angles_deg(np.vstack(points))
+    da = a - np.roll(a, 1)
+    da = np.mod(np.round(da, 3), 180)
+
+    # To make sure we do not remove points at the edges
+    da[0] = 1
+    da[-1] = 1
+
+    to_rm = list(np.where(np.abs(da[:-1]) < 1e-9)[0])
+    if isinstance(points, list):
+        while to_rm:
+            i = to_rm.pop()
+            points.pop(i)
+
+    else:
+        points = points[da != 0]
+
+    return points
+
+
+def remove_identicals(
+    pts: ndarray, grids_per_unit: int = 1000, closed: bool = True
+) -> ndarray:
+    if len(pts) > 1:
+        identicals = np.prod(abs(pts - np.roll(pts, -1, 0)) < 0.5 / grids_per_unit, 1)
+        if not closed:
+            identicals[-1] = False
+        pts = np.delete(pts, identicals.nonzero()[0], 0)
+    return pts
+
+
+def centered_diff(a: ndarray) -> ndarray:
+    d = (np.roll(a, -1, axis=0) - np.roll(a, 1, axis=0)) / 2
+    return d[1:-1]
+
+
+def centered_diff2(a: ndarray) -> ndarray:
+    d = (np.roll(a, -1, axis=0) - a) - (a - np.roll(a, 1, axis=0))
+    return d[1:-1]
+
+
+def curvature(points: ndarray, t: ndarray) -> ndarray:
+    """Args are the points and the tangents at each point.
+
+        points : numpy.array shape (n, 2)
+        t: numpy.array of size n
+
+    Return:
+        The curvature at each point.
+
+    Computes the curvature at every point excluding the first and last point.
+
+    For a planar curve parametrized as P(t) = (x(t), y(t)), the curvature is given
+    by (x' y'' - x'' y' ) / (x' **2 + y' **2)**(3/2)
+
+    """
+    # Use centered difference for derivative
+    dt = centered_diff(t)
+    dp = centered_diff(points)
+    dp2 = centered_diff2(points)
+
+    dx = dp[:, 0] / dt
+    dy = dp[:, 1] / dt
+
+    dx2 = dp2[:, 0] / dt**2
+    dy2 = dp2[:, 1] / dt**2
+
+    return (dx * dy2 - dx2 * dy) / (dx**2 + dy**2) ** (3 / 2)
+
+
+def radius_of_curvature(points, t):
+    return 1 / curvature(points, t)
+
+
+def path_length(points: ndarray) -> float64:
+    """Returns: The path length.
+
+    Args:
+        points: With shape (N, 2) representing N points with coordinates x, y.
+    """
+    dpts = points[1:, :] - points[:-1, :]
+    _d = dpts**2
+    return np.sum(np.sqrt(_d[:, 0] + _d[:, 1]))
+
+
+def snap_angle(a: float64) -> int:
+    """Returns angle snapped along manhattan angle (0, 90, 180, 270).
+
+    a: angle in deg
+    Return angle snapped along manhattan angle
+    """
+    a = a % 360
+    if -45 < a < 45:
+        return 0
+    elif 45 < a < 135:
+        return 90
+    elif 135 < a < 225:
+        return 180
+    elif 225 < a < 315:
+        return 270
+    else:
+        return 0
+
+
+def angles_rad(pts: ndarray) -> ndarray:
+    """Returns the angles (radians) of the connection between each point and the next."""
+    _pts = np.roll(pts, -1, 0)
+    return np.arctan2(_pts[:, 1] - pts[:, 1], _pts[:, 0] - pts[:, 0])
+
+
+def angles_deg(pts: ndarray) -> ndarray:
+    """Returns the angles (degrees) of the connection between each point and the next."""
+    return angles_rad(pts) * RAD2DEG
+
+
+def extrude_path(
+    points: ndarray,
+    width: float,
+    with_manhattan_facing_angles: bool = True,
+    spike_length: float64 | int | float = 0,
+    start_angle: int | None = None,
+    end_angle: int | None = None,
+    grid: float | None = None,
+) -> ndarray:
+    """Deprecated. Use gdsfactory.path.Path.extrude() instead.
+
+    Extrude a path of `width` along a curve defined by `points`.
+
+    Args:
+        points: numpy 2D array of shape (N, 2).
+        width: of the path to extrude.
+        with_manhattan_facing_angles: snaps to manhattan angles.
+        spike_length: in um.
+        start_angle: in degrees.
+        end_angle: in degrees.
+        grid: in um.
 
     Returns:
-        A tuple containing the original Component object, the new Component object, and a reference to the original Component object.
+        numpy 2D array of shape (2*N, 2).
     """
-    from gdsfactory.pdk import get_component
 
-    component = get_component(component, *args, **kwargs)
-    component_new = Component()
-    component_new.component = component
-    ref = component_new.add_ref(component)
-    return component, component_new, ref
+    grid = grid or gf.kcl.dbu
 
+    if isinstance(points, list):
+        points = np.stack([(p[0], p[1]) for p in points], axis=0)
 
-def add_port(component: Component, **kwargs) -> Component:
-    """Return Component with a new port."""
-    component.add_port(**kwargs)
-    return component
-
-
-@cell_with_child
-def add_text(
-    component: ComponentSpec,
-    text: str = "",
-    text_offset: Float2 = (0, 0),
-    text_anchor: Anchor = "cc",
-    text_factory: ComponentSpec = text_rectangular_multi_layer,
-) -> Component:
-    """Return component inside a new component with text geometry.
-
-    Args:
-        component: component spec.
-        text: text string.
-        text_offset: relative to component anchor. Defaults to center (cc).
-        text_anchor: relative to component (ce cw nc ne nw sc se sw center cc).
-        text_factory: function to add text labels.
-
-    """
-    component, component_new, ref = _get_component_in_container(component)
-
-    t = component_new << text_factory(text)
-    t.move(np.array(text_offset) + getattr(ref.size_info, text_anchor))
-
-    component_new.add_ports(ref.ports)
-    component_new.copy_child_info(component)
-    return component_new
-
-
-def add_texts(
-    components: list[ComponentSpec],
-    prefix: str = "",
-    index0: int = 0,
-    **kwargs,
-) -> list[Component]:
-    """Return a list of Component with text labels.
-
-    Args:
-        components: list of component specs.
-        prefix: Optional prefix for the labels.
-        index0: defaults to 0 (0, for first component, 1 for second ...).
-
-    keyword Args:
-        text_offset: relative to component size info anchor. Defaults to center.
-        text_anchor: relative to component (ce cw nc ne nw sc se sw center cc).
-        text_factory: function to add text labels.
-
-    """
-    return [
-        add_text(component, text=f"{prefix}{i + index0}", **kwargs)
-        for i, component in enumerate(components)
-    ]
-
-
-def add_info(component, info: dict[str, Any]) -> Component:
-    """Return Component with info added."""
-    component.info.update(info)
-    return component
-
-
-@cell_with_child
-def rotate(
-    component: ComponentSpec, angle: float = 90, recenter: bool = False
-) -> Component:
-    """Return rotated component inside a new component.
-
-    Most times you just need to place a reference and rotate it.
-    This rotate function just encapsulates the rotated reference into a new component.
-
-    Args:
-        component: spec.
-        angle: to rotate in degrees.
-        recenter: recenter component after rotating.
-
-    """
-    component, component_new, ref = _get_component_in_container(component)
-
-    origin_offset = ref.origin - np.array((ref.xmin, ref.ymin))
-
-    ref.rotate(angle)
-
-    if recenter:
-        ref.move(
-            origin=ref.center,
-            destination=np.array((ref.xsize / 2, ref.ysize / 2)) - origin_offset,
-        )
-
-    component_new.add_ports(ref.ports)
-    component_new.copy_child_info(component)
-    return component_new
-
-
-rotate90 = partial(rotate, angle=90)
-rotate90n = partial(rotate, angle=-90)
-rotate180 = partial(rotate, angle=180)
-
-
-@cell_with_child
-def mirror(
-    component: ComponentSpec, p1: Float2 = (0, 1), p2: Float2 = (0, 0)
-) -> Component:
-    """Return new Component with a mirrored reference.
-
-    Args:
-        component: component spec.
-        p1: first point to define mirror axis.
-        p2: second point to define mirror axis.
-
-    """
-    component, component_new, ref = _get_component_in_container(component)
-    ref.mirror(p1=p1, p2=p2)
-    component_new.add_ports(ref.ports)
-    component_new.copy_child_info(component)
-    return component_new
-
-
-@cell_with_child
-def move(
-    component: Component,
-    origin=(0, 0),
-    destination=None,
-    axis: Axis | None = None,
-) -> Component:
-    """Return new Component with a moved reference to the original component.
-
-    Args:
-        component: to move.
-        origin: of component.
-        destination: Optional x, y.
-        axis: x or y axis.
-    """
-    component, component_new, ref = _get_component_in_container(component)
-    ref.move(origin=origin, destination=destination, axis=axis)
-    component_new.add_ports(ref.ports)
-    component_new.copy_child_info(component)
-    return component_new
-
-
-@cell_with_child
-def transformed(ref: ComponentReference) -> Component:
-    """Returns flattened cell with reference transformations applied.
-
-    Args:
-        ref: the reference to flatten into a new cell.
-
-    """
-    from gdsfactory.component import copy_reference
-
-    c = Component()
-    ref = copy_reference(ref)
-    c.add(ref)
-    c.add_ports(ref.ports)
-    c = c.flatten()
-    c.copy_child_info(ref.ref_cell)
-    c.info["transformed_cell"] = ref.ref_cell.name
-    return c
-
-
-def move_port_to_zero(component: Component, port_name: str = "o1"):
-    """Return a container that contains a reference to the original component.
-
-    The new component has port_name in (0, 0).
-
-    """
-    if port_name not in component.ports:
-        raise ValueError(
-            f"port_name = {port_name!r} not in {list(component.ports.keys())}"
-        )
-    return move(component, -component.ports[port_name].center)
-
-
-def update_info(component: Component, **kwargs) -> Component:
-    """Return Component with updated info."""
-    component.info.update(**kwargs)
-    return component
-
-
-@validate_call
-def add_settings_label(
-    component: ComponentSpec = straight,
-    layer_label: LayerSpec = "TEXT",
-    settings: Strs | None = None,
-    ignore: Strs | None = ("decorator",),
-    with_yaml_format: bool = True,
-) -> Component:
-    """Add a settings label to a component. Use it as a decorator.
-
-    Args:
-        component: spec.
-        layer_label: for label.
-        settings: list of settings to include. if None, adds all settings.
-        ignore: list of settings to ignore.
-        with_yaml_format: if True, uses yaml format, otherwise json.
-
-    """
-    from gdsfactory.pdk import get_component
-
-    component = get_component(component)
-
-    ignore = ignore or []
-    settings = settings or dict(component.settings).keys()
-    settings = set(settings) - set(ignore)
-
-    d = dict(component.settings)
-    d = {setting: d[setting] for setting in settings}
-    text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
-    component.add_label(text=text, layer=layer_label)
-    return component
-
-
-def add_marker_layer(
-    component: ComponentSpec,
-    marker_layer: LayerSpec,
-    *,
-    marker_label: str | None = None,
-    layers_to_mark: list[LayerSpec] | None = None,
-    flatten: bool = False,
-) -> Component:
-    """Adds a marker layer from the convex hull of the input component.
-    Used as a decorator for `@gf.cell(decorator=partial(add_marker_layer, marker_layer=...)))`
-    or as a decorator `c = gf.components.straight(decorator=partial(add_marker_layer, marker_layer=...))`
-
-    Args:
-        marker_layer: The marker layer.
-        marker_label: An optional text label to add to the marker layer.
-        layers_to_mark: Layers to use from component before taking convex hull. Defaults to all.
-        flatten: Whether to flatten the component. Should be done only for elementary components.
-
-    Returns:
-        Same component with marker layer applied.
-    """
-    component = gf.get_component(component)
-
-    if layers_to_mark:
-        c = gf.Component()
-        c.add_ref(component.extract(layers_to_mark))
+    a = angles_deg(points)
+    if with_manhattan_facing_angles:
+        _start_angle = snap_angle(a[0] + 180)
+        _end_angle = snap_angle(a[-2])
     else:
-        c = component
-    polygon = c.get_polygons(as_shapely_merged=True)
+        _start_angle = a[0] + 180
+        _end_angle = a[-2]
 
-    if polygon and not polygon.is_empty:
-        component.add_polygon(polygon, layer=marker_layer)
-        if marker_label:
-            component.add_label(
-                marker_label,
-                position=(
-                    (point := polygon.representative_point()).x,
-                    point.y,
-                ),
-                layer=marker_layer,
-            )
-    else:
-        warnings.warn(
-            f"Could not add {marker_layer=} to {component.name!r} because it is empty."
-            f"Supplied {layers_to_mark=!r}.",
-            stacklevel=2,
-        )
-    return component.flatten() if flatten else component
+    start_angle = start_angle if start_angle is not None else _start_angle
+    end_angle = end_angle if end_angle is not None else _end_angle
 
+    a2 = angles_rad(points) * 0.5
+    a1 = np.roll(a2, 1)
 
-def change_keywords_in_nested_partials(
-    func: partial, config: Mapping[str, Any]
-) -> partial:
-    """Change keywords in nested partials `functools.partial`. Returns new partial.
+    a2[-1] = end_angle * DEG2RAD - a2[-2]
+    a1[0] = start_angle * DEG2RAD - a1[1]
 
-    Args:
-        func: Partialed function to change.
-        config: Nested dictionary with the keywords to change.
-            Key-value pairs correspond to function arguments in the partials.
-    """
-
-    if not config:
-        return func
-
-    if not isinstance(func, partial):
-        raise TypeError(f"{func=!r} is not a partial")
-    keyword_args = dict(func.keywords)
-    for key, value in config.items():
-        keyword_args[key] = (
-            change_keywords_in_nested_partials(keyword_args[key], value)
-            if isinstance(keyword_args.get(key), partial)
-            else value
-        )
-    return partial(func.func, *func.args, **keyword_args)
-
-
-add_marker_layer_container = partial(container, function=add_marker_layer)
-
-
-__all__ = (
-    "add_marker_layer",
-    "add_marker_layer_container",
-    "add_port",
-    "add_settings_label",
-    "add_text",
-    "auto_rename_ports",
-    "cache",
-    "change_keywords_in_nested_partials",
-    "mirror",
-    "move",
-    "move_port_to_zero",
-    "rotate",
-    "update_info",
-)
-
-if __name__ == "__main__":
-    c = gf.components.mmi1x2(
-        length_mmi=10,
-        decorator=partial(add_settings_label, settings=["name", "length_mmi"]),
+    a_plus = a2 + a1
+    cos_a_min = np.cos(a2 - a1)
+    offsets = np.column_stack((-sin(a_plus) / cos_a_min, cos(a_plus) / cos_a_min)) * (
+        0.5 * width
     )
-    # c.show(show_ports=True)
 
-    # cr = rotate(component=c)
-    # cr.show()
+    points_back = np.flipud(points - offsets)
+    if spike_length != 0:
+        d = spike_length
+        a_start = start_angle * DEG2RAD
+        a_end = end_angle * DEG2RAD
+        p_start_spike = points[0] + d * np.array([[cos(a_start), sin(a_start)]])
+        p_end_spike = points[-1] + d * np.array([[cos(a_end), sin(a_end)]])
 
-    cr = transformed(c.ref())
-    cr.show()
+        pts = np.vstack((p_start_spike, points + offsets, p_end_spike, points_back))
+    else:
+        pts = np.vstack((points + offsets, points_back))
 
-    # cr = c.rotate()
-    # cr.pprint()
-    # cr.show()
+    pts = np.round(pts / grid) * grid
 
-    # cm = move(c, destination=(20, 20))
-    # cm.show()
+    return pts
 
-    # cm = mirror(c)
-    # cm.show()
 
-    # cm = c.mirror()
-    # cm.show()
+def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
+    """Returns a grown closed shaped polygon by an offset."""
+    s = remove_identicals(polygon)
+    s = remove_flat_angles(s)
+    s = np.vstack([s, s[0]])
+    if len(s) <= 1:
+        return s
 
-    # cm2 = move_port_to_zero(cm)
-    # cm2.show()
+    # Make sure the shape is oriented in the correct direction for scaling
+    ss = sign_shape(s)
+    offset *= -ss
 
-    # cm3 = add_text(c, "hi")
-    # cm3.show()
+    a2 = angles_rad(s) * 0.5
+    a1 = np.roll(a2, 1)
 
-    # cr = rotate(component=c)
-    # cr.show()
-    # print(component_rotated)
+    a2[-1] = a2[0]
+    a1[0] = a1[-1]
 
-    # component_rotated.pprint
-    # component_netlist = component.get_netlist()
-    # component.pprint_netlist()
+    a = a2 + a1
+    c_minus = cos(a2 - a1)
+    offsets = np.column_stack((-sin(a) / c_minus, cos(a) / c_minus)) * offset
+    return s + offsets

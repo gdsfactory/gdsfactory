@@ -57,9 +57,11 @@ def snap_to_grid(
         nm: Optional grid size in nm. If None, it will use the default grid size from PDK multiplied by grid_factor.
         grid_factor: snap to grid_factor * grid_size.
     """
-    from gdsfactory.pdk import get_grid_size
+    import gdsfactory as gf
 
-    nm = nm or int(get_grid_size() * 1000 * grid_factor)
+    grid_size = gf.kcl.dbu
+
+    nm = nm or int(grid_size * 1000 * grid_factor)
     y = nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3
 
     if isinstance(x, tuple):

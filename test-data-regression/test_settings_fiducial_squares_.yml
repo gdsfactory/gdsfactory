@@ -1,11 +1,11 @@
-function: fiducial_squares
 info: {}
-module: gdsfactory.components.fiducial_squares
-name: fiducial_squares
+name: fiducial_squares_L1_0_S5_5_O0p14
 settings:
-  layer: WG
-  layers: null
+  function_name: fiducial_squares
+  layers:
+  - - 1
+    - 0
   offset: 0.14
   size:
-  - 5.0
-  - 5.0
+  - 5
+  - 5

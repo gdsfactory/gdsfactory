@@ -1,18 +1,19 @@
 from __future__ import annotations
 
 from functools import partial
+from typing import TYPE_CHECKING
 
 import numpy as np
 from pydantic import BaseModel
 from scipy import interpolate
 
+if TYPE_CHECKING:
+    pass
+
 material_name_to_lumerical_default = {
     "si": "Si (Silicon) - Palik",
     "sio2": "SiO2 (Glass) - Palik",
     "sin": "Si3N4 (Silicon Nitride) - Phillip",
-    "tungsten": "W (tungsten) - Palik",
-    "cu": "Cu (copper) - CRC",
-    "air": "Air",
 }
 
 

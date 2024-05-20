@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from functools import partial
 
-import numpy as np
 from numpy import float64
 
 from gdsfactory.cell import cell
@@ -15,7 +14,7 @@ from gdsfactory.typings import ComponentSpec
 
 
 def _get_bend_size(bend90: Component) -> float64:
-    p1, p2 = list(bend90.ports.values())[:2]
+    p1, p2 = list(bend90.ports)[:2]
     bsx = abs(p2.x - p1.x)
     bsy = abs(p2.y - p1.y)
     return max(bsx, bsy)
@@ -95,7 +94,6 @@ def cutback_bend90(
         straight_length: in um.
         rows: number of rows.
         cols: number of cols.
-        spacing: in um.
         kwargs: cross_section settings.
 
     .. code::
@@ -208,10 +206,10 @@ def cutback_bend180(
 
     bend180 = get_component(component, **kwargs)
     straightx = straight(length=straight_length, **kwargs)
-
-    length_y = 2 * bend180.size_info.width + straight_length + spacing
-    length_y = np.round(length_y, 3)
-    wg_vertical = straight(length=length_y, **kwargs)
+    wg_vertical = straight(
+        length=2 * bend180.d.xsize + straight_length + spacing,
+        **kwargs,
+    )
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -247,8 +245,6 @@ if __name__ == "__main__":
     # c = cutback_bend180(rows=3, cols=1)
     # c = cutback_bend(rows=3, cols=2)
     # c = cutback_bend90(rows=3, cols=2)
-    # c = cutback_bend180(rows=2, cols=2)
+    c = cutback_bend180(rows=2, cols=2)
     # c = cutback_bend(rows=3, cols=2)
-    c = cutback_bend180()
-    c.show(show_ports=True)
-    c.assert_ports_on_grid()
+    c.show()

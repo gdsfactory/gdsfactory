@@ -20,7 +20,7 @@ def compass(
     Args:
         size: rectangle size.
         layer: tuple (int, int).
-        port_type: optical, electrical. None does not add ports.
+        port_type: optical, electrical.
         port_inclusion: from edge.
         port_orientations: list of port_orientations to add. None add one port only.
     """
@@ -28,7 +28,7 @@ def compass(
     dx, dy = snap_to_grid2x(size)
 
     if dx <= 0 or dy <= 0:
-        raise ValueError(f"dx and dy must be positive. Got {dx} and {dy}")
+        raise ValueError(f"dx={dx} and dy={dy} must be > 0")
 
     points = [
         [-dx / 2.0, -dy / 2.0],
@@ -37,7 +37,7 @@ def compass(
         [dx / 2, -dy / 2.0],
     ]
 
-    c.add_polygon(points, layer=layer, snap_to_grid=False)
+    c.add_polygon(points, layer=layer)
 
     if port_type:
         if 180 in port_orientations:
@@ -91,6 +91,5 @@ def compass(
 
 
 if __name__ == "__main__":
-    # c = compass(size=(1, 2), layer="WG", port_type="optical", port_inclusion=0.5)
-    c = compass(size=(10, 10))
-    c.show(show_ports=True)
+    c = compass(size=(0, 0), port_type=None)
+    c.show()

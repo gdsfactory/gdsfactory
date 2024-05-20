@@ -5,10 +5,7 @@ from __future__ import annotations
 import sys
 from functools import partial
 
-from pydantic import BaseModel
-
 import gdsfactory as gf
-from gdsfactory.add_pins import add_pins_inside1nm as _add_pins_inside1nm
 from gdsfactory.cross_section import get_cross_sections, strip
 from gdsfactory.get_factories import get_cells
 from gdsfactory.port import select_ports
@@ -16,7 +13,9 @@ from gdsfactory.technology import LayerLevel, LayerStack
 from gdsfactory.typings import Layer
 
 
-class LayerMap(BaseModel):
+class LAYER(gf.LayerEnum):
+    kcl = gf.constant(gf.kcl)
+
     WG: Layer = (10, 1)
     WG_CLAD: Layer = (10, 2)
     WGN: Layer = (34, 0)
@@ -24,7 +23,6 @@ class LayerMap(BaseModel):
     PIN: Layer = (1, 10)
 
 
-LAYER = LayerMap()
 WIDTH_SILICON_CBAND = 0.5
 WIDTH_SILICON_OBAND = 0.4
 
@@ -52,18 +50,21 @@ def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
     )
 
 
-# avoid registering the function add pins
-_add_pins = partial(_add_pins_inside1nm, pin_length=0.5)
+# avoid registering the function add pins using _underscore
+_add_pins = partial(gf.add_pins.add_pins_inside1nm, pin_length=0.5, layer=LAYER.PIN)
 
 ######################
 # cross_sections
 ######################
+bbox_layers = (LAYER.WG_CLAD,)
+bbox_offsets = (3,)
+
 strip_sc = partial(
     strip,
     width=WIDTH_SILICON_CBAND,
     layer=LAYER.WG,
-    bbox_layers=[LAYER.WG_CLAD],
-    bbox_offsets=[3],
+    bbox_layers=bbox_layers,
+    bbox_offsets=bbox_offsets,
 )
 strip_so = partial(
     strip_sc,
@@ -74,8 +75,8 @@ strip_nc = partial(
     strip,
     width=WIDTH_NITRIDE_CBAND,
     layer=LAYER.WGN,
-    bbox_layers=[LAYER.WGN_CLAD],
-    bbox_offsets=[3],
+    bbox_layers=bbox_layers,
+    bbox_offsets=bbox_offsets,
 )
 strip_no = partial(
     strip_nc,
@@ -91,8 +92,9 @@ xs_no = strip_no()
 # LEAF COMPONENTS with pins
 ######################
 
+
 # customize the cell decorator for this PDK
-cell = partial(gf.cell, post_process=[_add_pins])
+cell = partial(gf.cell, post_process=(_add_pins,), info=dict(pdk="fab_c"))
 
 
 @cell
@@ -195,17 +197,17 @@ def gc_sc(**kwargs):
 
 mzi_nc = partial(
     gf.components.mzi,
-    cross_section=xs_nc,
     splitter=mmi1x2_nc,
     straight=straight_nc,
     bend=bend_euler_nc,
+    cross_section=xs_nc,
 )
 mzi_no = partial(
     gf.components.mzi,
-    cross_section=xs_no,
     splitter=mmi1x2_no,
     straight=straight_no,
     bend=bend_euler_no,
+    cross_section=xs_no,
 )
 
 ######################
@@ -221,6 +223,7 @@ pdk = gf.Pdk(
     cells=cells,
     cross_sections=cross_sections,
     layer_stack=layer_stack,
+    layers=LAYER,
 )
 
 
@@ -233,5 +236,10 @@ if __name__ == "__main__":
     # d = diff(d1, d2)
     # c.show(show_ports=True)
 
-    c = mmi1x2_nc()
+    # c = straight_nc()
+    c = mzi_nc(length_x=100)
+    # _add_pins(c)
+    # gf.add_pins.add_pins(c)
+    # c = mmi1x2_sc()
+    # c.pprint_ports()
     c.show()

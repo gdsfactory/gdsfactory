@@ -9,29 +9,31 @@ from gdsfactory.components.coupler import coupler
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
-@gf.cell_with_child
+@gf.cell
 def add_trenches(
     component: ComponentSpec = coupler,
+    layer_component: LayerSpec = "WG",
+    layer_trench: LayerSpec = "DEEP_ETCH",
+    width_trench: float = 2.0,
     cross_section: CrossSectionSpec = "xs_rc_with_trenches",
     top: bool = True,
     bot: bool = True,
     right: bool = False,
     left: bool = False,
-    layer_trench: LayerSpec = (3, 6),
-    width_trench: float = 3,
     **kwargs,
 ) -> gf.Component:
     """Return component with trenches.
 
     Args:
         component: component to add to the trenches.
+        layer_component: layer of the component.
+        layer_trench: layer of the trenches.
+        width_trench: width of the trenches.
         cross_section: spec (CrossSection, string or dict).
         top: add top trenches.
         bot: add bot trenches.
         right: add right trenches.
         left: add left trenches.
-        layer_trench: layer for the trenches.
-        width_trench: width of the trenches.
         kwargs: component settings.
     """
     c = gf.Component()
@@ -44,14 +46,20 @@ def add_trenches(
     right = width_trench if right else 0
 
     core = component
-    clad = bbox(
-        core.bbox, layer=layer_trench, top=top, bottom=bot, left=left, right=right
+    clad = bbox(core, layer=layer_trench, top=top, bottom=bot, left=left, right=right)
+    trenches = gf.boolean(
+        clad,
+        core,
+        operation="not",
+        layer=layer_trench,
+        layer1=layer_trench,
+        layer2=layer_component,
     )
-    ref = c << gf.geometry.boolean(clad, core, operation="not", layer=layer_trench)
 
-    c.add_ports(component.ports, cross_section=xs)
+    _ = c << trenches
+    c.add_ports(component.ports)
     c.copy_child_info(component)
-    c.absorb(ref)
+    xs.add_bbox(c)
     return c
 
 
@@ -61,4 +69,4 @@ add_trenches90 = partial(
 
 if __name__ == "__main__":
     c = add_trenches()
-    c.show(show_ports=True)
+    c.show()

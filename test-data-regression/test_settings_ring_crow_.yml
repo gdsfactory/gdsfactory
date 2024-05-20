@@ -1,22 +1,18 @@
-function: ring_crow
 info: {}
-module: gdsfactory.components.ring_crow
-name: ring_crow
+name: ring_crow_G0p2_0p2_0p2_0p2_R10_10_10_ISCSxs_sc_OSCSxs_sc_Bbend_circular_bend_circular_bend_circular_RCSxs_sc_xs_sc_xs_sc
 settings:
-  bends: null
-  cross_section: xs_sc
+  bends:
+  - bend_circular
+  - bend_circular
+  - bend_circular
+  function_name: ring_crow
   gaps:
   - 0.2
   - 0.2
   - 0.2
   - 0.2
-  input_straight_cross_section: null
-  length_x: 0
-  lengths_y:
-  - 0
-  - 0
-  - 0
-  output_straight_cross_section: null
+  input_straight_cross_section: xs_sc
+  output_straight_cross_section: xs_sc
   radius:
   - 10.0
   - 10.0

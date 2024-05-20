@@ -11,6 +11,12 @@
 
 ![logo](https://i.imgur.com/cN1ZWq8.png)
 
+> **⚠️ Warning:**
+> You are viewing a preview of the gdsfactory v8 release. The old version of gdsfactory has been moved to the gdsfactory7 repository: [https://github.com/gdsfactory/gdsfactory7](https://github.com/gdsfactory/gdsfactory7).
+>
+> gdsfactory v8 is based on kfactory, offering enhanced routing functions and additional features from klayout, including DRC verification, dummy fill, and netlist tracing.
+
+
 gdsfactory: An open source platform for end to-end chip design and validation.
 
 Highlights:
@@ -37,7 +43,7 @@ Your output: A GDSII or OASIS file for fabrication, alongside component settings
 
 ![flow](https://i.imgur.com/XbhWJDz.png)
 
-We provide a common syntax for design (KLayout, gdstk, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, MEOW ...), verification, and validation.
+We provide a common syntax for design (KLayout, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, MEOW ...), verification, and validation.
 
 ![tool interfaces](https://i.imgur.com/ef26jbe.png)
 

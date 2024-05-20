@@ -1,12 +1,11 @@
-function: grating_coupler_rectangular_arbitrary
 info:
   polarization: te
   wavelength: 1.55
-module: gdsfactory.components.grating_coupler_rectangular_arbitrary
-name: grating_coupler_rectangular_arbitrary
+name: grating_coupler_rectangular_arbitrary_G0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_W0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_WG11_LT150_Pte_W1p55_Ttaper_LGNone_LSNone_SXm1_SO1_FA15_CSxs_sc
 settings:
   cross_section: xs_sc
-  fiber_angle: null
+  fiber_angle: 15
+  function_name: grating_coupler_rectangular_arbitrary
   gaps:
   - 0.2
   - 0.2
@@ -18,14 +17,11 @@ settings:
   - 0.2
   - 0.2
   - 0.2
-  layer_grating: null
-  layer_slab: null
   length_taper: 150.0
   polarization: te
   slab_offset: 1.0
   slab_xmin: -1.0
-  taper:
-    function: taper
+  taper: taper
   wavelength: 1.55
   width_grating: 11.0
   widths:

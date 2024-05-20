@@ -1,41 +1,40 @@
 from __future__ import annotations
 
-from collections.abc import Callable
 from typing import Any
 
+import kfactory as kf
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component
 from gdsfactory.port import Port, flipped
-from gdsfactory.routing.get_route import get_route
-from gdsfactory.typings import Route, RouteFactory
+from gdsfactory.routing.route_single import OpticalManhattanRoute, route_single
 
 
 def sort_key_west_to_east(port: Port) -> float:
-    return port.x
+    return port.d.x
 
 
 def sort_key_east_to_west(port: Port) -> float:
-    return -port.x
+    return -port.d.x
 
 
 def sort_key_south_to_north(port: Port) -> float:
-    return port.y
+    return port.d.y
 
 
 def sort_key_north_to_south(port: Port) -> float:
-    return -port.y
+    return -port.d.y
 
 
 def route_ports_to_side(
-    ports: dict[str, Port] | list[Port] | Component | ComponentReference,
+    component: Component,
+    ports: list[kf.Port] | Component | list[gf.Port] | None = None,
     side: str = "north",
     x: float | None = None,
     y: float | None = None,
-    routing_func: Callable = get_route,
     **kwargs,
-) -> tuple[list[Route], list[Port]]:
+) -> tuple[list[OpticalManhattanRoute], list[kf.Port]]:
     """Routes ports to a given side.
 
     Args:
@@ -43,7 +42,6 @@ def route_ports_to_side(
         side: 'north', 'south', 'east' or 'west'.
         x: position to route ports for east/west. None, uses most east/west value.
         y: position to route ports for south/north. None, uses most north/south value.
-        routing_func: the routing function. By default uses `get_route`.
 
     Keyword Args:
       radius: in um.
@@ -81,14 +79,6 @@ def route_ports_to_side(
     if not ports:
         return [], []
 
-    # Accept list of ports, Component or dict of ports
-    if isinstance(ports, dict):
-        ports = list(ports.values())
-
-    elif isinstance(ports, Component | ComponentReference):
-        ports = list(ports.ports.values())
-
-    # Choose which
     if side in {"north", "south"}:
         func_route = route_ports_to_y
         xy = y if y is not None else side
@@ -98,7 +88,8 @@ def route_ports_to_side(
     else:
         raise ValueError(f"side = {side} not valid (north, south, west, east)")
 
-    return func_route(ports, xy, routing_func=routing_func, **kwargs)
+    ports = ports or component.ports
+    return func_route(component, ports, xy, **kwargs)
 
 
 def route_ports_to_north(list_ports, **kwargs):
@@ -118,6 +109,7 @@ def route_ports_to_east(list_ports, **kwargs):
 
 
 def route_ports_to_x(
+    component: Component,
     list_ports: list[Port],
     x: float | str = "east",
     separation: float = 10.0,
@@ -127,16 +119,16 @@ def route_ports_to_x(
     extension_length: float = 0.0,
     y0_bottom: float | None = None,
     y0_top: float | None = None,
-    routing_func: RouteFactory = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
     dx_start: float | None = None,
     dy_start: float | None = None,
     **routing_func_args,
-) -> tuple[list[Route], list[Port]]:
+) -> tuple[list[OpticalManhattanRoute], list[kf.Port]]:
     """Returns route to x.
 
     Args:
+        component: component to route.
         list_ports: reasonably well behaved list of ports.
            ports facing north ports are norther than any other ports
            ports facing south ports are souther ...
@@ -153,7 +145,6 @@ def route_ports_to_x(
         extension_length: in um.
         y0_bottom: in um.
         y0_top: in um.
-        routing_func: to route.
         backward_port_side_split_index: integer represents and index in the list of backwards ports (bottom to top)
                 all ports with an index strictly lower or equal are routed bottom
             all ports with an index larger or equal are routed top
@@ -175,13 +166,23 @@ def route_ports_to_x(
     east_ports = [p for p in list_ports if p.orientation == 0]
     west_ports = [p for p in list_ports if p.orientation == 180]
 
+    y0_bottom = round(y0_bottom / component.kcl.dbu) if y0_bottom else None
+    y0_top = round(y0_top / component.kcl.dbu) if y0_top else None
+    dx_start = round(dx_start / component.kcl.dbu) if dx_start else None
+    dy_start = round(dy_start / component.kcl.dbu) if dy_start else None
+    extension_length = round(extension_length / component.kcl.dbu)
+    extend_top = round(extend_top / component.kcl.dbu)
+    extend_bottom = round(extend_bottom / component.kcl.dbu)
+    radius = round(radius / component.kcl.dbu)
+    separation = round(separation / component.kcl.dbu)
+
     epsilon = 1.0
     a = epsilon + max(radius, separation)
     bx = epsilon + max(radius, dx_start) if dx_start else a
     by = epsilon + max(radius, dy_start) if dy_start else a
 
-    xs = [p.x for p in list_ports]
-    ys = [p.y for p in list_ports]
+    xs = [p.d.x for p in list_ports]
+    ys = [p.d.y for p in list_ports]
 
     if y0_bottom is None:
         y0_bottom = min(ys) - by
@@ -196,9 +197,9 @@ def route_ports_to_x(
         extension_length = -extension_length
 
     if x == "east":
-        x = max(p.x for p in list_ports) + bx
+        x = max(p.d.x for p in list_ports) + bx
     elif x == "west":
-        x = min(p.x for p in list_ports) - bx
+        x = min(p.d.x for p in list_ports) - bx
     elif isinstance(x, float | int):
         pass
     else:
@@ -237,19 +238,25 @@ def route_ports_to_x(
     def add_port(
         p, y, l_elements, l_ports, start_straight_length=start_straight_length
     ) -> None:
-        new_port = p.copy(name=f"{p.name}_new")
+        new_port = p.copy()
         new_port.orientation = angle
-        new_port.center = (x + extension_length, y)
+        new_port.x = x + extension_length
+        new_port.y = y
+
+        new_port2 = new_port.copy()
+        new_port2.trans *= gf.kdb.Trans.R180
+
         l_elements += [
-            routing_func(
+            route_single(
+                component,
                 p,
                 new_port,
                 start_straight_length=start_straight_length,
-                radius=radius,
+                radius=radius * component.kcl.dbu,
                 **routing_func_args,
             )
         ]
-        l_ports += [new_port.flip()]
+        l_ports += [new_port2]
 
     y_optical_bot = y0_bottom
     for p in south_ports:
@@ -257,7 +264,7 @@ def route_ports_to_x(
         y_optical_bot -= separation
 
     for p in forward_ports:
-        add_port(p, p.y, routes, ports)
+        add_port(p, p.d.y, routes, ports)
 
     y_optical_top = y0_top
     for p in north_ports:
@@ -270,10 +277,10 @@ def route_ports_to_x(
 
     for p in backward_ports_thru_north:
         # Extend ports if necessary
-        if angle == 0 and p.x < max_x:
-            start_straight_length_section = max_x - p.x
-        elif angle == 180 and p.x > min_x:
-            start_straight_length_section = p.x - min_x
+        if angle == 0 and p.d.x < max_x:
+            start_straight_length_section = max_x - p.d.x
+        elif angle == 180 and p.d.x > min_x:
+            start_straight_length_section = p.d.x - min_x
         else:
             start_straight_length_section = 0
 
@@ -290,10 +297,10 @@ def route_ports_to_x(
     start_straight_length_section = start_straight_length
     for p in backward_ports_thru_south:
         # Extend ports if necessary
-        if angle == 0 and p.x < max_x:
-            start_straight_length_section = max_x - p.x
-        elif angle == 180 and p.x > min_x:
-            start_straight_length_section = p.x - min_x
+        if angle == 0 and p.d.x < max_x:
+            start_straight_length_section = max_x - p.d.x
+        elif angle == 180 and p.d.x > min_x:
+            start_straight_length_section = p.d.x - min_x
         else:
             start_straight_length_section = 0
 
@@ -311,6 +318,7 @@ def route_ports_to_x(
 
 
 def route_ports_to_y(
+    component: Component,
     list_ports: list[Port],
     y: float | str = "north",
     separation: float = 10.0,
@@ -320,26 +328,24 @@ def route_ports_to_y(
     extension_length: float = 0.0,
     extend_left: float = 0.0,
     extend_right: float = 0.0,
-    routing_func: RouteFactory = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
     dx_start: float | None = None,
     dy_start: float | None = None,
     **routing_func_args: dict[Any, Any],
-) -> tuple[list[Route], list[Port]]:
-    """Args are the following.
-
+) -> tuple[list[OpticalManhattanRoute], list[kf.Port]]:
+    """
+    Args:
+        component: component to route.
         list_ports: reasonably well behaved list of ports.
            ports facing north ports are norther than any other ports
            ports facing south ports are souther ...
            ports facing west ports are the wester ...
            ports facing east ports are the easter ...
-
         y: float or string.
                if float: y coordinate to which the ports will be routed
                if string: "north" -> route to north
                if string: "south" -> route to south
-
         backward_port_side_split_index: integer
                this integer represents and index in the list of backwards ports
                    (sorted from left to right)
@@ -375,13 +381,23 @@ def route_ports_to_y(
         p for p in list_ports if p.orientation < 180 + da and p.orientation > 180 - da
     ]
 
+    x0_right = round(x0_right / component.kcl.dbu) if x0_right else None
+    x0_left = round(x0_left / component.kcl.dbu) if x0_left else None
+    extension_length = round(extension_length / component.kcl.dbu)
+    extend_right = round(extend_right / component.kcl.dbu)
+    extend_left = round(extend_left / component.kcl.dbu)
+    radius = round(radius / component.kcl.dbu)
+    separation = round(separation / component.kcl.dbu)
+    dx_start = round(dx_start / component.kcl.dbu) if dx_start else None
+    dy_start = round(dy_start / component.kcl.dbu) if dy_start else None
+
     epsilon = 1.0
     a = radius + max(radius, separation)
     bx = epsilon + max(radius, dx_start) if dx_start else a
     by = epsilon + max(radius, dy_start) if dy_start else a
 
-    xs = [p.x for p in list_ports]
-    ys = [p.y for p in list_ports]
+    xs = [p.d.x for p in list_ports]
+    ys = [p.d.y for p in list_ports]
 
     if x0_left is None:
         x0_left = min(xs) - bx
@@ -394,7 +410,7 @@ def route_ports_to_y(
     if y == "north":
         y = (
             max(
-                p.y + a * np.abs(np.cos(p.orientation * np.pi / 180))
+                p.d.y + a * np.abs(np.cos(p.orientation * np.pi / 180))
                 for p in list_ports
             )
             + by
@@ -402,7 +418,7 @@ def route_ports_to_y(
     elif y == "south":
         y = (
             min(
-                p.y - a * np.abs(np.cos(p.orientation * np.pi / 180))
+                p.d.y - a * np.abs(np.cos(p.orientation * np.pi / 180))
                 for p in list_ports
             )
             - by
@@ -447,17 +463,18 @@ def route_ports_to_y(
         new_port.orientation = angle
         new_port.center = (x, y + extension_length)
 
-        if np.sum(np.abs((new_port.center - p.center) ** 2)) < 1e-12:
+        if np.sum(np.abs((np.array(new_port.center) - p.center) ** 2)) < 1e-12:
             l_ports += [flipped(new_port)]
             return
 
         try:
             l_elements += [
-                routing_func(
+                route_single(
+                    component,
                     p,
                     new_port,
-                    start_straight_length=start_straight_length,
-                    radius=radius,
+                    start_straight_length=start_straight_length * component.kcl.dbu,
+                    radius=radius * component.kcl.dbu,
                     **routing_func_args,
                 )
             ]
@@ -465,7 +482,7 @@ def route_ports_to_y(
 
         except Exception as error:
             raise ValueError(
-                f"Could not connect {p.name!r} to {new_port.name!r}"
+                f"Could not connect {p.name!r} to {new_port.name!r} {error}"
             ) from error
 
     x_optical_left = x0_left
@@ -474,7 +491,7 @@ def route_ports_to_y(
         x_optical_left -= separation
 
     for p in forward_ports:
-        add_port(p, p.x, routes, ports)
+        add_port(p, p.d.x, routes, ports)
 
     x_optical_right = x0_right
     for p in east_ports:
@@ -508,68 +525,18 @@ def route_ports_to_y(
     return routes, ports
 
 
-@gf.cell
-def _sample_route_side() -> Component:
-    c = Component()
-    xs = [0.0, 10.0, 25.0, 50.0]
-    ys = [0.0, 10.0, 25.0, 50.0]
-    a = 5
-    xl = min(xs) - a
-    xr = max(xs) + a
-    yb = min(ys) - a
-    yt = max(ys) + a
-
-    layer = (1, 0)
-
-    c.add_polygon([(xl, yb), (xl, yt), (xr, yt), (xr, yb)], layer)
-
-    for i, y in enumerate(ys):
-        p0 = (xl, y)
-        p1 = (xr, y)
-        c.add_port(name=f"W{i}", center=p0, orientation=180, width=0.5, layer=layer)
-        c.add_port(name=f"E{i}", center=p1, orientation=0, width=0.5, layer=layer)
-
-    for i, x in enumerate(xs):
-        p0 = (x, yb)
-        p1 = (x, yt)
-        c.add_port(name=f"S{i}", center=p0, orientation=270, width=0.5, layer=layer)
-        c.add_port(name=f"N{i}", center=p1, orientation=90, width=0.5, layer=layer)
-
-    return c
-
-
-@gf.cell
-def _sample_route_sides() -> Component:
-    c = Component()
-    dummy = _sample_route_side()
-    sides = ["north", "south", "east", "west"]
-    positions = [(0, 0), (400, 0), (400, 400), (0, 400)]
-    for pos, side in zip(positions, sides):
-        dummy_ref = dummy.ref(position=pos)
-        c.add(dummy_ref)
-        routes, ports = route_ports_to_side(dummy_ref, side, layer=(1, 0))
-        for route in routes:
-            c.add(route.references)
-        for i, p in enumerate(ports):
-            c.add_port(name=f"{side[0]}{i}", port=p)
-    return c
-
-
 if __name__ == "__main__":
     c = Component("sample_route_sides")
     dummy = gf.components.nxn(north=2, south=2, west=2, east=2, cross_section="xs_sc")
-    sides = ["north", "south", "east", "west"]
-    d = 100
-    positions = [(0, 0), (d, 0), (d, d), (0, d)]
+    dummy_ref = c << dummy
+    routes = route_ports_to_side(c, dummy_ref.ports, "north", layer=(1, 0))
+    # sides = ["north", "south", "east", "west"]
+    # d = 100
+    # positions = [(0, 0), (d, 0), (d, d), (0, d)]
 
-    for pos, side in zip(positions, sides):
-        dummy_ref = dummy.ref(position=pos)
-        c.add(dummy_ref)
-        routes, ports = route_ports_to_side(dummy_ref, side, layer=(1, 0))
-        for route in routes:
-            c.add(route.references)
-        for i, p in enumerate(ports):
-            c.add_port(name=f"{side[0]}{i}", port=p)
+    # for pos, side in zip(positions, sides):
+    #     dummy_ref = c << dummy
+    #     dummy_ref.d.center = pos
+    #     routes = route_ports_to_side(c, dummy_ref.ports, side, layer=(1, 0))
 
-    # c.plot()
-    c.show(show_ports=True)
+    c.show()

@@ -9,15 +9,6 @@ Some of these inputs parameters are also functions.
     - references: to other components (x, y, rotation).
     - polygons in different layers.
     - ports dict.
-- Route: dataclass with 3 attributes.
-    - references: list of references (straights, bends and tapers).
-    - ports: dict(input=PortIn, output=PortOut).
-    - length: how long is this route?
-
-Factories:
-
-- ComponentFactory: function that returns a Component.
-- RouteFactory: function that returns a Route.
 
 
 Specs:
@@ -32,15 +23,25 @@ from __future__ import annotations
 
 import dataclasses
 import pathlib
-from collections.abc import Callable
-from typing import Any, Dict, List, Literal, Optional, Tuple, Union
+from collections.abc import Callable, Iterable
+from typing import (
+    Any,
+    Dict,
+    List,
+    Literal,
+    Optional,
+    ParamSpec,
+    Tuple,
+    TypeAlias,
+    Union,
+)
 
-import gdstk
+import kfactory as kf
 import numpy as np
-from pydantic import BaseModel
+from kfactory.kcell import LayerEnum
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.component_layout import Label
 from gdsfactory.cross_section import CrossSection, Section, Transition, WidthTypes
 from gdsfactory.port import Port
 from gdsfactory.technology import LayerLevel, LayerMap, LayerStack
@@ -108,7 +109,7 @@ class StepAllAngle:
         separation: in um.
 
     """
-    model_config = {"extra": "forbid", "frozen": True}
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
 
 Anchor = Literal[
@@ -123,12 +124,6 @@ Anchor = Literal[
     "center",
     "cc",
 ]
-AnchorSubset = Literal[
-    "center",
-    "l",
-    "r",
-    "s",
-]
 Axis = Literal["x", "y"]
 NSEW = Literal["N", "S", "E", "W"]
 
@@ -141,15 +136,19 @@ Int2 = tuple[int, int]
 Int3 = tuple[int, int, int]
 Ints = tuple[int, ...]
 
-Layer = tuple[int, int]  # Tuple of integer (layer, datatype)
+Layer = LayerEnum
 Layers = tuple[Layer, ...]
-LayerSpec = Layer | str  # tuple of integers (layer, datatype) or a string (layer_name)
+LayerSpec = LayerEnum | str | tuple[int, int]
 
-LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...] | set[LayerSpec]
+LayerSpecs = list[LayerSpec] | tuple[LayerSpec, ...] | None
+
+ComponentParams = ParamSpec("ComponentParams")
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = dict[str, ComponentFactory]
 PathType = str | pathlib.Path
 PathTypes = tuple[PathType, ...]
+Metadata = dict[str, int | float | str]
+PostProcess = tuple[Callable[[Component], None], ...]
 
 
 MaterialSpec = str | float | tuple[float, float] | Callable
@@ -160,61 +159,91 @@ NameToFunctionDict = dict[str, ComponentFactory]
 Number = float | int
 Coordinate = tuple[float, float]
 Coordinates = tuple[Coordinate, ...] | list[Coordinate]
-ComponentOrPath = Component | PathType
 CrossSectionFactory = Callable[..., CrossSection]
 TransitionFactory = Callable[..., Transition]
 CrossSectionOrFactory = CrossSection | Callable[..., CrossSection]
 PortSymmetries = dict[str, list[str]]
 PortsDict = dict[str, Port]
 PortsList = dict[str, Port]
-Metadata = dict[str, int | float | str]
 
 Sparameters = dict[str, np.ndarray]
 
 ComponentSpec = (
-    str | ComponentFactory | Component | dict[str, Any]
+    str | ComponentFactory | dict[str, Any] | kf.KCell
 )  # PCell function, function name, dict or Component
 
-ComponentSpecs = list[ComponentSpec] | tuple[ComponentSpec, ...]
-ComponentSpecOrList = ComponentSpec | ComponentSpecs
+ComponentSpecs = tuple[ComponentSpec, ...]
+ComponentFactories = tuple[ComponentFactory, ...]
+
+ComponentSpecOrList = ComponentSpec | list[ComponentSpec]
 CellSpec = (
     str | ComponentFactory | dict[str, Any]
 )  # PCell function, function name or dict
 
 ComponentSpecDict = dict[str, ComponentSpec]
-CrossSectionSpec = (
+CrossSectionSpec: TypeAlias = (
     CrossSectionFactory | CrossSection | dict[str, Any] | str | Transition
 )
 CrossSectionSpecs = tuple[CrossSectionSpec, ...]
 
 MultiCrossSectionAngleSpec = list[tuple[CrossSectionSpec, tuple[int, ...]]]
 
-LabelListFactory = Callable[..., list[Label]]
 
 ConductorConductorName = tuple[str, str]
 ConductorViaConductorName = tuple[str, str, str] | tuple[str, str]
 ConnectivitySpec = ConductorConductorName | ConductorViaConductorName
 
 
-class Route(BaseModel):
-    references: list[ComponentReference]
-    labels: list[gdstk.Label] | None = None
-    ports: tuple[Port, Port]
-    length: float
+class Instance(BaseModel):
+    component: str
+    settings: dict[str, Any] = Field(default_factory=dict)
+    info: dict[str, Any] = Field(default_factory=dict, exclude=True)
 
-    model_config = {"extra": "forbid", "arbitrary_types_allowed": True}
+    model_config = ConfigDict(extra="forbid")
+
+    @model_validator(mode="before")
+    def update_settings_and_info(cls, values: dict[str, Any]) -> dict[str, Any]:
+        """Validator to update component, settings and info based on the component."""
+        component = values.get("component")
+        settings = values.get("settings", {})
+        info = values.get("info", {})
+
+        import gdsfactory as gf
+
+        c = gf.get_component(component)
+        component_info = c.info.model_dump(exclude_none=True)
+        component_settings = c.settings.model_dump(exclude_none=True)
+        values["info"] = {**component_info, **info}
+        values["settings"] = {**component_settings, **settings}
+        values["component"] = c.function_name
+        return values
 
 
-class Routes(BaseModel):
-    references: list[ComponentReference]
-    lengths: list[float]
-    ports: list[Port] | None = None
-    bend_radius: list[float] | None = None
+class Placement(BaseModel):
+    x: str | float = 0
+    y: str | float = 0
+    xmin: str | float | None = None
+    ymin: str | float | None = None
+    xmax: str | float | None = None
+    ymax: str | float | None = None
+    dx: float = 0
+    dy: float = 0
+    port: str | Anchor | None = None
+    rotation: int = 0
+    mirror: bool = False
 
-    model_config = {"extra": "forbid"}
+    def __getitem__(self, key: str) -> Any:
+        return getattr(self, key, 0)
+
+    model_config = ConfigDict(extra="forbid")
 
 
-RouteFactory = Callable[..., Route]
+class Bundle(BaseModel):
+    links: dict[str, str]
+    settings: dict[str, Any] = Field(default_factory=dict)
+    routing_strategy: str = "get_bundle"
+
+    model_config = ConfigDict(extra="forbid")
 
 
 class TypedArray(np.ndarray):
@@ -259,7 +288,6 @@ __all__ = (
     "Int2",
     "Int3",
     "Ints",
-    "Label",
     "Layer",
     "LayerMap",
     "LayerLevel",
@@ -273,9 +301,6 @@ __all__ = (
     "Optional",
     "PathType",
     "PathTypes",
-    "Route",
-    "RouteFactory",
-    "Routes",
     "Section",
     "Strs",
     "WidthTypes",
@@ -283,4 +308,5 @@ __all__ = (
     "List",
     "Tuple",
     "Dict",
+    "Iterable",
 )

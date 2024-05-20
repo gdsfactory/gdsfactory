@@ -1,13 +1,10 @@
-function: text_rectangular_multi_layer
 info: {}
-module: gdsfactory.components.text_rectangular
-name: text_rectangular_multi_layer
+name: copy_layers_FFtext_rectangular_Mgdsfactorypcomponentsptext_rectangular_STabcd_LWG_M1_M2_MTOP
 settings:
+  factory: Ftext_rectangular_Mgdsfactorypcomponentsptext_rectangular_STabcd
+  function_name: copy_layers
   layers:
   - WG
   - M1
   - M2
   - MTOP
-  text: abcd
-  text_factory:
-    function: text_rectangular

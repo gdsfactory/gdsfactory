@@ -27,13 +27,12 @@ def _generate_bends(c, r_bend, wrap_angle_deg, cross_section):
 
         bend_input = c << bend_input_output
         bend_middle = c << bend_middle_arc.extrude(cross_section=cross_section)
-        bend_middle.rotate(180 + wrap_angle_deg / 2.0, center=c.center)
+        bend_middle.d.rotate(180 + wrap_angle_deg / 2.0)
 
         bend_input.connect("o2", bend_middle.ports["o2"])
 
         bend_output = c << bend_input_output
-        bend_output.mirror()
-        bend_output.connect("o2", bend_middle.ports["o1"])
+        bend_output.connect("o2", bend_middle.ports["o1"], mirror=True)
 
         return (c, bend_input, bend_middle, bend_output)
     else:
@@ -57,51 +56,6 @@ def _generate_straights(c, bus_length, size_x, bend_input, bend_output, cross_se
         straight_left.connect("o2", straight_right.ports["o1"])
 
     return (c, straight_left, straight_right)
-
-
-def _generate_circles(
-    c, radius: float, xs, bend_middle, straight_left, r_bend, dy: float
-):
-    """Returns Component, circle and circle_cladding.
-
-    Args:
-        c: component.
-        radius: in um.
-        xs: cross_section:
-        bend_middle: bend spec.
-        straight_left: spec.
-        r_bend: spec.
-        dy: in um.
-    """
-
-    circle = c << gf.components.circle(radius=radius, layer=xs.layer)
-
-    circle_cladding = None
-    if bend_middle is not None:
-        circle.move(
-            origin=circle.center,
-            destination=(
-                (bend_middle.ports["o1"].x + bend_middle.ports["o2"].x) / 2.0,
-                straight_left.ports["o2"].y - 2 * dy + r_bend,
-            ),
-        )
-    else:
-        circle.move(
-            origin=circle.center,
-            destination=(straight_left.ports["o2"].center + (0, r_bend)),
-        )
-
-    if circle_cladding:
-        circle_cladding.move(origin=circle_cladding.center, destination=circle.center)
-
-    return (c, circle, circle_cladding)
-
-
-def _absorb(c, *refs):
-    for ref in list(refs):
-        if ref is not None:
-            c.absorb(ref)
-    return c
 
 
 @gf.cell
@@ -150,26 +104,26 @@ def disk(
         c, bus_length, size_x, bend_input, bend_output, xs_bend
     )
 
-    c, circle, circle_cladding = _generate_circles(
-        c, radius_disk, xs, bend_middle, straight_left, r_bend, dy
-    )
+    circle = c << gf.components.circle(radius=radius_disk, layer=xs.layer)
 
-    c = _absorb(
-        c,
-        circle,
-        circle_cladding,
-        straight_left,
-        straight_right,
-        bend_input,
-        bend_middle,
-        bend_output,
-    )
+    circle_cladding = None
+    if bend_middle is not None:
+        dx = (bend_middle.ports["o1"].d.x + bend_middle.ports["o2"].d.x) / 2.0
+        dy = straight_left.ports["o2"].d.y - 2 * dy + r_bend
+        circle.d.move((dx, dy))
+    else:
+        circle.d.move(np.array(straight_left.ports["o2"].d.center) + (0, r_bend))
 
-    c.add_port("o1", port=straight_left.ports["o1"], layer="PORT")
+    if circle_cladding:
+        circle_cladding.move(circle.center)
+
+    c.add_port("o1", port=straight_left.ports["o1"])
     c.add_port("o2", port=straight_right.ports["o2"])
     xs.add_bbox(c)
     if parity == -1:
         c = c.rotate(180)
+
+    c.flatten()
     return c
 
 
@@ -215,15 +169,15 @@ def disk_heater(
         cross_section=cross_section,
     )
 
-    dx = disk_instance.xmax - disk_instance.xmin
-    dy = disk_instance.ymax - disk_instance.ymin
+    dx = disk_instance.d.xmax - disk_instance.d.xmin
+    dy = disk_instance.d.ymax - disk_instance.d.ymin
     heater = c << gf.get_component(
         gf.components.rectangle,
         size=(dx + 2 * heater_extent, heater_width),
         layer=heater_layer,
     )
-    heater.x = disk_instance.x
-    heater.y = dy / 2 + disk_instance.ymin + (xs.width + gap) / 2
+    heater.d.x = disk_instance.d.x
+    heater.d.y = dy / 2 + disk_instance.d.ymin + (xs.width + gap) / 2
 
     via = gf.get_component(via_stack, size=(via_width, via_width))
     c1 = c << via
@@ -232,14 +186,14 @@ def disk_heater(
     c1.y = heater.y
     c2.xmin = heater.xmax
     c2.y = heater.y
-    c.add_ports(disk_instance.get_ports_list())
-    c.add_ports(c1.get_ports_list(orientation=port_orientation), prefix="e1")
-    c.add_ports(c2.get_ports_list(orientation=port_orientation), prefix="e2")
+    c.add_ports(disk_instance.ports)
+    c.add_ports(c1.ports.filter(orientation=port_orientation), prefix="e1")
+    c.add_ports(c2.ports.filter(orientation=port_orientation), prefix="e2")
     c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
     # c = disk_heater(wrap_angle_deg=75)
-    c = disk(wrap_angle_deg=000000000)
-    c.show(show_ports=True)
+    c = disk_heater()
+    c.show()

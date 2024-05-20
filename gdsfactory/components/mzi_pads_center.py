@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.components.mzi import mzi as mzi_function
 from gdsfactory.components.pad import pad_small
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
-from gdsfactory.routing.get_route import get_route
+from gdsfactory.routing.route_single import route_single_electrical
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
@@ -28,7 +28,6 @@ def mzi_pads_center(
     cross_section: CrossSectionSpec = "xs_sc",
     cross_section_metal: CrossSectionSpec = "xs_metal_routing",
     pad_spacing: float | str = "pad_spacing",
-    min_straight_length: float = 5.0,
     **kwargs,
 ) -> gf.Component:
     """Return Mzi phase shifter with pads in the middle.
@@ -68,9 +67,10 @@ def mzi_pads_center(
         length_y=length_y,
         delta_length=delta_length,
         cross_section=cross_section,
+        auto_rename_ports=False,
     )
 
-    port_names = list(mzi_ps.ports.keys())
+    port_names = [p.name for p in mzi_ps.ports]
     for port_name in [mzi_sig_top, mzi_gnd_top, mzi_sig_bot, mzi_gnd_bot]:
         if port_name not in port_names:
             raise ValueError(f"port {port_name!r} not in {port_names}")
@@ -82,44 +82,36 @@ def mzi_pads_center(
     pads.x = m.x
     pads.y = m.y
 
-    route_sig_bot = get_route(
+    route_single_electrical(
+        c,
         m.ports[mzi_sig_bot],
         pads.ports[pad_sig_bot],
         cross_section=cross_section_metal,
-        bend=gf.components.wire_corner,
-        min_straight_length=min_straight_length,
         **kwargs,
     )
-    c.add(route_sig_bot.references)
 
-    route_gnd_bot = get_route(
+    route_single_electrical(
+        c,
         m.ports[mzi_gnd_bot],
         pads.ports[pad_gnd_bot],
         cross_section=cross_section_metal,
-        bend=gf.components.wire_corner,
-        min_straight_length=min_straight_length,
         **kwargs,
     )
-    c.add(route_gnd_bot.references)
-    route_gnd_top = get_route(
+    route_single_electrical(
+        c,
         m.ports[mzi_gnd_top],
         pads.ports[pad_gnd_top],
         cross_section=cross_section_metal,
-        bend=gf.components.wire_corner,
-        min_straight_length=min_straight_length,
         **kwargs,
     )
-    c.add(route_gnd_top.references)
 
-    route_sig_top = get_route(
+    route_single_electrical(
+        c,
         m.ports[mzi_sig_top],
         pads.ports[pad_sig_top],
         cross_section=cross_section_metal,
-        bend=gf.components.wire_corner,
-        min_straight_length=min_straight_length,
         **kwargs,
     )
-    c.add(route_sig_top.references)
 
     c.add_ports(m.ports)
     return c
@@ -130,4 +122,4 @@ if __name__ == "__main__":
     # mzi_ps_fs = gf.compose(gf.routing.add_fiber_single, mzi_pads_center)
     # c = mzi_ps_fs()
     c = mzi_pads_center()
-    c.show(show_ports=True)
+    c.show()

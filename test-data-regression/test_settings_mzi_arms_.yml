@@ -1,20 +1,12 @@
-function: mzi_arms
 info: {}
-module: gdsfactory.components.mzi_arms
-name: mzi_arms
+name: mzi_arms_DL10_LY0p8_LX0p1_Bbend_euler_Sstraight_SYNone_SXTNone_SXBNone_Smmi1x2_CNone_WSTrue_DY0
 settings:
-  bend:
-    function: bend_euler
-  combiner: null
+  bend: bend_euler
   delta_length: 10.0
   delta_yright: 0
+  function_name: mzi_arms
   length_x: 0.1
   length_y: 0.8
-  splitter:
-    function: mmi1x2
-  straight:
-    function: straight
-  straight_x_bot: null
-  straight_x_top: null
-  straight_y: null
+  splitter: mmi1x2
+  straight: straight
   with_splitter: true

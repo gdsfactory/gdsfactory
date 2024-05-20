@@ -1,10 +1,9 @@
-function: hline
 info:
   length: 10.0
   width: 0.5
-module: gdsfactory.components.hline
-name: hline
+name: hline_L10_W0p5_LWG_PToptical
 settings:
+  function_name: hline
   layer: WG
   length: 10.0
   port_type: optical

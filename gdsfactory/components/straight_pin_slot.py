@@ -7,8 +7,10 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper_strip_to_ridge
-from gdsfactory.components.via_stack import via_stack_m1_m3
-from gdsfactory.components.via_stack_slot import via_stack_slot_slab_m1
+from gdsfactory.components.via_stack import (
+    via_stack_m1_m3,
+    via_stack_slab_m1_horizontal,
+)
 from gdsfactory.cross_section import pin, pn
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -19,7 +21,7 @@ def straight_pin_slot(
     cross_section: CrossSectionSpec = pin,
     via_stack: ComponentSpec | None = via_stack_m1_m3,
     via_stack_width: float = 10.0,
-    via_stack_slab: ComponentSpec | None = via_stack_slot_slab_m1,
+    via_stack_slab: ComponentSpec | None = via_stack_slab_m1_horizontal,
     via_stack_slab_top: ComponentSpec | None = None,
     via_stack_slab_bot: ComponentSpec | None = None,
     via_stack_slab_width: float | None = None,
@@ -50,13 +52,12 @@ def straight_pin_slot(
         via_stack_spacing: spacing between via_stacks.
         via_stack_slab_spacing: spacing between via_stacks slabs.
         taper: optional taper.
-        horizontal_via_stack: if True, the waveguide is horizontal.
         kwargs: straight settings.
     """
     c = Component()
     if taper:
         taper = gf.get_component(taper)
-        length -= 2 * taper.get_ports_xsize()
+        length -= 2 * taper.d.xsize
 
     wg = c << gf.components.straight(
         cross_section=cross_section,
@@ -76,7 +77,7 @@ def straight_pin_slot(
         c.add_port("o2", port=t2.ports["o1"])
 
     else:
-        c.add_ports(wg.get_ports_list())
+        c.add_ports(wg.ports)
 
     via_stack_length = length
 
@@ -91,8 +92,8 @@ def straight_pin_slot(
         via_stack_bot.x = wg.x
         via_stack_top.x = wg.x
 
-        via_stack_top.ymin = +via_stack_spacing / 2
-        via_stack_bot.ymax = -via_stack_spacing / 2
+        via_stack_top.d.ymin = +via_stack_spacing / 2
+        via_stack_bot.d.ymax = -via_stack_spacing / 2
         c.add_ports(via_stack_bot.ports, prefix="bot_")
         c.add_ports(via_stack_top.ports, prefix="top_")
 
@@ -104,14 +105,14 @@ def straight_pin_slot(
             size=(via_stack_length, via_stack_slab_width),
         )
         slot_top.x = wg.x
-        slot_top.ymin = +via_stack_slab_spacing / 2
+        slot_top.d.ymin = +via_stack_slab_spacing / 2
 
     if via_stack_slab_bot:
         slot_bot = c << via_stack_slab_bot(
             size=(via_stack_length, via_stack_slab_width),
         )
         slot_bot.x = wg.x
-        slot_bot.ymax = -via_stack_slab_spacing / 2
+        slot_bot.d.ymax = -via_stack_slab_spacing / 2
 
     return c
 
@@ -120,4 +121,4 @@ straight_pn_slot = partial(straight_pin_slot, cross_section=pn)
 
 if __name__ == "__main__":
     c = straight_pin_slot(via_stack_width=4, via_stack_slab_width=3, length=50)
-    c.show(show_ports=True)
+    c.show()

@@ -1,33 +1,13 @@
 import pathlib
-from typing import Any
 
-from pydantic import BaseModel, model_validator
-
+import gdsfactory as gf
 from gdsfactory.technology.layer_views import LayerViews
 
-Layer = tuple[int, int]
 
-
-class LayerMap(BaseModel):
+class LayerMap(gf.LayerEnum):
     """You will need to create a new LayerMap with your specific foundry layers."""
 
-    model_config = {"frozen": True}
-
-    LABEL_INSTANCE: Layer = (206, 0)
-    LABEL_SETTINGS: Layer = (202, 0)
-
-    @model_validator(mode="after")
-    @classmethod
-    def check_all_layers_are_tuples_of_int(cls, data: Any) -> Any:
-        for key, layer in data.model_fields.items():
-            layer = layer.default
-            if (
-                not isinstance(layer, tuple)
-                or len(layer) != 2
-                or not all(isinstance(x, int) for x in layer)
-            ):
-                raise TypeError(f"{key} = {layer} must be a tuple of two integers")
-        return data
+    kcl = gf.constant(gf.kcl)
 
 
 def lyp_to_dataclass(lyp_filepath: str | pathlib.Path, overwrite: bool = True) -> str:
@@ -59,7 +39,7 @@ LAYER = LayerMapFab()
 
 
 if __name__ == "__main__":
-    layers = LayerMap()
+    layers = LayerMap
     # from gdsfactory.config import PATH
 
     # print(lyp_to_dataclass(PATH.klayout_lyp))

@@ -15,7 +15,7 @@ from gdsfactory.typings import LayerSpec
 
 def add_ports_from_markers_square(
     component: Component,
-    pin_layer: LayerSpec = "PORT",
+    pin_layer: LayerSpec = "DEVREC",
     port_layer: LayerSpec | None = None,
     orientation: int | None = 90,
     min_pin_area_um2: float = 0,
@@ -74,7 +74,7 @@ def add_ports_from_markers_center(
     tol: float = 0.1,
     pin_extra_width: float = 0.0,
     min_pin_area_um2: float | None = None,
-    max_pin_area_um2: float | None = 150.0 * 150.0,
+    max_pin_area_um2: float = 150.0 * 150.0,
     skip_square_ports: bool = False,
     xcenter: float | None = None,
     ycenter: float | None = None,
@@ -100,8 +100,8 @@ def add_ports_from_markers_center(
         ycenter: for guessing orientation of rectangular ports.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical ports.
         port_type: type of port (optical, electrical ...).
-        short_ports: if the port is on the short side rather than the long side.
-        auto_rename_ports: if True renames ports to avoid duplicates.
+        short_ports: if the port is on the short side rather than the long side
+        auto_rename_ports:
         debug: if True prints ports that are skipped.
 
     For inside=False the port location is at the middle of the PIN
@@ -143,8 +143,8 @@ def add_ports_from_markers_center(
         x > xc: east
         x < xc: west
     """
-    xc = xcenter or component.x
-    yc = ycenter or component.y
+    xc = xcenter or component.d.x
+    yc = ycenter or component.d.y
     xmax = component.xmax
     xmin = component.xmin
     ymax = component.ymax
@@ -158,10 +158,9 @@ def add_ports_from_markers_center(
 
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
-    nports = sum([s.startswith(port_name_prefix) for s in component.ports.keys()])
 
     for i, p in enumerate(port_markers.polygons):
-        port_name = f"{port_name_prefix}{i+1+nports}" if port_name_prefix else str(i)
+        port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
         (pxmin, pymin), (pxmax, pymax) = p.bounding_box()
         x, y = np.sum(p.bounding_box(), 0) / 2
 
@@ -189,7 +188,7 @@ def add_ports_from_markers_center(
                 orientation = 0
                 width = dy
                 x = pxmax if inside else x
-            else:  # west
+            elif x < xc:  # west
                 orientation = 180
                 width = dy
                 x = pxmin if inside else x
@@ -198,7 +197,7 @@ def add_ports_from_markers_center(
                 orientation = 90
                 width = dx
                 y = pymax if inside else y
-            else:  # south
+            elif y < yc:  # south
                 orientation = 270
                 width = dx
                 y = pymin if inside else y
@@ -232,7 +231,7 @@ def add_ports_from_markers_center(
             x = pxmin if inside else x
 
         if orientation == -1:
-            raise ValueError(f"Unable to detect port orientation at ({x}, {y})")
+            raise ValueError(f"Unable to detector port at ({x}, {y})")
 
         x = snap_to_grid(x)
         y = snap_to_grid(y)
@@ -272,8 +271,7 @@ add_ports_from_markers_inside = partial(add_ports_from_markers_center, inside=Tr
 def add_ports_from_labels(
     component: Component,
     port_width: float,
-    pin_layer: LayerSpec = "PORT",
-    port_layer: LayerSpec | None = None,
+    port_layer: LayerSpec,
     xcenter: float | None = None,
     port_name_prefix: str | None = None,
     port_type: str = "optical",
@@ -291,7 +289,6 @@ def add_ports_from_labels(
     Args:
         component: to read polygons from and to write ports to.
         port_width: for ports.
-        pin_layer: for port markers.
         port_layer: for the new created port.
         xcenter: center of the component, for guessing port orientation.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical.
@@ -307,7 +304,6 @@ def add_ports_from_labels(
     yc = component.y
 
     port_name_to_index = {}
-    port_layer = port_layer or pin_layer
 
     xc = xcenter or component.x
     for i, label in enumerate(component.labels):

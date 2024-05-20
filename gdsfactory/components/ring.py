@@ -36,10 +36,10 @@ def ring(
     outer_points_y = (outer_radius * sin(t)).tolist()
     xpts = inner_points_x + outer_points_x[::-1]
     ypts = inner_points_y + outer_points_y[::-1]
-    D.add_polygon(points=(xpts, ypts), layer=layer)
+    D.add_polygon(points=list(zip(xpts, ypts)), layer=layer)
     return D
 
 
 if __name__ == "__main__":
     c = ring(radius=5, angle=270)
-    c.show(show_ports=True)
+    c.show()

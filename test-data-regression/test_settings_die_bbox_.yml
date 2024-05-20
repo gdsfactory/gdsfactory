@@ -1,20 +1,10 @@
-function: die_bbox
-info:
-  area: 3380000.0
-module: gdsfactory.components.die_bbox
-name: rectangle_die_bbox
+info: {}
+name: die_bbox_CFrectangle_Mgdsfactorypcomponentsprectangle_SS1300_2600_CFalse_SW100_SLNone_DNNone_TS100_TAsw_LMTOP_P10
 settings:
-  component:
-    function: rectangle
-    module: gdsfactory.components.rectangle
-    settings:
-      size:
-      - 1300
-      - 2600
-  die_name: null
+  component: Frectangle_Mgdsfactorypcomponentsprectangle_SS1300_2600_CFalse
+  function_name: die_bbox
   layer: MTOP
   padding: 10.0
-  street_length: null
   street_width: 100.0
   text_anchor: sw
   text_size: 100.0

@@ -48,34 +48,37 @@ def coupler(
 
 
     """
-    length = gf.snap.snap_to_grid2x(length)
-    gap = gf.snap.snap_to_grid2x(gap)
+    # length = gf.snap.snap_to_grid(length)
+    # gap = gf.snap.snap_to_grid2x(gap)
     c = Component()
 
-    sbend = coupler_symmetric(gap=gap, dy=dy, dx=dx, cross_section=cross_section)
+    sbend = gf.get_component(
+        coupler_symmetric, gap=gap, dy=dy, dx=dx, cross_section=cross_section
+    )
 
     sr = c << sbend
     sl = c << sbend
-    cs = c << coupler_straight(length=length, gap=gap, cross_section=cross_section)
-    sl.connect("o2", destination=cs.ports["o1"])
-    sr.connect("o1", destination=cs.ports["o4"])
+    cs = c << gf.get_component(
+        coupler_straight, length=length, gap=gap, cross_section=cross_section
+    )
+    sl.connect("o2", other=cs.ports["o1"])
+    sr.connect("o1", other=cs.ports["o4"])
 
     c.add_port("o1", port=sl.ports["o3"])
     c.add_port("o2", port=sl.ports["o4"])
     c.add_port("o3", port=sr.ports["o3"])
     c.add_port("o4", port=sr.ports["o4"])
 
-    c.absorb(sl)
-    c.absorb(sr)
-    c.absorb(cs)
     c.info["length"] = sbend.info["length"]
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     c.auto_rename_ports()
 
+    x = gf.get_cross_section(cross_section)
+    x.add_bbox(c)
+    c.flatten()
     return c
 
 
 if __name__ == "__main__":
-    c = coupler(gap=0.2, dx=7, cross_section="xs_rc_bbox")
-    # c = gf.routing.add_fiber_array(c)
-    c.show(show_ports=False)
+    c = coupler(gap=0.2)
+    c.show()

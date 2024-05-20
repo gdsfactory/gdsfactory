@@ -21,6 +21,7 @@ def pad_gsg_short(
     short: bool = True,
     pad: ComponentSpec = pad_function,
     pad_spacing: float = 150,
+    route_xsize: float = 50,
 ) -> gf.Component:
     """Returns high speed GSG pads for calibrating the RF probes.
 
@@ -48,17 +49,19 @@ def pad_gsg_short(
     gnd_top.movex(-metal_spacing)
     gnd_bot.movex(-metal_spacing)
 
-    pads = c << gf.components.array(pad, columns=1, rows=3, spacing=(0, pad_spacing))
-    pads.xmin = via.xmax + 50
+    pads = c << gf.components.array(
+        pad, columns=1, rows=3, spacing=(0, pad_spacing), centered=True
+    )
+    pads.d.xmin = via.d.xmax + route_xsize
     pads.y = 0
 
-    c << gf.routing.route_quad(
-        gnd_bot.ports["e4"], pads.ports["e1_1_1"], layer=layer_metal
+    gf.routing.route_quad(
+        c, gnd_bot.ports["e4"], pads.ports["e1_1_1"], layer=layer_metal
     )
-    c << gf.routing.route_quad(
-        gnd_top.ports["e2"], pads.ports["e1_3_1"], layer=layer_metal
+    gf.routing.route_quad(
+        c, gnd_top.ports["e2"], pads.ports["e1_3_1"], layer=layer_metal
     )
-    c << gf.routing.route_quad(via.ports["e3"], pads.ports["e1_2_1"], layer=layer_metal)
+    gf.routing.route_quad(c, via.ports["e3"], pads.ports["e1_2_1"], layer=layer_metal)
     return c
 
 
@@ -69,4 +72,4 @@ if __name__ == "__main__":
     # c = pad_array_double()
     c = pad_gsg_short()
     # c = pad_gsg_open()
-    c.show(show_ports=True)
+    c.show()

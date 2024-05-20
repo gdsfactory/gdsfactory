@@ -1,37 +1,14 @@
-function: taper_cross_section
 info:
-  length: 10
-  route_info_length: 10.0
+  route_info_length: 10
   route_info_type: xs_sc_rc_tip
-  route_info_weight: 10.0
-  route_info_xs_sc_rc_tip_length: 10.0
+  route_info_weight: 10
+  route_info_xs_sc_rc_tip_length: 10
   route_info_xs_sc_rc_tip_taper_length: 10
-module: gdsfactory.components.taper_cross_section
-name: taper_cross_section_npoints101
+name: taper_cross_section_CSFcross_section_Mgdsfactorypcross_section_SR10_RM5_Sslab_CSxs_rc_L10_N101_LFalse_WTsine
 settings:
-  cross_section1:
-    function: cross_section
-    module: gdsfactory.cross_section
-    settings:
-      radius: 10
-      radius_min: 5
-      sections:
-      - hidden: false
-        insets: null
-        layer: SLAB90
-        name: slab
-        offset: 0
-        offset_function: null
-        port_names:
-        - null
-        - null
-        port_types:
-        - optical
-        - optical
-        simplify: null
-        width: 0.2
-        width_function: null
+  cross_section1: Fcross_section_Mgdsfactorypcross_section_SR10_RM5_Sslab
   cross_section2: xs_rc
+  function_name: taper_cross_section
   length: 10
   linear: false
   npoints: 101

@@ -1,19 +1,13 @@
-function: mzi
 info: {}
-module: gdsfactory.components.mzi
-name: mzi_8feab63f
+name: mzi_DL10_LY2_LX200_Bbend_euler_Sstraight_SYNone_SXTstraight_heater_metal_SXBNone_Smmi2x2_Cmmi2x2_WSTrue_PESo3_PESo4_PECo3_PECo4_N2_CSxs_sc_CSXTNone_CSXBNone_MBFalse_AOPAFalse_ML0p01_ARPTrue
 settings:
-  add_electrical_ports_bot: true
   add_optical_ports_arms: false
-  bend:
-    function: bend_euler
-  combiner:
-    function: mmi2x2
+  auto_rename_ports: true
+  bend: bend_euler
+  combiner: mmi2x2
   cross_section: xs_sc
-  cross_section_x_bot: null
-  cross_section_x_top: null
   delta_length: 10.0
-  extend_ports_straight_x: null
+  function_name: mzi
   length_x: 200
   length_y: 2.0
   min_length: 0.01
@@ -23,11 +17,7 @@ settings:
   port_e0_splitter: o4
   port_e1_combiner: o3
   port_e1_splitter: o3
-  splitter:
-    function: mmi2x2
-  straight:
-    function: straight
-  straight_x_bot: null
+  splitter: mmi2x2
+  straight: straight
   straight_x_top: straight_heater_metal
-  straight_y: null
   with_splitter: true

@@ -1,14 +1,32 @@
-function: cutback_bend90
 info:
   n_bends: 144
-module: gdsfactory.components.cutback_bend
-name: cutback_bend90_d89ef24e
+name: cutback_bend90_Cbend_circular_Sstraight_SL5_R6_C6_S5
 settings:
   cols: 6
-  component:
-    function: bend_circular
+  component: bend_circular
+  function_name: cutback_bend90
+  port_name1: o1
+  port_name2: o2
   rows: 6
+  sequence: A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-|B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-|A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-|B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-|A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-|B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-B-B-A-A-
   spacing: 5
-  straight:
-    function: straight
+  start_orientation: 0
+  straight: straight
   straight_length: 5.0
+  symbol_to_component:
+    '-':
+    - straight_L5_N2_CSxs_sc
+    - o1
+    - o2
+    A:
+    - bend_circular_RNone_A90_NNone_LNone_WNone_CSxs_sc
+    - o1
+    - o2
+    B:
+    - bend_circular_RNone_A90_NNone_LNone_WNone_CSxs_sc
+    - o2
+    - o1
+    '|':
+    - straight_L20010_N2_CSxs_sc
+    - o1
+    - o2

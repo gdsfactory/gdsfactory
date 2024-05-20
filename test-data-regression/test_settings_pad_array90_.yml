@@ -1,14 +1,15 @@
-function: pad_array
-info:
-  xsize: 100.0
-  ysize: 100.0
-module: gdsfactory.components.pad
-name: pad_array_orientation90
+info: {}
+name: pad_array_Ppad_S150_150_C6_R1_PO90_S100_100_LMTOP
 settings:
   columns: 6
-  orientation: 90
+  function_name: pad_array
+  layer: MTOP
   pad: pad
+  port_orientation: 90
   rows: 1
+  size:
+  - 100.0
+  - 100.0
   spacing:
   - 150.0
   - 150.0

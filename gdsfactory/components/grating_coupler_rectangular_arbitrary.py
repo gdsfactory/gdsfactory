@@ -6,12 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import (
-    ComponentSpec,
-    CrossSectionSpec,
-    Floats,
-    LayerSpec,
-)
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.2,) * 10
 _widths = (0.5,) * 10
@@ -30,7 +25,7 @@ def grating_coupler_rectangular_arbitrary(
     layer_slab: LayerSpec | None = None,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
-    fiber_angle: float | None = None,
+    fiber_angle: float = 15,
     cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
@@ -99,7 +94,7 @@ def grating_coupler_rectangular_arbitrary(
         )
 
         c.add_port(port=taper_ref.ports["o1"], name="o1")
-        xi = taper_ref.xmax
+        xi = taper_ref.d.xmax
     else:
         length_taper = 0
         xi = 0
@@ -127,25 +122,10 @@ def grating_coupler_rectangular_arbitrary(
         )
         xi += width
 
-    slab_xmin = length_taper - slab_offset
-
-    for section in xs.sections[1:]:
-        slab_xsize = (xi - length_taper) + section.width / 2
-        slab_ysize = width_grating + section.width
-        yslab = slab_ysize / 2
-        c.add_polygon(
-            [
-                (slab_xmin, yslab),
-                (slab_xmin + slab_xsize, yslab),
-                (slab_xmin + slab_xsize, -yslab),
-                (slab_xmin, -yslab),
-            ],
-            layer=section.layer,
-        )
-
     if layer_slab:
+        slab_xmin = length_taper - slab_offset
         slab_xmax = length_taper + np.sum(widths) + np.sum(gaps) + slab_offset
-        slab_ysize = c.ysize + 2 * slab_offset
+        slab_ysize = c.d.ysize + 2 * slab_offset
         yslab = slab_ysize / 2
         c.add_polygon(
             [
@@ -167,15 +147,15 @@ def grating_coupler_rectangular_arbitrary(
     )
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
-    if fiber_angle is not None:
-        c.info["fiber_angle"] = fiber_angle
 
+    gf.asserts.grating_coupler(c)
+    xs.add_bbox(c)
     return c
 
 
 if __name__ == "__main__":
-    c = grating_coupler_rectangular_arbitrary(cross_section="xs_rc")
+    c = grating_coupler_rectangular_arbitrary(width=3, layer_slab=(2, 0))
     # c = grating_coupler_rectangular_arbitrary(
     #     layer_grating=(3, 0), layer_slab=(2, 0), slab_offset=1
     # )
-    c.show(show_ports=True)
+    c.show()

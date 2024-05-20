@@ -34,6 +34,7 @@ def coupler_asymmetric(
          gap o1____________    |  dy
                             o3
     """
+    c = Component()
     x = gf.get_cross_section(cross_section)
     width = x.width
     bend_component = (
@@ -43,27 +44,34 @@ def coupler_asymmetric(
     )
     wg = straight(cross_section=cross_section)
 
-    w = bend_component.ports["o1"].width
-    y = (w + gap) / 2
+    w = bend_component.ports[0].width
+    gap /= c.kcl.dbu
+    y = int(w + gap) // 2
 
-    c = Component()
-    wg = wg.ref(position=(0, y), port_id="o1")
-    bottom_bend = bend_component.ref(position=(0, -y), port_id="o1", v_mirror=True)
+    wg = c << wg
+    bend = c << bend_component
+    bend.mirror_y()
+    bend.xmin = 0
+    wg.xmin = 0
 
-    c.add(wg)
-    c.add(bottom_bend)
-    c.absorb(wg)
-    c.absorb(bottom_bend)
+    bend.movey(-y)
+    wg.movey(+y)
 
     port_width = 2 * w + gap
     c.add_port(
-        name="o1", center=(0, 0), width=port_width, orientation=180, cross_section=x
+        name="o1",
+        center=(0, 0),
+        width=port_width * c.kcl.dbu,
+        orientation=180,
+        cross_section=x,
     )
-    c.add_port(name="o3", port=bottom_bend.ports["o2"])
-    c.add_port(name="o2", port=wg.ports["o2"])
+    c.add_port(name="o3", port=bend.ports[1])
+    c.add_port(name="o2", port=wg.ports[0])
+
+    c.flatten()
     return c
 
 
 if __name__ == "__main__":
-    c = coupler_asymmetric()
-    c.show(show_ports=False)
+    c = coupler_asymmetric(gap=0.2)
+    c.show()

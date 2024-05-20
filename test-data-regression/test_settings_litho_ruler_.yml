@@ -1,8 +1,7 @@
-function: litho_ruler
 info: {}
-module: gdsfactory.components.litho_ruler
-name: litho_ruler
+name: litho_ruler_H2_W0p5_S2_S3_1_1_1_1_2_1_1_1_1_NM21_LWG
 settings:
+  function_name: litho_ruler
   height: 2
   layer: WG
   num_marks: 21

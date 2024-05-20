@@ -1,18 +1,15 @@
-function: straight_heater_meander_doped
 info: {}
-module: gdsfactory.components.straight_heater_meander_doped
-name: straight_heater_meander_doped
+name: straight_heater_meander_doped_L300_S2_CSxs_sc_HW1p5_EL15_LDP_PP_PPP_R5_VSFvia_stack_Mgdsfactorypcomponentspvia_stack_SS1p5_1p5_LM1_M2_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_S0p1_0p1_S0p2_0p2_E0p1_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_S0p1_0p1_S0p2_0p2_E0p1_PONone_PONone_SW0p8_0p9_0p8_TL10
 settings:
   cross_section: xs_sc
   extension_length: 15.0
+  function_name: straight_heater_meander_doped
   heater_width: 1.5
   layers_doping:
   - P
   - PP
   - PPP
   length: 300.0
-  port_orientation1: null
-  port_orientation2: null
   radius: 5.0
   spacing: 2.0
   straight_widths:
@@ -20,36 +17,4 @@ settings:
   - 0.9
   - 0.8
   taper_length: 10
-  via_stack:
-    function: via_stack
-    module: gdsfactory.components.via_stack
-    settings:
-      layers:
-      - M1
-      - M2
-      size:
-      - 1.5
-      - 1.5
-      vias:
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          enclosure: 0.1
-          layer: VIAC
-          size:
-          - 0.1
-          - 0.1
-          spacing:
-          - 0.2
-          - 0.2
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          enclosure: 0.1
-          layer: VIA1
-          size:
-          - 0.1
-          - 0.1
-          spacing:
-          - 0.2
-          - 0.2
+  via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SS1p5_1p5_LM1_M2_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_S0p1_0p1_S0p2_0p2_E0p1_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_S0p1_0p1_S0p2_0p2_E0p1

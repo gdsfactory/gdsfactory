@@ -1,48 +1,12 @@
-function: straight_pin_slot
 info: {}
-module: gdsfactory.components.straight_pin_slot
-name: straight_pin_slot
+name: straight_pin_slot_L500_CSpin_VSFvia_stack_Mgdsfactorypcomponentspvia_stack_SLM1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None_VSW10_VSSFvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_SHTrue_VSSTNone_VSSBNone_VSSWNone_VSS3_VSSS2_Ttaper_strip_to_ridge
 settings:
-  cross_section:
-    function: pin
+  cross_section: pin
+  function_name: straight_pin_slot
   length: 500.0
-  taper:
-    function: taper_strip_to_ridge
-  via_stack:
-    function: via_stack
-    module: gdsfactory.components.via_stack
-    settings:
-      layers:
-      - M1
-      - M2
-      - MTOP
-      vias:
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          enclosure: 2
-          layer: VIA1
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          layer: VIA2
-      - null
-  via_stack_slab:
-    function: via_stack_slot
-    module: gdsfactory.components.via_stack_slot
-    settings:
-      layer_offsets:
-      - 0
-      layers:
-      - M1
-      via:
-        function: via
-        module: gdsfactory.components.via
-        settings:
-          layer: VIAC
-  via_stack_slab_bot: null
+  taper: taper_strip_to_ridge
+  via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLM1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
+  via_stack_slab: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_SHTrue
   via_stack_slab_spacing: 2.0
-  via_stack_slab_top: null
-  via_stack_slab_width: null
   via_stack_spacing: 3.0
   via_stack_width: 10.0

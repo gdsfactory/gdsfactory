@@ -6,14 +6,14 @@ from gdsfactory.port import Port
 from gdsfactory.typings import ComponentSpec, Strs
 
 
-@cell
+@cell(set_name=False)
 def extend_ports_list(
     ports: list[Port],
     extension: ComponentSpec,
     extension_port_name: str | None = None,
     ignore_ports: Strs | None = None,
 ) -> Component:
-    """Returns a component with the extensions for a list of ports.
+    """Returns a component with an extension attached to a list of ports.
 
     Args:
         ports: list of ports.
@@ -25,15 +25,17 @@ def extend_ports_list(
 
     c = Component()
     extension = get_component(extension)
+    c.name = f"{extension.name}_extended_{c.cell_index()}"
 
-    extension_port_name = extension_port_name or list(extension.ports.keys())[0]
+    extension_port_name = extension_port_name or extension.ports[0]
     ignore_ports = ignore_ports or ()
 
     for i, port in enumerate(ports):
         extension_ref = c << extension
         extension_ref.connect(extension_port_name, port)
 
-        for port_name, port in extension_ref.ports.items():
+        for port in extension_ref.ports:
+            port_name = port.name
             if port_name not in ignore_ports:
                 c.add_port(f"{i}_{port_name}", port=port)
 
@@ -45,11 +47,11 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.Component("taper_extended")
-    c0 = gf.components.taper(width2=10)
-    e = extend_ports_list(c0.get_ports_list(), extension="straight")
+    c0 = gf.components.taper()
+    e = extend_ports_list(c0.ports, extension="straight")
     c << c0
     c << e
-    c.show(show_ports=True)
+    c.show()
 
     # c = gf.Component("mmi_extended")
     # m = gf.components.mmi1x2()
@@ -60,4 +62,4 @@ if __name__ == "__main__":
 
     # c << m
     # c << e
-    # c.show(show_ports=True)
+    # c.show( )

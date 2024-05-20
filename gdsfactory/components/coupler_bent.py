@@ -11,6 +11,7 @@ def coupler_bent_half(
     width1: float = 0.400,
     width2: float = 0.400,
     length_straight: float = 10,
+    length_straight_exit: float = 18,
     cross_section: str = "xs_sc",
 ) -> gf.Component:
     """Returns Broadband SOI curved / straight directional coupler.
@@ -24,87 +25,56 @@ def coupler_bent_half(
         length_straight: input and output straight length.
         cross_section: cross_section.
     """
-    R1 = radius + (width1 + gap) / 2
-    R2 = radius - (width2 + gap) / 2
+    radius_outer = radius + (width1 + gap) / 2
+    radius_inner = radius - (width2 + gap) / 2
     alpha = round(np.rad2deg(length / (2 * radius)), 4)
     beta = alpha
 
     c = gf.Component()
 
     xs = gf.get_cross_section(cross_section)
-    xs1 = xs.copy(radius=R1, width=width1)
-    xs2 = xs.copy(radius=R2, width=width2)
+    xs1 = xs.copy(radius=radius_outer, width=width1)
+    xs2 = xs.copy(radius=radius_inner, width=width2)
 
-    outer_bend = c << gf.components.bend_circular(
-        angle=np.round(-alpha, 3),
-        cross_section=xs1,
-    )
+    outer_bend = gf.path.arc(angle=-alpha, radius=radius_outer)
+    inner_bend = gf.path.arc(angle=-alpha, radius=radius_inner)
 
-    inner_bend = c << gf.components.bend_circular(
-        angle=-alpha,
-        cross_section=xs2,
-    )
+    outer_straight = gf.path.straight(length=length, npoints=100)
+    inner_straight = gf.path.straight(length=length, npoints=100)
 
-    outer_bend.movey(+(width1 + gap) / 2)
-    inner_bend.movey(-(width2 + gap) / 2)
+    outer_exit_bend = gf.path.arc(angle=alpha, radius=radius_outer)
+    inner_exit_bend_down = gf.path.arc(angle=-beta, radius=radius_inner)
+    inner_exit_bend_up = gf.path.arc(angle=alpha + beta, radius=radius_inner)
 
-    outer_straight = c << gf.components.straight(
-        length=length,
-        cross_section=xs1,
-        npoints=100,
-    )
-
-    inner_straight = c << gf.components.straight(
-        length=length,
-        cross_section=xs2,
-        npoints=100,
-    )
-
-    outer_straight.connect(port="o1", destination=outer_bend.ports["o2"])
-    inner_straight.connect(port="o1", destination=inner_bend.ports["o2"])
-
-    outer_exit_bend = c << gf.components.bend_circular(
-        angle=alpha,
-        cross_section=xs1,
-    )
-
-    inner_exit_bend_down = c << gf.components.bend_circular(
-        angle=-beta,
-        cross_section=xs2,
-    )
-
-    inner_exit_bend_up = c << gf.components.bend_circular(
-        angle=alpha + beta,
-        cross_section=xs2,
-    )
-
-    outer_exit_bend.connect(port="o1", destination=outer_straight.ports["o2"])
-    inner_exit_bend_down.connect(port="o1", destination=inner_straight.ports["o2"])
-    inner_exit_bend_up.connect(port="o1", destination=inner_exit_bend_down.ports["o2"])
-
-    inner_exit_straight = c << gf.components.straight(
+    inner_exit_straight = gf.path.straight(
         length=length_straight,
-        cross_section=gf.cross_section.cross_section(width=width2),
         npoints=100,
     )
-    inner_exit_straight.connect(port="o1", destination=inner_exit_bend_up.ports["o2"])
-
-    outer_exit_straight = c << gf.components.straight(
-        length=abs(inner_exit_straight.ports["o2"].x - outer_exit_bend.ports["o2"].x),
-        cross_section=gf.cross_section.cross_section(width=width1),
+    outer_exit_straight = gf.path.straight(
+        length=length_straight_exit,
         npoints=100,
     )
-    outer_exit_straight.connect(port="o1", destination=outer_exit_bend.ports["o2"])
 
-    c.add_port("o1", port=outer_bend.ports["o1"])
-    c.add_port("o2", port=inner_bend.ports["o1"])
-    c.add_port("o3", port=outer_exit_straight.ports["o2"])
-    c.add_port("o4", port=inner_exit_straight.ports["o2"])
+    outer = outer_bend + outer_straight + outer_exit_bend + outer_exit_straight
+    inner = (
+        inner_bend
+        + inner_straight
+        + inner_exit_bend_down
+        + inner_exit_bend_up
+        + inner_exit_straight
+    )
 
-    c.absorb(outer_exit_bend)
-    c.absorb(inner_exit_bend_down)
-    c.absorb(inner_exit_bend_up)
-    return c.flatten()
+    inner = c << inner.extrude(xs2)
+    outer = c << outer.extrude(xs1)
+    outer.d.movey(+(width1 + gap) / 2)
+    inner.d.movey(-(width2 + gap) / 2)
+
+    c.add_port("o1", port=outer.ports["o1"])
+    c.add_port("o2", port=inner.ports["o1"])
+    c.add_port("o3", port=outer.ports["o2"])
+    c.add_port("o4", port=inner.ports["o2"])
+    c.flatten()
+    return c
 
 
 @gf.cell
@@ -150,19 +120,18 @@ def coupler_bent(
         cross_section=cross_section,
     )
 
-    left_half.mirror_x()
-    left_half.connect(port="o1", destination=right_half.ports["o1"])
-    c = c.flatten()
+    left_half.connect(port="o1", other=right_half.ports["o1"], mirror=True)
 
     c.add_port("o1", port=left_half.ports["o3"])
     c.add_port("o2", port=left_half.ports["o4"])
     c.add_port("o3", port=right_half.ports["o3"])
     c.add_port("o4", port=right_half.ports["o4"])
 
+    c.flatten()
     return c
 
 
 if __name__ == "__main__":
     # c = coupler_bent_half()
-    c = coupler_bent(cross_section="xs_rc")
-    c.show(show_ports=False)
+    c = coupler_bent()
+    c.show()

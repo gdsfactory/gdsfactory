@@ -1,17 +1,32 @@
-function: cutback_bend180
 info:
   n_bends: 82
-module: gdsfactory.components.cutback_bend
-name: cutback_bend180
+name: cutback_bend180_CFbend_euler_Mgdsfactorypcomponentspbend_euler_SA180_Sstraight_SL5_R6_C6_S3
 settings:
   cols: 6
-  component:
-    function: bend_euler
-    module: gdsfactory.components.bend_euler
-    settings:
-      angle: 180
+  component: Fbend_euler_Mgdsfactorypcomponentspbend_euler_SA180
+  function_name: cutback_bend180
+  port_name1: o1
+  port_name2: o2
   rows: 6
+  sequence: D-C-D-C-D-C-D-C-D-C-D-C-|C-D-C-D-C-D-C-D-C-D-C-D-|D-C-D-C-D-C-D-C-D-C-D-C-|C-D-C-D-C-D-C-D-C-D-C-D-|D-C-D-C-D-C-D-C-D-C-D-C-|C-D-C-D-C-D-C-D-C-D-C-D-
   spacing: 3
-  straight:
-    function: straight
+  start_orientation: 0
+  straight: straight
   straight_length: 5.0
+  symbol_to_component:
+    '-':
+    - straight_L5_N2_CSxs_sc
+    - o1
+    - o2
+    C:
+    - bend_euler_RNone_A180_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc
+    - o2
+    - o1
+    D:
+    - bend_euler_RNone_A180_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc
+    - o1
+    - o2
+    '|':
+    - straight_L40p656_N2_CSxs_sc
+    - o1
+    - o2

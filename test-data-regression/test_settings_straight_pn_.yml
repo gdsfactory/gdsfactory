@@ -1,36 +1,10 @@
-function: straight_pin
 info: {}
-module: gdsfactory.components.straight_pin
-name: straight_pin_bacafc60
+name: straight_pin_L2000_CSpn_VSFvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None_VSW10_VSS2_Ttaper_strip_to_ridge
 settings:
-  cross_section:
-    function: pn
+  cross_section: pn
+  function_name: straight_pin
   length: 2000
-  taper:
-    function: taper_strip_to_ridge
-  via_stack:
-    function: via_stack
-    module: gdsfactory.components.via_stack
-    settings:
-      layers:
-      - SLAB90
-      - M1
-      - M2
-      - MTOP
-      vias:
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          layer: VIAC
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          enclosure: 2
-          layer: VIA1
-      - function: via
-        module: gdsfactory.components.via
-        settings:
-          layer: VIA2
-      - null
+  taper: taper_strip_to_ridge
+  via_stack: Fvia_stack_Mgdsfactorypcomponentspvia_stack_SLSLAB90_M1_M2_MTOP_VFvia_Mgdsfactorypcomponentspvia_SLVIAC_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None
   via_stack_spacing: 2
   via_stack_width: 10.0

@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-import datetime
 import pathlib
 from pathlib import Path
 
 import gdstk
 
-from gdsfactory.component import _timestamp2019
 from gdsfactory.config import PATH, logger
 from gdsfactory.name import clean_name
 from gdsfactory.read.import_gds import import_gds
@@ -30,23 +28,20 @@ add_ports = gf.compose(add_ports_optical, add_ports_electrical)
 """
 
 
-def get_script(
-    gdspath: PathType, module: str | None = None, add_docs: bool = False
-) -> str:
+def get_script(gdspath: PathType, module: str | None = None) -> str:
     """Returns script for importing a fixed cell.
 
     Args:
         gdspath: fixed cell gdspath.
         module: if any includes plot directive.
-        add_docs: if True adds docstring with plot directive.
+
     """
     cell = clean_name(gdspath.stem)
     gdspath = gdspath.stem + gdspath.suffix
-    package = module.split(".")[0] if module and "." in module else module
 
-    if add_docs:
-        if module:
-            return f"""
+    package = module.split(".")[0] if module and "." in module else module
+    if module:
+        return f"""
 
 @gf.cell
 def {cell}()->gf.Component:
@@ -63,8 +58,6 @@ def {cell}()->gf.Component:
     return import_gds({str(gdspath)!r})
 
 """
-        else:
-            raise ValueError("module is required if add_docs is True")
 
     else:
         return f"""
@@ -77,27 +70,19 @@ def {cell}()->gf.Component:
 """
 
 
-def get_import_gds_script(
-    dirpath: PathType, module: str | None = None, add_docs: bool = False
-) -> str:
+def get_import_gds_script(dirpath: PathType, module: str | None = None) -> str:
     """Returns import_gds script from a directory with all the GDS files.
 
     Args:
         dirpath: fixed cell directory path.
         module: Optional plot directive to plot imported component.
-        add_docs: if True adds docstring with plot directive.
 
     """
     dirpath = pathlib.Path(dirpath)
     if not dirpath.exists():
         raise ValueError(f"{str(dirpath.absolute())!r} does not exist.")
 
-    gdspaths = (
-        list(dirpath.glob("*.gds"))
-        + list(dirpath.glob("*.GDS"))
-        + list(dirpath.glob("*.oas"))
-        + list(dirpath.glob("*.OAS"))
-    )
+    gdspaths = list(dirpath.glob("*.gds")) + list(dirpath.glob("*.GDS"))
 
     if not gdspaths:
         raise ValueError(f"No GDS files found at {dirpath.absolute()!r}.")
@@ -110,9 +95,7 @@ def get_import_gds_script(
         "import_gds = partial(gf.import_gds, gdsdir=gdsdir, decorator=add_ports)\n"
     ]
 
-    cells = [
-        get_script(gdspath, module=module, add_docs=add_docs) for gdspath in gdspaths
-    ]
+    cells = [get_script(gdspath, module=module) for gdspath in gdspaths]
     script += sorted(cells)
     return "\n".join(script)
 
@@ -121,7 +104,6 @@ def write_cells_recursively(
     gdspath: PathType | None = None,
     unit: float = 1e-6,
     precision: float = 1e-9,
-    timestamp: datetime.datetime | None = _timestamp2019,
     dirpath: pathlib.Path | None = None,
 ) -> dict[str, Path]:
     """Write gdstk cells recursively.
@@ -130,7 +112,6 @@ def write_cells_recursively(
         cell: gdstk cell.
         unit: unit size for objects in library. 1um by default.
         precision: for library dimensions (m). 1nm by default.
-        timestamp: Defaults to 2019-10-25. If None uses current time.
         dirpath: directory for the GDS file to write to.
 
     Returns:
@@ -148,7 +129,7 @@ def write_cells_recursively(
         lib = gdstk.Library(unit=unit, precision=precision)
         lib.add(cell)
         lib.add(*cell.dependencies(True))
-        lib.write_gds(gdspath, timestamp=timestamp)
+        lib.write_gds(gdspath)
         logger.info(f"Write {cell.name!r} to {gdspath}")
 
         gdspaths[cell.name] = gdspath
@@ -161,7 +142,6 @@ def write_cells(
     dirpath: PathType | None = None,
     unit: float = 1e-6,
     precision: float = 1e-9,
-    timestamp: datetime.datetime | None = _timestamp2019,
 ) -> dict[str, Path]:
     """Writes cells into separate GDS files.
 
@@ -171,7 +151,6 @@ def write_cells(
             Defaults to current working directory.
         unit: unit size for objects in library. 1um by default.
         precision: for object dimensions in the library (m). 1nm by default.
-        timestamp: Defaults to 2019-10-25. If None uses current time.
 
     Returns:
         gdspaths: dict of cell name to gdspath.
@@ -195,7 +174,9 @@ def write_cells(
     for component_name, component in components.items():
         gdspath = dirpath / f"{component_name}.gds"
         component.write_gds(
-            gdspath, unit=unit, precision=precision, timestamp=timestamp
+            gdspath,
+            unit=unit,
+            precision=precision,
         )
         gdspaths[component_name] = gdspath
     return gdspaths

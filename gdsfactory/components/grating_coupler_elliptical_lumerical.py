@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Any
 
 from gdsfactory.cell import cell
@@ -7,7 +8,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
 )
-from gdsfactory.config import PATH
 from gdsfactory.typings import Floats, LayerSpec
 
 parameters = (
@@ -72,6 +72,7 @@ def grating_coupler_elliptical_lumerical(
     taper_angle: float = 55,
     taper_length: float = 12.24 + 0.36,
     fiber_angle: float = 5,
+    info: dict[str, Any] | None = None,
     bias_gap: float = 0,
     **kwargs,
 ) -> Component:
@@ -102,6 +103,7 @@ def grating_coupler_elliptical_lumerical(
         taper_angle: in deg.
         taper_length: in um.
         fiber_angle: used to compute ellipticity.
+        info: optional simulation settings.
         bias_gap: gap/trenches bias (um) to compensate for etching bias.
 
     keyword Args:
@@ -119,13 +121,14 @@ def grating_coupler_elliptical_lumerical(
         parameters.strip().split() if isinstance(parameters, str) else parameters
     )
     parameters = tuple(float(t) for t in parameters)
-    # parameters[0] is the xinput
+    xinput = parameters[0]
     teeth_list = parameters[1:]
     gaps = teeth_list[::2]
     widths = teeth_list[1::2]
-    gaps = [gap + bias_gap for gap in gaps]
+    info = info or {}
+    gaps = tuple(gap + bias_gap for gap in gaps)
 
-    return grating_coupler_elliptical_arbitrary(
+    c = grating_coupler_elliptical_arbitrary(
         gaps=gaps,
         widths=widths,
         taper_angle=taper_angle,
@@ -135,36 +138,24 @@ def grating_coupler_elliptical_lumerical(
         fiber_angle=fiber_angle,
         **kwargs,
     )
+    c.info.update(info)
+    c.info["xinput"] = xinput
+    return c
 
 
-@cell
-def grating_coupler_elliptical_lumerical_etch70(**kwargs: Any) -> Component:
-    c = grating_coupler_elliptical_lumerical(**kwargs)
-    c.info = dict(
-        etch_depth=70e-3,
+grating_coupler_elliptical_lumerical_etch70 = partial(
+    grating_coupler_elliptical_lumerical,
+    info=dict(
+        etch_depth=80e-3,
         link="https://support.lumerical.com/hc/en-us/articles/1500000306621",
         fiber_angle=5,
         width_min=0.1,
         gap_min=0.1,
         efficiency=0.55,
-    )
-    return c
-
-
-def _compare() -> Component:
-    import gdsfactory as gf
-
-    c = Component()
-    c1 = c << grating_coupler_elliptical_lumerical_etch70(
-        layer=(2, 0), layer_slab=None, fiber_angle=5
-    )
-    c2 = c << gf.import_gds(PATH.gdsdir / "gc.gds")
-    c2.xmin = 0
-    c1.xmin = 0.7
-    return c
-
+    ),
+)
 
 if __name__ == "__main__":
-    # c = _compare()
-    c = grating_coupler_elliptical_lumerical_etch70()
-    c.show(show_ports=False)
+    # c = grating_coupler_elliptical_lumerical_etch70()
+    c = grating_coupler_elliptical_lumerical()
+    c.show()

@@ -63,7 +63,7 @@ def test_netlists(
 
 def demo_netlist(component_type) -> None:
     c1 = components[component_type]()
-    yaml_str = c1.to_yaml()
+    yaml_str = c1.get_netlist_yaml()
     c2 = gf.read.from_yaml(yaml_str, name=c1.name)
     gf.show(c2)
 
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     # print(n.connections)
     # n = c.get_netlist_yaml()
     # print(n)
-    # c.show(show_ports=True)
+    # c.show( )
 
     # c = components["ring_single"]()
     # n.pop("connections")
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     n = c1.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # print(yaml_str)
-    c2 = gf.read.from_yaml(yaml_str, name=c1.name)
+    c2 = gf.read.from_yaml(yaml_str, name=c1.name + "_2")
     n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
     print(d)

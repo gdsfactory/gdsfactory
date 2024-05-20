@@ -86,7 +86,6 @@
    <boundary-layer>0</boundary-layer>
    <boundary-datatype>0</boundary-datatype>
    <boundary-name>BORDER</boundary-name>
-   <layer-map>layer_map()</layer-map>
    <create-other-layers>true</create-other-layers>
   </mebes>
   <dxf>
@@ -158,9 +157,5 @@
   <connection>HEATER,VIA1,M2</connection>
   <connection>M1,VIA1,M2</connection>
   <connection>M2,VIA2,M3</connection>
-  <symbols>M3='49/0'</symbols>
-  <symbols>VIA1='44/0'</symbols>
-  <symbols>M2='45/0'</symbols>
-  <symbols>VIA2='43/0'</symbols>
  </connectivity>
 </technology>

@@ -8,18 +8,13 @@ from gdsfactory.components.pad import pad_array as pad_array_function
 from gdsfactory.components.wire import wire_straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.typings import (
-    Callable,
-    ComponentSpec,
-    Float2,
-    LayerSpec,
-    Strs,
-)
+from gdsfactory.routing.sort_ports import sort_ports_x
+from gdsfactory.typings import Callable, ComponentSpec, Float2, LayerSpec, Strs
 
 _wire_long = partial(wire_straight, length=200.0)
 
 
-@gf.cell_with_child
+@gf.cell
 def add_electrical_pads_top(
     component: ComponentSpec = _wire_long,
     direction: str = "top",
@@ -64,41 +59,37 @@ def add_electrical_pads_top(
     """
     c = Component()
     component = gf.get_component(component)
+
+    c.component = component
     ref = c << component
 
-    ports_electrical = (
-        [ref[port_name] for port_name in port_names]
-        if port_names
-        else list(select_ports(ref.ports, **kwargs).values())
-    )
+    ports = [ref[port_name] for port_name in port_names] if port_names else None
+    ports_electrical = ports or select_ports(ref.ports, **kwargs)
 
     if direction == "top":
         pads = c << gf.get_component(
-            pad_array, columns=len(ports_electrical), rows=1, orientation=270
+            pad_array, columns=len(ports_electrical), rows=1, port_orientation=270
         )
     elif direction == "right":
         pads = c << gf.get_component(
             pad_array, columns=1, rows=len(ports_electrical), orientation=270
         )
-    pads.x = ref.x + spacing[0]
-    pads.ymin = ref.ymax + spacing[1]
-    ports_pads = list(pads.ports.values())
+    pads.d.x = ref.d.x + spacing[0]
+    pads.d.ymin = ref.d.ymax + spacing[1]
 
-    ports_pads = gf.routing.sort_ports.sort_ports_x(ports_pads)
-    ports_component = gf.routing.sort_ports.sort_ports_x(ports_electrical)
+    ports_pads = sort_ports_x(pads.ports)
+    ports_component = sort_ports_x(ports_electrical)
 
     for p1, p2 in zip(ports_component, ports_pads):
-        _ = c << route_quad(p1, p2, layer=layer)
+        route_quad(c, p1, p2, layer=layer)
 
-    c.add_ports(ref.ports)
-
-    # remove electrical ports
-    for port in ports_electrical:
-        c.ports.pop(port.name)
+    for port in ref.ports:
+        if port not in ports_electrical:
+            c.add_port(name=port.name, port=port)
 
     c.add_ports(pads.ports)
     c.copy_child_info(component)
-    c.auto_rename_ports(prefix_electrical=f"elec-{component.name}-")
+    c.auto_rename_ports()
     return c
 
 
@@ -109,4 +100,4 @@ if __name__ == "__main__":
     # c = gf.components.mzi_phase_shifter_top_heater_metal()
     # cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
     c = add_electrical_pads_top()
-    c.show(show_ports=True)
+    c.show()

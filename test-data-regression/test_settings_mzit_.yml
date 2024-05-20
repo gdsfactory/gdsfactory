@@ -1,14 +1,9 @@
-function: mzit
 info: {}
-module: gdsfactory.components.mzit
-name: mzit
+name: mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL5_CL10_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSxs_sc
 settings:
-  bend90:
-    function: bend_euler
-  coupler1:
-    function: coupler
-  coupler2:
-    function: coupler
+  bend90: bend_euler
+  coupler1: coupler
+  coupler2: coupler
   coupler_gap1: 0.2
   coupler_gap2: 0.3
   coupler_length1: 5.0
@@ -16,11 +11,10 @@ settings:
   cross_section: xs_sc
   delta_length: 10.0
   dy: 2.0
+  function_name: mzit
   length: 1.0
-  straight:
-    function: straight
-  taper:
-    function: taper
+  straight: straight
+  taper: taper
   taper_length: 5.0
   w0: 0.5
   w1: 0.45

@@ -46,21 +46,21 @@ def coupler_adiabatic(
 
     """
     # Control points for input and output S-bends
-    control_points_input_top = [
+    control_points_input_top = (
         (0, 0),
         (length1 / 2.0, 0),
         (length1 / 2.0, -input_wg_sep / 2.0 + wg_sep / 2.0),
         (length1, -input_wg_sep / 2.0 + wg_sep / 2.0),
-    ]
+    )
 
-    control_points_input_bottom = [
+    control_points_input_bottom = (
         (0, -input_wg_sep),
         (length1 / 2.0, -input_wg_sep),
         (length1 / 2.0, -input_wg_sep / 2.0 - wg_sep / 2.0),
         (length1, -input_wg_sep / 2.0 - wg_sep / 2.0),
-    ]
+    )
 
-    control_points_output_top = [
+    control_points_output_top = (
         (length1 + length2, -input_wg_sep / 2.0 + wg_sep / 2.0),
         (
             length1 + length2 + length3 / 2.0,
@@ -74,7 +74,7 @@ def coupler_adiabatic(
             length1 + length2 + length3,
             -input_wg_sep / 2.0 + output_wg_sep / 2.0,
         ),
-    ]
+    )
 
     c = Component()
 
@@ -110,10 +110,9 @@ def coupler_adiabatic(
     sbend_right = bezier(control_points=control_points_output_top, cross_section=x)
     sbend_right_top = c << sbend_right
     sbend_right_bot = c << sbend_right
-    sbend_right_bot.mirror()
 
     sbend_right_top.connect("o1", coupler.ports["o3"])
-    sbend_right_bot.connect("o1", coupler.ports["o4"])
+    sbend_right_bot.connect("o1", coupler.ports["o4"], mirror=True)
 
     c.add_port("o1", port=sbend_left_bot.ports["o1"])
     c.add_port("o2", port=sbend_left_top.ports["o1"])
@@ -124,4 +123,4 @@ def coupler_adiabatic(
 
 if __name__ == "__main__":
     c = coupler_adiabatic(length3=5)
-    c.show(show_ports=False)
+    c.show()

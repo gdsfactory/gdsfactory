@@ -6,12 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper_strip_to_slab150
-from gdsfactory.typings import (
-    ComponentSpec,
-    CrossSectionSpec,
-    Floats,
-    LayerSpec,
-)
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.2,) * 10
 _widths = (0.5,) * 10
@@ -27,7 +22,6 @@ def grating_coupler_rectangular_arbitrary_slab(
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_strip_to_slab150,
     layer_slab: LayerSpec | None = "SLAB150",
-    layer_grating: LayerSpec | None = None,
     slab_offset: float = 2.0,
     fiber_angle: float = 15,
     cross_section: CrossSectionSpec = "xs_sc",
@@ -44,7 +38,6 @@ def grating_coupler_rectangular_arbitrary_slab(
         wavelength: in um.
         taper: function.
         layer_slab: for pedestal.
-        layer_grating: optional layer for the grating. Defaults to the cross_section main layer.
         slab_offset: from edge.
         fiber_angle: in degrees.
         cross_section: for input waveguide port.
@@ -79,7 +72,7 @@ def grating_coupler_rectangular_arbitrary_slab(
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
-    layer = layer_grating or xs.layer
+    layer = xs.layer
 
     c = Component()
     taper = gf.get_component(
@@ -102,7 +95,7 @@ def grating_coupler_rectangular_arbitrary_slab(
         xi += gap + width / 2
         cgrating = c.add_ref(
             rectangle(
-                size=[width, width_grating],
+                size=(width, width_grating),
                 layer=layer,
                 port_type=None,
                 centered=True,
@@ -136,12 +129,12 @@ def grating_coupler_rectangular_arbitrary_slab(
     )
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
-    if fiber_angle is not None:
-        c.info["fiber_angle"] = fiber_angle
+    c.info["fiber_angle"] = fiber_angle
+    xs.add_bbox(c)
     return c
 
 
 if __name__ == "__main__":
     c = grating_coupler_rectangular_arbitrary_slab(slab_offset=2.0)
     print(c.ports)
-    c.show(show_ports=True)
+    c.show()

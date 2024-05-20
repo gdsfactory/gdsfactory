@@ -1,8 +1,7 @@
-function: compass
 info: {}
-module: gdsfactory.components.compass
-name: compass
+name: compass_S4_2_LWG_PTelectrical_PI0_PO180_90_0_m90
 settings:
+  function_name: compass
   layer: WG
   port_inclusion: 0.0
   port_orientations:

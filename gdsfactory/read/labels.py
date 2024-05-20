@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import numpy as np
-import pandas as pd
 from omegaconf import DictConfig, OmegaConf
 
 import gdsfactory as gf
@@ -14,6 +13,8 @@ def read_labels_yaml(
     csvpath: PathType, prefix: str | None = None
 ) -> dict[str, DictConfig]:
     """Read labels from csvfile in YAML format."""
+    import pandas as pd
+
     labels = pd.read_csv(csvpath)
     cells = OmegaConf.create()
 
@@ -44,7 +45,7 @@ def add_port_markers(
 ):
     """Add port markers from port info extracted from a gdspath and csvpath."""
     c = gf.Component("overlay")
-    c << gf.import_gds(gdspath)
+    _ = c << gf.import_gds(gdspath)
     cells = read_labels_yaml(csvpath=csvpath)
 
     for cell in cells.values():
@@ -110,4 +111,4 @@ if __name__ == "__main__":
             r.x = x + cell["x"]
             r.y = y + cell["y"]
 
-    c.show(show_ports=True)
+    c.show()

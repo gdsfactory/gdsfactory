@@ -46,7 +46,7 @@ def big_device(
             layer=layer,
             width=wg_width,
         )
-        component.add_port(port)
+        component.add_port(port=port)
 
     for i in range(N):
         port = Port(
@@ -56,7 +56,7 @@ def big_device(
             layer=layer,
             width=wg_width,
         )
-        component.add_port(port)
+        component.add_port(port=port)
 
     for i in range(N):
         port = Port(
@@ -66,7 +66,7 @@ def big_device(
             layer=layer,
             width=wg_width,
         )
-        component.add_port(port)
+        component.add_port(port=port)
 
     for i in range(N):
         port = Port(
@@ -76,7 +76,7 @@ def big_device(
             layer=layer,
             width=wg_width,
         )
-        component.add_port(port)
+        component.add_port(port=port)
 
     component.auto_rename_ports()
     return component
@@ -85,10 +85,15 @@ def big_device(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    pdk = gf.pdk.get_active_pdk()
-    pdk.gds_write_settings.flatten_offgrid_references = False
+    # pdk = gf.pdk.get_active_pdk()
+    # pdk.gds_write_settings.flatten_invalid_refs = False
     c = big_device()
     c = gf.routing.add_fiber_array(c)
-    c = c.flatten_offgrid_references()
+    lyrdb = c.connectivity_check()
+    filepath = gf.config.home / "errors.lyrdb"
+    lyrdb.save(filepath)
+
+    gf.show(c, lyrdb=filepath)
+    # c = c.flatten_invalid_refs()
     # c.write_gds("./test.gds")
-    c.show(show_ports=False)
+    # c.show()

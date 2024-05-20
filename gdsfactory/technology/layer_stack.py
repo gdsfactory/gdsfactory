@@ -3,14 +3,12 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import TYPE_CHECKING, Any, Literal
 
-import gdstk
+import kfactory as kf
 from pydantic import BaseModel, Field
 from rich.console import Console
 from rich.table import Table
 
-import gdsfactory as gf
-from gdsfactory.cell import cell
-from gdsfactory.component import Component
+from gdsfactory.component import Component, boolean_operations
 
 if TYPE_CHECKING:
     from gdsfactory.technology import LayerViews
@@ -20,7 +18,6 @@ class LayerLevel(BaseModel):
     """Level for 3D LayerStack.
 
     Parameters:
-        name: layer name.
         layer: (GDSII Layer number, GDSII datatype).
         thickness: layer thickness in um.
         thickness_tolerance: layer thickness tolerance in um.
@@ -35,7 +32,8 @@ class LayerLevel(BaseModel):
                 Defaults no buffering [[0, 1], [0, 0]].
         mesh_order: lower mesh order (1) will have priority over higher \
                 mesh order (2) in the regions where materials overlap.
-        layer_type: grow, etch, implant, or background.
+        refractive_index: int, complex or function that depends on wavelength (um).
+        type: grow, etch, implant, or background.
         mode: octagon, taper, round. https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
         into: etch into another layer. https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
         resistivity: for metals.
@@ -49,9 +47,9 @@ class LayerLevel(BaseModel):
 
     name: str | None = None
     layer: tuple[int, int] | None = None
-    thickness: float | None = None
+    thickness: float
     thickness_tolerance: float | None = None
-    zmin: float | None = None
+    zmin: float
     zmin_tolerance: float | None = None
     material: str | None = None
     sidewall_angle: float = 0.0
@@ -59,7 +57,7 @@ class LayerLevel(BaseModel):
     width_to_z: float = 0.0
     z_to_bias: tuple[list[float], list[float]] | None = None
     mesh_order: int = 3
-    layer_type: Literal["grow", "etch", "doping", "background"] = "grow"
+    layer_type: Literal["grow", "etch", "implant", "background"] = "grow"
     mode: Literal["octagon", "taper", "round"] | None = None
     into: list[str] | None = None
     resistivity: float | None = None
@@ -96,6 +94,15 @@ class LayerStack(BaseModel):
         """Returns a copy of the LayerStack."""
         return LayerStack.model_validate_json(self.model_dump_json())
 
+    def __init__(self, **data: Any) -> None:
+        """Add LayerLevels automatically for subclassed LayerStacks."""
+        super().__init__(**data)
+
+        for field in self.model_dump():
+            val = getattr(self, field)
+            if isinstance(val, LayerLevel):
+                self.layers[field] = val
+
     def pprint(self) -> None:
         console = Console()
         table = Table(show_header=True, header_style="bold")
@@ -110,15 +117,6 @@ class LayerStack(BaseModel):
             table.add_row(*row)
 
         console.print(table)
-
-    def __init__(self, **data: Any) -> None:
-        """Add LayerLevels automatically for subclassed LayerStacks."""
-        super().__init__(**data)
-
-        for field in self.model_dump():
-            val = getattr(self, field)
-            if isinstance(val, LayerLevel):
-                self.layers[field] = val
 
     def get_layer_to_thickness(self) -> dict[tuple[int, int], float]:
         """Returns layer tuple to thickness (um)."""
@@ -379,7 +377,6 @@ class LayerStack(BaseModel):
         return self
 
 
-@cell
 def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Component:
     """Returns a component with derived layers.
 
@@ -387,6 +384,8 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
         component: Component to get derived layers for.
         layer_stack: Layer stack to get derived layers from.
     """
+    from gdsfactory.pdk import get_layer
+
     unetched_layers = [
         layer_name
         for layer_name, level in layer_stack.layers.items()
@@ -408,7 +407,8 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
             if layer_name_etched in unetched_layers:
                 unetched_layers.remove(layer_name_etched)
 
-    component_layers = component.get_layers()
+    polygons_per_layer = component.get_polygons()
+    component_layers = polygons_per_layer.keys()
 
     # Define pure grown layers
     unetched_layer_numbers = [
@@ -416,93 +416,68 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
         for layer_name in unetched_layers
         if layer_stack.layers[layer_name].layer in component_layers
     ]
-    layer_to_polygons = component.get_polygons(by_spec=True)
-
-    # component_derived = component.extract(unetched_layer_numbers)
-    component_derived = gf.Component()
-
-    for layer in unetched_layer_numbers:
-        polygons = layer_to_polygons[layer]
-        unetched_polys = gdstk.boolean(
-            operand1=polygons,
-            operand2=[],
-            operation="or",
-            layer=layer[0],
-            datatype=layer[1],
-        )
-        component_derived.add(unetched_polys)
+    component_derived = component.extract(unetched_layer_numbers)
 
     # Define unetched layers
-    polygons_to_remove = []
     for unetched_layer_name, unetched_layers in unetched_layers_dict.items():
         layer = layer_stack.layers[unetched_layer_name].layer
-        polygons = component.get_polygons(by_spec=layer)
+        layer_index = get_layer(layer)
+        polygons = polygons_per_layer[layer]
+        for polygon in polygons:
+            component_derived.shapes(layer_index).insert(polygon)
 
         # Add all the etching layers (OR)
         for etching_layers in unetched_layers:
             layer = layer_stack.layers[etching_layers].layer
-            B_polys = component.get_polygons(by_spec=layer)
-            polygons_to_remove = gdstk.boolean(
-                operand1=polygons_to_remove,
-                operand2=B_polys,
-                operation="or",
-                layer=layer[0],
-                datatype=layer[1],
-            )
+            if layer in polygons_per_layer:
+                layer_index = get_layer(layer)
+                B_polys = polygons_per_layer[layer]
+                derived_layer = layer_stack.layers[etching_layers].derived_layer
+                if derived_layer:
+                    r1 = polygons
+                    r2 = B_polys
+                    operation = "and"
 
-            derived_layer = layer_stack.layers[etching_layers].derived_layer
-            if derived_layer:
-                slab_polygons = gdstk.boolean(
-                    operand1=polygons,
-                    operand2=B_polys,
-                    operation="and",
-                    layer=derived_layer[0],
-                    datatype=derived_layer[1],
-                )
-                component_derived.add(slab_polygons)
+                    r1 = kf.kdb.Region(r1)
+                    r2 = kf.kdb.Region(r2)
+                    f = boolean_operations[operation]
+                    r = f(r1, r2)
+                    r = component_derived.shapes(layer_index).insert(r)
 
         # Remove all etching layers
-        layer = layer_stack.layers[unetched_layer_name].layer
-        unetched_polys = gdstk.boolean(
-            operand1=polygons,
-            operand2=polygons_to_remove,
-            operation="not",
-            layer=layer[0],
-            datatype=layer[1],
-        )
-        component_derived.add(unetched_polys)
+        # layer = layer_stack.layers[unetched_layer_name].layer
+        # polygons = polygons_per_layer[layer]
+        # unetched_polys = boolean(
+        #     polygons,
+        #     polygons_to_remove,
+        #     operation="not",
+        #     layer=layer
+        # )
+        # component_derived.shapes(layer_index).insert(unetched_polys)
 
     component_derived.add_ports(component.ports)
     return component_derived
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import get_generic_pdk
-
-    PDK = get_generic_pdk()
-    PDK.activate()
-
+    import gdsfactory as gf
     from gdsfactory.generic_tech import LAYER_STACK
 
-    ls = LAYER_STACK
-    # ls.pprint()
+    layer_stack = LAYER_STACK
 
-    c = gf.components.straight_heater_metal(length=30)
+    c = gf.components.straight_heater_metal()
     c.show()
-
-    s = c.to_3d()
-    s.show()
 
     # import gdsfactory as gf
     # from gdsfactory.generic_tech import LAYER_STACK
     # component = c = gf.components.grating_coupler_elliptical_trenches()
-    # component = c = gf.components.taper_strip_to_ridge_trenches()
+    component = c = gf.components.taper_strip_to_ridge_trenches()
     # script = LAYER_STACK.get_klayout_3d_script()
     # print(script)
     # ls = layer_stack = LAYER_STACK
     # layer_to_thickness = layer_stack.get_layer_to_thickness()
-    # c = layer_stack.get_component_with_derived_layers(component)
-    # c.show(show_ports=True)
+    c = layer_stack.get_component_with_derived_layers(component)
+    c.show()
     # import pathlib
     # filepath = pathlib.Path(
     #     "/home/jmatres/gdslib/sp/temp/write_sparameters_meep_mpi.json"

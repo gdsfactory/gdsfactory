@@ -1,17 +1,10 @@
-function: via_stack
 info:
-  layer: MTOP
-  size:
-  - 11.0
-  - 11.0
   xsize: 11.0
   ysize: 11.0
-module: gdsfactory.components.via_stack
-name: via_stack
+name: via_stack_S11_11_LM1_M2_MTOP_LONone_VFvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_None_LPNone_CSTrue_SHFalse_SVFalse
 settings:
   correct_size: true
-  layer_offsets: null
-  layer_port: null
+  function_name: via_stack
   layers:
   - M1
   - M2
@@ -22,13 +15,6 @@ settings:
   slot_horizontal: false
   slot_vertical: false
   vias:
-  - function: via
-    module: gdsfactory.components.via
-    settings:
-      enclosure: 2
-      layer: VIA1
-  - function: via
-    module: gdsfactory.components.via
-    settings:
-      layer: VIA2
+  - Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2
+  - Fvia_Mgdsfactorypcomponentspvia_SLVIA2
   - null

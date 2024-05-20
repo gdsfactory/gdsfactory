@@ -2,14 +2,11 @@
 
 from __future__ import annotations
 
-import pathlib
-
 import numpy as np
 
+from gdsfactory.boolean import boolean
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.config import PATH
-from gdsfactory.geometry.boolean import boolean
 
 
 def compute_area_signed(pr) -> float:
@@ -25,15 +22,13 @@ def compute_area_signed(pr) -> float:
     return sum(xs[i] * (ys[i + 1] - ys[i - 1]) for i in range(1, len(pr))) / 2.0
 
 
-@cell
+# @cell
 def from_np(
-    ndarray: np.ndarray,
+    ndarray,
     nm_per_pixel: int = 20,
     layer: tuple[int, int] = (1, 0),
     threshold: float = 0.99,
     invert: bool = True,
-    border_pad_num_pixels: int = 2,
-    border_pad_pixel_value: float | None = None,
 ) -> Component:
     """Returns Component from a np.ndarray.
 
@@ -45,20 +40,13 @@ def from_np(
         layer: layer tuple to output gds.
         threshold: value along which to find contours in the array.
         invert: invert the mask.
-        border_pad_num_pixels: number of pixels to pad image border with. A value of 2 is usually sufficient to capture contours along the image border.
-        border_pad_pixel_value: set value of padding pixels (optional). This is passed to np.pad through the 'constant_values' argument.
 
     """
     from skimage import measure
 
     c = Component()
     d = Component()
-
-    pad_kwargs = {}
-    if border_pad_pixel_value is not None:
-        pad_kwargs = {"constant_values": border_pad_pixel_value}
-
-    ndarray = np.pad(ndarray, border_pad_num_pixels, **pad_kwargs)
+    ndarray = np.pad(ndarray, 2)
     contours = measure.find_contours(ndarray, threshold)
     assert len(contours) > 0, (
         f"no contours found for threshold = {threshold}, maybe you can reduce the"
@@ -77,25 +65,17 @@ def from_np(
 
 
 @cell
-def from_image(
-    image_path: str | pathlib.Path = PATH.module / "samples" / "images" / "logo.png",
-    nm_per_pixel: int = 20,
-    layer: tuple[int, int] = (1, 0),
-    threshold: float = 0.99,
-    invert: bool = True,
-    border_pad_num_pixels: int = 2,
-    border_pad_pixel_value: float | None = None,
-) -> Component:
+def from_image(image_path: str, **kwargs) -> Component:
     """Returns Component from a png image.
 
     Args:
         image_path: png file path.
+
+    Keyword Args:
         nm_per_pixel: scale_factor.
         layer: layer tuple to output gds.
         threshold: value along which to find contours in the array.
-        invert: invert the mask. True by default.
-        border_pad_num_pixels: number of pixels to pad image border with. A value of 2 is usually sufficient to capture contours along the image border.
-        border_pad_pixel_value: set value of padding pixels (optional). This is passed to np.pad through the 'constant_values' argument.
+
     """
     import matplotlib.pyplot as plt
 
@@ -108,18 +88,12 @@ def from_image(
     # Convert image to numpy array (in fact, plt.imread already returns a numpy array)
     img_array = np.array(img)
 
-    return from_np(
-        img_array,
-        nm_per_pixel=nm_per_pixel,
-        layer=layer,
-        threshold=threshold,
-        invert=invert,
-        border_pad_num_pixels=border_pad_num_pixels,
-        border_pad_pixel_value=border_pad_pixel_value,
-    )
+    return from_np(img_array, **kwargs)
 
 
 if __name__ == "__main__":
+    from gdsfactory.config import PATH
+
     # import gdsfactory as gf
     # c1 = gf.components.straight()
     # c1 = gf.components.bend_circular()

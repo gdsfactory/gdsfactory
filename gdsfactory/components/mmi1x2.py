@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 
@@ -15,6 +16,7 @@ def mmi1x2(
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
+    straight: ComponentFactory = straight_function,
     cross_section: CrossSectionSpec = "xs_sc",
     **kwargs,
 ) -> Component:
@@ -28,7 +30,9 @@ def mmi1x2(
         width_mmi: in y direction.
         gap_mmi:  gap between tapered wg.
         taper: taper function.
+        straight: straight function.
         cross_section: specification (CrossSection, string or dict).
+        kwargs: cross_section settings.
 
 
     .. code::
@@ -53,6 +57,7 @@ def mmi1x2(
     c = Component()
     gap_mmi = gf.snap.snap_to_grid(gap_mmi, grid_factor=2)
     x = gf.get_cross_section(cross_section, **kwargs)
+    xs_mmi = x.copy(width=width_mmi)
     width = width or x.width
 
     _taper = taper(
@@ -62,24 +67,9 @@ def mmi1x2(
         cross_section=x,
     )
 
-    delta_width = width_mmi - width
-    y = width_mmi / 2
-    c.add_polygon([(0, -y), (length_mmi, -y), (length_mmi, y), (0, y)], layer=x.layer)
-    for section in x.sections[1:]:
-        layer = section.layer
-        y = section.width / 2 + delta_width / 2
-        c.add_polygon(
-            [
-                (-delta_width, -y),
-                (length_mmi + delta_width, -y),
-                (length_mmi + delta_width, y),
-                (-delta_width, y),
-            ],
-            layer=layer,
-        )
-    x.add_bbox(c)
-
     a = gap_mmi / 2 + width_taper / 2
+    _ = c << straight(length=length_mmi, cross_section=xs_mmi)
+
     ports = [
         gf.Port(
             "o1",
@@ -109,21 +99,14 @@ def mmi1x2(
 
     for port in ports:
         taper_ref = c << _taper
-        taper_ref.connect(port="o2", destination=port)
+        taper_ref.connect(port="o2", other=port, allow_width_mismatch=True)
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
-        c.absorb(taper_ref)
 
+    c.flatten()
+    x.add_bbox(c)
     return c
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.components.mmi1x2(cross_section="xs_rc_bbox")
-    # c = gf.components.mmi1x2(cross_section="xs_rc")
-
-    # print(c.xmin)
-    # c.xmin = 0
-    # print(c.xmin)
-
-    c.show(show_ports=True)
+    c = mmi1x2(cross_section="xs_rc")
+    c.show()

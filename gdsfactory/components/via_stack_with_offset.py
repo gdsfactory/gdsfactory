@@ -24,7 +24,7 @@ def via_stack_with_offset(
     """Rectangular layer transition with offset between layers.
 
     Args:
-        layers: layer specs between vias. None for no layer.
+        layers: layer specs between vias.
         size: for all vias array.
         sizes: Optional size for each via array. Overrides size.
         layer_offsets: Optional offsets for each layer with respect to size.
@@ -82,18 +82,18 @@ def via_stack_with_offset(
         ref_layer = c << compass(
             size=(width, height), layer=layer, port_type="electrical"
         )
-        ref_layer.ymin = y0
+        ref_layer.d.ymin = y0
 
         ref_layer = c << compass(
             size=(width, height), layer=previous_layer, port_type="electrical"
         )
-        ref_layer.ymin = y0
+        ref_layer.d.ymin = y0
 
         if via:
             via = gf.get_component(via)
-            w, h = via.info["size"]
+            w, h = via.info["xsize"], via.info["ysize"]
             enclosure = via.info["enclosure"]
-            pitch_x, pitch_y = via.info["spacing"]
+            pitch_x, pitch_y = via.info["xspacing"], via.info["yspacing"]
 
             nb_vias_x = (width - w - 2 * enclosure) / pitch_x + 1
             nb_vias_y = (height - h - 2 * enclosure) / pitch_y + 1
@@ -110,7 +110,7 @@ def via_stack_with_offset(
             ref = c.add_array(
                 via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
-            ref.move((x00, y00))
+            ref.d.move((x00, y00))
             y0 += height
             if ref.xsize + enclosure > width or ref.ysize + enclosure > height:
                 warnings.warn(
@@ -156,4 +156,4 @@ if __name__ == "__main__":
     )
     # c = via_stack_with_offset_m1_m3(layer_offsets=[0, 5, 10])
     # c = via_stack_with_offset(vias=(None, None))
-    c.show(show_ports=True)
+    c.show()

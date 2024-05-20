@@ -1,29 +1,11 @@
-function: edge_coupler_array
 info: {}
-module: gdsfactory.components.edge_coupler_array
-name: edge_coupler_array
+name: edge_coupler_array_ECFtaper_Mgdsfactorypcomponentsptaper_SW0p2_L100_WTPTrue_N5_P127_XRFalse_Ttext_rectangular_TO10_20_TR0
 settings:
-  alignment_port: o1
-  angle: 0
-  bend:
-    function: bend_euler
-  edge_coupler:
-    function: taper
-    module: gdsfactory.components.taper
-    settings:
-      length: 100
-      port_types:
-      - optical
-      - edge_te
-      width2: 0.2
-      with_two_ports: true
+  edge_coupler: Ftaper_Mgdsfactorypcomponentsptaper_SW0p2_L100_WTPTrue
+  function_name: edge_coupler_array
   n: 5
   pitch: 127.0
-  place_x_by_port: true
-  space_y_by_port: false
-  text:
-    function: text_rectangular
-  text_mirror: false
+  text: text_rectangular
   text_offset:
   - 10
   - 20

@@ -1,8 +1,6 @@
-function: pixel
 info: {}
-module: gdsfactory.components.version_stamp
-name: pixel
+name: pixel_S1_LWG
 settings:
+  function_name: pixel
   layer: WG
-  layers: null
-  size: 1.0
+  size: 1

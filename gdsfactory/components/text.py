@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.constants import _glyph, _indent, _width
-from gdsfactory.typings import Coordinate, LayerSpec, LayerSpecs
+from gdsfactory.typings import Coordinate, LayerSpec
 
 
 @gf.cell
@@ -16,7 +16,6 @@ def text(
     position: Coordinate = (0, 0),
     justify: str = "left",
     layer: LayerSpec = "WG",
-    layers: LayerSpecs | None = None,
 ) -> Component:
     """Text shapes.
 
@@ -26,13 +25,11 @@ def text(
         position: x, y position.
         justify: left, right, center.
         layer: for the text.
-        layers: optional for duplicating the text.
     """
     scaling = size / 1000
     xoffset = position[0]
     yoffset = position[1]
     t = gf.Component()
-    layers = layers or [layer]
 
     for line in text.split("\n"):
         label = gf.Component()
@@ -44,8 +41,9 @@ def text(
                 for poly in _glyph[ascii_val]:
                     xpts = np.array(poly)[:, 0] * scaling
                     ypts = np.array(poly)[:, 1] * scaling
-                    for layer in layers:
-                        label.add_polygon([xpts + xoffset, ypts + yoffset], layer=layer)
+                    label.add_polygon(
+                        list(zip(xpts + xoffset, ypts + yoffset)), layer=layer
+                    )
                 xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
             else:
                 raise ValueError(f"No character with ascii value {ascii_val!r}")
@@ -53,18 +51,20 @@ def text(
         yoffset -= 1500 * scaling
         xoffset = position[0]
     justify = justify.lower()
-    for label in t.references:
+    for label in t.insts:
         if justify == "left":
-            label.xmin = position[0]
+            pass
         elif justify == "right":
             label.xmax = position[0]
         elif justify == "center":
-            label.move(origin=label.center, destination=position, axis="x")
+            xmin = position[0] - label.d.xsize / 2
+            label.d.xmin = xmin
         else:
             raise ValueError(
                 f"justify = {justify!r} not in ('center', 'right', 'left')"
             )
-    return t.flatten()
+    t.flatten()
+    return t
 
 
 @gf.cell
@@ -85,7 +85,20 @@ def text_lines(
     for i, texti in enumerate(text):
         t = text_rectangular(text=texti, size=size, layer=layer)
         tref = c.add_ref(t)
-        tref.movey(-6 * size * (i + 1))
+        tref.d.movey(-6 * size * (i + 1))
+    return c
+
+
+@gf.cell
+def logo(text: str = "GDSFACTORY", text_function=text, spacing=1) -> Component:
+    """Returns GDSfactory logo."""
+    c = Component()
+    xmin = 0
+    for i, letter in enumerate(text):
+        ref = c << text_function(letter, layer=(i + 1, 0), size=10)
+        ref.d.xmin = xmin
+        xmin = ref.d.xmax + spacing
+
     return c
 
 
@@ -95,12 +108,11 @@ if __name__ == "__main__":
     c = text(
         text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
         size=4.0,
-        justify="right",
+        justify="center",
         position=(0, 0),
-        layers=[(1, 0), (2, 0)],
     )
-    # c = text_lines(text=["a", "b"], size=10)
-    # c = text_lines()
-    # c2.show(show_ports=True)
+    c = text_lines(text=("a", "b"), size=10)
+    c = logo()
+    # c2.show( )
     # c.plot()
     c.show()

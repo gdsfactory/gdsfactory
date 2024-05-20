@@ -1,11 +1,22 @@
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
+import gdsfactory as gf
 import gdsfactory.samples.all_angle_routing as aar_samples
 from gdsfactory.difftest import difftest
 from gdsfactory.pdk import get_active_pdk
 
-pytestmark = pytest.mark.filterwarnings("ignore:Port")
+
+@pytest.fixture(autouse=True)
+def setup_and_teardown():
+    # Setup: Code before the yield is the setup code
+    gf.config.enable_off_grid_ports()
+
+    yield  # This is where the test function gets executed
+
+    # Teardown: Code after the yield is the teardown code
+    gf.config.disable_off_grid_ports()
+
 
 AAR_YAML_PICS = aar_samples.get_yaml_pics()
 
@@ -30,18 +41,18 @@ def bad_component_name(request) -> str:
 def test_gds(component_name: str) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     # make sure we are flattening invalid refs
-    flatten_offgrid_references_default = (
-        get_active_pdk().gds_write_settings.flatten_offgrid_references
+    flatten_invalid_refs_default = (
+        get_active_pdk().gds_write_settings.flatten_invalid_refs
     )
-    get_active_pdk().gds_write_settings.flatten_offgrid_references = True
+    get_active_pdk().gds_write_settings.flatten_invalid_refs = True
 
     try:
         component = AAR_YAML_PICS[component_name]()
-        difftest(component, test_name=component_name, ignore_sliver_differences=True)
+        difftest(component, test_name=component_name)
     finally:
         # reset back to what it was, so we don't mess up other tests
-        get_active_pdk().gds_write_settings.flatten_offgrid_references = (
-            flatten_offgrid_references_default
+        get_active_pdk().gds_write_settings.flatten_invalid_refs = (
+            flatten_invalid_refs_default
         )
 
 

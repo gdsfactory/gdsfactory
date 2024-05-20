@@ -1,11 +1,11 @@
-function: dbr
 info: {}
-module: gdsfactory.components.dbr
-name: dbr
+name: dbr_W0p45_W0p55_L0p159_L0p159_N10_CSxs_sc_SL0p01
 settings:
   cross_section: xs_sc
+  function_name: dbr
   l1: 0.159
   l2: 0.159
   n: 10
-  w1: 0.475
-  w2: 0.525
+  straight_length: 0.01
+  w1: 0.45
+  w2: 0.55

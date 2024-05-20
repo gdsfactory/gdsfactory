@@ -158,7 +158,6 @@ class Etch(Lithography):
         thickness (float): thickness to remove [nm]
         type (str): of etch (isotropic, anisotropic, etc.)
         rate (float): of removal [nm/s]
-        sidewall_angle (float): angle of sidewall [deg]
 
     """
 
@@ -166,7 +165,6 @@ class Etch(Lithography):
     depth: float
     type: str = "anisotropic"
     rate: float = None
-    sidewall_angle: float = 0
 
 
 @dataclass(kw_only=True)

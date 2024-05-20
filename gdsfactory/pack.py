@@ -6,19 +6,14 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import warnings
-from collections import Counter
 from typing import Any
 
 import numpy as np
-from pydantic import validate_call
 
 import gdsfactory as gf
-from gdsfactory.component import Component, valid_anchors
-from gdsfactory.name import get_name_short
+from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import Anchor, ComponentSpec, Float2, Number
-
-name_counters = Counter()
 
 
 def _pack_single_bin(
@@ -92,7 +87,6 @@ def _pack_single_bin(
     return packed_rect_dict, unpacked_rect_dict
 
 
-@validate_call
 def pack(
     component_list: list[ComponentSpec],
     spacing: float = 10.0,
@@ -112,7 +106,7 @@ def pack(
     h_mirror: bool = False,
     v_mirror: bool = False,
     add_ports_prefix: bool = True,
-    name_ports_with_component_name: bool = True,
+    add_ports_suffix: bool = False,
 ) -> list[Component]:
     """Pack a list of components into as few Components as possible.
 
@@ -135,8 +129,8 @@ def pack(
         rotation: optional component rotation in degrees.
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
-        add_ports_prefix: adds prefix to port names. False adds suffix.
-        name_ports_with_component_name: if True uses component.name as unique id. False uses index.
+        add_ports_prefix: adds port names with prefix.
+        add_ports_suffix: adds port names with suffix.
 
     .. plot::
         :include-source:
@@ -175,9 +169,8 @@ def pack(
     # Convert Components to rectangles
     rect_dict = {}
     for n, D in enumerate(component_list):
-        if not isinstance(D, Component):
-            raise ValueError(f"pack() failed because {D} is not a Component")
-        w, h = (D.size + spacing) / precision
+        size = np.array([D.d.xsize, D.d.ysize])
+        w, h = (size + spacing) / precision
         w, h = int(w), int(h)
         if (w > max_size[0]) or (h > max_size[1]):
             raise ValueError(
@@ -199,40 +192,38 @@ def pack(
         packed_list.append(packed_rect_dict)
 
     components_packed_list = []
-    name_counter = Counter()
     index = 0
-    for i, rect_dict in enumerate(packed_list):
-        name = get_name_short(f"{name_prefix or 'pack'}_{i}")
-        packed = Component(name)
+    for rect_dict in packed_list:
+        packed = Component()
         for n, rect in rect_dict.items():
             x, y, w, h = rect
             xcenter = x + w / 2 + spacing / 2
             ycenter = y + h / 2 + spacing / 2
             component = component_list[n]
-            d = component.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
-            packed.add(d)
-
-            d.center = snap_to_grid((xcenter * precision, ycenter * precision))
-            component_id = component.name if name_ports_with_component_name else index
-            name_counter[component_id] += 1
-
-            if name_counter[component_id] > 1:
-                component_id = f"{component_id}${name_counter[component_id]}"
-
-            info = component.info
-            info["parent"] = component.name
+            d = (
+                packed << component
+            )  # ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
+            if rotation:
+                d.d.rotate(rotation)
+            if h_mirror:
+                d.mirror_x()
+            if v_mirror:
+                d.mirror_y()
+            d.d.center = snap_to_grid((xcenter * precision, ycenter * precision))
             if add_ports_prefix:
-                packed.add_ports(d.ports, prefix=f"{component_id}-", info=info)
+                packed.add_ports(d.ports, prefix=f"{index}_")
+            elif add_ports_suffix:
+                packed.add_ports(d.ports, suffix=f"_{index}")
             else:
-                packed.add_ports(d.ports, suffix=f"-{component_id}", info=info)
+                try:
+                    packed.add_ports(d.ports)
+                except ValueError:
+                    packed.add_ports(d.ports, suffix=f"_{index}")
 
             index += 1
+
             if text:
                 for text_offset, text_anchor in zip(text_offsets, text_anchors):
-                    if text_anchor not in valid_anchors:
-                        raise ValueError(
-                            f"Invalid anchor {text_anchor} not in {valid_anchors}"
-                        )
                     label = packed << text(f"{text_prefix}{index}")
                     if text_mirror:
                         label.mirror()
@@ -251,13 +242,14 @@ def pack(
     return components_packed_list
 
 
-def test_pack() -> None:
-    """Test packing function."""
+if __name__ == "__main__":
+    # test_pack()
     component_list = [
-        gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(2)
+        gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(10)
     ]
     component_list += [
-        gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2)) for n in range(2)
+        gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2))
+        for n in range(10)
     ]
 
     components_packed_list = pack(
@@ -269,67 +261,18 @@ def test_pack() -> None:
         sort_by_area=True,  # Pre-sorts the shapes by area
     )
     c = components_packed_list[0]  # Only one bin was created, so we plot that
-    assert len(c.get_dependencies()) == 4
-    assert c
 
-
-def test_pack_with_settings() -> None:
-    """Test packing function with custom settings."""
-    component_list = [
-        gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)
-    ]
-    component_list += [
-        gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)
-    ]
-
-    components_packed_list = pack(
-        component_list,  # Must be a list or tuple of Components
-        spacing=1.25,  # Minimum distance between adjacent shapes
-        aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
-        # max_size=(None, None),  # Limits the size into which the shapes will be packed
-        max_size=(100, 100),  # Limits the size into which the shapes will be packed
-        density=1.05,  # Values closer to 1 pack tighter but require more computation
-        sort_by_area=True,  # Pre-sorts the shapes by area
-        precision=1e-3,
-    )
-    assert components_packed_list[0]
-
-
-if __name__ == "__main__":
-    # # test_pack()
-    component_list = [
-        gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(2)
-    ]
-    component_list += [
-        gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2), name=f"r{n}")
-        for n in range(2)
-    ]
-    # component_list = [gf.c.straight, gf.c.straight]
-
-    # components_packed_list = pack(
-    #     component_list,  # Must be a list or tuple of Components
-    #     spacing=1.25,  # Minimum distance between adjacent shapes
-    #     aspect_ratio=(2, 1),  # (width, height) ratio of the rectangular bin
-    #     max_size=(None, None),  # Limits the size into which the shapes will be packed
-    #     density=1.05,  # Values closer to 1 pack tighter but require more computation
-    #     sort_by_area=True,  # Pre-sorts the shapes by area
+    # p = pack(
+    #     [gf.components.straight(length=i) for i in [1, 1]],
+    #     spacing=20.0,
+    #     max_size=(100, 100),
+    #     text=partial(gf.components.text, justify="center"),
+    #     text_prefix="R",
+    #     name_prefix="demo",
+    #     text_anchors=["nc"],
+    #     text_offsets=[(-10, 0)],
+    #     text_mirror=True,
+    #     v_mirror=True,
     # )
-    # c = components_packed_list[0]  # Only one bin was created, so we plot that
-
-    from functools import partial
-
-    p = pack(
-        [gf.components.straight(length=i) for i in [1, 1]],
-        spacing=20.0,
-        max_size=(100, 100),
-        text=partial(gf.components.text, justify="center"),
-        text_prefix="R",
-        name_prefix="demo",
-        text_anchors=["nc"],
-        text_offsets=[(-10, 0)],
-        text_mirror=True,
-        v_mirror=True,
-    )
     # c = p[0]
-    c = pack(p)[0]
-    c.show(show_ports=True)
+    c.show()

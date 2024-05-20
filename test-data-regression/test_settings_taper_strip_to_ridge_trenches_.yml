@@ -1,8 +1,7 @@
-function: taper_strip_to_ridge_trenches
 info: {}
-module: gdsfactory.components.taper
-name: taper_strip_to_ridge_trenches
+name: taper_strip_to_ridge_trenches_L10_W0p5_SO3_TW2_TLDEEP_ETCH_LWWG_TO0p1
 settings:
+  function_name: taper_strip_to_ridge_trenches
   layer_wg: WG
   length: 10.0
   slab_offset: 3.0
