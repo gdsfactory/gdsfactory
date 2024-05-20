@@ -1,97 +1,24 @@
-name: sample_connections_dd1d97b8
-ports: {}
+info: {}
+name: sample_connections
 settings:
-  changed:
-    conf:
-      connections:
-        wgw,o1: wgn,o2
-      instances:
-        wgn:
-          component: straight
-          settings:
-            length: 0.5
-        wgw:
-          component: straight
-          settings:
-            length: 1
-      name: sample_connections
-    routing_strategy:
-      route_bundle:
-        function: route_bundle
-      route_bundle_all_angle:
-        function: route_bundle_all_angle
-      route_bundle_electrical:
-        function: route_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      route_bundle_from_steps:
-        function: route_bundle_from_steps
-      route_bundle_from_steps_electrical:
-        function: route_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      route_bundle_from_waypoints:
-        function: route_bundle_from_waypoints
-      route_bundle_path_length_match:
-        function: route_bundle_path_length_match
-      route_bundle_same_axis_no_grouping:
-        function: route_bundle_same_axis_no_grouping
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-  full:
-    conf:
-      connections:
-        wgw,o1: wgn,o2
-      instances:
-        wgn:
-          component: straight
-          settings:
-            length: 0.5
-        wgw:
-          component: straight
-          settings:
-            length: 1
-      name: sample_connections
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-    routing_strategy:
-      route_bundle:
-        function: route_bundle
-      route_bundle_all_angle:
-        function: route_bundle_all_angle
-      route_bundle_electrical:
-        function: route_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      route_bundle_from_steps:
-        function: route_bundle_from_steps
-      route_bundle_from_steps_electrical:
-        function: route_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      route_bundle_from_waypoints:
-        function: route_bundle_from_waypoints
-      route_bundle_path_length_match:
-        function: route_bundle_path_length_match
-      route_bundle_same_axis_no_grouping:
-        function: route_bundle_same_axis_no_grouping
-  function_name: _from_yaml
-  info:
+  conf:
+    connections:
+      wgw,o1: wgn,o2
     instances:
-    - wgw
-    - wgn
-  info_version: 2
-  module: gdsfactory.read.from_yaml
-  name: sample_connections_dd1d97b8
+      wgn:
+        component: straight
+        settings:
+          length: 0.5
+      wgw:
+        component: straight
+        settings:
+          length: 1
+    name: sample_connections
+  function_name: _from_yaml
+  label_instance_function: add_instance_label
+  mode: layout
+  name: sample_connections
+  routing_strategy:
+    route_bundle: route_bundle
+    route_bundle_all_angle: route_bundle_all_angle
+    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing_PTelectrical_ADPWTrue

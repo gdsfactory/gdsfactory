@@ -1,97 +1,24 @@
-name: sample_mirror_simple_0e62769d
-ports: {}
+info: {}
+name: sample_mirror_simple
 settings:
-  changed:
-    conf:
-      connections:
-        b,o1: s,o2
-      instances:
-        b:
-          component: bend_circular
-        s:
-          component: straight
-      name: sample_mirror_simple
-      placements:
-        b:
-          mirror: true
-          port: o1
-    routing_strategy:
-      route_bundle:
-        function: route_bundle
-      route_bundle_all_angle:
-        function: route_bundle_all_angle
-      route_bundle_electrical:
-        function: route_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      route_bundle_from_steps:
-        function: route_bundle_from_steps
-      route_bundle_from_steps_electrical:
-        function: route_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      route_bundle_from_waypoints:
-        function: route_bundle_from_waypoints
-      route_bundle_path_length_match:
-        function: route_bundle_path_length_match
-      route_bundle_same_axis_no_grouping:
-        function: route_bundle_same_axis_no_grouping
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-  full:
-    conf:
-      connections:
-        b,o1: s,o2
-      instances:
-        b:
-          component: bend_circular
-        s:
-          component: straight
-      name: sample_mirror_simple
-      placements:
-        b:
-          mirror: true
-          port: o1
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
-    routing_strategy:
-      route_bundle:
-        function: route_bundle
-      route_bundle_all_angle:
-        function: route_bundle_all_angle
-      route_bundle_electrical:
-        function: route_bundle
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      route_bundle_from_steps:
-        function: route_bundle_from_steps
-      route_bundle_from_steps_electrical:
-        function: route_bundle_from_steps
-        settings:
-          bend:
-            function: wire_corner
-          cross_section: xs_metal_routing
-      route_bundle_from_waypoints:
-        function: route_bundle_from_waypoints
-      route_bundle_path_length_match:
-        function: route_bundle_path_length_match
-      route_bundle_same_axis_no_grouping:
-        function: route_bundle_same_axis_no_grouping
-  function_name: _from_yaml
-  info:
+  conf:
+    connections:
+      b,o1: s,o2
     instances:
-    - s
-    - b
-  info_version: 2
-  module: gdsfactory.read.from_yaml
-  name: sample_mirror_simple_0e62769d
+      b:
+        component: bend_circular
+      s:
+        component: straight
+    name: sample_mirror_simple
+    placements:
+      b:
+        mirror: true
+        port: o1
+  function_name: _from_yaml
+  label_instance_function: add_instance_label
+  mode: layout
+  name: sample_mirror_simple
+  routing_strategy:
+    route_bundle: route_bundle
+    route_bundle_all_angle: route_bundle_all_angle
+    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing_PTelectrical_ADPWTrue

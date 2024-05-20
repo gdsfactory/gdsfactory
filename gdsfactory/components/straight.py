@@ -65,8 +65,12 @@ if __name__ == "__main__":
         cross_section="xs_sc",
     )
     ref = c0 << c
-    print("o1" in c.ports)
-    print(type(c.ports))
-    print("o1" in ref.ports)
-    print(type(ref.ports))
+    # print("o1" in c.ports)
+    # print(type(c.ports))
+    # print("o1" in ref.ports)
+    # print(type(ref.ports))
+    print(c.size_info)
+    print(c.d.size_info)
+    print(ref.size_info)
+    print(ref.d.size_info)
     c.show()

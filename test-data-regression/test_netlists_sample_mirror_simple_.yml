@@ -7,47 +7,55 @@ instances:
       dy: 10.0
       length: 15.708
       radius: 10.0
-      route_info:
-        length: 15.708
-        n_bend_90: 1.0
-        type: xs_sc
-        weight: 15.708
-        xs_sc_length: 15.708
-    settings: {}
+      route_info_length: 15.708
+      route_info_n_bend_90: 1.0
+      route_info_type: xs_sc
+      route_info_weight: 15.708
+      route_info_xs_sc_length: 15.708
+    settings:
+      angle: 90.0
+      cross_section: xs_sc
+      function_name: bend_circular
+      layer: null
+      npoints: null
+      radius: null
+      width: null
   s:
     component: straight
     info:
-      cross_section: xs_sc
       length: 10.0
-      route_info:
-        length: 10.0
-        type: xs_sc
-        weight: 10.0
-        xs_sc_length: 10.0
+      route_info_length: 10.0
+      route_info_type: xs_sc
+      route_info_weight: 10.0
+      route_info_xs_sc_length: 10.0
       width: 0.5
-    settings: {}
-name: sample_mirror_simple_0e62769d
+    settings:
+      cross_section: xs_sc
+      function_name: straight
+      length: 10.0
+      npoints: 2
+name: sample_mirror_simple
 placements:
   b:
-    mirror: true
+    mirror: false
     rotation: 0
-    x: 10.0
-    y: 0.0
+    x: 15125
+    y: 4875
   s:
-    mirror: 0
+    mirror: false
     rotation: 0
-    x: 0.0
-    y: 0.0
+    x: 5000
+    y: 0
 ports: {}
 warnings:
   optical:
     unconnected_ports:
     - message: 2 unconnected optical ports!
       ports:
-      - s,o1
       - b,o2
+      - s,o1
       values:
-      - - 0.0
-        - 0.0
-      - - 20.0
-        - -10.0
+      - - 20000
+        - 10000
+      - - 0
+        - 0

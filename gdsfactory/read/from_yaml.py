@@ -134,7 +134,7 @@ def to_um(ref, value):
 
 def _get_anchor_point_from_name(ref: Instance, anchor_name: str) -> np.ndarray | None:
     if anchor_name in valid_anchor_point_keywords:
-        return getattr(ref.size_info, anchor_name)
+        return getattr(ref.d.size_info, anchor_name)
     elif anchor_name in ref.ports:
         return ref.ports[anchor_name].d.center
     else:
@@ -145,7 +145,7 @@ def _get_anchor_value_from_name(
     ref: Instance, anchor_name: str, return_value: str
 ) -> float | None:
     if anchor_name in valid_anchor_value_keywords:
-        return getattr(ref.size_info, anchor_name)
+        return getattr(ref.d.size_info, anchor_name)
     anchor_point = _get_anchor_point_from_name(ref, anchor_name)
     if anchor_point is None:
         return None
