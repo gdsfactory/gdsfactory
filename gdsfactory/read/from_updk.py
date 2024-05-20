@@ -121,9 +121,7 @@ layer_pin = {layer_pin}
         parameters_labels = (
             "\n".join(
                 [
-                    "    c.add_label(text=f'{}', position=(xc, yc-{}/{}/2*ysize), layer=layer_label)\n".format(
-                        p_name, i, len(parameters)
-                    )
+                    f"    c.add_label(text=f'{p_name}', position=(xc, yc-{i}/{len(parameters)}/2*ysize), layer=layer_label)\n"
                     for i, p_name in enumerate(parameters_colon)
                 ]
             )
