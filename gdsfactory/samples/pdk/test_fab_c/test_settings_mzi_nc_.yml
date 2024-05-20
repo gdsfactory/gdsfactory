@@ -1,10 +1,10 @@
 info: {}
-name: mzi_DL10_LY2_LX0p1_Bbend_euler_nc_Sstraight_nc_SYNone_SXTNone_SXBNone_Smmi1x2_nc_CNone_WSTrue_PESo2_PESo3_PECo2_PECo3_N2_CSxs_134304f7_CSXTNone_CSXBNone_MBFalse_AOPAFalse_ML0p01_ARPTrue
+name: mzi_DL10_LY2_LX0p1_Bbend_euler_nc_Sstraight_nc_SYNone_SXTNone_SXBNone_Smmi1x2_nc_CNone_WSTrue_PESo2_PESo3_PECo2_PECo3_N2_CSxs_13fbb82f_CSXTNone_CSXBNone_MBFalse_AOPAFalse_ML0p01_ARPTrue
 settings:
   add_optical_ports_arms: false
   auto_rename_ports: true
   bend: bend_euler_nc
-  cross_section: xs_134304f7
+  cross_section: xs_13fbb82f
   delta_length: 10.0
   function_name: mzi
   length_x: 0.1
