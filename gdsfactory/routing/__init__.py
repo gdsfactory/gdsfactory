@@ -1,6 +1,5 @@
 """Functions to create routes between components."""
 
-
 from __future__ import annotations
 
 from gdsfactory.routing import sort_ports, utils
