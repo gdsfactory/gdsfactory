@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from functools import partial
 
-import flatdict
-
 import gdsfactory as gf
 from gdsfactory.name import clean_name
 from gdsfactory.snap import snap_to_grid as snap
@@ -57,22 +55,22 @@ CIRCUIT NAME:{component.name}
 """
     info = []
 
-    metadata = component.metadata_child["changed"]
+    metadata = component.settings
     if metadata:
         info += [
             f"CIRCUITINFO NAME: {k}, VALUE: {v}"
-            for k, v in metadata.items()
+            for k, v in metadata
             if k not in metadata_ignore and isinstance(v, int | float | str)
         ]
 
-    metadata = flatdict.FlatDict(component.metadata["full"])
+    metadata = component.settings
     info += [
         f"CIRCUITINFO NAME: {clean_name(k)}, VALUE: {metadata.get(k)}"
         for k in metadata_include_parent
         if metadata.get(k)
     ]
 
-    metadata = flatdict.FlatDict(component.metadata_child["full"])
+    metadata = component.settings
     info += [
         f"CIRCUITINFO NAME: {k}, VALUE: {metadata.get(k)}"
         for k in metadata_include_child
@@ -93,14 +91,7 @@ CIRCUIT NAME:{component.name}
             ]
     text += "\n".join(info)
 
-    label = gf.Label(
-        text=text,
-        origin=(0, 0),
-        anchor="o",
-        layer=layer[0],
-        texttype=layer[1],
-    )
-    component.add(label)
+    component.add_label(text=text, position=(0, 0), layer=layer)
     return component
 
 
@@ -115,13 +106,11 @@ if __name__ == "__main__":
     c = gf.c.mmi2x2(length_mmi=2.2)
     c = gf.routing.add_fiber_array(
         c,
-        get_input_labels_function=None,
         grating_coupler=gf.c.grating_coupler_te,
-        decorator=add_label_ehva_demo,
     )
+    c = add_label_ehva(c)
 
     # add_label_ehva(c, die="demo_die", metadata_include_child=["width_mmi"])
     # add_label_ehva(c, die="demo_die", metadata_include_child=[])
 
-    print(c.labels[0])
     c.show()

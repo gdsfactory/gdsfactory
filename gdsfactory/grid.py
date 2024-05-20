@@ -11,7 +11,6 @@ import kfactory as kf
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.component_layout import SizeInfo
 from gdsfactory.components.rectangle import rectangle
@@ -20,7 +19,6 @@ from gdsfactory.components.triangles import triangle
 from gdsfactory.typings import Anchor, ComponentSpec, ComponentSpecs, Float2
 
 
-@cell
 def grid(
     components: ComponentSpecs = (rectangle, triangle),
     spacing: tuple[float, float] | float = (5.0, 5.0),
@@ -85,7 +83,6 @@ def grid(
     return c
 
 
-@cell
 def grid_with_text(
     components: tuple[ComponentSpec, ...] = (rectangle, triangle),
     text_prefix: str = "",
