@@ -193,7 +193,7 @@ def _get_glyph(font, letter):  # noqa: C901
     # Construct the component
     component = Component(block_name)
     if polylines:
-        letter_polyline = polylines[0:1]
+        letter_polyline = polylines[:1]
         for polyline in polylines[1:]:
             letter_polyline = gdstk.boolean(letter_polyline, polyline, "xor")
 
