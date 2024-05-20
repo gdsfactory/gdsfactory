@@ -61,6 +61,7 @@ def route_single(
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
     waypoints: Coordinates | None = None,
     port_type: str = "optical",
+    allow_different_port_widths: bool = False,
     **kwargs,
 ) -> OpticalManhattanRoute:
     """Returns a Manhattan Route between 2 ports.
@@ -79,6 +80,8 @@ def route_single(
         end_straight_length: length of end straight.
         cross_section: spec.
         waypoints: list of points to pass through.
+        port_type: port type to route.
+        allow_different_port_widths: allow different port widths.
         kwargs: cross_section settings.
 
 
@@ -148,6 +151,7 @@ def route_single(
             taper_cell=taper_cell,
             pts=waypoints,
             port_type=port_type,
+            allow_different_port_widths=allow_different_port_widths,
         )
 
     else:
@@ -161,6 +165,7 @@ def route_single(
             start_straight=start_straight,
             end_straight=end_straight,
             port_type=port_type,
+            allow_different_port_widths=allow_different_port_widths,
         )
 
 
@@ -173,6 +178,7 @@ def route_single_electrical(
     layer: LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "xs_m3",
+    allow_different_port_widths: bool = True,
 ) -> None:
     """Places a route between two electrical ports.
 
@@ -185,6 +191,7 @@ def route_single_electrical(
         layer: The layer of the route.
         width: The width of the route.
         cross_section: The cross section of the route.
+        allow_different_port_widths: Whether to allow the ports to have different widths.
 
     """
     xs = gf.get_cross_section(cross_section)
