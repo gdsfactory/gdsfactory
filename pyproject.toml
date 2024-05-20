@@ -40,7 +40,7 @@ dependencies = [
   "networkx",
   "pyglet<2",
   "scikit-image",
-  "trimesh>=4,<4.4",
+  "trimesh>=4,<4.5",
   "ipycytoscape",
   "ipyevents",
   "ipykernel",
