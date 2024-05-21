@@ -17,6 +17,7 @@ def bend_circular_heater(
     heater_width: float = 0.5,
     layer_heater: LayerSpec = "HEATER",
     cross_section: CrossSectionSpec = "xs_sc",
+    allow_min_radius_violation: bool = False,
 ) -> Component:
     """Creates an arc of arclength `theta` starting at angle `start_angle`.
 
@@ -28,7 +29,7 @@ def bend_circular_heater(
         heater_width: in um.
         layer_heater: for heater.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        kwargs: cross_section settings.
+        allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
     """
     x = gf.get_cross_section(cross_section)
     radius = radius or x.radius
@@ -57,7 +58,8 @@ def bend_circular_heater(
     c.info["length"] = np.round(p.length(), 3)
     c.info["dx"] = abs(p.points[0][0] - p.points[-1][0])
     c.info["dy"] = abs(p.points[0][0] - p.points[-1][0])
-    x.validate_radius(radius)
+    if not allow_min_radius_violation:
+        x.validate_radius(radius)
     c.flatten()
     return c
 

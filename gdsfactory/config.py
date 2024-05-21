@@ -210,7 +210,7 @@ CONF = config
 CONF.difftest_ignore_label_differences = False
 CONF.difftest_ignore_sliver_differences = False
 CONF.difftest_ignore_cell_name_differences = True
-bend_radius_error_type: ErrorType = ErrorType.WARNING
+CONF.bend_radius_error_type = ErrorType.ERROR
 CONF.layer_error_path = (1000, 0)
 CONF.pdk = None
 
