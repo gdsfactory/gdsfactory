@@ -1,5 +1,3 @@
-name: mask_compact
-
 instances:
   rings:
     component: pack_doe
@@ -23,7 +21,7 @@ instances:
         delta_length: [10, 20, 30, 40]
       do_permutations: True
       spacing: [10, 10]
-      function: add_fiber_single
+      function: add_fiber_array
 
 
 placements:
