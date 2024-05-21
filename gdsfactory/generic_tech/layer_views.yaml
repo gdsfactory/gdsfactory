@@ -200,13 +200,13 @@ LayerViews:
     layer_in_name: true
     hatch_pattern: strongly left-hatched dense
     width: 1
-    color: "black"
+    color: "grey"
   SITILES:
     layer: [190, 0]
     layer_in_name: true
     hatch_pattern: coarsely dotted
     width: 1
-    color: "black"
+    color: "grey"
   M1TILES:
     layer: [191, 0]
     layer_in_name: true
@@ -254,7 +254,7 @@ LayerViews:
     hatch_pattern: hollow
     visible: false
     width: 2
-    color: "black"
+    color: "grey"
   FLOORPLAN:
     layer: [64, 0]
     layer_in_name: true
@@ -266,7 +266,7 @@ LayerViews:
         layer: [100, 0]
         layer_in_name: true
         hatch_pattern: hollow
-        color: "black"
+        color: "grey"
       MONITOR:
         layer: [101, 0]
         layer_in_name: true
@@ -325,13 +325,13 @@ LayerViews:
         layer: [301, 0]
         layer_in_name: true
         width: 1
-        color: "black"
+        color: "grey"
         hatch_pattern: solid
       XS_SIN:
         layer: [319, 0]
         layer_in_name: true
         width: 1
-        color: "black"
+        color: "grey"
         hatch_pattern: solid
       XS_N:
         layer: [320, 0]
