@@ -367,48 +367,6 @@ def get_git_hash():
         return "not_a_git_repo"
 
 
-def enable_off_grid_ports() -> None:
-    """Ignore off grid port warnings."""
-    CONF.enforce_ports_on_grid = False
-    CONF.ports_off_grid = "ignore"
-    CONF.ports_not_manhattan = "ignore"
-
-
-def disable_off_grid_ports(error_type: str = "warn") -> None:
-    """Enable off grid port warnings."""
-    CONF.enforce_ports_on_grid = True
-    CONF.ports_off_grid = error_type
-    CONF.ports_not_manhattan = error_type
-
-
-def set_plot_options(
-    show_ports: bool = True,
-    show_subports: bool = False,
-    label_aliases: bool = False,
-    new_window: bool = False,
-    blocking: bool = False,
-    zoom_factor: float = 1.4,
-) -> None:
-    """Set plot options for matplotlib."""
-    from gdsfactory.quickplotter import set_quickplot_options
-
-    set_quickplot_options(
-        show_ports=show_ports,
-        show_subports=show_subports,
-        label_aliases=label_aliases,
-        new_window=new_window,
-        blocking=blocking,
-        zoom_factor=zoom_factor,
-    )
-
-    # print(PATH.sparameters)
-    # print_config()
-    # print_version()
-    # print_version_raw()
-    # print_version_pdks()
-    # write_tech("tech.json")
-
-
 if __name__ == "__main__":
     print(CONF.pdk)
     # print_version_plugins()

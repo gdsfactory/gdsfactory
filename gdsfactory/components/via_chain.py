@@ -65,7 +65,7 @@ def via_chain(
         raise ValueError(f"{cols=} must be even")
 
     c = gf.Component()
-    rows = num_vias / cols
+    rows = round(num_vias / cols)
 
     if int(rows) != rows:
         raise ValueError(f"{num_vias=} must be a multiple of {cols=}")
@@ -158,4 +158,4 @@ def via_chain(
 
 if __name__ == "__main__":
     c = via_chain(num_vias=40)
-    c.show(show_ports=True)
+    c.show()

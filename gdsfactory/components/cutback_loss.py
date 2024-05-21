@@ -96,14 +96,6 @@ cutback_loss_bend180 = partial(
 
 
 if __name__ == "__main__":
-    # c = gf.pack(
-    #     cutback_loss_spirals(
-    #         decorator=gf.c.add_grating_couplers_with_loopback_fiber_array
-    #     )
-    # )[0]
-    # components = cutback_loss(
-    #     component=gf.c.mmi2x2, decorator=gf.routing.add_fiber_array
-    # )
-    components = cutback_loss_mmi1x2(decorator=gf.routing.add_fiber_array)
+    components = cutback_loss_mmi1x2()
     c = gf.pack(components)[0]
     c.show()
