@@ -107,12 +107,10 @@ Classes and functions for construction and manipulation of geometric objects.
    LayerSpec
    LayerSpecs
    LayerLevel
-   Label
    MaterialSpec
    MultiCrossSectionAngleSpec
    NetlistModel
    PathType
-   Route
    Section
    Step
    StepAllAngle

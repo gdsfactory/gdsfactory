@@ -96,7 +96,7 @@ add_trenches
 
   import gdsfactory as gf
 
-  c = gf.components.add_trenches(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2.0, cross_section='xs_rc_with_trenches', top=True, bot=True, right=False, left=False)
+  c = gf.components.add_trenches(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2.0, cross_section='xs_rc_with_trenches', right=0, left=0)
   c.plot()
 
 
@@ -111,7 +111,7 @@ add_trenches90
 
   import gdsfactory as gf
 
-  c = gf.components.add_trenches90(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2.0, cross_section='xs_rc_with_trenches', top=False, bot=True, right=True, left=False)
+  c = gf.components.add_trenches90(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2.0, cross_section='xs_rc_with_trenches', top=0, right=0, left=0)
   c.plot()
 
 
@@ -231,7 +231,7 @@ bend_euler_trenches
 
   import gdsfactory as gf
 
-  c = gf.components.bend_euler_trenches(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2.0, cross_section='xs_rc_with_trenches', top=False, bot=True, right=True, left=False)
+  c = gf.components.bend_euler_trenches(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2.0, cross_section='xs_rc_with_trenches', top=0, right=0, left=0)
   c.plot()
 
 
@@ -688,7 +688,7 @@ coupler_trenches
 
   import gdsfactory as gf
 
-  c = gf.components.coupler_trenches(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2.0, cross_section='xs_rc_with_trenches', top=True, bot=True, right=False, left=False)
+  c = gf.components.coupler_trenches(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2.0, cross_section='xs_rc_with_trenches', right=0, left=0)
   c.plot()
 
 
@@ -823,7 +823,7 @@ cutback_bend180
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_bend180(straight_length=5.0, rows=6, cols=6, spacing=3)
+  c = gf.components.cutback_bend180(straight_length=5.0, rows=6, cols=6, spacing=3.0)
   c.plot()
 
 
@@ -838,7 +838,7 @@ cutback_bend180circular
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_bend180circular(straight_length=5.0, rows=6, cols=6, spacing=3)
+  c = gf.components.cutback_bend180circular(straight_length=5.0, rows=6, cols=6, spacing=3.0)
   c.plot()
 
 
@@ -1093,7 +1093,7 @@ edge_coupler_array_with_loopback
 
   import gdsfactory as gf
 
-  c = gf.components.edge_coupler_array_with_loopback(cross_section='xs_sc', radius=30, n=8, pitch=127.0, extension_length=1.0, x_reflection=False, text_offset=(0, 0), text_rotation=0)
+  c = gf.components.edge_coupler_array_with_loopback(cross_section='xs_sc', radius=30, n=8, pitch=127.0, extension_length=1.0, x_reflection=False, text_offset=(0, 10), text_rotation=0)
   c.plot()
 
 
@@ -2390,7 +2390,7 @@ ring_double_trenches
 
   import gdsfactory as gf
 
-  c = gf.components.ring_double_trenches(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2.0, cross_section='xs_rc_with_trenches', top=True, bot=True, right=False, left=False)
+  c = gf.components.ring_double_trenches(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2.0, cross_section='xs_rc_with_trenches', right=0, left=0)
   c.plot()
 
 
@@ -2495,7 +2495,7 @@ ring_single_trenches
 
   import gdsfactory as gf
 
-  c = gf.components.ring_single_trenches(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2.0, cross_section='xs_rc_with_trenches', top=True, bot=True, right=False, left=False)
+  c = gf.components.ring_single_trenches(layer_component='WG', layer_trench='DEEP_ETCH', width_trench=2.0, cross_section='xs_rc_with_trenches', right=0, left=0)
   c.plot()
 
 
@@ -2510,7 +2510,7 @@ seal_ring
 
   import gdsfactory as gf
 
-  c = gf.components.seal_ring(bbox=((-1.0, -1.0), (3.0, 4.0)), width=10, padding=10.0, with_north=True, with_south=True, with_east=True, with_west=True)
+  c = gf.components.seal_ring(component='L', width=10, padding=10.0, with_north=True, with_south=True, with_east=True, with_west=True)
   c.plot()
 
 
