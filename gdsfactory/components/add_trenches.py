@@ -9,7 +9,6 @@ from gdsfactory.components.coupler import coupler
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
-@gf.cell
 def add_trenches(
     component: ComponentSpec = coupler,
     layer_component: LayerSpec = "WG",
@@ -18,8 +17,8 @@ def add_trenches(
     cross_section: CrossSectionSpec = "xs_rc_with_trenches",
     top: float | None = None,
     bot: float | None = None,
-    right: float | None = None,
-    left: float | None = None,
+    right: float | None = 0,
+    left: float | None = 0,
     **kwargs,
 ) -> gf.Component:
     """Return component with trenches.
@@ -36,8 +35,8 @@ def add_trenches(
         left: width of the trench on the left. If None uses width_trench.
         kwargs: component settings.
     """
-    c = gf.Component()
     component = gf.get_component(component, **kwargs)
+    c = gf.Component(f"{component.name}_trenches")
     xs = gf.get_cross_section(cross_section)
 
     top = top if top is not None else width_trench

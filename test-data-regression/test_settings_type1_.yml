@@ -1,5 +1,12 @@
 info:
   length: 10.19
   min_bend_radius: 11.744
-name: Unnamed_467
-settings: {}
+name: add_fiber_array_Ccoupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D4_D10_CSxs_sc_GCFgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_coupler_elliptical_trenches_SPte_TA35_GPNo1_CNNone_SPFselect_ports_Mgdsfactorypport_SPToptical_CSxs_sc_TNone_ORT1
+settings:
+  component: coupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D4_D10_CSxs_sc
+  cross_section: xs_sc
+  function_name: add_fiber_array
+  gc_port_name: o1
+  grating_coupler: Fgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_coupler_elliptical_trenches_SPte_TA35
+  optical_routing_type: 1
+  select_ports: Fselect_ports_Mgdsfactorypport_SPToptical

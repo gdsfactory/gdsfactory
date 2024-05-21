@@ -6,6 +6,6 @@ settings:
   component: Fbend_circular_Mgdsfactorypcomponentspbend_circular_SA180
   function_name: cutback_bend180
   rows: 6
-  spacing: 3
+  spacing: 3.0
   straight: straight
   straight_length: 5.0

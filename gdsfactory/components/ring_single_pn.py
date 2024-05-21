@@ -100,11 +100,12 @@ def ring_single_pn(
     undoped_ring_ref = c << undoped_path.extrude(cross_section=cross_section)
 
     undoped_ring_ref.d.rotate(-undoping_angle / 2)
-    undoped_ring_ref.d.ymin = (
-        bus_waveguide.d.ymin
+    undoped_ring_ref.d.y = (
+        bus_waveguide.d.y
         + bus_waveguide.ports["o1"].d.width
         + gap
         - bus_waveguide.d.ysize
+        + radius
     )
     undoped_ring_ref.d.x = bus_waveguide.d.x
 
@@ -122,7 +123,7 @@ def ring_single_pn(
         heater_ref = c << heater_path.extrude(width=0.5, layer=doped_heater_layer)
         heater_ref.d.rotate(-(undoping_angle - doped_heater_angle_buffer) / 2)
         heater_ref.d.x = bus_waveguide.d.x
-        heater_ref.d.ymin = doped_heater_waveguide_offset + doped_heater_width / 2 + gap
+        heater_ref.d.y = doped_heater_waveguide_offset + doped_heater_width / 2 + gap
 
         heater_vias = gf.get_component(heater_vias)
 
@@ -152,7 +153,7 @@ if __name__ == "__main__":
     # print(c.ports)
 
     # c = gf.routing.add_fiber_array(ring_single)
-    c = ring_single_pn(radius=10, gap=0.2)
+    c = ring_single_pn()
     c.show()
 
     # cc = gf.add_pins(c)

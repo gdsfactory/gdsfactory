@@ -3,4 +3,4 @@ name: pixel_S1_LWG
 settings:
   function_name: pixel
   layer: WG
-  size: 1
+  size: 1.0

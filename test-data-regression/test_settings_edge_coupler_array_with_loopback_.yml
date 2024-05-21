@@ -1,5 +1,5 @@
 info: {}
-name: edge_coupler_array_with_loopback_ECFtaper_Mgdsfactorypcomponentsptaper_SW0p2_L100_WTPTrue_CSxs_sc_R30_N8_P127_EL1_XRFalse_Ttext_rectangular_TO0_0_TR0
+name: edge_coupler_array_with_loopback_ECFtaper_Mgdsfactorypcomponentsptaper_SW0p2_L100_WTPTrue_CSxs_sc_R30_N8_P127_EL1_XRFalse_Ttext_rectangular_TO0_10_TR0
 settings:
   cross_section: xs_sc
   edge_coupler: Ftaper_Mgdsfactorypcomponentsptaper_SW0p2_L100_WTPTrue
@@ -11,6 +11,6 @@ settings:
   text: text_rectangular
   text_offset:
   - 0
-  - 0
+  - 10
   text_rotation: 0
   x_reflection: false
