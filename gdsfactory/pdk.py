@@ -16,9 +16,7 @@ from kfactory import LayerEnum
 from omegaconf import DictConfig
 from pydantic import BaseModel, ConfigDict, Field
 
-from gdsfactory import show
 from gdsfactory.config import CONF, logger
-from gdsfactory.events import Event
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews
@@ -207,7 +205,6 @@ class Pdk(BaseModel):
                 warnings.warn(f"Overwriting cell {name!r}")
 
             self.cells[name] = cell
-            on_cell_registered.fire(name=name, cell=cell, pdk=self)
 
     def register_cross_sections(self, **kwargs) -> None:
         """Register cross_sections factories."""
@@ -220,9 +217,6 @@ class Pdk(BaseModel):
             if name in self.cross_sections:
                 warnings.warn(f"Overwriting cross_section {name!r}")
             self.cross_sections[name] = cross_section
-            on_cross_section_registered.fire(
-                name=name, cross_section=cross_section, pdk=self
-            )
 
     def register_cells_yaml(
         self,
@@ -256,7 +250,6 @@ class Pdk(BaseModel):
                         f"ERROR: Cell name {name!r} from {filepath} already registered."
                     )
                 self.cells[name] = cell_from_yaml_template(filepath, name=name)
-                on_yaml_cell_registered.fire(name=name, cell=self.cells[name], pdk=self)
                 logger.info(f"{message} cell {name!r}")
 
         for k, v in kwargs.items():
@@ -577,9 +570,7 @@ def get_constant(constant_name: Any) -> Any:
 
 def _set_active_pdk(pdk: Pdk) -> None:
     global _ACTIVE_PDK
-    old_pdk = _ACTIVE_PDK
     _ACTIVE_PDK = pdk
-    on_pdk_activated.fire(old_pdk=old_pdk, new_pdk=pdk)
 
 
 def get_routing_strategies() -> dict[str, Callable]:
@@ -592,18 +583,6 @@ def get_routing_strategies() -> dict[str, Callable]:
     if routing_strategies is None:
         routing_strategies = default_routing_strategies
     return routing_strategies
-
-
-on_pdk_activated: Event = Event()
-on_cell_registered: Event = Event()
-on_container_registered: Event = Event()
-on_yaml_cell_registered: Event = Event()
-on_yaml_cell_modified: Event = Event()
-on_cross_section_registered: Event = Event()
-
-on_container_registered.add_handler(on_cell_registered.fire)
-on_yaml_cell_registered.add_handler(on_cell_registered.fire)
-on_yaml_cell_modified.add_handler(show)
 
 
 if __name__ == "__main__":
