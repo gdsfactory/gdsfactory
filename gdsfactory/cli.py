@@ -32,7 +32,7 @@ def layermap_to_dataclass(
 
 
 @app.command()
-def write_cells(gdspath: str, dirpath: str = None) -> None:
+def write_cells(gdspath: str, dirpath: str = "") -> None:
     """Write each all level cells into separate GDS files."""
     from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
@@ -40,7 +40,7 @@ def write_cells(gdspath: str, dirpath: str = None) -> None:
 
 
 @app.command()
-def merge_gds(dirpath: str = None, gdspath: str = None) -> None:
+def merge_gds(dirpath: str = "", gdspath: str = "") -> None:
     """Merges GDS cells from a directory into a single GDS."""
     from gdsfactory.read.from_gdspaths import from_gdsdir
 
@@ -109,7 +109,7 @@ def print_pdks() -> None:
 
 
 @app.command(name="from_updk")
-def from_updk_command(filepath: str, filepath_out: str = None) -> None:
+def from_updk_command(filepath: str, filepath_out: str = "") -> None:
     """Writes a PDK in python from uPDK YAML spec."""
 
     filepath = pathlib.Path(filepath)
