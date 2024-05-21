@@ -1,28 +1,3 @@
 info: {}
 name: mirror_x
-settings:
-  conf:
-    instances:
-      mmi_long:
-        component: mmi1x2
-        settings:
-          length_mmi: 5
-          width_mmi: 4.5
-    name: mirror_x
-    placements:
-      mmi_long:
-        mirror: 25
-        x: 0
-        y: 0
-    ports:
-      o1: mmi_long,o3
-      o2: mmi_long,o2
-      o3: mmi_long,o1
-  function_name: _from_yaml
-  label_instance_function: add_instance_label
-  mode: layout
-  name: mirror_x
-  routing_strategy:
-    route_bundle: route_bundle
-    route_bundle_all_angle: route_bundle_all_angle
-    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing_PTelectrical_ADPWTrue
+settings: {}

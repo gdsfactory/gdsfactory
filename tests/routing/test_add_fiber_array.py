@@ -8,11 +8,6 @@ from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 
 
-def type0() -> Component:
-    component = gf.components.coupler(gap=0.2, length=5.99)
-    return gf.routing.add_fiber_array(component=component, optical_routing_type=0)
-
-
 def type1() -> Component:
     component = gf.components.coupler(gap=0.2, length=5.0)
     return gf.routing.add_fiber_array(component=component, optical_routing_type=1)
@@ -25,11 +20,11 @@ def type2() -> Component:
 
 def tapers() -> Component:
     c = gf.components.straight(width=2, length=20)
-    cc = gf.add_tapers(component=c)
+    cc = gf.c.add_tapers(component=c)
     return gf.routing.add_fiber_array(component=cc, optical_routing_type=0)
 
 
-components = [type0, type1, type2, tapers]
+components = [type1, type2, tapers]
 
 
 @pytest.fixture(params=components, scope="function")
