@@ -3862,7 +3862,7 @@ from functools import partial to all files and makes the docs cleaner by renderi
 - move some functions (boolean, compute_area, offset, check_width ... ) into `gdsfactory.geometry`
 - add `gdsfactory.geometry.boolean` for klayout based boolean operations
 - add pydantic validator for `ComponentReference`
-- max_name_length is a cell decorator argument used when importing gds cells
+- max_cellname_length is a cell decorator argument used when importing gds cells
 - add `geometry.boolean_klayout`
 
 ## 3.4.2
@@ -4712,7 +4712,7 @@ else:
 - samples run as part of the test suite, moved samples into pp
 - cell sorts kwarg keys by alphabetical order
 - added cell tests
-- cell accepts max_name_length and ignore_from_name kwargs
+- cell accepts max_cellname_length and ignore_from_name kwargs
 - pp.generate_does raises error if component does not exist in factory
 - replaces name_W20_L30 by name_hash for cell names > 32
 - zz_conn cleaner name using `from pp.cell import clean_name` no slashes in the name

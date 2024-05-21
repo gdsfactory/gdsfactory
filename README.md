@@ -30,6 +30,8 @@ Here, you can code your hardware design in Python or YAML, perform verification 
 
 GDSFactory is a CAD library driven in Python with no GUI. As input you write python code, as an output you generate CAD files (GDS, OASIS, STL, GERBER).
 
+![cad](https://i.imgur.com/bbBVlmv.png)
+
 ![workflow](https://i.imgur.com/abvxJJw.png)
 
 We facilitate an end-to-end design flow for you to:

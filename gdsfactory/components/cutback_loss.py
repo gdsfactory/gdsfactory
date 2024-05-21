@@ -3,6 +3,7 @@ from functools import partial
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.cutback_bend import cutback_bend90, cutback_bend180
 from gdsfactory.components.cutback_component import cutback_component
 from gdsfactory.components.mmi1x2 import mmi1x2
@@ -13,7 +14,7 @@ from gdsfactory.typings import ComponentFactory, CrossSectionSpec
 def cutback_loss(
     component: ComponentFactory = mmi1x2,
     cutback: ComponentFactory = cutback_component,
-    loss: tuple[float, ...] = tuple(1 + 1 * i for i in range(3)),
+    loss: tuple[float, ...] = (1.0, 2.0, 3.0),
     loss_dB: float = 10e-3,
     cols: int | None = 4,
     rows: int | None = None,
@@ -88,14 +89,16 @@ def cutback_loss_spirals(
 
 cutback_loss_mmi1x2 = partial(cutback_loss, component=mmi1x2, port2="o3", mirror2=True)
 cutback_loss_bend90 = partial(
-    cutback_loss, component="bend_euler", cutback=cutback_bend90, cols=12
+    cutback_loss, component=bend_euler, cutback=cutback_bend90, cols=12
 )
 cutback_loss_bend180 = partial(
-    cutback_loss, component="bend_euler180", cutback=cutback_bend180, cols=12
+    cutback_loss, component=bend_euler180, cutback=cutback_bend180, cols=12
 )
 
 
 if __name__ == "__main__":
-    components = cutback_loss_mmi1x2()
-    c = gf.pack(components)[0]
+    # components = cutback_loss_mmi1x2()
+    # c = gf.pack(components)[0]
+    # c = components[0]
+    c = cutback_loss()[0]
     c.show()

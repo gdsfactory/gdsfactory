@@ -11,23 +11,22 @@ import subprocess
 import sys
 import tempfile
 import traceback
-import warnings
 from enum import Enum, auto
 from itertools import takewhile
 from pathlib import Path
 from pprint import pprint
-from typing import TYPE_CHECKING, Any, ClassVar
+from typing import TYPE_CHECKING, Any
 
 import loguru
 from dotenv import find_dotenv
+from kfactory.conf import config
 from loguru import logger as logger
-from pydantic import BaseModel, Field
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import BaseModel
 from rich.console import Console
 from rich.table import Table
 
 if TYPE_CHECKING:
-    from loguru import Logger
+    pass
 
 __version__ = "7.8.5"
 PathType = str | pathlib.Path
@@ -207,44 +206,12 @@ def tracing_formatter(record: loguru.Record) -> str:
         )
 
 
-class Settings(BaseSettings):
-    """GDSFACTORY settings object.
-
-    Attributes:
-        max_name_length: Maximum length of component names.
-        model_config: Pydantic model configuration.
-        loglevel: Log level.
-        pdk: PDK to use. Defaults to generic.
-        difftest_ignore_cell_name_differences: Ignore cell name differences in difftest.
-    """
-
-    max_name_length: int = 99
-    model_config = SettingsConfigDict(
-        validation=True,
-        arbitrary_types_allowed=True,
-        env_prefix="gdsfactory_",
-        env_nested_delimiter="_",
-        env_file=dotenv_path,
-        extra="ignore",
-    )
-    pdk: str | None = None
-    difftest_ignore_cell_name_differences: bool = True
-    difftest_ignore_sliver_differences: bool = False
-    difftest_ignore_label_differences: bool = False
-    layer_error_path: tuple[int, int] = (1000, 0)
-    bend_radius_error_type: ErrorType = ErrorType.WARNING
-    logger: ClassVar[Logger] = logger
-    logfilter: LogFilter = Field(default_factory=LogFilter)
-
-    def __init__(self, **data: Any):
-        """Set log filter and run pydantic."""
-        super().__init__(**data)
-        self.logger.remove()
-        self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
-        self.logger.debug("LogLevel: {}", self.logfilter.level)
-        warnings.showwarning = lambda message, *args, **kwargs: logger.opt(
-            depth=2
-        ).warning(message)
+CONF = config
+CONF.difftest_ignore_label_differences = False
+CONF.difftest_ignore_sliver_differences = False
+CONF.difftest_ignore_cell_name_differences = False
+CONF.layer_error_path = (1000, 0)
+CONF.pdk = None
 
 
 class Paths:
@@ -276,19 +243,15 @@ class Paths:
     font_ocr = fonts / "OCR-A.ttf"
 
 
-CONF = Settings()
 PATH = Paths()
 sparameters_path = PATH.sparameters
 
 
 def rich_output() -> None:
     """Enables rich output."""
-    try:
-        from rich import pretty
+    from rich import pretty
 
-        pretty.install()
-    except ImportError:
-        print("You can install `pip install gdsfactory[full]` for better visualization")
+    pretty.install()
 
 
 def complex_encoder(z):
@@ -340,6 +303,7 @@ def get_git_hash():
 
 
 if __name__ == "__main__":
-    print(CONF.pdk)
+    pass
+    # print(CONF.pdk)
     # print_version_plugins()
     # print_version_pdks()

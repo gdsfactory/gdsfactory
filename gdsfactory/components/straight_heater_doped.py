@@ -240,7 +240,7 @@ def straight_heater_doped_strip(
          |            |           |     undoped Si    |             |              |
          |layer_heater|           |  intrinsic region |<----------->| layer_heater |
          |____________|           |___________________|             |______________|
-                                                                     <-kkkk----------->
+                                                                     <------------>
                                                         heater_gap     heater_width
     """
 

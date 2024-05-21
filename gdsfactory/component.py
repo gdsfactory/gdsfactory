@@ -535,13 +535,13 @@ class Component(kf.KCell):
 
         pdk = get_active_pdk()
 
-        max_name_length = pdk.max_name_length
+        max_cellname_length = pdk.max_cellname_length
         assert isinstance(
             v, Component
         ), f"TypeError, Got {type(v)}, expecting Component"
         assert (
-            len(v.name) <= max_name_length
-        ), f"name `{v.name}` {len(v.name)} > {max_name_length} "
+            len(v.name) <= max_cellname_length
+        ), f"name `{v.name}` {len(v.name)} > {max_cellname_length} "
         return v
 
     def copy_child_info(self, component: Component) -> None:

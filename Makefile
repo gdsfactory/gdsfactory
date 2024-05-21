@@ -8,6 +8,7 @@ install:
 	pre-commit install
 	gf install-klayout-genericpdk
 	gf install-git-diff
+	pip install git+https://github.com/gdsfactory/kfactory --force-reinstall
 
 dev: install
 

@@ -9,11 +9,11 @@ from typing import Any
 from gdsfactory.config import CONF
 
 
-def get_name_short(name: str, max_name_length=CONF.max_name_length) -> str:
+def get_name_short(name: str, max_cellname_length=CONF.max_cellname_length) -> str:
     """Returns a short name."""
-    if len(name) > max_name_length:
+    if len(name) > max_cellname_length:
         name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
-        name = f"{name[:(max_name_length - 9)]}_{name_hash}"
+        name = f"{name[:(max_cellname_length - 9)]}_{name_hash}"
     return name
 
 

@@ -164,7 +164,7 @@ class Pdk(BaseModel):
     routing_strategies: dict[str, Callable] | None = None
     bend_points_distance: float = 20 * nm
     connectivity: list[ConnectivitySpec] | None = None
-    max_name_length: int = CONF.max_name_length
+    max_cellname_length: int = CONF.max_cellname_length
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
