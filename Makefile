@@ -5,6 +5,7 @@ help:
 
 install:
 	pip install -e .[dev,docs] pre-commit
+	pip install git+https://github.com/gdsfactory/kfactory --force-reinstall
 	gf install-klayout-genericpdk
 	gf install-git-diff
 
