@@ -1,7 +1,4 @@
-"""Gdsfactory loads configuration pydantic.
-
-You can set environment variables.
-"""
+"""Gdsfactory configuration."""
 
 from __future__ import annotations
 
@@ -214,8 +211,6 @@ class Settings(BaseSettings):
     """GDSFACTORY settings object.
 
     Attributes:
-        display_type: Display type for components.
-        last_saved_files: List of last saved files.
         max_name_length: Maximum length of component names.
         model_config: Pydantic model configuration.
         loglevel: Log level.
@@ -237,7 +232,6 @@ class Settings(BaseSettings):
     difftest_ignore_sliver_differences: bool = False
     difftest_ignore_label_differences: bool = False
     layer_error_path: tuple[int, int] = (1000, 0)
-    enforce_ports_on_grid: bool = True
     bend_radius_error_type: ErrorType = ErrorType.WARNING
     logger: ClassVar[Logger] = logger
     logfilter: LogFilter = Field(default_factory=LogFilter)
