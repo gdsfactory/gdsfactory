@@ -3,7 +3,7 @@ from __future__ import annotations
 from functools import partial
 from typing import Any
 
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.port import Port

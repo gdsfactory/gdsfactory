@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,

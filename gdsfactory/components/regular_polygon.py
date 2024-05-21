@@ -5,7 +5,7 @@ from functools import partial
 import gdstk
 import numpy as np
 
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 

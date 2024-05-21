@@ -6,7 +6,7 @@ from collections.abc import Callable
 import gdstk
 from pydantic import validate_call
 
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpecs
 

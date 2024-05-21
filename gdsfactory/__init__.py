@@ -23,7 +23,7 @@ from toolz import compose
 from aenum import constant  # type: ignore[import-untyped]
 
 import kfactory as kf
-from kfactory.kcell import LayerEnum, kcl, show
+from kfactory.kcell import LayerEnum, kcl, show, cell
 import klayout.db as kdb
 
 from gdsfactory.path import Path
@@ -31,7 +31,6 @@ from gdsfactory.component import (
     Component,
     ComponentReference,
     Instance,
-    cell,
 )
 from gdsfactory.config import CONF, call_if_func, PATH, logger
 from gdsfactory.port import Port

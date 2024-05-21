@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.mzi import mzi_pin
 from gdsfactory.routing.route_single import route_single

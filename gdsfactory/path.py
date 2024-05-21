@@ -16,7 +16,7 @@ from collections.abc import Callable
 import numpy as np
 from numpy import mod, pi
 
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.component_layout import (
     _GeometryHelper,

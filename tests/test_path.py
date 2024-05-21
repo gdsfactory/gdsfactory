@@ -5,7 +5,7 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 
