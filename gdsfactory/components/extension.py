@@ -155,7 +155,8 @@ def extend_ports(
 
 if __name__ == "__main__":
     # test_extend_ports()
-    c0 = gf.c.straight()
+    c0 = gf.c.straight(width=5)
+    t = gf.components.taper(length=10, width1=5, width2=0.5)
     p0 = c0["o1"]
-    c = extend_ports(c0, length=100)
+    c = extend_ports(c0, extension=t)
     c.show()
