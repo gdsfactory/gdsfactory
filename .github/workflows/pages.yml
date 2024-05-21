@@ -15,6 +15,7 @@ jobs:
   build-docs:
     runs-on: ubuntu-latest
     name: Sphinx docs to gh-pages
+    container: ghcr.io/gdsfactory/gdsfactory:latest
     steps:
       - name: Cancel Workflow Action
         uses: styfle/cancel-workflow-action@0.12.1
