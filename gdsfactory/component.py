@@ -455,6 +455,62 @@ class Component(kf.KCell):
             polygons_points[layer_tuple] = all_points
         return polygons_points
 
+    def get_labels(
+        self, layer: LayerSpec, recursive: bool = True
+    ) -> list[kf.kdb.DText]:
+        """Returns a list of labels from the Component.
+
+        Args:
+            layer: layer to get labels from.
+            recursive: if True, gets labels recursively.
+        """
+        from gdsfactory import get_layer
+
+        labels = []
+
+        layer = get_layer(layer)
+
+        if recursive:
+            iterator = self.begin_shapes_rec(layer)
+
+            while not (iterator.at_end()):
+                shape = iterator.shape()
+                iterator.next()
+                if shape.is_text():
+                    labels.append(shape.dtext.transformed(iterator.dtrans()))
+        else:
+            labels.extend(
+                shape.dtext for shape in self.shapes(layer).each(kdb.Shapes.STexts)
+            )
+        return labels
+
+    def get_paths(self, layer: LayerSpec, recursive: bool = True) -> list[kf.kdb.DPath]:
+        """Returns a list of paths.
+
+        Args:
+            layer: layer to get paths from.
+            recursive: if True, gets paths recursively.
+        """
+        from gdsfactory import get_layer
+
+        paths = []
+
+        layer = get_layer(layer)
+
+        if recursive:
+            iterator = self.begin_shapes_rec(layer)
+
+            while not (iterator.at_end()):
+                shape = iterator.shape()
+                iterator.next()
+                if shape.is_path():
+                    paths.append(shape.dpath.transformed(iterator.dtrans()))
+        else:
+            paths.extend(
+                shape.dpath for shape in self.shapes(layer).each(kdb.Shapes.SPaths)
+            )
+        return paths
+
     def area(self, layer: LayerSpec) -> float:
         """Returns the area of the Component in um2."""
         from gdsfactory import get_layer

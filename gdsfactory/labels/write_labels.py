@@ -10,12 +10,11 @@ from pathlib import Path
 import klayout.db as pya
 
 from gdsfactory.config import logger
-from gdsfactory.pdk import get_layer
 from gdsfactory.typings import LayerSpec, PathType
 
 
 def find_labels(
-    gdspath: PathType, layer_label: LayerSpec = "TEXT", prefix: str = "opt_"
+    gdspath: PathType, layer_label: tuple[int, int], prefix: str = ""
 ) -> Iterator[tuple[str, float, float, float]]:
     """Return text label and locations iterator from a GDS file.
 
@@ -38,23 +37,20 @@ def find_labels(
     layout = pya.Layout()
     layout.read(gdspath)
 
-    layer_label = get_layer(layer_label)
-
     # Get the top cell and the units, and find out the index of the layer
     topcell = layout.top_cell()
-    dbu = layout.dbu
 
     # Extract locations
-    iterator = topcell.begin_shapes_rec(layer_label)
+    iterator = topcell.begin_shapes_rec(layout.layer(*layer_label))
 
     while not (iterator.at_end()):
-        shape, trans = iterator.shape(), iterator.trans()
+        shape, trans = iterator.shape(), iterator.dtrans()
         iterator.next()
         if shape.is_text():
-            text = shape.text
+            text = shape.dtext
             if text.string.startswith(prefix):
                 transformed = text.transformed(trans)
-                yield text.string, transformed.x * dbu, transformed.y * dbu, trans.angle
+                yield text.string, transformed.x, transformed.y, trans.angle
 
 
 def write_labels(
@@ -75,12 +71,11 @@ def write_labels(
         gdspath: for the mask.
         layer_label: for labels to write.
         filepath: for CSV file. Defaults to gdspath with CSV suffix.
-        prefix: for the labels to write.
+        prefix: filter labels with this prefix.
 
     """
     labels = list(find_labels(gdspath, layer_label=layer_label, prefix=prefix))
     gdspath = pathlib.Path(gdspath)
-
     filepath = filepath or gdspath.with_suffix(".csv")
 
     with open(filepath, "w", newline="") as f:
