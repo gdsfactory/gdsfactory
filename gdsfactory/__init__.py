@@ -77,6 +77,10 @@ from gdsfactory.grid import grid, grid_with_text
 c = components
 
 
+def clear_cache() -> None:
+    kf.kcl.clear()
+
+
 __all__ = (
     "CONF",
     "Component",
@@ -97,6 +101,7 @@ __all__ = (
     "boolean",
     "c",
     "call_if_func",
+    "clear_cache",
     "cell",
     "components",
     "compose",
