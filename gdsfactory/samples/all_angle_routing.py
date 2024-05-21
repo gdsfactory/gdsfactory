@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pathlib
 
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template

@@ -8,7 +8,7 @@ import numpy as np
 from numpy import float64
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import (
     bezier,

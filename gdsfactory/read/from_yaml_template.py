@@ -91,7 +91,10 @@ def get_default_settings_dict(default_settings):
     settings = {}
     for k, v in default_settings.items():
         try:
-            settings[k] = v["value"]
+            v = v["value"]
+            if isinstance(v, list):
+                v = tuple(v)
+            settings[k] = v
         except TypeError as te:
             raise TypeError(
                 f'Default setting "{k}" should be a dictionary with "value" defined.'

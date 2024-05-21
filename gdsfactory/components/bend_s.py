@@ -5,7 +5,7 @@ import copy
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
 from gdsfactory.config import ErrorType

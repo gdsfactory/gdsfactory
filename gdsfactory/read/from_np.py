@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import numpy as np
 
+from gdsfactory import cell
 from gdsfactory.boolean import boolean
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 
 

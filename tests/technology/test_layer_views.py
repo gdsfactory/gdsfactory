@@ -25,7 +25,7 @@ class FabALayerViews(LayerViews):
     TE: LayerView = LayerView(color="green")
 
 
-LAYER_VIEWS = FabALayerViews(layer_map=LAYER.to_dict())
+LAYER_VIEWS = FabALayerViews(layers=LAYER)
 
 
 def get_layer_stack_faba(

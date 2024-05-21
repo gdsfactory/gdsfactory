@@ -1,5 +1,3 @@
-name: pads
-
 instances:
     bl:
       component: pad
@@ -12,7 +10,7 @@ instances:
 
 placements:
     tl:
-        x: -200
+        x: -100
         y: 500
 
     br:
@@ -29,7 +27,6 @@ routes:
         settings:
             separation: 20
             width: 10
-            path_length_match_loops: 2
             end_straight_length: 100
         links:
             tl,e3: tr,e1

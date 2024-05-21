@@ -4,7 +4,7 @@ from functools import partial
 
 import numpy as np
 
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.typings import Ints, LayerSpec

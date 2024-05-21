@@ -15,7 +15,7 @@ from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 from gdsfactory.config import cwd
-from gdsfactory.pdk import get_active_pdk, on_pdk_activated
+from gdsfactory.pdk import get_active_pdk
 from gdsfactory.read.from_yaml_template import cell_from_yaml_template
 from gdsfactory.typings import ComponentSpec, PathType
 
@@ -34,14 +34,6 @@ class FileWatcher(FileSystemEventHandler):
         self.observer = Observer()
         self.path = path
         self.stopping = threading.Event()
-        # if a new pdk happens to get activated during the watcher loop, reset accordingly
-        on_pdk_activated.add_handler(self._on_pdk_activated)
-
-    def _on_pdk_activated(self, new_pdk, old_pdk):
-        from gdsfactory.cell import CACHE
-
-        CACHE.clear()
-        new_pdk.register_cells_yaml(dirpath=self.path, update=True)
 
     def start(self) -> None:
         self.observer.schedule(self, self.path, recursive=True)
@@ -70,14 +62,13 @@ class FileWatcher(FileSystemEventHandler):
             The cell function parsed from the yaml file.
 
         """
-        from gdsfactory.cell import CACHE
-
         pdk = get_active_pdk()
-        print(f"Active PDK: {pdk.name}")
+        print(f"Active PDK: {pdk.name!r}")
         filepath = pathlib.Path(src_path)
         cell_name = filepath.stem.split(".")[0]
-        if cell_name in CACHE:
-            CACHE.pop(cell_name)
+        # FIXME: This is a temporary fix to avoid caching issues
+        # if cell_name in CACHE:
+        #     CACHE.pop(cell_name)
         function = cell_from_yaml_template(filepath, name=cell_name)
         try:
             pdk.register_cells_yaml(**{cell_name: function}, update=update)

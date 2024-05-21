@@ -60,7 +60,6 @@ from typing import IO, Any, Literal
 import numpy as np
 from omegaconf import DictConfig, OmegaConf
 
-import gdsfactory as gf
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, Instance
 from gdsfactory.serialization import clean_value_json
@@ -276,7 +275,8 @@ def place(
             elif mirror is False:
                 pass
             elif isinstance(mirror, str):
-                ref.mirror_x(port_name=mirror)
+                x_mirror = ref.ports[mirror].x
+                ref.mirror_x(x_mirror)
             elif isinstance(mirror, int | float):
                 x = to_um(ref, x)
                 ref.mirror_x(x=x)
@@ -345,7 +345,7 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
         elif ymin is not None:
-            ref.ymin = _move_ref(
+            ref.d.ymin = _move_ref(
                 ymin,
                 x_or_y="y",
                 placements_conf=placements_conf,
@@ -724,7 +724,7 @@ def from_yaml(
     )
 
 
-@gf.cell(rec_dicts=True, set_name=False)
+# @gf.cell(rec_dicts=True, set_name=False)
 def _from_yaml(
     conf,
     routing_strategy: dict[str, Callable],
@@ -1462,11 +1462,28 @@ placements:
         dy: 10
 """
 
+mirror_demo = """
+name: mirror_demo
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+placements:
+    mmi_long:
+        x: 0
+        y: 0
+        mirror: o1
+        rotation: 0
+
+"""
+
 
 if __name__ == "__main__":
     # c = from_yaml(sample_doe_function)
     # c = from_yaml(sample_mmis)
-    c = from_yaml(sample_doe_function)
+    c = from_yaml(mirror_demo)
     c.show()
     # n = c.get_netlist()
     # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)

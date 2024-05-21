@@ -4,7 +4,7 @@ from collections.abc import Callable
 from functools import partial
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array270
 from gdsfactory.components.wire import wire_straight

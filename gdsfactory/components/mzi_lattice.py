@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
+from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.mmi2x2 import mmi2x2 as mmi_splitter_function
