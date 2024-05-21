@@ -240,7 +240,7 @@ def straight_heater_doped_strip(
          |            |           |     undoped Si    |             |              |
          |layer_heater|           |  intrinsic region |<----------->| layer_heater |
          |____________|           |___________________|             |______________|
-                                                                     <------------>
+                                                                     <-kkkk----------->
                                                         heater_gap     heater_width
     """
 
@@ -265,4 +265,5 @@ def straight_heater_doped_strip(
 
 if __name__ == "__main__":
     c = straight_heater_doped_rib(length=100)
+    print(len(c.name))
     c.show()

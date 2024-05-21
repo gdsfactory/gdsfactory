@@ -523,7 +523,7 @@ class Component(kf.KCell):
         gdsdir = gdsdir or GDSDIR_TEMP
         gdsdir = pathlib.Path(gdsdir)
         gdsdir.mkdir(parents=True, exist_ok=True)
-        gdspath = gdspath or gdsdir / f"{self.name}.gds"
+        gdspath = gdspath or gdsdir / f"{self.name[:kf.config.max_cellname_length]}.gds"
         gdspath = pathlib.Path(gdspath)
 
         if not gdspath.parent.is_dir():
