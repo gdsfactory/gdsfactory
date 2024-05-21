@@ -345,7 +345,7 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
         elif ymin is not None:
-            ref.ymin = _move_ref(
+            ref.d.ymin = _move_ref(
                 ymin,
                 x_or_y="y",
                 placements_conf=placements_conf,
