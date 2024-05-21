@@ -19,7 +19,7 @@ from enum import Enum, auto
 from itertools import takewhile
 from pathlib import Path
 from pprint import pprint
-from typing import TYPE_CHECKING, Any, ClassVar, Literal
+from typing import TYPE_CHECKING, Any, ClassVar
 
 import loguru
 from dotenv import find_dotenv
@@ -214,7 +214,6 @@ class Settings(BaseSettings):
     """GDSFACTORY settings object.
 
     Attributes:
-        n_threads: Number of threads to use for multiprocessing.
         display_type: Display type for components.
         last_saved_files: List of last saved files.
         max_name_length: Maximum length of component names.
@@ -224,9 +223,6 @@ class Settings(BaseSettings):
         difftest_ignore_cell_name_differences: Ignore cell name differences in difftest.
     """
 
-    n_threads: int = get_number_of_cores()
-    display_type: Literal["widget", "klayout", "docs", "kweb"] = "klayout"
-    last_saved_files: list[PathType] = []
     max_name_length: int = 99
     model_config = SettingsConfigDict(
         validation=True,
@@ -241,25 +237,8 @@ class Settings(BaseSettings):
     difftest_ignore_sliver_differences: bool = False
     difftest_ignore_label_differences: bool = False
     layer_error_path: tuple[int, int] = (1000, 0)
-    ports_off_grid: Literal["warn", "error", "ignore"] = Field(
-        default="ignore", description="Ensures ports are on grid."
-    )
-    ports_not_manhattan: Literal["warn", "error", "ignore"] = Field(
-        default="ignore", description="Ensures ports are manhattan."
-    )
     enforce_ports_on_grid: bool = True
     bend_radius_error_type: ErrorType = ErrorType.WARNING
-    on_width_missmatch: Literal["warn", "error", "ignore"] = Field(
-        default="warn", description="When connecting ports with different width."
-    )
-    on_layer_missmatch: Literal["warn", "error", "ignore"] = Field(
-        default="ignore", description="When connecting ports with different layers."
-    )
-    on_type_missmatch: Literal["warn", "error", "ignore"] = Field(
-        default="ignore", description="When connecting ports with different types."
-    )
-    default_show_suffix: Literal[".oas", ".gds"] = ".gds"
-    raise_error_on_mutation: bool = True
     logger: ClassVar[Logger] = logger
     logfilter: LogFilter = Field(default_factory=LogFilter)
 
@@ -293,7 +272,6 @@ class Paths:
     interconnect = gdslib / "interconnect"
     optimiser = repo_path / "tune"
     notebooks = repo_path / "docs" / "notebooks"
-    plugins = module / "plugins"
     test_data = repo / "test-data-gds"
     gds_ref = test_data / "gds"
     gds_run = GDSDIR_TEMP / "gds_run"

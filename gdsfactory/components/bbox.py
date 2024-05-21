@@ -5,23 +5,32 @@ from gdsfactory.typings import LayerSpec
 
 
 def bbox_to_points(
-    bbox,
+    bbox: gf.kdb.DBox,
     top: float = 0,
     bottom: float = 0,
     left: float = 0,
     right: float = 0,
-) -> list[list[float]]:
-    """Returns bounding box rectangle with offsets."""
-    (xmin, ymin), (xmax, ymax) = bbox
+) -> list[tuple[float, float]]:
+    """Returns bounding box rectangle with offsets.
+
+    Args:
+        bbox: DBbox.
+        top: north offset.
+        bottom: south offset.
+        left: west offset.
+        right: east offset.
+
+    """
+    xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
     xmin = float(xmin)
     xmax = float(xmax)
     ymin = float(ymin)
     ymax = float(ymax)
     return [
-        [xmin - left, ymin - bottom],
-        [xmax + right, ymin - bottom],
-        [xmax + right, ymax + top],
-        [xmin - left, ymax + top],
+        (xmin - left, ymin - bottom),
+        (xmax + right, ymin - bottom),
+        (xmax + right, ymax + top),
+        (xmin - left, ymax + top),
     ]
 
 

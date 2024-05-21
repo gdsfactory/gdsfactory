@@ -61,11 +61,10 @@ def grid(
         c.plot()
 
     """
-    c = [gf.get_component(component) for component in components]
     c = gf.Component()
     instances = kf.grid(
         c,
-        kcells=components,
+        kcells=[gf.get_component(component) for component in components],
         shape=shape,
         spacing=(float(spacing[0]), float(spacing[1]))
         if isinstance(spacing, tuple)

@@ -436,7 +436,7 @@ class Pdk(BaseModel):
         blocks = {cell_name: cell() for cell_name, cell in self.cells.items()}
         blocks = {
             name: dict(
-                bbox=bbox_to_points(c.bbox),
+                bbox=bbox_to_points(c.dbbox()),
                 doc=c.__doc__.split("\n")[0],
                 settings=extract_args_from_docstring(c.__doc__),
                 parameters={
@@ -456,24 +456,24 @@ class Pdk(BaseModel):
                         .get(sname, {})
                         .get("unit", None),
                     }
-                    for sname, svalue in c.settings.full.items()
+                    for sname, svalue in c.settings
                     if isinstance(svalue, str | float | int)
                 },
                 pins={
-                    port_name: {
+                    port.name: {
                         "width": port.width,
                         "xsection": port.cross_section.name
-                        if port.cross_section
-                        else None,
+                        if hasattr(port, "cross_section")
+                        else "",
                         "xya": [
-                            float(port.center[0]),
-                            float(port.center[1]),
+                            float(port.d.center[0]),
+                            float(port.d.center[1]),
                             float(port.orientation),
                         ],
                         "alias": port.info.get("alias"),
                         "doc": port.info.get("doc"),
                     }
-                    for port_name, port in c.ports.items()
+                    for port in c.ports
                 },
             )
             for name, c in blocks.items()
