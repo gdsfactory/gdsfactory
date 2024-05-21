@@ -10,8 +10,6 @@ install:
 	gf install-git-diff
 	pip install git+https://github.com/gdsfactory/kfactory --force-reinstall
 
-dev: install
-
 update-pre:
 	pre-commit autoupdate
 
@@ -71,4 +69,4 @@ git-rm-merged:
 notebooks:
 	jupytext docs/notebooks/*.py --to ipynb
 
-.PHONY: gdsdiff build conda gdslib docs doc
+.PHONY: gdsdiff build conda gdslib docs doc install

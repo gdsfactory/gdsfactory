@@ -32,7 +32,7 @@ jobs:
           KFACTORY_DISPLAY_TYPE: image
         shell: bash -l {0}
         run: |
-          make dev
+          make install
           make docs-generic-pdk
           make docs
       - name: Upload artifact
