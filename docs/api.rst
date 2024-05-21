@@ -113,8 +113,6 @@ Classes and functions for construction and manipulation of geometric objects.
    NetlistModel
    PathType
    Route
-   RouteFactory
-   Routes
    Section
    Step
    StepAllAngle

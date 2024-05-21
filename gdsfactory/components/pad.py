@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from functools import partial
 
 import gdsfactory as gf
@@ -79,7 +80,8 @@ def pad_array(
     spacing: tuple[float, float] = (150.0, 150.0),
     columns: int = 6,
     rows: int = 1,
-    port_orientation: int = 0,
+    port_orientation: float = 0,
+    orientation: float | None = None,
     size: Float2 = (100.0, 100.0),
     layer: LayerSpec = "MTOP",
 ) -> Component:
@@ -91,9 +93,15 @@ def pad_array(
         columns: number of columns.
         rows: number of rows.
         port_orientation: port orientation in deg. None for low speed DC ports.
+        orientation: Deprecated, use port_orientation.
         size: pad size.
         layer: pad layer.
     """
+
+    if orientation is not None:
+        warnings.warn("orientation is deprecated, use port_orientation")
+        port_orientation = orientation
+
     c = Component()
     pad = pad(size=size, port_orientation=port_orientation, layer=layer)
 

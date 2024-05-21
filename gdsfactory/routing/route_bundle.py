@@ -101,7 +101,7 @@ def route_bundle(
     collision_check_layers: LayerSpecs | None = None,
     on_collision: str | None = "show_error",
     bboxes: list[kf.kdb.Box] | None = None,
-    allow_different_port_widths: bool = False,
+    allow_width_mismatch: bool = False,
     **kwargs,
 ) -> list[OpticalManhattanRoute]:
     """Places a bundle of routes to connect two groups of ports.
@@ -131,7 +131,7 @@ def route_bundle(
         collision_check_layers: list of layers to check for collisions.
         on_collision: action to take on collision. Defaults to show_error.
         bboxes: list of bounding boxes to avoid collisions.
-        allow_different_port_widths: allow different port widths.
+        allow_width_mismatch: allow different port widths.
 
     Keyword Args:
         width: main layer waveguide width (um).
@@ -257,7 +257,7 @@ def route_bundle(
         place_port_type=port_type,
         collision_check_layers=collision_check_layers,
         on_collision=on_collision,
-        allow_different_port_widths=allow_different_port_widths,
+        allow_different_port_widths=allow_width_mismatch,
         bboxes=bboxes or [],
         route_width=width_dbu,
     )
@@ -268,14 +268,14 @@ route_bundle_electrical = partial(
     bend=wire_corner,
     cross_section="xs_metal_routing",
     port_type="electrical",
-    allow_different_port_widths=True,
+    allow_width_mismatch=True,
 )
 
 route_bundle_electrical_multilayer = partial(
     route_bundle,
     bend=via_corner,
     port_type="electrical",
-    allow_different_port_widths=True,
+    allow_width_mismatch=True,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
         ("xs_metal_routing", (0, 180)),

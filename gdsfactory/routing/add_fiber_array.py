@@ -16,7 +16,6 @@ from gdsfactory.typings import (
 )
 
 
-@gf.cell
 def add_fiber_array(
     component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
@@ -24,6 +23,7 @@ def add_fiber_array(
     component_name: str | None = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "xs_sc",
+    taper: ComponentSpec | None = None,
     **kwargs,
 ) -> Component:
     """Returns component with south routes and grating_couplers.
@@ -37,11 +37,11 @@ def add_fiber_array(
         component_name: optional for the label.
         select_ports: function to select ports.
         cross_section: cross_section function.
+        taper: taper spec.
 
     Keyword Args:
         bend: bend spec.
         straight: straight spec.
-        taper: taper spec.
         fanout_length: if None, automatic calculation of fanout length.
         max_y0_optical: in um.
         with_loopback: True, adds loopback structures.
@@ -120,6 +120,7 @@ def add_fiber_array(
         component_name=component_name,
         cross_section=cross_section,
         select_ports=select_ports,
+        taper=taper,
         **kwargs,
     )
 
@@ -127,27 +128,6 @@ def add_fiber_array(
     for port in component.ports:
         if port.name not in optical_ports_names:
             component_new.add_port(port.name, port=port)
-
-    # ports = sort_ports_x(component + ports_loopback)
-    # for port_component, port_grating in zip(
-    #     ports_component, ports_grating_input_waveguide
-    # ):
-    #     grating_ref = port_grating.parent
-    #     component_new.add_port(
-    #         f"opt-{grating_ref.parent.name}-{component_name}-{port_component.name}",
-    #         port=port_grating,
-    #     )
-
-    # if ports_loopback:
-    #     grating_ref = ports_loopback[0].parent
-    #     component_new.add_port(
-    #         f"opt-{grating_ref.parent.name}-{component_name}-loopback_1",
-    #         port=ports_loopback[0],
-    #     )
-    #     component_new.add_port(
-    #         f"opt-{grating_ref.parent.name}-{component_name}-loopback_{len(ports)}",
-    #         port=ports_loopback[1],
-    #     )
 
     component_new.copy_child_info(component)
     return component_new

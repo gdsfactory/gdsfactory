@@ -13,7 +13,7 @@ Coordinate = tuple[Float2, Float2]
 
 @gf.cell
 def seal_ring(
-    bbox: tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
+    component: gf.Component | gf.Instance = "L",
     seal: gf.typings.ComponentSpec = via_stack,
     width: float = 10,
     padding: float = 10.0,
@@ -37,7 +37,8 @@ def seal_ring(
         with_west: includes seal.
     """
     c = gf.Component()
-    (xmin, ymin), (xmax, ymax) = bbox
+    bbox = component.dbbox()
+    xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
 
     x = (xmax + xmin) / 2
 
@@ -57,23 +58,23 @@ def seal_ring(
 
     if with_north:
         north = c << seal(size=size_north_south)
-        north.ymin = ymin_north
-        north.x = x
+        north.d.ymin = ymin_north
+        north.d.x = x
 
     if with_east:
         east = c << seal(size=size_east_west)
-        east.xmin = xmax + padding
-        east.ymax = ymin_north
+        east.d.xmin = xmax + padding
+        east.d.ymax = ymin_north
 
     if with_west:
         west = c << seal(size=size_east_west)
-        west.xmax = xmin - padding
-        west.ymax = ymin_north
+        west.d.xmax = xmin - padding
+        west.d.ymax = ymin_north
 
     if with_south:
         south = c << seal(size=size_north_south)
-        south.ymax = ymax_south
-        south.x = x
+        south.d.ymax = ymax_south
+        south.d.x = x
 
     return c
 
@@ -82,5 +83,5 @@ if __name__ == "__main__":
     big_square = partial(rectangle, size=(1300, 2600))
     c = gf.Component("demo")
     c << big_square()
-    c << seal_ring(c.bbox + ((0, 0), (10, 0)), with_south=False)
+    c << seal_ring(c, with_south=False)
     c.show()

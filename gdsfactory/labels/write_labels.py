@@ -26,12 +26,11 @@ def find_labels(
         layer_label: for the labels.
         prefix: for the labels to select.
 
-    Returns
+    Returns:
         string: for the label.
         x: x position (um).
         y: y position (um).
         angle: in degrees.
-
     """
 
     # Load the layout
@@ -44,11 +43,9 @@ def find_labels(
     # Get the top cell and the units, and find out the index of the layer
     topcell = layout.top_cell()
     dbu = layout.dbu
-    layer = pya.LayerInfo(layer_label[0], layer_label[1])
-    layer_index = layout.layer(layer)
 
     # Extract locations
-    iterator = topcell.begin_shapes_rec(layer_index)
+    iterator = topcell.begin_shapes_rec(layer_label)
 
     while not (iterator.at_end()):
         shape, trans = iterator.shape(), iterator.trans()

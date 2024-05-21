@@ -63,7 +63,6 @@ def _flip_ref(c_ref, port_name):
     return c_ref
 
 
-@gf.cell
 def component_sequence(
     sequence: str,
     symbol_to_component: dict[str, tuple[ComponentSpec, str, str]],

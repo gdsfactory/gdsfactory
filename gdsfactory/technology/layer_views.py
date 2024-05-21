@@ -15,8 +15,9 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 import yaml
+from kfactory import LayerEnum
 from omegaconf import OmegaConf
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.color import ColorType
 from pydantic_extra_types.color import Color
 
@@ -762,25 +763,27 @@ class LayerViews(BaseModel):
         layer_views: Dictionary of LayerViews describing how to display gds layers.
         custom_dither_patterns: Custom dither patterns.
         custom_line_styles: Custom line styles.
-        layer_map: Specify a layer_map to get the layer tuple based on the name of the LayerView, rather than the 'layer' argument.
+        layers: Specify a layer_map to get the layer tuple based on the name of the LayerView, rather than the 'layer' argument.
     """
 
     layer_views: dict[str, LayerView] = Field(default_factory=dict)
     custom_dither_patterns: dict[str, HatchPattern] = Field(default_factory=dict)
     custom_line_styles: dict[str, LineStyle] = Field(default_factory=dict)
-    layer_map: dict[str, Layer] | BaseModel = Field(default_factory=dict)
+    layers: type[LayerEnum] | None = None
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
     def __init__(
         self,
         filepath: PathLike | None = None,
-        layer_map: dict[str, Layer] | BaseModel | None = None,
+        layers: type[LayerEnum] | None = None,
         **data,
     ) -> None:
         """Initialize LayerViews object.
 
         Args:
             filepath: can be YAML or LYP.
-            layer_map: Optional layermap.
+            layers: Optional layermap.
         """
         if filepath is not None:
             filepath = pathlib.Path(filepath)
@@ -799,11 +802,7 @@ class LayerViews(BaseModel):
             data["custom_line_styles"] = lvs.custom_line_styles
             data["custom_dither_patterns"] = lvs.custom_dither_patterns
 
-        if isinstance(layer_map, BaseModel):
-            layer_map = layer_map.model_dump()
-
-        if layer_map is not None:
-            data["layer_map"] = layer_map
+        layers = layers.to_dict() if layers else {}
 
         super().__init__(**data)
 
@@ -811,9 +810,9 @@ class LayerViews(BaseModel):
             lv = getattr(self, name)
             if isinstance(lv, LayerView):
                 #
-                if (self.layer_map is not None) and (name in self.layer_map.keys()):
+                if name in layers:
                     lv_dict = lv.dict(exclude={"layer", "name"})
-                    lv = LayerView(layer=self.layer_map[name], name=name, **lv_dict)
+                    lv = LayerView(layer=layers[name], name=name, **lv_dict)
                 self.add_layer_view(name=name, layer_view=lv)
 
     def add_layer_view(

@@ -510,6 +510,7 @@ class Component(kf.KCell):
             gdspath: GDS file path to write to.
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
             save_options: klayout save options.
+            kwargs: deprecated.
         """
         if gdspath and gdsdir:
             warnings.warn(
@@ -521,11 +522,15 @@ class Component(kf.KCell):
         gdsdir = pathlib.Path(gdsdir)
         gdsdir.mkdir(parents=True, exist_ok=True)
         gdspath = gdspath or gdsdir / f"{self.name}.gds"
+        gdspath = pathlib.Path(gdspath)
+
+        if not gdspath.parent.is_dir():
+            gdspath.parent.mkdir(parents=True, exist_ok=True)
 
         if kwargs:
             for k in kwargs:
                 warnings.warn(f"{k} is deprecated", stacklevel=2)
-        self.write(filename=str(gdspath), save_options=save_options)
+        self.write(filename=gdspath, save_options=save_options)
         return pathlib.Path(gdspath)
 
     def extract(
@@ -871,6 +876,7 @@ if __name__ == "__main__":
     # scene.show()
 
     c = gf.c.straight()
-    print(c.to_dict())
-    print(c.area(layer=(1, 0)))
+    # print(c.to_dict())
+    # print(c.area(layer=(1, 0)))
+    # stl = gf.export.to_stl(c)
     c.show()

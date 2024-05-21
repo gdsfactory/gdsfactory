@@ -12,7 +12,6 @@ classifiers = [
   "Operating System :: OS Independent"
 ]
 dependencies = [
-  "flatdict",
   "gdstk>=0.9.49,<0.10",
   "jinja2<4",
   "loguru<1",

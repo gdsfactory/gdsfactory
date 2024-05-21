@@ -3,7 +3,6 @@ from __future__ import annotations
 from collections.abc import Callable
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_rectangular
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
@@ -16,7 +15,6 @@ from gdsfactory.typings import (
 )
 
 
-@cell
 def add_pads_bot(
     component: ComponentSpec = straight_heater_metal,
     select_ports: Callable = select_ports_electrical,
@@ -31,6 +29,7 @@ def add_pads_bot(
     optical_routing_type: int | None = 1,
     taper: ComponentSpec | None = None,
     port_type="electrical",
+    allow_width_mismatch: bool = True,
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -69,6 +68,7 @@ def add_pads_bot(
         routing_method: route_single.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: to connect.
+        allow_width_mismatch: True
 
     .. plot::
         :include-source:
@@ -131,6 +131,7 @@ def add_pads_bot(
         taper=taper,
         port_type=port_type,
         gc_port_name_fiber=pad_port_name,
+        allow_width_mismatch=allow_width_mismatch,
         **kwargs,
     )
     component_new.add_ref(component)
@@ -166,7 +167,6 @@ def add_pads_bot(
     return component_new
 
 
-@gf.cell
 def add_pads_top(
     component: ComponentSpec = straight_heater_metal, **kwargs
 ) -> Component:

@@ -44,6 +44,7 @@ from gdsfactory import cross_section
 from gdsfactory import asserts
 from gdsfactory import port
 from gdsfactory import components
+from gdsfactory import labels
 from gdsfactory import typings
 from gdsfactory import path
 from gdsfactory import snap
@@ -53,6 +54,7 @@ from gdsfactory import write_cells
 from gdsfactory import add_pins
 from gdsfactory import technology
 from gdsfactory import routing
+from gdsfactory import export
 
 from gdsfactory.add_padding import (
     add_padding,
@@ -103,6 +105,7 @@ __all__ = (
     "cross_section",
     "diff",
     "difftest",
+    "export",
     "get_active_pdk",
     "get_cell",
     "get_cells",
@@ -119,6 +122,7 @@ __all__ = (
     "kdb",
     "kf",
     "logger",
+    "labels",
     "pack",
     "partial",
     "path",

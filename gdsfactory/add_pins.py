@@ -384,17 +384,19 @@ def add_pin_path(
     d0 = np.array([-pin_length / 2, 0])
     d1 = np.array([+pin_length / 2, 0])
 
-    p0 = p.center + _rotate(d0, rot_mat)
-    p1 = p.center + _rotate(d1, rot_mat)
+    p0 = p.d.center + _rotate(d0, rot_mat)
+    p1 = p.d.center + _rotate(d1, rot_mat)
 
     points = [p0, p1]
+    points = [kf.kdb.DPoint(p[0], p[1]) for p in points]
     layer = get_layer(layer)
 
-    kf.kdb.Path(
+    dpath = kf.kdb.DPath(
         points,
-        p.width,
+        p.d.width,
     )
-    component.add_label(text=str(p.name), position=p.center, layer=layer_label)
+    component.add_label(text=str(p.name), position=p.d.center, layer=layer_label)
+    component.shapes(layer).insert(dpath)
 
 
 def add_outline(
