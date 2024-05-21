@@ -593,6 +593,7 @@ class Component(kf.KCell):
             if recursive:
                 for ci in self.called_cells():
                     self.kcl[ci].move(src_layer_index, dst_layer_index)
+        return self
 
     def pprint_ports(self, **kwargs) -> None:
         """Pretty prints ports.
