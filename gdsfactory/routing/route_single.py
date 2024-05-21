@@ -151,7 +151,7 @@ def route_single(
             taper_cell=taper_cell,
             pts=waypoints,
             port_type=port_type,
-            allow_different_port_widths=allow_width_mismatch,
+            allow_width_mismatch=allow_width_mismatch,
         )
 
     else:
@@ -165,7 +165,7 @@ def route_single(
             start_straight=start_straight,
             end_straight=end_straight,
             port_type=port_type,
-            allow_different_port_widths=allow_width_mismatch,
+            allow_width_mismatch=allow_width_mismatch,
         )
 
 
