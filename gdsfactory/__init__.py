@@ -77,8 +77,9 @@ from gdsfactory.grid import grid, grid_with_text
 c = components
 
 
-def clear_cache() -> None:
-    kf.kcl.clear()
+def clear_cache(kcl=kf.kcl) -> None:
+    """Clears the whole layout object cache for the default layout."""
+    kcl.clear()
 
 
 __all__ = (

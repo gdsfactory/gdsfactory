@@ -137,6 +137,7 @@ class Component(kf.KCell):
         orientation: float | None = None,
         layer: LayerSpec | None = None,
         port_type: str = "optical",
+        keep_mirror: bool = False,
         cross_section: CrossSection | None = None,
     ) -> kf.Port:
         """Adds a Port to the Component.
@@ -149,10 +150,11 @@ class Component(kf.KCell):
             orientation: orientation of the port.
             layer: layer spec to add port on.
             port_type: port type (optical, electrical, ...)
+            keep_mirror: if True, keeps the mirror of the port.
             cross_section: cross_section of the port.
         """
         if port:
-            kf.KCell.add_port(self, port=port, name=name)
+            kf.KCell.add_port(self, port=port, name=name, keep_mirror=keep_mirror)
             return port
         else:
             from gdsfactory.pdk import get_cross_section, get_layer
