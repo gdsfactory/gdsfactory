@@ -41,7 +41,7 @@ class LayerMapFab(LayerMap):
 
     script += """
 
-LAYER = LayerMapFab()
+LAYER = LayerMapFab
 """
 
     filepathout.write_text(script)
