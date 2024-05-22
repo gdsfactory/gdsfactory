@@ -39,6 +39,7 @@ def bezier(
     end_angle: int | None = None,
     cross_section: CrossSectionSpec = "xs_sc",
     bend_radius_error_type: ErrorType | None = None,
+    allow_min_radius_violation: bool = False,
 ) -> Component:
     """Returns Bezier bend.
 
@@ -49,6 +50,8 @@ def bezier(
         start_angle: optional start angle in deg.
         end_angle: optional end angle in deg.
         cross_section: spec.
+        bend_radius_error_type: error type.
+        allow_min_radius_violation: bool.
     """
     xs = gf.get_cross_section(cross_section)
     t = np.linspace(0, 1, npoints)
@@ -75,7 +78,8 @@ def bezier(
     c.info["start_angle"] = path.start_angle
     c.info["end_angle"] = path.end_angle
 
-    xs.validate_radius(min_bend_radius, bend_radius_error_type)
+    if not allow_min_radius_violation:
+        xs.validate_radius(min_bend_radius, bend_radius_error_type)
 
     xs.add_bbox(c)
     return c
