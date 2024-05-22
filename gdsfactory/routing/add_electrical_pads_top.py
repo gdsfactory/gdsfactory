@@ -59,8 +59,6 @@ def add_electrical_pads_top(
     """
     c = Component()
     component = gf.get_component(component)
-
-    c.component = component
     ref = c << component
 
     ports = [ref[port_name] for port_name in port_names] if port_names else None
@@ -100,4 +98,6 @@ if __name__ == "__main__":
     # c = gf.components.mzi_phase_shifter_top_heater_metal()
     # cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
     c = add_electrical_pads_top()
+    # c = _wire_long()
+    c.pprint_ports()
     c.show()

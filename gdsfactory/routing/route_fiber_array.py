@@ -316,6 +316,7 @@ def route_fiber_array(
             sort_ports=True,
             enforce_port_ordering=False,
             allow_width_mismatch=allow_width_mismatch,
+            taper=taper,
             # bboxes=[component_with_south_routes_bbox]
         )
         fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
@@ -339,6 +340,7 @@ def route_fiber_array(
                 sort_ports=True,
                 enforce_port_ordering=False,
                 allow_width_mismatch=allow_width_mismatch,
+                taper=taper,
                 # bboxes=[component_with_south_routes_bbox]
             )
             del to_route[n0 - dn : n0 + dn]
@@ -384,6 +386,7 @@ def route_fiber_array(
             straight=straight,
             bend=bend90,
             cross_section=cross_section,
+            taper=taper,
         )
         port0 = gca1[gc_port_name_fiber]
         port1 = gca2[gc_port_name_fiber]

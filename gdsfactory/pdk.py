@@ -173,6 +173,7 @@ class Pdk(BaseModel):
 
     def activate(self) -> None:
         """Set current pdk to the active pdk (if not already active)."""
+
         global _ACTIVE_PDK
         if self is _ACTIVE_PDK:
             return None

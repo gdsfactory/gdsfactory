@@ -2,7 +2,7 @@ import json
 from typing import Any
 
 from omegaconf import OmegaConf
-from pydantic import BaseModel, Field, root_validator
+from pydantic import BaseModel, Field, model_validator
 
 from gdsfactory.config import PATH
 from gdsfactory.typings import Anchor, Component
@@ -15,7 +15,8 @@ class Instance(BaseModel):
 
     model_config = {"extra": "forbid"}
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
+    @classmethod
     def update_settings_and_info(cls, values):
         """Validator to update component, settings and info based on the component."""
         component = values.get("component")
