@@ -12,6 +12,7 @@ def test_connect_bundle_u_indirect(
     dy=-200,
     orientation=180,
     layer=(1, 0),
+    check=True,
 ):
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
     axis = "X" if orientation in [0, 180] else "Y"
@@ -64,16 +65,15 @@ def test_connect_bundle_u_indirect(
         bend=gf.components.bend_euler,
         radius=5,
         enforce_port_ordering=False,
+        sort_ports=True,
+        # separation=10
     )
-    lengths = {}
-    for i, route in enumerate(routes):
-        lengths[i] = route.length
-
-    data_regression.check(lengths)
-
+    lengths = {i: route.length for i, route in enumerate(routes)}
+    if check:
+        data_regression.check(lengths)
     return c
 
 
 if __name__ == "__main__":
-    c = test_connect_bundle_u_indirect(None, orientation=0)
+    c = test_connect_bundle_u_indirect(None, orientation=0, check=False)
     c.show()
