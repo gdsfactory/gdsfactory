@@ -402,9 +402,7 @@ class Component(kf.KCell):
         for instance in instances:
             self._kdb_cell.insert(instance._instance)
 
-    def get_polygons(
-        self, merge: bool = False
-    ) -> dict[tuple[int, int], list[kf.kdb.Polygon]]:
+    def get_polygons(self, merge: bool = False) -> dict[int, list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer.
 
         Args:
@@ -420,8 +418,7 @@ class Component(kf.KCell):
             if merge:
                 r.merge()
             for p in r.each():
-                layer_tuple = (layer.layer, layer.datatype)
-                polygons[layer_tuple].append(p)
+                polygons[layer_index].append(p)
         return polygons
 
     def get_polygons_points(
@@ -867,8 +864,8 @@ def container(component, function, **kwargs) -> Component:
     component = gf.get_component(component)
     c = Component()
     cref = c << component
-    function(c, **kwargs)
-    c.ports = cref.ports
+    c.add_ports(cref.ports)
+    function(component=c, **kwargs)
     c.copy_child_info(component)
     return c
 

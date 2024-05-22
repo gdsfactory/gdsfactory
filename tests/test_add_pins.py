@@ -8,8 +8,5 @@ def test_add_pins() -> None:
     """Ensure that all the waveguide has 2 pins."""
     cross_section = "xs_sc"
     c = gf.components.straight(length=1.0, cross_section=cross_section)
-    c = gf.add_pins.add_pins_container(c)
-    pins_component = c.extract(layers=(LAYER.PORT,))
-    assert len(pins_component.get_polygons()[(1, 10)]) == 3, len(
-        pins_component.polygons
-    )
+    c = gf.add_pins.add_pins_container(c, layer=LAYER.PORT, layer_label=LAYER.TEXT)
+    assert len(c.get_polygons()[LAYER.PORT]) == 2, len(c.get_polygons()[LAYER.PORT])
