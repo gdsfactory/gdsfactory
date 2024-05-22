@@ -37,7 +37,6 @@ if typing.TYPE_CHECKING:
     from gdsfactory.component import Component
 
 PathLike = pathlib.Path | str
-
 Layer = tuple[int, int]
 
 _klayout_line_styles = {
@@ -917,7 +916,7 @@ class LayerViews(BaseModel):
                 f"LayerView {val!r} not in LayerViews {list(self.layer_views.keys())}"
             ) from error
 
-    def get_from_tuple(self, layer_tuple: Layer) -> LayerView:
+    def get_from_tuple(self, layer_tuple: tuple[int, int]) -> LayerView:
         """Returns LayerView from layer tuple.
 
         Args:

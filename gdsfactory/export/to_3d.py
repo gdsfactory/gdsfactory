@@ -40,25 +40,25 @@ def to_3d(
     exclude_layers = exclude_layers or ()
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
+    # component_with_booleans = component
     polygons_per_layer = component_with_booleans.get_polygons_points(merge=True)
-    component_layers = polygons_per_layer.keys()
     has_polygons = False
 
     for level in layer_stack.layers.values():
-        layer = level.layer
+        layer_index = level.layer
+        layer_tuple = tuple(level.layer)
+        print(layer_index, layer_tuple)
 
-        if layer not in exclude_layers and layer in component_layers:
-            height = level.thickness
+        if layer_index not in exclude_layers and layer_index in polygons_per_layer:
             zmin = level.zmin
-            layer_view = layer_views.get_from_tuple(layer)
+            layer_view = layer_views.get_from_tuple(layer_tuple)
             color_rgb = [
                 c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)
             ]
-            polygons = polygons_per_layer[layer]
-
             if zmin is not None and layer_view.visible:
                 has_polygons = True
-
+                polygons = polygons_per_layer[layer_index]
+                height = level.thickness
                 for polygon in polygons:
                     p = shapely.geometry.Polygon(polygon)
                     mesh = extrude_polygon(p, height=height)

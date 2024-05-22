@@ -46,7 +46,7 @@ class LayerLevel(BaseModel):
     """
 
     name: str | None = None
-    layer: tuple[int, int] | None = None
+    layer: kf.LayerEnum | None = None
     thickness: float
     thickness_tolerance: float | None = None
     zmin: float
@@ -420,9 +420,8 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
 
     # Define unetched layers
     for unetched_layer_name, unetched_layers in unetched_layers_dict.items():
-        layer = layer_stack.layers[unetched_layer_name].layer
-        layer_index = get_layer(layer)
-        polygons = polygons_per_layer[layer]
+        layer_index = layer_stack.layers[unetched_layer_name].layer
+        polygons = polygons_per_layer[layer_index]
         for polygon in polygons:
             component_derived.shapes(layer_index).insert(polygon)
 

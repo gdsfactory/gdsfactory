@@ -1,5 +1,4 @@
 import pathlib
-from collections.abc import Iterable
 
 import gdsfactory as gf
 from gdsfactory.technology.layer_views import LayerViews
@@ -9,15 +8,6 @@ class LayerMap(gf.LayerEnum):
     """You will need to create a new LayerMap with your specific foundry layers."""
 
     kcl = gf.constant(gf.kcl)
-
-    @classmethod
-    def to_dict(cls) -> dict[str, tuple[int, int]]:
-        layer_dict = {}
-        for attribute_name in dir(cls):
-            value = getattr(cls, attribute_name)
-            if isinstance(value, Iterable) and len(value) == 2:
-                layer_dict[attribute_name] = (value[0], value[1])
-        return layer_dict
 
 
 def lyp_to_dataclass(lyp_filepath: str | pathlib.Path, overwrite: bool = True) -> str:
@@ -49,7 +39,8 @@ LAYER = LayerMapFab
 
 
 if __name__ == "__main__":
-    layers = LayerMap
-    # from gdsfactory.config import PATH
+    from gdsfactory.generic_tech import LAYER
+
+    ls = LAYER.to_dict()
 
     # print(lyp_to_dataclass(PATH.klayout_lyp))
