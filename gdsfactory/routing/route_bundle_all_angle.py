@@ -1,8 +1,10 @@
 from collections.abc import Sequence
 from functools import partial
 
+import kfactory as kf
 from kfactory.routing.aa.optical import (
     BendFactory,
+    OpticalAllAngleRoute,
     StraightFactory,
     route_bundle,
 )
@@ -22,7 +24,7 @@ def route_bundle_all_angle(
     bend_factory: BendFactory = partial(bend_euler, radius=5),
     bend_ports: tuple[str, str] = ("o1", "o2"),
     straight_ports: tuple[str, str] = ("o1", "o2"),
-):
+) -> list[OpticalAllAngleRoute]:
     """Route a bundle of ports to another bundle of ports with all angles.
 
     Args:
@@ -37,7 +39,7 @@ def route_bundle_all_angle(
         straight_ports: tuple of ports to connect the straights.
     """
 
-    backbone = [gf.kdb.DPoint(*p) for p in backbone]
+    backbone = [kf.kdb.DPoint(*p) for p in backbone]
 
     return route_bundle(
         c=component,
