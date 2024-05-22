@@ -32,13 +32,14 @@ def make_link(src, dest, overwrite: bool = True) -> None:
         remove_path_or_dir(dest)
     try:
         os.symlink(src, dest, target_is_directory=True)
+        print("Symlink made:")
     except OSError as err:
         print("Could not create symlink!")
         print("     Error: ", err)
         if sys.platform == "win32":
             # https://stackoverflow.com/questions/32877260/privlege-error-trying-to-create-symlink-using-python-on-windows-10
-            shutil.copy(src, dest)
-    print("Symlink made:")
+            shutil.copytree(src, dest)
+            print("Copied directory:")
     print(f"From: {src}")
     print(f"To:   {dest}")
 
