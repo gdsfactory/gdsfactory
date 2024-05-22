@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import kfactory as kf
+import networkx as nx
 
 from gdsfactory.port import Port
 
@@ -14,17 +15,37 @@ def get_port_y(port: Port) -> float:
 
 
 def sort_ports_x(ports: list[Port]) -> list[Port]:
-    ports = list(ports)
-    f_key = get_port_x
-    ports.sort(key=f_key)
-    return ports
+    return sorted(ports, key=get_port_x)
 
 
 def sort_ports_y(ports: list[Port]) -> list[Port]:
-    ports = list(ports)
-    f_key = get_port_y
-    ports.sort(key=f_key)
-    return ports
+    return sorted(ports, key=get_port_y)
+
+
+def _create_bipartite_graph(ports1: list[Port], ports2: list[Port], axis: str):
+    B = nx.Graph()
+    for i, p1 in enumerate(ports1):
+        for j, p2 in enumerate(ports2):
+            weight = abs(p1.d.y - p2.d.y) if axis == "X" else abs(p1.d.x - p2.d.x)
+            B.add_edge(f"p1_{i}", f"p2_{j}", weight=weight)
+    return B
+
+
+def _sort_ports_using_bipartite_matching(
+    ports1: list[Port], ports2: list[Port], axis: str
+):
+    B = _create_bipartite_graph(ports1, ports2, axis)
+    matching = nx.max_weight_matching(B, maxcardinality=True)
+
+    sorted_ports1 = []
+    sorted_ports2 = []
+    for p1_node, p2_node in sorted(matching):
+        p1_idx = int(p1_node.split("_")[1])
+        p2_idx = int(p2_node.split("_")[1])
+        sorted_ports1.append(ports1[p1_idx])
+        sorted_ports2.append(ports2[p2_idx])
+
+    return sorted_ports1, sorted_ports2
 
 
 def sort_ports(
@@ -51,34 +72,17 @@ def sort_ports(
     if not ports2:
         raise ValueError("ports2 is an empty list")
 
-    if ports1[0].orientation in [0, 180] and ports2[0].orientation in [0, 180]:
-        _sort(get_port_y, ports1, enforce_port_ordering, ports2)
-    elif ports1[0].orientation in [90, 270] and ports2[0].orientation in [90, 270]:
-        _sort(get_port_x, ports1, enforce_port_ordering, ports2)
-    else:
-        axis = "X" if ports1[0].orientation in [0, 180] else "Y"
-        f_key1 = get_port_y if axis in {"X", "x"} else get_port_x
-        ports1.sort(key=f_key1)
-        if not enforce_port_ordering:
-            ports2.sort(key=f_key1)
+    # Find axis
+    angle_start = ports1[0].orientation
 
+    axis = "X" if angle_start in [0, 180] else "Y"
+    # Sort ports using bipartite matching to avoid crossings
+    ports1_sorted, ports2_sorted = _sort_ports_using_bipartite_matching(
+        ports1, ports2, axis
+    )
+
+    # Ensure no crossing paths
     if enforce_port_ordering:
-        ports2 = [ports2[ports1.index(p1)] for p1 in ports1]
+        ports2_sorted = [ports2_sorted[ports1_sorted.index(p1)] for p1 in ports1_sorted]
 
-    return ports1, ports2
-
-
-def _sort(key_func, ports1, enforce_port_ordering, ports2):
-    ports1.sort(key=key_func)
-    if not enforce_port_ordering:
-        ports2.sort(key=key_func)
-
-
-if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.Component()
-    c1 = c << gf.c.straight()
-    c2 = c << gf.c.straight()
-    sort_ports(c1.ports, c2.ports, enforce_port_ordering=True)
-    c.show()
+    return ports1_sorted, ports2_sorted

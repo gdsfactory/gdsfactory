@@ -64,13 +64,10 @@ def test_connect_bundle_u_indirect(
         bend=gf.components.bend_euler,
         radius=5,
         enforce_port_ordering=False,
+        sort_ports=True,
     )
-    lengths = {}
-    for i, route in enumerate(routes):
-        lengths[i] = route.length
-
+    lengths = {i: route.length for i, route in enumerate(routes)}
     data_regression.check(lengths)
-
     return c
 
 
