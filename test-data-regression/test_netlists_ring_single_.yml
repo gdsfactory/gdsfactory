@@ -1,12 +1,12 @@
 connections:
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_-9125_16425,o1: straight_L4_N2_CSxs_34e31a19_-2000_21300,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_-9125_16425,o2: straight_L0p6_N2_CSxs_34e31a19_-14000_11000,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_5125_16425,o1: straight_L0p6_N2_CSxs_34e31a19_10000_11000,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_5125_16425,o2: straight_L4_N2_CSxs_34e31a19_-2000_21300,o1
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_AMRVFalse_-9125_16425,o1: straight_L4_N2_CSxs_34e31a19_-2000_21300,o2
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_AMRVFalse_-9125_16425,o2: straight_L0p6_N2_CSxs_34e31a19_-14000_11000,o2
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_AMRVFalse_5125_16425,o1: straight_L0p6_N2_CSxs_34e31a19_10000_11000,o1
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_AMRVFalse_5125_16425,o2: straight_L4_N2_CSxs_34e31a19_-2000_21300,o1
   coupler_ring_G0p2_R10_LX4_Ccoupler90_Bbend_euler_CScoupler_straight_CSxs_34e31a19_CSBNone_LE3_-2000_5225,o2: straight_L0p6_N2_CSxs_34e31a19_-14000_11000,o1
   coupler_ring_G0p2_R10_LX4_Ccoupler90_Bbend_euler_CScoupler_straight_CSxs_34e31a19_CSBNone_LE3_-2000_5225,o3: straight_L0p6_N2_CSxs_34e31a19_10000_11000,o2
 instances:
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_-9125_16425:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_AMRVFalse_-9125_16425:
     component: bend_euler
     info:
       dy: 10.0
@@ -19,6 +19,7 @@ instances:
       route_info_weight: 16.637
       route_info_xs_sc_length: 16.637
     settings:
+      allow_min_radius_violation: false
       angle: 90.0
       cross_section: xs_34e31a19
       direction: ccw
@@ -29,7 +30,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_5125_16425:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_AMRVFalse_5125_16425:
     component: bend_euler
     info:
       dy: 10.0
@@ -42,6 +43,7 @@ instances:
       route_info_weight: 16.637
       route_info_xs_sc_length: 16.637
     settings:
+      allow_min_radius_violation: false
       angle: 90.0
       cross_section: xs_34e31a19
       direction: ccw
@@ -110,12 +112,12 @@ instances:
       npoints: 2
 name: ring_single_G0p2_R10_LX4_LY0p6_CRcoupler_ring_Bbend_euler_CSxs_sc
 placements:
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_-9125_16425:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_AMRVFalse_-9125_16425:
     mirror: false
     rotation: 180
     x: -9125
     y: 16425
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_5125_16425:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_34e31a19_AMRVFalse_5125_16425:
     mirror: false
     rotation: 90
     x: 5125

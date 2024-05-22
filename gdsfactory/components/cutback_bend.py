@@ -15,8 +15,8 @@ from gdsfactory.typings import ComponentSpec
 
 def _get_bend_size(bend90: Component) -> float64:
     p1, p2 = list(bend90.ports)[:2]
-    bsx = abs(p2.x - p1.x)
-    bsy = abs(p2.y - p1.y)
+    bsx = abs(p2.d.x - p1.d.x)
+    bsy = abs(p2.d.y - p1.d.y)
     return max(bsx, bsy)
 
 
@@ -181,7 +181,7 @@ def cutback_bend180(
     straight_length: float = 5.0,
     rows: int = 6,
     cols: int = 6,
-    spacing: int = 3,
+    spacing: float = 3.0,
     **kwargs,
 ) -> Component:
     """Returns cutback to measure u bend loss.
@@ -239,12 +239,12 @@ cutback_bend90circular = partial(cutback_bend90, component=bend_circular)
 if __name__ == "__main__":
     # c = cutback_bend()
     # c = cutback_bend90()
-    # c = cutback_bend_circular(rows=7, cols=4, radius=5) #62
-    # c = cutback_bend_circular(rows=14, cols=4) #118
+    c = cutback_bend90circular(rows=7, cols=4, radius=5)
+    # c = cutback_bend_circular(rows=14, cols=4)
     # c = cutback_bend90()
     # c = cutback_bend180(rows=3, cols=1)
     # c = cutback_bend(rows=3, cols=2)
     # c = cutback_bend90(rows=3, cols=2)
-    c = cutback_bend180(rows=2, cols=2)
+    # c = cutback_bend180(rows=2, cols=2)
     # c = cutback_bend(rows=3, cols=2)
     c.show()

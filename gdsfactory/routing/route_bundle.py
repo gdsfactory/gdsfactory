@@ -257,7 +257,7 @@ def route_bundle(
         place_port_type=port_type,
         collision_check_layers=collision_check_layers,
         on_collision=on_collision,
-        allow_different_port_widths=allow_width_mismatch,
+        allow_width_mismatch=allow_width_mismatch,
         bboxes=bboxes or [],
         route_width=width_dbu,
     )

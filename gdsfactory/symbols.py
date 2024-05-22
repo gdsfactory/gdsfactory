@@ -38,7 +38,7 @@ def symbol(func: Callable, *args, **kwargs) -> Callable:
             by default True avoids having duplicated cells with the same name.
         info: updates component.info dict.
         prefix: name_prefix, defaults to function name.
-        max_name_length: truncates name beyond some characters (32) with a hash.
+        max_cellname_length: truncates name beyond some characters (32) with a hash.
         decorator: function to run over the component.
     """
     if "prefix" not in kwargs:

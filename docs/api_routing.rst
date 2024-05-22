@@ -46,9 +46,9 @@ route_bundle_all_angle
 route_ports_to_side
 ---------------------------------------------------------------------------------------------------
 
-For now `get_bundle` is not smart enough to decide whether it should call `route_ports_to_side`.
+For now `route_bundle` is not smart enough to decide whether it should call `route_ports_to_side`.
 So you either need to connect your ports to face in one direction first, or to
-use `route_ports_to_side` before calling `get_bundle`
+use `route_ports_to_side` before calling `route_bundle`
 
 .. autosummary::
    :toctree: _autosummary/
@@ -63,11 +63,7 @@ fanout
 .. autosummary::
    :toctree: _autosummary/
 
-   get_route_sbend
-   get_bundle_sbend
    fanout2x2
-   fanout_component
-   fanout_ports
 
 
 add_fiber_array

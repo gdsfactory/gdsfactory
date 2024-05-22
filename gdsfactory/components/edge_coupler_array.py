@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from functools import partial
 
-import numpy as np
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import extend_ports
@@ -56,7 +54,8 @@ def edge_coupler_array(
         if text:
             t = c << gf.get_component(text, text=str(i + 1))
             t.d.rotate(text_rotation)
-            t.d.move(np.array(text_offset) + (0, i * pitch))
+            t.d.movex(text_offset[0])
+            t.d.movey(i * pitch + text_offset[1])
 
     c.auto_rename_ports()
     return c
@@ -72,7 +71,7 @@ def edge_coupler_array_with_loopback(
     extension_length: float = 1.0,
     x_reflection: bool = False,
     text: ComponentSpec | None = text_rectangular,
-    text_offset: Float2 = (0, 0),
+    text_offset: Float2 = (0, 10),
     text_rotation: float = 0,
 ) -> Component:
     """Fiber array edge coupler.
@@ -138,6 +137,7 @@ def edge_coupler_array_with_loopback(
 
 
 if __name__ == "__main__":
+    # c = edge_coupler_array()
     c = edge_coupler_array_with_loopback()
     # c = edge_coupler_array_with_loopback(text_rotation=90)
     # c = edge_coupler_silicon()

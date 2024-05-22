@@ -24,6 +24,7 @@ def bend_euler(
     width: float | None = None,
     direction: str = "ccw",
     cross_section: CrossSectionSpec = "xs_sc",
+    allow_min_radius_violation: bool = False,
 ) -> Component:
     """Euler bend with changing bend radius.
 
@@ -48,6 +49,7 @@ def bend_euler(
         width: width to use. Defaults to cross_section.width.
         direction: cw (clock-wise) or ccw (counter clock-wise).
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
 
     .. code::
 
@@ -81,7 +83,8 @@ def bend_euler(
     if direction == "cw":
         ref.mirror(p1=[0, 0], p2=[1, 0])
 
-    x.validate_radius(radius)
+    if not allow_min_radius_violation:
+        x.validate_radius(radius)
 
     top = None if int(angle) in {180, -180, -90} else 0
     bottom = 0 if int(angle) in {-90} else None

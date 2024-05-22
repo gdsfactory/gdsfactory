@@ -215,9 +215,7 @@ class CrossSection(BaseModel):
     bbox_layers: LayerSpecs | None = None
     bbox_offsets: Floats | None = None
 
-    model_config = ConfigDict(
-        extra="ignore", frozen=True
-    )  # TODO: change to forbid after remove deprecation
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
     def validate_radius(
         self, radius: float, error_type: ErrorType | None = None
@@ -310,16 +308,6 @@ class CrossSection(BaseModel):
         """Returns a mirrored copy of the cross_section."""
         sections = [s.model_copy(update=dict(offset=-s.offset)) for s in self.sections]
         return self.model_copy(update={"sections": tuple(sections)})
-
-    def add_pins(self, component: Component, *args, **kwargs) -> Component:
-        """Add pins to a target component according to :class:`CrossSection`.
-        Args and kwargs are passed to the function defined by the `add_pins_function_name`.
-        """
-        warnings.warn(
-            "CrossSection.add_pins() is deprecated. @gf.cell(post_process=[gf.add_pins]) instead.",
-            stacklevel=2,
-        )
-        return component
 
     # def apply_enclosure(self, component: Component) -> None:
     #     """Apply enclosure to a target component according to :class:`CrossSection`."""

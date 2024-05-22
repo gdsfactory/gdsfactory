@@ -114,7 +114,7 @@ class Port(kf.Port):
         orientation: float | None,
         center: tuple[float, float] | kf.kdb.Point | kf.kdb.DPoint,
         width: float,
-        layer: LayerSpec = None,
+        layer: LayerSpec | None = None,
         port_type: str = "optical",
         cross_section: CrossSectionSpec | None = None,
         info: dict[str, int | float | str] | None = None,

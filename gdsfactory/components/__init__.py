@@ -396,7 +396,6 @@ __all__ = [
     "grating_coupler_elliptical_uniform",
     "grating_coupler_loss_fiber_array",
     "grating_coupler_loss_fiber_array4",
-    "grating_coupler_loss_fiber_single",
     "grating_coupler_rectangular",
     "grating_coupler_rectangular_arbitrary",
     "grating_coupler_rectangular_arbitrary_slab",

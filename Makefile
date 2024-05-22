@@ -5,11 +5,9 @@ help:
 
 install:
 	pip install -e .[dev,docs] pre-commit
-	pre-commit install
+	pip install git+https://github.com/gdsfactory/kfactory --force-reinstall
 	gf install-klayout-genericpdk
 	gf install-git-diff
-
-dev: install
 
 update-pre:
 	pre-commit autoupdate
@@ -70,4 +68,4 @@ git-rm-merged:
 notebooks:
 	jupytext docs/notebooks/*.py --to ipynb
 
-.PHONY: gdsdiff build conda gdslib docs doc
+.PHONY: gdsdiff build conda gdslib docs doc install

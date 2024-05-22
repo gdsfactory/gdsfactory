@@ -25,13 +25,17 @@ jobs:
             ~/.gdsfactory/
           key: 0.0.1
           restore-keys: 0.0.1
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Installing the library
         env:
           GDSFACTORY_DISPLAY_TYPE: klayout
           KFACTORY_DISPLAY_TYPE: image
         shell: bash -l {0}
         run: |
-          make dev
+          make install
           make docs-generic-pdk
           make docs
       - name: Upload artifact

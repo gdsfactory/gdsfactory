@@ -10,8 +10,9 @@ def test_write_labels() -> None:
     gf.add_pins.add_pins_siepic_optical(c)
 
     gdspath = c.write_gds()
-    c.show()
-    gf.labels.write_labels(gdspath, layer_label=LAYER.PORT)
+    labels = list(gf.labels.find_labels(gdspath, layer_label=LAYER.PORT, prefix="o"))
+    gf.labels.write_labels(gdspath, layer_label=LAYER.PORT, prefix="o")
+    assert len(labels) == 2
 
 
 if __name__ == "__main__":
@@ -20,4 +21,6 @@ if __name__ == "__main__":
 
     gdspath = c.write_gds()
     c.show()
-    gf.labels.write_labels(gdspath, layer_label=LAYER.PORT)
+    labels = list(gf.labels.find_labels(gdspath, layer_label=LAYER.PORT, prefix="o"))
+    print(labels)
+    gf.labels.write_labels(gdspath, layer_label=LAYER.PORT, prefix="o")

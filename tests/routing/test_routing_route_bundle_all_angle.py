@@ -34,7 +34,6 @@ def test_route_bundle_all_angle(
 
 
 if __name__ == "__main__":
-    gf.CONF.enforce_ports_on_grid = False
     c = gf.Component("demo")
 
     mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)

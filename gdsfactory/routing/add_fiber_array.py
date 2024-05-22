@@ -16,6 +16,7 @@ from gdsfactory.typings import (
 )
 
 
+@gf.cell
 def add_fiber_array(
     component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,

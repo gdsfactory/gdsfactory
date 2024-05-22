@@ -63,7 +63,6 @@ def sort_ports(
             ports2.sort(key=f_key1)
 
     if enforce_port_ordering:
-        # Sort ports2 according to the original order of ports1
         ports2 = [ports2[ports1.index(p1)] for p1 in ports1]
 
     return ports1, ports2

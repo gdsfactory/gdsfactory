@@ -18,15 +18,16 @@ def test_add_ports_dict() -> None:
 def test_add_ports_list() -> None:
     c = gf.Component()
     s = c << gf.components.straight()
-    c.add_ports(s.get_ports_list())
+    c.add_ports(s.ports)
     assert len(c.ports) == 2, len(c.ports)
 
 
 def test_add_ports_from_pins(data_regression) -> None:
-    c = gf.components.straight(decorator=add_pins)
+    c = gf.components.straight()
+    add_pins(c)
     gdspath = c.write_gds()
     c2 = gf.import_gds(
-        gdspath, decorator=add_ports_from_markers_inside, unique_names=False
+        gdspath, post_process=add_ports_from_markers_inside, unique_names=False
     )
     d = c2.to_dict(with_ports=True)
     if data_regression:
@@ -34,10 +35,11 @@ def test_add_ports_from_pins(data_regression) -> None:
 
 
 def test_add_ports_from_pins_siepic(data_regression) -> None:
-    c = gf.components.straight(decorator=add_pins_siepic)
+    c = gf.components.straight()
+    add_pins_siepic(c)
     gdspath = c.write_gds()
     c2 = gf.import_gds(
-        gdspath, decorator=add_ports_from_siepic_pins, unique_names=False
+        gdspath, post_process=add_ports_from_siepic_pins, unique_names=False
     )
     d = c2.to_dict(with_ports=True)
     if data_regression:
@@ -45,18 +47,7 @@ def test_add_ports_from_pins_siepic(data_regression) -> None:
 
 
 if __name__ == "__main__":
-    # test_add_ports_list()
+    test_add_ports_from_pins_siepic(None)
+    # test_add_ports_from_pins(None)
     # test_add_ports_dict()
-    test_add_ports_from_pins(None)
-    # test_add_ports_from_pins_siepic(None)
-
-    # c = gf.components.straight(decorator=add_pins)
-    # gdspath = c.write_gds()
-    # c2 = gf.import_gds(gdspath, decorator=add_ports_from_markers_inside)
-
-    # assert len(c2.ports) == 2
-
-    # x1, y1 = c.ports["o1"].center
-    # x2, y2 = c2.ports["o1"].center
-    # assert x1 == x2, f"{x1} {x2}"
-    # assert y1 == y2, f"{y1} {y2}"
+    # test_add_ports_list()

@@ -5,7 +5,6 @@ from __future__ import annotations
 from functools import partial
 
 import numpy as np
-from numpy import arctan2, degrees, isclose
 
 from gdsfactory.component import Component
 from gdsfactory.port import Port, read_port_markers, sort_ports_clockwise
@@ -159,11 +158,12 @@ def add_ports_from_markers_center(
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
 
-    for i, p in enumerate(port_markers.polygons):
+    for i, p in enumerate(port_markers.get_polygons()[pin_layer]):
         port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
-        (pxmin, pymin), (pxmax, pymax) = p.bounding_box()
-        x, y = np.sum(p.bounding_box(), 0) / 2
+        bbox = p.bbox()
+        pxmin, pymin, pxmax, pymax = bbox.left, bbox.bottom, bbox.right, bbox.top
 
+        x, y = bbox.center().x, bbox.center().y
         dy = pymax - pymin
         dx = pxmax - pxmin
 
@@ -250,7 +250,7 @@ def add_ports_from_markers_center(
 
     ports = sort_ports_clockwise(ports)
 
-    for port_name, port in ports.items():
+    for port_name, port in ports:
         if port_name in component.ports:
             component_ports = list(component.ports.keys())
             raise ValueError(
@@ -358,10 +358,9 @@ def add_ports_from_labels(
 
 def add_ports_from_siepic_pins(
     component: Component,
-    pin_layer_optical: LayerSpec = "PORT",
-    port_layer_optical: LayerSpec | None = None,
-    pin_layer_electrical: LayerSpec = "PORTE",
-    port_layer_electrical: LayerSpec | None = None,
+    pin_layer: LayerSpec = "PORT",
+    port_layer: LayerSpec | None = None,
+    port_type: str = "optical",
 ) -> Component:
     """Add ports from SiEPIC-type cells, where the pins are defined as paths.
 
@@ -369,71 +368,40 @@ def add_ports_from_siepic_pins(
 
     Args:
         component: component.
-        pin_layer_optical: layer for optical pins.
-        port_layer_optical: layer for optical ports.
-        pin_layer_electrical: layer for electrical pins.
-        port_layer_electrical: layer for electrical ports.
+        pin_layer: layer for optical pins.
+        port_layer: layer for optical ports.
+        port_type: optical, electrical.
     """
-    pin_layers = {"optical": pin_layer_optical, "electrical": pin_layer_electrical}
 
     import gdsfactory as gf
 
-    pin_layer_optical = gf.get_layer(pin_layer_optical)
-    port_layer_optical = gf.get_layer(port_layer_optical)
-    pin_layer_electrical = gf.get_layer(pin_layer_electrical)
-    port_layer_electrical = gf.get_layer(port_layer_electrical)
+    port_layer = port_layer or pin_layer
+
+    pin_layer = gf.get_layer(pin_layer)
+    port_layer = gf.get_layer(port_layer)
 
     c = component
-    labels = c.get_labels()
+    paths = c.get_paths(pin_layer)
+    port_prefix = "o" if port_type == "optical" else "e"
 
-    for path in c.paths:
-        p1, p2 = path.spine()
-
-        path_layers = list(zip(path.layers, path.datatypes))
-
-        # Find the center of the path
-        center = (p1 + p2) / 2
-
-        # Find the label closest to the pin
-        label = None
-        for i, _label in enumerate(labels):
-            if (
-                all(isclose(_label.origin, center))
-                or all(isclose(_label.origin, p1))
-                or all(isclose(_label.origin, p2))
-            ):
-                label = _label
-                labels.pop(i)
-        if label is None:
-            print(
-                f"Warning: label not found for path: in center={center} p1={p1} p2={p2}"
-            )
-            continue
-        if pin_layer_optical in path_layers:
-            port_type = "optical"
-            port_layer = port_layer_optical or None
-        elif pin_layer_electrical in path_layers:
-            port_type = "electrical"
-            port_layer = port_layer_electrical or None
+    for i, path in enumerate(paths):
+        p1, p2 = list(path.each_point())
+        v = p2 - p1
+        if v.x < 0:
+            orientation = 2
+        elif v.x > 0:
+            orientation = 0
+        elif v.y > 0:
+            orientation = 1
         else:
-            continue
+            orientation = 3
 
-        port_name = str(label.text)
-
-        # If the port name is already used, add a number to it
-        i = 1
-        while port_name in c.ports:
-            port_name += f"_{i}"
-
-        angle = round(degrees(arctan2(p2[1] - p1[1], p2[0] - p1[0])) % 360)
-
-        port = Port(
-            name=port_name,
-            center=center,
-            width=path.widths()[0][0],
-            orientation=angle,
-            layer=port_layer or pin_layers[port_type],
-            port_type=port_type,
+        c.create_port(
+            name=f"{port_prefix}{i+1}",
+            width=round(path.width / c.kcl.dbu),
+            trans=gf.kdb.Trans(orientation, False, path.bbox().center().to_v()),
+            layer=port_layer,
+            port_type="optical",
         )
-        c.add_port(port)
+
     return c
