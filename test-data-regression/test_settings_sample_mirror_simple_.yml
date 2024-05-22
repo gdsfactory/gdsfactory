@@ -1,24 +1,3 @@
 info: {}
 name: sample_mirror_simple
-settings:
-  conf:
-    connections:
-      b,o1: s,o2
-    instances:
-      b:
-        component: bend_circular
-      s:
-        component: straight
-    name: sample_mirror_simple
-    placements:
-      b:
-        mirror: true
-        port: o1
-  function_name: _from_yaml
-  label_instance_function: add_instance_label
-  mode: layout
-  name: sample_mirror_simple
-  routing_strategy:
-    route_bundle: route_bundle
-    route_bundle_all_angle: route_bundle_all_angle
-    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSxs_metal_routing_PTelectrical_ADPWTrue
+settings: {}
