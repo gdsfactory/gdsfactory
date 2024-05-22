@@ -14,17 +14,23 @@ def get_port_y(port: Port) -> float:
 
 
 def sort_ports_x(ports: list[Port]) -> list[Port]:
-    return sorted(ports, key=get_port_x)
+    ports = list(ports)
+    f_key = get_port_x
+    ports.sort(key=f_key)
+    return ports
 
 
 def sort_ports_y(ports: list[Port]) -> list[Port]:
-    return sorted(ports, key=get_port_y)
+    ports = list(ports)
+    f_key = get_port_y
+    ports.sort(key=f_key)
+    return ports
 
 
 def sort_ports(
     ports1: list[Port] | kf.Ports,
     ports2: list[Port] | kf.Ports,
-    enforce_port_ordering: bool = True,
+    enforce_port_ordering: bool,
 ) -> tuple[list[Port], list[Port]]:
     """Returns two lists of sorted ports.
 
@@ -33,6 +39,7 @@ def sort_ports(
         ports2: the ending ports
         enforce_port_ordering: if True, only ports2 will be sorted in accordance with ports1.
             If False, the two lists will be sorted independently.
+
     """
     ports1 = list(ports1)
     ports2 = list(ports2)
@@ -44,36 +51,34 @@ def sort_ports(
     if not ports2:
         raise ValueError("ports2 is an empty list")
 
-    # Determine the sorting axis based on orientation
-    if ports1[0].orientation in [0, 180]:
-        ports1_sorted = sort_ports_y(ports1)
-        ports2_sorted = sort_ports_y(ports2)
+    if ports1[0].orientation in [0, 180] and ports2[0].orientation in [0, 180]:
+        _sort(get_port_y, ports1, enforce_port_ordering, ports2)
+    elif ports1[0].orientation in [90, 270] and ports2[0].orientation in [90, 270]:
+        _sort(get_port_x, ports1, enforce_port_ordering, ports2)
     else:
-        ports1_sorted = sort_ports_x(ports1)
-        ports2_sorted = sort_ports_x(ports2)
+        axis = "X" if ports1[0].orientation in [0, 180] else "Y"
+        f_key1 = get_port_y if axis in {"X", "x"} else get_port_x
+        ports1.sort(key=f_key1)
+        if not enforce_port_ordering:
+            ports2.sort(key=f_key1)
 
-    # Enforce port ordering if required
     if enforce_port_ordering:
-        ports2_sorted = [ports2_sorted[ports1_sorted.index(p1)] for p1 in ports1_sorted]
+        ports2 = [ports2[ports1.index(p1)] for p1 in ports1]
 
-    return ports1_sorted, ports2_sorted
+    return ports1, ports2
 
 
-def handle_flipped_orientations(ports1, ports2):
-    # Separate ports by their orientations
-    ports1_0_180 = [port for port in ports1 if port.orientation in [0, 180]]
-    ports2_0_180 = [port for port in ports2 if port.orientation in [0, 180]]
-    ports1_90_270 = [port for port in ports1 if port.orientation in [90, 270]]
-    ports2_90_270 = [port for port in ports2 if port.orientation in [90, 270]]
+def _sort(key_func, ports1, enforce_port_ordering, ports2):
+    ports1.sort(key=key_func)
+    if not enforce_port_ordering:
+        ports2.sort(key=key_func)
 
-    # Sort each group of ports
-    ports1_sorted_0_180, ports2_sorted_0_180 = sort_ports(ports1_0_180, ports2_0_180)
-    ports1_sorted_90_270, ports2_sorted_90_270 = sort_ports(
-        ports1_90_270, ports2_90_270
-    )
 
-    # Combine sorted ports back together
-    sorted_ports1 = ports1_sorted_0_180 + ports1_sorted_90_270
-    sorted_ports2 = ports2_sorted_0_180 + ports2_sorted_90_270
+if __name__ == "__main__":
+    import gdsfactory as gf
 
-    return sorted_ports1, sorted_ports2
+    c = gf.Component()
+    c1 = c << gf.c.straight()
+    c2 = c << gf.c.straight()
+    sort_ports(c1.ports, c2.ports, enforce_port_ordering=True)
+    c.show()
