@@ -699,6 +699,14 @@ class Component(kf.KCell):
 
         return get_netlist(self)
 
+    def write_netlist(self, filepath: str) -> None:
+        """Write netlist in YAML."""
+        import yaml
+
+        netlist = self.get_netlist()
+        filepath = pathlib.Path(filepath)
+        filepath.write_text(yaml.dump(netlist))
+
     def plot_netlist(
         self, with_labels: bool = True, font_weight: str = "normal", **kwargs
     ):

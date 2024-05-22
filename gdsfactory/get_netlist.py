@@ -196,10 +196,10 @@ def get_netlist(
 
         # Prefer name from settings over c.name
         if c.settings:
-            settings = c.settings
+            settings = c.settings.model_dump()
 
             instance.update(
-                component=getattr(c.settings, "function_name", c.name),
+                component=settings.pop("function_name", c.name),
                 settings=clean_value_json(settings),
             )
 
