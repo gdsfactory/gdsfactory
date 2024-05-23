@@ -255,6 +255,7 @@ def route_fiber_array(
         port_names=port_names,
         cross_section=cross_section,
         port_type=port_type,
+        allow_width_mismatch=allow_width_mismatch,
     )
     to_route = c.ports
 

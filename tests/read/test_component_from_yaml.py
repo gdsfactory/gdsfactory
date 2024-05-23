@@ -145,7 +145,7 @@ routes:
             port_type: electrical
             separation: 20
             cross_section:
-                cross_section: metal3_bend
+                cross_section: metal3
                 settings:
                     width: 10
         links:

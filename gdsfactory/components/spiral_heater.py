@@ -400,7 +400,7 @@ def spiral_racetrack_heater_doped(
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
     waveguide_cross_section: CrossSectionSpec = "strip",
-    heater_cross_section: CrossSectionSpec = "xs_npp",
+    heater_cross_section: CrossSectionSpec = "npp",
 ) -> Component:
     """Returns spiral racetrack with a heater between the loops.
 

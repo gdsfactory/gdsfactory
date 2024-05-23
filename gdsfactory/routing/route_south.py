@@ -33,6 +33,7 @@ def route_south(
     cross_section: CrossSectionSpec = strip,
     start_straight_length: float = 0.5,
     port_type: str = "optical",
+    allow_width_mismatch: bool = False,
 ) -> list[OpticalManhattanRoute]:
     """Places routes to route a component ports to the south.
 
@@ -54,6 +55,8 @@ def route_south(
         port_names: optional port names. Overrides select_ports.
         cross_section: cross_section spec.
         start_straight_length: in um.
+        port_type: optical or electrical.
+        allow_width_mismatch: allow width mismatch.
 
     Works well if the component looks roughly like a rectangular box with:
         north ports on the north of the box.
@@ -110,6 +113,7 @@ def route_south(
         taper=taper,
         cross_section=cross_section,
         port_type=port_type,
+        allow_width_mismatch=allow_width_mismatch,
     )
 
     # Used to avoid crossing between straights in special cases

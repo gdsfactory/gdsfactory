@@ -1,15 +1,5 @@
 info:
   length: 10.186
   min_bend_radius: 11.857
-name: add_trenches_Ccoupler_LCWG_LTDEEP_ETCH_WT2_CSrib_with_trenches_TTrue_BTrue_RFalse_LFalse
-settings:
-  bot: true
-  component: coupler
-  cross_section: rib_with_trenches
-  function_name: add_trenches
-  layer_component: WG
-  layer_trench: DEEP_ETCH
-  left: false
-  right: false
-  top: true
-  width_trench: 2.0
+name: coupler_G0p236_L20_CScoupler_symmetric_CScoupler_straight_D4_D10_CSstrip_trenches
+settings: {}

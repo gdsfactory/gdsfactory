@@ -210,8 +210,12 @@ instances:
       cross_section: strip
       length: 5.0
       port: null
-      port_names: [o1, o2]
-      port_types: [optical, optical]
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width1: 0.45
       width2: 0.55
       with_bbox: true
@@ -226,8 +230,12 @@ instances:
       cross_section: strip
       length: 5.0
       port: null
-      port_names: [o1, o2]
-      port_types: [optical, optical]
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width1: 0.45
       width2: 0.5
       with_bbox: true
@@ -242,8 +250,12 @@ instances:
       cross_section: strip
       length: 5.0
       port: null
-      port_names: [o1, o2]
-      port_types: [optical, optical]
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width1: 0.55
       width2: 0.45
       with_bbox: true
@@ -258,8 +270,12 @@ instances:
       cross_section: strip
       length: 5.0
       port: null
-      port_names: [o1, o2]
-      port_types: [optical, optical]
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width1: 0.55
       width2: 0.5
       with_bbox: true
@@ -274,8 +290,12 @@ instances:
       cross_section: strip
       length: 5.0
       port: null
-      port_names: [o1, o2]
-      port_types: [optical, optical]
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width1: 0.5
       width2: 0.45
       with_bbox: true
@@ -290,8 +310,12 @@ instances:
       cross_section: strip
       length: 5.0
       port: null
-      port_names: [o1, o2]
-      port_types: [optical, optical]
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
       width1: 0.5
       width2: 0.55
       with_bbox: true

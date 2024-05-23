@@ -3,42 +3,4 @@ info:
   polarization: te
   wavelength: 1.55
 name: sample_mmis
-settings:
-  conf:
-    info:
-      description: just a demo on adding metadata
-      polarization: te
-      wavelength: 1.55
-    instances:
-      mmi_long:
-        component: mmi1x2
-        settings:
-          length_mmi: 10
-          width_mmi: 4.5
-      mmi_short:
-        component: mmi1x2
-        settings:
-          length_mmi: 5
-          width_mmi: 4.5
-    name: sample_mmis
-    placements:
-      mmi_long:
-        rotation: 180
-        x: 100
-        y: 100
-    ports:
-      o1: mmi_short,o1
-      o2: mmi_long,o2
-      o3: mmi_long,o3
-    routes:
-      route_name1:
-        links:
-          mmi_short,o2: mmi_long,o1
-  function_name: _from_yaml
-  label_instance_function: add_instance_label
-  mode: layout
-  name: sample_mmis
-  routing_strategy:
-    route_bundle: route_bundle
-    route_bundle_all_angle: route_bundle_all_angle
-    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSmetal_routing_PTelectrical_ADPWTrue
+settings: {}

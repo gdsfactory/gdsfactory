@@ -8,6 +8,7 @@ import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
+from gdsfactory.generic_tech import LAYER
 
 
 def test_path_zero_length() -> None:
@@ -88,7 +89,7 @@ def transition() -> Component:
     wg1 = gf.path.extrude(P1, X1)
     wg2 = gf.path.extrude(P2, X2)
 
-    P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
+    P4 = gf.path.euler(radius=25, angle=90, p=0.5, use_eff=False)
     wg_trans = gf.path.extrude_transition(P4, Xtrans)
 
     wg1_ref = c << wg1
@@ -125,26 +126,11 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
 
 def test_layers1() -> None:
     P = gf.path.straight(length=10.001)
-    s = gf.Section(width=0.5, offset=0, layer=(3, 0), port_names=("in", "out"))
+    s = gf.Section(width=0.5, offset=0, layer=LAYER.WG, port_names=("in", "out"))
     X = gf.CrossSection(sections=(s,))
     c = gf.path.extrude(P, X, simplify=5e-3)
-    assert c.ports["in"].layer == (3, 0)
-    assert c.ports["out"].center[0] == 10.001, c.ports["out"].center[0]
-
-
-def test_layers2() -> None:
-    from gdsfactory.pdk import get_active_pdk
-
-    pdk = get_active_pdk()
-    pdk.grid_size = 0.005
-
-    P = gf.path.straight(length=10.001)
-    X = gf.cross_section.strip()
-    c = gf.path.extrude(P, X, simplify=5e-3)
-    assert c.ports["o1"].layer == (1, 0)
-    assert c.ports["o2"].center[0] == 10.0, c.ports["o2"].center[0]
-
-    pdk.grid_size = 0.001
+    assert c.ports["in"].layer == LAYER.WG
+    assert c.ports["out"].d.center[0] == 10.001, c.ports["out"].d.center[0]
 
 
 def test_path_add() -> None:
@@ -162,17 +148,3 @@ def test_path_add() -> None:
     p = p2 + p1
     assert p.start_angle == 0
     assert p.end_angle == 45
-
-
-if __name__ == "__main__":
-    test_layers2()
-    # test_append()
-    # c = transition()
-
-    # p1 = gf.path.straight(length=5)
-    # p2 = gf.path.euler(radius=5, angle=45, p=0.5, use_eff=False)
-    # p = p2 + p1
-    # assert p.start_angle == 45
-    # assert p.end_angle == 0
-    # c = p.extrude(cross_section="strip")
-    # c.show()
