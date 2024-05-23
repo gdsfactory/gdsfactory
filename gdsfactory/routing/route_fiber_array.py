@@ -36,6 +36,7 @@ def route_fiber_array(
     fanout_length: float | None = None,
     max_y0_optical: None = None,
     with_loopback: bool = True,
+    with_loopback_inside: bool = True,
     straight_separation: float = 6.0,
     straight_to_grating_spacing: float = 5.0,
     nb_optical_ports_lines: int = 1,
@@ -374,6 +375,7 @@ def route_fiber_array(
             port0,
             port1,
             bend90_radius=radius_dbu,
+            inside=with_loopback_inside,
             d_loop=round(straight_to_grating_spacing / c.kcl.dbu)
             + radius_dbu
             + gca1.ysize,

@@ -67,7 +67,6 @@ def make_bundle(
     gf.routing.route_bundle(
         c, ports1, ports2, sort_ports=sort_ports, enforce_port_ordering=False
     )
-    c.show()
 
 
 @pytest.mark.parametrize("angle", MANHATTAN_ANGLES)

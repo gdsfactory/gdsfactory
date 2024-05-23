@@ -140,6 +140,7 @@ def add_pads_bot(
     return component_new
 
 
+@gf.cell
 def add_pads_top(
     component: ComponentSpec = straight_heater_metal, **kwargs
 ) -> Component:
