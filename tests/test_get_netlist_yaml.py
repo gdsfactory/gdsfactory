@@ -17,7 +17,7 @@ def regenerate_regression_test() -> None:
 
 
 if __name__ == "__main__":
-    regenerate_regression_test()
+    # regenerate_regression_test()
     gf.clear_cache()
     filepath = PATH.netlists / "mzi.yml"
     c = gf.read.from_yaml(filepath)

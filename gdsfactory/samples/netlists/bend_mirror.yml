@@ -1,4 +1,5 @@
-connections: {}
+connections:
+  b1,o2: b2,o2
 instances:
   b1:
     component: bend_circular
@@ -45,7 +46,7 @@ placements:
     rotation: 0.0
     mirror: false
   b2:
-    x: -15.125
+    x: 14.875
     'y': 4.875
     rotation: 180.0
     mirror: true
@@ -53,19 +54,21 @@ ports: {}
 name: original
 warnings:
   optical:
+    orientation_mismatch:
+    - ports:
+      - b1,o2
+      - b2,o2
+      values:
+      - 90.0
+      - 90.0
+      message: b1,o2 and b2,o2 are misaligned by 180.0 deg
     unconnected_ports:
     - ports:
       - b1,o1
-      - b1,o2
       - b2,o1
-      - b2,o2
       values:
       - - 0
         - 0
-      - - 10000
-        - 10000
-      - - -10000
+      - - 20000
         - 0
-      - - -20000
-        - 10000
-      message: 4 unconnected optical ports!
+      message: 2 unconnected optical ports!

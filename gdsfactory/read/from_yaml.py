@@ -190,7 +190,7 @@ def _move_ref(
         port_name not in instances[instance_name_ref].ports
         and port_name not in valid_anchor_keywords
     ):
-        ports = list(instances[instance_name_ref].ports.keys())
+        ports = [p.name for p in instances[instance_name_ref].ports]
         raise ValueError(
             f"port = {port_name!r} can be a port_name in {ports}, "
             f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
@@ -265,21 +265,21 @@ def place(
 
         if mirror:
             if mirror is True and port:
-                ref.mirror_x(x=_get_anchor_value_from_name(ref, port, "x"))
+                ref.d.mirror_x(x=_get_anchor_value_from_name(ref, port, "x"))
             elif mirror is True:
                 if x:
                     x = to_um(ref, x)
-                    ref.mirror_x(x=x)
+                    ref.d.mirror_x(x=x)
                 else:
-                    ref.mirror_x()
+                    ref.d.mirror_x()
             elif mirror is False:
                 pass
             elif isinstance(mirror, str):
                 x_mirror = ref.ports[mirror].x
-                ref.mirror_x(x_mirror)
+                ref.d.mirror_x(x_mirror)
             elif isinstance(mirror, int | float):
                 x = to_um(ref, x)
-                ref.mirror_x(x=x)
+                ref.d.mirror_x(x=x)
             else:
                 raise ValueError(
                     f"{mirror!r} can only be a port name {ref.ports.keys()}, "

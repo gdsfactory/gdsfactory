@@ -117,6 +117,7 @@ def get_netlist(
     exclude_port_types: list[str] | tuple[str] | None = ("placement",),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = False,
+    connection_error_types: dict[str, list[str]] | None = None,
 ) -> dict[str, Any]:
     """From Component returns instances, connections and placements dict.
 
@@ -129,7 +130,7 @@ def get_netlist(
     warnings collected during netlisting are reported back into the netlist.
     These include warnings about mismatched port widths, orientations, shear angles, excessive offsets, etc.
     You can also configure warning types which should throw an error when encountered
-    by modifying DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.
+    by modifying connection_error_types.
     Validators, which will produce warnings for each port type,
     can be overridden with DEFAULT_CONNECTION_VALIDATORS
     A key difference in this algorithm is that we group each port type independently.
@@ -238,9 +239,7 @@ def get_netlist(
         else:
             # lower level ports
             for port in reference.ports:
-                reference_name = get_instance_name(
-                    reference,
-                )
+                reference_name = get_instance_name(reference)
                 src = f"{reference_name},{port.name}"
                 name2port[src] = port
                 ports_by_type[port.port_type].append(src)
@@ -261,6 +260,7 @@ def get_netlist(
             port_type,
             tolerance=tolerance,
             allow_multiple=allow_multiple,
+            connection_error_types=connection_error_types,
         )
         if warnings_t:
             warnings[port_type] = warnings_t
@@ -298,6 +298,7 @@ def extract_connections(
     tolerance: int = 5,
     validators: dict[str, Callable] | None = None,
     allow_multiple: bool = False,
+    connection_error_types: dict[str, list[str]] | None = None,
 ):
     if validators is None:
         validators = DEFAULT_CONNECTION_VALIDATORS
@@ -310,6 +311,7 @@ def extract_connections(
         tolerance=tolerance,
         connection_validator=validator,
         allow_multiple=allow_multiple,
+        connection_error_types=connection_error_types,
     )
 
 
@@ -321,6 +323,7 @@ def _extract_connections_two_sweep(
     tolerance: int,
     raise_error_for_warnings: list[str] | None = None,
     allow_multiple: bool = False,
+    connection_error_types: dict[str, list[str]] | None = None,
 ):
     """Extracts connections between ports.
 
@@ -334,11 +337,13 @@ def _extract_connections_two_sweep(
         allow_multiple: False to raise an error if more than two ports share the same connection. \
 
     """
+
+    if connection_error_types is None:
+        connection_error_types = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES
+
     warnings = defaultdict(list)
     if raise_error_for_warnings is None:
-        raise_error_for_warnings = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.get(
-            port_type, []
-        )
+        raise_error_for_warnings = connection_error_types.get(port_type, [])
 
     unconnected_port_names = list(port_names)
     if tolerance < 0:

@@ -693,17 +693,17 @@ class Component(kf.KCell):
             exclude_layers=exclude_layers,
         )
 
-    def get_netlist(self) -> dict[str, Any]:
+    def get_netlist(self, **kwargs) -> dict[str, Any]:
         """Returns a netlist for circuit simulation."""
         from gdsfactory.get_netlist import get_netlist
 
-        return get_netlist(self)
+        return get_netlist(self, **kwargs)
 
-    def write_netlist(self, filepath: str) -> None:
+    def write_netlist(self, filepath: str, **kwargs) -> None:
         """Write netlist in YAML."""
         from omegaconf import OmegaConf
 
-        netlist = self.get_netlist()
+        netlist = self.get_netlist(**kwargs)
         yaml_component = OmegaConf.to_yaml(netlist)
         filepath = pathlib.Path(filepath)
         filepath.write_text(yaml_component)
