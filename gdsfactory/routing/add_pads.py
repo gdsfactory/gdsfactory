@@ -15,6 +15,7 @@ from gdsfactory.typings import (
 )
 
 
+@gf.cell
 def add_pads_bot(
     component: ComponentSpec = straight_heater_metal,
     select_ports: Callable = select_ports_electrical,
@@ -135,34 +136,6 @@ def add_pads_bot(
         **kwargs,
     )
     component_new.add_ref(component)
-
-    # for port in component.ports:
-    #     if port not in ports:
-    #         component_new.add_port(port.name, port=port)
-
-    # if pad_port_labels:
-    #     for gc_port_label, port in zip(pad_port_labels, ports):
-    #         if layer_label:
-    #             component_new.add_label(
-    #                 text=gc_port_label, layer=layer_label, position=port.center
-    #             )
-
-    # for port_component, port_grating in zip(
-    #     ports_component, ports_grating_input_waveguide
-    # ):
-    #     grating_ref = port_grating.parent
-    #     component_new.add_port(
-    #         f"elec-{grating_ref.parent.name}-{component_name}-{port_component.name}",
-    #         port=port_grating,
-    #     )
-
-    # for i, port in enumerate(ports_loopback):
-    #     grating_ref = port_grating.parent
-    #     component_new.add_port(
-    #         f"elec-{grating_ref.parent.name}-{component_name}-loopback{i}",
-    #         port=port,
-    #     )
-
     component_new.copy_child_info(component)
     return component_new
 
@@ -227,6 +200,7 @@ def add_pads_top(
     _c = add_pads_bot(component=component, **kwargs)
     ref = c << _c
     ref.mirror_y()
+    c.add_ports(ref.ports)
     c.copy_child_info(_c)
     return c
 
@@ -236,6 +210,7 @@ if __name__ == "__main__":
     c = gf.components.straight_heater_metal(length=100.0)
     # c = gf.components.straight(length=100.0)
     c = gf.routing.add_pads_top(component=c, port_names=("l_e1",))
+    c.pprint_ports()
     c.show()
 
     # cc = add_pads_top(component=c, port_names=("e1",))

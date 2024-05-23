@@ -1,6 +1,4 @@
-function: add_pads0
 info:
   resistance: 0
-module: test_add_pads
-name: add_pads0
+name: Unnamed_211
 settings: {}

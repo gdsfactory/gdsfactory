@@ -217,7 +217,7 @@ def route_bundle(
     xs = gf.get_cross_section(cross_section, **kwargs)
     width = xs.width
     width_dbu = round(width / component.kcl.dbu)
-    taper_cell = gf.get_cell(taper) if taper else None
+    taper_cell = gf.get_component(taper) if taper else None
     bend90 = (
         bend
         if isinstance(bend, Component)
