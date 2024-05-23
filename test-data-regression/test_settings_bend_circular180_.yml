@@ -4,12 +4,11 @@ info:
   radius: 10.0
   route_info_length: 31.415
   route_info_n_bend_90: 2.0
-  route_info_type: strip
+  route_info_type: xs_34e31a19
   route_info_weight: 31.415
-  route_info_strip_length: 31.415
+  route_info_xs_34e31a19_length: 31.415
 name: bend_circular_RNone_A180_NNone_LNone_WNone_CSstrip_AMRVFalse
 settings:
   allow_min_radius_violation: false
   angle: 180
   cross_section: strip
-  function_name: bend_circular

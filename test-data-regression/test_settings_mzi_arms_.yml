@@ -4,7 +4,6 @@ settings:
   bend: bend_euler
   delta_length: 10.0
   delta_yright: 0
-  function_name: mzi_arms
   length_x: 0.1
   length_y: 0.8
   splitter: mmi1x2

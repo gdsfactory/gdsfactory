@@ -5,7 +5,6 @@ settings:
   - bend_circular
   - bend_circular
   - bend_circular
-  function_name: ring_crow
   gaps:
   - 0.2
   - 0.2

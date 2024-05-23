@@ -4,7 +4,6 @@ settings:
   bend: Fbend_euler_s_Mgdsfactorypcomponentspbend_euler_SA45
   coupler_straight_asymmetric: coupler_straight_asymmetric
   cross_section: strip
-  function_name: mode_converter
   gap: 0.3
   length: 10
   mc_mm_width: 1

@@ -7,7 +7,6 @@ settings:
   - 0.2
   - 0.05
   fins: false
-  function_name: dbr_tapered
   length: 10.0
   period: 0.85
   taper_length: 20.0

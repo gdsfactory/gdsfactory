@@ -5,8 +5,7 @@ settings:
   coupler90: coupler90
   coupler_straight: coupler_straight
   cross_section: strip
-  function_name: coupler_ring
   gap: 0.2
   length_extension: 3
-  length_x: 4.0
+  length_x: 4
   radius: 5.0

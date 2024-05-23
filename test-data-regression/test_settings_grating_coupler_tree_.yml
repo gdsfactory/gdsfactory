@@ -6,7 +6,6 @@ settings:
   component_name: straight_array_N4_S4_L10_CSstrip
   cross_section: strip
   fanout_length: 0.0
-  function_name: grating_coupler_tree
   gc_port_name: o1
   grating_coupler: grating_coupler_elliptical
   n: 4

@@ -24,7 +24,6 @@ settings:
   - strip
   delta_lengths:
   - 10.0
-  function_name: mzi_lattice_mmi
   mzi: Fmzi_Mgdsfactorypcomponentspmzi_SSmmi2x2_Cmmi2x2_PESo3_PESo4_PECo3_PECo4_LXNone
   splitter: mmi2x2
   straight_functions_mmis:

@@ -5,7 +5,6 @@ name: grating_coupler_dual_pol_UCFrectangle_Mgdsfactorypcomponentsprectangle_SS0
 settings:
   base_layer: WG
   cross_section: strip
-  function_name: grating_coupler_dual_pol
   length_taper: 150.0
   period_x: 0.58
   period_y: 0.58

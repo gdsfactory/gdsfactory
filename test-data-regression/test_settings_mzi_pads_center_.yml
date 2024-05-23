@@ -4,7 +4,6 @@ settings:
   cross_section: strip
   cross_section_metal: metal_routing
   delta_length: 40.0
-  function_name: mzi_pads_center
   length_x: 500
   length_y: 40
   mzi: mzi

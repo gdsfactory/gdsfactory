@@ -4,7 +4,6 @@ settings:
   angle: 90
   cross_section: Fcross_section_Mgdsfactorypcross_section_SR10_RM5
   direction: ccw
-  function_name: bend_straight_bend
   npoints: 720
   p: 0.5
   straight_length: 10.0

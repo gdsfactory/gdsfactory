@@ -11,5 +11,4 @@ settings:
   - 6
   - 2
   die_name_col_row: false
-  function_name: wafer
   reticle: die

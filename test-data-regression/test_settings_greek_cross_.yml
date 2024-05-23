@@ -1,7 +1,6 @@
 info: {}
 name: greek_cross_L30_LWG_N_W2_3_ONone_VSFvia_stack_Mgdsfactorypcomponentspvia_stack_SLWG_NPP_M1_VNone_None_Fvia_Mgdsfactorypcomponentspvia_SLVIAC
 settings:
-  function_name: greek_cross
   layers:
   - WG
   - N

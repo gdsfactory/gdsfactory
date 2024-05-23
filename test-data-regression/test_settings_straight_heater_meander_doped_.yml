@@ -3,7 +3,6 @@ name: straight_heater_meander_doped_L300_S2_CSstrip_HW1p5_EL15_LDP_PP_PPP_R5_VSF
 settings:
   cross_section: strip
   extension_length: 15.0
-  function_name: straight_heater_meander_doped
   heater_width: 1.5
   layers_doping:
   - P

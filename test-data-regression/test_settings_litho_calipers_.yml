@@ -1,7 +1,6 @@
 info: {}
 name: litho_calipers_NS2_5_NS2_NN11_OPN0p1_RS0_LWG_LSLAB150
 settings:
-  function_name: litho_calipers
   layer1: WG
   layer2: SLAB150
   notch_size:

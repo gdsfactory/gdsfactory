@@ -4,4 +4,3 @@ info:
 name: wire_corner_CSmetal_routing
 settings:
   cross_section: metal_routing
-  function_name: wire_corner

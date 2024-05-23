@@ -12,7 +12,6 @@ settings:
   - - Fcross_section_Mgdsfactorypcross_section_SLM3_W10_PNe1_e2_PTelectrical_electrical_RNone
     - - 90
       - 270
-  function_name: via_corner
   layers_labels:
   - m2
   - m3

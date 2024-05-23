@@ -11,7 +11,6 @@ settings:
   cross_section: strip
   delta_length: 10.0
   dy: 2.0
-  function_name: mzit
   length: 1.0
   straight: straight
   taper: taper

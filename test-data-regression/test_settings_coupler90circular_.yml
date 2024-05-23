@@ -3,7 +3,6 @@ name: coupler90_G0p2_R10_Bbend_circular_Sstraight_CSstrip_CSBNone
 settings:
   bend: bend_circular
   cross_section: strip
-  function_name: coupler90
   gap: 0.2
   radius: 10.0
   straight: straight

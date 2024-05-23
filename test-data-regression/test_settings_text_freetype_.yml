@@ -2,7 +2,6 @@ info: {}
 name: text_freetype_Tabcd_S10_Jleft_FOCRmApttf_LWG_LNone
 settings:
   font: OCRmApttf
-  function_name: text_freetype
   justify: left
   layer: WG
   size: 10

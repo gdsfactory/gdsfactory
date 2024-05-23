@@ -14,5 +14,4 @@ settings:
   - WG
   cross_struct_length: 30.0
   cross_struct_width: 1.0
-  function_name: greek_cross_offset_pads
   pad_width: 50

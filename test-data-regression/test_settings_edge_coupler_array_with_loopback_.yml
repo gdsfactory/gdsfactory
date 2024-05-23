@@ -4,7 +4,6 @@ settings:
   cross_section: strip
   edge_coupler: Ftaper_Mgdsfactorypcomponentsptaper_SW0p2_L100_WTPTrue
   extension_length: 1.0
-  function_name: edge_coupler_array_with_loopback
   n: 8
   pitch: 127.0
   radius: 30

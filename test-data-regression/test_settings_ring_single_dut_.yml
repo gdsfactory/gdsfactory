@@ -4,7 +4,6 @@ settings:
   bend: bend_euler
   component: Ftaper_Mgdsfactorypcomponentsptaper_SW3
   coupler: coupler_ring
-  function_name: ring_single_dut
   gap: 0.2
   length_x: 4
   length_y: 0

@@ -4,6 +4,5 @@ settings:
   finger_gap: 2.0
   finger_length: 20.0
   fingers: 4
-  function_name: interdigital_capacitor
   layer: WG
   thickness: 5.0

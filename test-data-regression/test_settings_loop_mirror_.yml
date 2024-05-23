@@ -3,4 +3,3 @@ name: loop_mirror_Cmmi1x2_Bbend_euler
 settings:
   bend90: bend_euler
   component: mmi1x2
-  function_name: loop_mirror

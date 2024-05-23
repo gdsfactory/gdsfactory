@@ -6,7 +6,6 @@ name: grating_coupler_rectangular_arbitrary_slab_G0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p
 settings:
   cross_section: strip
   fiber_angle: 15
-  function_name: grating_coupler_rectangular_arbitrary_slab
   gaps:
   - 0.2
   - 0.2

@@ -3,5 +3,4 @@ info:
 name: wire_corner45_CSmetal_routing_R10
 settings:
   cross_section: metal_routing
-  function_name: wire_corner45
   radius: 10

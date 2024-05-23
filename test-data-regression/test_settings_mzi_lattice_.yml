@@ -9,6 +9,5 @@ settings:
   - 20.0
   delta_lengths:
   - 10.0
-  function_name: mzi_lattice
   mzi: Fmzi_Mgdsfactorypcomponentspmzi_SScoupler_Ccoupler_PESo3_PESo4_PECo3_PECo4_LXNone
   splitter: coupler

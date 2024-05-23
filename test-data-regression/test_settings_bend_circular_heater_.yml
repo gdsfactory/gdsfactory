@@ -7,7 +7,6 @@ settings:
   allow_min_radius_violation: false
   angle: 90
   cross_section: strip
-  function_name: bend_circular_heater
   heater_to_wg_distance: 1.2
   heater_width: 0.5
   layer_heater: HEATER

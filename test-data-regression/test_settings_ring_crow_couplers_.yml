@@ -10,7 +10,6 @@ settings:
   - coupler
   - coupler
   - coupler
-  function_name: ring_crow_couplers
   radius:
   - 10.0
   - 10.0

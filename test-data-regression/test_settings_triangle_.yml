@@ -1,7 +1,6 @@
 info: {}
 name: triangle_X10_X0_Y20_Y0_LWG
 settings:
-  function_name: triangle
   layer: WG
   x: 10
   xtop: 0

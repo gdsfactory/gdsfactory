@@ -3,6 +3,5 @@ name: cavity_Cdbr_Ccoupler_L0p1_G0p2
 settings:
   component: dbr
   coupler: coupler
-  function_name: cavity
   gap: 0.2
   length: 0.1

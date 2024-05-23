@@ -5,7 +5,6 @@ name: add_fiber_array_Ccoupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D4
 settings:
   component: coupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D4_D10_CSstrip
   cross_section: strip
-  function_name: add_fiber_array
   gc_port_name: o1
   grating_coupler: Fgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_coupler_elliptical_trenches_SPte_TA35
   optical_routing_type: 1

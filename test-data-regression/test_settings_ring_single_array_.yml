@@ -2,6 +2,5 @@ info: {}
 name: ring_single_array_Rring_single_S5_LODNone_CSstrip
 settings:
   cross_section: strip
-  function_name: ring_single_array
   ring: ring_single
   spacing: 5.0

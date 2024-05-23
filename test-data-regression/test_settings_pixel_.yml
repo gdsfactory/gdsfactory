@@ -1,6 +1,5 @@
 info: {}
 name: pixel_S1_LWG
 settings:
-  function_name: pixel
   layer: WG
-  size: 1.0
+  size: 1

@@ -7,7 +7,6 @@ settings:
   cross_section: strip
   fiber_angle: 15.0
   fill_factor: 0.5
-  function_name: grating_coupler_elliptical_uniform
   gaps:
   - 0.375
   - 0.375

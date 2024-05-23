@@ -5,5 +5,4 @@ settings:
   cross_section: strip
   dx: 10.0
   dy: 2.5
-  function_name: coupler_asymmetric
   gap: 0.234

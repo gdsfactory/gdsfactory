@@ -7,7 +7,6 @@ settings:
   combiner: coupler
   cross_section: strip
   delta_length: 10.0
-  function_name: mzi
   length_y: 2.0
   min_length: 0.01
   mirror_bot: false

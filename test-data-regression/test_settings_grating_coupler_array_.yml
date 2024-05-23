@@ -3,7 +3,6 @@ name: grating_coupler_array_GCgrating_coupler_elliptical_P127_N6_PNo1_Rm90_WLFal
 settings:
   centered: true
   cross_section: strip
-  function_name: grating_coupler_array
   grating_coupler: grating_coupler_elliptical
   n: 6
   pitch: 127.0

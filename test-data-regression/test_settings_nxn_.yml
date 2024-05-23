@@ -2,7 +2,6 @@ info: {}
 name: nxn_W1_E4_N0_S0_X8_Y8_WW0p5_LWG_WM1
 settings:
   east: 4
-  function_name: nxn
   layer: WG
   north: 0
   south: 0

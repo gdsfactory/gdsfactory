@@ -2,6 +2,5 @@ info: {}
 name: qrcode_Dmask01_P1_LWG
 settings:
   data: mask01
-  function_name: qrcode
   layer: WG
   psize: 1

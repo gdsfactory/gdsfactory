@@ -2,7 +2,6 @@ info: {}
 name: pad_array_Ppad_S150_150_C6_R1_PO0_ONone_S100_100_LMTOP
 settings:
   columns: 6
-  function_name: pad_array
   layer: MTOP
   pad: pad
   port_orientation: 0

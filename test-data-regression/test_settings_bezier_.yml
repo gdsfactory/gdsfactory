@@ -16,6 +16,5 @@ settings:
   - - 10.0
     - 1.8
   cross_section: strip
-  function_name: bezier
   npoints: 201
   with_manhattan_facing_angles: true

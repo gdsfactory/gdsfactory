@@ -9,5 +9,4 @@ settings:
   - 20.0
   delta_lengths:
   - 10.0
-  function_name: mzit_lattice
   mzi: mzit

@@ -2,7 +2,6 @@ info: {}
 name: text_rectangular_Tabcd_S10_P0_0_Jleft_LWG_Frectangular_font
 settings:
   font: rectangular_font
-  function_name: text_rectangular
   justify: left
   layer: WG
   position:

@@ -7,7 +7,6 @@ settings:
   combiner: mmi2x2
   cross_section: strip
   delta_length: 10.0
-  function_name: mzi
   length_x: 0.1
   length_y: 2.0
   min_length: 0.01

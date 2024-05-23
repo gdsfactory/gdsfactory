@@ -4,7 +4,6 @@ name: spiral_double_MBR10_S2_NOL3_N1000_CSstrip_Bbend_circular
 settings:
   bend: bend_circular
   cross_section: strip
-  function_name: spiral_double
   min_bend_radius: 10.0
   npoints: 1000
   number_of_loops: 3

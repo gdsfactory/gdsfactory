@@ -7,7 +7,6 @@ name: bend_s_S11_1p8_N99_CSstrip_AMRVFalse
 settings:
   allow_min_radius_violation: false
   cross_section: strip
-  function_name: bend_s
   npoints: 99
   size:
   - 11.0

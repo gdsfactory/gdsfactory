@@ -3,7 +3,6 @@ name: polarization_splitter_rotator_WTI0p54_0p69_0p83_LTI4_44_WC0p9_0p404_LC7_G0
 settings:
   cross_section: strip
   dy: 5.0
-  function_name: polarization_splitter_rotator
   gap: 0.15
   length_coupler: 7.0
   length_out: 14.33

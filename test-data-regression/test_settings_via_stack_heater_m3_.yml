@@ -4,7 +4,6 @@ info:
 name: via_stack_S11_11_LHEATER_M2_MTOP_LONone_VNone_Fvia_Mgdsfactorypcomponentspvia_SLVIA1_E2_Fvia_Mgdsfactorypcomponentspvia_SLVIA2_LPNone_CSTrue_SHFalse_SVFalse
 settings:
   correct_size: true
-  function_name: via_stack
   layers:
   - HEATER
   - M2

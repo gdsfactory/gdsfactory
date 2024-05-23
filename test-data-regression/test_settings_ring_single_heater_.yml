@@ -5,7 +5,6 @@ settings:
   coupler_ring: coupler_ring
   cross_section: strip
   cross_section_waveguide_heater: strip_heater_metal
-  function_name: ring_single_heater
   gap: 0.2
   length_x: 4.0
   length_y: 0.6

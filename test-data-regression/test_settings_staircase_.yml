@@ -3,7 +3,6 @@ info:
 name: staircase_Cbend_euler_Sstraight_LV5_LH5_R4
 settings:
   component: bend_euler
-  function_name: staircase
   length_h: 5.0
   length_v: 5.0
   rows: 4

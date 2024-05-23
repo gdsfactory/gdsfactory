@@ -3,6 +3,5 @@ name: fiber_CD10_CD125_LCWG_LCWGCLAD
 settings:
   cladding_diameter: 125
   core_diameter: 10
-  function_name: fiber
   layer_cladding: WGCLAD
   layer_core: WG

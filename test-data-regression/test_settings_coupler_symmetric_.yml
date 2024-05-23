@@ -7,5 +7,4 @@ settings:
   cross_section: strip
   dx: 10.0
   dy: 4.0
-  function_name: coupler_symmetric
   gap: 0.234

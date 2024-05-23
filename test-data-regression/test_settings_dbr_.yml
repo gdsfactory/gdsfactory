@@ -2,7 +2,6 @@ info: {}
 name: dbr_W0p45_W0p55_L0p159_L0p159_N10_CSstrip_SL0p01
 settings:
   cross_section: strip
-  function_name: dbr
   l1: 0.159
   l2: 0.159
   n: 10

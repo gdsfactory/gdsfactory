@@ -2,7 +2,6 @@ info: {}
 name: rectangles_S4_2_O0_1_LWG_SLAB150_CTrue
 settings:
   centered: true
-  function_name: rectangles
   layers:
   - WG
   - SLAB150

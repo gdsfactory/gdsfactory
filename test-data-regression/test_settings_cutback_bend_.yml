@@ -4,7 +4,6 @@ name: cutback_bend_Cbend_euler_Sstraight_SL5_R6_C5
 settings:
   cols: 5
   component: bend_euler
-  function_name: cutback_bend
   rows: 6
   straight: straight
   straight_length: 5.0

@@ -6,7 +6,6 @@ settings:
   big_last_tooth: false
   cross_section: strip
   fiber_angle: 15.0
-  function_name: grating_coupler_elliptical
   grating_line_width: 0.343
   layer_slab: SLAB150
   n_periods: 30

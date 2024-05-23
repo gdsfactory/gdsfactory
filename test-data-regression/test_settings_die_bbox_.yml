@@ -2,7 +2,6 @@ info: {}
 name: die_bbox_CFrectangle_Mgdsfactorypcomponentsprectangle_SS1300_2600_CFalse_SW100_SLNone_DNNone_TS100_TAsw_LMTOP_P10
 settings:
   component: Frectangle_Mgdsfactorypcomponentsprectangle_SS1300_2600_CFalse
-  function_name: die_bbox
   layer: MTOP
   padding: 10.0
   street_width: 100.0

@@ -4,7 +4,6 @@ settings:
   bend: bend_euler
   coupler_straight: coupler_straight
   cross_section: strip
-  function_name: coupler_broadband
   gap_pc: 0.3
   gap_sc: 0.2
   legnth_taper: 1.0

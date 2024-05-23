@@ -1,7 +1,6 @@
 info: {}
 name: via_stack_with_offset_LPPP_M1_S10_10_SNone_LONone_VNone_Fvia_Mgdsfactorypcomponentspvia_SLVIAC_ONone
 settings:
-  function_name: via_stack_with_offset
   layers:
   - PPP
   - M1

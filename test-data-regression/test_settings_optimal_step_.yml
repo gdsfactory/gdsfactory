@@ -4,7 +4,6 @@ name: optimal_step_SW10_EW22_NP50_WT0p001_AF1p2_SFalse_L1_0
 settings:
   anticrowding_factor: 1.2
   end_width: 22
-  function_name: optimal_step
   layer:
   - 1
   - 0

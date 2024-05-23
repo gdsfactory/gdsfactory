@@ -2,7 +2,6 @@ info: {}
 name: grating_coupler_loss_fiber_array_P127_GCFgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_coupler_elliptical_trenches_SPte_TA35_PNo1_CSstrip_Rm90
 settings:
   cross_section: strip
-  function_name: grating_coupler_loss_fiber_array
   grating_coupler: Fgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_coupler_elliptical_trenches_SPte_TA35
   pitch: 127.0
   port_name: o1

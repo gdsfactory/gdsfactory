@@ -2,7 +2,6 @@ info: {}
 name: loss_deembedding_ch13_24_P127_GCFgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_coupler_elliptical_trenches_SPte_TA35_CSstrip_PNo1_Rm90_YNone
 settings:
   cross_section: strip
-  function_name: loss_deembedding_ch13_24
   grating_coupler: Fgrating_coupler_elliptical_trenches_Mgdsfactorypcomponentspgrating_coupler_elliptical_trenches_SPte_TA35
   pitch: 127.0
   port_name: o1

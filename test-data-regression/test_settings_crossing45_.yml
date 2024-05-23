@@ -7,6 +7,5 @@ settings:
   cross_section: strip
   cross_section_bends: strip
   crossing: crossing
-  function_name: crossing45
   npoints: 101
   port_spacing: 40.0

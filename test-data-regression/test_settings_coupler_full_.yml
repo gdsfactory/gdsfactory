@@ -6,5 +6,4 @@ settings:
   dw: 0.1
   dx: 10.0
   dy: 4.8
-  function_name: coupler_full
   gap: 0.5

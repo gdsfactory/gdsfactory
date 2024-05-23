@@ -5,7 +5,6 @@ info:
 name: taper_L10_W0p5_WNone_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue
 settings:
   cross_section: strip
-  function_name: taper
   length: 10.0
   port_names:
   - o1

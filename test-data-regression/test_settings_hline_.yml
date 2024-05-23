@@ -3,7 +3,6 @@ info:
   width: 0.5
 name: hline_L10_W0p5_LWG_PToptical
 settings:
-  function_name: hline
   layer: WG
   length: 10.0
   port_type: optical

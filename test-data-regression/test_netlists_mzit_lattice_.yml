@@ -14,7 +14,6 @@ instances:
       cross_section: strip
       delta_length: 10.0
       dy: 2.0
-      function_name: mzit
       length: 1.0
       straight: straight
       taper: taper
@@ -26,9 +25,9 @@ name: mzit_lattice_CL10_20_CG0p2_0p3_DL10_Mmzit
 placements:
   ? mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL10_CL20_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSstrip_19137_11400
   : mirror: false
-    rotation: 0
-    x: 19137
-    y: 11400
+    rotation: 0.0
+    x: 19.1375
+    y: 11.4
 ports:
   o1: mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL10_CL20_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSstrip_19137_11400,o1
   o2: mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL10_CL20_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSstrip_19137_11400,o2
