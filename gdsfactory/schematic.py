@@ -56,7 +56,7 @@ class Placement(BaseModel):
 class Bundle(BaseModel):
     links: dict[str, str]
     settings: dict[str, Any] = Field(default_factory=dict)
-    routing_strategy: str = "get_bundle"
+    routing_strategy: str = "route_bundle"
 
     model_config = {"extra": "forbid"}
 

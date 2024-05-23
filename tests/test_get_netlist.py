@@ -347,5 +347,4 @@ if __name__ == "__main__":
     # c = test_get_netlist_throws_error_bad_rotation()
     # c = test_get_netlist_tiny()
     # c = test_get_netlist_metal()
-    c = test_get_netlist_electrical_different_widths()
-    c.show()
+    test_get_netlist_electrical_different_widths()
