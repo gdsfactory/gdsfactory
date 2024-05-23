@@ -38,7 +38,6 @@ def get_default_connection_validators():
 
 
 def get_instance_name_from_alias(
-    component: Component,
     reference: ComponentReference,
 ) -> str:
     """Returns the instance name from the label.
@@ -46,7 +45,6 @@ def get_instance_name_from_alias(
     If no label returns to instanceName_x_y.
 
     Args:
-        component: with labels.
         reference: reference that needs naming.
     """
     return reference.name
@@ -70,8 +68,8 @@ def get_instance_name_from_label(
 
     layer_label = get_layer(layer_label)
 
-    x = snap_to_grid(reference.x)
-    y = snap_to_grid(reference.y)
+    x = snap_to_grid(reference.d.x)
+    y = snap_to_grid(reference.d.y)
     labels = component.labels
 
     # default instance name follows component.aliases
@@ -79,8 +77,8 @@ def get_instance_name_from_label(
 
     # try to get the instance name from a label
     for label in labels:
-        xl = snap_to_grid(label.position[0])
-        yl = snap_to_grid(label.position[1])
+        xl = snap_to_grid(label.d.position[0])
+        yl = snap_to_grid(label.d.position[1])
         if x == xl and y == yl and label.layer == layer_label[0]:
             # print(label.text, xl, yl, x, y)
             return label.text
@@ -90,16 +88,22 @@ def get_instance_name_from_label(
 
 def get_netlist_yaml(
     component: Component,
-    full_settings: bool = False,
     tolerance: int = 5,
     exclude_port_types: list | None = None,
     **kwargs,
 ) -> str:
-    """Returns instances, connections and placements yaml string content."""
+    """Returns instances, connections and placements yaml string content.
+
+    Args:
+        component: to extract netlist.
+        tolerance: tolerance in grid_factor to consider two ports connected.
+        exclude_port_types: optional list of port types to exclude from netlisting.
+
+    """
+
     return omegaconf.OmegaConf.to_yaml(
         get_netlist(
             component=component,
-            full_settings=full_settings,
             tolerance=tolerance,
             exclude_port_types=exclude_port_types,
             **kwargs,
@@ -171,13 +175,10 @@ def get_netlist(
 
     for reference in references:
         c = reference.cell
-        center = reference.center
+        center = reference.d.center
         x = center.x
         y = center.y
-        reference_name = get_instance_name(
-            component,
-            reference,
-        )
+        reference_name = get_instance_name(reference)
         if (
             isinstance(reference, ComponentReference)
             and hasattr(reference, "columns")
@@ -199,7 +200,7 @@ def get_netlist(
             settings = c.settings.model_dump()
 
             instance.update(
-                component=settings.pop("function_name", c.name),
+                component=c.function_name,
                 settings=clean_value_json(settings),
             )
 
@@ -238,7 +239,6 @@ def get_netlist(
             # lower level ports
             for port in reference.ports:
                 reference_name = get_instance_name(
-                    component,
                     reference,
                 )
                 src = f"{reference_name},{port.name}"
@@ -523,8 +523,7 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
 
 
 def _get_references_to_netlist(component: Component) -> list[ComponentReference]:
-    references = component.references
-    return references
+    return component.insts
 
 
 def get_netlist_recursive(
@@ -574,7 +573,7 @@ def get_netlist_recursive(
             child_references = _get_references_to_netlist(ref.cell)
 
             if child_references:
-                inst_name = get_instance_name(component, ref)
+                inst_name = get_instance_name(ref)
                 netlist_dict = {"component": f"{rcell.name}{component_suffix}"}
                 if hasattr(rcell, "settings"):
                     netlist_dict.update(settings=rcell.settings)

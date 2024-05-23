@@ -706,7 +706,6 @@ def from_yaml(
             raise ValueError(f"{key!r} not in {list(valid_top_level_keys)}")
 
     settings = conf.get("settings", {})
-
     mode = kwargs.pop("mode") if "mode" in kwargs else "layout"
     for key, value in kwargs.items():
         if key not in settings:
@@ -745,7 +744,6 @@ def _from_yaml(
     from gdsfactory.pdk import get_active_pdk
 
     GENERIC = get_generic_pdk()
-
     c = Component(name)
     instances = {}
     routes = {}

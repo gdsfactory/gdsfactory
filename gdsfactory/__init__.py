@@ -79,11 +79,6 @@ c = components
 
 def clear_cache(kcl=kf.kcl) -> None:
     """Clears the whole layout object cache for the default layout."""
-    kcl.clear()
-
-
-def clear_cells():
-    """Clears the whole layout object cache for the default layout."""
     kcl.clear_kcells()
 
 
@@ -108,7 +103,6 @@ __all__ = (
     "c",
     "call_if_func",
     "clear_cache",
-    "clear_cells",
     "cell",
     "components",
     "compose",
