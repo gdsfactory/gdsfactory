@@ -16,7 +16,7 @@ def bend_circular(
     npoints: int | None = None,
     layer: gf.typings.LayerSpec | None = None,
     width: float | None = None,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
 ) -> Component:
     """Returns a radial arc.

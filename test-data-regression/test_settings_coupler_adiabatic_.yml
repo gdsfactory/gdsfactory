@@ -1,7 +1,7 @@
 info: {}
-name: coupler_adiabatic_L20_L50_L30_WS1_IWS3_OWS3_D0p1_CSxs_sc
+name: coupler_adiabatic_L20_L50_L30_WS1_IWS3_OWS3_D0p1_CSstrip
 settings:
-  cross_section: xs_sc
+  cross_section: strip
   dw: 0.1
   function_name: coupler_adiabatic
   input_wg_sep: 3.0

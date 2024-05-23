@@ -11,7 +11,7 @@ def straight_array(
     n: int = 4,
     spacing: float = 4.0,
     length: float = 10.0,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Array of straights connected with grating couplers.
 

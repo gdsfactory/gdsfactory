@@ -77,7 +77,7 @@ settings:
     width_mmi: 3
   child: null
   default:
-    cross_section: xs_sc
+    cross_section: strip
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10.0

@@ -28,10 +28,10 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section: xs_sc
+    cross_section: strip
     filepath: taper_strip_0p5_3_36
   full:
-    cross_section: xs_sc
+    cross_section: strip
     filepath: taper_strip_0p5_3_36
   function_name: taper_from_csv
   info: {}

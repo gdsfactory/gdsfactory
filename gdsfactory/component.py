@@ -883,8 +883,8 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c = gf.Component()
-    # wg1 = c << gf.c.straight(length=10, cross_section="xs_rc")
-    # wg2 = c << gf.c.straight(length=5, cross_section="xs_rc")
+    # wg1 = c << gf.c.straight(length=10, cross_section="rib")
+    # wg2 = c << gf.c.straight(length=5, cross_section="rib")
     # wg2.connect("o1", wg1["o2"])
     # wg2.d.movex(5)
     # p = c.get_polygons()
@@ -895,7 +895,7 @@ if __name__ == "__main__":
     # b1 = gf.components.circle(radius=10)
     # b2 = gf.components.circle(radius=11)
 
-    # ref = c << gf.c.bend_euler(cross_section="xs_rc")
+    # ref = c << gf.c.bend_euler(cross_section="rib")
     # c.add_ports(ref.ports)
     # p = c.get_ports_list(sort_ports=True)
     # print(c.get_ports_list(sort_ports=True))

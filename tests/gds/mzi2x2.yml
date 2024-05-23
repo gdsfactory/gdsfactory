@@ -35,7 +35,7 @@ cells:
     default:
       add_pins: true
       angle: 90.0
-      cross_section: xs_sc
+      cross_section: strip
       direction: ccw
       layer: null
       npoints: null
@@ -101,7 +101,7 @@ cells:
     default:
       add_pins: true
       angle: 90.0
-      cross_section: xs_sc
+      cross_section: strip
       direction: ccw
       layer: null
       npoints: null
@@ -137,7 +137,7 @@ cells:
         function: cross_section
     child: null
     default:
-      cross_section: xs_sc
+      cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10.0
@@ -183,7 +183,7 @@ cells:
       bend:
         function: bend_euler
       combiner: null
-      cross_section: xs_sc
+      cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
       delta_length: 10.0
@@ -272,7 +272,7 @@ cells:
     child: null
     default:
       add_pins: true
-      cross_section: xs_sc
+      cross_section: strip
       layer: null
       length: 10.0
       npoints: 2
@@ -358,7 +358,7 @@ cells:
     child: null
     default:
       add_pins: true
-      cross_section: xs_sc
+      cross_section: strip
       layer: null
       length: 10.0
       npoints: 2
@@ -416,7 +416,7 @@ cells:
     child: null
     default:
       add_pins: true
-      cross_section: xs_sc
+      cross_section: strip
       layer: null
       length: 10.0
       npoints: 2
@@ -530,7 +530,7 @@ cells:
     child: null
     default:
       add_pins: true
-      cross_section: xs_sc
+      cross_section: strip
       layer: null
       length: 10.0
       npoints: 2
@@ -616,7 +616,7 @@ cells:
     child: null
     default:
       add_pins: true
-      cross_section: xs_sc
+      cross_section: strip
       layer: null
       length: 10.0
       npoints: 2
@@ -646,7 +646,7 @@ cells:
     child: null
     default:
       add_pins: true
-      cross_section: xs_sc
+      cross_section: strip
       layer: null
       length: 10.0
       npoints: 2
@@ -709,7 +709,7 @@ settings:
     bend:
       function: bend_euler
     combiner: null
-    cross_section: xs_sc
+    cross_section: strip
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10.0

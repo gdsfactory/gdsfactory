@@ -1,9 +1,9 @@
 info: {}
-name: ring_single_G0p2_R10_LX4_LY0p6_CRcoupler_ring_Bbend_euler_CSxs_sc
+name: ring_single_G0p2_R10_LX4_LY0p6_CRcoupler_ring_Bbend_euler_CSstrip
 settings:
   bend: bend_euler
   coupler_ring: coupler_ring
-  cross_section: xs_sc
+  cross_section: strip
   function_name: ring_single
   gap: 0.2
   length_x: 4.0

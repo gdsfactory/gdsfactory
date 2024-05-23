@@ -26,7 +26,7 @@ def grating_coupler_rectangular_arbitrary(
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     fiber_angle: float = 15,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     r"""Grating coupler uniform with rectangular shape (not elliptical).

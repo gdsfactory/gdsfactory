@@ -282,8 +282,8 @@ def test_get_netlist_electrical_allowable_offset() -> None:
 def test_get_netlist_electrical_different_widths() -> None:
     """Move connection 1nm inwards."""
     c = gf.Component()
-    i1 = c.add_ref(gf.components.straight(width=1, cross_section="xs_m1"), "i1")
-    i2 = c.add_ref(gf.components.straight(width=10, cross_section="xs_m1"), "i2")
+    i1 = c.add_ref(gf.components.straight(width=1, cross_section="metal1"), "i1")
+    i2 = c.add_ref(gf.components.straight(width=10, cross_section="metal1"), "i2")
     i2.move("e2", other=i1.ports["e1"])
     i2.movex(0.001)
     netlist = c.get_netlist(tolerance=2)

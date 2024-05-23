@@ -1,7 +1,7 @@
 info: {}
-name: coupler_straight_asymmetric_L10_G0p27_WT0p5_WB1_CSxs_sc
+name: coupler_straight_asymmetric_L10_G0p27_WT0p5_WB1_CSstrip
 settings:
-  cross_section: xs_sc
+  cross_section: strip
   function_name: coupler_straight_asymmetric
   gap: 0.27
   length: 10.0

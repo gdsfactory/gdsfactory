@@ -15,15 +15,15 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 @cell
 def coh_rx_single_pol(
     bend: ComponentSpec = "bend_euler",
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     hybrid_90deg: ComponentSpec = mmi_90degree_hybrid,
     detector: ComponentSpec = ge_detector_straight_si_contacts,
     det_spacing: tuple[float, float] = (60.0, 50.0),
     in_wg_length: float = 20.0,
     lo_input_coupler: ComponentSpec | None = None,
     signal_input_coupler: ComponentSpec | None = None,
-    cross_section_metal_top: CrossSectionSpec = "xs_m3",
-    cross_section_metal: CrossSectionSpec = "xs_m2",
+    cross_section_metal_top: CrossSectionSpec = "metal3",
+    cross_section_metal: CrossSectionSpec = "metal2",
 ) -> Component:
     r"""Single polarization coherent receiver.
 

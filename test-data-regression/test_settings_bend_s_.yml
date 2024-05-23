@@ -3,10 +3,10 @@ info:
   length: 11.206
   min_bend_radius: 13.012
   start_angle: 0
-name: bend_s_S11_1p8_N99_CSxs_sc_AMRVFalse
+name: bend_s_S11_1p8_N99_CSstrip_AMRVFalse
 settings:
   allow_min_radius_violation: false
-  cross_section: xs_sc
+  cross_section: strip
   function_name: bend_s
   npoints: 99
   size:

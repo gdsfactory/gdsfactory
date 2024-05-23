@@ -1,7 +1,7 @@
 info:
   length: 14.142
-name: wire_corner45_CSxs_metal_routing_R10
+name: wire_corner45_CSmetal_routing_R10
 settings:
-  cross_section: xs_metal_routing
+  cross_section: metal_routing
   function_name: wire_corner45
   radius: 10

@@ -71,7 +71,7 @@ def dbr_tapered(
     taper_length: float = 20.0,
     fins: bool = False,
     fin_size: tuple[float, float] = (0.2, 0.05),
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     """Distributed Bragg Reflector Cell class.

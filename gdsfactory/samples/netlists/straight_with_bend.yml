@@ -1,7 +1,7 @@
 connections:
-  bend_euler_R10_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_15125_-4875,o1: straight_L10_N2_CSxs_sc_5000_0,o2
+  bend_euler_R10_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_15125_-4875,o1: straight_L10_N2_CSstrip_5000_0,o2
 instances:
-  bend_euler_R10_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_15125_-4875:
+  bend_euler_R10_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_15125_-4875:
     component: bend_euler
     info:
       dy: 10.0
@@ -16,7 +16,7 @@ instances:
     settings:
       allow_min_radius_violation: false
       angle: 90.0
-      cross_section: xs_sc
+      cross_section: strip
       direction: ccw
       layer: null
       npoints: null
@@ -24,7 +24,7 @@ instances:
       radius: 10
       width: null
       with_arc_floorplan: true
-  straight_L10_N2_CSxs_sc_5000_0:
+  straight_L10_N2_CSstrip_5000_0:
     component: straight
     info:
       length: 10.0
@@ -34,21 +34,21 @@ instances:
       route_info_xs_34e31a19_length: 10.0
       width: 0.5
     settings:
-      cross_section: xs_sc
+      cross_section: strip
       length: 10.0
       npoints: 2
 name: straight_with_bend_R10
 placements:
-  bend_euler_R10_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_15125_-4875:
+  bend_euler_R10_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_15125_-4875:
     mirror: true
     rotation: 0
     x: 15.125
     y: -4.875
-  straight_L10_N2_CSxs_sc_5000_0:
+  straight_L10_N2_CSstrip_5000_0:
     mirror: false
     rotation: 0
     x: 5.0
     y: 0.0
 ports:
-  o1: straight_L10_N2_CSxs_sc_5000_0,o1
-  o2: bend_euler_R10_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_15125_-4875,o2
+  o1: straight_L10_N2_CSstrip_5000_0,o1
+  o2: bend_euler_R10_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_15125_-4875,o2

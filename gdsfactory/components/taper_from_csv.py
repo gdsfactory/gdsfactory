@@ -18,7 +18,7 @@ data = pathlib.Path(__file__).parent / "csv_data"
 @gf.cell
 def taper_from_csv(
     filepath: Path = data / "taper_strip_0p5_3_36.csv",
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Returns taper from CSV file.
 
@@ -75,6 +75,6 @@ taper_w12_l200 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_12_200
 
 if __name__ == "__main__":
     # c = taper_0p5_to_3_l36()
-    c = taper_w10_l100(cross_section="xs_rc")
+    c = taper_w10_l100(cross_section="rib")
     # c = taper_w11_l200()
     c.show()

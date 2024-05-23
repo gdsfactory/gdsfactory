@@ -13,7 +13,7 @@ settings:
     - function: straight
       module: gdsfactory.components.straight
       settings:
-        cross_section: xs_sc
+        cross_section: strip
         length: 10.0
         npoints: 2
     - o1
@@ -23,7 +23,7 @@ settings:
       module: gdsfactory.components.bend_circular
       settings:
         angle: 180
-        cross_section: xs_sc
+        cross_section: strip
         npoints: null
         radius: null
     - o1
@@ -33,7 +33,7 @@ settings:
       module: gdsfactory.components.bend_circular
       settings:
         angle: 180
-        cross_section: xs_sc
+        cross_section: strip
         npoints: null
         radius: null
     - o2

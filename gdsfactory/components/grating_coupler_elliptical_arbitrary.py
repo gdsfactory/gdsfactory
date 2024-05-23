@@ -30,7 +30,7 @@ def grating_coupler_elliptical_arbitrary(
     polarization: str = "te",
     spiked: bool = True,
     bias_gap: float = 0,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.

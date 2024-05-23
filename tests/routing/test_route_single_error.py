@@ -44,7 +44,7 @@ def test_route_error2() -> None:
         steps=[
             {"y": 100},
         ],
-        cross_section="xs_metal_routing",
+        cross_section="metal_routing",
         bend=gf.components.wire_corner,
     )
     c.add(route.references)

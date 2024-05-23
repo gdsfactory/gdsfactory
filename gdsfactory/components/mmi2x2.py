@@ -17,7 +17,7 @@ def mmi2x2(
     gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
     straight: ComponentFactory = straight_function,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     r"""Mmi 2x2.
@@ -100,7 +100,7 @@ def mmi2x2(
 
 
 if __name__ == "__main__":
-    # c = mmi2x2(gap_mmi=0.252, cross_section="xs_m1")
+    # c = mmi2x2(gap_mmi=0.252, cross_section="metal1")
     c = mmi2x2(gap_mmi=0.252)
     c.show()
     # c.pprint()

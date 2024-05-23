@@ -16,7 +16,7 @@ def grating_coupler_array(
     port_name: str = "o1",
     rotation: int = -90,
     with_loopback: bool = False,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     straight_to_grating_spacing: float = 10.0,
     centered: bool = True,
 ) -> Component:

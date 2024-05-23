@@ -1,7 +1,7 @@
 info:
   dy: 10.0
   length: 10.0
-name: wire_corner_CSxs_metal_routing
+name: wire_corner_CSmetal_routing
 settings:
-  cross_section: xs_metal_routing
+  cross_section: metal_routing
   function_name: wire_corner

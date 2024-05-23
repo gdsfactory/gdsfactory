@@ -31,7 +31,7 @@ def crossing_arm(
     w: float = 1.2,
     L: float = 3.4,
     layer_slab: LayerSpec = "SLAB150",
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Returns crossing arm.
 
@@ -91,7 +91,7 @@ def crossing_arm(
 @cell
 def crossing(
     arm: ComponentSpec = crossing_arm,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Waveguide crossing.
 
@@ -223,8 +223,8 @@ def crossing45(
     dx: float | None = None,
     alpha: float = 0.08,
     npoints: int = 101,
-    cross_section: CrossSectionSpec = "xs_sc",
-    cross_section_bends: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
+    cross_section_bends: CrossSectionSpec = "strip",
 ) -> Component:
     r"""Returns 45deg crossing with bends.
 

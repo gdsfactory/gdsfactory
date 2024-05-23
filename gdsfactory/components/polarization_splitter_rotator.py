@@ -22,7 +22,7 @@ def polarization_splitter_rotator(
     width_out: float = 0.54,
     length_out: float = 14.33,
     dy: float = 5.0,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Returns polarization splitter rotator
 

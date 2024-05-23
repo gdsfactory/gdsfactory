@@ -20,7 +20,7 @@ def cutback_splitter(
     bend180: ComponentSpec = bend_euler180,
     mirror: bool = False,
     straight_length: float | None = None,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     """Returns a daisy chain of splitters for measuring their loss.

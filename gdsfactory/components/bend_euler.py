@@ -23,7 +23,7 @@ def bend_euler(
     layer: gf.typings.LayerSpec | None = None,
     width: float | None = None,
     direction: str = "ccw",
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
 ) -> Component:
     """Euler bend with changing bend radius.
@@ -218,6 +218,6 @@ def _compare_bend_euler90():
 
 
 if __name__ == "__main__":
-    # c = bend_euler(cross_section="xs_rc", angle=90, radius=5)
-    c = bend_euler(cross_section="xs_rc", angle=90, radius=5)
+    # c = bend_euler(cross_section="rib", angle=90, radius=5)
+    c = bend_euler(cross_section="rib", angle=90, radius=5)
     c.show()

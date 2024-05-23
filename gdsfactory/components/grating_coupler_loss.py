@@ -16,7 +16,7 @@ def connect_loopback(
     a: float,
     b: float,
     y_bot_align_route: float,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> None:
     """Connects loopback structure.
@@ -58,7 +58,7 @@ def connect_loopback(
 def loss_deembedding_ch13_24(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     port_name: str = "o1",
     rotation: float = -90,
     yspacing: float | None = None,
@@ -136,7 +136,7 @@ def loss_deembedding_ch12_34(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
     port_name: str = "o1",
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     rotation: float = -90,
     **kwargs,
 ) -> Component:
@@ -191,7 +191,7 @@ def loss_deembedding_ch12_34(
 def loss_deembedding_ch14_23(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     port_name: str = "o1",
     rotation: float = -90,
     **kwargs,
@@ -248,7 +248,7 @@ def grating_coupler_loss_fiber_array(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
     port_name: str = "o1",
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     rotation: float = -90,
     **kwargs,
 ) -> Component:
@@ -322,6 +322,6 @@ if __name__ == "__main__":
     # c = loss_deembedding_ch13_24()
     c = grating_coupler_loss_fiber_array4()
     # c = grating_coupler_loss_fiber_array4(layer=(2, 0), radius=30)
-    # c = grating_coupler_loss_fiber_array4(cross_section="xs_rc")
+    # c = grating_coupler_loss_fiber_array4(cross_section="rib")
     # c = grating_coupler_loss_fiber_array(layer=(2, 0), radius=30)
     c.show()

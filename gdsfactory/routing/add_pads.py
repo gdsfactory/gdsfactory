@@ -20,7 +20,7 @@ def add_pads_bot(
     select_ports: Callable = select_ports_electrical,
     port_names: Strs | None = None,
     component_name: str | None = None,
-    cross_section: CrossSectionSpec = "xs_metal_routing",
+    cross_section: CrossSectionSpec = "metal_routing",
     pad_port_name: str = "e1",
     pad: ComponentSpec = pad_rectangular,
     bend: ComponentSpec = "wire_corner",

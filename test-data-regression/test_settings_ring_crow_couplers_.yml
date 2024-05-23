@@ -1,5 +1,5 @@
 info: {}
-name: ring_crow_couplers_R10_10_10_Bbend_circular_bend_circular_bend_circular_RCSxs_sc_xs_sc_xs_sc_Ccoupler_coupler_coupler_coupler
+name: ring_crow_couplers_R10_10_10_Bbend_circular_bend_circular_bend_circular_RCSstrip_strip_strip_Ccoupler_coupler_coupler_coupler
 settings:
   bends:
   - bend_circular
@@ -16,6 +16,6 @@ settings:
   - 10.0
   - 10.0
   ring_cross_sections:
-  - xs_sc
-  - xs_sc
-  - xs_sc
+  - strip
+  - strip
+  - strip

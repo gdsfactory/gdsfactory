@@ -1,6 +1,6 @@
 info: {}
-name: taper_from_csv_Ftaper_strip_0p5_3_36pcsv_CSxs_sc
+name: taper_from_csv_Ftaper_strip_0p5_3_36pcsv_CSstrip
 settings:
-  cross_section: xs_sc
+  cross_section: strip
   filepath: taper_strip_0p5_3_36pcsv
   function_name: taper_from_csv

@@ -99,7 +99,7 @@ routes:
 
         settings:
             cross_section:
-                cross_section: xs_sc
+                cross_section: strip
 
 """
 
@@ -145,7 +145,7 @@ routes:
             port_type: electrical
             separation: 20
             cross_section:
-                cross_section: xs_m3_bend
+                cross_section: metal3_bend
                 settings:
                     width: 10
         links:
@@ -155,7 +155,7 @@ routes:
         settings:
             port_type: optical
             cross_section:
-                cross_section: xs_sc
+                cross_section: strip
                 settings:
                     radius: 100
         links:

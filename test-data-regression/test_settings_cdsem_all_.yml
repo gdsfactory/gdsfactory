@@ -1,8 +1,8 @@
 info: {}
-name: cdsem_all_W0p4_0p45_0p5_0p6_0p8_1_DLW0p3_DLWD0p02_DLG0p3_DLLDL_DM_DH_Sstraight_Bbend_circular_CSxs_sc_TFtext_rectangular_Mgdsfactorypcomponentsptext_rectangular_SS1
+name: cdsem_all_W0p4_0p45_0p5_0p6_0p8_1_DLW0p3_DLWD0p02_DLG0p3_DLLDL_DM_DH_Sstraight_Bbend_circular_CSstrip_TFtext_rectangular_Mgdsfactorypcomponentsptext_rectangular_SS1
 settings:
   bend90: bend_circular
-  cross_section: xs_sc
+  cross_section: strip
   dense_lines_gap: 0.3
   dense_lines_labels:
   - DL

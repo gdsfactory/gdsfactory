@@ -2,9 +2,9 @@ info:
   fiber_angle: 15
   polarization: te
   wavelength: 1.55
-name: grating_coupler_rectangular_arbitrary_slab_G0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_W0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_WG11_LT150_Pte_W1p55_TFtaper_strip_to_ridge_Mgdsfactorypcomponentsptaper_SLSSLAB150_LSSLAB150_SO2_FA15_CSxs_sc
+name: grating_coupler_rectangular_arbitrary_slab_G0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_W0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_WG11_LT150_Pte_W1p55_TFtaper_strip_to_ridge_Mgdsfactorypcomponentsptaper_SLSSLAB150_LSSLAB150_SO2_FA15_CSstrip
 settings:
-  cross_section: xs_sc
+  cross_section: strip
   fiber_angle: 15
   function_name: grating_coupler_rectangular_arbitrary_slab
   gaps:

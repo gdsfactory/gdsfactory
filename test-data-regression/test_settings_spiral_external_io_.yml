@@ -7,7 +7,7 @@ settings:
   N: 6
   bend:
     function: bend_euler
-  cross_section: xs_sc
+  cross_section: strip
   inner_loop_spacing_offset: 0.0
   length: null
   mirror_straight: false

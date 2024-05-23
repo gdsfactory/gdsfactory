@@ -58,7 +58,7 @@ def route_single(
     taper: ComponentFactory | None = taper_function,
     start_straight_length: float = 0.0,
     end_straight_length: float = 0.0,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     waypoints: Coordinates | None = None,
     port_type: str = "optical",
     allow_width_mismatch: bool = False,
@@ -177,7 +177,7 @@ def route_single_electrical(
     end_straight_length: float | None = None,
     layer: LayerSpec | None = None,
     width: float | None = None,
-    cross_section: CrossSectionSpec = "xs_m3",
+    cross_section: CrossSectionSpec = "metal3",
     allow_width_mismatch: bool = True,
 ) -> None:
     """Places a route between two electrical ports.
@@ -225,7 +225,7 @@ if __name__ == "__main__":
     #     c,
     #     pb.ports["e2"],
     #     pt.ports["e1"],
-    #     cross_section="xs_sc",
+    #     cross_section="strip",
     #     start_straight_length=10,
     #     end_straight_length=30,
     # )
@@ -254,7 +254,7 @@ if __name__ == "__main__":
     #     c,
     #     p0,
     #     p1,
-    #     cross_section="xs_rc",
+    #     cross_section="rib",
     #     waypoints=[
     #         (p0x + o, p0y),
     #         (p0x + o, ytop),
@@ -287,7 +287,7 @@ if __name__ == "__main__":
     #     c,
     #     p0,
     #     p1,
-    #     cross_section="xs_metal_routing",
+    #     cross_section="metal_routing",
     #     waypoints=[
     #         (p0x + o, p0y),
     #         (p0x + o, ytop),
@@ -309,6 +309,6 @@ if __name__ == "__main__":
         c,
         p0,
         p1,
-        cross_section="xs_rc",
+        cross_section="rib",
     )
     c.show()

@@ -558,8 +558,8 @@ def cross_section(
 radius_nitride = 20
 radius_rib = 20
 
-xs_sc = strip = partial(cross_section, radius=10, radius_min=5)
-xs_rc = rib = partial(
+strip = strip = partial(cross_section, radius=10, radius_min=5)
+rib = rib = partial(
     strip,
     sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),
     radius=radius_rib,

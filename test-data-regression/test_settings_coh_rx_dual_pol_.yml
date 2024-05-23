@@ -5,7 +5,7 @@ name: coh_rx_dual_pol
 settings:
   bend:
     function: bend_euler
-  cross_section: xs_sc
+  cross_section: strip
   lo_input_coupler: null
   lo_splitter: mmi1x2
   signal_input_coupler: null

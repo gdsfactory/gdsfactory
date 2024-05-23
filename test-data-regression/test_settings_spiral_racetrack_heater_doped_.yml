@@ -1,5 +1,5 @@
 info: {}
-name: spiral_racetrack_heater_doped_MRNone_SL30_S2_N8_SFstraight_BFbend_euler_BSFbend_s_WCSxs_sc_HCSxs_npp
+name: spiral_racetrack_heater_doped_MRNone_SL30_S2_N8_SFstraight_BFbend_euler_BSFbend_s_WCSstrip_HCSxs_npp
 settings:
   bend_factory: bend_euler
   bend_s_factory: bend_s
@@ -9,4 +9,4 @@ settings:
   spacing: 2
   straight_factory: straight
   straight_length: 30
-  waveguide_cross_section: xs_sc
+  waveguide_cross_section: strip

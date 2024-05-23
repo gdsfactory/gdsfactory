@@ -23,7 +23,7 @@ def coh_tx_single_pol(
     input_coupler: ComponentSpec | None = None,
     output_coupler: ComponentSpec | None = None,
     pad_array: ComponentSpec = "pad_array",
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     """MZM-based single polarization coherent transmitter.

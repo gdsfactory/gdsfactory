@@ -20,7 +20,7 @@ def mmi(
     gap_output_tapers: float = 0.25,
     taper: ComponentFactory = taper_function,
     straight: ComponentFactory = straight_function,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     input_positions: list[float] | None = None,
     output_positions: list[float] | None = None,
 ) -> Component:

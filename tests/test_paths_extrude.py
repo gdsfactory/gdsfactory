@@ -7,7 +7,7 @@ from gdsfactory.generic_tech import LAYER
 
 def test_path_near_collinear() -> None:
     p = gf.path.smooth(points=[(0, 0), (0, 1000), (1, 10000)])
-    c = p.extrude(cross_section="xs_sc")
+    c = p.extrude(cross_section="strip")
     assert c
 
 
@@ -34,8 +34,8 @@ def test_extrude_transition() -> None:
     w1 = 1
     w2 = 5
     length = 10
-    cs1 = gf.get_cross_section("xs_sc", width=w1)
-    cs2 = gf.get_cross_section("xs_sc", width=w2)
+    cs1 = gf.get_cross_section("strip", width=w1)
+    cs2 = gf.get_cross_section("strip", width=w2)
     transition = gf.path.transition(cs1, cs2)
     p = gf.path.straight(length)
     c = gf.path.extrude(p, transition)
@@ -52,8 +52,8 @@ def test_transition_cross_section() -> None:
     w1 = 1
     w2 = 5
     length = 10
-    cs1 = gf.get_cross_section("xs_sc", width=w1)
-    cs2 = gf.get_cross_section("xs_sc", width=w2)
+    cs1 = gf.get_cross_section("strip", width=w1)
+    cs2 = gf.get_cross_section("strip", width=w2)
     transition = gf.path.transition(cs1, cs2)
 
     p = gf.path.straight(length=length)

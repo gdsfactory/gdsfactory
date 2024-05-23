@@ -11,7 +11,7 @@ from gdsfactory.cross_section import CrossSectionSpec
 def straight(
     length: float = 10.0,
     npoints: int = 2,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     """Returns a Straight waveguide.
@@ -48,8 +48,8 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c = gf.Component()
-    # ref = c << straight(cross_section="xs_rc")
-    # ref2 = c << straight(cross_section="xs_rc")
+    # ref = c << straight(cross_section="rib")
+    # ref2 = c << straight(cross_section="rib")
     # ref2.center = ref.center + kdb.Point(0, 1000)
     # ref2.d.move((0, 10))
     # ref.name = "straight"
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     c0 = gf.Component()
     c = straight(
         length=10,
-        cross_section="xs_sc",
+        cross_section="strip",
     )
     ref = c0 << c
     # print("o1" in c.ports)

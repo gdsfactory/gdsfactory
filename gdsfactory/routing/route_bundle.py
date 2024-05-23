@@ -91,7 +91,7 @@ def route_bundle(
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
     sort_ports: bool = False,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     start_straight_length: float = 0,
     end_straight_length: float = 0,
     enforce_port_ordering: bool = True,
@@ -266,7 +266,7 @@ def route_bundle(
 route_bundle_electrical = partial(
     route_bundle,
     bend=wire_corner,
-    cross_section="xs_metal_routing",
+    cross_section="metal_routing",
     port_type="electrical",
     allow_width_mismatch=True,
 )
@@ -278,7 +278,7 @@ route_bundle_electrical_multilayer = partial(
     allow_width_mismatch=True,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        ("xs_metal_routing", (0, 180)),
+        ("metal_routing", (0, 180)),
     ],
 )
 
@@ -317,7 +317,7 @@ if __name__ == "__main__":
     #     [c2.ports["o2"], c2.ports["o1"]],
     #     # enforce_port_ordering=True,
     #     separation=5,
-    #     cross_section="xs_sc",
+    #     cross_section="strip",
     #     # end_straight_length=0,
     #     # collision_check_layers=[(1, 0)],
     #     # bboxes=[c1.bbox(), c2.bbox()],

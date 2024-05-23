@@ -1,5 +1,5 @@
 info: {}
-name: mzi_lattice_mmi_CWNone_None_CWT1_1_CLT10_10_CLM5p5_5p5_CWM2p5_2p5_CGM0p25_0p25_TFMtaper_taper_SFMstraight_straight_CSMxs_sc_xs_sc_DL10_MFmzi_Mgdsfactorypcomponentspmzi_SSmmi2x2_Cmmi2x2_PESo3_PESo4_PECo3_PECo4_LXNone_Smmi2x2
+name: mzi_lattice_mmi_CWNone_None_CWT1_1_CLT10_10_CLM5p5_5p5_CWM2p5_2p5_CGM0p25_0p25_TFMtaper_taper_SFMstraight_straight_CSMstrip_strip_DL10_MFmzi_Mgdsfactorypcomponentspmzi_SSmmi2x2_Cmmi2x2_PESo3_PESo4_PECo3_PECo4_LXNone_Smmi2x2
 settings:
   coupler_gaps_mmis:
   - 0.25
@@ -20,8 +20,8 @@ settings:
   - 1.0
   - 1.0
   cross_sections_mmis:
-  - xs_sc
-  - xs_sc
+  - strip
+  - strip
   delta_lengths:
   - 10.0
   function_name: mzi_lattice_mmi

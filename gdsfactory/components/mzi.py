@@ -33,7 +33,7 @@ def mzi(
     port_e1_combiner: str = "o2",
     port_e0_combiner: str = "o3",
     nbends: int = 2,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     cross_section_x_top: CrossSectionSpec | None = None,
     cross_section_x_bot: CrossSectionSpec | None = None,
     mirror_bot: bool = False,
@@ -224,7 +224,7 @@ mzi_coupler = partial(
 )
 
 mzi_pin = partial(
-    mzi, straight_x_top="straight_pin", cross_section_x_top="xs_pin", delta_length=0.0
+    mzi, straight_x_top="straight_pin", cross_section_x_top="pin", delta_length=0.0
 )
 
 mzi_phase_shifter = partial(mzi, straight_x_top="straight_heater_metal", length_x=200)
@@ -250,7 +250,7 @@ if __name__ == "__main__":
     # pdk = get_generic_pdk()
     # pdk.activate()
 
-    # c = mzi(cross_section="xs_sc")
+    # c = mzi(cross_section="strip")
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
     # c.show( )
 

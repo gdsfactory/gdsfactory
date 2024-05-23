@@ -27,7 +27,7 @@ def mzit(
     straight: ComponentFactory = straight_function,
     coupler1: ComponentFactory | None = coupler_function,
     coupler2: ComponentFactory = coupler_function,
-    cross_section: str = "xs_sc",
+    cross_section: str = "strip",
 ) -> Component:
     r"""Mzi tolerant to fabrication variations.
 
@@ -196,10 +196,10 @@ def mzit(
 
 
 if __name__ == "__main__":
-    c = mzit(cross_section="xs_rc")
+    c = mzit(cross_section="rib")
     # c = mzit(coupler1=None)
     # c = mzit(delta_length=20, layer=(2, 0))
-    # c = mzit(delta_length=20, cross_section="xs_rc_bbox")
+    # c = mzit(delta_length=20, cross_section="rib_bbox")
     # c = mzit(delta_length=20, coupler_gap1=0.1, coupler_gap2=0.5)
     # c = mzit(delta_length=20, coupler_gap1=0.5, coupler_gap2=0.1)
     # c = mzit(coupler_length1=200)

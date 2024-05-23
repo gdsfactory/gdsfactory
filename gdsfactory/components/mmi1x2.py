@@ -17,7 +17,7 @@ def mmi1x2(
     gap_mmi: float = 0.25,
     taper: ComponentSpec = taper_function,
     straight: ComponentSpec = straight_function,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     r"""1x2 MultiMode Interferometer (MMI).
@@ -109,5 +109,5 @@ def mmi1x2(
 
 
 if __name__ == "__main__":
-    c = mmi1x2(cross_section="xs_rc")
+    c = mmi1x2(cross_section="rib")
     c.show()

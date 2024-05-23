@@ -15,10 +15,10 @@ from gdsfactory.typings import (
 def ring_crow(
     gaps: tuple[float, ...] = (0.2,) * 4,
     radius: tuple[float, ...] = (10.0,) * 3,
-    input_straight_cross_section: CrossSectionSpec = "xs_sc",
-    output_straight_cross_section: CrossSectionSpec = "xs_sc",
+    input_straight_cross_section: CrossSectionSpec = "strip",
+    output_straight_cross_section: CrossSectionSpec = "strip",
     bends: ComponentFactories = (bend_circular,) * 3,
-    ring_cross_sections: CrossSectionSpecs = ("xs_sc",) * 3,
+    ring_cross_sections: CrossSectionSpecs = ("strip",) * 3,
 ) -> Component:
     """Coupled ring resonators.
 
@@ -114,8 +114,8 @@ def ring_crow(
 
 if __name__ == "__main__":
     c = ring_crow(
-        # input_straight_cross_section="xs_rc",
-        # ring_cross_sections=("xs_rc", "xs_sc", "xs_rc"),
+        # input_straight_cross_section="rib",
+        # ring_cross_sections=("rib", "strip", "rib"),
     )
     # c = ring_crow(gaps = [0.3, 0.4, 0.5, 0.2],
     #     radius = [20.0, 5.0, 15.0],

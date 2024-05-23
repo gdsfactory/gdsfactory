@@ -2,9 +2,9 @@ info:
   length: 10.0
   width1: 0.5
   width2: 0.5
-name: taper_L10_W0p5_WNone_PNone_WTPTrue_CSxs_sc_PNo1_o2_PToptical_optical_WBTrue
+name: taper_L10_W0p5_WNone_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue
 settings:
-  cross_section: xs_sc
+  cross_section: strip
   function_name: taper
   length: 10.0
   port_names:

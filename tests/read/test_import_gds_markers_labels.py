@@ -10,7 +10,7 @@ import gdsfactory as gf
 def test_import_json_label(data_regression) -> None:
     """Make sure you can import the ports"""
     c = gf.components.straight(
-        decorator=gf.add_pins.add_pins_siepic, cross_section="xs_sc_no_pins"
+        decorator=gf.add_pins.add_pins_siepic, cross_section="strip_no_pins"
     )
     c1 = gf.functions.rotate(
         gf.routing.add_fiber_single(c), angle=90, decorator=gf.labels.add_label_json
@@ -25,7 +25,7 @@ def test_import_json_label(data_regression) -> None:
 
 if __name__ == "__main__":
     c = gf.components.straight(
-        decorator=gf.add_pins.add_pins_siepic, cross_section="xs_sc_no_pins"
+        decorator=gf.add_pins.add_pins_siepic, cross_section="strip_no_pins"
     )
     c1 = gf.functions.rotate(
         gf.routing.add_fiber_single(c), angle=90, decorator=gf.labels.add_label_json

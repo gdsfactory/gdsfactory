@@ -174,5 +174,5 @@ if __name__ == "__main__":
     # p = p2 + p1
     # assert p.start_angle == 45
     # assert p.end_angle == 0
-    # c = p.extrude(cross_section="xs_sc")
+    # c = p.extrude(cross_section="strip")
     # c.show()

@@ -37,7 +37,7 @@ def bezier(
     with_manhattan_facing_angles: bool = True,
     start_angle: int | None = None,
     end_angle: int | None = None,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     bend_radius_error_type: ErrorType | None = None,
     allow_min_radius_violation: bool = False,
 ) -> Component:

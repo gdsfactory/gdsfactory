@@ -2,9 +2,9 @@ info:
   period: 0.676
   polarization: te
   wavelength: 1.53
-name: grating_coupler_elliptical_trenches_Pte_TL16p6_TA35_TEA9_W1p53_FA15_GLW0p343_N2p638_N1p443_LTSHALLOW_ETCH_PS26_NP30_ESL0p2_CSxs_sc
+name: grating_coupler_elliptical_trenches_Pte_TL16p6_TA35_TEA9_W1p53_FA15_GLW0p343_N2p638_N1p443_LTSHALLOW_ETCH_PS26_NP30_ESL0p2_CSstrip
 settings:
-  cross_section: xs_sc
+  cross_section: strip
   end_straight_length: 0.2
   fiber_angle: 15.0
   function_name: grating_coupler_elliptical_trenches

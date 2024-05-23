@@ -12,7 +12,7 @@ def coupler_symmetric(
     gap: float = 0.234,
     dy: float = 4.0,
     dx: float = 10.0,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     r"""Two coupled straights with bends.
 

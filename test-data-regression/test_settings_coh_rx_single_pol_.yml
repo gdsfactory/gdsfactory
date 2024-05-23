@@ -1,10 +1,10 @@
 info: {}
-name: coh_rx_single_pol_Bbend_euler_CSxs_sc_H9mmi_90degree_hybrid_Dge_detector_straight_si_contacts_DS60_50_IWL20_LICNone_SICNone_CSMTxs_m3_CSMxs_m2
+name: coh_rx_single_pol_Bbend_euler_CSstrip_H9mmi_90degree_hybrid_Dge_detector_straight_si_contacts_DS60_50_IWL20_LICNone_SICNone_CSMTmetal3_CSMmetal2
 settings:
   bend: bend_euler
-  cross_section: xs_sc
-  cross_section_metal: xs_m2
-  cross_section_metal_top: xs_m3
+  cross_section: strip
+  cross_section_metal: metal2
+  cross_section_metal_top: metal3
   det_spacing:
   - 60.0
   - 50.0

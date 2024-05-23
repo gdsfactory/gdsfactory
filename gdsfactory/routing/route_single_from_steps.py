@@ -25,7 +25,7 @@ def route_single_from_steps(
     steps: list[dict[str, float]] | None = None,
     bend: ComponentSpec = "bend_euler",
     taper: ComponentSpec | None = "taper",
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     auto_widen: bool = False,
     port_type: str = "optical",
     allow_width_mismatch: bool = False,
@@ -142,7 +142,7 @@ def route_single_from_steps(
 
 
 route_single_from_steps_electrical = partial(
-    route_single_from_steps, bend="wire_corner", taper=None, cross_section="xs_m3"
+    route_single_from_steps, bend="wire_corner", taper=None, cross_section="metal3"
 )
 
 route_single_from_steps_electrical_multilayer = partial(
@@ -151,7 +151,7 @@ route_single_from_steps_electrical_multilayer = partial(
     taper=None,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        ("xs_metal_routing", (0, 180)),
+        ("metal_routing", (0, 180)),
     ],
 )
 

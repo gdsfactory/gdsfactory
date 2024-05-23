@@ -1,10 +1,10 @@
 info:
   polarization: te
   wavelength: 1.554
-name: grating_coupler_elliptical_Pte_TL16p6_TA40_W1p554_FA15_GLW0p343_N2p638_N1p443_NP30_BLTFalse_LSSLAB150_SXm1_SO2_STrue_CSxs_sc
+name: grating_coupler_elliptical_Pte_TL16p6_TA40_W1p554_FA15_GLW0p343_N2p638_N1p443_NP30_BLTFalse_LSSLAB150_SXm1_SO2_STrue_CSstrip
 settings:
   big_last_tooth: false
-  cross_section: xs_sc
+  cross_section: strip
   fiber_angle: 15.0
   function_name: grating_coupler_elliptical
   grating_line_width: 0.343
