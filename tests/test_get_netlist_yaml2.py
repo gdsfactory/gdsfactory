@@ -10,7 +10,7 @@ def straight_with_bend(radius: float = 10):
     c = gf.Component()
     s = c.add_ref(gf.components.straight())
     bend = c.add_ref(gf.components.bend_euler(radius=radius))
-    bend.connect("o1", s.ports["o2"])
+    bend.connect("o1", s.ports["o2"], mirror=True)
     c.add_port("o1", port=s.ports["o1"])
     c.add_port("o2", port=bend.ports["o2"])
     return c
@@ -30,7 +30,7 @@ def regenerate_regression_test() -> None:
 
 if __name__ == "__main__":
     regenerate_regression_test()
-    gf.clear_cells()
+    gf.clear_cache()
     filepath = PATH.netlists / "straight_with_bend.yml"
     c = gf.read.from_yaml(filepath)
     c.show()

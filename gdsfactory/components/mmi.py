@@ -126,7 +126,9 @@ def mmi(
 
 
 if __name__ == "__main__":
-    # import gdsfactory as gf
-    # c = gf.components.mmi1x2(cross_section="xs_rc")
-    c = mmi(inputs=2, outputs=4, gap_input_tapers=0.5, input_positions=(-1, 1))
+    c = gf.Component()
+    s = c << gf.c.straight()
+    b = c << gf.c.bend_circular()
+    # b.mirror()
+    b.connect("o1", s.ports["o1"])
     c.show()
