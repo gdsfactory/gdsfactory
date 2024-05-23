@@ -73,4 +73,4 @@ if __name__ == "__main__":
     # print(c.d.size_info)
     # print(ref.size_info)
     # print(ref.d.size_info)
-    c.show()
+    c.plot()

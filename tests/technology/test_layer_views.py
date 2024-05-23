@@ -77,7 +77,6 @@ if __name__ == "__main__":
     )
     PDK.activate()
     PDK_A = PDK
-    print(LAYER.to_dict())
 
     # gc = partial(
     #     gf.components.grating_coupler_elliptical_te, layer=LAYER.WG, cross_section=strip

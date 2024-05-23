@@ -93,8 +93,6 @@ def mzi(
 
     cross_section_x_bot = cross_section_x_bot or cross_section
     cross_section_x_top = cross_section_x_top or cross_section
-
-    bend_spec = bend
     bend = gf.get_component(bend, cross_section=cross_section)
 
     c = Component()
@@ -158,7 +156,7 @@ def mzi(
         cp2.ports[port_e1_combiner],
         sxt.ports["o2"],
         straight=straight,
-        bend=bend_spec,
+        bend=bend,
         cross_section=cross_section,
         taper=None,
     )
@@ -167,7 +165,7 @@ def mzi(
         cp2.ports[port_e0_combiner],
         sxb.ports["o2"],
         straight=straight,
-        bend=bend_spec,
+        bend=bend,
         cross_section=cross_section,
         taper=None,
     )

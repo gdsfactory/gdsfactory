@@ -775,7 +775,7 @@ class LayerViews(BaseModel):
     def __init__(
         self,
         filepath: PathLike | None = None,
-        layers: type[LayerEnum] | None = None,
+        layers: LayerEnum | None = None,
         **data,
     ) -> None:
         """Initialize LayerViews object.
@@ -801,7 +801,8 @@ class LayerViews(BaseModel):
             data["custom_line_styles"] = lvs.custom_line_styles
             data["custom_dither_patterns"] = lvs.custom_dither_patterns
 
-        layers = layers.to_dict() if layers else {}
+        if layers:
+            layers = {layer.name: layer for layer in layers if layer is not None}
 
         super().__init__(**data)
 

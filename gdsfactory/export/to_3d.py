@@ -40,14 +40,12 @@ def to_3d(
     exclude_layers = exclude_layers or ()
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
-    # component_with_booleans = component
     polygons_per_layer = component_with_booleans.get_polygons_points(merge=True)
     has_polygons = False
 
     for level in layer_stack.layers.values():
         layer_index = level.layer
         layer_tuple = tuple(level.layer)
-        print(layer_index, layer_tuple)
 
         if layer_index not in exclude_layers and layer_index in polygons_per_layer:
             zmin = level.zmin

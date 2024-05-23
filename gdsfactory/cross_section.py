@@ -380,6 +380,7 @@ class CrossSection(BaseModel):
 
 
 CrossSectionSpec = CrossSection | str | dict[str, Any] | Callable[..., CrossSection]
+CrossSectionOrFactory = CrossSection | Callable[..., CrossSection]
 ConductorConductorName = tuple[str, str]
 ConductorViaConductorName = tuple[str, str, str] | tuple[str, str]
 ConnectivitySpec = ConductorConductorName | ConductorViaConductorName
@@ -2346,7 +2347,7 @@ def pn_ge_detector_si_contacts(
 
 def get_cross_sections(
     modules: Iterable[ModuleType] | ModuleType, verbose: bool = False
-) -> dict[str, CrossSection]:
+) -> dict[str, CrossSectionOrFactory]:
     """Returns cross_sections from a module or list of modules.
 
     Args:
