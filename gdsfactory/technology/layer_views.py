@@ -926,6 +926,7 @@ class LayerViews(BaseModel):
         Returns:
             LayerView.
         """
+        layer_tuple = tuple(layer_tuple)
         tuple_to_name = {v.layer: k for k, v in self.get_layer_views().items()}
         if layer_tuple not in tuple_to_name:
             raise ValueError(
