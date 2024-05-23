@@ -3,19 +3,15 @@
 from __future__ import annotations
 
 import importlib
-import json
 import os
 import pathlib
 import re
-import subprocess
 import sys
 import tempfile
 import traceback
 from enum import Enum, auto
 from itertools import takewhile
-from pathlib import Path
-from pprint import pprint
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 import loguru
 from dotenv import find_dotenv
@@ -253,54 +249,6 @@ def rich_output() -> None:
     from rich import pretty
 
     pretty.install()
-
-
-def complex_encoder(z):
-    if isinstance(z, pathlib.Path):
-        return str(z)
-    elif callable(z):
-        return str(z.__name__)
-    else:
-        type_name = type(z)
-        raise TypeError(f"Object {z} of type {type_name} is not serializable")
-
-
-def write_config(config: Any, json_out_path: Path) -> None:
-    """Write config to a JSON file."""
-    with open(json_out_path, "w") as f:
-        json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)
-
-
-def print_config(key: str | None = None) -> None:
-    """Prints a key for the config or all the keys."""
-    if key:
-        if CONF.get(key):
-            print(CONF[key])
-        else:
-            print(f"{key!r} key not found in {CONF.keys()}")
-    else:
-        pprint(CONF)
-
-
-def call_if_func(f: Any, **kwargs) -> Any:
-    """Calls function if it's a function Useful to create objects from.
-
-    functions if it's an object it just returns the object.
-    """
-    return f(**kwargs) if callable(f) else f
-
-
-def get_git_hash():
-    """Returns repository git hash."""
-    try:
-        with open(os.devnull, "w") as shutup:
-            return (
-                subprocess.check_output(["git", "rev-parse", "HEAD"], stderr=shutup)
-                .decode("utf-8")
-                .strip("\n")
-            )
-    except subprocess.CalledProcessError:
-        return "not_a_git_repo"
 
 
 if __name__ == "__main__":

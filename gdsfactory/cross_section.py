@@ -2373,6 +2373,9 @@ def get_cross_sections(
     return xs
 
 
+xs_sc_heater_metal = strip_heater_metal
+xs_m3 = xs_metal_routing = metal3
+
 cross_sections = get_cross_sections(sys.modules[__name__])
 
 
