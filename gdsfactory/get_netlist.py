@@ -208,7 +208,7 @@ def get_netlist(
         placements[reference_name] = {
             "x": x,
             "y": y,
-            "rotation": reference.dtrans.angle * 90 or 0,
+            "rotation": reference.dcplx_trans.angle,
             "mirror": reference.dtrans.mirror,
         }
         if is_array:
@@ -222,8 +222,8 @@ def get_netlist(
                     placements[reference_name] = {
                         "x": xj,
                         "y": yi,
-                        "rotation": int(reference.rotation or 0),
-                        "mirror": reference.x_reflection or 0,
+                        "rotation": reference.dcplx_trans.angle,
+                        "mirror": reference.dcplx_trans.mirror,
                     }
                     for parent_port_name in parent_ports:
                         top_name = f"{parent_port_name}_{i + 1}_{j + 1}"
@@ -322,6 +322,18 @@ def _extract_connections_two_sweep(
     raise_error_for_warnings: list[str] | None = None,
     allow_multiple: bool = False,
 ):
+    """Extracts connections between ports.
+
+    Args:
+        port_names: list of port names.
+        ports: dict of port names to Port objects.
+        port_type: type of port.
+        connection_validator: function to validate connections.
+        tolerance: tolerance in grid_factor to consider two ports connected.
+        raise_error_for_warnings: list of warning types to raise an error for.
+        allow_multiple: False to raise an error if more than two ports share the same connection. \
+
+    """
     warnings = defaultdict(list)
     if raise_error_for_warnings is None:
         raise_error_for_warnings = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.get(

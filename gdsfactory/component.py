@@ -701,11 +701,12 @@ class Component(kf.KCell):
 
     def write_netlist(self, filepath: str) -> None:
         """Write netlist in YAML."""
-        import yaml
+        from omegaconf import OmegaConf
 
         netlist = self.get_netlist()
+        yaml_component = OmegaConf.to_yaml(netlist)
         filepath = pathlib.Path(filepath)
-        filepath.write_text(yaml.dump(netlist))
+        filepath.write_text(yaml_component)
 
     def plot_netlist(
         self, with_labels: bool = True, font_weight: str = "normal", **kwargs

@@ -545,8 +545,8 @@
   <source>4/0@1</source>
  </properties>
  <properties>
-  <frame-color>#000000</frame-color>
-  <fill-color>#000000</fill-color>
+  <frame-color>#808080</frame-color>
+  <fill-color>#808080</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
   <dither-pattern>I6</dither-pattern>
@@ -562,8 +562,8 @@
   <source>6/0@1</source>
  </properties>
  <properties>
-  <frame-color>#000000</frame-color>
-  <fill-color>#000000</fill-color>
+  <frame-color>#808080</frame-color>
+  <fill-color>#808080</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
   <dither-pattern>I3</dither-pattern>
@@ -664,8 +664,8 @@
   <source>204/0@1</source>
  </properties>
  <properties>
-  <frame-color>#0000ff</frame-color>
-  <fill-color>#0000ff</fill-color>
+  <frame-color>#ff0000</frame-color>
+  <fill-color>#ff0000</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
   <dither-pattern>I5</dither-pattern>
@@ -698,8 +698,8 @@
   <source>65/0@1</source>
  </properties>
  <properties>
-  <frame-color>#000000</frame-color>
-  <fill-color>#000000</fill-color>
+  <frame-color>#808080</frame-color>
+  <fill-color>#808080</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
   <dither-pattern>I1</dither-pattern>
@@ -748,8 +748,8 @@
   <name>simulation</name>
   <source>*/*@*</source>
   <group-members>
-   <frame-color>#000000</frame-color>
-   <fill-color>#000000</fill-color>
+   <frame-color>#808080</frame-color>
+   <fill-color>#808080</fill-color>
    <frame-brightness>0</frame-brightness>
    <fill-brightness>0</fill-brightness>
    <dither-pattern>I1</dither-pattern>
@@ -952,8 +952,8 @@
    <source>300/0@1</source>
   </group-members>
   <group-members>
-   <frame-color>#000000</frame-color>
-   <fill-color>#000000</fill-color>
+   <frame-color>#808080</frame-color>
+   <fill-color>#808080</fill-color>
    <frame-brightness>0</frame-brightness>
    <fill-brightness>0</fill-brightness>
    <dither-pattern>I0</dither-pattern>
@@ -969,8 +969,8 @@
    <source>301/0@1</source>
   </group-members>
   <group-members>
-   <frame-color>#000000</frame-color>
-   <fill-color>#000000</fill-color>
+   <frame-color>#808080</frame-color>
+   <fill-color>#808080</fill-color>
    <frame-brightness>0</frame-brightness>
    <fill-brightness>0</fill-brightness>
    <dither-pattern>I0</dither-pattern>
