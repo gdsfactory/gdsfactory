@@ -1,24 +1,24 @@
 connections:
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_20625_-5500,o1: cp1,o3
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_20625_-5500,o2: syl,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_20625_5500,o1: cp1,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_20625_5500,o2: sytl,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_30375_-22750,o1: syl,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_30375_-22750,o2: sxb,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_30375_17750,o1: sxt,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_30375_17750,o2: sytl,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_40745_-22750,o1: straight_L0p02_N2_CSxs_sc_W0p5_35610_-27625,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_40745_-22750,o2: straight_L7_N2_CSxs_sc_W0p5_45620_-14125,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_40745_17750,o1: straight_L0p02_N2_CSxs_sc_W0p5_35610_22625,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_40745_17750,o2: straight_L2_N2_CSxs_sc_W0p5_45620_11625,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_50495_-5500,o1: straight_L7_N2_CSxs_sc_W0p5_45620_-14125,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_50495_-5500,o2: cp2,o3
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_50495_5500,o1: straight_L2_N2_CSxs_sc_W0p5_45620_11625,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_50495_5500,o2: cp2,o2
-  straight_L0p02_N2_CSxs_sc_W0p5_35610_-27625,o2: sxb,o2
-  straight_L0p02_N2_CSxs_sc_W0p5_35610_22625,o2: sxt,o2
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_20625_-5500,o1: cp1,o3
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_20625_-5500,o2: syl,o1
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_20625_5500,o1: cp1,o2
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_20625_5500,o2: sytl,o1
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_30375_-22750,o1: syl,o2
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_30375_-22750,o2: sxb,o1
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_30375_17750,o1: sxt,o1
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_30375_17750,o2: sytl,o2
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_40745_-22750,o1: straight_L0p02_N2_CSstrip_W0p5_35610_-27625,o1
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_40745_-22750,o2: straight_L7_N2_CSstrip_W0p5_45620_-14125,o1
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_40745_17750,o1: straight_L0p02_N2_CSstrip_W0p5_35610_22625,o1
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_40745_17750,o2: straight_L2_N2_CSstrip_W0p5_45620_11625,o1
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_50495_-5500,o1: straight_L7_N2_CSstrip_W0p5_45620_-14125,o2
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_50495_-5500,o2: cp2,o3
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_50495_5500,o1: straight_L2_N2_CSstrip_W0p5_45620_11625,o2
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_50495_5500,o2: cp2,o2
+  straight_L0p02_N2_CSstrip_W0p5_35610_-27625,o2: sxb,o2
+  straight_L0p02_N2_CSstrip_W0p5_35610_22625,o2: sxt,o2
 instances:
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_20625_-5500:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_20625_-5500:
     component: bend_euler
     info:
       length: 16.637
@@ -39,9 +39,9 @@ instances:
       layer: null
       width: null
       direction: ccw
-      cross_section: xs_sc
+      cross_section: strip
       allow_min_radius_violation: false
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_20625_5500:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_20625_5500:
     component: bend_euler
     info:
       length: 16.637
@@ -62,9 +62,9 @@ instances:
       layer: null
       width: null
       direction: ccw
-      cross_section: xs_sc
+      cross_section: strip
       allow_min_radius_violation: false
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_30375_-22750:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_30375_-22750:
     component: bend_euler
     info:
       length: 16.637
@@ -85,9 +85,9 @@ instances:
       layer: null
       width: null
       direction: ccw
-      cross_section: xs_sc
+      cross_section: strip
       allow_min_radius_violation: false
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_30375_17750:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_30375_17750:
     component: bend_euler
     info:
       length: 16.637
@@ -108,9 +108,9 @@ instances:
       layer: null
       width: null
       direction: ccw
-      cross_section: xs_sc
+      cross_section: strip
       allow_min_radius_violation: false
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_40745_-22750:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_40745_-22750:
     component: bend_euler
     info:
       length: 16.637
@@ -131,9 +131,9 @@ instances:
       layer: null
       width: null
       direction: ccw
-      cross_section: xs_sc
+      cross_section: strip
       allow_min_radius_violation: false
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_40745_17750:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_40745_17750:
     component: bend_euler
     info:
       length: 16.637
@@ -154,9 +154,9 @@ instances:
       layer: null
       width: null
       direction: ccw
-      cross_section: xs_sc
+      cross_section: strip
       allow_min_radius_violation: false
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_50495_-5500:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_50495_-5500:
     component: bend_euler
     info:
       length: 16.637
@@ -177,9 +177,9 @@ instances:
       layer: null
       width: null
       direction: ccw
-      cross_section: xs_sc
+      cross_section: strip
       allow_min_radius_violation: false
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_50495_5500:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_50495_5500:
     component: bend_euler
     info:
       length: 16.637
@@ -200,7 +200,7 @@ instances:
       layer: null
       width: null
       direction: ccw
-      cross_section: xs_sc
+      cross_section: strip
       allow_min_radius_violation: false
   cp1:
     component: mmi1x2
@@ -214,7 +214,7 @@ instances:
       gap_mmi: 0.25
       taper: taper
       straight: straight
-      cross_section: xs_sc
+      cross_section: strip
   cp2:
     component: mmi1x2
     info: {}
@@ -227,8 +227,8 @@ instances:
       gap_mmi: 0.25
       taper: taper
       straight: straight
-      cross_section: xs_sc
-  straight_L0p02_N2_CSxs_sc_W0p5_35610_-27625:
+      cross_section: strip
+  straight_L0p02_N2_CSstrip_W0p5_35610_-27625:
     component: straight
     info:
       length: 0.02
@@ -240,9 +240,9 @@ instances:
     settings:
       length: 0.02
       npoints: 2
-      cross_section: xs_sc
+      cross_section: strip
       width: 0.5
-  straight_L0p02_N2_CSxs_sc_W0p5_35610_22625:
+  straight_L0p02_N2_CSstrip_W0p5_35610_22625:
     component: straight
     info:
       length: 0.02
@@ -254,9 +254,9 @@ instances:
     settings:
       length: 0.02
       npoints: 2
-      cross_section: xs_sc
+      cross_section: strip
       width: 0.5
-  straight_L2_N2_CSxs_sc_W0p5_45620_11625:
+  straight_L2_N2_CSstrip_W0p5_45620_11625:
     component: straight
     info:
       length: 2.0
@@ -268,9 +268,9 @@ instances:
     settings:
       length: 2.0
       npoints: 2
-      cross_section: xs_sc
+      cross_section: strip
       width: 0.5
-  straight_L7_N2_CSxs_sc_W0p5_45620_-14125:
+  straight_L7_N2_CSstrip_W0p5_45620_-14125:
     component: straight
     info:
       length: 7.0
@@ -282,7 +282,7 @@ instances:
     settings:
       length: 7.0
       npoints: 2
-      cross_section: xs_sc
+      cross_section: strip
       width: 0.5
   sxb:
     component: straight
@@ -296,7 +296,7 @@ instances:
     settings:
       length: 0.1
       npoints: 2
-      cross_section: xs_sc
+      cross_section: strip
   sxt:
     component: straight
     info:
@@ -309,7 +309,7 @@ instances:
     settings:
       length: 0.1
       npoints: 2
-      cross_section: xs_sc
+      cross_section: strip
   syl:
     component: straight
     info:
@@ -322,7 +322,7 @@ instances:
     settings:
       length: 7.0
       npoints: 2
-      cross_section: xs_sc
+      cross_section: strip
   sytl:
     component: straight
     info:
@@ -335,44 +335,44 @@ instances:
     settings:
       length: 2.0
       npoints: 2
-      cross_section: xs_sc
+      cross_section: strip
 placements:
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_20625_-5500:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_20625_-5500:
     x: 20.625
     'y': -5.5
     rotation: 0.0
     mirror: true
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_20625_5500:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_20625_5500:
     x: 20.625
     'y': 5.5
     rotation: 0.0
     mirror: false
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_30375_-22750:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_30375_-22750:
     x: 30.375
     'y': -22.75
     rotation: 270.0
     mirror: false
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_30375_17750:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_30375_17750:
     x: 30.375
     'y': 17.75
     rotation: 180.0
     mirror: false
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_40745_-22750:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_40745_-22750:
     x: 40.745
     'y': -22.75
     rotation: 0.0
     mirror: false
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_40745_17750:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_40745_17750:
     x: 40.745
     'y': 17.75
     rotation: 0.0
     mirror: true
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_50495_-5500:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_50495_-5500:
     x: 50.495000000000005
     'y': -5.5
     rotation: 90.0
     mirror: true
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSxs_sc_AMRVFalse_50495_5500:
+  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_Dccw_CSstrip_AMRVFalse_50495_5500:
     x: 50.495000000000005
     'y': 5.5
     rotation: 270.0
@@ -387,22 +387,22 @@ placements:
     'y': 0.0
     rotation: 180.0
     mirror: true
-  straight_L0p02_N2_CSxs_sc_W0p5_35610_-27625:
+  straight_L0p02_N2_CSstrip_W0p5_35610_-27625:
     x: 35.61
     'y': -27.625
     rotation: 180.0
     mirror: false
-  straight_L0p02_N2_CSxs_sc_W0p5_35610_22625:
+  straight_L0p02_N2_CSstrip_W0p5_35610_22625:
     x: 35.61
     'y': 22.625
     rotation: 180.0
     mirror: true
-  straight_L2_N2_CSxs_sc_W0p5_45620_11625:
+  straight_L2_N2_CSstrip_W0p5_45620_11625:
     x: 45.62
     'y': 11.625
     rotation: 270.0
     mirror: true
-  straight_L7_N2_CSxs_sc_W0p5_45620_-14125:
+  straight_L7_N2_CSstrip_W0p5_45620_-14125:
     x: 45.62
     'y': -14.125
     rotation: 90.0
@@ -430,4 +430,4 @@ placements:
 ports:
   o1: cp1,o1
   o2: cp2,o1
-name: mzi_DL10_LY2_LX0p1_Bbend_euler_Sstraight_SYNone_SXTNone_SXBNone_Smmi1x2_CNone_WSTrue_PESo2_PESo3_PECo2_PECo3_N2_CSxs_sc_CSXTNone_CSXBNone_MBFalse_AOPAFalse_ML0p01_ARPTrue
+name: mzi_DL10_LY2_LX0p1_Bbend_euler_Sstraight_SYNone_SXTNone_SXBNone_Smmi1x2_CNone_WSTrue_PESo2_PESo3_PECo2_PECo3_N2_CSstrip_CSXTNone_CSXBNone_MBFalse_AOPAFalse_ML0p01_ARPTrue
