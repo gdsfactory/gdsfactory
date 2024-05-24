@@ -6,17 +6,16 @@ Upon Python installation, open Anaconda Prompt as Administrator and install the 
 
 ![anaconda prompt](https://i.imgur.com/eKk2bbs.png)
 
+You can install the latest released gdsfactory using the following command:
 
 ```
 pip install gdsfactory --upgrade
 ```
 
-## Update gdsfactory
-
-You can install the latest gdsfactory using the following command:
+If you want to install the latest pre-released version you can run:
 
 ```
-pip install gdsfactory --upgrade
+pip install git+https://github.com/gdsfactory/gdsfactory --force-reinstall
 ```
 
 Please note that some PDKs may only work for a specific version of gdsfactory. Ensure you install the correct gdsfactory version specified in the pyproject.toml file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example, pip install gf180 will install the latest gdsfactory version tested for the GlobalFoundries180 PDK.
