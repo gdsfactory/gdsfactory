@@ -2196,9 +2196,17 @@ class Component(_GeometryHelper):
         """
         auto_rename_ports_orientation(self, **kwargs)
 
-    def move(self, *args, **kwargs) -> Component:
-        """Make a reference instead"""
-        raise ValueError(move_error_message)
+    def move(self, origin=(0, 0), destination=None, axis: Axis | None = None, **kwargs) -> Component:
+        """Returns new Component with a mirrored reference.
+        
+        Args:
+            origin: of component.
+            destination: Optional x, y.
+            axis: x or y axis.
+        """
+        from gdsfactory.functions import move
+
+        return move(component=self, origin=origin, destination=destination, axis=axis, **kwargs)
 
     def mirror(self, p1: Float2 = (0, 1), p2: Float2 = (0, 0), **kwargs) -> Component:
         """Returns new Component with a mirrored reference.
