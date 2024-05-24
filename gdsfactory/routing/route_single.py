@@ -296,7 +296,7 @@ if __name__ == "__main__":
     #     ],
     # )
     # c.show()
-    c = gf.Component("waypoints_sample")
+    c = gf.Component()
     w = gf.components.straight()
     top = c << w
     bot = c << w

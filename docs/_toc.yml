@@ -42,6 +42,9 @@ parts:
           - file: notebooks/09_pdk_import
           - file: notebooks/12_config
       - file: workflow
+      - file: migration
+        sections:
+          - file: notebooks/21_migration_guide_7_8
   - caption: Plugins
     chapters:
       - url: https://gdsfactory.github.io/gplugins/

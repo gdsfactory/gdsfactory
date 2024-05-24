@@ -286,7 +286,7 @@ route_bundle_electrical_multilayer = partial(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("route_bundle_multi_layer")
+    c = gf.Component()
     columns = 2
     ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
     pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
@@ -298,8 +298,8 @@ if __name__ == "__main__":
         c,
         reversed(pbot.ports),
         ptop.ports,
-        # end_straight_length=10,
-        # start_straight_length=100,
+        # end_straight_length=50,
+        start_straight_length=100,
         separation=20,
         bboxes=[ptop.bbox(), pbot.bbox()],
     )

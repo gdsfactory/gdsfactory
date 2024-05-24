@@ -13,7 +13,7 @@ pip install gdsfactory --upgrade
 
 ## Update gdsfactory
 
-You can upgrade gdsfactory using the following command:
+You can install the latest gdsfactory using the following command:
 
 ```
 pip install gdsfactory --upgrade
