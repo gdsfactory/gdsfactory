@@ -197,7 +197,7 @@ class Component(kf.KCell):
             )
 
     def __getattribute__(self, __k: str) -> Any:
-        if __k in ["xmin", "xmax", "xsize", "ysize", "x", "y", "center"]:
+        if __k in {"xmin", "xmax", "xsize", "ysize", "x", "y", "center"}:
             return getattr(self.d, __k)
         return super().__getattribute__(__k)
 
