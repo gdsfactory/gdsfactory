@@ -64,7 +64,7 @@ settings:
   child: null
   default:
     add_pins: true
-    cross_section: xs_sc
+    cross_section: strip
     layer: null
     length: 10.0
     npoints: 2

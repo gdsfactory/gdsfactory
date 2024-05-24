@@ -67,7 +67,7 @@ def cutback_loss(
 def cutback_loss_spirals(
     spiral: ComponentFactory = spiral,
     loss: tuple[float, ...] = tuple(4 + 3 * i for i in range(3)),
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     loss_dB_per_m: float = 300,
     **kwargs,
 ) -> list[gf.Component]:

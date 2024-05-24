@@ -3,7 +3,6 @@ name: straight_heater_doped_rib_L320_N3_CSstrip_heater_doped_CSHrib_heater_doped
 settings:
   cross_section: strip_heater_doped
   cross_section_heater: rib_heater_doped
-  function_name: straight_heater_doped_rib
   heater_gap: 0.8
   heater_width: 2.0
   length: 320.0

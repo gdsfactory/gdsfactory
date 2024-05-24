@@ -21,7 +21,7 @@ def coupler_ring(
     coupler90: ComponentFactory = coupler90,
     bend: ComponentSpec = bend_euler,
     coupler_straight: ComponentFactory = coupler_straight,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     cross_section_bend: CrossSectionSpec | None = None,
     length_extension: float = 3,
 ) -> Component:

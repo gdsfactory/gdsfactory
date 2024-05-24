@@ -16,7 +16,8 @@ from gdsfactory.typings import CrossSectionSpec, Float2
 def bend_s(
     size: Float2 = (11.0, 1.8),
     npoints: int = 99,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
+    allow_min_radius_violation: bool = False,
     **kwargs,
 ) -> Component:
     """Return S bend with bezier curve.
@@ -28,6 +29,8 @@ def bend_s(
         size: in x and y direction.
         npoints: number of points.
         cross_section: spec.
+        bend_radius_error_type: error type.
+        allow_min_radius_violation: bool.
 
     """
     c = Component()
@@ -37,17 +40,19 @@ def bend_s(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
         npoints=npoints,
         cross_section=cross_section,
+        allow_min_radius_violation=allow_min_radius_violation,
         **kwargs,
     )
     bend_ref = c << bend
     c.add_ports(bend_ref.ports)
     c.copy_child_info(bend)
+    c.flatten()
     return c
 
 
 def get_min_sbend_size(
     size: tuple[float | None, float | None] = (None, 10.0),
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     num_points: int = 100,
     **kwargs,
 ) -> float:
@@ -57,7 +62,7 @@ def get_min_sbend_size(
      Args:
         size: in x and y direction. One of them is None, which is the size we need to figure out.
         cross_section: spec.
-        num_points: number of points to iterate over between max_size and 0.1 * max_size
+        num_points: number of points to iterate over between max_size and 0.1 * max_size.
         kwargs: cross_section settings.
 
     """
@@ -108,7 +113,7 @@ if __name__ == "__main__":
     c = bend_s()
     # c = bend_s(bbox_offsets=[0.5], bbox_layers=[(111, 0)], width=2)
     # c = bend_s(size=[10, 2.5])  # 10um bend radius
-    # c = bend_s(size=[20, 3], cross_section="xs_rc")  # 10um bend radius
+    # c = bend_s(size=[20, 3], cross_section="rib")  # 10um bend radius
     # c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])

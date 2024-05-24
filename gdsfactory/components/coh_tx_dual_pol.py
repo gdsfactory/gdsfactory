@@ -16,7 +16,7 @@ def coh_tx_dual_pol(
     xspacing: float = 40.0,
     input_coupler: ComponentSpec | None = None,
     output_coupler: ComponentSpec | None = None,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     """Dual polarization coherent transmitter.

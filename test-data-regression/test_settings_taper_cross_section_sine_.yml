@@ -1,14 +1,13 @@
 info:
   route_info_length: 10
-  route_info_type: xs_sc_rc_tip
+  route_info_type: xs_87fc063d
   route_info_weight: 10
-  route_info_xs_sc_rc_tip_length: 10
-  route_info_xs_sc_rc_tip_taper_length: 10
-name: taper_cross_section_CSFcross_section_Mgdsfactorypcross_section_SR10_RM5_Sslab_CSxs_rc_L10_N101_LFalse_WTsine
+  route_info_xs_87fc063d_length: 10
+  route_info_xs_87fc063d_taper_length: 10
+name: taper_cross_section_CSFcross_section_Mgdsfactorypcross_section_SR10_RM5_Sslab_CSrib_L10_N101_LFalse_WTsine
 settings:
   cross_section1: Fcross_section_Mgdsfactorypcross_section_SR10_RM5_Sslab
-  cross_section2: xs_rc
-  function_name: taper_cross_section
+  cross_section2: rib
   length: 10
   linear: false
   npoints: 101

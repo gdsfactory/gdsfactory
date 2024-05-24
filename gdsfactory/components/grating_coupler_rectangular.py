@@ -23,7 +23,7 @@ def grating_coupler_rectangular(
     fiber_angle: float = 15,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     r"""Grating coupler with rectangular shapes (not elliptical).
@@ -133,7 +133,7 @@ def grating_coupler_rectangular(
 
 if __name__ == "__main__":
     # c = grating_coupler_rectangular(name='gcu', partial_etch=True)
-    c = grating_coupler_rectangular(cross_section="xs_sc")
+    c = grating_coupler_rectangular(cross_section="strip")
     # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_rectangular)
     print(c.ports)
     c.show()

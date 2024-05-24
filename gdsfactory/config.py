@@ -3,25 +3,15 @@
 from __future__ import annotations
 
 import importlib
-import json
-import os
 import pathlib
-import re
-import subprocess
 import sys
 import tempfile
-import traceback
 from enum import Enum, auto
-from itertools import takewhile
-from pathlib import Path
-from pprint import pprint
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
-import loguru
 from dotenv import find_dotenv
-from kfactory.conf import config
+from kfactory.conf import config, get_affinity
 from loguru import logger as logger
-from pydantic import BaseModel
 from rich.console import Console
 from rich.table import Table
 
@@ -39,6 +29,8 @@ home_path = pathlib.Path.home() / ".gdsfactory"
 diff_path = repo_path / "gds_diff"
 logpath = home_path / "log.log"
 dotenv_path = find_dotenv(usecwd=True)
+
+get_number_of_cores = get_affinity
 
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 
@@ -67,36 +59,6 @@ pdks = [
     "ubcpdk",
     "gvtt",
 ]
-
-
-class LogLevel(str, Enum):
-    TRACE = "TRACE"
-    DEBUG = "DEBUG"
-    INFO = "INFO"
-    SUCCESS = "SUCCESS"
-    WARNING = "WARNING"
-    ERROR = "ERROR"
-    CRITICAL = "CRITICAL"
-
-
-class LogFilter(BaseModel):
-    """Filter certain messages by log level or regex.
-
-    Filtered messages are not evaluated and discarded.
-    """
-
-    level: LogLevel = LogLevel.INFO
-    regex: str | None = None
-
-    def __call__(self, record: loguru.Record) -> bool:
-        """Loguru needs the filter to be callable."""
-        levelno = logger.level(self.level).no
-        if self.regex is None:
-            return record["level"].no >= levelno
-        else:
-            return record["level"].no >= levelno and not bool(
-                re.search(self.regex, record["message"])
-            )
 
 
 class ErrorType(Enum):
@@ -166,52 +128,13 @@ def print_version_pdks() -> None:
     console.print(table)
 
 
-def get_number_of_cores() -> int:
-    """Get number of cores/threads available.
-
-    On (most) linux we can get it through the scheduling affinity. Otherwise,
-    fall back to the multiprocessing cpu count.
-    """
-    try:
-        threads = len(os.sched_getaffinity(0))
-    except AttributeError:
-        import multiprocessing
-
-        threads = multiprocessing.cpu_count()
-    return threads
-
-
-def tracing_formatter(record: loguru.Record) -> str:
-    """Traceback filtering.
-
-    Filter out frames coming from Loguru internals.
-    """
-    frames = takewhile(
-        lambda f: "/loguru/" not in f.filename, traceback.extract_stack()
-    )
-    stack = " > ".join(f"{f.filename}:{f.name}:{f.lineno}" for f in frames)
-    record["extra"]["stack"] = stack
-
-    if record["extra"].get("with_backtrace", False):
-        return (
-            "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level>"
-            " | <cyan>{extra[stack]}</cyan> - <level>{message}</level>\n{exception}"
-        )
-
-    else:
-        return (
-            "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}"
-            "</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan>"
-            " - <level>{message}</level>\n{exception}"
-        )
-
-
 CONF = config
 CONF.difftest_ignore_label_differences = False
 CONF.difftest_ignore_sliver_differences = False
 CONF.difftest_ignore_cell_name_differences = True
 CONF.bend_radius_error_type = ErrorType.ERROR
 CONF.layer_error_path = (1000, 0)
+CONF.connect_use_mirror = False
 CONF.pdk = None
 
 
@@ -253,54 +176,6 @@ def rich_output() -> None:
     from rich import pretty
 
     pretty.install()
-
-
-def complex_encoder(z):
-    if isinstance(z, pathlib.Path):
-        return str(z)
-    elif callable(z):
-        return str(z.__name__)
-    else:
-        type_name = type(z)
-        raise TypeError(f"Object {z} of type {type_name} is not serializable")
-
-
-def write_config(config: Any, json_out_path: Path) -> None:
-    """Write config to a JSON file."""
-    with open(json_out_path, "w") as f:
-        json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)
-
-
-def print_config(key: str | None = None) -> None:
-    """Prints a key for the config or all the keys."""
-    if key:
-        if CONF.get(key):
-            print(CONF[key])
-        else:
-            print(f"{key!r} key not found in {CONF.keys()}")
-    else:
-        pprint(CONF)
-
-
-def call_if_func(f: Any, **kwargs) -> Any:
-    """Calls function if it's a function Useful to create objects from.
-
-    functions if it's an object it just returns the object.
-    """
-    return f(**kwargs) if callable(f) else f
-
-
-def get_git_hash():
-    """Returns repository git hash."""
-    try:
-        with open(os.devnull, "w") as shutup:
-            return (
-                subprocess.check_output(["git", "rev-parse", "HEAD"], stderr=shutup)
-                .decode("utf-8")
-                .strip("\n")
-            )
-    except subprocess.CalledProcessError:
-        return "not_a_git_repo"
 
 
 if __name__ == "__main__":

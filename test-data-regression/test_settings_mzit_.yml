@@ -1,5 +1,5 @@
 info: {}
-name: mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL5_CL10_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSxs_sc
+name: mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL5_CL10_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSstrip
 settings:
   bend90: bend_euler
   coupler1: coupler
@@ -8,10 +8,9 @@ settings:
   coupler_gap2: 0.3
   coupler_length1: 5.0
   coupler_length2: 10.0
-  cross_section: xs_sc
+  cross_section: strip
   delta_length: 10.0
   dy: 2.0
-  function_name: mzit
   length: 1.0
   straight: straight
   taper: taper

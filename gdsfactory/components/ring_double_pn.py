@@ -7,7 +7,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.components.via import via
 from gdsfactory.components.via_stack import via_stack
-from gdsfactory.cross_section import Section, xs_rc
+from gdsfactory.cross_section import Section, rib
 from gdsfactory.typings import ComponentSpec, CrossSectionFactory, LayerSpec
 
 cross_section_rib = partial(
@@ -52,7 +52,7 @@ def ring_double_pn(
     drop_gap: float = 0.3,
     radius: float = 5.0,
     doping_angle: float = 85,
-    cross_section: CrossSectionFactory = xs_rc,
+    cross_section: CrossSectionFactory = rib,
     pn_cross_section: CrossSectionFactory = cross_section_pn,
     doped_heater: bool = True,
     doped_heater_angle_buffer: float = 10,

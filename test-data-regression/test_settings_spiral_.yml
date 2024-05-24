@@ -1,10 +1,9 @@
 info:
   length: 1200
-name: spiral_L100_Bbend_euler_Sstraight_CSxs_sc_S3_NL6
+name: spiral_L100_Bbend_euler_Sstraight_CSstrip_S3_NL6
 settings:
   bend: bend_euler
-  cross_section: xs_sc
-  function_name: spiral
+  cross_section: strip
   length: 100
   n_loops: 6
   spacing: 3.0

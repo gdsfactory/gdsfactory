@@ -15,7 +15,7 @@ def ring_single(
     length_y: float = 0.6,
     coupler_ring: ComponentFactory = coupler_ring_function,
     bend: ComponentFactory = bend_euler,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> gf.Component:
     """Returns a single ring.
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     # print(c.ports)
 
     # c = gf.routing.add_fiber_array(ring_single)
-    # c = ring_single(cross_section="xs_rc", width=2)
+    # c = ring_single(cross_section="rib", width=2)
     # c = ring_single(length_y=0, length_x=0)
     # c.get_netlist()
     c.show()

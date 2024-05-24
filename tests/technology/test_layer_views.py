@@ -57,7 +57,6 @@ if __name__ == "__main__":
 
     # Specify a cross_section to use
     strip = partial(gf.cross_section.cross_section, width=WIDTH, layer=LAYER.WG)
-    xs_sc = strip()
 
     mmi1x2 = partial(
         gf.components.mmi1x2,
@@ -70,14 +69,13 @@ if __name__ == "__main__":
     PDK = gf.Pdk(
         name="Fab_A",
         cells=dict(mmi1x2=mmi1x2),
-        cross_sections=dict(strip=strip, xs_sc=xs_sc),
+        cross_sections=dict(strip=strip),
         layers=LAYER,
         layer_views=LAYER_VIEWS,
         layer_stack=LAYER_STACK,
     )
     PDK.activate()
     PDK_A = PDK
-    print(LAYER.to_dict())
 
     # gc = partial(
     #     gf.components.grating_coupler_elliptical_te, layer=LAYER.WG, cross_section=strip

@@ -51,7 +51,7 @@ def taper_adiabatic(
     alpha: float = 1,
     wavelength: float = 1.55,
     npoints: int = 200,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> gf.Component:
     """Returns a straight adiabatic_taper from an effective index callable.
 

@@ -3,5 +3,4 @@ name: splitter_chain_Smmi1x2_C3_Bbend_s
 settings:
   bend: bend_s
   columns: 3
-  function_name: splitter_chain
   splitter: mmi1x2

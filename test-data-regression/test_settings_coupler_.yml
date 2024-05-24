@@ -1,13 +1,12 @@
 info:
   length: 10.186
   min_bend_radius: 11.857
-name: coupler_G0p236_L20_CScoupler_symmetric_CScoupler_straight_D4_D10_CSxs_sc
+name: coupler_G0p236_L20_CScoupler_symmetric_CScoupler_straight_D4_D10_CSstrip
 settings:
   coupler_straight: coupler_straight
   coupler_symmetric: coupler_symmetric
-  cross_section: xs_sc
+  cross_section: strip
   dx: 10.0
   dy: 4.0
-  function_name: coupler
   gap: 0.236
   length: 20.0

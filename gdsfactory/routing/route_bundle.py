@@ -91,7 +91,7 @@ def route_bundle(
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
     sort_ports: bool = False,
-    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "xs_sc",
+    cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     start_straight_length: float = 0,
     end_straight_length: float = 0,
     enforce_port_ordering: bool = True,
@@ -217,7 +217,7 @@ def route_bundle(
     xs = gf.get_cross_section(cross_section, **kwargs)
     width = xs.width
     width_dbu = round(width / component.kcl.dbu)
-    taper_cell = gf.get_cell(taper) if taper else None
+    taper_cell = gf.get_component(taper) if taper else None
     bend90 = (
         bend
         if isinstance(bend, Component)
@@ -266,7 +266,7 @@ def route_bundle(
 route_bundle_electrical = partial(
     route_bundle,
     bend=wire_corner,
-    cross_section="xs_metal_routing",
+    cross_section="metal_routing",
     port_type="electrical",
     allow_width_mismatch=True,
 )
@@ -278,7 +278,7 @@ route_bundle_electrical_multilayer = partial(
     allow_width_mismatch=True,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        ("xs_metal_routing", (0, 180)),
+        ("metal_routing", (0, 180)),
     ],
 )
 
@@ -286,7 +286,7 @@ route_bundle_electrical_multilayer = partial(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("route_bundle_multi_layer")
+    c = gf.Component()
     columns = 2
     ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
     pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
@@ -298,8 +298,8 @@ if __name__ == "__main__":
         c,
         reversed(pbot.ports),
         ptop.ports,
-        # end_straight_length=10,
-        # start_straight_length=100,
+        # end_straight_length=50,
+        start_straight_length=100,
         separation=20,
         bboxes=[ptop.bbox(), pbot.bbox()],
     )
@@ -317,7 +317,7 @@ if __name__ == "__main__":
     #     [c2.ports["o2"], c2.ports["o1"]],
     #     # enforce_port_ordering=True,
     #     separation=5,
-    #     cross_section="xs_sc",
+    #     cross_section="strip",
     #     # end_straight_length=0,
     #     # collision_check_layers=[(1, 0)],
     #     # bboxes=[c1.bbox(), c2.bbox()],

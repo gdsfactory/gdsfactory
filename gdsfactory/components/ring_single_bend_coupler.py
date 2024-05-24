@@ -13,8 +13,8 @@ def coupler_bend(
     radius: float = 10.0,
     coupler_gap: float = 0.2,
     coupling_angle_coverage: float = 120.0,
-    cross_section_inner: CrossSectionSpec = "xs_sc",
-    cross_section_outer: CrossSectionSpec = "xs_sc",
+    cross_section_inner: CrossSectionSpec = "strip",
+    cross_section_outer: CrossSectionSpec = "strip",
     bend: ComponentSpec = bend_circular,
 ) -> Component:
     r"""Compact curved coupler with bezier escape.
@@ -82,8 +82,8 @@ def coupler_ring_bend(
     coupler_gap: float = 0.2,
     coupling_angle_coverage: float = 90.0,
     length_x: float = 0.0,
-    cross_section_inner: CrossSectionSpec = "xs_sc",
-    cross_section_outer: CrossSectionSpec = "xs_sc",
+    cross_section_inner: CrossSectionSpec = "strip",
+    cross_section_outer: CrossSectionSpec = "strip",
     bend: ComponentSpec = bend_circular,
 ) -> Component:
     r"""Two back-to-back coupler_bend.
@@ -141,8 +141,8 @@ def ring_single_bend_coupler(
     bend: ComponentSpec = bend_circular,
     length_x: float = 0.6,
     length_y: float = 0.6,
-    cross_section_inner: CrossSectionSpec = "xs_sc",
-    cross_section_outer: CrossSectionSpec = "xs_sc",
+    cross_section_inner: CrossSectionSpec = "strip",
+    cross_section_outer: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     r"""Returns ring with curved coupler.

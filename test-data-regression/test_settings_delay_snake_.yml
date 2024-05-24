@@ -1,9 +1,8 @@
 info: {}
-name: delay_snake_L1600_L0_L0_N2_BFbend_euler_Mgdsfactorypcomponentspbend_euler_SA180_CSxs_sc
+name: delay_snake_L1600_L0_L0_N2_BFbend_euler_Mgdsfactorypcomponentspbend_euler_SA180_CSstrip
 settings:
   bend180: Fbend_euler_Mgdsfactorypcomponentspbend_euler_SA180
-  cross_section: xs_sc
-  function_name: delay_snake
+  cross_section: strip
   length: 1600.0
   length0: 0.0
   length2: 0.0

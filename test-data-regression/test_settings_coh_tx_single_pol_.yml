@@ -1,10 +1,9 @@
 info: {}
-name: coh_tx_single_pol_BPSFalse_MYS50_PSstraight_pin_PSL100_MPS40_Smmi1x2_CNone_MFmzi_Mgdsfactorypcomponentspmzi_SSXTstraight_pin_CSXTxs_pin_DL0_ML200_X40_ICNone_OCNone_PApad_array_CSxs_sc
+name: coh_tx_single_pol_BPSFalse_MYS50_PSstraight_pin_PSL100_MPS40_Smmi1x2_CNone_MFmzi_Mgdsfactorypcomponentspmzi_SSXTstraight_pin_CSXTpin_DL0_ML200_X40_ICNone_OCNone_PApad_array_CSstrip
 settings:
   balanced_phase_shifters: false
-  cross_section: xs_sc
-  function_name: coh_tx_single_pol
-  mzm: Fmzi_Mgdsfactorypcomponentspmzi_SSXTstraight_pin_CSXTxs_pin_DL0
+  cross_section: strip
+  mzm: Fmzi_Mgdsfactorypcomponentspmzi_SSXTstraight_pin_CSXTpin_DL0
   mzm_length: 200.0
   mzm_ps_spacing: 40.0
   mzm_y_spacing: 50.0

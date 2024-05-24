@@ -1,7 +1,6 @@
 info: {}
 name: litho_steps_LW1_2_4_8_16_LS10_H100_LWG
 settings:
-  function_name: litho_steps
   height: 100.0
   layer: WG
   line_spacing: 10.0

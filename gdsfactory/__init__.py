@@ -32,7 +32,7 @@ from gdsfactory.component import (
     ComponentReference,
     Instance,
 )
-from gdsfactory.config import CONF, call_if_func, PATH, logger
+from gdsfactory.config import CONF, PATH, logger
 from gdsfactory.port import Port
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section
@@ -79,7 +79,7 @@ c = components
 
 def clear_cache(kcl=kf.kcl) -> None:
     """Clears the whole layout object cache for the default layout."""
-    kcl.clear()
+    kcl.clear_kcells()
 
 
 __all__ = (
@@ -101,7 +101,6 @@ __all__ = (
     "asserts",
     "boolean",
     "c",
-    "call_if_func",
     "clear_cache",
     "cell",
     "components",

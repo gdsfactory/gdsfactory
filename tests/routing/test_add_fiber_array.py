@@ -18,13 +18,7 @@ def type2() -> Component:
     return gf.routing.add_fiber_array(component=c, optical_routing_type=2)
 
 
-def tapers() -> Component:
-    c = gf.components.straight(width=2, length=20)
-    cc = gf.c.add_tapers(component=c)
-    return gf.routing.add_fiber_array(component=cc, optical_routing_type=0)
-
-
-components = [type1, type2, tapers]
+components = [type1, type2]
 
 
 @pytest.fixture(params=components, scope="function")

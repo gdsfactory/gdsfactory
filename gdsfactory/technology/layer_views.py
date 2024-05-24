@@ -37,7 +37,6 @@ if typing.TYPE_CHECKING:
     from gdsfactory.component import Component
 
 PathLike = pathlib.Path | str
-
 Layer = tuple[int, int]
 
 _klayout_line_styles = {
@@ -776,7 +775,7 @@ class LayerViews(BaseModel):
     def __init__(
         self,
         filepath: PathLike | None = None,
-        layers: type[LayerEnum] | None = None,
+        layers: LayerEnum | None = None,
         **data,
     ) -> None:
         """Initialize LayerViews object.
@@ -802,7 +801,8 @@ class LayerViews(BaseModel):
             data["custom_line_styles"] = lvs.custom_line_styles
             data["custom_dither_patterns"] = lvs.custom_dither_patterns
 
-        layers = layers.to_dict() if layers else {}
+        if layers:
+            layers = {layer.name: layer for layer in layers if layer is not None}
 
         super().__init__(**data)
 
@@ -917,7 +917,7 @@ class LayerViews(BaseModel):
                 f"LayerView {val!r} not in LayerViews {list(self.layer_views.keys())}"
             ) from error
 
-    def get_from_tuple(self, layer_tuple: Layer) -> LayerView:
+    def get_from_tuple(self, layer_tuple: tuple[int, int]) -> LayerView:
         """Returns LayerView from layer tuple.
 
         Args:
@@ -926,6 +926,7 @@ class LayerViews(BaseModel):
         Returns:
             LayerView.
         """
+        layer_tuple = tuple(layer_tuple)
         tuple_to_name = {v.layer: k for k, v in self.get_layer_views().items()}
         if layer_tuple not in tuple_to_name:
             raise ValueError(

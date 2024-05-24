@@ -1,12 +1,11 @@
 info:
   polarization: te
   wavelength: 1.554
-name: grating_coupler_elliptical_arbitrary_G0p1_0p1_0p1_0p1_0p1_0p1_0p1_0p1_0p1_0p1_W0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_TL16p6_TA60_W1p554_FA15_N1p443_LSSLAB150_LGNone_TTSOm3_Pte_STrue_BG0_CSxs_sc
+name: grating_coupler_elliptical_arbitrary_G0p1_0p1_0p1_0p1_0p1_0p1_0p1_0p1_0p1_0p1_W0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_TL16p6_TA60_W1p554_FA15_N1p443_LSSLAB150_LGNone_TTSOm3_Pte_STrue_BG0_CSstrip
 settings:
   bias_gap: 0
-  cross_section: xs_sc
+  cross_section: strip
   fiber_angle: 15.0
-  function_name: grating_coupler_elliptical_arbitrary
   gaps:
   - 0.1
   - 0.1

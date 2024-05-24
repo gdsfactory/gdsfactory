@@ -12,7 +12,7 @@ from gdsfactory.typings import CrossSectionSpec
 @cell
 def taper_cross_section(
     cross_section1: CrossSectionSpec = strip_rib_tip,
-    cross_section2: CrossSectionSpec = "xs_rc",
+    cross_section2: CrossSectionSpec = "rib",
     length: float = 10,
     npoints: int = 100,
     linear: bool = False,

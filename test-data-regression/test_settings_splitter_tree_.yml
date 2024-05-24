@@ -1,10 +1,9 @@
 info: {}
-name: splitter_tree_Cmmi1x2_N4_S90_50_BSbend_s_BSXNone_CSxs_sc
+name: splitter_tree_Cmmi1x2_N4_S90_50_BSbend_s_BSXNone_CSstrip
 settings:
   bend_s: bend_s
   coupler: mmi1x2
-  cross_section: xs_sc
-  function_name: splitter_tree
+  cross_section: strip
   noutputs: 4
   spacing:
   - 90.0

@@ -1,7 +1,6 @@
 info: {}
 name: text_lines_TChip_01_S0p4_LWG
 settings:
-  function_name: text_lines
   layer: WG
   size: 0.4
   text:

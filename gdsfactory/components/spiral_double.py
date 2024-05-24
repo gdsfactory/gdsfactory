@@ -11,7 +11,7 @@ def spiral_double(
     separation: float = 2.0,
     number_of_loops: float = 3,
     npoints: int = 1000,
-    cross_section: gf.typings.CrossSectionSpec = "xs_sc",
+    cross_section: gf.typings.CrossSectionSpec = "strip",
     bend: gf.typings.ComponentSpec = bend_circular,
 ) -> gf.Component:
     """Returns a spiral double (spiral in, and then out).
@@ -62,7 +62,7 @@ if __name__ == "__main__":
         # separation=2,
         # number_of_loops=3,
         # npoints=1000,
-        # cross_section="xs_rc",
+        # cross_section="rib",
     )
     print(c.ports["o1"].orientation)
     print(c.ports["o2"].orientation)

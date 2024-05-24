@@ -6,7 +6,6 @@ info:
   ysize: 80
 name: pad_Spad_size_LMTOP_BLNone_BONone_PI0_PO0
 settings:
-  function_name: pad
   layer: MTOP
   port_inclusion: 0
   port_orientation: 0

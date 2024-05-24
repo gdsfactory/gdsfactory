@@ -1,23 +1,22 @@
 info: {}
-name: ring_crow_G0p2_0p2_0p2_0p2_R10_10_10_ISCSxs_sc_OSCSxs_sc_Bbend_circular_bend_circular_bend_circular_RCSxs_sc_xs_sc_xs_sc
+name: ring_crow_G0p2_0p2_0p2_0p2_R10_10_10_ISCSstrip_OSCSstrip_Bbend_circular_bend_circular_bend_circular_RCSstrip_strip_strip
 settings:
   bends:
   - bend_circular
   - bend_circular
   - bend_circular
-  function_name: ring_crow
   gaps:
   - 0.2
   - 0.2
   - 0.2
   - 0.2
-  input_straight_cross_section: xs_sc
-  output_straight_cross_section: xs_sc
+  input_straight_cross_section: strip
+  output_straight_cross_section: strip
   radius:
   - 10.0
   - 10.0
   - 10.0
   ring_cross_sections:
-  - xs_sc
-  - xs_sc
-  - xs_sc
+  - strip
+  - strip
+  - strip

@@ -9,7 +9,7 @@ settings:
   columns: 3
   component: pad
   component_port_name: e4
-  cross_section: xs_sc
+  cross_section: strip
   end_straight_length: 40.0
   pitch: 150.0
   start_straight_length: 5.0

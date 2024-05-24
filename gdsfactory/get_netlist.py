@@ -38,7 +38,6 @@ def get_default_connection_validators():
 
 
 def get_instance_name_from_alias(
-    component: Component,
     reference: ComponentReference,
 ) -> str:
     """Returns the instance name from the label.
@@ -46,7 +45,6 @@ def get_instance_name_from_alias(
     If no label returns to instanceName_x_y.
 
     Args:
-        component: with labels.
         reference: reference that needs naming.
     """
     return reference.name
@@ -70,8 +68,8 @@ def get_instance_name_from_label(
 
     layer_label = get_layer(layer_label)
 
-    x = snap_to_grid(reference.x)
-    y = snap_to_grid(reference.y)
+    x = snap_to_grid(reference.d.x)
+    y = snap_to_grid(reference.d.y)
     labels = component.labels
 
     # default instance name follows component.aliases
@@ -79,8 +77,8 @@ def get_instance_name_from_label(
 
     # try to get the instance name from a label
     for label in labels:
-        xl = snap_to_grid(label.position[0])
-        yl = snap_to_grid(label.position[1])
+        xl = snap_to_grid(label.d.position[0])
+        yl = snap_to_grid(label.d.position[1])
         if x == xl and y == yl and label.layer == layer_label[0]:
             # print(label.text, xl, yl, x, y)
             return label.text
@@ -90,16 +88,22 @@ def get_instance_name_from_label(
 
 def get_netlist_yaml(
     component: Component,
-    full_settings: bool = False,
     tolerance: int = 5,
     exclude_port_types: list | None = None,
     **kwargs,
 ) -> str:
-    """Returns instances, connections and placements yaml string content."""
+    """Returns instances, connections and placements yaml string content.
+
+    Args:
+        component: to extract netlist.
+        tolerance: tolerance in grid_factor to consider two ports connected.
+        exclude_port_types: optional list of port types to exclude from netlisting.
+
+    """
+
     return omegaconf.OmegaConf.to_yaml(
         get_netlist(
             component=component,
-            full_settings=full_settings,
             tolerance=tolerance,
             exclude_port_types=exclude_port_types,
             **kwargs,
@@ -113,6 +117,7 @@ def get_netlist(
     exclude_port_types: list[str] | tuple[str] | None = ("placement",),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = False,
+    connection_error_types: dict[str, list[str]] | None = None,
 ) -> dict[str, Any]:
     """From Component returns instances, connections and placements dict.
 
@@ -125,7 +130,7 @@ def get_netlist(
     warnings collected during netlisting are reported back into the netlist.
     These include warnings about mismatched port widths, orientations, shear angles, excessive offsets, etc.
     You can also configure warning types which should throw an error when encountered
-    by modifying DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.
+    by modifying connection_error_types.
     Validators, which will produce warnings for each port type,
     can be overridden with DEFAULT_CONNECTION_VALIDATORS
     A key difference in this algorithm is that we group each port type independently.
@@ -171,13 +176,10 @@ def get_netlist(
 
     for reference in references:
         c = reference.cell
-        center = reference.center
+        center = reference.d.center
         x = center.x
         y = center.y
-        reference_name = get_instance_name(
-            component,
-            reference,
-        )
+        reference_name = get_instance_name(reference)
         if (
             isinstance(reference, ComponentReference)
             and hasattr(reference, "columns")
@@ -196,10 +198,10 @@ def get_netlist(
 
         # Prefer name from settings over c.name
         if c.settings:
-            settings = c.settings
+            settings = c.settings.model_dump()
 
             instance.update(
-                component=getattr(c.settings, "function_name", c.name),
+                component=c.function_name,
                 settings=clean_value_json(settings),
             )
 
@@ -207,7 +209,7 @@ def get_netlist(
         placements[reference_name] = {
             "x": x,
             "y": y,
-            "rotation": reference.dtrans.angle * 90 or 0,
+            "rotation": reference.dcplx_trans.angle,
             "mirror": reference.dtrans.mirror,
         }
         if is_array:
@@ -221,8 +223,8 @@ def get_netlist(
                     placements[reference_name] = {
                         "x": xj,
                         "y": yi,
-                        "rotation": int(reference.rotation or 0),
-                        "mirror": reference.x_reflection or 0,
+                        "rotation": reference.dcplx_trans.angle,
+                        "mirror": reference.dcplx_trans.mirror,
                     }
                     for parent_port_name in parent_ports:
                         top_name = f"{parent_port_name}_{i + 1}_{j + 1}"
@@ -237,10 +239,7 @@ def get_netlist(
         else:
             # lower level ports
             for port in reference.ports:
-                reference_name = get_instance_name(
-                    component,
-                    reference,
-                )
+                reference_name = get_instance_name(reference)
                 src = f"{reference_name},{port.name}"
                 name2port[src] = port
                 ports_by_type[port.port_type].append(src)
@@ -261,6 +260,7 @@ def get_netlist(
             port_type,
             tolerance=tolerance,
             allow_multiple=allow_multiple,
+            connection_error_types=connection_error_types,
         )
         if warnings_t:
             warnings[port_type] = warnings_t
@@ -298,6 +298,7 @@ def extract_connections(
     tolerance: int = 5,
     validators: dict[str, Callable] | None = None,
     allow_multiple: bool = False,
+    connection_error_types: dict[str, list[str]] | None = None,
 ):
     if validators is None:
         validators = DEFAULT_CONNECTION_VALIDATORS
@@ -310,6 +311,7 @@ def extract_connections(
         tolerance=tolerance,
         connection_validator=validator,
         allow_multiple=allow_multiple,
+        connection_error_types=connection_error_types,
     )
 
 
@@ -321,12 +323,27 @@ def _extract_connections_two_sweep(
     tolerance: int,
     raise_error_for_warnings: list[str] | None = None,
     allow_multiple: bool = False,
+    connection_error_types: dict[str, list[str]] | None = None,
 ):
+    """Extracts connections between ports.
+
+    Args:
+        port_names: list of port names.
+        ports: dict of port names to Port objects.
+        port_type: type of port.
+        connection_validator: function to validate connections.
+        tolerance: tolerance in grid_factor to consider two ports connected.
+        raise_error_for_warnings: list of warning types to raise an error for.
+        allow_multiple: False to raise an error if more than two ports share the same connection. \
+
+    """
+
+    if connection_error_types is None:
+        connection_error_types = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES
+
     warnings = defaultdict(list)
     if raise_error_for_warnings is None:
-        raise_error_for_warnings = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.get(
-            port_type, []
-        )
+        raise_error_for_warnings = connection_error_types.get(port_type, [])
 
     unconnected_port_names = list(port_names)
     if tolerance < 0:
@@ -523,8 +540,7 @@ def difference_between_angles(angle2: float, angle1: float) -> float:
 
 
 def _get_references_to_netlist(component: Component) -> list[ComponentReference]:
-    references = component.references
-    return references
+    return component.insts
 
 
 def get_netlist_recursive(
@@ -574,7 +590,7 @@ def get_netlist_recursive(
             child_references = _get_references_to_netlist(ref.cell)
 
             if child_references:
-                inst_name = get_instance_name(component, ref)
+                inst_name = get_instance_name(ref)
                 netlist_dict = {"component": f"{rcell.name}{component_suffix}"}
                 if hasattr(rcell, "settings"):
                     netlist_dict.update(settings=rcell.settings)

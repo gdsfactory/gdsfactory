@@ -22,7 +22,7 @@ LINE_LENGTH = 420.0
 def cdsem_straight(
     widths: tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
     length: float = LINE_LENGTH,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     text: ComponentFactory | None = text_rectangular_mini,
     spacing: float | None = 7.0,
     positions: tuple[float, ...] | None = None,

@@ -2,11 +2,10 @@ info: {}
 name: grating_coupler_tree_N4_SS4_GCgrating_coupler_elliptical_WLFalse_Bbend_euler_FL0
 settings:
   bend: bend_euler
-  component: straight_array_N4_S4_L10_CSxs_sc
-  component_name: straight_array_N4_S4_L10_CSxs_sc
-  cross_section: xs_sc
+  component: straight_array_N4_S4_L10_CSstrip
+  component_name: straight_array_N4_S4_L10_CSstrip
+  cross_section: strip
   fanout_length: 0.0
-  function_name: grating_coupler_tree
   gc_port_name: o1
   grating_coupler: grating_coupler_elliptical
   n: 4

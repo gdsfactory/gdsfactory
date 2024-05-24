@@ -11,7 +11,7 @@ MANHATTAN_ANGLES = [0, 90, 180, 270]
 
 @gf.cell
 def port_bank(
-    count: int = 4, spacing: float = 3.0, cross_section: CrossSectionSpec = "xs_sc"
+    count: int = 4, spacing: float = 3.0, cross_section: CrossSectionSpec = "strip"
 ) -> gf.Component:
     """Create a bank of ports.
 
@@ -67,7 +67,6 @@ def make_bundle(
     gf.routing.route_bundle(
         c, ports1, ports2, sort_ports=sort_ports, enforce_port_ordering=False
     )
-    c.show()
 
 
 @pytest.mark.parametrize("angle", MANHATTAN_ANGLES)

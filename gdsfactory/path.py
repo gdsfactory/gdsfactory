@@ -1565,7 +1565,7 @@ if __name__ == "__main__":
     # )
     # s1 = gf.Section(width=3, offset=0, layer=(3, 0), name="slab")
     # x1 = gf.CrossSection(sections=(s0, s1))
-    # x1 = gf.cross_section.xs_rc
+    # x1 = gf.cross_section.rib
 
     # layer = (1, 0)
     # s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")

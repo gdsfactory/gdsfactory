@@ -16,7 +16,7 @@ def taper(
     width2: float | None = None,
     port: Port | None = None,
     with_two_ports: bool = True,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     port_names: tuple | None = ("o1", "o2"),
     port_types: tuple | None = ("optical", "optical"),
     with_bbox: bool = True,
@@ -124,7 +124,7 @@ def taper_strip_to_ridge(
     w_slab2: float = 6.0,
     layer_wg: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB90",
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     use_slab_port: bool = False,
     **kwargs,
 ) -> Component:
@@ -256,10 +256,10 @@ taper_sc_nc = partial(
 if __name__ == "__main__":
     # c = taper_strip_to_ridge_trenches()
     # c = taper_strip_to_ridge()
-    # c = taper(width1=1.5, width2=1, cross_section="xs_rc")
+    # c = taper(width1=1.5, width2=1, cross_section="rib")
     # c = taper_sc_nc()
-    # c = taper(cross_section="xs_rc")
-    # c = taper(length=1, width1=0.54, width2=10, cross_section="xs_sc")
+    # c = taper(cross_section="rib")
+    # c = taper(length=1, width1=0.54, width2=10, cross_section="strip")
     # c = taper_strip_to_ridge()
     c = taper_sc_nc()
     c.pprint_ports()

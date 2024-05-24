@@ -13,7 +13,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def ring_crow_couplers(
     radius: tuple[float, ...] = (10.0,) * 3,
     bends: list[ComponentSpec] = (bend_circular,) * 3,
-    ring_cross_sections: list[CrossSectionSpec] = ("xs_sc",) * 3,
+    ring_cross_sections: list[CrossSectionSpec] = ("strip",) * 3,
     couplers: list[ComponentSpec] = (coupler,) * 4,
 ) -> Component:
     """Coupled ring resonators with coupler components between gaps.

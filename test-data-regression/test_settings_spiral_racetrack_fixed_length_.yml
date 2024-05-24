@@ -1,12 +1,11 @@
 info:
   length: 1000.0
   straight_length: 67.542
-name: spiral_racetrack_fixed_length_L1000_IOPS150_NSS8_MR5_MS5_SFstraight_BFbend_euler_BSFbend_s_CSxs_sc_CSSNone_NBPNone_WIPFalse
+name: spiral_racetrack_fixed_length_L1000_IOPS150_NSS8_MR5_MS5_SFstraight_BFbend_euler_BSFbend_s_CSstrip_CSSNone_NBPNone_WIPFalse
 settings:
   bend_factory: bend_euler
   bend_s_factory: bend_s
-  cross_section: xs_sc
-  function_name: spiral_racetrack_fixed_length
+  cross_section: strip
   in_out_port_spacing: 150
   length: 1000
   min_radius: 5

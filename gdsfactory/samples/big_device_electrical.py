@@ -14,7 +14,7 @@ def big_device(
     nports: int = 16,
     spacing: float = 15.0,
     port_type: str = "electrical",
-    cross_section: CrossSectionSpec = "xs_metal_routing",
+    cross_section: CrossSectionSpec = "metal_routing",
 ) -> Component:
     """Big component with N ports on each side.
 

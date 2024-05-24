@@ -12,13 +12,13 @@ cell_settings:
         function: straight
         module: gdsfactory.components.straight
         settings:
-          cross_section: xs_sc_no_pins
+          cross_section: strip_no_pins
           decorator:
             function: add_pins_siepic
           length: 10.0
           npoints: 2
       component_name: null
-      cross_section: xs_sc
+      cross_section: strip
       fiber_spacing: 50
       gc_port_name: o1
       get_input_label_text_function:
@@ -55,9 +55,9 @@ cell_settings:
   length: 10.0
   recenter: false
   route_info_length: 10.0
-  route_info_type: xs_sc
+  route_info_type: strip
   route_info_weight: 10.0
-  route_info_xs_sc_length: 10.0
+  route_info_strip_length: 10.0
   width: 0.5
 doe: null
 measurement: null

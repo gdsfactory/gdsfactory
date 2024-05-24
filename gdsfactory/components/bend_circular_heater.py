@@ -16,7 +16,7 @@ def bend_circular_heater(
     heater_to_wg_distance: float = 1.2,
     heater_width: float = 0.5,
     layer_heater: LayerSpec = "HEATER",
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
 ) -> Component:
     """Creates an arc of arclength `theta` starting at angle `start_angle`.
@@ -65,6 +65,6 @@ def bend_circular_heater(
 
 
 if __name__ == "__main__":
-    c = bend_circular_heater(heater_width=1, cross_section="xs_rc")
+    c = bend_circular_heater(heater_width=1, cross_section="rib")
     print(c.ports)
     c.show()

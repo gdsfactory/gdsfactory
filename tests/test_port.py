@@ -31,7 +31,6 @@ def test_get_ports_sort_clockwise() -> None:
     nxn = gf.components.nxn(west=2, north=2, east=2, south=2)
     ref = c << nxn
     p = gf.port.get_ports_list(ref, sort_ports=True, clockwise=True)
-    gf.port.pprint_ports(p)
     p1 = p[0]
     p8 = p[-1]
 

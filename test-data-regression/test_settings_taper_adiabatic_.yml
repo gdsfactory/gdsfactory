@@ -1,9 +1,8 @@
 info: {}
-name: taper_adiabatic_W0p5_W5_L0_NWneff_TE1550SOI_220nm_A1_W1p55_N200_CSxs_sc
+name: taper_adiabatic_W0p5_W5_L0_NWneff_TE1550SOI_220nm_A1_W1p55_N200_CSstrip
 settings:
   alpha: 1
-  cross_section: xs_sc
-  function_name: taper_adiabatic
+  cross_section: strip
   length: 0
   neff_w: neff_TE1550SOI_220nm
   npoints: 200

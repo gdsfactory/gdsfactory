@@ -12,7 +12,7 @@ def coupler_bent_half(
     width2: float = 0.400,
     length_straight: float = 10,
     length_straight_exit: float = 18,
-    cross_section: str = "xs_sc",
+    cross_section: str = "strip",
 ) -> gf.Component:
     """Returns Broadband SOI curved / straight directional coupler.
 
@@ -85,7 +85,7 @@ def coupler_bent(
     width1: float = 0.400,
     width2: float = 0.400,
     length_straight: float = 10,
-    cross_section: str = "xs_sc",
+    cross_section: str = "strip",
 ) -> gf.Component:
     """Returns Broadband SOI curved / straight directional coupler.
     based on: https://doi.org/10.1038/s41598-017-07618-6

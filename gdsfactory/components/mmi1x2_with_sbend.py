@@ -22,7 +22,7 @@ def mmi_widths(t):
 def mmi1x2_with_sbend(
     with_sbend: bool = True,
     s_bend: ComponentFactory = bend_s,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Returns 1x2 splitter for Cband.
 

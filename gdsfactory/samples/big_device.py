@@ -15,7 +15,7 @@ def big_device(
     spacing: float = 15.0,
     layer: tuple[int, int] = (1, 0),
     wg_width: float = 0.5,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Big component with N ports on each side.
 

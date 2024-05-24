@@ -1,11 +1,10 @@
 info: {}
-name: coupler_ring_G0p2_R5_LX4_Ccoupler90_Bbend_euler_CScoupler_straight_CSxs_sc_CSBNone_LE3
+name: coupler_ring_G0p2_R5_LX4_Ccoupler90_Bbend_euler_CScoupler_straight_CSstrip_CSBNone_LE3
 settings:
   bend: bend_euler
   coupler90: coupler90
   coupler_straight: coupler_straight
-  cross_section: xs_sc
-  function_name: coupler_ring
+  cross_section: strip
   gap: 0.2
   length_extension: 3
   length_x: 4.0

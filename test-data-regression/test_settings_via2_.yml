@@ -8,7 +8,6 @@ name: via_S0p7_0p7_S2_2_GNone_E1_LVIA2_BLNone_BO0
 settings:
   bbox_offset: 0
   enclosure: 1.0
-  function_name: via
   layer: VIA2
   size:
   - 0.7

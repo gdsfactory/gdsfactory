@@ -19,7 +19,7 @@ text_rectangular_mini = partial(text_rectangular, size=1)
 def cdsem_coupler(
     length: float = 420.0,
     gaps: tuple[float, ...] = (0.15, 0.2, 0.25),
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     text: ComponentFactory | None = text_rectangular_mini,
     spacing: float | None = 7.0,
     positions: tuple[float, ...] | None = None,
@@ -60,6 +60,6 @@ def cdsem_coupler(
 
 
 if __name__ == "__main__":
-    # c = cdsem_coupler(cross_section="xs_rc_with_trenches")
-    c = cdsem_coupler(cross_section="xs_sc")
+    # c = cdsem_coupler(cross_section="rib_with_trenches")
+    c = cdsem_coupler(cross_section="strip")
     c.show()

@@ -13,7 +13,7 @@ def coupler_asymmetric(
     gap: float = 0.234,
     dy: float = 2.5,
     dx: float = 10.0,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Bend coupled to straight waveguide.
 

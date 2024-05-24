@@ -28,22 +28,22 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section: xs_sc
+    cross_section: strip
     crossing:
       function: crossing
     crossing45:
       function: crossing45
       settings:
-        cross_section: xs_sc
+        cross_section: strip
     direction: top
   full:
-    cross_section: xs_sc
+    cross_section: strip
     crossing:
       function: crossing
     crossing45:
       function: crossing45
       settings:
-        cross_section: xs_sc
+        cross_section: strip
     direction: top
   function_name: compensation_path
   info:

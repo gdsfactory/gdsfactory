@@ -1,3 +1,4 @@
+# type: ignore
 from __future__ import annotations
 
 from functools import partial
@@ -98,17 +99,20 @@ def test_connect_bundle_udirect(
 
     c = Component()
     routes = gf.routing.route_bundle(
-        c, ports1, ports2, radius=10.0, enforce_port_ordering=False, sort_ports=True
+        c,
+        ports1,
+        ports2,
+        radius=10.0,
+        enforce_port_ordering=False,
+        sort_ports=True,
+        separation=10,
     )
-    lengths = {}
-    for i, route in enumerate(routes):
-        lengths[i] = route.length
-
+    lengths = {i: route.length for i, route in enumerate(routes)}
     if check:
         data_regression.check(lengths)
     return c
 
 
 if __name__ == "__main__":
-    c = test_connect_bundle_udirect()
+    c = test_connect_bundle_udirect(None, False)
     c.show()

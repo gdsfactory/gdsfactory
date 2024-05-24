@@ -2,7 +2,6 @@ info: {}
 name: taper_parabolic_L20_W0p5_W5_E0p5_N100_LWG
 settings:
   exp: 0.5
-  function_name: taper_parabolic
   layer: WG
   length: 20
   npoints: 100

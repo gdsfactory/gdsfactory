@@ -1,7 +1,6 @@
 info: {}
 name: regular_polygon_S6_SL10_LWG_PTplacement
 settings:
-  function_name: regular_polygon
   layer: WG
   port_type: placement
   side_length: 10

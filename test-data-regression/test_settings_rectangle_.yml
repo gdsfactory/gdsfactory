@@ -2,7 +2,6 @@ info: {}
 name: rectangle_S4_2_LWG_CFalse_PTelectrical_PO180_90_0_m90
 settings:
   centered: false
-  function_name: rectangle
   layer: WG
   port_orientations:
   - 180

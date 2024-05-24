@@ -12,7 +12,3 @@ def test_no_effect_on_original_components():
         exclude_port_types="optical",
     )
     assert passive_mzi_phase_shifter_netlist_electrical is not None
-
-
-if __name__ == "__main__":
-    test_no_effect_on_original_components()

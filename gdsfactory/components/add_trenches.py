@@ -14,7 +14,7 @@ def add_trenches(
     layer_component: LayerSpec = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
     width_trench: float = 2.0,
-    cross_section: CrossSectionSpec = "xs_rc_with_trenches",
+    cross_section: CrossSectionSpec = "rib_with_trenches",
     top: float | None = None,
     bot: float | None = None,
     right: float | None = 0,

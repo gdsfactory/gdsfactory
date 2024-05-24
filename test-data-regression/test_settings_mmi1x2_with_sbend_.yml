@@ -1,7 +1,6 @@
 info: {}
-name: mmi1x2_with_sbend_WSTrue_SBbend_s_CSxs_sc
+name: mmi1x2_with_sbend_WSTrue_SBbend_s_CSstrip
 settings:
-  cross_section: xs_sc
-  function_name: mmi1x2_with_sbend
+  cross_section: strip
   s_bend: bend_s
   with_sbend: true

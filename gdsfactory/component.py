@@ -402,9 +402,7 @@ class Component(kf.KCell):
         for instance in instances:
             self._kdb_cell.insert(instance._instance)
 
-    def get_polygons(
-        self, merge: bool = False
-    ) -> dict[tuple[int, int], list[kf.kdb.Polygon]]:
+    def get_polygons(self, merge: bool = False) -> dict[int, list[kf.kdb.Polygon]]:
         """Returns a dict of Polygons per layer.
 
         Args:
@@ -420,8 +418,7 @@ class Component(kf.KCell):
             if merge:
                 r.merge()
             for p in r.each():
-                layer_tuple = (layer.layer, layer.datatype)
-                polygons[layer_tuple].append(p)
+                polygons[layer_index].append(p)
         return polygons
 
     def get_polygons_points(
@@ -696,11 +693,20 @@ class Component(kf.KCell):
             exclude_layers=exclude_layers,
         )
 
-    def get_netlist(self) -> dict[str, Any]:
+    def get_netlist(self, **kwargs) -> dict[str, Any]:
         """Returns a netlist for circuit simulation."""
         from gdsfactory.get_netlist import get_netlist
 
-        return get_netlist(self)
+        return get_netlist(self, **kwargs)
+
+    def write_netlist(self, filepath: str, **kwargs) -> None:
+        """Write netlist in YAML."""
+        from omegaconf import OmegaConf
+
+        netlist = self.get_netlist(**kwargs)
+        yaml_component = OmegaConf.to_yaml(netlist)
+        filepath = pathlib.Path(filepath)
+        filepath.write_text(yaml_component)
 
     def plot_netlist(
         self, with_labels: bool = True, font_weight: str = "normal", **kwargs
@@ -867,8 +873,8 @@ def container(component, function, **kwargs) -> Component:
     component = gf.get_component(component)
     c = Component()
     cref = c << component
-    function(c, **kwargs)
-    c.ports = cref.ports
+    c.add_ports(cref.ports)
+    function(component=c, **kwargs)
     c.copy_child_info(component)
     return c
 
@@ -877,8 +883,8 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c = gf.Component()
-    # wg1 = c << gf.c.straight(length=10, cross_section="xs_rc")
-    # wg2 = c << gf.c.straight(length=5, cross_section="xs_rc")
+    # wg1 = c << gf.c.straight(length=10, cross_section="rib")
+    # wg2 = c << gf.c.straight(length=5, cross_section="rib")
     # wg2.connect("o1", wg1["o2"])
     # wg2.d.movex(5)
     # p = c.get_polygons()
@@ -889,7 +895,7 @@ if __name__ == "__main__":
     # b1 = gf.components.circle(radius=10)
     # b2 = gf.components.circle(radius=11)
 
-    # ref = c << gf.c.bend_euler(cross_section="xs_rc")
+    # ref = c << gf.c.bend_euler(cross_section="rib")
     # c.add_ports(ref.ports)
     # p = c.get_ports_list(sort_ports=True)
     # print(c.get_ports_list(sort_ports=True))

@@ -36,6 +36,7 @@ def route_fiber_array(
     fanout_length: float | None = None,
     max_y0_optical: None = None,
     with_loopback: bool = True,
+    with_loopback_inside: bool = True,
     straight_separation: float = 6.0,
     straight_to_grating_spacing: float = 5.0,
     nb_optical_ports_lines: int = 1,
@@ -255,6 +256,7 @@ def route_fiber_array(
         port_names=port_names,
         cross_section=cross_section,
         port_type=port_type,
+        allow_width_mismatch=allow_width_mismatch,
     )
     to_route = c.ports
 
@@ -316,6 +318,7 @@ def route_fiber_array(
             sort_ports=True,
             enforce_port_ordering=False,
             allow_width_mismatch=allow_width_mismatch,
+            taper=taper,
             # bboxes=[component_with_south_routes_bbox]
         )
         fiber_ports = [gc.ports[gc_port_name_fiber] for gc in io_gratings]
@@ -339,6 +342,7 @@ def route_fiber_array(
                 sort_ports=True,
                 enforce_port_ordering=False,
                 allow_width_mismatch=allow_width_mismatch,
+                taper=taper,
                 # bboxes=[component_with_south_routes_bbox]
             )
             del to_route[n0 - dn : n0 + dn]
@@ -371,6 +375,7 @@ def route_fiber_array(
             port0,
             port1,
             bend90_radius=radius_dbu,
+            inside=with_loopback_inside,
             d_loop=round(straight_to_grating_spacing / c.kcl.dbu)
             + radius_dbu
             + gca1.ysize,
@@ -384,6 +389,7 @@ def route_fiber_array(
             straight=straight,
             bend=bend90,
             cross_section=cross_section,
+            taper=taper,
         )
         port0 = gca1[gc_port_name_fiber]
         port1 = gca2[gc_port_name_fiber]

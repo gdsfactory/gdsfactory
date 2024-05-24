@@ -23,7 +23,7 @@ def add_fiber_array(
     gc_port_name: str = "o1",
     component_name: str | None = None,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     taper: ComponentSpec | None = None,
     **kwargs,
 ) -> Component:

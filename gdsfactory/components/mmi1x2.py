@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -15,9 +15,9 @@ def mmi1x2(
     length_mmi: float = 5.5,
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
-    taper: ComponentFactory = taper_function,
-    straight: ComponentFactory = straight_function,
-    cross_section: CrossSectionSpec = "xs_sc",
+    taper: ComponentSpec = taper_function,
+    straight: ComponentSpec = straight_function,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     r"""1x2 MultiMode Interferometer (MMI).
@@ -60,7 +60,8 @@ def mmi1x2(
     xs_mmi = x.copy(width=width_mmi)
     width = width or x.width
 
-    _taper = taper(
+    _taper = gf.get_component(
+        taper,
         length=length_taper,
         width1=width,
         width2=width_taper,
@@ -68,7 +69,7 @@ def mmi1x2(
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    _ = c << straight(length=length_mmi, cross_section=xs_mmi)
+    _ = c << gf.get_component(straight, length=length_mmi, cross_section=xs_mmi)
 
     ports = [
         gf.Port(
@@ -108,5 +109,5 @@ def mmi1x2(
 
 
 if __name__ == "__main__":
-    c = mmi1x2(cross_section="xs_rc")
+    c = mmi1x2(cross_section="rib")
     c.show()

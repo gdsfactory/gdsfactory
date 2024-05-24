@@ -4,7 +4,7 @@ instances:
     component: mmi1x2
     info: {}
     settings:
-      cross_section: xs_sc
+      cross_section: strip
       gap_mmi: 0.25
       length_mmi: 10
       length_taper: 10.0
@@ -17,7 +17,7 @@ instances:
     component: mmi1x2
     info: {}
     settings:
-      cross_section: xs_sc
+      cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5
       length_taper: 10.0

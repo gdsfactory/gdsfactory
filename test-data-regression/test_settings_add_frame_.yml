@@ -2,7 +2,6 @@ info: {}
 name: add_frame_Crectangle_W10_S10_LWG
 settings:
   component: rectangle
-  function_name: add_frame
   layer: WG
   spacing: 10.0
   width: 10.0

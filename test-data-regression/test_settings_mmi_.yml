@@ -1,8 +1,7 @@
 info: {}
-name: mmi_I1_O4_WNone_WT1_LT10_LM5p5_WM5_GIT0p25_GOT0p25_Ttaper_Sstraight_CSxs_sc_IPNone_OPNone
+name: mmi_I1_O4_WNone_WT1_LT10_LM5p5_WM5_GIT0p25_GOT0p25_Ttaper_Sstraight_CSstrip_IPNone_OPNone
 settings:
-  cross_section: xs_sc
-  function_name: mmi
+  cross_section: strip
   gap_input_tapers: 0.25
   gap_output_tapers: 0.25
   inputs: 1

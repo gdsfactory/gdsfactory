@@ -3,7 +3,6 @@ name: straight_heater_doped_rib_L320_N3_CSFcross_section_Mgdsfactorypcross_secti
 settings:
   cross_section: Fcross_section_Mgdsfactorypcross_section_SR10_RM5_Sslab
   cross_section_heater: rib_heater_doped
-  function_name: straight_heater_doped_rib
   heater_gap: 0.8
   heater_width: 2.0
   length: 320.0

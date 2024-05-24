@@ -12,7 +12,7 @@ def coupler_straight_asymmetric(
     gap: float = 0.27,
     width_top: float = 0.5,
     width_bot: float = 1,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Coupler with two parallel straights of different widths.
 

@@ -36,7 +36,7 @@ via_stack = partial(
 def straight_heater_meander_doped(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.typings.CrossSectionSpec = "xs_sc",
+    cross_section: gf.typings.CrossSectionSpec = "strip",
     heater_width: float = 1.5,
     extension_length: float = 15.0,
     layers_doping: LayerSpecs = ("P", "PP", "PPP"),

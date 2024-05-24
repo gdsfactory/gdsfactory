@@ -17,7 +17,7 @@ def fanout2x2(
     bend_length: float | None = None,
     npoints: int = 101,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     """Returns component with Sbend fanout routes.

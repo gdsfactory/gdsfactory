@@ -380,6 +380,7 @@ class CrossSection(BaseModel):
 
 
 CrossSectionSpec = CrossSection | str | dict[str, Any] | Callable[..., CrossSection]
+CrossSectionFactory = Callable[..., CrossSection]
 ConductorConductorName = tuple[str, str]
 ConductorViaConductorName = tuple[str, str, str] | tuple[str, str]
 ConnectivitySpec = ConductorConductorName | ConductorViaConductorName
@@ -557,9 +558,8 @@ def cross_section(
 radius_nitride = 20
 radius_rib = 20
 
-strip = partial(cross_section, radius=10, radius_min=5)
-
-rib = partial(
+strip = strip = partial(cross_section, radius=10, radius_min=5)
+rib = rib = partial(
     strip,
     sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),
     radius=radius_rib,
@@ -2346,7 +2346,7 @@ def pn_ge_detector_si_contacts(
 
 def get_cross_sections(
     modules: Iterable[ModuleType] | ModuleType, verbose: bool = False
-) -> dict[str, CrossSection]:
+) -> dict[str, CrossSectionFactory]:
     """Returns cross_sections from a module or list of modules.
 
     Args:
@@ -2358,8 +2358,6 @@ def get_cross_sections(
     xs = {}
     for module in modules:
         for t in getmembers(module):
-            if isinstance(t[1], CrossSection):
-                xs[t[0]] = t[1]
             if callable(t[1]) and not t[0].startswith("_"):
                 try:
                     r = signature(
@@ -2374,41 +2372,6 @@ def get_cross_sections(
                         logger.warn(f"error in {t[0]}: {e}")
     return xs
 
-
-xs_sc = strip()
-
-xs_rc = rib(bbox_layers=("DEVREC",), bbox_offsets=(3,))
-xs_rc2 = rib2()
-xs_rc_bbox = rib_bbox()
-
-xs_sc_rc_tip = strip_rib_tip()
-xs_sc_nc_tip = strip_nitride_tip()
-xs_nc_sc_tip = strip_nitride_silicon_tip()
-xs_sc_heater_metal = strip_heater_metal()
-xs_sc_heater_metal_undercut = strip_heater_metal_undercut()
-xs_slot = slot()
-xs_nc = nitride()
-
-xs_heater_metal = heater_metal()
-xs_sc_heater_doped = strip_heater_doped()
-xs_sc_heater_doped_via_stack = strip_heater_doped_via_stack()
-
-xs_rc_heater_doped = rib_heater_doped()
-xs_rc_heater_doped_via_stack = rib_heater_doped_via_stack()
-xs_pn_ge = pn_ge_detector_si_contacts()
-
-xs_m1 = metal1()
-xs_m2 = metal2()
-xs_m3 = metal3()
-xs_m3_bend = metal3(radius=10)
-xs_metal_routing = xs_m3
-xs_rc_with_trenches = rib_with_trenches()
-
-xs_pn = pn()
-xs_pin = pin()
-xs_npp = npp()
-xs_pn_with_trenches = pn_with_trenches()
-xs_pn_with_trenches_asymmetric = pn_with_trenches_asymmetric()
 
 cross_sections = get_cross_sections(sys.modules[__name__])
 

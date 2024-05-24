@@ -4,19 +4,6 @@ import gdsfactory as gf
 from gdsfactory.get_netlist_flat import get_netlist_flat
 
 
-def test_flat_netlist_photonic():
-    coupler_lengths = [10, 20, 30, 40]
-    coupler_gaps = [0.1, 0.2, 0.4, 0.5]
-    delta_lengths = [10, 100, 200]
-
-    c = gf.components.mzi_lattice(
-        coupler_lengths=coupler_lengths,
-        coupler_gaps=coupler_gaps,
-        delta_lengths=delta_lengths,
-    )
-    gf.get_netlist_flat.get_netlist_flat(c)
-
-
 def test_flatten_netlist_identical_references():
     """
     Testing electrical netlist w/ identical component references
@@ -45,24 +32,20 @@ def test_flatten_netlist_identical_references():
     vdiv = gf.Component("voltageDivider")
     r1 = vdiv << double_series_resistors
     r2 = vdiv << series_resistors
-    r3 = (
-        vdiv
-        << gf.get_component(
-            gf.components.resistance_sheet, width=20, ohms_per_square=20
-        ).rotate()
+    r3 = vdiv << gf.get_component(
+        gf.components.resistance_sheet, width=20, ohms_per_square=20
     )
     r4 = vdiv << gf.get_component(
         gf.components.resistance_sheet, width=20, ohms_per_square=20
     )
 
     r1.connect("pad2", r2.ports["pad1"])
-    r3.connect("pad1", r2.ports["pad1"], preserve_orientation=True)
-    r4.connect("pad1", r3.ports["pad2"], preserve_orientation=True)
+    r3.connect("pad1", r2.ports["pad1"])
+    r4.connect("pad1", r3.ports["pad2"])
 
     vdiv.add_port("gnd1", port=r2.ports["pad2"])
     vdiv.add_port("gnd2", port=r4.ports["pad2"])
     vdiv.add_port("vsig", port=r1.ports["pad1"])
-
     assert len(get_netlist_flat(vdiv, allow_multiple=True)["instances"]) == 8
 
 

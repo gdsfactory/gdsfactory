@@ -3,7 +3,6 @@ name: straight_heater_meander_L300_S2_CSFcross_section_Mgdsfactorypcross_section
 settings:
   cross_section: Fcross_section_Mgdsfactorypcross_section_SR10_RM5
   extension_length: 15.0
-  function_name: straight_heater_meander
   heater_taper_length: 10.0
   heater_width: 2.5
   layer_heater: HEATER

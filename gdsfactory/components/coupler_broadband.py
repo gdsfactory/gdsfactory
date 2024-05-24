@@ -18,7 +18,7 @@ def coupler_broadband(
     coupler_straight: ComponentFactory = coupler_straight,
     length_coupler_straight: float = 12.4,  # optimal L_1 from the 3d fdtd analysis
     lenght_coupler_big_gap: float = 4.7,  # optimal L_2 from the 3d fdtd analysis
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     radius: float = 10.0,
 ) -> Component:
     """Returns broadband coupler component.
@@ -139,5 +139,5 @@ def coupler_broadband(
 
 
 if __name__ == "__main__":
-    c = coupler_broadband(cross_section="xs_rc")
+    c = coupler_broadband(cross_section="rib")
     c.show()

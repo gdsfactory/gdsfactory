@@ -5,27 +5,27 @@ cells:
     child: null
     default:
       add_pins: true
-      cross_section: xs_sc
+      cross_section: strip
       layer: null
       length: 10.0
       npoints: 2
       width: null
     full:
       add_pins: true
-      cross_section: xs_sc
+      cross_section: strip
       layer: null
       length: 1.234
       npoints: 2
       width: null
     function_name: straight
     info:
-      cross_section: xs_sc
+      cross_section: strip
       length: 1.234
       route_info:
         length: 1.234
-        type: xs_sc
+        type: strip
         weight: 1.234
-        xs_sc_length: 1.234
+        strip_length: 1.234
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
@@ -62,27 +62,27 @@ settings:
   child: null
   default:
     add_pins: true
-    cross_section: xs_sc
+    cross_section: strip
     layer: null
     length: 10.0
     npoints: 2
     width: null
   full:
     add_pins: true
-    cross_section: xs_sc
+    cross_section: strip
     layer: null
     length: 1.234
     npoints: 2
     width: null
   function_name: straight
   info:
-    cross_section: xs_sc
+    cross_section: strip
     length: 1.234
     route_info:
       length: 1.234
-      type: xs_sc
+      type: strip
       weight: 1.234
-      xs_sc_length: 1.234
+      strip_length: 1.234
     width: 0.5
   info_version: 2
   module: gdsfactory.components.straight

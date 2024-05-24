@@ -2,6 +2,7 @@ import pathlib
 
 import gdsfactory as gf
 from gdsfactory.export.to_stl import to_stl
+from gdsfactory.generic_tech import LAYER
 
 
 # Tests that a Component is exported into STL with a specified filepath prefix.
@@ -26,17 +27,9 @@ def test_export_scale() -> None:
 
 # Tests that a Component is exported into STL with a specified excluded layer.
 def test_export_exclude_layers() -> None:
-    component = gf.c.pad()
+    component = gf.c.pad(layer=LAYER.M3)
     filepath = "test.stl"
-    exclude_layers = [(49, 0)]
+    exclude_layers = [LAYER.M3]
     to_stl(component, filepath, exclude_layers=exclude_layers)
     filepath = "test_49_0.stl"
     assert not pathlib.Path(filepath).exists()
-
-
-if __name__ == "__main__":
-    test_export_filepath()
-    # test_export_empty_component()
-    # component = Component()
-    # filepath = 'test.stl'
-    # to_stl(component, filepath)

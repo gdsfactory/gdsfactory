@@ -5,6 +5,5 @@ settings:
   doping_layers:
   - NPP
   doping_offset: 1.0
-  function_name: terminator
   length: 50
   tapered_width: 0.2

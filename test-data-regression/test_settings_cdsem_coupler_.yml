@@ -1,8 +1,7 @@
 info: {}
-name: cdsem_coupler_L420_G0p15_0p2_0p25_CSxs_sc_TFtext_rectangular_Mgdsfactorypcomponentsptext_rectangular_SS1_S7_PNone
+name: cdsem_coupler_L420_G0p15_0p2_0p25_CSstrip_TFtext_rectangular_Mgdsfactorypcomponentsptext_rectangular_SS1_S7_PNone
 settings:
-  cross_section: xs_sc
-  function_name: cdsem_coupler
+  cross_section: strip
   gaps:
   - 0.15
   - 0.2

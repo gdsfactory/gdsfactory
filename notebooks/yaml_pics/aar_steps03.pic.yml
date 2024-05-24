@@ -40,7 +40,7 @@ routes:
             - ds: 65
               exit_angle: 90
               cross_section:  # set a custom cross-section here...
-                cross_section: xs_sc
+                cross_section: strip
                 settings:
                   width: 2.0
             - ds: 110
@@ -49,7 +49,7 @@ routes:
               exit_angle: -65
               connector: wonky  # let's reuse our wonky connector again here
               cross_section:
-                cross_section: xs_sc
+                cross_section: strip
                 settings:
                   width: 4.0
             - ds: 52

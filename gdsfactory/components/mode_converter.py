@@ -23,7 +23,7 @@ def mode_converter(
     mc_mm_width: float = 1,
     sm_width: float = 0.5,
     taper_length: float = 25,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     r"""Returns Mode converter from TE0 to TE1.
 
@@ -103,6 +103,6 @@ def mode_converter(
 
 if __name__ == "__main__":
     # c = mode_converter(bbox_offsets=(0.5,), bbox_layers=((111, 0),))
-    c = mode_converter(cross_section="xs_rc")
+    c = mode_converter(cross_section="rib")
     c.pprint_ports()
     c.show()

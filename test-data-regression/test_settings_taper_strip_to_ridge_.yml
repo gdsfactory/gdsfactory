@@ -1,9 +1,8 @@
 info:
   length: 10.0
-name: taper_strip_to_ridge_L10_W0p5_W0p5_WS0p15_WS6_LWWG_LSSLAB90_CSxs_sc_USPFalse
+name: taper_strip_to_ridge_L10_W0p5_W0p5_WS0p15_WS6_LWWG_LSSLAB90_CSstrip_USPFalse
 settings:
-  cross_section: xs_sc
-  function_name: taper_strip_to_ridge
+  cross_section: strip
   layer_slab: SLAB90
   layer_wg: WG
   length: 10.0

@@ -1,7 +1,6 @@
 info: {}
 name: text_Tabcd_S10_P0_0_Jleft_LWG
 settings:
-  function_name: text
   justify: left
   layer: WG
   position:

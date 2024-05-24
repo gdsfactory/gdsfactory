@@ -1,8 +1,7 @@
 info: {}
-name: mmi2x2_WNone_WT1_LT10_LM5p5_WM2p5_GM0p25_Ttaper_Sstraight_CSxs_sc
+name: mmi2x2_WNone_WT1_LT10_LM5p5_WM2p5_GM0p25_Ttaper_Sstraight_CSstrip
 settings:
-  cross_section: xs_sc
-  function_name: mmi2x2
+  cross_section: strip
   gap_mmi: 0.25
   length_mmi: 5.5
   length_taper: 10.0

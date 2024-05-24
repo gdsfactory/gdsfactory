@@ -1,7 +1,6 @@
 info: {}
 name: optimal_hairpin_W0p2_P0p6_L10_TR4_NP50_L1_0
 settings:
-  function_name: optimal_hairpin
   layer:
   - 1
   - 0

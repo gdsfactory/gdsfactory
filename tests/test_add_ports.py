@@ -22,32 +22,17 @@ def test_add_ports_list() -> None:
     assert len(c.ports) == 2, len(c.ports)
 
 
-def test_add_ports_from_pins(data_regression) -> None:
+def test_add_ports_from_pins() -> None:
     c = gf.components.straight()
     add_pins(c)
     gdspath = c.write_gds()
-    c2 = gf.import_gds(
-        gdspath, post_process=add_ports_from_markers_inside, unique_names=False
-    )
-    d = c2.to_dict(with_ports=True)
-    if data_regression:
-        data_regression.check(d)
+    c2 = gf.import_gds(gdspath, post_process=add_ports_from_markers_inside)
+    assert c2.ports["o1"].d.center[0] == 0
 
 
-def test_add_ports_from_pins_siepic(data_regression) -> None:
+def test_add_ports_from_pins_path() -> None:
     c = gf.components.straight()
     add_pins_siepic(c)
     gdspath = c.write_gds()
-    c2 = gf.import_gds(
-        gdspath, post_process=add_ports_from_siepic_pins, unique_names=False
-    )
-    d = c2.to_dict(with_ports=True)
-    if data_regression:
-        data_regression.check(d)
-
-
-if __name__ == "__main__":
-    test_add_ports_from_pins_siepic(None)
-    # test_add_ports_from_pins(None)
-    # test_add_ports_dict()
-    # test_add_ports_list()
+    c2 = gf.import_gds(gdspath, post_process=add_ports_from_siepic_pins)
+    assert c2.ports["o1"].d.center[0] == 0

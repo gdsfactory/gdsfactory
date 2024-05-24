@@ -14,7 +14,7 @@ def ring_single_sample(
     coupler_ring: ComponentSpec = "coupler_ring",
     straight: ComponentSpec = "straight",
     bend: ComponentSpec = "bend_euler",
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     """Single bus ring made of a ring coupler.

@@ -432,8 +432,9 @@ def add_pins_siepic(
     component: Component,
     function: Callable = add_pin_path,
     port_type: str = "optical",
-    layer_pin: LayerSpec = "PORT",
+    layer: LayerSpec = "PORT",
     pin_length: float = 10 * nm,
+    **kwargs,
 ) -> Component:
     """Add pins.
 
@@ -448,7 +449,7 @@ def add_pins_siepic(
         component: to add pins.
         function: to add pin.
         port_type: optical, electrical, ...
-        layer_pin: pin layer.
+        layer: pin layer.
         pin_length: length of the pin marker for the port.
     """
     from gdsfactory.pdk import get_component
@@ -456,14 +457,16 @@ def add_pins_siepic(
     component = get_component(component)
 
     for p in component.get_ports_list(port_type=port_type):
-        function(component=component, port=p, layer=layer_pin, pin_length=pin_length)
+        function(
+            component=component, port=p, layer=layer, pin_length=pin_length, **kwargs
+        )
 
     return component
 
 
 add_pins_siepic_optical = add_pins_siepic
 add_pins_siepic_electrical = partial(
-    add_pins_siepic, port_type="electrical", layer_pin="PORTE"
+    add_pins_siepic, port_type="electrical", layer="PORTE"
 )
 
 
@@ -480,8 +483,11 @@ def add_pins(
 
     Args:
         component: to add ports to.
+        port_type: optical, electrical, ...
+        layer: layer for the pin marker.
+        orientation: orientation for the pin marker.
+        width: width for the pin marker.
         function: to add each pin.
-        select_ports: function to select_ports.
 
     Keyword Args:
         kwargs: add pins function settings.

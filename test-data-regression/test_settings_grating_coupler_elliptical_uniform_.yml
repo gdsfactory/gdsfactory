@@ -4,10 +4,9 @@ info:
 name: grating_coupler_elliptical_uniform_NP20_P0p75_FF0p5
 settings:
   bias_gap: 0
-  cross_section: xs_sc
+  cross_section: strip
   fiber_angle: 15.0
   fill_factor: 0.5
-  function_name: grating_coupler_elliptical_uniform
   gaps:
   - 0.375
   - 0.375

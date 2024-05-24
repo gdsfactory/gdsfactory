@@ -4,7 +4,6 @@ name: cutback_bend180_CFbend_euler_Mgdsfactorypcomponentspbend_euler_SA180_Sstra
 settings:
   cols: 6
   component: Fbend_euler_Mgdsfactorypcomponentspbend_euler_SA180
-  function_name: cutback_bend180
   rows: 6
   spacing: 3.0
   straight: straight

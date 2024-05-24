@@ -13,7 +13,7 @@ def spiral(
     length: float = 100,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    cross_section: ComponentSpec = "xs_sc",
+    cross_section: ComponentSpec = "strip",
     spacing: float = 3.0,
     n_loops: int = 6,
 ) -> gf.Component:
@@ -90,5 +90,5 @@ def spiral(
 
 
 if __name__ == "__main__":
-    c = spiral(cross_section="xs_rc", length=10, spacing=3.0)
+    c = spiral(cross_section="rib", length=10, spacing=3.0)
     c.show()

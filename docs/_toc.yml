@@ -25,8 +25,6 @@ parts:
           - file: notebooks/04_components_pack
           - file: notebooks/04_routing
           - file: notebooks/04_routing_electrical
-          - file: notebooks/04_routing_non_manhattan
-          - file: notebooks/rib_strip_autotransition
           - file: notebooks/07_mask
           - file: notebooks/11_best_practices
           - file: notebooks/03_cells_autoname_and_cache
@@ -44,6 +42,9 @@ parts:
           - file: notebooks/09_pdk_import
           - file: notebooks/12_config
       - file: workflow
+      - file: migration
+        sections:
+          - file: notebooks/21_migration_guide_7_8
   - caption: Plugins
     chapters:
       - url: https://gdsfactory.github.io/gplugins/

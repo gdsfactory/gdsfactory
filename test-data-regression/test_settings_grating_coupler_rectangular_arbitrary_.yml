@@ -1,11 +1,10 @@
 info:
   polarization: te
   wavelength: 1.55
-name: grating_coupler_rectangular_arbitrary_G0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_W0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_WG11_LT150_Pte_W1p55_Ttaper_LGNone_LSNone_SXm1_SO1_FA15_CSxs_sc
+name: grating_coupler_rectangular_arbitrary_G0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_0p2_W0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_WG11_LT150_Pte_W1p55_Ttaper_LGNone_LSNone_SXm1_SO1_FA15_CSstrip
 settings:
-  cross_section: xs_sc
+  cross_section: strip
   fiber_angle: 15
-  function_name: grating_coupler_rectangular_arbitrary
   gaps:
   - 0.2
   - 0.2

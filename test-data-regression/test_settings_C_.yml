@@ -1,7 +1,6 @@
 info: {}
 name: C_W1_S10_20_LWG_PTelectrical
 settings:
-  function_name: C
   layer: WG
   port_type: electrical
   size:

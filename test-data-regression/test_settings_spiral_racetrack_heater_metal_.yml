@@ -1,12 +1,11 @@
 info: {}
-name: spiral_racetrack_heater_metal_MRNone_SL30_S2_N8_SFstraight_BFbend_euler_BSFbend_s_WCSxs_sc_HCSxs_heater_metal
+name: spiral_racetrack_heater_metal_MRNone_SL30_S2_N8_SFstraight_BFbend_euler_BSFbend_s_WCSstrip_HCSheater_metal
 settings:
   bend_factory: bend_euler
   bend_s_factory: bend_s
-  function_name: spiral_racetrack_heater_metal
-  heater_cross_section: xs_heater_metal
+  heater_cross_section: heater_metal
   num: 8
   spacing: 2
   straight_factory: straight
   straight_length: 30
-  waveguide_cross_section: xs_sc
+  waveguide_cross_section: strip

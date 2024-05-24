@@ -19,7 +19,7 @@ def coupler(
     coupler_straight: ComponentFactory = coupler_straight_function,
     dy: float = 4.0,
     dx: float = 10.0,
-    cross_section: CrossSectionSpec = "xs_sc",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     r"""Symmetric coupler.
 

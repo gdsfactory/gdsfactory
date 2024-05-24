@@ -1,7 +1,6 @@
 info: {}
 name: fiducial_squares_L1_0_S5_5_O0p14
 settings:
-  function_name: fiducial_squares
   layers:
   - - 1
     - 0

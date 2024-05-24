@@ -2,7 +2,6 @@ info: {}
 name: copy_layers_Fcross_L1_0_2_0
 settings:
   factory: cross
-  function_name: copy_layers
   layers:
   - - 1
     - 0

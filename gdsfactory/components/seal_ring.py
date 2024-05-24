@@ -6,6 +6,7 @@ import gdsfactory as gf
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.snap import snap_to_grid
+from gdsfactory.typings import ComponentFactory
 
 Float2 = tuple[float, float]
 Coordinate = tuple[Float2, Float2]
@@ -13,7 +14,7 @@ Coordinate = tuple[Float2, Float2]
 
 @gf.cell
 def seal_ring(
-    component: gf.Component | gf.Instance = "L",
+    component: gf.Component | gf.Instance | ComponentFactory = rectangle,
     seal: gf.typings.ComponentSpec = via_stack,
     width: float = 10,
     padding: float = 10.0,
@@ -37,6 +38,9 @@ def seal_ring(
         with_west: includes seal.
     """
     c = gf.Component()
+
+    component = component() if callable(component) else component
+
     bbox = component.dbbox()
     xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
 
@@ -80,8 +84,9 @@ def seal_ring(
 
 
 if __name__ == "__main__":
-    big_square = partial(rectangle, size=(1300, 2600))
-    c = gf.Component("demo")
-    c << big_square()
-    c << seal_ring(c, with_south=False)
+    # big_square = partial(rectangle, size=(1300, 2600))
+    # c = gf.Component("demo")
+    # c << big_square()
+    # c << seal_ring(c, with_south=False)
+    c = seal_ring()
     c.show()
