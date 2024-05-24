@@ -193,6 +193,11 @@ class Component(kf.KCell):
                 dcplx_trans=trans,
             )
 
+    def __getattribute__(self, __k: str) -> Any:
+        if __k in ["xmin", "xmax", "xsize", "ysize", "x", "y", "center"]:
+            return getattr(self.d, __k)
+        return super().__getattribute__(__k)
+
     def from_kcell(self) -> Component:
         """Returns a Component from a KCell."""
         kdb_copy = self._kdb_copy()
