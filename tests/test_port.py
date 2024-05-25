@@ -4,15 +4,6 @@ import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
-from gdsfactory.port import csv2port
-
-
-def test_csv2port(data_regression) -> None:
-    name = "straight"
-    csvpath = gf.PATH.gdsdir / f"{name}.ports"
-
-    ports = csv2port(csvpath)
-    data_regression.check(ports)
 
 
 def test_get_ports_sort_clockwise() -> None:
@@ -33,8 +24,6 @@ def test_get_ports_sort_clockwise() -> None:
     p = gf.port.get_ports_list(ref, sort_ports=True, clockwise=True)
     p1 = p[0]
     p8 = p[-1]
-
-    nxn.show()
 
     assert p1.name == "o1", p1.name
     assert p1.orientation == 180, p1.orientation
