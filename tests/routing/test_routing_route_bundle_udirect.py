@@ -103,7 +103,6 @@ def test_connect_bundle_udirect(
         ports1,
         ports2,
         radius=10.0,
-        enforce_port_ordering=False,
         sort_ports=True,
         separation=10,
     )

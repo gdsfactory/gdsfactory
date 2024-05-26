@@ -64,7 +64,6 @@ def test_connect_bundle_u_indirect(
         ports2,
         bend=gf.components.bend_euler,
         radius=5,
-        enforce_port_ordering=False,
         sort_ports=True,
         # separation=10
     )

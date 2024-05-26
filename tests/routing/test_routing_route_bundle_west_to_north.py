@@ -36,7 +36,6 @@ def test_route_bundle_west_to_north(
         pbports,
         ptports,
         bend=gf.components.wire_corner,
-        enforce_port_ordering=False,
         port_type="electrical",
         cross_section="metal3",
     )
