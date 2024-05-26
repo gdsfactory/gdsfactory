@@ -30,6 +30,7 @@ def grating_coupler_array(
         rotation: rotation angle for each reference.
         with_loopback: if True, adds a loopback between edge GCs. Only works for rotation = 90 for now.
         cross_section: cross_section for the routing.
+        straight_to_grating_spacing: spacing between the last grating coupler and the loopback.
         centered: if True, centers the array around the origin.
     """
     c = Component()
@@ -38,7 +39,7 @@ def grating_coupler_array(
     for i in range(n):
         gc = c << grating_coupler
         gc.d.rotate(rotation)
-        gc.d.x = i * pitch if not centered else (i - (n - 1) / 2) * pitch
+        gc.d.x = (i - (n - 1) / 2) * pitch if centered else i * pitch
         port_name_new = f"o{i}"
         c.add_port(port=gc.ports[port_name], name=port_name_new)
 
