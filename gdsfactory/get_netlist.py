@@ -337,7 +337,7 @@ def _extract_connections_two_sweep(
 
         for port_name in unconnected_port_names:
             port = ports[port_name]
-            by_xy[tuple(snap_to_grid(port.center, grid_factor=grid_size))].append(
+            by_xy[tuple(snap_to_grid(port.d.center, grid_factor=grid_size))].append(
                 port_name
             )
 
