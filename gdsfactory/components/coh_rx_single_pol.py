@@ -133,7 +133,7 @@ def coh_rx_single_pol(
         det_ports.append(det.ports["o1"])
         ports_hybrid.append(hybrid.ports[port_name])
 
-    gf.routing.route_bundle(c, ports_hybrid, det_ports, enforce_port_ordering=True)
+    gf.routing.route_bundle(c, ports_hybrid, det_ports)
 
     # --- Draw metal connections ----
     gf.routing.route_single_electrical(

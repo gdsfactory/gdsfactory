@@ -41,7 +41,6 @@ if __name__ == "__main__":
         ports1=antennas.ports.filter(orientation=180),
         ports2=ref.ports.filter(orientation=0),
         radius=5,
-        enforce_port_ordering=False,
     )
 
     c.show()

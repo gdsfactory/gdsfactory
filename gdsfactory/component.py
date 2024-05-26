@@ -736,14 +736,14 @@ class Component(kf.KCell):
         )
         return G
 
-    def over_under(self, layer: LayerSpec, distance: float = 1.0) -> None:
+    def over_under(self, layer: LayerSpec, distance: int = 1) -> None:
         """Flattens and performs over-under on a layer in the Component.
 
         For big components use tiled version.
 
         Args:
             layer: layer to perform over-under on.
-            distance: distance to perform over-under in um.
+            distance: distance to perform over-under in DBU. Defaults to 1.
         """
         from gdsfactory import get_layer
 
