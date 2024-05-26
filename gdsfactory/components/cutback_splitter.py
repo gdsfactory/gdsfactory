@@ -19,6 +19,7 @@ def cutback_splitter(
     port3: str = "o3",
     bend180: ComponentSpec = bend_euler180,
     mirror: bool = False,
+    straight: ComponentSpec = straight,
     straight_length: float | None = None,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -31,9 +32,10 @@ def cutback_splitter(
         rows: number of rows.
         port1: name of first optical port.
         port2: name of second optical port.
+        port3: name of third optical port.
         bend180: ubend.
-        straight: waveguide spec to connect both sides.
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
+        straight: waveguide spec to connect both sides.
         straight_length: length of the straight section between cutbacks.
         cross_section: specification (CrossSection, string or dict).
         kwargs: cross_section settings.
@@ -42,8 +44,8 @@ def cutback_splitter(
 
     component = gf.get_component(component)
     bendu = gf.get_component(bend180, cross_section=xs)
-    straight_component = straight(
-        length=straight_length or xs.radius * 2, cross_section=xs
+    straight_component = gf.get_component(
+        straight, length=straight_length or xs.radius * 2, cross_section=xs
     )
 
     # Define a map between symbols and (component, input port, output port)
