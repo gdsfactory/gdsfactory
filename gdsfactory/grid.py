@@ -110,6 +110,10 @@ def grid_with_text(
         spacing: between adjacent elements on the grid, can be a tuple for \
                 different distances in height and width.
         shape: x, y shape of the grid (see np.reshape). \
+        align_x: x alignment along (origin, xmin, xmax, center).
+        align_y: y alignment along (origin, ymin, ymax, center).
+        rotation: for each component in degrees.
+        mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
 
 
     .. plot::
@@ -171,7 +175,7 @@ if __name__ == "__main__":
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # c = tuple(gf.components.rectangle(size=(i, i)) for i in range(40, 66, 10))
     # c = tuple([gf.components.triangle(x=i) for i in range(1, 10)])
-    c = tuple([gf.components.rectangle(size=(i, i)) for i in range(1, 10)])
+    c = tuple(gf.components.rectangle(size=(i, i)) for i in range(1, 10))
     # print(len(c))
 
     c = grid(
