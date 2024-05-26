@@ -5,6 +5,7 @@ from functools import partial
 import jsondiff
 
 import gdsfactory as gf
+from gdsfactory.generic_tech import LAYER
 
 
 def test_waveguide_setting() -> None:
@@ -20,8 +21,8 @@ def test_settings_different() -> None:
 
 def test_transition_names() -> None:
     layer = (1, 0)
-    s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"))
-    s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"))
+    s1 = gf.Section(width=5, layer=layer, port_names=("o1", "o2"), name="core")
+    s2 = gf.Section(width=50, layer=layer, port_names=("o1", "o2"), name="core")
 
     xs1 = gf.CrossSection(sections=(s1,))
     xs2 = gf.CrossSection(sections=(s2,))
@@ -85,9 +86,11 @@ def demo_taper_cladding_offsets():
 
 def test_taper_cladding_offets():
     c = demo_taper_cladding_offsets()
-    assert len(c.get_polygons()[(1, 0)]) == 3
+    n = len(c.get_polygons()[LAYER.WG])
+    assert n == 3, n
 
 
 if __name__ == "__main__":
-    test_transition_names()
+    # test_transition_names()
     # test_copy()
+    test_taper_cladding_offets()

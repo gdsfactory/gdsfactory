@@ -49,7 +49,6 @@ if __name__ == "__main__":
         ports1=list(antennas.ports.filter(orientation=180)),
         ports2=phase_shifter_optical_ports,
         radius=5,
-        enforce_port_ordering=False,
     )
 
     c.show()

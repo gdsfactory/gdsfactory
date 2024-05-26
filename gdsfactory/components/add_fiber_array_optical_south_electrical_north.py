@@ -112,7 +112,6 @@ def add_fiber_array_optical_south_electrical_north(
         ports1=ports1,
         ports2=ports2,
         cross_section=cross_section_metal,
-        enforce_port_ordering=False,
     )
 
     c.add_ports(ports2)

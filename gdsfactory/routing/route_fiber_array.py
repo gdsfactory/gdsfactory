@@ -320,7 +320,6 @@ def route_fiber_array(
             cross_section=cross_section,
             port_type=port_type,
             sort_ports=True,
-            enforce_port_ordering=False,
             allow_width_mismatch=allow_width_mismatch,
             taper=taper,
             # bboxes=[component_with_south_routes_bbox]
@@ -344,7 +343,6 @@ def route_fiber_array(
                 cross_section=cross_section,
                 port_type=port_type,
                 sort_ports=True,
-                enforce_port_ordering=False,
                 allow_width_mismatch=allow_width_mismatch,
                 taper=taper,
                 # bboxes=[component_with_south_routes_bbox]
