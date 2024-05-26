@@ -38,7 +38,7 @@ def boolean(
     Returns: Component with polygon(s) of the boolean operations between
       the 2 input Components performed.
 
-    Notes
+    Notes:
     -----
     - 'A+B' is equivalent to 'or'.
     - 'A-B' is equivalent to 'not'.

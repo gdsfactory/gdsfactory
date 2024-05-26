@@ -38,7 +38,6 @@ def route_bundle_all_angle(
         bend_ports: tuple of ports to connect the bends.
         straight_ports: tuple of ports to connect the straights.
     """
-
     backbone = [kf.kdb.DPoint(*p) for p in backbone]
 
     return route_bundle(

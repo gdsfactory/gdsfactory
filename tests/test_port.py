@@ -7,16 +7,17 @@ import gdsfactory as gf
 
 
 def test_get_ports_sort_clockwise() -> None:
-    """.. code::
+    """Test that the ports are sorted clockwise.
 
-        3   4
-        |___|_
-    2 -|      |- 5
-       |      |
-    1 -|______|- 6
-        |   |
-        8   7
+    .. code::
 
+            3   4
+            |___|_
+        2 -|      |- 5
+           |      |
+        1 -|______|- 6
+            |   |
+            8   7
     """
     c = gf.Component()
     nxn = gf.components.nxn(west=2, north=2, east=2, south=2)
@@ -32,15 +33,17 @@ def test_get_ports_sort_clockwise() -> None:
 
 
 def test_get_ports_sort_counter_clockwise() -> None:
-    """.. code::
+    """Test that the ports are sorted counter clockwise.
 
-        4   3
-        |___|_
-    5 -|      |- 2
-       |      |
-    6 -|______|- 1
-        |   |
-        7   8
+    .. code::
+
+            4   3
+            |___|_
+        5 -|      |- 2
+           |      |
+        6 -|______|- 1
+            |   |
+            7   8
 
     """
     c = gf.Component()

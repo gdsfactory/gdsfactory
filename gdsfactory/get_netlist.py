@@ -23,7 +23,6 @@ from collections.abc import Callable
 from typing import Any
 
 import numpy as np
-import omegaconf
 
 from gdsfactory import Port
 from gdsfactory.component import Component, ComponentReference
@@ -37,9 +36,7 @@ def get_default_connection_validators():
     return {"optical": validate_optical_connection, "electrical": _null_validator}
 
 
-def get_instance_name_from_alias(
-    reference: ComponentReference,
-) -> str:
+def get_instance_name_from_alias(reference: ComponentReference) -> str:
     """Returns the instance name from the label.
 
     If no label returns to instanceName_x_y.
@@ -86,31 +83,6 @@ def get_instance_name_from_label(
     return text
 
 
-def get_netlist_yaml(
-    component: Component,
-    tolerance: int = 5,
-    exclude_port_types: list | None = None,
-    **kwargs,
-) -> str:
-    """Returns instances, connections and placements yaml string content.
-
-    Args:
-        component: to extract netlist.
-        tolerance: tolerance in grid_factor to consider two ports connected.
-        exclude_port_types: optional list of port types to exclude from netlisting.
-
-    """
-
-    return omegaconf.OmegaConf.to_yaml(
-        get_netlist(
-            component=component,
-            tolerance=tolerance,
-            exclude_port_types=exclude_port_types,
-            **kwargs,
-        )
-    )
-
-
 def get_netlist(
     component: Component,
     tolerance: int = 5,
@@ -149,6 +121,7 @@ def get_netlist(
         get_instance_name: function to get instance name.
         allow_multiple: False to raise an error if more than two ports share the same connection. \
                 if True, will return key: [value] pairs with [value] a list of all connected instances.
+        connection_error_types: optional dictionary of port types and error types to raise an error for.
 
     Returns:
         instances: Dict of instance name and settings.
@@ -334,10 +307,10 @@ def _extract_connections_two_sweep(
         connection_validator: function to validate connections.
         tolerance: tolerance in grid_factor to consider two ports connected.
         raise_error_for_warnings: list of warning types to raise an error for.
-        allow_multiple: False to raise an error if more than two ports share the same connection. \
+        allow_multiple: False to raise an error if more than two ports share the same connection.
+        connection_error_types: optional dictionary of port types and error types to raise an error for.
 
     """
-
     if connection_error_types is None:
         connection_error_types = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES
 
@@ -557,6 +530,8 @@ def get_netlist_recursive(
         component_suffix: suffix to append to each component name.
             useful if to save and reload a back-annotated netlist.
         get_netlist_func: function to extract individual netlists.
+        get_instance_name: function to get instance name.
+        kwargs: additional keyword arguments to pass to get_netlist_func.
 
     Keyword Args:
         tolerance: tolerance in grid_factor to consider two ports connected.

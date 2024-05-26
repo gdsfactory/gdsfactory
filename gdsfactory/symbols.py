@@ -30,6 +30,11 @@ def symbol(func: Callable, *args, **kwargs) -> Callable:
     - name: gives Components a unique name based on parameters.
     - adds Component.info with default, changed and full component settings.
 
+    Args:
+        func: the function to decorate.
+        args: args to pass to the function.
+        kwargs: kwargs to pass to the function.
+
     Keyword Args:
         autoname (bool): if True renames component based on args and kwargs.
         name (str): Optional (ignored when autoname=True).
@@ -74,7 +79,9 @@ def symbol_from_cell(func: _F, to_symbol: Callable[[Component, ...], Component])
 def floorplan_with_block_letters(
     component: Component, copy_layers: LayerSpecs = ("WG",)
 ) -> Component:
-    """Returns symbol with same floorplan as component layout, function name \
+    """Returns symbol.
+
+    Keeps same floorplan as component layout, function name \
         and optionally shapes on layers copied from the original layout.
 
     Args:
@@ -124,9 +131,9 @@ def floorplan_with_block_letters(
     if copy_layers:
         for layer in copy_layers:
             layer = gf.get_layer(layer)
-            polys = component.get_polygons(by_spec=layer, as_array=False)
+            polys = component.get_polygons()[layer]
             # run OR to simplify shapes
             polys = gdstk.boolean(polys, [], "or", layer=layer[0], datatype=layer[1])
-            sym.add_polygon(polys)
+            sym.add_polygon(polys, layer=layer)
 
     return sym

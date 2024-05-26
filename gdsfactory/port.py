@@ -119,6 +119,7 @@ class Port(kf.Port):
         cross_section: CrossSectionSpec | None = None,
         info: dict[str, int | float | str] | None = None,
     ) -> None:
+        """Initializes Port."""
         from gdsfactory.pdk import get_layer
 
         orientation = np.mod(orientation, 360) if orientation else orientation
@@ -157,19 +158,6 @@ class Port(kf.Port):
             info=info,
         )
 
-    @classmethod
-    def __get_validators__(cls):
-        """Get validators."""
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v, _info):
-        """For pydantic assumes Port is valid if has a name and a valid type."""
-        assert isinstance(v, Port), f"TypeError, Got {type(v)}, expecting Port"
-        assert v.name, f"Port has no name, got {v.name!r}"
-        # assert v.assert_on_grid(), f"port.center = {v.center} has off-grid points"
-        return v
-
 
 def to_dict(port: Port) -> dict[str, typing.Any]:
     """Returns dict."""
@@ -202,6 +190,7 @@ def port_array(
         orientation: angle in degrees.
         pitch: period of the port array.
         n: number of ports in the array.
+        kwargs: additional arguments.
 
     """
     pitch = np.array(pitch)
@@ -354,6 +343,7 @@ def select_ports(
         width: select ports with port width.
         layers_excluded: List of layers to exclude.
         port_type: select ports with port type (optical, electrical, vertical_te).
+        names: select ports with port names.
         clockwise: if True, sort ports clockwise, False: counter-clockwise.
         sort_ports: if True, sort ports.
 
@@ -523,8 +513,7 @@ def _rename_ports_counter_clockwise(direction_ports, prefix="") -> None:
 
 
 def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None:
-    """Rename ports in the clockwise direction starting from the bottom left \
-    (west) corner."""
+    """Rename ports in the clockwise directionjstarting from the bottom left corner."""
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
 
@@ -547,8 +536,7 @@ def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None
 def _rename_ports_clockwise_top_right(
     direction_ports: PortsMap, prefix: str = ""
 ) -> None:
-    """Rename ports in the clockwise direction starting from the top right \
-    corner."""
+    """Rename ports in clockwise direction starting from the top right corner."""
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
 
@@ -650,6 +638,7 @@ def auto_rename_ports(
         prefix_electrical: prefix of electrical ports.
         prefix_placement: prefix of electrical ports.
         port_type: select ports with port type (optical, electrical, vertical_te).
+        kwargs: select_ports settings.
 
     Keyword Args:
         prefix: select ports with port name prefix.

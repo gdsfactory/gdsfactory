@@ -15,7 +15,7 @@ def route_single_sbend(
         port1: start port.
         port2: end port.
 
-    keyword Args:
+    Keyword Args:
         npoints: number of points.
         with_cladding_box: square bounding box to avoid DRC errors.
         cross_section: function.

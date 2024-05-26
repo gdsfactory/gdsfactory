@@ -31,7 +31,6 @@ def find_labels(
         y: y position (um).
         angle: in degrees.
     """
-
     # Load the layout
     gdspath = str(gdspath)
     layout = pya.Layout()

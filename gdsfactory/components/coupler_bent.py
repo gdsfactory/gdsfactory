@@ -23,6 +23,7 @@ def coupler_bent_half(
         width1: width1.
         width2: width2.
         length_straight: input and output straight length.
+        length_straight_exit: length straight exit.
         cross_section: cross_section.
     """
     radius_outer = radius + (width1 + gap) / 2
@@ -88,7 +89,8 @@ def coupler_bent(
     cross_section: str = "strip",
 ) -> gf.Component:
     """Returns Broadband SOI curved / straight directional coupler.
-    based on: https://doi.org/10.1038/s41598-017-07618-6
+
+    based on: https://doi.org/10.1038/s41598-017-07618-6.
 
     Args:
         gap: gap.

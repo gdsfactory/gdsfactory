@@ -31,7 +31,7 @@ def test_import_gds_hierarchy() -> None:
 
 
 def test_import_json_label(data_regression) -> None:
-    """Make sure you can import the ports"""
+    """Make sure you can import the ports."""
     c = gf.components.straight()
     c1 = gf.labels.add_label_json(c)
     gdspath = c1.write_gds()
@@ -54,7 +54,7 @@ def test_import_gds_array() -> None:
 
 
 def test_import_gds_ports(data_regression) -> None:
-    """Make sure you can import the ports"""
+    """Make sure you can import the ports."""
     c0 = gf.components.straight()
     gdspath = c0.write_gds()
 

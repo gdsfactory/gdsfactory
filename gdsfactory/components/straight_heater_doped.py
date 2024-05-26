@@ -200,6 +200,7 @@ def straight_heater_doped_strip(
     xoffset_tip2: float = 0.4,
 ) -> Component:
     r"""Top view.
+
     Args:
         length: of the waveguide in um.
         nsections: between via_stacks.
@@ -241,9 +242,8 @@ def straight_heater_doped_strip(
          |layer_heater|           |  intrinsic region |<----------->| layer_heater |
          |____________|           |___________________|             |______________|
                                                                      <------------>
-                                                        heater_gap     heater_width
+                                                        heater_gap     heater_width.
     """
-
     return straight_heater_doped_rib(
         length=length,
         nsections=nsections,

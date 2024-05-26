@@ -61,8 +61,7 @@ def evanescent_coupler_sample() -> None:
 
 
 def extract_args_from_docstring(docstring: str) -> dict[str, Any] | None:
-    """
-    This function extracts settings from a function's docstring for uPDK format.
+    """This function extracts settings from a function's docstring for uPDK format.
 
     Args:
         docstring: The function from which to extract YAML in the docstring.
@@ -173,7 +172,6 @@ class Pdk(BaseModel):
 
     def activate(self) -> None:
         """Set current pdk to the active pdk (if not already active)."""
-
         global _ACTIVE_PDK
         if self is _ACTIVE_PDK:
             return None
@@ -230,12 +228,12 @@ class Pdk(BaseModel):
         Args:
             dirpath: directory to recursive search for YAML cells.
             update: does not raise ValueError if cell already registered.
+            kwargs: cell_name: cell function. To update cells dict.
 
         Keyword Args:
             cell_name: cell function. To update cells dict.
 
         """
-
         message = "Updated" if update else "Registered"
 
         if dirpath:
@@ -510,6 +508,7 @@ _ACTIVE_PDK = None
 
 def get_active_pdk(name: str | None = None) -> Pdk:
     """Returns active PDK.
+
     By default it will return the PDK defined in the name or config file.
     Otherwise it will return the generic PDK.
     """

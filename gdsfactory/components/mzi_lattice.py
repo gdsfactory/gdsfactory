@@ -29,8 +29,9 @@ def mzi_lattice(
         delta_lengths: list of length differences.
         mzi: function for the mzi.
         splitter: splitter function.
+        kwargs: additional settings.
 
-    keyword Args:
+    Keyword Args:
         length_y: vertical length for both and top arms.
         length_x: horizontal length.
         bend: 90 degrees bend library.
@@ -171,8 +172,9 @@ def mzi_lattice_mmi(
         delta_lengths: list of length differences.
         mzi: function for the mzi.
         splitter: splitter function.
+        kwargs: additional settings.
 
-    keyword Args:
+    Keyword Args:
         length_y: vertical length for both and top arms.
         length_x: horizontal length.
         bend: 90 degrees bend library.

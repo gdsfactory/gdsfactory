@@ -50,7 +50,7 @@ def snap_to_grid(
     nm: int | None = None,
     grid_factor: int = 1,
 ) -> Value:
-    """snap x to grid_sizes
+    """Snap x to grid_sizes.
 
     Args:
         x: value to snap.

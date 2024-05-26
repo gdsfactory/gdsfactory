@@ -12,8 +12,7 @@ def get_netlist_flat(
     component: Component,
     **kwargs,
 ) -> dict[str, Any]:
-    """Parses a recursive netlist for a component as if it was a single netlist \
-            with its lowest-level instances.
+    """Parse a recursive netlist for a component as if it was a single netlist with its lowest-level instances.
 
     Procedure:
         - Recursively parse the recursive dict to generate a unique list of all instances **even if they are reused**
@@ -34,6 +33,7 @@ def get_netlist_flat(
 
     Args:
         component: to extract flat netlist.
+        kwargs: keyword arguments to pass to get_netlist_recursive.
 
     Keyword Args:
         component_suffix: suffix to append to each component name, useful if to save and reload a back-annotated netlist.
@@ -133,9 +133,16 @@ def _lateral_map(
     higher_component: str,
     level: int,
     hierarchy,
-    hierarchy_delimiter: str = "~",
 ):
-    """Returns connected ports at this hierarchical level."""
+    """Returns connected ports at this hierarchical level.
+
+    Args:
+        local_leaf_port: port of interest at this level
+        all_netlists: all netlists
+        higher_component: component name at this level
+        level: level of hierarchy
+        hierarchy: hierarchy list
+    """
     lateral_equivalencies = []
     for port1, port2 in all_netlists[higher_component]["connections"].items():
         flat_name_prefix = _flat_name(hierarchy[: len(hierarchy) - level - 1])
@@ -156,7 +163,14 @@ def _map_connections_ports(
     all_netlists,
     hierarchy_delimiter: str = "~",
 ):
-    """Returns all nodes of interest across the flat recursive netlist."""
+    """Returns all nodes of interest across the flat recursive netlist.
+
+    Args:
+        hierarchy: list of tuples of (component, instance) pairs.
+        top_name: top level component name.
+        all_netlists: all netlists.
+        hierarchy_delimiter: delimiter for hierarchy levels.
+    """
     connections = {}
     ports = {}
 
@@ -236,7 +250,6 @@ def _flatten_hierarchy(
     component_instance_delimiter: str = ";",
 ):
     """Converts _flatten_netlist output str's to list of hierarchical (component, instance) tuples."""
-
     instance_dict = _flatten_hierarchy_recurse(
         netlist_name=netlist_name,
         all_netlists=all_netlists,

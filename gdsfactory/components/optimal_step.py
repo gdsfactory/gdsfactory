@@ -32,7 +32,7 @@ def optimal_step(
 
     based on phidl.geometry
 
-    Notes
+    Notes:
     -----
     Optimal structure from https://doi.org/10.1103/PhysRevB.84.174510
     Clem, J., & Berggren, K. (2011). Geometry-dependent critical currents in

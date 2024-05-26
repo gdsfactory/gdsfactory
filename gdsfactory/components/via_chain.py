@@ -60,7 +60,6 @@ def via_chain(
                                          2*e + w + min_metal_spacing + 2*e + w
 
     """
-
     if cols % 2 != 0:
         raise ValueError(f"{cols=} must be even")
 
