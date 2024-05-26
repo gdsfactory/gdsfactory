@@ -14,7 +14,6 @@ def test_extend_ports() -> None:
         gf.cross_section.strip,
         width=width,
         cladding_layers=None,
-        add_pins_function_name=None,
     )
 
     c = pc.straight(cross_section=xs_strip)
@@ -37,7 +36,7 @@ def test_extend_ports() -> None:
 def assert_polygons(component, n_polygons, layer=LAYER.WG):
     result = len(component.get_polygons()[layer])
     assert result == n_polygons, result
-    assert len(component.references) == n_polygons, len(component.references)
+    assert len(component.insts) == n_polygons, len(component.insts)
     return result
 
 

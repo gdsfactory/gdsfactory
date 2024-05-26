@@ -65,7 +65,10 @@ def make_bundle(
     ports1 = [r1.ports[n] for n in ports1_names]
     ports2 = [r2.ports[n] for n in ports2_names]
     gf.routing.route_bundle(
-        c, ports1, ports2, sort_ports=sort_ports, enforce_port_ordering=False
+        c,
+        ports1,
+        ports2,
+        sort_ports=sort_ports,
     )
 
 
