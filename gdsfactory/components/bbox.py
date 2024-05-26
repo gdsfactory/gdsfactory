@@ -46,7 +46,7 @@ def bbox(
     """Returns bounding box rectangle from coordinates.
 
     Args:
-        bbox: Coordinates of the box [(x1, y1), (x2, y2)].
+        component: component or instance to get bbox from.
         layer: for bbox.
         top: north offset.
         bottom: south offset.

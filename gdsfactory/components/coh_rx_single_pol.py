@@ -37,6 +37,8 @@ def coh_rx_single_pol(
         in_wg_length: length of the straight waveguides at the input of the 90 deg hybrid.
         lo_input_coupler: Optional coupler for the LO.
         signal_input_coupler: Optional coupler for the signal.
+        cross_section_metal_top: cross_section for the top metal layer.
+        cross_section_metal: cross_section for the metal layer.
 
     .. code::
 
