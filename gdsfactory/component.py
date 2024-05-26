@@ -8,6 +8,8 @@ from collections import defaultdict
 from typing import TYPE_CHECKING, Any
 
 import kfactory as kf
+import klayout.db as db  # noqa: F401
+import klayout.lay as lay
 import numpy as np
 from kfactory import Instance, kdb
 from kfactory.kcell import cell, save_layout_options
@@ -90,6 +92,7 @@ class Region(kdb.Region):
         return size(self, -offset)
 
     def __add__(self, element) -> kdb.Region:
+        """Adds an element to the region."""
         if isinstance(element, float | int):
             return size(self, element)
 
@@ -99,6 +102,7 @@ class Region(kdb.Region):
             raise ValueError(f"Cannot add type {type(element)} to region")
 
     def __sub__(self, element) -> kdb.Region | None:
+        """Subtracts an element from the region."""
         if isinstance(element, float | int):
             return size(self, -element)
 
@@ -110,8 +114,7 @@ class Region(kdb.Region):
 
 
 class Component(kf.KCell):
-    """A Component is an empty canvas where you add polygons, instances and ports \
-            (to connect to other components).
+    """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
     - stores info that you want to use
@@ -316,6 +319,9 @@ class Component(kf.KCell):
     def get_ports_list(self, **kwargs) -> list[kf.Port]:
         """Returns list of ports.
 
+        Args:
+            kwargs: keyword arguments to filter ports.
+
         Keyword Args:
             layer: select ports with GDS layer.
             prefix: select ports with prefix in port name.
@@ -423,11 +429,12 @@ class Component(kf.KCell):
 
     def get_polygons_points(
         self, merge: bool = False, scale: float | None = None
-    ) -> dict[tuple[int, int], list[tuple[float, float]]]:
+    ) -> dict[int, list[tuple[float, float]]]:
         """Returns a dict with list of points per layer.
 
         Args:
             merge: if True, merges the polygons.
+            scale: if True, scales the points.
         """
         polygons_dict = self.get_polygons(merge=merge)
         polygons_points = {}
@@ -516,30 +523,6 @@ class Component(kf.KCell):
         r = kdb.Region(self.begin_shapes_rec(layer_index))
         r.merge()
         return sum(p.area2() / 2 * self.kcl.dbu**2 for p in r.each())
-
-    @classmethod
-    def __get_validators__(cls):
-        """Get validators for the Component object."""
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v, _info) -> Component:
-        """Pydantic assumes component is valid if the following are true.
-
-        - is not empty (has references or polygons)
-        """
-        from gdsfactory.pdk import get_active_pdk
-
-        pdk = get_active_pdk()
-
-        max_cellname_length = pdk.max_cellname_length
-        assert isinstance(
-            v, Component
-        ), f"TypeError, Got {type(v)}, expecting Component"
-        assert (
-            len(v.name) <= max_cellname_length
-        ), f"name `{v.name}` {len(v.name)} > {max_cellname_length} "
-        return v
 
     def copy_child_info(self, component: Component) -> None:
         """Copy and settings info from child component into parent.
@@ -653,6 +636,9 @@ class Component(kf.KCell):
     def pprint_ports(self, **kwargs) -> None:
         """Pretty prints ports.
 
+        Args:
+            kwargs: keyword arguments to filter ports.
+
         Keyword Args:
             layer: select ports with GDS layer.
             prefix: select ports with prefix in port name.
@@ -716,6 +702,7 @@ class Component(kf.KCell):
         Args:
             with_labels: add label to each node.
             font_weight: normal, bold.
+            kwargs: keyword arguments to get_netlist.
 
         Keyword Args:
             tolerance: tolerance in grid_factor to consider two ports connected.
@@ -751,6 +738,7 @@ class Component(kf.KCell):
 
     def over_under(self, layer: LayerSpec, distance: float = 1.0) -> None:
         """Flattens and performs over-under on a layer in the Component.
+
         For big components use tiled version.
 
         Args:
@@ -791,12 +779,9 @@ class Component(kf.KCell):
             show_labels: if True, shows labels.
             show_ruler: if True, shows ruler.
             return_fig: if True, returns the figure.
-
         """
         from io import BytesIO
 
-        import klayout.db as db  # noqa: F401
-        import klayout.lay as lay
         import matplotlib.pyplot as plt
 
         from gdsfactory.pdk import get_layer_views
