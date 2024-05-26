@@ -43,12 +43,12 @@ def delay_snake_sbend(
     Args:
         length: total length.
         length1: first straight section length in um.
-        length3: third straight section length in um.
+        length4: fourth straight section length in um.
         radius: u bend radius in um.
         waveguide_spacing: waveguide pitch in um.
         bend: bend spec.
         sbend: sbend spec.
-        sbend_size: sbend size.
+        sbend_xsize: sbend size.
         cross_section: cross_section spec.
         kwargs: cross_section settings.
 
