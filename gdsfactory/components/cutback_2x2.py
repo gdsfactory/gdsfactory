@@ -107,8 +107,9 @@ def cutback_2x2(
         rows: number of rows.
         port1: name of first optical port.
         port2: name of second optical port.
+        port3: name of third optical port.
+        port4: name of fourth optical port.
         bend180: ubend.
-        straight: waveguide spec to connect both sides.
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
         straight_length: length of the straight section between cutbacks.
         cross_section: specification (CrossSection, string or dict).
