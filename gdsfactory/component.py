@@ -5,6 +5,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from collections import defaultdict
+from collections.abc import Iterator
 from typing import TYPE_CHECKING, Any
 
 import kfactory as kf
@@ -113,6 +114,94 @@ class Region(kdb.Region):
         return self.dup()
 
 
+class Reference(kf.Instance):
+    """Shadows dbu attributes of Instance.
+
+    DO NOT USE THIS AND PASS IT TO ANY FUNCTION REQUIRING kf.Instance.
+    """
+
+    _kfinst: kf.Instance
+
+    def __init__(self, inst: kf.Instance) -> None:
+        object.__setattr__(self, "_kfinst", inst)
+        super().__init__(kcl=inst.kcl, instance=inst._instance)
+
+    def __getattribute__(self, __k: str) -> Any:
+        """Shadow dbu based attributes with um based ones."""
+        if __k == "_kfinst":
+            return object.__getattribute__(self, "_kfinst")
+        if __k in {
+            "center",
+            "mirror",
+            "move",
+            "movex",
+            "movey",
+            "rotate",
+            "size_info",
+            "x",
+            "xmin",
+            "xmax",
+            "xsize",
+            "y",
+            "ymin",
+            "ymax",
+            "ysize",
+        }:
+            match __k:
+                case "center":
+                    return super().dcenter
+                case "mirror":
+                    return super().dmirror
+                case "move":
+                    return super().dmove
+                case "movex":
+                    return super().movex
+                case "movey":
+                    return super().movey
+                case "rotate":
+                    return super().drotate
+                case "size_info":
+                    return super().__getattribute__("dsize_info")
+                case "x":
+                    return super().dx
+                case "xmin":
+                    return super().dxmin
+                case "xmax":
+                    return super().dxmax
+                case "xsize":
+                    return super().dxsize
+                case "y":
+                    return super().dy
+                case "ymin":
+                    return super().dymin
+                case "ymax":
+                    return super().dymax
+                case "ysize":
+                    return super().dysize
+        return super().__getattribute__(__k)
+
+
+class References(kf.kcell.Instances):
+    def __getitem__(self, key: str | int) -> Reference:
+        """Retrieve instance by index or by name."""
+        if isinstance(key, int):
+            return Reference(self._insts[key])
+
+        else:
+            return Reference(next(filter(lambda inst: inst.name == key, self._insts)))
+
+    def __iter__(self) -> Iterator[Reference]:
+        """Get instance iterator."""
+        return iter(Reference(inst) for inst in self._insts)
+
+    def __delitem__(self, item: Reference | int) -> None:  # type: ignore[override]
+        """Delete a reference."""
+        if isinstance(item, int):
+            del self._insts[item]
+        else:
+            self._insts.remove(item)
+
+
 class Component(kf.KCell):
     """Canvas where you add polygons, instances and ports.
 
@@ -127,9 +216,23 @@ class Component(kf.KCell):
         info: dictionary that includes derived properties, simulation_settings, settings (test_protocol, docs, ...)
     """
 
+    def __init__(
+        self,
+        name: str | None = None,
+        kcl: kf.KCLayout | None = None,
+        kdb_cell: kdb.Cell | None = None,
+        ports: kf.Ports | None = None,
+    ):
+        self.insts = References()
+        super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
+
     @property
     def layers(self) -> list[tuple[int, int]]:
-        return list(self.get_polygons().keys())
+        return [
+            (info.layer, info.datatype)
+            for info in self.kcl.layer_infos()
+            if not self.bbox(self.kcl.layer(info)).empty()
+        ]
 
     def add_port(  # type: ignore[override]
         self,
@@ -197,8 +300,24 @@ class Component(kf.KCell):
             )
 
     def __getattribute__(self, __k: str) -> Any:
-        if __k in {"xmin", "xmax", "xsize", "ysize", "x", "y", "center"}:
-            return getattr(self.d, __k)
+        """Shadow dbu based attributes with um based ones."""
+        if __k in {
+            "center",
+            "mirror",
+            "move",
+            "movex",
+            "movey",
+            "rotate",
+            "x",
+            "xmin",
+            "xmax",
+            "xsize",
+            "y",
+            "ymin",
+            "ymax",
+            "ysize",
+        }:
+            return getattr(self, "d" + __k)
         return super().__getattribute__(__k)
 
     def from_kcell(self) -> Component:
@@ -211,6 +330,9 @@ class Component(kf.KCell):
         c._settings = self.settings.model_copy()
         c.info = self.info.model_copy()
         return c
+
+    def __lshift__(self, component: gf.Component) -> Reference:  # type: ignore[override]
+        return Reference(kf.KCell.create_inst(self, component))
 
     def copy(self) -> Component:
         return self.dup()
@@ -397,14 +519,14 @@ class Component(kf.KCell):
 
     def add_ref(
         self, component: Component, name: str | None = None, alias: str | None = None
-    ) -> kf.Instance:
+    ) -> Reference:
         inst = self.create_inst(component)
         if alias:
             warnings.warn("alias is deprecated, use name instead")
             inst.name = alias
         elif name:
             inst.name = name
-        return inst
+        return Reference(inst)
 
     def add(self, instances: list[Instance] | Instance) -> None:
         if not hasattr(instances, "__iter__"):
