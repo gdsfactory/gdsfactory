@@ -109,6 +109,7 @@ def write_cells_recursively(
     """Write gdstk cells recursively.
 
     Args:
+        gdspath: gds file to write cells from.
         cell: gdstk cell.
         unit: unit size for objects in library. 1um by default.
         precision: for library dimensions (m). 1nm by default.
