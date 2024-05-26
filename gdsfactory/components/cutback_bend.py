@@ -34,7 +34,7 @@ def cutback_bend(
     Use cutback_bend90 instead with smaller footprint.
 
     Args:
-        bend90: bend spec.
+        component: bend spec.
         straight: straight spec.
         straight_length: in um.
         rows: number of rows.
@@ -94,6 +94,7 @@ def cutback_bend90(
         straight_length: in um.
         rows: number of rows.
         cols: number of cols.
+        spacing: in um.
         kwargs: cross_section settings.
 
     .. code::
@@ -143,7 +144,7 @@ def staircase(
     """Returns staircase.
 
     Args:
-        bend90: bend spec.
+        component: bend spec.
         straight: straight spec.
         length_v: vertical length.
         length_h: vertical length.
@@ -187,7 +188,7 @@ def cutback_bend180(
     """Returns cutback to measure u bend loss.
 
     Args:
-        bend180: bend spec.
+        component: bend spec.
         straight: straight spec.
         straight_length: in um.
         rows: number of rows.
