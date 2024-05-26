@@ -311,15 +311,6 @@ def _reflect_points(points, p1=(0, 0), p2=(1, 0)):
     return reflected_points if original_shape[0] > 1 else reflected_points[0]
 
 
-def _is_iterable(items):
-    """Checks if the passed variable is iterable.
-
-    Args:
-        items: any Item to check for iterability.
-    """
-    return isinstance(items, list | tuple | set | np.ndarray)
-
-
 def _parse_coordinate(c):
     """Translates various inputs (lists, tuples, Ports) to an (x,y) coordinate.
 
