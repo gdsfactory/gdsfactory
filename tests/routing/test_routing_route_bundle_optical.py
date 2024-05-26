@@ -26,9 +26,8 @@ def test_route_bundle_optical(
         d.ports["o1"],
     ]
 
-    routes = gf.routing.route_bundle(ports1, ports2, sort_ports=True, radius=10)
+    routes = gf.routing.route_bundle(c, ports1, ports2, sort_ports=True, radius=10)
     for i, route in enumerate(routes):
-        c.add(route.references)
         lengths[i] = route.length
 
     if check:
@@ -44,13 +43,13 @@ def test_route_bundle_optical2(
     w = c << gf.components.straight_array(n=4, spacing=200)
     d = c << gf.components.nxn(west=4, east=1)
     d.y = w.y
-    d.xmin = w.xmax + 200
+    d.d.xmin = w.d.xmax + 200
 
-    ports1 = w.get_ports_list(orientation=0)
-    ports2 = d.get_ports_list(orientation=180)
+    ports1 = w.ports.filter(orientation=0)
+    ports2 = d.ports.filter(orientation=180)
     ports2.reverse()
 
-    routes = gf.routing.route_bundle(ports1, ports2, sort_ports=True)
+    routes = gf.routing.route_bundle(c, ports1, ports2, sort_ports=True)
 
     for i, route in enumerate(routes):
         c.add(route.references)
