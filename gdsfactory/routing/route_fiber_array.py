@@ -65,11 +65,13 @@ def route_fiber_array(
         grating_coupler: grating coupler instance, function or list of functions.
         bend: for bends.
         straight: straight.
+        taper: taper.
         fanout_length: target distance between gratings and the southmost component port.
             If None, automatically calculated.
         max_y0_optical: Maximum y coordinate at which the intermediate optical ports can be set.
             Usually fine to leave at None.
         with_loopback: If True, add compact loopback alignment ports.
+        with_loopback_inside: If True, the loopback is inside the component.
         straight_separation: min separation between routing straights.
         straight_to_grating_spacing: from align ports.
         nb_optical_ports_lines: number of lines with I/O grating couplers. One line by default.
@@ -84,6 +86,7 @@ def route_fiber_array(
             e.g [0,1,4,5] will put two gratings separated by the pitch.
             Then there will be two empty grating slots, and after that an additional two gratings.
         gc_port_name: grating_coupler port name, where to route straights.
+        gc_port_name_fiber: grating_coupler port name, where to route fibers.
         gc_rotation: grating_coupler rotation (deg).
         layer_label: for measurement labels.
         component_name: name of component.
@@ -94,6 +97,7 @@ def route_fiber_array(
         cross_section: cross_section.
         optical_routing_type: 1 or 2.
         allow_width_mismatch: allow width mismatch.
+        port_type: port type.
     """
     if optical_routing_type not in [1, 2]:
         raise ValueError(f"optical_routing_type={optical_routing_type} must be 1 or 2")
