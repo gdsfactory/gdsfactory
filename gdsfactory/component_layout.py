@@ -5,7 +5,6 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import numbers
 import typing
 
 import numpy as np
@@ -93,39 +92,6 @@ def pprint_ports(ports: dict[str, Port] or list[Port]) -> None:
         table.add_row(*row)
 
     console.print(table)
-
-
-def _parse_layer(layer):
-    """Check if the variable layer is a Layer object, a 2-element list like \
-    [0, 1] representing layer = 0 and datatype = 1, or just a layer number.
-
-    Args:
-        layer: int, array-like[2], or set Variable to check.
-
-    Returns:
-        (gds_layer, gds_datatype) : array-like[2]
-            The layer number and datatype of the input.
-    """
-    if hasattr(layer, "gds_layer"):
-        gds_layer, gds_datatype = layer.gds_layer, layer.gds_datatype
-    elif np.shape(layer) == (2,):  # In form [3,0]
-        gds_layer, gds_datatype = layer[0], layer[1]
-    elif np.shape(layer) == (1,):  # In form [3]
-        gds_layer, gds_datatype = layer[0], 0
-    elif layer is None:
-        gds_layer, gds_datatype = 0, 0
-    elif isinstance(layer, numbers.Number):
-        gds_layer, gds_datatype = layer, 0
-    else:
-        raise ValueError(
-            f"""_parse_layer() was passed something
-            that could not be interpreted as a layer: {layer=}"""
-        )
-    if not isinstance(gds_layer, int):
-        raise ValueError(f"invalid layer {layer}")
-    if not isinstance(gds_datatype, int):
-        raise ValueError(f"invalid layer {layer}")
-    return (gds_layer, gds_datatype)
 
 
 class _GeometryHelper:
@@ -405,108 +371,6 @@ def _parse_move(origin, destination, axis):
     dx, dy = np.array(d) - o
 
     return dx, dy
-
-
-def _distribute(elements, direction="x", spacing=100, separation=True, edge=None):
-    """Takes a list of elements and distributes them either equally along a \
-    grid or with a fixed spacing between them.
-
-    Args:
-        elements: array-like of gdsfactory objects
-            Elements to distribute.
-        direction: {'x', 'y'}
-            Direction of distribution; either a line in the x-direction or
-            y-direction.
-        spacing: int or float
-            Distance between elements.
-        separation: bool
-            If True, guarantees elements are separated with a fixed spacing between;
-            if False, elements are spaced evenly along a grid.
-        edge: {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
-            Which edge to perform the distribution along (unused if
-            separation == True)
-
-    Returns:
-        elements: Component, Instance, Port, Polygon, Label
-    """
-    if len(elements) == 0:
-        return elements
-    if direction not in ({"x", "y"}):
-        raise ValueError("distribute(): 'direction' argument must be either 'x' or'y'")
-    if (
-        (direction == "x")
-        and (edge not in ({"x", "xmin", "xmax"}))
-        and (not separation)
-    ):
-        raise ValueError(
-            "distribute(): When `separation` == False and direction == 'x',"
-            " the `edge` argument must be one of {'x', 'xmin', 'xmax'}"
-        )
-    if (
-        (direction == "y")
-        and (edge not in ({"y", "ymin", "ymax"}))
-        and (not separation)
-    ):
-        raise ValueError(
-            "distribute(): When `separation` == False and direction == 'y',"
-            " the `edge` argument must be one of {'y', 'ymin', 'ymax'}"
-        )
-
-    if direction == "y":
-        sizes = [e.ysize for e in elements]
-    if direction == "x":
-        sizes = [e.xsize for e in elements]
-
-    spacing = np.array([spacing] * len(elements))
-
-    if separation:  # Then `edge` doesn't apply
-        if direction == "x":
-            edge = "xmin"
-        if direction == "y":
-            edge = "ymin"
-    else:
-        sizes = np.zeros(len(spacing))
-
-    # Calculate new positions and move each element
-    start = elements[0].__getattribute__(edge)
-    positions = np.cumsum(np.concatenate(([start], (spacing + sizes))))
-    for n, e in enumerate(elements):
-        e.__setattr__(edge, positions[n])
-    return elements
-
-
-def _line_distances(points, start, end):
-    if np.all(start == end):
-        return np.linalg.norm(points - start, axis=1)
-
-    vec = end - start
-    cross = np.cross(vec, start - points)
-    return np.divide(abs(cross), np.linalg.norm(vec))
-
-
-def _simplify(points, tolerance=0):
-    """Ramer–Douglas–Peucker algorithm for line simplification.
-
-    Takes an array of points of shape (N,2) and removes excess points in the line.
-    The remaining points form a identical line to within `tolerance` from the original
-    """
-    # From https://github.com/fhirschmann/rdp/issues/7
-    # originally written by Kirill Konevets https://github.com/kkonevets
-
-    M = np.asarray(points)
-    start, end = M[0], M[-1]
-    dists = _line_distances(M, start, end)
-
-    index = np.argmax(dists)
-    dmax = dists[index]
-
-    if dmax <= tolerance:
-        return np.array([start, end])
-
-    result1 = _simplify(M[: index + 1], tolerance)
-    result2 = _simplify(M[index:], tolerance)
-
-    return np.vstack((result1[:-1], result2))
 
 
 if __name__ == "__main__":
