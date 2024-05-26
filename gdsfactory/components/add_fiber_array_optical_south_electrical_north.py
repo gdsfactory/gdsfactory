@@ -35,6 +35,10 @@ def add_fiber_array_optical_south_electrical_north(
         electrical_port_names: list of electrical port names. Defaults to all.
         electrical_port_orientation: orientation of electrical ports. Defaults to 90.
         npads: number of pads. Defaults to one per electrical_port_names.
+        analysis_settings: analysis settings.
+        kwargs: additional arguments.
+
+    Keyword Args:
         layer_label: layer for settings label.
         measurement: measurement name.
         measurement_settings: measurement settings.
@@ -43,8 +47,6 @@ def add_fiber_array_optical_south_electrical_north(
         doe: Design of Experiment.
         anchor: anchor point for the label. Defaults to south-west "sw". \
             Valid options are: "n", "s", "e", "w", "ne", "nw", "se", "sw", "c".
-
-    Keyword Args:
         gc_port_name: grating coupler input port name.
         gc_port_labels: grating coupler list of labels.
         component_name: optional for the label.

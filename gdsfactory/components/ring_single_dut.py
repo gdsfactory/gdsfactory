@@ -35,7 +35,7 @@ def ring_single_dut(
     Args:
         component: device under test.
         gap: in um.
-        length: in um.
+        length_x: in um.
         length_y: in um.
         radius: in um.
         coupler: coupler function.

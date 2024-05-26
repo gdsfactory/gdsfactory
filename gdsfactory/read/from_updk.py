@@ -39,6 +39,9 @@ def from_updk(
         layer_bbox: layer to draw bounding boxes.
         layer_bbmetal: layer to draw bounding boxes for metal.
         optical_xsections: Optional list of names of xsections that will add optical ports.
+        layer_label: layer to draw labels.
+        layer_pin_label: layer to draw pin labels.
+        layer_pin: layer to draw pins.
         electrical_xsections: Optional list of names of xsections that will add electrical ports.
         layers_text: Optional list of layers to add text labels.
         text_size: text size for labels.
@@ -47,7 +50,6 @@ def from_updk(
         prefix: optional prefix to add to the script.
         suffix: optional suffix to add to the script.
     """
-
     optical_xsections = optical_xsections or []
     electrical_xsections = electrical_xsections or []
 

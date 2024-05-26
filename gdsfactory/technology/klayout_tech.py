@@ -85,7 +85,6 @@ class KLayoutTechnology(BaseModel):
             mebes_config: A dictionary specifying the KLayout mebes reader config.
 
         """
-
         d25_filename = d25_filename or f"{self.name}.lyd25"
 
         tech_path = pathlib.Path(tech_dir)

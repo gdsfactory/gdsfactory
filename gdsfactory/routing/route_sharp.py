@@ -92,16 +92,18 @@ def path_U(port1: Port, port2: Port, length1=200) -> Path:
     return Path(np.array([pt1, pt2, pt3, pt4]))
 
 
-def path_J(port1: Port, port2: Port, length1=200, length2=200) -> Path:
-    """Return waypoint path between port1 and port2 in a J shape. Useful when \
-    orthogonal ports cannot be connected directly with an L shape.
+def path_J(
+    port1: Port, port2: Port, length1: float = 200, length2: float = 200
+) -> Path:
+    """Return waypoint path between port1 and port2 in a J shape.
+
+    Useful when  orthogonal ports cannot be connected directly with an L shape.
 
     Args:
         port1: start port.
         port2: end port.
         length1: Length of segment exiting port1. Should be larger than bend radius.
         length2: Length of segment exiting port2. Should be larger than bend radius.
-
     """
     delta_orientation = np.round(
         np.abs(np.mod(port1.orientation - port2.orientation, 360)), 3
@@ -151,6 +153,7 @@ def path_C(port1: Port, port2: Port, length1=100, left1=100, length2=100) -> Pat
 
 def path_manhattan(port1: Port, port2: Port, radius: float) -> Path:
     """Return waypoint path between port1 and port2 using manhattan routing.
+
     Routing uses straight, L, U, J, or C waypoint path as needed.
     Ports must face orthogonal or parallel directions.
 
@@ -158,7 +161,6 @@ def path_manhattan(port1: Port, port2: Port, radius: float) -> Path:
         port1: start port.
         port2: end port.
         radius: Bend radius for 90 degree bend.
-
     """
     radius += 0.1
     e1, e2 = _get_rotated_basis(port1.orientation)
@@ -220,6 +222,7 @@ def path_manhattan(port1: Port, port2: Port, radius: float) -> Path:
 
 def path_Z(port1: Port, port2: Port, length1=100, length2=100) -> Path:
     """Return waypoint path between port1 and port2 in a Z shape.
+
     Ports can have any relative orientation.
 
     Args:
@@ -242,12 +245,12 @@ def path_Z(port1: Port, port2: Port, length1=100, length2=100) -> Path:
 
 def path_V(port1: Port, port2: Port) -> Path:
     """Return waypoint path between port1 and port2 in a V shape. Useful when \
+
     ports point to a single connecting point.
 
     Args:
         port1: start port.
         port2: end port.
-
     """
     # get basis vectors in port directions
     e1, _ = _get_rotated_basis(port1.orientation)
@@ -278,6 +281,7 @@ def route_sharp(
     """Returns Component route between ports.
 
     Args:
+        component: Component to add the route to.
         port1: start port.
         port2: end port.
         width: None, int, float, array-like[2], or CrossSection. \
@@ -289,6 +293,8 @@ def route_sharp(
         path_type : {'manhattan', 'L', 'U', 'J', 'C', 'V', 'Z', 'straight', 'manual'}.
         manual_path: array-like[N][2] or Path Waypoint for  manual route.
         layer: Layer to put route on.
+        cross_section: CrossSection to use for the route.
+        port_names: Tuple of port names for the start and end of the route.
         kwargs: Keyword arguments passed to the waypoint path function.
 
     Method of waypoint path creation. Should be one of:

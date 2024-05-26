@@ -1,5 +1,5 @@
-"""
-Tests that we get a suitable electrical netlist that represents the physical geometry of our circuit.
+"""Tests that we get a suitable electrical netlist that represents the physical geometry of our circuit.
+
 We use the `get_missing_models` function in `sax` to extract that it is representing our netlist component correctly.
 """
 

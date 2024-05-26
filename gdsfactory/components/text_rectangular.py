@@ -76,15 +76,16 @@ def text_rectangular_multi_layer(
     """Returns rectangular text in different layers.
 
     Args:
-        text: string of text
-        layers: list of layers to replicate the text
-        text_factory: function to create the text Components
+        text: string of text.
+        layers: list of layers to replicate the text.
+        text_factory: function to create the text Components.
+        kwargs: keyword arguments for text_factory.
 
     Keyword Args:
-        size: pixel size
-        position: coordinate
-        justify: left, right or center
-        font: function that returns dictionary of characters
+        size: pixel size.
+        position: coordinate.
+        justify: left, right or center.
+        font: function that returns dictionary of characters.
     """
     return copy_layers(
         factory=partial(text_factory, text=text, **kwargs),

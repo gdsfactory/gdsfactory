@@ -39,6 +39,7 @@ def route_single_from_steps(
     and a more concise and convenient version of `route_single_from_waypoints`
 
     Args:
+        component: to add the route to.
         port1: start port.
         port2: end port.
         steps: that define the route (x, y, dx, dy) [{'dx': 5}, {'dy': 10}].
@@ -47,6 +48,8 @@ def route_single_from_steps(
         taper: taper spec.
         cross_section: cross_section spec.
         auto_widen: if True, tapers to wider straights.
+        port_type: optical or electrical.
+        allow_width_mismatch: if True, allows width mismatch.
         kwargs: cross_section settings.
 
     .. plot::

@@ -21,14 +21,12 @@ def ring_double_bend_coupler(
 ) -> Component:
     r"""Returns ring with double curved couplers.
 
-    TODO: enable euler bends.
-
     Args:
         radius: um.
         gap: um.
-        angle_inner: of the inner bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
-        angle_outer: of the outer bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
+        coupling_angle_coverage: degrees.
         bend: for bend.
+        length_x: horizontal straight length.
         length_y: vertical straight length.
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.

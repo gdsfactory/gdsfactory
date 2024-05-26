@@ -4,54 +4,8 @@ import gdsfactory as gf
 from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.port import Port
 from gdsfactory.routing.route_single import route_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
-
-
-def connect_loopback(
-    c,
-    port1: Port,
-    port2: Port,
-    a: float,
-    b: float,
-    y_bot_align_route: float,
-    cross_section: CrossSectionSpec = "strip",
-    **kwargs,
-) -> None:
-    """Connects loopback structure.
-
-    Args:
-        port0: port.
-        port1: port.
-        a: radius.
-        b: radius.
-        y_bot_align_route: um.
-        cross_section: spec.
-        kwargs: cross_section settings.
-    """
-    # p0 = port1.d.center
-    # p1 = port2.d.center
-    # points = [
-    #     p0 + (0, a),
-    #     p0 + (b, a),
-    #     p0 + (b, y_bot_align_route),
-    #     p1 + (-b, y_bot_align_route),
-    #     p1 + (-b, a),
-    #     p1 + (0, a),
-    # ]
-
-    bend90 = gf.components.bend_euler(cross_section=cross_section, **kwargs)
-    route_single(
-        c,
-        port1=port1,
-        port2=port2,
-        # waypoints=points,
-        bend=bend90,
-        straight=gf.components.straight,
-        cross_section=cross_section,
-        **kwargs,
-    )
 
 
 @cell
@@ -74,6 +28,7 @@ def loss_deembedding_ch13_24(
         cross_section: spec.
         port_name: for the grating_coupler port.
         rotation: degrees.
+        yspacing: um.
         kwargs: cross_section settings.
     """
     gc = gf.get_component(grating_coupler)
@@ -103,13 +58,6 @@ def loss_deembedding_ch13_24(
     p1 = gc_ports[1]
     p3 = gc_ports[3]
     yspacing = yspacing or gc.d.ysize + 2 * radius
-
-    # a = radius + 5.0  # 0.5
-    # b = max(2 * a, pitch / 2)
-    # y_bot_align_route = -gc.d.xsize - 5.0
-    # connect_loopback(
-    #     c, p1, p3, a, b, y_bot_align_route, cross_section=cross_section, **kwargs
-    # )
     bend90 = gf.components.bend_euler(cross_section=cross_section, **kwargs)
     points = gf.kf.routing.optical.route_loopback(
         p1,
@@ -149,6 +97,8 @@ def loss_deembedding_ch12_34(
         grating_coupler: spec.
         port_name: for the grating_coupler port.
         cross_section: spec.
+        rotation: degrees.
+        kwargs: cross_section settings.
 
     Keyword Args:
         kwargs: cross_section settings.
@@ -206,6 +156,7 @@ def loss_deembedding_ch14_23(
         cross_section: spec.
         port_name: for the grating_coupler port.
         rotation: degrees.
+        kwargs: cross_section settings.
 
     Keyword Args:
         kwargs: cross_section settings.
@@ -259,6 +210,8 @@ def grating_coupler_loss_fiber_array(
         grating_coupler: spec for grating coupler.
         port_name: for the grating_coupler port.
         cross_section: spec.
+        rotation: degrees.
+        kwargs: cross_section settings.
 
     Keyword Args:
         kwargs: cross_section settings.

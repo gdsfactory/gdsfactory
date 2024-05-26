@@ -566,7 +566,6 @@ class LayerView(BaseModel):
         self, tag: str, name: str, custom_hatch_patterns: dict, custom_line_styles: dict
     ) -> ET.Element:
         """Get XML Element from attributes."""
-
         # If hatch pattern name matches a named (built-in) KLayout pattern, use 'I<idx>' notation
         hatch_name = getattr(self.hatch_pattern, "name", self.hatch_pattern)
         if hatch_name is None:
@@ -670,7 +669,6 @@ class LayerView(BaseModel):
             name: XML-formatted name entry.
             layer_pattern: Regex pattern to match layers with.
         """
-
         if not name:
             return None, None
 
@@ -783,6 +781,7 @@ class LayerViews(BaseModel):
         Args:
             filepath: can be YAML or LYP.
             layers: Optional layermap.
+            data: Additional data to add to the LayerViews object.
         """
         if filepath is not None:
             filepath = pathlib.Path(filepath)
@@ -823,6 +822,7 @@ class LayerViews(BaseModel):
         Args:
             name: Name of the LayerView.
             layer_view: LayerView to add.
+            kwargs: Additional arguments to pass to LayerView.
         """
         if name in self.layer_views:
             raise ValueError(
@@ -996,7 +996,6 @@ class LayerViews(BaseModel):
             overwrite: Whether to overwrite an existing file located at the filepath.
 
         """
-
         filepath = pathlib.Path(filepath)
         dirpath = filepath.parent
         dirpath.mkdir(exist_ok=True, parents=True)
@@ -1111,7 +1110,6 @@ class LayerViews(BaseModel):
             layer_file: Name of the file to write LayerViews to.
             prefer_named_color: Write the name of a color instead of its hex representation when possible.
         """
-
         lf_path = pathlib.Path(layer_file)
         dirpath = lf_path.parent
         dirpath.mkdir(exist_ok=True, parents=True)
@@ -1157,7 +1155,6 @@ class LayerViews(BaseModel):
         Args:
             layer_file: Name of the file to read LayerViews, CustomDitherPatterns, and CustomLineStyles from.
         """
-
         layer_file = pathlib.Path(layer_file)
 
         properties = OmegaConf.to_container(OmegaConf.load(layer_file.open()))
@@ -1193,41 +1190,6 @@ class LayerViews(BaseModel):
             custom_dither_patterns=custom_dither_patterns,
             custom_line_styles=custom_line_styles,
         )
-
-
-def _name_to_short_name(name_str: str) -> str:
-    """Maps the name entry of the lyp element to a name of the layer.
-
-    i.e. the dictionary key used to access it.
-    Default format of the lyp name are:
-
-        - key - layer/datatype - description
-        - key - description
-
-    """
-
-    if name_str is None:
-        raise OSError(f"layer {name_str} has no name")
-    fields = name_str.split("-")
-    name = fields[0].split()[0].strip()
-    return clean_name(name, remove_dots=True)
-
-
-def _name_to_description(name_str) -> str:
-    """Gets the description of the layer contained in the lyp name field.
-
-    It is not strictly necessary to have a description. If none there, it returns ''.
-
-    Default format of the lyp name are:
-
-        - key - layer/datatype - description
-        - key - description
-
-    """
-    if name_str is None:
-        raise OSError(f"layer {name_str!r} has no name")
-    fields = name_str.split()
-    return " ".join(fields[1:]) if len(fields) > 1 else ""
 
 
 def test_load_lyp() -> None:

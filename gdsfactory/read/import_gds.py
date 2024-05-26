@@ -24,7 +24,6 @@ def import_gds(
         post_process: function to run after reading the GDS file.
         kwargs: deprecated and ignored.
     """
-
     if kwargs:
         for k in kwargs:
             warnings.warn(f"kwargs {k!r} is deprecated and ignored")
@@ -57,6 +56,7 @@ def import_gds_with_conflicts(
         gdspath: path to GDS file.
         cellname: name of the cell to return. Defaults to top cell.
         name: optional name.
+        kwargs: deprecated and ignored.
 
     Modes:
         AddToCell: Add content to existing cell. Content of new cells is simply added to existing cells with the same name.
@@ -64,7 +64,6 @@ def import_gds_with_conflicts(
         RenameCell: The new cell will be renamed to become unique
         SkipNewCell: The new cell is skipped entirely (including child cells which are not used otherwise)
     """
-
     if kwargs:
         for k in kwargs:
             warnings.warn(f"kwargs {k!r} is deprecated and ignored")

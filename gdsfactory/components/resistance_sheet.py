@@ -20,7 +20,7 @@ def resistance_sheet(
     pad_size: tuple[float, float] = (50.0, 50.0),
     pad_pitch: float = 100.0,
     ohms_per_square: float | None = None,
-    pad_port_name: int = "e4",
+    pad_port_name: str = "e4",
 ) -> Component:
     """Returns Sheet resistance.
 
@@ -31,10 +31,10 @@ def resistance_sheet(
         layers: for the middle part.
         layer_offsets: from edge, positive: over, negative: inclusion.
         pad: function to create a pad.
+        pad_size: in um.
         pad_pitch: in um.
         ohms_per_square: optional sheet resistance to compute info.resistance.
-        port_orientation1: in degrees.
-        port_orientation2: in degrees.
+        pad_port_name: port name for the pad.
     """
     c = Component()
 
@@ -66,24 +66,6 @@ def resistance_sheet(
         name="pad2",
         port=pad2.ports[pad_port_name],
     )
-    # c.add_port(
-    #     name="pad1",
-    #     port_type="vertical_dc",
-    #     center=pad1.center,
-    #     layer=list(layers)[-1],
-    #     width=width,
-    #     orientation=port_orientation1,
-    # )
-    # c.add_port(
-    #     name="pad2",
-    #     port_type="vertical_dc",
-    #     center=pad2.center,
-    #     layer=list(layers)[-1],
-    #     width=width,
-    #     orientation=port_orientation2,
-    # )
-    # c.absorb(pad1)
-    # c.absorb(pad2)
     return c
 
 
@@ -93,6 +75,7 @@ if __name__ == "__main__":
     # c = gf.pack(sweep)[0]
 
     c = resistance_sheet()
+    c.pprint_ports()
     c.show()
 
     # import gdsfactory as gf

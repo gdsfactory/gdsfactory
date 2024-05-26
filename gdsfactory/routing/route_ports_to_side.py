@@ -38,10 +38,12 @@ def route_ports_to_side(
     """Routes ports to a given side.
 
     Args:
+        component: component to route.
         ports: list/dict/Component/ComponentReference to route to a side.
         side: 'north', 'south', 'east' or 'west'.
         x: position to route ports for east/west. None, uses most east/west value.
         y: position to route ports for south/north. None, uses most north/south value.
+        kwargs: additional arguments to pass to the routing function.
 
     Keyword Args:
       radius: in um.
@@ -146,10 +148,12 @@ def route_ports_to_x(
         y0_bottom: in um.
         y0_top: in um.
         backward_port_side_split_index: integer represents and index in the list of backwards ports (bottom to top)
-                all ports with an index strictly lower or equal are routed bottom
-            all ports with an index larger or equal are routed top
+            all ports with an index strictly lower or equal are routed bottom
+            all ports with an index larger or equal are routed top.
+        start_straight_length: in um.
         dx_start: override minimum starting x distance.
         dy_start: override minimum starting y distance.
+        routing_func_args: additional arguments to pass to the routing function.
 
     Returns:
         routes: list of routes
@@ -334,7 +338,8 @@ def route_ports_to_y(
     dy_start: float | None = None,
     **routing_func_args: dict[Any, Any],
 ) -> tuple[list[OpticalManhattanRoute], list[kf.Port]]:
-    """
+    """Route ports to y.
+
     Args:
         component: component to route.
         list_ports: reasonably well behaved list of ports.
@@ -346,20 +351,29 @@ def route_ports_to_y(
                if float: y coordinate to which the ports will be routed
                if string: "north" -> route to north
                if string: "south" -> route to south
+        separation: in um.
+        radius: in um.
+        x0_left: in um.
+        x0_right: in um.
+        extension_length: in um.
+        extend_left: in um.
+        extend_right: in um.
         backward_port_side_split_index: integer
                this integer represents and index in the list of backwards ports
                    (sorted from left to right)
                all ports with an index strictly larger are routed right
                all ports with an index lower or equal are routed left
-        separation: in um.
-        radius: in um.
+        start_straight_length: in um.
+        dx_start: override minimum starting x distance.
+        dy_start: override minimum starting y distance.
+        routing_func_args: additional arguments to pass to the routing function.
+
 
     Returns:
         - a list of Routes
         - a list of the new optical ports
 
-    First route the bottom-half of the back ports
-        (back ports are the one facing opposite side of x)
+    First route the bottom-half of the back ports (back ports are the one facing opposite side of x)
     Then route the south ports
     then the front ports
     then the north ports

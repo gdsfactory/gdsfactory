@@ -115,7 +115,7 @@ def find_min_curv_bezier_control_points(
         return list(zip(xs, ys))
 
     def objective_func(p):
-        """minimize  max curvaturea and negligible start angle and end angle mismatch"""
+        """Minimize  max curvaturea and negligible start angle and end angle mismatch."""
         ps = array_1d_to_cpts(p)
         control_points = [start_point] + ps + [end_point]
         path_points = bezier_curve(t, control_points)

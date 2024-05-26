@@ -99,8 +99,8 @@ def add_ports_from_markers_center(
         ycenter: for guessing orientation of rectangular ports.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical ports.
         port_type: type of port (optical, electrical ...).
-        short_ports: if the port is on the short side rather than the long side
-        auto_rename_ports:
+        short_ports: if the port is on the short side rather than the long side.
+        auto_rename_ports: if True auto rename ports to avoid duplicates.
         debug: if True prints ports that are skipped.
 
     For inside=False the port location is at the middle of the PIN
@@ -293,7 +293,8 @@ def add_ports_from_labels(
         xcenter: center of the component, for guessing port orientation.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical.
         port_type: optical, electrical.
-        layer_label:
+        get_name_from_label: uses the label text as port name.
+        layer_label: layer for the label.
         fail_on_duplicates: raises ValueError for duplicated port names.
             if False adds incremental suffix (1, 2 ...) to port name.
         port_orientation: None for electrical ports.
@@ -372,7 +373,6 @@ def add_ports_from_siepic_pins(
         port_layer: layer for optical ports.
         port_type: optical, electrical.
     """
-
     import gdsfactory as gf
 
     port_layer = port_layer or pin_layer

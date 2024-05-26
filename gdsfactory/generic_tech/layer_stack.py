@@ -1,3 +1,5 @@
+from pydantic.dataclasses import dataclass
+
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.technology import LayerLevel, LayerStack
 from gdsfactory.technology.processes import (
@@ -6,7 +8,6 @@ from gdsfactory.technology.processes import (
     Grow,
     ImplantPhysical,
     Planarize,
-    ProcessStep,
 )
 
 nm = 1e-3
@@ -78,7 +79,7 @@ def get_layer_stack(
     Args:
         thickness_wg: waveguide thickness in um.
         thickness_slab_deep_etch: for deep etched slab.
-        thickness_shallow_etch: thickness for the etch in um.
+        thickness_slab_shallow_etch: thickness for the etch in um.
         sidewall_angle_wg: waveguide side angle.
         thickness_clad: cladding thickness in um.
         thickness_nitride: nitride thickness in um.
@@ -112,7 +113,6 @@ def get_layer_stack(
         layer_via2: via2 layer.
 
     """
-
     thickness_deep_etch = thickness_wg - thickness_slab_deep_etch
     thickness_shallow_etch = thickness_wg - thickness_slab_shallow_etch
     layers = dict(
@@ -283,14 +283,13 @@ WAFER_STACK = LayerStack(
 )
 
 
-def get_process() -> tuple[ProcessStep]:
+def get_process() -> tuple[dataclass, ...]:
     """Returns generic process to generate LayerStack.
 
     Represents processing steps that will result in the GenericLayerStack, starting from the waferstack LayerStack.
 
     based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
     """
-
     return (
         Etch(
             name="strip_etch",

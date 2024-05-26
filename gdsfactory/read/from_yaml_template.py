@@ -16,6 +16,7 @@ __all__ = ["cell_from_yaml_template"]
 
 def split_default_settings_from_yaml(yaml_lines: Iterable[str]) -> tuple[str, str]:
     """Separates out the 'default_settings' block from the rest of the file body.
+
     Note: 'default settings' MUST be at the TOP of the file.
 
     Args:
@@ -117,7 +118,6 @@ def yaml_cell(yaml_definition, name: str, routing_strategy) -> Callable[..., Com
     Returns:
         a dynamically-generated function for the yaml file.
     """
-
     yaml_body, default_settings_def = _split_yaml_definition(yaml_definition)
     default_settings = get_default_settings_dict(default_settings_def)
 
@@ -166,12 +166,12 @@ def _pic_from_templated_yaml(evaluated_text, name, routing_strategy) -> Componen
     This is a lower-level function. See from_yaml_template() for more common usage.
 
     Args:
+        evaluated_text: the text of the yaml file, with all jinja templating evaluated.
         name: the pic name.
         routing_strategy: a dictionary of route factories.
 
     Returns: the component.
     """
-
     c = from_yaml(
         evaluated_text,
         routing_strategy=routing_strategy,

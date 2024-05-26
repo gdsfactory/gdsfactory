@@ -44,8 +44,7 @@ def _simplify(points, tolerance):
 
 
 class Path(_GeometryHelper):
-    """Path object for smooth Paths. You can extrude a Path with a CrossSection \
-            to create a Component.
+    """You can extrude a Path with a CrossSection to create a Component.
 
     Parameters:
         path: array-like[N][2], Path, or list of Paths.
@@ -263,10 +262,17 @@ class Path(_GeometryHelper):
         return self
 
     def _centerpoint_offset_curve(
-        self, points, offset_distance, start_angle, end_angle
+        self, points, offset_distance: float, start_angle: float, end_angle: float
     ):
-        """Creates a offset curve (but does not account for cusps etc)\
-        by computing the centerpoint offset of the supplied x and y points."""
+        """Creates a offset curve computing the centerpoint offset of x and y points.
+
+        Args:
+            points: array-like[N][2] The points to be offset.
+            offset_distance: array-like[N] The distance to offset the points.
+            start_angle: float or None The angle at the start of the path.
+            end_angle: float or None The angle at the end of the path.
+
+        """
         new_points = np.array(points, dtype=np.float64)
         dx = np.diff(points[:, 0])
         dy = np.diff(points[:, 1])
@@ -274,7 +280,7 @@ class Path(_GeometryHelper):
         theta = np.concatenate([theta[:1], theta, theta[-1:]])
         theta_mid = (np.pi + theta[1:] + theta[:-1]) / 2  # Mean angle between segments
         dtheta_int = np.pi + theta[:-1] - theta[1:]  # Internal angle between segments
-        offset_distance = offset_distance / np.sin(dtheta_int / 2)
+        offset_distance /= np.sin(dtheta_int / 2)
         new_points[:, 0] -= offset_distance * np.cos(theta_mid)
         new_points[:, 1] -= offset_distance * np.sin(theta_mid)
         if start_angle is not None:
@@ -289,9 +295,19 @@ class Path(_GeometryHelper):
             )
         return new_points
 
-    def _parametric_offset_curve(self, points, offset_distance, start_angle, end_angle):
-        """Creates a parametric offset (does not account for cusps etc) \
-        by using gradient of the supplied x and y points."""
+    def _parametric_offset_curve(
+        self, points, offset_distance: float, start_angle: float, end_angle: float
+    ):
+        """Creates a parametric offset by using gradient of the supplied x and y points.
+
+        Args:
+            points: array-like[N][2] The points to be offset.
+            offset_distance: array-like[N] The distance to offset the points.
+            start_angle: float or None The angle at the start of the path.
+            end_angle: float or None The angle at the end of the path.
+
+
+        """
         x = points[:, 0]
         y = points[:, 1]
         dxdt = np.gradient(x)
@@ -998,7 +1014,6 @@ def extrude_transition(
         p: path to extrude.
         transition: transition to extrude along.
     """
-
     from gdsfactory.pdk import get_cross_section, get_layer
 
     c = Component()
@@ -1263,14 +1278,15 @@ def arc(
     return P
 
 
-def _cumtrapz(x):
-    """Numpy-based implementation of the cumulative trapezoidal integration \
-    function usually found in scipy (scipy.integrate.cumtrapz)."""
-    return np.cumsum((x[1:] + x[:-1]) / 2)
+def _fresnel(R0, s, num_pts: int, n_iter: int = 8):
+    """Fresnel integral using a series expansion.
 
-
-def _fresnel(R0, s, num_pts, n_iter=8):
-    """Fresnel integral using a series expansion."""
+    Args:
+        R0: Initial radius of curvature.
+        s: Length of the curve.
+        num_pts: Number of points to generate.
+        n_iter: Number of iterations to use in the series expansion.
+    """
     t = np.linspace(0, s / (np.sqrt(2) * R0), num_pts)
     x = np.zeros(num_pts)
     y = np.zeros(num_pts)

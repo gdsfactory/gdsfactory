@@ -51,6 +51,10 @@ def add_bbox(
     Args:
         component: component to add bbox.
         bbox_layer: bbox layer.
+        top: padding.
+        bottom: padding.
+        left: padding.
+        right: padding.
     """
     from gdsfactory.pdk import get_layer
 
@@ -411,6 +415,7 @@ def add_outline(
         component: where to add the markers.
         reference: to read outline from.
         layer: to add padding.
+        kwargs: padding settings.
 
     Keyword Args:
         default: default padding.
@@ -451,6 +456,7 @@ def add_pins_siepic(
         port_type: optical, electrical, ...
         layer: pin layer.
         pin_length: length of the pin marker for the port.
+        kwargs: add pins function settings.
     """
     from gdsfactory.pdk import get_component
 
@@ -581,7 +587,7 @@ def add_pins_and_outline(
     add_settings_function: Callable | None = add_settings_label,
     add_instance_label_function: Callable | None = add_settings_label,
 ) -> None:
-    """Add markers.
+    """Add pin markers and component outline.
 
     - outline
     - pins for the ports
@@ -591,7 +597,7 @@ def add_pins_and_outline(
     Args:
         component: where to add the markers.
         reference: to add pins.
-        add_outline_function.
+        add_outline_function: to add outline around the component.
         add_pins_function: to add pins to ports.
         add_settings_function: to add outline around the component.
         add_instance_label_function: labels each instance.

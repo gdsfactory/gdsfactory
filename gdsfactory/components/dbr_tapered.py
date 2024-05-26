@@ -89,6 +89,7 @@ def dbr_tapered(
        fins: If `True`, adds fins to the input/output straights.
        fin_size: Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm
        cross_section: cross_section spec.
+       kwargs: cross_section settings.
 
     Keyword Args:
         cross_section kwargs.

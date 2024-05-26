@@ -60,7 +60,6 @@ def watch(
     pdk: str = typer.Option(None, "--pdk", "-pdk", help="PDK name"),
 ) -> None:
     """Filewatch a folder for changes in *.py or *.pic.yml files."""
-
     path = pathlib.Path(path)
     path = path.parent if path.is_dir() else path
     _watch(str(path), pdk=pdk)
@@ -69,49 +68,42 @@ def watch(
 @app.command()
 def show(filename: str) -> None:
     """Show a GDS file using klive."""
-
     _show(filename)
 
 
 @app.command()
 def gds_diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
     """Show boolean difference between two GDS files."""
-
     diff(gdspath1, gdspath2, xor=xor)
 
 
 @app.command()
 def install_klayout_genericpdk() -> None:
     """Install Klayout generic PDK."""
-
     install_klayout_package()
 
 
 @app.command()
 def install_git_diff() -> None:
     """Install git diff."""
-
     install_gdsdiff()
 
 
 @app.command()
 def print_plugins() -> None:
     """Show installed plugin versions."""
-
     print_version_plugins()
 
 
 @app.command()
 def print_pdks() -> None:
     """Show installed PDK versions."""
-
     print_version_pdks()
 
 
 @app.command(name="from_updk")
 def from_updk_command(filepath: str, filepath_out: str = "") -> None:
     """Writes a PDK in python from uPDK YAML spec."""
-
     filepath = pathlib.Path(filepath)
     filepath_out = filepath_out or filepath.with_suffix(".py")
     from_updk(filepath, filepath_out=filepath_out)

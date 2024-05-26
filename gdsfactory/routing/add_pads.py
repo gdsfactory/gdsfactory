@@ -51,6 +51,9 @@ def add_pads_bot(
         pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         taper: taper spec.
+        port_type: port type.
+        allow_width_mismatch: True
+        kwargs: additional arguments.
 
     Keyword Args:
         straight: straight spec.
@@ -148,6 +151,7 @@ def add_pads_top(
 
     Args:
         component: component spec to connect to.
+        kwargs: additional arguments.
 
     Keyword Args:
         select_ports: function to select_ports.

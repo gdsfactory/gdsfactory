@@ -28,7 +28,7 @@ def seal_ring(
     Prevents cracks from spreading and shields when connected to ground.
 
     Args:
-        bbox: to add seal ring around. You can pass Component.bbox.
+        component: to add seal ring around. You can pass Component.bbox.
         seal: function for the seal.
         width: of the seal.
         padding: from component to seal.

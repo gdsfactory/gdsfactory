@@ -65,7 +65,7 @@ def straight_heater_meander_doped(
         via_stack: for the heater to via_stack metal.
         port_orientation1: in degrees. None adds all orientations.
         port_orientation2: in degrees. None adds all orientations.
-        straight_width: width of the straight section.
+        straight_widths: width of the straight sections.
         taper_length: from the cross_section.
     """
     rows = len(straight_widths)

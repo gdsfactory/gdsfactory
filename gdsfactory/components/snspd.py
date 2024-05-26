@@ -22,8 +22,8 @@ def snspd(
     """Creates an optimally-rounded SNSPD.
 
     Args:
-        width: Width of the wire.
-        pitch: Distance between two adjacent wires. Must be greater than `width`.
+        wire_width: Width of the wire.
+        wire_pitch: Distance between two adjacent wires. Must be greater than `width`.
         size: None or array-like[2] of int or float
             (width, height) of the rectangle formed by the outer boundary of the
             SNSPD. Must be none if `num_squares` is specified.
@@ -34,8 +34,7 @@ def snspd(
             Specifies how much of the SNSPD width is dedicated to the 180 degree
             turn. A `turn_ratio` of 10 will result in 20% of the width being
             comprised of the turn.
-        terminals_same_side : bool
-            If True, both ports will be located on the same side of the SNSPD.
+        terminals_same_side: If True, both ports will be located on the same side of the SNSPD.
         layer: layer spec to put polygon geometry on.
 
     """

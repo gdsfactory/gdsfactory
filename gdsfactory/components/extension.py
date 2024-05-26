@@ -81,6 +81,7 @@ def extend_ports(
         cross_section: extension cross_section, defaults to port cross_section
             if port has no cross_section it creates one using width and layer.
         extension_port_names: extension port names add to the new component.
+        kwargs: cross_section settings.
 
     Keyword Args:
         layer: port GDS layer.

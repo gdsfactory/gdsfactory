@@ -31,6 +31,7 @@ def bend_s(
         cross_section: spec.
         bend_radius_error_type: error type.
         allow_min_radius_violation: bool.
+        kwargs: cross_section settings.
 
     """
     c = Component()
@@ -56,10 +57,9 @@ def get_min_sbend_size(
     num_points: int = 100,
     **kwargs,
 ) -> float:
-    """
-    Returns the minimum sbend size to comply with bend radius requirements.
+    """Returns the minimum sbend size to comply with bend radius requirements.
 
-     Args:
+    Args:
         size: in x and y direction. One of them is None, which is the size we need to figure out.
         cross_section: spec.
         num_points: number of points to iterate over between max_size and 0.1 * max_size.
