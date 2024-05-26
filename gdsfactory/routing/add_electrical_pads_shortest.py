@@ -29,9 +29,10 @@ def add_electrical_pads_shortest(
         component: to route.
         pad: pad element or function.
         pad_port_spacing: spacing between pad and port.
+        pad_size: pad size.
         select_ports: function to select ports.
-        port_orientation: in degrees.
         port_names: optional port names. Overrides select_ports.
+        port_orientation: in degrees.
         layer: for the routing.
 
     .. plot::
