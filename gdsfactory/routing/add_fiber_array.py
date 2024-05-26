@@ -39,6 +39,7 @@ def add_fiber_array(
         select_ports: function to select ports.
         cross_section: cross_section function.
         taper: taper spec.
+        kwargs: additional arguments.
 
     Keyword Args:
         bend: bend spec.
@@ -132,21 +133,6 @@ def add_fiber_array(
 
     component_new.copy_child_info(component)
     return component_new
-
-
-def demo_te_and_tm():
-    c = gf.Component()
-    w = gf.components.straight()
-    wte = add_fiber_array(
-        component=w, grating_coupler=gf.components.grating_coupler_elliptical_te
-    )
-    wtm = add_fiber_array(
-        component=w, grating_coupler=gf.components.grating_coupler_elliptical_tm
-    )
-    c.add_ref(wte)
-    wtm_ref = c.add_ref(wtm)
-    wtm_ref.movey(wte.size_info.height)
-    return c
 
 
 if __name__ == "__main__":
