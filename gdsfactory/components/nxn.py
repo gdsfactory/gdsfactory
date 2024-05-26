@@ -30,6 +30,7 @@ def nxn(
         xsize: size in X.
         ysize: size in Y.
         wg_width: width of the straight ports.
+        layer: layer.
         wg_margin: margin from straight to component edge.
         kwargs: port_settings.
 

@@ -7,7 +7,7 @@ import numpy as np
 from gdsfactory import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import Ints, LayerSpec
+from gdsfactory.typings import Ints, Iterable, LayerSpec, LayerSpecs
 
 
 @cell
@@ -46,8 +46,8 @@ marker_tm = partial(rectangle, size=[fiber_size, fiber_size], layer="TM", center
 @cell
 def rectangles(
     size=(4.0, 2.0),
-    offsets=(0, 1),
-    layers=("WG", "SLAB150"),
+    offsets: Iterable[float] = (0, 1),
+    layers: LayerSpecs = ("WG", "SLAB150"),
     centered: bool = True,
     **kwargs,
 ) -> Component:
@@ -58,6 +58,7 @@ def rectangles(
         layers: Specific layer to put polygon geometry on.
         offsets: list of offsets.
         centered: True sets center to (0, 0), False sets south-west of first rectangle to (0, 0).
+        kwargs: additional arguments to pass to rectangle.
 
     Keyword Args:
         port_type: optical, electrical.

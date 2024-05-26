@@ -38,6 +38,7 @@ def grating_coupler_elliptical_trenches(
         polarization: 'te' or 'tm'.
         taper_length: taper length from straight I/O.
         taper_angle: grating flare angle.
+        trenches_extra_angle: extra angle for the trenches.
         wavelength: grating transmission central wavelength.
         fiber_angle: fibre polish angle in degrees.
         grating_line_width: of the 220 ridge.
