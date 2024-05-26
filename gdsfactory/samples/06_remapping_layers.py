@@ -15,10 +15,10 @@ def remap_layers() -> Component:
     wg2 = c << straight(length=11, width=1, layer=(1, 0))
     wg3 = c << straight(length=11, width=1, layer=(1, 0))
 
-    wg2.connect(port="o1", other=wg1.ports["o2"])
-    wg3.connect(port="o1", other=wg2.ports["o2"])
+    wg2.connect("o1", wg1.ports["o2"])
+    wg3.connect("o1", wg2.ports["o2"])
 
-    c.remap_layers({(1, 0): (2, 0)})
+    c = c.remap_layers({(1, 0): (2, 0)}, recursive=True)
     return c
 
 
