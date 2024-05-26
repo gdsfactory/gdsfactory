@@ -49,6 +49,7 @@ def triangle2(spacing: float = 3, **kwargs):
 
     Args:
         spacing: between top and bottom.
+        kwargs: triangle arguments.
 
     Keyword Args:
         x: base xsize.
@@ -88,6 +89,9 @@ def triangle2(spacing: float = 3, **kwargs):
 @cell
 def triangle4(**kwargs):
     r"""Return 4 triangles.
+
+    Args:
+        kwargs: triangle arguments.
 
     Keyword Args:
         x: base xsize.

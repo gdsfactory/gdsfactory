@@ -66,6 +66,7 @@ def wire_corner45(
 
     Args:
         cross_section: spec.
+        radius: in um.
     """
     x = gf.get_cross_section(cross_section)
     layer = x.layer
