@@ -75,14 +75,8 @@ def cutback_splitter(
 
     s = s[:-1]
 
-    seq = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
-
-    c = gf.Component()
-    ref = c << seq
-    c.add_ports(ref.ports)
-
+    c = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
     n = len(s) - 2
-    c.copy_child_info(component)
     c.info["components"] = n
     return c
 

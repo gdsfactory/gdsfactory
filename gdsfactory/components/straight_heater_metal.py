@@ -92,13 +92,9 @@ def straight_heater_metal_undercut(
     # Each character in the sequence represents a component
     sequence = "_-" + n * "UH" + "-_"
 
-    c = Component()
-    sequence = gf.components.component_sequence(
+    c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
-    c.add_ref(sequence)
-    c.add_ports(sequence.ports)
-
     x = gf.get_cross_section(cross_section_heater)
     heater_width = x.width
 
