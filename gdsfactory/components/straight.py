@@ -64,7 +64,9 @@ if __name__ == "__main__":
         length=10,
         cross_section="strip",
     )
-    ref = c0 << c
+    # ref = c0 << c
+    ref = c0.add_ref(c)
+    print(ref.xmax)
     # print("o1" in c.ports)
     # print(type(c.ports))
     # print("o1" in ref.ports)

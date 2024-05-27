@@ -115,7 +115,7 @@ class Region(kdb.Region):
 
 
 class ComponentReference(kf.Instance):
-    """Shadows dbu attributes of Instance.
+    """Shadows dbu attributes of Instance for backward compatibility.
 
     DO NOT USE THIS AND PASS IT TO ANY FUNCTION REQUIRING kf.Instance.
     """
