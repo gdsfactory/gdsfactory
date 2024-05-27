@@ -20,6 +20,8 @@ app = typer.Typer()
 
 
 class Migration(str, Enum):
+    """Available Migrations."""
+
     upgrade7to8 = "7to8"
 
 
@@ -136,7 +138,12 @@ def text_from_pdf_command(filepath: str) -> None:
 @app.command()
 def migrate(
     migration: Annotated[
-        Migration, typer.Option(case_sensitive=False, help="Choices of migrations.")
+        Migration,
+        typer.Option(
+            case_sensitive=False,
+            help="Choices of migrations. See the migration guide for more explanation "
+            "https://gdsfactory.github.io/gdsfactory/migration.html",
+        ),
     ],
     input: Annotated[pathlib.Path, typer.Argument(help="Input folder or file.")],
     output: Annotated[
@@ -155,6 +162,10 @@ def migrate(
         ),
     ] = False,
 ) -> None:
+    """Migrates python scripts to new syntax.
+
+    It will only update `.py` files unless input is an exact file and not a directory.
+    """
     to_be_replaced = {
         "center",
         "mirror",
