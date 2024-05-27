@@ -41,7 +41,7 @@ def edge_coupler_array(
     for i in range(n):
         alias = f"ec_{i}"
         ref = c.add_ref(edge_coupler, alias=alias)
-        ref.d.y = i * pitch
+        ref.dy = i * pitch
 
         if x_reflection:
             ref.mirror()
@@ -53,9 +53,9 @@ def edge_coupler_array(
 
         if text:
             t = c << gf.get_component(text, text=str(i + 1))
-            t.d.rotate(text_rotation)
-            t.d.movex(text_offset[0])
-            t.d.movey(i * pitch + text_offset[1])
+            t.drotate(text_rotation)
+            t.dmovex(text_offset[0])
+            t.dmovey(i * pitch + text_offset[1])
 
     c.auto_rename_ports()
     return c

@@ -29,7 +29,7 @@ def bendu_double(
     xs = gf.get_cross_section(cross_section)
 
     xs_r2 = xs.copy(
-        radius=xs.radius - (component.ports[port1].d.y - component.ports[port2].d.y)
+        radius=xs.radius - (component.ports[port1].dy - component.ports[port2].dy)
     )
 
     bendu = gf.Component()

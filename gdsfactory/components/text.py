@@ -57,8 +57,8 @@ def text(
         elif justify == "right":
             label.xmax = position[0]
         elif justify == "center":
-            xmin = position[0] - label.d.xsize / 2
-            label.d.xmin = xmin
+            xmin = position[0] - label.dxsize / 2
+            label.dxmin = xmin
         else:
             raise ValueError(
                 f"justify = {justify!r} not in ('center', 'right', 'left')"
@@ -85,7 +85,7 @@ def text_lines(
     for i, texti in enumerate(text):
         t = text_rectangular(text=texti, size=size, layer=layer)
         tref = c.add_ref(t)
-        tref.d.movey(-6 * size * (i + 1))
+        tref.dmovey(-6 * size * (i + 1))
     return c
 
 
@@ -96,8 +96,8 @@ def logo(text: str = "GDSFACTORY", text_function=text, spacing=1) -> Component:
     xmin = 0
     for i, letter in enumerate(text):
         ref = c << text_function(letter, layer=(i + 1, 0), size=10)
-        ref.d.xmin = xmin
-        xmin = ref.d.xmax + spacing
+        ref.dxmin = xmin
+        xmin = ref.dxmax + spacing
 
     return c
 

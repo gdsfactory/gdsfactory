@@ -59,7 +59,7 @@ def add_label_yaml(
     if anchor not in valid_anchor_point_keywords:
         raise ValueError(f"anchor {anchor} not in {valid_anchor_point_keywords}. ")
 
-    xc, yc = getattr(component.d.size_info, anchor)
+    xc, yc = getattr(component.dsize_info, anchor)
 
     d = dict(
         name=component.name,

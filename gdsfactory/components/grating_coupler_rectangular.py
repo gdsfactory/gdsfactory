@@ -88,15 +88,15 @@ def grating_coupler_rectangular(
     )
 
     c.add_port(port=taper_ref.ports["o1"], name="o1")
-    x0 = taper_ref.d.xmax
+    x0 = taper_ref.dxmax
 
     for i in range(n_periods):
         xsize = gf.snap.snap_to_grid(period * fill_factor)
         cgrating = c.add_ref(
             rectangle(size=(xsize, width_grating), layer=layer, port_type=None)
         )
-        cgrating.d.xmin = gf.snap.snap_to_grid(x0 + i * period)
-        cgrating.d.y = 0
+        cgrating.dxmin = gf.snap.snap_to_grid(x0 + i * period)
+        cgrating.dy = 0
 
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
@@ -105,8 +105,8 @@ def grating_coupler_rectangular(
 
     if layer_slab:
         slab_xmin += length_taper
-        slab_xsize = cgrating.d.xmax + slab_offset
-        slab_ysize = c.d.ysize + 2 * slab_offset
+        slab_xsize = cgrating.dxmax + slab_offset
+        slab_ysize = c.dysize + 2 * slab_offset
         yslab = slab_ysize / 2
         c.add_polygon(
             [
@@ -119,7 +119,7 @@ def grating_coupler_rectangular(
         )
     # xs.add_bbox(c)
 
-    xport = np.round((x0 + cgrating.d.x) / 2, 3)
+    xport = np.round((x0 + cgrating.dx) / 2, 3)
     c.add_port(
         name="o2",
         port_type=f"vertical_{polarization}",

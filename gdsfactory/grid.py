@@ -159,11 +159,11 @@ def grid_with_text(
                 size_info = SizeInfo(instance.dbbox())
                 o = np.array(text_offsets[j])
                 d = np.array(getattr(size_info, text_anchors[j]))
-                t.d.move(o + d)
+                t.dmove(o + d)
                 if text_mirror:
                     t.mirror()
                 if text_rotation:
-                    t.d.rotate(text_rotation)
+                    t.drotate(text_rotation)
 
     return c
 

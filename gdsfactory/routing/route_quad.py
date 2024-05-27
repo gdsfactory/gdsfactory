@@ -59,14 +59,14 @@ def route_quad(
 
     def get_port_edges(port, width):
         _, e1 = _get_rotated_basis(port.orientation)
-        pt1 = port.d.center + e1 * width / 2
-        pt2 = port.d.center - e1 * width / 2
+        pt1 = port.dcenter + e1 * width / 2
+        pt2 = port.dcenter - e1 * width / 2
         return pt1, pt2
 
     if width1 is None:
-        width1 = port1.d.width
+        width1 = port1.dwidth
     if width2 is None:
-        width2 = port2.d.width
+        width2 = port2.dwidth
     vertices = np.array(get_port_edges(port1, width1) + get_port_edges(port2, width2))
     center = np.mean(vertices, axis=0)
     displacements = vertices - center
@@ -101,8 +101,8 @@ if __name__ == "__main__":
     c = gf.Component()
     pad1 = c << gf.components.pad(size=(50, 50))
     pad2 = c << gf.components.pad(size=(10, 10))
-    pad2.d.movex(100)
-    pad2.d.movey(50)
+    pad2.dmovex(100)
+    pad2.dmovey(50)
     route_quad(
         c,
         pad1.ports["e2"],

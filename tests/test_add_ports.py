@@ -27,7 +27,7 @@ def test_add_ports_from_pins() -> None:
     add_pins(c)
     gdspath = c.write_gds()
     c2 = gf.import_gds(gdspath, post_process=add_ports_from_markers_inside)
-    assert c2.ports["o1"].d.center[0] == 0
+    assert c2.ports["o1"].dcenter[0] == 0
 
 
 def test_add_ports_from_pins_path() -> None:
@@ -35,4 +35,4 @@ def test_add_ports_from_pins_path() -> None:
     add_pins_siepic(c)
     gdspath = c.write_gds()
     c2 = gf.import_gds(gdspath, post_process=add_ports_from_siepic_pins)
-    assert c2.ports["o1"].d.center[0] == 0
+    assert c2.ports["o1"].dcenter[0] == 0

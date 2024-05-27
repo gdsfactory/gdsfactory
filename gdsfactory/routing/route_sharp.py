@@ -391,8 +391,8 @@ if __name__ == "__main__":
     c1 = c << gf.components.pad()
     c2 = c << gf.components.pad()
 
-    c2.d.movex(400)
-    c2.d.movey(-200)
+    c2.dmovex(400)
+    c2.dmovey(-200)
 
     route_sharp(c, c1.ports["e4"], c2.ports["e1"], path_type="L")
     c.show()

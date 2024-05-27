@@ -142,8 +142,8 @@ def add_ports_from_markers_center(
         x > xc: east
         x < xc: west
     """
-    xc = xcenter or component.d.x
-    yc = ycenter or component.d.y
+    xc = xcenter or component.dx
+    yc = ycenter or component.dy
     xmax = component.xmax
     xmin = component.xmin
     ymax = component.ymax

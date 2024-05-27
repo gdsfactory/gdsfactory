@@ -81,10 +81,10 @@ def pprint_ports(ports: list[Port] | kf.Ports) -> None:
             str(i)
             for i in [
                 port.name,
-                port.d.width,
-                port.d.angle,
+                port.dwidth,
+                port.dangle,
                 port.layer,
-                port.d.center,
+                port.dcenter,
                 port.port_type,
             ]
         ]
@@ -163,7 +163,7 @@ def to_dict(port: Port) -> dict[str, typing.Any]:
     """Returns dict."""
     return {
         "name": port.name,
-        "center": port.d.center,
+        "center": port.dcenter,
         "width": port.width,
         "orientation": port.orientation,
         "layer": port.layer,
@@ -368,7 +368,7 @@ def select_ports(
     if suffix:
         ports = [p for p in ports if p.name.endswith(suffix)]
     if orientation is not None:
-        ports = [p for p in ports if np.isclose(p.d.angle, orientation)]
+        ports = [p for p in ports if np.isclose(p.dangle, orientation)]
 
     if layers_excluded:
         ports = [p for p in ports if p.layer not in layers_excluded]

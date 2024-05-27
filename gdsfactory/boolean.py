@@ -98,7 +98,7 @@ if __name__ == "__main__":
     # c = gf.Component()
     # e2 = c << gf.components.ellipse(radii=(10, 6))
     # e3 = c << gf.components.ellipse(radii=(10, 4))
-    # e3.d.movex(5)
+    # e3.dmovex(5)
     # c = boolean(A=e2, B=e3, operation="and")
 
     core = gf.c.coupler()

@@ -32,20 +32,20 @@ def litho_steps(
     )
 
     ref = D.add_ref(T1)
-    ref.d.rotate(90)
-    ref.d.movex(-height / 10)
+    ref.drotate(90)
+    ref.dmovex(-height / 10)
 
     R1 = pc.rectangle(size=(line_spacing, height), layer=layer)
-    D.add_ref(R1).d.movey(-height)
+    D.add_ref(R1).dmovey(-height)
     count = 0
     for i in reversed(line_widths):
         count += line_spacing + i
         R2 = pc.rectangle(size=(i, height), layer=layer)
         r = D.add_ref(R1)
-        r.d.movex(count)
-        r.d.movey(-height)
+        r.dmovex(count)
+        r.dmovey(-height)
         r = D.add_ref(R2)
-        r.d.movex(count - i)
+        r.dmovex(count - i)
 
     return D
 

@@ -125,7 +125,7 @@ def extend_ports(
                 extension_component = gf.get_component(extension)
             else:
                 cross_section_extension = cross_section or cross_section_function(
-                    layer=port.layer, width=port.d.width
+                    layer=port.layer, width=port.dwidth
                 )
 
                 if cross_section_extension is None:

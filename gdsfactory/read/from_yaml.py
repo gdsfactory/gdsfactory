@@ -133,9 +133,9 @@ def to_um(ref, value):
 
 def _get_anchor_point_from_name(ref: Instance, anchor_name: str) -> np.ndarray | None:
     if anchor_name in valid_anchor_point_keywords:
-        return getattr(ref.d.size_info, anchor_name)
+        return getattr(ref.dsize_info, anchor_name)
     elif anchor_name in ref.ports:
-        return ref.ports[anchor_name].d.center
+        return ref.ports[anchor_name].dcenter
     else:
         return None
 
@@ -144,7 +144,7 @@ def _get_anchor_value_from_name(
     ref: Instance, anchor_name: str, return_value: str
 ) -> float | None:
     if anchor_name in valid_anchor_value_keywords:
-        return getattr(ref.d.size_info, anchor_name)
+        return getattr(ref.dsize_info, anchor_name)
     anchor_point = _get_anchor_point_from_name(ref, anchor_name)
     if anchor_point is None:
         return None
@@ -265,21 +265,21 @@ def place(
 
         if mirror:
             if mirror is True and port:
-                ref.d.mirror_x(x=_get_anchor_value_from_name(ref, port, "x"))
+                ref.dmirror_x(x=_get_anchor_value_from_name(ref, port, "x"))
             elif mirror is True:
                 if x:
                     x = to_um(ref, x)
-                    ref.d.mirror_x(x=x)
+                    ref.dmirror_x(x=x)
                 else:
-                    ref.d.mirror_x()
+                    ref.dmirror_x()
             elif mirror is False:
                 pass
             elif isinstance(mirror, str):
                 x_mirror = ref.ports[mirror].x
-                ref.d.mirror_x(x_mirror)
+                ref.dmirror_x(x_mirror)
             elif isinstance(mirror, int | float):
                 x = to_um(ref, x)
-                ref.d.mirror_x(x=x)
+                ref.dmirror_x(x=x)
             else:
                 raise ValueError(
                     f"{mirror!r} can only be a port name {ref.ports.keys()}, "
@@ -297,11 +297,11 @@ def place(
                     "Valid keywords: \n"
                     f"{valid_anchor_point_keywords}",
                 )
-            ref.d.x -= a[0]
-            ref.d.y -= a[1]
+            ref.dx -= a[0]
+            ref.dy -= a[1]
 
         if x is not None:
-            ref.d.x += _move_ref(
+            ref.dx += _move_ref(
                 x,
                 x_or_y="x",
                 placements_conf=placements_conf,
@@ -315,7 +315,7 @@ def place(
         # print(ymin, y or ymin or ymax)
 
         if y is not None:
-            ref.d.y += _move_ref(
+            ref.dy += _move_ref(
                 y,
                 x_or_y="y",
                 placements_conf=placements_conf,
@@ -327,15 +327,15 @@ def place(
 
         if rotation:
             if port:
-                ref.d.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
+                ref.drotate(rotation, center=_get_anchor_point_from_name(ref, port))
             else:
-                x, y = ref.d.center.x, ref.d.center.y
-                ref.d.rotate(rotation, center=ref.d.center)
+                x, y = ref.dcenter.x, ref.dcenter.y
+                ref.drotate(rotation, center=ref.dcenter)
 
         if ymin is not None and ymax is not None:
             raise ValueError("You cannot set ymin and ymax")
         elif ymax is not None:
-            ref.d.ymax = _move_ref(
+            ref.dymax = _move_ref(
                 ymax,
                 x_or_y="y",
                 placements_conf=placements_conf,
@@ -345,7 +345,7 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
         elif ymin is not None:
-            ref.d.ymin = _move_ref(
+            ref.dymin = _move_ref(
                 ymin,
                 x_or_y="y",
                 placements_conf=placements_conf,
@@ -358,7 +358,7 @@ def place(
         if xmin is not None and xmax is not None:
             raise ValueError("You cannot set xmin and xmax")
         elif xmin is not None:
-            ref.d.xmin = _move_ref(
+            ref.dxmin = _move_ref(
                 xmin,
                 x_or_y="x",
                 placements_conf=placements_conf,
@@ -368,7 +368,7 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
         elif xmax is not None:
-            ref.d.xmax = _move_ref(
+            ref.dxmax = _move_ref(
                 xmax,
                 x_or_y="x",
                 placements_conf=placements_conf,
@@ -378,10 +378,10 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
         if dx:
-            ref.d.x += dx
+            ref.dx += dx
 
         if dy:
-            ref.d.y += dy
+            ref.dy += dy
 
     if instance_name in connections_by_transformed_inst:
         conn_info = connections_by_transformed_inst[instance_name]

@@ -66,30 +66,30 @@ def add_loopback(
     c = gf.Component()
     gc = gf.get_component(grating)
 
-    y0 = port1.d.y
-    x0 = port1.d.x - grating_separation
-    x1 = port2.d.x + grating_separation
+    y0 = port1.dy
+    x0 = port1.dx - grating_separation
+    x1 = port2.dx + grating_separation
 
     gca1 = c << gc
-    gca1.d.rotate(grating_rotation)
-    gca1.d.move((x0, y0))
+    gca1.drotate(grating_rotation)
+    gca1.dmove((x0, y0))
 
     gca2 = c << gc
-    gca2.d.rotate(grating_rotation)
-    gca2.d.move((x1, y0))
+    gca2.drotate(grating_rotation)
+    gca2.dmove((x1, y0))
 
-    p0 = gca1.ports[grating_port_name].d.center
-    p1 = gca2.ports[grating_port_name].d.center
+    p0 = gca1.ports[grating_port_name].dcenter
+    p1 = gca2.ports[grating_port_name].dcenter
     bend90 = bend(**kwargs)
 
-    a = abs(bend90.info["dy"]) if hasattr(bend90, "dx") else bend90.d.xsize + 0.5
+    a = abs(bend90.info["dy"]) if hasattr(bend90, "dx") else bend90.dxsize + 0.5
     b = max(2 * a, grating_separation / 2)
     b = b if inside else -b
 
     south_waveguide_spacing = (
         south_waveguide_spacing
         if south_waveguide_spacing is not None
-        else -gc.d.xsize - 5.0
+        else -gc.dxsize - 5.0
     )
 
     waypoints = [

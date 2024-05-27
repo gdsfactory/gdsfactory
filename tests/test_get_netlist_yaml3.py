@@ -13,7 +13,7 @@ def test_netlist_read_rotated() -> None:
 def regenerate_regression_test() -> None:
     c = gf.Component()
     ref = c.add_ref(gf.components.bend_circular())
-    ref.d.rotate(30)
+    ref.drotate(30)
     filepath = PATH.netlists / "bend_rotated.yml"
     c.write_netlist(filepath)
 

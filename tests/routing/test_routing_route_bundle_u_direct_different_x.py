@@ -17,8 +17,8 @@ def test_route_bundle_u_direct_different_x(
     c = gf.Component()
     w = c << gf.components.straight_array(n=4, spacing=200)
     d = c << gf.components.nxn(west=4, east=0, north=0, south=0)
-    d.d.y = w.d.y
-    d.d.xmin = w.d.xmax + 200
+    d.dy = w.dy
+    d.dxmin = w.dxmax + 200
 
     ports1 = w.ports.filter(orientation=0)
     ports2 = d.ports.filter(orientation=0)
@@ -46,8 +46,8 @@ if __name__ == "__main__":
     c = gf.Component("test_route_bundle_u_direct_different_x")
     w = c << gf.components.straight_array(n=4, spacing=200)
     d = c << gf.components.nxn(west=4, east=0, north=0, south=0)
-    d.d.y = w.d.y
-    d.d.xmin = w.d.xmax + 200
+    d.dy = w.dy
+    d.dxmin = w.dxmax + 200
 
     ports1 = w.ports.filter(orientation=0)
     ports2 = d.ports.filter(orientation=0)

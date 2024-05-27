@@ -43,7 +43,7 @@ def test_route_bundle_optical2(
     w = c << gf.components.straight_array(n=4, spacing=200)
     d = c << gf.components.nxn(west=4, east=1)
     d.y = w.y
-    d.d.xmin = w.d.xmax + 200
+    d.dxmin = w.dxmax + 200
 
     ports1 = w.ports.filter(orientation=0)
     ports2 = d.ports.filter(orientation=180)

@@ -39,7 +39,7 @@ if __name__ == "__main__":
     antennas = c << gf.components.array(
         gf.components.dbr(n=200), rows=elements, columns=1, spacing=(0, antenna_pitch)
     )
-    antennas.d.xmin = ref.d.xmax + 50
+    antennas.dxmin = ref.dxmax + 50
     antennas.y = 0
 
     routes = gf.routing.route_bundle(

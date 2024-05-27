@@ -38,8 +38,8 @@ def grating_coupler_array(
 
     for i in range(n):
         gc = c << grating_coupler
-        gc.d.rotate(rotation)
-        gc.d.x = (i - (n - 1) / 2) * pitch if centered else i * pitch
+        gc.drotate(rotation)
+        gc.dx = (i - (n - 1) / 2) * pitch if centered else i * pitch
         port_name_new = f"o{i}"
         c.add_port(port=gc.ports[port_name], name=port_name_new)
 

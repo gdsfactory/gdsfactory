@@ -93,20 +93,20 @@ def text_freetype(
                         for points in polygon_points:
                             letter_dev.add_polygon(points, layer=layer)
                 ref = char.add_ref(letter_dev)
-                ref.d.move((xoffset, 0))
+                ref.dmove((xoffset, 0))
                 xoffset += size * advance_x
 
             ref = t.add_ref(char)
-            ref.d.move((0, yoffset))
+            ref.dmove((0, yoffset))
             yoffset -= size
 
     justify = justify.lower()
     for ref in t.references:
         if justify == "center":
-            ref.d.move((0, 0))
+            ref.dmove((0, 0))
 
         elif justify == "right":
-            ref.d.xmax = 0
+            ref.dxmax = 0
     t.flatten()
     return t
 

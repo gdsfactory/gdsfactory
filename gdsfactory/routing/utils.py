@@ -25,10 +25,10 @@ def direction_ports_from_list_ports(optical_ports: list[Port]) -> dict[str, list
 
     for direction, list_ports in list(direction_ports.items()):
         if direction in ["E", "W"]:
-            list_ports.sort(key=lambda p: p.d.y)
+            list_ports.sort(key=lambda p: p.dy)
 
         if direction in ["S", "N"]:
-            list_ports.sort(key=lambda p: p.d.x)
+            list_ports.sort(key=lambda p: p.dx)
 
     return direction_ports
 

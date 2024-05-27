@@ -31,8 +31,8 @@ def route_bundle_sbend(
         )
 
     for p1, p2 in zip(ports1, ports2):
-        ysize = p2.d.center[1] - p1.d.center[1]
-        xsize = p2.d.center[0] - p1.d.center[0]
+        ysize = p2.dcenter[1] - p1.dcenter[1]
+        xsize = p2.dcenter[0] - p1.dcenter[0]
         bend = bend_s(size=(xsize, ysize), **kwargs)
         sbend = component << bend
         sbend.connect("o1", p1)

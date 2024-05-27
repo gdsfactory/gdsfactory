@@ -80,7 +80,7 @@ def straight_heater_meander(
         straight_with_tapers = gf.c.extend_ports(_straight, extension=taper)
 
         straight_ref = c << straight_with_tapers
-        straight_ref.d.y = row * spacing
+        straight_ref.dy = row * spacing
         ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
         ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
 
@@ -141,18 +141,18 @@ def straight_heater_meander(
             length=straight_length,
             cross_section=heater_cross_section,
         )
-        heater.d.movey(spacing * (rows // 2))
+        heater.dmovey(spacing * (rows // 2))
 
     if layer_heater and via_stack:
         via = gf.get_component(via_stack)
-        dx = via.d.xsize / 2 + heater_taper_length or 0
+        dx = via.dxsize / 2 + heater_taper_length or 0
         via_stack_west_center = (heater.dbbox().left - dx, 0)
         via_stack_east_center = (heater.dbbox().right + dx, 0)
 
         via_stack_west = c << via
         via_stack_east = c << via
-        via_stack_west.d.move(via_stack_west_center)
-        via_stack_east.d.move(via_stack_east_center)
+        via_stack_west.dmove(via_stack_west_center)
+        via_stack_east.dmove(via_stack_east_center)
 
         valid_orientations = {p.orientation for p in via.ports}
         p1 = via_stack_west.ports.filter(orientation=port_orientation1)
@@ -172,7 +172,7 @@ def straight_heater_meander(
         if heater_taper_length:
             taper = gf.c.taper(
                 cross_section=heater_cross_section,
-                width1=via.ports["e1"].d.width,
+                width1=via.ports["e1"].dwidth,
                 width2=heater_width,
                 length=heater_taper_length,
             )

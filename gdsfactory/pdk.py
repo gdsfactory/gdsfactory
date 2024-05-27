@@ -465,8 +465,8 @@ class Pdk(BaseModel):
                         if hasattr(port, "cross_section")
                         else "",
                         "xya": [
-                            float(port.d.center[0]),
-                            float(port.d.center[1]),
+                            float(port.dcenter[0]),
+                            float(port.dcenter[1]),
                             float(port.orientation),
                         ],
                         "alias": port.info.get("alias"),

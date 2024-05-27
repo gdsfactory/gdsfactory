@@ -41,8 +41,8 @@ if __name__ == "__main__":
         spacing=(0, antenna_pitch),
         centered=True,
     )
-    antennas.d.xmin = ref.d.xmax + 100
-    antennas.d.y = 0
+    antennas.dxmin = ref.dxmax + 100
+    antennas.dy = 0
 
     routes = gf.routing.route_bundle(
         c,

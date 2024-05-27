@@ -43,11 +43,11 @@ def mmi1x2_with_sbend(
     # Add "stub" straight sections for ports
     straight = gf.components.straight(length=0.25, cross_section=cross_section)
     sl = c << straight
-    sl.d.center = (-0.125, 0)
+    sl.dcenter = (-0.125, 0)
     s_topr = c << straight
-    s_topr.d.center = (2.125, 0.35)
+    s_topr.dcenter = (2.125, 0.35)
     s_botr = c << straight
-    s_botr.d.center = (2.125, -0.35)
+    s_botr.dcenter = (2.125, -0.35)
 
     if with_sbend:
         sbend = s_bend(cross_section=cross_section)

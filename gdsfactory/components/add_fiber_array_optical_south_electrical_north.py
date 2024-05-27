@@ -100,7 +100,7 @@ def add_fiber_array_optical_south_electrical_north(
         spacing=(pad_spacing, 0),
     )
     pads.x = r.x
-    pads.d.ymin = r.d.ymin + pad_gc_spacing
+    pads.dymin = r.dymin + pad_gc_spacing
 
     electrical_ports = [r[por_name] for por_name in electrical_port_names]
     nroutes = min(len(electrical_ports), npads)

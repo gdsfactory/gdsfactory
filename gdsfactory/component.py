@@ -1021,7 +1021,7 @@ if __name__ == "__main__":
     # wg1 = c << gf.c.straight(length=10, cross_section="rib")
     # wg2 = c << gf.c.straight(length=5, cross_section="rib")
     # wg2.connect("o1", wg1["o2"])
-    # wg2.d.movex(5)
+    # wg2.dmovex(5)
     # p = c.get_polygons()
     # print(c.area(layer=(1, 0)))
     # print(c.get_ports_list(prefix="o"))

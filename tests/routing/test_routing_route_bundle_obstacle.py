@@ -13,12 +13,12 @@ def test_route_bundle_obstacle(
     columns = 2
     ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
     pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
-    ptop.d.movex(300)
-    ptop.d.movey(300)
+    ptop.dmovex(300)
+    ptop.dmovey(300)
 
     obstacle = c << gf.c.rectangle(size=(100, 100), layer="M3")
-    obstacle.d.ymin = pbot.d.ymax
-    obstacle.d.xmin = pbot.d.xmax + 10
+    obstacle.dymin = pbot.dymax
+    obstacle.dxmin = pbot.dxmax + 10
 
     routes = gf.routing.route_bundle_electrical(
         c,
@@ -41,12 +41,12 @@ if __name__ == "__main__":
     columns = 2
     ptop = c << gf.components.pad_array(columns=columns, port_orientation=270)
     pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
-    ptop.d.movex(300)
-    ptop.d.movey(300)
+    ptop.dmovex(300)
+    ptop.dmovey(300)
 
     obstacle = c << gf.c.rectangle(size=(100, 100), layer="M3")
-    obstacle.d.ymin = pbot.d.ymax
-    obstacle.d.xmin = pbot.d.xmax + 10
+    obstacle.dymin = pbot.dymax
+    obstacle.dxmin = pbot.dxmax + 10
 
     routes = gf.routing.route_bundle_electrical(
         c,

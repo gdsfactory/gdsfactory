@@ -220,7 +220,7 @@ if __name__ == "__main__":
     # s = gf.c.wire_straight()
     # pt = c << s
     # pb = c << s
-    # pt.d.move((50, 50))
+    # pt.dmove((50, 50))
     # gf.routing.route_single_electrical(
     #     c,
     #     pb.ports["e2"],
@@ -235,18 +235,18 @@ if __name__ == "__main__":
     # w = gf.components.straight()
     # left = c << w
     # right = c << w
-    # right.d.move((100, 80))
+    # right.dmove((100, 80))
 
     # obstacle = gf.components.rectangle(size=(100, 10))
     # obstacle1 = c << obstacle
     # obstacle2 = c << obstacle
-    # obstacle1.d.ymin = 40
-    # obstacle2.d.xmin = 25
+    # obstacle1.dymin = 40
+    # obstacle2.dxmin = 25
 
     # p0 = left.ports["o2"]
     # p1 = right.ports["o2"]
-    # p0x, p0y = left.ports["o2"].d.center
-    # p1x, p1y = right.ports["o2"].d.center
+    # p0x, p0y = left.ports["o2"].dcenter
+    # p1x, p1y = right.ports["o2"].dcenter
     # o = 10  # vertical offset to overcome bottom obstacle
     # ytop = 20
 
@@ -268,18 +268,18 @@ if __name__ == "__main__":
     # w = gf.components.wire_straight()
     # left = c << w
     # right = c << w
-    # right.d.move((100, 80))
+    # right.dmove((100, 80))
 
     # obstacle = gf.components.rectangle(size=(100, 10))
     # obstacle1 = c << obstacle
     # obstacle2 = c << obstacle
-    # obstacle1.d.ymin = 40
-    # obstacle2.d.xmin = 25
+    # obstacle1.dymin = 40
+    # obstacle2.dxmin = 25
 
     # p0 = left.ports["e2"]
     # p1 = right.ports["e2"]
-    # p0x, p0y = left.ports["e2"].d.center
-    # p1x, p1y = right.ports["e2"].d.center
+    # p0x, p0y = left.ports["e2"].dcenter
+    # p1x, p1y = right.ports["e2"].dcenter
     # o = 10  # vertical offset to overcome bottom obstacle
     # ytop = 20
 
@@ -300,7 +300,7 @@ if __name__ == "__main__":
     w = gf.components.straight()
     top = c << w
     bot = c << w
-    bot.d.move((0, -2))
+    bot.dmove((0, -2))
 
     p0 = top.ports["o2"]
     p1 = bot.ports["o2"]

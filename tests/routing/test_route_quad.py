@@ -5,8 +5,8 @@ def test_route_quad() -> None:
     c = gf.Component()
     pad1 = c << gf.components.pad(size=(50, 50))
     pad2 = c << gf.components.pad(size=(10, 10))
-    pad2.d.movex(100)
-    pad2.d.movey(50)
+    pad2.dmovex(100)
+    pad2.dmovey(50)
     gf.routing.route_quad(
         c,
         pad1.ports["e2"],

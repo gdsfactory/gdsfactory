@@ -50,11 +50,11 @@ def cdsem_coupler(
     for gap, position in zip(gaps, positions):
         line = c << coupler_straight(length=length, cross_section=xs, gap=gap)
         p = position or p
-        line.d.ymin = p
+        line.dymin = p
         if text:
             t = c << text(str(int(gap * 1e3)))
-            t.d.xmin = line.d.xmax + 5
-            t.d.ymin = p
+            t.dxmin = line.dxmax + 5
+            t.dymin = p
 
     return c
 

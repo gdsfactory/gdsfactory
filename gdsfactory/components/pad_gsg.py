@@ -53,7 +53,7 @@ def pad_gsg_short(
     pads = c << gf.components.array(
         pad, columns=1, rows=3, spacing=(0, pad_spacing), centered=True
     )
-    pads.d.xmin = via.d.xmax + route_xsize
+    pads.dxmin = via.dxmax + route_xsize
     pads.y = 0
 
     gf.routing.route_quad(

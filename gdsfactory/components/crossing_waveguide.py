@@ -134,7 +134,7 @@ def crossing_from_taper(taper=_taper) -> Component:
         # _taper = taper.ref(position=(0, 0), port_id="o2", rotation=a)
         # c.add(_taper)
         _taper = c << taper
-        _taper.d.rotate(a, center=gf.kdb.DPoint(*_taper["o2"].d.center))
+        _taper.drotate(a, center=gf.kdb.DPoint(*_taper["o2"].dcenter))
         c.add_port(name=i, port=_taper.ports["o1"])
 
     c.auto_rename_ports()
@@ -257,9 +257,9 @@ def crossing45(
 
     c = Component()
     x = c << crossing
-    # x.d.rotate(45)
+    # x.drotate(45)
 
-    p_e = x.ports["o3"].d.center
+    p_e = x.ports["o3"].dcenter
     dx = dx or port_spacing
     dy = port_spacing / 2
 

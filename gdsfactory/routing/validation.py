@@ -27,7 +27,7 @@ def make_error_traces(
 
     warn(message, RouteWarning)
     for port1, port2 in zip(ports1, ports2):
-        path = gf.path.Path([port1.d.center, port2.d.center])
+        path = gf.path.Path([port1.dcenter, port2.dcenter])
         error_component = gf.path.extrude(path, layer=CONF.layer_error_path, width=1)
         _ = component << error_component
 

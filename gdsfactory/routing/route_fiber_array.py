@@ -145,11 +145,11 @@ def route_fiber_array(
 
     # `delta_gr_min` Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * radius
-    dy = bend90.d.ysize
+    dy = bend90.dysize
     delta_gr_min = 2 * dy + 1
 
     # Get the center along x axis
-    x_c = round(sum(p.d.x for p in ports) / N, 1)
+    x_c = round(sum(p.dx for p in ports) / N, 1)
 
     # Sort the list of optical ports:
     direction_ports = direction_ports_from_list_ports(ports)
@@ -159,11 +159,11 @@ def route_fiber_array(
     K = K + 1 if K % 2 else K
 
     # Set routing type if not specified
-    pxs = [p.d.x for p in ports]
+    pxs = [p.dx for p in ports]
     is_big_component = (
         (K > 2)
         or (max(pxs) - min(pxs) > fiber_spacing - delta_gr_min)
-        or (component.d.xsize > fiber_spacing)
+        or (component.dxsize > fiber_spacing)
     )
 
     def has_p(side) -> bool:
@@ -202,7 +202,7 @@ def route_fiber_array(
 
     # use x for grating coupler since we rotate it
     y0_optical = (
-        component.d.ymin - fanout_length - grating_coupler.ports[gc_port_name].d.x
+        component.dymin - fanout_length - grating_coupler.ports[gc_port_name].dx
     )
     y0_optical += -K / 2 * separation
 
@@ -230,7 +230,7 @@ def route_fiber_array(
 
     nb_ports_per_line = N // nb_optical_ports_lines
     y_gr_gap = (K / nb_optical_ports_lines + 1) * separation
-    gr_coupler_y_sep = grating_coupler.d.ysize + y_gr_gap + dy
+    gr_coupler_y_sep = grating_coupler.dysize + y_gr_gap + dy
     offset = (nb_ports_per_line - 1) * fiber_spacing / 2 - x_grating_offset
     io_gratings_lines = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]
 
@@ -270,9 +270,9 @@ def route_fiber_array(
     for j in range(nb_optical_ports_lines):
         for i, gc in zip(grating_indices, grating_couplers):
             gc_ref = c << gc
-            gc_ref.d.rotate(gc_rotation)
-            gc_ref.d.x = x_c - offset + i * fiber_spacing
-            gc_ref.d.ymax = y0_optical - j * gr_coupler_y_sep
+            gc_ref.drotate(gc_rotation)
+            gc_ref.dx = x_c - offset + i * fiber_spacing
+            gc_ref.dymax = y0_optical - j * gr_coupler_y_sep
             io_gratings += [gc_ref]
 
         io_gratings_lines += [io_gratings[:]]
@@ -286,24 +286,24 @@ def route_fiber_array(
         for io_gratings in io_gratings_lines:
             for gr in io_gratings:
                 for p in to_route:
-                    dist = gr.d.x - p.d.x
+                    dist = gr.dx - p.dx
                     if abs(dist) < abs(min_dist):
                         min_dist = dist
             if abs(min_dist) < min_dist_threshold:
                 for gr in io_gratings:
-                    gr.d.movex(-min_dist)
+                    gr.dmovex(-min_dist)
 
     # If the array of gratings is too close, adjust its location
     gc_ports_tmp = []
     for io_gratings in io_gratings_lines:
         gc_ports_tmp += [gc.ports[gc_port_name] for gc in io_gratings]
     min_y = get_min_spacing(to_route, gc_ports_tmp, separation=separation, radius=dy)
-    delta_y = abs(to_route[0].d.y - gc_ports_tmp[0].d.y)
+    delta_y = abs(to_route[0].dy - gc_ports_tmp[0].dy)
 
     if min_y > delta_y:
         for io_gratings in io_gratings_lines:
             for gr in io_gratings:
-                gr.d.center = (gr.d.center.x, gr.d.center.y + delta_y - min_y)
+                gr.dcenter = (gr.dcenter.x, gr.dcenter.y + delta_y - min_y)
 
     # If we add align ports, we need enough space for the bends
     if len(io_gratings_lines) == 1:
@@ -359,14 +359,14 @@ def route_fiber_array(
         ii = [grating_indices[0] - 1, grating_indices[-1] + 1]
         gca1 = c << grating_coupler
         gca2 = c << grating_coupler
-        gca1.d.rotate(gc_rotation)
-        gca2.d.rotate(gc_rotation)
+        gca1.drotate(gc_rotation)
+        gca2.drotate(gc_rotation)
 
-        gca1.d.x = x_c - offset + ii[0] * fiber_spacing
-        gca2.d.x = x_c - offset + ii[1] * fiber_spacing
+        gca1.dx = x_c - offset + ii[0] * fiber_spacing
+        gca2.dx = x_c - offset + ii[1] * fiber_spacing
 
-        gca1.d.ymax = round(y0_optical - j * gr_coupler_y_sep)
-        gca2.d.ymax = round(y0_optical - j * gr_coupler_y_sep)
+        gca1.dymax = round(y0_optical - j * gr_coupler_y_sep)
+        gca2.dymax = round(y0_optical - j * gr_coupler_y_sep)
 
         port0 = gca1[gc_port_name]
         port1 = gca2[gc_port_name]

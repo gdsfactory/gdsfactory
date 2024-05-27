@@ -60,7 +60,7 @@ def align_wafer(
         "top_left": (-a, a),
     }
 
-    square_mark.d.move(corner_to_position[square_corner])
+    square_mark.dmove(corner_to_position[square_corner])
 
     if layer_cladding:
         rc_tile_excl = rectangle(
@@ -94,21 +94,21 @@ def add_frame(
     cref = c.add_ref(component)
     cref.x = 0
     cref.y = 0
-    y = max([component.d.xsize, component.d.ysize]) / 2 + spacing + width / 2
+    y = max([component.dxsize, component.dysize]) / 2 + spacing + width / 2
     x = y
     w = width
 
     rh = rectangle(size=(2 * y + w, w), layer=layer, centered=True)
     rtop = c.add_ref(rh)
     rbot = c.add_ref(rh)
-    rtop.d.movey(+y)
-    rbot.d.movey(-y)
+    rtop.dmovey(+y)
+    rbot.dmovey(-y)
 
     rv = rectangle(size=(w, 2 * y), layer=layer, centered=True)
     rl = c.add_ref(rv)
     rr = c.add_ref(rv)
-    rl.d.movex(-x)
-    rr.d.movex(+x)
+    rl.dmovex(-x)
+    rr.dmovex(+x)
     c.flatten()
     return c
 

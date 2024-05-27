@@ -193,24 +193,24 @@ def add_pin_rectangle_inside(
     sa = np.sin(a * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
-    d = p.d.width / 2
+    d = p.dwidth / 2
 
     dbot = np.array([0, -d])
     dtop = np.array([0, +d])
     dbotin = np.array([-pin_length, -d])
     dtopin = np.array([-pin_length, +d])
 
-    p0 = p.d.center + _rotate(dbot, rot_mat)
-    p1 = p.d.center + _rotate(dtop, rot_mat)
-    ptopin = p.d.center + _rotate(dtopin, rot_mat)
-    pbotin = p.d.center + _rotate(dbotin, rot_mat)
+    p0 = p.dcenter + _rotate(dbot, rot_mat)
+    p1 = p.dcenter + _rotate(dtop, rot_mat)
+    ptopin = p.dcenter + _rotate(dtopin, rot_mat)
+    pbotin = p.dcenter + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
     if layer_label:
         component.add_label(
             text=str(p.name),
-            position=p.d.center,
+            position=p.dcenter,
             layer=layer_label,
         )
 
@@ -251,15 +251,15 @@ def add_pin_rectangle_double(
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
     # outer square
-    d = p.d.width / 2
+    d = p.dwidth / 2
     dbot = np.array([0, -d])
     dtop = np.array([0, d])
     dbotin = np.array([pin_length / 2, -d])
     dtopin = np.array([pin_length / 2, +d])
-    p0 = p.d.center + _rotate(dbot, rot_mat)
-    p1 = p.d.center + _rotate(dtop, rot_mat)
-    ptopin = p.d.center + _rotate(dtopin, rot_mat)
-    pbotin = p.d.center + _rotate(dbotin, rot_mat)
+    p0 = p.dcenter + _rotate(dbot, rot_mat)
+    p1 = p.dcenter + _rotate(dtop, rot_mat)
+    ptopin = p.dcenter + _rotate(dtopin, rot_mat)
+    pbotin = p.dcenter + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
@@ -323,7 +323,7 @@ def add_pin_rectangle(
     sa = np.sin(a * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
-    d = p.d.width / 2 + port_margin
+    d = p.dwidth / 2 + port_margin
 
     dbot = np.array([pin_length / 2, -d])
     dtop = np.array([pin_length / 2, d])
@@ -332,15 +332,15 @@ def add_pin_rectangle(
 
     p0 = p.center + _rotate(dbot, rot_mat)
     p1 = p.center + _rotate(dtop, rot_mat)
-    ptopin = p.d.center + _rotate(dtopin, rot_mat)
-    pbotin = p.d.center + _rotate(dbotin, rot_mat)
+    ptopin = p.dcenter + _rotate(dtopin, rot_mat)
+    pbotin = p.dcenter + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
     if layer_label:
         component.add_label(
             text=str(p.name),
-            position=p.d.center,
+            position=p.dcenter,
             layer=layer_label,
         )
 
@@ -388,8 +388,8 @@ def add_pin_path(
     d0 = np.array([-pin_length / 2, 0])
     d1 = np.array([+pin_length / 2, 0])
 
-    p0 = p.d.center + _rotate(d0, rot_mat)
-    p1 = p.d.center + _rotate(d1, rot_mat)
+    p0 = p.dcenter + _rotate(d0, rot_mat)
+    p1 = p.dcenter + _rotate(d1, rot_mat)
 
     points = [p0, p1]
     points = [kf.kdb.DPoint(p[0], p[1]) for p in points]
@@ -397,9 +397,9 @@ def add_pin_path(
 
     dpath = kf.kdb.DPath(
         points,
-        p.d.width,
+        p.dwidth,
     )
-    component.add_label(text=str(p.name), position=p.d.center, layer=layer_label)
+    component.add_label(text=str(p.name), position=p.dcenter, layer=layer_label)
     component.shapes(layer).insert(dpath)
 
 
@@ -556,7 +556,7 @@ def add_settings_label(
     if len(settings_string) > 1024:
         raise ValueError(f"label > 1024 characters: {settings_string}")
     component.add_label(
-        position=reference.d.center, text=settings_string, layer=layer_label
+        position=reference.dcenter, text=settings_string, layer=layer_label
     )
 
 
@@ -574,7 +574,7 @@ def add_instance_label(
 
     component.add_label(
         text=instance_name,
-        position=reference.d.center,
+        position=reference.dcenter,
         layer=layer,
     )
 

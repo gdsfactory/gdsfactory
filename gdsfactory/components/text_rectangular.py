@@ -46,7 +46,7 @@ def text_rectangular(
                 ref = component.add_ref(
                     pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
                 )
-                ref.d.move((xoffset, yoffset))
+                ref.dmove((xoffset, yoffset))
                 xoffset += pixel_size * 6
 
         yoffset -= pixel_size * 6
@@ -60,7 +60,7 @@ def text_rectangular(
     elif justify == "right":
         ref.xmax = position[0]
     elif justify == "center":
-        ref.d.move(origin=ref.center, other=position, axis="x")
+        ref.dmove(origin=ref.center, other=position, axis="x")
     else:
         raise ValueError(f"justify = {justify!r} not valid (left, center, right)")
     c.flatten()

@@ -60,12 +60,12 @@ def cdsem_bend180(
     wg2.connect("o1", b2.ports["o1"])
 
     label = c << text(text=str(int(width * 1e3)))
-    label.d.ymax = b2.d.ymin - 5
+    label.dymax = b2.dymin - 5
     label.x = 0
 
     c2 = gf.Component()
     ref = c2 << c
-    ref.d.rotate(90)
+    ref.drotate(90)
     c2.flatten()
     return c2
 

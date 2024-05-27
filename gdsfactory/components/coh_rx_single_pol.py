@@ -110,7 +110,7 @@ def coh_rx_single_pol(
 
     # x placement
     for pd in pds:
-        pd.d.xmin = hybrid.d.xmax + det_spacing[0]
+        pd.dxmin = hybrid.dxmax + det_spacing[0]
 
     # y placement - we will place them in the same order as the outputs
     # of the 90 degree hybrid to avoid crossings
@@ -128,7 +128,7 @@ def coh_rx_single_pol(
     ports_hybrid = []
     for port_name in port_names:
         det = hybrid_ports[port_name]
-        det.d.y = y_pos
+        det.dy = y_pos
         y_pos = y_pos + det_spacing[1]
         det_ports.append(det.ports["o1"])
         ports_hybrid.append(hybrid.ports[port_name])
@@ -144,7 +144,7 @@ def coh_rx_single_pol(
     )
 
     # Add a port at the center
-    x_max = c.d.xmax
+    x_max = c.dxmax
     c.add_port(
         name="i_out",
         port_type="placement",
@@ -162,7 +162,7 @@ def coh_rx_single_pol(
     )
 
     # Add a port
-    x_max = c.d.xmax
+    x_max = c.dxmax
     c.add_port(
         name="q_out",
         port_type="placement",

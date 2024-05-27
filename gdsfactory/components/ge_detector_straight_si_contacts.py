@@ -46,7 +46,7 @@ def ge_detector_straight_si_contacts(
     c = Component()
     if taper:
         taper = gf.get_component(taper)
-        length -= 2 * taper.d.xsize
+        length -= 2 * taper.dxsize
 
     if type(via_stack) is tuple:
         via_stack_top = via_stack[0]
@@ -76,11 +76,11 @@ def ge_detector_straight_si_contacts(
         size=(via_stack_length, via_stack_width),
     )
 
-    via_stack_bot.d.xmin = wg.xmin
-    via_stack_top.d.xmin = wg.xmin
+    via_stack_bot.dxmin = wg.xmin
+    via_stack_top.dxmin = wg.xmin
 
-    via_stack_top.d.ymin = +via_stack_spacing / 2 + via_stack_offset
-    via_stack_bot.d.ymax = -via_stack_spacing / 2 + via_stack_offset
+    via_stack_top.dymin = +via_stack_spacing / 2 + via_stack_offset
+    via_stack_bot.dymax = -via_stack_spacing / 2 + via_stack_offset
 
     c.add_ports(via_stack_bot.ports, prefix="bot_")
     c.add_ports(via_stack_top.ports, prefix="top_")

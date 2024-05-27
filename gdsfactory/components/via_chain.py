@@ -81,7 +81,7 @@ def via_chain(
 
     via = gf.get_component(via)
     contact = gf.get_component(contact)
-    via_width = via.d.xsize
+    via_width = via.dxsize
     wire_length = 2 * (2 * via_min_enclosure + via_width) + min_metal_spacing
     wire_width = via_width + 2 * via_min_enclosure
 
@@ -110,12 +110,12 @@ def via_chain(
         rows=rows,
         spacing=(wire_length + min_metal_spacing, wire_width + min_metal_spacing),
     )
-    top_wires.d.xmin = -via_min_enclosure
-    bot_wires.d.xmin = top_wires.d.xmin + wire_length / 2 + min_metal_spacing / 2
-    bot_wires.d.ymin = -via_min_enclosure
-    top_wires.d.ymin = -via_min_enclosure
-    vias.d.xmin = top_wires.d.xmin + via_min_enclosure + via_spacing[0]
-    vias.d.ymin = top_wires.d.ymin + via_min_enclosure
+    top_wires.dxmin = -via_min_enclosure
+    bot_wires.dxmin = top_wires.dxmin + wire_length / 2 + min_metal_spacing / 2
+    bot_wires.dymin = -via_min_enclosure
+    top_wires.dymin = -via_min_enclosure
+    vias.dxmin = top_wires.dxmin + via_min_enclosure + via_spacing[0]
+    vias.dymin = top_wires.dymin + via_min_enclosure
 
     vertical_wire_left = gf.c.rectangle(
         size=(2 * via_min_enclosure + via_width, 2 * wire_width + min_metal_spacing),
@@ -139,17 +139,17 @@ def via_chain(
         spacing=(wire_width + min_metal_spacing, 2 * (wire_width + min_metal_spacing)),
     )
 
-    left_wires.d.xmin = top_wires.d.xmin
-    left_wires.d.ymin = bot_wires.d.ymin + wire_width + min_metal_spacing
+    left_wires.dxmin = top_wires.dxmin
+    left_wires.dymin = bot_wires.dymin + wire_width + min_metal_spacing
 
     contact1 = c << contact
     contact2 = c << contact
 
-    contact1.d.xmax = top_wires.d.xmin
-    contact2.d.xmax = top_wires.d.xmin
+    contact1.dxmax = top_wires.dxmin
+    contact2.dxmax = top_wires.dxmin
 
-    contact1.d.ymax = top_wires.d.ymin + wire_width
-    contact2.d.ymin = top_wires.d.ymax - wire_width
+    contact1.dymax = top_wires.dymin + wire_width
+    contact2.dymin = top_wires.dymax - wire_width
     c.add_port(name="e1", port=contact1.ports["e1"])
     c.add_port(name="e2", port=contact2.ports["e1"])
     return c
