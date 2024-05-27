@@ -20,6 +20,8 @@ app = typer.Typer()
 
 
 class Migration(str, Enum):
+    """Available Migrations."""
+
     upgrade7to8 = "7to8"
 
 
@@ -136,7 +138,12 @@ def text_from_pdf_command(filepath: str) -> None:
 @app.command()
 def migrate(
     migration: Annotated[
-        Migration, typer.Option(case_sensitive=False, help="Choices of migrations.")
+        Migration,
+        typer.Option(
+            case_sensitive=False,
+            help="Choices of migrations. See the migration guide for more explanation "
+            "https://gdsfactory.github.io/gdsfactory/migration.html",
+        ),
     ],
     input: Annotated[pathlib.Path, typer.Argument(help="Input folder or file.")],
     output: Annotated[
@@ -155,6 +162,10 @@ def migrate(
         ),
     ] = False,
 ) -> None:
+    """Migrates python scripts to new syntax.
+
+    It will only update `.py` files unless input is an exact file and not a directory.
+    """
     to_be_replaced = {
         "center",
         "mirror",
@@ -201,13 +212,31 @@ def migrate(
                 with open(output, "w", encoding="utf-8") as file:
                     file.write(new_content)
                 pprint(f"Updated [bold violet]{output}[/]")
-                pprint("".join(unified_diff(a=content, b=new_content)))
+                pprint(
+                    "\n".join(
+                        unified_diff(
+                            a=content.splitlines(),
+                            b=new_content.splitlines(),
+                            fromfile=str(input.resolve()),
+                            tofile=str(output.resolve()),
+                        )
+                    )
+                )
         else:
             with open(output, "w", encoding="utf-8") as file:
                 file.write(new_content)
             if content != new_content:
                 pprint(f"Updated [bold violet]{output}[/]")
-                pprint("".join(unified_diff(a=content, b=new_content)))
+                pprint(
+                    "\n".join(
+                        unified_diff(
+                            a=content,
+                            b=new_content,
+                            fromfile=str(input),
+                            tofile=str(output),
+                        )
+                    )
+                )
     else:
         if output != input:
             for inp in input.rglob("*.py"):
@@ -222,7 +251,16 @@ def migrate(
                     file.write(new_content)
                 if content != new_content:
                     pprint(f"Updated [bold violet]{out}[/]")
-                    pprint("".join(unified_diff(a=content, b=new_content)))
+                    pprint(
+                        "\n".join(
+                            unified_diff(
+                                a=content.splitlines(),
+                                b=new_content.splitlines(),
+                                fromfile=str(inp.resolve()),
+                                tofile=str(out.resolve()),
+                            )
+                        )
+                    )
         else:
             for inp in input.rglob("*.py"):
                 with open(inp, encoding="utf-8") as file:
@@ -236,7 +274,16 @@ def migrate(
                     with open(out, "w", encoding="utf-8") as file:
                         file.write(new_content)
                     pprint(f"Updated [bold violet]{out}[/]")
-                    pprint("".join(unified_diff(a=content, b=new_content)))
+                    pprint(
+                        "\n".join(
+                            unified_diff(
+                                a=content.splitlines(),
+                                b=new_content.splitlines(),
+                                fromfile=str(inp.resolve()),
+                                tofile=str(out.resolve()),
+                            )
+                        )
+                    )
 
 
 if __name__ == "__main__":
