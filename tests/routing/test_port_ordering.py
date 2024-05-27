@@ -26,7 +26,7 @@ def port_bank(
     ys = [0 for _ in xs]
     for i, (x, y) in enumerate(zip(xs, ys)):
         c.add_port(
-            f"o{i+1}", center=(x, y), cross_section=cross_section, orientation=90
+            f"o{i + 1}", center=(x, y), cross_section=cross_section, orientation=90
         )
         _ = c << gf.c.text(
             str(i + 1), position=(x, y - 2), size=1.5, layer=(2, 0), justify="center"
@@ -64,20 +64,11 @@ def make_bundle(
         ports2_names.reverse()
     ports1 = [r1.ports[n] for n in ports1_names]
     ports2 = [r2.ports[n] for n in ports2_names]
-    gf.routing.route_bundle(
-        c,
-        ports1,
-        ports2,
-        sort_ports=sort_ports,
-    )
+    gf.routing.route_bundle(c, ports1, ports2, sort_ports=sort_ports, separation=2.5)
 
 
 @pytest.mark.parametrize("angle", MANHATTAN_ANGLES)
-def test_good_bundle_passes_sorted(angle: float):
-    if angle == 270:
-        pytest.skip(
-            "Skipping test for now... This is technically a routable bundle, but the router is not yet capable."
-        )
+def test_good_bundle_passes_sorted(angle: float) -> None:
     with warnings.catch_warnings(record=True) as ws:
         make_bundle(angle, reverse_ports=True, sort_ports=True)
         for w in ws:
