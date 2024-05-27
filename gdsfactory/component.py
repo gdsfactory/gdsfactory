@@ -30,7 +30,7 @@ if TYPE_CHECKING:
     )
 
 cell_without_validator = cell
-ComponentReference = Instance
+Componenteference = Instance
 
 
 def ensure_tuple_of_tuples(points) -> tuple[tuple[float, float]]:
@@ -114,7 +114,7 @@ class Region(kdb.Region):
         return self.dup()
 
 
-class Reference(kf.Instance):
+class ComponentReference(kf.Instance):
     """Shadows dbu attributes of Instance.
 
     DO NOT USE THIS AND PASS IT TO ANY FUNCTION REQUIRING kf.Instance.
@@ -123,7 +123,7 @@ class Reference(kf.Instance):
     _kfinst: kf.Instance
 
     def __init__(self, inst: kf.Instance) -> None:
-        """Initializes a Reference."""
+        """Initializes a ComponentReference."""
         object.__setattr__(self, "_kfinst", inst)
         super().__init__(kcl=inst.kcl, instance=inst._instance)
 
@@ -182,20 +182,22 @@ class Reference(kf.Instance):
         return super().__getattribute__(__k)
 
 
-class References(kf.kcell.Instances):
-    def __getitem__(self, key: str | int) -> Reference:
+class ComponentReferences(kf.kcell.Instances):
+    def __getitem__(self, key: str | int) -> ComponentReference:
         """Retrieve instance by index or by name."""
         if isinstance(key, int):
-            return Reference(self._insts[key])
+            return ComponentReference(self._insts[key])
 
         else:
-            return Reference(next(filter(lambda inst: inst.name == key, self._insts)))
+            return ComponentReference(
+                next(filter(lambda inst: inst.name == key, self._insts))
+            )
 
-    def __iter__(self) -> Iterator[Reference]:
+    def __iter__(self) -> Iterator[ComponentReference]:
         """Get instance iterator."""
-        return iter(Reference(inst) for inst in self._insts)
+        return iter(ComponentReference(inst) for inst in self._insts)
 
-    def __delitem__(self, item: Reference | int) -> None:  # type: ignore[override]
+    def __delitem__(self, item: ComponentReference | int) -> None:  # type: ignore[override]
         """Delete a reference."""
         if isinstance(item, int):
             del self._insts[item]
@@ -225,7 +227,7 @@ class Component(kf.KCell):
         ports: kf.Ports | None = None,
     ):
         """Initializes a Component."""
-        self.insts = References()
+        self.insts = ComponentReferences()
         super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
 
     @property
@@ -333,9 +335,9 @@ class Component(kf.KCell):
         c.info = self.info.model_copy()
         return c
 
-    def __lshift__(self, component: gf.Component) -> Reference:  # type: ignore[override]
-        """Creates a ComponentReference reference to a Component."""
-        return Reference(kf.KCell.create_inst(self, component))
+    def __lshift__(self, component: gf.Component) -> ComponentReference:  # type: ignore[override]
+        """Creates a Componenteference reference to a Component."""
+        return ComponentReference(kf.KCell.create_inst(self, component))
 
     def copy(self) -> Component:
         return self.dup()
@@ -425,8 +427,8 @@ class Component(kf.KCell):
         columns: int = 2,
         rows: int = 2,
         spacing: tuple[float, float] = (100, 100),
-    ) -> ComponentReference:
-        """Creates a ComponentReference reference to a Component.
+    ) -> Componenteference:
+        """Creates a Componenteference reference to a Component.
 
         Args:
             component: The referenced component.
@@ -505,7 +507,7 @@ class Component(kf.KCell):
             info[f"route_info_{key}"] = value
 
     def absorb(self, reference: Instance) -> Component:
-        """Absorbs polygons from ComponentReference into Component.
+        """Absorbs polygons from Componenteference into Component.
 
         Destroys the reference in the process but keeping the polygon geometry.
 
@@ -522,14 +524,14 @@ class Component(kf.KCell):
 
     def add_ref(
         self, component: Component, name: str | None = None, alias: str | None = None
-    ) -> Reference:
+    ) -> ComponentReference:
         inst = self.create_inst(component)
         if alias:
             warnings.warn("alias is deprecated, use name instead")
             inst.name = alias
         elif name:
             inst.name = name
-        return Reference(inst)
+        return ComponentReference(inst)
 
     def add(self, instances: list[Instance] | Instance) -> None:
         if not hasattr(instances, "__iter__"):
@@ -964,7 +966,7 @@ class Component(kf.KCell):
         return self.insts
 
     @property
-    def references(self) -> list[ComponentReference]:
+    def references(self) -> list[Componenteference]:
         """Returns a list of references."""
         warnings.warn("references is deprecated. Use insts instead")
         return list(self.insts)
