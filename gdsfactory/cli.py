@@ -201,13 +201,31 @@ def migrate(
                 with open(output, "w", encoding="utf-8") as file:
                     file.write(new_content)
                 pprint(f"Updated [bold violet]{output}[/]")
-                pprint("".join(unified_diff(a=content, b=new_content)))
+                pprint(
+                    "\n".join(
+                        unified_diff(
+                            a=content.splitlines(),
+                            b=new_content.splitlines(),
+                            fromfile=str(input.resolve()),
+                            tofile=str(output.resolve()),
+                        )
+                    )
+                )
         else:
             with open(output, "w", encoding="utf-8") as file:
                 file.write(new_content)
             if content != new_content:
                 pprint(f"Updated [bold violet]{output}[/]")
-                pprint("".join(unified_diff(a=content, b=new_content)))
+                pprint(
+                    "\n".join(
+                        unified_diff(
+                            a=content,
+                            b=new_content,
+                            fromfile=str(input),
+                            tofile=str(output),
+                        )
+                    )
+                )
     else:
         if output != input:
             for inp in input.rglob("*.py"):
@@ -222,7 +240,16 @@ def migrate(
                     file.write(new_content)
                 if content != new_content:
                     pprint(f"Updated [bold violet]{out}[/]")
-                    pprint("".join(unified_diff(a=content, b=new_content)))
+                    pprint(
+                        "\n".join(
+                            unified_diff(
+                                a=content.splitlines(),
+                                b=new_content.splitlines(),
+                                fromfile=str(inp.resolve()),
+                                tofile=str(out.resolve()),
+                            )
+                        )
+                    )
         else:
             for inp in input.rglob("*.py"):
                 with open(inp, encoding="utf-8") as file:
@@ -236,7 +263,16 @@ def migrate(
                     with open(out, "w", encoding="utf-8") as file:
                         file.write(new_content)
                     pprint(f"Updated [bold violet]{out}[/]")
-                    pprint("".join(unified_diff(a=content, b=new_content)))
+                    pprint(
+                        "\n".join(
+                            unified_diff(
+                                a=content.splitlines(),
+                                b=new_content.splitlines(),
+                                fromfile=str(inp.resolve()),
+                                tofile=str(out.resolve()),
+                            )
+                        )
+                    )
 
 
 if __name__ == "__main__":
