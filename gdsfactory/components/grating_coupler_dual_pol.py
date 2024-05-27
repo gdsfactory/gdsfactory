@@ -104,10 +104,12 @@ def grating_coupler_dual_pol(
     y = np.linspace(y_start, y_end, num_y)
     xpos, ypos = np.meshgrid(x, y)
 
+    unit_cell_grating = gf.get_component(unit_cell)
+
     for x, y in zip(xpos.flatten(), ypos.flatten()):
-        un_cell = c << unit_cell()
-        un_cell.x = gf.snap.snap_to_grid(x)
-        un_cell.y = gf.snap.snap_to_grid(y)
+        un_cell = c << unit_cell_grating
+        un_cell.dx = x
+        un_cell.dy = y
 
     port_type = f"vertical_{polarization.lower()}"
     c.add_port(
@@ -130,8 +132,8 @@ def grating_coupler_dual_pol(
         cross_section=xs,
     )
 
-    taper1.xmax = -x_span / 2
-    taper1.y = 0
+    taper1.dxmax = -x_span / 2
+    taper1.dy = 0
     c.add_port(port=taper1.ports["o1"], name="o1")
 
     # Second taper
@@ -142,10 +144,10 @@ def grating_coupler_dual_pol(
         width1=wg_width,
         cross_section=xs,
     )
-    taper2.rotate(90)
+    taper2.drotate(90)
 
-    taper2.x = 0
-    taper2.ymax = -y_span / 2
+    taper2.dx = 0
+    taper2.dymax = -y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")
 
     gf.asserts.grating_coupler(c)
