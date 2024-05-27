@@ -61,7 +61,7 @@ def cdsem_bend180(
 
     label = c << text(text=str(int(width * 1e3)))
     label.dymax = b2.dymin - 5
-    label.x = 0
+    label.dx = 0
 
     c2 = gf.Component()
     ref = c2 << c

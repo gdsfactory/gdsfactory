@@ -10,7 +10,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Iterable
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 
@@ -22,7 +22,7 @@ def cdsem_coupler(
     cross_section: CrossSectionSpec = "strip",
     text: ComponentFactory | None = text_rectangular_mini,
     spacing: float | None = 7.0,
-    positions: tuple[float, ...] | None = None,
+    positions: Iterable[float] | None = None,
     **kwargs,
 ) -> Component:
     """Returns 2 coupled waveguides gap sweep.

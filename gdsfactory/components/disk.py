@@ -183,10 +183,10 @@ def disk_heater(
     via = gf.get_component(via_stack, size=(via_width, via_width))
     c1 = c << via
     c2 = c << via
-    c1.xmax = heater.xmin
-    c1.y = heater.y
-    c2.xmin = heater.xmax
-    c2.y = heater.y
+    c1.dxmax = heater.dxmin
+    c1.dy = heater.dy
+    c2.dxmin = heater.dxmax
+    c2.dy = heater.dy
     c.add_ports(disk_instance.ports)
     c.add_ports(c1.ports.filter(orientation=port_orientation), prefix="e1")
     c.add_ports(c2.ports.filter(orientation=port_orientation), prefix="e2")
