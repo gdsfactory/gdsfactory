@@ -72,14 +72,14 @@ def resistance_meander(
     for i in range(num_rows):
         d = N.add_ref(T) if i != num_rows - 1 else N.add_ref(Row)
         if n % 2 == 0:
-            d.mirror_x(d.x)
-        d.movey(-(n - 1) * T.ysize)
+            d.dmirror_x(d.dx)
+        d.dmovey(-(n - 1) * T.dysize)
         n += 1
     ref = N.add_ref(Col)
     ref.dmovex(-width)
 
     end = N.add_ref(Col)
-    end.movey(-(n - 2) * T.ysize)
+    end.dmovey(-(n - 2) * T.dysize)
     end.dmovex(length_row)
 
     # Creating pads
@@ -90,7 +90,7 @@ def resistance_meander(
     pad2 = P.add_ref(pad)
     pad2.dmovex(length_row + width)
     net = P.add_ref(N)
-    net.ymin = pad1.ymin
+    net.dymin = pad1.dymin
     P.flatten()
     return P
 
