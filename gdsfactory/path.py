@@ -104,7 +104,7 @@ class Path(_GeometryHelper):
         return new.append(path)
 
     @property
-    def bbox(self):
+    def dbbox(self):
         """Returns the bounding box of the Path."""
         bbox = [
             (np.min(self.points[:, 0]), np.min(self.points[:, 1])),
@@ -210,7 +210,7 @@ class Path(_GeometryHelper):
         self.end_angle = end_angle
         return self
 
-    def move(self, origin=(0, 0), destination=None, axis=None):
+    def dmove(self, origin=(0, 0), destination=None, axis=None):
         """Moves the Path from the origin point to the destination.
 
         Both origin and destination can be 1x2 array-like or a Port.
