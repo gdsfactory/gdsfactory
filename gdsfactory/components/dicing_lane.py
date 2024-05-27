@@ -30,22 +30,22 @@ def dicing_lane(
     m = gf.get_component(marker)
 
     mbr = c << m
-    mbr.xmin = r.xmax
+    mbr.dxmin = r.dxmax
 
     mbl = c << m
-    mbl.mirror()
-    mbl.xmax = r.xmin
+    mbl.dmirror_x()
+    mbl.dxmax = r.dxmin
+    mbl.dymin = r.dymin
 
     mtr = c << m
-    mtr.mirror()
-    mtr.rotate(180)
-    mtr.xmin = r.xmax
-    mtr.ymax = r.ymax
+    mtr.dmirror()
+    mtr.dxmin = r.dxmax
+    mtr.dymax = r.dymax
 
     mtl = c << m
-    mtl.rotate(180)
-    mtl.xmax = r.xmin
-    mtl.ymax = r.ymax
+    mtl.drotate(180)
+    mtl.dxmax = r.dxmin
+    mtl.dymax = r.dymax
     return c
 
 

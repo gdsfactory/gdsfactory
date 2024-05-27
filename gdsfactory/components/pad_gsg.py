@@ -71,6 +71,6 @@ pad_gsg_open = partial(pad_gsg_short, short=False)
 
 if __name__ == "__main__":
     # c = pad_array_double()
-    # c = pad_gsg_short()
-    c = pad_gsg_open()
+    c = pad_gsg_short()
+    # c = pad_gsg_open()
     c.show()
