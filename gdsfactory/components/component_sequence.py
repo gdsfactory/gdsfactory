@@ -58,9 +58,9 @@ def _flip_ref(c_ref, port_name):
     a = c_ref.ports[port_name].orientation
     if a in [0, 180]:
         y = c_ref.ports[port_name].dcenter[1]
-        c_ref.mirror_y(y)
+        c_ref.dmirror_y(y)
     else:
-        c_ref.mirror_x(port_name)
+        c_ref.dmirror_x(port_name)
     return c_ref
 
 
@@ -113,7 +113,6 @@ def component_sequence(
     """
     ports_map = ports_map or {}
     named_references_counter = Counter()
-
     component = Component()
 
     # Add first component reference and input port

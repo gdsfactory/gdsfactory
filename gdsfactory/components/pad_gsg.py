@@ -44,17 +44,17 @@ def pad_gsg_short(
         short = c << rectangle(size=size, layer=layer_metal)
     gnd_bot = c << via
 
-    gnd_bot.ymax = via.ymin
-    gnd_top.ymin = via.ymax
+    gnd_bot.dymax = via.dymin
+    gnd_top.dymin = via.dymax
 
-    gnd_top.movex(-metal_spacing)
-    gnd_bot.movex(-metal_spacing)
+    gnd_top.dmovex(-metal_spacing)
+    gnd_bot.dmovex(-metal_spacing)
 
     pads = c << gf.components.array(
         pad, columns=1, rows=3, spacing=(0, pad_spacing), centered=True
     )
     pads.dxmin = via.dxmax + route_xsize
-    pads.y = 0
+    pads.dy = 0
 
     gf.routing.route_quad(
         c, gnd_bot.ports["e4"], pads.ports["e1_1_1"], layer=layer_metal
@@ -71,6 +71,6 @@ pad_gsg_open = partial(pad_gsg_short, short=False)
 
 if __name__ == "__main__":
     # c = pad_array_double()
-    c = pad_gsg_short()
-    # c = pad_gsg_open()
+    # c = pad_gsg_short()
+    c = pad_gsg_open()
     c.show()

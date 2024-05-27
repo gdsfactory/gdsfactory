@@ -86,7 +86,7 @@ def grating_coupler_rectangular_arbitrary_slab(
     taper_ref = c << taper
 
     c.add_port(port=taper_ref.ports["o1"], name="o1")
-    x0 = xi = taper_ref.xmax
+    x0 = xi = taper_ref.dxmax
 
     widths = gf.snap.snap_to_grid(widths)
     gaps = gf.snap.snap_to_grid(gaps)
@@ -101,8 +101,8 @@ def grating_coupler_rectangular_arbitrary_slab(
                 centered=True,
             )
         )
-        cgrating.x = gf.snap.snap_to_grid(xi)
-        cgrating.y = 0
+        cgrating.dx = gf.snap.snap_to_grid(xi)
+        cgrating.dy = 0
         xi += width / 2
 
     if layer_slab:
@@ -115,7 +115,7 @@ def grating_coupler_rectangular_arbitrary_slab(
             port_type=None,
             centered=True,
         )
-        slab.xmin = x0
+        slab.dxmin = x0
 
     xport = np.round((xi + length_taper) / 2, 3)
 

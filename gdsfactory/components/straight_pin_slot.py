@@ -89,8 +89,8 @@ def straight_pin_slot(
             size=(via_stack_length, via_stack_width),
         )
 
-        via_stack_bot.x = wg.x
-        via_stack_top.x = wg.x
+        via_stack_bot.dx = wg.dx
+        via_stack_top.dx = wg.dx
 
         via_stack_top.dymin = +via_stack_spacing / 2
         via_stack_bot.dymax = -via_stack_spacing / 2
@@ -104,14 +104,14 @@ def straight_pin_slot(
         slot_top = c << via_stack_slab_top(
             size=(via_stack_length, via_stack_slab_width),
         )
-        slot_top.x = wg.x
+        slot_top.dx = wg.dx
         slot_top.dymin = +via_stack_slab_spacing / 2
 
     if via_stack_slab_bot:
         slot_bot = c << via_stack_slab_bot(
             size=(via_stack_length, via_stack_slab_width),
         )
-        slot_bot.x = wg.x
+        slot_bot.dx = wg.dx
         slot_bot.dymax = -via_stack_slab_spacing / 2
 
     return c
