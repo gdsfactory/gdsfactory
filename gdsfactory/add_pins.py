@@ -60,12 +60,12 @@ def add_bbox(
 
     layer = get_layer(bbox_layer)
     bbox = component.dbbox()
-    xmin, ymin, xmax, ymax = bbox.left, bbox.bottom, bbox.right, bbox.top
+    dxmin, dymin, dxmax, dymax = bbox.left, bbox.bottom, bbox.right, bbox.top
     points = [
-        [xmin - left, ymin - bottom],
-        [xmax + right, ymin - bottom],
-        [xmax + right, ymax + top],
-        [xmin - left, ymax + top],
+        [dxmin - left, dymin - bottom],
+        [dxmax + right, dymin - bottom],
+        [dxmax + right, dymax + top],
+        [dxmin - left, dymax + top],
     ]
     component.add_polygon(points, layer=layer)
     return component
@@ -122,11 +122,11 @@ def get_pin_triangle_polygon_tip(
         dbot = np.array([0, -d])
         dtop = np.array([0, d])
 
-    p0 = p.center + _rotate(dbot, rot_mat)
-    p1 = p.center + _rotate(dtop, rot_mat)
+    p0 = p.dcenter + _rotate(dbot, rot_mat)
+    p1 = p.dcenter + _rotate(dtop, rot_mat)
     port_face = [p0, p1]
 
-    ptip = p.center + _rotate(dtip, rot_mat)
+    ptip = p.dcenter + _rotate(dtip, rot_mat)
 
     polygon = list(port_face) + [ptip]
     polygon = np.stack(polygon)
@@ -264,24 +264,24 @@ def add_pin_rectangle_double(
     component.add_polygon(polygon, layer=layer)
 
     # inner square
-    d = p.width / 2
+    d = p.dwidth / 2
     dbot = np.array([0, -d])
     dtop = np.array([0, d])
     dbotin = np.array([-pin_length / 2, -d])
     dtopin = np.array([-pin_length / 2, +d])
-    p0 = p.center + _rotate(dbot, rot_mat)
-    p1 = p.center + _rotate(dtop, rot_mat)
-    ptopin = p.center + _rotate(dtopin, rot_mat)
-    pbotin = p.center + _rotate(dbotin, rot_mat)
+    p0 = p.dcenter + _rotate(dbot, rot_mat)
+    p1 = p.dcenter + _rotate(dtop, rot_mat)
+    ptopin = p.dcenter + _rotate(dtopin, rot_mat)
+    pbotin = p.dcenter + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
-    x = (p0[0] + ptopin[0]) / 2
-    y = (ptopin[1] + pbotin[1]) / 2
+    dx = (p0[0] + ptopin[0]) / 2
+    dy = (ptopin[1] + pbotin[1]) / 2
     if layer_label:
         component.add_label(
             text=str(p.name),
-            position=(x, y),
+            position=(dx, dy),
             layer=layer_label,
         )
 
@@ -330,8 +330,8 @@ def add_pin_rectangle(
     dbotin = np.array([-pin_length / 2, -d])
     dtopin = np.array([-pin_length / 2, +d])
 
-    p0 = p.center + _rotate(dbot, rot_mat)
-    p1 = p.center + _rotate(dtop, rot_mat)
+    p0 = p.dcenter + _rotate(dbot, rot_mat)
+    p1 = p.dcenter + _rotate(dtop, rot_mat)
     ptopin = p.dcenter + _rotate(dtopin, rot_mat)
     pbotin = p.dcenter + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
@@ -569,7 +569,7 @@ def add_instance_label(
     """Adds label to a reference in a component."""
     instance_name = (
         instance_name
-        or f"{reference.parent.name},{int(reference.x)},{int(reference.y)}"
+        or f"{reference.parent.name},{int(reference.dx)},{int(reference.dy)}"
     )
 
     component.add_label(

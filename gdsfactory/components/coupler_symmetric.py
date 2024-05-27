@@ -48,16 +48,16 @@ def coupler_symmetric(
         cross_section=cross_section,
     )
 
-    gap = gap / c.kcl.dbu
-    w = bend_component.ports["o1"].width
-    y = int(w + gap) // 2
+    w = bend_component.ports["o1"].dwidth
+    y = w + gap
+    y /= 2
 
     top_bend = c << bend_component
     bot_bend = c << bend_component
 
-    bot_bend.mirror_y()
-    top_bend.movey(+y)
-    bot_bend.movey(-y)
+    bot_bend.dmirror_y()
+    top_bend.dmovey(+y)
+    bot_bend.dmovey(-y)
 
     c.add_port("o1", port=bot_bend.ports["o1"])
     c.add_port("o2", port=top_bend.ports["o1"])

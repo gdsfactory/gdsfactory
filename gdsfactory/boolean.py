@@ -51,7 +51,7 @@ def boolean(
 
       c1 = gf.components.circle(radius=10).ref()
       c2 = gf.components.circle(radius=9).ref()
-      c2.movex(5)
+      c2.dmovex(5)
 
       c = gf.boolean(c1, c2, operation="xor")
       c.plot()

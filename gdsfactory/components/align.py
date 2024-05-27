@@ -40,14 +40,13 @@ def align_wafer(
     rtop = c.add_ref(rh)
     rbot = c.add_ref(rh)
 
-    b = int(b / c.kcl.dbu)
-    rtop.movey(+b)
-    rbot.movey(-b)
+    rtop.dmovey(+b)
+    rbot.dmovey(-b)
 
     rl = c.add_ref(rv)
     rr = c.add_ref(rv)
-    rl.movex(-b)
-    rr.movex(+b)
+    rl.dmovex(-b)
+    rr.dmovex(+b)
 
     wsq = (cross_length + 2 * spacing) / 4
     square_mark = c << rectangle(size=(wsq, wsq), layer=layer, centered=True)
@@ -92,8 +91,8 @@ def add_frame(
     layer = gf.get_layer(layer)
     component = gf.get_component(component)
     cref = c.add_ref(component)
-    cref.x = 0
-    cref.y = 0
+    cref.dx = 0
+    cref.dy = 0
     y = max([component.dxsize, component.dysize]) / 2 + spacing + width / 2
     x = y
     w = width
@@ -114,7 +113,7 @@ def add_frame(
 
 
 if __name__ == "__main__":
-    # c = gf.components.straight()
-    # c = add_frame(component=c)
-    c = align_wafer()
+    c = gf.components.straight()
+    c = add_frame(component=c)
+    # c = align_wafer()
     c.show()

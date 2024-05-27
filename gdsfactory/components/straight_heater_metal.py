@@ -131,7 +131,7 @@ def straight_heater_metal_undercut(
 
         if heater_taper_length:
             taper = gf.components.taper(
-                width1=p1[0].width * c.kcl.dbu,
+                width1=p1[0].dwidth,
                 width2=heater_width,
                 length=heater_taper_length,
                 cross_section=x,
@@ -264,7 +264,7 @@ def test_ports() -> None:
 
 if __name__ == "__main__":
     # test_ports()
-    c = straight_heater_metal()
+    c = straight_heater_metal_undercut()
     # print(c.ports['o2'].center[0])
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)

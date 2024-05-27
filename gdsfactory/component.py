@@ -149,11 +149,11 @@ class ComponentReference(kf.Instance):
             "ysize",
         }:
             CONF.logger.warning(
-                f"`Component.{__k}` is deprecated and will be removed with 9.0."
-                f" Please use `Component.d{__k}` instead. For further information, please"
+                f"`{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
+                f" Please use `{self._kfinst.name}.d{__k}` instead. For further information, please"
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
-                "21_migration_guide_7_8.html or try the automatic migration script.",
+                "21_migration_guide_7_8.html",
                 # category=DeprecationWarning,
                 # stacklevel=3,
             )
@@ -331,11 +331,11 @@ class Component(kf.KCell):
             "ysize",
         }:
             CONF.logger.warning(
-                f"`Component.{__k}` is deprecated and will be removed with 9.0."
-                f" Please use Component.`d{__k}` instead. For further information, please"
+                f"`{self.name}.{__k}` is deprecated and will be removed soon."
+                f" Please use {self.name}.`d{__k}` instead. For further information, please"
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
-                "21_migration_guide_7_8.html or try the automatic migration script.",
+                "21_migration_guide_7_8.html",
                 # category=DeprecationWarning,
                 # stacklevel=3,
             )

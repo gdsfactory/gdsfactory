@@ -372,15 +372,15 @@ def route_fiber_array(
         port1 = gca2[gc_port_name]
         radius = radius or x.radius
         radius_dbu = round(radius / c.kcl.dbu)
+        d_loop = straight_to_grating_spacing + radius + gca1.dysize
+        d_loop_dbu = round(d_loop / c.kcl.dbu)
 
         waypoints = kf.routing.optical.route_loopback(
             port0,
             port1,
             bend90_radius=radius_dbu,
             inside=with_loopback_inside,
-            d_loop=round(straight_to_grating_spacing / c.kcl.dbu)
-            + radius_dbu
-            + gca1.ysize,
+            d_loop=d_loop_dbu,
         )
 
         route_single(

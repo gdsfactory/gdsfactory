@@ -36,7 +36,7 @@ def add_loopback(
         grating_rotation: in degrees.
         grating_port_name: fiber port name for grating coupler.
         bend: bend spec.
-        south_waveguide_spacing: spacing from loopback to grating_coupler.ymin
+        south_waveguide_spacing: spacing from loopback to grating_coupler.dymin
         inside: add loopback inside.
         kwargs: cross_section settings.
 
