@@ -7,7 +7,6 @@ import warnings
 from collections import defaultdict
 from collections.abc import Iterator
 from typing import TYPE_CHECKING, Any
-from warnings import warn
 
 import kfactory as kf
 import klayout.db as db  # noqa: F401

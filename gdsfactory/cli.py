@@ -8,7 +8,6 @@ from typing import Annotated, Optional
 
 import typer
 from rich import print as pprint
-from rich.highlighter import Text
 
 from gdsfactory import show as _show
 from gdsfactory.config import print_version_pdks, print_version_plugins

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pathlib
 
-from gdsfactory.config import CONF
 from gdsfactory.component import Component
+from gdsfactory.config import CONF
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.typings import ComponentOrPath, PathType
 
