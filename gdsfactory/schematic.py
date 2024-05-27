@@ -48,6 +48,7 @@ class Placement(BaseModel):
     mirror: bool = False
 
     def __getitem__(self, key: str) -> Any:
+        """Allows to access the placement attributes as a dictionary."""
         return getattr(self, key, 0)
 
     model_config = {"extra": "forbid"}
@@ -105,6 +106,7 @@ class Net(BaseModel):
     name: str | None = None
 
     def __init__(self, **data):
+        """Initialize the net."""
         global _route_counter
         super().__init__(**data)
         # If route name is not provided, generate one automatically
@@ -220,77 +222,16 @@ class Schematic(BaseModel):
         return G
 
 
-def write_schema(model: BaseModel = Netlist) -> None:
+def write_schema(
+    model: BaseModel = Netlist, schema_path_json=PATH.schema_netlist
+) -> None:
     s = model.model_json_schema()
     d = OmegaConf.create(s)
 
-    schema_path_json = PATH.schema_netlist
     schema_path_yaml = schema_path_json.with_suffix(".yaml")
 
     schema_path_yaml.write_text(OmegaConf.to_yaml(d))
     schema_path_json.write_text(json.dumps(OmegaConf.to_container(d)))
-
-
-def _demo() -> None:
-    write_schema()
-
-    import jsonschema
-    import yaml
-
-    schema_path_json = PATH.schema_netlist
-    schema_dict = json.loads(schema_path_json.read_text())
-
-    yaml_text = """
-
-name: pads
-
-instances:
-    bl:
-      component: pad
-    tl:
-      component: pad
-    br:
-      component: pad
-    tr:
-      component: pad
-
-placements:
-    tl:
-        x: -200
-        y: 500
-
-    br:
-        x: 400
-        y: 400
-
-    tr:
-        x: 400
-        y: 600
-
-
-routes:
-    electrical:
-        settings:
-            separation: 20
-            width: 10
-            path_length_match_loops: 2
-            end_straight_length: 100
-        links:
-            tl,e3: tr,e1
-            bl,e3: br,e1
-    optical:
-        settings:
-            radius: 100
-        links:
-            bl,e4: br,e3
-"""
-
-    yaml_dict = yaml.safe_load(yaml_text)
-    jsonschema.validate(yaml_dict, schema_dict)
-
-    # from gdsfactory.components import factory
-    # c = Netlist(factory=factory)
-    # c.add_instance("mmi1", "mmi1x2", length=13.3)
 
 
 if __name__ == "__main__":

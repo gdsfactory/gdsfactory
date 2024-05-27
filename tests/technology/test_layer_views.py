@@ -31,8 +31,7 @@ LAYER_VIEWS = FabALayerViews(layers=LAYER)
 def get_layer_stack_faba(
     thickness_wg: float = 500 * nm, thickness_slab: float = 150 * nm
 ) -> LayerStack:
-    """Returns fabA LayerStack"""
-
+    """Returns fabA LayerStack."""
     return LayerStack(
         layers=dict(
             strip=LayerLevel(

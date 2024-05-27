@@ -23,7 +23,6 @@ from collections.abc import Callable
 from typing import Any
 
 import numpy as np
-import omegaconf
 
 from gdsfactory import Port
 from gdsfactory.component import Component, ComponentReference
@@ -37,9 +36,7 @@ def get_default_connection_validators():
     return {"optical": validate_optical_connection, "electrical": _null_validator}
 
 
-def get_instance_name_from_alias(
-    reference: ComponentReference,
-) -> str:
+def get_instance_name_from_alias(reference: ComponentReference) -> str:
     """Returns the instance name from the label.
 
     If no label returns to instanceName_x_y.
@@ -86,34 +83,8 @@ def get_instance_name_from_label(
     return text
 
 
-def get_netlist_yaml(
-    component: Component,
-    tolerance: int = 5,
-    exclude_port_types: list | None = None,
-    **kwargs,
-) -> str:
-    """Returns instances, connections and placements yaml string content.
-
-    Args:
-        component: to extract netlist.
-        tolerance: tolerance in grid_factor to consider two ports connected.
-        exclude_port_types: optional list of port types to exclude from netlisting.
-
-    """
-
-    return omegaconf.OmegaConf.to_yaml(
-        get_netlist(
-            component=component,
-            tolerance=tolerance,
-            exclude_port_types=exclude_port_types,
-            **kwargs,
-        )
-    )
-
-
 def get_netlist(
     component: Component,
-    tolerance: int = 5,
     exclude_port_types: list[str] | tuple[str] | None = ("placement",),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     allow_multiple: bool = False,
@@ -144,11 +115,11 @@ def get_netlist(
 
     Args:
         component: to extract netlist.
-        tolerance: tolerance in grid_factor to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
         allow_multiple: False to raise an error if more than two ports share the same connection. \
                 if True, will return key: [value] pairs with [value] a list of all connected instances.
+        connection_error_types: optional dictionary of port types and error types to raise an error for.
 
     Returns:
         instances: Dict of instance name and settings.
@@ -258,7 +229,6 @@ def get_netlist(
             port_names,
             name2port,
             port_type,
-            tolerance=tolerance,
             allow_multiple=allow_multiple,
             connection_error_types=connection_error_types,
         )
@@ -295,7 +265,6 @@ def extract_connections(
     port_names: list[str],
     ports: dict[str, Port],
     port_type: str,
-    tolerance: int = 5,
     validators: dict[str, Callable] | None = None,
     allow_multiple: bool = False,
     connection_error_types: dict[str, list[str]] | None = None,
@@ -308,7 +277,6 @@ def extract_connections(
         port_names,
         ports,
         port_type,
-        tolerance=tolerance,
         connection_validator=validator,
         allow_multiple=allow_multiple,
         connection_error_types=connection_error_types,
@@ -320,7 +288,6 @@ def _extract_connections_two_sweep(
     ports: dict[str, Port],
     port_type: str,
     connection_validator: Callable,
-    tolerance: int,
     raise_error_for_warnings: list[str] | None = None,
     allow_multiple: bool = False,
     connection_error_types: dict[str, list[str]] | None = None,
@@ -332,12 +299,11 @@ def _extract_connections_two_sweep(
         ports: dict of port names to Port objects.
         port_type: type of port.
         connection_validator: function to validate connections.
-        tolerance: tolerance in grid_factor to consider two ports connected.
         raise_error_for_warnings: list of warning types to raise an error for.
-        allow_multiple: False to raise an error if more than two ports share the same connection. \
+        allow_multiple: False to raise an error if more than two ports share the same connection.
+        connection_error_types: optional dictionary of port types and error types to raise an error for.
 
     """
-
     if connection_error_types is None:
         connection_error_types = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES
 
@@ -346,56 +312,40 @@ def _extract_connections_two_sweep(
         raise_error_for_warnings = connection_error_types.get(port_type, [])
 
     unconnected_port_names = list(port_names)
-    if tolerance < 0:
-        raise ValueError(f"Cannot have a tolerance less than zero. Got {tolerance}")
-    elif tolerance <= 1:
-        # if tolerance is 0 or 1, do only one sweep with that tolerance
-        grids = [("fine", tolerance)]
-    else:
-        # default: do one fine sweep with a 1nm tolerance, then a coarse sweep
-        # with the given tolerance to connect any remaining ports which are not
-        # perfectly aligned
-        grids = [("fine", 1), ("coarse", tolerance)]
-
     connections = []
 
-    for _grid_name, grid_size in grids:
-        by_xy = defaultdict(list)
+    by_xy = defaultdict(list)
 
-        for port_name in unconnected_port_names:
-            port = ports[port_name]
-            by_xy[tuple(snap_to_grid(port.center, grid_factor=grid_size))].append(
-                port_name
-            )
+    for port_name in unconnected_port_names:
+        port = ports[port_name]
+        by_xy[port.center].append(port_name)
 
-        unconnected_port_names = []
+    unconnected_port_names = []
 
-        for xy, ports_at_xy in by_xy.items():
-            if len(ports_at_xy) == 1:
-                unconnected_port_names.append(ports_at_xy[0])
+    for xy, ports_at_xy in by_xy.items():
+        if len(ports_at_xy) == 1:
+            unconnected_port_names.append(ports_at_xy[0])
 
-            elif len(ports_at_xy) == 2:
-                port1 = ports[ports_at_xy[0]]
-                port2 = ports[ports_at_xy[1]]
+        elif len(ports_at_xy) == 2:
+            port1 = ports[ports_at_xy[0]]
+            port2 = ports[ports_at_xy[1]]
+            connection_validator(port1, port2, ports_at_xy, warnings)
+            connections.append(ports_at_xy)
+
+        elif not allow_multiple:
+            warnings["multiple_connections"].append(ports_at_xy)
+            raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
+
+        else:
+            # Iterates over the list of multiple ports to create related two-port connectivity
+            num_ports = len(ports_at_xy)
+            for portindex1, portindex2 in zip(
+                range(-1, num_ports - 1), range(num_ports)
+            ):
+                port1 = ports[ports_at_xy[portindex1]]
+                port2 = ports[ports_at_xy[portindex2]]
                 connection_validator(port1, port2, ports_at_xy, warnings)
-                connections.append(ports_at_xy)
-
-            elif not allow_multiple:
-                warnings["multiple_connections"].append(ports_at_xy)
-                raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
-
-            else:
-                # Iterates over the list of multiple ports to create related two-port connectivity
-                num_ports = len(ports_at_xy)
-                for portindex1, portindex2 in zip(
-                    range(-1, num_ports - 1), range(num_ports)
-                ):
-                    port1 = ports[ports_at_xy[portindex1]]
-                    port2 = ports[ports_at_xy[portindex2]]
-                    connection_validator(port1, port2, ports_at_xy, warnings)
-                    connections.append(
-                        [ports_at_xy[portindex1], ports_at_xy[portindex2]]
-                    )
+                connections.append([ports_at_xy[portindex1], ports_at_xy[portindex2]])
 
     if unconnected_port_names:
         unconnected_non_top_level = [
@@ -460,37 +410,6 @@ def validate_optical_connection(
                 f"Difference of {abs(port1.width - port2.width)} um",
             )
         )
-    # if port1.shear_angle and not port2.shear_angle:
-    #     warnings["shear_angle_mismatch"].append(
-    #         _make_warning(
-    #             port_names,
-    #             values=[port1.shear_angle, port2.shear_angle],
-    #             message=f"{port_names[0]} has a shear angle but {port_names[1]} "
-    #             f"does not! Shear angle is {port1.shear_angle} deg",
-    #         )
-    #     )
-    # elif not port1.shear_angle and port2.shear_angle:
-    #     warnings["shear_angle_mismatch"].append(
-    #         _make_warning(
-    #             port_names,
-    #             values=[port1.shear_angle, port2.shear_angle],
-    #             message=f"{port_names[1]} has a shear angle but {port_names[0]} "
-    #             f"does not! Shear angle is {port2.shear_angle} deg",
-    #         )
-    #     )
-    # elif port1.shear_angle:
-    #     if (
-    #         abs(difference_between_angles(port1.shear_angle, port2.shear_angle))
-    #         > angle_tolerance
-    #     ):
-    #         warnings["shear_angle_mismatch"].append(
-    #             _make_warning(
-    #                 port_names,
-    #                 values=[port1.shear_angle, port2.shear_angle],
-    #                 message=f"Shear angle of {port_names[0]} and {port_names[1]} "
-    #                 f"differ by {abs(port1.shear_angle - port2.shear_angle)} deg",
-    #             )
-    #         )
 
     if any(is_top_level):
         if (
@@ -557,6 +476,8 @@ def get_netlist_recursive(
         component_suffix: suffix to append to each component name.
             useful if to save and reload a back-annotated netlist.
         get_netlist_func: function to extract individual netlists.
+        get_instance_name: function to get instance name.
+        kwargs: additional keyword arguments to pass to get_netlist_func.
 
     Keyword Args:
         tolerance: tolerance in grid_factor to consider two ports connected.
@@ -655,7 +576,7 @@ if __name__ == "__main__":
     top_netlist = recursive_netlist[cname]
     # the recursive netlist should have 3 entries, for the top level and two
     # rotated straights
-    assert len(recursive_netlist) == 3
+    # assert len(recursive_netlist) == 3
     # confirm that the child netlists have reference attributes properly set
 
     i1_cell_name = top_netlist["instances"]["i1"]["component"]

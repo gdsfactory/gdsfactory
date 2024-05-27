@@ -38,12 +38,11 @@ def add_label_ehva(
     Args:
         component: to add labels to.
         die: string.
-        port_types: list of port types to label.
+        prefix_to_type: dict of port prefix to port type.
         layer: text label layer.
-        metadata_ignore: list of settings keys to ignore.
-            Works with flatdict setting:subsetting.
-        metadata_include_parent: includes parent metadata.
-            Works with flatdict setting:subsetting.
+        metadata_ignore: list of settings keys to ignore. Works with flatdict setting:subsetting.
+        metadata_include_parent: includes parent metadata. Works with flatdict setting:subsetting.
+        metadata_include_child: includes child metadata.
 
     """
     metadata_ignore = metadata_ignore or []

@@ -35,6 +35,7 @@ def spiral_racetrack(
         bend_factory: factory to generate the bend segments.
         bend_s_factory: factory to generate the s-bend segments.
         cross_section: cross-section of the waveguides.
+        cross_section_s: cross-section of the s bend waveguide (optional).
         n_bend_points: optional bend points.
         with_inner_ports: if True, will build the spiral, but expose the inner ports where the S-bend would be.
         extra_90_deg_bend: if True, we add an additional straight + 90 degree bent at the output, so the
@@ -242,6 +243,7 @@ def _req_straight_len(
         spacings: spacings between adjacent waveguides.
         bend_factory: factory to generate the bend segments.
         bend_s_factory: factory to generate the s-bend segments.
+        cross_section: cross-section of the waveguides.
         cross_section_s_bend: s bend cross section
     """
     from scipy.interpolate import interp1d
@@ -466,8 +468,6 @@ def spiral_racetrack_heater_doped(
 
 
 def test_length_spiral_racetrack() -> None:
-    import numpy as np
-
     length = 1000
     c = spiral_racetrack_fixed_length(length=length, cross_section="strip")
     length_computed = c.area(layer=(1, 0)) / 0.5

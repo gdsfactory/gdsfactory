@@ -17,9 +17,7 @@ def optimal_hairpin(
     num_pts: int = 50,
     layer: LayerSpec = (1, 0),
 ) -> Component:
-    """Returns an optimally-rounded hairpin geometry, with a 180 degree turn \
-    on the right end of the polygon connected to two prongs extending towards \
-    ports on the left end.
+    """Returns an optimally-rounded hairpin geometry, with a 180 degree turn.
 
     based on phidl.geometry
 

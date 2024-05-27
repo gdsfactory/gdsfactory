@@ -5,9 +5,7 @@ from gdsfactory.get_netlist_flat import get_netlist_flat
 
 
 def test_flatten_netlist_identical_references():
-    """
-    Testing electrical netlist w/ identical component references
-    """
+    """Testing electrical netlist w/ identical component references."""
     # Define compound component
     series_resistors = gf.Component("seriesResistors")
     rseries1 = series_resistors << gf.get_component(

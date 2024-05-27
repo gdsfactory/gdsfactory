@@ -97,7 +97,6 @@ def pad_array(
         size: pad size.
         layer: pad layer.
     """
-
     if orientation is not None:
         warnings.warn("orientation is deprecated, use port_orientation")
         port_orientation = orientation

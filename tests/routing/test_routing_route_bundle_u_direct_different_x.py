@@ -8,7 +8,12 @@ import gdsfactory as gf
 def test_route_bundle_u_direct_different_x(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    """ """
+    """Tests routing.route_bundle with a U shape, direct connection and different x.
+
+    Args:
+        data_regression: fixture to check the output.
+        check: flag to enable regression testing.
+    """
     c = gf.Component()
     w = c << gf.components.straight_array(n=4, spacing=200)
     d = c << gf.components.nxn(west=4, east=0, north=0, south=0)

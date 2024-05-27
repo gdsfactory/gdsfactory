@@ -37,6 +37,8 @@ def coh_rx_single_pol(
         in_wg_length: length of the straight waveguides at the input of the 90 deg hybrid.
         lo_input_coupler: Optional coupler for the LO.
         signal_input_coupler: Optional coupler for the signal.
+        cross_section_metal_top: cross_section for the top metal layer.
+        cross_section_metal: cross_section for the metal layer.
 
     .. code::
 
@@ -131,7 +133,7 @@ def coh_rx_single_pol(
         det_ports.append(det.ports["o1"])
         ports_hybrid.append(hybrid.ports[port_name])
 
-    gf.routing.route_bundle(c, ports_hybrid, det_ports, enforce_port_ordering=True)
+    gf.routing.route_bundle(c, ports_hybrid, det_ports)
 
     # --- Draw metal connections ----
     gf.routing.route_single_electrical(

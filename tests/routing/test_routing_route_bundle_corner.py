@@ -213,9 +213,7 @@ def test_connect_corner(data_regression: DataRegressionFixture, N=6, config="A")
                 lengths[i] = route.length
 
         data_regression.check(lengths)
-    return c
 
 
 if __name__ == "__main__":
-    c = test_connect_corner(config="A")
-    c.show()
+    test_connect_corner(config="A")

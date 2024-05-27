@@ -35,9 +35,12 @@ def mode_converter(
         gap: directional coupler gap.
         length: coupler length interaction.
         coupler_straight_asymmetric: spec.
+        bend: spec.
+        taper: spec.
         mm_width: input/output multimode waveguide width.
         mc_mm_width: mode converter multimode waveguide width
         sm_width: single mode waveguide width.
+        taper_length: taper length.
         cross_section: cross_section spec.
 
     .. code::
@@ -53,7 +56,6 @@ def mode_converter(
         = : multimode width
         - : singlemode width
     """
-
     c = Component()
 
     coupler = gf.get_component(

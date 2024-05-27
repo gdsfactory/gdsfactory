@@ -24,9 +24,9 @@ from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
-from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.typings import (
     Component,
+    ComponentFactory,
     ComponentSpec,
     CrossSectionSpec,
     LayerSpecs,
@@ -88,13 +88,12 @@ def route_bundle(
     ports1: list[Port],
     ports2: list[Port],
     separation: float = 3.0,
-    straight: ComponentSpec = straight_function,
+    straight: ComponentFactory = straight_function,
     bend: ComponentSpec = bend_euler,
     sort_ports: bool = False,
     cross_section: CrossSectionSpec | MultiCrossSectionAngleSpec = "strip",
     start_straight_length: float = 0,
     end_straight_length: float = 0,
-    enforce_port_ordering: bool = True,
     min_straight_taper: float = 100,
     taper: ComponentSpec | None = None,
     port_type: str = "optical",
@@ -114,32 +113,24 @@ def route_bundle(
         ports1: list of starting ports.
         ports2: list of end ports.
         separation: bundle separation (center to center). Defaults to cross_section.width + cross_section.gap
-        extension_length: adds straight extension.
+        straight: function for the straight. Defaults to straight.
         bend: function for the bend. Defaults to euler.
         sort_ports: sort port coordinates.
         cross_section: CrossSection or function that returns a cross_section.
         start_straight_length: straight length at the beginning of the route. If None, uses default value for the routing CrossSection.
         end_straight_length: end length at the beginning of the route. If None, uses default value for the routing CrossSection.
-        path_length_match_loops: Integer number of loops to add to bundle \
-                for path length matching. Path-length matching won't be attempted if this is set to None.
-        path_length_match_extra_length: Extra length to add to path length matching loops \
-                (requires path_length_match_loops != None).
-        path_length_match_modify_segment_i: Index of straight segment to add path length matching loops to \
-                (requires path_length_match_loops != None).
-        enforce_port_ordering: If True, enforce that the ports are connected in the specific order.
-        steps: specify waypoint steps to route using route_bundle_from_steps.
+        min_straight_taper: minimum length for tapering the straight sections.
+        taper: function for the taper. Defaults to None.
+        port_type: type of port to place. Defaults to optical.
         collision_check_layers: list of layers to check for collisions.
         on_collision: action to take on collision. Defaults to show_error.
         bboxes: list of bounding boxes to avoid collisions.
         allow_width_mismatch: allow different port widths.
+        kwargs: additional arguments for the routing function.
 
     Keyword Args:
         width: main layer waveguide width (um).
         layer: main layer for waveguide.
-        width_wide: wide waveguides width (um) for low loss routing.
-        auto_widen: taper to wide waveguides for low loss routing.
-        auto_widen_minimum_length: minimum straight length for auto_widen.
-        taper_length: taper_length for auto_widen.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
@@ -175,7 +166,6 @@ def route_bundle(
         c.plot()
 
     """
-
     if isinstance(cross_section, list | tuple):
         xs_list = []
         for element in cross_section:
@@ -208,11 +198,6 @@ def route_bundle(
 
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
-
-    if sort_ports:
-        ports1, ports2 = sort_ports_function(
-            ports1, ports2, enforce_port_ordering=enforce_port_ordering
-        )
 
     xs = gf.get_cross_section(cross_section, **kwargs)
     width = xs.width
@@ -260,6 +245,7 @@ def route_bundle(
         allow_width_mismatch=allow_width_mismatch,
         bboxes=bboxes or [],
         route_width=width_dbu,
+        sort_ports=sort_ports,
     )
 
 
@@ -315,7 +301,6 @@ if __name__ == "__main__":
     #     c,
     #     [c1.ports["o2"], c1.ports["o1"]],
     #     [c2.ports["o2"], c2.ports["o1"]],
-    #     # enforce_port_ordering=True,
     #     separation=5,
     #     cross_section="strip",
     #     # end_straight_length=0,

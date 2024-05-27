@@ -34,7 +34,9 @@ def straight_heater_metal_undercut(
         length: of the waveguide.
         length_undercut_spacing: from undercut regions.
         length_undercut: length of each undercut section.
+        length_straight: length of the straight waveguide.
         length_straight_input: from input port to where trenches start.
+        cross_section: for waveguide ports.
         cross_section_heater: for heated sections. heater metal only.
         cross_section_waveguide_heater: for heated sections.
         cross_section_heater_undercut: for heated sections with undercut.
@@ -44,7 +46,6 @@ def straight_heater_metal_undercut(
         port_orientation2: right via stack port orientation.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
-        cross_section: for waveguide ports.
     """
     period = length_undercut + length_undercut_spacing
     n = int((length - 2 * length_straight_input) // period)
@@ -160,22 +161,19 @@ def straight_heater_metal_simple(
     ohms_per_square: float | None = None,
 ) -> Component:
     """Returns a thermal phase shifter that has properly fixed electrical connectivity to extract a suitable electrical netlist and models.
-    dimensions from https://doi.org/10.1364/OE.27.010456
+
+    dimensions from https://doi.org/10.1364/OE.27.010456.
 
     Args:
         length: of the waveguide.
-        length_undercut_spacing: from undercut regions.
         length_undercut: length of each undercut section.
         cross_section_heater: for heated sections. heater metal only.
         cross_section_waveguide_heater: for heated sections.
-        cross_section_heater_undercut: for heated sections with undercut.
-        with_undercut: isolation trenches for higher efficiency.
         via_stack: via stack.
         port_orientation1: left via stack port orientation.
         port_orientation2: right via stack port orientation.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
-        cross_section: for waveguide ports.
     """
     c = Component()
     straight_heater_section = gf.components.straight(

@@ -8,16 +8,13 @@ import gdsfactory as gf
 def test_route_south(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    c = gf.Component("test_route_south")
+    c = gf.Component()
     cr = c << gf.components.mmi2x2()
-    route = gf.routing.route_south(component=cr)
-    references = route.references
+    routes = gf.routing.route_south(c, cr)
 
     lengths = {}
-    for i, reference in enumerate(references):
-        c.add(reference)
-        route_length = reference.parent.info["length"]
-        lengths[i] = float(route_length)
+    for i, route in enumerate(routes):
+        lengths[i] = route.length
     if check:
         data_regression.check(lengths)
 

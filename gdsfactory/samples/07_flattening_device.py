@@ -1,5 +1,4 @@
-"""
-# Flattening a Component
+"""# Flattening a Component.
 
 Sometimes you want to remove cell structure from a Component while keeping all
 of the shapes/polygons intact and in place.

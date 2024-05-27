@@ -19,14 +19,9 @@ def ring_crow_couplers(
     """Coupled ring resonators with coupler components between gaps.
 
     Args:
-        gap: gap between for coupler.
         radius: for the bend and coupler.
-        length_x: ring coupler length.
-        length_y: vertical straight length.
-        coupler: ring coupler spec.
-        straight: straight spec.
-        bend: bend spec.
-        cross_section: cross_section spec.
+        bends: bend specs.
+        ring_cross_sections: cross_section for the ring.
         couplers: coupling component between rings and bus.
 
     .. code::
@@ -88,8 +83,6 @@ def ring_crow_couplers(
             bend2.connect("o1", bend1.ports["o2"])
             couplers_refs[index + 1].connect("o4", bend2.ports["o2"])
             bend3.connect("o1", couplers_refs[index + 1].ports["o1"])
-            bend4.connect("o1", bend3.ports["o2"])
-
         else:
             str_len = np.abs(coup1_extent - coup2_extent) / 2
             str_sec = gf.components.straight(
@@ -107,7 +100,6 @@ def ring_crow_couplers(
                 couplers_refs[index + 1].connect("o4", str1.ports["o2"])
                 str2.connect("o1", couplers_refs[index + 1].ports["o1"])
                 bend3.connect("o1", str2.ports["o2"])
-                bend4.connect("o1", bend3.ports["o2"])
             else:
                 # The straights are connected to coupler 1
                 str1.connect("o1", couplers_refs[index].ports["o3"])
@@ -116,7 +108,7 @@ def ring_crow_couplers(
                 bend2.connect("o1", bend1.ports["o2"])
                 couplers_refs[index + 1].connect("o4", bend2.ports["o2"])
                 bend3.connect("o1", couplers_refs[index + 1].ports["o1"])
-                bend4.connect("o1", bend3.ports["o2"])
+        bend4.connect("o1", bend3.ports["o2"])
 
     # Output bus
     c.add_port(name="o3", port=couplers_refs[-1].ports["o2"])

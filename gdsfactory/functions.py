@@ -185,7 +185,6 @@ def extrude_path(
     Returns:
         numpy 2D array of shape (2*N, 2).
     """
-
     grid = grid or gf.kcl.dbu
 
     if isinstance(points, list):

@@ -26,9 +26,7 @@ def text_freetype(
     Args:
         text: string.
         size: in um.
-        position: x, y position.
         justify: left, right, center.
-        layer: for the text.
         font: Font face to use. Default DEPLOF does not require additional libraries,
             otherwise freetype load fonts. You can choose font by name
             (e.g. "Times New Roman"), or by file OTF or TTF filepath.
@@ -71,7 +69,7 @@ def text_freetype(
 
         font_path = pathlib.Path(font)
         # Load the font. If we've passed a valid file, try to load that, otherwise search system fonts
-        if font_path.is_file() and font_path.suffix in (".otf", ".ttf"):
+        if font_path.is_file() and font_path.suffix in {".otf", ".ttf"}:
             font = _get_font_by_file(str(font))
         else:
             font = _get_font_by_name(font)

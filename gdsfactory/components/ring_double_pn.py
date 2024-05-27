@@ -82,7 +82,6 @@ def ring_double_pn(
         kwargs: cross_section settings.
 
     """
-
     add_gap = gf.snap.snap_to_grid(add_gap, grid_factor=2)
     drop_gap = gf.snap.snap_to_grid(drop_gap, grid_factor=2)
     c = gf.Component()

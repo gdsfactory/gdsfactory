@@ -40,6 +40,7 @@ def coupler_full(
         gap: Distance between the two straights in um.
         dw: delta width. Top arm tapers to width - dw, bottom to width + dw in um.
         cross_section: cross-section spec.
+        kwargs: cross_section settings.
 
     Keyword Args:
         cross_section kwargs.

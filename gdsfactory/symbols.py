@@ -4,7 +4,6 @@ import functools
 from collections.abc import Callable
 
 import gdstk
-from pydantic import validate_call
 
 from gdsfactory import cell
 from gdsfactory.component import Component
@@ -12,41 +11,7 @@ from gdsfactory.typings import LayerSpecs
 
 _F = Callable[..., Component]
 
-
-def symbol(func: Callable, *args, **kwargs) -> Callable:
-    """Decorator for Component symbols.
-
-    Wraps cell
-    Validates type annotations with pydantic.
-
-    Implements a cache so that if a symbol has already been built
-    it will return the component from the cache directly.
-    This avoids 2 exact cells that are not references of the same cell
-    You can always over-ride this with `cache = False`.
-
-    When decorate your functions with @cell you get:
-
-    - CACHE: avoids creating duplicated cells.
-    - name: gives Components a unique name based on parameters.
-    - adds Component.info with default, changed and full component settings.
-
-    Keyword Args:
-        autoname (bool): if True renames component based on args and kwargs.
-        name (str): Optional (ignored when autoname=True).
-        cache (bool): returns component from the cache if it already exists.
-            if False creates a new component.
-            by default True avoids having duplicated cells with the same name.
-        info: updates component.info dict.
-        prefix: name_prefix, defaults to function name.
-        max_cellname_length: truncates name beyond some characters (32) with a hash.
-        decorator: function to run over the component.
-    """
-    if "prefix" not in kwargs:
-        prefix = f"SYMBOL_{func.__name__}"
-        kwargs["prefix"] = prefix
-    _wrapped = functools.partial(cell(validate_call(func)), **kwargs)
-    _wrapped._symbol = True
-    return _wrapped
+symbol = cell
 
 
 def symbol_from_cell(func: _F, to_symbol: Callable[[Component, ...], Component]) -> _F:
@@ -74,7 +39,9 @@ def symbol_from_cell(func: _F, to_symbol: Callable[[Component, ...], Component])
 def floorplan_with_block_letters(
     component: Component, copy_layers: LayerSpecs = ("WG",)
 ) -> Component:
-    """Returns symbol with same floorplan as component layout, function name \
+    """Returns symbol.
+
+    Keeps same floorplan as component layout, function name \
         and optionally shapes on layers copied from the original layout.
 
     Args:
@@ -124,9 +91,9 @@ def floorplan_with_block_letters(
     if copy_layers:
         for layer in copy_layers:
             layer = gf.get_layer(layer)
-            polys = component.get_polygons(by_spec=layer, as_array=False)
+            polys = component.get_polygons()[layer]
             # run OR to simplify shapes
             polys = gdstk.boolean(polys, [], "or", layer=layer[0], datatype=layer[1])
-            sym.add_polygon(polys)
+            sym.add_polygon(polys, layer=layer)
 
     return sym

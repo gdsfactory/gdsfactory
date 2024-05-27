@@ -5,17 +5,17 @@ import numpy as np
 from gdsfactory.config import CONF
 from gdsfactory.port import Port
 from gdsfactory.routing.utils import RouteWarning
-from gdsfactory.snap import snap_to_grid
 
 
 def make_error_traces(
     component, ports1: list[Port], ports2: list[Port], message: str
 ) -> None:
-    """
-    Creates a set of error traces showing the intended connectivity between ports1 and ports2.
+    """Creates a set of error traces showing the intended connectivity between ports1 and ports2.
+
     The specified message will be included in the RouteWarning that is raised.
 
     Args:
+        component: the Component to add the error traces to.
         ports1: the list of starting ports.
         ports2: the list of ending ports.
         message: a message to include in the RouteWarning that is raised.
@@ -32,18 +32,12 @@ def make_error_traces(
         _ = component << error_component
 
 
-def _connection_tuple(port1: Port, port2: Port) -> tuple:
-    c1 = snap_to_grid(port1.center)
-    c2 = snap_to_grid(port2.center)
-    return (tuple(c1), tuple(c2))
-
-
 def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
     """Returns True if the bundle is topologically unroutable without introducing crossings.
 
     Args:
-        ports1: the starting ports of the bundle
-        ports2: the ending ports of the bundle
+        ports1: the starting ports of the bundle.
+        ports2: the ending ports of the bundle.
 
     Returns:
         True if the bundle is unroutable. False otherwise.

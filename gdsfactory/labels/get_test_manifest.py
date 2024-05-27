@@ -9,8 +9,7 @@ from gdsfactory.samples.sample_reticle import sample_reticle
 def get_test_manifest(
     component: gf.Component, one_setting_per_column: bool = True
 ) -> pd.DataFrame:
-    """
-    Returns a pandas DataFrame with test manifest.
+    """Returns a pandas DataFrame with test manifest.
 
     Args:
         component: Component to extract test manifest from.

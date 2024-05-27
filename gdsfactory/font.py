@@ -31,7 +31,7 @@ def _get_font_by_file(file):
     """Load font file.
 
     Args:
-        file [str, BinaryIO]: Load a font face from a given file
+        file: Load a font face from a given file.
     """
     # Cache opened fonts
     if file in _cached_fonts:
@@ -43,11 +43,11 @@ def _get_font_by_file(file):
     return font_renderer
 
 
-def _get_font_by_name(name):
+def _get_font_by_name(name: str):
     """Try to load a system font by name.
 
     Args:
-        name [str]: Load a system font
+        name: Load a system font
     """
     try:
         font_file = font_manager.findfont(name, fallback_to_default=False)

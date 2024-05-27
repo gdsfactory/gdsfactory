@@ -113,7 +113,6 @@ def clean_name(
     Returns:
         str: The cleaned name.
     """
-
     # Default allowed characters, including underscore
     allowed = r"a-zA-Z0-9_"
 

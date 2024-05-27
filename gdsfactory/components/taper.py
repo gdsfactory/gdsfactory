@@ -24,8 +24,6 @@ def taper(
 ) -> Component:
     """Linear taper, which tapers only the main cross section section.
 
-    Deprecated, use gf.components.taper_cross_section instead
-
     Args:
         length: taper length.
         width1: width of the west/left port.
@@ -34,9 +32,9 @@ def taper(
         with_two_ports: includes a second port.
             False for terminator and edge coupler fiber interface.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        port_name(tuple): Ordered tuple of port names. First port is default \
+        port_names: Ordered tuple of port names. First port is default \
                 taper port, second name only if with_two_ports flags used.
-        port_types(tuple): Ordered tuple of port types. First port is default \
+        port_types: Ordered tuple of port types. First port is default \
                 taper port, second name only if with_two_ports flags used.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         kwargs: cross_section settings.
@@ -141,6 +139,7 @@ def taper_strip_to_ridge(
         layer_wg: for input waveguide.
         layer_slab: for output waveguide with slab.
         cross_section: for input waveguide.
+        use_slab_port: if True adds a second port for the slab.
         kwargs: cross_section settings.
 
     .. code::

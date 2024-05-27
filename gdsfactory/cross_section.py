@@ -249,10 +249,12 @@ class CrossSection(BaseModel):
         return self.sections[0].layer
 
     def append_sections(self, sections: Sections) -> CrossSection:
+        """Append sections to the cross_section."""
         sections = self.sections + tuple(sections)
         return self.model_copy(update={"sections": sections})
 
     def __getitem__(self, key: str) -> Section:
+        """Returns the section with the given name."""
         key_to_section = {s.name: s for s in self.sections}
         if key in key_to_section:
             return key_to_section[key]
@@ -276,6 +278,7 @@ class CrossSection(BaseModel):
             width_function: parameterized function from 0 to 1.
             offset_function: parameterized function from 0 to 1.
             sections: a tuple of Sections, to replace the original sections
+            kwargs: additional parameters to update.
 
         Keyword Args:
             sections: tuple of Sections(width, offset, layer, ports).
@@ -438,7 +441,6 @@ def cross_section(
     radius: float | None = 10.0,
     radius_min: float | None = None,
     main_section_name: str = "_default",
-    **kwargs,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -499,20 +501,6 @@ def cross_section(
            └────────────────────────────────────────────────────────────┘
     """
     sections = list(sections or [])
-
-    for k in kwargs.keys():
-        if k in deprecated_routing:
-            warnings.warn(
-                f"{k} is deprecated. Pass this parameter to the routing function instead.",
-                stacklevel=2,
-            )
-        if k in deprecated_pins:
-            warnings.warn(
-                f"{k} is deprecated. You can decorate the @gf.cell(post_process=) instead.",
-                stacklevel=2,
-            )
-        elif k in deprecated:
-            warnings.warn(f"{k} is deprecated.", stacklevel=2)
 
     if cladding_layers:
         cladding_simplify = cladding_simplify or (None,) * len(cladding_layers)
@@ -591,7 +579,6 @@ strip_rib_tip = partial(
     strip,
     sections=(Section(width=0.2, layer="SLAB90", name="slab"),),
 )
-# fix under hre
 strip_nitride_tip = partial(
     nitride,
     sections=(
@@ -687,6 +674,7 @@ def rib_with_trenches(
         layer_trench: layer to etch trenches.
         wg_marking_layer: layer to draw over the actual waveguide. \
                 This can be useful for booleans, routing, placement ...
+        sections: list of Sections(width, offset, layer, ports).
         kwargs: cross_section settings.
 
     .. code::
@@ -764,7 +752,6 @@ def l_with_trenches(
     layer_slab: LayerSpec | None = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
     mirror: bool = False,
-    wg_marking_layer: LayerSpec | None = None,
     sections: tuple[Section, ...] | None = None,
     **kwargs,
 ) -> CrossSection:
@@ -774,11 +761,13 @@ def l_with_trenches(
         width: main Section width (um) or function parameterized from 0 to 1. \
                 the width at t==0 is the width at the beginning of the Path. \
                 the width at t==1 is the width at the end.
-        width_slab: in um.
         width_trench: in um.
+        width_slab: in um.
         layer: ridge layer. None adds only ridge.
+        layer_slab: slab layer.
         layer_trench: layer to etch trenches.
         mirror: this cross section is not symmetric and you can switch orientation.
+        sections: list of Sections(width, offset, layer, ports).
         kwargs: cross_section settings.
 
 
@@ -811,7 +800,6 @@ def l_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
-
     mult = 1 if mirror else -1
     trench_offset = mult * (width / 2 + width_trench / 2)
     sections = list(sections or ())
@@ -1219,6 +1207,8 @@ def pn_with_trenches(
         cladding_simplify: Optional Tolerance value for the simplification algorithm.\
                 All points that can be removed without changing the resulting. \
                 polygon by more than the value listed here will be removed.
+        wg_marking_layer: layer to draw over the actual waveguide.
+        sections: optional list of sections.
         kwargs: cross_section settings.
 
     .. code::
@@ -1425,6 +1415,8 @@ def pn_with_trenches_asymmetric(
         port_names: input and output port names.
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
+        wg_marking_layer: layer to draw over the actual waveguide.
+        sections: optional list of sections.
         kwargs: cross_section settings.
 
     .. code::
@@ -1634,6 +1626,7 @@ def l_wg_doped_with_trenches(
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
         wg_marking_layer: layer to mark where the actual guiding section is.
+        sections: optional list of sections.
         kwargs: cross_section settings.
 
     .. code::
@@ -1858,7 +1851,6 @@ def strip_heater_metal(
         c = p.extrude(xs)
         c.plot()
     """
-
     sections = list(sections or [])
     sections += [
         Section(

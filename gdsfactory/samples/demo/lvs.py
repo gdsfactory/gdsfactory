@@ -42,7 +42,6 @@ def pads_correct(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
 @gf.cell
 def pads_shorted(pad=gf.components.pad, cross_section="metal3") -> gf.Component:
     """Returns 2 pads connected with metal wires."""
-
     c = gf.Component()
     pad = gf.components.pad()
     xs = gf.get_cross_section(cross_section)

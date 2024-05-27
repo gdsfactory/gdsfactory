@@ -105,8 +105,9 @@ def grating_coupler_elliptical_lumerical(
         fiber_angle: used to compute ellipticity.
         info: optional simulation settings.
         bias_gap: gap/trenches bias (um) to compensate for etching bias.
+        kwargs: cross_section settings.
 
-    keyword Args:
+    Keyword Args:
         taper_length: taper length from input in um.
         taper_angle: grating flare angle in degrees.
         wavelength: grating transmission central wavelength (um).

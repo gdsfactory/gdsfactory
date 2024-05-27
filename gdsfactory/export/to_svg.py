@@ -21,6 +21,7 @@ def to_svg(
             Defaults to active PDK.layer_views.
         layer_stack: contains thickness and zmin for each layer.
             Defaults to active PDK.layer_stack.
+        exclude_layers: layers to exclude.
         filename: svg filename.
         scale: scale for the svg.
     """

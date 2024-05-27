@@ -67,6 +67,7 @@ def mzi(
         add_optical_ports_arms: add all other optical ports in the arms
             with top_ and bot_ prefix.
         min_length: minimum length for the straight.
+        auto_rename_ports: if True, renames ports.
 
     .. code::
 

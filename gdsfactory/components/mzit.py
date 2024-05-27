@@ -35,6 +35,7 @@ def mzit(
     http://photonics.intec.ugent.be/publications/PhD.asp?ID=250
 
     Args:
+        w0: input waveguide width (um).
         w1: narrow waveguide width (um).
         w2: wide waveguide width (um).
         dy: port to port vertical spacing.
@@ -50,6 +51,7 @@ def mzit(
         straight: spec.
         coupler1: coupler1 spec (optional).
         coupler2: coupler2 spec.
+        cross_section: cross_section spec.
 
     .. code::
 

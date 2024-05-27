@@ -10,7 +10,7 @@ from pathlib import Path
 import klayout.db as pya
 
 from gdsfactory.config import logger
-from gdsfactory.typings import LayerSpec, PathType
+from gdsfactory.typings import PathType
 
 
 def find_labels(
@@ -31,7 +31,6 @@ def find_labels(
         y: y position (um).
         angle: in degrees.
     """
-
     # Load the layout
     gdspath = str(gdspath)
     layout = pya.Layout()
@@ -55,7 +54,7 @@ def find_labels(
 
 def write_labels(
     gdspath: PathType,
-    layer_label: LayerSpec = "TEXT",
+    layer_label: tuple[int, int] = (66, 0),
     filepath: PathType | None = None,
     prefix: str = "opt_",
 ) -> Path:

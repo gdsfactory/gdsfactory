@@ -153,6 +153,7 @@ def disk_heater(
        parity (1 or -1): 1, resonator left from bus straight, -1 resonator to the right.
        cross_section: cross_section spec.
        heater_layer: layer of the heater.
+       via_stack: via stack component.
        heater_width: width of the heater.
        heater_extent: length of heater beyond disk.
        via_width: size of the square via at the end of the heater.

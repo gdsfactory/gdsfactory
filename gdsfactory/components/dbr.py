@@ -42,6 +42,7 @@ def dbr_cell(
         l2: thick length in um.
         n: number of periods.
         cross_section: cross_section spec.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -86,11 +87,12 @@ def dbr(
 
     Args:
         w1: thin width in um.
-        l1: thin length in um.
         w2: thick width in um.
+        l1: thin length in um.
         l2: thick length in um.
         n: number of periods.
         cross_section: cross_section spec.
+        straight_length: length of the straight section between cutbacks.
         kwargs: cross_section settings.
 
     .. code::

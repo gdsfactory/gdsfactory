@@ -30,6 +30,7 @@ def grating_coupler_rectangular_arbitrary(
     **kwargs,
 ) -> Component:
     r"""Grating coupler uniform with rectangular shape (not elliptical).
+
     Therefore it needs a longer taper.
     Grating teeth are straight instead of elliptical.
 
@@ -147,6 +148,7 @@ def grating_coupler_rectangular_arbitrary(
     )
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
+    c.info["fiber_angle"] = fiber_angle
 
     gf.asserts.grating_coupler(c)
     xs.add_bbox(c)

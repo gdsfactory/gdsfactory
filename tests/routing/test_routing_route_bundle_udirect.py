@@ -18,12 +18,12 @@ def test_route_bundle_udirect_pads(
     pad_south = gf.components.pad_array(orientation=270, spacing=(15.0, 0), pad=pad)
     pt = c << pad_south
     pb = c << pad_south
-    pb.rotate(90)
-    pt.rotate(90)
-    pb.move((0, -100))
+    pb.d.rotate(90)
+    pt.d.rotate(90)
+    pb.d.move((0, -100))
 
-    pbports = pb.get_ports_list()
-    ptports = pt.get_ports_list()
+    pbports = list(pb.ports)
+    ptports = pt.ports
 
     pbports.reverse()
 
@@ -103,7 +103,6 @@ def test_connect_bundle_udirect(
         ports1,
         ports2,
         radius=10.0,
-        enforce_port_ordering=False,
         sort_ports=True,
         separation=10,
     )

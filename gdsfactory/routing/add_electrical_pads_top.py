@@ -35,6 +35,7 @@ def add_electrical_pads_top(
         select_ports: function to select electrical ports.
         port_names: optional port names. Overrides select_ports.
         layer: for the routes.
+        kwargs: additional arguments.
 
     Keyword Args:
         ports: Dict[str, Port] a port dict {port name: port}.

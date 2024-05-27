@@ -79,7 +79,6 @@ def ring_single_pn(
         doped_heater_waveguide_offset: distance from the center of the ring waveguide to the center of the doped heater.
         heater_vias: components specifications for heater vias.
     """
-
     gap = gf.snap.snap_to_grid(gap, grid_factor=2)
     c = gf.Component()
 

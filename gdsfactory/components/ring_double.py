@@ -29,7 +29,7 @@ def ring_double(
         radius: for the bend and coupler.
         length_x: ring coupler length.
         length_y: vertical straight length.
-        coupler: ring coupler spec.
+        coupler_ring: ring coupler spec.
         bend: bend spec.
         cross_section: cross_section spec.
         **kwargs: cross_section settings.

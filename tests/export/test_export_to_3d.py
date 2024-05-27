@@ -9,7 +9,6 @@ from gdsfactory.technology import LayerLevel, LayerStack
 
 def get_layer_stack() -> LayerStack:
     """Returns dummy LayerStack."""
-
     return LayerStack(
         layers=dict(
             substrate=LayerLevel(
