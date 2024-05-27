@@ -21,7 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.color import ColorType
 from pydantic_extra_types.color import Color
 
-from gdsfactory.config import logger
+from gdsfactory.config import CONF
 from gdsfactory.name import clean_name
 from gdsfactory.technology.color_utils import ensure_six_digit_hex_color
 from gdsfactory.technology.xml_utils import make_pretty_xml
@@ -787,12 +787,14 @@ class LayerViews(BaseModel):
             filepath = pathlib.Path(filepath)
             if filepath.suffix == ".lyp":
                 lvs = LayerViews.from_lyp(filepath=filepath)
-                logger.debug(
+                CONF.logger.debug(
                     f"Importing LayerViews from KLayout layer properties file: {str(filepath)!r}."
                 )
             elif filepath.suffix in {".yaml", ".yml"}:
                 lvs = LayerViews.from_yaml(layer_file=filepath)
-                logger.debug(f"Importing LayerViews from YAML file: {str(filepath)!r}.")
+                CONF.logger.debug(
+                    f"Importing LayerViews from YAML file: {str(filepath)!r}."
+                )
             else:
                 raise ValueError(f"Unable to load LayerViews from {str(filepath)!r}.")
 
