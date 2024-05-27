@@ -15,7 +15,7 @@ import numpy as np
 from kfactory import Instance, kdb
 from kfactory.kcell import cell, save_layout_options
 
-from gdsfactory.config import GDSDIR_TEMP
+from gdsfactory.config import CONF, GDSDIR_TEMP
 from gdsfactory.port import pprint_ports, select_ports, to_dict
 from gdsfactory.serialization import clean_value_json
 
@@ -148,6 +148,15 @@ class ComponentReference(kf.Instance):
             "ymax",
             "ysize",
         }:
+            CONF.logger.warning(
+                f"`Component.{__k}` is deprecated and will be removed with 9.0."
+                f" Please use `Component.d{__k}` instead. For further information, please"
+                "consult the migration guide "
+                "https://gdsfactory.github.io/gdsfactory/notebooks/"
+                "21_migration_guide_7_8.html or try the automatic migration script.",
+                # category=DeprecationWarning,
+                # stacklevel=3,
+            )
             match __k:
                 case "center":
                     return super().dcenter
@@ -321,6 +330,15 @@ class Component(kf.KCell):
             "ymax",
             "ysize",
         }:
+            CONF.logger.warning(
+                f"`Component.{__k}` is deprecated and will be removed with 9.0."
+                f" Please use Component.`d{__k}` instead. For further information, please"
+                "consult the migration guide "
+                "https://gdsfactory.github.io/gdsfactory/notebooks/"
+                "21_migration_guide_7_8.html or try the automatic migration script.",
+                # category=DeprecationWarning,
+                # stacklevel=3,
+            )
             return getattr(self, f"d{__k}")
         return super().__getattribute__(__k)
 

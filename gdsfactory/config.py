@@ -11,7 +11,6 @@ from typing import TYPE_CHECKING
 
 from dotenv import find_dotenv
 from kfactory.conf import config, get_affinity
-from loguru import logger as logger
 from rich.console import Console
 from rich.table import Table
 
