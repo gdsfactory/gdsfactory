@@ -32,7 +32,7 @@ from gdsfactory.component import (
     ComponentReference,
     Instance,
 )
-from gdsfactory.config import CONF, PATH, logger
+from gdsfactory.config import CONF, PATH
 from gdsfactory.port import Port
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section
@@ -77,10 +77,12 @@ from gdsfactory.grid import grid, grid_with_text
 c = components
 
 
-def clear_cache(kcl=kf.kcl) -> None:
+def clear_cache(kcl: kf.KCLayout = kf.kcl) -> None:
     """Clears the whole layout object cache for the default layout."""
     kcl.clear_kcells()
 
+
+logger = CONF.logger
 
 __all__ = (
     "CONF",

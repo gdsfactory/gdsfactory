@@ -24,7 +24,7 @@ from pydantic import (
     model_validator,
 )
 
-from gdsfactory.config import CONF, ErrorType, logger
+from gdsfactory.config import CONF, ErrorType
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
@@ -2361,7 +2361,7 @@ def get_cross_sections(
                         xs[t[0]] = t[1]
                 except Exception as e:
                     if verbose:
-                        logger.warn(f"error in {t[0]}: {e}")
+                        CONF.logger.warn(f"error in {t[0]}: {e}")
     return xs
 
 

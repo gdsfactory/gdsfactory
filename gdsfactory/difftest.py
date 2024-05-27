@@ -7,7 +7,7 @@ import shutil
 from kfactory import KCell, KCLayout, kdb
 
 import gdsfactory as gf
-from gdsfactory.config import CONF, PATH, logger
+from gdsfactory.config import CONF, PATH
 from gdsfactory.name import clean_name
 
 
@@ -276,7 +276,7 @@ def overwrite(ref_file, run_file):
     if val.upper().startswith("N"):
         raise GeometryDifference
 
-    logger.info(f"deleting file {str(ref_file)!r}")
+    CONF.logger.info(f"deleting file {str(ref_file)!r}")
     ref_file.unlink()
     shutil.copy(run_file, ref_file)
     raise GeometryDifference

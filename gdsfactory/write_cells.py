@@ -7,7 +7,7 @@ from pathlib import Path
 
 import gdstk
 
-from gdsfactory.config import PATH, logger
+from gdsfactory.config import CONF, PATH
 from gdsfactory.name import clean_name
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.typings import PathType
@@ -87,7 +87,7 @@ def get_import_gds_script(dirpath: PathType, module: str | None = None) -> str:
     if not gdspaths:
         raise ValueError(f"No GDS files found at {dirpath.absolute()!r}.")
 
-    logger.info(f"Writing {len(gdspaths)} cells from {dirpath.absolute()!r}")
+    CONF.logger.info(f"Writing {len(gdspaths)} cells from {dirpath.absolute()!r}")
 
     script = [script_prefix]
     script += [f"gdsdir = {str(dirpath.absolute())!r}\n"]
@@ -131,7 +131,7 @@ def write_cells_recursively(
         lib.add(cell)
         lib.add(*cell.dependencies(True))
         lib.write_gds(gdspath)
-        logger.info(f"Write {cell.name!r} to {gdspath}")
+        CONF.logger.info(f"Write {cell.name!r} to {gdspath}")
 
         gdspaths[cell.name] = gdspath
 

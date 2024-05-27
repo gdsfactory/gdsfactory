@@ -1,8 +1,13 @@
 from __future__ import annotations
 
 import pathlib
+import re
+from difflib import unified_diff
+from enum import Enum
+from typing import Annotated, Optional
 
 import typer
+from rich import print as pprint
 
 from gdsfactory import show as _show
 from gdsfactory.config import print_version_pdks, print_version_plugins
@@ -12,6 +17,12 @@ from gdsfactory.read.from_updk import from_updk
 from gdsfactory.watch import watch as _watch
 
 app = typer.Typer()
+
+
+class Migration(str, Enum):
+    """Available Migrations."""
+
+    upgrade7to8 = "7to8"
 
 
 @app.command()
@@ -122,6 +133,157 @@ def text_from_pdf_command(filepath: str) -> None:
     filepath = pathlib.Path(filepath)
     f = filepath.with_suffix(".md")
     f.write_text(text)
+
+
+@app.command()
+def migrate(
+    migration: Annotated[
+        Migration,
+        typer.Option(
+            case_sensitive=False,
+            help="Choices of migrations. See the migration guide for more explanation "
+            "https://gdsfactory.github.io/gdsfactory/migration.html",
+        ),
+    ],
+    input: Annotated[pathlib.Path, typer.Argument(help="Input folder or file.")],
+    output: Annotated[
+        Optional[pathlib.Path],  # noqa: UP007
+        typer.Argument(
+            help="Output folder or file. If inplace is set, this argument will be ignored"
+        ),
+    ] = None,
+    inplace: Annotated[
+        bool,
+        typer.Option(
+            "--inplace",
+            "-i",
+            help="If set, the migration will overwrite the input folder"
+            " or file and ignore any given output path.",
+        ),
+    ] = False,
+) -> None:
+    """Migrates python scripts to new syntax.
+
+    It will only update `.py` files unless input is an exact file and not a directory.
+    """
+    to_be_replaced = {
+        "center",
+        "mirror",
+        "move",
+        "movex",
+        "movey",
+        "rotate",
+        "size_info",
+        "x",
+        "xmin",
+        "xmax",
+        "xsize",
+        "y",
+        "ymin",
+        "ymax",
+        "ysize",
+    }
+    input = input.resolve()
+    if output is None:
+        if not inplace:
+            raise ValueError("If inplace is not set, an output directory must be set.")
+        output = input
+    output.resolve()
+    pattern1 = re.compile(
+        r"\b(" + "|".join(r"d\." + _r for _r in to_be_replaced) + r")\b"
+    )
+    pattern2 = re.compile(r"\b(" + "|".join(to_be_replaced) + r")\b")
+    replacement = r"d\1"
+
+    if not input.is_dir():
+        if output.is_dir():
+            output = output / input.name
+        elif output.suffix == ".py":
+            output.parent.mkdir(parents=True, exist_ok=True)
+        else:
+            output = output / input.name
+            output.parent.mkdir(parents=True, exist_ok=True)
+
+        with open(input, encoding="utf-8") as file:
+            content = file.read()
+        new_content = pattern2.sub(replacement, pattern1.sub(replacement, content))
+        if output == input:
+            if content != new_content:
+                with open(output, "w", encoding="utf-8") as file:
+                    file.write(new_content)
+                pprint(f"Updated [bold violet]{output}[/]")
+                pprint(
+                    "\n".join(
+                        unified_diff(
+                            a=content.splitlines(),
+                            b=new_content.splitlines(),
+                            fromfile=str(input.resolve()),
+                            tofile=str(output.resolve()),
+                        )
+                    )
+                )
+        else:
+            with open(output, "w", encoding="utf-8") as file:
+                file.write(new_content)
+            if content != new_content:
+                pprint(f"Updated [bold violet]{output}[/]")
+                pprint(
+                    "\n".join(
+                        unified_diff(
+                            a=content,
+                            b=new_content,
+                            fromfile=str(input),
+                            tofile=str(output),
+                        )
+                    )
+                )
+    else:
+        if output != input:
+            for inp in input.rglob("*.py"):
+                with open(inp, encoding="utf-8") as file:
+                    content = file.read()
+                new_content = pattern2.sub(
+                    replacement, pattern1.sub(replacement, content)
+                )
+                out = output / inp.relative_to(input)
+                out.parent.mkdir(parents=True, exist_ok=True)
+                with open(out, "w", encoding="utf-8") as file:
+                    file.write(new_content)
+                if content != new_content:
+                    pprint(f"Updated [bold violet]{out}[/]")
+                    pprint(
+                        "\n".join(
+                            unified_diff(
+                                a=content.splitlines(),
+                                b=new_content.splitlines(),
+                                fromfile=str(inp.resolve()),
+                                tofile=str(out.resolve()),
+                            )
+                        )
+                    )
+        else:
+            for inp in input.rglob("*.py"):
+                with open(inp, encoding="utf-8") as file:
+                    content = file.read()
+                new_content = pattern2.sub(
+                    replacement, pattern1.sub(replacement, content)
+                )
+                if content != new_content:
+                    out = output / inp.relative_to(input)
+                    out.parent.mkdir(parents=True, exist_ok=True)
+                    with open(out, "w", encoding="utf-8") as file:
+                        file.write(new_content)
+                    pprint(f"Updated [bold violet]{out}[/]")
+                    pprint(
+                        "\n".join(
+                            unified_diff(
+                                a=content.splitlines(),
+                                b=new_content.splitlines(),
+                                fromfile=str(inp.resolve()),
+                                tofile=str(out.resolve()),
+                            )
+                        )
+                    )
 
 
 if __name__ == "__main__":
