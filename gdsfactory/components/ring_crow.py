@@ -70,7 +70,6 @@ def ring_crow(
     c.add_port(name="o1", port=input_straight_waveguide.ports["o1"])
     c.add_port(name="o2", port=input_straight_waveguide.ports["o2"])
 
-    # Cascade rings
     cum_y_dist = input_straight_width / 2
 
     for index, (gap, r, bend, cross_section) in enumerate(
@@ -93,8 +92,6 @@ def ring_crow(
 
         ring_ref = c.add_ref(ring)
         ring_ref.dmovey(cum_y_dist + gap + bend_width / 2)
-        # c.absorb(ring_ref)
-        ring_ref.flatten(1)
         cum_y_dist += gap + bend_width + 2 * r
 
     # Output bus
