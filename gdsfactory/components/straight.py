@@ -50,7 +50,7 @@ if __name__ == "__main__":
     # c = gf.Component()
     # ref = c << straight(cross_section="rib")
     # ref2 = c << straight(cross_section="rib")
-    # ref2.center = ref.center + kdb.Point(0, 1000)
+    # ref2.dcenter = ref.dcenter + kdb.Point(0, 1000)
     # ref2.dmove((0, 10))
     # ref.name = "straight"
     # print(c.insts['straight'].ports)

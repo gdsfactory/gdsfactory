@@ -242,7 +242,7 @@ def greek_cross_offset_pads(
                 )
             )
         contact = c << c2
-        contact.rotate(pad_rotation)
+        contact.drotate(pad_rotation)
         contact.dmove(np.array([sgnx * pad_offset, sgny * pad_offset]))
 
     return c

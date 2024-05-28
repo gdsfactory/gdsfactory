@@ -101,7 +101,7 @@ def text_freetype(
             yoffset -= size
 
     justify = justify.lower()
-    for ref in t.references:
+    for ref in t.insts:
         if justify == "center":
             ref.dmove((0, 0))
 

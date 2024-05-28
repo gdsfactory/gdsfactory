@@ -42,7 +42,7 @@ class SizeInfo:
         self.ce = np.array([self.east, yc])
         self.nc = np.array([xc, self.north])
         self.sc = np.array([xc, self.south])
-        self.cc = self.center = np.array([xc, yc])
+        self.cc = self.dcenter = np.array([xc, yc])
 
     def get_rect(
         self, padding=0, padding_w=None, padding_e=None, padding_n=None, padding_s=None
@@ -98,7 +98,7 @@ class _GeometryHelper:
     """Helper class for a class with functions move() and the property bbox.
 
     It uses that function+property to enable you to do things like check what the
-    center of the bounding box is (self.center), and also to do things like move
+    center of the bounding box is (self.dcenter), and also to do things like move
     the bounding box such that its maximum x value is 5.2 (self.xmax = 5.2).
     """
 
@@ -114,7 +114,7 @@ class _GeometryHelper:
         Args:
             destination : array-like[2] Coordinates of the new bounding box center.
         """
-        self.dmove(destination=destination, origin=self.center)
+        self.dmove(destination=destination, origin=self.dcenter)
 
     @property
     def dx(self):
@@ -128,8 +128,8 @@ class _GeometryHelper:
         Args:
             destination : int or float x-coordinate of the bbox center.
         """
-        destination = (destination, self.center[1])
-        self.dmove(destination=destination, origin=self.center, axis="x")
+        destination = (destination, self.dcenter[1])
+        self.dmove(destination=destination, origin=self.dcenter, axis="x")
 
     @property
     def dy(self):
@@ -144,8 +144,8 @@ class _GeometryHelper:
         destination : int or float
             y-coordinate of the bbox center.
         """
-        destination = (self.center[0], destination)
-        self.dmove(destination=destination, origin=self.center, axis="y")
+        destination = (self.dcenter[0], destination)
+        self.dmove(destination=destination, origin=self.dcenter, axis="y")
 
     @property
     def dxmax(self):
@@ -323,7 +323,7 @@ def _parse_coordinate(c):
             Parsed coordinate.
     """
     if hasattr(c, "center"):
-        return c.center
+        return c.dcenter
     elif np.array(c).size == 2:
         return c
     else:

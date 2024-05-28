@@ -117,12 +117,12 @@ def coh_rx_single_pol(
     hybrid_ports = {"I_out1": pd_i1, "I_out2": pd_i2, "Q_out1": pd_q1, "Q_out2": pd_q2}
 
     port_names = hybrid_ports.keys()
-    ports_y_pos = [hybrid.ports[port_name].y for port_name in port_names]
+    ports_y_pos = [hybrid.ports[port_name].dy for port_name in port_names]
     inds = np.argsort(ports_y_pos)
     port_names = list(port_names)
     port_names = [port_names[i] for i in inds]
 
-    y_pos = hybrid.y - 1.5 * det_spacing[1]
+    y_pos = hybrid.dy - 1.5 * det_spacing[1]
 
     det_ports = []
     ports_hybrid = []
@@ -149,7 +149,7 @@ def coh_rx_single_pol(
         name="i_out",
         port_type="placement",
         layer="MTOP",
-        center=(x_max, (pd_i1.ports["bot_e3"].y + pd_i2.ports["top_e3"].y) / 2),
+        center=(x_max, (pd_i1.ports["bot_e3"].dy + pd_i2.ports["top_e3"].dy) / 2),
         orientation=0,
         width=2.0,
     )
@@ -169,7 +169,7 @@ def coh_rx_single_pol(
         layer="M2",
         center=(
             x_max,
-            (pd_q1.ports["bot_e3"].y + pd_q2.ports["top_e3"].y) / 2 - 15.0,
+            (pd_q1.ports["bot_e3"].dy + pd_q2.ports["top_e3"].dy) / 2 - 15.0,
         ),  # - 20.0 so that the traces for I and Q do not overlap
         orientation=0,
         width=2.0,

@@ -207,7 +207,7 @@ class Schematic(BaseModel):
                 node
             ):  # Check if the node is already in the graph (from connections), to avoid duplication.
                 G.add_node(node)
-                pos[node] = (placement.x, placement.y)
+                pos[node] = (placement.dx, placement.dy)
 
         for net in self.nets:
             G.add_edge(net.ip1.split(",")[0], net.ip2.split(",")[0])

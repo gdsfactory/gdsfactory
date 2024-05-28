@@ -192,7 +192,7 @@ if __name__ == "__main__":
     # c = gf.Component("pads_route_from_steps")
     # pt = c << gf.components.pad_array(orientation=270, columns=3)
     # pb = c << gf.components.pad_array(orientation=90, columns=3)
-    # pt.move((100, 200))
+    # pt.dmove((100, 200))
     # route = gf.routing.route_single_from_steps_electrical(
     #     pb.ports["e11"],
     #     pt.ports["e11"],

@@ -66,7 +66,7 @@ def rectangle_with_slits(
     columns = np.floor((size[0] - 2 * slit_enclosure) / slit_spacing[0])
     rows = np.floor((size[1] - 2 * slit_enclosure) / slit_spacing[1])
     slits = c << array(slit, columns=columns, rows=rows, spacing=slit_spacing)
-    slits.center = r.center
+    slits.dcenter = r.dcenter
     return c
 
 

@@ -11,7 +11,7 @@ def test_route_single(
     c = gf.Component()
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()
-    mmi2.move((100, 50))
+    mmi2.dmove((100, 50))
     route = gf.routing.route_single(
         c,
         mmi1.ports["o3"],

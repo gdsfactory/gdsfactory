@@ -22,10 +22,10 @@ def line(
 ) -> tuple[float, float, float, float]:
     if isinstance(p_start, gf.Port):
         width = p_start.width
-        p_start = p_start.center
+        p_start = p_start.dcenter
 
     if isinstance(p_end, gf.Port):
-        p_end = p_end.center
+        p_end = p_end.dcenter
 
     w = width
     angle = np.arctan2(p_end[1] - p_start[1], p_end[0] - p_start[0])
@@ -97,8 +97,8 @@ def extend_ports(
     cref = c << component
 
     if centered:
-        cref.x = 0
-        cref.y = 0
+        cref.dx = 0
+        cref.dy = 0
 
     ports_all = cref.ports
     port_names_all = [p.name for p in ports_all]

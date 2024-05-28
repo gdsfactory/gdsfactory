@@ -59,22 +59,23 @@ def add_electrical_pads_shortest(
 
     for i, port in enumerate(ports):
         p = c << pad
+        port_orientation = port.orientation
 
         if port_orientation == 0:
-            p.x = port.x + pad_port_spacing
-            p.y = port.y
+            p.dx = port.dx + pad_port_spacing
+            p.dy = port.dy
             route_quad(component=c, port1=port, port2=p.ports["e1"], layer=layer)
         elif port_orientation == 180:
-            p.x = port.x - pad_port_spacing
-            p.y = port.y
+            p.dx = port.dx - pad_port_spacing
+            p.dy = port.dy
             route_quad(c, port, p.ports["e3"], layer=layer)
         elif port_orientation == 90:
-            p.y = port.y + pad_port_spacing
-            p.x = port.x
+            p.dy = port.dy + pad_port_spacing
+            p.dx = port.dx
             route_quad(c, port, p.ports["e4"], layer=layer)
         elif port_orientation == 270:
-            p.y = port.y - pad_port_spacing
-            p.x = port.x
+            p.dy = port.dy - pad_port_spacing
+            p.dx = port.dx
             route_quad(c, port, p.ports["e2"], layer=layer)
 
         c.add_port(port=p.ports["pad"], name=f"elec-{component.name}-{i+1}")
@@ -86,9 +87,9 @@ def add_electrical_pads_shortest(
 
 
 if __name__ == "__main__":
-    # c = gf.components.cross(length=100, layer=(49, 0))
+    c = gf.components.cross(length=100, layer=(49, 0), port_type="electrical")
     # c = gf.components.mzi_phase_shifter()
     # c = gf.components.straight_heater_metal(length=100)
     # c = add_electrical_pads_shortest(component=c, port_orientation=270)
-    c = add_electrical_pads_shortest()
+    c = add_electrical_pads_shortest(c, pad_port_spacing=200)
     c.show()

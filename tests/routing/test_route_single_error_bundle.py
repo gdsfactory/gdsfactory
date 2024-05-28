@@ -21,7 +21,7 @@ def test_route_error_bundle() -> None:
 
     left = c << w
     right = c << w
-    right.move((200, 100))
+    right.dmove((200, 100))
     p1 = left.ports.filter(orientation=0)
     p2 = right.ports.filter(orientation=180)
 

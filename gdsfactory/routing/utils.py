@@ -46,9 +46,9 @@ def check_ports_have_equal_spacing(list_ports: list[Port]) -> float64:
 
     orientation = get_list_ports_angle(list_ports)
     if orientation in [0, 180]:
-        xys = [p.y for p in list_ports]
+        xys = [p.dy for p in list_ports]
     else:
-        xys = [p.x for p in list_ports]
+        xys = [p.dx for p in list_ports]
 
     seps = [round(abs(c2 - c1), 5) for c1, c2 in zip(xys[1:], xys[:-1])]
     different_seps = set(seps)

@@ -105,7 +105,7 @@ def crossing(
     port_id = 0
     for rotation in [0, 1]:
         ref = c << arm
-        ref.rotate(rotation)
+        ref.drotate(rotation)
         for p in ref.ports:
             c.add_port(name=port_id, port=p)
             port_id += 1

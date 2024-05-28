@@ -115,13 +115,13 @@ def disk(
         circle.dmove(np.array(straight_left.ports["o2"].dcenter) + (0, r_bend))
 
     if circle_cladding:
-        circle_cladding.move(circle.center)
+        circle_cladding.dmove(circle.dcenter)
 
     c.add_port("o1", port=straight_left.ports["o1"])
     c.add_port("o2", port=straight_right.ports["o2"])
     xs.add_bbox(c)
     if parity == -1:
-        c = c.rotate(180)
+        c = c.drotate(180)
 
     c.flatten()
     return c

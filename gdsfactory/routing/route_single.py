@@ -93,7 +93,7 @@ def route_single(
         c = gf.Component('sample_connect')
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
-        mmi2.move((40, 20))
+        mmi2.dmove((40, 20))
         gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
         c.plot()
     """
@@ -101,11 +101,10 @@ def route_single(
     p2 = port2
 
     with_sbend = kwargs.pop("with_sbend", None)
-    min_straight_length = kwargs.pop("min_straight_length", None)
-
     if with_sbend:
         warnings.warn("with_sbend is not implemented yet")
 
+    min_straight_length = kwargs.pop("min_straight_length", None)
     if min_straight_length:
         warnings.warn("minimum straight length not implemented yet")
 
@@ -137,9 +136,9 @@ def route_single(
 
     if waypoints is not None:
         if not isinstance(waypoints[0], kf.kdb.Point):
-            w = [kf.kdb.Point(*p1.center)]
+            w = [kf.kdb.Point(*p1.dcenter)]
             w += [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
-            w += [kf.kdb.Point(*p2.center)]
+            w += [kf.kdb.Point(*p2.dcenter)]
             waypoints = w
 
         return place90(

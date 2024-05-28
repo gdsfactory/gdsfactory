@@ -149,7 +149,7 @@ def {block_name}({parameters_string})->gf.Component:
     {doc}
     c = gf.Component()
     p = c.add_polygon({points}, layer=layer_bbox)
-    xc, yc = p.center
+    xc, yc = p.dcenter
     ysize = p.ysize
     name = f{cell_name!r}
 """

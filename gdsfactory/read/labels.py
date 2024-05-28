@@ -59,8 +59,8 @@ def add_port_markers(
             rotation = cell["rotation"]
             x, y = np.array(_rotate_points((x, y), angle=rotation)).flatten()
 
-            r.x = x + cell["x"]
-            r.y = y + cell["y"]
+            r.dx = x + cell["x"]
+            r.dy = y + cell["y"]
     return c
 
 
@@ -108,7 +108,7 @@ if __name__ == "__main__":
             rotation = cell["rotation"]
             x, y = np.array(_rotate_points((x, y), angle=rotation)).flatten()
 
-            r.x = x + cell["x"]
-            r.y = y + cell["y"]
+            r.dx = x + cell["x"]
+            r.dy = y + cell["y"]
 
     c.show()

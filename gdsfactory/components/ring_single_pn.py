@@ -89,7 +89,7 @@ def ring_single_pn(
         gf.path.straight(length=2 * radius * np.sin(np.pi / 360 * undoping_angle))
     )
     bus_waveguide = c << bus_waveguide_path.extrude(cross_section=cross_section)
-    bus_waveguide.x = 0
+    bus_waveguide.dx = 0
 
     doped_path = gf.Path()
     doped_path.append(gf.path.arc(radius=radius, angle=-doping_angle))
@@ -127,7 +127,7 @@ def ring_single_pn(
         heater_vias = gf.get_component(heater_vias)
 
         left_heater_via = c << heater_vias
-        left_heater_via.rotate(heater_ref.ports["o1"].orientation)
+        left_heater_via.drotate(heater_ref.ports["o1"].orientation)
 
         deltax = -abs(heater_ref.ports["o1"].dx - left_heater_via.ports["e3"].dx)
         deltay = abs(heater_ref.ports["o1"].dy - left_heater_via.ports["e3"].dy)

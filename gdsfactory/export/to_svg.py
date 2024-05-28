@@ -34,7 +34,7 @@ def to_svg(
     # layers = layer_views.layer_map.values()
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
-    component_layers = component_with_booleans.get_layers()
+    component_layers = component_with_booleans.layers
     xsize = component.dxsize
     ysize = component.dysize
     dcx, dcy = component.dcenter.x, component.dcenter.y

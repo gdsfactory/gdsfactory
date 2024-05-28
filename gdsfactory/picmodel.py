@@ -120,8 +120,8 @@ class PicYamlConfiguration(BaseModel):
         self.placements[name] = placement
 
     def move_instance_to(self, name: str, x: float, y: float) -> None:
-        self.placements[name].x = x
-        self.placements[name].y = y
+        self.placements[name].dx = x
+        self.placements[name].dy = y
 
     def move_instance(self, name: str, dx: float, dy: float) -> None:
         if not self.placements[name].dx:

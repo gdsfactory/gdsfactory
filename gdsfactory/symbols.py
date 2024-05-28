@@ -55,12 +55,13 @@ def floorplan_with_block_letters(
     import gdsfactory as gf
     from gdsfactory.components import rectangle, text
 
-    w, h = component.size
+    w = component.dsize_info.width
+    h = component.dsize_info.height
     sym = Component()
 
     # add floorplan box
     bbox = sym << rectangle(size=(w, h), layer=(0, 0))
-    bbox.move((0, 0), other=component.bbox[0])
+    bbox.dmove((0, 0), other=component.bbox[0])
 
     # add text, fit to box with specified margin
     margin = 0.2
@@ -82,7 +83,7 @@ def floorplan_with_block_letters(
     )
 
     text = sym << text_component
-    text.move(text.center, other=bbox.center)
+    text.dmove(text.dcenter, other=bbox.dcenter)
 
     # add ports
     sym.add_ports(component.ports)

@@ -37,7 +37,7 @@ def port_bank(
 
 
 def connection_tuple(port1: gf.Port, port2: gf.Port) -> tuple:
-    return (tuple(port1.center), tuple(port2.center))
+    return (tuple(port1.dcenter), tuple(port2.dcenter))
 
 
 def make_bundle(

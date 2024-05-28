@@ -275,7 +275,7 @@ def place(
             elif mirror is False:
                 pass
             elif isinstance(mirror, str):
-                x_mirror = ref.ports[mirror].x
+                x_mirror = ref.ports[mirror].dx
                 ref.dmirror_x(x_mirror)
             elif isinstance(mirror, int | float):
                 x = to_um(ref, x)
@@ -329,7 +329,7 @@ def place(
             if port:
                 ref.drotate(rotation, center=_get_anchor_point_from_name(ref, port))
             else:
-                x, y = ref.dcenter.x, ref.dcenter.y
+                x, y = ref.dcenter.dx, ref.dcenter.dy
                 ref.drotate(rotation, center=ref.dcenter)
 
         if ymin is not None and ymax is not None:

@@ -21,7 +21,6 @@ def _generate_fins(
         taper_length: between the input/output straight and the DBR region.
         length: Length of the DBR region.
         xs: CrossSectionSpec.
-
     """
     num_fins = xs.width // (2 * fin_size[1])
     x0, y0 = (
@@ -119,8 +118,8 @@ def dbr_tapered(
     straight = c << gf.components.straight(
         length=length, cross_section=xs.copy(width=w1)
     )
-    straight.x = 0
-    straight.y = 0
+    straight.dx = 0
+    straight.dy = 0
 
     output_taper = c << gf.components.taper(
         length=taper_length,
@@ -137,8 +136,8 @@ def dbr_tapered(
     teeth = gf.components.rectangle(size=size, layer=xs.layer)
 
     periodic_structures = c << gf.components.array(teeth, (period, 0), num)
-    periodic_structures.x = 0
-    periodic_structures.y = 0
+    periodic_structures.dx = 0
+    periodic_structures.dy = 0
 
     if fins:
         _generate_fins(c, fin_size, taper_length, length, xs)

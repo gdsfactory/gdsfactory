@@ -70,7 +70,7 @@ def version_stamp(
     if with_qr_code:
         data = f"{timestamp}/{platform.node()}"
         q = c << qrcode(layer=layer, data=data, psize=pixel_size)
-        q.center = (0, 0)
+        q.dcenter = (0, 0)
         x = q.dxsize * 0.5 + 10
 
     else:

@@ -52,13 +52,13 @@ def spiral_racetrack(
         c.info["length"] = 0
         c.add_port(
             "o3",
-            center=bend_s.ports["o1"].center,
+            center=bend_s.ports["o1"].dcenter,
             orientation=0,
             cross_section=bend_s.ports["o1"].cross_section,
         )
         c.add_port(
             "o4",
-            center=bend_s.ports["o2"].center,
+            center=bend_s.ports["o2"].dcenter,
             orientation=180,
             cross_section=bend_s.ports["o2"].cross_section,
         )
@@ -184,12 +184,12 @@ def spiral_racetrack_fixed_length(
     c.info["length"] = _spiral.info["length"]
     c.info["straight_length"] = straight_length
 
-    if spiral.ports["o1"].x > spiral.ports["o2"].x:
+    if spiral.ports["o1"].dx > spiral.ports["o2"].dx:
         spiral.mirror_x()
 
     # add a bit more to the spiral racetrack to make the in and out ports be aligned in y
     in_wg = c << straight_factory(
-        spiral.ports["o1"].x - spiral.dxmin, cross_section=cross_section
+        spiral.ports["o1"].dx - spiral.dxmin, cross_section=cross_section
     )
     if np.mod(n_straight_sections // 2, 2) == 1:
         in_wg.mirror_y()
@@ -214,7 +214,7 @@ def spiral_racetrack_fixed_length(
 
     c.add_port(
         "o2",
-        center=(spiral.ports["o1"].x + in_out_port_spacing, spiral.ports["o1"].y),
+        center=(spiral.ports["o1"].dx + in_out_port_spacing, spiral.ports["o1"].dy),
         orientation=0,
         cross_section=gf.get_cross_section(xs_s_bend),
     )
@@ -282,7 +282,7 @@ def _req_straight_len(
         spiral = c << _spiral
         c.info["length"] = _spiral.info["length"]
 
-        if spiral.ports["o1"].x > spiral.ports["o2"].x:
+        if spiral.ports["o1"].dx > spiral.ports["o2"].dx:
             spiral.mirror_x()
 
         c.info["length"] += spiral.ports["o1"].dx - spiral.dxmin
