@@ -58,6 +58,7 @@ def bend_circular(
     c.add_route_info(
         cross_section=x, length=c.info["length"], n_bend_90=abs(angle / 90.0)
     )
+    c.flatten()
     return c
 
 
