@@ -114,6 +114,27 @@ class Region(kdb.Region):
         return self.dup()
 
 
+_deprecated_attributes = {
+    "center",
+    "mirror",
+    "move",
+    "movex",
+    "movey",
+    "rotate",
+    "size_info",
+    "x",
+    "xmin",
+    "xmax",
+    "xsize",
+    "y",
+    "ymin",
+    "ymax",
+    "ysize",
+}
+
+_deprecated_attributes2 = _deprecated_attributes - {"size_info"}
+
+
 class ComponentReference(kf.Instance):
     """Shadows dbu attributes of Instance for backward compatibility.
 
@@ -131,31 +152,13 @@ class ComponentReference(kf.Instance):
         """Shadow dbu based attributes with um based ones."""
         if __k == "_kfinst":
             return object.__getattribute__(self, "_kfinst")
-        if __k in {
-            "center",
-            "mirror",
-            "move",
-            "movex",
-            "movey",
-            "rotate",
-            "size_info",
-            "x",
-            "xmin",
-            "xmax",
-            "xsize",
-            "y",
-            "ymin",
-            "ymax",
-            "ysize",
-        }:
+        if __k in _deprecated_attributes:
             CONF.logger.warning(
                 f"`{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
                 f" Please use `{self._kfinst.name}.d{__k}` instead. For further information, please"
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
                 "21_migration_guide_7_8.html",
-                # category=DeprecationWarning,
-                # stacklevel=3,
             )
             match __k:
                 case "center":
@@ -165,9 +168,9 @@ class ComponentReference(kf.Instance):
                 case "move":
                     return super().dmove
                 case "movex":
-                    return super().movex
+                    return super().dmovex
                 case "movey":
-                    return super().movey
+                    return super().dmovey
                 case "rotate":
                     return super().drotate
                 case "size_info":
@@ -189,6 +192,16 @@ class ComponentReference(kf.Instance):
                 case "ysize":
                     return super().dysize
         return super().__getattribute__(__k)
+
+    def __setattr__(self, __k: str, __v: Any) -> None:
+        """Set attribute with deprecation warning for dbu based attributes."""
+        if __k in _deprecated_attributes2:
+            CONF.logger.warning(
+                f"Setting `{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
+                f" Please use `{self._kfinst.name}.d{__k}` instead.",
+            )
+            return super().__setattr__("d" + __k, __v)
+        super().__setattr__(__k, __v)
 
 
 class ComponentReferences(kf.kcell.Instances):
@@ -314,22 +327,7 @@ class Component(kf.KCell):
 
     def __getattribute__(self, __k: str) -> Any:
         """Shadow dbu based attributes with um based ones."""
-        if __k in {
-            "center",
-            "mirror",
-            "move",
-            "movex",
-            "movey",
-            "rotate",
-            "x",
-            "xmin",
-            "xmax",
-            "xsize",
-            "y",
-            "ymin",
-            "ymax",
-            "ysize",
-        }:
+        if __k in _deprecated_attributes:
             CONF.logger.warning(
                 f"`{self.name}.{__k}` is deprecated and will be removed soon."
                 f" Please use {self.name}.`d{__k}` instead. For further information, please"

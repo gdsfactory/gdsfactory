@@ -613,6 +613,7 @@ def add_pins_and_outline(
 
 
 add_pins_container = partial(container, function=add_pins)
+add_pins_siepic_container = partial(container, function=add_pins_siepic)
 
 if __name__ == "__main__":
     import gdsfactory as gf
@@ -626,7 +627,7 @@ if __name__ == "__main__":
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
     c = gf.components.bend_euler()
-    add_pins(c)
+    c = add_pins_container(c)
     # c = add_pins_container(c)
     # cc.show()
     # c.show(show_subports=True)
