@@ -34,21 +34,14 @@ def bend_s(
         kwargs: cross_section settings.
 
     """
-    c = Component()
     dx, dy = size
-
-    bend = bezier(
+    return bezier(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
         npoints=npoints,
         cross_section=cross_section,
         allow_min_radius_violation=allow_min_radius_violation,
         **kwargs,
     )
-    bend_ref = c << bend
-    c.add_ports(bend_ref.ports)
-    c.copy_child_info(bend)
-    c.flatten()
-    return c
 
 
 def get_min_sbend_size(

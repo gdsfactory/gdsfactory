@@ -62,10 +62,7 @@ def bezier(
         path.start_angle = start_angle or snap_angle(path.start_angle)
         path.end_angle = end_angle or snap_angle(path.end_angle)
 
-    c = Component()
-    bend = path.extrude(xs)
-    bend_ref = c << bend
-    c.add_ports(bend_ref.ports)
+    c = path.extrude(xs)
     curv = curvature(path_points, t)
     length = gf.snap.snap_to_grid(path.length())
     if max(np.abs(curv)) == 0:
