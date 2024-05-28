@@ -52,7 +52,6 @@ def test_route_bundle_optical2(
     routes = gf.routing.route_bundle(c, ports1, ports2, sort_ports=True)
 
     for i, route in enumerate(routes):
-        c.add(route.references)
         lengths[i] = route.length
 
     if check:
