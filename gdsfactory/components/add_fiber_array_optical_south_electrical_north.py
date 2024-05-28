@@ -107,11 +107,13 @@ def add_fiber_array_optical_south_electrical_north(
 
     ports1 = electrical_ports[:nroutes]
     ports2 = list(pads.ports.filter(orientation=270))[:nroutes]
+
     gf.routing.route_bundle_electrical(
         c,
         ports1=ports1,
         ports2=ports2,
         cross_section=cross_section_metal,
+        sort_ports=True,
     )
 
     c.add_ports(ports2)
