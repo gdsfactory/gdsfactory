@@ -4231,7 +4231,7 @@ from functools import partial to all files and makes the docs cleaner by renderi
 ## 2.6.3
 
 - add min_length Waveguide setting, for manhattan routes and get_bundle
-- remove grating_coupler.xmin = 0 inside the route_fiber function
+- remove grating_coupler.dxmin = 0 inside the route_fiber function
 
 ## 2.6.2
 

@@ -121,7 +121,7 @@ def ring_double_pn(
 
     bottom_undoped_ring_ref.drotate(-undoping_angle / 2)
     bottom_undoped_ring_ref.dymin = (
-        add_waveguide.ymin + add_waveguide.ports["o1"].width + add_gap
+        add_waveguide.dymin + add_waveguide.ports["o1"].width + add_gap
     )
     bottom_undoped_ring_ref.dx = add_waveguide.dx
 
@@ -179,7 +179,7 @@ def ring_double_pn(
         )
         bottom_heater_ref.drotate(-(undoping_angle - doped_heater_angle_buffer) / 2)
         bottom_heater_ref.dx = add_waveguide.dx
-        bottom_heater_ref.ymin = (
+        bottom_heater_ref.dymin = (
             doped_heater_waveguide_offset + doped_heater_width / 2 + add_gap
         )
 

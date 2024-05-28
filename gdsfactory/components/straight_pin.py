@@ -70,11 +70,11 @@ def straight_pin(
     _via_stack = gf.get_component(via_stack, size=(via_stack_length, via_stack_width))
     via_stack_top = c << _via_stack
     via_stack_bot = c << _via_stack
-    via_stack_bot.xmin = wg.xmin
-    via_stack_top.xmin = wg.xmin
+    via_stack_bot.dxmin = wg.dxmin
+    via_stack_top.dxmin = wg.dxmin
 
-    # via_stack_top.ymin = +int(via_stack_spacing / 2 / c.kcl.dbu)
-    # via_stack_bot.ymax = -int(via_stack_spacing / 2 / c.kcl.dbu)
+    # via_stack_top.dymin = +int(via_stack_spacing / 2 / c.kcl.dbu)
+    # via_stack_bot.dymax = -int(via_stack_spacing / 2 / c.kcl.dbu)
 
     via_stack_top.dymin = +via_stack_spacing / 2
     via_stack_bot.dymax = -via_stack_spacing / 2

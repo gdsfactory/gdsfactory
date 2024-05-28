@@ -82,7 +82,7 @@ def triangle2(spacing: float = 3, **kwargs):
     tb = c << t
     tb.mirror()
     tb.drotate(180)
-    tb.ymax = tt.ymin - spacing
+    tb.dymax = tt.dymin - spacing
     return c
 
 
@@ -123,7 +123,7 @@ def triangle4(**kwargs):
     t1 = c << t
     t2 = c << t
     t2.mirror()
-    t2.xmax = t1.xmin
+    t2.dxmax = t1.dxmin
     return c
 
 

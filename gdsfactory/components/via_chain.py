@@ -129,8 +129,8 @@ def via_chain(
         spacing=(wire_width + min_metal_spacing, 2 * (wire_width + min_metal_spacing)),
     )
 
-    right_wires.xmax = bot_wires.xmax
-    right_wires.ymin = bot_wires.ymin
+    right_wires.dxmax = bot_wires.dxmax
+    right_wires.dymin = bot_wires.dymin
 
     left_wires = c.add_array(
         component=vertical_wire_left,
