@@ -46,8 +46,8 @@ def die_bbox(
 
     c.copy_child_info(component)
     cref = c.add_ref(component)
-    cref.movex(-(cref.bbox().right + cref.bbox().left) // 2)
-    cref.movey(-(cref.bbox().bottom + cref.bbox().top) // 2)
+    cref.dmovex(-(cref.dbbox().right + cref.dbbox().left) // 2)
+    cref.dmovey(-(cref.dbbox().bottom + cref.dbbox().top) // 2)
     sx, sy = component.dxsize, component.dysize
 
     sx += street_width + padding
