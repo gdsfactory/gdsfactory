@@ -149,23 +149,24 @@ def add_ports_from_markers_center(
     dymax = component.dymax
     dymin = component.dymin
 
-    port_markers = read_port_markers(component, layers=(pin_layer,))
     layer = port_layer or pin_layer
     port_locations = []
 
     ports = {}
-
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
+    polygons = component.get_polygons()
+    port_markers = polygons[pin_layer]
 
-    for i, p in enumerate(port_markers.get_polygons()[pin_layer]):
+    for i, p in enumerate(port_markers):
         port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
-        bbox = p.bbox()
+        bbox = p.dbbox()
         pxmin, pymin, pxmax, pymax = bbox.left, bbox.bottom, bbox.right, bbox.top
 
-        dx, dy = bbox.dcenter().x, bbox.dcenter().y
-        dy = pymax - pymin
-        dx = pxmax - pxmin
+        x = (pxmax + pxmin) / 2
+        y = (pymin + pymax) / 2
+        dy = abs(pymax - pymin)
+        dx = abs(pxmax - pxmin)
 
         if min_pin_area_um2 and dx * dy < min_pin_area_um2:
             if debug:
@@ -233,15 +234,13 @@ def add_ports_from_markers_center(
         if orientation == -1:
             raise ValueError(f"Unable to detector port at ({dx}, {dy})")
 
-        dx = snap_to_grid(dx)
-        dy = snap_to_grid(dy)
-        width = np.round(width - pin_extra_width, 3)
+        width = width - pin_extra_width
 
         if (dx, dy) not in port_locations:
             port_locations.append((dx, dy))
             ports[port_name] = Port(
                 name=port_name,
-                dcenter=(dx, dy),
+                center=(x, y),
                 width=width,
                 orientation=orientation,
                 layer=layer,
@@ -252,7 +251,7 @@ def add_ports_from_markers_center(
 
     for port_name, port in ports:
         if port_name in component.ports:
-            component_ports = list(component.ports.keys())
+            component_ports = [p.name for p in component.ports]
             raise ValueError(
                 f"port {port_name!r} already in {component_ports}. "
                 "You can pass a port_name_prefix to add it with a different name."
