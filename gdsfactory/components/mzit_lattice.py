@@ -79,7 +79,7 @@ def mzit_lattice(
 
     for i, coupler in enumerate(couplers):
         if i % 2 == 0:
-            coupler.mirror()
+            coupler.dmirror()
         coupler.connect("o3", coupler0.ports["o1"])
         coupler.connect("o4", coupler0.ports["o2"])
         coupler0 = coupler

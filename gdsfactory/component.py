@@ -1035,7 +1035,7 @@ if __name__ == "__main__":
 
     # c = gf.Component()
     # text = c << gf.components.text("hello")
-    # text.mirror(
+    # text.dmirror(
     #     p1=kf.kdb.Point(1, 1), p2=gf.kdb.Point(1, 3)
     # )  # Reflects across the line formed by p1 and p2
     # c.remap_layers({(1, 0): (2, 0)})

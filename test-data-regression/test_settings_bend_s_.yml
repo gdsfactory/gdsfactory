@@ -6,8 +6,18 @@ info:
 name: bend_s_S11_1p8_N99_CSstrip_AMRVFalse
 settings:
   allow_min_radius_violation: false
+  control_points:
+  - - 0
+    - 0
+  - - 5.5
+    - 0
+  - - 5.5
+    - 1.8
+  - - 11.0
+    - 1.8
   cross_section: strip
   npoints: 99
   size:
   - 11.0
   - 1.8
+  with_manhattan_facing_angles: true

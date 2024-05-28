@@ -226,7 +226,7 @@ def pack(
                 for text_offset, text_anchor in zip(text_offsets, text_anchors):
                     label = packed << text(f"{text_prefix}{index}")
                     if text_mirror:
-                        label.mirror()
+                        label.dmirror()
                     if text_rotation:
                         label.drotate(text_rotation)
                     label.dmove(

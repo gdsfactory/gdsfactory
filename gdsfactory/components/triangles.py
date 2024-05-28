@@ -80,7 +80,7 @@ def triangle2(spacing: float = 3, **kwargs):
     t = triangle(**kwargs)
     tt = c << t
     tb = c << t
-    tb.mirror()
+    tb.dmirror()
     tb.drotate(180)
     tb.dymax = tt.dymin - spacing
     return c
@@ -122,7 +122,7 @@ def triangle4(**kwargs):
     t = triangle2(**kwargs)
     t1 = c << t
     t2 = c << t
-    t2.mirror()
+    t2.dmirror()
     t2.dxmax = t1.dxmin
     return c
 

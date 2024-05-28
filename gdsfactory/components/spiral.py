@@ -49,10 +49,10 @@ def spiral(
         l0_1 = c << s_f(length=_length)
         l0_1.connect("o1", b_inners[0], "o1")
         p1 = l0_1.ports["o2"].copy()
-        p1.mirror = not p1.mirror
+        p1.dmirror = not p1.dmirror
     else:
         p1 = b_inners[0].ports["o1"]
-        p1.mirror = not p1.mirror
+        p1.dmirror = not p1.dmirror
 
     for i in range(n_loops // 2):
         bends = [c << b for _ in range(8)]

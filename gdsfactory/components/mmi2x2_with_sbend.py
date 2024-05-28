@@ -43,11 +43,11 @@ def mmi2x2_with_sbend(
     botl_taper.dmove((-1, -0.45))
 
     topr_taper = c << taper
-    topr_taper.mirror(p1=gf.kdb.Point(0, 1), p2=gf.kdb.Point(0, 0))
+    topr_taper.dmirror(p1=gf.kdb.DPoint(0, 1), p2=gf.kdb.DPoint(0, 0))
     topr_taper.dmove((9, 0.45))
 
     botr_taper = c << taper
-    botr_taper.mirror(p1=gf.kdb.Point(0, 1), p2=gf.kdb.Point(0, 0))
+    botr_taper.dmirror(p1=gf.kdb.DPoint(0, 1), p2=gf.kdb.DPoint(0, 0))
     botr_taper.dmove((9, -0.45))
 
     if with_sbend:

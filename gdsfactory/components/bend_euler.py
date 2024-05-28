@@ -22,7 +22,7 @@ def bend_euler(
     npoints: int | None = None,
     layer: gf.typings.LayerSpec | None = None,
     width: float | None = None,
-    direction: str = "ccw",
+    clockwise: bool = False,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
 ) -> Component:
@@ -47,7 +47,7 @@ def bend_euler(
         npoints: Number of points used per 360 degrees.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
-        direction: cw (clock-wise) or ccw (counter clock-wise).
+        clockwise: if True, the curve is drawn in the clockwise direction.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
 
@@ -80,8 +80,8 @@ def bend_euler(
     c.info["radius_min"] = float(np.round(p.info["Rmin"], 3))
     c.info["radius"] = float(radius)
 
-    if direction == "cw":
-        ref.mirror(p1=[0, 0], p2=[1, 0])
+    if clockwise:
+        ref.dmirror(p1=gf.kdb.DPoint(0, 0), p2=gf.kdb.DPoint(1, 0))
 
     if not allow_min_radius_violation:
         x.validate_radius(radius)
@@ -133,7 +133,7 @@ def bend_euler_s(**kwargs) -> Component:
     b = bend_euler(**kwargs)
     b1 = c.add_ref(b)
     b2 = c.add_ref(b)
-    b2.mirror()
+    b2.dmirror()
     b2.connect("o1", b1.ports["o2"])
     c.add_port("o1", port=b1.ports["o1"])
     c.add_port("o2", port=b2.ports["o2"])
@@ -177,7 +177,7 @@ def bend_straight_bend(
     b2 = c.add_ref(b)
     s = c << straight(length=straight_length, cross_section=cross_section)
     s.connect("o1", b1.ports["o2"])
-    b2.mirror()
+    b2.dmirror()
     b2.connect("o1", s.ports["o2"])
     c.add_port("o1", port=b1.ports["o1"])
     c.add_port("o2", port=b2.ports["o2"])
@@ -219,5 +219,5 @@ def _compare_bend_euler90():
 
 if __name__ == "__main__":
     # c = bend_euler(cross_section="rib", angle=90, radius=5)
-    c = bend_euler(cross_section="rib", angle=90, radius=5)
+    c = bend_euler(cross_section="rib", angle=90, radius=20, clockwise=True)
     c.show()
