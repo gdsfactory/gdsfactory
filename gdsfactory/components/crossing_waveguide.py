@@ -216,7 +216,7 @@ def crossing_etched(
     return c
 
 
-@cell(check_instances="vinstances")
+@cell
 def crossing45(
     crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,
