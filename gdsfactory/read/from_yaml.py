@@ -329,7 +329,7 @@ def place(
             if port:
                 ref.drotate(rotation, center=_get_anchor_point_from_name(ref, port))
             else:
-                x, y = ref.dcenter.dx, ref.dcenter.dy
+                x, y = ref.dcenter.x, ref.dcenter.y
                 ref.drotate(rotation, center=ref.dcenter)
 
         if ymin is not None and ymax is not None:
