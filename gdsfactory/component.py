@@ -132,6 +132,8 @@ _deprecated_attributes = {
     "ysize",
 }
 
+_deprecated_attributes2 = _deprecated_attributes - {"size_info"}
+
 
 class ComponentReference(kf.Instance):
     """Shadows dbu attributes of Instance for backward compatibility.
@@ -193,7 +195,7 @@ class ComponentReference(kf.Instance):
 
     def __setattr__(self, __k: str, __v: Any) -> None:
         """Set attribute with deprecation warning for dbu based attributes."""
-        if __k in _deprecated_attributes:
+        if __k in _deprecated_attributes2:
             CONF.logger.warning(
                 f"Setting `{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
                 f" Please use `{self._kfinst.name}.d{__k}` instead.",

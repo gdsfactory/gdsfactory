@@ -53,5 +53,5 @@ if __name__ == "__main__":
         cross_section="strip",
     )
     ref = c << w
-    ref.xmin = 10
+    ref.dxmin = 10
     c.show()
