@@ -151,6 +151,7 @@ def route_single(
             pts=waypoints,
             port_type=port_type,
             allow_width_mismatch=allow_width_mismatch,
+            route_width=round(xs.width / dbu),
         )
 
     else:
@@ -165,6 +166,7 @@ def route_single(
             end_straight=end_straight,
             port_type=port_type,
             allow_width_mismatch=allow_width_mismatch,
+            route_width=round(xs.width / dbu),
         )
 
 
