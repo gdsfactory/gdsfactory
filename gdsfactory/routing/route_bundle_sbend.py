@@ -8,8 +8,8 @@ from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 
 def route_bundle_sbend(
     component: Component,
-    ports1: Port,
-    ports2: Port,
+    ports1: list[Port],
+    ports2: list[Port],
     sort_ports: bool = True,
     enforce_port_ordering: bool = True,
     **kwargs,
@@ -17,7 +17,7 @@ def route_bundle_sbend(
     """Places sbend routes from ports1 to ports2.
 
     Args:
-        component: to place the route into.
+        component: to place the sbend routes.
         ports1: start ports.
         ports2: end ports.
         sort_ports: sort ports.
@@ -30,7 +30,7 @@ def route_bundle_sbend(
             ports1, ports2, enforce_port_ordering=enforce_port_ordering
         )
 
-    for p1, p2 in zip(ports1, ports2):
+    for p1, p2 in zip(list(ports1), list(ports2)):
         ysize = p2.dcenter[1] - p1.dcenter[1]
         xsize = p2.dcenter[0] - p1.dcenter[0]
         bend = bend_s(size=(xsize, ysize), **kwargs)
@@ -41,29 +41,40 @@ def route_bundle_sbend(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component("test_route_single_sbend")
-    pitch = 2.0
-    ys_left = [0, 10, 20]
-    N = len(ys_left)
-    y0 = -10
-    ys_right = [(i - N / 2) * pitch + y0 for i in range(N)]
+    # c = gf.Component("test_route_single_sbend")
+    # pitch = 2.0
+    # ys_left = [0, 10, 20]
+    # N = len(ys_left)
+    # y0 = -10
+    # ys_right = [(i - N / 2) * pitch + y0 for i in range(N)]
 
-    layer = (1, 0)
-    right_ports = [
-        gf.Port(
-            f"R_{i}", center=(0, ys_right[i]), width=0.5, orientation=180, layer=layer
-        )
-        for i in range(N)
-    ]
-    left_ports = [
-        gf.Port(
-            f"L_{i}", center=(-50, ys_left[i]), width=0.5, orientation=0, layer=layer
-        )
-        for i in range(N)
-    ]
-    left_ports.reverse()
+    # layer = (1, 0)
+    # right_ports = [
+    #     gf.Port(
+    #         f"R_{i}", center=(0, ys_right[i]), width=0.5, orientation=180, layer=layer
+    #     )
+    #     for i in range(N)
+    # ]
+    # left_ports = [
+    #     gf.Port(
+    #         f"L_{i}", center=(-50, ys_left[i]), width=0.5, orientation=0, layer=layer
+    #     )
+    #     for i in range(N)
+    # ]
+    # left_ports.reverse()
 
+    # routes = gf.routing.route_bundle_sbend(
+    #     c, right_ports, left_ports, enforce_port_ordering=False
+    # )
+
+    c = gf.Component()
+    c1 = c << gf.components.nxn(east=3, ysize=20)
+    c2 = c << gf.components.nxn(west=3)
+    c2.dmove((80, 0))
     routes = gf.routing.route_bundle_sbend(
-        c, right_ports, left_ports, enforce_port_ordering=False
+        c,
+        c1.ports.filter(orientation=0),
+        c2.ports.filter(orientation=180),
+        enforce_port_ordering=False,
     )
     c.show()

@@ -136,9 +136,9 @@ def route_single(
 
     if waypoints is not None:
         if not isinstance(waypoints[0], kf.kdb.Point):
-            w = [kf.kdb.Point(*p1.dcenter)]
+            w = [kf.kdb.Point(*p1.center)]
             w += [kf.kdb.Point(p[0] / dbu, p[1] / dbu) for p in waypoints]
-            w += [kf.kdb.Point(*p2.dcenter)]
+            w += [kf.kdb.Point(*p2.center)]
             waypoints = w
 
         return place90(
@@ -168,6 +168,17 @@ def route_single(
         )
 
 
+# FIXME
+# route_single_electrical = partial(
+#     route_single,
+#     cross_section="metal_routing",
+#     allow_width_mismatch=True,
+#     port_type="electrical",
+#     bend=wire_corner,
+#     taper=None,
+# )
+
+
 def route_single_electrical(
     component: Component,
     port1: Port,
@@ -177,7 +188,6 @@ def route_single_electrical(
     layer: LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "metal3",
-    allow_width_mismatch: bool = True,
 ) -> None:
     """Places a route between two electrical ports.
 
@@ -190,7 +200,6 @@ def route_single_electrical(
         layer: The layer of the route.
         width: The width of the route.
         cross_section: The cross section of the route.
-        allow_width_mismatch: Whether to allow the ports to have different widths.
 
     """
     xs = gf.get_cross_section(cross_section)
