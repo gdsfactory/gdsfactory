@@ -559,6 +559,8 @@ if __name__ == "__main__":
 
     c = gf.Component()
     mzi = c << gf.c.mzi()
+    mzi.xmin = 10
+
     mzi.name = "mzi"
     bend = c << gf.c.bend_euler()
     bend.connect("o1", mzi.ports["o2"])
