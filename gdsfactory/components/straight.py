@@ -47,37 +47,11 @@ def straight(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.Component()
-    # ref = c << straight(cross_section="rib")
-    # ref2 = c << straight(cross_section="rib")
-    # ref2.dcenter = ref.dcenter + kdb.Point(0, 1000)
-    # ref2.dmove((0, 10))
-    # ref.name = "straight"
-    # print(c.insts['straight'].ports)
-
-    # xs = gf.cross_section.pn()
-    # xs = xs.mirror()
-    # c = straight(cross_section=xs)
-    # gdspath = c.write_gds()
     c = gf.Component()
     w = straight(
         length=10,
         cross_section="strip",
     )
-    # ref = c0 << c
-    # ref = c.add_ref(w)
     ref = c << w
-    ref = c << w
-    # ref.drotate(45)
-    ref.dmove((10, 0))
-    # print(ref.xmax)
+    ref.xmin = 10
     c.show()
-    # print("o1" in c.ports)
-    # print(type(c.ports))
-    # print("o1" in ref.ports)
-    # print(t.d(ref.ports))
-    # print(c.size_info)
-    # print(c.d.dze_info)
-    # print(ref.size_info)
-    # print(ref.d.size_info)
-    # c.plot()

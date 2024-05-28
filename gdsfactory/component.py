@@ -157,8 +157,6 @@ class ComponentReference(kf.Instance):
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
                 "21_migration_guide_7_8.html",
-                # category=DeprecationWarning,
-                # stacklevel=3,
             )
             match __k:
                 case "center":
@@ -168,9 +166,9 @@ class ComponentReference(kf.Instance):
                 case "move":
                     return super().dmove
                 case "movex":
-                    return super().movex
+                    return super().dmovex
                 case "movey":
-                    return super().movey
+                    return super().dmovey
                 case "rotate":
                     return super().drotate
                 case "size_info":
@@ -196,12 +194,11 @@ class ComponentReference(kf.Instance):
     def __setattr__(self, __k: str, __v: Any) -> None:
         """Set attribute with deprecation warning for dbu based attributes."""
         if __k in _deprecated_attributes:
-            warnings.warn(
+            CONF.logger.warning(
                 f"Setting `{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
                 f" Please use `{self._kfinst.name}.d{__k}` instead.",
-                DeprecationWarning,
-                stacklevel=2,
             )
+            return super().__setattr__("d" + __k, __v)
         super().__setattr__(__k, __v)
 
 
