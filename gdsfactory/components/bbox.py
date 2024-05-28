@@ -68,7 +68,10 @@ def bbox(
 
 if __name__ == "__main__":
     # c = gf.Component()
-    # a1 = c << gf.components.L()
-    # _ = c << bbox(a1, top=10, left=5, right=-2)
-    c = bbox()
+    # l= gf.components.L()
+    r = gf.c.text()
+    b = bbox(r, layer=(2, 0))
+    c = gf.Component()
+    c << r
+    c << b
     c.show()

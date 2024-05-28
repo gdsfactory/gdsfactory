@@ -73,7 +73,9 @@ def floorplan_with_block_letters(
         layer=(2, 0),
         justify="center",
     )
-    w_text, h_text = text_init.size
+    w_text = text_init.dsize_info.width
+    h_text = text_init.dsize_info.height
+
     w_scaling = max_w / w_text
     h_scaling = max_h / h_text
     scaling = min(w_scaling, h_scaling)
