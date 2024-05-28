@@ -115,7 +115,7 @@ class Region(kdb.Region):
 
 
 class ComponentReference(kf.Instance):
-    """Shadows dbu attributes of Instance.
+    """Shadows dbu attributes of Instance for backward compatibility.
 
     DO NOT USE THIS AND PASS IT TO ANY FUNCTION REQUIRING kf.Instance.
     """
@@ -149,11 +149,11 @@ class ComponentReference(kf.Instance):
             "ysize",
         }:
             CONF.logger.warning(
-                f"`Component.{__k}` is deprecated and will be removed with 9.0."
-                f" Please use `Component.d{__k}` instead. For further information, please"
+                f"`{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
+                f" Please use `{self._kfinst.name}.d{__k}` instead. For further information, please"
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
-                "21_migration_guide_7_8.html or try the automatic migration script.",
+                "21_migration_guide_7_8.html",
                 # category=DeprecationWarning,
                 # stacklevel=3,
             )
@@ -331,11 +331,11 @@ class Component(kf.KCell):
             "ysize",
         }:
             CONF.logger.warning(
-                f"`Component.{__k}` is deprecated and will be removed with 9.0."
-                f" Please use Component.`d{__k}` instead. For further information, please"
+                f"`{self.name}.{__k}` is deprecated and will be removed soon."
+                f" Please use {self.name}.`d{__k}` instead. For further information, please"
                 "consult the migration guide "
                 "https://gdsfactory.github.io/gdsfactory/notebooks/"
-                "21_migration_guide_7_8.html or try the automatic migration script.",
+                "21_migration_guide_7_8.html",
                 # category=DeprecationWarning,
                 # stacklevel=3,
             )
@@ -1021,7 +1021,7 @@ if __name__ == "__main__":
     # wg1 = c << gf.c.straight(length=10, cross_section="rib")
     # wg2 = c << gf.c.straight(length=5, cross_section="rib")
     # wg2.connect("o1", wg1["o2"])
-    # wg2.d.movex(5)
+    # wg2.dmovex(5)
     # p = c.get_polygons()
     # print(c.area(layer=(1, 0)))
     # print(c.get_ports_list(prefix="o"))

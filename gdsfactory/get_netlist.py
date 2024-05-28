@@ -65,8 +65,8 @@ def get_instance_name_from_label(
 
     layer_label = get_layer(layer_label)
 
-    x = snap_to_grid(reference.d.x)
-    y = snap_to_grid(reference.d.y)
+    x = snap_to_grid(reference.dx)
+    y = snap_to_grid(reference.dy)
     labels = component.labels
 
     # default instance name follows component.aliases
@@ -74,8 +74,8 @@ def get_instance_name_from_label(
 
     # try to get the instance name from a label
     for label in labels:
-        xl = snap_to_grid(label.d.position[0])
-        yl = snap_to_grid(label.d.position[1])
+        xl = snap_to_grid(label.dposition[0])
+        yl = snap_to_grid(label.dposition[1])
         if x == xl and y == yl and label.layer == layer_label[0]:
             # print(label.text, xl, yl, x, y)
             return label.text
@@ -147,7 +147,7 @@ def get_netlist(
 
     for reference in references:
         c = reference.cell
-        center = reference.d.center
+        center = reference.dcenter
         x = center.x
         y = center.y
         reference_name = get_instance_name(reference)

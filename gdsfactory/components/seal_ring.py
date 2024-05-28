@@ -62,23 +62,23 @@ def seal_ring(
 
     if with_north:
         north = c << seal(size=size_north_south)
-        north.d.ymin = ymin_north
-        north.d.x = x
+        north.dymin = ymin_north
+        north.dx = x
 
     if with_east:
         east = c << seal(size=size_east_west)
-        east.d.xmin = xmax + padding
-        east.d.ymax = ymin_north
+        east.dxmin = xmax + padding
+        east.dymax = ymin_north
 
     if with_west:
         west = c << seal(size=size_east_west)
-        west.d.xmax = xmin - padding
-        west.d.ymax = ymin_north
+        west.dxmax = xmin - padding
+        west.dymax = ymin_north
 
     if with_south:
         south = c << seal(size=size_north_south)
-        south.d.ymax = ymax_south
-        south.d.x = x
+        south.dymax = ymax_south
+        south.dx = x
 
     return c
 

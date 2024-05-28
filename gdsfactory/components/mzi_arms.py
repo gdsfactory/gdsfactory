@@ -98,11 +98,11 @@ def mzi_arms(
     port_e1_cp2 = ports_cp2[n_ports_cp2 - 2]
     port_e0_cp2 = ports_cp2[n_ports_cp2 - 1]
 
-    y1t = port_e1_cp1.d.y
-    y1b = port_e0_cp1.d.y
+    y1t = port_e1_cp1.dy
+    y1b = port_e0_cp1.dy
 
-    y2t = port_e1_cp2.d.y
-    y2b = port_e0_cp2.d.y
+    y2t = port_e1_cp2.dy
+    y2b = port_e0_cp2.dy
 
     d1 = abs(y1t - y1b)  # splitter ports distance
     d2 = abs(y2t - y2b)  # combiner ports distance

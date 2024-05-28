@@ -138,7 +138,7 @@ def route_south(
 
     def get_index_port_closest_to_x(x, list_ports):
         return np.array(
-            [abs(x - p.ports[gc_port_name].d.x) for p in list_ports]
+            [abs(x - p.ports[gc_port_name].dx) for p in list_ports]
         ).argmin()
 
     def gen_port_from_port(x, y, p, cross_section):
@@ -146,15 +146,15 @@ def route_south(
             name=p.name,
             center=(x, y),
             orientation=90.0,
-            width=p.d.width,
+            width=p.dwidth,
             layer=cross_section.layer,
         )
 
     west_ports.reverse()
-    y0 = min(p.d.y for p in ordered_ports) - dy - 0.5
+    y0 = min(p.dy for p in ordered_ports) - dy - 0.5
     ports_to_route = []
 
-    optical_xs_tmp = [p.d.x for p in ordered_ports]
+    optical_xs_tmp = [p.dx for p in ordered_ports]
     x_optical_min = min(optical_xs_tmp)
     x_optical_max = max(optical_xs_tmp)
 
@@ -165,7 +165,7 @@ def route_south(
     # The starting x depends on the heuristic chosen : ``1`` or ``2``
     if optical_routing_type == 1:
         # use component size to know how far to route
-        x = component.d.xmin - dy - 1
+        x = component.dxmin - dy - 1
     elif optical_routing_type == 2:
         # use optical port to know how far to route
         x = x_optical_min - dy - 1
@@ -181,7 +181,7 @@ def route_south(
     for p in west_ports:
         if io_gratings_lines:
             i_grating = get_index_port_closest_to_x(x, io_gratings_lines[-1])
-            x_gr = io_gratings_lines[-1][i_grating].ports[gc_port_name].d.x
+            x_gr = io_gratings_lines[-1][i_grating].ports[gc_port_name].dx
             if abs(x - x_gr) < delta_gr_min:
                 if x > x_gr:
                     x = x_gr
@@ -198,14 +198,14 @@ def route_south(
 
     start_straight_length = start_straight_length0
     if len(north_start) > 0:
-        y_max = max(p.d.y for p in west_ports + north_start)
+        y_max = max(p.dy for p in west_ports + north_start)
         for p in north_start:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
             route = route_single(
                 component=c,
                 port1=p,
                 port2=tmp_port,
-                start_straight_length=start_straight_length + y_max - p.d.y,
+                start_straight_length=start_straight_length + y_max - p.dy,
                 **conn_params,
             )
 
@@ -217,7 +217,7 @@ def route_south(
     # Set starting ``x`` on the east side
     if optical_routing_type == 1:
         #  use component size to know how far to route
-        x = component.d.xmax + dy + 1
+        x = component.dxmax + dy + 1
     elif optical_routing_type == 2:
         # use optical port to know how far to route
         x = x_optical_max + dy + 1
@@ -234,7 +234,7 @@ def route_south(
     for p in east_ports:
         if io_gratings_lines:
             i_grating = get_index_port_closest_to_x(x, io_gratings_lines[-1])
-            x_gr = io_gratings_lines[-1][i_grating].ports[gc_port_name].d.x
+            x_gr = io_gratings_lines[-1][i_grating].ports[gc_port_name].dx
             if abs(x - x_gr) < delta_gr_min:
                 if x < x_gr:
                     x = x_gr
@@ -256,7 +256,7 @@ def route_south(
     # Route the remaining north ports
     start_straight_length = start_straight_length0
     if len(north_finish) > 0:
-        y_max = max(p.d.y for p in east_ports + north_finish)
+        y_max = max(p.dy for p in east_ports + north_finish)
         for p in north_finish:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
             ports_to_route.append(tmp_port)
@@ -264,7 +264,7 @@ def route_south(
                 c,
                 p,
                 tmp_port,
-                start_straight_length=start_straight_length + y_max - p.d.y,
+                start_straight_length=start_straight_length + y_max - p.dy,
                 **conn_params,
             )
             x += sep

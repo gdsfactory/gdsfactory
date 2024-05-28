@@ -113,7 +113,7 @@ def greek_cross_with_pads(
 
     # Cross
     cross_ref = c << gf.get_component(greek_cross_component)
-    cross_ref.d.x = (
+    cross_ref.dx = (
         2 * pad_spacing - (pad_spacing - gf.get_component(pad).info["size"][0]) / 2
     )
 
@@ -128,7 +128,7 @@ def greek_cross_with_pads(
     # Vias to pads
     for index in range(4):
         pad_ref = c << gf.get_component(pad)
-        pad_ref.d.x = index * pad_spacing + pad_ref.d.xsize / 2
+        pad_ref.dx = index * pad_spacing + pad_ref.dxsize / 2
         via_ref = c << gf.get_component(pad_via)
         if index < 2:
             via_ref.connect("e2", other=pad_ref.ports["e4"], **kwargs)
@@ -233,7 +233,7 @@ def greek_cross_offset_pads(
                 layer=layer,
             )
             ref = c2 << w
-            ref.d.move(
+            ref.dmove(
                 np.array(
                     [
                         -1 * pad_offset + cross_implant_length / 2 - contact_buffer / 2,
@@ -242,8 +242,8 @@ def greek_cross_offset_pads(
                 )
             )
         contact = c << c2
-        contact.rotate(pad_rotation)
-        contact.d.move(np.array([sgnx * pad_offset, sgny * pad_offset]))
+        contact.drotate(pad_rotation)
+        contact.dmove(np.array([sgnx * pad_offset, sgny * pad_offset]))
 
     return c
 

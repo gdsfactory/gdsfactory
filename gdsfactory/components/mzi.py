@@ -124,7 +124,7 @@ def mzi(
     )
     sxt = c << straight_x_top
 
-    length_x = length_x or abs(sxt.ports["o1"].d.x - sxt.ports["o2"].d.x)
+    length_x = length_x or abs(sxt.ports["o1"].dx - sxt.ports["o2"].dx)
 
     straight_x_bot = (
         gf.get_component(
@@ -150,7 +150,7 @@ def mzi(
     sxt.connect("o1", b2.ports["o1"])
 
     cp2.mirror_x()
-    cp2.d.xmin = sxt.ports["o2"].d.x + bend.info["radius"] * nbends + 2 * min_length
+    cp2.dxmin = sxt.ports["o2"].dx + bend.info["radius"] * nbends + 2 * min_length
 
     route_single(
         c,

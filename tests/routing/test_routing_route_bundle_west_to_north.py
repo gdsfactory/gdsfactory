@@ -22,8 +22,8 @@ def test_route_bundle_west_to_north(
     )
     pl = c << pad_south
     pb = c << pad_north
-    pl.d.rotate(90)
-    pb.d.move((100, -100))
+    pl.drotate(90)
+    pb.dmove((100, -100))
 
     pbports = pb.ports
     ptports = pl.ports

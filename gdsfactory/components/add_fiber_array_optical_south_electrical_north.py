@@ -99,19 +99,21 @@ def add_fiber_array_optical_south_electrical_north(
         columns=npads,
         spacing=(pad_spacing, 0),
     )
-    pads.x = r.x
-    pads.d.ymin = r.d.ymin + pad_gc_spacing
+    pads.dx = r.dx
+    pads.dymin = r.dymin + pad_gc_spacing
 
     electrical_ports = [r[por_name] for por_name in electrical_port_names]
     nroutes = min(len(electrical_ports), npads)
 
     ports1 = electrical_ports[:nroutes]
     ports2 = list(pads.ports.filter(orientation=270))[:nroutes]
+
     gf.routing.route_bundle_electrical(
         c,
         ports1=ports1,
         ports2=ports2,
         cross_section=cross_section_metal,
+        sort_ports=True,
     )
 
     c.add_ports(ports2)
@@ -121,49 +123,14 @@ def add_fiber_array_optical_south_electrical_north(
 
 
 if __name__ == "__main__":
-    c = add_fiber_array_optical_south_electrical_north()
+    import gdsfactory as gf
+    from gdsfactory import cross_section as xs
 
-    # component = mzi_phase_shifter()
-    # grating_coupler=grating_coupler_elliptical_te()
-    # with_loopback: bool = True
-    # pad_spacing: float = 100.0
-    # fiber_spacing: float = 127.0
-    # pad_gc_spacing: float = 250.0
-    # electrical_port_names: list[str] | None = None
-    # electrical_port_orientation: float | None = 90
-    # npads: int | None = None
-
-    # c = gf.Component()
-    # component = gf.get_component(component)
-    # r = c << gf.routing.add_fiber_array(
-    #     component=component,
-    #     grating_coupler=grating_coupler,
-    #     with_loopback=with_loopback,
-    #     fiber_spacing=fiber_spacing,
-    # )
-    # optical_ports = gf.port.get_ports_list(r.ports, port_type="optical")
-    # c.add_ports(optical_ports)
-
-    # electrical_ports = gf.port.get_ports_list(
-    #     r.ports, port_type="electrical", orientation=electrical_port_orientation
-    # )
-    # electrical_port_names = electrical_port_names or [p.name for p in electrical_ports]
-
-    # d = json.loads(c.labels[0].text)
-    # print(d)
-    # import gdsfactory as gf
-    # from functools import partial
-
-    # component = partial(mzi_phase_shifter, length_y=1)
-    # c = add_fiber_array_optical_south_electrical_north(
-    #     component=component,
-    #     electrical_port_names=["top_l_e2", "top_r_e2"],
-    #     npads=5,
-    # )
-    # component = partial(gf.c.ring_single_heater, length_x=10)
-    # c = add_fiber_array_optical_south_electrical_north(
-    #     component=component,
-    #     electrical_port_names=["l_e2", "r_e2"],
-    #     npads=5,
-    # )
+    c = gf.c.add_fiber_array_optical_south_electrical_north(
+        component=gf.c.straight_heater_metal,
+        pad=gf.c.pad,
+        grating_coupler=gf.c.grating_coupler_te,
+        cross_section_metal=xs.metal_routing,
+        pad_spacing=100,
+    )
     c.show()

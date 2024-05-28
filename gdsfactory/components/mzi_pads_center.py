@@ -79,8 +79,8 @@ def mzi_pads_center(
     pads = c << gf.components.array(
         component=pad, columns=3, rows=1, spacing=(pad_spacing, pad_spacing)
     )
-    pads.x = m.x
-    pads.y = m.y
+    pads.dx = m.dx
+    pads.dy = m.dy
 
     route_single_electrical(
         c,

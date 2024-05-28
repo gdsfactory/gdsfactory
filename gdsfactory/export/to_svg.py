@@ -34,10 +34,10 @@ def to_svg(
     # layers = layer_views.layer_map.values()
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
-    component_layers = component_with_booleans.get_layers()
-    xsize = component.d.xsize
-    ysize = component.d.ysize
-    dcx, dcy = component.d.center.x, component.d.center.y
+    component_layers = component_with_booleans.layers
+    xsize = component.dxsize
+    ysize = component.dysize
+    dcx, dcy = component.dcenter.x, component.dcenter.y
     dx, dy = dcx - xsize / 2, dcy - ysize / 2
     group_num = 1
     layer_to_polygons = component_with_booleans.get_polygons()

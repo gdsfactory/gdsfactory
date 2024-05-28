@@ -51,7 +51,7 @@ def double_loop() -> Component:
     P.append(gf.path.straight())
     P.append(gf.path.arc(radius=5, angle=-90))
     P.append(looploop(num_pts=1000))
-    P.rotate(-45)
+    P.drotate(-45)
 
     # Create the crosssection
     s0 = gf.Section(width=1.5, offset=0, layer=(2, 0), ports=("in", "out"))
@@ -130,7 +130,7 @@ def test_layers1() -> None:
     X = gf.CrossSection(sections=(s,))
     c = gf.path.extrude(P, X, simplify=5e-3)
     assert c.ports["in"].layer == LAYER.WG
-    assert c.ports["out"].d.center[0] == 10.001, c.ports["out"].d.center[0]
+    assert c.ports["out"].dcenter[0] == 10.001, c.ports["out"].dcenter[0]
 
 
 def test_path_add() -> None:

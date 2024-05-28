@@ -445,7 +445,7 @@ def test_route_bundle_small() -> None:
     c = gf.Component()
     c1 = c << gf.components.mmi2x2()
     c2 = c << gf.components.mmi2x2()
-    c2.d.move((100, 40))
+    c2.dmove((100, 40))
     routes = route_bundle(
         c,
         [c1.ports["o3"], c1.ports["o4"]],

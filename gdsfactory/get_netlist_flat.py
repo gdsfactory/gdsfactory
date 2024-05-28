@@ -358,7 +358,7 @@ if __name__ == "__main__":
     #     vdiv
     #     << gf.get_component(
     #         gf.components.resistance_sheet, width=20, ohms_per_square=20
-    #     ).rotate()
+    #     ).drotate()
     # )
     # r4 = vdiv << gf.get_component(
     #     gf.components.resistance_sheet, width=20, ohms_per_square=20

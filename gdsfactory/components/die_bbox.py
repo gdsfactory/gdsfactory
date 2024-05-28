@@ -46,9 +46,9 @@ def die_bbox(
 
     c.copy_child_info(component)
     cref = c.add_ref(component)
-    cref.movex(-(cref.bbox().right + cref.bbox().left) // 2)
-    cref.movey(-(cref.bbox().bottom + cref.bbox().top) // 2)
-    sx, sy = component.d.xsize, component.d.ysize
+    cref.dmovex(-(cref.dbbox().right + cref.dbbox().left) // 2)
+    cref.dmovey(-(cref.dbbox().bottom + cref.dbbox().top) // 2)
+    sx, sy = component.dxsize, component.dysize
 
     sx += street_width + padding
     sy += street_width + padding
@@ -85,17 +85,17 @@ def die_bbox(
 
         d = street_width + 20
         if text_anchor == "nw":
-            t.d.xmin, t.d.ymax = [-sx + d, sy - d]
+            t.dxmin, t.dymax = [-sx + d, sy - d]
         elif text_anchor == "nc":
-            t.d.x, t.d.ymax = [0, sy - d]
+            t.dx, t.dymax = [0, sy - d]
         elif text_anchor == "ne":
-            t.d.xmax, t.d.ymax = [sx - d, sy - d]
+            t.dxmax, t.dymax = [sx - d, sy - d]
         if text_anchor == "sw":
-            t.d.xmin, t.d.ymin = [-sx + d, -sy + d]
+            t.dxmin, t.dymin = [-sx + d, -sy + d]
         elif text_anchor == "sc":
-            t.d.x, t.d.ymin = [0, -sy + d]
+            t.dx, t.dymin = [0, -sy + d]
         elif text_anchor == "se":
-            t.d.xmax, t.d.ymin = [sx - d, -sy + d]
+            t.dxmax, t.dymin = [sx - d, -sy + d]
 
     return c
 

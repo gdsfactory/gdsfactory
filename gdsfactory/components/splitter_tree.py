@@ -71,8 +71,8 @@ def splitter_tree(
 
     if bend_s:
         dy_coupler_ports = abs(
-            coupler.ports[e0_port_name].d.center[1]
-            - coupler.ports[e1_port_name].d.center[1]
+            coupler.ports[e0_port_name].dcenter[1]
+            - coupler.ports[e1_port_name].dcenter[1]
         )
         bend_s_ysize = dy / 4 - dy_coupler_ports / 2
         bend_s_xsize = bend_s_xsize or dx
@@ -92,7 +92,7 @@ def splitter_tree(
             x = col * dx
             y = y0 + (row + 0.5) * dy * 2 ** (cols - col - 1)
             coupler_ref = c.add_ref(coupler, name=f"coupler_{col}_{row}")
-            coupler_ref.d.move((x, y))
+            coupler_ref.dmove((x, y))
             if col == 0:
                 for port in coupler_ref.ports:
                     if port.name not in [e0_port_name, e1_port_name]:

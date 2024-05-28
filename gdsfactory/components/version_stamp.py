@@ -37,7 +37,7 @@ def qrcode(data: str = "mask01", psize: int = 1, layer: LayerSpec = "WG") -> Com
         for j, value in enumerate(row):
             if value:
                 ref = c << pix
-                ref.d.center = (i * psize, j * psize)
+                ref.dcenter = (i * psize, j * psize)
     c.flatten()
     return c
 
@@ -70,8 +70,8 @@ def version_stamp(
     if with_qr_code:
         data = f"{timestamp}/{platform.node()}"
         q = c << qrcode(layer=layer, data=data, psize=pixel_size)
-        q.center = (0, 0)
-        x = q.d.xsize * 0.5 + 10
+        q.dcenter = (0, 0)
+        x = q.dxsize * 0.5 + 10
 
     else:
         x = 0

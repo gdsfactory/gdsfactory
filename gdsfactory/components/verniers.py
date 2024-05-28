@@ -28,7 +28,7 @@ def verniers(
     for width in widths:
         w = c << gf.components.straight(width=width, length=xsize, **kwargs)
         y += width / 2
-        w.d.y = y
+        w.dy = y
         c.add_label(text=str(int(width * 1e3)), position=(0, y), layer=layer_label)
         y += width / 2 + gap
 

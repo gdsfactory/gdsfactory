@@ -6,13 +6,13 @@ def test_route_from_steps():
     w = gf.components.straight()
     left = c << w
     right = c << w
-    right.d.move((100, 80))
+    right.dmove((100, 80))
 
     obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
     obstacle1 = c << obstacle
     obstacle2 = c << obstacle
-    obstacle1.d.ymin = 40
-    obstacle2.d.xmin = 25
+    obstacle1.dymin = 40
+    obstacle2.dxmin = 25
 
     p1 = left.ports["o2"]
     p2 = right.ports["o2"]

@@ -81,7 +81,7 @@ def triangle2(spacing: float = 3, **kwargs):
     tt = c << t
     tb = c << t
     tb.mirror()
-    tb.rotate(180)
+    tb.drotate(180)
     tb.ymax = tt.ymin - spacing
     return c
 

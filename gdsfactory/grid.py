@@ -12,7 +12,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.component_layout import SizeInfo
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangles import triangle
@@ -156,14 +155,14 @@ def grid_with_text(
             c.add_ports(instance.ports, prefix=f"{j}_{i}_")
             if text:
                 t = c << text(f"{text_prefix}{j}_{i}")
-                size_info = SizeInfo(instance.dbbox())
+                size_info = instance.dsize_info
                 o = np.array(text_offsets[j])
                 d = np.array(getattr(size_info, text_anchors[j]))
-                t.d.move(o + d)
+                t.dmove(o + d)
                 if text_mirror:
                     t.mirror()
                 if text_rotation:
-                    t.d.rotate(text_rotation)
+                    t.drotate(text_rotation)
 
     return c
 
@@ -178,12 +177,12 @@ if __name__ == "__main__":
     c = tuple(gf.components.rectangle(size=(i, i)) for i in range(1, 10))
     # print(len(c))
 
-    c = grid(
+    c = grid_with_text(
         c,
         shape=(3, 3),
         # rotation=90,
         mirror=False,
-        spacing=(1.0, 1.0),
+        spacing=(200.0, 200.0),
         # spacing=1,
         # text_offsets=((0, 100), (0, -100)),
     )

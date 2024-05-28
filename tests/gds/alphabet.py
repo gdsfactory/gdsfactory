@@ -13,7 +13,7 @@ def alphabet(dx=10):
         ci = gf.components.text(text=s)
         ci.name = s
         char = c << ci.flatten()
-        char.x = x
+        char.dx = x
         x += dx
 
     return c

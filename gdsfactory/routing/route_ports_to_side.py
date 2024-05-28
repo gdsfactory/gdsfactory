@@ -12,19 +12,19 @@ from gdsfactory.routing.route_single import OpticalManhattanRoute, route_single
 
 
 def sort_key_west_to_east(port: Port) -> float:
-    return port.d.x
+    return port.dx
 
 
 def sort_key_east_to_west(port: Port) -> float:
-    return -port.d.x
+    return -port.dx
 
 
 def sort_key_south_to_north(port: Port) -> float:
-    return port.d.y
+    return port.dy
 
 
 def sort_key_north_to_south(port: Port) -> float:
-    return -port.d.y
+    return -port.dy
 
 
 def route_ports_to_side(
@@ -185,8 +185,8 @@ def route_ports_to_x(
     bx = epsilon + max(radius, dx_start) if dx_start else a
     by = epsilon + max(radius, dy_start) if dy_start else a
 
-    xs = [p.d.x for p in list_ports]
-    ys = [p.d.y for p in list_ports]
+    xs = [p.dx for p in list_ports]
+    ys = [p.dy for p in list_ports]
 
     if y0_bottom is None:
         y0_bottom = min(ys) - by
@@ -201,9 +201,9 @@ def route_ports_to_x(
         extension_length = -extension_length
 
     if x == "east":
-        x = max(p.d.x for p in list_ports) + bx
+        x = max(p.dx for p in list_ports) + bx
     elif x == "west":
-        x = min(p.d.x for p in list_ports) - bx
+        x = min(p.dx for p in list_ports) - bx
     elif isinstance(x, float | int):
         pass
     else:
@@ -268,7 +268,7 @@ def route_ports_to_x(
         y_optical_bot -= separation
 
     for p in forward_ports:
-        add_port(p, p.d.y, routes, ports)
+        add_port(p, p.dy, routes, ports)
 
     y_optical_top = y0_top
     for p in north_ports:
@@ -281,10 +281,10 @@ def route_ports_to_x(
 
     for p in backward_ports_thru_north:
         # Extend ports if necessary
-        if angle == 0 and p.d.x < max_x:
-            start_straight_length_section = max_x - p.d.x
-        elif angle == 180 and p.d.x > min_x:
-            start_straight_length_section = p.d.x - min_x
+        if angle == 0 and p.dx < max_x:
+            start_straight_length_section = max_x - p.dx
+        elif angle == 180 and p.dx > min_x:
+            start_straight_length_section = p.dx - min_x
         else:
             start_straight_length_section = 0
 
@@ -301,10 +301,10 @@ def route_ports_to_x(
     start_straight_length_section = start_straight_length
     for p in backward_ports_thru_south:
         # Extend ports if necessary
-        if angle == 0 and p.d.x < max_x:
-            start_straight_length_section = max_x - p.d.x
-        elif angle == 180 and p.d.x > min_x:
-            start_straight_length_section = p.d.x - min_x
+        if angle == 0 and p.dx < max_x:
+            start_straight_length_section = max_x - p.dx
+        elif angle == 180 and p.dx > min_x:
+            start_straight_length_section = p.dx - min_x
         else:
             start_straight_length_section = 0
 
@@ -410,8 +410,8 @@ def route_ports_to_y(
     bx = epsilon + max(radius, dx_start) if dx_start else a
     by = epsilon + max(radius, dy_start) if dy_start else a
 
-    xs = [p.d.x for p in list_ports]
-    ys = [p.d.y for p in list_ports]
+    xs = [p.dx for p in list_ports]
+    ys = [p.dy for p in list_ports]
 
     if x0_left is None:
         x0_left = min(xs) - bx
@@ -424,7 +424,7 @@ def route_ports_to_y(
     if y == "north":
         y = (
             max(
-                p.d.y + a * np.abs(np.cos(p.orientation * np.pi / 180))
+                p.dy + a * np.abs(np.cos(p.orientation * np.pi / 180))
                 for p in list_ports
             )
             + by
@@ -432,7 +432,7 @@ def route_ports_to_y(
     elif y == "south":
         y = (
             min(
-                p.d.y - a * np.abs(np.cos(p.orientation * np.pi / 180))
+                p.dy - a * np.abs(np.cos(p.orientation * np.pi / 180))
                 for p in list_ports
             )
             - by
@@ -505,7 +505,7 @@ def route_ports_to_y(
         x_optical_left -= separation
 
     for p in forward_ports:
-        add_port(p, p.d.x, routes, ports)
+        add_port(p, p.dx, routes, ports)
 
     x_optical_right = x0_right
     for p in east_ports:
@@ -550,7 +550,7 @@ if __name__ == "__main__":
 
     # for pos, side in zip(positions, sides):
     #     dummy_ref = c << dummy
-    #     dummy_ref.d.center = pos
+    #     dummy_ref.dcenter = pos
     #     routes = route_ports_to_side(c, dummy_ref.ports, side, layer=(1, 0))
 
     c.show()

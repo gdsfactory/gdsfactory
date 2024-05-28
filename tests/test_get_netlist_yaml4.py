@@ -16,9 +16,9 @@ def regenerate_regression_test() -> None:
     ref.name = "b1"
     ref = c.add_ref(gf.components.bend_circular())
     ref.name = "b2"
-    ref.d.movex(10)
+    ref.dmovex(10)
     ref.mirror()
-    ref.d.rotate(180)
+    ref.drotate(180)
     filepath = PATH.netlists / "bend_translated_rotated.yml"
     c.name = "original"
     c.write_netlist(filepath)

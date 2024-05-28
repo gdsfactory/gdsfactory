@@ -61,13 +61,13 @@ def route_single_from_steps(
         w = gf.components.straight()
         left = c << w
         right = c << w
-        right.d.move((100, 80))
+        right.dmove((100, 80))
 
         obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
         obstacle1 = c << obstacle
         obstacle2 = c << obstacle
-        obstacle1.d.ymin = 40
-        obstacle2.d.xmin = 25
+        obstacle1.dymin = 40
+        obstacle2.dxmin = 25
 
         p1 = left.ports['o2']
         p2 = right.ports['o2']
@@ -85,7 +85,7 @@ def route_single_from_steps(
         c.plot()
 
     """
-    x, y = port1.d.center
+    x, y = port1.dcenter
 
     waypoints = []
     steps = steps or []
@@ -166,13 +166,13 @@ if __name__ == "__main__":
     w = gf.components.straight()
     left = c << w
     right = c << w
-    right.d.move((100, 80))
+    right.dmove((100, 80))
 
     obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
     obstacle1 = c << obstacle
     obstacle2 = c << obstacle
-    obstacle1.d.ymin = 40
-    obstacle2.d.xmin = 25
+    obstacle1.dymin = 40
+    obstacle2.dxmin = 25
 
     p1 = left.ports["o2"]
     p2 = right.ports["o2"]
@@ -192,7 +192,7 @@ if __name__ == "__main__":
     # c = gf.Component("pads_route_from_steps")
     # pt = c << gf.components.pad_array(orientation=270, columns=3)
     # pb = c << gf.components.pad_array(orientation=90, columns=3)
-    # pt.move((100, 200))
+    # pt.dmove((100, 200))
     # route = gf.routing.route_single_from_steps_electrical(
     #     pb.ports["e11"],
     #     pt.ports["e11"],

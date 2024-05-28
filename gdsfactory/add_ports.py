@@ -24,7 +24,7 @@ def add_ports_from_markers_square(
     port_name_prefix: str | None = None,
     port_type: str = "optical",
 ) -> Component:
-    """Add ports from square markers at the port center in port_layer.
+    """Add ports from square markers at the port dcenter in port_layer.
 
     Args:
         component: to read polygons from and to write ports to.
@@ -47,17 +47,17 @@ def add_ports_from_markers_square(
     layer = port_layer or pin_layer
 
     for port_name, p in zip(port_names, port_markers.polygons):
-        (xmin, ymin), (xmax, ymax) = p.bounding_box()
-        x, y = np.sum(p.bounding_box(), 0) / 2
+        (dxmin, dymin), (dxmax, dymax) = p.bounding_box()
+        dx, dy = np.sum(p.bounding_box(), 0) / 2
 
-        dy = snap_to_grid(ymax - ymin)
-        dx = snap_to_grid(xmax - xmin)
+        dy = snap_to_grid(dymax - dymin)
+        dx = snap_to_grid(dxmax - dxmin)
         if dx == dy and max_pin_area_um2 > dx * dy > min_pin_area_um2:
-            x = x
-            y = y
+            dx = dx
+            dy = dy
             component.add_port(
                 port_name,
-                center=(x, y),
+                dcenter=(dx, dy),
                 width=dx - pin_extra_width,
                 orientation=orientation,
                 layer=layer,
@@ -89,8 +89,8 @@ def add_ports_from_markers_center(
         component: to read polygons from and to write ports to.
         pin_layer: GDS layer for maker [int, int].
         port_layer: for the new created port.
-        inside: True-> markers  inside. False-> markers at center.
-        tol: tolerance area to search ports at component boundaries xmin, ymin, xmax, xmax.
+        inside: True-> markers  inside. False-> markers at dcenter.
+        tol: tolerance area to search ports at component boundaries dxmin, dymin, dxmax, dxmax.
         pin_extra_width: 2*offset from pin to straight.
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2.
         max_pin_area_um2: ignore pins for area above certain size.
@@ -131,45 +131,46 @@ def add_ports_from_markers_center(
           |_____|__|______|
 
     dx < dy: port is east or west
-        x > xc: east
-        x < xc: west
+        dx > xc: east
+        dx < xc: west
 
     dx > dy: port is north or south
-        y > yc: north
-        y < yc: south
+        dy > yc: north
+        dy < yc: south
 
     dx = dy
-        x > xc: east
-        x < xc: west
+        dx > xc: east
+        dx < xc: west
     """
-    xc = xcenter or component.d.x
-    yc = ycenter or component.d.y
-    xmax = component.xmax
-    xmin = component.xmin
-    ymax = component.ymax
-    ymin = component.ymin
+    xc = xcenter or component.dx
+    yc = ycenter or component.dy
+    dxmax = component.dxmax
+    dxmin = component.dxmin
+    dymax = component.dymax
+    dymin = component.dymin
 
-    port_markers = read_port_markers(component, layers=(pin_layer,))
     layer = port_layer or pin_layer
     port_locations = []
 
     ports = {}
-
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
+    polygons = component.get_polygons()
+    port_markers = polygons[pin_layer]
 
-    for i, p in enumerate(port_markers.get_polygons()[pin_layer]):
+    for i, p in enumerate(port_markers):
         port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
-        bbox = p.bbox()
+        bbox = p.dbbox()
         pxmin, pymin, pxmax, pymax = bbox.left, bbox.bottom, bbox.right, bbox.top
 
-        x, y = bbox.center().x, bbox.center().y
-        dy = pymax - pymin
-        dx = pxmax - pxmin
+        x = (pxmax + pxmin) / 2
+        y = (pymin + pymax) / 2
+        dy = abs(pymax - pymin)
+        dx = abs(pxmax - pxmin)
 
         if min_pin_area_um2 and dx * dy < min_pin_area_um2:
             if debug:
-                print(f"skipping port at ({x}, {y}) with min_pin_area_um2 {dx * dy}")
+                print(f"skipping port at ({dx}, {dy}) with min_pin_area_um2 {dx * dy}")
             continue
 
         if max_pin_area_um2 and dx * dy > max_pin_area_um2:
@@ -177,68 +178,66 @@ def add_ports_from_markers_center(
 
         if skip_square_ports and snap_to_grid(dx) == snap_to_grid(dy):
             if debug:
-                print(f"skipping square port at ({x}, {y})")
+                print(f"skipping square port at ({dx}, {dy})")
             continue
 
         orientation = -1
 
         # rectangular ports orientation is easier to detect
         if dy < dx if short_ports else dx < dy:
-            if x > xc:  # east
+            if dx > xc:  # east
                 orientation = 0
                 width = dy
-                x = pxmax if inside else x
-            elif x < xc:  # west
+                dx = pxmax if inside else dx
+            elif dx < xc:  # west
                 orientation = 180
                 width = dy
-                x = pxmin if inside else x
+                dx = pxmin if inside else dx
         elif dy > dx if short_ports else dx > dy:
-            if y > yc:  # north
+            if dy > yc:  # north
                 orientation = 90
                 width = dx
-                y = pymax if inside else y
-            elif y < yc:  # south
+                dy = pymax if inside else dy
+            elif dy < yc:  # south
                 orientation = 270
                 width = dx
-                y = pymin if inside else y
+                dy = pymin if inside else dy
 
         # square ports ports are harder to detect orientation
-        elif pxmax > xmax - tol:  # east
+        elif pxmax > dxmax - tol:  # east
             orientation = 0
             width = dy
-            x = pxmax if inside else x
-        elif pxmin < xmin + tol:  # west
+            dx = pxmax if inside else dx
+        elif pxmin < dxmin + tol:  # west
             orientation = 180
             width = dy
-            x = pxmin if inside else x
-        elif pymax > ymax - tol:  # north
+            dx = pxmin if inside else dx
+        elif pymax > dymax - tol:  # north
             orientation = 90
             width = dx
-            y = pymax if inside else y
-        elif pymin < ymin + tol:  # south
+            dy = pymax if inside else dy
+        elif pymin < dymin + tol:  # south
             orientation = 270
             width = dx
-            y = pymin if inside else y
+            dy = pymin if inside else dy
 
         elif pxmax > xc:
             orientation = 0
             width = dy
-            x = pxmax if inside else x
+            dx = pxmax if inside else dx
 
         elif pxmax < xc:
             orientation = 180
             width = dy
-            x = pxmin if inside else x
+            dx = pxmin if inside else dx
 
         if orientation == -1:
-            raise ValueError(f"Unable to detector port at ({x}, {y})")
+            raise ValueError(f"Unable to detector port at ({dx}, {dy})")
 
-        x = snap_to_grid(x)
-        y = snap_to_grid(y)
-        width = np.round(width - pin_extra_width, 3)
+        width = width - pin_extra_width
 
-        if (x, y) not in port_locations:
-            port_locations.append((x, y))
+        if (dx, dy) not in port_locations:
+            port_locations.append((dx, dy))
             ports[port_name] = Port(
                 name=port_name,
                 center=(x, y),
@@ -252,7 +251,7 @@ def add_ports_from_markers_center(
 
     for port_name, port in ports:
         if port_name in component.ports:
-            component_ports = list(component.ports.keys())
+            component_ports = [p.name for p in component.ports]
             raise ValueError(
                 f"port {port_name!r} already in {component_ports}. "
                 "You can pass a port_name_prefix to add it with a different name."
@@ -283,14 +282,14 @@ def add_ports_from_labels(
 ) -> Component:
     """Add ports from labels.
 
-    Assumes that all ports have a label at the port center.
+    Assumes that all ports have a label at the port dcenter.
     because labels do not have width, you have to manually specify the ports width
 
     Args:
         component: to read polygons from and to write ports to.
         port_width: for ports.
         port_layer: for the new created port.
-        xcenter: center of the component, for guessing port orientation.
+        xcenter: dcenter of the component, for guessing port orientation.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical.
         port_type: optical, electrical.
         get_name_from_label: uses the label text as port name.
@@ -302,13 +301,13 @@ def add_ports_from_labels(
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
-    yc = component.y
+    yc = component.dy
 
     port_name_to_index = {}
 
-    xc = xcenter or component.x
+    xc = xcenter or component.dx
     for i, label in enumerate(component.labels):
-        x, y = label.origin
+        dx, dy = label.origin
 
         if layer_label and (
             layer_label[0] != label.layer or layer_label[1] != label.texttype
@@ -323,13 +322,13 @@ def add_ports_from_labels(
         orientation = port_orientation
 
         if guess_port_orientation:
-            if x > xc:  # east
+            if dx > xc:  # east
                 orientation = 0
-            elif x < xc:  # west
+            elif dx < xc:  # west
                 orientation = 180
-            elif y > yc:  # north
+            elif dy > yc:  # north
                 orientation = 90
-            elif y < yc:  # south
+            elif dy < yc:  # south
                 orientation = 270
 
         if fail_on_duplicates and port_name in component.ports:
@@ -348,7 +347,7 @@ def add_ports_from_labels(
 
         component.add_port(
             name=port_name,
-            center=(x, y),
+            dcenter=(dx, dy),
             width=port_width,
             orientation=orientation,
             port_type=port_type,
@@ -391,7 +390,7 @@ def add_ports_from_siepic_pins(
             orientation = 2
         elif v.x > 0:
             orientation = 0
-        elif v.y > 0:
+        elif v.dy > 0:
             orientation = 1
         else:
             orientation = 3

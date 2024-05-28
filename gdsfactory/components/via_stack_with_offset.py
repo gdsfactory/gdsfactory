@@ -82,12 +82,12 @@ def via_stack_with_offset(
         ref_layer = c << compass(
             size=(width, height), layer=layer, port_type="electrical"
         )
-        ref_layer.d.ymin = y0
+        ref_layer.dymin = y0
 
         ref_layer = c << compass(
             size=(width, height), layer=previous_layer, port_type="electrical"
         )
-        ref_layer.d.ymin = y0
+        ref_layer.dymin = y0
 
         if via:
             via = gf.get_component(via)
@@ -110,7 +110,7 @@ def via_stack_with_offset(
             ref = c.add_array(
                 via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
-            ref.d.move((x00, y00))
+            ref.dmove((x00, y00))
             y0 += height
             if ref.xsize + enclosure > width or ref.ysize + enclosure > height:
                 warnings.warn(

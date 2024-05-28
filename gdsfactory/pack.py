@@ -169,7 +169,7 @@ def pack(
     # Convert Components to rectangles
     rect_dict = {}
     for n, D in enumerate(component_list):
-        size = np.array([D.d.xsize, D.d.ysize])
+        size = np.array([D.dxsize, D.dysize])
         w, h = (size + spacing) / precision
         w, h = int(w), int(h)
         if (w > max_size[0]) or (h > max_size[1]):
@@ -204,12 +204,12 @@ def pack(
                 packed << component
             )  # ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
             if rotation:
-                d.d.rotate(rotation)
+                d.drotate(rotation)
             if h_mirror:
                 d.mirror_x()
             if v_mirror:
                 d.mirror_y()
-            d.d.center = snap_to_grid((xcenter * precision, ycenter * precision))
+            d.dcenter = snap_to_grid((xcenter * precision, ycenter * precision))
             if add_ports_prefix:
                 packed.add_ports(d.ports, prefix=f"{index}_")
             elif add_ports_suffix:
@@ -228,9 +228,9 @@ def pack(
                     if text_mirror:
                         label.mirror()
                     if text_rotation:
-                        label.d.rotate(text_rotation)
-                    label.d.move(
-                        np.array(text_offset) + getattr(d.d.size_info, text_anchor)
+                        label.drotate(text_rotation)
+                    label.dmove(
+                        np.array(text_offset) + getattr(d.dsize_info, text_anchor)
                     )
 
         components_packed_list.append(packed)

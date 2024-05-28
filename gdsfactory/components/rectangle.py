@@ -32,7 +32,7 @@ def rectangle(
         size=size, layer=layer, port_type=port_type, port_orientations=port_orientations
     )
     if not centered:
-        ref.d.move((size[0] / 2, size[1] / 2))
+        ref.dmove((size[0] / 2, size[1] / 2))
     if port_type:
         c.add_ports(ref.ports)
     return c
@@ -89,17 +89,18 @@ def rectangles(
             size=tuple(size + 2 * offset), layer=layer, centered=centered, **kwargs
         )
         if ref0:
-            ref.center = ref0.center
+            ref.dcenter = ref0.dcenter
         ref0 = ref
 
     return c
 
 
 if __name__ == "__main__":
-    c = rectangle(size=(3, 2), centered=False)
+    # c = rectangle(size=(3, 2), centered=False)
     # c = rectangles(offsets=(0, 1), centered=False)
     # c = rectangle(size=(3, 2), centered=False, layer=(2, 3))
     # c = rectangle(size=(3, 2), centered=True, layer=(2, 3))
-    print(c.ports)
-    print(c.name)
+    c = rectangles()
+    # print(c.ports)
+    # print(c.name)
     c.show()

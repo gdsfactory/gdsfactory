@@ -46,7 +46,7 @@ def fanout2x2(
     component = gf.get_component(component)
     component.component = component
     ref = c << component
-    ref.movey(-ref.y)
+    ref.dmovey(-ref.dy)
 
     if bend_length is None:
         bend_length = port_spacing
@@ -59,7 +59,7 @@ def fanout2x2(
     p_e1 = ref.ports["o3"]
     p_e0 = ref.ports["o4"]
 
-    y0 = p_e1.d.center[1]
+    y0 = p_e1.dcenter[1]
     dy = y - y0
 
     x = gf.get_cross_section(cross_section, **kwargs)
@@ -96,6 +96,6 @@ if __name__ == "__main__":
     c = gf.components.nxn(west=2, east=2)
 
     cc = fanout2x2(component=c, port_spacing=20)
-    # print(cc.ports["o3"].y - cc.ports["o4"].y)
+    # print(cc.ports["o3"].dy - cc.ports["o4"].dy)
     # print(cc.ports)
     cc.show()

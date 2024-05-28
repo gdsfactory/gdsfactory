@@ -38,8 +38,8 @@ def loss_deembedding_ch13_24(
 
     for i in range(4):
         g = c << gc
-        g.d.rotate(rotation)
-        g.d.movex(i * dx)
+        g.drotate(rotation)
+        g.dmovex(i * dx)
         gc_ports.append(g.ports[port_name])
 
     route_single(
@@ -57,7 +57,7 @@ def loss_deembedding_ch13_24(
 
     p1 = gc_ports[1]
     p3 = gc_ports[3]
-    yspacing = yspacing or gc.d.ysize + 2 * radius
+    yspacing = yspacing or gc.dysize + 2 * radius
     bend90 = gf.components.bend_euler(cross_section=cross_section, **kwargs)
     points = gf.kf.routing.optical.route_loopback(
         p1,
@@ -112,8 +112,8 @@ def loss_deembedding_ch12_34(
 
     for i in range(4):
         g = c << gc
-        g.d.rotate(rotation)
-        g.d.move((i * dx, 0))
+        g.drotate(rotation)
+        g.dmove((i * dx, 0))
         gc_ports.append(g.ports[port_name])
 
     route_single(
@@ -169,8 +169,8 @@ def loss_deembedding_ch14_23(
 
     for i in range(4):
         g = c << gc
-        g.d.rotate(rotation)
-        g.d.move((i * dx, 0))
+        g.drotate(rotation)
+        g.dmove((i * dx, 0))
         gc_ports.append(g.ports[port_name])
 
     route_single(
@@ -224,8 +224,8 @@ def grating_coupler_loss_fiber_array(
 
     for i in range(2):
         g = c << gc
-        g.d.rotate(rotation)
-        g.d.move((i * dx, 0))
+        g.drotate(rotation)
+        g.dmove((i * dx, 0))
         gc_ports.append(g.ports[port_name])
 
     route_single(
@@ -264,8 +264,8 @@ def grating_coupler_loss_fiber_array4(
     c.add_ref(c1)
     c2 = c.add_ref(c2)
     c3 = c.add_ref(c3)
-    c2.d.movex(pitch * 4)
-    c3.d.movex(pitch * 8)
+    c2.dmovex(pitch * 4)
+    c3.dmovex(pitch * 8)
     return c
 
 

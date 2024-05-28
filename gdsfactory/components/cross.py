@@ -23,10 +23,10 @@ def cross(
     layer = gf.get_layer(layer)
     c = gf.Component()
     R = gf.components.rectangle(size=(width, length), layer=layer)
-    r1 = c.add_ref(R).rotate(int(90 // 90))
+    r1 = c.add_ref(R).drotate(90)
     r2 = c.add_ref(R)
-    r1.center = (0, 0)
-    r2.center = (0, 0)
+    r1.dcenter = (0, 0)
+    r2.dcenter = (0, 0)
 
     if port_type:
         c.add_port(

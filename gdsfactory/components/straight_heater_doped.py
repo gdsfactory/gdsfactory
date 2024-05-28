@@ -105,7 +105,7 @@ def straight_heater_doped_rib(
             if callable(taper)
             else taper
         )
-        length -= taper.d.xsize * 2
+        length -= taper.dxsize * 2
 
     wg = c << gf.c.straight(
         cross_section=cross_section_heater,
@@ -117,7 +117,7 @@ def straight_heater_doped_rib(
         taper1.connect("o2", wg.ports["o1"])
         c.add_port("o1", port=taper1.ports["o1"])
         taper2 = c << taper
-        taper2.mirror()
+        taper2.dmirror()
         taper2.connect("o2", wg.ports["o2"])
         c.add_port("o2", port=taper2.ports["o1"])
 
@@ -138,29 +138,29 @@ def straight_heater_doped_rib(
 
         if via_stack_metal and via_stack:
             via_stack_center = c.add_ref(via_stack_section)
-            via_stack_center.d.x = xi
+            via_stack_center.dx = xi
             via_stack_ref = c << via_stack_section
-            via_stack_ref.d.x = xi
-            via_stack_ref.d.y = (
+            via_stack_ref.dx = xi
+            via_stack_ref.dy = (
                 +via_stack_metal_size[1] if i % 2 == 0 else -via_stack_metal_size[1]
             )
             via_stacks.append(via_stack_ref)
 
         if via_stack:
             via_stack_top = c << via_stack(size=via_stack_size)
-            via_stack_top.d.x = xi
-            via_stack_top.d.ymin = +(heater_gap + width / 2 + via_stack_gap)
+            via_stack_top.dx = xi
+            via_stack_top.dymin = +(heater_gap + width / 2 + via_stack_gap)
 
             via_stack_bot = c << via_stack(size=via_stack_size)
-            via_stack_bot.d.x = xi
-            via_stack_bot.d.ymax = -(heater_gap + width / 2 + via_stack_gap)
+            via_stack_bot.dx = xi
+            via_stack_bot.dymax = -(heater_gap + width / 2 + via_stack_gap)
 
     if via_stack:
-        via_stack.xmax = x0 + length_section * nsections
-        via_stack_top.d.movex(xoffset_tip2)
+        via_stack.dxmax = x0 + length_section * nsections
+        via_stack_top.dmovex(xoffset_tip2)
     if via_stack:
-        via_stack.xmax = x0 + length_section * nsections
-        via_stack_bot.d.movex(xoffset_tip2)
+        via_stack.dxmax = x0 + length_section * nsections
+        via_stack_bot.dmovex(xoffset_tip2)
 
     if via_stack_metal and via_stack:
         via_stack_length = length + via_stack_metal_size[0]
@@ -171,11 +171,11 @@ def straight_heater_doped_rib(
             size=(via_stack_length, via_stack_metal_size[0]),
         )
 
-        via_stack_bot.xmin = via_stacks[0].xmin
-        via_stack_top.xmin = via_stacks[0].xmin
+        via_stack_bot.dxmin = via_stacks[0].dxmin
+        via_stack_top.dxmin = via_stacks[0].dxmin
 
-        via_stack_top.ymin = via_stacks[0].ymax
-        via_stack_bot.ymax = via_stacks[1].ymin
+        via_stack_top.dymin = via_stacks[0].dymax
+        via_stack_bot.dymax = via_stacks[1].dymin
 
         c.add_ports(via_stack_top.ports, prefix="top_")
         c.add_ports(via_stack_bot.ports, prefix="bot_")
@@ -265,5 +265,4 @@ def straight_heater_doped_strip(
 
 if __name__ == "__main__":
     c = straight_heater_doped_rib(length=100)
-    print(len(c.name))
     c.show()

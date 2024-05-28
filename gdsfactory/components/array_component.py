@@ -55,17 +55,17 @@ def array(
     c = Component()
     component = gf.get_component(component)
     ref = c.add_array(component, columns=columns, rows=rows, spacing=spacing)
-    old_center = ref.center
-    ref.center = (0, 0) if centered else old_center
-    center_shift = ref.center - old_center
+    old_center = ref.dcenter
+    ref.dcenter = (0, 0) if centered else old_center
+    center_shift = ref.dcenter - old_center
 
     if add_ports and component.ports:
         for col in range(int(columns)):
             for row in range(int(rows)):
                 for port in component.ports:
                     port = port.copy()
-                    port.x += col * spacing[0] / c.kcl.dbu + center_shift.x
-                    port.y += row * spacing[1] / c.kcl.dbu + center_shift.y
+                    port.dx += col * spacing[0] + center_shift.x
+                    port.dy += row * spacing[1] + center_shift.y
                     name = f"{port.name}_{row+1}_{col+1}"
                     c.add_port(name, port=port)
     return c

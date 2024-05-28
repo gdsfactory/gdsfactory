@@ -37,7 +37,7 @@ def port_bank(
 
 
 def connection_tuple(port1: gf.Port, port2: gf.Port) -> tuple:
-    return (tuple(port1.center), tuple(port2.center))
+    return (tuple(port1.dcenter), tuple(port2.dcenter))
 
 
 def make_bundle(
@@ -55,8 +55,8 @@ def make_bundle(
     b = port_bank()
     r1 = c.add_ref(b, "r1")
     r2 = c.add_ref(b, "r2")
-    r2.d.rotate(angle)
-    r2.d.move((40, 60))
+    r2.drotate(angle)
+    r2.dmove((40, 60))
     ports1_names = ["o1", "o2", "o3", "o4"]
     ports2_names = ["o1", "o2", "o3", "o4"]
 

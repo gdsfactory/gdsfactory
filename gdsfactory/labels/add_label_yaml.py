@@ -59,7 +59,7 @@ def add_label_yaml(
     if anchor not in valid_anchor_point_keywords:
         raise ValueError(f"anchor {anchor} not in {valid_anchor_point_keywords}. ")
 
-    xc, yc = getattr(component.d.size_info, anchor)
+    xc, yc = getattr(component.dsize_info, anchor)
 
     d = dict(
         name=component.name,
@@ -68,10 +68,10 @@ def add_label_yaml(
         analysis=analysis,
         measurement_settings=measurement_settings,
         analysis_settings=analysis_settings,
-        xopt=[int(optical_ports[0].x - xc)] if optical_ports else [],
-        yopt=[int(optical_ports[0].y - yc)] if optical_ports else [],
-        xelec=[int(electrical_ports[0].x - xc)] if electrical_ports else [],
-        yelec=[int(electrical_ports[0].y - yc)] if electrical_ports else [],
+        xopt=[int(optical_ports[0].dx - xc)] if optical_ports else [],
+        yopt=[int(optical_ports[0].dy - yc)] if optical_ports else [],
+        xelec=[int(electrical_ports[0].dx - xc)] if electrical_ports else [],
+        yelec=[int(electrical_ports[0].dy - yc)] if electrical_ports else [],
     )
     text = OmegaConf.to_yaml(d) if with_yaml_format else json.dumps(d)
     component.add_label(

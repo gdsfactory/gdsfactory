@@ -278,8 +278,8 @@ if __name__ == "__main__":
     pbot = c << gf.components.pad_array(port_orientation=270, columns=columns)
     # pbot = c << gf.components.pad_array(port_orientation=90, columns=columns)
 
-    ptop.d.movex(300)
-    ptop.d.movey(300)
+    ptop.dmovex(300)
+    ptop.dmovey(300)
     routes = gf.routing.route_bundle_electrical(
         c,
         reversed(pbot.ports),
@@ -296,7 +296,7 @@ if __name__ == "__main__":
     # c = gf.Component("demo")
     # c1 = c << gf.components.mmi2x2()
     # c2 = c << gf.components.mmi2x2()
-    # c2.d.move((100, 70))
+    # c2.dmove((100, 70))
     # routes = route_bundle(
     #     c,
     #     [c1.ports["o2"], c1.ports["o1"]],

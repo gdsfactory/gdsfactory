@@ -68,7 +68,7 @@ def coh_tx_single_pol(
     mzm_q = c << mzm_mod_p
 
     # Separate the two mzms so they don't overlap
-    mzm_q.d.movey(mzm_i.d.ymin - mzm_y_spacing - mzm_q.d.ymax)
+    mzm_q.dmovey(mzm_i.dymin - mzm_y_spacing - mzm_q.dymax)
     phase_shifter = gf.get_component(phase_shifter, length=phase_shifter_length)
 
     if balanced_phase_shifters:
@@ -100,8 +100,8 @@ def coh_tx_single_pol(
 
     splitter = gf.get_component(splitter)
     sp = c << splitter
-    sp.d.x = mzm_q.d.xmin - xspacing
-    sp.d.y = (mzm_i.ports["o1"].d.y + mzm_q.ports["o1"].d.y) / 2
+    sp.dx = mzm_q.dxmin - xspacing
+    sp.dy = (mzm_i.ports["o1"].dy + mzm_q.ports["o1"].dy) / 2
 
     route_single(
         c,
@@ -125,8 +125,8 @@ def coh_tx_single_pol(
     comb = c << combiner
     comb.mirror_x()
 
-    comb.d.x = ps_q.d.xmax + xspacing
-    comb.d.y = (mzm_i.ports["o2"].d.y + mzm_q.ports["o2"].d.y) / 2
+    comb.dx = ps_q.dxmax + xspacing
+    comb.dy = (mzm_i.ports["o2"].dy + mzm_q.ports["o2"].dy) / 2
 
     route_single(
         c,

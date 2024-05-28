@@ -67,8 +67,8 @@ def coupler_bent_half(
 
     inner = c << inner.extrude(xs2)
     outer = c << outer.extrude(xs1)
-    outer.d.movey(+(width1 + gap) / 2)
-    inner.d.movey(-(width2 + gap) / 2)
+    outer.dmovey(+(width1 + gap) / 2)
+    inner.dmovey(-(width2 + gap) / 2)
 
     c.add_port("o1", port=outer.ports["o1"])
     c.add_port("o2", port=inner.ports["o1"])

@@ -50,8 +50,8 @@ if __name__ == "__main__":
     # c = gf.Component()
     # ref = c << straight(cross_section="rib")
     # ref2 = c << straight(cross_section="rib")
-    # ref2.center = ref.center + kdb.Point(0, 1000)
-    # ref2.d.move((0, 10))
+    # ref2.dcenter = ref.dcenter + kdb.Point(0, 1000)
+    # ref2.dmove((0, 10))
     # ref.name = "straight"
     # print(c.insts['straight'].ports)
 
@@ -59,18 +59,25 @@ if __name__ == "__main__":
     # xs = xs.mirror()
     # c = straight(cross_section=xs)
     # gdspath = c.write_gds()
-    c0 = gf.Component()
-    c = straight(
+    c = gf.Component()
+    w = straight(
         length=10,
         cross_section="strip",
     )
-    ref = c0 << c
+    # ref = c0 << c
+    # ref = c.add_ref(w)
+    ref = c << w
+    ref = c << w
+    # ref.drotate(45)
+    ref.dmove((10, 0))
+    # print(ref.xmax)
+    c.show()
     # print("o1" in c.ports)
     # print(type(c.ports))
     # print("o1" in ref.ports)
-    # print(type(ref.ports))
+    # print(t.d(ref.ports))
     # print(c.size_info)
-    # print(c.d.size_info)
+    # print(c.d.dze_info)
     # print(ref.size_info)
     # print(ref.d.size_info)
-    c.plot()
+    # c.plot()

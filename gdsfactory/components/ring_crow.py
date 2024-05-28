@@ -66,35 +66,32 @@ def ring_crow(
     input_straight_width = xs1.width
 
     input_straight_waveguide = c.add_ref(input_straight)
-    input_straight_waveguide.d.movex(-radius[0])
+    input_straight_waveguide.dmovex(-radius[0])
     c.add_port(name="o1", port=input_straight_waveguide.ports["o1"])
     c.add_port(name="o2", port=input_straight_waveguide.ports["o2"])
 
-    # Cascade rings
     cum_y_dist = input_straight_width / 2
 
     for index, (gap, r, bend, cross_section) in enumerate(
         zip(gaps, radius, bends, ring_cross_sections)
     ):
         gap = gf.snap.snap_to_grid(gap, grid_factor=2)
-        ring = Component()
 
         bend_c = bend(radius=r, cross_section=cross_section)
         xs = gf.get_cross_section(cross_section)
         bend_width = xs.width
-        bend1 = ring.add_ref(bend_c, name=f"bot_right_bend_ring_{index}")
-        bend2 = ring.add_ref(bend_c, name=f"top_right_bend_ring_{index}")
-        bend3 = ring.add_ref(bend_c, name=f"top_left_bend_ring_{index}")
-        bend4 = ring.add_ref(bend_c, name=f"bot_left_bend_ring_{index}")
+        bend1 = c.add_ref(bend_c, name=f"bot_right_bend_ring_{index}")
+        bend2 = c.add_ref(bend_c, name=f"top_right_bend_ring_{index}")
+        bend3 = c.add_ref(bend_c, name=f"top_left_bend_ring_{index}")
+        bend4 = c.add_ref(bend_c, name=f"bot_left_bend_ring_{index}")
+
+        for bend in [bend1, bend2, bend3, bend4]:
+            bend.dmovey(cum_y_dist + gap + bend_width / 2)
 
         bend2.connect("o1", bend1.ports["o2"])
         bend3.connect("o1", bend2.ports["o2"])
         bend4.connect("o1", bend3.ports["o2"])
 
-        ring_ref = c.add_ref(ring)
-        ring_ref.d.movey(cum_y_dist + gap + bend_width / 2)
-        # c.absorb(ring_ref)
-        ring_ref.flatten(1)
         cum_y_dist += gap + bend_width + 2 * r
 
     # Output bus
@@ -105,8 +102,8 @@ def ring_crow(
     )
     output_straight_width = xs2.width
     output_straight_waveguide = c.add_ref(output_straight)
-    output_straight_waveguide.d.movey(cum_y_dist + gaps[-1] + output_straight_width / 2)
-    output_straight_waveguide.d.movex(-radius[-1])
+    output_straight_waveguide.dmovey(cum_y_dist + gaps[-1] + output_straight_width / 2)
+    output_straight_waveguide.dmovex(-radius[-1])
     c.add_port(name="o3", port=output_straight_waveguide.ports["o1"])
     c.add_port(name="o4", port=output_straight_waveguide.ports["o2"])
     return c

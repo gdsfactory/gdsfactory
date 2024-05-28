@@ -26,6 +26,7 @@ def cdsem_all(
     bend90: ComponentSpec | None = "bend_circular",
     cross_section: CrossSectionSpec = "strip",
     text: ComponentFactory = text_rectangular_mini,
+    spacing: float = 5,
 ) -> Component:
     """Column with all optical PCMs.
 
@@ -39,6 +40,7 @@ def cdsem_all(
         bend90: spec.
         cross_section: spec.
         text: spec.
+        spacing: from group to group.
     """
     c = Component()
     _c1 = cdsem_straight(
@@ -89,9 +91,9 @@ def cdsem_all(
     ymin = 0
     for d in all_devices:
         ref = c.add_ref(d)
-        ref.xmin = 0
-        ref.ymin = ymin
-        ymin += ref.ysize + 5000
+        ref.dxmin = 0
+        ref.dymin = ymin
+        ymin += ref.dysize + spacing
 
     return c
 

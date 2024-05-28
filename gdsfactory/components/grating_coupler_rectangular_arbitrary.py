@@ -95,7 +95,7 @@ def grating_coupler_rectangular_arbitrary(
         )
 
         c.add_port(port=taper_ref.ports["o1"], name="o1")
-        xi = taper_ref.d.xmax
+        xi = taper_ref.dxmax
     else:
         length_taper = 0
         xi = 0
@@ -126,7 +126,7 @@ def grating_coupler_rectangular_arbitrary(
     if layer_slab:
         slab_xmin = length_taper - slab_offset
         slab_xmax = length_taper + np.sum(widths) + np.sum(gaps) + slab_offset
-        slab_ysize = c.d.ysize + 2 * slab_offset
+        slab_ysize = c.dysize + 2 * slab_offset
         yslab = slab_ysize / 2
         c.add_polygon(
             [

@@ -27,7 +27,7 @@ def make_error_traces(
 
     warn(message, RouteWarning)
     for port1, port2 in zip(ports1, ports2):
-        path = gf.path.Path([port1.d.center, port2.d.center])
+        path = gf.path.Path([port1.dcenter, port2.dcenter])
         error_component = gf.path.extrude(path, layer=CONF.layer_error_path, width=1)
         _ = component << error_component
 
@@ -62,15 +62,15 @@ def is_invalid_bundle_topology(ports1: list[Port], ports2: list[Port]) -> bool:
         # don't check if the ports do not have orientation
         return False
 
-    lines = [sg.LineString([p1.center, p2.center]) for p1, p2 in zip(ports1, ports2)]
+    lines = [sg.LineString([p1.dcenter, p2.dcenter]) for p1, p2 in zip(ports1, ports2)]
 
     # Positive if BOTH ports are EITHER facing towards OR away from the vector of the outgoing line between them
     # Zero if either is orthogonal
     # Negative if one is facing and the other not
     ports_facing = []
     for p1, p2 in zip(ports1, ports2):
-        dy_line = p2.center[1] - p1.center[1]
-        dx_line = p2.center[0] - p1.center[0]
+        dy_line = p2.dcenter[1] - p1.dcenter[1]
+        dx_line = p2.dcenter[0] - p1.dcenter[0]
 
         dy_p1 = np.sin(np.deg2rad(p1.orientation))
         dx_p1 = np.cos(np.deg2rad(p1.orientation))

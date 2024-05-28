@@ -93,7 +93,7 @@ def route_single(
         c = gf.Component('sample_connect')
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
-        mmi2.move((40, 20))
+        mmi2.dmove((40, 20))
         gf.routing.route_single(c, mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
         c.plot()
     """
@@ -101,11 +101,10 @@ def route_single(
     p2 = port2
 
     with_sbend = kwargs.pop("with_sbend", None)
-    min_straight_length = kwargs.pop("min_straight_length", None)
-
     if with_sbend:
         warnings.warn("with_sbend is not implemented yet")
 
+    min_straight_length = kwargs.pop("min_straight_length", None)
     if min_straight_length:
         warnings.warn("minimum straight length not implemented yet")
 
@@ -169,6 +168,17 @@ def route_single(
         )
 
 
+# FIXME
+# route_single_electrical = partial(
+#     route_single,
+#     cross_section="metal_routing",
+#     allow_width_mismatch=True,
+#     port_type="electrical",
+#     bend=wire_corner,
+#     taper=None,
+# )
+
+
 def route_single_electrical(
     component: Component,
     port1: Port,
@@ -178,7 +188,6 @@ def route_single_electrical(
     layer: LayerSpec | None = None,
     width: float | None = None,
     cross_section: CrossSectionSpec = "metal3",
-    allow_width_mismatch: bool = True,
 ) -> None:
     """Places a route between two electrical ports.
 
@@ -191,7 +200,6 @@ def route_single_electrical(
         layer: The layer of the route.
         width: The width of the route.
         cross_section: The cross section of the route.
-        allow_width_mismatch: Whether to allow the ports to have different widths.
 
     """
     xs = gf.get_cross_section(cross_section)
@@ -220,7 +228,7 @@ if __name__ == "__main__":
     # s = gf.c.wire_straight()
     # pt = c << s
     # pb = c << s
-    # pt.d.move((50, 50))
+    # pt.dmove((50, 50))
     # gf.routing.route_single_electrical(
     #     c,
     #     pb.ports["e2"],
@@ -235,18 +243,18 @@ if __name__ == "__main__":
     # w = gf.components.straight()
     # left = c << w
     # right = c << w
-    # right.d.move((100, 80))
+    # right.dmove((100, 80))
 
     # obstacle = gf.components.rectangle(size=(100, 10))
     # obstacle1 = c << obstacle
     # obstacle2 = c << obstacle
-    # obstacle1.d.ymin = 40
-    # obstacle2.d.xmin = 25
+    # obstacle1.dymin = 40
+    # obstacle2.dxmin = 25
 
     # p0 = left.ports["o2"]
     # p1 = right.ports["o2"]
-    # p0x, p0y = left.ports["o2"].d.center
-    # p1x, p1y = right.ports["o2"].d.center
+    # p0x, p0y = left.ports["o2"].dcenter
+    # p1x, p1y = right.ports["o2"].dcenter
     # o = 10  # vertical offset to overcome bottom obstacle
     # ytop = 20
 
@@ -268,18 +276,18 @@ if __name__ == "__main__":
     # w = gf.components.wire_straight()
     # left = c << w
     # right = c << w
-    # right.d.move((100, 80))
+    # right.dmove((100, 80))
 
     # obstacle = gf.components.rectangle(size=(100, 10))
     # obstacle1 = c << obstacle
     # obstacle2 = c << obstacle
-    # obstacle1.d.ymin = 40
-    # obstacle2.d.xmin = 25
+    # obstacle1.dymin = 40
+    # obstacle2.dxmin = 25
 
     # p0 = left.ports["e2"]
     # p1 = right.ports["e2"]
-    # p0x, p0y = left.ports["e2"].d.center
-    # p1x, p1y = right.ports["e2"].d.center
+    # p0x, p0y = left.ports["e2"].dcenter
+    # p1x, p1y = right.ports["e2"].dcenter
     # o = 10  # vertical offset to overcome bottom obstacle
     # ytop = 20
 
@@ -300,7 +308,7 @@ if __name__ == "__main__":
     w = gf.components.straight()
     top = c << w
     bot = c << w
-    bot.d.move((0, -2))
+    bot.dmove((0, -2))
 
     p0 = top.ports["o2"]
     p1 = bot.ports["o2"]

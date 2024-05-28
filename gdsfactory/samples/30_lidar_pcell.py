@@ -45,8 +45,8 @@ def lidar(
     antennas = c << gf.components.array(
         gf.components.dbr(n=200), rows=noutputs, columns=1, spacing=(0, antenna_pitch)
     )
-    antennas.d.xmin = ref.d.xmax + 50
-    antennas.d.y = 10
+    antennas.dxmin = ref.dxmax + 50
+    antennas.dy = 10
 
     gf.routing.route_bundle(
         c,

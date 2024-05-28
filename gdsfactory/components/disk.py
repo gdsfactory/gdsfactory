@@ -27,7 +27,7 @@ def _generate_bends(c, r_bend, wrap_angle_deg, cross_section):
 
         bend_input = c << bend_input_output
         bend_middle = c << bend_middle_arc.extrude(cross_section=cross_section)
-        bend_middle.d.rotate(180 + wrap_angle_deg / 2.0)
+        bend_middle.drotate(180 + wrap_angle_deg / 2.0)
 
         bend_input.connect("o2", bend_middle.ports["o2"])
 
@@ -108,20 +108,20 @@ def disk(
 
     circle_cladding = None
     if bend_middle is not None:
-        dx = (bend_middle.ports["o1"].d.x + bend_middle.ports["o2"].d.x) / 2.0
-        dy = straight_left.ports["o2"].d.y - 2 * dy + r_bend
-        circle.d.move((dx, dy))
+        dx = (bend_middle.ports["o1"].dx + bend_middle.ports["o2"].dx) / 2.0
+        dy = straight_left.ports["o2"].dy - 2 * dy + r_bend
+        circle.dmove((dx, dy))
     else:
-        circle.d.move(np.array(straight_left.ports["o2"].d.center) + (0, r_bend))
+        circle.dmove(np.array(straight_left.ports["o2"].dcenter) + (0, r_bend))
 
     if circle_cladding:
-        circle_cladding.move(circle.center)
+        circle_cladding.dmove(circle.dcenter)
 
     c.add_port("o1", port=straight_left.ports["o1"])
     c.add_port("o2", port=straight_right.ports["o2"])
     xs.add_bbox(c)
     if parity == -1:
-        c = c.rotate(180)
+        c = c.drotate(180)
 
     c.flatten()
     return c
@@ -170,23 +170,23 @@ def disk_heater(
         cross_section=cross_section,
     )
 
-    dx = disk_instance.d.xmax - disk_instance.d.xmin
-    dy = disk_instance.d.ymax - disk_instance.d.ymin
+    dx = disk_instance.dxmax - disk_instance.dxmin
+    dy = disk_instance.dymax - disk_instance.dymin
     heater = c << gf.get_component(
         gf.components.rectangle,
         size=(dx + 2 * heater_extent, heater_width),
         layer=heater_layer,
     )
-    heater.d.x = disk_instance.d.x
-    heater.d.y = dy / 2 + disk_instance.d.ymin + (xs.width + gap) / 2
+    heater.dx = disk_instance.dx
+    heater.dy = dy / 2 + disk_instance.dymin + (xs.width + gap) / 2
 
     via = gf.get_component(via_stack, size=(via_width, via_width))
     c1 = c << via
     c2 = c << via
-    c1.xmax = heater.xmin
-    c1.y = heater.y
-    c2.xmin = heater.xmax
-    c2.y = heater.y
+    c1.dxmax = heater.dxmin
+    c1.dy = heater.dy
+    c2.dxmin = heater.dxmax
+    c2.dy = heater.dy
     c.add_ports(disk_instance.ports)
     c.add_ports(c1.ports.filter(orientation=port_orientation), prefix="e1")
     c.add_ports(c2.ports.filter(orientation=port_orientation), prefix="e2")

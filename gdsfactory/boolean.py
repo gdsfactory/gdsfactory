@@ -51,7 +51,7 @@ def boolean(
 
       c1 = gf.components.circle(radius=10).ref()
       c2 = gf.components.circle(radius=9).ref()
-      c2.movex(5)
+      c2.dmovex(5)
 
       c = gf.boolean(c1, c2, operation="xor")
       c.plot()
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     # c = gf.Component()
     # e2 = c << gf.components.ellipse(radii=(10, 6))
     # e3 = c << gf.components.ellipse(radii=(10, 4))
-    # e3.d.movex(5)
+    # e3.dmovex(5)
     # c = boolean(A=e2, B=e3, operation="and")
 
     core = gf.c.coupler()

@@ -62,16 +62,16 @@ if __name__ == "__main__":
     rows = 3
     w1 = c << gf.c.array("straight", spacing=(0, 10), rows=rows, columns=1)
     w2 = c << gf.c.array("straight", spacing=(0, 10), rows=rows, columns=1)
-    w2.d.rotate(-30)
-    w2.d.movex(140)
+    w2.drotate(-30)
+    w2.dmovex(140)
     p1 = list(w1.ports.filter(orientation=0))
     p2 = list(w2.ports.filter(orientation=150))
     p1.reverse()
     p2.reverse()
 
-    c1 = np.array(p2[0].d.center)
-    c2 = np.array(p1[0].d.center)
-    d = (np.array(p2[0].d.center) + np.array(p1[0].d.center)) / 2
+    c1 = np.array(p2[0].dcenter)
+    c2 = np.array(p1[0].dcenter)
+    d = (np.array(p2[0].dcenter) + np.array(p1[0].dcenter)) / 2
     backbone = [
         d - (10.0, 0),
         d + (10.0, 0),

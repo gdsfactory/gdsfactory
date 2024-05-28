@@ -48,7 +48,7 @@ def straight_pin(
     c = Component()
     if taper:
         _taper = gf.get_component(taper)
-        length -= 2 * _taper.d.xsize
+        length -= 2 * _taper.dxsize
 
     wg = c << gf.components.straight(
         cross_section=cross_section,
@@ -76,8 +76,8 @@ def straight_pin(
     # via_stack_top.ymin = +int(via_stack_spacing / 2 / c.kcl.dbu)
     # via_stack_bot.ymax = -int(via_stack_spacing / 2 / c.kcl.dbu)
 
-    via_stack_top.d.ymin = +via_stack_spacing / 2
-    via_stack_bot.d.ymax = -via_stack_spacing / 2
+    via_stack_top.dymin = +via_stack_spacing / 2
+    via_stack_bot.dymax = -via_stack_spacing / 2
 
     c.add_ports(via_stack_bot.ports, prefix="bot_")
     c.add_ports(via_stack_top.ports, prefix="top_")

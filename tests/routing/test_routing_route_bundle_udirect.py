@@ -18,9 +18,9 @@ def test_route_bundle_udirect_pads(
     pad_south = gf.components.pad_array(orientation=270, spacing=(15.0, 0), pad=pad)
     pt = c << pad_south
     pb = c << pad_south
-    pb.d.rotate(90)
-    pt.d.rotate(90)
-    pb.d.move((0, -100))
+    pb.drotate(90)
+    pt.drotate(90)
+    pb.dmove((0, -100))
 
     pbports = list(pb.ports)
     ptports = pt.ports

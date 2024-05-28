@@ -981,11 +981,11 @@ class LayerViews(BaseModel):
             xloc = n % matrix_size
             yloc = int(n // matrix_size)
             ref = D.add_ref(R)
-            ref.d.movex((100 + spacing) * xloc * scale)
-            ref.d.movey(-(100 + spacing) * yloc * scale)
+            ref.dmovex((100 + spacing) * xloc * scale)
+            ref.dmovey(-(100 + spacing) * yloc * scale)
             ref = D.add_ref(T)
-            ref.d.movex((100 + spacing) * xloc * scale)
-            ref.d.movey(-(100 + spacing) * yloc * scale)
+            ref.dmovex((100 + spacing) * xloc * scale)
+            ref.dmovey(-(100 + spacing) * yloc * scale)
         return D
 
     def to_lyp(

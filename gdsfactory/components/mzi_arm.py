@@ -64,7 +64,7 @@ def mzi_arm(
     c = c.copy()
     c.auto_rename_ports()
     c.info["length_x"] = length_x
-    c.info["length_xsize"] = straight_x.d.xsize
+    c.info["length_xsize"] = straight_x.dxsize
     return c
 
 

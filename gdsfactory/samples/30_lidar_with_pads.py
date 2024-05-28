@@ -39,8 +39,8 @@ if __name__ == "__main__":
     antennas = c << gf.components.array(
         gf.components.dbr(n=200), rows=elements, columns=1, spacing=(0, antenna_pitch)
     )
-    antennas.d.xmin = ref.d.xmax + 50
-    antennas.y = 0
+    antennas.dxmin = ref.dxmax + 50
+    antennas.dy = 0
 
     routes = gf.routing.route_bundle(
         c,
@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     pads1 = c << gf.components.array(gf.components.pad, rows=elements, columns=1)
     pads1.xmax = splitter_tree.xmin - 10
-    pads1.y = 0
+    pads1.dy = 0
     ports1 = pads1.ports.filter(orientation=0)
     routes = gf.routing.route_bundle_electrical(
         c, ports1=ports1, ports2=phase_shifter_electrical_ports_west, separation=20

@@ -31,11 +31,10 @@ def coupler_straight(
     top = c << _straight
     bot = c << _straight
 
-    gap /= c.kcl.dbu
-    w = _straight.ports["o1"].width
-    y = int(w + gap)
+    w = _straight.ports["o1"].dwidth
+    y = w + gap
 
-    top.movey(+y)
+    top.dmovey(+y)
 
     c.add_port("o1", port=bot.ports["o1"])
     c.add_port("o2", port=top.ports["o1"])
