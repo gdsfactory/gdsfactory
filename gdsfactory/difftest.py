@@ -8,7 +8,7 @@ from kfactory import KCell, KCLayout, kdb
 
 import gdsfactory as gf
 from gdsfactory.config import CONF, PATH
-from gdsfactory.name import clean_name
+from gdsfactory.name import clean_name, get_name_short
 
 
 class GeometryDifference(Exception):
@@ -234,7 +234,7 @@ def difftest(
     dirpath_ref.mkdir(exist_ok=True, parents=True)
     dirpath_run.mkdir(exist_ok=True, parents=True)
 
-    ref_file = dirpath_ref / f"{clean_name(test_name)}.gds"
+    ref_file = dirpath_ref / f"{get_name_short(clean_name(test_name))}.gds"
     run_file = dirpath_run / filename
 
     component = gf.get_component(component)

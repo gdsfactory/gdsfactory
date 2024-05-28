@@ -52,16 +52,20 @@ Many foundries have gdsfactory PDKs available. Please to contact your foundry to
 
 - AIM photonics PDK
 - AMF photonics PDK
-- TowerSemi PH18 photonics PDK
-- GlobalFoundries 45SPCLO Photonics PDK
-- IMEC photonics PDK
-- HHI Photonics PDK
 - Compoundtek photonics PDK
+- GlobalFoundries 45SPCLO Photonics PDK
+- HHI Photonics PDK
+- IMEC photonics PDK
+- Ligentec PDK
+- Lionix PDK
+- Smart Photonics Photonics PDK
+- TowerSemi PH18 photonics PDK
+- III-V Labs PDK
 
 There are some open source PDKs available without an NDA:
 
 - [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
-- [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
+- [ANT / SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
 - [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130) (open source)
 - [VTT](https://github.com/gdsfactory/vtt) (open source)
 - [Cornerstone](https://github.com/gdsfactory/cspdk) (open source)
