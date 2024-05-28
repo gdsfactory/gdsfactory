@@ -559,11 +559,13 @@ if __name__ == "__main__":
 
     c = gf.Component()
     mzi = c << gf.c.mzi()
+    mzi.name = "mzi"
     bend = c << gf.c.bend_euler()
     bend.connect("o1", mzi.ports["o2"])
+    bend.name = "bend"
+    n0 = c.get_netlist()
 
     gdspath = c.write_gds("test.gds")
-
     c = gf.import_gds(gdspath)
     n = c.get_netlist()
     pprint(n)
