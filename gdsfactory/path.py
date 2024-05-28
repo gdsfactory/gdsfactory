@@ -12,6 +12,7 @@ import hashlib
 import math
 import warnings
 from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 from numpy import mod, pi
@@ -24,6 +25,7 @@ from gdsfactory.component_layout import (
     _reflect_points,
     _rotate_points,
 )
+from gdsfactory.config import CONF
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.typings import (
     ComponentSpec,
@@ -81,6 +83,36 @@ class Path(_GeometryHelper):
                     "Path() the `path` argument must be either blank, a path Object, "
                     "an array-like[N][2] list of points, or a list of these"
                 )
+
+    def __getattribute__(self, __k: str) -> Any:
+        """Shadow dbu based attributes with um based ones."""
+        if __k in {
+            "center",
+            "mirror",
+            "move",
+            "movex",
+            "movey",
+            "rotate",
+            "x",
+            "xmin",
+            "xmax",
+            "xsize",
+            "y",
+            "ymin",
+            "ymax",
+            "ysize",
+        }:
+            CONF.logger.warning(
+                f"`Path.{__k}` is deprecated and will be removed soon."
+                f" Please use Path.`d{__k}` instead. For further information, please"
+                "consult the migration guide "
+                "https://gdsfactory.github.io/gdsfactory/notebooks/"
+                "21_migration_guide_7_8.html",
+                # category=DeprecationWarning,
+                # stacklevel=3,
+            )
+            return getattr(self, f"d{__k}")
+        return super().__getattribute__(__k)
 
     def __repr__(self) -> str:
         """Returns path points."""
@@ -225,7 +257,7 @@ class Path(_GeometryHelper):
         self.points += np.array([dx, dy])
         return self
 
-    def rotate(self, angle: float = 45, center: Float2 | None = (0, 0)):
+    def drotate(self, angle: float = 45, center: Float2 | None = (0, 0)):
         """Rotates all Polygons in the Component around the specified center point.
 
         If no center point specified will rotate around (0,0).
@@ -243,7 +275,7 @@ class Path(_GeometryHelper):
             self.end_angle = mod(self.end_angle + angle, 360)
         return self
 
-    def mirror(self, p1: Float2 = (0, 1), p2: Float2 = (0, 0)):
+    def dmirror(self, p1: Float2 = (0, 1), p2: Float2 = (0, 0)):
         """Mirrors the Path across the line formed between the two specified points.
 
         ``points`` may be input as either single points [1,2]
@@ -1413,7 +1445,7 @@ def euler(
     P.info["Reff"] = Reff * scale
     P.info["Rmin"] = Rmin * scale
     if mirror:
-        P.mirror((1, 0))
+        P.dmirror((1, 0))
     return P
 
 
@@ -1544,16 +1576,16 @@ def smooth(
     new_points.append([points[0, :]])
     for n in range(len(dtheta)):
         P = paths[n]
-        P.rotate(theta[n] - 0)
-        P.move(p1[n])
+        P.drotate(theta[n] - 0)
+        P.dmove(p1[n])
         new_points.append(P.points)
     new_points.append([points[-1, :]])
     new_points = np.concatenate(new_points)
 
     P = Path()
-    P.rotate(theta[0])
+    P.drotate(theta[0])
     P.append(new_points)
-    P.move(points[0, :])
+    P.dmove(points[0, :])
     return P
 
 

@@ -151,3 +151,7 @@ def test_extrude_component_along_path():
     # Combine the path with the cross-section
     c = gf.path.extrude(p, cross_section=x)
     assert c
+
+
+if __name__ == "__main__":
+    test_path_near_collinear()
