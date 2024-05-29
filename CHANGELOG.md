@@ -3,6 +3,11 @@
 
 <!-- towncrier release notes start -->
 
+## [7.27.1](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.27.1) - 2024-05-29
+
+No significant changes.
+
+
 ## [7.27.0](https://github.com/gdsfactory/gdsfactory/releases/tag/v7.27.0) - 2024-05-20
 
 - Improve get route astar [#2752](https://github.com/gdsfactory/gdsfactory/pull/2752)

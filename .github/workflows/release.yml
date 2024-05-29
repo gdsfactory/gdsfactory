@@ -46,14 +46,14 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:7.27.0
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:7.27.1
           file: .devcontainer/Dockerfile.dev
       - name: Build and push minimal
         id: docker_build_minimal
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory_minimal:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory_minimal:7.27.0
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory_minimal:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory_minimal:7.27.1
           file: .devcontainer/Dockerfile.dev_minimal
 
   release_environment:
