@@ -50,7 +50,7 @@ def clean_value_json(
     from gdsfactory.path import Path
 
     if isinstance(value, pydantic.BaseModel):
-        return clean_dict(value.model_dump())
+        return clean_dict(value.model_dump(exclude_none=True))
 
     elif fast_serialization and isinstance(value, Component):
         return value.name

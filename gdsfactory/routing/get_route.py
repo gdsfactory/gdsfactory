@@ -401,11 +401,14 @@ if __name__ == "__main__":
     ptop = c << gf.components.pad(port_orientation=270)
     pbot = c << gf.components.pad(port_orientation=90)
 
-    ptop.movex(3)
+    ptop.movex(300)
     ptop.movey(300)
-    route = get_route_electrical(
+    route = get_route(
         ptop.ports["pad"],
         pbot.ports["pad"],
+        cross_section="xs_sc",
+        bend=gf.c.wire_corner45,
+        width=5,
     )
     c.add(route.references)
     c.show()
