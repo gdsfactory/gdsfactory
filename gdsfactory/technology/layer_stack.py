@@ -375,7 +375,9 @@ class LayerStack(BaseModel):
         return self
 
 
-def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Component:
+def get_component_with_derived_layers(
+    component: Component, layer_stack: LayerStack
+) -> Component:
     """Returns a component with derived layers.
 
     Args:
@@ -395,7 +397,7 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
         if level.layer and level.layer_type == "etch"
     ]
 
-    # remove all etched layers from the grown layers
+    # Remove all etched layers from the grown layers
     unetched_layers_dict = defaultdict(list)
     for layer_name in etch_layers:
         level = layer_stack.layers[layer_name]
@@ -410,42 +412,37 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
 
     # Define pure grown layers
     unetched_layer_numbers = [
-        layer_stack.layers[layer_name].layer
+        get_layer(layer_stack.layers[layer_name].layer)
         for layer_name in unetched_layers
-        if layer_stack.layers[layer_name].layer in component_layers
+        if get_layer(layer_stack.layers[layer_name].layer) in component_layers
     ]
     component_derived = component.extract(unetched_layer_numbers)
 
     # Define unetched layers
-    for unetched_layer_name, unetched_layers in unetched_layers_dict.items():
-        layer_index = layer_stack.layers[unetched_layer_name].layer
-        polygons = polygons_per_layer[layer_index]
-        for polygon in polygons:
-            component_derived.shapes(layer_index).insert(polygon)
+    for unetched_layer_name, etching_layers in unetched_layers_dict.items():
+        layer_index = get_layer(layer_stack.layers[unetched_layer_name].layer)
+        if layer_index in polygons_per_layer:
+            polygons = polygons_per_layer[layer_index]
+            polygon_region = kf.kdb.Region(polygons)
+            polygons_to_remove = kf.kdb.Region()
 
-        # Add all the etching layers (OR)
-        polygons_to_remove = kf.kdb.Region()
-
-        for etching_layers in unetched_layers:
-            layer = layer_stack.layers[etching_layers].layer
-            if layer in polygons_per_layer:
-                layer_index = get_layer(layer)
-                B_polys = polygons_per_layer[layer]
-                r2 = kf.kdb.Region(B_polys)
-                polygons_to_remove.insert(r2)
-
-                derived_layer = layer_stack.layers[etching_layers].derived_layer
-                if derived_layer:
-                    r1 = kf.kdb.Region(polygons)
+            for etching_layer in etching_layers:
+                etch_layer_index = get_layer(layer_stack.layers[etching_layer].layer)
+                if etch_layer_index in polygons_per_layer:
+                    B_polys = polygons_per_layer[etch_layer_index]
                     r2 = kf.kdb.Region(B_polys)
-                    r = r1 & r2
-                    r = component_derived.shapes(layer_index).insert(r)
+                    polygons_to_remove.insert(r2)
 
-        # Remove all etching layers
-        layer = layer_stack.layers[unetched_layer_name].layer
-        polygons = polygons_per_layer[layer]
-        r = kf.kdb.Region(polygons) - polygons_to_remove
-        # r = component_derived.shapes(layer_index).insert(r)
+                    derived_layer = layer_stack.layers[etching_layer].derived_layer
+                    if derived_layer:
+                        derived_layer_index = get_layer(derived_layer)
+                        r1 = kf.kdb.Region(polygons)
+                        r = r1 & r2
+                        component_derived.shapes(derived_layer_index).insert(r)
+
+            # Remove all etching layers
+            r = polygon_region - polygons_to_remove
+            component_derived.shapes(layer_index).insert(r)
 
     component_derived.add_ports(component.ports)
     return component_derived
