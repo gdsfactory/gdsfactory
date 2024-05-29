@@ -1,8 +1,8 @@
 connections:
-  ring_single_G0p2_R10_LX20_LY0p6_CRcoupler_ring_Bbend_euler_CSstrip_36000_10650,o1: straight_L5_N2_CSstrip_10500_0,o2
-  ring_single_G0p2_R5_LX10_LY0p6_CRcoupler_ring_Bbend_euler_CSstrip_-5000_5650,o2: straight_L5_N2_CSstrip_10500_0,o1
+  ring_single_G0p2_R10_LX_6e57a7d2_36000_10650,o1: straight_L5_N2_CSstrip_10500_0,o2
+  ring_single_G0p2_R5_LX1_cc4c1e7e_-5000_5650,o2: straight_L5_N2_CSstrip_10500_0,o1
 instances:
-  ring_single_G0p2_R10_LX20_LY0p6_CRcoupler_ring_Bbend_euler_CSstrip_36000_10650:
+  ring_single_G0p2_R10_LX_6e57a7d2_36000_10650:
     component: ring_single
     info: {}
     settings:
@@ -13,7 +13,7 @@ instances:
       length_x: 20.0
       length_y: 0.6
       radius: 10.0
-  ring_single_G0p2_R5_LX10_LY0p6_CRcoupler_ring_Bbend_euler_CSstrip_-5000_5650:
+  ring_single_G0p2_R5_LX1_cc4c1e7e_-5000_5650:
     component: ring_single
     info: {}
     settings:
@@ -37,23 +37,23 @@ instances:
       cross_section: strip
       length: 5.0
       npoints: 2
-name: ring_single_array_Rring_single_S5_LODNone_CSstrip
+name: ring_single_array_Rring_c44178b9
 placements:
-  ring_single_G0p2_R10_LX20_LY0p6_CRcoupler_ring_Bbend_euler_CSstrip_36000_10650:
+  ring_single_G0p2_R10_LX_6e57a7d2_36000_10650:
     mirror: false
     rotation: 0.0
-    x: 36.0
-    y: 10.65
-  ring_single_G0p2_R5_LX10_LY0p6_CRcoupler_ring_Bbend_euler_CSstrip_-5000_5650:
+    x: 46.0
+    y: 0.0
+  ring_single_G0p2_R5_LX1_cc4c1e7e_-5000_5650:
     mirror: false
     rotation: 0.0
-    x: -5.0
-    y: 5.65
+    x: 0.0
+    y: 0.0
   straight_L5_N2_CSstrip_10500_0:
     mirror: false
     rotation: 0.0
-    x: 10.5
+    x: 8.0
     y: 0.0
 ports:
-  o1: ring_single_G0p2_R5_LX10_LY0p6_CRcoupler_ring_Bbend_euler_CSstrip_-5000_5650,o1
-  o2: ring_single_G0p2_R10_LX20_LY0p6_CRcoupler_ring_Bbend_euler_CSstrip_36000_10650,o2
+  o1: ring_single_G0p2_R5_LX1_cc4c1e7e_-5000_5650,o1
+  o2: ring_single_G0p2_R10_LX_6e57a7d2_36000_10650,o2

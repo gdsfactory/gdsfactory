@@ -1,7 +1,7 @@
 info:
   length: 1000.0
   straight_length: 67.542
-name: spiral_racetrack_fixed__7d21a9d8
+name: spiral_racetrack_fixed__2949813a
 settings:
   bend_factory: bend_euler
   bend_s_factory: bend_s

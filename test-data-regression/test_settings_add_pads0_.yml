@@ -1,7 +1,7 @@
 info:
   resistance: 0
-name: add_pads_top_Cstraight__563f60aa
+name: add_pads_top_Cstraight__913b5cc3
 settings:
-  component: straight_heater_metal_u_b47dbaab
+  component: straight_heater_metal_u_c4ab91f6
   port_names:
   - l_e1

@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory import Port
 
 
-@gf.cell(cache={})
+@gf.cell()
 def test_connect_corner(data_regression: DataRegressionFixture, N=6, config="A"):
     d = 10.0
     sep = 5.0
