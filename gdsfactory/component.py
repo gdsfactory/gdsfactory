@@ -71,7 +71,7 @@ boolean_operations = {
     "or": boolean_or,
     "|": boolean_or,
     "not": boolean_not,
-    "-": boolean_or,
+    "-": boolean_not,
     "^": boolean_xor,
     "xor": boolean_xor,
     "&": boolean_and,
