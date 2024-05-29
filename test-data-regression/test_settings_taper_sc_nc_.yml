@@ -1,6 +1,6 @@
 info:
   length: 20.0
-name: taper_strip_to_ridge_L20_W0p5_W0p15_WS0p15_WS1_LWWG_LSWGN_CSstrip_USPTrue
+name: taper_strip_to_ridge_L2_a3e25820
 settings:
   cross_section: strip
   layer_slab: WGN

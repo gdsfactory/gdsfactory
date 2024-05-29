@@ -48,7 +48,7 @@ class _GeometryHelper:
 
     It uses that function+property to enable you to do things like check what the
     center of the bounding box is (self.dcenter), and also to do things like move
-    the bounding box such that its maximum x value is 5.2 (self.xmax = 5.2).
+    the bounding box such that its maximum x value is 5.2 (self.dxmax = 5.2).
     """
 
     @property

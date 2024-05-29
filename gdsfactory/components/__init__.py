@@ -22,7 +22,6 @@ from gdsfactory.components.bend_euler import (
     bend_euler,
     bend_euler180,
     bend_euler_s,
-    bend_straight_bend,
 )
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.bezier import bezier
@@ -312,7 +311,6 @@ __all__ = [
     "bend_euler180",
     "bend_euler_s",
     "bend_s",
-    "bend_straight_bend",
     "bezier",
     "cavity",
     "cdsem_all",
@@ -325,7 +323,6 @@ __all__ = [
     "coh_tx_dual_pol",
     "coh_tx_single_pol",
     "compass",
-    "compensation_path",
     "component_sequence",
     "copy_layers",
     "coupler",

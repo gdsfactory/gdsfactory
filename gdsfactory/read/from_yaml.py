@@ -57,7 +57,6 @@ from collections.abc import Callable
 from functools import partial
 from typing import IO, Any, Literal
 
-import numpy as np
 from omegaconf import DictConfig, OmegaConf
 
 from gdsfactory.add_pins import add_instance_label
@@ -127,11 +126,9 @@ valid_route_keys = [
 # Recognized keys within a YAML route definition
 
 
-def to_um(ref, value):
-    return round(value * ref.kcl.dbu)
-
-
-def _get_anchor_point_from_name(ref: Instance, anchor_name: str) -> np.ndarray | None:
+def _get_anchor_point_from_name(
+    ref: Instance, anchor_name: str
+) -> tuple[float, float] | None:
     if anchor_name in valid_anchor_point_keywords:
         return getattr(ref.dsize_info, anchor_name)
     elif anchor_name in ref.ports:
@@ -268,8 +265,7 @@ def place(
                 ref.dmirror_x(x=_get_anchor_value_from_name(ref, port, "x"))
             elif mirror is True:
                 if x:
-                    x = to_um(ref, x)
-                    ref.dmirror_x(x=x)
+                    ref.dmirror_x(x=ref.dx)
                 else:
                     ref.dmirror_x()
             elif mirror is False:
@@ -278,8 +274,7 @@ def place(
                 x_mirror = ref.ports[mirror].dx
                 ref.dmirror_x(x_mirror)
             elif isinstance(mirror, int | float):
-                x = to_um(ref, x)
-                ref.dmirror_x(x=x)
+                ref.dmirror_x(x=ref.dx)
             else:
                 raise ValueError(
                     f"{mirror!r} can only be a port name {ref.ports.keys()}, "
@@ -329,8 +324,10 @@ def place(
             if port:
                 ref.drotate(rotation, center=_get_anchor_point_from_name(ref, port))
             else:
-                x, y = ref.dcenter.x, ref.dcenter.y
-                ref.drotate(rotation, center=ref.dcenter)
+                origin = ref.dtrans.disp
+                x = origin.x
+                y = origin.y
+                ref.drotate(rotation, center=(x, y))
 
         if ymin is not None and ymax is not None:
             raise ValueError("You cannot set ymin and ymax")

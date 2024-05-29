@@ -66,5 +66,7 @@ bend_circular180 = partial(bend_circular, angle=180)
 
 
 if __name__ == "__main__":
-    c = bend_circular(radius=2, allow_dangerous_radius=True)
+    c = gf.Component()
+    r = c << bend_circular(radius=5)
+    # r.dmirror()
     c.show()

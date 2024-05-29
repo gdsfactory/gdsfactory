@@ -1,5 +1,5 @@
 info: {}
-name: mmi1x2_with_sbend_WSTrue_SBbend_s_CSstrip
+name: mmi1x2_with_sbend_WSTru_d5892025
 settings:
   cross_section: strip
   s_bend: bend_s

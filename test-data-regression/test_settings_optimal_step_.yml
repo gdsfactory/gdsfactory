@@ -1,6 +1,6 @@
 info:
   num_squares: 7.986
-name: optimal_step_SW10_EW22_NP50_WT0p001_AF1p2_SFalse_L1_0
+name: optimal_step_SW10_EW22__ba399b2a
 settings:
   anticrowding_factor: 1.2
   end_width: 22

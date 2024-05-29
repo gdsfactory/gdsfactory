@@ -73,7 +73,7 @@ if __name__ == "__main__":
     # c = gf.Component()
     # r500 = c << c500
     # r900 = c << c900
-    # r900.ymin = r500.ymax + 10
+    # r900.dymin = r500.dymax + 10
     # c.show( )
 
     # assert c900.name != c500.name, f"{c500.name} must be different from {c900.name}"

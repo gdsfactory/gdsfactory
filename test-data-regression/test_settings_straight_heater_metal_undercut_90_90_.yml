@@ -1,6 +1,6 @@
 info:
   resistance: 0
-name: straight_heater_metal_undercut_L320_LUS6_LU30_LS0p1_LSI15_CSstrip_CSHheater_metal_CSWHstrip_heater_metal_CSHUstrip_heater_metal_undercut_WUTrue_VSvia_stack_heater_mtop_PO90_PO90_HTL5_OPSNone
+name: straight_heater_metal_u_5446b843
 settings:
   cross_section: strip
   cross_section_heater: heater_metal

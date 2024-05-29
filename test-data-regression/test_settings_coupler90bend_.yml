@@ -1,5 +1,5 @@
 info: {}
-name: coupler90bend_R10_G0p2_Bbend_euler_CSIstrip_CSOstrip
+name: coupler90bend_R10_G0p2__91729e65
 settings:
   bend: bend_euler
   cross_section_inner: strip

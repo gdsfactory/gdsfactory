@@ -1,6 +1,6 @@
 info:
   n_bends: 68
-name: cutback_bend_Cbend_euler_Sstraight_SL5_R6_C5
+name: cutback_bend_Cbend_eule_1c5f85c4
 settings:
   cols: 5
   component: bend_euler

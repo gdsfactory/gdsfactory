@@ -1,5 +1,5 @@
 info: {}
-name: spiral_racetrack_heater_metal_MRNone_SL30_S2_N8_SFstraight_BFbend_euler_BSFbend_s_WCSstrip_HCSheater_metal
+name: spiral_racetrack_heater_030e7630
 settings:
   bend_factory: bend_euler
   bend_s_factory: bend_s

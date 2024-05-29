@@ -1,7 +1,7 @@
 info:
   polarization: te
   wavelength: 1.554
-name: grating_coupler_elliptical_arbitrary_G0p1_0p1_0p1_0p1_0p1_0p1_0p1_0p1_0p1_0p1_W0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_0p5_TL16p6_TA60_W1p554_FA15_N1p443_LSSLAB150_LGNone_TTSOm3_Pte_STrue_BG0_CSstrip
+name: grating_coupler_ellipti_b781a93f
 settings:
   bias_gap: 0
   cross_section: strip

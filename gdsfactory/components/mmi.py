@@ -129,6 +129,6 @@ if __name__ == "__main__":
     c = gf.Component()
     s = c << gf.c.straight()
     b = c << gf.c.bend_circular()
-    # b.mirror()
+    # b.dmirror()
     b.connect("o1", s.ports["o1"])
     c.show()

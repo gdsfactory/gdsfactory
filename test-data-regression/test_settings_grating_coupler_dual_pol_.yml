@@ -1,7 +1,7 @@
 info:
   polarization: dual
   wavelength: 1.55
-name: grating_coupler_dual_pol_UCFrectangle_Mgdsfactorypcomponentsprectangle_SS0p3_0p3_LSLAB150_CTrue_PTNone_PX0p58_PY0p58_XS11_YS11_LT150_WT10_Pdual_W1p55_Ttaper_BLWG_CSstrip
+name: grating_coupler_dual_po_b4260071
 settings:
   base_layer: WG
   cross_section: strip

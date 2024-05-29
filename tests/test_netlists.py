@@ -50,7 +50,8 @@ def test_netlists(
         data_regression.check(n)
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c2 = gf.read.from_yaml(yaml_str, name=c.name)
+    c.delete()
+    c2 = gf.read.from_yaml(yaml_str)
     n2 = c2.get_netlist()
 
     d = jsondiff.diff(n, n2)
@@ -96,8 +97,9 @@ if __name__ == "__main__":
     c1 = components[component_type]()
     n = c1.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    c1.delete()
     # print(yaml_str)
-    c2 = gf.read.from_yaml(yaml_str, name=f"{c1.name}_2")
+    c2 = gf.read.from_yaml(yaml_str)
     n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
     print(d)

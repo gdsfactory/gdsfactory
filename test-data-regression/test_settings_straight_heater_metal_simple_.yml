@@ -1,5 +1,5 @@
 info: {}
-name: straight_heater_metal_simple_L320_CSHheater_metal_CSWHstrip_heater_metal_VSvia_stack_heater_mtop_PONone_PONone_HTL5_OPSNone
+name: straight_heater_metal_s_788b4eb2
 settings:
   cross_section_heater: heater_metal
   cross_section_waveguide_heater: strip_heater_metal

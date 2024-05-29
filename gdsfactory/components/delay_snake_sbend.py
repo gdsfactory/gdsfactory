@@ -83,7 +83,7 @@ def delay_snake_sbend(
     b1 = c << bend
     b2 = c << bend
     bs = c << sbend
-    bs.mirror()
+    bs.dmirror()
 
     length23 = (
         length - (2 * bend.info["length"] - sbend.info["length"]) - length1 - length4

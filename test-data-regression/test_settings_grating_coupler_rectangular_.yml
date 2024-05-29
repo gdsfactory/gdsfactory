@@ -2,7 +2,7 @@ info:
   fiber_angle: 15
   polarization: te
   wavelength: 1.55
-name: grating_coupler_rectangular_NP20_P0p75_FF0p5_WG11_LT150_Pte_W1p55_Ttaper_LSSLAB150_FA15_SXm1_SO1_CSstrip
+name: grating_coupler_rectang_4f2a7776
 settings:
   cross_section: strip
   fiber_angle: 15

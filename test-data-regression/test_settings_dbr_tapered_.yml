@@ -1,5 +1,5 @@
 info: {}
-name: dbr_tapered_L10_P0p85_D0p5_W0p4_W1_TL20_FFalse_FS0p2_0p05_CSstrip
+name: dbr_tapered_L10_P0p85_D_ff565213
 settings:
   cross_section: strip
   dc: 0.5

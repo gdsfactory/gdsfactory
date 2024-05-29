@@ -1,7 +1,7 @@
 info:
   length: 10.187
   min_bend_radius: 11.851
-name: coupler_symmetric_Bbend_s_G0p234_D4_D10_CSstrip
+name: coupler_symmetric_Bbend_42e4f739
 settings:
   bend: bend_s
   cross_section: strip

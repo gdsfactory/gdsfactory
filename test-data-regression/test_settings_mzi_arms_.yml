@@ -1,5 +1,5 @@
 info: {}
-name: mzi_arms_DL10_LY0p8_LX0p1_Bbend_euler_Sstraight_SYNone_SXTNone_SXBNone_Smmi1x2_CNone_WSTrue_DY0
+name: mzi_arms_DL10_LY0p8_LX0_ca6d94e7
 settings:
   bend: bend_euler
   delta_length: 10.0

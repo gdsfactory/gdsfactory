@@ -1,5 +1,5 @@
 info: {}
-name: mmi_90degree_hybrid_W0p5_WT1p7_LT40_LM175_WM10_GM0p8_Ttaper_Sstraight_CSstrip
+name: mmi_90degree_hybrid_W0p_0d80f856
 settings:
   cross_section: strip
   gap_mmi: 0.8

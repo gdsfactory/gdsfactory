@@ -1,7 +1,7 @@
 info:
   polarization: tm
   wavelength: 1.554
-name: grating_coupler_elliptical_Ptm_TL30_TA40_W1p554_FA15_GLW0p707_N1p8_N1p443_NP16_BLTFalse_LSSLAB150_SXm2_SO2_STrue_CSstrip
+name: grating_coupler_ellipti_d0c13979
 settings:
   big_last_tooth: false
   cross_section: strip
