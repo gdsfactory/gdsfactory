@@ -11,8 +11,6 @@ settings:
   - PP
   - PPP
   length: 300.0
-  port_orientation1: null
-  port_orientation2: null
   radius: 5.0
   spacing: 2.0
   straight_widths:

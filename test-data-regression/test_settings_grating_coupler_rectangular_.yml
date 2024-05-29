@@ -6,10 +6,7 @@ module: gdsfactory.components.grating_coupler_rectangular
 name: grating_coupler_rectangular
 settings:
   cross_section: xs_sc
-  fiber_angle: null
   fill_factor: 0.5
-  layer_grating: null
-  layer_slab: null
   length_taper: 150.0
   n_periods: 20
   period: 0.75

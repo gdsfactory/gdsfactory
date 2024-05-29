@@ -33,31 +33,23 @@ instances:
     settings:
       angle: 90.0
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.45
-          width_function: null
       direction: ccw
-      npoints: null
       p: 0.5
-      radius: null
       with_arc_floorplan: true
   bend_euler_2:
     component: bend_euler
@@ -75,31 +67,23 @@ instances:
     settings:
       angle: 90.0
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.45
-          width_function: null
       direction: ccw
-      npoints: null
       p: 0.5
-      radius: null
       with_arc_floorplan: true
   bend_euler_3:
     component: bend_euler
@@ -117,31 +101,23 @@ instances:
     settings:
       angle: 90.0
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.55
-          width_function: null
       direction: ccw
-      npoints: null
       p: 0.5
-      radius: null
       with_arc_floorplan: true
   bend_euler_4:
     component: bend_euler
@@ -159,31 +135,23 @@ instances:
     settings:
       angle: 90.0
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.55
-          width_function: null
       direction: ccw
-      npoints: null
       p: 0.5
-      radius: null
       with_arc_floorplan: true
   coupler_1:
     component: coupler
@@ -226,27 +194,21 @@ instances:
       width: 0.55
     settings:
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.55
-          width_function: null
       length: 1.0
       npoints: 2
   straight_2:
@@ -260,27 +222,21 @@ instances:
       width: 0.55
     settings:
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.55
-          width_function: null
       length: 3.0
       npoints: 2
   straight_3:
@@ -294,27 +250,21 @@ instances:
       width: 0.55
     settings:
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.55
-          width_function: null
       length: 4.0
       npoints: 2
   straight_4:
@@ -328,27 +278,21 @@ instances:
       width: 0.55
     settings:
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.55
-          width_function: null
       length: 3.0
       npoints: 2
   straight_5:
@@ -362,27 +306,21 @@ instances:
       width: 0.45
     settings:
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.45
-          width_function: null
       length: 1.0
       npoints: 2
   taper_1:
@@ -394,7 +332,6 @@ instances:
     settings:
       cross_section: xs_sc
       length: 5.0
-      port: null
       port_names:
       - o1
       - o2
@@ -413,7 +350,6 @@ instances:
     settings:
       cross_section: xs_sc
       length: 5.0
-      port: null
       port_names:
       - o1
       - o2
@@ -432,7 +368,6 @@ instances:
     settings:
       cross_section: xs_sc
       length: 5.0
-      port: null
       port_names:
       - o1
       - o2
@@ -451,7 +386,6 @@ instances:
     settings:
       cross_section: xs_sc
       length: 5.0
-      port: null
       port_names:
       - o1
       - o2
@@ -470,7 +404,6 @@ instances:
     settings:
       cross_section: xs_sc
       length: 5.0
-      port: null
       port_names:
       - o1
       - o2
@@ -489,7 +422,6 @@ instances:
     settings:
       cross_section: xs_sc
       length: 5.0
-      port: null
       port_names:
       - o1
       - o2

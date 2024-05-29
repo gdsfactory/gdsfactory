@@ -27,7 +27,6 @@ settings:
   space_y_by_port: false
   straight:
     function: straight
-  taper: null
   text:
     function: text_rectangular
   text_mirror: false

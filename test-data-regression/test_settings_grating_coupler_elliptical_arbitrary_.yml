@@ -19,7 +19,6 @@ settings:
   - 0.1
   - 0.1
   - 0.1
-  layer_grating: null
   layer_slab: SLAB150
   nclad: 1.443
   polarization: te

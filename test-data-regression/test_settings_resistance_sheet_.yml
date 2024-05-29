@@ -10,7 +10,6 @@ settings:
   layers:
   - SLAB90
   - NPP
-  ohms_per_square: null
   pad:
     function: via_stack
     module: gdsfactory.components.via_stack

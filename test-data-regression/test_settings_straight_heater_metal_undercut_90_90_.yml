@@ -14,7 +14,6 @@ settings:
   length_straight_input: 15.0
   length_undercut: 30.0
   length_undercut_spacing: 6.0
-  ohms_per_square: null
   port_orientation1: 90
   port_orientation2: 90
   straight:

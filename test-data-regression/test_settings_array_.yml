@@ -16,7 +16,6 @@ settings:
   columns: 6
   component: pad
   rows: 1
-  size: null
   spacing:
   - 150.0
   - 150.0

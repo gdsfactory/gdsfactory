@@ -4,7 +4,6 @@ module: gdsfactory.components.fiducial_squares
 name: fiducial_squares
 settings:
   layer: WG
-  layers: null
   offset: 0.14
   size:
   - 5.0

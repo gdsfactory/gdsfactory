@@ -8,9 +8,6 @@ settings:
   cross_section_waveguide_heater: xs_sc_heater_metal
   heater_taper_length: 5.0
   length: 320.0
-  ohms_per_square: null
-  port_orientation1: null
-  port_orientation2: null
   straight:
     function: straight
   via_stack: via_stack_heater_mtop

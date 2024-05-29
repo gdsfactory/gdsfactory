@@ -5,6 +5,4 @@ name: array_with_fanout_2d
 settings:
   columns: 3
   pitch: 150.0
-  pitch_x: null
-  pitch_y: null
   rows: 2

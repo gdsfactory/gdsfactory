@@ -11,10 +11,8 @@ settings:
       size:
       - 1300
       - 2600
-  die_name: null
   layer: MTOP
   padding: 10.0
-  street_length: null
   street_width: 100.0
   text_anchor: sw
   text_size: 100.0

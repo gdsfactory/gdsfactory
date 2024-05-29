@@ -10,7 +10,6 @@ instances:
       length_taper: 10.0
       taper:
         function: taper
-      width: null
       width_mmi: 4.5
       width_taper: 1.0
   mmi_short:
@@ -23,7 +22,6 @@ instances:
       length_taper: 10.0
       taper:
         function: taper
-      width: null
       width_mmi: 4.5
       width_taper: 1.0
 name: yaml_anchor_8731fb27

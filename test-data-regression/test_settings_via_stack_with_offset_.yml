@@ -3,15 +3,12 @@ info: {}
 module: gdsfactory.components.via_stack_with_offset
 name: via_stack_with_offset
 settings:
-  layer_offsets: null
   layers:
   - PPP
   - M1
-  offsets: null
   size:
   - 10
   - 10
-  sizes: null
   vias:
   - null
   - function: via

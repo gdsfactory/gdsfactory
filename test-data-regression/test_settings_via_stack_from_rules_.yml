@@ -6,8 +6,6 @@ info:
 module: gdsfactory.components.via_stack
 name: via_stack_from_rules
 settings:
-  layer_offsets: null
-  layer_port: null
   layers:
   - M1
   - M2

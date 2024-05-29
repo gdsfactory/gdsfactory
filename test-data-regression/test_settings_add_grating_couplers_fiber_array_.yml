@@ -13,7 +13,6 @@ settings:
     settings:
       length: 20000.0
   cross_section: xs_sc
-  excluded_ports: null
   gc_port_name: o1
   gc_rotation: -90
   grating_coupler:

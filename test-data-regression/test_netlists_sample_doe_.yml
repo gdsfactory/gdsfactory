@@ -6,7 +6,6 @@ instances:
     settings:
       do_permutations: true
       doe: mmi1x2
-      function: null
       settings:
         length_mmi:
         - 2

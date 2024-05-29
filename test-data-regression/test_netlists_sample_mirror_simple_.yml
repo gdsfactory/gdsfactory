@@ -15,8 +15,6 @@ instances:
     settings:
       angle: 90.0
       cross_section: xs_sc
-      npoints: null
-      radius: null
   s:
     component: straight
     info:

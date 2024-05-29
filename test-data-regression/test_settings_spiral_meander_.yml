@@ -14,16 +14,11 @@ settings:
   extension_length: 15.0
   heater_taper_length: 10.0
   heater_width: 2.5
-  layer_heater: null
   length: 1000.0
   n: 3
-  port_orientation1: null
-  port_orientation2: null
-  radius: null
   spacing: 2.0
   straight:
     function: straight
-  straight_widths: null
   taper:
     function: taper_cross_section
     module: gdsfactory.components.taper_cross_section

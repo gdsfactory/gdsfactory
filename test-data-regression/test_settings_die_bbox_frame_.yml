@@ -8,7 +8,6 @@ settings:
     - -1.0
   - - 3.0
     - 4.0
-  die_name: null
   layer: MTOP
   padding: 10.0
   street_length: 1000.0

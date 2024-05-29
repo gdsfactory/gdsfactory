@@ -11,7 +11,6 @@ settings:
   layer:
   - 1
   - 0
-  num_squares: null
   size:
   - 10
   - 8

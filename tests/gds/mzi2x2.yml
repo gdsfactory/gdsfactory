@@ -1,28 +1,21 @@
 cells:
-  bend_euler_5186a2a7:
+  bend_euler_431a71ec:
     angle: 90.0
     cross_section:
-      bbox_layers: null
-      bbox_offsets: null
       components_along_path: []
       radius: 10.0
-      radius_min: null
       sections:
       - hidden: false
-        insets: null
         layer: WG
         name: _default
         offset: 0.0
-        offset_function: null
         port_names:
         - o1
         - o2
         port_types:
         - optical
         - optical
-        simplify: null
         width: 0.5
-        width_function: null
     direction: ccw
     npoints: null
     p: 0.5
@@ -80,7 +73,6 @@ cells:
         length_taper: 10.0
         taper:
           function: taper
-        width: null
         width_mmi: 2.5
         width_taper: 1.0
     straight:
@@ -89,85 +81,46 @@ cells:
     straight_x_top: null
     straight_y: null
     with_splitter: true
+  straight_0de9b122:
+    cross_section:
+      components_along_path: []
+      radius: 10.0
+      sections:
+      - hidden: false
+        layer: WG
+        name: _default
+        offset: 0.0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        width: 0.5
+    length: 0.01
+    npoints: 2
   straight_5d53fdc2:
     cross_section:
       function: cross_section
     length: 7.0
     npoints: 2
-  straight_606e39a1:
+  straight_5e1e2ea7:
     cross_section:
-      bbox_layers: null
-      bbox_offsets: null
       components_along_path: []
       radius: 10.0
-      radius_min: null
       sections:
       - hidden: false
-        insets: null
         layer: WG
         name: _default
         offset: 0.0
-        offset_function: null
         port_names:
         - o1
         - o2
         port_types:
         - optical
         - optical
-        simplify: null
         width: 0.5
-        width_function: null
-    length: 0.01
-    npoints: 2
-  straight_757c07b1:
-    cross_section:
-      bbox_layers: null
-      bbox_offsets: null
-      components_along_path: []
-      radius: 10.0
-      radius_min: null
-      sections:
-      - hidden: false
-        insets: null
-        layer: WG
-        name: _default
-        offset: 0.0
-        offset_function: null
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        simplify: null
-        width: 0.5
-        width_function: null
     length: 7.0
-    npoints: 2
-  straight_975a8db9:
-    cross_section:
-      bbox_layers: null
-      bbox_offsets: null
-      components_along_path: []
-      radius: 10.0
-      radius_min: null
-      sections:
-      - hidden: false
-        insets: null
-        layer: WG
-        name: _default
-        offset: 0.0
-        offset_function: null
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        simplify: null
-        width: 0.5
-        width_function: null
-    length: 2.0
     npoints: 2
   straight_dcfdf04b:
     cross_section:
@@ -177,6 +130,24 @@ cells:
   straight_ebcc6dc8:
     cross_section:
       function: cross_section
+    length: 2.0
+    npoints: 2
+  straight_efe5e1d3:
+    cross_section:
+      components_along_path: []
+      radius: 10.0
+      sections:
+      - hidden: false
+        layer: WG
+        name: _default
+        offset: 0.0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        width: 0.5
     length: 2.0
     npoints: 2
 function: mzi
@@ -213,13 +184,9 @@ settings:
   add_optical_ports_arms: false
   bend:
     function: bend_euler
-  combiner: null
   cross_section:
     function: cross_section
-  cross_section_x_bot: null
-  cross_section_x_top: null
   delta_length: 10.0
-  extend_ports_straight_x: null
   length_x: 0.1
   length_y: 2.0
   min_length: 0.01
@@ -240,12 +207,8 @@ settings:
       length_taper: 10.0
       taper:
         function: taper
-      width: null
       width_mmi: 2.5
       width_taper: 1.0
   straight:
     function: straight
-  straight_x_bot: null
-  straight_x_top: null
-  straight_y: null
   with_splitter: true

@@ -10,8 +10,6 @@ module: gdsfactory.components.via_stack
 name: via_stack_7bdb8e37
 settings:
   correct_size: true
-  layer_offsets: null
-  layer_port: null
   layers:
   - HEATER
   - M2

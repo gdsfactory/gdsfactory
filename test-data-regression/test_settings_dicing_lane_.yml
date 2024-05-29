@@ -4,7 +4,6 @@ module: gdsfactory.components.dicing_lane
 name: dicing_lane
 settings:
   layer_dicing: DICING
-  layers: null
   marker:
     function: triangle
     module: gdsfactory.components.triangles

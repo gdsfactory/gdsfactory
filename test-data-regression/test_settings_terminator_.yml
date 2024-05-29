@@ -9,7 +9,6 @@ settings:
     settings:
       radius: 10
       radius_min: 5
-  cross_section_tip: null
   doping_layers:
   - NPP
   doping_offset: 1.0

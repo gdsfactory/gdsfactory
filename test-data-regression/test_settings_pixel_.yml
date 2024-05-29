@@ -4,5 +4,4 @@ module: gdsfactory.components.version_stamp
 name: pixel
 settings:
   layer: WG
-  layers: null
   size: 1.0

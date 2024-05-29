@@ -16,7 +16,5 @@ settings:
   angle: 90.0
   cross_section: xs_sc
   direction: ccw
-  npoints: null
   p: 0.5
-  radius: null
   with_arc_floorplan: true

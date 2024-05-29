@@ -15,28 +15,21 @@ instances:
       coupler_straight:
         function: coupler_straight
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.5
-          width_function: null
-      cross_section_bend: null
       gap: 0.2
       length_extension: 3
       length_x: 0.01
@@ -52,28 +45,21 @@ instances:
       coupler_straight:
         function: coupler_straight
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.5
-          width_function: null
-      cross_section_bend: null
       gap: 0.2
       length_extension: 3
       length_x: 0.01
@@ -89,27 +75,21 @@ instances:
       width: 0.5
     settings:
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.5
-          width_function: null
       length: 0.01
       npoints: 2
   straight_2:
@@ -123,27 +103,21 @@ instances:
       width: 0.5
     settings:
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.5
-          width_function: null
       length: 0.01
       npoints: 2
 name: ring_double

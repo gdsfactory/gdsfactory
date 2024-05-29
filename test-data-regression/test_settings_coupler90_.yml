@@ -6,7 +6,6 @@ settings:
   bend:
     function: bend_euler
   cross_section: xs_sc
-  cross_section_bend: null
   gap: 0.2
   radius: 10.0
   straight:

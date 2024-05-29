@@ -3,5 +3,4 @@ info: {}
 module: gdsfactory.components.logo
 name: logo
 settings:
-  layer: null
   text: GDSFACTORY

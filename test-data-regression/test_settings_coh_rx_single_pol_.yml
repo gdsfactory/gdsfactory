@@ -13,7 +13,5 @@ settings:
   hybrid_90deg:
     function: mmi_90degree_hybrid
   in_wg_length: 20.0
-  lo_input_coupler: null
   pad_det_spacing: 80.0
-  signal_input_coupler: null
   with_pads: true

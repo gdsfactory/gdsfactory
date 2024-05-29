@@ -19,7 +19,6 @@ settings:
   - 0.2
   - 0.2
   - 0.2
-  layer_grating: null
   layer_slab: SLAB150
   length_taper: 150.0
   polarization: te

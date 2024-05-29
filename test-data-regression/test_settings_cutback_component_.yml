@@ -18,7 +18,4 @@ settings:
   mirror2: false
   port1: o1
   port2: o2
-  ports_map: null
   rows: 5
-  straight_length: null
-  straight_length_pair: null

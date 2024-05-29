@@ -4,9 +4,7 @@ module: gdsfactory.components.coh_tx_single_pol
 name: coh_tx_single_pol
 settings:
   balanced_phase_shifters: false
-  combiner: null
   cross_section: xs_sc
-  input_coupler: null
   mzm:
     component: mzi
     settings:
@@ -16,7 +14,6 @@ settings:
   mzm_length: 200.0
   mzm_ps_spacing: 40.0
   mzm_y_spacing: 50.0
-  output_coupler: null
   pad_array: pad_array
   phase_shifter: straight_pin
   phase_shifter_length: 100.0

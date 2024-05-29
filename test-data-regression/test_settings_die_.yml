@@ -7,7 +7,6 @@ settings:
   die_name: chip99
   draw_corners: false
   layer: FLOORPLAN
-  layers: null
   size:
   - 10000.0
   - 10000.0

@@ -8,7 +8,6 @@ settings:
   bend_s_factory:
     function: bend_s
   heater_cross_section: xs_heater_metal
-  min_radius: null
   num: 8
   spacing: 2
   straight_factory:

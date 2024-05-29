@@ -13,6 +13,5 @@ settings:
   direction: ccw
   npoints: 720
   p: 0.5
-  radius: null
   straight_length: 10.0
   with_arc_floorplan: true

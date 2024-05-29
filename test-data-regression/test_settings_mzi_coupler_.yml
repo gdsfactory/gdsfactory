@@ -10,10 +10,7 @@ settings:
   combiner:
     function: coupler
   cross_section: xs_sc
-  cross_section_x_bot: null
-  cross_section_x_top: null
   delta_length: 10.0
-  extend_ports_straight_x: null
   length_x: 0.1
   length_y: 2.0
   min_length: 0.01
@@ -27,7 +24,4 @@ settings:
     function: coupler
   straight:
     function: straight
-  straight_x_bot: null
-  straight_x_top: null
-  straight_y: null
   with_splitter: true

@@ -9,7 +9,6 @@ settings:
   - 0.2
   - 0.25
   length: 420.0
-  positions: null
   spacing: 7.0
   text:
     function: text_rectangular

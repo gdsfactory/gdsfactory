@@ -14,10 +14,7 @@ settings:
       combiner:
         function: mmi2x2
       cross_section: xs_sc
-      cross_section_x_bot: null
-      cross_section_x_top: null
       delta_length: 10.0
-      extend_ports_straight_x: null
       length_x: 100
       length_y: 2.0
       min_length: 0.01
@@ -31,7 +28,5 @@ settings:
         function: mmi2x2
       straight:
         function: straight
-      straight_x_bot: null
       straight_x_top: straight_heater_metal
-      straight_y: null
       with_splitter: true

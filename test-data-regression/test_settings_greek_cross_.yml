@@ -7,7 +7,6 @@ settings:
   - WG
   - N
   length: 30
-  offsets: null
   via_stack:
     function: via_stack
     module: gdsfactory.components.via_stack

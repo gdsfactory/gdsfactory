@@ -6,6 +6,5 @@ settings:
   component:
     function: rectangle
   layer: WG
-  layers: null
   spacing: 10.0
   width: 10.0

@@ -4,7 +4,6 @@ module: gdsfactory.components.ring_single_array
 name: ring_single_array
 settings:
   cross_section: xs_sc
-  list_of_dicts: null
   ring:
     function: ring_single
   spacing: 5.0

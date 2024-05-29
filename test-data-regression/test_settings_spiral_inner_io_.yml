@@ -14,10 +14,7 @@ settings:
   bend90:
     function: bend_euler
   cross_section: xs_sc
-  cross_section_bend: null
-  cross_section_bend180: null
   grating_spacing: 127.0
-  length: null
   straight:
     function: straight
   waveguide_spacing: 3.0

@@ -11,5 +11,3 @@ settings:
   heater_to_wg_distance: 1.2
   heater_width: 0.5
   layer_heater: HEATER
-  npoints: null
-  radius: null

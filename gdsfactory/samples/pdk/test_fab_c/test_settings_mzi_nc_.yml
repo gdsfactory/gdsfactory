@@ -1,13 +1,12 @@
 function: mzi
 info: {}
 module: gdsfactory.components.mzi
-name: mzi_01020fcd
+name: mzi_b485ef26
 settings:
   add_electrical_ports_bot: true
   add_optical_ports_arms: false
   bend:
     function: bend_euler_nc
-  combiner: null
   cross_section:
     bbox_layers:
     - - 36
@@ -19,26 +18,19 @@ settings:
     radius_min: 5.0
     sections:
     - hidden: false
-      insets: null
       layer:
       - 34
       - 0
       name: _default
       offset: 0.0
-      offset_function: null
       port_names:
       - o1
       - o2
       port_types:
       - optical
       - optical
-      simplify: null
       width: 1.0
-      width_function: null
-  cross_section_x_bot: null
-  cross_section_x_top: null
   delta_length: 10.0
-  extend_ports_straight_x: null
   length_x: 0.1
   length_y: 2.0
   min_length: 0.01
@@ -52,7 +44,4 @@ settings:
     function: mmi1x2_nc
   straight:
     function: straight_nc
-  straight_x_bot: null
-  straight_x_top: null
-  straight_y: null
   with_splitter: true

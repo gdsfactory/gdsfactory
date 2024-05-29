@@ -3,10 +3,7 @@ info: {}
 module: gdsfactory.components.coh_tx_dual_pol
 name: coh_tx_dual_pol
 settings:
-  combiner: null
   cross_section: xs_sc
-  input_coupler: null
-  output_coupler: null
   splitter: mmi1x2
   spol_coh_tx: coh_tx_single_pol
   xspacing: 40.0

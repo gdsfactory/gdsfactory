@@ -6,7 +6,6 @@ settings:
   centered: false
   layer: WG
   layer_slit: SLAB150
-  port_type: null
   size:
   - 100.0
   - 200.0
