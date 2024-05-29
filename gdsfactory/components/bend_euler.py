@@ -6,9 +6,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.cross_section import strip
 from gdsfactory.path import euler
 from gdsfactory.typings import CrossSectionSpec
 
@@ -99,7 +97,7 @@ def bend_euler(
 bend_euler180 = partial(bend_euler, angle=180)
 
 
-@gf.cell(check_instances=False)
+@gf.cell
 def bend_euler_s(**kwargs) -> Component:
     r"""Sbend made of 2 euler bends.
 
@@ -133,54 +131,11 @@ def bend_euler_s(**kwargs) -> Component:
     b = bend_euler(**kwargs)
     b1 = c.add_ref(b)
     b2 = c.add_ref(b)
-    b2.dmirror()
-    b2.connect("o1", b1.ports["o2"])
-    c.add_port("o1", port=b1.ports["o1"])
-    c.add_port("o2", port=b2.ports["o2"])
+    b2.connect("o1", b1["o2"], mirror=True)
+    b2.connect("o1", b1["o2"])
+    c.add_port("o1", port=b1["o1"])
+    c.add_port("o2", port=b2["o2"])
     c.info["length"] = 2 * b.info["length"]
-    return c
-
-
-@gf.cell
-def bend_straight_bend(
-    straight_length: float = 10.0,
-    angle: float = 90,
-    p: float = 0.5,
-    with_arc_floorplan: bool = True,
-    npoints: int = 720,
-    direction: str = "ccw",
-    cross_section: CrossSectionSpec = strip,
-) -> Component:
-    """Sbend made of 2 euler bends and straight section in between.
-
-    Args:
-        straight_length: in um.
-        angle: total angle of the curve.
-        p: Proportion of the curve that is an Euler curve.
-        with_arc_floorplan: If False: `radius` is the minimum radius of curvature
-          If True: The curve scales such that the endpoints match a bend_circular
-          with parameters `radius` and `angle`.
-        npoints: Number of points used per 360 degrees.
-        direction: cw (clock-wise) or ccw (counter clock-wise).
-        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-    """
-    c = Component()
-    b = bend_euler(
-        angle=angle,
-        p=p,
-        with_arc_floorplan=with_arc_floorplan,
-        npoints=npoints,
-        direction=direction,
-        cross_section=cross_section,
-    )
-    b1 = c.add_ref(b)
-    b2 = c.add_ref(b)
-    s = c << straight(length=straight_length, cross_section=cross_section)
-    s.connect("o1", b1.ports["o2"])
-    b2.dmirror()
-    b2.connect("o1", s.ports["o2"])
-    c.add_port("o1", port=b1.ports["o1"])
-    c.add_port("o2", port=b2.ports["o2"])
     return c
 
 
@@ -219,5 +174,6 @@ def _compare_bend_euler90():
 
 if __name__ == "__main__":
     # c = bend_euler(cross_section="rib", angle=90, radius=5)
-    c = bend_euler(cross_section="rib", angle=90, radius=20, clockwise=True)
+    # c = bend_euler(cross_section="rib", angle=90, radius=20, clockwise=True)
+    c = bend_euler_s()
     c.show()

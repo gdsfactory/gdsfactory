@@ -201,7 +201,7 @@ bend_euler
 
   import gdsfactory as gf
 
-  c = gf.components.bend_euler(angle=90.0, p=0.5, with_arc_floorplan=True, direction='ccw', cross_section='strip', allow_min_radius_violation=False)
+  c = gf.components.bend_euler(angle=90.0, p=0.5, with_arc_floorplan=True, clockwise=False, cross_section='strip', allow_min_radius_violation=False)
   c.plot()
 
 
@@ -251,21 +251,6 @@ bend_s
 
 
 
-bend_straight_bend
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.bend_straight_bend
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.bend_straight_bend(straight_length=10.0, angle=90, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw')
-  c.plot()
-
-
-
 bezier
 ----------------------------------------------------
 
@@ -306,7 +291,7 @@ cdsem_all
 
   import gdsfactory as gf
 
-  c = gf.components.cdsem_all(widths=(0.4, 0.45, 0.5, 0.6, 0.8, 1.0), dense_lines_width=0.3, dense_lines_width_difference=0.02, dense_lines_gap=0.3, dense_lines_labels=('DL', 'DM', 'DH'), straight='straight', bend90='bend_circular', cross_section='strip')
+  c = gf.components.cdsem_all(widths=(0.4, 0.45, 0.5, 0.6, 0.8, 1.0), dense_lines_width=0.3, dense_lines_width_difference=0.02, dense_lines_gap=0.3, dense_lines_labels=('DL', 'DM', 'DH'), straight='straight', bend90='bend_circular', cross_section='strip', spacing=5)
   c.plot()
 
 
@@ -2600,7 +2585,7 @@ spiral_racetrack_heater_doped
 
   import gdsfactory as gf
 
-  c = gf.components.spiral_racetrack_heater_doped(straight_length=30, spacing=2, num=8, waveguide_cross_section='strip', heater_cross_section='xs_npp')
+  c = gf.components.spiral_racetrack_heater_doped(straight_length=30, spacing=2, num=8, waveguide_cross_section='strip', heater_cross_section='npp')
   c.plot()
 
 
