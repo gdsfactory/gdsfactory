@@ -1,6 +1,6 @@
 info:
   n_bends: 144
-name: cutback_bend90_Cbend_circular_Sstraight_SL5_R6_C6_S5
+name: cutback_bend90_Cbend_ci_2bb8aa38
 settings:
   cols: 6
   component: bend_circular

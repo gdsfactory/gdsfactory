@@ -1,6 +1,6 @@
 info:
   n_bends: 8
-name: staircase_Cbend_euler_Sstraight_LV5_LH5_R4
+name: staircase_Cbend_euler_S_d1cec34f
 settings:
   component: bend_euler
   length_h: 5.0

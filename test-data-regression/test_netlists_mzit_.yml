@@ -1,69 +1,23 @@
 connections:
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_1954d54a_AMRVFalse_33137_18537,o1: straight_L4_N2_CSxs_1954d54a_38000_11400,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_1954d54a_AMRVFalse_33137_18537,o2: straight_L3_N2_CSxs_1954d54a_26500_23400,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_1954d54a_AMRVFalse_33137_4262,o1: straight_L3_N2_CSxs_1954d54a_26500_-600,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_1954d54a_AMRVFalse_33137_4262,o2: straight_L4_N2_CSxs_1954d54a_38000_11400,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_a202615a_AMRVFalse_30112_16512,o1: bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_a202615a_AMRVFalse_30112_6287,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_a202615a_AMRVFalse_30112_16512,o2: taper_L5_W0p45_W0p55_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_21400,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_a202615a_AMRVFalse_30112_6287,o1: taper_L5_W0p5_W0p45_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_1400,o2
-  coupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D2_D10_CSstrip_1500_22400,o3: taper_L5_W0p45_W0p5_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_16500_23400,o2
-  coupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D2_D10_CSstrip_1500_22400,o4: taper_L5_W0p55_W0p5_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_16500_21400,o2
-  coupler_G0p3_L10_CScoupler_symmetric_CScoupler_straight_D2_D10_CSstrip_5000_400,o3: taper_L5_W0p5_W0p45_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_1400,o1
-  coupler_G0p3_L10_CScoupler_symmetric_CScoupler_straight_D2_D10_CSstrip_5000_400,o4: taper_L5_W0p5_W0p55_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_-600,o1
-  straight_L1_N2_CSxs_1954d54a_19500_21400,o1: taper_L5_W0p45_W0p55_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_21400,o2
-  straight_L1_N2_CSxs_1954d54a_19500_21400,o2: taper_L5_W0p55_W0p5_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_16500_21400,o1
-  straight_L1_N2_CSxs_a202615a_19500_23400,o1: taper_L5_W0p55_W0p45_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_23400,o2
-  straight_L1_N2_CSxs_a202615a_19500_23400,o2: taper_L5_W0p45_W0p5_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_16500_23400,o1
-  straight_L3_N2_CSxs_1954d54a_26500_-600,o1: taper_L5_W0p5_W0p55_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_-600,o2
-  straight_L3_N2_CSxs_1954d54a_26500_23400,o2: taper_L5_W0p55_W0p45_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_23400,o1
+  bend_euler_RNone_A90_P0_40a9c27c_30112_16512,o1: bend_euler_RNone_A90_P0_40a9c27c_30112_6287,o2
+  bend_euler_RNone_A90_P0_40a9c27c_30112_16512,o2: taper_L5_W0p45_W0p55_PN_1de991da_22500_21400,o1
+  bend_euler_RNone_A90_P0_40a9c27c_30112_6287,o1: taper_L5_W0p5_W0p45_PNo_425fb01f_22500_1400,o2
+  bend_euler_RNone_A90_P0_b257ffdd_33137_18537,o1: straight_L4_N2_CSxs_1954d54a_38000_11400,o2
+  bend_euler_RNone_A90_P0_b257ffdd_33137_18537,o2: straight_L3_N2_CSxs_1954d54a_26500_23400,o1
+  bend_euler_RNone_A90_P0_b257ffdd_33137_4262,o1: straight_L3_N2_CSxs_1954d54a_26500_-600,o2
+  bend_euler_RNone_A90_P0_b257ffdd_33137_4262,o2: straight_L4_N2_CSxs_1954d54a_38000_11400,o1
+  coupler_G0p2_L5_CScoupl_449123ce_1500_22400,o3: taper_L5_W0p45_W0p5_PNo_e7d7cd93_16500_23400,o2
+  coupler_G0p2_L5_CScoupl_449123ce_1500_22400,o4: taper_L5_W0p55_W0p5_PNo_934d31b8_16500_21400,o2
+  coupler_G0p3_L10_CScoup_dbbb5eb6_5000_400,o3: taper_L5_W0p5_W0p45_PNo_425fb01f_22500_1400,o1
+  coupler_G0p3_L10_CScoup_dbbb5eb6_5000_400,o4: taper_L5_W0p5_W0p55_PNo_6bfd301b_22500_-600,o1
+  straight_L1_N2_CSxs_1954d54a_19500_21400,o1: taper_L5_W0p45_W0p55_PN_1de991da_22500_21400,o2
+  straight_L1_N2_CSxs_1954d54a_19500_21400,o2: taper_L5_W0p55_W0p5_PNo_934d31b8_16500_21400,o1
+  straight_L1_N2_CSxs_a202615a_19500_23400,o1: taper_L5_W0p55_W0p45_PN_379d0a29_22500_23400,o2
+  straight_L1_N2_CSxs_a202615a_19500_23400,o2: taper_L5_W0p45_W0p5_PNo_e7d7cd93_16500_23400,o1
+  straight_L3_N2_CSxs_1954d54a_26500_-600,o1: taper_L5_W0p5_W0p55_PNo_6bfd301b_22500_-600,o2
+  straight_L3_N2_CSxs_1954d54a_26500_23400,o2: taper_L5_W0p55_W0p45_PN_379d0a29_22500_23400,o1
 instances:
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_1954d54a_AMRVFalse_33137_18537:
-    component: bend_euler
-    info:
-      dy: 10.0
-      length: 16.637
-      radius: 10.0
-      radius_min: 7.061
-      route_info_length: 16.637
-      route_info_n_bend_90: 1.0
-      route_info_type: xs_1954d54a
-      route_info_weight: 16.637
-      route_info_xs_1954d54a_length: 16.637
-    settings:
-      allow_min_radius_violation: false
-      angle: 90.0
-      clockwise: false
-      cross_section: xs_1954d54a
-      layer: null
-      npoints: null
-      p: 0.5
-      radius: null
-      width: null
-      with_arc_floorplan: true
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_1954d54a_AMRVFalse_33137_4262:
-    component: bend_euler
-    info:
-      dy: 10.0
-      length: 16.637
-      radius: 10.0
-      radius_min: 7.061
-      route_info_length: 16.637
-      route_info_n_bend_90: 1.0
-      route_info_type: xs_1954d54a
-      route_info_weight: 16.637
-      route_info_xs_1954d54a_length: 16.637
-    settings:
-      allow_min_radius_violation: false
-      angle: 90.0
-      clockwise: false
-      cross_section: xs_1954d54a
-      layer: null
-      npoints: null
-      p: 0.5
-      radius: null
-      width: null
-      with_arc_floorplan: true
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_a202615a_AMRVFalse_30112_16512:
+  bend_euler_RNone_A90_P0_40a9c27c_30112_16512:
     component: bend_euler
     info:
       dy: 10.0
@@ -86,7 +40,7 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_a202615a_AMRVFalse_30112_6287:
+  bend_euler_RNone_A90_P0_40a9c27c_30112_6287:
     component: bend_euler
     info:
       dy: 10.0
@@ -109,7 +63,53 @@ instances:
       radius: null
       width: null
       with_arc_floorplan: true
-  coupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D2_D10_CSstrip_1500_22400:
+  bend_euler_RNone_A90_P0_b257ffdd_33137_18537:
+    component: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+      route_info_length: 16.637
+      route_info_n_bend_90: 1.0
+      route_info_type: xs_1954d54a
+      route_info_weight: 16.637
+      route_info_xs_1954d54a_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90.0
+      clockwise: false
+      cross_section: xs_1954d54a
+      layer: null
+      npoints: null
+      p: 0.5
+      radius: null
+      width: null
+      with_arc_floorplan: true
+  bend_euler_RNone_A90_P0_b257ffdd_33137_4262:
+    component: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+      route_info_length: 16.637
+      route_info_n_bend_90: 1.0
+      route_info_type: xs_1954d54a
+      route_info_weight: 16.637
+      route_info_xs_1954d54a_length: 16.637
+    settings:
+      allow_min_radius_violation: false
+      angle: 90.0
+      clockwise: false
+      cross_section: xs_1954d54a
+      layer: null
+      npoints: null
+      p: 0.5
+      radius: null
+      width: null
+      with_arc_floorplan: true
+  coupler_G0p2_L5_CScoupl_449123ce_1500_22400:
     component: coupler
     info:
       length: 10.03
@@ -122,7 +122,7 @@ instances:
       dy: 2.0
       gap: 0.2
       length: 5.0
-  coupler_G0p3_L10_CScoupler_symmetric_CScoupler_straight_D2_D10_CSstrip_5000_400:
+  coupler_G0p3_L10_CScoup_dbbb5eb6_5000_400:
     component: coupler
     info:
       length: 10.026
@@ -200,7 +200,7 @@ instances:
       cross_section: xs_1954d54a
       length: 4.0
       npoints: 2
-  taper_L5_W0p45_W0p55_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_21400:
+  taper_L5_W0p45_W0p55_PN_1de991da_22500_21400:
     component: taper
     info:
       length: 5.0
@@ -220,7 +220,7 @@ instances:
       width2: 0.55
       with_bbox: true
       with_two_ports: true
-  taper_L5_W0p45_W0p5_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_16500_23400:
+  taper_L5_W0p45_W0p5_PNo_e7d7cd93_16500_23400:
     component: taper
     info:
       length: 5.0
@@ -240,7 +240,7 @@ instances:
       width2: 0.5
       with_bbox: true
       with_two_ports: true
-  taper_L5_W0p55_W0p45_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_23400:
+  taper_L5_W0p55_W0p45_PN_379d0a29_22500_23400:
     component: taper
     info:
       length: 5.0
@@ -260,7 +260,7 @@ instances:
       width2: 0.45
       with_bbox: true
       with_two_ports: true
-  taper_L5_W0p55_W0p5_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_16500_21400:
+  taper_L5_W0p55_W0p5_PNo_934d31b8_16500_21400:
     component: taper
     info:
       length: 5.0
@@ -280,7 +280,7 @@ instances:
       width2: 0.5
       with_bbox: true
       with_two_ports: true
-  taper_L5_W0p5_W0p45_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_1400:
+  taper_L5_W0p5_W0p45_PNo_425fb01f_22500_1400:
     component: taper
     info:
       length: 5.0
@@ -300,7 +300,7 @@ instances:
       width2: 0.45
       with_bbox: true
       with_two_ports: true
-  taper_L5_W0p5_W0p55_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_-600:
+  taper_L5_W0p5_W0p55_PNo_6bfd301b_22500_-600:
     component: taper
     info:
       length: 5.0
@@ -320,34 +320,34 @@ instances:
       width2: 0.55
       with_bbox: true
       with_two_ports: true
-name: mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL5_CL10_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSstrip
+name: mzit_W0p5_W0p45_W0p55_D_02bc74c5
 placements:
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_1954d54a_AMRVFalse_33137_18537:
-    mirror: false
-    rotation: 90.0
-    x: 33.1375
-    y: 18.5375
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_1954d54a_AMRVFalse_33137_4262:
-    mirror: false
-    rotation: 0.0
-    x: 33.1375
-    y: 4.2625
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_a202615a_AMRVFalse_30112_16512:
+  bend_euler_RNone_A90_P0_40a9c27c_30112_16512:
     mirror: false
     rotation: 90.0
     x: 30.1125
     y: 16.5125
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_a202615a_AMRVFalse_30112_6287:
+  bend_euler_RNone_A90_P0_40a9c27c_30112_6287:
     mirror: false
     rotation: 0.0
     x: 30.1125
     y: 6.2875
-  coupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D2_D10_CSstrip_1500_22400:
+  bend_euler_RNone_A90_P0_b257ffdd_33137_18537:
+    mirror: false
+    rotation: 90.0
+    x: 33.1375
+    y: 18.5375
+  bend_euler_RNone_A90_P0_b257ffdd_33137_4262:
+    mirror: false
+    rotation: 0.0
+    x: 33.1375
+    y: 4.2625
+  coupler_G0p2_L5_CScoupl_449123ce_1500_22400:
     mirror: false
     rotation: 0.0
     x: 1.5
     y: 22.400000000000002
-  coupler_G0p3_L10_CScoupler_symmetric_CScoupler_straight_D2_D10_CSstrip_5000_400:
+  coupler_G0p3_L10_CScoup_dbbb5eb6_5000_400:
     mirror: false
     rotation: 0.0
     x: 5.0
@@ -377,38 +377,38 @@ placements:
     rotation: 90.0
     x: 38.0
     y: 11.4
-  taper_L5_W0p45_W0p55_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_21400:
+  taper_L5_W0p45_W0p55_PN_1de991da_22500_21400:
     mirror: false
     rotation: 180.0
     x: 22.5
     y: 21.4
-  taper_L5_W0p45_W0p5_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_16500_23400:
+  taper_L5_W0p45_W0p5_PNo_e7d7cd93_16500_23400:
     mirror: false
     rotation: 180.0
     x: 16.5
     y: 23.400000000000002
-  taper_L5_W0p55_W0p45_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_23400:
+  taper_L5_W0p55_W0p45_PN_379d0a29_22500_23400:
     mirror: false
     rotation: 180.0
     x: 22.5
     y: 23.4
-  taper_L5_W0p55_W0p5_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_16500_21400:
+  taper_L5_W0p55_W0p5_PNo_934d31b8_16500_21400:
     mirror: false
     rotation: 180.0
     x: 16.5
     y: 21.4
-  taper_L5_W0p5_W0p45_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_1400:
+  taper_L5_W0p5_W0p45_PNo_425fb01f_22500_1400:
     mirror: false
     rotation: 0.0
     x: 22.5
     y: 1.4000000000000001
-  taper_L5_W0p5_W0p55_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue_22500_-600:
+  taper_L5_W0p5_W0p55_PNo_6bfd301b_22500_-600:
     mirror: false
     rotation: 0.0
     x: 22.5
     y: -0.6
 ports:
-  o1: coupler_G0p3_L10_CScoupler_symmetric_CScoupler_straight_D2_D10_CSstrip_5000_400,o1
-  o2: coupler_G0p3_L10_CScoupler_symmetric_CScoupler_straight_D2_D10_CSstrip_5000_400,o2
-  o3: coupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D2_D10_CSstrip_1500_22400,o1
-  o4: coupler_G0p2_L5_CScoupler_symmetric_CScoupler_straight_D2_D10_CSstrip_1500_22400,o2
+  o1: coupler_G0p3_L10_CScoup_dbbb5eb6_5000_400,o1
+  o2: coupler_G0p3_L10_CScoup_dbbb5eb6_5000_400,o2
+  o3: coupler_G0p2_L5_CScoupl_449123ce_1500_22400,o1
+  o4: coupler_G0p2_L5_CScoupl_449123ce_1500_22400,o2

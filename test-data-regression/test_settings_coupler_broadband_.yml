@@ -1,5 +1,5 @@
 info: {}
-name: coupler_broadband_WS0p5_GS0p2_WT0p6_GP0p3_LT1_Bbend_euler_CScoupler_straight_LCS12p4_LCBG4p7_CSstrip_R10
+name: coupler_broadband_WS0p5_be9e5562
 settings:
   bend: bend_euler
   coupler_straight: coupler_straight

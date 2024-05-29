@@ -1,3 +1,10 @@
 info: {}
-name: ring_double_G0p2_R10_LX0p01_LY0p01_CRcoupler_ring_Bbend_euler_CSstrip_trenches
-settings: {}
+name: add_trenches_Cring_doub_1bb11428
+settings:
+  component: ring_double
+  cross_section: rib_with_trenches
+  layer_component: WG
+  layer_trench: DEEP_ETCH
+  left: 0
+  right: 0
+  width_trench: 2.0

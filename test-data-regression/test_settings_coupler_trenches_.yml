@@ -1,7 +1,7 @@
 info:
   length: 10.186
   min_bend_radius: 11.857
-name: add_trenches_Ccoupler_LCWG_LTDEEP_ETCH_WT2_CSrib_with_trenches_TNone_BNone_R0_L0
+name: add_trenches_Ccoupler_L_585e08c5
 settings:
   component: coupler
   cross_section: rib_with_trenches

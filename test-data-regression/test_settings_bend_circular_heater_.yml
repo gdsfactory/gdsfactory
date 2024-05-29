@@ -2,7 +2,7 @@ info:
   dx: 10.0
   dy: 10.0
   length: 15.708
-name: bend_circular_heater_RNone_A90_NNone_HTWD1p2_HW0p5_LHHEATER_CSstrip_AMRVFalse
+name: bend_circular_heater_RN_b84f76d0
 settings:
   allow_min_radius_violation: false
   angle: 90

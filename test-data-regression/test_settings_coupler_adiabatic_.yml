@@ -1,5 +1,5 @@
 info: {}
-name: coupler_adiabatic_L20_L50_L30_WS1_IWS3_OWS3_D0p1_CSstrip
+name: coupler_adiabatic_L20_L_522db2ea
 settings:
   cross_section: strip
   dw: 0.1

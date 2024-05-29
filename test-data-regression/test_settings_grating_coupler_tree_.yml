@@ -1,5 +1,5 @@
 info: {}
-name: grating_coupler_tree_N4_SS4_GCgrating_coupler_elliptical_WLFalse_Bbend_euler_FL0
+name: grating_coupler_tree_N4_30d75674
 settings:
   bend: bend_euler
   component: straight_array_N4_S4_L10_CSstrip

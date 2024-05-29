@@ -1,5 +1,5 @@
 info: {}
-name: coupler_ring_G0p2_R5_LX4_Ccoupler90_Bbend_euler_CScoupler_straight_CSstrip_CSBNone_LE3
+name: coupler_ring_G0p2_R5_LX_b26629eb
 settings:
   bend: bend_euler
   coupler90: coupler90

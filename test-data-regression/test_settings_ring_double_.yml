@@ -1,5 +1,5 @@
 info: {}
-name: ring_double_G0p2_R10_LX0p01_LY0p01_CRcoupler_ring_Bbend_euler_CSstrip
+name: ring_double_G0p2_R10_LX_979f3361
 settings:
   bend: bend_euler
   coupler_ring: coupler_ring

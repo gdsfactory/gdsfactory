@@ -1,5 +1,5 @@
 info: {}
-name: ring_single_dut_CFtaper_Mgdsfactorypcomponentsptaper_SW3_G0p2_LX4_LY0_R5_Ccoupler_ring_Bbend_euler_WCTrue_PNo1
+name: ring_single_dut_CFtaper_c9386b22
 settings:
   bend: bend_euler
   component: Ftaper_Mgdsfactorypcomponentsptaper_SW3

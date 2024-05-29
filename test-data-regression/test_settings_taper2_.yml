@@ -2,7 +2,7 @@ info:
   length: 10.0
   width1: 0.5
   width2: 3.0
-name: taper_L10_W0p5_W3_PNone_WTPTrue_CSstrip_PNo1_o2_PToptical_optical_WBTrue
+name: taper_L10_W0p5_W3_PNone_ce8997ed
 settings:
   cross_section: strip
   length: 10.0
