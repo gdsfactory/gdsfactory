@@ -4,7 +4,5 @@ module: gdsfactory.components.cross
 name: cross
 settings:
   layer: WG
-  layers: null
   length: 10.0
-  port_type: null
   width: 3.0

@@ -14,11 +14,7 @@ info:
 module: gdsfactory.components.via
 name: via_layerVIA2
 settings:
-  bbox_layers: null
-  bbox_offset: null
-  bbox_offsets: null
   enclosure: 1.0
-  gap: null
   layer: VIA2
   size:
   - 0.7

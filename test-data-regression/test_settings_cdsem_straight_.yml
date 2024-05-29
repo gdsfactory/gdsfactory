@@ -5,7 +5,6 @@ name: cdsem_straight
 settings:
   cross_section: xs_sc
   length: 420.0
-  positions: null
   spacing: 7.0
   text:
     function: text_rectangular

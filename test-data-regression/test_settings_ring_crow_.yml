@@ -3,20 +3,17 @@ info: {}
 module: gdsfactory.components.ring_crow
 name: ring_crow
 settings:
-  bends: null
   cross_section: xs_sc
   gaps:
   - 0.2
   - 0.2
   - 0.2
   - 0.2
-  input_straight_cross_section: null
   length_x: 0
   lengths_y:
   - 0
   - 0
   - 0
-  output_straight_cross_section: null
   radius:
   - 10.0
   - 10.0

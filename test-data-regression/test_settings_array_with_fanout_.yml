@@ -4,8 +4,6 @@ module: gdsfactory.components.array_with_fanout
 name: array_with_fanout
 settings:
   bend: bend_euler
-  bend_port_name1: null
-  bend_port_name2: null
   columns: 3
   component: pad
   component_port_name: e4

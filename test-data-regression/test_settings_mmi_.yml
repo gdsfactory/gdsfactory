@@ -6,14 +6,11 @@ settings:
   cross_section: xs_sc
   gap_input_tapers: 0.25
   gap_output_tapers: 0.25
-  input_positions: null
   inputs: 1
   length_mmi: 5.5
   length_taper: 10.0
-  output_positions: null
   outputs: 4
   taper:
     function: taper
-  width: null
   width_mmi: 5
   width_taper: 1.0

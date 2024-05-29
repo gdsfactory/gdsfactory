@@ -19,7 +19,6 @@ settings:
       - electrical
       radius: null
       width: 10.0
-  port_offset: null
   port_orientation: 180
   spacing: 150.0
   straight_length: 60.0

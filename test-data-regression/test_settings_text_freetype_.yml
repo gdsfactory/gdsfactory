@@ -6,6 +6,5 @@ settings:
   font: OCR-A
   justify: left
   layer: WG
-  layers: null
   size: 10
   text: abcd

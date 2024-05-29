@@ -9,7 +9,6 @@ settings:
     function: coupler_ring
   cross_section: xs_sc
   gap: 0.2
-  gap_top: null
   length_x: 0.01
   length_y: 0.01
   radius: 10.0

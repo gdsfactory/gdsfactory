@@ -10,6 +10,5 @@ settings:
   cross_section_bends: xs_sc
   crossing:
     function: crossing
-  dx: null
   npoints: 101
   port_spacing: 40.0

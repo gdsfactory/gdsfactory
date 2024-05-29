@@ -22,31 +22,23 @@ instances:
     settings:
       angle: 90.0
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.5
-          width_function: null
       direction: ccw
-      npoints: null
       p: 0.5
-      radius: null
       with_arc_floorplan: true
   bend_euler_2:
     component: bend_euler
@@ -64,31 +56,23 @@ instances:
     settings:
       angle: 90.0
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.5
-          width_function: null
       direction: ccw
-      npoints: null
       p: 0.5
-      radius: null
       with_arc_floorplan: true
   mmi_long:
     component: mmi1x2
@@ -100,7 +84,6 @@ instances:
       length_taper: 10.0
       taper:
         function: taper
-      width: null
       width_mmi: 4.5
       width_taper: 1.0
   mmi_short:
@@ -113,7 +96,6 @@ instances:
       length_taper: 10.0
       taper:
         function: taper
-      width: null
       width_mmi: 4.5
       width_taper: 1.0
   straight_1:
@@ -127,27 +109,21 @@ instances:
       width: 0.5
     settings:
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.5
-          width_function: null
       length: 95.02
       npoints: 2
   straight_2:
@@ -161,27 +137,21 @@ instances:
       width: 0.5
     settings:
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.5
-          width_function: null
       length: 79.375
       npoints: 2
   straight_3:
@@ -195,27 +165,21 @@ instances:
       width: 0.5
     settings:
       cross_section:
-        bbox_layers: null
-        bbox_offsets: null
         components_along_path: []
         radius: 10.0
         radius_min: 5.0
         sections:
         - hidden: false
-          insets: null
           layer: WG
           name: _default
           offset: 0.0
-          offset_function: null
           port_names:
           - o1
           - o2
           port_types:
           - optical
           - optical
-          simplify: null
           width: 0.5
-          width_function: null
       length: 0.02
       npoints: 2
 name: sample_mmis_3a07ee11

@@ -4,7 +4,6 @@ module: gdsfactory.components.triangles
 name: triangle
 settings:
   layer: WG
-  layers: null
   x: 10
   xtop: 0
   y: 20

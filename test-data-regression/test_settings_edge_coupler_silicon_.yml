@@ -8,7 +8,6 @@ name: taper_1db74a4f
 settings:
   cross_section: xs_sc
   length: 100
-  port: null
   port_names:
   - o1
   - o2

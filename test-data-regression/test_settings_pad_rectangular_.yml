@@ -11,9 +11,6 @@ info:
 module: gdsfactory.components.pad
 name: pad_sizepad_size
 settings:
-  bbox_layers: null
-  bbox_offsets: null
   layer: MTOP
   port_inclusion: 0
-  port_orientation: null
   size: pad_size

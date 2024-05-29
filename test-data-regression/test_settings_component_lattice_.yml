@@ -5,4 +5,3 @@ name: component_lattice
 settings:
   grid_per_unit: 1000
   lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
-  symbol_to_component: null

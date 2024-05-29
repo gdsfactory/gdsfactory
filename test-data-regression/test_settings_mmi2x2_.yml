@@ -9,6 +9,5 @@ settings:
   length_taper: 10.0
   taper:
     function: taper
-  width: null
   width_mmi: 2.5
   width_taper: 1.0

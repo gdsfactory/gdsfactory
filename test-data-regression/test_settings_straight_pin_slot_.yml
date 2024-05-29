@@ -40,9 +40,6 @@ settings:
         module: gdsfactory.components.via
         settings:
           layer: VIAC
-  via_stack_slab_bot: null
   via_stack_slab_spacing: 2.0
-  via_stack_slab_top: null
-  via_stack_slab_width: null
   via_stack_spacing: 3.0
   via_stack_width: 10.0

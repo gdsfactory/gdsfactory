@@ -2,5 +2,4 @@ function: component_lattice_generic
 info: {}
 module: gdsfactory.components.component_lattice_generic
 name: component_lattice_generic
-settings:
-  network: null
+settings: {}

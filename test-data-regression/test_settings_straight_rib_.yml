@@ -7,7 +7,7 @@ info:
   route_info_xs_8bf2c479_length: 10.0
   width: 0.5
 module: gdsfactory.components.straight
-name: straight_7692a032
+name: straight_fee9dcda
 settings:
   cross_section:
     function: cross_section
@@ -17,11 +17,9 @@ settings:
       radius_min: 20
       sections:
       - hidden: false
-        insets: null
         layer: SLAB90
         name: slab
         offset: 0
-        offset_function: null
         port_names:
         - null
         - null
@@ -30,6 +28,5 @@ settings:
         - optical
         simplify: 0.05
         width: 6.0
-        width_function: null
   length: 10.0
   npoints: 2

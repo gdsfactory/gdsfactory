@@ -5,8 +5,6 @@ module: gdsfactory.components.spiral_inner_io
 name: spiral_inner_io_fiber_single
 settings:
   cross_section: xs_sc
-  cross_section_bend: null
-  cross_section_ports: null
   grating_spacing: 200.0
   x_straight_inner_left: 75.0
   x_straight_inner_right: 40.0

@@ -5,7 +5,6 @@ name: splitter_tree_92783473
 settings:
   bend_s:
     function: bend_s
-  bend_s_xsize: null
   coupler:
     function: mzi
     module: gdsfactory.components.mzi

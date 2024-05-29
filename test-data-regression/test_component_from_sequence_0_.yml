@@ -1,11 +1,10 @@
 function: component_sequence
 info: {}
 module: gdsfactory.components.component_sequence
-name: component_sequence_1465bcb9
+name: component_sequence_6f601450
 settings:
   port_name1: o1
   port_name2: o2
-  ports_map: null
   sequence: ABHBA
   start_orientation: 0.0
   symbol_to_component:
@@ -24,8 +23,6 @@ settings:
       settings:
         angle: 180
         cross_section: xs_sc
-        npoints: null
-        radius: null
     - o1
     - o2
     B:
@@ -34,8 +31,6 @@ settings:
       settings:
         angle: 180
         cross_section: xs_sc
-        npoints: null
-        radius: null
     - o2
     - o1
     H:

@@ -5,7 +5,5 @@ module: gdsfactory.components.wire
 name: wire_corner45
 settings:
   cross_section: xs_metal_routing
-  layer: null
   radius: 10
-  width: null
   with_corner90_ports: true

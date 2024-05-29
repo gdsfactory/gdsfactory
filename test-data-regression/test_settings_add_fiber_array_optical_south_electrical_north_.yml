@@ -9,12 +9,10 @@ settings:
     settings:
       length_x: 200
       straight_x_top: straight_heater_metal
-  electrical_port_names: null
   electrical_port_orientation: 90
   fiber_spacing: 127.0
   grating_coupler:
     function: grating_coupler_elliptical
-  npads: null
   pad:
     function: pad
     module: gdsfactory.components.pad
@@ -22,7 +20,6 @@ settings:
       size:
       - 80
       - 80
-  pad_assigments: null
   pad_gc_spacing: 250.0
   pad_spacing: 100.0
   with_loopback: true

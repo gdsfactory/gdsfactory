@@ -7,7 +7,7 @@ info:
   route_info_xs_8bf2c479_length: 10.0
   width: 0.5
 module: gdsfactory.components.extension
-name: straight_extend_ports_ac2a7b25
+name: straight_extend_ports_25a2eee1
 settings:
   centered: false
   component:
@@ -22,11 +22,9 @@ settings:
           radius_min: 20
           sections:
           - hidden: false
-            insets: null
             layer: SLAB90
             name: slab
             offset: 0
-            offset_function: null
             port_names:
             - null
             - null
@@ -35,13 +33,9 @@ settings:
             - optical
             simplify: 0.05
             width: 6.0
-            width_function: null
-  cross_section: null
   extension:
     function: taper_strip_to_ridge
-  extension_port_names: null
   length: 5.0
   port1: o2
   port2: o1
-  port_names: null
   port_type: optical

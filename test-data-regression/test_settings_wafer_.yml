@@ -15,5 +15,3 @@ settings:
   die_name_col_row: false
   reticle:
     function: die
-  xspacing: null
-  yspacing: null

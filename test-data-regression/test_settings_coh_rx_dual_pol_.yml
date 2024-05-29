@@ -6,10 +6,7 @@ settings:
   bend:
     function: bend_euler
   cross_section: xs_sc
-  lo_input_coupler: null
   lo_splitter: mmi1x2
-  signal_input_coupler: null
-  signal_splitter: null
   single_pol_rx_spacing: 50.0
   splitter_coh_rx_spacing: 40.0
   spol_coh_rx:

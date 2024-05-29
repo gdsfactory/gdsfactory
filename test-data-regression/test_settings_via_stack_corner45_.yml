@@ -5,8 +5,6 @@ module: gdsfactory.components.via_stack
 name: via_stack_corner45
 settings:
   correct_size: true
-  layer_offsets: null
-  layer_port: null
   layers:
   - M1
   - M2

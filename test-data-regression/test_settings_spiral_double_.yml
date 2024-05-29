@@ -7,7 +7,6 @@ settings:
   bend:
     function: bend_circular
   cross_section: xs_sc
-  min_bend_radius: null
   npoints: 1000
   number_of_loops: 3
   separation: 2.0

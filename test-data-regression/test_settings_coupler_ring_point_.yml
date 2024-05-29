@@ -5,5 +5,3 @@ name: coupler_ring_point
 settings:
   coupler_ring:
     function: coupler_ring
-  open_layers: null
-  open_sizes: null

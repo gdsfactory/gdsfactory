@@ -6,11 +6,5 @@ settings:
   centered: false
   component:
     function: mmi1x2
-  cross_section: null
-  extension: null
-  extension_port_names: null
   length: 5.0
-  port1: null
-  port2: null
-  port_names: null
   port_type: optical

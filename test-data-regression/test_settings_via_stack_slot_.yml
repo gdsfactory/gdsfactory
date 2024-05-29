@@ -12,9 +12,6 @@ settings:
   layer_offsets:
   - 0
   - 1.0
-  layer_offsetsx: null
-  layer_offsetsy: null
-  layer_port: null
   layers:
   - M1
   - M2

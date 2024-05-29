@@ -9,7 +9,6 @@ settings:
     function: bend_euler
   cross_section: xs_sc
   inner_loop_spacing_offset: 0.0
-  length: null
   mirror_straight: false
   with_inner_ports: false
   x_inner_length_cutback: 300.0

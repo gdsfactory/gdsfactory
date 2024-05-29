@@ -5,7 +5,6 @@ info:
 module: gdsfactory.components.add_fiducials
 name: add_fiducials
 settings:
-  bottom: null
   component:
     function: pad_array
   gap: 50
@@ -14,4 +13,3 @@ settings:
   - 0
   - 0
   right: cross
-  top: null

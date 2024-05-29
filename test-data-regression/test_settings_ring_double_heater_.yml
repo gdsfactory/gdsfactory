@@ -7,15 +7,12 @@ settings:
     function: bend_euler
   coupler_ring:
     function: coupler_ring
-  coupler_ring_top: null
   cross_section: xs_sc
   cross_section_heater: xs_heater_metal
   cross_section_waveguide_heater: xs_sc_heater_metal
   gap: 0.2
-  gap_top: null
   length_x: 1.0
   length_y: 0.01
-  port_orientation: null
   radius: 10.0
   straight:
     function: straight

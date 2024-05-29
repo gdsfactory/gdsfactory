@@ -8,7 +8,6 @@ name: taper
 settings:
   cross_section: xs_sc
   length: 10.0
-  port: null
   port_names:
   - o1
   - o2
@@ -16,5 +15,4 @@ settings:
   - optical
   - optical
   width1: 0.5
-  width2: null
   with_two_ports: true

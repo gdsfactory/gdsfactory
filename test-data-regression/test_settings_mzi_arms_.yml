@@ -5,7 +5,6 @@ name: mzi_arms
 settings:
   bend:
     function: bend_euler
-  combiner: null
   delta_length: 10.0
   delta_yright: 0
   length_x: 0.1
@@ -14,7 +13,4 @@ settings:
     function: mmi1x2
   straight:
     function: straight
-  straight_x_bot: null
-  straight_x_top: null
-  straight_y: null
   with_splitter: true
