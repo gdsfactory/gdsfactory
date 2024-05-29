@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field
 from rich.console import Console
 from rich.table import Table
 
-from gdsfactory.component import Component, boolean_operations
+from gdsfactory.component import Component
 
 if TYPE_CHECKING:
     from gdsfactory.technology import LayerViews
@@ -432,26 +432,20 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
                 layer_index = get_layer(layer)
                 B_polys = polygons_per_layer[layer]
                 r2 = kf.kdb.Region(B_polys)
-                polygons_to_remove = polygons_to_remove | r2
+                polygons_to_remove.insert(r2)
 
                 derived_layer = layer_stack.layers[etching_layers].derived_layer
                 if derived_layer:
-                    r1 = polygons
-                    r2 = B_polys
-                    operation = "and"
-
-                    r1 = kf.kdb.Region(r1)
-                    r2 = kf.kdb.Region(r2)
-                    f = boolean_operations[operation]
-                    r = f(r1, r2)
+                    r1 = kf.kdb.Region(polygons)
+                    r2 = kf.kdb.Region(B_polys)
+                    r = r1 & r2
                     r = component_derived.shapes(layer_index).insert(r)
 
         # Remove all etching layers
         layer = layer_stack.layers[unetched_layer_name].layer
         polygons = polygons_per_layer[layer]
-        f = boolean_operations["not"]
-        r = f(polygons, polygons_to_remove)
-        r = component_derived.shapes(layer_index).insert(r)
+        r = kf.kdb.Region(polygons) - polygons_to_remove
+        # r = component_derived.shapes(layer_index).insert(r)
 
     component_derived.add_ports(component.ports)
     return component_derived
@@ -464,6 +458,7 @@ if __name__ == "__main__":
     layer_stack = LAYER_STACK
 
     c = gf.components.grating_coupler_elliptical_trenches()
+    c.show()
     c = c.to_3d()
     c.show()
 
