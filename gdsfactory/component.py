@@ -828,11 +828,14 @@ class Component(kf.KCell):
             exclude_layers=exclude_layers,
         )
 
-    def get_netlist(self, **kwargs) -> dict[str, Any]:
+    def get_netlist(self, flat: bool = False, **kwargs) -> dict[str, Any]:
         """Returns a netlist for circuit simulation."""
-        from gdsfactory.get_netlist import get_netlist
+        from gdsfactory.get_netlist import get_netlist as _get_netlist
+        from gdsfactory.get_netlist_flat import get_netlist_flat as _get_netlist_flat
 
-        return get_netlist(self, **kwargs)
+        return (
+            _get_netlist_flat(self, **kwargs) if flat else _get_netlist(self, **kwargs)
+        )
 
     def write_netlist(self, filepath: str, **kwargs) -> None:
         """Write netlist in YAML."""

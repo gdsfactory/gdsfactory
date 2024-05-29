@@ -544,7 +544,6 @@ def _demo_mzi_lattice() -> None:
         delta_lengths=delta_lengths,
     )
     c.get_netlist()
-    print(c.get_netlist_yaml())
 
 
 DEFAULT_CONNECTION_VALIDATORS = get_default_connection_validators()
@@ -573,5 +572,5 @@ if __name__ == "__main__":
     gdspath = c.write_gds("test.gds")
     c = gf.import_gds(gdspath)
     n = c.get_netlist()
-    # pprint(n)
+    pprint(n)
     c.show()
