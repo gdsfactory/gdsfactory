@@ -189,7 +189,7 @@ def diff(
             if equivalent:
                 print("No significant XOR differences between layouts!")
         else:
-            # if no additional xor verificaiton, the two files are not equivalent
+            # if no additional xor verification, the two files are not equivalent
             equivalent = False
 
         if show:
@@ -234,8 +234,10 @@ def difftest(
     dirpath_ref.mkdir(exist_ok=True, parents=True)
     dirpath_run.mkdir(exist_ok=True, parents=True)
 
-    ref_file = dirpath_ref / f"{get_name_short(clean_name(test_name))}.gds"
-    run_file = dirpath_run / filename
+    filename = get_name_short(clean_name(test_name), max_cellname_length=32)
+
+    ref_file = dirpath_ref / f"{filename}.gds"
+    run_file = dirpath_run / f"{filename}.gds"
 
     component = gf.get_component(component)
     run_file = component.write_gds(gdspath=run_file)
