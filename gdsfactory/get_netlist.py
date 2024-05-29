@@ -567,7 +567,7 @@ if __name__ == "__main__":
     bend.connect("o1", mzi.ports["o2"])
     bend.name = "bend"
     n0 = c.get_netlist()
-    pprint(n0)
+    # pprint(n0)
 
     gdspath = c.write_gds("test.gds")
     c = gf.import_gds(gdspath)
