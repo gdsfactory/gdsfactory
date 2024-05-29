@@ -4,13 +4,16 @@ from __future__ import annotations
 
 import gdsfactory as gf
 
-if __name__ == "__main__":
-    # gf.CONF.enforce_ports_on_grid = False
+
+@gf.cell(check_instances="vinstances")
+def snap_bends() -> gf.Component:
     c = gf.Component("snap_bends")
     b1 = c << gf.c.bend_euler(angle=37)
     b2 = c << gf.c.bend_euler(angle=37)
     b2.connect("o1", b1.ports["o2"])
-    # print(b1["o2"].dcenter)
-    # c.flatten()
-    # c.over_under(layer=(1, 0))
+    return c
+
+
+if __name__ == "__main__":
+    c = snap_bends()
     c.show()

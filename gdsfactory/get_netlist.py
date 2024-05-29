@@ -147,9 +147,9 @@ def get_netlist(
 
     for reference in references:
         c = reference.cell
-        center = reference.dcenter
-        x = center.x
-        y = center.y
+        origin = reference.dtrans.disp
+        x = origin.x
+        y = origin.y
         reference_name = get_instance_name(reference)
         if (
             isinstance(reference, ComponentReference)
@@ -273,7 +273,7 @@ def extract_connections(
         validators = DEFAULT_CONNECTION_VALIDATORS
 
     validator = validators.get(port_type, _null_validator)
-    return _extract_connections_two_sweep(
+    return _extract_connections(
         port_names,
         ports,
         port_type,
@@ -283,7 +283,7 @@ def extract_connections(
     )
 
 
-def _extract_connections_two_sweep(
+def _extract_connections(
     port_names: list[str],
     ports: dict[str, Port],
     port_type: str,
