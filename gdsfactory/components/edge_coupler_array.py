@@ -44,7 +44,7 @@ def edge_coupler_array(
         ref.dy = i * pitch
 
         if x_reflection:
-            ref.mirror()
+            ref.dmirror()
 
         # for port in ref.ports:
         #     c.add_port(f"{port.name}_{i}", port=port)

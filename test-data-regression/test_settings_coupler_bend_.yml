@@ -1,5 +1,5 @@
 info: {}
-name: coupler_bend_R10_CG0p2_CAC120_CSIstrip_CSOstrip_Bbend_circular
+name: coupler_bend_R10_CG0p2__3ab728b6
 settings:
   bend: bend_circular
   coupler_gap: 0.2

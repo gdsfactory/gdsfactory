@@ -1,5 +1,5 @@
 info: {}
-name: mzit_W0p5_W0p45_W0p55_D2_DL10_L1_CL5_CL10_CG0p2_CG0p3_Ttaper_TL5_Bbend_euler_Sstraight_Ccoupler_Ccoupler_CSstrip
+name: mzit_W0p5_W0p45_W0p55_D_02bc74c5
 settings:
   bend90: bend_euler
   coupler1: coupler

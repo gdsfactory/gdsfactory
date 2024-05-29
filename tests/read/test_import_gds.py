@@ -69,7 +69,7 @@ def test_import_gds_ports(data_regression) -> None:
 if __name__ == "__main__":
     # test_import_gds_info()
     c1 = gf.components.straight(length=1.234)
-    gdspath = gf.PATH.gdsdir / "straight.gds"
+    gdspath = c1.write_gds()
 
     c2 = gf.import_gds(gdspath)
     d1 = c1.to_dict()

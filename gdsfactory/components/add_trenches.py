@@ -9,6 +9,7 @@ from gdsfactory.components.coupler import coupler
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
+@gf.cell
 def add_trenches(
     component: ComponentSpec = coupler,
     layer_component: LayerSpec = "WG",

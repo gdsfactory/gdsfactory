@@ -6,9 +6,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.cross_section import strip
 from gdsfactory.path import euler
 from gdsfactory.typings import CrossSectionSpec
 
@@ -22,7 +20,7 @@ def bend_euler(
     npoints: int | None = None,
     layer: gf.typings.LayerSpec | None = None,
     width: float | None = None,
-    direction: str = "ccw",
+    clockwise: bool = False,
     cross_section: CrossSectionSpec = "strip",
     allow_min_radius_violation: bool = False,
 ) -> Component:
@@ -47,7 +45,7 @@ def bend_euler(
         npoints: Number of points used per 360 degrees.
         layer: layer to use. Defaults to cross_section.layer.
         width: width to use. Defaults to cross_section.width.
-        direction: cw (clock-wise) or ccw (counter clock-wise).
+        clockwise: if True, the curve is drawn in the clockwise direction.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         allow_min_radius_violation: if True allows radius to be smaller than cross_section radius.
 
@@ -80,8 +78,8 @@ def bend_euler(
     c.info["radius_min"] = float(np.round(p.info["Rmin"], 3))
     c.info["radius"] = float(radius)
 
-    if direction == "cw":
-        ref.mirror(p1=[0, 0], p2=[1, 0])
+    if clockwise:
+        ref.dmirror(p1=gf.kdb.DPoint(0, 0), p2=gf.kdb.DPoint(1, 0))
 
     if not allow_min_radius_violation:
         x.validate_radius(radius)
@@ -99,7 +97,7 @@ def bend_euler(
 bend_euler180 = partial(bend_euler, angle=180)
 
 
-@gf.cell(check_instances=False)
+@gf.cell
 def bend_euler_s(**kwargs) -> Component:
     r"""Sbend made of 2 euler bends.
 
@@ -133,54 +131,11 @@ def bend_euler_s(**kwargs) -> Component:
     b = bend_euler(**kwargs)
     b1 = c.add_ref(b)
     b2 = c.add_ref(b)
-    b2.mirror()
-    b2.connect("o1", b1.ports["o2"])
-    c.add_port("o1", port=b1.ports["o1"])
-    c.add_port("o2", port=b2.ports["o2"])
+    b2.connect("o1", b1["o2"], mirror=True)
+    b2.connect("o1", b1["o2"])
+    c.add_port("o1", port=b1["o1"])
+    c.add_port("o2", port=b2["o2"])
     c.info["length"] = 2 * b.info["length"]
-    return c
-
-
-@gf.cell
-def bend_straight_bend(
-    straight_length: float = 10.0,
-    angle: float = 90,
-    p: float = 0.5,
-    with_arc_floorplan: bool = True,
-    npoints: int = 720,
-    direction: str = "ccw",
-    cross_section: CrossSectionSpec = strip,
-) -> Component:
-    """Sbend made of 2 euler bends and straight section in between.
-
-    Args:
-        straight_length: in um.
-        angle: total angle of the curve.
-        p: Proportion of the curve that is an Euler curve.
-        with_arc_floorplan: If False: `radius` is the minimum radius of curvature
-          If True: The curve scales such that the endpoints match a bend_circular
-          with parameters `radius` and `angle`.
-        npoints: Number of points used per 360 degrees.
-        direction: cw (clock-wise) or ccw (counter clock-wise).
-        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-    """
-    c = Component()
-    b = bend_euler(
-        angle=angle,
-        p=p,
-        with_arc_floorplan=with_arc_floorplan,
-        npoints=npoints,
-        direction=direction,
-        cross_section=cross_section,
-    )
-    b1 = c.add_ref(b)
-    b2 = c.add_ref(b)
-    s = c << straight(length=straight_length, cross_section=cross_section)
-    s.connect("o1", b1.ports["o2"])
-    b2.mirror()
-    b2.connect("o1", s.ports["o2"])
-    c.add_port("o1", port=b1.ports["o1"])
-    c.add_port("o2", port=b2.ports["o2"])
     return c
 
 
@@ -219,5 +174,6 @@ def _compare_bend_euler90():
 
 if __name__ == "__main__":
     # c = bend_euler(cross_section="rib", angle=90, radius=5)
-    c = bend_euler(cross_section="rib", angle=90, radius=5)
+    # c = bend_euler(cross_section="rib", angle=90, radius=20, clockwise=True)
+    c = bend_euler_s()
     c.show()

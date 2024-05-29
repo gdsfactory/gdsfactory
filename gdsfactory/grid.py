@@ -160,7 +160,7 @@ def grid_with_text(
                 d = np.array(getattr(size_info, text_anchors[j]))
                 t.dmove(o + d)
                 if text_mirror:
-                    t.mirror()
+                    t.dmirror()
                 if text_rotation:
                     t.drotate(text_rotation)
 

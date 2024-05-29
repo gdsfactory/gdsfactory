@@ -132,7 +132,8 @@ _deprecated_attributes = {
     "ysize",
 }
 
-_deprecated_attributes2 = _deprecated_attributes - {"size_info"}
+_deprecated_attributes_instance_settr = _deprecated_attributes - {"size_info"}
+_deprecated_attributes_component_gettr = _deprecated_attributes - {"move"}
 
 
 class ComponentReference(kf.Instance):
@@ -195,7 +196,7 @@ class ComponentReference(kf.Instance):
 
     def __setattr__(self, __k: str, __v: Any) -> None:
         """Set attribute with deprecation warning for dbu based attributes."""
-        if __k in _deprecated_attributes2:
+        if __k in _deprecated_attributes_instance_settr:
             CONF.logger.warning(
                 f"Setting `{self._kfinst.name}.{__k}` is deprecated and will be removed soon."
                 f" Please use `{self._kfinst.name}.d{__k}` instead.",
@@ -327,7 +328,7 @@ class Component(kf.KCell):
 
     def __getattribute__(self, __k: str) -> Any:
         """Shadow dbu based attributes with um based ones."""
-        if __k in _deprecated_attributes:
+        if __k in _deprecated_attributes_component_gettr:
             CONF.logger.warning(
                 f"`{self.name}.{__k}` is deprecated and will be removed soon."
                 f" Please use {self.name}.`d{__k}` instead. For further information, please"
@@ -1035,7 +1036,7 @@ if __name__ == "__main__":
 
     # c = gf.Component()
     # text = c << gf.components.text("hello")
-    # text.mirror(
+    # text.dmirror(
     #     p1=kf.kdb.Point(1, 1), p2=gf.kdb.Point(1, 3)
     # )  # Reflects across the line formed by p1 and p2
     # c.remap_layers({(1, 0): (2, 0)})

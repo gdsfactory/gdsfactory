@@ -1,5 +1,5 @@
 info: {}
-name: coupler_full_CL40_D10_D4p8_G0p5_D0p1_CSstrip
+name: coupler_full_CL40_D10_D_aa023d15
 settings:
   coupling_length: 40.0
   cross_section: strip

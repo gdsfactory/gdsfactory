@@ -53,7 +53,7 @@ if __name__ == "__main__":
         c.add(route.references)
 
     pads1 = c << gf.components.array(gf.components.pad, rows=elements, columns=1)
-    pads1.xmax = splitter_tree.xmin - 10
+    pads1.dxmax = splitter_tree.dxmin - 10
     pads1.dy = 0
     ports1 = pads1.ports.filter(orientation=0)
     routes = gf.routing.route_bundle_electrical(

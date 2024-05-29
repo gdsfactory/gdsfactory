@@ -1,5 +1,5 @@
 info: {}
-name: coh_tx_dual_pol_Smmi1x2_CNone_SCTcoh_tx_single_pol_Y10_X40_ICNone_OCNone_CSstrip
+name: coh_tx_dual_pol_Smmi1x2_6579e491
 settings:
   cross_section: strip
   splitter: mmi1x2

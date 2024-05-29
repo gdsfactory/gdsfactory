@@ -58,7 +58,7 @@ def text_rectangular(
     if justify == "left":
         pass
     elif justify == "right":
-        ref.xmax = position[0]
+        ref.dxmax = position[0]
     elif justify == "center":
         ref.dmove(origin=ref.dcenter, other=position, axis="x")
     else:

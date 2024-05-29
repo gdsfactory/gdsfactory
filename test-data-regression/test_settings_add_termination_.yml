@@ -5,7 +5,7 @@ info:
   route_info_weight: 10.0
   route_info_xs_34e31a19_length: 10.0
   width: 0.5
-name: add_termination_Cstraight_PNNone_TFtaper_Mgdsfactorypcomponentsptaper_SW0p1_TPNNone
+name: add_termination_Cstraig_ee058a12
 settings:
   component: straight
   terminator: Ftaper_Mgdsfactorypcomponentsptaper_SW0p1

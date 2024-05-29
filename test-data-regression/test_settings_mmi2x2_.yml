@@ -1,5 +1,5 @@
 info: {}
-name: mmi2x2_WNone_WT1_LT10_LM5p5_WM2p5_GM0p25_Ttaper_Sstraight_CSstrip
+name: mmi2x2_WNone_WT1_LT10_L_981bcd22
 settings:
   cross_section: strip
   gap_mmi: 0.25

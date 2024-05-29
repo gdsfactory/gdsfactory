@@ -26,7 +26,7 @@ def diff(
     ignore_sliver_differences: bool | None = None,
     ignore_cell_name_differences: bool | None = None,
     ignore_label_differences: bool | None = None,
-    show: bool = True,
+    show: bool = False,
 ) -> bool:
     """Returns True if files are different, prints differences and shows them in klayout.
 
@@ -189,10 +189,10 @@ def diff(
             if equivalent:
                 print("No significant XOR differences between layouts!")
         else:
-            # if no additional xor verificaiton, the two files are not equivalent
+            # if no additional xor verification, the two files are not equivalent
             equivalent = False
 
-        if show:
+        if show and not equivalent:
             c.show()
         return not equivalent
     return False
@@ -234,8 +234,10 @@ def difftest(
     dirpath_ref.mkdir(exist_ok=True, parents=True)
     dirpath_run.mkdir(exist_ok=True, parents=True)
 
-    ref_file = dirpath_ref / f"{get_name_short(clean_name(test_name))}.gds"
-    run_file = dirpath_run / filename
+    filename = get_name_short(clean_name(test_name), max_cellname_length=32)
+
+    ref_file = dirpath_ref / f"{filename}.gds"
+    run_file = dirpath_run / f"{filename}.gds"
 
     component = gf.get_component(component)
     run_file = component.write_gds(gdspath=run_file)
@@ -255,6 +257,7 @@ def difftest(
         xor=xor,
         test_name=test_name,
         ignore_sliver_differences=ignore_sliver_differences,
+        show=True,
     ):
         print(
             f"\ngds_run {filename!r} changed from gds_ref {str(ref_file)!r}\n"

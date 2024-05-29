@@ -136,7 +136,7 @@ def find_min_curv_bezier_control_points(
 
     # initial_guess = [(x0 + xn) / 2, y0, (x0 + xn) / 2, yn]
     res = minimize(objective_func, initial_guess, method="Nelder-Mead")
-    p = res.dx
+    p = res.x
     points = [tuple(start_point)] + array_1d_to_cpts(p) + [tuple(end_point)]
     return tuple(points)
 

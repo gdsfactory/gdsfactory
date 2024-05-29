@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.typings import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -13,7 +13,7 @@ def ring_single(
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.6,
-    coupler_ring: ComponentFactory = coupler_ring_function,
+    coupler_ring: ComponentSpec = coupler_ring_function,
     bend: ComponentFactory = bend_euler,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -67,7 +67,8 @@ def ring_single(
         raise ValueError(f"length_x={length_x} must be > 0")
 
     c = gf.Component()
-    cb = c << coupler_ring(
+    cb = c << gf.get_component(
+        coupler_ring,
         bend=bend,
         gap=gap,
         radius=radius,
@@ -75,7 +76,7 @@ def ring_single(
         cross_section=cross_section,
     )
     sy = straight(length=length_y, cross_section=cross_section)
-    b = bend(cross_section=cross_section)
+    b = gf.get_component(bend, cross_section=cross_section)
     sx = straight(length=length_x, cross_section=cross_section)
 
     sl = c << sy

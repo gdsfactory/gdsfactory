@@ -1,5 +1,4 @@
 connections:
-  b1,o2: b2,o2
 instances:
   b1:
     component: bend_circular
@@ -41,13 +40,13 @@ instances:
       allow_min_radius_violation: false
 placements:
   b1:
-    x: 5.125
-    'y': 4.875
+    x: 0.0
+    'y': 0.0
     rotation: 0.0
     mirror: false
   b2:
-    x: 14.875
-    'y': 4.875
+    x: 20.0
+    'y': 0.0
     rotation: 180.0
     mirror: true
 ports: {}

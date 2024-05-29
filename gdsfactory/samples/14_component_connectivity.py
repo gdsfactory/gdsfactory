@@ -69,7 +69,7 @@ def ring_single_sample(
     bl = c << bend
     br = c << bend
     wt = c << straight_top
-    # wt.mirror(p1=(0, 0), p2=(1, 0))
+    # wt.dmirror(p1=(0, 0), p2=(1, 0))
 
     wl.connect(port="o2", other=cb.ports["o2"])
     bl.connect(port="o2", other=wl.ports["o1"])

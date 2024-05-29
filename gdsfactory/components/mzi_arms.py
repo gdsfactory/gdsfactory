@@ -171,7 +171,7 @@ if __name__ == "__main__":
     # c = mzi_arms(
     #     delta_length=50,
     #     # straight_x_top=bend_s,
-    #     # straight_x_bot=gf.compose(gf.functions.mirror, bend_s),
+    #     # straight_x_bot=gf.compose(gf.functions.dmirror, bend_s),
     #     # straight_x_top=gf.components.straight_heater_meander,
     #     # straight_x_bot=gf.components.straight_heater_meander,
     #     # straight_x_top=gf.components.straight_heater_metal,

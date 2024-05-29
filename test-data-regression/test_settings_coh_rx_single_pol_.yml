@@ -1,5 +1,5 @@
 info: {}
-name: coh_rx_single_pol_Bbend_euler_CSstrip_H9mmi_90degree_hybrid_Dge_detector_straight_si_contacts_DS60_50_IWL20_LICNone_SICNone_CSMTmetal3_CSMmetal2
+name: coh_rx_single_pol_Bbend_2d92c3e3
 settings:
   bend: bend_euler
   cross_section: strip

@@ -76,8 +76,8 @@ def ge_detector_straight_si_contacts(
         size=(via_stack_length, via_stack_width),
     )
 
-    via_stack_bot.dxmin = wg.xmin
-    via_stack_top.dxmin = wg.xmin
+    via_stack_bot.dxmin = wg.dxmin
+    via_stack_top.dxmin = wg.dxmin
 
     via_stack_top.dymin = +via_stack_spacing / 2 + via_stack_offset
     via_stack_bot.dymax = -via_stack_spacing / 2 + via_stack_offset

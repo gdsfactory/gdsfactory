@@ -1,5 +1,5 @@
 info: {}
-name: ring_single_bend_coupler_R5_G0p2_CAC180_Bbend_circular_LX0p6_LY0p6_CSIstrip_CSOstrip
+name: ring_single_bend_couple_ea2caa2e
 settings:
   bend: bend_circular
   coupling_angle_coverage: 180.0

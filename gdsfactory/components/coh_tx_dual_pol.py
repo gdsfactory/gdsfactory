@@ -82,7 +82,7 @@ def coh_tx_dual_pol(
     if combiner:
         combiner = gf.get_component(combiner)
         comb = c << combiner
-        comb.mirror()
+        comb.dmirror()
 
         comb.dx = single_tx_1.dxmax + xspacing
         comb.dy = (single_tx_1.ports["o2"].dy + single_tx_2.ports["o2"].dy) / 2

@@ -55,7 +55,7 @@ def text(
         if justify == "left":
             pass
         elif justify == "right":
-            label.xmax = position[0]
+            label.dxmax = position[0]
         elif justify == "center":
             xmin = position[0] - label.dxsize / 2
             label.dxmin = xmin

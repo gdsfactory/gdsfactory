@@ -98,7 +98,7 @@ def ring_single_heater(
     bl = c << bend
     br = c << bend
     st = c << straight_top
-    # st.mirror(p1=(0, 0), p2=(1, 0))
+    # st.dmirror(p1=(0, 0), p2=(1, 0))
 
     sl.connect(port="o1", other=cb.ports["o2"])
     bl.connect(port="o2", other=sl.ports["o2"])
