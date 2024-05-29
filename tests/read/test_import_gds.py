@@ -13,7 +13,7 @@ from gdsfactory.read.import_gds import import_gds
 def test_import_gds_info() -> None:
     """Ensures Component from GDS + YAML loads same component settings."""
     c1 = gf.components.straight(length=1.234)
-    gdspath = gf.PATH.gdsdir / "straight.gds"
+    gdspath = c1.write_gds()
 
     c2 = gf.import_gds(gdspath)
     d1 = c1.to_dict()

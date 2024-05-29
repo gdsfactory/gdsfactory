@@ -4,7 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler_s
+from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.coupler_straight_asymmetric import (
     coupler_straight_asymmetric as coupler_straight_asymmetric_function,
 )
@@ -17,7 +17,7 @@ def mode_converter(
     gap: float = 0.3,
     length: float = 10,
     coupler_straight_asymmetric: ComponentSpec = coupler_straight_asymmetric_function,
-    bend: ComponentSpec = partial(bend_euler_s, angle=45),
+    bend: ComponentSpec = partial(bend_s, size=(25, 3)),
     taper: ComponentSpec = taper_function,
     mm_width: float = 1.2,
     mc_mm_width: float = 1,
@@ -74,6 +74,7 @@ def mode_converter(
         width1=mc_mm_width,
         width2=mm_width,
         length=taper_length,
+        cross_section=cross_section,
     )
 
     # directional coupler
@@ -98,8 +99,6 @@ def mode_converter(
     c.add_port("o3", port=r_bot_straight.ports["o2"])
     c.add_port("o2", port=l_bend.ports["o2"])
     c.add_port("o4", port=r_bend.ports["o2"])
-
-    c.flatten()
     return c
 
 

@@ -1,5 +1,5 @@
 info: {}
-name: straight_heater_metal_s_788b4eb2
+name: straight_heater_metal_s_61c5bdef
 settings:
   cross_section_heater: heater_metal
   cross_section_waveguide_heater: strip_heater_metal

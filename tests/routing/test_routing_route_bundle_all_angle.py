@@ -4,8 +4,6 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 
-# from gdsfactory.difftest import difftest
-
 
 def test_route_bundle_all_angle(
     data_regression: DataRegressionFixture, check: bool = True
@@ -20,16 +18,12 @@ def test_route_bundle_all_angle(
     mmi2.drotate(30)
 
     routes = gf.routing.route_bundle_all_angle(
-        mmi1.get_ports_list(orientation=0),
+        c,
+        mmi1.ports.filter(orientation=0),
         [mmi2.ports["o2"], mmi2.ports["o1"]],
-        connector=None,
     )
-    lengths = {}
-    for i, route in enumerate(routes):
-        c.add(route.references)
-        lengths[i] = float(route.length)
-
     if check:
+        lengths = {i: route.length for i, route in enumerate(routes)}
         data_regression.check(lengths)
 
 
@@ -44,11 +38,8 @@ if __name__ == "__main__":
     mmi2.drotate(30)
 
     routes = gf.routing.route_bundle_all_angle(
-        mmi1.get_ports_list(orientation=0),
+        c,
+        mmi1.ports.filter(orientation=0),
         [mmi2.ports["o2"], mmi2.ports["o1"]],
-        connector=None,
     )
-    for route in routes:
-        c.add(route.references)
-    c = c.flatten_invalid_refs()
     c.show()

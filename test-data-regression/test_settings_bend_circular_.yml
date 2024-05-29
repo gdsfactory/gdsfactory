@@ -7,7 +7,7 @@ info:
   route_info_type: xs_34e31a19
   route_info_weight: 15.708
   route_info_xs_34e31a19_length: 15.708
-name: bend_circular_RNone_A90_106d4176
+name: bend_circular_RNone_A90_35590aa7
 settings:
   allow_min_radius_violation: false
   angle: 90.0

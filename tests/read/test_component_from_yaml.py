@@ -166,13 +166,9 @@ routes:
 
 def test_connections_different_factory() -> None:
     c = from_yaml(sample_different_factory)
-    lengths = [660000, 660000, 700000]
-    assert np.isclose(c.routes["tl,e3:tr,e1"].length, lengths[0]), c.routes[
-        "tl,e3:tr,e1"
-    ].length
-    assert np.isclose(c.routes["bl,e3:br,e1"].length, lengths[1]), c.routes[
-        "bl,e3:br,e1"
-    ].length
+    lengths = [700000, 700000, 700000]
+    assert c.routes["tl,e3:tr,e1"].length == lengths[0], c.routes["tl,e3:tr,e1"].length
+    assert c.routes["bl,e3:br,e1"].length == lengths[1], c.routes["bl,e3:br,e1"].length
     assert np.isclose(c.routes["bl,e4:br,e3"].length, lengths[2]), c.routes[
         "bl,e4:br,e3"
     ].length
@@ -565,3 +561,7 @@ def test_settings(
 #     # pprint(d)
 #     d = jsondiff.diff(n, n2)
 #     assert len(d) == 0, pprint(d)
+
+
+if __name__ == "__main__":
+    test_connections_different_factory()

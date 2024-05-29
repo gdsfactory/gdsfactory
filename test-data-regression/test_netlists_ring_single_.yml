@@ -1,12 +1,12 @@
 connections:
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_34e31a19_AMRVFalse_-9125_16425,o1: straight_L4_N2_CSxs_34e31a19_-2000_21300,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_34e31a19_AMRVFalse_-9125_16425,o2: straight_L0p6_N2_CSxs_34e31a19_-14000_11000,o2
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_34e31a19_AMRVFalse_5125_16425,o1: straight_L0p6_N2_CSxs_34e31a19_10000_11000,o1
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_34e31a19_AMRVFalse_5125_16425,o2: straight_L4_N2_CSxs_34e31a19_-2000_21300,o1
-  coupler_ring_G0p2_R10_LX4_Ccoupler90_Bbend_euler_CScoupler_straight_CSxs_34e31a19_CSBNone_LE3_-2000_5225,o2: straight_L0p6_N2_CSxs_34e31a19_-14000_11000,o1
-  coupler_ring_G0p2_R10_LX4_Ccoupler90_Bbend_euler_CScoupler_straight_CSxs_34e31a19_CSBNone_LE3_-2000_5225,o3: straight_L0p6_N2_CSxs_34e31a19_10000_11000,o2
+  bend_euler_RNone_A90_P0_9c04db3b_-9125_16425,o1: straight_L4_N2_CSxs_34e31a19_-2000_21300,o2
+  bend_euler_RNone_A90_P0_9c04db3b_-9125_16425,o2: straight_L0p6_N2_CSxs_34e31a19_-14000_11000,o2
+  bend_euler_RNone_A90_P0_9c04db3b_5125_16425,o1: straight_L0p6_N2_CSxs_34e31a19_10000_11000,o1
+  bend_euler_RNone_A90_P0_9c04db3b_5125_16425,o2: straight_L4_N2_CSxs_34e31a19_-2000_21300,o1
+  coupler_ring_G0p2_R10_L_fd07af3c_-2000_5225,o2: straight_L0p6_N2_CSxs_34e31a19_-14000_11000,o1
+  coupler_ring_G0p2_R10_L_fd07af3c_-2000_5225,o3: straight_L0p6_N2_CSxs_34e31a19_10000_11000,o2
 instances:
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_34e31a19_AMRVFalse_-9125_16425:
+  bend_euler_RNone_A90_P0_9c04db3b_-9125_16425:
     component: bend_euler
     info:
       dy: 10.0
@@ -23,13 +23,9 @@ instances:
       angle: 90.0
       clockwise: false
       cross_section: xs_34e31a19
-      layer: null
-      npoints: null
       p: 0.5
-      radius: null
-      width: null
       with_arc_floorplan: true
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_34e31a19_AMRVFalse_5125_16425:
+  bend_euler_RNone_A90_P0_9c04db3b_5125_16425:
     component: bend_euler
     info:
       dy: 10.0
@@ -46,13 +42,9 @@ instances:
       angle: 90.0
       clockwise: false
       cross_section: xs_34e31a19
-      layer: null
-      npoints: null
       p: 0.5
-      radius: null
-      width: null
       with_arc_floorplan: true
-  coupler_ring_G0p2_R10_LX4_Ccoupler90_Bbend_euler_CScoupler_straight_CSxs_34e31a19_CSBNone_LE3_-2000_5225:
+  coupler_ring_G0p2_R10_L_fd07af3c_-2000_5225:
     component: coupler_ring
     info: {}
     settings:
@@ -60,7 +52,6 @@ instances:
       coupler90: coupler90
       coupler_straight: coupler_straight
       cross_section: xs_34e31a19
-      cross_section_bend: null
       gap: 0.2
       length_extension: 3
       length_x: 4.0
@@ -104,38 +95,38 @@ instances:
       cross_section: xs_34e31a19
       length: 4.0
       npoints: 2
-name: ring_single_G0p2_R10_LX4_LY0p6_CRcoupler_ring_Bbend_euler_CSstrip
+name: ring_single_G0p2_R10_LX_3ca26ca7
 placements:
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_34e31a19_AMRVFalse_-9125_16425:
+  bend_euler_RNone_A90_P0_9c04db3b_-9125_16425:
     mirror: false
     rotation: 180.0
-    x: -9.125
-    y: 16.425
-  bend_euler_RNone_A90_P0p5_WAFTrue_NNone_LNone_WNone_CFalse_CSxs_34e31a19_AMRVFalse_5125_16425:
+    x: -4.0
+    y: 21.3
+  bend_euler_RNone_A90_P0_9c04db3b_5125_16425:
     mirror: false
     rotation: 90.0
-    x: 5.125
-    y: 16.425
-  coupler_ring_G0p2_R10_LX4_Ccoupler90_Bbend_euler_CScoupler_straight_CSxs_34e31a19_CSBNone_LE3_-2000_5225:
+    x: 10.0
+    y: 11.3
+  coupler_ring_G0p2_R10_L_fd07af3c_-2000_5225:
     mirror: false
     rotation: 0.0
-    x: -2.0
-    y: 5.2250000000000005
+    x: 0.0
+    y: 0.0
   straight_L0p6_N2_CSxs_34e31a19_-14000_11000:
     mirror: false
     rotation: 90.0
     x: -14.0
-    y: 11.0
+    y: 10.700000000000001
   straight_L0p6_N2_CSxs_34e31a19_10000_11000:
     mirror: false
     rotation: 270.0
     x: 10.0
-    y: 11.0
+    y: 11.3
   straight_L4_N2_CSxs_34e31a19_-2000_21300:
     mirror: false
     rotation: 180.0
-    x: -2.0
+    x: 0.0
     y: 21.3
 ports:
-  o1: coupler_ring_G0p2_R10_LX4_Ccoupler90_Bbend_euler_CScoupler_straight_CSxs_34e31a19_CSBNone_LE3_-2000_5225,o1
-  o2: coupler_ring_G0p2_R10_LX4_Ccoupler90_Bbend_euler_CScoupler_straight_CSxs_34e31a19_CSBNone_LE3_-2000_5225,o4
+  o1: coupler_ring_G0p2_R10_L_fd07af3c_-2000_5225,o1
+  o2: coupler_ring_G0p2_R10_L_fd07af3c_-2000_5225,o4

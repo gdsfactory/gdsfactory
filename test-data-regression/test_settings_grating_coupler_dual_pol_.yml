@@ -1,7 +1,7 @@
 info:
   polarization: dual
   wavelength: 1.55
-name: grating_coupler_dual_po_b4260071
+name: grating_coupler_dual_po_b95dc69d
 settings:
   base_layer: WG
   cross_section: strip

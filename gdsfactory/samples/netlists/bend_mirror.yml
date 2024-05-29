@@ -12,11 +12,7 @@ instances:
       route_info_xs_34e31a19_length: 15.708
       route_info_n_bend_90: 1.0
     settings:
-      radius: null
       angle: 90.0
-      npoints: null
-      layer: null
-      width: null
       cross_section: strip
       allow_min_radius_violation: false
   b2:
@@ -31,11 +27,7 @@ instances:
       route_info_xs_34e31a19_length: 15.708
       route_info_n_bend_90: 1.0
     settings:
-      radius: null
       angle: 90.0
-      npoints: null
-      layer: null
-      width: null
       cross_section: strip
       allow_min_radius_violation: false
 placements:
