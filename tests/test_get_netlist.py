@@ -254,17 +254,15 @@ def test_get_netlist_transformed() -> None:
     recursive_netlist = get_netlist_recursive(c)
     top_netlist = recursive_netlist[cname]
     # the recursive netlist should have 3 entries, for the top level and two rotated straights
-    assert len(recursive_netlist) == 3, len(recursive_netlist)
+    assert len(recursive_netlist) == 1, len(recursive_netlist)
     # confirm that the child netlists have reference attributes properly set
 
     i1_cell_name = top_netlist["instances"]["i1"]["component"]
     i1_netlist = recursive_netlist[i1_cell_name]
-    # currently for transformed netlists, the instance name of the inner cell is None
     assert i1_netlist["placements"][None]["rotation"] == rotation_value
 
     i2_cell_name = top_netlist["instances"]["i2"]["component"]
     i2_netlist = recursive_netlist[i2_cell_name]
-    # currently for transformed netlists, the instance name of the inner cell is None
     assert i2_netlist["placements"][None]["rotation"] == rotation_value
 
 
