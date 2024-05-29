@@ -424,11 +424,16 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
             component_derived.shapes(layer_index).insert(polygon)
 
         # Add all the etching layers (OR)
+        polygons_to_remove = kf.kdb.Region()
+
         for etching_layers in unetched_layers:
             layer = layer_stack.layers[etching_layers].layer
             if layer in polygons_per_layer:
                 layer_index = get_layer(layer)
                 B_polys = polygons_per_layer[layer]
+                r2 = kf.kdb.Region(B_polys)
+                polygons_to_remove = polygons_to_remove | r2
+
                 derived_layer = layer_stack.layers[etching_layers].derived_layer
                 if derived_layer:
                     r1 = polygons
@@ -442,15 +447,11 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
                     r = component_derived.shapes(layer_index).insert(r)
 
         # Remove all etching layers
-        # layer = layer_stack.layers[unetched_layer_name].layer
-        # polygons = polygons_per_layer[layer]
-        # unetched_polys = boolean(
-        #     polygons,
-        #     polygons_to_remove,
-        #     operation="not",
-        #     layer=layer
-        # )
-        # component_derived.shapes(layer_index).insert(unetched_polys)
+        layer = layer_stack.layers[unetched_layer_name].layer
+        polygons = polygons_per_layer[layer]
+        f = boolean_operations["not"]
+        r = f(polygons, polygons_to_remove)
+        r = component_derived.shapes(layer_index).insert(r)
 
     component_derived.add_ports(component.ports)
     return component_derived
@@ -462,19 +463,20 @@ if __name__ == "__main__":
 
     layer_stack = LAYER_STACK
 
-    c = gf.components.straight_heater_metal()
+    c = gf.components.grating_coupler_elliptical_trenches()
+    c = c.to_3d()
     c.show()
 
     # import gdsfactory as gf
     # from gdsfactory.generic_tech import LAYER_STACK
     # component = c = gf.components.grating_coupler_elliptical_trenches()
-    component = c = gf.components.taper_strip_to_ridge_trenches()
+    # component = c = gf.components.taper_strip_to_ridge_trenches()
     # script = LAYER_STACK.get_klayout_3d_script()
     # print(script)
     # ls = layer_stack = LAYER_STACK
     # layer_to_thickness = layer_stack.get_layer_to_thickness()
-    c = layer_stack.get_component_with_derived_layers(component)
-    c.show()
+    # c = layer_stack.get_component_with_derived_layers(component)
+    # c.show()
     # import pathlib
     # filepath = pathlib.Path(
     #     "/home/jmatres/gdslib/sp/temp/write_sparameters_meep_mpi.json"
