@@ -4,7 +4,6 @@ import gdsfactory as gf
 from gdsfactory import Port
 
 
-@gf.cell()
 def test_connect_corner(data_regression: DataRegressionFixture, N=6, config="A"):
     d = 10.0
     sep = 5.0
@@ -212,7 +211,7 @@ def test_connect_corner(data_regression: DataRegressionFixture, N=6, config="A")
             for i, route in enumerate(routes):
                 lengths[i] = route.length
 
-        data_regression.check(lengths)
+    data_regression.check(lengths)
 
 
 if __name__ == "__main__":
