@@ -804,11 +804,7 @@ def extrude(
         cross_section = CrossSection(sections=(s,))
 
     xsection_points = []
-    if all_angle:
-        c = ComponentAllAngle()
-
-    else:
-        c = Component()
+    c = ComponentAllAngle() if all_angle else Component()
     x = get_cross_section(cross_section)
 
     if isinstance(x, Transition):
