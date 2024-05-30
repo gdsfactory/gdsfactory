@@ -712,7 +712,7 @@ def from_yaml(
     )
 
 
-# @gf.cell(rec_dicts=True, set_name=False)
+@kf.cell(rec_dicts=True, set_name=False)
 def _from_yaml(
     conf,
     routing_strategy: dict[str, Callable],
