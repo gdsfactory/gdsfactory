@@ -12,16 +12,16 @@
 ![logo](https://i.imgur.com/cN1ZWq8.png)
 
 > **⚠️ Warning:**
-> You are viewing a preview of the gdsfactory v8 release. The old version of gdsfactory has been moved to the gdsfactory7 repository: [https://github.com/gdsfactory/gdsfactory7](https://github.com/gdsfactory/gdsfactory7).
+> You are viewing a preview of the gdsfactory v8 release. The gdsfactory v7 has been moved to the gdsfactory7 repository: [https://github.com/gdsfactory/gdsfactory7](https://github.com/gdsfactory/gdsfactory7).
 >
-> gdsfactory v8 is based on kfactory, offering enhanced routing functions and additional features from klayout, including DRC verification, dummy fill, and netlist tracing.
+> gdsfactory v8 is based on kfactory, offers enhanced routing functions and additional features from klayout, including DRC, dummy fill, and connectivity checks.
 
 
 Gdsfactory is a Python library for designing chips (Photonics, Analog, Quantum, MEMs, and more), 3D printed objects, and PCBs.
 Here, you can code your designs in Python or YAML, perform verification (DRC, simulation, and extraction), and enable automated testing in the lab to ensure your fabricated devices meet your specifications. As input you write python code, as an output GDSFactory creates CAD files (GDS, OASIS, STL, GERBER).
 
 
-![cad](https://i.imgur.com/bbBVlmv.png)
+![cad](https://i.imgur.com/TWP80ez.png)
 
 Highlights:
 
@@ -75,7 +75,7 @@ You can also access:
 - instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
 - instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
-![pdks](https://i.imgur.com/deSWuyJ.png)
+![pdks](https://i.imgur.com/7O011v0.png)
 
 ## Getting started
 
@@ -127,7 +127,7 @@ Hundreds of organisations are using gdsfactory. Some companies and organizations
 
 - It's fast, extensible and easy to use.
 - It's free, as in freedom and in cost.
-- It's the most popular EDA tool with a growing community of users and developers, and extensions to other tools.
+- It's the most popular EDA tool with a growing community of users, developers, and extensions to other tools.
 
 Gdsfactory is really fast thanks a C++ library for manipulating GDSII objects. You will notice this when reading/writing big GDS files or doing large boolean operations.
 
