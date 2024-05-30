@@ -19,6 +19,34 @@ class LogicalLayer(BaseModel):
 
     layer: tuple[int, int] | kf.LayerEnum
 
+    def __eq__(self, other):
+        """Check if two LogicalLayer instances are equal.
+
+        This method compares the 'layer' attribute of the two LogicalLayer instances.
+
+        Args:
+            other (LogicalLayer): The other LogicalLayer instance to compare with.
+
+        Returns:
+            bool: True if the 'layer' attributes are equal, False otherwise.
+
+        Raises:
+            NotImplementedError: If 'other' is not an instance of LogicalLayer.
+        """
+        if not isinstance(other, type(self)):
+            raise NotImplementedError(f"{other} is not a {type(self)}")
+        return self.layer == other.layer
+
+    def __hash__(self):
+        """Generates a hash value for a LogicalLayer instance.
+
+        This method allows LogicalLayer instances to be used in hash-based data structures such as sets and dictionaries.
+
+        Returns:
+            int: The hash value of the layer attribute.
+        """
+        return hash(self.layer)
+
     # Boolean AND (&)
     def __and__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
         """Represents boolean AND (&) operation between two layers.
