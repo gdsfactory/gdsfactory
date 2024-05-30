@@ -232,7 +232,7 @@ from gdsfactory.components.spiral_heater import (
 )
 from gdsfactory.components.splitter_chain import splitter_chain
 from gdsfactory.components.splitter_tree import splitter_tree, switch_tree
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight, straight_all_angle
 from gdsfactory.components.straight_array import straight_array
 from gdsfactory.components.straight_heater_doped import (
     straight_heater_doped_rib,
@@ -489,6 +489,7 @@ __all__ = [
     "splitter_tree",
     "staircase",
     "straight",
+    "straight_all_angle",
     "straight_array",
     "straight_heater_doped_rib",
     "straight_heater_doped_strip",
