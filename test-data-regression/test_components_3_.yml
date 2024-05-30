@@ -1,3 +1,36 @@
 info: {}
 name: dxdy
-settings: {}
+settings:
+  conf:
+    instances:
+      mmi_long:
+        component: mmi1x2
+        settings:
+          length_mmi: 10
+          width_mmi: 4.5
+      mmi_short:
+        component: mmi1x2
+        settings:
+          length_mmi: 5
+          width_mmi: 4.5
+    name: dxdy
+    placements:
+      mmi_long:
+        dx: 10
+        dy: -10
+        port: o1
+        x: mmi_short,o2
+        y: mmi_short,o2
+      mmi_short:
+        port: o1
+        x: 0
+        y: 0
+    ports:
+      o1: mmi_long,o3
+  label_instance_function: add_instance_label
+  mode: layout
+  name: dxdy
+  routing_strategy:
+    route_bundle: route_bundle
+    route_bundle_all_angle: route_bundle_all_angle
+    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSmetal_routing_PTelectrical_AWMTrue

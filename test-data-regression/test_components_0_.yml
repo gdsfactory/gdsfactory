@@ -1,3 +1,28 @@
 info: {}
 name: mirror_port
-settings: {}
+settings:
+  conf:
+    instances:
+      mmi_long:
+        component: mmi1x2
+        settings:
+          length_mmi: 5
+          width_mmi: 4.5
+    name: mirror_port
+    placements:
+      mmi_long:
+        mirror: true
+        port: o1
+        x: 20
+        y: 10
+    ports:
+      o1: mmi_long,o3
+      o2: mmi_long,o2
+      o3: mmi_long,o1
+  label_instance_function: add_instance_label
+  mode: layout
+  name: mirror_port
+  routing_strategy:
+    route_bundle: route_bundle
+    route_bundle_all_angle: route_bundle_all_angle
+    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSmetal_routing_PTelectrical_AWMTrue

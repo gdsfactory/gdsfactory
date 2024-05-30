@@ -1,3 +1,52 @@
 info: {}
 name: component_yaml_ports
-settings: {}
+settings:
+  conf:
+    instances:
+      mmi_bot:
+        component: compass
+        settings:
+          port_type: None
+          size:
+          - 13.5
+          - 7
+    name: component_yaml_ports
+    ports:
+      o1:
+        center:
+        - -0.5
+        - 0.225
+        layer: WG
+        name: o1
+        orientation: 180
+        port_type: optical
+        width: 0.45
+      o2:
+        center:
+        - 13
+        - 3.675
+        layer:
+        - 1
+        - 0
+        name: o2
+        orientation: 0
+        port_type: optical
+        width: 0.45
+      o3:
+        center:
+        - 13
+        - -3.225
+        layer:
+        - 1
+        - 0
+        name: o3
+        orientation: 0
+        port_type: optical
+        width: 0.45
+  label_instance_function: add_instance_label
+  mode: layout
+  name: component_yaml_ports
+  routing_strategy:
+    route_bundle: route_bundle
+    route_bundle_all_angle: route_bundle_all_angle
+    route_bundle_electrical: Froute_bundle_Mgdsfactoryproutingproute_bundle_SBwire_corner_CSmetal_routing_PTelectrical_AWMTrue
