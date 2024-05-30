@@ -52,10 +52,7 @@ def size(region: kdb.Region, offset: float, dbu=1e3) -> kdb.Region:
 
 
 def boolean_or(region1: kdb.Region, region2: kdb.Region) -> kdb.Region:
-    if kdb.Region.interacting(region1, region2):
-        return kdb.Region.merge(region1.__or__(region2))
-    else:
-        return region1.__or__(region2)
+    return (region1.__or__(region2)).merge()
 
 
 def boolean_not(region1: kdb.Region, region2: kdb.Region) -> kdb.Region:
