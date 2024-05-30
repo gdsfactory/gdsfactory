@@ -57,6 +57,7 @@ from collections.abc import Callable
 from functools import partial
 from typing import IO, Any, Literal
 
+import kfactory as kf
 from omegaconf import DictConfig, OmegaConf
 
 from gdsfactory.add_pins import add_instance_label
@@ -260,14 +261,17 @@ def place(
         rotation = placement_settings.get("rotation")
         mirror = placement_settings.get("mirror")
 
+        if rotation:
+            if port:
+                ref.drotate(rotation, center=_get_anchor_point_from_name(ref, port))
+            else:
+                ref.drotate(rotation)
+
         if mirror:
             if mirror is True and port:
                 ref.dmirror_x(x=_get_anchor_value_from_name(ref, port, "x"))
             elif mirror is True:
-                if x:
-                    ref.dmirror_x(x=ref.dx)
-                else:
-                    ref.dmirror_x()
+                ref.dcplx_trans *= kf.kdb.DCplxTrans(1, 0, True, 0, 0)
             elif mirror is False:
                 pass
             elif isinstance(mirror, str):
@@ -306,9 +310,6 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
 
-        # print(instance_name, x, xmin, xmax, y, ymin, ymax)
-        # print(ymin, y or ymin or ymax)
-
         if y is not None:
             ref.dy += _move_ref(
                 y,
@@ -319,15 +320,6 @@ def place(
                 encountered_insts=encountered_insts,
                 all_remaining_insts=all_remaining_insts,
             )
-
-        if rotation:
-            if port:
-                ref.drotate(rotation, center=_get_anchor_point_from_name(ref, port))
-            else:
-                origin = ref.dtrans.disp
-                x = origin.x
-                y = origin.y
-                ref.drotate(rotation, center=(x, y))
 
         if ymin is not None and ymax is not None:
             raise ValueError("You cannot set ymin and ymax")

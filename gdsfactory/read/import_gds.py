@@ -32,15 +32,21 @@ def import_gds(
     temp_kcl.read(gdspath)
     cellname = cellname or temp_kcl.top_cell().name
     kcell = temp_kcl[cellname]
+    c = kcell_to_component(kcell)
 
+    if post_process:
+        post_process(c)
+    return c
+
+
+def kcell_to_component(kcell: kf.KCell) -> Component:
     c = Component()
-    c.name = cellname
     c._kdb_cell.copy_tree(kcell._kdb_cell)
+    c.rebuild()
     c.ports = kcell.ports
     c._settings = kcell.settings.model_copy()
     c.info = kcell.info.model_copy()
-    if post_process:
-        post_process(c)
+    c.name = kcell.name
     return c
 
 

@@ -566,7 +566,15 @@ def add_instance_label(
     instance_name: str | None = None,
     layer: LayerSpec = "LABEL_INSTANCE",
 ) -> None:
-    """Adds label to a reference in a component."""
+    """Adds label to a reference in a component.
+
+    Args:
+        component: to add instance label.
+        reference: to add label.
+        instance_name: label name.
+        layer: layer for the label.
+
+    """
     instance_name = (
         instance_name
         or f"{reference.parent.name},{int(reference.dx)},{int(reference.dy)}"
@@ -587,12 +595,7 @@ def add_pins_and_outline(
     add_settings_function: Callable | None = add_settings_label,
     add_instance_label_function: Callable | None = add_settings_label,
 ) -> None:
-    """Add pin markers and component outline.
-
-    - outline
-    - pins for the ports
-    - label for the name
-    - label for the settings
+    """Add pins component outline.
 
     Args:
         component: where to add the markers.

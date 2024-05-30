@@ -2,7 +2,7 @@ info:
   fiber_angle: 15
   polarization: te
   wavelength: 1.55
-name: grating_coupler_rectang_d4b9a269
+name: grating_coupler_rectang_69c0fb76
 settings:
   cross_section: strip
   fiber_angle: 15

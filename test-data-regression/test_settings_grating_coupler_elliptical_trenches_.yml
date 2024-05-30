@@ -2,7 +2,7 @@ info:
   period: 0.676
   polarization: te
   wavelength: 1.53
-name: grating_coupler_ellipti_9912b531
+name: grating_coupler_ellipti_b64d4cf1
 settings:
   cross_section: strip
   end_straight_length: 0.2

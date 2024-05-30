@@ -29,7 +29,7 @@ if __name__ == "__main__":
     for i, port in enumerate(
         splitter_tree.ports.filter(orientation=0, port_type="optical")
     ):
-        ref = c.add_ref(phase_shifter, alias=f"ps{i}")
+        ref = c.add_ref(phase_shifter, name=f"ps{i}")
         ref.connect("o1", port)
         c.add_ports(ref.ports.filter(port_type="electrical"), prefix=f"ps{i}")
         phase_shifter_optical_ports.append(ref.ports["o2"])

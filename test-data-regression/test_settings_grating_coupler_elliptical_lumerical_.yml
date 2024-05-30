@@ -2,7 +2,7 @@ info:
   polarization: te
   wavelength: 1.554
   xinput: -2.43
-name: grating_coupler_ellipti_b976ae01
+name: grating_coupler_ellipti_b2b21f8a
 settings:
   bias_gap: 0
   cross_section: strip

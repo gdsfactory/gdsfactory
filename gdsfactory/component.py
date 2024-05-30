@@ -52,7 +52,7 @@ def size(region: kdb.Region, offset: float, dbu=1e3) -> kdb.Region:
 
 
 def boolean_or(region1: kdb.Region, region2: kdb.Region) -> kdb.Region:
-    return region1.__or__(region2)
+    return (region1.__or__(region2)).merge()
 
 
 def boolean_not(region1: kdb.Region, region2: kdb.Region) -> kdb.Region:
@@ -71,7 +71,7 @@ boolean_operations = {
     "or": boolean_or,
     "|": boolean_or,
     "not": boolean_not,
-    "-": boolean_or,
+    "-": boolean_not,
     "^": boolean_xor,
     "xor": boolean_xor,
     "&": boolean_and,
@@ -828,11 +828,14 @@ class Component(kf.KCell):
             exclude_layers=exclude_layers,
         )
 
-    def get_netlist(self, **kwargs) -> dict[str, Any]:
+    def get_netlist(self, flat: bool = False, **kwargs) -> dict[str, Any]:
         """Returns a netlist for circuit simulation."""
-        from gdsfactory.get_netlist import get_netlist
+        from gdsfactory.get_netlist import get_netlist as _get_netlist
+        from gdsfactory.get_netlist_flat import get_netlist_flat as _get_netlist_flat
 
-        return get_netlist(self, **kwargs)
+        return (
+            _get_netlist_flat(self, **kwargs) if flat else _get_netlist(self, **kwargs)
+        )
 
     def write_netlist(self, filepath: str, **kwargs) -> None:
         """Write netlist in YAML."""

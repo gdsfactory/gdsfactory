@@ -11,12 +11,9 @@ instances:
       route_info_weight: 15.708
       route_info_xs_34e31a19_length: 15.708
       route_info_n_bend_90: 1.0
+      route_info_min_bend_radius: 10.0
     settings:
-      radius: null
       angle: 90.0
-      npoints: null
-      layer: null
-      width: null
       cross_section: strip
       allow_min_radius_violation: false
   b2:
@@ -30,27 +27,24 @@ instances:
       route_info_weight: 15.708
       route_info_xs_34e31a19_length: 15.708
       route_info_n_bend_90: 1.0
+      route_info_min_bend_radius: 10.0
     settings:
-      radius: null
       angle: 90.0
-      npoints: null
-      layer: null
-      width: null
       cross_section: strip
       allow_min_radius_violation: false
 placements:
   b1:
-    x: 5.125
-    'y': 4.875
+    x: 0.0
+    'y': 0.0
     rotation: 0.0
     mirror: false
   b2:
-    x: -15.125
-    'y': 4.875
-    rotation: 180.0
+    x: 30.0
+    'y': 0.0
+    rotation: 0.0
     mirror: true
 ports: {}
-name: original
+name: test_netlist_yaml4
 warnings:
   optical:
     unconnected_ports:
@@ -64,8 +58,8 @@ warnings:
         - 0
       - - 10000
         - 10000
-      - - -10000
+      - - 30000
         - 0
-      - - -20000
-        - 10000
+      - - 40000
+        - -10000
       message: 4 unconnected optical ports!

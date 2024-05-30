@@ -169,7 +169,7 @@ def get_netlist(
 
         # Prefer name from settings over c.name
         if c.settings:
-            settings = c.settings.model_dump()
+            settings = c.settings.model_dump(exclude_none=True)
 
             instance.update(
                 component=c.function_name,
@@ -514,9 +514,11 @@ def get_netlist_recursive(
                 inst_name = get_instance_name(ref)
                 netlist_dict = {"component": f"{rcell.name}{component_suffix}"}
                 if hasattr(rcell, "settings"):
-                    netlist_dict.update(settings=rcell.settings)
+                    netlist_dict.update(
+                        settings=rcell.settings.model_dump(exclude_none=True)
+                    )
                 if hasattr(rcell, "info"):
-                    netlist_dict.update(info=rcell.info)
+                    netlist_dict.update(info=rcell.info.model_dump(exclude_none=True))
                 netlist["instances"][inst_name] = netlist_dict
 
     return all_netlists
@@ -542,7 +544,6 @@ def _demo_mzi_lattice() -> None:
         delta_lengths=delta_lengths,
     )
     c.get_netlist()
-    print(c.get_netlist_yaml())
 
 
 DEFAULT_CONNECTION_VALIDATORS = get_default_connection_validators()
@@ -566,6 +567,7 @@ if __name__ == "__main__":
     bend.connect("o1", mzi.ports["o2"])
     bend.name = "bend"
     n0 = c.get_netlist()
+    # pprint(n0)
 
     gdspath = c.write_gds("test.gds")
     c = gf.import_gds(gdspath)

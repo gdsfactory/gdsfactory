@@ -39,8 +39,8 @@ def edge_coupler_array(
 
     c = Component()
     for i in range(n):
-        alias = f"ec_{i}"
-        ref = c.add_ref(edge_coupler, alias=alias)
+        ref = c.add_ref(edge_coupler)
+        ref.name = f"ec_{i}"
         ref.dy = i * pitch
 
         if x_reflection:
