@@ -68,7 +68,7 @@ def taper(
     if length:
         xpts = [0, length, length, 0]
         ypts = [y1, y2, -y2, -y1]
-        c.add_polygon((xpts, ypts), layer=layer)
+        c.add_polygon(tuple(zip(xpts, ypts)), layer=layer)
 
         xpts = [0, length, length, 0]
         for section in x.sections[1:]:
