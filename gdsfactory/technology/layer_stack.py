@@ -14,17 +14,17 @@ if TYPE_CHECKING:
     from gdsfactory.technology import LayerViews
 
 
-class GDSLayer(BaseModel):
+class LogicalLayer(BaseModel):
     """GDS design layer."""
 
     layer: tuple[int, int] | kf.LayerEnum
 
     # Boolean AND (&)
-    def __and__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+    def __and__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
         """Represents boolean AND (&) operation between two layers.
 
         Args:
-            other (GDSLayer | DerivedLayer): Another Layer object to perform AND operation.
+            other (LogicalLayer | DerivedLayer): Another Layer object to perform AND operation.
 
         Returns:
             A new DerivedLayer with the AND operation logged.
@@ -32,22 +32,22 @@ class GDSLayer(BaseModel):
         return DerivedLayer(layer1=self, layer2=other, operation="and")
 
     # Boolean OR (|, +)
-    def __or__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+    def __or__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
         """Represents boolean OR (|) operation between two layers.
 
         Args:
-            other (GDSLayer | DerivedLayer): Another Layer object to perform OR operation.
+            other (LogicalLayer | DerivedLayer): Another Layer object to perform OR operation.
 
         Returns:
             A new DerivedLayer with the OR operation logged.
         """
         return DerivedLayer(layer1=self, layer2=other, operation="or")
 
-    def __add__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+    def __add__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
         """Represents boolean OR (+) operation between two derived layers.
 
         Args:
-            other (GDSLayer | DerivedLayer): Another Layer object to perform OR operation.
+            other (LogicalLayer | DerivedLayer): Another Layer object to perform OR operation.
 
         Returns:
             A new DerivedLayer with the AND operation logged.
@@ -55,11 +55,11 @@ class GDSLayer(BaseModel):
         return DerivedLayer(layer1=self, layer2=other, operation="or")
 
     # Boolean XOR (^)
-    def __xor__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+    def __xor__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
         """Represents boolean XOR (^) operation between two derived layers.
 
         Args:
-            other (GDSLayer | DerivedLayer): Another Layer object to perform XOR operation.
+            other (LogicalLayer | DerivedLayer): Another Layer object to perform XOR operation.
 
         Returns:
             A new DerivedLayer with the XOR operation logged.
@@ -67,11 +67,11 @@ class GDSLayer(BaseModel):
         return DerivedLayer(layer1=self, layer2=other, operation="xor")
 
     # Boolean NOT (-)
-    def __sub__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+    def __sub__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
         """Represents boolean NOT (-) operation on a derived layer.
 
         Args:
-            other (GDSLayer | DerivedLayer): Another Layer object to perform NOT operation.
+            other (LogicalLayer | DerivedLayer): Another Layer object to perform NOT operation.
 
         Returns:
             A new DerivedLayer with the NOT operation logged.
@@ -90,16 +90,16 @@ class DerivedLayer(BaseModel):
         operation: operation to perform between layer1 and layer2. One of "and", "or", "xor", or "not" or associated symbols.
     """
 
-    layer1: GDSLayer | DerivedLayer
-    layer2: GDSLayer | DerivedLayer
+    layer1: LogicalLayer | DerivedLayer
+    layer2: LogicalLayer | DerivedLayer
     operation: Literal["and", "&", "or", "|", "xor", "^", "not", "-"]
 
     # Boolean AND (&)
-    def __and__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+    def __and__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
         """Represents boolean AND (&) operation between two layers.
 
         Args:
-            other (GDSLayer | DerivedLayer): Another Layer object to perform AND operation.
+            other (LogicalLayer | DerivedLayer): Another Layer object to perform AND operation.
 
         Returns:
             A new DerivedLayer with the AND operation logged.
@@ -107,22 +107,22 @@ class DerivedLayer(BaseModel):
         return DerivedLayer(layer1=self, layer2=other, operation="and")
 
     # Boolean OR (|, +)
-    def __or__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+    def __or__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
         """Represents boolean OR (|) operation between two layers.
 
         Args:
-            other (GDSLayer | DerivedLayer): Another Layer object to perform OR operation.
+            other (LogicalLayer | DerivedLayer): Another Layer object to perform OR operation.
 
         Returns:
             A new DerivedLayer with the OR operation logged.
         """
         return DerivedLayer(layer1=self, layer2=other, operation="or")
 
-    def __add__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+    def __add__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
         """Represents boolean OR (+) operation between two derived layers.
 
         Args:
-            other (GDSLayer | DerivedLayer): Another Layer object to perform OR operation.
+            other (LogicalLayer | DerivedLayer): Another Layer object to perform OR operation.
 
         Returns:
             A new DerivedLayer with the AND operation logged.
@@ -130,11 +130,11 @@ class DerivedLayer(BaseModel):
         return DerivedLayer(layer1=self, layer2=other, operation="or")
 
     # Boolean XOR (^)
-    def __xor__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+    def __xor__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
         """Represents boolean XOR (^) operation between two derived layers.
 
         Args:
-            other (GDSLayer | DerivedLayer): Another Layer object to perform XOR operation.
+            other (LogicalLayer | DerivedLayer): Another Layer object to perform XOR operation.
 
         Returns:
             A new DerivedLayer with the XOR operation logged.
@@ -142,11 +142,11 @@ class DerivedLayer(BaseModel):
         return DerivedLayer(layer1=self, layer2=other, operation="xor")
 
     # Boolean NOT (-)
-    def __sub__(self, other: GDSLayer | DerivedLayer) -> DerivedLayer:
+    def __sub__(self, other: LogicalLayer | DerivedLayer) -> DerivedLayer:
         """Represents boolean NOT (-) operation on a derived layer.
 
         Args:
-            other (GDSLayer | DerivedLayer): Another Layer object to perform NOT operation.
+            other (LogicalLayer | DerivedLayer): Another Layer object to perform NOT operation.
 
         Returns:
             A new DerivedLayer with the NOT operation logged.
@@ -161,8 +161,8 @@ class LayerLevel(BaseModel):
 
         # Identification
             name: str
-            layer: GDSLayer or DerivedLayer. DerivedLayers can be composed of operations consisting of multiple other GDSLayers or other DerivedLayers.
-            derived_layer: if the layer is derived, GDSLayer to assign to the derived layer.
+            layer: LogicalLayer or DerivedLayer. DerivedLayers can be composed of operations consisting of multiple other GDSLayers or other DerivedLayers.
+            derived_layer: if the layer is derived, LogicalLayer to assign to the derived layer.
 
         # Extrusion
             thickness: layer thickness in um.
@@ -194,8 +194,8 @@ class LayerLevel(BaseModel):
 
     # ID
     name: str | None = None
-    layer: GDSLayer | DerivedLayer | None = None
-    derived_layer: GDSLayer | None = None
+    layer: LogicalLayer | DerivedLayer | None = None
+    derived_layer: LogicalLayer | None = None
 
     # Extrusion rules
     thickness: float
@@ -523,7 +523,7 @@ class LayerStack(BaseModel):
 
 
 def get_shapes_from_arbitrary_layer(
-    layer: DerivedLayer | GDSLayer,
+    layer: DerivedLayer | LogicalLayer,
     component: Component,
 ) -> kf.kdb.Region:
     """Recursively evaluate the derived layer operations on the component.
@@ -540,8 +540,8 @@ def get_shapes_from_arbitrary_layer(
     # Component polygons
     polygons_per_layer = component.get_polygons()
 
-    # If we hit a GDSLayer, retrieve the polygons
-    if isinstance(layer, GDSLayer):
+    # If we hit a LogicalLayer, retrieve the polygons
+    if isinstance(layer, LogicalLayer):
         layer_index = get_layer(layer.layer)
         polygons = polygons_per_layer[layer_index]
         r = kf.kdb.Region(polygons)
@@ -550,7 +550,7 @@ def get_shapes_from_arbitrary_layer(
     # If we hit a DerivedLayer, process its two input layers
     elif isinstance(layer, DerivedLayer):
         # Recurse through derived layer1 if needed
-        if isinstance(layer.layer1, GDSLayer):
+        if isinstance(layer.layer1, LogicalLayer):
             layer_index = get_layer(layer.layer1.layer)
             polygons = polygons_per_layer[layer_index]
             r1 = kf.kdb.Region(polygons)
@@ -558,7 +558,7 @@ def get_shapes_from_arbitrary_layer(
             r1 = get_shapes_from_arbitrary_layer(layer.layer1, component)
 
         # Recurse through derived layer2 if needed
-        if isinstance(layer.layer2, GDSLayer):
+        if isinstance(layer.layer2, LogicalLayer):
             layer_index = get_layer(layer.layer2.layer)
             polygons = polygons_per_layer[layer_index]
             r2 = kf.kdb.Region(polygons)
@@ -571,7 +571,7 @@ def get_shapes_from_arbitrary_layer(
         return r
 
     else:
-        raise ValueError("layer must be one of GDSLayer or DerivedLayer")
+        raise ValueError("layer must be one of LogicalLayer or DerivedLayer")
 
 
 def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Component:
@@ -586,7 +586,7 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
     component_derived = gf.Component()
 
     for layer_name, level in layer_stack.layers.items():
-        if isinstance(level.layer, GDSLayer):
+        if isinstance(level.layer, LogicalLayer):
             derived_layer_index = get_layer(level.layer.layer)
         elif isinstance(level.layer, DerivedLayer):
             if level.derived_layer is not None:
@@ -596,7 +596,7 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
                     f"Error at LayerLevel {layer_name}: derived_layer must be provided if the level's layer is a DerivedLayer"
                 )
         else:
-            raise ValueError("layer must be one of GDSLayer or DerivedLayer")
+            raise ValueError("layer must be one of LogicalLayer or DerivedLayer")
 
         shapes = get_shapes_from_arbitrary_layer(layer=level.layer, component=component)
         component_derived.shapes(derived_layer_index).insert(shapes)
@@ -608,8 +608,8 @@ def get_component_with_derived_layers(component, layer_stack: LayerStack) -> Com
 if __name__ == "__main__":
     # For now, make regular layers trivial DerivedLayers
     # This might be automatable during LayerStack instantiation, or we could modify the Layer object in LayerMap too
-    layer1 = GDSLayer(layer=(1, 0))
-    layer2 = GDSLayer(layer=(2, 0))
+    layer1 = LogicalLayer(layer=(1, 0))
+    layer2 = LogicalLayer(layer=(2, 0))
 
     ls = LayerStack(
         layers={
@@ -619,31 +619,31 @@ if __name__ == "__main__":
                 layer=layer1 & layer2,
                 thickness=10,
                 zmin=0,
-                derived_layer=GDSLayer(layer=(3, 0)),
+                derived_layer=LogicalLayer(layer=(3, 0)),
             ),
             "layerlevel_xor_layer": LayerLevel(
                 layer=layer1 ^ layer2,
                 thickness=10,
                 zmin=0,
-                derived_layer=GDSLayer(layer=(4, 0)),
+                derived_layer=LogicalLayer(layer=(4, 0)),
             ),
             "layerlevel_not_layer": LayerLevel(
                 layer=layer1 - layer2,
                 thickness=10,
                 zmin=0,
-                derived_layer=GDSLayer(layer=(5, 0)),
+                derived_layer=LogicalLayer(layer=(5, 0)),
             ),
             "layerlevel_or_layer": LayerLevel(
                 layer=layer1 | layer2,
                 thickness=10,
                 zmin=0,
-                derived_layer=GDSLayer(layer=(6, 0)),
+                derived_layer=LogicalLayer(layer=(6, 0)),
             ),
             "layerlevel_composed_layer": LayerLevel(
                 layer=layer1 - (layer1 & layer2),
                 thickness=10,
                 zmin=0,
-                derived_layer=GDSLayer(layer=(7, 0)),
+                derived_layer=LogicalLayer(layer=(7, 0)),
             ),
         }
     )
@@ -660,3 +660,7 @@ if __name__ == "__main__":
 
     c = get_component_with_derived_layers(c, ls)
     c.show()
+
+    from gdsfactory.generic_tech import LAYER_STACK
+
+    LAYER_STACK.get_klayout_3d_script()

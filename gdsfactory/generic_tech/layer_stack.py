@@ -1,7 +1,7 @@
 from pydantic.dataclasses import dataclass
 
 from gdsfactory.generic_tech.layer_map import LAYER
-from gdsfactory.technology import GDSLayer, LayerLevel, LayerStack
+from gdsfactory.technology import LayerLevel, LayerStack, LogicalLayer
 from gdsfactory.technology.processes import (
     Anneal,
     Etch,
@@ -55,22 +55,22 @@ def get_layer_stack(
     substrate_thickness=LayerStackParameters.substrate_thickness,
     box_thickness=LayerStackParameters.box_thickness,
     undercut_thickness=LayerStackParameters.undercut_thickness,
-    layer_wafer=GDSLayer(layer=LAYER.WAFER),
-    layer_core=GDSLayer(layer=LAYER.WG),
-    layer_shallow_etch=GDSLayer(layer=LAYER.SHALLOW_ETCH),
-    layer_deep_etch=GDSLayer(layer=LAYER.DEEP_ETCH),
-    layer_nitride=GDSLayer(layer=LAYER.WGN),
-    layer_slab_deep_etch=GDSLayer(layer=LAYER.SLAB90),
-    layer_slab_shallow_etch=GDSLayer(layer=LAYER.SLAB150),
-    layer_ge=GDSLayer(layer=LAYER.GE),
-    layer_undercut=GDSLayer(layer=LAYER.UNDERCUT),
-    layer_heater=GDSLayer(layer=LAYER.HEATER),
-    layer_metal1=GDSLayer(layer=LAYER.M1),
-    layer_metal2=GDSLayer(layer=LAYER.M2),
-    layer_metal3=GDSLayer(layer=LAYER.M3),
-    layer_viac=GDSLayer(layer=LAYER.VIAC),
-    layer_via1=GDSLayer(layer=LAYER.VIA1),
-    layer_via2=GDSLayer(layer=LAYER.VIA2),
+    layer_wafer=LogicalLayer(layer=LAYER.WAFER),
+    layer_core=LogicalLayer(layer=LAYER.WG),
+    layer_shallow_etch=LogicalLayer(layer=LAYER.SHALLOW_ETCH),
+    layer_deep_etch=LogicalLayer(layer=LAYER.DEEP_ETCH),
+    layer_nitride=LogicalLayer(layer=LAYER.WGN),
+    layer_slab_deep_etch=LogicalLayer(layer=LAYER.SLAB90),
+    layer_slab_shallow_etch=LogicalLayer(layer=LAYER.SLAB150),
+    layer_ge=LogicalLayer(layer=LAYER.GE),
+    layer_undercut=LogicalLayer(layer=LAYER.UNDERCUT),
+    layer_heater=LogicalLayer(layer=LAYER.HEATER),
+    layer_metal1=LogicalLayer(layer=LAYER.M1),
+    layer_metal2=LogicalLayer(layer=LAYER.M2),
+    layer_metal3=LogicalLayer(layer=LAYER.M3),
+    layer_viac=LogicalLayer(layer=LAYER.VIAC),
+    layer_via1=LogicalLayer(layer=LAYER.VIA1),
+    layer_via2=LogicalLayer(layer=LAYER.VIA2),
 ) -> LayerStack:
     """Returns generic LayerStack.
 
@@ -145,7 +145,7 @@ def get_layer_stack(
             zmin=0.0,
             material="si",
             mesh_order=1,
-            derived_layer=GDSLayer(layer=LAYER.SLAB150),
+            derived_layer=LogicalLayer(layer=LAYER.SLAB150),
         ),
         deep_etch=LayerLevel(
             layer=layer_deep_etch,
