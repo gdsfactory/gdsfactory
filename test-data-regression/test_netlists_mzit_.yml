@@ -22,9 +22,10 @@ instances:
     info:
       dy: 10.0
       length: 16.637
+      min_bend_radius: 7.061
       radius: 10.0
-      radius_min: 7.061
       route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1.0
       route_info_type: xs_1954d54a
       route_info_weight: 16.637
@@ -41,9 +42,10 @@ instances:
     info:
       dy: 10.0
       length: 16.637
+      min_bend_radius: 7.061
       radius: 10.0
-      radius_min: 7.061
       route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1.0
       route_info_type: xs_1954d54a
       route_info_weight: 16.637
@@ -60,9 +62,10 @@ instances:
     info:
       dy: 10.0
       length: 16.637
+      min_bend_radius: 7.061
       radius: 10.0
-      radius_min: 7.061
       route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1.0
       route_info_type: xs_a202615a
       route_info_weight: 16.637
@@ -79,9 +82,10 @@ instances:
     info:
       dy: 10.0
       length: 16.637
+      min_bend_radius: 7.061
       radius: 10.0
-      radius_min: 7.061
       route_info_length: 16.637
+      route_info_min_bend_radius: 7.061
       route_info_n_bend_90: 1.0
       route_info_type: xs_a202615a
       route_info_weight: 16.637
