@@ -35,7 +35,6 @@ def ring_single(
 
     .. code::
 
-
                     xxxxxxxxxxxxx
                 xxxxx           xxxx
               xxx                   xxx
@@ -54,12 +53,6 @@ def ring_single(
                          │gap
                  o1──────▼─────────o2
     """
-    gap = gf.snap.snap_to_grid2x(gap)
-
-    xs = gf.get_cross_section(cross_section)
-    radius = radius or xs.radius
-    cross_section = xs.copy(radius=radius, **kwargs)
-
     if length_y <= 0:
         raise ValueError(f"length_y={length_y} must be > 0")
 
@@ -74,10 +67,11 @@ def ring_single(
         radius=radius,
         length_x=length_x,
         cross_section=cross_section,
+        **kwargs,
     )
-    sy = straight(length=length_y, cross_section=cross_section)
-    b = gf.get_component(bend, cross_section=cross_section)
-    sx = straight(length=length_x, cross_section=cross_section)
+    sy = straight(length=length_y, cross_section=cross_section, **kwargs)
+    b = gf.get_component(bend, cross_section=cross_section, radius=radius, **kwargs)
+    sx = straight(length=length_x, cross_section=cross_section, **kwargs)
 
     sl = c << sy
     sr = c << sy

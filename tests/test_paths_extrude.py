@@ -128,9 +128,10 @@ def test_extrude_port_centers() -> None:
     xs = gf.CrossSection(sections=(s0, s1))
     s = gf.components.straight(cross_section=xs)
 
-    s1_offset = 1 / s.kcl.dbu
     assert s.ports["e1"].dcenter[0] == s.ports["o1"].dcenter[0]
-    assert s.ports["e1"].dcenter[1] == s.ports["o1"].dcenter[1] - s1_offset
+    assert s.ports["e1"].dcenter[1] == s.ports["o1"].dcenter[1] - s1_offset, s.ports[
+        "e1"
+    ].dcenter[1]
 
     assert s.ports["e2"].dcenter[0] == s.ports["o2"].dcenter[0]
     assert s.ports["e2"].dcenter[1] == s.ports["o2"].dcenter[1] - s1_offset
@@ -151,7 +152,3 @@ def test_extrude_component_along_path():
     # Combine the path with the cross-section
     c = gf.path.extrude(p, cross_section=x)
     assert c
-
-
-if __name__ == "__main__":
-    test_path_near_collinear()

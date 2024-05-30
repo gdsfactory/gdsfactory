@@ -82,7 +82,8 @@ def mzit(
     xs1 = xs.copy(width=w1)
     xs2 = xs.copy(width=w2)
 
-    cp2 = c << coupler2(
+    cp2 = c << gf.get_component(
+        coupler2,
         length=coupler_length2,
         gap=coupler_gap2,
         dy=dy,
@@ -90,7 +91,8 @@ def mzit(
     )
 
     # inner arm (w1)
-    t1 = c << taper(
+    t1 = c << gf.get_component(
+        taper,
         width1=w0,
         width2=w1,
         length=taper_length,
@@ -98,12 +100,10 @@ def mzit(
     )
     t1.connect("o1", cp2.ports["o3"])
 
-    b1t = c << bend90(
-        cross_section=xs1,
-    )
-    b1b = c << bend90(
-        cross_section=xs1,
-    )
+    b1 = gf.get_component(bend90, cross_section=xs1)
+
+    b1t = c << b1
+    b1b = c << b1
 
     b1b.connect("o1", t1.ports["o2"])
     b1t.connect("o1", b1b.ports["o2"])
