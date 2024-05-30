@@ -228,7 +228,7 @@ class ComponentReferences(kf.kcell.Instances):
             self._insts.remove(item)
 
 
-class Component(kf.KCell):
+class ComponentBase:
     """Canvas where you add polygons, instances and ports.
 
     - stores settings that you use to build the component
@@ -241,17 +241,6 @@ class Component(kf.KCell):
     Properties:
         info: dictionary that includes derived properties, simulation_settings, settings (test_protocol, docs, ...)
     """
-
-    def __init__(
-        self,
-        name: str | None = None,
-        kcl: kf.KCLayout | None = None,
-        kdb_cell: kdb.Cell | None = None,
-        ports: kf.Ports | None = None,
-    ):
-        """Initializes a Component."""
-        self.insts = ComponentReferences()
-        super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
 
     @property
     def layers(self) -> list[tuple[int, int]]:
@@ -351,10 +340,6 @@ class Component(kf.KCell):
         c._settings = self.settings.model_copy()
         c.info = self.info.model_copy()
         return c
-
-    def __lshift__(self, component: gf.Component) -> ComponentReference:  # type: ignore[override]
-        """Creates a Componenteference reference to a Component."""
-        return ComponentReference(kf.KCell.create_inst(self, component))
 
     def copy(self) -> Component:
         return self.dup()
@@ -994,6 +979,40 @@ class Component(kf.KCell):
     def ref(self, *args, **kwargs) -> kdb.DCellInstArray:
         """Returns a Component Instance."""
         raise ValueError("ref() is deprecated. Use add_ref() instead")
+
+
+class Component(ComponentBase, kf.KCell):
+    """Canvas where you add polygons, instances and ports.
+
+    - stores settings that you use to build the component
+    - stores info that you want to use
+    - can return ports by type (optical, electrical ...)
+    - can return netlist for circuit simulation
+    - can write to GDS, OASIS
+    - can show in KLayout, matplotlib or 3D
+
+    Properties:
+        info: dictionary that includes derived properties, simulation_settings, settings (test_protocol, docs, ...)
+    """
+
+    def __init__(
+        self,
+        name: str | None = None,
+        kcl: kf.KCLayout | None = None,
+        kdb_cell: kdb.Cell | None = None,
+        ports: kf.Ports | None = None,
+    ):
+        """Initializes a Component."""
+        self.insts = ComponentReferences()
+        super().__init__(name=name, kcl=kcl, kdb_cell=kdb_cell, ports=ports)
+
+    def __lshift__(self, component: gf.Component) -> ComponentReference:  # type: ignore[override]
+        """Creates a Componenteference reference to a Component."""
+        return ComponentReference(kf.KCell.create_inst(self, component))
+
+
+class ComponentAllAngle(ComponentBase, kf.VKCell):
+    pass
 
 
 @kf.cell
