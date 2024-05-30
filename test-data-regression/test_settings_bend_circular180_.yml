@@ -3,6 +3,7 @@ info:
   length: 31.415
   radius: 10.0
   route_info_length: 31.415
+  route_info_min_bend_radius: 10.0
   route_info_n_bend_90: 2.0
   route_info_type: xs_34e31a19
   route_info_weight: 31.415
