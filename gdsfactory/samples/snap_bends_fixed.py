@@ -6,7 +6,7 @@ import gdsfactory as gf
 
 
 @gf.vcell
-def snap_bends() -> gf.Component:
+def snap_bends_sample() -> gf.Component:
     c = gf.ComponentAllAngle()
     b = gf.c.bend_euler_all_angle(angle=37)
     b1 = c << b
@@ -19,5 +19,5 @@ def snap_bends() -> gf.Component:
 
 
 if __name__ == "__main__":
-    c = snap_bends()
-    c.show()
+    c = snap_bends_sample()
+    c.plot()

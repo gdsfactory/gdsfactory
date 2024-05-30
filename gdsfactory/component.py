@@ -83,37 +83,6 @@ def copy(region: kdb.Region) -> kdb.Region:
     return region.dup()
 
 
-class Region(kdb.Region):
-    def __iadd__(self, offset) -> kdb.Region:
-        """Adds an offset to the layer."""
-        return size(self, offset)
-
-    def __isub__(self, offset) -> kdb.Region:
-        """Adds an offset to the layer."""
-        return size(self, -offset)
-
-    def __add__(self, element) -> kdb.Region:
-        """Adds an element to the region."""
-        if isinstance(element, float | int):
-            return size(self, element)
-
-        elif isinstance(element, kdb.Region):
-            return boolean_or(self, element)
-        else:
-            raise ValueError(f"Cannot add type {type(element)} to region")
-
-    def __sub__(self, element) -> kdb.Region | None:
-        """Subtracts an element from the region."""
-        if isinstance(element, float | int):
-            return size(self, -element)
-
-        elif isinstance(element, kdb.Region):
-            return boolean_not(self, element)
-
-    def copy(self) -> kdb.Region:
-        return self.dup()
-
-
 _deprecated_attributes = {
     "center",
     "mirror",
@@ -364,10 +333,14 @@ class ComponentBase:
 
     def add_polygon(
         self,
-        points: np.ndarray | kdb.DPolygon | kdb.Polygon | Region | list[list[float]],
+        points: np.ndarray
+        | kdb.DPolygon
+        | kdb.Polygon
+        | kdb.Region
+        | list[list[float]],
         layer: LayerSpec,
-    ) -> kdb.DPolygon | kdb.Polygon | Region:
-        """Adds a Polygon to the Component.
+    ) -> kdb.Shape:
+        """Adds a Polygon to the Component and returns a klayout Shape.
 
         Args:
             points: Coordinates of the vertices of the Polygon.
@@ -376,8 +349,6 @@ class ComponentBase:
         from gdsfactory.pdk import get_layer
 
         layer = get_layer(layer)
-        if len(points) == 2:
-            points = tuple(zip(points[0], points[1]))
 
         if isinstance(points, tuple | list | np.ndarray):
             points = ensure_tuple_of_tuples(points)
@@ -388,13 +359,10 @@ class ComponentBase:
             points, kdb.Polygon | kdb.DPolygon | kdb.DSimplePolygon | kdb.Region
         ):
             polygon = points
-
-        self.shapes(layer).insert(polygon)
-
-        if not isinstance(polygon, kdb.Region):
-            return Region(polygon.to_itype(self.kcl.dbu))
         else:
-            return polygon
+            polygon = kf.kdb.DPolygon(points)
+
+        return self.shapes(layer).insert(polygon)
 
     def add_label(
         self,
@@ -923,16 +891,21 @@ class ComponentBase:
 
         from gdsfactory.pdk import get_layer_views
 
-        gdspath = self.write_gds()
-        lyp_path = gdspath.with_suffix(".lyp")
-
+        lyp_path = GDSDIR_TEMP / "layer_properties.lyp"
         layer_views = get_layer_views()
         layer_views.to_lyp(filepath=lyp_path)
 
         layout_view = lay.LayoutView()
-        layout_view.load_layout(str(gdspath.absolute()))
+        cell_view_index = layout_view.create_layout(True)
+        layout_view.active_cellview_index = cell_view_index
+        cell_view = layout_view.cellview(cell_view_index)
+        layout = cell_view.layout()
+        layout.assign(kf.kcl.layout)
+        cell_view.cell = layout.cell(self.name)
+
         layout_view.max_hier()
         layout_view.load_layer_props(str(lyp_path))
+        layout_view.zoom_fit()
 
         layout_view.set_config("text-visible", "true" if show_labels else "false")
         layout_view.set_config("grid-show-ruler", "true" if show_ruler else "false")
@@ -1012,7 +985,14 @@ class Component(ComponentBase, kf.KCell):
 
 
 class ComponentAllAngle(ComponentBase, kf.VKCell):
-    pass
+    def plot(self, **kwargs) -> None:
+        """Plots the Component using klayout."""
+        c = Component()
+        if self.name is not None:
+            c.name = self.name
+
+        kf.VInstance(self).insert_into_flat(c, levels=0)
+        c.plot(**kwargs)
 
 
 @kf.cell
@@ -1068,8 +1048,12 @@ if __name__ == "__main__":
     # c = c.remove_layers(layers=[(1, 0), (2, 0)], recursive=True)
     # c = c.extract(layers=[(1, 0)])
 
-    # c = Component()
-    # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    c = Component()
+    s = c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=(1, 0))
+    r = kdb.Region(s.polygon)
+    r.size(2000)  # size in DBU, and 1DBU = 1nm
+    c.add_polygon(r, layer=(2, 0))
+
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer="SLAB150")
     # c.add_polygon([(0, 0), (1, 1), (1, 3), (-3, 3)], layer=LAYER.WG)
     # c.create_port(name="o1", position=(10, 10), angle=1, layer=LAYER.WG, width=2000)
@@ -1096,7 +1080,7 @@ if __name__ == "__main__":
     # scene = c.to_3d()
     # scene.show()
 
-    c = gf.c.straight()
+    # c = gf.c.straight()
     # print(c.to_dict())
     # print(c.area(layer=(1, 0)))
     # stl = gf.export.to_stl(c)

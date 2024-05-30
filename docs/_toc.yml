@@ -30,6 +30,7 @@ parts:
           - file: notebooks/03_cells_autoname_and_cache
           - file: notebooks/04_components_hierarchy
           - file: notebooks/04_components_shapes
+          - file: notebooks/12_grid_snapping
       - file: schematic
         sections:
           - file: notebooks/10_schematic
